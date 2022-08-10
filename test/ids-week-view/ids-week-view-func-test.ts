@@ -23,10 +23,106 @@ const defaultEndHour = 19;
 const defaultFirstDayOfWeek = 0;
 const defaultInterval = 30000;
 
+const EVENTS_ITEMS = [
+  {
+    id: '1',
+    subject: 'Intraday Event',
+    starts: '2021-11-10T12:00:00.000',
+    ends: '2021-11-10T12:15:00.000',
+    type: 'dto',
+    isAllDay: 'false'
+  },
+  {
+    id: '2',
+    subject: 'All Day Event',
+    starts: '2021-11-10T00:00:00.000',
+    ends: '2021-11-10T23:59:59.999',
+    type: 'admin',
+    isAllDay: 'true'
+  }
+];
+
+const EVENT_TYPES = [
+  {
+    id: 'dto',
+    label: 'Discretionary Time Off',
+    translationKey: 'DiscretionaryTimeOff',
+    color: 'azure',
+    checked: true
+  },
+  {
+    id: 'admin',
+    label: 'Admin',
+    translationKey: 'AdministrativeLeave',
+    color: 'amethyst',
+    checked: true
+  }
+];
+
+describe('IdsWeekView Component initialization', () => {
+  let container: any;
+
+  const setupComponent = (component: any) => {
+    component.startDate = startDate;
+    component.endDate = endDate;
+    component.startHour = startHour;
+    component.endHour = endHour;
+    component.firstDayOfWeek = startFirstDayOfWeek;
+    component.showTimeline = true;
+  };
+
+  const testComponent = (component: any) => {
+    expect(component.startDate.toISOString()).toEqual(new Date(startDate).toISOString());
+    expect(component.endDate.toISOString()).toEqual(addDate(new Date(endDate), 1, 'days').toISOString());
+    expect(component.firstDayOfWeek).toEqual(startFirstDayOfWeek);
+    expect(component.startHour).toEqual(startHour);
+    expect(component.endHour).toEqual(endHour);
+    expect(component.showTimeline).toBeTruthy();
+  };
+
+  beforeEach(() => {
+    container = new IdsContainer();
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  it('can render via document.createElement (append early)', () => {
+    const component: any = document.createElement('ids-week-view');
+    container.appendChild(component);
+    setupComponent(component);
+    testComponent(component);
+  });
+
+  it('can render via document.createElement (append late)', () => {
+    const component: any = document.createElement('ids-week-view');
+    setupComponent(component);
+    container.appendChild(component);
+    testComponent(component);
+  });
+
+  it('can render html template', () => {
+    container.insertAdjacentHTML('beforeend', `
+      <ids-week-view
+        start-date="${startDate}"
+        end-date="${endDate}"
+        start-hour="${startHour}"
+        end-hour="${endHour}"
+        first-day-of-week="${startFirstDayOfWeek}"
+        show-timeline="${true}">
+      </ids-week-view>
+    `);
+    const component = document.querySelector('ids-week-view');
+    testComponent(component);
+  });
+});
+
 describe('IdsWeekView Component (using properties)', () => {
   let component: any;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     const container: any = new IdsContainer();
     document.body.appendChild(container);
     component = new IdsWeekView();
@@ -37,13 +133,10 @@ describe('IdsWeekView Component (using properties)', () => {
     component.endHour = endHour;
     component.showTimeline = false;
     component.timelineInterval = interval;
-
-    await container.setLanguage('en');
-    await container.setLocale('en-US');
     container.appendChild(component);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     document.body.innerHTML = '';
     component = null;
   });
@@ -75,6 +168,8 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.endHour).toEqual(endHour);
     expect(component.showTimeline).toBeFalsy();
     expect(component.timelineInterval).toEqual(interval);
+    expect(component.eventsData).toBeDefined();
+    expect(component.eventTypesData).toBeDefined();
   });
 
   it('should change properties', () => {
@@ -94,29 +189,37 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.showToday).toBeFalsy();
     expect(component.timelineInterval).toEqual(defaultInterval);
   });
+
+  it('can add calendar events', () => {
+    component.eventTypesData = EVENT_TYPES;
+    component.eventsData = EVENTS_ITEMS;
+
+    const expectedEventCount = EVENTS_ITEMS.length;
+    expect(component.container.querySelectorAll('ids-calendar-event')?.length).toBe(expectedEventCount);
+  });
 });
 
 describe('IdsWeekView Component (using attributes)', () => {
   let component: any;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.insertAdjacentHTML('beforeend', `
-      <ids-week-view
-        start-date="${startDate}"
-        end-date="${endDate}"
-        start-hour="${startHour}"
-        end-hour="${endHour}"
-        first-day-of-week="${startFirstDayOfWeek}"
-        timeline-interval="${interval}"
-        show-timeline="false"
-      ></ids-week-view>
-    `);
+       <ids-week-view
+         start-date="${startDate}"
+         end-date="${endDate}"
+         start-hour="${startHour}"
+         end-hour="${endHour}"
+         first-day-of-week="${startFirstDayOfWeek}"
+         timeline-interval="${interval}"
+         show-timeline="false"
+       ></ids-week-view>
+     `);
     component = document.querySelector(name);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     document.body.innerHTML = '';
     component = null;
   });
@@ -151,14 +254,14 @@ describe('IdsWeekView Component (using attributes)', () => {
 describe('IdsWeekView Component (empty)', () => {
   let component: any;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.insertAdjacentHTML('beforeend', `<ids-week-view></ids-week-view>`);
     component = document.querySelector(name);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     document.body.innerHTML = '';
     component = null;
   });

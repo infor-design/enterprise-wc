@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
 
     <ids-layout-grid auto="true">
       <ids-text font-size="12" type="h1">Typographic Scale</ids-text>
@@ -15,10 +16,10 @@
     </ids-layout-grid>
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-text font-size="72" font-weight="lighter">Display 01 - 72/91</ids-text>
-        <ids-text font-size="60" font-weight="lighter">Display 02 - 60/75</ids-text>
-        <ids-text font-size="48" font-weight="lighter">Display 03 - 48/60</ids-text>
-        <ids-text font-size="40" font-weight="lighter">Display 04 - 40/50</ids-text>
+        <ids-text font-size="72" font-weight="lighter">Display 01 - 72</ids-text>
+        <ids-text font-size="60" font-weight="lighter">Display 02 - 60</ids-text>
+        <ids-text font-size="48" font-weight="lighter">Display 03 - 48</ids-text>
+        <ids-text font-size="40" font-weight="lighter">Display 04 - 40</ids-text>
       </ids-layout-grid-cell>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
@@ -26,16 +27,16 @@
     </ids-layout-grid>
     <ids-layout-grid auto="true" cols="4">
       <ids-layout-grid-cell>
-        <ids-text font-size="32" type="h3">Heading - 32/40</ids-text>
-        <ids-text font-size="28" type="h3">Heading - 28/35</ids-text>
-        <ids-text font-size="24" type="h3">Heading - 24/30</ids-text>
-        <ids-text font-size="20" type="h3">Heading - 20/25</ids-text>
+        <ids-text font-size="32" type="h3">Heading - 32</ids-text>
+        <ids-text font-size="28" type="h3">Heading - 28</ids-text>
+        <ids-text font-size="24" type="h3">Heading - 24</ids-text>
+        <ids-text font-size="20" type="h3">Heading - 20</ids-text>
       </ids-layout-grid-cell>
       <ids-layout-grid-cell>
-        <ids-text font-size="32" font-weight="bold" type="h3">Heading - 32/40</ids-text>
-        <ids-text font-size="28" font-weight="bold" type="h3">Heading - 28/35</ids-text>
-        <ids-text font-size="24" font-weight="bold" type="h3">Heading - 24/30</ids-text>
-        <ids-text font-size="20" font-weight="bold" type="h3">Heading - 20/25</ids-text>
+        <ids-text font-size="32" font-weight="bold" type="h3">Heading - 32</ids-text>
+        <ids-text font-size="28" font-weight="bold" type="h3">Heading - 28</ids-text>
+        <ids-text font-size="24" font-weight="bold" type="h3">Heading - 24</ids-text>
+        <ids-text font-size="20" font-weight="bold" type="h3">Heading - 20</ids-text>
       </ids-layout-grid-cell>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
@@ -43,12 +44,12 @@
     </ids-layout-grid>
     <ids-layout-grid auto="true" cols="4">
       <ids-layout-grid-cell>
-        <ids-text font-size="16" type="p">Body Text - 16/20</ids-text>
-        <ids-text font-size="14" type="p">Body SM - 14/18</ids-text>
+        <ids-text font-size="16" type="p">Body Text - 16</ids-text>
+        <ids-text font-size="14" type="p">Body SM - 14</ids-text>
       </ids-layout-grid-cell>
       <ids-layout-grid-cell>
-        <ids-text font-size="16" font-weight="bold" type="p">Body Text - 16/20</ids-text>
-        <ids-text font-size="14" font-weight="bold" type="p">Body SM - 14/18</ids-text>
+        <ids-text font-size="16" font-weight="bold" type="p">Body Text - 16</ids-text>
+        <ids-text font-size="14" font-weight="bold" type="p">Body SM - 14</ids-text>
       </ids-layout-grid-cell>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
@@ -56,18 +57,19 @@
     </ids-layout-grid>
     <ids-layout-grid auto="true" cols="4">
       <ids-layout-grid-cell>
-        <ids-text font-size="12">Small Text 01 - 12/15, uppercase</ids-text>
-        <ids-text font-size="10">Small 02 - 10/13, uppercase</ids-text>
+        <ids-text font-size="12">Small Text 01 - 12, uppercase</ids-text>
+        <ids-text font-size="10">Small 02 - 10, uppercase</ids-text>
       </ids-layout-grid-cell>
       <ids-layout-grid-cell>
-        <ids-text font-size="12" font-weight="bold">Small Text 01 - 12/15, uppercase</ids-text>
-        <ids-text font-size="10" font-weight="bold">Small 02 - 10/13, uppercase</ids-text>
+        <ids-text font-size="12" font-weight="bold">Small Text 01 - 12 uppercase</ids-text>
+        <ids-text font-size="10" font-weight="bold">Small 02 - 10, uppercase</ids-text>
       </ids-layout-grid-cell>
     </ids-layout-grid>
+
     <ids-layout-grid auto="true">
       <ids-text font-size="12" type="h2">Color variations</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid auto="true" cols="8">
+    <ids-layout-grid auto="true" gap="md" cols="8">
       <ids-layout-grid-cell>
         <ids-text>Descriptive Text</ids-text>
       </ids-layout-grid-cell>
@@ -84,5 +86,57 @@
         <ids-text font-weight="bold">Strong Text</ids-text>
       </ids-layout-grid-cell>
     </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h2">Status</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true" gap="md" cols="8">
+      <ids-layout-grid-cell>
+        <ids-text status="base">Base</ids-text>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-text status="error">Error</ids-text>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-text status="info">Info</ids-text>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-text status="success">Success</ids-text>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-text status="warning">Warning</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h2">Text alignments</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true" gap="md" cols="8">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12">Start (default)</ids-text>
+        <ids-text>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ex consequat.
+        </ids-text>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12">Center</ids-text>
+        <ids-text text-align="center">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ex consequat.
+        </ids-text>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12">End</ids-text>
+        <ids-text text-align="end">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ex consequat.
+        </ids-text>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12">Justify</ids-text>
+        <ids-text text-align="justify">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ex consequat.
+        </ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
   </ids-container>
 </body>

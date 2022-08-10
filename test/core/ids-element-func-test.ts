@@ -27,12 +27,13 @@ describe('IdsElement Tests', () => {
   });
 
   it('if no styles sets the container', () => {
-    const elem = new IdsTag();
-    expect(elem.container.nodeName).toEqual('SPAN');
+    const elem: any = new IdsTag();
+    document.body.appendChild(elem);
+    expect(elem.container.nodeName).toBe('SPAN');
     elem.shadowRoot.querySelector('style').remove();
     elem.name = null;
     elem.container = null;
-    elem.render();
+    elem.render(true);
     expect(elem.container.nodeName).toEqual('SPAN');
   });
 

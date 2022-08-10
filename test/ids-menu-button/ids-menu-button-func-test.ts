@@ -6,7 +6,16 @@ import '../helpers/resize-observer-mock';
 import IdsIcon from '../../src/components/ids-icon/ids-icon';
 import IdsMenuButton from '../../src/components/ids-menu-button/ids-menu-button';
 import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
+import processAnimFrame from '../helpers/process-anim-frame';
+
+const testMenuContents = `
+  <ids-menu-group select="multiple">
+    <ids-menu-item id="item1" value="1">Item 1</ids-menu-item>
+    <ids-menu-item id="item2" value="2">Item 2</ids-menu-item>
+    <ids-menu-item id="item3" value="3" selected="true">Item 3</ids-menu-item>
+  </ids-menu-group>
+`;
 
 describe('IdsMenuButton Component', () => {
   let buttonEl: any;
@@ -78,14 +87,14 @@ describe('IdsMenuButton Component', () => {
     buttonEl.dropdownIcon = null;
     iconEl = buttonEl.button.querySelector('ids-icon');
 
-    expect(buttonEl.dropdownIcon).toBe(undefined);
+    expect(buttonEl.dropdownIcon).toBe(null);
     expect(iconEl).toBe(null);
 
     // Try removing it again (runs the else clause in `set dropdownIcon`)
-    buttonEl.dropdownIcon = undefined;
+    buttonEl.dropdownIcon = null;
     iconEl = buttonEl.button.querySelector('ids-icon');
 
-    expect(buttonEl.dropdownIcon).toBe(undefined);
+    expect(buttonEl.dropdownIcon).toBe(null);
     expect(iconEl).toBe(null);
   });
 
@@ -105,10 +114,10 @@ describe('IdsMenuButton Component', () => {
     const waitForOpts = { timeout: 2000 };
 
     menuEl.show();
-    await waitFor(() => expect(buttonEl.button.classList.contains('is-active')).toBeTruthy(), waitForOpts);
+    await waitForTimeout(() => expect(buttonEl.button.classList.contains('is-active')).toBeTruthy(), waitForOpts);
 
     menuEl.hide();
-    await waitFor(() => expect(buttonEl.button.classList.contains('is-active')).toBeFalsy(), waitForOpts);
+    await waitForTimeout(() => expect(buttonEl.button.classList.contains('is-active')).toBeFalsy(), waitForOpts);
   });
 
   it('shows/hides the menu when the button is clicked', (done) => {
@@ -179,7 +188,7 @@ describe('IdsMenuButton Component', () => {
     expect(menuEl.visible).toBeFalsy();
   });
 
-  it('focuses the button when the menu is closed with the `Escape` key', () => {
+  it('focuses the button when the menu is closed with the `Escape` key', (done) => {
     const closeEvent = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
     menuEl.show();
 
@@ -189,6 +198,7 @@ describe('IdsMenuButton Component', () => {
 
       setTimeout(() => {
         expect((document as any).activeElement.isEqualNode(buttonEl)).toBeTruthy();
+        done();
       }, 20);
     }, 20);
   });
@@ -217,15 +227,11 @@ describe('IdsMenuButton Component', () => {
     expect(buttonEl.getAttribute('formatter-width')).toEqual(null);
   });
 
-  it('can set/get data of menu', () => {
-    const menuGroupHTML = `
-      <ids-menu-group select="multiple">
-        <ids-menu-item id="item1" value="1">Item 1</ids-menu-item>
-        <ids-menu-item id="item2" value="2">Item 2</ids-menu-item>
-        <ids-menu-item id="item3" value="3" selected="true">Item 3</ids-menu-item>
-      </ids-menu-group>
-    `;
-    menuEl.insertAdjacentHTML('afterbegin', menuGroupHTML);
+  it('can set/get data of menu', async () => {
+    menuEl.insertAdjacentHTML('afterbegin', testMenuContents);
+
+    // wait for ids-element to #updateAttribute
+    await processAnimFrame();
 
     // check default values
     const initialExpected = ['3'];
@@ -243,5 +249,20 @@ describe('IdsMenuButton Component', () => {
     expect(menuValues.length).toBe(2);
     expect(menuValues).toEqual(expected);
     expect(buttonValues).toEqual(menuValues);
+  });
+
+  it('can be disabled/enabled', () => {
+    menuEl.innerHTML = testMenuContents;
+    buttonEl.disabled = true;
+
+    expect(buttonEl.disabled).toBeTruthy();
+    expect(menuEl.disabled).toBeTruthy();
+    expect(menuEl.querySelector('ids-menu-item').disabled).toBeTruthy();
+
+    buttonEl.disabled = false;
+
+    expect(buttonEl.disabled).toBeFalsy();
+    expect(menuEl.disabled).toBeFalsy();
+    expect(menuEl.querySelector('ids-menu-item').disabled).toBeFalsy();
   });
 });

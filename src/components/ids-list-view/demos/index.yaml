@@ -5,18 +5,40 @@
  category: Lists
  keywords: List, List View, Listview
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows a list view
+  - link: selectable-single.html
+    type: Example
+    description: Showing a list view with the single selection functionality
+  - link: selectable-multiple.html
+    type: Example
+    description: Showing a list view with the multiple selection functionality
+  - link: selectable-mixed.html
+    type: Example
+    description: Showing a list view with the mixed selection functionality
+  - link: pagination.html
+    type: Example
+    description: Showing a list view with the pagination functionality
+  - link: events.html
+    type: Example
+    description: Showing a list view with events
   - link: card.html
+    type: Example
     description: Showing a list view wrapped in ids-card
-  - link: virtual-scroll.html
-    description: Showing a list view using virtual scroll
-  - link: side-by-side.html
-    description: Showing a list view side by side with a 4.x busy indicator
   - link: sortable.html
+    type: Example
     description: Showing a list view with the sortable functionality
-  - link: selectable.html
-    description: Showing a list view with the selectable functionality
+  - link: virtual-scroll.html
+    type: Example
+    description: Showing a list view using virtual scroll
+  - link: embellishment.html
+    type: Example
+    description: Showing a list view using embellishment types
+  - link: side-by-side.html
+    type: Side by Side
+    description: Showing a list view side by side with a 4.x busy indicator
   - link: standalone-css.html
+    type: Standalone CSS
     description: Showing a limited list view that works with css only
 

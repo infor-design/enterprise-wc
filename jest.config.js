@@ -30,6 +30,7 @@ module.exports = {
     'src/**/**/*.ts',
     '!src/**/**/index.ts',
     '!src/**/demos/*.ts',
+    '!src/ids-demo-app/*.ts',
     '!src/assets/scripts/*.ts',
     '!*.js'
   ],
@@ -149,7 +150,6 @@ module.exports = {
   // A list of paths to modules that run some code to configure
   // or set up the testing framework before each test
   setupFilesAfterEnv: [
-    '@wordpress/jest-puppeteer-axe'
   ],
 
   // Change the name convention of the snapshot to be next to the test
@@ -186,15 +186,10 @@ module.exports = {
   // This option allows use of a custom test runner
   // testRunner: "jasmine2",
 
-  // This option sets the URL for the jsdom environment. It is reflected in properties such
-  // as location.href
-  // testURL: "http://localhost",
-
-  // Setting this value to "fake" allows the use of fake timers for functions such as "setTimeout"
-  // timers: "real",
-
   // A map from regular expressions to paths to transformers
-  // transform: undefined,
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest/legacy'
+  },
 
   // An array of regexp pattern strings that are matched against all source file paths,
   // matched files will skip transformation

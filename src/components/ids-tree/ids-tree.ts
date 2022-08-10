@@ -32,8 +32,14 @@ export default class IdsTree extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    this.#init();
     super.connectedCallback();
+
+    // if data set before connected
+    if (this.datasource?.data?.length) {
+      this.#redraw();
+    } else {
+      this.#init();
+    }
   }
 
   /**
@@ -133,6 +139,9 @@ export default class IdsTree extends Base {
    */
   select(selector: string) {
     const node = this.getNode(selector);
+    if (this.isMultiSelect) {
+      this.#setMultiSelected(node);
+    }
     this.#setSelected(node);
   }
 
@@ -225,6 +234,7 @@ export default class IdsTree extends Base {
           nodesHtml(n.children);
         } else {
           addKey('icon');
+          addKey((this.isMultiSelect && hasKey('label') ? 'label' : 'text'), 'label');
           const text = hasKey('label') ? n.label : (n.text || '');
           html += `>${validatedText(text)}`;
         }
@@ -264,16 +274,19 @@ export default class IdsTree extends Base {
    * @private
    * @returns {void}
    */
-  #rerender() {
-    if (this.data.length === 0) {
+  #redraw() {
+    if (this.data.length === 0 || !this.shadowRoot) {
       return;
     }
 
     const slot = this.shadowRoot.querySelector('slot');
-    const { data, html } = this.#htmlAndData();
-    slot.innerHTML = html;
-    this.#nodesData = data;
-    this.#init();
+
+    if (slot) {
+      const { data, html } = this.#htmlAndData();
+      this.#nodesData = data;
+      slot.innerHTML = html;
+      this.#init();
+    }
   }
 
   /**
@@ -512,6 +525,7 @@ export default class IdsTree extends Base {
       if (!canProceed) {
         return;
       }
+
       this.#active.selectedOld = this.#active.selectedCurrent;
       this.#active.selectedCurrent = node;
       this.#active.selectedCurrent.elem.selected = true;
@@ -523,12 +537,48 @@ export default class IdsTree extends Base {
   }
 
   /**
-   * Set unselected to given node
-   * @private
-   * @param {object} node The target node element
+   * Set the selection when multi-select enabled
+   * @param {HTMLElement | any} node tree node
    * @returns {void}
    */
-  #setUnSelected(node: any) {
+  #setMultiSelected(node: HTMLElement | any) {
+    if (node && node.elem) {
+      let canProceed = true;
+      const response = (veto: any) => {
+        canProceed = !!veto;
+      };
+      this.triggerEvent(
+        IdsTreeShared.EVENTS.beforeselected,
+        this,
+        { detail: { elem: this, response, node } }
+      );
+      if (!canProceed) {
+        return;
+      }
+
+      const parentNode: any = this.getParentNode(node);
+      node.elem.selected = true;
+
+      if (node.isGroup) {
+        this.selectNestedNodes(node);
+      }
+
+      // If node has a parent et current state on parentNode of current node.
+      if (parentNode) {
+        this.selectParentNodes(parentNode);
+      }
+
+      this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node } });
+    }
+  }
+
+  /**
+   * Set unselected to given node
+   * @private
+   * @param {HTMLElement | any} node The target node element
+   * @returns {void}
+   */
+  #setUnSelected(node: HTMLElement | any) {
     if (node && node.elem && node.elem === this.#active.selectedCurrent?.elem) {
       let canProceed = true;
       const response = (veto: any) => {
@@ -542,11 +592,226 @@ export default class IdsTree extends Base {
       if (!canProceed) {
         return;
       }
+
       this.#active.selectedCurrent.elem.selected = false;
       this.#active.selectedOld = null;
       this.#active.selectedCurrent = null;
       this.triggerEvent(IdsTreeShared.EVENTS.unselected, this, { detail: { elem: this, node } });
     }
+  }
+
+  /**
+   * Set unselected to given node
+   * @private
+   * @param {HTMLElement | any} node The target node element
+   * @returns {void}
+   */
+  #setMultiUnSelected(node: any) {
+    let canProceed = true;
+    const response = (veto: any) => {
+      canProceed = !!veto;
+    };
+    this.triggerEvent(
+      IdsTreeShared.EVENTS.beforeunselected,
+      this,
+      { detail: { elem: this, response, node } }
+    );
+    if (!canProceed) {
+      return;
+    }
+
+    const parentNode: any = this.getParentNode(node);
+    node.elem.selected = null;
+
+    // If the node is a parent, unselect it's children
+    if (node.isGroup) {
+      this.unselectNestedNodes(node);
+    }
+
+    // If node has a parent et current state on parentNode of current node.
+    if (parentNode) {
+      this.selectParentNodes(parentNode);
+    }
+
+    this.triggerEvent(IdsTreeShared.EVENTS.unselected, this, { detail: { elem: this, node } });
+  }
+
+  /**
+   * Gets the parent node of the currently selected node.
+   * @param {HTMLElement | any} node ids-tree-node
+   * @returns {HTMLElement | any} value
+   */
+  getParentNode(node: HTMLElement | any) {
+    const value: any = [];
+    const findParentElements: HTMLElement | any = (n: HTMLElement | any) => {
+      if (
+        (n && n?.classList?.contains('ids-tree-node'))
+        || (n.elem && n?.elem?.classList?.contains('ids-tree-node'))
+      ) {
+        // value = n.getRootNode().host;
+        value.push(n.getRootNode().host);
+      } else if (n && n.parentElement) {
+        findParentElements(n.parentElement);
+        if (n.getRootNode().host?.parentElement) {
+          findParentElements(n.getRootNode().host.parentElement);
+        }
+      } else if (n.elem && n.elem.parentElement) {
+        findParentElements(n.elem.parentElement);
+      }
+    };
+
+    findParentElements(node);
+    return value;
+  }
+
+  /**
+   * Get all child nodes of given parent
+   * @param {HTMLElement | any} parent node
+   * @returns {object | HTMLElement | any} value
+   */
+  getAllChildNodes(parent: HTMLElement | any): object | HTMLElement | any {
+    if (parent.elem) {
+      return parent.elem.shadowRoot.querySelectorAll('.group-nodes > ids-tree-node');
+    }
+    if (parent.shadowRoot) {
+      return parent.shadowRoot.querySelectorAll('.group-nodes > ids-tree-node');
+    }
+    if (Array.isArray(parent)) {
+      return parent.map((p: any) => p.shadowRoot.querySelectorAll('.group-nodes > ids-tree-node'));
+    }
+    return parent.querySelectorAll('.group-nodes > ids-tree-node');
+  }
+
+  /**
+   * Set the correct selection of parent nodes
+   * @param {HTMLElement | any} parent node(s)
+   */
+  selectParentNodes(parent: HTMLElement | any) {
+    parent.forEach((p: any) => {
+      const checkbox = p.container.querySelector('ids-checkbox');
+      const selectedNodes = [...this.getAllChildNodes(p)]
+        .filter((node: any) => node.selected === true);
+      const indeterminateNodes = selectedNodes
+        .filter((node: any) => node.shadowRoot.querySelector('ids-checkbox').indeterminate === 'true');
+
+      p.selected = true;
+
+      // If current node has parent and all nodes are selected
+      // remove indeterminate from parent
+      if (this.getAllChildNodes(p).length === selectedNodes.length) {
+        checkbox.indeterminate = null;
+      }
+
+      // If there are no selected nodes underneath the parent
+      // Remove selection from the parent
+      if (selectedNodes.length === 0) {
+        p.selected = null;
+        checkbox.indeterminate = null;
+      }
+
+      // If all children are selected
+      if (this.getAllChildNodes(p).length === selectedNodes.length) {
+        p.selected = true;
+        checkbox.indeterminate = null;
+      }
+
+      // If current node is unselected, has parent and siblings are mix selected
+      if (
+        (selectedNodes.length !== 0 && this.getAllChildNodes(p).length > selectedNodes.length)
+        || indeterminateNodes.length > 0
+      ) {
+        checkbox.indeterminate = true;
+      }
+
+      this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, node: p } });
+    });
+  }
+
+  /**
+   * Select nodes under given parent node
+   * @param {HTMLElement | any} node element
+   */
+  selectNestedNodes(node: HTMLElement | any) {
+    const findNestedNodes: HTMLElement | any = (n: HTMLElement | any) => {
+      if (n.elem && n.elem.hasChildNodes()) {
+        const children = [...this.getAllChildNodes(n.elem)];
+        children.forEach((childNode: HTMLElement | any) => {
+          if (childNode.hasChildNodes() && !childNode.disabled) {
+            childNode.selected = true;
+            this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, childNode } });
+          }
+          findNestedNodes(childNode);
+        });
+
+        // Set the correct state for the parent nodes
+        requestAnimationFrame(() => {
+          const selectedChildren = [...this.getAllChildNodes(n.elem)].filter((child: any) => child.selected === true);
+          const indeterminateNodes = [...this.getAllChildNodes(n.elem)]
+            .filter((childNode: any) => childNode.shadowRoot.querySelector('ids-checkbox')?.indeterminate === 'true');
+          if (children.length > selectedChildren.length || indeterminateNodes.length > 0) {
+            n.elem.shadowRoot.querySelector('ids-checkbox').indeterminate = true;
+          } else {
+            n.elem.shadowRoot.querySelector('ids-checkbox').indeterminate = null;
+          }
+        });
+      } else if (n && n.shadowRoot?.querySelector('.group-nodes')) {
+        const children = [...this.getAllChildNodes(n)];
+        children.forEach((childNode: HTMLElement | any) => {
+          if (childNode.hasChildNodes() && !childNode.disabled) {
+            childNode.selected = true;
+            this.triggerEvent(IdsTreeShared.EVENTS.selected, this, { detail: { elem: this, childNode } });
+          }
+          findNestedNodes(childNode);
+        });
+
+        // Set the correct state for the parent nodes
+        requestAnimationFrame(() => {
+          const selectedChildren = [...this.getAllChildNodes(n)].filter((child: any) => child.selected === true);
+          const indeterminateNodes = [...this.getAllChildNodes(n)]
+            .filter((childNode: any) => childNode.shadowRoot.querySelector('ids-checkbox')?.indeterminate === 'true');
+
+          if (children.length > selectedChildren.length || indeterminateNodes.length > 0) {
+            n.shadowRoot.querySelector('ids-checkbox').indeterminate = true;
+          } else {
+            n.shadowRoot.querySelector('ids-checkbox').indeterminate = null;
+          }
+        });
+      }
+    };
+
+    findNestedNodes(node);
+  }
+
+  /**
+   * Unselect nodes under given parent node
+   * @param {HTMLElement | any} node element
+   */
+  unselectNestedNodes(node: HTMLElement | any) {
+    const findNestedNodes: HTMLElement | any = (n: HTMLElement | any) => {
+      if (n.elem && n.elem.hasChildNodes()) {
+        const children = [...this.getAllChildNodes(n.elem)];
+        children.forEach((childNode: HTMLElement | any) => {
+          if (childNode.hasChildNodes() && !childNode.disabled) {
+            childNode.selected = null;
+            this.triggerEvent(IdsTreeShared.EVENTS.unselected, this, { detail: { elem: this, childNode } });
+          }
+          findNestedNodes(childNode);
+        });
+        n.elem.shadowRoot.querySelector('ids-checkbox').indeterminate = null;
+      } else if (n && n.shadowRoot?.querySelector('.group-nodes')) {
+        const children = [...this.getAllChildNodes(n)];
+        children.forEach((childNode: HTMLElement | any) => {
+          if (childNode.hasChildNodes() && !childNode.disabled) {
+            childNode.selected = null;
+            this.triggerEvent(IdsTreeShared.EVENTS.unselected, this, { detail: { elem: this, childNode } });
+          }
+          findNestedNodes(childNode);
+        });
+        n.shadowRoot.querySelector('ids-checkbox').indeterminate = null;
+      }
+    };
+
+    findNestedNodes(node);
   }
 
   /**
@@ -674,10 +939,18 @@ export default class IdsTree extends Base {
     // Handle mouse click, and keyup space, enter keys
     const handleClick = (e: any, node: any) => {
       if (!node.elem.disabled) {
-        if (this.useToggleTarget) {
+        if (this.useToggleTarget || this.isMultiSelect) {
           if (node.elem.isGroup && hasSomeClass(e.target, 'icon toggle-icon')) {
             this.#toggle(node);
           } else {
+            if (this.isMultiSelect) {
+              if (!node.elem.selected) {
+                this.#setMultiSelected(node);
+              } else {
+                this.#setMultiUnSelected(node);
+              }
+              return;
+            }
             this.#setSelected(node);
             this.#setFocus(node);
           }
@@ -766,13 +1039,13 @@ export default class IdsTree extends Base {
   get collapseIcon(): string | null { return IdsTreeShared.getVal(this, attributes.COLLAPSE_ICON); }
 
   /**
-   * Set the data array of the datagrid
+   * Set the data array of the tree
    * @param {Array} value The array to use
    */
   set data(value: Array<any>) {
     if (value && value.constructor === Array) {
       this.datasource.data = value;
-      this.#rerender();
+      this.#redraw();
       return;
     }
     this.datasource.data = null;
@@ -880,6 +1153,10 @@ export default class IdsTree extends Base {
       return false;
     }
     return value !== null ? value : IdsTreeShared.DEFAULTS.selectable;
+  }
+
+  get isMultiSelect() {
+    return this.selectable === 'multiple';
   }
 
   /**

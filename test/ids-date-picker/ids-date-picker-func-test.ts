@@ -8,6 +8,103 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 
 const name = 'ids-date-picker';
 
+const setupComponent = (component: any) => {
+  component.tabbable = false;
+  component.showToday = false;
+  component.firstDayOfWeek = 1;
+  component.id = name;
+  component.label = name;
+  component.value = '2021-10-18';
+  component.size = 'lg';
+  component.format = 'yyyy-MM-dd';
+  component.month = 9;
+  component.year = 2021;
+  component.day = 18;
+  component.showClear = true;
+  component.showCancel = true;
+  component.showPicklistYear = false;
+  component.showPicklistMonth = false;
+  component.showPicklistWeek = true;
+  component.minuteInterval = 5;
+  component.secondInterval = 5;
+};
+
+const testComponent = (component: any) => {
+  expect(component.tabbable).toBeFalsy();
+  expect(component.showToday).toBeFalsy();
+  expect(component.firstDayOfWeek).toEqual(1);
+  expect(component.id).toEqual(name);
+  expect(component.value).toEqual('2021-10-18');
+  expect(component.label).toEqual(name);
+  expect(component.size).toEqual('lg');
+  expect(component.format).toEqual('yyyy-MM-dd');
+  expect(component.month).toEqual(9);
+  expect(component.year).toEqual(2021);
+  expect(component.day).toEqual(18);
+  expect(component.showClear).toBeTruthy();
+  expect(component.showCancel).toBeTruthy();
+  expect(component.showPicklistYear).toBeFalsy();
+  expect(component.showPicklistMonth).toBeFalsy();
+  expect(component.showPicklistWeek).toBeTruthy();
+  expect(component.minuteInterval).toEqual(5);
+  expect(component.secondInterval).toEqual(5);
+  expect(component.useCurrentTime).toBeFalsy();
+};
+
+describe('IdsMonthView Component initialization', () => {
+  let container: any;
+
+  beforeEach(() => {
+    container = new IdsContainer();
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  it('can render via document.createElement (append early)', () => {
+    const component: any = document.createElement('ids-date-picker');
+    container.appendChild(component);
+    setupComponent(component);
+    testComponent(component);
+  });
+
+  it('can render via document.createElement (append late)', () => {
+    const component: any = document.createElement('ids-date-picker');
+    setupComponent(component);
+    container.appendChild(component);
+    testComponent(component);
+  });
+
+  it('can render html template', () => {
+    container.insertAdjacentHTML('beforeend', `
+      <ids-date-picker
+        tabbable="false"
+        show-today="false"
+        first-day-of-week="1"
+        id="${name}"
+        label="${name}"
+        value="2021-10-18"
+        size="lg"
+        format="yyyy-MM-dd"
+        month="9"
+        year="2021"
+        day="18"
+        show-clear="true"
+        show-cancel="true"
+        show-picklist-year="false"
+        show-picklist-month="false"
+        show-picklist-week="true"
+        minute-interval="5"
+        second-interval="5">
+      </ids-date-picker>
+    `);
+    const component = document.querySelector('ids-date-picker');
+    testComponent(component);
+  });
+});
+
 describe('IdsDatePicker Component Tests', () => {
   describe('Using properties', () => {
     let component: any;
@@ -16,18 +113,7 @@ describe('IdsDatePicker Component Tests', () => {
       const container: any = new IdsContainer();
       document.body.appendChild(container);
       component = new IdsDatePicker();
-      component.tabbable = false;
-      component.showToday = false;
-      component.firstDayOfWeek = 1;
-      component.id = name;
-      component.label = name;
-      component.value = '2021-10-18';
-      component.placeholder = name;
-      component.size = 'lg';
-      component.format = 'yyyy-MM-dd';
-      component.month = 9;
-      component.year = 2021;
-      component.day = 18;
+      setupComponent(component);
 
       await container.setLanguage('en');
       await container.setLocale('en-US');
@@ -60,18 +146,7 @@ describe('IdsDatePicker Component Tests', () => {
     });
 
     it('has properties', () => {
-      expect(component.tabbable).toBeFalsy();
-      expect(component.showToday).toBeFalsy();
-      expect(component.firstDayOfWeek).toEqual(1);
-      expect(component.id).toEqual(name);
-      expect(component.value).toEqual('2021-10-18');
-      expect(component.label).toEqual(name);
-      expect(component.placeholder).toEqual(name);
-      expect(component.size).toEqual('lg');
-      expect(component.format).toEqual('yyyy-MM-dd');
-      expect(component.month).toEqual(9);
-      expect(component.year).toEqual(2021);
-      expect(component.day).toEqual(18);
+      testComponent(component);
     });
 
     it('should change properties', () => {
@@ -80,11 +155,16 @@ describe('IdsDatePicker Component Tests', () => {
       component.firstDayOfWeek = 0;
       component.id = 'changed';
       component.value = '2020-11-19';
-      component.placeholder = 'changed';
       component.size = 'md';
       component.month = 10;
       component.year = 2020;
       component.day = 19;
+      component.showClear = false;
+      component.showCancel = false;
+      component.showPicklistYear = true;
+      component.showPicklistMonth = true;
+      component.showPicklistWeek = false;
+      component.useCurrentTime = true;
 
       expect(component.tabbable).toBeTruthy();
       expect(component.showToday).toBeTruthy();
@@ -93,11 +173,16 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.disabled).toBeFalsy();
       expect(component.readonly).toBeFalsy();
       expect(component.value).toEqual('2020-11-19');
-      expect(component.placeholder).toEqual('changed');
       expect(component.size).toEqual('md');
       expect(component.month).toEqual(10);
       expect(component.year).toEqual(2020);
       expect(component.day).toEqual(19);
+      expect(component.showClear).toBeFalsy();
+      expect(component.showCancel).toBeFalsy();
+      expect(component.showPicklistYear).toBeTruthy();
+      expect(component.showPicklistMonth).toBeTruthy();
+      expect(component.showPicklistWeek).toBeFalsy();
+      expect(component.useCurrentTime).toBeTruthy();
 
       // Reset to defaults
       component.tabbable = null;
@@ -107,10 +192,12 @@ describe('IdsDatePicker Component Tests', () => {
       component.value = '';
       component.label = null;
       component.format = null;
-      component.placeholder = null;
       component.month = null;
       component.year = null;
       component.day = null;
+      component.minuteInterval = null;
+      component.secondInterval = null;
+      component.useCurrentTime = null;
 
       expect(component.tabbable).toBeTruthy();
       expect(component.showToday).toBeTruthy();
@@ -118,11 +205,11 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.id).toEqual('');
       expect(component.value).toEqual('');
       expect(component.label).toEqual('');
-      expect(component.format).toEqual('locale');
-      expect(component.placeholder).toEqual('');
+      expect(component.format).toEqual('M/d/yyyy');
       expect(component.month).toEqual((new Date()).getMonth());
       expect(component.year).toEqual((new Date()).getFullYear());
       expect(component.day).toEqual((new Date()).getDate());
+      expect(component.useCurrentTime).toBeFalsy();
     });
 
     it('should not change value when disabled or readonly', () => {
@@ -213,7 +300,7 @@ describe('IdsDatePicker Component Tests', () => {
 
     it('should set size', () => {
       const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
-      const defaultSize = 'lg';
+      const defaultSize = 'sm';
       const checkSize = (size: any) => {
         component.size = size;
 
@@ -223,17 +310,18 @@ describe('IdsDatePicker Component Tests', () => {
         expect(triggerField.getAttribute('size')).toEqual(size);
       };
 
-      expect(component.getAttribute('size')).toEqual(defaultSize);
+      // size lg is set before each test
+      expect(component.getAttribute('size')).toEqual('lg');
       let triggerField = component.container.querySelector('ids-trigger-field');
 
-      expect(triggerField.getAttribute('size')).toEqual(defaultSize);
+      expect(triggerField.getAttribute('size')).toEqual('lg');
       sizes.forEach((s) => checkSize(s));
       component.size = null;
 
-      expect(component.getAttribute('size')).toEqual('null');
+      expect(component.getAttribute('size')).toBeNull();
       triggerField = component.container.querySelector('ids-trigger-field');
 
-      expect(triggerField.getAttribute('size')).toEqual('md');
+      expect(triggerField.getAttribute('size')).toEqual(defaultSize);
     });
 
     it('should set no margins', () => {
@@ -274,6 +362,19 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.compact).toEqual(true);
       expect(component.noMargins).toEqual(true);
     });
+
+    it('should change placeholder by format', () => {
+      expect(component.placeholder).toBe('');
+
+      component.placeholder = true;
+      expect(component.placeholder).toBe('yyyy-MM-dd');
+
+      component.format = 'M/d/yyyy';
+      expect(component.placeholder).toBe('M/d/yyyy');
+
+      component.placeholder = false;
+      expect(component.placeholder).toBe('');
+    });
   });
 
   describe('Using attributes', () => {
@@ -286,7 +387,6 @@ describe('IdsDatePicker Component Tests', () => {
           <ids-date-picker
             label="${name}"
             id="${name}"
-            placeholder="${name}"
             tabbable="false"
             value="2021-10-18"
             format="yyyy-MM-dd"
@@ -296,6 +396,7 @@ describe('IdsDatePicker Component Tests', () => {
             month="9"
             year="2021"
             day="18"
+            placeholder="false"
           ></ids-date-picker>
         `);
 
@@ -330,7 +431,6 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.id).toEqual(name);
       expect(component.value).toEqual('2021-10-18');
       expect(component.label).toEqual(name);
-      expect(component.placeholder).toEqual(name);
       expect(component.size).toEqual('lg');
       expect(component.format).toEqual('yyyy-MM-dd');
       expect(component.month).toEqual(9);
@@ -365,9 +465,8 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.id).toEqual('changed');
       expect(component.value).toEqual('2022-01-20');
       expect(component.label).toEqual('changed');
-      expect(component.placeholder).toEqual('changed');
       expect(component.size).toEqual('sm');
-      expect(component.format).toEqual('locale');
+      expect(component.format).toEqual('M/d/yyyy');
       expect(component.month).toEqual(4);
       expect(component.year).toEqual(2019);
       expect(component.day).toEqual(22);
@@ -391,8 +490,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.firstDayOfWeek).toEqual(0);
       expect(component.id).toEqual('');
       expect(component.label).toEqual('');
-      expect(component.format).toEqual('locale');
-      expect(component.placeholder).toEqual('');
+      expect(component.format).toEqual('M/d/yyyy');
       expect(component.month).toEqual((new Date()).getMonth());
       expect(component.year).toEqual((new Date()).getFullYear());
       expect(component.day).toEqual((new Date()).getDate());
@@ -404,6 +502,45 @@ describe('IdsDatePicker Component Tests', () => {
       component.setAttribute('use-range', true);
 
       expect(component.useRange).toBeTruthy();
+    });
+
+    it('should change placeholder by format', () => {
+      expect(component.getAttribute('placeholder')).toBe(null);
+
+      component.setAttribute('placeholder', true);
+      expect(component.placeholder).toBe('yyyy-MM-dd');
+
+      component.setAttribute('format', 'M/d/yyyy');
+      expect(component.placeholder).toBe('M/d/yyyy');
+
+      component.removeAttribute('placeholder');
+      expect(component.placeholder).toBe('');
+    });
+
+    it('should trigger input change event when the date is changed', () => {
+      const mockCallback = jest.fn();
+
+      component.input.addEventListener('change', mockCallback);
+
+      component.value = '1/2/2020';
+
+      expect(mockCallback).toHaveBeenCalled();
+    });
+
+    it('should trigger popup show/hide events', () => {
+      const mockShowCallback = jest.fn();
+      const mockHideCallback = jest.fn();
+
+      component.popup.addEventListener('show', mockShowCallback);
+      component.popup.addEventListener('hide', mockHideCallback);
+
+      component.open();
+
+      expect(mockShowCallback).toHaveBeenCalled();
+
+      component.close();
+
+      expect(mockHideCallback).toHaveBeenCalled();
     });
   });
 
@@ -447,15 +584,28 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.disabled).toBeFalsy();
       expect(component.readonly).toBeFalsy();
       expect(component.value).toEqual('');
-      expect(component.placeholder).toEqual('');
-      expect(component.size).toBeNull();
+      expect(component.size).toEqual('sm');
       expect(component.validate).toBeNull();
       expect(component.validationEvents).toEqual('change blur');
-      expect(component.format).toEqual('locale');
+      expect(component.format).toEqual('M/d/yyyy');
       expect(component.isCalendarToolbar).toBeFalsy();
       expect(component.month).toEqual((new Date()).getMonth());
       expect(component.year).toEqual((new Date()).getFullYear());
       expect(component.day).toEqual((new Date()).getDate());
+      expect(component.showPicklistYear).toBeTruthy();
+      expect(component.showPicklistMonth).toBeTruthy();
+      expect(component.showPicklistWeek).toBeFalsy();
+      expect(component.showClear).toBeFalsy();
+      expect(component.showCancel).toBeFalsy();
+      expect(component.disable).toEqual({
+        dates: [],
+        years: [],
+        minDate: '',
+        maxDate: '',
+        dayOfWeek: [],
+        isEnable: false
+      });
+      expect(component.hasFocus).toBeFalsy();
     });
 
     it('should not expand if not dropdown', () => {
@@ -495,6 +645,199 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.dirtyTracker).toEqual(false);
       expect(component.getAttribute('dirty-tracker')).toEqual(null);
       expect(component.input.getAttribute('dirty-tracker')).toEqual(null);
+    });
+
+    it('should handle mask attribute', () => {
+      expect(component.mask).toBeFalsy();
+
+      component.mask = true;
+
+      expect(component.mask).toBeTruthy();
+      expect(component.input.getAttribute('mask')).toEqual('date');
+
+      component.mask = false;
+
+      expect(component.mask).toBeFalsy();
+      expect(component.input.getAttribute('mask')).toBeNull();
+    });
+
+    it('should format date with custom format', () => {
+      const daySelectedEvent = (date: Date) => new CustomEvent('dayselected', {
+        detail: { date }
+      });
+
+      component.value = '';
+      component.format = 'MMM yyyy';
+      component.open();
+
+      const monthView = component.container.querySelector('ids-month-view');
+      monthView.dispatchEvent(daySelectedEvent(new Date(2000, 2, 1)));
+
+      expect(component.value).toEqual('Mar 2000');
+
+      component.format = 'MMMM d';
+      monthView.dispatchEvent(daySelectedEvent(new Date(1999, 9, 3)));
+
+      expect(component.value).toEqual('October 3');
+
+      component.format = 'yyyy';
+      monthView.dispatchEvent(daySelectedEvent(new Date(2010, 0, 1)));
+
+      expect(component.value).toEqual('2010');
+
+      component.format = 'MMM dd, yyyy';
+      monthView.dispatchEvent(daySelectedEvent(new Date(2010, 0, 1)));
+
+      expect(component.value).toEqual('Jan 01, 2010');
+
+      component.format = 'yyyy-MM-dd';
+      monthView.dispatchEvent(daySelectedEvent(new Date(2012, 2, 4)));
+
+      expect(component.value).toEqual('2012-03-04');
+    });
+
+    it('should parse date with custom format', () => {
+      component.close();
+      component.format = 'MMM yyyy';
+      component.value = 'Feb 2020';
+      const monthView = component.container.querySelector('ids-month-view');
+      component.open();
+
+      expect(monthView.activeDate).toEqual(new Date(2020, 1, 1));
+      component.close();
+
+      component.format = 'MMMM d';
+      component.value = 'August 3';
+      component.open();
+
+      expect(monthView.activeDate.getMonth()).toEqual(7);
+      expect(monthView.activeDate.getDate()).toEqual(3);
+      component.close();
+
+      component.format = 'yyyy';
+      component.value = '2010';
+      component.open();
+
+      expect(monthView.activeDate.getFullYear()).toEqual(2010);
+      component.close();
+
+      component.format = 'MMM dd, yyyy';
+      component.value = 'Jan 01, 2010';
+      component.open();
+
+      expect(monthView.activeDate).toEqual(new Date(2010, 0, 1));
+      component.close();
+
+      component.format = 'yyyy-MM-dd';
+      component.value = '2012-03-04';
+      component.open();
+
+      expect(monthView.activeDate).toEqual(new Date(2012, 2, 4));
+    });
+
+    it('should validate dates', () => {
+      let isValid;
+      component.validate = 'date';
+      component.format = 'yyyy-MM-dd';
+      component.value = '2012-03-04';
+      component.input.addEventListener('validate', (e: any) => {
+        isValid = e.detail.isValid;
+      });
+      component.input.checkValidation();
+
+      expect(isValid).toBeTruthy();
+
+      component.value = '201-03-04';
+      component.input.checkValidation();
+
+      expect(isValid).toBeFalsy();
+
+      component.value = '2012-40-04';
+      component.input.checkValidation();
+
+      expect(isValid).toBeFalsy();
+
+      component.value = '2012-03-50';
+      component.input.checkValidation();
+
+      expect(isValid).toBeFalsy();
+
+      component.format = 'yyyy';
+      component.value = '2012';
+      component.input.checkValidation();
+
+      expect(isValid).toBeTruthy();
+
+      component.value = '201';
+      component.input.checkValidation();
+
+      expect(isValid).toBeFalsy();
+
+      component.validate = null;
+      expect(component.validate).toBeNull();
+
+      expect(component.validationEvents).toEqual('change blur');
+
+      component.validationEvents = 'blur';
+
+      expect(component.validationEvents).toEqual('blur');
+
+      component.validationEvents = null;
+
+      expect(component.validationEvents).toEqual('change blur');
+    });
+
+    it('should validate unavailable dates', () => {
+      let isValid;
+      component.disable = {
+        dates: ['2/15/2010', '2/25/2010'],
+        dayOfWeek: [0, 6]
+      };
+      component.validate = 'availableDate';
+      component.input.addEventListener('validate', (e: any) => {
+        isValid = e.detail.isValid;
+      });
+      component.value = '2/16/2010';
+      component.input.checkValidation();
+
+      expect(isValid).toBeTruthy();
+
+      component.value = '2/15/2010';
+      component.input.checkValidation();
+
+      expect(isValid).toBeFalsy();
+    });
+
+    it('should get/set range settings', () => {
+      expect(component.rangeSettings).toEqual({
+        start: null,
+        end: null,
+        separator: ' - ',
+        minDays: 0,
+        maxDays: 0,
+        selectForward: false,
+        selectBackward: false,
+        includeDisabled: false,
+        selectWeek: false
+      });
+
+      component.rangeSettings = {
+        start: '5/11/2020',
+        end: '5/14/2020',
+        selectWeek: true
+      };
+
+      expect(component.rangeSettings).toEqual({
+        start: '5/11/2020',
+        end: '5/14/2020',
+        separator: ' - ',
+        minDays: 0,
+        maxDays: 0,
+        selectForward: false,
+        selectBackward: false,
+        includeDisabled: false,
+        selectWeek: true
+      });
     });
   });
 });

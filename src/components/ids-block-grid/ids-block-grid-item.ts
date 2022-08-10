@@ -28,10 +28,10 @@ export default class IdsBlockgridItem extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this
       .#handleEvents()
       .#attachKeyboardListeners();
-    super.connectedCallback();
   }
 
   template() {
@@ -63,6 +63,10 @@ export default class IdsBlockgridItem extends Base {
       } else {
         this.#handleMultiMixedSelectionChange(e);
       }
+    });
+
+    this.onEvent('focus.blockitem', this, () => {
+      this.querySelector('ids-card')?.container.querySelector('ids-hyperlink').container?.focus();
     });
 
     return this;
@@ -110,7 +114,7 @@ export default class IdsBlockgridItem extends Base {
   /**
    * Handle single/multiple selection change
    * @private
-   * @param  {object} e Actual event
+   * @param {object} e Actual event
    */
   #handleSelectionChange(e: any) {
     this.container.focus();
@@ -126,7 +130,7 @@ export default class IdsBlockgridItem extends Base {
   /**
    * Change single selection for block item
    * @private
-   * @param  {object} e Actual event
+   * @param {object} e Actual event
    */
   #handleSingleSelectionChange(e: any) {
     if (this.selected === 'true') {
@@ -157,7 +161,7 @@ export default class IdsBlockgridItem extends Base {
   /**
    * Change multiple selection for block item
    * @private
-   * @param  {object} e Actual event
+   * @param {object} e Actual event
    */
   #handleMultiMixedSelectionChange(e: any) {
     this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');

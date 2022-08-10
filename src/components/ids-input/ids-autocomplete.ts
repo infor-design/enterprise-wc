@@ -19,7 +19,7 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
 
     if (!this.autocomplete) {
       this.destroyAutocomplete();
@@ -169,7 +169,7 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
 
     if (this.value) {
       this.openPopup();
-      this.listBox.innerHTML = results || `<ids-list-box-option>${this.locale.translate('No Results.')}</ids-list-box-option>`;
+      this.listBox.innerHTML = results || `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
     } else {
       this.clearOptions();
       this.closePopup();

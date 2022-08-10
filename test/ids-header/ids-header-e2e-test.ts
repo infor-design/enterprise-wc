@@ -1,5 +1,7 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Header e2e test', () => {
-  const url = 'http://localhost:4444/ids-header';
+  const url = 'http://localhost:4444/ids-header/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
@@ -12,6 +14,8 @@ describe('Ids Header e2e test', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-required-children', 'aria-required-parent', 'nested-interactive'] });
+
+    const results = await new AxePuppeteer(page).disableRules(['color-contrast', 'aria-required-children', 'aria-required-parent', 'nested-interactive']).analyze();
+    expect(results.violations.length).toBe(0);
   });
 });

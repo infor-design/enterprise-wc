@@ -34,34 +34,28 @@ export default class IdsToolbar extends Base {
     return [
       ...super.attributes,
       attributes.DISABLED,
+      attributes.PADDING,
       attributes.TABBABLE,
       attributes.TYPE
     ];
   }
 
   connectedCallback(): void {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.setAttribute('role', 'toolbar');
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#resizeObserver.observe(this);
+    this.#setType(null, this.type);
+    this.makeTabbable(this.detectTabbable());
 
-    // After repaint
-    requestAnimationFrame(() => {
-      this.#setType(null, this.type);
-      this.makeTabbable(this.detectTabbable());
-
-      // Perform resize calculation after all children have rendered
-      requestAnimationFrame(() => {
-        this.#resize();
-      });
-    });
-    super.connectedCallback();
+    if (this.padding) this.padding = this.getAttribute(attributes.PADDING);
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
     this.#resizeObserver.disconnect(this.container);
+    this.#resizeObserver = null;
   }
 
   /**
@@ -184,7 +178,7 @@ export default class IdsToolbar extends Base {
       this.removeAttribute(attributes.DISABLED);
     }
 
-    this.container.classList[trueVal ? 'add' : 'remove'](attributes.DISABLED);
+    this.container?.classList[trueVal ? 'add' : 'remove'](attributes.DISABLED);
 
     // Set disabled state on all relevant subcomponents
     const setDisabledState = (elem: any) => {
@@ -203,7 +197,7 @@ export default class IdsToolbar extends Base {
    * @returns {boolean} true if the toolbar is currently disabled
    */
   get disabled(): boolean {
-    return this.container.classList.contains(attributes.DISABLED);
+    return !!this.container?.classList?.contains(attributes.DISABLED);
   }
 
   /**
@@ -298,7 +292,7 @@ export default class IdsToolbar extends Base {
       this.removeAttribute(attributes.TABBABLE);
     }
 
-    this.container.classList[trueVal ? 'add' : 'remove'](attributes.TABBABLE);
+    this.container?.classList[trueVal ? 'add' : 'remove'](attributes.TABBABLE);
 
     // Try to use a currently-focused element
     this.makeTabbable(this.focused);
@@ -308,7 +302,7 @@ export default class IdsToolbar extends Base {
    * @returns {boolean} true if the toolbar is fully tabbable
    */
   get tabbable(): boolean {
-    return this.container.classList.contains(attributes.TABBABLE);
+    return !!this.container?.classList.contains(attributes.TABBABLE);
   }
 
   /**
@@ -338,6 +332,19 @@ export default class IdsToolbar extends Base {
   }
 
   /**
+   * If set to number the container will have padding added (in pixels)
+   * @param {string | number} value sets the padding to the container
+   */
+  set padding(value: string | number) {
+    if (this.container) this.container.style.paddingBottom = !value ? '' : `${value}px`;
+    this.setAttribute(attributes.PADDING, value.toString());
+  }
+
+  get padding(): string {
+    return this.getAttribute(attributes.PADDING);
+  }
+
+  /**
    * Set the toolbar type to each section
    * @private
    * @param {string|null} oldType the type class to remove
@@ -345,11 +352,11 @@ export default class IdsToolbar extends Base {
    * @returns {void}
    */
   #setType(oldType: string | null, newType: string | null) {
-    const cl = this.container.classList;
+    const cl = this.container?.classList;
 
     // Update CSS Class for main Toolbar type
-    if (oldType) cl.remove(`type-${oldType}`);
-    if (newType) cl.add(`type-${newType}`);
+    if (oldType) cl?.remove(`type-${oldType}`);
+    if (newType) cl?.add(`type-${newType}`);
 
     // If using a "formatter" type, change the buttons/separators/etc to use the alternate style
     this.sections.forEach((s) => {

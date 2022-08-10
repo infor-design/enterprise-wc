@@ -101,9 +101,7 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
         this.createRipple(x, y);
         preceededByTouchstart = true;
       }
-    }, {
-      passive: true
-    });
+    }, { passive: true });
   }
 
   /**

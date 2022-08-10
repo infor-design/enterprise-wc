@@ -140,6 +140,7 @@
 @mixin checkbox-disabled-checked($theme: light) {
   @if $theme == light {
     @include bg-slate-30();
+    @include border-slate-30();
   }
 
   @if $theme == dark {
@@ -213,12 +214,6 @@
     &[mode='contrast'][color='#{$name}'] input[type='checkbox'] {
       &:disabled:checked ~ .checkmark {
         @include checkbox-disabled-checked(contrast);
-      }
-    }
-
-    &[mode='light'][version='classic'][color='#{$name}'] input[type='checkbox'] {
-      &:disabled:checked ~ .checkmark {
-        @include checkbox-disabled-checked(classicLight);
       }
     }
   }

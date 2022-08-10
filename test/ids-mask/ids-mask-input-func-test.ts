@@ -3,7 +3,13 @@
  */
 import IdsInput from '../../src/components/ids-input/ids-input';
 import { IdsMaskOptions } from '../../src/components/ids-mask/ids-mask-common';
-import { autoCorrectedDatePipe, dateMask, numberMask } from '../../src/components/ids-mask/ids-masks';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import {
+  autoCorrectedDatePipe,
+  dateMask,
+  rangeDateMask,
+  numberMask
+} from '../../src/components/ids-mask/ids-masks';
 
 const CREDIT_CARD_MASK = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 const PHONE_NUMBER_MASK = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
@@ -12,6 +18,8 @@ describe('IdsInput (Masked)', () => {
   let input: any;
 
   beforeEach(async () => {
+    const container: any = new IdsContainer();
+    document.body.appendChild(container);
     const elem: any = new IdsInput();
     document.body.appendChild(elem);
     input = document.querySelector('ids-input');
@@ -117,7 +125,6 @@ describe('IdsInput (Masked)', () => {
     input.mask = dateMask;
     input.maskPipe = autoCorrectedDatePipe;
     input.maskOptions = {
-      format: 'M/d/yyyy',
       symbols: {
         separator: '/'
       }
@@ -143,6 +150,38 @@ describe('IdsInput (Masked)', () => {
     input.mask = 'date';
 
     expect(input.mask.toString()).toEqual(dateMask.toString());
+  });
+
+  it('can format range dates', () => {
+    input.mask = rangeDateMask;
+    input.maskPipe = autoCorrectedDatePipe;
+    input.maskOptions = {
+      delimeter: ' - ',
+      symbols: {
+        separator: '/'
+      }
+    };
+    input.value = '111111111111111111';
+
+    expect(input.value).toEqual('11/11/1111 - 11/11/1111');
+
+    input.value = '';
+    input.value = '10/15/2018 - 10/20/2018';
+
+    expect(input.value).toEqual('10/15/2018 - 10/20/2018');
+
+    // Change the date format
+    input.maskOptions.format = 'MM/dd/yyyy';
+    input.value = '';
+    input.value = '0101202001082020';
+
+    expect(input.value).toEqual('01/01/2020 - 01/08/2020');
+  });
+
+  it('can use the shorthand "rangeDate" to actviate the built-in range date mask', () => {
+    input.mask = 'rangeDate';
+
+    expect(input.mask.toString()).toEqual(rangeDateMask.toString());
   });
 
   it('can convert a string-based mask to an array internally', () => {

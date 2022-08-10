@@ -5,14 +5,37 @@
  category: Form Inputs
  keywords: input, text, form
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows all input settings and states
-  - link: side-by-side.html
-    description: Showing an input with a 4.x input
-  - link: validation-message.html
-    description: Shows all validation messages
-  - link: standalone-css.html
-    description: Showing a input that works with css only
   - link: autocomplete.html
-    description: Showing an autocomplete input
+    type: Example
+    description: Showing an input with autocomplete
+  - link: validation-message.html
+    type: Example
+    description: Shows all validation messages
+  - link: validation-custom.html
+    type: Example
+    description: Shows a custom validation message
+  - link: label-state.html
+    type: Test
+    description: Showing an example with hidden labels
+  - link: one.html
+    type: Test
+    description: Showing an single input
+  - link: layout-size.html
+    type: Example
+    description: Showing inputs in different layout
+  - link: test-sizes.html
+    type: Test
+    description: Shows all input sizes
+  - link: side-by-side.html
+    type: Side by Side
+    description: Showing an input with a 4.x input
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a input that works with css only
+  - link: context-menu.html
+    type: Example
+    description: Showing context menu on input
 

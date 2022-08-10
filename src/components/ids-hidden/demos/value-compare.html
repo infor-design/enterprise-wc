@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Hidden (By Value Comparison)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+
+      <ids-hidden value="test" condition="true">
+        <ids-text font-size="20" type="span">Item (Hidden)</ids-text>
+      </ids-hidden>
+
+      <ids-hidden value="test" condition="false">
+        <ids-text font-size="20" type="span">Item (Visible)</ids-text>
+      </ids-hidden>
+
+      <ids-hidden value="test-1" condition="test-1">
+        <ids-text font-size="20" type="span">Item (Hidden)</ids-text>
+      </ids-hidden>
+
+      <ids-hidden value="test-1" condition="test-2">
+        <ids-text font-size="20" type="span">Item (Visible)</ids-text>
+      </ids-hidden>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

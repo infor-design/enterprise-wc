@@ -34,7 +34,7 @@ export default class IdsSpinbox extends Base {
     super();
   }
 
-  isFormComponent: boolean = true;
+  isFormComponent = true;
 
   /**
    * Return the attributes we handle as getters/setters
@@ -88,10 +88,6 @@ export default class IdsSpinbox extends Base {
     if (!this.id) {
       this.setAttribute(attributes.ID, `ids-spinbox-${++instanceCounter}`);
     }
-  }
-
-  rendered() {
-    this.#updateDisabledButtonStates();
   }
 
   #appendTriggerButtons() {
@@ -153,6 +149,7 @@ export default class IdsSpinbox extends Base {
 
     this.#configureMask();
     this.#attachEventHandlers();
+    this.#updateDisabledButtonStates();
   }
 
   /**

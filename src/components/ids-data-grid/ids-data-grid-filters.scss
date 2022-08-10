@@ -8,7 +8,7 @@
     align-items: center;
   }
 
-  .ids-data-grid-header-cell-content-wrapper.vertical-align-center {
+  .ids-data-grid-header-cell-content.vertical-align-center {
     @include relative();
 
     top: calc(50% - 16px);

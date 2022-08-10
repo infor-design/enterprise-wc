@@ -142,11 +142,13 @@ export function isDaylightSavingTime(date: Date) {
 
 /**
  * Check if a date is valid
- * @param {Date | string | undefined} date date to check.
+ * @param {any} date date to check.
  * @returns {boolean} true if valid, false otherwise.
  */
-export function isValidDate(date: Date | string | undefined): boolean {
-  return date instanceof Date && !Number.isNaN(date);
+export function isValidDate(date: any): boolean {
+  return date instanceof Date
+    && !Number.isNaN(date)
+    && date.toString() !== 'Invalid Date';
 }
 
 /**
@@ -302,4 +304,77 @@ export function weeksInRange(startDate: any, endDate: any, startsOn = 0) {
   const firstDayOfWeekIndex = (startDate.getDay() - startsOn + 7) % 7;
 
   return Math.ceil((firstDayOfWeekIndex + daysInRange) / 7);
+}
+
+/**
+ * Gets date of first day of the week by year and week number.
+ * @param {Date} year a year where week number should be returned
+ * @param {number} week week number
+ * @param {number} startsOn day of the week to start on. Sunday is 0, Monday is 1, and so on
+ * @returns {Date} date of first day of the week
+ */
+export function weekNumberToDate(year: number, week: number, startsOn = 0): Date {
+  const daysInRange: number = ((week - 1) * 7) + startsOn;
+  const firstDayOfYearDate: Date = new Date(year, 0, 1);
+  const fristDayIndex: number = firstDayOfYearDate.getDay();
+  const days: number = fristDayIndex > 4 ? daysInRange + (8 - fristDayIndex) : daysInRange - (fristDayIndex - 1);
+
+  return new Date(year, 0, days);
+}
+
+/**
+ * Gets ISO-8601 week number of a year by date
+ * @param {Date} date what date week number should be returned
+ * @param {number} startsOn day of the week to start on. Sunday is 0, Monday is 1, and so on
+ * @returns {number} week number
+ */
+export function weekNumber(date: Date, startsOn = 0) {
+  // Set range end
+  const weekDayIndex: number = (date.getDay() + 7 - startsOn) % 7;
+
+  date.setDate(date.getDate() - weekDayIndex + 3);
+
+  const rangeEnd: number = date.getTime();
+
+  // Set range start
+  date.setMonth(0, 1);
+
+  if (date.getDay() !== 4) {
+    date.setMonth(0, 1 + ((4 - date.getDay() + 7) % 7));
+  }
+
+  const rangeStart: number = date.getTime();
+  const msInWeek = 604800000;
+
+  // Number of weeks in range
+  return 1 + Math.ceil((rangeEnd - rangeStart) / msInWeek);
+}
+
+/**
+ * Convert 12/24 hour format to 24 hour format based on day period
+ * @param {number} hours in 12 or 24 hour format
+ * @param {number} dayPeriodIndex 0 or 1 if time format with day period
+ * @returns {number} hours in 24 hour format
+ */
+export function hoursTo24(hours: number, dayPeriodIndex?: number | undefined): number {
+  const hasDayPeriod: boolean = (dayPeriodIndex as number) >= 0;
+
+  if (hours === 12 && hasDayPeriod) {
+    if (dayPeriodIndex === 0) {
+      return 0;
+    }
+
+    return hours;
+  }
+
+  return hours + (!hasDayPeriod ? 0 : (dayPeriodIndex as number)) * 12;
+}
+
+/**
+ * Convert 24 hour format to 12 hour format
+ * @param {number} hours in 24 hour format
+ * @returns {number} hours in 12 hour format
+ */
+export function hoursTo12(hours: number): number {
+  return hours === 0 || hours === 12 ? 12 : hours % 12;
 }

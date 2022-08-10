@@ -1,17 +1,30 @@
-<ids-layout-grid auto="true">
-  <ids-text font-size="12" type="h1">Ids Upload</ids-text>
-</ids-layout-grid>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
 
-<ids-layout-grid auto="true" gap="md">
-  <ids-layout-grid-cell>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Ids Upload</ids-text>
+    </ids-layout-grid>
 
-    <ids-upload id="ids-upload-single" label="Single File"></ids-upload>
-    <ids-upload id="ids-upload-multiple" label="Multiple Files" multiple="true"></ids-upload>
-    <ids-upload id="ids-upload-multiple-limits" label="Multiple Files Accept (.cvs,.xls,.xlsx)" multiple="true" accept=".cvs,.xls,.xlsx"></ids-upload>
-    <ids-upload id="ids-upload-readonly" label="Readonly" readonly="true"></ids-upload>
-    <ids-upload id="ids-upload-disabled" label="Disabled" disabled="true" value="Readme.txt"></ids-upload>
-    <ids-upload id="ids-upload-dirty" label="Dirty Tracker" dirty-tracker="true"></ids-upload>
-    <ids-upload id="ids-upload-required" label="Required" validate="required"></ids-upload>
+    <ids-layout-grid auto="true" gap="md">
+      <ids-layout-grid-cell>
 
-  </ids-layout-grid-cell>
-</ids-layout-grid>
+        <ids-upload id="ids-upload-single" label="Single File"></ids-upload>
+        <ids-upload id="ids-upload-multiple" label="Multiple Files" multiple="true"></ids-upload>
+        <ids-upload id="ids-upload-multiple-limits" label="Multiple Files Accept (.cvs,.xls,.xlsx)" multiple="true" accept=".cvs,.xls,.xlsx"></ids-upload>
+        <ids-upload id="ids-upload-readonly" label="Readonly" readonly="true"></ids-upload>
+        <ids-upload id="ids-upload-disabled" label="Disabled" disabled="true" value="Readme.txt"></ids-upload>
+        <ids-upload id="ids-upload-dirty" label="Dirty Tracker" dirty-tracker="true"></ids-upload>
+        <ids-upload id="ids-upload-required" label="Required" validate="required"></ids-upload>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+</ids-container>
+</body>
+</html>

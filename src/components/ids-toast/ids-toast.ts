@@ -59,8 +59,6 @@ export default class IdsToast extends Base {
       attributes.ALLOW_LINK,
       attributes.AUDIBLE,
       attributes.DRAGGABLE,
-      attributes.LANGUAGE,
-      attributes.LOCALE,
       attributes.POSITION,
       attributes.PROGRESS_BAR,
       attributes.SAVE_POSITION,
@@ -159,7 +157,7 @@ export default class IdsToast extends Base {
    */
   messageElem(elemId: string) {
     const attributeKey = ATTRIBUTE_MESSAGE_ID;
-    return this.shadowRoot.querySelector(`[${attributeKey}="${elemId}"]`);
+    return this.shadowRoot?.querySelector(`[${attributeKey}="${elemId}"]`);
   }
 
   /**
@@ -194,13 +192,15 @@ export default class IdsToast extends Base {
    * @returns {HTMLElement} The toast container
    */
   toastContainer(): HTMLElement {
-    let toastContainer = this.shadowRoot.querySelector('.toast-container');
+    let toastContainer = this.shadowRoot?.querySelector('.toast-container');
+
     if (!toastContainer) {
       toastContainer = document.createElement('ids-draggable');
       toastContainer.setAttribute('disabled', 'true');
       toastContainer.classList.add('toast-container', this.position);
-      this.container.appendChild(toastContainer);
+      this.container?.appendChild(toastContainer);
     }
+
     return toastContainer;
   }
 
@@ -325,7 +325,7 @@ export default class IdsToast extends Base {
    * @returns {void}
    */
   #removeFromDom() {
-    const hostElem = this.shadowRoot.host;
+    const hostElem = this.shadowRoot?.host;
     hostElem?.parentNode?.removeChild(hostElem);
   }
 
@@ -378,7 +378,7 @@ export default class IdsToast extends Base {
    * @returns {void}
    */
   #savePosition() {
-    const toastContainer = this.shadowRoot.querySelector('.toast-container');
+    const toastContainer = this.shadowRoot?.querySelector('.toast-container');
     const transform = toastContainer?.style?.transform;
 
     if (this.#canSavePosition() && transform) {

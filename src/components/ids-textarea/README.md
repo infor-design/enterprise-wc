@@ -92,9 +92,9 @@ Set the Text Align to Text Textarea this way:
 
 ```html
 <ids-textarea label="Default align (left)">Default align</ids-textarea>
-<ids-textarea label="Left align" text-align="left">Left align</ids-textarea>
+<ids-textarea label="Left align" text-align="start">Left align</ids-textarea>
 <ids-textarea label="Center align" text-align="center">Center align</ids-textarea>
-<ids-textarea label="Right align" text-align="right">Right align</ids-textarea>
+<ids-textarea label="Right align" text-align="end">Right align</ids-textarea>
 ```
 
 Set the sizes, available sizes are `'sm'|'md'|'lg'|'full'` and default type is `size="md"`.

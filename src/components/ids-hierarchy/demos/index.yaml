@@ -5,5 +5,9 @@
  category: Layouts
  keywords: Hierarchy, Card, Cards
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows minimal hierarchy
+  - link: lazy-load.html
+    type: Example
+    description: Shows hierarchy with lazy loading

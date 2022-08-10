@@ -27,9 +27,9 @@ A simple process indicator with 3 process steps
 
 ```html
   <ids-process-indicator>
-    <ids-process-step label="Preparation" status="done"></ids-process-step>
-    <ids-process-step label="Manufacturing" status="started"></ids-process-step>
-    <ids-process-step label="Final Stage"></ids-process-step>
+    <ids-process-indicator-step label="Preparation" status="done"></ids-process-indicator-step>
+    <ids-process-indicator-step label="Manufacturing" status="started"></ids-process-indicator-step>
+    <ids-process-indicator-step label="Final Stage"></ids-process-indicator-step>
   </ids-process-indicator>
 ```
 
@@ -37,18 +37,18 @@ A simple process indicator with 2 process steps and additional details
 
 ```html
   <ids-process-indicator>
-    <ids-process-step label="Preparation" status="done">
+    <ids-process-indicator-step label="Preparation" status="done">
       <ids-text>Order the parts<ids-text>
       <ids-text>Jan 31, 2021</ids-text>
-    </ids-process-step>
-    <ids-process-step label="Manufacturing" status="started">
+    </ids-process-indicator-step>
+    <ids-process-indicator-step label="Manufacturing" status="started">
       <ids-text>Assemble and package product</ids-text>
       <ids-text>Anticipated: Mar 1, 2021</ids-text>
-    </ids-process-step>
-    <ids-process-step label="Final Stage" status="started">
+    </ids-process-indicator-step>
+    <ids-process-indicator-step label="Final Stage" status="started">
       <ids-text>Deliver product to stores</ids-text>
       <ids-text>Anticipated: July 1, 2021</ids-text>
-    </ids-process-step>
+    </ids-process-indicator-step>
   </ids-process-indicator>
 ```
 
@@ -56,23 +56,23 @@ A process indicator with 4 process steps and the 3 different possible statuses
 
 ```html
   <ids-process-indicator>
-    <ids-process-step label="Preparation" status="done">
+    <ids-process-indicator-step label="Preparation" status="done">
       <ids-text>Order the parts<ids-text>
       <ids-text>Jan 31, 2021</ids-text>
-    </ids-process-step>
-    <ids-process-step label="Manufacturing" status="started">
+    </ids-process-indicator-step>
+    <ids-process-indicator-step label="Manufacturing" status="started">
       <ids-text>Assemble and package product</ids-text>
       <ids-text>Anticipated: Mar 1, 2021</ids-text>
-    </ids-process-step>
-    <ids-process-step label="Advertising" status="cancelled">
+    </ids-process-indicator-step>
+    <ids-process-indicator-step label="Advertising" status="cancelled">
       <ids-text>Assemble and package product</ids-text>
       <ids-text>Anticipated: May 1, 2021</ids-text>
       <ids-text>Cancelled due to COVID-19</ids-text>
-    </ids-process-step>
-    <ids-process-step label="Final Stage">
+    </ids-process-indicator-step>
+    <ids-process-indicator-step label="Final Stage">
       <ids-text>Deliver product to stores</ids-text>
       <ids-text>Anticipated: July 1, 2021</ids-text>
-    </ids-process-step>
+    </ids-process-indicator-step>
   </ids-process-indicator>
 ```
 
@@ -80,7 +80,16 @@ A process indicator with 4 process steps and the 3 different possible statuses
 
 - The component stretches to 100% width of its container (horizontal orientation)
 
-## Converting from Previous Versions
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Process Indicator was a new componet in v4.0.0
+- Can be invoked with `$('#my-element').processindicator();`
+
+**4.x to 5.x**
+
+- Process Indicator is now a custom element `<ids-process-indicator></ids-process-indicator>`
 
 ### Converting from 4.x
 
@@ -167,13 +176,13 @@ is the 4.x equivalent of the web component example below
 
 ```html
   <ids-process-indicator>
-    <ids-process-step label="2nd Level" status="done">
+    <ids-process-indicator-step label="2nd Level" status="done">
       <ids-text>Unreleased</ids-text>
       <ids-icon icon="success" size="small"></ids-icon>
       <ids-hyperlink href="#"><span>Melissa Nash</span></ids-hyperlink>
       <ids-text class="date">January 22, 2021 02:42 AM</ids-text>
-    </ids-process-step>
-    <ids-process-step label="3rd Level - Multiple Approvers" status="started">
+    </ids-process-indicator-step>
+    <ids-process-indicator-step label="3rd Level - Multiple Approvers" status="started">
       <ids-text>Unreleased</ids-text>
       <ids-icon icon="success" size="small"></ids-icon>
       <ids-hyperlink href="#"><span>Garret Rounds</span></ids-hyperlink>
@@ -181,8 +190,8 @@ is the 4.x equivalent of the web component example below
       <ids-icon icon="empty-circle" size="small"></ids-icon>
       <ids-hyperlink href="#"><span>Evelyn Lewis</span></ids-hyperlink>
       <ids-text class="date">Feb 2, 2021 21:12 AM</ids-text>
-    </ids-process-step>
-    <ids-process-step label="4th Level" status="cancelled">
+    </ids-process-indicator-step>
+    <ids-process-indicator-step label="4th Level" status="cancelled">
       <ids-text>Status</ids-text>
       <ids-icon icon="rejected-outline" size="small"></ids-icon>
       <ids-hyperlink href="#"><span>John Jones</span></ids-hyperlink>
@@ -190,6 +199,6 @@ is the 4.x equivalent of the web component example below
       <ids-icon icon="empty-circle" size="small"></ids-icon>
       <ids-hyperlink href="#"><span>James Martin</span></ids-hyperlink>
       <ids-text class="date">Feb 12, 2021 14:12 AM</ids-text>
-    </ids-process-step>
+    </ids-process-indicator-step>
   </ids-process-indicator>
 ```

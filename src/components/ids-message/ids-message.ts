@@ -31,7 +31,8 @@ export default class IdsMessage extends Base {
     return [
       ...super.attributes,
       attributes.MESSAGE,
-      attributes.STATUS
+      attributes.OPACITY,
+      attributes.STATUS,
     ];
   }
 
@@ -43,6 +44,8 @@ export default class IdsMessage extends Base {
 
     // Update status and correct
     this.status = this.getAttribute(attributes.STATUS);
+    // Update opacity and correct
+    this.opacity = this.getAttribute(attributes.OPACITY);
 
     // Sanitizes the HTML in the component
     const currentContentEl = this.querySelector('*:not([slot])');
@@ -75,6 +78,25 @@ export default class IdsMessage extends Base {
     const sanitizedVal = this.xssSanitize(val);
     if (sanitizedVal !== this.state.message) {
       this.#refreshMessage(sanitizedVal);
+    }
+  }
+
+  /**
+   * @returns {string} the current opacity of the overlay
+   */
+  get opacity(): string {
+    return this.state.opacity;
+  }
+
+  /**
+   * @param {string} val the desired opacity of the overlay
+   */
+  set opacity(val: string) {
+    if (val) {
+      this.state.opacity = val;
+
+      const overlayElem = this.shadowRoot?.querySelector('ids-overlay');
+      overlayElem.opacity = val;
     }
   }
 
@@ -132,15 +154,19 @@ export default class IdsMessage extends Base {
    * @returns {void}
    */
   #refreshStatus(val: string): void {
-    const header = this.container.querySelector('.ids-modal-header');
-    let icon = header.querySelector('ids-icon');
+    const header = this.container?.querySelector('.ids-modal-header');
+    let icon = header?.querySelector('ids-icon');
+
     if (val && val !== MESSAGE_STATUSES[0]) {
       if (!icon) {
-        header.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${val}" class="ids-icon ids-message-status"></ids-icon>`);
-        icon = header.querySelector('ids-icon');
+        header?.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${val}" class="ids-icon ids-message-status"></ids-icon>`);
+        icon = header?.querySelector('ids-icon');
       }
-      icon.icon = val;
-      this.#setIconColor(icon, val);
+
+      if (icon) {
+        icon.icon = val;
+        this.#setIconColor(icon, val);
+      }
     } else {
       icon?.remove();
     }
@@ -148,11 +174,11 @@ export default class IdsMessage extends Base {
 
   /**
    * Changes the color of the Status Icon
-   * @param {any} iconEl the icon element to update
+   * @param {Element} iconEl the icon element to update
    * @param {string} thisStatus the status string to apply as a CSS class
    * @returns {void}
    */
-  #setIconColor(iconEl: any, thisStatus: string): void {
+  #setIconColor(iconEl: Element, thisStatus: string): void {
     const iconElClassList = iconEl.classList;
     MESSAGE_STATUSES.forEach((status) => {
       if (thisStatus !== 'none' && thisStatus === status) {

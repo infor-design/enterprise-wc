@@ -1,4 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import '../ids-popup/ids-popup';
 import Base from './ids-popup-menu-base';
 
@@ -7,7 +9,7 @@ import styles from './ids-popup-menu.scss';
 /**
  * IDS Popup Menu Component
  * @type {IdsPopupMenu}
- * @inherits IdsElement
+ * @inherits IdsMenu
  * @mixes IdsEventsMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsPopupInteractionsMixin
@@ -18,6 +20,13 @@ import styles from './ids-popup-menu.scss';
 export default class IdsPopupMenu extends Base {
   constructor() {
     super();
+  }
+
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.WIDTH
+    ];
   }
 
   /**
@@ -33,17 +42,21 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   connectedCallback(): void {
-    super.connectedCallback?.();
-    if (!this.hasAttribute('hidden')) {
-      this.setAttribute('hidden', '');
+    super.connectedCallback();
+
+    if (!this.hasAttribute(attributes.HIDDEN)) {
+      this.setAttribute(attributes.HIDDEN, '');
+    }
+    if (this.hasAttribute(attributes.WIDTH)) {
+      this.#setMenuWidth(this.getAttribute(attributes.WIDTH));
     }
 
     // If this Popupmenu is a submenu, and no target is pre-defined,
     // align the menu against the parent menu item.
-    if (this.parentMenuItem && !this.target) {
+    if (this.parentMenuItem) {
       this.popupDelay = 200;
-      this.trigger = 'hover';
       this.target = this.parentMenuItem;
+      this.triggerType = 'hover';
       this.popup.align = 'right, top';
       this.popup.alignEdge = 'right';
     }
@@ -53,6 +66,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   disconnectedCallback(): void {
+    super.disconnectedCallback?.();
     if (this.hasOpenEvents) {
       this.hide();
     }
@@ -70,9 +84,9 @@ export default class IdsPopupMenu extends Base {
   attachEventHandlers(): void {
     super.attachEventHandlers();
 
-    // Hide the menu when an item is selected
+    // Hide the menu when an item is "picked"
     // (only if `keep-open` attribute is not present)
-    this.onEvent('selected', this, (e: CustomEvent) => {
+    this.onEvent('pick', this, (e: CustomEvent) => {
       if (this.visible) {
         const item = e.detail.elem;
         if (!item?.group?.keepOpen) {
@@ -81,25 +95,21 @@ export default class IdsPopupMenu extends Base {
       }
     });
 
-    // When the underlying Popup triggers its "show" event,
-    // focus on the derived focusTarget, and pass the event to the Host element.
+    // When the underlying Popup triggers its "show" event, pass the event to the Host element.
     this.onEvent('show', this.container, (e: CustomEvent) => {
+      if (!this.parentMenuItem) {
+        this.triggerEvent('show', this, e);
+      }
       requestAnimationFrame(() => {
         this.focusTarget?.focus();
-        if (!this.parentMenuItem) {
-          this.triggerEvent('show', this, e);
-        }
       });
     });
 
-    // When the underlying Popup triggers its "hide" event,
-    // pass the event to the Host element.
+    // When the underlying Popup triggers its "hide" event, pass the event to the Host element.
     this.onEvent('hide', this.container, (e: CustomEvent) => {
-      requestAnimationFrame(() => {
-        if (!this.parentMenuItem) {
-          this.triggerEvent('hide', this, e);
-        }
-      });
+      if (!this.parentMenuItem) {
+        this.triggerEvent('hide', this, e);
+      }
     });
 
     // Set up all the events specifically-related to the "trigger" type
@@ -154,7 +164,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {boolean} true if the Popup Menu is currently being displayed
    */
   get visible(): boolean {
-    return this.popup.visible;
+    return !!this.popup?.visible;
   }
 
   /**
@@ -165,7 +175,7 @@ export default class IdsPopupMenu extends Base {
     if (!this.popup.visible) return;
 
     this.hidden = true;
-    this.popup.querySelector('nav')?.removeAttribute('role');
+    this.#removeVisibleARIA();
     this.lastHovered = undefined;
 
     // Hide the Ids Popup and all Submenus
@@ -186,7 +196,7 @@ export default class IdsPopupMenu extends Base {
     }
 
     this.hidden = false;
-    this.popup.querySelector('nav')?.setAttribute('role', 'menu');
+    this.#setVisibleARIA();
 
     // Hide any "open" submenus (in the event the menu is already open and being positioned)
     this.hideSubmenus();
@@ -196,6 +206,19 @@ export default class IdsPopupMenu extends Base {
     this.popup.place();
 
     this.addOpenEvents();
+  }
+
+  #setVisibleARIA(): void {
+    this.popup.querySelector('nav')?.setAttribute(htmlAttributes.ROLE, 'menu');
+    const items: Array<any> = [...this.querySelectorAll('ids-menu-item')];
+    items.forEach((item, i) => {
+      item.a.setAttribute(htmlAttributes.ARIA_POSINSET, i + 1);
+      item.a.setAttribute(htmlAttributes.ARIA_SETSIZE, items.length);
+    });
+  }
+
+  #removeVisibleARIA(): void {
+    this.popup.querySelector('nav')?.removeAttribute(htmlAttributes.ROLE);
   }
 
   /**
@@ -240,6 +263,39 @@ export default class IdsPopupMenu extends Base {
     this.hide();
     if (this.target) {
       this.target.focus();
+    }
+  }
+
+  /**
+   * Sets width of the Popup
+   * @param {string | null} value css width value
+   */
+  set width(value: string | null) {
+    const currentValue = this.width;
+    const newValue = typeof value === 'string' ? stripHTML(value) : '';
+    if (currentValue !== newValue) {
+      if (newValue.length) {
+        this.setAttribute(attributes.WIDTH, `${newValue}`);
+      } else {
+        this.removeAttribute(attributes.WIDTH);
+      }
+    }
+    this.#setMenuWidth(newValue);
+  }
+
+  /**
+   * Gets width
+   * @returns {string | null} width value
+   */
+  get width(): string | null {
+    const width = this.container?.style.width;
+    return (width.length ? width : null);
+  }
+
+  #setMenuWidth(targetWidth: string | null): void {
+    if (targetWidth === null) targetWidth = '';
+    if (this.container) {
+      this.container.style.width = targetWidth;
     }
   }
 
@@ -305,6 +361,11 @@ export default class IdsPopupMenu extends Base {
    */
   onTriggerHover(): void {
     if (!this.target.disabled && !this.target.hidden) {
+      // Hide all submenus attached to parent menu items (except this one)
+      if (this.parentMenuItem) {
+        this.parentMenuItem.menu.hideSubmenus(this.target);
+      }
+
       this.showIfAble();
     }
   }
@@ -312,10 +373,14 @@ export default class IdsPopupMenu extends Base {
   /**
    * Inherited from the Popup Interactions Mixin.
    * Runs after a `mouseleave` event occurs from this menu
+   * @param {CustomEvent} e IDS `sloped-mouseleave`
    * @returns {void}
    */
-  onCancelTriggerHover(): void {
-    this.hide();
+  onCancelTriggerHover(e: CustomEvent): void {
+    const newTargetNode = e.detail.mouseLeaveNode;
+    if (!this.contains(newTargetNode) && !this.isEqualNode(newTargetNode)) {
+      this.hide();
+    }
   }
 
   /**

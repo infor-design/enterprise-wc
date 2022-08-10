@@ -3,7 +3,7 @@ import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('ids-data-grid');
+const dataGrid: any = document.querySelector('#data-grid-paging-server-side');
 const container: any = document.querySelector('ids-container');
 
 (async function init() {
@@ -63,26 +63,39 @@ const container: any = document.querySelector('ids-container');
     sortable: true
   });
 
+  dataGrid.columns = columns;
+
   // Do an ajax request
   const url: any = productsJSON;
   const response = await fetch(url);
   const data = await response.json();
 
-  // Fake server side pagination
-  const paginateData = (pageNumber = 1, pageSize = 10) => {
+  const mockServerSideRequest = async (pageNumber = 1, pageSize = 10) => {
     const last = pageNumber * pageSize;
     const start = last - pageSize;
-    dataGrid.data = data.slice(start, start + pageSize);
-    dataGrid.pageTotal = data.length;
-    dataGrid.pageNumber = pageNumber;
-    dataGrid.pageSize = pageSize;
+    return {
+      results: data.slice(start, start + pageSize),
+      totalResults: data.length,
+    };
   };
 
-  dataGrid.columns = columns;
-  paginateData(1, dataGrid.pageSize);
+  const populatePaginatedDatagrid = async (pageNumber = 1, pageSize = 10) => {
+    const {
+      results,
+      totalResults,
+    } = await mockServerSideRequest(pageNumber, pageSize);
 
-  dataGrid.pager.addEventListener('pagenumberchange', async (e: CustomEvent) => {
-    paginateData(e.detail.value, dataGrid.pageSize);
+    dataGrid.data = results;
+    dataGrid.pageTotal = totalResults;
+  };
+
+  populatePaginatedDatagrid(1, 10); // load data for 1st page
+
+  dataGrid.pager.addEventListener('pagenumberchange', (e: CustomEvent) => {
+    console.info(`server-side page # ${e.detail.value}`);
+    const pageNumber = e.detail.value;
+    const pageSize = dataGrid.pageSize;
+    populatePaginatedDatagrid(pageNumber, pageSize);
   });
 
   console.info('Loading Time:', window.performance.now());

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Axis Chart - axis label</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-axis-chart
+          axis-label-bottom="Bottom axis label"
+          axis-label-end="End axis label"
+          axis-label-start="Start axis label"
+          axis-label-top="Top axis label"
+          width="700"
+          height="400"
+          id="axis-label-example"
+          title="A axis chart showing component usage with axis-label"
+        ></ids-axis-chart>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

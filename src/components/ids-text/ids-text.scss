@@ -45,6 +45,78 @@
   &.lighter {
     font-weight: 300;
   }
+
+  &.text-align {
+    &-start {
+      text-align: start;
+    }
+
+    &-end {
+      text-align: end;
+    }
+
+    &-center {
+      text-align: center;
+    }
+
+    &-justify {
+      text-align: justify;
+    }
+  }
+
+  &.status-base::before,
+  &.status-error::before,
+  &.status-info::before,
+  &.status-success::before,
+  &.status-warning::before {
+    @include inline-flex();
+    @include mr-8();
+    @include rounded-round();
+
+    content: '';
+    height: 8px;
+    width: 8px;
+  }
+
+  &.status-base {
+    @include text-slate-60();
+
+    &::before {
+      @include bg-slate-60();
+    }
+  }
+
+  &.status-error {
+    @include text-alert-error();
+
+    &::before {
+      @include bg-alert-error();
+    }
+  }
+
+  &.status-info {
+    @include text-alert-info();
+
+    &::before {
+      @include bg-alert-info();
+    }
+  }
+
+  &.status-success {
+    @include text-alert-success();
+
+    &::before {
+      @include bg-alert-success();
+    }
+  }
+
+  &.status-warning {
+    @include text-alert-warning();
+
+    &::before {
+      @include bg-alert-warning();
+    }
+  }
 }
 
 :host(.inline) {
@@ -144,6 +216,21 @@
   &.color-variant-alternate.label {
     @include text-slate-80();
   }
+
+  &.status-base,
+  &.status-error,
+  &.status-info,
+  &.status-success,
+  &.status-warning {
+    @include text-slate-30();
+  }
+
+  &.status-error::before,
+  &.status-info::before,
+  &.status-success::before,
+  &.status-warning::before {
+    @include bg-slate-30();
+  }
 }
 
 :host([class='label-checkbox']) .audible {
@@ -168,6 +255,46 @@
   &.legend {
     @include text-slate-20();
   }
+
+  &.status-base {
+    @include text-slate-20();
+
+    &::before {
+      @include bg-slate-20();
+    }
+  }
+
+  &.status-error {
+    @include text-alert-dark-error();
+
+    &::before {
+      @include bg-alert-dark-error();
+    }
+  }
+
+  &.status-info {
+    @include text-alert-dark-info();
+
+    &::before {
+      @include bg-alert-dark-info();
+    }
+  }
+
+  &.status-success {
+    @include text-alert-dark-success();
+
+    &::before {
+      @include bg-alert-dark-success();
+    }
+  }
+
+  &.status-warning {
+    @include text-alert-dark-warning();
+
+    &::before {
+      @include bg-alert-dark-warning();
+    }
+  }
 }
 
 :host([disabled][mode='dark']) .ids-text {
@@ -179,6 +306,21 @@
 
   &.legend {
     @include text-slate-40();
+  }
+
+  &.status-base,
+  &.status-error,
+  &.status-info,
+  &.status-success,
+  &.status-warning {
+    @include text-slate-50();
+  }
+
+  &.status-error::before,
+  &.status-info::before,
+  &.status-success::before,
+  &.status-warning::before {
+    @include bg-slate-50();
   }
 }
 
@@ -192,6 +334,46 @@
   &.data {
     @include text-black();
   }
+
+  &.status-base {
+    @include text-slate-90();
+
+    &::before {
+      @include bg-slate-90();
+    }
+  }
+
+  &.status-error {
+    @include text-alert-contrast-error();
+
+    &::before {
+      @include bg-alert-contrast-error();
+    }
+  }
+
+  &.status-info {
+    @include text-alert-contrast-info();
+
+    &::before {
+      @include bg-alert-contrast-info();
+    }
+  }
+
+  &.status-success {
+    @include text-alert-contrast-success();
+
+    &::before {
+      @include bg-alert-contrast-success();
+    }
+  }
+
+  &.status-warning {
+    @include text-alert-contrast-warning();
+
+    &::before {
+      @include bg-alert-contrast-warning();
+    }
+  }
 }
 
 :host([disabled][mode='contrast']) .ids-text {
@@ -200,62 +382,18 @@
   &.label {
     @include text-slate-40();
   }
-}
 
-// Light (Classic)
-
-.ids-text[mode='light'][version='classic'] {
-  &.data {
-    @include text-graphite-100();
+  &.status-error,
+  &.status-info,
+  &.status-success,
+  &.status-warning {
+    @include text-slate-40();
   }
 
-  &.label {
-    @include text-graphite-60();
-  }
-}
-
-:host([disabled][mode='light'][version='classic']) .ids-text {
-  @include text-graphite-40();
-
-  &.label {
-    @include text-graphite-40();
-  }
-}
-
-// Dark (Classic)
-.ids-text[mode='dark'][version='classic'] {
-  &.data {
-    @include text-white();
-  }
-
-  &.label {
-    @include text-classic-slate-30();
-  }
-}
-
-:host([disabled][mode='dark'][version='classic']) .ids-text {
-  @include text-classic-slate-50();
-
-  &.label {
-    @include text-classic-slate-50();
-  }
-}
-
-// Contrast (Classic)
-.ids-text[mode='contrast'][version='classic'] {
-  &.data {
-    @include text-graphite-100();
-  }
-
-  &.label {
-    @include text-graphite-80();
-  }
-}
-
-:host([disabled][mode='contrast'][version='classic']) .ids-text {
-  @include text-graphite-40();
-
-  &.label {
-    @include text-graphite-40();
+  &.status-error::before,
+  &.status-info::before,
+  &.status-success::before,
+  &.status-warning::before {
+    @include bg-slate-40();
   }
 }

@@ -1,19 +1,44 @@
 # Publishing Notes
 
-## Making a package in npm
+## Publishing a package to NPM
 
-- Search for `0.0.0-beta.22` and replace with `0.0.0-beta.22`
-- It will be in`package.json`, `package-dist.json`, about tests, and `src/core/ids-attributes.js`
-- Make and push a tag with `git tag 0.0.0-beta.22 && git push origin --tags`
+- Search for `1.0.0-beta.n` (current version) and replace with next version `1.0.0-beta.0`
+- It will be in`package.json`, `package-dist.json`, about tests, and `src/core/ids-attributes.js` and this file.
+- Make and push a tag with `git tag 1.0.0-beta.0 && git push origin --tags`
 - Run command `npm run publish:dry-run` to test first if you wish
-- Run command `npm run publish:npm`
+- Run command `npm run publish:npm` or `publish:debug` (we may want to publish debuggable code for a period of time of stability)
 - Create a release on GitHub using [`gh`](https://cli.github.com/manual/gh_release_create) with `brew install gh`
-- Run command `gh release create 0.0.0-beta.22 --title "0.0.0-beta.22" --notes-file "doc/CHANGELOG.md"`
+- Run command `gh release create 1.0.0-beta.0 --title "1.0.0-beta.0" --notes-file "doc/CHANGELOG.md"`
 
-## Working with local changes
+## Publishing a test package your local NPM repo
 
-- Go to the root folder of this project folder and type `npm link` to set up the symbolic link
-- Go to the root of the destination project `npm link ids-enterprise-wc`
+Sometimes, for testing purposes, it may be neccessary to link this project as a dependency of another project.
+
+Normally, this is done simply with `npm link` and the local NPM repository on your machine. However, before using `npm link` on this project, running a build is requried. The `publish:link` task in package.json helps with this:
+
+- Builds a development version of the components
+- copies `package-dist.json` and other files to mimic a real package,
+- finally runs `npm link` in the correct dist folder
+
+After running this task, go to the root folder of the destination project and run `npm link ids-enterprise-wc` to install the symlinked copy of the components.  Note that if you've previously run `npm install` and already have a copy of the Ids Web Components package, you must remove that dependency with `npm uninstall` or deletion before making the link.
+
+### Removing local changes
+
+Normally re-running the `publish:link` task is sufficient to update the local NPM package.  However, if you need to remove the package from the local NPM repo manually, use this process:
+
+First, check the local NPM repo for the `ids-enterprise-wc` package:
+
+```sh
+npm ls --global
+```
+
+If the package exists, remove it:
+
+```sh
+npm rm --global ids-enterprise-wc
+```
+
+After this, the package should no longer exist in the global NPM repo.
 
 ## Deploying a static site
 

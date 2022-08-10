@@ -1,6 +1,6 @@
 // Import Core
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
+import { htmlAttributes } from '../../core/ids-attributes';
 
 // Import Base and Mixins
 import Base from './ids-menu-header-base';
@@ -24,14 +24,17 @@ export default class IdsMenuHeader extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
+    this.setAttribute(htmlAttributes.ROLE, 'none');
   }
 
   static get attributes() {
-    return [attributes.MODE, attributes.VERSION];
+    return [
+      ...super.attributes
+    ];
   }
 
   template() {
-    return `<div class="ids-menu-header" part="header"><slot></slot></div>`;
+    return `<div class="ids-menu-header" part="header" role="none"><slot></slot></div>`;
   }
 }

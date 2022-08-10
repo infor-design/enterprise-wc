@@ -1,49 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 1`] = `
+exports[`IdsDataGrid Component Paging Tests renders pager 1`] = `
 <ids-data-grid
   page-size="10"
   pagination="client-side"
 />
 `;
 
-exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
-"<style nonce=\\"0a59a005\\">:host { background-color: transparent; }</style>
-      <div class=\\"ids-data-grid\\" role=\\"table\\" part=\\"table\\" aria-label=\\"Data Grid\\" data-row-height=\\"lg\\" mode=\\"light\\" version=\\"new\\">
-      
+exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
+"<style nonce=\\"0a59a005\\">:host { background-color: transparent; }</style><div class=\\"ids-data-grid-wrapper\\">
+      <span class=\\"ids-data-grid-sort-arrows\\"></span>
+      <div class=\\"ids-data-grid\\" role=\\"table\\" part=\\"table\\" aria-label=\\"Data Grid\\" data-row-height=\\"lg\\" mode=\\"light\\" style=\\"--ids-data-grid-column-widths: 20px 65px minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) ;\\">
       <div class=\\"ids-data-grid-header\\" role=\\"rowgroup\\" part=\\"header\\">
         <div role=\\"row\\" class=\\"ids-data-grid-row\\">
           
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"selectionCheckbox\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper vertical-align-center\\">
+      <span class=\\"ids-data-grid-header-cell align-center\\" part=\\"header-cell\\" aria-colindex=\\"1\\" column-id=\\"selectionCheckbox\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
-          <span class=\\"ids-datagrid-checkbox-container\\">
-        <span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\">
+          <span class=\\"ids-data-grid-checkbox-container\\">
+        <span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-data-grid-checkbox\\">
         </span>
       </span>
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"rowNumber\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"2\\" column-id=\\"rowNumber\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           #
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"description\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper is-sortable\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"3\\" column-id=\\"description\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content is-sortable\\">
         <span class=\\"ids-data-grid-header-text\\">
           Description
         </span>
@@ -54,200 +49,168 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
       </span>
     
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"ledger\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"4\\" column-id=\\"ledger\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Ledger
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"publishDate\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"5\\" column-id=\\"publishDate\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Pub. Date
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"publishTime\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"6\\" column-id=\\"publishTime\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Pub. Time
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"price\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"7\\" column-id=\\"price\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Price
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"bookCurrency\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"8\\" column-id=\\"bookCurrency\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Currency
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"transactionCurrency\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"9\\" column-id=\\"transactionCurrency\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Transaction Currency
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"integer\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"10\\" column-id=\\"integer\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Price (Int)
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"location\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"11\\" column-id=\\"location\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Location
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"postHistory\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"12\\" column-id=\\"postHistory\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Post History
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"active\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"13\\" column-id=\\"active\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Active
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"convention\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"14\\" column-id=\\"convention\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Convention
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"methodSwitch\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"15\\" column-id=\\"methodSwitch\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Method Switch
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"trackDeprecationHistory\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"16\\" column-id=\\"trackDeprecationHistory\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Track Deprecation History
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"useForEmployee\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"17\\" column-id=\\"useForEmployee\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Use For Employee
         </span>
         
       </span>
-    
         
       </span>
     
-      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"deprecationHistory\\" role=\\"columnheader\\">
-        
-      <span class=\\"ids-data-grid-header-cell-content-wrapper\\">
+      <span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" aria-colindex=\\"18\\" column-id=\\"deprecationHistory\\" role=\\"columnheader\\">
+        <span class=\\"ids-data-grid-header-cell-content\\">
         <span class=\\"ids-data-grid-header-text\\">
           Deprecation History
         </span>
         
       </span>
-    
         
       </span>
     
         </div>
       </div>
     
-      
       <div class=\\"ids-data-grid-body\\" part=\\"contents\\" role=\\"rowgroup\\">
         
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"1\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\" tabindex=\\"0\\">
-            <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\" tabindex=\\"0\\">
+            <span class=\\"ids-data-grid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-data-grid-checkbox\\"></span></span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell readonly\\" aria-colindex=\\"2\\">
@@ -311,7 +274,7 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"17\\">
-            <span class=\\"text-ellipsis\\">**</span>
+            <span class=\\"text-ellipsis\\">••</span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"18\\">
@@ -322,8 +285,8 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"2\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
-            <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
+            <span class=\\"ids-data-grid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-data-grid-checkbox\\"></span></span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell readonly\\" aria-colindex=\\"2\\">
@@ -387,7 +350,7 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"17\\">
-            <span class=\\"text-ellipsis\\">**</span>
+            <span class=\\"text-ellipsis\\">••</span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"18\\">
@@ -398,8 +361,8 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"3\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
-            <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
+            <span class=\\"ids-data-grid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-data-grid-checkbox\\"></span></span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell readonly\\" aria-colindex=\\"2\\">
@@ -463,7 +426,7 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"17\\">
-            <span class=\\"text-ellipsis\\">***</span>
+            <span class=\\"text-ellipsis\\">•••</span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"18\\">
@@ -474,8 +437,8 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"4\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
-            <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
+            <span class=\\"ids-data-grid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-data-grid-checkbox\\"></span></span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell readonly\\" aria-colindex=\\"2\\">
@@ -539,7 +502,7 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"17\\">
-            <span class=\\"text-ellipsis\\">**</span>
+            <span class=\\"text-ellipsis\\">••</span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"18\\">
@@ -550,8 +513,8 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"5\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
-            <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
+            <span class=\\"ids-data-grid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-data-grid-checkbox\\"></span></span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell readonly\\" aria-colindex=\\"2\\">
@@ -615,7 +578,7 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"17\\">
-            <span class=\\"text-ellipsis\\">***</span>
+            <span class=\\"text-ellipsis\\">•••</span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"18\\">
@@ -626,8 +589,8 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"6\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
-            <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
+            <span class=\\"ids-data-grid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-data-grid-checkbox\\"></span></span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell readonly\\" aria-colindex=\\"2\\">
@@ -691,7 +654,7 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"17\\">
-            <span class=\\"text-ellipsis\\">**</span>
+            <span class=\\"text-ellipsis\\">••</span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"18\\">
@@ -702,8 +665,8 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"7\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
-            <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
+            <span class=\\"ids-data-grid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-data-grid-checkbox\\"></span></span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell readonly\\" aria-colindex=\\"2\\">
@@ -767,7 +730,7 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"17\\">
-            <span class=\\"text-ellipsis\\">**</span>
+            <span class=\\"text-ellipsis\\">••</span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"18\\">
@@ -778,8 +741,8 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"8\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
-            <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
+            <span class=\\"ids-data-grid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-data-grid-checkbox\\"></span></span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell readonly\\" aria-colindex=\\"2\\">
@@ -843,7 +806,7 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"17\\">
-            <span class=\\"text-ellipsis\\">***</span>
+            <span class=\\"text-ellipsis\\">•••</span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"18\\">
@@ -854,8 +817,8 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
     
       <div role=\\"row\\" part=\\"row\\" aria-rowindex=\\"9\\" class=\\"ids-data-grid-row\\">
         
-          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"1\\">
-            <span class=\\"ids-datagrid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-datagrid-checkbox\\"></span></span>
+          <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell align-center\\" aria-colindex=\\"1\\">
+            <span class=\\"ids-data-grid-checkbox-container\\"><span role=\\"checkbox\\" aria-checked=\\"false\\" aria-label=\\"undefined\\" class=\\"ids-data-grid-checkbox\\"></span></span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell readonly\\" aria-colindex=\\"2\\">
@@ -919,7 +882,7 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"17\\">
-            <span class=\\"text-ellipsis\\">**</span>
+            <span class=\\"text-ellipsis\\">••</span>
           </span>
         
           <span role=\\"cell\\" part=\\"cell\\" class=\\"ids-data-grid-cell\\" aria-colindex=\\"18\\">
@@ -929,27 +892,25 @@ exports[`IdsDataGrid Component IdsPagerMixin Tests renders pager 2`] = `
       </div>
     
       </div>
-    
-      </div>
-    <ids-pager page-number=\\"1\\" page-size=\\"10\\" total=\\"9\\">
-      <ids-pager-button first=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
-      <ids-pager-button previous=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
-      <ids-pager-input page-number=\\"1\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-input>
-      <ids-pager-button next=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
-      <ids-pager-button last=\\"\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\" total=\\"9\\"></ids-pager-button>
+    </div><ids-pager page-size=\\"10\\" page-number=\\"1\\" total=\\"9\\">
+      <ids-pager-button first=\\"\\" total=\\"9\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\"></ids-pager-button>
+      <ids-pager-button previous=\\"\\" total=\\"9\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\"></ids-pager-button>
+      <ids-pager-input total=\\"9\\" page-number=\\"1\\" page-size=\\"10\\"></ids-pager-input>
+      <ids-pager-button next=\\"\\" total=\\"9\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\"></ids-pager-button>
+      <ids-pager-button last=\\"\\" total=\\"9\\" page-number=\\"1\\" nav-disabled=\\"\\" page-size=\\"10\\"></ids-pager-button>
       <div slot=\\"end\\">
-        <ids-menu-button id=\\"pager-size-menu-button\\" menu=\\"pager-size-menu\\" role=\\"button\\" dropdown-icon=\\"\\" aria-controls=\\"pager-size-menu\\">
+        <ids-menu-button id=\\"pager-size-menu-button\\" menu=\\"pager-size-menu\\" role=\\"button\\" dropdown-icon=\\"dropdown\\" aria-controls=\\"pager-size-menu\\">
           <span slot=\\"text\\">10 Records per page</span>
         </ids-menu-button>
-        <ids-popup-menu id=\\"pager-size-menu\\" target=\\"#pager-size-menu-button\\" trigger=\\"click\\" hidden=\\"\\">
-          <ids-menu-group style=\\"min-width: 175px; text-align: left;\\">
-            <ids-menu-item icon=\\"no-check\\" value=\\"5\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>5</ids-menu-item>
-            <ids-menu-item icon=\\"no-check\\" value=\\"10\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>10</ids-menu-item>
-            <ids-menu-item icon=\\"no-check\\" value=\\"25\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>25</ids-menu-item>
-            <ids-menu-item icon=\\"no-check\\" value=\\"50\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>50</ids-menu-item>
-            <ids-menu-item icon=\\"no-check\\" value=\\"100\\"><ids-icon slot=\\"icon\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\"></ids-icon>100</ids-menu-item>
+        <ids-popup-menu id=\\"pager-size-menu\\" target=\\"#pager-size-menu-button\\" trigger-type=\\"click\\" role=\\"none\\" hidden=\\"\\">
+          <ids-menu-group select=\\"single\\" role=\\"group\\" aria-label=\\"Menu group containing 5 item(s)\\" style=\\"min-width: 175px; text-align: left;\\">
+            <ids-menu-item value=\\"5\\">5</ids-menu-item>
+            <ids-menu-item value=\\"10\\">10</ids-menu-item>
+            <ids-menu-item value=\\"25\\">25</ids-menu-item>
+            <ids-menu-item value=\\"50\\">50</ids-menu-item>
+            <ids-menu-item value=\\"100\\">100</ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
       </div>
-    </ids-pager>"
+    </ids-pager></div>"
 `;

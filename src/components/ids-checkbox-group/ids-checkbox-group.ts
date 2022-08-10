@@ -19,7 +19,7 @@ export default class IdsCheckboxGroup extends Base {
     super();
   }
 
-  isFormComponent: boolean = true;
+  isFormComponent = true;
 
   /**
    * Return the attributes we handle as getters/setters

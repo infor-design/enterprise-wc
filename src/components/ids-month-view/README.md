@@ -28,9 +28,26 @@ If both start and end dates are set calendar toolbar will not be displayed.
   - `color` `{string}` - The color of the legend, either hex or IDS variable excluding `--ids-color-palette-` part i.e. `emerald-60` (required)
   - `dates` `{Array}` - Array of dates (either dates or dayOfWeek is required)
   - `dayOfWeek` `{Array}` - Array of days of week where 0 is Sunday (either dates or dayOfWeek is required)
+- `disable` `{Object}` - Disable dates settings:
+  - `dates` `{Array}` - Disable specific dates (in a format that can be converted to a date)
+  - `years` `{Array}` - Disable specific years
+  - `minDate` `{string}` - Disable up to a minimum date
+  - `maxDate` `{string}` - Disable up to a maximum date
+  - `dayOfWeek` `{Array}` - Disable a specific of days of the week 0-6
+  - `isEnable` `{boolean}` - Enables the disabled dates. Default is false
+- `show-picklist-year` `{true|false}` Whether or not to show a list of years in the toolbar datepicker picklist, default if true
+- `show-picklist-month` `{true|false}` Whether or not to show a list of months in the toolbar datepicker picklist, default is true
+- `show-picklist-week` `{true|false}` Whether or not to show week numbers in the toolbar datepicker picklist
+
+## Settings (Properties)
+- `eventsData` `{Array<CalendarEventData>}` - Array of calendar event data to populate the month view
+- `eventTypesData` `{Array<CalendarEventTypeData>}` - Array of calendar event types used to categorize calendar events
 
 ## Events
 - `dayselected` - Fires when a day is selected
+
+## Methods
+- `isDisabledByDate(date: Date): boolean` - Defines if a date is in disabled settings
 
 ## Keyboard Guidelines
 - <kbd>Tab</kbd> - Tabbing will tab across the header elements and into the monthview.
@@ -124,6 +141,16 @@ monthView.legend = [
 
 // Unset legend
 monthView.legend = null;
+
+// Add disabled dates
+monthView.disable = {
+  dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018'],
+  dayOfWeek: [0, 6],
+  minDate: '2/6/2018',
+  maxDate: '2/12/2018',
+  years: [2017, 2018],
+  isEnable: true
+}
 ```
 
 ## Accessibility
@@ -134,3 +161,16 @@ The monthview is a very complex component to code for accessibility. We take the
 - Add `aria-selected=true` to selected day
 - Each calendar item should have an audible label to announce the day of week while arrowing through days
 - For comparison, see a similar <a href="http://oaa-accessibility.org/example/15/" target="_blank">example</a>
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- This is a new component for 4.x
+
+**4.x to 5.x**
+
+- MonthView is now a custom element `<ids-month-view></ids-month-view>`
+- Events are now just plain JS events
+- Some options and events are not converted yet
+- To set range of dates now there are `start-date` and `end-date` attributes instead of `displayRange` setting

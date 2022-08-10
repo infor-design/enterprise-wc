@@ -2,90 +2,18 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto="true">
-      <ids-layout-grid-cell>
-        <ids-text font-size="12" type="h1">Expandable Area</ids-text>
-      </ids-layout-grid-cell>
+      <ids-text font-size="20" type="h1">Ids Expandable Area Examples</ids-text>
     </ids-layout-grid>
-
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-expandable-area>
-          <ids-text slot="header">Procurement</ids-text>
-          <ids-text slot="pane">
-            Ubiquitous out-of-the-box, scalable; communities disintermediate beta-test, enable utilize markets dynamic
-            infomediaries virtual data-driven synergistic aggregate infrastructures, "cross-platform, feeds
-            bleeding-edge tagclouds." Platforms extend interactive B2C benchmark proactive, embrace e-markets,
-            transition generate peer-to-peer.
-          </ids-text>
-          <ids-hyperlink slot="expander-default" hitbox="true">Show More</ids-hyperlink>
-          <ids-hyperlink slot="expander-expanded" hitbox="true">Show Less</ids-hyperlink>
-        </ids-expandable-area>
-
-        <ids-expandable-area>
-          <ids-text slot="header">Design &amp; Definition</ids-text>
-          <ids-layout-grid slot="pane" cols="2" no-margins="true">
-            <ids-layout-grid-cell>
-              <ids-text>Company Name</ids-text>
-              <ids-text font-weight="bold">Building Suppliers</ids-text>
-              <br/>
-              <ids-text>Company Type</ids-text>
-              <ids-text font-weight="bold">Contractor</ids-text>
-              <br/>
-              <ids-text>Company Address</ids-text>
-              <ids-text font-weight="bold">
-                4209 Industrial Avenue<br/>
-                Los Angeles, California 90001 USA
-              </ids-text>
-            </ids-layout-grid-cell>
-            <ids-layout-grid-cell>
-              <ids-text>Phone Number</ids-text>
-              <ids-text font-weight="bold">(999) 810-2604</ids-text>
-              <br/>
-              <ids-text>Website</ids-text>
-              <ids-text font-weight="bold">www.buildings.com</ids-text>
-              <br/>
-              <ids-text>Estimated Delivery</ids-text>
-              <ids-text font-weight="bold">June 21, 2015 (4 days)</ids-text>
-            </ids-layout-grid-cell>
-          </ids-layout-grid>
-          <ids-hyperlink slot="expander-default" hitbox="true">Show More</ids-hyperlink>
-          <ids-hyperlink slot="expander-expanded" hitbox="true">Show Less</ids-hyperlink>
-        </ids-expandable-area>
-
-        <ids-expandable-area type="partial">
-          <ids-text slot="header">Customer Information</ids-text>
-          <ids-layout-grid slot="visible-pane-content" cols="3" gap="md" no-margins="true">
-            <ids-layout-grid-cell>
-              <ids-input size="full" type="text" label="Customer Name" name="customer-name" placeholder="Normal text Field"></ids-input>
-            </ids-layout-grid-cell>
-            <ids-layout-grid-cell>
-              <ids-input size="full" type="text" label="Location" name="location" placeholder="Normal text Field"></ids-input>
-            </ids-layout-grid-cell>
-          </ids-layout-grid>
-          <ids-layout-grid slot="pane" cols="3" gap="md" no-margins="true">
-            <ids-input size="full" type="text" label="More Customer Details" name="more-customer-details" placeholder="Normal text Field"></ids-input>
-          </ids-layout-grid>
-          <ids-hyperlink slot="expander-default" hitbox="true">Show More</ids-hyperlink>
-          <ids-hyperlink slot="expander-expanded" hitbox="true">Show Less</ids-hyperlink>
-        </ids-expandable-area>
-
-        <ids-expandable-area type="toggle-btn">
-          <ids-toggle-button hitbox="true" slot="header" id="test-expandable-toggle-button" icon-on="caret-up" icon-off="caret-down" text-off="Employee" text-on="Employee" icon-align="end" no-padding="true">
-            <ids-icon slot="icon" icon="caret-up" size="small"></ids-icon>
-            <span slot="text">Employee</span>
-          </ids-toggle-button>
-          <ids-text slot="pane">
-            Ubiquitous out-of-the-box, scalable; communities disintermediate beta-test, enable utilize markets dynamic
-            infomediaries virtual data-driven synergistic aggregate infrastructures, "cross-platform, feeds
-            bleeding-edge tagclouds." Platforms extend interactive B2C benchmark proactive, embrace e-markets,
-            transition generate peer-to-peer.
-          </ids-text>
-        </ids-expandable-area>
+        <ids-demo-listing label="Expandable Area Examples" component-name="ids-expandable-area">
+        </ids-demo-listing>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Message</ids-text>
+    </ids-layout-grid>
+
+    <ids-message id="message-example" status="info">
+      <ids-text slot="title" font-size="24" type="h2" id="my-message-title">Active IDS Message</ids-text>
+      <ids-text id="my-message-contents" align="left">This is an active IDS Message component.</ids-text>
+      <ids-modal-button slot="buttons" type="primary" id="my-message-confirm">Confirm</ids-modal-button>
+    </ids-message>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-button type="secondary" id="message-example-trigger">Trigger Message</ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h2">4.x Modal</ids-text>
+    </ids-layout-grid>
+    <div class="row">
+      <div class="twelve columns">
+        <button class="btn-secondary" type="button" id="add-message">Show Message</button><br/><br/>
+      </div>
+    </div>
+  </ids-container>
+</body>
+</html>

@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { camelCase, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import {
   getClosest,
@@ -47,8 +48,7 @@ export default class IdsPopup extends Base {
   }
 
   connectedCallback(): void {
-    super.connectedCallback?.();
-
+    super.connectedCallback();
     // Always setup link to containing element first
     this.containingElem = getClosest((this as any), 'ids-container') || document.body;
 
@@ -76,7 +76,9 @@ export default class IdsPopup extends Base {
    * @returns {string} The template
    */
   template(): string {
-    return `<div class="ids-popup" part="popup">
+    const animatedClass = this.animated ? ' animated' : '';
+
+    return `<div class="ids-popup${animatedClass}" part="popup">
       <div class="arrow" part="arrow"></div>
       <div class="content-wrapper">
         <slot name="content"></slot>
@@ -118,6 +120,7 @@ export default class IdsPopup extends Base {
           this.#fix3dMatrixOnResize();
         }
       }
+      this.#checkViewportPositionScrolling();
     }
   });
 
@@ -126,6 +129,7 @@ export default class IdsPopup extends Base {
    * CSS property, if applicable.
    */
   #fixPlacementOnResize(): void {
+    this.#remove3dMatrix();
     this.place();
     this.#fix3dMatrixOnResize();
   }
@@ -135,16 +139,11 @@ export default class IdsPopup extends Base {
    * CSS property, if applicable.
    */
   #fix3dMatrixOnResize(): void {
-    requestAnimationFrame(() => {
-      this.style.transition = 'none';
-      this.#remove3dMatrix();
-      requestAnimationFrame(() => {
-        this.#correct3dMatrix();
-        requestAnimationFrame(() => {
-          this.style.transition = '';
-        });
-      });
-    });
+    this.style.transition = 'none';
+    this.container.style.transition = 'none';
+    this.correct3dMatrix();
+    this.style.transition = '';
+    this.container.style.transition = '';
   }
 
   /**
@@ -197,7 +196,7 @@ export default class IdsPopup extends Base {
    */
   set alignTarget(val: any) {
     const isString = typeof val === 'string' && val.length;
-    const isElem = val instanceof HTMLElement;
+    const isElem = val instanceof HTMLElement || val instanceof SVGElement;
 
     if (!isString && !isElem) {
       if (this.#alignTarget !== undefined) {
@@ -213,7 +212,7 @@ export default class IdsPopup extends Base {
       // @TODO Harden for security (XSS)
       const rootNode = getClosestRootNode((this as any));
       elem = rootNode.querySelector(val);
-      if (!(elem instanceof HTMLElement)) {
+      if (!(elem instanceof HTMLElement || elem instanceof SVGElement)) {
         return;
       }
       this.setAttribute(attributes.ALIGN_TARGET, val);
@@ -518,7 +517,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #refreshAnimated(): void {
-    this.container.classList[this.animated ? 'add' : 'remove']('animated');
+    this.container?.classList[this.animated ? 'add' : 'remove']('animated');
   }
 
   /**
@@ -555,6 +554,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #refreshAnimationStyle(currentStyle: string, newStyle: string) {
+    if (!this.container) return;
     const thisCl = this.container.classList;
     if (currentStyle) thisCl.remove(`animation-${currentStyle}`);
     thisCl.add(`animation-${newStyle}`);
@@ -590,15 +590,15 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @property {HTMLElement} containingElem the element to use for containment of the Popup
+   * @property {HTMLElement | SVGElement} containingElem the element to use for containment of the Popup
    */
-  #containingElem = document.body;
+  #containingElem: HTMLElement | SVGElement = document.body;
 
   /**
-   * @param {HTMLElement} val an element that will appear to "contain" the Popup
+   * @param {HTMLElement | SVGElement} val an element that will appear to "contain" the Popup
    */
   set containingElem(val: any) {
-    if (!(val instanceof HTMLElement)) {
+    if (!(val instanceof HTMLElement || val instanceof SVGElement)) {
       return;
     }
     if (this.#containingElem !== val) {
@@ -608,9 +608,9 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @returns {HTMLElement} the element currently appearing to "contain" the Popup
+   * @returns {HTMLElement | SVGElement} the element currently appearing to "contain" the Popup
    */
-  get containingElem(): HTMLElement {
+  get containingElem(): HTMLElement | SVGElement {
     return this.#containingElem;
   }
 
@@ -662,11 +662,14 @@ export default class IdsPopup extends Base {
    * @param {string} newDir a CSS class representing a Popup Arrow direction
    */
   #setArrowDirection(currentDir: string | null, newDir: string | null) {
+    if (!this.container) return;
+
     const arrowElCl = this.arrowEl.classList;
     const isNone = newDir === 'none';
 
     this.arrowEl.hidden = isNone;
-    if (currentDir) arrowElCl.remove(currentDir);
+    if (currentDir === '') arrowElCl.remove(...ARROW_TYPES);
+    else if (currentDir) arrowElCl.remove(currentDir);
     if (newDir && !isNone) arrowElCl.add(newDir);
   }
 
@@ -689,7 +692,7 @@ export default class IdsPopup extends Base {
    */
   set arrowTarget(val: any) {
     const isString = typeof val === 'string' && val.length;
-    const isElem = val instanceof HTMLElement;
+    const isElem = val instanceof HTMLElement || val instanceof SVGElement;
 
     if (!isString && !isElem) {
       if (this.#arrowTarget !== undefined) {
@@ -704,7 +707,7 @@ export default class IdsPopup extends Base {
       // @TODO Harden for security (XSS)
       const rootNode = getClosestRootNode((this as any));
       elem = rootNode.querySelector(val);
-      if (!(elem instanceof HTMLElement)) {
+      if (!(elem instanceof HTMLElement || elem instanceof SVGElement)) {
         return;
       }
       this.setAttribute(attributes.ARROW_TARGET, val);
@@ -764,9 +767,26 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #refreshPositionStyle(currentStyle: string, newStyle: string) {
+    if (!this.container) return;
     const thisCl = this.container.classList;
     if (currentStyle) thisCl.remove(`position-${currentStyle}`);
     thisCl.add(`position-${newStyle}`);
+  }
+
+  /**
+   * Runs on viewport resize to correct a CSS class that controls scrolling behavior within viewport-positioned popups
+   */
+  #checkViewportPositionScrolling(): void {
+    if (!this.container) return;
+    const cl = this.container.classList;
+    cl.remove('fit-viewport');
+
+    const wrapperScrollHeight = this.wrapper.getBoundingClientRect().height;
+    const containerScrollHeight = this.container.getBoundingClientRect().height;
+    const needsFixing = wrapperScrollHeight > containerScrollHeight;
+    if (needsFixing) {
+      cl.add('fit-viewport');
+    }
   }
 
   /**
@@ -803,6 +823,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #refreshPopupTypeClass(currentType: string, newType: string) {
+    if (!this.container) return;
     const thisCl = this.container.classList;
     if (currentType) thisCl.remove(currentType);
     thisCl.add(newType);
@@ -845,6 +866,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   async refreshVisibility() {
+    if (!this.container) return;
     const cl = this.container.classList;
     if (this.#visible && !cl.contains('open')) {
       await this.show();
@@ -913,7 +935,12 @@ export default class IdsPopup extends Base {
    * @param {boolean} doShow true if the Popup should be displayed before placing
    * @param {boolean} doPlacement true if the component should run its placement routine
    */
-  setPosition(x = null, y = null, doShow = null, doPlacement = null) {
+  setPosition(
+    x: number | null = null,
+    y: number | null = null,
+    doShow: boolean | null = null,
+    doPlacement: boolean | null = null
+  ) {
     const elem: any = this;
     if (!Number.isNaN(x)) elem.x = x;
     if (!Number.isNaN(y)) elem.y = y;
@@ -946,13 +973,14 @@ export default class IdsPopup extends Base {
 
     // Change transparency/visibility
     this.container.classList.add('open');
+    this.open = true;
 
     if (this.animated) {
       await waitForTransitionEnd(this.container, 'opacity');
     }
 
     // Unblur if needed
-    this.#correct3dMatrix();
+    this.correct3dMatrix();
 
     this.triggerEvent('show', this, {
       bubbles: true,
@@ -960,8 +988,6 @@ export default class IdsPopup extends Base {
         elem: this
       }
     });
-
-    this.open = true;
   }
 
   /**
@@ -1003,16 +1029,13 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   place(): void {
-    if (this.visible) {
-      if (this.positionStyle === 'viewport') {
-        this.#placeInViewport();
+    // NOTE: position-style="viewport" is driven by CSS only
+    if (this.visible && this.positionStyle !== 'viewport') {
+      const { alignTarget } = this;
+      if (!alignTarget) {
+        this.#placeAtCoords();
       } else {
-        const { alignTarget } = this;
-        if (!alignTarget) {
-          this.#placeAtCoords();
-        } else {
-          this.#placeAgainstTarget();
-        }
+        this.#placeAgainstTarget();
       }
     }
   }
@@ -1183,14 +1206,6 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * Places the Popup in relation to the center of the viewport
-   * @returns {void}
-   */
-  #placeInViewport() {
-    this.#renderPlacementWithTransform();
-  }
-
-  /**
    * Optional callback that can be used to adjust the Popup's placement
    * after all internal adjustments are made.
    * @param {DOMRect} popupRect a Rect object representing the current state of the popup.
@@ -1301,23 +1316,13 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * Renders the position of the Popup with CSS transforms (applied mostly with CSS).
-   * See the IdsPopup CSS styles for the `animation-style-*` classes for modifying the Transform values.
-   * @returns {void}
-   */
-  #renderPlacementWithTransform(): void {
-    this.style.left = `50%`;
-    this.style.top = `50%`;
-  }
-
-  /**
    * In cases where 3D CSS transforms are used for Popup positioning,
    * corrects the placement of the Popup after rendering so that it doesn't
    * reside on half-pixels, causing blurriness to text, icons, etc.
    * Adapted from https://stackoverflow.com/a/42256897
    * @returns {void}
    */
-  #correct3dMatrix(): void {
+  correct3dMatrix(): void {
     if (this.positionStyle !== 'viewport') {
       return;
     }
@@ -1326,30 +1331,28 @@ export default class IdsPopup extends Base {
     // The original style should be defined in the animation-style class, not inline.
     this.#remove3dMatrix();
 
-    requestAnimationFrame(() => {
-      // gets the current computed style
-      const style = window.getComputedStyle(this.container, null);
-      const mx = style.getPropertyValue('-webkit-transform')
-        || style.getPropertyValue('-moz-transform')
-        || style.getPropertyValue('transform') || false;
-      if (!mx) {
-        return;
-      }
+    // gets the current computed style
+    const style = window.getComputedStyle(this.container, null);
+    const mx = style.getPropertyValue('-webkit-transform')
+      || style.getPropertyValue('-moz-transform')
+      || style.getPropertyValue('transform') || false;
+    if (!mx) {
+      return;
+    }
 
-      // Corrects `matrix3d` coordinate values to be whole numbers
-      const values: any = mx.replace(/ |\(|\)|matrix3d/g, '').split(',');
-      for (let i = 0; i < values.length; i++) {
-        if (i === 0 && values[i] < 1) values[i] = 1;
-        if (i > 0 && (values[i] > 4 || values[i] < -4)) {
-          values[i] = Math.ceil(values[i]);
-        }
-        if (i === values.length - 1 && values[i] > 1) {
-          values[i] = 1;
-        }
+    // Corrects `matrix3d` coordinate values to be whole numbers
+    const values: any = mx.replace(/ |\(|\)|matrix3d/g, '').split(',');
+    for (let i = 0; i < values.length; i++) {
+      if (i === 0 && values[i] < 1) values[i] = 1;
+      if (i > 0 && (values[i] > 4 || values[i] < -4)) {
+        values[i] = Math.ceil(values[i]);
       }
+      if (i === values.length - 1 && values[i] > 1) {
+        values[i] = 1;
+      }
+    }
 
-      this.container.style.transform = `matrix3d(${values.join()})`;
-    });
+    this.container.style.transform = `matrix3d(${values.join()})`;
   }
 
   /**
@@ -1379,7 +1382,7 @@ export default class IdsPopup extends Base {
         if (parent.toString() === '[object ShadowRoot]') {
           parent = parent.host;
         }
-        if (parent instanceof HTMLElement) {
+        if (parent instanceof HTMLElement || parent instanceof SVGElement) {
           parentStyle = getComputedStyle(parent);
           parentRect = parent.getBoundingClientRect();
 
@@ -1481,5 +1484,41 @@ export default class IdsPopup extends Base {
       arrowEl.hidden = true;
     }
     arrowEl.style[targetMargin] = `${d}px`;
+  }
+
+  set height(val: string) {
+    const newHeight = stripHTML(val);
+    const currentHeight = this.height;
+    if (currentHeight !== newHeight) {
+      if (newHeight.length) {
+        this.container.style.height = newHeight;
+        this.setAttribute(attributes.HEIGHT, newHeight);
+      } else {
+        this.container.style.height = '';
+        this.removeAttribute(attributes.HEIGHT);
+      }
+    }
+  }
+
+  get height(): string {
+    return this.container.style.height;
+  }
+
+  set width(val: string) {
+    const newWidth = stripHTML(val);
+    const currentWidth = this.width;
+    if (currentWidth !== newWidth) {
+      if (newWidth.length) {
+        this.container.style.width = newWidth;
+        this.setAttribute(attributes.WIDTH, newWidth);
+      } else {
+        this.container.style.width = '';
+        this.removeAttribute(attributes.WIDTH);
+      }
+    }
+  }
+
+  get width(): string {
+    return this.container.style.width;
   }
 }

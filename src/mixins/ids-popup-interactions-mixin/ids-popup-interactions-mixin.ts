@@ -12,7 +12,9 @@ const POPUP_INTERACTION_EVENT_NAMES = [
   'click.trigger',
   'contextmenu.trigger',
   'hoverend.trigger',
-  'mouseleave.trigger'
+  'mouseenter.trigger',
+  'mouseleave.trigger',
+  'sloped-mouseleave.trigger'
 ];
 
 /**
@@ -29,7 +31,9 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
     if (!this.state) {
       this.state = {};
     }
-    this.state.trigger = POPUP_TRIGGER_TYPES[0];
+    this.state.triggerType = POPUP_TRIGGER_TYPES[0];
+    this.state.triggerElem = null;
+    this.state.currentTriggerElem = null;
   }
 
   /**
@@ -40,20 +44,33 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
     return [
       ...super.attributes,
       attributes.TARGET,
-      attributes.TRIGGER
+      attributes.TRIGGER_TYPE,
+      attributes.TRIGGER_ELEM
     ];
   }
 
   connectedCallback() {
     super.connectedCallback?.();
-    if (this.target) {
-      this.refreshTriggerEvents();
-    }
+    this.#setInitialState();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback?.();
     this.removeTriggerEvents();
+  }
+
+  #setInitialState() {
+    const targetSelector = this.getAttribute(attributes.TARGET);
+    const initTarget = this.parentNode?.querySelector(targetSelector);
+
+    if (this.popup && initTarget && !this.target) {
+      this.popup.alignTarget = initTarget;
+    }
+
+    if (this.triggerElem || initTarget) {
+      this.removeTriggerEvents();
+      this.refreshTriggerEvents();
+    }
   }
 
   /**
@@ -73,25 +90,25 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * @returns {any} reference to the inner Popup component
    */
   get popup() {
-    return this.shadowRoot.querySelector('ids-popup');
+    return this.shadowRoot?.querySelector('ids-popup');
   }
 
   /**
    * @returns {any} [HTMLElement|undefined] reference to a target element, if applicable
    */
   get target() {
-    return this.popup.alignTarget;
+    return this.popup?.alignTarget;
   }
 
   /**
    * @param {any} val [HTMLElement|string] reference to an element, or a string that will be used
    * as a CSS Selector referencing an element, that the Popupmenu will align against.
    */
-  set target(val) {
-    if (val !== this.popup.alignTarget) {
+  set target(val: string | HTMLElement) {
+    if (this.popup && val !== this.popup.alignTarget) {
       this.removeTriggerEvents();
       if (typeof val === typeof '') {
-        val = this.parentNode.querySelector(val) || this.parentNode;
+        val = this.parentNode?.querySelector(val) || this.parentNode;
       }
       this.popup.alignTarget = val;
       this.refreshTriggerEvents();
@@ -101,35 +118,66 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
   /**
    * @returns {string} the type of action that will trigger this Popupmenu
    */
-  get trigger() {
-    return this.state.trigger;
+  get triggerType(): HTMLElement {
+    return this.state.triggerType;
   }
 
   /**
    * @param {string} val a valid trigger type
    */
-  set trigger(val) {
+  set triggerType(val: string | HTMLElement) {
+    const current = this.state.triggerType;
     let trueTriggerType = val;
-    if (!POPUP_TRIGGER_TYPES.includes(val)) {
+    if (!POPUP_TRIGGER_TYPES.includes(val as string)) {
       trueTriggerType = POPUP_TRIGGER_TYPES[0];
     }
-    this.removeTriggerEvents();
-    this.state.trigger = trueTriggerType;
-    this.refreshTriggerEvents();
+    if (current !== trueTriggerType) {
+      this.removeTriggerEvents();
+      this.state.triggerType = trueTriggerType;
+      this.refreshTriggerEvents();
+    }
+  }
+
+  /**
+   * Gets the alternatively-defined triggering element, if applicable
+   * @returns {HTMLElement} reference to an optional trigger element, if one is set
+   */
+  get triggerElem(): HTMLElement {
+    return this.state.triggerElem;
+  }
+
+  /**
+   * @param {string} val a valid trigger type
+   */
+  set triggerElem(val: string | HTMLElement) {
+    if (typeof val === typeof '') {
+      const trueTriggerElem = this.parentNode.querySelector(val);
+      if (trueTriggerElem) {
+        this.removeTriggerEvents();
+        this.state.triggerElem = trueTriggerElem;
+        this.refreshTriggerEvents();
+      }
+    }
   }
 
   /**
    * Causes events related to the Popupmenu's "trigger" style to be unbound/rebound
    */
-  refreshTriggerEvents() {
-    if (this.hasTriggerEvents) {
+  refreshTriggerEvents(): void {
+    if (this.hasTriggerEvents || !this.popup) {
       return;
     }
 
-    const targetElem = this.popup.alignTarget || window;
+    // Order of importance for target elements:
+    // - `triggerElem`: user defined as the element that should trigger the popup.
+    //   This is only defined when the triggering element is different from the alignment target.
+    // - `target`: used for Popup positioning when aligned against a "parent" element, can also be the triggering element.
+    // - `window`: default, generally used for coordinate-based placement or `contextmenu` events.
+    const targetElem: HTMLElement | Window = this.triggerElem || this.target || window;
+    this.state.currentTriggerElem = targetElem;
 
     // Based on the trigger type, bind new events
-    switch (this.state.trigger) {
+    switch (this.state.triggerType) {
       case 'click':
       // Configure some settings for opening
         this.popup.align = 'bottom, left';
@@ -137,8 +185,8 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
         this.popup.y = 8;
 
         // Announce Popup control with `aria-controls` on the target
-        if (targetElem.id && targetElem !== 'window') {
-          this.target.setAttribute('aria-controls', `${this.id}`);
+        if (targetElem.id && !(targetElem instanceof Window)) {
+          targetElem.setAttribute('aria-controls', `${this.id}`);
         }
 
         // Open/Close the menu when the trigger element is clicked
@@ -172,11 +220,11 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
             this.onTriggerHover(e);
           }
         }, { delay: this.popupDelay });
-        this.onEvent('mouseleave.trigger', targetElem, (e: Event) => {
+        this.onEvent('sloped-mouseleave.trigger', targetElem, (e: Event) => {
           if (typeof this.onCancelTriggerHover === 'function') {
             this.onCancelTriggerHover(e);
           }
-        });
+        }, { delay: this.popupDelay });
         this.onEvent('click.trigger', targetElem, (e: Event) => {
           if (typeof this.onTriggerHoverClick === 'function') {
             this.onTriggerHoverClick(e);
@@ -200,7 +248,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * @returns {void}
    */
   removeTriggerEvents() {
-    this.alignTarget?.removeAttribute('aria-controls');
+    this.currentTargetElem?.removeAttribute('aria-controls');
     POPUP_INTERACTION_EVENT_NAMES.forEach((eventName) => {
       this.detachEventsByName(eventName);
     });

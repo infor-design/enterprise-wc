@@ -24,6 +24,7 @@ A normal default horizontal tab component.
 ```
 
 A vertical tabs component.
+
 ```html
 <ids-tabs value="one" orientation="vertical">
     <ids-tab value="one">Example One</ids-tab>
@@ -57,21 +58,70 @@ Using a tab context to show the active tab content in `ids-tab-content`.
 </ids-tabs-context>
 ```
 
+It's also possible to create Module Tabs for top-level navigation in your application
+```html
+<ids-tabs value="one" color-variant="module">
+    <ids-tab value="one">Example One</ids-tab>
+    <ids-tab value="two">Example Two</ids-tab>
+    <ids-tab value="three">Example Three</ids-tab>
+</ids-tabs>
+```
+
+### Overflowed Tabs
+
+When creating a tab list with many tabs, its possible there will not be enough screen real-estate to display them all.  In this situation you can also add a special "More Tabs" tab component:
+
+```html
+<ids-tabs value="one" color-variant="module">
+    <ids-tab value="one">Example One</ids-tab>
+    <ids-tab value="two">Example Two</ids-tab>
+    <ids-tab value="three">Example Three</ids-tab>
+    <ids-tab value="four">Example Four</ids-tab>
+    <ids-tab value="five">Example Five</ids-tab>
+    <ids-tab value="six">Example Six</ids-tab>
+    <ids-tab-more overflow></ids-tab-more>
+</ids-tabs>
+```
+
+### Fixed placement of Tabs and Actions
+
+Some items slotted in IdsTabs should not spill into the "More Actions" area and should always be present.  Using the `fixed` slot name on these elements causes them to sit inside a "fixed" on the right of the IdsTabs.  In cases where overflow is present, the actions will be adjacent to a visible More Actions tab.
+
+```html
+<ids-tabs value="one" color-variant="module">
+    <ids-tab value="one">Example One</ids-tab>
+    <ids-tab value="two">Example Two</ids-tab>
+    <ids-tab value="three">Example Three</ids-tab>
+    <ids-tab value="four">Example Four</ids-tab>
+    <ids-tab value="five" slot="fixed">Example Five</ids-tab>
+    <ids-tab value="six" slot="fixed">Example Six</ids-tab>
+    <ids-tab-more overflow></ids-tab-more>
+</ids-tabs>
+```
+
+When this component is present in a tab list, it will only be displayed when there is not enough space to display all other tabs present.  When clicking on this tab, it opens an [IdsPopupMenu](../ids-popup-menu/README.md) containing menu items that reflect all tabs currently "overflowed" (in practice, the tabs that are hidden).  Selecting an item from the menu causes the menu item's corresponding tab to be activated.
+
+### Dismissible Tabs
+
+Tabs can be configured to display an optional [IdsTriggerButton](../ids-trigger-field/README.md) (marked with an "X") that will remove it from the tab list when clicked.  If a content pane with a matching `value` attribute exists, the IdsTabsContext element locates and removes it. When a tab is dismissed, it emits a `tabremove` event.
+
+```html
+<ids-tab value="one" dismissible>Example One</dismissible>
+```
+
 ## Settings and Attributes
 
 ### Tab Container Settings (`ids-tabs`)
 - `disabled` {boolean} disables all tabs.
-- `value` {string} set which tab is currently selected. If tab children
-do not have a value, will fall back to being a 0-based index. Otherwise, it can
-also be any string as long as there are relevant matches for the values.
-- `orientation` {'horizontal' | 'vertical'} defaults to horizontal; controls
-the direction/axis tabs are flowed on.
-- `color-variant` {'alternate'} (optional) sets the color variant to `alternate`; this is used on header components and set automatically when placed inside of an `ids-header` component.
+- `value` {string} set which tab is currently selected. If tab children do not have a value, will fall back to being a 0-based index. Otherwise, it can also be any string as long as there are relevant matches for the values.
+- `orientation` {'horizontal' | 'vertical'} defaults to horizontal; controls the direction/axis tabs are flowed on.
+- `color-variant` {'alternate'|'module'} (optional) sets the Tabs color variant.  The `alternate` variant is used on header components and set automatically when placed inside of an `ids-header` component.  The `module` variant displays Module Tabs, which are generally used as top-level navigation only.
 
 ### Individual Tabs Settings (`ids-tab`)
+- `actionable` {boolean} labels a tab as having a corresponding action, such as "Add", "Reset", "Activate Application Menu", etc.  Tabs that use this setting should also have an `onAction` callback applied, which will be triggered upon selecting the tab.  Tabs that are `actionable` will not cause content in tab panels to be displayed.
 - `disabled` {boolean} allows you to disable a tab among a set of tabs.
-- `value` {string | number} the value which when the parent `ids-tabs` also
-has an equivalent for, selects this tab.
+- `selected` {boolean} allows for a tab to display its selected state.  In some cases, tabs with this value set to true will also automatically display their corresponding Tab Panel's content.  Tabs that have an `actionable` attribute applied are not able to be "selected" -- selecting those tabs will focus them.
+- `value` {string | number} the value which when the parent `ids-tabs` also has an equivalent for, selects this tab.
 
 ## Themeable Parts
 ### IdsTabs
@@ -106,6 +156,7 @@ When placed inside of an `IdsHeader` component, the `ids-tabs` component automat
 - Can now be imported as a single JS file and used with encapsulated styles
 - Content within the tabs are specified as `<ids-tab value=${selection-value}>`Tab Label/Content`</ids-tab>`
 - Tabs and their panels are now wrapped with a context element `<ids-tabs-context></ids-tabs-context>` for controlling which tab is displayed
+- Tabs can optionally display overflow by inserting an `<ids-tab-more overflow></ids-tab-more>` component into the `<ids-tabs></ids-tabs>` component
 
 ## Accessibility Guidelines
 

@@ -16,7 +16,6 @@ $border-input-size-sm: $input-size-sm - 2;
 $border-input-size-md: $input-size-md - 2;
 $border-input-size-mm: $input-size-mm - 2;
 $border-input-size-lg: $input-size-lg - 2;
-$border-input-size-full: $input-size-full - 2;
 $border-input-field-height-compact: $input-compact-height - 2;
 $border-input-field-height-xs: $input-field-height-xs - 2;
 $border-input-field-height-sm: $input-field-height-sm - 2;
@@ -106,6 +105,9 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 
   align-items: baseline;
   display: flex;
+
+  // Ability to center label from parent element
+  justify-content: inherit;
 
   // Simulate standard label text size while empty with a non-breaking space
   &.empty {
@@ -231,8 +233,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       @include ellipsis();
     }
 
-    // input text-align: [left, center, right]
-    &.left {
+    // input text-align: [start, center, end]
+    &.start {
       text-align: start;
     }
 
@@ -240,7 +242,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       text-align: center;
     }
 
-    &.right {
+    &.end {
       text-align: end;
     }
   }
@@ -305,7 +307,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 
   &.full .field-container {
-    max-width: $border-input-size-full;
+    max-width: $input-size-full;
   }
 
   // input field-heights: [xs, sm, md, lg]
@@ -354,7 +356,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 // =======================================================
 // Handle Themes
 
-.ids-input[version='new'][mode='light'],
+.ids-input[mode='light'],
 .ids-input:not([mode]) {
   .field-container {
     @include bg-white();
@@ -412,6 +414,9 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     .field-container {
       @include border-slate-90();
     }
+
+    // Include error styles
+    @include ids-input-message-styles();
   }
 
   &:focus-within,
@@ -480,7 +485,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 }
 
-.ids-input[version='new'][mode='dark'] {
+.ids-input[mode='dark'] {
   .field-container {
     @include bg-transparent();
     @include border-slate-40();
@@ -585,7 +590,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 }
 
-.ids-input[version='new'][mode='contrast'] {
+.ids-input[mode='contrast'] {
   .field-container {
     @include bg-white();
     @include border-slate-40();
@@ -690,253 +695,6 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 }
 
-.ids-input[version='classic'][mode='light'] {
-  .field-container {
-    @include bg-transparent();
-    @include border-graphite-40();
-    @include text-graphite-100();
-  }
-
-  &.disabled {
-    .field-container {
-      @include border-graphite-30();
-      @include text-graphite-40();
-    }
-  }
-
-  &.readonly {
-    .field-container {
-      @include bg-graphite-20();
-      @include border-graphite-40();
-      @include text-classic-slate-100();
-    }
-  }
-
-  &.bg-transparent {
-    .field-container {
-      @include bg-transparent();
-    }
-  }
-
-  &:focus-within,
-  &.is-active {
-    .field-container {
-      @include border-azure-60();
-    }
-  }
-
-  // Include error styles
-  @include ids-input-message-styles();
-
-  // Alternate Color Variant
-  &.color-variant-alternate {
-    .field-container {
-      @include text-white();
-    }
-  }
-
-  // Alternate-formatter Color Variant (used in IdsDataGrid filter)
-  &.color-variant-alternate-formatter {
-    .field-container {
-      @include bg-transparent();
-      @include border-slate-30();
-      @include text-white();
-    }
-
-    &:hover .field-container {
-      @include border-slate-20();
-    }
-
-    &:focus-within {
-      .field-container,
-      &:hover .field-container {
-        @include border-azure-50();
-      }
-
-      .ids-input-field {
-        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
-      }
-    }
-
-    &.disabled .field-container,
-    &.disabled:hover .field-container {
-      @include border-slate-50();
-      @include text-slate-40();
-    }
-
-    &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
-      @include text-slate-80();
-    }
-
-    .ids-input-field::placeholder {
-      @include text-slate-40();
-    }
-  }
-}
-
-.ids-input[version='classic'][mode='dark'] {
-  .field-container {
-    @include bg-transparent();
-    @include border-slate-40();
-    @include text-white();
-  }
-
-  &.disabled {
-    .field-container {
-      @include border-classic-slate-40();
-      @include text-classic-slate-50();
-    }
-  }
-
-  &.readonly {
-    .field-container {
-      @include bg-classic-slate-60();
-      @include border-classic-slate-40();
-      @include text-white();
-    }
-  }
-
-  &.bg-transparent {
-    .field-container {
-      @include bg-transparent();
-    }
-  }
-
-  &:focus-within,
-  &.is-active {
-    .field-container {
-      @include border-azure-60();
-    }
-  }
-
-  // Include error styles
-  @include ids-input-message-styles();
-
-  // Alternate-formatter Color Variant (used in IdsDataGrid filter)
-  &.color-variant-alternate-formatter {
-    .field-container {
-      @include bg-transparent();
-      @include border-slate-50();
-      @include text-slate-100();
-    }
-
-    &:hover .field-container {
-      @include border-slate-70();
-    }
-
-    &:focus-within {
-      .field-container,
-      &:hover .field-container {
-        @include border-azure-50();
-      }
-
-      .ids-input-field {
-        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-50);
-      }
-    }
-
-    &.disabled .field-container,
-    &.disabled:hover .field-container {
-      @include border-slate-60();
-      @include text-slate-50();
-    }
-
-    &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
-      @include text-slate-30();
-    }
-
-    .ids-input-field::placeholder {
-      @include text-slate-40();
-    }
-  }
-}
-
-.ids-input[version='classic'][mode='contrast'] {
-  .field-container {
-    @include bg-white();
-    @include border-graphite-80();
-    @include text-graphite-100();
-  }
-
-  &.disabled {
-    .field-container {
-      @include bg-transparent();
-      @include border-slate-50();
-      @include text-graphite-80();
-    }
-  }
-
-  &.readonly {
-    .field-container {
-      @include bg-slate-30();
-      @include border-slate-80();
-      @include text-graphite-100();
-    }
-  }
-
-  &.bg-transparent {
-    .field-container {
-      @include bg-transparent();
-    }
-  }
-
-  &:focus-within,
-  &:focus-within[readonly],
-  &.is-active {
-    .field-container {
-      @include border-azure-60();
-    }
-  }
-
-  // Include error styles
-  @include ids-input-message-styles();
-
-  // Alternate Color Variant
-  &.color-variant-alternate {
-    .field-container {
-      @include text-white();
-    }
-  }
-
-  // Alternate-formatter Color Variant (used in IdsDataGrid filter)
-  &.color-variant-alternate-formatter {
-    .field-container {
-      @include bg-transparent();
-      @include border-slate-30();
-      @include text-white();
-    }
-
-    &:hover .field-container {
-      @include border-slate-20();
-    }
-
-    &:focus-within {
-      .field-container,
-      &:hover .field-container {
-        @include border-azure-50();
-      }
-
-      .ids-input-field {
-        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
-      }
-    }
-
-    &.disabled .field-container,
-    &.disabled:hover .field-container {
-      @include border-slate-50();
-      @include text-slate-40();
-    }
-
-    &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
-      @include text-slate-80();
-    }
-
-    .ids-input-field::placeholder {
-      @include text-slate-40();
-    }
-  }
-}
-
 .caps-lock-indicator {
   @include px-8();
 }
@@ -944,3 +702,11 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 .highlight {
   font-weight: var(--ids-number-font-weight-bold);
 }
+
+/* stylelint-disable property-no-vendor-prefix */
+.ids-input-field[type='number']::-webkit-inner-spin-button,
+.ids-input-field[type='number']::-webkit-outer-spin-button {
+  appearance: none;
+  -webkit-appearance: none;
+}
+/* stylelint-enable property-no-vendor-prefix */

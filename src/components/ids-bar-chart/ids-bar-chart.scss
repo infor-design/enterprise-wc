@@ -1,0 +1,30 @@
+/* Ids Line Chart Component */
+@import '../../components/ids-axis-chart/ids-axis-chart';
+
+.ids-axis-chart {
+  .bars {
+    .bar {
+      outline: none;
+    }
+
+    @for $i from 1 through 21 {
+      rect.color-#{$i}:not([fill]) {
+        fill: var(--ids-chart-color-#{$i});
+      }
+    }
+  }
+}
+
+.ids-chart-container.selectable {
+  .ids-axis-chart .bars .bar {
+    cursor: pointer;
+
+    &[selected] {
+      opacity: 1;
+    }
+
+    &.not-selected {
+      opacity: 0.5;
+    }
+  }
+}

@@ -5,6 +5,13 @@
  category: Form Inputs
  keywords: Color, Input
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows a color picker and states
+  - link: example-sizes.html
+    type: Example
+    description: Shows a color picker's different field sizes
+  - link: axe.html
+    type: Test
+    description: Test page for axe scans
 

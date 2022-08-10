@@ -1,3 +1,4 @@
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { isValidGroup, isUsableItem } from './ids-menu-attributes';
@@ -10,6 +11,7 @@ import './ids-menu-item';
 import '../ids-separator/ids-separator';
 
 import styles from './ids-menu.scss';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * IDS Menu Component
@@ -28,6 +30,13 @@ export default class IdsMenu extends Base {
     this.state = {};
     this.lastHovered = undefined;
     this.lastNavigated = undefined;
+  }
+
+  static get attributes(): Array<string> {
+    return [
+      ...super.attributes,
+      attributes.DISABLED,
+    ];
   }
 
   /**
@@ -98,9 +107,15 @@ export default class IdsMenu extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.attachEventHandlers();
     this.attachKeyboardListeners();
+    this.setAttribute(htmlAttributes.ROLE, 'none');
+
+    // If a dataset has been loaded, render it
+    if (this.data) {
+      this.renderFromData();
+    }
 
     // After repaint
     requestAnimationFrame(() => {
@@ -113,18 +128,16 @@ export default class IdsMenu extends Base {
    * @returns {string} The template
    */
   template() {
-    // Setup the attributes on the top-level menu container
     let id;
-    if (this.id) {
-      id = ` id="${this.id}"`;
-    }
+    if (this.id) id = ` id="${this.id}"`;
+
+    let disabledClass = '';
+    if (this.disabled) disabledClass = ' disabled';
 
     let slot = '';
-    if (this.tagName.toLowerCase() === 'ids-popup-menu') {
-      slot = ` slot="content"`;
-    }
+    if (this.tagName.toLowerCase() === 'ids-popup-menu') slot = ` slot="content"`;
 
-    return `<div class="ids-menu"${id}${slot} role="menu" part="menu"><slot></slot></div>`;
+    return `<nav class="ids-menu${disabledClass}"${id}${slot} part="menu" role="none"><slot></slot></nav>`;
   }
 
   /**
@@ -241,7 +254,7 @@ export default class IdsMenu extends Base {
    * @private
    */
   renderFromData() {
-    if (this.data?.length === 0) {
+    if (this.data?.length === 0 || !this.shadowRoot) {
       return;
     }
 
@@ -260,7 +273,7 @@ export default class IdsMenu extends Base {
   }
 
   /**
-   * Set the data array of the datagrid
+   * Set the data array of the data grid
    * @param {Array<any>|object} value The array to use
    * @returns {void}
    */
@@ -389,6 +402,41 @@ export default class IdsMenu extends Base {
       }
     });
     return submenus;
+  }
+
+  /**
+   * @param {boolean | string} val true if the component should be disabled
+   */
+  set disabled(val: boolean | string) {
+    const safeVal = stringToBool(val);
+    if (safeVal) {
+      this.setAttribute(attributes.DISABLED, '');
+      this.#disableItems();
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+      this.#enableItems();
+    }
+  }
+
+  /**
+   * @returns {boolean} true if the component is disabled
+   */
+  get disabled() {
+    return this.hasAttribute(attributes.DISABLED);
+  }
+
+  #disableItems(): void {
+    this.container?.classList.add('disabled');
+    this.items.forEach((item: any) => {
+      item.disabled = true;
+    });
+  }
+
+  #enableItems(): void {
+    this.container?.classList.remove('disabled');
+    this.items.forEach((item: any) => {
+      item.disabled = false;
+    });
   }
 
   /**

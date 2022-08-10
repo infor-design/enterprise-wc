@@ -5,5 +5,6 @@
  category: Layouts
  keywords: masthead, header, layout
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Shows the masthead

@@ -6,24 +6,22 @@
 }
 
 .ids-overlay {
+  @include outline-none();
+
   height: 100%;
   width: 100%;
   top: 0;
   left: 0;
-
-  @include bg-black();
-  @include outline-none();
-
   display: none;
   position: fixed;
 
   // Animation
-  opacity: 0;
-  transition: opacity 0.2s;
+  background-color: rgba(0 0 0 / 0);
+  transition: background-color 0.2s;
 
   &.visible {
     @include block();
 
-    opacity: 0.3;
+    background-color: rgba(0 0 0 / 0.3);
   }
 }

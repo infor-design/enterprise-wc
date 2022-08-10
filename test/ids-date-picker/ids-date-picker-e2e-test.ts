@@ -1,11 +1,14 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Date Picker e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-date-picker';
-  const axeUrl = `${url}/axe.html`;
+  const url = 'http://localhost:4444/ids-date-picker/example.html';
+  const axeUrl = 'http://localhost:4444/ids-date-picker/axe.html';
 
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(axeUrl, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests();
+    const results = await new AxePuppeteer(page).analyze();
+    expect(results.violations.length).toBe(0);
   });
 
   it('should not have errors', async () => {
@@ -156,35 +159,9 @@ describe('Ids Date Picker e2e Tests', () => {
       day?.click();
     });
 
-    let value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
+    const value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
 
     expect(value).toEqual('3/31/2016');
-
-    // Apply button
-    await page.evaluate(() => {
-      const component: any = (document.querySelector as any)('#e2e-datepicker-value');
-      const monthView = component?.shadowRoot.querySelector('ids-month-view');
-
-      monthView.year = 2022;
-      monthView.month = 2;
-      monthView.day = 26;
-
-      component?.shadowRoot.querySelector('.popup-btn-end')?.click();
-    });
-
-    value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
-
-    expect(value).toEqual('3/26/2022');
-
-    // Open popup
-    await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('ids-trigger-button')?.click());
-
-    // Clear button
-    await page.$eval('#e2e-datepicker-value', (el: any) => el.shadowRoot.querySelector('.popup-btn-start')?.click());
-
-    value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
-
-    expect(value).toEqual('');
   });
 
   it('should change when used in calendar toolbar', async () => {
@@ -204,11 +181,9 @@ describe('Ids Date Picker e2e Tests', () => {
 
     const hasCssClass = await page.$eval('#e2e-datepicker-toolbar', (el: any) => el.container.classList.contains('is-calendar-toolbar'));
     const hasTabindex = await page.$eval('#e2e-datepicker-toolbar', (el: any) => el.container.getAttribute('tabindex') === '0');
-    const hasCancelBtn = await page.$eval('#e2e-datepicker-toolbar', (el: any) => el.shadowRoot.querySelector('.popup-btn-start ids-text')?.textContent === 'Cancel');
 
     expect(hasCssClass).toBeTruthy();
     expect(hasTabindex).toBeTruthy();
-    expect(hasCancelBtn).toBeTruthy();
 
     // Changing date doesn't change value
     await page.evaluate(() => {
@@ -225,18 +200,18 @@ describe('Ids Date Picker e2e Tests', () => {
   });
 
   it('should handle validation', async () => {
-    let isRequired = await page.$eval('#e2e-datepicker-required', (el: any) => el.validate === 'required');
+    let isRequired = await page.$eval('#e2e-datepicker-required', (el: any) => el.validate?.includes('required'));
     let validationEvents = await page.$eval('#e2e-datepicker-required', (el: any) => el.validationEvents);
 
     expect(isRequired).toBeTruthy();
-    expect(validationEvents).toEqual('change blur');
+    expect(validationEvents).toEqual('blur');
 
     await page.evaluate(() => {
       (document.querySelector as any)('#e2e-datepicker-required').validate = null;
       (document.querySelector as any)('#e2e-datepicker-required').validationEvents = null;
     });
 
-    isRequired = await page.$eval('#e2e-datepicker-required', (el: any) => el.validate === 'required');
+    isRequired = await page.$eval('#e2e-datepicker-required', (el: any) => el.validate?.includes('required'));
     validationEvents = await page.$eval('#e2e-datepicker-required', (el: any) => el.validationEvents);
 
     expect(isRequired).toBeFalsy();
@@ -398,6 +373,9 @@ describe('Ids Date Picker e2e Tests', () => {
 
     // Changing month with keyboard
     await page.keyboard.press('ArrowUp');
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('ArrowUp');
+    await page.keyboard.press('ArrowUp');
 
     monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
     monthSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.textContent);
@@ -405,6 +383,9 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(+monthSelectedIndex).toEqual(11);
     expect(monthSelectedText).toEqual('December');
 
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('ArrowDown');
     await page.keyboard.press('ArrowDown');
 
     monthSelectedIndex = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month.is-selected')?.dataset.month);
@@ -415,51 +396,13 @@ describe('Ids Date Picker e2e Tests', () => {
 
     // Changing year with keyboard
     await page.keyboard.press('Tab');
-    await page.keyboard.press('Enter');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2011');
-
-    await page.keyboard.press('ArrowUp');
-    await page.keyboard.press('Enter');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2021');
-
-    await page.keyboard.press('ArrowUp');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2026');
-
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('Enter');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2031');
-
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('ArrowDown');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2027');
-
-    await page.keyboard.press('ArrowUp');
-    await page.keyboard.press('Enter');
-    await page.keyboard.press('Enter');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2011');
-
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('ArrowUp');
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2007');
-
     await page.keyboard.press('Tab');
+    await page.keyboard.press('Enter');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2015');
+
     await page.keyboard.press('ArrowUp');
-    await page.keyboard.press('ArrowDown');
     await page.keyboard.press('Enter');
 
     yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
@@ -468,8 +411,29 @@ describe('Ids Date Picker e2e Tests', () => {
     await page.keyboard.press('ArrowUp');
 
     yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2024');
 
-    expect(yearSelectedText).toEqual('2026');
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('ArrowUp');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2030');
+
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowDown');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2025');
+
+    await page.keyboard.press('ArrowUp');
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('ArrowDown');
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2013');
 
     // Changing month/year by clicking to list items
     await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-month')?.click());
@@ -481,17 +445,17 @@ describe('Ids Date Picker e2e Tests', () => {
 
     expect(+monthSelectedIndex).toEqual(0);
     expect(monthSelectedText).toEqual('January');
-    expect(yearSelectedText).toEqual('2017');
+    expect(yearSelectedText).toEqual('2013');
 
-    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-btn-up')?.click());
-
-    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2011');
-
-    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-btn-down')?.click());
+    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-btn-up.is-year-nav')?.click());
 
     yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
-    expect(yearSelectedText).toEqual('2021');
+    expect(yearSelectedText).toEqual('2007');
+
+    await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-btn-down.is-year-nav')?.click());
+
+    yearSelectedText = await page.$eval('#e2e-monthyear-picker', (el: any) => el.shadowRoot.querySelector('.picklist-item.is-year.is-selected')?.textContent);
+    expect(yearSelectedText).toEqual('2013');
 
     // Legend doesn't apply if dropdown
     await page.evaluate(() => {
@@ -523,16 +487,9 @@ describe('Ids Date Picker e2e Tests', () => {
       monthView?.container.querySelector('ids-date-picker')?.setAttribute('expanded', true);
     });
 
-    const btnStartText = await page.$eval(
-      '#e2e-datepicker-legend',
-      (el: any) => el?.container.querySelector('.popup-btn-start ids-text')?.textContent
-    );
-
-    expect(btnStartText).toEqual('Cancel');
-
     await page.$eval(
       '#e2e-datepicker-legend',
-      (el: any) => el?.container.querySelector('.popup-btn-end')?.click()
+      (el: any) => el?.container.querySelector('.popup-btn-apply')?.click()
     );
 
     const appliedToMonthView = await page.$eval(
@@ -548,7 +505,7 @@ describe('Ids Date Picker e2e Tests', () => {
 
     await page.$eval(
       '#e2e-datepicker-legend',
-      (el: any) => el?.container.querySelector('.popup-btn-end')?.click()
+      (el: any) => el?.container.querySelector('.popup-btn-apply')?.click()
     );
 
     const datePickerValue = await page.$eval(
@@ -566,7 +523,11 @@ describe('Ids Date Picker e2e Tests', () => {
         'afterbegin',
         '<ids-date-picker id="e2e-range-picker" use-range="true" value="2/7/2018 - 2/22/2018"></ids-date-picker>'
       );
+    });
 
+    await page.waitForTimeout(400);
+
+    await page.evaluate(() => {
       (document.querySelector as any)('#e2e-range-picker').rangeSettings = {
         start: '2/3/2019',
         end: '3/15/2019'
@@ -589,23 +550,6 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(start).toEqual(new Date('3/4/2021').getTime());
     expect(end).toEqual(new Date('3/22/2021').getTime());
 
-    // Today button
-    const todayFormatted = await page.evaluate(() => {
-      const container = (document as any).querySelector('ids-container');
-      const formatted = container?.locale.formatDate(new Date());
-
-      return `${formatted} - ${formatted}`;
-    });
-
-    await page.$eval(
-      '#e2e-range-picker',
-      (el: any) => el?.shadowRoot.querySelector('ids-month-view')?.container.querySelector('.btn-today')?.click()
-    );
-
-    value = await page.$eval('#e2e-range-picker', (el: any) => el?.value);
-
-    expect(value).toEqual(todayFormatted);
-
     // Apply button
     await page.evaluate(() => {
       const component = (document.querySelector as any)('#e2e-range-picker');
@@ -622,7 +566,7 @@ describe('Ids Date Picker e2e Tests', () => {
         component.rangeSettings = {
           start: '3/22/2021'
         };
-        component.container.querySelector('.popup-btn-end')?.click();
+        component.container.querySelector('.popup-btn-apply')?.click();
       }
     });
 
@@ -638,7 +582,7 @@ describe('Ids Date Picker e2e Tests', () => {
           start: '1/2/2021',
           end: '1/25/2021'
         };
-        component.container.querySelector('.popup-btn-end')?.click();
+        component.container.querySelector('.popup-btn-apply')?.click();
       }
     });
 
@@ -650,7 +594,7 @@ describe('Ids Date Picker e2e Tests', () => {
     // Set value to the input
     await page.$eval(
       '#e2e-datepicker-required',
-      (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '4/5/2022')
+      (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '2021-04-09')
     );
 
     let value = await page.$eval(
@@ -658,7 +602,7 @@ describe('Ids Date Picker e2e Tests', () => {
       (el: any) => el?.value
     );
 
-    expect(value).toEqual('4/5/2022');
+    expect(value).toEqual('2021-04-09');
 
     // Reset value in the input
     await page.$eval(
@@ -672,5 +616,201 @@ describe('Ids Date Picker e2e Tests', () => {
     );
 
     expect(value).toEqual('');
+  });
+
+  it('should handle time', async () => {
+    await page.evaluate(() => {
+      (document as any).querySelector('ids-container').insertAdjacentHTML(
+        'afterbegin',
+        '<ids-date-picker id="e2e-datepicker-time" value="2/3/2010 08:24 AM" format="M/d/yyyy hh:mm a"></ids-date-picker>'
+      );
+
+      const component: any = document.querySelector('#e2e-datepicker-time');
+
+      if (component) {
+        component.minuteInterval = 1;
+        component.secondInterval = 1;
+        component.open();
+      }
+    });
+
+    // If time picker appears from format
+    let timePicker = await page.$eval(
+      '#e2e-datepicker-time',
+      (el: any) => el?.container.querySelector('ids-time-picker')
+    );
+
+    expect(timePicker).not.toBeNull();
+
+    const getTimeValues = async () => {
+      const hours: string = await page.$eval(
+        '#e2e-datepicker-time',
+        (el: any) => el?.container.querySelector('ids-time-picker')?.container.querySelector('#hours')?.value
+      );
+
+      const minutes: string = await page.$eval(
+        '#e2e-datepicker-time',
+        (el: any) => el?.container.querySelector('ids-time-picker')?.container.querySelector('#minutes')?.value
+      );
+
+      const seconds: string = await page.$eval(
+        '#e2e-datepicker-time',
+        (el: any) => el?.container.querySelector('ids-time-picker')?.container.querySelector('#seconds')?.value
+      );
+
+      const period: string = await page.$eval(
+        '#e2e-datepicker-time',
+        (el: any) => el?.container.querySelector('ids-time-picker')?.container.querySelector('#period')?.value
+      );
+
+      return {
+        hours, minutes, seconds, period
+      };
+    };
+
+    // Time picker has values from date picker input
+    expect(+(await getTimeValues()).hours).toEqual(8);
+    expect(+(await getTimeValues()).minutes).toEqual(24);
+    expect((await getTimeValues()).period).toEqual('AM');
+
+    // Changing date picker input
+    await page.evaluate(() => {
+      (document.querySelector as any)('#e2e-datepicker-time').close();
+      (document.querySelector as any)('#e2e-datepicker-time').value = '2/3/2010 11:00 PM';
+      (document.querySelector as any)('#e2e-datepicker-time').open();
+    });
+
+    expect(+(await getTimeValues()).hours).toEqual(11);
+    expect(+(await getTimeValues()).minutes).toEqual(0);
+    expect((await getTimeValues()).period).toEqual('PM');
+
+    // Changing format
+    await page.evaluate(() => {
+      const component: any = document.querySelector('#e2e-datepicker-time');
+
+      if (component) {
+        component.close();
+        component.minuteInterval = 1;
+        component.secondInterval = 1;
+        component.format = 'M/d/yyyy HH:mm:ss';
+        component.value = '2/3/2010 23:22:44';
+        component.open();
+      }
+    });
+
+    expect(+(await getTimeValues()).hours).toEqual(23);
+    expect(+(await getTimeValues()).minutes).toEqual(22);
+    expect(+(await getTimeValues()).seconds).toEqual(44);
+
+    // Time picker dropdowns value to the input
+    const value = await page.$eval(
+      '#e2e-datepicker-time',
+      (el: any) => {
+        el.format = 'M/d/yyyy hh:mm:ss a';
+        el.value = '2/3/2010 08:24:00 AM';
+        const hours = el.container.querySelector('ids-time-picker').container.querySelector('#hours');
+        const minutes = el.container.querySelector('ids-time-picker').container.querySelector('#minutes');
+        const seconds = el.container.querySelector('ids-time-picker').container.querySelector('#seconds');
+        const period = el.container.querySelector('ids-time-picker').container.querySelector('#period');
+
+        if (hours) {
+          hours.value = 10;
+        }
+
+        if (minutes) {
+          minutes.value = 15;
+        }
+
+        if (seconds) {
+          seconds.value = 20;
+        }
+
+        if (period) {
+          period.value = 'PM';
+        }
+
+        el.container.querySelector('ids-month-view').container.querySelector('td.is-selected').click();
+
+        return el?.value;
+      }
+    );
+
+    expect(value).toEqual('2/3/2010 10:15:20 PM');
+
+    // Remove time picker
+    await page.evaluate(() => {
+      (document.querySelector as any)('#e2e-datepicker-time').format = 'M/d/yyyy';
+    });
+
+    timePicker = await page.$eval(
+      '#e2e-datepicker-time',
+      (el: any) => el?.container.querySelector('ids-time-picker')
+    );
+
+    expect(timePicker).toBeNull();
+  });
+
+  it('should handle UTC date format', async () => {
+    await page.evaluate(() => {
+      const component = (document.querySelector as any)('#e2e-datepicker-value');
+
+      component.format = 'yyyy-MM-dd';
+      component.value = '2022-05-16';
+      component.open();
+    });
+
+    // Parsing
+    const isValidCalendar = await page.$eval(
+      '#e2e-datepicker-value',
+      (el: any) => {
+        const monthView = el?.container.querySelector('ids-month-view');
+
+        return monthView?.year === 2022 && monthView?.month === 4 && monthView?.day === 16;
+      }
+    );
+
+    expect(isValidCalendar).toBeTruthy();
+
+    // Formatting
+    await page.evaluate(() => {
+      const component = (document.querySelector as any)('#e2e-datepicker-value');
+      component.close();
+
+      component.year = 2018;
+      component.month = 2;
+      component.day = 22;
+      component.container.querySelector('ids-month-view')
+        .container.querySelector('td[data-year="2018"][data-month="2"][data-day="22"]').click();
+    });
+
+    const value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
+
+    expect(value).toEqual('2018-03-22');
+  });
+
+  it('should handle different locale and language', async () => {
+    await page.evaluate(async () => {
+      const component: any = document.querySelector('#e2e-datepicker-value');
+      const container: any = document.querySelector('ids-container');
+
+      if (container) {
+        await container.setLocale('es-ES');
+        await container.setLanguage('en');
+      }
+
+      if (component) {
+        component.format = 'M/d/yyyy';
+        component.value = '3/4/2016';
+        component.open();
+      }
+    });
+
+    const picklistMonth = await page.$eval('#e2e-datepicker-value', (el: any) => el?.container.querySelector('ids-month-view')?.container.querySelector('ids-date-picker')?.value);
+    const weekDays = await page.$eval('#e2e-datepicker-value', (el: any) => Array.from(
+      el?.container.querySelector('ids-month-view')?.container.querySelectorAll('.weekday-text')
+    ).map((item: any) => item?.textContent));
+
+    expect(picklistMonth).toEqual('March 2016');
+    expect(weekDays).toEqual(['S', 'M', 'T', 'W', 'T', 'F', 'S']);
   });
 });

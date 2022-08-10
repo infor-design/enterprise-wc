@@ -1,11 +1,12 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 const imgSrcExists = '../assets/images/placeholdeer-60x60.png';
 const imgSrcNotFound = '../assets/images/non-existant.jpg';
-const imageEl = '#e2e-image';
 const placeholderEl = '#e2e-placeholder';
 const fallbackEl = '#e2e-fallback';
 
 describe('Ids Image e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-image';
+  const url = 'http://localhost:4444/ids-image/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
@@ -18,7 +19,8 @@ describe('Ids Image e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests();
+    const results = await new AxePuppeteer(page).analyze();
+    expect(results.violations.length).toBe(0);
   });
 
   it('should render placeholder on image error', async () => {
@@ -43,18 +45,6 @@ describe('Ids Image e2e Tests', () => {
     const hasImage = await page.$eval(placeholderEl, (el: HTMLElement) => el.shadowRoot?.querySelector('img'));
 
     expect(hasImage).toBeTruthy();
-  });
-
-  it('should change image to placeholder', async () => {
-    await page.evaluate((el: string) => {
-      const element = document.querySelector<any>(el);
-      element.placeholder = true;
-      element.src = null;
-    }, imageEl);
-
-    const hasPlaceholder = await page.$eval(imageEl, (el: HTMLElement) => el.shadowRoot?.querySelector('.placeholder'));
-
-    expect(hasPlaceholder).toBeTruthy();
   });
 
   it('should render placeholder if src changed and img failed to load', async () => {

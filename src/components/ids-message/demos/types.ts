@@ -8,7 +8,7 @@ import '../../ids-hyperlink/ids-hyperlink';
 const setupMessage = (messageEl: any, triggerBtnEl: any) => {
   // Link the Message to its trigger button
   messageEl.target = triggerBtnEl;
-  messageEl.trigger = 'click';
+  messageEl.triggerType = 'click';
 
   // Disable the trigger button when showing the Modal.
   messageEl.addEventListener('beforeshow', () => {
@@ -54,6 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const messageConfEl = document.querySelector('#message-confirmation');
   const messageConfTriggerBtn = document.querySelector('#message-confirmation-trigger');
   setupMessage(messageConfEl, messageConfTriggerBtn);
+
+  // Huge Text Message
+  const messageHugeTextEl = document.querySelector('#message-huge-text');
+  const messageHugeTextTriggerBtn = document.querySelector('#message-huge-text-trigger');
+  setupMessage(messageHugeTextEl, messageHugeTextTriggerBtn);
 
   // No Buttons Message
   const messageNoButtonsEl = document.querySelector('#message-no-buttons');

@@ -1,5 +1,7 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Month View e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-month-view';
+  const url = 'http://localhost:4444/ids-month-view/example.html';
   const name = 'ids-month-view';
 
   beforeAll(async () => {
@@ -13,7 +15,8 @@ describe('Ids Month View e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests();
+    const results = await new AxePuppeteer(page).analyze();
+    expect(results.violations.length).toBe(0);
   });
 
   it('should display correct number of days in a month', async () => {
@@ -807,5 +810,232 @@ describe('Ids Month View e2e Tests', () => {
 
     selected = await page.$eval(name, (el: any) => el?.container.querySelectorAll('.range-selection')?.length);
     expect(selected).toEqual(0);
+  });
+
+  it('should show disabled dates visually', async () => {
+    await page.reload({ waitUntil: 'networkidle0' });
+    await page.setRequestInterception(false);
+
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.disable = {
+          dayOfWeek: [0, 6],
+          dates: ['11/16/2021']
+        };
+      }
+    }, name);
+
+    // Weekends
+    let isDisabled = await page.$eval(name, (el: any) => {
+      const firstDays: NodeList = el?.container.querySelectorAll('.month-view-table tr td:first-child');
+      const lastDays: NodeList = el?.container.querySelectorAll('.month-view-table tr td:last-child');
+
+      return [...firstDays, ...lastDays].every((item: any) => item.classList.contains('is-disabled'));
+    });
+
+    expect(isDisabled).toBeTruthy();
+
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.disable = {
+          dayOfWeek: []
+        };
+      }
+    }, name);
+
+    isDisabled = await page.$eval(name, (el: any) => {
+      const firstDays: NodeList = el?.container.querySelectorAll('.month-view-table tr td:first-child');
+      const lastDays: NodeList = el?.container.querySelectorAll('.month-view-table tr td:last-child');
+
+      return [...firstDays, ...lastDays].every((item: any) => item.classList.contains('is-disabled'));
+    });
+
+    expect(isDisabled).toBeFalsy();
+
+    // Dates
+    isDisabled = await page.$eval(name, (el: any) => {
+      const disabledDate: any = el?.container.querySelector('td[data-year="2021"][data-month="10"][data-day="16"]');
+
+      return disabledDate?.classList.contains('is-disabled');
+    });
+
+    expect(isDisabled).toBeTruthy();
+
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.disable = {
+          dates: []
+        };
+      }
+    }, name);
+
+    isDisabled = await page.$eval(name, (el: any) => {
+      const disabledDate: any = el?.container.querySelector('td[data-year="2021"][data-month="10"][data-day="16"]');
+
+      return disabledDate?.classList.contains('is-disabled');
+    });
+
+    expect(isDisabled).toBeFalsy();
+
+    // min/max date and isEnable
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.disable = {
+          minDate: '11/6/2021',
+          maxDate: '11/28/2021'
+        };
+      }
+    }, name);
+
+    isDisabled = await page.$eval(name, (el: any) => {
+      const minDateRow: any = el?.container.querySelectorAll('.month-view-table tr:first-child td');
+      const maxDateRow: any = el?.container.querySelectorAll('.month-view-table tr:last-child td');
+
+      return [...minDateRow, ...maxDateRow].every((item: any) => item.classList.contains('is-disabled'));
+    });
+
+    expect(isDisabled).toBeTruthy();
+
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.disable = {
+          isEnable: true
+        };
+      }
+    }, name);
+
+    isDisabled = await page.$eval(name, (el: any) => {
+      const minDateRow: any = el?.container.querySelectorAll('.month-view-table tr:first-child td');
+      const maxDateRow: any = el?.container.querySelectorAll('.month-view-table tr:last-child td');
+
+      return [...minDateRow, ...maxDateRow].every((item: any) => item.classList.contains('is-disabled'));
+    });
+
+    expect(isDisabled).toBeFalsy();
+
+    isDisabled = await page.$eval(name, (el: any) => {
+      const rows: any = el?.container.querySelectorAll(
+        `.month-view-table tr:nth-child(2) td,
+        .month-view-table tr:nth-child(3) td,
+        .month-view-table tr:nth-child(4) td`
+      );
+
+      return [...rows].every((item: any) => item.classList.contains('is-disabled'));
+    });
+
+    expect(isDisabled).toBeTruthy();
+
+    // Years
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+
+      if (element) {
+        element.disable = {
+          minDate: '',
+          maxDate: '',
+          isEnable: false,
+          years: [2021]
+        };
+      }
+    }, name);
+
+    isDisabled = await page.$eval(name, (el: any) => {
+      const month: any = el?.container.querySelectorAll('.month-view-table tr td');
+
+      return [...month].every((item: any) => item.classList.contains('is-disabled'));
+    });
+
+    expect(isDisabled).toBeTruthy();
+  });
+
+  it('should show today visually', async () => {
+    await page.reload({ waitUntil: 'networkidle0' });
+    await page.setRequestInterception(false);
+
+    await page.evaluate((el: any) => {
+      const element = document.querySelector(el);
+      const now = new Date();
+
+      if (element) {
+        element.year = now.getFullYear();
+        element.month = now.getMonth();
+        element.day = now.getDate();
+      }
+    }, name);
+
+    const todayEl = await page.$eval(name, (el: any) => el?.container.querySelector('td.is-today'));
+
+    expect(todayEl).not.toBeNull();
+  });
+
+  it('should show week numbers picklist', async () => {
+    await page.evaluate(() => {
+      document.querySelector('ids-container')?.insertAdjacentHTML(
+        'afterbegin',
+        `<ids-month-view
+          id="e2e-month-view-week"
+          compact="true"
+          show-picklist-week="true"
+          year="2022"
+          month="5"
+          day="6"
+        ></ids-month-view>`
+      );
+
+      // Expand picklist
+      const datePicker = (document.querySelector('#e2e-month-view-week') as any)?.container.querySelector('ids-date-picker');
+
+      if (datePicker) {
+        datePicker.expanded = true;
+      }
+    });
+
+    const getSelectedWeek = () => page.$eval(
+      '#e2e-month-view-week',
+      (el: any) => el?.container.querySelector('ids-date-picker')
+        ?.container.querySelector('.is-week.is-selected')?.textContent
+    );
+
+    // If week numbers picklist is set month picklist doesn't appear
+    const monthPicker = await page.$eval('#e2e-month-view-week', (el: any) => el?.container.querySelector('.is-month'));
+
+    expect(monthPicker).toBeNull();
+
+    // Current week number
+    expect(+await getSelectedWeek()).toEqual(23);
+
+    // Select another week, first in the list
+    await page.$eval(
+      '#e2e-month-view-week',
+      (el: any) => el?.container.querySelector('ids-date-picker')?.container.querySelector('.is-week')?.click()
+    );
+
+    expect(+await getSelectedWeek()).toEqual(21);
+
+    // Up/down buttons
+    await page.$eval(
+      '#e2e-month-view-week',
+      (el: any) => el?.container.querySelector('ids-date-picker')?.container.querySelector('.is-week-nav')?.click()
+    );
+
+    expect(+await getSelectedWeek()).toEqual(15);
+
+    await page.$eval(
+      '#e2e-month-view-week',
+      (el: any) => el?.container.querySelector('ids-date-picker')
+        ?.container.querySelector('.is-btn-down.is-week-nav')?.click()
+    );
+
+    expect(+await getSelectedWeek()).toEqual(21);
   });
 });

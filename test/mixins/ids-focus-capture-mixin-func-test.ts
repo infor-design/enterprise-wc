@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import '../helpers/match-media-mock';
 import processAnimFrame from '../helpers/process-anim-frame';
 import wait from '../helpers/wait';
 
@@ -57,7 +58,7 @@ describe('IdsFocusCaptureMixin)', () => {
     document.body.appendChild(afterBtn);
 
     modal.target = triggerBtn;
-    modal.trigger = 'click';
+    modal.triggerType = 'click';
   });
 
   afterEach(async () => {
@@ -230,7 +231,7 @@ describe('IdsFocusCaptureMixin (empty)', () => {
     document.body.appendChild(afterBtn);
 
     modal.target = triggerBtn;
-    modal.trigger = 'click';
+    modal.triggerType = 'click';
   });
 
   afterEach(async () => {

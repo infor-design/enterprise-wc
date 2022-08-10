@@ -2,21 +2,19 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Breadcrumb</ids-text>
+      <ids-text font-size="20" type="h1">Ids Breadcrumb Examples</ids-text>
     </ids-layout-grid>
-
     <ids-layout-grid auto="true">
-      <ids-breadcrumb>
-        <ids-hyperlink font-size="14" text-decoration="hover" href="#">First Item</ids-hyperlink>
-        <ids-hyperlink font-size="14" text-decoration="hover" href="#">Second Item</ids-hyperlink>
-        <ids-hyperlink font-size="14" text-decoration="hover" disabled>Disabled Item</ids-hyperlink>
-        <ids-hyperlink font-size="14" text-decoration="hover">Current Item</ids-hyperlink>
-      </ids-breadcrumb>
+      <ids-layout-grid-cell>
+        <ids-demo-listing label="Breadcrumb Examples" component-name="ids-breadcrumb">
+        </ids-demo-listing>
+      </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
 </body>

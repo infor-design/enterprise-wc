@@ -9,39 +9,45 @@ The IDS Pager Component is used to provide an interface for browsing paginated d
 - Presenting digestible portions of large data sets.
 
 ## Slots
+
 `start` and `end` slots allow you to position content to the left or the right side of the pager panel. If no slot is provided, the child-contents of the pager component will be automatically inserted into the middle slot.
 
 ## Sub-Components
+
 **`<ids-pager-button>`**: represents a navigation button within the pager that is flagged with an attribute flag specifying what clicking it accomplishes e.g. `first`, `last`, `previous`, or `next`.
 
 **`<ids-pager-number-list>`**: provides a list of page numbered buttons which a user can click.
 
 **`<ids-pager-input>`**: provides a way for user to input numbers directly for the parent `ids-pager`.
 
-## Settings
-
-### &lt;ids-pager&gt;
+## Settings (ids-pager)
 
 - `page-size` {number} number of items to paginate
 - `page-number` {number} 1-based page index. Should reflect what page number is currently being displayed.
 - `total` {number} number of items the pager tracks
 - `disabled` {boolean} whether or not to disable this pager and all navigation buttons nested inside of it
 
-### &lt;ids-pager-number-list&gt;
+## Settings (ids-pager-number-list)
+
 - `disabled` {boolean} whether to override the natural or parent-disabled functionality to specifically disable the number buttons in this component.
+- `label` {string} sets the aria label text
+- `step` {number} sets the number of step for page number list
 
-### &lt;ids-pager-button&gt;
+## Settings (ids-pager-button)
+
+- `disabled` {boolean} whether to override natural or parent-disabled functionality to specifically disable this button.
+- `label` {string} sets the aria label text
+
+## Settings (ids-pager-input)
+
 - `disabled` {boolean} whether to override natural or parent-disabled functionality to specifically disable this button.
 
-### &lt;ids-pager-input&gt;
-- `disabled` {boolean} whether to override natural or parent-disabled functionality to specifically disable this button.
+## Themeable Parts (ids-pager)
 
-## Themeable Parts
-
-### IdsPager
 **container** - the overall `ids-pager` container
 
-### IdsPagerButton
+## Themeable Parts (ids-pager-button)
+
 **button** - the `ids-button` component
 **icon** - the `ids-icon` component
 
@@ -76,6 +82,33 @@ A pager with numbered-page-buttons for navigation, surrounded by navigation butt
     <ids-pager-button next></ids-pager-button>
   </section>
   <section slot="end">Right-Aligned Content</section>
+</ids-pager>
+```
+
+A pager with numbered-page-buttons for navigation, with custom steps limit:
+```html
+<ids-pager page-size="20" page-number="10" total="1500">
+  <ids-pager-button previous></ids-pager-button>
+  <ids-pager-number-list step="2"></ids-pager-number-list>
+  <ids-pager-button next></ids-pager-button>
+</ids-pager>
+```
+
+A pager with numbered-page-buttons for navigation, with show all step buttons (no-limit):
+```html
+<ids-pager page-size="20" page-number="10" total="500">
+  <ids-pager-button previous></ids-pager-button>
+  <ids-pager-number-list step="-1"></ids-pager-number-list>
+  <ids-pager-button next></ids-pager-button>
+</ids-pager>
+```
+
+A pager with aria-label:
+```html
+<ids-pager page-size="20" page-number="10" total="1500">
+  <ids-pager-button label="Previous page" previous></ids-pager-button>
+  <ids-pager-number-list label="Page {num} of {total}"></ids-pager-number-list>
+  <ids-pager-button label="Next page" next></ids-pager-button>
 </ids-pager>
 ```
 
@@ -142,9 +175,9 @@ A pager with user-defined content aligned to the left and to the right of the ce
 
 ## Keyboard Guidelines
 
-- TAB should between `ids-pager-buttons`, as well as inputs and `ids-pager-number-list` buttons, and also goes to the next element if at the end of the pager.
-- SHIFT + TAB should work similar to TAB but in reverse, and also to the previous element if at the beginning of the pager.
-- ENTER while focusing on the `ids-pager-input` enters the value ou are currently editing.
+- <kbd>TAB</kbd> Move between `ids-pager-buttons` as well as inputs and `ids-pager-number-list` buttons, and also goes to the next element if at the end of the pager.
+- <kbd>SHIFT + TAB</kbd> should work similar to TAB but in reverse, and also to the previous element if at the beginning of the pager.
+- <kbd>ENTER</kbd> while focusing on the `ids-pager-input` submits the value
 
 ## Usage Tips
 
@@ -163,3 +196,23 @@ A pager with user-defined content aligned to the left and to the right of the ce
 ## Regional Considerations
 
 All elements will flip to the alternate side in Right To Left mode, including user defined content. Alignment on left and right aligned slots will also flip.
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- This did not exist as a standalone component
+- Datagrid paging has new options - see data grid docs
+
+**4.x to 5.x**
+
+- Pager is now a web component called ids-pager
+- Only has a standalone version now (simplified)
+- If using properties/settings are now attributes.
+- Markup has changed to a custom element `<ids-pager>`
+- If using events events are now plain JS events for example
+- Can now be imported as a single JS file and used with encapsulated styles
+- content is automatically managed/aligned via nesting controls inside of `<ids-pager-section>`
+- pagination is controlled via attributes on the `<ids-pager>` (`page-number`, `total`, `page-size`), and manages buttons and controls automatically.
+- buttons are managed by `<ids-pager-button>` with given functionality flags e.g. `<ids-pager-button start>`.
+- input box can be inserted `<ids-pager-input>`, and a number list with `<ids-pager-number-list>`

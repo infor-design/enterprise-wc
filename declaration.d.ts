@@ -1,7 +1,8 @@
-// For scss/css files in components
+// For scss/css/yaml/json files in component examples
 declare module '*.scss';
 declare module '*.css';
 declare module '*.json';
+declare module '*.yaml';
 
 // For IDS Identity Stuff
 declare module 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes';
@@ -18,6 +19,7 @@ declare const Soho: any;
 declare const page: any;
 declare const browser: any;
 declare module 'mutationobserver-shim';
+declare const AxePuppeteer: any;
 
 // For Components
 declare module 'Ids*';

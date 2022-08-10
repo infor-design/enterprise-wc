@@ -5,6 +5,7 @@
  category: Navigation and Interaction
  keywords: theme, color, switcher
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Showing a tag with the switcher
 

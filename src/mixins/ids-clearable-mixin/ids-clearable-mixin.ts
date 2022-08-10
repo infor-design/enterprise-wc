@@ -6,7 +6,7 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsClearableMixin = (superclass: any) => class extends superclass {
+const IdsClearableMixin = (superclass: any): any => class extends superclass {
   // Input clearable events
   inputClearableEvents = ['blur.clearmixin', 'change.clearmixin', 'keyup.clearmixin'];
 
@@ -43,8 +43,11 @@ const IdsClearableMixin = (superclass: any) => class extends superclass {
   }
 
   refreshClearableButtonStyles() {
-    this.removeClearableButton();
-    this.appendClearableButton();
+    const xButton = this.shadowRoot.querySelector('.btn-clear');
+    if (!xButton) {
+      this.removeClearableButton();
+      this.appendClearableButton();
+    }
   }
 
   #initClearableButton() {
@@ -214,14 +217,14 @@ const IdsClearableMixin = (superclass: any) => class extends superclass {
    * When set the input will add a clearable x button
    * @param {boolean|string} value If true will set `clearable` attribute
    */
-  set clearable(value) {
+  set clearable(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CLEARABLE, val.toString());
     } else {
       this.removeAttribute(attributes.CLEARABLE);
     }
-    this.handleClearable();
+    if (this.container) this.handleClearable();
   }
 
   get clearable() { return this.getAttribute(attributes.CLEARABLE); }

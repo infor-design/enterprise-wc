@@ -5,26 +5,35 @@
  category: Layouts
  keywords: toolbar, layout, buttons
  examples:
-  - link: index.html
+  - link: example.html
+    type: Main Example
     description: Showing a simple toolbar
   - link: centered.html
+    type: Example
     description: Showing a toolbar with centered text
   - link: disabled.html
+    type: Example
     description: Showing a disabled toolbar
   - link: no-eyebrow.html
+    type: Example
     description: Showing a toolbar without eye brow text
   - link: no-eyebrow.html
+    type: Example
     description: Showing a toolbar without eye brow text
+  - link: formatter.html
+    type: Example
+    description: Showing the formamter style toolbar
   - link: overflowed.html
+    type: Example
     description: Showing a toolbar without overflow
   - link: side-by-side.html
+    type: Side by Side
     description: Showing a toolbar side by side working with 4.x
-  - link: side-by-side.html
-    description: Showing a toolbar side by side working with 4.x
-  - link: standalone-css.html
-    description: Showing a limited toolbar that works with css only
-  - link: tabbale.html
+  - link: tabbable.html
+    type: Example
     description: Demos the tabbable setting to disable tabbing
-
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a limited toolbar that works with css only
 
 

@@ -28,7 +28,7 @@ export default class IdsSearchField extends Base {
     super();
   }
 
-  isFormComponent: boolean = true;
+  isFormComponent = true;
 
   /**
    * Inherited from `IdsColorVariantMixin`
@@ -61,9 +61,9 @@ export default class IdsSearchField extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.#attachEventHandlers();
     this.#attachKeyboardListener();
-    super.connectedCallback();
 
     if (!this.placeholder) {
       this.placeholder = DEFAULT_PLACEHOLDER;

@@ -1,0 +1,25 @@
+---
+ component: Bar Chart
+ link: ids-bar-chart
+ description: Chart used to convey relational quanity information
+ category: Charts and Visualizations
+ keywords: bar chart, column, chart, visualization, quanity, relational information, trends
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows a basic bar chart
+  - link: colors.html
+    type: Example
+    description: Shows configuring custom colors
+  - link: stacked.html
+    type: Example
+    description: Shows a stacked bar chart
+  - link: patterns.html
+    type: Example
+    description: Shows configuring custom patterns for accessibility
+  - link: selectable.html
+    type: Example
+    description: Shows configuring selection
+  - link: no-animation.html
+    type: Example
+    description: Shows configuring no animation

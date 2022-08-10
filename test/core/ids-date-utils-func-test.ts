@@ -2,23 +2,27 @@
  * @jest-environment jsdom
  */
 import {
-  isTodaysDate,
-  firstDayOfWeekDate,
-  lastDayOfWeekDate,
-  dateDiff,
   addDate,
+  dateDiff,
   daysDiff,
+  daysInMonth,
+  firstDayOfMonthDate,
+  firstDayOfWeekDate,
+  gregorianToUmalqura,
+  hoursTo12,
+  hoursTo24,
+  isDaylightSavingTime,
+  isTodaysDate,
+  isValidDate,
+  lastDayOfMonthDate,
+  lastDayOfWeekDate,
   monthDiff,
   subtractDate,
-  isValidDate,
-  isDaylightSavingTime,
-  weeksInMonth,
-  daysInMonth,
   umalquraToGregorian,
-  gregorianToUmalqura,
-  firstDayOfMonthDate,
-  lastDayOfMonthDate,
-  weeksInRange
+  weekNumber,
+  weekNumberToDate,
+  weeksInMonth,
+  weeksInRange,
 } from '../../src/utils/ids-date-utils/ids-date-utils';
 
 describe('IdsDateUtils Tests', () => {
@@ -164,5 +168,70 @@ describe('IdsDateUtils Tests', () => {
     expect(lastDayOfMonthDate(2021, 10).getDate()).toEqual(30);
     expect(firstDayOfMonthDate(2000, 1).getDate()).toEqual(1);
     expect(lastDayOfMonthDate(2000, 1).getDate()).toEqual(29);
+  });
+
+  it('should get correct date from week number', () => {
+    // Week starts on Sunday
+    expect(weekNumberToDate(2022, 1)).toEqual(new Date(2022, 0, 2));
+    expect(weekNumberToDate(2022, 52)).toEqual(new Date(2022, 11, 25));
+    expect(weekNumberToDate(2022, 22)).toEqual(new Date(2022, 4, 29));
+    expect(weekNumberToDate(2026, 53)).toEqual(new Date(2026, 11, 27));
+    expect(weekNumberToDate(2020, 53)).toEqual(new Date(2020, 11, 27));
+    expect(weekNumberToDate(2020, 1)).toEqual(new Date(2019, 11, 29));
+    expect(weekNumberToDate(2022, 41)).toEqual(new Date(2022, 9, 9));
+    expect(weekNumberToDate(2022, 33)).toEqual(new Date(2022, 7, 14));
+
+    // Week starts on Monday
+    expect(weekNumberToDate(2022, 1, 1)).toEqual(new Date(2022, 0, 3));
+    expect(weekNumberToDate(2022, 52, 1)).toEqual(new Date(2022, 11, 26));
+    expect(weekNumberToDate(2022, 22, 1)).toEqual(new Date(2022, 4, 30));
+    expect(weekNumberToDate(2026, 53, 1)).toEqual(new Date(2026, 11, 28));
+    expect(weekNumberToDate(2020, 53, 1)).toEqual(new Date(2020, 11, 28));
+    expect(weekNumberToDate(2020, 1, 1)).toEqual(new Date(2019, 11, 30));
+    expect(weekNumberToDate(2022, 41, 1)).toEqual(new Date(2022, 9, 10));
+    expect(weekNumberToDate(2022, 33, 1)).toEqual(new Date(2022, 7, 15));
+  });
+
+  it('should get correct week number by date', () => {
+    // Week starts on Sunday
+    expect(weekNumber(new Date(2022, 11, 31))).toEqual(52);
+    expect(weekNumber(new Date(2026, 11, 31))).toEqual(53);
+    expect(weekNumber(new Date(2022, 5, 2))).toEqual(22);
+    expect(weekNumber(new Date(2026, 11, 27))).toEqual(53);
+    expect(weekNumber(new Date(2026, 0, 4))).toEqual(2);
+    expect(weekNumber(new Date(2022, 5, 26))).toEqual(26);
+
+    // Week starts on Monday
+    expect(weekNumber(new Date(2026, 11, 27), 1)).toEqual(52);
+    expect(weekNumber(new Date(2026, 0, 4), 1)).toEqual(1);
+    expect(weekNumber(new Date(2022, 5, 26), 1)).toEqual(25);
+  });
+
+  it('should convert hours to 24 hour format', () => {
+    // AM
+    expect(hoursTo24(12, 0)).toEqual(0);
+    expect(hoursTo24(1, 0)).toEqual(1);
+    expect(hoursTo24(10, 0)).toEqual(10);
+    expect(hoursTo24(11, 0)).toEqual(11);
+    // PM
+    expect(hoursTo24(12, 1)).toEqual(12);
+    expect(hoursTo24(1, 1)).toEqual(13);
+    expect(hoursTo24(6, 1)).toEqual(18);
+    expect(hoursTo24(11, 1)).toEqual(23);
+
+    // 24 hour format
+    expect(hoursTo24(0)).toEqual(0);
+    expect(hoursTo24(1)).toEqual(1);
+    expect(hoursTo24(12)).toEqual(12);
+    expect(hoursTo24(22)).toEqual(22);
+  });
+
+  it('should convert hours to 12 hour format', () => {
+    expect(hoursTo12(0)).toEqual(12);
+    expect(hoursTo12(12)).toEqual(12);
+    expect(hoursTo12(1)).toEqual(1);
+    expect(hoursTo12(13)).toEqual(1);
+    expect(hoursTo12(23)).toEqual(11);
+    expect(hoursTo12(18)).toEqual(6);
   });
 });

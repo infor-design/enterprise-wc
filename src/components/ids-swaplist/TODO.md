@@ -2,4 +2,4 @@
 
 ## Minor
 
-- [] Missing ability to drag
+- [x] Missing ability to drag

@@ -148,9 +148,9 @@ describe('IdsDataGrid Component', () => {
 
     container = new IdsContainer();
     dataGrid = new IdsDataGrid();
-    dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
     container.appendChild(dataGrid);
     document.body.appendChild(container);
+    dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
     dataGrid.columns = columns();
     dataGrid.data = dataset;
   });
@@ -185,8 +185,8 @@ describe('IdsDataGrid Component', () => {
     it('renders column css with adoptedStyleSheets', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
-      dataGrid.shadowRoot.adoptedStyleSheets = () => [window.CSSStyleSheet];
       document.body.appendChild(dataGrid);
+      dataGrid.shadowRoot.adoptedStyleSheets = () => [window.CSSStyleSheet];
       dataGrid.columns = columns();
       dataGrid.data = dataset;
 
@@ -196,19 +196,23 @@ describe('IdsDataGrid Component', () => {
     it('renders column css with styleSheets', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
-      dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
       document.body.appendChild(dataGrid);
+      dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
       dataGrid.columns = columns();
       dataGrid.data = dataset;
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);
     });
 
+    it('can get the header element with a setter', () => {
+      expect(dataGrid.header.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);
+    });
+
     it('skips render column no styleSheets in headless browsers', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
-      dataGrid.shadowRoot.styleSheets = [];
       document.body.appendChild(dataGrid);
+      dataGrid.shadowRoot.styleSheets = [];
       dataGrid.columns = columns();
       dataGrid.data = dataset;
 
@@ -218,8 +222,8 @@ describe('IdsDataGrid Component', () => {
     it('renders one single column', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
-      dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
       document.body.appendChild(dataGrid);
+      dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
       dataGrid.columns = [{
         id: 'test',
         width: 20
@@ -234,6 +238,13 @@ describe('IdsDataGrid Component', () => {
     it('renders row data', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(dataGrid.columns.length * 9);
+    });
+
+    it('skips re-rerender if no data', () => {
+      dataGrid.columns = [];
+      dataGrid.data = [];
+      dataGrid.redrawBody();
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
     });
 
     it('renders with no errors on empty data and columns', () => {
@@ -254,6 +265,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid = new IdsDataGrid();
       dataGrid.alternateRowShading = true;
       document.body.appendChild(dataGrid);
+      expect(dataGrid.template()).toContain('alt-row-shading');
       dataGrid.columns = columns();
       dataGrid.data = dataset;
 
@@ -316,6 +328,9 @@ describe('IdsDataGrid Component', () => {
 
       dataGrid.rowHeight = 'xs';
       expect(dataGrid.rowPixelHeight).toEqual(30);
+
+      dataGrid.redrawBody();
+      expect(dataGrid.rowPixelHeight).toEqual(30);
     });
   });
 
@@ -328,6 +343,13 @@ describe('IdsDataGrid Component', () => {
       dataGrid.columns = columns();
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-body').length).toEqual(1);
+    });
+
+    it('can hide / show column with setColumnVisible', () => {
+      dataGrid.setColumnVisible('description', false);
+      expect(dataGrid.shadowRoot.querySelectorAll('[column-id="description"]').length).toEqual(0);
+      dataGrid.setColumnVisible('description', true);
+      expect(dataGrid.shadowRoot.querySelectorAll('[column-id="description"]').length).toEqual(1);
     });
 
     it('renders column when set to empty', () => {
@@ -344,12 +366,381 @@ describe('IdsDataGrid Component', () => {
     it('renders column with no all set widths', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
-      dataGrid.shadowRoot.adoptedStyleSheets = () => [window.CSSStyleSheet];
       document.body.appendChild(dataGrid);
+      dataGrid.shadowRoot.adoptedStyleSheets = () => [window.CSSStyleSheet];
       dataGrid.data = dataset;
       dataGrid.columns = columns().slice(0, 2);
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(2);
+    });
+
+    it('supports hidden columns', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        hidden: true
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency'
+      }];
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(2);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(18);
+
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        hidden: true
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency',
+        hidden: true
+      }];
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(1);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(9);
+    });
+
+    it('supports setting cssPart', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        cssPart: 'custom-cell'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency',
+        cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : '')
+      }];
+
+      expect(dataGrid.shadowRoot.querySelectorAll('[part="custom-cell"]').length).toEqual(14);
+    });
+
+    it('supports setting frozen columns', () => {
+      expect(dataGrid.hasFrozenColumns).toEqual(false);
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        frozen: 'left'
+      },
+      {
+        id: 'col1',
+        name: 'Currency',
+        field: 'bookCurrency',
+        frozen: 'left'
+      },
+      {
+        id: 'col2',
+        name: 'Currency',
+        field: 'bookCurrency',
+        frozen: 'left'
+      },
+      {
+        id: 'col3',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'col4',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'col5',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency',
+        frozen: 'right'
+      }];
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.frozen').length).toEqual(40);
+      expect(dataGrid.shadowRoot.querySelectorAll('.frozen-right').length).toEqual(10);
+      expect(dataGrid.shadowRoot.querySelectorAll('.frozen-left').length).toEqual(30);
+      expect(dataGrid.shadowRoot.querySelectorAll('.frozen-last').length).toEqual(10);
+
+      expect(dataGrid.rightFrozenColumns.length).toEqual(1);
+      expect(dataGrid.leftFrozenColumns.length).toEqual(3);
+      expect(dataGrid.hasFrozenColumns).toEqual(true);
+    });
+
+    it('supports setting cell alignment', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        align: 'center'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        align: 'right'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency',
+        align: 'left'
+      }];
+
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(1)').classList.contains('align-center')).toBeTruthy();
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(2)').classList.contains('align-right')).toBeTruthy();
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(3)').classList.contains('align-left')).toBeTruthy();
+    });
+
+    it('supports setting header alignment', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        align: 'center',
+        headerAlign: 'right'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        align: 'right',
+        headerAlign: 'center'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency',
+        align: 'left',
+        headerAlign: 'center'
+      }];
+
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(1)').classList.contains('align-center')).toBeTruthy();
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(2)').classList.contains('align-right')).toBeTruthy();
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(3)').classList.contains('align-left')).toBeTruthy();
+      expect(dataGrid.container.querySelector('.ids-data-grid-header-cell:nth-child(1)').classList.contains('align-right')).toBeTruthy();
+      expect(dataGrid.container.querySelector('.ids-data-grid-header-cell:nth-child(2)').classList.contains('align-center')).toBeTruthy();
+      expect(dataGrid.container.querySelector('.ids-data-grid-header-cell:nth-child(3)').classList.contains('align-center')).toBeTruthy();
+    });
+
+    it('supports setting percent width', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        align: 'center',
+        width: '50%'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        align: 'right',
+        width: '50%'
+      }];
+      expect(dataGrid.container.style.getPropertyValue('--ids-data-grid-column-widths')).toEqual('minmax(50%, 1fr) minmax(50%, 1fr) ');
+    });
+
+    it('supports setting custom width', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        align: 'center',
+        width: 'minmax(130px, 2fr)'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        align: 'right',
+        width: '50%'
+      }];
+      expect(dataGrid.container.style.getPropertyValue('--ids-data-grid-column-widths')).toEqual('minmax(130px, 2fr) minmax(50%, 1fr) ');
+    });
+
+    it('supports column groups', () => {
+      dataGrid.columns[3].hidden = true;
+
+      dataGrid.columnGroups = [
+        {
+          colspan: 3,
+          id: 'group1',
+          name: 'Column Group One',
+          align: 'center'
+        },
+        {
+          colspan: 2,
+          id: 'group2',
+          name: ''
+        },
+        {
+          colspan: 2,
+          id: 'group3',
+          name: 'Column Group Three',
+          align: 'right'
+        },
+        {
+          colspan: 10,
+          name: 'Column Group Four',
+          align: 'left'
+        }
+      ];
+      const nodes = dataGrid.container.querySelectorAll('.ids-data-grid-column-groups > *');
+      expect(nodes.length).toEqual(4);
+      expect(nodes[0].textContent).toContain('Column Group One');
+      expect(nodes[1].textContent.replace(/^\s+|\s+$/gm, '')).toBe('');
+      expect(nodes[3].textContent).toContain('Column Group Four');
+      expect(nodes[3].getAttribute('column-group-id')).toBe('id');
+      expect(nodes[0].classList.contains('align-center')).toBeTruthy();
+      expect(nodes[2].classList.contains('align-right')).toBeTruthy();
+    });
+
+    it('supports column resize', async () => {
+      (window as any).getComputedStyle = () => ({ width: 200 });
+
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        align: 'center',
+        resizable: true,
+        minWidth: 100,
+        width: 200,
+        maxWidth: 300
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        align: 'right',
+        minWidth: 100,
+        resizable: true,
+        maxWidth: 300
+      }];
+
+      const nodes = dataGrid.container.querySelectorAll('.resizer');
+      expect(nodes.length).toEqual(2);
+
+      // Fake a resize
+      const mousedown = new MouseEvent('mousedown', { clientX: 224, bubbles: true });
+      // Wrong target
+      nodes[0].parentNode.dispatchEvent(mousedown);
+      nodes[0].dispatchEvent(mousedown);
+      expect(dataGrid.isResizing).toBeTruthy();
+      expect(dataGrid.columns[0].width).toBe(200);
+
+      let mousemove = new MouseEvent('mousemove', { clientX: 200, bubbles: true });
+      document.dispatchEvent(mousemove);
+      expect(dataGrid.columns[0].width).toBe(176);
+
+      mousemove = new MouseEvent('mouseup', { clientX: 190, bubbles: true });
+      document.dispatchEvent(mousemove);
+      expect(dataGrid.columns[0].width).toBe(176);
+    });
+
+    it('supports column resize on RTL', async () => {
+      (window as any).getComputedStyle = () => ({ width: 200 });
+      await processAnimFrame();
+
+      container.language = 'ar';
+      await processAnimFrame();
+
+      expect(dataGrid.locale.isRTL()).toBe(true);
+
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        align: 'center',
+        resizable: true,
+        minWidth: 100,
+        width: 200,
+        maxWidth: 300
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        align: 'right',
+        minWidth: 100,
+        resizable: true,
+        maxWidth: 300
+      }];
+
+      await processAnimFrame();
+      const nodes = dataGrid.container.querySelectorAll('.resizer');
+      expect(nodes.length).toEqual(2);
+
+      // Fake a resize
+      const mousedown = new MouseEvent('mousedown', { clientX: 224, bubbles: true });
+      // Wrong target
+      nodes[0].parentNode.dispatchEvent(mousedown);
+      nodes[0].dispatchEvent(mousedown);
+      expect(dataGrid.isResizing).toBeTruthy();
+      expect(dataGrid.columns[0].width).toBe(200);
+
+      let mousemove = new MouseEvent('mousemove', { clientX: 200, bubbles: true });
+      document.dispatchEvent(mousemove);
+      expect(dataGrid.columns[0].width).toBe(224);
+
+      // Stop Moving
+      mousemove = new MouseEvent('mouseup', { clientX: 190, bubbles: true });
+      document.dispatchEvent(mousemove);
+      expect(dataGrid.columns[0].width).toBe(224);
+    });
+
+    it('supports getting columnIdxById', () => {
+      expect(dataGrid.columnIdxById('rowNumber')).toEqual(1);
+      expect(dataGrid.columnIdxById('xxx')).toEqual(-1);
+    });
+
+    it('supports setting column width', () => {
+      dataGrid.setColumnWidth('description', 101);
+      expect(dataGrid.columns[2].width).toEqual(101);
+    });
+
+    it('supports setting column width defaults', () => {
+      const newColumns = deepClone(columns());
+      newColumns[0].id = 'selectionCheckbox';
+      newColumns[0].formatter = formatters.selectionCheckbox;
+      newColumns[0].width = null;
+      dataGrid.columns = newColumns;
+      expect(dataGrid.columns[0].width).toBe(45);
+      expect(dataGrid.columns[0].id).toBe('selectionCheckbox');
+      dataGrid.setColumnWidth('description', 101);
+      expect(dataGrid.columns[0].width).toBe(45);
+      dataGrid.setColumnWidth('selectionCheckbox', 101);
+      expect(dataGrid.columns[0].width).toBe(101);
+    });
+
+    it('supports not setting min column width (12)', () => {
+      dataGrid.setColumnWidth('description', 1);
+      expect(dataGrid.columns[2].width).toEqual(undefined);
     });
   });
 
@@ -361,7 +752,7 @@ describe('IdsDataGrid Component', () => {
         expect(x.detail.sortColumn.ascending).toEqual(true);
       });
 
-      dataGrid.addEventListener('sort', mockCallback);
+      dataGrid.addEventListener('sorted', mockCallback);
       dataGrid.setSortColumn('description', true);
 
       expect(mockCallback.mock.calls.length).toBe(1);
@@ -374,7 +765,7 @@ describe('IdsDataGrid Component', () => {
         expect(x.detail.sortColumn.ascending).toEqual(false);
       });
 
-      dataGrid.addEventListener('sort', mockCallback);
+      dataGrid.addEventListener('sorted', mockCallback);
       dataGrid.setSortColumn('description', false);
 
       expect(mockCallback.mock.calls.length).toBe(1);
@@ -387,15 +778,33 @@ describe('IdsDataGrid Component', () => {
         expect(x.detail.sortColumn.ascending).toEqual(true);
       });
 
-      dataGrid.addEventListener('sort', mockCallback);
+      dataGrid.addEventListener('sorted', mockCallback);
       dataGrid.setSortColumn('description');
+
+      expect(mockCallback.mock.calls.length).toBe(1);
+    });
+
+    it('can sort by field vs id', () => {
+      const mockCallback = jest.fn((x) => {
+        expect(x.detail.elem).toBeTruthy();
+        expect(x.detail.sortColumn.id).toEqual('publishTime');
+        expect(x.detail.sortColumn.ascending).toEqual(true);
+      });
+
+      dataGrid.addEventListener('sorted', mockCallback);
+      dataGrid.setSortColumn('publishTime');
 
       expect(mockCallback.mock.calls.length).toBe(1);
     });
 
     it('sets sort state via the API', () => {
       dataGrid.setSortState('description');
-      expect(dataGrid.shadowRoot.querySelectorAll('[data-column-id]')[2].getAttribute('aria-sort')).toBe('ascending');
+      expect(dataGrid.shadowRoot.querySelectorAll('[column-id]')[2].getAttribute('aria-sort')).toBe('ascending');
+    });
+
+    it('wont error in columnDataByHeaderElem', () => {
+      const badQuery = dataGrid.container.querySelector('.ids-data-grid-header-cell:nth-child(1000)');
+      expect(dataGrid.columnDataByHeaderElem(badQuery)).toBe(undefined);
     });
 
     it('handles wrong ID on sort', () => {
@@ -412,9 +821,9 @@ describe('IdsDataGrid Component', () => {
         expect(x.detail.sortColumn.ascending).toEqual(true);
       });
 
-      dataGrid.addEventListener('sort', mockCallback);
+      dataGrid.addEventListener('sorted', mockCallback);
       const headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
-      headers[2].querySelector('.ids-data-grid-header-cell-content-wrapper').click();
+      headers[2].querySelector('.ids-data-grid-header-cell-content').click();
 
       expect(mockCallback.mock.calls.length).toBe(1);
     });
@@ -429,13 +838,279 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(0);
       expect(errors).not.toHaveBeenCalled();
     });
+
+    it('skips sort on resize click ', () => {
+      const mockCallback = jest.fn();
+      dataGrid.isResizing = true;
+      dataGrid.addEventListener('sort', mockCallback);
+      const headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
+      headers[2].querySelector('.ids-data-grid-header-cell-content').click();
+
+      expect(mockCallback.mock.calls.length).toBe(0);
+    });
+
+    it('resets direction on sort', async () => {
+      container.language = 'ar';
+      await processAnimFrame();
+      expect(dataGrid.getAttribute('dir')).toEqual('rtl');
+
+      const headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
+      headers[2].querySelector('.ids-data-grid-header-cell-content').click();
+
+      expect(dataGrid.getAttribute('dir')).toEqual('rtl');
+    });
+  });
+
+  describe('Reordering Tests', () => {
+    it('supports column reorder', async () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        reorderable: true,
+        width: 200,
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        minWidth: 100,
+        reorderable: true,
+      },
+      {
+        id: 'other',
+        name: 'ledger',
+        field: 'ledger',
+        minWidth: 100,
+        reorderable: false,
+      }];
+
+      const cols = (dataGrid).columns;
+      const nodes = dataGrid.container.querySelectorAll('.reorderer');
+      expect(nodes.length).toEqual(2);
+
+      // Fake a Drag
+      const dragstart = new MouseEvent('dragstart', { bubbles: true });
+      nodes[0].dispatchEvent(dragstart);
+      expect(nodes[0].parentNode.classList.contains('active-drag-column')).toBeTruthy();
+      const dragover: any = new CustomEvent('dragover', { bubbles: true, dataTransfer: { } } as any);
+      dragover.pageY = '1';
+      Object.assign(dragover, {
+        dataTransfer: { setData: jest.fn(), effectAllowed: 'move' }
+      });
+      nodes[1].dispatchEvent(dragover);
+
+      // simulate dragging
+      const dragenter = new MouseEvent('dragenter', { bubbles: true });
+      nodes[1].dispatchEvent(dragenter);
+      nodes[0].dispatchEvent(dragenter);
+      nodes[1].dispatchEvent(dragstart);
+
+      const dragstart2 = new MouseEvent('dragstart', { bubbles: true });
+      nodes[1].dispatchEvent(dragstart2);
+      nodes[0].dispatchEvent(dragenter);
+      nodes[1].dispatchEvent(dragenter);
+      nodes[0].dispatchEvent(dragenter);
+
+      dataGrid.locale.isRTL = () => true;
+      nodes[1].dispatchEvent(dragenter);
+      nodes[0].dispatchEvent(dragenter);
+      expect(dataGrid.wrapper.querySelector('.ids-data-grid-sort-arrows').style.display).toBe('block');
+
+      const dragend = new MouseEvent('dragend', { bubbles: true });
+      nodes[1].dispatchEvent(dragend);
+      expect(nodes[0].parentNode.classList.contains('active-drag-column')).toBeFalsy();
+      expect(dataGrid.wrapper.querySelector('.ids-data-grid-sort-arrows').style.display).toBe('none');
+
+      const drop = new MouseEvent('drop', { bubbles: true });
+      nodes[1].dispatchEvent(drop);
+
+      // Overall success
+      expect(cols[0].id).toBe('price');
+      expect(cols[1].id).toBe('bookCurrency');
+      expect(cols[2].id).toBe('other');
+    });
+
+    it('supports dragging right', async () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        reorderable: true,
+        width: 200,
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        minWidth: 100,
+        reorderable: true,
+      },
+      {
+        id: 'other',
+        name: 'ledger',
+        field: 'ledger',
+        minWidth: 100,
+        reorderable: true,
+      }];
+
+      const cols = (dataGrid).columns;
+      const nodes = dataGrid.container.querySelectorAll('.reorderer');
+
+      // Fake a Drag
+      const dragstart = new MouseEvent('dragstart', { bubbles: true });
+      nodes[2].dispatchEvent(dragstart);
+
+      // simulate dragging
+      const dragenter = new MouseEvent('dragenter', { bubbles: true });
+      nodes[1].dispatchEvent(dragenter);
+      nodes[0].dispatchEvent(dragenter);
+      expect(dataGrid.wrapper.querySelector('.ids-data-grid-sort-arrows').style.display).toBe('block');
+
+      const dragend = new MouseEvent('dragend', { bubbles: true });
+      nodes[0].dispatchEvent(dragend);
+
+      const drop = new MouseEvent('drop', { bubbles: true });
+      nodes[0].dispatchEvent(drop);
+
+      // Overall success
+      expect(cols[0].id).toBe('other');
+      expect(cols[1].id).toBe('price');
+      expect(cols[2].id).toBe('bookCurrency');
+    });
+
+    it('supports dragging when right to left', async () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        reorderable: true,
+        width: 200,
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        minWidth: 100,
+        reorderable: true,
+      },
+      {
+        id: 'other',
+        name: 'ledger',
+        field: 'ledger',
+        minWidth: 100,
+        reorderable: true,
+      }];
+      await processAnimFrame();
+
+      container.language = 'ar';
+      await processAnimFrame();
+      expect(dataGrid.getAttribute('dir')).toEqual('rtl');
+
+      const cols = (dataGrid).columns;
+      const nodes = dataGrid.container.querySelectorAll('.reorderer');
+
+      // Fake a Drag
+      const dragstart = new MouseEvent('dragstart', { bubbles: true });
+      nodes[2].dispatchEvent(dragstart);
+
+      // simulate dragging
+      const dragenter = new MouseEvent('dragenter', { bubbles: true });
+      nodes[1].dispatchEvent(dragenter);
+      nodes[0].dispatchEvent(dragenter);
+      expect(dataGrid.wrapper.querySelector('.ids-data-grid-sort-arrows').style.display).toBe('block');
+
+      const dragend = new MouseEvent('dragend', { bubbles: true });
+      nodes[0].dispatchEvent(dragend);
+
+      const drop = new MouseEvent('drop', { bubbles: true });
+      nodes[0].dispatchEvent(drop);
+
+      // Overall success
+      expect(cols[0].id).toBe('other');
+      expect(cols[1].id).toBe('price');
+      expect(cols[2].id).toBe('bookCurrency');
+    });
+
+    it('supports stopping reorder on non-reorderable', async () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        reorderable: false,
+        width: 200,
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        minWidth: 100,
+        reorderable: true,
+      },
+      {
+        id: 'other',
+        name: 'ledger',
+        field: 'ledger',
+        minWidth: 100,
+        reorderable: false,
+      }];
+
+      const headers = dataGrid.container.querySelectorAll('.ids-data-grid-header-cell');
+      const dragstart = new MouseEvent('dragstart', { bubbles: true });
+      headers[0].dispatchEvent(dragstart);
+      expect(dataGrid.shadowRoot.querySelector('.active-drag-column')).toBeFalsy();
+    });
+
+    it('supports moveColumn', async () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        reorderable: true,
+        width: 200,
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency',
+        minWidth: 100,
+        reorderable: true,
+      },
+      {
+        id: 'other',
+        name: 'ledger',
+        field: 'ledger',
+        minWidth: 100,
+        reorderable: false,
+      }];
+
+      const cols = (dataGrid).columns;
+      expect(cols[0].id).toBe('price');
+      expect(cols[1].id).toBe('bookCurrency');
+      expect(cols[2].id).toBe('other');
+      dataGrid.moveColumn(0, 1);
+      expect(cols[0].id).toBe('bookCurrency');
+      expect(cols[1].id).toBe('price');
+      expect(cols[2].id).toBe('other');
+    });
   });
 
   describe('Container / Height Tests', () => {
     it('supports auto fit', () => {
       dataGrid.autoFit = true;
+      dataGrid.redraw();
       expect(dataGrid.getAttribute('auto-fit')).toEqual('true');
       dataGrid.autoFit = false;
+      dataGrid.redraw();
+      expect(dataGrid.getAttribute('auto-fit')).toBeFalsy();
+    });
+
+    it('supports auto fit bottom', () => {
+      dataGrid.autoFit = 'bottom';
+      dataGrid.redraw();
+      expect(dataGrid.getAttribute('auto-fit')).toEqual('bottom');
+      dataGrid.autoFit = false;
+      dataGrid.redraw();
       expect(dataGrid.getAttribute('auto-fit')).toBeFalsy();
     });
   });
@@ -502,10 +1177,10 @@ describe('IdsDataGrid Component', () => {
 
     it('can render with the password formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('**');
+        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('••');
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('**');
+        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('••');
     });
 
     it('can render with the rowNumber formatter', () => {
@@ -544,7 +1219,7 @@ describe('IdsDataGrid Component', () => {
 
     it('can render with the decimal formatter (with defaults)', () => {
       delete dataGrid.columns[6].formatOptions;
-      dataGrid.rerender();
+      dataGrid.redraw();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('12.99');
 
@@ -562,7 +1237,7 @@ describe('IdsDataGrid Component', () => {
 
     it('can render with the integer formatter (with defaults)', () => {
       delete dataGrid.columns[9].formatOptions;
-      dataGrid.rerender();
+      dataGrid.redraw();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('13');
 
@@ -580,12 +1255,23 @@ describe('IdsDataGrid Component', () => {
 
     it('can render with the hyperlink formatter (with default href)', () => {
       delete dataGrid.columns[10].href;
-      dataGrid.rerender();
+      dataGrid.redraw();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').innerHTML).toEqual('United States');
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
         .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
+    });
+
+    it('can focus with the hyperlink when clicked instead of the cell', () => {
+      dataGrid.columns[10].href = '#';
+      const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink');
+      expect(link.innerHTML).toEqual('United States');
+
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+      link.dispatchEvent(mouseClick);
+      // No Easy way to check has focus
+      expect(link.nodeName).toEqual('IDS-HYPERLINK');
     });
 
     it('can render with the hyperlink formatter (with href function)', () => {
@@ -595,12 +1281,177 @@ describe('IdsDataGrid Component', () => {
         }
         return `${row.book}`;
       };
-      dataGrid.rerender();
+      dataGrid.redraw();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
         .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').getAttribute('href')).toEqual('102');
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
         .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
+    });
+
+    it('can render disabled hyperlink', () => {
+      dataGrid.columns[10].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
+      dataGrid.redraw();
+      const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-hyperlink');
+      expect(link.disabled).toBeTruthy();
+      const link2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-hyperlink');
+      expect(link2.disabled).toBeFalsy();
+    });
+
+    it('can render with the button formatter (with click function)', () => {
+      const clickListener = jest.fn();
+      dataGrid.columns = [{
+        id: 'button',
+        name: 'button',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.button,
+        icon: 'settings',
+        align: 'center',
+        type: 'icon',
+        click: clickListener,
+        text: 'button'
+      }];
+
+      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button.textContent).toContain('button');
+      expect(button.querySelector('ids-icon')).toBeTruthy();
+
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+      expect(clickListener).toHaveBeenCalledTimes(0);
+      button.dispatchEvent(mouseClick);
+      expect(clickListener).toHaveBeenCalledTimes(1);
+    });
+
+    it('can render with the button formatter defaults', async () => {
+      dataGrid.columns = [{
+        id: 'button',
+        name: 'button',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.button,
+        align: 'center'
+      }];
+      await processAnimFrame();
+
+      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button.textContent).toContain('Button');
+      expect(button.type).toBe('tertiary');
+      expect(button.querySelector('ids-icon')).toBeFalsy();
+    });
+
+    it('can render disabled buttons', async () => {
+      dataGrid.columns = [{
+        id: 'button',
+        name: 'button',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.button,
+        icon: 'settings',
+        align: 'center',
+        disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
+        text: 'button'
+      }];
+      await processAnimFrame();
+      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button.disabled).toBeTruthy();
+      const button2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-button');
+      expect(button2.disabled).toBeFalsy();
+    });
+
+    it('can disabled formatters edge cases', async () => {
+      dataGrid.columns = [{
+        id: 'test',
+        name: 'test',
+        formatter: dataGrid.formatters.button,
+        disabled: undefined
+      }];
+
+      await processAnimFrame();
+      let button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button.disabled).toBeFalsy();
+
+      dataGrid.columns = [{
+        id: 'test',
+        name: 'test',
+        formatter: dataGrid.formatters.button,
+        disabled: true
+      }];
+      await processAnimFrame();
+
+      button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button.disabled).toBeTruthy();
+
+      dataGrid.columns = [{
+        id: 'test',
+        name: 'test',
+        formatter: dataGrid.formatters.button,
+        disabled: 'true'
+      }];
+      await processAnimFrame();
+
+      button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button.disabled).toBeTruthy();
+    });
+
+    it('can render with the badge formatter (with color function)', () => {
+      const colorListener = jest.fn(() => 'info');
+      dataGrid.columns = [{
+        id: 'badge',
+        name: 'badge',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.badge,
+        icon: 'settings',
+        align: 'center',
+        color: colorListener,
+        field: 'ledger'
+      }];
+
+      // Empty row
+      const badge = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-badge');
+      expect(badge).toBeFalsy();
+
+      const badge2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-badge');
+      expect(badge2.textContent).toContain('CORE');
+      expect(badge2.getAttribute('color')).toBe('info');
+      expect(colorListener).toHaveBeenCalledTimes(6);
+    });
+
+    it('can render with the badge formatter with color class', () => {
+      dataGrid.columns = [{
+        id: 'badge',
+        name: 'badge',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.badge,
+        icon: 'settings',
+        align: 'center',
+        color: 'error',
+        field: 'ledger'
+      }];
+
+      // Empty row
+      const badge = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-badge');
+      expect(badge.textContent).toContain('CORE');
+      expect(badge.getAttribute('color')).toBe('error');
+    });
+
+    it('can render with the badge formatter with no color class', () => {
+      dataGrid.columns = [{
+        id: 'badge',
+        name: 'badge',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.badge,
+        icon: 'settings',
+        align: 'center',
+        field: 'ledger'
+      }];
+
+      // Empty row
+      const badge = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-badge');
+      expect(badge.getAttribute('color')).toBe(null);
     });
   });
 
@@ -722,7 +1573,7 @@ describe('IdsDataGrid Component', () => {
         expect(x.detail.activeCell.node).toBeTruthy();
       });
 
-      dataGrid.addEventListener('activecellchange', mockCallback);
+      dataGrid.addEventListener('activecellchanged', mockCallback);
       const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
       dataGrid.dispatchEvent(event);
 
@@ -732,7 +1583,7 @@ describe('IdsDataGrid Component', () => {
     it('fires activecellchange event on click', () => {
       const mockCallback = jest.fn();
 
-      dataGrid.addEventListener('activecellchange', mockCallback);
+      dataGrid.addEventListener('activecellchanged', mockCallback);
       dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[3]
         .querySelectorAll('.ids-data-grid-cell')[3].click();
 
@@ -746,11 +1597,6 @@ describe('IdsDataGrid Component', () => {
     it('supports setting mode', () => {
       dataGrid.mode = 'dark';
       expect(dataGrid.container.getAttribute('mode')).toEqual('dark');
-    });
-
-    it('supports setting version', () => {
-      dataGrid.version = 'classic';
-      expect(dataGrid.container.getAttribute('version')).toEqual('classic');
     });
 
     it('renders with listStyle option', () => {
@@ -803,7 +1649,22 @@ describe('IdsDataGrid Component', () => {
       dataGrid.rowSelection = 'single';
       dataGrid.columns = newColumns;
 
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-datagrid-radio').length).toEqual(9);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-radio').length).toEqual(9);
+    });
+
+    it('can disable the selectionRadio', () => {
+      const newColumns = deepClone(columns());
+      newColumns[0].id = 'selectionRadio';
+      newColumns[0].formatter = formatters.selectionRadio;
+      newColumns[0].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
+      dataGrid.rowSelection = 'single';
+      dataGrid.columns = newColumns;
+
+      dataGrid.redraw();
+      const radio = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell .ids-data-grid-radio')[0];
+      expect(radio.classList.contains('disabled')).toBeTruthy();
+      const radio2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelectorAll('.ids-data-grid-cell .ids-data-grid-radio')[0];
+      expect(radio2.classList.contains('disabled')).toBeFalsy();
     });
 
     it('removes rowSelection on setting to false', () => {
@@ -813,7 +1674,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('row-selection')).toBeFalsy();
     });
 
-    it('keeps selections on sort for single and multiple selection', () => {
+    it('keeps selections on sort for single selection', () => {
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionRadio';
       newColumns[0].formatter = formatters.selectionRadio;
@@ -826,13 +1687,13 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows[0].index).toBe(1);
 
       let headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
-      headers[2].querySelector('.ids-data-grid-header-cell-content-wrapper').click();
+      headers[2].querySelector('.ids-data-grid-header-cell-content').click();
 
       expect(dataGrid.selectedRows.length).toBe(1);
       expect(dataGrid.selectedRows[0].index).toBe(1);
 
       headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
-      headers[2].querySelector('.ids-data-grid-header-cell-content-wrapper').click();
+      headers[2].querySelector('.ids-data-grid-header-cell-content').click();
       expect(dataGrid.selectedRows.length).toBe(1);
       expect(dataGrid.selectedRows[0].index).toBe(7);
     });
@@ -852,13 +1713,13 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows[0].index).toBe(1);
 
       let headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
-      headers[2].querySelector('.ids-data-grid-header-cell-content-wrapper').click();
+      headers[2].querySelector('.ids-data-grid-header-cell-content').click();
       expect(dataGrid.selectedRows.length).toBe(1);
       expect(dataGrid.activatedRow.index).toBe(2);
       expect(dataGrid.selectedRows[0].index).toBe(1);
 
       headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
-      headers[2].querySelector('.ids-data-grid-header-cell-content-wrapper').click();
+      headers[2].querySelector('.ids-data-grid-header-cell-content').click();
       expect(dataGrid.selectedRows.length).toBe(1);
       expect(dataGrid.selectedRows[0].index).toBe(7);
       expect(dataGrid.activatedRow.index).toBe(6);
@@ -872,11 +1733,26 @@ describe('IdsDataGrid Component', () => {
       newColumns[0].formatter = formatters.selectionCheckbox;
       dataGrid.rowSelection = 'multiple';
       dataGrid.columns = newColumns;
-
+      dataGrid.redraw();
       dataGrid.headerCheckbox.click();
       expect(dataGrid.selectedRows.length).toBe(9);
       dataGrid.headerCheckbox.click();
       expect(dataGrid.selectedRows.length).toBe(0);
+    });
+
+    it('can disable the selectionCheckbox', () => {
+      const newColumns = deepClone(columns());
+      newColumns[0].id = 'selectionCheckbox';
+      newColumns[0].formatter = formatters.selectionCheckbox;
+      newColumns[0].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
+      dataGrid.rowSelection = 'multiple';
+      dataGrid.columns = newColumns;
+
+      dataGrid.redraw();
+      const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell .ids-data-grid-checkbox')[0];
+      expect(link.classList.contains('disabled')).toBeTruthy();
+      const link2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelectorAll('.ids-data-grid-cell .ids-data-grid-checkbox')[0];
+      expect(link2.classList.contains('disabled')).toBeFalsy();
     });
 
     it('can select a row with space key', () => {
@@ -893,16 +1769,16 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows.length).toBe(1);
     });
 
-    it('handles supress row deselection', () => {
+    it('handles suppress row deselection', () => {
       dataGrid.rowSelection = 'single';
-      dataGrid.supressRowDeselection = false;
+      dataGrid.suppressRowDeselection = false;
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
       expect(dataGrid.selectedRows.length).toBe(1);
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
       expect(dataGrid.selectedRows.length).toBe(0);
 
-      dataGrid.supressRowDeselection = true;
-      expect(dataGrid.supressRowDeselection).toBeTruthy();
+      dataGrid.suppressRowDeselection = true;
+      expect(dataGrid.suppressRowDeselection).toBeTruthy();
 
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
@@ -924,16 +1800,16 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Activation Tests', () => {
-    it('handles supress row deactivation', () => {
+    it('handles suppress row deactivation', () => {
       dataGrid.rowSelection = 'mixed';
-      dataGrid.supressRowDeactivation = false;
+      dataGrid.suppressRowDeactivation = false;
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
       expect(dataGrid.activatedRow.index).toBe(1);
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
       expect(dataGrid.activatedRow).toBeFalsy();
 
-      dataGrid.supressRowDeactivation = true;
-      expect(dataGrid.supressRowDeactivation).toBeTruthy();
+      dataGrid.suppressRowDeactivation = true;
+      expect(dataGrid.suppressRowDeactivation).toBeTruthy();
 
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
@@ -973,7 +1849,7 @@ describe('IdsDataGrid Component', () => {
     });
   });
 
-  describe('IdsPagerMixin Tests', () => {
+  describe.skip('Paging Tests', () => {
     it('renders pager', () => {
       dataGrid.pagination = 'client-side';
       dataGrid.pageSize = 10;
@@ -1127,24 +2003,6 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.pageNumber).toBe(1);
     });
 
-    it.skip('paginates correctly when data-grid is sorted by column', () => {
-      dataGrid.pagination = 'client-side';
-      dataGrid.pageNumber = 1;
-      dataGrid.pageSize = 3;
-      dataGrid.replaceWith(dataGrid);
-
-      const { labels } = dataGrid.elements;
-      const { buttons } = dataGrid.pager.elements;
-      const mouseClick = new MouseEvent('click', { bubbles: true });
-
-      labels[0].dispatchEvent(mouseClick);
-      labels[0].dispatchEvent(mouseClick);
-      buttons.last.button.dispatchEvent(mouseClick);
-      expect(dataGrid.shadowRoot.innerHTML).toMatchSnapshot();
-    });
-
-    it.skip('does server-side pagination when pagination is "server-side"', () => {});
-
     it('only fires pager events when pagination is "standalone"', () => {
       dataGrid.pagination = 'standalone';
       dataGrid.pageSize = 2;
@@ -1186,7 +2044,7 @@ describe('IdsDataGrid Component', () => {
       expect(endSlotNodes[0].querySelector('ids-popup-menu')).toBeDefined();
     });
 
-    it('page-size popup-menu has options for: 10, 25, 50, 100', () => {
+    it.skip('page-size popup-menu has options for: 10, 25, 50, 100', () => {
       dataGrid.pagination = 'client-side';
       dataGrid.pageNumber = 1;
       dataGrid.pageSize = 3;

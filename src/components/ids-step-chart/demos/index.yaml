@@ -1,0 +1,10 @@
+---
+ component: Step Chart
+ link: ids-step-chart
+ description: Displays steps in a process
+ category: Charts and Visualizations
+ keywords: process, steops, readonly, data
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Showing the basic step chart

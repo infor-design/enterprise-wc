@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Data Grid</ids-text>
+      <ids-text font-size="12" type="h1">Data Grid (Mixed Selection)</ids-text>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-data-grid id="data-grid-1" virtual-scroll="false" label="Books" row-selection="mixed" supress-row-deactivation="true" row-height="md">
+        <ids-data-grid id="data-grid-mixed" virtual-scroll="false" label="Books" row-selection="mixed" suppress-row-deactivation="true" row-height="md">
         </ids-data-grid>
       </ids-layout-grid-cell>
     </ids-layout-grid>

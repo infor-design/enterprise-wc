@@ -59,6 +59,25 @@ export function getClosest(node: any, selector: string) {
 }
 
 /**
+ * Traverses thru Shadow DOM if necessary to find parent node until matching the provided selector or until body.
+ * @param {HTMLElement} node the node to check
+ * @param {string|undefined} selector containing a CSS selector to be used for matching
+ * @returns {Array<HTMLElement>} the list of parent elements
+ */
+export function parents(node: any, selector = 'body'): Array<HTMLElement> {
+  const parentsList = [];
+  for (
+    let parent: any = node?.parentNode;
+    parent;
+    parent = parent.toString() === '[object ShadowRoot]' ? parent.host : parent?.parentNode
+  ) {
+    parentsList.push(parent);
+    if (parent.matches?.(selector)) break;
+  }
+  return parentsList;
+}
+
+/**
  * Changes a CSS property with a transition,
  * @param {HTMLElement} el the element to act on
  * @param {string} property the CSS property with an attached transition to manipulate
@@ -66,6 +85,7 @@ export function getClosest(node: any, selector: string) {
  * @returns {Promise} fulfulled when the CSS transition completes
  */
 export function transitionToPromise(el: any, property: string, value: any) {
+  if (!el) return Promise.resolve();
   return new Promise((resolve) => {
     el.style[property] = value;
     const transitionEnded = (e: any) => {
@@ -108,6 +128,29 @@ export function getEditableRect(rect: DOMRect) {
   return {
     bottom, left, right, top, height, width, x, y
   };
+}
+
+/**
+ * Determines if the passed element is overflowing its bounds
+ * @param {HTMLElement} el The element to check
+ * @returns {boolean} true if overflowing, false otherwise
+ */
+export function checkOverflow(el: HTMLElement) {
+  if (!el) return false;
+
+  const curOverflow = el.style.overflow;
+  let changedOverflow = false;
+  if (!curOverflow || curOverflow === 'visible') {
+    el.style.overflow = 'hidden';
+    changedOverflow = true;
+  }
+
+  const isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
+  if (changedOverflow) {
+    el.style.overflow = curOverflow;
+  }
+
+  return isOverflowing;
 }
 
 /**

@@ -27,24 +27,6 @@
     @include bg-azure-90();
     @include text-white();
   }
-
-  // Classic Version: Light Mode
-  &[mode='light'][version='classic'] {
-    @include bg-azure-70();
-    @include text-white();
-  }
-
-  // Classic Version: Dark Mode
-  &[mode='dark'][version='classic'] {
-    @include bg-graphite-90();
-    @include text-white();
-  }
-
-  // Classic Version: Contrast Mode
-  &[mode='contrast'][version='classic'] {
-    @include bg-azure-90();
-    @include text-white();
-  }
 }
 
 ::slotted(ids-toolbar),

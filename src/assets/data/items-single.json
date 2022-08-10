@@ -1,0 +1,23 @@
+[{
+   "data": [{
+     "name": "Item A",
+     "tooltip": "<b>Item A</b> ${value}",
+     "value": 10.1
+   },{
+     "name": "Item B",
+     "tooltip": "<b>Item B</b> ${value}",
+     "value": 12.2
+   }, {
+     "name": "Item C",
+     "tooltip": "<b>Item C</b> ${value}",
+     "value": 14.35
+   }, {
+     "name": "Item D",
+     "tooltip": "<b>Item D</b> ${value}",
+     "value": 15.6
+   }, {
+     "name": "Item E",
+     "tooltip": "<b>Item E</b> ${value}",
+     "value": 41.6
+   }]
+ }]

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Card - Footer</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="2" gap="xl">
+      <ids-layout-grid-cell col-span="1">
+        <div class="parent-container">
+          <ids-card>
+            <div slot="card-header">
+              <ids-text font-size="20" type="h2">Product List</ids-text>
+            </div>
+            <div slot="card-content">
+              <ids-list-view id="demo-card-footer" item-height="76">
+                <template>
+                  <ids-text font-size="16" type="h2">${subject}</ids-text>
+                  <ids-text font-size="12" type="span">Comments: ${comments}</ids-text>
+                </template>
+              </ids-list-view>
+            </div>
+            <div slot="card-footer">
+              <ids-button>
+                <span slot="text">Load more</span>
+              </ids-button>
+            </div>
+          </ids-card>
+        </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+
+</html>

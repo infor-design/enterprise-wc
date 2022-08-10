@@ -2,7 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-hierarchy-item-base';
+import Base, { IdsHierarchyItemInfo } from './ids-hierarchy-item-base';
 
 import styles from './ids-hierarchy-item.scss';
 
@@ -22,9 +22,8 @@ export default class IdsHierarchyItem extends Base {
 
   constructor() {
     super();
-    this.expander = this.shadowRoot?.querySelector('[part="icon-btn"]');
-    this.leaf = this.shadowRoot?.querySelector('[part="leaf"]');
-    this.nestedItemContainer = this.shadowRoot?.querySelector('[part="nested-items"]');
+    this.childElements = [];
+    this.#prevSelected = false;
   }
 
   /**
@@ -32,22 +31,14 @@ export default class IdsHierarchyItem extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    this.#prevSelected = false;
+    super.connectedCallback();
+    this.expander = this.shadowRoot?.querySelector('[part="icon-btn"]');
+    this.dropdownMenu = this.querySelector('[part="icon-menu"]');
+    this.leaf = this.shadowRoot?.querySelector('[part="leaf"]');
+    this.nestedItemContainer = this.shadowRoot?.querySelector('[part="nested-items"]');
     this.#hasNestedItems();
     this.#attachEventHandlers();
-    super.connectedCallback();
   }
-
-  /**
-   * Inherited from `IdsColorVariantMixin`
-   * @returns {Array<string>} List of available color variants for this component
-   */
-  colorVariants = [
-    'full-time',
-    'part-time',
-    'contractor',
-    'open-position'
-  ];
 
   /**
    * Return the attributes we handle as getters/setters
@@ -55,9 +46,11 @@ export default class IdsHierarchyItem extends Base {
    */
   static get attributes() {
     return [
+      ...super.attributes,
+      attributes.COLOR,
       attributes.EXPANDED,
       attributes.ROOT_ITEM,
-      attributes.SELECTED
+      attributes.SELECTED,
     ];
   }
 
@@ -74,10 +67,13 @@ export default class IdsHierarchyItem extends Base {
               <slot name="subheading"></slot>
               <slot name="micro"></slot>
             </div>
-            <ids-button part="icon-btn" id="icon-only-button-default">
-              <span class="audible">Default Button</span>
-              <ids-icon slot="icon" icon="caret-down"></ids-icon>
-            </ids-button>
+            <div part="actions">
+              <slot name="menu"></slot>
+              <ids-button part="icon-btn" id="icon-only-button-default">
+                <span class="audible">Default Button</span>
+                <ids-icon slot="icon" icon="caret-down"></ids-icon>
+              </ids-button>
+            </div>
           </div>
         </div>
         <div class="sub-level"><slot part="nested-items"></slot></div>
@@ -152,6 +148,52 @@ export default class IdsHierarchyItem extends Base {
     return this.getAttribute(attributes.ROOT_ITEM);
   }
 
+  get color(): string {
+    return this.getAttribute(attributes.COLOR);
+  }
+
+  /**
+   * Set the color of the bar
+   * @param {string} value The color value, this can be a hex code with the #
+   */
+  set color(value: string) {
+    this.setAttribute(attributes.COLOR, value);
+
+    let color = value;
+    if (this.color.substring(0, 1) !== '#') {
+      color = `var(--ids-color-palette-${this.color})`;
+    }
+
+    const item = this.container.querySelector('.leaf-inside');
+    const avatar = this.container.querySelector('.avatar');
+    item.style.borderLeftColor = color;
+    avatar.style.borderColor = color;
+  }
+
+  /**
+   * An async function that fires as the dropdown is opening allowing you to set contents.
+   * @param {Function} func The async function
+   */
+  set loadChildren(func) {
+    this.state.loadChildren = func;
+  }
+
+  get loadChildren() { return this.state.loadChildren; }
+
+  /**
+   * An async function that fires as the dropdown is opening allowing you to set contents.
+   * @param {Array} value The async function
+   */
+  set hasChildren(value) {
+    this.state.hasChildren = value;
+
+    if (value) {
+      this.container.classList.add('has-nested-items');
+    }
+  }
+
+  get hasChildren() { return this.state.hasChildren; }
+
   /**
    * Sets the value of the expanded attribute
    * @private
@@ -179,15 +221,68 @@ export default class IdsHierarchyItem extends Base {
     }
   }
 
+  adjustZIndex(node: any, zIndex: number) {
+    if (node.name === 'ids-hierarchy-item') {
+      const elem = node.shadowRoot?.querySelector('.leaf') as HTMLElement;
+      elem.style.zIndex = zIndex.toString();
+    }
+
+    const siblingNodes = node.childNodes;
+    for (const subNode of siblingNodes) {
+      if (subNode.name === 'ids-hierarchy-item') {
+        this.adjustZIndex(subNode, zIndex - 2);
+      }
+    }
+  }
+
   /**
    * Sets up event listeners
    * @private
    * @returns {void}
    */
   #attachEventHandlers() {
-    this.onEvent('click', this.expander, () => {
+    this.onEvent('click', this.expander, async () => {
+      if (this.loadChildren) {
+        if (!this.expanded && !this.childElements.attached) {
+          const data: IdsHierarchyItemInfo[] = await this.loadChildren();
+          this.childElements = data.filter((d: IdsHierarchyItemInfo) => d.parentItem === this.getAttribute(attributes.ID));
+
+          if (!this.childElements.length) {
+            this.container.classList.remove('has-nested-items');
+          }
+
+          const templateStr = this.childElements.reduce((prev: string, cur: IdsHierarchyItemInfo) => `${prev}
+            <ids-hierarchy-item id="${cur.id}" color="${cur.color}">
+              ${cur.picture ? `<img id="headshot" alt="${cur.id}" src="${cur.picture}" slot="avatar" />` : ''}
+              <ids-text slot="heading">${cur.name}</ids-text>
+              <ids-text slot="subheading">${cur.position}</ids-text>
+              <ids-text slot="micro">${cur.employmentType}</ids-text>
+            </ids-hierarchy-item>
+          `, '');
+          this.innerHTML += templateStr;
+          this.childElements.attached = true;
+
+          const childElementItems = this.querySelectorAll('ids-hierarchy-item');
+          for (const item of childElementItems) {
+            item.hasChildren = data
+              .filter((d: IdsHierarchyItemInfo) => d.parentItem === item.getAttribute(attributes.ID))
+              .length > 0;
+            item.loadChildren = this.loadChildren;
+          }
+        }
+      }
+
       this.#expandCollapse(this.expanded);
     });
+
+    if (this.dropdownMenu) {
+      this.onEvent('click', this.dropdownMenu, () => {
+        this.adjustZIndex(this.parentNode, 202);
+
+        const leafElement = this.shadowRoot?.querySelector('.leaf');
+        leafElement.style.zIndex = 201;
+      });
+    }
 
     this.onEvent('touchend', this.expander, (e: any) => {
       if (e.touches && e.touches.length > 0) {
@@ -203,6 +298,6 @@ export default class IdsHierarchyItem extends Base {
 
     this.onEvent('touchstart', this.leaf, () => {
       this.setAttribute(attributes.SELECTED, true);
-    });
+    }, { passive: true });
   }
 }

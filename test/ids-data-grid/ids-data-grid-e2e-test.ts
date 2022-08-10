@@ -1,5 +1,7 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Data Grid e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-data-grid';
+  const url = 'http://localhost:4444/ids-data-grid/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
@@ -12,7 +14,8 @@ describe('Ids Data Grid e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests();
+    const results = await new AxePuppeteer(page).analyze();
+    expect(results.violations.length).toBe(0);
   });
 });
 
@@ -24,6 +27,6 @@ describe('Ids Data Grid Virtual Scroll e2e Tests', () => {
     await page.waitForSelector('pierce/.ids-data-grid-row');
 
     const count = (await page.$$('pierce/.ids-data-grid-row')).length;
-    expect(count).toEqual(21);
+    expect(count).toEqual(63);
   });
 });

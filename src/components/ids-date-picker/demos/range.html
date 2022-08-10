@@ -2,38 +2,32 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
-
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto="true">
       <ids-text font-size="12" type="h1">Range Picker</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="3" gap="sm">
-      <ids-layout-grid-cell col-start="1" row-start="1">
-        <ids-date-picker id="e2e-rangepicker-no-value" label="Range - No Initial value" use-range="true"></ids-date-picker>
+    <ids-layout-grid auto="true" cols="6">
+      <ids-layout-grid-cell>
+        <ids-date-picker id="e2e-rangepicker-no-value" label="Range - No Initial value" use-range="true" mask="true" size="mm" format="yyyy-MM-dd"></ids-date-picker>
+        <ids-date-picker id="e2e-datepicker-input-value" label="Range - Initial value by input value" use-range="true" mask="true" value="2/7/2018 - 2/22/2018" size="mm"></ids-date-picker>
+        <ids-date-picker id="e2e-datepicker-settings-value" label="Range - Initial value by settings" use-range="true" mask="true" size="mm"></ids-date-picker>
+        <ids-date-picker id="e2e-datepicker-not-included" label="Range - Disable Not included" use-range="true" mask="true" size="mm"></ids-date-picker>
+        <ids-date-picker id="e2e-datepicker-included" label="Range - Disable included" use-range="true" mask="true" size="mm"></ids-date-picker>
+        <ids-date-picker id="e2e-datepicker-week" label="Range - Week Picker" use-range="true" mask="true" size="mm"></ids-date-picker>
       </ids-layout-grid-cell>
-      <ids-layout-grid-cell col-start="1" row-start="2">
-        <ids-date-picker id="e2e-datepicker-input-value" label="Range - Initial value by input value" use-range="true" value="2/7/2018 - 2/22/2018"></ids-date-picker>
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell col-start="1" row-start="3">
-        <ids-date-picker id="e2e-datepicker-settings-value" label="Range - Initial value by settings" use-range="true"></ids-date-picker>
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell col-start="1" row-start="4">
-        <ids-date-picker id="e2e-datepicker-forward" label="Range - Select Forward" use-range="true"></ids-date-picker>
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell col-start="1" row-start="5">
-        <ids-date-picker id="e2e-datepicker-backward" label="Range - Select Backward" use-range="true"></ids-date-picker>
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell col-start="1" row-start="6">
-        <ids-date-picker id="e2e-datepicker-max" label="Range - Max (2) Days" use-range="true"></ids-date-picker>
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell col-start="1" row-start="7">
-        <ids-date-picker id="e2e-datepicker-min" label="Range - Min (5) Days" use-range="true"></ids-date-picker>
+      <ids-layout-grid-cell>
+        <ids-date-picker id="e2e-datepicker-forward" label="Range - Select Forward" use-range="true" mask="true" size="mm"></ids-date-picker>
+        <ids-date-picker id="e2e-datepicker-backward" label="Range - Select Backward" use-range="true" mask="true" size="mm"></ids-date-picker>
+        <ids-date-picker id="e2e-datepicker-max" label="Range - Max (2) Days" use-range="true" mask="true" size="mm"></ids-date-picker>
+        <ids-date-picker id="e2e-datepicker-min" label="Range - Min (5) Days" use-range="true" mask="true" size="mm"></ids-date-picker>
+        <ids-date-picker id="e2e-datepicker-range-legend" label="Range with disabled dates and legend" use-range="true" mask="true" size="mm"></ids-date-picker>
+        <ids-date-picker id="e2e-datepicker-time" label="Range with time" use-range="true" mask="true" format="M/d/yyyy h:mm a" size="lg"></ids-date-picker>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-
   </ids-container>
 </body>
 </html>

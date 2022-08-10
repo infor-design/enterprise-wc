@@ -25,8 +25,9 @@ export default class IdsCard extends Base {
   }
 
   connectedCallback() {
-    this.#handleEvents();
     super.connectedCallback();
+    this.#setFooterClass();
+    this.#handleEvents();
   }
 
   /**
@@ -39,7 +40,9 @@ export default class IdsCard extends Base {
       attributes.ACTIONABLE,
       attributes.AUTO_FIT,
       attributes.AUTO_HEIGHT,
+      attributes.HEIGHT,
       attributes.HREF,
+      attributes.NO_HEADER,
       attributes.OVERFLOW,
       attributes.TARGET
     ];
@@ -61,6 +64,9 @@ export default class IdsCard extends Base {
           </div>
           <div class="ids-card-checkbox ${this.selection === 'multiple' ? '' : 'hidden'}">
             <ids-checkbox></ids-checkbox>
+          </div>
+          <div class="ids-card-footer" part="footer">
+            <slot name="card-footer"></slot>
           </div>
         </div>
       </div>
@@ -139,6 +145,21 @@ export default class IdsCard extends Base {
   }
 
   /**
+   * Set css class for footer
+   * @private
+   * @returns {void}
+   */
+  #setFooterClass(): void {
+    const footerSlot = this.querySelector('[slot="card-footer"]');
+    this.container.classList[footerSlot ? 'add' : 'remove']('has-footer');
+    if (footerSlot) {
+      const noPadding = footerSlot.hasAttribute(attributes.NO_PADDING);
+      const footer = this.container.querySelector('.ids-card-footer');
+      footer?.classList[noPadding ? 'add' : 'remove'](attributes.NO_PADDING);
+    }
+  }
+
+  /**
    * Handle single/multiple selection change
    * @private
    * @param {object} e Actual event
@@ -154,7 +175,7 @@ export default class IdsCard extends Base {
   /**
    * Change single selection for cards
    * @private
-   * @param  {object} e Actual event
+   * @param {object} e Actual event
    */
   #handleSingleSelectionChange(e: Event) {
     const cardElements = document.querySelectorAll('ids-card[selection="single"]');
@@ -174,7 +195,7 @@ export default class IdsCard extends Base {
   /**
    * Change multiple selection for cards
    * @private
-   * @param  {object} e Actual event
+   * @param {object} e Actual event
    */
   #handleMultipleSelectionChange(e: Event) {
     this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');
@@ -188,6 +209,34 @@ export default class IdsCard extends Base {
         selection: this.selection,
       }
     });
+  }
+
+  /**
+   * Redraw the template when some properties change.
+   */
+  redraw() {
+    const template = document.createElement('template');
+    const html = this.template();
+
+    // Render and append styles
+    this.shadowRoot.innerHTML = '';
+    this.hasStyles = false;
+    this.appendStyles();
+    template.innerHTML = html;
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.container = this.shadowRoot.querySelector('.ids-card');
+
+    if (this.height) {
+      const link = this.container.querySelector('ids-hyperlink')?.container;
+      this.setAttribute(attributes.HEIGHT, this.height);
+      this.container.style.height = `${this.height}px`;
+      if (link) link.style.height = `${this.height}px`;
+      this.querySelector('[slot]')?.classList.add('fixed-height');
+    }
+
+    if (this.actionable && this.href) {
+      this.setupRipple();
+    }
   }
 
   /**
@@ -227,9 +276,11 @@ export default class IdsCard extends Base {
     const val = stringToBool(value);
     if (stringToBool(value)) {
       this.setAttribute(attributes.ACTIONABLE, val);
+      if (this.container) this.redraw();
       return;
     }
     this.removeAttribute(attributes.ACTIONABLE);
+    if (this.container) this.redraw();
   }
 
   get actionable() { return stringToBool(this.getAttribute(attributes.ACTIONABLE)); }
@@ -240,10 +291,10 @@ export default class IdsCard extends Base {
    */
   set overflow(value) {
     if (value === 'hidden') {
-      this.container.querySelector('.ids-card-content').classList.add('overflow-hidden');
+      if (this.container) this.container.querySelector('.ids-card-content').classList.add('overflow-hidden');
       this.setAttribute(attributes.OVERFLOW, value);
     } else {
-      this.container.querySelector('.ids-card-content').classList.remove('overflow-hidden');
+      if (this.container) this.container.querySelector('.ids-card-content').classList.remove('overflow-hidden');
       this.removeAttribute(attributes.OVERFLOW);
     }
   }
@@ -263,10 +314,46 @@ export default class IdsCard extends Base {
   set href(url) {
     if (url) {
       this.setAttribute('href', url);
-      this.container.querySelector('ids-hyperlink')?.setAttribute('href', url);
+      if (this.container) {
+        this.redraw();
+        this.container.querySelector('ids-hyperlink')?.setAttribute('href', url);
+      }
     } else {
       this.removeAttribute('href');
-      this.container.querySelector('ids-hyperlink')?.removeAttribute('href');
+      if (this.container) {
+        this.redraw();
+      }
+    }
+  }
+
+  /**
+   * Set a specific height and center the card
+   * @returns {string} href for ids-hyperlink
+   */
+  get height() { return this.getAttribute(attributes.HEIGHT); }
+
+  /**
+   * Set a height and center the card
+   * @param {number} height height in pixels
+   */
+  set height(height) {
+    const getLink = () => this.container.querySelector('ids-hyperlink')?.container;
+    if (height) {
+      this.setAttribute(attributes.HEIGHT, height);
+      if (this.container) {
+        this.container.style.height = `${height}px`;
+        const linkEl = getLink();
+        if (linkEl) linkEl.style.height = `${height}px`;
+      }
+      this.querySelector('[slot]')?.classList.add('fixed-height');
+    } else {
+      this.removeAttribute(attributes.HEIGHT);
+      if (this.container) {
+        this.container.style.height = '';
+        const linkEl = getLink();
+        if (linkEl) linkEl.style.height = '';
+      }
+      this.querySelector('[slot]')?.classList.remove('fixed-height');
     }
   }
 
@@ -277,16 +364,35 @@ export default class IdsCard extends Base {
   get target() { return this.getAttribute('target'); }
 
   /**
-   * Set target for actionable link card
+   * Set target for an actionable link card
    * @param {string} value target value for ids-hyperlink
    */
   set target(value) {
     if (value) {
       this.setAttribute('target', value);
-      this.container.querySelector('ids-hyperlink')?.setAttribute('target', value);
+      if (this.container) {
+        this.container.querySelector('ids-hyperlink')?.setAttribute('target', value);
+        this.redraw();
+      }
     } else {
       this.removeAttribute('target');
-      this.container.querySelector('ids-hyperlink')?.removeAttribute('target');
+      if (this.container) {
+        this.redraw();
+      }
+    }
+  }
+
+  /**
+   * Set to true to hide the header space
+   * @returns {string} target for ids-hyperlink
+   */
+  get noHeader() { return this.getAttribute(attributes.NO_HEADER); }
+
+  set noHeader(value) {
+    if (value) {
+      this.setAttribute(attributes.NO_HEADER, value);
+    } else {
+      this.removeAttribute(attributes.NO_HEADER);
     }
   }
 }

@@ -35,7 +35,7 @@ A normal swipe action with two actions. In continuous mode the action will be ex
               <ids-icon slot="icon" icon="more"></ids-icon>
               <span class="audible">Actions</span>
             </ids-menu-button>
-            <ids-popup-menu id="actions-continuous-menu" target="actions-continuous" trigger="click">
+            <ids-popup-menu id="actions-continuous-menu" target="actions-continuous" trigger-type="click">
               <ids-menu-group>
                 <ids-menu-item>Right Action</ids-menu-item>
                 <ids-menu-item>Left Action</ids-menu-item>

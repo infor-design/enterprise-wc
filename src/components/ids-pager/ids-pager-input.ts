@@ -12,7 +12,6 @@ import styles from './ids-pager-input.scss';
  * IDS PagerInput Component
  *
  * @type {IdsPagerInput}
- * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @inherits IdsElement
  * @part container ids-pager-button container
@@ -55,6 +54,7 @@ export default class IdsPagerInput extends Base {
   }
 
   connectedCallback(): void {
+    super.connectedCallback();
     this.input = this.shadowRoot.querySelector('ids-input');
 
     this.onEvent('change', this.input, () => {
@@ -90,12 +90,7 @@ export default class IdsPagerInput extends Base {
     }
 
     // give parent a chance to reflect attributes
-
-    window.requestAnimationFrame(() => {
-      this.#updatePageCountShown();
-    });
-
-    super.connectedCallback?.();
+    this.#updatePageCountShown();
   }
 
   /** @param {string|number} value The number of items to show per page */
@@ -244,7 +239,9 @@ export default class IdsPagerInput extends Base {
   #updatePageCountShown(): void {
     const pageCount = this.pageCount;
     const pageCountShown = (pageCount === null) ? 'N/A' : pageCount;
-    this.shadowRoot.querySelector('span.page-count').textContent = pageCountShown;
+    if (this.shadowRoot) {
+      this.shadowRoot.querySelector('span.page-count').textContent = pageCountShown;
+    }
   }
 
   /**

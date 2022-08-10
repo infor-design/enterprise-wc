@@ -223,6 +223,7 @@ describe('IdsDraggable Component', () => {
         <div>draggable</div>
       </ids-draggable>`
     );
+    await processAnimFrame();
     expect(elem.getAttribute('max-transform-x')).toEqual('80');
 
     elem.setAttribute('max-transform-x', 0);
@@ -238,7 +239,7 @@ describe('IdsDraggable Component', () => {
         <div>draggable</div>
       </ids-draggable>`
     );
-
+    await processAnimFrame();
     expect(elem.getAttribute('min-transform-x')).toEqual('-20');
 
     elem.setAttribute('min-transform-x', 0);
@@ -254,7 +255,7 @@ describe('IdsDraggable Component', () => {
         <div>draggable</div>
       </ids-draggable>`
     );
-
+    await processAnimFrame();
     expect(elem.getAttribute('max-transform-y')).toEqual('-20');
     elem.setAttribute('max-transform-y', 0);
     await processAnimFrame();
@@ -269,7 +270,7 @@ describe('IdsDraggable Component', () => {
         <div>draggable</div>
       </ids-draggable>`
     );
-
+    await processAnimFrame();
     expect(elem.getAttribute('relative-bounds')).toEqual('left: -20; right: -20');
     expect(elem.relativeBounds).toEqual('left: -20; right: -20');
 
@@ -291,6 +292,7 @@ describe('IdsDraggable Component', () => {
         <div>draggable</div>
       </ids-draggable>`
     );
+    await processAnimFrame();
     expect(elem.getAttribute('min-transform-y')).toEqual('-20');
 
     elem.setAttribute('min-transform-y', '0');

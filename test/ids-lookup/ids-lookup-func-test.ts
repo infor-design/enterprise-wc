@@ -1,14 +1,16 @@
 /**
  * @jest-environment jsdom
  */
+
+import '../helpers/resize-observer-mock';
+import '../helpers/match-media-mock';
+import createFromTemplate from '../helpers/create-from-template';
+import waitForTimeout from '../helpers/wait-for-timeout';
+import dataset from '../../src/assets/data/books.json';
+
 import '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsLookup from '../../src/components/ids-lookup/ids-lookup';
-
-import '../helpers/resize-observer-mock';
-import createFromTemplate from '../helpers/create-from-template';
-import waitFor from '../helpers/wait-for';
-import dataset from '../../src/assets/data/books.json';
 
 describe('IdsLookup Component', () => {
   let lookup: any;
@@ -282,7 +284,7 @@ describe('IdsLookup Component', () => {
     expect(lookup.dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(54);
   });
 
-  it('should be able to set datagrid settings', () => {
+  it('should be able to set dataGrid settings', () => {
     lookup.columns = columns();
     lookup.data = dataset;
     lookup.dataGridSettings = {
@@ -314,7 +316,7 @@ describe('IdsLookup Component', () => {
 
   it('supports changing validation dynamically', async () => {
     lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-5" label="Dynamic Validation"></ids-lookup>`);
-    await waitFor(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+    await waitForTimeout(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
 
     (document.querySelector('ids-lookup') as any).validate = 'required';
     const triggerElem = lookup.shadowRoot.querySelector('ids-trigger-field');
@@ -333,7 +335,7 @@ describe('IdsLookup Component', () => {
   it('supports validation', async () => {
     lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-5" label="Dropdown with Icons" validate="true">
      </ids-lookup>`);
-    await waitFor(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+    await waitForTimeout(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
 
     lookup.validate = 'required';
     lookup.validationEvents = 'blur change';

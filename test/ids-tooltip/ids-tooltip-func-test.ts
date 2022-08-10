@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 
 import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
 import IdsButton from '../../src/components/ids-button/ids-button';
@@ -17,18 +17,19 @@ describe('IdsTooltip Component', () => {
 
   beforeEach(async () => {
     const buttonElem: any = new IdsButton();
+    // TODO Changing order of the appendChilds causes the test to fail
+    document.body.appendChild(buttonElem);
     buttonElem.id = 'button-1';
     buttonElem.text = 'Test Button';
-    document.body.appendChild(buttonElem);
     button = document.querySelector('ids-button');
 
     const tooltipElem: any = new IdsTooltip();
+    document.body.appendChild(tooltipElem);
     tooltipElem.delay = 1;
     tooltipElem.target = '#button-1';
     tooltipElem.innerHTML = 'Additional Information';
     tooltipElem.id = 'test-id';
     tooltipElem.setAttribute('data-automation-id', 'test-id');
-    document.body.appendChild(tooltipElem);
     tooltip = document.querySelector('ids-tooltip');
   });
 
@@ -48,6 +49,20 @@ describe('IdsTooltip Component', () => {
   it('renders correctly', () => {
     tooltip.shadowRoot.querySelector('style').remove();
     expect(tooltip.shadowRoot.innerHTML).toMatchSnapshot();
+  });
+
+  it('renders via document.createElement (append late)', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const elem = document.createElement('ids-tooltip');
+
+    elem.setAttribute('id', 'tooltip-example');
+    elem.setAttribute('target', '#button-1');
+    elem.setAttribute('data-automation-id', 'tooltip-example');
+    elem.innerHTML = 'Additional Information';
+    document.body.appendChild(elem);
+
+    expect(document.querySelectorAll('ids-tooltip').length).toEqual(2);
+    expect(errors).not.toHaveBeenCalled();
   });
 
   it('handles two or more elements can share a tooltip', (done) => {
@@ -124,7 +139,7 @@ describe('IdsTooltip Component', () => {
   it('shows on click and then hides on tooltip click', async () => {
     tooltip.trigger = 'click';
     button.click();
-    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
     expect(tooltip.visible).toEqual(true);
     tooltip.popup.click();
     expect(tooltip.visible).toEqual(false);
@@ -134,7 +149,7 @@ describe('IdsTooltip Component', () => {
     tooltip.trigger = 'click';
     tooltip.visible = true;
     button.click();
-    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
     expect(tooltip.visible).toEqual(false);
     button.click();
     expect(tooltip.visible).toEqual(true);
@@ -143,14 +158,14 @@ describe('IdsTooltip Component', () => {
   it('shows on keyboard focusin', () => {
     tooltip.trigger = 'click';
     button.dispatchEvent(new CustomEvent('keyboardfocus'));
-    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
     expect(tooltip.visible).toEqual(true);
   });
 
   it('shows on focusin and then hides on focusout', async () => {
     tooltip.trigger = 'focus';
     button.dispatchEvent(new Event('focusin'));
-    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
     expect(tooltip.visible).toEqual(true);
     button.dispatchEvent(new Event('focusout'));
     expect(tooltip.visible).toEqual(false);
@@ -164,7 +179,7 @@ describe('IdsTooltip Component', () => {
 
   it('shows on longpress', async () => {
     button.triggerEvent('longpress', button, { delay: 1 });
-    waitFor(() => expect(tooltip.visible).toBeTruthy());
+    waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
     expect(tooltip.visible).toEqual(true);
   });
 
@@ -289,17 +304,13 @@ describe('IdsTooltip Component', () => {
     button2.tooltip = 'Additional Info';
     document.body.appendChild(button2);
 
-    const mouseenter = new MouseEvent('mouseenter');
-    const mouseleave = new MouseEvent('mouseleave');
-    button2.dispatchEvent(mouseenter);
+    button2.dispatchEvent(new CustomEvent('hoverend'));
     setTimeout(() => {
       const tooltipFromMixin: any = document.querySelector('ids-tooltip');
       expect(tooltipFromMixin.visible).toEqual(true);
-      button2.dispatchEvent(mouseleave);
-      expect(tooltipFromMixin.visible).toEqual(false);
       expect(tooltipFromMixin.textContent).toEqual('Additional Info');
       done();
-    }, 550);
+    }, 1);
   });
 
   it('shows works as a mixin on inputs', (done) => {
@@ -308,14 +319,13 @@ describe('IdsTooltip Component', () => {
     input.tooltip = 'Additional Info';
     document.body.appendChild(input);
 
-    const mouseenter = new MouseEvent('mouseenter');
-    input.dispatchEvent(mouseenter);
+    input.dispatchEvent(new CustomEvent('hoverend'));
     setTimeout(() => {
       const tooltipFromMixin: any = document.querySelector('ids-tooltip');
       expect(tooltipFromMixin.visible).toEqual(true);
       expect(tooltipFromMixin.textContent).toEqual('Additional Info');
       done();
-    }, 550);
+    }, 1);
   });
 
   it('should not show when not overflown', () => {
@@ -343,16 +353,14 @@ describe('IdsTooltip Component', () => {
     container.appendChild(button2);
     document.body.appendChild(container);
 
-    const mouseenter = new MouseEvent('mouseenter');
-    const mouseleave = new MouseEvent('mouseleave');
-    button2.dispatchEvent(mouseenter);
+    button2.dispatchEvent(new CustomEvent('hoverend'));
     setTimeout(() => {
       const tooltipFromMixin: any = document.querySelector('ids-tooltip');
       expect(tooltipFromMixin.visible).toEqual(true);
-      button2.dispatchEvent(mouseleave);
+      button2.dispatchEvent(new MouseEvent('mouseleave'));
       expect(tooltipFromMixin.visible).toEqual(false);
       expect(tooltipFromMixin.textContent).toEqual('Additional Info2');
       done();
-    }, 550);
+    }, 1);
   });
 });

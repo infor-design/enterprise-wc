@@ -2,7 +2,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-virtual-scroll-base';
 import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
-
 import IdsDataSource from '../../core/ids-data-source';
 
 import styles from './ids-virtual-scroll.scss';
@@ -25,6 +24,8 @@ export default class IdsVirtualScroll extends Base {
 
   connectedCallback() {
     this.datasource = new IdsDataSource();
+    super.connectedCallback();
+    this.initialized = false;
     // eslint-disable-next-line no-template-curly-in-string
     this.stringTemplate = '<div class="ids-virtual-scroll-item" part="list-item">${productName}</div>';
     this.applyHeight();
@@ -38,7 +39,7 @@ export default class IdsVirtualScroll extends Base {
    */
   #attachEventHandlers() {
     this.timeout = null;
-    this.scrollTarget = this.container;
+    this.scrollTarget = this.parentElement;
   }
 
   /**
@@ -80,8 +81,8 @@ export default class IdsVirtualScroll extends Base {
       const visibleItems = this.data.slice(startIndex, endIndex);
 
       let html = '';
-      visibleItems.map((item: any) => {
-        const node = this.itemTemplate(item);
+      visibleItems.map((item: any, index: number) => {
+        const node = this.itemTemplate(item, index);
         html += node;
         return node;
       });
@@ -103,11 +104,14 @@ export default class IdsVirtualScroll extends Base {
    * @returns {void}
    */
   applyHeight(): void {
+    if (!this.initialized) {
+      return;
+    }
     const content = this.container.querySelector('.ids-virtual-scroll-content');
 
     if (typeof this.height === 'string' && this.height?.includes('vh')) {
-      const spaceFromTop = this.getBoundingClientRect().top;
-      this.style.height = `calc(${this.height} - ${spaceFromTop - 16}px)`; // the actual viewport
+      const spaceFromTop = this.getBoundingClientRect().y;
+      this.style.height = `calc(${this.height} - ${spaceFromTop + 16}px)`; // the actual viewport
     } else {
       this.style.height = `${this.height}`;
     }
@@ -211,7 +215,7 @@ export default class IdsVirtualScroll extends Base {
     this.removeAttribute(attributes.BUFFER_SIZE);
   }
 
-  get bufferSize(): number { return this.getAttribute(attributes.BUFFER_SIZE) || 3; }
+  get bufferSize(): number { return this.getAttribute(attributes.BUFFER_SIZE) || 25; }
 
   /**
    * Set the scroll top position and scroll down to that location
@@ -221,7 +225,7 @@ export default class IdsVirtualScroll extends Base {
     const val = parseFloat(value);
     if (!(Number.isNaN(val))) {
       this.setAttribute(attributes.SCROLL_TOP, val.toString());
-      this.container.scrollTop = val;
+      if (this.container) this.container.scrollTop = val;
       this.renderItems(false);
       return;
     }
@@ -260,10 +264,12 @@ export default class IdsVirtualScroll extends Base {
 
   /**
    * Return a item's html injecting any values from the dataset as needed.
-   * @param  {object} item The item to generate
+   * @param {object} item The item to generate
+   * @param {number} index the index for the template
    * @returns {string} The html for this item
    */
-  itemTemplate(item: any) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  itemTemplate(item: any, index: number): string {
     return injectTemplate(this.stringTemplate, item);
   }
 
@@ -277,12 +283,13 @@ export default class IdsVirtualScroll extends Base {
       this.lastStart = null;
       this.lastEnd = null;
       this.scrollTop = 0;
+      this.initialized = true;
       this.applyHeight();
       this.renderItems(true);
       return;
     }
 
-    this.datasource.data = null;
+    if (this.datasource) this.datasource.data = null;
   }
 
   get data(): Array<any> {

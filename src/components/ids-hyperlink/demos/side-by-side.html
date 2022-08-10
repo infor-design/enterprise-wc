@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
   <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
@@ -34,12 +35,12 @@
         </svg>
       </div>
     </div>
-    <div class="row">
-      <div class="one-half column">
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
         <a class="hyperlink hide-focus" href="#">Normal Hyperlink</a><p>&nbsp;</p>
         <a class="hyperlink hide-focus" disabled tabindex="-1" href="#">Disabled Hyperlink</a><p>&nbsp;</p>
-      </div>
-    </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
 
     <script>
       $('body').initialize();

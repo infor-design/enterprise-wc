@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
   <ids-container role="main" padding="0" hidden>
@@ -15,13 +16,13 @@
             </ids-toolbar-section>
           </ids-toolbar-section>
           <ids-toolbar-section type="buttonset" align="end">
-            <ids-theme-switcher mode="light" version="new" color-variant="alternate"></ids-theme-switcher>
+            <ids-theme-switcher mode="light" color-variant="alternate"></ids-theme-switcher>
           </ids-toolbar-section>
         </ids-toolbar>
-        <ids-tabs value="attachments">
+        <ids-tabs value="opportunities">
           <ids-tab value="contracts">Contracts</ids-tab>
           <ids-tab value="opportunities">Opportunities</ids-tab>
-          <ids-tab value="attachments">Attachments</ids-tab>
+          <ids-tab value="attachments" disabled>Attachments</ids-tab>
           <ids-tab value="notes">Notes</ids-tab>
         </ids-tabs>
       </ids-header>
@@ -37,7 +38,7 @@
               <ids-text font-size="16" type="p">
                 Bricks-and-clicks? Evolve ubiquitous matrix B2B 24/365 vertical 24/365 platforms standards-compliant global leverage dynamic 24/365 intuitive ROI seamless rss-capable. Cutting-edge grow morph web services leverage; ROI, unleash reinvent innovative podcasts citizen-media networking.
               </ids-text>
-            </ids-layout-grid
+            </ids-layout-grid>
           </div>
         </ids-tab-content>
         <ids-tab-content value="attachments">
@@ -50,7 +51,7 @@
         <ids-tab-content value="notes">
           <ids-layout-grid auto="true">
             <ids-text font-size="16" type="p">
-              Bricks-and-clicks? Evolve ubiquitous matrix B2B 24/365 vertical 24/365 platforms standards-compliant global leverage dynamic 24/365 intuitive ROI seamless rss-capable. Cutting-edge grow morph web services leverage; ROI, unleash reinvent innovative podcasts citizen-media networking.
+              Evolve ubiquitous matrix B2B 24/365 vertical 24/365 platforms standards-compliant global leverage dynamic 24/365 intuitive ROI seamless rss-capable. Cutting-edge grow morph web services leverage; ROI, unleash reinvent innovative podcasts citizen-media networking.
             </ids-text>
           </ids-layout-grid>
         </ids-tab-content>

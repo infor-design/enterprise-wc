@@ -27,10 +27,10 @@ export default class IdsTag extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    super.connectedCallback?.();
-    this
-      .#attachEventHandlers()
-      .#attachKeyboardListeners();
+    super.connectedCallback();
+    this.#attachEventHandlers();
+    this.#attachKeyboardListeners();
+    this.#setContainerColor(this.color);
   }
 
   /**
@@ -42,8 +42,8 @@ export default class IdsTag extends Base {
       attributes.COLOR,
       attributes.CLICKABLE,
       attributes.DISMISSIBLE,
-      attributes.MODE,
-      attributes.VERSION
+      attributes.DISABLED,
+      attributes.MODE
     ];
   }
 
@@ -62,25 +62,37 @@ export default class IdsTag extends Base {
    */
   set color(value: string) {
     if (value) {
-      this.setAttribute('color', value);
-      if (value.substring(0, 1) === '#') {
-        this.container.style.backgroundColor = value;
-        this.container.style.borderColor = value;
-        return;
-      }
-
-      this.container.classList.remove('secondary', 'info', 'success', 'warning', 'error');
-      this.container.classList.add(value);
-      return;
+      this.setAttribute(attributes.COLOR, value);
+    } else {
+      this.removeAttribute(attributes.COLOR);
     }
-
-    this.removeAttribute('color');
-    this.container.style.backgroundColor = '';
-    this.container.style.borderColor = '';
-    this.container.style.color = '';
+    this.#setContainerColor(value);
+    this.#addDimissibleIcon();
   }
 
-  get color(): string { return this.getAttribute('color'); }
+  get color(): string { return this.getAttribute(attributes.COLOR); }
+
+  /**
+   * Set the tag color on the element style
+   * @param {string} value The color value
+   */
+  #setContainerColor(value: string) {
+    if (this.container) {
+      this.container?.classList.remove('secondary', 'info', 'success', 'warning', 'error');
+      this.container.style.backgroundColor = '';
+      this.container.style.borderColor = '';
+      this.container.style.color = '';
+
+      if (value) {
+        if (value.substring(0, 1) === '#') {
+          this.container.style.backgroundColor = value;
+          this.container.style.borderColor = value;
+        } else {
+          this.container.classList.add(value);
+        }
+      }
+    }
+  }
 
   /**
    * Check if an icon exists if not add it
@@ -117,42 +129,58 @@ export default class IdsTag extends Base {
   set dismissible(value: boolean) {
     const isDismissible = stringToBool(value);
     if (isDismissible) {
-      this.setAttribute('dismissible', value.toString());
-      this.container.classList.add('focusable');
-      this.container.setAttribute('tabindex', '0');
-      this.#appendIcon('close');
-      this.#attachKeyboardListeners();
-      return;
+      this.setAttribute(attributes.DISMISSIBLE, value.toString());
+    } else {
+      this.removeAttribute(attributes.DISMISSIBLE);
     }
 
-    this.removeAttribute('dismissible');
-    this.#removeIcon('close');
-    this.container.removeAttribute('tabindex');
-    this.container.classList.remove('focusable');
+    this.#addDimissibleIcon();
   }
 
-  get dismissible(): boolean { return stringToBool(this.getAttribute('dismissible')); }
+  get dismissible(): boolean { return stringToBool(this.getAttribute(attributes.DISMISSIBLE)); }
 
   /**
-   * If set to true the tag has focus state and becomes a clickable linnk
+   * Add the dismissible icon if the tag is dismissible
+   * @private
+   */
+  #addDimissibleIcon() {
+    if (this.container) {
+      if (this.dismissible) {
+        this.container.classList.add(attributes.FOCUSABLE);
+        this.#appendIcon('close');
+        this.#attachKeyboardListeners();
+      } else {
+        this.#removeIcon('close');
+        this.container.classList.remove(attributes.FOCUSABLE);
+      }
+    }
+  }
+
+  /**
+   * If set to true the tag has focus state and becomes a clickable link
    * @param {boolean} value true of false depending if the tag is clickable
    */
   set clickable(value: boolean) {
     const isClickable = stringToBool(value);
     if (isClickable) {
-      this.setAttribute('clickable', value.toString());
-      this.container.classList.add('focusable');
-      this.container.setAttribute('tabindex', '0');
-      this.#attachKeyboardListeners();
-      return;
+      this.setAttribute(attributes.CLICKABLE, value.toString());
+    } else {
+      this.removeAttribute(attributes.CLICKABLE);
     }
 
-    this.removeAttribute('clickable');
-    this.container.removeAttribute('tabindex');
-    this.container.classList.remove('focusable');
+    if (this.container) {
+      if (isClickable) {
+        this.container.classList.add(attributes.FOCUSABLE);
+        this.container.setAttribute(attributes.TABINDEX, '0');
+        this.#attachKeyboardListeners();
+      } else {
+        this.container.removeAttribute(attributes.TABINDEX);
+        this.container.classList.remove(attributes.FOCUSABLE);
+      }
+    }
   }
 
-  get clickable(): boolean { return this.getAttribute('clickable'); }
+  get clickable(): boolean { return this.getAttribute(attributes.CLICKABLE); }
 
   /**
    * Establish Internal Event Handlers
@@ -163,13 +191,19 @@ export default class IdsTag extends Base {
     // Handle Clicking the x for dismissible
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
-      this.onEvent('click', closeIcon, () => this.dismiss());
+      this.offEvent('click', closeIcon);
+      this.onEvent('click', closeIcon, () => {
+        if (!this.disabled) {
+          this.dismiss();
+        }
+      });
     }
 
     // Ensure icon is always last
     let isChanging = false;
-    this.onEvent('slotchange', this.shadowRoot.querySelector('slot'), () => {
-      if (this.dismissible && !isChanging && this.lastElementChild.nodeName !== 'IDS-ICON') {
+    this.offEvent('slotchange', this.shadowRoot?.querySelector('slot'));
+    this.onEvent('slotchange', this.shadowRoot?.querySelector('slot'), () => {
+      if (this.dismissible && !isChanging && this.lastElementChild?.nodeName !== 'IDS-ICON') {
         isChanging = true;
         this.#removeIcon('close');
         this.#appendIcon('close');
@@ -212,13 +246,13 @@ export default class IdsTag extends Base {
     const response = (veto: any) => {
       canDismiss = !!veto;
     };
-    this.triggerEvent('beforetagremove', this, { detail: { elem: this, response } });
+    this.triggerEvent('beforetagremove', this, { bubbles: true, detail: { elem: this, response } });
 
     if (!canDismiss) {
       return;
     }
 
-    this.triggerEvent('tagremove', this, { detail: { elem: this } });
+    this.triggerEvent('tagremove', this, { bubbles: true, detail: { elem: this } });
     this.remove();
     this.triggerEvent('aftertagremove', this, { detail: { elem: this } });
   }

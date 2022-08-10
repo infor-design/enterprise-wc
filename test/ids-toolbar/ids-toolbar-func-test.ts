@@ -4,7 +4,7 @@
 import '../helpers/resize-observer-mock';
 
 import IdsToolbar from '../../src/components/ids-toolbar/ids-toolbar';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 const exampleHTML = `
@@ -114,6 +114,17 @@ describe('IdsToolbar Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('can render via document.createElement (append late)', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const elem = document.createElement('ids-toolbar');
+
+    elem.insertAdjacentHTML('afterbegin', exampleHTML);
+    document.body.appendChild(elem);
+
+    expect(document.body.querySelectorAll('ids-toolbar').length).toEqual(2);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('can get a list of its sections', () => {
     const sections = toolbar.sections;
 
@@ -153,7 +164,7 @@ describe('IdsToolbar Component', () => {
     expect(toolbar.type).toEqual('formatter');
   });
 
-  it('can be set type formatter', () => {
+  it('can be set to type formatter', () => {
     expect(toolbar.getAttribute('type')).toEqual(null);
     expect(toolbar.type).toEqual(null);
     toolbar.type = 'formatter';
@@ -162,6 +173,15 @@ describe('IdsToolbar Component', () => {
     toolbar.type = 'test';
     expect(toolbar.getAttribute('type')).toEqual(null);
     expect(toolbar.type).toEqual(null);
+  });
+
+  it('can set padding', () => {
+    expect(toolbar.getAttribute('padding')).toEqual(null);
+    expect(toolbar.padding).toEqual(null);
+    toolbar.padding = '5';
+    expect(toolbar.getAttribute('padding')).toEqual('5');
+    expect(toolbar.padding).toEqual('5');
+    expect(toolbar.container.style.paddingBottom).toEqual('5px');
   });
 
   it('can be disabled and enabled', () => {
@@ -248,6 +268,7 @@ describe('IdsToolbar Component', () => {
   });
 
   it('skips disabled items while navigating', () => {
+    button3.setAttribute('disabled', 'true');
     button2.focus();
     toolbar.navigate(1, true);
 
@@ -305,10 +326,10 @@ describe('IdsToolbar Component', () => {
     document.body.addEventListener('selected', selectedEventListener);
 
     toolbar.triggerSelectedEvent(button1);
-    await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
+    await waitForTimeout(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
 
     // Try using an element from outside the Toolbar.  It shouldn't trigger an event
     toolbar.triggerSelectedEvent(document.body);
-    await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
+    await waitForTimeout(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
   });
 });

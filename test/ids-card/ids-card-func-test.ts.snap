@@ -15,6 +15,9 @@ exports[`IdsCard Component Actionable Ids Card renders card action markup 1`] = 
           <div class=\\"ids-card-checkbox hidden\\">
             <ids-checkbox></ids-checkbox>
           </div>
+          <div class=\\"ids-card-footer\\" part=\\"footer\\">
+            <slot name=\\"card-footer\\"></slot>
+          </div>
         </div>
       </div>
     "

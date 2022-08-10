@@ -36,6 +36,9 @@
 .ids-popup {
   @include antialiased();
 
+  // Positions the arrow correctly
+  position: relative;
+
   // This style is always applied when IdsPopup is not visible
   // (goes hand-in-hand with `aria-hidden="true"` on the host element
   &:not(.open) {
@@ -190,15 +193,20 @@
     // Boundaries
     min-height: 15%;
     min-width: 15%;
-    max-height: calc(100% - 16px);
-    max-width: calc(100% - 16px);
+    max-height: 100%;
+    max-width: 100%;
     overflow: hidden;
+
+    // When the height of `.content-wrapper` exceeds that of `.ids-popup`,
+    // ResizeObserver automatically appends this class to enable scrolling of inner content
+    &.fit-viewport {
+      height: 100%;
+    }
 
     // Override some default animation styles to add the correct
     // `translate(X/Y/Z/3d)` values to an existing transform property.
     &.animation-scale-in {
       transform: perspective(1000px) translate3d(-50%, -50%, -500px);
-      width: calc(100% - 16px);
 
       &.open {
         transform: perspective(1000px) translate3d(-50%, -50%, 0);
@@ -213,6 +221,10 @@
         transform: perspective(1000px) translate3d(-50%, -50%, 0);
       }
     }
+  }
+
+  &:not(.animated) {
+    transform: none;
   }
 
   // style: "none" (temporary)
@@ -429,6 +441,9 @@
 
 .content-wrapper {
   @include static();
+
+  height: 100%;
+  width: 100%;
 }
 
 // =====================================================
@@ -550,245 +565,6 @@
     &::after {
       border-bottom-color: var(--ids-color-palette-white);
     }
-  }
-}
-
-// "Classic" Light Theme
-
-.ids-popup.modal[version='classic'][mode='light'] {
-  @include bg-white();
-  @include border-classic-slate-30();
-
-  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
-}
-
-.ids-popup.menu[version='classic'][mode='light'] {
-  @include bg-white();
-  @include border-classic-slate-30();
-
-  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
-
-  .arrow.bottom {
-    border-bottom-color: var(--ids-color-palette-classic-slate-30);
-
-    &::after {
-      border-bottom-color: var(--ids-color-palette-white);
-    }
-  }
-}
-
-.ids-popup.dropdown[version='classic'][mode='light'] {
-  @include bg-white();
-  @include border-azure-60();
-
-  border-top-color: var(--ids-color-palette-graphite-30);
-
-  &.flipped {
-    border-bottom-color: var(--ids-color-palette-graphite-30);
-    border-top-color: var(--ids-color-palette-azure-60);
-  }
-}
-
-.ids-popup.tooltip[version='classic'][mode='light'] {
-  @include text-classic-slate-80();
-
-  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
-
-  .arrow.top {
-    border-top-color: var(--ids-color-palette-classic-slate-80);
-
-    &::after {
-      border-top-color: var(--ids-color-palette-classic-slate-80);
-    }
-  }
-
-  .arrow.bottom {
-    border-bottom-color: var(--ids-color-palette-classic-slate-80);
-
-    &::after {
-      border-bottom-color: var(--ids-color-palette-classic-slate-80);
-    }
-  }
-
-  .arrow.left {
-    border-left-color: var(--ids-color-palette-classic-slate-80);
-
-    &::after {
-      border-left-color: var(--ids-color-palette-classic-slate-80);
-    }
-  }
-
-  .arrow.right {
-    border-right-color: var(--ids-color-palette-classic-slate-80);
-
-    &::after {
-      border-right-color: var(--ids-color-palette-classic-slate-80);
-    }
-  }
-}
-
-// "Classic" Dark Theme
-
-.ids-popup.dropdown[version='classic'][mode='dark'] {
-  @include bg-classic-slate-70();
-  @include border-azure-60();
-
-  box-shadow:
-    -2px 1px 2px 0 rgb(54 138 192 / 0.3),
-    0 1px 2px 0 rgb(54 138 192 / 0.3),
-    2px 2px 2px 0 rgb(54 138 192 / 0.3);
-  border-top-color: var(--ids-color-palette-classic-slate-40);
-
-  &.flipped {
-    border-bottom-color: var(--ids-color-palette-classic-slate-40);
-    border-top-color: var(--ids-color-palette-azure-60);
-    box-shadow:
-      0 -1px 2px 0 rgb(54 138 192 / 0.3),
-      2px 0 3px 0 rgb(54 138 192 / 0.3),
-      -2px -2px 3px 0 rgb(54 138 192 / 0.3);
-  }
-}
-
-.ids-popup.modal[version='classic'][mode='dark'] {
-  @include border-graphite-50();
-  @include bg-classic-slate-70();
-
-  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
-}
-
-.ids-popup.menu[version='classic'][mode='dark'] {
-  @include border-graphite-50();
-  @include bg-classic-slate-70();
-
-  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
-
-  .arrow.bottom {
-    border-bottom-color: var(--ids-color-palette-graphite-50);
-
-    &::after {
-      border-bottom-color: var(--ids-color-palette-graphite-50);
-    }
-  }
-}
-
-.ids-popup.tooltip[version='classic'][mode='dark'] {
-  @include bg-white();
-  @include text-classic-slate-100();
-
-  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
-
-  .arrow.top {
-    border-top-color: var(--ids-color-palette-white);
-
-    &::after {
-      border-top-color: var(--ids-color-palette-white);
-    }
-  }
-
-  .arrow.bottom {
-    border-bottom-color: var(--ids-color-palette-white);
-
-    &::after {
-      border-bottom-color: var(--ids-color-palette-white);
-    }
-  }
-
-  .arrow.left {
-    border-left-color: var(--ids-color-palette-white);
-
-    &::after {
-      border-left-color: var(--ids-color-palette-white);
-    }
-  }
-
-  .arrow.right {
-    border-right-color: var(--ids-color-palette-white);
-
-    &::after {
-      border-right-color: var(--ids-color-palette-white);
-    }
-  }
-}
-
-// "Classic" Contrast Theme
-
-.ids-popup.dropdown[version='classic'][mode='contrast'] {
-  @include bg-white();
-  @include border-azure-90();
-
-  border-top-color: var(--ids-color-palette-classic-slate-60);
-
-  &.flipped {
-    border-bottom-color: var(--ids-color-palette-classic-slate-60);
-    border-top-color: var(--ids-color-palette-azure-90);
-  }
-}
-
-.ids-popup.modal[version='classic'][mode='contrast'] {
-  @include bg-white();
-  @include border-classic-slate-30();
-
-  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
-}
-
-.ids-popup.menu[version='classic'][mode='contrast'] {
-  @include bg-white();
-  @include border-classic-slate-30();
-
-  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
-
-  .arrow.bottom {
-    border-bottom-color: var(--ids-color-palette-classic-slate-30);
-
-    &::after {
-      border-bottom-color: var(--ids-color-palette-white);
-    }
-  }
-}
-
-.ids-popup.tooltip[version='classic'][mode='contrast'] {
-  @include bg-graphite-80();
-  @include text-white();
-
-  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
-
-  .arrow.top {
-    border-top-color: var(--ids-color-palette-graphite-80);
-
-    &::after {
-      border-top-color: var(--ids-color-palette-graphite-80);
-    }
-  }
-
-  .arrow.bottom {
-    border-bottom-color: var(--ids-color-palette-graphite-80);
-
-    &::after {
-      border-bottom-color: var(--ids-color-palette-graphite-80);
-    }
-  }
-
-  .arrow.left {
-    border-left-color: var(--ids-color-palette-graphite-80);
-
-    &::after {
-      border-left-color: var(--ids-color-palette-graphite-80);
-    }
-  }
-
-  .arrow.right {
-    border-right-color: var(--ids-color-palette-graphite-80);
-
-    &::after {
-      border-right-color: var(--ids-color-palette-graphite-80);
-    }
-  }
-}
-
-// Media queries setup
-@media screen and (min-width: $breakpoint-sm) {
-  .ids-popup.position-viewport.animation-scale-in {
-    width: auto;
   }
 }
 

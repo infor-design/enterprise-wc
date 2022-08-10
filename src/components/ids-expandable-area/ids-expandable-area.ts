@@ -15,6 +15,7 @@ import styles from './ids-expandable-area.scss';
  * @part container - the main container element
  * @part header - the header element
  * @part pane - the expandable pane element
+ * @part pane-content - the expandable pane content
  * @part footer - the footer element
  */
 @customElement('ids-expandable-area')
@@ -31,6 +32,7 @@ export default class IdsExpandableArea extends Base {
   }
 
   connectedCallback(): void {
+    super.connectedCallback();
     this.expander = this.shadowRoot?.querySelector('[data-expander]');
     this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
     this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
@@ -44,7 +46,11 @@ export default class IdsExpandableArea extends Base {
    * @returns {Array} The attributes in an array
    */
   static get attributes(): Array<string> {
-    return [attributes.EXPANDED, attributes.TYPE, attributes.MODE, attributes.VERSION];
+    return [
+      attributes.EXPANDED,
+      attributes.TYPE,
+      attributes.MODE
+    ];
   }
 
   /**
@@ -206,7 +212,7 @@ export default class IdsExpandableArea extends Base {
     `;
     let pane = `
       <div class="ids-expandable-area-pane" part="pane">
-        <div class="expandable-pane-content">
+        <div class="expandable-pane-content" part="pane-content">
           <slot name="pane"></slot>
         </div>
       </div>
@@ -230,7 +236,7 @@ export default class IdsExpandableArea extends Base {
     } else if (this.type === EXPANDABLE_AREA_TYPES[1]) { // Partial Pane Type
       pane = `
         <div class="ids-expandable-area-visible-pane">
-          <div class="expandable-pane-content">
+          <div class="expandable-pane-content" part="pane-content">
             <slot name="visible-pane-content"></slot>
           </div>
         </div>

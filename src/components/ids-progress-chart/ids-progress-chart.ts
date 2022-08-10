@@ -71,16 +71,18 @@ export default class IdsProgressChart extends Base {
    * @param {string} value The icon name
    */
   set icon(value: string) {
-    const icon = this.container.querySelector('.icon');
+    const icon = this.container?.querySelector('.icon');
     if (value) {
-      icon.style.display = '';
-      icon.style.margin = '0 4px';
+      if (icon) {
+        icon.style.display = '';
+        icon.style.margin = '0 4px';
+      }
       this.setAttribute(attributes.ICON, value);
-      icon.setAttribute(attributes.ICON, value);
+      icon?.setAttribute(attributes.ICON, value);
     } else {
-      icon.style.display = 'none';
+      if (icon) icon.style.display = 'none';
       this.setAttribute(attributes.ICON, '');
-      icon.setAttribute(attributes.ICON, '');
+      icon?.setAttribute(attributes.ICON, '');
     }
   }
 
@@ -111,21 +113,17 @@ export default class IdsProgressChart extends Base {
 
       // only color the icons and progress labels if it's error, caution, or warning
       if (includesAlert) {
-        const progressLabel = this.container.querySelector('.label-progress');
-        if (progressLabel) {
-          progressLabel.style.color = prop;
-        }
+        const progressLabel = this.container?.querySelector('.label-progress');
+        progressLabel.style.color = prop;
 
-        const icon = this.container.querySelector('ids-icon');
-        if (icon) {
-          icon.style.color = prop;
-        }
+        const icon = this.container?.querySelector('ids-icon');
+        icon.style.color = prop;
       }
-    } else if (this.color.substr(0, 1) !== '#') {
+    } else if (this.color.substring(0, 1) !== '#') {
       prop = `var(--ids-color-palette-${this.color})`;
     }
 
-    const bar = this.container.querySelector('.bar-progress');
+    const bar = this.container?.querySelector('.bar-progress');
     bar.style.backgroundColor = prop;
   }
 
@@ -135,11 +133,13 @@ export default class IdsProgressChart extends Base {
    * @private
    */
   #updateLabel(labelType: string): void {
+    if (!this.container) return;
+
     if (labelType === attributes.LABEL) {
       this.container.querySelector('.label-main').innerHTML = this.label;
     } else if (labelType === attributes.LABEL_PROGRESS) {
       this.container.querySelector('.label-progress').innerHTML = this.progressLabel;
-    } else if (labelType === attributes.LABEL_TOTAL) {
+    } else {
       this.container.querySelector('.label-total').innerHTML = this.totalLabel;
     }
   }
@@ -154,7 +154,9 @@ export default class IdsProgressChart extends Base {
     // make sure that prog / tot doesn't exceed 1 -- will happen if prog > tot
     const percentage = Math.floor((prog / tot > 1 ? 1 : prog / tot) * 100);
     this.percentage = percentage;
-    this.container.querySelector('.bar-progress').style.width = `${percentage}%`;
+
+    const progressBar = this.container?.querySelector('.bar-progress');
+    if (progressBar) progressBar.style.width = `${percentage}%`;
   }
 
   /**
@@ -162,9 +164,12 @@ export default class IdsProgressChart extends Base {
    * @private
    */
   #updateSize(): void {
-    const bar = this.container.querySelector('.bar');
-    bar.style.minHeight = this.size === 'small' ? '10px' : '28px';
-    bar.style.borderRadius = this.size === 'small' ? '0px' : '2px';
+    const bar = this.container?.querySelector('.bar');
+
+    if (bar) {
+      bar.style.minHeight = this.size === 'small' ? '10px' : '28px';
+      bar.style.borderRadius = this.size === 'small' ? '0px' : '2px';
+    }
   }
 
   /**
@@ -237,8 +242,8 @@ export default class IdsProgressChart extends Base {
   set size(value: string) {
     const prop = value === 'small' ? value : DEFAULT_SIZE;
     this.setAttribute(attributes.SIZE, prop);
-    const icon = this.container.querySelector('.icon');
-    icon.setAttribute('size', prop);
+    const icon = this.container?.querySelector('.icon');
+    icon?.setAttribute('size', prop);
     this.#updateSize();
   }
 

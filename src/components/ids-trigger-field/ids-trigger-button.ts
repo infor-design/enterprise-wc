@@ -19,11 +19,6 @@ export default class IdsTriggerButton extends Base {
    */
   constructor() {
     super();
-
-    // Trigger it the first time since we have no template
-    if (stringToBool(this.readonly)) {
-      this.readonly = true;
-    }
   }
 
   /**
@@ -34,16 +29,15 @@ export default class IdsTriggerButton extends Base {
     return [
       ...super.attributes,
       attributes.INLINE,
+      attributes.INHERIT_COLOR,
       attributes.READONLY,
       attributes.TABBABLE,
     ];
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
-    if (this.getAttribute(attributes.INLINE)) {
-      this.inline = true;
-    }
+    super.connectedCallback();
+    this.inline = stringToBool(this.getAttribute(attributes.INLINE));
   }
 
   /**
@@ -66,12 +60,12 @@ export default class IdsTriggerButton extends Base {
 
     if (isTabbable) {
       this.setAttribute(attributes.TABBABLE, '');
-      button.tabIndex = 0;
+      if (button) button.tabIndex = 0;
       return;
     }
 
     this.removeAttribute(attributes.TABBABLE);
-    button.tabIndex = -1;
+    if (button) button.tabIndex = -1;
   }
 
   get tabbable(): boolean { return stringToBool(this.getAttribute(attributes.TABBABLE)); }
@@ -85,10 +79,10 @@ export default class IdsTriggerButton extends Base {
     const button = this.shadowRoot?.querySelector('button');
     if (isReadonly) {
       this.setAttribute(attributes.READONLY, '');
-      button.tabIndex = -1;
+      if (button) button.tabIndex = -1;
       return;
     }
-    button.tabIndex = this.tabbable ? 0 : -1;
+    if (button) button.tabIndex = this.tabbable ? 0 : -1;
     this.removeAttribute(attributes.READONLY);
   }
 
@@ -127,5 +121,26 @@ export default class IdsTriggerButton extends Base {
 
   #removeBorderClass() {
     this.button.classList.remove('style-inline', this.inlineCssClass);
+  }
+
+  /**
+   * @param {boolean} val true if this trigger button should inherit a parent component's text color for use internally
+   */
+  set inheritColor(val: boolean | string) {
+    const inheritColor = stringToBool(val);
+    if (inheritColor) {
+      this.setAttribute(attributes.INHERIT_COLOR, '');
+      this.button.classList.add('inherit-color');
+    } else {
+      this.removeAttribute(attributes.INHERIT_COLOR);
+      this.button.classList.remove('inherit-color');
+    }
+  }
+
+  /**
+   * @returns {string} true if this trigger button inherits a parent component's text color for use internally
+   */
+  get inheritColor(): string {
+    return this.hasAttribute(attributes.INHERIT_COLOR);
   }
 }

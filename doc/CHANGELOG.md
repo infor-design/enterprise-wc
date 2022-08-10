@@ -1,21 +1,46 @@
-# 0.0.0
+# What's New with Enterprise Web Components
 
-## 0.0.0 Breaking Changes
+## 1.0.0-beta.1
+
+### 1.0.0-beta.1 Fixes
+
+- `[ActionSheet]` Updated `btnText` to `cancelBtnText` and fixed the setter update to update the DOM text when called (which was not working). ([#505](https://github.com/infor-design/enterprise-wc/pull/505))
+- `[About]` Fixed scrolling issue with pointer event and adjusted text to screen size. ([#701](https://github.com/infor-design/enterprise-wc/pull/701))
+- `[AppMenu]` Fixed the footer by creating two examples for the app menu, one only including the Infor logo and the other only including the toolbar options. ([#776](https://github.com/infor-design/enterprise-wc/pull/776))
+- `[AxisChart]` Add support for axis labels all around bottom, end, start, top. ([#738](https://github.com/infor-design/enterprise-wc/issues/738))
+- `[Breadcrumb]` Fixed a styling with the focus state and incorrect colors. ([#777](https://github.com/infor-design/enterprise-wc/pull/788))
+- `[Card]` Fixed the `height` setting which was not working. ([#788](https://github.com/infor-design/enterprise-wc/pull/788))
+- `[DatePicker]` Updated event path for clicking event and ensured appropriate date input for Range - Min(N) Days. ([#780](https://github.com/infor-design/enterprise-wc/pull/780))
+- `[DatePicker]` Fixed keyboard events to accommodate to Firefox browser (which was not working). ([#779](https://github.com/infor-design/enterprise-wc/issues/779))
+- `[DatePicker]` Fixed frozen page when "Enter" or "Shift" key is pressed when selecting month and year. ([#778](https://github.com/infor-design/enterprise-wc/issues/778))
+- `[ListBuilder]` Fixed focus state after dragging item(s). ([#753](https://github.com/infor-design/enterprise-wc/issues/753))
+- `[General]` Fixed the initialization lifecycle of all components. ([#789](https://github.com/infor-design/enterprise-wc/issues/789))
+- `[PieChart]` Improved the tooltip placement logic and some cleanup. ([#736](https://github.com/infor-design/enterprise-wc/issues/736))
+- `[PopupMenu]` Added `triggerElem` property for separating the element triggering a Popup from the element in which the Popup aligns against.  ([#769](https://github.com/infor-design/enterprise-wc/issues/769))
+- `[Radio]` Fixed incorrect colors in contrast mode. ([#775](https://github.com/infor-design/enterprise-wc/pull/775))
+
+## 1.0.0-beta.0
+
+### 1.0.0-beta.0 Breaking Changes
 
 All components in this version are now web components compared to 4.x. Each component can now be imported as a single JS file and used with encapsulated styles.
 For more details on breaking changes see each component in the individual README.md files.
 
-- `[About]`The about component was converted. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-about/README.md#converting-from-previous-versions-breaking-changes) for details. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
+- `[Colorpicker]` The colorpicker component was bug fixed and enhanced to include features found in legacy codebase. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-color-picker/README.md) for details. ([#551](https://github.com/infor-design/enterprise-wc/issues/551))
+- `[About]` The about component was converted. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-about/README.md#converting-from-previous-versions-breaking-changes) for details. ([#308](https://github.com/infor-design/enterprise-wc/issues/308))
 - `[Accordion]` The accordion component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-accordion//README.md##converting-from-previous-versions) for details. ([#168](https://github.com/infor-design/enterprise-wc/issues/168))
 - `[ActionSheet]` The action sheet component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-action-sheet/README.md#converting-from-previous-versions) for details. ([#348](https://github.com/infor-design/enterprise-wc/issues/348))
 - `[Alert]` The alert component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-alert/README.md#converting-from-previous-versions) for details. ([#348](https://github.com/infor-design/enterprise-wc/issues/348))
 - `[App Menu]` The app menu component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-app-menu/README.md#converting-from-previous-versions) for details. ([#130](https://github.com/infor-design/enterprise-wc/issues/130))
+- `[AreaChart]` The Area Chart component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-area-chart/README.md#converting-from-previous-versions-breaking-changes)` for details. ([#400](https://github.com/infor-design/enterprise-wc/issues/400))
 - `[Badge]` The badge component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-badge/README.md#converting-from-previous-versions) for details. ([#41](https://github.com/infor-design/enterprise-wc/issues/41))
+- `[BarChart]` The bar Chart component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-bar-chart/README.md#converting-from-previous-versions-breaking-changes)` for details. ([#400](https://github.com/infor-design/enterprise-wc/issues/400))
 - `[BlockGrid]` The block-grid component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-block-grid/README.md#converting-from-previous-versions) for details. ([#159](https://github.com/infor-design/enterprise-wc/issues/159))
 - `[Breadcrumb]` The breadcrumb component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-bread-crumb/README.md#converting-from-previous-versions) for details. ([#137](https://github.com/infor-design/enterprise-wc/issues/137))
 - `[Button]` The button component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-button/README.md#converting-from-previous-versions) for details. ([#173](https://github.com/infor-design/enterprise-wc/issues/173))
 - `[Card]` The card component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-card/README.md#converting-from-previous-versions) for details. ([#419](https://github.com/infor-design/enterprise-wc/issues/419))
 - `[Checkbox]` The checkbox component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-checkbox/README.md#converting-from-previous-versions for details. ([#164](https://github.com/infor-design/enterprise-wc/issues/164))
+- `[Circle Pager]` The circle pager component has been renamed to [`IdsScrollView`](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-scroll-view/README.md)
 - `[Colorpicker]` The card component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-color-picker/README.md#converting-from-previous-versions for details. ([#223](https://github.com/infor-design/enterprise-wc/issues/223))
 - `[IdsContainer]` Added a new component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-containerr/README.md) for details.
 - `[Contextual Action Panel]` The contextual action panel component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-contextual-action-panel/README.md#converting-from-previous-versions for details. ([#330](https://github.com/infor-design/enterprise-wc/issues/330))
@@ -37,70 +62,42 @@ For more details on breaking changes see each component in the individual README
 - `[Image]` The image css component is now a web component called `ids-image`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-image/README.md#converting-from-previous-versions for details. ([#360](https://github.com/infor-design/enterprise-wc/issues/360))
 - `[Input]` The Input component is now a web component called `ids-input`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-image/README.md#converting-from-previous-versions for details. ([#171](https://github.com/infor-design/enterprise-wc/issues/171))
 - `[LayoutGrid]` The Grid component is now a web component called `ids-layout-grid`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-layout-grid/README.md#converting-from-previous-versions for details. ([#180](https://github.com/infor-design/enterprise-wc/issues/180))
+- `[LineChart]` The Line Chart component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-line-chart/README.md#converting-from-previous-versions-breaking-changes)` for details. ([#400](https://github.com/infor-design/enterprise-wc/issues/400))
 - `[ListBuilder]` The List Builder component is now a web component called `ids-list-builder`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-list-builder/README.md#converting-from-previous-versions for details. ([#365](https://github.com/infor-design/enterprise-wc/issues/365))
 - `[ListView]` The List View component is now a web component called `ids-list-view`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-list-view/README.md#converting-from-previous-versions for details. ([#174](https://github.com/infor-design/enterprise-wc/issues/174))
 - `[LoadingIndicator]` The busy indicator component is now a web component called `ids-loading-indicator`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-loading-indicator/README.md#converting-from-previous-versions for details. ([#187](https://github.com/infor-design/enterprise-wc/issues/187))
 - `[Locale]` The locale component has been changed to a mixin and added to many but not all components. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-locale/README.md#converting-from-previous-versions for details. ([#121](https://github.com/infor-design/enterprise-wc/issues/121))
-- `[LoadingIndicator]` The Busy Indicator component has been changed to a web component and renamed to ids-loading-indicator.
-  - Markup has changed to a custom element `<ids-loading-indicator></ids-loading-indicator>`
-  - Can now be imported as a single JS file and used with encapsulated styles
-  - Can change the type of indicator from Circular to Linear by applying a `linear` attribute flag, or
-  make it a sticky/bar indicator that sticks to the top of a component via the `sticky` flag.
-  - Can make the indicator determinate by providing a `progress` attribute with a number representing the percentage
-  from 0-100 that the indicator is representing a process completed so far.
 - `[Mask]` The mask component has been changed to a mixin and added to IdsInput components. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-mask/README.md#converting-from-previous-versions-breaking-changes) for details. ([#125](https://github.com/infor-design/enterprise-wc/issues/125))
 - `[Menu Button]` The menu button component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-menu-button/README.md#converting-from-previous-versions-breaking-changes) for details. ([#173](https://github.com/infor-design/enterprise-wc/issues/173))
 - `[Lookup]` The Lookup component is now a web component called `ids-lookup`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-lookup/README.md#converting-from-previous-versions for details. ([#149](https://github.com/infor-design/enterprise-wc/issues/149))
-- `[Menu Button]` The menu button component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-menu-button/README.md#converting-from-previous-versions for details. ([#173](https://github.com/infor-design/enterprise-wc/issues/173))
-- `[Message]` The Message is now a web component called ids-message
-  - The Message component now extends the Modal component, containing the same properties and methods.
-  - Modal Buttons, Title, Status, and Message can be changed via API
-  - Enhance user-interface on mobile and desktop viewports.
-  - Markup is `<ids-message></ids-message>`
-- `[Modal]` The Modal is now a web component called ids-modal ([WC#118](https://github.com/infor-design/enterprise-wc/issues/118))
-  - All content inside the modal boundary is now user-defined by slot
-  - Triggering element for the modal is now configurable with the `target` prop
-  - Events are now just plain JS events
-  - Markup has been changed to custom element `<ids-modal></ids-modal>`
-  - Enhance user-interface on mobile and desktop viewports.
-- `[NotificationBanner]` The Notification Banner is now a web component called ids-notification-banner
-  - The type, alert icon, message text, link and link text are all configurable via properties on the custom element
-  - Additionally, user's can define the notification via a JS api, where the `parent` and `id` can be configured
-  - Custom element: `<ids-notification-banner></ids-notification-banner>`
-- `[Pager]` Pager is now a web component called ids-pager ([WC#148](https://github.com/infor-design/enterprise-wc/issues/148))
-  - there is a new base-component: `<ids-pager>`, and several sub-components to provide specific controls.
-  - content is automatically managed/aligned via nesting controls inside of `<ids-pager-section>`
-  - pagination is controlled via attributes on the `<ids-pager>` (`page-number`, `total`, `page-size`), and manages buttons and controls automatically.
-  - buttons are managed by `<ids-pager-button>` with given functionality flags e.g. `<ids-pager-button start>`.
-  - input box can be inserted `<ids-pager-input>`, and a number list with `<ids-pager-number-list>`
-- `[Popup]` Added the Popup WebComponent. ([#4259](https://github.com/infor-design/enterprise/issues/4259))
-  - This is the new base component to be used for building Popupmenu, Tooltip, Modal, and any other component that requires placement of a fixed-position element.
-  - If using properties/settings, these are now attributes: x, y, align, alignX, alignY, alignEdge, alignTarget, animated, visible.
-  - Popup is now driven by its own HTMLElement rather than a being a behavior applied to any element: `<ids-popup x="0" y="0" align="top, left">My Popup</ids-popup>`
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Popup Menu]` The Popup Menu is now a web component called ids-popup-menu.
-  - Markup has been changed to a custom element `<ids-popup-menu></ids-popup-menu>`.
-  - Events triggered by the Popup Menu are now plain JS (for example `selected`/`deselected`)
-  - Selection of items is now divided up by Menu Groups `<ids-menu-group></ids-menu-group>`.  Multiple menu groups in each Popup Menu are supported, and selection in one group will not affect selection in other groups.
-  - Many previous settings are now attribute-friendly (for example `closeOnSelect` is now a `keep-open` attribute on menu groups).
-  - Made dynamic menus possible by using IdsDataSource
-- `[Progress]` The progress component has been changed to a web component and renamed to ids-progress-bar.
-  - Markup has changed to a custom element `<ids-progress-bar></ids-progress-bar>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Radio]` The Radio component has been changed to a web component and use with ids-radio and ids-radio-group.
-  - Markup has changed to a custom element `<ids-radio-group><ids-radio></ids-radio></ids-radio-group>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[RenderLoop]` The RenderLoop component has been implemented as a mixin.
-  - API has been simplified and made more user-friendly.
-- `[ScrollView/CirclePager]` The IdsScrollView component replaces circle pager from the previous version and adds swiping
-  - Markup has changed to a custom element `<ids-scroll-view></ids-scroll-view>`
-  - Can now be imported as a single JS file and used with encapsulated styles
-- `[Spinbox]` The spinbox component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-spinbox/README.md#converting-from-previous-versions-breaking-changes) for details. ([#139](https://github.com/infor-design/enterprise-wc/issues/139))
+- `[Masthead]` The masthead component is now a web component called `ids-masthead`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-masthead/README.md#converting-from-previous-versions for details. ([#362](https://github.com/infor-design/enterprise-wc/issues/362))
+- `[Menu]` The menu component was converted to a web component called `ids-menu`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-menu/README.md#converting-from-previous-versions for details. ([#170](https://github.com/infor-design/enterprise-wc/issues/170))
+- `[Menu Button]` The menu button component was converted to a web component called `ids-menu-button`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-menu-button/README.md#converting-from-previous-versions for details. ([#173](https://github.com/infor-design/enterprise-wc/issues/173))
+- `[Message]` The Message is now a web component called ids-message. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-message/README.md#converting-from-previous-versions-breaking-changes) for details. ([#118](https://github.com/infor-design/enterprise-wc/issues/118))
+- `[Modal]` The Modal component has been converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-modal/README.md#converting-from-previous-versions-breaking-changes) for details. ([#118](https://github.com/infor-design/enterprise-wc/issues/118))
+- `[Modal Button]` A new component was created for standalone Modal buttons, extending IdsButton. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-modal-button/README.md#converting-from-previous-versions-breaking-changes) for details. ([#118](https://github.com/infor-design/enterprise-wc/issues/118))
+- `[MonthView]` The Monthview is now a web component called ids-monthview. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-monthview/README.md#converting-from-previous-versions-breaking-changes) for details. ([#444](https://github.com/infor-design/enterprise-wc/issues/444))
+- `[Multiselect]` Multiselect is now a web component called ids-multiselect. see the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-multiselect/README) for details. ([#363](https://github.com/infor-design/enterprise-wc/issues/363))
+- `[NotificationBanner]` The Notification component is now a web component called ids-notification-banner. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-notification-banner/README.md#converting-from-previous-versions-breaking-changes) for details. ([#229](https://github.com/infor-design/enterprise-wc/issues/229))
+- `[Pager]` The Pager component is now a web component called ids-pager. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-pager/README.md#converting-from-previous-versions-breaking-changes) for details. ([#148](https://github.com/
+- `[PieChart]` The Pie Chart component was converted to a web component. See the [README](https://github.com/infor-design/enterprise-wc/blob/todo-passthrough/src/components/ids-pie-chart/README.md#converting-from-previous-versions-breaking-changes)` for details. ([#400](https://github.com/infor-design/enterprise-wc/issues/400))
+- `[Place]` The Place component has been replaced by [IdsPopup](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-popup/README.md#converting-from-previous-versions-breaking-changes).
+- `[Popup]` Added a new Popup component that serves as a base element for absolute/fixed-position elements. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-popup/README.md#converting-from-previous-versions-breaking-changes) for details. ([#139](https://github.com/infor-design/enterprise-wc/issues/139))
+- `[Popup Menu]` The Popup Menu has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-popup-menu/README.md#converting-from-previous-versions-breaking-changes) for details. ([#170](https://github.com/infor-design/enterprise-wc/issues/170))
+- `[Process Indicator]` The Process Indicator component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-process-indicator/README.md#converting-from-previous-versions-breaking-changes) for details. ([#333](https://github.com/infor-design/enterprise-wc/issues/333))
+- `[Progress (Bar)]` The Progress component has been changed to a web component and renamed to `ids-progress-bar`. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-progress-bar/README.md#converting-from-previous-versions-breaking-changes) for details. ([#187](https://github.com/infor-design/enterprise-wc/issues/187))
+- `[Progress (Chart)]` A new component that combines various similar chart types (Completion, Targeted Achievement, etc) has been added. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-progress-chart/README.md#converting-from-previous-versions-breaking-changes) for details. ([#268](https://github.com/infor-design/enterprise-wc/issues/268))
+- `[Radio]` The Radio component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-radio/README.md#converting-from-previous-versions-breaking-changes) for details. ([#169](https://github.com/infor-design/enterprise-wc/issues/169))
+- `[Rating]` The Rating component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-rating/README.md#converting-from-previous-versions-breaking-changes) for details. ([#119](https://github.com/infor-design/enterprise-wc/issues/119))
+- `[RenderLoop]` The RenderLoop component has been implemented as a mixin. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-render-loop/README.md#converting-from-previous-versions-breaking-changes) for details. ([#172](https://github.com/infor-design/enterprise-wc/issues/172))
+- `[ScrollView]` A new component that replaces Circle Pager from the previous version and adds touch gestures like swiping. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-scroll-view/README.md#converting-from-previous-versions-breaking-changes) for details. ([#199](https://github.com/infor-design/enterprise-wc/issues/199))
+- `[Search Field]` The Search Field component has been converted.  See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-search-field/README.md#converting-from-previous-versions-breaking-changes) for details. ([#314](https://github.com/infor-design/enterprise-wc/issues/314))
+- `[Separator]` A new component was created for use in IdsToolbar and IdsMenu to visually separate content. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-separator/README.md#converting-from-previous-versions-breaking-changes) for details. *(N/A)*
+- `[Skip Link]` The Skip Link component has been converted.  See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-skip-link/README.md#converting-from-previous-versions-breaking-changes) for details. *(N/A)*
+- `[Slider]` The Slider component has been converted.  See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-slider/README.md#converting-from-previous-versions-breaking-changes) for details. ([#304](https://github.com/infor-design/enterprise-wc/issues/304))
+- `[Spinbox]` The Spinbox component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-spinbox/README.md#converting-from-previous-versions-breaking-changes) for details. ([#139](https://github.com/infor-design/enterprise-wc/issues/139))
 - `[Splitter]` The Splitter component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-splitter/README.md#converting-from-previous-versions-breaking-changes) for details. ([#143](https://github.com/infor-design/enterprise-wc/issues/143))
 - `[Step Chart]` The Step Chart has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-step-chart/README.md#converting-from-previous-versions-breaking-changes) for details. ([#273](https://github.com/infor-design/enterprise-wc/issues/273))
-- `[Summary Field]` A new component was created that displays contextual information on forms. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-summary-field/README.md) for details. ([#276](https://github.com/infor-design/enterprise-wc/issues/276))
 - `[SwapList]` The SwapList component has been converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-swaplist/README.md#converting-from-previous-versions-breaking-changes) for details. ([#368](https://github.com/infor-design/enterprise-wc/issues/368))
 - `[Swappable/Arange]` The Arrange component was converted to IdsSwappable. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-swappable/README.md#converting-from-previous-versions-breaking-changes) for details. ([#487](https://github.com/infor-design/enterprise-wc/issues/487))
 - `[Swipe Action]` A new component that lets you swipe left or right and select an action. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-swipe-action/README.md) for details. ([#133](https://github.com/infor-design/enterprise-wc/issues/133))

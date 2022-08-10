@@ -15,7 +15,10 @@ export default class IdsThemeSwitcher extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
+    this.popup = this.shadowRoot.querySelector('ids-popup-menu');
+    this.menuButton = this.shadowRoot.querySelector('ids-menu-button');
+    this.menuButton.configureMenu();
     this.#attachEventHandlers();
   }
 
@@ -24,15 +27,14 @@ export default class IdsThemeSwitcher extends Base {
    * @private
    */
   #attachEventHandlers() {
-    // Handle Clicking the x for dismissible
-    // Ensure icon is always last
-    this.onEvent('selected', this.shadowRoot.querySelector('ids-popup-menu'), (e: CustomEvent) => {
+    this.onEvent('selected.themeswitcher', this.popup, (e: CustomEvent) => {
       const val = e.detail.elem.value;
-      if (val === 'classic' || val === 'new') {
-        this.version = val;
-      }
       if (val === 'light' || val === 'dark' || val === 'contrast') {
         this.mode = val;
+      }
+      if (val?.indexOf('-') > -1) {
+        if (this.locale) this.locale.setLocale(val);
+        (document.querySelector('ids-container') as any).setLocale(val);
       }
     });
   }
@@ -45,14 +47,72 @@ export default class IdsThemeSwitcher extends Base {
     return `<ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu" color-variant="${this.colorVariant}">
             <ids-icon slot="icon" icon="more"></ids-icon>
             <span class="audible">Theme Switcher</span>
-        </ids-menu-button>
-        <ids-popup-menu id="ids-theme-menu" target="#ids-theme-switcher" trigger="click">
+        </ids-menu-button><ids-popup-menu id="ids-theme-menu" target="#ids-theme-switcher" trigger-type="click">
+        ${this.menuTemplate()}</ids-popup-menu>`;
+  }
+
+  /**
+   * Create the popup part of the template for the contents
+   * @returns {string} The template
+   */
+  menuTemplate(): string {
+    return `<ids-menu-group>
+    <ids-menu-item>
+      <ids-text translate-text="true">Mode</ids-text>
+        <ids-popup-menu>
           <ids-menu-group select="single">
-            <ids-menu-item selected="true" value="light">Light</ids-menu-item>
-            <ids-menu-item value="dark">Dark</ids-menu-item>
-            <ids-menu-item value="contrast">Contrast</ids-menu-item>
+            <ids-menu-item selected="true" value="light">
+              <ids-text translate-text="true">Light</ids-text>
+              </ids-menu-item>
+            <ids-menu-item value="dark">
+              <ids-text translate-text="true">Dark</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="contrast">
+              <ids-text translate-text="true">Contrast</ids-text>
+            </ids-menu-item>
           </ids-menu-group>
-        </ids-popup-menu>`;
+        </ids-popup-menu>
+      </ids-menu-item>
+      <ids-menu-item>
+        <ids-text translate-text="true">Locale</ids-text>
+        <ids-popup-menu>
+          <ids-menu-group select="single" id="locale-menu">
+            <ids-menu-item selected="true" value="en-US">
+              <ids-text translate-text="true">English</ids-text>
+              <ids-text>(en-US)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="de-DE">
+              <ids-text translate-text="true">German</ids-text>
+              <ids-text>(de-DE)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="uk-UA">
+              <ids-text translate-text="true">Ukrainian</ids-text>
+              <ids-text>(uk-UA)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="bg-BG">
+              <ids-text translate-text="true">Bulgarian</ids-text>
+              <ids-text>(bg-BG)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="he-IL">
+              <ids-text translate-text="true">Hebrew</ids-text>
+              <ids-text>(he-IL)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="ar-EG">
+              <ids-text translate-text="true">Arabic</ids-text>
+              <ids-text>(ar-EG)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="th-TH">
+              <ids-text translate-text="true">Thai</ids-text>
+              <ids-text>(th-TH)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="zh-Hans">
+              <ids-text translate-text="true">Chinese</ids-text>
+              <ids-text>(zh-Hans)</ids-text>
+            </ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+      </ids-menu-item>
+    </ids-menu-group>`;
   }
 
   /**
@@ -60,7 +120,7 @@ export default class IdsThemeSwitcher extends Base {
    * @returns {Array} The attributes in an array
    */
   static get attributes(): Array<any> {
-    return [...super.attributes, attributes.LANGUAGE, attributes.MODE, attributes.VERSION];
+    return [...super.attributes, attributes.LANGUAGE, attributes.MODE];
   }
 
   /**
@@ -84,22 +144,6 @@ export default class IdsThemeSwitcher extends Base {
   }
 
   get mode(): string { return this.getAttribute('mode') || 'light'; }
-
-  /**
-   * Set the theme to a particular theme version
-   * @param {string} value The version value for example: classic or new
-   */
-  set version(value: string) {
-    if (value) {
-      this.setAttribute('version', value);
-      this.triggerEvent('themechanged', this, { detail: { elem: this, mode: this.mode, version: value } });
-      return;
-    }
-
-    this.removeAttribute('version');
-  }
-
-  get version(): string { return this.getAttribute('version') || 'new'; }
 
   /**
    * Implements callback from IdsColorVariantMixin used to

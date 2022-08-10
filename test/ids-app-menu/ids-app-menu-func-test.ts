@@ -10,7 +10,7 @@ import '../../src/components/ids-toolbar/ids-toolbar';
 import '../../src/components/ids-text/ids-text';
 
 import createFromTemplate from '../helpers/create-from-template';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 
 const createAppMenu = async (appMenu: any) => {
   appMenu = await createFromTemplate(appMenu, `<ids-app-menu id="app-menu">
@@ -83,7 +83,7 @@ describe('IdsAppMenu Component', () => {
 
   it('should convert inner accordions to use the "app-menu" color variant', async () => {
     const acc = appMenuElem.querySelector('ids-accordion');
-    waitFor(() => expect(acc.colorVariant).toBe('app-menu'));
+    waitForTimeout(() => expect(acc.colorVariant).toBe('app-menu'));
   });
 
   it('can close by pressing the escape key', () => {
@@ -91,17 +91,17 @@ describe('IdsAppMenu Component', () => {
 
     // Open the Menu
     appMenuElem.show();
-    waitFor(() => expect(appMenuElem.visible).toBeTruthy());
+    waitForTimeout(() => expect(appMenuElem.visible).toBeTruthy());
 
     // Focus the first header and "Press Escape"
     const header1: any = document.querySelector('#h1');
     header1.focus();
     header1.dispatchEvent(closeEvent);
-    waitFor(() => expect(appMenuElem.visible).toBeFalsy());
+    waitForTimeout(() => expect(appMenuElem.visible).toBeFalsy());
 
     // Dispatch again while closed (coverage)
     header1.dispatchEvent(closeEvent);
-    waitFor(() => expect(appMenuElem.visible).toBeFalsy());
+    waitForTimeout(() => expect(appMenuElem.visible).toBeFalsy());
   });
 
   it('wont close by pressing any key but escape', () => {
@@ -109,17 +109,17 @@ describe('IdsAppMenu Component', () => {
 
     // Open the Menu
     appMenuElem.show();
-    waitFor(() => expect(appMenuElem.visible).toBeTruthy());
+    waitForTimeout(() => expect(appMenuElem.visible).toBeTruthy());
 
     // Focus the first header and "Press Escape"
     const header1: any = document.querySelector('#h1');
     header1.focus();
     header1.dispatchEvent(closeEvent);
-    waitFor(() => expect(appMenuElem.visible).toBeTruthy());
+    waitForTimeout(() => expect(appMenuElem.visible).toBeTruthy());
 
     // Dispatch again while closed (coverage)
     header1.dispatchEvent(closeEvent);
-    waitFor(() => expect(appMenuElem.visible).toBeTruthy());
+    waitForTimeout(() => expect(appMenuElem.visible).toBeTruthy());
   });
 
   it('provides an API for its accordion element', async () => {

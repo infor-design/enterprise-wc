@@ -370,7 +370,7 @@ describe('IdsInput Component', () => {
     expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
   });
 
-  it('should dirty tracking', () => {
+  it('should handle dirty tracking', () => {
     expect(input.getAttribute('dirty-tracker')).toEqual(null);
     expect(input.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
@@ -506,16 +506,16 @@ describe('IdsInput Component', () => {
     document.body.appendChild(elem);
     input = document.querySelector('ids-input');
     input.textAlign = 'test2';
-    expect(input.getAttribute('text-align')).toEqual('left');
+    expect(input.getAttribute('text-align')).toEqual('start');
     expect(input.input.classList).not.toContain('test');
-    const textAlign = 'right';
+    const textAlign = 'end';
     input.textAlign = textAlign;
     expect(input.getAttribute('text-align')).toEqual(textAlign);
     expect(input.input.classList).toContain(textAlign);
   });
 
   it('should input text-align', () => {
-    const textAligns = ['left', 'center', 'right'];
+    const textAligns = ['start', 'center', 'end'];
     const checkAlign = (textAlign: any) => {
       input.textAlign = textAlign;
       expect(input.getAttribute('text-align')).toEqual(textAlign);
@@ -525,7 +525,7 @@ describe('IdsInput Component', () => {
       });
     };
     expect(input.getAttribute('text-align')).toEqual(null);
-    expect(input.textAlign).toContain('left');
+    expect(input.textAlign).toContain('start');
     textAligns.forEach((s) => checkAlign(s));
   });
 
@@ -670,11 +670,6 @@ describe('IdsInput Component', () => {
     expect(input.container.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting version', () => {
-    input.version = 'classic';
-    expect(input.container.getAttribute('version')).toEqual('classic');
-  });
-
   it('supports setting cursor', () => {
     input.cursor = 'pointer';
     expect(input.shadowRoot.querySelector('input').style.cursor).toEqual('pointer');
@@ -726,6 +721,30 @@ describe('IdsInput Component', () => {
     expect(input.searchField).toEqual('value');
     input.searchField = 'label';
     expect(input.searchField).toEqual('label');
+  });
+
+  it('should set readonly background', async () => {
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="testing input" readonly-background="true"></ids-input>';
+    input = template.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
+
+    expect(input.container.classList).toContain('readonly-background');
+    input.readonlyBackground = false;
+    expect(input.container.classList).not.toContain('readonly-background');
+  });
+
+  it('should set active', async () => {
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="testing input" active="true"></ids-input>';
+    input = template.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
+
+    expect(input.container.classList).toContain('is-active');
+    input.active = false;
+    expect(input.container.classList).not.toContain('is-active');
   });
 
   it('should open popup on keydown if autocomplete is enabled', async () => {

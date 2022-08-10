@@ -88,6 +88,14 @@ describe('IdsTree Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('renders via document.createElement with no errors (append late)', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const component: any = document.createElement('ids-tree');
+    component.data = dataset;
+    document.body.appendChild(component);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('should sets the tree group collapse icon', () => {
     const icon = 'user-folder-closed';
     expect(tree.getAttribute('collapse-icon')).toEqual(null);
@@ -353,6 +361,15 @@ describe('IdsTree Component', () => {
     expect(tree.selectable).toEqual(selectable);
     expect(tree.selected).toEqual(expect.arrayContaining([]));
     expect(tree.selected.length).toEqual(0);
+
+    const home = tree.getNode('#home');
+    home.elem.selected = true;
+    expect(tree.isSelected('#home')).toEqual(true);
+
+    const pubFolders = tree.getNode('#public-folders');
+    pubFolders.elem.selected = true;
+    expect(tree.isSelected('#public-folders')).toEqual(true);
+    expect(tree.isSelected('#home')).toEqual(true);
   });
 
   it('should gets the tree node for selection false', () => {

@@ -2,33 +2,20 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Hidden</ids-text>
+      <ids-text font-size="20" type="h1">Ids Hidden Examples</ids-text>
     </ids-layout-grid>
-
-    <ids-hidden id="hidden-1" hide-up="md">
-      <ids-card>
-        <div slot="card-header">
-          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card Title One</ids-text>
-        </div>
-        <div slot="card-content">
-        </div>
-      </ids-card>
-    </ids-hidden>
-
-    <ids-hidden id="hidden-2" hide-down="md">
-      <ids-card>
-        <div slot="card-header">
-          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card Title Two</ids-text>
-        </div>
-        <div slot="card-content">
-        </div>
-      </ids-card>
-    </ids-hidden>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-demo-listing label="Hidden Examples" component-name="ids-hidden">
+        </ids-demo-listing>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
   </ids-container>
 </body>
 </html>

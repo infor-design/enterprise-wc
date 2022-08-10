@@ -1,13 +1,24 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { convertColorToRgba, convertStatusToIDSColor } from '../../utils/ids-color-utils/ids-color-utils';
 import Base from './ids-slider-base';
 
 import styles from './ids-slider.scss';
 
+type IdsSliderType = 'single' | 'range' | 'step';
+
+type IdsSliderTrackBounds = {
+  BOTTOM: string;
+  LEFT: string;
+  RIGHT: string;
+  TOP: string;
+};
+
 const TYPES = [
   'single',
-  'double',
+  'range',
   'step'
 ];
 
@@ -34,9 +45,15 @@ export default class IdsSlider extends Base {
 
   #trackBounds: any;
 
+  #label: string;
+
+  #labelSecondary: string;
+
   #labels: any;
 
   #isRTL: any;
+
+  #mouseHover: any;
 
   #percent: any;
 
@@ -82,38 +99,47 @@ export default class IdsSlider extends Base {
 
   constructor() {
     super();
+    this.#label = '';
+    this.#labelSecondary = '';
   }
 
   connectedCallback() {
-    this.slider = this.container.querySelector('.slider');
-    this.trackArea = this.container.querySelector('.track-area');
-    this.progressTrack = this.container.querySelector('.track-progress');
-    this.track = this.container.querySelector('.track');
-    this.tickContainer = this.container.querySelector('.tick-container');
+    super.connectedCallback();
+    this.slider = this.container?.querySelector('.slider');
+    this.trackArea = this.container?.querySelector('.track-area');
+    this.progressTrack = this.container?.querySelector('.track-progress');
+    this.track = this.container?.querySelector('.track');
+    this.tickContainer = this.container?.querySelector('.tick-container');
 
-    this.thumb = this.container.querySelector('.thumb');
-    this.thumbDraggable = this.container.querySelector('.thumb-draggable');
-    this.thumbShadow = this.container.querySelector('.thumb-shadow');
-    this.tooltip = this.container.querySelector('.tooltip');
-    this.tooltipText = this.container.querySelector('.tooltip .text');
-    this.tooltipPin = this.container.querySelector('.tooltip .pin');
-    this.lastTick = this.container.querySelector('.tick:last-child');
-    this.firstTick = this.container.querySelector('.tick:first-child');
+    this.#mouseHover = false;
+    this.thumb = this.container?.querySelector('.thumb');
+    this.thumbDraggable = this.container?.querySelector('.thumb-draggable');
+    this.thumbShadow = this.container?.querySelector('.thumb-shadow');
+    this.tooltip = this.container?.querySelector('.tooltip');
+    this.tooltipText = this.container?.querySelector('.tooltip .text');
+    this.tooltipPin = this.container?.querySelector('.tooltip .pin');
+    this.lastTick = this.container?.querySelector('.tick:last-child');
+    this.firstTick = this.container?.querySelector('.tick:first-child');
 
-    if (this.type === 'double') {
-      this.thumbSecondary = this.container.querySelector('.thumb.secondary');
-      this.thumbDraggableSecondary = this.container.querySelector('.thumb-draggable.secondary');
-      this.thumbShadowSecondary = this.container.querySelector('.thumb-shadow.secondary');
-      this.tooltipSecondary = this.container.querySelector('.tooltip.secondary');
-      this.tooltipTextSecondary = this.container.querySelector('.tooltip.secondary .text.secondary');
-      this.tooltipPinSecondary = this.container.querySelector('.tooltip .pin.secondary');
+    if (this.type === 'range') {
+      this.thumbSecondary = this.container?.querySelector('.thumb.secondary');
+      this.thumbDraggableSecondary = this.container?.querySelector('.thumb-draggable.secondary');
+      this.thumbShadowSecondary = this.container?.querySelector('.thumb-shadow.secondary');
+      this.tooltipSecondary = this.container?.querySelector('.tooltip.secondary');
+      this.tooltipTextSecondary = this.container?.querySelector('.tooltip.secondary .text.secondary');
+      this.tooltipPinSecondary = this.container?.querySelector('.tooltip .pin.secondary');
     } else {
-      this.container.querySelector('.thumb-draggable.secondary').remove();
+      this.container?.querySelector('.thumb-draggable.secondary').remove();
     }
 
     this.#attachEventListeners();
-    this.#initUIStyles();
-    super.connectedCallback();
+    this.#attachUIStyles();
+    this.#attachARIA();
+
+    // @TODO find a better way to apply animation/transition rules after the component loads (#698)
+    setTimeout(() => {
+      this.#toggleAnimations(true);
+    }, 300);
   }
 
   /**
@@ -123,9 +149,14 @@ export default class IdsSlider extends Base {
   static get attributes(): Array<any> {
     return [
       attributes.COLOR,
+      attributes.DISABLED,
+      attributes.LABEL,
+      attributes.LABEL_SECONDARY,
       attributes.MIN,
       attributes.MAX,
+      attributes.READONLY,
       attributes.STEP_NUMBER,
+      attributes.SHOW_TOOLTIP,
       attributes.TYPE,
       attributes.VALUE,
       attributes.VALUE_SECONDARY,
@@ -139,12 +170,16 @@ export default class IdsSlider extends Base {
    */
 
   template(): string {
+    const disabledClass = this.disabled ? ' disabled' : '';
+    const readonlyClass = this.readonly ? ' readonly' : '';
+    const draggableTabIndex = (!disabledClass.length) ? '0' : '-1';
+
     return `
-      <div class="ids-slider">
+      <div class="ids-slider${disabledClass}${readonlyClass}">
         <div class="slider">
           <div class="track-area">
-            <ids-draggable hidden tabindex="0" class="thumb-draggable" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
-              <div hidden class="thumb-shadow"></div>
+            <ids-draggable tabindex="${draggableTabIndex}" class="thumb-draggable" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
+              <div class="thumb-shadow"></div>
               <div class="thumb">
                 <div class="tooltip">
                   <ids-text class="text">${this.value}</ids-text>
@@ -152,8 +187,8 @@ export default class IdsSlider extends Base {
                 </div>
               </div>
             </ids-draggable>
-            <ids-draggable hidden tabindex="0" class="thumb-draggable secondary" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
-              <div hidden class="thumb-shadow secondary"></div>
+            <ids-draggable tabindex="${draggableTabIndex}" class="thumb-draggable secondary" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
+              <div class="thumb-shadow secondary"></div>
               <div class="thumb secondary">
                 <div class="tooltip secondary">
                   <ids-text class="text secondary">${this.valueSecondary}</ids-text>
@@ -175,6 +210,127 @@ export default class IdsSlider extends Base {
   }
 
   /**
+   * Controls Slider disabled state
+   * @param {boolean | string} value If true, will set `disabled` attribute
+   */
+  set disabled(value: boolean | string) {
+    const val = stringToBool(value);
+    if (val) {
+      if (this.readonly) this.readonly = false;
+      this.setAttribute(attributes.DISABLED, '');
+      this.container?.classList.add(attributes.DISABLED);
+      this.thumbDraggable.disabled = true;
+      this.thumbDraggable.setAttribute(attributes.TABINDEX, '-1');
+      this.#updateTooltipDisplay(true);
+      if (this.type === 'range') {
+        this.thumbDraggableSecondary.disabled = true;
+        this.thumbDraggableSecondary.setAttribute(attributes.TABINDEX, '-1');
+        this.#updateTooltipDisplay(true, 'secondary');
+      }
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+      this.container?.classList.remove(attributes.DISABLED);
+      this.thumbDraggable.disabled = false;
+      this.thumbDraggable.setAttribute(attributes.TABINDEX, '0');
+      if (this.type === 'range') {
+        this.thumbDraggableSecondary.disabled = false;
+        this.thumbDraggableSecondary.setAttribute(attributes.TABINDEX, '0');
+      }
+    }
+    this.#updateColor();
+  }
+
+  /**
+   * @returns {boolean} true if the slider is disabled
+   */
+  get disabled(): boolean {
+    return this.hasAttribute(attributes.DISABLED);
+  }
+
+  /**
+   * Controls Slider readonly state
+   * @param {boolean | string} value If true, will set `readonly` attribute
+   */
+  set readonly(value: boolean | string) {
+    const val = stringToBool(value);
+    if (val) {
+      if (this.disabled) this.disabled = false;
+      this.setAttribute(attributes.READONLY, '');
+      this.container?.classList.add(attributes.READONLY);
+      this.thumbDraggable.disabled = true;
+      if (this.type === 'range') {
+        this.thumbDraggableSecondary.disabled = true;
+        this.#updateTooltipDisplay(true, 'secondary');
+      }
+    } else {
+      this.removeAttribute(attributes.READONLY);
+      this.container?.classList.remove(attributes.READONLY);
+      this.thumbDraggable.disabled = false;
+      if (this.type === 'range') this.thumbDraggableSecondary.disabled = false;
+    }
+    this.#updateColor();
+  }
+
+  /**
+   * @returns {boolean} true if the slider is readonly
+   */
+  get readonly(): boolean {
+    return this.hasAttribute(attributes.READONLY);
+  }
+
+  /**
+   * Modifies the primary Slider thumb's label contents
+   * @param {string} value the label text contents
+   */
+  set label(value: string) {
+    const safeValue = stripHTML(value);
+    const currentValue = this.#label;
+    if (safeValue !== currentValue) {
+      if (safeValue.length) {
+        this.#label = safeValue;
+        this.setAttribute(attributes.LABEL, safeValue);
+      } else {
+        this.#label = '';
+        this.removeAttribute(attributes.LABEL);
+      }
+      this.thumbDraggable.setAttribute(htmlAttributes.ARIA_LABEL, `${this.#label}`);
+    }
+  }
+
+  /**
+   * @returns {string} the primary Slider thumb's label contents
+   */
+  get label(): string {
+    return this.#label || stripHTML(this.getAttribute(attributes.LABEL));
+  }
+
+  /**
+   * Modifies the primary Slider thumb's label contents
+   * @param {string} value the label text contents
+   */
+  set labelSecondary(value: string) {
+    const safeValue = stripHTML(value);
+    const currentValue = this.#labelSecondary;
+    if (safeValue !== currentValue) {
+      if (safeValue.length) {
+        this.#labelSecondary = safeValue;
+        this.setAttribute(attributes.LABEL_SECONDARY, safeValue);
+      } else {
+        this.#labelSecondary = '';
+        this.removeAttribute(attributes.LABEL_SECONDARY);
+      }
+      this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_LABEL, `${this.#labelSecondary}`);
+    }
+  }
+
+  /**
+   * @returns {string} the primary Slider thumb's label contents
+   */
+  get labelSecondary(): string {
+    return this.#labelSecondary || stripHTML(this.getAttribute(attributes.LABEL_SECONDARY));
+  }
+
+  /**
    * Set the orientation of the slider
    * @param {boolean} value Whether the orientation is vertical or horizontal
    */
@@ -182,23 +338,30 @@ export default class IdsSlider extends Base {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.VERTICAL, val);
+      this.thumbDraggable.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'vertical');
+      if (this.type === 'range') this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'vertical');
     } else {
       this.removeAttribute(attributes.VERTICAL);
+      this.thumbDraggable.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'horizontal');
+      if (this.type === 'range') this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'horizontal');
     }
     if (val) {
-      this.container.classList.add('vertical');
+      this.container?.classList.add('vertical');
       this.slider.classList.add('vertical');
       this.progressTrack.classList.add('vertical');
       this.track.classList.add('vertical');
       this.trackArea.classList.add('vertical');
       this.tickContainer.classList.add('vertical');
       this.tooltip.classList.add('vertical');
-      if (this.type === 'double') this.tooltipSecondary.classList.add('vertical');
+      if (this.type === 'range') this.tooltipSecondary.classList.add('vertical');
       this.tooltipPin.classList.add('vertical');
-      if (this.type === 'double') this.tooltipPinSecondary.classList.add('vertical');
+      if (this.type === 'range') this.tooltipPinSecondary.classList.add('vertical');
     }
   }
 
+  /**
+   * @returns {boolean} true if the slider is vertical
+   */
   get vertical() {
     return this.hasAttribute(attributes.VERTICAL);
   }
@@ -212,17 +375,23 @@ export default class IdsSlider extends Base {
       this.#isRTL = value;
       this.#moveThumb();
       this.#updateProgressBar();
-      if (this.type === 'double') this.#moveThumb('secondary');
+      if (this.type === 'range') this.#moveThumb('secondary');
     }
   }
 
-  get isRTL() {
+  /**
+   * @returns {boolean} true if the slider is displayed in RTL mode
+   */
+  get isRTL(): boolean {
     if (typeof this.#isRTL === 'undefined') this.#isRTL = false;
     return this.#isRTL;
   }
 
-  /** Add event listener for when the language changes to check for RTL */
-  #attachRTLListener() {
+  /**
+   * Add event listener for when the language changes to check for RTL
+   * @private
+   */
+  #attachRTLListener(): void {
     this.onEvent('languagechange.container', this.closest('ids-container'), (e: CustomEvent) => {
       const isRTL = this.locale.isRTL(e.detail.language.name);
       this.isRTL = isRTL;
@@ -231,10 +400,11 @@ export default class IdsSlider extends Base {
 
   /**
    * Helper method to update the UI of the tooltip and its text
+   * @private
    * @param {number} value the text the tooltip should display
    * @param {string} primaryOrSecondary which tooltip to update
    */
-  #updateToolTip(value?: number, primaryOrSecondary?: string) {
+  #updateTooltip(value?: number, primaryOrSecondary?: string): void {
     let tooltipText = this.tooltipText;
     let type = 'primary';
 
@@ -246,13 +416,16 @@ export default class IdsSlider extends Base {
     tooltipText.innerHTML = Math.ceil(Number(value));
 
     if (this.type !== 'step') {
-      this.#hideTooltip(false, type);
+      this.#updateTooltipDisplay(false, type);
     }
   }
 
-  /** Helper method to update the UI of the progress track bar */
-  #updateProgressBar() {
-    if (this.type !== 'double') {
+  /**
+   * Helper method to update the UI of the progress track bar
+   * @private
+   */
+  #updateProgressBar(): void {
+    if (this.type !== 'range') {
       this.slider.style.setProperty('--percentStart', 0);
       this.slider.style.setProperty('--percentEnd', this.percent);
     } else {
@@ -282,19 +455,22 @@ export default class IdsSlider extends Base {
 
   /**
    * Set the labels to display on each step/tick mark (only applicable to step sliders)
-   * @param {Array} array the list of labels to set
+   * @param {Array<string>} array the list of labels to set
    */
   set labels(array) {
     this.#labels = array;
     this.#setStepLabels();
   }
 
-  get labels() {
+  get labels(): Array<string> {
     return this.#labels;
   }
 
-  /** Helper method to update the labels on the UI according to stepNumber and labels */
-  #setStepLabels() {
+  /**
+   * Helper method to update the labels on the UI according to stepNumber and labels
+   * @private
+   */
+  #setStepLabels(): void {
     if (this.type !== 'step') return;
 
     const labels = this.labels;
@@ -304,30 +480,32 @@ export default class IdsSlider extends Base {
 
     if (labels.length === stepNumber) {
       // check amount of label elements -- add or remove accordingly
-      let labelElements = this.container.querySelectorAll('.label');
-      const ticks = this.container.querySelectorAll('.tick');
+      let labelElements = this.container?.querySelectorAll('.label');
+      const ticks = this.container?.querySelectorAll('.tick');
 
-      if (labelElements.length !== stepNumber) {
+      if (labelElements?.length !== stepNumber) {
         const x = Math.abs(stepNumber - labelElements.length);
+        const labelAttr = !this.disabled ? ' label' : '';
+
         for (let i = 0; i < x; i++) {
           if (labelElements.length < stepNumber) {
-            ticks[ticks.length - 1 - i].insertAdjacentHTML('afterbegin', '<ids-text label class="label"></ids-text>');
+            ticks[ticks.length - 1 - i]?.insertAdjacentHTML('afterbegin', `<ids-text${labelAttr} class="label"></ids-text>`);
           }
         }
         // grab fresh label elements group
-        labelElements = this.container.querySelectorAll('.label');
+        labelElements = this.container?.querySelectorAll('.label');
       }
       // set the innerHTML for each label in the array
 
       if (labels.length === labelElements.length) {
-        labelElements.forEach((x: { innerHTML: any; classList: { add: (arg0: string) => any; }; }, i: number) => {
+        labelElements?.forEach((x: { innerHTML: any; classList: { add: (arg0: string) => any; }; }, i: number) => {
           x.innerHTML = this.vertical ? labels[labels.length - 1 - i] : labels[i];
           if (this.vertical) x.classList.add('vertical'); // add vertical styles
         });
       }
     } else {
       // set labels to be empty
-      const labelElements = this.container.querySelectorAll('.label');
+      const labelElements = this.container?.querySelectorAll('.label');
       labelElements.forEach((x: { innerHTML: string; }) => {
         x.innerHTML = '';
       });
@@ -348,8 +526,8 @@ export default class IdsSlider extends Base {
   }
 
   /**
-   * Set the amount of step intervals desired (only applicable to step sliders)
-   * @param {string} value the amount of steps
+   * Sets the interval between slider ticks (only applicable to step sliders)
+   * @param {string | number | any} value the amount of steps
    */
   set stepNumber(value: string | number | any) {
     if (this.type === 'step') {
@@ -357,16 +535,16 @@ export default class IdsSlider extends Base {
 
       if (parseInt(value) >= 2) {
         this.setAttribute('step-number', value);
-        const stepLength = this.container.querySelectorAll('.tick').length;
+        const stepLength = this.container?.querySelectorAll('.tick').length;
 
         if (stepLength !== this.stepNumber) {
           const x = Math.abs(stepLength - this.stepNumber);
           for (let i = 0; i < x; i++) {
             // remove or add ticks accordingly
             if (stepLength > this.stepNumber) {
-              this.container.querySelector('.tick').remove();
+              this.container?.querySelector('.tick').remove();
             } else {
-              this.container.querySelector('.tick:last-child').insertAdjacentHTML('afterend', '<span class="tick"></span>');
+              this.container?.querySelector('.tick:last-child').insertAdjacentHTML('afterend', `<span class="tick"></span>`);
             }
           }
         }
@@ -377,16 +555,25 @@ export default class IdsSlider extends Base {
     }
   }
 
-  get stepNumber() { return parseInt(this.getAttribute('step-number')) || 2; }
+  /**
+   * @returns {number} the interval between slider ticks
+   */
+  get stepNumber(): number { return parseInt(this.getAttribute('step-number')) || 2; }
 
-  /** Tracks the secondary percent based on the value, min, and max */
-  set percentSecondary(value) {
-    this.#percentSecondary = value;
+  /**
+   * Sets the secondary slider thumb value based on percentage (range slider only)
+   * @param {number | string} value the secondary thumb value as a percentage
+   */
+  set percentSecondary(value: number | string) {
+    this.#percentSecondary = Number(value);
     this.#updateProgressBar();
-    this.#updateToolTip(this.#calcValueFromPercent(value), 'secondary');
+    this.#updateTooltip(this.#calcValueFromPercent(this.#percentSecondary), 'secondary');
   }
 
-  get percentSecondary() {
+  /**
+   * @returns {number} the secondary thumb value as a percentage (range slider only)
+   */
+  get percentSecondary(): number {
     // we need all these checks so that it still works with 0
     if (Number.isNaN(this.#percentSecondary) || typeof this.#percentSecondary === 'undefined' || this.#percentSecondary === null || this.#percentSecondary === '') {
       // calculate on the fly if not a valid number
@@ -395,14 +582,20 @@ export default class IdsSlider extends Base {
     return this.#percentSecondary;
   }
 
-  /** Tracks the percent based on the value, min, and max */
-  set percent(value) {
-    this.#percent = value;
+  /**
+   * Sets the primary slider thumb value based on percentage
+   * @param {number | string} value the secondary thumb value as a percentage
+   */
+  set percent(value: number | string) {
+    this.#percent = Number(value);
     this.#updateProgressBar();
-    this.#updateToolTip(this.#calcValueFromPercent(value));
+    this.#updateTooltip(this.#calcValueFromPercent(this.#percent));
   }
 
-  get percent() {
+  /**
+   * @returns {number} the primary thumb value as a percentage
+   */
+  get percent(): number {
     if (Number.isNaN(this.#percent) || typeof this.#percent === 'undefined' || this.#percent === null || this.#percent === '') {
       return ((this.value - this.min) / (this.max - this.min)) * 100;
     }
@@ -410,31 +603,59 @@ export default class IdsSlider extends Base {
   }
 
   /**
-   * Helper function to check if values being set are within min and max
-   * @param {number} value the number to check
-   * @returns {boolean} whether it is within range of the min and max
+   * Sanitizes a value to be applied to the slider, and doesn't allow the value
+   * to pass beyond the min/max values.
+   * @private
+   * @param {string | number | any} value incoming value to set
+   * @param {boolean} secondary true if this value represents the secondary slider thumb (range slider only)
+   * @returns {number} the corrected slider number
    */
-  #withinBounds(value: string | number | any): boolean {
-    return parseFloat(value) >= this.min && parseFloat(value) <= this.max;
+  #sanitizeValue(value: string | number | any, secondary?: boolean): number {
+    const fixedValue = parseFloat(value);
+    if (fixedValue <= this.min) {
+      return this.min;
+    }
+    if (fixedValue >= this.max) {
+      return this.max;
+    }
+    if (this.type === 'range') {
+      if (!secondary && fixedValue >= this.valueSecondary) {
+        return this.valueSecondary;
+      }
+      if (secondary && fixedValue <= this.value) {
+        return this.value;
+      }
+    }
+    return fixedValue;
   }
 
   /**
-   * Set the secondary value of the slider (only applicable to double sliders)
+   * Set the secondary value of the slider (range slider only)
    * @param {string} value The secondary input value
    */
   set valueSecondary(value: string | number | any) {
-    if (this.#withinBounds(value)) {
-      this.setAttribute(attributes.VALUE_SECONDARY, value);
-      this.percentSecondary = ((this.valueSecondary - this.min) / (this.max - this.min)) * 100;
-      this.#updateToolTip(value, 'secondary');
+    if (this.readonly || this.disabled) return;
+
+    const currentValue = this.getAttribute(attributes.VALUE_SECONDARY) || '';
+    const newValue = this.#sanitizeValue(value, true);
+
+    if (currentValue !== newValue) {
+      this.setAttribute(attributes.VALUE_SECONDARY, `${newValue}`);
+      this.percentSecondary = ((newValue - this.min) / (this.max - this.min)) * 100;
+      this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_VALUENOW, `${newValue}`);
+      this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_VALUETEXT, `${newValue}`);
+      if (this.type === 'range') {
+        this.thumbDraggable.setAttribute(htmlAttributes.ARIA_VALUEMIN, `${newValue}`);
+      }
+      this.#updateTooltip(newValue, 'secondary');
       this.#moveThumb('secondary');
-    } else if (value < this.min) {
-      this.setAttribute(attributes.VALUE_SECONDARY, this.min);
-    } else {
-      this.setAttribute(attributes.VALUE_SECONDARY, this.max);
+      this.#triggerChangeEvent(newValue, 'secondary');
     }
   }
 
+  /**
+   * @returns {number} the secondary slider value (range slider only)
+   */
   get valueSecondary(): number {
     const b = this.getAttribute(attributes.VALUE_SECONDARY);
     if (b === null || b === '' || Number.isNaN(b)) {
@@ -445,22 +666,32 @@ export default class IdsSlider extends Base {
 
   /**
    * Set the primary value of the slider
-   * @param {string} value The input value
+   * @param {string} value The primary input value
    */
   set value(value: string | number | any) {
-    if (this.#withinBounds(value)) {
-      this.setAttribute(attributes.VALUE, value);
-      this.percent = ((this.value - this.min) / (this.max - this.min)) * 100;
-      this.#updateToolTip(value);
-      this.#moveThumb('');
-    } else if (value > this.max) {
-      this.setAttribute(attributes.VALUE, this.max);
-    } else {
-      this.setAttribute(attributes.VALUE, this.min);
+    if (this.readonly || this.disabled) return;
+
+    const currentValue = parseFloat(this.getAttribute(attributes.VALUE)) || this.min;
+    const newValue = this.#sanitizeValue(value);
+
+    if (currentValue !== newValue) {
+      this.setAttribute(attributes.VALUE, `${newValue}`);
+      this.percent = ((newValue - this.min) / (this.max - this.min)) * 100;
+      this.thumbDraggable.setAttribute(htmlAttributes.ARIA_VALUENOW, `${newValue}`);
+      this.thumbDraggable.setAttribute(htmlAttributes.ARIA_VALUETEXT, `${newValue}`);
+      if (this.type === 'range') {
+        this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_VALUEMIN, `${newValue}`);
+      }
+      this.#updateTooltip(newValue, 'primary');
+      this.#moveThumb('primary');
+      this.#triggerChangeEvent(newValue, 'primary');
     }
   }
 
-  get value() {
+  /**
+   * @returns {number} the primary slider value
+   */
+  get value(): number {
     const a = this.getAttribute(attributes.VALUE);
     if (a === null || a === '' || Number.isNaN(a)) {
       return this.min;
@@ -469,7 +700,23 @@ export default class IdsSlider extends Base {
   }
 
   /**
-   * Set the minimum value of the slider
+   * Triggers a Change Event
+   * @param {string | number | any } value the value of the slider handle
+   * @param {string} [thumb] the slider thumb causing the change
+   */
+  #triggerChangeEvent(value: string | number | any, thumb?: undefined | string): void {
+    this.triggerEvent('change', this, {
+      bubbles: true,
+      detail: {
+        elem: thumb === 'secondary' ? this.thumbSecondaryDraggable : this.thumbDraggable,
+        percent: thumb === 'secondary' ? this.percentSecondary : this.percent,
+        value
+      }
+    });
+  }
+
+  /**
+   * Sets the minimum-possible value of the slider
    * @param {string} value The desired minimum
    */
   set min(value: string | number | any) {
@@ -481,12 +728,15 @@ export default class IdsSlider extends Base {
     }
   }
 
-  get min() {
+  /**
+   * @returns {number} the minimum value possible that can be set on slider thumbs
+   */
+  get min(): number {
     return parseFloat(this.getAttribute(attributes.MIN)) || DEFAULT_MIN;
   }
 
   /**
-   * Set the maximum value of the slider
+   * Sets the maximum-possible value of the slider
    * @param {string} value The desired max
    */
   set max(value: string | number | any) {
@@ -498,7 +748,10 @@ export default class IdsSlider extends Base {
     }
   }
 
-  get max() {
+  /**
+   * @returns {number} the maximum value possible that can be set on slider thumbs
+   */
+  get max(): number {
     const val: any = parseFloat(this.getAttribute(attributes.MAX));
     if (val <= this.min || val === null || val === '' || Number.isNaN(val)) {
       return DEFAULT_MAX;
@@ -507,70 +760,131 @@ export default class IdsSlider extends Base {
   }
 
   /**
-   * Set the type of the bar
-   * @param {string} value The type of slider
+   * Sets the slider type
+   * @param {IdsSliderType} value The type of slider
    */
-  set type(value: string) {
+  set type(value: IdsSliderType) {
     if (value && TYPES.includes(value)) {
       this.setAttribute(attributes.TYPE, value);
     } else {
       this.setAttribute(attributes.TYPE, DEFAULT_TYPE);
     }
+    this.container?.classList[value === 'range' ? 'add' : 'remove']('range');
   }
 
-  get type(): string { return this.getAttribute(attributes.TYPE) || DEFAULT_TYPE; }
+  /**
+   * @returns {IdsSliderType} the slider type
+   */
+  get type(): IdsSliderType { return this.getAttribute(attributes.TYPE) || DEFAULT_TYPE; }
+
+  /**
+   * Enables a tooltip displaying thumb values when either thumb is focused
+   * @param {boolean | string} value true if the thumb should display tooltips
+   */
+  set showTooltip(value: boolean | string) {
+    const currentValue = this.tooltip;
+    const newValue = stringToBool(value);
+    if (currentValue !== newValue) {
+      if (newValue) {
+        this.setAttribute(attributes.TOOLTIP, `${value}`);
+      } else {
+        this.removeAttribute(attributes.TOOLTIP);
+      }
+    }
+  }
+
+  /**
+   * @returns {boolean} true if the thumb will display tooltips
+   */
+  get showTooltip(): boolean {
+    return this.hasAttribute(attributes.TOOLTIP);
+  }
 
   /**
    * Set the color of the bar
    * @param {string} value The color, this can be a hex code with the #, a native css color, or an ids-status color
    */
-  set color(value) {
+  set color(value: string) {
     this.setAttribute(attributes.COLOR, value);
     this.#updateColor();
   }
 
-  get color() { return this.getAttribute(attributes.COLOR); }
+  /**
+   * @returns {string} the specified color value
+   */
+  get color(): string { return this.getAttribute(attributes.COLOR) || ''; }
 
-  /** Update the color theme of the slider */
-  #updateColor() {
-    const color = this.color;
+  /**
+   * @private
+   * @returns {boolean} true if this slider should have a custom color applied
+   */
+  #shouldApplyColor(): boolean {
+    return !this.readonly && !this.disabled;
+  }
+
+  /**
+   * Updates the thumb and tick colors on the slider based on the `color` attribute and other settings
+   * @private
+   */
+  #updateColor(): void {
+    let color;
+    if (this.#shouldApplyColor()) {
+      color = this.color;
+    }
+
+    const ticks = this.container?.querySelectorAll('.tick');
 
     if (color) {
-      const ticks = this.container.querySelectorAll('.tick');
-
       let colorString = color;
-
       if (color.substring(0, 1) !== '#') {
-        if (color.includes('error') || color.includes('warning') || color.includes('caution') || color.includes('base') || color.includes('success')) {
-          colorString = `var(--ids-color-status-${color === 'error' ? 'danger' : color})`;
-        }
+        colorString = convertStatusToIDSColor(color);
       }
+      const rgbaColor = convertColorToRgba(colorString, 0.1);
 
-      ticks.forEach((tick: { style: { setProperty: (arg0: string, arg1: any) => void; }; }) => {
+      ticks.forEach((tick: { children: HTMLCollection, style: CSSStyleDeclaration }) => {
         tick.style.setProperty('background-color', colorString);
+        tick.children[0]?.setAttribute('label', '');
       });
       this.thumb.style.setProperty('background-color', colorString);
-      const rgbString = window.getComputedStyle(this.thumb).backgroundColor;
-      // have to specify opacity in background-color, otherwise the opacity affects the ring border
-      const rgbaString = `${rgbString.slice(0, 3)}a${rgbString.slice(3, rgbString.length - 1)}, 0.1)`;
-      this.thumbShadow.style.setProperty('background-color', rgbaString);
+      this.thumbShadow.style.setProperty('background-color', rgbaColor);
       this.thumbShadow.style.setProperty('border', `1px ${colorString} solid`);
       this.progressTrack.style.setProperty('background-color', colorString);
-
-      if (this.type === 'double' && this.thumbShadowSecondary && this.thumbSecondary) {
-        this.thumbShadowSecondary.style.setProperty('background-color', rgbaString);
+      if (this.type === 'range' && this.thumbShadowSecondary && this.thumbSecondary) {
+        this.thumbShadowSecondary.style.setProperty('background-color', rgbaColor);
         this.thumbShadowSecondary.style.setProperty('border', `1px ${colorString} solid`);
         this.thumbSecondary.style.setProperty('background-color', colorString);
+      }
+    } else {
+      ticks.forEach((tick: { children: HTMLCollection, style: CSSStyleDeclaration }) => {
+        tick.style.removeProperty('background-color');
+        if (!this.readonly) {
+          tick.children[0]?.removeAttribute('label');
+        } else {
+          tick.children[0]?.setAttribute('label', '');
+        }
+      });
+      this.thumb.style.removeProperty('background-color');
+      this.thumbShadow.style.removeProperty('background-color');
+      this.thumbShadow.style.removeProperty('border');
+      this.progressTrack.style.removeProperty('background-color');
+      if (this.type === 'range' && this.thumbShadowSecondary && this.thumbSecondary) {
+        this.thumbShadowSecondary.style.removeProperty('background-color');
+        this.thumbShadowSecondary.style.removeProperty('border');
+        this.thumbSecondary.style.removeProperty('background-color');
       }
     }
   }
 
   /**
    * Hide/show the tooltip of the value
+   * @private
    * @param {boolean} hide whether or not to hide it
    * @param {primaryOrSecondary} primaryOrSecondary which tooltip to hide
    */
-  #hideTooltip(hide: boolean, primaryOrSecondary?: string) {
+  #updateTooltipDisplay(hide: boolean, primaryOrSecondary?: string): void {
+    if (!this.showTooltip) {
+      hide = true;
+    }
     if (primaryOrSecondary === 'secondary' && this.tooltipSecondary) {
       this.tooltipSecondary.style.opacity = hide ? 0 : 1;
     } else {
@@ -580,10 +894,11 @@ export default class IdsSlider extends Base {
 
   /**
    * Hide/show the spotlight/box-shadow of the thumb
+   * @private
    * @param {boolean} hide whether or not to hide it
    * @param {string} primaryOrSecondary which thumb to hide
    */
-  #hideThumbShadow(hide: boolean, primaryOrSecondary: string) {
+  #updateThumbShadow(hide: boolean, primaryOrSecondary: string): void {
     let thumbShadow = this.thumbShadow;
 
     if (primaryOrSecondary === 'secondary' && this.thumbShadowSecondary) {
@@ -591,14 +906,15 @@ export default class IdsSlider extends Base {
     }
 
     if (hide) {
-      thumbShadow.setAttribute('hidden', '');
+      thumbShadow.classList.remove('active');
     } else {
-      thumbShadow.removeAttribute('hidden');
+      thumbShadow.classList.add('active');
     }
   }
 
   /**
    * Helper method to calculate the percentage of slider from mouse click; not a pure function
+   * @private
    * @param {number} x coordinate of mouse click
    * @param {number} y coordinate of mouse click
    * @returns {number} the percent
@@ -625,15 +941,16 @@ export default class IdsSlider extends Base {
 
   /**
    * Perform the calculations to update the UI and value(s)/percent(s) accordingly
+   * @private
    * @param {number} x coordinate of mouse click
    * @param {number} y coordnate of mouse click
    * @param {number} labelValueClicked if label was clicked or not
+   * @param {string} primaryOrSecondary string representing the primary/secondary label for range sliders
    */
-  #calculateUIFromClick(x: number, y: number, labelValueClicked?: number) {
+  #calculateUIFromClick(x: number, y: number, labelValueClicked?: number, primaryOrSecondary?: string): void {
     if (this.type !== 'step') {
-      const value = labelValueClicked ?? this.#calcValueFromPercent(this.#calcPercentFromClick(x, y));
+      let value = labelValueClicked ?? this.#calcValueFromPercent(this.#calcPercentFromClick(x, y));
 
-      this.#hideTooltip(false);
       const thumbPos = this.vertical
         ? this.thumbDraggable.getBoundingClientRect().y
         : this.thumbDraggable.getBoundingClientRect().x;
@@ -641,8 +958,7 @@ export default class IdsSlider extends Base {
       let thumbDraggable = this.thumbDraggable;
       let valueAttribute = 'value';
 
-      if (this.type === 'double') {
-        this.#hideTooltip(false, 'secondary');
+      if (this.type === 'range') {
         const thumbPosSecondary = this.vertical
           ? this.thumbDraggableSecondary.getBoundingClientRect().y
           : this.thumbDraggableSecondary.getBoundingClientRect().x;
@@ -653,10 +969,24 @@ export default class IdsSlider extends Base {
         if (Math.abs(mousePos - thumbPos) > Math.abs(mousePos - thumbPosSecondary)) {
           thumbDraggable = this.thumbDraggableSecondary;
           valueAttribute = 'valueSecondary';
+          primaryOrSecondary = 'secondary';
+        }
+
+        // Correct the placement of the thumb if it goes beyond the opposite thumb's value
+        if (primaryOrSecondary === 'primary' && value > this.valueSecondary) {
+          value = (this.valueSecondary - 1);
+        } else if (primaryOrSecondary === 'secondary' && value < this.value) {
+          value = (this.value + 1);
         }
       }
 
-      this[valueAttribute] = value;
+      if (value !== this[valueAttribute]) {
+        this[valueAttribute] = value;
+      } else {
+        this.#moveThumb(primaryOrSecondary);
+        this.#triggerChangeEvent(value, primaryOrSecondary);
+      }
+
       thumbDraggable.focus();
     } else {
       // for step sliders, snap to the closest interval
@@ -666,8 +996,8 @@ export default class IdsSlider extends Base {
         arr[i] = (this.max / (this.stepNumber - 1)) * i;
       }
 
-      const percent = this.#calcPercentFromClick(x, y);
-      const differences = arr.map((val) => Math.abs(val - ((percent / 100) * this.max)));
+      const passedValue = labelValueClicked || this.#calcPercentFromClick(x, y);
+      const differences = arr.map((val) => Math.abs(val - ((passedValue / 100) * this.max)));
 
       let min = differences[0];
       let minIndex = 0;
@@ -679,13 +1009,22 @@ export default class IdsSlider extends Base {
         }
       }
 
-      this.value = arr[minIndex];
+      const targetValue = arr[minIndex];
+      this.percent = targetValue;
+      if (targetValue !== this.value) {
+        this.value = targetValue;
+      } else {
+        this.#moveThumb('primary');
+        this.#triggerChangeEvent(targetValue, 'primary');
+      }
+
       this.thumbDraggable.focus();
     }
   }
 
   /**
    * Translate the thumb(s) according to the percent values
+   * @private
    * @param {string} primaryOrSecondary which thumb to move
    */
   #moveThumb(primaryOrSecondary?: string) {
@@ -695,7 +1034,7 @@ export default class IdsSlider extends Base {
     let percent = this.percent;
 
     // secondary values
-    if (primaryOrSecondary === 'secondary' && this.type === 'double') {
+    if (primaryOrSecondary === 'secondary' && this.type === 'range') {
       thumbDraggable = this.thumbDraggableSecondary;
       percent = this.percentSecondary;
     }
@@ -719,6 +1058,7 @@ export default class IdsSlider extends Base {
 
   /**
    * Calculate the true value based on the percent value
+   * @private
    * @param {number} percent the percent value to convert to numerical value btw min and max
    * @returns {number} the calculated value
    */
@@ -728,6 +1068,7 @@ export default class IdsSlider extends Base {
 
   /**
    * Calculate the pixels to translate thumb(s) or progress track based on percent value
+   * @private
    * @param {number} nStart the starting x or y coordinate of the slider
    * @param {number} nEnd the ending x or y coordinate of the slider
    * @param {number} percent the percent/location of the thumb relative to the slider
@@ -747,6 +1088,7 @@ export default class IdsSlider extends Base {
 
   /**
    * Calculate the percent value based on mouse click location
+   * @private
    * @param {number} n the mouse x or y coordinate
    * @param {number} nStart the starting x or y coordinate of the slider
    * @param {number} nEnd the ending x or y coordinate of the slider
@@ -769,30 +1111,26 @@ export default class IdsSlider extends Base {
     return percent;
   }
 
-  /** Attach all the necessary event listeners */
-  #attachEventListeners() {
-    // CHECK IF RTL
+  /**
+   * Attaches all necessary event listeners
+   * @private
+   */
+  #attachEventListeners(): void {
     this.#attachRTLListener();
-
-    // RESIZE OBSERVER for when window size changes
     this.#attachResizeObserver();
-
-    // DRAGGABLE EVENTS
     this.#attachDragEventListeners();
-    if (this.type === 'double') this.#attachDragEventListeners('secondary');
-
-    // KEYBOARD EVENTS
+    if (this.type === 'range') this.#attachDragEventListeners('secondary');
+    this.#attachFocusListeners();
     this.#attachKeyboardListeners();
-
-    // CLICK EVENTS
     this.#attachClickListeners();
   }
 
   /**
    * Calculates the x,y coordinates of the bounding box of the clickable track area
-   * @returns {object} The track area boundaries
+   * @private
+   * @returns {IdsSliderTrackBounds} The track area boundaries
    */
-  #calculateTrackBounds() {
+  #calculateTrackBounds(): IdsSliderTrackBounds {
     const rect = this.trackArea.getBoundingClientRect();
     const LEFT = rect.left + window.scrollX;
     const TOP = rect.top + window.scrollY;
@@ -809,37 +1147,26 @@ export default class IdsSlider extends Base {
     return bounds;
   }
 
-  #toggleTransitionStyles(toggleOn: any) {
-    if (toggleOn) {
-      // primary styles
-      if (!this.thumbDraggable.style.transition && !this.progressTrack.style.transition) {
-        this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease 0s');
-        // the progress track transition animation is jittery on vertical and double sliders, so don't add for those
-        if (!this.vertical || this.type !== 'double') this.progressTrack.style.setProperty('transition', 'width 0.2s ease 0s, transform 0.2s ease 0s');
-      }
-      // secondary styles
-      if (this.type === 'double' && this.thumbDraggableSecondary && !this.thumbDraggableSecondary.style.transition) {
-        this.thumbDraggableSecondary.style.setProperty('transition', 'transform 0.2s ease');
-      }
-    } else {
-      this.thumbDraggable.style.removeProperty('transition');
-      this.progressTrack.style.removeProperty('transition');
-
-      if (this.type === 'double') this.thumbDraggableSecondary.style.removeProperty('transition');
-    }
+  /**
+   * @private
+   * @param {boolean} toggleOn true if slider elements should be animated
+   */
+  #toggleAnimations(toggleOn: boolean): void {
+    this.container?.classList[toggleOn ? 'add' : 'remove']('animated');
   }
 
-  /** Performs initializations, like style set ups */
-  #initUIStyles() {
+  /**
+   * Sets initial slider styles and element placement
+   * @private
+   */
+  #attachUIStyles(): void {
     // init UI styles
     this.#updateProgressBar();
     this.#moveThumb();
-    if (this.type === 'double') this.#moveThumb('secondary');
-    this.#toggleTransitionStyles(true);
+    if (this.type === 'range') this.#moveThumb('secondary');
     this.#updateColor();
 
     // init base min/max labels
-
     if (this.firstTick && this.lastTick) {
       const maxTick = this.vertical ? this.firstTick : this.lastTick;
       const minTick = this.vertical ? this.lastTick : this.firstTick;
@@ -850,19 +1177,50 @@ export default class IdsSlider extends Base {
   }
 
   /**
-   * Recalculates and updates the track bounds
+   * Attaches ARIA attributes to some slider elements
+   * @private
    */
-  #refreshTrackBounds() {
+  #attachARIA(): void {
+    this.setAttribute(htmlAttributes.ROLE, 'none');
+    this.thumbDraggable.setAttribute(htmlAttributes.ROLE, 'slider');
+    this.thumbDraggable.setAttribute(htmlAttributes.ARIA_ORIENTATION, this.vertical ? 'vertical' : 'horizontal');
+    this.thumbDraggable.setAttribute(htmlAttributes.ARIA_VALUEMIN, `${this.min}`);
+    this.thumbDraggable.setAttribute(htmlAttributes.ARIA_VALUEMAX, `${this.max}`);
+    this.thumbDraggable.setAttribute(htmlAttributes.ARIA_VALUENOW, `${this.value}`);
+    this.thumbDraggable.setAttribute(htmlAttributes.ARIA_VALUETEXT, `${this.value}`);
+    this.thumbDraggable.setAttribute(htmlAttributes.ARIA_LABEL, `${this.label}`);
+
+    if (this.type === 'range') {
+      this.thumbDraggableSecondary.setAttribute(htmlAttributes.ROLE, 'slider');
+      this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_ORIENTATION, this.vertical ? 'vertical' : 'horizontal');
+      this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_VALUEMIN, `${this.min}`);
+      this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_VALUEMAX, `${this.max}`);
+      this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_VALUENOW, `${this.valueSecondary}`);
+      this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_VALUETEXT, `${this.valueSecondary}`);
+      this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_LABEL, `${this.labelSecondary}`);
+    }
+  }
+
+  /**
+   * Recalculates and updates the track bounds
+   * @private
+   */
+  #refreshTrackBounds(): void {
     this.#trackBounds = this.#calculateTrackBounds();
   }
 
-  /** Checks if the window changes sizes and updates UI accordingly */
-  #attachResizeObserver() {
+  /**
+   * Checks if the window changes sizes and updates UI accordingly
+   * @private
+   */
+  #attachResizeObserver(): void {
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         if (entry.contentBoxSize) {
+          this.#refreshTrackBounds();
+          this.#updateProgressBar();
           this.#moveThumb();
-          if (this.type === 'double') this.#moveThumb('secondary');
+          if (this.type === 'range') this.#moveThumb('secondary');
         }
       }
     });
@@ -870,9 +1228,16 @@ export default class IdsSlider extends Base {
     resizeObserver.observe(this.trackArea);
   }
 
-  /** Add event listeners for clicking the track area */
-  #attachClickListeners() {
+  /**
+   * Add event listeners for clicking the track area
+   * @private
+   */
+  #attachClickListeners(): void {
     this.onEvent('click', this.container, (event: { target: { className: any; innerHTML: string; }; clientX: number; clientY: number; }) => {
+      if (this.disabled || this.readonly) {
+        return;
+      }
+
       const className = event.target.className;
       const clickedIdsSlider = className.includes('ids-slider');
       const clickedLabel = className.includes('label');
@@ -885,26 +1250,24 @@ export default class IdsSlider extends Base {
           const labelValueClicked = parseFloat(event.target.innerHTML);
           this.#calculateUIFromClick(event.clientX, event.clientY, labelValueClicked);
         }
-      } else {
-        this.thumbDraggable.blur();
-        if (this.type === 'double') this.thumbDraggableSecondary.blur();
       }
     });
 
     this.onEvent('click', document, (event: any) => {
-      if (event.target !== this) {
-        this.#hideTooltip(true);
-        if (this.type === 'double') this.#hideTooltip(true, 'secondary');
+      if (event.target !== this && !this.disabled) {
+        this.#updateTooltipDisplay(true);
+        if (this.type === 'range') this.#updateTooltipDisplay(true, 'secondary');
       }
     });
   }
 
   /**
    * Add event listeners for dragging the slider thumbs
+   * @private
    * @param {string} primaryOrSecondary the primary or secondary thumb
    */
-  #attachDragEventListeners(primaryOrSecondary?: string) {
-    const d = this.type === 'double' && primaryOrSecondary === 'secondary';
+  #attachDragEventListeners(primaryOrSecondary?: string): void {
+    const d = this.type === 'range' && primaryOrSecondary === 'secondary';
     const obj = {
       thumbDraggable: d ? this.thumbDraggableSecondary : this.thumbDraggable,
       thumbDraggableOther: d ? this.thumbDraggable : this.thumbDraggableSecondary,
@@ -922,60 +1285,66 @@ export default class IdsSlider extends Base {
 
     // Listen for drag event on draggable thumb
     this.onEvent('ids-drag', obj.thumbDraggable, (e: { detail: { mouseX: any; mouseY: any; }; }) => {
-      if (this.type !== 'step') this.#hideTooltip(false);
+      if (this.type !== 'step') this.#updateTooltipDisplay(false);
 
       const [x, y] = [e.detail.mouseX, e.detail.mouseY];
       const percent = this.#calcPercentFromClick(x, y);
 
-      this.#hideThumbShadow(true, obj.primaryOrSecondary);
-
-      if (this.type === 'double') swapZIndex();
+      if (this.type === 'range') swapZIndex();
       // only set the percent--because changing the value causes the moveThumb() to fire like crazy
       this[obj.percentAttribute] = percent;
+
+      // Expose this event externally
+      this.triggerEvent('ids-slider-drag', this, {
+        bubbles: true,
+        detail: {
+          elem: obj.thumbDraggable,
+          mouseX: e.detail.mouseX,
+          mouseY: e.detail.mouseY,
+          percent,
+          value: this.#calcValueFromPercent(percent)
+        }
+      });
     });
 
     this.onEvent('ids-dragstart', obj.thumbDraggable, () => {
-      this.#toggleTransitionStyles(false);
-      obj.thumbDraggable.blur();
-      if (this.type === 'double') obj.thumbDraggableOther.blur();
+      this.#toggleAnimations(false);
+      this.#updateThumbShadow(true, obj.primaryOrSecondary);
+      this.#updateThumbShadow(true, obj.primaryOrSecondary === 'secondary' ? 'primary' : 'secondary');
     });
 
-    this.onEvent('ids-dragend', obj.thumbDraggable, () => {
-      this.#toggleTransitionStyles(true);
+    this.onEvent('ids-dragend', obj.thumbDraggable, (e: CustomEvent) => {
+      this.#toggleAnimations(true);
       obj.thumbDraggable.focus();
       // to ensure that after dragging, the value is updated only after dragging has ended..
       // this is the roundabout solution to prevent the firing of moveThumb() every ids-drag event
       const freshPercent = obj.primaryOrSecondary === 'secondary' ? this.percentSecondary : this.percent;
-      const calcValue = this.#calcValueFromPercent(freshPercent);
-      this[obj.valueAttribute] = calcValue;
-    });
-
-    this.onEvent('focus', obj.thumbDraggable, () => {
-      if (this.type === 'double') {
-        swapZIndex();
-        obj.thumbDraggableOther.blur();
-      }
-      this.#hideThumbShadow(false, obj.primaryOrSecondary);
-    });
-
-    this.onEvent('blur', obj.thumbDraggable, () => {
-      this.#hideThumbShadow(true, obj.primaryOrSecondary);
+      this.#calculateUIFromClick(e.detail.mouseX, e.detail.mouseY, freshPercent, obj.primaryOrSecondary);
+      this.#updateThumbShadow(false, obj.primaryOrSecondary);
     });
   }
 
-  /** Add event listeners for arrow keys to move thumbs */
-  #attachKeyboardListeners() {
+  /**
+   * Add event listeners for arrow keys to move thumbs
+   * @private
+   */
+  #attachKeyboardListeners(): void {
     this.onEvent('keydown', this, (event: { code: string; preventDefault: () => void; target: { name: string; }; key: any; }) => {
+      if (this.readonly || this.disabled) return;
+
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
         event.preventDefault();
+
+        // Disables animation on non-step sliders when using keys
+        if (this.type !== 'step') this.#toggleAnimations(false);
       }
 
       if (event.target.name === 'ids-slider') {
         let primaryOrSecondary = '';
 
-        if (this.type === 'double') {
+        if (this.type === 'range') {
           // check if focus is on b or a
-          if (this.thumbShadow.hasAttribute('hidden')) {
+          if (this.thumbShadowSecondary.classList.contains('active')) {
             primaryOrSecondary = 'secondary';
           }
         }
@@ -1000,33 +1369,107 @@ export default class IdsSlider extends Base {
         }
       }
     });
+
+    this.onEvent('keyup', this, (event: { code: string; preventDefault: () => void; target: { name: string; }; key: any; }) => {
+      if (this.readonly || this.disabled) return;
+
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
+        event.preventDefault();
+
+        // Re-enables animation on non-step sliders when using keys
+        if (this.type !== 'step') this.#toggleAnimations(true);
+      }
+    });
+  }
+
+  /**
+   * Attaches events to the component related to focusin/focusout behavior
+   * @private
+   */
+  #attachFocusListeners(): void {
+    this.onEvent('mouseenter', this, () => {
+      this.#mouseHover = true;
+    });
+
+    this.onEvent('mouseleave', this, () => {
+      this.#mouseHover = false;
+    });
+
+    // FOCUS/BLUR EVENTS
+    this.onEvent('focusin', this.container, (e: FocusEvent) => {
+      if (!this.disabled && this.shadowRoot.activeElement) {
+        this.#updateTooltipDisplay(false);
+        const target = e.target instanceof HTMLElement && e.target;
+
+        if (target && target.classList.contains('secondary')) {
+          this.#updateThumbShadow(false, 'secondary');
+          this.#updateThumbShadow(true, 'primary');
+        } else {
+          this.#updateThumbShadow(false, 'primary');
+          if (this.type === 'range') {
+            this.#updateThumbShadow(true, 'secondary');
+          }
+        }
+
+        if (this.type === 'range') {
+          this.#updateTooltipDisplay(false, 'secondary');
+        }
+      }
+    });
+
+    this.onEvent('focusout', this.container, () => {
+      if (!this.shadowRoot.activeElement && !this.#mouseHover) {
+        this.#updateTooltipDisplay(true);
+        this.#updateThumbShadow(true, 'primary');
+        if (this.type === 'range') {
+          this.#updateTooltipDisplay(true, 'secondary');
+          this.#updateThumbShadow(true, 'secondary');
+        }
+      }
+    });
   }
 
   /**
    * Helper method for arrow key actions
+   * @private
    * @param {string} primaryOrSecondary the primary or secondary value
    */
-  #decreaseValue(primaryOrSecondary: string) {
-    if (this.type === 'step') {
-      this.value -= (this.max / (this.stepNumber - 1));
-    } else if (this.type === 'double' && primaryOrSecondary === 'secondary') {
-      this.valueSecondary = Math.ceil(this.valueSecondary) - 1;
-    } else {
-      this.value = Math.ceil(this.value) - 1;
+  #decreaseValue(primaryOrSecondary: string): void {
+    switch (this.type) {
+      case 'step':
+        this.value -= (this.max / (this.stepNumber - 1));
+        break;
+      case 'range':
+        if (primaryOrSecondary === 'secondary') {
+          this.valueSecondary = Math.max(Math.ceil(this.valueSecondary) - 1, this.value);
+        } else {
+          this.value = Math.max(Math.ceil(this.value) - 1, this.min);
+        }
+        break;
+      default:
+        this.value = Math.ceil(this.value) - 1;
     }
   }
 
   /**
    * Helper method for arrow key actions
+   * @private
    * @param {string} primaryOrSecondary the primary or secondary value
    */
-  #increaseValue(primaryOrSecondary: string) {
-    if (this.type === 'step') {
-      this.value += (this.max / (this.stepNumber - 1));
-    } else if (this.type === 'double' && primaryOrSecondary === 'secondary') {
-      this.valueSecondary = Math.ceil(this.valueSecondary) + 1;
-    } else {
-      this.value = Math.ceil(this.value) + 1;
+  #increaseValue(primaryOrSecondary: string): void {
+    switch (this.type) {
+      case 'step':
+        this.value += (this.max / (this.stepNumber - 1));
+        break;
+      case 'range':
+        if (primaryOrSecondary === 'secondary') {
+          this.valueSecondary = Math.min(Math.ceil(this.valueSecondary) + 1, this.max);
+        } else {
+          this.value = Math.min(Math.ceil(this.value) + 1, this.valueSecondary);
+        }
+        break;
+      default:
+        this.value = Math.ceil(this.value) + 1;
     }
   }
 }

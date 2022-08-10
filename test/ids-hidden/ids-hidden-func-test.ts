@@ -166,4 +166,38 @@ describe('IdsHidden Component', () => {
     expect(el.hidden).toBeTruthy();
     expect(el.visible).toBeFalsy();
   });
+
+  it('should hide when condition matches', () => {
+    el.value = 'test';
+    el.condition = 'true';
+    expect(el.hidden).toBeTruthy();
+
+    el.value = 'test';
+    el.condition = 'false';
+    expect(el.hidden).toBeFalsy();
+
+    el.value = 'false';
+    el.condition = 'false';
+    expect(el.hidden).toBeTruthy();
+
+    el.value = 'test-1';
+    el.condition = 'test-1';
+    expect(el.hidden).toBeTruthy();
+
+    el.value = 'test-1';
+    el.condition = 'test-2';
+    expect(el.hidden).toBeFalsy();
+
+    el.value = 'true';
+    el.condition = 'true';
+    expect(el.hidden).toBeTruthy();
+
+    el.value = 'true';
+    el.condition = 'false';
+    expect(el.hidden).toBeFalsy();
+
+    el.value = '';
+    el.condition = '';
+    expect(el.hidden).toBeTruthy();
+  });
 });

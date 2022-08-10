@@ -61,7 +61,7 @@
       @include text-azure-60();
     }
 
-    ids-trigger-field::part(content) {
+    ids-trigger-field::part(field-container) {
       @include border-azure-60();
     }
   }
@@ -71,7 +71,7 @@
       @include text-azure-90();
     }
 
-    ids-trigger-field::part(content) {
+    ids-trigger-field::part(field-container) {
       @include border-azure-90();
     }
   }
@@ -79,8 +79,10 @@
   // Popup related
   ids-month-view {
     @include w-full();
+  }
 
-    max-width: 330px;
+  &:not(.has-time) ids-month-view::part(table-container) {
+    margin-bottom: 10px;
   }
 
   ids-popup::part(popup) {
@@ -88,18 +90,22 @@
     padding-bottom: 0;
   }
 
-  &[mode='dark'] ids-popup::part(popup) {
-    @include bg-slate-80();
+  &[mode='dark'] {
+    ids-popup::part(popup) {
+      @include bg-slate-80();
+    }
+
+    ids-popup::part(arrow)::after {
+      border-bottom-color: var(--ids-color-palette-slate-80);
+    }
   }
 
   .popup-footer {
     @include flex();
-
-    margin-top: 10px;
   }
 
   .popup-btn {
-    width: 50%;
+    @include w-full();
   }
 
   .popup-btn::part(button) {
@@ -121,31 +127,31 @@
     border-top-color: var(--ids-color-palette-slate-50);
   }
 
-  .popup-btn-start::part(button) {
+  .popup-btn:not(.popup-btn-apply)::part(button) {
     @include text-slate-60();
-
-    &:not(:focus) {
-      border-right-color: var(--ids-color-palette-slate-30);
-    }
 
     &:hover {
       @include text-slate-100();
     }
   }
 
-  &[mode='dark'] .popup-btn-start::part(button) {
-    @include text-slate-30();
+  .popup-btn:not([hidden]):not(:last-child):not(:focus)::part(button) {
+    border-right-color: var(--ids-color-palette-slate-30);
+  }
 
-    &:not(:focus) {
-      border-right-color: var(--ids-color-palette-slate-50);
-    }
+  &[mode='dark'] .popup-btn:not(.popup-btn-apply)::part(button) {
+    @include text-slate-30();
 
     &:hover {
       @include text-white();
     }
   }
 
-  &[mode='contrast'] .popup-btn-start::part(button) {
+  &[mode='dark'] .popup-btn:not([hidden]):not(:last-child):not(:focus)::part(button) {
+    border-right-color: var(--ids-color-palette-slate-50);
+  }
+
+  &[mode='contrast'] .popup-btn:not(.popup-btn-apply)::part(button) {
     @include text-slate-80();
 
     &:hover {
@@ -153,16 +159,25 @@
     }
   }
 
-  .popup-btn-end::part(button) {
+  .popup-btn-apply:not([disabled])::part(button) {
     @include text-azure-70();
   }
 
-  &[mode='dark'] .popup-btn-end::part(button) {
+  .popup-btn-apply[disabled]::part(button) {
+    @include text-azure-30();
+  }
+
+  &[mode='dark'] .popup-btn-apply:not([disabled])::part(button) {
     @include text-azure-60();
   }
 
-  &[mode='contrast'] .popup-btn-end::part(button) {
+  &[mode='contrast'] .popup-btn-apply:not([disabled])::part(button) {
     @include text-azure-90();
+  }
+
+  ids-time-picker {
+    display: flex;
+    justify-content: center;
   }
 }
 
@@ -179,6 +194,15 @@
     &:focus {
       box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-60), 0 0 4px 3px rgb(54 138 192 / 0.3);
     }
+  }
+
+  .dropdown-btn-text,
+  .dropdown-btn-icon {
+    padding-inline-start: 0;
+  }
+
+  .dropdown-btn-icon {
+    @include mt-2();
   }
 
   &.is-expanded {
@@ -220,10 +244,10 @@
     @include m-0();
     @include p-0();
     @include w-full();
-    @include z-2();
 
+    z-index: 3;
     border: none;
-    top: 44px;
+    top: 43px;
     left: 0;
   }
 
@@ -235,6 +259,10 @@
     @include bg-white();
   }
 
+  ids-expandable-area::part(pane-content) {
+    @include mt-0();
+  }
+
   &[mode='dark'] ids-expandable-area::part(pane) {
     @include bg-slate-80();
   }
@@ -242,6 +270,24 @@
   // Picklist
   .picklist {
     @include flex();
+
+    &::after {
+      @include absolute();
+      @include bg-slate-30();
+
+      content: ' ';
+      width: 1px;
+      left: 0;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      height: calc(75% + 14px);
+      top: calc(12.5% - 4px);
+    }
+  }
+
+  &:not(.is-expanded) .picklist::after {
+    @include bg-transparent();
   }
 
   .picklist-section {
@@ -249,17 +295,6 @@
 
     width: 50%;
     flex: 0 0 50%;
-
-    &:first-child::after {
-      @include absolute();
-      @include border-l-1();
-
-      content: ' ';
-      border-left-color: var(--ids-color-palette-slate-30);
-      height: calc(100% - 25px);
-      left: calc(50% - 1px);
-      top: 15px;
-    }
   }
 
   .picklist-list {
@@ -269,10 +304,10 @@
     align-items: center;
     flex-direction: column;
     justify-content: space-around;
-    padding: 5px 0 0;
+    padding: 0;
     margin-top: 0;
     margin-bottom: 0;
-    height: calc(100% - 10px);
+    height: 100%;
   }
 
   .picklist-item {
@@ -283,12 +318,13 @@
     @include border-transparent();
     @include text-slate-80();
     @include py-1();
-    @include px-8();
+    @include w-full();
+    @include box-border();
 
-    border-radius: 14px;
     user-select: none;
-    height: calc(100% / 12);
+    height: 12.5%;
     align-items: center;
+    justify-content: center;
 
     ids-text {
       line-height: 0;
@@ -309,11 +345,20 @@
       box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
       outline: none;
     }
+
+    &.is-year-nav,
+    &.is-month-nav {
+      @include z-1();
+    }
+
+    &.is-month-nav {
+      width: calc(100% + 1px);
+    }
   }
 
   &[mode='dark'] {
-    .picklist-section:first-child::after {
-      border-left-color: var(--ids-color-palette-slate-50);
+    .picklist::after {
+      @include bg-slate-50();
     }
 
     .picklist-item {
@@ -328,8 +373,8 @@
   }
 
   &[mode='contrast'] {
-    .picklist-section:first-child::after {
-      border-left-color: var(--ids-color-palette-slate-30);
+    .picklist::after {
+      @include bg-slate-30();
     }
 
     .picklist-item {
@@ -357,14 +402,14 @@
 // Text direction
 :host([dir='rtl']) {
   .ids-date-picker {
-    .popup-btn-start::part(button):not(:focus) {
-      border-right-color: transparent;
-      border-left-color: var(--ids-color-palette-slate-30);
+    .popup-btn + .popup-btn::part(button):not(:focus) {
+      border-left-color: transparent;
+      border-right-color: var(--ids-color-palette-slate-30);
     }
 
-    &[mode='dark'] .popup-btn-start::part(button) {
+    &[mode='dark'] .popup-btn + .popup-btn::part(button) {
       &:not(:focus) {
-        border-left-color: var(--ids-color-palette-slate-50);
+        border-right-color: var(--ids-color-palette-slate-50);
       }
     }
   }

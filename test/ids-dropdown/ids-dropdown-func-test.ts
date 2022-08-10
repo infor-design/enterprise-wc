@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import wait from '../helpers/wait';
 import processAnimFrame from '../helpers/process-anim-frame';
 
@@ -111,6 +111,17 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.getAttribute('disabled')).toBeFalsy();
   });
 
+  it('can set allow blank', () => {
+    dropdown.allowBlank = true;
+    dropdown.value = 'blank';
+    expect(dropdown.allowBlank).toBeTruthy();
+    expect(dropdown.value).toEqual('blank');
+
+    dropdown.allowBlank = false;
+    expect(dropdown.allowBlank).toBeFalsy();
+    expect(dropdown.value).toBeNull();
+  });
+
   it('renders with validation', () => {
     dropdown = createFromTemplate(`<ids-dropdown id="dropdown-1" validate="required" validation-events="blur change" label="Test"></ids-dropdown>`);
     expect(dropdown.validate).toEqual('required');
@@ -131,7 +142,7 @@ describe('IdsDropdown Component', () => {
   it('supports validation', async () => {
     dropdown = createFromTemplate(`<ids-dropdown id="dropdown-5" label="Dropdown with Icons" validate="true">
      </ids-dropdown>`);
-    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+    await waitForTimeout(() => expect(dropdown.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
 
     dropdown.validate = 'required';
     dropdown.validationEvents = 'blur change';
@@ -196,7 +207,7 @@ describe('IdsDropdown Component', () => {
       </ids-list-box>
     </ids-dropdown>`);
 
-    await waitFor(() => expect(dropdown.getAttribute('tooltip')).toBeTruthy());
+    await waitForTimeout(() => expect(dropdown.getAttribute('tooltip')).toBeTruthy());
     expect(dropdown.tooltip).toEqual('Additional Info on Option Two');
   });
 
@@ -303,11 +314,6 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.popup.visible).toEqual(true);
     dropdown.close();
     expect(dropdown.popup.visible).toEqual(false);
-    dropdown.open();
-    expect(dropdown.popup.visible).toEqual(true);
-    dropdown.close(true);
-    dropdown.querySelector('ids-list-box-option.is-selected').classList.remove('is-selected');
-    expect(dropdown.popup.visible).toEqual(false);
   });
 
   it('can click outside an open list to close it', (done) => {
@@ -344,66 +350,82 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(59);
   });
 
-  it('supports type ahead to select', async () => {
-    expect(dropdown.popup.visible).toEqual(false);
-    expect(dropdown.value).toEqual('opt2');
-    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
-    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option thr' } });
-
-    expect(dropdown.value).toEqual('opt3');
-  });
-
-  it('supports type ahead when open', async () => {
-    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+  it('supports type ahead to filter and select an option', async () => {
+    expect(dropdown.typeahead).toBeFalsy();
+    // Turn on typeahead
+    dropdown.typeahead = true;
+    expect(dropdown.typeahead).toBeTruthy();
     dropdown.open();
-    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option four' } });
-    const event = new KeyboardEvent('keydown', { key: 'Enter' });
-    dropdown.dispatchEvent(event);
-
-    await waitFor(() => expect(dropdown.popup.visible).toEqual(false));
-    expect(dropdown.popup.visible).toEqual(false);
-    expect(dropdown.value).toEqual('opt4');
+    expect(dropdown.popup.visible).toBeTruthy();
+    expect(dropdown.value).toEqual('opt2');
+    // Typing v letter (only Option Five to match)
+    dropdown.input.value = 'v';
+    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'v' }));
+    // Keydownend delay
+    await wait(600);
+    expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(1);
+    expect(dropdown.querySelector('ids-list-box-option')?.getAttribute('value')).toEqual('opt5');
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(dropdown.value).toEqual('opt5');
+    // Populate initial options
+    expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(6);
+    // Turn off typeahead
+    dropdown.typeahead = false;
+    expect(dropdown.typeahead).toBeFalsy();
   });
 
-  it('ignores type ahead to open when no matches', async () => {
-    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'xxxxx' } });
-
-    await waitFor(() => expect(dropdown.popup.visible).toEqual(false));
-    expect(dropdown.popup.visible).toEqual(false);
+  it('supports type ahead to show No Results option when nothing found', async () => {
+    // Turn on typeahead
+    dropdown.typeahead = true;
+    expect(dropdown.typeahead).toBeTruthy();
+    dropdown.open();
+    // Typing y letter (no matches)
+    dropdown.input.value = 'y';
+    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'y' }));
+    // Keydownend delay
+    await wait(600);
+    expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(1);
+    expect(dropdown.querySelector('ids-list-box-option')?.textContent).toEqual('No results');
   });
 
   it('ignores type ahead when readonly', async () => {
     dropdown.readonly = true;
-    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option thr' } });
-
-    dropdown.disabled = true;
-    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option thr' } });
-
-    await waitFor(() => expect(dropdown.popup.visible).toEqual(false));
-    expect(dropdown.popup.visible).toEqual(false);
+    // Turn on typeahead
+    dropdown.typeahead = true;
+    expect(dropdown.typeahead).toBeTruthy();
+    dropdown.open();
+    // Typing y letter (no matches)
+    dropdown.input.value = 'y';
+    dropdown.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'y' }));
+    // Keydownend delay
+    await wait(600);
+    // Has initial options
+    expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(6);
   });
 
   it('supports clicking trigger to open', async () => {
-    await waitFor(() => expect(dropdown.trigger).toBeTruthy());
+    await waitForTimeout(() => expect(dropdown.trigger).toBeTruthy());
 
     dropdown.trigger.click();
     expect(dropdown.popup.visible).toEqual(true);
   });
 
   it('supports clicking input to open', async () => {
-    await waitFor(() => expect(dropdown.container).toBeTruthy());
-    dropdown.input.shadowRoot.querySelector('.field-container').click();
-    await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
-    expect(dropdown.popup.visible).toEqual(true);
+    await waitForTimeout(() => expect(dropdown.container).toBeTruthy());
+    dropdown.input.input.click();
+    await waitForTimeout(() => expect(dropdown.popup.visible).toBeTruthy());
+    expect(dropdown.popup.visible).toBeTruthy();
   });
 
   it('should not open by clicking on label', async () => {
-    await waitFor(() => expect(dropdown.labelEl).toBeTruthy());
+    await waitForTimeout(() => expect(dropdown.labelEl).toBeTruthy());
+    expect(dropdown.labelEl).toBeTruthy();
     dropdown.labelEl.click();
-    await waitFor(() => expect(dropdown.popup.visible).toBeFalsy());
-    dropdown.input.shadowRoot.querySelector('.field-container').click();
-    await waitFor(() => expect(dropdown.popup.visible).toBeTruthy());
-    expect(dropdown.popup.visible).toEqual(true);
+    await waitForTimeout(() => expect(dropdown.popup.visible).toBeFalsy());
+    expect(dropdown.popup.visible).toBeFalsy();
+    dropdown.input.input.click();
+    await waitForTimeout(() => expect(dropdown.popup.visible).toBeTruthy());
+    expect(dropdown.popup.visible).toBeTruthy();
   });
 
   it('should not set icon if setting has-icon as false', async () => {
@@ -583,7 +605,6 @@ describe('IdsDropdown Component', () => {
     dropdown.dispatchEvent(event);
     event = new KeyboardEvent('keydown', { key: 'Tab' });
     dropdown.dispatchEvent(event);
-    dropdown.querySelector('ids-list-box-option.is-selected').dispatchEvent(event);
 
     expect(dropdown.popup.visible).toEqual(false);
     expect(dropdown.value).toEqual('opt3');
@@ -593,7 +614,6 @@ describe('IdsDropdown Component', () => {
     dropdown.dispatchEvent(event);
     event = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true });
     dropdown.dispatchEvent(event);
-    dropdown.querySelector('ids-list-box-option.is-selected').dispatchEvent(event);
 
     expect(dropdown.popup.visible).toEqual(false);
     expect(dropdown.value).toEqual('opt4');
@@ -661,6 +681,7 @@ describe('IdsDropdown Component', () => {
 
       expect(dropdown.getAttribute('size')).toEqual(size);
       expect(dropdown.input.getAttribute('size')).toEqual(size);
+      expect(dropdown.listBox.getAttribute('size')).toEqual(size);
     };
 
     expect(dropdown.getAttribute('size')).toEqual(null);
@@ -670,6 +691,7 @@ describe('IdsDropdown Component', () => {
 
     expect(dropdown.getAttribute('size')).toEqual(null);
     expect(dropdown.input.getAttribute('size')).toEqual(defaultSize);
+    expect(dropdown.listBox.getAttribute('size')).toEqual(null);
   });
 
   it('should set no margins', () => {
@@ -702,6 +724,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.colorVariant).toEqual('alternate-formatter');
     expect(dropdown.labelState).toEqual('collapsed');
     expect(dropdown.compact).toEqual(true);
+    expect(dropdown.listBox.getAttribute('compact')).not.toBeNull();
     expect(dropdown.noMargins).toEqual(true);
 
     dropdown.compact = false;
@@ -709,6 +732,7 @@ describe('IdsDropdown Component', () => {
     dropdown.template();
 
     expect(dropdown.fieldHeight).toEqual('lg');
+    expect(dropdown.listBox.getAttribute('field-height')).toEqual('lg');
   });
 
   it('fixes itself with an empty container', () => {
@@ -717,5 +741,15 @@ describe('IdsDropdown Component', () => {
        </ids-dropdown>`
     );
     expect(dropdown.container).toBeTruthy();
+  });
+
+  it('should set/unset group attribute', () => {
+    expect(dropdown.group).toBeNull();
+
+    dropdown.group = true;
+    expect(dropdown.group).toBeTruthy();
+
+    dropdown.group = false;
+    expect(dropdown.group).toBeFalsy();
   });
 });

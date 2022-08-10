@@ -1,0 +1,25 @@
+---
+component: Message
+link: ids-message
+description: Displays a Message Dialog
+category: Messages and Alerts
+keywords: Modal, Dialog, error, message, alert
+examples:
+  - link: example.html
+    type: Main Example
+    description: Showing a simple message example
+  - link: types.html
+    type: Example
+    description: Showing a various alert message types
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a standalone css example
+  - link: overlay-opacity.html
+    type: Overlay opacity message example
+    description: Showing a list of messages with different opacity
+  - link: events.html
+    type: Modal events listener example
+    description: Showing modal events triggers on message
+  - link: side-by-side.html
+    type: Side by side example
+    description: Showing a modal side by side with 4.x

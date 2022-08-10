@@ -1,0 +1,90 @@
+.chart-legend {
+  @include flex();
+  @include pl-8();
+
+  flex-direction: row;
+  margin-top: -4px;
+  justify-content: flex-start;
+  width: inherit;
+
+  a {
+    @include flex();
+    @include antialiased();
+    @include font-sans();
+    @include text-14();
+    @include text-slate-60();
+    @include px-8();
+    @include py-2();
+
+    align-items: center;
+    border: 1px solid transparent;
+    text-decoration: none;
+
+    &:focus {
+      @include outline-none();
+      @include border-azure-60();
+
+      box-shadow: 0 0 4px 3px rgba(54 138 192 / 0.3);
+    }
+  }
+
+  .swatch {
+    @include inline-flex();
+    @include mr-8();
+
+    height: 12px;
+    width: 12px;
+
+    @for $i from 1 through 21 {
+      &.color-#{$i} {
+        background-color: var(--ids-chart-color-#{$i});
+      }
+    }
+  }
+}
+
+// Move the legend in the 4 directions
+.ids-chart-container {
+  display: flex;
+  flex-direction: column;
+
+  &.legend-top {
+    @include mb-8();
+
+    flex-direction: column-reverse;
+
+    .chart-legend {
+      margin-inline-start: 0;
+      justify-content: end;
+    }
+  }
+
+  &.legend-right,
+  &.legend-left {
+    flex-direction: row;
+
+    .chart-legend {
+      margin-inline-start: 0;
+      flex-direction: column;
+      justify-content: center;
+
+      a {
+        @include mb-8();
+
+        width: max-content;
+      }
+    }
+  }
+
+  &.legend-left {
+    flex-direction: row-reverse;
+  }
+}
+
+// Handle Themes
+:host([mode='dark']) {
+  // Text Color
+  .chart-legend a {
+    @include text-slate-10();
+  }
+}

@@ -15,7 +15,6 @@ import styles from './ids-pager-button.scss';
  * @type {IdsPagerButton}
  * @inherits IdsElement
  * @mixes IdsLocaleMixin
- * @mixes IdsEventsMixin
  * @part button - the `ids-button` component
  * @part icon - the `ids-icon` component
  */
@@ -45,8 +44,9 @@ export default class IdsPagerButton extends Base {
     return [
       attributes.DISABLED,
       attributes.FIRST,
-      attributes.LAST,
+      attributes.LABEL,
       attributes.LANGUAGE,
+      attributes.LAST,
       attributes.NAV_DISABLED,
       attributes.NEXT,
       attributes.PAGE_NUMBER,
@@ -58,13 +58,13 @@ export default class IdsPagerButton extends Base {
   }
 
   connectedCallback(): void {
+    super.connectedCallback();
     this.button = this.shadowRoot.querySelector('ids-button');
     this.icon = this.shadowRoot.querySelector('ids-icon');
     this.onEvent('click', this.button, () => this.#onClick());
 
     this.#updateNavDisabled();
     this.#updateDisabledState();
-    super.connectedCallback?.();
   }
 
   /**
@@ -252,6 +252,30 @@ export default class IdsPagerButton extends Base {
   }
 
   /**
+   * Set the aria label text
+   * @param {string} value The label text
+   */
+  set label(value: string) {
+    if (value) {
+      this.setAttribute(attributes.LABEL, value);
+    } else {
+      this.removeAttribute(attributes.LABEL);
+    }
+  }
+
+  get label() {
+    return this.getAttribute(attributes.LABEL);
+  }
+
+  #triggerPageNumberChange(value: number) {
+    this.triggerEvent('pagenumberchange', this, {
+      bubbles: true,
+      composed: true,
+      detail: { elem: this, value }
+    });
+  }
+
+  /**
    * Handles click functionality dependent on whether this
    * button is disabled and the type of button it is set to;
    * will bubble up an appropriate event to parent ids-pager
@@ -262,44 +286,32 @@ export default class IdsPagerButton extends Base {
     if (!this.disabled) {
       const lastPageNumber = Math.ceil(Number(this.total) / this.pageSize);
 
-      /* eslint-disable default-case */
       switch (this.type) {
         case attributes.FIRST: {
           if (this.pageNumber > 1) {
-            this.triggerEvent('pagenumberchange', this, {
-              bubbles: true,
-              detail: { elem: this, value: 1 }
-            });
+            this.#triggerPageNumberChange(1);
           }
           break;
         }
         case attributes.LAST: {
           if (this.pageNumber < lastPageNumber) {
-            this.triggerEvent('pagenumberchange', this, {
-              bubbles: true,
-              detail: { elem: this, value: this.pageCount }
-            });
+            this.#triggerPageNumberChange(Number(this.pageCount));
           }
           break;
         }
         case attributes.PREVIOUS: {
           if (this.pageNumber > 1) {
-            this.triggerEvent('pagenumberchange', this, {
-              bubbles: true,
-              detail: { elem: this, value: this.pageNumber - 1 }
-            });
+            this.#triggerPageNumberChange(Number(this.pageNumber) - 1);
           }
           break;
         }
         case attributes.NEXT: {
           if (this.pageNumber < lastPageNumber) {
-            this.triggerEvent('pagenumberchange', this, {
-              bubbles: true,
-              detail: { elem: this, value: this.pageNumber + 1 }
-            });
+            this.#triggerPageNumberChange(Number(this.pageNumber) + 1);
           }
           break;
         }
+        default: break;
       }
     }
   }
@@ -317,7 +329,7 @@ export default class IdsPagerButton extends Base {
           this.removeAttribute(type);
         }
       }
-      this.button?.button?.setAttribute?.('aria-label', attribute);
+      this.button?.button?.setAttribute?.('aria-label', this.label || attribute);
     } else {
       this.removeAttribute(attribute);
     }

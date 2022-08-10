@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-pager-number-list-base';
 import '../ids-text/ids-text';
@@ -18,6 +18,8 @@ import styles from './ids-pager-number-list.scss';
 @customElement('ids-pager-number-list')
 @scss(styles)
 export default class IdsPagerNumberList extends Base {
+  readonly DEFAULT_STEP = 3;
+
   constructor() {
     super();
   }
@@ -32,22 +34,43 @@ export default class IdsPagerNumberList extends Base {
   static get attributes(): Array<string> {
     return [
       attributes.DISABLED,
+      attributes.LABEL,
       attributes.PAGE_NUMBER,
-      attributes.PARENT_DISABLED,
-      attributes.TOTAL,
       attributes.PAGE_SIZE,
+      attributes.PARENT_DISABLED,
+      attributes.STEP,
+      attributes.TOTAL,
       attributes.VALUE
     ];
   }
 
+  /**
+   * React to attributes changing on the web-component
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
+   */
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
+    if (oldValue === newValue) return;
+
+    const shouldRerender = [
+      attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE,
+      attributes.STEP,
+      attributes.TOTAL,
+    ].includes(name);
+
+    if (shouldRerender) {
+      this.connectedCallback();
+    }
+  }
+
   connectedCallback(): void {
-    // give parent a chance to reflect attributes
-
-    window.requestAnimationFrame(() => {
-      this.#populatePageNumberButtons();
-    });
-
-    super.connectedCallback?.();
+    super.connectedCallback();
+    this.#populatePageNumberButtons();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -98,7 +121,7 @@ export default class IdsPagerNumberList extends Base {
 
   /** @returns {number} A value 1-based page number displayed */
   get pageNumber(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
+    return parseInt(this.getAttribute(attributes.PAGE_NUMBER)) || 1;
   }
 
   /** @param {number} value The number of items to track */
@@ -178,6 +201,41 @@ export default class IdsPagerNumberList extends Base {
   }
 
   /**
+   * Set the aria label text
+   * @param {string} value The label text
+   */
+  set label(value: string) {
+    if (value) {
+      this.setAttribute(attributes.LABEL, value);
+    } else {
+      this.removeAttribute(attributes.LABEL);
+    }
+  }
+
+  get label() {
+    return this.getAttribute(attributes.LABEL) || 'Go to page {num} of {total}';
+  }
+
+  /**
+   * Set the number of step for page number list
+   * @param {number|string} value The number of steps
+   */
+  set step(value: number | string) {
+    const val = stringToNumber(this.getAttribute(attributes.STEP));
+    if (!Number.isNaN(val)) {
+      this.setAttribute(attributes.STEP, val);
+      return;
+    }
+    this.removeAttribute(attributes.STEP);
+  }
+
+  /** @returns {number} The number of steps */
+  get step(): number {
+    const val = stringToNumber(this.getAttribute(attributes.STEP));
+    return !Number.isNaN(val) ? val : this.DEFAULT_STEP;
+  }
+
+  /**
    * update visible button disabled state
    * based on parentDisabled and disabled attribs
    */
@@ -191,31 +249,81 @@ export default class IdsPagerNumberList extends Base {
     }
   }
 
-  #populatePageNumberButtons(): void {
-    let pageNumberHtml = '';
-    const pageCount = this.pageCount;
-    if (!pageCount) {
-      return;
-    }
-    for (let n = 1; n <= pageCount; n++) {
-      pageNumberHtml += `<ids-button ${this.disabledOverall ? 'disabled' : ''}>${n}</ids-button>`;
-    }
-
-    this.container.innerHTML = pageNumberHtml;
-
-    for (let n = 1; n <= pageCount; n++) {
-      const numberButton = this.container.children[n - 1];
-      numberButton.button.setAttribute('aria-label', `Go to page ${n}`);
-      if (n === this.pageNumber) {
-        numberButton.setAttribute(attributes.SELECTED, '');
-      }
-
-      numberButton.addEventListener('click', () => {
+  /**
+   * Establish Internal Event Handlers
+   * @private
+   * @returns {object} The object for chaining.
+   */
+  #attachEventHandlers(): this {
+    // Fire page number change event.
+    this.offEvent('click.pager-numberlist', this.container);
+    this.onEvent('click.pager-numberlist', this.container, (e: any) => {
+      const value = e.target?.getAttribute?.('data-id');
+      if (value) {
         this.triggerEvent('pagenumberchange', this, {
           bubbles: true,
-          detail: { elem: this, value: n }
+          composed: true,
+          detail: { elem: this, value }
         });
-      });
+      }
+    });
+
+    return this;
+  }
+
+  #attachAria(): void {
+    const pageCount = this.pageCount;
+    const label = (id: any) => this.label.replace('{num}', `${id}`).replace('{total}', `${pageCount}`);
+    this.container.querySelectorAll('ids-button[data-id]').forEach((btn: any) => {
+      const id = btn?.getAttribute('data-id');
+      if (id) btn?.button?.setAttribute('aria-label', label(id));
+    });
+  }
+
+  #populatePageNumberButtons(): void {
+    const pageCount = this.pageCount;
+    if (!pageCount) return;
+
+    const pageNumber = Number(this.pageNumber);
+    const disabled = this.disabledOverall ? ' disabled' : '';
+
+    const buttons = [...new Array(pageCount)].map((value, key) => {
+      const buttonNumber = key + 1;
+      const selected = (buttonNumber === pageNumber) ? ' selected' : '';
+
+      return `
+        <ids-button data-id="${buttonNumber}"${selected}${disabled}>${buttonNumber}</ids-button>
+      `;
+    });
+
+    const firstButton = buttons[0];
+    const lastButton = buttons[buttons.length - 1];
+    const divider = '<p class="divider">&#8230;</p>'; // horizontal ellipsis
+
+    const step = Number(this.step);
+    const leftBufferSize = step;
+    const rightBufferSize = leftBufferSize;
+    const totalBufferSize = leftBufferSize + rightBufferSize;
+    const showStart = (pageNumber - totalBufferSize) < 1;
+    const showEnd = (pageNumber + totalBufferSize) > pageCount;
+
+    let visibleButtons = [];
+    if (step < 1 || step >= pageCount) {
+      visibleButtons = [...buttons];
+    } else if (showStart) {
+      const startButtons = buttons.slice(0, totalBufferSize + rightBufferSize);
+      visibleButtons = startButtons.concat([divider, lastButton]);
+    } else if (showEnd) {
+      const endButtons = buttons.slice(-1 * (totalBufferSize + leftBufferSize));
+      visibleButtons = [firstButton, divider].concat(endButtons);
+    } else {
+      const middleButtons = buttons.slice(pageNumber - leftBufferSize - 1, pageNumber + rightBufferSize);
+      visibleButtons = [firstButton, divider].concat([...middleButtons, divider, lastButton]);
+    }
+
+    if (this.container) {
+      this.container.innerHTML = visibleButtons.join('');
+      this.#attachAria();
     }
   }
 }

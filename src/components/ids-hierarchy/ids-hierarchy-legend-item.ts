@@ -22,11 +22,11 @@ export default class IdsHierarchyLegendItem extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback?.();
+    super.disconnectedCallback();
   }
 
   /**
@@ -35,20 +35,10 @@ export default class IdsHierarchyLegendItem extends Base {
    */
   static get attributes() {
     return [
+      attributes.COLOR,
       attributes.TEXT
     ];
   }
-
-  /**
-   * Inherited from `IdsColorVariantMixin`
-   * @returns {Array<string>} List of available color variants for this component
-   */
-  colorVariants = [
-    'full-time',
-    'part-time',
-    'contractor',
-    'open-position'
-  ];
 
   template() {
     return `
@@ -75,5 +65,24 @@ export default class IdsHierarchyLegendItem extends Base {
    */
   get text() {
     return this.getAttribute('text');
+  }
+
+  get color(): string {
+    return this.getAttribute(attributes.COLOR);
+  }
+
+  /**
+   * Set the color of the bar
+   * @param {string} value The color value, this can be a hex code with the #
+   */
+  set color(value: string) {
+    this.setAttribute(attributes.COLOR, value);
+
+    let color = value;
+    if (this.color.substring(0, 1) !== '#') {
+      color = `var(--ids-color-palette-${this.color})`;
+    }
+
+    this.container.style.setProperty('--background', color);
   }
 }

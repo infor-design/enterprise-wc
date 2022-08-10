@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
   <ids-container role="main" padding="0" hidden>
@@ -20,7 +21,7 @@
         </ids-breadcrumb>
       </ids-layout-grid>
     </ids-header>
-    <ids-theme-switcher mode="light" version="new" hidden></ids-theme-switcher>
+    <ids-theme-switcher mode="light" hidden></ids-theme-switcher>
   </ids-container>
 </body>
 </html>

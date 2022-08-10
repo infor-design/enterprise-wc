@@ -1,9 +1,13 @@
 ---
- component: List Builder 
+ component: List Builder
  link: ids-list-builder
- description: Displays List Builder component 
+ description: Displays List Builder component
  category: Lists
- keywords: ids-list-builder, ListBuilder 
+ keywords: ids-list-builder, ListBuilder
  examples:
-  - link: index.html
-    description: Showing various List Builder examples
+  - link: example.html
+    type: Main Example
+    description: Showing a basic single select list builder
+  - link: selection-multiple.html
+    type: Example
+    description: Showing a multiple select list builder

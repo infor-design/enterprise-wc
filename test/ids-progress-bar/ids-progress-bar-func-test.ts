@@ -94,7 +94,7 @@ describe('IdsProgressBar Component', () => {
     expect(el.max).toEqual('100');
   });
 
-  it('should renders template', () => {
+  it('should render template', () => {
     document.body.innerHTML = '';
     el = document.createElement('ids-progress-bar');
     el.setAttribute('disabled', 'true');
@@ -103,6 +103,7 @@ describe('IdsProgressBar Component', () => {
     el.setAttribute('max', '50');
     el.setAttribute('value', '10');
     el.template();
+    document.body.appendChild(el);
     const labelText = el.shadowRoot.querySelector('.progress-label ids-text');
     const rootEl = el.shadowRoot.querySelector('.ids-progress-bar');
     expect(el.disabled).toEqual('true');

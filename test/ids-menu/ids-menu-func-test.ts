@@ -158,11 +158,13 @@ describe('IdsMenu Component', () => {
     expect(selected.length).toBe(1);
     expect(selected[0]).toEqual(item2);
 
-    // Select the last item
+    // Select the last item.  It's not in a "selectable" group,
+    // so it will not be stored as selected, and should not affect previous selections.
     menu.selectItem(item5);
     selected = menu.getSelectedItems();
 
-    expect(selected[1]).toEqual(item5);
+    expect(selected.length).toEqual(1);
+    expect(selected[0]).toEqual(item2);
   });
 
   it('can select items (single)', () => {
@@ -435,6 +437,18 @@ describe('IdsMenu Component', () => {
     expect(item1.selected).toBeFalsy();
   });
 
+  it('can be disabled/enabled', async () => {
+    menu.disabled = true;
+
+    expect(menu.container.classList.contains('disabled')).toBeTruthy();
+    expect(item1.disabled).toBeTruthy();
+
+    menu.disabled = false;
+
+    expect(menu.container.classList.contains('disabled')).toBeFalsy();
+    expect(item1.disabled).toBeFalsy();
+  });
+
   describe('IdsMenuItem', () => {
     it('can render a new item correctly', () => {
       const newItem = new IdsMenuItem();
@@ -620,11 +634,6 @@ describe('IdsMenu Component', () => {
       item1.value = true;
 
       expect(item1.value).toBeTruthy();
-
-      // can set function values
-      item1.value = (x: any) => Number(x) * 2;
-
-      expect(item1.value(2)).toEqual(4);
     });
 
     it('can cancel selection with a vetoed `beforeselected` event handler', () => {

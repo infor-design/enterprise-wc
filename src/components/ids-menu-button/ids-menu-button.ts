@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 
 import Base from './ids-menu-button-base';
 import '../ids-icon/ids-icon';
@@ -29,6 +29,7 @@ export default class IdsMenuButton extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.DISABLED,
       attributes.DROPDOWN_ICON,
       attributes.FORMATTER_WIDTH,
       attributes.ID,
@@ -41,12 +42,12 @@ export default class IdsMenuButton extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback?.();
-
-    requestAnimationFrame(() => {
-      this.configureMenu();
-      this.attachEventHandlers();
-    });
+    super.connectedCallback();
+    if (this.hasAttribute(attributes.DROPDOWN_ICON)) {
+      this.#configureDropdownIcon(true);
+    }
+    this.configureMenu();
+    this.attachEventHandlers();
   }
 
   /**
@@ -70,21 +71,47 @@ export default class IdsMenuButton extends Base {
   }
 
   /**
-   * @param {string|undefined} val referencing an icon string name to use
+   * @param {boolean | string} val true if the component should be disabledd
    */
-  set dropdownIcon(val) {
-    const trueVal = stringToBool(val);
-    const iconName = (typeof val === 'string' && val.length) ? `${val}` : 'dropdown';
+  set disabled(val: boolean | string) {
+    super.disabled = val;
+    const truthyVal = stringToBool(val);
+    this.menuEl.disabled = truthyVal;
+  }
+
+  /**
+   * @returns {boolean} true if the component is disabled
+   */
+  get disabled(): boolean {
+    return super.disabled;
+  }
+
+  #configureDropdownIcon(doShow: boolean): void {
     const icon = this.dropdownIconEl;
-    if (trueVal) {
+    const iconType = (this.dropdownIcon && this.dropdownIcon.length) ? this.dropdownIcon : 'dropdown';
+
+    if (doShow) {
       if (!icon) {
-        this.container.insertAdjacentHTML('beforeend', `<ids-icon icon="${iconName}" class="ids-icon dropdown-icon"></ids-icon>`);
+        this.container?.insertAdjacentHTML('beforeend', `<ids-icon icon="${iconType}" class="ids-icon dropdown-icon"></ids-icon>`);
       } else {
-        icon.icon = iconName;
+        icon.icon = iconType;
       }
     } else if (icon) {
       icon.remove();
     }
+  }
+
+  /**
+   * @param {string|undefined} val referencing an icon string name to use
+   */
+  set dropdownIcon(val) {
+    const trueVal = stringToBool(val);
+    if (trueVal) {
+      this.setAttribute(attributes.DROPDOWN_ICON, (typeof val === 'string' && val.length) ? `${val}` : 'dropdown');
+    } else {
+      this.removeAttribute(attributes.DROPDOWN_ICON);
+    }
+    this.#configureDropdownIcon(trueVal);
     this.setPopupArrow();
   }
 
@@ -92,28 +119,28 @@ export default class IdsMenuButton extends Base {
    * @returns {string|undefined} containing the type of icon being displayed as the Dropdown Icon
    */
   get dropdownIcon() {
-    return this.dropdownIconEl?.icon;
+    return this.getAttribute(attributes.DROPDOWN_ICON);
   }
 
   /**
    * @returns {HTMLElement|null} the decorative dropdown icon element
    */
   get dropdownIconEl() {
-    return this.container.querySelector('ids-icon:not([slot])');
+    return this.container?.querySelector('ids-icon:not([slot])');
   }
 
   /**
    * @returns {string|null} an ID selector string matching a menu
    */
   get menu() {
-    return this.getAttribute('menu');
+    return this.getAttribute(attributes.MENU);
   }
 
   /**
    * @param {string|null} val an ID selector string
    */
   set menu(val) {
-    this.setAttribute('menu', `${val}`);
+    this.setAttribute(attributes.MENU, `${val}`);
     this.configureMenu();
   }
 
@@ -159,8 +186,10 @@ export default class IdsMenuButton extends Base {
     }
     this.resizeMenu();
     this.setPopupArrow();
-    this.menuEl.trigger = 'click';
+    this.menuEl.triggerType = 'click';
     this.menuEl.target = this;
+
+    this.setAttribute(htmlAttributes.ARIA_HASPOPUP, 'menu');
 
     // ====================================================================
     // Setup menu-specific event listeners, if they aren't already applied
@@ -188,9 +217,9 @@ export default class IdsMenuButton extends Base {
    */
   setActiveState(isActive: boolean) {
     if (isActive) {
-      this.button.classList.add('is-active');
+      this.button?.classList.add('is-active');
     } else {
-      this.button.classList.remove('is-active');
+      this.button?.classList.remove('is-active');
     }
   }
 
@@ -201,7 +230,7 @@ export default class IdsMenuButton extends Base {
     if (!this.menuEl || !this.menuEl.popup) {
       return;
     }
-    this.menuEl.popup.container.style.minWidth = `${this.button.clientWidth}px`;
+    this.menuEl.popup.container.style.minWidth = `${this.button?.clientWidth}px`;
   }
 
   /**
@@ -228,19 +257,19 @@ export default class IdsMenuButton extends Base {
       if ((typeof last === 'number' && !Number.isNaN(last))) {
         val = `${value}px`;
       } else if (/(px|em|vw|vh|ch|%)$/g.test(value) && !Number.isNaN(parseInt(value, 10))) {
-        this.container.classList[/%$/g.test(value) ? 'add' : 'remove']('formatter-width-percentage');
+        this.container?.classList[/%$/g.test(value) ? 'add' : 'remove']('formatter-width-percentage');
         val = value;
       }
     }
 
     if (val) {
       this.setAttribute(attributes.FORMATTER_WIDTH, value);
-      this.container.classList.add(attributes.FORMATTER_WIDTH);
-      this.container.style.minWidth = val;
+      this.container?.classList.add(attributes.FORMATTER_WIDTH);
+      if (this.container) this.container.style.minWidth = val;
     } else {
       this.removeAttribute(attributes.FORMATTER_WIDTH);
-      this.container.classList.remove(attributes.FORMATTER_WIDTH);
-      this.container.style.minWidth = '';
+      this.container?.classList.remove(attributes.FORMATTER_WIDTH);
+      if (this.container) this.container.style.minWidth = '';
     }
   }
 }

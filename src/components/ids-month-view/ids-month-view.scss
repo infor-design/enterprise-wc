@@ -70,17 +70,49 @@
     display: inline-block;
   }
 
+  .month-view-legend-item {
+    @include mb-2();
+  }
+
   .month-view-legend-swatch {
     background-color: var(--legend-color);
     opacity: 0.3;
+    width: 16px;
+    height: 16px;
+  }
+
+  .month-view-legend-item.event-type .month-view-legend-swatch {
+    border-radius: 10px;
+    opacity: 1;
+    width: 14px;
+    height: 14px;
   }
 
   .month-view-legend-text {
     @include relative();
     @include text-slate-80();
 
-    padding: 0 17px 0 8px;
+    padding: 0 10px 0 8px;
     top: -2px;
+  }
+
+  .events-container {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+
+    .events-overflow {
+      position: absolute;
+      bottom: 0;
+      cursor: pointer;
+      text-indent: 12px;
+    }
+
+    ids-text::part(text) {
+      text-transform: capitalize;
+    }
   }
 }
 
@@ -91,14 +123,21 @@
   .month-view-table-header th {
     line-height: unset;
     vertical-align: top;
+    height: 22px;
   }
 
   .month-view-table {
-    margin-top: 10px;
+    margin-top: 13px;
   }
 
   td {
+    width: 44px;
+    height: 44px;
     text-align: center;
+
+    &:not(.is-disabled):hover {
+      @include cursor-pointer();
+    }
 
     .day-container {
       @include relative();
@@ -109,28 +148,11 @@
 
       display: inline-block;
       margin: 5px 0;
-
-      &::after {
-        @include rounded-round();
-        @include absolute();
-
-        content: '';
-        background-color: var(--legend-color);
-        display: inline-block;
-        height: 38px;
-        left: 2px;
-        overflow: hidden;
-        top: 2px;
-        width: 38px;
-        opacity: 0.3;
-        transition: 0.2s opacity ease;
-      }
     }
 
     .day-text {
       @include relative();
-      @include z-1();
-      @include cursor-pointer();
+      @include z-2();
       @include rounded-round();
       @include m-2();
       @include text-slate-80();
@@ -151,10 +173,11 @@
 
     ids-text::part(text) {
       @include rounded-round();
+      @include box-border();
 
-      width: 38px;
-      height: 38px;
-      line-height: 38px;
+      width: 35px;
+      height: 35px;
+      line-height: 35px;
       text-align: center;
       display: inline-block;
     }
@@ -165,38 +188,67 @@
         outline-style: none;
       }
 
-      &:focus .day-container {
-        @include border-azure-60();
-        @include z-1();
+      &:not(.is-disabled):not(.range-selection):focus {
+        ids-text::part(text) {
+          width: 31px;
+          height: 31px;
+          line-height: 31px;
+        }
 
-        box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
-      }
+        ids-text {
+          margin: 1px;
+        }
 
-      ids-text::part(text) {
-        font-weight: 600;
+        .day-container {
+          @include border-azure-60();
+          @include z-2();
+
+          box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
+        }
       }
 
       &:not(.range-selection) .day-text {
         @include text-white();
         @include bg-azure-60();
       }
-
-      &.has-legend .day-container::after {
-        height: 44px;
-        left: -1px;
-        top: -1px;
-        width: 44px;
-      }
     }
 
-    &:not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
-    &:not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
+    &.is-today:not(.is-selected) .day-text::part(text) {
+      @include border-1();
+      @include border-solid();
+      @include border-slate-30();
+    }
+
+    &:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
+    &:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
       @include bg-slate-20();
     }
 
-    &.has-legend:hover {
+    // Legend in compact mode
+    &.has-legend:not(.is-disabled):hover {
       .day-container::after {
         @include opacity-70();
+      }
+    }
+
+    &.has-legend .day-container {
+      &::after {
+        @include rounded-round();
+        @include absolute();
+
+        content: '';
+        background-color: var(--legend-color);
+        display: inline-block;
+        width: 35px;
+        height: 35px;
+        overflow: hidden;
+        opacity: 0.3;
+        transition: 0.2s opacity ease;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: auto;
       }
     }
 
@@ -209,11 +261,11 @@
       &::before {
         @include absolute();
         @include w-full();
-        @include z-0();
+        @include z-1();
 
         content: '';
         display: inline-block;
-        height: 38px;
+        height: 35px;
         top: 0;
         bottom: 0;
         margin-top: auto;
@@ -221,35 +273,44 @@
       }
     }
 
-    &.range-prev .day-text,
-    &.range-next .day-text,
-    &.range-next:not(:first-of-type)::before,
+    &.is-disabled.range-selection.not-included + .range-selection,
+    &.is-disabled.range-prev.not-included {
+      &::before {
+        content: none;
+      }
+    }
+
+    &:not(.is-disabled.not-included).range-prev .day-text,
+    &:not(.is-disabled.not-included).range-next .day-text,
+    &:not(.is-disabled.not-included).range-next:not(:first-of-type)::before,
     &.range-prev:not(:last-of-type)::before {
+      @include text-slate-80();
       @include bg-slate-20();
     }
 
     &.range-selection:not(:first-of-type)::before,
-    &.range-selection .day-text {
+    &:not(.is-disabled.not-included).range-selection .day-text {
       @include bg-azure-60();
     }
 
-    &.range-selection:not(.alternate) .day-text {
+    &.range-selection:not(.alternate):not(.is-disabled.not-included) .day-text {
       @include text-white();
     }
 
     &.range-selection:not(:first-of-type)::before,
     &.range-next:not(:first-of-type)::before {
-      left: -50%;
+      right: 50%;
     }
 
     &.range-prev:not(:last-of-type)::before {
-      left: 50%;
+      right: -50%;
     }
 
     &.range-selection .day-text,
     &.range-prev .day-text,
     &.range-next .day-text {
       @include rounded-round();
+      @include z-2();
 
       transition: none;
     }
@@ -260,10 +321,38 @@
     @include p-0();
   }
 
-  // Legend in compact mode
-  .month-view-legend-swatch {
-    width: 16px;
-    height: 16px;
+  &.range-select-week td .day-text {
+    transition: none;
+  }
+
+  .btn-today {
+    margin-right: -7px;
+
+    &::part(button) {
+      @include px-4();
+      @include py-2();
+
+      margin: 3px;
+    }
+  }
+
+  .btn-previous,
+  .btn-next {
+    @include pl-0();
+
+    margin: 3px;
+
+    &::part(button) {
+      @include p-0();
+
+      width: 44px;
+      height: 44px;
+    }
+  }
+
+  .month-view-legend {
+    padding-top: 27px;
+    max-width: 300px;
   }
 }
 
@@ -317,11 +406,14 @@
     &.is-selected {
       box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-60);
 
-      &:focus {
+      &:not(.is-disabled):focus {
         @include border-transparent();
 
-        outline: none;
         box-shadow: 0 0 2px 2px rgb(54 138 192 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-60);
+      }
+
+      &:focus {
+        outline: none;
       }
 
       ids-text::part(text) {
@@ -403,43 +495,13 @@
 .ids-month-view.is-date-picker {
   overflow: visible;
 
-  .month-view-header {
-    @include border-b-1();
-    @include border-slate-30();
-    @include pr-1();
-
-    height: 43px;
-  }
-
   .month-view-container {
     padding-left: 10px;
     padding-right: 10px;
-    width: 310px;
-  }
-
-  .btn-today::part(button) {
-    padding-left: 3px;
-    padding-right: 3px;
-  }
-
-  .btn-previous,
-  .btn-next {
-    @include pl-0();
-  }
-
-  .month-view-table {
-    @include mt-20();
   }
 
   td .day-container {
     @include m-0();
-
-    &::after {
-      height: 42px;
-      left: 0;
-      top: 0;
-      width: 42px;
-    }
   }
 
   ids-date-picker {
@@ -450,19 +512,15 @@
 // Legend for full size view and if it's in a datepicker
 .ids-month-view.is-date-picker,
 .ids-month-view.is-fullsize {
-  .month-view-legend-swatch {
-    width: 12px;
-    height: 12px;
-  }
-
-  .month-view-legend-text::part(text) {
-    font-size: 11px;
-  }
-
   .month-view-legend {
-    max-width: 300px;
     text-align: center;
   }
+}
+
+// Legend for month
+.month-view-legend-item.event-type .month-view-legend-swatch {
+  border-radius: 10px;
+  opacity: 1;
 }
 
 // Themes
@@ -473,10 +531,6 @@
   .month-view-header {
     @include border-slate-70();
     @include bg-slate-80();
-  }
-
-  &.is-date-picker .month-view-header {
-    @include border-slate-50();
   }
 
   .month-view-container {
@@ -502,13 +556,13 @@
       @include text-white();
     }
 
-    td.is-disabled .day-text {
+    td:not(.is-selected).is-disabled .day-text {
       @include bg-slate-70();
       @include text-slate-10();
     }
 
-    td:not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
-    td:not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
+    td:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
+    td:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
       @include bg-slate-70();
     }
 
@@ -517,11 +571,17 @@
       @include text-white();
     }
 
-    td.range-prev .day-text,
-    td.range-next .day-text,
-    td.range-next:not(:first-of-type)::before,
+    td:not(.is-disabled.not-included).range-prev .day-text,
+    td:not(.is-disabled.not-included).range-next .day-text,
+    td:not(.is-disabled.not-included).range-next:not(:first-of-type)::before,
     td.range-prev:not(:last-of-type)::before {
+      @include text-slate-30();
       @include bg-slate-70();
+    }
+
+    td.range-selection:not(:first-of-type)::before,
+    td:not(.is-disabled.not-included).range-selection .day-text {
+      @include bg-azure-70();
     }
   }
 
@@ -551,7 +611,7 @@
         @include bg-slate-70();
       }
 
-      &.is-selected:focus {
+      &.is-selected:not(.is-disabled):focus {
         box-shadow: 0 0 2px 2px rgb(141 201 230 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-60);
       }
 
@@ -579,10 +639,6 @@
     @include bg-white();
   }
 
-  &.is-date-picker .month-view-header {
-    @include border-slate-30();
-  }
-
   .month-view-container {
     @include bg-white();
   }
@@ -608,7 +664,7 @@
       @include text-white();
     }
 
-    td.is-selected:focus .day-container {
+    td.is-selected:not(.is-disabled):not(.range-selection):focus .day-container {
       @include border-azure-100();
 
       box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
@@ -619,8 +675,12 @@
       @include text-slate-100();
     }
 
-    td:not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
-    td:not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
+    td.is-today:not(.is-selected) .day-text::part(text) {
+      @include border-slate-100();
+    }
+
+    td:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
+    td:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
       @include bg-slate-30();
     }
 
@@ -629,15 +689,16 @@
       @include text-black();
     }
 
-    td.range-prev .day-text,
-    td.range-next .day-text,
-    td.range-next:not(:first-of-type)::before,
+    td:not(.is-disabled.not-included).range-prev .day-text,
+    td:not(.is-disabled.not-included).range-next .day-text,
+    td:not(.is-disabled.not-included).range-next:not(:first-of-type)::before,
     td.range-prev:not(:last-of-type)::before {
+      @include text-black();
       @include bg-slate-30();
     }
 
     td.range-selection:not(:first-of-type)::before,
-    td.range-selection .day-text {
+    td:not(.is-disabled.not-included).range-selection .day-text {
       @include bg-azure-90();
     }
   }
@@ -668,7 +729,7 @@
         box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-90);
       }
 
-      &.is-selected:focus {
+      &.is-selected:not(.is-disabled):focus {
         box-shadow: 0 0 2px 2px rgb(41 41 41 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-90);
       }
     }
@@ -681,6 +742,10 @@
   .month-view-legend-text {
     @include text-black();
   }
+}
+
+ids-toolbar ids-menu-button[menu='view-picker'] {
+  margin-inline-end: 8px;
 }
 
 // Text direction
@@ -704,6 +769,18 @@
 
       &:last-child {
         border-left: 0;
+      }
+    }
+
+    &.is-date-picker {
+      ids-date-picker {
+        margin-left: 0;
+        margin-right: 12px;
+      }
+
+      .btn-today {
+        margin-right: 0;
+        margin-left: -7px;
       }
     }
   }

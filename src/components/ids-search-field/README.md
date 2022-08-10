@@ -42,7 +42,17 @@ Read-only state
 
 - Because this component is simply an `ids-input` wrapped inside an `ids-trigger-field`, it will depend on the styling of those two components
 
-## Converting from Previous Version
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Searchfield is a new component added in v4.0.0
+- Searchfield is invoked with `$('#my-element').searchfield();`
+
+**4.x to 5.x**
+
+- Search Field is now a custom element `<ids-search-field></ids-search-field>`
+- Search Field extends IdsTriggerField and IdsInput, holding all functionality of those components
 
 ### Converting from 4.x
 

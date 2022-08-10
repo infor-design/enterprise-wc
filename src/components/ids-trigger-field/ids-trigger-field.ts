@@ -57,6 +57,7 @@ export default class IdsTriggerField extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.FORMAT,
       attributes.TABBABLE
     ];
   }
@@ -90,6 +91,7 @@ export default class IdsTriggerField extends Base {
       ${labelHtml}
       <div class="field-container" part="field-container">
         <slot name="trigger-start"></slot>
+        <slot class="content-area" part="content-area"></slot>
         <input
           part="input"
           id="${this.id}-input"
@@ -152,11 +154,13 @@ export default class IdsTriggerField extends Base {
    */
   set disabled(d: boolean | string) {
     super.disabled = d;
-
     if (stringToBool(d)) {
+      this.readonly = false;
+      super.readonly = false;
+
       this.buttons.forEach((btn) => {
         btn.setAttribute(attributes.DISABLED, '');
-        btn.removeAttribute(attributes.READONLY);
+        btn.readonly = false;
       });
     } else {
       this.buttons.forEach((btn) => {
@@ -190,6 +194,26 @@ export default class IdsTriggerField extends Base {
 
   get readonly(): boolean {
     return super.readonly;
+  }
+
+  /**
+   * Set format for date, time
+   * @param {string} val date, time format
+   */
+  set format(val: string) {
+    if (val) {
+      this.setAttribute(attributes.FORMAT, val);
+    } else {
+      this.removeAttribute(attributes.FORMAT);
+    }
+  }
+
+  /**
+   * Return format
+   * @returns {string} return date format
+   */
+  get format(): string {
+    return this.getAttribute(attributes.FORMAT);
   }
 
   /**

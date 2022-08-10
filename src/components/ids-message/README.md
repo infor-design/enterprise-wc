@@ -1,12 +1,12 @@
 # Ids Message
 
-The IdsMessage Component provides a quick interface for displaying an application message to the user in [Modal]('../ids-modal/README.md'), along with providing quick actions related to the messsage.
+The IdsMessage Component provides a quick interface for displaying an application message to the user in [Modal]('../ids-modal/README.md'), along with providing quick actions related to the message.
 
 ## Use Cases
 
 - Display application information that requires a user's attention
 - Convey a specific status to the user
-- Provide ansulary actions that the user can take to address the information
+- Provide actions that the user can take to address the information
 
 ## Terminology
 
@@ -55,7 +55,7 @@ const messageEl = document.querySelector('#my-message');
 messageEl.show();
 ```
 
-You can also take advange of the Modal's `target` property to activate a Message component by clicking an associated target element, like a button for example:
+You can also use the Modal's `target` property to activate a Message component by clicking an associated target element, like a button for example:
 
 ```html
 <ids-message id="my-message">
@@ -79,3 +79,23 @@ messageEl.target = btnEl;
 
 btnEl.click();
 ```
+
+## Converting from Previous Versions (Breaking Changes)
+
+**3.x to 4.x**
+
+- Very similar and compatible with newer versions of 3.X
+- dialogType option deprecated. Instead use either modal or message component
+- shortMessage option now called message because there is only one option buttons works the same
+
+**4.x to 5.x**
+
+- The message component has been changed to a web component and renamed to `ids-message`.
+- If using properties/settings these are now attributes.
+- Markup has changed to a custom element `<ids-message></ids-message>`
+- If using events events are now plain JS events for example
+- Can now be imported as a single JS file and used with encapsulated styles
+- Close X is deprecated as it is redundant with the modal buttons
+- Allowed tags is not needed as you can put your own markup in the light DOM now
+- The Message component now extends the Modal component, containing the same properties and methods.
+- Modal Buttons, Title, Status, and Message can be changed via API

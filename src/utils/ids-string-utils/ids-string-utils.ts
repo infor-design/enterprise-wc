@@ -1,10 +1,19 @@
 /**
  * Convert a string in presumed kebab case to camel case
- * @param  {string} str [description]
+ * @param {string} str [description]
  * @returns {string} The return string
  */
 export function camelCase(str: string): string {
   return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+}
+
+/**
+ * Convert a string into kebab case
+ * @param {string} str The value to be converted
+ * @returns {string} The return string
+ */
+export function kebabCase(str: string): string {
+  return str?.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase();
 }
 
 /**
@@ -54,17 +63,18 @@ export function stringToNumber(val?: string | number | any): number {
 /**
  * Inject template variables in a string
  * @param {string} str The string to inject into
- * @param {string} obj The string to inject into
+ * @param {any} obj The string to inject into
  * @returns {string} The return string
  */
-export function injectTemplate(str: string, obj: string): string {
+export function injectTemplate(str: string, obj: any): string {
+  // Replace all other keys with data
   return str.replace(/\${(.*?)}/g, (_x, g) => obj[g]);
 }
 
 /**
  * Combines classes and considers truthy/falsy +
  * doesn't pollute the attribs/DOM
- * @param  {...any} classes classes/expressions
+ * @param {...any} classes classes/expressions
  * @returns {string} ` class="c1 c2..."` || ""
  */
 export function buildClassAttrib(...classes: any): string {

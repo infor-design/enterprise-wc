@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto="true">
       <ids-text font-size="12" type="h1">Editor Sandbox</ids-text>
     </ids-layout-grid>
@@ -89,7 +90,7 @@
           <ids-toolbar slot="toolbar" tabbable="true" type="formatter">
             <ids-toolbar-section type="buttonset">
               <ids-menu-button editor-action="formatblock" id="btn-formatblock-custom" role="button" menu="menu-formatblock-custom"
-                tooltip="Choose Font Style" formatter-width="125px" dropdown-icon trigger="click">
+                tooltip="Choose Font Style" formatter-width="125px" dropdown-icon trigger-type="click">
                 <span slot="text">Normal Text</span>
               </ids-menu-button>
               <ids-popup-menu id="menu-formatblock-custom" target="#btn-formatblock-custom">

@@ -1,5 +1,8 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
+
 describe('Ids Tooltip e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-tooltip';
+  const url = 'http://localhost:4444/ids-tooltip/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
@@ -38,7 +41,17 @@ describe('Ids Tooltip e2e Tests', () => {
 
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'load' });
-    await (expect(page) as any).toPassAxeTests();
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    const results = await new AxePuppeteer(page).analyze();
+    expect(results.violations.length).toBe(0);
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-tooltip id="test">test</ids-tooltip>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 });

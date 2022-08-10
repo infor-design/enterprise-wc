@@ -21,6 +21,7 @@ A card is a UI design pattern that groups related information in a flexible-size
 - `card` allows you to further style the main card element
 - `header` allows you to further style the card header element
 - `content` allows you to further style the card content element
+- `footer` allows you to further style the card footer element
 
 ## Features (With Code Examples)
 
@@ -46,10 +47,39 @@ A card can be an actionable with the behavior of a button.
 </ids-card>
 ```
 
+A card with footer element.
+
+```html
+<ids-card>
+  <div slot="card-header">
+    <ids-text font-size="20" type="h2">Card Title One</ids-text>
+  </div>
+  <div slot="card-content">
+  </div>
+  <div slot="card-footer">
+  </div>
+</ids-card>
+```
+
+A card with footer element and vertical no-padding.
+
+```html
+<ids-card>
+  <div slot="card-header">
+    <ids-text font-size="20" type="h2">Card Title One</ids-text>
+  </div>
+  <div slot="card-content">
+  </div>
+  <div slot="card-footer" no-padding>
+  </div>
+</ids-card>
+```
+
 ## Settings and Attributes
 
 - `autoHeight` {boolean} Makes the card the same height as its inner content
 - `actionable` {boolean} It will make the card act as a button
+- `height` {number} It will make the card have a fixed height (used primarily on actionable cards)
 
 ## States and Variations (With Code Examples)
 
@@ -67,10 +97,6 @@ A card can be an actionable with the behavior of a button.
 ## Responsive Guidelines
 
 - Depending on the container in the responsive grid, the width of the card follows the layout of the grid. However, when using in a home page a special algorithm is used to both keep the tab order and fill in the gaps most efficiently depending on the card dimensions.
-
-## Designs
-
-[Figma Design Specs](https://www.figma.com/files/project/2768042/Infor-Design-System)
 
 ## Accessibility Guidelines
 

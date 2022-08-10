@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
 </head>
 <body hidden>
   <div class="ids-layout-grid">
@@ -10,9 +11,15 @@
   <div class="ids-layout-grid">
     <div class="ids-layout-grid-cell">
       <div class="ids-breadcrumb" role="list">
-        <a class="ids-hyperlink ids-text-14 ids-text-decoration-hover" role="listitem" href="#">First Breadcrumb</a>
-        <a class="ids-hyperlink ids-text-14 ids-text-decoration-hover" role="listitem">Second Breadcrumb (No href)</a>
-        <a class="ids-hyperlink ids-text-14 ids-text-decoration-hover bold" role="listitem" href="#">Last Breadcrumb</a>
+        <span>
+          <a class="ids-hyperlink ids-text-14 ids-text-decoration-hover" role="listitem" href="#">First Breadcrumb</a>
+        </span>
+        <span class="ids-breadcrumb-divider">
+          <a class="ids-hyperlink ids-text-14 ids-text-decoration-hover" role="listitem">Second Breadcrumb (No href)</a>
+        </span>
+          <span class="ids-breadcrumb-divider">
+          <a class="ids-hyperlink ids-text-14 ids-text-decoration-hover bold" role="listitem" href="#">Last Breadcrumb</a>
+        </span>
       </div>
     </div>
   </div>
