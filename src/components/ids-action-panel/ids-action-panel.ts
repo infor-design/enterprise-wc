@@ -1,18 +1,18 @@
 import { customElement, scss } from '../../core/ids-decorators';
 
-import Base from './ids-contextual-action-panel-base';
+import Base from './ids-action-panel-base';
 import '../ids-toolbar/ids-toolbar';
 
-import styles from './ids-contextual-action-panel.scss';
+import styles from './ids-action-panel.scss';
 
 /**
- * IDS Contextual Action Panel
- * @type {IdsContextualActionPanel}
+ * IDS Action Panel
+ * @type {IdsActionPanel}
  * @inherits IdsModal
  */
-@customElement('ids-contextual-action-panel')
+@customElement('ids-action-panel')
 @scss(styles)
-export default class IdsContextualActionPanel extends Base {
+export default class IdsActionPanel extends Base {
   constructor() {
     super();
   }
@@ -33,18 +33,15 @@ export default class IdsContextualActionPanel extends Base {
    * @returns {string} The template
    */
   template(): string {
-    const toolbarHidden = this.toolbar !== undefined ? '' : 'hidden';
-    const footerHidden = this.buttons !== undefined ? '' : ' hidden';
-
-    return `<ids-popup part="modal" class="ids-modal ids-contextual-action-panel" type="modal" position-style="viewport">
+    return `<ids-popup part="modal" class="ids-modal ids-action-panel" type="modal" position-style="viewport">
       <div class="ids-modal-container" slot="content">
         <div class="ids-modal-header">
-          <slot name="toolbar" ${toolbarHidden}></slot>
+          <slot name="toolbar"></slot>
         </div>
         <div class="ids-modal-content">
           <slot></slot>
         </div>
-        <div class="ids-modal-footer" ${footerHidden}>
+        <div class="ids-modal-footer">
           <slot name="buttons"></slot>
         </div>
       </div>

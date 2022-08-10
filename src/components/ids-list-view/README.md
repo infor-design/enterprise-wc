@@ -12,7 +12,7 @@ Displays a set of related data objects and their attributes in list format.
 - Can alert users of updates on objects.
 - Lists may be single, multiple or mixed selected
 - You can have a fixed list toolbar on top, which may contain a title and filtering/search options
-- You can have a contextual action toolbar for selected items
+- You can have a contextual toolbar for selected items
 - Pagination is supported
 
 ## Terminology

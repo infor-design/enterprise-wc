@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId: any = '#cap-trigger-btn';
   const triggerBtn: any = document.querySelector(triggerId);
-  const cap: any = document.querySelector('ids-contextual-action-panel');
+  const cap: any = document.querySelector('ids-action-panel');
 
   // Links the CAP to its trigger button (sets up click/focus events)
   cap.target = triggerBtn;
