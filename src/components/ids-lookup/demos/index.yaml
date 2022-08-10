@@ -8,9 +8,6 @@
   - link: example.html
     type: Main Example
     description: Shows basic lookup with states
-  - link: autocomplete.html
-    type: Example
-    description: Showing a lookup with autocomplete input
   - link: pagination-client.html
     type: Example
     description: Showing a lookup with client-side pagination

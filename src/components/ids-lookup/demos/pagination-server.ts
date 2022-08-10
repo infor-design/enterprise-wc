@@ -60,35 +60,12 @@ const container: Element | any = document.querySelector('ids-container');
   });
 
   lookup.columns = columns;
-
-  const addEventListeners = () => {
-    lookup.addEventListener('change', () => {
-      console.info(`Value Changed`, lookup.dataGrid.selectedRows, lookup.value);
-    });
-
-    lookup.addEventListener('rowselected', (e: CustomEvent) => {
-      console.info(`Row Selected`, e.detail);
-    });
-
-    lookup.addEventListener('rowdeselected', (e: CustomEvent) => {
-      console.info(`Row DeSelected`, e.detail);
-    });
-
-    lookup.addEventListener('selectionchanged', (e: CustomEvent) => {
-      console.info(`Selection Changed`, e.detail);
-    });
-  };
-
-  lookup.dataGridSettings = {
-    rowSelection: 'multiple'
-  };
-
   const setData = async () => {
     const res = await fetch(url);
     const data = await res.json();
     lookup.dataGridSettings = {
       rowSelection: 'multiple',
-      pageSize: 10,
+      pageSize: 5,
       pageNumber: 1,
       pagination: 'server-side'
     };
@@ -111,5 +88,4 @@ const container: Element | any = document.querySelector('ids-container');
   };
 
   setData();
-  addEventListeners();
 }());
