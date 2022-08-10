@@ -284,11 +284,11 @@ describe('IdsLookup Component', () => {
     lookup.columns = columns();
     lookup.data = dataset;
 
-    expect(lookup.dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(19);
+    expect(lookup.dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
     expect(lookup.dataGrid.columns.length).toEqual(6);
     expect(lookup.columns.length).toEqual(6);
-    expect(lookup.data.length).toEqual(18);
-    expect(lookup.dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(108);
+    expect(lookup.data.length).toEqual(9);
+    expect(lookup.dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(54);
   });
 
   it('should be able to set dataGrid settings', () => {
