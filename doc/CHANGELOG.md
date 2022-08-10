@@ -10,6 +10,7 @@
 - `[AxisChart]` Add support for axis labels all around bottom, end, start, top. ([#738](https://github.com/infor-design/enterprise-wc/issues/738))
 - `[Breadcrumb]` Fixed a styling with the focus state and incorrect colors. ([#777](https://github.com/infor-design/enterprise-wc/pull/788))
 - `[Card]` Fixed the `height` setting which was not working. ([#788](https://github.com/infor-design/enterprise-wc/pull/788))
+- `[DatePicker]` Updated event path for clicking event and ensured appropriate date input for Range - Min(N) Days. ([#780](https://github.com/infor-design/enterprise-wc/pull/780))
 - `[DatePicker]` Fixed keyboard events to accommodate to Firefox browser (which was not working). ([#779](https://github.com/infor-design/enterprise-wc/issues/779))
 - `[DatePicker]` Fixed frozen page when "Enter" or "Shift" key is pressed when selecting month and year. ([#778](https://github.com/infor-design/enterprise-wc/issues/778))
 - `[ListBuilder]` Fixed focus state after dragging item(s). ([#753](https://github.com/infor-design/enterprise-wc/issues/753))

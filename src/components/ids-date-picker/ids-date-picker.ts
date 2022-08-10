@@ -283,7 +283,7 @@ class IdsDatePicker extends Base {
    * @returns {void}
    */
   onOutsideClick(e: any): void {
-    if (!e.path?.includes(this.#popup)) {
+    if (!e.composedPath()?.includes(this.#popup)) {
       this.#togglePopup(false);
     }
   }
@@ -817,6 +817,10 @@ class IdsDatePicker extends Base {
 
     if (this.useRange) {
       if (this.rangeSettings.end || (this.rangeSettings.start && !this.rangeSettings.end)) {
+        if (this.rangeSettings.minDays && (this.rangeSettings.start === this.rangeSettings.end)) {
+          this.rangeSettings.start = subtractDate(this.rangeSettings.start, this.rangeSettings.minDays, 'days');
+        }
+
         this.value = [
           this.locale.formatDate(this.#setTime(this.rangeSettings.start), { pattern: this.format }),
           this.rangeSettings.separator,
