@@ -226,6 +226,13 @@ describe('IdsLookup Component', () => {
     expect(lookup.triggerField.value).toEqual('218902');
   });
 
+  it('should be able to set clearable', () => {
+    lookup.clearable = true;
+    lookup.value = 'x';
+    lookup.triggerClearButton.click();
+    expect(lookup.triggerField.value).toEqual('');
+  });
+
   it('should open on click and close on the modal buttons', async () => {
     lookup = await createMultiSelectLookup();
     expect(lookup.modal.visible).toBe(false);
@@ -277,11 +284,11 @@ describe('IdsLookup Component', () => {
     lookup.columns = columns();
     lookup.data = dataset;
 
-    expect(lookup.dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+    expect(lookup.dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(19);
     expect(lookup.dataGrid.columns.length).toEqual(6);
     expect(lookup.columns.length).toEqual(6);
-    expect(lookup.data.length).toEqual(9);
-    expect(lookup.dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(54);
+    expect(lookup.data.length).toEqual(18);
+    expect(lookup.dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(108);
   });
 
   it('should be able to set dataGrid settings', () => {
@@ -435,5 +442,53 @@ describe('IdsLookup Component', () => {
     expect((document.querySelector('#custom-lookup-modal') as any).visible).toBeFalsy();
     lookup.modal.visible = true;
     expect((document.querySelector('#custom-lookup-modal') as any).visible).toBeTruthy();
+  });
+
+  it('supports setting mode', () => {
+    lookup.mode = 'dark';
+    expect(lookup.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting autocomplete', () => {
+    lookup.autocomplete = true;
+    expect(lookup.hasAttribute('autocomplete')).toBeTruthy();
+    lookup.autocomplete = false;
+    expect(lookup.hasAttribute('autocomplete')).toBeFalsy();
+  });
+
+  it('supports setting dirty tracker', () => {
+    expect(lookup.triggerField.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
+    lookup.value = '';
+    lookup.dirtyTracker = true;
+    lookup.value = '100';
+    expect(lookup.triggerField.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
+    lookup.value = '';
+    lookup.onDirtyTrackerChange(false);
+    expect(lookup.triggerField.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
+  });
+
+  it('should be able to set attributes before append', async () => {
+    const elem: any = new IdsLookup();
+    elem.id = 'test';
+    elem.value = '102,103';
+    elem.dirtyTracker = true;
+    elem.autocomplete = true;
+    document.body.appendChild(elem);
+
+    expect(elem.getAttribute('id')).toEqual('test');
+    expect(elem.getAttribute('value')).toEqual('102,103');
+    expect(elem.getAttribute('dirty-tracker')).toEqual('true');
+  });
+
+  it('should be able to set attributes after append', async () => {
+    const elem: any = new IdsLookup();
+    document.body.appendChild(elem);
+    elem.id = 'test';
+    elem.value = '102,103';
+    elem.dirtyTracker = true;
+
+    expect(elem.getAttribute('id')).toEqual('test');
+    expect(elem.getAttribute('value')).toEqual('102,103');
+    expect(elem.getAttribute('dirty-tracker')).toEqual('true');
   });
 });

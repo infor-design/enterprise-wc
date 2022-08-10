@@ -82,9 +82,6 @@ export default class IdsLookup extends Base {
       attributes.FIELD,
       attributes.LABEL,
       attributes.MODE,
-      attributes.PAGINATION,
-      attributes.PAGE_NUMBER,
-      attributes.PAGE_SIZE,
       attributes.READONLY,
       attributes.TABBABLE,
       attributes.TITLE,
@@ -185,7 +182,7 @@ export default class IdsLookup extends Base {
    */
   set value(value: string) {
     this.setAttribute('value', value);
-    this.triggerField.value = value;
+    if (this.triggerField) this.triggerField.value = value;
 
     if (value && !this.disabled && !this.readonly) {
       this.#showClearButton();
@@ -437,14 +434,14 @@ export default class IdsLookup extends Base {
    * Hide clear button when value is empty
    */
   #hideClearButton(): void {
-    this.triggerClearButton.container.style.display = 'none';
+    if (this.triggerClearButton) this.triggerClearButton.container.style.display = 'none';
   }
 
   /**
    * Show clear button when value is not empty
    */
   #showClearButton(): void {
-    this.triggerClearButton.container.style.display = 'flex';
+    if (this.triggerClearButton) this.triggerClearButton.container.style.display = 'flex';
   }
 
   /**
