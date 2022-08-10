@@ -89,7 +89,7 @@ export default class IdsTag extends Base {
           this.container.style.borderColor = value;
         } else {
           this.container.classList.add(value);
-          if (value !== 'secondary') {
+          if (value !== 'secondary' && value !== 'caution') {
             this.container.classList.add('ids-white');
           }
         }
