@@ -1,6 +1,7 @@
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { stripTags, stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
+import type { IdsLabelStateMode } from './ids-label-state-common';
+import { IdsLabelStateAttributes, isLabelRequiredValid } from './ids-label-state-common';
 
 /**
  * A mixin that will provide the container element of an IdsInputComponent with a class
@@ -29,9 +30,7 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.LABEL,
-      attributes.LABEL_REQUIRED,
-      attributes.LABEL_STATE
+      ...IdsLabelStateAttributes
     ];
   }
 
@@ -82,45 +81,43 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value: string | boolean) {
-    const isValid = typeof value !== 'undefined' && value !== null;
-    const val = isValid ? stringToBool(value) : true;
-    if (isValid) {
-      this.setAttribute(attributes.LABEL_REQUIRED, val);
+    const safeValue = isLabelRequiredValid(value);
+    if (safeValue) {
+      this.setAttribute(attributes.LABEL_REQUIRED, safeValue);
     } else {
       this.removeAttribute(attributes.LABEL_REQUIRED);
     }
-    this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
+    this.labelEl?.classList[!safeValue ? 'add' : 'remove']('no-required-indicator');
   }
 
   get labelRequired(): boolean {
-    const value = this.getAttribute(attributes.LABEL_REQUIRED);
-    return value !== null ? stringToBool(value) : true;
+    return isLabelRequiredValid(this.getAttribute(attributes.LABEL_REQUIRED));
   }
 
   /**
-   * @returns {Array<string>} List of available hidden label states
+   * @returns {Array<IdsLabelStateMode>} List of available hidden label states
    */
   labelStates = ['hidden', 'collapsed'];
 
   /**
-   * @returns {string|null} the current state of the field label's visibility
+   * @returns {IdsLabelStateMode} the current state of the field label's visibility
    */
   get labelState() {
     return this.state?.labelState || null;
   }
 
   /**
-   * @param {string|null} val the type of label visibility to apply to the field
+   * @param {IdsLabelStateMode} val the type of label visibility to apply to the field
    */
-  set labelState(val) {
-    let safeValue: any = null;
+  set labelState(val: IdsLabelStateMode) {
+    let safeValue: IdsLabelStateMode = null;
     if (typeof val === 'string') {
-      safeValue = stripTags(val, '');
+      safeValue = (stripTags(val, '') as IdsLabelStateMode);
     }
 
-    const currentValue: any = this.state.labelState;
+    const currentValue: IdsLabelStateMode = this.state.labelState;
     if (currentValue !== safeValue) {
-      if (this.labelStates.includes(safeValue)) {
+      if (safeValue !== null && this.labelStates.includes(safeValue)) {
         this.setAttribute(attributes.LABEL_STATE, `${safeValue}`);
       } else {
         this.removeAttribute(attributes.LABEL_STATE);
@@ -140,7 +137,7 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
    * @param {string} newVariantName the variant name to "add" to the style
    * @returns {void}
    */
-  #refreshLabelState(oldVariantName: string, newVariantName: string): void {
+  #refreshLabelState(oldVariantName: IdsLabelStateMode, newVariantName: IdsLabelStateMode): void {
     const cl = this.container.classList;
 
     if (oldVariantName) cl.remove(`label-state-${oldVariantName}`);
@@ -154,7 +151,7 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
     }
   }
 
-  #setlabelState(doHide: boolean | string = false) {
+  #setlabelState(doHide: IdsLabelStateMode = null) {
     if (doHide) {
       this.#hideLabel();
       this.input?.setAttribute(htmlAttributes.ARIA_LABEL, this.label);

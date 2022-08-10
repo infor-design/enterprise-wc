@@ -2,6 +2,8 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
+import type { IdsLabelStateMode } from '../../mixins/ids-label-state-mixin/ids-label-state-mixin';
+
 import Base from './ids-dropdown-base';
 import '../ids-trigger-field/ids-trigger-field';
 import '../ids-trigger-field/ids-trigger-button';
@@ -26,6 +28,7 @@ type IdsListBoxOptions = Array<IdsListBoxOption>;
  * @type {IdsDropdown}
  * @inherits IdsElement
  * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsLabelStateMarshallerMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
@@ -72,6 +75,8 @@ export default class IdsDropdown extends Base {
       attributes.DISABLED,
       attributes.GROUP,
       attributes.LABEL,
+      attributes.LABEL_STATE,
+      attributes.LABEL_REQUIRED,
       attributes.NO_MARGINS,
       attributes.READONLY,
       attributes.SIZE,
@@ -96,12 +101,20 @@ export default class IdsDropdown extends Base {
     if (this.input) this.input.colorVariant = this.colorVariant;
   }
 
+  onLabelChange(): void {
+    if (this.input) this.input.label = this.label;
+  }
+
   /**
    * Push label-state to the container element
    * @returns {void}
    */
-  onlabelStateChange(): void {
+  onLabelStateChange(): void {
     if (this.input) this.input.labelState = this.labelState;
+  }
+
+  onLabelRequiredChange(): void {
+    if (this.input) this.input.labelRequired = this.labelRequired;
   }
 
   /**
@@ -227,19 +240,6 @@ export default class IdsDropdown extends Base {
   get input() {
     return this.container?.querySelector('ids-trigger-field');
   }
-
-  /**
-   * Set the `label` text
-   * @param {string} value of the `label` text property
-   */
-  set label(value: string) {
-    this.setAttribute('label', value);
-    if (this.input) {
-      this.input.label = value;
-    }
-  }
-
-  get label(): string { return this.getAttribute('label'); }
 
   /**
    * Set the value of the dropdown using the value/id attribute if present
