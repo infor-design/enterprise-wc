@@ -14,6 +14,7 @@ import styles from './ids-lookup.scss';
  * IDS Lookup Component
  * @type {IdsLookup}
  * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsLabelStateParentMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
@@ -80,7 +81,6 @@ export default class IdsLookup extends Base {
       attributes.AUTOCOMPLETE,
       attributes.DISABLED,
       attributes.FIELD,
-      attributes.LABEL,
       attributes.MODE,
       attributes.READONLY,
       attributes.TABBABLE,
@@ -190,16 +190,21 @@ export default class IdsLookup extends Base {
 
   get value(): string { return this.getAttribute('value'); }
 
-  /**
-   * Set the `label` text
-   * @param {string} value of the `label` text property
-   */
-  set label(value: string) {
-    this.setAttribute('label', value);
-    this.triggerField.setAttribute('label', value);
+  onLabelChange(): void {
+    if (this.input) this.input.label = this.label;
   }
 
-  get label(): string { return this.getAttribute('label') || ''; }
+  /**
+   * Push label-state to the container element
+   * @returns {void}
+   */
+  onLabelStateChange(): void {
+    if (this.input) this.input.labelState = this.labelState;
+  }
+
+  onLabelRequiredChange(): void {
+    if (this.input) this.input.labelRequired = this.labelRequired;
+  }
 
   /**
    * Sets the readonly state of the field

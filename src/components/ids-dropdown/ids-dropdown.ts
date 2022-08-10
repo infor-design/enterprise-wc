@@ -1,9 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
-import type { IdsLabelStateMode } from '../../mixins/ids-label-state-mixin/ids-label-state-mixin';
-
 import Base from './ids-dropdown-base';
 import '../ids-trigger-field/ids-trigger-field';
 import '../ids-trigger-field/ids-trigger-button';
@@ -28,7 +25,7 @@ type IdsListBoxOptions = Array<IdsListBoxOption>;
  * @type {IdsDropdown}
  * @inherits IdsElement
  * @mixes IdsDirtyTrackerMixin
- * @mixes IdsLabelStateMarshallerMixin
+ * @mixes IdsLabelStateParentMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
@@ -74,9 +71,6 @@ export default class IdsDropdown extends Base {
       attributes.ALLOW_BLANK,
       attributes.DISABLED,
       attributes.GROUP,
-      attributes.LABEL,
-      attributes.LABEL_STATE,
-      attributes.LABEL_REQUIRED,
       attributes.NO_MARGINS,
       attributes.READONLY,
       attributes.SIZE,

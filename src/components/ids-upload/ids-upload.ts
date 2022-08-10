@@ -18,7 +18,7 @@ const ID = 'ids-upload-id';
  * @type {IdsUpload}
  * @inherits IdsElement
  * @mixes IdsThemeMixin
- * @mixes IdsLabelStateMixin
+ * @mixes IdsLabelStateParentMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsFieldHeightMixin
@@ -77,12 +77,20 @@ export default class IdsUpload extends Base {
     this.textInput.colorVariant = this.colorVariant;
   }
 
+  onLabelChange(): void {
+    if (this.textInput) this.textInput.label = this.label;
+  }
+
   /**
    * Push label-state to the trigger-field element
    * @returns {void}
    */
-  onlabelStateChange(): void {
+  onLabelStateChange(): void {
     this.textInput.labelState = this.labelState;
+  }
+
+  onLabelRequiredChange(): void {
+    if (this.textInput) this.textInput.labelRequired = this.labelRequired;
   }
 
   /**

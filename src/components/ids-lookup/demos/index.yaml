@@ -8,3 +8,6 @@
   - link: example.html
     type: Main Example
     description: Shows several lookup types and states
+  - link: label-state.html
+    type: Test
+    description: Showing an example with hidden labels
