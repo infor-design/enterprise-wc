@@ -1,3 +1,4 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
 describe('Ids Button e2e Tests', () => {
@@ -5,7 +6,6 @@ describe('Ids Button e2e Tests', () => {
 
   beforeEach(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    // await page.waitForTimeout(2000);
   });
 
   it('should not have errors', async () => {
@@ -15,7 +15,8 @@ describe('Ids Button e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests();
+    const results = await new AxePuppeteer(page).analyze();
+    expect(results.violations.length).toBe(0);
   });
 
   it('should not have memory leaks', async () => {
