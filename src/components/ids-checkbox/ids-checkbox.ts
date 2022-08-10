@@ -12,6 +12,7 @@ import styles from './ids-checkbox.scss';
  * @type {IdsCheckbox}
  * @inherits IdsElement
  * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsLabelStateMixin
  * @mixes IdsHitboxMixin
  * @mixes IdsValidationMixin
  * @mixes IdsEventsMixin
@@ -43,8 +44,6 @@ export default class IdsCheckbox extends Base {
       attributes.DISABLED,
       attributes.HORIZONTAL,
       attributes.INDETERMINATE,
-      attributes.LABEL,
-      attributes.LABEL_REQUIRED,
       attributes.LABEL_AUDIBLE,
       attributes.VALUE,
       attributes.MODE
@@ -85,11 +84,12 @@ export default class IdsCheckbox extends Base {
     checkboxClass += stringToBool(this.indeterminate) ? ' indeterminate' : '';
     checkboxClass = ` class="${checkboxClass}"`;
     const rInd = !(stringToBool(this.labelRequired) || this.labelRequired === null);
-    const labelClass = rInd ? ' class="no-required-indicator"' : '';
+    const hiddenLabelCss = !this.label.length || this.labelState === 'hidden' ? ' empty' : '';
+    const requiredLabelCss = rInd ? ' no-required-indicator' : '';
 
     return `
       <div${rootClass}${color} part="root">
-        <label${labelClass} part="label">
+        <label class="ids-label-text${requiredLabelCss}${hiddenLabelCss}" part="label">
           <input part="input" type="checkbox"${checkboxClass}${disabled}${checked}>
           <span class="checkmark${checked}" part="checkmark"></span>
           <ids-text${audible} class="label-checkbox" part="label-checkbox">${this.label}</ids-text>
@@ -273,29 +273,16 @@ export default class IdsCheckbox extends Base {
   get indeterminate(): boolean | string { return this.getAttribute(attributes.INDETERMINATE); }
 
   /**
-   * Set the `label` text
-   * @param {string | boolean} value of the `label` text property
+   * Set the label text
+   * @private
+   * @param {string} value of label
+   * @returns {void}
    */
-  set label(value: string | boolean) {
-    const labelText = this.labelEl?.querySelector('.label-checkbox');
-    if (value) {
-      this.setAttribute(attributes.LABEL, value);
-    } else {
-      this.removeAttribute(attributes.LABEL);
-    }
-    if (labelText) {
-      labelText.innerHTML = value || '';
-    }
+  /*
+  setLabelText(value: string): void {
+    return super.setLabelText(value, '.label-checkbox');
   }
-
-  get label(): boolean | string {
-    const attr = this.getAttribute(attributes.LABEL);
-    const labelAudibleAttr = this.getAttribute(attributes.LABEL_AUDIBLE);
-    if (!attr && !labelAudibleAttr) {
-      return '&nbsp;';
-    }
-    return attr || '';
-  }
+  */
 
   /**
    * Set the `label-audible` attribute

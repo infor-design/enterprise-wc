@@ -198,10 +198,10 @@ export default class IdsInput extends Base {
     containerClass += stringToBool(this.noMargins) ? ' no-margins' : '';
 
     const ariaLabel = this.hasAttribute(attributes.LABEL_STATE) && this.label ? `aria-label="${this.label}"` : '';
-    const hiddenLabelCss = !this.label || this.getAttribute(attributes.LABEL_STATE) === 'hidden' ? ' empty' : '';
+    const hiddenLabelCss = !this.label.length || this.labelState === 'hidden' ? ' empty' : '';
     const requiredLabelCss = !this.labelRequired ? ' no-required-indicator' : '';
     const labelHtml = `<label
-      class="ids-label-text${hiddenLabelCss}${requiredLabelCss}"
+      class="ids-label-text${requiredLabelCss}${hiddenLabelCss}"
       for="${this.id}-input"
       part="label"
       ${attrs.readonly}
@@ -410,11 +410,7 @@ export default class IdsInput extends Base {
    * @returns {void}
    */
   setLabelText(value: string): void {
-    const labelEl = this.#labelEl || (this.shadowRoot && this.shadowRoot.querySelector(`[for="${this.id}-input"]`));
-    if (labelEl) {
-      labelEl.querySelector('ids-text').innerHTML = value || '';
-      labelEl.classList[value ? 'remove' : 'add']('empty');
-    }
+    return super.setLabelText(value, `[for="${this.id}-input"]`);
   }
 
   /**

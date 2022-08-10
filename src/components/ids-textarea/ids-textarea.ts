@@ -101,7 +101,8 @@ export default class IdsTextarea extends Base {
     // Textarea
     const value = this.value || '';
     const rows = this.rows ? ` rows="${this.rows}"` : '';
-    const hiddenLabelCss = !this.label || this.getAttribute(attributes.LABEL_STATE) === 'hidden' ? ' empty' : '';
+    const ariaLabel = this.hasAttribute(attributes.LABEL_STATE) && this.label ? `aria-label="${this.label}"` : '';
+    const hiddenLabelCss = !this.label.length || this.labelState === 'hidden' ? ' empty' : '';
     const requiredLabelCss = !this.labelRequired ? ' no-required-indicator' : '';
     const maxlength = this.maxlength ? ` maxlength="${this.maxlength}"` : '';
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
@@ -119,11 +120,11 @@ export default class IdsTextarea extends Base {
       <div class="ids-textarea${textareaState}">
         ${printable}
         <slot class="hidden"></slot>
-        <label for="${ID}" class="ids-label-text${hiddenLabelCss}${requiredLabelCss}">
+        <label for="${ID}" class="ids-label-text${requiredLabelCss}${hiddenLabelCss}">
           <ids-text part="label" label ${textareaState} color-unset>${this.label}</ids-text>
         </label>
         <div class="field-container ${this.size}">
-          <textarea part="textarea" id="${ID}"${textareaClass}${placeholder}${textareaState}${maxlength}${rows}>${value}</textarea>
+          <textarea part="textarea" id="${ID}"${textareaClass}${placeholder}${textareaState}${maxlength}${rows}${ariaLabel} value="${value}"></textarea>
         </div>
         ${counter}
       </div>
@@ -243,11 +244,7 @@ export default class IdsTextarea extends Base {
    * @returns {void}
    */
   setLabelText(value: string): void {
-    const labelEl = this.#labelEl || this.shadowRoot?.querySelector(`[for="${ID}"]`);
-    if (labelEl) {
-      labelEl.querySelector('ids-text').innerHTML = value || '';
-      labelEl.classList[value ? 'remove' : 'add']('empty');
-    }
+    return super.setLabelText(value, `[for="${ID}"]`);
   }
 
   /**

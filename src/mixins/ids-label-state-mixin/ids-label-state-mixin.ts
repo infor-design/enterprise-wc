@@ -15,6 +15,7 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
     if (!this.state) {
       this.state = {};
     }
+    this.state.label = '';
     this.state.labelState = null;
   }
 
@@ -43,16 +44,38 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
     const currentValue = this.label;
 
     if (newValue !== currentValue) {
-      if (value) {
-        this.setAttribute(attributes.LABEL, value.toString());
+      if (this.state) this.state.label = newValue;
+      if (newValue) {
+        this.setAttribute(attributes.LABEL, `${newValue}`);
       } else {
         this.removeAttribute(attributes.LABEL);
       }
-      this.setLabelText(value);
+      this.setLabelText(newValue);
     }
   }
 
-  get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
+  get label(): string { return this.state?.label || ''; }
+
+  /**
+   * Used for setting the text contents of the shadowroot label
+   * @param {string} [value] of label
+   * @param {string} [selector] used to target a specific element in the shadowroot by CSS selector
+   * @returns {void}
+   */
+  setLabelText(value = this.state?.label, selector = 'label'): void {
+    const sanitizedValue = stripHTML(value);
+    const labelEl = this.shadowRoot?.querySelector(selector);
+    if (labelEl) {
+      const textEl = labelEl.querySelector('ids-text');
+      if (!this.labelState) {
+        if (textEl) textEl.innerHTML = sanitizedValue || '';
+        labelEl.classList[sanitizedValue ? 'remove' : 'add']('empty');
+      } else {
+        if (textEl) textEl.innerHTML = '';
+        labelEl.classList.add('empty');
+      }
+    }
+  }
 
   /**
    * Set `label-required` attribute
