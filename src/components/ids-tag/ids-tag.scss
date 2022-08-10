@@ -112,7 +112,11 @@
 }
 
 // Handle white coloring
-.ids-white ::slotted(ids-icon),
+.ids-white ::slotted(ids-icon) {
+  @include text-slate-20();
+}
+
+// Adjust hover state
 .ids-white ::slotted(ids-icon:hover) {
   @include text-white();
 }
