@@ -1,3 +1,5 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Color Picker e2e Tests', () => {
   const axeUrl = 'http://localhost:4444/ids-color-picker/axe.html';
   const url = 'http://localhost:4444/ids-color-picker/example.html';
@@ -9,7 +11,8 @@ describe('Ids Color Picker e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(axeUrl, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests({ disabledRules: ['landmark-one-main', 'page-has-heading-one', 'region'] });
+    const results = await new AxePuppeteer(page).disableRules(['landmark-one-main', 'page-has-heading-one', 'region']).analyze();
+    expect(results.violations.length).toBe(0);
   });
 
   it('should not have errors', async () => {

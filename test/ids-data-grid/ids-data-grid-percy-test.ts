@@ -127,6 +127,6 @@ describe('Ids Data Grid Other Percy Tests', () => {
   it('should not have visual regressions in column frozen (percy)', async () => {
     await page.goto('http://localhost:4444/ids-data-grid/alternate-row-shading.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
-    await percySnapshot(page, 'ids-data-grid-columns-frozen-light');
+    await percySnapshot(page, 'ids-data-grid-columns-row-shading');
   });
 });

@@ -1,3 +1,5 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 const imgSrcExists = '../assets/images/placeholdeer-60x60.png';
 const imgSrcNotFound = '../assets/images/non-existant.jpg';
 const placeholderEl = '#e2e-placeholder';
@@ -17,7 +19,8 @@ describe('Ids Image e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests();
+    const results = await new AxePuppeteer(page).analyze();
+    expect(results.violations.length).toBe(0);
   });
 
   it('should render placeholder on image error', async () => {
