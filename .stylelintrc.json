@@ -29,6 +29,7 @@
     "selector-type-no-unknown":  [true, {
       "ignore": ["custom-elements"]
     }],
+    "selector-not-notation": null,
     "string-quotes": "single",
     "import-notation": null,
     "scss/at-mixin-argumentless-call-parentheses": null,
