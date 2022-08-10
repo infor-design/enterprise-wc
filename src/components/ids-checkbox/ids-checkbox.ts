@@ -273,57 +273,6 @@ export default class IdsCheckbox extends Base {
   get indeterminate(): boolean | string { return this.getAttribute(attributes.INDETERMINATE); }
 
   /**
-   * Set the label text
-   * @private
-   * @param {string} value of label
-   * @returns {void}
-   */
-  /*
-  setLabelText(value: string): void {
-    return super.setLabelText(value, '.label-checkbox');
-  }
-  */
-
-  /**
-   * Set the `label-audible` attribute
-   * @param {string | boolean} value of the `labelAudible`
-   */
-  set labelAudible(value: string | boolean) {
-    this.setAttribute(attributes.LABEL_AUDIBLE, value);
-    const idsTextElem = this.labelEl?.querySelector('ids-text');
-    if (stringToBool(value)) {
-      idsTextElem.setAttribute(attributes.AUDIBLE, value);
-    } else {
-      idsTextElem.removeAttribute(attributes.AUDIBLE);
-    }
-  }
-
-  get labelAudible(): boolean | string {
-    const attr = this.getAttribute(attributes.LABEL_AUDIBLE);
-    const labelAttr = this.getAttribute(attributes.LABEL);
-    if (!labelAttr && !attr) {
-      return '&nbsp;';
-    }
-    return attr;
-  }
-
-  /**
-   * Sets the checkbox to required
-   * @param {string | boolean} value The `label-required` attribute
-   */
-  set labelRequired(value: string | boolean) {
-    const val = stringToBool(value);
-    if (value) {
-      this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
-    } else {
-      this.removeAttribute(attributes.LABEL_REQUIRED);
-    }
-    this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
-  }
-
-  get labelRequired() { return this.getAttribute(attributes.LABEL_REQUIRED); }
-
-  /**
    * Set the checkbox `value` attribute
    * @param {string | boolean} val the value property
    */
