@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.1 Fixes
 
+- `[General]` Many components have been changed to use `IdsLabelStateMixin` or `IdsLabelStateParentMixin` for setting label attributes. ([#637](https://github.com/infor-design/enterprise-wc/issues/637))
 - `[ActionSheet]` Updated `btnText` to `cancelBtnText` and fixed the setter update to update the DOM text when called (which was not working). ([#505](https://github.com/infor-design/enterprise-wc/pull/505))
 - `[About]` Fixed scrolling issue with pointer event and adjusted text to screen size. ([#701](https://github.com/infor-design/enterprise-wc/pull/701))
 - `[ActionPanel]` Renamed `Contextual Action Panel` to `Action Panel`. ([#774](https://github.com/infor-design/enterprise-wc/pull/774))
