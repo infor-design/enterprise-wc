@@ -201,7 +201,7 @@ export default class IdsDropdown extends Base {
     const selected = this.selectedOption || this.querySelector('ids-list-box-option');
     this.listBox?.setAttribute('tabindex', '0');
 
-    if (selected) {
+    if (selected && this.value) {
       this.selectOption(selected);
 
       if (!this.typeahead) {
@@ -250,15 +250,15 @@ export default class IdsDropdown extends Base {
   set value(value: string) {
     const elem = this.querySelector(`ids-list-box-option[value="${value}"]`);
 
-    if (!elem) {
+    if (!elem && !this.clearable) {
       return;
     }
     this.#clearSelected();
     this.selectOption(elem);
     this.selectIcon(elem);
     this.selectTooltip(elem);
-    if (this.input) this.input.value = value === 'blank' ? '' : (elem as any).textContent.trim();
-    this.state.selectedIndex = [...(elem.parentElement as any).children].indexOf(elem);
+    if (this.input) this.input.value = value === 'blank' ? '' : (elem as any)?.textContent.trim();
+    this.state.selectedIndex = [...((elem?.parentElement as any)?.children || [])].indexOf(elem);
 
     // Send the change event
     if (this.value === value) {
@@ -473,7 +473,7 @@ export default class IdsDropdown extends Base {
    * @param {HTMLElement} option the option to select
    */
   selectTooltip(option: HTMLElement) {
-    const tooltip = option.getAttribute('tooltip');
+    const tooltip = option?.getAttribute('tooltip');
     if (tooltip) {
       this.tooltip = tooltip;
     }
@@ -757,6 +757,11 @@ export default class IdsDropdown extends Base {
         selected.nextElementSibling.focus();
       }
 
+      // Handles a case when the value is cleared
+      if (e.key === 'ArrowDown' && !selected) {
+        this.#selectFirstOption();
+      }
+
       if (e.key === 'ArrowUp' && selected?.previousElementSibling) {
         this.deselectOption(selected);
         this.selectOption(selected.previousElementSibling);
@@ -802,15 +807,17 @@ export default class IdsDropdown extends Base {
 
     // Delete/backspace should clear the value
     this.listen(['Backspace', 'Delete'], this, () => {
-      if (this.clearable && (this.input.value || this.value?.length !== 0)) {
-        if (this.allowBlank) {
-          this.value = 'blank';
-        } else {
-          this.value = '';
-          this.input.value = '';
-        }
-        this.input.focus();
+      if (!this.clearable || (this.clearable && this.typeahead && this.popup.visible)) return;
+
+      if (this.allowBlank) {
+        this.value = 'blank';
+      } else {
+        // ids-multiselect shared
+        (this.value as any) = Array.isArray(this.value) ? [] : '';
+        this.input.value = '';
       }
+
+      this.input.focus();
     });
 
     return this;
@@ -825,9 +832,13 @@ export default class IdsDropdown extends Base {
     // Accepts the keyboard input while closed
     const excludeKeys = ['Backspace', 'Delete'];
 
-    if (!this.popup.visible && !excludeKeys.some((item) => text?.includes(item))) {
-      this.input.value = text;
-      this.open(false);
+    if (!this.popup.visible) {
+      if (!excludeKeys.some((item) => text?.includes(item))) {
+        this.input.value = text;
+        this.open(false);
+      } else {
+        return;
+      }
     }
 
     const inputValue: string = this.input.value;
@@ -1029,7 +1040,7 @@ export default class IdsDropdown extends Base {
   }
 
   /**
-   * When set the trigger button will be a clearable x button when typing started
+   * When set the value can be cleared with Backspace/Delete
    * @param {boolean|string|null} value clearable value
    */
   set clearable(value: boolean | string | null) {
@@ -1044,6 +1055,10 @@ export default class IdsDropdown extends Base {
 
   get clearable() { return stringToBool(this.getAttribute(attributes.CLEARABLE)); }
 
+  /**
+   * When set the blank option will have a text
+   * @param {string|null} value blank option text
+   */
   set clearableText(value: string | null) {
     if (value) {
       this.setAttribute(attributes.CLEARABLE_TEXT, value);

@@ -431,48 +431,40 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.popup.visible).toBeTruthy();
   });
 
-  it('supports clearable for regular dropdown', () => {
+  it('should clear value if clearable is set', () => {
     dropdown.clearable = true;
     expect(dropdown.clearable).toBeTruthy();
 
     // Backspace on the focused closed dropdown
     dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace' }));
-    expect(dropdown.trigger.dataset.clearable).toBeTruthy();
-    expect(dropdown.container.querySelector('ids-icon[slot="icon"]')?.icon).toEqual('close');
+    expect(dropdown.input.value).toEqual('');
+    expect(dropdown.value).toEqual('');
 
-    // Clearable clicked
-    dropdown.trigger.dispatchEvent(new MouseEvent('click'));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(dropdown.value).toEqual('opt1');
+
+    // With blank option
+    dropdown.allowBlank = true;
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace' }));
+    expect(dropdown.input.value).toEqual('');
     expect(dropdown.value).toEqual('blank');
 
     dropdown.clearable = false;
     expect(dropdown.clearable).toBeFalsy();
-
-    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace' }));
-    expect(dropdown.trigger.dataset.clearable).toBeFalsy();
-    expect(dropdown.container.querySelector('ids-icon[slot="icon"]')?.icon).toEqual('dropdown');
   });
 
-  it('supports clearable for typeahead dropdown', async () => {
-    dropdown.clearable = true;
-    dropdown.typeahead = true;
+  it('should handle custom text for blank option', () => {
+    const clearText = '(Custom Clear Text)';
+    dropdown.allowBlank = true;
+    dropdown.clearableText = clearText;
 
-    // Open dropdown by clicking to the input
-    dropdown.input.input.dispatchEvent(new MouseEvent('click'));
-    expect(dropdown.popup.visible).toEqual(true);
+    expect(dropdown.getAttribute('clearable-text')).toEqual(clearText);
+    expect(dropdown.querySelector(`ids-list-box-option[value="blank"]`)?.textContent).toEqual(clearText);
 
-    // Typing v letter (only Option Five to match)
-    dropdown.input.value = 'v';
-    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'v' }));
-    await wait(600);
-
-    expect(dropdown.trigger.dataset.clearable).toBeTruthy();
-    expect(dropdown.container.querySelector('ids-icon[slot="icon"]')?.icon).toEqual('close');
-
-    // Clearable clicked
-    dropdown.trigger.dispatchEvent(new MouseEvent('click'));
-    expect(dropdown.value).toEqual('blank');
-    expect(dropdown.trigger.dataset.clearable).toBeFalsy();
-    expect(dropdown.container.querySelector('ids-icon[slot="icon"]')?.icon).toEqual('search');
+    dropdown.clearableText = null;
+    expect(dropdown.getAttribute('clearable-text')).toBeNull();
   });
 
   it('supports clicking trigger to open', async () => {
