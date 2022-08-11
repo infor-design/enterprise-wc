@@ -230,25 +230,10 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
       this.pageNumber = Number(event.detail.value);
     });
 
-    const popupMenu: any = this.pager.querySelector('ids-popup-menu');
-    if (popupMenu) {
-      this.offEvent('selected', popupMenu);
-      this.onEvent('selected', popupMenu, (evt: CustomEvent) => {
-        const oldPageSize = this.pageSize;
-        const newPageSize = evt.detail?.value || oldPageSize;
-        if (newPageSize !== oldPageSize) {
-          this.pageSize = newPageSize;
-
-          this.triggerEvent('pagenumberchange', this.pager, {
-            bubbles: true,
-            detail: {
-              elem: this.pager,
-              value: this.pageNumber,
-            }
-          });
-        }
-      });
-    }
+    this.offEvent('pagesizechange', this.pager);
+    this.onEvent('pagesizechange', this.pager, (event: CustomEvent) => {
+      this.pageSize = Number(event.detail.value);
+    });
   }
 };
 

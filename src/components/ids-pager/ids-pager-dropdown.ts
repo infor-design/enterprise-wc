@@ -30,13 +30,13 @@ export default class IdsPagerDropdown extends Base {
    * Reference to ids-menu-button#pager-size-menu-button
    * @returns {HTMLElement} <ids-menu-button>
    */
-  get menuButton(): any { return this.container.querySelector('ids-menu-button'); }
+  get menuButton(): any { return this.container?.querySelector('ids-menu-button'); }
 
   /**
    * Reference to ids-popup-menu#pager-size-menu
    * @returns {HTMLElement} <ids-popup-menu>
    */
-  get popupMenu(): any { return this.container.querySelector('ids-popup-menu'); }
+  get popupMenu(): any { return this.container?.querySelector('ids-popup-menu'); }
 
   static get attributes(): Array<string> {
     return [
@@ -51,6 +51,7 @@ export default class IdsPagerDropdown extends Base {
 
   template(): string {
     const pageSize = Math.max(this.pageSize || 0, 1);
+
     return `
       <div class="ids-pager-dropdown">
         <ids-menu-button id="pager-size-menu-button" menu="pager-size-menu" role="button" dropdown-icon>
@@ -67,35 +68,6 @@ export default class IdsPagerDropdown extends Base {
         </ids-popup-menu>
       </div>
     `;
-  }
-
-  connectedCallback(): void {
-    super.connectedCallback?.();
-
-    const popupMenu: any = this.popupMenu;
-    if (popupMenu) {
-      const popupMenuGroup = popupMenu.querySelector('ids-menu-group');
-
-      if (popupMenu.popup) {
-        popupMenu.popup.type = 'menu';
-      }
-      popupMenuGroup.style.minWidth = '175px';
-      popupMenuGroup.style.textAlign = 'left';
-
-      this.offEvent('selected', popupMenu);
-      this.onEvent('selected', popupMenu, (evt: CustomEvent) => {
-        const oldPageSize = this.pageSize;
-        const newPageSize = evt.detail?.value || oldPageSize;
-        if (newPageSize !== oldPageSize) {
-          this.pageSize = newPageSize;
-
-          this.triggerEvent('pagesizechange', this, {
-            bubbles: true,
-            detail: { elem: this, value: newPageSize }
-          });
-        }
-      });
-    }
   }
 
   /**
@@ -130,5 +102,45 @@ export default class IdsPagerDropdown extends Base {
    * Get the page-size attribute
    * @returns {number} - the current page-size
    */
-  get pageSize(): number { return parseInt(this.getAttribute(attributes.PAGE_SIZE)) || 1; }
+  get pageSize(): number { return parseInt(this.getAttribute(attributes.PAGE_SIZE)) || 10; }
+
+  connectedCallback(): void {
+    super.connectedCallback?.();
+
+    const popupMenu: any = this.popupMenu;
+    if (popupMenu) {
+      if (popupMenu.popup) {
+        popupMenu.popup.type = 'menu';
+      }
+    }
+
+    const popupMenuGroup = popupMenu?.querySelector('ids-menu-group');
+    if (popupMenuGroup) {
+      popupMenuGroup.style.minWidth = '175px';
+      popupMenuGroup.style.textAlign = 'left';
+      popupMenu.setSelectedValues(String(this.pageSize), popupMenuGroup);
+    }
+
+    this.#attachEventListeners();
+  }
+
+  #attachEventListeners() {
+    const popupMenu: any = this.popupMenu;
+    if (popupMenu) {
+      this.offEvent('selected', popupMenu);
+      this.onEvent('selected', popupMenu, (evt: CustomEvent) => {
+        const oldPageSize = this.pageSize;
+        const newPageSize = evt.detail?.value || oldPageSize;
+        if (newPageSize !== oldPageSize) {
+          this.pageSize = newPageSize;
+
+          this.triggerEvent('pagesizechange', this, {
+            bubbles: true,
+            composed: true,
+            detail: { elem: this, value: newPageSize }
+          });
+        }
+      });
+    }
+  }
 }
