@@ -38,13 +38,13 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
  * IDS Textarea Component
  * @type {IdsTextarea}
  * @inherits IdsElement
- * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
  * @mixes IdsClearableMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsLabelStateMixin
- * @mixes IdsValidationMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsValidationMixin
  * @part textarea - the textarea element
  * @part label - the label element
  */

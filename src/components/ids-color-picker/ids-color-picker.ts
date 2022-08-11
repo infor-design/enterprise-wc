@@ -12,9 +12,8 @@ import styles from './ids-color-picker.scss';
 /**
  * IDS Color Picker
  * @type {IdsColorPicker}
- * @inherits IdsElement
- * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
+ * @inherits IdsTriggerField
+ * @mixes IdsPopupOpenEventsMixin
  */
 @customElement('ids-color-picker')
 @scss(styles)

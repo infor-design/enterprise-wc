@@ -24,15 +24,17 @@ type IdsListBoxOptions = Array<IdsListBoxOption>;
  * IDS Dropdown Component
  * @type {IdsDropdown}
  * @inherits IdsElement
+ * @mixes IdsColorVariantMixin
  * @mixes IdsDirtyTrackerMixin
- * @mixes IdsLabelStateParentMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsFieldHeightMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
+ * @mixes IdsLabelStateParentMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsPopupOpenEventsMixin
- * @mixes IdsValidationMixin
+ * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
+ * @mixes IdsValidationMixin
  * @part dropdown - the tag element
  */
 @customElement('ids-dropdown')

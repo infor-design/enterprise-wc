@@ -14,11 +14,11 @@ import styles from './ids-lookup.scss';
  * IDS Lookup Component
  * @type {IdsLookup}
  * @mixes IdsDirtyTrackerMixin
- * @mixes IdsLabelStateParentMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
+ * @mixes IdsLabelStateParentMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
  * @part trigger-field - the trigger container
  * @part input - the input element

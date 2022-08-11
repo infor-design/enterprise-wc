@@ -19,12 +19,13 @@ const range: any = (start: any, stop: any, step = 1) => (
  * IDS TimePicker Component
  * @type {IdsTimePicker}
  * @inherits IdsElement
+ * @mixes IdsDirtyTrackerMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsLabelStateMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsThemeMixin
- * @mixes IdsLocaleMixin
  * @part container - the container of the component
  * @part trigger-button - the trigger button
  * @part icon - the icon in the trigger button
@@ -110,7 +111,7 @@ export default class IdsTimePicker extends Base {
    * Push label-state to the trigger-field element
    * @returns {void}
    */
-  onlabelStateChange(): void {
+  onLabelStateChange(): void {
     if (this.input) {
       this.input.labelState = this.labelState;
     }

@@ -146,8 +146,8 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
     this.#setlabelState(newVariantName);
 
     // Fire optional callback
-    if (typeof this.onlabelStateChange === 'function') {
-      this.onlabelStateChange(newVariantName);
+    if (typeof this.onLabelStateChange === 'function') {
+      this.onLabelStateChange(newVariantName);
     }
   }
 

@@ -17,14 +17,14 @@ const ID = 'ids-upload-id';
  * IDS Upload Component
  * @type {IdsUpload}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
+ * @mixes IdsColorVariantMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsEventsMixin
+ * @mixes IdsFieldHeightMixin
  * @mixes IdsLabelStateParentMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsDirtyTrackerMixin
- * @mixes IdsFieldHeightMixin
- * @mixes IdsColorVariantMixin
+ * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
- * @mixes IdsEventsMixin
  * @part container - the main container element
  * @part label - the label element
  * @part input - the visible input element

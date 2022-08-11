@@ -15,12 +15,6 @@ const MOUSE_LEFT = 0b001;
  * IDS Spinbox Component
  * @type {IdsSpinbox}
  * @inherits IdsTriggerField
- * @mixes IdsThemeMixin
- * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
- * @mixes IdsLocaleMixin
- * @mixes IdsDirtyTrackerMixin
- * @mixes IdsValidationMixin
  * @part container the overall container of the spinbox
  * @part button increment/decrement button
  * @part input input containing value/placeholder

@@ -52,7 +52,7 @@ const IdsLabelStateParentMixin = (superclass: any) => class extends superclass {
       } else {
         this.removeAttribute(attributes.LABEL_STATE);
       }
-      if (typeof this.onLabelStateChange === 'function') this.onLabelStateChange();
+      if (typeof this.onLabelStateChange === 'function') this.onLabelStateChange(value);
     }
   }
 

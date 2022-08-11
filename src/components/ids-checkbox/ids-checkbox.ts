@@ -11,13 +11,13 @@ import styles from './ids-checkbox.scss';
  * IDS Checkbox Component
  * @type {IdsCheckbox}
  * @inherits IdsElement
- * @mixes IdsDirtyTrackerMixin
- * @mixes IdsLabelStateMixin
- * @mixes IdsHitboxMixin
- * @mixes IdsValidationMixin
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsHitboxMixin
+ * @mixes IdsLabelStateMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsThemeMixin
+ * @mixes IdsValidationMixin
  * @part label - the label element
  * @part input - the checkbox input element
  * @part label-checkbox - the label text element
@@ -44,7 +44,6 @@ export default class IdsCheckbox extends Base {
       attributes.DISABLED,
       attributes.HORIZONTAL,
       attributes.INDETERMINATE,
-      attributes.LABEL_AUDIBLE,
       attributes.VALUE,
       attributes.MODE
     ];
