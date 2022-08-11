@@ -343,8 +343,9 @@ export default class IdsSpinbox extends Base {
    * @param {number | string} value spinbox' input value
    */
   set value(value) {
-    if (super.value !== parseInt(value)) {
-      super.value = this.#setValueWithinLimits(value);
+    const safeValue = `${parseInt(value)}`;
+    if (super.value !== safeValue) {
+      super.value = this.#setValueWithinLimits(safeValue);
 
       // set properties/updaters
       this.setAttribute(htmlAttributes.ARIA_VALUENOW, super.value);
@@ -461,7 +462,7 @@ export default class IdsSpinbox extends Base {
     }
 
     const hasValidValue = !Number.isNaN(parseInt(this.value));
-    this.value = (hasValidValue ? parseInt(this.value) : 0) + step;
+    this.value = `${(hasValidValue ? parseInt(this.value) : 0) + step}`;
   }
 
   /**

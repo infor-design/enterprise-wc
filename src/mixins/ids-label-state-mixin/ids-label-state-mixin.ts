@@ -82,7 +82,7 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
    */
   set labelRequired(value: string | boolean) {
     const safeValue = isLabelRequiredValid(value);
-    if (safeValue) {
+    if (value !== null) {
       this.setAttribute(attributes.LABEL_REQUIRED, safeValue);
     } else {
       this.removeAttribute(attributes.LABEL_REQUIRED);
