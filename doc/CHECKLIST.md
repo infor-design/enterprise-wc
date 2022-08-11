@@ -57,14 +57,14 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Bullet (ids-bullet-chart) skipping until needed
  - [ ] Builder (ids-patterns) skipping until needed
  - [x] Button (ids-button)
- - [ ] Calendar (ids-calendar)
+ - [x] Calendar (ids-calendar)
  - [x] Cards (ids-card)
  - [x] Checkboxes (ids-checkbox)
  - [x] Circle Pager (ids-scroll-view)
  - [x] Color Picker (ids-color-picker)
  - [ ] Column (ids-column-chart or ids-bar with a orientation setting)
  - [x] Completion Chart (ids-progress-chart)
- - [x] Contextual Action Panel (ids-contextual-action-panel)
+ - [x] (Contextual) Action Panel (ids-action-panel)
  - [x] Datagrid (ids-data-grid)
  - [x] Data Label (ids-data-label)
  - [x] Datepicker (ids-date-picker)

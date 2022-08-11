@@ -1,0 +1,14 @@
+---
+ component: Action Panel
+ link: ids-action-panel
+ description: A modal component containing complicated forms
+ category: Navigation and Interaction
+ keywords: Contextual Action Panel, Modal, Dialog, Action Panel
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows a simple Action Panel implementation
+  - link: empty.html
+    type: Example
+    description: Shows an empty Action Panel
+
