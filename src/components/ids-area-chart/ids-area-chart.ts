@@ -6,7 +6,7 @@ import styles from './ids-area-chart.scss';
 /**
  * IDS Area Chart Component
  * @type {IdsAreaChart}
- * @inherits IdsElement
+ * @inherits IdsLineChart
  * @mixes IdsEventsMixin
  * @part svg - the outside svg element
  * @part marker - the dots/markers in the chart
@@ -56,7 +56,7 @@ export default class IdsAreaChart extends Base {
           areas += `M${point.left},${point.top}L${point.left},${(this as any).markerData.gridBottom}L${pointGroup[index + 1]?.left},${(this as any).markerData.gridBottom}L${pointGroup[index + 1]?.left},${pointGroup[index + 1]?.top}`;
         }
       });
-      areaHTML += `<path class="color-${groupIndex + 1} animate" part="area" d="${areas}Z" fill="var(${(this as any).color(groupIndex)})"} group-index="${groupIndex}">
+      areaHTML += `<path class="color-${groupIndex + 1}${this.animated ? ' animate' : ''}" part="area" d="${areas}Z" fill="var(${(this as any).color(groupIndex)})"} group-index="${groupIndex}">
       </path>`;
     });
     return areaHTML;

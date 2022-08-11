@@ -31,7 +31,6 @@ describe('IdsCalendarEvent Component', () => {
   const name = 'ids-calendar-event';
   let idsContainer: any;
   let calendarEvent: any;
-  let idsText: any;
 
   beforeAll(() => {
     idsContainer = new IdsContainer();
@@ -42,7 +41,6 @@ describe('IdsCalendarEvent Component', () => {
     calendarEvent = new IdsCalendarEvent();
     calendarEvent.eventTypeData = EVENT_TYPE;
     calendarEvent.eventData = EVENT_ITEM;
-    idsText = calendarEvent.container.querySelector('ids-text');
     idsContainer.appendChild(calendarEvent);
   });
 
@@ -56,6 +54,12 @@ describe('IdsCalendarEvent Component', () => {
     calendarEvent.eventData = EVENT_ITEM;
 
     expect(document.querySelector('ids-calendar-event')).toBeDefined();
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('can be instantiated with createElement', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    document.createElement('ids-calendar-event');
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -120,7 +124,6 @@ describe('IdsCalendarEvent Component', () => {
   it('allows setting overflow', () => {
     // ellipsis by default
     expect(calendarEvent.overflow).toEqual('ellipsis');
-    expect(idsText.overflow).toEqual('ellipsis');
 
     const overflow = 'normal';
     calendarEvent.overflow = overflow;

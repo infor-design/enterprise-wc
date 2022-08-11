@@ -5,6 +5,7 @@ describe('Ids List View Percy Tests', () => {
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForTimeout(200);
     await percySnapshot(page, 'ids-listview-new-light');
   });
 });

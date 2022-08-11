@@ -31,8 +31,7 @@ export default class IdsSkiplink extends Base {
   static get attributes(): Array<string> {
     return [
       attributes.HREF,
-      attributes.MODE,
-      attributes.VERSION
+      attributes.MODE
     ];
   }
 

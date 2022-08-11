@@ -203,44 +203,6 @@
       @include text-black();
     }
   }
-
-  // Classic Light Theme
-  ids-hyperlink[mode='light'][version='classic']::part(link):focus,
-  ids-button[mode='light'][version='classic']::part(button):focus {
-    @include border-graphite-30();
-
-    box-shadow:
-      0 0 0 2px var(--ids-color-palette-graphite-10),
-      0 0 0 3px var(--ids-color-palette-azure-50),
-      0 0 4px 2px rgba(54 138 92 / 0.3);
-  }
-
-  ids-hyperlink[mode='light'][version='classic']::part(link) {
-    @include text-graphite-100();
-
-    &:hover {
-      @include text-black();
-    }
-  }
-
-  // Classic Dark Theme
-  ids-hyperlink[mode='dark'][version='classic']::part(link):focus,
-  ids-button[mode='dark'][version='classic']::part(button):focus {
-    @include border-slate-60();
-
-    box-shadow:
-      0 0 0 2px var(--ids-color-palette-classic-slate-80),
-      0 0 0 3px var(--ids-color-palette-azure-50),
-      0 0 4px 2px rgba(141 201 230 / 0.3);
-  }
-
-  ids-hyperlink[mode='dark'][version='classic']::part(link) {
-    @include text-classic-slate-10();
-
-    &:hover {
-      @include text-white();
-    }
-  }
 }
 
 // Style the title
@@ -312,6 +274,14 @@
   ids-hyperlink::part(link) {
     height: inherit;
   }
+
+  ids-button {
+    height: inherit;
+  }
+
+  ids-button::part(button) {
+    height: inherit;
+  }
 }
 
 // Handle Themes
@@ -339,41 +309,5 @@
 
   .ids-card-footer {
     @include border-slate-60();
-  }
-}
-
-.ids-card[version='classic'] .ids-card-header {
-  @include border-b-1();
-}
-
-.ids-card[mode='light'][version='classic'] {
-  @include border-graphite-30();
-  @include rounded-default();
-  @include shadow-none();
-
-  .ids-card-header {
-    @include border-graphite-30();
-  }
-}
-
-.ids-card[mode='dark'][version='classic'] {
-  @include bg-classic-slate-80();
-  @include border-classic-slate-60();
-  @include rounded-default();
-  @include shadow-none();
-
-  .ids-card-header {
-    @include border-classic-slate-60();
-  }
-}
-
-.ids-card[mode='contrast'][version='classic'] {
-  @include bg-white();
-  @include border-classic-slate-60();
-  @include rounded-default();
-  @include shadow-none();
-
-  .ids-card-header {
-    @include border-classic-slate-60();
   }
 }

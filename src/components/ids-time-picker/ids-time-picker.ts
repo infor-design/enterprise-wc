@@ -43,21 +43,17 @@ export default class IdsTimePicker extends Base {
     super();
   }
 
-  /**
-   * Elements for internal usage
-   * @private
-   */
-  #triggerButton = this.container.querySelector('ids-trigger-button');
-
   connectedCallback() {
+    super.connectedCallback();
+    this.triggerButton = this.container?.querySelector('ids-trigger-button');
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#renderDropdowns();
     this.#applyMask();
-    super.connectedCallback();
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback?.();
     this.close();
   }
 
@@ -205,8 +201,9 @@ export default class IdsTimePicker extends Base {
    * @returns {void}
    */
   onOutsideClick(e: any): void {
-    if ((!this.autoselect && !e.path?.includes(this.popup))
-    || (this.autoselect && !e.path?.includes(this.popup) && !e.path?.includes(this.input))) {
+    const path = e.path || (e.composedPath && e.composedPath());
+    if ((!this.autoselect && !path?.includes(this.popup))
+    || (this.autoselect && !path?.includes(this.popup) && !path?.includes(this.input))) {
       this.close();
     }
   }
@@ -235,7 +232,7 @@ export default class IdsTimePicker extends Base {
    */
   #attachEventHandlers(): IdsTimePicker {
     this.offEvent('change.time-picker-dropdowns');
-    this.onEvent('change.time-picker-dropdowns', this.container.querySelector('.dropdowns'), (e: any) => {
+    this.onEvent('change.time-picker-dropdowns', this.container?.querySelector('.dropdowns'), (e: any) => {
       const currentId = e.detail?.elem?.id;
 
       if (!currentId) return;
@@ -248,7 +245,7 @@ export default class IdsTimePicker extends Base {
     });
 
     this.offEvent('click.time-picker-set');
-    this.onEvent('click.time-picker-set', this.container.querySelector('.popup-btn'), () => {
+    this.onEvent('click.time-picker-set', this.container?.querySelector('.popup-btn'), () => {
       this.#setTimeOnField();
       this.close();
 
@@ -258,7 +255,7 @@ export default class IdsTimePicker extends Base {
     });
 
     this.offEvent('click.time-picker-popup');
-    this.onEvent('click.time-picker-popup', this.#triggerButton, () => {
+    this.onEvent('click.time-picker-popup', this.triggerButton, () => {
       this.#toggleTimePopup();
     });
 
@@ -290,13 +287,13 @@ export default class IdsTimePicker extends Base {
    */
   #renderDropdowns(): void {
     // Clear before rendering
-    this.container.querySelectorAll('.dropdowns ids-dropdown, .dropdowns .separator')
+    this.container?.querySelectorAll('.dropdowns ids-dropdown, .dropdowns .separator')
       .forEach((item: HTMLElement) => {
         item.remove();
       });
 
     // Adding dropdowns
-    this.container.querySelector('.dropdowns')?.insertAdjacentHTML('afterbegin', this.#dropdowns());
+    this.container?.querySelector('.dropdowns')?.insertAdjacentHTML('afterbegin', this.#dropdowns());
   }
 
   /**
@@ -512,15 +509,23 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Set the input-field's timestring value
+   * Get the input-field's timestring value
+   * @returns {string} formatted timestring
    */
-  #setTimeOnField(): void {
+  #getTimeOnField(): string {
     const date: Date = new Date();
     const dayPeriodIndex: number = this.locale?.calendar().dayPeriods?.indexOf(this.period);
 
     date.setHours(hoursTo24(this.hours, dayPeriodIndex), this.minutes, this.seconds);
 
-    const value = this.locale.formatDate(date, { pattern: this.format });
+    return this.locale.formatDate(date, { pattern: this.format });
+  }
+
+  /**
+   * Set the input-field's timestring value
+   */
+  #setTimeOnField(): void {
+    const value = this.#getTimeOnField();
 
     if (this.input) {
       this.input.value = value;
@@ -576,7 +581,7 @@ export default class IdsTimePicker extends Base {
       this.popup.visible = false;
       this.removeOpenEvents();
 
-      this.container.classList.remove('is-open');
+      this.container?.classList.remove('is-open');
       this.popup.setAttribute('tabindex', -1);
     }
   }
@@ -587,7 +592,7 @@ export default class IdsTimePicker extends Base {
   open() {
     if (!this.popup.visible && !this.disabled && !this.readonly) {
       this.popup.alignTarget = this.input?.container.querySelector('.field-container');
-      this.popup.arrowTarget = this.#triggerButton;
+      this.popup.arrowTarget = this.triggerButton;
       this.popup.align = `bottom, ${this.locale.isRTL() || ['md', 'lg', 'full'].includes(this.size) ? 'right' : 'left'}`;
       this.popup.arrow = 'bottom';
       this.popup.y = 16;
@@ -595,7 +600,7 @@ export default class IdsTimePicker extends Base {
 
       this.addOpenEvents();
 
-      this.container.classList.add('is-open');
+      this.container?.classList.add('is-open');
       this.popup.removeAttribute('tabindex');
 
       // Update dropdown values each time the popup is opened if using current time
@@ -605,7 +610,7 @@ export default class IdsTimePicker extends Base {
 
       // Focus hours dropdown
       if (!this.autoselect) {
-        this.container.querySelector('#hours')?.container.querySelector('ids-trigger-field')?.focus();
+        this.container?.querySelector('#hours')?.container.querySelector('ids-trigger-field')?.focus();
       }
     }
   }
@@ -614,7 +619,7 @@ export default class IdsTimePicker extends Base {
    * Toggle visibility for the timepicker's popup window
    */
   #toggleTimePopup() {
-    if (this.popup.visible) {
+    if (this.popup?.visible) {
       this.close();
     } else {
       this.open();
@@ -622,17 +627,17 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * @returns {any} reference to the IdsPopup component
+   * @returns {HTMLElement} reference to the IdsPopup component
    */
   get popup(): any {
-    return this.container.querySelector('ids-popup');
+    return this.container?.querySelector('ids-popup') || null;
   }
 
   /**
-   * @returns {HTMLInputElement} Reference to the IdsTriggerField
+   * @returns {HTMLElement} Reference to the IdsTriggerField
    */
   get input(): any {
-    return this.container.querySelector('ids-trigger-field');
+    return this.container?.querySelector('ids-trigger-field') || null;
   }
 
   /**
@@ -707,7 +712,7 @@ export default class IdsTimePicker extends Base {
    */
   set autoupdate(value: boolean) {
     const boolVal = stringToBool(value);
-    const popupBtn = this.container.querySelector('.popup-btn');
+    const popupBtn = this.container?.querySelector('.popup-btn');
 
     if (boolVal) {
       this.setAttribute(attributes.AUTOUPDATE, boolVal);
@@ -955,7 +960,7 @@ export default class IdsTimePicker extends Base {
       this.removeAttribute(attributes.HOURS);
     }
 
-    this.container.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.hours);
+    this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.hours);
   }
 
   /**
@@ -997,7 +1002,7 @@ export default class IdsTimePicker extends Base {
       this.removeAttribute(attributes.MINUTES);
     }
 
-    this.container.querySelector('ids-dropdown#minutes')?.setAttribute(attributes.VALUE, this.minutes);
+    this.container?.querySelector('ids-dropdown#minutes')?.setAttribute(attributes.VALUE, this.minutes);
   }
 
   /**
@@ -1032,7 +1037,7 @@ export default class IdsTimePicker extends Base {
       this.removeAttribute(attributes.SECONDS);
     }
 
-    this.container.querySelector('ids-dropdown#seconds')?.setAttribute(attributes.VALUE, this.seconds);
+    this.container?.querySelector('ids-dropdown#seconds')?.setAttribute(attributes.VALUE, this.seconds);
   }
 
   /**
@@ -1070,9 +1075,9 @@ export default class IdsTimePicker extends Base {
     // Updating hours dropdown with AM/PM range
     if (this.#hasHourRange()) {
       this.#renderDropdowns();
-      this.container.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.#getHourOptions()[0]);
+      this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.#getHourOptions()[0]);
     } else {
-      this.container.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
+      this.container?.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
     }
   }
 
@@ -1153,7 +1158,7 @@ export default class IdsTimePicker extends Base {
 
   /**
    * Set trigger field tabbable attribute
-   * @param {boolean|string|null} val true of false depending if the trigger field is tabbable
+   * @param {boolean|string|null} val true or false depending if the trigger field is tabbable
    */
   set tabbable(val: boolean | string | null) {
     this.setAttribute(attributes.TABBABLE, val);

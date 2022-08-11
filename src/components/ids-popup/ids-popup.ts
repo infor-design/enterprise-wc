@@ -48,8 +48,7 @@ export default class IdsPopup extends Base {
   }
 
   connectedCallback(): void {
-    super.connectedCallback?.();
-
+    super.connectedCallback();
     // Always setup link to containing element first
     this.containingElem = getClosest((this as any), 'ids-container') || document.body;
 
@@ -77,7 +76,9 @@ export default class IdsPopup extends Base {
    * @returns {string} The template
    */
   template(): string {
-    return `<div class="ids-popup" part="popup">
+    const animatedClass = this.animated ? ' animated' : '';
+
+    return `<div class="ids-popup${animatedClass}" part="popup">
       <div class="arrow" part="arrow"></div>
       <div class="content-wrapper">
         <slot name="content"></slot>
@@ -516,7 +517,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #refreshAnimated(): void {
-    this.container.classList[this.animated ? 'add' : 'remove']('animated');
+    this.container?.classList[this.animated ? 'add' : 'remove']('animated');
   }
 
   /**
@@ -553,6 +554,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #refreshAnimationStyle(currentStyle: string, newStyle: string) {
+    if (!this.container) return;
     const thisCl = this.container.classList;
     if (currentStyle) thisCl.remove(`animation-${currentStyle}`);
     thisCl.add(`animation-${newStyle}`);
@@ -660,6 +662,8 @@ export default class IdsPopup extends Base {
    * @param {string} newDir a CSS class representing a Popup Arrow direction
    */
   #setArrowDirection(currentDir: string | null, newDir: string | null) {
+    if (!this.container) return;
+
     const arrowElCl = this.arrowEl.classList;
     const isNone = newDir === 'none';
 
@@ -763,6 +767,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #refreshPositionStyle(currentStyle: string, newStyle: string) {
+    if (!this.container) return;
     const thisCl = this.container.classList;
     if (currentStyle) thisCl.remove(`position-${currentStyle}`);
     thisCl.add(`position-${newStyle}`);
@@ -772,6 +777,7 @@ export default class IdsPopup extends Base {
    * Runs on viewport resize to correct a CSS class that controls scrolling behavior within viewport-positioned popups
    */
   #checkViewportPositionScrolling(): void {
+    if (!this.container) return;
     const cl = this.container.classList;
     cl.remove('fit-viewport');
 
@@ -817,6 +823,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #refreshPopupTypeClass(currentType: string, newType: string) {
+    if (!this.container) return;
     const thisCl = this.container.classList;
     if (currentType) thisCl.remove(currentType);
     thisCl.add(newType);
@@ -859,6 +866,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   async refreshVisibility() {
+    if (!this.container) return;
     const cl = this.container.classList;
     if (this.#visible && !cl.contains('open')) {
       await this.show();
@@ -927,7 +935,12 @@ export default class IdsPopup extends Base {
    * @param {boolean} doShow true if the Popup should be displayed before placing
    * @param {boolean} doPlacement true if the component should run its placement routine
    */
-  setPosition(x = null, y = null, doShow = null, doPlacement = null) {
+  setPosition(
+    x: number | null = null,
+    y: number | null = null,
+    doShow: boolean | null = null,
+    doPlacement: boolean | null = null
+  ) {
     const elem: any = this;
     if (!Number.isNaN(x)) elem.x = x;
     if (!Number.isNaN(y)) elem.y = y;

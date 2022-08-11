@@ -28,10 +28,14 @@ export default class IdsContainer extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     if (this.reset) {
       this.#addReset();
     }
+
+    // Set initial lang and locale
+    this.setAttribute('language', this.state.locale.state.language);
+    this.setAttribute('locale', this.state.locale.state.localeName);
 
     // Remove hidden for FOUC
     this.onEvent('load.container', window, () => {
@@ -43,10 +47,7 @@ export default class IdsContainer extends Base {
     if (document.readyState === 'complete') {
       this.removeAttribute('hidden');
     }
-
-    // Set initial lang and locale
-    this.setAttribute('language', this.state.locale.state.language);
-    this.setAttribute('locale', this.state.locale.state.localeName);
+    if (this.padding) this.container.style.padding = `${this.padding}px`;
   }
 
   /**
@@ -61,7 +62,7 @@ export default class IdsContainer extends Base {
       attributes.PADDING,
       attributes.RESET,
       attributes.SCROLLABLE,
-      attributes.VERSION
+      attributes.MODE
     ];
   }
 
@@ -84,7 +85,7 @@ export default class IdsContainer extends Base {
    * @param {string} value sets the padding to the container
    */
   set padding(value: string) {
-    this.container.style.padding = `${value}px`;
+    if (this.container) this.container.style.padding = `${value}px`;
     this.setAttribute(attributes.PADDING, value.toString());
   }
 
@@ -148,7 +149,7 @@ export default class IdsContainer extends Base {
   async setLanguage(value: string) {
     await this.state.locale.setLanguage(value);
     this.language = value;
-    this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
+    this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
   }
 
   /**
@@ -161,7 +162,7 @@ export default class IdsContainer extends Base {
       this.state.locale.updateLangTag(this, value);
       this.setAttribute('language', value);
       requestAnimationFrame(() => {
-        this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
+        this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
       });
     }
   }
@@ -171,7 +172,7 @@ export default class IdsContainer extends Base {
    * @returns {object} The language data object
    */
   get language(): string {
-    return this.state.locale?.language;
+    return this.state?.locale?.language;
   }
 
   /**
@@ -185,7 +186,7 @@ export default class IdsContainer extends Base {
       this.setAttribute('locale', value);
       this.setAttribute('language', lang);
       this.state.locale.updateLangTag(this, lang);
-      this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
+      this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
     }
   }
 
@@ -202,7 +203,7 @@ export default class IdsContainer extends Base {
       this.state.locale.updateLangTag(this, lang);
 
       requestAnimationFrame(() => {
-        this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state.locale } });
+        this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
       });
     }
   }

@@ -1,3 +1,5 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Editor e2e Tests', () => {
   const url = 'http://localhost:4444/ids-editor/example.html';
 
@@ -14,7 +16,10 @@ describe('Ids Editor e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests({ disabledRules: ['aria-valid-attr', 'nested-interactive'] });
+
+    // Using newer aria-description
+    const results = await new AxePuppeteer(page).disableRules(['aria-valid-attr', 'nested-interactive']).analyze();
+    expect(results.violations.length).toBe(0);
   });
 
   it('should make text bold, italic, underline, strikethrough and clearformatting', async () => {

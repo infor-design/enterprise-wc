@@ -1,3 +1,5 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Modal e2e Tests', () => {
   const url = 'http://localhost:4444/ids-modal/visible.html';
 
@@ -8,8 +10,9 @@ describe('Ids Modal e2e Tests', () => {
 
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'load' });
-    await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast'] });
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    const results = await new AxePuppeteer(page).disableRules(['color-contrast']).analyze();
+    expect(results.violations.length).toBe(0);
   });
 
   it('should have its "OK" button focused when it opens', async () => {

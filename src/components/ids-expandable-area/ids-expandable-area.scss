@@ -70,15 +70,3 @@
 .ids-expandable-area[mode='contrast'] {
   border-bottom: 1px solid var(--ids-color-palette-slate-60);
 }
-
-.ids-expandable-area[version='classic'][mode='light'] {
-  border-bottom: 1px solid var(--ids-color-palette-graphite-30);
-}
-
-.ids-expandable-area[version='classic'][mode='dark'] {
-  border-bottom: 1px solid var(--ids-color-palette-classic-slate-50);
-}
-
-.ids-expandable-area[version='classic'][mode='contrast'] {
-  border-bottom: 1px solid var(--ids-color-palette-graphite-60);
-}

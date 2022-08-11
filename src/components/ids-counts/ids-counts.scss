@@ -44,15 +44,3 @@ a:focus {
 .ids-counts[mode='contrast']:not([color]) {
   @include text-slate-100();
 }
-
-.ids-counts[mode='light'][version='classic']:not([color]) {
-  @include text-graphite-60();
-}
-
-.ids-counts[mode='dark'][version='classic']:not([color]) {
-  @include text-classic-slate-10();
-}
-
-.ids-counts[mode='contrast'][version='classic']:not([color]) {
-  @include text-graphite-80();
-}

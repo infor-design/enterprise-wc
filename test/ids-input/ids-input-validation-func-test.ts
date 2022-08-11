@@ -33,10 +33,10 @@ describe('IdsInput Component', () => {
 
     const msgEl = elem.shadowRoot.querySelector('.validation-message');
     expect(elem.input.getAttribute('aria-invalid')).toEqual('true');
-    expect(elem.input.getAttribute('aria-describedby')).toEqual('ids-input-1-input-error');
+    expect(elem.input.getAttribute('aria-describedby')).toEqual('ids-input-0-input-error');
     expect(msgEl).toBeTruthy();
     expect(msgEl.getAttribute('validation-id')).toEqual('required');
-    expect(msgEl.getAttribute('id')).toEqual('ids-input-1-input-error');
+    expect(msgEl.getAttribute('id')).toEqual('ids-input-0-input-error');
 
     elem.input.value = 'test';
     elem.checkValidation();

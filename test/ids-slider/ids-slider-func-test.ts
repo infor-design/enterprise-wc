@@ -105,7 +105,7 @@ describe('IdsSlider Component', () => {
 
   it('sets vertical step labels correctly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_STEP_SLIDER);
-    processAnimFrame();
+    await processAnimFrame();
 
     expect(slider.stepNumber).toBe(5);
 
@@ -120,7 +120,7 @@ describe('IdsSlider Component', () => {
 
   it('sets step labels correctly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.STEP_SLIDER);
-    processAnimFrame();
+    await processAnimFrame();
 
     expect(slider.type).toBe('step');
     expect(slider.stepNumber).toBe(5);
@@ -482,7 +482,7 @@ describe('IdsSlider Component', () => {
 
   it('has correct aria attributes on slider thumbs', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_RANGE_SLIDER);
-    processAnimFrame();
+    await processAnimFrame();
 
     expect(slider.thumbDraggable.getAttribute('aria-label')).toEqual('Range Minimum');
     expect(slider.thumbDraggableSecondary.getAttribute('aria-label')).toEqual('Range Maximum');

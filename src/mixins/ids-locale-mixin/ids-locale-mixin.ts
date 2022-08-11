@@ -11,6 +11,7 @@ const IdsLocaleMixin = (superclass: any) => class extends superclass {
   initialized = false;
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.offEvent('languagechange.mixin');
     this.onEvent('languagechange.mixin', getClosest(this, 'ids-container'), () => {
       this.setDirection();
@@ -22,7 +23,6 @@ const IdsLocaleMixin = (superclass: any) => class extends superclass {
         this.onLocaleChange(this.locale);
       }
     });
-    super.connectedCallback?.();
   }
 
   static get attributes() {

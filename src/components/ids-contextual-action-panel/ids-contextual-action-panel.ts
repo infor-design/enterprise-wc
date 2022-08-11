@@ -18,7 +18,7 @@ export default class IdsContextualActionPanel extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.#refreshHeader();
 
     this.popup.animationStyle = 'slide-from-bottom';
@@ -36,7 +36,7 @@ export default class IdsContextualActionPanel extends Base {
     const toolbarHidden = this.toolbar !== undefined ? '' : 'hidden';
     const footerHidden = this.buttons !== undefined ? '' : ' hidden';
 
-    return `<ids-popup part="modal" class="ids-modal ids-contextual-action-panel" type="custom" position-style="viewport">
+    return `<ids-popup part="modal" class="ids-modal ids-contextual-action-panel" type="modal" position-style="viewport">
       <div class="ids-modal-container" slot="content">
         <div class="ids-modal-header">
           <slot name="toolbar" ${toolbarHidden}></slot>

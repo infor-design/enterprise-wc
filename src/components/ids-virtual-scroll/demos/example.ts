@@ -8,18 +8,21 @@ if (head) {
 }
 
 // Example for populating the Virtual Scoller
-const virtualScrollUl: any = document.querySelector('#virtual-scroll-1');
+const virtualScrollList: any = document.querySelector('#virtual-scroll-1');
 const virtualScrollTable: any = document.querySelector('#virtual-scroll-2');
-if (virtualScrollUl) {
+if (virtualScrollList) {
   const url: any = productsJSON;
-
   const setData = async () => {
     const res = await fetch(url);
     const data = await res.json();
     // Setup the list view
-    virtualScrollUl.data = data;
-    virtualScrollUl.itemTemplate = (item: any) => `<div part="list-item">${item.productName}</div>`;
-    // Set up the table
+    virtualScrollList.data = data;
+    virtualScrollList.itemTemplate = (item: any) => `<div part="list-item">${item.productName}</div>`;
+
+    // TODO: Can this be done automatically?
+    virtualScrollList.scrollTarget = document.querySelector('ids-card')?.shadowRoot?.querySelector('.ids-card-content');
+
+    // Set up the table, which has a custom area with scrolling
     virtualScrollTable.scrollTarget = document.querySelector('.ids-data-grid');
     virtualScrollTable.itemTemplate = (item: any) => `<div part="row" role="row" class="ids-data-grid-row">
       <span role="cell" part="cell" class="ids-data-grid-cell"><span class="text-ellipsis" part="text-ellipsis">${item.productId}</span></span>

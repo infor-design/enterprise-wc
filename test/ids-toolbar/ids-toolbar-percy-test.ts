@@ -32,6 +32,7 @@ describe('Ids Toolbar Percy Tests', () => {
   it('renders overflow items correctly', async () => {
     await page.setViewport({ width: 450, height: 800 });
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForTimeout(200); // Wait for everything to load
     await page.waitForSelector('ids-toolbar-more-actions');
     await page.click('ids-toolbar-more-actions');
     await page.waitForFunction(`document.querySelector('ids-toolbar-more-actions').hasAttribute('visible')`);

@@ -22,12 +22,12 @@ export default class IdsDataLabel extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.offEvent('languagechange');
     this.onEvent('languagechange', this.closest('ids-container'), (e: CustomEvent) => {
       this.language = e.detail.language.name;
     });
     this.language = this.closest('ids-container')?.getAttribute('language');
-    super.connectedCallback();
   }
 
   /**
@@ -40,8 +40,7 @@ export default class IdsDataLabel extends Base {
       attributes.LABEL,
       attributes.LABEL_POSITION,
       attributes.LANGUAGE,
-      attributes.MODE,
-      attributes.VERSION
+      attributes.MODE
     ];
   }
 
@@ -50,12 +49,10 @@ export default class IdsDataLabel extends Base {
    * @returns {string} The template
    */
   template(): string {
-    return `
-      <div class="${this.labelClass}">
-        <ids-text class="label" font-size="16"></ids-text>
+    return `<div class="${this.labelClass}">
+        <ids-text class="label" font-size="16">${this.label}<span class="colon">${this.colon}</span></ids-text>
         <ids-text class="description" font-size="16"><slot></slot></ids-text>
-      </div>
-    `;
+      </div>`;
   }
 
   /**
@@ -64,6 +61,10 @@ export default class IdsDataLabel extends Base {
    */
   set label(value: string) {
     if (value) {
+      this.setAttribute(attributes.LABEL, value);
+    }
+
+    if (this.container) {
       this.setAttribute(attributes.LABEL, value);
       this.container.querySelector('.label').innerHTML = `${value}<span class="colon">${this.colon}</span>`;
     }
@@ -79,7 +80,6 @@ export default class IdsDataLabel extends Base {
     if (value) {
       this.setAttribute(attributes.LABEL_POSITION, value);
       this.container.className = `${value}-positioned`;
-      this.container.querySelector('.label').innerHTML = `${value}<span class="colon">${this.colon}</span>`;
     }
   }
 

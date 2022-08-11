@@ -8,9 +8,6 @@
   - link: example.html
     type: Main Example
     description: Shows a basic breadcrumb
-  - link: add-remove.html
-    type: Example
-    description: Shows an api to add and remove breadcrumbs
   - link: truncated.html
     type: Example
     description: Showing a breadcrumb truncated

@@ -51,14 +51,26 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
 
   connectedCallback() {
     super.connectedCallback?.();
-    if (this.triggerElem || this.target) {
-      this.refreshTriggerEvents();
-    }
+    this.#setInitialState();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback?.();
     this.removeTriggerEvents();
+  }
+
+  #setInitialState() {
+    const targetSelector = this.getAttribute(attributes.TARGET);
+    const initTarget = this.parentNode?.querySelector(targetSelector);
+
+    if (this.popup && initTarget && !this.target) {
+      this.popup.alignTarget = initTarget;
+    }
+
+    if (this.triggerElem || initTarget) {
+      this.removeTriggerEvents();
+      this.refreshTriggerEvents();
+    }
   }
 
   /**
@@ -78,14 +90,14 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * @returns {any} reference to the inner Popup component
    */
   get popup() {
-    return this.shadowRoot.querySelector('ids-popup');
+    return this.shadowRoot?.querySelector('ids-popup');
   }
 
   /**
    * @returns {any} [HTMLElement|undefined] reference to a target element, if applicable
    */
   get target() {
-    return this.popup.alignTarget;
+    return this.popup?.alignTarget;
   }
 
   /**
@@ -93,10 +105,10 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * as a CSS Selector referencing an element, that the Popupmenu will align against.
    */
   set target(val: string | HTMLElement) {
-    if (val !== this.popup.alignTarget) {
+    if (this.popup && val !== this.popup.alignTarget) {
       this.removeTriggerEvents();
       if (typeof val === typeof '') {
-        val = this.parentNode.querySelector(val) || this.parentNode;
+        val = this.parentNode?.querySelector(val) || this.parentNode;
       }
       this.popup.alignTarget = val;
       this.refreshTriggerEvents();
@@ -152,7 +164,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * Causes events related to the Popupmenu's "trigger" style to be unbound/rebound
    */
   refreshTriggerEvents(): void {
-    if (this.hasTriggerEvents) {
+    if (this.hasTriggerEvents || !this.popup) {
       return;
     }
 

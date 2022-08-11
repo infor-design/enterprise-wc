@@ -13,5 +13,4 @@ Keep this file in sync with #570
 
 ## Minor
 
-- [ ] Do not use wait() in wizard test logic for rendered() in Jest
 - [ ] Add standalone CSS examples and related styles
