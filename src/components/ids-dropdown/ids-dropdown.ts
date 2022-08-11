@@ -70,6 +70,7 @@ export default class IdsDropdown extends Base {
       ...super.attributes,
       attributes.ALLOW_BLANK,
       attributes.CLEARABLE,
+      attributes.CLEARABLE_TEXT,
       attributes.DISABLED,
       attributes.GROUP,
       attributes.LABEL,
@@ -256,7 +257,7 @@ export default class IdsDropdown extends Base {
     this.selectOption(elem);
     this.selectIcon(elem);
     this.selectTooltip(elem);
-    if (this.input) this.input.value = (elem as any).textContent.trim();
+    if (this.input) this.input.value = value === 'blank' ? '' : (elem as any).textContent.trim();
     this.state.selectedIndex = [...(elem.parentElement as any).children].indexOf(elem);
 
     // Send the change event
@@ -492,7 +493,7 @@ export default class IdsDropdown extends Base {
    */
   #insertBlankOption(): void {
     const list = this.querySelector('ids-list-box');
-    const blankOption = '<ids-list-box-option value="blank" aria-label="Blank">&nbsp;</ids-list-box-option>';
+    const blankOption = `<ids-list-box-option value="blank" aria-label="Blank">${this.clearableText ?? '&nbsp;'}</ids-list-box-option>`;
     this.#removeBlank();
     list?.insertAdjacentHTML('afterbegin', blankOption);
   }
@@ -629,7 +630,7 @@ export default class IdsDropdown extends Base {
       (window.getSelection() as Selection).removeAllRanges();
     }
 
-    if (this.clearable || this.typeahead) {
+    if (this.typeahead) {
       this.#triggerIconChange('dropdown');
     }
 
@@ -709,20 +710,7 @@ export default class IdsDropdown extends Base {
 
     this.offEvent('click.dropdown-trigger');
     this.onEvent('click.dropdown-trigger', this.trigger, () => {
-      // Acts as value clearer if the x button is activated
-      if (this.trigger.dataset.clearable) {
-        if (this.typeahead) {
-          this.#loadDataSet(this.#optionsData);
-        }
-        this.#triggerIconChange(this.typeahead && this.popup.visible ? 'search' : 'dropdown');
-        if (!this.allowBlank) {
-          this.#insertBlankOption();
-        }
-        this.value = 'blank';
-        this.input.focus();
-      } else {
-        this.toggle();
-      }
+      this.toggle();
     });
   }
 
@@ -812,10 +800,16 @@ export default class IdsDropdown extends Base {
       this.close(true);
     });
 
-    // Delete/backspace should activate the clearable button
+    // Delete/backspace should clear the value
     this.listen(['Backspace', 'Delete'], this, () => {
       if (this.clearable && (this.input.value || this.value?.length !== 0)) {
-        this.#triggerIconChange('close', true);
+        if (this.allowBlank) {
+          this.value = 'blank';
+        } else {
+          this.value = '';
+          this.input.value = '';
+        }
+        this.input.focus();
       }
     });
 
@@ -858,29 +852,18 @@ export default class IdsDropdown extends Base {
       this.listBox.innerHTML = `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
     }
 
-    this.#triggerIconChange(this.clearable && inputValue ? 'close' : 'search', stringToBool(this.clearable && inputValue));
+    this.#triggerIconChange('search');
   }
 
   /**
    * Helper to replace trigger button icon
    * @param {string} icon ids-icon icon value
-   * @param {boolean|undefined} clearable whether or not to add clearable attributes
    */
-  #triggerIconChange(icon: string, clearable?: boolean) {
+  #triggerIconChange(icon: string) {
     const triggerIcon = this.container.querySelector('ids-icon[slot="icon"]');
 
     if (triggerIcon?.icon && triggerIcon.icon !== icon) {
       triggerIcon.icon = icon;
-
-      if (clearable) {
-        triggerIcon.size = 'small';
-        this.trigger.setAttribute(attributes.NO_MARGINS, '');
-        this.trigger.setAttribute('data-clearable', true);
-      } else {
-        triggerIcon.size = 'normal';
-        this.trigger.removeAttribute(attributes.NO_MARGINS);
-        this.trigger.removeAttribute('data-clearable');
-      }
     }
   }
 
@@ -1060,4 +1043,18 @@ export default class IdsDropdown extends Base {
   }
 
   get clearable() { return stringToBool(this.getAttribute(attributes.CLEARABLE)); }
+
+  set clearableText(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.CLEARABLE_TEXT, value);
+    } else {
+      this.removeAttribute(attributes.CLEARABLE_TEXT);
+    }
+
+    if (this.allowBlank) {
+      this.#insertBlankOption();
+    }
+  }
+
+  get clearableText() { return this.getAttribute(attributes.CLEARABLE_TEXT); }
 }
