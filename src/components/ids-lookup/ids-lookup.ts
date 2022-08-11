@@ -148,11 +148,8 @@ export default class IdsLookup extends Base {
    */
   set autocomplete(value: string | boolean | null) {
     const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.AUTOCOMPLETE, '');
-    } else {
-      this.removeAttribute(attributes.AUTOCOMPLETE);
-    }
+    if (val) this.setAttribute(attributes.AUTOCOMPLETE, '');
+    else this.removeAttribute(attributes.AUTOCOMPLETE);
   }
 
   /**
@@ -169,11 +166,8 @@ export default class IdsLookup extends Base {
    * @returns {void}
    */
   onDirtyTrackerChange(value: boolean) {
-    if (value) {
-      this.container?.setAttribute(attributes.DIRTY_TRACKER, value.toString());
-    } else {
-      this.container?.removeAttribute(attributes.DIRTY_TRACKER);
-    }
+    if (value) this.container?.setAttribute(attributes.DIRTY_TRACKER, value.toString());
+    else this.container?.removeAttribute(attributes.DIRTY_TRACKER);
   }
 
   /**
@@ -184,11 +178,8 @@ export default class IdsLookup extends Base {
     this.setAttribute('value', value);
     if (this.triggerField) this.triggerField.value = value;
 
-    if (value && !this.disabled && !this.readonly) {
-      this.#showClearButton();
-    } else {
-      this.#hideClearButton();
-    }
+    if (value && !this.disabled && !this.readonly) this.#showClearButton();
+    else this.#hideClearButton();
 
     if (this.value === value) {
       // Send the change event{
@@ -475,11 +466,8 @@ export default class IdsLookup extends Base {
     });
 
     this.onEvent('change.lookup', this.triggerField, () => {
-      if (this.triggerField.value) {
-        this.#showClearButton();
-      } else {
-        this.#hideClearButton();
-      }
+      if (this.triggerField.value) this.#showClearButton();
+      else this.#hideClearButton();
     });
 
     this.onEvent('click.clearable', this.triggerClearButton, () => {
