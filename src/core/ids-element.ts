@@ -1,13 +1,29 @@
 import { version } from './ids-attributes';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
-import IdsEventsMixin from '../mixins/ids-events-mixin/ids-events-mixin';
 import styles from './ids-element.scss';
 
 /**
  * IDS Base Element
- * TODO: Remove IdsEventsMixins
  */
-export default class IdsElement extends IdsEventsMixin(HTMLElement) {
+export default class IdsElement extends HTMLElement {
+  /** Component's name */
+  name?: string;
+
+  /** Ids Version No */
+  IdsVersion?: string;
+
+  /** State object for current states */
+  state: Record<string, any> = {};
+
+  /** Nonce used for scripts, links */
+  cachedNonce = '';
+
+  /** Component's first child element */
+  container?: HTMLElement | null = null;
+
+  /** Styles Flag */
+  hasStyles = false;
+
   constructor() {
     super();
     this.#addBaseName();
@@ -18,15 +34,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   connectedCallback() {
     this.render();
   }
-
-  /** Component's name */
-  name?: string;
-
-  /** Ids Version No */
-  IdsVersion?: string;
-
-  /** State object for current states */
-  state?: Record<string, unknown>;
 
   /**
    * Add the component version and baseclass
@@ -64,7 +71,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
       }
     };
 
-    this[getAttributeName(name)] = newValue;
+    (this as any)[getAttributeName(name)] = newValue;
   }
 
   /**
@@ -72,12 +79,12 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    * in a component you can just call super.
    */
   disconnectedCallback() {
-    this.detachAllEvents();
-    if (this.detachAllListeners) {
-      this.detachAllListeners();
-    }
-    delete this.cssStyles;
-    delete this.popupOpenEventsTarget;
+    const self: any = this;
+
+    self.detachAllEvents?.();
+    self.detachAllListeners?.();
+    delete self.cssStyles;
+    delete self.popupOpenEventsTarget;
     // TODO: Can this be added
     // delete this.state;
   }
@@ -134,12 +141,12 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
 
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);
-    if (this.shadowRoot?.firstElementChild.nodeName === 'STYLE' && !this.container) {
-      this.container = this.shadowRoot?.firstElementChild.nextElementSibling;
+    if (this.shadowRoot?.firstElementChild?.nodeName === 'STYLE' && !this.container) {
+      this.container = (this.shadowRoot?.firstElementChild.nextElementSibling as HTMLElement);
     }
 
-    if (this.shadowRoot?.firstElementChild.nodeName !== 'STYLE' && !this.container) {
-      this.container = this.shadowRoot?.firstElementChild;
+    if (this.shadowRoot?.firstElementChild?.nodeName !== 'STYLE' && !this.container) {
+      this.container = (this.shadowRoot?.firstElementChild as HTMLElement);
     }
     return this;
   }
@@ -155,7 +162,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    * @returns {string} gets the nonce from the meta tag
    */
   get nonce() {
-    this.cachedNonce = '';
     const documentElement: any = document;
     if (!documentElement.nonce) {
       const csp: any = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
@@ -178,7 +184,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     }
 
     const style = document.createElement('style');
-    style.textContent = this.cssStyles;
+    style.textContent = (this as any).cssStyles;
     style.setAttribute('nonce', this.nonce);
 
     this.shadowRoot?.appendChild(style);

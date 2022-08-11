@@ -1,17 +1,35 @@
+import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+
+type Constraints = IdsConstructor<IdsWebComponent & EventsMixinInterface>;
+
 /**
  * Handle keyboard shortcuts and pressed down keys
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsKeyboardMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  hotkeys = new Map();
+
+  pressedKeys = new Map();
+
+  keyDownHandler = (e: KeyboardEvent) => {
+    this.press(e.key);
+    this.dispatchHotkeys(e);
+  };
+
+  keyUpHandler = (e: KeyboardEvent) => {
+    this.unpress(e.key);
+  };
+
+  constructor(...args: any[]) {
+    super(...args);
     this.initKeyboardHandlers();
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes
     ];
   }
 
@@ -20,18 +38,7 @@ const IdsKeyboardMixin = (superclass: any) => class extends superclass {
    * @private
    */
   initKeyboardHandlers() {
-    this.hotkeys = new Map();
-    this.pressedKeys = new Map();
-
-    this.keyDownHandler = (e: KeyboardEvent) => {
-      this.press(e.key);
-      this.dispatchHotkeys(e);
-    };
     this.onEvent('keydown.keyboard', this, this.keyDownHandler);
-
-    this.keyUpHandler = (e: KeyboardEvent) => {
-      this.unpress(e.key);
-    };
     this.onEvent('keyup.keyboard', this, this.keyUpHandler);
   }
 
@@ -96,14 +103,8 @@ const IdsKeyboardMixin = (superclass: any) => class extends superclass {
    * Remove all handlers and clear memory
    */
   detachAllListeners() {
-    if (this.keyDownHandler && this.offEvent) {
-      this.offEvent('keydown.keyboard', this, this.keyDownHandler);
-      delete this.keyDownHandler;
-    }
-    if (this.keyUpHandler && this.offEvent) {
-      this.offEvent('keyup.keyboard', this, this.keyUpHandler);
-      delete this.keyUpHandler;
-    }
+    this.offEvent('keydown.keyboard', this);
+    this.offEvent('keyup.keyboard', this);
   }
 };
 
