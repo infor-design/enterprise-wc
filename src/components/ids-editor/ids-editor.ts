@@ -92,11 +92,12 @@ let instanceCounter = 0;
  * IDS Editor Component
  * @type {IdsEditor}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
- * @mixes IdsLocaleMixin
  * @mixes IdsDirtyTrackerMixin
- * @mixes IdsValidationMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsLabelStateMixin
+ * @mixes IdsLocaleMixin
+ * @mixes IdsThemeMixin
+ * @mixes IdsValidationMixin
  * @part editor - the editor element
  * @part editor-label - the editor label element
  * @part main-container - the main container element
@@ -159,12 +160,18 @@ export default class IdsEditor extends Base {
     this.reqInitialize = true;
     instanceCounter++;
 
+    const ariaLabel = this.hasAttribute(attributes.LABEL_STATE) && this.label ? `aria-label="${this.label}"` : '';
+    const hiddenLabelCss = !this.label.length || this.labelState === 'hidden' ? ' empty' : '';
+    const requiredLabelCss = !this.labelRequired ? ` ${CLASSES.labelRequired}` : '';
+
     return parseTemplate(editorTemplate, {
+      ariaLabel,
       disabled: this.disabled ? ' disabled' : '',
       readonly: this.readonly ? ' readonly' : '',
       contenteditable: !this.disabled && !this.readonly ? ' contenteditable="true"' : '',
-      labelClass: `editor-label${!this.labelRequired ? ` ${CLASSES.labelRequired}` : ''}`,
-      labelHidden: this.labelHidden ? ' audible' : '',
+      labelClass: `editor-label`,
+      requiredLabelCss,
+      hiddenLabelCss,
       placeholder: this.placeholder ? ` placeholder="${this.placeholder}"` : '',
       hiddenClass: CLASSES.hidden,
       labelText: this.label,
@@ -548,20 +555,6 @@ export default class IdsEditor extends Base {
   #contenteditable(): object {
     const value = !this.disabled && !this.readonly;
     this.#elems?.editor?.setAttribute('contenteditable', value);
-    return this;
-  }
-
-  /**
-   * Set labels for editor and textarea
-   * @private
-   * @returns {object} This API object for chaining
-   */
-  #setLabels(): object {
-    const labelEl = this.labelEl ?? qs('#editor-label', this.shadowRoot);
-    const sourceLabel = qs('[for="source-textarea"]', this.shadowRoot);
-
-    if (labelEl) labelEl.innerHTML = this.label;
-    if (sourceLabel) sourceLabel.innerHTML = this.sourceTextareaLabel();
     return this;
   }
 
@@ -1355,59 +1348,17 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * Set the editor aria label text
-   * @param {string} value of the label text
+   * Used for setting the text contents of the shadowroot label
+   * @param {string} [value] of label
+   * @returns {void}
    */
-  set label(value: string) {
-    if (value) {
-      this.setAttribute(attributes.LABEL, value);
-    } else {
-      this.removeAttribute(attributes.LABEL);
-    }
-    this.#setLabels?.();
-  }
+  setLabelText(value = this.state?.label): void {
+    const labelEl = this.labelEl ?? qs('#editor-label', this.shadowRoot);
+    const sourceLabel = qs('[for="source-textarea"]', this.shadowRoot);
+    const shouldDisplayLabel = this.labelState === null;
 
-  get label() {
-    return this.getAttribute(attributes.LABEL) || EDITOR_DEFAULTS.label;
-  }
-
-  /**
-   * Set the label to be hidden or shown
-   * @param {boolean|string} value The value
-   */
-  set labelHidden(value: boolean | string) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.LABEL_HIDDEN, '');
-      this.labelEl?.setAttribute(attributes.AUDIBLE, '');
-    } else {
-      this.removeAttribute(attributes.LABEL_HIDDEN);
-      this.labelEl?.removeAttribute(attributes.AUDIBLE);
-    }
-  }
-
-  get labelHidden() {
-    const value = this.getAttribute(attributes.LABEL_HIDDEN);
-    return value !== null ? stringToBool(value) : EDITOR_DEFAULTS.labelHidden;
-  }
-
-  /**
-   * Set required indicator (red '*') to be hidden or shown
-   * @param {boolean|string} value The value
-   */
-  set labelRequired(value: boolean | string) {
-    const isValid = typeof value !== 'undefined' && value !== null;
-    const val = isValid ? stringToBool(value) : EDITOR_DEFAULTS.labelRequired;
-    if (isValid) {
-      this.setAttribute(attributes.LABEL_REQUIRED, val);
-    } else {
-      this.removeAttribute(attributes.LABEL_REQUIRED);
-    }
-    this.labelEl?.classList[!val ? 'add' : 'remove'](CLASSES.labelRequired);
-  }
-
-  get labelRequired() {
-    const value = this.getAttribute(attributes.LABEL_REQUIRED);
-    return value !== null ? stringToBool(value) : EDITOR_DEFAULTS.labelRequired;
+    if (labelEl) labelEl.innerHTML = shouldDisplayLabel ? value : '';
+    if (sourceLabel) sourceLabel.innerHTML = shouldDisplayLabel ? this.sourceTextareaLabel() : '';
   }
 
   /**
