@@ -68,14 +68,14 @@ Display the Popup using the `visible` attribute:
 </ids-popup>
 ```
 
-Programatically, you can use the `visible` JS property:
+Programmatically, you can use the `visible` JS property:
 
 ```js
 const popup = document.querySelector('#my-popup');
 popup.visible = true;
 ```
 
-... or explicity call `show()` or `hide()` methods:
+... or explicitly call `show()` or `hide()` methods:
 
 ```js
 const popup = document.querySelector('#my-popup');
@@ -106,7 +106,7 @@ IdsPopup size can be controlled with the `width` and `height` properties.  These
 
 The Popup's coordinates/offsets can be set individually.  The action of using the x/y setters will change the stored position internally, but will not automatically be rendered.  Also, the position will not be rendered if the Popup is not visible.
 
-To intially set a Popup's position, you can use the following:
+To initially set a Popup's position, you can use the following:
 
 ```js
 const popup = document.querySelector('#my-popup');
@@ -218,7 +218,7 @@ The `popupRect` argument provides access to the editable [`DOMRect`](https://dev
 **3.x to 4.x**
 
 - Place was added in v4.2.2
-- All separate placment/popup logic was replaced with Place internally (not called)
+- All separate placement/popup logic was replaced with Place internally (not called)
 - Place could be invoked on a custom component with `$('#my-element').place();`
 
 **4.x to 5.x**

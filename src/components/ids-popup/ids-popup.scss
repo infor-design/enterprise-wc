@@ -166,7 +166,7 @@
     }
   }
 
-  // Animation Style: 'slide-from-bottom' (Contextual Action Panel)
+  // Animation Style: 'slide-from-bottom' (Action Panel)
   &.animation-slide-from-bottom {
     @include opacity-0();
 
@@ -213,7 +213,7 @@
       }
     }
 
-    // Contextual Action Panel
+    // Action Panel
     &.animation-slide-from-bottom {
       transform: perspective(1000px) translate3d(-50%, 110%, -100px);
 
