@@ -563,6 +563,9 @@ export default class IdsDropdown extends Base {
    */
   #loadDataSet(dataset: IdsListBoxOptions) {
     let html = '';
+    // ids-multiselect shared
+    this.querySelector('ids-list-box.selected-options')?.remove();
+
     const listbox = this.querySelector('ids-list-box');
     listbox.innerHTML = '';
 
