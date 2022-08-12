@@ -785,8 +785,9 @@ export default class IdsDropdown extends Base {
         return;
       }
 
-      const selected = this.selected;
-      this.value = selected?.getAttribute(attributes.VALUE) || '';
+      const value = this.selected?.getAttribute(attributes.VALUE) || '';
+      // ids-multiselect shared
+      (this.value as any) = Array.isArray(this.value) ? [...this.value, value] : value;
       this.close();
     });
 
