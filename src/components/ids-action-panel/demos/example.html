@@ -7,7 +7,14 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-contextual-action-panel id="cap-company-info" fullsize="lg">
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Action Panel</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-action-panel id="cap-company-info" fullsize="lg">
       <ids-toolbar slot="toolbar">
         <ids-toolbar-section type="title">
           <ids-text font-size="20" type="h2">Company Information</ids-text>
@@ -82,11 +89,11 @@
           <ids-checkbox id="cap-check-freight" label="Freight" checked></ids-checkbox>
         </ids-layout-grid-cell>
       </ids-layout-grid>
-    </ids-contextual-action-panel>
+    </ids-action-panel>
 
     <ids-layout-grid>
       <ids-layout-grid-column>
-        <ids-button type="secondary" id="cap-trigger-btn">Open Contextual Action Panel</ids-button>
+        <ids-button type="secondary" id="cap-trigger-btn">Open Action Panel</ids-button>
       </ids-layout-grid-column>
     </ids-layout-grid>
   </ids-container>

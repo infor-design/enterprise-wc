@@ -1,6 +1,6 @@
-# Ids Contextual Action Panel
+# Ids Action Panel
 
-The IDS Contextual Action Panel (CAP) is used to display complex forms inside of a [Modal](../ids-modal/README.md) area.  The intended use of this component is to temporarily draw user attention away from a primary workflow to handle a complicated function, eventually returning its result back to the main workflow.
+The IDS Action Panel (formerly known as Contextual Action panel or CAP) is used to display complex forms inside of a [Modal](../ids-modal/README.md) area.  The intended use of this component is to temporarily draw user attention away from a primary workflow to handle a complicated function, eventually returning its result back to the main workflow.
 
 ## Use Cases
 
@@ -10,20 +10,20 @@ The IDS Contextual Action Panel (CAP) is used to display complex forms inside of
 
 ## Terminology
 
-- **"CAP"** - IDS's abbreviation for "Contextual Action Panel"
+- **"CAP"** - IDS's old abbreviation for the old name "Contextual Action Panel"
 
 ## Features (With Code Examples)
 
-Contextual Action Panels with no content present look similar to [Modals]('../ids-modal/README.md'), presenting just a floating content area over top of the page:
+Action Panels with no content present look similar to [Modals]('../ids-modal/README.md'), presenting just a floating content area over top of the page:
 
 ```html
-<ids-contextual-action-panel id="my-cap"></ids-contextual-action-panel>
+<ids-action-panel id="my-cap"></ids-action-panel>
 ```
 
 One main difference between the Modal and CAP is the `toolbar` slot, which will be placed where the Modal's title would normally appear, and is styled similarly to [Headers]('../ids-header/README.md).  The contents of this slot should be an [IdsToolbar]('../ids-toolbar/README.md) marked for the `toolbar` slot:
 
 ```html
-<ids-contextual-action-panel id="my-cap">
+<ids-action-panel id="my-cap">
     <ids-toolbar id="cap-toolbar" slot="toolbar">
         <ids-toolbar-section type="title">
             <ids-text font-size="20" type="h2">Company Information</ids-text>
@@ -39,13 +39,13 @@ One main difference between the Modal and CAP is the `toolbar` slot, which will 
             </ids-button>
         </ids-toolbar-section>
     </ids-toolbar>
-</ids-contextual-action-panel>
+</ids-action-panel>
 ```
 
 Similar to the Modal, any content not marked for a slot will be present inside the main content area of the CAP:
 
 ```html
-<ids-contextual-action-panel id="my-cap">
+<ids-action-panel id="my-cap">
     <form>
         <ids-dropdown id="cap-dd-template" label="Template" value="1">
             <ids-list-box>
@@ -57,7 +57,7 @@ Similar to the Modal, any content not marked for a slot will be present inside t
 
         <ids-textarea id="cap-textarea-notes" label="Notes"></ids-textarea>
     </form>
-</ids-contextual-action-panel>
+</ids-action-panel>
 ```
 
 ## Converting from Previous Versions (Breaking Changes)
@@ -68,6 +68,6 @@ Similar to the Modal, any content not marked for a slot will be present inside t
 **4.x to 5.x**
 
 - 5.x: CAP is now a web component, and is functionally similar to [IdsModal](../ids-modal/README.md), using the same API and events.  The construction of the Modal is declarative and done mostly through HTML markup.
-- Markup has changed to a custom element `<ids-contextual-action-panel></ids-contextual-action-panel>`
+- Markup has changed to a custom element `<ids-action-panel></ids-action-panel>`
 - Component is now fully defined in HTML Markup and using slots
-- To hide and show the CAP, use the `visible` property `$('ids-contextual-action-panel').visible = false`
+- To hide and show the CAP, use the `visible` property `$('ids-action-panel').visible = false`
