@@ -1,5 +1,5 @@
 // Supporting components
-import '../ids-contextual-action-panel';
+import '../ids-action-panel';
 import '../../ids-checkbox/ids-checkbox';
 import '../../ids-dropdown/ids-dropdown';
 import '../../ids-popup-menu/ids-popup-menu';
