@@ -221,6 +221,10 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
       return;
     }
 
+    if (this.pagination === PAGINATION_TYPES.STANDALONE) {
+      return;
+    }
+
     const nestedPager = this.querySelector('ids-pager') || this.shadowRoot?.querySelector('ids-pager');
     if (!nestedPager) {
       const currentPager = this.pager;

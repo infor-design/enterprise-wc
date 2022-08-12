@@ -3,9 +3,11 @@
  */
 // eslint-disable-next-line
 import processAnimFrame from '../helpers/process-anim-frame';
+import '../helpers/resize-observer-mock';
 import '../../src/components/ids-input/ids-input';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import '../../src/components/ids-pager/ids-pager';
+import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
 
 const HTMLSnippets = {
   NAV_BUTTONS_WITHOUT_NESTING: (
@@ -75,7 +77,7 @@ const HTMLSnippets = {
   )
 };
 
-describe.skip('IdsPager Component', () => {
+describe('IdsPager Component', () => {
   let elem: any;
   let container: any;
 
@@ -187,13 +189,13 @@ describe.skip('IdsPager Component', () => {
     expect(next.getAttribute('tooltip')).toEqual('Next');
     expect(last.getAttribute('tooltip')).toEqual('Last');
 
-    let tooltip = first.querySelector('ids-tooltip');
-    expect(first.querySelector('ids-tooltip')).toBeFalsy();
+    let tooltipElement = document.querySelector('ids-tooltip') as any as IdsTooltip;
+    expect(tooltipElement).toBeFalsy();
 
     first.showTooltip();
-    tooltip = first.querySelector('ids-tooltip');
-    expect(tooltip.visible).toEqual(true);
-    expect(tooltip.textContent).toEqual('First');
+    tooltipElement = document.querySelector('ids-tooltip') as any as IdsTooltip;
+    expect(tooltipElement?.visible).toEqual(true);
+    expect(tooltipElement?.textContent).toEqual('First');
   });
 
   it('hides tooltip-popup when IdsPagerButton.tooltip is empty', async () => {
