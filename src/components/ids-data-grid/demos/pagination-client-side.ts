@@ -70,8 +70,14 @@ const container: any = document.querySelector('ids-container');
   dataGrid.columns = columns;
   dataGrid.data = data;
   dataGrid.pageTotal = data.length;
+
   dataGrid.pager.addEventListener('pagenumberchange', (e: CustomEvent) => {
-    console.info(`client-side page # ${e.detail.value}`);
+    console.info(`client-side page-number # ${e.detail.value}`);
+    dataGrid.redrawBody();
+  });
+
+  dataGrid.pager.addEventListener('pagesizechange', (e: CustomEvent) => {
+    console.info(`client-side page-size # ${e.detail.value}`);
     dataGrid.redrawBody();
   });
 
