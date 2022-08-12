@@ -16,7 +16,7 @@ import './ids-checkbox-group/ids-checkbox-group';
 import './ids-color/ids-color';
 import './ids-color-picker/ids-color-picker';
 import './ids-container/ids-container';
-import './ids-contextual-action-panel/ids-contextual-action-panel';
+import './ids-action-panel/ids-action-panel';
 import './ids-counts/ids-counts';
 import './ids-data-grid/ids-data-grid';
 import './ids-data-label/ids-data-label';

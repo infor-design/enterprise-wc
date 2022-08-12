@@ -91,6 +91,9 @@ export default class IdsTag extends Base {
           this.container.style.borderColor = value;
         } else {
           this.container.classList.add(value);
+          if (value !== 'secondary' && value !== 'caution') {
+            this.container.classList.add('ids-white');
+          }
         }
       }
     }
@@ -184,14 +187,18 @@ export default class IdsTag extends Base {
       this.removeAttribute(attributes.CLICKABLE);
     }
 
-    if (this.container) {
+    const clickableContainer = this.container || this;
+
+    if (clickableContainer) {
       if (isClickable) {
-        this.container.classList.add(attributes.FOCUSABLE);
-        this.container.setAttribute(attributes.TABINDEX, '0');
+        this.#appendIcon('caret-right');
+        clickableContainer.classList.add(attributes.FOCUSABLE);
+        clickableContainer.setAttribute(attributes.TABINDEX, '0');
         this.#attachKeyboardListeners();
       } else {
-        this.container.removeAttribute(attributes.TABINDEX);
-        this.container.classList.remove(attributes.FOCUSABLE);
+        this.#removeIcon('caret-right');
+        clickableContainer.removeAttribute(attributes.TABINDEX);
+        clickableContainer.classList.remove(attributes.FOCUSABLE);
       }
     }
   }
