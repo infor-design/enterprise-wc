@@ -8,7 +8,7 @@
   - link: example.html
     type: Main Example
     description: Shows general fieldset examples
-  - link: standalone.html
+  - link: standalone-css.html
     type: Standalone Example
     description: Shows a css fieldset
   - link: side-by-side.html
