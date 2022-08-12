@@ -7,8 +7,8 @@ import { getEventBaseName } from './ids-events-common';
 export type EventOptions = { [key: string]: any } & AddEventListenerOptions;
 
 export interface EventsMixinInterface {
-  onEvent(eventName: string, target?: Element | null, callback?: (evt: any) => void, options?: EventOptions): void;
-  offEvent(eventName: string, target?: Element | null, options?: EventOptions): void;
+  onEvent(eventName: string, target?: Element | Window | null, callback?: (evt: any) => void, options?: EventOptions): void;
+  offEvent(eventName: string, target?: Element | Window | null, options?: EventOptions): void;
   triggerEvent(eventName: string, target: Element, options?: CustomEventInit): void;
   triggerVetoableEvent(eventType: string, data: any): void;
 }

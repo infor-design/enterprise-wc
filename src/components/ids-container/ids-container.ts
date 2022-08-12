@@ -29,9 +29,9 @@ export default class IdsContainer extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    if (this.reset) {
-      this.#addReset();
-    }
+
+    // Reset body by default
+    this.setAttribute(attributes.RESET, '');
 
     // Set initial lang and locale
     this.setAttribute('language', this.state.locale.state.language);
@@ -47,7 +47,9 @@ export default class IdsContainer extends Base {
     if (document.readyState === 'complete') {
       this.removeAttribute('hidden');
     }
-    if (this.padding) this.container.style.padding = `${this.padding}px`;
+    if (this.padding) {
+      this.container?.style.setProperty('padding', `${this.padding}px`);
+    }
   }
 
   /**
@@ -82,14 +84,18 @@ export default class IdsContainer extends Base {
 
   /**
    * If set to number the container will have padding added (in pixels)
-   * @param {string} value sets the padding to the container
+   * @param {string | null} value sets the padding to the container
    */
-  set padding(value: string) {
-    if (this.container) this.container.style.padding = `${value}px`;
-    this.setAttribute(attributes.PADDING, value.toString());
+  set padding(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.PADDING, value.toString());
+      this.container?.style.setProperty('padding', `${value}px`);
+    } else {
+      this.removeAttribute(attributes.PADDING);
+    }
   }
 
-  get padding(): string {
+  get padding(): string | null {
     return this.getAttribute(attributes.PADDING);
   }
 
@@ -100,14 +106,14 @@ export default class IdsContainer extends Base {
   set scrollable(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.SCROLLABLE, 'true');
-      this.container.setAttribute(attributes.SCROLLABLE, 'true');
-      this.container.setAttribute('tabindex', '0');
+      this.container?.setAttribute(attributes.SCROLLABLE, 'true');
+      this.container?.setAttribute('tabindex', '0');
       return;
     }
 
     this.setAttribute(attributes.SCROLLABLE, 'false');
-    this.container.setAttribute(attributes.SCROLLABLE, 'false');
-    this.container.removeAttribute('tabindex');
+    this.container?.setAttribute(attributes.SCROLLABLE, 'false');
+    this.container?.removeAttribute('tabindex');
   }
 
   get scrollable(): boolean | string { return this.getAttribute(attributes.SCROLLABLE) || 'true'; }
@@ -117,30 +123,26 @@ export default class IdsContainer extends Base {
    * @private
    */
   #addReset() {
-    const body = document.querySelector('body');
-    if (body) {
-      body.style.margin = '0';
-    }
+    document.body.style.margin = '0';
   }
 
   /**
    * If set to true body element will get reset
-   * @param {boolean|string} value true of false
+   * @param {boolean} value true of false
    */
-  set reset(value: boolean | string) {
+  set reset(value: boolean) {
     if (stringToBool(value)) {
+      this.setAttribute(attributes.RESET, '');
       this.#addReset();
-      return;
-    }
-    this.removeAttribute(attributes.RESET);
-
-    const body = document.querySelector('body');
-    if (body) {
-      body.style.margin = '';
+    } else {
+      this.removeAttribute(attributes.RESET);
+      document.body.style.margin = '';
     }
   }
 
-  get reset(): boolean | string { return this.getAttribute(attributes.RESET) || 'true'; }
+  get reset(): boolean {
+    return this.hasAttribute(attributes.RESET);
+  }
 
   /**
    * Set the language for a component and wait for it to finish (async)
@@ -208,7 +210,7 @@ export default class IdsContainer extends Base {
     }
   }
 
-  get locale(): string {
+  get locale(): any {
     return this.state.locale;
   }
 

@@ -66,7 +66,9 @@ export default class IdsAlert extends Base {
     }
   }
 
-  get disabled(): boolean | string { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
+  }
 
   /**
    * Return the icon of the alert.
@@ -91,15 +93,21 @@ export default class IdsAlert extends Base {
    * Return the size. May be large, normal/medium or small
    * @returns {string} the size
    */
-  get size(): string | null { return this.getAttribute(attributes.SIZE) || 'normal'; }
+  get size(): string | null {
+    return this.getAttribute(attributes.SIZE) || 'normal';
+  }
 
+  /**
+   * Sets alert size
+   * @param {string|null} value large || normal || medium || small
+   */
   set size(value: string | null) {
     if (value && sizes[value]) {
       this.setAttribute(attributes.SIZE, value);
-      this.container.querySelector('ids-icon')?.setAttribute(attributes.SIZE);
+      this.container?.querySelector('ids-icon')?.setAttribute(attributes.SIZE, value);
     } else {
       this.removeAttribute(attributes.SIZE);
-      this.container.querySelector('ids-icon')?.removeAttribute(attributes.SIZE);
+      this.container?.querySelector('ids-icon')?.removeAttribute(attributes.SIZE);
     }
   }
 }

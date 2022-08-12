@@ -86,7 +86,7 @@ describe('IdsContainer Component', () => {
   });
 
   it('has a reset attribute', () => {
-    expect(container.reset).toEqual('true');
+    expect(container.reset).toBeTruthy();
     container.reset = false;
     expect(document.querySelector('body')?.style.margin).toEqual('');
     expect(container.getAttribute('reset')).toBeFalsy();

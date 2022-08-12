@@ -1,4 +1,4 @@
-const sizes: any = {
+const sizes: { [size: string]: number } = {
   xxl: 64,
   xl: 34,
   large: 24,
