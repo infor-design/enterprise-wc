@@ -36,7 +36,7 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
 
   /**
    * Set the internal IdsPager component
-   * @param {IdsPager} pager
+   * @param {HTMLElement} pager The pager dom element
    */
   set pager(pager: any) {
     this.#pager = pager;
@@ -69,7 +69,7 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
 
   /**
    * Get the internal IdsPager component
-   * @returns {IdsPager} object
+   * @returns {HTMLElement} the pager dom element
    */
   get pager(): any {
     return this.#pager || this.querySelector('ids-pager') || document.createElement('ids-pager');
