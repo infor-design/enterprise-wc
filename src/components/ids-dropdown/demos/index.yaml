@@ -11,6 +11,9 @@
   - link: typeahead.html
     type: Example
     description: Showing a dropdown with typeahead
+  - link: clearable.html
+    type: Example
+    description: Showing a dropdown with clearable functionality
   - link: sizes.html
     type: Example
     description: Showing width and height size variations

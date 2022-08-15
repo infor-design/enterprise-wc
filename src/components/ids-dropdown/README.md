@@ -138,7 +138,9 @@ The promise should resolve and return data with id, value and label info.
 - `mode` {'light' | 'dark' | 'contrast' | string} Set the theme mode
 - `version` {'new' | 'classic' | string} Set the theme version
 - `selectedIndex` {number} Sets the the selected option by index
-- `typeahead` { true | false } - Enable/disable typeahead functionality
+- `typeahead` {true | false} - Enable/disable typeahead functionality
+- `clearable` {true | false} - Whether or not the value can be cleared with Backspace/Delete
+- `clearable-text` {string} - Sets the blank option custom text. The text will not be added to the input when the option is selected
 
 ## Events
 

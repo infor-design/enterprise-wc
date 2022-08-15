@@ -403,6 +403,70 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(6);
   });
 
+  it('supports type ahead when the dropdown is closed', async () => {
+    dropdown.typeahead = true;
+
+    // Typing v letter when closed (only Option Five to match)
+    dropdown.input.value = 'v';
+    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'v' }));
+
+    // Keydownend delay
+    await wait(600);
+    expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(1);
+    expect(dropdown.querySelector('ids-list-box-option')?.getAttribute('value')).toEqual('opt5');
+    expect(dropdown.popup.visible).toBeTruthy();
+
+    dropdown.listBox?.dispatchEvent(new MouseEvent('click'));
+    expect(dropdown.popup.visible).toBeFalsy();
+  });
+
+  it('should accept Space key and stay opened when typing with typeahead', async () => {
+    dropdown.typeahead = true;
+    dropdown.open();
+    // Typing v letter when closed (only Option Five to match)
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
+    // Keydownend delay
+    await wait(600);
+
+    expect(dropdown.popup.visible).toBeTruthy();
+  });
+
+  it('should clear value if clearable is set', () => {
+    dropdown.clearable = true;
+    expect(dropdown.clearable).toBeTruthy();
+
+    // Backspace on the focused closed dropdown
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace' }));
+    expect(dropdown.input.value).toEqual('');
+    expect(dropdown.value).toEqual('');
+
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(dropdown.value).toEqual('opt1');
+
+    // With blank option
+    dropdown.allowBlank = true;
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace' }));
+    expect(dropdown.input.value).toEqual('');
+    expect(dropdown.value).toEqual('blank');
+
+    dropdown.clearable = false;
+    expect(dropdown.clearable).toBeFalsy();
+  });
+
+  it('should handle custom text for blank option', () => {
+    const clearText = '(Custom Clear Text)';
+    dropdown.allowBlank = true;
+    dropdown.clearableText = clearText;
+
+    expect(dropdown.getAttribute('clearable-text')).toEqual(clearText);
+    expect(dropdown.querySelector(`ids-list-box-option[value="blank"]`)?.textContent).toEqual(clearText);
+
+    dropdown.clearableText = null;
+    expect(dropdown.getAttribute('clearable-text')).toBeNull();
+  });
+
   it('supports clicking trigger to open', async () => {
     await waitForTimeout(() => expect(dropdown.trigger).toBeTruthy());
 

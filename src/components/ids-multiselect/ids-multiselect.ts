@@ -139,7 +139,7 @@ class IdsMultiselect extends Base {
 
     this.container.value = '';
     this.#updateDisplay();
-    this.#updateList(true);
+    this.#updateList(value.length > 0);
 
     // Send the change event
     if (this.value === value) {
@@ -174,6 +174,19 @@ class IdsMultiselect extends Base {
     this.onEvent('click', this.labelEl, (e: MouseEvent) => {
       e.preventDefault();
       this.input.focus();
+    });
+
+    this.offEvent('click.multiselect-trigger');
+    this.onEvent('click.multiselect-trigger', this.trigger, (e: MouseEvent) => {
+      e.stopPropagation();
+      // Acts as value clearer if the x button is activated
+      if (this.trigger.dataset.clearable) {
+        this.value = [];
+        this.#updateList(false);
+        this.close();
+      } else {
+        this.toggle();
+      }
     });
 
     if (this.tags) {
@@ -253,8 +266,8 @@ class IdsMultiselect extends Base {
     let selectedOptionsContainer = this.querySelector('.selected-options');
     if (addItem) {
       if (!selectedOptionsContainer) {
-        this.insertAdjacentHTML('afterbegin', `<ids-listbox class="selected-options">
-        </ids-listbox>`);
+        this.insertAdjacentHTML('afterbegin', `<ids-list-box class="selected-options">
+        </ids-list-box>`);
         selectedOptionsContainer = this.querySelector('.selected-options');
       }
       unselectedOptions = this.querySelectorAll('ids-list-box.options ids-list-box-option');
