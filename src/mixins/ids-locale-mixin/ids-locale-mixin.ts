@@ -1,8 +1,8 @@
 import IdsLocale from '../../components/ids-locale/ids-locale';
 import { attributes } from '../../core/ids-attributes';
-import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
 
 export interface LocaleHandler {
   onLocaleChange?: (locale: IdsLocale) => void;

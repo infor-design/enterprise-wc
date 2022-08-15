@@ -1,8 +1,8 @@
 import renderLoop from '../../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../../components/ids-render-loop/ids-render-loop-item';
-import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
 import { stringToBool, isPrintable } from '../../utils/ids-string-utils/ids-string-utils';
 import { getEventBaseName } from './ids-events-common';
+import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
 
 export type EventOptions = { [key: string]: any } & AddEventListenerOptions;
 

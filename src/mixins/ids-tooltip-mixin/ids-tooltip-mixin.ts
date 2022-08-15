@@ -1,5 +1,14 @@
 import { attributes } from '../../core/ids-attributes';
 import '../../components/ids-tooltip/ids-tooltip';
+import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+import type IdsTriggerField from '../../components/ids-trigger-field/ids-trigger-field';
+
+type FieldContainer = {
+  fieldContainer?: HTMLElement | SVGElement | null
+};
+
+type Constraints = IdsConstructor<IdsWebComponent & EventsMixinInterface & FieldContainer>;
 
 /**
 /**
@@ -7,14 +16,14 @@ import '../../components/ids-tooltip/ids-tooltip';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsTooltipMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.TOOLTIP
     ];
   }
@@ -49,9 +58,12 @@ const IdsTooltipMixin = (superclass: any) => class extends superclass {
     if (this.fieldContainer instanceof HTMLElement || this.fieldContainer instanceof SVGElement) {
       return this.fieldContainer;
     }
-    if (this.shadowRoot?.querySelector('ids-trigger-field')?.fieldContainer instanceof HTMLElement || this.shadowRoot?.querySelector('ids-trigger-field')?.fieldContainer instanceof SVGElement) {
-      return this.shadowRoot.querySelector('ids-trigger-field').fieldContainer;
+
+    const triggerField = this.shadowRoot?.querySelector<IdsTriggerField>('ids-trigger-field');
+    if (triggerField?.fieldContainer instanceof HTMLElement || triggerField?.fieldContainer instanceof SVGElement) {
+      return triggerField.fieldContainer;
     }
+
     return this;
   }
 
@@ -60,7 +72,7 @@ const IdsTooltipMixin = (superclass: any) => class extends superclass {
    */
   showTooltip() {
     // For ellipsis tooltip check if overflowing and only show if it is
-    if (this.nodeName === 'IDS-TEXT' && this.tooltip === 'true' && !(this.container.scrollWidth > this.container.clientWidth)) {
+    if (this.nodeName === 'IDS-TEXT' && this.tooltip === 'true' && this.container && !(this.container.scrollWidth > this.container.clientWidth)) {
       return;
     }
 
@@ -95,12 +107,20 @@ const IdsTooltipMixin = (superclass: any) => class extends superclass {
    * Set the tooltip to a particular string
    * @param {string} value The tooltips value
    */
-  set tooltip(value) {
-    this.setAttribute('tooltip', value);
-    this.container?.setAttribute('tooltip', value);
+  set tooltip(value: string | null) {
+    if (value) {
+      this.setAttribute('tooltip', value);
+      this.container?.setAttribute('tooltip', value);
+    }
   }
 
-  get tooltip() { return this.getAttribute('tooltip'); }
+  /**
+   * Gets tooltip string value
+   * @returns {string} tooltip string value
+   */
+  get tooltip(): string | null {
+    return this.getAttribute('tooltip');
+  }
 };
 
 export default IdsTooltipMixin;

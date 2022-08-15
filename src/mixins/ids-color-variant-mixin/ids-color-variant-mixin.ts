@@ -3,6 +3,7 @@ import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
 import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 export interface ColorVariantHandler {
+  onColorVariantRefresh?(variantName: string | undefined | null): void;
   onColorVariantRefresh?: (variantName: string | undefined | null) => void;
 }
 
