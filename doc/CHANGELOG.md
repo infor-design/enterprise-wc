@@ -4,6 +4,8 @@
 
 ### 1.0.0-beta.2 Fixes
 
+- `[Calendar]` Added calendar event add/update/remove via modal/API feature to calendar. ([#757](https://github.com/infor-design/enterprise-wc/pull/795))
+
 ## 1.0.0-beta.1
 
 ### 1.0.0-beta.1 Fixes
