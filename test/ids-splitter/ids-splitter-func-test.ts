@@ -3,7 +3,6 @@
  */
 import processAnimFrame from '../helpers/process-anim-frame';
 import '../helpers/resize-observer-mock';
-// import IntersectionObserver from '../helpers/intersection-observer-mock';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsSplitter from '../../src/components/ids-splitter/ids-splitter';
 
@@ -33,9 +32,6 @@ describe('IdsSplitter Component', () => {
   };
 
   beforeEach(async () => {
-    // Mock IntersectionObserver
-    // (<any>window).IntersectionObserver = IntersectionObserver;
-
     const elem = new IdsSplitter();
     container = new IdsContainer();
     container.appendChild(elem);
