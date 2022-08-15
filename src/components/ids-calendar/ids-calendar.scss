@@ -222,6 +222,11 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
     flex-grow: 1;
     border: 1px solid var(--ids-color-palette-slate-40);
     border-bottom-width: 0;
+
+    &::part(button) {
+      padding-top: 13px;
+      padding-bottom: 13px;
+    }
   }
 
   ids-button[data-action='close'] {
@@ -230,7 +235,16 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
 
   ids-button[data-action='submit'] {
     border-inline-end-width: 0;
+    border-inline-start-width: 0;
     margin-inline-start: -1px;
+
+    &::part(button) {
+      color: var(--ids-color-palette-azure-70);
+
+      &:hover {
+        color: var(--ids-color-palette-azure-80);
+      }
+    }
   }
 }
 

@@ -184,8 +184,8 @@ export default class IdsCalendar extends Base {
    * @returns {string} html accordion template
    */
   detailAccordionTemplate(data: CalendarEventDetail[]): string {
-    const panels = data.map((item: CalendarEventDetail) => `
-      <ids-accordion-panel expanded="false">
+    const panels = data.map((item: CalendarEventDetail, idx: number) => `
+      <ids-accordion-panel expanded="${idx === 0}">
         <ids-accordion-header color="${item.color}" slot="header">
           <ids-text font-weight="bold" overflow="ellipsis">${item.shortSubject || item.subject}</ids-text>
         </ids-accordion-header>
@@ -320,11 +320,11 @@ export default class IdsCalendar extends Base {
           <ids-textarea size="full" id="event-comments" label="${this.locale.translate('Comments')}" autoselect="true">${data.comments || ''}</ids-textarea>
         </div>
         <div id="event-form-actions" class="inline-container">
-          <ids-button data-action="close">
-            <ids-text translate-text="true" slot="text">Cancel</ids-text>
+          <ids-button data-action="close" no-padding>
+            <ids-text font-weight="bold" translate-text="true" slot="text">Cancel</ids-text>
           </ids-button>
-          <ids-button data-action="submit">
-            <ids-text translate-text="true" slot="text">Submit</ids-text>
+          <ids-button data-action="submit" no-padding>
+            <ids-text font-weight="bold" translate-text="true" slot="text">Submit</ids-text>
           </ids-button>
         </div>
       </form>
