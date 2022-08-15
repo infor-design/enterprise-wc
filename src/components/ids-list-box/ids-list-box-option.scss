@@ -37,7 +37,7 @@
   @include bg-slate-20();
 }
 
-:host(:hover:not(.is-selected)),
+:host(:hover:not(.is-selected):not([group-label])),
 :host(.is-focused) {
   @include bg-slate-20();
 }
@@ -77,4 +77,16 @@
 
 ::slotted(.highlight) {
   font-weight: var(--ids-number-font-weight-bold);
+}
+
+:host([group-label]) {
+  @include cursor-default();
+
+  color: #47474C;
+  font-weight: 600;
+}
+
+:host([group-label]:not(:first-child)) {
+  border-top: 1px solid #B7B7BA;
+  margin-top: 5px;
 }

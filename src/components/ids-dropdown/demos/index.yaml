@@ -14,6 +14,9 @@
   - link: clearable.html
     type: Example
     description: Showing a dropdown with clearable functionality
+  - link: groups.html
+    type: Example
+    description: Showing a dropdown with grouping functionality
   - link: sizes.html
     type: Example
     description: Showing width and height size variations

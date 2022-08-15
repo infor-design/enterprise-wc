@@ -16,7 +16,8 @@ import styles from './ids-dropdown.scss';
 type IdsListBoxOption = {
   id?: string,
   label: string,
-  value: string
+  value: string,
+  groupLabel: boolean
 };
 
 type IdsListBoxOptions = Array<IdsListBoxOption>;
@@ -891,8 +892,9 @@ export default class IdsDropdown extends Base {
     if (this.options.length > 0) {
       const firstWithValue = [...this.options].filter((item) => {
         const value = item.getAttribute(attributes.VALUE);
+        const groupLabel = item.hasAttribute('group-label');
 
-        return value && value !== 'blank';
+        return value && value !== 'blank' && !groupLabel;
       })[0];
 
       this.selectOption(firstWithValue);
@@ -905,7 +907,7 @@ export default class IdsDropdown extends Base {
    * @returns {string} ids-list-box-option template
    */
   #templatelistBoxOption(option: IdsListBoxOption): string {
-    return `<ids-list-box-option${option.id ? ` id=${option.id} ` : ' '}value="${option.value}">${option.label}</ids-list-box-option>`;
+    return `<ids-list-box-option${option.id ? ` id=${option.id} ` : ' '}value="${option.value}"${option.groupLabel ? ' group-label' : ''}>${option.label}</ids-list-box-option>`;
   }
 
   /**
@@ -914,11 +916,42 @@ export default class IdsDropdown extends Base {
    * @returns {IdsListBoxOptions} containing matched values
    */
   #findMatches(inputValue: string | RegExp): IdsListBoxOptions {
-    return this.#optionsData.filter((option: IdsListBoxOption) => {
+    const groupLabelIndexes: Array<number> = this.#optionsData.reduce(
+      (prev: Array<number>, current: IdsListBoxOption, index: number) => {
+        if (current?.groupLabel) {
+          return [...prev, index];
+        }
+
+        return prev;
+      },
+      []
+    );
+    const findIndex = (arr: Array<number>, checkIndex: number) => arr.reduce((prev, current, index) => {
+      if (current < checkIndex && (arr[index + 1] > checkIndex || !arr[index + 1])) {
+        return current;
+      }
+      return prev;
+    }, -1);
+
+    return this.#optionsData.reduce((result: Array<IdsListBoxOption>, option: IdsListBoxOption, index: number) => {
       const regex = new RegExp(inputValue, 'gi');
 
-      return option.label?.match(regex);
-    });
+      if (option.label?.match(regex) && !option.groupLabel) {
+        const groupLabelIndex = findIndex(groupLabelIndexes, index);
+        const groupLabelOption = this.#optionsData[groupLabelIndex];
+        const groupLabelAdded = result.some(
+          (item: IdsListBoxOption) => item.label === groupLabelOption.label
+        );
+
+        if (groupLabelIndex >= 0 && !groupLabelAdded) {
+          return [...result, groupLabelOption, option];
+        }
+
+        return [...result, option];
+      }
+
+      return result;
+    }, []);
   }
 
   /**
@@ -928,7 +961,8 @@ export default class IdsDropdown extends Base {
     this.#optionsData = [...this.options].map((item) => ({
       id: item?.id,
       label: item?.textContent,
-      value: item?.getAttribute(attributes.VALUE)
+      value: item?.getAttribute(attributes.VALUE),
+      groupLabel: item?.hasAttribute('group-label')
     }));
   }
 
