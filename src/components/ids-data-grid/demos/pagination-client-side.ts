@@ -73,12 +73,10 @@ const container: any = document.querySelector('ids-container');
 
   dataGrid.pager.addEventListener('pagenumberchange', (e: CustomEvent) => {
     console.info(`client-side page-number # ${e.detail.value}`);
-    dataGrid.redrawBody();
   });
 
   dataGrid.pager.addEventListener('pagesizechange', (e: CustomEvent) => {
     console.info(`client-side page-size # ${e.detail.value}`);
-    dataGrid.redrawBody();
   });
 
   console.info('Loading Time:', window.performance.now());
