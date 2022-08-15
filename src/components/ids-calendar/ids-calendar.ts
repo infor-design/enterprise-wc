@@ -335,12 +335,40 @@ export default class IdsCalendar extends Base {
    * Attach calendar event handlers
    */
   #attachEventHandlers(): void {
+    let daySelectTimer: any;
+    let daySelectCount = 0;
+    let daySelectedDate: Date;
+
     this.offEvent('dayselected.calendar-container');
     this.onEvent('dayselected.calendar-container', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
-      this.#updateActiveDate(evt.detail.date);
-      this.state.selected = evt.detail?.events || [];
-      this.updateEventDetails(evt.detail?.events);
+      clearTimeout(daySelectTimer);
+      daySelectCount++;
+
+      const updateCalendar = () => {
+        this.#updateActiveDate(evt.detail.date);
+        this.state.selected = evt.detail?.events || [];
+        this.updateEventDetails(evt.detail?.events);
+      };
+
+      const createNewEvent = () => {
+        const id: string = Date.now().toString() + Math.floor(Math.random() * 100);
+        this.createNewEvent(id, true);
+      };
+
+      daySelectTimer = setTimeout(() => {
+        updateCalendar();
+        daySelectCount = 0;
+      }, 200);
+
+      if (daySelectCount === 2 && evt.detail.date.getTime() === daySelectedDate?.getTime()) {
+        clearTimeout(daySelectTimer);
+        updateCalendar();
+        createNewEvent();
+        daySelectCount = 0;
+      }
+
+      daySelectedDate = evt.detail.date;
     });
 
     this.offEvent('viewchange.calendar-container');
