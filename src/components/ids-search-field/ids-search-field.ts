@@ -49,7 +49,7 @@ export default class IdsSearchField extends Base {
     };
 
     this.buttons.forEach(adjustBtnVariant);
-    [...this.fieldContainer.querySelectorAll('ids-trigger-button')].forEach(adjustBtnVariant);
+    [...this.fieldContainer?.querySelectorAll('ids-trigger-button')].forEach(adjustBtnVariant);
   }
 
   static get attributes() {
