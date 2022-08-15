@@ -11,3 +11,13 @@
   - link: label-state.html
     type: Test
     description: Showing an example with hidden labels
+    description: Shows basic lookup with states
+  - link: pagination-client.html
+    type: Example
+    description: Showing a lookup with client-side pagination
+  - link: pagination-server.html
+    type: Example
+    description: Showing a lookup with server-side pagination
+  - link: filter.html
+    type: Example
+    description: Showing a lookup with filtering

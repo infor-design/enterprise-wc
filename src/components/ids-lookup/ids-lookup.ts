@@ -40,7 +40,11 @@ export default class IdsLookup extends Base {
   connectedCallback() {
     super.connectedCallback();
 
-    // Setup some internal refs
+    this.triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
+    this.triggerButton = this.shadowRoot?.querySelector('ids-trigger-button[part="trigger-lookup"]');
+    this.triggerClearButton = this.shadowRoot?.querySelector('ids-trigger-button[part="trigger-clearable"]');
+
+    // Setup some datagrid defaults
     this.state = {
       dataGridSettings: {
         rowSelection: 'multiple'
@@ -56,15 +60,11 @@ export default class IdsLookup extends Base {
     if (!this.modal) {
       this.modal = this.shadowRoot?.querySelector('ids-modal');
     }
-
-    // Reference to the trigger field
-    this.triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
-
-    /// Reference to the trigger button
-    this.triggerButton = this.shadowRoot?.querySelector('ids-trigger-button');
-
     this.modal.target = this.triggerButton;
     this.modal.triggerType = 'click';
+
+    // Hide clear btn
+    this.triggerClearButton.container.style.display = 'none';
 
     this
       .#handleEvents()
@@ -106,7 +106,14 @@ export default class IdsLookup extends Base {
       ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
       <ids-trigger-button
         slot="trigger-end"
-        part="trigger-button"
+        part="trigger-clearable"
+      >
+        <ids-text audible="true">LookupTriggerButton</ids-text>
+        <ids-icon slot="icon" icon="close" size="small" part="icon"></ids-icon>
+      </ids-trigger-button>
+      <ids-trigger-button
+        slot="trigger-end"
+        part="trigger-lookup"
         tabbable="${this.tabbable}"
         disabled="${this.disabled}"
         readonly="${this.readonly}">
@@ -141,11 +148,8 @@ export default class IdsLookup extends Base {
    */
   set autocomplete(value: string | boolean | null) {
     const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.AUTOCOMPLETE, '');
-    } else {
-      this.removeAttribute(attributes.AUTOCOMPLETE);
-    }
+    if (val) this.setAttribute(attributes.AUTOCOMPLETE, '');
+    else this.removeAttribute(attributes.AUTOCOMPLETE);
   }
 
   /**
@@ -162,11 +166,8 @@ export default class IdsLookup extends Base {
    * @returns {void}
    */
   onDirtyTrackerChange(value: boolean) {
-    if (value) {
-      this.container?.setAttribute(attributes.DIRTY_TRACKER, value.toString());
-    } else {
-      this.container?.removeAttribute(attributes.DIRTY_TRACKER);
-    }
+    if (value) this.container?.setAttribute(attributes.DIRTY_TRACKER, value.toString());
+    else this.container?.removeAttribute(attributes.DIRTY_TRACKER);
   }
 
   /**
@@ -175,7 +176,10 @@ export default class IdsLookup extends Base {
    */
   set value(value: string) {
     this.setAttribute('value', value);
-    this.triggerField.value = value;
+    if (this.triggerField) this.triggerField.value = value;
+
+    if (value && !this.disabled && !this.readonly) this.#showClearButton();
+    else this.#hideClearButton();
 
     if (this.value === value) {
       // Send the change event{
@@ -423,6 +427,20 @@ export default class IdsLookup extends Base {
   }
 
   /**
+   * Hide clear button when value is empty
+   */
+  #hideClearButton(): void {
+    if (this.triggerClearButton) this.triggerClearButton.container.style.display = 'none';
+  }
+
+  /**
+   * Show clear button when value is not empty
+   */
+  #showClearButton(): void {
+    if (this.triggerClearButton) this.triggerClearButton.container.style.display = 'flex';
+  }
+
+  /**
    * Set the value in the input for the selected row(s)
    * @private
    */
@@ -450,6 +468,16 @@ export default class IdsLookup extends Base {
         this.modal.hide();
         this.#setInputValue();
       }
+    });
+
+    this.onEvent('change.lookup', this.triggerField, () => {
+      if (this.triggerField.value) this.#showClearButton();
+      else this.#hideClearButton();
+    });
+
+    this.onEvent('click.clearable', this.triggerClearButton, () => {
+      this.value = '';
+      this.dataGrid.deSelectAllRows();
     });
 
     this.modal.addEventListener('beforeshow', (e: CustomEvent) => {
