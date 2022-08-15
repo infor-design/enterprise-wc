@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsMultiselect Component renders correctly 1`] = `
+"<ids-multiselect id=\\"multiselect-1\\" label=\\"Normal Multiselect\\" dirty-tracker=\\"true\\" role=\\"combobox\\" aria-expanded=\\"false\\" aria-autocomplete=\\"list\\" aria-haspopup=\\"listbox\\" aria-description=\\"Press Down arrow to select\\" aria-controls=\\"ids-list-box-multiselect-1\\"><ids-list-box class=\\"selected-options\\" role=\\"listbox\\">
+        </ids-list-box>
+      <ids-list-box id=\\"ids-list-box-multiselect-1\\" aria-label=\\"Listbox\\" role=\\"listbox\\">
+
+        <ids-list-box-option value=\\"opt2\\" id=\\"opt2\\" role=\\"option\\" tabindex=\\"-1\\"><ids-checkbox label=\\"Option Two\\" tooltip=\\"Additional Info on Option Two\\" class=\\"justify-center\\"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option value=\\"opt3\\" id=\\"opt3\\" role=\\"option\\" tabindex=\\"-1\\"><ids-checkbox label=\\"Option Three\\" tooltip=\\"Additional Info on Option Three\\" class=\\"justify-center\\"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option value=\\"opt4\\" id=\\"opt4\\" role=\\"option\\" tabindex=\\"-1\\"><ids-checkbox label=\\"Option Four\\" tooltip=\\"Additional Info on Option Four\\" class=\\"justify-center\\"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option value=\\"opt5\\" id=\\"opt5\\" role=\\"option\\" tabindex=\\"-1\\"><ids-checkbox label=\\"Option Five\\" tooltip=\\"Additional Info on Option Five\\" class=\\"justify-center\\"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option value=\\"opt6\\" id=\\"opt6\\" role=\\"option\\" tabindex=\\"-1\\"><ids-checkbox label=\\"Option Six\\" tooltip=\\"Additional Info on Option Six\\" class=\\"justify-center\\"></ids-checkbox></ids-list-box-option>
+      </ids-list-box>
+    </ids-multiselect>"
+`;

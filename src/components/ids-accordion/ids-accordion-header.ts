@@ -34,7 +34,7 @@ export default class IdsAccordionHeader extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.#refreshIconDisplay(this.icon);
   }
 

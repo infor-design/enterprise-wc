@@ -6,14 +6,21 @@
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto="true">
-      <ids-text font-size="20" type="h1">Ids Contextual Action Panel Examples</ids-text>
+      <ids-text font-size="12" type="h1">Lookup (Paging Server Side)</ids-text>
     </ids-layout-grid>
+
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-demo-listing label="Contextual Action Panel Examples" component-name="ids-contextual-action-panel">
-        </ids-demo-listing>
+        <ids-lookup
+          id="lookup-1"
+          label="Lookup with Paging"
+          title="Select an Item"
+          field="description"
+          value="102,103"
+          dirty-tracker="true"
+        ></ids-lookup>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

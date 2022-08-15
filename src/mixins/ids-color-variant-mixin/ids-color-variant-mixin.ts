@@ -16,18 +16,10 @@ const IdsColorVariantMixin = (superclass: any) => class extends superclass {
       this.state = {};
     }
     this.state.colorVariant = null;
-
-    // Overrides the IdsElement `render` method to also include an update
-    // to color variant styling after it runs, keeping the visual state in-sync.
-    this.render = () => {
-      super.render();
-      this.#refreshColorVariant();
-    };
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
-    this.colorVariant = this.getAttribute(attributes.COLOR_VARIANT);
+    super.connectedCallback();
   }
 
   static get attributes() {
@@ -81,10 +73,10 @@ const IdsColorVariantMixin = (superclass: any) => class extends superclass {
    * @returns {void}
    */
   #refreshColorVariant(oldVariantName?: string | null, newVariantName?: string | null): void {
-    const cl = this.container.classList;
+    const cl = this.container?.classList;
 
-    if (oldVariantName) cl.remove(`color-variant-${oldVariantName}`);
-    if (newVariantName) cl.add(`color-variant-${newVariantName}`);
+    if (oldVariantName) cl?.remove(`color-variant-${oldVariantName}`);
+    if (newVariantName) cl?.add(`color-variant-${newVariantName}`);
 
     // Fire optional callback
     if (typeof this.onColorVariantRefresh === 'function') {

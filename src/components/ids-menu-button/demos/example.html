@@ -6,7 +6,7 @@
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto="true">
       <ids-text font-size="12" type="h1">Menu Buttons</ids-text>
     </ids-layout-grid>
@@ -15,7 +15,7 @@
           <ids-menu-button id="menu-button" icon="settings" type="tertiary" menu="my-menu" dropdown-icon>
             <span slot="text">Settings</span>
           </ids-menu-button>
-          <ids-popup-menu id="my-menu" target="menu-button" trigger="click">
+          <ids-popup-menu id="my-menu" target="menu-button" trigger-type="click">
             <ids-menu-group>
               <ids-menu-item>Personalize Columns...</ids-menu-item>
             </ids-menu-group>
@@ -40,7 +40,7 @@
             <ids-icon slot="icon" icon="more"></ids-icon>
             <span class="audible">Icon Only Button</span>
           </ids-menu-button>
-          <ids-popup-menu id="icon-menu" target="icon-button" trigger="click">
+          <ids-popup-menu id="icon-menu" target="icon-button" trigger-type="click">
             <ids-menu-group select="multiple" keep-open="true">
               <ids-menu-item value="1">Option One</ids-menu-item>
               <ids-menu-item value="2">Option Two</ids-menu-item>

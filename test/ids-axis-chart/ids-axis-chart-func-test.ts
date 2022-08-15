@@ -103,7 +103,7 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('supports setting margins', () => {
-    expect(axisChart.margins.left).toEqual(16);
+    expect(axisChart.margins.left).toEqual(axisChart.margins.left);
     expect(axisChart.margins.right).toEqual(4);
     const newMargins = {
       left: 32,
@@ -121,7 +121,7 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('supports setting textWidths', () => {
-    expect(axisChart.textWidths.left).toEqual(-axisChart.margins.left);
+    expect(axisChart.textWidths.left).toEqual(4);
     expect(axisChart.textWidths.right).toEqual(0);
     const newTextWidths = {
       left: 40, right: 40, top: 40, bottom: 40
@@ -266,37 +266,30 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[1].textContent).toEqual('Feb');
   });
 
-  it('fires rendered callback', async () => {
-    const renderedListener = jest.fn();
-    axisChart.rendered = renderedListener;
-    axisChart.rerender();
-    expect(renderedListener).toBeCalledTimes(1);
-  });
-
   it('can set the legend placement', async () => {
     expect(axisChart.legendPlacement).toEqual('bottom');
     axisChart.legendPlacement = 'left';
-    axisChart.rerender();
+    axisChart.redraw();
     expect(axisChart.container.parentNode.classList.contains('legend-left')).toBeTruthy();
     axisChart.legendPlacement = 'right';
-    axisChart.rerender();
+    axisChart.redraw();
     expect(axisChart.container.parentNode.classList.contains('legend-right')).toBeTruthy();
     axisChart.legendPlacement = 'bottom';
-    axisChart.rerender();
+    axisChart.redraw();
     expect(axisChart.container.parentNode.classList.contains('legend-bottom')).toBeTruthy();
   });
 
   it('can set alignXLabels', () => {
     expect(axisChart.alignXLabels).toEqual('start');
     axisChart.alignXLabels = 'middle';
-    axisChart.rerender();
+    axisChart.redraw();
     expect(axisChart.container.querySelector('.x-labels text').getAttribute('text-anchor')).toEqual('middle');
   });
 
   it('can set animationSpeed', () => {
     expect(axisChart.animationSpeed).toEqual(0.8);
     axisChart.animationSpeed = 1.5;
-    axisChart.rerender();
+    axisChart.redraw();
     expect(axisChart.getAttribute('animation-speed')).toEqual('1.5');
   });
 
@@ -331,7 +324,7 @@ describe('IdsAxisChart Component', () => {
       color: 'var(--ids-color-palette-azure-20)',
       name: 'Series 2'
     }];
-    axisChart.rerender();
+    axisChart.redraw();
 
     expect(axisChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
     expect(axisChart.color(0)).toEqual('var(color-1)');
@@ -344,6 +337,19 @@ describe('IdsAxisChart Component', () => {
     container.language = 'ar';
     await processAnimFrame();
 
+    expect(axisChart.locale.isRTL()).toBe(true);
+  });
+
+  it('should set axis label', async () => {
+    expect(axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length).toEqual(0);
+    axisChart.axisLabelBottom = 'Bottom axis label';
+    axisChart.axisLabelEnd = 'End axis label';
+    axisChart.axisLabelStart = 'Start axis label';
+    axisChart.axisLabelTop = 'Top axis label';
+    axisChart.axisLabelMargin = 20;
+    expect(axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length).toEqual(4);
+    container.language = 'ar';
+    await processAnimFrame();
     expect(axisChart.locale.isRTL()).toBe(true);
   });
 });

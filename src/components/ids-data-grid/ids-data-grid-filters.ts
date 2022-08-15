@@ -718,7 +718,7 @@ export default class IdsDataGridFilters {
    */
   attachFilterEventHandlers() {
     // Selected menu-button item
-    this.root.onEvent(`selected.${this.#id()}`, this.root.elements?.header, (e: any) => {
+    this.root.onEvent(`selected.${this.#id()}`, this.root.header, (e: any) => {
       const elem = e.detail?.elem;
       if (!elem || (elem && !(/ids-menu-item/gi.test(elem.nodeName)))) return;
 
@@ -750,7 +750,7 @@ export default class IdsDataGridFilters {
     });
 
     // Change event for input, dropdown, multiselect, date-picker and time-picker
-    this.root.onEvent(`change.${this.#id()}`, this.root.elements?.header, (e: any) => {
+    this.root.onEvent(`change.${this.#id()}`, this.root.header, (e: any) => {
       const nodeName = e.target?.nodeName;
       if (nodeName && /ids-(input|dropdown|multiselect|date-picker|time-picker)/gi.test(nodeName)) {
         this.applyFilter();
@@ -836,14 +836,14 @@ export default class IdsDataGridFilters {
 
     return `
       <ids-menu-button
-        color-variant="alternate-formatter"
+        color-variant="${!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'}"
         css-class="compact"
         icon="${sel.icon}"
         column-id="${column.id}"
         id="btn-${id}"
         menu="menu-${id}"
         square="true"
-        trigger="click"
+        trigger-type="click"
         ${disabled}${readonly}
         dropdown-icon>
         <span slot="text" class="audible">${sel.label}</span>
@@ -874,7 +874,7 @@ export default class IdsDataGridFilters {
     value = value ? ` value="${value}"` : '';
 
     return `<ids-input
-      color-variant="alternate-formatter"
+      color-variant="${!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'}"
       data-filter-type="${type}"
       type="${opt.type || 'text'}"
       size="${opt.size || 'full'}"

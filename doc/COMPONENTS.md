@@ -75,8 +75,8 @@ class [IdsComponent] extends Base {
    * Invoked each time the custom element is add into a document-connected element
    */
   connectedCallback() {
+    super.connectedCallback();
     this.#attachEventHandlers();
-    super.connectedCallback(); // Some mixins require this
   }
 
   /**
@@ -94,7 +94,7 @@ class [IdsComponent] extends Base {
    * @returns {string} The template
    */
   template() {
-    return '<div class="ids-[component]" part="container"><slot></slot></div>';
+    return '<div class="ids-[component]" class="${this.settingName}" part="container"><slot></slot></div>';
   }
 
   /**
@@ -105,6 +105,24 @@ class [IdsComponent] extends Base {
   #attachEventHandlers() {
     return this;
   }
+
+  set settingName(value: string) {
+    if (value) {
+      this.setAttribute(attributes.SETTING_NAME, value.toString());
+    } else {
+      this.removeAttribute(attributes.SETTING_NAME);
+    }
+
+    if (this.container) {
+      if (value) {
+        this.container.classList.add(attributes.SETTING_NAME);
+      } else {
+        this.container.classList.remove(attributes.SETTING_NAME);
+      }
+    }
+  }
+
+  get settingName(): string { return this.getAttribute(attributes.DISMISSIBLE); }
 }
 
 export default Ids[Component];
@@ -160,12 +178,18 @@ constructor() {
 }
 ```
 
-- Add a `connectedCallback` this is called when the element is attached to the DOM. You can add any setup functions here and call `super` as some mixins also need the callback and this will call it on them. This is needed for any mixins that call super themself. But is safe to always do it if you need code in `connectedCallback`.
+- Add a `connectedCallback` this is called when the element is attached to the DOM. You can add any setup functions here and call `super` as some mixins also need the callback and this will call it on them. This is needed for any mixins that call super themself. But is safe to always do it if you need code in `connectedCallback`. In the component lifecycle the following callbacks/events are fired  in the following order:
 
 ```js
+constructor() // setters or called with no container or shadowRoot
+connectedCallback() // container / shadowRoot is established and added to DOM
+```
+
+Example:
+```js
 connectedCallback() {
-  this.#attachEventHandlers();
   super.connectedCallback();
+  this.#attachEventHandlers();
 }
 ```
 
@@ -179,11 +203,13 @@ connectedCallback() {
   }
 ```
 
-- Create a template method that returns a template string which will be the internal markup of the component. You can inject any settings into the string. Some elements should have `part` attributes, these are potential elements an outside developer might want to style and it gives them some access to otherwise encapsulated styles to override. For more info see the [shadow parts spec](https://drafts.csswg.org/css-shadow-parts-1/#part-attr).
+- Create a template method that returns a template string which will be the internal markup of the component. You can inject any settings into the string. Some elements should have `part` attributes, these are potential elements an outside developer might want to style and it gives them some access to otherwise encapsulated styles to override. For more info see the [shadow parts spec](https://drafts.csswg.org/css-shadow-parts-1/#part-attr). Its important to reflect all the settings in the template for the initial render.
+
+```js
 
 ```js
 template() {
-  return '<div class="ids-[component]" part="container"><slot></slot></div>';
+  return '<div class="ids-[component]" class="${this.settingName}" part="container"><slot></slot></div>';
 }
 ```
 
@@ -194,6 +220,30 @@ template() {
     return this;
   }
 }
+```
+
+- Add a getter/setter for each properties. One point is that you should always do the attributes in two ways:
+  - read in the template for initial render
+  - in the setter to adjust for setting later
+
+```js
+set settingName(value: string) {
+    if (value) {
+      this.setAttribute(attributes.SETTING_NAME, value.toString());
+    } else {
+      this.removeAttribute(attributes.SETTING_NAME);
+    }
+
+    if (this.container) {
+      if (value) {
+        this.container.classList.add(attributes.SETTING_NAME);
+      } else {
+        this.container.classList.remove(attributes.SETTING_NAME);
+      }
+    }
+}
+
+get settingName(): string { return this.getAttribute(attributes.DISMISSIBLE); }
 ```
 
 - Export the component (usually as default)
@@ -460,6 +510,38 @@ it('dismisses on backspace/delete', () => {
 });
 ```
 
+Should add a test that the component can have its getters called before and after being in the DOM.
+
+```js
+  it('should be able to set attributes before append', async () => {
+    const elem: any = new IdsTag();
+    elem.color = 'red';
+    elem.clickable = true;
+    elem.dismissible = true;
+    elem.disabled = true;
+    document.body.appendChild(elem);
+
+    expect(elem.getAttribute('color')).toEqual('red');
+    expect(elem.getAttribute('clickable')).toEqual('true');
+    expect(elem.getAttribute('dismissible')).toEqual('true');
+    expect(elem.getAttribute('disabled')).toEqual('true');
+  });
+
+  it('should be able to set attributes after append', async () => {
+    const elem: any = new IdsTag();
+    document.body.appendChild(elem);
+    elem.color = 'red';
+    elem.clickable = true;
+    elem.dismissible = true;
+    elem.disabled = true;
+
+    expect(elem.getAttribute('color')).toEqual('red');
+    expect(elem.getAttribute('clickable')).toEqual('true');
+    expect(elem.getAttribute('dismissible')).toEqual('true');
+    expect(elem.getAttribute('disabled')).toEqual('true');
+  });
+```
+
 Then recheck coverage and tests the rest of the functionality. Like events and methods and all settings (getters and setters). See other tests for details. As a tip if trying to finish the coverage on a component you cant run `npx jest --coverage -- component-name` to run just the tests quickly for a component and then target the coverage that way for that one component.
 
 Keep in mind that you can cover with both an e2e or functional test. The coverage is combined. Jest tests are preferred for API tests. e2e tests should be done for in browser tests or things that JSDOM/Jest cannot support.
@@ -483,17 +565,36 @@ it('should not have errors', async () => {
 Add axe test.
 
 ```js
-it('should pass Axe accessibility tests', async () => {
-  await page.setBypassCSP(true);
-  await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-  await (expect(page) as any).toPassAxeTests();
-});
+  import { AxePuppeteer } from '@axe-core/puppeteer';
+  ...
+  it('should pass Axe accessibility tests', async () => {
+    await page.setBypassCSP(true);
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    const results = await new AxePuppeteer(page).analyze();
+    expect(results.violations.length).toBe(0);
+  });
 ```
 
 Note that you can ignore some rules if they do not make sense. For example some designs might not be accessible for color contrast.
 
 ```js
-await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-required-children', 'aria-required-parent'] });
+await new AxePuppeteer(page).disableRules(['color-contrast', 'region']).analyze();
+```
+
+You should also test that you can use createElement on the component.
+
+```js
+  it('should be able to createElement', async () => {
+    let hasError = false;
+    try {
+      await page.evaluate(() => {
+        document.createElement('ids-tag');
+      });
+    } catch (err) {
+      hasError = true;
+    }
+    await expect(hasError).toEqual(false);
+  });
 ```
 
 In the future we will add many more e2e tests, including tests for BDD (test steps for QA).

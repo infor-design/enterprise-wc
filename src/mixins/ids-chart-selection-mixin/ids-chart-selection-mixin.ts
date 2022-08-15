@@ -25,8 +25,8 @@ const IdsChartSelectionMixin = (superclass: any) => class extends superclass {
   }
 
   connectedCallback() {
-    this.#init();
     super.connectedCallback?.();
+    this.#init();
   }
 
   /**

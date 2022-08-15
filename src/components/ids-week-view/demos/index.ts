@@ -40,6 +40,8 @@ function getEventTypes(): Promise<any> {
 document.addEventListener('DOMContentLoaded', async () => {
   const weekView: any = document.querySelector('ids-week-view');
 
+  if (!weekView) return;
+
   // Set event types
   weekView.eventTypesData = await getEventTypes();
 

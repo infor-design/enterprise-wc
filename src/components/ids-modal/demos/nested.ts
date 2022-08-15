@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Links the Modals to their trigger buttons
   parentModal.target = parentTriggerBtn;
-  parentModal.trigger = 'click';
+  parentModal.triggerType = 'click';
   nestedModal.target = nestedTriggerBtn;
-  nestedModal.trigger = 'click';
+  nestedModal.triggerType = 'click';
 
   // Disable the trigger buttons when showing their Modals.
   parentModal.addEventListener('beforeshow', () => {

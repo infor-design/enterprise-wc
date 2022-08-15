@@ -91,11 +91,6 @@ describe('IdsCard Component', () => {
     expect(card.container.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting version', () => {
-    card.version = 'classic';
-    expect(card.container.getAttribute('version')).toEqual('classic');
-  });
-
   it('support card selection single', () => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
     card.selection = 'single';

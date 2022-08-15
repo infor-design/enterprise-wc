@@ -197,7 +197,7 @@ describe('IdsHomePage Component', () => {
     expect(mockCallback).toHaveBeenCalled();
   });
 
-  it('should trigger resized event in RTL', async () => {
+  it.skip('should trigger resized event in RTL', async () => {
     await container.setLanguage('ar');
     await processAnimFrame();
     expect(homePage.getAttribute('dir')).toEqual('rtl');

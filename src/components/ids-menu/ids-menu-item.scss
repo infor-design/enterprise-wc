@@ -86,6 +86,15 @@
 
     .ids-menu-item-text {
       grid-column-start: 2;
+
+      span,
+      .ids-text {
+        display: inline-block;
+      }
+
+      ::slotted(ids-text) {
+        display: inline-block;
+      }
     }
 
     .ids-menu-item-submenu-icon {
@@ -345,82 +354,6 @@
     span.check {
       @include bg-white();
       @include border-slate-90();
-    }
-
-    &.selected {
-      span.check {
-        @include bg-azure-80();
-        @include border-azure-80();
-      }
-    }
-  }
-}
-
-.ids-menu-item[version='classic'][mode='light'] {
-  @include text-graphite-100();
-
-  &.disabled {
-    @include text-graphite-40();
-  }
-
-  &.highlighted {
-    background-color: var(--ids-color-palette-graphite-20);
-  }
-
-  &.has-multi-checkmark {
-    span.check {
-      @include border-classic-slate-40();
-    }
-
-    &.selected {
-      span.check {
-        @include bg-azure-60();
-        @include border-azure-60();
-      }
-    }
-  }
-}
-
-.ids-menu-item[version='classic'][mode='dark'] {
-  @include text-white();
-
-  &.disabled {
-    @include text-classic-slate-50();
-  }
-
-  &.highlighted {
-    background-color: var(--ids-color-palette-classic-slate-50);
-  }
-
-  &.has-multi-checkmark {
-    span.check {
-      @include border-classic-slate-40();
-    }
-
-    &.selected {
-      span.check {
-        @include bg-azure-60();
-        @include border-azure-60();
-      }
-    }
-  }
-}
-
-.ids-menu-item[version='classic'][mode='contrast'] {
-  @include text-graphite-100();
-
-  &.disabled {
-    @include text-classic-slate-50();
-  }
-
-  &.highlighted {
-    background-color: var(--ids-color-palette-graphite-30);
-  }
-
-  &.has-multi-checkmark {
-    span.check {
-      @include bg-white();
-      @include border-graphite-90();
     }
 
     &.selected {

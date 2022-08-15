@@ -34,7 +34,7 @@ export default class IdsLayoutFlexItem extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
   }
 
   template(): string {

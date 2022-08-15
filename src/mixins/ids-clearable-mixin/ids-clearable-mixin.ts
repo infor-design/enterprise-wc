@@ -43,8 +43,11 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
   }
 
   refreshClearableButtonStyles() {
-    this.removeClearableButton();
-    this.appendClearableButton();
+    const xButton = this.shadowRoot.querySelector('.btn-clear');
+    if (!xButton) {
+      this.removeClearableButton();
+      this.appendClearableButton();
+    }
   }
 
   #initClearableButton() {
@@ -221,7 +224,7 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
     } else {
       this.removeAttribute(attributes.CLEARABLE);
     }
-    this.handleClearable();
+    if (this.container) this.handleClearable();
   }
 
   get clearable() { return this.getAttribute(attributes.CLEARABLE); }

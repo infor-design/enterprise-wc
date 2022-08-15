@@ -154,11 +154,13 @@ export default class IdsTriggerField extends Base {
    */
   set disabled(d: boolean | string) {
     super.disabled = d;
-
     if (stringToBool(d)) {
+      this.readonly = false;
+      super.readonly = false;
+
       this.buttons.forEach((btn) => {
         btn.setAttribute(attributes.DISABLED, '');
-        btn.removeAttribute(attributes.READONLY);
+        btn.readonly = false;
       });
     } else {
       this.buttons.forEach((btn) => {

@@ -1,3 +1,5 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Draggable e2e Tests', () => {
   const exampleUrl = 'http://localhost:4444/ids-draggable/example.html';
 
@@ -150,8 +152,9 @@ describe('Ids Draggable e2e Tests', () => {
 
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
-    await page.goto(exampleUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });
-    await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast', 'region'] });
+    await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
+    const results = await new AxePuppeteer(page).disableRules(['color-contrast', 'region']).analyze();
+    expect(results.violations.length).toBe(0);
   });
 });
 
@@ -160,7 +163,8 @@ describe('Ids Draggable Sandbox e2e Tests', () => {
 
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
-    await page.goto(sandboxUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });
-    await (expect(page) as any).toPassAxeTests({ disabledRules: ['color-contrast', 'region'] });
+    await page.goto(sandboxUrl, { waitUntil: ['networkidle2', 'load'] });
+    const results = await new AxePuppeteer(page).disableRules(['color-contrast', 'region']).analyze();
+    expect(results.violations.length).toBe(0);
   });
 });

@@ -6,7 +6,7 @@
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid cols="3" gap="md">
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h1">Ids Input</ids-text>
@@ -17,10 +17,8 @@
         <ids-input type="text" label="Disabled" disabled="true" value="Field not editable"></ids-input>
         <ids-input type="text" label="Readonly" readonly="true" value="02006"></ids-input>
         <ids-input type="text" label="Dirty Tracking" dirty-tracker="true" placeholder="Dirty Tracking" value="02006"></ids-input>
-        <ids-input type="text" label="Clearable" placeholder="Clearable text Field" validate="email" clearable="true"></ids-input>
+        <ids-input type="text" label="Clearable" placeholder="Clearable text Field" clearable="true"></ids-input>
         <ids-input type="text" label="Autoselect" value="Text select on focus" autoselect="true"></ids-input>
-        <ids-input type="text" label="Date" validate="date" mask="date"></ids-input>
-        <ids-input type="text" label="Time" validate="time"></ids-input>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell>
@@ -57,14 +55,10 @@
         <ids-text font-size="12" type="h2">Ids Input - Password</ids-text>
         <br>
         <ids-input id="password-test" label="Password" caps-lock="true" revealable-password="true" password-visible="false" type="password" value="Test"></ids-input>
-        <ids-button id="revealable-btn" type="secondary"><span slot="text">Toggle revealable text</span></ids-button>
-        <ids-button id="tabbable-btn" type="secondary"><span slot="text">Toggle tabbable</span></ids-button>
-
-        <br><br>
         <ids-text font-size="12" type="h2">Ids Input - Phone/Number</ids-text>
         <br>
         <ids-input id="phone-input" type="phone" label="Phone Number" mask="number" placeholder="(###) ###-####"></ids-input>
-        <ids-input id="number-input" type="number" label="Number" mask="number" placeholder="1000.00" text-align="right"></ids-input>
+        <ids-input id="number-input" label="Number" mask="number" placeholder="1000.00" text-align="end"></ids-input>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

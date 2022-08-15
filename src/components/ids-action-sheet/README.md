@@ -11,7 +11,7 @@ The main use case for the IDS Action Sheet component is to display a mobile-frie
 ## Terminology
 
 - **ids-action-sheet**: The action sheet container. Consists of an `ids-overlay` and an unnamed `slot` which will contain the menu.
-- **cancel-button**: The cancel button will close the action sheet. The default text of the button is "Cancel", but can be override with the `btnText` attribute.
+- **cancel-button**: The cancel button will close the action sheet. The default text of the button is "Cancel", but can be override with the `cancelBtnText` attribute.
 
 ## Features (With Code Examples)
 

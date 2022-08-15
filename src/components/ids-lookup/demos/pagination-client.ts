@@ -1,11 +1,11 @@
 // Supporting components
 import '../ids-lookup';
+
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
 const lookup: Element | any = document.querySelector('#lookup-1');
 const container: Element | any = document.querySelector('ids-container');
-const autocomplete: Element | any = lookup.shadowRoot?.querySelector('ids-trigger-field');
 
 (async function init() {
   // Set a Locale and wait for it to load
@@ -61,38 +61,17 @@ const autocomplete: Element | any = lookup.shadowRoot?.querySelector('ids-trigge
 
   lookup.columns = columns;
 
-  const addEventListeners = () => {
-    lookup.addEventListener('change', () => {
-      console.info(`Value Changed`, lookup.dataGrid.selectedRows, lookup.value);
-    });
-
-    lookup.addEventListener('rowselected', (e: CustomEvent) => {
-      console.info(`Row Selected`, e.detail);
-    });
-
-    lookup.addEventListener('rowdeselected', (e: CustomEvent) => {
-      console.info(`Row DeSelected`, e.detail);
-    });
-
-    lookup.addEventListener('selectionchanged', (e: CustomEvent) => {
-      console.info(`Selection Changed`, e.detail);
-    });
-  };
-
-  lookup.dataGridSettings = {
-    rowSelection: 'multiple'
-  };
-
   const setData = async () => {
     const res = await fetch(url);
     const data = await res.json();
     lookup.dataGridSettings = {
-      rowSelection: 'multiple'
+      rowSelection: 'multiple',
+      pageSize: 5,
+      pageNumber: 1,
+      pagination: 'client-side'
     };
     lookup.data = data;
-    autocomplete.data = data;
   };
 
   setData();
-  addEventListeners();
 }());

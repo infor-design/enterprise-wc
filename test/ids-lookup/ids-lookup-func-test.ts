@@ -5,7 +5,7 @@
 import '../helpers/resize-observer-mock';
 import '../helpers/match-media-mock';
 import createFromTemplate from '../helpers/create-from-template';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import dataset from '../../src/assets/data/books.json';
 
 import '../../src/components/ids-data-grid/ids-data-grid';
@@ -226,6 +226,13 @@ describe('IdsLookup Component', () => {
     expect(lookup.triggerField.value).toEqual('218902');
   });
 
+  it('should be able to set clearable', () => {
+    lookup.clearable = true;
+    lookup.value = 'x';
+    lookup.triggerClearButton.click();
+    expect(lookup.triggerField.value).toEqual('');
+  });
+
   it('should open on click and close on the modal buttons', async () => {
     lookup = await createMultiSelectLookup();
     expect(lookup.modal.visible).toBe(false);
@@ -316,7 +323,7 @@ describe('IdsLookup Component', () => {
 
   it('supports changing validation dynamically', async () => {
     lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-5" label="Dynamic Validation"></ids-lookup>`);
-    await waitFor(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+    await waitForTimeout(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
 
     (document.querySelector('ids-lookup') as any).validate = 'required';
     const triggerElem = lookup.shadowRoot.querySelector('ids-trigger-field');
@@ -335,7 +342,7 @@ describe('IdsLookup Component', () => {
   it('supports validation', async () => {
     lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-5" label="Dropdown with Icons" validate="true">
      </ids-lookup>`);
-    await waitFor(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+    await waitForTimeout(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
 
     lookup.validate = 'required';
     lookup.validationEvents = 'blur change';
@@ -435,5 +442,53 @@ describe('IdsLookup Component', () => {
     expect((document.querySelector('#custom-lookup-modal') as any).visible).toBeFalsy();
     lookup.modal.visible = true;
     expect((document.querySelector('#custom-lookup-modal') as any).visible).toBeTruthy();
+  });
+
+  it('supports setting mode', () => {
+    lookup.mode = 'dark';
+    expect(lookup.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting autocomplete', () => {
+    lookup.autocomplete = true;
+    expect(lookup.hasAttribute('autocomplete')).toBeTruthy();
+    lookup.autocomplete = false;
+    expect(lookup.hasAttribute('autocomplete')).toBeFalsy();
+  });
+
+  it('supports setting dirty tracker', () => {
+    expect(lookup.triggerField.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
+    lookup.value = '';
+    lookup.dirtyTracker = true;
+    lookup.value = '100';
+    expect(lookup.triggerField.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
+    lookup.value = '';
+    lookup.onDirtyTrackerChange(false);
+    expect(lookup.triggerField.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
+  });
+
+  it('should be able to set attributes before append', async () => {
+    const elem: any = new IdsLookup();
+    elem.id = 'test';
+    elem.value = '102,103';
+    elem.dirtyTracker = true;
+    elem.autocomplete = true;
+    document.body.appendChild(elem);
+
+    expect(elem.getAttribute('id')).toEqual('test');
+    expect(elem.getAttribute('value')).toEqual('102,103');
+    expect(elem.getAttribute('dirty-tracker')).toEqual('true');
+  });
+
+  it('should be able to set attributes after append', async () => {
+    const elem: any = new IdsLookup();
+    document.body.appendChild(elem);
+    elem.id = 'test';
+    elem.value = '102,103';
+    elem.dirtyTracker = true;
+
+    expect(elem.getAttribute('id')).toEqual('test');
+    expect(elem.getAttribute('value')).toEqual('102,103');
+    expect(elem.getAttribute('dirty-tracker')).toEqual('true');
   });
 });

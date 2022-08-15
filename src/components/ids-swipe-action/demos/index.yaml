@@ -6,4 +6,5 @@
  keywords: swipe, container, swipe action
  examples:
   - link: example.html
+    type: Main Example
     description: Showing a swipe action card layout

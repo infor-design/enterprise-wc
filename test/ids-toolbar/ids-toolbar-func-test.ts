@@ -4,7 +4,7 @@
 import '../helpers/resize-observer-mock';
 
 import IdsToolbar from '../../src/components/ids-toolbar/ids-toolbar';
-import waitFor from '../helpers/wait-for';
+import waitForTimeout from '../helpers/wait-for-timeout';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 const exampleHTML = `
@@ -111,6 +111,17 @@ describe('IdsToolbar Component', () => {
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-toolbar').length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('can render via document.createElement (append late)', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const elem = document.createElement('ids-toolbar');
+
+    elem.insertAdjacentHTML('afterbegin', exampleHTML);
+    document.body.appendChild(elem);
+
+    expect(document.body.querySelectorAll('ids-toolbar').length).toEqual(2);
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -257,6 +268,7 @@ describe('IdsToolbar Component', () => {
   });
 
   it('skips disabled items while navigating', () => {
+    button3.setAttribute('disabled', 'true');
     button2.focus();
     toolbar.navigate(1, true);
 
@@ -314,10 +326,10 @@ describe('IdsToolbar Component', () => {
     document.body.addEventListener('selected', selectedEventListener);
 
     toolbar.triggerSelectedEvent(button1);
-    await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
+    await waitForTimeout(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
 
     // Try using an element from outside the Toolbar.  It shouldn't trigger an event
     toolbar.triggerSelectedEvent(document.body);
-    await waitFor(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
+    await waitForTimeout(() => expect(selectedEventListener).toHaveBeenCalledTimes(1));
   });
 });

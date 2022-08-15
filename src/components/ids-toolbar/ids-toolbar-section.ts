@@ -104,9 +104,9 @@ export default class IdsToolbarSection extends Base {
   }
 
   connectedCallback(): void {
+    super.connectedCallback();
     setCssClassFromGroup(this.type, this.container, SECTION_TYPES);
     setCssClassFromGroup(this.toolbarType, this.container, TOOLBAR_TYPES);
-    super.connectedCallback();
   }
 
   /**
@@ -162,6 +162,7 @@ export default class IdsToolbarSection extends Base {
       trueVal = SECTION_ALIGNS[0];
     } else {
       this.setAttribute('align', val);
+      this.container?.classList.add(`align-${val}`);
     }
   }
 
@@ -180,10 +181,10 @@ export default class IdsToolbarSection extends Base {
     const newValue = stringToBool(val);
     if (newValue) {
       this.setAttribute(attributes.FAVOR, '');
-      this.container.classList.add(attributes.FAVOR);
+      this.container?.classList.add(attributes.FAVOR);
     } else {
       this.removeAttribute(attributes.FAVOR);
-      this.container.classList.remove(attributes.FAVOR);
+      this.container?.classList.remove(attributes.FAVOR);
     }
   }
 
@@ -206,7 +207,10 @@ export default class IdsToolbarSection extends Base {
       trueVal = `${val}`;
     }
     this.setAttribute(attributes.TYPE, trueVal);
-    setCssClassFromGroup(trueVal, this.container, SECTION_TYPES);
+
+    if (this.container) {
+      setCssClassFromGroup(trueVal, this.container, SECTION_TYPES);
+    }
   }
 
   /**
@@ -222,10 +226,10 @@ export default class IdsToolbarSection extends Base {
   set toolbarType(value: string) {
     if (TOOLBAR_TYPES.includes(value)) {
       this.setAttribute(attributes.TOOLBAR_TYPE, value);
-      this.container.classList.add(value);
+      this.container?.classList.add(value);
     } else {
       this.removeAttribute(attributes.TOOLBAR_TYPE);
-      this.container.classList.remove(TOOLBAR_TYPES[0]);
+      this.container?.classList.remove(TOOLBAR_TYPES[0]);
     }
   }
 

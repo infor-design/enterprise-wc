@@ -10,7 +10,7 @@
 
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto="true">
       <ids-text font-size="12" type="h1">Menu Button (Change Content on Selection)</ids-text>
     </ids-layout-grid>
@@ -18,9 +18,9 @@
       <ids-layout-grid-cell>
 
         <ids-menu-button id="menu-button" icon="settings" type="tertiary" menu="my-menu" dropdown-icon>
-          <span slot="text">Choose a Prorgram Type...</span>
+          <span slot="text">Choose a Program Type...</span>
         </ids-menu-button>
-        <ids-popup-menu id="my-menu" target="menu-button" trigger="click">
+        <ids-popup-menu id="my-menu" target="menu-button" trigger-type="click">
           <ids-menu-group select="single" id="programs">
             <ids-menu-header>Program Types</ids-menu-header>
             <ids-menu-item value="career-space">Career Space</ids-menu-item>

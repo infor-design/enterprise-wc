@@ -25,7 +25,7 @@ export default class IdsAppMenu extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.edge = 'start';
     this.type = 'app-menu';
     this.#connectSearchField();
@@ -62,7 +62,7 @@ export default class IdsAppMenu extends Base {
         <slot name="footer"></slot>
       </div>
       <div class="ids-app-menu-branding">
-        <ids-icon icon="logo" viewbox="0 0 35 34" size="large"></ids-icon>
+        <slot name="icon"></slot>
       </div>
     </div>`;
   }

@@ -177,7 +177,7 @@ export function cleanHtml(content: string): string {
 /**
  * Trim out the editor spaces for comparison.
  * @private
- * @param  {string} content The html.
+ * @param {string} content The html.
  * @returns {string} The trimmed content.
  */
 export function trimContent(content: string): string {

@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId: any = '#cap-trigger-btn';
   const triggerBtn: any = document.querySelector(triggerId);
-  const cap: any = document.querySelector('ids-contextual-action-panel');
+  const cap: any = document.querySelector('ids-action-panel');
 
   // Links the CAP to its trigger button (sets up click/focus events)
   cap.target = triggerBtn;
-  cap.trigger = 'click';
+  cap.triggerType = 'click';
 
   // Disable the trigger button when showing the CAP.
   cap.addEventListener('beforeshow', () => {

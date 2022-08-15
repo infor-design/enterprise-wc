@@ -32,9 +32,9 @@ export default class IdsListBoxOption extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.setAttribute('role', 'option');
     this.setAttribute('tabindex', '-1');
-    super.connectedCallback();
   }
 
   /**

@@ -47,7 +47,7 @@ export default class IdsAlert extends Base {
    */
   template(): string {
     const cssClass = stringToBool(this.disabled) ? ' class="disabled"' : '';
-    return `<ids-icon size="${this.size}"${cssClass} part="icon"></ids-icon>`;
+    return `<ids-icon size="${this.size}"${cssClass} icon="${this.icon}" part="icon"></ids-icon>`;
   }
 
   /**
@@ -79,16 +79,9 @@ export default class IdsAlert extends Base {
    * @param {string | null} value The Icon Type [success, info, error, warning]
    */
   set icon(value: string | null) {
-    let icon = value;
     if (value) {
       this.setAttribute(attributes.ICON, value);
-      if (icon === 'warning') {
-        icon = 'alert';
-      }
-      if (icon === 'warning-solid') {
-        icon = 'alert-solid';
-      }
-      this.shadowRoot?.querySelector('ids-icon')?.setAttribute(attributes.ICON, icon);
+      this.shadowRoot?.querySelector('ids-icon')?.setAttribute(attributes.ICON, value);
     } else {
       this.removeAttribute(attributes.ICON);
     }

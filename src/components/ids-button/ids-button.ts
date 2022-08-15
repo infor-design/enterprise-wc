@@ -28,40 +28,9 @@ import styles from './ids-button.scss';
 export default class IdsButton extends Base {
   constructor() {
     super();
-    this.state = {};
     Object.keys(BUTTON_DEFAULTS).forEach((prop) => {
       this.state[prop] = BUTTON_DEFAULTS[prop];
     });
-    this.shouldUpdate = true;
-  }
-
-  /**
-   * Override `attributeChangedCallback` from IdsElement to wrap its normal operation in a
-   * check for a true `shouldUpdate` property.
-   * @param  {string} name The property name
-   * @param  {string} oldValue The property old value
-   * @param  {string} newValue The property new value
-   */
-  attributeChangedCallback(name: any, oldValue: any, newValue: string) {
-    if (this.shouldUpdate) {
-      switch (name) {
-      // Convert "tabindex" to "tabIndex"
-        case 'tabindex':
-          if (Number.isNaN(Number.parseInt(newValue))) {
-            this.tabIndex = null;
-          }
-          this.tabIndex = Number(newValue);
-          break;
-        case 'width':
-          if (oldValue !== newValue) {
-            this.width = newValue;
-          }
-          break;
-        default:
-          super.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
-          break;
-      }
-    }
   }
 
   /**
@@ -69,11 +38,18 @@ export default class IdsButton extends Base {
    * @returns {void}
    */
   connectedCallback(): void {
+    super.connectedCallback();
+    this.#setInitialState();
+    this.shouldUpdate = true;
+  }
+
+  #setInitialState() {
+    if (this.hasAttribute(attributes.ICON)) this.appendIcon(this.getAttribute(attributes.ICON));
+    if (this.hasAttribute(attributes.TEXT)) this.appendText(this.getAttribute(attributes.TEXT));
+
     const isIconButton = this.button.classList.contains('ids-icon-button');
     this.setupRipple(this.button, isIconButton ? 35 : 50);
     this.setIconAlignment();
-    this.shouldUpdate = true;
-    super.connectedCallback();
   }
 
   /**
@@ -111,6 +87,7 @@ export default class IdsButton extends Base {
    * @returns {void}
    */
   refreshProtoClasses() {
+    if (!this.button) return;
     const cl = this.button.classList;
     const newProtoClass = this.protoClasses;
 
@@ -126,9 +103,7 @@ export default class IdsButton extends Base {
     let cssClass = '';
     let protoClasses = '';
     let disabled = '';
-    let icon = '';
     let tabIndex = 'tabindex="0"';
-    let text = '';
     let type = '';
     if (this.state?.cssClass) {
       cssClass = ` ${this.state.cssClass.join(' ')}`;
@@ -139,12 +114,6 @@ export default class IdsButton extends Base {
     if (this.state?.tabIndex) {
       tabIndex = `tabindex="${this.state.tabIndex}"`;
     }
-    if (this.state?.icon) {
-      icon = `<ids-icon slot="icon" part="icon" icon="${this.state.icon}"></ids-icon>`;
-    }
-    if (this.state?.text) {
-      text = `<span slot="text" part="text">${this.state.text}</span>`;
-    }
     if (this.state && this.state?.type !== 'default') {
       type = ` btn-${this.state.type}`;
     }
@@ -153,21 +122,30 @@ export default class IdsButton extends Base {
       cssClass += ' square';
     }
 
+    if (this.hasAttribute(attributes.NO_PADDING)) {
+      cssClass += ' no-padding';
+    }
+
     if (this.protoClasses.length) {
       protoClasses = `${this.protoClasses.join(' ')}`;
     }
 
-    let alignCSS = ' align-icon-start';
-    let namedSlots = `<slot name="icon" part="icon">${icon}</slot><slot name="text">${text}</slot>`;
-    if (this.state?.iconAlign === 'end') {
-      alignCSS = ' align-icon-end';
-      namedSlots = `<slot name="text" part="text">${text}</slot><slot name="icon">${icon}</slot>`;
-    }
+    const alignCSS = this.state?.iconAlign === 'end'
+      ? ' align-icon-end'
+      : ' align-icon-start';
+
+    const slots = this.#templateSlots();
 
     return `<button part="button" class="${protoClasses}${type}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
-      ${namedSlots}
-      <slot>${icon}${text}</slot>
+      ${slots}
     </button>`;
+  }
+
+  #templateSlots() {
+    const namedSlots = this.state?.iconAlign === 'end'
+      ? `<slot name="text" part="text"></slot><slot name="icon"></slot>`
+      : `<slot name="icon" part="icon"></slot><slot name="text"></slot>`;
+    return `${namedSlots}<slot></slot>`;
   }
 
   /**
@@ -175,7 +153,7 @@ export default class IdsButton extends Base {
    * @returns {HTMLButtonElement} reference to the true button element used in the Shadow Root
    */
   get button(): HTMLButtonElement {
-    return this.shadowRoot.querySelector('button');
+    return this.shadowRoot?.querySelector('button');
   }
 
   /**
@@ -203,6 +181,8 @@ export default class IdsButton extends Base {
     }
 
     // Remove/Set CSS classes on the actual inner Button component
+    if (!this.button) return;
+
     const buttonCl = this.button.classList;
     const buttonClArr = Array.from(buttonCl);
     prevClasses.forEach((cssClass) => {
@@ -236,10 +216,7 @@ export default class IdsButton extends Base {
 
     this.shouldUpdate = true;
     this.state.disabled = isValueTruthy;
-
-    if (this.button) {
-      this.button.disabled = isValueTruthy;
-    }
+    if (this.button) this.button.disabled = isValueTruthy;
   }
 
   get disabled(): boolean {
@@ -260,10 +237,7 @@ export default class IdsButton extends Base {
 
     this.shouldUpdate = true;
     this.state.hidden = isValueTruthy;
-
-    if (this.button) {
-      this.button.hidden = isValueTruthy;
-    }
+    if (this.button) this.button.hidden = isValueTruthy;
   }
 
   /**
@@ -280,15 +254,16 @@ export default class IdsButton extends Base {
   set tabIndex(val: number | string | null) {
     const trueVal = Number(val);
 
+    this.removeAttribute(attributes.TABINDEX);
+
     if (Number.isNaN(trueVal) || trueVal < -1) {
       this.state.tabIndex = 0;
-      this.button.setAttribute(attributes.TABINDEX, '0');
-      this.removeAttribute(attributes.TABINDEX);
+      this.button?.setAttribute(attributes.TABINDEX, '0');
       return;
     }
 
     this.state.tabIndex = trueVal;
-    this.button.setAttribute(attributes.TABINDEX, `${trueVal}`);
+    this.button?.setAttribute(attributes.TABINDEX, `${trueVal}`);
   }
 
   /**
@@ -347,7 +322,7 @@ export default class IdsButton extends Base {
    * @returns {string} containing 'start' or 'end'
    */
   get iconAlign(): string {
-    return this.state.iconAlign;
+    return this.state?.iconAlign || 'start';
   }
 
   /**
@@ -366,17 +341,17 @@ export default class IdsButton extends Base {
     if (!w) {
       this.removeAttribute('width');
       this.style.width = '';
-      this.button.style.width = '';
+      if (this.button) this.button.style.width = '';
       return;
     }
 
     // if percentage passed set width to host
     if (w.indexOf('%') !== -1) {
       this.style.width = w;
-      this.button.style.width = '';
+      if (this.button) this.button.style.width = '';
     } else {
       this.style.width = '';
-      this.button.style.width = w;
+      if (this.button) this.button.style.width = w;
     }
 
     this.setAttribute('width', w);
@@ -420,6 +395,8 @@ export default class IdsButton extends Base {
    * @private
    */
   setIconAlignment(): void {
+    if (!this.button) return;
+
     const alignment = this.iconAlign || 'start';
     const iconStr = this.icon;
     this.button.classList.remove(...ICON_ALIGN);
@@ -529,11 +506,11 @@ export default class IdsButton extends Base {
   set noMargins(n: boolean | string) {
     if (stringToBool(n)) {
       this.setAttribute(attributes.NO_MARGINS, '');
-      this.container.classList.add(attributes.NO_MARGINS);
+      this.container?.classList.add(attributes.NO_MARGINS);
       return;
     }
     this.removeAttribute(attributes.NO_MARGINS);
-    this.container.classList.remove(attributes.NO_MARGINS);
+    this.container?.classList.remove(attributes.NO_MARGINS);
   }
 
   get noMargins(): boolean {
@@ -548,10 +525,10 @@ export default class IdsButton extends Base {
     const trueVal = stringToBool(val);
     if (isTruthy !== trueVal) {
       if (trueVal) {
-        this.container.classList.add('no-padding');
+        this.container?.classList.add('no-padding');
         this.setAttribute('no-padding', 'true');
       } else {
-        this.container.classList.remove('no-padding');
+        this.container?.classList.remove('no-padding');
         this.removeAttribute('no-padding');
       }
     }
@@ -561,7 +538,7 @@ export default class IdsButton extends Base {
    * @returns {boolean | string} true if the button does not currently have standard padding rules applied
    */
   get noPadding(): boolean | string {
-    return this.container.classList.contains('no-padding');
+    return stringToBool(this.getAttribute(attributes.NO_PADDING)); // this.container.classList.contains('no-padding');
   }
 
   /**
@@ -570,10 +547,12 @@ export default class IdsButton extends Base {
   set square(value: boolean) {
     const isTruthy = stringToBool(value);
 
-    if (isTruthy && !this.button.classList.contains('square')) {
-      this.button.classList.add('square');
-    } else if (!isTruthy && this.button.classList.contains('square')) {
-      this.button.classList.remove('square');
+    if (this.button) {
+      if (isTruthy && !this.button.classList.contains('square')) {
+        this.button.classList.add('square');
+      } else if (!isTruthy && this.button.classList.contains('square')) {
+        this.button.classList.remove('square');
+      }
     }
 
     if (isTruthy && !this.hasAttribute(attributes.SQUARE)) {
@@ -596,18 +575,20 @@ export default class IdsButton extends Base {
    * @param {string | null} val desired type class
    */
   setTypeClass(val: string | null) {
-    BUTTON_TYPES.forEach((type) => {
-      const typeClassName = `btn-${type}`;
-      if (val === type) {
-        if (type !== 'default' && !this.button.classList.contains(typeClassName)) {
-          this.button.classList.add(typeClassName);
+    if (this.button) {
+      BUTTON_TYPES.forEach((type) => {
+        const typeClassName = `btn-${type}`;
+        if (val === type) {
+          if (type !== 'default' && !this.button.classList.contains(typeClassName)) {
+            this.button.classList.add(typeClassName);
+          }
+          return;
         }
-        return;
-      }
-      if (this.button.classList.contains(typeClassName)) {
-        this.button.classList.remove(typeClassName);
-      }
-    });
+        if (this.button.classList.contains(typeClassName)) {
+          this.button.classList.remove(typeClassName);
+        }
+      });
+    }
   }
 
   /**

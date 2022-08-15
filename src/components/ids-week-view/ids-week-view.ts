@@ -56,6 +56,7 @@ export default class IdsWeekView extends Base {
     super.connectedCallback();
     this.setDirection();
     this.#renderToolbar();
+    this.#renderWeek();
     this.#attachEventHandlers();
   }
 
@@ -152,8 +153,9 @@ export default class IdsWeekView extends Base {
             <ids-text
               class="week-view-today-text"
               font-size="16"
-              translate-text="true"
-              font-weight="bold"
+              translate-text="true" 
+              translation-key="Today"
+              font-weight="bold" 
             >Today</ids-text>
           </ids-button>` : ''}
       </ids-toolbar-section>
@@ -161,8 +163,11 @@ export default class IdsWeekView extends Base {
     </ids-toolbar>`;
 
     // Clear/add HTML
-    this.container.querySelector('ids-toolbar')?.remove();
-    this.container.insertAdjacentHTML('afterbegin', toolbarTemplate);
+    this.container?.querySelector('ids-toolbar')?.remove();
+    this.container?.insertAdjacentHTML('afterbegin', toolbarTemplate);
+
+    // Configure view picker
+    if (this.viewPicker) this.viewPickerConnected();
 
     // Toolbar events
     this.#attachToolbarEvents();
@@ -175,23 +180,23 @@ export default class IdsWeekView extends Base {
    */
   #attachToolbarEvents() {
     this.offEvent('click.week-view-previous');
-    this.onEvent('click.week-view-previous', this.container.querySelector('.week-view-btn-previous'), () => {
+    this.onEvent('click.week-view-previous', this.container?.querySelector('.week-view-btn-previous'), () => {
       this.#changeDate('previous');
     });
 
     this.offEvent('click.week-view-next');
-    this.onEvent('click.week-view-next', this.container.querySelector('.week-view-btn-next'), () => {
+    this.onEvent('click.week-view-next', this.container?.querySelector('.week-view-btn-next'), () => {
       this.#changeDate('next');
     });
 
     this.offEvent('dayselected.week-view-datepicker');
-    this.onEvent('dayselected.week-view-datepicker', this.container.querySelector('ids-date-picker'), (e: CustomEvent) => {
+    this.onEvent('dayselected.week-view-datepicker', this.container?.querySelector('ids-date-picker'), (e: CustomEvent) => {
       this.#datepickerChangeDate(e.detail.date);
     });
 
     if (this.showToday) {
       this.offEvent('click.week-view-today');
-      this.onEvent('click.week-view-today', this.container.querySelector('.week-view-btn-today'), () => {
+      this.onEvent('click.week-view-today', this.container?.querySelector('.week-view-btn-today'), () => {
         this.#changeDate('today');
       });
     } else {
@@ -199,12 +204,7 @@ export default class IdsWeekView extends Base {
     }
 
     if (this.viewPicker) {
-      const viewPicker = this.container.querySelector('#view-picker');
-      this.offEvent('selected.week-view-picker', viewPicker);
-      this.onEvent('selected.week-view-picker', viewPicker, (evt: CustomEvent) => {
-        evt.stopPropagation();
-        this.triggerViewChange(evt.detail.value, this.state.activeDate);
-      });
+      this.attachViewPickerEvents('week');
     }
   }
 
@@ -244,7 +244,7 @@ export default class IdsWeekView extends Base {
    */
   #attachDatepicker() {
     const text = this.#formatMonthRange();
-    const datepicker = this.container.querySelector('ids-date-picker');
+    const datepicker: any = this.container?.querySelector('ids-date-picker');
 
     if (datepicker) {
       datepicker.value = text;
@@ -319,7 +319,7 @@ export default class IdsWeekView extends Base {
    * Add week HTML to shadow including day/weekday header, hour rows, event cells
    */
   #renderWeek() {
-    if (!this.locale || this.state.wait) {
+    if (!this.locale || this.state.wait || !this.container) {
       return;
     }
 
@@ -447,8 +447,7 @@ export default class IdsWeekView extends Base {
    */
   #renderTimeline() {
     // Clear before rerender
-    this.container.querySelectorAll('.week-view-time-marker')
-      .forEach((item: HTMLElement) => item.remove());
+    this.container?.querySelectorAll('.week-view-time-marker').forEach((item: Element) => item.remove());
 
     if (this.timer) this.timer.destroy(true);
 
@@ -457,14 +456,14 @@ export default class IdsWeekView extends Base {
     }
 
     // Add timeline element
-    this.container.querySelectorAll('.week-view-hour-row:nth-child(1) td')
+    this.container?.querySelectorAll('.week-view-hour-row:nth-child(1) td')
       .forEach((item: HTMLElement) => item.insertAdjacentHTML(
         'afterbegin',
         '<div class="week-view-time-marker"></div>'
       ));
 
     const hoursDiff = this.endHour - this.startHour + 1;
-    const hourRowElement = this.container.querySelector('.week-view-hour-row');
+    const hourRowElement = this.container?.querySelector('.week-view-hour-row');
     const timelineInterval = this.timelineInterval;
 
     // Timeline position based on current hour and startHour/endHour parameters
@@ -477,9 +476,11 @@ export default class IdsWeekView extends Base {
       // 52 is the size of one whole hour (25 + two borders)
       const position = diff > 0 && diff <= hoursDiff ? diff * 52 : 0;
 
-      hourRowElement.style = `--timeline-shift: ${position}px`;
-      // For testing purposes only
-      hourRowElement.dataset.diffInMilliseconds = diffInMilliseconds;
+      if (hourRowElement) {
+        hourRowElement.style.setProperty('--timeline-shift', `${position}px`);
+        // For testing purposes only
+        hourRowElement.dataset.diffInMilliseconds = diffInMilliseconds.toString();
+      }
     };
 
     setTimelinePosition();
@@ -502,8 +503,8 @@ export default class IdsWeekView extends Base {
    * to be used in CSS to fit the component to the viewport height
    */
   #attachOffsetTop() {
-    const offsetTop = this.container.offsetTop;
-    this.container.style = `--offset-top: ${offsetTop}px`;
+    const offsetTop = this.container?.offsetTop;
+    this.container?.style.setProperty(`--offset-top`, `${offsetTop}px`);
   }
 
   /**
@@ -558,7 +559,7 @@ export default class IdsWeekView extends Base {
     const startDate = eventStart.getDate();
     const startHour = this.#getDateHours(eventStart, true);
 
-    return this.container.querySelector(`[data-hour="${startHour}"] [data-date="${startDate}"]`);
+    return this.container?.querySelector(`[data-hour="${startHour}"] [data-date="${startDate}"]`) || null;
   }
 
   /**
@@ -716,10 +717,11 @@ export default class IdsWeekView extends Base {
 
     // set container height to fit all events
     if (eventCount >= 2) {
-      const nodes = this.container.querySelectorAll('.week-view-all-day-wrapper');
-      for (let i = 0; i < nodes.length; i++) {
-        nodes[i].style.height = `${44 + ((eventCount - 1) * 23)}px`;
-      }
+      this.container
+        ?.querySelectorAll('.week-view-all-day-wrapper')
+        .forEach((elem: HTMLElement) => {
+          elem.style.height = `${44 + ((eventCount - 1) * 23)}px`;
+        });
     }
 
     container.appendChild(<any>calendarEvent);
