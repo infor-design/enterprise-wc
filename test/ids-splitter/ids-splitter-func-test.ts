@@ -3,6 +3,7 @@
  */
 import processAnimFrame from '../helpers/process-anim-frame';
 import '../helpers/resize-observer-mock';
+// import IntersectionObserver from '../helpers/intersection-observer-mock';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsSplitter from '../../src/components/ids-splitter/ids-splitter';
 
@@ -16,7 +17,9 @@ describe('IdsSplitter Component', () => {
     align: 'start',
     label: 'Resize',
     disabled: false,
-    resizeOnDragEnd: false
+    resizeOnDragEnd: false,
+    savePosition: false,
+    uniqueId: null
   };
 
   // Event name strings
@@ -30,6 +33,9 @@ describe('IdsSplitter Component', () => {
   };
 
   beforeEach(async () => {
+    // Mock IntersectionObserver
+    // (<any>window).IntersectionObserver = IntersectionObserver;
+
     const elem = new IdsSplitter();
     container = new IdsContainer();
     container.appendChild(elem);
@@ -450,5 +456,143 @@ describe('IdsSplitter Component', () => {
     splitter.collapse({ startPane: '#p1', endPane: '#p2' });
     expect(splitter.querySelector('#p1').getAttribute('collapsed')).toEqual('');
     expect(mockCallback.mock.calls.length).toBe(1);
+  });
+
+  it('should set splitter to save position', () => {
+    expect(splitter.getAttribute('save-position')).toEqual(null);
+    expect(splitter.savePosition).toEqual(DEFAULTS.savePosition);
+    splitter.savePosition = true;
+    expect(splitter.getAttribute('save-position')).toEqual('');
+    expect(splitter.savePosition).toEqual(true);
+    splitter.savePosition = false;
+    expect(splitter.getAttribute('save-position')).toEqual(null);
+    expect(splitter.savePosition).toEqual(false);
+    splitter.savePosition = null;
+    expect(splitter.getAttribute('save-position')).toEqual(null);
+    expect(splitter.savePosition).toEqual(DEFAULTS.savePosition);
+  });
+
+  it('should set splitter uniqueId', () => {
+    const uniqueId = 'some-uniqueid';
+    expect(splitter.getAttribute('unique-id')).toEqual(null);
+    expect(splitter.uniqueId).toEqual(DEFAULTS.uniqueId);
+    splitter.uniqueId = uniqueId;
+    expect(splitter.getAttribute('unique-id')).toEqual(uniqueId);
+    expect(splitter.uniqueId).toEqual(uniqueId);
+    splitter.uniqueId = null;
+    expect(splitter.getAttribute('unique-id')).toEqual(null);
+    expect(splitter.uniqueId).toEqual(DEFAULTS.uniqueId);
+  });
+
+  it('should check if can save position to local storage', async () => {
+    const uniqueId = 'some-uniqueid';
+    document.body.innerHTML = `
+      <ids-splitter unique-id="${uniqueId}" save-position>
+        <ids-splitter-pane id="p1"></ids-splitter-pane>
+        <ids-splitter-pane id="p2"></ids-splitter-pane>
+      </ids-splitter>`;
+    dispatchEvent(new Event('load'));
+    await processAnimFrame();
+    splitter = document.querySelector('ids-splitter');
+    splitter.clearPosition();
+    expect(localStorage.getItem(splitter.idTobeUse(uniqueId))).toEqual(null);
+    const splitBar = splitter.getAllPairs()[0].splitBar;
+    const event = new KeyboardEvent('keydown', { code: 'ArrowRight' });
+    splitBar.dispatchEvent(event);
+    expect(JSON.parse(localStorage.getItem(splitter.idTobeUse(uniqueId)) || '')).toEqual(
+      expect.objectContaining({
+        sizes: expect.arrayContaining([0, 100])
+      })
+    );
+    splitter.clearPosition();
+    expect(localStorage.getItem(splitter.idTobeUse(uniqueId))).toEqual(null);
+  });
+
+  it('should restore saved position', async () => {
+    const uniqueId = 'some-uniqueid';
+    document.body.innerHTML = `
+      <ids-splitter unique-id="${uniqueId}" save-position>
+        <ids-splitter-pane id="p1"></ids-splitter-pane>
+        <ids-splitter-pane id="p2"></ids-splitter-pane>
+      </ids-splitter>`;
+    dispatchEvent(new Event('load'));
+    await processAnimFrame();
+    splitter = document.querySelector('ids-splitter');
+
+    splitter.clearPosition(uniqueId);
+    expect(localStorage.getItem(splitter.idTobeUse(uniqueId))).toEqual(null);
+    expect(splitter.sizes()).toEqual(expect.arrayContaining([50, 50]));
+    const splitBar = splitter.getAllPairs()[0].splitBar;
+    const event = new KeyboardEvent('keydown', { code: 'ArrowRight' });
+    splitBar.dispatchEvent(event);
+    expect(splitter.sizes()).toEqual(expect.arrayContaining([0, 100]));
+    expect(JSON.parse(localStorage.getItem(splitter.idTobeUse(uniqueId)) || '')).toEqual(
+      expect.objectContaining({
+        sizes: expect.arrayContaining([0, 100])
+      })
+    );
+    document.body.innerHTML = '';
+    splitter = null;
+
+    document.body.innerHTML = `
+      <ids-splitter axis="y" unique-id="${uniqueId}" save-position>
+        <ids-splitter-pane id="p1"></ids-splitter-pane>
+        <ids-splitter-pane id="p2"></ids-splitter-pane>
+      </ids-splitter>`;
+    dispatchEvent(new Event('load'));
+    await processAnimFrame();
+    splitter = document.querySelector('ids-splitter');
+    expect(splitter.sizes()).not.toEqual(expect.arrayContaining([0, 100]));
+
+    document.body.innerHTML = `
+      <ids-splitter unique-id="${uniqueId}" save-position>
+        <ids-splitter-pane id="p1"></ids-splitter-pane>
+        <ids-splitter-pane id="p2"></ids-splitter-pane>
+      </ids-splitter>`;
+    dispatchEvent(new Event('load'));
+    await processAnimFrame();
+    splitter = document.querySelector('ids-splitter');
+    expect(splitter.sizes()).toEqual(expect.arrayContaining([0, 100]));
+    splitter.clearPosition(uniqueId);
+  });
+
+  it('should clear saved position', async () => {
+    const uniqueId1 = 'some-uniqueid-1';
+    const uniqueId2 = 'some-uniqueid-2';
+    document.body.innerHTML = `
+      <ids-splitter id="test-splitter-1" unique-id="${uniqueId1}" save-position>
+        <ids-splitter-pane></ids-splitter-pane>
+        <ids-splitter-pane></ids-splitter-pane>
+      </ids-splitter>
+      <ids-splitter id="test-splitter-2" unique-id="${uniqueId2}" save-position>
+        <ids-splitter-pane></ids-splitter-pane>
+        <ids-splitter-pane></ids-splitter-pane>
+      </ids-splitter>`;
+    dispatchEvent(new Event('load'));
+    await processAnimFrame();
+    const splitter1: any = document.querySelector('#test-splitter-1');
+    expect(localStorage.getItem(splitter1.idTobeUse(uniqueId1))).toEqual(null);
+    const splitBar1 = splitter1.getAllPairs()[0].splitBar;
+    const event1 = new KeyboardEvent('keydown', { code: 'ArrowRight' });
+    splitBar1.dispatchEvent(event1);
+    expect(JSON.parse(localStorage.getItem(splitter1.idTobeUse(uniqueId1)) || '')).toEqual(
+      expect.objectContaining({
+        sizes: expect.arrayContaining([0, 100])
+      })
+    );
+    const splitter2: any = document.querySelector('#test-splitter-2');
+    expect(localStorage.getItem(splitter2.idTobeUse(uniqueId2))).toEqual(null);
+    const splitBar2 = splitter2.getAllPairs()[0].splitBar;
+    const event2 = new KeyboardEvent('keydown', { code: 'ArrowRight' });
+    splitBar2.dispatchEvent(event2);
+    expect(JSON.parse(localStorage.getItem(splitter2.idTobeUse(uniqueId2)) || '')).toEqual(
+      expect.objectContaining({
+        sizes: expect.arrayContaining([0, 100])
+      })
+    );
+
+    splitter1.clearPositionAll();
+    expect(localStorage.getItem(splitter1.idTobeUse(uniqueId1))).toEqual(null);
+    expect(localStorage.getItem(splitter2.idTobeUse(uniqueId2))).toEqual(null);
   });
 });

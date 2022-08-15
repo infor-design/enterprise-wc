@@ -97,4 +97,41 @@ document.addEventListener('DOMContentLoaded', async () => {
       toggleCollapseExpand();
     });
   }
+
+  /*
+   * Save position
+   * apply only when `save-position` set to true
+   *
+   * uniqueId: Use to clear the saved position from storage
+   * if not will use internal auto generated id
+   */
+  const uniqueId1 = 'some-uniqueid-1';
+  const uniqueId2 = 'some-uniqueid-2';
+
+  const splitterSave1: any = document.querySelector('#splitter-save1');
+  const splitterSave2: any = document.querySelector('#splitter-save2');
+  const btnSaveClear: any = document.querySelector('#btn-splitter-save-clear');
+  btnSaveClear.menuEl.addEventListener('selected', (e: any) => {
+    const sel = e.detail.value;
+
+    // Clear position for saved Splitter(1)
+    if (sel === 'clear-saved-splitter-1') {
+      splitterSave1.clearPosition(uniqueId1);
+    }
+
+    // Clear position for saved Splitter(2)
+    if (sel === 'clear-saved-splitter-2') {
+      splitterSave2.clearPosition(uniqueId2);
+    }
+
+    // Clear position for all saved Splitters
+    if (sel === 'clear-saved-splitter-all') {
+      const splitter: any = document.createElement('ids-splitter');
+      /**
+       * To clear all saved positions,
+       * It can run on any IdsSplitter `clearPositionAll()`
+       */
+      splitter.clearPositionAll();
+    }
+  });
 });
