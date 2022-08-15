@@ -88,7 +88,7 @@
   }
 }
 
-.ids-progress-chart[version='new'],
+.ids-progress-chart,
 .ids-progress-chart:not([mode]) {
   &[mode='light'],
   &:not([mode]) {
@@ -136,60 +136,6 @@
 
     .labels {
       @include text-slate-90();
-    }
-  }
-}
-
-.ids-progress-chart[version='classic'] {
-  ids-icon {
-    margin: 0;
-  }
-
-  &[mode='light'] {
-    .bar {
-      .bar-total {
-        background-color: #bdbdbd;
-      }
-
-      .bar-progress {
-        background-color: #5c5c5c;
-      }
-    }
-
-    .labels {
-      color: #5c5c5c;
-    }
-  }
-
-  &[mode='dark'] {
-    .bar {
-      .bar-total {
-        background-color: #50535a;
-      }
-
-      .bar-progress {
-        background-color: #368ac0;
-      }
-    }
-
-    .labels {
-      color: #abaeb7;
-    }
-  }
-
-  &[mode='contrast'] {
-    .bar {
-      .bar-total {
-        background-color: #737373;
-      }
-
-      .bar-progress {
-        background-color: #383838;
-      }
-    }
-
-    .labels {
-      color: #383838;
     }
   }
 }

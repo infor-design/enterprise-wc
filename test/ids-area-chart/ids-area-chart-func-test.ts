@@ -4,6 +4,7 @@
 import IdsAreaChart from '../../src/components/ids-area-chart/ids-area-chart';
 import dataset from '../../src/assets/data/components.json';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
+import '../helpers/canvas-mock';
 import '../helpers/resize-observer-mock';
 
 describe('IdsAreaChart Component', () => {
@@ -60,7 +61,7 @@ describe('IdsAreaChart Component', () => {
       color: 'var(--ids-color-palette-azure-20)',
       name: 'Series 2'
     }];
-    areaChart.rerender();
+    areaChart.redraw();
 
     expect(areaChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
     expect(areaChart.shadowRoot.querySelectorAll('circle')[0].classList.contains('color-1')).toBeTruthy();

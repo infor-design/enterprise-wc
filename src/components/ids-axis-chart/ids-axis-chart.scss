@@ -78,8 +78,10 @@
       text-anchor: end;
     }
 
-    &.axis-label {
-      @include text-16();
+    &.axis-labels text {
+      @include font-bold();
+
+      text-anchor: middle;
     }
   }
 
@@ -169,53 +171,20 @@ ids-empty-message:not([hidden]),
   }
 }
 
-.ids-axis-chart[version='classic'][mode='light'],
-.ids-chart-container[version='classic'][mode='light'] {
-  // Line Colors
-  .grid {
-    stroke: var(--ids-color-palette-graphite-20);
+// Move Stuff for RTL
+:host([dir='rtl']) {
+  .ids-axis-chart {
+    transform: scale(-1, 1);
+  }
 
-    &.horizontal-lines line:last-child {
-      stroke: var(--ids-color-palette-graphite-40);
+  .labels {
+    &.x-labels text {
+      transform: scale(-1, 1);
+      transform-origin: unset;
     }
-  }
 
-  // Axis Text
-  .labels text {
-    fill: var(--ids-color-palette-graphite-60);
-  }
-}
-
-.ids-axis-chart[version='classic'][mode='dark'],
-.ids-chart-container[version='classic'][mode='dark'] {
-  // Line Colors
-  .grid {
-    stroke: var(--ids-color-palette-graphite-40);
-
-    &.horizontal-lines line:last-child {
-      stroke: var(--ids-color-palette-classic-slate-30);
+    &.y-labels text {
+      transform: scale(-1, 1) translate(var(--ids-axis-chart-ylabels-x, -45px), 0);
     }
-  }
-
-  // Axis Text
-  .labels text {
-    fill: var(--ids-color-palette-classic-slate-10);
-  }
-}
-
-.ids-axis-chart[version='classic'][mode='contrast'],
-.ids-chart-container[version='classic'][mode='contrast'] {
-  // Line Colors
-  .grid {
-    stroke: var(--ids-color-palette-classic-slate-80);
-
-    &.horizontal-lines line:last-child {
-      stroke: var(--ids-color-palette-classic-slate-100);
-    }
-  }
-
-  // Axis Text
-  .labels text {
-    fill: var(--ids-color-palette-classic-slate-100);
   }
 }

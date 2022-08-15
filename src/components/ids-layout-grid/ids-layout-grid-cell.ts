@@ -69,13 +69,11 @@ export default class IdsLayoutGridCell extends Base {
       this.style.setProperty('--grid-col-span', value);
       this.classList.add(`ids-layout-grid-col-span`);
 
-      requestAnimationFrame(() => {
-        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
-          this.classList.remove(`ids-layout-grid-col-span`);
-          this.classList.add(`ids-layout-grid-col-span-${value}`);
-        }
-      });
+      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+        this.classList.remove(`ids-layout-grid-col-span`);
+        this.classList.add(`ids-layout-grid-col-span-${value}`);
+      }
       return;
     }
 
@@ -94,13 +92,11 @@ export default class IdsLayoutGridCell extends Base {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_XS, value);
 
-      requestAnimationFrame(() => {
-        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
-          this.classList.remove(`ids-layout-grid-col-span`);
-          this.classList.add(`ids-layout-grid-col-span-xs-${value}`);
-        }
-      });
+      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+        this.classList.remove(`ids-layout-grid-col-span`);
+        this.classList.add(`ids-layout-grid-col-span-xs-${value}`);
+      }
     }
   }
 
@@ -116,13 +112,11 @@ export default class IdsLayoutGridCell extends Base {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_SM, value);
 
-      requestAnimationFrame(() => {
-        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
-          this.classList.remove(`ids-layout-grid-col-span`);
-          this.classList.add(`ids-layout-grid-col-span-sm-${value}`);
-        }
-      });
+      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+        this.classList.remove(`ids-layout-grid-col-span`);
+        this.classList.add(`ids-layout-grid-col-span-sm-${value}`);
+      }
     }
   }
 
@@ -138,13 +132,11 @@ export default class IdsLayoutGridCell extends Base {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_MD, value);
 
-      requestAnimationFrame(() => {
-        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
-          this.classList.remove(`ids-layout-grid-col-span`);
-          this.classList.add(`ids-layout-grid-col-span-md-${value}`);
-        }
-      });
+      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+        this.classList.remove(`ids-layout-grid-col-span`);
+        this.classList.add(`ids-layout-grid-col-span-md-${value}`);
+      }
     }
   }
 
@@ -160,13 +152,11 @@ export default class IdsLayoutGridCell extends Base {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_LG, value);
 
-      requestAnimationFrame(() => {
-        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
-          this.classList.remove(`ids-layout-grid-col-span`);
-          this.classList.add(`ids-layout-grid-col-span-lg-${value}`);
-        }
-      });
+      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+        this.classList.remove(`ids-layout-grid-col-span`);
+        this.classList.add(`ids-layout-grid-col-span-lg-${value}`);
+      }
     }
   }
 
@@ -182,13 +172,11 @@ export default class IdsLayoutGridCell extends Base {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_XL, value);
 
-      requestAnimationFrame(() => {
-        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
-          this.classList.remove(`ids-layout-grid-col-span`);
-          this.classList.add(`ids-layout-grid-col-span-xl-${value}`);
-        }
-      });
+      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+        this.classList.remove(`ids-layout-grid-col-span`);
+        this.classList.add(`ids-layout-grid-col-span-xl-${value}`);
+      }
     }
   }
 
@@ -204,13 +192,11 @@ export default class IdsLayoutGridCell extends Base {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_XXL, value);
 
-      requestAnimationFrame(() => {
-        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
-          this.classList.remove(`ids-layout-grid-col-span`);
-          this.classList.add(`ids-layout-grid-col-span-xxl-${value}`);
-        }
-      });
+      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+        this.classList.remove(`ids-layout-grid-col-span`);
+        this.classList.add(`ids-layout-grid-col-span-xxl-${value}`);
+      }
     }
   }
 

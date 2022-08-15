@@ -6,6 +6,7 @@ import createFromTemplate from '../helpers/create-from-template';
 import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
 import '../../src/components/ids-trigger-field/ids-trigger-button';
 import processAnimFrame from '../helpers/process-anim-frame';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 const DEFAULT_TRIGGERFIELD_HTML = (
   `<ids-trigger-field
@@ -55,6 +56,45 @@ const TWO_BUTTON_TRIGGERFIELD_HTML = (
       </ids-trigger-button>
     </ids-trigger-field>`
 );
+
+describe('IdsTriggerField Component initialization', () => {
+  let container: any;
+
+  const setupComponent = (component: any) => {
+    component.size = 'sm';
+    component.tabbable = false;
+    component.label = 'Date Field';
+  };
+
+  const checkProperties = (component: any) => {
+    expect(component.size).toEqual('sm');
+    expect(component.tabbable).toBeFalsy();
+    expect(component.label).toEqual('Date Field');
+  };
+
+  beforeEach(() => {
+    container = new IdsContainer();
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  it('can render via document.createElement (append early)', () => {
+    const component: any = document.createElement('ids-trigger-field');
+    container.appendChild(component);
+    setupComponent(component);
+    checkProperties(component);
+  });
+
+  it('can render via document.createElement (append late)', () => {
+    const component: any = document.createElement('ids-trigger-field');
+    setupComponent(component);
+    container.appendChild(component);
+    checkProperties(component);
+  });
+});
 
 describe('IdsTriggerField Component', () => {
   let triggerField: any;

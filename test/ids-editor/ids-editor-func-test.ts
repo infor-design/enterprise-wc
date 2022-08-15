@@ -425,7 +425,7 @@ describe('IdsEditor Component', () => {
     expect(elems.btnSource.hidden).toEqual(false);
   });
 
-  it('should sets default value to each element in modals', () => {
+  it('should set default value on each element in modals', () => {
     const modals = {
       hyperlink: {
         url: 'http://www.test.com',
@@ -451,7 +451,7 @@ describe('IdsEditor Component', () => {
     let elems = getElems();
     expect(elems.linkUrl.value).toEqual('http://www.example.com');
     expect(elems.linkClasses.value).toEqual('hyperlink');
-    expect(elems.linkCbClickable.checked).toEqual(null);
+    expect(elems.linkCbClickable.checked).toBeFalsy();
     expect(elems.imgUrl.value).toEqual('');
     expect(elems.imgAlt.value).toEqual('');
 
@@ -459,7 +459,7 @@ describe('IdsEditor Component', () => {
     elems = getElems();
     expect(elems.linkUrl.value).toEqual('http://www.test.com');
     expect(elems.linkClasses.value).toEqual('test');
-    expect(elems.linkCbClickable.checked).toEqual('true');
+    expect(elems.linkCbClickable.checked).toBeTruthy();
     expect(elems.imgUrl.value).toEqual('/img/test.jpg');
     expect(elems.imgAlt.value).toEqual('image test title text');
 
@@ -552,7 +552,7 @@ describe('IdsEditor Component', () => {
     expect(content).toEqual('<img src="test.png" />');
   });
 
-  it('should dirty tracking', async () => {
+  it('should handle dirty tracking', async () => {
     container.setLanguage('ar');
     await processAnimFrame();
     editor.dirtyTracker = true;

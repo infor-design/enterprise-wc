@@ -49,6 +49,9 @@ const IdsTooltipMixin = (superclass: any) => class extends superclass {
     if (this.fieldContainer instanceof HTMLElement || this.fieldContainer instanceof SVGElement) {
       return this.fieldContainer;
     }
+    if (this.shadowRoot?.querySelector('ids-trigger-field')?.fieldContainer instanceof HTMLElement || this.shadowRoot?.querySelector('ids-trigger-field')?.fieldContainer instanceof SVGElement) {
+      return this.shadowRoot.querySelector('ids-trigger-field').fieldContainer;
+    }
     return this;
   }
 
@@ -63,6 +66,12 @@ const IdsTooltipMixin = (superclass: any) => class extends superclass {
 
     // Append an IDS Tooltip and show it
     const tooltip: any = document.createElement('ids-tooltip');
+    let container = document.querySelector('ids-container');
+    if (!container) {
+      container = document.body;
+    }
+    container?.appendChild(tooltip);
+
     if (!tooltip.state) {
       tooltip.state = {};
     }
@@ -72,12 +81,6 @@ const IdsTooltipMixin = (superclass: any) => class extends superclass {
 
     // Handle Ellipsis Text if tooltip="true"
     tooltip.textContent = this.tooltip === 'true' ? this.textContent : this.tooltip;
-
-    let container = document.querySelector('ids-container');
-    if (!container) {
-      container = document.body;
-    }
-    container?.appendChild(tooltip);
 
     // Show it
     tooltip.visible = true;

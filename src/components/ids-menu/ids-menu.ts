@@ -107,10 +107,15 @@ export default class IdsMenu extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this.attachEventHandlers();
     this.attachKeyboardListeners();
     this.setAttribute(htmlAttributes.ROLE, 'none');
+
+    // If a dataset has been loaded, render it
+    if (this.data) {
+      this.renderFromData();
+    }
 
     // After repaint
     requestAnimationFrame(() => {
@@ -123,18 +128,16 @@ export default class IdsMenu extends Base {
    * @returns {string} The template
    */
   template() {
-    // Setup the attributes on the top-level menu container
     let id;
-    if (this.id) {
-      id = ` id="${this.id}"`;
-    }
+    if (this.id) id = ` id="${this.id}"`;
+
+    let disabledClass = '';
+    if (this.disabled) disabledClass = ' disabled';
 
     let slot = '';
-    if (this.tagName.toLowerCase() === 'ids-popup-menu') {
-      slot = ` slot="content"`;
-    }
+    if (this.tagName.toLowerCase() === 'ids-popup-menu') slot = ` slot="content"`;
 
-    return `<nav class="ids-menu"${id}${slot} part="menu" role="none"><slot></slot></nav>`;
+    return `<nav class="ids-menu${disabledClass}"${id}${slot} part="menu" role="none"><slot></slot></nav>`;
   }
 
   /**
@@ -251,7 +254,7 @@ export default class IdsMenu extends Base {
    * @private
    */
   renderFromData() {
-    if (this.data?.length === 0) {
+    if (this.data?.length === 0 || !this.shadowRoot) {
       return;
     }
 
@@ -423,14 +426,14 @@ export default class IdsMenu extends Base {
   }
 
   #disableItems(): void {
-    this.container.classList.add('disabled');
+    this.container?.classList.add('disabled');
     this.items.forEach((item: any) => {
       item.disabled = true;
     });
   }
 
   #enableItems(): void {
-    this.container.classList.remove('disabled');
+    this.container?.classList.remove('disabled');
     this.items.forEach((item: any) => {
       item.disabled = false;
     });

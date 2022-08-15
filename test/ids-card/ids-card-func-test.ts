@@ -91,11 +91,6 @@ describe('IdsCard Component', () => {
     expect(card.container.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting version', () => {
-    card.version = 'classic';
-    expect(card.container.getAttribute('version')).toEqual('classic');
-  });
-
   it('support card selection single', () => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
     card.selection = 'single';
@@ -118,17 +113,19 @@ describe('IdsCard Component', () => {
     // when user click card container
     card.dispatchEvent(clickEvent);
     expect(card.selected).toBe('true');
-    expect(checkboxElem.checked).toBe('true');
+    expect(checkboxElem.checked).toBeTruthy();
 
     card.dispatchEvent(clickEvent);
     expect(card.selected).toBe('false');
+    expect(checkboxElem.checked).toBeFalsy();
 
     checkboxElem.dispatchEvent(clickEvent);
     expect(card.selected).toBe('true');
-    expect(checkboxElem.checked).toBe('true');
+    expect(checkboxElem.checked).toBeTruthy();
 
     checkboxElem.dispatchEvent(clickEvent);
     expect(card.selected).toBe('false');
+    expect(checkboxElem.checked).toBeFalsy();
   });
 
   it('should fire selectionchanged event', async () => {

@@ -85,6 +85,7 @@ export function parents(node: any, selector = 'body'): Array<HTMLElement> {
  * @returns {Promise} fulfulled when the CSS transition completes
  */
 export function transitionToPromise(el: any, property: string, value: any) {
+  if (!el) return Promise.resolve();
   return new Promise((resolve) => {
     el.style[property] = value;
     const transitionEnded = (e: any) => {

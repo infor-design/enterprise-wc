@@ -32,6 +32,7 @@ export default class IdsExpandableArea extends Base {
   }
 
   connectedCallback(): void {
+    super.connectedCallback();
     this.expander = this.shadowRoot?.querySelector('[data-expander]');
     this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
     this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
@@ -45,7 +46,11 @@ export default class IdsExpandableArea extends Base {
    * @returns {Array} The attributes in an array
    */
   static get attributes(): Array<string> {
-    return [attributes.EXPANDED, attributes.TYPE, attributes.MODE, attributes.VERSION];
+    return [
+      attributes.EXPANDED,
+      attributes.TYPE,
+      attributes.MODE
+    ];
   }
 
   /**

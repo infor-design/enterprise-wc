@@ -32,7 +32,7 @@ export default class IdsDrawer extends Base {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
   }
 
   static get attributes(): Array<string> {

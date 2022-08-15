@@ -6,6 +6,7 @@ import dataset from '../../src/assets/data/items-single.json';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import '../helpers/resize-observer-mock';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsPieChart Component', () => {
   let pieChart: any;
@@ -14,9 +15,9 @@ describe('IdsPieChart Component', () => {
   beforeEach(async () => {
     container = new IdsContainer();
     pieChart = new IdsPieChart();
-    pieChart.animated = false;
     document.body.appendChild(container);
     container.appendChild(pieChart);
+    pieChart.animated = false;
     pieChart.data = dataset;
   });
 
@@ -24,20 +25,21 @@ describe('IdsPieChart Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
+  it('renders with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
     document.body.innerHTML = '';
     pieChart = new IdsPieChart();
-    pieChart.animated = false;
     document.body.appendChild(pieChart);
+    pieChart.animated = false;
     pieChart.data = dataset;
+    await processAnimFrame();
 
     pieChart.remove();
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can set custom colors', () => {
+  it('can set custom colors', async () => {
     pieChart.data = [{
       data: [{
         name: 'Item A',
@@ -52,17 +54,19 @@ describe('IdsPieChart Component', () => {
         color: 'var(--ids-color-palette-azure-20)',
       }]
     }];
-    pieChart.rerender();
+    await processAnimFrame();
+    pieChart.redraw();
+    await processAnimFrame();
 
     // Note: This doesnt test this really well since jest doesnt support stylesheets - see also the percy test
-    expect(pieChart.container.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
+    expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
     expect(pieChart.color(0)).toEqual('var(--ids-color-palette-azure-80)');
 
-    expect(pieChart.container.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
+    expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
     expect(pieChart.color(1)).toEqual('var(color-2)');
   });
 
-  it('can set accessible patterns', () => {
+  it('can set accessible patterns', async () => {
     document.body.innerHTML = '';
     pieChart = new IdsPieChart();
     pieChart.animated = false;
@@ -88,14 +92,14 @@ describe('IdsPieChart Component', () => {
       }]
     }];
 
-    expect(pieChart.container.parentNode.querySelectorAll('.swatch svg')[0].querySelector('rect').getAttribute('fill')).toEqual('url(#circles)');
+    expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch svg')[0].querySelector('rect').getAttribute('fill')).toEqual('url(#circles)');
     expect(pieChart.shadowRoot.querySelectorAll('.slice')[0].getAttribute('stroke')).toEqual('url(#circles)');
 
-    expect(pieChart.container.parentNode.querySelectorAll('.swatch svg')[1].querySelector('rect').getAttribute('fill')).toEqual('url(#exes)');
+    expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch svg')[1].querySelector('rect').getAttribute('fill')).toEqual('url(#exes)');
     expect(pieChart.shadowRoot.querySelectorAll('.slice')[1].getAttribute('stroke')).toEqual('url(#exes)');
   });
 
-  it('supports donut chart', () => {
+  it('supports donut chart', async () => {
     document.body.innerHTML = '';
     pieChart = new IdsPieChart();
     pieChart.animated = false;
@@ -103,6 +107,7 @@ describe('IdsPieChart Component', () => {
     pieChart.donut = true;
     pieChart.donutText = 'Test Text';
     pieChart.data = dataset;
+    await processAnimFrame();
 
     expect(pieChart.container.querySelectorAll('[index="0"]').length).toBe(1);
     expect(pieChart.container.querySelectorAll('[index="1"]').length).toBe(1);
@@ -113,34 +118,30 @@ describe('IdsPieChart Component', () => {
     expect(pieChart.container.querySelector('.donut-text').innerHTML).toBe('Test Update');
   });
 
-  it('shows a tooltip on hover', (done) => {
+  it('shows a tooltip on hover', async () => {
     pieChart.animated = false;
     const slice = pieChart.container.querySelector('.slice');
     slice.dispatchEvent(new CustomEvent('hoverend'));
     const tooltip: any = pieChart.shadowRoot.querySelector('ids-tooltip');
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(true);
-      expect(tooltip.textContent).toEqual('Item A 11%');
-      done();
-    }, 1);
+    await processAnimFrame();
+    expect(tooltip.visible).toEqual(true);
+    expect(tooltip.textContent).toEqual('Item A 10.1');
   });
 
-  it('can suppress tooltips', (done) => {
+  it('can suppress tooltips', async () => {
     pieChart.suppressTooltips = true;
     const slice = pieChart.container.querySelector('.slice');
     slice.dispatchEvent(new CustomEvent('hoverend'));
     const tooltip: any = pieChart.shadowRoot.querySelector('ids-tooltip');
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(false);
-      done();
-    }, 1);
+    await processAnimFrame();
+    expect(tooltip.visible).toEqual(false);
   });
 
-  it('shows a custom tooltip on hover', (done) => {
+  it('shows a custom tooltip on hover', async () => {
     document.body.innerHTML = '';
     pieChart = new IdsPieChart();
-    pieChart.animated = false;
     document.body.appendChild(pieChart);
+    pieChart.animated = false;
 
     pieChart.data = [{
       data: [{
@@ -153,18 +154,18 @@ describe('IdsPieChart Component', () => {
         tooltip: 'Test Tooltip'
       }]
     }];
+    await processAnimFrame();
 
     const slice = pieChart.container.querySelector('.slice');
     slice.dispatchEvent(new CustomEvent('hoverend'));
     const tooltip: any = pieChart.shadowRoot.querySelector('ids-tooltip');
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(true);
-      expect(tooltip.textContent).toEqual('Test Tooltip');
-      done();
-    }, 1);
+    await processAnimFrame();
+
+    expect(tooltip.visible).toEqual(true);
+    expect(tooltip.textContent).toEqual('Test Tooltip');
   });
 
-  it('defaults missing value to zero in a tooltip', (done) => {
+  it('defaults missing value to zero in a tooltip', async () => {
     document.body.innerHTML = '';
     pieChart = new IdsPieChart();
     pieChart.animated = false;
@@ -179,20 +180,58 @@ describe('IdsPieChart Component', () => {
         value: null
       }]
     }];
+    await processAnimFrame();
 
     const slice = pieChart.container.querySelector('.slice');
     slice.dispatchEvent(new CustomEvent('hoverend'));
     const tooltip: any = pieChart.shadowRoot.querySelector('ids-tooltip');
-    setTimeout(() => {
+    await processAnimFrame();
+    expect(tooltip.visible).toEqual(true);
+    expect(tooltip.textContent).toEqual('Jan 0');
+  });
+
+  it('shows tooltip on hover with donut', () => {
+    const ds = [{
+      data: [
+        { value: 1, name: 'slice1', tooltip: 'slice1' },
+        { value: 1, name: 'slice2', tooltip: 'slice2' },
+        { value: 1, name: 'slice3', tooltip: 'slice3' },
+        { value: 1, name: 'slice4', tooltip: 'slice4' },
+        { value: 1, name: 'slice5', tooltip: 'slice5' },
+        { value: 1, name: 'slice6', tooltip: 'slice6' },
+        { value: 1, name: 'slice7', tooltip: 'slice7' },
+        { value: 1, name: 'slice8', tooltip: 'slice8' },
+        { value: 1, name: 'slice9', tooltip: 'slice9' },
+        { value: 1, name: 'slice10', tooltip: 'slice10' },
+        { value: 1, name: 'slice11', tooltip: 'slice11' },
+        { value: 1, name: 'slice12', tooltip: 'slice12' },
+        { value: 1, name: 'slice13', tooltip: 'slice13' },
+        { value: 1, name: 'slice14', tooltip: 'slice14' },
+        { value: 1, name: 'slice15', tooltip: 'slice15' },
+        { value: 1, name: 'slice16', tooltip: 'slice16' }
+      ]
+    }];
+    document.body.innerHTML = '';
+    pieChart = new IdsPieChart();
+    pieChart.animated = false;
+    document.body.appendChild(pieChart);
+    pieChart.donut = true;
+    pieChart.donutText = 'Test';
+    pieChart.data = ds;
+
+    const tooltip: any = pieChart.shadowRoot.querySelector('ids-tooltip');
+
+    [...pieChart.container.querySelectorAll('.slice')].forEach((slice: any, i: number) => {
+      slice.dispatchEvent(new CustomEvent('hoverend'));
       expect(tooltip.visible).toEqual(true);
-      expect(tooltip.textContent).toEqual('Jan 0');
-      done();
-    }, 1);
+      expect(tooltip.textContent).toEqual(ds[0].data[i].tooltip);
+    });
   });
 
   it('renders an empty message with empty data', async () => {
     expect(pieChart.emptyMessage.getAttribute('hidden')).toEqual('');
     pieChart.data = [];
+    await processAnimFrame();
     expect(pieChart.emptyMessage.getAttribute('hidden')).toBeFalsy();
     pieChart.data = [{
       data: [{
@@ -203,8 +242,10 @@ describe('IdsPieChart Component', () => {
         value: null
       }]
     }];
+    await processAnimFrame();
     expect(pieChart.emptyMessage.getAttribute('hidden')).toEqual('');
     pieChart.data = [];
+    await processAnimFrame();
     expect(pieChart.emptyMessage.getAttribute('hidden')).toBeFalsy();
   });
 
@@ -218,7 +259,9 @@ describe('IdsPieChart Component', () => {
         value: null
       }]
     }];
+    await processAnimFrame();
     pieChart.data = [];
+    await processAnimFrame();
     expect(pieChart.emptyMessage.querySelector('ids-text').textContent).toBe('No Data Available');
     await container.setLocale('de-DE');
     expect(pieChart.emptyMessage.querySelector('ids-text').textContent).toBe('Keine Daten verfügbar');
@@ -256,6 +299,7 @@ describe('IdsPieChart Component', () => {
 
   it('can set data to empty', async () => {
     pieChart.data = null;
+    await processAnimFrame();
     expect(pieChart.data.length).toBe(0);
   });
 
@@ -311,19 +355,20 @@ describe('IdsPieChart Component', () => {
     expect(selected.length).toEqual(0);
   });
 
-  it('should set pre selected elements', () => {
+  it('should set pre selected elements', async () => {
     document.body.innerHTML = '';
     const ds = deepClone(dataset);
     (ds as any)[0].data[2].selected = true;
 
+    // TODO Changing order of the appendChilds causes the test to fail
     container = new IdsContainer();
     pieChart = new IdsPieChart();
-    pieChart.selectable = true;
-    pieChart.animated = false;
     document.body.appendChild(container);
     container.appendChild(pieChart);
+    pieChart.selectable = true;
+    pieChart.animated = false;
     pieChart.data = ds;
-
+    await processAnimFrame();
     const selected = pieChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
     expect(selected.length).toEqual(1);
   });

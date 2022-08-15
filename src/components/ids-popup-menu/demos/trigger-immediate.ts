@@ -15,6 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // The first time the Popupmenu hides, re-configure it
   // to activate again when clicking on the page.
   popupEl.addEventListener('hide', () => {
-    popupmenuEl.trigger = 'contextmenu';
+    popupmenuEl.triggerType = 'contextmenu';
   }, { once: true });
 });

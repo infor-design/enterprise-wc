@@ -85,9 +85,7 @@
   }
 
   &.empty-circle.classic.dark,
-  &.half-empty-circle.classic.dark,
-  [version='classic'][mode='dark'][icon='empty-circle'],
-  [version='classic'][mode='dark'][icon='half-empty-circle'] {
+  &.half-empty-circle.classic.dark {
     color: var(--ids-color-palette-classic-slate-30);
 
     &.disabled {

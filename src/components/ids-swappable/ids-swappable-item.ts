@@ -100,7 +100,7 @@ export default class IdsSwappableItem extends Base {
    * @memberof IdsSwappableItem
    */
   get selectedItems(): any {
-    return this.parentElement.shadowRoot.querySelectorAll('[selected]');
+    return this.parentElement?.shadowRoot?.querySelectorAll('[selected]');
   }
 
   /**
@@ -189,13 +189,13 @@ export default class IdsSwappableItem extends Base {
    */
   #dragEnd() {
     if (this.dragMode === 'select') {
-      this.setAttribute(attributes.DRAGGABLE, 'false');
+      this.setAttribute(attributes.DRAGGABLE, 'true');
     }
     this.removeAttribute(attributes.DRAGGING);
     [...this.children].forEach((elem) => {
       elem.removeAttribute(attributes.DRAGGING, '');
+      elem.focus();
     });
-    this.removeAttribute(attributes.SELECTED);
     this.removeAttribute(attributes.OVER);
   }
 

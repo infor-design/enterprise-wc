@@ -27,6 +27,9 @@ export default class IdsActionSheet extends Base {
     super.connectedCallback();
     this.overlay = this.shadowRoot.querySelector('ids-overlay');
     this.cancelBtn = this.shadowRoot.querySelector('[part="cancel-btn"]');
+    if (!this.hasAttribute(attributes.CANCEL_BTN_TEXT)) {
+      this.setAttribute(attributes.CANCEL_BTN_TEXT, 'Cancel');
+    }
     this.#attachEventHandlers();
     this.#hideOnDesktop();
   }
@@ -37,7 +40,7 @@ export default class IdsActionSheet extends Base {
    */
   static get attributes() {
     return [
-      attributes.BTN_TEXT,
+      attributes.CANCEL_BTN_TEXT,
       attributes.VISIBLE
     ];
   }
@@ -49,12 +52,12 @@ export default class IdsActionSheet extends Base {
   template(): string {
     return `
       <div class="ids-action-sheet">
-        <ids-overlay opacity=".7"></ids-overlay>
+        <ids-overlay opacity=".5"></ids-overlay>
         <div class="ids-action-sheet-inner">
           <slot></slot>
           <ids-button type="secondary" part="cancel-btn">
             <span slot="text">
-              ${this.btnText === null ? 'Cancel' : this.btnText}
+              ${this.cancelBtnText}
             </span>
           </ids-button>
         </div>
@@ -70,10 +73,10 @@ export default class IdsActionSheet extends Base {
     const isValTruthy = stringToBool(val);
     if (isValTruthy && !this.hidden) {
       this.setAttribute(attributes.VISIBLE, true);
-      this.overlay.setAttribute(attributes.VISIBLE, true);
+      this.overlay?.setAttribute(attributes.VISIBLE, true);
     } else {
       this.removeAttribute(attributes.VISIBLE);
-      this.overlay.removeAttribute(attributes.VISIBLE);
+      this.overlay?.removeAttribute(attributes.VISIBLE);
     }
   }
 
@@ -88,19 +91,24 @@ export default class IdsActionSheet extends Base {
    * Set the btn text attribute
    * @param {string} val the inner text of the cancel btn
    */
-  set btnText(val: string) {
+  set cancelBtnText(val: string) {
+    const idsButton = this.shadowRoot?.querySelector('ids-button');
     if (val) {
-      this.setAttribute(attributes.BTN_TEXT, val);
+      this.setAttribute(attributes.CANCEL_BTN_TEXT, val);
+      idsButton.style.display = 'inline-flex';
+      idsButton.innerText = val;
     } else {
-      this.removeAttribute(attributes.BTN_TEXT);
+      this.removeAttribute(attributes.CANCEL_BTN_TEXT);
+      idsButton.innerText = val;
+      idsButton.style.display = 'none';
     }
   }
 
   /**
    * @returns {string} the inner text of the cancel btn
    */
-  get btnText(): string {
-    return this.getAttribute(attributes.BTN_TEXT);
+  get cancelBtnText(): string {
+    return this.getAttribute(attributes.CANCEL_BTN_TEXT);
   }
 
   /**
@@ -108,7 +116,7 @@ export default class IdsActionSheet extends Base {
    */
   onOutsideClick() {
     this.onEvent('click', this.overlay, () => this.dismiss());
-    this.onEvent('touchstart', this.overlay, () => this.dismiss());
+    this.onEvent('touchstart', this.overlay, () => this.dismiss(), { passive: true });
   }
 
   /**
@@ -116,7 +124,7 @@ export default class IdsActionSheet extends Base {
    */
   onCancelClick() {
     this.onEvent('click', this.cancelBtn, () => this.dismiss());
-    this.onEvent('touchstart', this.cancelBtn, () => this.dismiss());
+    this.onEvent('touchstart', this.cancelBtn, () => this.dismiss(), { passive: true });
   }
 
   /**
@@ -124,7 +132,7 @@ export default class IdsActionSheet extends Base {
    */
   dismiss() {
     this.removeAttribute(attributes.VISIBLE);
-    this.overlay.removeAttribute(attributes.VISIBLE);
+    this.overlay?.removeAttribute(attributes.VISIBLE);
   }
 
   /**
@@ -147,10 +155,10 @@ export default class IdsActionSheet extends Base {
       this.hidden = true;
       this.overlay.hidden = true;
       this.removeAttribute('visible');
-      this.overlay.removeAttribute(attributes.VISIBLE);
+      this.overlay?.removeAttribute(attributes.VISIBLE);
     } else {
       this.removeAttribute('hidden');
-      this.overlay.removeAttribute('hidden');
+      this.overlay?.removeAttribute('hidden');
     }
   }
 

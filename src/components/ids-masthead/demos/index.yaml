@@ -6,4 +6,5 @@
  keywords: masthead, header, layout
  examples:
   - link: example.html
+    type: Main Example
     description: Shows the masthead

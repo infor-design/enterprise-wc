@@ -88,16 +88,16 @@ describe('IdsActionSheet Component', () => {
     expect(el.getAttribute('visible')).toBe(null);
   });
 
-  it('can set the btnText attribute', () => {
-    expect(el.getAttribute('btnText')).toBe(null);
+  it('can set the cancelBtnText attribute', () => {
+    expect(el.getAttribute('cancelBtnText')).toBe(null);
 
-    el.btnText = 'Test';
-    el.setAttribute('btnText', 'Test');
-    expect(el.getAttribute('btnText')).toBe('Test');
+    el.cancelBtnText = 'Test';
+    el.setAttribute('cancelBtnText', 'Test');
+    expect(el.getAttribute('cancelBtnText')).toBe('Test');
 
-    el.btnText = null;
-    el.removeAttribute('btnText');
-    expect(el.getAttribute('btnText')).toBe(null);
+    el.cancelBtnText = null;
+    el.removeAttribute('cancelBtnText');
+    expect(el.getAttribute('cancelBtnText')).toBe(null);
   });
 
   it('can be dismissed', () => {

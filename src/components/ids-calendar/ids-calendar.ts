@@ -7,10 +7,15 @@ import styles from './ids-calendar.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import { dateDiff, isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 import { breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import IdsPopup from '../ids-popup/ids-popup';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import {
+  dateDiff,
+  firstDayOfWeekDate,
+  isValidDate,
+  lastDayOfWeekDate
+} from '../../utils/ids-date-utils/ids-date-utils';
 
 type CalendarEventDetail = {
   id: string;
@@ -37,8 +42,6 @@ type CalendarViewTypes = 'month' | 'week' | 'day';
 @customElement('ids-calendar')
 @scss(styles)
 export default class IdsCalendar extends Base {
-  activeDate: Date = new Date();
-
   #mobileBreakpoint = parseInt(breakpoints.md);
 
   #resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => this.#onResize(entries));
@@ -67,11 +70,12 @@ export default class IdsCalendar extends Base {
     if (stringToBool(val)) {
       this.setAttribute(attributes.SHOW_DETAILS, '');
       this.updateEventDetails(this.state.selected);
-      this.container.classList.add('show-details');
+      this.container?.classList.add('show-details');
     } else {
-      this.container.querySelector('.calendar-details-pane').innerHTML = '';
+      const detailsPane = this.container?.querySelector('.calendar-details-pane');
+      if (detailsPane) detailsPane.innerHTML = '';
       this.removeAttribute(attributes.SHOW_DETAILS);
-      this.container.classList.remove('show-details');
+      this.container?.classList.remove('show-details');
     }
   }
 
@@ -90,11 +94,11 @@ export default class IdsCalendar extends Base {
     if (stringToBool(val)) {
       this.setAttribute(attributes.SHOW_LEGEND, '');
       this.renderLegend(this.eventTypesData);
-      this.container.classList.add('show-legend');
+      this.container?.classList.add('show-legend');
     } else {
       this.removeAttribute(attributes.SHOW_LEGEND);
       this.querySelector('#event-types-legend')?.remove();
-      this.container.classList.remove('show-legend');
+      this.container?.classList.remove('show-legend');
     }
   }
 
@@ -113,22 +117,22 @@ export default class IdsCalendar extends Base {
     const date = new Date(val);
 
     if (isValidDate(date)) {
-      this.activeDate = date;
       this.setAttribute(attributes.DATE, val);
       if (!this.state.skipRender) {
-        this.changeView(this.state.view);
+        this.changeDate(date, this.state.view === 'day');
         this.updateEventDetails();
       }
     } else {
-      this.removeAttribute(attributes.DATE);
+      this.setAttribute(attributes.DATE, new Date());
     }
   }
 
   /**
+   * Returns active date
    * @returns {Date} date
    */
   get date(): Date {
-    const date = new Date(this.getAttribute(attributes.DATE));
+    const date = new Date(this.getAttribute(attributes.DATE) || Date.now());
     return isValidDate(date) ? date : new Date();
   }
 
@@ -136,19 +140,19 @@ export default class IdsCalendar extends Base {
    * Ids Calendar Component connected life-cycle hook
    */
   connectedCallback(): void {
+    super.connectedCallback();
     this.setDirection();
     this.changeView('month');
     this.#attachEventHandlers();
     this.#resizeObserver.observe(getClosest(this, 'ids-container'));
-    super.connectedCallback();
   }
 
   /**
    * Ids Calendar Component disconnected life-cycle hook
    */
   disconnectedCallback() {
-    this.#resizeObserver?.disconnect();
     super.disconnectedCallback?.();
+    this.#resizeObserver?.disconnect();
   }
 
   /**
@@ -225,7 +229,7 @@ export default class IdsCalendar extends Base {
    * @param {boolean} isModal opens modal if true
    */
   createNewEvent(id: string, isModal = false): void {
-    const date = new Date(this.activeDate);
+    const date = new Date(this.activeDate || this.date);
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();
@@ -242,7 +246,7 @@ export default class IdsCalendar extends Base {
 
     if (isModal) {
       const view = this.getView();
-      const target = view.tagName === 'IDS-MONTH-VIEW' ? view.getSelectedDay() : this.container;
+      const target = view?.tagName === 'IDS-MONTH-VIEW' ? view.getSelectedDay() : this.container;
       this.#insertFormPopup(target, event);
     } else {
       this.addEvent(event);
@@ -355,7 +359,7 @@ export default class IdsCalendar extends Base {
     });
 
     this.offEvent('change.calendar-legend');
-    this.onEvent('change.calendar-legend', this.container.querySelector('.calendar-legend-pane'), (evt: any) => {
+    this.onEvent('change.calendar-legend', this.container?.querySelector('.calendar-legend-pane'), (evt: any) => {
       evt.stopPropagation();
       this.#removePopup();
       this.#toggleEventType(evt.detail.elem, evt.detail.checked);
@@ -571,6 +575,8 @@ export default class IdsCalendar extends Base {
    * @param {CalendarViewTypes} view month | week | day
    */
   changeView(view: CalendarViewTypes = 'month'): void {
+    if (this.state.view === view) return;
+
     const template = view === 'month'
       ? this.#createMonthTemplate()
       : this.#createWeekTemplate(view === 'day');
@@ -581,12 +587,35 @@ export default class IdsCalendar extends Base {
   }
 
   /**
+   * Update date range of current view
+   * @param {Date} date Date
+   * @param {boolean} isDayView true if range is 1 day
+   */
+  changeDate(date: Date, isDayView: boolean): void {
+    const view = this.getView();
+
+    if (!view || !isValidDate(date)) return;
+
+    if (view.tagName === 'IDS-MONTH-VIEW') {
+      view.setAttribute(attributes.YEAR, date.getFullYear());
+      view.setAttribute(attributes.MONTH, date.getMonth());
+      view.setAttribute(attributes.DAY, date.getDate());
+    } else if (view.tagName === 'IDS-WEEK-VIEW') {
+      const start = isDayView ? date : firstDayOfWeekDate(date);
+      const end = isDayView ? date : lastDayOfWeekDate(date);
+      view.setAttribute(attributes.START_DATE, start);
+      view.setAttribute(attributes.END_DATE, end);
+    }
+  }
+
+  /**
    * Inserts view component template
    * @param {string} template view component template
    */
   insertViewTemplate(template: string): void {
-    const container = this.container.querySelector('.calendar-view-pane');
-    container.innerHTML = template;
+    const viewPane = this.container?.querySelector('.calendar-view-pane');
+
+    if (viewPane) viewPane.innerHTML = template;
   }
 
   /**
@@ -609,7 +638,7 @@ export default class IdsCalendar extends Base {
    */
   #updateActiveDate(date: Date): void {
     this.state.skipRender = true;
-    date = date || this.activeDate;
+    date = date || this.date;
     const dateAttr = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
     this.setAttribute('date', dateAttr);
     this.state.skipRender = false;
@@ -631,15 +660,15 @@ export default class IdsCalendar extends Base {
    * @returns {string} ids month view template
    */
   #createMonthTemplate(): string {
-    const date = this.activeDate;
+    const date = this.date;
 
     return `
-      <ids-month-view 
-        view-picker
-        show-today
-        month="${date.getMonth()}" 
-        day="${date.getDate()}" 
-        year="${date.getFullYear()}" 
+      <ids-month-view
+        month="${date.getMonth()}"
+        day="${date.getDate()}"
+        year="${date.getFullYear()}"
+        view-picker="true" 
+        show-today="true" 
       ></ids-month-view>
     `;
   }
@@ -650,21 +679,16 @@ export default class IdsCalendar extends Base {
    * @returns {string} ids week view template
    */
   #createWeekTemplate(isDayView = false): string {
-    const activeDate = this.activeDate;
-    const startDate = new Date(activeDate);
-    const endDate = new Date(activeDate);
-
-    if (!isDayView) {
-      // adjust dates for start and end of week
-      startDate.setDate(activeDate.getDate() - activeDate.getDay());
-      endDate.setDate(activeDate.getDate() + (6 - activeDate.getDay()));
-    }
+    const date = this.date;
+    const start = isDayView ? date : firstDayOfWeekDate(date);
+    const end = isDayView ? date : lastDayOfWeekDate(date);
 
     return `
-      <ids-week-view 
-        start-date="${startDate}" 
-        end-date="${endDate}" 
-        view-picker
+      <ids-week-view
+        start-date="${start}"
+        end-date="${end}"
+        view-picker="true"
+        show-today="true"
       ></ids-week-view>
     `;
   }
@@ -753,7 +777,7 @@ export default class IdsCalendar extends Base {
    * @param {CalendarEventData[]} selected selected calendar events data
    */
   updateEventDetails(selected?: CalendarEventData[]): void {
-    const container = this.container.querySelector('.calendar-details-pane');
+    const container = this.container?.querySelector('.calendar-details-pane');
     if (!this.showDetails || !container) return;
 
     // if not month view, clear details container
@@ -836,11 +860,11 @@ export default class IdsCalendar extends Base {
     if (!this.showLegend || !eventTypes.length || this.querySelector('[slot="legend"]')) return;
 
     const checkboxes = eventTypes.map((item: CalendarEventTypeData) => `
-      <ids-checkbox 
+      <ids-checkbox
         class="event-type-checkbox"
         checked="${item.checked}"
-        data-id="${item.id}" 
-        label="${item.translationKey ? this.locale.translate(item.translationKey) : item.label}" 
+        data-id="${item.id}"
+        label="${item.translationKey ? this.locale.translate(item.translationKey) : item.label}"
         color="${item.color}07"
         disabled="${item.disabled || 'false'}">
       </ids-checkbox>
@@ -849,7 +873,7 @@ export default class IdsCalendar extends Base {
     const accordion = `
       <ids-accordion id="event-types-legend" slot="legend">
         <ids-accordion-panel expanded="true">
-          <ids-accordion-header slot="header" expander-type="caret" expanded="true">
+          <ids-accordion-header slot="header" expander-type="caret">
             <ids-text translate-text="true">Legend</ids-text>
           </ids-accordion-header>
           <div slot="content"><p>${checkboxes}</p></div>
@@ -864,8 +888,8 @@ export default class IdsCalendar extends Base {
    * Gets current view component
    * @returns {IdsMonthView|IdsWeekView} current view component
    */
-  getView(): IdsMonthView | IdsWeekView {
-    return this.container.querySelector('ids-month-view') || this.container.querySelector('ids-week-view');
+  getView(): IdsMonthView | IdsWeekView | null {
+    return this.container?.querySelector('ids-month-view') || this.container?.querySelector('ids-week-view');
   }
 
   /**
@@ -905,7 +929,7 @@ export default class IdsCalendar extends Base {
       this.state.isMobile = isMobile;
       this.updateEventDetails(this.state.selected);
       this.#toggleMonthLegend(this.eventTypesData, isMobile);
-      this.positionFormPopup(this.getView().getEventElemById(this.#selectedEventId)?.container);
+      this.positionFormPopup(this.getView()?.getEventElemById(this.#selectedEventId)?.container);
     }
   }
 
@@ -913,10 +937,10 @@ export default class IdsCalendar extends Base {
    * @returns {Date} start date
    */
   get startDate(): Date {
-    const start = this.getView().startDate;
+    const start = this.getView()?.startDate;
 
     if (!start) {
-      const date = new Date(this.activeDate);
+      const date = this.date;
       date.setDate(1);
       return date;
     }
@@ -928,10 +952,10 @@ export default class IdsCalendar extends Base {
    * @returns {Date} end date
    */
   get endDate(): Date {
-    const end = this.getView().endDate;
+    const end = this.getView()?.endDate;
 
     if (!end) {
-      const date = new Date(this.activeDate);
+      const date = this.date;
       date.setMonth(date.getMonth() + 1);
       date.setDate(0);
       return date;

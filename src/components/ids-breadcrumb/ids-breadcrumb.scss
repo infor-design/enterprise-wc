@@ -77,40 +77,22 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
     }
   }
 
-  &[version='new'][mode='light'],
+  &[mode='light'],
   &:not([mode]) {
     nav.truncate::before {
       background-image: linear-gradient(to right, var(--ids-color-palette-white), $transparent-white);
     }
   }
 
-  &[version='new'][mode='dark'] {
+  &[mode='dark'] {
     nav.truncate::before {
       background-image: linear-gradient(to right, var(--ids-color-palette-slate-90), $transparent-white);
     }
   }
 
-  &[version='new'][mode='contrast'] {
+  &[mode='contrast'] {
     nav.truncate::before {
       background-image: linear-gradient(to right, var(--ids-color-palette-slate-10), $transparent-white);
-    }
-  }
-
-  &[version='classic'][mode='light'] {
-    nav.truncate::before {
-      background-image: linear-gradient(to right, var(--ids-color-palette-graphite-10), $transparent-white);
-    }
-  }
-
-  &[version='classic'][mode='dark'] {
-    nav.truncate::before {
-      background-image: linear-gradient(to right, var(--ids-color-palette-classic-slate-90), $transparent-white);
-    }
-  }
-
-  &[version='classic'][mode='contrast'] {
-    nav.truncate::before {
-      background-image: linear-gradient(to right, var(--ids-color-palette-graphite-20), $transparent-white);
     }
   }
 
@@ -140,7 +122,7 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
     }
 
     // Use background colors from IdsHeader
-    &[version='new'][mode='light'],
+    &[mode='light'],
     &:not([mode]) {
       nav.truncate::before {
         background-image:
@@ -152,7 +134,7 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
       }
     }
 
-    &[version='new'][mode='dark'] {
+    &[mode='dark'] {
       nav.truncate::before {
         background-image:
           linear-gradient(
@@ -163,7 +145,7 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
       }
     }
 
-    &[version='new'][mode='contrast'] {
+    &[mode='contrast'] {
       nav.truncate::before {
         background-image:
           linear-gradient(
@@ -173,45 +155,17 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
           );
       }
     }
-
-    &[version='classic'][mode='light'] {
-      nav.truncate::before {
-        background-image:
-          linear-gradient(
-            to right,
-            $header-gradient-opaque-classic-light,
-            $header-gradient-transparent-classic-light
-          );
-      }
-    }
-
-    &[version='classic'][mode='dark'] {
-      nav.truncate::before {
-        background-image:
-          linear-gradient(
-            to right,
-            $header-gradient-opaque-classic-dark,
-            $header-gradient-transparent-classic-dark
-          );
-      }
-    }
-
-    &[version='classic'][mode='contrast'] {
-      nav.truncate::before {
-        background-image:
-          linear-gradient(
-            to right,
-            $header-gradient-opaque-classic-contrast,
-            $header-gradient-transparent-classic-contrast
-          );
-      }
-    }
   }
 }
 
-a.ids-hyperlink {
+a.ids-hyperlink,
+span.ids-breadcrumb-divider {
   @include text-14();
   @include text-slate-60();
+
+  &:not(.ids-hyperlink-color-unset):not([mode]) {
+    @include text-slate-60();
+  }
 }
 
 ::slotted(*),
@@ -221,7 +175,7 @@ a.ids-hyperlink {
 
 // Create the / between breadcrumbs
 ::slotted(*:not(:first-child))::before,
-a.ids-hyperlink:not(:first-child)::before {
+span.ids-breadcrumb-divider:not(:first-child)::before {
   @include antialiased();
 
   color: inherit;

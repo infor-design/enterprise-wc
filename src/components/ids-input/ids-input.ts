@@ -60,9 +60,6 @@ type IdsInputTemplateVariables = {
 @customElement('ids-input')
 @scss(styles)
 export default class IdsInput extends Base {
-  /**
-   * Call the constructor and then initialize
-   */
   constructor() {
     super();
   }
@@ -109,7 +106,6 @@ export default class IdsInput extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
-
     this.#attachEventHandlers();
 
     if (this.hasAttribute(attributes.AUTOSELECT)) {
@@ -167,7 +163,7 @@ export default class IdsInput extends Base {
    */
   templateHostAttributes(): void {
     if (!this.id) {
-      this.setAttribute?.(attributes.ID, `ids-input-${++instanceCounter}`);
+      this.generatedId = `ids-input-${instanceCounter++}`;
     }
   }
 
@@ -278,7 +274,7 @@ export default class IdsInput extends Base {
    * @returns {HTMLElement} the caps lock indicator icon, if one exists
    */
   get capsLockIcon(): HTMLElement {
-    return this.container.querySelector('#caps-lock-indicator');
+    return this.container?.querySelector('#caps-lock-indicator');
   }
 
   /**
@@ -287,7 +283,7 @@ export default class IdsInput extends Base {
    *  that wraps the input and any triggering elements or icons
    */
   get fieldContainer(): HTMLElement {
-    return this.container.querySelector('.field-container');
+    return this.container?.querySelector('.field-container');
   }
 
   /**
@@ -380,6 +376,8 @@ export default class IdsInput extends Base {
    */
   setInputState(prop: string): void {
     if (prop === attributes.READONLY || prop === attributes.DISABLED) {
+      if (!this.shadowRoot) return;
+
       const msgNodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
       const options = {
         prop1: prop,
@@ -394,13 +392,13 @@ export default class IdsInput extends Base {
         msgNodes.forEach((x: any) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
-        this.container.classList.add(options.prop1);
+        this.container?.classList.add(options.prop1);
         this.container?.querySelector?.('ids-text')?.setAttribute?.(options.prop1, 'true');
         msgNodes.forEach((x: any) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
-        this.container.classList.remove(options.prop1);
-        this.container.querySelector('ids-text')?.removeAttribute(options.prop1);
+        this.container?.classList.remove(options.prop1);
+        this.container?.querySelector('ids-text')?.removeAttribute(options.prop1);
         msgNodes.forEach((x: any) => x.classList.remove(options.prop1));
       }
     }
@@ -413,7 +411,7 @@ export default class IdsInput extends Base {
    * @returns {void}
    */
   setLabelText(value: string): void {
-    const labelEl = this.#labelEl || this.shadowRoot.querySelector(`[for="${this.id}-input"]`);
+    const labelEl = this.#labelEl || (this.shadowRoot && this.shadowRoot.querySelector(`[for="${this.id}-input"]`));
     if (labelEl) {
       labelEl.querySelector('ids-text').innerHTML = value || '';
       labelEl.classList[value ? 'remove' : 'add']('empty');
@@ -448,7 +446,7 @@ export default class IdsInput extends Base {
       }
     } else {
       this.onEvent(eventName, this.input, () => {
-        requestAnimationFrame(() => { // Safari has delay
+        requestAnimationFrame(() => { // Safari needs a delay
           this.input?.select();
         });
       });
@@ -501,8 +499,8 @@ export default class IdsInput extends Base {
          * Trigger event on parent and compose the args
          * will fire nativeEvents.
          * @private
-         * @param  {object} elem Actual event
-         * @param  {string} value The updated input element value
+         * @param {object} elem Actual event
+         * @param {string} value The updated input element value
          */
         this.triggerEvent(e.type, this, {
           detail: {
@@ -574,6 +572,7 @@ export default class IdsInput extends Base {
    * @private
    */
   #passwordVisibilityHandler(): void {
+    if (!this.shadowRoot) return;
     const passwordButton = this.shadowRoot.querySelector(`.show-hide-password`);
     const passwordField = this.shadowRoot.querySelector(`.ids-input-field`);
     if (passwordButton) {
@@ -596,10 +595,10 @@ export default class IdsInput extends Base {
     const className = 'is-active';
     if (val) {
       this.setAttribute(attributes.ACTIVE, val.toString());
-      this.container.classList.add(className);
+      this.container?.classList.add(className);
     } else {
       this.removeAttribute(attributes.ACTIVE);
-      this.container.classList.remove(className);
+      this.container?.classList.remove(className);
     }
   }
 
@@ -630,11 +629,11 @@ export default class IdsInput extends Base {
     const className = 'bg-transparent';
     if (val) {
       this.setAttribute(attributes.BG_TRANSPARENT, val.toString());
-      this.container.classList.add(className);
+      this.container?.classList.add(className);
       this.input?.classList.add(className);
     } else {
       this.removeAttribute(attributes.BG_TRANSPARENT);
-      this.container.classList.remove(className);
+      this.container?.classList.remove(className);
       this.input?.classList.remove(className);
     }
   }
@@ -760,10 +759,10 @@ export default class IdsInput extends Base {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.READONLY_BACKGROUND, val.toString());
-      this.container.classList.add(attributes.READONLY_BACKGROUND);
+      this.container?.classList.add(attributes.READONLY_BACKGROUND);
     } else {
       this.removeAttribute(attributes.READONLY_BACKGROUND);
-      this.container.classList.remove(attributes.READONLY_BACKGROUND);
+      this.container?.classList.remove(attributes.READONLY_BACKGROUND);
     }
   }
 
@@ -809,11 +808,11 @@ export default class IdsInput extends Base {
     const type = TYPES[value];
     if (type) {
       this.setAttribute(attributes.TYPE, value);
-      this.input.setAttribute(attributes.TYPE, type);
+      this.input?.setAttribute(attributes.TYPE, type);
       return;
     }
     this.setAttribute(attributes.TYPE, TYPES.default);
-    this.input.setAttribute(attributes.TYPE, TYPES.default);
+    this.input?.setAttribute(attributes.TYPE, TYPES.default);
   }
 
   get type(): string { return this.getAttribute(attributes.TYPE); }
@@ -863,7 +862,7 @@ export default class IdsInput extends Base {
   }
 
   get id(): string {
-    return this.getAttribute(attributes.ID);
+    return this.getAttribute(attributes.ID) || this.generatedId;
   }
 
   /**
@@ -886,11 +885,11 @@ export default class IdsInput extends Base {
   set noMargins(n: boolean | string) {
     if (stringToBool(n)) {
       this.setAttribute(attributes.NO_MARGINS, '');
-      this.container.classList.add('no-margins');
+      this.container?.classList.add('no-margins');
       return;
     }
     this.removeAttribute(attributes.NO_MARGINS);
-    this.container.classList.remove('no-margins');
+    this.container?.classList.remove('no-margins');
   }
 
   get noMargins(): boolean {

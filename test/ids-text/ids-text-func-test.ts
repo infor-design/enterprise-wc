@@ -208,6 +208,23 @@ describe('IdsText Component', () => {
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
   });
 
+  it('renders via document.createElement (append late)', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const textElem: any = document.createElement('ids-text');
+
+    textElem.type = 'h1';
+    textElem.fontSize = 24;
+    textElem.fontWeight = 'bold';
+    textElem.textContent = 'Test Text';
+    document.body.appendChild(textElem);
+
+    expect(textElem.type).toEqual('h1');
+    expect(textElem.fontSize).toEqual('24');
+    expect(textElem.fontWeight).toEqual('bold');
+    expect(textElem.textContent).toEqual('Test Text');
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('can render a color from the color palette', () => {
     elem.color = 'slate-10';
     expect(elem.color).toEqual('slate-10');

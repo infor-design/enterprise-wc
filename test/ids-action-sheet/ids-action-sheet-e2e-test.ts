@@ -1,3 +1,5 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+
 describe('Ids Action Sheet e2e Tests', () => {
   const url = 'http://localhost:4444/ids-action-sheet/example.html';
 
@@ -12,7 +14,8 @@ describe('Ids Action Sheet e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await (expect(page) as any).toPassAxeTests();
+    const results = await new AxePuppeteer(page).analyze();
+    expect(results.violations.length).toBe(0);
   });
 
   it('should open popup when clicking the trigger button on desktop', async () => {
@@ -35,6 +38,19 @@ describe('Ids Action Sheet e2e Tests', () => {
     expect(isVisible).toEqual(false);
     expect(popupHidden).toEqual(true);
     await mobilePage.evaluate(`document.querySelector("ids-menu-button").click()`);
+    isVisible = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").visible`);
+    expect(isVisible).toEqual(true);
+  });
+
+  it('should not display cancel button when cancelBtnText is an empty string', async () => {
+    const mobilePage = await browser.newPage();
+    await mobilePage.setViewport({ width: 599, height: 9999, deviceScaleFactor: 1 });
+    await mobilePage.goto(url);
+    let isVisible = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").visible`);
+    const cancelBtn = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").cancelBtnText = ''`);
+    expect(isVisible).toEqual(false);
+    expect(cancelBtn).toEqual('');
+    await mobilePage.evaluate(`document.querySelector("#icon-button").click()`);
     isVisible = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").visible`);
     expect(isVisible).toEqual(true);
   });

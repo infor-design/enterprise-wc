@@ -15,7 +15,6 @@ import styles from './ids-pager-button.scss';
  * @type {IdsPagerButton}
  * @inherits IdsElement
  * @mixes IdsLocaleMixin
- * @mixes IdsEventsMixin
  * @part button - the `ids-button` component
  * @part icon - the `ids-icon` component
  */
@@ -59,13 +58,13 @@ export default class IdsPagerButton extends Base {
   }
 
   connectedCallback(): void {
+    super.connectedCallback();
     this.button = this.shadowRoot.querySelector('ids-button');
     this.icon = this.shadowRoot.querySelector('ids-icon');
     this.onEvent('click', this.button, () => this.#onClick());
 
     this.#updateNavDisabled();
     this.#updateDisabledState();
-    super.connectedCallback?.();
   }
 
   /**
@@ -268,6 +267,14 @@ export default class IdsPagerButton extends Base {
     return this.getAttribute(attributes.LABEL);
   }
 
+  #triggerPageNumberChange(value: number) {
+    this.triggerEvent('pagenumberchange', this, {
+      bubbles: true,
+      composed: true,
+      detail: { elem: this, value }
+    });
+  }
+
   /**
    * Handles click functionality dependent on whether this
    * button is disabled and the type of button it is set to;
@@ -279,44 +286,32 @@ export default class IdsPagerButton extends Base {
     if (!this.disabled) {
       const lastPageNumber = Math.ceil(Number(this.total) / this.pageSize);
 
-      /* eslint-disable default-case */
       switch (this.type) {
         case attributes.FIRST: {
           if (this.pageNumber > 1) {
-            this.triggerEvent('pagenumberchange', this, {
-              bubbles: true,
-              detail: { elem: this, value: 1 }
-            });
+            this.#triggerPageNumberChange(1);
           }
           break;
         }
         case attributes.LAST: {
           if (this.pageNumber < lastPageNumber) {
-            this.triggerEvent('pagenumberchange', this, {
-              bubbles: true,
-              detail: { elem: this, value: this.pageCount }
-            });
+            this.#triggerPageNumberChange(Number(this.pageCount));
           }
           break;
         }
         case attributes.PREVIOUS: {
           if (this.pageNumber > 1) {
-            this.triggerEvent('pagenumberchange', this, {
-              bubbles: true,
-              detail: { elem: this, value: this.pageNumber - 1 }
-            });
+            this.#triggerPageNumberChange(Number(this.pageNumber) - 1);
           }
           break;
         }
         case attributes.NEXT: {
           if (this.pageNumber < lastPageNumber) {
-            this.triggerEvent('pagenumberchange', this, {
-              bubbles: true,
-              detail: { elem: this, value: this.pageNumber + 1 }
-            });
+            this.#triggerPageNumberChange(Number(this.pageNumber) + 1);
           }
           break;
         }
+        default: break;
       }
     }
   }

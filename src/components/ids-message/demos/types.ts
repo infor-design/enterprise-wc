@@ -8,7 +8,7 @@ import '../../ids-hyperlink/ids-hyperlink';
 const setupMessage = (messageEl: any, triggerBtnEl: any) => {
   // Link the Message to its trigger button
   messageEl.target = triggerBtnEl;
-  messageEl.trigger = 'click';
+  messageEl.triggerType = 'click';
 
   // Disable the trigger button when showing the Modal.
   messageEl.addEventListener('beforeshow', () => {

@@ -58,18 +58,18 @@ export default class IdsDataGrid extends Base {
   }
 
   connectedCallback() {
-    this.state = { selectedRows: [], activatedRow: null };
     super.connectedCallback();
+    this.state = { selectedRows: [], activatedRow: null };
   }
 
   /** Reference to datasource API */
-  datasource: any = new IdsDataSource();
+  readonly datasource: any = new IdsDataSource();
 
   /** Filters instance attached to component  */
-  filters = new IdsDataGridFilters(this);
+  readonly filters = new IdsDataGridFilters(this);
 
   /** API for list of formatters */
-  formatters: any = new IdsDataGridFormatters();
+  readonly formatters: any = new IdsDataGridFormatters();
 
   /**
    * Return the attributes we handle as getters/setters
@@ -90,8 +90,7 @@ export default class IdsDataGrid extends Base {
       attributes.SUPPRESS_ROW_DEACTIVATION,
       attributes.SUPPRESS_ROW_DESELECTION,
       attributes.VIRTUAL_SCROLL,
-      attributes.MODE,
-      attributes.VERSION
+      attributes.MODE
     ];
   }
 
@@ -113,8 +112,7 @@ export default class IdsDataGrid extends Base {
       <div class="ids-data-grid${cssClasses}"
         role="table" part="table" aria-label="${this.label}"
         data-row-height="${this.rowHeight}"
-        mode="${this.mode}"
-        version="${this.version}">
+        mode="${this.mode}">
       ${this.headerTemplate()}
       ${this.bodyTemplate()}
       </div></div>`;
@@ -133,11 +131,14 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Sync and then redraw body rows
+   * @param {boolean} sync Select selected and activated rows
    * @returns {void}
    */
-  redrawBody() {
-    this.#syncSelectedRows();
-    this.#syncActivatedRow();
+  redrawBody(sync = true) {
+    if (sync) {
+      this.#syncSelectedRows();
+      this.#syncActivatedRow();
+    }
     this.#redrawBodyTemplate();
   }
 
@@ -151,18 +152,7 @@ export default class IdsDataGrid extends Base {
       return;
     }
     this.body.innerHTML = this.bodyTemplate();
-    this.#syncPager();
     this.#setHeaderCheckbox();
-  }
-
-  /**
-   * Sync pager to refresh updated dataset
-   * @private
-   * @returns {void}
-   */
-  #syncPager() {
-    this.pager.total = this.datasource.total;
-    this.pager.pageNumber = this.datasource.pageNumber;
   }
 
   /**
@@ -178,7 +168,6 @@ export default class IdsDataGrid extends Base {
     const body = this.bodyTemplate();
     this.container.innerHTML = header + body;
     this.#setColumnWidths();
-    super.rerender();
 
     // Setup virtual scrolling
     if (this.virtualScroll && this.data.length > 0) {
@@ -190,17 +179,17 @@ export default class IdsDataGrid extends Base {
       this.virtualScrollContainer.data = this.data;
     }
 
-    this.#attachEventHandlers();
-
     if (this.data.length > 0) {
       this.setActiveCell(0, 0, true);
-      this.#attachKeyboardListeners();
     }
 
     this.#applyAutoFit();
 
     // Set back selection
     this.#setHeaderCheckbox();
+
+    this.#attachEventHandlers();
+    this.#attachKeyboardListeners();
 
     // Attach post filters setting
     this.filters.attachPostFiltersSetting();
@@ -647,6 +636,10 @@ export default class IdsDataGrid extends Base {
    * @returns {object} This API object for chaining
    */
   #attachKeyboardListeners() {
+    if (this.data.length < 1) {
+      return;
+    }
+
     // Handle arrow navigation
     this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e: KeyboardEvent) => {
       const key = e.key;
@@ -948,10 +941,10 @@ export default class IdsDataGrid extends Base {
   set rowHeight(value) {
     if (value) {
       this.setAttribute(attributes.ROW_HEIGHT, value);
-      this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', value);
+      this.shadowRoot?.querySelector('.ids-data-grid').setAttribute('data-row-height', value);
     } else {
       this.removeAttribute(attributes.ROW_HEIGHT);
-      this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', 'lg');
+      this.shadowRoot?.querySelector('.ids-data-grid').setAttribute('data-row-height', 'lg');
     }
 
     if (this.virtualScroll) {
@@ -968,10 +961,10 @@ export default class IdsDataGrid extends Base {
   set listStyle(value) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.LIST_STYLE, value);
-      this.shadowRoot.querySelector('.ids-data-grid').classList.add('is-list-style');
+      this.shadowRoot?.querySelector('.ids-data-grid').classList.add('is-list-style');
     } else {
       this.removeAttribute(attributes.LIST_STYLE);
-      this.shadowRoot.querySelector('.ids-data-grid').classList.remove('is-list-style');
+      this.shadowRoot?.querySelector('.ids-data-grid').classList.remove('is-list-style');
     }
   }
 

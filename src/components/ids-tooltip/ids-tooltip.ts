@@ -3,8 +3,9 @@ import { customElement, scss, appendIds } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-tooltip-base';
-import '../ids-popup/ids-popup';
 import styles from './ids-tooltip.scss';
+import type IdsPopup from '../ids-popup/ids-popup';
+import '../ids-popup/ids-popup';
 
 /**
  * IDS Tooltip Component
@@ -34,6 +35,7 @@ export default class IdsTooltip extends Base {
    * Invoked each time the custom element is appended into a document-connected element,
    */
   connectedCallback(): void {
+    super.connectedCallback();
     this.#updateAria();
   }
 
@@ -49,7 +51,6 @@ export default class IdsTooltip extends Base {
       attributes.MODE,
       attributes.TARGET,
       attributes.TRIGGER,
-      attributes.VERSION,
       attributes.VISIBLE
     ];
   }
@@ -94,8 +95,10 @@ export default class IdsTooltip extends Base {
     // Events to show on hover
     if (this.trigger === 'hover') {
       this.onEvent('hoverend.tooltip', targetElem, (e: Event) => {
-        this.popup.alignTarget = e.currentTarget;
-        this.visible = true;
+        if (this.popup) {
+          if (!this.popup?.alignTarget) this.popup.alignTarget = e.currentTarget;
+          this.visible = true;
+        }
       }, { delay: this.delay });
       this.onEvent('mouseleave.tooltip', targetElem, () => {
         this.visible = false;
@@ -126,12 +129,14 @@ export default class IdsTooltip extends Base {
     // Events to show on click
     if (this.trigger === 'click') {
       this.onEvent('click.tooltip', targetElem, (e: Event) => {
-        this.popup.alignTarget = e.currentTarget;
-        if (this.visible) {
-          this.visible = false;
-          return;
+        if (this.popup) {
+          this.popup.alignTarget = e.currentTarget;
+          if (this.visible) {
+            this.visible = false;
+            return;
+          }
+          this.visible = true;
         }
-        this.visible = true;
       });
 
       this.onEvent('click.popup', this.popup, () => {
@@ -142,8 +147,10 @@ export default class IdsTooltip extends Base {
     // Events to show on focus
     if (this.trigger === 'focus') {
       this.onEvent('focusin.tooltip', targetElem, (e: Event) => {
-        this.popup.alignTarget = e.currentTarget;
-        this.visible = true;
+        if (this.popup) {
+          this.popup.alignTarget = e.currentTarget;
+          this.visible = true;
+        }
       });
 
       this.onEvent('focusout.tooltip', targetElem, () => {
@@ -158,16 +165,20 @@ export default class IdsTooltip extends Base {
    * @returns {void}
    */
   #configurePopup(): void {
-    // Popup settings / config
-    this.popup.type = 'tooltip';
-    this.popup.align = `${this.placement}, center`;
-    this.popup.arrow = this.placement;
+    const popup = this.popup;
 
-    if (this.placement === 'top' || this.placement === 'bottom') {
-      this.popup.setPosition(0, 10);
-    }
-    if (this.placement === 'left' || this.placement === 'right') {
-      this.popup.setPosition(10, 0);
+    // Popup settings / config
+    if (popup) {
+      popup.type = 'tooltip';
+      popup.align = `${this.placement}, center`;
+      popup.arrow = this.placement;
+
+      if (this.placement === 'top' || this.placement === 'bottom') {
+        popup.setPosition(0, 10);
+      }
+      if (this.placement === 'left' || this.placement === 'right') {
+        popup.setPosition(10, 0);
+      }
     }
   }
 
@@ -181,20 +192,24 @@ export default class IdsTooltip extends Base {
     if (this.state?.noAria) {
       return;
     }
-    this.popup.alignTarget = typeof this.target === 'object'
-      ? this.target
-      : document.querySelectorAll(this.target)[0];
 
-    const id = `${this.id || 'ids'}-tooltip`;
-    if (this.popup.alignTarget && this.popup.alignTarget.querySelector(`#${id}`)) {
-      this.popup.alignTarget.querySelector(`#${id}`).textContent = this.textContent;
-      return;
-    }
+    const popup = this.popup;
+    if (popup) {
+      popup.alignTarget = typeof this.target === 'object'
+        ? this.target
+        : document.querySelectorAll(this.target)[0];
 
-    if (this.popup.alignTarget) {
-      const ariaSpan = `<ids-text id="${id}" audible="true">${this.textContent}</ids-text>`;
-      this.popup.alignTarget.insertAdjacentHTML('beforeend', ariaSpan);
-      this.popup.alignTarget.setAttribute('aria-describedby', `#${id}`);
+      const id = `${this.id || 'ids'}-tooltip`;
+      if (popup.alignTarget && popup.alignTarget.querySelector(`#${id}`)) {
+        popup.alignTarget.querySelector(`#${id}`).textContent = this.textContent;
+        return;
+      }
+
+      if (popup.alignTarget) {
+        const ariaSpan = `<ids-text id="${id}" audible="true">${this.textContent}</ids-text>`;
+        popup.alignTarget.insertAdjacentHTML('beforeend', ariaSpan);
+        popup.alignTarget.setAttribute('aria-describedby', `#${id}`);
+      }
     }
   }
 
@@ -231,10 +246,13 @@ export default class IdsTooltip extends Base {
 
     // Show the popup
     this.#configurePopup();
-    this.popup.visible = true;
-    this.popup.place();
-    this.triggerEvent('show', this, { detail: { elem: this } });
-    this.triggerEvent('aftershow', this, { detail: { elem: this } });
+    const popup = this.popup;
+    if (popup) {
+      popup.visible = true;
+      popup.place();
+      this.triggerEvent('show', this, { detail: { elem: this } });
+      this.triggerEvent('aftershow', this, { detail: { elem: this } });
+    }
   }
 
   /**
@@ -242,10 +260,14 @@ export default class IdsTooltip extends Base {
    * @returns {void}
    */
   #hide(): void {
-    this.popup.visible = false;
-    this.triggerEvent('hide', this, { detail: { elem: this } });
-    this.triggerEvent('afterhide', this, { detail: { elem: this } });
-    this.onHide();
+    const popup = this.popup;
+
+    if (popup) {
+      popup.visible = false;
+      this.triggerEvent('hide', this, { detail: { elem: this } });
+      this.triggerEvent('afterhide', this, { detail: { elem: this } });
+      this.onHide();
+    }
   }
 
   /**
@@ -257,10 +279,10 @@ export default class IdsTooltip extends Base {
 
   /**
    * @readonly
-   * @returns {HTMLElement} reference to the internal IdsPopup component
+   * @returns {IdsPopup | undefined} reference to the internal IdsPopup component
    */
-  get popup(): any {
-    return this.shadowRoot.querySelector('ids-popup');
+  get popup(): IdsPopup | undefined {
+    return this.shadowRoot?.querySelector('ids-popup');
   }
 
   /**
@@ -356,10 +378,11 @@ export default class IdsTooltip extends Base {
   set visible(value: string | boolean) {
     const trueVal = stringToBool(value);
     if (this.state.visible !== trueVal) {
+      const popup = this.popup;
       this.state.visible = trueVal;
 
-      if (!this.popup.alignTarget) {
-        this.popup.alignTarget = typeof this.target === 'object'
+      if (popup && !popup.alignTarget) {
+        popup.alignTarget = typeof this.target === 'object'
           ? this.target
           : document.querySelectorAll(this.target)[0];
       }
@@ -370,7 +393,7 @@ export default class IdsTooltip extends Base {
         return;
       }
 
-      this.popup.alignTarget = null;
+      if (popup) popup.alignTarget = null;
       this.removeAttribute('visible');
       this.#hide();
     }

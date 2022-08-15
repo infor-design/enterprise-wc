@@ -20,11 +20,11 @@ export default class IdsHierarchyLegend extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback?.();
+    super.disconnectedCallback();
   }
 
   template(): string {

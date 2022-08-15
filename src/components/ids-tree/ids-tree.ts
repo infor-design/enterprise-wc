@@ -32,8 +32,14 @@ export default class IdsTree extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    this.#init();
     super.connectedCallback();
+
+    // if data set before connected
+    if (this.datasource?.data?.length) {
+      this.#redraw();
+    } else {
+      this.#init();
+    }
   }
 
   /**
@@ -268,16 +274,19 @@ export default class IdsTree extends Base {
    * @private
    * @returns {void}
    */
-  #rerender() {
-    if (this.data.length === 0) {
+  #redraw() {
+    if (this.data.length === 0 || !this.shadowRoot) {
       return;
     }
 
     const slot = this.shadowRoot.querySelector('slot');
-    const { data, html } = this.#htmlAndData();
-    slot.innerHTML = html;
-    this.#nodesData = data;
-    this.#init();
+
+    if (slot) {
+      const { data, html } = this.#htmlAndData();
+      this.#nodesData = data;
+      slot.innerHTML = html;
+      this.#init();
+    }
   }
 
   /**
@@ -1036,7 +1045,7 @@ export default class IdsTree extends Base {
   set data(value: Array<any>) {
     if (value && value.constructor === Array) {
       this.datasource.data = value;
-      this.#rerender();
+      this.#redraw();
       return;
     }
     this.datasource.data = null;

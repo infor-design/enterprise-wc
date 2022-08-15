@@ -95,9 +95,9 @@ export default class IdsListView extends Base {
   ];
 
   connectedCallback() {
+    super.connectedCallback();
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
-    super.connectedCallback();
     this.#attachEventListeners();
   }
 
@@ -108,14 +108,15 @@ export default class IdsListView extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.SUPPRESS_DEACTIVATION,
-      attributes.SUPPRESS_DESELECTION,
+      attributes.LOADED,
       attributes.HEIGHT,
       attributes.HIDE_CHECKBOXES,
       attributes.ITEM_HEIGHT,
       attributes.LABEL,
       attributes.SELECTABLE,
       attributes.SORTABLE,
+      attributes.SUPPRESS_DEACTIVATION,
+      attributes.SUPPRESS_DESELECTION,
       attributes.VIRTUAL_SCROLL
     ];
   }
@@ -132,7 +133,7 @@ export default class IdsListView extends Base {
    * @returns {any} List of all list item elements
    */
   getAllLi(): any {
-    return this.container.querySelectorAll('div[part="list-item"]');
+    return this.container?.querySelectorAll('div[part="list-item"]');
   }
 
   /**
@@ -574,7 +575,7 @@ export default class IdsListView extends Base {
 
   /**
    * Return an item's html injecting any values from the dataset as needed.
-   * @param  {object} item The item to generate
+   * @param {object} item The item to generate
    * @returns {string} The html for this item
    */
   itemTemplate(item: any): string {
@@ -723,19 +724,23 @@ export default class IdsListView extends Base {
 
   /**
    * Rerender the list by re applying the template
-   * @private
    */
-  rerender() {
-    if (!this.data || !this.initialized) {
-      if (!this.data?.length) this.getAllLi().forEach((li: HTMLElement) => li?.remove());
+  redraw() {
+    if (!this.data || !this.loaded) {
+      if (!this.data?.length) this.getAllLi()?.forEach((li: HTMLElement) => li?.remove());
       return;
     }
+
     // Set list size
     this.#size = this.pagination === 'none' ? this.pageTotal : this.pageSize;
 
     const dir = this.container?.getAttribute('dir');
     const html = this.template();
-    this.container?.remove();
+    if (this.container?.parentElement) {
+      this.container?.parentElement.remove();
+    } else {
+      this.container?.remove();
+    }
 
     const referenceElem: any = this.shadowRoot.querySelector('style');
     if (referenceElem) {
@@ -747,7 +752,8 @@ export default class IdsListView extends Base {
     }
 
     this.container = this.shadowRoot.querySelector('.ids-list-view');
-    super.rerender();
+
+    // super.rerender?.(true);
 
     // Setup virtual scrolling
     if (this.data?.length > 0) {
@@ -794,7 +800,7 @@ export default class IdsListView extends Base {
   /**
    * Calculate the height of a template element.
    * @private
-   * @param  {string} itemTemplate The item template
+   * @param {string} itemTemplate The item template
    * @returns {number} The item height
    */
   #checkTemplateHeight(itemTemplate: string): number {
@@ -808,8 +814,8 @@ export default class IdsListView extends Base {
 
   /**
    * Get boolean property value for given attribute.
-   * @param  {string} attributeName The attribute name.
-   * @param  {boolean} defaultValue The default value.
+   * @param {string} attributeName The attribute name.
+   * @param {boolean} defaultValue The default value.
    * @returns {boolean} The property value
    */
   boolVal(attributeName: string, defaultValue: boolean): boolean {
@@ -825,20 +831,61 @@ export default class IdsListView extends Base {
   get ds(): Array<any> { return this.datasource?.allData || this.data; }
 
   /**
+   * Handle Setting changes of the value has changed by calling the getter
+   * in the extending class.
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
+   */
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
+    if (oldValue === newValue) return;
+
+    const shouldRedraw = [
+      attributes.LOADED,
+      attributes.SELECTABLE,
+      attributes.VIRTUAL_SCROLL,
+      attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE,
+      attributes.PAGE_TOTAL,
+    ].includes(name);
+
+    if (shouldRedraw) {
+      this.redraw();
+    }
+  }
+
+  /**
    * Set the data array of the listview
    * @param {Array | null} value The array to use
    */
   set data(value: any) {
+    const wasInitialized = this.initialized;
     if (value) {
-      this.datasource.data = value;
       this.initialized = true;
+      this.datasource.data = value;
+      this.loaded = true;
+
+      // Reload data when changed
+      if (wasInitialized) {
+        this.redraw();
+      }
     } else {
       this.datasource.data = [];
+      this.loaded = false;
     }
-    this.rerender();
   }
 
-  get data(): any { return this?.datasource?.data || []; }
+  get data(): any { return this?.datasource?.data || ''; }
+
+  /**
+   * Used to determine if data has been loaded into IdsListView
+   * @param {Array | null} value The array to use
+   */
+  set loaded(value: any) { this.setAttribute(attributes.LOADED, !!value); }
+
+  get loaded(): any { return stringToBool(attributes.LOADED); }
 
   /**
    * Set the data array of the listview
@@ -862,7 +909,6 @@ export default class IdsListView extends Base {
     } else {
       this.removeAttribute(attributes.VIRTUAL_SCROLL);
     }
-    this.rerender();
   }
 
   get virtualScroll(): boolean {
@@ -906,7 +952,7 @@ export default class IdsListView extends Base {
    * @param {string} value The value
    */
   set selectable(value: string) {
-    this.container.classList.remove(...this.selectableClass(true));
+    this.container?.classList.remove(...this.selectableClass(true));
 
     if (LIST_VIEW_DEFAULTS.selectableOptions.includes(value)) {
       this.setAttribute(attributes.SELECTABLE, value);
@@ -914,7 +960,6 @@ export default class IdsListView extends Base {
     } else {
       this.removeAttribute(attributes.SELECTABLE);
     }
-    this.rerender();
   }
 
   get selectable(): string {

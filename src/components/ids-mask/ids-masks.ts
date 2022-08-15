@@ -67,7 +67,11 @@ function addThousandsSeparator(n: string, options: any = {}, localeStringOpts: a
     return n;
   }
 
-  let formatted = options.locale.formatNumber(n, localeStringOpts);
+  // If a locale was passed, use the Locale to format
+  let formatted = n;
+  if (options.locale) {
+    formatted = options.locale.formatNumber(n, localeStringOpts);
+  }
 
   // `Number.toLocaleString` does not account for leading zeroes, so we have to put them
   // back if we've configured this Mask to use them.

@@ -22,11 +22,8 @@ export default class IdsHierarchyItem extends Base {
 
   constructor() {
     super();
-    this.expander = this.shadowRoot?.querySelector('[part="icon-btn"]');
-    this.dropdownMenu = this.querySelector('[part="icon-menu"]');
-    this.leaf = this.shadowRoot?.querySelector('[part="leaf"]');
-    this.nestedItemContainer = this.shadowRoot?.querySelector('[part="nested-items"]');
     this.childElements = [];
+    this.#prevSelected = false;
   }
 
   /**
@@ -34,10 +31,13 @@ export default class IdsHierarchyItem extends Base {
    * @returns {void}
    */
   connectedCallback() {
-    this.#prevSelected = false;
+    super.connectedCallback();
+    this.expander = this.shadowRoot?.querySelector('[part="icon-btn"]');
+    this.dropdownMenu = this.querySelector('[part="icon-menu"]');
+    this.leaf = this.shadowRoot?.querySelector('[part="leaf"]');
+    this.nestedItemContainer = this.shadowRoot?.querySelector('[part="nested-items"]');
     this.#hasNestedItems();
     this.#attachEventHandlers();
-    super.connectedCallback();
   }
 
   /**

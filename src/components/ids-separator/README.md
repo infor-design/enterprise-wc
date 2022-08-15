@@ -22,7 +22,7 @@ For IDS Menu Component examples see [Ids Popup Menu](../ids-menu/README.md) and 
 To Show separators between items in a menu you would do something like the following.
 
 ```html
-<ids-popup-menu id="my-menu" target="menu-button" trigger="click">
+<ids-popup-menu id="my-menu" target="menu-button" trigger-type="click">
     <ids-menu-group>
         <ids-menu-item>Personalize Columns</ids-menu-item>
     </ids-menu-group>

@@ -23,8 +23,9 @@ export default class IdsVirtualScroll extends Base {
   }
 
   connectedCallback() {
-    this.initialized = false;
     this.datasource = new IdsDataSource();
+    super.connectedCallback();
+    this.initialized = false;
     // eslint-disable-next-line no-template-curly-in-string
     this.stringTemplate = '<div class="ids-virtual-scroll-item" part="list-item">${productName}</div>';
     this.applyHeight();
@@ -38,7 +39,7 @@ export default class IdsVirtualScroll extends Base {
    */
   #attachEventHandlers() {
     this.timeout = null;
-    this.scrollTarget = this.container;
+    this.scrollTarget = this.parentElement;
   }
 
   /**
@@ -224,7 +225,7 @@ export default class IdsVirtualScroll extends Base {
     const val = parseFloat(value);
     if (!(Number.isNaN(val))) {
       this.setAttribute(attributes.SCROLL_TOP, val.toString());
-      this.container.scrollTop = val;
+      if (this.container) this.container.scrollTop = val;
       this.renderItems(false);
       return;
     }
@@ -263,8 +264,8 @@ export default class IdsVirtualScroll extends Base {
 
   /**
    * Return a item's html injecting any values from the dataset as needed.
-   * @param  {object} item The item to generate
-   * @param  {number} index the index for the template
+   * @param {object} item The item to generate
+   * @param {number} index the index for the template
    * @returns {string} The html for this item
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -288,7 +289,7 @@ export default class IdsVirtualScroll extends Base {
       return;
     }
 
-    this.datasource.data = null;
+    if (this.datasource) this.datasource.data = null;
   }
 
   get data(): Array<any> {

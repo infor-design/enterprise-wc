@@ -6,6 +6,7 @@ const setData = async () => {
   const chart: any = document.querySelector('#selectable-example');
   if (chart) {
     // add data to chart
+    data[0].data[2].selected = true;
     chart.data = data;
 
     // listen selected

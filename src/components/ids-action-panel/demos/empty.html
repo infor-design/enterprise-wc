@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-action-panel id="cap-company-info"></ids-action-panel>
+
+    <ids-layout-grid>
+      <ids-layout-grid-column>
+        <ids-button type="secondary" id="cap-trigger-btn">Open Action Panel</ids-button>
+      </ids-layout-grid-column>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

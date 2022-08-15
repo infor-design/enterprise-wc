@@ -22,7 +22,7 @@ The IdsMenu Component provides the ui for a menu. This includes groups, icons, s
 ## Attributes and Properties (ids-menu-group)
 
 - `disabled` {boolean} true if the entire menu should become disabled
-- `keepopen` {boolean} true if selection of an item within this group should cause the parent menu to close
+- `keep-open` {boolean} true if selection of an item within this group should cause the parent menu to close
 - `selection` {string} The type of selection to set this group between `single` and `multiple` or `none`
 
 ## Features (With Code Examples)
@@ -67,6 +67,45 @@ A more complicated menu can be formed using combinations of  `ids-menu` with a `
     <ids-separator></ids-separator>
     <ids-menu-group id="other-settings">
     <ids-menu-item icon="more" value="other-items">Other Items</ids-menu-item>
+  </ids-menu-group>
+</ids-menu>
+```
+### Selection Event Handling
+
+When an `<ids-menu-item>` element is selected from a menu, it has the potential to fire up to two different events.  The events fired depend on how the menu is configured.  Consider this menu:
+
+```html
+<ids-menu id="my-menu">
+  <ids-menu-group id="main-settings">
+    <ids-menu-item icon="mail" value="mail">Mail</ids-menu-item>
+    <ids-menu-item icon="filter" value="filter">Filter</ids-menu-item>
+    <ids-menu-item icon="settings" value="settings">Settings</ids-menu-item>
+  </ids-menu-group>
+</ids-menu>
+```
+
+In this example, when any of the menu's items are chosen by click or by keyboard, no selection events are fired.  This is because there is no `select` attribute dertermining single or multiple selection.  The menu item chosen will not change the menu's selection state, and will simply fire a `pick` event.
+
+This next example will cause a both a `selected` event and a `pick` event to fire whenever an item is chosen.  No `deselected` events will fire in this case:
+
+```html
+<ids-menu id="my-menu">
+  <ids-menu-group id="main-settings" select="single">
+    <ids-menu-item icon="mail" value="mail">Mail</ids-menu-item>
+    <ids-menu-item icon="filter" value="filter">Filter</ids-menu-item>
+    <ids-menu-item icon="settings" value="settings">Settings</ids-menu-item>
+  </ids-menu-group>
+</ids-menu>
+```
+
+This next example will cause a either a `selected` OR `deselected` event, as well as a `pick` event, to fire whenever an item is chosen.  When an item is chosen, its selection state is changed, and the event fired corresponds to its new value:
+
+```html
+<ids-menu id="my-menu">
+  <ids-menu-group id="main-settings" select="multiple">
+    <ids-menu-item icon="mail" value="mail">Mail</ids-menu-item>
+    <ids-menu-item icon="filter" value="filter">Filter</ids-menu-item>
+    <ids-menu-item icon="settings" value="settings">Settings</ids-menu-item>
   </ids-menu-group>
 </ids-menu>
 ```

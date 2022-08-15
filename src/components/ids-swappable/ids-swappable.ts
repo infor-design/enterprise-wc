@@ -22,6 +22,7 @@ export default class IdsSwappable extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.setAttribute('dropzone', 'move');
     this.attachEventListeners();
   }
@@ -195,8 +196,6 @@ export default class IdsSwappable extends Base {
     el.removeAttribute('aria-grabbed');
     el.removeAttribute('aria-dropeffect');
     el.classList.remove('is-hidden');
-    el.removeAttribute(attributes.SELECTED);
-    el.removeAttribute('aria-selected');
   }
 
   /**
