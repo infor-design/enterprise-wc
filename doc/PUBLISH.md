@@ -9,6 +9,7 @@
 - Run command `npm run publish:npm` or `publish:debug` (we may want to publish debuggable code for a period of time of stability)
 - Install GitHub cli so you get the [`gh`](https://cli.github.com/manual/gh_release_create) command with `brew install gh`
 - Run command `gh release create 1.0.0-beta.1 --title "1.0.0-beta.1" --notes-file "doc/CHANGELOG.md"`
+- Go to [`the releases page`](https://github.com/infor-design/enterprise-wc/releases) and edit the changelog contents if needed and make a pre-release if needed
 
 ## Publishing a test package your local NPM repo
 
