@@ -806,4 +806,92 @@ describe('IdsDropdown Component', () => {
     );
     expect(dropdown.container).toBeTruthy();
   });
+
+  it('should handle groups', async () => {
+    dropdown.clearable = true;
+    dropdown.value = '';
+    dropdown.input.value = '';
+    dropdown.beforeShow = async function beforeShow() {
+      return [{
+        label: 'Group 1',
+        groupLabel: true
+      }, {
+        label: 'Option 1 u',
+        value: 'gr1opt1'
+      }, {
+        label: 'Option 2',
+        value: 'gr1opt2'
+      }, {
+        label: 'Group 2',
+        groupLabel: true
+      }, {
+        label: 'Option 1 w',
+        value: 'gr2opt1'
+      }, {
+        label: 'Option 2',
+        value: 'gr2opt2'
+      }];
+    };
+    await dropdown.open();
+
+    // Renders groups
+    expect(dropdown.querySelectorAll(`ids-list-box-option`)?.length).toEqual(6);
+    expect(dropdown.querySelectorAll(`ids-list-box-option[group-label]`)?.length).toEqual(2);
+
+    // Typeahead filtering
+    dropdown.typeahead = true;
+    dropdown.input.value = '2';
+    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: '2' }));
+    // Keydownend delay
+    await wait(600);
+
+    expect(dropdown.querySelectorAll(`ids-list-box-option`)?.length).toEqual(4);
+    expect(dropdown.querySelectorAll(`ids-list-box-option[group-label]`)?.length).toEqual(2);
+
+    dropdown.value = '';
+    dropdown.input.value = '';
+    dropdown.input.value = 'w';
+    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'w' }));
+    // Keydownend delay
+    await wait(600);
+
+    expect(dropdown.querySelectorAll(`ids-list-box-option`)?.length).toEqual(2);
+    expect(dropdown.querySelectorAll(`ids-list-box-option[group-label]`)?.length).toEqual(1);
+    expect(dropdown.querySelector('ids-list-box-option[group-label]')?.textContent).toEqual('Group 2');
+
+    dropdown.value = '';
+    dropdown.input.value = 'u';
+    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'u' }));
+    // Keydownend delay
+    await wait(600);
+
+    expect(dropdown.querySelectorAll(`ids-list-box-option`)?.length).toEqual(2);
+    expect(dropdown.querySelectorAll(`ids-list-box-option[group-label]`)?.length).toEqual(1);
+    expect(dropdown.querySelector('ids-list-box-option[group-label]')?.textContent).toEqual('Group 1');
+
+    // Arrow Down should skip first group label
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(dropdown.value).toEqual('gr1opt1');
+
+    // Arrow Up should not select group label
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(dropdown.value).toEqual('gr1opt1');
+
+    // Arrow Up should skip group label
+    dropdown.close();
+    dropdown.value = 'gr2opt1';
+    await dropdown.open();
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(dropdown.value).toEqual('gr1opt2');
+
+    // Arrow Down should skip group label
+    dropdown.close();
+    await dropdown.open();
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(dropdown.value).toEqual('gr2opt1');
+  });
 });
