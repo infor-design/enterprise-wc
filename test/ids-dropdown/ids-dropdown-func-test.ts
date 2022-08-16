@@ -806,14 +806,4 @@ describe('IdsDropdown Component', () => {
     );
     expect(dropdown.container).toBeTruthy();
   });
-
-  it('should set/unset group attribute', () => {
-    expect(dropdown.group).toBeNull();
-
-    dropdown.group = true;
-    expect(dropdown.group).toBeTruthy();
-
-    dropdown.group = false;
-    expect(dropdown.group).toBeFalsy();
-  });
 });

@@ -73,7 +73,7 @@ export default class IdsDropdown extends Base {
       attributes.CLEARABLE,
       attributes.CLEARABLE_TEXT,
       attributes.DISABLED,
-      attributes.GROUP,
+      attributes.GROUP_LABEL,
       attributes.LABEL,
       attributes.NO_MARGINS,
       attributes.READONLY,
@@ -343,23 +343,6 @@ export default class IdsDropdown extends Base {
 
   get readonly() {
     return stringToBool(this.getAttribute(attributes.READONLY)) || false;
-  }
-
-  /**
-   * Sets the group attribute
-   * @param {string|boolean} value string value from the disabled attribute
-   */
-  set group(value) {
-    const valueSafe = stringToBool(value);
-    if (valueSafe) {
-      this.setAttribute(attributes.GROUP, valueSafe);
-      return;
-    }
-    this.removeAttribute(attributes.GROUP);
-  }
-
-  get group() {
-    return this.getAttribute(attributes.GROUP);
   }
 
   /**
@@ -679,6 +662,11 @@ export default class IdsDropdown extends Base {
   attachClickEvent() {
     this.offEvent('click.dropdown-list-box');
     this.onEvent('click.dropdown-list-box', this.listBox, (e: any) => {
+      // Excluding group labels
+      if (e.target?.hasAttribute(attributes.GROUP_LABEL) || e.target.closest('ids-list-box-option')?.hasAttribute(attributes.GROUP_LABEL)) {
+        return;
+      }
+
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
         this.value = e.target.getAttribute('value');
       }
@@ -747,6 +735,8 @@ export default class IdsDropdown extends Base {
       e.preventDefault();
 
       const selected: any = this.selected;
+      const next = selected?.nextElementSibling;
+      const prev = selected?.previousElementSibling;
 
       if (e.key === 'ArrowUp' && e.altKey) {
         this.value = selected?.getAttribute(attributes.VALUE) || '';
@@ -754,11 +744,12 @@ export default class IdsDropdown extends Base {
         return;
       }
 
-      if (e.key === 'ArrowDown' && selected?.nextElementSibling) {
+      if (e.key === 'ArrowDown' && next) {
+        if (next.hasAttribute(attributes.GROUP_LABEL) && !next.nextElementSibling) return;
         this.deselectOption(selected);
-        this.selectOption(selected.nextElementSibling);
+        this.selectOption(next.hasAttribute(attributes.GROUP_LABEL) ? next.nextElementSibling : next);
 
-        selected.nextElementSibling.focus();
+        next.focus();
       }
 
       // Handles a case when the value is cleared
@@ -766,11 +757,12 @@ export default class IdsDropdown extends Base {
         this.#selectFirstOption();
       }
 
-      if (e.key === 'ArrowUp' && selected?.previousElementSibling) {
+      if (e.key === 'ArrowUp' && prev) {
+        if (prev.hasAttribute(attributes.GROUP_LABEL) && !prev.previousElementSibling) return;
         this.deselectOption(selected);
-        this.selectOption(selected.previousElementSibling);
+        this.selectOption(prev.hasAttribute(attributes.GROUP_LABEL) ? prev.previousElementSibling : prev);
 
-        selected.previousElementSibling.focus();
+        prev.focus();
       }
     });
 
@@ -850,7 +842,7 @@ export default class IdsDropdown extends Base {
     const resultsArr = this.#findMatches(inputValue);
     const results = resultsArr.map((item: IdsListBoxOption) => {
       const regex = new RegExp(inputValue, 'gi');
-      const optionText = item.label?.replace(
+      const optionText = item.groupLabel ? item.label : item.label?.replace(
         regex,
         `<span class="highlight">${inputValue.toLowerCase()}</span>`
       );
@@ -892,7 +884,7 @@ export default class IdsDropdown extends Base {
     if (this.options.length > 0) {
       const firstWithValue = [...this.options].filter((item) => {
         const value = item.getAttribute(attributes.VALUE);
-        const groupLabel = item.hasAttribute('group-label');
+        const groupLabel = item.hasAttribute(attributes.GROUP_LABEL);
 
         return value && value !== 'blank' && !groupLabel;
       })[0];
@@ -907,7 +899,10 @@ export default class IdsDropdown extends Base {
    * @returns {string} ids-list-box-option template
    */
   #templatelistBoxOption(option: IdsListBoxOption): string {
-    return `<ids-list-box-option${option.id ? ` id=${option.id} ` : ' '}value="${option.value}"${option.groupLabel ? ' group-label' : ''}>${option.label}</ids-list-box-option>`;
+    return `<ids-list-box-option
+      ${option.id ? `id=${option.id}` : ''}
+      ${option.value ? `value="${option.value}"` : ''}
+      ${option.groupLabel ? 'group-label' : ''}>${option.label}</ids-list-box-option>`;
   }
 
   /**
@@ -962,7 +957,7 @@ export default class IdsDropdown extends Base {
       id: item?.id,
       label: item?.textContent,
       value: item?.getAttribute(attributes.VALUE),
-      groupLabel: item?.hasAttribute('group-label')
+      groupLabel: item?.hasAttribute(attributes.GROUP_LABEL)
     }));
   }
 
