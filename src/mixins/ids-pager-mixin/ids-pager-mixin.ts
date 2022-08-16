@@ -108,6 +108,7 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
       attributes.PAGE_NUMBER,
       attributes.PAGE_SIZE,
       attributes.PAGE_TOTAL,
+      attributes.PAGINATION,
     ].includes(name);
 
     if (shouldReload) {
