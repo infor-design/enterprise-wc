@@ -79,14 +79,31 @@
   font-weight: var(--ids-number-font-weight-bold);
 }
 
+// Group labels
 :host([group-label]) {
   @include cursor-default();
+  @include text-slate-80();
 
-  color: #47474C;
   font-weight: 600;
 }
 
+:host([mode='dark'][group-label]) {
+  @include text-slate-20();
+}
+
+:host([mode='contrast'][group-label]) {
+  @include text-slate-100();
+}
+
 :host([group-label]:not(:first-child)) {
-  border-top: 1px solid #B7B7BA;
+  border-top: 1px solid var(--ids-color-palette-slate-30);
   margin-top: 5px;
+}
+
+:host([mode='dark'][group-label]:not(:first-child)) {
+  border-top: 1px solid var(--ids-color-palette-slate-50);
+}
+
+:host([mode='contrast'][group-label]:not(:first-child)) {
+  border-top: 1px solid var(--ids-color-palette-slate-60);
 }

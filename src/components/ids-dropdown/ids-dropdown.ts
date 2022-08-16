@@ -906,46 +906,67 @@ export default class IdsDropdown extends Base {
   }
 
   /**
+   * Helper to get group index for given option index in the options list
+   * @param {Array<number>} groupLabels group label indexes in the options list
+   * @param {number} optionIndex option index in the options list
+   * @returns {number} group label index for given option
+   */
+  #getGroupIndex(groupLabels: Array<number>, optionIndex: number) {
+    return groupLabels.reduce((initialIndex: number, groupIndex: number, index: number) => {
+      if (groupIndex < optionIndex && (groupLabels[index + 1] > optionIndex || !groupLabels[index + 1])) {
+        return groupIndex;
+      }
+
+      return initialIndex;
+    }, -1);
+  }
+
+  /**
+   * Helper to get group option for given option index in the options list
+   * @param {number} optionIndex option index in the options list
+   * @returns {IdsListBoxOption | undefined} group label for given option index
+   */
+  #getGroupLabelOption(optionIndex: number): IdsListBoxOption | undefined {
+    // Get group labels indexes in the all options list
+    const groupLabels: Array<number> = this.#optionsData.reduce(
+      (result: Array<number>, option: IdsListBoxOption, index: number) => {
+        if (option?.groupLabel) {
+          return [...result, index];
+        }
+
+        return result;
+      },
+      []
+    );
+    const groupLabelIndex = this.#getGroupIndex(groupLabels, optionIndex);
+
+    return this.#optionsData[groupLabelIndex];
+  }
+
+  /**
    * Find matches between the input value and the dataset
    * @param {string | RegExp} inputValue value of the input field
    * @returns {IdsListBoxOptions} containing matched values
    */
   #findMatches(inputValue: string | RegExp): IdsListBoxOptions {
-    const groupLabelIndexes: Array<number> = this.#optionsData.reduce(
-      (prev: Array<number>, current: IdsListBoxOption, index: number) => {
-        if (current?.groupLabel) {
-          return [...prev, index];
-        }
-
-        return prev;
-      },
-      []
-    );
-    const findIndex = (arr: Array<number>, checkIndex: number) => arr.reduce((prev, current, index) => {
-      if (current < checkIndex && (arr[index + 1] > checkIndex || !arr[index + 1])) {
-        return current;
-      }
-      return prev;
-    }, -1);
-
-    return this.#optionsData.reduce((result: Array<IdsListBoxOption>, option: IdsListBoxOption, index: number) => {
+    return this.#optionsData.reduce((options: Array<IdsListBoxOption>, option: IdsListBoxOption, index: number) => {
       const regex = new RegExp(inputValue, 'gi');
 
       if (option.label?.match(regex) && !option.groupLabel) {
-        const groupLabelIndex = findIndex(groupLabelIndexes, index);
-        const groupLabelOption = this.#optionsData[groupLabelIndex];
-        const groupLabelAdded = result.some(
-          (item: IdsListBoxOption) => item.label === groupLabelOption.label
+        const groupLabelOption = this.#getGroupLabelOption(index);
+        // Check if group label option is already added to the list
+        const groupLabelAdded = options.some(
+          (item: IdsListBoxOption) => item.label === groupLabelOption?.label
         );
 
-        if (groupLabelIndex >= 0 && !groupLabelAdded) {
-          return [...result, groupLabelOption, option];
+        if (groupLabelOption && !groupLabelAdded) {
+          return [...options, groupLabelOption, option];
         }
 
-        return [...result, option];
+        return [...options, option];
       }
 
-      return result;
+      return options;
     }, []);
   }
 
