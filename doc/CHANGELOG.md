@@ -4,6 +4,8 @@
 
 ### 1.0.0-beta.2 Fixes
 
+- `[AppMenu]` Removed the logo from the app menu component by design request. ([#851](https://github.com/infor-design/enterprise-wc/pull/v))
+
 ## 1.0.0-beta.1
 
 ### 1.0.0-beta.1 Fixes

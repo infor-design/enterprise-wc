@@ -12,7 +12,7 @@ The App Menu is built on top of `[IdsDrawer](../ids-drawer/README.md) and genera
 
 ## Terminology
 
-- **App Menu Branding** - A slotted area that can be used for application branding info, such as a logo.
+- **App Menu Branding** - A slotted area that can be used for application branding info, such as a logo. Its recommended to use the customer logo, not the infor logo.
 - **App Menu Content** - The primary slotted area that usually houses an [IdsAccordion](../ids-accordion/README.md) or some other navigation structure.
 - **App Menu Header** - A slotted area that can be used for extra navigation or text content that sits above the main App Menu content area.
 - **App Menu Footer** - A slotted area that can be used for extra navigation or text content that sits below the main App Menu content area.
