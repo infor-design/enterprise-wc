@@ -65,9 +65,9 @@ prepopulating selected options
 
 ```html
 <ids-multiselect id="dropdown-1" label="Test Dropdown" max="3" dirty-tracker="true">
-    <ids-listbox class="selected-options" id="selected-options">
+    <ids-list-box class="selected-options" id="selected-options">
             <ids-list-box-option id="nj" value="nj" tooltip="The State of New Jersey"><ids-checkbox checked="true" label="New Jersey" class="justify-center"></ids-checkbox></ids-list-box-option>
-    </ids-listbox>
+    </ids-list-box>
     <ids-list-box class="options" id="options">
         <ids-list-box-option id="al" value="al" tooltip="The State of Alabama"><ids-checkbox label="Alabama" class="justify-center"></ids-checkbox></ids-list-box-option>
         <ids-list-box-option id="ak" value="ak" tooltip="The State of Alaska"><ids-checkbox label="Alaska" class="justify-center"></ids-checkbox></ids-list-box-option>

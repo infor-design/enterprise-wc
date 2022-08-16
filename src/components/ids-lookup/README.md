@@ -4,11 +4,11 @@
 
 A lookup is an input element that opens a modal with a data grid list for selecting grid rows.
 
-Allows for users to select from multiple complex options via input field component. Single selection and multi selection can be possible in the modal dialog list with the addition of checkboxes.
+Allows for users to select from multiple complex options via input field component. Single selection and multi selection can be possible in the modal dialog by setting the data grid settings.
 
 ## Use Cases
 
-- Best used when users need more contextual information around options in the grid information.
+- Best used when users need more contextual information around selecting options from the grid columns.
 - Use when you want users to contribute data to your website and let them organize their content themselves.
 
 ## Terminology
@@ -17,7 +17,7 @@ Allows for users to select from multiple complex options via input field compone
 
 ## Features (With Code Examples)
 
-A normal lookup used as a web component. To distinguish between single and multi-select situations, use a checkbox column in multi-select and consider a radio select for single select.
+A normal lookup used as a web component. To distinguish between single and multi-select situations, use a checkbox column in multi-select and consider a radio select for single select. The set the appropriate settings in the data grid.
 
 ```html
 <ids-lookup id="lookup-1" label="Normal Lookup"></ids-lookup>
@@ -36,16 +36,33 @@ If necessary you can provide your own custom modal to the lookup. When doing thi
 </ids-lookup>
 ```
 
+To set all of the datagrid setting, pass the settings to the gridSettings property.
+
+```js
+lookup.dataGridSettings = {
+  rowSelection: 'multiple',
+  pageSize: 5,
+  pageNumber: 1,
+  pagination: 'client-side'
+};
+lookup.data = data;
+```
+
 ## Settings and Attributes
 
+- `autocomplete` {boolean} Set the lookup to autocomplete, it will use the data for autocomplete / typeahead selection
 - `disabled` {boolean} Set the lookup to disabled state.
 - `readonly` {boolean} Set the lookup to readonly state.
+- `field` {string} Set the field to use in the data set when selecting.
+- `label` {string} Set the label on the input.
 - `tabbable` {boolean} Turns on the functionality allow the trigger to be tabbable. For accessibility reasons this should be on in most cases and this is the default.
 - `gridSettings` {object} An object containing name/value pairs for all the settings you want to pass to the data grid in the modal
 - `columns` {Array<object>} Set the data array of the data grid. This can be a JSON Array.
 - `data` {Array<object>} Set the columns array of the data grid. See column settings.
 - `validate` {'required' | string} Sets the validation routine to use
 - `validationEvents` {'blur' | string} Sets the validation events to use
+- `value` {string} Sets the field value, use commas to delimit multiple values.
+- `title` {string} Sets the title on the lookup.
 
 ## Themeable Parts
 
@@ -57,7 +74,7 @@ If necessary you can provide your own custom modal to the lookup. When doing thi
 - `modal`  allows you to further style the modal dialog container
 - `data-grid` allows you to further style the data grid element
 
-## States and Variations (With Code Examples)
+## States and Variations
 
 - Default: The normal, unaltered state for lookups.
 - Hover: The state where a user moves over the lookup field with their cursor.
@@ -96,10 +113,6 @@ If necessary you can provide your own custom modal to the lookup. When doing thi
 - If using events events are now plain JS events for example
 - Can now be imported as a single JS file and used with encapsulated styles
 - Greatly simplified the API
-
-## Designs
-
-[Design Specs](https://www.figma.com/file/ok0LLOT9PP1J0kBkPMaZ5c/IDS_Component_File_v4.6-(Draft))
 
 ## Accessibility Guidelines
 
