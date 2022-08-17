@@ -50,20 +50,6 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
     this.pager.pageNumber = pageNumber;
     this.pager.pageSize = pageSize;
 
-    const popupMenu: any = this.pager.querySelector('ids-popup-menu');
-    if (popupMenu) {
-      const popupMenuGroup = popupMenu.querySelector('ids-menu-group');
-
-      if (popupMenu.popup) {
-        popupMenu.popup.type = 'menu';
-      }
-
-      if (popupMenuGroup) {
-        popupMenuGroup.style.minWidth = '175px';
-        popupMenuGroup.style.textAlign = 'left';
-      }
-    }
-
     this.#attachEventListeners();
   }
 
@@ -114,6 +100,15 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
     if (shouldReload) {
       this.connectedCallback();
     }
+  }
+
+  /**
+   * Invoked each time the custom element is appended into a document-connected element.
+   * @private
+   */
+  connectedCallback() {
+    super.connectedCallback?.();
+    this.#attachPager();
   }
 
   pagerTemplate() {
@@ -202,15 +197,6 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
    * @returns {number} - the current page-total
    */
   get pageTotal() { return parseInt(this.getAttribute(attributes.PAGE_TOTAL)) || this.datasource.total; }
-
-  /**
-   * Invoked each time the custom element is appended into a document-connected element.
-   * @private
-   */
-  connectedCallback() {
-    super.connectedCallback?.();
-    this.#attachPager();
-  }
 
   /**
    * Appends IdsPager to this.shadowRoot if pagination is enabled.

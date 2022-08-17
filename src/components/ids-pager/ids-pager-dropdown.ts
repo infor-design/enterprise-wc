@@ -109,6 +109,7 @@ export default class IdsPagerDropdown extends Base {
 
     const popupMenu: any = this.popupMenu;
     if (popupMenu) {
+      popupMenu.style.position = 'relative';
       if (popupMenu.popup) {
         popupMenu.popup.type = 'menu';
       }
