@@ -85,6 +85,7 @@ export default class IdsLookup extends Base {
       attributes.LABEL,
       attributes.MODE,
       attributes.READONLY,
+      attributes.SIZE,
       attributes.TABBABLE,
       attributes.TITLE,
       attributes.VALUE
@@ -104,6 +105,9 @@ export default class IdsLookup extends Base {
       ${this.autocomplete ? ` autocomplete search-field="${this.field}"` : ''}
       ${this.disabled ? ' disabled="true"' : ''}
       ${this.readonly ? ' readonly="true"' : ''}
+      ${this.compact ? ' compact' : ''}
+      ${this.size ? ` size="${this.size}"` : ''}
+      ${this.fieldHeight ? ` field-height="${this.fieldHeight}"` : ''}
       ${this.validate ? ` validate="${this.validate}"` : ''}
       ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
       <ids-trigger-button
@@ -401,6 +405,21 @@ export default class IdsLookup extends Base {
   get field(): string { return this.getAttribute(attributes.FIELD) || 'id'; }
 
   /**
+   * Set the dropdown size
+   * @param {string} value The value
+   */
+  set size(value: string) {
+    if (value) {
+      this.setAttribute(attributes.SIZE, value);
+    } else {
+      this.removeAttribute(attributes.SIZE);
+    }
+    if (this.triggerField) this.triggerField.setAttribute(attributes.SIZE, this.size);
+  }
+
+  get size(): string { return this.getAttribute(attributes.SIZE) ?? 'md'; }
+
+  /**
    * Set the string delimiter on selection
    * @param {string} value The field name
    */
@@ -417,6 +436,21 @@ export default class IdsLookup extends Base {
    */
   get input() {
     return this.container;
+  }
+
+  /**
+   * Push field-height/compact to the container element
+   * @param {string} val the new field height setting
+   */
+  onFieldHeightChange(val: string) {
+    if (val) {
+      const attr = val === 'compact' ? { name: 'compact', val: '' } : { name: 'field-height', val };
+      this.triggerField?.setAttribute(attr.name, attr.val);
+    } else {
+      this.triggerField?.removeAttribute('compact');
+      this.triggerField?.removeAttribute('field-height');
+      this.listBox?.removeAttribute('compact');
+    }
   }
 
   /**

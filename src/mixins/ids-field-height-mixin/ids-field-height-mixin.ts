@@ -74,6 +74,7 @@ const IdsFieldHeightMixin = (superclass: any) => class extends superclass {
       } else {
         this.removeAttribute(attributes.COMPACT);
         this.container?.classList.remove(attributes.COMPACT);
+        this.#doFieldHeightChange('');
       }
     }
   }

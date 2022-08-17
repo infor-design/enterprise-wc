@@ -4,15 +4,18 @@ import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
+import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsDirtyTrackerMixin(
   IdsLocaleMixin(
     IdsKeyboardMixin(
-      IdsTooltipMixin(
-        IdsThemeMixin(
-          IdsEventsMixin(
-            IdsElement
+      IdsFieldHeightMixin(
+        IdsTooltipMixin(
+          IdsThemeMixin(
+            IdsEventsMixin(
+              IdsElement
+            )
           )
         )
       )

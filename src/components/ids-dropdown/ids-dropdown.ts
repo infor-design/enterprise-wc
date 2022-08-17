@@ -61,6 +61,7 @@ export default class IdsDropdown extends Base {
       .#attachKeyboardListeners();
 
     this.value = this.getAttribute('value');
+    this.resetDirtyTracker();
   }
 
   /**

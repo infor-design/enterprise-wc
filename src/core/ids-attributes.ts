@@ -319,6 +319,7 @@ export const attributes = {
   STEP_NUMBER: 'step-number',
   STICKY: 'sticky',
   SUBMENU: 'submenu',
+  SUBMIT_BUTTON: 'submit-button',
   SUPPRESS_LABELS: 'suppress-labels',
   SUPPRESS_DEACTIVATION: 'suppress-deactivation',
   SUPPRESS_DESELECTION: 'suppress-deselection',

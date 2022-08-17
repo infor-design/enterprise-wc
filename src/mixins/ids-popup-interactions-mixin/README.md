@@ -21,8 +21,7 @@ When using Popup Interactions, it's possible set the following attributes/proper
 
 To use this Mixin in your component,
 
-1. Import `IdsPopupInteractionsMixin`
-1. Add `IdsPopupInteractionsMixin` to the mixes() section
+1. Import `IdsPopupInteractionsMixin` and add to the component-base.js
 1. Add `IdsPopupInteractionsMixin` to the @mixes comment section
 1. Make sure your component's attributes extend `return [...super.attributes]` in the `attributes` to allow propagation of added mixin attributes.
 1. Make sure the `connectedCallback` calls `super.connectedCallback();`

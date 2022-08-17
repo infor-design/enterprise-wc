@@ -34,6 +34,7 @@ export default class IdsColorPicker extends Base {
     this.colorInput = this.container.querySelector('.color-input');
     this.colorPreview = this.container.querySelector('.color-preview');
     this.colorPickerInput = this.container.querySelector('ids-trigger-field');
+    this.color = this.container.querySelector('ids-color');
     this.textInput = this.container.querySelector('#ids-color-picker-input');
     this.triggerBtn = this.container.querySelector('ids-trigger-button');
 
@@ -134,7 +135,16 @@ export default class IdsColorPicker extends Base {
    * @returns {string} - html
    */
   get colorPreviewHtml(): string {
-    const fieldHeight: string = this.compact ? 'xs' : this.fieldHeight;
+    return `<ids-color${this.disabled ? ' disabled' : ''} tabindex="-1" class="color-preview" size="${this.#fieldSwatchSize()}"></ids-color>`;
+  }
+
+  /**
+   * Get the field height swatch size
+   * @private
+   * @returns {string} swatch size
+   */
+  #fieldSwatchSize() {
+    const fieldHeight: string = this.compact ? 'mm' : this.fieldHeight;
 
     const fieldSwatchSize = {
       compact: 'xs',
@@ -144,8 +154,16 @@ export default class IdsColorPicker extends Base {
       md: 'md',
       lg: 'lg',
     }[fieldHeight] || 'md';
+    return fieldSwatchSize;
+  }
 
-    return `<ids-color${this.disabled ? ' disabled' : ''} tabindex="-1" class="color-preview" size="${fieldSwatchSize}"></ids-color>`;
+  /**
+   * Push field-height/compact to the container element and swatch
+   * @param {string} val the new field height setting
+   */
+  onFieldHeightChange(val: string) {
+    if (val) this.color.size = this.#fieldSwatchSize();
+    else this.color.size = '';
   }
 
   /**

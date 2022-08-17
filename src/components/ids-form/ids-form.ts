@@ -1,31 +1,8 @@
-import { customElement, scss } from '../../core/ids-decorators';
+import { customElement } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-form-base';
-import styles from './ids-form.scss';
-
-// Supporting components
-import '../ids-alert/ids-alert';
-import '../ids-button/ids-button';
-import '../ids-checkbox/ids-checkbox';
-import '../ids-checkbox-group/ids-checkbox-group';
-import '../ids-color-picker/ids-color-picker';
-import '../ids-data-label/ids-data-label';
-import '../ids-dropdown/ids-dropdown';
-import '../ids-editor/ids-editor';
-import '../ids-input/ids-input';
-import '../ids-fieldset/ids-fieldset';
-import '../ids-lookup/ids-lookup';
-import '../ids-trigger-field/ids-trigger-field';
-import '../ids-time-picker/ids-time-picker';
-import '../ids-date-picker/ids-date-picker';
-import '../ids-radio/ids-radio';
-import '../ids-upload/ids-upload';
-import '../ids-upload-advanced/ids-upload-advanced';
-import IdsElement from '../../core/ids-element';
-
-@customElement('ids-form')
-@scss(styles)
 
 /**
  * IDS Form Component
@@ -35,7 +12,7 @@ import IdsElement from '../../core/ids-element';
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
  */
-
+@customElement('ids-form')
 export default class IdsForm extends Base {
   constructor() {
     super();
@@ -44,19 +21,14 @@ export default class IdsForm extends Base {
   static get attributes(): string[] {
     return [
       ...super.attributes,
-      attributes.ACTION,
-      attributes.AUTOCOMPLETE,
       attributes.COMPACT,
-      attributes.ID,
-      attributes.METHOD,
       attributes.NAME,
-      attributes.TARGET,
-      attributes.TITLE
+      attributes.SUBMIT_BUTTON
     ];
   }
 
   connectedCallback() {
-    this.#attachEventHandlers();
+    super.connectedCallback();
   }
 
   /**
@@ -64,74 +36,30 @@ export default class IdsForm extends Base {
    * @returns {string} The template
    */
   template(): string {
-    return `<form><slot></slot></form>`;
-  }
-
-  /**
-   * Sets the action attribute
-   * @param {string} value string value for action
-   */
-
-  set action(value: string) {
-    if (value) {
-      const form: HTMLElement[] = this.shadowRoot.childNodes;
-      form[1].setAttribute('action', value);
-      this.setAttribute('action', value);
-    }
-  }
-
-  get action(): string {
-    return this.getAttribute('action') || '';
+    let formAttribs = '';
+    formAttribs += this.name ? ` name="${this.name}"` : '';
+    return `<form${formAttribs}><slot></slot></form>`;
   }
 
   /**
    * Sets the compact attribute
    * @param {boolean | string} value string value for compact
    */
-  set compact(value: boolean | string) {
+  set compact(value: string) {
+    const isCompact = stringToBool(value);
+
     if (value) {
       this.setAttribute('compact', value);
-      const idsFormComponents: IdsElement[] = this.getIdsFormComponents();
-      [...idsFormComponents].forEach((el) => {
-        el.setAttribute('compact', value);
+      const formComponents: Element[] = this.formComponents;
+      [...formComponents].forEach((el) => {
+        if (isCompact) el.setAttribute('compact', value);
+        else el.removeAttribute('compact');
       });
     }
   }
 
-  get compact(): boolean | string {
+  get compact(): string {
     return this.getAttribute('compact') || '';
-  }
-
-  /**
-   * Sets the id attribute
-   * @param {number | string | any} value string value for id
-   */
-  set id(value: number | string | any) {
-    if (value) {
-      const form: HTMLElement[] = this.shadowRoot.childNodes;
-      form[1].setAttribute('id', value);
-      this.setAttribute('id', value);
-    }
-  }
-
-  get id(): string {
-    return this.getAttribute('id') || '';
-  }
-
-  /**
-   * Sets the method attribute
-   * @param {string} value string value for method
-   */
-  set method(value: string) {
-    if (value) {
-      const form: HTMLElement[] = this.shadowRoot.childNodes;
-      form[1].setAttribute('method', value);
-      this.setAttribute('method', value);
-    }
-  }
-
-  get method(): string {
-    return this.getAttribute('method') || '';
   }
 
   /**
@@ -151,80 +79,83 @@ export default class IdsForm extends Base {
   }
 
   /**
-   * Sets the target attribute
-   * @param {string} value string value for target
-   */
-  set target(value: string) {
-    if (value) {
-      const form: HTMLElement[] = this.shadowRoot.childNodes;
-      form[1].setAttribute('target', value);
-      this.setAttribute('target', value);
-    }
-  }
-
-  get target(): string {
-    return this.getAttribute('target') || '';
-  }
-
-  /**
-   * Sets the title attribute
+   * Attached a button to the form to submit the form.
    * @param {string} value string value for title
    */
-  set title(value: string) {
+  set submitButton(value: string) {
     if (value) {
-      const form: HTMLElement[] = this.shadowRoot.childNodes;
-      form[1].setAttribute('title', value);
-      this.setAttribute('title', value);
+      this.setAttribute(attributes.SUBMIT_BUTTON, value);
+      this.onEvent('click.submit', this.querySelector(`#${value}`), () => {
+        const formElems: Element[] = this.formComponents;
+        const formValues: object[] = [];
+        formElems.forEach((el: any) => formValues.push({
+          nodeName: el.nodeName,
+          value: el.value,
+          id: el.id,
+          name: el.name
+        }));
+        this.triggerEvent('submit', this, { bubbles: true, detail: { components: formValues } });
+      });
+      return;
     }
+    this.offEvent('click.submit');
+    this.removeAttribute(attributes.SUBMIT_BUTTON);
   }
 
-  get title(): string {
+  get submitButton(): string {
     return this.getAttribute('title') || '';
-  }
-
-  /**
-   * Handle events
-   * @private
-   * @returns {void}
-   */
-  #attachEventHandlers(): void {
-    this.#submitIdsForm();
   }
 
   /**
    * Returns an array containing only IdsElements
    * @private
-   * @returns {IdsElement[]}
+   * @returns {Element[]} Array of IdsElements
    */
-  #getIdsElements(): IdsElement[] {
-    const IdsElements: IdsElement[] = [];
-    const idsForm: IdsForm = this;
-    const findIdsElements = (el: IdsElement | any) => {
+  get idsComponents(): Element[] {
+    const elements: Element[] = [];
+    const form: IdsForm = this;
+    const findIdsElements = (el: Element | any) => {
       if (el.hasChildNodes()) {
         const formChildren = [...el.children];
-        formChildren.forEach((e: IdsElement) => {
+        formChildren.forEach((e: Element) => {
           if (e.tagName.includes('IDS-')) {
-            IdsElements.push(e);
+            elements.push(e);
           }
           findIdsElements(e);
         });
       }
     };
-    findIdsElements(idsForm);
-    return IdsElements;
+    findIdsElements(form);
+    return elements;
   }
 
-  getIdsFormComponents(): IdsElement[] {
-    const idsElements: IdsElement[] = this.#getIdsElements();
-    const idsFormComponents: IdsElement[] = idsElements.filter((item) => item.isFormComponent === true);
+  /**
+   * Returns an array containing only Ids Elements that are considered form components.
+   * @private
+   * @returns {Element[]} Array of IdsElements
+   */
+  get formComponents(): Element[] {
+    const idsElements: Element[] = this.idsComponents;
+    const idsFormComponents: Element[] = idsElements.filter((item) => (item as any).isFormComponent === true);
     return idsFormComponents;
   }
 
-  #submitIdsForm(): void {
-    this.onEvent('click', this, () => {
-      const idsFormEl: IdsElement[] = this.getIdsFormComponents();
-      const formValues: object[] = [];
-      idsFormEl.forEach((el) => formValues.push({ name: el.nodeName, value: el.value }));
+  /**
+   * Resets the dirty indicator on all form components.
+   */
+  resetDirtyTracker() {
+    const formElems: Element[] = this.formComponents;
+    formElems.forEach((el: any) => {
+      if (el.resetDirtyTracker) el.resetDirtyTracker();
     });
+  }
+
+  /**
+   * Returs all dirty form components.
+   * @returns {Array<Element>} The elements that are dirty.
+   */
+  dirtyFormComponents() {
+    const formElems: Element[] = this.formComponents;
+    return formElems.filter((item) => (item as any).isDirty === true);
   }
 }
