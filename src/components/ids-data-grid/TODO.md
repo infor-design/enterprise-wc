@@ -44,3 +44,4 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Colspans [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-colspan.html)
 - [ ] Column Groups with Frozen Columns
 - [ ] Blinky columns on Load (can it be avoided?)
+- [ ] Row Span Feature

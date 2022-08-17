@@ -131,11 +131,14 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Sync and then redraw body rows
+   * @param {boolean} sync Select selected and activated rows
    * @returns {void}
    */
-  redrawBody() {
-    this.#syncSelectedRows();
-    this.#syncActivatedRow();
+  redrawBody(sync = true) {
+    if (sync) {
+      this.#syncSelectedRows();
+      this.#syncActivatedRow();
+    }
     this.#redrawBodyTemplate();
   }
 

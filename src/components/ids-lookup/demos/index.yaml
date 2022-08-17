@@ -7,7 +7,16 @@
  examples:
   - link: example.html
     type: Main Example
-    description: Shows several lookup types and states
+    description: Shows basic lookup with states
+  - link: pagination-client.html
+    type: Example
+    description: Showing a lookup with client-side pagination
+  - link: pagination-server.html
+    type: Example
+    description: Showing a lookup with server-side pagination
+  - link: filter.html
+    type: Example
+    description: Showing a lookup with filtering
   - link: sizes.html
     type: Example
     description: Showing width and height size variations

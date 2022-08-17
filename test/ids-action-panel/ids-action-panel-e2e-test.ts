@@ -1,28 +1,20 @@
-import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Lookup e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-lookup/example.html';
+describe('Ids Action Panel e2e Tests', () => {
+  const url = 'http://localhost:4444/ids-action-panel/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
   it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Lookup Component');
-  });
-
-  it('should pass Axe accessibility tests', async () => {
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    const results = await new AxePuppeteer(page).disableRules(['color-contrast']).analyze();
-    expect(results.violations.length).toBe(0);
+    await expect(page.title()).resolves.toMatch('IDS Action Panel Component');
   });
 
   it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
-      document.body.insertAdjacentHTML('beforeend', `<ids-lookup id="test" label="Normal Lookup (dirty-tracker)" title="Select an Item" field="description" value="102,103" dirty-tracker="true"></ids-lookup>`);
+      document.body.insertAdjacentHTML('beforeend', `<ids-action-panel id="test">test</ids-action-panel>`);
       document.querySelector('#test')?.remove();
     });
     expect(await countObjects(page)).toEqual(numberOfObjects);
@@ -32,7 +24,7 @@ describe('Ids Lookup e2e Tests', () => {
     let hasError = false;
     try {
       await page.evaluate(() => {
-        document.createElement('ids-lookup');
+        document.createElement('ids-action-panel');
       });
     } catch (err) {
       hasError = true;
@@ -44,10 +36,8 @@ describe('Ids Lookup e2e Tests', () => {
     let hasError = false;
     try {
       await page.evaluate(() => {
-        const elem: any = document.createElement('ids-lookup');
+        const elem: any = document.createElement('ids-action-panel');
         elem.id = 'test';
-        elem.value = '102,103';
-        elem.dirtyTracker = true;
         document.body.appendChild(elem);
       });
     } catch (err) {
@@ -60,11 +50,9 @@ describe('Ids Lookup e2e Tests', () => {
     let hasError = false;
     try {
       await page.evaluate(() => {
-        const elem:any = document.createElement('ids-lookup');
+        const elem:any = document.createElement('ids-action-panel');
         document.body.appendChild(elem);
         elem.id = 'test';
-        elem.value = '102,103';
-        elem.dirtyTracker = true;
       });
     } catch (err) {
       hasError = true;

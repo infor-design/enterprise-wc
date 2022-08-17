@@ -5,7 +5,7 @@
 - [ ] Bug No initial value and you cant select
 - [ ] Groups like https://main-enterprise.demo.design.infor.com/components/dropdown/example-groups.html
 - [ ] Placeholder / Blank Item
-- [ ] Clearable like https://main-enterprise.demo.design.infor.com/components/dropdown/example-clearable.html
+- [x] Clearable like https://main-enterprise.demo.design.infor.com/components/dropdown/example-clearable.html
 - [x] Add typeahead search option like the old default https://main-enterprise.demo.design.infor.com/components/dropdown/example-index.html
 - [x] Add all size examples like https://main-enterprise.demo.design.infor.com/components/dropdown/example-widths.html (width and height)
 - [ ] Check themes with old version (dark theme is incorrect)

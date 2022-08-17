@@ -63,6 +63,7 @@ export const attributes = {
   CHECKED: 'checked',
   CHILD_FILTER_MATCH: 'child-filter-match',
   CLEARABLE: 'clearable',
+  CLEARABLE_TEXT: 'clearable-text',
   CLEARABLE_FORCED: 'clearable-forced',
   CLICKABLE: 'clickable',
   COLLAPSE_ICON: 'collapse-icon',
@@ -415,4 +416,4 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.0';
+export const version = '1.0.0-beta.1';

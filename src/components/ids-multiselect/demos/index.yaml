@@ -8,3 +8,6 @@
   - link: example.html
     type: Main Example
     description: Shows all multiselect settings and states
+  - link: clearable.html
+    type: Example
+    description: Showing multiselect with clearable functionality
