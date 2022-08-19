@@ -17,7 +17,8 @@ type IdsListBoxOption = {
   id?: string,
   label: string,
   value: string,
-  groupLabel: boolean
+  icon?: string;
+  groupLabel?: boolean
 };
 
 type IdsListBoxOptions = Array<IdsListBoxOption>;
@@ -432,6 +433,8 @@ export default class IdsDropdown extends Base {
   selectIcon(option: HTMLElement) {
     let dropdownIcon = this.input?.querySelector('ids-icon[slot="trigger-start"]');
 
+    if (!dropdownIcon && !option) return;
+
     if (!this.hasIcons) {
       if (dropdownIcon) {
         dropdownIcon.remove();
@@ -445,7 +448,7 @@ export default class IdsDropdown extends Base {
       dropdownIconContainer.slot = 'trigger-start';
       dropdownIconContainer.classList.add('icon-container');
       dropdownIcon = document.createElement('ids-icon');
-      dropdownIcon.icon = icon.icon;
+      dropdownIcon.icon = icon?.icon;
       dropdownIcon.setAttribute('slot', 'trigger-start');
       dropdownIconContainer.append(dropdownIcon);
       this.input?.appendChild(dropdownIconContainer);
@@ -617,7 +620,7 @@ export default class IdsDropdown extends Base {
       // In case unfinished typeahead (typing is in process)
       // closing popup will reset dropdown to the initial value
       this.input.setAttribute(attributes.READONLY, true);
-      const initialValue: string | null | undefined = this.selectedOption?.textContent;
+      const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
       this.input.value = initialValue || '';
       this.#loadDataSet(this.#optionsData);
       (window.getSelection() as Selection).removeAllRanges();
@@ -867,6 +870,9 @@ export default class IdsDropdown extends Base {
     }
 
     this.#triggerIconChange('search');
+
+    // Remove selected input icon when start typing
+    this.input?.querySelector('.icon-container')?.remove();
   }
 
   /**
@@ -908,7 +914,7 @@ export default class IdsDropdown extends Base {
     return `<ids-list-box-option
       ${option.id ? `id=${option.id}` : ''}
       ${option.value ? `value="${option.value}"` : ''}
-      ${option.groupLabel ? 'group-label' : ''}>${option.label}</ids-list-box-option>`;
+      ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${option.label || ''}</ids-list-box-option>`;
   }
 
   /**
@@ -982,8 +988,9 @@ export default class IdsDropdown extends Base {
   #setOptionsData() {
     this.#optionsData = [...this.options].map((item) => ({
       id: item?.id,
-      label: item?.textContent,
+      label: item?.textContent?.trim(),
       value: item?.getAttribute(attributes.VALUE),
+      icon: item?.querySelector('ids-icon')?.icon,
       groupLabel: item?.hasAttribute(attributes.GROUP_LABEL)
     }));
   }
