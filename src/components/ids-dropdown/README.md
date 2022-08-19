@@ -161,6 +161,19 @@ For groups you should add `group-label` attribute to `ids-list-box-option` to in
 
 - `change` Fires when an option is selected / changed
 - `focus` Fires at the time the dropdown is focused
+- Event listeners for input (trigger field) `blur`, `change`, `focus`, `select`, `keydown`, `keypress`, `keyup`, `click`, `dbclick`, `beforetriggerclicked`, `triggerclicked` events can be added to `input` component property:
+```js
+const dropdown = document.querySelector('ids-dropdown');
+
+dropdown.input.addEventListener('change');
+```
+- Event listeners for popup `show`, `hide` events can be added to `popup` property:
+```js
+const dropdown = document.querySelector('ids-dropdown');
+
+dropdown.popup.addEventListener('show');
+dropdown.popup.addEventListener('hide');
+```
 
 ## Methods
 
