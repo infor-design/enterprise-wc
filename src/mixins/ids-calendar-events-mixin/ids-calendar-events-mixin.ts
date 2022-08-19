@@ -10,7 +10,8 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.VIEW_PICKER
+      attributes.VIEW_PICKER,
+      attributes.HIDDEN
     ];
   }
 
@@ -79,6 +80,27 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
    */
   get viewPicker(): boolean {
     return this.hasAttribute(attributes.VIEW_PICKER);
+  }
+
+  /**
+   * Set component visiblity
+   */
+  set hidden(val: boolean | string) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.HIDDEN, '');
+      this.container.classList.add(attributes.HIDDEN);
+    } else {
+      this.removeAttribute(attributes.HIDDEN);
+      this.container.classList.remove(attributes.HIDDEN);
+    }
+  }
+
+  /**
+   * Gets hidden setting
+   * @returns {boolean} hidden val
+   */
+  get hidden(): boolean {
+    return this.hasAttribute(attributes.HIDDEN);
   }
 
   /**
@@ -204,6 +226,33 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
       cancelable: true,
       composed: true
     });
+  }
+
+  /**
+   * Get event by id
+   * @param {string} id event id
+   * @returns {CalendarEventData} event data
+   */
+  getEventById(id: string): CalendarEventData | undefined {
+    return this.#eventsData.find((item: CalendarEventData) => item.id === id);
+  }
+
+  /**
+   * Get IdsCalendarEvent elem by id
+   * @param {string} id event id
+   * @returns {IdsCalendarEvent} calendar event component
+   */
+  getEventElemById(id: string): IdsCalendarEvent | undefined {
+    return this.container?.querySelector(`ids-calendar-event[data-id="${id}"]`);
+  }
+
+  /**
+   * Gets calendar event type by id
+   * @param {string} id event type id
+   * @returns {CalendarEventTypeData} calendar event type
+   */
+  getEventTypeById(id: string): CalendarEventTypeData | undefined {
+    return this.#eventTypesData.find((item: CalendarEventTypeData) => id === item.id);
   }
 };
 

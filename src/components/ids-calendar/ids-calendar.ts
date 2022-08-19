@@ -8,6 +8,8 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
+import IdsPopup from '../ids-popup/ids-popup';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import {
   dateDiff,
   firstDayOfWeekDate,
@@ -16,6 +18,7 @@ import {
 } from '../../utils/ids-date-utils/ids-date-utils';
 
 type CalendarEventDetail = {
+  id: string;
   subject: string;
   dateRange: string;
   duration: string;
@@ -42,6 +45,8 @@ export default class IdsCalendar extends Base {
   #mobileBreakpoint = parseInt(breakpoints.md);
 
   #resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => this.#onResize(entries));
+
+  #selectedEventId = '';
 
   constructor() {
     super();
@@ -139,15 +144,15 @@ export default class IdsCalendar extends Base {
     this.setDirection();
     this.changeView('month');
     this.#attachEventHandlers();
-    this.#resizeObserver.observe(this.container);
+    this.#resizeObserver.observe(getClosest(this, 'ids-container'));
   }
 
   /**
    * Ids Calendar Component disconnected life-cycle hook
    */
   disconnectedCallback() {
-    this.#resizeObserver?.disconnect();
     super.disconnectedCallback?.();
+    this.#resizeObserver?.disconnect();
   }
 
   /**
@@ -179,8 +184,8 @@ export default class IdsCalendar extends Base {
    * @returns {string} html accordion template
    */
   detailAccordionTemplate(data: CalendarEventDetail[]): string {
-    const panels = data.map((item: CalendarEventDetail) => `
-      <ids-accordion-panel expanded="false">
+    const panels = data.map((item: CalendarEventDetail, idx: number) => `
+      <ids-accordion-panel expanded="${idx === 0}">
         <ids-accordion-header color="${item.color}" slot="header">
           <ids-text font-weight="bold" overflow="ellipsis">${item.shortSubject || item.subject}</ids-text>
         </ids-accordion-header>
@@ -204,7 +209,7 @@ export default class IdsCalendar extends Base {
    */
   detailListTemplate(data: CalendarEventDetail[]): string {
     const listItems = data.map((item: CalendarEventDetail) => `
-      <li color="${item.color}" class="detail-item">
+      <li color="${item.color}" class="detail-item" tabindex="0" data-id="${item.id}">
         <div class="calendar-detail-content">
           <ids-text font-size="18" font-weight="bold">${item.subject}</ids-text>
           <ids-text font-size="14">${item.dateRange}</ids-text>
@@ -219,15 +224,151 @@ export default class IdsCalendar extends Base {
   }
 
   /**
+   * Creates new calendar event
+   * @param {string} id user defined id
+   * @param {boolean} isModal opens modal if true
+   */
+  createNewEvent(id: string, isModal = false): void {
+    const date = new Date(this.activeDate || this.date);
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+
+    const event: CalendarEventData = {
+      id,
+      subject: 'New Event',
+      isAllDay: 'true',
+      starts: new Date(year, month, day, 0, 0, 0).toISOString(),
+      ends: new Date(year, month, day, 23, 59, 59, 999).toISOString(),
+      type: 'dto',
+      comments: 'New Event Comments'
+    };
+
+    if (isModal) {
+      const view = this.getView();
+      const target = view?.tagName === 'IDS-MONTH-VIEW' ? view.getSelectedDay() : this.container;
+      this.#insertFormPopup(target, event);
+    } else {
+      this.addEvent(event);
+    }
+  }
+
+  /**
+   * Create calendar event form template
+   * @param {CalendarEventData} data event data
+   * @returns {string} event form template
+   */
+  #eventFormTemplate(data: CalendarEventData): string {
+    const start = new Date(data.starts);
+    const end = new Date(data.ends);
+    const eventType = this.getEventTypeById(data.type);
+
+    // Ids List Box Option template
+    const eventTypeOptions = this.eventTypesData.map((item: CalendarEventTypeData) => `
+      <ids-list-box-option value="${item.id}">
+        <ids-text>${item.label}</ids-text>
+      </ids-list-box-option>
+    `).join('');
+
+    // Ids Date Picker template
+    const datePicker = (id: string, labelKey: string, date: Date) => `
+      <ids-date-picker 
+        id="${id}" 
+        label="${this.locale.translate(labelKey)}" 
+        size="full" 
+        year="${date.getFullYear()}" 
+        month="${date.getMonth()}" 
+        day="${date.getDate()}"
+        value="${this.locale.formatDate(date)}"
+        mask>
+      </ids-date-picker>
+    `;
+
+    // Ids Time Picker template
+    const timePicker = (id: string, date: Date) => `
+      <ids-time-picker 
+        id="${id}" 
+        label="&nbsp" 
+        size="full" 
+        disabled="${stringToBool(data.isAllDay)}"
+        value="${this.locale.formatHour(date.getHours() + (date.getMinutes() / 60))}">
+      </ids-time-picker>
+    `;
+
+    return `
+      <form id="event-form" data-id="${data.id}" slot="content">
+        <div id="event-form-header" class="inline-container" color="${eventType?.color || 'azure'}">
+          <ids-text font-size="16" font-weight="bold">${eventType?.label || ''}</ids-text>
+          <ids-button data-action="close">
+            <ids-icon slot="icon" icon="close"></ids-icon>
+          </ids-button>
+        </div>
+        <div id="event-form-content">
+          <ids-input size="full" id="event-subject" type="text" label="${this.locale.translate('Subject')}" value="${data.subject}"></ids-input>
+          <ids-dropdown size="full" id="event-type" label="${this.locale.translate('EventType')}" value="${data.type}">
+            <ids-list-box>${eventTypeOptions}</ids-list-box>
+          </ids-dropdown>
+          <ids-checkbox id="event-is-all-day" label="${this.locale.translate('AllDay')}" checked="${data.isAllDay}"></ids-checkbox>
+          <div class="inline-container">
+            ${datePicker('event-from-date', 'From', start)}
+            ${timePicker('event-from-hour', start)}
+          </div>
+          <div class="inline-container">
+            ${datePicker('event-to-date', 'To', end)}
+            ${timePicker('event-to-hour', end)}
+          </div>
+          <ids-textarea size="full" id="event-comments" label="${this.locale.translate('Comments')}" autoselect="true">${data.comments || ''}</ids-textarea>
+        </div>
+        <div id="event-form-actions" class="inline-container">
+          <ids-button data-action="close" no-padding>
+            <ids-text font-weight="bold" translate-text="true" slot="text">Cancel</ids-text>
+          </ids-button>
+          <ids-button data-action="submit" no-padding>
+            <ids-text font-weight="bold" translate-text="true" slot="text">Submit</ids-text>
+          </ids-button>
+        </div>
+      </form>
+    `;
+  }
+
+  /**
    * Attach calendar event handlers
    */
   #attachEventHandlers(): void {
+    let daySelectTimer: any;
+    let daySelectCount = 0;
+    let daySelectedDate: Date;
+
     this.offEvent('dayselected.calendar-container');
     this.onEvent('dayselected.calendar-container', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
-      this.#updateActiveDate(evt.detail.date);
-      this.state.selected = evt.detail?.events || [];
-      this.updateEventDetails(evt.detail?.events);
+      clearTimeout(daySelectTimer);
+      daySelectCount++;
+
+      const updateCalendar = () => {
+        this.#updateActiveDate(evt.detail.date);
+        this.state.selected = evt.detail?.events || [];
+        this.updateEventDetails(evt.detail?.events);
+      };
+
+      const createNewEvent = () => {
+        const id: string = Date.now().toString() + Math.floor(Math.random() * 100);
+        this.createNewEvent(id, true);
+      };
+
+      daySelectTimer = setTimeout(() => {
+        updateCalendar();
+        daySelectCount = 0;
+      }, 200);
+
+      if (daySelectCount === 2 && evt.detail.date.getTime() === daySelectedDate?.getTime()) {
+        clearTimeout(daySelectTimer);
+        updateCalendar();
+        createNewEvent();
+        daySelectCount = 0;
+      }
+
+      daySelectedDate = evt.detail.date;
     });
 
     this.offEvent('viewchange.calendar-container');
@@ -248,6 +389,7 @@ export default class IdsCalendar extends Base {
     this.offEvent('change.calendar-legend');
     this.onEvent('change.calendar-legend', this.container?.querySelector('.calendar-legend-pane'), (evt: any) => {
       evt.stopPropagation();
+      this.#removePopup();
       this.#toggleEventType(evt.detail.elem, evt.detail.checked);
       this.relayCalendarData();
       this.updateEventDetails(this.state.selected);
@@ -268,6 +410,178 @@ export default class IdsCalendar extends Base {
       this.updateEventDetails(this.state.selected);
       this.renderLegend(this.eventTypesData);
     });
+
+    this.onEvent('click.details-item', this.container.querySelector('.calendar-details-pane'), (evt: any) => {
+      const detailItem = evt.target.closest('.detail-item');
+      if (detailItem) {
+        evt.stopPropagation();
+        evt.stopImmediatePropagation();
+        const id = detailItem.getAttribute('data-id');
+        const eventData = this.getEventById(id);
+
+        if (eventData) {
+          this.#selectedEventId = id;
+          this.#removePopup();
+          this.#insertFormPopup(this.container, eventData);
+        }
+      }
+    });
+
+    this.offEvent('click-calendar-event', this);
+    this.onEvent('click-calendar-event', this, (evt: CustomEvent) => {
+      const elem = evt.detail.elem;
+      this.#selectedEventId = elem.eventData.id;
+      this.#removePopup();
+      this.#insertFormPopup(elem.container, elem.eventData);
+    });
+  }
+
+  /**
+   * Get IdsPopup containg calendar event form
+   * @returns {IdsPopup} popup component
+   */
+  #getEventFormPopup(): IdsPopup {
+    return this.container.querySelector('#event-form-popup');
+  }
+
+  /**
+   * Attach calendar event form handlers
+   */
+  #attachFormEventHandlers(): void {
+    const popup = this.#getEventFormPopup();
+
+    this.offEvent('click.calendar-event-form', popup);
+    this.onEvent('click.calendar-event-form', popup, (evt: any) => {
+      if (evt.target && evt.target.tagName === 'IDS-BUTTON') {
+        evt.stopPropagation();
+        const action = evt.target.getAttribute('data-action');
+        if (!action) return;
+
+        if (action === 'close') {
+          this.#removePopup();
+          return;
+        }
+
+        if (action === 'submit') {
+          const formElem = this.#getEventFormPopup().querySelector('#event-form');
+          this.#submitEventForm(formElem);
+          this.#removePopup();
+        }
+      }
+    });
+
+    this.offEvent('change.calendar-event-form', popup);
+    this.onEvent('change.calendar-event-form', popup, (evt: any) => {
+      evt.stopPropagation();
+      const checked = evt.detail.checked;
+      this.#toggleTimePickers(checked);
+    });
+  }
+
+  /**
+   * Insert event form popup into view.
+   * Attach it to provided calendar event
+   * @param {HTMLElement} target target to attach popup to
+   * @param {CalendarEventData} eventData calendar event component
+   */
+  #insertFormPopup(target: HTMLElement, eventData: CalendarEventData): void {
+    const template = `
+      <ids-popup 
+        id="event-form-popup"
+        arrow="right"
+        x="160"  
+        align="center" 
+        animated="false" 
+        visible="false"
+        type="menu" 
+        position-style="absolute">
+        ${this.#eventFormTemplate(eventData)}
+      </ids-popup>
+    `;
+
+    this.container.insertAdjacentHTML('beforeend', template);
+    this.positionFormPopup(target);
+    this.#attachFormEventHandlers();
+    this.#getEventFormPopup().querySelector('#event-subject').focus();
+  }
+
+  /**
+   * Enables/Disabled time pickers inside event form
+   * @param {boolean} disable boolean
+   */
+  #toggleTimePickers(disable: boolean): void {
+    const popup = this.#getEventFormPopup();
+
+    if (popup) {
+      popup.querySelectorAll('ids-time-picker').forEach((elem: any) => {
+        elem.disabled = disable;
+      });
+    }
+  }
+
+  /**
+   * Aligns form popup with provided html target element
+   * @param {HTMLElement} target element
+   */
+  positionFormPopup(target: HTMLElement): void {
+    const popup = this.#getEventFormPopup();
+
+    if (popup && target) {
+      popup.alignTarget = undefined;
+      popup.alignTarget = target;
+      popup.place();
+      popup.visible = true;
+    }
+  }
+
+  /**
+   * Remove calendar event form popup
+   */
+  #removePopup(): void {
+    const popup = this.#getEventFormPopup();
+
+    if (popup) {
+      this.offEvent('click.calendar-event-form', popup);
+      popup.remove();
+    }
+  }
+
+  /**
+   * Gets values from event form and updates event
+   * @param {HTMLElement} formElem form element
+   */
+  #submitEventForm(formElem: any) {
+    const id = formElem.getAttribute('data-id');
+    const subject = formElem.querySelector('#event-subject')?.value;
+    const type = formElem.querySelector('#event-type')?.value;
+    const isAllDayBool = formElem.querySelector('#event-is-all-day')?.checked;
+    const isAllDay = isAllDayBool === 'true' ? 'true' : 'false';
+    const comments = formElem.querySelector('#event-comments')?.value;
+    const fromDate = formElem.querySelector('#event-from-date');
+    const fromHours = formElem.querySelector('#event-from-hour');
+    const starts: string = new Date(
+      fromDate.year,
+      fromDate.month,
+      fromDate.day,
+      isAllDayBool ? 0 : fromHours.hours24,
+      isAllDayBool ? 0 : fromHours.minutes,
+      isAllDayBool ? 0 : fromHours.seconds
+    ).toISOString();
+    const toDate = formElem.querySelector('#event-to-date');
+    const toHours = formElem.querySelector('#event-to-hour');
+    const ends = new Date(
+      toDate.year,
+      toDate.month,
+      toDate.day,
+      isAllDayBool ? 23 : toHours.hours24,
+      isAllDayBool ? 59 : toHours.minutes,
+      isAllDayBool ? 59 : toHours.seconds
+    ).toISOString();
+
+    const eventData = {
+      id, subject, type, isAllDay, starts, ends, comments
+    };
+    this.updateEvent(eventData);
   }
 
   /**
@@ -277,7 +591,7 @@ export default class IdsCalendar extends Base {
    */
   #toggleEventType(checkbox: IdsCheckbox, checked: boolean): void {
     const id = checkbox.getAttribute('data-id');
-    const eventType = this.eventTypesData?.find((item: CalendarEventTypeData) => item.id === id);
+    const eventType = this.getEventTypeById(id);
 
     if (eventType) {
       eventType.checked = checked;
@@ -448,7 +762,7 @@ export default class IdsCalendar extends Base {
 
     // Day(s)
     if (hours >= 24) {
-      const days = hours / 24;
+      const days = Math.round(hours / 24);
       const dayStr = this.locale.translate(days === 1 ? 'Day' : 'Days');
       return `${this.locale.parseNumber(days.toString())} ${dayStr}`;
     }
@@ -475,7 +789,7 @@ export default class IdsCalendar extends Base {
   #formatDetailData(event: CalendarEventData): CalendarEventDetail {
     const startDate = new Date(event.starts);
     const endDate = new Date(event.ends);
-    const eventType = this.eventTypesData?.find((item: CalendarEventTypeData) => item.id === event.type);
+    const eventType = this.getEventTypeById(event.type);
 
     return {
       ...event,
@@ -511,10 +825,56 @@ export default class IdsCalendar extends Base {
   }
 
   /**
+   * Add new calendar event data to collection
+   * @param {CalendarEventData} eventData event data
+   */
+  addEvent(eventData: CalendarEventData): void {
+    this.eventsData = this.eventsData.concat(eventData);
+
+    this.triggerEvent('eventadded', this, {
+      detail: {
+        elem: this,
+        value: eventData
+      },
+      bubbles: true,
+      cancelable: true,
+      composed: true
+    });
+  }
+
+  /**
+   * Update existing calendar event and rerender events
+   * If event doesn't exist, it creates new calendar event
+   * @param {CalendarEventData} data event data
+   */
+  updateEvent(data: CalendarEventData): void {
+    const events: CalendarEventData[] = this.eventsData.slice(0);
+    const event = events.find((item: CalendarEventData) => item.id === data.id);
+
+    if (event) {
+      const eventData = Object.assign(event, data);
+      this.eventsData = events;
+
+      this.triggerEvent('eventupdated', this, {
+        detail: {
+          elem: this,
+          value: eventData
+        },
+        bubbles: true,
+        cancelable: true,
+        composed: true
+      });
+    } else {
+      this.addEvent(data);
+    }
+  }
+
+  /**
    * Remove calendar events data and components
    */
-  removeAllEvents(): void {
+  clearEvents(): void {
     this.eventsData = [];
+    this.beforeEventsRender = null;
   }
 
   /**
@@ -597,6 +957,7 @@ export default class IdsCalendar extends Base {
       this.state.isMobile = isMobile;
       this.updateEventDetails(this.state.selected);
       this.#toggleMonthLegend(this.eventTypesData, isMobile);
+      this.positionFormPopup(this.getView()?.getEventElemById(this.#selectedEventId)?.container);
     }
   }
 

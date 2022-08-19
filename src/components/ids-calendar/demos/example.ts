@@ -22,8 +22,28 @@ function getEventTypes(): Promise<any> {
 
 document.addEventListener('DOMContentLoaded', async () => {
   const calendar: any = document.querySelector('ids-calendar');
+  const addEventMenu = document.querySelector('#add-event');
 
   // Set event types
   calendar.eventTypesData = await getEventTypes();
   calendar.eventsData = await getCalendarEvents();
+
+  addEventMenu?.addEventListener('selected', (evt: any) => {
+    // Mock user defined id
+    const id: string = Date.now().toString() + Math.floor(Math.random() * 100);
+
+    switch (evt.detail.value) {
+      case 'add-modal':
+        calendar.createNewEvent(id, true);
+        break;
+      case 'add-api':
+        calendar.createNewEvent(id, false);
+        break;
+      case 'clear':
+        calendar.clearEvents();
+        break;
+      default:
+        break;
+    }
+  });
 });
