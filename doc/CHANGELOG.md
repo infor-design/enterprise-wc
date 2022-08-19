@@ -26,6 +26,7 @@
 - `[PopupMenu]` Added `triggerElem` property for separating the element triggering a Popup from the element in which the Popup aligns against.  ([#769](https://github.com/infor-design/enterprise-wc/issues/769))
 - `[Lookup]` Added new features showing paging, clearable, filtering and more test coverage and docs.  ([#686](https://github.com/infor-design/enterprise-wc/issues/686))
 - `[Radio]` Fixed incorrect colors in contrast mode. ([#775](https://github.com/infor-design/enterprise-wc/pull/775))
+- `[Splitter]` Added support for save position to local storage. ([#692](https://github.com/infor-design/enterprise-wc/issues/692))
 - `[Tag]` Updated `x` and `>` icon color on colored tags when dismissible/clickable is true.([#848](https://github.com/infor-design/enterprise-wc/pull/848))
 
 ## 1.0.0-beta.0
