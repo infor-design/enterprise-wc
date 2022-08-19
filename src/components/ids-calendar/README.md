@@ -18,6 +18,10 @@ User can switch between month, week, and day views using menu button inside the 
 - `eventsData` `{Array<CalendarEventData>}` - Array of calendar event data to populate the week view
 - `eventTypesData` `{Array<CalendarEventTypeData>}` - Array of calendar event types used to categorize calendar events
 
+## Events
+- `eventadded` - Fires when new event is added to calendar. Detail contains new event and calendar element.
+- `eventupdated` - Fires when existing event is updated. Detail contains updated event and calendar element.
+
 ## Features (With Code Examples)
 
 With no settings. Calendar shows month view set to current date without legend or detail panes.

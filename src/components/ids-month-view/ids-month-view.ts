@@ -1914,6 +1914,16 @@ class IdsMonthView extends Base {
   }
 
   /**
+   * Counts number of days for calendar events
+   * @param {Date} start start date
+   * @param {Date} end end date
+   * @returns {number} days
+   */
+  #countDays(start: Date, end: Date): number {
+    return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+  }
+
+  /**
    * Renders calendar events within corresponding date's table cell
    * @param {string} dateKey generated date key
    * @param {CalendarEventData[]} events calendar events
@@ -1929,7 +1939,7 @@ class IdsMonthView extends Base {
     events.forEach((event: CalendarEventData, index: number) => {
       const start = new Date(event.starts);
       const end = new Date(event.ends);
-      const days = daysDiff(start, end) || 1;
+      const days = this.#countDays(start, end) || 1;
 
       for (let i = 0; i < days; i++) {
         const calendarEvent = new IdsCalendarEvent();
@@ -1967,7 +1977,7 @@ class IdsMonthView extends Base {
 
           // hide overflowing event elements
           if (calendarEvent.order > MAX_EVENT_COUNT - 1) {
-            calendarEvent.cssClass = ['hidden'];
+            calendarEvent.hidden = true;
             isOverflowing = true;
           }
 
@@ -1990,17 +2000,18 @@ class IdsMonthView extends Base {
    * @param {Element} eventsContainer date specific event container elemeent
    * @param {string} dateKey generated date key
    */
-  #renderEventsOverflow(eventsContainer: Element | undefined, dateKey: string): void {
+  #renderEventsOverflow(eventsContainer: any, dateKey: string): void {
     if (!eventsContainer) return;
 
     const calendarEvents = [...eventsContainer.querySelectorAll('ids-calendar-event')];
+    const hiddenEvents = calendarEvents.filter((elem: IdsCalendarEvent) => elem.hidden);
     const year = dateKey.substring(0, 4);
     const month = parseInt(dateKey.substring(4, 6)) + 1;
     const day = dateKey.substring(6);
     const date = `${month}/${day}/${year}`;
     const tmpl = `
       <ids-text data-date="${date}" class="events-overflow" font-size="12">
-        ${calendarEvents.length - MAX_EVENT_COUNT}+ ${this.locale.translate('More')}
+        ${hiddenEvents.length}+ ${this.locale.translate('More')}
       </ids-text>
     `;
 
