@@ -130,7 +130,7 @@ describe('IdsCalendar Component', () => {
     expect(view.eventsData.length).toEqual(2);
     expect(view.eventTypesData.length).toEqual(2);
 
-    component.removeAllEvents();
+    component.clearEvents();
     expect(component.eventsData.length).toEqual(0);
     expect(view.eventsData.length).toEqual(0);
   });
@@ -245,5 +245,50 @@ describe('IdsCalendar Component', () => {
     component.triggerEvent('change', wrapper, { detail: { elem, checked } });
 
     expect(component.eventTypesData[0].checked).toBeFalsy();
+  });
+
+  it('can clear events via API', () => {
+    component.eventsData = EVENTS_ITEMS;
+    expect(component.eventsData.length).toBe(2);
+
+    component.clearEvents();
+    expect(component.eventsData.length).toBe(0);
+  });
+
+  it('can add and update events via API', () => {
+    const newEvent = EVENTS_ITEMS[0];
+    component.clearEvents();
+    component.addEvent(newEvent);
+    expect(component.eventsData[0].id).toEqual(newEvent.id);
+
+    const subject = 'new test subject';
+    const updatedEvent = { ...newEvent, subject };
+    component.updateEvent(updatedEvent);
+    expect(component.eventsData[0].subject).toEqual(subject);
+  });
+
+  it('has startDate and endDate properties', () => {
+    const now = new Date();
+    const start = component.startDate;
+    const end = component.endDate;
+
+    expect(start.getFullYear()).toEqual(now.getFullYear());
+    expect(end.getFullYear()).toEqual(now.getFullYear());
+
+    expect(start.getMonth()).toEqual(now.getMonth());
+    expect(end.getMonth()).toEqual(now.getMonth());
+  });
+
+  it('can modal to create new event', () => {
+    const id = '123';
+
+    // open modal
+    component.createNewEvent(id, true);
+    const popup = component.container.querySelector('#event-form-popup');
+    expect(popup).toBeDefined();
+
+    // submit form
+    popup.querySelector('ids-button[data-action="submit"]').click();
+    expect(component.eventsData[0].id).toEqual(id);
   });
 });
