@@ -431,13 +431,14 @@ export default class IdsDropdown extends Base {
    */
   selectIcon(option: HTMLElement) {
     let dropdownIcon = this.input?.querySelector('ids-icon[slot="trigger-start"]');
+
     if (!this.hasIcons) {
       if (dropdownIcon) {
         dropdownIcon.remove();
       }
       return;
     }
-    const icon: any = option.querySelector('ids-icon');
+    const icon: any = option?.querySelector('ids-icon');
 
     if (!dropdownIcon) {
       const dropdownIconContainer = document.createElement('span');
@@ -449,7 +450,7 @@ export default class IdsDropdown extends Base {
       dropdownIconContainer.append(dropdownIcon);
       this.input?.appendChild(dropdownIconContainer);
     } else {
-      dropdownIcon.icon = icon.icon;
+      dropdownIcon.icon = icon?.icon;
     }
   }
 
