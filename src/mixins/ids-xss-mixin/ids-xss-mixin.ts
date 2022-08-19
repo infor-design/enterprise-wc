@@ -53,7 +53,7 @@ const IdsXssMixin = (superclass: any) => class extends superclass {
    */
   xssSanitize(str: string) {
     const ignored = this.xssIgnoredTags;
-    if (ignored.length) {
+    if (ignored?.length) {
       return stripTags(str, ignored);
     }
     return stripHTML(str);

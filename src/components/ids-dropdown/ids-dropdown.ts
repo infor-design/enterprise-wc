@@ -519,8 +519,10 @@ export default class IdsDropdown extends Base {
     // Trigger an async callback for contents
     if (typeof this.state.beforeShow === 'function') {
       const stuff = await this.state.beforeShow();
-      this.#optionsData = stuff;
       this.#loadDataSet(stuff);
+      if (this.typeahead) {
+        this.#optionsData = stuff;
+      }
     }
 
     // Open the popup and add a class
@@ -557,7 +559,7 @@ export default class IdsDropdown extends Base {
     listbox.innerHTML = '';
 
     dataset.forEach((option: IdsListBoxOption) => {
-      html += this.#templatelistBoxOption(option);
+      html += this.#templatelistBoxOption(this.#sanitizeOption(option));
     });
     listbox.insertAdjacentHTML('afterbegin', html);
     if (this.allowBlank) {
@@ -983,6 +985,15 @@ export default class IdsDropdown extends Base {
       value: item?.getAttribute(attributes.VALUE),
       groupLabel: item?.hasAttribute(attributes.GROUP_LABEL)
     }));
+  }
+
+  #sanitizeOption(option: IdsListBoxOption): IdsListBoxOption {
+    return ({
+      ...option,
+      id: this.xssSanitize(option.id),
+      value: this.xssSanitize(option.value),
+      label: this.xssSanitize(option.label)
+    });
   }
 
   /**
