@@ -76,6 +76,7 @@ export default class IdsDropdown extends Base {
       attributes.GROUP_LABEL,
       attributes.LABEL,
       attributes.NO_MARGINS,
+      attributes.PLACEHOLDER,
       attributes.READONLY,
       attributes.SIZE,
       attributes.TYPEAHEAD,
@@ -145,6 +146,7 @@ export default class IdsDropdown extends Base {
         cursor="pointer"
         size="${this.size}"
         label="${this.label}"
+        placeholder="${this.placeholder}"
         part="trigger-field"
         ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
         ${this.validate ? ` validate="${this.validate}"` : ''}
@@ -1126,4 +1128,26 @@ export default class IdsDropdown extends Base {
   }
 
   get clearableText() { return this.getAttribute(attributes.CLEARABLE_TEXT); }
+
+  /**
+   * Sets the placeholder attribute
+   * @param {string} value - the placeholder's text
+   */
+  set placeholder(value: string) {
+    if (value) {
+      this.setAttribute(attributes.PLACEHOLDER, value);
+      this.input?.setAttribute(attributes.PLACEHOLDER, value);
+    } else {
+      this.removeAttribute(attributes.PLACEHOLDER);
+      this.input?.removeAttribute(attributes.PLACEHOLDER);
+    }
+  }
+
+  /**
+   * Get the placeholder attribute
+   * @returns {string} default is ""
+   */
+  get placeholder(): string {
+    return this.getAttribute(attributes.PLACEHOLDER) ?? '';
+  }
 }

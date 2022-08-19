@@ -894,4 +894,13 @@ describe('IdsDropdown Component', () => {
     dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     expect(dropdown.value).toEqual('gr2opt1');
   });
+
+  it('should handle placeholder attribute', () => {
+    dropdown.placeholder = 'select an item';
+    expect(dropdown.input.placeholder).toEqual('select an item');
+
+    dropdown.placeholder = null;
+    expect(dropdown.placeholder).toEqual('');
+    expect(dropdown.input.placeholder).toBeNull();
+  });
 });
