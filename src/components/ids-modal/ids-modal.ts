@@ -214,7 +214,7 @@ export default class IdsModal extends Base {
    * @returns {HTMLElement} either an external overlay element, or none
    */
   get overlay(): any {
-    return this.state.overlay || this.shadowRoot.querySelector('ids-overlay');
+    return this.state.overlay || this.shadowRoot?.querySelector('ids-overlay');
   }
 
   /**
@@ -234,7 +234,7 @@ export default class IdsModal extends Base {
    * @returns {HTMLElement} the inner Popup
    */
   get popup(): any {
-    return this.shadowRoot.querySelector('ids-popup');
+    return this.shadowRoot?.querySelector('ids-popup');
   }
 
   /**
@@ -315,6 +315,7 @@ export default class IdsModal extends Base {
    * @returns {void}
    */
   #refreshModalFooter() {
+    if (!this.container) return;
     const footerEl = this.container.querySelector('.ids-modal-footer');
 
     if (this.buttons.length) {
@@ -382,11 +383,12 @@ export default class IdsModal extends Base {
 
     // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
     this.style.zIndex = zCounter.increment();
-    this.overlay.visible = true;
-
-    this.popup.visible = true;
-    if (this.popup.animated) {
-      await waitForTransitionEnd(this.popup.container, 'opacity');
+    if (this.overlay) this.overlay.visible = true;
+    if (this.popup) {
+      this.popup.visible = true;
+      if (this.popup.animated) {
+        await waitForTransitionEnd(this.popup.container, 'opacity');
+      }
     }
 
     this.removeAttribute('aria-hidden');
@@ -403,7 +405,10 @@ export default class IdsModal extends Base {
       }
     });
 
-    this.popup.animated = false;
+    if (this.popup) {
+      this.popup.animated = false;
+    }
+    
     this.respondToCurrentBreakpoint();
 
     this.triggerEvent('aftershow', this, {
@@ -486,11 +491,13 @@ export default class IdsModal extends Base {
     document.addEventListener('keydown', this.globalKeydownListener);
 
     // If a Modal Button is clicked, fire an optional callback
-    const buttonSlot = this.container.querySelector('slot[name="buttons"]');
+    if (this.container) {
+      const buttonSlot = this.container.querySelector('slot[name="buttons"]');
 
-    this.onEvent('click.buttons', buttonSlot, (e: MouseEvent) => {
-      this.handleButtonClick(e);
-    });
+      this.onEvent('click.buttons', buttonSlot, (e: MouseEvent) => {
+        this.handleButtonClick(e);
+      });
+    }
   }
 
   /**
