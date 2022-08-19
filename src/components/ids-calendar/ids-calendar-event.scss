@@ -170,6 +170,10 @@
 
   &.calendar-event-continue,
   &.calendar-event-ends {
+    ids-icon {
+      visibility: hidden;
+    }
+
     .calendar-event-title {
       color: transparent;
     }
