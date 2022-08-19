@@ -11,6 +11,7 @@ import Base from './ids-form-base';
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
+ * @part form - the form element
  */
 @customElement('ids-form')
 export default class IdsForm extends Base {
@@ -22,7 +23,6 @@ export default class IdsForm extends Base {
     return [
       ...super.attributes,
       attributes.COMPACT,
-      attributes.NAME,
       attributes.SUBMIT_BUTTON
     ];
   }
@@ -38,44 +38,30 @@ export default class IdsForm extends Base {
   template(): string {
     let formAttribs = '';
     formAttribs += this.name ? ` name="${this.name}"` : '';
-    return `<form${formAttribs}><slot></slot></form>`;
+    return `<form${formAttribs} part="form"><slot></slot></form>`;
   }
 
   /**
    * Sets the compact attribute
    * @param {boolean | string} value string value for compact
    */
-  set compact(value: string) {
+  set compact(value: boolean | string) {
     const isCompact = stringToBool(value);
 
-    if (value) {
+    if (value || value === false) {
       this.setAttribute('compact', value);
       const formComponents: Element[] = this.formComponents;
       [...formComponents].forEach((el) => {
-        if (isCompact) el.setAttribute('compact', value);
+        if (isCompact) el.setAttribute('compact', value.toString());
         else el.removeAttribute('compact');
       });
     }
+
+    if (!isCompact) this.removeAttribute('compact');
   }
 
-  get compact(): string {
-    return this.getAttribute('compact') || '';
-  }
-
-  /**
-   * Sets the name attribute
-   * @param {string} value string value for name
-   */
-  set name(value: string) {
-    if (value) {
-      const form: HTMLElement[] = this.shadowRoot.childNodes;
-      form[1].setAttribute('name', value);
-      this.setAttribute('name', value);
-    }
-  }
-
-  get name(): string {
-    return this.getAttribute('name') || '';
+  get compact(): boolean | string {
+    return stringToBool(this.getAttribute('compact'));
   }
 
   /**
@@ -85,14 +71,19 @@ export default class IdsForm extends Base {
   set submitButton(value: string) {
     if (value) {
       this.setAttribute(attributes.SUBMIT_BUTTON, value);
+      this.offEvent('click.submit');
       this.onEvent('click.submit', this.querySelector(`#${value}`), () => {
         const formElems: Element[] = this.formComponents;
         const formValues: object[] = [];
         formElems.forEach((el: any) => formValues.push({
           nodeName: el.nodeName,
-          value: el.value,
+          value: ['IDS-CHECKBOX', 'IDS-SWITCH'].includes(el.nodeName) ? el.checked : el.value,
           id: el.id,
-          name: el.name
+          name: el.name,
+          isDirty: el.isDirty,
+          isValid: el.isValid,
+          orginalValue: el.dirty?.original,
+          validationMessages: el.validationMessages
         }));
         this.triggerEvent('submit', this, { bubbles: true, detail: { components: formValues } });
       });
@@ -103,7 +94,7 @@ export default class IdsForm extends Base {
   }
 
   get submitButton(): string {
-    return this.getAttribute('title') || '';
+    return this.getAttribute(attributes.SUBMIT_BUTTON) || '';
   }
 
   /**
@@ -151,11 +142,36 @@ export default class IdsForm extends Base {
   }
 
   /**
+   * Return if and form fields are dirty or not
+   * @returns {boolean} true if dirty
+   */
+  get isDirty(): boolean {
+    return this.dirtyFormComponents.length > 0;
+  }
+
+  /**
    * Returs all dirty form components.
    * @returns {Array<Element>} The elements that are dirty.
    */
-  dirtyFormComponents() {
+  get dirtyFormComponents(): Array<Element> {
     const formElems: Element[] = this.formComponents;
     return formElems.filter((item) => (item as any).isDirty === true);
+  }
+
+  /**
+   * Return if the form is valid or not
+   * @returns {boolean} true if invalid
+   */
+  get isValid(): boolean {
+    return this.errorFormComponents.length === 0;
+  }
+
+  /**
+   * Return the inputs with validation errors
+   * @returns {Array<Element>} The current form elements with errors
+   */
+  get errorFormComponents(): Array<Element> {
+    const formElems: Element[] = this.formComponents;
+    return formElems.filter((item) => (item as any).isValid === false);
   }
 }

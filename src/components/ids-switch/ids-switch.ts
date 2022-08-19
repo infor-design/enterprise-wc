@@ -177,7 +177,7 @@ export default class IdsSwitch extends Base {
     }
   }
 
-  get checked(): boolean | string { return this.getAttribute(attributes.CHECKED); }
+  get checked(): boolean { return stringToBool(this.getAttribute(attributes.CHECKED)); }
 
   /**
    * Sets checkbox to disabled

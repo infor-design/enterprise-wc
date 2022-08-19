@@ -8,19 +8,22 @@ import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
+import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsThemeMixin(
   IdsLabelStateMixin(
     IdsLocaleMixin(
-      IdsDirtyTrackerMixin(
-        IdsFieldHeightMixin(
-          IdsColorVariantMixin(
-            IdsKeyboardMixin(
-              IdsPopupOpenEventsMixin(
-                IdsTooltipMixin(
-                  IdsEventsMixin(
-                    IdsElement
+      IdsValidationInputMixin(
+        IdsDirtyTrackerMixin(
+          IdsFieldHeightMixin(
+            IdsColorVariantMixin(
+              IdsKeyboardMixin(
+                IdsPopupOpenEventsMixin(
+                  IdsTooltipMixin(
+                    IdsEventsMixin(
+                      IdsElement
+                    )
                   )
                 )
               )

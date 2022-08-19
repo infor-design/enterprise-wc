@@ -5,16 +5,19 @@ import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
+import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsDirtyTrackerMixin(
   IdsLocaleMixin(
     IdsKeyboardMixin(
-      IdsFieldHeightMixin(
-        IdsTooltipMixin(
-          IdsThemeMixin(
-            IdsEventsMixin(
-              IdsElement
+      IdsValidationInputMixin(
+        IdsFieldHeightMixin(
+          IdsTooltipMixin(
+            IdsThemeMixin(
+              IdsEventsMixin(
+                IdsElement
+              )
             )
           )
         )

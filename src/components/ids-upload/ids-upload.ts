@@ -174,6 +174,10 @@ export default class IdsUpload extends Base {
     this.textInput.dirtyTracker = value;
   }
 
+  get input() {
+    return this.container?.querySelector('ids-trigger-field');
+  }
+
   /**
    * Clear the value
    * @returns {void}

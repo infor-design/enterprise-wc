@@ -14,7 +14,7 @@
     <ids-form compact="false" submit-button="btn-submit" id="sample-form">
       <ids-layout-grid cols="2" gap="md">
         <ids-layout-grid-cell>
-          <ids-dropdown id="company-name" label="Company Name" value="" dirty-tracker validate="required" size="md">
+          <ids-dropdown id="company-name" label="Company Name" value="" dirty-tracker validate="required" size="md" allow-blank="true">
             <ids-list-box>
               <ids-list-box-option value="" selected>None</ids-list-box-option>
               <ids-list-box-option value="acme">Acme, Inc.</ids-list-box-option>
@@ -34,7 +34,7 @@
           <ids-color-picker id="ship-color" label="Ship Color" value="ruby-80" clearable dirty-tracker validate="required" size="md"></ids-color-picker>
           <ids-date-picker id="ship-date" label="Ship Date" value="3/4/2023" mask dirty-tracker validate="required" size="md"></ids-date-picker>
           <ids-time-picker label="Ship Time" id="ship-time" mask="true" dirty-tracker validate="required" size="md"></ids-time-picker>
-          <ids-radio-group label="Ship Type" dirty-tracker validate="required">
+          <ids-radio-group label="Ship Type" dirty-tracker validate="required" id="ship-type">
             <ids-radio value="opt1" label="Boat"></ids-radio>
             <ids-radio value="opt2" label="Truck" checked="true"></ids-radio>
           </ids-radio-group>
