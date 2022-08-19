@@ -33,7 +33,7 @@ describe('Ids Splitter e2e Tests', () => {
       let widthP2 = await page.evaluate('document.querySelector("#minmax-p2").style.width');
       expect(stringToNumber(widthP1)).toEqual(stringToNumber(widthP2));
       await page.waitForTimeout(200);
-      await page.evaluate('document.querySelector("#splitter-minmax").shadowRoot.querySelector("#split-1").click()');
+      await page.evaluate('document.querySelector("#splitter-minmax").click()');
       await page.keyboard.press('Space');
       await page.keyboard.press('ArrowDown');
       widthP1 = await page.evaluate('document.querySelector("#minmax-p1").style.width');
@@ -66,7 +66,7 @@ describe('Ids Splitter e2e Tests', () => {
       let widthP2 = await page.evaluate('document.querySelector("#minmax-p2").style.width');
       expect(stringToNumber(widthP1)).toEqual(stringToNumber(widthP2));
       await page.waitForTimeout(200);
-      await page.evaluate('document.querySelector("#splitter-minmax").shadowRoot.querySelector("#split-1").click()');
+      await page.evaluate('document.querySelector("#splitter-minmax").click()');
       await page.keyboard.press('Space');
       await page.keyboard.press('ArrowDown');
       widthP1 = await page.evaluate('document.querySelector("#minmax-p1").style.width');

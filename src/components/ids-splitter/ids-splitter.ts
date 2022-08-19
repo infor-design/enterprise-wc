@@ -3,13 +3,15 @@ import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-splitter-base';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsSplitterLocalStorage from './ids-splitter-local-storage';
 import IdsSplitterPane from './ids-splitter-pane';
 import '../ids-draggable/ids-draggable';
 
 import styles from './ids-splitter.scss';
 
-/*
-*/
+/**
+ * Collapse expand options interface
+ */
 export interface IdsSplitterCollapseExpandOpts {
   /** The start pane element */
   startPane?: HTMLElement | string;
@@ -27,8 +29,11 @@ const SPLITTER_DEFAULTS = {
   axis: 'x',
   disabled: false,
   label: 'Resize',
-  resizeOnDragEnd: false
+  resizeOnDragEnd: false,
+  savePosition: false,
+  uniqueId: null
 };
+
 // Align to be used only
 const ALIGN = ['start', 'end'];
 
@@ -64,6 +69,7 @@ const COLLAPSED = 'collapsed';
 export default class IdsSplitter extends Base {
   constructor() {
     super();
+    if (!this.state) this.state = { ...SPLITTER_DEFAULTS };
   }
 
   /**
@@ -77,7 +83,9 @@ export default class IdsSplitter extends Base {
       attributes.AXIS,
       attributes.DISABLED,
       attributes.LABEL,
-      attributes.RESIZE_ON_DRAG_END
+      attributes.RESIZE_ON_DRAG_END,
+      attributes.SAVE_POSITION,
+      attributes.UNIQUE_ID
     ];
   }
 
@@ -201,6 +209,14 @@ export default class IdsSplitter extends Base {
   }
 
   /**
+   * Get list of all pairs.
+   * @returns {Array} The pair.
+   */
+  getAllPairs(): any[] {
+    return this.#pairs;
+  }
+
+  /**
    * Get pair for given start/end panes or panes css selector.
    * @param {object} [options] The expand options.
    * @param {HTMLElement|string} [options.startPane] The start pane.
@@ -288,15 +304,13 @@ export default class IdsSplitter extends Base {
    * Attach the resize observer.
    * @private
    */
-  /* istanbul ignore next */
   #resizeObserver = new ResizeObserver(() => this.#resize());
 
   /**
-   * Initialize the component
+   * Attach the initialize observer.
    * @private
-   * @returns {void}
    */
-  #init(): void {
+  #initObserverCallback() {
     this.#destroy();
     this.#setProp();
     this.#setContainer();
@@ -309,12 +323,55 @@ export default class IdsSplitter extends Base {
   }
 
   /**
-   * Destroy and re-initialize the component
+   * Attach the initialize observer.
+   * @private
+   */
+  #initObserver = 'IntersectionObserver' in window
+    ? new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.#initObserver?.disconnect();
+          this.#initObserverCallback();
+        }
+      });
+    }) : null;
+
+  /**
+   * Local storage instance attached to component.
+   * @private
+   */
+  #ls = new IdsSplitterLocalStorage(this);
+
+  /**
+   * Clear the saved position from local storage
+   * @param {string} uniqueId If undefined, will use Internal attached.
+   * @returns {void}
+   */
+  clearPosition = this.#ls.clearPosition.bind(this.#ls);
+
+  /**
+   * Clear all related saved position from local storage
+   * @returns {void}
+   */
+  clearPositionAll = this.#ls.clearPositionAll.bind(this.#ls);
+
+  /**
+   * Get the id to be use.
+   * @param {string} uniqueId The uniqueId.
+   * @param {string} suffix Optional suffix string to make the id more unique.
+   * @param {string} prefix Optional prefix string to make the id more unique.
+   * @returns {string} The id.
+   */
+  idTobeUse = this.#ls.idTobeUse.bind(this.#ls);
+
+  /**
+   * Initialize the component
    * @private
    * @returns {void}
    */
-  #reInit(): void {
-    this.#init();
+  #init() {
+    if (this.#initObserver) this.#initObserver.observe(this.container);
+    else this.#initObserverCallback();
   }
 
   /**
@@ -521,6 +578,14 @@ export default class IdsSplitter extends Base {
       });
     }
 
+    // Restore saved positions from local storage
+    const saved = this.#ls.restorePosition();
+    if (saved) {
+      (initial.adjustable.sizes as any) = panes.map((elem, i) => (
+        { elem, idx: i, size: saved?.sizes?.[i] }
+      ));
+    }
+
     // Set calculated initial dimension to pane elements,
     // push to #minSizes and #sizes
     this.#minSizes = [];
@@ -602,12 +667,12 @@ export default class IdsSplitter extends Base {
         };
         start.id = start.pane.getAttribute('id');
         if (!start.id) {
-          start.id = this.#uniqueId();
+          start.id = this.#uniquePaneId();
           start.pane.setAttribute('id', start.id);
         }
         end.id = end.pane.getAttribute('id');
         if (!end.id) {
-          end.id = this.#uniqueId();
+          end.id = this.#uniquePaneId();
           end.pane.setAttribute('id', end.id);
         }
         // splitBar.setAttribute('aria-controls', `${start.id} ${end.id}`);
@@ -769,6 +834,7 @@ export default class IdsSplitter extends Base {
       this.#updateSizeAndSplitBar(pair);
       this.#setCollapsedAttribute(pair);
       this.#triggerEvent(EVENTS.sizechanged, pair);
+      this.#ls.savePosition();
     }
     this.#moving = {};
   }
@@ -787,8 +853,11 @@ export default class IdsSplitter extends Base {
       this.#moveEnd({ ...pair, diff });
       if (diff) {
         const sb = pair.splitBar;
-        const transform = sb.computedStyleMap().get('transform')[0];
-        const trans = transform[this.axis].value + this.#toPixel(diff);
+        const matrix = window.getComputedStyle(sb).getPropertyValue('transform')
+          ?.replace(/^matrix\((.+)\)$/g, '$1').split(',');
+
+        const translate = { x: +matrix[4], y: +matrix[5] };
+        const trans = (translate as any)[this.axis] + this.#toPixel(diff);
         sb.style.setProperty('transform', `${this.#prop.translate}(${trans}px)`);
       }
     }
@@ -975,11 +1044,11 @@ export default class IdsSplitter extends Base {
   }
 
   /**
-   * Generate unique id.
+   * Generate unique pane id.
    * @private
    * @returns {string} The genrated id.
    */
-  #uniqueId(): string {
+  #uniquePaneId(): string {
     return `splitter-pane-${Math.floor(Math.random() * Date.now())}`;
   }
 
@@ -998,7 +1067,7 @@ export default class IdsSplitter extends Base {
     const slot = this.shadowRoot?.querySelector('slot');
     this.offEvent('slotchange.splitter', slot);
     this.onEvent('slotchange.splitter', slot, () => {
-      this.#reInit();
+      this.#init();
     });
 
     // Draggable events
@@ -1071,6 +1140,7 @@ export default class IdsSplitter extends Base {
     this.offEvent('slotchange.splitter', slot);
     this.offEvent('languagechange.splitter');
     this.#resizeObserver.disconnect();
+    this.#initObserver?.disconnect();
 
     this.#pairs.forEach((pair, i) => {
       const { start, end, splitBar } = pair;
@@ -1109,97 +1179,134 @@ export default class IdsSplitter extends Base {
    * @param {string} value of the align start, end
    */
   set align(value: string) {
-    const prefixed = (v: string) => `align-${v}`;
-    this.container?.classList.remove(...ALIGN.map((v) => prefixed(v)));
-    let className;
-    if (ALIGN.indexOf(value) > -1) {
-      this.setAttribute(attributes.ALIGN, value);
-      className = prefixed(value);
-    } else {
-      this.removeAttribute(attributes.ALIGN);
-      className = prefixed(SPLITTER_DEFAULTS.align);
+    if (value !== this.state.align) {
+      const prefixed = (v: string) => `align-${v}`;
+      this.container?.classList.remove(...ALIGN.map((v) => prefixed(v)));
+      if (ALIGN.indexOf(value) > -1) {
+        this.setAttribute(attributes.ALIGN, value);
+        this.state.align = value;
+      } else {
+        this.removeAttribute(attributes.ALIGN);
+        this.state.align = SPLITTER_DEFAULTS.align;
+      }
+      this.container?.classList.add(prefixed(this.state.align));
+      this.#init();
     }
-    this.container?.classList.add(className);
-    this.#reInit();
   }
 
-  get align(): string {
-    const value = this.getAttribute(attributes.ALIGN);
-    return value !== null ? value : SPLITTER_DEFAULTS.align;
-  }
+  get align(): string { return this.state.align; }
 
   /**
    * Set the splitter axis direction x: horizontal or y: vertical
    * @param {string} value of the axis x or y
    */
   set axis(value: string) {
-    const prefixed = (v: string) => `axis-${v}`;
-    this.container?.classList.remove(...AXIS.map((v) => prefixed(v)));
-    let className;
-    if (AXIS.indexOf(value) > -1) {
-      this.setAttribute(attributes.AXIS, value);
-      className = prefixed(value);
-    } else {
-      this.removeAttribute(attributes.AXIS);
-      className = prefixed(SPLITTER_DEFAULTS.axis);
+    if (value !== this.state.axis) {
+      const prefixed = (v: string) => `axis-${v}`;
+      this.container?.classList.remove(...AXIS.map((v) => prefixed(v)));
+      if (AXIS.indexOf(value) > -1) {
+        this.setAttribute(attributes.AXIS, value);
+        this.state.axis = value;
+      } else {
+        this.removeAttribute(attributes.AXIS);
+        this.state.axis = SPLITTER_DEFAULTS.axis;
+      }
+      this.container?.classList.add(prefixed(this.state.axis));
+      this.#init();
     }
-    this.container?.classList.add(className);
-    this.#reInit();
   }
 
-  get axis(): string {
-    const value = this.getAttribute(attributes.AXIS);
-    return value !== null ? value : SPLITTER_DEFAULTS.axis;
-  }
+  get axis(): string { return this.state.axis; }
 
   /**
    * Sets the splitter to disabled
    * @param {boolean|string} value If true will set disabled attribute
    */
   set disabled(value: boolean | string) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.DISABLED, '');
-    } else {
-      this.removeAttribute(attributes.DISABLED);
+    const val = stringToBool(value);
+    if (val !== this.state.disabled) {
+      this.state.disabled = val;
+      if (val) {
+        this.setAttribute(attributes.DISABLED, '');
+      } else {
+        this.removeAttribute(attributes.DISABLED);
+      }
+      this.#setDisabled();
     }
-    this.#setDisabled();
   }
 
-  get disabled(): boolean {
-    const value = this.getAttribute(attributes.DISABLED);
-    return value !== null ? stringToBool(value) : SPLITTER_DEFAULTS.disabled;
-  }
+  get disabled(): boolean { return this.state.disabled; }
 
   /**
    * Set the aria-label text for each split bar.
    * @param {string} value of the label text.
    */
   set label(value: string) {
-    if (value) {
-      this.setAttribute(attributes.LABEL, value);
-    } else {
-      this.removeAttribute(attributes.LABEL);
+    if (value !== this.state.label) {
+      if (value) {
+        this.setAttribute(attributes.LABEL, value);
+        this.state.label = value;
+      } else {
+        this.removeAttribute(attributes.LABEL);
+        this.state.label = SPLITTER_DEFAULTS.label;
+      }
     }
   }
 
-  get label(): string {
-    return this.getAttribute(attributes.LABEL) || SPLITTER_DEFAULTS.label;
-  }
+  get label(): string { return this.state.label; }
 
   /**
    * Sets the splitter to resize on drag end
    * @param {boolean|string} value If true will set to resize on drag end
    */
   set resizeOnDragEnd(value: boolean | string) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.RESIZE_ON_DRAG_END, '');
-    } else {
-      this.removeAttribute(attributes.RESIZE_ON_DRAG_END);
+    const val = stringToBool(value);
+    if (val !== this.state.resizeOnDragEnd) {
+      this.state.resizeOnDragEnd = val;
+      if (val) {
+        this.setAttribute(attributes.RESIZE_ON_DRAG_END, '');
+      } else {
+        this.removeAttribute(attributes.RESIZE_ON_DRAG_END);
+      }
     }
   }
 
-  get resizeOnDragEnd(): boolean {
-    const value = this.getAttribute(attributes.RESIZE_ON_DRAG_END);
-    return value !== null ? stringToBool(value) : SPLITTER_DEFAULTS.resizeOnDragEnd;
+  get resizeOnDragEnd(): boolean { return this.state.resizeOnDragEnd; }
+
+  /**
+   *  Set splitter save position to local storage.
+   * @param {boolean|string} value if true, will allow to save position to local storage.
+   */
+  set savePosition(value: boolean | string) {
+    const val = stringToBool(value);
+    if (val !== this.state.savePosition) {
+      this.state.savePosition = val;
+      if (val) {
+        this.setAttribute(attributes.SAVE_POSITION, '');
+      } else {
+        this.removeAttribute(attributes.SAVE_POSITION);
+      }
+    }
   }
+
+  get savePosition(): boolean { return this.state.savePosition; }
+
+  /**
+   * Set uniqueId to save to local storage.
+   * @param {number|string|null} value A uniqueId use to save to local storage.
+   */
+  set uniqueId(value: number | string | null) {
+    const val = /number|string/g.test(typeof value) ? `${value}` : null;
+    if (typeof val === 'string' && val !== '') {
+      if (val !== this.state.uniqueId) {
+        this.setAttribute(attributes.UNIQUE_ID, val);
+        this.state.uniqueId = val;
+      }
+      return;
+    }
+    this.removeAttribute(attributes.UNIQUE_ID);
+    this.state.uniqueId = SPLITTER_DEFAULTS.uniqueId;
+  }
+
+  get uniqueId(): string | null { return this.state.uniqueId; }
 }

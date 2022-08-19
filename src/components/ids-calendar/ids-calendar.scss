@@ -105,16 +105,18 @@ ids-accordion-panel::part(content) {
     border-style: solid;
     border-color: var(--ids-color-palette-slate-20);
     border-width: 1px;
-    border-top-width: 0;
     border-inline-start-width: 4px;
+    cursor: pointer;
     display: flex;
     flex-direction: row;
     list-style: none;
     align-items: center;
     padding: 15px;
 
-    &:first-child {
-      border-top-width: 1px;
+    &:focus {
+      @include border-azure-60();
+
+      outline: none;
     }
   }
 
@@ -154,6 +156,98 @@ ids-accordion-panel::part(content) {
   margin: 0 3px;
 }
 
+.inline-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+// Calendar event form styles
+$event-form-width: 320px;
+$event-form-padding: 20px;
+$event-form-input-width: $event-form-width - ($event-form-padding * 2);
+
+#event-form-popup {
+  width: $event-form-width;
+
+  &::part(popup) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+#event-form-header {
+  align-items: center;
+  color: var(--ids-color-palette-slate-10);
+  height: 40px;
+  padding-inline-start: 16px;
+  padding-inline-end: 8px;
+
+  ids-button::part(button) {
+    color: var(--ids-color-palette-slate-10);
+  }
+}
+
+#event-form {
+  @include palette-colors('#event-form-header', background-color);
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  ids-list-box {
+    max-width: $event-form-input-width - 2;
+  }
+
+  ids-list-box-option {
+    text-align: left;
+  }
+
+  ids-date-picker,
+  ids-time-picker {
+    max-width: 128px;
+  }
+}
+
+#event-form-content {
+  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  position: relative;
+}
+
+#event-form-actions {
+  ids-button {
+    flex-grow: 1;
+    border: 1px solid var(--ids-color-palette-slate-40);
+    border-bottom-width: 0;
+
+    &::part(button) {
+      padding-top: 13px;
+      padding-bottom: 13px;
+    }
+  }
+
+  ids-button[data-action='close'] {
+    border-inline-start-width: 0;
+  }
+
+  ids-button[data-action='submit'] {
+    border-inline-end-width: 0;
+    border-inline-start-width: 0;
+    margin-inline-start: -1px;
+
+    &::part(button) {
+      color: var(--ids-color-palette-azure-70);
+
+      &:hover {
+        color: var(--ids-color-palette-azure-80);
+      }
+    }
+  }
+}
+
 @media (max-width: $breakpoint-md) {
   .ids-calendar {
     display: block;
@@ -166,5 +260,28 @@ ids-accordion-panel::part(content) {
   .calendar-view-pane,
   .calendar-details-pane {
     width: 100%;
+  }
+
+  #event-form-popup {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+
+    &::part(popup) {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  #event-form-content {
+    ids-date-picker,
+    ids-time-picker {
+      max-width: unset;
+    }
+
+    .inline-container {
+      display: block;
+    }
   }
 }

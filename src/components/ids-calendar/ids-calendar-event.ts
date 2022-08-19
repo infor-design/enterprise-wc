@@ -106,26 +106,17 @@ export default class IdsCalendarEvent extends Base {
   #attachEventHandlers(): void {
     const triggerFn = (clickType: 'click' | 'dblclick') => {
       this.triggerEvent(`${clickType}-calendar-event`, this, {
-        detail: { calendarEvent: this },
+        detail: { elem: this },
         bubbles: true,
         cancelable: true,
         composed: true
       });
     };
-    let timer: number | undefined;
 
     this.onEvent('click', this.container, (evt: MouseEvent) => {
       evt.preventDefault();
       evt.stopPropagation();
-      clearTimeout(timer);
-      timer = <any>setTimeout(() => triggerFn('click'), 350);
-    });
-
-    this.onEvent('dblclick', this.container, (evt: MouseEvent) => {
-      evt.preventDefault();
-      evt.stopPropagation();
-      clearTimeout(timer);
-      triggerFn('dblclick');
+      triggerFn('click');
     });
 
     this.onEvent('languagechange.calendar-event', this.closest('ids-container'), () => {
