@@ -20,6 +20,9 @@
   - link: sizes.html
     type: Example
     description: Showing width and height size variations
+  - link: sandbox.html
+    type: Sandbox
+    description: Showing various dropdown states and scenarios
   - link: side-by-side.html
     type: Side by Side
     description: Showing a dropdown side by side with a 4.x dropdown
