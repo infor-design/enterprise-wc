@@ -103,6 +103,7 @@ const container: any = document.querySelector('ids-container');
     const res = await fetch(url);
     const data = await res.json();
     dataGrid.data = data;
+    dataGrid.pageTotal = data.length;
   };
   setData();
 }());

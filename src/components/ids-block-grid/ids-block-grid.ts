@@ -18,17 +18,6 @@ export default class IdsBlockgrid extends Base {
     super();
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-  }
-
-  static get attributes() {
-    return [
-      attributes.ALIGN,
-      attributes.SELECTION,
-    ];
-  }
-
   /** Reference to datasource API */
   datasource: any = new IdsDataSource();
 
@@ -40,6 +29,19 @@ export default class IdsBlockgrid extends Base {
     return `<div class="ids-block-grid-wrapper"><slot></slot></div>`;
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    this.redraw();
+  }
+
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.ALIGN,
+      attributes.SELECTION,
+    ];
+  }
+
   /**
    * Rerender the list by re applying the template
    * @private
@@ -48,34 +50,9 @@ export default class IdsBlockgrid extends Base {
     if (this.data.length === 0) {
       return;
     }
-    const template = document.createElement('template');
-    const html = this.template();
-
-    // Render and append styles
-    this.shadowRoot.innerHTML = '';
-    this.hasStyles = false;
-    this.appendStyles();
-    template.innerHTML = html;
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     this.querySelectorAll('ids-block-grid-item').forEach((item: any) => item?.remove());
-    this.data.forEach((d: any) => {
-      const settings: any = {};
-      if (this.selection) {
-        settings.selection = this.selection;
-      }
-
-      const gridItem = new IdsBlockGridItem(settings);
-      gridItem.innerHTML = `
-        <img src="${d.url}" alt="Placeholder 200x200" />
-        <ids-text type="p">
-          ${d.name}<br/>
-          ${d.title}
-        </ids-text>
-      `;
-      this.appendChild(gridItem);
-    });
-    super.rerender?.();
+    this.append(...this.#gridItems());
   }
 
   /**
@@ -124,6 +101,26 @@ export default class IdsBlockgrid extends Base {
 
   get selection() {
     return this.getAttribute(attributes.SELECTION);
+  }
+
+  #gridItems(): Array<IdsBlockGridItem> {
+    return this.data.map((d: any) => {
+      const settings: any = {};
+      if (this.selection) {
+        settings.selection = this.selection;
+      }
+
+      const gridItem = new IdsBlockGridItem(settings);
+      gridItem.innerHTML = `
+        <img src="${d.url}" alt="Placeholder 200x200" />
+        <ids-text type="p">
+          ${d.name}<br/>
+          ${d.title}
+        </ids-text>
+      `;
+
+      return gridItem;
+    });
   }
 
   /**
