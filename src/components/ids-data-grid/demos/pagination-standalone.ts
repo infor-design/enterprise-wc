@@ -4,6 +4,7 @@ import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
 const dataGrid: any = document.querySelector('#data-grid-paging-standalone');
+const pager: any = document.querySelector('ids-pager');
 const container: any = document.querySelector('ids-container');
 
 (async function init() {
@@ -69,7 +70,9 @@ const container: any = document.querySelector('ids-container');
   const data = await response.json();
 
   dataGrid.columns = columns;
+  dataGrid.pager = pager;
   dataGrid.data = data;
+  dataGrid.pageTotal = data.length;
 
   dataGrid.pager.addEventListener('pagenumberchange', async (e: CustomEvent) => {
     console.info(`standalone page # ${e.detail.value}`);
