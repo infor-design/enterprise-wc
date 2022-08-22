@@ -408,7 +408,7 @@ export default class IdsModal extends Base {
     if (this.popup) {
       this.popup.animated = false;
     }
-    
+
     this.respondToCurrentBreakpoint();
 
     this.triggerEvent('aftershow', this, {
