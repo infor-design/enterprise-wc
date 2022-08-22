@@ -60,6 +60,7 @@ export default class IdsDataGrid extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.state = { selectedRows: [], activatedRow: null };
+    this.redrawBody();
   }
 
   /** Reference to datasource API */

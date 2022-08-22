@@ -68,6 +68,7 @@ const container: Element | any = document.querySelector('ids-container');
       rowSelection: 'multiple',
       pageSize: 5,
       pageNumber: 1,
+      pageTotal: data.length,
       pagination: 'client-side'
     };
     lookup.data = data;

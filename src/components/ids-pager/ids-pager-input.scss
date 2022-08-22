@@ -5,11 +5,13 @@
   align-items: center;
 }
 
+.ids-pager-input,
 ids-input::part(container) {
   @include mx-4();
   @include mb-0();
 }
 
+.ids-pager-input input,
 ids-input::part(input) {
   @include py-0();
   @include mb-0();
@@ -17,12 +19,14 @@ ids-input::part(input) {
   min-width: 40px;
 }
 
+.ids-pager-input label,
 ids-input::part(label) {
   @include mb-0();
 
   height: 0;
 }
 
+.ids-pager-input,
 ids-input::part(field-container) {
   @include mb-0();
 }
