@@ -6,6 +6,7 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-pager-base';
 
 import './ids-pager-button';
+import './ids-pager-dropdown';
 import './ids-pager-input';
 import './ids-pager-number-list';
 
@@ -62,7 +63,10 @@ export default class IdsPager extends Base {
    * @param {string} newValue The property new value
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
     const shouldRerender = [
+      attributes.DISABLED,
       attributes.PAGE_NUMBER,
       attributes.PAGE_SIZE,
       attributes.STEP,
@@ -119,13 +123,15 @@ export default class IdsPager extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
+
     this.offEvent('pagenumberchange', this);
     this.onEvent('pagenumberchange', this, (event: CustomEvent) => {
-      const newPageNumber = Number(event.detail.value);
-      const oldPageNumber = Number(this.pageNumber);
-      if (newPageNumber !== oldPageNumber) {
-        this.pageNumber = newPageNumber;
-      }
+      this.pageNumber = Number(event.detail.value);
+    });
+
+    this.offEvent('pagesizechange', this);
+    this.onEvent('pagesizechange', this, (event: CustomEvent) => {
+      this.pageSize = Number(event.detail.value);
     });
   }
 
@@ -191,7 +197,7 @@ export default class IdsPager extends Base {
 
   /** @returns {number} The number of items shown per page */
   get pageSize(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_SIZE));
+    return Math.max(parseInt(this.getAttribute(attributes.PAGE_SIZE)) || 1, 1);
   }
 
   /** @param {number} value A 1-based index for the page number displayed */
@@ -212,7 +218,7 @@ export default class IdsPager extends Base {
 
   /** @returns {number} value A 1-based-index for the page number displayed */
   get pageNumber(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
+    return Math.max(parseInt(this.getAttribute(attributes.PAGE_NUMBER)) || 1, 1);
   }
 
   /** @returns {number|null} The calculated pageCount using total and pageSize */
@@ -250,9 +256,9 @@ export default class IdsPager extends Base {
     this.#keepPageNumberInBounds();
   }
 
-  /** @returns {number} The number of items for pager is tracking */
+  /** @returns {number} The number of items the pager is tracking */
   get total(): number {
-    return parseInt(this.getAttribute(attributes.TOTAL));
+    return Math.max(parseInt(this.getAttribute(attributes.TOTAL)) || 1, 1);
   }
 
   /** @param {number} value The number of items to track */
