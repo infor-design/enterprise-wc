@@ -1,6 +1,13 @@
 import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
+export interface KeyboardMixinInterface {
+  listen(keycode: Array<string> | string, elem: HTMLElement | any, callback: unknown): void;
+  unlisten(key: string): void;
+  detachAllListeners(): void;
+  press(key: string): void
+}
+
 type Constraints = IdsConstructor<IdsWebComponent & EventsMixinInterface>;
 
 /**
@@ -8,7 +15,8 @@ type Constraints = IdsConstructor<IdsWebComponent & EventsMixinInterface>;
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends superclass
+  implements KeyboardMixinInterface {
   hotkeys = new Map();
 
   pressedKeys = new Map();

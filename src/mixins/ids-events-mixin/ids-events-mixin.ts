@@ -7,10 +7,11 @@ import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
 export type EventOptions = { [key: string]: any } & AddEventListenerOptions;
 
 export interface EventsMixinInterface {
-  onEvent(eventName: string, target?: Element | Window | null, callback?: (evt: any) => void, options?: EventOptions): void;
+  onEvent(eventName: string, target?: Element | null, callback?: (evt: any) => void, options?: EventOptions): void;
   offEvent(eventName: string, target?: Element | Window | null, options?: EventOptions): void;
   triggerEvent(eventName: string, target: Element, options?: CustomEventInit): void;
-  triggerVetoableEvent(eventType: string, data: any): void;
+  triggerVetoableEvent(eventType: string, data?: any): boolean;
+  handledEvents: Map<any, any>;
 }
 
 type Constraints = IdsConstructor<IdsWebComponent>;
@@ -56,7 +57,7 @@ const IdsEventsMixin = <T extends Constraints>(superclass: T) => class extends s
    * Names of vetoable events.  Override this in your component
    * to listen for and handle vetoable events.
    */
-  vetoableEventTypes = [];
+  vetoableEventTypes: Array<string> = [];
 
   constructor(...args: any[]) {
     super(...args);
@@ -83,7 +84,7 @@ const IdsEventsMixin = <T extends Constraints>(superclass: T) => class extends s
    * @param {Function|any} callback The callback code to execute
    * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
    */
-  onEvent(eventName: string, target?: Element, callback?: (evt: any) => void, options?: EventOptions) {
+  onEvent(eventName: string, target?: Element | null, callback?: (evt: any) => void, options?: EventOptions) {
     if (!target || !callback) {
       return;
     }
@@ -176,7 +177,7 @@ const IdsEventsMixin = <T extends Constraints>(superclass: T) => class extends s
    * @param {any} data extra data to send with vetoable event
    * @returns {boolean} true if the event works
    */
-  triggerVetoableEvent(eventType: string, data: any) {
+  triggerVetoableEvent(eventType: string, data?: any): boolean {
     if (!this.vetoableEventTypes?.includes((eventType as never))) {
       return false;
     }
@@ -193,6 +194,7 @@ const IdsEventsMixin = <T extends Constraints>(superclass: T) => class extends s
         response: eventResponse
       }
     });
+
     return canShow;
   }
 

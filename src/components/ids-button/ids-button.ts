@@ -8,6 +8,8 @@ import {
 } from './ids-button-attributes';
 
 import styles from './ids-button.scss';
+import IdsIcon from '../ids-icon/ids-icon';
+import IdsText from '../ids-text/ids-text';
 
 /**
  * IDS Button Component
@@ -26,6 +28,8 @@ import styles from './ids-button.scss';
 @customElement('ids-button')
 @scss(styles)
 export default class IdsButton extends Base {
+  shouldUpdate = true;
+
   constructor() {
     super();
     Object.keys(BUTTON_DEFAULTS).forEach((prop) => {
@@ -40,15 +44,14 @@ export default class IdsButton extends Base {
   connectedCallback(): void {
     super.connectedCallback();
     this.#setInitialState();
-    this.shouldUpdate = true;
   }
 
   #setInitialState() {
     if (this.hasAttribute(attributes.ICON)) this.appendIcon(this.getAttribute(attributes.ICON));
     if (this.hasAttribute(attributes.TEXT)) this.appendText(this.getAttribute(attributes.TEXT));
 
-    const isIconButton = this.button.classList.contains('ids-icon-button');
-    this.setupRipple(this.button, isIconButton ? 35 : 50);
+    const isIconButton = this.button?.classList.contains('ids-icon-button');
+    this.setupRipple(this.button as HTMLButtonElement, isIconButton ? 35 : 50);
     this.setIconAlignment();
   }
 
@@ -150,10 +153,10 @@ export default class IdsButton extends Base {
 
   /**
    * @readonly
-   * @returns {HTMLButtonElement} reference to the true button element used in the Shadow Root
+   * @returns {HTMLButtonElement|undefined|null} reference to the true button element used in the Shadow Root
    */
-  get button(): HTMLButtonElement {
-    return this.shadowRoot?.querySelector('button');
+  get button(): HTMLButtonElement | undefined | null {
+    return this.shadowRoot?.querySelector<HTMLButtonElement>('button');
   }
 
   /**
@@ -208,6 +211,7 @@ export default class IdsButton extends Base {
   set disabled(val: boolean | string) {
     const isValueTruthy = stringToBool(val);
     this.shouldUpdate = false;
+
     if (isValueTruthy) {
       this.setAttribute(attributes.DISABLED, '');
     } else {
@@ -291,10 +295,10 @@ export default class IdsButton extends Base {
 
   /**
    * Gets the current icon used on the button
-   * @returns {string | undefined} a defined IdsIcon's `icon` attribute, if one is present
+   * @returns {string | null} a defined IdsIcon's `icon` attribute, if one is present
    */
-  get icon(): string | undefined {
-    return this.querySelector('ids-icon')?.getAttribute('icon');
+  get icon(): string | null {
+    return this.querySelector('ids-icon')?.getAttribute('icon') || null;
   }
 
   /**
@@ -359,12 +363,12 @@ export default class IdsButton extends Base {
 
   /**
    * Check if an icon exists, and adds the icon if it's missing
-   * @param {string} iconName The icon name to check
+   * @param {string | null} iconName The icon name to check
    * @private
    */
-  appendIcon(iconName: string) {
+  appendIcon(iconName: string | null) {
     // First look specifically for an icon slot.
-    const icon = this.querySelector(`ids-icon`); // @TODO check for dropdown/expander icons here
+    const icon = this.querySelector<IdsIcon>(`ids-icon`); // @TODO check for dropdown/expander icons here
 
     if (icon) {
       icon.icon = iconName;
@@ -450,16 +454,18 @@ export default class IdsButton extends Base {
 
   /**
    * Check if the text slot exists, and appends it if it's missing
-   * @param {string} val New text contents
+   * @param {string|null} val New text contents
    * @private
    */
-  appendText(val: string) {
+  appendText(val: string | null) {
     const text = this.querySelector(`span:not(.audible)`);
+
     if (text) {
       text.textContent = val;
     } else {
       this.insertAdjacentHTML('afterbegin', `<span>${val}</span>`);
     }
+
     this.refreshProtoClasses();
   }
 
@@ -579,13 +585,13 @@ export default class IdsButton extends Base {
       BUTTON_TYPES.forEach((type) => {
         const typeClassName = `btn-${type}`;
         if (val === type) {
-          if (type !== 'default' && !this.button.classList.contains(typeClassName)) {
-            this.button.classList.add(typeClassName);
+          if (type !== 'default' && !this.button?.classList.contains(typeClassName)) {
+            this.button?.classList.add(typeClassName);
           }
           return;
         }
-        if (this.button.classList.contains(typeClassName)) {
-          this.button.classList.remove(typeClassName);
+        if (this.button?.classList.contains(typeClassName)) {
+          this.button?.classList.remove(typeClassName);
         }
       });
     }
@@ -595,7 +601,7 @@ export default class IdsButton extends Base {
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLButton element.
    */
   focus(): void {
-    this.button.focus();
+    this.button?.focus();
   }
 
   /**
@@ -604,11 +610,13 @@ export default class IdsButton extends Base {
    * @returns {void}
    */
   onColorVariantRefresh(): void {
-    const icons = this.querySelectorAll('ids-icon');
-    const texts = this.querySelectorAll('ids-text');
-    const iterator = (el: { colorVariant: any; }) => {
+    const icons = this.querySelectorAll<IdsIcon>('ids-icon');
+    const texts = this.querySelectorAll<IdsText>('ids-text');
+
+    const iterator = (el: IdsIcon | IdsText) => {
       el.colorVariant = this.colorVariant;
     };
+
     [...icons, ...texts].forEach(iterator);
   }
 }

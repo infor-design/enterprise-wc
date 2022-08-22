@@ -4,13 +4,19 @@ import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
 
+export interface LocaleMixinInterface {
+  locale: IdsLocale;
+  language: string;
+  setDirection(): void;
+}
+
 export interface LocaleHandler {
   onLocaleChange?: (locale: IdsLocale) => void;
 }
 
 type Constraints = IdsConstructor<IdsWebComponent & EventsMixinInterface & LocaleHandler>;
 
-const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends superclass implements LocaleMixinInterface {
   /** Flag for one initial event call */
   initialized = false;
 

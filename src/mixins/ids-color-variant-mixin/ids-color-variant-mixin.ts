@@ -2,8 +2,15 @@ import { attributes } from '../../core/ids-attributes';
 import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
 import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
+export interface ColorVariantMixinInterface {
+  set colorVariant(value: string | null);
+  get colorVariant(): string | null;
+}
+
 export interface ColorVariantHandler {
+  // as instance function
   onColorVariantRefresh?(variantName: string | undefined | null): void;
+  // as instance property
   onColorVariantRefresh?: (variantName: string | undefined | null) => void;
 }
 
@@ -17,12 +24,18 @@ type Constraints = IdsConstructor<IdsWebComponent & ColorVariantHandler>;
  * @returns {any} The extended object
  */
 const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  /**
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants: Array<string> = [];
+
   constructor(...args: any[]) {
     super(...args);
 
     if (!this.state) {
       this.state = {};
     }
+
     this.state.colorVariant = null;
   }
 
@@ -38,14 +51,9 @@ const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class ext
   }
 
   /**
-   * @returns {Array<string>} List of available color variants for this component
-   */
-  colorVariants: Array<string> = [];
-
-  /**
    * @returns {string|null} the name of the color variant currently applied
    */
-  get colorVariant() {
+  get colorVariant(): string | null {
     return this.state?.colorVariant;
   }
 
