@@ -61,7 +61,7 @@ export default class IdsForm extends Base {
   }
 
   get compact(): boolean | string {
-    return stringToBool(this.getAttribute('compact'));
+    return stringToBool(this.getAttribute(attributes.COMPACT));
   }
 
   /**
