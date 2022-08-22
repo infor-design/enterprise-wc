@@ -144,7 +144,6 @@ export default class IdsAxisChart extends Base {
       attributes.AXIS_LABEL_MARGIN,
       attributes.AXIS_LABEL_START,
       attributes.AXIS_LABEL_TOP,
-      attributes.ROTATE_X_LABELS,
       attributes.DATA,
       attributes.GROUPED,
       attributes.HEIGHT,
@@ -193,11 +192,11 @@ export default class IdsAxisChart extends Base {
     });
   }
 
+  /** Max width for x-labels text */
+  #xMaxTextWidth = 0;
+
   /** Max width for y-labels text */
   #yMaxTextWidth = 0;
-
-  /** Max height for x-labels labels */
-  #xMaxTextHeight = 0;
 
   /** Holds the resize observer object */
   #resizeObserver?: ResizeObserver = undefined;
@@ -280,34 +279,28 @@ export default class IdsAxisChart extends Base {
   }
 
   /**
-   * Return the x and y label text
-   * @returns {object} the x and y labels
-   */
-  get labels() {
-    return {
-      x: [...this.svg.querySelectorAll('.labels.x-labels text')],
-      y: [...this.svg.querySelectorAll('.labels.y-labels text')]
-    };
-  }
-
-  /**
    * Adjust RTL
    * @private
    */
   #adjustRTL(): void {
     if (!this.locale?.isRTL()) return;
 
+    const labels = {
+      x: [...this.svg.querySelectorAll('.labels.x-labels text')],
+      y: [...this.svg.querySelectorAll('.labels.y-labels text')]
+    };
+
     // Adjust y-max text width
     const extra = this.#yMaxTextWidth + this.margins.left;
 
     // X-labels
     let calcX: any = (x: any) => stringToNumber(x) - extra;
-    const newX = this.labels.x.map((label: any) => calcX(label.getAttribute('x'))).reverse();
-    this.labels.x.forEach((label: any, i: number) => label.setAttribute('x', newX[i]));
+    const newX = labels.x.map((label: any) => calcX(label.getAttribute('x'))).reverse();
+    labels.x.forEach((label: any, i: number) => label.setAttribute('x', newX[i]));
 
     // Y-labels
     calcX = (x: any) => `-${stringToNumber(x) + extra}px`;
-    this.labels.y.forEach((label: any) => label
+    labels.y.forEach((label: any) => label
       .style.setProperty('--ids-axis-chart-ylabels-x', calcX(label.getAttribute('x'))));
   }
 
@@ -379,9 +372,9 @@ export default class IdsAxisChart extends Base {
       this.markerData.scaleY.push(i);
     }
 
-    // Set max text width for y-labels
+    // Set max text width for labels
+    this.xMaxTextWidth();
     this.yMaxTextWidth();
-    this.xMaxTextHeight();
 
     // Calculate the Data Points / Locations
     this.markerData.points = [];
@@ -929,7 +922,22 @@ export default class IdsAxisChart extends Base {
   }
 
   /**
-   * Set the max width to render y-axis
+   * Set the max width to render the x-axis
+   * @private
+   * @returns {void}
+   */
+  xMaxTextWidth(): void {
+    let maxWidth = 0;
+    for (let index = 0; index < this.markerData.markerCount; index++) {
+      const v = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
+      const w = this.calculateTextRenderWidth(v);
+      if (w > maxWidth) maxWidth = w;
+    }
+    this.#xMaxTextWidth = maxWidth;
+  }
+
+  /**
+   * Set the max width to render the y-axis
    * @private
    * @returns {void}
    */
@@ -937,44 +945,23 @@ export default class IdsAxisChart extends Base {
     let maxWidth = 0;
     this.markerData.scaleY?.slice().forEach((value: any) => {
       const v = this.formatYLabel(value);
-      const w = this.calculateTextRenderWidth(v).width;
+      const w = this.calculateTextRenderWidth(v);
       if (w > maxWidth) maxWidth = w;
     });
     this.#yMaxTextWidth = maxWidth;
   }
 
   /**
-   * Set the max height to render x-axis
-   * @private
-   * @returns {void}
-   */
-  xMaxTextHeight(): void {
-    let maxHeight = 0;
-
-    for (let index = 0; index < this.markerData.markerCount; index++) {
-      const value = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
-      const h = this.calculateTextRenderWidth(value).height;
-      console.log(h)
-      if (h > maxHeight) maxHeight = h;
-    };
-    console.log(maxHeight)
-    this.#xMaxTextHeight = maxHeight;
-  }
-
-  /**
    * Calculates the width to render given text string.
    * @private
    * @param  {string} text The text to render.
-   * @returns {{ width: number, height: number }} Calculated text width in pixels.
+   * @returns {number} Calculated text width in pixels.
    */
-  calculateTextRenderWidth(text: string): { width: number, height: number } {
+  calculateTextRenderWidth(text: string): number {
     this.canvas = this.canvas || document.createElement('canvas');
     const context = this.canvas.getContext('2d');
     context.font = '400 16px arial';
-    context.rotate(this.rotateXLabels);
-
-    const metrics = context.measureText(text);
-    return { width: metrics.width, height: metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent };
+    return context.measureText(text).width;
   }
 
   /**
@@ -991,12 +978,24 @@ export default class IdsAxisChart extends Base {
       left: this.axisLabelsMargin.start,
       right: (this.legendPlacement === 'right' ? 150 : 4) + this.axisLabelsMargin.end,
       top: 16 + this.axisLabelsMargin.top,
-      bottom: 12 + this.axisLabelsMargin.bottom,
+      bottom: 12 + this.axisLabelsMargin.bottom + this.bottomRotateMargin,
       leftInner: 8,
       rightInner: 8,
       topInner: 0,
       bottomInner: 12
     };
+  }
+
+  /**
+   * Get bottom rotate margin
+   * @returns {number} The calc value
+   */
+  get bottomRotateMargin(): number {
+    if (!this.rotateXLabels) return 0;
+    const angle = this.rotateXLabels % 90;
+    const total = this.#xMaxTextWidth - 12;
+    const part = total / 90;
+    return (Math.abs(angle) === 0) ? total : (part * Math.abs(angle));
   }
 
   /**
@@ -1024,10 +1023,10 @@ export default class IdsAxisChart extends Base {
 
   get textWidths(): IdsChartDimensions {
     return this.state.textWidths || {
-      left: this.legendPlacement === 'left' ? 34 : (this.#yMaxTextWidth || 4),
+      left: this.legendPlacement === 'left' ? 34 : (this.#yMaxTextWidth || 4), // TODO: Calculate this
       right: 0,
       top: 0,
-      bottom: (this.#xMaxTextHeight || 24)
+      bottom: 24
     };
   }
 
