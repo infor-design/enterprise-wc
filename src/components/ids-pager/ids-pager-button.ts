@@ -267,8 +267,14 @@ export default class IdsPagerButton extends Base {
     return this.getAttribute(attributes.LABEL);
   }
 
-  #triggerPageNumberChange(value: number) {
-    this.triggerEvent('pagenumberchange', this, {
+  #triggerPageNumberChange(value: number, source: string) {
+    this.triggerEvent(`pagenumberchange`, this, {
+      bubbles: true,
+      composed: true,
+      detail: { elem: this, value }
+    });
+
+    this.triggerEvent(`page${source}`, this, {
       bubbles: true,
       composed: true,
       detail: { elem: this, value }
@@ -289,25 +295,25 @@ export default class IdsPagerButton extends Base {
       switch (this.type) {
         case attributes.FIRST: {
           if (this.pageNumber > 1) {
-            this.#triggerPageNumberChange(1);
+            this.#triggerPageNumberChange(1, attributes.FIRST);
           }
           break;
         }
         case attributes.LAST: {
           if (this.pageNumber < lastPageNumber) {
-            this.#triggerPageNumberChange(Number(this.pageCount));
+            this.#triggerPageNumberChange(Number(this.pageCount), attributes.LAST);
           }
           break;
         }
         case attributes.PREVIOUS: {
           if (this.pageNumber > 1) {
-            this.#triggerPageNumberChange(Number(this.pageNumber) - 1);
+            this.#triggerPageNumberChange(Number(this.pageNumber) - 1, attributes.PREVIOUS);
           }
           break;
         }
         case attributes.NEXT: {
           if (this.pageNumber < lastPageNumber) {
-            this.#triggerPageNumberChange(Number(this.pageNumber) + 1);
+            this.#triggerPageNumberChange(Number(this.pageNumber) + 1, attributes.NEXT);
           }
           break;
         }

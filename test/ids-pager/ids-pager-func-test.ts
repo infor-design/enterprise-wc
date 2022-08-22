@@ -3,9 +3,11 @@
  */
 // eslint-disable-next-line
 import processAnimFrame from '../helpers/process-anim-frame';
+import '../helpers/resize-observer-mock';
 import '../../src/components/ids-input/ids-input';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import '../../src/components/ids-pager/ids-pager';
+import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
 
 const HTMLSnippets = {
   NAV_BUTTONS_WITHOUT_NESTING: (
@@ -15,6 +17,15 @@ const HTMLSnippets = {
       <ids-pager-input></ids-pager-input>
       <ids-pager-button next></ids-pager-button>
       <ids-pager-button last></ids-pager-button>
+    </ids-pager>`
+  ),
+  NAV_BUTTONS_WITH_TOOLTIPS: (
+    `<ids-pager page-size="20" page-number="10" total="200">
+      <ids-pager-button first tooltip="First"></ids-pager-button>
+      <ids-pager-button previous tooltip="Previous"></ids-pager-button>
+      <ids-pager-input></ids-pager-input>
+      <ids-pager-button next tooltip="Next"></ids-pager-button>
+      <ids-pager-button last tooltip="Last"></ids-pager-button>
     </ids-pager>`
   ),
   NAV_BUTTONS_AND_INPUT: (
@@ -66,7 +77,7 @@ const HTMLSnippets = {
   )
 };
 
-describe.skip('IdsPager Component', () => {
+describe('IdsPager Component', () => {
   let elem: any;
   let container: any;
 
@@ -163,6 +174,49 @@ describe.skip('IdsPager Component', () => {
 
     expect(listEl.step).toEqual(defaultStep);
     expect(listEl.getAttribute('step')).toEqual(null);
+  });
+
+  it('shows tooltip-popup when IdsPagerButton.tooltip is not empty', async () => {
+    const pager = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_WITH_TOOLTIPS);
+    const [first, previous, next, last] = pager.querySelectorAll('ids-pager-button');
+    expect(first.tooltip).toEqual('First');
+    expect(previous.tooltip).toEqual('Previous');
+    expect(next.tooltip).toEqual('Next');
+    expect(last.tooltip).toEqual('Last');
+
+    expect(first.getAttribute('tooltip')).toEqual('First');
+    expect(previous.getAttribute('tooltip')).toEqual('Previous');
+    expect(next.getAttribute('tooltip')).toEqual('Next');
+    expect(last.getAttribute('tooltip')).toEqual('Last');
+
+    let tooltipElement = document.querySelector('ids-tooltip') as any as IdsTooltip;
+    expect(tooltipElement).toBeFalsy();
+
+    first.showTooltip();
+    tooltipElement = document.querySelector('ids-tooltip') as any as IdsTooltip;
+    expect(tooltipElement?.visible).toEqual(true);
+    expect(tooltipElement?.textContent).toEqual('First');
+  });
+
+  it('hides tooltip-popup when IdsPagerButton.tooltip is empty', async () => {
+    // const pager = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_WITH_TOOLTIPS);
+    // const [first, previous, next, last] = pager.querySelectorAll('ids-pager-button');
+    // expect(first.tooltip).toEqual('First');
+    // expect(previous.tooltip).toEqual('Previous');
+    // expect(next.tooltip).toEqual('Next');
+    // expect(last.tooltip).toEqual('Last');
+
+    // expect(first.getAttribute('tooltip')).toEqual('First');
+    // expect(previous.getAttribute('tooltip')).toEqual('Previous');
+    // expect(next.getAttribute('tooltip')).toEqual('Next');
+    // expect(last.getAttribute('tooltip')).toEqual('Last');
+
+    // const tooltip = first.querySelector('ids-tooltip');
+    // expect(tooltip.visible).toEqual(false);
+
+    // first.showTooltip();
+    // expect(tooltip.visible).toEqual(true);
+    // expect(tooltip.textContent).toEqual('First');
   });
 
   it('has slots: start, middle, end', async () => {
@@ -378,74 +432,99 @@ describe.skip('IdsPager Component', () => {
 
   it('creates ids-pager-button(s) and clicking causes no issues reliably', async () => {
     let pageNumberChangeListener = jest.fn();
+    let pageButtonFirstListener = jest.fn();
+    let pageButtonPreviousListener = jest.fn();
+    let pageButtonNextListener = jest.fn();
+    let pageButtonLastListener = jest.fn();
+
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="3" page-size="10" total="100" first></ids-pager-button>'
     );
     elem.addEventListener('pagenumberchange', pageNumberChangeListener);
+    elem.addEventListener('pagefirst', pageButtonFirstListener);
     elem.button.dispatchEvent(new Event('click'));
     expect(pageNumberChangeListener).toBeCalledTimes(1);
+    expect(pageButtonFirstListener).toBeCalledTimes(1);
 
     pageNumberChangeListener = jest.fn();
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="2" page-size="10" total="100" previous></ids-pager-button>'
     );
     elem.addEventListener('pagenumberchange', pageNumberChangeListener);
+    elem.addEventListener('pageprevious', pageButtonPreviousListener);
     elem.button.dispatchEvent(new Event('click'));
     expect(pageNumberChangeListener).toBeCalledTimes(1);
+    expect(pageButtonPreviousListener).toBeCalledTimes(1);
 
     pageNumberChangeListener = jest.fn();
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="1" page-size="10" total="100" next></ids-pager-button>'
     );
     elem.addEventListener('pagenumberchange', pageNumberChangeListener);
+    elem.addEventListener('pagenext', pageButtonNextListener);
     elem.button.dispatchEvent(new Event('click'));
     expect(pageNumberChangeListener).toBeCalledTimes(1);
+    expect(pageButtonNextListener).toBeCalledTimes(1);
 
     pageNumberChangeListener = jest.fn();
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="1" page-size="10" total="100" last></ids-pager-button>'
     );
     elem.addEventListener('pagenumberchange', pageNumberChangeListener);
+    elem.addEventListener('pagelast', pageButtonLastListener);
     elem.button.dispatchEvent(new Event('click'));
     expect(pageNumberChangeListener).toBeCalledTimes(1);
+    expect(pageButtonLastListener).toBeCalledTimes(1);
 
     // clicking first or previous with page-number==1
     // should not dispatch
 
     pageNumberChangeListener = jest.fn();
+    pageButtonFirstListener = jest.fn();
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="1" page-size="10" total="100" first></ids-pager-button>'
     );
     elem.addEventListener('pagenumberchange', pageNumberChangeListener);
+    elem.addEventListener('pagefirst', pageButtonFirstListener);
     elem.button.dispatchEvent(new Event('click'));
     expect(pageNumberChangeListener).toBeCalledTimes(0);
+    expect(pageButtonFirstListener).toBeCalledTimes(0);
 
     pageNumberChangeListener = jest.fn();
+    pageButtonPreviousListener = jest.fn();
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="1" page-size="10" total="100" previous></ids-pager-button>'
     );
     elem.addEventListener('pagenumberchange', pageNumberChangeListener);
+    elem.addEventListener('pageprevious', pageButtonPreviousListener);
     elem.button.dispatchEvent(new Event('click'));
     expect(pageNumberChangeListener).toBeCalledTimes(0);
+    expect(pageButtonPreviousListener).toBeCalledTimes(0);
 
     // clicking next or last with page-number=={{last_page}}
     // should not dispatch
 
     pageNumberChangeListener = jest.fn();
+    pageButtonNextListener = jest.fn();
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="10" page-size="10" total="100" next></ids-pager-button>'
     );
     elem.addEventListener('pagenumberchange', pageNumberChangeListener);
+    elem.addEventListener('pagenext', pageButtonNextListener);
     elem.button.dispatchEvent(new Event('click'));
     expect(pageNumberChangeListener).toBeCalledTimes(0);
+    expect(pageButtonNextListener).toBeCalledTimes(0);
 
     pageNumberChangeListener = jest.fn();
+    pageButtonLastListener = jest.fn();
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="10" page-size="10" total="100" last></ids-pager-button>'
     );
     elem.addEventListener('pagenumberchange', pageNumberChangeListener);
+    elem.addEventListener('pagelast', pageButtonLastListener);
     elem.button.dispatchEvent(new Event('click'));
     expect(pageNumberChangeListener).toBeCalledTimes(0);
+    expect(pageButtonLastListener).toBeCalledTimes(0);
 
     // clicking a disabled button should not
     // dispatch events
@@ -454,8 +533,10 @@ describe.skip('IdsPager Component', () => {
       '<ids-pager-button page-number="3" page-size="10" total="100" first disabled></ids-pager-button>'
     );
     elem.addEventListener('pagenumberchange', pageNumberChangeListener);
+    elem.addEventListener('pagefirst', pageNumberChangeListener);
     elem.button.dispatchEvent(new Event('click'));
     expect(pageNumberChangeListener).toBeCalledTimes(0);
+    expect(pageButtonFirstListener).toBeCalledTimes(0);
   });
 
   it('creates a "first" ids-pager-button, then changes the type to "previous" with no issues', async () => {

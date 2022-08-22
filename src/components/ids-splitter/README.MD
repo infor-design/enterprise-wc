@@ -133,6 +133,15 @@ Splitter set as disabled.
 </ids-splitter>
 ```
 
+Save splitter position to local storage.
+
+```html
+<ids-splitter unique-id="some-uniqueid" save-position>
+  <ids-splitter-pane></ids-splitter-pane>
+  <ids-splitter-pane></ids-splitter-pane>
+</ids-splitter>
+```
+
 ## Settings and Attributes (Splitter)
 
 - `align` {string} Set the split bar align direction to start or end
@@ -140,6 +149,8 @@ Splitter set as disabled.
 - `disabled` {boolean} Sets the splitter to disabled state
 - `label` {string} Set the aria-label text for each split bar
 - `resizeOnDragEnd` {boolean} Sets the splitter to resize on drag end
+- `savePosition` {boolean} Set splitter to save position to local storage.
+- `uniqueId` {string} Set uniqueId to save to local storage, so same saved position can be use for whole app.
 
 ## Settings and Attributes (Splitter Pane)
 
@@ -166,12 +177,18 @@ Splitter set as disabled.
 - `expanded` Fires after the splitter pane get expanded
 - `beforesizechanged` Fires before the splitter pane size changed, you can return false in the response to veto
 - `sizechanged` Fires after the splitter pane size changed
+- `save-position` Fires after the local storage settings changed in some way
+- `clear-position` Fires after clear the saved position from local storage
 
 ## Methods (Splitter)
 
+- `clearPosition(uniqueId: string|undefined)` Clear the saved position from local storage, If uniqueId is undefined will use Internal attached
+- `clearPositionAll()` Clear all splitter related saved position from local storage
 - `collapse(options: { startPane: HTMLElement|string, endPane: HTMLElement|string }): void` Collapse start pane size for given start/end panes or panes CSS selector
 - `expand(options: { startPane: HTMLElement|string, endPane: HTMLElement|string }): void` Expand start pane size for given start/end panes or panes CSS selector
+- `getAllPairs(): Array<object>` Get list of splitter pairs
 - `getPair(options: { startPane: HTMLElement|string, endPane: HTMLElement|string }): object` Get a splitter pair by given start/end panes or panes CSS selector
+- `idTobeUse(uniqueId?: string, suffix?: string, prefix?: string): string` Get the id to be use
 - `isHorizontal(): boolean` Get true if current orientation is horizontal
 - `sizes(): Array<number>` Get list of current sizes
 - `minSizes(): Array<number>` Get list of current minimum sizes

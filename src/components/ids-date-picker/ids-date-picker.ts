@@ -788,6 +788,9 @@ class IdsDatePicker extends Base {
         this.#setTime(e.detail.date),
         { pattern: this.format }
       );
+      this.year = e.detail.date.getFullYear();
+      this.month = e.detail.date.getMonth();
+      this.day = e.detail.date.getDate();
       this.#togglePopup(false);
       this.focus();
       this.#triggerSelectedEvent();

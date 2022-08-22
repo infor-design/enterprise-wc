@@ -2050,7 +2050,10 @@ describe('IdsDataGrid Component', () => {
       dataGrid.pageSize = 3;
       dataGrid.replaceWith(dataGrid);
 
-      const popupMenu = dataGrid.pager.querySelector('ids-popup-menu');
+      const pagerDropdown = dataGrid.pager.querySelector('ids-pager-dropdown');
+      expect(pagerDropdown).toBeDefined();
+
+      const popupMenu = pagerDropdown.popupMenu;
       const select10 = popupMenu.querySelector('ids-menu-item[value="10"]');
       const select25 = popupMenu.querySelector('ids-menu-item[value="25"]');
       const select50 = popupMenu.querySelector('ids-menu-item[value="50"]');
@@ -2062,7 +2065,7 @@ describe('IdsDataGrid Component', () => {
       expect(select100).toBeDefined();
 
       const mouseClick = new MouseEvent('click', { bubbles: true });
-      const menuButton = dataGrid.pager.querySelector('ids-menu-button');
+      const menuButton = pagerDropdown.menuButton;
 
       select10.dispatchEvent(mouseClick);
       expect(menuButton.textContent).toContain('10 Records per page');

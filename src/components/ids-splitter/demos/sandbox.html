@@ -147,10 +147,11 @@
       </div>
     </ids-layout-grid>
 
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12">Disable / Enable</ids-text>
+    </ids-layout-grid>
     <ids-layout-grid>
       <ids-layout-grid-cell>
-        <ids-text font-size="12">Disable / Enable</ids-text>
-        <br />
         <ids-button id="btn-splitter-disable-enable" type="secondary">
           <span slot="text">Enable Splitter</span>
         </ids-button>
@@ -213,6 +214,61 @@
         </ids-splitter>
       </div>
     </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Save Position</ids-text>
+        <ids-text>1. Drag the Splitter Bar to move panes and leave at different position then origin</ids-text>
+        <ids-text>2. At this point it should be saved the current position to local storage</ids-text>
+        <ids-text>3. Refresh or close/open the page, and see the same Splitter</ids-text>
+        <ids-text>4. It should have previously saved positions</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid>
+      <ids-layout-grid-cell>
+        <ids-menu-button type="secondary" id="btn-splitter-save-clear" menu="menu-splitter-save-clear" trigger-type="click" dropdown-icon>
+          <span slot="text">Clear saved position</span>
+        </ids-menu-button>
+        <ids-popup-menu id="menu-splitter-save-clear" target="#btn-splitter-save-clear">
+          <ids-menu-group>
+            <ids-menu-item id="clear-saved-splitter-1" value="clear-saved-splitter-1">Clear position for saved Splitter(1)</ids-menu-item>
+            <ids-menu-item id="clear-saved-splitter-2" value="clear-saved-splitter-2">Clear position for saved Splitter(2)</ids-menu-item>
+            <ids-menu-item id="clear-saved-splitter-all" value="clear-saved-splitter-all">Clear position for all saved Splitters</ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text>1. Choose Splitter(1), Splitter(2) or all saved Splitters to clear from menu button</ids-text>
+        <ids-text>2. Refresh or close/open the page, and see the same Splitter</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text>Save Position - Splitter(1)</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <div class="demo-splitter">
+        <ids-splitter id="splitter-save1" unique-id="some-uniqueid-1" save-position>
+          <ids-splitter-pane></ids-splitter-pane>
+          <ids-splitter-pane></ids-splitter-pane>
+        </ids-splitter>
+      </div>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-text>Save Position - Splitter(2)</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <div class="demo-splitter">
+        <ids-splitter id="splitter-save2" unique-id="some-uniqueid-2" save-position>
+          <ids-splitter-pane></ids-splitter-pane>
+          <ids-splitter-pane></ids-splitter-pane>
+        </ids-splitter>
+      </div>
+    </ids-layout-grid>
+
   </ids-container>
 </body>
 </html>
