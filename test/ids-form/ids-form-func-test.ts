@@ -57,9 +57,8 @@ describe('IdsForm Component', () => {
   });
 
   it('renders with compact', () => {
-    expect(form.compact).toEqual(false);
     form.compact = true;
-    expect(form.getAttribute('compact')).toEqual('true');
+    expect(form.hasAttribute('compact')).toBeTruthy();
     expect(form.compact).toEqual(true);
     expect(field1.getAttribute('compact')).toEqual('true');
     expect(field2.getAttribute('compact')).toEqual('true');
@@ -67,6 +66,18 @@ describe('IdsForm Component', () => {
     expect(form.getAttribute('compact')).toBeFalsy();
     expect(field1.getAttribute('compact')).toBeFalsy();
     expect(field2.getAttribute('compact')).toBeFalsy();
+  });
+
+  it('renders with fieldHeight', () => {
+    form.fieldHeight = 'lg';
+    expect(form.getAttribute('field-height')).toEqual('lg');
+    expect(form.fieldHeight).toEqual('lg');
+    expect(field1.getAttribute('field-height')).toEqual('lg');
+    expect(field2.getAttribute('field-height')).toEqual('lg');
+    form.fieldHeight = 'sm';
+    expect(form.getAttribute('field-height')).toEqual('sm');
+    expect(field1.getAttribute('field-height')).toEqual('sm');
+    expect(field2.getAttribute('field-height')).toEqual('sm');
   });
 
   it('renders with id', () => {

@@ -56,6 +56,10 @@ export default class IdsForm extends Base {
     });
   }
 
+  get compact(): boolean {
+    return stringToBool(this.getAttribute(attributes.COMPACT)) || false;
+  }
+
   /**
    * Set the fieldHeight (height) of input
    * @param {string} value [xs, sm, md, lg]
@@ -68,6 +72,10 @@ export default class IdsForm extends Base {
       if (value) el.setAttribute(attributes.FIELD_HEIGHT, value.toString());
       else el.removeAttribute(attributes.FIELD_HEIGHT);
     });
+  }
+
+  get fieldHeight(): string {
+    return this.getAttribute(attributes.FIELD_HEIGHT);
   }
 
   /**
