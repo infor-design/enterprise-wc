@@ -144,6 +144,7 @@ export default class IdsAxisChart extends Base {
       attributes.AXIS_LABEL_MARGIN,
       attributes.AXIS_LABEL_START,
       attributes.AXIS_LABEL_TOP,
+      attributes.ROTATE_X_LABELS,
       attributes.DATA,
       attributes.GROUPED,
       attributes.HEIGHT,
@@ -194,6 +195,9 @@ export default class IdsAxisChart extends Base {
 
   /** Max width for y-labels text */
   #yMaxTextWidth = 0;
+
+  /** Max height for x-labels labels */
+  #xMaxTextHeight = 0;
 
   /** Holds the resize observer object */
   #resizeObserver?: ResizeObserver = undefined;
@@ -276,28 +280,34 @@ export default class IdsAxisChart extends Base {
   }
 
   /**
+   * Return the x and y label text
+   * @returns {object} the x and y labels
+   */
+  get labels() {
+    return {
+      x: [...this.svg.querySelectorAll('.labels.x-labels text')],
+      y: [...this.svg.querySelectorAll('.labels.y-labels text')]
+    };
+  }
+
+  /**
    * Adjust RTL
    * @private
    */
   #adjustRTL(): void {
     if (!this.locale?.isRTL()) return;
 
-    const labels = {
-      x: [...this.svg.querySelectorAll('.labels.x-labels text')],
-      y: [...this.svg.querySelectorAll('.labels.y-labels text')]
-    };
-
     // Adjust y-max text width
     const extra = this.#yMaxTextWidth + this.margins.left;
 
     // X-labels
     let calcX: any = (x: any) => stringToNumber(x) - extra;
-    const newX = labels.x.map((label: any) => calcX(label.getAttribute('x'))).reverse();
-    labels.x.forEach((label: any, i: number) => label.setAttribute('x', newX[i]));
+    const newX = this.labels.x.map((label: any) => calcX(label.getAttribute('x'))).reverse();
+    this.labels.x.forEach((label: any, i: number) => label.setAttribute('x', newX[i]));
 
     // Y-labels
     calcX = (x: any) => `-${stringToNumber(x) + extra}px`;
-    labels.y.forEach((label: any) => label
+    this.labels.y.forEach((label: any) => label
       .style.setProperty('--ids-axis-chart-ylabels-x', calcX(label.getAttribute('x'))));
   }
 
@@ -371,6 +381,7 @@ export default class IdsAxisChart extends Base {
 
     // Set max text width for y-labels
     this.yMaxTextWidth();
+    this.xMaxTextHeight();
 
     // Calculate the Data Points / Locations
     this.markerData.points = [];
@@ -753,10 +764,12 @@ export default class IdsAxisChart extends Base {
     for (let index = 0; index < this.markerData.markerCount; index++) {
       const value = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
       left = index === 0 ? left : left + (this.alignXLabels === 'middle' ? this.sectionWidths[index].width : this.#xLineGap());
+
+      const transform = this.rotateXLabels !== 0 ? ` transform="rotate(${this.rotateXLabels}, ${left}, ${height})" transform-origin="-4px -4px" text-anchor="end"` : '';
       if (this.alignXLabels === 'middle') {
-        labelHtml += `<text x="${left + (this.sectionWidths[index].width / 2)}" y="${height}" alignment-baseline="middle" text-anchor="middle" aria-hidden="true">${value}</text>`;
+        labelHtml += `<text x="${left + (this.sectionWidths[index].width / 2)}" y="${height}" alignment-baseline="middle" text-anchor="middle" aria-hidden="true"${transform}>${value}</text>`;
       } else {
-        labelHtml += `<text x="${left}" y="${height}" aria-hidden="true">${value}</text>`;
+        labelHtml += `<text x="${left}" y="${height}" aria-hidden="true"${transform}>${value}</text>`;
       }
     }
     return labelHtml;
@@ -924,23 +937,44 @@ export default class IdsAxisChart extends Base {
     let maxWidth = 0;
     this.markerData.scaleY?.slice().forEach((value: any) => {
       const v = this.formatYLabel(value);
-      const w = this.calculateTextRenderWidth(v);
+      const w = this.calculateTextRenderWidth(v).width;
       if (w > maxWidth) maxWidth = w;
     });
     this.#yMaxTextWidth = maxWidth;
   }
 
   /**
+   * Set the max height to render x-axis
+   * @private
+   * @returns {void}
+   */
+  xMaxTextHeight(): void {
+    let maxHeight = 0;
+
+    for (let index = 0; index < this.markerData.markerCount; index++) {
+      const value = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
+      const h = this.calculateTextRenderWidth(value).height;
+      console.log(h)
+      if (h > maxHeight) maxHeight = h;
+    };
+    console.log(maxHeight)
+    this.#xMaxTextHeight = maxHeight;
+  }
+
+  /**
    * Calculates the width to render given text string.
    * @private
    * @param  {string} text The text to render.
-   * @returns {number} Calculated text width in pixels.
+   * @returns {{ width: number, height: number }} Calculated text width in pixels.
    */
-  calculateTextRenderWidth(text: string): number {
+  calculateTextRenderWidth(text: string): { width: number, height: number } {
     this.canvas = this.canvas || document.createElement('canvas');
     const context = this.canvas.getContext('2d');
     context.font = '400 16px arial';
-    return context.measureText(text).width;
+    context.rotate(this.rotateXLabels);
+
+    const metrics = context.measureText(text);
+    return { width: metrics.width, height: metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent };
   }
 
   /**
@@ -990,10 +1024,10 @@ export default class IdsAxisChart extends Base {
 
   get textWidths(): IdsChartDimensions {
     return this.state.textWidths || {
-      left: this.legendPlacement === 'left' ? 34 : (this.#yMaxTextWidth || 4), // TODO: Calculate this
+      left: this.legendPlacement === 'left' ? 34 : (this.#yMaxTextWidth || 4),
       right: 0,
       top: 0,
-      bottom: 24
+      bottom: (this.#xMaxTextHeight || 24)
     };
   }
 
@@ -1282,5 +1316,22 @@ export default class IdsAxisChart extends Base {
 
   get axisLabelTop() {
     return this.getAttribute(attributes.AXIS_LABEL_TOP);
+  }
+
+  /**
+   * Set the rotation for the axis label text (eg 45deg)
+   * @param {number} value the number of degrees to rotate the text
+   */
+  set rotateXLabels(value: number) {
+    if (value) {
+      this.setAttribute(attributes.ROTATE_X_LABELS, value);
+    } else {
+      this.removeAttribute(attributes.ROTATE_X_LABELS);
+    }
+    if (this.initialized) this.redraw();
+  }
+
+  get rotateXLabels(): number {
+    return Number(this.getAttribute(attributes.ROTATE_X_LABELS)) || 0;
   }
 }

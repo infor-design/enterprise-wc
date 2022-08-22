@@ -271,6 +271,7 @@ export const attributes = {
   REVEAL: 'reveal',
   REVEALABLE_PASSWORD: 'revealable-password',
   ROOT_ITEM: 'root-item',
+  ROTATE_X_LABELS: 'rotate-x-labels',
   ROUND: 'round',
   ROWS: 'rows',
   ROW_END: 'row-end',
