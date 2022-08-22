@@ -237,7 +237,7 @@ describe('IdsButton Component', () => {
     btn.icon = '';
 
     expect(btn.hasAttribute('icon')).toBeFalsy();
-    expect(btn.icon).not.toBeDefined();
+    expect(btn.icon).toBeFalsy();
     expect(btn.querySelector('ids-icon')).toBe(null);
   });
 

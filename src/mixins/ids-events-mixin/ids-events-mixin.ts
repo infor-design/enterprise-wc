@@ -7,9 +7,9 @@ import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
 export type EventOptions = { [key: string]: any } & AddEventListenerOptions;
 
 export interface EventsMixinInterface {
-  onEvent(eventName: string, target?: Element | null, callback?: (evt: any) => void, options?: EventOptions): void;
-  offEvent(eventName: string, target?: Element | Window | null, options?: EventOptions): void;
-  triggerEvent(eventName: string, target: Element, options?: CustomEventInit): void;
+  onEvent(eventName: string, target?: any, callback?: (evt: any) => void, options?: EventOptions): void;
+  offEvent(eventName: string, target?: any, options?: EventOptions): void;
+  triggerEvent(eventName: string, target: any, options?: CustomEventInit): void;
   triggerVetoableEvent(eventType: string, data?: any): boolean;
   handledEvents: Map<any, any>;
 }
@@ -84,7 +84,7 @@ const IdsEventsMixin = <T extends Constraints>(superclass: T) => class extends s
    * @param {Function|any} callback The callback code to execute
    * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
    */
-  onEvent(eventName: string, target?: Element | null, callback?: (evt: any) => void, options?: EventOptions) {
+  onEvent(eventName: string, target?: any, callback?: (evt: any) => void, options?: EventOptions) {
     if (!target || !callback) {
       return;
     }
@@ -119,7 +119,7 @@ const IdsEventsMixin = <T extends Constraints>(superclass: T) => class extends s
    * @param {HTMLElement} target The DOM element to deregister (or previous registered target)
    * @param {EventOptions} options Additional event settings (passive, once, passive ect)
    */
-  offEvent(eventName: string, target?: Element, options?: EventOptions) {
+  offEvent(eventName: string, target?: unknown, options?: EventOptions) {
     const handler = this.handledEvents.get(eventName);
     this.handledEvents.delete(eventName);
 
