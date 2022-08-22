@@ -8,6 +8,12 @@
   - link: example.html
     type: Main Example
     description: Showing a standalone Pager example
+  - link: pager-tooltips.html
+    type: Example
+    description: Showing tooltips on pager-buttons
+  - link: pager-size-dropdown.html
+    type: Example
+    description: Showing an example page-size dropdown
   - link: list.html
     type: Example
     description: Showing a list style Pager example
@@ -17,3 +23,6 @@
   - link: side-by-side.html
     type: Side-by-Side
     description: Showing a Popup Menu side by side with 4.x
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a limited pager that works with css only

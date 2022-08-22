@@ -10,7 +10,9 @@ const PAGINATION_TYPES = {
   CLIENT_SIDE: 'client-side',
   SERVER_SIDE: 'server-side',
   STANDALONE: 'standalone',
-};
+} as const;
+
+type PaginationTypes = typeof PAGINATION_TYPES[keyof typeof PAGINATION_TYPES];
 
 /**
 /**
@@ -47,20 +49,6 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
     this.pager.total = this.datasource.total;
     this.pager.pageNumber = pageNumber;
     this.pager.pageSize = pageSize;
-
-    const popupMenu: any = this.pager.querySelector('ids-popup-menu');
-    if (popupMenu) {
-      const popupMenuGroup = popupMenu.querySelector('ids-menu-group');
-
-      if (popupMenu.popup) {
-        popupMenu.popup.type = 'menu';
-      }
-
-      if (popupMenuGroup) {
-        popupMenuGroup.style.minWidth = '175px';
-        popupMenuGroup.style.textAlign = 'left';
-      }
-    }
 
     this.#attachEventListeners();
   }
@@ -106,11 +94,21 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
       attributes.PAGE_NUMBER,
       attributes.PAGE_SIZE,
       attributes.PAGE_TOTAL,
+      attributes.PAGINATION,
     ].includes(name);
 
     if (shouldReload) {
       this.connectedCallback();
     }
+  }
+
+  /**
+   * Invoked each time the custom element is appended into a document-connected element.
+   * @private
+   */
+  connectedCallback() {
+    super.connectedCallback?.();
+    this.#attachPager();
   }
 
   pagerTemplate() {
@@ -121,20 +119,7 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
       <ids-pager-input></ids-pager-input>
       <ids-pager-button next></ids-pager-button>
       <ids-pager-button last></ids-pager-button>
-      <div slot="end">
-        <ids-menu-button id="pager-size-menu-button" menu="pager-size-menu" role="button" dropdown-icon>
-          <span slot="text">${pageSize} Records per page</span>
-        </ids-menu-button>
-        <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger-type="click">
-          <ids-menu-group select="single">
-            <ids-menu-item value="5">5</ids-menu-item>
-            <ids-menu-item value="10">10</ids-menu-item>
-            <ids-menu-item value="25">25</ids-menu-item>
-            <ids-menu-item value="50">50</ids-menu-item>
-            <ids-menu-item value="100">100</ids-menu-item>
-          </ids-menu-group>
-        </ids-popup-menu>
-      </div>
+      <ids-pager-dropdown slot="end" page-size="${pageSize}"></ids-pager-dropdown>
     `;
   }
 
@@ -152,13 +137,13 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
    * Sets the pagination attribute
    * @param {string} value - none|client-side|standalone
    */
-  set pagination(value) { this.setAttribute(attributes.PAGINATION, value); }
+  set pagination(value: PaginationTypes) { this.setAttribute(attributes.PAGINATION, value); }
 
   /**
    * Gets the pagination attribute
-   * @returns {string} default is "none"
+   * @returns {PaginationTypes} default is "none"
    */
-  get pagination() { return this.getAttribute(attributes.PAGINATION) || PAGINATION_TYPES.NONE; }
+  get pagination(): PaginationTypes { return this.getAttribute(attributes.PAGINATION) || PAGINATION_TYPES.NONE; }
 
   /**
    * Set the page-number attribute
@@ -185,8 +170,10 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
     this.pager.pageSize = Number(value);
     this.datasource.pageSize = Number(value);
 
-    const popupButton: any = this.pager.querySelector('ids-menu-button');
-    if (popupButton) popupButton.text = `${value} Records per page`;
+    const dropdown: any = this.pager.querySelector('ids-pager-dropdown');
+    if (dropdown) {
+      dropdown.pageSize = value;
+    }
   }
 
   /**
@@ -212,21 +199,21 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
   get pageTotal() { return parseInt(this.getAttribute(attributes.PAGE_TOTAL)) || this.datasource.total; }
 
   /**
-   * Invoked each time the custom element is appended into a document-connected element.
-   * @private
-   */
-  connectedCallback() {
-    super.connectedCallback?.();
-    this.#attachPager();
-  }
-
-  /**
    * Appends IdsPager to this.shadowRoot if pagination is enabled.
    * @private
    */
   #attachPager() {
-    if (this.pagination && this.pagination !== PAGINATION_TYPES.NONE) {
+    if (!this.pagination || this.pagination === PAGINATION_TYPES.NONE) {
       this.pager.remove();
+      return;
+    }
+
+    if (this.pagination === PAGINATION_TYPES.STANDALONE) {
+      return;
+    }
+
+    const nestedPager = this.querySelector('ids-pager') || this.shadowRoot?.querySelector('ids-pager');
+    if (!nestedPager) {
       const currentPager = this.pager;
       this.pager = currentPager;
       this.container?.after(this.pager);
@@ -239,25 +226,10 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
       this.pageNumber = Number(event.detail.value);
     });
 
-    const popupMenu: any = this.pager.querySelector('ids-popup-menu');
-    if (popupMenu) {
-      this.offEvent('selected', popupMenu);
-      this.onEvent('selected', popupMenu, (evt: CustomEvent) => {
-        const oldPageSize = this.pageSize;
-        const newPageSize = evt.detail?.value || oldPageSize;
-        if (newPageSize !== oldPageSize) {
-          this.pageSize = newPageSize;
-
-          this.triggerEvent('pagenumberchange', this.pager, {
-            bubbles: true,
-            detail: {
-              elem: this.pager,
-              value: this.pageNumber,
-            }
-          });
-        }
-      });
-    }
+    this.offEvent('pagesizechange', this.pager);
+    this.onEvent('pagesizechange', this.pager, (event: CustomEvent) => {
+      this.pageSize = Number(event.detail.value);
+    });
   }
 };
 

@@ -777,7 +777,7 @@ export default class IdsInput extends Base {
    * @param {string} val the value property
    */
   set value(val: string) {
-    let v = typeof val === 'string' && val.length ? val : '';
+    let v = ['string', 'number'].includes(typeof val) ? String(val) : String(val || '');
     const currentValue = this.getAttribute(attributes.VALUE) || '';
 
     // If a mask is enabled, use the conformed value.

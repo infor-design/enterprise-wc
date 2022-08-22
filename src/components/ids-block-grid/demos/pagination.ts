@@ -80,8 +80,13 @@ const blockGrid: any = document.querySelector('ids-block-grid');
   ];
 
   blockGrid.data = data;
+  blockGrid.pageTotal = data.length;
 
   blockGrid.pager.addEventListener('pagenumberchange', async (e: { detail: { value: any; }; }) => {
-    console.info(`On Page # ${e.detail.value}`);
+    console.info(`On page-number change # ${e.detail.value}`);
+  });
+
+  blockGrid.pager.addEventListener('pagesizechange', async (e: { detail: { value: any; }; }) => {
+    console.info(`On page-size change # ${e.detail.value}`);
   });
 }());

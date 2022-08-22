@@ -92,9 +92,16 @@ const container: any = document.querySelector('ids-container');
   populatePaginatedDatagrid(1, 10); // load data for 1st page
 
   dataGrid.pager.addEventListener('pagenumberchange', (e: CustomEvent) => {
-    console.info(`server-side page # ${e.detail.value}`);
+    console.info(`server-side page-number # ${e.detail.value}`);
     const pageNumber = e.detail.value;
     const pageSize = dataGrid.pageSize;
+    populatePaginatedDatagrid(pageNumber, pageSize);
+  });
+
+  dataGrid.pager.addEventListener('pagesizechange', (e: CustomEvent) => {
+    console.info(`server-side page-size # ${e.detail.value}`);
+    const pageSize = e.detail.value;
+    const pageNumber = dataGrid.pageNumber;
     populatePaginatedDatagrid(pageNumber, pageSize);
   });
 
