@@ -47,21 +47,27 @@ export default class IdsForm extends Base {
    */
   set compact(value: boolean | string) {
     const isCompact = stringToBool(value);
+    super.compact = value;
 
-    if (value || value === false) {
-      this.setAttribute('compact', value);
-      const formComponents: Element[] = this.formComponents;
-      [...formComponents].forEach((el) => {
-        if (isCompact) el.setAttribute('compact', value.toString());
-        else el.removeAttribute('compact');
-      });
-    }
-
-    if (!isCompact) this.removeAttribute('compact');
+    const formComponents: Element[] = this.formComponents;
+    [...formComponents].forEach((el) => {
+      if (isCompact) el.setAttribute(attributes.COMPACT, value.toString());
+      else el.removeAttribute(attributes.COMPACT);
+    });
   }
 
-  get compact(): boolean | string {
-    return stringToBool(this.getAttribute(attributes.COMPACT));
+  /**
+   * Set the fieldHeight (height) of input
+   * @param {string} value [xs, sm, md, lg]
+   */
+  set fieldHeight(value: string) {
+    super.fieldHeight = value;
+
+    const formComponents: Element[] = this.formComponents;
+    [...formComponents].forEach((el) => {
+      if (value) el.setAttribute(attributes.FIELD_HEIGHT, value.toString());
+      else el.removeAttribute(attributes.FIELD_HEIGHT);
+    });
   }
 
   /**
