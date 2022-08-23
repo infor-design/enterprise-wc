@@ -79,7 +79,9 @@ export default class IdsDataLabel extends Base {
   set labelPosition(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL_POSITION, value);
-      this.container.className = `${value}-positioned`;
+      if (this.container) {
+        this.container.className = `${value}-positioned`;
+      }
     }
   }
 

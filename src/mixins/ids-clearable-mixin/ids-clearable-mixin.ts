@@ -43,7 +43,7 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
   }
 
   refreshClearableButtonStyles() {
-    const xButton = this.shadowRoot.querySelector('.btn-clear');
+    const xButton = this.shadowRoot?.querySelector('.btn-clear');
     if (!xButton) {
       this.removeClearableButton();
       this.appendClearableButton();
@@ -80,21 +80,25 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
    * @returns {void}
    */
   appendClearableButton() {
-    let xButton = this.shadowRoot.querySelector('.btn-clear');
+    if (!this.shadowRoot) {
+      return;
+    }
+
+    let xButton = this.shadowRoot?.querySelector('.btn-clear');
     if (!xButton) {
       xButton = this.#initClearableButton();
-      let parent = this.shadowRoot.querySelector('.ids-input, .ids-textarea');
+      let parent = this.shadowRoot?.querySelector('.ids-input, .ids-textarea');
 
       parent = parent?.querySelector('.field-container');
       parent?.appendChild(xButton);
 
-      const input = this.shadowRoot.querySelector('.ids-input-field, .ids-textarea-field');
+      const input = this.shadowRoot?.querySelector('.ids-input-field, .ids-textarea-field');
       input.after(xButton);
 
       this.attachClearableEvents();
     }
 
-    this.container.classList.add('has-clearable');
+    this.container?.classList.add('has-clearable');
   }
 
   /**
@@ -103,7 +107,7 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
    * @returns {void}
    */
   removeClearableButton() {
-    const xButton = this.shadowRoot.querySelector('.btn-clear');
+    const xButton = this.shadowRoot?.querySelector('.btn-clear');
     if (xButton) {
       xButton.remove();
       this.container.classList.remove('has-clearable');
@@ -131,7 +135,7 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
    * @returns {void}
    */
   checkContents() {
-    const xButton = this.shadowRoot.querySelector('.btn-clear');
+    const xButton = this.shadowRoot?.querySelector('.btn-clear');
     if (xButton) {
       const text = this.input?.value;
       if (!text || !text.length) {
@@ -163,7 +167,7 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
    * @returns {void}
    */
   handleClearBtnClick(option: string) {
-    const xButton = this.shadowRoot.querySelector('.btn-clear');
+    const xButton = this.shadowRoot?.querySelector('.btn-clear');
     if (xButton) {
       const eventName = 'click';
       if (option === 'remove') {
