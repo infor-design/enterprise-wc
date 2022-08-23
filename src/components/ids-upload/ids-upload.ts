@@ -559,7 +559,7 @@ export default class IdsUpload extends Base {
     if (val) {
       this.setAttribute(attributes.READONLY, val.toString());
       this.container?.classList.add(attributes.READONLY);
-      if (this.textInput)  this.textInput.readonlyBackground = false;
+      if (this.textInput) this.textInput.readonlyBackground = false;
       if (this.trigger) this.trigger.readonly = true;
     } else {
       this.removeAttribute(attributes.READONLY);
