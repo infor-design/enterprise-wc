@@ -17,6 +17,8 @@
   min-width: $input-size-xs - 2;
   width: 298px;
   text-transform: capitalize;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 :host(.is-selected) {
@@ -37,7 +39,7 @@
   @include bg-slate-20();
 }
 
-:host(:hover:not(.is-selected)),
+:host(:hover:not(.is-selected):not([group-label])),
 :host(.is-focused) {
   @include bg-slate-20();
 }
@@ -77,4 +79,33 @@
 
 ::slotted(.highlight) {
   font-weight: var(--ids-number-font-weight-bold);
+}
+
+// Group labels
+:host([group-label]) {
+  @include cursor-default();
+  @include text-slate-80();
+
+  font-weight: 600;
+}
+
+:host([mode='dark'][group-label]) {
+  @include text-slate-20();
+}
+
+:host([mode='contrast'][group-label]) {
+  @include text-slate-100();
+}
+
+:host([group-label]:not(:first-child)) {
+  border-top: 1px solid var(--ids-color-palette-slate-30);
+  margin-top: 5px;
+}
+
+:host([mode='dark'][group-label]:not(:first-child)) {
+  border-top: 1px solid var(--ids-color-palette-slate-50);
+}
+
+:host([mode='contrast'][group-label]:not(:first-child)) {
+  border-top: 1px solid var(--ids-color-palette-slate-60);
 }
