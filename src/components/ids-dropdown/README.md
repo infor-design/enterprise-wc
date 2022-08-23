@@ -113,6 +113,21 @@ The promise should resolve and return data with id, value and label info.
 }
 ```
 
+For groups you should add `group-label` attribute to `ids-list-box-option` to indicate group start, all group items should be below.
+
+```html
+<ids-dropdown id="dropdown-groups" label="Dropdown With Groups" value="opt3">
+  <ids-list-box>
+    <ids-list-box-option group-label>Group 1</ids-list-box-option>
+    <ids-list-box-option value="opt1group1">Option One</ids-list-box-option>
+    <ids-list-box-option value="opt2group1">Option Two</ids-list-box-option>
+    <ids-list-box-option group-label>Group 2</ids-list-box-option>
+    <ids-list-box-option value="opt1group2">Option One</ids-list-box-option>
+    <ids-list-box-option value="opt2group2">Option Two</ids-list-box-option>
+  </ids-list-box>
+</ids-dropdown>
+```
+
 ## Settings
 
 - `allowBlank` {boolean} Sets whether option list should include 'blank' option
@@ -146,6 +161,19 @@ The promise should resolve and return data with id, value and label info.
 
 - `change` Fires when an option is selected / changed
 - `focus` Fires at the time the dropdown is focused
+- Event listeners for input (trigger field) `blur`, `change`, `focus`, `select`, `keydown`, `keypress`, `keyup`, `click`, `dbclick`, `beforetriggerclicked`, `triggerclicked` events can be added to `input` component property:
+```js
+const dropdown = document.querySelector('ids-dropdown');
+
+dropdown.input.addEventListener('change');
+```
+- Event listeners for popup `show`, `hide` events can be added to `popup` property:
+```js
+const dropdown = document.querySelector('ids-dropdown');
+
+dropdown.popup.addEventListener('show');
+dropdown.popup.addEventListener('hide');
+```
 
 ## Methods
 

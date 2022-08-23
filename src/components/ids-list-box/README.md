@@ -33,6 +33,7 @@ A normal ids-list-box with options
 
 - `value` {string} The value for use when the option is selected.
 - `id` {string} The id for the option (value is still always needed)
+- `group-label` {string} When set the option will act as group label when used `ids-dropdown`
 
 ## Keyboard Guidelines
 
