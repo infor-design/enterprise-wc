@@ -61,7 +61,7 @@ describe('Ids Popup Menu e2e Tests', () => {
     expect(isVisible).toBeTruthy();
   });
 
-  it.skip('should not have memory leaks', async () => {
+  it('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-popup-menu id="test" width="550px"></ids-popup-menu>`);
