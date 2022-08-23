@@ -26,9 +26,9 @@ const SIZES: Record<string, string> = {
 // Setting defaults text-align
 const TEXT_ALIGN: Record<string, string> = {
   default: 'left',
-  start: 'left',
+  left: 'left',
   center: 'center',
-  end: 'right'
+  right: 'right'
 };
 
 // Character counter default strings
@@ -755,8 +755,8 @@ export default class IdsTextarea extends Base {
    * @param {string} value [left, center, right]
    */
   set textAlign(value: string) {
-    if (value === 'left') value = 'start';
-    else if (value === 'right') value = 'end';
+    if (value === 'start') value = 'left';
+    else if (value === 'end') value = 'right';
     const textAlign = TEXT_ALIGN[value];
     this.setAttribute(attributes.TEXT_ALIGN, textAlign || TEXT_ALIGN.default);
     this.input?.classList.remove(...Object.values(TEXT_ALIGN));
