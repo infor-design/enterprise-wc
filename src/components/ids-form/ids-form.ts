@@ -156,6 +156,17 @@ export default class IdsForm extends Base {
   }
 
   /**
+   * Runs validation on each input
+   */
+  checkValidation() {
+    const formElems: Element[] = this.formComponents;
+    formElems.forEach((el: any) => {
+      if (el?.input?.checkValidation) el?.input?.checkValidation();
+      if (el?.checkValidation) el?.checkValidation();
+    });
+  }
+
+  /**
    * Return if and form fields are dirty or not
    * @returns {boolean} true if dirty
    */

@@ -66,6 +66,7 @@ A simple form web component would have an `id` and a `submit-button` property th
 - `resetDirtyTracker` Resets the dirty tracker for all form components.
 - `formComponents` Returns all form components of type formComponent.
 - `idsComponents` Returns all ids components in the form.
+- `checkValidation` Runs validation all form fields
 
 ## Themeable Parts
 

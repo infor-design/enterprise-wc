@@ -12,6 +12,8 @@ import '../../ids-switch/ids-switch';
 import '../../ids-time-picker/ids-time-picker';
 import '../../ids-upload/ids-upload';
 
-(document.querySelector('#sample-form') as any).addEventListener('submit', (e: CustomEvent) => {
-  console.info(`Form Submitted`, e.detail);
+const form = (document.querySelector('#sample-form') as any);
+form.addEventListener('submit', (e: CustomEvent) => {
+  form.checkValidation();
+  console.info(`Form Submitted`, e.detail, form.isValid);
 });

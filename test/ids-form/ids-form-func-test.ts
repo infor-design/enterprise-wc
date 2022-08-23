@@ -57,6 +57,7 @@ describe('IdsForm Component', () => {
   });
 
   it('renders with compact', () => {
+    expect(form.compact).toEqual(false);
     form.compact = true;
     expect(form.hasAttribute('compact')).toBeTruthy();
     expect(form.compact).toEqual(true);
@@ -143,5 +144,14 @@ describe('IdsForm Component', () => {
     field1.value = '';
 
     expect(form.errorFormComponents.length).toBe(1);
+  });
+
+  it('can call checkValidation', () => {
+    field1.input.checkValidation = jest.fn();
+    expect(field1.isValid).toBeTruthy();
+    expect(field2.isValid).toBeTruthy();
+    form.checkValidation();
+    expect(field1.isValid).toBeFalsy();
+    expect(field2.isValid).toBeFalsy();
   });
 });
