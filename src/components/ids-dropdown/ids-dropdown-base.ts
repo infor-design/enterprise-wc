@@ -9,6 +9,7 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
 import IdsElement from '../../core/ids-element';
 import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-label-state-parent-mixin';
+import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 
 const Base = IdsThemeMixin(
   IdsLocaleMixin(
@@ -20,7 +21,9 @@ const Base = IdsThemeMixin(
               IdsPopupOpenEventsMixin(
                 IdsTooltipMixin(
                   IdsEventsMixin(
-                    IdsElement
+                    IdsXssMixin(
+                      IdsElement
+                    )
                   )
                 )
               )
