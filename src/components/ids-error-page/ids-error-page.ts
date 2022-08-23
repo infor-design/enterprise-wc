@@ -75,6 +75,8 @@ export default class IdsErrorPage extends Base {
       this.removeAttribute(attributes.ICON);
     }
 
+    if (!this.container) return;
+
     const emptyMessage = this.container.querySelector('ids-empty-message');
     if (emptyMessage) {
       emptyMessage.icon = value;
@@ -210,6 +212,7 @@ export default class IdsErrorPage extends Base {
    * @private
    */
   #refreshText(el: string, value: string): void {
+    if (!this.container) return;
     const elText = this.container.querySelector(el);
     if (elText) {
       elText.innerHTML = value ? value.toString() : '';

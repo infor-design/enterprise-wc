@@ -307,9 +307,9 @@ export default class IdsCheckbox extends Base {
     this.setAttribute(attributes.LABEL_AUDIBLE, value);
     const idsTextElem = this.labelEl?.querySelector('ids-text');
     if (stringToBool(value)) {
-      idsTextElem.setAttribute(attributes.AUDIBLE, value);
+      idsTextElem?.setAttribute(attributes.AUDIBLE, value);
     } else {
-      idsTextElem.removeAttribute(attributes.AUDIBLE);
+      idsTextElem?.removeAttribute(attributes.AUDIBLE);
     }
   }
 

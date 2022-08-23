@@ -96,7 +96,9 @@ export default class IdsMessage extends Base {
       this.state.opacity = val;
 
       const overlayElem = this.shadowRoot?.querySelector('ids-overlay');
-      overlayElem.opacity = val;
+      if (overlayElem) {
+        overlayElem.opacity = val;
+      }
     }
   }
 
