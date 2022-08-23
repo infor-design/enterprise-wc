@@ -82,7 +82,9 @@ export default class IdsAccordionPanel extends Base {
     if (this.state.contentAlignment !== thisAlignment) {
       this.state.contentAlignment = thisAlignment;
       this.#refreshContentAlignment(thisAlignment);
-      this.header?.refreshContentAlignment(thisAlignment);
+      if (this.header) {
+        this.header?.refreshContentAlignment(thisAlignment);
+      }
     }
   }
 
@@ -98,7 +100,7 @@ export default class IdsAccordionPanel extends Base {
    * @param {*} thisAlignment the alignment rule to set
    */
   #refreshContentAlignment(thisAlignment = null) {
-    applyContentAlignmentClass(this.container?.classList, thisAlignment);
+    if (this.container) applyContentAlignmentClass(this.container?.classList, thisAlignment);
   }
 
   /**
