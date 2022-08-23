@@ -27,13 +27,14 @@ export default class IdsListBoxOption extends Base {
   static get attributes(): Array<any> {
     return [
       ...super.attributes,
+      attributes.GROUP_LABEL,
       attributes.TOOLTIP
     ];
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute('role', 'option');
+    this.setAttribute('role', this.hasAttribute(attributes.GROUP_LABEL) ? 'none' : 'option');
     this.setAttribute('tabindex', '-1');
   }
 
