@@ -33,7 +33,6 @@ describe('IdsSwitch Component', () => {
   it('should renders checked', () => {
     el.checked = 'true';
     expect(el.getAttribute('checked')).toEqual('true');
-    expect(el.checked).toEqual('true');
   });
 
   it('should renders as disabled', () => {
@@ -130,7 +129,7 @@ describe('IdsSwitch Component', () => {
     const rootEl = el.shadowRoot.querySelector('.ids-switch');
     expect(rootEl.classList).toContain('disabled');
     expect(el.getAttribute('checked')).toEqual('true');
-    expect(el.checked).toEqual('true');
+    expect(el.checked).toEqual(true);
   });
 
   it('can change language from the container', async () => {
