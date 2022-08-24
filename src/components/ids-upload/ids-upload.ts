@@ -37,6 +37,8 @@ export default class IdsUpload extends Base {
     super();
   }
 
+  isFormComponent = true;
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -170,6 +172,10 @@ export default class IdsUpload extends Base {
    */
   onDirtyTrackerChange(value: boolean) {
     if (this.textInput) this.textInput.dirtyTracker = value;
+  }
+
+  get input() {
+    return this.container?.querySelector('ids-trigger-field');
   }
 
   /**

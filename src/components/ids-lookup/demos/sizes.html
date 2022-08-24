@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Lookup Sizes</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="2" gap="sm">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Width</ids-text>
+        <br/>
+        <ids-lookup label="Default" value="opt3"></ids-lookup>
+        <ids-lookup label="Extra Small" value="1" size="xs"></ids-lookup>
+        <ids-lookup label="Small" value="opt3" size="sm"></ids-lookup>
+        <ids-lookup label="Small - Medium" value="opt3" size="mm"></ids-lookup>
+        <ids-lookup label="Medium" value="opt3" size="md"></ids-lookup>
+        <ids-lookup label="Large" value="opt3" size="lg"></ids-lookup>
+        <ids-lookup label="Full" value="opt3" size="full"></ids-lookup>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Height</ids-text>
+        <br/>
+        <ids-lookup label="Compact" value="opt3" compact></ids-lookup>
+        <ids-lookup label="Extra Small" value="opt3" field-height="xs"></ids-lookup>
+        <ids-lookup label="Small" value="opt3" field-height="sm"></ids-lookup>
+        <ids-lookup label="Medium" value="opt3" field-height="md"></ids-lookup>
+        <ids-lookup label="Large" value="opt3" field-height="lg"></ids-lookup>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
