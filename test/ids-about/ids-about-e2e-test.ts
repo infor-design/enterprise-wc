@@ -12,7 +12,7 @@ describe('Ids About e2e Tests', () => {
     await expect(page.title()).resolves.toMatch('IDS About Component');
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-about id="test" product-name="Controls Example Application" product-version="Version No. XX"></ids-about>`);

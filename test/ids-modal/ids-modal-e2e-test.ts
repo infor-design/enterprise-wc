@@ -44,7 +44,7 @@ describe('Ids Modal e2e Tests', () => {
     expect(value).toBeFalsy();
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-modal id="test" aria-labelledby="my-modal-title">

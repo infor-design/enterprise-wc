@@ -14,7 +14,7 @@ describe('Ids Editor e2e Tests', () => {
       .resolves.toMatch('light');
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-editor id="test"></ids-editor>`);

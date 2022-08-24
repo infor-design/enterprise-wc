@@ -12,7 +12,7 @@ describe('Ids Wizard e2e Tests', () => {
     await expect(page.title()).resolves.toMatch('IDS Wizard Component');
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-wizard step-number="3" id="test">

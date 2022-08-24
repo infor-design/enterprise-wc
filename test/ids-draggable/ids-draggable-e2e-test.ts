@@ -12,7 +12,7 @@ describe('Ids Draggable e2e Tests', () => {
     await expect(page.title()).resolves.toMatch('IDS Draggable Component');
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-draggable id="test">

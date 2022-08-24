@@ -21,7 +21,7 @@ describe('Ids Pager e2e Tests', () => {
     expect(results2.violations.length).toBe(0);
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-pager page-number="1" page-size="20" total="200" id="test">
