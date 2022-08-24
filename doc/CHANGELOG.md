@@ -30,6 +30,7 @@
 - `[Radio]` Fixed incorrect colors in contrast mode. ([#775](https://github.com/infor-design/enterprise-wc/pull/775))
 - `[Splitter]` Added support for save position to local storage. ([#692](https://github.com/infor-design/enterprise-wc/issues/692))
 - `[Tag]` Updated `x` and `>` icon color on colored tags when dismissible/clickable is true.([#848](https://github.com/infor-design/enterprise-wc/pull/848))
+- `[Textarea]` Updated `start` and `end` for when text alignment is defined (not default).([#873](https://github.com/infor-design/enterprise-wc/pull/873))
 
 ## 1.0.0-beta.0
 
