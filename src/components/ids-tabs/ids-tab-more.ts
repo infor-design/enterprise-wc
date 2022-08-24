@@ -67,7 +67,7 @@ export default class IdsTabMore extends Base {
    * @returns {HTMLElement} the inner popup menu
    */
   get menu(): any {
-    return this.shadowRoot.querySelector('ids-popup-menu');
+    return this.shadowRoot?.querySelector('ids-popup-menu');
   }
 
   get moreActionsGroup(): any {
@@ -220,7 +220,7 @@ export default class IdsTabMore extends Base {
 
     this.hidden = !this.hasVisibleActions();
     if (!this.hasVisibleActions()) {
-      this.menu.hide();
+      this.menu?.hide();
     }
 
     this.disabled = !this.hasEnabledActions();

@@ -256,10 +256,11 @@ class IdsMultiselect extends Base {
     if (this.tags) {
       // Clear tags before rerender
       this.input.querySelectorAll('ids-tag').forEach((item: HTMLElement) => { item.remove(); });
-      const tags = selected.map((item: any) => {
-        const disabled = this.disabled ? `disabled="true"` : ``;
 
-        return `<ids-tag id="${item.value}" dismissible="true" ${disabled}>${item.label}</ids-tag>`;
+      const tags = selected.map((item: any) => {
+        const disabled = this.disabled ? ` disabled="true"` : ``;
+
+        return `<ids-tag id="${item.value}" dismissible="true"${disabled}>${item.label}</ids-tag>`;
       }).join('');
       this.input.insertAdjacentHTML('afterbegin', tags);
     }

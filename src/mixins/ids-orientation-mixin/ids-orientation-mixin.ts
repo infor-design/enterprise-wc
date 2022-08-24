@@ -78,6 +78,7 @@ const IdsOrientationMixin = (superclass: any) => class extends superclass {
    * @returns {void}
    */
   #refreshOrientation(oldVariantName?: string, newVariantName?: string) {
+    if (!this.container) return;
     const cl = this.container.classList;
 
     if (oldVariantName) cl.remove(`orientation-${oldVariantName}`);

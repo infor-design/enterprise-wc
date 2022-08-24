@@ -96,7 +96,7 @@ export default class IdsAccordionHeader extends Base {
    * @param {string} thisAlignment the type of alignment to apply
    */
   refreshContentAlignment(thisAlignment: any) {
-    applyContentAlignmentClass(this.container.classList, thisAlignment);
+    if (this.container) applyContentAlignmentClass(this.container.classList, thisAlignment);
   }
 
   /**
@@ -249,13 +249,13 @@ export default class IdsAccordionHeader extends Base {
    */
   #showExpanderIcon(): void {
     const appendLocation = this.panel.hasParentPanel ? 'afterbegin' : 'beforeend';
-    const expander = this.container.querySelector('.ids-accordion-expander-icon');
+    const expander = this.container?.querySelector('.ids-accordion-expander-icon');
 
     if (!expander) {
       // Apply the expander button in front of the text
       // for any variants prefixed with `sub-`.
       const expanderIcon = this.templateExpanderIcon();
-      this.container.insertAdjacentHTML(appendLocation, expanderIcon);
+      this.container?.insertAdjacentHTML(appendLocation, expanderIcon);
     } else {
       this.container[appendLocation === 'afterbegin' ? 'prepend' : 'append'](expander);
     }
@@ -268,7 +268,7 @@ export default class IdsAccordionHeader extends Base {
    * @returns {void}
    */
   #hideExpanderIcon(): void {
-    this.container.querySelector('.ids-accordion-expander-icon')?.remove();
+    this.container?.querySelector('.ids-accordion-expander-icon')?.remove();
   }
 
   /**
@@ -276,7 +276,7 @@ export default class IdsAccordionHeader extends Base {
    * @returns {void}
    */
   #refreshExpanderIconType(): void {
-    const icon = this.container.querySelector('.ids-accordion-expander-icon');
+    const icon = this.container?.querySelector('.ids-accordion-expander-icon');
     if (!icon) {
       return;
     }

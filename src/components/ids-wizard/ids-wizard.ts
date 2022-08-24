@@ -224,7 +224,7 @@ export default class IdsWizard extends Base {
     const v = parseInt(<string>value);
     if (v <= 0) {
       throw new Error('ids-wizard: step number should be > 0');
-    } else if (v > this.children.length) {
+    } else if (v > this.children?.length) {
       throw new Error('ids-wizard: step number should be below step-count');
     }
 

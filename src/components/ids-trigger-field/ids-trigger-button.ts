@@ -130,10 +130,10 @@ export default class IdsTriggerButton extends Base {
     const inheritColor = stringToBool(val);
     if (inheritColor) {
       this.setAttribute(attributes.INHERIT_COLOR, '');
-      this.button.classList.add('inherit-color');
+      this.button?.classList.add('inherit-color');
     } else {
       this.removeAttribute(attributes.INHERIT_COLOR);
-      this.button.classList.remove('inherit-color');
+      this.button?.classList.remove('inherit-color');
     }
   }
 

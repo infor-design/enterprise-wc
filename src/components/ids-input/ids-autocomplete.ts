@@ -44,6 +44,11 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
    */
   set autocomplete(value: string | boolean | null) {
     const val = stringToBool(value);
+
+    if (!this.container) {
+      return;
+    }
+
     if (val) {
       this.setAttribute(attributes.AUTOCOMPLETE, '');
       this.container.classList.add('autocomplete');
