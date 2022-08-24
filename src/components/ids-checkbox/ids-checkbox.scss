@@ -3,7 +3,9 @@
 @import '../../mixins/sass/ids-dirty-tracker-mixin';
 @import '../../mixins/sass/ids-validation-mixin';
 
-:host(.justify-center) .ids-checkbox .checkmark {
+:host(.justify-center) .ids-checkbox .checkmark,
+:host(.justify-center) .ids-checkbox[mode=dark]:not([color]) input[type=checkbox] ~ .checkmark,
+:host(.justify-center) .ids-checkbox[mode=contrast]:not([color]) input[type=checkbox] ~ .checkmark {
   top: calc(50% - 8px);
 }
 
