@@ -150,6 +150,7 @@ export default class IdsAxisChart extends Base {
       attributes.MARGINS,
       attributes.SHOW_HORIZONTAL_GRID_LINES,
       attributes.SHOW_VERTICAL_GRID_LINES,
+      attributes.ROTATE_X_LABELS,
       attributes.STACKED,
       attributes.TITLE,
       attributes.WIDTH
@@ -296,7 +297,12 @@ export default class IdsAxisChart extends Base {
     // X-labels
     let calcX: any = (x: any) => stringToNumber(x) - extra;
     const newX = labels.x.map((label: any) => calcX(label.getAttribute('x'))).reverse();
-    labels.x.forEach((label: any, i: number) => label.setAttribute('x', newX[i]));
+    labels.x.forEach((label: any, i: number) => {
+      label.setAttribute('transform', `rotate(${this.rotateXLabels}, ${newX[i]}, ${label.getAttribute('y')})`);
+      label.setAttribute('x', newX[i]);
+      label.setAttribute('text-anchor', 'start');
+      if (this.alignXLabels === 'middle') label.setAttribute('transform-origin', '0 -4px');
+    });
 
     // Y-labels
     calcX = (x: any) => `-${stringToNumber(x) + extra}px`;
@@ -368,7 +374,7 @@ export default class IdsAxisChart extends Base {
     const scale: NiceScale = new NiceScale(this.yAxisMin, this.stacked ? groupMax : this.markerData.max);
     this.markerData.scale = scale;
     this.markerData.scaleY = [];
-    for (let i = (scale.niceMin || 0); i <= (scale.niceMax); i += (scale.tickSpacing || 0)) {
+    for (let i = (scale.niceMin || 0); i <= (scale.niceMax); i += (Number(scale.tickSpacing))) {
       this.markerData.scaleY.push(i);
     }
 
@@ -758,10 +764,13 @@ export default class IdsAxisChart extends Base {
       const value = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
       left = index === 0 ? left : left + (this.alignXLabels === 'middle' ? this.sectionWidths[index].width : this.#xLineGap());
 
-      const transform = this.rotateXLabels !== 0 ? ` transform="rotate(${this.rotateXLabels}, ${left}, ${height})" transform-origin="-4px -4px" text-anchor="end"` : '';
+      let transform;
       if (this.alignXLabels === 'middle') {
-        labelHtml += `<text x="${left + (this.sectionWidths[index].width / 2)}" y="${height}" alignment-baseline="middle" text-anchor="middle" aria-hidden="true"${transform}>${value}</text>`;
+        const x = left + (this.sectionWidths[index].width / 2);
+        transform = this.rotateXLabels !== 0 ? ` transform="rotate(${this.rotateXLabels}, ${x}, ${height})" transform-origin="8px 8px"` : '';
+        labelHtml += `<text x="${x}" y="${height}" alignment-baseline="middle" text-anchor="middle" aria-hidden="true"${transform}>${value}</text>`;
       } else {
+        transform = this.rotateXLabels !== 0 ? ` transform="rotate(${this.rotateXLabels}, ${left}, ${height})" text-anchor="end"` : '';
         labelHtml += `<text x="${left}" y="${height}" aria-hidden="true"${transform}>${value}</text>`;
       }
     }
@@ -914,6 +923,7 @@ export default class IdsAxisChart extends Base {
    */
   #setContainerWidth(value: number) {
     const container = this.container;
+    if (!container) return;
     if (container.classList.contains('ids-chart-container')) {
       container.style.width = `${value}px`;
       return;
