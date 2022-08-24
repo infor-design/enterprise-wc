@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Home Page e2e Tests', () => {
   const url = 'http://localhost:4444/ids-home-page/example.html';
@@ -19,5 +20,20 @@ describe('Ids Home Page e2e Tests', () => {
 
     const results = await new AxePuppeteer(page).analyze();
     expect(results.violations.length).toBe(0);
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-home-page id="test">
+      <ids-card slot="card" colspan="3">
+        <div slot="card-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card 3x1 (Dom Order 1) - A</ids-text>
+        </div>
+        <div slot="card-content"></div>
+      </ids-card></ids-home-page>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 });

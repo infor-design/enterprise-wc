@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Modal e2e Tests', () => {
   const url = 'http://localhost:4444/ids-modal/visible.html';
@@ -41,5 +42,20 @@ describe('Ids Modal e2e Tests', () => {
     const modal = await page.waitForSelector('#my-modal:not([visible])');
     const value = await modal.evaluate((el: any) => el.visible);
     expect(value).toBeFalsy();
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-modal id="test" aria-labelledby="my-modal-title">
+        <ids-text slot="title" font-size="24" type="h2" id="my-modal-title">Active IDS Modal</ids-text>
+        <ids-modal-button slot="buttons" id="modal-close-btn" type="primary">
+          <span slot="text">OK</span>
+        </ids-modal-button>
+      </ids-modal>`);
+      document.querySelector('#test')?.remove();
+    });
+
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 });

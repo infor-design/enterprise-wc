@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Week View e2e Tests', () => {
   const url = 'http://localhost:4444/ids-week-view/example.html';
@@ -17,6 +18,21 @@ describe('Ids Week View e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     const results = await new AxePuppeteer(page).analyze();
     expect(results.violations.length).toBe(0);
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-week-view id="test"
+        first-day-of-week="1"
+        show-today="true"
+        start-date="10/23/2019"
+        end-date="11/01/2019"
+        show-timeline="false"></ids-week-view>`);
+      document.querySelector('#test')?.remove();
+    });
+
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 
   it('should render one day and show correct day', async () => {

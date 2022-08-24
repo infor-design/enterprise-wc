@@ -1,15 +1,15 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Checkbox Group e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-checkbox-group/example.html';
+describe('Ids Menu Buttoon e2e Tests', () => {
+  const url = 'http://localhost:4444/ids-menu-button/example.html';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
   it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Checkbox Group Component');
+    await expect(page.title()).resolves.toMatch('IDS Menu Button Component');
   });
 
   it('should pass Axe accessibility tests', async () => {
@@ -22,13 +22,12 @@ describe('Ids Checkbox Group e2e Tests', () => {
   it('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
-      document.body.insertAdjacentHTML('beforeend', `<ids-checkbox-group id="test" label="Choose from these options:">
-        <ids-checkbox label="Option 1" checked="false"></ids-checkbox>
-        <ids-checkbox label="Option 2" checked="true"></ids-checkbox>
-        <ids-checkbox label="Option 3" checked="true"></ids-checkbox>
-      </ids-checkbox-group>`);
+      document.body.insertAdjacentHTML('beforeend', `<ids-menu-button id="test" icon="settings" type="tertiary" menu="my-menu" dropdown-icon>
+        <span slot="text">Settings</span>
+      </ids-menu-button>`);
       document.querySelector('#test')?.remove();
     });
+
     expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 });

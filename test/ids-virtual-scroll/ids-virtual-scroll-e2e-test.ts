@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Virtual Scroll e2e Tests', () => {
   const url = 'http://localhost:4444/ids-virtual-scroll/example.html';
@@ -24,5 +25,20 @@ describe('Ids Virtual Scroll e2e Tests', () => {
 
     const count = (await page.$$('.ids-data-grid-row')).length;
     expect(count).toEqual(60);
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-virtual-scroll height="100vh" id="test" item-height="20" buffer-size="3" item-count="1000">
+        <div class="ids-list-view-container">
+          <div class="ids-list-view" part="contents">
+          </div>
+        </div>
+      </ids-virtual-scroll>`);
+      document.querySelector('#test')?.remove();
+    });
+
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 });

@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Action Sheet e2e Tests', () => {
   const url = 'http://localhost:4444/ids-action-sheet/example.html';
@@ -53,5 +54,22 @@ describe('Ids Action Sheet e2e Tests', () => {
     await mobilePage.evaluate(`document.querySelector("#icon-button").click()`);
     isVisible = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").visible`);
     expect(isVisible).toEqual(true);
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-action-sheet id="test">
+          <ids-menu>
+            <ids-menu-group>
+              <ids-menu-item icon="mail" text-align="center">Option One</ids-menu-item>
+              <ids-menu-item icon="filter" text-align="center">Option Two</ids-menu-item>
+              <ids-menu-item icon="profile" text-align="center">Option Three</ids-menu-item>
+            </ids-menu-group>
+          </ids-menu>
+        </ids-action-sheet>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 });

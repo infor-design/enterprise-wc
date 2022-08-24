@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Masthead e2e Tests', () => {
   const url = 'http://localhost:4444/ids-masthead/example.html';
@@ -16,6 +17,15 @@ describe('Ids Masthead e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     const results = await new AxePuppeteer(page).analyze();
     expect(results.violations.length).toBe(0);
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-masthead id="test" title="Infor Application" icon="logo" role="navigation"></ids-masthead>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 
   it('should react to desktop, tablet and mobile breakpoints/viewports', async () => {

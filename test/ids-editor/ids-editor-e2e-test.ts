@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Editor e2e Tests', () => {
   const url = 'http://localhost:4444/ids-editor/example.html';
@@ -11,6 +12,15 @@ describe('Ids Editor e2e Tests', () => {
     await expect(page.title()).resolves.toMatch('IDS Editor Component');
     await expect(page.evaluate('document.querySelector("ids-theme-switcher").getAttribute("mode")'))
       .resolves.toMatch('light');
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-editor id="test"></ids-editor>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 
   it('should pass Axe accessibility tests', async () => {
