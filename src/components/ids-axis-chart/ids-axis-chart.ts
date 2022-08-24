@@ -128,6 +128,12 @@ export default class IdsAxisChart extends Base {
     super.disconnectedCallback();
     this.#resizeObserver?.disconnect();
     this.#resizeObserver = undefined;
+    this.emptyMessage.remove();
+    this.emptyMessage = undefined;
+    this.svg.remove();
+    this.svg = undefined;
+    this.legend.remove();
+    this.legend = undefined;
   }
 
   /**
