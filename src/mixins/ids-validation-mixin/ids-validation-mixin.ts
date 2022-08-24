@@ -1,7 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { isObjectAndNotEmpty } from '../../utils/ids-object-utils/ids-object-utils';
 
-export type IdsValidationErrorMessageTypes = {
+export type IdsValidationErrorMessage = {
   /** The unique id in the check messages */
   id: string;
 
@@ -260,7 +260,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
    * @param {Array|object} [message] incoming message/s settings
    * @returns {void}
    */
-  addValidationMessage(message: Array<IdsValidationErrorMessageTypes> | IdsValidationErrorMessageTypes): void {
+  addValidationMessage(message: Array<IdsValidationErrorMessage> | IdsValidationErrorMessage): void {
     const addMessage = (obj: any): void => {
       if (isObjectAndNotEmpty(obj)) this.addMessage(obj);
     };
@@ -277,7 +277,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
    * @param {Array|object} [message] incoming message/s settings
    * @returns {void}
    */
-  removeValidationMessage(message: Array<IdsValidationErrorMessageTypes> | IdsValidationErrorMessageTypes): void {
+  removeValidationMessage(message: Array<IdsValidationErrorMessage> | IdsValidationErrorMessage): void {
     const removeMessage = (obj: any): void => {
       if (isObjectAndNotEmpty(obj)) this.removeMessage(obj);
     };
@@ -294,7 +294,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
    * @param {object} [settings] incoming settings
    * @returns {void}
    */
-  addMessage(settings: IdsValidationErrorMessageTypes): void {
+  addMessage(settings: IdsValidationErrorMessage): void {
     const {
       id,
       type,
@@ -353,7 +353,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
    * @param {object} [settings] incoming settings
    * @returns {void}
    */
-  removeMessage(settings: IdsValidationErrorMessageTypes): void {
+  removeMessage(settings: IdsValidationErrorMessage): void {
     const id = settings.id;
     let type = settings.type;
 
@@ -409,7 +409,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
   removeAllValidationMessages() {
     const nodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
     nodes.forEach((node: HTMLElement) => {
-      const messageSettings: IdsValidationErrorMessageTypes = {
+      const messageSettings: IdsValidationErrorMessage = {
         id: (node.getAttribute('validation-id') as string)
       };
       const type: any = node.getAttribute('type');
@@ -676,6 +676,28 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
   }
 
   get validationType() { return this.getAttribute(attributes.VALIDATION_TYPE); }
+
+  /**
+   * Return if the field is valid or not
+   * @returns {boolean} true if invalid
+   */
+  get isValid(): boolean { return this.shadowRoot.querySelectorAll('.validation-message').length === 0; }
+
+  /**
+   * Return if the current validation errors
+   * @returns {Array<IdsValidationErrorMessage>} The current errors
+   */
+  get validationMessages(): Array<IdsValidationErrorMessage> {
+    const msgs: Array<IdsValidationErrorMessage> = [];
+    this.shadowRoot.querySelectorAll('.validation-message').forEach((message: Element) => {
+      msgs.push({
+        message: message.querySelector('ids-text')?.childNodes[1].textContent || '',
+        type: message.getAttribute('type') || '',
+        id: message.getAttribute('validation-id') || ''
+      });
+    });
+    return msgs;
+  }
 };
 
 export default IdsValidationMixin;

@@ -220,6 +220,7 @@ const IdsDirtyTrackerMixin = (superclass: any) => class extends superclass {
     } else {
       this.handleDirtyTracker();
     }
+    this.isDirty = false;
   }
 
   /**

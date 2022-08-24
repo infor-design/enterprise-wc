@@ -4,8 +4,7 @@ This mixin add functionality for validation to the component. This includes a ad
 
 To implement the validation mixin:
 
-1. Import `IdsValidationMixin`
-1. Add `IdsValidationMixin` to the mixes() section
+1. Import `IdsValidationMixin` and add to the component-base.js
 1. Add `IdsValidationMixin` to the @mixes comment section
 1. Make sure you attributes extend `return [...super.attributes` in the `attributes` property because `attributes.VALIDATE` and `attributes.VALIDATION_EVENTS` are added.
 1. Make sure the `connectedCallback` calls `super.connectedCallback();`

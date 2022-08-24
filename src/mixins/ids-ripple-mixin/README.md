@@ -1,8 +1,8 @@
 #Ids Ripple Mixin
 
 This mixin allows a component to add a ripple effect triggered by click/touch events.
-You can set the ripple's target element, otherwise it defaults to using the component's container. 
-You can also set the pixelsize of the ripple effect by providing its radius, otherwise it defaults to a radius of 50.
+You can set the ripple's target element, otherwise it defaults to using the component's container.
+You can also set the pixel size of the ripple effect by providing its radius, otherwise it defaults to a radius of 50.
 
 This mixin adds one observed attribute to a component:
 
@@ -10,8 +10,7 @@ This mixin adds one observed attribute to a component:
 
 To use this mixin in your component,
 
-1. Import `IdsRippleMixin`
-2. Add `IdsRippleMixin` to the mixes() section
+1. Import `IdsRippleMixin` and add to the component-base.js
 3. Add `IdsRippleMixin` to the @mixes comment section
 4. Import `ids-ripple-mixin.scss` in your component's styles
 5. Make sure your attributes extend `return [...super.attributes]` in the `attributes` to allow propagation of added mixin attributes.

@@ -28,6 +28,8 @@ export default class IdsSwitch extends Base {
     super();
   }
 
+  isFormComponent = true;
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -175,7 +177,7 @@ export default class IdsSwitch extends Base {
     }
   }
 
-  get checked(): boolean | string { return this.getAttribute(attributes.CHECKED); }
+  get checked(): boolean { return stringToBool(this.getAttribute(attributes.CHECKED)); }
 
   /**
    * Sets checkbox to disabled

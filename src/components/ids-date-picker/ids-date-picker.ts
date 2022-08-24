@@ -70,6 +70,8 @@ class IdsDatePicker extends Base {
     super();
   }
 
+  isFormComponent = true;
+
   /**
    * Elements for internal usage
    * @private
