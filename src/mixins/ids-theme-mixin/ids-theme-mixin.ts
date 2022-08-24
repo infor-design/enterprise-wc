@@ -22,6 +22,12 @@ const IdsThemeMixin = (superclass: any) => class extends superclass {
     this.initThemeHandlers();
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.offEvent('themechanged');
+    this.switcher = null;
+  }
+
   /**
    * Init the mixin events and states
    * @private

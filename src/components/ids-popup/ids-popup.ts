@@ -60,7 +60,15 @@ export default class IdsPopup extends Base {
 
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
-    this.#ro.disconnect();
+    if (this.#ro) {
+      this.#ro?.disconnect();
+      this.#ro = undefined;
+    }
+    if (this.#mo) {
+      this.#mo?.disconnect();
+      this.#mo = undefined;
+    }
+    this.containingElem = undefined;
   }
 
   /**
@@ -90,20 +98,7 @@ export default class IdsPopup extends Base {
    * Watches for changes
    * @property {MutationObserver} mo this Popup component's mutation observer
    */
-  #mo = new MutationObserver((mutations) => {
-    if (this.#visible) {
-      let placed = false;
-      for (const m of mutations) {
-        if (placed) {
-          break;
-        }
-        if (['subtree', 'childList', 'characterData', 'characterDataOldValue'].includes(m.type)) {
-          this.place();
-          placed = true;
-        }
-      }
-    }
-  });
+  #mo?: MutationObserver;
 
   /**
    * Watches for resizing that occurs whenever the page changes dimensions, and re-applies some
@@ -111,18 +106,7 @@ export default class IdsPopup extends Base {
    * @private
    * @property {ResizeObserver} mo this Popup component's resize observer
    */
-  #ro = new ResizeObserver((entries) => {
-    if (this.open) {
-      for (const entry of entries) {
-        if (entry.target.tagName.toLowerCase() === 'ids-container') {
-          this.#fixPlacementOnResize();
-        } else {
-          this.#fix3dMatrixOnResize();
-        }
-      }
-      this.#checkViewportPositionScrolling();
-    }
-  });
+  #ro?: ResizeObserver;
 
   /**
    * Places the Popup and performs an adjustment to its `transform: matrix3d()`
@@ -151,6 +135,34 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #setInitialState(): void {
+    this.#mo = new MutationObserver((mutations) => {
+      if (this.#visible) {
+        let placed = false;
+        for (const m of mutations) {
+          if (placed) {
+            break;
+          }
+          if (['subtree', 'childList', 'characterData', 'characterDataOldValue'].includes(m.type)) {
+            this.place();
+            placed = true;
+          }
+        }
+      }
+    });
+
+    this.#ro = new ResizeObserver((entries) => {
+      if (this.open) {
+        for (const entry of entries) {
+          if (entry.target.tagName.toLowerCase() === 'ids-container') {
+            this.#fixPlacementOnResize();
+          } else {
+            this.#fix3dMatrixOnResize();
+          }
+        }
+        this.#checkViewportPositionScrolling();
+      }
+    });
+
     POPUP_PROPERTIES.forEach((prop) => {
       const camelProp = camelCase(prop);
       this[camelProp] = this.getAttribute(prop) || this[camelProp];
@@ -164,9 +176,9 @@ export default class IdsPopup extends Base {
   #attachEventHandlers(): void {
     const containerNode = getClosest((this as any), 'ids-container');
     // Setup Resize Observer
-    this.#ro.observe((this as any));
+    this.#ro?.observe((this as any));
     if (containerNode) {
-      this.#ro.observe(containerNode);
+      this.#ro?.observe(containerNode);
     }
   }
 
@@ -236,7 +248,7 @@ export default class IdsPopup extends Base {
 
   #refreshAlignTarget(): void {
     if (this.#alignTarget) {
-      this.#mo.observe(this.#alignTarget, {
+      this.#mo?.observe(this.#alignTarget, {
         attributes: true,
         attributeFilter: ['style', 'height', 'width'],
         attributeOldValue: true,
@@ -246,7 +258,7 @@ export default class IdsPopup extends Base {
         subtree: true
       });
     } else {
-      this.#mo.disconnect();
+      this.#mo?.disconnect();
     }
     this.place();
   }

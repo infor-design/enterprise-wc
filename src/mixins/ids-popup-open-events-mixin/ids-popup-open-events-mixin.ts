@@ -14,6 +14,11 @@ const IdsPopupOpenEventsMixin = (superclass: any) => class extends superclass {
     return [...super.attributes];
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.removeOpenEvents();
+  }
+
   /**
    * @property {boolean} hasOpenEvents true if "open" events are currently applied to this component
    */
