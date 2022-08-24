@@ -37,6 +37,8 @@ export default class IdsUpload extends Base {
     super();
   }
 
+  isFormComponent = true;
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -177,7 +179,11 @@ export default class IdsUpload extends Base {
    * @returns {void}
    */
   onDirtyTrackerChange(value: boolean) {
-    this.textInput.dirtyTracker = value;
+    if (this.textInput) this.textInput.dirtyTracker = value;
+  }
+
+  get input() {
+    return this.container?.querySelector('ids-trigger-field');
   }
 
   /**
@@ -401,10 +407,10 @@ export default class IdsUpload extends Base {
   set accept(value: string | undefined) {
     if (value) {
       this.setAttribute(attributes.ACCEPT, value);
-      this.fileInput.setAttribute(attributes.ACCEPT, value);
+      this.fileInput?.setAttribute(attributes.ACCEPT, value);
     } else {
       this.removeAttribute(attributes.ACCEPT);
-      this.fileInput.removeAttribute(attributes.ACCEPT);
+      this.fileInput?.removeAttribute(attributes.ACCEPT);
     }
   }
 
@@ -418,14 +424,15 @@ export default class IdsUpload extends Base {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
-      this.textInput.disabled = true;
-      this.trigger.disabled = true;
+      if (this.textInput) this.textInput.disabled = true;
+      if (this.trigger) this.trigger.disabled = true;
     } else {
       this.removeAttribute(attributes.DISABLED);
-      this.textInput.disabled = false;
-      this.trigger.disabled = false;
-
-      this.textInput.readonly = this.readonly;
+      if (this.textInput) {
+        this.textInput.disabled = false;
+        this.textInput.readonly = this.readonly;
+      }
+      if (this.trigger) this.trigger.disabled = false;
     }
   }
 
@@ -438,10 +445,10 @@ export default class IdsUpload extends Base {
   set label(value: string | undefined) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
-      this.textInput.label = value;
+      if (this.textInput) this.textInput.label = value;
     } else {
       this.removeAttribute(attributes.LABEL);
-      this.textInput.label = null;
+      if (this.textInput) this.textInput.label = null;
     }
   }
 
@@ -566,13 +573,13 @@ export default class IdsUpload extends Base {
     if (val) {
       this.setAttribute(attributes.READONLY, val.toString());
       this.container?.classList.add(attributes.READONLY);
-      this.textInput.readonlyBackground = false;
-      this.trigger.readonly = true;
+      if (this.textInput) this.textInput.readonlyBackground = false;
+      if (this.trigger) this.trigger.readonly = true;
     } else {
       this.removeAttribute(attributes.READONLY);
       this.container?.classList.remove(attributes.READONLY);
-      this.textInput.readonlyBackground = true;
-      this.trigger.readonly = false;
+      if (this.textInput) this.textInput.readonlyBackground = true;
+      if (this.trigger) this.trigger.readonly = false;
     }
   }
 
@@ -636,10 +643,10 @@ export default class IdsUpload extends Base {
   set validate(value: string | null) {
     if (value) {
       this.setAttribute(attributes.VALIDATE, value);
-      this.textInput.validate = value;
+      if (this.textInput) this.textInput.validate = value;
     } else {
       this.removeAttribute(attributes.VALIDATE);
-      this.textInput.validate = null;
+      if (this.textInput) this.textInput.validate = null;
     }
   }
 
@@ -652,10 +659,10 @@ export default class IdsUpload extends Base {
   set validationEvents(value: string | null) {
     if (value) {
       this.setAttribute(attributes.VALIDATION_EVENTS, value);
-      this.textInput.validationEvents = value;
+      if (this.textInput) this.textInput.validationEvents = value;
     } else {
       this.removeAttribute(attributes.VALIDATION_EVENTS);
-      this.textInput.validationEvents = this.validationEventsDefault;
+      if (this.textInput) this.textInput.validationEvents = this.validationEventsDefault;
     }
   }
 
@@ -671,10 +678,10 @@ export default class IdsUpload extends Base {
       if (this.textInput) this.textInput.value = val;
     } else {
       this.removeAttribute(attributes.VALUE);
-      this.fileInput.value = null;
+      if (this.fileInput) this.fileInput.value = null;
       if (this.textInput) this.textInput.value = '';
     }
-    this.files = this.fileInput.files;
+    if (this.files) this.files = this.fileInput.files;
   }
 
   get value(): string | null { return this.getAttribute(attributes.VALUE); }

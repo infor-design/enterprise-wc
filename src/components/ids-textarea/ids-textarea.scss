@@ -293,6 +293,13 @@ $textarea-size-default-height: 120px;
   }
 }
 
+// Error Styles
+.error {
+  .ids-textarea-field {
+    border-color: var(--ids-color-palette-ruby-60) !important;
+  }
+}
+
 // Handle Themes
 .ids-textarea[mode='light'],
 .ids-textarea:not([mode]) {

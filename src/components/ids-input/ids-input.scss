@@ -7,7 +7,7 @@
 // Set default
 $input-size-default: $input-size-md;
 $input-field-height-default: $input-field-height-md;
-$input-compact-height: $input-field-height-xs;
+$input-compact-height: $input-field-height-xs + 2;
 
 // These input field sizes come from the design tokens and are adjusted
 // here to account for 1px border size on top/bottom or left/right in some calculations.

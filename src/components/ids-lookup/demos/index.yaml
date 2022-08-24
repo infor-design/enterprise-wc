@@ -20,3 +20,6 @@
   - link: filter.html
     type: Example
     description: Showing a lookup with filtering
+  - link: sizes.html
+    type: Example
+    description: Showing width and height size variations

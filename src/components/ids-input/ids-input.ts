@@ -64,6 +64,8 @@ export default class IdsInput extends Base {
     super();
   }
 
+  isFormComponent = true;
+
   /**
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component

@@ -58,6 +58,8 @@ export default class IdsTextarea extends Base {
     super();
   }
 
+  isFormComponent = true;
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array<string>} The attributes in an array
@@ -155,6 +157,10 @@ export default class IdsTextarea extends Base {
    */
   setTextareaState(prop: string): void {
     if (prop === attributes.READONLY || prop === attributes.DISABLED) {
+      if (!this.shadowRoot) {
+        return;
+      }
+
       const msgNodes = [].slice.call(this.shadowRoot?.querySelectorAll('.validation-message'));
       const options = {
         prop1: prop,
@@ -713,6 +719,8 @@ export default class IdsTextarea extends Base {
    * @param {string} value [left, center, right]
    */
   set textAlign(value: string) {
+    if (value === 'start') value = 'left';
+    else if (value === 'end') value = 'right';
     const textAlign = TEXT_ALIGN[value];
     this.setAttribute(attributes.TEXT_ALIGN, textAlign || TEXT_ALIGN.default);
     this.input?.classList.remove(...Object.values(TEXT_ALIGN));

@@ -138,6 +138,8 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
    * @returns {void}
    */
   #refreshLabelState(oldVariantName: IdsLabelStateMode, newVariantName: IdsLabelStateMode): void {
+    if (!this.container) return;
+
     const cl = this.container.classList;
 
     if (oldVariantName) cl.remove(`label-state-${oldVariantName}`);
@@ -166,7 +168,7 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
   }
 
   #showLabel() {
-    const existingLabel = this.shadowRoot.querySelector('label');
+    const existingLabel = this.shadowRoot?.querySelector('label');
     if (!existingLabel && !this.labelEl) {
       if (this.fieldContainer) {
         this.fieldContainer.insertAdjacentHTML('beforebegin', `<label for="${this.id}-input" class="ids-label-text">

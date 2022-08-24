@@ -50,11 +50,11 @@ export default class IdsSkiplink extends Base {
   set href(value: string) {
     if (value) {
       this.setAttribute(attributes.HREF, value);
-      this.container.setAttribute(attributes.HREF, value);
+      this.container?.setAttribute(attributes.HREF, value);
       return;
     }
     this.removeAttribute(attributes.HREF);
-    this.container.removeAttribute(attributes.HREF);
+    this.container?.removeAttribute(attributes.HREF);
   }
 
   get href(): string { return this.getAttribute(attributes.HREF); }

@@ -7,6 +7,7 @@ import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color
 import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsThemeMixin(
@@ -14,11 +15,13 @@ const Base = IdsThemeMixin(
     IdsDirtyTrackerMixin(
       IdsFieldHeightMixin(
         IdsColorVariantMixin(
-          IdsPopupOpenEventsMixin(
-            IdsLocaleMixin(
-              IdsKeyboardMixin(
-                IdsEventsMixin(
-                  IdsElement
+          IdsValidationInputMixin(
+            IdsPopupOpenEventsMixin(
+              IdsLocaleMixin(
+                IdsKeyboardMixin(
+                  IdsEventsMixin(
+                    IdsElement
+                  )
                 )
               )
             )

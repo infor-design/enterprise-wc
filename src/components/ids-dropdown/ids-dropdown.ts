@@ -47,6 +47,8 @@ export default class IdsDropdown extends Base {
     this.state = { selectedIndex: 0 };
   }
 
+  isFormComponent = true;
+
   /**
    * Invoked each time the custom element is appended into a document-connected element.
    */
@@ -63,6 +65,7 @@ export default class IdsDropdown extends Base {
       .#attachKeyboardListeners();
 
     this.value = this.getAttribute('value');
+    this.resetDirtyTracker();
   }
 
   /**
