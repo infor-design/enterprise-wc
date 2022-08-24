@@ -177,9 +177,6 @@ class IdsMultiselect extends Base {
     });
 
     this.onEvent('click', this.input.fieldContainer, () => {
-      if (this.popup.visible) {
-        this.value = this.#selectedList;
-      }
       this.toggle();
     });
 
@@ -193,9 +190,6 @@ class IdsMultiselect extends Base {
     this.onEvent('click.multiselect-trigger', this.trigger, (e: MouseEvent) => {
       e.stopPropagation();
 
-      if (this.popup.visible) {
-        this.value = this.#selectedList;
-      }
       this.toggle();
     });
 
@@ -207,6 +201,7 @@ class IdsMultiselect extends Base {
   }
 
   #attachKeyboardListeners() {
+    // Select or Open on space/enter
     this.listen([' ', 'Enter'], this, () => {
       if (!this.popup.visible) {
         this.open();
@@ -215,6 +210,35 @@ class IdsMultiselect extends Base {
 
       this.#optionChecked(this.selected);
     });
+  }
+
+  /**
+   * Close the dropdown popup
+   * Rewriting it to add multiselect value update
+   * @param {boolean} noFocus if true do not focus on close
+   */
+  close(noFocus?: boolean) {
+    if (this.popup) {
+      this.popup.visible = false;
+      this.input.active = false;
+    }
+
+    this.setAttribute('aria-expanded', 'false');
+    this.listBox?.removeAttribute('tabindex');
+
+    if (this.selected) {
+      this.deselectOption(this.selected);
+    }
+
+    this.removeOpenEvents();
+
+    if (!noFocus) {
+      this.input.focus();
+    }
+
+    this.value = this.#selectedList;
+
+    this.container.classList.remove('is-open');
   }
 
   #handleTagRemove(e:any) {

@@ -622,9 +622,6 @@ export default class IdsDropdown extends Base {
       this.input.value = initialValue || '';
       this.#loadDataSet(this.#optionsData);
       (window.getSelection() as Selection).removeAllRanges();
-    }
-
-    if (this.typeahead) {
       this.#triggerIconChange('dropdown');
     }
 
@@ -746,7 +743,9 @@ export default class IdsDropdown extends Base {
       const prev = selected?.previousElementSibling;
 
       if (e.key === 'ArrowUp' && e.altKey) {
-        this.value = selected?.getAttribute(attributes.VALUE) || '';
+        if (!this.#isMultiSelect) {
+          this.value = selected?.getAttribute(attributes.VALUE) || '';
+        }
         this.close();
         return;
       }
@@ -818,7 +817,7 @@ export default class IdsDropdown extends Base {
         this.value = 'blank';
       } else {
         // ids-multiselect shared
-        (this.value as any) = Array.isArray(this.value) ? [] : '';
+        (this.value as any) = this.#isMultiSelect ? [] : '';
         this.input.value = '';
       }
 
