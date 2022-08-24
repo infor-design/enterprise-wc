@@ -1,9 +1,9 @@
-import type IdsThemeSwitcher from '../../components/ids-theme-switcher/ids-theme-switcher';
 import { attributes } from '../../core/ids-attributes';
-import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+import { IdsConstructor } from '../../core/ids-element';
+import type IdsThemeSwitcher from '../../components/ids-theme-switcher/ids-theme-switcher';
 
-type Constrainsts = IdsConstructor<IdsWebComponent & EventsMixinInterface>;
+type Constrainsts = IdsConstructor<EventsMixinInterface>;
 
 export const THEME_MODES = ['light', 'dark', 'contrast'];
 
@@ -36,7 +36,7 @@ const IdsThemeMixin = <T extends Constrainsts>(superclass: T) => class extends s
    * @private
    */
   initThemeHandlers() {
-    this.switcher = document.querySelector('ids-theme-switcher');
+    this.switcher = document.querySelector<IdsThemeSwitcher>('ids-theme-switcher');
     if (!this.switcher) {
       return;
     }

@@ -1,8 +1,8 @@
 import { attributes } from '../../core/ids-attributes';
-import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
+import { IdsConstructor } from '../../core/ids-element';
 import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
-export interface ColorVariantMixinInterface {
+export interface ColorVariantMixinInterface extends HTMLElement {
   set colorVariant(value: string | null);
   get colorVariant(): string | null;
 }
@@ -14,7 +14,7 @@ export interface ColorVariantHandler {
   onColorVariantRefresh?: (variantName: string | undefined | null) => void;
 }
 
-type Constraints = IdsConstructor<IdsWebComponent & ColorVariantHandler>;
+type Constraints = IdsConstructor<ColorVariantHandler>;
 
 /**
  * A mixin that will provide the container element of an IDS Component with a class
@@ -23,7 +23,8 @@ type Constraints = IdsConstructor<IdsWebComponent & ColorVariantHandler>;
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class extends superclass
+  implements ColorVariantMixinInterface {
   /**
    * @returns {Array<string>} List of available color variants for this component
    */

@@ -1,8 +1,8 @@
 import renderLoop from '../../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../../components/ids-render-loop/ids-render-loop-item';
+import { IdsBaseConstructor } from '../../core/ids-element';
 import { stringToBool, isPrintable } from '../../utils/ids-string-utils/ids-string-utils';
 import { getEventBaseName } from './ids-events-common';
-import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
 
 export type EventOptions = { [key: string]: any } & AddEventListenerOptions;
 
@@ -11,10 +11,9 @@ export interface EventsMixinInterface {
   offEvent(eventName: string, target?: any, options?: EventOptions): void;
   triggerEvent(eventName: string, target: any, options?: CustomEventInit): void;
   triggerVetoableEvent(eventType: string, data?: any): boolean;
+  detachEventsByName: (eventName: string) => void;
   handledEvents: Map<any, any>;
 }
-
-type Constraints = IdsConstructor<IdsWebComponent>;
 
 /**
  * A mixin that adds event handler functionality that is also safely torn down when a component is
@@ -22,7 +21,7 @@ type Constraints = IdsConstructor<IdsWebComponent>;
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsEventsMixin = <T extends Constraints>(superclass: T) => class extends superclass implements EventsMixinInterface {
+const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class extends superclass {
   handledEvents = new Map();
 
   longPressOn = false;
@@ -166,7 +165,7 @@ const IdsEventsMixin = <T extends Constraints>(superclass: T) => class extends s
    * @param {HTMLElement} target The DOM element to register
    * @param {object} [options = {}] The custom data to send
    */
-  triggerEvent(eventName: string, target: any, options?: CustomEventInit) {
+  triggerEvent(eventName: string, target: any, options?: CustomEventInit<unknown>) {
     const event = new CustomEvent(getEventBaseName(eventName), options);
     target.dispatchEvent(event);
   }

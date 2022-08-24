@@ -2,7 +2,7 @@ import IdsLocale from '../../components/ids-locale/ids-locale';
 import { attributes } from '../../core/ids-attributes';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
-import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
+import { IdsConstructor } from '../../core/ids-element';
 
 export interface LocaleMixinInterface {
   locale: IdsLocale;
@@ -14,7 +14,7 @@ export interface LocaleHandler {
   onLocaleChange?: (locale: IdsLocale) => void;
 }
 
-type Constraints = IdsConstructor<IdsWebComponent & EventsMixinInterface & LocaleHandler>;
+type Constraints = IdsConstructor<EventsMixinInterface & LocaleHandler>;
 
 const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends superclass implements LocaleMixinInterface {
   /** Flag for one initial event call */

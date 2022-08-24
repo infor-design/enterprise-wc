@@ -338,7 +338,7 @@ class IdsLocale {
    * @returns {number} The number as an actual Number type unless the number
    * is a big int (19 significant digits), in this case a string will be returned
    */
-  parseNumber(input: string, options: any): number | string {
+  parseNumber(input: string, options?: any): number | string {
     const localeData = this.loadedLocales.get(options?.locale || this.locale.name);
     const numSettings = localeData.numbers;
     let numString: string | number = input;
@@ -406,7 +406,7 @@ class IdsLocale {
    * @param {object} options Additional date formatting settings.
    * @returns {string} the formatted date.
    */
-  formatDate(value: any, options: any): string {
+  formatDate(value: any, options?: any): string {
     const usedOptions = options;
     const usedLocale = usedOptions?.locale || this.locale.name;
 
@@ -548,7 +548,7 @@ class IdsLocale {
    * @param {object} options Additional date formatting settings
    * @returns {string} the hours in either 24 h or 12 h format
    */
-  formatHour(hour: any, options: any) {
+  formatHour(hour: any, options?: any) {
     let timeSeparator = this.calendar(options?.locale || this.locale.name).dateFormat.timeSeparator;
     if (typeof hour === 'string' && hour.indexOf(timeSeparator) === -1) {
       timeSeparator = ':';

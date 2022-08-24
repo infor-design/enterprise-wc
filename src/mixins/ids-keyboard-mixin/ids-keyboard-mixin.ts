@@ -1,4 +1,4 @@
-import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
+import { IdsConstructor } from '../../core/ids-element';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
 export interface KeyboardMixinInterface {
@@ -8,7 +8,7 @@ export interface KeyboardMixinInterface {
   press(key: string): void
 }
 
-type Constraints = IdsConstructor<IdsWebComponent & EventsMixinInterface>;
+type Constraints = IdsConstructor<EventsMixinInterface>;
 
 /**
  * Handle keyboard shortcuts and pressed down keys

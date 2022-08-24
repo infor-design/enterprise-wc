@@ -1,15 +1,30 @@
 import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../../components/ids-calendar/ids-calendar-event';
 import { attributes } from '../../core/ids-attributes';
+import { IdsConstructor } from '../../core/ids-element';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import type IdsMenuButton from '../../components/ids-menu-button/ids-menu-button';
 
-const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
+export interface CalendarEventsHandler {
+  renderEventsData?(forceRender?: boolean): void;
+  onEventsChange?(data: CalendarEventData[]): void;
+  onEventTypesChange?(data: CalendarEventTypeData[]): void;
+}
+
+type Constraints = IdsConstructor<EventsMixinInterface & CalendarEventsHandler>;
+
+const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class extends superclass {
   #eventsData: CalendarEventData[] = [];
 
   #eventTypesData: CalendarEventTypeData[] = [];
 
+  constructor(...args: any[]) {
+    super(...args);
+  }
+
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.VIEW_PICKER,
       attributes.HIDDEN
     ];
@@ -20,10 +35,9 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
    * @param {CalendarEventData[]} data array of events
    */
   set eventsData(data: CalendarEventData[]) {
-    data = this.sortEventsByDate(data);
-    this.#eventsData = data;
+    this.#eventsData = this.sortEventsByDate(data);
     this.renderEventsData?.(true);
-    this.onEventsChange?.(data);
+    this.onEventsChange?.(this.#eventsData);
   }
 
   /**
@@ -57,9 +71,9 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
    * Passes startDate and endDate as callback arguments
    * @param {Function} fn Async function
    */
-  set beforeEventsRender(fn: (startDate: Date, endDate: Date) => Promise<CalendarEventData[]>) {
+  set beforeEventsRender(fn: ((startDate: Date, endDate: Date) => Promise<CalendarEventData[]>) | null) {
     this.state.beforeEventsRender = fn;
-    this.renderEventsData();
+    this.renderEventsData?.();
   }
 
   /**
@@ -88,10 +102,10 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
   set hidden(val: boolean | string) {
     if (stringToBool(val)) {
       this.setAttribute(attributes.HIDDEN, '');
-      this.container.classList.add(attributes.HIDDEN);
+      this.container?.classList.add(attributes.HIDDEN);
     } else {
       this.removeAttribute(attributes.HIDDEN);
-      this.container.classList.remove(attributes.HIDDEN);
+      this.container?.classList.remove(attributes.HIDDEN);
     }
   }
 
@@ -134,8 +148,8 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
    * Removes IdsCalendarEvent components from view
    */
   removeAllEvents(): void {
-    const events = this.container.querySelectorAll('ids-calendar-event');
-    events.forEach((event: IdsCalendarEvent) => event.remove());
+    const events = this.container?.querySelectorAll<IdsCalendarEvent>('ids-calendar-event');
+    events?.forEach((event: IdsCalendarEvent) => event.remove());
   }
 
   /**
@@ -172,7 +186,7 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
    * Handle view picker after render
    */
   viewPickerConnected(): void {
-    const button = this.container?.querySelector('#view-picker-btn');
+    const button = this.container?.querySelector<IdsMenuButton>('#view-picker-btn');
 
     if (button) {
       button.configureMenu();
@@ -242,8 +256,8 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
    * @param {string} id event id
    * @returns {IdsCalendarEvent} calendar event component
    */
-  getEventElemById(id: string): IdsCalendarEvent | undefined {
-    return this.container?.querySelector(`ids-calendar-event[data-id="${id}"]`);
+  getEventElemById(id: string): IdsCalendarEvent | undefined | null {
+    return this.container?.querySelector<IdsCalendarEvent>(`ids-calendar-event[data-id="${id}"]`);
   }
 
   /**
@@ -251,7 +265,7 @@ const IdsCalendarEventsMixin = (superclass: any) => class extends superclass {
    * @param {string} id event type id
    * @returns {CalendarEventTypeData} calendar event type
    */
-  getEventTypeById(id: string): CalendarEventTypeData | undefined {
+  getEventTypeById(id: string | null): CalendarEventTypeData | undefined {
     return this.#eventTypesData.find((item: CalendarEventTypeData) => id === item.id);
   }
 };
