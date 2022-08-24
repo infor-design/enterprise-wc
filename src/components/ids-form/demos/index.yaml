@@ -1,0 +1,11 @@
+---
+ component: Form
+ link: ids-form
+ description: Form Controller Component
+ category: Form Inputs
+ keywords: Form, Form Controller
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows a form component with several fields
+
