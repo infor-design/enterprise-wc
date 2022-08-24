@@ -9,20 +9,6 @@
     "doc": "doc",
     "example": "demos"
   },
-  "keywords": [
-    "infor design system",
-    "infor design system web components"
-  ],
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/infor-design/enterprise-wc.git"
-  },
-  "bugs": {
-    "url": "https://github.com/infor-design/enterprise-wc/issues"
-  },
-  "author": "Infor Design",
-  "homepage": "https://main.wc.design.infor.com/",
   "scripts": {
     "build:dist": "npx rimraf build/dist/development && npx tsc && npx webpack --config ./webpack.config.prod.js",
     "build:dist:prod": "npx rimraf build/dist/production && npx tsc && npx webpack --config ./webpack.config.prod.js --mode production",
@@ -52,6 +38,16 @@
     "test:vulnerabilities": "snyk test",
     "ncu": "npx ncu"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/infor-design/enterprise-wc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/infor-design/enterprise-wc/issues"
+  },
+  "author": "Infor Design",
+  "license": "Apache-2.0",
+  "homepage": "https://design.infor.com",
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.9",
     "@babel/preset-env": "^7.18.10",
