@@ -43,6 +43,8 @@ export default class IdsTimePicker extends Base {
     super();
   }
 
+  isFormComponent = true;
+
   connectedCallback() {
     super.connectedCallback();
     this.triggerButton = this.container?.querySelector('ids-trigger-button');

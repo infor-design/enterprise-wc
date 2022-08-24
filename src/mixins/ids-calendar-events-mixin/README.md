@@ -2,7 +2,7 @@
 
 This mixin add shared API to manage calendar events and event types.
 It adds function to create view picker template used in month and week views.
-It also adds reusable utility functions to sort, remove, and generate date strings for 
+It also adds reusable utility functions to sort, remove, and generate date strings for
 calendar events.
 
 This mixin adds one observed attribute to component:
@@ -17,8 +17,7 @@ This mixin adds three setting (properties) to component
 
 To use this mixin in your component:
 
-1. Import `IdsCalendarEventsMixin`
-2. Add `IdsCalendarEventsMixin` to the mixes() section
+1. Import `IdsCalendarEventsMixin` and add to the component-base.js
 3. Add `IdsCalendarEventsMixin` to the @mixes comment section
 4. Ensure your components has a `renderEventsData` to handle rendering calendar event data
 5. Set `eventsData` with an array of calendar event data
