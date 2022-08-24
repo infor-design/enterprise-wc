@@ -13,15 +13,18 @@ import '../ids-icon/ids-icon';
 
 import styles from './ids-dropdown.scss';
 
-type IdsListBoxOption = {
+export type IdsListBoxOption = {
   id?: string,
   label: string,
   value: string,
-  icon?: string;
-  groupLabel?: boolean
+  icon?: string,
+  groupLabel?: boolean,
+  // ids-multiselect shared
+  selected?: boolean,
+  index?: number
 };
 
-type IdsListBoxOptions = Array<IdsListBoxOption>;
+export type IdsListBoxOptions = Array<IdsListBoxOption>;
 
 /**
  * IDS Dropdown Component
@@ -86,6 +89,8 @@ export default class IdsDropdown extends Base {
   }
 
   #optionsData: IdsListBoxOptions = [];
+
+  #isMultiSelect: boolean = this.nodeName === 'IDS-MULTISELECT';
 
   /**
    * List of available color variants for this component
@@ -257,7 +262,7 @@ export default class IdsDropdown extends Base {
     if (!elem && !this.clearable) {
       return;
     }
-    this.#clearSelected();
+    this.clearSelected();
     this.selectOption(elem);
     this.selectIcon(elem);
     this.selectTooltip(elem);
@@ -472,7 +477,7 @@ export default class IdsDropdown extends Base {
   /**
    * Remove the aria and state from the currently selected element
    */
-  #clearSelected() {
+  clearSelected() {
     const option = this.querySelector('ids-list-box-option[aria-selected]');
 
     this.deselectOption(option);
@@ -556,8 +561,6 @@ export default class IdsDropdown extends Base {
    */
   #loadDataSet(dataset: IdsListBoxOptions) {
     let html = '';
-    // ids-multiselect shared
-    this.querySelector('ids-list-box.selected-options')?.remove();
 
     const listbox = this.querySelector('ids-list-box');
     listbox.innerHTML = '';
@@ -589,12 +592,7 @@ export default class IdsDropdown extends Base {
    * @returns {void}
    */
   onOutsideClick(e: any): void {
-    if (!this.typeahead) {
-      this.close(true);
-    }
-
-    if (this.typeahead
-      && !(e.composedPath()?.includes(this.popup)
+    if (!(e.composedPath()?.includes(this.popup)
       || e.composedPath()?.includes(this.input.fieldContainer))) {
       this.close(true);
     }
@@ -780,21 +778,22 @@ export default class IdsDropdown extends Base {
       this.close();
     });
 
-    // Select or Open on space/enter
-    this.listen([' ', 'Enter'], this, (e: KeyboardEvent) => {
-      // Excluding space key when typing
-      if (e.key === ' ' && this.typeahead) return;
+    if (!this.#isMultiSelect) {
+      // Select or Open on space/enter
+      this.listen([' ', 'Enter'], this, (e: KeyboardEvent) => {
+        // Excluding space key when typing
+        if (e.key === ' ' && this.typeahead) return;
 
-      if (!this.popup.visible) {
-        this.open(this.typeahead);
-        return;
-      }
+        if (!this.popup.visible) {
+          this.open(this.typeahead);
+          return;
+        }
 
-      const value = this.selected?.getAttribute(attributes.VALUE) || '';
-      // ids-multiselect shared
-      (this.value as any) = Array.isArray(this.value) ? [...this.value, value] : value;
-      this.close();
-    });
+        const value = this.selected?.getAttribute(attributes.VALUE) || '';
+        this.value = value;
+        this.close();
+      });
+    }
 
     // Select on Tab
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
@@ -891,7 +890,7 @@ export default class IdsDropdown extends Base {
    * Select first no blank with value option
    */
   #selectFirstOption() {
-    this.#clearSelected();
+    this.clearSelected();
 
     if (this.options.length > 0) {
       const firstWithValue = [...this.options].filter((item) => {

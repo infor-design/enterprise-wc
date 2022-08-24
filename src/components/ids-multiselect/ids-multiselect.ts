@@ -10,6 +10,8 @@ import '../ids-tag/ids-tag';
 import styles from './ids-multiselect.scss';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
+import type { IdsListBoxOption, IdsListBoxOptions } from '../ids-dropdown/ids-dropdown';
+
 /**
  * IDS Multiselect Component
  * @type {IdsMultiselect}
@@ -21,11 +23,8 @@ import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-s
 @customElement('ids-multiselect')
 @scss(styles)
 class IdsMultiselect extends Base {
-  #selectedList:Array<any>;
-
   constructor() {
     super();
-    this.#selectedList = [];
   }
 
   /**
@@ -33,9 +32,15 @@ class IdsMultiselect extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.#populateSelected();
     this.resetDirtyTracker();
+    this.#attachKeyboardListeners();
+    this.#setOptionsData();
+    this.#populateSelected();
   }
+
+  #selectedList: Array<string> = [];
+
+  #optionsData: IdsListBoxOptions = [];
 
   /**
    * Return the attributes we handle as getters and setters
@@ -139,7 +144,7 @@ class IdsMultiselect extends Base {
 
     this.container.value = '';
     this.#updateDisplay();
-    this.#updateList(value.length > 0);
+    this.#updateList();
 
     // Send the change event
     if (this.value === value) {
@@ -161,12 +166,20 @@ class IdsMultiselect extends Base {
   get value() { return this.#selectedList; }
 
   attachClickEvent() {
-    this.offEvent('click');
-    this.onEvent('click', this, (e: any) => {
-      this.#handleOptionClick(e);
+    this.offEvent('click.multiselect-list-box');
+    this.onEvent('click.multiselect-list-box', this.listBox, (e: any) => {
+      e.preventDefault();
+      const option = e.target.nodeName === 'IDS-LIST-BOX-OPTION'
+        || e.target.closest('ids-list-box-option')
+        ? e.target.closest('ids-list-box-option') ?? e.target
+        : null;
+      this.#optionChecked(option);
     });
 
     this.onEvent('click', this.input.fieldContainer, () => {
+      if (this.popup.visible) {
+        this.value = this.#selectedList;
+      }
       this.toggle();
     });
 
@@ -179,14 +192,11 @@ class IdsMultiselect extends Base {
     this.offEvent('click.multiselect-trigger');
     this.onEvent('click.multiselect-trigger', this.trigger, (e: MouseEvent) => {
       e.stopPropagation();
-      // Acts as value clearer if the x button is activated
-      if (this.trigger.dataset.clearable) {
-        this.value = [];
-        this.#updateList(false);
-        this.close();
-      } else {
-        this.toggle();
+
+      if (this.popup.visible) {
+        this.value = this.#selectedList;
       }
+      this.toggle();
     });
 
     if (this.tags) {
@@ -196,107 +206,130 @@ class IdsMultiselect extends Base {
     }
   }
 
+  #attachKeyboardListeners() {
+    this.listen([' ', 'Enter'], this, () => {
+      if (!this.popup.visible) {
+        this.open();
+        return;
+      }
+
+      this.#optionChecked(this.selected);
+    });
+  }
+
   #handleTagRemove(e:any) {
     const removedSelection = this.#selectedList.indexOf(e.target.closest('ids-tag').id);
     if (removedSelection > -1) {
       this.#selectedList.splice(removedSelection, 1);
     }
-    this.#updateList(false);
+    this.#updateList();
   }
 
-  #handleOptionClick(e:any) {
-    e.preventDefault();
-    if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
-      const targetOption = e.target;
-      if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
-        this.#selectedList = this.#selectedList.filter((item) => item !== targetOption.getAttribute('value'));
-        this.selectOption(targetOption);
-        this.#updateDisplay();
-        this.#updateList(false);
-      } else if (this.max !== this.value.length) {
-        this.#selectedList.push(e.target.getAttribute('value'));
-        this.selectOption(targetOption);
-        this.#updateDisplay();
-        this.#updateList(true);
-        return;
+  #optionChecked(option: any) {
+    if (!option) return;
+    const value = option.getAttribute('value');
+    const isSelected = this.#selectedList.some((item) => value === item);
+    const checkbox = option.querySelector('ids-checkbox');
+
+    if (isSelected) {
+      this.#selectedList = this.#selectedList.filter((item) => item !== value);
+      if (checkbox) {
+        checkbox.checked = false;
+      }
+      return;
+    }
+
+    if (this.max !== this.value.length) {
+      this.#selectedList.push(value);
+      if (checkbox) {
+        checkbox.checked = true;
       }
     }
 
-    if (e.target.closest('ids-list-box-option')) {
-      const targetOption = e.target.closest('ids-list-box-option');
-      if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
-        this.#selectedList = this.#selectedList.filter((item) => item !== targetOption.getAttribute('value'));
-        this.selectOption(targetOption);
-        this.#updateDisplay();
-        this.#updateList(false);
-      } else if (this.max !== this.value.length) {
-        this.#selectedList.push(targetOption.getAttribute('value'));
-        this.selectOption(targetOption);
-        this.#updateDisplay();
-        this.#updateList(true);
-      }
-    }
+    this.clearSelected();
+    this.selectOption(option);
   }
 
   #updateDisplay() {
-    let newValue = '';
-    if (this.tags) {
-      this.input.querySelectorAll('ids-tag').forEach((item: HTMLElement) => { item.remove(); });
-    }
-    this.#selectedList.forEach((selectedValue: string, index: number) => {
-      const matchedElem = this.querySelector(`ids-list-box-option[value="${selectedValue}"]`);
+    const selected = this.#optionsData.filter((item: IdsListBoxOption) => this.#selectedList.includes(item.value));
 
-      if (this.tags) {
+    if (this.tags) {
+      // Clear tags before rerender
+      this.input.querySelectorAll('ids-tag').forEach((item: HTMLElement) => { item.remove(); });
+      const tags = selected.map((item: any) => {
         const disabled = this.disabled ? `disabled="true"` : ``;
-        this.input.insertAdjacentHTML('afterbegin', `<ids-tag id="${selectedValue}" dismissible="true" ${disabled}>${matchedElem.querySelector('ids-checkbox').label}</ids-tag>`);
-      } else {
-        if (index > 0) {
-          newValue += ', ';
-        }
-        newValue += matchedElem.querySelector('ids-checkbox').label;
-      }
-    });
+
+        return `<ids-tag id="${item.value}" dismissible="true" ${disabled}>${item.label}</ids-tag>`;
+      }).join('');
+      this.input.insertAdjacentHTML('afterbegin', tags);
+    }
+
+    const newValue = selected.map((item: IdsListBoxOption) => item.label).join(', ');
+
     this.input.value = newValue;
   }
 
-  #updateList(addItem:boolean) {
-    const selectedOptions: Array<any> = this.querySelectorAll('.selected-options ids-list-box-option');
-    let unselectedOptions: Array<any>;
-    const optionsContainer = this.querySelector('.options');
-    let selectedOptionsContainer = this.querySelector('.selected-options');
-    if (addItem) {
-      if (!selectedOptionsContainer) {
-        this.insertAdjacentHTML('afterbegin', `<ids-list-box class="selected-options">
-        </ids-list-box>`);
-        selectedOptionsContainer = this.querySelector('.selected-options');
-      }
-      unselectedOptions = this.querySelectorAll('ids-list-box.options ids-list-box-option');
-      unselectedOptions.forEach((option) => {
-        if (this.#selectedList.includes(option.getAttribute('value'))) {
-          selectedOptionsContainer
-            .insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
-          option.querySelector('ids-checkbox').checked = true;
-        }
-      });
-    } else {
-      selectedOptions.forEach((option) => {
-        if (!this.#selectedList.includes(option.getAttribute('value'))) {
-          option.querySelector('ids-checkbox').checked = 'false';
-          option.classList.remove('.is-selected');
-          optionsContainer.insertBefore(option, optionsContainer.children[optionsContainer.children.length]);
-        }
-      });
-    }
+  #updateList() {
+    const selected = this.#optionsData.filter((item: IdsListBoxOption) => this.#selectedList.includes(item.value))
+      .map((item: IdsListBoxOption) => ({
+        ...item,
+        selected: true
+      }));
+    const options = this.#optionsData.filter((item: IdsListBoxOption) => !this.#selectedList.includes(item.value))
+      .map((item: IdsListBoxOption) => ({
+        ...item,
+        selected: false
+      }))
+      .sort((first, second) => (first.index as number) - (second.index as number));
+
+    this.listBox.innerHTML = '';
+
+    const html = [...selected, ...options].map((option: IdsListBoxOption) => this.#templatelistBoxOption(option)).join('');
+    this.listBox.insertAdjacentHTML('afterbegin', html);
+  }
+
+  /**
+   * Create the list box option template.
+   * @param {IdsListBoxOption} option id, value, label object
+   * @returns {string} ids-list-box-option template
+   */
+  #templatelistBoxOption(option: IdsListBoxOption): string {
+    return `<ids-list-box-option class="multiselect-option"
+      ${option.id ? `id=${option.id}` : ''}
+      ${option.value ? `value="${option.value}"` : ''}
+      ${option.groupLabel ? 'group-label' : ''}><ids-checkbox no-margin class="justify-center" label="${option.label}" checked="${option.selected}"></ids-checkbox></ids-list-box-option>`;
   }
 
   #populateSelected() {
-    this.options.forEach((element: any) => {
-      if (element.querySelector('ids-checkbox').checked) {
-        this.#selectedList.push(element.getAttribute('value'));
-        this.#updateDisplay();
-        this.#updateList(true);
+    this.options.forEach((item: any) => {
+      const checkbox = item.querySelector('ids-checkbox');
+
+      if (item.hasAttribute('selected')) {
+        this.#selectedList.push(item.getAttribute('value'));
+        if (checkbox) {
+          checkbox.checked = true;
+        }
       }
+      checkbox?.setAttribute('no-margin', '');
+      checkbox?.classList.add('justify-center');
+      item.classList.add('multiselect-option');
     });
+
+    this.value = this.#selectedList;
+  }
+
+  /**
+   * Map slotted ids-list-box-option elements to the dataset
+   */
+  #setOptionsData() {
+    this.#optionsData = [...this.options].map((item, index) => ({
+      id: item?.id,
+      label: item?.textContent?.trim() || item?.querySelector('ids-checkbox')?.label,
+      value: item?.getAttribute(attributes.VALUE),
+      groupLabel: item?.hasAttribute(attributes.GROUP_LABEL),
+      selected: item?.hasAttribute('selected'),
+      index
+    }));
   }
 }
 
