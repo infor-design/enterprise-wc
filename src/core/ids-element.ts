@@ -72,12 +72,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    * in a component you can just call super.
    */
   disconnectedCallback() {
-    /*
-    this.detachAllEvents();
-    if (this.detachAllListeners) {
-      this.detachAllListeners();
-    }
-    */
     delete this.cssStyles;
     delete this.popupOpenEventsTarget;
     // TODO: Can this be added
