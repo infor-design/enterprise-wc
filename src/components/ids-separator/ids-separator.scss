@@ -30,7 +30,7 @@
   }
 
   &.color-variant-alternate-formatter {
-    background-color: var(--ids-color-palette-slate-80);
+    // background-color: var(--ids-color-palette-slate-80);
 
     &.vertical {
       align-self: center;
@@ -44,7 +44,7 @@
   @include bg-slate-50();
 
   &.color-variant-alternate-formatter {
-    background-color: var(--ids-color-palette-slate-40);
+    background-color: var(--ids-color-palette-slate-70);
   }
 }
 
@@ -52,6 +52,6 @@
   @include text-slate-100();
 
   &.color-variant-alternate-formatter {
-    background-color: var(--ids-color-palette-slate-60);
+    background-color: var(--ids-color-palette-white);
   }
 }
