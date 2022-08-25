@@ -29,6 +29,8 @@ import {
 
 import styles from './ids-popup.scss';
 
+type IdsPopupElementRef = HTMLElement | SVGElement | null;
+
 /**
  * IDS Popup Component
  * @type {IdsPopup}
@@ -68,7 +70,9 @@ export default class IdsPopup extends Base {
       this.#mo?.disconnect();
       this.#mo = undefined;
     }
-    this.containingElem = undefined;
+    this.alignTarget = null;
+    this.arrowTarget = null;
+    this.containingElem = null;
   }
 
   /**
@@ -194,32 +198,32 @@ export default class IdsPopup extends Base {
    * @returns {HTMLElement} reference to the `content-wrapper` element
    */
   get wrapper(): HTMLElement {
-    return this.shadowRoot.querySelector('.content-wrapper');
+    return this.shadowRoot?.querySelector('.content-wrapper');
   }
 
   /**
    * @property {HTMLElement} alignTarget acts as the target element to be used for offset placement
    */
-  #alignTarget: any = undefined;
+  #alignTarget: IdsPopupElementRef = null;
 
   /**
    * Sets the element to align with via a css selector
-   * @param {string | HTMLElement | undefined} val ['string|HTMLElement'] a CSS selector string
+   * @param {IdsPopupElementRef | string} val a CSS selector string
    */
-  set alignTarget(val: any) {
+  set alignTarget(val: IdsPopupElementRef | string) {
     const isString = typeof val === 'string' && val.length;
     const isElem = val instanceof HTMLElement || val instanceof SVGElement;
 
     if (!isString && !isElem) {
-      if (this.#alignTarget !== undefined) {
-        this.#alignTarget = undefined;
+      if (this.#alignTarget !== null) {
+        this.#alignTarget = null;
         this.removeAttribute(attributes.ALIGN_TARGET);
         this.#refreshAlignTarget();
       }
       return;
     }
 
-    let elem;
+    let elem: IdsPopupElementRef = null;
     if (isString) {
       // @TODO Harden for security (XSS)
       const rootNode = getClosestRootNode((this as any));
@@ -228,21 +232,21 @@ export default class IdsPopup extends Base {
         return;
       }
       this.setAttribute(attributes.ALIGN_TARGET, val);
-    } else {
+    } else if (isElem) {
       elem = val;
     }
 
-    if (!this.#alignTarget || !this.#alignTarget.isEqualNode(elem)) {
+    if (elem !== null && (!this.#alignTarget || !this.#alignTarget.isEqualNode(elem))) {
       this.#alignTarget = elem;
       this.#refreshAlignTarget();
     }
   }
 
   /**
-   * @returns {HTMLElement| undefined} the element in the page that the Popup will take
+   * @returns {IdsPopupElementRef} the element in the page that the Popup will take
    * coordinates from for relative placement
    */
-  get alignTarget() {
+  get alignTarget(): IdsPopupElementRef {
     return this.#alignTarget;
   }
 
@@ -602,14 +606,14 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @property {HTMLElement | SVGElement} containingElem the element to use for containment of the Popup
+   * @property {IdsPopupElementRef} containingElem the element to use for containment of the Popup
    */
-  #containingElem: HTMLElement | SVGElement = document.body;
+  #containingElem: IdsPopupElementRef = document.body;
 
   /**
-   * @param {HTMLElement | SVGElement} val an element that will appear to "contain" the Popup
+   * @param {IdsPopupElementRef} val an element that will appear to "contain" the Popup
    */
-  set containingElem(val: any) {
+  set containingElem(val: IdsPopupElementRef) {
     if (!(val instanceof HTMLElement || val instanceof SVGElement)) {
       return;
     }
@@ -620,9 +624,9 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @returns {HTMLElement | SVGElement} the element currently appearing to "contain" the Popup
+   * @returns {IdsPopupElementRef} the element currently appearing to "contain" the Popup
    */
-  get containingElem(): HTMLElement | SVGElement {
+  get containingElem(): IdsPopupElementRef {
     return this.#containingElem;
   }
 
@@ -690,31 +694,31 @@ export default class IdsPopup extends Base {
    * @returns {HTMLElement} referencing the internal arrow element
    */
   get arrowEl(): HTMLElement {
-    return this.container.querySelector('.arrow');
+    return this.container?.querySelector('.arrow');
   }
 
   /**
-   * @param {HTMLElement} arrowTarget
+   * @param {IdsPopupElementRef} arrowTarget
    */
-  #arrowTarget: any = null;
+  #arrowTarget: IdsPopupElementRef = null;
 
   /**
    * Sets the element to align with via a css selector
-   * @param {any} val ['string|HTMLElement'] a CSS selector string
+   * @param {IdsPopupElementRef} val a CSS selector string
    */
-  set arrowTarget(val: any) {
+  set arrowTarget(val: IdsPopupElementRef | string) {
     const isString = typeof val === 'string' && val.length;
     const isElem = val instanceof HTMLElement || val instanceof SVGElement;
 
     if (!isString && !isElem) {
-      if (this.#arrowTarget !== undefined) {
-        this.#arrowTarget = undefined;
+      if (this.#arrowTarget !== null) {
+        this.#arrowTarget = null;
         this.removeAttribute(attributes.ARROW_TARGET);
       }
       return;
     }
 
-    let elem;
+    let elem: IdsPopupElementRef = null;
     if (isString) {
       // @TODO Harden for security (XSS)
       const rootNode = getClosestRootNode((this as any));
@@ -723,21 +727,21 @@ export default class IdsPopup extends Base {
         return;
       }
       this.setAttribute(attributes.ARROW_TARGET, val);
-    } else {
+    } else if (isElem) {
       elem = val;
     }
 
-    if (!this.#arrowTarget || !this.#arrowTarget.isEqualNode(elem)) {
+    if (elem !== null && (!this.#arrowTarget || !this.#arrowTarget.isEqualNode(elem))) {
       this.#arrowTarget = elem;
       this.#setArrowDirection('', this.arrow);
     }
   }
 
   /**
-   * @returns {HTMLElement} the element in the page that the Popup will take
+   * @returns {IdsPopupElementRef} the element in the page that the Popup will take
    * coordinates from for relative placement
    */
-  get arrowTarget(): HTMLElement {
+  get arrowTarget(): IdsPopupElementRef {
     return this.#arrowTarget || this.alignTarget;
   }
 
@@ -1110,6 +1114,8 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #placeAgainstTarget(targetAlignEdge?: string): void {
+    if (!this.alignTarget) return;
+
     let x = this.x;
     let y = this.y;
     this.container.classList.remove('flipped');
@@ -1234,7 +1240,7 @@ export default class IdsPopup extends Base {
    */
   #nudge(popupRect: DOMRect): object {
     // Don't adjust if bleeding is allowed
-    if (this.bleed) {
+    if (this.bleed || !this.containingElem) {
       return popupRect;
     }
 
@@ -1274,6 +1280,8 @@ export default class IdsPopup extends Base {
   }
 
   #shouldFlip(popupRect: DOMRect): boolean {
+    if (!this.containingElem || !this.alignTarget) return false;
+
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const scrollX = this.containingElem.scrollLeft || 0;
