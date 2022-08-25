@@ -1,7 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-textarea-base';
 
@@ -39,12 +38,13 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
  * IDS Textarea Component
  * @type {IdsTextarea}
  * @inherits IdsElement
- * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
  * @mixes IdsClearableMixin
  * @mixes IdsDirtyTrackerMixin
- * @mixes IdsValidationMixin
+ * @mixes IdsLabelStateMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsValidationMixin
  * @part textarea - the textarea element
  * @part label - the label element
  */
@@ -74,8 +74,6 @@ export default class IdsTextarea extends Base {
       attributes.CHAR_REMAINING_TEXT,
       attributes.CHARACTER_COUNTER,
       attributes.DISABLED,
-      attributes.LABEL,
-      attributes.LABEL_REQUIRED,
       attributes.MAXLENGTH,
       attributes.PLACEHOLDER,
       attributes.PRINTABLE,
@@ -105,6 +103,9 @@ export default class IdsTextarea extends Base {
     // Textarea
     const value = this.value || '';
     const rows = this.rows ? ` rows="${this.rows}"` : '';
+    const ariaLabel = this.hasAttribute(attributes.LABEL_STATE) && this.label ? `aria-label="${this.label}"` : '';
+    const hiddenLabelCss = !this.label.length || this.labelState === 'hidden' ? ' empty' : '';
+    const requiredLabelCss = !this.labelRequired ? ' no-required-indicator' : '';
     const maxlength = this.maxlength ? ` maxlength="${this.maxlength}"` : '';
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const isPrintable = stringToBool(this.printable) || this.printable === null;
@@ -121,11 +122,11 @@ export default class IdsTextarea extends Base {
       <div class="ids-textarea${textareaState}">
         ${printable}
         <slot class="hidden"></slot>
-        <label for="${ID}" class="label-text">
-          <ids-text part="label">${this.label}</ids-text>
+        <label for="${ID}" class="ids-label-text${requiredLabelCss}${hiddenLabelCss}">
+          <ids-text part="label" label ${textareaState} color-unset>${this.label}</ids-text>
         </label>
         <div class="field-container ${this.size}">
-          <textarea part="textarea" id="${ID}"${textareaClass}${placeholder}${textareaState}${maxlength}${rows}>${value}</textarea>
+          <textarea part="textarea" id="${ID}"${textareaClass}${placeholder}${textareaState}${maxlength}${rows}${ariaLabel} value="${value}"></textarea>
         </div>
         ${counter}
       </div>
@@ -249,10 +250,7 @@ export default class IdsTextarea extends Base {
    * @returns {void}
    */
   setLabelText(value: string): void {
-    const labelText = this.shadowRoot?.querySelector(`[for="${ID}"] ids-text`);
-    if (labelText) {
-      labelText.innerHTML = value || '';
-    }
+    return super.setLabelText(value, `[for="${ID}"]`);
   }
 
   /**
@@ -597,48 +595,12 @@ export default class IdsTextarea extends Base {
   #labelEl?: HTMLLabelElement;
 
   /**
-   * Set the `label` text
-   * @param {string} value of the `label` text property
-   */
-  set label(value: string) {
-    const newValue = stripHTML(value);
-    const currentValue = this.label;
-
-    if (newValue !== currentValue) {
-      if (value) {
-        this.setAttribute(attributes.LABEL, value.toString());
-      } else {
-        this.removeAttribute(attributes.LABEL);
-      }
-      this.setLabelText(value);
-    }
-  }
-
-  get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
-
-  /**
    * @readonly
    * @returns {HTMLLabelElement} the inner `label` element
    */
   get labelEl(): HTMLLabelElement | null {
     return this.#labelEl || this.shadowRoot?.querySelector(`[for="${ID}"]`) || null;
   }
-
-  /**
-   * Set `label-required` attribute
-   * @param {string|null} value The `label-required` attribute
-   */
-  set labelRequired(value: string | null) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.LABEL_REQUIRED, val.toString());
-    } else {
-      this.removeAttribute(attributes.LABEL_REQUIRED);
-    }
-    this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
-  }
-
-  get labelRequired(): string | null { return this.getAttribute(attributes.LABEL_REQUIRED); }
 
   /**
    * Set the `maxlength` of textarea

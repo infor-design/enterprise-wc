@@ -11,12 +11,13 @@ import styles from './ids-checkbox.scss';
  * IDS Checkbox Component
  * @type {IdsCheckbox}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsHitboxMixin
- * @mixes IdsValidationMixin
- * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
+ * @mixes IdsLabelStateMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsThemeMixin
+ * @mixes IdsValidationMixin
  * @part label - the label element
  * @part input - the checkbox input element
  * @part label-checkbox - the label text element
@@ -45,9 +46,6 @@ export default class IdsCheckbox extends Base {
       attributes.DISABLED,
       attributes.HORIZONTAL,
       attributes.INDETERMINATE,
-      attributes.LABEL,
-      attributes.LABEL_REQUIRED,
-      attributes.LABEL_AUDIBLE,
       attributes.VALUE,
       attributes.MODE
     ];
@@ -87,11 +85,12 @@ export default class IdsCheckbox extends Base {
     checkboxClass += stringToBool(this.indeterminate) ? ' indeterminate' : '';
     checkboxClass = ` class="${checkboxClass}"`;
     const rInd = !(stringToBool(this.labelRequired) || this.labelRequired === null);
-    const labelClass = rInd ? ' class="no-required-indicator"' : '';
+    const hiddenLabelCss = !this.label.length || this.labelState === 'hidden' ? ' empty' : '';
+    const requiredLabelCss = rInd ? ' no-required-indicator' : '';
 
     return `
       <div${rootClass}${color} part="root">
-        <label${labelClass} part="label">
+        <label class="ids-label-text${requiredLabelCss}${hiddenLabelCss}" part="label">
           <input part="input" type="checkbox"${checkboxClass}${disabled}${checked}>
           <span class="checkmark${checked}" part="checkmark"></span>
           <ids-text${audible} class="label-checkbox" part="label-checkbox">${this.label}</ids-text>
@@ -273,70 +272,6 @@ export default class IdsCheckbox extends Base {
   }
 
   get indeterminate(): boolean | string { return this.getAttribute(attributes.INDETERMINATE); }
-
-  /**
-   * Set the `label` text
-   * @param {string | boolean} value of the `label` text property
-   */
-  set label(value: string | boolean) {
-    const labelText = this.labelEl?.querySelector('.label-checkbox');
-    if (value) {
-      this.setAttribute(attributes.LABEL, value);
-    } else {
-      this.removeAttribute(attributes.LABEL);
-    }
-    if (labelText) {
-      labelText.innerHTML = value || '';
-    }
-  }
-
-  get label(): boolean | string {
-    const attr = this.getAttribute(attributes.LABEL);
-    const labelAudibleAttr = this.getAttribute(attributes.LABEL_AUDIBLE);
-    if (!attr && !labelAudibleAttr) {
-      return '&nbsp;';
-    }
-    return attr || '';
-  }
-
-  /**
-   * Set the `label-audible` attribute
-   * @param {string | boolean} value of the `labelAudible`
-   */
-  set labelAudible(value: string | boolean) {
-    this.setAttribute(attributes.LABEL_AUDIBLE, value);
-    const idsTextElem = this.labelEl?.querySelector('ids-text');
-    if (stringToBool(value)) {
-      idsTextElem?.setAttribute(attributes.AUDIBLE, value);
-    } else {
-      idsTextElem?.removeAttribute(attributes.AUDIBLE);
-    }
-  }
-
-  get labelAudible(): boolean | string {
-    const attr = this.getAttribute(attributes.LABEL_AUDIBLE);
-    const labelAttr = this.getAttribute(attributes.LABEL);
-    if (!labelAttr && !attr) {
-      return '&nbsp;';
-    }
-    return attr;
-  }
-
-  /**
-   * Sets the checkbox to required
-   * @param {string | boolean} value The `label-required` attribute
-   */
-  set labelRequired(value: string | boolean) {
-    const val = stringToBool(value);
-    if (value) {
-      this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
-    } else {
-      this.removeAttribute(attributes.LABEL_REQUIRED);
-    }
-    this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
-  }
-
-  get labelRequired() { return this.getAttribute(attributes.LABEL_REQUIRED); }
 
   /**
    * Set the checkbox `value` attribute
