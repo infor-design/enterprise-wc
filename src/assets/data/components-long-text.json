@@ -1,0 +1,67 @@
+[{
+   "data": [{
+     "name": "January",
+     "value": 100
+   }, {
+     "name": "February",
+     "value": 3111
+   }, {
+     "name": "March",
+     "value": 3411
+   }, {
+     "name": "April",
+     "value": 500
+   }, {
+     "name": "May",
+     "value": 3411
+   }, {
+     "name": "Jun",
+     "value": 6500
+   }],
+   "name": "Component A",
+   "shortName": "Comp A",
+   "abbreviatedName": "A"
+ }, {
+   "data": [{
+     "name": "January",
+     "value": 2211
+   }, {
+     "name": "February",
+     "value": 2111
+   }, {
+     "name": "March",
+     "value": 2411
+   }, {
+     "name": "April",
+     "value": 2011
+   }, {
+     "name": "May",
+     "value": 2411
+   }, {
+     "name": "Jun",
+     "value": 2811
+   }],
+   "name": "Component B",
+   "shortName": "Comp B",
+   "abbreviatedName": "B"
+ }, {
+   "data": [{
+     "name": "January",
+     "value": 1211
+   }, {
+     "name": "February",
+     "value": 1111
+   }, {
+     "name": "March",
+     "value": 1411
+   }, {
+     "name": "April",
+     "value": 1011
+   }, {
+     "name": "May",
+     "value": 8000
+   }],
+   "name": "Component C",
+   "shortName": "Comp C",
+   "abbreviatedName": "C"
+ }]

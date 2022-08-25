@@ -6,6 +6,7 @@
 
 - `[AppMenu]` Removed the logo from the app menu component by design request. ([#851](https://github.com/infor-design/enterprise-wc/pull/v))
 - `[Calendar]` Added calendar event add/update/remove via modal/API feature to calendar. ([#757](https://github.com/infor-design/enterprise-wc/pull/795))
+- `[Charts]` Added the ability to rotate x axis labels in axis charts like line and bar. ([#738](https://github.com/infor-design/enterprise-wc/pull/738))
 - `[Form]` Added new 'IdsForm' component. ([#357](https://github.com/infor-design/enterprise-wc/pull/357))
 
 ## 1.0.0-beta.1
