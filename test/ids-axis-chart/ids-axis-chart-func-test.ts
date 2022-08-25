@@ -46,6 +46,18 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelector('title').textContent).toEqual('Test Title');
   });
 
+  it('supports setting height inline', () => {
+    document.body.innerHTML = '';
+    axisChart = new IdsAxisChart();
+    axisChart.setAttribute('width', 500);
+    axisChart.setAttribute('height', 500);
+    document.body.appendChild(axisChart);
+    axisChart.data = dataset;
+
+    expect(axisChart.svg.getAttribute('height')).toEqual('500');
+    axisChart.title = 'Test Title';
+  });
+
   it('supports setting animated', () => {
     expect(axisChart.animated).toEqual(true);
     axisChart.animated = 'false';
@@ -351,5 +363,37 @@ describe('IdsAxisChart Component', () => {
     container.language = 'ar';
     await processAnimFrame();
     expect(axisChart.locale.isRTL()).toBe(true);
+
+    axisChart.axisLabelBottom = '';
+    axisChart.axisLabelEnd = '';
+    axisChart.axisLabelStart = '';
+    axisChart.axisLabelTop = '';
+    axisChart.axisLabelMargin = 0;
+    axisChart.redraw();
+    expect(axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length).toEqual(0);
+  });
+
+  it('should set axis rotation', async () => {
+    axisChart.rotateXLabels = '-60';
+
+    const xLabels = axisChart.shadowRoot.querySelectorAll('.labels.x-labels text');
+    expect(xLabels.length).toEqual(6);
+    expect(xLabels[0].getAttribute('transform')).toContain('rotate(-60');
+    expect(xLabels[5].getAttribute('transform')).toContain('rotate(-60');
+
+    expect(xLabels[0].getAttribute('transform-origin')).toEqual(null);
+    expect(xLabels[0].getAttribute('transform-origin')).toEqual(null);
+
+    container.language = 'ar';
+    axisChart.alignXLabels = 'middle';
+    axisChart.redraw();
+    await processAnimFrame();
+
+    expect(xLabels[0].getAttribute('transform')).toContain('rotate(-60');
+    expect(xLabels[5].getAttribute('transform')).toContain('rotate(-60');
+
+    axisChart.rotateXLabels = '';
+    axisChart.redraw();
+    expect(xLabels[0].getAttribute('transform')).toContain('rotate(-60');
   });
 });

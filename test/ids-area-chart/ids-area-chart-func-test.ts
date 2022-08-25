@@ -39,6 +39,13 @@ describe('IdsAreaChart Component', () => {
     expect(areaChart.markerSize).toEqual(8);
   });
 
+  it('supports setting animated', () => {
+    expect(areaChart.shadowRoot.querySelectorAll('.animate').length).toEqual(3);
+    areaChart.animated = false;
+    areaChart.redraw();
+    expect(areaChart.shadowRoot.querySelectorAll('.animate').length).toEqual(0);
+  });
+
   it('can set custom colors', async () => {
     areaChart.data = [{
       data: [{
