@@ -20,9 +20,6 @@ const IdsColorVariantMixin = (superclass: any) => class extends superclass {
 
   connectedCallback() {
     super.connectedCallback();
-    if (this.hasAttribute(attributes.COLOR_VARIANT)) {
-      this.#refreshColorVariant('', stripHTML(this.getAttribute(attributes.COLOR_VARIANT)));
-    }
   }
 
   static get attributes() {
