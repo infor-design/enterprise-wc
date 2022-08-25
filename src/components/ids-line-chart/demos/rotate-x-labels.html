@@ -9,14 +9,19 @@
     <ids-theme-switcher mode="light"></ids-theme-switcher>
 
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Line Chart</ids-text>
+      <ids-text font-size="12" type="h1">Line Chart (Rotate X Labels)</ids-text>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-line-chart title="A line chart showing component usage" width="800" height="500" id="index-example" show-vertical-grid-lines="true" rotate-x-labels="-65"></ids-line-chart>
+        <ids-line-chart title="A line chart showing component usage"
+          rotate-x-labels="-65"
+          width="800"
+          height="500"
+          id="rotate-x-labels-example"
+          show-vertical-grid-lines="true">
+        </ids-line-chart>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-
   </ids-container>
 </body>
 </html>

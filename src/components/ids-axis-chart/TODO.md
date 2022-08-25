@@ -7,7 +7,7 @@ Keep in sync with #515
 - [x] Interaction: When clicking the line it should select with focusable Legend (for selection)
 - [x] Rendering: RTL axis on the wrong side https://stackoverflow.com/questions/42147119/how-to-flip-svg-coordinates
 - [x] Rendering: Axis Labels all around (bottom, end, start, top)
-- [ ] Rendering: Axis and Rotated Labels
+- [x] Rendering: Axis and Rotated Labels
 - [x] Chart Types: Line Chart
 - [x] Chart Types: Area Chart
 - [x] Chart Types: Bar Chart
@@ -28,8 +28,3 @@ Keep in sync with #515
 - [ ] Maybe: Have a table option to actually display the data in optional data form
 - [ ] Chart Types: Bubble Chart
 - [ ] Chart Types: Positive Negative ( Negative Values with comparison / slightly different chart)
-
-## Now
-
-- [ ] Make PR
-- [ ] Make wc issues
