@@ -6,6 +6,10 @@ ids-trigger-button {
   width: 34px;
 }
 
+[compact] ids-trigger-button {
+  width: 20px;
+}
+
 .ids-dropdown {
   position: relative;
 }

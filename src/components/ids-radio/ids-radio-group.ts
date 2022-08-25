@@ -25,6 +25,8 @@ export default class IdsRadioGroup extends Base {
     super();
   }
 
+  isFormComponent = true;
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array

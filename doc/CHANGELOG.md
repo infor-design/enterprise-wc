@@ -6,6 +6,7 @@
 
 - `[AppMenu]` Removed the logo from the app menu component by design request. ([#851](https://github.com/infor-design/enterprise-wc/pull/v))
 - `[Calendar]` Added calendar event add/update/remove via modal/API feature to calendar. ([#757](https://github.com/infor-design/enterprise-wc/pull/795))
+- `[Form]` Added new 'IdsForm' component. ([#357](https://github.com/infor-design/enterprise-wc/pull/357))
 
 ## 1.0.0-beta.1
 
@@ -29,6 +30,7 @@
 - `[Radio]` Fixed incorrect colors in contrast mode. ([#775](https://github.com/infor-design/enterprise-wc/pull/775))
 - `[Splitter]` Added support for save position to local storage. ([#692](https://github.com/infor-design/enterprise-wc/issues/692))
 - `[Tag]` Updated `x` and `>` icon color on colored tags when dismissible/clickable is true.([#848](https://github.com/infor-design/enterprise-wc/pull/848))
+- `[Textarea]` Updated `start` and `end` for when text alignment is defined (not default).([#873](https://github.com/infor-design/enterprise-wc/pull/873))
 
 ## 1.0.0-beta.0
 

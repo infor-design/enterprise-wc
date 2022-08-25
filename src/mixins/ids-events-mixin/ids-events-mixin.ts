@@ -69,7 +69,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    * @param {HTMLElement} target The DOM element to deregister (or previous registered target)
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
-  offEvent(eventName: string, target: HTMLElement | unknown, options?: Record<string, unknown> | boolean) {
+  offEvent(eventName: string, target?: HTMLElement | unknown, options?: Record<string, unknown> | boolean) {
     const handler = this.handledEvents.get(eventName);
     this.handledEvents.delete(eventName);
 
