@@ -101,7 +101,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   @include antialiased();
   @include font-sans();
   @include text-slate-60();
-  @include mb-4();
+  @include mb-8();
 
   align-items: baseline;
   display: flex;
@@ -129,7 +129,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       top: 1px;
     }
 
-    &.no-required-indicator::after {
+    &.no-required-indicator::after,
+    &.empty::after {
       content: '';
     }
   }

@@ -13,8 +13,6 @@ import styles from './ids-trigger-field.scss';
  * IDS Trigger Field Component
  * @type {IdsTriggerField}
  * @inherits IdsInput
- * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part field - the field container
  * @part content - the content with trigger buttons and input element
  */

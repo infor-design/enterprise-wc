@@ -67,14 +67,14 @@ describe('IdsTextarea Component', () => {
     expect(textarea.labelEl.classList).not.toContain(className);
     textarea.labelRequired = false;
     expect(textarea.getAttribute('validate')).toEqual('required');
-    expect(textarea.getAttribute('label-required')).toEqual(null);
+    expect(textarea.getAttribute('label-required')).toEqual('false');
     expect(textarea.labelEl.classList).toContain(className);
-    expect(textarea.labelRequired).toEqual(null);
+    expect(textarea.labelRequired).toEqual(false);
     textarea.labelRequired = true;
     expect(textarea.getAttribute('validate')).toEqual('required');
     expect(textarea.getAttribute('label-required')).toEqual('true');
     expect(textarea.labelEl.classList).not.toContain(className);
-    expect(textarea.labelRequired).toEqual('true');
+    expect(textarea.labelRequired).toEqual(true);
   });
 
   it('should set validation events', () => {

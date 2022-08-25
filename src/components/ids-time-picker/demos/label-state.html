@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-time-picker id="time-picker-1" label="Regular Time Picker"
+          placeholder="This Time Picker's label is visible" validate="required"></ids-time-picker>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-time-picker id="time-picker-2" label="Time Picker with hidden label" label-state="hidden"
+          placeholder="This Time Picker's label is hidden" validate="required"></ids-time-picker>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-time-picker id="time-picker-3" label="Time Picker with collapsed label" label-state="collapsed"
+          placeholder="This Time Picker's label is collapsed" validate="required"></ids-time-picker>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+
+</html>

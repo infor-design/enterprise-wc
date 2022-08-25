@@ -16,7 +16,7 @@ $editor-container-height: 285px;
 
   .editor-label {
     @include flex();
-    @include mb-4();
+    @include mb-8();
 
     align-items: baseline;
 
@@ -33,12 +33,26 @@ $editor-container-height: 285px;
         top: 1px;
       }
 
-      &.no-required-indicator::after {
+      &.no-required-indicator::after,
+      &:empty::after {
         content: '';
       }
     }
+  }
 
-    &[audible] {
+  // Simulate standard label text size while empty with a non-breaking space
+  &.label-state-hidden {
+    .editor-label {
+      @include mb-8();
+
+      &::before {
+        content: '\00a0';
+      }
+    }
+  }
+
+  &.label-state-collapsed {
+    .editor-label {
       @include mb-0();
 
       &.required::after {
