@@ -93,15 +93,18 @@
   @include text-slate-100();
 }
 
-:host([group-label]:not(:first-child)) {
+:host([group-label]:not(:first-child)),
+:host(.multiselect-border) {
   border-top: 1px solid var(--ids-color-palette-slate-30);
   margin-top: 5px;
 }
 
-:host([mode='dark'][group-label]:not(:first-child)) {
+:host([mode='dark'][group-label]:not(:first-child)),
+:host([mode='dark'].multiselect-border) {
   border-top: 1px solid var(--ids-color-palette-slate-50);
 }
 
-:host([mode='contrast'][group-label]:not(:first-child)) {
+:host([mode='contrast'][group-label]:not(:first-child)),
+:host([mode='contrast'].multiselect-border) {
   border-top: 1px solid var(--ids-color-palette-slate-60);
 }

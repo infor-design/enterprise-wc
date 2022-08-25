@@ -301,8 +301,9 @@ class IdsMultiselect extends Base {
         selected: true
       }));
     const options = this.#optionsData.filter((item: IdsListBoxOption) => !this.#selectedList.includes(item.value))
-      .map((item: IdsListBoxOption) => ({
+      .map((item: any, index: number) => ({
         ...item,
+        border: index === 0 && selected.length !== 0,
         selected: false
       }))
       .sort((first, second) => (first.index as number) - (second.index as number));
@@ -319,7 +320,7 @@ class IdsMultiselect extends Base {
    * @returns {string} ids-list-box-option template
    */
   #templatelistBoxOption(option: IdsListBoxOption): string {
-    return `<ids-list-box-option class="multiselect-option"
+    return `<ids-list-box-option class="multiselect-option${(option as any).border ? ' multiselect-border' : ''}"
       ${option.id ? `id=${option.id}` : ''}
       ${option.value ? `value="${option.value}"` : ''}
       ${option.groupLabel ? 'group-label' : ''}><ids-checkbox no-margin class="justify-center" label="${option.label}" checked="${option.selected}"></ids-checkbox></ids-list-box-option>`;
