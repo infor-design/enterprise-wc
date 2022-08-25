@@ -8,6 +8,9 @@
   - link: example.html
     type: Main Example
     description: Showing a spinbox with all states
+  - link: label-state.html
+    type: Test
+    description: Showing an example with hidden labels
   - link: side-by-side.html
     type: Side by Side
     description: Showing a spinbox component side by side working with 4.x

@@ -12,7 +12,7 @@ export function parseTemplate(str: string, ctx: any): string {
 export const editorTemplate = `
   <div class="ids-editor" part="editor"{disabled}{readonly}>
     <slot class="{hiddenClass}"></slot>
-    <ids-text id="editor-label" class="{labelClass}" part="editor-label"{disabled}{readonly}{labelHidden}>{labelText}</ids-text>
+    <ids-text id="editor-label" label class="{labelClass}{hiddenLabelCss}{requiredLabelCss}" part="editor-label"{disabled}{readonly}>{labelText}</ids-text>
     <div class="main-container" part="main-container">
       <div class="toolbar-container" part="toolbar-container">
         <slot name="toolbar"></slot>
