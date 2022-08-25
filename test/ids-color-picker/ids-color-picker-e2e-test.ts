@@ -54,7 +54,7 @@ describe('Ids Color Picker e2e Tests', () => {
     expect(isVisible).toEqual(true);
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-color-picker id="test" label="Clearable Color Picker" value="ruby-80" clearable></ids-color-picker>`);
