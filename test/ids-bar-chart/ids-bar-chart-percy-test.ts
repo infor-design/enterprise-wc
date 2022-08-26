@@ -53,4 +53,10 @@ describe('Ids Bar Chart Percy Tests', () => {
     await page.waitForSelector('pierce/.chart-legend');
     await percySnapshot(page, 'ids-bar-chart-stacked');
   });
+
+  it('should not have visual regressions with grouped', async () => {
+    await page.goto('http://localhost:4444/ids-bar-chart/grouped.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('pierce/.chart-legend');
+    await percySnapshot(page, 'ids-bar-chart-grouped');
+  });
 });

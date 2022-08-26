@@ -16,8 +16,8 @@ Keep in sync with #515
 - [x] Chart Types: Step Chart
 - [x] Chart Types: Pie Chart
 - [ ] Chart Types: Grouped Column Chart
-- [ ] Chart Types: Grouped Bar Chart
-- [ ] Chart Types: Stacked Bar Chart
+- [x] Chart Types: Grouped Bar Chart
+- [x] Chart Types: Stacked Bar Chart
 - [ ] Chart Types: Scatter Plot Chart
 - [ ] Rendering: Negative Values (bar/line)
 
