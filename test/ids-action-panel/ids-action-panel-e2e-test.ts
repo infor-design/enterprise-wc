@@ -11,7 +11,7 @@ describe('Ids Action Panel e2e Tests', () => {
     await expect(page.title()).resolves.toMatch('IDS Action Panel Component');
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-action-panel id="test">test</ids-action-panel>`);
