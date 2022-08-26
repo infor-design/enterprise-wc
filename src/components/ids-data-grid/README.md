@@ -161,6 +161,7 @@ In addition one can specify any css grid column setting like `fr` or `ch`. In or
 |Setting|Type|Description|
 |---|---|---|
 |`href` | {string|Function} | Used to create the href for hyperlink formatters. This can be a string or a function that can work dynamically. It can also replace `{{value}}` with the current value. |
+|`routerLink` | {string} | Used to create the routerLink for some frameworks which in tern sets the href. |
 |`text` | {string} | Used to create the txt value for hyperlink formatters if a hard coded link text is needed. |
 |`disabled` | {boolean|Function} | Sets the cell contents to disabled, can also use a callback to determine this dynamically. Only checkboxes, radios, buttons and link columns can be disabled at this time. Selection columns require disabled rows in order to not be clickable/selectable. |
 

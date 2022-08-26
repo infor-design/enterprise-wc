@@ -37,8 +37,10 @@ export interface IdsDataGridColumn {
   hidden?: boolean;
   /** Column Formatter Function */
   formatter?: (rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: any) => string;
-  /** Enable Href / Link Columns */
+  /** Href / Link Columns */
   href?: string | ((rowData: Record<string, unknown>, columnData: IdsDataGridColumn) => string);
+  /** RouterLink Columns */
+  routerLink?: string | ((rowData: Record<string, unknown>, columnData: IdsDataGridColumn) => string);
   /** Fires for clickable formatters (like button) */
   click?: string | ((rowData: Record<string, unknown>, columnData: IdsDataGridColumn, event: MouseEvent) => void);
   /** Get the color dynamically from a function or as text */

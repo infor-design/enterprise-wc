@@ -76,6 +76,14 @@ if (dataGrid) {
       href: '#'
     });
     columns.push({
+      id: 'location',
+      name: 'Location (Router Link)',
+      field: 'location',
+      formatter: dataGrid.formatters.hyperlink,
+      disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
+      routerLink: 'user/bob'
+    });
+    columns.push({
       id: 'ledger',
       name: 'Password',
       field: 'ledger',

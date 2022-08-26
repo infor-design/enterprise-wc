@@ -25,8 +25,6 @@ describe('IdsThemeMixin Tests', () => {
 
   it('sets up mode and version setters', () => {
     elem.mode = 'dark';
-    elem.version = 'classic';
-    expect(elem.container.getAttribute('mode')).toEqual('dark');
     expect(elem.container.getAttribute('mode')).toEqual('dark');
   });
 

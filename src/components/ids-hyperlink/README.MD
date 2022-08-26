@@ -36,6 +36,7 @@ A Disabled appearing hyperlink element.
 - `target` {string} Set the links target attribute. Valid values are '_blank' | '_self' | '_parent' | '_top' | frame name.
 - `mode` {string} Set the theme mode
 - `version` {string} Set the theme version
+- `routerLink` {string} Sets the link to be a [routerLink](https://angular.io/api/router/RouterLink#description) for use in some frameworks which in tern sets the `shref`.
 
 ## Themeable Parts
 

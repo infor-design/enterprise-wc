@@ -101,7 +101,9 @@ export default class IdsDataGridFormatters {
     } else {
       colHref = colHref.replace('{{value}}', value);
     }
-    return `<ids-hyperlink href="${colHref}" tabindex="-1" ${isDisabled ? ' disabled="true"' : ''}>${value}</ids-hyperlink>`;
+
+    const linkOrHref = columnData.routerLink ? ` routerLink="${columnData.routerLink}"` : ` href="${colHref}"`;
+    return `<ids-hyperlink${linkOrHref} tabindex="-1" ${isDisabled ? ' disabled="true"' : ''}>${value}</ids-hyperlink>`;
   }
 
   /** Shows a selection checkbox column */

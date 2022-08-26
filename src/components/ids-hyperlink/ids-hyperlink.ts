@@ -52,6 +52,7 @@ export default class IdsHyperlink extends Base {
   template(): string {
     const disabledAttr = this.disabled ? ' disabled' : '';
     const hrefAttr = this.href ? ` href="${this.href}"` : '';
+    const routerLink = this.getAttribute('routerLink') ? ` href="${this.getAttribute('routerLink')}"` : '';
     const tabIndexAttr = this.disabled ? ' tabindex="-1"' : '';
     const targetAttr = this.target ? ` target="${this.target}"` : '';
 
@@ -64,6 +65,7 @@ export default class IdsHyperlink extends Base {
       class="ids-hyperlink${colorClass}${fontSizeClass}${fontWeightClass}${textDecorationClass}"
       ${disabledAttr}
       ${hrefAttr}
+      ${routerLink}
       ${tabIndexAttr}
       ${targetAttr}
       part="link">

@@ -136,6 +136,13 @@ describe('IdsDataGrid Component', () => {
       field: 'deprecationHistory',
       formatter: formatters.text
     });
+    cols.push({
+      id: 'location',
+      name: 'Location',
+      field: 'location',
+      formatter: formatters.hyperlink,
+      routerLink: 'user/bob'
+    });
     return cols;
   };
 
@@ -1298,6 +1305,12 @@ describe('IdsDataGrid Component', () => {
       expect(link2.disabled).toBeFalsy();
     });
 
+    it('can render with the hyperlink formatter (with routerLink)', () => {
+      dataGrid.redraw();
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
+        .querySelectorAll('.ids-data-grid-cell')[18].querySelector('ids-hyperlink').getAttribute('routerLink')).toEqual('user/bob');
+    });
+
     it('can render with the button formatter (with click function)', () => {
       const clickListener = jest.fn();
       dataGrid.columns = [{
@@ -1498,7 +1511,9 @@ describe('IdsDataGrid Component', () => {
       dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(17);
       dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(17);
+      expect(dataGrid.activeCell.cell).toEqual(18);
+      dataGrid.dispatchEvent(event);
+      expect(dataGrid.activeCell.cell).toEqual(18);
     });
 
     it('can handle ArrowLeft key', () => {

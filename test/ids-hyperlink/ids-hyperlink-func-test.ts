@@ -82,7 +82,7 @@ describe('IdsHyperlink Component', () => {
     expect(elem.getAttribute('text-decoration')).toEqual(null);
   });
 
-  it('renders disabled setting then removes it', () => { // ids-text audible
+  it('renders disabled setting then removes it', () => {
     elem = new IdsHyperlink();
     document.body.appendChild(elem);
     elem.disabled = true;
@@ -93,6 +93,20 @@ describe('IdsHyperlink Component', () => {
     expect(elem.disabled).toEqual(null);
     expect(elem.shadowRoot.querySelector('a').getAttribute('disabled')).toEqual(null);
     expect(elem.shadowRoot.querySelector('a').getAttribute('tabindex')).toEqual(null);
+  });
+
+  it('supports rendering all settings on initial template', () => {
+    elem = new IdsHyperlink();
+    elem.disabled = true;
+    elem.href = '#';
+    elem.setAttribute('routerLink', 'user/foo');
+    elem.target = '_blank';
+    elem.color = 'unset';
+    elem.fontSize = 10;
+    elem.fontWeight = 'bold';
+    elem.textDecoration = 'none';
+    document.body.append(elem);
+    expect(elem.container.outerHTML).toMatchSnapshot();
   });
 
   it('supports setting mode', () => {
@@ -135,9 +149,4 @@ describe('IdsHyperlink Component', () => {
     expect(elem.getAttribute('font-weight')).toEqual(null);
     expect(elem.fontWeight).toEqual(null);
   });
-
-  /* To do */
-  // it('doesn\'t set the role attribute if one already exists', () => {
-
-  // })
 });

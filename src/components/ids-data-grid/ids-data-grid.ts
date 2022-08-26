@@ -637,10 +637,6 @@ export default class IdsDataGrid extends Base {
    * @returns {object} This API object for chaining
    */
   #attachKeyboardListeners() {
-    if (this.data.length < 1) {
-      return;
-    }
-
     // Handle arrow navigation
     this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e: KeyboardEvent) => {
       const key = e.key;

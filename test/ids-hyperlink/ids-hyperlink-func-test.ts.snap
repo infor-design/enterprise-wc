@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsHyperlink Component supports rendering all settings on initial template 1`] = `
+"<a class=\\"ids-hyperlink ids-hyperlink-color-unset ids-text-10 bold ids-text-decoration-none\\" \\"=\\"\\" disabled=\\"\\" href=\\"#\\" tabindex=\\"-1\\" target=\\"_blank\\" part=\\"link\\">
+        <slot></slot>
+    </a>"
+`;
