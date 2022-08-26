@@ -439,7 +439,7 @@ describe('IdsPopup Component', () => {
     expect(popup.getAttribute('align-target')).toEqual('#test-align-target');
 
     // Remove the alignment target.  Placement will revert back to coordinates.
-    popup.alignTarget = undefined;
+    popup.alignTarget = null;
 
     expect(popup.hasAttribute('align-target')).toBeFalsy();
   });
