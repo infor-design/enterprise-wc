@@ -1,4 +1,4 @@
-import IdsLabelStateMixin from '../../mixins/ids-label-state-mixin/ids-label-state-mixin';
+import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-label-state-parent-mixin';
 import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
@@ -10,7 +10,7 @@ import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-valid
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsThemeMixin(
-  IdsLabelStateMixin(
+  IdsLabelStateParentMixin(
     IdsLocaleMixin(
       IdsDirtyTrackerMixin(
         IdsFieldHeightMixin(

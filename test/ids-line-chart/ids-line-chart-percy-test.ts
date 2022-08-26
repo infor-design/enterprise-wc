@@ -11,6 +11,15 @@ describe('Ids Line Chart Percy Tests', () => {
     await percySnapshot(page, 'ids-line-chart-new-light');
   });
 
+  it('should not have visual regressions in new light theme (percy) for rotated axis', async () => {
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('pierce/.chart-legend');
+    await page.evaluate(() => {
+      (document as any).querySelector('#no-animation-example').setAttribute('rotate-x-labels', '-65');
+    });
+    await percySnapshot(page, 'ids-line-chart-rotate-new-light');
+  });
+
   it('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate('document.querySelector("ids-line-chart").animate = false');

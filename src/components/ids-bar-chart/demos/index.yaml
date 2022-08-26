@@ -23,3 +23,6 @@
   - link: no-animation.html
     type: Example
     description: Shows configuring no animation
+  - link: rotate-x-labels.html
+    type: Example
+    description: Shows rotating x axis labels

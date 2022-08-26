@@ -160,10 +160,11 @@ The following data attributes can be used on the data passed to a chart.
 - `xAxisFormatter` {Function} Sets the format on the x axis items. The formatter function will get three parameters (value, data, api) and should return a string based on the axis value. The x axis is not always a number so it does not default to `Intl.NumberFormat`. See the [Intl.NumberFormat api](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) for more details and examples on formatting options.
 - `selectable` {boolean} Sets the selection mode.
 - `axisLabelBottom` {string} Option to add bottom axis label.
-- `axisLabelEnd` {string} Option to add horizantly end side axis label.
-- `axisLabelStart` {string} Option to add horizantly start side axis label.
+- `axisLabelEnd` {string} Option to add horizontally end side axis label.
+- `axisLabelStart` {string} Option to add horizontally start side axis label.
 - `axisLabelTop` {string} Option to add top axis label.
 - `axisLabelMargin` {string|number} Axis label margin value.
+- `rotateXLabels` {string|number} Sets the rotation of the labels on the x axis (style guide recommends -60 but you may want to tweak it based on labels. The `shortName` and `abbreviatedName` labels do not work with this setting.
 
 ## Events
 
