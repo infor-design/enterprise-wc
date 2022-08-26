@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Color Picker e2e Tests', () => {
   const axeUrl = 'http://localhost:4444/ids-color-picker/axe.html';
@@ -51,5 +52,14 @@ describe('Ids Color Picker e2e Tests', () => {
 
     isVisible = await page.evaluate(`document.querySelector("#color-picker-e2e-test").popup.visible`);
     expect(isVisible).toEqual(true);
+  });
+
+  it.skip('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-color-picker id="test" label="Clearable Color Picker" value="ruby-80" clearable></ids-color-picker>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 });
