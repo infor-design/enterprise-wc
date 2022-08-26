@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Date Picker e2e Tests', () => {
   const url = 'http://localhost:4444/ids-date-picker/example.html';
@@ -812,5 +813,14 @@ describe('Ids Date Picker e2e Tests', () => {
 
     expect(picklistMonth).toEqual('March 2016');
     expect(weekDays).toEqual(['S', 'M', 'T', 'W', 'T', 'F', 'S']);
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-date-picker id="test" label="Date Field" value="3/4/2016" mask></ids-date-picker>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 });

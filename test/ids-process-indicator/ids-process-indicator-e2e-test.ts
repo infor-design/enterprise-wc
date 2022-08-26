@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Process Indicator e2e Tests', () => {
   const exampleUrl = 'http://localhost:4444/ids-process-indicator/example.html';
@@ -29,5 +30,17 @@ describe('Ids Process Indicator e2e Tests', () => {
     });
     const size = await page.evaluate('document.querySelector("ids-process-indicator-step [slot=\'detail\']").style.width');
     expect(Number(size.replace('px', ''))).toBe(0);
+  });
+
+  it.skip('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-process-indicator id="test">
+      <ids-process-indicator-step label="Process Started" status="done">
+      </ids-process-indicator-step></<ids-process-indicator>`);
+      document.querySelector('#test')?.remove();
+    });
+
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 });

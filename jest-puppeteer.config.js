@@ -9,5 +9,6 @@ module.exports = {
     devtools: false,
     ignoreHTTPSErrors: true,
     dumpio: false
-  }
+  },
+  browserContext: 'incognito'
 };
