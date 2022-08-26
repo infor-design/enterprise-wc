@@ -29,8 +29,6 @@ import {
 
 import styles from './ids-popup.scss';
 
-type IdsPopupElementRef = HTMLElement | SVGElement | null;
-
 /**
  * IDS Popup Component
  * @type {IdsPopup}
@@ -204,13 +202,13 @@ export default class IdsPopup extends Base {
   /**
    * @property {HTMLElement} alignTarget acts as the target element to be used for offset placement
    */
-  #alignTarget: IdsPopupElementRef = null;
+  #alignTarget: HTMLElement | SVGElement | null = null;
 
   /**
    * Sets the element to align with via a css selector
-   * @param {IdsPopupElementRef | string} val a CSS selector string
+   * @param {HTMLElement | SVGElement | null | string} val a CSS selector string
    */
-  set alignTarget(val: IdsPopupElementRef | string) {
+  set alignTarget(val: HTMLElement | SVGElement | null | string) {
     const isString = typeof val === 'string' && val.length;
     const isElem = val instanceof HTMLElement || val instanceof SVGElement;
 
@@ -223,7 +221,7 @@ export default class IdsPopup extends Base {
       return;
     }
 
-    let elem: IdsPopupElementRef = null;
+    let elem: HTMLElement | SVGElement | null = null;
     if (isString) {
       // @TODO Harden for security (XSS)
       const rootNode = getClosestRootNode((this as any));
@@ -243,10 +241,10 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @returns {IdsPopupElementRef} the element in the page that the Popup will take
+   * @returns {HTMLElement | SVGElement | null} the element in the page that the Popup will take
    * coordinates from for relative placement
    */
-  get alignTarget(): IdsPopupElementRef {
+  get alignTarget(): HTMLElement | SVGElement | null {
     return this.#alignTarget;
   }
 
@@ -606,14 +604,14 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @property {IdsPopupElementRef} containingElem the element to use for containment of the Popup
+   * @property {HTMLElement | SVGElement | null} containingElem the element to use for containment of the Popup
    */
-  #containingElem: IdsPopupElementRef = document.body;
+  #containingElem: HTMLElement | SVGElement | null = document.body;
 
   /**
-   * @param {IdsPopupElementRef} val an element that will appear to "contain" the Popup
+   * @param {HTMLElement | SVGElement | null} val an element that will appear to "contain" the Popup
    */
-  set containingElem(val: IdsPopupElementRef) {
+  set containingElem(val: HTMLElement | SVGElement | null) {
     if (!(val instanceof HTMLElement || val instanceof SVGElement)) {
       return;
     }
@@ -624,9 +622,9 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @returns {IdsPopupElementRef} the element currently appearing to "contain" the Popup
+   * @returns {HTMLElement | SVGElement | null} the element currently appearing to "contain" the Popup
    */
-  get containingElem(): IdsPopupElementRef {
+  get containingElem(): HTMLElement | SVGElement | null {
     return this.#containingElem;
   }
 
@@ -698,15 +696,15 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @param {IdsPopupElementRef} arrowTarget
+   * @param {HTMLElement | SVGElement | null} arrowTarget
    */
-  #arrowTarget: IdsPopupElementRef = null;
+  #arrowTarget: HTMLElement | SVGElement | null = null;
 
   /**
    * Sets the element to align with via a css selector
-   * @param {IdsPopupElementRef} val a CSS selector string
+   * @param {HTMLElement | SVGElement | null} val a CSS selector string
    */
-  set arrowTarget(val: IdsPopupElementRef | string) {
+  set arrowTarget(val: HTMLElement | SVGElement | null | string) {
     const isString = typeof val === 'string' && val.length;
     const isElem = val instanceof HTMLElement || val instanceof SVGElement;
 
@@ -718,7 +716,7 @@ export default class IdsPopup extends Base {
       return;
     }
 
-    let elem: IdsPopupElementRef = null;
+    let elem: HTMLElement | SVGElement | null = null;
     if (isString) {
       // @TODO Harden for security (XSS)
       const rootNode = getClosestRootNode((this as any));
@@ -738,10 +736,10 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @returns {IdsPopupElementRef} the element in the page that the Popup will take
+   * @returns {HTMLElement | SVGElement | null} the element in the page that the Popup will take
    * coordinates from for relative placement
    */
-  get arrowTarget(): IdsPopupElementRef {
+  get arrowTarget(): HTMLElement | SVGElement | null {
     return this.#arrowTarget || this.alignTarget;
   }
 
