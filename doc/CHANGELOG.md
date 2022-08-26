@@ -10,7 +10,6 @@
 - `[Form]` Added new 'IdsForm' component. ([#357](https://github.com/infor-design/enterprise-wc/pull/357))
 - `[Hyperlink]` Added better support for `routerLink` for some frameworks. ([#861](https://github.com/infor-design/enterprise-wc/pull/861))
 
-
 ## 1.0.0-beta.1
 
 ### 1.0.0-beta.1 Fixes
