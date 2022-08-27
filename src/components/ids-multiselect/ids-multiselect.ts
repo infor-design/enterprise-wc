@@ -86,6 +86,7 @@ class IdsMultiselect extends Base {
       if (valueSafe) {
         this.setAttribute(attributes.TAGS, 'true');
       } else {
+        this.offEvent('beforetagremove.multiselect-tag');
         this.setAttribute(attributes.TAGS, 'false');
       }
     }
@@ -157,6 +158,8 @@ class IdsMultiselect extends Base {
       });
     }
     this.#selectedList = value;
+
+    this.container.classList.toggle('has-value', value.length > 0);
   }
 
   /**
@@ -197,7 +200,8 @@ class IdsMultiselect extends Base {
     });
 
     if (this.tags) {
-      this.onEvent('beforetagremove', this.input, (e:any) => {
+      this.offEvent('beforetagremove.multiselect-tag');
+      this.onEvent('beforetagremove.multiselect-tag', this.input, (e:any) => {
         this.#handleTagRemove(e);
       });
     }
@@ -244,11 +248,7 @@ class IdsMultiselect extends Base {
   }
 
   #handleTagRemove(e:any) {
-    const removedSelection = this.#selectedList.indexOf(e.target.closest('ids-tag').id);
-    if (removedSelection > -1) {
-      this.#selectedList.splice(removedSelection, 1);
-    }
-    this.#updateList();
+    this.value = this.#selectedList.filter((value: string) => value !== e.target?.dataset.value);
   }
 
   #optionChecked(option: any) {
@@ -287,7 +287,7 @@ class IdsMultiselect extends Base {
       const tags = selected.map((item: any) => {
         const disabled = this.disabled ? ` disabled="true"` : ``;
 
-        return `<ids-tag color="secondary" id="${item.value}" dismissible="true"${disabled}>${item.label}</ids-tag>`;
+        return `<ids-tag color="secondary" data-value="${item.value}" dismissible="true"${disabled}>${item.label}</ids-tag>`;
       }).join('');
       this.input.insertAdjacentHTML('afterbegin', tags);
     }

@@ -18,26 +18,30 @@ ids-trigger-field {
 }
 
 :host([tags='true']) {
-  ids-trigger-field {
-    &::part(content-area) {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      max-width: inherit;
-      max-height: 120px;
-      overflow-y: auto;
-    }
+  .has-value {
+    ids-trigger-field {
+      &::part(content-area) {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        max-width: inherit;
+        max-height: 120px;
+        overflow-y: auto;
+      }
 
-    &::part(input) {
-      flex: 1;
+      &::part(input) {
+        flex: 1;
+      }
     }
   }
 }
 
 :host([tags='true']:not([disabled])) {
-  ids-trigger-field {
-    &::part(field-container) {
-      @include cursor-pointer();
+  .has-value {
+    ids-trigger-field {
+      &::part(field-container) {
+        @include cursor-pointer();
+      }
     }
   }
 }
