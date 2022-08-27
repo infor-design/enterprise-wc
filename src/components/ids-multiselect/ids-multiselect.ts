@@ -8,7 +8,7 @@ import '../ids-tag/ids-tag';
 
 // Import Sass to be encapsulated in the component shadowRoot
 import styles from './ids-multiselect.scss';
-import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, stringToNumber, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
 
 import type { IdsListBoxOption, IdsListBoxOptions } from '../ids-dropdown/ids-dropdown';
 
@@ -176,8 +176,11 @@ class IdsMultiselect extends Base {
       this.#optionChecked(option);
     });
 
-    this.onEvent('click', this.input.fieldContainer, () => {
-      this.toggle();
+    this.onEvent('click', this.input.fieldContainer, (e: any) => {
+      // Don't open/close popup on tag removal
+      if (!e.target?.closest('ids-tag')) {
+        this.toggle();
+      }
     });
 
     // Should not open if clicked on label
@@ -201,7 +204,6 @@ class IdsMultiselect extends Base {
   }
 
   #attachKeyboardListeners() {
-    // Select or Open on space/enter
     this.listen([' ', 'Enter'], this, () => {
       if (!this.popup.visible) {
         this.open();
@@ -250,7 +252,8 @@ class IdsMultiselect extends Base {
   }
 
   #optionChecked(option: any) {
-    if (!option) return;
+    if (!option || option?.hasAttribute(attributes.GROUP_LABEL)) return;
+
     const value = option.getAttribute('value');
     const isSelected = this.#selectedList.some((item) => value === item);
     const checkbox = option.querySelector('ids-checkbox');
@@ -284,7 +287,7 @@ class IdsMultiselect extends Base {
       const tags = selected.map((item: any) => {
         const disabled = this.disabled ? ` disabled="true"` : ``;
 
-        return `<ids-tag id="${item.value}" dismissible="true"${disabled}>${item.label}</ids-tag>`;
+        return `<ids-tag color="secondary" id="${item.value}" dismissible="true"${disabled}>${item.label}</ids-tag>`;
       }).join('');
       this.input.insertAdjacentHTML('afterbegin', tags);
     }
@@ -320,10 +323,25 @@ class IdsMultiselect extends Base {
    * @returns {string} ids-list-box-option template
    */
   #templatelistBoxOption(option: IdsListBoxOption): string {
-    return `<ids-list-box-option class="multiselect-option${(option as any).border ? ' multiselect-border' : ''}"
-      ${option.id ? `id=${option.id}` : ''}
-      ${option.value ? `value="${option.value}"` : ''}
-      ${option.groupLabel ? 'group-label' : ''}><ids-checkbox no-margin class="justify-center" label="${option.label}" checked="${option.selected}"></ids-checkbox></ids-list-box-option>`;
+    const classAttr: string = buildClassAttrib(
+      !option.groupLabel && 'multiselect-option',
+      (option as any).border && 'multiselect-border'
+    );
+
+    return `
+      <ids-list-box-option
+        ${classAttr}
+        ${option.id ? `id=${option.id}` : ''}
+        ${option.value ? `value="${option.value}"` : ''}
+        ${option.groupLabel ? 'group-label' : ''}
+      >${!option.groupLabel ? `
+        <ids-checkbox
+          no-margin
+          class="justify-center"
+          label="${option.label}"
+          checked="${option.selected}"
+        ></ids-checkbox>
+      ` : option.label}</ids-list-box-option>`;
   }
 
   #populateSelected() {

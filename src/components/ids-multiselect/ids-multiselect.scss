@@ -1,11 +1,5 @@
 @import '../../core/ids-base';
 
-::slotted(.options) {
-  border-top: 1px solid #b7b7ba;
-  padding-top: 4px;
-  margin-bottom: 0;
-}
-
 .ids-checkbox {
   margin-bottom: 0;
 }
@@ -16,6 +10,10 @@ ids-trigger-field {
     align-self: center;
     margin-top: 4px;
     margin-left: 4px;
+
+    &[disabled]::part(tag) {
+      @include cursor-default();
+    }
   }
 }
 
@@ -32,6 +30,14 @@ ids-trigger-field {
 
     &::part(input) {
       flex: 1;
+    }
+  }
+}
+
+:host([tags='true']:not([disabled])) {
+  ids-trigger-field {
+    &::part(field-container) {
+      @include cursor-pointer();
     }
   }
 }
