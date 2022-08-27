@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-checkbox id="checkbox-1" label="Regular Checkbox" validate="required" dirty-tracker="true"></ids-checkbox>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-checkbox id="checkbox-2" label="Checkbox with 'hidden' label" label-state="hidden" validate="required" dirty-tracker="true"></ids-checkbox>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+
+</html>

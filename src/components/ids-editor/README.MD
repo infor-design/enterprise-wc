@@ -99,7 +99,15 @@ Editor init with source mode.
 Editor with hidden label.
 
 ```html
-<ids-editor label="Demo Editor" label-hidden>
+<ids-editor label="Demo Editor" label-state="hidden">
+  <p>Some sample text</p>
+</ids-editor>
+```
+
+Editor with collapsed label.
+
+```html
+<ids-editor label="Demo Editor" label-state="collapsed">
   <p>Some sample text</p>
 </ids-editor>
 ```

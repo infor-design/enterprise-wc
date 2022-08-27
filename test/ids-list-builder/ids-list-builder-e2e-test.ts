@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids List Builder e2e Tests', () => {
   const url = 'http://localhost:4444/ids-list-builder/example.html';
@@ -25,6 +26,15 @@ describe('Ids List Builder e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     const results = await new AxePuppeteer(page).disableRules(['scrollable-region-focusable', 'aria-required-children', 'aria-required-parent']).analyze();
     expect(results.violations.length).toBe(0);
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-list-builder height="310px" selectable="single" id="test"></ids-list-builder>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 
   it('can drag list items up and down', async () => {

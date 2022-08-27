@@ -39,33 +39,6 @@ $textarea-size-default-height: 120px;
     }
   }
 
-  .label-text {
-    @include antialiased();
-    @include font-sans();
-    @include mb-8();
-
-    align-items: baseline;
-    display: flex;
-
-    &.required {
-      &::after {
-        @include relative();
-        @include font-sans();
-        @include mx-2();
-        @include text-20();
-        @include text-alert-error();
-
-        content: '*';
-        margin-top: -10px;
-        top: 1px;
-      }
-
-      &.no-required-indicator::after {
-        content: '';
-      }
-    }
-  }
-
   .field-container {
     @include m-0();
     @include p-0();
@@ -257,6 +230,50 @@ $textarea-size-default-height: 120px;
 
   .validation-message {
     @include mt-4();
+  }
+}
+
+.ids-label-text {
+  @include antialiased();
+  @include font-sans();
+  @include mb-8();
+
+  align-items: baseline;
+  display: flex;
+
+  // Simulate standard label text size while empty with a non-breaking space
+  &.empty {
+    &::before {
+      content: '\00a0';
+    }
+  }
+
+  &.required {
+    &::after {
+      @include relative();
+      @include font-sans();
+      @include mx-2();
+      @include text-20();
+      @include text-alert-error();
+
+      content: '*';
+      margin-top: -10px;
+      top: 1px;
+    }
+
+    &.no-required-indicator::after,
+    &.empty::after {
+      content: '';
+    }
+  }
+}
+
+.label-state-collapsed {
+  .ids-label-text.empty {
+    @include m-0();
+
+    visibility: hidden;
+    height: 0;
   }
 }
 

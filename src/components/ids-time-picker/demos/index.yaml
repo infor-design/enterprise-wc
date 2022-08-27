@@ -14,6 +14,9 @@
   - link: intervals.html
     type: Example
     description: Showing minutes/seconds intervals
+  - link: label-state.html
+    type: Test
+    description: Showing an example with hidden labels
   - link: sandbox.html
     type: Sandbox
     description: Showing various time formats and other scenarios

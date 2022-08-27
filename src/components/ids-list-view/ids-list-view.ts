@@ -476,7 +476,7 @@ export default class IdsListView extends Base {
       if (this.selectable === 'multiple' || this.selectable === 'mixed') {
         const checked = item.itemSelected ? ' checked' : '';
         const disabled = item.disabled ? ' disabled' : '';
-        let checkbox = `<ids-checkbox class="list-item-checkbox" label="cb-item-${index}" label-audible="true"${checked}${disabled}></ids-checkbox>`;
+        let checkbox = `<ids-checkbox class="list-item-checkbox" label="cb-item-${index}" label-state="hidden"${checked}${disabled}></ids-checkbox>`;
         if (this.selectable === 'multiple' && this.hideCheckboxes) checkbox = '';
         return `
           <div class="list-item-area">
@@ -637,7 +637,7 @@ export default class IdsListView extends Base {
             <ids-checkbox
              class="list-item-checkbox"
              label="cb-item-${index}"
-             label-audible="true"${checked}${disabled}></ids-checkbox>
+             label-state="hidden"${checked}${disabled}></ids-checkbox>
           `);
         });
       }

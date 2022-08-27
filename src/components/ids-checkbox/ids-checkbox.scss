@@ -24,6 +24,10 @@
 
     display: inline-block;
 
+    &.empty::before {
+      content: '\00a0';
+    }
+
     &.required .label-checkbox::after {
       @include absolute();
       @include font-sans();
@@ -36,8 +40,11 @@
       top: -2px;
     }
 
-    &.no-required-indicator .label-checkbox::after {
-      content: '';
+    &.no-required-indicator,
+    &.empty {
+      .label-checkbox::after {
+        content: '';
+      }
     }
   }
 

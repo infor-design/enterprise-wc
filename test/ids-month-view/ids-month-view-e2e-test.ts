@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Month View e2e Tests', () => {
   const url = 'http://localhost:4444/ids-month-view/example.html';
@@ -17,6 +18,16 @@ describe('Ids Month View e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     const results = await new AxePuppeteer(page).analyze();
     expect(results.violations.length).toBe(0);
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-month-view id="test" show-today="true" month="10" year="2021" day="15"></ids-month-view>`);
+      document.querySelector('#test')?.remove();
+    });
+
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 
   it('should display correct number of days in a month', async () => {

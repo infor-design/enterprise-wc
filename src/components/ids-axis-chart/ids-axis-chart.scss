@@ -178,7 +178,7 @@ ids-empty-message:not([hidden]),
   }
 
   .labels {
-    &.x-labels text {
+    &.x-labels {
       transform: scale(-1, 1);
       transform-origin: unset;
     }

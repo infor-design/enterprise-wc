@@ -7,7 +7,10 @@
  examples:
   - link: example.html
     type: Main Example
-    description: Shows basic lookup with states
+    description: Shows several lookup types and states
+  - link: label-state.html
+    type: Test
+    description: Showing an example with hidden labels
   - link: pagination-client.html
     type: Example
     description: Showing a lookup with client-side pagination

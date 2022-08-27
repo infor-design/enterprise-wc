@@ -107,6 +107,8 @@ describe('IdsEditor Component', () => {
   });
 
   it('should sets the label text', () => {
+    editor.label = 'Ids editor';
+
     let labelEl = editor.container.querySelector('#editor-label');
     let sourceLabelEl = editor.container.querySelector('[for="source-textarea"]');
     const sourceTextareaLabel = (str: string) => `${str} - HTML Source View`;
@@ -114,7 +116,7 @@ describe('IdsEditor Component', () => {
     const d: any = { label: 'Ids editor' };
     d.sourceLabel = sourceTextareaLabel(d.label);
     let sourceLabel = sourceTextareaLabel(label);
-    expect(editor.getAttribute('label')).toEqual(null);
+    expect(editor.getAttribute('label')).toEqual(d.label);
     expect(labelEl.textContent.trim()).toEqual(d.label);
     expect(sourceLabelEl.textContent.trim()).toEqual(d.sourceLabel);
     editor.label = label;
@@ -123,8 +125,8 @@ describe('IdsEditor Component', () => {
     expect(sourceLabelEl.textContent.trim()).toEqual(sourceLabel);
     editor.label = null;
     expect(editor.getAttribute('label')).toEqual(null);
-    expect(labelEl.textContent.trim()).toEqual(d.label);
-    expect(sourceLabelEl.textContent.trim()).toEqual(d.sourceLabel);
+    expect(labelEl.textContent.trim()).toEqual('');
+    expect(sourceLabelEl.textContent.trim()).toEqual('- HTML Source View');
 
     const customSrcLabel = function customSrcLabel() {
       return `Test Html source view ${editor.label} title text.`;
@@ -142,15 +144,19 @@ describe('IdsEditor Component', () => {
   });
 
   it('should sets the label to be hidden or shown', () => {
-    const labelEl = editor.container.querySelector('#editor-label');
-    expect(editor.getAttribute('label-hidden')).toEqual(null);
-    expect(labelEl.getAttribute('audible')).toEqual(null);
-    editor.labelHidden = true;
-    expect(editor.getAttribute('label-hidden')).toEqual('');
-    expect(labelEl.getAttribute('audible')).toEqual('');
-    editor.labelHidden = null;
-    expect(editor.getAttribute('label-hidden')).toEqual(null);
-    expect(labelEl.getAttribute('audible')).toEqual(null);
+    expect(editor.getAttribute('label-state')).toEqual(null);
+    expect(editor.container.classList.contains('label-state-hidden')).toBeFalsy();
+    expect(editor.container.classList.contains('label-state-collapsed')).toBeFalsy();
+
+    editor.labelState = 'hidden';
+    expect(editor.getAttribute('label-state')).toEqual('hidden');
+    expect(editor.container.classList.contains('label-state-hidden')).toBeTruthy();
+    expect(editor.container.classList.contains('label-state-collapsed')).toBeFalsy();
+
+    editor.labelState = 'collapsed';
+    expect(editor.getAttribute('label-state')).toEqual('collapsed');
+    expect(editor.container.classList.contains('label-state-hidden')).toBeFalsy();
+    expect(editor.container.classList.contains('label-state-collapsed')).toBeTruthy();
   });
 
   it('should sets the label validation required indicator to be hidden or shown', () => {

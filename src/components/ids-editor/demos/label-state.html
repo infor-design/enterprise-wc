@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-editor id="editor-1" label="Regular Editor">
+          <p>This editor's label is visible.</p>
+        </ids-editor>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-editor id="editor-2" label="Editor with hidden label" label-state="hidden">
+          <p>This input's label is 'hidden'</p>
+        </ids-editor>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-editor id="editor-3" label="Editor with collapsed label" label-state="collapsed">
+          <p>This input's label is 'collapsed'</p>
+        </ids-editor>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+
+</html>

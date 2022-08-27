@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 const imgSrcExists = '../assets/images/placeholdeer-60x60.png';
 const imgSrcNotFound = '../assets/images/non-existant.jpg';
@@ -21,6 +22,15 @@ describe('Ids Image e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     const results = await new AxePuppeteer(page).analyze();
     expect(results.violations.length).toBe(0);
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-image id="test" initials="mn" round tabindex="0"></ids-image>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 
   it('should render placeholder on image error', async () => {
