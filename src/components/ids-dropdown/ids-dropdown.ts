@@ -220,7 +220,7 @@ export default class IdsDropdown extends Base {
     this.setAttribute('aria-expanded', 'true');
 
     // Add aria for the open state
-    const selected = this.selectedOption || this.querySelector('ids-list-box-option');
+    const selected = this.selectedOption || this.querySelector('ids-list-box-option:not([group-label])');
     this.listBox?.setAttribute('tabindex', '0');
 
     if (selected && this.value) {
