@@ -80,7 +80,7 @@ export default class IdsHyperlink extends Base {
    * Set the link href
    * @param {string} value Set the link's href to some link
    */
-  set href(value: string) {
+  set href(value: string | null) {
     if (value) {
       this.setAttribute(attributes.HREF, value);
       this.container?.setAttribute(attributes.HREF, value);
@@ -90,13 +90,15 @@ export default class IdsHyperlink extends Base {
     this.container?.removeAttribute(attributes.HREF);
   }
 
-  get href(): string { return this.getAttribute(attributes.HREF); }
+  get href(): string | null {
+    return this.getAttribute(attributes.HREF);
+  }
 
   /**
    * Set the link target attribute
    * @param {string} value Set the link's href to some link
    */
-  set target(value: string) {
+  set target(value: string | null) {
     if (value) {
       this.setAttribute(attributes.TARGET, value);
       this.container?.setAttribute(attributes.TARGET, value);
@@ -106,14 +108,16 @@ export default class IdsHyperlink extends Base {
     this.container?.removeAttribute(attributes.TARGET);
   }
 
-  get target(): string { return this.getAttribute(attributes.TARGET); }
+  get target(): string | null {
+    return this.getAttribute(attributes.TARGET);
+  }
 
   /**
    * Set the link text decoration styling
    * @param {string} value If 'none', removes text decoration, If hover then just on hover it
    * is shown.
    */
-  set textDecoration(value: string) {
+  set textDecoration(value: string | null) {
     if (value?.toLowerCase() === 'none') {
       this.setAttribute(attributes.TEXT_DECORATION, value);
       this.container?.classList.add('ids-text-decoration-none');
@@ -128,7 +132,9 @@ export default class IdsHyperlink extends Base {
     this.container?.classList.remove('ids-text-decoration-none', 'ids-text-decoration-hover');
   }
 
-  get textDecoration(): string { return this.getAttribute(attributes.TEXT_DECORATION); }
+  get textDecoration(): string | null {
+    return this.getAttribute(attributes.TEXT_DECORATION);
+  }
 
   /**
    * Set the text to disabled color.
@@ -137,8 +143,8 @@ export default class IdsHyperlink extends Base {
   set disabled(value: boolean) {
     const val = stringToBool(value);
     if (val) {
-      this.setAttribute(attributes.DISABLED, `${value}`);
-      this.container?.setAttribute(attributes.DISABLED, `${value}`);
+      this.setAttribute(attributes.DISABLED, '');
+      this.container?.setAttribute(attributes.DISABLED, '');
       this.container?.setAttribute('tabindex', '-1');
       return;
     }
@@ -147,7 +153,9 @@ export default class IdsHyperlink extends Base {
     this.container?.removeAttribute('tabindex');
   }
 
-  get disabled(): boolean { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): boolean {
+    return this.hasAttribute(attributes.DISABLED);
+  }
 
   /**
    *

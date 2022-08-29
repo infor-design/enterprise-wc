@@ -7,19 +7,17 @@ import waitForTimeout from '../helpers/wait-for-timeout';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsDataLabel Component', () => {
-  let dataLabel: any;
-  let container: any;
+  let dataLabel: IdsDataLabel;
+  let container: IdsContainer;
 
   beforeEach(async () => {
     container = new IdsContainer();
-    const elem: any = new IdsDataLabel();
-    elem.innerHTML = `Los Angeles, California 90001 USA`;
-    elem.label = 'Address';
-    container.appendChild(elem);
+    dataLabel = new IdsDataLabel();
+    dataLabel.innerHTML = `Los Angeles, California 90001 USA`;
+    dataLabel.label = 'Address';
+    container.appendChild(dataLabel);
     document.body.appendChild(container);
     await container.setLanguage('en');
-    dataLabel = document.querySelector('ids-data-label');
-    container = document.querySelector('ids-container');
   });
 
   afterEach(async () => {
@@ -40,18 +38,18 @@ describe('IdsDataLabel Component', () => {
   });
 
   it('renders with label-position', async () => {
-    expect(dataLabel.container.classList).toContain('top-positioned');
+    expect(dataLabel.container?.classList).toContain('top-positioned');
 
     dataLabel.labelPosition = 'left';
-    await waitForTimeout(() => expect(dataLabel.container.classList[0]).toEqual('left-positioned'));
+    await waitForTimeout(() => expect(dataLabel.container?.classList[0]).toEqual('left-positioned'));
     expect(dataLabel.labelClass).toEqual('left-positioned');
 
     dataLabel.labelPosition = 'top';
-    await waitForTimeout(() => expect(dataLabel.container.classList[0]).toEqual('top-positioned'));
+    await waitForTimeout(() => expect(dataLabel.container?.classList[0]).toEqual('top-positioned'));
     expect(dataLabel.labelClass).toEqual('top-positioned');
 
     dataLabel.labelPosition = '';
-    await waitForTimeout(() => expect(dataLabel.container.classList[0]).toEqual('top-positioned'));
+    await waitForTimeout(() => expect(dataLabel.container?.classList[0]).toEqual('top-positioned'));
     expect(dataLabel.labelClass).toEqual('top-positioned');
   });
 
@@ -59,7 +57,7 @@ describe('IdsDataLabel Component', () => {
     expect(dataLabel.label).toEqual('Address');
     dataLabel.label = 'test';
     expect(dataLabel.label).toEqual('test');
-    expect(dataLabel.container.querySelector('.label').innerHTML).toEqual('test<span class="colon"></span>');
+    expect(dataLabel.container?.querySelector('.label')?.innerHTML).toEqual('test<span class="colon"></span>');
     dataLabel.label = '';
     expect(dataLabel.label).toEqual('');
   });
@@ -69,8 +67,8 @@ describe('IdsDataLabel Component', () => {
     dataLabel.label = 'Shipping To';
     dataLabel.labelPosition = 'left';
     await processAnimFrame();
-    const colonElements = dataLabel.container.querySelector('.label').getElementsByClassName('colon');
-    expect(colonElements.length).toEqual(1);
+    const colonElements = dataLabel.container?.querySelector('.label')?.getElementsByClassName('colon');
+    expect(colonElements?.length).toEqual(1);
     expect(dataLabel.getAttribute('language')).toEqual('fr');
   });
 });

@@ -62,28 +62,34 @@ export default class IdsDataLabel extends Base {
   set label(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
+    } else {
+      this.removeAttribute(attributes.LABEL);
     }
 
-    if (this.container) {
-      this.setAttribute(attributes.LABEL, value);
-      this.container.querySelector('.label').innerHTML = `${value}<span class="colon">${this.colon}</span>`;
+    const label = this.container?.querySelector('.label');
+    if (label) {
+      label.innerHTML = `${value ?? ''}<span class="colon">${this.colon}</span>`;
     }
   }
 
-  get label(): string { return this.getAttribute(attributes.LABEL); }
+  get label(): string {
+    return this.getAttribute(attributes.LABEL) ?? '';
+  }
 
   /**
    * Sets to label
    * @param {string} value label string
    */
-  set labelPosition(value: string) {
+  set labelPosition(value: string | null) {
     if (value) {
       this.setAttribute(attributes.LABEL_POSITION, value);
-      this.container.className = `${value}-positioned`;
+      if (this.container) this.container.className = `${value}-positioned`;
     }
   }
 
-  get labelPosition(): string { return this.getAttribute(attributes.LABEL_POSITION); }
+  get labelPosition(): string | null {
+    return this.getAttribute(attributes.LABEL_POSITION);
+  }
 
   /**
    * @returns {string} css class for data-label
@@ -102,7 +108,7 @@ export default class IdsDataLabel extends Base {
     return this.labelPosition === 'left' ? ':' : '';
   }
 
-  set language(value: string) {
+  set language(value: string | undefined | null) {
     if (value) {
       this.setAttribute('language', value);
     }

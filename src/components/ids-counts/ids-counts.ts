@@ -7,6 +7,7 @@ import '../ids-text/ids-text';
 import '../ids-hyperlink/ids-hyperlink';
 
 import styles from './ids-counts.scss';
+import type IdsText from '../ids-text/ids-text';
 
 /**
  * IDS Counts Component
@@ -26,7 +27,7 @@ export default class IdsCounts extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#textProperties();
-    if (this.color) this.color = this.getAttribute(attributes.COLOR);
+    if (this.color) this.color = this.getAttribute(attributes.COLOR) ?? '';
   }
 
   #textProperties() {
@@ -66,35 +67,51 @@ export default class IdsCounts extends Base {
    */
   set color(value: string) {
     if (this.href) this.container?.setAttribute('color', '');
+
     const color = value[0] === '#' ? value : `var(--ids-color-status-${value})`;
-    if (this.container) this.container.style.color = color;
-    this.querySelectorAll('ids-text').forEach((node: any) => {
-      node.color = 'unset';
-      node.shadowRoot.querySelector('span').style.color = value;
-    });
+
     this.setAttribute(attributes.COLOR, value);
+    this.container?.style.setProperty('color', color);
+    this.querySelectorAll<IdsText>('ids-text').forEach((node) => {
+      node.color = 'unset';
+      node.shadowRoot?.querySelector('span')?.style.setProperty('color', value);
+    });
   }
 
-  get color(): string { return this.getAttribute(attributes.COLOR); }
+  get color(): string {
+    return this.getAttribute(attributes.COLOR) || '';
+  }
 
   /**
    * Set the compact attribute
-   * @param {string | boolean} value true or false. Component will
+   * @param {boolean} value true or false. Component will
    * default to regular size if this property is ommitted.
    */
-  set compact(value: string | boolean) {
-    this.setAttribute(attributes.COMPACT, value === 'true' ? 'true' : 'false');
+  set compact(value: boolean) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.COMPACT, '');
+    } else {
+      this.removeAttribute(attributes.COMPACT);
+    }
   }
 
-  get compact(): string | boolean { return this.getAttribute(attributes.COMPACT); }
+  get compact(): boolean {
+    return this.hasAttribute(attributes.COMPACT);
+  }
 
   /**
    * Set the href attribute
    * @param {string} value The href link
    */
-  set href(value: string) {
-    this.setAttribute(attributes.HREF, value);
+  set href(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.HREF, value);
+    } else {
+      this.removeAttribute(attributes.HREF);
+    }
   }
 
-  get href(): string { return this.getAttribute(attributes.HREF); }
+  get href(): string | null {
+    return this.getAttribute(attributes.HREF);
+  }
 }

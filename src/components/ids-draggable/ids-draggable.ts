@@ -18,6 +18,8 @@ const CURSOR_EL_SIZE = 32;
 @customElement('ids-draggable')
 @scss(styles)
 export default class IdsDraggable extends Base {
+  #relativeBounds: any = {};
+
   constructor() {
     super();
   }
@@ -67,7 +69,7 @@ export default class IdsDraggable extends Base {
    * be moving along (e.g. X => horizontal, Y => vertical);
    * By default, not defined and supports both axes.
    */
-  set axis(value: string | undefined) {
+  set axis(value: string | undefined | null) {
     let nextValue;
 
     switch (value) {
@@ -97,11 +99,11 @@ export default class IdsDraggable extends Base {
   }
 
   /**
-   * @returns {"x"|"y"|undefined} value The axis that the draggable content will
+   * @returns {"x"|"y"|null} value The axis that the draggable content will
    * be moving along (e.g. X => horizontal, Y => vertical);
    * By default not defined and supports both axes.
    */
-  get axis(): string | undefined {
+  get axis(): string | null {
     return this.getAttribute('axis');
   }
 
@@ -154,11 +156,11 @@ export default class IdsDraggable extends Base {
    * @param {string} value A query selector representing an optional handle that can be used to
    * drag the content of the draggable
    */
-  set handle(value: string) {
+  set handle(value: string | null) {
     if (this.getAttribute(attributes.HANDLE) !== value) {
       if (this.hasAttribute(attributes.HANDLE) && (!value)) {
         this.removeAttribute(attributes.HANDLE);
-      } else {
+      } else if (value) {
         this.setAttribute(attributes.HANDLE, value);
       }
 
@@ -170,7 +172,7 @@ export default class IdsDraggable extends Base {
    * @returns {string} value A query selector representing an optional handle that can be used to
    * drag the content of the draggable
    */
-  get handle(): string {
+  get handle(): string | null {
     return this.getAttribute(attributes.HANDLE);
   }
 
@@ -293,11 +295,7 @@ export default class IdsDraggable extends Base {
   }
 
   get minTransformX(): number {
-    if (this.hasAttribute(attributes.MIN_TRANSFORM_X)) {
-      return parseInt(this.getAttribute(attributes.MIN_TRANSFORM_X));
-    }
-
-    return 0;
+    return parseInt(this.getAttribute(attributes.MIN_TRANSFORM_X) ?? '0');
   }
 
   set maxTransformX(value: number) {
@@ -305,11 +303,7 @@ export default class IdsDraggable extends Base {
   }
 
   get maxTransformX(): number {
-    if (this.hasAttribute(attributes.MAX_TRANSFORM_X)) {
-      return parseInt(this.getAttribute(attributes.MAX_TRANSFORM_X));
-    }
-
-    return 0;
+    return parseInt(this.getAttribute(attributes.MAX_TRANSFORM_X) ?? '0');
   }
 
   set minTransformY(value: number) {
@@ -317,19 +311,11 @@ export default class IdsDraggable extends Base {
   }
 
   get minTransformY(): number {
-    if (this.hasAttribute(attributes.MIN_TRANSFORM_Y)) {
-      return parseInt(this.getAttribute(attributes.MIN_TRANSFORM_Y));
-    }
-
-    return 0;
+    return parseInt(this.getAttribute(attributes.MIN_TRANSFORM_Y) ?? '0');
   }
 
   get maxTransformY(): number {
-    if (this.hasAttribute(attributes.MAX_TRANSFORM_Y)) {
-      return parseInt(this.getAttribute(attributes.MAX_TRANSFORM_Y));
-    }
-
-    return 0;
+    return parseInt(this.getAttribute(attributes.MAX_TRANSFORM_Y) ?? '0');
   }
 
   set maxTransformY(value: number) {
@@ -618,20 +604,18 @@ export default class IdsDraggable extends Base {
    * bounds, or "top: 10; bottom: 20" would make the top (upwards
    * bounds) 10 below the top or 20 below the bottom).
    */
-  set relativeBounds(value: string | number) {
+  set relativeBounds(value: string | number | null) {
     if (value) {
-      this.setAttribute(attributes.RELATIVE_BOUNDS, value);
+      this.setAttribute(attributes.RELATIVE_BOUNDS, String(value));
       this.#updateRelativeBounds();
       return;
     }
     this.removeAttribute(attributes.RELATIVE_BOUNDS);
   }
 
-  get relativeBounds(): string | number {
+  get relativeBounds(): string | null {
     return this.getAttribute(attributes.RELATIVE_BOUNDS);
   }
-
-  #relativeBounds: any = {};
 
   /**
    * @param {{
@@ -656,11 +640,11 @@ export default class IdsDraggable extends Base {
 
   #updateRelativeBounds() {
     const relativeBoundsAttr = this.getAttribute(attributes.RELATIVE_BOUNDS);
-    const newBounds = Object.fromEntries(relativeBoundsAttr.split(';').map((str: string) => {
+    const newBounds = Object.fromEntries(relativeBoundsAttr?.split(';').map((str: string) => {
       // eslint-disable-next-line no-unsafe-optional-chaining
       const [kStr, vStr] = str?.split?.(':');
       return [kStr, !Number.isNaN(parseInt(vStr)) ? parseInt(vStr) : 0];
-    }));
+    }) ?? []);
 
     if (this.getBoundsHash(newBounds) !== this.getBoundsHash(this.#relativeBounds)) {
       this.#relativeBounds = newBounds;

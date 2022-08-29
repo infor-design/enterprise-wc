@@ -1,14 +1,13 @@
 import { attributes } from '../../core/ids-attributes';
 import '../../components/ids-tooltip/ids-tooltip';
-import { IdsConstructor, IdsWebComponent } from '../../core/ids-interfaces';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
-import type IdsTriggerField from '../../components/ids-trigger-field/ids-trigger-field';
+import { IdsConstructor } from '../../core/ids-element';
 
-type FieldContainer = {
-  fieldContainer?: HTMLElement | SVGElement | null
-};
+interface InputInterface {
+  fieldContainer?: HTMLElement | SVGElement | null;
+}
 
-type Constraints = IdsConstructor<IdsWebComponent & EventsMixinInterface & FieldContainer>;
+type Constraints = IdsConstructor<EventsMixinInterface & InputInterface>;
 
 /**
 /**
@@ -59,7 +58,7 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
       return this.fieldContainer;
     }
 
-    const triggerField = this.shadowRoot?.querySelector<IdsTriggerField>('ids-trigger-field');
+    const triggerField = this.shadowRoot?.querySelector<any>('ids-trigger-field');
     if (triggerField?.fieldContainer instanceof HTMLElement || triggerField?.fieldContainer instanceof SVGElement) {
       return triggerField.fieldContainer;
     }

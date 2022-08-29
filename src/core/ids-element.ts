@@ -2,6 +2,10 @@ import { version } from './ids-attributes';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
 import styles from './ids-element.scss';
 
+export type IdsBaseConstructor = new (...args: any[]) => IdsElement;
+
+export type IdsConstructor<T> = new (...args: any[]) => T & IdsElement;
+
 /**
  * IDS Base Element
  */
