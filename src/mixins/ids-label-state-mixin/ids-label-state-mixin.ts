@@ -1,5 +1,7 @@
-import { attributes } from '../../core/ids-attributes';
-import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
+import { stripTags, stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
+import type { IdsLabelStateMode } from './ids-label-state-common';
+import { IdsLabelStateAttributes, isLabelRequiredValid } from './ids-label-state-common';
 
 /**
  * A mixin that will provide the container element of an IdsInputComponent with a class
@@ -14,54 +16,108 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
     if (!this.state) {
       this.state = {};
     }
+    this.state.label = '';
     this.state.labelState = null;
-
-    // Overrides the IdsElement `render` method to also include an update
-    // to label style after it runs, keeping the visual state in-sync.
-    this.render = () => {
-      super.render();
-      if (this.hasAttribute(attributes.LABEL_STATE)) {
-        this.labelState = this.getAttribute(attributes.LABEL_STATE);
-      }
-    };
   }
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.labelState = this.getAttribute(attributes.LABEL_STATE);
+    if (this.hasAttribute(attributes.LABEL_STATE)) {
+      this.labelState = this.getAttribute(attributes.LABEL_STATE);
+    }
   }
 
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.LABEL_STATE
+      ...IdsLabelStateAttributes
     ];
   }
 
   /**
-   * @returns {Array<string>} List of available hidden label states
+   * Set the `label` text
+   * @param {string} value of the `label` text property
+   */
+  set label(value: string) {
+    const newValue = stripHTML(value);
+    const currentValue = this.label;
+
+    if (newValue !== currentValue) {
+      if (this.state) this.state.label = newValue;
+      if (newValue) {
+        this.setAttribute(attributes.LABEL, `${newValue}`);
+      } else {
+        this.removeAttribute(attributes.LABEL);
+      }
+      this.setLabelText(newValue);
+    }
+  }
+
+  get label(): string { return this.state?.label || ''; }
+
+  /**
+   * Used for setting the text contents of the shadowroot label
+   * @param {string} [value] of label
+   * @param {string} [selector] used to target a specific element in the shadowroot by CSS selector
+   * @returns {void}
+   */
+  setLabelText(value = this.state?.label, selector = 'label'): void {
+    const sanitizedValue = stripHTML(value);
+    const labelEl = this.shadowRoot?.querySelector(selector);
+    if (labelEl) {
+      const textEl = labelEl.querySelector('ids-text');
+      if (!this.labelState) {
+        if (textEl) textEl.innerHTML = sanitizedValue || '';
+        labelEl.classList[sanitizedValue ? 'remove' : 'add']('empty');
+      } else {
+        if (textEl) textEl.innerHTML = '';
+        labelEl.classList.add('empty');
+      }
+    }
+  }
+
+  /**
+   * Set `label-required` attribute
+   * @param {string} value The `label-required` attribute
+   */
+  set labelRequired(value: string | boolean) {
+    const safeValue = isLabelRequiredValid(value);
+    if (value !== null) {
+      this.setAttribute(attributes.LABEL_REQUIRED, safeValue);
+    } else {
+      this.removeAttribute(attributes.LABEL_REQUIRED);
+    }
+    this.labelEl?.classList[!safeValue ? 'add' : 'remove']('no-required-indicator');
+  }
+
+  get labelRequired(): boolean {
+    return isLabelRequiredValid(this.getAttribute(attributes.LABEL_REQUIRED));
+  }
+
+  /**
+   * @returns {Array<IdsLabelStateMode>} List of available hidden label states
    */
   labelStates = ['hidden', 'collapsed'];
 
   /**
-   * @returns {string|null} the current state of the field label's visibility
+   * @returns {IdsLabelStateMode} the current state of the field label's visibility
    */
   get labelState() {
-    return this.state?.labelState;
+    return this.state?.labelState || null;
   }
 
   /**
-   * @param {string|null} val the type of label visibility to apply to the field
+   * @param {IdsLabelStateMode} val the type of label visibility to apply to the field
    */
-  set labelState(val) {
-    let safeValue: any = null;
+  set labelState(val: IdsLabelStateMode) {
+    let safeValue: IdsLabelStateMode = null;
     if (typeof val === 'string') {
-      safeValue = stripTags(val, '');
+      safeValue = (stripTags(val, '') as IdsLabelStateMode);
     }
 
-    const currentValue: any = this.state.labelState;
+    const currentValue: IdsLabelStateMode = this.state.labelState;
     if (currentValue !== safeValue) {
-      if (this.labelStates.includes(safeValue)) {
+      if (safeValue !== null && this.labelStates.includes(safeValue)) {
         this.setAttribute(attributes.LABEL_STATE, `${safeValue}`);
       } else {
         this.removeAttribute(attributes.LABEL_STATE);
@@ -81,7 +137,9 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
    * @param {string} newVariantName the variant name to "add" to the style
    * @returns {void}
    */
-  #refreshLabelState(oldVariantName: string, newVariantName: string): void {
+  #refreshLabelState(oldVariantName: IdsLabelStateMode, newVariantName: IdsLabelStateMode): void {
+    if (!this.container) return;
+
     const cl = this.container.classList;
 
     if (oldVariantName) cl.remove(`label-state-${oldVariantName}`);
@@ -90,18 +148,18 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
     this.#setlabelState(newVariantName);
 
     // Fire optional callback
-    if (typeof this.onlabelStateChange === 'function') {
-      this.onlabelStateChange(newVariantName);
+    if (typeof this.onLabelStateChange === 'function') {
+      this.onLabelStateChange(newVariantName);
     }
   }
 
-  #setlabelState(doHide: boolean | string = false) {
+  #setlabelState(doHide: IdsLabelStateMode = null) {
     if (doHide) {
       this.#hideLabel();
-      this.input?.setAttribute('aria-label', this.label);
+      this.input?.setAttribute(htmlAttributes.ARIA_LABEL, this.label);
     } else {
       this.#showLabel();
-      this.input?.removeAttribute('aria-label');
+      this.input?.removeAttribute(htmlAttributes.ARIA_LABEL);
     }
   }
 
@@ -110,7 +168,7 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
   }
 
   #showLabel() {
-    const existingLabel = this.shadowRoot.querySelector('label');
+    const existingLabel = this.shadowRoot?.querySelector('label');
     if (!existingLabel && !this.labelEl) {
       if (this.fieldContainer) {
         this.fieldContainer.insertAdjacentHTML('beforebegin', `<label for="${this.id}-input" class="ids-label-text">

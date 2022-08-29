@@ -76,6 +76,11 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     ];
   }
 
+  disconnectedCallback(): void {
+    super.disconnectedCallback?.();
+    this.detachAllEvents();
+  }
+
   /**
    * Add and keep track of an event listener.
    * @param {string} eventName The event name with optional namespace

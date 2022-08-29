@@ -476,7 +476,7 @@ export default class IdsListView extends Base {
       if (this.selectable === 'multiple' || this.selectable === 'mixed') {
         const checked = item.itemSelected ? ' checked' : '';
         const disabled = item.disabled ? ' disabled' : '';
-        let checkbox = `<ids-checkbox class="list-item-checkbox" label="cb-item-${index}" label-audible="true"${checked}${disabled}></ids-checkbox>`;
+        let checkbox = `<ids-checkbox class="list-item-checkbox" label="cb-item-${index}" label-state="hidden"${checked}${disabled}></ids-checkbox>`;
         if (this.selectable === 'multiple' && this.hideCheckboxes) checkbox = '';
         return `
           <div class="list-item-area">
@@ -637,7 +637,7 @@ export default class IdsListView extends Base {
             <ids-checkbox
              class="list-item-checkbox"
              label="cb-item-${index}"
-             label-audible="true"${checked}${disabled}></ids-checkbox>
+             label-state="hidden"${checked}${disabled}></ids-checkbox>
           `);
         });
       }
@@ -742,16 +742,16 @@ export default class IdsListView extends Base {
       this.container?.remove();
     }
 
-    const referenceElem: any = this.shadowRoot.querySelector('style');
+    const referenceElem: any = this.shadowRoot?.querySelector('style');
     if (referenceElem) {
       referenceElem.insertAdjacentHTML('afterend', html);
     } else {
       const template = document.createElement('template');
       template.innerHTML = html;
-      this.shadowRoot.appendChild(template.content.cloneNode(true));
+      this.shadowRoot?.appendChild(template.content.cloneNode(true));
     }
 
-    this.container = this.shadowRoot.querySelector('.ids-list-view');
+    this.container = this.shadowRoot?.querySelector('.ids-list-view');
 
     // super.rerender?.(true);
 
@@ -776,7 +776,7 @@ export default class IdsListView extends Base {
 
     // Set back direction
     if (dir) {
-      this.container.setAttribute('dir', dir);
+      this.container?.setAttribute('dir', dir);
     }
   }
 
@@ -793,6 +793,8 @@ export default class IdsListView extends Base {
    * @private
    */
   adjustHeight() {
+    if (!this.container) return;
+
     const rootContainer = this.virtualScroll ? this.virtualScrollContainer : this.container;
     rootContainer.style.height = `${this.height}`;
   }
@@ -956,7 +958,7 @@ export default class IdsListView extends Base {
 
     if (LIST_VIEW_DEFAULTS.selectableOptions.includes(value)) {
       this.setAttribute(attributes.SELECTABLE, value);
-      this.container.classList.add(this.selectableClass());
+      this.container?.classList.add(this.selectableClass());
     } else {
       this.removeAttribute(attributes.SELECTABLE);
     }

@@ -182,8 +182,8 @@ export default class IdsTreeNode extends Base {
   #setExpandCollapse() {
     const iconEl = this.shadowRoot?.querySelector('.icon');
     iconEl?.setAttribute(attributes.ICON, this.nodeIcon);
-    this.container.classList.remove(...Object.values(IdsTreeShared.TOGGLE_CLASSES));
-    this.container.classList.add(this.toggleClass);
+    this.container?.classList.remove(...Object.values(IdsTreeShared.TOGGLE_CLASSES));
+    this.container?.classList.add(this.toggleClass);
     this.nodeContainer?.setAttribute('aria-expanded', this.expanded.toString());
 
     if (this.useToggleTarget) {
@@ -393,12 +393,12 @@ export default class IdsTreeNode extends Base {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, '');
-      this.container.setAttribute(attributes.DISABLED, '');
+      this.container?.setAttribute(attributes.DISABLED, '');
       this.nodeContainer?.setAttribute(attributes.DISABLED, '');
       this.nodeContainer?.setAttribute('aria-disabled', 'true');
     } else {
       this.removeAttribute(attributes.DISABLED);
-      this.container.removeAttribute(attributes.DISABLED);
+      this.container?.removeAttribute(attributes.DISABLED);
       this.nodeContainer?.removeAttribute(attributes.DISABLED);
       this.nodeContainer?.setAttribute('aria-disabled', 'false');
     }

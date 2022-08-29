@@ -1,4 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
+import { IdsLabelStateAttributes } from '../../mixins/ids-label-state-mixin/ids-label-state-common';
 
 // List of view modes
 export const VIEWS = ['editor', 'source'];
@@ -47,10 +48,8 @@ export const EDITOR_DEFAULTS = {
 
 // Definable attributes
 export const EDITOR_ATTRIBUTES = [
+  ...IdsLabelStateAttributes,
   attributes.DISABLED,
-  attributes.LABEL,
-  attributes.LABEL_HIDDEN,
-  attributes.LABEL_REQUIRED,
   attributes.PARAGRAPH_SEPARATOR,
   attributes.PASTE_AS_PLAIN_TEXT,
   attributes.PLACEHOLDER,

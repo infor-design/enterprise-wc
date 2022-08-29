@@ -51,6 +51,11 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    */
   set autocomplete(value: string | boolean | null) {
     const val = stringToBool(value);
+
+    if (!this.container) {
+      return;
+    }
+
     if (val) {
       this.setAttribute(attributes.AUTOCOMPLETE, '');
       this.container?.classList.add('autocomplete');

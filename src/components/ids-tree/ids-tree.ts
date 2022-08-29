@@ -279,7 +279,7 @@ export default class IdsTree extends Base {
       return;
     }
 
-    const slot = this.shadowRoot.querySelector('slot');
+    const slot = this.shadowRoot?.querySelector('slot');
 
     if (slot) {
       const { data, html } = this.#htmlAndData();
@@ -1123,10 +1123,10 @@ export default class IdsTree extends Base {
   set label(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL, value.toString());
-      this.container.setAttribute('aria-label', value.toString());
+      this.container?.setAttribute('aria-label', value.toString());
     } else {
       this.removeAttribute(attributes.LABEL);
-      this.container.setAttribute('aria-label', IdsTreeShared.TREE_ARIA_LABEL);
+      this.container?.setAttribute('aria-label', IdsTreeShared.TREE_ARIA_LABEL);
     }
   }
 

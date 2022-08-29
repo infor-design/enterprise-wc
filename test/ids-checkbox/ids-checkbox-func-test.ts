@@ -92,20 +92,29 @@ describe('IdsCheckbox Component', () => {
     expect(rootEl.classList).not.toContain('disabled');
   });
 
-  it('should renders as label audible', () => {
-    expect(cb.getAttribute('label-audible')).toEqual(null);
-    let textEl = cb.shadowRoot.querySelector('ids-text');
+  it('can render a checkbox without a visible label', () => {
+    const textEl = cb.shadowRoot.querySelector('ids-text');
+    const innerCheckbox = cb.shadowRoot.querySelector('input[type="checkbox"]');
 
-    cb.labelAudible = 'true';
-    expect(cb.getAttribute('label-audible')).toEqual('true');
-    textEl = cb.shadowRoot.querySelector('ids-text');
-    expect(textEl.getAttribute('audible')).toEqual('true');
-    expect(cb.template()).toMatchSnapshot();
+    cb.label = 'My Checkbox';
+    expect(cb.getAttribute('label-state')).toEqual(null);
+    expect(textEl.textContent).toBe('My Checkbox');
+    expect(innerCheckbox.getAttribute('aria-label')).toBe(null);
 
-    cb.labelAudible = 'false';
-    expect(cb.getAttribute('label-audible')).toEqual('false');
-    textEl = cb.shadowRoot.querySelector('ids-text');
-    expect(textEl.getAttribute('audible')).toEqual(null);
+    cb.labelState = 'hidden';
+    expect(cb.getAttribute('label-state')).toEqual('hidden');
+    expect(textEl.textContent).toBe('');
+    expect(innerCheckbox.getAttribute('aria-label')).toBe('My Checkbox');
+
+    cb.removeAttribute('label-state');
+    expect(cb.getAttribute('label-state')).toEqual(null);
+    expect(textEl.textContent).toBe('My Checkbox');
+    expect(innerCheckbox.getAttribute('aria-label')).toBe(null);
+
+    cb.setAttribute('label-state', 'hidden');
+    expect(cb.getAttribute('label-state')).toEqual('hidden');
+    expect(textEl.textContent).toBe('');
+    expect(innerCheckbox.getAttribute('aria-label')).toBe('My Checkbox');
   });
 
   it('should add/remove required error', () => {
@@ -149,14 +158,14 @@ describe('IdsCheckbox Component', () => {
     expect(cb.labelEl.classList).not.toContain(className);
     cb.labelRequired = false;
     expect(cb.getAttribute('validate')).toEqual('required');
-    expect(cb.getAttribute('label-required')).toEqual(null);
+    expect(cb.getAttribute('label-required')).toEqual('false');
     expect(cb.labelEl.classList).toContain(className);
-    expect(cb.labelRequired).toEqual(null);
+    expect(cb.labelRequired).toEqual(false);
     cb.labelRequired = true;
     expect(cb.getAttribute('validate')).toEqual('required');
     expect(cb.getAttribute('label-required')).toEqual('true');
     expect(cb.labelEl.classList).not.toContain(className);
-    expect(cb.labelRequired).toEqual('true');
+    expect(cb.labelRequired).toEqual(true);
   });
 
   it('should set label text', () => {

@@ -84,9 +84,6 @@ export default class IdsElement extends HTMLElement {
    */
   disconnectedCallback() {
     const self: any = this;
-
-    self.detachAllEvents?.();
-    self.detachAllListeners?.();
     delete self.cssStyles;
     delete self.popupOpenEventsTarget;
     // TODO: Can this be added

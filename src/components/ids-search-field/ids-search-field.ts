@@ -28,6 +28,8 @@ export default class IdsSearchField extends Base {
     super();
   }
 
+  isFormComponent = true;
+
   /**
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
@@ -49,7 +51,9 @@ export default class IdsSearchField extends Base {
     };
 
     this.buttons.forEach(adjustBtnVariant);
-    [...this.fieldContainer.querySelectorAll('ids-trigger-button')].forEach(adjustBtnVariant);
+    if (this.fieldContainer) {
+      [...this.fieldContainer.querySelectorAll('ids-trigger-button')].forEach(adjustBtnVariant);
+    }
   }
 
   static get attributes() {

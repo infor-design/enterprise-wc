@@ -46,12 +46,15 @@ const PICKLIST_LENGTH = 6;
  * IDS Date Picker Component
  * @type {IdsDatePicker}
  * @inherits IdsElement
- * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
+ * @mixes IdsColorVariantMixin
  * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsEventsMixin
+ * @mixes IdsFieldHeightMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsLabelStateParentMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsThemeMixin
- * @mixes IdsLocaleMixin
  * @part container - the container of the component
  * @part trigger-field - the trigger container
  * @part trigger-button - the trigger button
@@ -69,6 +72,8 @@ class IdsDatePicker extends Base {
   constructor() {
     super();
   }
+
+  isFormComponent = true;
 
   /**
    * Elements for internal usage
@@ -150,7 +155,7 @@ class IdsDatePicker extends Base {
    * Push label-state to the trigger-field element
    * @returns {void}
    */
-  onlabelStateChange(): void {
+  onLabelStateChange(): void {
     if (this.#triggerField) this.#triggerField.labelState = this.labelState;
   }
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-textarea id="textarea-1" label="Regular Textarea" validate="required" label-required placeholder="This textarea's label is visible"></ids-textarea>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-textarea id="textarea-2" label="Textarea with hidden label" validate="required" label-required label-state="hidden" placeholder="This textarea's label is 'hidden'"></ids-textarea>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-textarea id="textarea-3" label="Textarea with collapsed label" validate="required" label-required label-state="collapsed" placeholder="This textarea's label is 'collapsed'"></ids-textarea>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

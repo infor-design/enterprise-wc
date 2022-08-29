@@ -88,6 +88,7 @@ export default class IdsModal extends Base {
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
     window.removeEventListener('DOMContentLoaded', this.#onDOMContentLoaded);
+    this.#clearBreakpointResponse();
   }
 
   /**
@@ -147,13 +148,6 @@ export default class IdsModal extends Base {
    */
   set fullsize(val: IdsModalFullsizeAttributeValue) {
     const current = this.state.fullsize;
-    const clearResponse = () => {
-      if (this.respondDown) {
-        this.respondDown = undefined;
-        this.onBreakpointDownResponse = undefined;
-      }
-    };
-
     const makeFullsize = (doFullsize: boolean) => {
       this.popup.classList[doFullsize ? 'add' : 'remove'](attributes.FULLSIZE);
       this.popup.width = doFullsize ? '100%' : '';
@@ -168,7 +162,7 @@ export default class IdsModal extends Base {
     if (current !== val) {
       switch (val) {
         case 'always':
-          clearResponse();
+          this.#clearBreakpointResponse();
           this.state.fullsize = 'always';
           this.popup.classList.add(`can-fullsize`);
           makeFullsize(true);
@@ -177,7 +171,7 @@ export default class IdsModal extends Base {
         case 'null':
         case '':
           this.state.fullsize = '';
-          clearResponse();
+          this.#clearBreakpointResponse();
           this.removeAttribute(attributes.FULLSIZE);
           this.popup.classList.remove('can-fullsize');
           makeFullsize(false);
@@ -199,6 +193,18 @@ export default class IdsModal extends Base {
   }
 
   /**
+   * Removes established callbacks for responding to breakpoints, if set
+   */
+  #clearBreakpointResponse(): void {
+    if (this.respondDown) {
+      this.respondDown = undefined;
+    }
+    if (this.onBreakpointDownResponse) {
+      this.onBreakpointDownResponse = undefined;
+    }
+  }
+
+  /**
    * Runs on connectedCallback or any refresh to adjust the `fullsize` attribute, if set
    */
   #setFullsizeDefault(): void {
@@ -214,7 +220,7 @@ export default class IdsModal extends Base {
    * @returns {HTMLElement} either an external overlay element, or none
    */
   get overlay(): any {
-    return this.state.overlay || this.shadowRoot.querySelector('ids-overlay');
+    return this.state.overlay || this.shadowRoot?.querySelector('ids-overlay');
   }
 
   /**
@@ -234,7 +240,7 @@ export default class IdsModal extends Base {
    * @returns {HTMLElement} the inner Popup
    */
   get popup(): any {
-    return this.shadowRoot.querySelector('ids-popup');
+    return this.shadowRoot?.querySelector('ids-popup');
   }
 
   /**
@@ -315,6 +321,7 @@ export default class IdsModal extends Base {
    * @returns {void}
    */
   #refreshModalFooter() {
+    if (!this.container) return;
     const footerEl = this.container.querySelector('.ids-modal-footer');
 
     if (this.buttons.length) {
@@ -382,11 +389,12 @@ export default class IdsModal extends Base {
 
     // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
     this.style.zIndex = zCounter.increment();
-    this.overlay.visible = true;
-
-    this.popup.visible = true;
-    if (this.popup.animated) {
-      await waitForTransitionEnd(this.popup.container, 'opacity');
+    if (this.overlay) this.overlay.visible = true;
+    if (this.popup) {
+      this.popup.visible = true;
+      if (this.popup.animated) {
+        await waitForTransitionEnd(this.popup.container, 'opacity');
+      }
     }
 
     this.removeAttribute('aria-hidden');
@@ -403,7 +411,10 @@ export default class IdsModal extends Base {
       }
     });
 
-    this.popup.animated = false;
+    if (this.popup) {
+      this.popup.animated = false;
+    }
+
     this.respondToCurrentBreakpoint();
 
     this.triggerEvent('aftershow', this, {
@@ -486,11 +497,13 @@ export default class IdsModal extends Base {
     document.addEventListener('keydown', this.globalKeydownListener);
 
     // If a Modal Button is clicked, fire an optional callback
-    const buttonSlot = this.container.querySelector('slot[name="buttons"]');
+    if (this.container) {
+      const buttonSlot = this.container.querySelector('slot[name="buttons"]');
 
-    this.onEvent('click.buttons', buttonSlot, (e: MouseEvent) => {
-      this.handleButtonClick(e);
-    });
+      this.onEvent('click.buttons', buttonSlot, (e: MouseEvent) => {
+        this.handleButtonClick(e);
+      });
+    }
   }
 
   /**

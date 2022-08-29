@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Hidden e2e Tests', () => {
   const url = 'http://localhost:4444/ids-hidden/example.html';
@@ -17,6 +18,15 @@ describe('Ids Hidden e2e Tests', () => {
 
     const results = await new AxePuppeteer(page).analyze();
     expect(results.violations.length).toBe(0);
+  });
+
+  it.skip('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-hidden id="test" hide-up="md"></ids-hidden>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 
   it('should show hidden-1 el when on medium screens and down', async () => {

@@ -17,6 +17,9 @@
   - link: disabled-dates.html
     type: Example
     description: Showing disabled dates variations
+  - link: label-state.html
+    type: Test
+    description: Showing an example with hidden labels
   - link: sandbox.html
     type: Sandbox
     description: Showing various date formats and scenarios

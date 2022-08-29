@@ -15,12 +15,6 @@ const MOUSE_LEFT = 0b001;
  * IDS Spinbox Component
  * @type {IdsSpinbox}
  * @inherits IdsTriggerField
- * @mixes IdsThemeMixin
- * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
- * @mixes IdsLocaleMixin
- * @mixes IdsDirtyTrackerMixin
- * @mixes IdsValidationMixin
  * @part container the overall container of the spinbox
  * @part button increment/decrement button
  * @part input input containing value/placeholder
@@ -33,6 +27,8 @@ export default class IdsSpinbox extends Base {
   constructor() {
     super();
   }
+
+  isFormComponent = true;
 
   /**
    * Return the attributes we handle as getters/setters
@@ -343,8 +339,9 @@ export default class IdsSpinbox extends Base {
    * @param {number | string} value spinbox' input value
    */
   set value(value) {
-    if (super.value !== parseInt(value)) {
-      super.value = this.#setValueWithinLimits(value);
+    const safeValue = `${parseInt(value)}`;
+    if (super.value !== safeValue) {
+      super.value = this.#setValueWithinLimits(safeValue);
 
       // set properties/updaters
       this.setAttribute(htmlAttributes.ARIA_VALUENOW, super.value);
@@ -461,7 +458,7 @@ export default class IdsSpinbox extends Base {
     }
 
     const hasValidValue = !Number.isNaN(parseInt(this.value));
-    this.value = (hasValidValue ? parseInt(this.value) : 0) + step;
+    this.value = `${(hasValidValue ? parseInt(this.value) : 0) + step}`;
   }
 
   /**

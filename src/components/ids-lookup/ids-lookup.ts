@@ -16,8 +16,9 @@ import styles from './ids-lookup.scss';
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
+ * @mixes IdsLabelStateParentMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
  * @part trigger-field - the trigger container
  * @part input - the input element
@@ -32,6 +33,8 @@ export default class IdsLookup extends Base {
   constructor() {
     super();
   }
+
+  isFormComponent = true;
 
   /**
    * Invoked each time the custom element is appended into a document-connected element.
@@ -80,9 +83,9 @@ export default class IdsLookup extends Base {
       attributes.AUTOCOMPLETE,
       attributes.DISABLED,
       attributes.FIELD,
-      attributes.LABEL,
       attributes.MODE,
       attributes.READONLY,
+      attributes.SIZE,
       attributes.TABBABLE,
       attributes.TITLE,
       attributes.VALUE
@@ -102,6 +105,9 @@ export default class IdsLookup extends Base {
       ${this.autocomplete ? ` autocomplete search-field="${this.field}"` : ''}
       ${this.disabled ? ' disabled="true"' : ''}
       ${this.readonly ? ' readonly="true"' : ''}
+      ${this.compact ? ' compact' : ''}
+      ${this.size ? ` size="${this.size}"` : ''}
+      ${this.fieldHeight ? ` field-height="${this.fieldHeight}"` : ''}
       ${this.validate ? ` validate="${this.validate}"` : ''}
       ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
       <ids-trigger-button
@@ -194,16 +200,21 @@ export default class IdsLookup extends Base {
 
   get value(): string { return this.getAttribute('value'); }
 
-  /**
-   * Set the `label` text
-   * @param {string} value of the `label` text property
-   */
-  set label(value: string) {
-    this.setAttribute('label', value);
-    this.triggerField.setAttribute('label', value);
+  onLabelChange(): void {
+    if (this.input) this.input.label = this.label;
   }
 
-  get label(): string { return this.getAttribute('label') || ''; }
+  /**
+   * Push label-state to the container element
+   * @returns {void}
+   */
+  onLabelStateChange(): void {
+    if (this.input) this.input.labelState = this.labelState;
+  }
+
+  onLabelRequiredChange(): void {
+    if (this.input) this.input.labelRequired = this.labelRequired;
+  }
 
   /**
    * Sets the readonly state of the field
@@ -403,6 +414,21 @@ export default class IdsLookup extends Base {
   get field(): string { return this.getAttribute(attributes.FIELD) || 'id'; }
 
   /**
+   * Set the dropdown size
+   * @param {string} value The value
+   */
+  set size(value: string) {
+    if (value) {
+      this.setAttribute(attributes.SIZE, value);
+    } else {
+      this.removeAttribute(attributes.SIZE);
+    }
+    if (this.triggerField) this.triggerField.setAttribute(attributes.SIZE, this.size);
+  }
+
+  get size(): string { return this.getAttribute(attributes.SIZE) ?? 'md'; }
+
+  /**
    * Set the string delimiter on selection
    * @param {string} value The field name
    */
@@ -419,6 +445,21 @@ export default class IdsLookup extends Base {
    */
   get input() {
     return this.container;
+  }
+
+  /**
+   * Push field-height/compact to the container element
+   * @param {string} val the new field height setting
+   */
+  onFieldHeightChange(val: string) {
+    if (val) {
+      const attr = val === 'compact' ? { name: 'compact', val: '' } : { name: 'field-height', val };
+      this.triggerField?.setAttribute(attr.name, attr.val);
+    } else {
+      this.triggerField?.removeAttribute('compact');
+      this.triggerField?.removeAttribute('field-height');
+      this.listBox?.removeAttribute('compact');
+    }
   }
 
   /**

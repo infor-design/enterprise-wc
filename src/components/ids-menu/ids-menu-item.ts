@@ -199,7 +199,7 @@ export default class IdsMenuItem extends Base {
 
     const tabMoreParent = this.closest('ids-tab-more');
     if (tabMoreParent) {
-      return tabMoreParent.container.querySelector('ids-popup-menu');
+      return tabMoreParent.container?.querySelector('ids-popup-menu');
     }
 
     return this.closest('ids-menu, ids-popup-menu');

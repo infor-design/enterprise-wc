@@ -35,7 +35,7 @@ const IdsFieldHeightMixin = <T extends Constraints>(superclass: T) => class exte
       this.state = {};
     }
     this.state.fieldHeight = FIELD_HEIGHTS.default;
-    this.state.compact = false;
+    this.state.compact = stringToBool(this.getAttribute(attributes.COMPACT)) || false;
   }
 
   static get attributes() {
@@ -69,7 +69,7 @@ const IdsFieldHeightMixin = <T extends Constraints>(superclass: T) => class exte
    *  Set the compact height
    * @param {boolean|string} value If true will set `compact` attribute
    */
-  set compact(value) {
+  set compact(value: boolean | string) {
     const val = stringToBool(value);
     if (val !== this.state.compact) {
       this.state.compact = val;
@@ -81,6 +81,7 @@ const IdsFieldHeightMixin = <T extends Constraints>(superclass: T) => class exte
       } else {
         this.removeAttribute(attributes.COMPACT);
         this.container?.classList.remove(attributes.COMPACT);
+        this.#doFieldHeightChange('');
       }
     }
   }

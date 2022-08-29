@@ -1,7 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-input-base';
 
@@ -48,6 +47,7 @@ type IdsInputTemplateVariables = {
  * @mixes IdsClearableMixin
  * @mixes IdsColorVariantMixin
  * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsLabelStateMixin
  * @mixes IdsMaskMixin
  * @mixes IdsValidationMixin
  * @mixes IdsThemeMixin
@@ -63,6 +63,8 @@ export default class IdsInput extends Base {
   constructor() {
     super();
   }
+
+  isFormComponent = true;
 
   /**
    * Inherited from `IdsColorVariantMixin`
@@ -82,8 +84,6 @@ export default class IdsInput extends Base {
       attributes.CAPS_LOCK,
       attributes.CURSOR,
       attributes.DISABLED,
-      attributes.LABEL,
-      attributes.LABEL_REQUIRED,
       attributes.ID,
       attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
@@ -200,9 +200,10 @@ export default class IdsInput extends Base {
     containerClass += stringToBool(this.noMargins) ? ' no-margins' : '';
 
     const ariaLabel = this.hasAttribute(attributes.LABEL_STATE) && this.label ? `aria-label="${this.label}"` : '';
-    const hiddenLabelCss = !this.label || this.hasAttribute(attributes.LABEL_HIDDEN) ? ' empty' : '';
+    const hiddenLabelCss = !this.label.length || this.labelState === 'hidden' ? ' empty' : '';
+    const requiredLabelCss = !this.labelRequired ? ' no-required-indicator' : '';
     const labelHtml = `<label
-      class="ids-label-text${hiddenLabelCss}"
+      class="ids-label-text${requiredLabelCss}${hiddenLabelCss}"
       for="${this.id}-input"
       part="label"
       ${attrs.readonly}
@@ -411,11 +412,7 @@ export default class IdsInput extends Base {
    * @returns {void}
    */
   setLabelText(value: string): void {
-    const labelEl = this.#labelEl || (this.shadowRoot && this.shadowRoot.querySelector(`[for="${this.id}-input"]`));
-    if (labelEl) {
-      labelEl.querySelector('ids-text').innerHTML = value || '';
-      labelEl.classList[value ? 'remove' : 'add']('empty');
-    }
+    return super.setLabelText(value, `[for="${this.id}-input"]`);
   }
 
   /**
@@ -677,47 +674,7 @@ export default class IdsInput extends Base {
   /**
    * internal reference to a label element a user provides
    */
-  #labelEl: any;
-
-  /**
-   * Set the `label` text
-   * @param {string} value of the `label` text property
-   */
-  set label(value: string) {
-    const newValue = stripHTML(value);
-    const currentValue = this.label;
-
-    if (newValue !== currentValue) {
-      if (value) {
-        this.setAttribute(attributes.LABEL, value.toString());
-      } else {
-        this.removeAttribute(attributes.LABEL);
-      }
-      this.setLabelText(value);
-    }
-  }
-
-  get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
-
-  /**
-   * Set `label-required` attribute
-   * @param {string} value The `label-required` attribute
-   */
-  set labelRequired(value: string | boolean) {
-    const isValid = typeof value !== 'undefined' && value !== null;
-    const val = isValid ? stringToBool(value) : true;
-    if (isValid) {
-      this.setAttribute(attributes.LABEL_REQUIRED, val);
-    } else {
-      this.removeAttribute(attributes.LABEL_REQUIRED);
-    }
-    this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
-  }
-
-  get labelRequired(): boolean {
-    const value = this.getAttribute(attributes.LABEL_REQUIRED);
-    return value !== null ? stringToBool(value) : true;
-  }
+  #labelEl?: HTMLLabelElement;
 
   /**
    * Set the `placeholder` of input

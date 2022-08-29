@@ -31,6 +31,12 @@ const IdsThemeMixin = <T extends Constrainsts>(superclass: T) => class extends s
     this.initThemeHandlers();
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.offEvent('themechanged');
+    this.switcher = null;
+  }
+
   /**
    * Init the mixin events and states
    * @private
