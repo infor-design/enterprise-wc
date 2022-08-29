@@ -164,7 +164,6 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
   detachAllEvents() {
     this.handledEvents.forEach((value: any, key: string) => {
       this.offEvent(key, value.target, value.options);
-      value.target = null;
     });
     this.#removeLongPressListener();
     this.#removeKeyboardFocusListener();
@@ -185,7 +184,6 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
     if (isValidName && hasEvent) {
       const event = this.handledEvents.get(eventName);
       this.offEvent(eventName, event.target, event.options);
-      event.target = null;
     }
   };
 

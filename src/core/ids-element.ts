@@ -1,3 +1,4 @@
+import { version } from './ids-attributes';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../mixins/ids-events-mixin/ids-events-mixin';
 import styles from './ids-element.scss';
@@ -21,6 +22,9 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   /** Component's name */
   name?: string;
 
+  /** Ids Version No */
+  IdsVersion?: string;
+
   /** State object for current states */
   state?: Record<string, unknown> | null;
 
@@ -31,6 +35,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   #addBaseName() {
     // Add the base class and version
     this.name = this.nodeName?.toLowerCase();
+    this.IdsVersion = version;
   }
 
   /**
@@ -69,8 +74,8 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   disconnectedCallback() {
     delete this.cssStyles;
     delete this.popupOpenEventsTarget;
-    this.container = null;
-    this.state = null;
+    // TODO: Can this be added
+    // delete this.state;
   }
 
   /**
