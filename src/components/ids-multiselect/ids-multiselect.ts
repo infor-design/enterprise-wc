@@ -168,6 +168,9 @@ class IdsMultiselect extends Base {
    */
   get value() { return this.#selectedList; }
 
+  /**
+   * Rewriting dropdown click events
+   */
   attachClickEvent() {
     this.offEvent('click.multiselect-list-box');
     this.onEvent('click.multiselect-list-box', this.listBox, (e: any) => {
@@ -179,7 +182,8 @@ class IdsMultiselect extends Base {
       this.#optionChecked(option);
     });
 
-    this.onEvent('click', this.input.fieldContainer, (e: any) => {
+    this.offEvent('click.multiselect-input');
+    this.onEvent('click.multiselect-input', this.input.fieldContainer, (e: any) => {
       // Don't open/close popup on tag removal
       if (!e.target?.closest('ids-tag')) {
         this.toggle();
@@ -187,7 +191,8 @@ class IdsMultiselect extends Base {
     });
 
     // Should not open if clicked on label
-    this.onEvent('click', this.labelEl, (e: MouseEvent) => {
+    this.offEvent('click.multiselect-label');
+    this.onEvent('click.multiselect-label', this.labelEl, (e: MouseEvent) => {
       e.preventDefault();
       this.input.focus();
     });
@@ -207,6 +212,10 @@ class IdsMultiselect extends Base {
     }
   }
 
+  /**
+   * Establish Internal Keyboard shortcuts
+   * @returns {object} This API object for chaining
+   */
   #attachKeyboardListeners() {
     this.listen([' ', 'Enter'], this, () => {
       if (!this.popup.visible) {
@@ -216,6 +225,8 @@ class IdsMultiselect extends Base {
 
       this.#optionChecked(this.selected);
     });
+
+    return this;
   }
 
   /**
@@ -247,11 +258,19 @@ class IdsMultiselect extends Base {
     this.container.classList.remove('is-open');
   }
 
+  /**
+   * Triggers when dismissible tag is removed
+   * @param {MouseEvent} e click event
+   */
   #handleTagRemove(e:any) {
     this.value = this.#selectedList.filter((value: string) => value !== e.target?.dataset.value);
     this.popup?.place();
   }
 
+  /**
+   * Check option checkbox and update selected list
+   * @param {HTMLElement} option selected ids-list-box-option element
+   */
   #optionChecked(option: any) {
     if (!option || option?.hasAttribute(attributes.GROUP_LABEL)) return;
 
@@ -281,6 +300,9 @@ class IdsMultiselect extends Base {
     this.selectOption(option);
   }
 
+  /**
+   * Update value in the input visually
+   */
   #updateDisplay() {
     const selected = this.#optionsData.filter((item: IdsListBoxOption) => this.#selectedList.includes(item.value));
 
@@ -291,7 +313,12 @@ class IdsMultiselect extends Base {
       const tags = selected.map((item: any) => {
         const disabled = this.disabled ? ` disabled="true"` : ``;
 
-        return `<ids-tag color="secondary" data-value="${item.value}" dismissible="true"${disabled}>${item.label}</ids-tag>`;
+        return `<ids-tag
+          class="multiselect-tag"
+          data-value="${item.value}"
+          dismissible="true"
+          ${disabled}
+        >${item.label}</ids-tag>`;
       }).join('');
       this.input.insertAdjacentHTML('afterbegin', tags);
     }
@@ -301,6 +328,9 @@ class IdsMultiselect extends Base {
     this.input.value = newValue;
   }
 
+  /**
+   * Render dropdown list with selected options on top
+   */
   #updateList() {
     const selected = this.#optionsData.filter((item: IdsListBoxOption) => this.#selectedList.includes(item.value))
       .map((item: IdsListBoxOption) => ({
@@ -356,6 +386,9 @@ class IdsMultiselect extends Base {
       ` : option.label}</ids-list-box-option>`;
   }
 
+  /**
+   * Update options list on the component mount with classes/attributes
+   */
   #populateSelected() {
     this.options.forEach((item: any) => {
       const checkbox = item.querySelector('ids-checkbox');

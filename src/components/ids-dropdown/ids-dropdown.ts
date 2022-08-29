@@ -411,6 +411,8 @@ export default class IdsDropdown extends Base {
    * @private
    */
   selectOption(option: HTMLElement) {
+    if (!this.popup?.visible) return;
+
     option?.setAttribute('aria-selected', 'true');
     option?.classList.add('is-selected');
     option?.setAttribute('tabindex', '0');
