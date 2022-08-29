@@ -33,14 +33,14 @@ const IdsThemeMixin = (superclass: any) => class extends superclass {
    * @private
    */
   initThemeHandlers() {
-    const switcher: any = document.querySelector('ids-theme-switcher');
-    if (!switcher) {
+    this.switcher = document.querySelector('ids-theme-switcher');
+    if (!this.switcher) {
       return;
     }
 
-    this.mode = switcher.mode;
+    this.mode = this.switcher.mode;
 
-    this.onEvent('themechanged', switcher, (e: CustomEvent) => {
+    this.onEvent('themechanged', this.switcher, (e: CustomEvent) => {
       this.mode = e.detail.mode;
     });
   }
