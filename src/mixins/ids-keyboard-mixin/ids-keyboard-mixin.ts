@@ -15,6 +15,13 @@ const IdsKeyboardMixin = (superclass: any) => class extends superclass {
     ];
   }
 
+  disconnectedCallback(): void {
+    super.disconnectedCallback?.();
+    this.detachAllListeners();
+    this.hotKeys = null;
+    this.pressedKeys = null;
+  }
+
   /**
    * Initializes the keyboard management system with the current object
    * @private

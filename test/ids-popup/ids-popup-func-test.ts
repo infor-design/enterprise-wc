@@ -72,6 +72,8 @@ describe('IdsPopup Component', () => {
     const alignY = popup.alignY;
     const edge = popup.alignEdge;
     const target = popup.alignTarget;
+    const arrow = popup.arrow;
+    const arrowTarget = popup.arrowTarget;
     const animated = popup.animated;
     const visible = popup.visible;
     const type = popup.type;
@@ -81,7 +83,9 @@ describe('IdsPopup Component', () => {
     expect(edge).toEqual('center');
     expect(alignX).toEqual('center');
     expect(alignY).toEqual('center');
-    expect(target).not.toBeDefined();
+    expect(target).toBe(null);
+    expect(arrow).toBe('none');
+    expect(arrowTarget).toBe(null);
     expect(animated).toBeDefined();
     expect(animated).toBeFalsy();
     expect(visible).toBeDefined();
@@ -435,15 +439,15 @@ describe('IdsPopup Component', () => {
     expect(popup.getAttribute('align-target')).toEqual('#test-align-target');
 
     // Remove the alignment target.  Placement will revert back to coordinates.
-    popup.alignTarget = undefined;
+    popup.alignTarget = null;
 
     expect(popup.hasAttribute('align-target')).toBeFalsy();
   });
 
-  it('rejects setting a bad alignTarget', () => {
+  it('rejects a bad alignTarget', () => {
     popup.alignTarget = '#lol';
 
-    expect(popup.alignTarget).not.toBeDefined();
+    expect(popup.alignTarget).toBe(null);
   });
 
   it('will not set non-numeric values as x/y numbers', () => {
@@ -842,9 +846,9 @@ describe('IdsPopup Component', () => {
     expect(popup.arrowTarget.isEqualNode(anotherTargetDiv)).toBeTruthy();
 
     // Remove the arrow target if given null/undefined
-    popup.arrowTarget = undefined;
+    popup.arrowTarget = null;
 
-    expect(popup.arrowTarget).not.toBeDefined();
+    expect(popup.arrowTarget).toBe(null);
   });
 
   it('can change child languages', async () => {
