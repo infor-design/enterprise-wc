@@ -21,6 +21,15 @@
   white-space: nowrap;
 }
 
+:host(.multiselect-option) {
+  @include flex();
+
+  ::slotted(ids-icon) {
+    @include m-0();
+    @include ml-8();
+  }
+}
+
 :host(.is-selected:not(.multiselect-option)) {
   @include bg-azure-60();
   @include text-white();

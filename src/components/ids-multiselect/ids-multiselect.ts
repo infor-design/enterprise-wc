@@ -59,8 +59,8 @@ class IdsMultiselect extends Base {
    * @param {string|boolean} value string value from the disabled attribute
    */
   set disabled(value) {
-    if (this.tag) {
-      this.querySelectorAll('ids-tag').forEach((element:HTMLElement) => {
+    if (this.tags) {
+      this.input?.querySelectorAll('ids-tag')?.forEach((element: HTMLElement) => {
         element.setAttribute('disabled', 'true');
       });
     }
@@ -332,6 +332,8 @@ class IdsMultiselect extends Base {
    * Render dropdown list with selected options on top
    */
   #updateList() {
+    if (!this.listBox) return;
+
     const selected = this.#optionsData.filter((item: IdsListBoxOption) => this.#selectedList.includes(item.value))
       .map((item: IdsListBoxOption) => ({
         ...item,
@@ -376,7 +378,7 @@ class IdsMultiselect extends Base {
         ${option.id ? `id=${option.id}` : ''}
         ${option.value ? `value="${option.value}"` : ''}
         ${option.groupLabel ? 'group-label' : ''}
-      >${!option.groupLabel ? `
+      >${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${!option.groupLabel ? `
         <ids-checkbox
           no-margin
           class="justify-center multiselect-checkbox"
@@ -417,6 +419,7 @@ class IdsMultiselect extends Base {
       value: item?.getAttribute(attributes.VALUE),
       groupLabel: item?.hasAttribute(attributes.GROUP_LABEL),
       selected: item?.hasAttribute('selected'),
+      icon: item?.querySelector('ids-icon')?.icon,
       index
     }));
   }
