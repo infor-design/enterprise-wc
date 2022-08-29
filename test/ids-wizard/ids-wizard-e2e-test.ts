@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Wizard e2e Tests', () => {
   const url = 'http://localhost:4444/ids-wizard/example.html';
@@ -9,6 +10,21 @@ describe('Ids Wizard e2e Tests', () => {
 
   it('should not have errors', async () => {
     await expect(page.title()).resolves.toMatch('IDS Wizard Component');
+  });
+
+  it.skip('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-wizard step-number="3" id="test">
+        <ids-wizard-step>Step One</ids-wizard-step>
+        <ids-wizard-step>Step Two</ids-wizard-step>
+        <ids-wizard-step>Step Three</ids-wizard-step>
+        <ids-wizard-step>Step Four</ids-wizard-step>
+      </ids-wizard>`);
+      document.querySelector('#test')?.remove();
+    });
+
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 
   it('should be able to click first step', async () => {

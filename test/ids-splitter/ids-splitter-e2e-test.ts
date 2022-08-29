@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Splitter e2e Tests', () => {
   const url = 'http://localhost:4444/ids-splitter/example.html';
@@ -24,6 +25,19 @@ describe('Ids Splitter e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     const results = await new AxePuppeteer(page).analyze();
     expect(results.violations.length).toBe(0);
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-splitter id="test">
+        <ids-splitter-pane id="p1"></ids-splitter-pane>
+        <ids-splitter-pane id="p2"></ids-splitter-pane>
+      </ids-splitter>`);
+      document.querySelector('#test')?.remove();
+    });
+
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 
   it('should use arrow keys to move', async () => {

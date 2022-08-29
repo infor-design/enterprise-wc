@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Draggable e2e Tests', () => {
   const exampleUrl = 'http://localhost:4444/ids-draggable/example.html';
@@ -9,6 +10,19 @@ describe('Ids Draggable e2e Tests', () => {
 
   it('should not have errors', async () => {
     await expect(page.title()).resolves.toMatch('IDS Draggable Component');
+  });
+
+  it.skip('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-draggable id="test">
+      <div class="ids-draggable-demo-box">
+        <ids-text>no axis</ids-text>
+      </div>
+     </ids-draggable>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 
   it('can drag with no axis', async () => {

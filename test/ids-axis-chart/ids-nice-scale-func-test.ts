@@ -42,7 +42,7 @@ describe('Nice Scale Tests', () => {
     expect(scale).toEqual({ niceMax: 4000, niceMin: 0, tickSpacing: 1000 });
 
     const values = [];
-    for (let i = scale.niceMin; i <= scale.niceMax; i += (scale.tickSpacing || 0)) {
+    for (let i = scale.niceMin; i <= scale.niceMax; i += (Number(scale.tickSpacing))) {
       values.push(i);
     }
     expect(values).toEqual([0, 1000, 2000, 3000, 4000]);

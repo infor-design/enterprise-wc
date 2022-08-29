@@ -1,4 +1,5 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
 
 describe('Ids Line Chart e2e Tests', () => {
   const url = 'http://localhost:4444/ids-line-chart/example.html';
@@ -16,6 +17,15 @@ describe('Ids Line Chart e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     const results = await new AxePuppeteer(page).disableRules(['color-contrast']).analyze();
     expect(results.violations.length).toBe(0);
+  });
+
+  it('should not have memory leaks', async () => {
+    const numberOfObjects = await countObjects(page);
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend', `<ids-line-chart id="test"></ids-line-chart>`);
+      document.querySelector('#test')?.remove();
+    });
+    expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 
   it('should not be responsive if not set', async () => {
