@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/ids-enterprise@4.60.0/dist/js/sohoxi.js"></script>
+  <link href="https://unpkg.com/ids-enterprise@4.60.0/dist/css/theme-new-light.css" rel="stylesheet"/>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Web Component Mulstiselect</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <ids-multiselect label="Towns (Max 5)" max="5">
+          <ids-list-box>
+            <ids-list-box-option group-label>Burlington County</ids-list-box-option>
+            <ids-list-box-option value="Bordentown">Bordentown</ids-list-box-option>
+            <ids-list-box-option value="Burlington Township">Burlington Township</ids-list-box-option>
+            <ids-list-box-option value="Cinnaminson" selected>Cinnaminson</ids-list-box-option>
+            <ids-list-box-option value="Delran">Delran</ids-list-box-option>
+            <ids-list-box-option value="Evesham">Evesham</ids-list-box-option>
+            <ids-list-box-option value="Moorestown">Moorestown</ids-list-box-option>
+            <ids-list-box-option value="Mount Laurel">Mount Laurel</ids-list-box-option>
+            <ids-list-box-option value="Palmyra">Palmyra</ids-list-box-option>
+            <ids-list-box-option group-label="true">Camden County</ids-list-box-option>
+            <ids-list-box-option value="Brooklawn">Brooklawn</ids-list-box-option>
+            <ids-list-box-option value="Camden">Camden</ids-list-box-option>
+            <ids-list-box-option value="Cherry Hill">Cherry Hill</ids-list-box-option>
+            <ids-list-box-option value="Erial">Erial</ids-list-box-option>
+            <ids-list-box-option value="Haddonfield">Haddonfield</ids-list-box-option>
+            <ids-list-box-option value="Pennsauken">Pennsauken</ids-list-box-option>
+            <ids-list-box-option value="Pine Hill">Pine Hill</ids-list-box-option>
+            <ids-list-box-option value="Sicklerville">Sicklerville</ids-list-box-option>
+            <ids-list-box-option group-label>Gloucester County</ids-list-box-option>
+            <ids-list-box-option value="Cross Keys">Cross Keys</ids-list-box-option>
+            <ids-list-box-option value="Deptford">Deptford</ids-list-box-option>
+            <ids-list-box-option value="Glassboro">Glassboro</ids-list-box-option>
+            <ids-list-box-option value="Mullica Hill">Mullica Hill</ids-list-box-option>
+            <ids-list-box-option value="Turnersville">Turnersville</ids-list-box-option>
+            <ids-list-box-option value="Washington Township">Washington Township</ids-list-box-option>
+            <ids-list-box-option value="Woodbury Heights">Woodbury Heights</ids-list-box-option>
+          </ids-list-box>
+        </ids-multiselect>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h2">4.x Mulstiselect</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="3" gap="md">
+      <ids-layout-grid-cell>
+        <div class="svg hidden">
+          <div class="svg-icons">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+              <symbol id="icon-dropdown" viewBox="0 0 18 18"><path clip-rule="evenodd" d="M4 6l5 6 5-6H4z" fill="currentColor" fill-rule="evenodd" stroke="none"></path></symbol>
+            </svg>
+          </div>
+        </div>
+        <div class="field">
+          <label for="multi-optgroup-standard" class="label">Towns (Max 5)</label>
+          <select multiple data-maxselected="5" id="multi-optgroup-standard" name="multi-optgroup-standard" class="multiselect">
+            <optgroup label="Burlington County">
+              <option>Bordentown</option>
+              <option>Burlington Township</option>
+              <option selected>Cinnaminson</option>
+              <option>Delran</option>
+              <option>Evesham</option>
+              <option>Moorestown</option>
+              <option>Mount Laurel</option>
+              <option>Palmyra</option>
+            </optgroup>
+            <optgroup label="Camden County">
+              <option>Brooklawn</option>
+              <option>Camden</option>
+              <option>Cherry Hill</option>
+              <option>Erial</option>
+              <option>Haddonfield</option>
+              <option>Pennsauken</option>
+              <option>Pine Hill</option>
+              <option>Sicklerville</option>
+            </optgroup>
+            <optgroup label="Gloucester County">
+              <option>Cross Keys</option>
+              <option>Deptford</option>
+              <option>Glassboro</option>
+              <option>Mullica Hill</option>
+              <option>Turnersville</option>
+              <option>Washington Township</option>
+              <option>Woodbury Heights</option>
+            </optgroup>
+          </select>
+        </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
