@@ -1,6 +1,6 @@
 {
   "tagname-lowercase": true,
-  "attr-lowercase": ["viewBox"],
+  "attr-lowercase": ["viewBox", "routerLink"],
   "attr-value-double-quotes": true,
   "doctype-first": false,
   "tag-pair": false,
