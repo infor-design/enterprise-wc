@@ -88,6 +88,7 @@ export default class IdsModal extends Base {
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
     window.removeEventListener('DOMContentLoaded', this.#onDOMContentLoaded);
+    this.#clearBreakpointResponse();
   }
 
   /**
@@ -147,13 +148,6 @@ export default class IdsModal extends Base {
    */
   set fullsize(val: IdsModalFullsizeAttributeValue) {
     const current = this.state.fullsize;
-    const clearResponse = () => {
-      if (this.respondDown) {
-        this.respondDown = undefined;
-        this.onBreakpointDownResponse = undefined;
-      }
-    };
-
     const makeFullsize = (doFullsize: boolean) => {
       if (!this.popup) return;
 
@@ -170,7 +164,7 @@ export default class IdsModal extends Base {
     if (current !== val) {
       switch (val) {
         case 'always':
-          clearResponse();
+          this.#clearBreakpointResponse();
           this.state.fullsize = 'always';
           this.popup?.classList.add(`can-fullsize`);
           makeFullsize(true);
@@ -179,7 +173,7 @@ export default class IdsModal extends Base {
         case 'null':
         case '':
           this.state.fullsize = '';
-          clearResponse();
+          this.#clearBreakpointResponse();
           this.removeAttribute(attributes.FULLSIZE);
           this.popup?.classList.remove('can-fullsize');
           makeFullsize(false);
@@ -197,6 +191,18 @@ export default class IdsModal extends Base {
           this.respondToCurrentBreakpoint();
           break;
       }
+    }
+  }
+
+  /**
+   * Removes established callbacks for responding to breakpoints, if set
+   */
+  #clearBreakpointResponse(): void {
+    if (this.respondDown) {
+      this.respondDown = undefined;
+    }
+    if (this.onBreakpointDownResponse) {
+      this.onBreakpointDownResponse = undefined;
     }
   }
 
