@@ -22,19 +22,25 @@ const IdsThemeMixin = (superclass: any) => class extends superclass {
     this.initThemeHandlers();
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.offEvent('themechanged');
+    this.switcher = null;
+  }
+
   /**
    * Init the mixin events and states
    * @private
    */
   initThemeHandlers() {
-    this.switcher = document.querySelector('ids-theme-switcher');
-    if (!this.switcher) {
+    const switcher: any = document.querySelector('ids-theme-switcher');
+    if (!switcher) {
       return;
     }
 
-    this.mode = this.switcher.mode;
+    this.mode = switcher.mode;
 
-    this.onEvent('themechanged', this.switcher, (e: CustomEvent) => {
+    this.onEvent('themechanged', switcher, (e: CustomEvent) => {
       this.mode = e.detail.mode;
     });
   }

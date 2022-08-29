@@ -37,6 +37,12 @@ const IdsFocusCaptureMixin = (superclass: any) => class extends superclass {
     this.#hostNode = getClosestContainerNode(this);
   }
 
+  disconnectedCallback(): void {
+    super.disconnectedCallback?.();
+    this.#removeFocusEvents();
+    this.#hostNode = undefined;
+  }
+
   /**
    * @property {boolean} capturesFocus If true, retains focus within the host component.
    * If focus is attempted on an element outside of this one, it will be "captured" and
