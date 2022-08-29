@@ -29,6 +29,11 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
     ];
   }
 
+  disconnectedCallback(): void {
+    super.disconnectedCallback?.();
+    this.detachAllEvents();
+  }
+
   /**
    * Add and keep track of an event listener.
    * @param {string|any} eventName The event name with optional namespace

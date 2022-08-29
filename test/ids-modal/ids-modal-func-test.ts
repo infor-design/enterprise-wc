@@ -109,9 +109,8 @@ describe('IdsModal Component', () => {
     // Dispatch twice to cover the 'else'
     btn.dispatchEvent(clickEvent);
 
-    modal.target = undefined;
-
-    expect(modal.target).toBeUndefined();
+    modal.target = null;
+    expect(modal.target).toBeFalsy();
   });
 
   it('can have a title', () => {

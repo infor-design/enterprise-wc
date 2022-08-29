@@ -272,12 +272,12 @@ export default class IdsCalendar extends Base {
 
     // Ids Date Picker template
     const datePicker = (id: string, labelKey: string, date: Date) => `
-      <ids-date-picker 
-        id="${id}" 
-        label="${this.locale.translate(labelKey)}" 
-        size="full" 
-        year="${date.getFullYear()}" 
-        month="${date.getMonth()}" 
+      <ids-date-picker
+        id="${id}"
+        label="${this.locale.translate(labelKey)}"
+        size="full"
+        year="${date.getFullYear()}"
+        month="${date.getMonth()}"
         day="${date.getDate()}"
         value="${this.locale.formatDate(date)}"
         mask>
@@ -286,10 +286,10 @@ export default class IdsCalendar extends Base {
 
     // Ids Time Picker template
     const timePicker = (id: string, date: Date) => `
-      <ids-time-picker 
-        id="${id}" 
-        label="&nbsp" 
-        size="full" 
+      <ids-time-picker
+        id="${id}"
+        label="&nbsp"
+        size="full"
         disabled="${stringToBool(data.isAllDay)}"
         value="${this.locale.formatHour(date.getHours() + (date.getMinutes() / 60))}">
       </ids-time-picker>
@@ -486,14 +486,14 @@ export default class IdsCalendar extends Base {
    */
   #insertFormPopup(target: HTMLElement, eventData: CalendarEventData): void {
     const template = `
-      <ids-popup 
+      <ids-popup
         id="event-form-popup"
         arrow="right"
-        x="160"  
-        align="center" 
-        animated="false" 
+        x="160"
+        align="center"
+        animated="false"
         visible="false"
-        type="menu" 
+        type="menu"
         position-style="absolute">
         ${this.#eventFormTemplate(eventData)}
       </ids-popup>
@@ -527,7 +527,7 @@ export default class IdsCalendar extends Base {
     const popup = this.#getEventFormPopup();
 
     if (popup && target) {
-      popup.alignTarget = undefined;
+      popup.alignTarget = null;
       popup.alignTarget = target;
       popup.place();
       popup.visible = true;
@@ -695,8 +695,8 @@ export default class IdsCalendar extends Base {
         month="${date.getMonth()}"
         day="${date.getDate()}"
         year="${date.getFullYear()}"
-        view-picker="true" 
-        show-today="true" 
+        view-picker="true"
+        show-today="true"
       ></ids-month-view>
     `;
   }
