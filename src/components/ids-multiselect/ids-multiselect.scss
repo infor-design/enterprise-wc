@@ -1,15 +1,15 @@
 @import '../../core/ids-base';
 
 .ids-checkbox {
-  margin-bottom: 0;
+  @include mb-0();
 }
 
 ids-trigger-field {
   ids-tag {
-    display: flex;
-    align-self: center;
-    margin-top: 4px;
-    margin-left: 4px;
+    @include flex();
+    @include self-center();
+    @include mt-4();
+    @include ml-4();
 
     &[disabled]::part(tag) {
       @include cursor-default();
@@ -21,15 +21,16 @@ ids-trigger-field {
   .has-value {
     ids-trigger-field {
       &::part(content-area) {
-        width: 100%;
-        display: flex;
+        @include w-full();
+        @include flex();
+
         flex-wrap: wrap;
         max-width: inherit;
-        max-height: 120px;
-        overflow-y: auto;
       }
 
       &::part(input) {
+        @include p-0();
+
         flex: 1;
       }
     }

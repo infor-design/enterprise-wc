@@ -132,7 +132,7 @@ class IdsMultiselect extends Base {
     if (!value) {
       return;
     }
-    value.forEach((selectedValue:string) => {
+    value.forEach((selectedValue: string) => {
       const existingOption = this.querySelector(`ids-list-box-option[value="${selectedValue}"]`);
       if (!existingOption) {
         matched = false;
@@ -249,6 +249,7 @@ class IdsMultiselect extends Base {
 
   #handleTagRemove(e:any) {
     this.value = this.#selectedList.filter((value: string) => value !== e.target?.dataset.value);
+    this.popup?.place();
   }
 
   #optionChecked(option: any) {
@@ -257,20 +258,23 @@ class IdsMultiselect extends Base {
     const value = option.getAttribute('value');
     const isSelected = this.#selectedList.some((item) => value === item);
     const checkbox = option.querySelector('ids-checkbox');
+    const canSelect = this.max !== this.value.length;
 
-    if (isSelected) {
-      this.#selectedList = this.#selectedList.filter((item) => item !== value);
-      if (checkbox) {
-        checkbox.checked = false;
-      }
-      return;
-    }
+    if (isSelected || canSelect) {
+      this.#selectedList = isSelected
+        ? this.#selectedList.filter((item) => item !== value)
+        : [...this.#selectedList, value];
 
-    if (this.max !== this.value.length) {
-      this.#selectedList.push(value);
       if (checkbox) {
-        checkbox.checked = true;
+        checkbox.checked = !isSelected;
       }
+
+      if (this.tags) {
+        this.#updateDisplay();
+        this.popup?.place();
+      }
+
+      this.container.classList.toggle('has-value', this.#selectedList.length > 0);
     }
 
     this.clearSelected();
@@ -345,7 +349,7 @@ class IdsMultiselect extends Base {
       >${!option.groupLabel ? `
         <ids-checkbox
           no-margin
-          class="justify-center"
+          class="justify-center multiselect-checkbox"
           label="${option.label}"
           checked="${option.selected}"
         ></ids-checkbox>
@@ -363,7 +367,7 @@ class IdsMultiselect extends Base {
         }
       }
       checkbox?.setAttribute('no-margin', '');
-      checkbox?.classList.add('justify-center');
+      checkbox?.classList.add('justify-center', 'multiselect-checkbox');
       item.classList.add('multiselect-option');
     });
 
