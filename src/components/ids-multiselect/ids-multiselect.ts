@@ -313,7 +313,15 @@ class IdsMultiselect extends Base {
 
     this.listBox.innerHTML = '';
 
-    const html = [...selected, ...options].map((option: IdsListBoxOption) => this.#templatelistBoxOption(option)).join('');
+    const html = [...selected, ...options]
+      // Exclude empty groups
+      .filter((option: IdsListBoxOption, index: number, list: IdsListBoxOptions) => {
+        const emptyGroup = option.groupLabel && (list[index + 1]?.groupLabel || !list[index + 1]);
+
+        return !emptyGroup;
+      })
+      .map((option: IdsListBoxOption) => this.#templatelistBoxOption(option))
+      .join('');
     this.listBox.insertAdjacentHTML('afterbegin', html);
   }
 
