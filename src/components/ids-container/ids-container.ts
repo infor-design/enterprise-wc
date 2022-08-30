@@ -51,14 +51,6 @@ export default class IdsContainer extends Base {
   }
 
   /**
-   * Invoked each time the custom element is removed from a document-connected element.
-   */
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    this.state = undefined;
-  }
-
-  /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
