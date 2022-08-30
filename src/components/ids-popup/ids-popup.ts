@@ -60,7 +60,17 @@ export default class IdsPopup extends Base {
 
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
-    this.#ro.disconnect();
+    if (this.#ro) {
+      this.#ro?.disconnect();
+      this.#ro = undefined;
+    }
+    if (this.#mo) {
+      this.#mo?.disconnect();
+      this.#mo = undefined;
+    }
+    this.alignTarget = null;
+    this.arrowTarget = null;
+    this.containingElem = null;
   }
 
   /**
@@ -90,20 +100,7 @@ export default class IdsPopup extends Base {
    * Watches for changes
    * @property {MutationObserver} mo this Popup component's mutation observer
    */
-  #mo = new MutationObserver((mutations) => {
-    if (this.#visible) {
-      let placed = false;
-      for (const m of mutations) {
-        if (placed) {
-          break;
-        }
-        if (['subtree', 'childList', 'characterData', 'characterDataOldValue'].includes(m.type)) {
-          this.place();
-          placed = true;
-        }
-      }
-    }
-  });
+  #mo?: MutationObserver;
 
   /**
    * Watches for resizing that occurs whenever the page changes dimensions, and re-applies some
@@ -111,18 +108,7 @@ export default class IdsPopup extends Base {
    * @private
    * @property {ResizeObserver} mo this Popup component's resize observer
    */
-  #ro = new ResizeObserver((entries) => {
-    if (this.open) {
-      for (const entry of entries) {
-        if (entry.target.tagName.toLowerCase() === 'ids-container') {
-          this.#fixPlacementOnResize();
-        } else {
-          this.#fix3dMatrixOnResize();
-        }
-      }
-      this.#checkViewportPositionScrolling();
-    }
-  });
+  #ro?: ResizeObserver;
 
   /**
    * Places the Popup and performs an adjustment to its `transform: matrix3d()`
@@ -151,6 +137,34 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #setInitialState(): void {
+    this.#mo = new MutationObserver((mutations) => {
+      if (this.#visible) {
+        let placed = false;
+        for (const m of mutations) {
+          if (placed) {
+            break;
+          }
+          if (['subtree', 'childList', 'characterData', 'characterDataOldValue'].includes(m.type)) {
+            this.place();
+            placed = true;
+          }
+        }
+      }
+    });
+
+    this.#ro = new ResizeObserver((entries) => {
+      if (this.open) {
+        for (const entry of entries) {
+          if (entry.target.tagName.toLowerCase() === 'ids-container') {
+            this.#fixPlacementOnResize();
+          } else {
+            this.#fix3dMatrixOnResize();
+          }
+        }
+        this.#checkViewportPositionScrolling();
+      }
+    });
+
     POPUP_PROPERTIES.forEach((prop) => {
       const camelProp = camelCase(prop);
       this[camelProp] = this.getAttribute(prop) || this[camelProp];
@@ -164,9 +178,9 @@ export default class IdsPopup extends Base {
   #attachEventHandlers(): void {
     const containerNode = getClosest((this as any), 'ids-container');
     // Setup Resize Observer
-    this.#ro.observe((this as any));
+    this.#ro?.observe((this as any));
     if (containerNode) {
-      this.#ro.observe(containerNode);
+      this.#ro?.observe(containerNode);
     }
   }
 
@@ -182,32 +196,32 @@ export default class IdsPopup extends Base {
    * @returns {HTMLElement} reference to the `content-wrapper` element
    */
   get wrapper(): HTMLElement {
-    return this.shadowRoot.querySelector('.content-wrapper');
+    return this.shadowRoot?.querySelector('.content-wrapper');
   }
 
   /**
    * @property {HTMLElement} alignTarget acts as the target element to be used for offset placement
    */
-  #alignTarget: any = undefined;
+  #alignTarget: HTMLElement | SVGElement | null = null;
 
   /**
    * Sets the element to align with via a css selector
-   * @param {string | HTMLElement | undefined} val ['string|HTMLElement'] a CSS selector string
+   * @param {HTMLElement | SVGElement | null | string} val a CSS selector string
    */
-  set alignTarget(val: any) {
+  set alignTarget(val: HTMLElement | SVGElement | null | string) {
     const isString = typeof val === 'string' && val.length;
     const isElem = val instanceof HTMLElement || val instanceof SVGElement;
 
     if (!isString && !isElem) {
-      if (this.#alignTarget !== undefined) {
-        this.#alignTarget = undefined;
+      if (this.#alignTarget !== null) {
+        this.#alignTarget = null;
         this.removeAttribute(attributes.ALIGN_TARGET);
         this.#refreshAlignTarget();
       }
       return;
     }
 
-    let elem;
+    let elem: HTMLElement | SVGElement | null = null;
     if (isString) {
       // @TODO Harden for security (XSS)
       const rootNode = getClosestRootNode((this as any));
@@ -216,27 +230,27 @@ export default class IdsPopup extends Base {
         return;
       }
       this.setAttribute(attributes.ALIGN_TARGET, val);
-    } else {
+    } else if (isElem) {
       elem = val;
     }
 
-    if (!this.#alignTarget || !this.#alignTarget.isEqualNode(elem)) {
+    if (elem !== null && (!this.#alignTarget || !this.#alignTarget.isEqualNode(elem))) {
       this.#alignTarget = elem;
       this.#refreshAlignTarget();
     }
   }
 
   /**
-   * @returns {HTMLElement| undefined} the element in the page that the Popup will take
+   * @returns {HTMLElement | SVGElement | null} the element in the page that the Popup will take
    * coordinates from for relative placement
    */
-  get alignTarget() {
+  get alignTarget(): HTMLElement | SVGElement | null {
     return this.#alignTarget;
   }
 
   #refreshAlignTarget(): void {
     if (this.#alignTarget) {
-      this.#mo.observe(this.#alignTarget, {
+      this.#mo?.observe(this.#alignTarget, {
         attributes: true,
         attributeFilter: ['style', 'height', 'width'],
         attributeOldValue: true,
@@ -246,7 +260,7 @@ export default class IdsPopup extends Base {
         subtree: true
       });
     } else {
-      this.#mo.disconnect();
+      this.#mo?.disconnect();
     }
     this.place();
   }
@@ -590,14 +604,14 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @property {HTMLElement | SVGElement} containingElem the element to use for containment of the Popup
+   * @property {HTMLElement | SVGElement | null} containingElem the element to use for containment of the Popup
    */
-  #containingElem: HTMLElement | SVGElement = document.body;
+  #containingElem: HTMLElement | SVGElement | null = document.body;
 
   /**
-   * @param {HTMLElement | SVGElement} val an element that will appear to "contain" the Popup
+   * @param {HTMLElement | SVGElement | null} val an element that will appear to "contain" the Popup
    */
-  set containingElem(val: any) {
+  set containingElem(val: HTMLElement | SVGElement | null) {
     if (!(val instanceof HTMLElement || val instanceof SVGElement)) {
       return;
     }
@@ -608,9 +622,9 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @returns {HTMLElement | SVGElement} the element currently appearing to "contain" the Popup
+   * @returns {HTMLElement | SVGElement | null} the element currently appearing to "contain" the Popup
    */
-  get containingElem(): HTMLElement | SVGElement {
+  get containingElem(): HTMLElement | SVGElement | null {
     return this.#containingElem;
   }
 
@@ -678,31 +692,31 @@ export default class IdsPopup extends Base {
    * @returns {HTMLElement} referencing the internal arrow element
    */
   get arrowEl(): HTMLElement {
-    return this.container.querySelector('.arrow');
+    return this.container?.querySelector('.arrow');
   }
 
   /**
-   * @param {HTMLElement} arrowTarget
+   * @param {HTMLElement | SVGElement | null} arrowTarget
    */
-  #arrowTarget: any = null;
+  #arrowTarget: HTMLElement | SVGElement | null = null;
 
   /**
    * Sets the element to align with via a css selector
-   * @param {any} val ['string|HTMLElement'] a CSS selector string
+   * @param {HTMLElement | SVGElement | null} val a CSS selector string
    */
-  set arrowTarget(val: any) {
+  set arrowTarget(val: HTMLElement | SVGElement | null | string) {
     const isString = typeof val === 'string' && val.length;
     const isElem = val instanceof HTMLElement || val instanceof SVGElement;
 
     if (!isString && !isElem) {
-      if (this.#arrowTarget !== undefined) {
-        this.#arrowTarget = undefined;
+      if (this.#arrowTarget !== null) {
+        this.#arrowTarget = null;
         this.removeAttribute(attributes.ARROW_TARGET);
       }
       return;
     }
 
-    let elem;
+    let elem: HTMLElement | SVGElement | null = null;
     if (isString) {
       // @TODO Harden for security (XSS)
       const rootNode = getClosestRootNode((this as any));
@@ -711,21 +725,21 @@ export default class IdsPopup extends Base {
         return;
       }
       this.setAttribute(attributes.ARROW_TARGET, val);
-    } else {
+    } else if (isElem) {
       elem = val;
     }
 
-    if (!this.#arrowTarget || !this.#arrowTarget.isEqualNode(elem)) {
+    if (elem !== null && (!this.#arrowTarget || !this.#arrowTarget.isEqualNode(elem))) {
       this.#arrowTarget = elem;
       this.#setArrowDirection('', this.arrow);
     }
   }
 
   /**
-   * @returns {HTMLElement} the element in the page that the Popup will take
+   * @returns {HTMLElement | SVGElement | null} the element in the page that the Popup will take
    * coordinates from for relative placement
    */
-  get arrowTarget(): HTMLElement {
+  get arrowTarget(): HTMLElement | SVGElement | null {
     return this.#arrowTarget || this.alignTarget;
   }
 
@@ -1098,6 +1112,8 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #placeAgainstTarget(targetAlignEdge?: string): void {
+    if (!this.alignTarget) return;
+
     let x = this.x;
     let y = this.y;
     this.container.classList.remove('flipped');
@@ -1222,7 +1238,7 @@ export default class IdsPopup extends Base {
    */
   #nudge(popupRect: DOMRect): object {
     // Don't adjust if bleeding is allowed
-    if (this.bleed) {
+    if (this.bleed || !this.containingElem) {
       return popupRect;
     }
 
@@ -1262,6 +1278,8 @@ export default class IdsPopup extends Base {
   }
 
   #shouldFlip(popupRect: DOMRect): boolean {
+    if (!this.containingElem || !this.alignTarget) return false;
+
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const scrollX = this.containingElem.scrollLeft || 0;
