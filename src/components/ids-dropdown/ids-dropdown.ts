@@ -681,9 +681,7 @@ export default class IdsDropdown extends Base {
         this.value = e.target.closest('ids-list-box-option').getAttribute('value');
       }
 
-      if (this.typeahead) {
-        this.close();
-      }
+      this.close();
     });
 
     this.offEvent('click.dropdown-input');
