@@ -10,7 +10,7 @@ import '../ids-tag/ids-tag';
 import styles from './ids-multiselect.scss';
 import { stringToBool, stringToNumber, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
 
-import type { IdsListBoxOption, IdsListBoxOptions } from '../ids-dropdown/ids-dropdown';
+import type { IdsDropdownOption, IdsDropdownOptions } from '../ids-dropdown/ids-dropdown';
 
 /**
  * IDS Multiselect Component
@@ -40,7 +40,7 @@ class IdsMultiselect extends Base {
 
   #selectedList: Array<string> = [];
 
-  #optionsData: IdsListBoxOptions = [];
+  #optionsData: IdsDropdownOptions = [];
 
   /**
    * Return the attributes we handle as getters and setters
@@ -304,7 +304,7 @@ class IdsMultiselect extends Base {
    * Update value in the input visually
    */
   #updateDisplay() {
-    const selected = this.#optionsData.filter((item: IdsListBoxOption) => this.#selectedList.includes(item.value));
+    const selected = this.#optionsData.filter((item: IdsDropdownOption) => this.#selectedList.includes(item.value));
 
     if (this.tags) {
       // Clear tags before rerender
@@ -323,7 +323,7 @@ class IdsMultiselect extends Base {
       this.input.insertAdjacentHTML('afterbegin', tags);
     }
 
-    const newValue = selected.map((item: IdsListBoxOption) => item.label).join(', ');
+    const newValue = selected.map((item: IdsDropdownOption) => item.label).join(', ');
 
     this.input.value = newValue;
   }
@@ -334,12 +334,12 @@ class IdsMultiselect extends Base {
   #updateList() {
     if (!this.listBox) return;
 
-    const selected = this.#optionsData.filter((item: IdsListBoxOption) => this.#selectedList.includes(item.value))
-      .map((item: IdsListBoxOption) => ({
+    const selected = this.#optionsData.filter((item: IdsDropdownOption) => this.#selectedList.includes(item.value))
+      .map((item: IdsDropdownOption) => ({
         ...item,
         selected: true
       }));
-    const options = this.#optionsData.filter((item: IdsListBoxOption) => !this.#selectedList.includes(item.value))
+    const options = this.#optionsData.filter((item: IdsDropdownOption) => !this.#selectedList.includes(item.value))
       .map((item: any, index: number) => ({
         ...item,
         border: index === 0 && selected.length !== 0,
@@ -351,22 +351,22 @@ class IdsMultiselect extends Base {
 
     const html = [...selected, ...options]
       // Exclude empty groups
-      .filter((option: IdsListBoxOption, index: number, list: IdsListBoxOptions) => {
+      .filter((option: IdsDropdownOption, index: number, list: IdsDropdownOptions) => {
         const emptyGroup = option.groupLabel && (list[index + 1]?.groupLabel || !list[index + 1]);
 
         return !emptyGroup;
       })
-      .map((option: IdsListBoxOption) => this.#templatelistBoxOption(option))
+      .map((option: IdsDropdownOption) => this.#templatelistBoxOption(option))
       .join('');
     this.listBox.insertAdjacentHTML('afterbegin', html);
   }
 
   /**
    * Create the list box option template.
-   * @param {IdsListBoxOption} option id, value, label object
+   * @param {IdsDropdownOption} option id, value, label object
    * @returns {string} ids-list-box-option template
    */
-  #templatelistBoxOption(option: IdsListBoxOption): string {
+  #templatelistBoxOption(option: IdsDropdownOption): string {
     const classAttr: string = buildClassAttrib(
       !option.groupLabel && 'multiselect-option',
       (option as any).border && 'multiselect-border'
