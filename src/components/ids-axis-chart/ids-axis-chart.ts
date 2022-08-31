@@ -151,7 +151,6 @@ export default class IdsAxisChart extends Base {
       attributes.AXIS_LABEL_START,
       attributes.AXIS_LABEL_TOP,
       attributes.DATA,
-      attributes.GROUPED,
       attributes.HEIGHT,
       attributes.MARGINS,
       attributes.SHOW_HORIZONTAL_GRID_LINES,
@@ -225,6 +224,8 @@ export default class IdsAxisChart extends Base {
     }
   }
 
+  protected isGrouped = false;
+
   /**
    * Handle Resizing
    * @private
@@ -269,6 +270,7 @@ export default class IdsAxisChart extends Base {
     }
 
     this.#calculate();
+    this.afterCalculateCallback?.();
     this.#addColorVariables();
     this.svg.innerHTML = this.#axisTemplate();
     this.legend.innerHTML = this.legendTemplate();
@@ -560,7 +562,7 @@ export default class IdsAxisChart extends Base {
       return data.tooltip.replace('${value}', data.value).replace('${label}', data.label);
     }
 
-    if (this.stacked) {
+    if (this.stacked || this.isGrouped) {
       let html = `<div class="tooltip-center"><b>${data.label}</b></div><div class="tooltip chart-legend">`;
       for (let i = 0; i < this.data.length; i++) {
         const dataGroup = this.data[i];

@@ -116,10 +116,15 @@ describe('IdsBarChart Component', () => {
   });
 
   it('can set barPercentage', () => {
-    expect(barChart.barPercentage).toEqual(0.5);
+    const defaultVal = 0.7;
+    expect(barChart.barPercentage).toEqual(defaultVal);
+    expect(barChart.getAttribute('bar-percentage')).toEqual(null);
+    barChart.barPercentage = 0.9;
+    expect(barChart.barPercentage).toEqual(0.9);
+    expect(barChart.getAttribute('bar-percentage')).toEqual('0.9');
     barChart.barPercentage = 1.5;
-    barChart.redraw();
-    expect(barChart.getAttribute('bar-percentage')).toEqual('1.5');
+    expect(barChart.barPercentage).toEqual(defaultVal);
+    expect(barChart.getAttribute('bar-percentage')).toEqual(null);
   });
 
   it('renders animated elements', async () => {
@@ -138,10 +143,15 @@ describe('IdsBarChart Component', () => {
   });
 
   it('can set category percentage', () => {
-    expect(barChart.categoryPercentage).toEqual(0.9);
+    const defaultVal = 0.9;
+    expect(barChart.categoryPercentage).toEqual(defaultVal);
+    expect(barChart.getAttribute('category-percentage')).toEqual(null);
+    barChart.categoryPercentage = 0.7;
+    expect(barChart.categoryPercentage).toEqual(0.7);
+    expect(barChart.getAttribute('category-percentage')).toEqual('0.7');
     barChart.categoryPercentage = 1.5;
-    barChart.redraw();
-    expect(barChart.getAttribute('category-percentage')).toEqual('1.5');
+    expect(barChart.categoryPercentage).toEqual(defaultVal);
+    expect(barChart.getAttribute('category-percentage')).toEqual(null);
   });
 
   it('supports stacked chart', async () => {
@@ -162,13 +172,15 @@ describe('IdsBarChart Component', () => {
 
   it('shows a tooltip on hover', async () => {
     barChart.animated = false;
+    barChart.categoryPercentage = 0.9;
     const rect = barChart.container.querySelector('rect');
     rect.dispatchEvent(new CustomEvent('hoverend'));
     const tooltip: any = barChart.container.querySelector('ids-tooltip');
     await processAnimFrame();
 
     expect(tooltip.visible).toEqual(true);
-    expect(tooltip.textContent).toEqual('Jan 100');
+    const tooltipText = 'Jan Component A 100 Component B 2211 Component C 1211';
+    expect(tooltip.textContent.replace(/\s+(?=\s)/gm, '')).toEqual(tooltipText);
   });
 
   it('wont error if no vertical lines', () => {
