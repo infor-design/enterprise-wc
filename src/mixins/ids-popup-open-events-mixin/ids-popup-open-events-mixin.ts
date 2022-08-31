@@ -1,3 +1,5 @@
+import type { IdsPopupElementRef } from '../../components/ids-popup/ids-popup-attributes';
+
 /**
  * This mixin can be used with the IdsPopup component to provide event handling in some scenarios:
  * - When clicking outside the Popup occurs, an event handler at the document level hides the Popup.
@@ -17,6 +19,7 @@ const IdsPopupOpenEventsMixin = (superclass: any) => class extends superclass {
   disconnectedCallback() {
     super.disconnectedCallback?.();
     this.removeOpenEvents();
+    this.popupOpenEventsTarget = null;
   }
 
   /**
@@ -25,17 +28,17 @@ const IdsPopupOpenEventsMixin = (superclass: any) => class extends superclass {
   hasOpenEvents = false;
 
   /**
-   * @property {HTMLElement} popupOpenEventsTarget receives the top-level event listener
+   * @property {IdsPopupElementRef} popupOpenEventsTarget receives the top-level event listener
    *  that will cause the `onOutsideClick` callback to fire
    */
-  popupOpenEventsTarget = document.body;
+  popupOpenEventsTarget: IdsPopupElementRef = document.body;
 
   /**
-   * @property {HTMLElement|null} currentPopupOpenEventsTarget stores a reference to the event
+   * @property {IdsPopupElementRef} currentPopupOpenEventsTarget stores a reference to the event
    *  target to be used for unbinding events (prevents memory leaks if the
    *  event target changes while the Popup is open)
    */
-  #currentPopupOpenEventsTarget: any = null;
+  #currentPopupOpenEventsTarget: IdsPopupElementRef = null;
 
   /**
    * Attaches some events when the Popupmenu is opened.

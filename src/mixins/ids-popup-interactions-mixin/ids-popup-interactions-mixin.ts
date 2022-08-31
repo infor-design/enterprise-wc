@@ -1,6 +1,8 @@
 import { attributes } from '../../core/ids-attributes';
 import '../ids-events-mixin/ids-events-mixin';
 
+import type { IdsPopupElementRef } from '../../components/ids-popup/ids-popup-attributes';
+
 const POPUP_TRIGGER_TYPES = [
   'contextmenu',
   'click',
@@ -94,17 +96,17 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
   }
 
   /**
-   * @returns {any} [HTMLElement|undefined] reference to a target element, if applicable
+   * @returns {IdsPopupElementRef} reference to a target element, if applicable
    */
   get target() {
     return this.popup?.alignTarget;
   }
 
   /**
-   * @param {any} val [HTMLElement|string] reference to an element, or a string that will be used
+   * @param {IdsPopupElementRef} val reference to an element, or a string that will be used
    * as a CSS Selector referencing an element, that the Popupmenu will align against.
    */
-  set target(val: string | HTMLElement) {
+  set target(val: IdsPopupElementRef | string) {
     if (this.popup && val !== this.popup.alignTarget) {
       this.removeTriggerEvents();
       if (typeof val === typeof '') {
@@ -118,14 +120,14 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
   /**
    * @returns {string} the type of action that will trigger this Popupmenu
    */
-  get triggerType(): HTMLElement {
+  get triggerType(): string {
     return this.state.triggerType;
   }
 
   /**
    * @param {string} val a valid trigger type
    */
-  set triggerType(val: string | HTMLElement) {
+  set triggerType(val: string) {
     const current = this.state.triggerType;
     let trueTriggerType = val;
     if (!POPUP_TRIGGER_TYPES.includes(val as string)) {
@@ -140,16 +142,16 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
 
   /**
    * Gets the alternatively-defined triggering element, if applicable
-   * @returns {HTMLElement} reference to an optional trigger element, if one is set
+   * @returns {IdsPopupElementRef} reference to an optional trigger element, if one is set
    */
-  get triggerElem(): HTMLElement {
+  get triggerElem(): IdsPopupElementRef {
     return this.state.triggerElem;
   }
 
   /**
    * @param {string} val a valid trigger type
    */
-  set triggerElem(val: string | HTMLElement) {
+  set triggerElem(val: IdsPopupElementRef | string) {
     if (typeof val === typeof '') {
       const trueTriggerElem = this.parentNode.querySelector(val);
       if (trueTriggerElem) {
@@ -173,7 +175,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
     //   This is only defined when the triggering element is different from the alignment target.
     // - `target`: used for Popup positioning when aligned against a "parent" element, can also be the triggering element.
     // - `window`: default, generally used for coordinate-based placement or `contextmenu` events.
-    const targetElem: HTMLElement | Window = this.triggerElem || this.target || window;
+    const targetElem: HTMLElement | Window = (this.triggerElem as HTMLElement) || this.target || window;
     this.state.currentTriggerElem = targetElem;
 
     // Based on the trigger type, bind new events

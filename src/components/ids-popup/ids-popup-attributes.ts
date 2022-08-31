@@ -1,5 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 
+export type IdsPopupElementRef = HTMLElement | SVGElement | null;
+
 const CENTER = 'center';
 
 // Locations in which a parent-positioned Popup can be located
