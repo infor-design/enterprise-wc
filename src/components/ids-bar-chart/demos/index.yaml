@@ -11,6 +11,9 @@
   - link: colors.html
     type: Example
     description: Shows configuring custom colors
+  - link: grouped.html
+    type: Example
+    description: Shows a grouped bar chart
   - link: stacked.html
     type: Example
     description: Shows a stacked bar chart
