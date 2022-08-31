@@ -5,6 +5,8 @@ import Base from './ids-card-base';
 
 import '../ids-checkbox/ids-checkbox';
 import styles from './ids-card.scss';
+import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
 /**
  * IDS Card Component
@@ -128,8 +130,8 @@ export default class IdsCard extends Base {
     this.onEvent('click', this, this.#handleSelectionChange);
 
     if (this.selection === 'multiple') {
-      const idsCheckboxElem = this.container.querySelector('ids-checkbox');
-      idsCheckboxElem.onEvent('click', idsCheckboxElem, (e: Event) => {
+      const idsCheckboxElem = this.container?.querySelector<IdsCheckbox>('ids-checkbox');
+      idsCheckboxElem?.onEvent('click', idsCheckboxElem, (e: Event) => {
         e.stopPropagation();
         e.preventDefault();
         this.#handleMultipleSelectionChange(e);
@@ -151,10 +153,10 @@ export default class IdsCard extends Base {
    */
   #setFooterClass(): void {
     const footerSlot = this.querySelector('[slot="card-footer"]');
-    this.container.classList[footerSlot ? 'add' : 'remove']('has-footer');
+    this.container?.classList[footerSlot ? 'add' : 'remove']('has-footer');
     if (footerSlot) {
       const noPadding = footerSlot.hasAttribute(attributes.NO_PADDING);
-      const footer = this.container.querySelector('.ids-card-footer');
+      const footer = this.container?.querySelector('.ids-card-footer');
       footer?.classList[noPadding ? 'add' : 'remove'](attributes.NO_PADDING);
     }
   }
@@ -180,7 +182,7 @@ export default class IdsCard extends Base {
   #handleSingleSelectionChange(e: Event) {
     const cardElements = document.querySelectorAll('ids-card[selection="single"]');
     [...cardElements].forEach((elem) => elem.setAttribute(attributes.SELECTED, 'false'));
-    this.setAttribute(attributes.SELECTED, true);
+    this.setAttribute(attributes.SELECTED, 'true');
 
     this.triggerEvent('selectionchanged', this, {
       detail: {
@@ -198,8 +200,8 @@ export default class IdsCard extends Base {
    * @param {object} e Actual event
    */
   #handleMultipleSelectionChange(e: Event) {
-    this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');
-    this.setAttribute(attributes.SELECTED, this.selected !== 'true');
+    this.container?.querySelector('ids-checkbox')?.setAttribute(attributes.CHECKED, String(this.selected !== 'true'));
+    this.setAttribute(attributes.SELECTED, String(this.selected !== 'true'));
 
     this.triggerEvent('selectionchanged', this, {
       detail: {
@@ -215,6 +217,8 @@ export default class IdsCard extends Base {
    * Redraw the template when some properties change.
    */
   redraw() {
+    if (!this.shadowRoot || !this.container) return;
+
     const template = document.createElement('template');
     const html = this.template();
 
@@ -224,13 +228,13 @@ export default class IdsCard extends Base {
     this.appendStyles();
     template.innerHTML = html;
     this.shadowRoot.appendChild(template.content.cloneNode(true));
-    this.container = this.shadowRoot.querySelector('.ids-card');
+    this.container = this.shadowRoot.querySelector<HTMLElement>('.ids-card');
 
     if (this.height) {
-      const link = this.container.querySelector('ids-hyperlink')?.container;
+      const link = this.container?.querySelector<IdsHyperlink>('ids-hyperlink')?.container;
       this.setAttribute(attributes.HEIGHT, this.height);
-      this.container.style.height = `${this.height}px`;
-      if (link) link.style.height = `${this.height}px`;
+      this.container?.style.setProperty('height', `${this.height}px`);
+      link?.style.setProperty('height', `${this.height}px`);
       this.querySelector('[slot]')?.classList.add('fixed-height');
     }
 
@@ -245,7 +249,7 @@ export default class IdsCard extends Base {
    */
   set autoFit(value) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.AUTO_FIT, value);
+      this.setAttribute(attributes.AUTO_FIT, String(value));
       return;
     }
     this.removeAttribute(attributes.AUTO_FIT);
@@ -260,7 +264,7 @@ export default class IdsCard extends Base {
   set autoHeight(value) {
     const val = stringToBool(value);
     if (stringToBool(value)) {
-      this.setAttribute('auto-height', val);
+      this.setAttribute('auto-height', String(val));
       return;
     }
     this.removeAttribute('auto-height');
@@ -275,7 +279,7 @@ export default class IdsCard extends Base {
   set actionable(value) {
     const val = stringToBool(value);
     if (stringToBool(value)) {
-      this.setAttribute(attributes.ACTIONABLE, val);
+      this.setAttribute(attributes.ACTIONABLE, String(val));
       if (this.container) this.redraw();
       return;
     }
@@ -291,10 +295,10 @@ export default class IdsCard extends Base {
    */
   set overflow(value) {
     if (value === 'hidden') {
-      if (this.container) this.container.querySelector('.ids-card-content').classList.add('overflow-hidden');
+      this.container?.querySelector('.ids-card-content')?.classList.add('overflow-hidden');
       this.setAttribute(attributes.OVERFLOW, value);
     } else {
-      if (this.container) this.container.querySelector('.ids-card-content').classList.remove('overflow-hidden');
+      this.container?.querySelector('.ids-card-content')?.classList.remove('overflow-hidden');
       this.removeAttribute(attributes.OVERFLOW);
     }
   }
@@ -337,7 +341,7 @@ export default class IdsCard extends Base {
    * @param {number} height height in pixels
    */
   set height(height) {
-    const getLink = () => this.container.querySelector('ids-hyperlink')?.container;
+    const getLink = () => this.container?.querySelector<IdsHyperlink>('ids-hyperlink')?.container;
     if (height) {
       this.setAttribute(attributes.HEIGHT, height);
       if (this.container) {

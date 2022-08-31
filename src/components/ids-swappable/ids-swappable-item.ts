@@ -50,7 +50,7 @@ export default class IdsSwappableItem extends Base {
     return `<slot></slot>`;
   }
 
-  set dragMode(value: IdsSwappableDragMode) {
+  set dragMode(value: IdsSwappableDragMode | null) {
     if (value === 'select') {
       this.setAttribute(attributes.DRAGGABLE, 'false');
     } else {
@@ -59,8 +59,8 @@ export default class IdsSwappableItem extends Base {
     }
   }
 
-  get dragMode(): IdsSwappableDragMode {
-    return this.getAttribute(attributes.DRAG_MODE);
+  get dragMode(): IdsSwappableDragMode | null {
+    return this.getAttribute(attributes.DRAG_MODE) as IdsSwappableDragMode;
   }
 
   /**
@@ -89,37 +89,37 @@ export default class IdsSwappableItem extends Base {
    * @readonly
    * @memberof IdsSwappableItem
    */
-  get selected(): boolean | null {
+  get selected(): boolean {
     return stringToBool(this.getAttribute(attributes.SELECTED));
   }
 
   /**
    * Get all selected swappable items
-   * @returns {any} NodeList of selected ids-swappable-item
+   * @returns {NodeListOf<IdsSwappableItem>} NodeList of selected ids-swappable-item
    * @readonly
    * @memberof IdsSwappableItem
    */
-  get selectedItems(): any {
-    return this.parentElement?.shadowRoot?.querySelectorAll('[selected]');
+  get selectedItems(): NodeListOf<IdsSwappableItem> | undefined {
+    return this.parentElement?.shadowRoot?.querySelectorAll<IdsSwappableItem>('[selected]');
   }
 
   /**
    * Get all swappable items
-   * @returns {any} NodeList of ids-swappable-item
+   * @returns {NodeListOf<IdsSwappableItem>} NodeList of ids-swappable-item
    * @readonly
    * @memberof IdsSwappableItem
    */
-  get allItems(): any {
-    return this.parentElement.querySelectorAll('ids-swappable-item');
+  get allItems(): NodeListOf<IdsSwappableItem> | undefined {
+    return this.parentElement?.querySelectorAll<IdsSwappableItem>('ids-swappable-item');
   }
 
   /**
    * Set the originalText attribute
    * which is used to reset the text of the dropped items
-   * @param {string} value text value of the item
+   * @param {string|null} value text value of the item
    * @memberof IdsSwappableItem
    */
-  set originalText(value: string) {
+  set originalText(value: string | null) {
     if (value) {
       this.setAttribute(attributes.ORIGINAL_TEXT, value);
     } else {
@@ -133,7 +133,7 @@ export default class IdsSwappableItem extends Base {
    * @readonly
    * @memberof IdsSwappableItem
    */
-  get originalText(): string {
+  get originalText(): string | null {
     return this.getAttribute(attributes.ORIGINAL_TEXT);
   }
 
@@ -143,8 +143,8 @@ export default class IdsSwappableItem extends Base {
    * @readonly
    * @memberof IdsSwappableItem
    */
-  get selection(): string {
-    return this.parentElement.getAttribute(attributes.SELECTION);
+  get selection(): string | undefined | null {
+    return this.parentElement?.getAttribute(attributes.SELECTION);
   }
 
   /**
@@ -166,9 +166,9 @@ export default class IdsSwappableItem extends Base {
 
   /**
    * Get whether the item currently allows tabbing.
-   * @returns {boolean | string} true or false depending on whether the item is currently tabbable
+   * @returns {boolean} true or false depending on whether the item is currently tabbable
    */
-  get tabbable(): boolean | string {
+  get tabbable(): boolean {
     return stringToBool(this.getAttribute(attributes.TABBABLE) || true);
   }
 
@@ -193,8 +193,8 @@ export default class IdsSwappableItem extends Base {
     }
     this.removeAttribute(attributes.DRAGGING);
     [...this.children].forEach((elem) => {
-      elem.removeAttribute(attributes.DRAGGING, '');
-      elem.focus();
+      elem.removeAttribute(attributes.DRAGGING);
+      (elem as HTMLElement).focus();
     });
     this.removeAttribute(attributes.OVER);
   }
@@ -233,7 +233,7 @@ export default class IdsSwappableItem extends Base {
       if (this.selected) {
         clearSelection();
       } else {
-        this.allItems.forEach((item: any) => {
+        this.allItems?.forEach((item) => {
           item.removeAttribute(attributes.SELECTED);
           item.querySelector('div[part="list-item"]')?.removeAttribute(attributes.SELECTED);
         });

@@ -21,6 +21,10 @@ import styles from './ids-switch.scss';
 @customElement('ids-switch')
 @scss(styles)
 export default class IdsSwitch extends Base {
+  input?: HTMLInputElement | null;
+
+  labelEl?: HTMLLabelElement | null;
+
   /**
    * Call the constructor and then initialize
    */
@@ -49,8 +53,8 @@ export default class IdsSwitch extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
-    this.labelEl = this.shadowRoot.querySelector('label');
+    this.input = this.shadowRoot?.querySelector('input[type="checkbox"]');
+    this.labelEl = this.shadowRoot?.querySelector('label');
 
     this.#attachEventHandlers();
   }
@@ -102,8 +106,8 @@ export default class IdsSwitch extends Base {
         }
       } else {
         this.onEvent(eventName, this.input, () => {
-          this.indeterminate = false;
-          this.checked = this.input.checked;
+          //this.indeterminate = false;
+          this.checked = !!this.input?.checked;
         });
       }
     }
@@ -138,7 +142,7 @@ export default class IdsSwitch extends Base {
                 elem: this,
                 nativeEvent: e,
                 value: this.value,
-                checked: this.input.checked
+                checked: this.input?.checked
               }
             });
           });
@@ -166,9 +170,10 @@ export default class IdsSwitch extends Base {
     const slider = this.shadowRoot?.querySelector('.slider');
     this.input = this.shadowRoot?.querySelector('input[type="checkbox"]');
     const val = stringToBool(value);
+
     if (val) {
       this.setAttribute(attributes.CHECKED, val.toString());
-      this.input?.setAttribute(attributes.CHECKED, val);
+      this.input?.setAttribute(attributes.CHECKED, val.toString());
       slider?.classList.add(attributes.CHECKED);
     } else {
       this.removeAttribute(attributes.CHECKED);
@@ -185,24 +190,23 @@ export default class IdsSwitch extends Base {
    */
   set disabled(value: boolean | string) {
     this.input = this.shadowRoot?.querySelector('input[type="checkbox"]');
-    const rootEl = this.shadowRoot?.querySelector('.ids-switch');
     const val = stringToBool(value);
     const labelText = this.shadowRoot?.querySelector('.label-text');
 
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
-      this.input?.setAttribute(attributes.DISABLED, val);
-      rootEl?.classList.add(attributes.DISABLED);
+      this.input?.setAttribute(attributes.DISABLED, '');
+      this.container?.classList.add(attributes.DISABLED);
       labelText?.setAttribute(attributes.DISABLED, 'true');
     } else {
       this.removeAttribute(attributes.DISABLED);
       this.input?.removeAttribute(attributes.DISABLED);
-      rootEl?.classList.remove(attributes.DISABLED);
+      this.container?.classList.remove(attributes.DISABLED);
       labelText?.removeAttribute(attributes.DISABLED);
     }
   }
 
-  get disabled(): boolean | string { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): boolean { return this.hasAttribute(attributes.DISABLED); }
 
   /**
    * Set the `label` text
@@ -242,6 +246,6 @@ export default class IdsSwitch extends Base {
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
    */
   focus() {
-    this.input.focus();
+    this.input?.focus();
   }
 }

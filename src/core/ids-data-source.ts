@@ -20,13 +20,13 @@ class IdsDataSource {
    * Holds a reference to the original data
    * @private
    */
-  #originalData = [];
+  #originalData: any[] = [];
 
   /**
    * Holds the data in its current state
    * @private
    */
-  #currentData = [];
+  #currentData: any[] = [];
 
   /**
    * Holds the current data to use with filter

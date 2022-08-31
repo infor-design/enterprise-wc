@@ -6,6 +6,7 @@ import {
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-swappable-base';
 import styles from './ids-swappable.scss';
+import IdsSwappableItem from './ids-swappable-item';
 
 /**
  * IDS Swappable Component
@@ -17,6 +18,8 @@ import styles from './ids-swappable.scss';
 @customElement('ids-swappable')
 @scss(styles)
 export default class IdsSwappable extends Base {
+  draggingElements: Array<IdsSwappableItem> = [];
+
   constructor() {
     super();
   }
@@ -45,8 +48,8 @@ export default class IdsSwappable extends Base {
    * @readonly
    * @memberof IdsSwappable
    */
-  get overElement(): HTMLElement {
-    return this.querySelector('ids-swappable-item[over]');
+  get overElement(): IdsSwappableItem | null {
+    return this.querySelector<IdsSwappableItem>('ids-swappable-item[over]');
   }
 
   /**
