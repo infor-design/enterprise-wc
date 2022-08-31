@@ -52,12 +52,24 @@ export default class IdsBarChart extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.#adjustVerticalLines();
   }
 
+  /**
+   * Callback for after connected.
+   * @returns {void}
+   */
   afterConnectedCallback(): void {
+    this.#adjustVerticalLines();
     this.#preSelected();
     this.attachTooltipEvents();
+  }
+
+  /**
+   * Callback for after calculate.
+   * @returns {void}
+   */
+  afterCalculateCallback(): void {
+    this.#setIsGrouped();
   }
 
   /**
@@ -291,16 +303,30 @@ export default class IdsBarChart extends Base {
   #bars() {
     let barHTML = '';
     const runningHeight: Record<number, number> = [];
+    const groupCount = this.groupCount;
+    const isGrouped = this.isGrouped;
+    const sectionWidth = this.sectionWidth;
+    const categoryWidth = (this.categoryPercentage * sectionWidth);
+    const barGap = 1;
+
     // Calculate the width of each bar and bar "category" and fit it in even sections
-    this.categoryWidth = (this.categoryPercentage * this.sectionWidth);
-    this.barWidth = (this.categoryWidth * this.barPercentage);
+    let barWidth = isGrouped ? ((categoryWidth - (groupCount * barGap)) / groupCount) : categoryWidth;
+    barWidth *= this.barPercentage;
 
     // Generate the bars
     this.markerData.points?.forEach((pointGroup: any, groupIndex: number) => {
       pointGroup.forEach((point: IdsChartData, index: number) => {
-        const left = this.sectionWidths[index].left
-          + ((this.sectionWidths[index].width - this.categoryWidth) / 2)
-          + ((this.categoryWidth - this.barWidth) / 2);
+        let left;
+        if (isGrouped) {
+          left = this.sectionWidths[index].left
+            + ((sectionWidth - categoryWidth) / 2)
+            + ((categoryWidth - (barWidth * groupCount)) / 2);
+          left += (barWidth * groupIndex) + (groupIndex * barGap);
+        } else {
+          left = this.sectionWidths[index].left
+            + ((sectionWidth - categoryWidth) / 2)
+            + ((categoryWidth - barWidth) / 2);
+        }
 
         const bottom = this.markerData.gridBottom;
         const height = bottom - point.top;
@@ -315,7 +341,7 @@ export default class IdsBarChart extends Base {
 
         barHTML += `<g role="listitem">
           <text class="audible" x="${left}" y="${this.markerData.gridBottom}">${label} ${point.value}</text>
-          <rect class="bar color-${groupIndex + 1}" aria-hidden="true" group-index="${groupIndex}" index="${index}" width="${this.barWidth}" height="${height}" x="${left}" y="${top}"${pattern}>
+          <rect class="bar color-${groupIndex + 1}" aria-hidden="true" group-index="${groupIndex}" index="${index}" width="${barWidth}" height="${height}" x="${left}" y="${top}"${pattern}>
             <animate attributeName="height" from="0" to="${height}" ${this.animated ? this.cubicBezier : this.cubicBezier.replace('0.8s', '0.01s')}></animate>
             <animate attributeName="y" from="${bottom}" to="${top}" ${this.animated ? this.cubicBezier : this.cubicBezier.replace('0.8s', '0.01s')}></animate>
           </rect></g>`;
@@ -323,6 +349,31 @@ export default class IdsBarChart extends Base {
     });
 
     return barHTML;
+  }
+
+  /**
+   * Number of groups count
+   * @returns {number} count of groups
+   */
+  get groupCount(): number {
+    return this.markerData?.groupCount || 1;
+  }
+
+  /**
+   * Set if chart type as grouped
+   * @returns {void}
+   */
+  #setIsGrouped(): void {
+    this.isGrouped = (!this.stacked && this.groupCount > 1);
+  }
+
+  /**
+   * Check if given value is between zero to one.
+   * @param {number} value The number value to check (0-1)
+   * @returns {boolean} true, if value is between zero to one
+   */
+  #isBetweenZeroToOne(value: number): boolean {
+    return (!Number.isNaN(value) && value > 0 && value <= 1);
   }
 
   /**
@@ -336,19 +387,22 @@ export default class IdsBarChart extends Base {
   /**
    * Percent (0-1) of the available width each bar should be within the category width.
    * 1.0 will take the whole category width and put the bars right next to each other.
+   * if `isGrouped` this value, will use as whole group percentage.
    * @param {number} value Percent (0-1)
    */
   set barPercentage(value: number) {
-    this.setAttribute(attributes.BAR_PERCENTAGE, value);
+    if (this.#isBetweenZeroToOne(Number(value))) {
+      this.setAttribute(attributes.BAR_PERCENTAGE, value);
+    } else {
+      this.removeAttribute(attributes.BAR_PERCENTAGE);
+    }
     this.redraw();
   }
 
   get barPercentage(): number {
-    const value = this.getAttribute(attributes.BAR_PERCENTAGE);
-    if (value) {
-      return Number(this.getAttribute(attributes.BAR_PERCENTAGE));
-    }
-    return 0.5;
+    const value = Number(this.getAttribute(attributes.BAR_PERCENTAGE));
+    if (this.#isBetweenZeroToOne(value)) return value;
+    return this.isGrouped ? 0.7 : 0.5;
   }
 
   /**
@@ -356,15 +410,17 @@ export default class IdsBarChart extends Base {
    * @param {number} value Percent (0-1)
    */
   set categoryPercentage(value: number) {
-    this.setAttribute(attributes.CATEGORY_PERCENTAGE, value);
+    if (this.#isBetweenZeroToOne(Number(value))) {
+      this.setAttribute(attributes.CATEGORY_PERCENTAGE, value);
+    } else {
+      this.removeAttribute(attributes.CATEGORY_PERCENTAGE);
+    }
     this.redraw();
   }
 
   get categoryPercentage(): number {
-    const value = this.getAttribute(attributes.CATEGORY_PERCENTAGE);
-    if (value) {
-      return Number(this.getAttribute(attributes.CATEGORY_PERCENTAGE));
-    }
+    const value = Number(this.getAttribute(attributes.CATEGORY_PERCENTAGE));
+    if (this.#isBetweenZeroToOne(value)) return value;
     return 0.9;
   }
 }

@@ -4,9 +4,9 @@
 
 An bar chart is used to display relational information quickly for a quantity across a particular category. Users can interact by clicking or tapping on bars to drill in on a certain series of data. Users can also interact by hovering bars to reveal additional information in a tooltip. The x-axis could be any variable, such as time, or the category that is being measured.
 
-Grouped bar graphs, also called clustered bar graphs, represent discrete values for more than one item that share the same category. For example a grouped bar graph could display several categories within each main category such as male and female, within certain traits on the x-axis. To make a grouped bar chart use `grouped="true"` and provide the appropriately formatted data.
+Grouped bar graphs, also called clustered bar graphs, represent discrete values for more than one item that share the same category. For example a grouped bar graph could display several categories within each main category such as male and female, within certain traits on the x-axis. To make a grouped bar chart provide the appropriately formatted data.
 
-Stacked bar graphs or composite bar graphs divide an aggregate total into parts. Each segment adds to the total of the bar and are separated by different colors.
+Stacked bar graphs or composite bar graphs divide an aggregate total into parts. Each segment adds to the total of the bar and are separated by different colors. To make a stacked bar chart use `stacked="true"` and provide the appropriately formatted data.
 
 ## Use Cases
 
@@ -37,7 +37,7 @@ An bar chart is defined with the custom element and width and height.
 Datasets can be added to the bar chart by passing in an array of objects. Each object must have a `data` and object with `name` and `values` to form the data points. Also a name should be given for each data object which will be used as the legend text. The `shortName` is used to show the short name of the legend text and the `abbrName` is used to show an even shorter name of the legend text in responsive situations.
 
 ```js
-const lineData2 = [{
+const dataset = [{
   data: [{
     name: 'Jan',
     value: 1
@@ -62,7 +62,7 @@ const lineData2 = [{
   abbrName: 'A',
 }];
 
-document.querySelector('ids-bar-chart').data = lineData;
+document.querySelector('ids-bar-chart').data = dataset;
 ```
 
 A chart can also be `stacked` or `grouped`. Stacked bar graphs or composite bar graphs divide an aggregate total into parts. Each segment adds to the total of the bar and are separated by different colors.
@@ -85,7 +85,7 @@ To make a stacked bar chart use `stacked="true"` and provide the appropriately f
 
 ## Settings
 
-- `barPercentage` {number} A percent (0-1) of the available width each bar should be within the category width. 1.0 will take the whole category width and put the bars right next to each other. We change the defaults depending on stacked or grouped bar charts.
+- `barPercentage` {number} A percent (0-1) of the available width each bar should be within the category width. 1.0 will take the whole category width and put the bars right next to each other. If use with grouped chart barPercentage value, will use as whole group percentage. We change the defaults depending on stacked or grouped bar charts.
 - `categoryPercentage` {number} Percent (0-1) of the available width each category (group) section. We change the defaults depending on stacked or grouped bar charts.
 
 The following shows the relationship between the bar percentage option and the category percentage option.
