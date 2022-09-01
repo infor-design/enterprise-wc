@@ -280,9 +280,9 @@ export default class IdsTooltip extends Base {
 
   /**
    * @readonly
-   * @returns {IdsPopup | undefined} reference to the internal IdsPopup component
+   * @returns {IdsPopup | undefined | null} reference to the internal IdsPopup component
    */
-  get popup(): IdsPopup | undefined {
+  get popup(): IdsPopup | undefined | null {
     return this.shadowRoot?.querySelector('ids-popup');
   }
 
@@ -302,7 +302,7 @@ export default class IdsTooltip extends Base {
    */
   set delay(value: string | number) {
     if (value) {
-      this.setAttribute('delay', value);
+      this.setAttribute('delay', value.toString());
       return;
     }
 

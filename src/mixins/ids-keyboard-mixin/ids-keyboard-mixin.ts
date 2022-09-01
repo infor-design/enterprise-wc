@@ -17,18 +17,13 @@ type Constraints = IdsConstructor<EventsMixinInterface>;
  */
 const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends superclass
   implements KeyboardMixinInterface {
-  hotkeys = new Map();
+  hotkeys: Map<any, any> | null = null;
 
-  pressedKeys = new Map();
+  pressedKeys: Map<any, any> | null = null;
 
-  keyDownHandler = (e: KeyboardEvent) => {
-    this.press(e.key);
-    this.dispatchHotkeys(e);
-  };
+  keyDownHandler?: (e: KeyboardEvent) => void;
 
-  keyUpHandler = (e: KeyboardEvent) => {
-    this.unpress(e.key);
-  };
+  keyUpHandler?: (e: KeyboardEvent) => void;
 
   constructor(...args: any[]) {
     super(...args);
@@ -37,14 +32,14 @@ const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends
 
   static get attributes() {
     return [
-      ...(superclass as any).attributes
+      ...(superclass as any).attributes,
     ];
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
     this.detachAllListeners();
-    this.hotKeys = null;
+    this.hotkeys = null;
     this.pressedKeys = null;
   }
 
@@ -53,7 +48,18 @@ const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends
    * @private
    */
   initKeyboardHandlers() {
+    this.hotkeys = new Map();
+    this.pressedKeys = new Map();
+
+    this.keyDownHandler = (e: KeyboardEvent) => {
+      this.press(e.key);
+      this.dispatchHotkeys(e);
+    };
     this.onEvent('keydown.keyboard', this, this.keyDownHandler);
+
+    this.keyUpHandler = (e: KeyboardEvent) => {
+      this.unpress(e.key);
+    };
     this.onEvent('keyup.keyboard', this, this.keyUpHandler);
   }
 
@@ -64,7 +70,7 @@ const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends
    * @returns {Map} the current set of pressed keys
    */
   press(key: string) {
-    return this.pressedKeys.set(`${key}`, true);
+    return this.pressedKeys?.set(`${key}`, true);
   }
 
   /**
@@ -77,7 +83,7 @@ const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends
     const keycodes = Array.isArray(keycode) ? keycode : [keycode];
 
     for (const c of keycodes) {
-      this.hotkeys.set(`${c}`, callback);
+      this.hotkeys?.set(`${c}`, callback);
     }
   }
 
@@ -87,7 +93,7 @@ const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends
    * @returns {Map} the current set of hotkeys
    */
   unlisten(key: string) {
-    return this.hotkeys.delete(`${key}`);
+    return this.hotkeys?.delete(`${key}`);
   }
 
   /**
@@ -97,7 +103,7 @@ const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends
    * @returns {boolean} whether or not the key had been previously logged as "pressed"
    */
   unpress(key: string) {
-    return this.pressedKeys.delete(`${key}`);
+    return this.pressedKeys?.delete(`${key}`);
   }
 
   /**
@@ -107,7 +113,7 @@ const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends
    * @returns {void}
    */
   dispatchHotkeys(e: KeyboardEvent) {
-    this.hotkeys.forEach((value: any, key: any) => {
+    this.hotkeys?.forEach((value: any, key: any) => {
       if (key.split(',').indexOf(e.key) > -1) {
         value(e);
       }
@@ -118,8 +124,14 @@ const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends
    * Remove all handlers and clear memory
    */
   detachAllListeners() {
-    this.offEvent('keydown.keyboard', this);
-    this.offEvent('keyup.keyboard', this);
+    if (this.keyDownHandler && this.offEvent) {
+      this.offEvent('keydown.keyboard', this, this.keyDownHandler);
+      delete this.keyDownHandler;
+    }
+    if (this.keyUpHandler && this.offEvent) {
+      this.offEvent('keyup.keyboard', this, this.keyUpHandler);
+      delete this.keyUpHandler;
+    }
   }
 };
 

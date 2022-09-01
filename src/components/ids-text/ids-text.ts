@@ -8,7 +8,8 @@ import Base from './ids-text-base';
 
 import styles from './ids-text.scss';
 
-const fontWeightClasses = ['bold', 'lighter'];
+const fontWeightClasses = ['bold', 'lighter'] as const;
+type FontWeightClasses = typeof fontWeightClasses[number];
 
 // These types will have a CSS style class appended to them
 const typesCssClasses = ['label', 'legend', 'span'];
@@ -125,7 +126,7 @@ export default class IdsText extends Base {
 
     if (this.container) {
       fontSizes?.forEach((size: string) => {
-        this.container.classList.remove(`ids-text-${Object.keys(size)}`);
+        this.container?.classList.remove(`ids-text-${Object.keys(size)}`);
       });
       if (value) {
         this.container.classList.add(`ids-text-${value}`);
@@ -139,35 +140,19 @@ export default class IdsText extends Base {
    * Adjust font weight; can be either "bold" or "lighter"
    * @param {string | null} value (if bold)
    */
-  set fontWeight(value: string | null) {
-    let hasValue = false;
+  set fontWeight(value: 'lighter' | 'bold' | null) {
+    this.container?.classList.remove(...fontWeightClasses);
 
-    switch (value) {
-      case 'bold':
-      case 'lighter':
-        hasValue = true;
-        break;
-      default:
-        break;
-    }
-
-    if (hasValue) {
+    if (value && fontWeightClasses.includes(value)) {
       this.setAttribute(attributes.FONT_WEIGHT, value);
+      this.container?.classList.add(value);
     } else {
       this.removeAttribute(attributes.FONT_WEIGHT);
     }
-
-    if (this.container) {
-      this.container.classList.remove(...fontWeightClasses);
-
-      if (hasValue) {
-        this.container.classList.add(value);
-      }
-    }
   }
 
-  get fontWeight(): string | null {
-    return this.getAttribute(attributes.FONT_WEIGHT);
+  get fontWeight(): FontWeightClasses | null {
+    return this.getAttribute(attributes.FONT_WEIGHT) as FontWeightClasses | null;
   }
 
   /**
@@ -182,7 +167,7 @@ export default class IdsText extends Base {
     }
 
     this.render();
-    this.#setTypeClass(value);
+    this.#setTypeClass(value ?? '');
   }
 
   get type(): string | null { return this.getAttribute(attributes.TYPE); }
@@ -192,12 +177,10 @@ export default class IdsText extends Base {
    * @param {string} value the class type to check/add
    * @returns {void}
    */
-  #setTypeClass(value: string | null): void {
-    if (this.container) {
-      this.container.classList.remove(...typesCssClasses);
-      if (typesCssClasses.includes(value || '')) {
-        this.container.classList.add(value);
-      }
+  #setTypeClass(value: string): void {
+    this.container?.classList.remove(...typesCssClasses);
+    if (typesCssClasses.includes(value)) {
+      this.container?.classList.add(value);
     }
   }
 
@@ -233,7 +216,7 @@ export default class IdsText extends Base {
    */
   set audible(value: boolean | string) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.AUDIBLE, value);
+      this.setAttribute(attributes.AUDIBLE, value.toString());
       if (this.container && !this.container.classList.contains(attributes.AUDIBLE)) {
         this.container.classList.add('audible');
       }
@@ -251,7 +234,7 @@ export default class IdsText extends Base {
    */
   set disabled(value: boolean) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.DISABLED, value);
+      this.setAttribute(attributes.DISABLED, value.toString());
       return;
     }
     this.removeAttribute(attributes.DISABLED);
@@ -267,7 +250,7 @@ export default class IdsText extends Base {
     const val = stringToBool(value);
     if (val) {
       if (this.container) this.container.classList.add('error');
-      this.setAttribute(attributes.ERROR, value);
+      this.setAttribute(attributes.ERROR, val.toString());
       return;
     }
     this.removeAttribute(attributes.ERROR);
@@ -283,8 +266,8 @@ export default class IdsText extends Base {
   set label(value: boolean) {
     const val = stringToBool(value);
     if (val) {
-      if (this.container) this.container.classList.add('label');
-      this.setAttribute(attributes.LABEL, value);
+      this.setAttribute(attributes.LABEL, val.toString());
+      this.container?.classList.add('label');
       return;
     }
     this.removeAttribute(attributes.LABEL);
@@ -300,12 +283,12 @@ export default class IdsText extends Base {
   set data(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
-      if (this.container) this.container.classList.add('data');
-      this.setAttribute(attributes.DATA, value);
+      this.container?.classList.add('data');
+      this.setAttribute(attributes.DATA, val.toString());
       return;
     }
     this.removeAttribute(attributes.DATA);
-    if (this.container) this.container.classList.remove('data');
+    this.container?.classList.remove('data');
   }
 
   get data(): boolean { return stringToBool(this.getAttribute(attributes.DATA)); }
@@ -335,20 +318,18 @@ export default class IdsText extends Base {
    * @param {string} value The value
    */
   set textAlign(value: string) {
+    this.container?.classList.remove(...this.textAlignClass(true));
+
     if (TEXT_ALIGNMENTS.includes(value)) {
       this.setAttribute(attributes.TEXT_ALIGN, value);
+      this.container?.classList.add(this.textAlignClass() as string);
     } else {
       this.removeAttribute(attributes.TEXT_ALIGN);
-    }
-
-    if (this.container) {
-      this.container.classList.remove(...this.textAlignClass(true));
-      if (this.textAlign) this.container.classList.add(this.textAlignClass());
     }
   }
 
   get textAlign(): string {
-    return this.getAttribute(attributes.TEXT_ALIGN);
+    return this.getAttribute(attributes.TEXT_ALIGN) ?? '';
   }
 
   /**
@@ -365,20 +346,18 @@ export default class IdsText extends Base {
    * Set the given status
    * @param {string} value The value
    */
-  set status(value: string) {
-    if (STATUSES.includes(value)) {
-      this.setAttribute(attributes.STATUS, value);
+  set status(value: string | null) {
+    this.container?.classList.remove(...this.statusClass(true));
+
+    if (STATUSES.includes(value ?? '')) {
+      this.setAttribute(attributes.STATUS, value ?? '');
+      this.container?.classList.add(this.statusClass() as string);
     } else {
       this.removeAttribute(attributes.STATUS);
     }
-
-    if (this.container) {
-      this.container.classList.remove(...this.statusClass(true));
-      if (this.status) this.container.classList.add(this.statusClass());
-    }
   }
 
-  get status(): string {
+  get status(): string | null {
     return this.getAttribute(attributes.STATUS);
   }
 
@@ -389,7 +368,7 @@ export default class IdsText extends Base {
    */
   statusClass(isAll?: boolean): string | Array<string> {
     const prefixed = (v: string) => `status-${v}`;
-    return isAll ? STATUSES.map((v) => prefixed(v)) : prefixed(this.status);
+    return isAll ? STATUSES.map((v) => prefixed(v)) : prefixed(this.status ?? '');
   }
 
   /**
@@ -400,8 +379,8 @@ export default class IdsText extends Base {
   set translateText(value: boolean) {
     const val = stringToBool(value);
     if (val && !this.getAttribute('translation-key')) {
-      this.setAttribute(attributes.TRANSLATE_TEXT, value);
-      this.setAttribute('translation-key', this.textContent);
+      this.setAttribute(attributes.TRANSLATE_TEXT, val.toString());
+      this.setAttribute('translation-key', this.textContent ?? '');
       this.#translateAsync();
     }
   }
@@ -415,11 +394,13 @@ export default class IdsText extends Base {
    * @private
    */
   async #translateAsync() {
-    if (!this.locale || !this.getAttribute('translation-key')) {
+    const translationKey = this.getAttribute('translation-key');
+
+    if (!this.locale || !translationKey) {
       return;
     }
 
     await this.locale.setLanguage(this.locale.language.name);
-    this.textContent = this.locale.translate(this.getAttribute('translation-key'));
+    this.textContent = this.locale.translate(translationKey);
   }
 }
