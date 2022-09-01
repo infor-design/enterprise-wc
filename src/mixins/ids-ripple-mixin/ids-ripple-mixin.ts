@@ -1,7 +1,7 @@
-import renderLoop from '../../components/ids-render-loop/ids-render-loop-global';
-import IdsRenderLoopItem from '../../components/ids-render-loop/ids-render-loop-item';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { requestAnimationTimeout, clearAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
+import type { FrameRequestLoopHandler } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 const IdsRippleMixin = (superclass: any) => class extends superclass {
   // HTMLElement containing ripple, typically component container
@@ -11,7 +11,7 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
   rippleRadius = 50;
 
   // Timeout for end of ripple effect
-  rippleTimeout?: IdsRenderLoopItem;
+  rippleTimeout?: FrameRequestLoopHandler;
 
   constructor() {
     super();
@@ -141,17 +141,14 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
 
     // Remove pre-existing ripple timeouts
     if (this.rippleTimeout) {
-      this.rippleTimeout.destroy(true);
+      clearAnimationTimeout(this.rippleTimeout);
     }
 
     // After a short time, remove the ripple effect
-    this.rippleTimeout = renderLoop.register(new IdsRenderLoopItem({
-      duration: 1200,
-      timeoutCallback() {
-        rippleTarget?.classList.remove('is-rippling');
-        rippleEl.remove();
-      }
-    }));
+    this.rippleTimeout = requestAnimationTimeout(() => {
+      rippleTarget?.classList.remove('is-rippling');
+      rippleEl.remove();
+    }, 1200);
   }
 
   /**
