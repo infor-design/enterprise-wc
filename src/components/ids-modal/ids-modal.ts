@@ -6,8 +6,7 @@ import Base from './ids-modal-base';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
-import renderLoop from '../ids-render-loop/ids-render-loop-global';
-import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
+import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import zCounter from './ids-modal-z-counter';
 import '../ids-popup/ids-popup';
@@ -18,10 +17,6 @@ import '../ids-modal-button/ids-modal-button';
 import styles from './ids-modal.scss';
 
 type IdsModalFullsizeAttributeValue = null | 'null' | '' | keyof Breakpoints | 'always';
-
-// When a user clicks the Modal Buttons, this is the delay between
-// the click and the "hiding" of the Modal.
-const dismissTimeout = 200;
 
 /**
  * IDS Modal Component
@@ -565,14 +560,9 @@ export default class IdsModal extends Base {
   #onDOMContentLoaded = () => {
     this.visible = this.getAttribute('visible');
     if (this.visible) {
-      // Fixes a Chrome Bug where time staggering is needed for focus to occur
-      const timeoutCallback = () => {
+      requestAnimationTimeout(() => {
         this.setFocus('last');
-      };
-      renderLoop.register(new IdsRenderLoopItem({
-        duration: 30,
-        timeoutCallback
-      }));
+      }, 30);
     }
   };
 
@@ -613,7 +603,7 @@ export default class IdsModal extends Base {
    * @param {any} e the original event object
    */
   handleButtonClick(e: any): void {
-    const timeoutCallback = () => {
+    requestAnimationTimeout(() => {
       if (typeof this.onButtonClick === 'function') {
         this.onButtonClick(e.target);
       }
@@ -623,13 +613,7 @@ export default class IdsModal extends Base {
       if (modalBtn?.cancel) {
         this.hide();
       }
-    };
-
-    // Run click handler on a staggered interval
-    renderLoop.register(new IdsRenderLoopItem({
-      duration: dismissTimeout,
-      timeoutCallback
-    }));
+    }, 200);
   }
 
   /**

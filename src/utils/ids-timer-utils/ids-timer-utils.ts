@@ -21,7 +21,7 @@ export function requestAnimationTimeout(fn: FrameRequestCallback, delay: number)
     const current = new Date().getTime();
     const delta = current - start;
 
-    if (delta >= delay) fn.call();
+    if (delta >= delay) fn(current);
     else handle.value = RAF(loop);
   };
 
