@@ -35,17 +35,15 @@ describe('IdsMultiselect Component', () => {
   beforeEach(async () => {
     multiselect = createFromTemplate(
       `<ids-multiselect id="multiselect-1" label="Normal Multiselect" dirty-tracker="true">
-      <ids-list-box>
-
-        <ids-list-box-option value="opt2" id="opt2"><ids-checkbox label="Option Two" tooltip="Additional Info on Option Two" class="justify-center"></ids-checkbox></ids-list-box-option>
-        <ids-list-box-option value="opt3" id="opt3"><ids-checkbox label="Option Three" tooltip="Additional Info on Option Three" class="justify-center"></ids-checkbox></ids-list-box-option>
-        <ids-list-box-option value="opt4" id="opt4"><ids-checkbox label="Option Four" tooltip="Additional Info on Option Four" class="justify-center"></ids-checkbox></ids-list-box-option>
-        <ids-list-box-option value="opt5" id="opt5"><ids-checkbox label="Option Five"  tooltip="Additional Info on Option Five"class="justify-center"></ids-checkbox></ids-list-box-option>
-        <ids-list-box-option value="opt6" id="opt6"><ids-checkbox label="Option Six" tooltip="Additional Info on Option Six" class="justify-center"></ids-checkbox></ids-list-box-option>
-      </ids-list-box>
-    </ids-multiselect>`
+        <ids-list-box>
+          <ids-list-box-option value="opt2" id="opt2" selected><ids-checkbox label="Option Two" tooltip="Additional Info on Option Two"></ids-checkbox></ids-list-box-option>
+          <ids-list-box-option value="opt3" id="opt3"><ids-checkbox label="Option Three" tooltip="Additional Info on Option Three"></ids-checkbox></ids-list-box-option>
+          <ids-list-box-option value="opt4" id="opt4"><ids-checkbox label="Option Four" tooltip="Additional Info on Option Four"></ids-checkbox></ids-list-box-option>
+          <ids-list-box-option value="opt5" id="opt5"><ids-checkbox label="Option Five" tooltip="Additional Info on Option Five"></ids-checkbox></ids-list-box-option>
+          <ids-list-box-option value="opt6" id="opt6"><ids-checkbox label="Option Six" tooltip="Additional Info on Option Six"></ids-checkbox></ids-list-box-option>
+        </ids-list-box>
+      </ids-multiselect>`
     );
-    multiselect.value = ['opt2'];
   });
 
   afterEach(async () => {
@@ -149,43 +147,6 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.getAttribute('validation-events')).toBeFalsy();
   });
 
-  it('renders with icons', () => {
-    multiselect = createFromTemplate(`<ids-multiselect id="multiselect-5" label="Dropdown with Icons">
-    <ids-list-box>
-      <ids-list-box-option value="opt1" id="opt1">
-        <ids-icon icon="user-profile"></ids-icon>
-        <ids-checkbox label="Option One" class="justify-center"></ids-checkbox>
-      </ids-list-box-option>
-      <ids-list-box-option value="opt2" id="opt2">
-        <ids-icon icon="project"></ids-icon>
-        <ids-checkbox label="Option Two" class="justify-center"></ids-checkbox>
-      </ids-list-box-option>
-      <ids-list-box-option value="opt3" id="opt3">
-        <ids-icon icon="purchasing"></ids-icon>
-        <ids-checkbox label="Option Three" class="justify-center"></ids-checkbox>
-      </ids-list-box-option>
-      <ids-list-box-option value="opt4" id="opt4">
-        <ids-icon icon="quality"></ids-icon>
-        <ids-checkbox label="Option Four" class="justify-center"></ids-checkbox>
-      </ids-list-box-option>
-      <ids-list-box-option value="opt5" id="opt5">
-        <ids-icon icon="rocket"></ids-icon>
-        <ids-checkbox label="Option Five" class="justify-center"></ids-checkbox>
-      </ids-list-box-option>
-      <ids-list-box-option value="opt6" id="opt6">
-        <ids-icon icon="roles"></ids-icon>
-        <ids-checkbox label="Option Six" class="justify-center"></ids-checkbox>
-      </ids-list-box-option>
-    </ids-list-box>
-  </ids-multiselect>`);
-
-    expect(multiselect.hasIcons).toEqual(true);
-
-    const icons = multiselect.querySelectorAll('ids-list-box-option ids-icon');
-    expect(icons[0].icon).toEqual('user-profile');
-    expect(icons[5].icon).toEqual('roles');
-  });
-
   it('handles setting disabled', () => {
     multiselect.disabled = true;
     expect(multiselect.getAttribute('disabled')).toEqual('true');
@@ -206,13 +167,6 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.label).toEqual('Changed Label');
   });
 
-  it('should show dirty indicator on change', () => {
-    multiselect.dirtyTracker = true;
-    multiselect.value = ['opt3'];
-    expect(multiselect.dirty).toEqual({ original: 'Option Two' });
-    expect(multiselect.input.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
-  });
-
   it('should be able to reset dirty indicator', () => {
     multiselect.dirtyTracker = true;
     expect(multiselect.getAttribute('dirty-tracker')).toEqual('true');
@@ -223,41 +177,17 @@ describe('IdsMultiselect Component', () => {
   it('should be able to set value', () => {
     multiselect.value = ['opt3'];
     expect(multiselect.value).toContain('opt3');
-    expect(multiselect.input.value).toEqual('Option Three');
   });
-
-  /* it('should be able to set value with selectedIndex', () => {
-    expect(multiselect.selectedIndex).toEqual(1);
-
-    multiselect.selectedIndex = 2;
-    expect(multiselect.selectedIndex).toEqual(2);
-    expect(multiselect.value).toContain('opt3');
-    expect(multiselect.container.value).toEqual('Option Three');
-
-    multiselect.selectedIndex = 'x'; // ignored
-    expect(multiselect.selectedIndex).toEqual(2);
-    expect(multiselect.value).toContain('opt3');
-    expect(multiselect.container.value).toEqual('Option Three');
-  });
-
-  it('should ignore null / bad selectedIndex', () => {
-    expect(multiselect.selectedIndex).toEqual(1);
-    multiselect.selectedIndex = 'x'; // ignored
-    expect(multiselect.selectedIndex).toEqual(1);
-    expect(multiselect.value).toContain('opt2');
-    expect(multiselect.container.value).toEqual('Option Two');
-  }); */
 
   it('should ignore null / bad value', () => {
     multiselect.value = ['opt3'];
     expect(multiselect.value).toContain('opt3');
-    expect(multiselect.input.value).toEqual('Option Three');
 
     multiselect.value = null;
-    expect(multiselect.input.value).toEqual('Option Three');
+    expect(multiselect.value).toContain('opt3');
 
     multiselect.value = ['optx'];
-    expect(multiselect.input.value).toEqual('Option Three');
+    expect(multiselect.value).toContain('opt3');
   });
 
   it('supports opening the list with open', async () => {
@@ -328,31 +258,6 @@ describe('IdsMultiselect Component', () => {
     expect(await multiselect.querySelectorAll('ids-list-box-option').length).toEqual(59);
   });
 
-  /**
-   * TODO: this functionality will be updated for dropdown and multiselect in a new feature so is being deffered
-   */
-  /*
-  it('supports type ahead to select', async () => {
-    expect(multiselect.popup.visible).toEqual(false);
-    expect(multiselect.value).toContain('opt2');
-    await waitForTimeout(() => expect(multiselect.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
-    multiselect.triggerEvent('keydownend', multiselect, { detail: { keys: 'option thr' } });
-
-    expect(multiselect.value).toContain('opt3');
-  });
-
-  it('supports type ahead when open', async () => {
-    await waitForTimeout(() => expect(multiselect.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
-    multiselect.open();
-    multiselect.triggerEvent('keydownend', multiselect, { detail: { keys: 'option four' } });
-    const event = new KeyboardEvent('keydown', { key: 'Enter' });
-    multiselect.dispatchEvent(event);
-
-    await waitForTimeout(() => expect(multiselect.popup.visible).toEqual(false));
-    expect(multiselect.popup.visible).toEqual(false);
-    expect(multiselect.value).toContain('opt4');
-  }); */
-
   it('ignores type ahead to open when no matches', async () => {
     multiselect.triggerEvent('keydownend', multiselect, { detail: { keys: 'xxxxx' } });
 
@@ -398,51 +303,13 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.value).toContain('opt2');
   });
 
-  it('supports clicking to select on the icon', () => {
-    multiselect = createFromTemplate(`<ids-multiselect id="multiselect-5" label="Dropdown with Icons">
-    <ids-list-box>
-      <ids-list-box-option value="opt1" id="opt1">
-        <ids-icon icon="user-profile"></ids-icon>
-        <ids-checkbox label="Option One" class="justify-center"></ids-checkbox>
-      </ids-list-box-option>
-      <ids-list-box-option value="opt2" id="opt2">
-        <ids-icon icon="project"></ids-icon>
-        <ids-checkbox label="Option Two" class="justify-center"></ids-checkbox>
-      </ids-list-box-option>
-      <ids-list-box-option value="opt3" id="opt3">
-        <ids-icon icon="purchasing"></ids-icon>
-        <ids-checkbox label="Option Three" class="justify-center"></ids-checkbox>
-      </ids-list-box-option>
-      <ids-list-box-option value="opt4" id="opt4">
-        <ids-icon icon="quality"></ids-icon>
-        <ids-checkbox label="Option Four" class="justify-center"></ids-checkbox>
-      <ids-list-box-option value="opt5" id="opt5">
-        <ids-icon icon="rocket"></ids-icon>
-        <ids-checkbox label="Option Five" class="justify-center"></ids-checkbox>
-      </ids-list-box-option>
-      <ids-list-box-option value="opt6" id="opt6">
-        <ids-icon icon="roles"></ids-icon>
-        <ids-checkbox label="Option Six" class="justify-center"></ids-checkbox>
-      </ids-list-box-option>
-    </ids-list-box>
-    </ids-multiselect>`);
-    multiselect.value = ['opt2'];
-    expect(multiselect.value).toContain('opt2');
-
-    const icons = multiselect.querySelectorAll('ids-list-box-option ids-icon');
-    icons[5].click();
-    expect(multiselect.value).toContain('opt6');
-  });
-
   it('can changing language from the container', async () => {
     await container.setLanguage('de');
     await processAnimFrame();
     expect(multiselect.getAttribute('aria-description')).toEqual('Drücken Sie zum Auswählen die Nach-unten-Taste');
   });
-  /**
-   * TODO: keyboard accessibility for multi-select
-   */
-  /* it('opens on arrow down', () => {
+
+  it('opens on arrow down', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     multiselect.dispatchEvent(event);
 
@@ -464,136 +331,79 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.popup.visible).toEqual(true);
   });
 
-  it('selects on arrow up and alt key', () => {
-    multiselect.open();
-    expect(multiselect.value).toEqual('opt2');
-    let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-    multiselect.dispatchEvent(event);
-
-    event = new KeyboardEvent('keydown', { key: 'ArrowUp', altKey: true });
-    multiselect.dispatchEvent(event);
-
-    expect(multiselect.popup.visible).toEqual(false);
-    expect(multiselect.value).toEqual('opt3');
-  });
-
-  it('closes on escape without changing', () => {
-    multiselect.open();
-    expect(multiselect.value).toEqual('opt2');
-    let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-    multiselect.dispatchEvent(event);
-    multiselect.dispatchEvent(event);
-
-    event = new KeyboardEvent('keydown', { key: 'Escape' });
-    multiselect.dispatchEvent(event);
-
-    expect(multiselect.popup.visible).toEqual(false);
-    expect(multiselect.value).toEqual('opt2');
-  });
-
-  it('can not arrow up past top', () => {
-    multiselect.open();
-    const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-    multiselect.dispatchEvent(event);
-    multiselect.dispatchEvent(event);
-    multiselect.dispatchEvent(event);
-    multiselect.dispatchEvent(event);
-    multiselect.dispatchEvent(event);
-    multiselect.dispatchEvent(event);
-
-    expect(multiselect.querySelector('ids-list-box-option.is-selected').textContent).toEqual('Option Six');
-  });
-
-  it('can not arrow up to the bottom', () => {
-    multiselect.open();
-    const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
-    multiselect.dispatchEvent(event);
-    multiselect.dispatchEvent(event);
-    multiselect.dispatchEvent(event);
-    multiselect.dispatchEvent(event);
-    multiselect.dispatchEvent(event);
-    multiselect.dispatchEvent(event);
-
-    expect(multiselect.querySelector('ids-list-box-option.is-selected').textContent).toEqual('Option One');
-  });
-
-  it('can open on enter or space', () => {
-    expect(multiselect.popup.visible).toEqual(false);
+  it('opens on enter', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
     multiselect.dispatchEvent(event);
+
     expect(multiselect.popup.visible).toEqual(true);
-    multiselect.dispatchEvent(event);
-    expect(multiselect.popup.visible).toEqual(false);
   });
 
-  it('selects on enter when open', () => {
-    multiselect.open();
-    let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-    multiselect.dispatchEvent(event);
-    event = new KeyboardEvent('keydown', { key: 'Enter' });
-    multiselect.dispatchEvent(event);
-
-    expect(multiselect.popup.visible).toEqual(false);
-    expect(multiselect.value).toEqual('opt3');
+  it('should not open by clicking on label', async () => {
+    await waitForTimeout(() => expect(multiselect.labelEl).toBeTruthy());
+    expect(multiselect.labelEl).toBeTruthy();
+    multiselect.labelEl.click();
+    await waitForTimeout(() => expect(multiselect.popup.visible).toBeFalsy());
+    expect(multiselect.popup.visible).toBeFalsy();
+    multiselect.input.input.click();
+    await waitForTimeout(() => expect(multiselect.popup.visible).toBeTruthy());
+    expect(multiselect.popup.visible).toBeTruthy();
   });
 
-  it('selects on space when open', () => {
+  it('selects on space/enter when open', () => {
+    multiselect.value = [];
     multiselect.open();
-    let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-    multiselect.dispatchEvent(event);
-    event = new KeyboardEvent('keydown', { key: ' ' });
-    multiselect.dispatchEvent(event);
+    multiselect.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    multiselect.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    multiselect.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    multiselect.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
 
-    expect(multiselect.popup.visible).toEqual(false);
-    expect(multiselect.value).toEqual('opt3');
+    multiselect.close();
+    expect(multiselect.value).toEqual(['opt5']);
   });
 
-  it('selects on tab when open', () => {
-    multiselect.open();
-    let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-    multiselect.dispatchEvent(event);
-    event = new KeyboardEvent('keydown', { key: 'Tab' });
-    multiselect.dispatchEvent(event);
-    multiselect.querySelector('ids-list-box-option.is-selected').dispatchEvent(event);
-
-    expect(multiselect.popup.visible).toEqual(false);
-    expect(multiselect.value).toEqual('opt3');
-
-    multiselect.open();
-    event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-    multiselect.dispatchEvent(event);
-    event = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true });
-    multiselect.dispatchEvent(event);
-    multiselect.querySelector('ids-list-box-option.is-selected').dispatchEvent(event);
-
-    expect(multiselect.popup.visible).toEqual(false);
-    expect(multiselect.value).toEqual('opt4');
+  it('should set/unset tags attribute', () => {
+    multiselect.tags = true;
+    expect(multiselect.tags).toBeTruthy();
+    multiselect.tags = false;
+    expect(multiselect.tags).toBeFalsy();
   });
 
-  it('tab works correcty', async () => {
-    multiselect.container.focus();
-    let activeElement: any = document.activeElement;
-    expect(activeElement.id).toEqual('multiselect-1');
-    const event = new KeyboardEvent('keydown', { key: 'Tab' });
-    multiselect.dispatchEvent(event);
-
-    activeElement = document.activeElement;
-    // Not working right, not sure why?
-    expect(activeElement.id).toEqual('multiselect-1');
-  }); */
+  it('should set/unset max attribute', () => {
+    multiselect.max = 5;
+    expect(multiselect.max).toEqual(5);
+    multiselect.max = null;
+    expect(multiselect.max).toBeNaN();
+  });
 
   it('tags work correctly', async () => {
     createFromTemplate(`<ids-multiselect id="multiselect-1" tags="true" label="Tags Multiselect" dirty-tracker="true">
-    <ids-list-box>
-      <ids-list-box-option value="opt1" id="opt1"><ids-checkbox label="Option One" class="justify-center"></ids-checkbox></ids-list-box-option>
-      <ids-list-box-option value="opt2" id="opt2"><ids-checkbox label="Option Two" class="justify-center"></ids-checkbox></ids-list-box-option>
-      <ids-list-box-option value="opt3" id="opt3"><ids-checkbox label="Option Three" class="justify-center"></ids-checkbox></ids-list-box-option>
-      <ids-list-box-option value="opt4" id="opt4"><ids-checkbox label="Option Four" class="justify-center"></ids-checkbox></ids-list-box-option>
-      <ids-list-box-option value="opt5" id="opt5"><ids-checkbox label="Option Five" class="justify-center"></ids-checkbox></ids-list-box-option>
-      <ids-list-box-option value="opt6" id="opt6"><ids-checkbox label="Option Six" class="justify-center"></ids-checkbox></ids-list-box-option>
-    </ids-list-box>
+      <ids-list-box>
+        <ids-list-box-option value="opt1"><ids-checkbox label="Option One" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option value="opt2"><ids-checkbox label="Option Two" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option value="opt3" id="opt3"><ids-checkbox label="Option Three" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option value="opt4" id="opt4"><ids-checkbox label="Option Four" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option value="opt5" id="opt5"><ids-checkbox label="Option Five" class="justify-center"></ids-checkbox></ids-list-box-option>
+        <ids-list-box-option value="opt6" id="opt6"><ids-checkbox label="Option Six" class="justify-center"></ids-checkbox></ids-list-box-option>
+      </ids-list-box>
     </ids-multiselect>`);
     multiselect.value = ['opt1'];
     expect(multiselect.input.querySelectorAll('ids-tag').length).toEqual(1);
+
+    multiselect.input.querySelector('ids-icon')?.dispatchEvent(new MouseEvent('click'));
+    expect(multiselect.value).toEqual([]);
+
+    multiselect.value = ['opt1'];
+    multiselect.disabled = true;
+    multiselect.value = ['opt1', 'opt2'];
+
+    expect([...multiselect.input.querySelectorAll('ids-tag')].every((item) => item.hasAttribute('disabled'))).toBeTruthy();
+
+    multiselect.disabled = false;
+    multiselect.value = [];
+    multiselect.open();
+
+    multiselect.querySelector('ids-list-box-option')?.click();
+
+    expect(multiselect.value).toEqual(['opt1']);
   });
 });
