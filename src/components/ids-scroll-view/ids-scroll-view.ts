@@ -1,8 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import renderLoop from '../ids-render-loop/ids-render-loop-global';
-import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
+import { requestAnimationTimeout, clearAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
+import type { FrameRequestLoopHandler } from '../../utils/ids-timer-utils/ids-timer-utils';
+
 import Base from './ids-scroll-view-base';
 
 import styles from './ids-scroll-view.scss';
@@ -107,20 +108,33 @@ export default class IdsScrollView extends Base {
   }
 
   /**
+   * Stored animation timeout handler
+   */
+  #timer?: FrameRequestLoopHandler;
+
+  /**
+   * Clears a stored animation timeout if one was previously set
+   */
+  #clearTimer(): void {
+    if (this.#timer) {
+      clearAnimationTimeout(this.timer);
+      this.#timer = undefined;
+    }
+  }
+
+  /**
    * Mark a flag as interacting with mouse/keyboard vs swiping
    * @private
    */
   #resetIsClick() {
     this.isClick = true;
-    /* istanbul ignore next */
-    this.timer = renderLoop.register(new IdsRenderLoopItem({
-      duration: 800,
-      timeoutCallback: () => {
-        this.isClick = false;
-        this.timer?.destroy(true);
-        this.timer = null;
-      }
-    }));
+
+    this.#clearTimer();
+    this.#timer = requestAnimationTimeout(() => {
+      this.isClick = false;
+      this.timer?.destroy(true);
+      this.timer = null;
+    }, 800);
   }
 
   /**
