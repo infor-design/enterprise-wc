@@ -1,37 +1,48 @@
 @import '../../core/ids-base';
 
-::slotted(.options) {
-  border-top: 1px solid #b7b7ba;
-  padding-top: 4px;
-  margin-bottom: 0;
-}
-
 .ids-checkbox {
-  margin-bottom: 0;
+  @include mb-0();
 }
 
 ids-trigger-field {
   ids-tag {
-    display: flex;
-    align-self: center;
-    margin-top: 4px;
-    margin-left: 4px;
+    @include flex();
+    @include self-center();
+    @include mt-4();
+    @include ml-4();
+
+    &[disabled]::part(tag) {
+      @include cursor-default();
+    }
   }
 }
 
 :host([tags='true']) {
-  ids-trigger-field {
-    &::part(content-area) {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      max-width: inherit;
-      max-height: 120px;
-      overflow-y: auto;
-    }
+  .has-value {
+    ids-trigger-field {
+      &::part(content-area) {
+        @include w-full();
+        @include flex();
 
-    &::part(input) {
-      flex: 1;
+        flex-wrap: wrap;
+        max-width: inherit;
+      }
+
+      &::part(input) {
+        @include p-0();
+
+        flex: 1;
+      }
+    }
+  }
+}
+
+:host([tags='true']:not([disabled])) {
+  .has-value {
+    ids-trigger-field {
+      &::part(field-container) {
+        @include cursor-pointer();
+      }
     }
   }
 }
