@@ -1,6 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { IdsConstructor } from '../../core/ids-element';
-import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 export interface ColorVariantMixinInterface extends HTMLElement {
   set colorVariant(value: string | null);
@@ -64,7 +64,7 @@ const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class ext
   set colorVariant(val: string | null) {
     let safeValue: any = null;
     if (typeof val === 'string') {
-      safeValue = stripTags(val, '');
+      safeValue = stripHTML(val);
     }
 
     const currentValue = this.state.colorVariant;

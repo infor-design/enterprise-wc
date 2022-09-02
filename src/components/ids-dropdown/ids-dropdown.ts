@@ -12,15 +12,18 @@ import '../ids-icon/ids-icon';
 
 import styles from './ids-dropdown.scss';
 
-type IdsListBoxOption = {
+export type IdsDropdownOption = {
   id?: string,
   label: string,
   value: string,
-  icon?: string;
-  groupLabel?: boolean
+  icon?: string,
+  groupLabel?: boolean,
+  // ids-multiselect shared
+  selected?: boolean,
+  index?: number
 };
 
-type IdsListBoxOptions = Array<IdsListBoxOption>;
+export type IdsDropdownOptions = Array<IdsDropdownOption>;
 
 /**
  * IDS Dropdown Component
@@ -90,7 +93,9 @@ export default class IdsDropdown extends Base {
     ];
   }
 
-  #optionsData: IdsListBoxOptions = [];
+  #optionsData: IdsDropdownOptions = [];
+
+  #isMultiSelect: boolean = this.nodeName === 'IDS-MULTISELECT';
 
   /**
    * List of available color variants for this component
@@ -215,7 +220,7 @@ export default class IdsDropdown extends Base {
     this.setAttribute('aria-expanded', 'true');
 
     // Add aria for the open state
-    const selected = this.selectedOption || this.querySelector('ids-list-box-option');
+    const selected = this.selectedOption || this.querySelector('ids-list-box-option:not([group-label])');
     this.listBox?.setAttribute('tabindex', '0');
 
     if (selected && this.value) {
@@ -257,7 +262,7 @@ export default class IdsDropdown extends Base {
     if (!elem && !this.clearable) {
       return;
     }
-    this.#clearSelected();
+    this.clearSelected();
     this.selectOption(elem);
     this.selectIcon(elem);
     this.selectTooltip(elem);
@@ -406,6 +411,8 @@ export default class IdsDropdown extends Base {
    * @private
    */
   selectOption(option: HTMLElement) {
+    if (!this.popup?.visible) return;
+
     option?.setAttribute('aria-selected', 'true');
     option?.classList.add('is-selected');
     option?.setAttribute('tabindex', '0');
@@ -472,7 +479,7 @@ export default class IdsDropdown extends Base {
   /**
    * Remove the aria and state from the currently selected element
    */
-  #clearSelected() {
+  clearSelected() {
     const option = this.querySelector('ids-list-box-option[aria-selected]');
 
     this.deselectOption(option);
@@ -551,18 +558,16 @@ export default class IdsDropdown extends Base {
 
   /**
    * Populate the DOM with the dataset
-   * @param {IdsListBoxOptions} dataset The dataset to use with value, label ect...
+   * @param {IdsDropdownOptions} dataset The dataset to use with value, label ect...
    * @private
    */
-  #loadDataSet(dataset: IdsListBoxOptions) {
+  #loadDataSet(dataset: IdsDropdownOptions) {
     let html = '';
-    // ids-multiselect shared
-    this.querySelector('ids-list-box.selected-options')?.remove();
 
     const listbox = this.querySelector('ids-list-box');
     listbox.innerHTML = '';
 
-    dataset.forEach((option: IdsListBoxOption) => {
+    dataset.forEach((option: IdsDropdownOption) => {
       html += this.#templatelistBoxOption(this.#sanitizeOption(option));
     });
     listbox.insertAdjacentHTML('afterbegin', html);
@@ -589,12 +594,7 @@ export default class IdsDropdown extends Base {
    * @returns {void}
    */
   onOutsideClick(e: any): void {
-    if (!this.typeahead) {
-      this.close(true);
-    }
-
-    if (this.typeahead
-      && !(e.composedPath()?.includes(this.popup)
+    if (!(e.composedPath()?.includes(this.popup)
       || e.composedPath()?.includes(this.input.fieldContainer))) {
       this.close(true);
     }
@@ -624,9 +624,6 @@ export default class IdsDropdown extends Base {
       this.input.value = initialValue || '';
       this.#loadDataSet(this.#optionsData);
       (window.getSelection() as Selection).removeAllRanges();
-    }
-
-    if (this.typeahead) {
       this.#triggerIconChange('dropdown');
     }
 
@@ -684,9 +681,7 @@ export default class IdsDropdown extends Base {
         this.value = e.target.closest('ids-list-box-option').getAttribute('value');
       }
 
-      if (this.typeahead) {
-        this.close();
-      }
+      this.close();
     });
 
     this.offEvent('click.dropdown-input');
@@ -748,7 +743,9 @@ export default class IdsDropdown extends Base {
       const prev = selected?.previousElementSibling;
 
       if (e.key === 'ArrowUp' && e.altKey) {
-        this.value = selected?.getAttribute(attributes.VALUE) || '';
+        if (!this.#isMultiSelect) {
+          this.value = selected?.getAttribute(attributes.VALUE) || '';
+        }
         this.close();
         return;
       }
@@ -780,21 +777,22 @@ export default class IdsDropdown extends Base {
       this.close();
     });
 
-    // Select or Open on space/enter
-    this.listen([' ', 'Enter'], this, (e: KeyboardEvent) => {
-      // Excluding space key when typing
-      if (e.key === ' ' && this.typeahead) return;
+    if (!this.#isMultiSelect) {
+      // Select or Open on space/enter
+      this.listen([' ', 'Enter'], this, (e: KeyboardEvent) => {
+        // Excluding space key when typing
+        if (e.key === ' ' && this.typeahead) return;
 
-      if (!this.popup.visible) {
-        this.open(this.typeahead);
-        return;
-      }
+        if (!this.popup.visible) {
+          this.open(this.typeahead);
+          return;
+        }
 
-      const value = this.selected?.getAttribute(attributes.VALUE) || '';
-      // ids-multiselect shared
-      (this.value as any) = Array.isArray(this.value) ? [...this.value, value] : value;
-      this.close();
-    });
+        const value = this.selected?.getAttribute(attributes.VALUE) || '';
+        this.value = value;
+        this.close();
+      });
+    }
 
     // Select on Tab
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
@@ -819,7 +817,7 @@ export default class IdsDropdown extends Base {
         this.value = 'blank';
       } else {
         // ids-multiselect shared
-        (this.value as any) = Array.isArray(this.value) ? [] : '';
+        (this.value as any) = this.#isMultiSelect ? [] : '';
         this.input.value = '';
       }
 
@@ -849,7 +847,7 @@ export default class IdsDropdown extends Base {
 
     const inputValue: string = this.input.value;
     const resultsArr = this.#findMatches(inputValue);
-    const results = resultsArr.map((item: IdsListBoxOption) => {
+    const results = resultsArr.map((item: IdsDropdownOption) => {
       const regex = new RegExp(inputValue, 'gi');
       const optionText = item.groupLabel ? item.label : item.label?.replace(
         regex,
@@ -891,7 +889,7 @@ export default class IdsDropdown extends Base {
    * Select first no blank with value option
    */
   #selectFirstOption() {
-    this.#clearSelected();
+    this.clearSelected();
 
     if (this.options.length > 0) {
       const firstWithValue = [...this.options].filter((item) => {
@@ -907,10 +905,10 @@ export default class IdsDropdown extends Base {
 
   /**
    * Create the list box option template.
-   * @param {IdsListBoxOption} option id, value, label object
+   * @param {IdsDropdownOption} option data object
    * @returns {string} ids-list-box-option template
    */
-  #templatelistBoxOption(option: IdsListBoxOption): string {
+  #templatelistBoxOption(option: IdsDropdownOption): string {
     return `<ids-list-box-option
       ${option.id ? `id=${option.id}` : ''}
       ${option.value ? `value="${option.value}"` : ''}
@@ -936,12 +934,12 @@ export default class IdsDropdown extends Base {
   /**
    * Helper to get group option for given option index in the options list
    * @param {number} optionIndex option index in the options list
-   * @returns {IdsListBoxOption | undefined} group label for given option index
+   * @returns {IdsDropdownOption | undefined} group label for given option index
    */
-  #getGroupLabelOption(optionIndex: number): IdsListBoxOption | undefined {
+  #getGroupLabelOption(optionIndex: number): IdsDropdownOption | undefined {
     // Get group labels indexes in the all options list
     const groupLabels: Array<number> = this.#optionsData.reduce(
-      (result: Array<number>, option: IdsListBoxOption, index: number) => {
+      (result: Array<number>, option: IdsDropdownOption, index: number) => {
         if (option?.groupLabel) {
           return [...result, index];
         }
@@ -958,17 +956,17 @@ export default class IdsDropdown extends Base {
   /**
    * Find matches between the input value and the dataset
    * @param {string | RegExp} inputValue value of the input field
-   * @returns {IdsListBoxOptions} containing matched values
+   * @returns {IdsDropdownOptions} containing matched values
    */
-  #findMatches(inputValue: string | RegExp): IdsListBoxOptions {
-    return this.#optionsData.reduce((options: Array<IdsListBoxOption>, option: IdsListBoxOption, index: number) => {
+  #findMatches(inputValue: string | RegExp): IdsDropdownOptions {
+    return this.#optionsData.reduce((options: Array<IdsDropdownOption>, option: IdsDropdownOption, index: number) => {
       const regex = new RegExp(inputValue, 'gi');
 
       if (option.label?.match(regex) && !option.groupLabel) {
         const groupLabelOption = this.#getGroupLabelOption(index);
         // Check if group label option is already added to the list
         const groupLabelAdded = options.some(
-          (item: IdsListBoxOption) => item.label === groupLabelOption?.label
+          (item: IdsDropdownOption) => item.label === groupLabelOption?.label
         );
 
         if (groupLabelOption && !groupLabelAdded) {
@@ -995,7 +993,7 @@ export default class IdsDropdown extends Base {
     }));
   }
 
-  #sanitizeOption(option: IdsListBoxOption): IdsListBoxOption {
+  #sanitizeOption(option: IdsDropdownOption): IdsDropdownOption {
     return ({
       ...option,
       id: this.xssSanitize(option.id),

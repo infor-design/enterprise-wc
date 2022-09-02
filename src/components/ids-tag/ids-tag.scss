@@ -207,3 +207,51 @@
 .ids-tag[mode='contrast'] ::slotted(ids-icon:hover) {
   @include text-black();
 }
+
+// Multiselect tag
+:host(.multiselect-tag) {
+  .ids-tag {
+    @include border-slate-30();
+    @include bg-white();
+    @include text-slate-100();
+  }
+
+  .ids-tag[mode='dark'] {
+    @include bg-slate-70();
+    @include border-slate-50();
+    @include text-white();
+  }
+
+  .ids-tag[mode='contrast'] {
+    @include bg-white();
+    @include text-black();
+    @include border-slate-60();
+  }
+
+  .ids-tag[mode='dark'] ::slotted(ids-icon),
+  .ids-tag[mode='contrast'] ::slotted(ids-icon) {
+    color: inherit;
+  }
+}
+
+:host([disabled].multiselect-tag) {
+  .ids-tag {
+    @include border-transparent();
+    @include bg-slate-20();
+    @include text-slate-50();
+
+    pointer-events: none;
+  }
+
+  .ids-tag[mode='dark'] {
+    @include border-transparent();
+    @include text-slate-50();
+    @include bg-graphite-20();
+  }
+
+  .ids-tag[mode='contrast'] {
+    @include bg-graphite-20();
+    @include border-slate-60();
+    @include text-slate-50();
+  }
+}

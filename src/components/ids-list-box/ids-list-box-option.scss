@@ -21,26 +21,25 @@
   white-space: nowrap;
 }
 
-:host(.is-selected) {
+:host(.multiselect-option) {
+  @include flex();
+
+  ::slotted(ids-icon) {
+    @include m-0();
+    @include ml-8();
+  }
+}
+
+:host(.is-selected:not(.multiselect-option)) {
   @include bg-azure-60();
   @include text-white();
 }
 
-:host(.multiselect-option.is-selected) {
-  @include bg-white();
-  @include text-black();
-}
-
-:host(.multiselect-option.is-selected:focus) {
-  @include bg-slate-20();
-}
-
-:host(.multiselect-option.is-selected:hover) {
-  @include bg-slate-20();
-}
-
-:host(:hover:not(.is-selected):not([group-label])),
-:host(.is-focused) {
+:host(:hover:not(.is-selected):not([group-label]):not(.multiselect-option)),
+:host(.is-focused),
+:host(.multiselect-option:focus),
+:host(.multiselect-option.is-selected),
+:host(.multiselect-option:hover) {
   @include bg-slate-20();
 }
 
@@ -59,17 +58,23 @@
   @include text-white();
 }
 
-:host([mode='dark']:hover:not(.is-selected)) {
+:host([mode='dark']:hover:not(.is-selected)),
+:host([mode='dark'].multiselect-option:focus),
+:host([mode='dark'].multiselect-option.is-selected),
+:host([mode='dark'].multiselect-option:hover) {
   @include bg-slate-80();
 }
 
 // Handle Contrast Theme
-:host([mode='contrast'].is-selected) {
+:host([mode='contrast'].is-selected:not(.multiselect-option)) {
   @include bg-azure-100();
   @include text-white();
 }
 
-:host([mode='contrast']:hover:not(.is-selected)) {
+:host([mode='contrast']:hover:not(.is-selected)),
+:host([mode='contrast'].multiselect-option:focus),
+:host([mode='contrast'].multiselect-option.is-selected),
+:host([mode='contrast'].multiselect-option:hover) {
   @include bg-slate-20();
 }
 
@@ -97,15 +102,18 @@
   @include text-slate-100();
 }
 
-:host([group-label]:not(:first-child)) {
+:host([group-label]:not(:first-child)),
+:host(.multiselect-border) {
   border-top: 1px solid var(--ids-color-palette-slate-30);
   margin-top: 5px;
 }
 
-:host([mode='dark'][group-label]:not(:first-child)) {
+:host([mode='dark'][group-label]:not(:first-child)),
+:host([mode='dark'].multiselect-border) {
   border-top: 1px solid var(--ids-color-palette-slate-50);
 }
 
-:host([mode='contrast'][group-label]:not(:first-child)) {
+:host([mode='contrast'][group-label]:not(:first-child)),
+:host([mode='contrast'].multiselect-border) {
   border-top: 1px solid var(--ids-color-palette-slate-60);
 }

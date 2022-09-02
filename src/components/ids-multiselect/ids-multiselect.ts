@@ -8,7 +8,9 @@ import '../ids-tag/ids-tag';
 
 // Import Sass to be encapsulated in the component shadowRoot
 import styles from './ids-multiselect.scss';
-import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, stringToNumber, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
+
+import type { IdsDropdownOption, IdsDropdownOptions } from '../ids-dropdown/ids-dropdown';
 
 /**
  * IDS Multiselect Component
@@ -21,11 +23,8 @@ import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-s
 @customElement('ids-multiselect')
 @scss(styles)
 class IdsMultiselect extends Base {
-  #selectedList:Array<any>;
-
   constructor() {
     super();
-    this.#selectedList = [];
   }
 
   /**
@@ -33,9 +32,15 @@ class IdsMultiselect extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.#populateSelected();
     this.resetDirtyTracker();
+    this.#attachKeyboardListeners();
+    this.#setOptionsData();
+    this.#populateSelected();
   }
+
+  #selectedList: Array<string> = [];
+
+  #optionsData: IdsDropdownOptions = [];
 
   /**
    * Return the attributes we handle as getters and setters
@@ -54,8 +59,8 @@ class IdsMultiselect extends Base {
    * @param {string|boolean} value string value from the disabled attribute
    */
   set disabled(value) {
-    if (this.tag) {
-      this.querySelectorAll('ids-tag').forEach((element:HTMLElement) => {
+    if (this.tags) {
+      this.input?.querySelectorAll('ids-tag')?.forEach((element: HTMLElement) => {
         element.setAttribute('disabled', 'true');
       });
     }
@@ -81,6 +86,7 @@ class IdsMultiselect extends Base {
       if (valueSafe) {
         this.setAttribute(attributes.TAGS, 'true');
       } else {
+        this.offEvent('beforetagremove.multiselect-tag');
         this.setAttribute(attributes.TAGS, 'false');
       }
     }
@@ -126,7 +132,7 @@ class IdsMultiselect extends Base {
     if (!value) {
       return;
     }
-    value.forEach((selectedValue:string) => {
+    value.forEach((selectedValue: string) => {
       const existingOption = this.querySelector(`ids-list-box-option[value="${selectedValue}"]`);
       if (!existingOption) {
         matched = false;
@@ -139,7 +145,7 @@ class IdsMultiselect extends Base {
 
     this.container.value = '';
     this.#updateDisplay();
-    this.#updateList(value.length > 0);
+    this.#updateList();
 
     // Send the change event
     if (this.value === value) {
@@ -152,6 +158,8 @@ class IdsMultiselect extends Base {
       });
     }
     this.#selectedList = value;
+
+    this.container.classList.toggle('has-value', value.length > 0);
   }
 
   /**
@@ -160,18 +168,31 @@ class IdsMultiselect extends Base {
    */
   get value() { return this.#selectedList; }
 
+  /**
+   * Rewriting dropdown click events
+   */
   attachClickEvent() {
-    this.offEvent('click');
-    this.onEvent('click', this, (e: any) => {
-      this.#handleOptionClick(e);
+    this.offEvent('click.multiselect-list-box');
+    this.onEvent('click.multiselect-list-box', this.listBox, (e: any) => {
+      e.preventDefault();
+      const option = e.target.nodeName === 'IDS-LIST-BOX-OPTION'
+        || e.target.closest('ids-list-box-option')
+        ? e.target.closest('ids-list-box-option') ?? e.target
+        : null;
+      this.#optionChecked(option);
     });
 
-    this.onEvent('click', this.input.fieldContainer, () => {
-      this.toggle();
+    this.offEvent('click.multiselect-input');
+    this.onEvent('click.multiselect-input', this.input.fieldContainer, (e: any) => {
+      // Don't open/close popup on tag removal
+      if (!e.target?.closest('ids-tag')) {
+        this.toggle();
+      }
     });
 
     // Should not open if clicked on label
-    this.onEvent('click', this.labelEl, (e: MouseEvent) => {
+    this.offEvent('click.multiselect-label');
+    this.onEvent('click.multiselect-label', this.labelEl, (e: MouseEvent) => {
       e.preventDefault();
       this.input.focus();
     });
@@ -179,124 +200,228 @@ class IdsMultiselect extends Base {
     this.offEvent('click.multiselect-trigger');
     this.onEvent('click.multiselect-trigger', this.trigger, (e: MouseEvent) => {
       e.stopPropagation();
-      // Acts as value clearer if the x button is activated
-      if (this.trigger.dataset.clearable) {
-        this.value = [];
-        this.#updateList(false);
-        this.close();
-      } else {
-        this.toggle();
-      }
+
+      this.toggle();
     });
 
     if (this.tags) {
-      this.onEvent('beforetagremove', this.input, (e:any) => {
+      this.offEvent('beforetagremove.multiselect-tag');
+      this.onEvent('beforetagremove.multiselect-tag', this.input, (e:any) => {
         this.#handleTagRemove(e);
       });
     }
   }
 
-  #handleTagRemove(e:any) {
-    const removedSelection = this.#selectedList.indexOf(e.target.closest('ids-tag').id);
-    if (removedSelection > -1) {
-      this.#selectedList.splice(removedSelection, 1);
-    }
-    this.#updateList(false);
-  }
-
-  #handleOptionClick(e:any) {
-    e.preventDefault();
-    if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
-      const targetOption = e.target;
-      if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
-        this.#selectedList = this.#selectedList.filter((item) => item !== targetOption.getAttribute('value'));
-        this.selectOption(targetOption);
-        this.#updateDisplay();
-        this.#updateList(false);
-      } else if (this.max !== this.value.length) {
-        this.#selectedList.push(e.target.getAttribute('value'));
-        this.selectOption(targetOption);
-        this.#updateDisplay();
-        this.#updateList(true);
+  /**
+   * Establish Internal Keyboard shortcuts
+   * @returns {object} This API object for chaining
+   */
+  #attachKeyboardListeners() {
+    this.listen([' ', 'Enter'], this, () => {
+      if (!this.popup.visible) {
+        this.open();
         return;
       }
-    }
 
-    if (e.target.closest('ids-list-box-option')) {
-      const targetOption = e.target.closest('ids-list-box-option');
-      if (this.#selectedList.find((value) => value === targetOption.getAttribute('value'))) {
-        this.#selectedList = this.#selectedList.filter((item) => item !== targetOption.getAttribute('value'));
-        this.selectOption(targetOption);
-        this.#updateDisplay();
-        this.#updateList(false);
-      } else if (this.max !== this.value.length) {
-        this.#selectedList.push(targetOption.getAttribute('value'));
-        this.selectOption(targetOption);
-        this.#updateDisplay();
-        this.#updateList(true);
-      }
-    }
+      this.#optionChecked(this.selected);
+    });
+
+    return this;
   }
 
-  #updateDisplay() {
-    let newValue = '';
-    if (this.tags) {
-      this.input.querySelectorAll('ids-tag').forEach((item: HTMLElement) => { item.remove(); });
+  /**
+   * Close the dropdown popup
+   * Rewriting it to add multiselect value update
+   * @param {boolean} noFocus if true do not focus on close
+   */
+  close(noFocus?: boolean) {
+    if (this.popup) {
+      this.popup.visible = false;
+      this.input.active = false;
     }
-    this.#selectedList.forEach((selectedValue: string, index: number) => {
-      const matchedElem = this.querySelector(`ids-list-box-option[value="${selectedValue}"]`);
+
+    this.setAttribute('aria-expanded', 'false');
+    this.listBox?.removeAttribute('tabindex');
+
+    if (this.selected) {
+      this.deselectOption(this.selected);
+    }
+
+    this.removeOpenEvents();
+
+    if (!noFocus) {
+      this.input.focus();
+    }
+
+    this.value = this.#selectedList;
+
+    this.container.classList.remove('is-open');
+  }
+
+  /**
+   * Triggers when dismissible tag is removed
+   * @param {MouseEvent} e click event
+   */
+  #handleTagRemove(e:any) {
+    this.value = this.#selectedList.filter((value: string) => value !== e.target?.dataset.value);
+    this.popup?.place();
+  }
+
+  /**
+   * Check option checkbox and update selected list
+   * @param {HTMLElement} option selected ids-list-box-option element
+   */
+  #optionChecked(option: any) {
+    if (!option || option?.hasAttribute(attributes.GROUP_LABEL)) return;
+
+    const value = option.getAttribute('value');
+    const isSelected = this.#selectedList.some((item) => value === item);
+    const checkbox = option.querySelector('ids-checkbox');
+    const canSelect = this.max !== this.value.length;
+
+    if (isSelected || canSelect) {
+      this.#selectedList = isSelected
+        ? this.#selectedList.filter((item) => item !== value)
+        : [...this.#selectedList, value];
+
+      if (checkbox) {
+        checkbox.checked = !isSelected;
+      }
 
       if (this.tags) {
-        const disabled = this.disabled ? `disabled="true"` : ``;
-        this.input.insertAdjacentHTML('afterbegin', `<ids-tag id="${selectedValue}" dismissible="true" ${disabled}>${matchedElem.querySelector('ids-checkbox').label}</ids-tag>`);
-      } else {
-        if (index > 0) {
-          newValue += ', ';
-        }
-        newValue += matchedElem.querySelector('ids-checkbox').label;
+        this.#updateDisplay();
+        this.popup?.place();
       }
-    });
+
+      this.container.classList.toggle('has-value', this.#selectedList.length > 0);
+    }
+
+    this.clearSelected();
+    this.selectOption(option);
+  }
+
+  /**
+   * Update value in the input visually
+   */
+  #updateDisplay() {
+    const selected = this.#optionsData.filter((item: IdsDropdownOption) => this.#selectedList.includes(item.value));
+
+    if (this.tags) {
+      // Clear tags before rerender
+      this.input.querySelectorAll('ids-tag').forEach((item: HTMLElement) => { item.remove(); });
+
+      const tags = selected.map((item: any) => {
+        const disabled = this.disabled ? ` disabled="true"` : ``;
+
+        return `<ids-tag
+          class="multiselect-tag"
+          data-value="${item.value}"
+          dismissible="true"
+          ${disabled}
+        >${item.label}</ids-tag>`;
+      }).join('');
+      this.input.insertAdjacentHTML('afterbegin', tags);
+    }
+
+    const newValue = selected.map((item: IdsDropdownOption) => item.label).join(', ');
+
     this.input.value = newValue;
   }
 
-  #updateList(addItem:boolean) {
-    const selectedOptions: Array<any> = this.querySelectorAll('.selected-options ids-list-box-option');
-    let unselectedOptions: Array<any>;
-    const optionsContainer = this.querySelector('.options');
-    let selectedOptionsContainer = this.querySelector('.selected-options');
-    if (addItem) {
-      if (!selectedOptionsContainer) {
-        this.insertAdjacentHTML('afterbegin', `<ids-list-box class="selected-options">
-        </ids-list-box>`);
-        selectedOptionsContainer = this.querySelector('.selected-options');
-      }
-      unselectedOptions = this.querySelectorAll('ids-list-box.options ids-list-box-option');
-      unselectedOptions.forEach((option) => {
-        if (this.#selectedList.includes(option.getAttribute('value'))) {
-          selectedOptionsContainer
-            .insertBefore(option, selectedOptionsContainer.children[selectedOptionsContainer.children.length]);
-          option.querySelector('ids-checkbox').checked = true;
-        }
-      });
-    } else {
-      selectedOptions.forEach((option) => {
-        if (!this.#selectedList.includes(option.getAttribute('value'))) {
-          option.querySelector('ids-checkbox').checked = 'false';
-          option.classList.remove('.is-selected');
-          optionsContainer.insertBefore(option, optionsContainer.children[optionsContainer.children.length]);
-        }
-      });
-    }
+  /**
+   * Render dropdown list with selected options on top
+   */
+  #updateList() {
+    if (!this.listBox) return;
+
+    const selected = this.#optionsData.filter((item: IdsDropdownOption) => this.#selectedList.includes(item.value))
+      .map((item: IdsDropdownOption) => ({
+        ...item,
+        selected: true
+      }));
+    const options = this.#optionsData.filter((item: IdsDropdownOption) => !this.#selectedList.includes(item.value))
+      .map((item: any, index: number) => ({
+        ...item,
+        border: index === 0 && selected.length !== 0,
+        selected: false
+      }))
+      .sort((first, second) => (first.index as number) - (second.index as number));
+
+    this.listBox.innerHTML = '';
+
+    const html = [...selected, ...options]
+      // Exclude empty groups
+      .filter((option: IdsDropdownOption, index: number, list: IdsDropdownOptions) => {
+        const emptyGroup = option.groupLabel && (list[index + 1]?.groupLabel || !list[index + 1]);
+
+        return !emptyGroup;
+      })
+      .map((option: IdsDropdownOption) => this.#templatelistBoxOption(option))
+      .join('');
+    this.listBox.insertAdjacentHTML('afterbegin', html);
   }
 
+  /**
+   * Create the list box option template.
+   * @param {IdsDropdownOption} option id, value, label object
+   * @returns {string} ids-list-box-option template
+   */
+  #templatelistBoxOption(option: IdsDropdownOption): string {
+    const classAttr: string = buildClassAttrib(
+      !option.groupLabel && 'multiselect-option',
+      (option as any).border && 'multiselect-border'
+    );
+
+    return `
+      <ids-list-box-option
+        ${classAttr}
+        ${option.id ? `id=${option.id}` : ''}
+        ${option.value ? `value="${option.value}"` : ''}
+        ${option.groupLabel ? 'group-label' : ''}
+      >${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${!option.groupLabel ? `
+        <ids-checkbox
+          no-margin
+          class="justify-center multiselect-checkbox"
+          label="${option.label}"
+          checked="${option.selected}"
+        ></ids-checkbox>
+      ` : option.label}</ids-list-box-option>`;
+  }
+
+  /**
+   * Update options list on the component mount with classes/attributes
+   */
   #populateSelected() {
-    this.options.forEach((element: any) => {
-      if (element.querySelector('ids-checkbox').checked) {
-        this.#selectedList.push(element.getAttribute('value'));
-        this.#updateDisplay();
-        this.#updateList(true);
+    this.options.forEach((item: any) => {
+      const checkbox = item.querySelector('ids-checkbox');
+
+      if (item.hasAttribute('selected')) {
+        this.#selectedList.push(item.getAttribute('value'));
+        if (checkbox) {
+          checkbox.checked = true;
+        }
       }
+      checkbox?.setAttribute('no-margin', '');
+      checkbox?.classList.add('justify-center', 'multiselect-checkbox');
+      item.classList.add('multiselect-option');
     });
+
+    this.value = this.#selectedList;
+  }
+
+  /**
+   * Map slotted ids-list-box-option elements to the dataset
+   */
+  #setOptionsData() {
+    this.#optionsData = [...this.options].map((item, index) => ({
+      id: item?.id,
+      label: item?.textContent?.trim() || item?.querySelector('ids-checkbox')?.label,
+      value: item?.getAttribute(attributes.VALUE),
+      groupLabel: item?.hasAttribute(attributes.GROUP_LABEL),
+      selected: item?.hasAttribute('selected'),
+      icon: item?.querySelector('ids-icon')?.icon,
+      index
+    }));
   }
 }
 

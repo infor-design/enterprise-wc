@@ -53,6 +53,7 @@ export default class IdsButton extends Base {
     const isIconButton = this.button?.classList.contains('ids-icon-button');
     this.setupRipple(this.button as HTMLButtonElement, isIconButton ? 35 : 50);
     this.setIconAlignment();
+    this.refreshProtoClasses();
   }
 
   /**
@@ -366,8 +367,7 @@ export default class IdsButton extends Base {
    * @param {string | null} iconName The icon name to check
    * @private
    */
-  appendIcon(iconName: string | null) {
-    // First look specifically for an icon slot.
+  appendIcon(iconName: string) {
     const icon = this.querySelector<IdsIcon>(`ids-icon`); // @TODO check for dropdown/expander icons here
 
     if (icon) {

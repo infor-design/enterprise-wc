@@ -149,6 +149,8 @@ export default class IdsModal extends Base {
   set fullsize(val: IdsModalFullsizeAttributeValue) {
     const current = this.state.fullsize;
     const makeFullsize = (doFullsize: boolean) => {
+      if (!this.popup) return;
+
       this.popup.classList[doFullsize ? 'add' : 'remove'](attributes.FULLSIZE);
       this.popup.width = doFullsize ? '100%' : '';
       this.popup.height = doFullsize ? '100%' : '';
@@ -164,7 +166,7 @@ export default class IdsModal extends Base {
         case 'always':
           this.#clearBreakpointResponse();
           this.state.fullsize = 'always';
-          this.popup.classList.add(`can-fullsize`);
+          this.popup?.classList.add(`can-fullsize`);
           makeFullsize(true);
           break;
         case null:
@@ -173,14 +175,14 @@ export default class IdsModal extends Base {
           this.state.fullsize = '';
           this.#clearBreakpointResponse();
           this.removeAttribute(attributes.FULLSIZE);
-          this.popup.classList.remove('can-fullsize');
+          this.popup?.classList.remove('can-fullsize');
           makeFullsize(false);
           break;
         default:
           if (Object.keys(breakpoints).includes(safeVal)) {
             this.state.fullsize = safeVal;
             this.setAttribute(attributes.FULLSIZE, safeVal);
-            this.popup.classList.add(`can-fullsize`);
+            this.popup?.classList.add(`can-fullsize`);
             this.respondDown = safeVal;
             this.onBreakpointDownResponse = (detectedBreakpoint: string, matches: boolean) => {
               makeFullsize(matches);
@@ -524,6 +526,7 @@ export default class IdsModal extends Base {
    * @returns {void}
    */
   #refreshOverlay(val: boolean): void {
+    if (!this.shadowRoot) return;
     let overlay;
 
     if (!val) {
@@ -533,7 +536,7 @@ export default class IdsModal extends Base {
       this.popupOpenEventsTarget = this.overlay;
     } else {
       overlay = this.shadowRoot.querySelector('ids-overlay');
-      overlay.remove();
+      if (overlay) overlay.remove();
     }
   }
 

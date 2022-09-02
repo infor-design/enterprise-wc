@@ -11,3 +11,9 @@
   - link: clearable.html
     type: Example
     description: Showing multiselect with clearable functionality
+  - link: groups.html
+    type: Example
+    description: Showing a multiselect with grouping functionality
+  - link: side-by-side.html
+    type: Side by Side
+    description: Shows multiselect side by side with a 4.x multiselect
