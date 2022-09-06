@@ -339,13 +339,21 @@ export default class IdsSpinbox extends Base {
    * @param {number | string} value spinbox' input value
    */
   set value(value) {
+    if (`${value}`.trim() === '-') {
+      this.input.value = '';
+      return;
+    }
+
+    const wasEmpty = super.value === '';
     const safeValue = `${parseInt(value)}`;
-    if (super.value !== safeValue) {
+
+    if (safeValue !== 'NaN' && super.value !== safeValue) {
       super.value = this.#setValueWithinLimits(safeValue);
 
       // set properties/updaters
       this.setAttribute(htmlAttributes.ARIA_VALUENOW, super.value);
       this.#updateDisabledButtonStates();
+      if (wasEmpty && !!this.validate) this.checkValidation();
     }
   }
 

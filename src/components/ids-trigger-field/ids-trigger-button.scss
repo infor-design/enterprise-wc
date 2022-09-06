@@ -30,6 +30,37 @@
     &.ids-icon-button {
       @include p-0();
     }
+
+    // ===================================================
+    // Field Heights
+
+    &.field-height-xs,
+    &.field-height-xs.compact {
+      height: $input-field-height-xs - 2px;
+      width: $input-field-height-xs - 2px;
+    }
+
+    &.field-height-sm {
+      height: $input-field-height-sm - 2px;
+      width: $input-field-height-sm - 2px;
+    }
+
+    &.field-height-md {
+      height: $input-field-height-md - 2px;
+      width: $input-field-height-md - 2px;
+    }
+
+    &.field-height-lg {
+      height: $input-field-height-lg - 2px;
+      width: $input-field-height-lg - 2px;
+    }
+
+    &.compact,
+    &.field-height-sm.compact,
+    &.field-height-md.compact,
+    &.field-height-lg.compact {
+      height: $input-field-height-xs;
+    }
   }
 
   &.inline-end {
@@ -38,38 +69,6 @@
 
   &.inline-start {
     border-inline-end: 1px solid;
-  }
-
-  // ===================================================
-  // Field Heights
-
-  &.field-height-xs {
-    &.style-inline {
-      height: $input-field-height-xs - 2px;
-      width: $input-field-height-xs - 2px;
-    }
-  }
-
-  &.field-height-sm {
-    &.style-inline {
-      height: $input-field-height-sm - 2px;
-      width: $input-field-height-sm - 2px;
-    }
-  }
-
-  &.field-height-md,
-  &.compact {
-    &.style-inline {
-      height: $input-field-height-md - 2px;
-      width: $input-field-height-md - 2px;
-    }
-  }
-
-  &.field-height-lg {
-    &.style-inline {
-      height: $input-field-height-lg - 2px;
-      width: $input-field-height-lg - 2px;
-    }
   }
 
   &.color-variant-alternate-formatter {
