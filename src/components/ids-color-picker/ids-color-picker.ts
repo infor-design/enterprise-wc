@@ -175,7 +175,7 @@ export default class IdsColorPicker extends Base {
         <input
           class="color-input"
           tabindex="-1"
-          type="color"
+          type="text"
           ${!this.advanced || this.disabled || this.readonly ? 'disabled="true"' : ''}
         />
         <ids-text audible="true" translate-text="true">ColorPickerSelection</ids-text>
