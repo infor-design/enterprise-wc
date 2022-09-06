@@ -532,7 +532,21 @@ export default class IdsLookup extends Base {
 
     this.onEvent('change.lookup', this.triggerField, () => {
       const tfValue = this.triggerField.value;
-      if (tfValue !== this.value) this.#syncSelectedRows(tfValue);
+      let isSynced = tfValue !== this.value;
+      if (!isSynced) {
+        const selected = this.dataGrid?.selectedRows?.map((d: any) => d?.data?.[this.field]) || [];
+        const values = this.value?.split(this.delimiter) || [];
+        if (selected.length !== values.length) isSynced = true;
+        if (!isSynced) {
+          for (let i = 0, l = values.length; i < l; i++) {
+            if (!selected.includes(values[i])) {
+              isSynced = true;
+              break;
+            }
+          }
+        }
+      }
+      if (isSynced) this.#syncSelectedRows(tfValue);
     });
 
     this.modal.addEventListener('beforeshow', (e: CustomEvent) => {
