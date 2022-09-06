@@ -40,6 +40,10 @@ const dismissTimeout = 200;
 @customElement('ids-modal')
 @scss(styles)
 export default class IdsModal extends Base {
+  shouldUpdate = false;
+
+  globalKeydownListener?: (e: KeyboardEvent) => void;
+
   constructor() {
     super();
 
@@ -73,7 +77,7 @@ export default class IdsModal extends Base {
     this.popup.animationStyle = 'scale-in';
 
     // Update ARIA / Sets up the label
-    this.messageTitle = this.querySelector('[slot="title"]')?.textContent;
+    this.messageTitle = this.querySelector('[slot="title"]')?.textContent ?? '';
     this.setAttribute('role', 'dialog');
     this.refreshAriaLabel();
 
@@ -184,7 +188,7 @@ export default class IdsModal extends Base {
             this.setAttribute(attributes.FULLSIZE, safeVal);
             this.popup?.classList.add(`can-fullsize`);
             this.respondDown = safeVal;
-            this.onBreakpointDownResponse = (detectedBreakpoint: string, matches: boolean) => {
+            this.onBreakpointDownResponse = (breakpoint: keyof Breakpoints, matches: boolean) => {
               makeFullsize(matches);
             };
           }
@@ -199,7 +203,7 @@ export default class IdsModal extends Base {
    */
   #clearBreakpointResponse(): void {
     if (this.respondDown) {
-      this.respondDown = undefined;
+      this.respondDown = null;
     }
     if (this.onBreakpointDownResponse) {
       this.onBreakpointDownResponse = undefined;
@@ -286,7 +290,7 @@ export default class IdsModal extends Base {
       // If one is found, replace the contents.  Otherwise, create one.
       if (!titleEls.length) {
         this.insertAdjacentHTML('afterbegin', `<ids-text slot="title" type="h2" font-size="24">${this.state.messageTitle}</ids-text>`);
-        titleEls = [this.querySelector('[slot="title"]')];
+        titleEls = [this.querySelector('[slot="title"]') as HTMLSlotElement];
       }
     }
 
@@ -327,9 +331,9 @@ export default class IdsModal extends Base {
     const footerEl = this.container.querySelector('.ids-modal-footer');
 
     if (this.buttons.length) {
-      footerEl.removeAttribute('hidden');
+      footerEl?.removeAttribute('hidden');
     } else {
-      footerEl.setAttribute('hidden', '');
+      footerEl?.setAttribute('hidden', '');
     }
   }
 
@@ -390,7 +394,7 @@ export default class IdsModal extends Base {
     }
 
     // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
-    this.style.zIndex = zCounter.increment();
+    this.style.zIndex = zCounter.increment().toString();
     if (this.overlay) this.overlay.visible = true;
     if (this.popup) {
       this.popup.visible = true;
@@ -514,7 +518,7 @@ export default class IdsModal extends Base {
    */
   removeOpenEvents(): void {
     super.removeOpenEvents();
-    document.removeEventListener('keydown', this.globalKeydownListener);
+    if (this.globalKeydownListener) document.removeEventListener('keydown', this.globalKeydownListener);
     this.unlisten('Escape');
     this.offEvent('click.buttons');
   }
@@ -531,7 +535,8 @@ export default class IdsModal extends Base {
 
     if (!val) {
       overlay = new IdsOverlay();
-      overlay.part = 'overlay';
+      // TODO - what does this do
+      // overlay.part = 'overlay';
       this.shadowRoot.prepend(overlay);
       this.popupOpenEventsTarget = this.overlay;
     } else {
@@ -558,7 +563,7 @@ export default class IdsModal extends Base {
    */
   #setTargetFocus(): void {
     if (this.target) {
-      this.target.focus();
+      (this.target as HTMLElement).focus();
     }
   }
 
@@ -566,7 +571,7 @@ export default class IdsModal extends Base {
    * @property {Function} onDOMContentLoaded runs calculation-sensitive routines when the entire DOM has loaded
    */
   #onDOMContentLoaded = () => {
-    this.visible = this.getAttribute('visible');
+    this.visible = !!this.getAttribute('visible');
     if (this.visible) {
       // Fixes a Chrome Bug where time staggering is needed for focus to occur
       const timeoutCallback = () => {
@@ -584,16 +589,16 @@ export default class IdsModal extends Base {
    * @private
    */
   attachEventHandlers(): void {
-    const titleSlot = this.container.querySelector('slot[name="title"]');
-    const buttonSlot = this.container.querySelector('slot[name="buttons"]');
+    const titleSlot = this.container?.querySelector<HTMLSlotElement>('slot[name="title"]');
+    const buttonSlot = this.container?.querySelector<HTMLSlotElement>('slot[name="buttons"]');
 
     // Stagger these one frame to prevent them from occuring
     // immediately when the component invokes
     window.requestAnimationFrame(() => {
       this.onEvent('slotchange.title', titleSlot, () => {
-        const titleNodes = titleSlot.assignedNodes();
-        if (titleNodes.length) {
-          this.messageTitle = titleNodes[0].textContent;
+        const titleNodes = titleSlot?.assignedNodes();
+        if (titleNodes?.length) {
+          this.messageTitle = titleNodes[0].textContent ?? '';
         }
       });
       this.onEvent('slotchange.buttonset', buttonSlot, () => {
@@ -617,8 +622,8 @@ export default class IdsModal extends Base {
    */
   handleButtonClick(e: any): void {
     const timeoutCallback = () => {
-      if (typeof this.onButtonClick === 'function') {
-        this.onButtonClick(e.target);
+      if (typeof (this as any).onButtonClick === 'function') {
+        (this as any).onButtonClick(e.target);
       }
       // If this IdsModalButton has a `cancel` prop, treat
       // it as a `cancel` button and hide.
