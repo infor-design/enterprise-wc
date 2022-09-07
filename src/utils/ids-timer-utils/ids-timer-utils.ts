@@ -8,11 +8,11 @@ export type FrameRequestLoopHandler = {
 /**
  * Behaves similarly to `setInterval`, using `requestAnimationFrame()` where possible for better performance
  * @param {FrameRequestCallback} fn The callback function
- * @param {number} delay The delay in milliseconds
+ * @param {number} interval The delay in milliseconds
  * @returns {number} loop handle
  */
-export function requestAnimationInterval(fn: FrameRequestCallback, delay: number): FrameRequestLoopHandler {
-  if (!RAF) return { value: setTimeout(fn, delay) };
+export function requestAnimationInterval(fn: FrameRequestCallback, interval: number): FrameRequestLoopHandler {
+  if (!RAF) return { value: setInterval(fn, interval) };
 
   let start = new Date().getTime();
   const handle: FrameRequestLoopHandler = {};
@@ -21,7 +21,7 @@ export function requestAnimationInterval(fn: FrameRequestCallback, delay: number
     const current = new Date().getTime();
     const delta = current - start;
 
-    if (delta >= delay) {
+    if (delta >= interval) {
       fn(current);
       start = new Date().getTime();
     }
@@ -47,11 +47,11 @@ export function clearAnimationInterval(handle: FrameRequestLoopHandler) {
 /**
  * Behaves similarly to `setTimeout`, using `requestAnimationFrame()` where possible for better performance
  * @param {FrameRequestCallback} fn The callback function
- * @param {number} delay The delay in milliseconds
+ * @param {number} timeout The timeout delay in milliseconds
  * @returns {number} loop handle
  */
-export function requestAnimationTimeout(fn: FrameRequestCallback, delay: number): FrameRequestLoopHandler {
-  if (!RAF) return { value: setTimeout(fn, delay) };
+export function requestAnimationTimeout(fn: FrameRequestCallback, timeout: number): FrameRequestLoopHandler {
+  if (!RAF) return { value: setTimeout(fn, timeout) };
 
   const start = new Date().getTime();
   const handle: FrameRequestLoopHandler = {};
@@ -60,7 +60,7 @@ export function requestAnimationTimeout(fn: FrameRequestCallback, delay: number)
     const current = new Date().getTime();
     const delta = current - start;
 
-    if (delta >= delay) fn(current);
+    if (delta >= timeout) fn(current);
     else handle.value = RAF(loop);
   };
 
