@@ -28,7 +28,10 @@ export default class IdsScrollView extends Base {
   }
 
   static get attributes() {
-    return [attributes.MODE];
+    return [
+      ...super.attributes,
+      attributes.MODE
+    ];
   }
 
   /**
@@ -39,6 +42,11 @@ export default class IdsScrollView extends Base {
     this.controls = this.shadowRoot.querySelector('.ids-scroll-view-controls');
     this.#renderButtons();
     this.#attachEventHandlers();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.#clearTimer();
   }
 
   /**
@@ -132,8 +140,7 @@ export default class IdsScrollView extends Base {
     this.#clearTimer();
     this.#timer = requestAnimationTimeout(() => {
       this.isClick = false;
-      this.timer?.destroy(true);
-      this.timer = null;
+      this.#clearTimer();
     }, 800);
   }
 
