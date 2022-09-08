@@ -603,17 +603,18 @@ export default class IdsModal extends Base {
    * @param {any} e the original event object
    */
   handleButtonClick(e: any): void {
-    requestAnimationTimeout(() => {
+    this.onEvent('rippleend', e.target, () => {
       if (typeof this.onButtonClick === 'function') {
         this.onButtonClick(e.target);
       }
+
       // If this IdsModalButton has a `cancel` prop, treat
       // it as a `cancel` button and hide.
       const modalBtn = e.target.closest('ids-modal-button');
       if (modalBtn?.cancel) {
         this.hide();
       }
-    }, 200);
+    });
   }
 
   /**

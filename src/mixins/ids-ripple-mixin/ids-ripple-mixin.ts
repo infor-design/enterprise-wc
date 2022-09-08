@@ -45,6 +45,12 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
     super.connectedCallback?.();
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.removeRipples();
+    this.#removeRippleListeners();
+  }
+
   /**
    * @public
    * @param {HTMLElement} rippleTarget Element containing ripple, default to component container
@@ -55,6 +61,14 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
     this.rippleTarget = rippleTarget || this.container;
     this.rippleRadius = rippleRadius || this.rippleRadius;
     this.#attachRippleListeners();
+  }
+
+  removeRipples(): void {
+    const rippleTarget = this.rippleTarget;
+    const otherRippleEls = rippleTarget?.querySelectorAll('.ripple-effect');
+    otherRippleEls?.forEach((rippleEl) => {
+      rippleEl.remove();
+    });
   }
 
   /**
@@ -134,6 +148,21 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
 
     rippleTarget?.classList.remove('is-rippling');
     rippleEl.remove();
+    this.#triggerRippleEndEvent(rippleEl);
+  }
+
+  /**
+   * Dispatches a `rippleend` event on the host element that can notify parent Web Components
+   * that a ripple animation has completed.
+   * @param {HTMLElement} rippleEl reference to the removed ripple element
+   * @returns {void}
+   */
+  #triggerRippleEndEvent(rippleEl: HTMLElement) {
+    this.triggerEvent('rippleend', this, {
+      detail: {
+        element: rippleEl
+      }
+    });
   }
 
   /**
