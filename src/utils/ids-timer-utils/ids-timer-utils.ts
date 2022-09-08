@@ -78,3 +78,33 @@ export function clearAnimationTimeout(handle: FrameRequestLoopHandler) {
     else CAF(handle.value);
   }
 }
+
+/**
+ * Fakes a "timeout" using a CSS transition on an invisible element
+ * @param {number} timeout the transition duration in ms
+ * @returns {Promise<void>} resolved when the CSS transition completes
+ */
+export const cssAnimationTimeout = async (timeout: number): Promise<void> => new Promise((resolve) => {
+  const el = document.createElement('div');
+  el.classList.add('ids-animation-timer');
+  el.style.setProperty('display', 'block');
+  el.style.setProperty('position', 'absolute');
+  el.style.setProperty('visibility', 'hidden');
+  el.style.setProperty('pointer-events', 'none');
+  el.style.setProperty('width', '0');
+  el.style.setProperty('transition-property', 'width');
+  el.style.setProperty('transition-timing-function', 'linear');
+  el.style.setProperty('transition-duration', `${timeout}ms`);
+  document.body.append(el);
+
+  const onTransitionEnd = () => {
+    el.removeEventListener('transitionend', onTransitionEnd);
+    el.remove();
+    resolve();
+  };
+
+  el.addEventListener('transitionend', onTransitionEnd);
+
+  el.offsetHeight; // eslint-disable-line
+  el.style.setProperty('width', '100%');
+});
