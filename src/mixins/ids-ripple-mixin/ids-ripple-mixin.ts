@@ -1,7 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { requestAnimationTimeout, clearAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
-import type { FrameRequestLoopHandler } from '../../utils/ids-timer-utils/ids-timer-utils';
+import { waitForAnimationEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 const IdsRippleMixin = (superclass: any) => class extends superclass {
   // HTMLElement containing ripple, typically component container
@@ -9,9 +8,6 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
 
   // Radius of ripple, defaults to 50
   rippleRadius = 50;
-
-  // Timeout for end of ripple effect
-  rippleTimeout?: FrameRequestLoopHandler;
 
   constructor() {
     super();
@@ -113,15 +109,10 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
    * @param {number} y the Y coordinate
    * @returns {void}
    */
-  createRipple(x: number | undefined, y: number | undefined) {
+  async createRipple(x: number | undefined, y: number | undefined) {
     if (this.noRipple || this.disabled) return;
 
-    // Remove pre-existing ripples
     const rippleTarget = this.rippleTarget;
-    const otherRippleEls = rippleTarget?.querySelectorAll('.ripple-effect');
-    otherRippleEls?.forEach((rippleEl) => {
-      rippleEl.remove();
-    });
 
     // Create ripple element
     const rippleEl = document.createElement('span');
@@ -139,16 +130,10 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
     rippleEl.style.top = `${btnOffsets.y}px`;
     rippleEl.classList.add('animating');
 
-    // Remove pre-existing ripple timeouts
-    if (this.rippleTimeout) {
-      clearAnimationTimeout(this.rippleTimeout);
-    }
+    await waitForAnimationEnd(rippleEl, 'ripple-animation');
 
-    // After a short time, remove the ripple effect
-    this.rippleTimeout = requestAnimationTimeout(() => {
-      rippleTarget?.classList.remove('is-rippling');
-      rippleEl.remove();
-    }, 1200);
+    rippleTarget?.classList.remove('is-rippling');
+    rippleEl.remove();
   }
 
   /**
