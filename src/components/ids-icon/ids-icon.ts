@@ -5,6 +5,7 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { sizes } from './ids-icon-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-icon-base';
 import styles from './ids-icon.scss';
@@ -56,7 +57,7 @@ export default class IdsIcon extends Base {
    */
   #attachEventHandlers() {
     this.offEvent('languagechange.icon-container');
-    this.onEvent('languagechange.icon-container', this.closest('ids-container'), () => {
+    this.onEvent('languagechange.icon-container', getClosest(this, 'ids-container'), () => {
       if (this.isMirrored(this.icon)) {
         this.container?.classList.add('mirrored');
       } else {
