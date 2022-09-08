@@ -1,4 +1,3 @@
-import { version } from './ids-attributes';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../mixins/ids-events-mixin/ids-events-mixin';
 import styles from './ids-element.scss';
@@ -22,9 +21,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   /** Component's name */
   name?: string;
 
-  /** Ids Version No */
-  IdsVersion?: string;
-
   /** State object for current states */
   state?: Record<string, unknown> | null;
 
@@ -35,7 +31,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   #addBaseName() {
     // Add the base class and version
     this.name = this.nodeName?.toLowerCase();
-    this.IdsVersion = version;
   }
 
   /**
@@ -72,10 +67,11 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    * in a component you can just call super.
    */
   disconnectedCallback() {
-    delete this.cssStyles;
-    delete this.popupOpenEventsTarget;
-    // TODO: Can this be added
-    // delete this.state;
+    super.disconnectedCallback();
+    this.cssStyles = null;
+    this.popupOpenEventsTarget = null;
+    this.state = null;
+    this.container = null;
   }
 
   /**

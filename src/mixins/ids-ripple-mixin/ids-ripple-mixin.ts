@@ -5,7 +5,7 @@ import type { FrameRequestLoopHandler } from '../../utils/ids-timer-utils/ids-ti
 
 const IdsRippleMixin = (superclass: any) => class extends superclass {
   // HTMLElement containing ripple, typically component container
-  rippleTarget?: HTMLElement;
+  rippleTarget?: HTMLElement | null;
 
   // Radius of ripple, defaults to 50
   rippleRadius = 50;
@@ -47,6 +47,11 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
 
   connectedCallback() {
     super.connectedCallback?.();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.rippleTarget = null;
   }
 
   /**

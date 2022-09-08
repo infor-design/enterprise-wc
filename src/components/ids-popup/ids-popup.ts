@@ -611,7 +611,7 @@ export default class IdsPopup extends Base {
   #containingElem: IdsPopupElementRef = document.body;
 
   /**
-   * @param {HdsPopupElementRef} val an element that will appear to "contain" the Popup
+   * @param {IdsPopupElementRef} val an element that will appear to "contain" the Popup
    */
   set containingElem(val: IdsPopupElementRef) {
     if (!(val instanceof HTMLElement || val instanceof SVGElement)) {

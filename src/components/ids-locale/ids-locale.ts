@@ -15,9 +15,6 @@ class IdsLocale {
   // State object
   state?: any;
 
-  // Holds a reference to the document
-  html?: HTMLHtmlElement | null;
-
   // Holds a single instance of Intl
   dateFormatter?: Intl.DateTimeFormat;
 
@@ -110,8 +107,7 @@ class IdsLocale {
     const lang = this.correctLanguage(value);
     if (this.state.language !== lang) {
       this.state.language = lang;
-      this.html = document.querySelector('html');
-      this.html?.setAttribute('lang', lang);
+      document.querySelector('html')?.setAttribute('lang', lang);
     }
 
     if (this.state.language === lang && this.loadedLanguages.get(this.state.language)) {
@@ -1249,7 +1245,6 @@ class IdsLocale {
     this.loadedLocales = null;
     this.loadedLanguages = null;
     this.state = null;
-    this.html = null;
     this.dateFormatter = undefined;
   }
 }
