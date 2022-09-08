@@ -227,10 +227,27 @@ describe('IdsLookup Component', () => {
   });
 
   it('should be able to set clearable', () => {
-    lookup.clearable = true;
-    lookup.value = 'x';
-    lookup.triggerClearButton.click();
+    lookup.value = '102';
+    expect(lookup.value).toEqual('102');
+    expect(lookup.triggerField.value).toEqual('102');
+    let clearableBtn = lookup.triggerField.container.querySelector('[part="clearable-button"]');
+    expect(clearableBtn).toBeTruthy();
+    clearableBtn.click();
+    expect(lookup.value).toEqual('');
     expect(lookup.triggerField.value).toEqual('');
+
+    lookup.triggerField.value = '102,10';
+    expect(lookup.value).toEqual('102,10');
+    expect(lookup.triggerField.value).toEqual('102,10');
+
+    lookup.value = '102';
+    lookup.clearable = false;
+    clearableBtn = lookup.triggerField.container.querySelector('[part="clearable-button"]');
+    expect(clearableBtn).not.toBeTruthy();
+
+    lookup.clearable = true;
+    clearableBtn = lookup.triggerField.container.querySelector('[part="clearable-button"]');
+    expect(clearableBtn).toBeTruthy();
   });
 
   it('should open on click and close on the modal buttons', async () => {
@@ -378,7 +395,7 @@ describe('IdsLookup Component', () => {
 
   it('should be able to select two rows from the modal', async () => {
     lookup = await createMultiSelectLookup();
-    expect(lookup.value).toEqual(null);
+    expect(lookup.value).toEqual('');
     lookup.modal.visible = true;
 
     lookup.dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(1) .ids-data-grid-cell:nth-child(1)').click();
@@ -490,5 +507,68 @@ describe('IdsLookup Component', () => {
     expect(elem.getAttribute('id')).toEqual('test');
     expect(elem.getAttribute('value')).toEqual('102,103');
     expect(elem.getAttribute('dirty-tracker')).toEqual('true');
+  });
+
+  it('should render field height', () => {
+    const heights = ['xs', 'sm', 'md', 'lg'];
+    const defaultHeight = 'md';
+    const className = (h: any) => `field-height-${h}`;
+    const checkHeight = (height: any) => {
+      lookup.fieldHeight = height;
+
+      expect(lookup.input.getAttribute('field-height')).toEqual(height);
+      expect(lookup.container.classList).toContain(className(height));
+      heights.filter((h) => h !== height).forEach((h) => {
+        expect(lookup.container.classList).not.toContain(className(h));
+      });
+    };
+
+    expect(lookup.getAttribute('field-height')).toEqual(null);
+    heights.filter((h) => h !== defaultHeight).forEach((h) => {
+      expect(lookup.container.classList).not.toContain(className(h));
+    });
+
+    expect(lookup.container.classList).toContain(className(defaultHeight));
+    heights.forEach((h) => checkHeight(h));
+    lookup.removeAttribute('field-height');
+    lookup.removeAttribute('compact');
+
+    expect(lookup.getAttribute('field-height')).toEqual(null);
+    heights.filter((h) => h !== defaultHeight).forEach((h) => {
+      expect(lookup.container.classList).not.toContain(className(h));
+    });
+    lookup.onFieldHeightChange();
+
+    expect(lookup.container.classList).toContain(className(defaultHeight));
+  });
+
+  it('should set compact height', () => {
+    lookup.compact = true;
+
+    expect(lookup.hasAttribute('compact')).toBeTruthy();
+    expect(lookup.container.classList.contains('compact')).toBeTruthy();
+    lookup.compact = false;
+
+    expect(lookup.hasAttribute('compact')).toBeFalsy();
+    expect(lookup.container.classList.contains('compact')).toBeFalsy();
+  });
+
+  it('should set size', () => {
+    const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
+    const defaultSize = 'md';
+    const checkSize = (size: any) => {
+      lookup.size = size;
+
+      expect(lookup.getAttribute('size')).toEqual(size);
+      expect(lookup.input.getAttribute('size')).toEqual(size);
+    };
+
+    expect(lookup.getAttribute('size')).toEqual(null);
+    expect(lookup.input.getAttribute('size')).toEqual(defaultSize);
+    sizes.forEach((s) => checkSize(s));
+    lookup.size = null;
+
+    expect(lookup.getAttribute('size')).toEqual(null);
+    expect(lookup.input.getAttribute('size')).toEqual(defaultSize);
   });
 });
