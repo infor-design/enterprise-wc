@@ -32,6 +32,14 @@ import styles from './ids-lookup.scss';
 export default class IdsLookup extends Base {
   constructor() {
     super();
+
+    // Setup some defaults
+    this.state = {
+      ...this.state,
+      clearable: true,
+      dataGridSettings: { rowSelection: 'multiple' },
+      value: ''
+    };
   }
 
   isFormComponent = true;
@@ -44,14 +52,6 @@ export default class IdsLookup extends Base {
 
     this.triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
     this.triggerButton = this.shadowRoot?.querySelector('ids-trigger-button[part="trigger-lookup"]');
-    this.triggerClearButton = this.shadowRoot?.querySelector('ids-trigger-button[part="trigger-clearable"]');
-
-    // Setup some datagrid defaults
-    this.state = {
-      dataGridSettings: {
-        rowSelection: 'multiple'
-      }
-    };
 
     // Setup Attached Datagrid
     this.dataGrid = this.shadowRoot?.querySelector('ids-data-grid');
@@ -65,12 +65,19 @@ export default class IdsLookup extends Base {
     this.modal.target = this.triggerButton;
     this.modal.triggerType = 'click';
 
-    // Hide clear btn
-    this.triggerClearButton.container.style.display = 'none';
-
     this
       .#handleEvents()
       .#handleKeys();
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback?.();
+
+    this.dataGrid = undefined;
+    this.modal = undefined;
+    this.state = undefined;
+    this.triggerField = undefined;
+    this.triggerButton = undefined;
   }
 
   /**
@@ -81,6 +88,7 @@ export default class IdsLookup extends Base {
     return [
       ...super.attributes,
       attributes.AUTOCOMPLETE,
+      attributes.CLEARABLE,
       attributes.DISABLED,
       attributes.FIELD,
       attributes.MODE,
@@ -101,8 +109,8 @@ export default class IdsLookup extends Base {
     <ids-trigger-field
       label="${this.label}"
       part="trigger-field"
-      size="md"
       ${this.autocomplete ? ` autocomplete search-field="${this.field}"` : ''}
+      ${this.clearable ? ' clearable="true"' : ''}
       ${this.disabled ? ' disabled="true"' : ''}
       ${this.readonly ? ' readonly="true"' : ''}
       ${this.compact ? ' compact' : ''}
@@ -110,13 +118,6 @@ export default class IdsLookup extends Base {
       ${this.fieldHeight ? ` field-height="${this.fieldHeight}"` : ''}
       ${this.validate ? ` validate="${this.validate}"` : ''}
       ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
-      <ids-trigger-button
-        slot="trigger-end"
-        part="trigger-clearable"
-      >
-        <ids-text audible="true">LookupTriggerButton</ids-text>
-        <ids-icon slot="icon" icon="close" size="small" part="icon"></ids-icon>
-      </ids-trigger-button>
       <ids-trigger-button
         slot="trigger-end"
         part="trigger-lookup"
@@ -181,24 +182,25 @@ export default class IdsLookup extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string) {
-    this.setAttribute('value', value);
-    if (this.triggerField) this.triggerField.value = value;
+    if (value !== this.state.value) {
+      this.state.value = (value ?? '').toString();
+      this.setAttribute(attributes.VALUE, this.state.value);
 
-    if (value && !this.disabled && !this.readonly) this.#showClearButton();
-    else this.#hideClearButton();
-
-    if (this.value === value) {
-      // Send the change event{
-      this.triggerEvent('change', this, {
-        detail: {
-          elem: this,
-          value: this.value
+      // Update trigger field value
+      if (this.triggerField) {
+        const tfValue = this.triggerField.value;
+        if (tfValue !== this.state.value) {
+          this.triggerField.value = this.state.value;
+          this.triggerField.input.dispatchEvent(new Event('change'));
         }
-      });
+      }
+
+      // Send the change event
+      this.triggerEvent('change', this, { detail: { elem: this, value: this.state.value } });
     }
   }
 
-  get value(): string { return this.getAttribute('value'); }
+  get value(): string { return this.state.value; }
 
   onLabelChange(): void {
     if (this.input) this.input.label = this.label;
@@ -308,11 +310,7 @@ export default class IdsLookup extends Base {
    */
   set data(value: Record<string, unknown> | undefined) {
     this.dataGrid.data = value;
-
-    if (value && this.dataGrid.selectedRows.length === 0) {
-      // Sync the dataGrid selected rows
-      this.#syncSelectedRows();
-    }
+    this.#syncSelectedRows();
   }
 
   get data(): Record<string, unknown> | undefined { return this.dataGrid.data; }
@@ -320,19 +318,44 @@ export default class IdsLookup extends Base {
   /**
    * Sync the selected rows in the dataGrid
    * @private
+   * @param {string} value The value to be set
+   * @returns {void}
    */
-  #syncSelectedRows() {
-    if (!this.value) {
+  #syncSelectedRows(value: string = this.value): void {
+    // Deselect all rows, if given value is empty
+    if (value === '') {
+      if (this.dataGrid.selectedRows.length) this.dataGrid.deSelectAllRows();
+      if (this.value !== value) this.value = value;
       return;
     }
 
-    const selectedIds = this.value.split(this.delimiter);
-    for (let i = 0; i < selectedIds.length; i++) {
-      const foundIndex = this.dataGrid.data.findIndex((row: Record<string, unknown>) => row[this.field] === selectedIds[i]);
-      if (foundIndex > -1) {
-        this.dataGrid.selectRow(foundIndex);
+    // Select the rows, if not selected already for given value split with delimiter
+    const findIndex = (d: any, v: string) => (d.findIndex((r: any) => r[this.field] === v));
+    const values = value?.split(this.delimiter) || [];
+    let notFound: number[] = [];
+    values.forEach((v: string, i: number) => {
+      const dataIndex = findIndex(this.dataGrid.data, v);
+      if (dataIndex > -1) {
+        if (findIndex(this.dataGrid.selectedRows.map((d: any) => d.data), v) === -1) {
+          this.dataGrid.selectRow(dataIndex);
+        }
+      } else {
+        notFound.push(i);
       }
+    });
+    notFound.forEach((i: number) => values.splice(i, 1));
+
+    // Deselect rows, if any extra previously selected in grid
+    notFound = [];
+    if (this.dataGrid.selectedRows.length > values.length) {
+      this.dataGrid.selectedRows.forEach((d: any) => {
+        if (!values.includes(d.data[this.field])) notFound.push(d.index);
+      });
     }
+    notFound.forEach((i: number) => this.dataGrid.deSelectRow(i));
+
+    // Update the value
+    if (this.value !== value) this.value = value;
   }
 
   /**
@@ -448,6 +471,21 @@ export default class IdsLookup extends Base {
   }
 
   /**
+   * Sets the clearable x button
+   * @param {boolean|string} value If true will set to clearable
+   */
+  set clearable(value: boolean | string) {
+    const val = stringToBool(value);
+    if (val !== this.state.clearable) {
+      this.state.clearable = val;
+      this.setAttribute(attributes.CLEARABLE, val);
+      this.triggerField?.setAttribute(attributes.CLEARABLE, val);
+    }
+  }
+
+  get clearable(): boolean { return this.state.clearable; }
+
+  /**
    * Push field-height/compact to the container element
    * @param {string} val the new field height setting
    */
@@ -463,31 +501,11 @@ export default class IdsLookup extends Base {
   }
 
   /**
-   * Hide clear button when value is empty
-   */
-  #hideClearButton(): void {
-    if (this.triggerClearButton) this.triggerClearButton.container.style.display = 'none';
-  }
-
-  /**
-   * Show clear button when value is not empty
-   */
-  #showClearButton(): void {
-    if (this.triggerClearButton) this.triggerClearButton.container.style.display = 'flex';
-  }
-
-  /**
    * Set the value in the input for the selected row(s)
    * @private
    */
   #setInputValue(): void {
-    let value = '';
-    const length = this.dataGrid.selectedRows.length;
-
-    this.dataGrid.selectedRows.forEach((row: any, i: number) => {
-      value += `${row.data[this.field]}${i < length - 1 ? this.delimiter : ''}`;
-    });
-    this.value = value;
+    this.value = this.dataGrid.selectedRows.map((r: any) => r.data[this.field]).join(this.delimiter);
   }
 
   /**
@@ -496,24 +514,39 @@ export default class IdsLookup extends Base {
    * @returns {object} The object for chaining.
    */
   #handleEvents() {
-    this.onEvent('click.lookup', this.modal, (e: CustomEvent) => {
-      if ((e.target as any).getAttribute('id') === 'modal-cancel-btn') {
+    this.onEvent('click.lookup', this.modal, (e: any) => {
+      const btnId = e.target?.getAttribute('id');
+
+      // Cancel
+      if (btnId === 'modal-cancel-btn') {
         this.modal.hide();
+        this.#syncSelectedRows();
       }
-      if ((e.target as any).getAttribute('id') === 'modal-apply-btn') {
+
+      // Apply
+      if (btnId === 'modal-apply-btn') {
         this.modal.hide();
         this.#setInputValue();
       }
     });
 
     this.onEvent('change.lookup', this.triggerField, () => {
-      if (this.triggerField.value) this.#showClearButton();
-      else this.#hideClearButton();
-    });
-
-    this.onEvent('click.clearable', this.triggerClearButton, () => {
-      this.value = '';
-      this.dataGrid.deSelectAllRows();
+      const tfValue = this.triggerField.value;
+      let isSynced = tfValue !== this.value;
+      if (!isSynced) {
+        const selected = this.dataGrid?.selectedRows?.map((d: any) => d?.data?.[this.field]) || [];
+        const values = this.value?.split(this.delimiter) || [];
+        if (selected.length !== values.length) isSynced = true;
+        if (!isSynced) {
+          for (let i = 0, l = values.length; i < l; i++) {
+            if (!selected.includes(values[i])) {
+              isSynced = true;
+              break;
+            }
+          }
+        }
+      }
+      if (isSynced) this.#syncSelectedRows(tfValue);
     });
 
     this.modal.addEventListener('beforeshow', (e: CustomEvent) => {
