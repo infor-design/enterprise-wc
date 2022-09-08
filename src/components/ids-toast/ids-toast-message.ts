@@ -102,11 +102,9 @@ export default class IdsToastMessage extends Base {
    * @returns {void}
    */
   #setTimer(): void {
-    let progressBar = this.shadowRoot.querySelector('.progress-bar');
+    let progressBar = this.shadowRoot?.querySelector<HTMLElement>('.progress-bar');
     const updateProgressBar = (percentage: any) => {
-      if (progressBar) {
-        progressBar.style.width = `${percentage}%`;
-      }
+      progressBar?.style.setProperty('width', `${percentage}%`);
     };
 
     // Animation type css class
@@ -164,10 +162,7 @@ export default class IdsToastMessage extends Base {
         this.offEvent(`keyup.toast-${this.messageId}`, document);
         const options = {
           title: this.title,
-          message: this.message,
           messageId: this.messageId,
-          closeButtonLabel: this.closeButtonLabel,
-          allowLink: this.allowLink,
           audible: this.audible,
           progressBar: this.progressBar,
           timeout: this.timeout,
@@ -205,7 +200,7 @@ export default class IdsToastMessage extends Base {
 
     // Handle pause/play for toast timer
     let isPausePlay = false;
-    const updateTimer = () => this.timer[isPausePlay ? 'pause' : 'resume']();
+    const updateTimer = () => (this.timer as any)[isPausePlay ? 'pause' : 'resume']();
     const events = ['mousedown.toast', 'touchstart.toast', 'mouseup.toast', 'touchend.toast'];
     events.forEach((event) => {
       this.onEvent(event, toast, (e: MouseEvent) => {
@@ -234,7 +229,7 @@ export default class IdsToastMessage extends Base {
     });
 
     // Handle clicking the (x) close button
-    const closeButton = this.shadowRoot.querySelector('.close-button');
+    const closeButton = this.shadowRoot?.querySelector('.close-button');
     this.onEvent('click.toast', closeButton, () => this.removeToastMessage());
   }
 
@@ -279,7 +274,7 @@ export default class IdsToastMessage extends Base {
   }
 
   get timeout(): number | string {
-    const timeout = parseInt(this.getAttribute(attributes.TIMEOUT), 10);
+    const timeout = parseInt(this.getAttribute(attributes.TIMEOUT) ?? '', 10);
     return !isNaN(timeout) ? timeout : DEFAULTS.timeout; // eslint-disable-line
   }
 
@@ -287,7 +282,7 @@ export default class IdsToastMessage extends Base {
    * Set toast-id to manage each toast.
    * @param {number|string} value A toast-id use.
    */
-  set messageId(value: number | string) {
+  set messageId(value: number | string | null) {
     if (value) {
       this.setAttribute(ATTRIBUTE_MESSAGE_ID, value.toString());
     } else {
@@ -295,5 +290,7 @@ export default class IdsToastMessage extends Base {
     }
   }
 
-  get messageId(): number | string { return this.getAttribute(ATTRIBUTE_MESSAGE_ID); }
+  get messageId(): string | null {
+    return this.getAttribute(ATTRIBUTE_MESSAGE_ID);
+  }
 }

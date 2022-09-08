@@ -192,7 +192,7 @@ export default class IdsToast extends Base {
    * @returns {HTMLElement} The toast container
    */
   toastContainer(): HTMLElement {
-    let toastContainer = this.shadowRoot?.querySelector('.toast-container');
+    let toastContainer = this.shadowRoot?.querySelector<HTMLElement>('.toast-container');
 
     if (!toastContainer) {
       toastContainer = document.createElement('ids-draggable');
@@ -266,7 +266,7 @@ export default class IdsToast extends Base {
   #toast(options: any) {
     const addAttribute = (elem: any, attr: string) => {
       const key = camelCase(attr);
-      const value = { toast: this[key], opt: options[key] };
+      const value = { toast: (this as any)[key], opt: options[key] };
       if (typeof value.opt !== 'undefined' && value.opt !== null) {
         elem.setAttribute(attr, value.opt.toString());
       }
@@ -378,7 +378,7 @@ export default class IdsToast extends Base {
    * @returns {void}
    */
   #savePosition() {
-    const toastContainer = this.shadowRoot?.querySelector('.toast-container');
+    const toastContainer = this.shadowRoot?.querySelector<HTMLElement>('.toast-container');
     const transform = toastContainer?.style?.transform;
 
     if (this.#canSavePosition() && transform) {
@@ -406,14 +406,7 @@ export default class IdsToast extends Base {
    * @returns {boolean} If it can be used.
    */
   #canUseLocalStorage() {
-    let r = false;
-    this.ls = this.ls || localStorage;
-    try {
-      r = this.ls?.getItem ? true : this.ls.setError.true;
-    } catch (exception) {
-      r = false;
-    }
-    return r;
+    return !!localStorage;
   }
 
   /**
@@ -517,7 +510,9 @@ export default class IdsToast extends Base {
     }
   }
 
-  get draggable(): boolean | string { return getBoolVal(this, attributes.DRAGGABLE); }
+  get draggable(): boolean {
+    return getBoolVal(this, attributes.DRAGGABLE);
+  }
 
   /**
    * Set position of the toast container in specific place.

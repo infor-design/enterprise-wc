@@ -8,10 +8,10 @@ import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsThemeMixin(
-  IdsLocaleMixin(
-    IdsLabelStateMixin(
-      IdsValidationMixin(
-        IdsDirtyTrackerMixin(
+  IdsDirtyTrackerMixin(
+    IdsLocaleMixin(
+      IdsLabelStateMixin(
+        IdsValidationMixin(
           IdsClearableMixin(
             IdsEventsMixin(
               IdsElement

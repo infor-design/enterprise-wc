@@ -3,6 +3,12 @@ import { attributes } from '../../core/ids-attributes';
 import { IdsConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
+interface FieldHeightInterface {
+  onFieldHeightChange?(fieldHeight: string): void;
+}
+
+type Constraints = IdsConstructor<FieldHeightInterface>;
+
 // Setting defaults field-heights
 export const FIELD_HEIGHTS: any = {
   default: 'md',
@@ -14,12 +20,6 @@ export const FIELD_HEIGHTS: any = {
 
 // Returns a Field Height css class
 const getFieldHeightClass = (val: string) => `field-height-${val}`;
-
-type FieldHeightHandler = {
-  onFieldHeightChange?(fieldHeight: string): void;
-};
-
-type Constraints = IdsConstructor<FieldHeightHandler>;
 
 /**
  * Adds "field-height" and "compact" attrbutes to a component, which enables style capability in a component,
@@ -111,12 +111,8 @@ const IdsFieldHeightMixin = <T extends Constraints>(superclass: T) => class exte
     }
   }
 
-  /**
-   * Gets the fieldHeight (height) of input
-   * @returns {string} value [xs, sm, md, lg]
-   */
   get fieldHeight(): string {
-    return this.getAttribute(attributes.FIELD_HEIGHT) || FIELD_HEIGHTS.default;
+    return this.getAttribute(attributes.FIELD_HEIGHT) ?? FIELD_HEIGHTS.default;
   }
 
   /**

@@ -1,28 +1,37 @@
 import { attributes } from '../../core/ids-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import type { IdsLabelStateMode } from './ids-label-state-common';
 import { IdsLabelStateAttributes, isLabelStateValid, isLabelRequiredValid } from './ids-label-state-common';
+import { LabelStateInterface } from './ids-label-state-mixin';
+
+interface LabelStateParentInterface {
+  onLabelChange?(): void;
+  onLabelRequiredChange?(): void;
+}
+
+type Constraints = IdsConstructor<LabelStateParentInterface & LabelStateInterface>;
 
 /**
  * A mixin that will pass down Label State features to an IdsInput/IdsTriggerField inside another component's shadow root
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsLabelStateParentMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsLabelStateParentMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   connectedCallback() {
     super.connectedCallback?.();
     if (this.hasAttribute(attributes.LABEL_STATE)) {
-      this.labelState = this.getAttribute(attributes.LABEL_STATE);
+      this.labelState = this.getAttribute(attributes.LABEL_STATE) as IdsLabelStateMode;
     }
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       ...IdsLabelStateAttributes
     ];
   }
@@ -40,7 +49,9 @@ const IdsLabelStateParentMixin = (superclass: any) => class extends superclass {
     if (typeof this.onLabelChange === 'function') this.onLabelChange();
   }
 
-  get label(): string { return this.getAttribute(attributes.LABEL); }
+  get label(): string {
+    return this.getAttribute(attributes.LABEL) ?? '';
+  }
 
   /**
    * Sets the `label-state` attribute on the inner IdsDropDrown
@@ -56,7 +67,9 @@ const IdsLabelStateParentMixin = (superclass: any) => class extends superclass {
     }
   }
 
-  get labelState(): IdsLabelStateMode { return this.getAttribute(attributes.LABEL_STATE); }
+  get labelState(): IdsLabelStateMode {
+    return this.getAttribute(attributes.LABEL_STATE) as IdsLabelStateMode;
+  }
 
   /**
    * Set `label-required` attribute
@@ -65,7 +78,7 @@ const IdsLabelStateParentMixin = (superclass: any) => class extends superclass {
   set labelRequired(value: string | boolean) {
     const isValid = isLabelRequiredValid(value);
     if (isValid) {
-      this.setAttribute(attributes.LABEL_REQUIRED, isValid);
+      this.setAttribute(attributes.LABEL_REQUIRED, isValid.toString());
     } else {
       this.removeAttribute(attributes.LABEL_REQUIRED);
     }

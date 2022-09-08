@@ -1,6 +1,8 @@
+import type IdsToolbar from '../ids-toolbar';
+
 document.addEventListener('DOMContentLoaded', () => {
-  const toolbarEl = document.querySelector('#my-toolbar');
-  toolbarEl?.addEventListener('selected', (e: any) => {
+  const toolbarEl = document.querySelector<IdsToolbar>('#my-toolbar');
+  toolbarEl?.addEventListener('selected', ((e: CustomEvent) => {
     const elem = e.detail.elem;
 
     let type;
@@ -27,5 +29,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     console.info(...consoleArgs);
-  });
+  }) as EventListener);
 });

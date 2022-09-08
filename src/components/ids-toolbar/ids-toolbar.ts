@@ -10,6 +10,7 @@ import './ids-toolbar-more-actions';
 import Base from './ids-toolbar-base';
 
 import styles from './ids-toolbar.scss';
+import type IdsToolbarMoreActions from './ids-toolbar-more-actions';
 
 const FORMATTER_VARIANT = 'alternate-formatter';
 
@@ -49,7 +50,9 @@ export default class IdsToolbar extends Base {
     this.#setType(null, this.type);
     this.makeTabbable(this.detectTabbable());
 
-    if (this.padding) this.padding = this.getAttribute(attributes.PADDING);
+    if (this.hasAttribute(attributes.PADDING)) {
+      this.padding = this.getAttribute(attributes.PADDING) as string;
+    }
   }
 
   disconnectedCallback(): void {
@@ -173,7 +176,7 @@ export default class IdsToolbar extends Base {
     const trueVal = stringToBool(val);
 
     if (trueVal) {
-      this.setAttribute(attributes.DISABLED, val);
+      this.setAttribute(attributes.DISABLED, val.toString());
     } else {
       this.removeAttribute(attributes.DISABLED);
     }
@@ -205,7 +208,7 @@ export default class IdsToolbar extends Base {
    * @returns {void}
    */
   refreshOverflowedItems(): void {
-    const moreActions = this.querySelector('ids-toolbar-more-actions');
+    const moreActions = this.querySelector<IdsToolbarMoreActions>('ids-toolbar-more-actions');
     if (moreActions) {
       moreActions.refreshOverflowedItems();
     }
@@ -287,7 +290,7 @@ export default class IdsToolbar extends Base {
     const trueVal = stringToBool(val);
 
     if (trueVal) {
-      this.setAttribute(attributes.TABBABLE, val);
+      this.setAttribute(attributes.TABBABLE, trueVal.toString());
     } else {
       this.removeAttribute(attributes.TABBABLE);
     }
@@ -336,12 +339,12 @@ export default class IdsToolbar extends Base {
    * @param {string | number} value sets the padding to the container
    */
   set padding(value: string | number) {
-    if (this.container) this.container.style.paddingBottom = !value ? '' : `${value}px`;
+    this.container?.style.setProperty('padding-buttom', !value ? '' : `${value}px`);
     this.setAttribute(attributes.PADDING, value.toString());
   }
 
   get padding(): string {
-    return this.getAttribute(attributes.PADDING);
+    return this.getAttribute(attributes.PADDING) ?? '';
   }
 
   /**

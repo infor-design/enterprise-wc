@@ -1,15 +1,25 @@
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { IdsConstructor } from '../../core/ids-element';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
+import { LocaleMixinInterface } from '../ids-locale-mixin/ids-locale-mixin';
+
+export interface DirtyTrackerInterface {
+  onDirtyTrackerChange?(enabled: boolean): void;
+}
+
+type Constraints = IdsConstructor<EventsMixinInterface & DirtyTrackerInterface & LocaleMixinInterface & IdsInputInterface>;
 
 /**
  * Track changes on inputs elements and show a dirty indicator.
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsDirtyTrackerMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   connectedCallback() {
@@ -23,7 +33,7 @@ const IdsDirtyTrackerMixin = (superclass: any) => class extends superclass {
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.DIRTY_TRACKER
     ];
   }
@@ -32,11 +42,15 @@ const IdsDirtyTrackerMixin = (superclass: any) => class extends superclass {
     original: ''
   };
 
+  isDirty = false;
+
   isCheckbox = false;
 
   isEditor = false;
 
   isRadioGroup = false;
+
+  dirtyContainer?: HTMLElement | null;
 
   /**
    * Handle dirty tracker values
@@ -44,8 +58,8 @@ const IdsDirtyTrackerMixin = (superclass: any) => class extends superclass {
    */
   handleDirtyTracker() {
     this.isCheckbox = this.input?.getAttribute('type') === 'checkbox';
-    this.isEditor = this.input?.classList.contains('source-textarea');
-    this.isRadioGroup = this.input?.classList.contains('ids-radio-group');
+    this.isEditor = !!this.input?.classList.contains('source-textarea');
+    this.isRadioGroup = !!this.input?.classList.contains('ids-radio-group');
 
     if (`${this.dirtyTracker}`.toLowerCase() === 'true') {
       if (this.input) {
@@ -64,7 +78,7 @@ const IdsDirtyTrackerMixin = (superclass: any) => class extends superclass {
    * @returns {void}
    */
   appendDirtyTrackerIcon() {
-    let icon = this.shadowRoot.querySelector('.icon-dirty');
+    let icon = this.shadowRoot?.querySelector('.icon-dirty');
     if (!icon) {
       icon = document.createElement('ids-icon');
       icon.setAttribute('icon', 'dirty');
@@ -75,15 +89,15 @@ const IdsDirtyTrackerMixin = (superclass: any) => class extends superclass {
         this.labelEl?.appendChild(icon);
         this.dirtyContainer = this.labelEl;
       } else if (this.isRadioGroup) {
-        const refEl = this.shadowRoot.querySelector('slot');
+        const refEl = this.shadowRoot?.querySelector('slot');
         this.input?.insertBefore(icon, refEl);
         this.dirtyContainer = this.input;
       } else if (this.isEditor) {
-        this.dirtyContainer = this.shadowRoot.querySelector('.editor-content');
+        this.dirtyContainer = this.shadowRoot?.querySelector('.editor-content');
         this.dirtyContainer?.appendChild(icon);
       } else if (this.tagName === 'IDS-DROPDOWN' || this.tagName === 'IDS-MULTISELECT') {
-        this.dirtyContainer = this.input.fieldContainer;
-        this.dirtyContainer.prepend(icon);
+        this.dirtyContainer = this.input?.fieldContainer;
+        this.dirtyContainer?.prepend(icon);
       } else {
         this.fieldContainer?.prepend(icon);
         this.dirtyContainer = this.fieldContainer;
@@ -112,7 +126,7 @@ const IdsDirtyTrackerMixin = (superclass: any) => class extends superclass {
     let msg = this.labelEl?.querySelector('.msg-dirty');
     if (!msg) {
       msg = document.createElement('ids-text');
-      msg.setAttribute('audible', true);
+      msg.setAttribute('audible', 'true');
       msg.className = 'msg-dirty';
       msg.innerHTML = ', Modified';
       this.labelEl?.appendChild(msg);
@@ -252,7 +266,7 @@ const IdsDirtyTrackerMixin = (superclass: any) => class extends superclass {
   set dirtyTracker(value) {
     const val = stringToBool(value);
     if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val);
+      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
     } else {
       this.removeAttribute(attributes.DIRTY_TRACKER);
     }

@@ -11,8 +11,8 @@ import IdsElement from '../../core/ids-element';
 
 const Base = IdsThemeMixin(
   IdsLabelStateParentMixin(
-    IdsLocaleMixin(
-      IdsDirtyTrackerMixin(
+    IdsDirtyTrackerMixin(
+      IdsLocaleMixin(
         IdsFieldHeightMixin(
           IdsValidationInputMixin(
             IdsColorVariantMixin(

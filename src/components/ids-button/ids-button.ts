@@ -8,8 +8,8 @@ import {
 } from './ids-button-attributes';
 
 import styles from './ids-button.scss';
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsText from '../ids-text/ids-text';
+import type IdsIcon from '../ids-icon/ids-icon';
+import type IdsText from '../ids-text/ids-text';
 
 /**
  * IDS Button Component
@@ -28,7 +28,7 @@ import IdsText from '../ids-text/ids-text';
 @customElement('ids-button')
 @scss(styles)
 export default class IdsButton extends Base {
-  shouldUpdate = true;
+  shouldUpdate = false;
 
   constructor() {
     super();
@@ -44,11 +44,12 @@ export default class IdsButton extends Base {
   connectedCallback(): void {
     super.connectedCallback();
     this.#setInitialState();
+    this.shouldUpdate = true;
   }
 
   #setInitialState() {
-    if (this.hasAttribute(attributes.ICON)) this.appendIcon(this.getAttribute(attributes.ICON));
-    if (this.hasAttribute(attributes.TEXT)) this.appendText(this.getAttribute(attributes.TEXT));
+    if (this.hasAttribute(attributes.ICON)) this.appendIcon(this.getAttribute(attributes.ICON) as string);
+    if (this.hasAttribute(attributes.TEXT)) this.appendText(this.getAttribute(attributes.TEXT) as string);
 
     const isIconButton = this.button?.classList.contains('ids-icon-button');
     this.setupRipple(this.button as HTMLButtonElement, isIconButton ? 35 : 50);
@@ -154,17 +155,17 @@ export default class IdsButton extends Base {
 
   /**
    * @readonly
-   * @returns {HTMLButtonElement|undefined|null} reference to the true button element used in the Shadow Root
+   * @returns {HTMLButtonElement} reference to the true button element used in the Shadow Root
    */
-  get button(): HTMLButtonElement | undefined | null {
-    return this.shadowRoot?.querySelector<HTMLButtonElement>('button');
+  get button(): HTMLButtonElement | null {
+    return this.shadowRoot?.querySelector('button') || null;
   }
 
   /**
    * @param {Array<string>|string} val containing CSS classes that will be applied to the button
    * Strings will be split into an array and separated by whitespace.
    */
-  set cssClass(val) {
+  set cssClass(val: Array<string> | string) {
     let attr = val;
     let newCl: any[] = [];
     // @TODO replace with clone utils method
@@ -212,7 +213,6 @@ export default class IdsButton extends Base {
   set disabled(val: boolean | string) {
     const isValueTruthy = stringToBool(val);
     this.shouldUpdate = false;
-
     if (isValueTruthy) {
       this.setAttribute(attributes.DISABLED, '');
     } else {
@@ -296,10 +296,10 @@ export default class IdsButton extends Base {
 
   /**
    * Gets the current icon used on the button
-   * @returns {string | null} a defined IdsIcon's `icon` attribute, if one is present
+   * @returns {string} a defined IdsIcon's `icon` attribute, if one is present
    */
-  get icon(): string | null {
-    return this.querySelector('ids-icon')?.getAttribute('icon') || null;
+  get icon(): string | undefined | null {
+    return this.querySelector('ids-icon')?.getAttribute('icon');
   }
 
   /**
@@ -364,12 +364,11 @@ export default class IdsButton extends Base {
 
   /**
    * Check if an icon exists, and adds the icon if it's missing
-   * @param {string | null} iconName The icon name to check
+   * @param {string} iconName The icon name to check
    * @private
    */
   appendIcon(iconName: string) {
     const icon = this.querySelector<IdsIcon>(`ids-icon`); // @TODO check for dropdown/expander icons here
-
     if (icon) {
       icon.icon = iconName;
       this.setIconAlignment();
@@ -454,18 +453,16 @@ export default class IdsButton extends Base {
 
   /**
    * Check if the text slot exists, and appends it if it's missing
-   * @param {string|null} val New text contents
+   * @param {string} val New text contents
    * @private
    */
-  appendText(val: string | null) {
+  appendText(val: string) {
     const text = this.querySelector(`span:not(.audible)`);
-
     if (text) {
       text.textContent = val;
     } else {
       this.insertAdjacentHTML('afterbegin', `<span>${val}</span>`);
     }
-
     this.refreshProtoClasses();
   }
 
@@ -612,11 +609,9 @@ export default class IdsButton extends Base {
   onColorVariantRefresh(): void {
     const icons = this.querySelectorAll<IdsIcon>('ids-icon');
     const texts = this.querySelectorAll<IdsText>('ids-text');
-
     const iterator = (el: IdsIcon | IdsText) => {
       el.colorVariant = this.colorVariant;
     };
-
     [...icons, ...texts].forEach(iterator);
   }
 }

@@ -5,9 +5,7 @@ import { IdsConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
-type Constraints = IdsConstructor<EventsMixinInterface & {
-  disabled?: boolean
-}>;
+type Constraints = IdsConstructor<EventsMixinInterface>;
 
 const IdsRippleMixin = <T extends Constraints>(superclass: T) => class IdsRippleMixiner extends superclass {
   // HTMLElement containing ripple, typically component container
@@ -120,7 +118,7 @@ const IdsRippleMixin = <T extends Constraints>(superclass: T) => class IdsRipple
    * @returns {void}
    */
   createRipple(x: number | undefined, y: number | undefined) {
-    if (this.noRipple || this.disabled) return;
+    if (this.noRipple || (this as any).disabled) return;
 
     // Remove pre-existing ripples
     const rippleTarget = this.rippleTarget;
