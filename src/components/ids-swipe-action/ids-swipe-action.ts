@@ -5,7 +5,7 @@ import Base from './ids-swipe-action-base';
 
 import styles from './ids-swipe-action.scss';
 
-import { cssAnimationTimeout, requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
+import { cssAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 /**
  * IDS SwipeAction Component
