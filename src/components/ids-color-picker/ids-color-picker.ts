@@ -158,11 +158,9 @@ export default class IdsColorPicker extends Base {
 
   /**
    * Push field-height/compact to the container element and swatch
-   * @param {string} val the new field height setting
    */
-  onFieldHeightChange(val: string) {
-    if (val) this.color.size = this.#fieldSwatchSize();
-    else this.color.size = '';
+  onFieldHeightChange() {
+    this.color.size = this.#fieldSwatchSize();
   }
 
   /**

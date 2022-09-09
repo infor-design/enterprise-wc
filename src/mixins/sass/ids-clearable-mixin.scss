@@ -48,6 +48,10 @@
   }
 }
 
+.btn-clear[part='clearable-button'] [slot='icon'] {
+  padding: 2px;
+}
+
 // Handle Themes
 .ids-input[mode='dark'],
 .ids-textarea[mode='dark'] {
