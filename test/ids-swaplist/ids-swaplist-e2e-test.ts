@@ -10,6 +10,8 @@ describe('Ids Swap List e2e Tests', () => {
 
   it('should not have errors', async () => {
     await expect(page.title()).resolves.toMatch('IDS Swaplist Component');
+    const count = (await page.$$('pierce/ids-swappable-item')).length;
+    expect(count).toEqual(15);
   });
 
   it('should pass Axe accessibility tests', async () => {
