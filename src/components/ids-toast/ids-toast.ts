@@ -5,7 +5,7 @@ import Base from './ids-toast-base';
 
 import { isObject } from '../../utils/ids-object-utils/ids-object-utils';
 import { stripHTML, stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
-import { camelCase } from '../../utils/ids-string-utils/ids-string-utils';
+import { camelCase, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import {
   DEFAULTS,
@@ -38,6 +38,8 @@ import styles from './ids-toast.scss';
 @customElement('ids-toast')
 @scss(styles)
 export default class IdsToast extends Base {
+  ls?: any;
+
   constructor() {
     super();
   }
@@ -102,7 +104,7 @@ export default class IdsToast extends Base {
    * @param {string|undefined} uniqueId If undefined, will use Internal attached.
    * @returns {void}
    */
-  clearPosition(uniqueId: any) {
+  clearPosition(uniqueId?: any) {
     const clearIds = [];
     if (this.#canUseLocalStorage()) {
       const removeId = uniqueId || this.uniqueId;
@@ -173,7 +175,7 @@ export default class IdsToast extends Base {
    * @param {number} [options.timeout] The amount of time, the toast should be present on-screen.
    * @returns {void}
    */
-  show(options: any) {
+  show(options?: any) {
     const opt = isObject(options) ? options : {};
     opt.messageId = this.#messageId(opt.messageId);
     const toast = this.#toast(opt);
@@ -406,7 +408,14 @@ export default class IdsToast extends Base {
    * @returns {boolean} If it can be used.
    */
   #canUseLocalStorage() {
-    return !!localStorage;
+    let r = false;
+    this.ls = this.ls || localStorage;
+    try {
+      r = this.ls?.getItem ? true : this.ls.setError.true;
+    } catch (exception) {
+      r = false;
+    }
+    return r;
   }
 
   /**
@@ -457,44 +466,48 @@ export default class IdsToast extends Base {
    * Set to put links in the toast message.
    * @param {boolean|string} value If true, allows user to put links in the toast message.
    */
-  set allowLink(value: boolean | string) {
-    if (isBool(value)) {
-      this.setAttribute(attributes.ALLOW_LINK, value.toString());
+  set allowLink(value: boolean | string | null) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.ALLOW_LINK, '');
     } else {
       this.removeAttribute(attributes.ALLOW_LINK);
     }
   }
 
-  get allowLink(): boolean | string { return getBoolVal(this, attributes.ALLOW_LINK); }
+  get allowLink(): boolean {
+    return this.hasAttribute(attributes.ALLOW_LINK);
+  }
 
   /**
    * Set as invisible on the screen, but still read out loud by screen readers.
    * @param {boolean|string} value If true, causes the toast to be invisible on the screen.
    */
-  set audible(value: boolean | string) {
-    if (isBool(value)) {
-      this.setAttribute(attributes.AUDIBLE, value.toString());
+  set audible(value: boolean | string | null) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.AUDIBLE, '');
     } else {
       this.removeAttribute(attributes.AUDIBLE);
     }
   }
 
-  get audible(): boolean | string { return getBoolVal(this, attributes.AUDIBLE); }
+  get audible(): boolean {
+    return this.hasAttribute(attributes.AUDIBLE);
+  }
 
   /**
    * Set to destroy after complete all the toasts.
    * will remove from DOM host element.
    * @param {boolean|string} value if true, will remove from dom.
    */
-  set destroyOnComplete(value: boolean | string) {
+  set destroyOnComplete(value: boolean | string | null) {
     if (isBool(value)) {
-      this.setAttribute(ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE, value.toString());
+      this.setAttribute(ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE, (value as boolean).toString());
     } else {
       this.removeAttribute(ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE);
     }
   }
 
-  get destroyOnComplete(): boolean | string {
+  get destroyOnComplete(): boolean {
     return getBoolVal(this, ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE);
   }
 
@@ -502,16 +515,16 @@ export default class IdsToast extends Base {
    * Set user to allows drag/drop the toast container.
    * @param {boolean|string} value if true, allows the drag/drop toast container.
    */
-  set draggable(value: boolean | string) {
-    if (isBool(value)) {
-      this.setAttribute(attributes.DRAGGABLE, value.toString());
+  set draggable(value: boolean | string | null) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.DRAGGABLE, '');
     } else {
       this.removeAttribute(attributes.DRAGGABLE);
     }
   }
 
   get draggable(): boolean {
-    return getBoolVal(this, attributes.DRAGGABLE);
+    return this.hasAttribute(attributes.DRAGGABLE);
   }
 
   /**
@@ -541,9 +554,9 @@ export default class IdsToast extends Base {
    * Set toast to have a visible progress bar.
    * @param {boolean|string} value if true, will show progress with toast.
    */
-  set progressBar(value: boolean | string) {
+  set progressBar(value: boolean | string | null) {
     if (isBool(value)) {
-      this.setAttribute(attributes.PROGRESS_BAR, value.toString());
+      this.setAttribute(attributes.PROGRESS_BAR, (value as boolean).toString());
     } else {
       this.removeAttribute(attributes.PROGRESS_BAR);
     }
@@ -555,9 +568,9 @@ export default class IdsToast extends Base {
    * Set toast container to save position to local storage.
    * @param {boolean|string} value if true, will allow to save position to local storage.
    */
-  set savePosition(value: boolean | string) {
+  set savePosition(value: boolean | string | null) {
     if (isBool(value)) {
-      this.setAttribute(attributes.SAVE_POSITION, value.toString());
+      this.setAttribute(attributes.SAVE_POSITION, (value as boolean).toString());
     } else {
       this.removeAttribute(attributes.SAVE_POSITION);
     }
@@ -567,9 +580,9 @@ export default class IdsToast extends Base {
 
   /**
    * Set the amount of time, the toast should be present on-screen.
-   * @param {number|string} value The amount of time in milliseconds.
+   * @param {number|number} value The amount of time in milliseconds.
    */
-  set timeout(value: boolean | string) {
+  set timeout(value: boolean | number | string) {
     if (value) {
       this.setAttribute(attributes.TIMEOUT, value.toString());
     } else {

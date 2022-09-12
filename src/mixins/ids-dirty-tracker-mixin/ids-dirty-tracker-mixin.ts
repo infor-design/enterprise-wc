@@ -50,7 +50,7 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
 
   isRadioGroup = false;
 
-  dirtyContainer?: HTMLElement | null;
+  dirtyContainer?: HTMLElement | SVGElement | null;
 
   /**
    * Handle dirty tracker values

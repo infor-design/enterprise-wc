@@ -1,7 +1,15 @@
+import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 import { stripTags, stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import type { IdsLabelStateMode } from './ids-label-state-common';
 import { IdsLabelStateAttributes, isLabelRequiredValid } from './ids-label-state-common';
+
+export interface LabelStateInterface {
+  onLabelStateChange?(variantName: IdsLabelStateMode): void;
+}
+
+type Constraints = IdsConstructor<LabelStateInterface & IdsInputInterface>;
 
 /**
  * A mixin that will provide the container element of an IdsInputComponent with a class
@@ -9,9 +17,9 @@ import { IdsLabelStateAttributes, isLabelRequiredValid } from './ids-label-state
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsLabelStateMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsLabelStateMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
 
     if (!this.state) {
       this.state = {};
@@ -23,13 +31,13 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
   connectedCallback() {
     super.connectedCallback?.();
     if (this.hasAttribute(attributes.LABEL_STATE)) {
-      this.labelState = this.getAttribute(attributes.LABEL_STATE);
+      this.labelState = this.getAttribute(attributes.LABEL_STATE) as IdsLabelStateMode;
     }
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       ...IdsLabelStateAttributes
     ];
   }
@@ -83,7 +91,7 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
   set labelRequired(value: string | boolean) {
     const safeValue = isLabelRequiredValid(value);
     if (value !== null) {
-      this.setAttribute(attributes.LABEL_REQUIRED, safeValue);
+      this.setAttribute(attributes.LABEL_REQUIRED, safeValue.toString());
     } else {
       this.removeAttribute(attributes.LABEL_REQUIRED);
     }

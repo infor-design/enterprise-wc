@@ -3,6 +3,10 @@ import { convertPatternFromString, PLACEHOLDER_CHAR, IdsMaskOptions } from '../.
 import { dateMask, numberMask, rangeDateMask } from '../../components/ids-mask/ids-masks';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { IdsConstructor } from '../../core/ids-element';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
+import { LocaleHandler, LocaleMixinInterface } from '../ids-locale-mixin/ids-locale-mixin';
 
 const MASK_ATTRIBUTES = [
   attributes.MASK,
@@ -11,28 +15,44 @@ const MASK_ATTRIBUTES = [
   attributes.MASK_OPTIONS,
 ];
 
+type MaskState = {
+  guide: boolean;
+  keepCharacterPositions: boolean;
+  options: any,
+  previousMaskResult: string;
+  previousPlaceholder: string;
+  pipe?: any;
+  pattern?: any;
+};
+
+type Constraints = IdsConstructor<EventsMixinInterface & LocaleMixinInterface & LocaleHandler & IdsInputInterface>;
+
 /**
  * Adds validation to any input field
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsMaskMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
-    this.maskState = {
-      guide: false,
-      keepCharacterPositions: false,
-      options: {},
-      previousMaskResult: '',
-      previousPlaceholder: ''
-    };
+const IdsMaskMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  maskState: MaskState = {
+    guide: false,
+    keepCharacterPositions: false,
+    options: {},
+    previousMaskResult: '',
+    previousPlaceholder: ''
+  };
+
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   /**
    * @returns {Array<string>} IdsInput component observable attributes
    */
   static get attributes() {
-    return [...super.attributes, ...MASK_ATTRIBUTES];
+    return [
+      ...(superclass as any).attributes,
+      ...MASK_ATTRIBUTES
+    ];
   }
 
   connectedCallback() {
@@ -305,7 +325,7 @@ const IdsMaskMixin = (superclass: any) => class extends superclass {
    * @param {number} endPos end position
    * @returns {void}
    */
-  safelySetSelection(host = document, startPos = 0, endPos = 0) {
+  safelySetSelection(host: ShadowRoot | Document | null = document, startPos = 0, endPos = 0) {
     if (host?.activeElement === this.input) {
       this.input.setSelectionRange(startPos, endPos, 'none');
     }

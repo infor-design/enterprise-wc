@@ -2,13 +2,9 @@ import { attributes } from '../../core/ids-attributes';
 import '../../components/ids-tooltip/ids-tooltip';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor } from '../../core/ids-element';
+import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
 
-interface InputInterface {
-  fieldContainer?: HTMLElement | SVGElement | null;
-}
-
-type Constraints = IdsConstructor<EventsMixinInterface & InputInterface>;
-
+type Constraints = IdsConstructor<EventsMixinInterface & IdsInputInterface>;
 /**
 /**
  * A mixin that adds tooltip functionality to components
@@ -106,19 +102,15 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
    * Set the tooltip to a particular string
    * @param {string} value The tooltips value
    */
-  set tooltip(value: string | null) {
+  set tooltip(value: string) {
     if (value) {
       this.setAttribute('tooltip', value);
       this.container?.setAttribute('tooltip', value);
     }
   }
 
-  /**
-   * Gets tooltip string value
-   * @returns {string} tooltip string value
-   */
-  get tooltip(): string | null {
-    return this.getAttribute('tooltip');
+  get tooltip() {
+    return this.getAttribute('tooltip') as string;
   }
 };
 

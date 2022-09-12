@@ -1,5 +1,8 @@
+import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
 import { attributes } from '../../core/ids-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 import { isObjectAndNotEmpty } from '../../utils/ids-object-utils/ids-object-utils';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
 export type IdsValidationErrorMessage = {
   /** The unique id in the check messages */
@@ -29,14 +32,18 @@ export type IdsValidationRule = {
   check: (input: HTMLElement) => boolean;
 };
 
+type Constraints = IdsConstructor<EventsMixinInterface & IdsInputInterface>;
+
 /**
  * Adds validation to any input field
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsValidationMixin = (superclass: any): any => class extends superclass {
-  constructor() {
-    super();
+const IdsValidationMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  isTypeNotValid?: any;
+
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   connectedCallback() {
@@ -46,7 +53,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
       attributes.VALIDATION_ICON,
@@ -102,7 +109,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
             const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
             radioArr.forEach((r: any) => r.input.setAttribute('required', 'required'));
           }
-          this.validationElems?.editor?.setAttribute('aria-required', true);
+          (this as any).validationElems?.editor?.setAttribute('aria-required', true);
         }
 
         /**
@@ -235,10 +242,10 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
 
     // Remove rule
     const removeRule = (id: string) => {
-      if (isValid(id) && this.rules[id] && (new RegExp(id)).test(validate)) {
+      if (isValid(id) && this.rules[id] && (new RegExp(id)).test(validate as string)) {
         isRulesRemoved = true;
         delete this.rules[id];
-        validate = validate.replace(id, '');
+        validate = validate?.replace(id, '') || null;
       }
     };
 
@@ -251,7 +258,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
 
     // Unbind rule/s
     if (isRulesRemoved) {
-      this.validate = validate.replace(/\s\s+/g, ' ').trim();
+      this.validate = validate?.replace(/\s\s+/g, ' ').trim() || null;
     }
   }
 
@@ -303,7 +310,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
     } = settings;
 
     if (!id) return;
-    let elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
+    let elem = this.shadowRoot?.querySelector(`[validation-id="${id}"]`);
     if (elem) return; // Already has this message
 
     // Add error and related details
@@ -320,7 +327,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
       cssClass += iconName ? ' has-custom-icon' : '';
     }
     cssClass += isValidationIcon ? ` ${type}` : '';
-    cssClass += this.disabled ? ' disabled' : '';
+    cssClass += (this as any).disabled ? ' disabled' : '';
     const iconHtml = iconName ? `<ids-icon icon="${iconName}" class="ids-icon"></ids-icon>` : '';
 
     // Add error message div and associated aria
@@ -328,17 +335,17 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
 
     elem.setAttribute('id', messageId);
     elem.setAttribute('validation-id', id);
-    elem.setAttribute('type', type);
+    elem.setAttribute('type', type as string);
     elem.className = cssClass;
     elem.innerHTML = `${iconHtml}<ids-text error="true" class="message-text">${audible}${message}</ids-text>`;
-    this.validationElems?.main?.classList.add(type);
-    this.fieldContainer?.classList.add(type);
+    (this as any).validationElems?.main?.classList.add(type);
+    this.fieldContainer?.classList.add(type ?? '');
     this.input?.setAttribute('aria-describedby', messageId);
     this.input?.setAttribute('aria-invalid', 'true');
 
-    const rootEl = this.shadowRoot.querySelector('.ids-input, .ids-textarea, .ids-checkbox');
+    const rootEl = this.shadowRoot?.querySelector('.ids-input, .ids-textarea, .ids-checkbox');
     const parent = rootEl || this.shadowRoot;
-    parent.appendChild(elem);
+    parent?.appendChild(elem);
 
     // Add extra classes for radios
     const isRadioGroup = this.input?.classList.contains('ids-radio-group');
@@ -377,11 +384,11 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
       }
     };
 
-    const el: any = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
+    const el: any = this.shadowRoot?.querySelector(`[validation-id="${id}"]`);
     if (el) {
       removeMsg(el);
     } else if (type && (id === null || typeof id === 'undefined')) {
-      const typeElms: any = this.shadowRoot.querySelectorAll(`.validation-message[type="${type}"]`);
+      const typeElms: any = this.shadowRoot?.querySelectorAll(`.validation-message[type="${type}"]`);
       typeElms.forEach((typeEl: any) => removeMsg(typeEl));
     }
 
@@ -399,7 +406,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
       radioArr.forEach((r: HTMLElement) => r.removeAttribute('validation-has-error'));
     }
 
-    if (type) this.validationElems?.main?.classList.remove(type);
+    if (type) (this as any).validationElems?.main?.classList.remove(type);
   }
 
   /**
@@ -407,7 +414,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
    * @returns {void}
    */
   removeAllValidationMessages() {
-    const nodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
+    const nodes = [].slice.call(this.shadowRoot?.querySelectorAll('.validation-message'));
     nodes.forEach((node: HTMLElement) => {
       const messageSettings: IdsValidationErrorMessage = {
         id: (node.getAttribute('validation-id') as string)
@@ -452,7 +459,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
      * @param {*} input element(s)
      */
     const validationEvents = (input: HTMLElement) => {
-      this.validationEventsList.forEach((eventName: Event) => {
+      this.validationEventsList.forEach((eventName: string) => {
         if (option === 'remove') {
           const handler = this.handledEvents.get(eventName);
           if (handler && handler.target === input) {
@@ -486,10 +493,10 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
         this.handleValidationEvents('remove');
         this.useRules.delete(input);
       }
-      if (!(/\brequired\b/gi.test(this.validate))) {
+      if (!(/\brequired\b/gi.test(this.validate as string))) {
         this.labelEl?.classList.remove('required');
         input.removeAttribute('aria-required');
-        this.validationElems?.editor?.removeAttribute('aria-required');
+        (this as any).validationElems?.editor?.removeAttribute('aria-required');
       }
       this.removeAllValidationMessages();
     };
@@ -681,7 +688,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
    * Return if the field is valid or not
    * @returns {boolean} true if invalid
    */
-  get isValid(): boolean { return this.shadowRoot.querySelectorAll('.validation-message').length === 0; }
+  get isValid(): boolean { return this.shadowRoot?.querySelectorAll('.validation-message').length === 0; }
 
   /**
    * Return if the current validation errors
@@ -689,7 +696,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
    */
   get validationMessages(): Array<IdsValidationErrorMessage> {
     const msgs: Array<IdsValidationErrorMessage> = [];
-    this.shadowRoot.querySelectorAll('.validation-message').forEach((message: Element) => {
+    this.shadowRoot?.querySelectorAll('.validation-message').forEach((message: Element) => {
       msgs.push({
         message: message.querySelector('ids-text')?.childNodes[1].textContent || '',
         type: message.getAttribute('type') || '',

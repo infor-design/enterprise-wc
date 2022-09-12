@@ -4,12 +4,13 @@ import '../ids-popup/ids-popup';
 import '../ids-list-box/ids-list-box';
 import '../ids-list-box/ids-list-box-option';
 import IdsDataSource from '../../core/ids-data-source';
-import { IdsConstructor, IdsInputInterface, IdsWebComponent } from '../../core/ids-interfaces';
 import { EventsMixinInterface } from '../../mixins/ids-events-mixin/ids-events-mixin';
 import { KeyboardMixinInterface } from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import { LocaleMixinInterface } from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import { IdsConstructor } from '../../core/ids-element';
+import { IdsInputInterface } from './ids-input-attributes';
 
-type Constraints = IdsConstructor<IdsWebComponent & EventsMixinInterface & IdsInputInterface & KeyboardMixinInterface
+type Constraints = IdsConstructor<EventsMixinInterface & IdsInputInterface & KeyboardMixinInterface
 & LocaleMixinInterface>;
 
 const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends superclass {
@@ -168,7 +169,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * @returns {void}
    */
   displayMatches() {
-    if (this.readonly || this.disabled) {
+    if ((this as any).readonly || (this as any).disabled) {
       return;
     }
 
