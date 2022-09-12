@@ -2,4 +2,4 @@
 
 exports[`IdsExpandableArea Component renders correctly 1`] = `"<ids-expandable-area></ids-expandable-area>"`;
 
-exports[`IdsExpandableArea Component renders correctly 2`] = `"<ids-expandable-area type=\\"toggle-btn\\"></ids-expandable-area>"`;
+exports[`IdsExpandableArea Component renders correctly 2`] = `"<ids-expandable-area type="toggle-btn"></ids-expandable-area>"`;

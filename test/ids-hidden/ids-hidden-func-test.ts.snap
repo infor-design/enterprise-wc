@@ -2,4 +2,4 @@
 
 exports[`IdsHidden Component renders correctly 1`] = `"<ids-hidden></ids-hidden>"`;
 
-exports[`IdsHidden Component renders correctly 2`] = `"<ids-hidden hide-down=\\"sm\\" visible=\\"true\\" hide-up=\\"md\\"></ids-hidden>"`;
+exports[`IdsHidden Component renders correctly 2`] = `"<ids-hidden hide-down="sm" visible="true" hide-up="md"></ids-hidden>"`;
