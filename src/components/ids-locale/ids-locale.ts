@@ -1218,7 +1218,7 @@ class IdsLocale {
    * @param {string} name the name of the calendar (fx: "gregorian", "islamic-umalqura")
    * @returns {object} containing calendar data
    */
-  calendar(locale: string, name?: string): any {
+  calendar(locale?: string, name?: string): any {
     const localeData = this.loadedLocales.get(locale || this.locale.name);
     const calendars = localeData?.calendars;
     if (name && calendars) {

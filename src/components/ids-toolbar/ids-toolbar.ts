@@ -338,13 +338,18 @@ export default class IdsToolbar extends Base {
    * If set to number the container will have padding added (in pixels)
    * @param {string | number} value sets the padding to the container
    */
-  set padding(value: string | number) {
-    this.container?.style.setProperty('padding-buttom', !value ? '' : `${value}px`);
-    this.setAttribute(attributes.PADDING, value.toString());
+  set padding(value: string | number | null) {
+    if (value !== null) {
+      this.setAttribute(attributes.PADDING, value.toString());
+      this.container?.style.setProperty('padding-bottom', `${value}px`);
+    } else {
+      this.removeAttribute(attributes.PADDING);
+      this.container?.style.removeProperty('padding-bottom');
+    }
   }
 
-  get padding(): string {
-    return this.getAttribute(attributes.PADDING) ?? '';
+  get padding(): string | null {
+    return this.getAttribute(attributes.PADDING);
   }
 
   /**

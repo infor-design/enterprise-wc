@@ -182,8 +182,8 @@ export default class IdsToolbarMoreActions extends Base {
    * @readonly
    * @returns {HTMLElement} the inner popup menu
    */
-  get menu(): IdsPopupMenu | undefined | null {
-    return this.shadowRoot?.querySelector<IdsPopupMenu>('ids-popup-menu');
+  get menu(): IdsPopupMenu | null {
+    return this.shadowRoot?.querySelector<IdsPopupMenu>('ids-popup-menu') || null;
   }
 
   /**

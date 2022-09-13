@@ -10,6 +10,7 @@ import '../ids-menu/ids-menu-group';
 import '../ids-menu/ids-menu-item';
 
 import styles from '../ids-button/ids-button.scss';
+import type IdsIcon from '../ids-icon/ids-icon';
 
 /**
  * IDS Menu Button Component
@@ -47,14 +48,6 @@ export default class IdsMenuButton extends Base {
       this.#configureDropdownIcon(true);
     }
     this.configureMenu();
-    this.attachEventHandlers();
-  }
-
-  /**
-   * @returns {void}
-   */
-  attachEventHandlers() {
-    super.attachEventHandlers?.(this);
   }
 
   /**
@@ -126,7 +119,7 @@ export default class IdsMenuButton extends Base {
    * @returns {HTMLElement|null} the decorative dropdown icon element
    */
   get dropdownIconEl() {
-    return this.container?.querySelector('ids-icon:not([slot])');
+    return this.container?.querySelector<IdsIcon>('ids-icon:not([slot])');
   }
 
   /**
@@ -263,7 +256,7 @@ export default class IdsMenuButton extends Base {
     }
 
     if (val) {
-      this.setAttribute(attributes.FORMATTER_WIDTH, value);
+      this.setAttribute(attributes.FORMATTER_WIDTH, String(value));
       this.container?.classList.add(attributes.FORMATTER_WIDTH);
       if (this.container) this.container.style.minWidth = val;
     } else {
