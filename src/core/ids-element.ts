@@ -147,7 +147,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    * @returns {string} gets the nonce from the meta tag
    */
   get nonce() {
-    this.cachedNonce = '';
     const documentElement: any = document;
     if (!documentElement.nonce) {
       const csp: any = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
