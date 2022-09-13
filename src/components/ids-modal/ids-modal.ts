@@ -495,10 +495,11 @@ export default class IdsModal extends Base {
 
     // If a Modal Button is clicked, fire an optional callback
     if (this.container) {
-      const buttonSlot = this.container.querySelector('slot[name="buttons"]');
-
-      this.onEvent('click.buttons', buttonSlot, (e: MouseEvent) => {
-        this.handleButtonClick(e);
+      this.onEvent('click.buttons', this, (e: MouseEvent) => {
+        const slot = (e.target as HTMLElement)?.getAttribute('slot');
+        if (slot === 'buttons') {
+          this.handleButtonClick(e);
+        }
       });
     }
   }

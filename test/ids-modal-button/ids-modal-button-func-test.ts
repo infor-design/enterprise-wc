@@ -57,11 +57,11 @@ describe('IdsModal Component (with buttons)', () => {
 
     // Show the Modal
     await modal.show();
-    await wait(310);
+    await wait(400);
 
     // Click the first Modal button. The above handler should fire.
     modal.buttons[1].dispatchEvent(clickEvent);
-    await wait(310);
+    await wait(400);
 
     expect(modal.visible).toBeFalsy();
   });
@@ -74,11 +74,11 @@ describe('IdsModal Component (with buttons)', () => {
 
     // Show the Modal
     await modal.show();
-    await wait(310);
+    await wait(400);
 
     // Click the first Modal button. The above handler should fire.
     modal.buttons[0].dispatchEvent(clickEvent);
-    await wait(310);
+    await wait(400);
 
     expect(modal.visible).toBeFalsy();
   });
