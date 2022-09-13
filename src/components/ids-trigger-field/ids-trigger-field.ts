@@ -234,7 +234,13 @@ export default class IdsTriggerField extends Base {
    */
   onFieldHeightChange(val: string): void {
     this.buttons.forEach((btn) => {
-      btn.fieldHeight = val;
+      if (val) {
+        const attr = val === 'compact' ? { name: 'compact', val: '' } : { name: 'field-height', val };
+        btn.setAttribute(attr.name, attr.val);
+      } else {
+        btn.removeAttribute('compact');
+        btn.removeAttribute('field-height');
+      }
     });
   }
 
