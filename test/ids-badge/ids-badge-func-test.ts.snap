@@ -2,6 +2,6 @@
 
 exports[`IdsBadge Component renders correctly 1`] = `"<ids-badge></ids-badge>"`;
 
-exports[`IdsBadge Component renders correctly 2`] = `"<ids-badge color=\\"error\\"></ids-badge>"`;
+exports[`IdsBadge Component renders correctly 2`] = `"<ids-badge color="error"></ids-badge>"`;
 
-exports[`IdsBadge Component renders correctly 3`] = `"<ids-badge color=\\"alert\\" shape=\\"round\\"></ids-badge>"`;
+exports[`IdsBadge Component renders correctly 3`] = `"<ids-badge color="alert" shape="round"></ids-badge>"`;
