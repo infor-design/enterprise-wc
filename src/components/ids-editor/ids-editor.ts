@@ -976,7 +976,6 @@ export default class IdsEditor extends Base {
    */
   #handleAction(action: string, val?: string): void {
     let a = { ...this.#actions[action] };
-    if (a === {}) return;
     const sel: any = this.#getSelection();
 
     // Set format block
