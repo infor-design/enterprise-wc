@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsBlockgrid Component renders correctly 1`] = `"<ids-block-grid align=\\"left\\" style=\\"text-align: left;\\"><ids-block-grid-item></ids-block-grid-item></ids-block-grid>"`;
+exports[`IdsBlockgrid Component renders correctly 1`] = `"<ids-block-grid align="left" style="text-align: left;"><ids-block-grid-item></ids-block-grid-item></ids-block-grid>"`;
 
-exports[`IdsBlockgrid Component renders correctly 2`] = `"<ids-block-grid align=\\"center\\" style=\\"text-align: center;\\"><ids-block-grid-item></ids-block-grid-item></ids-block-grid>"`;
+exports[`IdsBlockgrid Component renders correctly 2`] = `"<ids-block-grid align="center" style="text-align: center;"><ids-block-grid-item></ids-block-grid-item></ids-block-grid>"`;
 
-exports[`IdsBlockgrid Component renders correctly 3`] = `"<ids-block-grid align=\\"right\\" style=\\"text-align: right;\\"><ids-block-grid-item></ids-block-grid-item></ids-block-grid>"`;
+exports[`IdsBlockgrid Component renders correctly 3`] = `"<ids-block-grid align="right" style="text-align: right;"><ids-block-grid-item></ids-block-grid-item></ids-block-grid>"`;
 
 exports[`IdsBlockgridItem Component renders correctly 1`] = `
 "<ids-block-grid-item>
-  <img src=\\"../assets/images/placeholder-200x200.png\\" alt=\\"Placeholder 200x200\\">
-  <ids-text type=\\"p\\">
+  <img src="../assets/images/placeholder-200x200.png" alt="Placeholder 200x200">
+  <ids-text type="p">
     Sheena Taylor<br>
     Infor, Developer
   </ids-text>
