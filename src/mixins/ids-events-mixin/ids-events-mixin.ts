@@ -63,7 +63,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
       this.#addSlopedMouseLeaveListener(eventName, target, options);
     }
     if (eventName.indexOf('keydownend') === 0) {
-      this.#addKeyDownEndListener(eventName, target, options);
+      this.#addKeyDownEndListener(target, options);
     }
     if (eventName.indexOf('swipe') === 0) {
       this.#addSwipeListener(eventName, target, options);
@@ -476,18 +476,17 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
   /**
    * Setup a custom keydown event that fires after typing a birst of keys
    * @private
-   * @param {string|any} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
    * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
-  #addKeyDownEndListener(eventName: string, target: HTMLElement, options?: Record<string, unknown>) {
+  #addKeyDownEndListener(target: HTMLElement, options?: Record<string, unknown>) {
     let keys = '';
+    const delay = (options?.delay as number) || 500;
 
     this.onEvent('keydown.eventsmixin', target, (e: any) => {
       if (typeof e.key === 'undefined' && e.detail?.nativeEvent) e = e.detail.nativeEvent;
-      if (!isPrintable(e)) {
-        return;
-      }
+      if (!isPrintable(e)) return;
+
       keys += e.key;
 
       this.clearTimer();
@@ -500,7 +499,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
         keys = '';
         target.dispatchEvent(event);
         this.clearTimer();
-      }, (options?.delay as number));
+      }, delay);
     });
 
     this.keyDownEndOn = true;

@@ -11,7 +11,7 @@ export type FrameRequestLoopHandler = {
  * @param {number} interval The delay in milliseconds
  * @returns {number} loop handle
  */
-export function requestAnimationInterval(fn: FrameRequestCallback, interval: number): FrameRequestLoopHandler {
+export function requestAnimationInterval(fn: FrameRequestCallback, interval = 0): FrameRequestLoopHandler {
   if (!RAF) return { value: setInterval(fn, interval) };
 
   let start = new Date().getTime();
@@ -50,7 +50,7 @@ export function clearAnimationInterval(handle: FrameRequestLoopHandler) {
  * @param {number} timeout The timeout delay in milliseconds
  * @returns {number} loop handle
  */
-export function requestAnimationTimeout(fn: FrameRequestCallback, timeout: number): FrameRequestLoopHandler {
+export function requestAnimationTimeout(fn: FrameRequestCallback, timeout = 0): FrameRequestLoopHandler {
   if (!RAF) return { value: setTimeout(fn, timeout) };
 
   const start = new Date().getTime();
