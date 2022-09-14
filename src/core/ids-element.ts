@@ -70,8 +70,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     super.disconnectedCallback();
     this.cssStyles = null;
     this.popupOpenEventsTarget = null;
-    this.state = null;
-    this.container = null;
   }
 
   /**

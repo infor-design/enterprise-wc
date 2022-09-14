@@ -63,7 +63,7 @@ export default class IdsDraggable extends Base {
   }
 
   disconnectedCallback(): void {
-    this.#cursorEl = null;
+    super.disconnectedCallback();
   }
 
   /**
