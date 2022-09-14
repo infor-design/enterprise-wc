@@ -8,12 +8,10 @@ The Ids base css class contains imports for core modules like typography (includ
 
 ## Ids Decorators
 
-The ids-decorators are imported directly into ids-element and may not need to be called directly. Current there are there decorators for:
+The ids-decorators are imported directly into ids-element and may not need to be called directly. Currently there are there decorators for:
 
-1. Add a version to the webcomponent
-1. Creating a custom element
-1. Appending the styles in an encapsulated way
-1. Appending the Automation Ids
+1. Creating a custom element `@customElement('ids-data-grid')`
+1. Appending the styles in an encapsulated way `@scss(styles)`
 
 ## Ids Element
 
