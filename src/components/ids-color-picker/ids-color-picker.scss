@@ -46,12 +46,16 @@ ids-input::part(container) {
   margin-bottom: 0;
 }
 
-.color-picker-trigger-btn::part(button) {
-  @include ml-1();
-  @include mr-1();
+.color-picker-trigger-btn {
+  @include mr-4();
 
-  position: relative;
-  z-index: 2;
+  &::part(button) {
+    @include ml-1();
+    @include mr-1();
+
+    position: relative;
+    z-index: 2;
+  }
 }
 
 .ids-color-picker:focus-within ids-input::part(input) {

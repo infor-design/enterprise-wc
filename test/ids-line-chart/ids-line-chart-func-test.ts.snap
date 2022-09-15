@@ -1,3 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsLineChart Component supports short labels 1`] = `"<a data-index=\\"0\\" class=\\"chart-legend-item\\" aria-hidden=\\"true\\"><div class=\\"swatch color-1\\"></div>Component A</a><a data-index=\\"1\\" class=\\"chart-legend-item\\" aria-hidden=\\"true\\"><div class=\\"swatch color-2\\"></div>Component B</a><a data-index=\\"2\\" class=\\"chart-legend-item\\" aria-hidden=\\"true\\"><div class=\\"swatch color-3\\"></div>Component C</a>"`;
+exports[`IdsLineChart Component supports short labels 1`] = `"<a data-index="0" class="chart-legend-item" aria-hidden="true"><div class="swatch color-1"></div>Component A</a><a data-index="1" class="chart-legend-item" aria-hidden="true"><div class="swatch color-2"></div>Component B</a><a data-index="2" class="chart-legend-item" aria-hidden="true"><div class="swatch color-3"></div>Component C</a>"`;

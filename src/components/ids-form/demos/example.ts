@@ -13,7 +13,13 @@ import '../../ids-time-picker/ids-time-picker';
 import '../../ids-upload/ids-upload';
 
 const form = (document.querySelector('#sample-form') as any);
+const toggleCompactBtn = (document.querySelector('#btn-toggle-compact') as any);
+
 form.addEventListener('submit', (e: CustomEvent) => {
   form.checkValidation();
   console.info(`Form Submitted`, e.detail, form.isValid);
+});
+
+toggleCompactBtn?.addEventListener('click', () => {
+  form?.setAttribute('compact', !form?.compact);
 });
