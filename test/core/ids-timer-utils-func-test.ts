@@ -4,6 +4,7 @@
 import {
   clearAnimationInterval,
   clearAnimationTimeout,
+  cssTransitionTimeout,
   requestAnimationInterval,
   requestAnimationTimeout,
 } from '../../src/utils/ids-timer-utils/ids-timer-utils';
@@ -11,7 +12,10 @@ import type { FrameRequestLoopHandler } from '../../src/utils/ids-timer-utils/id
 import wait from '../helpers/wait';
 import waitForTimeout from '../helpers/wait-for-timeout';
 
-describe('IdsTimerUtils tests', () => {
+import '../../src/components/ids-modal/ids-modal';
+import '../../src/components/ids-modal-button/ids-modal-button';
+
+describe('IdsTimerUtils tests (requestAnimationFrame)', () => {
   let el: HTMLDivElement | null;
 
   beforeEach(() => {
@@ -67,5 +71,17 @@ describe('IdsTimerUtils tests', () => {
 
     // Count should be the same as if it only ran three times
     await waitForTimeout(() => expect(count).toBeLessThan(4));
+  });
+});
+
+describe('IdsTimerUtils (CSS Transitions)', () => {
+  it.skip('can execute functions after a CSS transition completes', async () => {
+    expect(document.querySelector('.ids-transition-timeout')).toBe(null);
+
+    // Kickoff a timeout (don't wait for this one)
+    await cssTransitionTimeout(200);
+
+    // Hidden tested elements should be cleaned up
+    expect(document.querySelector('.ids-transition-timeout')).toBe(null);
   });
 });

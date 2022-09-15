@@ -6,7 +6,7 @@ import Base from './ids-modal-base';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { cssAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
+import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import zCounter from './ids-modal-z-counter';
 import '../ids-popup/ids-popup';
@@ -602,7 +602,7 @@ export default class IdsModal extends Base {
    * @param {any} e the original event object
    */
   async handleButtonClick(e: any): Promise<void> {
-    await cssAnimationTimeout(200);
+    await cssTransitionTimeout(200);
 
     if (typeof this.onButtonClick === 'function') {
       this.onButtonClick(e.target);

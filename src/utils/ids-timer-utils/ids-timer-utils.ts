@@ -84,9 +84,9 @@ export function clearAnimationTimeout(handle: FrameRequestLoopHandler) {
  * @param {number} timeout the transition duration in ms
  * @returns {Promise<void>} resolved when the CSS transition completes
  */
-export const cssAnimationTimeout = async (timeout: number): Promise<void> => new Promise((resolve) => {
+export const cssTransitionTimeout = async (timeout: number): Promise<void> => new Promise((resolve) => {
   const el = document.createElement('div');
-  el.classList.add('ids-animation-timer');
+  el.classList.add('ids-transition-timeout');
   el.style.setProperty('display', 'block');
   el.style.setProperty('position', 'absolute');
   el.style.setProperty('visibility', 'hidden');

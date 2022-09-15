@@ -5,7 +5,7 @@ import Base from './ids-swipe-action-base';
 
 import styles from './ids-swipe-action.scss';
 
-import { cssAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
+import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 /**
  * IDS SwipeAction Component
@@ -60,9 +60,9 @@ export default class IdsSwipeAction extends Base {
         // Fix scroll position
         this.container.style.visibility = 'hidden';
         this.container.style.scrollBehavior = 'auto';
-        await cssAnimationTimeout(40);
+        await cssTransitionTimeout(40);
         this.container.scrollLeft = 85;
-        await cssAnimationTimeout(1);
+        await cssTransitionTimeout(1);
         this.container.style.scrollBehavior = 'smooth';
         this.container.style.visibility = '';
       }
