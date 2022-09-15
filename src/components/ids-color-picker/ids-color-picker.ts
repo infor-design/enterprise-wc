@@ -168,13 +168,14 @@ export default class IdsColorPicker extends Base {
    * @returns {string} - html
    */
   get colorPickerAdvancedHtml(): string {
+    if (!this.advanced) return '';
+
     return `
       <label class="advanced-color-picker">
         <input
           class="color-input"
           tabindex="-1"
           type="color"
-          ${!this.advanced || this.disabled || this.readonly ? 'disabled="true"' : ''}
         />
         <ids-text audible="true" translate-text="true">ColorPickerSelection</ids-text>
       </label>
@@ -249,12 +250,23 @@ export default class IdsColorPicker extends Base {
    * @param {boolean | string} value - true if the "advanced" color picker type should be used
    */
   set advanced(value: boolean | string) {
+    const pattern = ['#', /[0-9a-fA-F]/, /[0-9a-fA-F]/, /[0-9a-fA-F]/, /[0-9a-fA-F]/, /[0-9a-fA-F]/, /[0-9a-fA-F]/];
+
     if (stringToBool(value)) {
       this.setAttribute(attributes.ADVANCED, true);
-      this.colorInput?.removeAttribute(attributes.DISABLED);
+      if (!this.colorInput) {
+        this.textInput?.insertAdjacentHTML('beforebegin', this.colorPickerAdvancedHtml);
+      }
+      this.colorInput = this.container?.querySelector('.color-input');
+      this.#attachColorInputEventHandlers();
+      this.#updateColorPickerValues(super.value);
+      this.mask = pattern;
     } else {
       this.removeAttribute(attributes.ADVANCED);
-      this.colorInput?.setAttribute(attributes.DISABLED, true);
+      this.#detachColorInputEventHandlers();
+      this.container?.querySelector('.advanced-color-picker')?.remove();
+      this.colorInput = null;
+      this.mask = undefined;
     }
   }
 
@@ -444,22 +456,14 @@ export default class IdsColorPicker extends Base {
       }
     });
 
-    // Respond to click events on the swatch
-    this.onEvent('click.color-picker-input', this.colorInput, () => {
-      if (!this.advanced) {
-        this.#openCloseColorpicker();
-      }
-    });
-
-    // Respond to change events from the swatch input
-    this.onEvent('input.color-picker-input', this.colorInput, (e: any) => {
-      this.#updateColor(e.target.value);
-    });
-
     // Respond to change events from the text-field input
     this.onEvent('input.color-picker-text', this.textInput, (e: any) => {
       this.#updateColor(e.target.value);
     });
+
+    if (this.advanced) {
+      this.#attachColorInputEventHandlers();
+    }
 
     this.onEvent('keydown.color-picker', this, (e: any) => {
       if (e.target.name === 'id-color-picker') {
@@ -528,12 +532,6 @@ export default class IdsColorPicker extends Base {
     // Respond to clicks on Color Picker swatches
     this.offEvent('click.color-picker-container', this.container);
 
-    // Respond to click events on the swatch
-    this.offEvent('click.color-picker-input', this.colorInput);
-
-    // Respond to change events from the swatch input
-    this.offEvent('input.color-picker-input', this.colorInput);
-
     // Respond to change events from the text-field input
     this.offEvent('input.color-picker-text', this.textInput);
 
@@ -541,6 +539,20 @@ export default class IdsColorPicker extends Base {
 
     // Respond to Keyup events on swatches and buttons
     this.onEvent('keydown.color-picker-popup', this.popup);
+
+    this.#detachColorInputEventHandlers();
+  }
+
+  #attachColorInputEventHandlers(): void {
+    // Respond to change events from the swatch input
+    this.offEvent('input.color-picker-input', this.colorInput);
+    this.onEvent('input.color-picker-input', this.colorInput, (e: any) => {
+      this.#updateColor(e.target.value);
+    });
+  }
+
+  #detachColorInputEventHandlers(): void {
+    this.offEvent('input.color-picker-input', this.colorInput);
   }
 
   /** Configure disabled/labels/tooltips attributes on IdsColor swatches */
@@ -641,13 +653,18 @@ export default class IdsColorPicker extends Base {
    * @param {string} colorValue the value to update
    */
   #updateColorPickerValues(colorValue?: string): void {
-    if (!this.colorPreview || !this.colorInput) return;
+    if (!this.colorPreview) return;
     const value = colorValue ?? this.#getSelectedSwatchValue();
     const colorSwatch = this.#findColorSwatch(value);
     const targetColorValue = colorSwatch?.hex || value;
 
     this.colorPreview.hex = targetColorValue;
-    this.colorInput.value = targetColorValue === '' ? '#ffffff' : targetColorValue;
+
+    // Updating input type="color" value only when advanced setting
+    // and when it meets the format "#rrggbb" after masked input
+    if (this.advanced && this.colorInput) {
+      this.colorInput.value = targetColorValue?.length !== 7 ? '#ffffff' : targetColorValue;
+    }
 
     if (targetColorValue) {
       this.textInput.value = (!this.suppressLabels && colorSwatch?.label) || colorSwatch?.hex || this.textInput.value;

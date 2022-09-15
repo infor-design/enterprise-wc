@@ -8,6 +8,7 @@
 - `[BarChart]` Added support for grouped and fixed grid lines. ([#859](https://github.com/infor-design/enterprise-wc/issues/859))
 - `[Calendar]` Added calendar event add/update/remove via modal/API feature to calendar. ([#757](https://github.com/infor-design/enterprise-wc/pull/795))
 - `[Charts]` Added the ability to rotate x axis labels in axis charts like line and bar. ([#738](https://github.com/infor-design/enterprise-wc/pull/738))
+- `[Colorpicker]` Fixed warning in the console when typing a color. ([#866](https://github.com/infor-design/enterprise-wc/issues/866))
 - `[Form]` Added new 'IdsForm' component. ([#357](https://github.com/infor-design/enterprise-wc/pull/357))
 - `[Form]` Fixed compact mode was not working with all components. ([#863](https://github.com/infor-design/enterprise-wc/issues/863))
 - `[Lookup]` Fixed the dirty tacker was not able to reset. ([#871](https://github.com/infor-design/enterprise-wc/issues/871))
