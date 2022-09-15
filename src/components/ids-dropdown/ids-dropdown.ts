@@ -867,6 +867,9 @@ export default class IdsDropdown extends Base {
       this.listBox.innerHTML = `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
     }
 
+    // Change location of the popup after results are populated and the popup's height change
+    this.popup.place();
+
     this.#triggerIconChange('search');
 
     // Remove selected input icon when start typing

@@ -55,18 +55,26 @@ describe('Ids Color Picker Component', () => {
   });
 
   it('renders with advanced', () => {
-    colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" advanced="true" value="#941E1E" label="Readonly Color Picker"></ids-color-picker>`);
+    colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" advanced="true" value="#941e1e" label="Readonly Color Picker"></ids-color-picker>`);
     expect(colorpicker.advanced).toBe(true);
     expect(colorpicker.hasAttribute('advanced')).toBe(true);
     expect(colorpicker.getAttribute('advanced')).toBe('true');
-    expect(colorpicker.colorInput.hasAttribute('disabled')).toBe(false);
-    expect(colorpicker.colorInput.getAttribute('disabled')).toBeFalsy();
+    expect(colorpicker.mask).toBeDefined();
+    expect(colorpicker.container.querySelectorAll('.advanced-color-picker').length).toEqual(1);
+    expect(colorpicker.container.querySelector('.color-input')?.value).toEqual('#941e1e');
 
     colorpicker.advanced = false;
     expect(colorpicker.hasAttribute('advanced')).toBe(false);
     expect(colorpicker.getAttribute('advanced')).toBeFalsy();
-    expect(colorpicker.colorInput.hasAttribute('disabled')).toBe(true);
-    expect(colorpicker.colorInput.getAttribute('disabled')).toBeTruthy();
+    expect(colorpicker.container.querySelector('.advanced-color-picker')).toBeNull();
+    expect(colorpicker.colorInput).toBeNull();
+    expect(colorpicker.mask).not.toBeDefined();
+
+    colorpicker.value = '#000000';
+    colorpicker.advanced = true;
+    expect(colorpicker.container.querySelectorAll('.advanced-color-picker').length).toEqual(1);
+    expect(colorpicker.container.querySelector('.color-input')?.value).toEqual('#000000');
+    expect(colorpicker.mask).toBeDefined();
   });
 
   it('has a default value of blank', () => {

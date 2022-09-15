@@ -422,6 +422,7 @@ describe('IdsToast Component', () => {
     toastContainer = toast.toastContainer();
     messageEl = toastContainer.querySelector('ids-toast-message');
 
+    await wait(100);
     expect(messageEl).toBeFalsy();
 
     expect(detail.active.addMessage).toEqual(detail.after.addMessage);
@@ -456,6 +457,7 @@ describe('IdsToast Component', () => {
     await wait(100);
     toastContainer = toast.toastContainer();
     messageEl = toastContainer.querySelector('ids-toast-message');
+    await wait(100);
 
     expect(messageEl).toBeFalsy();
 

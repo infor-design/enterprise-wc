@@ -9,7 +9,7 @@ exports[`IdsWizard Tests initializes without step number and it is set to -1 1`]
 `;
 
 exports[`IdsWizard Tests renders correctly 1`] = `
-"<ids-wizard step-number=\\"1\\">
+"<ids-wizard step-number="1">
         <ids-wizard-step>Step One</ids-wizard-step>
         <ids-wizard-step>Step Two</ids-wizard-step>
         <ids-wizard-step>Step Three</ids-wizard-step>
@@ -17,7 +17,7 @@ exports[`IdsWizard Tests renders correctly 1`] = `
 `;
 
 exports[`IdsWizard Tests renders correctly 2`] = `
-"<ids-wizard step-number=\\"2\\">
+"<ids-wizard step-number="2">
         <ids-wizard-step>Step One</ids-wizard-step>
         <ids-wizard-step>Step Two</ids-wizard-step>
         <ids-wizard-step>Step Three</ids-wizard-step>
