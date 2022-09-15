@@ -100,7 +100,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'price',
-      name: 'Price',
+      name: 'Price (decimal)',
       field: 'price',
       align: 'right',
       sortable: true,
@@ -110,13 +110,22 @@ if (dataGrid) {
     });
     columns.push({
       id: 'price',
-      name: 'Price',
+      name: 'Price (integer)',
       field: 'price',
       align: 'right',
       sortable: true,
       formatter: dataGrid.formatters.integer,
       formatOptions: { locale: 'en-US' },
       width: 200
+    });
+    columns.push({
+      id: 'inStock',
+      name: 'In Stock',
+      field: 'inStock',
+      align: 'center',
+      sortable: true,
+      formatter: dataGrid.formatters.checkbox,
+      disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101
     });
     columns.push({
       id: 'badge',
@@ -142,6 +151,17 @@ if (dataGrid) {
       },
       text: 'Actions',
       width: 56
+    });
+    columns.push({
+      id: 'custom',
+      name: 'Custom',
+      field: 'price',
+      sortable: false,
+      formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
+        const value = `Custom: ${rowData[columnData.field] || '0'}`;
+        return `<span class="text-ellipsis">${value}</span>`;
+      },
+      width: 180
     });
     columns.push({
       id: 'spacer',
