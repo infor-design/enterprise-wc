@@ -126,6 +126,7 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
   async createRipple(x: number | undefined, y: number | undefined) {
     if (this.noRipple || this.disabled) return;
 
+    this.removeRipples();
     const rippleTarget = this.rippleTarget;
 
     // Create ripple element

@@ -29,13 +29,13 @@ describe('Ids Modal e2e Tests', () => {
     expect(isEqualNode).toBeTruthy();
   });
 
-  it('will close when the user clicks its overlay', async () => {
+  it('will close when the user clicks its button', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
 
     const modalSelector = '#my-modal[visible]';
     await page.waitForSelector(modalSelector);
 
-    // Fire a 'click' on the overlay
+    // Fire a 'click' on the button
     await page.evaluate(`document.querySelector("${modalSelector} #modal-close-btn").click()`);
 
     // Modal should be closed.  Check the visible value
