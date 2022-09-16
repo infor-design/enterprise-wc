@@ -17,8 +17,7 @@ The Color Picker by default supports colors within a pre-configured palette of I
 - `suppress-labels` {boolean} If true, the color-swatches will display hex-values instead of labels. Valid values are 'true' | 'false'
 - `suppress-tooltips` {boolean} If true, the color-swatches will not display tooltips on mouseover. Valid values are 'true' | 'false'
 - `validate` {string} set the validation rule `required`.
-- `mode` {string} Sets the theme mode
-- `version` {string} Sets the theme version
+- `advanced` {boolean} If set, the component will provide a browser's visual color picker interface, the input will be masked allowing only `#rrggbb` hexadecimal format.
 
 ## Code Examples
 
