@@ -67,6 +67,7 @@ const container: any = document.querySelector('ids-container');
   const url: any = productsJSON;
   const response = await fetch(url);
   const data = await response.json();
+  dataGrid.pagination = 'client-side';
   dataGrid.columns = columns;
   dataGrid.data = data;
   dataGrid.pageTotal = data.length;

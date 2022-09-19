@@ -351,10 +351,10 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
     dataGrid.applyFilter([{ columnId: 'inStock', operator: 'selected', value: '' }]);
 
-    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(6);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(4);
     dataGrid.applyFilter([{ columnId: 'inStock', operator: 'not-selected', value: '' }]);
 
-    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(3);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(5);
     dataGrid.applyFilter([{ columnId: 'active', operator: 'selected', value: 'Yes' }]);
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(8);
@@ -393,7 +393,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should filter rows as filter other oprators', () => {
+  it('should filter rows as filter other operators', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);

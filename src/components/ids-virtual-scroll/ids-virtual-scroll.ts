@@ -273,7 +273,7 @@ export default class IdsVirtualScroll extends Base {
    * @returns {string} The html for this item
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  itemTemplate(item: any, index: number, ariaIndex: number): string {
+  itemTemplate(item: any, index: number, ariaIndex?: number): string {
     return injectTemplate(this.stringTemplate, item);
   }
 

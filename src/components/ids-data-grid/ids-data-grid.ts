@@ -645,10 +645,6 @@ export default class IdsDataGrid extends Base {
    * @returns {object} This API object for chaining
    */
   #attachKeyboardListeners() {
-    if (this.data.length < 1) {
-      return;
-    }
-
     // Handle arrow navigation
     this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e: KeyboardEvent) => {
       const key = e.key;
@@ -1383,8 +1379,8 @@ export default class IdsDataGrid extends Base {
       this.activeCell = {};
     }
 
-    this.activeCell.cell = cell;
-    this.activeCell.row = row;
+    this.activeCell.cell = Number(cell);
+    this.activeCell.row = Number(row);
 
     const queriedRows = this.shadowRoot.querySelectorAll('.ids-data-grid-body .ids-data-grid-row');
     const rowNode = queriedRows[row]; // exclude header rows

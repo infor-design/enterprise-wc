@@ -1,5 +1,5 @@
 import { cleanHtml } from './ids-editor-clean-utils';
-import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils'
+import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 /**
  * Paste as plain text.
