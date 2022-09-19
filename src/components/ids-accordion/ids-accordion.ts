@@ -5,6 +5,8 @@ import Base from './ids-accordion-base';
 import './ids-accordion-header';
 import './ids-accordion-panel';
 import styles from './ids-accordion.scss';
+import type IdsAccordionHeader from './ids-accordion-header';
+import type IdsAccordionPanel from './ids-accordion-panel';
 
 /**
  * IDS Accordion Component
@@ -20,6 +22,8 @@ import styles from './ids-accordion.scss';
 @customElement('ids-accordion')
 @scss(styles)
 export default class IdsAccordion extends Base {
+  header: IdsAccordionHeader | null = null;
+
   constructor() {
     super();
   }
@@ -85,27 +89,27 @@ export default class IdsAccordion extends Base {
 
   /**
    * @readonly
-   * @returns {Array<HTMLElement>} all accordion headers in a flattened array
+   * @returns {Array<IdsAccordionHeader>} all accordion headers in a flattened array
    */
-  get headers(): Array<HTMLElement> {
-    return [...this.querySelectorAll('ids-accordion-header')];
+  get headers(): Array<IdsAccordionHeader> {
+    return [...this.querySelectorAll<IdsAccordionHeader>('ids-accordion-header')];
   }
 
   /**
    * @readonly
-   * @returns {Array<any>} all accordion panels in a flattened array
+   * @returns {Array<IdsAccordionPanel>} all accordion panels in a flattened array
    */
-  get panels(): Array<any> {
-    return [...this.querySelectorAll('ids-accordion-panel')];
+  get panels(): Array<IdsAccordionPanel> {
+    return [...this.querySelectorAll<IdsAccordionPanel>('ids-accordion-panel')];
   }
 
   /**
    * @readonly
-   * @returns {any} the currently focused menu item, if one exists
+   * @returns {IdsAccordionPanel|null} the currently focused menu item, if one exists
    */
-  get focused(): any {
+  get focused(): IdsAccordionPanel | undefined | null {
     if (this.contains(document.activeElement)) {
-      return (document.activeElement as any).closest('ids-accordion-panel');
+      return document.activeElement?.closest<IdsAccordionPanel>('ids-accordion-panel');
     }
     return undefined;
   }
@@ -171,7 +175,7 @@ export default class IdsAccordion extends Base {
    * @param {boolean} doRTL if true, modifies RTL styles
    */
   #assignDepthDependentStyles(
-    element = this,
+    element: any = this,
     depth = 0,
     doColorVariant = true,
     doExpanderType = true,
@@ -197,7 +201,8 @@ export default class IdsAccordion extends Base {
 
       if (this.header) {
         // Pass language/locale down to child components
-        this.header.language = this.language?.name;
+        // TODO - do we need this?
+        // this.header.language = this.language?.name;
 
         // Assign Expander Type
         // (Use Plus/Minus-style expander on any nested panels)
@@ -243,10 +248,11 @@ export default class IdsAccordion extends Base {
    */
   #handleEvents() {
     this.offEvent('languagechange.accordion-container');
-    this.onEvent('languagechange.accordion-container', this.closest('ids-container'), (e: CustomEvent) => {
-      if (this.header) {
-        this.header.language = e.detail.language.name;
-      }
+    this.onEvent('languagechange.accordion-container', this.closest('ids-container'), () => {
+      // TODO - Do we need this?
+      // if (this.header) {
+      //   this.header.language = e.detail.language.name;
+      // }
       this.#assignDepthDependentStyles(this, 0, false, false, false, true);
     });
 
@@ -321,25 +327,25 @@ export default class IdsAccordion extends Base {
     let next;
 
     // If the focused panel is expandable, find the first panel inside of it
-    if (currentItem.isExpandable && currentItem.expanded) {
-      next = currentItem.querySelector('ids-accordion-panel') || currentItem.nextElementSibling;
+    if (currentItem?.isExpandable && currentItem.expanded) {
+      next = currentItem.querySelector<IdsAccordionPanel>('ids-accordion-panel') || currentItem.nextElementSibling;
     } else {
-      next = currentItem.nextElementSibling;
+      next = currentItem?.nextElementSibling;
     }
 
     // If there's no next sibiling, or this pane has been closed,
     // navigate to next item outside this panel
     if (!next) {
-      next = currentItem.parentElement.nextElementSibling;
+      next = currentItem?.parentElement?.nextElementSibling;
     }
 
     // If next is not an accordion panel, consider that we've 'looped'
     // back around to the top and pick the first panel
     if (!next || next.tagName !== 'IDS-ACCORDION-PANEL') {
-      next = this.querySelector('ids-accordion-panel');
+      next = this.querySelector<IdsAccordionPanel>('ids-accordion-panel');
     }
 
-    next.focus();
+    (next as IdsAccordionPanel)?.focus();
   }
 
   /**
@@ -350,35 +356,35 @@ export default class IdsAccordion extends Base {
   #prevPanel() {
     const currentItem = this.focused;
     const getLastPanel = () => {
-      const prevChildren = currentItem.parentElement.querySelectorAll('ids-accordion-panel:last-child');
-      return prevChildren[prevChildren.length - 1];
+      const prevChildren = currentItem?.parentElement?.querySelectorAll<IdsAccordionPanel>('ids-accordion-panel:last-child');
+      return prevChildren ? prevChildren[prevChildren.length - 1] : undefined;
     };
 
-    let prev = currentItem.previousElementSibling;
+    let prev = currentItem?.previousElementSibling as IdsAccordionPanel | undefined | null;
     if (!prev) {
       prev = getLastPanel();
     }
 
     // If the previous panel is expandable, focus on its last pane instead
-    if (prev.isExpandable && prev.expanded) {
+    if (prev?.isExpandable && prev.expanded) {
       const current = prev;
-      prev = prev.querySelector('ids-accordion-panel:last-child') || current;
+      prev = prev.querySelector<IdsAccordionPanel>('ids-accordion-panel:last-child') || current;
     }
 
     // If the previous element is a header, no more panels are present.
     // Navigation should be pushed one panel level up;
-    if (prev.tagName === 'IDS-ACCORDION-HEADER') {
-      prev = prev.parentElement;
+    if (prev?.tagName === 'IDS-ACCORDION-HEADER') {
+      prev = prev.parentElement as IdsAccordionPanel;
     }
 
     // If this pane has been closed, navigate to previous item outside this pane
-    while (prev.parentElement.tagName === 'IDS-ACCORDION-PANEL' && !prev.parentElement.expanded) {
-      prev = prev.parentElement;
+    while (prev?.parentElement?.tagName === 'IDS-ACCORDION-PANEL' && !(prev.parentElement as IdsAccordionPanel).expanded) {
+      prev = prev.parentElement as IdsAccordionPanel;
     }
 
     // If there's no previous sibiling, navigate to the previous highest pane
     if (!prev) {
-      prev = currentItem.parentElement;
+      prev = currentItem?.parentElement as IdsAccordionPanel;
     }
 
     // If previous is not an accordion panel, consider that we've 'looped'
@@ -387,7 +393,7 @@ export default class IdsAccordion extends Base {
       prev = getLastPanel();
     }
 
-    prev.focus();
+    prev?.focus();
   }
 
   /**

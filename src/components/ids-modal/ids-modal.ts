@@ -42,7 +42,16 @@ const dismissTimeout = 200;
 export default class IdsModal extends Base {
   shouldUpdate = false;
 
-  globalKeydownListener?: (e: KeyboardEvent) => void;
+  globalKeydownListener = (e: KeyboardEvent) => {
+    switch (e.key) {
+      case 'Escape':
+        e.stopImmediatePropagation();
+        this.hide();
+        break;
+      default:
+        break;
+    }
+  };
 
   constructor() {
     super();
@@ -188,7 +197,7 @@ export default class IdsModal extends Base {
             this.setAttribute(attributes.FULLSIZE, safeVal);
             this.popup?.classList.add(`can-fullsize`);
             this.respondDown = safeVal;
-            this.onBreakpointDownResponse = (breakpoint: keyof Breakpoints, matches: boolean) => {
+            this.onBreakpointDownResponse = (detectedBreakpoint: keyof Breakpoints, matches: boolean) => {
               makeFullsize(matches);
             };
           }
@@ -350,9 +359,9 @@ export default class IdsModal extends Base {
   }
 
   /**
-   * @param {boolean} val true if the Modal is visible.
+   * @param {boolean|string} val true if the Modal is visible.
    */
-  set visible(val: boolean) {
+  set visible(val: boolean | string | null) {
     const trueVal = stringToBool(val);
     if (this.#visible !== trueVal) {
       this.#visible = trueVal;
@@ -394,7 +403,7 @@ export default class IdsModal extends Base {
     }
 
     // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
-    this.style.zIndex = zCounter.increment().toString();
+    this.style.setProperty('z-index', String(zCounter.increment()));
     if (this.overlay) this.overlay.visible = true;
     if (this.popup) {
       this.popup.visible = true;
@@ -490,16 +499,6 @@ export default class IdsModal extends Base {
 
     // Adds a global event listener for the Keydown event on the body to capture close via Escape
     // (NOTE cannot use IdsEventsMixin here due to scoping)
-    this.globalKeydownListener = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case 'Escape':
-          e.stopImmediatePropagation();
-          this.hide();
-          break;
-        default:
-          break;
-      }
-    };
     document.addEventListener('keydown', this.globalKeydownListener);
 
     // If a Modal Button is clicked, fire an optional callback
@@ -518,7 +517,7 @@ export default class IdsModal extends Base {
    */
   removeOpenEvents(): void {
     super.removeOpenEvents();
-    if (this.globalKeydownListener) document.removeEventListener('keydown', this.globalKeydownListener);
+    document.removeEventListener('keydown', this.globalKeydownListener);
     this.unlisten('Escape');
     this.offEvent('click.buttons');
   }
@@ -535,8 +534,6 @@ export default class IdsModal extends Base {
 
     if (!val) {
       overlay = new IdsOverlay();
-      // TODO - what does this do
-      // overlay.part = 'overlay';
       this.shadowRoot.prepend(overlay);
       this.popupOpenEventsTarget = this.overlay;
     } else {
@@ -563,7 +560,7 @@ export default class IdsModal extends Base {
    */
   #setTargetFocus(): void {
     if (this.target) {
-      (this.target as HTMLElement).focus();
+      this.target.focus();
     }
   }
 
@@ -571,7 +568,7 @@ export default class IdsModal extends Base {
    * @property {Function} onDOMContentLoaded runs calculation-sensitive routines when the entire DOM has loaded
    */
   #onDOMContentLoaded = () => {
-    this.visible = !!this.getAttribute('visible');
+    this.visible = this.getAttribute('visible');
     if (this.visible) {
       // Fixes a Chrome Bug where time staggering is needed for focus to occur
       const timeoutCallback = () => {

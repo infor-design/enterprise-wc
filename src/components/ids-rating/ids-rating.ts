@@ -24,7 +24,7 @@ export default class IdsRating extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.ratingArr = [...this.container.children];
+    this.ratingArr = [...this.container?.children ?? []];
     if (!this.readonly) {
       this.#attachEventHandlers();
     } else {
@@ -116,7 +116,7 @@ export default class IdsRating extends Base {
    * Sets the readonly attribute
    * @param {string} ro string value from the readonly attribute
    */
-  set readonly(ro: string | boolean) {
+  set readonly(ro: boolean) {
     if (ro && this.readonly) {
       this.offEvent('click', this.container);
       this.#updateHalfStar(this.ratingArr);
@@ -129,15 +129,15 @@ export default class IdsRating extends Base {
     }
   }
 
-  get readonly(): string | boolean | any {
-    return this.getAttribute('readonly') || false;
+  get readonly(): boolean {
+    return stringToBool(this.getAttribute('readonly'));
   }
 
   /**
    * Sets the size attribute
    * @param {string} s string value from the size attribute
    */
-  set size(s: string) {
+  set size(s: string | null) {
     if (s) {
       this.ratingArr.forEach((element) => element.setAttribute('size', s.toString()));
       this.setAttribute('size', s.toString());
@@ -192,7 +192,7 @@ export default class IdsRating extends Base {
   updateValue(arr: any) {
     const val = [...arr];
     const value = val.filter((el) => el.classList.contains('active'));
-    this.setAttribute('value', value.length);
+    this.setAttribute('value', String(value.length));
   }
 
   /**

@@ -886,7 +886,7 @@ export default class IdsTree extends Base {
   #updateNodeAttribute(attr: string, mustUpdate?: boolean) {
     this.#nodes.forEach((n: any) => {
       const nodeVal = n.elem.getAttribute(attr);
-      const value = this[camelCase(attr)];
+      const value = (this as any)[camelCase(attr)];
       if (mustUpdate || nodeVal !== value) {
         n.elem.setAttribute(attr, value?.toString());
       }
@@ -1061,10 +1061,10 @@ export default class IdsTree extends Base {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, '');
-      this.container.setAttribute(attributes.DISABLED, '');
+      this.container?.setAttribute(attributes.DISABLED, '');
     } else {
       this.removeAttribute(attributes.DISABLED);
-      this.container.removeAttribute(attributes.DISABLED);
+      this.container?.removeAttribute(attributes.DISABLED);
     }
     this.#updateNodeAttribute(attributes.DISABLED);
   }

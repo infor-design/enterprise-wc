@@ -152,16 +152,14 @@ export default class IdsSwappableItem extends Base {
    * @param {boolean | string} value True of false depending if the item is tabbable
    */
   set tabbable(value: boolean | string) {
-    if (stringToBool(value) !== this.getAttribute(attributes.TABBABLE)) {
-      const isTabbable = stringToBool(value);
-      if (isTabbable) {
-        this.setAttribute(attributes.TABBABLE, 'true');
-        this.setAttribute(attributes.TABINDEX, '0');
-        return;
-      }
-      this.setAttribute(attributes.TABBABLE, 'false');
-      this.setAttribute(attributes.TABINDEX, '-1');
+    const isTabbable = stringToBool(value);
+    if (isTabbable) {
+      this.setAttribute(attributes.TABBABLE, 'true');
+      this.setAttribute(attributes.TABINDEX, '0');
+      return;
     }
+    this.setAttribute(attributes.TABBABLE, 'false');
+    this.setAttribute(attributes.TABINDEX, '-1');
   }
 
   /**

@@ -24,8 +24,8 @@ export default class IdsActionPanel extends Base {
     this.popup.animationStyle = 'slide-from-bottom';
   }
 
-  get toolbar(): HTMLElement | undefined {
-    return this.querySelector('[slot="toolbar"]');
+  get toolbar(): HTMLSlotElement | null {
+    return this.querySelector<HTMLSlotElement>('[slot="toolbar"]');
   }
 
   /**
@@ -49,7 +49,10 @@ export default class IdsActionPanel extends Base {
   }
 
   #refreshHeader() {
-    this.container.querySelector('slot[name="toolbar"]').hidden = this.toolbar === undefined;
+    const toolbarSlot = this.container?.querySelector<HTMLSlotElement>('slot[name="toolbar"]');
+    if (toolbarSlot) {
+      toolbarSlot.hidden = this.toolbar === undefined;
+    }
   }
 
   /**
@@ -61,7 +64,7 @@ export default class IdsActionPanel extends Base {
     super.addOpenEvents();
 
     // If a Modal Button is clicked, fire an optional callback
-    const toolbarSlot = this.container.querySelector('slot[name="toolbar"]');
+    const toolbarSlot = this.container?.querySelector('slot[name="toolbar"]');
     this.onEvent('click.toolbar', toolbarSlot, (e: MouseEvent) => {
       this.handleButtonClick(e);
     });

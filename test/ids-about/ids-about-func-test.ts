@@ -25,7 +25,7 @@ const deviceSpecs = true;
 const useDefaultCopyright = true;
 
 describe('IdsAbout Component (using properties)', () => {
-  let component: any;
+  let component: IdsAbout;
 
   beforeEach(async () => {
     const container: any = document.createElement('ids-container');
@@ -44,7 +44,6 @@ describe('IdsAbout Component (using properties)', () => {
 
   afterEach(async () => {
     document.body.innerHTML = '';
-    component = null;
   });
 
   it('should render', () => {
@@ -100,7 +99,7 @@ describe('IdsAbout Component (using properties)', () => {
 
     expect(component.useDefaultCopyright).toBeFalsy();
 
-    component.useDefaultCopyright = undefined;
+    component.useDefaultCopyright = null;
 
     expect(component.useDefaultCopyright).toBeFalsy();
 
@@ -118,7 +117,7 @@ describe('IdsAbout Component (using properties)', () => {
 
     expect(component.deviceSpecs).toBeFalsy();
 
-    component.deviceSpecs = undefined;
+    component.deviceSpecs = null;
 
     expect(component.deviceSpecs).toBeFalsy();
 
@@ -174,7 +173,7 @@ describe('IdsAbout Component (using attributes)', () => {
   it('has properties', () => {
     expect(component.productName).toEqual(productName);
     expect(component.productVersion).toEqual(productVersion);
-    expect(component.copyrightYear).toEqual(new Date().getFullYear());
+    expect(component.copyrightYear).toEqual(new Date().getFullYear().toString());
     expect(component.useDefaultCopyright).toBeTruthy();
     expect(component.deviceSpecs).toBeTruthy();
   });
@@ -218,7 +217,7 @@ describe('IdsAbout Component (empty)', () => {
   });
 
   it('should have default properties', () => {
-    expect(component.copyrightYear).toEqual(new Date().getFullYear());
+    expect(component.copyrightYear).toEqual(new Date().getFullYear().toString());
     expect(component.deviceSpecs).toBeTruthy();
     expect(component.useDefaultCopyright).toBeTruthy();
   });

@@ -21,6 +21,10 @@ import styles from './ids-accordion-panel.scss';
 @customElement('ids-accordion-panel')
 @scss(styles)
 export default class IdsAccordionPanel extends Base {
+  paneOpenListener?: () => void;
+
+  paneCloseListener?: () => void;
+
   constructor() {
     super();
     this.state = {};
@@ -123,7 +127,7 @@ export default class IdsAccordionPanel extends Base {
    * @readonly
    * @returns {HTMLElement|null} the expander button
    */
-  get expander(): HTMLElement | null {
+  get expander(): HTMLElement | undefined | null {
     return this.container?.querySelector('.ids-accordion-panel-expander');
   }
 
@@ -131,7 +135,7 @@ export default class IdsAccordionPanel extends Base {
    * @readonly
    * @returns {HTMLElement|null} the inner expand/collapse pane element
    */
-  get pane(): HTMLElement | null {
+  get pane(): HTMLElement | undefined | null {
     return this.container?.querySelector('.ids-accordion-pane');
   }
 
@@ -140,7 +144,7 @@ export default class IdsAccordionPanel extends Base {
    * @returns {boolean} true if this pane resides inside another pane
    */
   get hasParentPanel(): boolean {
-    return this.parentElement.tagName === 'IDS-ACCORDION-PANEL';
+    return this.parentElement?.tagName === 'IDS-ACCORDION-PANEL';
   }
 
   /**
@@ -148,7 +152,7 @@ export default class IdsAccordionPanel extends Base {
    * @returns {boolean} true if this pane resides in an expanded parent pane
    */
   get parentExpanded(): boolean {
-    return this.hasParentPanel && this.parentElement.expanded;
+    return this.hasParentPanel && (this.parentElement as IdsAccordionPanel)?.expanded;
   }
 
   /**
@@ -213,7 +217,7 @@ export default class IdsAccordionPanel extends Base {
    * @private
    */
   #collapseSiblingPanels(): void {
-    const panels = [...this.parentElement.querySelectorAll(':scope > ids-accordion-panel')];
+    const panels = [...this.parentElement?.querySelectorAll<IdsAccordionPanel>(':scope > ids-accordion-panel') ?? []];
 
     panels.forEach((panel) => {
       if (panel !== this && panel.expanded) {
@@ -245,7 +249,7 @@ export default class IdsAccordionPanel extends Base {
    * @returns {boolean} true if this panel appears "nested"
    */
   get nested(): boolean {
-    return this.container?.classList.contains('nested');
+    return !!this.container?.classList?.contains('nested');
   }
 
   /**
@@ -294,7 +298,7 @@ export default class IdsAccordionPanel extends Base {
 
       // Remove any pre-existing Open listener that may still be in progress
       if (this.paneOpenListener) {
-        this.pane.removeEventListener('transitionend', this.paneCloseListener);
+        this.pane.removeEventListener('transitionend', this.paneOpenListener);
         delete this.paneOpenListener;
       }
 
@@ -341,7 +345,7 @@ export default class IdsAccordionPanel extends Base {
     this.pane.style.display = 'block';
 
     requestAnimationFrame(() => {
-      this.container.classList.add('expanded');
+      this.container?.classList.add('expanded');
 
       if (this.header) {
         this.header.expanded = true;
