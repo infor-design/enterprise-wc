@@ -42,7 +42,8 @@ export default class IdsSwappableItem extends Base {
       attributes.ORIGINAL_TEXT,
       attributes.OVER,
       attributes.SELECTED,
-      attributes.TABBABLE
+      attributes.TABBABLE,
+      attributes.WITH_STYLES
     ];
   }
 

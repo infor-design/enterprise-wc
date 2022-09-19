@@ -381,6 +381,7 @@ export const attributes = {
   VIRTUAL_SCROLL: 'virtual-scroll',
   VISIBLE: 'visible',
   WIDTH: 'width',
+  WITH_STYLES: 'with-styles',
   WRAP: 'wrap',
   X: 'x',
   XSS_IGNORED_TAGS: 'xss-ignored-tags',
