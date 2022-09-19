@@ -19,12 +19,11 @@ import '../ids-button/ids-button';
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
 import '../ids-toolbar/ids-toolbar';
-import renderLoop from '../ids-render-loop/ids-render-loop-global';
-import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 import styles from './ids-week-view.scss';
 import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../ids-calendar/ids-calendar-event';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { clearAnimationInterval, FrameRequestLoopHandler, requestAnimationInterval } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 interface DayMapData {
   key: number;
@@ -152,9 +151,9 @@ export default class IdsWeekView extends Base {
             <ids-text
               class="week-view-today-text"
               font-size="16"
-              translate-text="true" 
+              translate-text="true"
               translation-key="Today"
-              font-weight="bold" 
+              font-weight="bold"
             >Today</ids-text>
           </ids-button>` : ''}
       </ids-toolbar-section>
@@ -485,17 +484,21 @@ export default class IdsWeekView extends Base {
     setTimelinePosition();
 
     // Update timeline top shift (default is 30 seconds)
-    this.timer?.destroy();
-    this.timer = new IdsRenderLoopItem({
-      id: 'week-view-timer',
-      updateDuration: timelineInterval,
-      updateCallback() {
-        setTimelinePosition();
-      }
-    });
-
-    renderLoop.register(this.timer);
+    this.#clearInterval();
+    this.#timelinePositionInterval = requestAnimationInterval(() => setTimelinePosition(), timelineInterval);
   }
+
+  /**
+   * Removes a previously-set interval that controls timeline position
+   */
+  #clearInterval() {
+    if (this.#timelinePositionInterval) clearAnimationInterval(this.#timelinePositionInterval);
+  }
+
+  /**
+   * Stored interval used to control timeline position
+   */
+  #timelinePositionInterval?: FrameRequestLoopHandler;
 
   /**
    * Add CSS variable of the container offset top

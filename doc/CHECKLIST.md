@@ -113,7 +113,6 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Radar (ids-radar-chart) skipping until needed
  - [x] Radios (ids-radio)
  - [x] Rating (ids-rating)
- - [x] Renderloop (mixin)
  - [ ] Scatterplot (ids-scatter-plot-chart)
  - [x] Searchfield (ids-search-field)
  - [ ] Sign-in (ids-layouts)

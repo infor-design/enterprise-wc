@@ -984,8 +984,7 @@ export default class IdsCalendar extends Base {
 
     if (!end) {
       const date = this.date;
-      date.setMonth(date.getMonth() + 1);
-      date.setDate(0);
+      date.setMonth(date.getMonth() + 1, 0);
       return date;
     }
 

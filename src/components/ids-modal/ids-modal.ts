@@ -6,8 +6,7 @@ import Base from './ids-modal-base';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
-import renderLoop from '../ids-render-loop/ids-render-loop-global';
-import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
+import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import zCounter from './ids-modal-z-counter';
 import '../ids-popup/ids-popup';
@@ -18,10 +17,6 @@ import '../ids-modal-button/ids-modal-button';
 import styles from './ids-modal.scss';
 
 type IdsModalFullsizeAttributeValue = null | 'null' | '' | keyof Breakpoints | 'always';
-
-// When a user clicks the Modal Buttons, this is the delay between
-// the click and the "hiding" of the Modal.
-const dismissTimeout = 200;
 
 /**
  * IDS Modal Component
@@ -83,11 +78,11 @@ export default class IdsModal extends Base {
     this.attachEventHandlers();
     this.shouldUpdate = true;
     this.#setFullsizeDefault();
+    this.#setFocusIfVisible();
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
-    window.removeEventListener('DOMContentLoaded', this.#onDOMContentLoaded);
     this.#clearBreakpointResponse();
   }
 
@@ -563,19 +558,12 @@ export default class IdsModal extends Base {
   }
 
   /**
-   * @property {Function} onDOMContentLoaded runs calculation-sensitive routines when the entire DOM has loaded
+   * @property {Function} setFocusIfVisible runs calculation-sensitive routines when the entire DOM has loaded
    */
-  #onDOMContentLoaded = () => {
+  #setFocusIfVisible = async () => {
     this.visible = this.getAttribute('visible');
     if (this.visible) {
-      // Fixes a Chrome Bug where time staggering is needed for focus to occur
-      const timeoutCallback = () => {
-        this.setFocus('last');
-      };
-      renderLoop.register(new IdsRenderLoopItem({
-        duration: 30,
-        timeoutCallback
-      }));
+      this.setFocus('last');
     }
   };
 
@@ -605,8 +593,6 @@ export default class IdsModal extends Base {
       }
     });
 
-    window.addEventListener('DOMContentLoaded', this.#onDOMContentLoaded);
-
     // Set up all the events specifically-related to the "trigger" type
     this.refreshTriggerEvents();
   }
@@ -615,24 +601,19 @@ export default class IdsModal extends Base {
    * Handles when Modal Button is clicked.
    * @param {any} e the original event object
    */
-  handleButtonClick(e: any): void {
-    const timeoutCallback = () => {
-      if (typeof this.onButtonClick === 'function') {
-        this.onButtonClick(e.target);
-      }
-      // If this IdsModalButton has a `cancel` prop, treat
-      // it as a `cancel` button and hide.
-      const modalBtn = e.target.closest('ids-modal-button');
-      if (modalBtn?.cancel) {
-        this.hide();
-      }
-    };
+  async handleButtonClick(e: any): Promise<void> {
+    await cssTransitionTimeout(200);
 
-    // Run click handler on a staggered interval
-    renderLoop.register(new IdsRenderLoopItem({
-      duration: dismissTimeout,
-      timeoutCallback
-    }));
+    if (typeof this.onButtonClick === 'function') {
+      this.onButtonClick(e.target);
+    }
+
+    // If this IdsModalButton has a `cancel` prop, treat
+    // it as a `cancel` button and hide.
+    const modalBtn = e.target.closest('ids-modal-button');
+    if (modalBtn?.cancel) {
+      this.hide();
+    }
   }
 
   /**
