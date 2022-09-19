@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { camelCase, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { stripHTML, stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import {
   getClosest,
@@ -26,7 +26,8 @@ import {
   POSITION_STYLES,
   TYPES,
   POPUP_PROPERTIES,
-  formatAlignAttribute
+  formatAlignAttribute,
+  getElementFromSelector
 } from './ids-popup-attributes';
 
 import styles from './ids-popup.scss';
@@ -226,13 +227,9 @@ export default class IdsPopup extends Base {
 
     let elem: IdsPopupElementRef = null;
     if (isString) {
-      // @TODO Harden for security (XSS)
-      const rootNode = getClosestRootNode((this as any));
-      elem = rootNode.querySelector(val);
-      if (!(elem instanceof HTMLElement || elem instanceof SVGElement)) {
-        return;
-      }
-      this.setAttribute(attributes.ALIGN_TARGET, val);
+      const validValue = stripTags(val);
+      elem = getElementFromSelector(validValue, getClosestRootNode((this as any)));
+      this.setAttribute(attributes.ALIGN_TARGET, validValue);
     } else if (isElem) {
       elem = val;
     }
@@ -280,7 +277,7 @@ export default class IdsPopup extends Base {
    */
   set align(val: string) {
     const currentAlign = this.#align;
-    let trueVal = val;
+    let trueVal = stripTags(val);
     if (typeof trueVal !== 'string' || !trueVal.length) {
       trueVal = CENTER;
     }
@@ -548,12 +545,14 @@ export default class IdsPopup extends Base {
    */
   set animationStyle(val: string) {
     const currentVal = this.#animationStyle;
-    if (val !== currentVal && ANIMATION_STYLES.includes(val)) {
-      this.#animationStyle = val;
-      this.setAttribute(attributes.ANIMATION_STYLE, val);
-      this.#refreshAnimationStyle(currentVal, val);
-    } else {
-      this.#refreshAnimationStyle('', currentVal);
+    if (ANIMATION_STYLES.includes(val)) {
+      if (val !== currentVal) {
+        this.#animationStyle = val;
+        this.setAttribute(attributes.ANIMATION_STYLE, val);
+        this.#refreshAnimationStyle(currentVal, val);
+      } else {
+        this.#refreshAnimationStyle('', currentVal);
+      }
     }
   }
 
@@ -721,13 +720,9 @@ export default class IdsPopup extends Base {
 
     let elem: IdsPopupElementRef = null;
     if (isString) {
-      // @TODO Harden for security (XSS)
-      const rootNode = getClosestRootNode((this as any));
-      elem = rootNode.querySelector(val);
-      if (!(elem instanceof HTMLElement || elem instanceof SVGElement)) {
-        return;
-      }
-      this.setAttribute(attributes.ARROW_TARGET, val);
+      const validValue = stripTags(val);
+      elem = getElementFromSelector(validValue, getClosestRootNode(this as any));
+      if (elem) this.setAttribute(attributes.ARROW_TARGET, validValue);
     } else if (isElem) {
       elem = val;
     }
@@ -817,13 +812,15 @@ export default class IdsPopup extends Base {
    */
   set type(val: string) {
     const currentVal = this.#type;
-    if (val && currentVal !== val && TYPES.includes(val)) {
-      this.#type = val;
-      this.setAttribute(attributes.TYPE, this.#type);
-      this.#refreshPopupTypeClass(currentVal, val);
-      this.place();
-    } else {
-      this.#refreshPopupTypeClass('', currentVal);
+    if (TYPES.includes(val)) {
+      if (currentVal !== val) {
+        this.#type = val;
+        this.setAttribute(attributes.TYPE, this.#type);
+        this.#refreshPopupTypeClass(currentVal, val);
+        this.place();
+      } else {
+        this.#refreshPopupTypeClass('', currentVal);
+      }
     }
   }
 

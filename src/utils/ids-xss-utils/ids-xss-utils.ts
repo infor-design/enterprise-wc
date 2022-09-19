@@ -64,28 +64,27 @@ export function stripHTML(str: string) {
  * @param {string} allowed Comma seperated string of allowed tags e.g. '<b><i><p>''
  * @returns {string} the modified value
  */
-export function stripTags(html: string | number, allowed?: string) {
-  if (!html) {
-    return '';
-  }
+export function stripTags(html: string | number, allowed = ''): string {
+  if (!html) return '';
+  if (typeof html === 'number') return `${html}`;
 
-  if (typeof html === 'number') {
-    return html;
-  }
-
-  const allowList = ((`${allowed || ''}`)
+  const allowList = (`${allowed}`
     .toLowerCase()
     .match(/<[a-z][a-z0-9|ids\-a-z]*>/g) || [])
     .join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c><ids-abc>)
 
   const tags = /<\/?([a-z][a-z0-9|ids\-a-z]*)\b[^>]*>/gi;
   const commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
-  let returnHTML = '';
-  returnHTML = html.replace(commentsAndPhpTags, '')
-    .replace(tags, ($0, $1) => allowList.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : ''); //eslint-disable-line
-  returnHTML = returnHTML.replace(tags, ($0, $1) => allowList.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : ''); //eslint-disable-line
+  const replacer = ($0: string, $1: string) => {
+    const contents = allowList.indexOf(`<${$1.toLowerCase()}>`);
+    if (contents > -1) return $0;
+    return '';
+  };
 
-  return returnHTML;
+  return html
+    .replace(commentsAndPhpTags, '')
+    .replace(tags, replacer)
+    .replace(tags, replacer);
 }
 
 /**

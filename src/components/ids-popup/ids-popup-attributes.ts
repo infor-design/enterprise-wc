@@ -77,6 +77,22 @@ function formatAlignAttribute(alignX: string, alignY: string, edge: string): str
   return `${edge}, ${alignY}`;
 }
 
+/**
+ * Safely wraps `Element.querySelector(string)` for protection from bad external input
+ * @param {string} selector incoming selector string
+ * @param {Document|Element} [rootNode] the root node (uses the document as default)
+ * @returns {IdsPopupElementRef} safe element reference if one is found, null otherwise
+ */
+function getElementFromSelector(selector: string, rootNode = document) {
+  let elem: IdsPopupElementRef = null;
+  try {
+    elem = rootNode.querySelector(selector);
+  } catch {
+    elem = null;
+  }
+  return elem;
+}
+
 export {
   CENTER,
   ALIGNMENT_EDGES,
@@ -89,5 +105,6 @@ export {
   POSITION_STYLES,
   TYPES,
   POPUP_PROPERTIES,
-  formatAlignAttribute
+  formatAlignAttribute,
+  getElementFromSelector
 };

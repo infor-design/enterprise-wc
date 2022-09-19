@@ -442,6 +442,22 @@ describe('IdsPopup Component', () => {
     popup.alignTarget = null;
 
     expect(popup.hasAttribute('align-target')).toBeFalsy();
+
+    // Test for XSS Vulnerabilities
+    popup.alignTarget = '<script>alert()<\/script>'; // eslint-disable-line
+    expect(popup.alignTarget).toBe(null);
+    popup.alignTarget = '&lt;script&gt;alert()&lt;\script&gt;'; // eslint-disable-line
+    expect(popup.alignTarget).toBe(null);
+    popup.alignTarget = '&lt;svg/onload=alert(1)&gt;';
+    expect(popup.alignTarget).toBe(null);
+    popup.alignTarget = 'script<img src=\'a\'onerror=\'alert(0)\'>'; // eslint-disable-line
+    expect(popup.alignTarget).toBe(null);
+    popup.alignTarget = '<svg/onload=alert(1)>';
+    expect(popup.alignTarget).toBe(null);
+    popup.alignTarget = '<script>alert(1)<\/script>'; // eslint-disable-line
+    expect(popup.alignTarget).toBe(null);
+    popup.alignTarget = '<img src=x onerror=alert("sup")>test';
+    expect(popup.alignTarget).toBe(null);
   });
 
   it('rejects a bad alignTarget', () => {
@@ -848,6 +864,22 @@ describe('IdsPopup Component', () => {
     // Remove the arrow target if given null/undefined
     popup.arrowTarget = null;
 
+    expect(popup.arrowTarget).toBe(null);
+
+    // Test for XSS Vulnerabilities
+    popup.arrowTarget = '<script>alert()<\/script>'; // eslint-disable-line
+    expect(popup.arrowTarget).toBe(null);
+    popup.arrowTarget = '&lt;script&gt;alert()&lt;\script&gt;'; // eslint-disable-line
+    expect(popup.arrowTarget).toBe(null);
+    popup.arrowTarget = '&lt;svg/onload=alert(1)&gt;';
+    expect(popup.arrowTarget).toBe(null);
+    popup.arrowTarget = 'script<img src=\'a\'onerror=\'alert(0)\'>'; // eslint-disable-line
+    expect(popup.arrowTarget).toBe(null);
+    popup.arrowTarget = '<svg/onload=alert(1)>';
+    expect(popup.arrowTarget).toBe(null);
+    popup.arrowTarget = '<script>alert(1)<\/script>'; // eslint-disable-line
+    expect(popup.arrowTarget).toBe(null);
+    popup.arrowTarget = '<img src=x onerror=alert("sup")>test';
     expect(popup.arrowTarget).toBe(null);
   });
 
