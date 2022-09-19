@@ -127,6 +127,9 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       content: '*';
       margin-top: -10px;
       top: 1px;
+
+      // Adding it so "*" sign doesn't change label text height
+      line-height: 0;
     }
 
     &.no-required-indicator::after,
