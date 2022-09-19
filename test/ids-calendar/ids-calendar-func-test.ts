@@ -267,7 +267,7 @@ describe('IdsCalendar Component', () => {
     expect(component.eventsData[0].subject).toEqual(subject);
   });
 
-  it.skip('has startDate and endDate properties', () => {
+  it('has startDate and endDate properties', () => {
     const now = new Date();
     const start = component.startDate;
     const end = component.endDate;
