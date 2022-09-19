@@ -1119,10 +1119,21 @@ export default class IdsPopup extends Base {
 
     let x = this.x;
     let y = this.y;
-    this.container.classList.remove('flipped');
 
     // Detect sizes/locations of the popup and the alignment target Element
     let popupRect = this.getBoundingClientRect();
+    const shouldFlip = this.#shouldFlip(popupRect);
+
+    this.container.classList.toggle('flipped', shouldFlip);
+
+    // Check boundaries and attempt to flip the component in the opposite direction, if needed.
+    // If neither side will properly fit the popup, the popup will shrink to fit
+    if (shouldFlip && !targetAlignEdge) {
+      this.#placeAgainstTarget(this.oppositeAlignEdge);
+      this.isFlipped = true;
+      return;
+    }
+
     const targetRect = this.alignTarget.getBoundingClientRect();
     const alignEdge = targetAlignEdge || this.alignEdge;
     let alignXCentered = false;
@@ -1196,14 +1207,6 @@ export default class IdsPopup extends Base {
     // Set adjusted values
     popupRect.x = x;
     popupRect.y = y;
-
-    // Check boundaries and attempt to flip the component in the opposite direction, if needed.
-    // If neither side will properly fit the popup, the popup will shrink to fit
-    if (this.#shouldFlip(popupRect) && !targetAlignEdge) {
-      this.#placeAgainstTarget(this.oppositeAlignEdge);
-      this.isFlipped = true;
-      return;
-    }
 
     // If the Popup bleeds off the viewport, nudge it back into full view
     popupRect = this.#nudge(popupRect);

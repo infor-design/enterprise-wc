@@ -5,7 +5,7 @@ import Base from './ids-swipe-action-base';
 
 import styles from './ids-swipe-action.scss';
 
-import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
+import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 /**
  * IDS SwipeAction Component
@@ -42,28 +42,30 @@ export default class IdsSwipeAction extends Base {
    * Scroll to the center container on render
    * @private
    */
-  #afterConnectedCallback() {
+  async #afterConnectedCallback() {
     this.leftButton = this.querySelector('[slot="action-left"]');
     this.rightButton = this.querySelector('[slot="action-right"]');
-    if (this.leftButton && this.swipeType === 'reveal') {
-      this.leftButton.setAttribute('tabindex', '-1');
-      this.leftButton.setAttribute('aria-hidden', 'true');
-      this.leftButton.setAttribute('no-ripple', 'true');
-    }
-    if (this.rightButton && this.swipeType === 'reveal') {
-      this.rightButton.setAttribute('tabindex', '-1');
-      this.rightButton.setAttribute('aria-hidden', 'true');
-      this.rightButton.setAttribute('no-ripple', 'true');
-    }
 
-    if (this.leftButton && this.swipeType === 'reveal') {
-      this.container.style.visibility = 'hidden';
-      requestAnimationFrame(() => {
+    if (this.swipeType === 'reveal') {
+      if (this.rightButton) {
+        this.rightButton.setAttribute('tabindex', '-1');
+        this.rightButton.setAttribute('aria-hidden', 'true');
+        this.rightButton.setAttribute('no-ripple', 'true');
+      }
+      if (this.leftButton) {
+        this.leftButton.setAttribute('tabindex', '-1');
+        this.leftButton.setAttribute('aria-hidden', 'true');
+        this.leftButton.setAttribute('no-ripple', 'true');
+
+        // Fix scroll position
+        this.container.style.visibility = 'hidden';
+        this.container.style.scrollBehavior = 'auto';
+        await cssTransitionTimeout(40);
         this.container.scrollLeft = 85;
-      });
-      requestAnimationTimeout(() => {
-        this.container.style.visibility = 'visible';
-      }, 200);
+        await cssTransitionTimeout(1);
+        this.container.style.scrollBehavior = 'smooth';
+        this.container.style.visibility = '';
+      }
     }
   }
 

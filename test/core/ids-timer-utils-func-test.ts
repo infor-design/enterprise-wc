@@ -4,14 +4,18 @@
 import {
   clearAnimationInterval,
   clearAnimationTimeout,
+  cssTransitionTimeout,
   requestAnimationInterval,
   requestAnimationTimeout,
 } from '../../src/utils/ids-timer-utils/ids-timer-utils';
 import type { FrameRequestLoopHandler } from '../../src/utils/ids-timer-utils/ids-timer-utils';
-
 import wait from '../helpers/wait';
+import waitForTimeout from '../helpers/wait-for-timeout';
 
-describe('IdsTimerUtils tests', () => {
+import '../../src/components/ids-modal/ids-modal';
+import '../../src/components/ids-modal-button/ids-modal-button';
+
+describe('IdsTimerUtils tests (requestAnimationFrame)', () => {
   let el: HTMLDivElement | null;
 
   beforeEach(() => {
@@ -29,7 +33,7 @@ describe('IdsTimerUtils tests', () => {
     expect(timeout.value).toBeDefined();
 
     await wait(110);
-    expect(el?.classList).toContain('complete');
+    await waitForTimeout(() => expect(el?.classList).toContain('complete'));
   });
 
   it('can cancel a timeout function and prevent it from occuring', async () => {
@@ -38,9 +42,7 @@ describe('IdsTimerUtils tests', () => {
 
     await wait(50);
     clearAnimationTimeout(timeout);
-    await wait(50);
-
-    expect(el?.classList).not.toContain('complete');
+    await waitForTimeout(() => expect(el?.classList).not.toContain('complete'));
   });
 
   it('can execute functions on an interval', async () => {
@@ -51,8 +53,8 @@ describe('IdsTimerUtils tests', () => {
     expect(interval.value).toBeDefined();
 
     // Run at least 3 full times
-    await wait(200);
-    expect(count).toBe(3);
+    await wait(160);
+    await waitForTimeout(() => expect(count).toBeGreaterThan(2));
   });
 
   it('can cancel an interval function and prevent it from occuring further', async () => {
@@ -63,11 +65,23 @@ describe('IdsTimerUtils tests', () => {
     expect(interval.value).toBeDefined();
 
     // Run at least 3 full times, clear, then wait at least one more interval
-    await wait(200);
+    await wait(160);
     clearAnimationInterval(interval);
     await wait(100);
 
     // Count should be the same as if it only ran three times
-    expect(count).toBe(3);
+    await waitForTimeout(() => expect(count).toBeLessThan(4));
+  });
+});
+
+describe('IdsTimerUtils (CSS Transitions)', () => {
+  it.skip('can execute functions after a CSS transition completes', async () => {
+    expect(document.querySelector('.ids-transition-timeout')).toBe(null);
+
+    // Kickoff a timeout (don't wait for this one)
+    await cssTransitionTimeout(200);
+
+    // Hidden tested elements should be cleaned up
+    expect(document.querySelector('.ids-transition-timeout')).toBe(null);
   });
 });

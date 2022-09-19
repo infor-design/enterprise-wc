@@ -1,9 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import { requestAnimationTimeout, clearAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
-import type { FrameRequestLoopHandler } from '../../utils/ids-timer-utils/ids-timer-utils';
-
 import Base from './ids-scroll-view-base';
 
 import styles from './ids-scroll-view.scss';
@@ -25,6 +22,7 @@ import styles from './ids-scroll-view.scss';
 export default class IdsScrollView extends Base {
   constructor() {
     super();
+    this.isClick = false;
   }
 
   static get attributes() {
@@ -46,7 +44,6 @@ export default class IdsScrollView extends Base {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.#clearTimer();
   }
 
   /**
@@ -63,27 +60,28 @@ export default class IdsScrollView extends Base {
     </div>`;
   }
 
+  isClick: boolean;
+
   /**
    * Handle events in this case set the selected state
    * @private
    * @returns {void}
    */
   #attachEventHandlers() {
-    this.isClick = false;
-
     // Set selected state on click
     this.onEvent('click', this.controls, (event: any) => {
       if (event.target.nodeName !== 'A') {
         return;
       }
       this.#activateLink(event.target, true);
-      this.#resetIsClick();
+      this.isClick = true;
     });
 
     // handle arrow keys
     this.listen(['ArrowLeft', 'ArrowRight', 'Enter'], this.controls, (e: any) => {
       const selected = this.controls.querySelector('.selected');
-      this.#resetIsClick();
+      this.isClick = false;
+
       if (e.key === 'ArrowRight' && selected.nextElementSibling) {
         this.container.scrollBy(this.container.offsetWidth, 0);
         this.#activateLink(selected.nextElementSibling, true);
@@ -113,35 +111,6 @@ export default class IdsScrollView extends Base {
       );
       observer.observe(elem);
     });
-  }
-
-  /**
-   * Stored animation timeout handler
-   */
-  #timer?: FrameRequestLoopHandler;
-
-  /**
-   * Clears a stored animation timeout if one was previously set
-   */
-  #clearTimer(): void {
-    if (this.#timer) {
-      clearAnimationTimeout(this.timer);
-      this.#timer = undefined;
-    }
-  }
-
-  /**
-   * Mark a flag as interacting with mouse/keyboard vs swiping
-   * @private
-   */
-  #resetIsClick() {
-    this.isClick = true;
-
-    this.#clearTimer();
-    this.#timer = requestAnimationTimeout(() => {
-      this.isClick = false;
-      this.#clearTimer();
-    }, 800);
   }
 
   /**

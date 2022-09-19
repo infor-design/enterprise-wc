@@ -6,7 +6,7 @@ import Base from './ids-modal-base';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
+import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import zCounter from './ids-modal-z-counter';
 import '../ids-popup/ids-popup';
@@ -78,11 +78,11 @@ export default class IdsModal extends Base {
     this.attachEventHandlers();
     this.shouldUpdate = true;
     this.#setFullsizeDefault();
+    this.#setFocusIfVisible();
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
-    window.removeEventListener('DOMContentLoaded', this.#onDOMContentLoaded);
     this.#clearBreakpointResponse();
   }
 
@@ -558,14 +558,12 @@ export default class IdsModal extends Base {
   }
 
   /**
-   * @property {Function} onDOMContentLoaded runs calculation-sensitive routines when the entire DOM has loaded
+   * @property {Function} setFocusIfVisible runs calculation-sensitive routines when the entire DOM has loaded
    */
-  #onDOMContentLoaded = () => {
+  #setFocusIfVisible = async () => {
     this.visible = this.getAttribute('visible');
     if (this.visible) {
-      requestAnimationTimeout(() => {
-        this.setFocus('last');
-      }, 30);
+      this.setFocus('last');
     }
   };
 
@@ -595,8 +593,6 @@ export default class IdsModal extends Base {
       }
     });
 
-    window.addEventListener('DOMContentLoaded', this.#onDOMContentLoaded);
-
     // Set up all the events specifically-related to the "trigger" type
     this.refreshTriggerEvents();
   }
@@ -605,18 +601,19 @@ export default class IdsModal extends Base {
    * Handles when Modal Button is clicked.
    * @param {any} e the original event object
    */
-  handleButtonClick(e: any): void {
-    requestAnimationTimeout(() => {
-      if (typeof this.onButtonClick === 'function') {
-        this.onButtonClick(e.target);
-      }
-      // If this IdsModalButton has a `cancel` prop, treat
-      // it as a `cancel` button and hide.
-      const modalBtn = e.target.closest('ids-modal-button');
-      if (modalBtn?.cancel) {
-        this.hide();
-      }
-    }, 200);
+  async handleButtonClick(e: any): Promise<void> {
+    await cssTransitionTimeout(200);
+
+    if (typeof this.onButtonClick === 'function') {
+      this.onButtonClick(e.target);
+    }
+
+    // If this IdsModalButton has a `cancel` prop, treat
+    // it as a `cancel` button and hide.
+    const modalBtn = e.target.closest('ids-modal-button');
+    if (modalBtn?.cancel) {
+      this.hide();
+    }
   }
 
   /**
