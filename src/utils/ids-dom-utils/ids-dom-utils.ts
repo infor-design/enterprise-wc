@@ -116,6 +116,24 @@ export function waitForTransitionEnd(el: HTMLElement, property: string) {
 }
 
 /**
+ * Similar to `transitionToPromise`, but simply waits for the specified property's `animationend` event to complete
+ * @param {HTMLElement} el the element to act on
+ * @param {string} animationName the CSS animation "keyframes" definition used to qualify the correct `animationend` event
+ * @returns {Promise<boolean>} fulfulled when the CSS animation completes
+ */
+export function waitForAnimationEnd(el: HTMLElement, animationName: string) {
+  return new Promise((resolve) => {
+    if (typeof AnimationEvent !== 'function') resolve(true);
+    const animationEnded = (e: any) => {
+      if (e.animationName !== animationName) return; // Don't match other applied animations
+      el.removeEventListener('animationend', animationEnded);
+      resolve(true);
+    };
+    el.addEventListener('animationend', animationEnded);
+  });
+}
+
+/**
  * Converts a DOMRect to a plain object, making it's properties editable.
  * @param {DOMRect} rect a readonly DOMRect measurement.
  * @returns {object} with all the same properties, but editable
