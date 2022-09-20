@@ -578,6 +578,22 @@ describe('IdsPopup Component', () => {
 
     expect(popup.container.classList.contains('not-real')).toBeFalsy();
     expect(popup.container.classList.contains('tooltip-alt')).toBeTruthy();
+
+    // Test for XSS Vulnerabilities
+    popup.type = '<script>alert()<\/script>'; // eslint-disable-line
+    expect(popup.type).toBe('tooltip-alt');
+    popup.type = '&lt;script&gt;alert()&lt;\script&gt;'; // eslint-disable-line
+    expect(popup.type).toBe('tooltip-alt');
+    popup.type = '&lt;svg/onload=alert(1)&gt;';
+    expect(popup.type).toBe('tooltip-alt');
+    popup.type = 'script<img src=\'a\'onerror=\'alert(0)\'>'; // eslint-disable-line
+    expect(popup.type).toBe('tooltip-alt');
+    popup.type = '<svg/onload=alert(1)>';
+    expect(popup.type).toBe('tooltip-alt');
+    popup.type = '<script>alert(1)<\/script>'; // eslint-disable-line
+    expect(popup.type).toBe('tooltip-alt');
+    popup.type = '<img src=x onerror=alert("sup")>test';
+    expect(popup.type).toBe('tooltip-alt');
   });
 
   it('can enable/disable animation', (done) => {
@@ -609,6 +625,22 @@ describe('IdsPopup Component', () => {
 
     expect(popup.container.classList.contains('animation-fish')).toBeFalsy();
     expect(popup.container.classList.contains('animation-fade')).toBeTruthy();
+
+    // Test for XSS Vulnerabilities
+    popup.animationStyle = '<script>alert()<\/script>'; // eslint-disable-line
+    expect(popup.animationStyle).toBe('fade');
+    popup.animationStyle = '&lt;script&gt;alert()&lt;\script&gt;'; // eslint-disable-line
+    expect(popup.animationStyle).toBe('fade');
+    popup.animationStyle = '&lt;svg/onload=alert(1)&gt;';
+    expect(popup.animationStyle).toBe('fade');
+    popup.animationStyle = 'script<img src=\'a\'onerror=\'alert(0)\'>'; // eslint-disable-line
+    expect(popup.animationStyle).toBe('fade');
+    popup.animationStyle = '<svg/onload=alert(1)>';
+    expect(popup.animationStyle).toBe('fade');
+    popup.animationStyle = '<script>alert(1)<\/script>'; // eslint-disable-line
+    expect(popup.animationStyle).toBe('fade');
+    popup.animationStyle = '<img src=x onerror=alert("sup")>test';
+    expect(popup.animationStyle).toBe('fade');
   });
 
   it('can set a position style', () => {
@@ -632,6 +664,22 @@ describe('IdsPopup Component', () => {
 
     expect(popup.positionStyle).toBe('viewport');
     expect(popup.container.classList.contains('position-viewport')).toBeTruthy();
+
+    // Test for XSS Vulnerabilities
+    popup.positionStyle = '<script>alert()<\/script>'; // eslint-disable-line
+    expect(popup.positionStyle).toBe('viewport');
+    popup.positionStyle = '&lt;script&gt;alert()&lt;\script&gt;'; // eslint-disable-line
+    expect(popup.positionStyle).toBe('viewport');
+    popup.positionStyle = '&lt;svg/onload=alert(1)&gt;';
+    expect(popup.positionStyle).toBe('viewport');
+    popup.positionStyle = 'script<img src=\'a\'onerror=\'alert(0)\'>'; // eslint-disable-line
+    expect(popup.positionStyle).toBe('viewport');
+    popup.positionStyle = '<svg/onload=alert(1)>';
+    expect(popup.positionStyle).toBe('viewport');
+    popup.positionStyle = '<script>alert(1)<\/script>'; // eslint-disable-line
+    expect(popup.positionStyle).toBe('viewport');
+    popup.positionStyle = '<img src=x onerror=alert("sup")>test';
+    expect(popup.positionStyle).toBe('viewport');
   });
 
   it('can enable/disable visibility', async () => {
