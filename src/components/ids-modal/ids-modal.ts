@@ -11,8 +11,9 @@ import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 import zCounter from './ids-modal-z-counter';
 import '../ids-popup/ids-popup';
-import IdsOverlay from './ids-overlay';
 import '../ids-modal-button/ids-modal-button';
+import IdsOverlay from './ids-overlay';
+import type IdsModalButton from '../ids-modal-button/ids-modal-button';
 
 // Import Styles
 import styles from './ids-modal.scss';
@@ -141,10 +142,10 @@ export default class IdsModal extends Base {
 
   /**
    * @readonly
-   * @returns {NodeList} currently slotted buttons
+   * @returns {NodeListOf<IdsModalButton> } currently slotted buttons
    */
-  get buttons(): NodeList {
-    return this.querySelectorAll('[slot="buttons"]');
+  get buttons(): NodeListOf<IdsModalButton> {
+    return this.querySelectorAll<IdsModalButton>('[slot="buttons"]');
   }
 
   /**

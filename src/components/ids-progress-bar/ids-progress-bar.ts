@@ -93,7 +93,7 @@ export default class IdsProgressBar extends Base {
    * Sets the component to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
-  set disabled(value: boolean | string) {
+  set disabled(value: boolean | string | null) {
     const rootEl = this.shadowRoot?.querySelector('.ids-progress-bar');
     const val = stringToBool(value);
     if (val) {
@@ -105,7 +105,9 @@ export default class IdsProgressBar extends Base {
     }
   }
 
-  get disabled(): boolean | string { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): string | null {
+    return this.getAttribute(attributes.DISABLED);
+  }
 
   /**
    * Set the `label` text
@@ -129,7 +131,7 @@ export default class IdsProgressBar extends Base {
    * Sets to label text as audible
    * @param {boolean|string} value If true will set `label-audible` attribute
    */
-  set labelAudible(value: boolean | string) {
+  set labelAudible(value: boolean | string | null) {
     const rootEl = this.shadowRoot?.querySelector('.ids-progress-bar');
     const labelText = this.shadowRoot?.querySelector('.progress-label ids-text');
     const val = stringToBool(value);
@@ -144,7 +146,9 @@ export default class IdsProgressBar extends Base {
     }
   }
 
-  get labelAudible(): boolean | string { return this.getAttribute(attributes.LABEL_AUDIBLE); }
+  get labelAudible(): string | null {
+    return this.getAttribute(attributes.LABEL_AUDIBLE);
+  }
 
   /**
    * Set the `max` attribute of progress

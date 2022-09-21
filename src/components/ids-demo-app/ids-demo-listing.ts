@@ -2,6 +2,7 @@ import { customElement } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-demo-listing-base';
 import '../ids-data-grid/ids-data-grid';
+import IdsDataGrid from '../ids-data-grid/ids-data-grid';
 
 /**
  * IDS Demo Listing Component
@@ -44,7 +45,7 @@ export default class IdsDemoListing extends Base {
    * Set the listing internal label
    * @param {string} value of the label text
    */
-  set label(value: string) {
+  set label(value: string | null) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
     } else {
@@ -69,14 +70,14 @@ export default class IdsDemoListing extends Base {
   }
 
   get id() {
-    return this.getAttribute(attributes.ID);
+    return this.getAttribute(attributes.ID) ?? '';
   }
 
   /**
    * Set the component name
    * @param {string} value name of the component
    */
-  set componentName(value: string) {
+  set componentName(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COMPONENT_NAME, value);
     } else {
@@ -93,11 +94,13 @@ export default class IdsDemoListing extends Base {
    * @param {string} value of the label text
    */
   set data(value: Record<string, any>) {
-    this.container.data = value;
+    if (this.container) {
+      (this.container as IdsDataGrid).data = value;
+    }
   }
 
   get data() {
-    return this.container.data;
+    return (this.container as IdsDataGrid).data;
   }
 
   /**
@@ -111,23 +114,23 @@ export default class IdsDemoListing extends Base {
       field: 'link',
       href: `/${this.componentName}/{{value}}`,
       sortable: true,
-      formatter: this.container.formatters.hyperlink
+      formatter: (this.container as IdsDataGrid)?.formatters.hyperlink
     });
     columns.push({
       id: 'type',
       name: 'Example Type',
       field: 'type',
       sortable: true,
-      formatter: this.container.formatters.text
+      formatter: (this.container as IdsDataGrid)?.formatters.text
     });
     columns.push({
       id: 'description',
       name: 'Description',
       field: 'description',
       sortable: true,
-      formatter: this.container.formatters.text
+      formatter: (this.container as IdsDataGrid)?.formatters.text
     });
 
-    this.container.columns = columns;
+    (this.container as IdsDataGrid).columns = columns;
   };
 }

@@ -9,6 +9,12 @@ import '../ids-modal/ids-modal';
 import '../ids-data-grid/ids-data-grid';
 
 import styles from './ids-lookup.scss';
+import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
+import type IdsDataGrid from '../ids-data-grid/ids-data-grid';
+import type IdsModal from '../ids-modal/ids-modal';
+import type IdsText from '../ids-text/ids-text';
+import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
 
 /**
  * IDS Lookup Component
@@ -30,6 +36,16 @@ import styles from './ids-lookup.scss';
 @customElement('ids-lookup')
 @scss(styles)
 export default class IdsLookup extends Base {
+  triggerField?: IdsTriggerField | null;
+
+  triggerButton?: IdsTriggerButton | null;
+
+  dataGrid?: IdsDataGrid | null;
+
+  modal?: IdsModal | null;
+
+  listBox?: any;
+
   constructor() {
     super();
 
@@ -55,15 +71,14 @@ export default class IdsLookup extends Base {
 
     // Setup Attached Datagrid
     this.dataGrid = this.shadowRoot?.querySelector('ids-data-grid');
-    this.dataGrid.listStyle = true;
+    this.dataGrid?.setAttribute(attributes.LIST_STYLE, 'true');
 
     // Link the Modal to its trigger button (sets up click/focus events)
-    this.modal = this.querySelector('[slot="lookup-modal"]');
-    if (!this.modal) {
-      this.modal = this.shadowRoot?.querySelector('ids-modal');
+    this.modal = this.querySelector('[slot="lookup-modal"]') || this.shadowRoot?.querySelector('ids-modal');
+    if (this.modal) {
+      this.modal.target = this.triggerButton as IdsPopupElementRef;
+      this.modal.triggerType = 'click';
     }
-    this.modal.target = this.triggerButton;
-    this.modal.triggerType = 'click';
 
     this
       .#handleEvents()
@@ -75,9 +90,9 @@ export default class IdsLookup extends Base {
 
     this.dataGrid = undefined;
     this.modal = undefined;
-    this.state = undefined;
     this.triggerField = undefined;
     this.triggerButton = undefined;
+    this.state = {};
   }
 
   /**
@@ -191,7 +206,7 @@ export default class IdsLookup extends Base {
         const tfValue = this.triggerField.value;
         if (tfValue !== this.state.value) {
           this.triggerField.value = this.state.value;
-          this.triggerField.input.dispatchEvent(new Event('change'));
+          this.triggerField?.input?.dispatchEvent(new Event('change'));
         }
       }
 
@@ -279,8 +294,8 @@ export default class IdsLookup extends Base {
       return;
     }
 
-    this.setAttribute(attributes.TABBABLE, isTabbable);
-    this.triggerField.setAttribute(attributes.TABBABLE, isTabbable);
+    this.setAttribute(attributes.TABBABLE, String(isTabbable));
+    this.triggerField.setAttribute(attributes.TABBABLE, String(isTabbable));
   }
 
   get tabbable(): string | boolean {
@@ -299,21 +314,21 @@ export default class IdsLookup extends Base {
    * @param {Record<string, unknown> | undefined} value The array to use
    */
   set columns(value: Record<string, unknown> | undefined) {
-    this.dataGrid.columns = value;
+    if (this.dataGrid) this.dataGrid.columns = value;
   }
 
-  get columns(): Record<string, unknown> | undefined { return this.dataGrid.columns; }
+  get columns(): Record<string, unknown> | undefined { return this.dataGrid?.columns; }
 
   /**
    * Set the data array of the data grid
    * @param {Record<string, unknown> | undefined} value The array to use
    */
   set data(value: Record<string, unknown> | undefined) {
-    this.dataGrid.data = value;
+    if (this.dataGrid) this.dataGrid.data = value;
     this.#syncSelectedRows();
   }
 
-  get data(): Record<string, unknown> | undefined { return this.dataGrid.data; }
+  get data(): Record<string, unknown> | undefined { return this.dataGrid?.data; }
 
   /**
    * Sync the selected rows in the dataGrid
@@ -324,7 +339,7 @@ export default class IdsLookup extends Base {
   #syncSelectedRows(value: string = this.value): void {
     // Deselect all rows, if given value is empty
     if (value === '') {
-      if (this.dataGrid.selectedRows.length) this.dataGrid.deSelectAllRows();
+      if (this.dataGrid?.selectedRows.length) this.dataGrid.deSelectAllRows();
       if (this.value !== value) this.value = value;
       return;
     }
@@ -334,10 +349,10 @@ export default class IdsLookup extends Base {
     const values = value?.split(this.delimiter) || [];
     let notFound: number[] = [];
     values.forEach((v: string, i: number) => {
-      const dataIndex = findIndex(this.dataGrid.data, v);
+      const dataIndex = findIndex(this.dataGrid?.data, v);
       if (dataIndex > -1) {
-        if (findIndex(this.dataGrid.selectedRows.map((d: any) => d.data), v) === -1) {
-          this.dataGrid.selectRow(dataIndex);
+        if (findIndex(this.dataGrid?.selectedRows.map((d: any) => d.data), v) === -1) {
+          this.dataGrid?.selectRow(dataIndex);
         }
       } else {
         notFound.push(i);
@@ -347,12 +362,12 @@ export default class IdsLookup extends Base {
 
     // Deselect rows, if any extra previously selected in grid
     notFound = [];
-    if (this.dataGrid.selectedRows.length > values.length) {
-      this.dataGrid.selectedRows.forEach((d: any) => {
+    if (this.dataGrid?.selectedRows.length > values.length) {
+      this.dataGrid?.selectedRows.forEach((d: any) => {
         if (!values.includes(d.data[this.field])) notFound.push(d.index);
       });
     }
-    notFound.forEach((i: number) => this.dataGrid.deSelectRow(i));
+    notFound.forEach((i: number) => this.dataGrid?.deSelectRow(i));
 
     // Update the value
     if (this.value !== value) this.value = value;
@@ -367,9 +382,9 @@ export default class IdsLookup extends Base {
 
     // Apply the settings to the grid
     for (const [setting, settingValue] of Object.entries(settings)) {
-      this.dataGrid[setting] = settingValue;
+      (this.dataGrid as any)[setting] = settingValue;
     }
-    this.dataGrid.listStyle = true;
+    if (this.dataGrid) this.dataGrid.listStyle = true;
   }
 
   get dataGridSettings(): any { return this.state.dataGridSettings; }
@@ -378,21 +393,21 @@ export default class IdsLookup extends Base {
    * Sets the validation check to use
    * @param {string} value The `validate` attribute
    */
-  set validate(value: string) {
+  set validate(value: string | null) {
     if (value) {
       this.setAttribute(attributes.VALIDATE, value.toString());
-      this.triggerField.setAttribute(attributes.VALIDATE, value.toString());
-      this.triggerField.setAttribute(attributes.VALIDATION_EVENTS, this.validationEvents);
-      this.triggerField.handleValidation();
+      this.triggerField?.setAttribute(attributes.VALIDATE, value.toString());
+      this.triggerField?.setAttribute(attributes.VALIDATION_EVENTS, this.validationEvents);
+      this.triggerField?.handleValidation();
     } else {
       this.removeAttribute(attributes.VALIDATE);
-      this.triggerField.removeAttribute(attributes.VALIDATE);
-      this.triggerField.removeAttribute(attributes.VALIDATION_EVENTS);
-      this.triggerField.handleValidation();
+      this.triggerField?.removeAttribute(attributes.VALIDATE);
+      this.triggerField?.removeAttribute(attributes.VALIDATION_EVENTS);
+      this.triggerField?.handleValidation();
     }
   }
 
-  get validate(): string { return this.getAttribute(attributes.VALIDATE); }
+  get validate(): string | null { return this.getAttribute(attributes.VALIDATE); }
 
   /**
    * Set `validation-events` attribute
@@ -401,10 +416,10 @@ export default class IdsLookup extends Base {
   set validationEvents(value: string) {
     if (value) {
       this.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
-      this.triggerField.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
+      this.triggerField?.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
     } else {
       this.removeAttribute(attributes.VALIDATION_EVENTS);
-      this.triggerField.removeAttribute(attributes.VALIDATION_EVENTS);
+      this.triggerField?.removeAttribute(attributes.VALIDATION_EVENTS);
     }
   }
 
@@ -417,8 +432,9 @@ export default class IdsLookup extends Base {
   set title(value: string) {
     if (value) {
       this.setAttribute(attributes.TITLE, value);
-      this.modal.querySelector('[slot="title"]').innerText = value;
-      this.triggerField.setAttribute(attributes.TITLE, value);
+      const titleElem = this.modal?.querySelector<IdsText>('[slot="title"]');
+      if (titleElem) titleElem.innerText = value;
+      this.triggerField?.setAttribute(attributes.TITLE, value);
     }
   }
 
@@ -464,10 +480,10 @@ export default class IdsLookup extends Base {
   get delimiter(): string { return this.getAttribute(attributes.DELIMITER) || ','; }
 
   /**
-   * @returns {HTMLInputElement} Reference to the IdsTriggerField
+   * @returns {IdsTriggerField} Reference to the IdsTriggerField
    */
   get input() {
-    return this.container;
+    return this.container as IdsTriggerField;
   }
 
   /**
@@ -478,8 +494,8 @@ export default class IdsLookup extends Base {
     const val = stringToBool(value);
     if (val !== this.state.clearable) {
       this.state.clearable = val;
-      this.setAttribute(attributes.CLEARABLE, val);
-      this.triggerField?.setAttribute(attributes.CLEARABLE, val);
+      this.setAttribute(attributes.CLEARABLE, String(val));
+      this.triggerField?.setAttribute(attributes.CLEARABLE, String(val));
     }
   }
 
@@ -505,7 +521,7 @@ export default class IdsLookup extends Base {
    * @private
    */
   #setInputValue(): void {
-    this.value = this.dataGrid.selectedRows.map((r: any) => r.data[this.field]).join(this.delimiter);
+    this.value = this.dataGrid?.selectedRows.map((r: any) => r.data[this.field]).join(this.delimiter);
   }
 
   /**
@@ -519,19 +535,19 @@ export default class IdsLookup extends Base {
 
       // Cancel
       if (btnId === 'modal-cancel-btn') {
-        this.modal.hide();
+        this.modal?.hide();
         this.#syncSelectedRows();
       }
 
       // Apply
       if (btnId === 'modal-apply-btn') {
-        this.modal.hide();
+        this.modal?.hide();
         this.#setInputValue();
       }
     });
 
     this.onEvent('change.lookup', this.triggerField, () => {
-      const tfValue = this.triggerField.value;
+      const tfValue = this.triggerField?.value;
       let isSynced = tfValue !== this.value;
       if (!isSynced) {
         const selected = this.dataGrid?.selectedRows?.map((d: any) => d?.data?.[this.field]) || [];
@@ -549,7 +565,7 @@ export default class IdsLookup extends Base {
       if (isSynced) this.#syncSelectedRows(tfValue);
     });
 
-    this.modal.addEventListener('beforeshow', (e: CustomEvent) => {
+    this.modal?.addEventListener('beforeshow', ((e: CustomEvent) => {
       // In the case of readonly/disabled or no data do not show the modal
       if (this.readonly || this.disabled) {
         e.detail.response(false);
@@ -562,20 +578,20 @@ export default class IdsLookup extends Base {
       if (this.data?.length === 0 && this.columns?.length === 1 && (this.columns[0] as any).id === '') {
         e.detail.response(false);
       }
-    });
+    }) as EventListener);
 
     // Propagate a few events to the parent
-    this.dataGrid.addEventListener('rowselected', (e: CustomEvent) => {
+    this.dataGrid?.addEventListener('rowselected', ((e: CustomEvent) => {
       this.triggerEvent('rowselected', this, { detail: e.detail });
-    });
+    }) as EventListener);
 
-    this.dataGrid.addEventListener('rowdeselected', (e: CustomEvent) => {
+    this.dataGrid?.addEventListener('rowdeselected', ((e: CustomEvent) => {
       this.triggerEvent('rowdeselected', this, { detail: e.detail });
-    });
+    }) as EventListener);
 
-    this.dataGrid.addEventListener('selectionchanged', (e: CustomEvent) => {
+    this.dataGrid?.addEventListener('selectionchanged', ((e: CustomEvent) => {
       this.triggerEvent('selectionchanged', this, { detail: e.detail });
-    });
+    }) as EventListener);
 
     return this;
   }
@@ -587,7 +603,7 @@ export default class IdsLookup extends Base {
    */
   #handleKeys() {
     this.listen(['ArrowDown'], this, () => {
-      this.modal.show();
+      this.modal?.show();
     });
     return this;
   }

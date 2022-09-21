@@ -69,7 +69,7 @@ export default class IdsOverlay extends Base {
   /**
    * @param {number} val a percentage number for setting overlay transparency
    */
-  set opacity(val: number) {
+  set opacity(val: number | string) {
     let trueVal = Number(val);
     if (Number.isNaN(trueVal)) {
       return;

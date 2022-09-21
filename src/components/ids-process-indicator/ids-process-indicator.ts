@@ -4,6 +4,7 @@ import './ids-process-indicator-step';
 import '../ids-alert/ids-alert';
 
 import styles from './ids-process-indicator.scss';
+import type IdsProcessStep from './ids-process-indicator-step';
 
 /**
  * IDS Process Indicator Component
@@ -36,7 +37,7 @@ export default class IdsProcessIndicator extends Base {
    */
   #setActiveStepLabel(): void {
     let activeStepLabel = 'None';
-    const steps = this.querySelectorAll('ids-process-indicator-step');
+    const steps = this.querySelectorAll<IdsProcessStep>('ids-process-indicator-step');
     if (steps.length > 1) {
       let i = 0;
       for (const step of steps) {
@@ -46,7 +47,9 @@ export default class IdsProcessIndicator extends Base {
         }
         i++;
       }
-      this.container.querySelector('.xs-header .label').innerHTML = activeStepLabel;
+
+      const labelElem = this.container?.querySelector('.xs-header .label');
+      if (labelElem) labelElem.innerHTML = activeStepLabel;
     }
   }
 
