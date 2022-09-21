@@ -4,6 +4,7 @@ import Base from './ids-virtual-scroll-base';
 import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-virtual-scroll.scss';
+import IdsDataSource from '../../core/ids-data-source';
 
 const DEFAULT_HEIGHT = '100vh';
 const DEFAULT_ITEM_HEIGHT = 50;
@@ -17,13 +18,14 @@ const DEFAULT_ITEM_HEIGHT = 50;
 @customElement('ids-virtual-scroll')
 @scss(styles)
 export default class IdsVirtualScroll extends Base {
+  // Array is a pointer to a datasource in a parent component
+  datasource: IdsDataSource | Record<string, any> = {};
+
   constructor() {
     super();
   }
 
   connectedCallback() {
-    // Array is a pointer to a datasource in a parent component
-    this.datasource = [];
     super.connectedCallback();
     this.initialized = false;
     // eslint-disable-next-line no-template-curly-in-string
