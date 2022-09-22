@@ -1,5 +1,5 @@
 /**
- * mocks Canvas getContext('2d') to use within our Jest environment
+ * Mocks Canvas getContext('2d') to use within our Jest environment
  */
 const getContext2D: any = jest.fn(() => ({
   measureText: jest.fn(() => ({ width: 0 }))

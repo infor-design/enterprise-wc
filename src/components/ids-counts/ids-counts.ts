@@ -70,7 +70,7 @@ export default class IdsCounts extends Base {
     if (this.container) this.container.style.color = color;
     this.querySelectorAll('ids-text').forEach((node: any) => {
       node.color = 'unset';
-      node.shadowRoot.querySelector('span').style.color = value;
+      node.shadowRoot?.querySelector('span')?.style.setProperty('color', value);
     });
     this.setAttribute(attributes.COLOR, value);
   }
