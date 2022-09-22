@@ -81,9 +81,8 @@ export default class IdsElement extends HTMLElement {
    * in a component you can just call super.
    */
   disconnectedCallback() {
-    super.disconnectedCallback();
-    this.cssStyles = null;
-    this.popupOpenEventsTarget = null;
+    (this as any).cssStyles = null;
+    (this as any).popupOpenEventsTarget = null;
   }
 
   /**

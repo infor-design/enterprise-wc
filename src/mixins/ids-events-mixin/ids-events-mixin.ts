@@ -234,11 +234,10 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
   /**
    * Setup a custom long press event (just one)
    * @private
-   * @param {string} eventName name of event
    * @param {Element} target The DOM element to register
    * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
    */
-  #addLongPressListener(eventName: string, target: HTMLElement, options?: Record<string, number | unknown>) {
+  #addLongPressListener(target: HTMLElement, options?: EventOptions) {
     if (this.longPressOn) return;
 
     this.onEvent('touchstart.longpress', target, (e: Event) => {

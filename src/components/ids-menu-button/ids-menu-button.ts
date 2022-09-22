@@ -48,19 +48,11 @@ export default class IdsMenuButton extends Base {
       this.#configureDropdownIcon(true);
     }
     this.configureMenu();
-    this.attachEventHandlers();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.dropdownIcon = null;
-  }
-
-  /**
-   * @returns {void}
-   */
-  attachEventHandlers() {
-    super.attachEventHandlers?.(this);
   }
 
   /**

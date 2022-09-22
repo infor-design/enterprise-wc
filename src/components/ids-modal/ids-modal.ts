@@ -607,8 +607,8 @@ export default class IdsModal extends Base {
   async handleButtonClick(e: any): Promise<void> {
     await cssTransitionTimeout(200);
 
-    if (typeof this.onButtonClick === 'function') {
-      this.onButtonClick(e.target);
+    if (typeof (this as any).onButtonClick === 'function') {
+      (this as any).onButtonClick(e.target);
     }
 
     // If this IdsModalButton has a `cancel` prop, treat
