@@ -50,6 +50,11 @@ export default class IdsMenuButton extends Base {
     this.attachEventHandlers();
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.dropdownIcon = null;
+  }
+
   /**
    * @returns {void}
    */

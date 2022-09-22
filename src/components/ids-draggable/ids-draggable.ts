@@ -62,6 +62,10 @@ export default class IdsDraggable extends Base {
     this.#cursorEl.style.cursor = this.#getCursorStyle();
   }
 
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+  }
+
   /**
    * @param {"x"|"y"|undefined} value The axis that the draggable content will
    * be moving along (e.g. X => horizontal, Y => vertical);

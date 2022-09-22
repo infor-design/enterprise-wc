@@ -23,9 +23,9 @@ const IdsThemeMixin = (superclass: any) => class extends superclass {
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback?.();
     this.offEvent('themechanged');
     this.switcher = null;
+    super.disconnectedCallback?.();
   }
 
   /**
