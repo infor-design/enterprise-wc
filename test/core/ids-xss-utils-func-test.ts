@@ -7,11 +7,11 @@ import {
   sanitizeHTML,
   sanitizeConsoleMethods,
   unescapeHTML,
-  htmlEntities
+  escapeHTML
 } from '../../src/utils/ids-xss-utils/ids-xss-utils';
 
 describe('IdsXssUtils tests', () => {
-  it('Should white list specific html tags', () => {
+  it('should white list specific html tags', () => {
     let result = stripTags('<p>Test</p> <br /><b>Test</b> <i>Test</i>', '<i><b>');
 
     expect(result).toEqual('Test <b>Test</b> <i>Test</i>');
@@ -64,7 +64,7 @@ describe('IdsXssUtils tests', () => {
     expect(stripTags(6)).toEqual(6);
   });
 
-  it('Should strip nested tags', () => {
+  it('should strip nested tags', () => {
     let result = stripTags('<script>alert("testing");</script>');
 
     expect(result).toEqual('alert("testing");');
@@ -77,7 +77,7 @@ describe('IdsXssUtils tests', () => {
     expect(result).toEqual('alert("testing");');
   });
 
-  it('Should remove all html tags', () => {
+  it('should remove all html tags', () => {
     let result = stripHTML('<p>Test</p> <br /><b>Test</b> <i>Test</i>');
 
     expect(result).toEqual('Test Test Test');
@@ -123,7 +123,7 @@ describe('IdsXssUtils tests', () => {
     expect(result).toEqual('');
   });
 
-  it('Should santize html tags', () => {
+  it('should santize html tags', () => {
     let result = sanitizeHTML('<strong>hello world</strong>');
     expect(result).toEqual('<strong>hello world</strong>');
 
@@ -147,9 +147,15 @@ describe('IdsXssUtils tests', () => {
 
     result = sanitizeHTML('<div title="onerror=alert(\'img\')"></div>');
     expect(result).toEqual('<div title="onerror=alert(\'img\')"></div>');
+
+    result = sanitizeHTML('<div title="test"></div>');
+    expect(result).toEqual('<div title="test"></div>');
+
+    result = sanitizeHTML('<div></div>');
+    expect(result).toEqual('<div></div>');
   });
 
-  it('Should santize console methods', () => {
+  it('should santize console methods', () => {
     expect(sanitizeHTML('console.log')).toEqual('');
     expect(sanitizeHTML('console.log(\'hello world\')')).toEqual('');
     expect(sanitizeHTML('console.log(\'hello world\');')).toEqual('');
@@ -167,7 +173,7 @@ describe('IdsXssUtils tests', () => {
     expect(sanitizeConsoleMethods([])).toEqual([]);
   });
 
-  it('Should unescape html special characters', () => {
+  it('should unescape html special characters', () => {
     expect(unescapeHTML('&#36;')).toEqual('$');
     expect(unescapeHTML('&#37;')).toEqual('%');
     expect(unescapeHTML('&#38;')).toEqual('&');
@@ -184,10 +190,15 @@ describe('IdsXssUtils tests', () => {
     expect(unescapeHTML('a&#36;')).toEqual('a$');
   });
 
-  it('Should escaped html special characters', () => {
-    expect(htmlEntities('&')).toEqual('&amp;');
-    expect(htmlEntities('<')).toEqual('&lt;');
-    expect(htmlEntities('>')).toEqual('&gt;');
-    expect(htmlEntities('"')).toEqual('&quot;');
+  it('should escape html special characters', () => {
+    expect(escapeHTML('&')).toEqual('&amp;');
+    expect(escapeHTML('<')).toEqual('&lt;');
+    expect(escapeHTML('>')).toEqual('&gt;');
+    expect(escapeHTML('"')).toEqual('&quot;');
+
+    expect(escapeHTML('\'')).toEqual('&#039;');
+    expect(escapeHTML('\\')).toEqual('&bsol;');
+    expect(escapeHTML('')).toEqual('');
+    expect(escapeHTML(undefined)).toEqual('');
   });
 });
