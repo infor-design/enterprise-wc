@@ -4,7 +4,7 @@ import { waitForAnimationEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 const IdsRippleMixin = (superclass: any) => class extends superclass {
   // HTMLElement containing ripple, typically component container
-  rippleTarget?: HTMLElement;
+  rippleTarget?: HTMLElement | null;
 
   // Radius of ripple, defaults to 50
   rippleRadius = 50;

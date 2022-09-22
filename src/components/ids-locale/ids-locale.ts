@@ -15,9 +15,6 @@ class IdsLocale {
   // State object
   state?: any;
 
-  // Holds a reference to the document
-  html?: HTMLHtmlElement | null;
-
   // Holds a single instance of Intl
   dateFormatter?: Intl.DateTimeFormat;
 
@@ -110,14 +107,19 @@ class IdsLocale {
     const lang = this.correctLanguage(value);
     if (this.state.language !== lang) {
       this.state.language = lang;
-      this.html = document.querySelector('html');
-      this.html?.setAttribute('lang', lang);
+
+      document.querySelector('html')?.setAttribute('lang', lang);
     }
 
     if (this.state.language === lang && this.loadedLanguages.get(this.state.language)) {
       return;
     }
     await this.loadLanguageScript(lang);
+  }
+
+  /** Reset the language attribute to clean up */
+  removeLangAttribute() {
+    document.querySelector('html')?.removeAttribute('lang');
   }
 
   /**
@@ -1240,17 +1242,6 @@ class IdsLocale {
   numbers(locale: string): any {
     const localeData = this.loadedLocales.get(locale || this.locale.name);
     return localeData.numbers;
-  }
-
-  /**
-   * Remove references
-   */
-  destroy() {
-    this.loadedLocales = null;
-    this.loadedLanguages = null;
-    this.state = null;
-    this.html = null;
-    this.dateFormatter = undefined;
   }
 }
 
