@@ -9,8 +9,8 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [x] Column Reorder
 - [x] Frozen Columns
 - [ ] Place popupmenu in the root of the grid so it will not be cut off
-- [ ] Formatters left: Checkbox, Tag, Alerts, Image, Favorite, Card (templates), Targeted Achievement etc.
-- [ ] Fix icon and field sizes on http://localhost:4300/ids-data-grid/filter.html
+- [ ] Formatters left: Tag, Alerts, Image, Favorite, Card (templates), Targeted Achievement etc.
+- [x] Fix icon and field sizes on http://localhost:4300/ids-data-grid/filter.html
 - [ ] Save Settings [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-save-settings.html)
 - [ ] Empty Message [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-empty-message.html)
 - [ ] Expandable Row [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-expandable-row.html)
@@ -26,7 +26,7 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Tree [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-tree.html)
 - [x] Text align headers and cells [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-alerts-right-align.html)
 - [x] Css class/Colors
-- [ ] Custom Formatters and Editors Example
+- [x] Custom Formatters and Editors Example
 - [ ] Context Menu
 
 ## Minor
@@ -40,8 +40,8 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Summary Row [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-summary-row-pager.html)
 - [x] Automation id's
 - [ ] Errors and Validation
-- [ ] Xss Tests
+- [x] Xss Tests
 - [ ] Colspans [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-colspan.html)
 - [ ] Column Groups with Frozen Columns
-- [ ] Blinky columns on Load (can it be avoided?)
+- [ ] Optimize the row recycling in virtual scroll (load from top or bottom only)
 - [ ] Row Span Feature

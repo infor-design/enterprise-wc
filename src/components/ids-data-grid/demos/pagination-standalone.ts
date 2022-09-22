@@ -70,6 +70,7 @@ const container: any = document.querySelector('ids-container');
   const data = await response.json();
 
   dataGrid.columns = columns;
+  dataGrid.pagination = 'standalone';
   dataGrid.pager = pager;
   dataGrid.data = data;
   dataGrid.pageTotal = data.length;

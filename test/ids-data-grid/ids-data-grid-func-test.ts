@@ -10,6 +10,7 @@ import processAnimFrame from '../helpers/process-anim-frame';
 
 import createFromTemplate from '../helpers/create-from-template';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
+import IdsPager from '../../src/components/ids-pager/ids-pager';
 
 describe('IdsDataGrid Component', () => {
   let dataGrid: any;
@@ -100,10 +101,10 @@ describe('IdsDataGrid Component', () => {
       formatter: formatters.text
     });
     cols.push({
-      id: 'active',
-      name: 'Active',
-      field: 'active',
-      formatter: formatters.text
+      id: 'inStock',
+      name: 'In Stock',
+      field: 'inStock',
+      formatter: formatters.checkbox
     });
     cols.push({
       id: 'convention',
@@ -131,10 +132,13 @@ describe('IdsDataGrid Component', () => {
       formatter: formatters.password
     });
     cols.push({
-      id: 'deprecationHistory',
-      name: 'Deprecation History',
-      field: 'deprecationHistory',
-      formatter: formatters.text
+      id: 'custom',
+      name: 'Custom',
+      field: 'price',
+      formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
+        const value = `Custom: ${rowData[columnData.field] || '0'}`;
+        return `<span class="text-ellipsis">${value}</span>`;
+      }
     });
     return cols;
   };
@@ -170,6 +174,11 @@ describe('IdsDataGrid Component', () => {
 
       expect(document.querySelectorAll('ids-data-grid').length).toEqual(1);
       expect(errors).not.toHaveBeenCalled();
+    });
+
+    it('can null dataset returns an array', () => {
+      dataGrid.data = null;
+      expect(dataGrid.data).toEqual([]);
     });
 
     it('can set the label setting', () => {
@@ -303,6 +312,16 @@ describe('IdsDataGrid Component', () => {
 
       expect(dataGrid.shadowRoot.querySelectorAll('ids-virtual-scroll').length).toEqual(0);
       expect(dataGrid.getAttribute('virtual-scroll')).toEqual(null);
+    });
+
+    it('renders can sort with the virtualScroll option', () => {
+      dataGrid.virtualScroll = true;
+      dataGrid.redraw();
+
+      // Height is zero...
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-datagrid-row').length).toEqual(0);
+      dataGrid.setSortColumn('description', true);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-datagrid-row').length).toEqual(0);
     });
 
     it('can reset the virtualScroll option', () => {
@@ -563,6 +582,31 @@ describe('IdsDataGrid Component', () => {
         width: '50%'
       }];
       expect(dataGrid.container.style.getPropertyValue('--ids-data-grid-column-widths')).toEqual('minmax(50%, 1fr) minmax(50%, 1fr) ');
+    });
+
+    it('supports nested data', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price.level1.name',
+        align: 'center',
+        width: '50%'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'price.name',
+        align: 'right',
+        width: '50%'
+      }];
+      dataGrid.data = [
+        { price: { name: 'test', level1: { name: 'test' } } },
+        { price: { name: 'test2', level1: { name: 'test2' } } },
+      ];
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row[aria-rowindex="1"] > .ids-data-grid-cell:nth-child(1) span').textContent).toBe('test');
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row[aria-rowindex="1"] > .ids-data-grid-cell:nth-child(2) span').textContent).toBe('test');
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row[aria-rowindex="2"] > .ids-data-grid-cell:nth-child(1) span').textContent).toBe('test2');
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row[aria-rowindex="2"] > .ids-data-grid-cell:nth-child(2) span').textContent).toBe('test2');
     });
 
     it('supports setting custom width', () => {
@@ -1298,6 +1342,32 @@ describe('IdsDataGrid Component', () => {
       expect(link2.disabled).toBeFalsy();
     });
 
+    it('can render with the checkbox formatter', () => {
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
+        .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').getAttribute('aria-checked')).toEqual('true');
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
+        .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').getAttribute('aria-checked')).toEqual('false');
+    });
+
+    it('can render with a custom formatter', () => {
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
+        .querySelectorAll('.ids-data-grid-cell')[17].querySelector('span').textContent).toEqual('Custom: 13.99');
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
+        .querySelectorAll('.ids-data-grid-cell')[17].querySelector('span').textContent).toEqual('Custom: 0');
+    });
+
+    it('can render disabled checkbox', () => {
+      dataGrid.columns[12].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
+      dataGrid.redraw();
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
+        .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').classList.contains('.disabled')).toBeFalsy();
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
+        .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').classList.contains('.disabled')).toBeFalsy();
+    });
+
     it('can render with the button formatter (with click function)', () => {
       const clickListener = jest.fn();
       dataGrid.columns = [{
@@ -1849,7 +1919,7 @@ describe('IdsDataGrid Component', () => {
     });
   });
 
-  describe.skip('Paging Tests', () => {
+  describe('Paging Tests', () => {
     it('renders pager', () => {
       dataGrid.pagination = 'client-side';
       dataGrid.pageSize = 10;
@@ -1945,12 +2015,11 @@ describe('IdsDataGrid Component', () => {
       dataGrid.replaceWith(dataGrid);
 
       const { buttons } = dataGrid.pager.elements;
-      const mouseClick = new MouseEvent('click', { bubbles: true });
 
       expect(dataGrid.pageNumber).toBe(1);
-      buttons.next.button.dispatchEvent(mouseClick);
+      buttons.next.button.click();
       expect(dataGrid.pageNumber).toBe(2);
-      buttons.next.button.dispatchEvent(mouseClick);
+      buttons.next.button.click();
       expect(dataGrid.pageNumber).toBe(3);
     });
 
@@ -1960,14 +2029,13 @@ describe('IdsDataGrid Component', () => {
       dataGrid.replaceWith(dataGrid);
 
       const { buttons } = dataGrid.pager.elements;
-      const mouseClick = new MouseEvent('click', { bubbles: true });
 
       expect(dataGrid.pageNumber).toBe(1);
-      buttons.next.button.dispatchEvent(mouseClick);
+      buttons.next.button.click();
       expect(dataGrid.pageNumber).toBe(2);
-      buttons.last.button.dispatchEvent(mouseClick);
+      buttons.last.button.click();
       expect(dataGrid.pageNumber).toBe(5);
-      buttons.last.button.dispatchEvent(mouseClick);
+      buttons.last.button.click();
       expect(dataGrid.pageNumber).toBe(5);
     });
 
@@ -2004,9 +2072,13 @@ describe('IdsDataGrid Component', () => {
     });
 
     it('only fires pager events when pagination is "standalone"', () => {
+      const pager:any = new IdsPager();
+      document.body.appendChild(pager);
       dataGrid.pagination = 'standalone';
       dataGrid.pageSize = 2;
       dataGrid.pageNumber = 1;
+
+      dataGrid.pager = pager;
       dataGrid.replaceWith(dataGrid);
 
       const { buttons } = dataGrid.pager.elements;

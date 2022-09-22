@@ -53,6 +53,9 @@
   - link: columns-stretch.html
     type: Example
     description: Showing a stretch column
+  - link: data-nested.html
+    type: Example
+    description: Showing nested data is supported
   - link: filter-trigger-fields.html
     type: Example
     description: Showing a filter row with date, time, dropdown
@@ -92,4 +95,7 @@
   - link: virtual-scroll.html
     type: Example
     description: Shows a basic data grid with virtual scrolling
+  - link: xss-prevention.html
+    type: Test
+    description: Shows a data grid can prevent xss
 

@@ -24,7 +24,7 @@ describe('Ids Virtual Scroll e2e Tests', () => {
     await page.waitForSelector('.ids-data-grid-row');
 
     const count = (await page.$$('.ids-data-grid-row')).length;
-    expect(count).toEqual(60);
+    expect(count).toEqual(30);
   });
 
   it('should not have memory leaks', async () => {
