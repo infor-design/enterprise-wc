@@ -784,7 +784,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatNumber(12345.6789, { style: 'decimal', minimumFractionDigits: 3, maximumFractionDigits: 3 })).toEqual('12,345.679');
     });
 
-    it('Should format integers', async () => {
+    it('should format integers', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatNumber(12345.123, { minimumFractionDigits: 0, maximumFractionDigits: 0 })).toEqual('12,345');
 

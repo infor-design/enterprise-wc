@@ -10,6 +10,22 @@ const columns = [];
 
 // Set up columns
 columns.push({
+  id: 'selectionCheckbox',
+  name: 'selection',
+  sortable: false,
+  resizable: false,
+  formatter: dataGrid.formatters.selectionCheckbox,
+  align: 'center'
+});
+columns.push({
+  id: 'rowNumber',
+  name: '#',
+  formatter: dataGrid.formatters.rowNumber,
+  sortable: false,
+  readonly: true,
+  width: 66
+});
+columns.push({
   id: 'id',
   name: 'ID',
   field: 'id',
@@ -69,3 +85,7 @@ const setData = async () => {
 };
 
 setData();
+
+dataGrid.addEventListener('selectionchanged', (e: CustomEvent) => {
+  console.info(`Selection Changed`, e.detail);
+});

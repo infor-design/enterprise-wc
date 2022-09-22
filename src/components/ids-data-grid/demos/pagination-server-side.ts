@@ -63,6 +63,7 @@ const container: any = document.querySelector('ids-container');
     sortable: true
   });
 
+  dataGrid.pagination = 'server-side';
   dataGrid.columns = columns;
 
   // Do an ajax request

@@ -36,9 +36,9 @@ export default class IdsPager extends Base {
       },
       input: this.querySelector('ids-pager-input'),
       slots: {
-        start: this.container.querySelector('.pager-section.start slot'),
-        middle: this.container.querySelector('.pager-section.middle slot'),
-        end: this.container.querySelector('.pager-section.end slot'),
+        start: this.container?.querySelector('.pager-section.start slot'),
+        middle: this.container?.querySelector('.pager-section.middle slot'),
+        end: this.container?.querySelector('.pager-section.end slot'),
       }
     };
   }

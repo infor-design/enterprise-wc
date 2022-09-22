@@ -4,7 +4,7 @@
 
 The data grid component (ids-data-grid) is used to arrange tabular data in rows and columns for easier scanning and comparison. Data grids are very configurable in both design and functionality and they can be found within almost every product/app.
 
-You should pass an array of objects in to the grid on the `dataset` object. Also pass the `columns` array for the column information. There are a number of events described in the events and API section, as well as the column settings.
+You should pass an array of objects in to the grid on the `dataset` object. Also pass the `columns` array which contains the column configuration. There are a number of events described in the events and API section, as well as the column settings.
 
 A Read-Only data grid uses "Formatters" to render cell content. A number of these are listed in the API section and it is possible to create your own.
 
@@ -20,6 +20,7 @@ A Read-Only data grid uses "Formatters" to render cell content. A number of thes
 - **Header Cell**: These cells contain the names of the columns in the grid and related functions like filtering and sorting. All cells below the header cell will hold values related to the attribute in the header cell.
 - **Column**: Cells stacked vertically that contain values relate to the attribute found on the top header cell.
 - **Row**: Each row contains one cell per column in the data grid, and each cell displays a single value in the bound data item.
+- **Tree**: Denotes the use of hierarchical data, with an expandable and collapsible hierarchy.
 
 ## Themeable Parts
 
@@ -33,10 +34,10 @@ A Read-Only data grid uses "Formatters" to render cell content. A number of thes
 
 ## Features (With Code Examples)
 
-A data grid is created by adding an `ids-data-grid` html element in the page and setting the options either inline in the markup or in the JS part of the code. You can only use simple types (string, boolean ect) for inline markup so passing the data and column arrangement is always done in the JS part. The data will be an array of objects so its in the correct tabular form. The columns are also an array of object but with defined options and types. (See Columns in next section)
+A data grid is created by adding an `ids-data-grid` html element in the page and setting the options either inline in the markup or in the JS part of the code. You can only use simple types (string, boolean ect) for inline markup so passing the data and column arrangement is always done in the JS part. The data will be an array of objects so its in the correct tabular form. The columns are also an array of objects but with defined options and types. See more about columns in next section.
 
 ```html
-<ids-data-grid id="data-grid-1" data-automation-id="data-grid-1-automation"></ids-data-grid>
+<ids-data-grid id="data-grid-1"></ids-data-grid>
 ```
 
 ```js
@@ -123,15 +124,15 @@ The following events are relevant to selection/activation.
 
 ## Settings and Attributes
 
-When used as an attribute the settings are kebab case, when used in the JS they are camel case.
+When used as an attribute in the DOM the settings are kebab case, when used in JS they are camel case.
 
 - `virtualScroll` {boolean} When virtual scroll is used the grid can render many thousands of rows and only the rows visible in the scroll area are rendered for performance. This setting has limitations such as the rows need to be fixed size.
 - `alternateRowShading` {boolean} For better scan-ability you can shade alternate rows.
 - `listStyle` {boolean} Sets the style of the grid to list style for simple readonly lists.
-- `columns` {Array<object>} Sets the data array of the data grid. This can be a JSON Array.
+- `columns` {Array<object>} Sets the columns array of the data grid. See column settings.
 - `columnGroups` {Array<object>} Allows you to group columns together in logical sets. See section below for details.
 - `rowHeight` {string | `'xs'` | `'sm'` | `'md'` | `'lg'`} Sets the height of each row
-- `data` {Array<object>} Sets the columns array of the data grid. See column settings.
+- `data` {Array<object>} Sets the data to show in the data grid. This can be a JSON Array.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
 - `suppressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
 - `suppressRowDeselection`  {boolean} Set to true to prevent rows from being deselected if click or space bar the row. i.e. once a row is selected, it remains selected until another row is selected in its place.
@@ -141,6 +142,8 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 |Setting|Type|Description|
 |---|---|---|
 |`id` | {string} | The unique id of the column. Each column in the grid should have some unique id.|
+|`name` | {string} | The text to show on the header.|
+|`field` | {string} | The name of the field (column) in the data array attached to the grid for example `description`. This can also be nested in an object for example `children.name`. |
 |`sortable` | {boolean} | If false, the column cannot be sorted. When completed a `sorted` event will fire.|
 |`resizable` | {boolean} | If false the column will not be resizable, thus is a fixed size and can never be changed by the user by dragging the left and right edge.  When completed a `columnresized` event will fire. See the `columns-resizable` example for a working example. |
 |`reorderable` | {boolean} | If true the column can be dragged into another position with adjacent columns. When completed a `columnmoved` event will fire. See the `columns-reorderable` example for a working example. This currently does not work with grouped columns. |
@@ -149,12 +152,12 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 |`hidden` | {boolean} | Excludes the column from being added to the DOM.|
 |`align` | {string} | Can be `left` or `right` or `center` to align both the cell and the header. Left is the default so does not need to be specified. |
 |`headerAlign` | {string} | Can be `left` or `right` or `center` to align just the header. Left is the default so does not need to be specified. |
-|`width` | {number or string} | The column width, this can be an integer for fixed pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the css table browsers handling (this is known as `auto` columns). I.E. There are three column configurations: `auto`, `fixed` and `percent`.
-In addition one can specify any css grid column setting like `fr` or `ch`. In order to make what was called a `stretchColumn` in previous versions you can set the width to`minmax(130px, 4fr)`. This is some minimum width and a `fr` unit equal to the remaining number of columns (see example columns-stretch.html). For a spacer column you just need to specify one extra column at the end (see example columns-fixed.html) but this is not recommended for how it looks. |
 |`minWidth` | {number} | The minimum width used to prevent resizing a column below this size. |
 |`maxWidth` | {number} | The maximum width used to prevent resizing a column above this size. |
 |`cssPart` | {string} | Allows you to set the name of a css part that can be used to customize the cell's css. This can be a string or a function. See the columns-custom-css example. The default cssPart for cells is called `cell` and it also can be used for more global changes.  |
 |`frozen` | {string} | Sets the column to be frozen on either left or right side by passing `left` or `right`. See the `columns-frozen` example for a working example. Frozen columns currently have some limitations to be addressed in the future. |
+|`width` | {number or string} | The column width, this can be an integer for fixed pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the css table browsers handling (this is known as `auto` columns). I.E. There are three column configurations: `auto`, `fixed` and `percent`.
+In addition one can specify any css grid column setting like `fr` or `ch`. In order to make what was called a `stretchColumn` in previous versions you can set the width to`minmax(130px, 4fr)`. This is some minimum width and a `fr` unit equal to the remaining number of columns (see example columns-stretch.html). For a spacer column you just need to specify one extra column at the end (see example columns-fixed.html) but this is not recommended for how it looks. |
 
 ## Column Settings (Specific)
 
@@ -168,7 +171,7 @@ In addition one can specify any css grid column setting like `fr` or `ch`. In or
 
 |Formatter|Description|
 |---|---|
-|`text` | Formats the column value as a direct text element using toString in the grid cell. Undefined or Null values will be shown as empty.|
+|`text` | (Default) Formats the column value as a direct text element using toString in the grid cell. Undefined or Null values will be shown as empty.|
 |`password` | Formats the column value masking the string length with stars. Undefined or Null values will be shown as empty. This is good for private data. |
 |`rowNumber` | Formats the cell with a row number column that is shown 1 to n no matter what the sort order is. |
 |`date` | Formats date data as a date string in the desired format, by default it will use `dateStyle: 'short'` for other options you can pass them in with `column.formatOptions` |
@@ -177,19 +180,43 @@ In addition one can specify any css grid column setting like `fr` or `ch`. In or
 |`integer` | Formats number data as a integer string in the specified locale. For additional options you can pass them in with `column.formatOptions`. |
 |`selectionCheckbox` | Displays a checkbox column for selection when using `rowSelection="mixed"` or `rowSelection="multiple"`|
 |`selectionRadio` | Displays a checkbox column for selection when using `rowSelection="single"` |
-| `button` | Displays an `ids-button` the other column settings like `type` can be used to set the button type as can `icon` by set for icon only buttons. Use the `click` setting/function to get an event handler. |
+| `button` | Displays an `ids-button`. Other column settings like `type` can be used to set the button type as can `icon` by set for icon only buttons. Use the `click` setting/function to get an callback handler. |
+| `hyperlink` | Displays an `ids-hyperlink`. Other column settings like `href` can be used to set the link href and `text` can be used to set the text to specific text. Use the `click` setting/function to get an callback handler. |
+| `checkbox` | Displays an `ids-checkbox`. The value will be checked depending on if the attached field is true or `"true"`. |
+| `badge` | Displays an `ids-badge`. The associated field will be placed in the badge. The `color` option can also be set to set the ids-badge color setting. |
 
 ### Deprecated Formatters (Deprecated from 4.x)
 
-- `Input` No longer suggested to use, use simple list instead
-- `Status, Color` No longer used
+- `Input` No longer suggested to use, use simple list instead or a Text Formatter.
+- `Status, Color` No longer used, but badges can be used.
 - `Placeholder` Can now be set on the column and used with other formatters
-- `Ellipsis` Can now be set on the column and used with other formatters
+- `Ellipsis` Is now always enabled.
 - `Readonly` Can now be set on the column and used with other formatters
-- `Drilldown` Use button with an icon now
-- `Template` is now deprecated for performance reasons, use a custom formatter
+- `Drilldown` Use button formatter with an icon.
+- `Template` is now deprecated for performance reasons, use a custom formatter now.
 - `ClassRange` Use column cssClass function or string
-- `Autocomplete, Lookup, TargetedAchievement, ProcessIndicator, Spinbox, Fileupload, Dropdown, Colorpicker, Tree, SummaryRow, GroupFooterRow, GroupRow, Expander, Editor, Textarea, Actions, RowReorder` Will be added later
+- `Autocomplete, Lookup, TargetedAchievement, ProcessIndicator, Spinbox, Fileupload, Dropdown, Colorpicker, Tree, SummaryRow, GroupFooterRow, GroupRow, Expander, Editor, Textarea, Actions, RowReorder` May be added later
+
+## Custom Formatters
+
+It is possible to create your own custom formatter. The idea behind the formatter is it takes the cell value and does processing on it to return the correct markup for the cell. The simplest custom formatter would be this example.
+
+```js
+columns.push({
+  id: 'custom',
+  name: 'Custom',
+  field: 'price',
+  formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
+    const value = `Custom: ${rowData[columnData.field] || '0'}`;
+    return `<span class="text-ellipsis">${value}</span>`;
+  }
+});
+```
+
+The formatter is then linked via the column on the formatter setting. When the grid cell is rendered the formatter function is called and the following arguments are passed in.
+
+- `rowData` The current row's data from the data array.
+- `columnData` The column object with all of the column configuration for this cell.
 
 ## Events
 
@@ -212,6 +239,7 @@ In addition one can specify any css grid column setting like `fr` or `ch`. In or
 
 -- `setColumnWidth` Can be used to set the width of a column.
 -- `setColumnVisibility` Can be used to set the visibility of a column.
+-- `setActivateCell(cell, row)` Can be used to set focus of a cell.
 
 ## Filters
 
@@ -589,6 +617,7 @@ The following events are relevant to data-grid filters.
 - Hover (sometimes a cursor change)
 - Readonly
 - Focus
+- Checked/Not Checked (Checkboxes)
 
 ## Keyboard Guidelines
 
@@ -629,7 +658,7 @@ The following events are relevant to data-grid filters.
 - split columns are not supported anymore but could be done with a custom formatter if needed
 - `frozenColumns` setting is now set on each column by adding `frozen: 'left'` or `frozen: 'right'` to the column definition.
 - Some events are renamed see the events section for more details, also the signature of the events has changed.
-
+- Custom formatter functions can now be any type of function and have a different signature.
 ## Accessibility Guidelines
 
 1.1.1 Non-text Content - All images, links and icons have text labels for screen readers when the formatters are used.
