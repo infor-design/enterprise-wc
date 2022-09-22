@@ -111,18 +111,19 @@ export function unescapeHTML(value: any) {
 }
 
 /**
- * htmlentities() is a PHP function which converts special characters (like <)
- * into their escaped/encoded values (like &lt;). This is a JS verson of it.
- * This allows you to show to display the string without the browser reading it as HTML.
- * This is useful for encoding hrefs.
+ * Escapes HTML, replacing special characters with encoded symbols.
+ * Symbols taken from https://bit.ly/1iVkGlc
  * @private
- * @param {string} string string to process
- * @returns {string} the processed value
+ * @param {string} unsafe HTML in string form
+ * @returns {string} the modified value
  */
-export function htmlEntities(string: string): string {
-  return String(string)
+export function escapeHTML(unsafe?: string) {
+  if (!unsafe) return '';
+  return unsafe
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+    .replace(/\\/g, '&bsol;');
 }

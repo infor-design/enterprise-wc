@@ -1,4 +1,3 @@
-import { version } from './ids-attributes';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
 import styles from './ids-element.scss';
 
@@ -46,7 +45,6 @@ export default class IdsElement extends HTMLElement {
   #addBaseName() {
     // Add the base class and version
     this.name = this.nodeName?.toLowerCase();
-    this.IdsVersion = version;
   }
 
   /**
@@ -83,11 +81,9 @@ export default class IdsElement extends HTMLElement {
    * in a component you can just call super.
    */
   disconnectedCallback() {
-    const self: any = this;
-    delete self.cssStyles;
-    delete self.popupOpenEventsTarget;
-    // TODO: Can this be added
-    // delete this.state;
+    super.disconnectedCallback();
+    this.cssStyles = null;
+    this.popupOpenEventsTarget = null;
   }
 
   /**

@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { waitForAnimationEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-toast-message-base';
 
@@ -7,8 +8,6 @@ import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-hyperlink/ids-hyperlink';
-import renderLoop from '../ids-render-loop/ids-render-loop-global';
-import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 import {
   ATTRIBUTE_MESSAGE_ID,
@@ -48,7 +47,7 @@ export default class IdsToastMessage extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.#setTimer();
+    this.#configureTimeout();
     this.#attachEventHandlers();
   }
 
@@ -72,6 +71,7 @@ export default class IdsToastMessage extends Base {
    */
   template(): string {
     const d = DEFAULTS;
+    const hiddenProgressBarClass = this.audible ? ' hidden' : '';
 
     const closeButton = `
       <ids-trigger-button part="close-button" class="close-button">
@@ -81,7 +81,7 @@ export default class IdsToastMessage extends Base {
         <ids-icon slot="icon" icon="close" part="close-button-icon" size="small"></ids-icon>
       </ids-trigger-button>`;
 
-    const progress = this.progressBar ? '<div class="progress-bar" part="progress-bar"></div>' : '';
+    const progress = `<div class="progress-bar${hiddenProgressBarClass}" part="progress-bar"></div>`;
 
     return `
       <div class="ids-toast-message ${attributes.AUDIBLE}" part="toast">
@@ -96,16 +96,17 @@ export default class IdsToastMessage extends Base {
       </div>`;
   }
 
+  get progressBarEl() {
+    return this.shadowRoot?.querySelector('.progress-bar');
+  }
+
   /**
    * Set the toast timer
    * @private
    * @returns {void}
    */
-  #setTimer(): void {
-    let progressBar = this.shadowRoot?.querySelector<HTMLElement>('.progress-bar');
-    const updateProgressBar = (percentage: any) => {
-      progressBar?.style.setProperty('width', `${percentage}%`);
-    };
+  #configureTimeout(): void {
+    const progressBarEl = this.progressBarEl;
 
     // Animation type css class
     if (!this.audible) {
@@ -113,81 +114,59 @@ export default class IdsToastMessage extends Base {
       this.container?.classList.add(TOAST_MESSAGE_CLASSES.start);
     }
 
-    if (!this.progressBar && progressBar) {
-      progressBar.parentNode?.removeChild(progressBar);
-      progressBar = undefined;
-    }
-
-    const duration = this.audible ? AUDIBLE_TIMEOUT : this.timeout;
-    const self = this;
-    let percentage = 100;
-
-    const timer = function timer() {
-      if (self.timer) {
-        self.timer.destroy(true);
+    if (progressBarEl) {
+      if (!this.progressBar) {
+        progressBarEl.classList.add('hidden');
       }
-      self.timer = new IdsRenderLoopItem({
-        id: `add-${self.messageId}`,
-        duration,
-        updateCallback() {
-          percentage = (((duration as any) - (this as any).elapsedTime) / (duration as any)) * 100;
-          updateProgressBar(percentage);
-        },
-        timeoutCallback() {
-          updateProgressBar(0);
-          self.removeToastMessage();
-          (this as any).destroy();
-        }
-      });
-      renderLoop.register(self.timer);
-    };
-    timer();
+
+      // Set duration length and run animation
+      const duration = this.audible ? AUDIBLE_TIMEOUT : this.timeout;
+      progressBarEl.style.setProperty('--toast-message-duration', `${duration}ms`);
+      progressBarEl.classList.add('running');
+    }
   }
 
   /**
    * Remove the toast message and animate
-   * @returns {void}
+   * @returns {Promise<void>} resolved when toast removal is complete
    */
-  removeToastMessage(): void {
-    const removeCallback = () => {
-      const toast = this.container;
-      if (toast) {
-        toast.setAttribute('aria-live', '');
-        toast.setAttribute('aria-relevent', '');
+  async removeToastMessage(): Promise<void> {
+    const toast = this.container;
+    if (toast) {
+      // Animate "out" when visible
+      if (!this.audible) {
         toast.classList.remove(TOAST_MESSAGE_CLASSES.start);
         toast.classList.add(TOAST_MESSAGE_CLASSES.end);
-        toast.parentNode?.removeChild(toast);
-        this.container = null;
-        this.offEvent(`keydown.toast-${this.messageId}`, document);
-        this.offEvent(`keyup.toast-${this.messageId}`, document);
-        const options = {
-          title: this.title,
+        await waitForAnimationEnd(this.container, 'animScaleOut');
+      }
+
+      // Removes this toast message from the DOM
+      this.parentNode?.removeChild(this);
+      this.triggerEvent(EVENTS.removeMessage, this, {
+        detail: {
+          elem: this,
           messageId: this.messageId,
-          audible: this.audible,
-          progressBar: this.progressBar,
-          timeout: this.timeout,
-        };
-        this.triggerEvent(EVENTS.removeMessage, this, {
-          detail: { elem: this, messageId: this.messageId, options }
-        });
-      }
-    };
-
-    this.timer?.destroy();
-
-    if (this.audible) {
-      removeCallback();
+          options: {
+            title: this.title,
+            message: this.message,
+            messageId: this.messageId,
+            closeButtonLabel: this.closeButtonLabel,
+            allowLink: this.allowLink,
+            audible: this.audible,
+            progressBar: this.progressBar,
+            timeout: this.timeout,
+          }
+        }
+      });
     }
+  }
 
-    const closeTimer = new IdsRenderLoopItem({
-      id: `remove-${this.messageId}`,
-      duration: 20,
-      timeoutCallback() {
-        removeCallback();
-        (this as any).destroy();
-      }
-    });
-    renderLoop.register(closeTimer);
+  /**
+   * Controls playback status of the Toast Message's progress bar
+   * @param {boolean} isPaused true if playback on the toast message timeout has been paused.
+   */
+  #updatePlaybackStatus(isPaused: boolean): void {
+    if (this.progressBarEl) this.progressBarEl.classList[isPaused ? 'add' : 'remove']('paused');
   }
 
   /**
@@ -198,14 +177,18 @@ export default class IdsToastMessage extends Base {
     const toast = this.container;
     const id = this.messageId;
 
-    // Handle pause/play for toast timer
-    let isPausePlay = false;
-    const updateTimer = () => (this.timer as any)[isPausePlay ? 'pause' : 'resume']();
+    // When progress bar animation is done, the toast completes
+    this.onEvent('animationend', this.progressBarEl, () => {
+      this.removeToastMessage();
+    });
+
+    // Handle pause/play updates for toast timeout
+    let isPaused = false;
     const events = ['mousedown.toast', 'touchstart.toast', 'mouseup.toast', 'touchend.toast'];
     events.forEach((event) => {
       this.onEvent(event, toast, (e: MouseEvent) => {
-        isPausePlay = !!/mousedown|touchstart/i.test(e.type);
-        updateTimer();
+        isPaused = !!/mousedown|touchstart/i.test(e.type);
+        this.#updatePlaybackStatus(isPaused);
       }, { passive: true });
     });
 
@@ -216,8 +199,8 @@ export default class IdsToastMessage extends Base {
 
         // Control + Alt + P
         if (e.ctrlKey && e.altKey && key === 80) {
-          isPausePlay = e.type === 'keydown';
-          updateTimer();
+          isPaused = e.type === 'keydown';
+          this.#updatePlaybackStatus(isPaused);
         }
         // Escape
         if (e.type === 'keydown' && key === 27) {

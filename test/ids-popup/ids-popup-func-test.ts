@@ -746,8 +746,8 @@ describe('IdsPopup Component', () => {
     expect(popup.hasAttribute('arrow')).toBeFalsy();
   });
 
-  // NOTE: In order to complete coverage, these tests need to be async and wait slightly longer
-  // than the Popup's Renderloop Timeouts.
+  // NOTE: In order to complete coverage, these tests need to be async
+  // and wait slightly longer than the Popup's Animation Timeouts.
   // Top/Left/Right are all the same test with different directions.
   it('can set the arrow in all directions (top)', (done) => {
     // Create a target element for the arrow

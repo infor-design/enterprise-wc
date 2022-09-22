@@ -47,9 +47,12 @@ export default class IdsContainer extends Base {
     if (document.readyState === 'complete') {
       this.removeAttribute('hidden');
     }
-    if (this.padding) {
-      this.container?.style.setProperty('padding', `${this.padding}px`);
-    }
+    this.container?.style.setProperty('padding', `${this.padding}px`);
+  }
+
+  disconnectedCallback() {
+    this.state.locale.removeLangAttribute();
+    super.disconnectedCallback();
   }
 
   /**
@@ -123,7 +126,7 @@ export default class IdsContainer extends Base {
    * @private
    */
   #addReset() {
-    document.body.style.margin = '0';
+    document.querySelector('body')?.style.setProperty('margin', '0');
   }
 
   /**
@@ -134,10 +137,10 @@ export default class IdsContainer extends Base {
     if (stringToBool(value)) {
       this.setAttribute(attributes.RESET, '');
       this.#addReset();
-    } else {
-      this.removeAttribute(attributes.RESET);
-      document.body.style.margin = '';
+      return;
     }
+    this.removeAttribute(attributes.RESET);
+    document.querySelector('body')?.style.setProperty('margin', '');
   }
 
   get reset(): boolean {

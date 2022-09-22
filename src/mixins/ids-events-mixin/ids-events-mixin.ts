@@ -1,8 +1,8 @@
-import renderLoop from '../../components/ids-render-loop/ids-render-loop-global';
-import IdsRenderLoopItem from '../../components/ids-render-loop/ids-render-loop-item';
-import { IdsBaseConstructor } from '../../core/ids-element';
 import { stringToBool, isPrintable } from '../../utils/ids-string-utils/ids-string-utils';
+import { requestAnimationTimeout, clearAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
+import type { FrameRequestLoopHandler } from '../../utils/ids-timer-utils/ids-timer-utils';
 import { getEventBaseName } from './ids-events-common';
+import { IdsBaseConstructor } from '../../core/ids-element';
 
 export type EventOptions = { [key: string]: any } & AddEventListenerOptions;
 
@@ -36,9 +36,9 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
 
   isClick = false;
 
-  timer: IdsRenderLoopItem | null = null;
+  timer?: FrameRequestLoopHandler;
 
-  slopedMouseLeaveTimer: IdsRenderLoopItem | null = null;
+  slopedMouseLeaveTimer?: FrameRequestLoopHandler;
 
   /** Starting pageX */
   startX = NaN;
@@ -234,33 +234,27 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
   /**
    * Setup a custom long press event (just one)
    * @private
+   * @param {string} eventName name of event
    * @param {Element} target The DOM element to register
    * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
    */
-  #addLongPressListener(target: Element, options?: EventOptions) {
-    if (this.longPressOn) {
-      return;
-    }
+  #addLongPressListener(eventName: string, target: HTMLElement, options?: Record<string, number | unknown>) {
+    if (this.longPressOn) return;
 
-    // Setup events
-    this.onEvent('touchstart.longpress', target, (e: TouchEvent) => {
+    this.onEvent('touchstart.longpress', target, (e: Event) => {
       e.preventDefault();
-      if (!this.timer) {
-        this.timer = renderLoop.register(new IdsRenderLoopItem({
-          duration: options?.delay || 500,
-          timeoutCallback: () => {
-            const event = new CustomEvent('longpress', e);
-            target.dispatchEvent(event);
-            this.clearTimer();
-          }
-        }));
-      }
-    }, { passive: true });
+      this.clearTimer();
+      this.timer = requestAnimationTimeout(() => {
+        const event = new CustomEvent('longpress', e);
+        target.dispatchEvent(event);
+        this.clearTimer();
+      }, options?.delay ? (options.delay as number) : 500);
+    });
 
     this.onEvent('touchend.longpress', target, (e: TouchEvent) => {
       e.preventDefault();
       this.clearTimer();
-    }, { passive: true });
+    });
 
     this.longPressOn = true;
   }
@@ -274,7 +268,7 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
       return;
     }
     this.longPressOn = false;
-    this.timer = null;
+    this.clearTimer();
     this.detachEventsByName('touchstart.longpress');
     this.detachEventsByName('touchend.longpress');
   }
@@ -428,16 +422,12 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
   #addHoverEndListener(eventName: string, target: Element, options?: EventOptions) {
     // Setup events
     this.onEvent('mouseenter.eventsmixin', target, (e: MouseEvent) => {
-      if (!this.timer) {
-        this.timer = renderLoop.register(new IdsRenderLoopItem({
-          duration: options?.delay || 400,
-          timeoutCallback: () => {
-            const event = new MouseEvent(getEventBaseName(eventName), e);
-            target.dispatchEvent(event);
-            this.clearTimer();
-          }
-        }));
-      }
+      this.clearTimer();
+      this.timer = requestAnimationTimeout(() => {
+        const event = new MouseEvent(getEventBaseName(eventName), e);
+        target.dispatchEvent(event);
+        this.clearTimer();
+      }, (options?.delay as number));
     });
 
     this.onEvent('mouseleave.eventsmixin', target, () => {
@@ -475,16 +465,13 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
       if (!this.slopedMouseLeaveTimer) {
         this.startX = e.pageX;
         this.startY = e.pageY;
-        this.slopedMouseLeaveTimer = renderLoop.register(new IdsRenderLoopItem({
-          duration: options?.delay || 400,
-          timeoutCallback: () => {
-            const outOfBoundsX = (this.trackedX - this.startX) > 3.5;
-            const outOfBoundsY = (this.trackedY - this.startY) > 3.5;
-            if (outOfBoundsX || outOfBoundsY) {
-              dispatchCustomEvent(document.elementFromPoint(this.trackedX, this.trackedY), e);
-            }
+        this.slopedMouseLeaveTimer = requestAnimationTimeout(() => {
+          const outOfBoundsX = (this.trackedX - this.startX) > 3.5;
+          const outOfBoundsY = (this.trackedY - this.startY) > 3.5;
+          if (outOfBoundsX || outOfBoundsY) {
+            dispatchCustomEvent(document.elementFromPoint(this.trackedX, this.trackedY), e);
           }
-        }));
+        }, (options?.delay as number));
 
         this.onEvent('mousemove.eventsmixin', document.body, (ev: MouseEvent) => {
           this.trackedX = ev.pageX;
@@ -503,8 +490,8 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
    * @private
    */
   #clearSlopedMouseLeaveTimer(): void {
-    this.slopedMouseLeaveTimer?.destroy(true);
-    this.slopedMouseLeaveTimer = null;
+    if (this.slopedMouseLeaveTimer) clearAnimationTimeout(this.slopedMouseLeaveTimer);
+    this.slopedMouseLeaveTimer = undefined;
     this.detachEventsByName('mousemove.eventsmixin');
     this.detachEventsByName('mouseenter.eventsmixin');
     this.startX = NaN;
@@ -527,34 +514,30 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
   /**
    * Setup a custom keydown event that fires after typing a birst of keys
    * @private
-   * @param {Element} target The DOM element to register
-   * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
+   * @param {HTMLElement} target The DOM element to register
+   * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
-  #addKeyDownEndListener(target: Element, options?: Record<string, unknown>) {
+  #addKeyDownEndListener(target: HTMLElement, options?: Record<string, unknown>) {
     let keys = '';
+    const delay = (options?.delay as number) || 500;
 
     this.onEvent('keydown.eventsmixin', target, (e: any) => {
       if (typeof e.key === 'undefined' && e.detail?.nativeEvent) e = e.detail.nativeEvent;
-      if (!isPrintable(e)) {
-        return;
-      }
+      if (!isPrintable(e)) return;
+
       keys += e.key;
 
-      if (!this.timer) {
-        this.timer = renderLoop.register(new IdsRenderLoopItem({
-          duration: options?.delay || 500,
-          timeoutCallback: () => {
-            const event = new CustomEvent('keydownend', {
-              detail: {
-                keys
-              }
-            });
-            keys = '';
-            target.dispatchEvent(event);
-            this.clearTimer();
+      this.clearTimer();
+      this.timer = requestAnimationTimeout(() => {
+        const event = new CustomEvent('keydownend', {
+          detail: {
+            keys
           }
-        }));
-      }
+        });
+        keys = '';
+        target.dispatchEvent(event);
+        this.clearTimer();
+      }, delay);
     });
 
     this.keyDownEndOn = true;
@@ -565,8 +548,8 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
    * @private
    */
   clearTimer() {
-    this.timer?.destroy(true);
-    this.timer = null;
+    if (this.timer) clearAnimationTimeout(this.timer);
+    this.timer = undefined;
   }
 
   /**
@@ -594,7 +577,7 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
       return;
     }
     this.keyDownEndOn = false;
-    this.timer = null;
+    this.clearTimer();
     this.detachEventsByName('keydown.eventsmixin');
   }
 };

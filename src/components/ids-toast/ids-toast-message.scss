@@ -2,6 +2,8 @@
 @import '../../core/ids-base';
 
 :host(ids-toast-message) {
+  --toast-message-duration: 6000ms;
+
   @include block();
 }
 
@@ -65,10 +67,25 @@
 
   .progress-bar {
     @include bg-azure-60();
-    @include w-full();
 
     height: 3px;
     overflow: hidden;
+    width: 0;
+
+    &.running {
+      animation: progressBarUpdate;
+      animation-play-state: running;
+      animation-duration: var(--toast-message-duration);
+      animation-timing-function: linear;
+
+      &.paused {
+        animation-play-state: paused;
+      }
+    }
+
+    &.hidden {
+      height: 0;
+    }
   }
 
   &[mode='dark'] {
@@ -84,7 +101,7 @@
   }
 }
 
-// Toast Animation
+// "Appear" Animation
 @include keyframes(animScale) {
   0% {
     @include transform(translate3d(0, 40px, 0) scale3d(0.1, 0.6, 1));
@@ -97,6 +114,7 @@
   }
 }
 
+// "Disappear" Animation
 @include keyframes(animScaleOut) {
   0% {
     @include transform(translate3d(0, 0, 0) scale3d(1, 1, 1));
@@ -106,5 +124,16 @@
   100% {
     @include transform(translate3d(0, 40px, 0) scale3d(0.1, 0.6, 1));
     @include bg-opacity-0();
+  }
+}
+
+// Progress bar countdown animation
+@include keyframes(progressBarUpdate) {
+  0% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0%;
   }
 }

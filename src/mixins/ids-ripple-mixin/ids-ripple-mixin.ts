@@ -1,8 +1,7 @@
-import renderLoop from '../../components/ids-render-loop/ids-render-loop-global';
-import IdsRenderLoopItem from '../../components/ids-render-loop/ids-render-loop-item';
 import { attributes } from '../../core/ids-attributes';
 import { IdsConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { waitForAnimationEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
 type Constraints = IdsConstructor<EventsMixinInterface>;
@@ -13,9 +12,6 @@ const IdsRippleMixin = <T extends Constraints>(superclass: T) => class IdsRipple
 
   // Radius of ripple, defaults to 50
   rippleRadius = 50;
-
-  // Timeout for end of ripple effect
-  rippleTimeout?: IdsRenderLoopItem;
 
   constructor(...args: any[]) {
     super(...args);
@@ -53,6 +49,12 @@ const IdsRippleMixin = <T extends Constraints>(superclass: T) => class IdsRipple
     super.connectedCallback?.();
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.removeRipples();
+    this.#removeRippleListeners();
+  }
+
   /**
    * @public
    * @param {HTMLElement} rippleTarget Element containing ripple, default to component container
@@ -63,6 +65,14 @@ const IdsRippleMixin = <T extends Constraints>(superclass: T) => class IdsRipple
     this.rippleTarget = rippleTarget || this.container;
     this.rippleRadius = rippleRadius || this.rippleRadius;
     this.#attachRippleListeners();
+  }
+
+  removeRipples(): void {
+    const rippleTarget = this.rippleTarget;
+    const otherRippleEls = rippleTarget?.querySelectorAll('.ripple-effect');
+    otherRippleEls?.forEach((rippleEl) => {
+      rippleEl.remove();
+    });
   }
 
   /**
@@ -117,15 +127,11 @@ const IdsRippleMixin = <T extends Constraints>(superclass: T) => class IdsRipple
    * @param {number} y the Y coordinate
    * @returns {void}
    */
-  createRipple(x: number | undefined, y: number | undefined) {
-    if (this.noRipple || (this as any).disabled) return;
+  async createRipple(x: number | undefined, y: number | undefined) {
+    if (this.noRipple || this.disabled) return;
 
-    // Remove pre-existing ripples
+    this.removeRipples();
     const rippleTarget = this.rippleTarget;
-    const otherRippleEls = rippleTarget?.querySelectorAll('.ripple-effect');
-    otherRippleEls?.forEach((rippleEl) => {
-      rippleEl.remove();
-    });
 
     // Create ripple element
     const rippleEl = document.createElement('span');
@@ -143,19 +149,25 @@ const IdsRippleMixin = <T extends Constraints>(superclass: T) => class IdsRipple
     rippleEl.style.top = `${btnOffsets.y}px`;
     rippleEl.classList.add('animating');
 
-    // Remove pre-existing ripple timeouts
-    if (this.rippleTimeout) {
-      this.rippleTimeout.destroy(true);
-    }
+    await waitForAnimationEnd(rippleEl, 'ripple-animation');
 
-    // After a short time, remove the ripple effect
-    this.rippleTimeout = renderLoop.register(new IdsRenderLoopItem({
-      duration: 1200,
-      timeoutCallback() {
-        rippleTarget?.classList.remove('is-rippling');
-        rippleEl.remove();
+    rippleTarget?.classList.remove('is-rippling');
+    rippleEl.remove();
+    this.#triggerRippleEndEvent(rippleEl);
+  }
+
+  /**
+   * Dispatches a `rippleend` event on the host element that can notify parent Web Components
+   * that a ripple animation has completed.
+   * @param {HTMLElement} rippleEl reference to the removed ripple element
+   * @returns {void}
+   */
+  #triggerRippleEndEvent(rippleEl: HTMLElement) {
+    this.triggerEvent('rippleend', this, {
+      detail: {
+        element: rippleEl
       }
-    }));
+    });
   }
 
   /**

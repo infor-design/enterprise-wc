@@ -132,6 +132,7 @@ export default class IdsMenuItem extends Base {
    * @returns {void}
    */
   connectedCallback() {
+    if (!this.state) this.state = {};
     super.connectedCallback();
     this.refresh();
     this.attachEventHandlers();
@@ -577,6 +578,7 @@ export default class IdsMenuItem extends Base {
    */
   set tabIndex(val) {
     const trueVal = Number(val);
+    if (!this.state) this.state = {};
     if (this.state.tabIndex !== trueVal) {
       this.removeAttribute(attributes.TABINDEX);
 
@@ -595,7 +597,7 @@ export default class IdsMenuItem extends Base {
    * @returns {any} [number] the current tabindex number for the hyperlink
    */
   get tabIndex() {
-    return this.state.tabIndex;
+    return this.state?.tabIndex || 0;
   }
 
   #target: any = undefined;

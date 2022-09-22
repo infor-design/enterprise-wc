@@ -1,5 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
-import { customElement, scss, appendIds } from '../../core/ids-decorators';
+import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-tooltip-base';
@@ -17,7 +17,6 @@ import '../ids-popup/ids-popup';
  * @part tooltip - the tooltip container
  */
 @customElement('ids-tooltip')
-@appendIds()
 @scss(styles)
 export default class IdsTooltip extends Base {
   constructor() {

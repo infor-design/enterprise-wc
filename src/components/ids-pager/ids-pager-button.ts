@@ -65,8 +65,9 @@ export default class IdsPagerButton extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.button = this.shadowRoot?.querySelector('ids-button');
-    this.icon = this.shadowRoot?.querySelector('ids-icon');
+    this.button = this.shadowRoot.querySelector('ids-button');
+    this.icon = this.shadowRoot.querySelector('ids-icon');
+    this.offEvent('click', this.button);
     this.onEvent('click', this.button, () => this.#onClick());
 
     this.#updateNavDisabled();

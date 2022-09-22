@@ -2,9 +2,9 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-virtual-scroll-base';
 import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsDataSource from '../../core/ids-data-source';
 
 import styles from './ids-virtual-scroll.scss';
+import IdsDataSource from '../../core/ids-data-source';
 
 const DEFAULT_HEIGHT = '100vh';
 const DEFAULT_ITEM_HEIGHT = 50;
@@ -18,26 +18,14 @@ const DEFAULT_ITEM_HEIGHT = 50;
 @customElement('ids-virtual-scroll')
 @scss(styles)
 export default class IdsVirtualScroll extends Base {
-  datasource?: IdsDataSource;
-
-  initialized = false;
-
-  stringTemplate = '';
-
-  eventTarget?: HTMLElement | null;
-
-  timeout?: number | null;
-
-  lastStart: number | null = null;
-
-  lastEnd: number | null = null;
+  // Array is a pointer to a datasource in a parent component
+  datasource: IdsDataSource | Record<string, any> = {};
 
   constructor() {
     super();
   }
 
   connectedCallback() {
-    this.datasource = new IdsDataSource();
     super.connectedCallback();
     this.initialized = false;
     // eslint-disable-next-line no-template-curly-in-string
@@ -80,7 +68,9 @@ export default class IdsVirtualScroll extends Base {
    * @param {boolean} allowZero Allow a zero length dataset (render empty)
    */
   renderItems(allowZero: boolean) {
-    if (!this.data || (!allowZero && this.data.length === 0)) return;
+    if (!this.data || (!allowZero && this.data.length === 0)) {
+      return;
+    }
 
     requestAnimationFrame(() => {
       const startIndex = this.startIndex;
@@ -96,7 +86,7 @@ export default class IdsVirtualScroll extends Base {
 
       let html = '';
       visibleItems.map((item: any, index: number) => {
-        const node = this.itemTemplate(item, index);
+        const node = this.itemTemplate(item, index, startIndex + index);
         html += node;
         return node;
       });
@@ -109,6 +99,7 @@ export default class IdsVirtualScroll extends Base {
       if (wrapper) wrapper.innerHTML = html;
 
       this.triggerEvent('aftervirtualscroll', this, { detail: { elem: this, startIndex, endIndex } });
+      if (this.onAfterVirtualScroll) this.onAfterVirtualScroll({ elem: this, startIndex, endIndex });
     });
   }
 
@@ -229,10 +220,7 @@ export default class IdsVirtualScroll extends Base {
     this.removeAttribute(attributes.BUFFER_SIZE);
   }
 
-  get bufferSize(): number {
-    const size = parseFloat(this.getAttribute(attributes.BUFFER_SIZE) ?? '');
-    return Number.isNaN(size) ? 25 : size;
-  }
+  get bufferSize(): number { return this.getAttribute(attributes.BUFFER_SIZE) || 10; }
 
   /**
    * Set the scroll top position and scroll down to that location
@@ -286,10 +274,11 @@ export default class IdsVirtualScroll extends Base {
    * Return a item's html injecting any values from the dataset as needed.
    * @param {object} item The item to generate
    * @param {number} index the index for the template
+   * @param {number} ariaIndex the aria index for the template (not used here but used in some implementations)
    * @returns {string} The html for this item
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  itemTemplate(item: any, index: number): string {
+  itemTemplate(item: any, index: number, ariaIndex?: number): string {
     return injectTemplate(this.stringTemplate, item);
   }
 

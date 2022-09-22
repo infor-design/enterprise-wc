@@ -20,13 +20,13 @@ class IdsDataSource {
    * Holds a reference to the original data
    * @private
    */
-  #originalData: any[] = [];
+  #originalData: Record<string, any> = [];
 
   /**
    * Holds the data in its current state
    * @private
    */
-  #currentData: any[] = [];
+  #currentData: Record<string, any> = [];
 
   /**
    * Holds the current data to use with filter

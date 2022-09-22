@@ -32,9 +32,9 @@ const IdsThemeMixin = <T extends Constrainsts>(superclass: T) => class extends s
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback?.();
     this.offEvent('themechanged');
     this.switcher = null;
+    super.disconnectedCallback?.();
   }
 
   /**

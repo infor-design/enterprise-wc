@@ -1,4 +1,5 @@
-import { htmlEntities, cleanHtml } from './ids-editor-clean-utils';
+import { cleanHtml } from './ids-editor-clean-utils';
+import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 /**
  * Paste as plain text.
@@ -21,11 +22,11 @@ export function handlePasteAsPlainText(e?: ClipboardEvent): string | null {
     nodes.forEach((node: string, i: number) => {
       if (node !== '') {
         if (navigator.userAgent.match(/firefox/i) && i === 0) {
-          html += `<p>${htmlEntities(node)}</p>`;
+          html += `<p>${escapeHTML(node)}</p>`;
         } else if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(node)) {
-          html += `<img src="${htmlEntities(node)}" />`;
+          html += `<img src="${escapeHTML(node)}" />`;
         } else {
-          html += `<p>${htmlEntities(node)}</p>`;
+          html += `<p>${escapeHTML(node)}</p>`;
         }
       }
     });
@@ -64,11 +65,11 @@ export function handlePasteAsHtml(e?: ClipboardEvent): string | null {
     nodes.forEach((node: string, i: number) => {
       if (node !== '') {
         if (navigator.userAgent.match(/firefox/i) && i === 0) {
-          html += `<p>${htmlEntities(node)}</p>`;
+          html += `<p>${escapeHTML(node)}</p>`;
         } else if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(node)) {
-          html += `<img src="${htmlEntities(node)}" />`;
+          html += `<img src="${escapeHTML(node)}" />`;
         } else {
-          html += `<p>${htmlEntities(node)}</p>`;
+          html += `<p>${escapeHTML(node)}</p>`;
         }
       }
     });

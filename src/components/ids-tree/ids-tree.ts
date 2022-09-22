@@ -7,7 +7,7 @@ import IdsTreeShared from './ids-tree-shared';
 import './ids-tree-node';
 import '../ids-text/ids-text';
 
-import { unescapeHTML, htmlEntities } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { unescapeHTML, escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { stringToBool, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-tree.scss';
@@ -207,7 +207,7 @@ export default class IdsTree extends Base {
    */
   #htmlAndData() {
     const processed = (s: any) => (/&#?[^\s].{1,9};/g.test(s) ? unescapeHTML(s) : s);
-    const validatedText = (s: any) => htmlEntities(processed(s));
+    const validatedText = (s: any) => escapeHTML(processed(s));
     let html = '';
     const data: any = [];
     const nodesHtml = (nodesData: any) => {

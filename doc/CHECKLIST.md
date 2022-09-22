@@ -7,7 +7,7 @@
  - [ ] Re Use: Try and use existing components and mixins in your component.
  - [ ] Settings/Events/Methods: Look at the old component and cover the most important settings, we will try to not bring all of this over so will spec this out.
  - [ ] Private Methods and Classes: Make anything private that should be with # on the name
- - [ ] Id/Automation Ids: Using the appendIds mixin and test that id's can be added (TBD)
+ - [ ] Id/Automation Ids: Just name the id's appropriately and then can be accessed via the shadow DOM. Need to be unique per component shadowRoot.
  - [ ] example.index: The main example.html page should just show one simple example and not all variations
  - [ ] test-sandbox.index: The sandbox page should show all other examples in a nicely formatted way.
  - [ ] Standalone Css: Add a basic standalone css example
@@ -113,7 +113,6 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Radar (ids-radar-chart) skipping until needed
  - [x] Radios (ids-radio)
  - [x] Rating (ids-rating)
- - [x] Renderloop (mixin)
  - [ ] Scatterplot (ids-scatter-plot-chart)
  - [x] Searchfield (ids-search-field)
  - [ ] Sign-in (ids-layouts)

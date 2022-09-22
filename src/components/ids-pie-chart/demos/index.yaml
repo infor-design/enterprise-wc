@@ -23,6 +23,9 @@
   - link: selectable.html
     type: Example
     description: Shows configuring selection
+  - link: no-animation.html
+    type: Example
+    description: Shows pie with no animation
   - link: side-by-side.html
     type: Side by Side
     description: Shows chart side by side with a 4.x chart

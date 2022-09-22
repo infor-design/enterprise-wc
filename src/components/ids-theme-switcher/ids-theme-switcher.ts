@@ -28,6 +28,13 @@ export default class IdsThemeSwitcher extends Base {
     this.#attachEventHandlers();
   }
 
+  disconnectedCallback() {
+    this.popup = null;
+    this.menuButton = null;
+    this.container = null;
+    super.disconnectedCallback();
+  }
+
   /**
    * Establish Internal Event Handlers
    * @private

@@ -88,22 +88,6 @@ export function stripAttribute(content: string, attribute: string, attributeStri
 }
 
 /**
- * Convert html entities
- * @private
- * @param {string} str The html
- * @returns {string} The converted html
- */
-export function htmlEntities(str: string): string {
-  // converts special characters (e.g., <) into their escaped/encoded values (e.g., &lt;).
-  // This allows you to display the string without the browser reading it as HTML.
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-/**
  * Clean given html
  * @private
  * @param {string} content The html
