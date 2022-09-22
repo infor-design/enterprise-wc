@@ -64,7 +64,7 @@ export const EDITOR_ATTRIBUTES = [
  * @param {ShadowRoot|HTMLElement} root The root element.
  * @returns {any} First matched selector element.
  */
-export function qs(s: string, root: ShadowRoot | HTMLElement): any {
+export function qs(s: string, root: ShadowRoot | HTMLElement | null): any {
   return root?.querySelector(s);
 }
 
@@ -74,8 +74,8 @@ export function qs(s: string, root: ShadowRoot | HTMLElement): any {
  * @param {ShadowRoot|HTMLElement} root The root element.
  * @returns {Array<any>} List of elements that matched.
  */
-export function qsAll(s: string, root: ShadowRoot | HTMLElement): Array<any> {
-  return Array.from(root?.querySelectorAll(s));
+export function qsAll(s: string, root: ShadowRoot | HTMLElement | null): Array<any> {
+  return Array.from(root?.querySelectorAll(s) ?? []);
 }
 
 /**

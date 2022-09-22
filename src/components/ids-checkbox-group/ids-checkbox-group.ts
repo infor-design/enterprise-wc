@@ -59,8 +59,8 @@ export default class IdsCheckboxGroup extends Base {
     } else {
       this.removeAttribute('label');
     }
-    if (this.container) {
-      this.container.querySelector('ids-text').innerHTML = value;
-    }
+
+    const textElem = this.container?.querySelector('ids-text');
+    if (textElem) textElem.innerHTML = value;
   }
 }
