@@ -41,8 +41,8 @@
   cursor: move;
 }
 
-:host([dragging]:not([with-styles='false'])),
-:host([selected]:not([with-styles='false'])) {
+:host([dragging]),
+:host([selected]) {
   background-color: var(--ids-color-brand-primary-base);
   color: var(--ids-color-palette-white);
 }
@@ -69,8 +69,8 @@
   background-color: var(--ids-color-palette-slate-60);
 }
 
-:host([mode='dark'][selected]:not([with-styles='false'])),
-:host([mode='dark'][dragging]:not([with-styles='false'])) {
+:host([mode='dark'][selected]),
+:host([mode='dark'][dragging]) {
   background-color: var(--ids-color-brand-primary-base);
 }
 

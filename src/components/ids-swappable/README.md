@@ -76,8 +76,6 @@ Some components support composition with IdsSwappable, such as [IdsTabs](../ids-
 **selected** Sets the selected attribute. Items need to be selected before that can be dragged.
 **originalText** Sets the originalText attribute. This happens when the component is connected and is used to revert the text after item is dropped.
 **tabbable** Sets if the item is tabbable. Defaults to true.
-**with-styles** Sets if the item should have default color and background color styles when dragging or selected.
-Example: `<ids-swappable-item with-styles="false"></ids-swappable-item>`
 
 ## Converting from Previous Versions (Breaking Changes)
 
