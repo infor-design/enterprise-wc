@@ -1,10 +1,12 @@
 import percySnapshot from '@percy/puppeteer';
+import wait from '../helpers/wait';
 
 describe('Ids Image Percy Tests', () => {
   const url = 'http://localhost:4444/ids-image/example.html';
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await wait(1000);
     await percySnapshot(page, 'ids-image-new-light');
   });
 
@@ -15,6 +17,7 @@ describe('Ids Image Percy Tests', () => {
 
   it('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await wait(1000);
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
     });
@@ -23,6 +26,7 @@ describe('Ids Image Percy Tests', () => {
 
   it('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await wait(1000);
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
