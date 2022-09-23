@@ -23,9 +23,7 @@ describe('Ids Text e2e Tests', () => {
     const numberOfObjects = await countObjects(page);
 
     await page.evaluate(() => {
-      const template = `
-        <ids-text id="test">Example Content</ids-text>
-      `;
+      const template = `<ids-text id="test" translate-text="true">Example</ids-text>`;
       document.body.insertAdjacentHTML('beforeend', template);
       document.querySelector('#test')?.remove();
     });

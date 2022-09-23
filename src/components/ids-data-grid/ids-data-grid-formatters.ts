@@ -1,27 +1,38 @@
 import '../ids-hyperlink/ids-hyperlink';
 import '../ids-button/ids-button';
 import '../ids-badge/ids-badge';
+
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
+import type IdsDataGrid from './ids-data-grid';
 
 /* eslint-disable jsdoc/require-returns */
 /* eslint-disable jsdoc/require-param */
 export default class IdsDataGridFormatters {
-  /** Formats Just the string Data Removing Nulls and Undefined */
-  nullToString(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
-    const value: unknown = rowData[columnData.field || ''];
-    const str = ((value === null || value === undefined || value === '') ? '' : (value as any).toString());
-    return str;
-  }
+  #extractValue(item: Record<string, any>, field: string) {
+    if (!field) return '';
 
-  /** Formats Just the object Data Removing Nulls and Undefined */
-  nullToObj(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
-    const value: unknown = rowData[columnData.field || ''];
-    const str = ((value === null || value === undefined || value === '') ? '' : value);
-    return (str as string);
+    let rawValue;
+    if (field.indexOf('.') > -1) {
+      rawValue = field.split('.').reduce((o: any, x: any) => (o ? o[x] : ''), item);
+    } else {
+      rawValue = item[field];
+    }
+
+    if (rawValue === undefined || rawValue === null) {
+      return '';
+    }
+
+    if (typeof rawValue !== 'string') {
+      return rawValue;
+    }
+
+    return escapeHTML(rawValue || '');
   }
 
   /** Used to check if the column should show as disabled */
-  columnDisabled(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): boolean {
+  #columnDisabled(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): boolean {
     const isTrue = (v: any) => (typeof v !== 'undefined' && v !== null && ((typeof v === 'boolean' && v === true) || (typeof v === 'string' && v.toLowerCase() === 'true')));
     const disabled = col.disabled;
 
@@ -29,7 +40,7 @@ export default class IdsDataGridFormatters {
   }
 
   /** Used to get the color via the function  or text */
-  color(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): string | undefined {
+  #color(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): string | undefined {
     const color = col.color;
 
     return typeof color === 'function' ? color(row, value, col, item) : color;
@@ -37,44 +48,46 @@ export default class IdsDataGridFormatters {
 
   /** Formats Text */
   text(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
-    return `<span class="text-ellipsis">${this.nullToString(rowData, columnData)}</span>`;
+    // A bit faster in virtual mode with ${rowData[columnData.field]}
+    return `<span class="text-ellipsis">${this.#extractValue(rowData, columnData.field)}</span>`;
+    // return `<span class="text-ellipsis">${api.datasource.columnValue(index, columnData.field)}</span>`;
   }
 
   /** Masks text with stars */
   password(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
-    return `<span class="text-ellipsis">${this.nullToString(rowData, columnData).replace(/./g, '•')}</span>`;
+    return `<span class="text-ellipsis">${this.#extractValue(rowData, columnData.field).toString().replace(/./g, '•')}</span>`;
   }
 
   /** Formats a sequencing running count of rows */
   rowNumber(_rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    return `<span class="text-ellipsis">${index}</span>`;
+    return `<span class="text-ellipsis">${index + 1}</span>`;
   }
 
   /** Formats date data as a date string in the desired format */
-  date(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: any): string {
-    let value: any = this.nullToObj(rowData, columnData);
+  date(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
+    let value: any = this.#extractValue(rowData, columnData.field);
     value = api.locale?.formatDate(value, columnData.formatOptions) ?? value.toString();
     return `<span class="text-ellipsis">${value}</span>`;
   }
 
   /** Formats date data as a time string in the desired format */
-  time(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: any): string {
-    let value: any = this.nullToObj(rowData, columnData);
+  time(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
+    let value: any = this.#extractValue(rowData, columnData.field);
     value = api.locale?.formatDate(value, columnData.formatOptions || { timeStyle: 'short' }) ?? value.toString();
     return `<span class="text-ellipsis">${value}</span>`;
   }
 
   /** Formats number data as a decimal string in the specific locale */
-  decimal(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: any): string {
-    let value: any = this.nullToObj(rowData, columnData);
+  decimal(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
+    let value: any = this.#extractValue(rowData, columnData.field);
     value = api.locale?.formatNumber(value, columnData.formatOptions
       || { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? value.toString();
     return `<span class="text-ellipsis">${value === 'NaN' ? '' : value}</span>`;
   }
 
   /** Formats number data as a integer string in the specific locale */
-  integer(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: any): string {
-    let value: any = this.nullToObj(rowData, columnData);
+  integer(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
+    let value: any = this.#extractValue(rowData, columnData.field);
     const opts = columnData.formatOptions || { };
     opts.style = 'integer';
 
@@ -84,12 +97,12 @@ export default class IdsDataGridFormatters {
 
   /** Formats number data as a ids-hyperlink */
   hyperlink(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    const value = columnData.text || this.nullToString(rowData, columnData);
+    const value = columnData.text || this.#extractValue(rowData, columnData.field).toString();
     if (!value) {
       return '';
     }
     let colHref: any = columnData.href || '#';
-    const isDisabled = this.columnDisabled(index, value, columnData, rowData);
+    const isDisabled = this.#columnDisabled(index, value, columnData, rowData);
 
     // Support for dynamic links based on content
     if (columnData.href && typeof columnData.href === 'function') {
@@ -106,21 +119,28 @@ export default class IdsDataGridFormatters {
 
   /** Shows a selection checkbox column */
   selectionCheckbox(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    const isDisabled = this.columnDisabled(index, '', columnData, rowData);
+    const isDisabled = this.#columnDisabled(index, '', columnData, rowData);
     return `<span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-checkbox${rowData?.rowSelected ? ' checked' : ''}${isDisabled ? ' disabled' : ''}"></span></span>`;
+  }
+
+  /** Shows a checkbox column */
+  checkbox(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const isDisabled = this.#columnDisabled(index, '', columnData, rowData);
+    const value = stringToBool(this.#extractValue(rowData, columnData.field));
+    return `<span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="${value ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-checkbox${value ? ' checked' : ''}${isDisabled ? ' disabled' : ''}"></span></span>`;
   }
 
   /** Shows a selection radio column */
   selectionRadio(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    const isDisabled = this.columnDisabled(index, '', columnData, rowData);
+    const isDisabled = this.#columnDisabled(index, '', columnData, rowData);
     return `<span class="ids-data-grid-radio-container"><span role="radio" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-radio${rowData?.rowSelected ? ' checked' : ''}${isDisabled ? ' disabled' : ''}"></span></span>`;
   }
 
   /** Shows an ids-button */
   button(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    const value: any = this.nullToObj(rowData, columnData);
+    const value: any = this.#extractValue(rowData, columnData.field);
     // Type / disabled / icon / text
-    return `<ids-button tabindex="-1" ${this.columnDisabled(index, value, columnData, rowData) ? ' disabled="true"' : ''}${columnData.type ? ` type="${columnData.type}"` : ' type="tertiary"'}>
+    return `<ids-button tabindex="-1" ${this.#columnDisabled(index, value, columnData, rowData) ? ' disabled="true"' : ''}${columnData.type ? ` type="${columnData.type}"` : ' type="tertiary"'}>
       <span class="audible">${columnData.text || ' Button'}</span>
       ${columnData.icon ? `<ids-icon slot="icon" icon="${columnData.icon}"></ids-icon>` : ''}
     </ids-button>`;
@@ -128,9 +148,9 @@ export default class IdsDataGridFormatters {
 
   /** Shows an ids-badge */
   badge(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    const value: any = this.nullToObj(rowData, columnData);
+    const value: any = this.#extractValue(rowData, columnData.field);
     if (!value) return '';
-    const color = this.color(index, value, columnData, rowData);
+    const color = this.#color(index, value, columnData, rowData);
 
     return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
   }

@@ -73,6 +73,7 @@ export default class IdsPopup extends Base {
     this.#alignTarget = null;
     this.#arrowTarget = null;
     this.#containingElem = null;
+    this.containingElem = null;
   }
 
   /**

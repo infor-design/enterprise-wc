@@ -419,6 +419,8 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
       &::after {
         @include checkbox-checked-after();
+
+        animation: none;
       }
 
       &.disabled {
@@ -431,6 +433,8 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
       &::after {
         @include checkbox-indeterminate-after();
+
+        animation: none;
       }
     }
   }

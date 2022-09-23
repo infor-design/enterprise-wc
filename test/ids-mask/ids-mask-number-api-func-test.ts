@@ -264,7 +264,7 @@ describe('IdsMaskAPI (Number)', () => {
     expect(result.conformedValue).toEqual('一二三四五六七七九');
   });
 
-  it('Should process number masks with leading zeros', () => {
+  it('should process number masks with leading zeros', () => {
     // Handle big numbers with thousands separators
     let textValue = '00001';
     const opts: IdsMaskOptions = {
