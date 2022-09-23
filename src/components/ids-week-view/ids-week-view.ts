@@ -46,7 +46,7 @@ export default class IdsWeekView extends Base {
 
   vetoableEventTypes = ['beforeweekrender'];
 
-  #ro?: ResizeObserver;
+  ro: ResizeObserver | null = null;
 
   constructor() {
     super();
@@ -62,10 +62,11 @@ export default class IdsWeekView extends Base {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.timer?.destroy();
+    (this.timer as any)?.destroy();
     this.timer = null;
     this.state = {};
-    this.#ro?.unobserve(this.container as HTMLElement);
+    this.ro?.unobserve(this.container as HTMLElement);
+    this.ro = null;
   }
 
   /**
@@ -101,14 +102,14 @@ export default class IdsWeekView extends Base {
    */
   #attachEventHandlers() {
     // Set the height from the top
-    this.#ro = new ResizeObserver((entries) => {
+    this.ro = new ResizeObserver((entries) => {
       for (const entry of entries) {
         if (entry.contentRect.width > 0) {
           this.#attachOffsetTop();
         }
       }
     });
-    this.#ro.observe(this.container as HTMLElement);
+    this.ro.observe(this.container as HTMLElement);
 
     // Respond to parent changing language
     this.offEvent('languagechange.week-view-container');
@@ -449,7 +450,7 @@ export default class IdsWeekView extends Base {
     // Clear before rerender
     this.container?.querySelectorAll('.week-view-time-marker').forEach((item: Element) => item.remove());
 
-    if (this.timer) this.timer.destroy(true);
+    if (this.timer) (this.timer as any)?.destroy(true);
 
     if (!this.showTimeline || !this.state.hasRendered) {
       return;
@@ -722,7 +723,7 @@ export default class IdsWeekView extends Base {
     if (eventCount >= 2) {
       this.container
         ?.querySelectorAll<HTMLElement>('.week-view-all-day-wrapper')
-        .forEach((elem: HTMLElement) => {
+        .forEach((elem) => {
           elem.style.height = `${44 + ((eventCount - 1) * 23)}px`;
         });
     }
@@ -748,7 +749,7 @@ export default class IdsWeekView extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.SHOW_TODAY, boolVal.toString());
+      this.setAttribute(attributes.SHOW_TODAY, 'true');
     } else {
       this.removeAttribute(attributes.SHOW_TODAY);
     }
@@ -763,10 +764,10 @@ export default class IdsWeekView extends Base {
    */
   get startDate(): Date {
     const attrVal = this.getAttribute(attributes.START_DATE);
+    const attrDate = new Date(attrVal ?? '');
 
-    if (attrVal) {
-      const attrDate = new Date(attrVal);
-      if (isValidDate(attrDate)) return attrDate;
+    if (attrVal && isValidDate(attrDate)) {
+      return attrDate;
     }
 
     // If no start-date attribute is set or not valid date
@@ -795,11 +796,11 @@ export default class IdsWeekView extends Base {
    */
   get endDate(): Date {
     const attrVal = this.getAttribute(attributes.END_DATE);
+    const attrDate = new Date(attrVal ?? '');
 
-    if (attrVal) {
-      const attrDate = new Date(attrVal);
+    if (attrVal && isValidDate(attrDate)) {
       // Adding one day to include end date to the range
-      if (isValidDate(attrDate)) return addDate(attrDate, 1, 'days');
+      return addDate(attrDate, 1, 'days');
     }
 
     // If no end-date attribute is set or not valid date
@@ -846,7 +847,7 @@ export default class IdsWeekView extends Base {
     const numberVal = typeof val === 'number' ? val : stringToNumber(val);
 
     if (!Number.isNaN(numberVal)) {
-      this.setAttribute(attributes.FIRST_DAY_OF_WEEK, val.toString());
+      this.setAttribute(attributes.FIRST_DAY_OF_WEEK, String(val));
     } else {
       this.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
     }
@@ -878,7 +879,7 @@ export default class IdsWeekView extends Base {
   set startHour(val: string | number) {
     // Allow 0 to be set
     if (val !== null) {
-      this.setAttribute(attributes.START_HOUR, val.toString());
+      this.setAttribute(attributes.START_HOUR, String(val));
     } else {
       this.removeAttribute(attributes.START_HOUR);
     }
@@ -909,7 +910,7 @@ export default class IdsWeekView extends Base {
   set endHour(val: string | number) {
     // Allow 0 to be set
     if (val !== null) {
-      this.setAttribute(attributes.END_HOUR, val.toString());
+      this.setAttribute(attributes.END_HOUR, String(val));
     } else {
       this.removeAttribute(attributes.END_HOUR);
     }
@@ -938,7 +939,7 @@ export default class IdsWeekView extends Base {
    */
   set showTimeline(val: string | boolean) {
     const boolVal = stringToBool(val);
-    this.setAttribute(attributes.SHOW_TIMELINE, boolVal.toString());
+    this.setAttribute(attributes.SHOW_TIMELINE, String(boolVal));
     this.#renderTimeline();
   }
 
@@ -964,7 +965,7 @@ export default class IdsWeekView extends Base {
    */
   set timelineInterval(val: number | string) {
     if (val) {
-      this.setAttribute(attributes.TIMELINE_INTERVAL, val.toString());
+      this.setAttribute(attributes.TIMELINE_INTERVAL, String(val));
     } else {
       this.removeAttribute(attributes.TIMELINE_INTERVAL);
     }

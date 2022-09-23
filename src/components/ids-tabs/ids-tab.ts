@@ -6,6 +6,7 @@ import Base from './ids-tab-base';
 import '../ids-text/ids-text';
 
 import styles from './ids-tab.scss';
+import type IdsText from '../ids-text/ids-text';
 
 type IdsTabOnActionCallback = (isSelected: boolean) => void;
 
@@ -269,22 +270,22 @@ export default class IdsTab extends Base {
   }
 
   /** @param {string} value The value which becomes selected by ids-tabs component */
-  set value(value: string) {
+  set value(value: string | null) {
     if (value !== this.getAttribute(attributes.VALUE)) {
-      this.setAttribute(attributes.VALUE, value);
+      this.setAttribute(attributes.VALUE, String(value));
     }
     this.#valueChange(value);
   }
 
   /** @returns {string} value The value which becomes selected by ids-tabs component */
-  get value(): string {
+  get value(): string | null {
     return this.getAttribute(attributes.VALUE);
   }
 
   /**
    * @param {string} value The value which becomes selected by ids-tabs component
    */
-  #valueChange(value: string) {
+  #valueChange(value: string | null) {
     this.triggerEvent('tabvaluechange', this, {
       bubbles: true,
       detail: { value: `${value}` }
@@ -292,14 +293,14 @@ export default class IdsTab extends Base {
   }
 
   /** @returns {string} value The number of items represented in the tab (may or may not apply) */
-  get count(): string {
+  get count(): string | null {
     return this.getAttribute(attributes.COUNT);
   }
 
   /**
    * @param {string} value The number of items represented in the tab (may or may not apply)
    */
-  set count(value: string) {
+  set count(value: string | null) {
     if (value === '') {
       if (this.hasAttribute(attributes.COUNT)) {
         this.removeAttribute(attributes.COUNT);
@@ -315,7 +316,7 @@ export default class IdsTab extends Base {
     this.container?.classList.add(attributes.COUNT);
 
     if (this.getAttribute(attributes.COUNT) !== value) {
-      this.setAttribute(attributes.COUNT, value);
+      this.setAttribute(attributes.COUNT, String(value));
     }
   }
 
@@ -327,7 +328,7 @@ export default class IdsTab extends Base {
    */
   #getReadableAriaLabel(): string {
     // eslint-disable-next-line no-unsafe-optional-chaining
-    const idsTextEls = [...this.container?.querySelectorAll('ids-text')];
+    const idsTextEls = [...this.container?.querySelectorAll('ids-text') ?? []];
     return idsTextEls.map((textEl) => {
       const slotNode = textEl.querySelector('slot')?.assignedNodes?.()?.[0];
       return slotNode?.textContent || textEl.textContent;
@@ -340,11 +341,11 @@ export default class IdsTab extends Base {
    * when we edit content.
    */
   #setDataTextForBoldFix = () => {
-    const idsText = this.container?.querySelector('ids-text');
+    const idsText = this.container?.querySelector<IdsText>('ids-text');
     const slotNode = idsText?.querySelector('slot')?.assignedNodes?.()?.[0];
 
     if (slotNode && idsText) {
-      idsText.container?.setAttribute('data-text', `"${slotNode.textContent.trim()}"`);
+      idsText?.container?.setAttribute('data-text', `"${slotNode.textContent?.trim()}"`);
     }
   };
 

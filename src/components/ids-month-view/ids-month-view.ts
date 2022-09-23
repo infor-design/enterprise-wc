@@ -37,6 +37,8 @@ import '../ids-trigger-field/ids-trigger-button';
 // Import Styles
 import styles from './ids-month-view.scss';
 import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../ids-calendar/ids-calendar-event';
+import type IdsDatePicker from '../ids-date-picker/ids-date-picker';
+import type IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
 
 const MIN_MONTH = 0;
 const MAX_MONTH = 11;
@@ -492,8 +494,8 @@ class IdsMonthView extends Base {
    * Add next/previous/today click events when toolbar is attached
    */
   #attachToolbarEvents(): void {
-    const buttonSet = this.container?.querySelector('ids-toolbar-section.toolbar-buttonset');
-    const toolbarDatepicker = this.container?.querySelector('ids-date-picker');
+    const buttonSet = this.container?.querySelector<IdsToolbarSection>('ids-toolbar-section.toolbar-buttonset');
+    const toolbarDatepicker = this.container?.querySelector<IdsDatePicker>('ids-date-picker');
 
     this.offEvent('click.month-view-buttons');
     this.onEvent('click.month-view-buttons', buttonSet, (e: MouseEvent) => {
@@ -515,12 +517,13 @@ class IdsMonthView extends Base {
       }
 
       if (target.classList.contains('btn-apply')) {
-        const { year, month } = toolbarDatepicker;
+        const year = toolbarDatepicker?.year ?? null;
+        const month = toolbarDatepicker?.month ?? null;
 
         this.year = year;
         this.month = month;
 
-        toolbarDatepicker.expanded = false;
+        if (toolbarDatepicker) toolbarDatepicker.expanded = false;
 
         this.#triggerSelectedEvent();
       }
@@ -603,7 +606,7 @@ class IdsMonthView extends Base {
    */
   #attachDatepicker(): void {
     const text = this.#formatMonthText();
-    const datepicker = this.container?.querySelector('ids-date-picker');
+    const datepicker = this.container?.querySelector<IdsDatePicker>('ids-date-picker');
 
     if (!this.#isDisplayRange() && datepicker) {
       datepicker.value = text;
@@ -724,7 +727,8 @@ class IdsMonthView extends Base {
         this.month = gregorian.getMonth();
         this.year = gregorian.getFullYear();
       } else {
-        this.year += 1;
+        const y = this.year + 1;
+        this.year = y;
         this.day = this.#getDayInMonth(this.day);
       }
     }
@@ -742,7 +746,8 @@ class IdsMonthView extends Base {
         this.month = gregorian.getMonth();
         this.year = gregorian.getFullYear();
       } else {
-        this.year -= 1;
+        const y = this.year - 1;
+        this.year = y;
         this.day = this.#getDayInMonth(this.day);
       }
     }
@@ -1365,7 +1370,7 @@ class IdsMonthView extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.SHOW_TODAY, boolVal);
+      this.setAttribute(attributes.SHOW_TODAY, 'true');
     } else {
       this.removeAttribute(attributes.SHOW_TODAY);
     }
@@ -1400,7 +1405,7 @@ class IdsMonthView extends Base {
     const numberVal = stringToNumber(val);
 
     if (!Number.isNaN(numberVal) && numberVal >= MIN_MONTH && numberVal <= MAX_MONTH) {
-      this.setAttribute(attributes.MONTH, val);
+      this.setAttribute(attributes.MONTH, String(val));
     } else {
       this.removeAttribute(attributes.MONTH);
     }
@@ -1422,7 +1427,7 @@ class IdsMonthView extends Base {
    * @returns {number} year param converted to number from attribute value with 4-digit check
    */
   get year(): number {
-    const attrVal = this.getAttribute(attributes.YEAR);
+    const attrVal = this.getAttribute(attributes.YEAR) ?? '';
     const numberVal = stringToNumber(attrVal);
 
     if (!Number.isNaN(numberVal) && attrVal.length === 4) {
@@ -1437,11 +1442,11 @@ class IdsMonthView extends Base {
    * Set year param and render month table/toolbar
    * @param {string|number|null} val year param value
    */
-  set year(val: any) {
+  set year(val: string | number | null) {
     const numberVal = stringToNumber(val);
 
     if (!Number.isNaN(numberVal) && numberVal.toString().length === 4) {
-      this.setAttribute(attributes.YEAR, val);
+      this.setAttribute(attributes.YEAR, String(val));
     } else {
       this.removeAttribute(attributes.YEAR);
     }
@@ -1504,7 +1509,7 @@ class IdsMonthView extends Base {
    * @returns {Date | null} startDate date parsed from attribute value
    */
   get startDate(): Date | null {
-    const attrVal = this.getAttribute(attributes.START_DATE);
+    const attrVal = this.getAttribute(attributes.START_DATE) ?? '';
     const attrDate = new Date(attrVal);
 
     if (attrVal && isValidDate(attrDate)) {
@@ -1520,7 +1525,7 @@ class IdsMonthView extends Base {
    */
   set startDate(val: string | Date | null) {
     if (val) {
-      this.setAttribute(attributes.START_DATE, val);
+      this.setAttribute(attributes.START_DATE, String(val));
     } else {
       this.removeAttribute(attributes.START_DATE);
     }
@@ -1537,7 +1542,7 @@ class IdsMonthView extends Base {
    * @returns {Date|null} endDate date parsed from attribute value
    */
   get endDate(): Date | null {
-    const attrVal = this.getAttribute(attributes.END_DATE);
+    const attrVal = this.getAttribute(attributes.END_DATE) ?? '';
     const attrDate = new Date(attrVal);
 
     if (attrVal && isValidDate(attrDate)) {
@@ -1553,7 +1558,7 @@ class IdsMonthView extends Base {
    */
   set endDate(val: Date | string | null) {
     if (val) {
-      this.setAttribute(attributes.END_DATE, val);
+      this.setAttribute(attributes.END_DATE, String(val));
     } else {
       this.removeAttribute(attributes.END_DATE);
     }
@@ -1618,7 +1623,7 @@ class IdsMonthView extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.COMPACT, boolVal);
+      this.setAttribute(attributes.COMPACT, 'true');
     } else {
       this.removeAttribute(attributes.COMPACT);
     }
@@ -1652,7 +1657,7 @@ class IdsMonthView extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.IS_DATEPICKER, boolVal);
+      this.setAttribute(attributes.IS_DATEPICKER, 'true');
     } else {
       this.removeAttribute(attributes.IS_DATEPICKER);
     }
@@ -1748,7 +1753,7 @@ class IdsMonthView extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.USE_RANGE, boolVal);
+      this.setAttribute(attributes.USE_RANGE, 'true');
       this.selectDay();
       this.#renderRangeSelection();
     } else {
@@ -1799,7 +1804,7 @@ class IdsMonthView extends Base {
   set showPicklistYear(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
-    this.setAttribute(attributes.SHOW_PICKLIST_YEAR, boolVal);
+    this.setAttribute(attributes.SHOW_PICKLIST_YEAR, String(boolVal));
   }
 
   /**
@@ -1823,7 +1828,7 @@ class IdsMonthView extends Base {
   set showPicklistMonth(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
-    this.setAttribute(attributes.SHOW_PICKLIST_MONTH, boolVal);
+    this.setAttribute(attributes.SHOW_PICKLIST_MONTH, String(boolVal));
   }
 
   /**
@@ -1842,7 +1847,7 @@ class IdsMonthView extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.SHOW_PICKLIST_WEEK, boolVal);
+      this.setAttribute(attributes.SHOW_PICKLIST_WEEK, 'true');
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
     }
@@ -1943,7 +1948,7 @@ class IdsMonthView extends Base {
 
       for (let i = 0; i < days; i++) {
         const calendarEvent = new IdsCalendarEvent();
-        const eventType = this.eventTypesData?.find((et: CalendarEventTypeData) => et.id === event.type);
+        const eventType = this.eventTypesData?.find((et: CalendarEventTypeData) => et.id === event.type) ?? null;
         const eventOrder = baseOrder + index;
         calendarEvent.eventTypeData = eventType;
         calendarEvent.eventData = event;

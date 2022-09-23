@@ -36,9 +36,9 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
 
   isClick = false;
 
-  timer?: FrameRequestLoopHandler;
+  timer?: FrameRequestLoopHandler | null;
 
-  slopedMouseLeaveTimer?: FrameRequestLoopHandler;
+  slopedMouseLeaveTimer?: FrameRequestLoopHandler | null;
 
   /** Starting pageX */
   startX = NaN;

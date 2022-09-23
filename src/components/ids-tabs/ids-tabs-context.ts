@@ -5,6 +5,7 @@ import Base from './ids-tabs-context-base';
 import './ids-tab-content';
 
 import styles from './ids-tabs.scss';
+import type IdsTabContent from './ids-tab-content';
 
 /**
  * IDS Tabs Context Component
@@ -38,7 +39,7 @@ export default class IdsTabsContext extends Base {
   }
 
   #afterConnectedCallback() {
-    this.value = this.querySelector('[selected]')?.value;
+    this.value = this.querySelector<IdsTabContent>('[selected]')?.value ?? null;
   }
 
   /**
@@ -57,10 +58,10 @@ export default class IdsTabsContext extends Base {
   }
 
   /** @param {string} value The value representing a currently selected tab */
-  set value(value: string) {
+  set value(value: string | null) {
     const currentValue = this.getAttribute(attributes.VALUE);
     if (currentValue !== value) {
-      this.setAttribute(attributes.VALUE, value);
+      this.setAttribute(attributes.VALUE, String(value));
       this.#changeContentPane(currentValue, value);
     }
   }
@@ -75,7 +76,7 @@ export default class IdsTabsContext extends Base {
    * @param {string} newValue the value of the new pane, used to make it active
    */
   #changeContentPane(currentValue: any, newValue: any) {
-    const contentPanes = [...this.querySelectorAll('ids-tab-content')];
+    const contentPanes = [...this.querySelectorAll<IdsTabContent>('ids-tab-content')];
     const currentPane = contentPanes.find((el) => el.value === currentValue);
     const targetPane = contentPanes.find((el) => el.value === newValue);
     if (currentPane) currentPane.active = false;

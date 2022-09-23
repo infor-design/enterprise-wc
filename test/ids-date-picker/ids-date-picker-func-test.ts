@@ -563,7 +563,7 @@ describe('IdsDatePicker Component Tests', () => {
       document.body.innerHTML = '';
       const errors = jest.spyOn(global.console, 'error');
       const comp = new IdsDatePicker();
-      delete comp.locale;
+      delete (comp as any).locale;
       (document.body as any).appendChild(comp);
       expect(errors).not.toHaveBeenCalled();
     });
