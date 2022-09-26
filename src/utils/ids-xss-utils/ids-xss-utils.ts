@@ -1,6 +1,5 @@
 /**
  * Remove console methods
- * @private
  * @param {string} html HTML in string form
  * @returns {string} the modified value
  */
@@ -12,13 +11,21 @@ export function sanitizeConsoleMethods(html: string | any) {
 }
 
 /**
+ * Removes Script Tags
+ * @param {string} str HTML in string form
+ * @returns {string} the modified value
+ */
+export function removeScriptTags(str: string) {
+  return str.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g, '');
+}
+
+/**
  * Remove Script tags and all onXXX functions
- * @private
  * @param {string} html HTML in string form
  * @returns {string} the modified value
  */
 export function sanitizeHTML(html: string) {
-  let santizedHtml = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g, '');
+  let santizedHtml = removeScriptTags(html);
   santizedHtml = santizedHtml.replace(/<[^>]+/g, (match) => {
     const expr = /(\/|\s)on\w+=('|")?/g;
     let str = match;
@@ -48,13 +55,13 @@ export function sanitizeHTML(html: string) {
  * @returns {string} The string minus html tags.
  */
 export function stripHTML(str: string) {
-  let newStr = str;
-  if (!newStr) {
-    return '';
-  }
+  if (!str) return '';
 
-  newStr = newStr.replace(/<\/?[^>]+(>|$)/g, '');
-  return newStr;
+  let newStr = str;
+  if (typeof newStr === 'number') newStr = `${newStr}`;
+
+  newStr = removeScriptTags(newStr);
+  return newStr.replace(/<\/?[^>]+(>|$)/g, '');
 }
 
 /**
@@ -90,7 +97,6 @@ export function stripTags(html: string | number, allowed = ''): string {
 /**
  * Un-escapes HTML, replacing encoded symbols with special characters.
  * Symbols taken from https://bit.ly/1iVkGlc
- * @private
  * @param {string} value HTML in string form
  * @returns {string} the modified value
  */
@@ -112,7 +118,6 @@ export function unescapeHTML(value: any) {
 /**
  * Escapes HTML, replacing special characters with encoded symbols.
  * Symbols taken from https://bit.ly/1iVkGlc
- * @private
  * @param {string} unsafe HTML in string form
  * @returns {string} the modified value
  */

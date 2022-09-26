@@ -2,6 +2,7 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getSpecs } from '../../utils/ids-device-env-specs-utils/ids-device-env-specs-utils';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-about-base';
 import '../ids-modal/ids-modal';
@@ -122,7 +123,7 @@ export default class IdsAbout extends Base {
    * @param {string} val productName attribute value
    */
   set productName(val: string) {
-    this.setAttribute(attributes.PRODUCT_NAME, val);
+    this.setAttribute(attributes.PRODUCT_NAME, stripHTML(val));
 
     this.#refreshProduct();
   }
@@ -139,7 +140,7 @@ export default class IdsAbout extends Base {
    * @param {string} val productVersion attribute value
    */
   set productVersion(val: string) {
-    this.setAttribute(attributes.PRODUCT_VERSION, val);
+    this.setAttribute(attributes.PRODUCT_VERSION, stripHTML(val));
 
     this.#refreshProduct();
   }
@@ -221,7 +222,7 @@ export default class IdsAbout extends Base {
    * @param {string} val copyrightYear attribute value
    */
   set copyrightYear(val: string) {
-    this.setAttribute(attributes.COPYRIGHT_YEAR, val);
+    this.setAttribute(attributes.COPYRIGHT_YEAR, stripHTML(val));
 
     this.#refreshCopyright();
   }
