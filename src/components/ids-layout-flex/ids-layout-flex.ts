@@ -57,8 +57,8 @@ export default class IdsLayoutFlex extends Base {
    * Set the align content setting
    * @param {string} value The value
    */
-  set alignContent(value: string) {
-    if (FLEX_OPTIONS.alignContent.includes(value)) {
+  set alignContent(value: string | null) {
+    if (value && FLEX_OPTIONS.alignContent.includes(value)) {
       this.setAttribute(attributes.ALIGN_CONTENT, value);
     } else {
       this.removeAttribute(attributes.ALIGN_CONTENT);
@@ -71,8 +71,8 @@ export default class IdsLayoutFlex extends Base {
    * Set the align items setting
    * @param {string} value The value
    */
-  set alignItems(value: string) {
-    if (FLEX_OPTIONS.alignItems.includes(value)) {
+  set alignItems(value: string | null) {
+    if (value && FLEX_OPTIONS.alignItems.includes(value)) {
       this.setAttribute(attributes.ALIGN_ITEMS, value);
     } else {
       this.removeAttribute(attributes.ALIGN_ITEMS);
@@ -85,8 +85,8 @@ export default class IdsLayoutFlex extends Base {
    * Set the direction setting
    * @param {string} value The value
    */
-  set direction(value: string) {
-    if (FLEX_OPTIONS.direction.includes(value)) {
+  set direction(value: string | null) {
+    if (value && FLEX_OPTIONS.direction.includes(value)) {
       this.setAttribute(attributes.DIRECTION, value);
     } else {
       this.removeAttribute(attributes.DIRECTION);
@@ -99,8 +99,8 @@ export default class IdsLayoutFlex extends Base {
    * Set the display setting
    * @param {string} value The value
    */
-  set display(value: string) {
-    if (FLEX_OPTIONS.display.includes(value)) {
+  set display(value: string | null) {
+    if (value && FLEX_OPTIONS.display.includes(value)) {
       this.setAttribute(attributes.DISPLAY, value);
     } else {
       this.removeAttribute(attributes.DISPLAY);
@@ -113,10 +113,10 @@ export default class IdsLayoutFlex extends Base {
    * Set the gap, apply same for both horizontal and vertical sides
    * @param {number|string} value The value
    */
-  set gap(value: number | string) {
+  set gap(value: number | string | null) {
     const val = stringToNumber(value);
     if (!Number.isNaN(val) && FLEX_OPTIONS.units.includes(val)) {
-      this.setAttribute(attributes.GAP, val);
+      this.setAttribute(attributes.GAP, String(val));
     } else {
       this.removeAttribute(attributes.GAP);
     }
@@ -128,10 +128,10 @@ export default class IdsLayoutFlex extends Base {
    * Set the horizontal gap
    * @param {number|string} value The value
    */
-  set gapX(value: number | string) {
+  set gapX(value: number | string | null) {
     const val = stringToNumber(value);
     if (!Number.isNaN(val) && FLEX_OPTIONS.units.includes(val)) {
-      this.setAttribute(attributes.GAP_X, val);
+      this.setAttribute(attributes.GAP_X, String(val));
     } else {
       this.removeAttribute(attributes.GAP_X);
     }
@@ -143,10 +143,10 @@ export default class IdsLayoutFlex extends Base {
    * Set card vertical gap
    * @param {number|string} value The value
    */
-  set gapY(value: number | string) {
+  set gapY(value: number | string | null) {
     const val = stringToNumber(value);
     if (!Number.isNaN(val) && FLEX_OPTIONS.units.includes(val)) {
-      this.setAttribute(attributes.GAP_Y, val);
+      this.setAttribute(attributes.GAP_Y, String(val));
     } else {
       this.removeAttribute(attributes.GAP_Y);
     }
@@ -158,8 +158,8 @@ export default class IdsLayoutFlex extends Base {
    * Set the justify content setting
    * @param {string} value The value
    */
-  set justifyContent(value: string) {
-    if (FLEX_OPTIONS.justifyContent.includes(value)) {
+  set justifyContent(value: string | null) {
+    if (value && FLEX_OPTIONS.justifyContent.includes(value)) {
       this.setAttribute(attributes.JUSTIFY_CONTENT, value);
     } else {
       this.removeAttribute(attributes.JUSTIFY_CONTENT);
@@ -172,8 +172,8 @@ export default class IdsLayoutFlex extends Base {
    * Set the wrap setting
    * @param {string} value The value
    */
-  set wrap(value: string) {
-    if (FLEX_OPTIONS.wrap.includes(value)) {
+  set wrap(value: string | null) {
+    if (value && FLEX_OPTIONS.wrap.includes(value)) {
       this.setAttribute(attributes.WRAP, value);
     } else {
       this.removeAttribute(attributes.WRAP);

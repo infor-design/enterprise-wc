@@ -1460,8 +1460,8 @@ export default class IdsListView extends Base {
    * @param {Element} item list item
    * @returns {any} data object
    */
-  getListItemData(item: Element) {
-    const dataIdx = item.getAttribute('index');
+  getListItemData(item?: Element | null) {
+    const dataIdx = item?.getAttribute('index');
     return dataIdx ? this.data[dataIdx] : {};
   }
 

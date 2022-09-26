@@ -8,7 +8,7 @@ import IdsTooltip from '../ids-tooltip/ids-tooltip';
 import IdsIcon from '../ids-icon/ids-icon';
 
 const SwatchSizes = ['xs', 'sm', 'mm', 'md', 'lg'] as const;
-type SwatchSizesType = typeof SwatchSizes[number];
+export type SwatchSizesType = typeof SwatchSizes[number];
 
 /**
  * IDS Color

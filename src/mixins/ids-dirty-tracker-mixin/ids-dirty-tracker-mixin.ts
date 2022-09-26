@@ -175,7 +175,7 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
    * @param {string} val The current element value
    * @returns {void}
    */
-  setDirtyTracker(val: string) {
+  setDirtyTracker(val?: string) {
     if (typeof val === 'undefined') {
       this.handleDirtyTracker();
       return;
