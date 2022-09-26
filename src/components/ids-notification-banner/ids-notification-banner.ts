@@ -59,7 +59,7 @@ export default class IdsNotificationBanner extends Base {
   template(): string {
     // Set the alert icon based on the notification type
     let alertIcon;
-    if (TYPES[this.type]?.type === undefined) {
+    if (TYPES[this.type ?? '']?.type === undefined) {
       alertIcon = TYPES.success.type;
     } else {
       alertIcon = this.type;
@@ -104,24 +104,32 @@ export default class IdsNotificationBanner extends Base {
     }
   }
 
-  get type(): string { return this.getAttribute(attributes.TYPE); }
+  get type(): string | null { return this.getAttribute(attributes.TYPE); }
 
   /**
    * Set the link inside the Notification Banner
    * @param {string | null} value the link value
    */
-  set link(value) {
-    this.setAttribute(attributes.LINK, value);
+  set link(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.LINK, value);
+    } else {
+      this.removeAttribute(attributes.LINK);
+    }
   }
 
-  get link() { return this.getAttribute(attributes.LINK); }
+  get link(): string | null { return this.getAttribute(attributes.LINK); }
 
   /**
    * Set the custom link text of the Notification Banner
    * @param {string | null} value the link-text value
    */
   set linkText(value: string | null) {
-    this.setAttribute(attributes.LINK_TEXT, value);
+    if (value) {
+      this.setAttribute(attributes.LINK_TEXT, value);
+    } else {
+      this.removeAttribute(attributes.LINK_TEXT);
+    }
   }
 
   get linkText() { return this.getAttribute(attributes.LINK_TEXT); }
@@ -131,7 +139,11 @@ export default class IdsNotificationBanner extends Base {
    * @param {string | null} value the link-text value
    */
   set messageText(value: string | null) {
-    this.setAttribute(attributes.MESSAGE_TEXT, value);
+    if (value) {
+      this.setAttribute(attributes.MESSAGE_TEXT, value);
+    } else {
+      this.removeAttribute(attributes.MESSAGE_TEXT);
+    }
   }
 
   get messageText() { return this.getAttribute(attributes.MESSAGE_TEXT); }
@@ -181,7 +193,7 @@ export default class IdsNotificationBanner extends Base {
     }
     this.type = type;
     this.messageText = messageText;
-    alertIcon?.setAttribute('icon', this.type);
+    alertIcon?.setAttribute('icon', this.type ?? '');
     if (messageTextEl) messageTextEl.innerHTML = `<ids-text overflow="ellipsis">${this.messageText}</ids-text>`;
 
     // Check for link and create the necassary elements.

@@ -5,8 +5,8 @@ import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsValidationMixin(
-  IdsLocaleMixin(
-    IdsDirtyTrackerMixin(
+  IdsDirtyTrackerMixin(
+    IdsLocaleMixin(
       IdsEventsMixin(
         IdsElement
       )

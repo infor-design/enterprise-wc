@@ -104,7 +104,7 @@ describe('IdsVirtualScroll Component', () => {
 
   it('removes the data value when reset', () => {
     virtualScroll.data = null;
-    expect(virtualScroll.datasource?.data).toEqual([]);
+    expect(virtualScroll.datasource?.data).toEqual(null);
   });
 
   it('has a simple default template', () => {

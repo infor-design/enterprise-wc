@@ -6,12 +6,16 @@ import '../ids-header/ids-header';
 import '../ids-toolbar/ids-toolbar';
 
 import styles from './ids-masthead.scss';
+import type IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
+import type IdsToolbarMoreActions from '../ids-toolbar/ids-toolbar-more-actions';
+import type IdsButton from '../ids-button/ids-button';
+import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
 
 export type MastheadSlots = {
-  start: HTMLElement;
-  center: HTMLElement;
-  end: HTMLElement;
-  more: HTMLElement;
+  start: HTMLElement | null;
+  center: HTMLElement | null;
+  end: HTMLElement | null;
+  more: HTMLElement | null;
 };
 
 export type MastheadBreakpoints = {
@@ -56,10 +60,10 @@ export default class IdsMasthead extends Base {
       logo: this.container?.querySelector('#logo-wrapper'),
       title: this.container?.querySelector('#title'),
       sections: {
-        start: this.container?.querySelector('ids-toolbar-section#start'),
-        center: this.container?.querySelector('ids-toolbar-section#center'),
-        end: this.container?.querySelector('ids-toolbar-section#end'),
-        more: this.container?.querySelector('ids-toolbar-more-actions#more'),
+        start: this.container?.querySelector<IdsToolbarSection>('ids-toolbar-section#start'),
+        center: this.container?.querySelector<IdsToolbarSection>('ids-toolbar-section#center'),
+        end: this.container?.querySelector<IdsToolbarSection>('ids-toolbar-section#end'),
+        more: this.container?.querySelector<IdsToolbarMoreActions>('ids-toolbar-more-actions#more'),
       },
     };
   }
@@ -70,10 +74,10 @@ export default class IdsMasthead extends Base {
    */
   get slots(): MastheadSlots {
     this.#cachedSlots = this.#cachedSlots || {
-      start: this.querySelector('[slot="start"]'),
-      center: this.querySelector('[slot="center"]'),
-      end: this.querySelector('[slot="end"]'),
-      more: this.querySelector('[slot="more"]'),
+      start: this.querySelector<HTMLElement>('[slot="start"]'),
+      center: this.querySelector<HTMLElement>('[slot="center"]'),
+      end: this.querySelector<HTMLElement>('[slot="end"]'),
+      more: this.querySelector<HTMLElement>('[slot="more"]'),
     };
     return this.#cachedSlots;
   }
@@ -233,19 +237,19 @@ export default class IdsMasthead extends Base {
     }
 
     if (this.isDesktop) {
-      start.slot = 'start';
-      center.slot = 'center';
-      end.slot = 'end';
+      start?.setAttribute('slot', 'start');
+      center?.setAttribute('slot', 'center');
+      end?.setAttribute('slot', 'end');
       more?.classList.add('hidden');
     } else if (this.isTablet) {
-      start.slot = 'start';
-      center.slot = 'more';
-      end.slot = 'more';
+      start?.setAttribute('slot', 'start');
+      center?.setAttribute('slot', 'more');
+      end?.setAttribute('slot', 'more');
       more?.classList.remove('hidden');
     } else if (this.isMobile) {
-      start.slot = 'more';
-      center.slot = 'more';
-      end.slot = 'more';
+      start?.setAttribute('slot', 'more');
+      center?.setAttribute('slot', 'more');
+      end?.setAttribute('slot', 'more');
       more?.classList.remove('hidden');
     }
 
@@ -273,18 +277,18 @@ export default class IdsMasthead extends Base {
 
     const buttons = [
       sections.more?.button,
-      ...this.querySelectorAll('ids-button, ids-menu-button'),
+      ...this.querySelectorAll<IdsButton | IdsMenuButton>('ids-button, ids-menu-button'),
     ];
 
     buttons.forEach((button) => {
       if (button) {
         button.colorVariant = 'alternate';
         button.iconAlign = 'start';
-        button.square = 'true';
+        button.square = true;
         button.type = 'default';
 
         const buttonParentSlot = button.closest('[slot]');
-        const buttonText = button.querySelector('[slot="text"]');
+        const buttonText = button.querySelector<HTMLElement>('[slot="text"]');
         const hasAudible = buttonText?.classList.contains('audible');
         const hasAudibleOff = buttonText?.classList.contains('audible-off');
 
@@ -292,14 +296,14 @@ export default class IdsMasthead extends Base {
           if (buttonParentSlot?.slot === 'more') {
             buttonText?.classList.remove('audible');
             buttonText?.classList.add('audible-off');
-            buttonText.style.padding = '0 4px';
+            buttonText?.style.setProperty('padding', '0 4px');
           }
         }
         if (hasAudibleOff) {
           if (buttonParentSlot?.slot !== 'more') {
             buttonText?.classList.remove('audible-off');
             buttonText?.classList.add('audible');
-            buttonText.style.padding = '';
+            buttonText?.style.setProperty('padding', '');
           }
         }
       }

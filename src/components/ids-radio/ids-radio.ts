@@ -22,6 +22,12 @@ import styles from './ids-radio.scss';
 @customElement('ids-radio')
 @scss(styles)
 export default class IdsRadio extends Base {
+  input?: HTMLInputElement | null;
+
+  labelEl?: HTMLLabelElement | null;
+
+  rootEl?: HTMLElement | null;
+
   /**
    * Call the constructor and then initialize
    */
@@ -57,7 +63,7 @@ export default class IdsRadio extends Base {
     this.labelEl = this.shadowRoot?.querySelector('label');
     this.rootEl = this.shadowRoot?.querySelector('.ids-radio');
 
-    if (this.checked && !this.input.getAttribute(attributes.CHECKED)) {
+    if (this.checked && !this.input?.getAttribute(attributes.CHECKED)) {
       this.checked = true;
     }
 
@@ -97,7 +103,7 @@ export default class IdsRadio extends Base {
    */
   #attachRadioChangeEvent(): void {
     this.onEvent('change', this.input, () => {
-      this.checked = this.input.checked;
+      this.checked = !!this.input?.checked;
     });
   }
 
@@ -129,10 +135,12 @@ export default class IdsRadio extends Base {
          * @param {string} value The updated input element value
          */
         this.triggerEvent(e.type, this, {
-          elem: this,
-          nativeEvent: e,
-          value: this.value,
-          checked: this.input.checked
+          detail: {
+            elem: this,
+            nativeEvent: e,
+            value: this.value,
+            checked: !!this.input?.checked
+          }
         });
       });
     });
@@ -204,7 +212,7 @@ export default class IdsRadio extends Base {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
-      this.input?.setAttribute(attributes.DISABLED, val);
+      this.input?.setAttribute(attributes.DISABLED, val.toString());
       this.rootEl?.classList.add(attributes.DISABLED);
       this.rootEl?.setAttribute('tabindex', '-1');
       labelText?.setAttribute('aria-disabled', 'true');
@@ -229,7 +237,7 @@ export default class IdsRadio extends Base {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.GROUP_DISABLED, val.toString());
-      this.input?.setAttribute(attributes.DISABLED, val);
+      this.input?.setAttribute(attributes.DISABLED, val.toString());
       this.rootEl?.classList.add(attributes.DISABLED);
       this.rootEl?.setAttribute('tabindex', '-1');
       labelText?.setAttribute(attributes.DISABLED, 'true');
@@ -315,6 +323,6 @@ export default class IdsRadio extends Base {
    * @returns {void}
    */
   focus(): void {
-    this.input.focus();
+    this.input?.focus();
   }
 }

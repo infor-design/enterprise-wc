@@ -2,21 +2,22 @@
  * @jest-environment jsdom
  */
 import IdsProgressChart from '../../src/components/ids-progress-chart/ids-progress-chart';
+import type IdsIcon from '../../src/components/ids-icon/ids-icon';
 
 describe('IdsProgressChart Component', () => {
-  let chart: any;
+  let chart: IdsProgressChart;
 
   beforeEach(async () => {
     const elem: any = new IdsProgressChart();
     elem.id = 'test-progress-chart';
     elem.text = 'Test Progress Chart';
     document.body.appendChild(elem);
-    chart = document.querySelector('ids-progress-chart');
+    chart = document.querySelector('ids-progress-chart') as IdsProgressChart;
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
-    chart = null;
+    (chart as any) = null;
   });
 
   it('renders with no errors', () => {
@@ -30,7 +31,7 @@ describe('IdsProgressChart Component', () => {
   });
 
   it('renders correctly', () => {
-    const elem: any = new IdsProgressChart();
+    const elem = new IdsProgressChart();
     elem.label = 'test';
     elem.progressLabel = '30 mins';
     elem.totalLabel = '60 mins';
@@ -43,7 +44,7 @@ describe('IdsProgressChart Component', () => {
   });
 
   it('sets icon correctly', () => {
-    const icon = chart.container.querySelector('.icon');
+    const icon = chart.container?.querySelector('.icon') as IdsIcon;
 
     chart.icon = 'alert';
     expect(chart.icon).toBe('alert');
@@ -82,7 +83,7 @@ describe('IdsProgressChart Component', () => {
   it('sets labels correctly', () => {
     chart.label = 'test label';
     expect(chart.label).toBe('test label');
-    expect(chart.container.querySelector('.label-main').innerHTML).toBe('test label');
+    expect(chart.container?.querySelector('.label-main')?.innerHTML).toBe('test label');
 
     chart.label = null;
     expect(chart.label).toBe('');
@@ -108,7 +109,7 @@ describe('IdsProgressChart Component', () => {
     chart.total = '';
     expect(chart.total).toBe('100');
 
-    chart.total = false;
+    chart.total = null;
     expect(chart.total).toBe('100');
   });
 
@@ -126,29 +127,29 @@ describe('IdsProgressChart Component', () => {
   it('sets progress label correctly', () => {
     chart.progressLabel = '50 meters';
     expect(chart.progressLabel).toBe('50 meters');
-    expect(chart.container.querySelector('.label-progress').innerHTML).toBe('50 meters');
+    expect(chart.container?.querySelector('.label-progress')?.innerHTML).toBe('50 meters');
 
     chart.progressLabel = '2 weeks';
     expect(chart.progressLabel).toBe('2 weeks');
-    expect(chart.container.querySelector('.label-progress').innerHTML).toBe('2 weeks');
+    expect(chart.container?.querySelector('.label-progress')?.innerHTML).toBe('2 weeks');
 
     chart.progressLabel = '';
     expect(chart.progressLabel).toBe('');
-    expect(chart.container.querySelector('.label-progress').innerHTML).toBe('');
+    expect(chart.container?.querySelector('.label-progress')?.innerHTML).toBe('');
   });
 
   it('sets total label correctly', () => {
     chart.totalLabel = '100 meters';
     expect(chart.totalLabel).toBe('100 meters');
-    expect(chart.container.querySelector('.label-total').innerHTML).toBe('100 meters');
+    expect(chart.container?.querySelector('.label-total')?.innerHTML).toBe('100 meters');
 
     chart.totalLabel = '12 months';
     expect(chart.totalLabel).toBe('12 months');
-    expect(chart.container.querySelector('.label-total').innerHTML).toBe('12 months');
+    expect(chart.container?.querySelector('.label-total')?.innerHTML).toBe('12 months');
 
     chart.totalLabel = '';
     expect(chart.totalLabel).toBe('');
-    expect(chart.container.querySelector('.label-total').innerHTML).toBe('');
+    expect(chart.container?.querySelector('.label-total')?.innerHTML).toBe('');
   });
 
   it('sets size correctly', () => {
