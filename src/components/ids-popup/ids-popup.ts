@@ -488,15 +488,26 @@ export default class IdsPopup extends Base {
    * @returns {string} representing the opposite edge of the currently-defined `alignEdge` property
    */
   get oppositeAlignEdge(): string {
-    switch (this.alignEdge) {
+    return this.#getOppositeSide(this.alignEdge);
+  }
+
+  /**
+   * Helper to get opposite align edge
+   * @param {string} currentEdge current align edge
+   * @returns {string} opposite align edge
+   */
+  #getOppositeSide(currentEdge: string | undefined | null): string {
+    switch (currentEdge) {
       case 'left':
         return 'right';
       case 'right':
         return 'left';
       case 'top':
         return 'bottom';
-      default: // bottom
+      case 'bottom':
         return 'top';
+      default:
+        return 'none';
     }
   }
 
@@ -979,7 +990,6 @@ export default class IdsPopup extends Base {
     this.place();
 
     // If an arrow is displayed, place it correctly
-    this.#setArrowDirection('', this.arrow);
     this.placeArrow();
 
     this.removeAttribute('aria-hidden');
@@ -1129,6 +1139,10 @@ export default class IdsPopup extends Base {
     // Check boundaries and attempt to flip the component in the opposite direction, if needed.
     // If neither side will properly fit the popup, the popup will shrink to fit
     if (shouldFlip && !targetAlignEdge) {
+      // If an arrow is displayed, place it correctly
+      this.#setArrowDirection('', this.#getOppositeSide(this.arrow));
+      this.placeArrow(this.#getOppositeSide(this.arrow));
+
       this.#placeAgainstTarget(this.oppositeAlignEdge);
       this.isFlipped = true;
       return;
@@ -1444,12 +1458,13 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * Handles alignment of an optional arrow element.  If an arrow target is specified,
+   * Handles alignment of an optional arrow element. If an arrow target is specified,
    * the arrow is placed to align correctly against the target.
+   * @param {string | undefined} alignEdge align edge to place the arrow
    * @returns {void}
    */
-  placeArrow(): void {
-    const arrow = this.arrow;
+  placeArrow(alignEdge?: string): void {
+    const arrow = alignEdge || this.arrow;
     const arrowEl = this.arrowEl;
     const element = this.alignTarget;
     const target = this.arrowTarget;
