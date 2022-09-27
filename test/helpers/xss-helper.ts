@@ -1,11 +1,11 @@
 const testValues = [
-  '<script>alert()<\/script>', // eslint-disable-line
-  '&lt;script&gt;alert()&lt;\script&gt;', // eslint-disable-line
-  '&lt;svg/onload=alert(1)&gt;',
-  'script<img src=\'a\'onerror=\'alert(0)\'>', // eslint-disable-line
-  '<svg/onload=alert(1)>',
-  '<script>alert(1)<\/script>', // eslint-disable-line
-  '<img src=x onerror=alert("sup")>test'
+  { input: '<script>alert()<\/script>', output: 'alert()' }, // eslint-disable-line
+  { input: '&lt;script&gt;alert()&lt;\script&gt;', output: '&lt;script&gt;alert()&lt;\script&gt;' }, // eslint-disable-line
+  { input: '&lt;svg/onload=alert(1)&gt;', output: '&lt;svg/onload=alert(1)&gt;' },
+  { input: 'script<img src=\'a\'onerror=\'alert(0)\'>', output: 'script' }, // eslint-disable-line
+  { input: '<svg/onload=alert(1)>', output: '' },
+  { input: '<script>alert(1)<\/script>', output: 'alert(1)' }, // eslint-disable-line
+  { input: '<img src=x onerror=alert("sup")>test', output: 'test' }
 ];
 
 /**
@@ -33,8 +33,10 @@ export default function TestForXSSVulnerabilities(
 ) {
   if (!(attributeName in targetElement)) throw new Error(`Element "${elementConsoleReporter(targetElement)}" has no property "${attributeName}"`);
 
-  testValues.forEach((val) => {
-    targetElement[attributeName] = val;
-    expect(targetElement[attributeName]).toBe(expectedValue);
+  testValues.forEach((entry) => {
+    targetElement[attributeName] = entry.input;
+
+    // Output is either the "output" string provided, or the expected value, depending on how much is stripped.
+    expect([expectedValue, entry.output]).toContain(targetElement[attributeName]);
   });
 }

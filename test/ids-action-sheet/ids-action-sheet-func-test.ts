@@ -1,9 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import processAnimFrame from '../helpers/process-anim-frame';
+import createFromTemplate from '../helpers/create-from-template';
 import IdsActionSheet from '../../src/components/ids-action-sheet/ids-action-sheet';
-import IdsContainer from '../../src/components/ids-container/ids-container';
+import TestForXSSVulnerabilities from '../helpers/xss-helper';
 
 const DEFAULT_ACTIONSHEET_HTML = (
   `<ids-action-sheet btn-text="Override Text" visible="true" hidden>
@@ -19,7 +19,6 @@ const DEFAULT_ACTIONSHEET_HTML = (
 
 describe('IdsActionSheet Component', () => {
   let el: any;
-  let container: any;
 
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
@@ -50,23 +49,8 @@ describe('IdsActionSheet Component', () => {
     (window.requestAnimationFrame as any).mockRestore();
   });
 
-  const createElemViaTemplate = async (innerHTML: any) => {
-    el?.remove?.();
-    container = new IdsContainer();
-
-    const template = document.createElement('template');
-    template.innerHTML = innerHTML;
-    el = template.content.childNodes[0];
-    container.appendChild(el);
-    document.body.appendChild(container);
-
-    await processAnimFrame();
-
-    return el;
-  };
-
   it('renders from HTML Template with no errors', async () => {
-    el = await createElemViaTemplate(DEFAULT_ACTIONSHEET_HTML);
+    el = await createFromTemplate(el, DEFAULT_ACTIONSHEET_HTML);
 
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-action-sheet').length).toEqual(1);
@@ -98,6 +82,8 @@ describe('IdsActionSheet Component', () => {
     el.cancelBtnText = null;
     el.removeAttribute('cancelBtnText');
     expect(el.getAttribute('cancelBtnText')).toBe(null);
+
+    TestForXSSVulnerabilities(el, 'cancelBtnText', null);
   });
 
   it('can be dismissed', () => {

@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-action-sheet-base';
 import '../ids-modal/ids-overlay';
@@ -92,14 +93,15 @@ export default class IdsActionSheet extends Base {
    * @param {string} val the inner text of the cancel btn
    */
   set cancelBtnText(val: string) {
+    const safeValue = stripHTML(val);
     const idsButton = this.shadowRoot?.querySelector('ids-button');
-    if (val) {
-      this.setAttribute(attributes.CANCEL_BTN_TEXT, val);
+    if (safeValue) {
+      this.setAttribute(attributes.CANCEL_BTN_TEXT, safeValue);
       idsButton.style.display = 'inline-flex';
-      idsButton.innerText = val;
+      idsButton.innerText = safeValue;
     } else {
       this.removeAttribute(attributes.CANCEL_BTN_TEXT);
-      idsButton.innerText = val;
+      idsButton.innerText = safeValue;
       idsButton.style.display = 'none';
     }
   }
