@@ -1,8 +1,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { applyContentAlignmentClass } from './ids-accordion-common';
 import Base from './ids-accordion-header-base';
+import '../ids-icon/ids-icon';
 
 import styles from './ids-accordion-header.scss';
 
@@ -173,14 +175,13 @@ export default class IdsAccordionHeader extends Base {
    * @param {string} val the type of display icon to show
    */
   set icon(val: string) {
-    if (this.icon !== val) {
-      if (typeof val !== 'string' || !val.length) {
-        this.removeAttribute('icon');
-      } else {
-        this.setAttribute('icon', `${val}`);
-      }
-      this.#refreshIconDisplay(val);
+    const safeVal = stripHTML(val);
+    if (typeof val !== 'string' || !safeVal.length) {
+      this.removeAttribute('icon');
+    } else {
+      this.setAttribute('icon', `${safeVal}`);
     }
+    this.#refreshIconDisplay(safeVal);
   }
 
   /**
