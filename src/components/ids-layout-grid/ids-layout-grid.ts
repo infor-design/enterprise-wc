@@ -24,6 +24,7 @@ import styles from './ids-layout-grid.scss';
 export default class IdsLayoutGrid extends Base {
   constructor() {
     super();
+    this.#setDefaults();
   }
 
   static get attributes(): any {
@@ -40,7 +41,6 @@ export default class IdsLayoutGrid extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.#setDefaults();
   }
 
   template(): string {

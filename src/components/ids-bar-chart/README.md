@@ -85,8 +85,8 @@ To make a stacked bar chart use `stacked="true"` and provide the appropriately f
 
 ## Settings
 
-- `barPercentage` {number} A percent (0-1) of the available width each bar should be within the category width. 1.0 will take the whole category width and put the bars right next to each other. If use with grouped chart barPercentage value, will use as whole group percentage. We change the defaults depending on stacked or grouped bar charts.
-- `categoryPercentage` {number} Percent (0-1) of the available width each category (group) section. We change the defaults depending on stacked or grouped bar charts.
+- `barPercentage` {number} A percent (0-1) of the available width each bar should be within the category width. 1.0 will take the whole category width and put the bars right next to each other. In a grouped chart the barPercentage value, will use as whole category percentage. We change the defaults depending on stacked or grouped bar charts but this can be adjusted to change the bar sizes.
+- `categoryPercentage` {number} Percent (0-1) of the available width for each category section. We change the defaults depending on stacked or grouped bar charts.
 
 The following shows the relationship between the bar percentage option and the category percentage option.
 
@@ -95,22 +95,23 @@ The following shows the relationship between the bar percentage option and the c
 // barPercentage: 1.0
 Bar:        | 1.0 | 1.0 |
 Category:   |    1.0    |
-Sample:     |===========|
+Section:    |===========|
 
 // categoryPercentage: 1.0
 // barPercentage: 0.5
 Bar:          |.5|  |.5|
 Category:  |      1.0     |
-Sample:    |==============|
+Section:   |==============|
 
 // categoryPercentage: 0.5
 // barPercentage: 1.0
 Bar:             |1.0||1.0|
 Category:        |   .5   |
-Sample:     |==================|
+Section:    |==================|
 ```
 
 - `stacked` {boolean} Set to true to make a stacked bar chart.
+- `grouped` {boolean} Set to true to make a grouped bar chart.
 
 (See Axis Chart Settings for other shared settings)
 

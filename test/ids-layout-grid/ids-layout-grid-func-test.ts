@@ -205,10 +205,11 @@ describe('IdsLayoutGrid Component', () => {
 
   it('renders col-span setting', () => {
     const col: any = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
     col.colSpan = 4;
-    document.body.appendChild(col);
+
     expect(col.colSpan).toEqual('4');
-    expect(document.querySelectorAll('.ids-layout-grid-col-span').length).toEqual(1);
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-4').length).toEqual(1);
     expect(col.getAttribute('style')).toEqual(`--grid-col-span: 4;`);
   });
 
