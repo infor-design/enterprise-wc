@@ -71,25 +71,28 @@ export default class IdsIcon extends Base {
    * @returns {string} The template
    */
   template(): string {
-    let height = '';
-    let width = '';
-    let viewBox = '';
+    const height = ` height="${this.height}"`;
+    const width = ` width="${this.width}"`;
+    const viewBox = ` viewBox="${this.viewbox || '0 0 18 18'}"`;
 
-    height = this.height;
-    width = this.width;
-
-    if (this.viewbox) {
-      viewBox = this.viewbox;
-    } else {
-      viewBox = '0 0 18 18';
+    let cssClass = ' class="';
+    if (!this.icon) {
+      cssClass += 'empty';
     }
-    let template = `<svg part="svg" xmlns="http://www.w3.org/2000/svg"${this.isMirrored(this.icon) ? ` class="mirrored"` : ''} stroke="currentColor" fill="none" height="${height}" width="${width}" viewBox="${viewBox}" aria-hidden="true">
-      ${this.iconData()}
-    </svg>`;
+    if (this.isMirrored(this.icon)) {
+      cssClass += `${cssClass.charAt(cssClass.length - 1) !== '"' ? ' ' : ''}mirrored`;
+    }
+    cssClass += '"';
+
+    let badgeHTML = '';
     if (this.badgePosition && this.badgeColor) {
-      template += `<span class="notification-badge ${this.badgePosition} ${this.badgeColor}"></span>`;
+      badgeHTML += `<span class="notification-badge ${this.badgePosition} ${this.badgeColor}"></span>`;
     }
-    return template;
+
+    return `<svg part="svg" xmlns="http://www.w3.org/2000/svg"${cssClass} stroke="currentColor" fill="none" ${height}${width}${viewBox} aria-hidden="true">
+      ${this.iconData()}
+    </svg>
+    ${badgeHTML}`;
   }
 
   /**
@@ -326,12 +329,12 @@ export default class IdsIcon extends Base {
     if (value && (isPathData || isEmptyPathData)) {
       this.setAttribute(attributes.ICON, value);
       if (svgElem) {
-        svgElem.style.display = '';
         svgElem.innerHTML = this.iconData();
+        svgElem.classList.remove('empty');
       }
     } else {
       this.removeAttribute(attributes.ICON);
-      if (svgElem) svgElem.style.display = 'none';
+      if (svgElem) svgElem.classList.add('empty');
     }
   }
 

@@ -13,6 +13,10 @@
   display: none;
 }
 
+.empty {
+  visibility: hidden;
+}
+
 .vertical {
   transform: rotate(90deg);
 }
