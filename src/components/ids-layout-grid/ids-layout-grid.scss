@@ -51,7 +51,8 @@ $grid-cols-sm: 4;
 }
 
 // Grid Column Span
-::slotted(.ids-layout-grid-col-span) {
+::slotted(ids-layout-grid-cell),
+::slotted(.ids-layout-grid-span) {
   grid-column: span var(--grid-col-span) / span var(--grid-col-span);
 
   // Tablet down go to auto layout
