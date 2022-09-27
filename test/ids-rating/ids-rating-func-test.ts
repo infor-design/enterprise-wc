@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 
+import IdsIcon from '../../src/components/ids-icon/ids-icon';
 import IdsRating from '../../src/components/ids-rating/ids-rating';
 
 describe('IdsRating Component', () => {
@@ -32,16 +33,16 @@ describe('IdsRating Component', () => {
 
   it('can set the value attribute', () => {
     rating.value = 3;
-    const firstIcon = rating.shadowRoot?.querySelector('ids-icon');
+    const firstIcon = rating.shadowRoot?.querySelector<IdsIcon>('ids-icon');
 
-    expect(rating.shadowRoot?.querySelectorAll('ids-icon').length).toEqual(5);
+    expect(rating.shadowRoot?.querySelectorAll<IdsIcon>('ids-icon').length).toEqual(5);
     firstIcon?.setAttribute('icon', 'star-outlined');
     expect(firstIcon?.getAttribute('icon')).toEqual('star-outlined');
     expect(rating.getAttribute('value')).toEqual('3');
   });
 
   it('has a readonly attribute', () => {
-    rating.readonly = true;
+    rating.readonly = 'true';
     expect(rating.getAttribute('readonly')).toEqual('');
   });
 
@@ -71,7 +72,7 @@ describe('IdsRating Component', () => {
 
   it('can click stars to select', () => {
     expect(rating.value).toEqual(0);
-    rating.shadowRoot?.querySelector<HTMLElement>('.star-2')?.click();
+    rating.shadowRoot?.querySelector<IdsIcon>('.star-2')?.click();
     expect(rating.value).toEqual(3);
   });
 
@@ -83,13 +84,13 @@ describe('IdsRating Component', () => {
 
   it('should be able to toggle off 1 start', () => {
     rating.value = 1;
-    rating.shadowRoot?.querySelector<HTMLElement>('.star-0')?.click();
+    rating.shadowRoot?.querySelector<IdsIcon>('.star-0')?.click();
     expect(rating.value).toEqual(0);
   });
 
   it('can hit enter on a star to select', () => {
     expect(rating.value).toEqual(0);
-    const star = rating.shadowRoot?.querySelector<HTMLElement>('.star-4');
+    const star = rating.shadowRoot?.querySelector<IdsIcon>('.star-4');
     star?.focus();
     const args: any = { key: 'Enter', target: star, bubbles: true };
     let keyEvent = new KeyboardEvent('keyup', args);

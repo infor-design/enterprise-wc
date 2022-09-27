@@ -116,16 +116,14 @@ export default class IdsRating extends Base {
    * Sets the readonly attribute
    * @param {string} ro string value from the readonly attribute
    */
-  set readonly(ro: boolean) {
-    if (ro && this.readonly) {
+  set readonly(ro: boolean | string) {
+    if (stringToBool(ro)) {
       this.offEvent('click', this.container);
       this.#updateHalfStar(this.ratingArr);
-      this.setAttribute('readonly', ro.toString());
-    }
-
-    if (ro && !this.readonly) {
+      this.setAttribute(attributes.READONLY, '');
+    } else {
       this.#attachEventHandlers();
-      this.setAttribute('readonly', ro.toString());
+      this.removeAttribute(attributes.READONLY);
     }
   }
 

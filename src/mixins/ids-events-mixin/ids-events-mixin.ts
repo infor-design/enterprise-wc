@@ -21,7 +21,8 @@ export interface EventsMixinInterface {
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class extends superclass {
+const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class extends superclass
+  implements EventsMixinInterface {
   handledEvents = new Map();
 
   longPressOn = false;
@@ -53,10 +54,10 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
   trackedY = NaN;
 
   /**
-   * Names of vetoable events.  Override this in your component
+   * @returns {Array<string>} names of vetoable events.  Override this in your component
    * to listen for and handle vetoable events.
    */
-  vetoableEventTypes: Array<string> = [];
+  vetoableEventTypes: string[] = [];
 
   constructor(...args: any[]) {
     super(...args);
@@ -88,16 +89,16 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
    * @param {Function|any} callback The callback code to execute
    * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
    */
-  onEvent(eventName: string, target?: any, callback?: (evt: any) => void, options?: EventOptions) {
+  onEvent(eventName: string, target: any, callback?: (evt: any) => void, options?: EventOptions) {
     if (!target || !callback) {
       return;
     }
 
     if (eventName.indexOf('longpress') === 0) {
-      this.#addLongPressListener(target, options);
+      this.#addLongPressListener(eventName, target, options);
     }
     if (eventName.indexOf('keyboardfocus') === 0) {
-      this.#addKeyboardFocusListener(target);
+      this.#addKeyboardFocusListener(eventName, target);
     }
     if (eventName.indexOf('hoverend') === 0) {
       this.#addHoverEndListener(eventName, target, options);
@@ -109,11 +110,9 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
       this.#addKeyDownEndListener(target, options);
     }
     if (eventName.indexOf('swipe') === 0) {
-      this.#addSwipeListener(target, options);
+      this.#addSwipeListener(eventName, target, options);
     }
-
     target.addEventListener(getEventBaseName(eventName), callback, options);
-
     this.handledEvents.set(eventName, { target, callback, options });
   }
 
@@ -198,7 +197,6 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
         response: eventResponse
       }
     });
-
     return canShow;
   }
 
@@ -234,10 +232,11 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
   /**
    * Setup a custom long press event (just one)
    * @private
+   * @param {string} eventName The event name with optional namespace
    * @param {Element} target The DOM element to register
    * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
    */
-  #addLongPressListener(target: HTMLElement, options?: EventOptions) {
+  #addLongPressListener(eventName: string, target: Element, options?: EventOptions) {
     if (this.longPressOn) return;
 
     this.onEvent('touchstart.longpress', target, (e: Event) => {
@@ -275,10 +274,11 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
   /**
    * Setup a custom swipe event (just one)
    * @private
+   * @param {string} eventName The event name with optional namespace
    * @param {Element} target The DOM element to register
    * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
    */
-  #addSwipeListener(target: Element, options?: EventOptions) {
+  #addSwipeListener(eventName: string, target: Element, options?: EventOptions) {
     if (this.swipeOn) {
       return;
     }
@@ -371,9 +371,10 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
   /**
    * Setup a custom keypress focus event
    * @private
+   * @param {string} eventName The event name with optional namespace
    * @param {Element} target The DOM element to register
    */
-  #addKeyboardFocusListener(target: Element) {
+  #addKeyboardFocusListener(eventName: string, target: Element) {
     if (this.keyboardFocusOn) {
       return;
     }
@@ -472,7 +473,7 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
           }
         }, (options?.delay as number));
 
-        this.onEvent('mousemove.eventsmixin', document.body, (ev: MouseEvent) => {
+        this.onEvent('mousemove.eventsmixin', document, (ev: MouseEvent) => {
           this.trackedX = ev.pageX;
           this.trackedY = ev.pageY;
         });

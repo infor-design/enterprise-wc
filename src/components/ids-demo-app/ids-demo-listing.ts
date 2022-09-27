@@ -2,7 +2,7 @@ import { customElement } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-demo-listing-base';
 import '../ids-data-grid/ids-data-grid';
-import IdsDataGrid from '../ids-data-grid/ids-data-grid';
+import type IdsDataGrid from '../ids-data-grid/ids-data-grid';
 
 /**
  * IDS Demo Listing Component

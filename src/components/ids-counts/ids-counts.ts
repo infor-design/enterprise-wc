@@ -27,12 +27,12 @@ export default class IdsCounts extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#textProperties();
-    if (this.color) this.color = this.getAttribute(attributes.COLOR) ?? '';
+    if (this.color) this.color = this.getAttribute(attributes.COLOR);
   }
 
   #textProperties() {
-    this.querySelectorAll('[count-value]').forEach((value: any) => { value.fontSize = stringToBool(this.compact) ? 40 : 48; });
-    this.querySelectorAll('[count-text]').forEach((text: any) => { text.fontSize = 16; });
+    this.querySelectorAll<IdsText>('[count-value]').forEach((value) => { value.setAttribute(attributes.FONT_SIZE, this.compact ? '40' : '48'); });
+    this.querySelectorAll<IdsText>('[count-text]').forEach((text) => { text.setAttribute(attributes.FONT_SIZE, '16'); });
   }
 
   /**
@@ -65,38 +65,37 @@ export default class IdsCounts extends Base {
    * @param {string} value The color value. This can be omitted.
    * base (blue), caution, danger, success, warning, or a hex code with the "#"
    */
-  set color(value: string) {
+  set color(value: string | null) {
     if (this.href) this.container?.setAttribute('color', '');
 
-    const color = value[0] === '#' ? value : `var(--ids-color-status-${value})`;
+    if (value) {
+      const color = value[0] === '#' ? value : `var(--ids-color-status-${value})`;
+      this.container?.style.setProperty('color', color);
+      this.setAttribute(attributes.COLOR, value);
+    } else {
+      this.container?.style.removeProperty('color');
+      this.removeAttribute(attributes.COLOR);
+    }
 
-    this.setAttribute(attributes.COLOR, value);
-    this.container?.style.setProperty('color', color);
     this.querySelectorAll<IdsText>('ids-text').forEach((node) => {
       node.color = 'unset';
       node.shadowRoot?.querySelector('span')?.style.setProperty('color', value);
     });
   }
 
-  get color(): string {
-    return this.getAttribute(attributes.COLOR) || '';
-  }
+  get color(): string | null { return this.getAttribute(attributes.COLOR); }
 
   /**
    * Set the compact attribute
-   * @param {boolean} value true or false. Component will
+   * @param {string | boolean} value true or false. Component will
    * default to regular size if this property is ommitted.
    */
-  set compact(value: boolean) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.COMPACT, '');
-    } else {
-      this.removeAttribute(attributes.COMPACT);
-    }
+  set compact(value: string | boolean) {
+    this.setAttribute(attributes.COMPACT, stringToBool(value) ? 'true' : 'false');
   }
 
   get compact(): boolean {
-    return this.hasAttribute(attributes.COMPACT);
+    return stringToBool(this.getAttribute(attributes.COMPACT));
   }
 
   /**
@@ -111,7 +110,5 @@ export default class IdsCounts extends Base {
     }
   }
 
-  get href(): string | null {
-    return this.getAttribute(attributes.HREF);
-  }
+  get href(): string | null { return this.getAttribute(attributes.HREF); }
 }

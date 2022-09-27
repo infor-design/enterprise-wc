@@ -15,6 +15,7 @@ import type IdsDataGrid from '../ids-data-grid/ids-data-grid';
 import type IdsModal from '../ids-modal/ids-modal';
 import type IdsText from '../ids-text/ids-text';
 import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
+import { IdsDataGridColumn } from '../ids-data-grid/ids-data-grid-column';
 
 /**
  * IDS Lookup Component
@@ -311,13 +312,13 @@ export default class IdsLookup extends Base {
 
   /**
    * Set the columns array of the data grid
-   * @param {Record<string, unknown> | undefined} value The array to use
+   * @param {IdsDataGridColumn[] | undefined} value The array to use
    */
-  set columns(value: Record<string, unknown> | undefined) {
+  set columns(value: IdsDataGridColumn[] | undefined) {
     if (this.dataGrid) this.dataGrid.columns = value;
   }
 
-  get columns(): Record<string, unknown> | undefined { return this.dataGrid?.columns; }
+  get columns(): any[] | undefined { return this.dataGrid?.columns; }
 
   /**
    * Set the data array of the data grid

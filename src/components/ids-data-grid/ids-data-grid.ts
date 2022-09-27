@@ -12,6 +12,7 @@ import '../ids-virtual-scroll/ids-virtual-scroll';
 
 import styles from './ids-data-grid.scss';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
+import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 
 const rowHeights: any = {
   xs: 30,
@@ -38,6 +39,20 @@ const rowHeights: any = {
 @customElement('ids-data-grid')
 @scss(styles)
 export default class IdsDataGrid extends Base {
+  virtualScrollContainer?: IdsVirtualScroll | null;
+
+  headerCheckbox?: HTMLElement | null;
+
+  isResizing = false;
+
+  activeCell: Record<string, any> = {};
+
+  autoFitSet = false;
+
+  currentColumns?: IdsDataGridColumn[];
+
+  sortColumn?: Record<string, any>;
+
   constructor() {
     super();
     this.initialized = false;
@@ -45,17 +60,17 @@ export default class IdsDataGrid extends Base {
 
   /* Returns the header element */
   get header() {
-    return this.container.querySelector('.ids-data-grid-header');
+    return this.container?.querySelector<HTMLElement>('.ids-data-grid-header');
   }
 
   /* Returns the body element */
   get body() {
-    return this.container.querySelector('.ids-data-grid-body');
+    return this.container?.querySelector<HTMLElement>('.ids-data-grid-body');
   }
 
   /* Returns the outside wrapper element */
   get wrapper() {
-    return this.container.parentNode;
+    return this.container?.parentNode as HTMLElement | undefined | null;
   }
 
   connectedCallback() {
@@ -153,7 +168,8 @@ export default class IdsDataGrid extends Base {
     if ((this.columns.length === 0 && this.data.length === 0) || !this.initialized) {
       return;
     }
-    this.body.innerHTML = this.bodyTemplate();
+    const bodyElem = this.body;
+    if (bodyElem) bodyElem.innerHTML = this.bodyTemplate();
     this.#setHeaderCheckbox();
   }
 
@@ -168,21 +184,23 @@ export default class IdsDataGrid extends Base {
 
     const header = this.headerTemplate();
     const body = this.bodyTemplate();
-    this.container.innerHTML = header + body;
+    if (this.container) this.container.innerHTML = header + body;
     this.#setColumnWidths();
 
     // Setup virtual scrolling
     if (this.virtualScroll && this.data.length > 0) {
-      this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
-      this.virtualScrollContainer.scrollTarget = this.container;
+      this.virtualScrollContainer = this.shadowRoot?.querySelector<IdsVirtualScroll>('ids-virtual-scroll');
+      if (this.virtualScrollContainer) {
+        this.virtualScrollContainer.scrollTarget = this.container;
 
-      this.virtualScrollContainer.itemTemplate = (
-        row: any,
-        index: number,
-        ariaIndex: number
-      ) => this.rowTemplate(row, index, ariaIndex);
-      this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
-      this.virtualScrollContainer.data = this.data;
+        this.virtualScrollContainer.itemTemplate = (
+          row: any,
+          index: number,
+          ariaIndex: number
+        ) => this.rowTemplate(row, index, ariaIndex);
+        this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
+        this.virtualScrollContainer.data = this.data;
+      }
     }
 
     if (this.data.length > 0) {
@@ -403,7 +421,7 @@ export default class IdsDataGrid extends Base {
    * @private
    */
   #attachEventHandlers() {
-    const header = this.shadowRoot.querySelector('.ids-data-grid-header:not(.column-groups)');
+    const header = this.shadowRoot?.querySelector('.ids-data-grid-header:not(.column-groups)');
 
     // Add a sort Handler
     this.offEvent('click.sort', header);
@@ -424,7 +442,7 @@ export default class IdsDataGrid extends Base {
     });
 
     // Add a cell click handler
-    const body = this.shadowRoot.querySelector('.ids-data-grid-body');
+    const body = this.shadowRoot?.querySelector('.ids-data-grid-body');
     this.offEvent('click.body', body);
     this.onEvent('click.body', body, (e: any) => {
       const cell = (e.target as any).closest('.ids-data-grid-cell');
@@ -463,7 +481,7 @@ export default class IdsDataGrid extends Base {
     });
 
     // Add a click to the table header
-    this.headerCheckbox = this.shadowRoot.querySelector('.ids-data-grid-header .ids-data-grid-checkbox-container .ids-data-grid-checkbox');
+    this.headerCheckbox = this.shadowRoot?.querySelector<HTMLElement>('.ids-data-grid-header .ids-data-grid-checkbox-container .ids-data-grid-checkbox');
     this.offEvent('click.select', this.headerCheckbox);
     this.onEvent('click.select', this.headerCheckbox, (e: any) => {
       if (e.target.classList.contains('checked') || e.target.classList.contains('indeterminate')) {
@@ -500,7 +518,7 @@ export default class IdsDataGrid extends Base {
     let w = 0;
     let columnId = '';
 
-    const header = this.shadowRoot.querySelector('.ids-data-grid-header:not(.column-groups)');
+    const header = this.shadowRoot?.querySelector<HTMLElement>('.ids-data-grid-header:not(.column-groups)');
     const mouseMoveHandler = (e: MouseEvent) => {
       // Determine how far the mouse has been moved
       const dx = e.clientX - x;
@@ -513,7 +531,7 @@ export default class IdsDataGrid extends Base {
       document.removeEventListener('mousemove', mouseMoveHandler);
       document.removeEventListener('mouseup', mouseUpHandler);
 
-      header.style.cursor = '';
+      header?.style.setProperty('cursor', '');
       requestAnimationFrame(() => {
         this.isResizing = false;
       });
@@ -541,7 +559,7 @@ export default class IdsDataGrid extends Base {
       document.addEventListener('mouseup', mouseUpHandler);
 
       // Import the cursor behavior
-      header.style.cursor = 'col-resize';
+      header?.style.setProperty('cursor', 'col-resize');
 
       // Prevent a click causing a sort
       this.isResizing = true;
@@ -553,8 +571,8 @@ export default class IdsDataGrid extends Base {
    * @private
    */
   #attachReorderHandlers() {
-    const header = this.shadowRoot.querySelector('.ids-data-grid-header:not(.column-groups)');
-    const dragArrows = this.wrapper.querySelector('.ids-data-grid-sort-arrows');
+    const header = this.shadowRoot?.querySelector('.ids-data-grid-header:not(.column-groups)');
+    const dragArrows = this.wrapper?.querySelector<HTMLElement>('.ids-data-grid-sort-arrows');
     let dragger: HTMLElement;
     let startIndex = 0;
 
@@ -573,7 +591,7 @@ export default class IdsDataGrid extends Base {
       dragger.style.top = '0';
       dragger.style.left = '-1000px';
 
-      this.header.appendChild(dragger);
+      this.header?.appendChild(dragger);
       // Based on width of 110
       e?.dataTransfer?.setDragImage(dragger, this.locale.isRTL() ? 100 : 10, 18);
       target.style.position = 'absolute';
@@ -592,9 +610,9 @@ export default class IdsDataGrid extends Base {
       const cellLeft = rect.left + (startIndex < curIndex ? rect.width + 1 : 1);
       const cellRight = rect.left + (startIndex < curIndex ? 1 : rect.width + 1);
 
-      dragArrows.style.left = `${this.locale.isRTL() ? cellRight : cellLeft}px`;
-      dragArrows.style.height = `${rect.height}px`;
-      dragArrows.style.display = 'block';
+      dragArrows?.style.setProperty('left', `${this.locale.isRTL() ? cellRight : cellLeft}px`);
+      dragArrows?.style.setProperty('height', `${rect.height}px`);
+      dragArrows?.style.setProperty('display', 'block');
 
       e.preventDefault();
     });
@@ -610,9 +628,9 @@ export default class IdsDataGrid extends Base {
     // Set everything temp element back to normal
     this.offEvent('dragend.resize', header);
     this.onEvent('dragend.resize', header, (e: DragEvent) => {
-      this.header.querySelector('.active-drag-column')?.classList.remove('active-drag-column');
+      this.header?.querySelector('.active-drag-column')?.classList.remove('active-drag-column');
       dragger.remove();
-      dragArrows.style.display = 'none';
+      dragArrows?.style.setProperty('display', 'none');
       e.preventDefault();
     });
 
@@ -696,11 +714,11 @@ export default class IdsDataGrid extends Base {
       }
 
       if (column?.frozen && index > 0 && index < total - 1) {
-        this.container.style.setProperty(`--ids-data-grid-frozen-column-left-width-${index + 1}`, `${this.visibleColumns[index - 1].width}px`);
+        this.container?.style.setProperty(`--ids-data-grid-frozen-column-left-width-${index + 1}`, `${this.visibleColumns[index - 1].width}px`);
       }
     });
 
-    this.container.style.setProperty('--ids-data-grid-column-widths', colWidths);
+    this.container?.style.setProperty('--ids-data-grid-column-widths', colWidths);
     this.#setColumnGroupsWidth();
   }
 
@@ -713,8 +731,8 @@ export default class IdsDataGrid extends Base {
     const idx = this.columnIdxById(columnId);
     const column = this.columnDataById(columnId);
     // Constrain to a min and max width
-    const minWidth = column.minWidth || 12;
-    const maxWidth = column.maxWidth || Number.MAX_SAFE_INTEGER;
+    const minWidth = (column as any).minWidth || 12;
+    const maxWidth = (column as any).maxWidth || Number.MAX_SAFE_INTEGER;
 
     if (this.columns[idx] && width >= minWidth && width <= maxWidth) {
       this.columns[idx].width = width;
@@ -743,7 +761,7 @@ export default class IdsDataGrid extends Base {
     if (this.columnGroups) {
       let counter = 1;
 
-      const groupElems = this.container.querySelector('.ids-data-grid-column-groups').childNodes;
+      const groupElems = this.container?.querySelector('.ids-data-grid-column-groups')?.childNodes;
       this.columnGroups.forEach((group: IdsDataGridColumnGroup, index: number) => {
         let colspan = group.colspan;
         // decrease if hidden
@@ -753,7 +771,7 @@ export default class IdsDataGrid extends Base {
           }
           counter++;
         }
-        groupElems[index].style.gridColumnStart = `span ${colspan}`;
+        (groupElems?.item(index) as HTMLElement)?.style.setProperty('grid-column-start', `span ${colspan}`);
       });
     }
   }
@@ -780,11 +798,11 @@ export default class IdsDataGrid extends Base {
    * @param {boolean} ascending Sort ascending (lowest first) or descending (lowest last)
    */
   setSortState(id: string, ascending = true) {
-    const sortedHeaders = [...this.shadowRoot.querySelectorAll('.is-sortable')]
+    const sortedHeaders = [...this.shadowRoot?.querySelectorAll('.is-sortable') ?? []]
       .map((sorted) => sorted.closest('.ids-data-grid-header-cell'));
-    sortedHeaders.forEach((header) => header.removeAttribute('aria-sort'));
+    sortedHeaders.forEach((header) => header?.removeAttribute('aria-sort'));
 
-    const header = this.shadowRoot.querySelector(`[column-id="${id}"]`);
+    const header = this.shadowRoot?.querySelector(`[column-id="${id}"]`);
     if (header && sortedHeaders.includes(header)) {
       header.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
     }
@@ -857,11 +875,11 @@ export default class IdsDataGrid extends Base {
   set alternateRowShading(value) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.ALTERNATE_ROW_SHADING, 'true');
-      this.shadowRoot?.querySelector('.ids-data-grid').classList.add('alt-row-shading');
+      this.shadowRoot?.querySelector('.ids-data-grid')?.classList.add('alt-row-shading');
       return;
     }
 
-    this.shadowRoot?.querySelector('.ids-data-grid').classList.remove('alt-row-shading');
+    this.shadowRoot?.querySelector('.ids-data-grid')?.classList.remove('alt-row-shading');
     this.setAttribute(attributes.ALTERNATE_ROW_SHADING, 'false');
   }
 
@@ -873,12 +891,14 @@ export default class IdsDataGrid extends Base {
    * Set the columns of the data grid
    * @param {Array} value The array to use
    */
-  set columns(value) {
+  set columns(value: IdsDataGridColumn[] | undefined | null) {
     this.currentColumns = value ? deepClone(value) : [{ id: '', name: '' }];
     this.redraw();
   }
 
-  get columns() { return this?.currentColumns || [{ id: '', name: '' }]; }
+  get columns(): IdsDataGridColumn[] {
+    return this.currentColumns || ([{ id: '', name: '', field: '' }]);
+  }
 
   /**
    * Set the columns groups of the data grid
@@ -930,12 +950,12 @@ export default class IdsDataGrid extends Base {
   set label(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
-      this.shadowRoot.querySelector('.ids-data-grid').setAttribute('aria-label', value);
+      this.shadowRoot?.querySelector('.ids-data-grid')?.setAttribute('aria-label', value);
       return;
     }
 
     this.removeAttribute(attributes.LABEL);
-    this.shadowRoot.querySelector('.ids-data-grid').setAttribute('aria-label', 'Data Grid');
+    this.shadowRoot?.querySelector('.ids-data-grid')?.setAttribute('aria-label', 'Data Grid');
   }
 
   get label(): string { return this.getAttribute(attributes.LABEL) || 'Data Grid'; }
@@ -947,10 +967,10 @@ export default class IdsDataGrid extends Base {
   set rowHeight(value) {
     if (value) {
       this.setAttribute(attributes.ROW_HEIGHT, value);
-      this.shadowRoot?.querySelector('.ids-data-grid').setAttribute('data-row-height', value);
+      this.shadowRoot?.querySelector('.ids-data-grid')?.setAttribute('data-row-height', value);
     } else {
       this.removeAttribute(attributes.ROW_HEIGHT);
-      this.shadowRoot?.querySelector('.ids-data-grid').setAttribute('data-row-height', 'lg');
+      this.shadowRoot?.querySelector('.ids-data-grid')?.setAttribute('data-row-height', 'lg');
     }
 
     if (this.virtualScroll) {
@@ -966,11 +986,11 @@ export default class IdsDataGrid extends Base {
    */
   set listStyle(value) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.LIST_STYLE, value);
-      this.shadowRoot?.querySelector('.ids-data-grid').classList.add('is-list-style');
+      this.setAttribute(attributes.LIST_STYLE, String(value));
+      this.shadowRoot?.querySelector('.ids-data-grid')?.classList.add('is-list-style');
     } else {
       this.removeAttribute(attributes.LIST_STYLE);
-      this.shadowRoot?.querySelector('.ids-data-grid').classList.remove('is-list-style');
+      this.shadowRoot?.querySelector('.ids-data-grid')?.classList.remove('is-list-style');
     }
   }
 
@@ -982,7 +1002,7 @@ export default class IdsDataGrid extends Base {
    */
   set rowSelection(value) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.ROW_SELECTION, value);
+      this.setAttribute(attributes.ROW_SELECTION, String(value));
     } else {
       this.removeAttribute(attributes.ROW_SELECTION);
     }
@@ -997,7 +1017,7 @@ export default class IdsDataGrid extends Base {
    */
   set suppressRowDeselection(value) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.SUPPRESS_ROW_DESELECTION, value);
+      this.setAttribute(attributes.SUPPRESS_ROW_DESELECTION, String(value));
     } else {
       this.removeAttribute(attributes.SUPPRESS_ROW_DESELECTION);
     }
@@ -1012,7 +1032,7 @@ export default class IdsDataGrid extends Base {
    */
   set suppressRowDeactivation(value) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.SUPPRESS_ROW_DEACTIVATION, value);
+      this.setAttribute(attributes.SUPPRESS_ROW_DEACTIVATION, String(value));
     } else {
       this.removeAttribute(attributes.SUPPRESS_ROW_DEACTIVATION);
     }
@@ -1124,7 +1144,7 @@ export default class IdsDataGrid extends Base {
    * @returns {HTMLElement} The HTMLElement
    */
   rowByIndex(index: number) {
-    return this.shadowRoot.querySelector(`.ids-data-grid-body .ids-data-grid-row[aria-rowindex="${index + 1}"]`);
+    return this.shadowRoot?.querySelector<HTMLElement>(`.ids-data-grid-body .ids-data-grid-row[aria-rowindex="${index + 1}"]`);
   }
 
   /**
@@ -1132,7 +1152,7 @@ export default class IdsDataGrid extends Base {
    * @param {number} index the zero based index
    */
   selectRow(index: number) {
-    const row: HTMLElement = this.rowByIndex(index);
+    const row = this.rowByIndex(index);
 
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
       const checkbox = row?.querySelector('.ids-data-grid-checkbox');
@@ -1167,7 +1187,7 @@ export default class IdsDataGrid extends Base {
    * @param {number} index the zero based index
    */
   deSelectRow(index: number) {
-    const row: HTMLElement = this.rowByIndex(index);
+    const row = this.rowByIndex(index);
 
     if (this.rowSelection === 'mixed') {
       row?.classList.remove('mixed');
@@ -1202,7 +1222,7 @@ export default class IdsDataGrid extends Base {
    * @param {number} index the zero based index
    */
   activateRow(index: number) {
-    let row = index;
+    let row: any = index;
     if (typeof index === 'number') {
       row = this.rowByIndex(index);
     }
@@ -1329,7 +1349,7 @@ export default class IdsDataGrid extends Base {
    */
   set autoFit(value) {
     if (stringToBool(value) || value === 'bottom') {
-      this.setAttribute(attributes.AUTO_FIT, value);
+      this.setAttribute(attributes.AUTO_FIT, String(value));
       return;
     }
     this.removeAttribute(attributes.AUTO_FIT);
@@ -1353,12 +1373,12 @@ export default class IdsDataGrid extends Base {
     }
     if (this.autoFit === 'bottom') {
       const spaceFromTop = this.getBoundingClientRect().y;
-      this.container.style.height = `calc(100vh - ${spaceFromTop + 16}px)`;
+      this.container?.style.setProperty('height', `calc(100vh - ${spaceFromTop + 16}px)`);
       this.autoFitSet = true;
     }
     if (this.autoFit === true) {
-      this.container.style.height = '100%';
-      this.wrapper.style.height = '100%';
+      this.container?.style.setProperty('height', '100%');
+      this.wrapper?.style.setProperty('height', '100%');
       this.autoFitSet = true;
     }
   }
@@ -1382,9 +1402,9 @@ export default class IdsDataGrid extends Base {
     this.activeCell.cell = Number(cell);
     this.activeCell.row = Number(row);
 
-    const queriedRows = this.shadowRoot.querySelectorAll('.ids-data-grid-body .ids-data-grid-row');
-    const rowNode = queriedRows[row]; // exclude header rows
-    const queriedCells = rowNode?.querySelectorAll('.ids-data-grid-cell');
+    const queriedRows = this.shadowRoot?.querySelectorAll('.ids-data-grid-body .ids-data-grid-row');
+    const rowNode = queriedRows?.item(row); // exclude header rows
+    const queriedCells = rowNode?.querySelectorAll<HTMLElement>('.ids-data-grid-cell');
     if (queriedCells && queriedCells.length > 0) {
       const cellNode = queriedCells[cell];
 
@@ -1406,8 +1426,8 @@ export default class IdsDataGrid extends Base {
    * @returns {object} This API object for chaining
    */
   #setFilterRow() {
-    const nodes = this.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
-    nodes.forEach((n: HTMLElement) => n?.classList?.[this.filterable ? 'remove' : 'add']('hidden'));
+    const nodes = this.shadowRoot?.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
+    nodes?.forEach((n) => n?.classList?.[this.filterable ? 'remove' : 'add']('hidden'));
     this.triggerEvent(this.filterable ? 'filterrowopened' : 'filterrowclosed', this, {
       detail: { elem: this, filterable: this.filterable }
     });
@@ -1421,7 +1441,7 @@ export default class IdsDataGrid extends Base {
   set filterable(value) {
     const isApply = this.filterable !== stringToBool(value);
     if (typeof value !== 'undefined' && value !== null) {
-      this.setAttribute(attributes.FILTERABLE, value);
+      this.setAttribute(attributes.FILTERABLE, String(value));
     } else {
       this.removeAttribute(attributes.FILTERABLE);
     }
@@ -1440,7 +1460,7 @@ export default class IdsDataGrid extends Base {
   set filterRowDisabled(value) {
     const isApply = this.filterRowDisabled !== stringToBool(value);
     if (typeof value !== 'undefined' && value !== null) {
-      this.setAttribute(attributes.FILTER_ROW_DISABLED, value);
+      this.setAttribute(attributes.FILTER_ROW_DISABLED, String(value));
     } else {
       this.removeAttribute(attributes.FILTER_ROW_DISABLED);
     }
@@ -1459,7 +1479,7 @@ export default class IdsDataGrid extends Base {
   set filterWhenTyping(value) {
     const isApply = this.filterWhenTyping !== stringToBool(value);
     if (typeof value !== 'undefined' && value !== null) {
-      this.setAttribute(attributes.FILTER_WHEN_TYPING, value);
+      this.setAttribute(attributes.FILTER_WHEN_TYPING, String(value));
     } else {
       this.removeAttribute(attributes.FILTER_WHEN_TYPING);
     }

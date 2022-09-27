@@ -106,7 +106,6 @@ export default class IdsSwitch extends Base {
         }
       } else {
         this.onEvent(eventName, this.input, () => {
-          //this.indeterminate = false;
           this.checked = !!this.input?.checked;
         });
       }

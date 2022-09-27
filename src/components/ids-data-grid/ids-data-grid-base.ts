@@ -5,10 +5,10 @@ import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
 
-const Base = IdsLocaleMixin(
+const Base = IdsThemeMixin(
   IdsPagerMixin(
-    IdsKeyboardMixin(
-      IdsThemeMixin(
+    IdsLocaleMixin(
+      IdsKeyboardMixin(
         IdsEventsMixin(
           IdsElement
         )

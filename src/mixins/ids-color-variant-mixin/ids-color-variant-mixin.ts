@@ -25,18 +25,12 @@ type Constraints = IdsConstructor<ColorVariantHandler>;
  */
 const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class extends superclass
   implements ColorVariantMixinInterface {
-  /**
-   * @returns {Array<string>} List of available color variants for this component
-   */
-  colorVariants: Array<string> = [];
-
   constructor(...args: any[]) {
     super(...args);
 
     if (!this.state) {
       this.state = {};
     }
-
     this.state.colorVariant = null;
   }
 
@@ -52,9 +46,14 @@ const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class ext
   }
 
   /**
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants: Array<string> = [];
+
+  /**
    * @returns {string|null} the name of the color variant currently applied
    */
-  get colorVariant(): string | null {
+  get colorVariant() {
     return this.state?.colorVariant;
   }
 

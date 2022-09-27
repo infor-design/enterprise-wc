@@ -29,9 +29,9 @@ export default class IdsContainer extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-
-    // Reset body by default
-    this.setAttribute(attributes.RESET, '');
+    if (this.reset) {
+      this.#addReset();
+    }
 
     // Set initial lang and locale
     this.setAttribute('language', this.state.locale.state.language);
@@ -87,18 +87,14 @@ export default class IdsContainer extends Base {
 
   /**
    * If set to number the container will have padding added (in pixels)
-   * @param {string | null} value sets the padding to the container
+   * @param {string} value sets the padding to the container
    */
-  set padding(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.PADDING, value.toString());
-      this.container?.style.setProperty('padding', `${value}px`);
-    } else {
-      this.removeAttribute(attributes.PADDING);
-    }
+  set padding(value: string) {
+    if (this.container) this.container.style.padding = `${value}px`;
+    this.setAttribute(attributes.PADDING, value.toString());
   }
 
-  get padding(): string | null {
+  get padding(): any {
     return this.getAttribute(attributes.PADDING);
   }
 
@@ -131,11 +127,10 @@ export default class IdsContainer extends Base {
 
   /**
    * If set to true body element will get reset
-   * @param {boolean} value true of false
+   * @param {boolean|string} value true of false
    */
-  set reset(value: boolean) {
+  set reset(value: boolean | string) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.RESET, '');
       this.#addReset();
       return;
     }
@@ -143,9 +138,7 @@ export default class IdsContainer extends Base {
     document.querySelector('body')?.style.setProperty('margin', '');
   }
 
-  get reset(): boolean {
-    return this.hasAttribute(attributes.RESET);
-  }
+  get reset(): boolean | string { return this.getAttribute(attributes.RESET) || 'true'; }
 
   /**
    * Set the language for a component and wait for it to finish (async)

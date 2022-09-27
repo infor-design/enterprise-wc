@@ -4,19 +4,19 @@ exports[`IdsMultiselect Component renders correctly 1`] = `
 "<ids-multiselect id="multiselect-1" label="Normal Multiselect" dirty-tracker="true" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press Down arrow to select" aria-controls="ids-list-box-multiselect-1">
         <ids-list-box id="ids-list-box-multiselect-1" aria-label="Listbox" role="listbox">
       <ids-list-box-option class="multiselect-option" id="opt2" value="opt2" role="option" tabindex="-1">
-        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="undefined" checked="true"></ids-checkbox>
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="" checked="true"></ids-checkbox>
       </ids-list-box-option>
       <ids-list-box-option class="multiselect-option multiselect-border" id="opt3" value="opt3" role="option" tabindex="-1">
-        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="undefined" checked="false"></ids-checkbox>
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="" checked="false"></ids-checkbox>
       </ids-list-box-option>
       <ids-list-box-option class="multiselect-option" id="opt4" value="opt4" role="option" tabindex="-1">
-        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="undefined" checked="false"></ids-checkbox>
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="" checked="false"></ids-checkbox>
       </ids-list-box-option>
       <ids-list-box-option class="multiselect-option" id="opt5" value="opt5" role="option" tabindex="-1">
-        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="undefined" checked="false"></ids-checkbox>
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="" checked="false"></ids-checkbox>
       </ids-list-box-option>
       <ids-list-box-option class="multiselect-option" id="opt6" value="opt6" role="option" tabindex="-1">
-        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="undefined" checked="false"></ids-checkbox>
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="" checked="false"></ids-checkbox>
       </ids-list-box-option></ids-list-box>
       </ids-multiselect>"
 `;
