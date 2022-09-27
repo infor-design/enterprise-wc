@@ -111,6 +111,14 @@ export default class IdsInput extends Base {
     if (this.hasAttribute(attributes.AUTOSELECT)) {
       this.handleAutoselect();
     }
+
+    if (this.isPasswordVisible) {
+      this.#togglePasswordEventSetUp(true);
+    }
+
+    if (this.capsLock) {
+      this.#capsLockEventSetUp(true);
+    }
   }
 
   /**
@@ -180,7 +188,7 @@ export default class IdsInput extends Base {
     };
 
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
-    const type = ` type="${this.isPasswordVisible ? 'text' : this.type || TYPES.default}"`;
+    const type = ` type="${this.isPasswordVisible && this.passwordVisible ? 'text' : this.type || TYPES.default}"`;
     let inputClass = `ids-input-field ${this.textAlign}`;
 
     // Handle Password Fields
@@ -246,7 +254,7 @@ export default class IdsInput extends Base {
   }
 
   templateCapsLock(): string {
-    return this.isPasswordVisible
+    return this.capsLock
       ? `<ids-icon id="caps-lock-indicator" class="caps-lock-indicator" icon="capslock"></ids-icon>`
       : '';
   }
@@ -457,23 +465,25 @@ export default class IdsInput extends Base {
    */
   #capsLockEventSetUp(value: boolean): void {
     const updateCapsLockIcon = (e: any) => {
-      if (this.capsLockIcon) {
+      if (this.capsLockIcon && e.getModifierState) {
         this.capsLockIcon.hidden = !e.getModifierState('CapsLock');
       }
     };
 
     if (value) {
-      if (!this.capsLockIcon) {
+      if (!this.capsLockIcon && this.input) {
         this.input.insertAdjacentHTML('afterend', this.templateCapsLock());
       }
-      this.onEvent('keydown.capslock', this.container, updateCapsLockIcon);
-      this.onEvent('keyup.capslock', this.container, updateCapsLockIcon);
+      this.offEvent('keydown.input-capslock');
+      this.onEvent('keydown.input-capslock', this, updateCapsLockIcon);
+      this.offEvent('keyup.input-capslock');
+      this.onEvent('keyup.input-capslock', this, updateCapsLockIcon);
       if (this.capsLockIcon) {
         this.capsLockIcon.hidden = true;
       }
     } else {
-      this.offEvent('keydown.capslock', this.container);
-      this.offEvent('keyup.capslock', this.container);
+      this.offEvent('keydown.input-capslock');
+      this.offEvent('keyup.input-capslock');
       this.capsLockIcon?.remove();
     }
   }
@@ -542,7 +552,8 @@ export default class IdsInput extends Base {
    * @returns {void}
    */
   #togglePasswordEventSetUp(value: boolean): void {
-    const showHidePasswordElem = this.shadowRoot.querySelector(`.show-hide-password`);
+    const showHidePasswordElem = this.container?.querySelector('.show-hide-password');
+
     if (value) {
       if (!showHidePasswordElem && this.isPasswordVisible) {
         const showHideButton: any = document.createElement('ids-button');
@@ -550,15 +561,18 @@ export default class IdsInput extends Base {
         showHideButton.id = 'show-hide-password';
         showHideButton.classList.add('show-hide-password');
         showHideButton.noPadding = true;
-        this.input.insertAdjacentElement('afterend', showHideButton);
-        this.input.type = `${this.passwordVisible ? 'text' : this.type}`;
+        if (this.input) {
+          this.input.insertAdjacentElement('afterend', showHideButton);
+          this.input.type = `${this.passwordVisible ? 'text' : this.type}`;
+        }
       }
-      this.onEvent('click.showhidepassword', showHidePasswordElem, () => {
+      this.offEvent('click.input-showhidepassword');
+      this.onEvent('click.input-showhidepassword', showHidePasswordElem, () => {
         this.passwordVisible = !this.passwordVisible;
         this.#passwordVisibilityHandler();
       });
     } else {
-      this.offEvent('click.showhidepassword', showHidePasswordElem);
+      this.offEvent('click.input-showhidepassword');
       this.input.type = this.type;
       showHidePasswordElem?.remove();
     }
