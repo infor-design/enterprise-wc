@@ -842,7 +842,7 @@ export default class IdsInput extends Base {
    */
   set cursor(value: string) {
     this.setAttribute(attributes.CURSOR, value);
-    this.input.style.cursor = value;
+    this.input?.style.setProperty('cursor', value);
   }
 
   get cursor(): string {
