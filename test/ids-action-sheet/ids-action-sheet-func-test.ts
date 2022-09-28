@@ -3,7 +3,7 @@
  */
 import createFromTemplate from '../helpers/create-from-template';
 import IdsActionSheet from '../../src/components/ids-action-sheet/ids-action-sheet';
-import TestForXSSVulnerabilities from '../helpers/xss-helper';
+import testForXssVulnerabilities from '../helpers/xss-helper';
 
 const DEFAULT_ACTIONSHEET_HTML = (
   `<ids-action-sheet btn-text="Override Text" visible="true" hidden>
@@ -83,7 +83,7 @@ describe('IdsActionSheet Component', () => {
     el.removeAttribute('cancelBtnText');
     expect(el.getAttribute('cancelBtnText')).toBe(null);
 
-    TestForXSSVulnerabilities(el, 'cancelBtnText', null);
+    testForXssVulnerabilities(el, 'cancelBtnText', null);
   });
 
   it('can be dismissed', () => {

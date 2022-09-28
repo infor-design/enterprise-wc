@@ -15,7 +15,7 @@ import '../../src/components/ids-hyperlink/ids-hyperlink';
 // locale messages
 import { messages as esMessages } from '../../src/components/ids-locale/cultures/es-messages';
 import { messages as jaMessages } from '../../src/components/ids-locale/cultures/ja-messages';
-import TestForXSSVulnerabilities from '../helpers/xss-helper';
+import testForXssVulnerabilities from '../helpers/xss-helper';
 
 const name = 'ids-about';
 const id = 'test-about-component';
@@ -94,6 +94,9 @@ describe('IdsAbout Component (using properties)', () => {
 
     expect(component.productVersion).toEqual('');
     expect(component.productName).toEqual('');
+
+    testForXssVulnerabilities(component, 'productName', '');
+    testForXssVulnerabilities(component, 'productVersion', '');
   });
 
   it('can alter useDefaultCopyright', () => {

@@ -26,7 +26,7 @@ const elementConsoleReporter = (el: HTMLElement) => {
  * @param {string} attributeName the attribute name to test (kebab-case, DOM)
  * @param {unknown} expectedValue a value which should be set on the attribute in the event an incoming value is invalid
  */
-export default function TestForXSSVulnerabilities(
+export default function testForXssVulnerabilities(
   targetElement: any,
   attributeName: string,
   expectedValue: unknown

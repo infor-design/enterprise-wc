@@ -7,7 +7,7 @@ import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsPopup from '../../src/components/ids-popup/ids-popup';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import TestForXSSVulnerabilities from '../helpers/xss-helper';
+import testForXssVulnerabilities from '../helpers/xss-helper';
 
 /**
  * Creates the test div used as an ArrowTarget in many of the below tests
@@ -445,7 +445,7 @@ describe('IdsPopup Component', () => {
     expect(popup.hasAttribute('align-target')).toBeFalsy();
 
     // Test for XSS Vulnerabilities
-    TestForXSSVulnerabilities(popup, 'alignTarget', null);
+    testForXssVulnerabilities(popup, 'alignTarget', null);
   });
 
   it('rejects a bad alignTarget', () => {
@@ -568,7 +568,7 @@ describe('IdsPopup Component', () => {
     expect(popup.container.classList.contains('tooltip-alt')).toBeTruthy();
 
     // Test for XSS Vulnerabilities
-    TestForXSSVulnerabilities(popup, 'type', 'tooltip-alt');
+    testForXssVulnerabilities(popup, 'type', 'tooltip-alt');
   });
 
   it('can enable/disable animation', (done) => {
@@ -602,7 +602,7 @@ describe('IdsPopup Component', () => {
     expect(popup.container.classList.contains('animation-fade')).toBeTruthy();
 
     // Test for XSS Vulnerabilities
-    TestForXSSVulnerabilities(popup, 'animationStyle', 'fade');
+    testForXssVulnerabilities(popup, 'animationStyle', 'fade');
   });
 
   it('can set a position style', () => {
@@ -628,7 +628,7 @@ describe('IdsPopup Component', () => {
     expect(popup.container.classList.contains('position-viewport')).toBeTruthy();
 
     // Test for XSS Vulnerabilities
-    TestForXSSVulnerabilities(popup, 'positionStyle', 'viewport');
+    testForXssVulnerabilities(popup, 'positionStyle', 'viewport');
   });
 
   it('can enable/disable visibility', async () => {
@@ -864,7 +864,7 @@ describe('IdsPopup Component', () => {
     expect(popup.arrowTarget).toBe(null);
 
     // Test for XSS Vulnerabilities
-    TestForXSSVulnerabilities(popup, 'arrowTarget', null);
+    testForXssVulnerabilities(popup, 'arrowTarget', null);
   });
 
   it('can change child languages', async () => {
