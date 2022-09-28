@@ -11,17 +11,16 @@ import '../../src/components/ids-button/ids-button';
 import '../../src/components/ids-toolbar/ids-toolbar';
 
 describe('IdsActionPanel Component', () => {
-  let cap: any;
+  let cap: IdsActionPanel;
 
   beforeEach(async () => {
-    const elem: any = new IdsActionPanel();
-    document.body.appendChild(elem);
-    cap = document.querySelector('ids-action-panel');
+    cap = new IdsActionPanel();
+    document.body.appendChild(cap);
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
-    cap = null;
+    (cap as any) = null;
   });
 
   it('renders with no errors', () => {
@@ -61,7 +60,7 @@ describe('IdsActionPanel Component', () => {
     await wait(310);
 
     // Click the first CAP button. The above handler should fire.
-    cap.querySelector('#btn-save').dispatchEvent(clickEvent);
+    cap.querySelector('#btn-save')?.dispatchEvent(clickEvent);
     await wait(310);
 
     expect(cap.visible).toBeFalsy();
@@ -111,7 +110,7 @@ describe('IdsActionPanel Component', () => {
 
   it('supports setting mode', () => {
     cap.mode = 'dark';
-    expect(cap.container.getAttribute('mode')).toEqual('dark');
+    expect(cap.container?.getAttribute('mode')).toEqual('dark');
   });
 
   it('should be able to set attributes before append', async () => {

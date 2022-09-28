@@ -38,6 +38,8 @@ type IdsModalFullsizeAttributeValue = null | 'null' | '' | keyof Breakpoints | '
 export default class IdsModal extends Base {
   shouldUpdate = false;
 
+  onButtonClick?: (target: any) => void;
+
   globalKeydownListener = (e: KeyboardEvent) => {
     switch (e.key) {
       case 'Escape':
@@ -607,8 +609,8 @@ export default class IdsModal extends Base {
   async handleButtonClick(e: any): Promise<void> {
     await cssTransitionTimeout(200);
 
-    if (typeof (this as any).onButtonClick === 'function') {
-      (this as any).onButtonClick(e.target);
+    if (typeof this.onButtonClick === 'function') {
+      this.onButtonClick(e.target);
     }
 
     // If this IdsModalButton has a `cancel` prop, treat

@@ -16,6 +16,8 @@ import '../ids-tooltip/ids-tooltip';
 import '../ids-empty-message/ids-empty-message';
 
 import styles from './ids-pie-chart.scss';
+import type IdsEmptyMessage from '../ids-empty-message/ids-empty-message';
+import type IdsTooltip from '../ids-tooltip/ids-tooltip';
 
 type IdsPieChartData = {
   name?: string,
@@ -35,6 +37,11 @@ type IdsPieChartSelected = {
 
 type IdsPieChartSelectedBy = {
   index?: number | string
+};
+
+type PercentData = {
+  total: number;
+  rounded: number;
 };
 
 /**
@@ -60,6 +67,18 @@ export default class IdsPieChart extends Base {
     this.DEFAULT_SELECTABLE = false;
   }
 
+  svg?: SVGElement | null;
+
+  svgContainer?: HTMLElement | null;
+
+  emptyMessage?: IdsEmptyMessage | null;
+
+  legend?: HTMLSlotElement | null;
+
+  percents: PercentData[] = [];
+
+  totals = 0;
+
   /** Reference to datasource API */
   datasource = new IdsDataSource();
 
@@ -77,10 +96,10 @@ export default class IdsPieChart extends Base {
   connectedCallback(): void {
     super.connectedCallback?.();
     this.legendPlacement = 'right';
-    this.svg = this.shadowRoot.querySelector('svg');
-    this.svgContainer = this.shadowRoot.querySelector('.ids-chart-svg-container');
-    this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
-    this.legend = this.shadowRoot.querySelector('[name="legend"]');
+    this.svg = this.shadowRoot?.querySelector('svg');
+    this.svgContainer = this.shadowRoot?.querySelector('.ids-chart-svg-container');
+    this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot?.querySelector('ids-empty-message');
+    this.legend = this.shadowRoot?.querySelector('[name="legend"]');
 
     this.redraw();
     this.legendsClickable?.(this.selectable);
@@ -111,13 +130,18 @@ export default class IdsPieChart extends Base {
     this.#calculate();
     this.#addColorVariables();
     this.#setSliceAngles();
-    this.legend.innerHTML = this.legendTemplate();
-    this.svg.innerHTML = this.chartTemplate();
+    if (this.legend) this.legend.innerHTML = this.legendTemplate();
+    if (this.svg) this.svg.innerHTML = this.chartTemplate();
     this.#attachTooltipEvents();
     this.#preSelected();
 
     // Completed Event and Callback
-    this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
+    this.triggerEvent('rendered', this, {
+      detail: {
+        svg: this.svg,
+        data: this.data
+      }
+    });
   }
 
   /**
@@ -168,11 +192,13 @@ export default class IdsPieChart extends Base {
   #attachEventHandlers(): void {
     this.onEvent('localechange.pie', this.closest('ids-container'), async () => {
       this.redraw();
-      this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
+      const textElem = this.shadowRoot?.querySelector('ids-empty-message ids-text');
+      if (textElem) textElem.textContent = this.locale?.translate('NoData');
     });
 
     this.onEvent('languagechange.pie', this.closest('ids-container'), async () => {
-      this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
+      const textElem = this.shadowRoot?.querySelector('ids-empty-message ids-text');
+      if (textElem) textElem.textContent = this.locale?.translate('NoData');
     });
   }
 
@@ -237,7 +263,7 @@ export default class IdsPieChart extends Base {
    */
   #addColorVariables(): void {
     let colorSheet = '';
-    if (!this.shadowRoot.styleSheets) {
+    if (!this.shadowRoot?.styleSheets) {
       return;
     }
     const data = this.data[0].data;
@@ -258,7 +284,7 @@ export default class IdsPieChart extends Base {
 
     const styleSheet = this.shadowRoot.styleSheets[0];
 
-    if (styleSheet.cssRules && styleSheet.cssRules[0].selectorText === ':host') {
+    if (styleSheet.cssRules && (styleSheet.cssRules[0] as any).selectorText === ':host') {
       styleSheet.deleteRule(0);
     }
     styleSheet.insertRule(`:host {
@@ -300,9 +326,9 @@ export default class IdsPieChart extends Base {
         const delay = (animationDuration * filled) / 100;
 
         requestAnimationFrame(() => {
-          this.container.querySelector(`circle.slice[index="${index}"]`).style.transition = `stroke-dashoffset ${currentDuration}ms cubic-bezier(0.17, 0.04, 0.03, 0.94) ${delay}ms`;
+          this.container?.querySelector<HTMLElement>(`circle.slice[index="${index}"]`)?.style.setProperty('transition', `stroke-dashoffset ${currentDuration}ms cubic-bezier(0.17, 0.04, 0.03, 0.94) ${delay}ms`);
           requestAnimationFrame(() => {
-            this.container.querySelector(`circle.slice[index="${index}"]`).setAttribute('stroke-dashoffset', dashOffset);
+            this.container?.querySelector(`circle.slice[index="${index}"]`)?.setAttribute('stroke-dashoffset', String(dashOffset));
           });
         });
       }
@@ -353,7 +379,7 @@ export default class IdsPieChart extends Base {
    */
   get selectionElements(): Array<SVGElement> {
     if (!this.selectable) return [];
-    return [...this.container.querySelectorAll('.slice')];
+    return [...this.container?.querySelectorAll<SVGElement>('.slice') ?? []];
   }
 
   /**
@@ -362,7 +388,7 @@ export default class IdsPieChart extends Base {
    * @returns {Array<SVGElement>} The elements
    */
   tooltipElements(): Array<SVGElement> {
-    return this.container.querySelectorAll('.slice');
+    return [...this.container?.querySelectorAll<SVGElement>('.slice') ?? []];
   }
 
   /**
@@ -416,12 +442,12 @@ export default class IdsPieChart extends Base {
    * @returns {{ x: number, y: number, midAngle: number }} The calculated position
    */
   #midPosition(index: number, extra = 0): { x: number, y: number, midAngle: number } {
-    const width = this.svg.clientWidth;
-    const height = this.svg.clientHeight;
+    const width = this.svg?.clientWidth ?? NaN;
+    const height = this.svg?.clientHeight ?? NaN;
     const radius = (Math.min(width, height) / 2) - (this.donut ? 8 : 0);
 
     // Center position
-    const { x: offsetX, y: offsetY } = this.svgContainer.getBoundingClientRect();
+    const { x: offsetX, y: offsetY } = this.svgContainer?.getBoundingClientRect() ?? { x: NaN, y: NaN };
     const cx = (width / 2) + offsetX - this.#tooltipDotSize;
     const cy = (height / 2) + offsetY - this.#tooltipDotSize;
 
@@ -451,12 +477,12 @@ export default class IdsPieChart extends Base {
    * @returns {void}
    */
   #adjustTooltipDots(): void {
-    this.#tooltipDots = this.svgContainer.parentElement.querySelectorAll('#dots .dot');
+    this.#tooltipDots = [...this.svgContainer?.parentElement?.querySelectorAll<HTMLSpanElement>('#dots .dot') ?? []];
     // Add for first time
     if (!this.#tooltipDots.length) {
       const html = `<div id="dots">${this.#sliceAngles.map(() => '<span class="dot"></span>').join('')}`;
-      this.svgContainer.parentElement.insertAdjacentHTML('beforeend', html);
-      this.#tooltipDots = this.svgContainer.parentElement.querySelectorAll('#dots .dot');
+      this.svgContainer?.parentElement?.insertAdjacentHTML('beforeend', html);
+      this.#tooltipDots = [...this.svgContainer?.parentElement?.querySelectorAll<HTMLSpanElement>('#dots .dot') ?? []];
     }
     // Set positions
     this.#tooltipDots.forEach((dot: any, i: number) => {
@@ -475,20 +501,23 @@ export default class IdsPieChart extends Base {
       return;
     }
 
-    const tooltip = this.svgContainer.parentElement.querySelector('ids-tooltip');
+    const tooltip = this.svgContainer?.parentElement?.querySelector<IdsTooltip>('ids-tooltip');
 
     // Need one event per bar due to the nature of the events for tooltip
     this.tooltipElements().forEach((element: SVGElement, index: number) => {
       this.onEvent('hoverend', element, async () => {
-        tooltip.innerHTML = this.#tooltipContent(element);
-        tooltip.target = element;
+        if (tooltip) {
+          tooltip.innerHTML = this.#tooltipContent(element);
+          tooltip.target = element;
+        }
         this.#positionTooltip(tooltip, index);
       });
     });
 
     // TODO: Find a way to work without initial visible call
     // Issue first time popup arrow not align position
-    tooltip.popup.visible = true;
+    const tooltipPopup = tooltip?.popup;
+    if (tooltipPopup) tooltipPopup.visible = true;
   }
 
   /**
@@ -567,10 +596,10 @@ export default class IdsPieChart extends Base {
    * @private
    */
   #showEmptyMessage() {
-    this.svg.classList.add('hidden');
-    this.svgContainer?.parentElement.classList.add('empty');
-    this.emptyMessage.style.height = `${this.height}px`;
-    this.emptyMessage.removeAttribute('hidden');
+    this.svg?.classList.add('hidden');
+    this.svgContainer?.parentElement?.classList.add('empty');
+    this.emptyMessage?.style.setProperty('height', `${this.height}px`);
+    this.emptyMessage?.removeAttribute('hidden');
   }
 
   /**
@@ -578,10 +607,10 @@ export default class IdsPieChart extends Base {
    * @private
    */
   #hideEmptyMessage() {
-    this.svg.classList.remove('hidden');
-    this.svgContainer?.parentElement.classList.remove('empty');
-    this.emptyMessage.style.height = '';
-    this.emptyMessage.setAttribute('hidden', '');
+    this.svg?.classList.remove('hidden');
+    this.svgContainer?.parentElement?.classList.remove('empty');
+    this.emptyMessage?.style.setProperty('height', '');
+    this.emptyMessage?.setAttribute('hidden', '');
   }
 
   /**
@@ -689,7 +718,7 @@ export default class IdsPieChart extends Base {
   set title(value) {
     this.setAttribute(attributes.TITLE, value);
     const title = this.container?.querySelectorAll(attributes.TITLE);
-    if (title?.length > 1) {
+    if (title && title?.length > 1) {
       title[1].textContent = value;
     }
   }
@@ -701,7 +730,7 @@ export default class IdsPieChart extends Base {
    * @param {boolean} value True to make a donut chart
    */
   set donut(value) {
-    this.setAttribute(attributes.DONUT, value);
+    this.setAttribute(attributes.DONUT, String(value));
     this.redraw();
   }
 
@@ -724,8 +753,8 @@ export default class IdsPieChart extends Base {
    * @param {number | string} value The height value
    */
   set height(value: number | string) {
-    this.setAttribute(attributes.HEIGHT, value);
-    this.svg?.setAttribute(attributes.HEIGHT, value);
+    this.setAttribute(attributes.HEIGHT, String(value));
+    this.svg?.setAttribute(attributes.HEIGHT, String(value));
     this.redraw();
   }
 
@@ -739,8 +768,8 @@ export default class IdsPieChart extends Base {
    * @param {number | string} value The width value
    */
   set width(value: number | string) {
-    this.setAttribute(attributes.WIDTH, value);
-    this.svg?.setAttribute(attributes.WIDTH, value);
+    this.setAttribute(attributes.WIDTH, String(value));
+    this.svg?.setAttribute(attributes.WIDTH, String(value));
     this.redraw();
   }
 
@@ -791,7 +820,7 @@ export default class IdsPieChart extends Base {
    * @param {boolean} value True if animation is on
    */
   set animated(value: boolean) {
-    this.setAttribute(attributes.ANIMATED, value);
+    this.setAttribute(attributes.ANIMATED, String(value));
     this.redraw();
   }
 
@@ -808,7 +837,7 @@ export default class IdsPieChart extends Base {
    * @param {boolean} value True if animation is on
    */
   set suppressTooltips(value: boolean) {
-    this.setAttribute(attributes.SUPPRESS_TOOLTIPS, value);
+    this.setAttribute(attributes.SUPPRESS_TOOLTIPS, String(value));
     const suppressed = stringToBool(this.getAttribute(attributes.SUPPRESS_TOOLTIPS));
     if (suppressed) {
       this.#detachTooltipEvents();

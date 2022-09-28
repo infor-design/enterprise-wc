@@ -75,7 +75,7 @@ export default class IdsActionSheet extends Base {
    * Set the visible attribute
    * @param {boolean | string} val true if the action sheet should appear
    */
-  set visible(val: boolean | string) {
+  set visible(val: boolean | string | null) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy && !this.hidden) {
       this.setAttribute(attributes.VISIBLE, 'true');

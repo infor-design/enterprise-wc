@@ -3,7 +3,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-line-chart-base';
 import styles from './ids-line-chart.scss';
-import type IdsChartData from '../ids-axis-chart/ids-axis-chart';
 
 type IdsLineChartMarkers = {
   markers?: string,
@@ -231,8 +230,8 @@ export default class IdsLineChart extends Base {
   get selectionElements(): Array<SVGElement> {
     if (!this.selectable) return [];
     return [
-      ...this.container.querySelectorAll('.markers [part="marker"]'),
-      ...this.container.querySelectorAll('.marker-lines [part="line"]')
+      ...this.container?.querySelectorAll<SVGElement>('.markers [part="marker"]') ?? [],
+      ...this.container?.querySelectorAll<SVGElement>('.marker-lines [part="line"]') ?? []
     ];
   }
 
@@ -241,7 +240,7 @@ export default class IdsLineChart extends Base {
    * @returns {Array<string>} The elements
    */
   tooltipElements(): Array<SVGElement> {
-    return this.container.querySelectorAll('.markers circle');
+    return [...this.container?.querySelectorAll<SVGElement>('.markers circle') ?? []];
   }
 
   /**
@@ -252,12 +251,12 @@ export default class IdsLineChart extends Base {
   lineMarkers(): IdsLineChartMarkers {
     let markerHTML = '';
     let lineHTML = '';
-    this.markerData.points?.forEach((pointGroup: any, groupIndex: number) => {
+    this.markerData.points?.forEach((pointGroup, groupIndex) => {
       let points = '';
       let animationPoints = '';
       markerHTML += '<g class="marker-set">';
 
-      pointGroup.forEach((point: IdsChartData, index: number) => {
+      pointGroup.forEach((point, index) => {
         points += `${point.left},${point.top} `;
         animationPoints += `${point.left},${this.markerData.gridBottom} `;
         markerHTML += `<circle part="marker" group-index="${groupIndex}" index="${index}" class="color-${groupIndex + 1}" cx="${point.left}" cy="${point.top}" data-value="${point.value}" r="${this.markerSize}">
@@ -281,11 +280,11 @@ export default class IdsLineChart extends Base {
    * @param {number} value The value to use (in pixels)
    */
   set markerSize(value) {
-    this.setAttribute(attributes.MARKER_SIZE, value);
+    this.setAttribute(attributes.MARKER_SIZE, String(value));
     this.redraw();
   }
 
   get markerSize() {
-    return parseFloat(this.getAttribute(attributes.MARKER_SIZE)) || 5;
+    return parseFloat(this.getAttribute(attributes.MARKER_SIZE) ?? '') || 5;
   }
 }
