@@ -32,6 +32,7 @@ export default class IdsSwappableItem extends Base {
     }
     this.setAttribute(attributes.DRAGGABLE, this.dragMode === 'select' ? 'false' : 'true');
     this.attachEventListeners();
+    this.#addCssClasses();
   }
 
   static get attributes() {
@@ -326,5 +327,24 @@ export default class IdsSwappableItem extends Base {
     this.#handleClickEvents();
     this.#handleKeyEvents();
     this.#handleDragEvents();
+  }
+
+  /**
+   * Adding CSS classes to the component with a name of slotted element
+   * Allows to style the component for different cases
+   */
+  #addCssClasses() {
+    if (this.children.length > 0) {
+      const slottedClasses = ([...this.children] as any[])
+        .filter((item) => item.name)
+        .map((item) => `slotted-${item.name}`);
+      const orientationClasses = ([...this.children] as any[])
+        .filter((item) => item.state?.orientation)
+        .map((item) => `orientation-${item.state.orientation}`);
+
+      if (slottedClasses.length > 0 || orientationClasses.length > 0) {
+        this.classList.add(...slottedClasses, ...orientationClasses);
+      }
+    }
   }
 }

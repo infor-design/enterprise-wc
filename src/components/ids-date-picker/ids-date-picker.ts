@@ -152,7 +152,9 @@ class IdsDatePicker extends Base {
    * @returns {void}
    */
   onColorVariantRefresh(): void {
-    this.#triggerField.colorVariant = this.colorVariant;
+    if (this.#triggerField) {
+      this.#triggerField.colorVariant = this.colorVariant;
+    }
   }
 
   /**

@@ -32,11 +32,13 @@ export default class IdsLayoutGridCell extends Base {
       attributes.JUSTIFY,
       attributes.ROW_SPAN,
       attributes.ROW_START,
-      attributes.ROW_END
+      attributes.ROW_END,
     ];
   }
 
-  parentColSetting: any = this.parentElement?.getAttribute(attributes.COLS);
+  parentColSetting?: string | null = this.parentElement?.getAttribute(attributes.COLS);
+
+  defaultColSetting = 'fluid-grid';
 
   /**
    * Handle The Fill Setting
@@ -69,8 +71,8 @@ export default class IdsLayoutGridCell extends Base {
       this.style.setProperty('--grid-col-span', value);
       this.classList.add(`ids-layout-grid-col-span`);
 
-      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+      const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
+      if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
         this.classList.remove(`ids-layout-grid-col-span`);
         this.classList.add(`ids-layout-grid-col-span-${value}`);
       }
@@ -92,8 +94,8 @@ export default class IdsLayoutGridCell extends Base {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_XS, value);
 
-      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+      const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
+      if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
         this.classList.remove(`ids-layout-grid-col-span`);
         this.classList.add(`ids-layout-grid-col-span-xs-${value}`);
       }
@@ -112,8 +114,8 @@ export default class IdsLayoutGridCell extends Base {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_SM, value);
 
-      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+      const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
+      if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
         this.classList.remove(`ids-layout-grid-col-span`);
         this.classList.add(`ids-layout-grid-col-span-sm-${value}`);
       }
@@ -132,8 +134,8 @@ export default class IdsLayoutGridCell extends Base {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_MD, value);
 
-      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+      const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
+      if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
         this.classList.remove(`ids-layout-grid-col-span`);
         this.classList.add(`ids-layout-grid-col-span-md-${value}`);
       }
@@ -152,8 +154,8 @@ export default class IdsLayoutGridCell extends Base {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_LG, value);
 
-      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+      const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
+      if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
         this.classList.remove(`ids-layout-grid-col-span`);
         this.classList.add(`ids-layout-grid-col-span-lg-${value}`);
       }
@@ -172,8 +174,8 @@ export default class IdsLayoutGridCell extends Base {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_XL, value);
 
-      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+      const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
+      if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
         this.classList.remove(`ids-layout-grid-col-span`);
         this.classList.add(`ids-layout-grid-col-span-xl-${value}`);
       }
@@ -192,8 +194,8 @@ export default class IdsLayoutGridCell extends Base {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_XXL, value);
 
-      const gridCols = this.parentElement?.getAttribute(attributes.COLS);
-      if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+      const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
+      if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
         this.classList.remove(`ids-layout-grid-col-span`);
         this.classList.add(`ids-layout-grid-col-span-xxl-${value}`);
       }
