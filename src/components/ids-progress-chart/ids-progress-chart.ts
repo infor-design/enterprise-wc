@@ -73,16 +73,15 @@ export default class IdsProgressChart extends Base {
   set icon(value: string) {
     const icon = this.container?.querySelector('.icon');
     if (value) {
-      if (icon) {
-        icon.style.display = '';
-        icon.style.margin = '0 4px';
-      }
       this.setAttribute(attributes.ICON, value);
+
       icon?.setAttribute(attributes.ICON, value);
+      icon?.style.setProperty('display', '');
+      icon?.style.setProperty('margin', '0 4px');
     } else {
-      if (icon) icon.style.display = 'none';
       this.setAttribute(attributes.ICON, '');
       icon?.setAttribute(attributes.ICON, '');
+      icon?.style.setProperty('display', 'none');
     }
   }
 
@@ -114,17 +113,17 @@ export default class IdsProgressChart extends Base {
       // only color the icons and progress labels if it's error, caution, or warning
       if (includesAlert) {
         const progressLabel = this.container?.querySelector('.label-progress');
-        progressLabel.style.color = prop;
+        progressLabel?.style.setProperty('color', prop);
 
         const icon = this.container?.querySelector('ids-icon');
-        icon.style.color = prop;
+        icon?.style.setProperty('color', prop);
       }
     } else if (this.color.substring(0, 1) !== '#') {
       prop = `var(--ids-color-palette-${this.color})`;
     }
 
     const bar = this.container?.querySelector('.bar-progress');
-    bar.style.backgroundColor = prop;
+    bar?.style.setProperty('background-color', prop);
   }
 
   /**
@@ -156,7 +155,7 @@ export default class IdsProgressChart extends Base {
     this.percentage = percentage;
 
     const progressBar = this.container?.querySelector('.bar-progress');
-    if (progressBar) progressBar.style.width = `${percentage}%`;
+    progressBar?.style.setProperty('width', `${percentage}%`);
   }
 
   /**
@@ -165,11 +164,8 @@ export default class IdsProgressChart extends Base {
    */
   #updateSize(): void {
     const bar = this.container?.querySelector('.bar');
-
-    if (bar) {
-      bar.style.minHeight = this.size === 'small' ? '10px' : '28px';
-      bar.style.borderRadius = this.size === 'small' ? '0px' : '2px';
-    }
+    bar?.style.setProperty('min-height', this.size === 'small' ? '10px' : '28px');
+    bar?.style.setProperty('border-radius', this.size === 'small' ? '0px' : '2px');
   }
 
   /**
