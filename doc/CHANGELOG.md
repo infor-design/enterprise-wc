@@ -5,6 +5,7 @@
 ### 1.0.0-beta.2 Fixes
 
 - `[General]` Removed IdsRenderLoop and replaced its usage with timeout functions, async/await, and CSS animations. ([#897](https://github.com/infor-design/enterprise-wc/issues/897))
+- `[General]` Fixed and added types for components, mixins, and tests. ([#650](https://github.com/infor-design/enterprise-wc/issues/650))
 - `[AppMenu]` Removed the logo from the app menu component by design request. ([#851](https://github.com/infor-design/enterprise-wc/pull/v))
 - `[Autocomplete]` Fixed the popup position when autocomplete results changing. ([#908](https://github.com/infor-design/enterprise-wc/issues/908))
 - `[BarChart]` Added support for grouped and fixed grid lines. ([#859](https://github.com/infor-design/enterprise-wc/issues/859))
