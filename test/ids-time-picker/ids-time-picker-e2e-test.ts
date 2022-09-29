@@ -147,7 +147,7 @@ describe('Ids Time Picker e2e Tests', () => {
     expect((await getDropdowns() as any).period).toBeDefined();
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       const template = `
