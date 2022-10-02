@@ -989,14 +989,7 @@ export default class IdsPopup extends Base {
     // Fix location first
     this.place();
 
-    // If an arrow is displayed, place it correctly
-    this.placeArrow();
-
     this.removeAttribute('aria-hidden');
-
-    // if (this.isFlipped) {
-    //   this.container.classList.add('flipped');
-    // }
 
     // Change transparency/visibility
     this.container.classList.add('open');
@@ -1135,8 +1128,6 @@ export default class IdsPopup extends Base {
     let x = shouldSwitchXY ? this.y : this.x;
     let y = shouldSwitchXY ? this.x : this.y;
 
-    this.arrow = targetAlignEdge as string;
-
     const targetRect = this.alignTarget.getBoundingClientRect();
     const alignEdge = targetAlignEdge || this.alignEdge;
     let alignXCentered = false;
@@ -1223,6 +1214,12 @@ export default class IdsPopup extends Base {
     }
 
     this.#renderPlacementInPixels(popupRect);
+
+    // If an arrow is displayed, place it correctly
+    if (this.arrow) {
+      this.#setArrowDirection(this.arrow, targetAlignEdge);
+      this.placeArrow(targetAlignEdge);
+    }
   }
 
   /**
