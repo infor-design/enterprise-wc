@@ -1198,6 +1198,17 @@ export default class IdsPopup extends Base {
       }
     }
 
+    // If no alignment edge place it at the center
+    if (alignEdge === 'none') {
+      const containerWidth = this.containingElem?.clientWidth;
+      const containerHeight = this.containingElem?.clientHeight;
+
+      if (containerWidth && containerHeight) {
+        x = (containerWidth - popupRect.width) / 2;
+        y = (containerHeight - popupRect.height) / 2;
+      }
+    }
+
     // Set adjusted values
     popupRect.x = x;
     popupRect.y = y;
