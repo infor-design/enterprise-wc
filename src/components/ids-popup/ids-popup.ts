@@ -432,6 +432,11 @@ export default class IdsPopup extends Base {
   #alignEdge = ALIGNMENT_EDGES[0];
 
   /**
+   * Updates when the popup changing its primary align edge
+   */
+  #targetAlignEdge = '';
+
+  /**
    *  Specifies the edge of the parent element to be placed adjacent,
    *  in configurations where a relative placement occurs
    * @param {string} val The edge to align to
@@ -1007,6 +1012,8 @@ export default class IdsPopup extends Base {
     // Fix location first
     this.place();
 
+    this.placeArrow(this.#targetAlignEdge);
+
     this.removeAttribute('aria-hidden');
 
     // Change transparency/visibility
@@ -1134,21 +1141,21 @@ export default class IdsPopup extends Base {
     // Detect sizes/locations of the popup and the alignment target Element
     let popupRect = this.getBoundingClientRect();
 
-    const targetAlignEdge = this.#getPlacementEdge(popupRect);
+    this.#targetAlignEdge = this.#getPlacementEdge(popupRect);
 
-    const shouldSwitchXY = this.alignEdge !== targetAlignEdge
-      && this.#getOppositeEdge(this.alignEdge) !== targetAlignEdge;
+    const shouldSwitchXY = this.alignEdge !== this.#targetAlignEdge
+      && this.#getOppositeEdge(this.alignEdge) !== this.#targetAlignEdge;
 
     let x = shouldSwitchXY ? this.y : this.x;
     let y = shouldSwitchXY ? this.x : this.y;
 
     const targetRect = this.alignTarget.getBoundingClientRect();
-    const alignEdge = targetAlignEdge || this.alignEdge;
+    const alignEdge = this.#targetAlignEdge || this.alignEdge;
     let alignXCentered = false;
     let alignYCentered = false;
 
     // Add/remove CSS class if the popup on an opposite align edge
-    this.container.classList.toggle('flipped', this.alignEdge !== targetAlignEdge && !shouldSwitchXY);
+    this.container.classList.toggle('flipped', this.alignEdge !== this.#targetAlignEdge && !shouldSwitchXY);
 
     /*
      * NOTE: All calculatations are based on the top/left corner of the element rectangles.
@@ -1244,9 +1251,9 @@ export default class IdsPopup extends Base {
     this.#renderPlacementInPixels(popupRect);
 
     // If an arrow is displayed, place it correctly
-    if (this.arrow) {
-      this.#setArrowDirection('', targetAlignEdge);
-      this.placeArrow(targetAlignEdge);
+    if (this.arrow && this.arrow !== ARROW_TYPES[0]) {
+      this.#setArrowDirection('', this.#targetAlignEdge);
+      this.placeArrow(this.#targetAlignEdge);
     }
   }
 
