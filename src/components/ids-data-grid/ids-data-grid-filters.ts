@@ -11,7 +11,8 @@ import '../ids-input/ids-input';
 import '../ids-dropdown/ids-dropdown';
 import '../ids-date-picker/ids-date-picker';
 import '../ids-time-picker/ids-time-picker';
-import IdsMenuItem from '../ids-menu/ids-menu-item';
+
+import type IdsMenuItem from '../ids-menu/ids-menu-item';
 
 // Instance counter
 let instanceCounter = 0;
@@ -763,10 +764,15 @@ export default class IdsDataGridFilters {
     this.setFilterWhenTyping();
   }
 
+  /**
+   * Handles `selected` events from filter menus
+   * @param {IdsMenuItem} el reference to the menu item that triggered the event
+   * @returns {void}
+   */
   #handleMenuButtonSelected(el: IdsMenuItem) {
     const target = el.menu?.target;
     const { value, icon, text: label } = el;
-    if (target.icon === icon) return;
+    if (!icon || target.icon === icon) return;
 
     const columnId = target.getAttribute('column-id');
     const initial = this.#initial[columnId].btn;
