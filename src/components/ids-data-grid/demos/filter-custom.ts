@@ -1,4 +1,5 @@
 import '../ids-data-grid';
+import '../../ids-popup-menu/ids-popup-menu';
 import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
 

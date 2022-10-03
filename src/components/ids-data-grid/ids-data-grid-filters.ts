@@ -1,3 +1,4 @@
+import { attributes } from '../../core/ids-attributes';
 import { hasClass } from '../../utils/ids-dom-utils/ids-dom-utils';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 
@@ -655,11 +656,14 @@ export default class IdsDataGridFilters {
       const datePicker = node.querySelector('ids-date-picker');
       const timePicker = node.querySelector('ids-time-picker');
       const btn = node.querySelector('ids-menu-button');
+      const menu = node.querySelector('ids-popup-menu');
+      let menuAttachment = '.ids-data-grid-wrapper';
 
       // Slotted filter only
       if (slot && (input || dropdown || datePicker || timePicker || btn)) {
         const headerElem = n.closest('.ids-data-grid-header-cell');
         const column = this.root.columnDataByHeaderElem(headerElem);
+        menuAttachment = 'ids-data-grid';
 
         // Slotted initial
         this.#initial[column.id] = this.#initial[column.id] || {};
@@ -679,9 +683,23 @@ export default class IdsDataGridFilters {
           btn.cssClass = [...new Set([...btn.cssClass, 'compact'])];
           btn.setAttribute('color-variant', 'alternate-formatter');
           btn.setAttribute('column-id', column.id);
-          btn.setAttribute('trigger', 'click');
           btn.setAttribute('square', 'true');
         }
+        if (menu) {
+          menu.setAttribute('slot', `menu-container`);
+        }
+      }
+
+      // Connect Popup Menus
+      if (menu) {
+        menu.setAttribute(attributes.TRIGGER_TYPE, 'click');
+        menu.setAttribute(attributes.ATTACHMENT, menuAttachment);
+        menu.onOutsideClick = () => { menu.hide(); };
+
+        // Move/Rebind menu (order of these statements matters)
+        menu.appendToTargetParent();
+        menu.popupOpenEventsTarget = document.body;
+        menu.refreshTriggerEvents();
       }
 
       // Timepicker needs a different element to use for targeting outside clicks
