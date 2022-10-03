@@ -685,6 +685,7 @@ export default class IdsDataGridFilters {
           btn.setAttribute('column-id', column.id);
           btn.setAttribute('square', 'true');
         }
+        // Place slotted menus into a special slot placed near internal filter menus
         if (menu) {
           menu.setAttribute('slot', `menu-container`);
         }
