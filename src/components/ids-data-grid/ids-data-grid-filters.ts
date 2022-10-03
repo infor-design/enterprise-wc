@@ -11,6 +11,7 @@ import '../ids-input/ids-input';
 import '../ids-dropdown/ids-dropdown';
 import '../ids-date-picker/ids-date-picker';
 import '../ids-time-picker/ids-time-picker';
+import IdsMenuItem from '../ids-menu/ids-menu-item';
 
 // Instance counter
 let instanceCounter = 0;
@@ -736,40 +737,22 @@ export default class IdsDataGridFilters {
    * @returns {void}
    */
   attachFilterEventHandlers() {
-    // Selected menu-button item
-    this.root.onEvent(`selected.${this.#id()}`, this.root.header, (e: any) => {
+    // Captures menu contents when using built-in filter menus, which are in Shadow Root
+    this.root.onEvent(`selected.${this.#id()}`, this.root.wrapper, (e: any) => {
       const elem = e.detail?.elem;
       if (!elem || (elem && !(/ids-menu-item/gi.test(elem.nodeName)))) return;
+      this.#handleMenuButtonSelected(elem);
+    });
 
-      const target = elem.menu?.target;
-      const { value, icon, text: label } = elem;
-      if (target.icon === icon) return;
-
-      const columnId = target.getAttribute('column-id');
-      const initial = this.#initial[columnId].btn;
-      const beforeChange = {
-        icon: target.icon,
-        value: `${target.icon}`.replace(/^filter-/g, ''),
-        label: (target.text || '').trim()
-      };
-      target.icon = icon;
-      target.querySelector('[slot="text"]').textContent = label;
-      this.root.triggerEvent('filteroperatorchanged', this.root, {
-        detail: {
-          elem: this.root,
-          targetElem: target,
-          icon,
-          value,
-          label,
-          initial,
-          beforeChange
-        }
-      });
-      this.applyFilter();
+    // Captures menu contents when using custom filter menus, which are slotted (light DOM)
+    this.root.onEvent(`selected.${this.#id()}`, this.root, (e: any) => {
+      const elem = e.detail?.elem;
+      if (!elem || (elem && !(/ids-menu-item/gi.test(elem.nodeName)))) return;
+      this.#handleMenuButtonSelected(elem);
     });
 
     // Change event for input, dropdown, multiselect, date-picker and time-picker
-    this.root.onEvent(`change.${this.#id()}`, this.root.header, (e: any) => {
+    this.root.onEvent(`change.${this.#id()}`, this.root.container, (e: any) => {
       const nodeName = e.target?.nodeName;
       if (nodeName && /ids-(input|dropdown|multiselect|date-picker|time-picker)/gi.test(nodeName)) {
         this.applyFilter();
@@ -778,6 +761,34 @@ export default class IdsDataGridFilters {
 
     // Set filter event when typing for input
     this.setFilterWhenTyping();
+  }
+
+  #handleMenuButtonSelected(el: IdsMenuItem) {
+    const target = el.menu?.target;
+    const { value, icon, text: label } = el;
+    if (target.icon === icon) return;
+
+    const columnId = target.getAttribute('column-id');
+    const initial = this.#initial[columnId].btn;
+    const beforeChange = {
+      icon: target.icon,
+      value: `${target.icon}`.replace(/^filter-/g, ''),
+      label: (target.text || '').trim()
+    };
+    target.icon = icon;
+    target.querySelector('[slot="text"]').textContent = label;
+    this.root.triggerEvent('filteroperatorchanged', this.root, {
+      detail: {
+        elem: this.root,
+        targetElem: target,
+        icon,
+        value,
+        label,
+        initial,
+        beforeChange
+      }
+    });
+    this.applyFilter();
   }
 
   /**
