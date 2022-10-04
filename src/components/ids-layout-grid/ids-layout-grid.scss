@@ -207,31 +207,26 @@ $grid-cols-sm: 4;
 :host(.ids-layout-fluid-grid),
 .ids-layout-grid.ids-layout-fluid-grid {
   --grid-cols: 0;
-  --grid-gap: 16px;
+  --grid-gap: 24px;
 
   @media (min-width: $breakpoint-xs) {
     --grid-cols: 4;
-    --grid-gap: 16px;
   }
 
   @media (min-width: $breakpoint-sm) {
     --grid-cols: 8;
-    --grid-gap: 16px;
   }
 
   @media (min-width: $breakpoint-md) {
     --grid-cols: 12;
-    --grid-gap: 16px;
   }
 
   @media (min-width: $breakpoint-lg) {
-    --grid-gap: 24px;
   }
 
   &.ids-layout-fluid-grid-xl {
     @media (min-width: $breakpoint-xl) {
       --grid-cols: 16;
-      --grid-gap: 24px;
     }
   }
 
