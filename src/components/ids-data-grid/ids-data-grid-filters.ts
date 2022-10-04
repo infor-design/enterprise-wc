@@ -753,7 +753,7 @@ export default class IdsDataGridFilters {
     });
 
     // Change event for input, dropdown, multiselect, date-picker and time-picker
-    this.root.onEvent(`change.${this.#id()}`, this.root.container, (e: any) => {
+    this.root.onEvent(`change.${this.#id()}`, this.root.header, (e: any) => {
       const nodeName = e.target?.nodeName;
       if (nodeName && /ids-(input|dropdown|multiselect|date-picker|time-picker)/gi.test(nodeName)) {
         this.applyFilter();
