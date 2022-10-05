@@ -169,3 +169,8 @@ ids-button[part='icon-btn'] {
     box-shadow: 0 0 8px rgb(0 0 0 / 0.7);
   }
 }
+
+// For ids-popup-menu to calculate its position correctly
+::slotted([slot='menu']) {
+  @include relative();
+}
