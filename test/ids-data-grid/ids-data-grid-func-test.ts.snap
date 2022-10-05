@@ -9,8 +9,8 @@ exports[`IdsDataGrid Component Paging Tests renders pager 1`] = `
 
 exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
 "<style nonce="0a59a005">:host { background-color: transparent; }</style><div class="ids-data-grid-wrapper">
-      <span class="ids-data-grid-sort-arrows"></span>
-      <div class="ids-data-grid" role="table" part="table" aria-label="Data Grid" data-row-height="lg" mode="light" style="--ids-data-grid-column-widths: 20px 65px minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) ;">
+        <span class="ids-data-grid-sort-arrows"></span>
+        <div class="ids-data-grid" role="table" part="table" aria-label="Data Grid" data-row-height="lg" mode="light" style="--ids-data-grid-column-widths: 20px 65px minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) ;">
       <div class="ids-data-grid-header" role="rowgroup" part="header">
         <div role="row" class="ids-data-grid-row">
           
@@ -901,5 +901,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
       <ids-pager-button next="" total="9" page-number="1" page-size="10" nav-disabled=""></ids-pager-button>
       <ids-pager-button last="" total="9" page-number="1" page-size="10" nav-disabled=""></ids-pager-button>
       <ids-pager-dropdown slot="end" page-size="10"></ids-pager-dropdown>
-    </ids-pager></div>"
+    </ids-pager>
+        <slot name="menu-container"></slot>
+      </div>"
 `;
