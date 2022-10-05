@@ -5,14 +5,8 @@
   @include hide-sm-down();
 }
 
-:host {
-  @include absolute();
-}
-
 .ids-popup-menu {
-  @include relative();
-
-  ids-popup:not([hidden]) {
+  &:not([hidden]) {
     @include block();
 
     z-index: 1000;
