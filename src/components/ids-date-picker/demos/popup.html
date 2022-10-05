@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Date Picker (Popup)</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-button id="popup-trigger" type="secondary">
+          <span>Trigger Date Popup</span>
+          <ids-icon id="btn-dropdown-arrow" icon="dropdown"></ids-icon>
+        </ids-button>
+        <ids-date-picker-popup align-target="#popup-trigger" arrow-target="#btn-dropdown-arrow"></ids-date-picker-popup>
+      <ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
