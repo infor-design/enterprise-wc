@@ -34,7 +34,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {string} The template
    */
   template(): string {
-    const menuTemplate = Base.prototype.template.apply(this);
+    const menuTemplate = super.template();
     return `<ids-popup class="ids-popup-menu" type="menu">${menuTemplate}</ids-popup>`;
   }
 

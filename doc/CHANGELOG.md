@@ -17,12 +17,15 @@
 - `[DataGrid]` Fixed issues with virtual scroll and selection (including event data) and keyboard. ([#737](https://github.com/infor-design/enterprise-wc/pull/737))
 - `[DataGrid]` Added checkbox and custom formatter. ([#737](https://github.com/infor-design/enterprise-wc/pull/737))
 - `[DataGrid]` Changed alternate row shading feature's color theming to behave similarly to the 4.x DataGrid's. ([#925](https://github.com/infor-design/enterprise-wc/issues/925))
+- `[Datagrid]` Prevented filter menus from being cut off by Data Grid's container overflow ([#667](https://github.com/infor-design/enterprise-wc/issues/667))
 - `[Editor]` Fixed not readable text in the toolbar in Safari browser. ([#922](https://github.com/infor-design/enterprise-wc/issues/922))
 - `[Form]` Added new 'IdsForm' component. ([#357](https://github.com/infor-design/enterprise-wc/pull/357))
 - `[Form]` Fixed compact mode was not working with all components. ([#863](https://github.com/infor-design/enterprise-wc/issues/863))
+- `[Hierarchy]` Fixed hierarchy card submenus open in the wrong place. ([#832](https://github.com/infor-design/enterprise-wc/issues/832))
 - `[Input]` Fixed show/hide button for Safari browser. ([#923](https://github.com/infor-design/enterprise-wc/issues/923))
 - `[Lookup]` Fixed the dirty tacker was not able to reset. ([#871](https://github.com/infor-design/enterprise-wc/issues/871))
 - `[Pager]` Fixed the direction of the icons in RTL mode. ([#865](https://github.com/infor-design/enterprise-wc/issues/865))
+- `[Popup]` Added ability to place the popup at any side of the align target ([#748](https://github.com/infor-design/enterprise-wc/issues/748))
 - `[Tabs]` Fixed styling for draggable tabs. ([#842](https://github.com/infor-design/enterprise-wc/issues/842))
 
 ## 1.0.0-beta.1

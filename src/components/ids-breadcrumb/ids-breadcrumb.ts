@@ -303,7 +303,7 @@ export default class IdsBreadcrumb extends Base {
   }
 
   get popupMenuGroupEl(): IdsMenuGroup | undefined | null {
-    return this.container?.querySelector<IdsMenuGroup>('ids-menu-group');
+    return this.container?.querySelector('ids-menu-group');
   }
 
   /**

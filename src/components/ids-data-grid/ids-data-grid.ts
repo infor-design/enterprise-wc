@@ -8,6 +8,8 @@ import Base from './ids-data-grid-base';
 import IdsDataSource from '../../core/ids-data-source';
 import IdsDataGridFormatters from './ids-data-grid-formatters';
 import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid-filters';
+
+import '../ids-popup-menu/ids-popup-menu';
 import '../ids-virtual-scroll/ids-virtual-scroll';
 
 import styles from './ids-data-grid.scss';
@@ -125,14 +127,13 @@ export default class IdsDataGrid extends Base {
     cssClasses += `${this.listStyle ? ' is-list-style' : ''}`;
 
     const html = `<div class="ids-data-grid-wrapper">
-      <span class="ids-data-grid-sort-arrows"></span>
-      <div class="ids-data-grid${cssClasses}"
-        role="table" part="table" aria-label="${this.label}"
-        data-row-height="${this.rowHeight}"
-        mode="${this.mode}">
-      ${this.headerTemplate()}
-      ${this.bodyTemplate()}
-      </div></div>`;
+        <span class="ids-data-grid-sort-arrows"></span>
+        <div class="ids-data-grid${cssClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}">
+          ${this.headerTemplate()}
+          ${this.bodyTemplate()}
+        </div>
+        <slot name="menu-container"></slot>
+      </div>`;
 
     return html;
   }
