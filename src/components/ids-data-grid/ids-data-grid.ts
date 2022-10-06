@@ -9,6 +9,8 @@ import Base from './ids-data-grid-base';
 import IdsDataSource from '../../core/ids-data-source';
 import IdsDataGridFormatters from './ids-data-grid-formatters';
 import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid-filters';
+
+import '../ids-popup-menu/ids-popup-menu';
 import '../ids-virtual-scroll/ids-virtual-scroll';
 
 import styles from './ids-data-grid.scss';
@@ -124,7 +126,9 @@ export default class IdsDataGrid extends Base {
         mode="${this.mode}">
       ${this.headerTemplate()}
       ${this.bodyTemplate()}
-      </div></div>`;
+      </div>
+      <slot name="menu-container"></slot>
+    </div>`;
 
     return html;
   }

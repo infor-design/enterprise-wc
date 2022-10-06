@@ -1,6 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 
 import Base from './ids-menu-button-base';
@@ -176,9 +175,8 @@ export default class IdsMenuButton extends Base {
     const findPopup = (root: any) => root?.querySelector(`ids-popup-menu[id="${this.menu}"]`)
       || root?.querySelector(`ids-action-sheet[id="${this.menu}"]`);
 
-    let el = findPopup(this.shadowRoot?.host?.parentNode);
-    const thisElem: any = this;
-    if (!el) el = findPopup(getClosestRootNode(thisElem));
+    let el = findPopup(this.parentElement);
+    if (!el) el = findPopup(this.getRootNode());
     return el;
   }
 

@@ -25,6 +25,7 @@ export const attributes = {
   APPEARANCE: 'appearance',
   ARROW: 'arrow',
   ARROW_TARGET: 'arrow-target',
+  ATTACHMENT: 'attachment',
   AUDIBLE: 'audible',
   AUTO: 'auto',
   AUTOCOMPLETE: 'autocomplete',
