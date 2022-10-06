@@ -16,6 +16,8 @@ export default function debounce(
 
   return function debounced(this: any, ...args: any[]) {
     const obj = this;
+    const path = args[0]?.path || args[0]?.composedPath();
+    if (path?.length) args[0].orignPath = path;
     const delayed = () => {
       if (!execAsap) {
         func.apply(obj, args);

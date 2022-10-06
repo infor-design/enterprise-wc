@@ -12,6 +12,66 @@ export interface IdsDataGridColumnGroup {
   colspan: number,
   /** Align the column text to either `left`, `center` or `right` */
   align?: string;
+  /** Name of the header icon to use for formatters that support it */
+  headerIcon?: string;
+  /** Sets the header icon tooltip content */
+  headerIconTooltip?: string;
+}
+
+export interface IdsDataGridTooltipCallback {
+  /* Column id */
+  columnId?: string;
+  /* Column data */
+  columnData?: any;
+  /* Column index */
+  columnIndex?: number;
+  /* Column group id */
+  columnGroupId?: string;
+  /* Column group data */
+  columnGroupData?: any;
+  /* Column group index */
+  columnGroupIndex?: number;
+  /* Field data */
+  fieldData?: any;
+  /* The grid api object */
+  grid?: any;
+  /* Is header group */
+  isHeaderGroup?: boolean;
+  /* Row data */
+  rowData?: any;
+  /* Row index */
+  rowIndex?: number,
+  /* The current text content */
+  text?: string;
+  /* Type of tooltip as unique identifier */
+  type?: string;
+}
+
+export interface IdsDataGridTooltipOptions {
+  /* The tooltip placement */
+  placement?: 'top' | 'right' | 'bottom' | 'left';
+  /* Sets tooltip edge horizontal space */
+  x?: number;
+  /* Sets tooltip edge vertical space */
+  y?: number;
+  /* The header tooltip placement */
+  headerPlacement?: 'top' | 'right' | 'bottom' | 'left';
+  /* Sets tooltip edge horizontal space */
+  headerX?: number;
+  /* Sets tooltip edge vertical space */
+  headerY?: number;
+  /* The header icon tooltip placement */
+  headerIconPlacement?: 'top' | 'right' | 'bottom' | 'left';
+  /* Sets tooltip edge horizontal space */
+  headerIconX?: number;
+  /* Sets tooltip edge vertical space */
+  headerIconY?: number;
+  /* The filter button tooltip placement */
+  filterButtonPlacement?: 'top' | 'right' | 'bottom' | 'left';
+  /* Sets tooltip edge horizontal space */
+  filterButtonX?: number;
+  /* Sets tooltip edge vertical space */
+  filterButtonY?: number;
 }
 
 export interface IdsDataGridColumn {
@@ -92,10 +152,30 @@ export interface IdsDataGridColumn {
   disabled?: boolean | ((row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>) => boolean);
   /** Name of the icon too use for formatters that support it */
   icon?: string;
+  /** Name of the header icon */
+  headerIcon?: string;
   /** Align the column to either `left`, `center` or `right` */
   align?: string;
   /** Seperately align the header to either `left`, `center` or `right` */
   headerAlign?: string;
   /** Freeze the columns to either the `left` or `right` sides */
   frozen?: string;
+  /** Sets the tooltip options */
+  tooltipOptions?: IdsDataGridTooltipOptions | ((options: IdsDataGridTooltipCallback) => IdsDataGridTooltipOptions);
+  /** Sets the tooltip content */
+  tooltip?: string | ((options: IdsDataGridTooltipCallback) => string);
+  /** Sets the header tooltip content */
+  headerTooltip?: string;
+  /** Sets the header icon tooltip content */
+  headerIconTooltip?: string;
+  /** Sets the header filter button tooltip content */
+  filterButtonTooltip?: string;
+  /** Sets the tooltip css part */
+  tooltipCssPart?: string | ((options: IdsDataGridTooltipCallback) => string);
+  /** Sets the header tooltip css part */
+  headerTooltipCssPart?: string;
+  /** Sets the header icon tooltip css part */
+  headerIconTooltipCssPart?: string;
+  /** Sets the header filter button tooltip css part */
+  filterButtonTooltipCssPart?: string;
 }

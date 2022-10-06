@@ -17,11 +17,12 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
       this.state = {};
     }
     this.state.label = '';
-    this.state.labelState = null;
   }
 
   connectedCallback() {
     super.connectedCallback?.();
+    this.state.labelState = null;
+
     if (this.hasAttribute(attributes.LABEL_STATE)) {
       this.labelState = this.getAttribute(attributes.LABEL_STATE);
     }

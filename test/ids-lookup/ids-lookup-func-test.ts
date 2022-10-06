@@ -4,6 +4,7 @@
 
 import '../helpers/resize-observer-mock';
 import '../helpers/match-media-mock';
+import '../helpers/canvas-mock';
 import createFromTemplate from '../helpers/create-from-template';
 import waitForTimeout from '../helpers/wait-for-timeout';
 import dataset from '../../src/assets/data/books.json';

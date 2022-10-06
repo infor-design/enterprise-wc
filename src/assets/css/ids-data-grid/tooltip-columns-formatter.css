@@ -1,0 +1,45 @@
+ids-data-grid::part(row) {
+  height: auto;
+}
+
+ids-data-grid::part(custom-card) {
+  padding: 16px 20px;
+  width: 100%;
+}
+
+ids-data-grid::part(custom-card-h3) {
+  font-size: 16px;
+  line-height: 18px;
+  padding-bottom: 14px;
+}
+
+ids-data-grid::part(custom-card-dl-div) {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+ids-data-grid::part(custom-card-dt) {
+  display: inline-block;
+  padding-bottom: 4px;
+  font-size: 12px;
+  line-height: 14px;
+  min-width: 120px;
+  padding-right: 18px;
+  text-align: right;
+}
+
+ids-data-grid::part(custom-card-dd) {
+  display: inline-block;
+  padding-bottom: 4px;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.grid-tooltip .custom-card h3,
+.grid-tooltip .custom-card dd {
+  color: #fff;
+}
+
+.grid-tooltip .custom-card dt {
+  color: #ccc;
+}
