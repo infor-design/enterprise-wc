@@ -78,6 +78,25 @@ export function parents(node: any, selector = 'body'): Array<HTMLElement> {
 }
 
 /**
+ * Traverses down until matching the provided selector is found.
+ * @param {HTMLElement} node the node to check
+ * @param {string|undefined} selector containing a CSS selector to be used for matching
+ * @returns {Array<HTMLElement>} the list of parent elements
+ */
+export function nextUntil(node: any, selector: string): Array<HTMLElement> {
+  const siblings = [];
+  node = node.nextElementSibling;
+
+  while (node) {
+    if (node.matches(selector)) break;
+    siblings.push(node);
+    node = node.nextElementSibling;
+  }
+
+  return siblings;
+}
+
+/**
  * Changes a CSS property with a transition,
  * @param {HTMLElement} el the element to act on
  * @param {string} property the CSS property with an attached transition to manipulate

@@ -1,0 +1,218 @@
+[
+  {
+    "id": 1,
+    "capacity": 2,
+    "rowExpanded": false,
+    "name": "Building One",
+    "location": "New York",
+    "comments": null,
+    "available": "2022-04-23T00:00:00.000",
+    "time": "",
+    "children": [
+      {
+        "id": 2,
+        "capacity": 1,
+        "name": "Dock One",
+        "location": "New York (East)",
+        "comments": "Rear Unloading Only",
+        "available": "2022-05-23T00:00:00.000",
+        "rowHidden": true,
+        "time": "7:10 AM"
+      },
+      {
+        "id": 3,
+        "capacity": 0,
+        "name": "Dock Two",
+        "location": "New York (East)",
+        "comments": "Largest Dock",
+        "available": "2022-08-12T00:00:00.000",
+        "rowHidden": true,
+        "time": "9:10 AM"
+      },
+      {
+        "id": 4,
+        "capacity": 0,
+        "name": "Dock Three",
+        "location": "New York (South)",
+        "comments": "Small Trucks Only",
+        "available": "2022-06-11T00:00:00.000",
+        "rowHidden": true,
+        "time": "14:10 PM"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "capacity": 1,
+    "name": "Building Two",
+    "location": "Nashville",
+    "comments": "Eastern Hub",
+    "available": "2022-08-06T00:00:00.000",
+    "time": "18:10 PM"
+  },
+  {
+    "id": 6,
+    "capacity": 1,
+    "name": "Building Three",
+    "location": "Tampa",
+    "comments": "Southern Hub",
+    "available": "2022-02-03T00:00:00.000",
+    "time": "20:10 PM"
+  },
+  {
+    "id": 7,
+    "capacity": 6,
+    "name": "Building Four",
+    "location": "Mineappolis",
+    "comments": "Mid West Hub",
+    "available": "2022-05-10T00:00:00.000",
+    "time": "22:10 PM",
+    "children": [
+      {
+        "id": 8,
+        "capacity": 2,
+        "name": "Dock One",
+        "location": "Mineappolis",
+        "comments": "East Side",
+        "available": "2022-02-10T00:00:00.000",
+        "time": "22:10 PM"
+      },
+      {
+        "id": 9,
+        "capacity": 2,
+        "name": "Dock Two",
+        "location": "Mineappolis",
+        "comments": "East Side",
+        "available": "2022-05-10T00:00:00.000",
+        "time": "22:10 PM"
+      },
+      {
+        "id": 10,
+        "capacity": 3,
+        "name": "Dock Three",
+        "location": "Mineappolis",
+        "comments": "North Corner",
+        "available": "2022-02-08T00:00:00.000",
+        "time": "7:04 AM",
+        "children": [
+          {
+            "id": 11,
+            "capacity": 1,
+            "name": "Fork Lift One",
+            "location": "Mineappolis (North)",
+            "comments": "Not Licensed",
+            "available": "2022-10-18T00:00:00.000",
+            "time": "14:10 PM"
+          },
+          {
+            "id": 12,
+            "capacity": 1,
+            "name": "Fork Lift Two",
+            "location": "Mineappolis (North)",
+            "comments": "Split Lift",
+            "available": "2022-03-22T00:00:00.000",
+            "time": "7:04 AM",
+            "children": [
+              {
+                "id": 13,
+                "capacity": 0,
+                "name": "Jack",
+                "location": "Fork Lift Two (north)",
+                "comments": "Needs Repair",
+                "available": "2022-03-08T00:00:00.000",
+                "time": "14:10 PM"
+              },
+              {
+                "id": 14,
+                "capacity": 0,
+                "name": "Crane",
+                "location": "Fork Lift Two (north)",
+                "comments": "Needs Repair",
+                "available": "2022-03-12T00:00:00.000",
+                "time": "7:04 AM"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "capacity": 0,
+    "name": "Building Five",
+    "location": "San Fransisco",
+    "comments": "Example Comment",
+    "available": "2022-05-23T00:00:00.000",
+    "time": "22:10 PM",
+    "children": [
+      {
+        "id": 16,
+        "capacity": 1,
+        "name": "Dock One",
+        "location": "San Fransisco",
+        "comments": "Example Comment",
+        "available": "2022-12-18T00:00:00.000",
+        "time": "22:10 PM"
+      },
+      {
+        "id": 17,
+        "capacity": 2,
+        "name": "Dock Two",
+        "location": "San Fransisco",
+        "comments": "Example Comment",
+        "available": "2022-04-05T00:00:00.000",
+        "time": "22:10 PM"
+      },
+      {
+        "id": 18,
+        "capacity": 2,
+        "name": "Dock Three",
+        "location": "San Fransisco",
+        "comments": "Example Comment",
+        "available": "2022-05-05T00:00:00.000",
+        "time": "7:04 AM",
+        "children": [
+          {
+            "id": 19,
+            "capacity": 1,
+            "name": "Berth One",
+            "location": "San Fransisco",
+            "comments": "Example Comment",
+            "available": "2022-05-16T00:00:00.000",
+            "time": "14:10 PM"
+          },
+          {
+            "id": 20,
+            "capacity": 1,
+            "name": "Berth Two",
+            "location": "San Fransisco",
+            "comments": "Example Comment",
+            "available": "2022-05-28T00:00:00.000",
+            "time": "7:04 AM",
+            "children": [
+              {
+                "id": 21,
+                "capacity": 1,
+                "name": "Fork Lift One",
+                "location": "San Fransisco",
+                "comments": "Example Comment",
+                "available": "2022-10-18T00:00:00.000",
+                "time": "14:10 PM"
+              },
+              {
+                "id": 22,
+                "capacity": 1,
+                "name": "Fork Lift Two",
+                "location": "San Fransisco",
+                "comments": "Example Comment",
+                "available": "2022-09-03T00:00:00.000",
+                "time": "7:04 AM"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

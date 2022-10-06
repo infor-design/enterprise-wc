@@ -1,5 +1,9 @@
 import '../ids-data-grid';
 import booksJSON from '../../../assets/data/books.json';
+import css from '../../../assets/css/ids-data-grid/custom-link.css';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
 // Example for populating the DataGrid
 const dataGrid: any = document.querySelector('#data-grid-formatters');
@@ -51,8 +55,8 @@ if (dataGrid) {
       type: 'icon',
       align: 'center',
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-      click: (rowData: any) => {
-        console.info('Drilldown clicked', rowData);
+      click: (info: any) => {
+        console.info('Drilldown clicked', info);
       },
       text: 'Drill Down',
       width: 56
@@ -70,8 +74,8 @@ if (dataGrid) {
       field: 'location',
       formatter: dataGrid.formatters.hyperlink,
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-      click: (rowData: any) => {
-        console.info('Link clicked', rowData);
+      click: (info: any) => {
+        console.info('Link clicked', info);
       },
       href: '#'
     });
@@ -146,8 +150,8 @@ if (dataGrid) {
       type: 'icon',
       align: 'center',
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-      click: (rowData: any) => {
-        console.info('Actions clicked', rowData);
+      click: (info: any) => {
+        console.info('Actions clicked', info);
       },
       text: 'Actions',
       width: 56
@@ -160,6 +164,20 @@ if (dataGrid) {
       formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
         const value = `Custom: ${rowData[columnData.field] || '0'}`;
         return `<span class="text-ellipsis">${value}</span>`;
+      },
+      width: 180
+    });
+    columns.push({
+      id: 'custom',
+      name: 'Custom Link',
+      field: 'location',
+      sortable: false,
+      formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
+        const value = `${rowData[columnData.field] || ''}`;
+        return `<a part="custom-link" href="#" class="text-ellipsis">${value}</a>`;
+      },
+      click: (info: any) => {
+        console.info('Custom Link Clicked', info);
       },
       width: 180
     });

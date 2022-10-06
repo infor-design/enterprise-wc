@@ -47,6 +47,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     &.activated .ids-data-grid-cell {
       @include bg-azure-10();
     }
+
+    &[hidden] {
+      display: none;
+    }
   }
 
   // Row Height Feature
@@ -472,6 +476,38 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       &.disabled {
         @include radio-disabled-checked();
       }
+    }
+  }
+
+  // Tree Grid
+  .ids-data-grid-tree-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    ids-button + .text-ellipsis {
+      padding-inline-start: 0;
+    }
+
+    ids-button {
+      padding-inline: 4px;
+    }
+
+    .text-ellipsis {
+      padding-inline-start: 40px;
+    }
+  }
+
+  // Dynamically added indents
+  @for $i from 2 through 8 {
+    [aria-level='#{$i}'] .ids-data-grid-tree-container .text-ellipsis {
+      padding-inline-start: #{(($i - 2) * 27) + 64px};
+    }
+    [aria-level='#{$i}'] .ids-data-grid-tree-container ids-button {
+      padding-inline-start: #{(($i - 2) * 27) + 55px};
+    }
+    [aria-level='#{$i}'] .ids-data-grid-tree-container ids-button + .text-ellipsis {
+      padding-inline-start: 0;
     }
   }
 

@@ -86,7 +86,7 @@ export default class IdsVirtualScroll extends Base {
 
       let html = '';
       visibleItems.map((item: any, index: number) => {
-        const node = this.itemTemplate(item, index, startIndex + index);
+        const node = this.itemTemplate(item, index, startIndex + index + 1);
         html += node;
         return node;
       });

@@ -659,6 +659,9 @@ The following events are relevant to data-grid filters.
 - `frozenColumns` setting is now set on each column by adding `frozen: 'left'` or `frozen: 'right'` to the column definition.
 - Some events are renamed see the events section for more details, also the signature of the events has changed.
 - Custom formatter functions can now be any type of function and have a different signature.
+- The `expanded` column option for tree was renamed to `rowExpanded`.
+- The `expandrow/collapserow` events are renamed to `rowexpanded/rowcollapsed`
+
 ## Accessibility Guidelines
 
 1.1.1 Non-text Content - All images, links and icons have text labels for screen readers when the formatters are used.

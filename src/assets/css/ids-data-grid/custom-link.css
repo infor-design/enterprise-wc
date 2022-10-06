@@ -1,0 +1,7 @@
+ids-data-grid::part(custom-link) {
+  color: #da1217;
+}
+
+ids-data-grid::part(custom-link):hover {
+  color: #6c080b;
+}

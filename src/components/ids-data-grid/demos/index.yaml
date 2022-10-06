@@ -92,6 +92,15 @@
   - link: standalone-css.html
     type: Standalone CSS
     description: Shows a css only styles table
+  - link: suppress-row-click-selection.html
+    type: Example
+    description: Shows selection only with the checkbox
+  - link: tree-grid.html
+    type: Example
+    description: Shows displaying hierarchical data
+  - link: tree-grid-virtual-scroll.html
+    type: Example
+    description: Shows a tree with virtual scrolling
   - link: virtual-scroll.html
     type: Example
     description: Shows a basic data grid with virtual scrolling

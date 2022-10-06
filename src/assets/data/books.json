@@ -32,7 +32,7 @@
     "deprecationHistory": "Asset Label",
     "publishDate": "2021-02-23T18:25:43.511Z",
     "price": "13.99",
-    "location": "Canada"
+    "location": "<img src='a' onerror='alert(0)'/>Canada"
   },
   {
     "book": 103,

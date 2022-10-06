@@ -53,6 +53,12 @@ class IdsDataSource {
   #total: any;
 
   /**
+   * If true use a flattened data representation
+   * @private
+   */
+  #flatten = false;
+
+  /**
    * Return all the currently used data, without paging or filter
    * @returns {Array | null} All the currently used data
    */
@@ -63,8 +69,8 @@ class IdsDataSource {
    * @param {Array | null} value The array to attach
    */
   set data(value) {
-    this.#currentData = deepClone(value);
-    this.#originalData = this.#originalData || value;
+    this.#currentData = this.#flattenData(deepClone(value));
+    this.#originalData = value;
     this.#total = this.#currentData?.length || 0;
   }
 
@@ -78,6 +84,51 @@ class IdsDataSource {
     }
 
     return this.#currentData;
+  }
+
+  /* Provides ability to set the current data */
+  set currentData(value: Record<string, any>) {
+    this.#currentData = value;
+  }
+
+  /* Provides ability to get the original data */
+  get originalData() {
+    return this.#originalData;
+  }
+
+  /* If true a flattened data model is used */
+  get flatten() {
+    return this.#flatten;
+  }
+
+  /* If true a flattened data model is used */
+  set flatten(value: boolean) {
+    this.#flatten = value;
+  }
+
+  /**
+   * Flatten tree data internally
+   * @param {Record<string, unknown>} data The data array
+   * @returns {Record<string, unknown>} The flattened data
+   */
+  #flattenData(data: Record<string, any>) {
+    if (!this.#flatten) return data;
+
+    const newData: Array<Record<string, any>> = [];
+    const addRows = (subData: Record<string, any>, length: number, depth: number) => {
+      subData.map((row: Record<string, any>, index: number) => {
+        row.ariaLevel = depth;
+        row.ariaSetSize = length;
+        row.ariaPosinset = index + 1;
+        newData.push(row);
+        if (row.children) {
+          addRows(row.children, row.children.length, depth + 1);
+        }
+      });
+    };
+
+    addRows(data, data.length, 1);
+    return newData;
   }
 
   /**
@@ -145,6 +196,12 @@ class IdsDataSource {
    */
   sort(field: string, reverse: boolean) {
     const sort = this.sortFunction(field, reverse);
+    if (this.flatten) {
+      const clone = deepClone(this.#originalData);
+      clone.sort(sort);
+      this.#currentData = this.#flattenData(clone);
+      return;
+    }
     this.#currentData.sort(sort);
   }
 

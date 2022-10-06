@@ -46,11 +46,9 @@ export default class IdsDataGridFormatters {
     return typeof color === 'function' ? color(row, value, col, item) : color;
   }
 
-  /** Formats Text */
+  /** Displays a Text String */
   text(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
-    // A bit faster in virtual mode with ${rowData[columnData.field]}
     return `<span class="text-ellipsis">${this.#extractValue(rowData, columnData.field)}</span>`;
-    // return `<span class="text-ellipsis">${api.datasource.columnValue(index, columnData.field)}</span>`;
   }
 
   /** Masks text with stars */
@@ -153,5 +151,15 @@ export default class IdsDataGridFormatters {
     const color = this.#color(index, value, columnData, rowData);
 
     return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
+  }
+
+  /** Shows an Tree */
+  tree(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    const button = rowData?.children ? `<ids-button tabindex="-1">
+      <span class="audible">Default Button</span>
+      <ids-icon slot="icon" icon="plusminus-folder-${rowData.rowExpanded === false ? 'closed' : 'open'}"></ids-icon>
+    </ids-button>` : '&nbsp;';
+    return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
   }
 }

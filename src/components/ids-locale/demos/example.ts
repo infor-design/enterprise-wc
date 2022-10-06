@@ -2,7 +2,7 @@
 (async function loadMessages() {
   let html = '';
   // Set language and wait for it to load
-  const initialLocale = 'tl';
+  const initialLocale = 'en';
   const container: any = document.querySelector('ids-container');
   await container.setLanguage(initialLocale);
 

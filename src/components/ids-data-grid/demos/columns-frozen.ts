@@ -117,8 +117,8 @@ if (dataGrid) {
       icon: 'more',
       type: 'icon',
       align: 'center',
-      click: (rowData: any) => {
-        console.info('Actions clicked', rowData);
+      click: (info: any) => {
+        console.info('Actions clicked', info);
       },
       text: '',
       width: 65,

@@ -98,4 +98,6 @@ export interface IdsDataGridColumn {
   headerAlign?: string;
   /** Freeze the columns to either the `left` or `right` sides */
   frozen?: string;
+  /** If a tree or expandable row will set the state of the row */
+  rowExpanded?: boolean;
 }

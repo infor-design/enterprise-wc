@@ -25,8 +25,8 @@ if (dataGrid) {
       type: 'icon',
       align: 'center',
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-      click: (rowData: any) => {
-        console.info('Drilldown clicked', rowData);
+      click: (info: any) => {
+        console.info('Drilldown clicked', info);
       },
       text: 'Drill Down',
       width: 56
