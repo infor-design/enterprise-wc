@@ -45,6 +45,13 @@ export default class IdsMenuItem extends Base {
       const attr = this.getAttribute(prop);
       this.state[prop] = attr || MENU_DEFAULTS[prop];
     });
+
+    Object.defineProperty(this, 'tabIndex', {
+      get: () => this.#tabIndex,
+      set: (value) => { this.#tabIndex = value; },
+      configurable: true,
+      enumerable: true
+    });
   }
 
   /**
@@ -270,10 +277,11 @@ export default class IdsMenuItem extends Base {
   }
 
   /**
-   * @param {boolean|string} val true if the menu item should be hidden from view
+   * Handles global html hidden attribute changes
+   * @param {boolean} value hidden value
    */
-  set hidden(val) {
-    const newValue = stringToBool(val);
+  onHiddenChange(value: boolean | string) {
+    const newValue = stringToBool(value);
     if (newValue) {
       this.setAttribute(attributes.HIDDEN, '');
       this.container?.classList.add(attributes.HIDDEN);
@@ -281,13 +289,6 @@ export default class IdsMenuItem extends Base {
       this.removeAttribute(attributes.HIDDEN);
       this.container?.classList.remove(attributes.HIDDEN);
     }
-  }
-
-  /**
-   * @returns {boolean} true if the menu item is hidden from view
-   */
-  get hidden() {
-    return this.hasAttribute(attributes.HIDDEN);
   }
 
   /**
@@ -576,7 +577,7 @@ export default class IdsMenuItem extends Base {
    * @param {any} val [number|string] the tabindex value
    * @returns {void}
    */
-  set tabIndex(val) {
+  set #tabIndex(val) {
     const trueVal = Number(val);
     if (!this.state) this.state = {};
     if (this.state.tabIndex !== trueVal) {
@@ -596,7 +597,7 @@ export default class IdsMenuItem extends Base {
   /**
    * @returns {any} [number] the current tabindex number for the hyperlink
    */
-  get tabIndex() {
+  get #tabIndex() {
     return this.state?.tabIndex || 0;
   }
 

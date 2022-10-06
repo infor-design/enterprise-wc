@@ -57,6 +57,14 @@ export default class IdsLookup extends Base {
       dataGridSettings: { rowSelection: 'multiple' },
       value: ''
     };
+
+    // Override global html title
+    Object.defineProperty(this, 'title', {
+      get: () => this.#title,
+      set: (value) => { this.#title = value; },
+      enumerable: true,
+      configurable: true
+    });
   }
 
   isFormComponent = true;
@@ -430,7 +438,7 @@ export default class IdsLookup extends Base {
    * Set the modal title
    * @param {string} value The modal title attribute
    */
-  set title(value: string) {
+  set #title(value: string) {
     if (value) {
       this.setAttribute(attributes.TITLE, value);
       const titleElem = this.modal?.querySelector<IdsText>('[slot="title"]');
@@ -439,7 +447,7 @@ export default class IdsLookup extends Base {
     }
   }
 
-  get title(): string { return this.getAttribute(attributes.TITLE) || `${this.label}`; }
+  get #title(): string { return this.getAttribute(attributes.TITLE) || `${this.label}`; }
 
   /**
    * Set the field to use when populating the input

@@ -789,24 +789,28 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Sets the label attribute
-   * @param {string|null} value - the label's text
+   * Handles label attribute changes
+   * @param {string} value label value
    */
-  set label(value: string | null) {
+  onLabelChange(value: string | null) {
     if (value) {
-      this.setAttribute(attributes.LABEL, value);
       this.input?.setAttribute(attributes.LABEL, value);
     } else {
-      this.removeAttribute(attributes.LABEL);
       this.input?.removeAttribute(attributes.LABEL);
     }
   }
 
   /**
-   * Gets the label attribute
-   * @returns {string} default is ""
+   * Handles id attribute changes
+   * @param {string} value id value
    */
-  get label(): string { return this.getAttribute(attributes.LABEL) ?? ''; }
+  onIdChange(value: string | null) {
+    if (value) {
+      this.input?.setAttribute(attributes.ID, value);
+    } else {
+      this.input?.removeAttribute(attributes.ID);
+    }
+  }
 
   /**
    * Sets the placeholder attribute
@@ -1197,26 +1201,6 @@ export default class IdsTimePicker extends Base {
     // tabbable by default
     return attrVal !== null ? stringToBool(attrVal) : true;
   }
-
-  /**
-   * Set trigger field/input id attribute
-   * @param {string} val id
-   */
-  set id(val: string) {
-    if (val) {
-      this.setAttribute(attributes.ID, val);
-      this.input?.setAttribute(attributes.ID, val);
-    } else {
-      this.removeAttribute(attributes.ID);
-      this.input?.removeAttribute(attributes.ID);
-    }
-  }
-
-  /**
-   * id attribute
-   * @returns {string} id param
-   */
-  get id(): string { return this.getAttribute(attributes.ID) ?? ''; }
 
   /**
    * Set start of limited hours range

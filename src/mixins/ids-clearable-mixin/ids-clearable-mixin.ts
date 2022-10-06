@@ -4,7 +4,7 @@ import { IdsConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
-type Constraints = IdsConstructor<EventsMixinInterface & IdsInputInterface>;
+type Constraints = IdsConstructor<EventsMixinInterface>;
 
 /**
  * IdsClearableMixin attaches a button to input fields and text areas allowing their contents to be cleared.
@@ -124,12 +124,14 @@ const IdsClearableMixin = <T extends Constraints>(superclass: T) => class extend
    * @returns {void}
    */
   clear() {
-    if (this.input) {
-      this.value = '';
-      this.input.dispatchEvent(new Event('change'));
-      this.input.focus();
+    const selfInput = this as IdsInputInterface;
+
+    if (selfInput.input) {
+      selfInput.value = '';
+      selfInput.input.dispatchEvent(new Event('change'));
+      selfInput.input.focus();
       this.checkContents();
-      this.triggerEvent('cleared', this, { detail: { elem: this, value: this.value } });
+      this.triggerEvent('cleared', this, { detail: { elem: this, value: selfInput.value } });
     }
   }
 
@@ -139,15 +141,17 @@ const IdsClearableMixin = <T extends Constraints>(superclass: T) => class extend
    * @returns {void}
    */
   checkContents() {
+    const selfInput = this as IdsInputInterface;
+
     const xButton = this.shadowRoot?.querySelector('.btn-clear');
     if (xButton) {
-      const text = this.input?.value;
+      const text = selfInput.input?.value;
       if (!text || !text.length) {
         xButton.classList.add('is-empty');
       } else {
         xButton.classList.remove('is-empty');
       }
-      this.triggerEvent('contents-checked', this, { detail: { elem: this, value: this.value } });
+      this.triggerEvent('contents-checked', this, { detail: { elem: this, value: selfInput.value } });
     }
   }
 
@@ -195,15 +199,17 @@ const IdsClearableMixin = <T extends Constraints>(superclass: T) => class extend
    * @returns {void}
    */
   handleClearableInputEvents(evt: string, option: string) {
-    if (this.input && evt && typeof evt === 'string') {
+    const selfInput = this as IdsInputInterface;
+
+    if (selfInput.input && evt && typeof evt === 'string') {
       const eventName = evt;
       if (option === 'remove') {
         const handler = this.handledEvents?.get(eventName);
-        if (handler && handler.target === this.input) {
-          this.offEvent(eventName, this.input);
+        if (handler && handler.target === selfInput.input) {
+          this.offEvent(eventName, selfInput.input);
         }
       } else {
-        this.onEvent(eventName, this.input, () => {
+        this.onEvent(eventName, selfInput.input, () => {
           this.checkContents();
         });
       }
@@ -215,7 +221,7 @@ const IdsClearableMixin = <T extends Constraints>(superclass: T) => class extend
    * @returns {void}
    */
   destroyClearable() {
-    this.input?.classList.remove('has-clearable');
+    (this as IdsInputInterface).input?.classList.remove('has-clearable');
     this.handleClearBtnClick('remove');
     this.inputClearableEvents.forEach((e) => this.handleClearableInputEvents(e, 'remove'));
     this.removeClearableButton();

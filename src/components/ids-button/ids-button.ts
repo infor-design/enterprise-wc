@@ -35,6 +35,13 @@ export default class IdsButton extends Base {
     Object.keys(BUTTON_DEFAULTS).forEach((prop) => {
       this.state[prop] = BUTTON_DEFAULTS[prop];
     });
+
+    Object.defineProperty(this, 'tabIndex', {
+      get: () => this.#tabIndex,
+      set: (value) => { this.#tabIndex = value; },
+      configurable: true,
+      enumerable: true
+    });
   }
 
   /**
@@ -154,6 +161,23 @@ export default class IdsButton extends Base {
   }
 
   /**
+   * Handles hidden attribute changes
+   * @param {string} value true if hidden
+   */
+  onHiddenChange(value: string | boolean | null) {
+    const bool = stringToBool(value);
+    this.shouldUpdate = false;
+    if (bool) {
+      this.setAttribute(attributes.HIDDEN, '');
+    } else {
+      this.removeAttribute(attributes.HIDDEN);
+    }
+    this.shouldUpdate = true;
+    this.state.hidden = bool;
+    if (this.button) this.button.hidden = bool;
+  }
+
+  /**
    * @readonly
    * @returns {HTMLButtonElement} reference to the true button element used in the Shadow Root
    */
@@ -229,34 +253,10 @@ export default class IdsButton extends Base {
   }
 
   /**
-   * @param {boolean|string} val true if the button component should be hidden from view
-   */
-  set hidden(val: boolean | string) {
-    const isValueTruthy = stringToBool(val);
-    this.shouldUpdate = false;
-    if (isValueTruthy) {
-      this.setAttribute(attributes.HIDDEN, '');
-    } else {
-      this.removeAttribute(attributes.HIDDEN);
-    }
-
-    this.shouldUpdate = true;
-    this.state.hidden = isValueTruthy;
-    if (this.button) this.button.hidden = isValueTruthy;
-  }
-
-  /**
-   * @returns {boolean} true if the button component is hidden from view
-   */
-  get hidden(): boolean {
-    return this.state.hidden;
-  }
-
-  /**
    * Passes a tabIndex attribute from the custom element to the button
    * @param {number | string | null} val the tabIndex value
    */
-  set tabIndex(val: number | string | null) {
+  set #tabIndex(val: number | string | null) {
     const trueVal = Number(val);
 
     this.removeAttribute(attributes.TABINDEX);
@@ -274,7 +274,7 @@ export default class IdsButton extends Base {
   /**
    * @returns {number} the current tabIndex number for the button
    */
-  get tabIndex(): number {
+  get #tabIndex(): number {
     return this.state.tabIndex;
   }
 

@@ -17,6 +17,7 @@ import { isObject } from '../../utils/ids-object-utils/ids-object-utils';
 
 import type IdsButton from '../ids-button/ids-button';
 import type IdsToolbarMoreActions from '../ids-toolbar/ids-toolbar-more-actions';
+import type IdsText from '../ids-text/ids-text';
 
 import {
   VIEWS,
@@ -280,6 +281,10 @@ export default class IdsEditor extends Base {
    * @private
    */
   #elems: any = {};
+
+  input?: any;
+
+  labelEl?: IdsText | null;
 
   /**
    * List of actions can be execute with editor.

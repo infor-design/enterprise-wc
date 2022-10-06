@@ -132,10 +132,10 @@ describe('IdsVirtualScroll Component', () => {
 
   it('can reset the scrollTop', () => {
     expect(virtualScroll.scrollTop).toEqual(0);
-    virtualScroll.scrollTop = null;
+    virtualScroll.scrollTop = (null as any);
     virtualScroll.scrollTop = 100;
     virtualScroll.scrollTop = 0;
-    virtualScroll.scrollTop = null;
+    virtualScroll.scrollTop = (null as any);
     expect(virtualScroll.scrollTop).toEqual(0);
     expect(virtualScroll.getAttribute('scroll-top')).toEqual(null);
   });

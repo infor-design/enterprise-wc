@@ -79,9 +79,11 @@ export default class IdsModal extends Base {
   connectedCallback(): void {
     super.connectedCallback?.();
 
-    this.popup.type = 'modal';
-    this.popup.animated = true;
-    this.popup.animationStyle = 'scale-in';
+    if (this.popup) {
+      this.popup.type = 'modal';
+      this.popup.animated = true;
+      this.popup.animationStyle = 'scale-in';
+    }
 
     // Update ARIA / Sets up the label
     this.messageTitle = this.querySelector('[slot="title"]')?.textContent ?? '';
@@ -249,14 +251,6 @@ export default class IdsModal extends Base {
   }
 
   /**
-   * @readonly
-   * @returns {HTMLElement} the inner Popup
-   */
-  get popup(): any {
-    return this.shadowRoot?.querySelector('ids-popup');
-  }
-
-  /**
    * @returns {string} the content of the message's title
    */
   get messageTitle(): string {
@@ -405,7 +399,7 @@ export default class IdsModal extends Base {
     if (this.overlay) this.overlay.visible = true;
     if (this.popup) {
       this.popup.visible = true;
-      if (this.popup.animated) {
+      if (this.popup.animated && this.popup.container) {
         await waitForTransitionEnd(this.popup.container, 'opacity');
       }
     }
@@ -454,15 +448,17 @@ export default class IdsModal extends Base {
       return;
     }
 
-    this.popup.animated = true;
+    const popupElem = this.popup;
+
+    if (popupElem) popupElem.animated = true;
 
     this.removeOpenEvents();
     this.overlay.visible = false;
-    this.popup.visible = false;
+    if (popupElem) popupElem.visible = false;
 
     // Animation-out can wait for the opacity transition to end before changing z-index.
-    if (this.popup.animated) {
-      await waitForTransitionEnd(this.popup.container, 'opacity');
+    if (popupElem && popupElem.container && popupElem.animated) {
+      await waitForTransitionEnd(popupElem.container, 'opacity');
     }
     this.style.zIndex = '';
     this.setAttribute('aria-hidden', 'true');

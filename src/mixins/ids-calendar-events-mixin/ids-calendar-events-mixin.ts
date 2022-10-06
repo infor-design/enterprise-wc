@@ -97,24 +97,15 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
   }
 
   /**
-   * Set component visiblity
+   * Handles global html hidden attribute changes
+   * @param {boolean|string} value hidden value
    */
-  set hidden(val: boolean | string) {
-    if (stringToBool(val)) {
-      this.setAttribute(attributes.HIDDEN, '');
+  onHiddenChange(value: boolean | string) {
+    if (stringToBool(value)) {
       this.container?.classList.add(attributes.HIDDEN);
     } else {
-      this.removeAttribute(attributes.HIDDEN);
       this.container?.classList.remove(attributes.HIDDEN);
     }
-  }
-
-  /**
-   * Gets hidden setting
-   * @returns {boolean} hidden val
-   */
-  get hidden(): boolean {
-    return this.hasAttribute(attributes.HIDDEN);
   }
 
   /**

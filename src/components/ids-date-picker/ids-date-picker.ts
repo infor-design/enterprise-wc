@@ -1512,6 +1512,31 @@ class IdsDatePicker extends Base {
   }
 
   /**
+   * Callback invoked by label state parent mixin
+   * @param {string} val new label value
+   */
+  onLabelChange(val: string | null) {
+    if (val) {
+      this.#triggerField?.setAttribute(attributes.LABEL, val);
+    } else {
+      this.#triggerField?.removeAttribute(attributes.LABEL);
+    }
+  }
+
+  /**
+   * Handles id attribute changes
+   * @param {string} value id value
+   */
+  onIdChange(value: string | null) {
+    if (value) {
+      this.#triggerField?.setAttribute(attributes.ID, value);
+    } else {
+      this.removeAttribute(attributes.ID);
+      this.#triggerField?.removeAttribute(attributes.ID);
+    }
+  }
+
+  /**
    * Indicates if input, dropdown or the calendar toolbar has focus
    * @returns {boolean} whether or not an element has focus
    */
@@ -1577,28 +1602,6 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.PLACEHOLDER);
       this.#triggerField?.removeAttribute(attributes.PLACEHOLDER);
-    }
-  }
-
-  /**
-   * label attribute
-   * @returns {string} label param
-   */
-  get label(): string {
-    return this.getAttribute(attributes.LABEL) ?? '';
-  }
-
-  /**
-   * Set trigger field label
-   * @param {string|null} val of label to be set
-   */
-  set label(val: string | null) {
-    if (val) {
-      this.setAttribute(attributes.LABEL, val);
-      this.#triggerField?.setAttribute(attributes.LABEL, val);
-    } else {
-      this.removeAttribute(attributes.LABEL);
-      this.#triggerField?.removeAttribute(attributes.LABEL);
     }
   }
 
@@ -1693,26 +1696,6 @@ class IdsDatePicker extends Base {
   set tabbable(val: boolean | string | null) {
     this.setAttribute(attributes.TABBABLE, String(val));
     this.#triggerButton?.setAttribute(attributes.TABBABLE, val);
-  }
-
-  /**
-   * id attribute
-   * @returns {string} id param
-   */
-  get id(): string { return this.getAttribute(attributes.ID) ?? ''; }
-
-  /**
-   * Set trigger field/input id attribute
-   * @param {string} val id
-   */
-  set id(val: string) {
-    if (val) {
-      this.setAttribute(attributes.ID, val);
-      this.#triggerField?.setAttribute(attributes.ID, val);
-    } else {
-      this.removeAttribute(attributes.ID);
-      this.#triggerField?.removeAttribute(attributes.ID);
-    }
   }
 
   /**

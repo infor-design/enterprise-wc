@@ -1028,25 +1028,6 @@ export default class IdsDropdown extends Base {
   }
 
   /**
-   * Set the dirty tracking feature on to indicate a changed dropdown
-   * @param {boolean|string} value If true will set `dirty-tracker` attribute
-   */
-  set dirtyTracker(value: boolean | string | null) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
-    } else {
-      this.removeAttribute(attributes.DIRTY_TRACKER);
-    }
-
-    this.handleDirtyTracker();
-  }
-
-  get dirtyTracker(): boolean {
-    return stringToBool(this.getAttribute(attributes.DIRTY_TRACKER));
-  }
-
-  /**
    * Pass down `validate` attribute into IdsTriggerField
    * @param {string} value The `validate` attribute
    */

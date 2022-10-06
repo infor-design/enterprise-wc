@@ -3,14 +3,14 @@ import { IdsConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import type { IdsLabelStateMode } from './ids-label-state-common';
 import { IdsLabelStateAttributes, isLabelStateValid, isLabelRequiredValid } from './ids-label-state-common';
-import { LabelStateInterface } from './ids-label-state-mixin';
+import { LabelStateHandler } from './ids-label-state-mixin';
 
-interface LabelStateParentInterface {
-  onLabelChange?(): void;
+interface LabelStateParentHandler {
+  onLabelChange?(label: string | null): void;
   onLabelRequiredChange?(): void;
 }
 
-type Constraints = IdsConstructor<LabelStateParentInterface & LabelStateInterface>;
+type Constraints = IdsConstructor<LabelStateParentHandler & LabelStateHandler>;
 
 /**
  * A mixin that will pass down Label State features to an IdsInput/IdsTriggerField inside another component's shadow root
@@ -46,7 +46,7 @@ const IdsLabelStateParentMixin = <T extends Constraints>(superclass: T) => class
     } else {
       this.removeAttribute(attributes.LABEL);
     }
-    if (typeof this.onLabelChange === 'function') this.onLabelChange();
+    if (typeof this.onLabelChange === 'function') this.onLabelChange(value);
   }
 
   get label(): string {

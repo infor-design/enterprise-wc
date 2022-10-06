@@ -12,9 +12,6 @@ export default class IdsElement extends HTMLElement {
   /** Component's name */
   name?: string;
 
-  /** Ids Version No */
-  IdsVersion?: string;
-
   /** State object for current states */
   state: Record<string, any> = {};
 
@@ -57,6 +54,22 @@ export default class IdsElement extends HTMLElement {
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     // TODO: Prevent double calls
     if (oldValue === newValue) return;
+
+    /**
+     * Maps global html attributes/property changes to
+     * their internal component callbacks
+     */
+    const self = this as any;
+    const setter = {
+      id: self.onIdChange,
+      hidden: self.onHiddenChange,
+      title: self.onTitleChange
+    }[name];
+
+    if (typeof setter === 'function') {
+      setter.call(this, newValue);
+      return;
+    }
 
     /**
      * Fixes our handling of kebab-to-camelCase conversions in some specific cases

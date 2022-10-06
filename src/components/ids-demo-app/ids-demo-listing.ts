@@ -28,7 +28,6 @@ export default class IdsDemoListing extends Base {
     return [
       ...super.attributes,
       attributes.LABEL,
-      attributes.ID,
       attributes.COMPONENT_NAME
     ];
   }
@@ -55,22 +54,6 @@ export default class IdsDemoListing extends Base {
 
   get label() {
     return this.getAttribute(attributes.LABEL);
-  }
-
-  /**
-   * Set the id internal label
-   * @param {string} value of the label text
-   */
-  set id(value: string) {
-    if (value) {
-      this.setAttribute(attributes.ID, value);
-    } else {
-      this.removeAttribute(attributes.ID);
-    }
-  }
-
-  get id() {
-    return this.getAttribute(attributes.ID) ?? '';
   }
 
   /**

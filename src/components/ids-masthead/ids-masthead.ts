@@ -146,25 +146,6 @@ export default class IdsMasthead extends Base {
   get icon(): string { return this.getAttribute(attributes.ICON) || ''; }
 
   /**
-   * Sets the title attribute
-   * @param {string} value - the masthead's title
-   * @returns {void}
-   */
-  set title(value: string) {
-    this.setAttribute(attributes.TITLE, value);
-
-    if (this.elements.title) {
-      this.elements.title.innerHTML = value;
-    }
-  }
-
-  /**
-   * Gets the title attribute
-   * @returns {string} value - the masthead's title
-   */
-  get title(): string { return this.getAttribute(attributes.TITLE) || ''; }
-
-  /**
    * Create the Template for the contents
    * @returns {string} The template
    */
@@ -254,6 +235,16 @@ export default class IdsMasthead extends Base {
     }
 
     this.#restyleButtons();
+  }
+
+  /**
+   * Handles title attribute changes
+   * @param {string} value title value
+   */
+  onTitleChange(value: string | null) {
+    if (this.elements.title) {
+      this.elements.title.innerHTML = value ?? '';
+    }
   }
 
   /**

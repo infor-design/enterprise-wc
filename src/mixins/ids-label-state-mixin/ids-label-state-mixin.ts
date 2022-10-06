@@ -5,11 +5,11 @@ import { stripTags, stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import type { IdsLabelStateMode } from './ids-label-state-common';
 import { IdsLabelStateAttributes, isLabelRequiredValid } from './ids-label-state-common';
 
-export interface LabelStateInterface {
+export interface LabelStateHandler {
   onLabelStateChange?(variantName: IdsLabelStateMode): void;
 }
 
-type Constraints = IdsConstructor<LabelStateInterface & IdsInputInterface>;
+type Constraints = IdsConstructor<LabelStateHandler>;
 
 /**
  * A mixin that will provide the container element of an IdsInputComponent with a class
@@ -95,7 +95,7 @@ const IdsLabelStateMixin = <T extends Constraints>(superclass: T) => class exten
     } else {
       this.removeAttribute(attributes.LABEL_REQUIRED);
     }
-    this.labelEl?.classList[!safeValue ? 'add' : 'remove']('no-required-indicator');
+    (this as IdsInputInterface).labelEl?.classList[!safeValue ? 'add' : 'remove']('no-required-indicator');
   }
 
   get labelRequired(): boolean {
@@ -164,10 +164,10 @@ const IdsLabelStateMixin = <T extends Constraints>(superclass: T) => class exten
   #setlabelState(doHide: IdsLabelStateMode = null) {
     if (doHide) {
       this.#hideLabel();
-      this.input?.setAttribute(htmlAttributes.ARIA_LABEL, this.label);
+      (this as IdsInputInterface).input?.setAttribute(htmlAttributes.ARIA_LABEL, this.label);
     } else {
       this.#showLabel();
-      this.input?.removeAttribute(htmlAttributes.ARIA_LABEL);
+      (this as IdsInputInterface).input?.removeAttribute(htmlAttributes.ARIA_LABEL);
     }
   }
 
@@ -177,9 +177,10 @@ const IdsLabelStateMixin = <T extends Constraints>(superclass: T) => class exten
 
   #showLabel() {
     const existingLabel = this.shadowRoot?.querySelector('label');
-    if (!existingLabel && !this.labelEl) {
-      if (this.fieldContainer) {
-        this.fieldContainer.insertAdjacentHTML('beforebegin', `<label for="${this.id}-input" class="ids-label-text">
+    const thisAsInput = this as IdsInputInterface;
+    if (!existingLabel && !thisAsInput.labelEl) {
+      if (thisAsInput.fieldContainer) {
+        thisAsInput.fieldContainer?.insertAdjacentHTML('beforebegin', `<label for="${(this as any).id}-input" class="ids-label-text">
           <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
         </label>`);
       }

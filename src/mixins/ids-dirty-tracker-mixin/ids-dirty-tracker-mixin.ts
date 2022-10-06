@@ -6,11 +6,11 @@ import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
 import { LocaleMixinInterface } from '../ids-locale-mixin/ids-locale-mixin';
 
-export interface DirtyTrackerInterface {
+export interface DirtyTrackerHandler {
   onDirtyTrackerChange?(enabled: boolean): void;
 }
 
-type Constraints = IdsConstructor<EventsMixinInterface & DirtyTrackerInterface & LocaleMixinInterface & IdsInputInterface>;
+type Constraints = IdsConstructor<EventsMixinInterface & DirtyTrackerHandler & LocaleMixinInterface>;
 
 /**
  * Track changes on inputs elements and show a dirty indicator.
@@ -57,13 +57,14 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
    * @returns {void}
    */
   handleDirtyTracker() {
-    this.isCheckbox = this.input?.getAttribute('type') === 'checkbox';
-    this.isEditor = !!this.input?.classList.contains('source-textarea');
-    this.isRadioGroup = !!this.input?.classList.contains('ids-radio-group');
+    const thisAsInput = this as IdsInputInterface;
+    this.isCheckbox = thisAsInput.input?.getAttribute('type') === 'checkbox';
+    this.isEditor = !!thisAsInput.input?.classList.contains('source-textarea');
+    this.isRadioGroup = !!thisAsInput.input?.classList.contains('ids-radio-group');
 
     if (`${this.dirtyTracker}`.toLowerCase() === 'true') {
-      if (this.input) {
-        const val = this.valMethod(this.input);
+      if (thisAsInput.input) {
+        const val = this.valMethod(thisAsInput.input);
         this.dirty = { original: val };
         this.dirtyTrackerEvents();
       }
@@ -78,6 +79,7 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
    * @returns {void}
    */
   appendDirtyTrackerIcon() {
+    const thisAsInput = this as IdsInputInterface;
     let icon = this.shadowRoot?.querySelector('.icon-dirty');
     if (!icon) {
       icon = document.createElement('ids-icon');
@@ -86,21 +88,21 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
       icon.className = 'icon-dirty';
       if (this.locale?.isRTL()) icon?.setAttribute('dir', 'rtl');
       if (this.isCheckbox) {
-        this.labelEl?.appendChild(icon);
-        this.dirtyContainer = this.labelEl;
+        thisAsInput.labelEl?.appendChild(icon);
+        this.dirtyContainer = thisAsInput.labelEl;
       } else if (this.isRadioGroup) {
         const refEl = this.shadowRoot?.querySelector('slot');
-        this.input?.insertBefore(icon, refEl);
-        this.dirtyContainer = this.input;
+        thisAsInput.input?.insertBefore(icon, refEl);
+        this.dirtyContainer = thisAsInput.input;
       } else if (this.isEditor) {
         this.dirtyContainer = this.shadowRoot?.querySelector('.editor-content');
         this.dirtyContainer?.appendChild(icon);
       } else if (this.tagName === 'IDS-DROPDOWN' || this.tagName === 'IDS-MULTISELECT') {
-        this.dirtyContainer = this.input?.fieldContainer;
+        this.dirtyContainer = thisAsInput.input?.fieldContainer;
         this.dirtyContainer?.prepend(icon);
       } else {
-        this.fieldContainer?.prepend(icon);
-        this.dirtyContainer = this.fieldContainer;
+        thisAsInput.fieldContainer?.prepend(icon);
+        this.dirtyContainer = thisAsInput.fieldContainer;
       }
     }
   }
@@ -123,13 +125,13 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
    * @returns {void}
    */
   appendDirtyTrackerMsg() {
-    let msg = this.labelEl?.querySelector('.msg-dirty');
+    let msg = (this as IdsInputInterface).labelEl?.querySelector('.msg-dirty');
     if (!msg) {
       msg = document.createElement('ids-text');
       msg.setAttribute('audible', 'true');
       msg.className = 'msg-dirty';
       msg.innerHTML = ', Modified';
-      this.labelEl?.appendChild(msg);
+      (this as IdsInputInterface).labelEl?.appendChild(msg);
     }
   }
 
@@ -139,11 +141,11 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
    * @returns {void}
    */
   removeDirtyTrackerMsg() {
-    let msg = this.labelEl?.querySelector('.msg-dirty');
+    let msg = (this as IdsInputInterface).labelEl?.querySelector('.msg-dirty');
     if (msg) {
       msg.remove();
     }
-    msg = this.input?.shadowRoot?.querySelector('.icon-dirty');
+    msg = (this as IdsInputInterface).input?.shadowRoot?.querySelector('.icon-dirty');
     if (msg) {
       msg.remove();
     }
@@ -156,13 +158,14 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
    * @returns {any} element value
    */
   valMethod(el: any) {
+    const thisAsInput = this as IdsInputInterface;
     let r;
     if (this.isRadioGroup) {
-      r = this.checked;
+      r = thisAsInput.checked;
     } else if (this.isCheckbox) {
-      r = `${this.checked}`.toLowerCase() === 'true';
+      r = `${thisAsInput.checked}`.toLowerCase() === 'true';
     } else if (this.isEditor) {
-      r = this.value;
+      r = thisAsInput.value;
     } else {
       r = el?.value;
     }
@@ -205,17 +208,18 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
       else icon?.removeAttribute('dir');
     });
 
-    if (this.input) {
+    const thisAsInput = this as IdsInputInterface;
+    if ((this as IdsInputInterface).input) {
       const eventName = 'change.dirtytrackermixin';
       if (option === 'remove') {
         const handler = this?.handledEvents?.get(eventName);
-        if (handler && handler.target === this.input) {
-          this.offEvent(eventName, this.input);
+        if (handler && handler.target === thisAsInput.input) {
+          this.offEvent(eventName, thisAsInput.input);
         }
       } else {
         this.offEvent(eventName);
-        this.onEvent(eventName, this.input, () => {
-          const val = this.valMethod(this.input);
+        this.onEvent(eventName, thisAsInput.input, () => {
+          const val = this.valMethod(thisAsInput.input);
           this.setDirtyTracker(val);
         });
       }
@@ -230,7 +234,7 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
     if (this.dirty) {
       this.removeDirtyTrackerIcon();
       this.removeDirtyTrackerMsg();
-      this.dirty = { original: this.valMethod(this.input) };
+      this.dirty = { original: this.valMethod((this as IdsInputInterface).input) };
     } else {
       this.handleDirtyTracker();
     }

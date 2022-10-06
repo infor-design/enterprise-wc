@@ -25,7 +25,7 @@ type MaskState = {
   pattern?: any;
 };
 
-type Constraints = IdsConstructor<EventsMixinInterface & LocaleMixinInterface & LocaleHandler & IdsInputInterface>;
+type Constraints = IdsConstructor<EventsMixinInterface & LocaleMixinInterface & LocaleHandler>;
 
 /**
  * Adds validation to any input field
@@ -211,8 +211,8 @@ const IdsMaskMixin = <T extends Constraints>(superclass: T) => class extends sup
       return false;
     }
 
-    const posBegin = this.input.selectionStart || 0;
-    const posEnd = this.input.selectionEnd || 0;
+    const posBegin = (this as IdsInputInterface).input.selectionStart || 0;
+    const posEnd = (this as IdsInputInterface).input.selectionEnd || 0;
 
     // @TODO: Check the old source code here for Android-specific changes to the cursor position
 
@@ -292,7 +292,7 @@ const IdsMaskMixin = <T extends Constraints>(superclass: T) => class extends sup
 
     // Set Input Component state (only occurs when triggered via event)
     if (doSetValue) {
-      this.value = finalValue;
+      (this as IdsInputInterface).value = finalValue;
       this.safelySetSelection(this.shadowRoot, processed.caretPos, processed.caretPos);
     }
 
@@ -305,7 +305,7 @@ const IdsMaskMixin = <T extends Constraints>(superclass: T) => class extends sup
    * @returns {object} the result of the mask
    */
   processMaskWithCurrentValue() {
-    return this.processMask(this.value, this.maskOptions, true);
+    return this.processMask((this as IdsInputInterface).value, this.maskOptions, true);
   }
 
   /**
@@ -326,8 +326,8 @@ const IdsMaskMixin = <T extends Constraints>(superclass: T) => class extends sup
    * @returns {void}
    */
   safelySetSelection(host: ShadowRoot | Document | null = document, startPos = 0, endPos = 0) {
-    if (host?.activeElement === this.input) {
-      this.input.setSelectionRange(startPos, endPos, 'none');
+    if (host?.activeElement === (this as IdsInputInterface).input) {
+      (this as IdsInputInterface).input.setSelectionRange(startPos, endPos, 'none');
     }
   }
 };

@@ -712,18 +712,15 @@ export default class IdsPieChart extends Base {
   }
 
   /**
-   * Sets the chart title
-   * @param {string} value The title value
+   * Handles title attribute changes
+   * @param {string} value title value
    */
-  set title(value) {
-    this.setAttribute(attributes.TITLE, value);
-    const title = this.container?.querySelectorAll(attributes.TITLE);
-    if (title && title?.length > 1) {
-      title[1].textContent = value;
+  onTitleChange(value: string | null) {
+    const titleElems = this.container?.querySelectorAll(attributes.TITLE);
+    if (titleElems && titleElems?.length > 1) {
+      titleElems[1].textContent = value;
     }
   }
-
-  get title() { return this.getAttribute(attributes.TITLE) || ''; }
 
   /**
    * Sets the chart to donut chart

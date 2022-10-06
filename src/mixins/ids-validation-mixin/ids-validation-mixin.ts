@@ -32,7 +32,7 @@ export type IdsValidationRule = {
   check: (input: HTMLElement) => boolean;
 };
 
-type Constraints = IdsConstructor<EventsMixinInterface & IdsInputInterface>;
+type Constraints = IdsConstructor<EventsMixinInterface>;
 
 /**
  * Adds validation to any input field
@@ -85,11 +85,12 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
    * @returns {void}
    */
   handleValidation() {
-    const isRadioGroup = this.input?.classList.contains('ids-radio-group');
+    const thisAsInput = this as IdsInputInterface;
+    const isRadioGroup = thisAsInput.input?.classList.contains('ids-radio-group');
     const canRadio = ((!isRadioGroup) || (!!(isRadioGroup && this.querySelector('ids-radio'))));
 
-    if (this.labelEl && typeof this.validate === 'string' && canRadio) {
-      // const isCheckbox = this.input?.getAttribute('type') === 'checkbox';
+    if (thisAsInput.labelEl && typeof this.validate === 'string' && canRadio) {
+      // const isCheckbox = thisAsInput.input?.getAttribute('type') === 'checkbox';
       // const defaultEvents = (isCheckbox || isRadioGroup) ? 'change.validationmixin' : 'blur.validationmixin';
       // const defaultEvents = 'change.validationmixin';
       const events = (this.validationEvents && typeof this.validationEvents === 'string')
@@ -102,8 +103,8 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
         if (!getRule(strRule).rule) return;
 
         if (strRule === 'required') {
-          this.labelEl?.classList.add('required');
-          this.input?.setAttribute('aria-required', true);
+          thisAsInput.labelEl?.classList.add('required');
+          thisAsInput.input?.setAttribute('aria-required', true);
 
           if (isRadioGroup) {
             const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
@@ -131,7 +132,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
           }
         };
 
-        setRules(this.input);
+        setRules(thisAsInput.input);
       });
 
       if (isRulesAdded) {
@@ -140,9 +141,9 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
 
       // Update to remove unused rule/s
       const arrayValidate: string[] = this.validate?.split(' ');
-      let rules = this.useRules.get(this.input);
+      let rules = this.useRules.get(thisAsInput.input);
 
-      if (this.input && (rules?.length > arrayValidate?.length)) {
+      if (thisAsInput.input && (rules?.length > arrayValidate?.length)) {
         const removed: string[] = [];
         arrayValidate.forEach((id: string) => {
           rules = rules.filter((r: any) => {
@@ -152,7 +153,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
           });
         });
         removed.forEach((id: string) => this.removeValidationMessage({ id }));
-        this.useRules.set(this.input, rules);
+        this.useRules.set(thisAsInput.input, rules);
       }
     } else {
       this.destroyValidation();
@@ -183,11 +184,11 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
         }
       });
       this.isTypeNotValid = null;
-      this.triggerEvent('validate', this, { detail: { elem: this, value: this.value, isValid } });
+      this.triggerEvent('validate', this, { detail: { elem: this, value: (this as IdsInputInterface).value, isValid } });
     };
 
-    if (this.input) {
-      checkRules(this.input);
+    if ((this as IdsInputInterface).input) {
+      checkRules((this as IdsInputInterface).input);
     }
   }
 
@@ -308,6 +309,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       message,
       icon
     } = settings;
+    const thisAsInput = this as IdsInputInterface;
 
     if (!id) return;
     let elem = this.shadowRoot?.querySelector(`[validation-id="${id}"]`);
@@ -320,7 +322,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
     audible = audible ? `<ids-text audible="true">${audible} </ids-text>` : '';
     let cssClass = 'validation-message';
     let iconName = type ? this.VALIDATION_ICONS[type] : '';
-    const messageId = `${this.input?.getAttribute('id')}-${settings.type}`;
+    const messageId = `${thisAsInput.input?.getAttribute('id')}-${settings.type}`;
 
     if (!iconName && type === 'icon') {
       iconName = icon || this.VALIDATION_DEFAULT_ICON;
@@ -339,16 +341,16 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
     elem.className = cssClass;
     elem.innerHTML = `${iconHtml}<ids-text error="true" class="message-text">${audible}${message}</ids-text>`;
     (this as any).validationElems?.main?.classList.add(type);
-    this.fieldContainer?.classList.add(type ?? '');
-    this.input?.setAttribute('aria-describedby', messageId);
-    this.input?.setAttribute('aria-invalid', 'true');
+    thisAsInput.fieldContainer?.classList.add(type ?? '');
+    thisAsInput.input?.setAttribute('aria-describedby', messageId);
+    thisAsInput.input?.setAttribute('aria-invalid', 'true');
 
     const rootEl = this.shadowRoot?.querySelector('.ids-input, .ids-textarea, .ids-checkbox');
     const parent = rootEl || this.shadowRoot;
     parent?.appendChild(elem);
 
     // Add extra classes for radios
-    const isRadioGroup = this.input?.classList.contains('ids-radio-group');
+    const isRadioGroup = thisAsInput.input?.classList.contains('ids-radio-group');
     if (isRadioGroup) {
       const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
       radioArr.forEach((r: HTMLElement) => r.setAttribute('validation-has-error', 'true'));
@@ -361,6 +363,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
    * @returns {void}
    */
   removeMessage(settings: IdsValidationErrorMessage): void {
+    const thisAsInput = this as IdsInputInterface;
     const id = settings.id;
     let type = settings.type;
 
@@ -394,13 +397,13 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
 
     if (type) {
       if (this.isTypeNotValid && !this.isTypeNotValid[type]) {
-        this.fieldContainer?.classList.remove(type);
-        this.input?.removeAttribute('aria-describedby');
-        this.input?.removeAttribute('aria-invalid');
+        thisAsInput.fieldContainer?.classList.remove(type);
+        thisAsInput.input?.removeAttribute('aria-describedby');
+        thisAsInput.input?.removeAttribute('aria-invalid');
       }
     }
 
-    const isRadioGroup = this.input?.classList.contains('ids-radio-group');
+    const isRadioGroup = thisAsInput.input?.classList.contains('ids-radio-group');
     if (isRadioGroup) {
       const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
       radioArr.forEach((r: HTMLElement) => r.removeAttribute('validation-has-error'));
@@ -473,8 +476,8 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       });
     };
 
-    if (this.input) {
-      validationEvents(this.input);
+    if ((this as IdsInputInterface).input) {
+      validationEvents((this as IdsInputInterface).input);
     }
   }
 
@@ -494,15 +497,15 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
         this.useRules.delete(input);
       }
       if (!(/\brequired\b/gi.test(this.validate as string))) {
-        this.labelEl?.classList.remove('required');
+        (this as IdsInputInterface).labelEl?.classList.remove('required');
         input.removeAttribute('aria-required');
         (this as any).validationElems?.editor?.removeAttribute('aria-required');
       }
       this.removeAllValidationMessages();
     };
 
-    if (this.input) {
-      destroy(this.input);
+    if ((this as IdsInputInterface).input) {
+      destroy((this as IdsInputInterface).input);
     }
   }
 

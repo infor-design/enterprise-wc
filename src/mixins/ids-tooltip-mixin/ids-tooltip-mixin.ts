@@ -4,7 +4,7 @@ import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor } from '../../core/ids-element';
 import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
 
-type Constraints = IdsConstructor<EventsMixinInterface & IdsInputInterface>;
+type Constraints = IdsConstructor<EventsMixinInterface>;
 /**
 /**
  * A mixin that adds tooltip functionality to components
@@ -49,9 +49,11 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
    * @returns {HTMLElement} The correct target element
    */
   get toolTipTarget(): any {
+    const fieldContainerElem = (this as IdsInputInterface).fieldContainer;
+
     // `this.fieldContainer` targets any IDS Component that extends IdsInput
-    if (this.fieldContainer instanceof HTMLElement || this.fieldContainer instanceof SVGElement) {
-      return this.fieldContainer;
+    if (fieldContainerElem instanceof HTMLElement || fieldContainerElem instanceof SVGElement) {
+      return fieldContainerElem;
     }
 
     const triggerField = this.shadowRoot?.querySelector<any>('ids-trigger-field');

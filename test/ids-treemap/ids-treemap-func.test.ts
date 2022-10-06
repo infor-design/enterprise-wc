@@ -105,7 +105,6 @@ describe('IdsTreeMap Component', () => {
     expect(treemap.title).toBe('Storage Utilization (78 GB)');
     expect(treemap.getAttribute('title')).toBe('Storage Utilization (78 GB)');
 
-    treemap.title = null;
     treemap.removeAttribute('title');
     expect(treemap.title).toBe('');
     expect(treemap.getAttribute('title')).toBe(null);

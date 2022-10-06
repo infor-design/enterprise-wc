@@ -3,7 +3,7 @@ import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor } from '../../core/ids-element';
 import type IdsThemeSwitcher from '../../components/ids-theme-switcher/ids-theme-switcher';
 
-type Constrainsts = IdsConstructor<EventsMixinInterface>;
+type Constraints = IdsConstructor<EventsMixinInterface>;
 
 export const THEME_MODES = ['light', 'dark', 'contrast'];
 
@@ -12,7 +12,7 @@ export const THEME_MODES = ['light', 'dark', 'contrast'];
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsThemeMixin = <T extends Constrainsts>(superclass: T) => class extends superclass {
+const IdsThemeMixin = <T extends Constraints>(superclass: T) => class extends superclass {
   switcher: IdsThemeSwitcher | null = null;
 
   constructor(...args: any[]) {

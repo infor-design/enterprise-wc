@@ -71,6 +71,14 @@ export default class IdsInput extends Base {
 
   constructor() {
     super();
+
+    // Override HTMLElement id property
+    Object.defineProperty(this, 'id', {
+      get: () => this.#id,
+      set: (value) => { this.#id = value; },
+      configurable: true,
+      enumerable: true
+    });
   }
 
   isFormComponent = true;
@@ -268,15 +276,11 @@ export default class IdsInput extends Base {
       : '';
   }
 
-  set colorVariant(value: string | null) {
+  onColorVariantRefresh(value: string): void {
     super.colorVariant = value;
     if (this.clearable) {
       this.refreshClearableButtonStyles();
     }
-  }
-
-  get colorVariant(): string | null {
-    return super.colorVariant;
   }
 
   /**
@@ -838,14 +842,14 @@ export default class IdsInput extends Base {
    *
    * @param {string} value id
    */
-  set id(value: string) {
+  set #id(value: string) {
     if (value !== '') {
       this.setAttribute(attributes.ID, value);
       this.input?.setAttribute(attributes.ID, `${value}-input`);
     }
   }
 
-  get id(): string {
+  get #id(): string {
     return this.getAttribute(attributes.ID) || this.generatedId;
   }
 

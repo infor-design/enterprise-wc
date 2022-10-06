@@ -6,7 +6,6 @@ import Base from './ids-header-base';
 import '../ids-input/ids-input';
 
 import styles from './ids-header.scss';
-import { ColorVariantMixinInterface } from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 
 /**
  * IDS Header Component
@@ -58,7 +57,7 @@ export default class IdsHeader extends Base {
     const elementNames = ['ids-button', 'ids-breadcrumb', 'ids-search-field', 'ids-text', 'ids-theme-switcher'];
 
     for (const element of elementNames) {
-      const idsElements = [...this.querySelectorAll<ColorVariantMixinInterface>(element)];
+      const idsElements = [...this.querySelectorAll<any>(element)];
       idsElements.forEach((elem) => {
         elem.colorVariant = 'alternate';
       });

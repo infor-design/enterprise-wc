@@ -888,18 +888,15 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
   }
 
   /**
-   * Sets the chart title
+   * Handles chart title attribute changes
    * @param {string} value The title value
    */
-  set title(value) {
-    this.setAttribute(attributes.TITLE, value);
+  onTitleChange(value = '') {
     const titleElem = this.container?.querySelector(attributes.TITLE);
     if (titleElem) {
       titleElem.textContent = value;
     }
   }
-
-  get title() { return this.getAttribute(attributes.TITLE) || ''; }
 
   /**
    * The width of the chart (in pixels) or 'inherit' from the parent

@@ -6,7 +6,6 @@ import Base from './ids-checkbox-base';
 import '../ids-text/ids-text';
 
 import styles from './ids-checkbox.scss';
-import { IdsInputInterface } from '../ids-input/ids-input-attributes';
 
 /**
  * IDS Checkbox Component
@@ -25,7 +24,7 @@ import { IdsInputInterface } from '../ids-input/ids-input-attributes';
  */
 @customElement('ids-checkbox')
 @scss(styles)
-export default class IdsCheckbox extends Base implements IdsInputInterface {
+export default class IdsCheckbox extends Base {
   /**
    * Call the constructor and then initialize
    */
@@ -36,6 +35,10 @@ export default class IdsCheckbox extends Base implements IdsInputInterface {
   labelAudible?: boolean;
 
   isFormComponent = true;
+
+  input?: HTMLInputElement | null;
+
+  labelEl?: HTMLLabelElement | null;
 
   /**
    * Return the attributes we handle as getters/setters
@@ -111,13 +114,13 @@ export default class IdsCheckbox extends Base implements IdsInputInterface {
     this.onEvent('change', this.input, (e: Event) => {
       this.indeterminate = false;
       this.#triggeredChange = true;
-      this.checked = this.input.checked;
+      this.checked = !!this.input?.checked;
       this.triggerEvent(e.type, this, {
         detail: {
           elem: this,
           nativeEvent: e,
           value: this.value,
-          checked: this.input.checked
+          checked: this.input?.checked
         },
         bubbles: true
       });
@@ -139,7 +142,7 @@ export default class IdsCheckbox extends Base implements IdsInputInterface {
             elem: this,
             nativeEvent: e,
             value: this.value,
-            checked: this.input.checked
+            checked: !!this.input?.checked
           }
         });
       });
@@ -272,10 +275,11 @@ export default class IdsCheckbox extends Base implements IdsInputInterface {
   set value(val: string | boolean | null) {
     if (val) {
       this.setAttribute(attributes.VALUE, String(val));
+      this.input?.setAttribute(attributes.VALUE, String(val));
     } else {
       this.removeAttribute(attributes.VALUE);
+      this.input?.removeAttribute(attributes.VALUE);
     }
-    this.input?.setAttribute(attributes.VALUE, (val || ''));
   }
 
   get value() { return this.getAttribute(attributes.VALUE); }
@@ -284,6 +288,6 @@ export default class IdsCheckbox extends Base implements IdsInputInterface {
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
    */
   focus(): void {
-    this.input.focus();
+    this.input?.focus();
   }
 }

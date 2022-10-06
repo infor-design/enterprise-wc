@@ -20,8 +20,7 @@ export default class IdsActionPanel extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#refreshHeader();
-
-    this.popup.animationStyle = 'slide-from-bottom';
+    if (this.popup) this.popup.animationStyle = 'slide-from-bottom';
   }
 
   get toolbar(): HTMLSlotElement | null {

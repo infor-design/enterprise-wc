@@ -28,6 +28,12 @@ export default class IdsRadioGroup extends Base {
 
   isFormComponent = true;
 
+  input?: HTMLElement | null;
+
+  labelEl?: HTMLElement | null;
+
+  checked: any = null;
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array

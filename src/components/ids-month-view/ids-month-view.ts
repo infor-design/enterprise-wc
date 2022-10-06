@@ -84,8 +84,8 @@ export type IdsDayselectedEvent = {
 export type IdsLegend = {
   name: string,
   color: string,
-  dates: Array<string>,
-  dayOfWeek: Array<number>
+  dates?: Array<string>,
+  dayOfWeek?: Array<number>
 };
 
 /**

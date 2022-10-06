@@ -9,6 +9,7 @@ import wait from '../helpers/wait';
 import IdsActionPanel from '../../src/components/ids-action-panel/ids-action-panel';
 import '../../src/components/ids-button/ids-button';
 import '../../src/components/ids-toolbar/ids-toolbar';
+import type IdsPopup from '../../src/components/ids-popup/ids-popup';
 
 describe('IdsActionPanel Component', () => {
   let cap: IdsActionPanel;
@@ -51,7 +52,7 @@ describe('IdsActionPanel Component', () => {
     </ids-toolbar>`);
 
     // Setup a button click handler
-    cap.popup.animated = false;
+    (cap.popup as IdsPopup).animated = false;
     cap.onButtonClick = () => { cap.hide(); };
     const clickEvent = new MouseEvent('click', { bubbles: true });
 

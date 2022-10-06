@@ -136,7 +136,7 @@ describe('IdsButton Component', () => {
     expect(btn.state.tabIndex).toEqual(0);
 
     // Handles incorrect values
-    btn.tabIndex = 'fish';
+    btn.tabIndex = ('fish' as any);
 
     expect(btn.hasAttribute('tabindex')).toBeFalsy();
     expect(btn.tabIndex).toEqual(0);

@@ -114,31 +114,12 @@ export default class IdsTreeMap extends Base {
   }
 
   /**
-   * Set the title attribute
-   * @param {string|null} value of the title
-   * @memberof IdsTreeMap
+   * Handles title attribute changes
+   * @param {string} value title value
    */
-  set title(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.TITLE, value);
-    } else {
-      this.removeAttribute(attributes.TITLE);
-    }
-
+  onTitleChange(value: string | null) {
     const titleText = this.shadowRoot?.querySelector('[part="title"]');
-    if (titleText) {
-      titleText.innerHTML = value ? value.toString() : '';
-    }
-  }
-
-  /**
-   * Get the title attribute
-   * @returns {string} The value of the title attribute.
-   * @readonly
-   * @memberof IdsTreeMap
-   */
-  get title(): string {
-    return this.getAttribute(attributes.TITLE) ?? '';
+    if (titleText) titleText.innerHTML = value || '';
   }
 
   /**

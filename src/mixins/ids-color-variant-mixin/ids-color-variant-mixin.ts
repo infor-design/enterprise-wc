@@ -2,11 +2,6 @@ import { attributes } from '../../core/ids-attributes';
 import { IdsConstructor } from '../../core/ids-element';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
-export interface ColorVariantMixinInterface extends HTMLElement {
-  set colorVariant(value: string | null);
-  get colorVariant(): string | null;
-}
-
 export interface ColorVariantHandler {
   // as instance function
   onColorVariantRefresh?(variantName: string | undefined | null): void;
@@ -23,8 +18,7 @@ type Constraints = IdsConstructor<ColorVariantHandler>;
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class extends superclass
-  implements ColorVariantMixinInterface {
+const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class extends superclass {
   constructor(...args: any[]) {
     super(...args);
 

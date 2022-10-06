@@ -1,15 +1,13 @@
 import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
-import { IdsConstructor } from '../../core/ids-element';
+import { IdsBaseConstructor } from '../../core/ids-element';
 import type { IdsValidationErrorMessage } from './ids-validation-mixin';
-
-type Constriants = IdsConstructor<IdsInputInterface>;
 
 /**
  * Adds validation to any input field
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsValidationInputMixin = <T extends Constriants>(superclass: T) => class extends superclass {
+const IdsValidationInputMixin = <T extends IdsBaseConstructor>(superclass: T) => class extends superclass {
   constructor(...args: any[]) {
     super(...args);
   }
@@ -22,7 +20,7 @@ const IdsValidationInputMixin = <T extends Constriants>(superclass: T) => class 
    * Return if the field is valid or not
    * @returns {boolean} true if invalid
    */
-  get isValid(): boolean { return this.input?.shadowRoot?.querySelectorAll('.validation-message').length === 0; }
+  get isValid(): boolean { return (this as IdsInputInterface).input?.shadowRoot?.querySelectorAll('.validation-message').length === 0; }
 
   /**
    * Return if the current validation errors
@@ -30,7 +28,7 @@ const IdsValidationInputMixin = <T extends Constriants>(superclass: T) => class 
    */
   get validationMessages(): Array<IdsValidationErrorMessage> {
     const msgs: Array<IdsValidationErrorMessage> = [];
-    this.input?.shadowRoot?.querySelectorAll('.validation-message').forEach((message: Element) => {
+    (this as IdsInputInterface).input?.shadowRoot?.querySelectorAll('.validation-message').forEach((message: Element) => {
       msgs.push({
         message: message.querySelector('ids-text')?.childNodes[1].textContent || '',
         type: message.getAttribute('type') || '',

@@ -7,11 +7,10 @@ import IdsDataSource from '../../core/ids-data-source';
 import { EventsMixinInterface } from '../../mixins/ids-events-mixin/ids-events-mixin';
 import { KeyboardMixinInterface } from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import { LocaleMixinInterface } from '../../mixins/ids-locale-mixin/ids-locale-mixin';
-import { IdsConstructor } from '../../core/ids-element';
 import { IdsInputInterface } from './ids-input-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 
-type Constraints = IdsConstructor<EventsMixinInterface & IdsInputInterface & KeyboardMixinInterface
-& LocaleMixinInterface>;
+type Constraints = IdsConstructor<EventsMixinInterface & KeyboardMixinInterface & LocaleMixinInterface>;
 
 const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends superclass {
   /**
@@ -173,14 +172,15 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
       return;
     }
 
-    const resultsArr = this.findMatches(this.value as string, this.data);
+    const thisAsInput = this as IdsInputInterface;
+    const resultsArr = this.findMatches(thisAsInput.value as string, this.data);
     const results = resultsArr?.map((result) => {
-      const regex = new RegExp(this.value as string, 'gi');
-      const optionText = result[this.searchField].toString()?.replace(regex, `<span class="highlight">${(this.value as string)?.toLowerCase()}</span>`);
+      const regex = new RegExp(thisAsInput.value as string, 'gi');
+      const optionText = result[this.searchField].toString()?.replace(regex, `<span class="highlight">${(thisAsInput.value as string)?.toLowerCase()}</span>`);
       return this.#templatelistBoxOption(result[this.searchField], optionText);
     }).join('');
 
-    if (this.value) {
+    if (thisAsInput.value) {
       this.openPopup();
       this.listBox.innerHTML = results || `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
 
@@ -264,13 +264,13 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
     }
 
     if (this.isSelected) {
-      this.value = this.isSelected.getAttribute('value');
+      (this as IdsInputInterface).value = this.isSelected.getAttribute('value');
 
       this.triggerEvent('selected', this, {
         bubbles: true,
         detail: {
           elem: this,
-          value: this.value
+          value: (this as IdsInputInterface).value
         }
       });
     }
@@ -286,7 +286,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
       bubbles: true,
       detail: {
         elem: this,
-        value: this.value
+        value: (this as IdsInputInterface).value
       }
     });
   }
@@ -316,7 +316,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
   #configurePopup() {
     this.popup.type = 'dropdown';
     this.popup.align = 'bottom, left';
-    this.popup.alignTarget = this.fieldContainer;
+    this.popup.alignTarget = (this as IdsInputInterface).fieldContainer;
     this.popup.y = -1;
   }
 
@@ -371,7 +371,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
       const lastOption = this.options[this.options.length - 1];
 
       if (e.altKey) {
-        this.value = selected.getAttribute('value');
+        (this as IdsInputInterface).value = selected.getAttribute('value');
         this.closePopup();
         return;
       }
