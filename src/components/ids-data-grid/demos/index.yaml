@@ -98,9 +98,6 @@
   - link: tooltip.html
     type: Example
     description: Shows a data grid with tooltip
-  - link: tooltip-columns-formatter.html
-    type: Example
-    description: Shows a data grid with tooltip and columns formatter
   - link: xss-prevention.html
     type: Test
     description: Shows a data grid can prevent xss
