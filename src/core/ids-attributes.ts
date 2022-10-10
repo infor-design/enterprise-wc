@@ -228,6 +228,7 @@ export const attributes = {
   NO_PADDING: 'no-padding',
   NO_RIPPLE: 'no-ripple',
   OPACITY: 'opacity',
+  ORDER: 'order',
   ORIENTATION: 'orientation',
   ORIGINAL_TEXT: 'original-text',
   OVER: 'over',

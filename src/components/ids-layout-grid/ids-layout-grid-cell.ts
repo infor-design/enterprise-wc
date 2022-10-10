@@ -30,6 +30,7 @@ export default class IdsLayoutGridCell extends Base {
       attributes.COL_END,
       attributes.FILL,
       attributes.JUSTIFY,
+      attributes.ORDER,
       attributes.ROW_SPAN,
       attributes.ROW_START,
       attributes.ROW_END,
@@ -321,4 +322,16 @@ export default class IdsLayoutGridCell extends Base {
   }
 
   get justify(): string | null { return this.getAttribute(attributes.JUSTIFY); }
+
+  set order(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.ORDER, value.toString());
+      this.style.setProperty('--grid-order', value);
+      this.classList.add(`ids-layout-grid-cell-order`);
+    }
+
+    this.removeAttribute(attributes.ORDER);
+  }
+
+  get order(): string | null { return this.getAttribute(attributes.ORDER); }
 }

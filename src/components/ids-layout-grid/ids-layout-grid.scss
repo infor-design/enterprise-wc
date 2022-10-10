@@ -20,6 +20,7 @@ $grid-cols-sm: 4;
   --grid-spacing-unit: 8px;
   --grid-fill-color: #efeff0;
   --grid-min-col-width: 100px;
+  --grid-max-col-width: 1fr;
 
   @include mx-16();
   @include my-16();
@@ -37,21 +38,21 @@ $grid-cols-sm: 4;
 // Auto Layout
 :host(.ids-layout-grid-auto),
 .ids-layout-grid.ids-layout-grid-auto {
-  grid-template-columns: repeat(auto-fit, minmax(var(--grid-min-col-width), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(var(--grid-min-col-width), var(--grid-max-col-width)));
 }
 
 // Grid Columns
 :host(.ids-layout-grid-cols) {
-  grid-template-columns: repeat(var(--grid-cols), minmax(calc(var(--grid-min-col-width) * 2), 1fr));
+  grid-template-columns: repeat(var(--grid-cols), minmax(var(--grid-min-col-width), var(--grid-max-col-width)));
 
   // Tablet down go to auto layout
   @media all and (max-width: $breakpoint-md) {
-    grid-template-columns: repeat(auto-fit, minmax(calc(var(--grid-min-col-width) * 2), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(var(--grid-min-col-width), var(--grid-max-col-width)));
   }
 }
 
 // Grid Column Span
-::slotted(ids-layout-grid-cell),
+:host(:not(.ids-layout-fluid-grid)) ::slotted(ids-layout-grid-cell),
 ::slotted(.ids-layout-grid-span) {
   grid-column: span var(--grid-col-span) / span var(--grid-col-span);
 
@@ -331,4 +332,36 @@ $grid-cols-sm: 4;
       grid-column-end: span $i;
     }
   }
+}
+
+:host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-cell-order),
+:host(.ids-layout-grid-cols) ::slotted(.ids-layout-grid-cell-order),
+:host(.ids-layout-grid-auto) ::slotted(.ids-layout-grid-cell-order) {
+  --grid-order: unset;
+
+  order: var(--grid-order);
+}
+
+:host(.ids-layout-fluid-grid.ids-layout-grid-auto-flow),
+:host(.ids-layout-grid-auto.ids-layout-grid-auto-flow),
+:host(.ids-layout-grid-cols.ids-layout-grid-auto-flow) {
+  --grid-auto-flow: unset;
+
+  grid-auto-flow: var(--grid-auto-flow);
+}
+
+:host(.ids-layout-fluid-grid.ids-layout-grid-auto-rows),
+:host(.ids-layout-grid-auto.ids-layout-grid-auto-rows),
+:host(.ids-layout-grid-cols.ids-layout-grid-auto-rows) {
+  --grid-auto-rows: unset;
+
+  grid-auto-rows: var(--grid-auto-rows);
+}
+
+:host(.ids-layout-fluid-grid.ids-layout-grid-justify-content),
+:host(.ids-layout-grid-auto.ids-layout-grid-justify-content),
+:host(.ids-layout-grid-cols.ids-layout-grid-justify-content) {
+  --grid-justify-content: unset;
+
+  justify-content: var(--grid-justify-content);
 }

@@ -30,10 +30,20 @@ export default class IdsLayoutGrid extends Base {
   static get attributes(): any {
     return [
       attributes.AUTO,
+      'auto-rows',
+      'auto-flow',
       attributes.COLS,
+      'cols-xs',
+      'cols-sm',
+      'cols-md',
+      'cols-lg',
+      'cols-xl',
+      'cols-xxl',
       attributes.FIXED,
       attributes.GAP,
+      'justify-content',
       attributes.NO_MARGINS,
+      'max-col-width',
       attributes.MIN_COL_WIDTH,
       attributes.ROWS
     ];
@@ -152,6 +162,78 @@ export default class IdsLayoutGrid extends Base {
 
   get cols(): string | null { return this.getAttribute(attributes.COLS); }
 
+  set colsXs(value: string | null) {
+    if (value) {
+      this.setAttribute('cols-xs', value);
+      this.style.setProperty('--grid-cols-xs', value);
+      this.classList.add(colsGridClass);
+      this.classList.remove(autoGridClass);
+      this.classList.remove(fluidGridClass);
+    }
+  }
+
+  get colsXs(): string | null { return this.getAttribute('cols-xs'); }
+
+  set colsSm(value: string | null) {
+    if (value) {
+      this.setAttribute('cols-sm', value);
+      this.style.setProperty('--grid-cols-sm', value);
+      this.classList.add(colsGridClass);
+      this.classList.remove(autoGridClass);
+      this.classList.remove(fluidGridClass);
+    }
+  }
+
+  get colsSm(): string | null { return this.getAttribute('cols-sm'); }
+
+  set colsMd(value: string | null) {
+    if (value) {
+      this.setAttribute('cols-md', value);
+      this.style.setProperty('--grid-cols-md', value);
+      this.classList.add(colsGridClass);
+      this.classList.remove(autoGridClass);
+      this.classList.remove(fluidGridClass);
+    }
+  }
+
+  get colsMd(): string | null { return this.getAttribute('cols-md'); }
+
+  set colsLg(value: string | null) {
+    if (value) {
+      this.setAttribute('cols-lg', value);
+      this.style.setProperty('--grid-cols-lg', value);
+      this.classList.add(colsGridClass);
+      this.classList.remove(autoGridClass);
+      this.classList.remove(fluidGridClass);
+    }
+  }
+
+  get colsLg(): string | null { return this.getAttribute('cols-lg'); }
+
+  set colsXl(value: string | null) {
+    if (value) {
+      this.setAttribute('cols-xl', value);
+      this.style.setProperty('--grid-cols-xl', value);
+      this.classList.add(colsGridClass);
+      this.classList.remove(autoGridClass);
+      this.classList.remove(fluidGridClass);
+    }
+  }
+
+  get colsXl(): string | null { return this.getAttribute('cols-xl'); }
+
+  set colsXxl(value: string | null) {
+    if (value) {
+      this.setAttribute('cols-xxl', value);
+      this.style.setProperty('--grid-cols-xxl', value);
+      this.classList.add(colsGridClass);
+      this.classList.remove(autoGridClass);
+      this.classList.remove(fluidGridClass);
+    }
+  }
+
+  get colsXxl(): string | null { return this.getAttribute('cols-xxl'); }
+
   /**
    * Sets the amount of rows in the grid. Works best with fixed height grids
    * @param {string | null} value number of rows in a fixed grid
@@ -172,6 +254,34 @@ export default class IdsLayoutGrid extends Base {
   }
 
   get rows(): string | null { return this.getAttribute(attributes.ROWS); }
+
+  set autoRows(value: string | null) {
+    if (value) {
+      this.setAttribute('auto-rows', value);
+      this.style.setProperty('--grid-auto-rows', value);
+      this.classList.add('ids-layout-grid-auto-rows');
+      return;
+    }
+
+    this.removeAttribute('auto-rows');
+    this.classList.remove('ids-layout-grid-auto-rows');
+  }
+
+  get autoRows(): string | null { return this.getAttribute('auto-rows'); }
+
+  set autoFlow(value: string | null) {
+    if (value) {
+      this.setAttribute('auto-flow', value);
+      this.style.setProperty('--grid-auto-flow', value);
+      this.classList.add('ids-layout-grid-auto-flow');
+      return;
+    }
+
+    this.removeAttribute('auto-flow');
+    this.classList.remove('ids-layout-grid-auto-flow');
+  }
+
+  get autoFlow(): string | null { return this.getAttribute('auto-flow'); }
 
   /**
    * If true the grid will not have any margins
@@ -206,4 +316,33 @@ export default class IdsLayoutGrid extends Base {
   }
 
   get minColWidth(): string | null { return this.getAttribute(attributes.MIN_COL_WIDTH); }
+
+  /**
+   * Sets the max col width on the grid
+   * @param {string | null} value number for pixel length
+   */
+  set maxColWidth(value: string | null) {
+    if (value) {
+      this.setAttribute('max-col-width', value.toString());
+      this.style.setProperty('--grid-max-col-width', value);
+      return;
+    }
+
+    this.removeAttribute('max-col-width');
+    this.style.removeProperty('--grid-max-col-width');
+  }
+
+  get maxColWidth(): string | null { return this.getAttribute('max-col-width'); }
+
+  set justifyContent(value: string | null) {
+    if (value) {
+      this.setAttribute('justify-content', value.toString());
+      this.style.setProperty('--grid-justify-content', value);
+      this.classList.add(`ids-layout-grid-justify-content`);
+    }
+
+    this.removeAttribute('justify-content');
+  }
+
+  get justifyContent(): string | null { return this.getAttribute('justify-content'); }
 }
