@@ -11,6 +11,9 @@
   - link: range.html
     type: Example
     description: Showing range picker variations
+  - link: picker-only.html
+    type: Example
+    description: Shows just the "picker" attached to a different trigger element
   - link: sizes.html
     type: Example
     description: Showing width and height size variations

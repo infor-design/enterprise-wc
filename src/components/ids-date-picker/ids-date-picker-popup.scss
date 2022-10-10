@@ -1,1 +1,58 @@
-@import '../ids-popup/ids-popup.scss';
+@import '../../core/ids-base.scss';
+
+// Date Picker Popup padding reset
+ids-popup::part(popup) {
+  @include py-0();
+}
+.ids-date-picker-popup .ids-popup.menu {
+  @include py-0();
+}
+
+ids-month-view {
+  @include w-full();
+}
+
+.ids-date-picker-popup {
+  &:not(.has-time) ids-month-view::part(table-container) {
+    margin-bottom: 10px;
+  }
+
+  ids-popup::part(popup) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  &[mode='dark'] {
+    ids-popup::part(popup) {
+      @include bg-slate-80();
+    }
+
+    ids-popup::part(arrow)::after {
+      border-bottom-color: var(--ids-color-palette-slate-80);
+    }
+  }
+
+  .popup-footer {
+    @include flex();
+
+    border-top: 1px solid var(--ids-color-palette-slate-30);
+
+    ids-modal-button:not(:first-child) {
+      @include border-l-1();
+
+      border-left-color: var(--ids-color-palette-slate-30);
+    }
+  }
+
+  &[mode='dark'] .popup-footer {
+    border-top-color: var(--ids-color-palette-slate-50);
+
+    ids-modal-button:not(:first-child):not(:focus) {
+      border-left-color: var(--ids-color-palette-slate-50);
+    }
+  }
+
+  .popup-btn {
+    @include w-full();
+  }
+}

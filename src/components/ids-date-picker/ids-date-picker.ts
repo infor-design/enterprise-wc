@@ -40,6 +40,7 @@ import type IdsToggleButton from '../ids-toggle-button/ids-toggle-button';
 
 // Import Styles
 import styles from './ids-date-picker.scss';
+import { IdsDatePickerCommonAttributes } from './ids-date-picker-common';
 
 const MIN_MONTH = 0;
 const MAX_MONTH = 11;
@@ -113,35 +114,24 @@ class IdsDatePicker extends Base {
   static get attributes(): Array<string> {
     return [
       ...super.attributes,
-      attributes.DAY,
+      ...IdsDatePickerCommonAttributes,
       attributes.DISABLED,
       attributes.EXPANDED,
-      attributes.FIRST_DAY_OF_WEEK,
-      attributes.FORMAT,
       attributes.ID,
       attributes.IS_CALENDAR_TOOLBAR,
       attributes.IS_DROPDOWN,
       attributes.LABEL,
       attributes.MASK,
       attributes.MINUTE_INTERVAL,
-      attributes.MONTH,
       attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
       attributes.READONLY,
       attributes.SECOND_INTERVAL,
-      attributes.SHOW_CANCEL,
-      attributes.SHOW_CLEAR,
-      attributes.SHOW_PICKLIST_MONTH,
-      attributes.SHOW_PICKLIST_WEEK,
-      attributes.SHOW_TODAY,
       attributes.SIZE,
       attributes.TABBABLE,
-      attributes.USE_CURRENT_TIME,
-      attributes.USE_RANGE,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
       attributes.VALUE,
-      attributes.YEAR,
     ];
   }
 
