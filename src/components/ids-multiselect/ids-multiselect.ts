@@ -11,6 +11,9 @@ import styles from './ids-multiselect.scss';
 import { stringToBool, stringToNumber, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
 
 import type { IdsDropdownOption, IdsDropdownOptions } from '../ids-dropdown/ids-dropdown';
+import type IdsTag from '../ids-tag/ids-tag';
+import type IdsIcon from '../ids-icon/ids-icon';
+import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
 /**
  * IDS Multiselect Component
@@ -60,7 +63,7 @@ class IdsMultiselect extends Base {
    */
   set disabled(value) {
     if (this.tags) {
-      this.input?.querySelectorAll('ids-tag')?.forEach((element: HTMLElement) => {
+      this.input?.querySelectorAll<IdsTag>('ids-tag')?.forEach((element) => {
         element.setAttribute('disabled', 'true');
       });
     }
@@ -82,7 +85,7 @@ class IdsMultiselect extends Base {
    */
   set tags(value) {
     const valueSafe = stringToBool(value);
-    if (valueSafe !== this.getAttribute(attributes.TAGS)) {
+    if (valueSafe !== this.tags) {
       if (valueSafe) {
         this.setAttribute(attributes.TAGS, 'true');
       } else {
@@ -96,7 +99,7 @@ class IdsMultiselect extends Base {
    * returns whether the multiselect is set to display selections as tags
    * @returns {boolean} a boolean indicating tags setting
    */
-  get tags() {
+  get tags(): boolean {
     return stringToBool(this.getAttribute(attributes.TAGS));
   }
 
@@ -106,7 +109,7 @@ class IdsMultiselect extends Base {
    */
   set max(value: any) {
     const valueSafe = stringToNumber(value);
-    if (valueSafe !== this.getAttribute(stringToNumber(attributes.MAX))) {
+    if (valueSafe !== this.max) {
       if (valueSafe) {
         this.setAttribute(attributes.MAX, value);
       } else {
@@ -119,7 +122,7 @@ class IdsMultiselect extends Base {
    * returns the maximum number of allowed selections
    * @returns {number} the maximum number of selectable options
    */
-  get max() {
+  get max(): number {
     return stringToNumber(this.getAttribute(attributes.MAX));
   }
 
@@ -143,7 +146,7 @@ class IdsMultiselect extends Base {
     }
     this.#selectedList = value;
 
-    this.container.value = '';
+    (this.container as HTMLInputElement).value = '';
     this.#updateDisplay();
     this.#updateList();
 
@@ -159,7 +162,7 @@ class IdsMultiselect extends Base {
     }
     this.#selectedList = value;
 
-    this.container.classList.toggle('has-value', value.length > 0);
+    this.container?.classList.toggle('has-value', value.length > 0);
   }
 
   /**
@@ -183,7 +186,7 @@ class IdsMultiselect extends Base {
     });
 
     this.offEvent('click.multiselect-input');
-    this.onEvent('click.multiselect-input', this.input.fieldContainer, (e: any) => {
+    this.onEvent('click.multiselect-input', this.input?.fieldContainer, (e: any) => {
       // Don't open/close popup on tag removal
       if (!e.target?.closest('ids-tag')) {
         this.toggle();
@@ -194,7 +197,7 @@ class IdsMultiselect extends Base {
     this.offEvent('click.multiselect-label');
     this.onEvent('click.multiselect-label', this.labelEl, (e: MouseEvent) => {
       e.preventDefault();
-      this.input.focus();
+      this.input?.focus();
     });
 
     this.offEvent('click.multiselect-trigger');
@@ -218,7 +221,7 @@ class IdsMultiselect extends Base {
    */
   #attachKeyboardListeners() {
     this.listen([' ', 'Enter'], this, () => {
-      if (!this.popup.visible) {
+      if (!this.popup?.visible) {
         this.open();
         return;
       }
@@ -235,7 +238,7 @@ class IdsMultiselect extends Base {
    * @param {boolean} noFocus if true do not focus on close
    */
   close(noFocus?: boolean) {
-    if (this.popup) {
+    if (this.popup && this.input) {
       this.popup.visible = false;
       this.input.active = false;
     }
@@ -250,12 +253,12 @@ class IdsMultiselect extends Base {
     this.removeOpenEvents();
 
     if (!noFocus) {
-      this.input.focus();
+      this.input?.focus();
     }
 
     this.value = this.#selectedList;
 
-    this.container.classList.remove('is-open');
+    this.container?.classList.remove('is-open');
   }
 
   /**
@@ -293,7 +296,7 @@ class IdsMultiselect extends Base {
         this.popup?.place();
       }
 
-      this.container.classList.toggle('has-value', this.#selectedList.length > 0);
+      this.container?.classList.toggle('has-value', this.#selectedList.length > 0);
     }
 
     this.clearSelected();
@@ -308,7 +311,7 @@ class IdsMultiselect extends Base {
 
     if (this.tags) {
       // Clear tags before rerender
-      this.input.querySelectorAll('ids-tag').forEach((item: HTMLElement) => { item.remove(); });
+      this.input?.querySelectorAll<IdsTag>('ids-tag').forEach((item) => item.remove());
 
       const tags = selected.map((item: any) => {
         const disabled = this.disabled ? ` disabled="true"` : ``;
@@ -320,12 +323,12 @@ class IdsMultiselect extends Base {
           ${disabled}
         >${item.label}</ids-tag>`;
       }).join('');
-      this.input.insertAdjacentHTML('afterbegin', tags);
+      this.input?.insertAdjacentHTML('afterbegin', tags);
     }
 
     const newValue = selected.map((item: IdsDropdownOption) => item.label).join(', ');
 
-    this.input.value = newValue;
+    if (this.input) this.input.value = newValue;
   }
 
   /**
@@ -415,11 +418,11 @@ class IdsMultiselect extends Base {
   #setOptionsData() {
     this.#optionsData = [...this.options].map((item, index) => ({
       id: item?.id,
-      label: item?.textContent?.trim() || item?.querySelector('ids-checkbox')?.label,
-      value: item?.getAttribute(attributes.VALUE),
+      label: item?.textContent?.trim() || item?.querySelector<IdsCheckbox>('ids-checkbox')?.label || '',
+      value: item?.getAttribute(attributes.VALUE) ?? '',
       groupLabel: item?.hasAttribute(attributes.GROUP_LABEL),
       selected: item?.hasAttribute('selected'),
-      icon: item?.querySelector('ids-icon')?.icon,
+      icon: item?.querySelector<IdsIcon>('ids-icon')?.icon,
       index
     }));
   }

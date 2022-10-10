@@ -33,6 +33,10 @@ import type {
   IdsDayselectedEvent,
   IdsLegend
 } from '../ids-month-view/ids-month-view';
+import type IdsButton from '../ids-button/ids-button';
+import type IdsTimePicker from '../ids-time-picker/ids-time-picker';
+import type IdsExpandableArea from '../ids-expandable-area/ids-expandable-area';
+import type IdsToggleButton from '../ids-toggle-button/ids-toggle-button';
 
 // Import Styles
 import styles from './ids-date-picker.scss';
@@ -754,7 +758,7 @@ class IdsDatePicker extends Base {
    * @param {IdsDayselectedEvent} e event from the calendar day selection
    */
   #handleDaySelectedEvent(e: IdsDayselectedEvent): void {
-    const inputDate: Date = this.locale.parseDate(this.value, { dateFormat: this.format });
+    const inputDate = this.locale.parseDate(this.value, { dateFormat: this.format }) as Date;
 
     // Clear action
     // Deselect the selected date by clicking to the selected date
@@ -952,15 +956,15 @@ class IdsDatePicker extends Base {
 
     // Date Picker Dropdown keyboard events
     if (this.isDropdown) {
-      const btnUpYear = this.container.querySelector('.is-btn-up.is-year-nav');
-      const btnDownYear = this.container.querySelector('.is-btn-down.is-year-nav');
-      const btnUpMonth = this.container.querySelector('.is-btn-up.is-month-nav');
-      const btnDownMonth = this.container.querySelector('.is-btn-down.is-month-nav');
-      const btnUpWeek = this.container.querySelector('.is-btn-up.is-week-nav');
-      const btnDownWeek = this.container.querySelector('.is-btn-down.is-week-nav');
-      const monthSelected = this.container.querySelector('.is-month.is-selected');
-      const yearSelected = this.container.querySelector('.is-year.is-selected');
-      const weekSelected = this.container.querySelector('.is-week.is-selected');
+      const btnUpYear = this.container.querySelector<HTMLElement>('.is-btn-up.is-year-nav');
+      const btnDownYear = this.container.querySelector<HTMLElement>('.is-btn-down.is-year-nav');
+      const btnUpMonth = this.container.querySelector<HTMLElement>('.is-btn-up.is-month-nav');
+      const btnDownMonth = this.container.querySelector<HTMLElement>('.is-btn-down.is-month-nav');
+      const btnUpWeek = this.container.querySelector<HTMLElement>('.is-btn-up.is-week-nav');
+      const btnDownWeek = this.container.querySelector<HTMLElement>('.is-btn-down.is-week-nav');
+      const monthSelected = this.container.querySelector<HTMLElement>('.is-month.is-selected');
+      const yearSelected = this.container.querySelector<HTMLElement>('.is-year.is-selected');
+      const weekSelected = this.container.querySelector<HTMLElement>('.is-week.is-selected');
 
       // Enter on picklist year btn up
       if (key === 13 && btnUpYear?.matches(':focus')) {
@@ -990,7 +994,7 @@ class IdsDatePicker extends Base {
       // Arrow Up on picklist month
       if (key === 38 && monthSelected?.matches(':focus')) {
         const month = this.month - 1;
-        const el = this.container.querySelector(`.is-month[data-month="${month}"]`);
+        const el = this.container.querySelector<HTMLElement>(`.is-month[data-month="${month}"]`);
 
         this.#unselectPicklist('month');
 
@@ -1008,7 +1012,7 @@ class IdsDatePicker extends Base {
       // Arrow Down on picklist month
       if (key === 40 && monthSelected?.matches(':focus')) {
         const month = this.month + 1;
-        const el = this.container.querySelector(`.is-month[data-month="${month}"]`);
+        const el = this.container.querySelector<HTMLElement>(`.is-month[data-month="${month}"]`);
 
         this.#unselectPicklist('month');
 
@@ -1027,7 +1031,7 @@ class IdsDatePicker extends Base {
       if (key === 38 && yearSelected?.matches(':focus')) {
         const year = this.year - 1;
 
-        const el = this.container.querySelector(`.is-year[data-year="${year}"]`);
+        const el = this.container.querySelector<HTMLElement>(`.is-year[data-year="${year}"]`);
 
         this.#unselectPicklist('year');
 
@@ -1046,7 +1050,7 @@ class IdsDatePicker extends Base {
       if (key === 40 && yearSelected?.matches(':focus')) {
         const year = this.year + 1;
 
-        const el = this.container.querySelector(`.is-year[data-year="${year}"]`);
+        const el = this.container.querySelector<HTMLElement>(`.is-year[data-year="${year}"]`);
 
         this.#unselectPicklist('year');
 
@@ -1065,7 +1069,7 @@ class IdsDatePicker extends Base {
       if (key === 38 && weekSelected?.matches(':focus')) {
         const weekIndex: number = stringToNumber(weekSelected.dataset.week) - 1;
         const week: number = this.#getWeekNumber(weekIndex);
-        const el = this.container.querySelector(`.is-week[data-week="${week}"]`);
+        const el = this.container.querySelector<HTMLElement>(`.is-week[data-week="${week}"]`);
 
         this.#unselectPicklist('week');
 
@@ -1085,7 +1089,7 @@ class IdsDatePicker extends Base {
       if (key === 40 && weekSelected?.matches(':focus')) {
         const weekIndex: number = stringToNumber(weekSelected.dataset.week) + 1;
         const week: number = this.#getWeekNumber(weekIndex);
-        const el = this.container.querySelector(`.is-week[data-week="${week}"]`);
+        const el = this.container.querySelector<HTMLElement>(`.is-week[data-week="${week}"]`);
 
         this.#unselectPicklist('week');
 
@@ -1117,7 +1121,7 @@ class IdsDatePicker extends Base {
 
       // Arrow Up on year btn down
       if (key === 38 && btnDownYear?.matches(':focus')) {
-        const el = this.container.querySelector('.is-year.is-last');
+        const el = this.container.querySelector<HTMLElement>('.is-year.is-last');
 
         this.#unselectPicklist('year');
         this.#selectPicklistEl(el);
@@ -1127,7 +1131,7 @@ class IdsDatePicker extends Base {
 
       // Arrow Down on year btn up
       if (key === 40 && btnUpYear?.matches(':focus')) {
-        const el = this.container.querySelector('.is-year');
+        const el = this.container.querySelector<HTMLElement>('.is-year');
 
         this.#unselectPicklist('year');
         this.#selectPicklistEl(el);
@@ -1151,7 +1155,7 @@ class IdsDatePicker extends Base {
 
       // Arrow Up on month btn down
       if (key === 38 && btnDownMonth?.matches(':focus')) {
-        const el = this.container.querySelector('.is-month.is-last');
+        const el = this.container.querySelector<HTMLElement>('.is-month.is-last');
 
         this.#unselectPicklist('month');
         this.#selectPicklistEl(el);
@@ -1161,7 +1165,7 @@ class IdsDatePicker extends Base {
 
       // Arrow Down on month btn up
       if (key === 40 && btnUpMonth?.matches(':focus')) {
-        const el = this.container.querySelector('.is-month');
+        const el = this.container.querySelector<HTMLElement>('.is-month');
 
         this.#unselectPicklist('month');
         this.#selectPicklistEl(el);
@@ -1185,7 +1189,7 @@ class IdsDatePicker extends Base {
 
       // Arrow Up on week btn down
       if (key === 38 && btnDownWeek?.matches(':focus')) {
-        const el = this.container.querySelector('.is-week.is-last');
+        const el = this.container.querySelector<HTMLElement>('.is-week.is-last');
 
         this.#unselectPicklist('month');
         this.#selectPicklistEl(el);
@@ -1195,7 +1199,7 @@ class IdsDatePicker extends Base {
 
       // Arrow Down on week btn up
       if (key === 40 && btnUpWeek?.matches(':focus')) {
-        const el = this.container.querySelector('.is-week');
+        const el = this.container.querySelector<HTMLElement>('.is-week');
 
         this.#unselectPicklist('week');
         this.#selectPicklistEl(el);
@@ -1224,8 +1228,8 @@ class IdsDatePicker extends Base {
         // First focusable in the calendar popup is dropdown datepicker
         const firstFocusable = this.#monthView?.container?.querySelector('ids-date-picker');
         // Last focusable element
-        const btnClear = this.container.querySelector('.popup-btn-clear.is-visible')?.container;
-        const btnApply = this.container.querySelector('.popup-btn-apply.is-visible')?.container;
+        const btnClear = this.container.querySelector<IdsButton>('.popup-btn-clear.is-visible')?.container;
+        const btnApply = this.container.querySelector<IdsButton>('.popup-btn-apply.is-visible')?.container;
         const dateSelected = this.#monthView?.container.querySelector('td.is-selected');
         const lastFocusable = btnApply || btnClear || dateSelected;
 
@@ -1265,7 +1269,7 @@ class IdsDatePicker extends Base {
         }
       }
 
-      const btnApply = this.container.querySelector('.popup-btn-apply');
+      const btnApply = this.container.querySelector<IdsButton>('.popup-btn-apply');
       const yearState = this.#monthView.container?.querySelector('ids-date-picker').shadowRoot?.querySelector('.is-year.is-selected');
       const monthState = this.#monthView.container?.querySelector('ids-date-picker').shadowRoot?.querySelector('.is-month.is-selected');
 
@@ -1308,9 +1312,9 @@ class IdsDatePicker extends Base {
       { dateFormat: this.format }
     );
     const inputDate = this.locale.isIslamic() ? (parsedDate && umalquraToGregorian(
-      parsedDate[0],
-      parsedDate[1],
-      parsedDate[2]
+      (parsedDate as number[])[0],
+      (parsedDate as number[])[1],
+      (parsedDate as number[])[2]
     )) : parsedDate;
     const setDateParams = (date: Date) => {
       const month = date.getMonth();
@@ -1340,7 +1344,7 @@ class IdsDatePicker extends Base {
     }
 
     if (!this.useRange) {
-      setDateParams(inputDate || new Date());
+      setDateParams((inputDate as Date) || new Date());
 
       return;
     }
@@ -1362,7 +1366,7 @@ class IdsDatePicker extends Base {
       };
     }
 
-    setDateParams(rangeStart ?? new Date());
+    setDateParams((rangeStart as Date) ?? new Date());
   }
 
   /**
@@ -1393,11 +1397,11 @@ class IdsDatePicker extends Base {
     }
 
     if (type === 'next-day' && !this.useRange) {
-      this.value = this.locale.formatDate(addDate(date, 1, 'days'), { pattern: this.format });
+      this.value = this.locale.formatDate(addDate(date as Date, 1, 'days'), { pattern: this.format });
     }
 
     if (type === 'previous-day' && !this.useRange) {
-      this.value = this.locale.formatDate(subtractDate(date, 1, 'days'), { pattern: this.format });
+      this.value = this.locale.formatDate(subtractDate(date as Date, 1, 'days'), { pattern: this.format });
     }
   }
 
@@ -1413,7 +1417,7 @@ class IdsDatePicker extends Base {
         check: (input: any) => {
           if (!input.value) return true;
 
-          const date: Date | undefined = this.locale.parseDate(
+          const date = this.locale.parseDate(
             input.value,
             this.format
           );
@@ -1437,7 +1441,7 @@ class IdsDatePicker extends Base {
         check: (input: any) => {
           if (!input.value) return true;
 
-          const date: Date | undefined = this.locale.parseDate(
+          const date = this.locale.parseDate(
             input.value,
             this.format
           );
@@ -1454,7 +1458,7 @@ class IdsDatePicker extends Base {
    */
   focus(): void {
     this.#triggerField?.focus();
-    this.container?.querySelector('ids-toggle-button')?.container?.focus();
+    this.container?.querySelector<IdsToggleButton>('ids-toggle-button')?.container?.focus();
 
     if (this.isCalendarToolbar) {
       this.container?.focus();
@@ -1492,7 +1496,7 @@ class IdsDatePicker extends Base {
    */
   #setTime(val: any): Date {
     const date = isValidDate(val) ? val : new Date(val);
-    const timePicker = this.container?.querySelector('ids-time-picker');
+    const timePicker = this.container?.querySelector<IdsTimePicker>('ids-time-picker');
 
     if (!this.#hasTime() || !timePicker) return date;
 
@@ -1505,6 +1509,31 @@ class IdsDatePicker extends Base {
     date.setHours(hoursTo24(hours, dayPeriodIndex), minutes, seconds);
 
     return date;
+  }
+
+  /**
+   * Callback invoked by label state parent mixin
+   * @param {string} val new label value
+   */
+  onLabelChange(val: string | null) {
+    if (val) {
+      this.#triggerField?.setAttribute(attributes.LABEL, val);
+    } else {
+      this.#triggerField?.removeAttribute(attributes.LABEL);
+    }
+  }
+
+  /**
+   * Handles id attribute changes
+   * @param {string} value id value
+   */
+  onIdChange(value: string | null) {
+    if (value) {
+      this.#triggerField?.setAttribute(attributes.ID, value);
+    } else {
+      this.removeAttribute(attributes.ID);
+      this.#triggerField?.removeAttribute(attributes.ID);
+    }
   }
 
   /**
@@ -1533,19 +1562,19 @@ class IdsDatePicker extends Base {
    * @param {string|null} val value param
    */
   set value(val: string | null) {
-    const textEl = this.container?.querySelector('.datepicker-text');
-    const dropdownEl = this.container?.querySelector('.dropdown-btn-text');
+    const textEl = this.container?.querySelector<HTMLElement>('.datepicker-text');
+    const dropdownEl = this.container?.querySelector<HTMLElement>('.dropdown-btn-text');
 
     if (!this.disabled && !this.readonly) {
-      this.setAttribute(attributes.VALUE, val);
+      this.setAttribute(attributes.VALUE, String(val));
       this.#triggerField?.setAttribute(attributes.VALUE, val);
 
       if (textEl) {
-        textEl.innerText = val;
+        textEl.innerText = val ?? '';
       }
 
       if (dropdownEl) {
-        dropdownEl.innerText = val;
+        dropdownEl.innerText = val ?? '';
       }
     }
   }
@@ -1577,28 +1606,6 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * label attribute
-   * @returns {string} label param
-   */
-  get label(): string {
-    return this.getAttribute(attributes.LABEL) ?? '';
-  }
-
-  /**
-   * Set trigger field label
-   * @param {string|null} val of label to be set
-   */
-  set label(val: string | null) {
-    if (val) {
-      this.setAttribute(attributes.LABEL, val);
-      this.#triggerField?.setAttribute(attributes.LABEL, val);
-    } else {
-      this.removeAttribute(attributes.LABEL);
-      this.#triggerField?.removeAttribute(attributes.LABEL);
-    }
-  }
-
-  /**
    * disabled attribute
    * @returns {boolean} disabled param
    */
@@ -1616,7 +1623,7 @@ class IdsDatePicker extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.DISABLED, boolVal);
+      this.setAttribute(attributes.DISABLED, 'true');
       this.#triggerField?.setAttribute(attributes.DISABLED, boolVal);
     } else {
       this.removeAttribute(attributes.DISABLED);
@@ -1642,8 +1649,8 @@ class IdsDatePicker extends Base {
     const boolVal: boolean = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.READONLY, boolVal);
-      this.#triggerField?.setAttribute(attributes.READONLY, boolVal);
+      this.setAttribute(attributes.READONLY, 'true');
+      this.#triggerField?.setAttribute(attributes.READONLY, 'true');
     } else {
       this.removeAttribute(attributes.READONLY);
       this.#triggerField?.removeAttribute(attributes.READONLY);
@@ -1687,28 +1694,8 @@ class IdsDatePicker extends Base {
    * @param {boolean|string|null} val true of false depending if the trigger field is tabbable
    */
   set tabbable(val: boolean | string | null) {
-    this.setAttribute(attributes.TABBABLE, val);
+    this.setAttribute(attributes.TABBABLE, String(val));
     this.#triggerButton?.setAttribute(attributes.TABBABLE, val);
-  }
-
-  /**
-   * id attribute
-   * @returns {string} id param
-   */
-  get id(): string { return this.getAttribute(attributes.ID) ?? ''; }
-
-  /**
-   * Set trigger field/input id attribute
-   * @param {string} val id
-   */
-  set id(val: string) {
-    if (val) {
-      this.setAttribute(attributes.ID, val);
-      this.#triggerField?.setAttribute(attributes.ID, val);
-    } else {
-      this.removeAttribute(attributes.ID);
-      this.#triggerField?.removeAttribute(attributes.ID);
-    }
   }
 
   /**
@@ -1823,7 +1810,7 @@ class IdsDatePicker extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.IS_CALENDAR_TOOLBAR, boolVal);
+      this.setAttribute(attributes.IS_CALENDAR_TOOLBAR, 'true');
     } else {
       this.removeAttribute(attributes.IS_CALENDAR_TOOLBAR);
     }
@@ -1850,7 +1837,7 @@ class IdsDatePicker extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.IS_DROPDOWN, boolVal);
+      this.setAttribute(attributes.IS_DROPDOWN, 'true');
     } else {
       this.removeAttribute(attributes.IS_DROPDOWN);
     }
@@ -1875,7 +1862,7 @@ class IdsDatePicker extends Base {
    * @param {string|boolean|null} val show-today attribute value
    */
   set showToday(val: string | boolean | null) {
-    this.setAttribute(attributes.SHOW_TODAY, val);
+    this.setAttribute(attributes.SHOW_TODAY, String(val));
     this.#monthView?.setAttribute(attributes.SHOW_TODAY, val);
     this.#attachExpandedListener();
   }
@@ -1901,7 +1888,7 @@ class IdsDatePicker extends Base {
    * @param {string|number|null} val fist-day-of-week attribute value
    */
   set firstDayOfWeek(val: string | number | null) {
-    this.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
+    this.setAttribute(attributes.FIRST_DAY_OF_WEEK, String(val));
     this.#monthView?.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
   }
 
@@ -1927,7 +1914,7 @@ class IdsDatePicker extends Base {
    */
   set month(val: string | number | null) {
     if (!Number.isNaN(stringToNumber(val))) {
-      this.setAttribute(attributes.MONTH, val);
+      this.setAttribute(attributes.MONTH, String(val));
       this.#monthView?.setAttribute(attributes.MONTH, val);
     } else {
       this.removeAttribute(attributes.MONTH);
@@ -1962,7 +1949,7 @@ class IdsDatePicker extends Base {
    * @returns {number} year param converted to number from attribute value
    */
   get year(): number {
-    const attrVal = this.getAttribute(attributes.YEAR);
+    const attrVal = this.getAttribute(attributes.YEAR) ?? '';
     const numberVal = stringToNumber(attrVal);
 
     if (!Number.isNaN(numberVal) && attrVal.length === 4) {
@@ -1979,7 +1966,7 @@ class IdsDatePicker extends Base {
    */
   set year(val: string | number | null) {
     if (val) {
-      this.setAttribute(attributes.YEAR, val);
+      this.setAttribute(attributes.YEAR, String(val));
       this.#monthView?.setAttribute(attributes.YEAR, val);
     } else {
       this.removeAttribute(attributes.YEAR);
@@ -2013,7 +2000,7 @@ class IdsDatePicker extends Base {
    */
   set day(val: string | number | null) {
     if (val) {
-      this.setAttribute(attributes.DAY, val);
+      this.setAttribute(attributes.DAY, String(val));
       this.#monthView?.setAttribute(attributes.DAY, val);
     } else {
       this.removeAttribute(attributes.DAY);
@@ -2048,8 +2035,9 @@ class IdsDatePicker extends Base {
     if (!this.isDropdown || !this.container) return;
 
     const boolVal = stringToBool(val);
+    const expandableArea = this.container.querySelector<IdsExpandableArea>('ids-expandable-area');
 
-    this.container.querySelector('ids-expandable-area').expanded = boolVal;
+    if (expandableArea) expandableArea.expanded = boolVal;
     this.container.classList.toggle('is-expanded', boolVal);
     this.#triggerExpandedEvent(boolVal);
 
@@ -2059,12 +2047,12 @@ class IdsDatePicker extends Base {
       const timePickerHeight: number = getClosest(this, 'ids-month-view')?.parentElement
         ?.querySelector('ids-time-picker')?.container.offsetHeight || 0;
 
-      this.container.querySelector('.picklist')?.style.setProperty('height', `${monthViewHeight + timePickerHeight - 48}px`);
+      this.container.querySelector<HTMLElement>('.picklist')?.style.setProperty('height', `${monthViewHeight + timePickerHeight - 48}px`);
 
-      const monthEl = this.container.querySelector(`.picklist-item.is-month[data-month="${this.month}"]`);
-      const yearEl = this.container.querySelector(`.picklist-item.is-year[data-year="${this.year}"]`);
+      const monthEl = this.container.querySelector<HTMLElement>(`.picklist-item.is-month[data-month="${this.month}"]`);
+      const yearEl = this.container.querySelector<HTMLElement>(`.picklist-item.is-year[data-year="${this.year}"]`);
       const week = weekNumber(new Date(this.year, this.month, this.day), this.firstDayOfWeek);
-      const weekEl = this.container.querySelector(`.picklist-item.is-week[data-week="${week}"]`);
+      const weekEl = this.container.querySelector<HTMLElement>(`.picklist-item.is-week[data-week="${week}"]`);
       const picklistBtns: any = this.container.querySelectorAll('.picklist-item.is-btn-up, .picklist-item.is-btn-down');
 
       this.#selectPicklistEl(monthEl);
@@ -2075,9 +2063,9 @@ class IdsDatePicker extends Base {
         item.setAttribute('tabindex', '0');
       });
 
-      this.container.querySelector('.picklist-item.is-selected')?.focus();
+      this.container.querySelector<HTMLElement>('.picklist-item.is-selected')?.focus();
 
-      this.setAttribute(attributes.EXPANDED, boolVal);
+      this.setAttribute(attributes.EXPANDED, 'true');
     } else {
       this.#unselectPicklist('all');
       this.removeAttribute(attributes.EXPANDED);
@@ -2150,7 +2138,7 @@ class IdsDatePicker extends Base {
     const btnApply = this.container?.querySelector('.popup-btn-apply');
 
     if (boolVal) {
-      this.setAttribute(attributes.USE_RANGE, boolVal);
+      this.setAttribute(attributes.USE_RANGE, 'true');
       this.#monthView?.setAttribute(attributes.USE_RANGE, boolVal);
       btnApply?.removeAttribute('hidden');
       btnApply?.setAttribute('disabled', 'true');
@@ -2197,7 +2185,7 @@ class IdsDatePicker extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.MASK, boolVal);
+      this.setAttribute(attributes.MASK, 'true');
       this.#triggerField?.setAttribute(attributes.MASK, this.useRange ? 'rangeDate' : 'date');
     } else {
       this.removeAttribute(attributes.MASK);
@@ -2222,7 +2210,7 @@ class IdsDatePicker extends Base {
     const timePicker = this.container?.querySelector('ids-time-picker');
 
     if (numberVal) {
-      this.setAttribute(attributes.MINUTE_INTERVAL, numberVal);
+      this.setAttribute(attributes.MINUTE_INTERVAL, String(numberVal));
       timePicker?.setAttribute(attributes.MINUTE_INTERVAL, numberVal.toString());
     } else {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
@@ -2247,7 +2235,7 @@ class IdsDatePicker extends Base {
     const timePicker = this.container?.querySelector('ids-time-picker');
 
     if (numberVal) {
-      this.setAttribute(attributes.SECOND_INTERVAL, numberVal);
+      this.setAttribute(attributes.SECOND_INTERVAL, String(numberVal));
       timePicker?.setAttribute(attributes.SECOND_INTERVAL, numberVal.toString());
     } else {
       this.removeAttribute(attributes.SECOND_INTERVAL);
@@ -2272,7 +2260,7 @@ class IdsDatePicker extends Base {
     const btn = this.container?.querySelector('.popup-btn-clear');
 
     if (boolVal) {
-      this.setAttribute(attributes.SHOW_CLEAR, boolVal);
+      this.setAttribute(attributes.SHOW_CLEAR, 'true');
       btn?.removeAttribute('hidden');
     } else {
       this.removeAttribute(attributes.SHOW_CLEAR);
@@ -2298,7 +2286,7 @@ class IdsDatePicker extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.SHOW_CANCEL, boolVal);
+      this.setAttribute(attributes.SHOW_CANCEL, 'true');
     } else {
       this.removeAttribute(attributes.SHOW_CANCEL);
     }
@@ -2325,7 +2313,7 @@ class IdsDatePicker extends Base {
   set showPicklistYear(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
-    this.setAttribute(attributes.SHOW_PICKLIST_YEAR, boolVal);
+    this.setAttribute(attributes.SHOW_PICKLIST_YEAR, String(boolVal));
     this.#monthView?.setAttribute(attributes.SHOW_PICKLIST_YEAR, boolVal);
   }
 
@@ -2350,7 +2338,7 @@ class IdsDatePicker extends Base {
   set showPicklistMonth(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
-    this.setAttribute(attributes.SHOW_PICKLIST_MONTH, boolVal);
+    this.setAttribute(attributes.SHOW_PICKLIST_MONTH, String(boolVal));
     this.#monthView?.setAttribute(attributes.SHOW_PICKLIST_MONTH, boolVal);
   }
 
@@ -2370,7 +2358,7 @@ class IdsDatePicker extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.SHOW_PICKLIST_WEEK, boolVal);
+      this.setAttribute(attributes.SHOW_PICKLIST_WEEK, String(boolVal));
       this.#monthView?.setAttribute(attributes.SHOW_PICKLIST_WEEK, boolVal);
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);

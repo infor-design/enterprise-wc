@@ -5,14 +5,14 @@ import IdsEmptyMessage from '../../src/components/ids-empty-message/ids-empty-me
 import '../../src/components/ids-text/ids-text';
 
 describe('Ids Empty Message Tests', () => {
-  let elem: any;
+  let elem: IdsEmptyMessage;
 
   const createElemViaTemplate = async (innerHTML: string) => {
     elem?.remove?.();
 
     const template = document.createElement('template');
     template.innerHTML = innerHTML;
-    elem = template.content.childNodes[0];
+    elem = template.content.childNodes[0] as IdsEmptyMessage;
     document.body.appendChild(elem);
 
     return elem;
@@ -42,7 +42,7 @@ describe('Ids Empty Message Tests', () => {
   });
 
   it('renders correctly', () => {
-    expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
+    expect(elem.shadowRoot?.innerHTML).toMatchSnapshot();
   });
 
   it('can update the icon', () => {

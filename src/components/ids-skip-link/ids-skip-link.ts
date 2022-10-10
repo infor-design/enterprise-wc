@@ -47,7 +47,7 @@ export default class IdsSkiplink extends Base {
    * Set the link href
    * @param {string} value Set the link's href to some link
    */
-  set href(value: string) {
+  set href(value: string | null) {
     if (value) {
       this.setAttribute(attributes.HREF, value);
       this.container?.setAttribute(attributes.HREF, value);
@@ -57,5 +57,5 @@ export default class IdsSkiplink extends Base {
     this.container?.removeAttribute(attributes.HREF);
   }
 
-  get href(): string { return this.getAttribute(attributes.HREF); }
+  get href(): string | null { return this.getAttribute(attributes.HREF); }
 }

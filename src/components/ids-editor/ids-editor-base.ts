@@ -7,10 +7,10 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsThemeMixin(
-  IdsLocaleMixin(
+  IdsValidationMixin(
     IdsLabelStateMixin(
       IdsDirtyTrackerMixin(
-        IdsValidationMixin(
+        IdsLocaleMixin(
           IdsEventsMixin(
             IdsElement
           )

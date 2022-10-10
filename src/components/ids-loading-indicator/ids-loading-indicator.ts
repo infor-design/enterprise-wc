@@ -119,7 +119,7 @@ export default class IdsLoadingIndicator extends Base {
   set progress(value: any) {
     const hasValue = !Number.isNaN(Number.parseFloat(value));
     if (hasValue) {
-      this.setAttribute(attributes.PROGRESS, parseFloat(value));
+      this.setAttribute(attributes.PROGRESS, String(parseFloat(value)));
       this.shadowRoot?.querySelector('svg')?.style?.setProperty?.('--progress', value);
     } else {
       this.removeAttribute(attributes.PROGRESS);

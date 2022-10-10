@@ -149,8 +149,8 @@ export default class IdsPager extends Base {
     ].join(', ');
 
     const pagerChildren = [
-      ...(this.shadowRoot?.querySelectorAll(pagerChildSelectors) || []),
-      ...this.querySelectorAll(pagerChildSelectors),
+      ...(this.shadowRoot?.querySelectorAll<HTMLElement>(pagerChildSelectors) || []),
+      ...this.querySelectorAll<HTMLElement>(pagerChildSelectors),
     ];
 
     pagerChildren.forEach((element: HTMLElement) => {
@@ -191,13 +191,13 @@ export default class IdsPager extends Base {
     } else {
       nextValue = Number.parseInt(value as any);
     }
-    this.setAttribute(attributes.PAGE_SIZE, nextValue);
+    this.setAttribute(attributes.PAGE_SIZE, String(nextValue));
     this.#keepPageNumberInBounds();
   }
 
   /** @returns {number} The number of items shown per page */
   get pageSize(): number {
-    return Math.max(parseInt(this.getAttribute(attributes.PAGE_SIZE)) || 1, 1);
+    return Math.max(parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '') || 1, 1);
   }
 
   /** @param {number} value A 1-based index for the page number displayed */
@@ -213,12 +213,12 @@ export default class IdsPager extends Base {
       nextValue = Math.min(nextValue, pageCount);
     }
 
-    this.setAttribute(attributes.PAGE_NUMBER, nextValue);
+    this.setAttribute(attributes.PAGE_NUMBER, String(nextValue));
   }
 
   /** @returns {number} value A 1-based-index for the page number displayed */
   get pageNumber(): number {
-    return Math.max(parseInt(this.getAttribute(attributes.PAGE_NUMBER)) || 1, 1);
+    return Math.max(parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '') || 1, 1);
   }
 
   /** @returns {number|null} The calculated pageCount using total and pageSize */
@@ -233,7 +233,7 @@ export default class IdsPager extends Base {
    * @param {number|string} value The number of steps
    */
   set step(value: number | string) {
-    this.setAttribute(attributes.STEP, value);
+    this.setAttribute(attributes.STEP, String(value));
   }
 
   /** @returns {number|string} value The number of steps */
@@ -252,13 +252,13 @@ export default class IdsPager extends Base {
       nextValue = Number.parseInt(value as any);
     }
 
-    this.setAttribute(attributes.TOTAL, nextValue);
+    this.setAttribute(attributes.TOTAL, String(nextValue));
     this.#keepPageNumberInBounds();
   }
 
   /** @returns {number} The number of items the pager is tracking */
   get total(): number {
-    return Math.max(parseInt(this.getAttribute(attributes.TOTAL)) || 1, 1);
+    return Math.max(parseInt(this.getAttribute(attributes.TOTAL) ?? '') || 1, 1);
   }
 
   /** @param {number} value The number of items to track */
@@ -270,11 +270,11 @@ export default class IdsPager extends Base {
    * @returns {'buttons' | 'list'} Type of pager that should be displayed
    */
   get type(): 'buttons' | 'list' {
-    return this.getAttribute(attributes.TYPE);
+    return this.getAttribute(attributes.TYPE) as 'buttons' | 'list';
   }
 
   #keepPageNumberInBounds(): void {
-    let nextValue = parseInt(this.getAttribute(attributes.PAGE_NUMBER));
+    let nextValue = parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '');
 
     if (Number.isNaN(nextValue)) {
       nextValue = 1;
@@ -284,8 +284,8 @@ export default class IdsPager extends Base {
       nextValue = this.pageCount;
     }
 
-    if (parseInt(this.getAttribute(attributes.PAGE_NUMBER)) !== nextValue) {
-      this.setAttribute(attributes.PAGE_NUMBER, nextValue);
+    if (parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '') !== nextValue) {
+      this.setAttribute(attributes.PAGE_NUMBER, String(nextValue));
     }
   }
 }

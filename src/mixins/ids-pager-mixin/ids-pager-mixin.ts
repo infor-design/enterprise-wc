@@ -4,6 +4,8 @@ import IdsDataSource from '../../core/ids-data-source';
 import '../../components/ids-pager/ids-pager';
 import '../../components/ids-button/ids-button';
 import '../../components/ids-menu-button/ids-menu-button';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+import { IdsConstructor } from '../../core/ids-element';
 
 const PAGINATION_TYPES = {
   NONE: 'none',
@@ -14,13 +16,15 @@ const PAGINATION_TYPES = {
 
 type PaginationTypes = typeof PAGINATION_TYPES[keyof typeof PAGINATION_TYPES];
 
+type Constraints = IdsConstructor<EventsMixinInterface>;
+
 /**
 /**
  * A mixin that adds pager functionality to components
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsPagerMixin = (superclass: any): any => class extends superclass {
+const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends superclass {
   /** Reference to the user-provided IdsPager component */
   #pager: any;
 
@@ -30,8 +34,8 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
    */
   datasource = new IdsDataSource();
 
-  constructor() {
-    super();
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   /**
@@ -68,7 +72,7 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
    */
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.PAGINATION,
       attributes.PAGE_NUMBER,
       attributes.PAGE_SIZE,
@@ -143,14 +147,16 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
    * Gets the pagination attribute
    * @returns {PaginationTypes} default is "none"
    */
-  get pagination(): PaginationTypes { return this.getAttribute(attributes.PAGINATION) || PAGINATION_TYPES.NONE; }
+  get pagination(): PaginationTypes {
+    return this.getAttribute(attributes.PAGINATION) as PaginationTypes || PAGINATION_TYPES.NONE;
+  }
 
   /**
    * Set the page-number attribute
    * @param {number} value - new the page-number
    */
   set pageNumber(value: number) {
-    this.setAttribute(attributes.PAGE_NUMBER, value);
+    this.setAttribute(attributes.PAGE_NUMBER, String(value));
     this.pager.pageNumber = value;
     this.datasource.pageNumber = value;
   }
@@ -166,7 +172,7 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
    * @param {number} value - new the page-size
    */
   set pageSize(value: number) {
-    this.setAttribute(attributes.PAGE_SIZE, value);
+    this.setAttribute(attributes.PAGE_SIZE, String(value));
     this.pager.pageSize = Number(value);
     this.datasource.pageSize = Number(value);
 
@@ -187,7 +193,7 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
    * @param {number} value - new the page-total
    */
   set pageTotal(value) {
-    this.setAttribute(attributes.PAGE_TOTAL, value);
+    this.setAttribute(attributes.PAGE_TOTAL, String(value));
     this.pager.total = value;
     this.datasource.total = value;
   }
@@ -196,7 +202,9 @@ const IdsPagerMixin = (superclass: any): any => class extends superclass {
    * Get the page-total attribute
    * @returns {number} - the current page-total
    */
-  get pageTotal() { return parseInt(this.getAttribute(attributes.PAGE_TOTAL)) || this.datasource.total; }
+  get pageTotal(): number {
+    return parseInt(this.getAttribute(attributes.PAGE_TOTAL) || '') || this.datasource.total;
+  }
 
   /**
    * Appends IdsPager to this.shadowRoot if pagination is enabled.

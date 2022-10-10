@@ -37,7 +37,7 @@ export default class IdsLayoutGridCell extends Base {
     ];
   }
 
-  parentColSetting: string | null = this.parentElement?.getAttribute(attributes.COLS);
+  parentColSetting?: string | null = this.parentElement?.getAttribute(attributes.COLS);
 
   defaultColSetting = 'fluid-grid';
 
@@ -316,7 +316,7 @@ export default class IdsLayoutGridCell extends Base {
       return;
     }
 
-    this.style.justifySelf = null;
+    this.style.removeProperty('justify-self');
     this.style.marginRight = '0px';
     this.removeAttribute(attributes.JUSTIFY);
   }

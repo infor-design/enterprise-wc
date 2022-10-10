@@ -7,6 +7,7 @@ import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-
 import '../../src/components/ids-trigger-field/ids-trigger-button';
 import processAnimFrame from '../helpers/process-anim-frame';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import type IdsTriggerButton from '../../src/components/ids-trigger-field/ids-trigger-button';
 
 const DEFAULT_TRIGGERFIELD_HTML = (
   `<ids-trigger-field
@@ -58,7 +59,7 @@ const TWO_BUTTON_TRIGGERFIELD_HTML = (
 );
 
 describe('IdsTriggerField Component initialization', () => {
-  let container: any;
+  let container: IdsContainer;
 
   const setupComponent = (component: any) => {
     component.size = 'sm';
@@ -82,14 +83,14 @@ describe('IdsTriggerField Component initialization', () => {
   });
 
   it('can render via document.createElement (append early)', () => {
-    const component: any = document.createElement('ids-trigger-field');
+    const component = document.createElement('ids-trigger-field');
     container.appendChild(component);
     setupComponent(component);
     checkProperties(component);
   });
 
   it('can render via document.createElement (append late)', () => {
-    const component: any = document.createElement('ids-trigger-field');
+    const component = document.createElement('ids-trigger-field');
     setupComponent(component);
     container.appendChild(component);
     checkProperties(component);
@@ -97,7 +98,7 @@ describe('IdsTriggerField Component initialization', () => {
 });
 
 describe('IdsTriggerField Component', () => {
-  let triggerField: any;
+  let triggerField: IdsTriggerField;
 
   beforeEach(async () => {
     triggerField = await createFromTemplate(triggerField, DEFAULT_TRIGGERFIELD_HTML);
@@ -110,7 +111,7 @@ describe('IdsTriggerField Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsTriggerField();
+    const elem = new IdsTriggerField();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-trigger-field').length).toEqual(1);
@@ -119,8 +120,6 @@ describe('IdsTriggerField Component', () => {
 
   it('renders correctly', () => {
     expect(triggerField.outerHTML).toMatchSnapshot();
-
-    triggerField.icon = 'close';
     expect(triggerField.outerHTML).toMatchSnapshot();
   });
 
@@ -146,19 +145,19 @@ describe('IdsTriggerField Component', () => {
 
     expect(triggerField.getAttribute('validate')).toEqual('required');
     expect(triggerField.validate).toEqual('required');
-    expect(triggerField.shadowRoot.querySelector('.validation-message')).toBeFalsy();
+    expect(triggerField.shadowRoot?.querySelector('.validation-message')).toBeFalsy();
 
     triggerField.focus();
     triggerField.blur();
     triggerField.checkValidation();
-    const msgEl = triggerField.shadowRoot.querySelector('.validation-message');
+    const msgEl = triggerField.shadowRoot?.querySelector('.validation-message');
     expect(msgEl).toBeTruthy();
-    expect(msgEl.getAttribute('validation-id')).toEqual('required');
+    expect(msgEl?.getAttribute('validation-id')).toEqual('required');
 
     triggerField.value = 'test';
     triggerField.blur();
     triggerField.checkValidation();
-    expect(triggerField.shadowRoot.querySelector('.validation-message')).toBe(null);
+    expect(triggerField.shadowRoot?.querySelector('.validation-message')).toBe(null);
   });
 
   it('renders tabbable setting', () => {
@@ -221,11 +220,11 @@ describe('IdsTriggerField Component', () => {
   });
 
   it('renders icon clock', async () => {
-    const triggerButton = triggerField.querySelector('ids-trigger-button');
+    const triggerButton = triggerField.querySelector('ids-trigger-button') as IdsTriggerButton;
     triggerButton.icon = 'clock';
     await processAnimFrame();
 
-    expect(triggerButton.querySelector('ids-icon').getAttribute('icon')).toEqual('clock');
+    expect(triggerButton.querySelector('ids-icon')?.getAttribute('icon')).toEqual('clock');
   });
 
   it('can set the noMargins attribute', () => {

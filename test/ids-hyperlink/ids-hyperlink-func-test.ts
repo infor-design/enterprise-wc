@@ -86,11 +86,11 @@ describe('IdsHyperlink Component', () => {
     elem = new IdsHyperlink();
     document.body.appendChild(elem);
     elem.disabled = true;
-    expect(elem.disabled).toEqual('true');
-    expect(elem.shadowRoot.querySelector('a').getAttribute('disabled')).toEqual('true');
+    expect(elem.disabled).toEqual(true);
+    expect(elem.shadowRoot.querySelector('a').getAttribute('disabled')).toEqual('');
     expect(elem.shadowRoot.querySelector('a').getAttribute('tabindex')).toEqual('-1');
     elem.disabled = false;
-    expect(elem.disabled).toEqual(null);
+    expect(elem.disabled).toEqual(false);
     expect(elem.shadowRoot.querySelector('a').getAttribute('disabled')).toEqual(null);
     expect(elem.shadowRoot.querySelector('a').getAttribute('tabindex')).toEqual(null);
   });

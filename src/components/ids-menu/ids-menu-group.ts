@@ -11,6 +11,8 @@ import { MENU_GROUP_SELECT_TYPES } from './ids-menu-attributes';
 
 // Import Styles
 import styles from './ids-menu-group.scss';
+import IdsMenuHeader from './ids-menu-header';
+import IdsMenuItem from './ids-menu-item';
 
 /**
  * IDS Menu Group Component
@@ -77,7 +79,7 @@ export default class IdsMenuGroup extends Base {
         this.setAttribute(htmlAttributes.ARIA_LABELLED_BY, `${this.header.id}`);
         this.removeAttribute(htmlAttributes.ARIA_LABEL);
       } else {
-        this.setAttribute(htmlAttributes.ARIA_LABEL, `${this.header.textContent}`);
+        this.setAttribute(htmlAttributes.ARIA_LABEL, `${this.header?.textContent}`);
         this.removeAttribute(htmlAttributes.ARIA_LABELLED_BY);
       }
     } else {
@@ -101,10 +103,10 @@ export default class IdsMenuGroup extends Base {
 
   /**
    * @readonly
-   * @returns {Array<any>} [Array<IdsMenuItem>] all available menu items in this group
+   * @returns {Array<IdsMenuItem>} [Array<IdsMenuItem>] all available menu items in this group
    */
-  get items(): Array<any> {
-    return [...this.children].filter((e) => e.matches('ids-menu-item'));
+  get items(): Array<IdsMenuItem> {
+    return [...this.children].filter((e) => e.matches('ids-menu-item')) as Array<IdsMenuItem>;
   }
 
   /**
@@ -142,10 +144,10 @@ export default class IdsMenuGroup extends Base {
    * @readonly
    * @returns {any} [IdsMenuHeader] containing a menu
    */
-  get header() {
+  get header(): IdsMenuHeader | null {
     const prevHeader = this.previousElementSibling;
-    if (prevHeader && prevHeader.tagName === 'IDS-MENU-HEADER') return prevHeader;
-    return this.querySelector('ids-menu-header');
+    if (prevHeader && prevHeader instanceof IdsMenuHeader) return prevHeader;
+    return this.querySelector<IdsMenuHeader>('ids-menu-header');
   }
 
   /**

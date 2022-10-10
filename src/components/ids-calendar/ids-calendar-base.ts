@@ -5,9 +5,9 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsCalendarEventsMixin from '../../mixins/ids-calendar-events-mixin/ids-calendar-events-mixin';
 
 const Base = IdsThemeMixin(
-  IdsLocaleMixin(
-    IdsEventsMixin(
-      IdsCalendarEventsMixin(
+  IdsCalendarEventsMixin(
+    IdsLocaleMixin(
+      IdsEventsMixin(
         IdsElement
       )
     )

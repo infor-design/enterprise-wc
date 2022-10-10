@@ -1,4 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
+import { IdsBaseConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
@@ -7,14 +8,14 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it.
  * @returns {any} The extended object
  */
-const IdsHitboxMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsHitboxMixin = <T extends IdsBaseConstructor>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.HITBOX
     ];
   }

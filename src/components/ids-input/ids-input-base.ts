@@ -14,18 +14,18 @@ import IdsAutoComplete from './ids-autocomplete';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsTooltipMixin(
-  IdsLocaleMixin(
-    IdsLabelStateMixin(
+  IdsLabelStateMixin(
+    IdsAutoComplete(
       IdsFieldHeightMixin(
         IdsDirtyTrackerMixin(
           IdsClearableMixin(
             IdsColorVariantMixin(
-              IdsMaskMixin(
-                IdsValidationMixin(
-                  IdsKeyboardMixin(
-                    IdsThemeMixin(
-                      IdsEventsMixin(
-                        IdsAutoComplete(
+              IdsThemeMixin(
+                IdsMaskMixin(
+                  IdsValidationMixin(
+                    IdsLocaleMixin(
+                      IdsKeyboardMixin(
+                        IdsEventsMixin(
                           IdsElement
                         )
                       )

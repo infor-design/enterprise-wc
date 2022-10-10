@@ -1,9 +1,16 @@
 // Import Core
 import { attributes } from '../../core/ids-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
+interface FieldHeightInterface {
+  onFieldHeightChange?(fieldHeight: string): void;
+}
+
+type Constraints = IdsConstructor<FieldHeightInterface>;
+
 // Setting defaults field-heights
-const FIELD_HEIGHTS: any = {
+export const FIELD_HEIGHTS: any = {
   default: 'md',
   xs: 'xs',
   sm: 'sm',
@@ -12,7 +19,7 @@ const FIELD_HEIGHTS: any = {
 };
 
 // Returns a Field Height css class
-const getFieldHeightClass = (val: string) => `field-height-${val || FIELD_HEIGHTS.default}`;
+const getFieldHeightClass = (val: string) => `field-height-${val}`;
 
 /**
  * Adds "field-height" and "compact" attrbutes to a component, which enables style capability in a component,
@@ -20,9 +27,9 @@ const getFieldHeightClass = (val: string) => `field-height-${val || FIELD_HEIGHT
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsFieldHeightMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsFieldHeightMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
 
     if (!this.state) {
       this.state = {};
@@ -33,19 +40,19 @@ const IdsFieldHeightMixin = (superclass: any) => class extends superclass {
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.COMPACT,
       attributes.FIELD_HEIGHT,
     ];
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    super.connectedCallback();
 
     if (this.hasAttribute(attributes.COMPACT)) {
       this.compact = true;
     } else {
-      this.container.classList.add(getFieldHeightClass(this.fieldHeight));
+      this.container?.classList.add(getFieldHeightClass(this.fieldHeight));
     }
   }
 
@@ -85,7 +92,7 @@ const IdsFieldHeightMixin = (superclass: any) => class extends superclass {
    * Set the fieldHeight (height) of input
    * @param {string} value [xs, sm, md, lg]
    */
-  set fieldHeight(value) {
+  set fieldHeight(value: string) {
     if (!value) {
       this.state.fieldHeight = FIELD_HEIGHTS.default;
       this.clearHeightClasses();
@@ -104,8 +111,8 @@ const IdsFieldHeightMixin = (superclass: any) => class extends superclass {
     }
   }
 
-  get fieldHeight() {
-    return this.getAttribute(attributes.FIELD_HEIGHT);
+  get fieldHeight(): string {
+    return this.getAttribute(attributes.FIELD_HEIGHT) ?? FIELD_HEIGHTS.default;
   }
 
   /**
@@ -129,6 +136,3 @@ const IdsFieldHeightMixin = (superclass: any) => class extends superclass {
 };
 
 export default IdsFieldHeightMixin;
-export {
-  FIELD_HEIGHTS
-};

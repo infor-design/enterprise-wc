@@ -10,8 +10,12 @@ import IdsDataSource from '../../core/ids-data-source';
 import '../ids-tooltip/ids-tooltip';
 import '../ids-empty-message/ids-empty-message';
 import styles from './ids-axis-chart.scss';
+import { ChartSelectionHandler } from '../../mixins/ids-chart-selection-mixin/ids-chart-selection-mixin';
+import type IdsEmptyMessage from '../ids-empty-message/ids-empty-message';
+import type IdsText from '../ids-text/ids-text';
+import type IdsTooltip from '../ids-tooltip/ids-tooltip';
 
-type IdsChartData = {
+export type IdsChartData = {
   abbreviatedName?: string,
   name?: string,
   value?: number,
@@ -22,14 +26,14 @@ type IdsChartData = {
   patternColor?: string
 };
 
-type IdsChartPointData = {
+export type IdsChartPointData = {
   left: number,
   top: number,
   value: number,
   color?: string
 };
 
-type IdsChartMarkerData = {
+export type IdsChartMarkerData = {
   /** The number of markers (dots ect) */
   markerCount: number,
   /** The min value in all groups */
@@ -43,7 +47,7 @@ type IdsChartMarkerData = {
   /** The y scale values */
   scaleY?: Array<number>,
   /** The point data in the group */
-  points?: Array<IdsChartData>,
+  points?: Array<Array<IdsChartPointData>>,
   /** The location of the top of the grid */
   gridTop: number,
   /** The location of the bottom of the grid */
@@ -56,11 +60,16 @@ type IdsChartMarkerData = {
   groupTotals: Array<number>
 };
 
-type IdsChartDimensions = {
+export type IdsChartDimensions = {
   left: number,
   right: number,
   top: number,
   bottom: number
+};
+
+export type SectionWidth = {
+  width: number;
+  left: number;
 };
 
 /**
@@ -74,7 +83,7 @@ type IdsChartDimensions = {
  */
 @customElement('ids-axis-chart')
 @scss(styles)
-export default class IdsAxisChart extends Base {
+export default class IdsAxisChart extends Base implements ChartSelectionHandler {
   constructor() {
     super();
 
@@ -85,6 +94,26 @@ export default class IdsAxisChart extends Base {
       compactDisplay: 'short'
     };
   }
+
+  svg?: SVGElement | null;
+
+  canvas?: HTMLCanvasElement;
+
+  emptyMessage?: IdsEmptyMessage | null;
+
+  legend?: HTMLSlotElement | null;
+
+  sectionWidths: SectionWidth[] = [];
+
+  sectionWidth = NaN;
+
+  resizeToParentHeight?: boolean;
+
+  resizeToParentWidth?: boolean;
+
+  parentWidth = NaN;
+
+  parentHeight = NaN;
 
   /** Reference to datasource API */
   datasource = new IdsDataSource();
@@ -109,11 +138,11 @@ export default class IdsAxisChart extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback?.();
-    this.svg = this.shadowRoot.querySelector('svg');
-    this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot.querySelector('ids-empty-message');
-    this.legend = this.shadowRoot.querySelector('[name="legend"]');
-    if (this.getAttribute(attributes.WIDTH)) this.width = this.getAttribute(attributes.WIDTH);
-    if (this.getAttribute(attributes.HEIGHT)) this.height = this.getAttribute(attributes.HEIGHT);
+    this.svg = this.shadowRoot?.querySelector('svg');
+    this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot?.querySelector('ids-empty-message');
+    this.legend = this.shadowRoot?.querySelector('[name="legend"]');
+    if (this.getAttribute(attributes.WIDTH)) this.width = this.getAttribute(attributes.WIDTH) as string;
+    if (this.getAttribute(attributes.HEIGHT)) this.height = this.getAttribute(attributes.HEIGHT) as string;
 
     this.#resetAxisLabelsText();
     this.#attachEventHandlers();
@@ -128,11 +157,11 @@ export default class IdsAxisChart extends Base {
     super.disconnectedCallback();
     this.#resizeObserver?.disconnect();
     this.#resizeObserver = undefined;
-    this.emptyMessage.remove();
+    this.emptyMessage?.remove();
     this.emptyMessage = undefined;
-    this.svg.remove();
+    this.svg?.remove();
     this.svg = undefined;
-    this.legend.remove();
+    this.legend?.remove();
     this.legend = undefined;
   }
 
@@ -190,11 +219,13 @@ export default class IdsAxisChart extends Base {
   #attachEventHandlers(): void {
     this.onEvent('localechange.about-container', this.closest('ids-container'), async () => {
       this.redraw();
-      this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
+      const textElem = this.shadowRoot?.querySelector<IdsText>('ids-empty-message ids-text');
+      if (textElem) textElem.textContent = this.locale?.translate('NoData');
     });
 
     this.onEvent('languagechange.about-container', this.closest('ids-container'), async () => {
-      this.shadowRoot.querySelector('ids-empty-message ids-text').textContent = this.locale?.translate('NoData');
+      const textElem = this.shadowRoot?.querySelector<IdsText>('ids-empty-message ids-text');
+      if (textElem) textElem.textContent = this.locale?.translate('NoData');
     });
   }
 
@@ -214,13 +245,13 @@ export default class IdsAxisChart extends Base {
   #attachResizeObserver(): void {
     // Set observer for resize
     if ((this.resizeToParentHeight || this.resizeToParentWidth) && !this.#resizeObserver) {
-      this.parentWidth = this.parentElement.offsetWidth;
-      this.parentHeight = this.parentElement.offsetHeight;
+      this.parentWidth = this.parentElement?.offsetWidth as number;
+      this.parentHeight = this.parentElement?.offsetHeight as number;
       this.#resizeObserver = new ResizeObserver(debounce((entries: ResizeObserverEntry[]) => {
         this.resize(entries);
       }, 350));
       this.#resizeObserver.disconnect();
-      this.#resizeObserver.observe(this.parentElement);
+      this.#resizeObserver.observe(this.parentElement as HTMLElement);
     }
   }
 
@@ -250,8 +281,8 @@ export default class IdsAxisChart extends Base {
       this.reanimate();
     }
 
-    this.parentWidth = this.parentElement.offsetWidth;
-    this.parentHeight = this.parentElement.offsetHeight;
+    this.parentWidth = this.parentElement?.offsetWidth as number;
+    this.parentHeight = this.parentElement?.offsetHeight as number;
   }
 
   /**
@@ -265,15 +296,15 @@ export default class IdsAxisChart extends Base {
 
     if (this.data && this.data.length === 0 && this.initialized) {
       this.#showEmptyMessage();
-      this.legend.innerHTML = this.legendTemplate();
+      if (this.legend) this.legend.innerHTML = this.legendTemplate();
       return;
     }
 
     this.#calculate();
-    this.afterCalculateCallback?.();
+    (this as any).afterCalculateCallback?.();
     this.#addColorVariables();
-    this.svg.innerHTML = this.#axisTemplate();
-    this.legend.innerHTML = this.legendTemplate();
+    if (this.svg) this.svg.innerHTML = this.#axisTemplate();
+    if (this.legend) this.legend.innerHTML = this.legendTemplate();
 
     this.adjustLabels();
     this.#adjustRTL();
@@ -281,9 +312,16 @@ export default class IdsAxisChart extends Base {
     this.legendsClickable?.(this.selectable);
 
     // Completed Event and Callback
-    this.triggerEvent('rendered', this, { svg: this.svg, data: this.data, markerData: this.markerData });
-    if (this.afterConnectedCallback) {
-      this?.afterConnectedCallback();
+    this.triggerEvent('rendered', this, {
+      detail: {
+        svg: this.svg,
+        data: this.data,
+        markerData: this.markerData
+      }
+    });
+
+    if ((this as any).afterConnectedCallback) {
+      (this as any).afterConnectedCallback();
     }
   }
 
@@ -295,8 +333,8 @@ export default class IdsAxisChart extends Base {
     if (!this.locale?.isRTL()) return;
 
     const labels = {
-      x: [...this.svg.querySelectorAll('.labels.x-labels text')],
-      y: [...this.svg.querySelectorAll('.labels.y-labels text')]
+      x: [...this.svg?.querySelectorAll('.labels.x-labels text') ?? []],
+      y: [...this.svg?.querySelectorAll('.labels.y-labels text') ?? []]
     };
 
     // Adjust y-max text width
@@ -430,7 +468,7 @@ export default class IdsAxisChart extends Base {
    */
   #addColorVariables(): void {
     let colorSheet = '';
-    if (!this.shadowRoot.styleSheets) {
+    if (!this.shadowRoot?.styleSheets) {
       return;
     }
 
@@ -450,7 +488,7 @@ export default class IdsAxisChart extends Base {
     });
 
     const styleSheet = this.shadowRoot.styleSheets[0];
-    if (styleSheet.cssRules && styleSheet.cssRules[0].selectorText === ':host') {
+    if (styleSheet.cssRules && (styleSheet.cssRules[0] as any).selectorText === ':host') {
       styleSheet.deleteRule(0);
     }
     styleSheet.insertRule(`:host {
@@ -521,11 +559,13 @@ export default class IdsAxisChart extends Base {
     // Need one event per bar due to the nature of the events for tooltip
     this.tooltipElements().forEach((element: SVGElement) => {
       this.onEvent('hoverend', element, async () => {
-        const tooltip = this.container.querySelector('ids-tooltip');
-        tooltip.innerHTML = this.#tooltipContent(element);
-        tooltip.target = element;
-        tooltip.placement = 'top';
-        tooltip.visible = true;
+        const tooltip = this.container?.querySelector<IdsTooltip>('ids-tooltip');
+        if (tooltip) {
+          tooltip.innerHTML = this.#tooltipContent(element);
+          tooltip.target = element;
+          tooltip.placement = 'top';
+          tooltip.visible = true;
+        }
       });
     });
   }
@@ -802,9 +842,9 @@ export default class IdsAxisChart extends Base {
    * @private
    */
   #showEmptyMessage() {
-    this.svg.classList.add('hidden');
-    this.emptyMessage.style.height = `${this.height}px`;
-    this.emptyMessage.removeAttribute('hidden');
+    this.svg?.classList.add('hidden');
+    this.emptyMessage?.style.setProperty('height', `${this.height}px`);
+    this.emptyMessage?.removeAttribute('hidden');
   }
 
   /**
@@ -812,9 +852,9 @@ export default class IdsAxisChart extends Base {
    * @private
    */
   #hideEmptyMessage() {
-    this.svg.classList.remove('hidden');
-    this.emptyMessage.style.height = '';
-    this.emptyMessage.setAttribute('hidden', '');
+    this.svg?.classList.remove('hidden');
+    this.emptyMessage?.style.setProperty('height', '');
+    this.emptyMessage?.setAttribute('hidden', '');
   }
 
   /**
@@ -848,17 +888,15 @@ export default class IdsAxisChart extends Base {
   }
 
   /**
-   * Sets the chart title
+   * Handles chart title attribute changes
    * @param {string} value The title value
    */
-  set title(value) {
-    this.setAttribute(attributes.TITLE, value);
-    if (this.container?.querySelector(attributes.TITLE)) {
-      this.container.querySelector(attributes.TITLE).textContent = value;
+  onTitleChange(value = '') {
+    const titleElem = this.container?.querySelector(attributes.TITLE);
+    if (titleElem) {
+      titleElem.textContent = value;
     }
   }
-
-  get title() { return this.getAttribute(attributes.TITLE) || ''; }
 
   /**
    * The width of the chart (in pixels) or 'inherit' from the parent
@@ -871,8 +909,8 @@ export default class IdsAxisChart extends Base {
       this.resizeToParentHeight = true;
       this.#attachResizeObserver();
     }
-    this.setAttribute(attributes.HEIGHT, height);
-    this.svg?.setAttribute(attributes.HEIGHT, height);
+    this.setAttribute(attributes.HEIGHT, String(height));
+    this.svg?.setAttribute(attributes.HEIGHT, String(height));
     this.redraw();
   }
 
@@ -892,8 +930,8 @@ export default class IdsAxisChart extends Base {
       this.resizeToParentWidth = true;
       this.#attachResizeObserver();
     }
-    this.setAttribute(attributes.WIDTH, width);
-    this.svg?.setAttribute(attributes.WIDTH, width);
+    this.setAttribute(attributes.WIDTH, String(width));
+    this.svg?.setAttribute(attributes.WIDTH, String(width));
     this.#setContainerWidth(Number(width));
     this.redraw();
   }
@@ -915,8 +953,8 @@ export default class IdsAxisChart extends Base {
       isHidden = true;
     }
     const dims = {
-      width: this.parentElement.offsetWidth || parseInt(this.parentElement.style.width),
-      height: this.parentElement.offsetHeight || parseInt(this.parentElement.style.height)
+      width: this.parentElement?.offsetWidth || parseInt((this.parentElement as HTMLElement)?.style.width),
+      height: this.parentElement?.offsetHeight || parseInt((this.parentElement as HTMLElement)?.style.height)
     };
 
     if (isHidden) {
@@ -936,7 +974,7 @@ export default class IdsAxisChart extends Base {
       container.style.width = `${value}px`;
       return;
     }
-    container.parentNode.style.width = `${value}px`;
+    (container.parentNode as HTMLElement)?.style.setProperty('width', `${value}px`);
   }
 
   /**
@@ -977,7 +1015,7 @@ export default class IdsAxisChart extends Base {
    */
   calculateTextRenderWidth(text: string): number {
     this.canvas = this.canvas || document.createElement('canvas');
-    const context = this.canvas.getContext('2d');
+    const context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
     context.font = '400 16px arial';
     return context.measureText(text).width;
   }
@@ -1071,18 +1109,20 @@ export default class IdsAxisChart extends Base {
    * @param {number} value The value to use
    */
   set yAxisMin(value: number) {
-    this.setAttribute(attributes.Y_AXIS_MIN, value);
+    this.setAttribute(attributes.Y_AXIS_MIN, String(value));
     this.redraw();
   }
 
-  get yAxisMin(): number { return parseInt(this.getAttribute(attributes.Y_AXIS_MIN)) || 0; }
+  get yAxisMin(): number {
+    return parseInt(this.getAttribute(attributes.Y_AXIS_MIN) ?? '') || 0;
+  }
 
   /**
    * Show the vertical axis grid lines
    * @param {boolean} value True or false to show the grid lines
    */
   set showVerticalGridLines(value: boolean) {
-    this.setAttribute(attributes.SHOW_VERTICAL_GRID_LINES, value);
+    this.setAttribute(attributes.SHOW_VERTICAL_GRID_LINES, String(value));
     this.redraw();
   }
 
@@ -1099,7 +1139,7 @@ export default class IdsAxisChart extends Base {
    * @param {boolean} value True or false to show the grid lines
    */
   set showHorizontalGridLines(value: boolean) {
-    this.setAttribute(attributes.SHOW_HORIZONTAL_GRID_LINES, value);
+    this.setAttribute(attributes.SHOW_HORIZONTAL_GRID_LINES, String(value));
     this.redraw();
   }
 
@@ -1167,10 +1207,10 @@ export default class IdsAxisChart extends Base {
     }
 
     requestAnimationFrame(() => {
-      this.container.querySelectorAll('animate').forEach((elem: SVGAnimationElement) => {
+      this.container?.querySelectorAll('animate').forEach((elem: SVGAnimationElement) => {
         if (elem.beginElement) { elem.beginElement(); }
       });
-      this.container.querySelectorAll('animateTransform').forEach((elem: SVGAnimationElement) => {
+      this.container?.querySelectorAll('animateTransform').forEach((elem: SVGAnimationElement) => {
         if (elem.beginElement) { elem.beginElement(); }
       });
     });
@@ -1191,7 +1231,7 @@ export default class IdsAxisChart extends Base {
    */
   set animated(value: boolean) {
     const animated = stringToBool(this.animated);
-    this.setAttribute(attributes.ANIMATED, value);
+    this.setAttribute(attributes.ANIMATED, String(value));
     this.redraw();
 
     if (animated) {
@@ -1212,14 +1252,14 @@ export default class IdsAxisChart extends Base {
    * @param {number} value The speed in s
    */
   set animationSpeed(value: number) {
-    this.setAttribute(attributes.ANIMATION_SPEED, value);
+    this.setAttribute(attributes.ANIMATION_SPEED, String(value));
     if (this.animated) {
       this.reanimate();
     }
   }
 
   get animationSpeed(): number {
-    return this.getAttribute(attributes.ANIMATION_SPEED) || 0.8;
+    return parseFloat(this.getAttribute(attributes.ANIMATION_SPEED) ?? '') || 0.8;
   }
 
   /**
@@ -1240,7 +1280,7 @@ export default class IdsAxisChart extends Base {
    * @param {boolean} value True to stack the data
    */
   set stacked(value: boolean) {
-    this.setAttribute(attributes.STACKED, value);
+    this.setAttribute(attributes.STACKED, String(value));
     this.redraw();
   }
 
@@ -1252,7 +1292,7 @@ export default class IdsAxisChart extends Base {
    * Set the bottom axis label text
    * @param {string} value of the text
    */
-  set axisLabelBottom(value: string) {
+  set axisLabelBottom(value: string | null) {
     if (value) {
       this.setAttribute(attributes.AXIS_LABEL_BOTTOM, value);
     } else {
@@ -1269,7 +1309,7 @@ export default class IdsAxisChart extends Base {
    * Set the end axis label text
    * @param {string} value of the text
    */
-  set axisLabelEnd(value: string) {
+  set axisLabelEnd(value: string | null) {
     if (value) {
       this.setAttribute(attributes.AXIS_LABEL_END, value);
     } else {
@@ -1289,7 +1329,7 @@ export default class IdsAxisChart extends Base {
   set axisLabelMargin(value: string | number) {
     const val = stringToNumber(this.getAttribute(attributes.AXIS_LABEL_MARGIN));
     if (!Number.isNaN(val)) {
-      this.setAttribute(attributes.AXIS_LABEL_MARGIN, val);
+      this.setAttribute(attributes.AXIS_LABEL_MARGIN, String(val));
     } else {
       this.removeAttribute(attributes.AXIS_LABEL_MARGIN);
     }
@@ -1305,7 +1345,7 @@ export default class IdsAxisChart extends Base {
    * Set the start axis label text
    * @param {string} value of the text
    */
-  set axisLabelStart(value: string) {
+  set axisLabelStart(value: string | null) {
     if (value) {
       this.setAttribute(attributes.AXIS_LABEL_START, value);
     } else {
@@ -1322,7 +1362,7 @@ export default class IdsAxisChart extends Base {
    * Set the top axis label text
    * @param {string} value of the text
    */
-  set axisLabelTop(value: string) {
+  set axisLabelTop(value: string | null) {
     if (value) {
       this.setAttribute(attributes.AXIS_LABEL_TOP, value);
     } else {
@@ -1341,7 +1381,7 @@ export default class IdsAxisChart extends Base {
    */
   set rotateXLabels(value: number) {
     if (value) {
-      this.setAttribute(attributes.ROTATE_X_LABELS, value);
+      this.setAttribute(attributes.ROTATE_X_LABELS, String(value));
     } else {
       this.removeAttribute(attributes.ROTATE_X_LABELS);
     }

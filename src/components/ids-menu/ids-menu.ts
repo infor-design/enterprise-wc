@@ -12,6 +12,7 @@ import '../ids-separator/ids-separator';
 
 import styles from './ids-menu.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import type IdsMenuItem from './ids-menu-item';
 
 /**
  * IDS Menu Component
@@ -24,12 +25,15 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 @customElement('ids-menu')
 @scss(styles)
 export default class IdsMenu extends Base {
+  datasource = new IdsDataSource();
+
+  lastHovered?: any;
+
+  lastNavigated?: any;
+
   constructor() {
     super();
-    this.datasource = new IdsDataSource();
     this.state = {};
-    this.lastHovered = undefined;
-    this.lastNavigated = undefined;
   }
 
   static get attributes(): Array<string> {
@@ -277,7 +281,7 @@ export default class IdsMenu extends Base {
    * @param {Array<any>|object} value The array to use
    * @returns {void}
    */
-  set data(value) {
+  set data(value: any) {
     if (value) {
       // If provided an object, search for a `contents` property and store that
       if (typeof value === 'object' && Array.isArray(value.contents)) {
@@ -297,7 +301,7 @@ export default class IdsMenu extends Base {
       return;
     }
 
-    this.datasource.data = null;
+    this.datasource.data = [];
   }
 
   /**
@@ -313,10 +317,10 @@ export default class IdsMenu extends Base {
    */
   get groups() {
     // Standard Implementation is to simply look at children
-    let target = this.children;
+    let target: HTMLCollection | Element[] = this.children;
 
     // If the first child is a slot, look in the slot for assigned items instead
-    if (this.children[0]?.tagName === 'SLOT') {
+    if (this.children[0] instanceof HTMLSlotElement) {
       target = this.children[0].assignedElements();
     }
     return [...target].filter((e) => e.matches('ids-menu-group'));
@@ -386,7 +390,7 @@ export default class IdsMenu extends Base {
    * @returns {HTMLElement} parent menu item, if this menu is a submenu
    */
   get parentMenuItem() {
-    return this.parentElement?.closest('ids-menu-item');
+    return this.parentElement?.closest<IdsMenuItem>('ids-menu-item');
   }
 
   /**

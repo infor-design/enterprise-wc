@@ -9,6 +9,9 @@ import '../ids-text/ids-text';
 import '../ids-toolbar/ids-toolbar';
 
 import styles from './ids-app-menu.scss';
+import type IdsAccordion from '../ids-accordion/ids-accordion';
+import type IdsButton from '../ids-button/ids-button';
+import type IdsSearchField from '../ids-search-field/ids-search-field';
 
 /**
  * IDS App Menu Component
@@ -20,6 +23,8 @@ import styles from './ids-app-menu.scss';
 @customElement('ids-app-menu')
 @scss(styles)
 export default class IdsAppMenu extends Base {
+  globalKeydownListener?: (e: KeyboardEvent) => void;
+
   constructor() {
     super();
   }
@@ -69,10 +74,10 @@ export default class IdsAppMenu extends Base {
 
   /**
    * @readonly
-   * @returns {HTMLElement} reference to an optionally-slotted IdsAccordion element
+   * @returns {IdsAccordion} reference to an optionally-slotted IdsAccordion element
    */
-  get accordion(): HTMLElement {
-    return this.querySelector(`ids-accordion:not([slot])`);
+  get accordion(): IdsAccordion | null {
+    return this.querySelector<IdsAccordion>(`ids-accordion:not([slot])`);
   }
 
   /**
@@ -82,12 +87,12 @@ export default class IdsAppMenu extends Base {
   isFiltered = false;
 
   #refreshVariants() {
-    const accordions = [...this.querySelectorAll('ids-accordion')];
+    const accordions = [...this.querySelectorAll<IdsAccordion>('ids-accordion')];
     accordions.forEach((acc) => {
       acc.colorVariant = 'app-menu';
     });
 
-    const btns = [...this.querySelectorAll('ids-button')];
+    const btns = [...this.querySelectorAll<IdsButton>('ids-button')];
     btns.forEach((btn) => {
       btn.colorVariant = 'alternate';
     });
@@ -97,7 +102,7 @@ export default class IdsAppMenu extends Base {
    * Attaches a slotted IdsSearchField component to the app menu
    */
   #connectSearchField() {
-    const searchfield = this.querySelector('ids-search-field[slot="search"]');
+    const searchfield = this.querySelector<IdsSearchField>('ids-search-field[slot="search"]');
     if (searchfield) {
       searchfield.onSearch = (value: string) => {
         if (value !== '') {
@@ -174,7 +179,7 @@ export default class IdsAppMenu extends Base {
    * @private
    */
   clearFilterAccordion() {
-    const filteredHeaders: any = [...this.accordion.querySelectorAll('ids-accordion-header[hidden-by-filter]')];
+    const filteredHeaders: any = [...this.accordion?.querySelectorAll('ids-accordion-header[hidden-by-filter]') ?? []];
     filteredHeaders.map((header: any) => {
       header.hiddenByFilter = false;
       return header;
@@ -190,7 +195,7 @@ export default class IdsAppMenu extends Base {
    * @returns {void}
    */
   #clearChildFilter() {
-    const childFilterMatches: any = [...this.accordion.querySelectorAll('[child-filter-match]')];
+    const childFilterMatches: any = [...this.accordion?.querySelectorAll('[child-filter-match]') ?? []];
     childFilterMatches.map((header: any) => {
       header.childFilterMatch = false;
       return header;
@@ -218,6 +223,6 @@ export default class IdsAppMenu extends Base {
    */
   removeOpenEvents() {
     super.removeOpenEvents();
-    document.removeEventListener('keydown', this.globalKeydownListener);
+    if (this.globalKeydownListener) document.removeEventListener('keydown', this.globalKeydownListener);
   }
 }

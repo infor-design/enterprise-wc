@@ -78,14 +78,14 @@ export default class IdsDrawer extends Base {
    * @returns {void}
    */
   #refreshEdgeClass(): void {
-    const cl = this.container.classList;
+    const cl = this.container?.classList;
     const edgeClass = `edge-${this.edge}`;
     EDGES.forEach((edge) => {
       const thisEdgeClass = `edge-${edge}`;
-      if (edgeClass === thisEdgeClass && !cl.contains(edgeClass)) {
-        cl.add(edgeClass);
-      } else if (edgeClass !== thisEdgeClass && cl.contains(thisEdgeClass)) {
-        cl.remove(thisEdgeClass);
+      if (edgeClass === thisEdgeClass && !cl?.contains(edgeClass)) {
+        cl?.add(edgeClass);
+      } else if (edgeClass !== thisEdgeClass && cl?.contains(thisEdgeClass)) {
+        cl?.remove(thisEdgeClass);
       }
     });
   }
@@ -169,14 +169,14 @@ export default class IdsDrawer extends Base {
    * @returns {void}
    */
   #refreshTypeClass(): void {
-    const cl = this.container.classList;
+    const cl = this.container?.classList;
     const typeClass = `type-${this.type}`;
     TYPES.forEach((type) => {
       const thisTypeClass = `type-${type}`;
-      if (this.type !== null && typeClass === thisTypeClass && !cl.contains(typeClass)) {
-        cl.add(typeClass);
-      } else if (typeClass !== thisTypeClass && cl.contains(thisTypeClass)) {
-        cl.remove(thisTypeClass);
+      if (this.type !== null && typeClass === thisTypeClass && !cl?.contains(typeClass)) {
+        cl?.add(typeClass);
+      } else if (typeClass !== thisTypeClass && cl?.contains(thisTypeClass)) {
+        cl?.remove(thisTypeClass);
       }
     });
   }
@@ -211,14 +211,14 @@ export default class IdsDrawer extends Base {
    */
   #refreshVisibility(): void {
     if (this.visible) {
-      this.container.classList.add('visible');
+      this.container?.classList.add('visible');
       this.addOpenEvents();
       this.triggerEvent('show', this, {
         bubbles: true,
         detail: { elem: this }
       });
     } else {
-      this.container.classList.remove('visible');
+      this.container?.classList.remove('visible');
       this.removeOpenEvents();
       this.triggerEvent('hide', this, {
         bubbles: true,
@@ -261,7 +261,7 @@ export default class IdsDrawer extends Base {
    * @param {MouseEvent} e the original click event
    */
   onOutsideClick(e: MouseEvent): void {
-    if (this.isEqualNode(e.target) || this.contains(e.target)) {
+    if (this.isEqualNode(e.target as Node) || this.contains(e.target as Node)) {
       return;
     }
     this.hide();

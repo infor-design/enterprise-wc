@@ -97,7 +97,7 @@ export default class IdsToastMessage extends Base {
   }
 
   get progressBarEl() {
-    return this.shadowRoot?.querySelector('.progress-bar');
+    return this.shadowRoot?.querySelector<HTMLElement>('.progress-bar');
   }
 
   /**
@@ -121,7 +121,7 @@ export default class IdsToastMessage extends Base {
 
       // Set duration length and run animation
       const duration = this.audible ? AUDIBLE_TIMEOUT : this.timeout;
-      progressBarEl.style.setProperty('--toast-message-duration', `${duration}ms`);
+      progressBarEl.style?.setProperty('--toast-message-duration', `${duration}ms`);
       progressBarEl.classList.add('running');
     }
   }
@@ -137,7 +137,7 @@ export default class IdsToastMessage extends Base {
       if (!this.audible) {
         toast.classList.remove(TOAST_MESSAGE_CLASSES.start);
         toast.classList.add(TOAST_MESSAGE_CLASSES.end);
-        await waitForAnimationEnd(this.container, 'animScaleOut');
+        if (this.container) await waitForAnimationEnd(this.container, 'animScaleOut');
       }
 
       // Removes this toast message from the DOM
@@ -148,10 +148,10 @@ export default class IdsToastMessage extends Base {
           messageId: this.messageId,
           options: {
             title: this.title,
-            message: this.message,
+            message: (this as any).message,
             messageId: this.messageId,
-            closeButtonLabel: this.closeButtonLabel,
-            allowLink: this.allowLink,
+            closeButtonLabel: (this as any).closeButtonLabel,
+            allowLink: (this as any).allowLink,
             audible: this.audible,
             progressBar: this.progressBar,
             timeout: this.timeout,
@@ -212,7 +212,7 @@ export default class IdsToastMessage extends Base {
     });
 
     // Handle clicking the (x) close button
-    const closeButton = this.shadowRoot.querySelector('.close-button');
+    const closeButton = this.shadowRoot?.querySelector('.close-button');
     this.onEvent('click.toast', closeButton, () => this.removeToastMessage());
   }
 
@@ -257,7 +257,7 @@ export default class IdsToastMessage extends Base {
   }
 
   get timeout(): number | string {
-    const timeout = parseInt(this.getAttribute(attributes.TIMEOUT), 10);
+    const timeout = parseInt(this.getAttribute(attributes.TIMEOUT) ?? '', 10);
     return !isNaN(timeout) ? timeout : DEFAULTS.timeout; // eslint-disable-line
   }
 
@@ -265,7 +265,7 @@ export default class IdsToastMessage extends Base {
    * Set toast-id to manage each toast.
    * @param {number|string} value A toast-id use.
    */
-  set messageId(value: number | string) {
+  set messageId(value: number | string | null) {
     if (value) {
       this.setAttribute(ATTRIBUTE_MESSAGE_ID, value.toString());
     } else {
@@ -273,5 +273,7 @@ export default class IdsToastMessage extends Base {
     }
   }
 
-  get messageId(): number | string { return this.getAttribute(ATTRIBUTE_MESSAGE_ID); }
+  get messageId(): string | null {
+    return this.getAttribute(ATTRIBUTE_MESSAGE_ID);
+  }
 }

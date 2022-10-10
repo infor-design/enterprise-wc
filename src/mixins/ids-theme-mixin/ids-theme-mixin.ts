@@ -1,18 +1,27 @@
 import { attributes } from '../../core/ids-attributes';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+import { IdsConstructor } from '../../core/ids-element';
+import type IdsThemeSwitcher from '../../components/ids-theme-switcher/ids-theme-switcher';
+
+type Constraints = IdsConstructor<EventsMixinInterface>;
+
+export const THEME_MODES = ['light', 'dark', 'contrast'];
 
 /**
  * A mixin that adds theming functionality to components
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsThemeMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsThemeMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  switcher: IdsThemeSwitcher | null = null;
+
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.MODE
     ];
   }
@@ -33,7 +42,7 @@ const IdsThemeMixin = (superclass: any) => class extends superclass {
    * @private
    */
   initThemeHandlers() {
-    this.switcher = document.querySelector('ids-theme-switcher');
+    this.switcher = document.querySelector<IdsThemeSwitcher>('ids-theme-switcher');
     if (!this.switcher) {
       return;
     }
@@ -50,12 +59,18 @@ const IdsThemeMixin = (superclass: any) => class extends superclass {
    * @param {string} value The mode value for example: light, dark, or contrast
    */
   set mode(value: string) {
-    if (value === undefined) value = 'light';
+    if (!THEME_MODES.includes(value)) value = 'light';
     this.setAttribute('mode', value);
     this.container?.setAttribute('mode', value);
   }
 
-  get mode(): string { return this.getAttribute('mode') || 'light'; }
+  /**
+   * Get the mode of the current theme
+   * @returns {string} light, dark, or contrast
+   */
+  get mode(): string {
+    return this.getAttribute('mode') || 'light';
+  }
 };
 
 export default IdsThemeMixin;

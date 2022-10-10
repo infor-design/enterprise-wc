@@ -48,6 +48,8 @@ export default class IdsCalendar extends Base {
 
   #selectedEventId = '';
 
+  activeDate?: Date;
+
   constructor() {
     super();
     if (!this.state) this.state = {};
@@ -117,13 +119,13 @@ export default class IdsCalendar extends Base {
     const date = new Date(val);
 
     if (isValidDate(date)) {
-      this.setAttribute(attributes.DATE, val);
+      this.setAttribute(attributes.DATE, val.toString());
       if (!this.state.skipRender) {
         this.changeDate(date, this.state.view === 'day');
         this.updateEventDetails();
       }
     } else {
-      this.setAttribute(attributes.DATE, new Date());
+      this.setAttribute(attributes.DATE, new Date().toString());
     }
   }
 
@@ -246,8 +248,8 @@ export default class IdsCalendar extends Base {
 
     if (isModal) {
       const view = this.getView();
-      const target = view?.tagName === 'IDS-MONTH-VIEW' ? view.getSelectedDay() : this.container;
-      this.#insertFormPopup(target, event);
+      const target = view instanceof IdsMonthView ? view.getSelectedDay() : this.container;
+      if (target) this.#insertFormPopup(target, event);
     } else {
       this.addEvent(event);
     }
@@ -411,7 +413,7 @@ export default class IdsCalendar extends Base {
       this.renderLegend(this.eventTypesData);
     });
 
-    this.onEvent('click.details-item', this.container.querySelector('.calendar-details-pane'), (evt: any) => {
+    this.onEvent('click.details-item', this.container?.querySelector('.calendar-details-pane'), (evt: any) => {
       const detailItem = evt.target.closest('.detail-item');
       if (detailItem) {
         evt.stopPropagation();
@@ -422,7 +424,7 @@ export default class IdsCalendar extends Base {
         if (eventData) {
           this.#selectedEventId = id;
           this.#removePopup();
-          this.#insertFormPopup(this.container, eventData);
+          if (this.container) this.#insertFormPopup(this.container, eventData);
         }
       }
     });
@@ -440,8 +442,8 @@ export default class IdsCalendar extends Base {
    * Get IdsPopup containg calendar event form
    * @returns {IdsPopup} popup component
    */
-  #getEventFormPopup(): IdsPopup {
-    return this.container.querySelector('#event-form-popup');
+  #getEventFormPopup(): IdsPopup | undefined | null {
+    return this.container?.querySelector<IdsPopup>('#event-form-popup');
   }
 
   /**
@@ -463,7 +465,7 @@ export default class IdsCalendar extends Base {
         }
 
         if (action === 'submit') {
-          const formElem = this.#getEventFormPopup().querySelector('#event-form');
+          const formElem = this.#getEventFormPopup()?.querySelector('#event-form');
           this.#submitEventForm(formElem);
           this.#removePopup();
         }
@@ -499,10 +501,10 @@ export default class IdsCalendar extends Base {
       </ids-popup>
     `;
 
-    this.container.insertAdjacentHTML('beforeend', template);
+    this.container?.insertAdjacentHTML('beforeend', template);
     this.positionFormPopup(target);
     this.#attachFormEventHandlers();
-    this.#getEventFormPopup().querySelector('#event-subject').focus();
+    this.#getEventFormPopup()?.querySelector<HTMLElement>('#event-subject')?.focus();
   }
 
   /**
@@ -523,7 +525,7 @@ export default class IdsCalendar extends Base {
    * Aligns form popup with provided html target element
    * @param {HTMLElement} target element
    */
-  positionFormPopup(target: HTMLElement): void {
+  positionFormPopup(target?: HTMLElement | null): void {
     const popup = this.#getEventFormPopup();
 
     if (popup && target) {
@@ -625,14 +627,14 @@ export default class IdsCalendar extends Base {
     if (!view || !isValidDate(date)) return;
 
     if (view.tagName === 'IDS-MONTH-VIEW') {
-      view.setAttribute(attributes.YEAR, date.getFullYear());
-      view.setAttribute(attributes.MONTH, date.getMonth());
-      view.setAttribute(attributes.DAY, date.getDate());
+      view.setAttribute(attributes.YEAR, String(date.getFullYear()));
+      view.setAttribute(attributes.MONTH, String(date.getMonth()));
+      view.setAttribute(attributes.DAY, String(date.getDate()));
     } else if (view.tagName === 'IDS-WEEK-VIEW') {
       const start = isDayView ? date : firstDayOfWeekDate(date);
       const end = isDayView ? date : lastDayOfWeekDate(date);
-      view.setAttribute(attributes.START_DATE, start);
-      view.setAttribute(attributes.END_DATE, end);
+      view.setAttribute(attributes.START_DATE, String(start));
+      view.setAttribute(attributes.END_DATE, String(end));
     }
   }
 
@@ -675,7 +677,7 @@ export default class IdsCalendar extends Base {
   #getSelectedEvents(): CalendarEventData[] {
     // if month view, query events and update details
     const view = this.getView();
-    if (view && view.tagName === 'IDS-MONTH-VIEW') {
+    if (view && view instanceof IdsMonthView) {
       this.state.selected = view.getActiveDayEvents();
       return this.state.selected;
     }
@@ -916,8 +918,8 @@ export default class IdsCalendar extends Base {
    * Gets current view component
    * @returns {IdsMonthView|IdsWeekView} current view component
    */
-  getView(): IdsMonthView | IdsWeekView | null {
-    return this.container?.querySelector('ids-month-view') || this.container?.querySelector('ids-week-view');
+  getView(): IdsMonthView | IdsWeekView | undefined | null {
+    return this.container?.querySelector<IdsMonthView>('ids-month-view') || this.container?.querySelector<IdsWeekView>('ids-week-view');
   }
 
   /**

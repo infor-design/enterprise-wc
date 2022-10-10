@@ -105,8 +105,8 @@ export default class IdsToolbarSection extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
-    setCssClassFromGroup(this.type, this.container, SECTION_TYPES);
-    setCssClassFromGroup(this.toolbarType, this.container, TOOLBAR_TYPES);
+    setCssClassFromGroup(this.type, this.container as HTMLElement, SECTION_TYPES);
+    setCssClassFromGroup(this.toolbarType ?? '', this.container as HTMLElement, TOOLBAR_TYPES);
   }
 
   /**
@@ -149,7 +149,7 @@ export default class IdsToolbarSection extends Base {
    * @returns {HTMLElement} a reference to this section's toolbar parent node
    */
   get toolbar(): HTMLElement {
-    return this.parentElement;
+    return this.parentElement as HTMLElement;
   }
 
   /**
@@ -223,8 +223,8 @@ export default class IdsToolbarSection extends Base {
   /**
    * @param {string} value the type of toolbar
    */
-  set toolbarType(value: string) {
-    if (TOOLBAR_TYPES.includes(value)) {
+  set toolbarType(value: string | null) {
+    if (value && TOOLBAR_TYPES.includes(value)) {
       this.setAttribute(attributes.TOOLBAR_TYPE, value);
       this.container?.classList.add(value);
     } else {
@@ -236,7 +236,7 @@ export default class IdsToolbarSection extends Base {
   /**
    * @returns {string} the type of toolbar
    */
-  get toolbarType(): string {
+  get toolbarType(): string | null {
     return this.getAttribute(attributes.TOOLBAR_TYPE);
   }
 }

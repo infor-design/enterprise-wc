@@ -770,7 +770,7 @@ export default class IdsDataGridFilters {
    * @returns {void}
    */
   #handleMenuButtonSelected(el: IdsMenuItem) {
-    const target = el.menu?.target;
+    const target = (el.menu as any)?.target;
     const { value, icon, text: label } = el;
     if (!icon || !target || target.icon === icon.replace(/^filter-/g, '')) return;
 

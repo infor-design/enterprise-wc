@@ -14,17 +14,15 @@ import {
 describe('IdsToast Component', () => {
   const origInnerWidth = window.innerWidth;
   const origInnerHeight = window.innerHeight;
-  let toast: any;
-  let container: any;
+  let toast: IdsToast;
+  let container: IdsContainer;
   let options: any;
 
   beforeEach(async () => {
     container = new IdsContainer();
-    const elem: any = new IdsToast();
-    container.appendChild(elem);
+    toast = new IdsToast();
+    container.appendChild(toast);
     document.body.appendChild(container);
-    container = document.querySelector('ids-container');
-    toast = container.querySelector('ids-toast');
     options = {
       title: 'Test',
       message: 'Some test text',
@@ -68,17 +66,17 @@ describe('IdsToast Component', () => {
     options.messageId = 'test-message-id';
     toast.show(options);
     const messageElem = toast.messageElem(options.messageId);
-    expect(messageElem.outerHTML).toMatchSnapshot();
+    expect(messageElem?.outerHTML).toMatchSnapshot();
   });
 
   it('should set to put links in the toast message', () => {
     expect(toast.getAttribute('allow-link')).toEqual(null);
     expect(toast.allowLink).toEqual(DEFAULTS.allowLink);
     toast.allowLink = true;
-    expect(toast.getAttribute('allow-link')).toEqual('true');
+    expect(toast.getAttribute('allow-link')).toEqual('');
     expect(toast.allowLink).toEqual(true);
     toast.allowLink = false;
-    expect(toast.getAttribute('allow-link')).toEqual('false');
+    expect(toast.getAttribute('allow-link')).toEqual(null);
     expect(toast.allowLink).toEqual(false);
     toast.allowLink = null;
     expect(toast.getAttribute('allow-link')).toEqual(null);
@@ -89,10 +87,10 @@ describe('IdsToast Component', () => {
     expect(toast.getAttribute('audible')).toEqual(null);
     expect(toast.audible).toEqual(DEFAULTS.audible);
     toast.audible = true;
-    expect(toast.getAttribute('audible')).toEqual('true');
+    expect(toast.getAttribute('audible')).toEqual('');
     expect(toast.audible).toEqual(true);
     toast.audible = false;
-    expect(toast.getAttribute('audible')).toEqual('false');
+    expect(toast.getAttribute('audible')).toEqual(null);
     expect(toast.audible).toEqual(false);
     toast.audible = null;
     expect(toast.getAttribute('audible')).toEqual(null);
@@ -103,10 +101,10 @@ describe('IdsToast Component', () => {
     expect(toast.getAttribute('draggable')).toEqual(null);
     expect(toast.draggable).toEqual(DEFAULTS.draggable);
     toast.draggable = true;
-    expect(toast.getAttribute('draggable')).toEqual('true');
+    expect(toast.getAttribute('draggable')).toEqual('');
     expect(toast.draggable).toEqual(true);
     toast.draggable = false;
-    expect(toast.getAttribute('draggable')).toEqual('false');
+    expect(toast.getAttribute('draggable')).toEqual(null);
     expect(toast.draggable).toEqual(false);
     toast.draggable = null;
     expect(toast.getAttribute('draggable')).toEqual(null);
@@ -184,7 +182,7 @@ describe('IdsToast Component', () => {
     toast.uniqueId = uniqueId;
     expect(toast.getAttribute('unique-id')).toEqual(uniqueId);
     expect(toast.uniqueId).toEqual(uniqueId);
-    toast.uniqueId = false;
+    toast.uniqueId = '';
     expect(toast.getAttribute('unique-id')).toEqual(null);
     expect(toast.uniqueId).toEqual(DEFAULTS.uniqueId);
   });
@@ -235,14 +233,14 @@ describe('IdsToast Component', () => {
     toast.draggable = true;
     toast.show(options);
     let toastContainer = toast.toastContainer();
-    let messageEl = toastContainer.querySelector('ids-toast-message');
+    let messageEl = toastContainer.querySelector<IdsToastMessage>('ids-toast-message');
 
     expect(messageEl).toBeTruthy();
     expect(toastContainer.style.transform).toEqual('');
     toastContainer.style.transform = transform;
 
     expect(toastContainer.style.transform).toEqual(transform);
-    messageEl.removeToastMessage();
+    messageEl?.removeToastMessage();
     await wait(100);
     toastContainer = toast.toastContainer();
     messageEl = toastContainer.querySelector('ids-toast-message');
@@ -264,14 +262,14 @@ describe('IdsToast Component', () => {
     toast.draggable = true;
     toast.show(options);
     let toastContainer = toast.toastContainer();
-    let messageEl = toastContainer.querySelector('ids-toast-message');
+    let messageEl = toastContainer.querySelector<IdsToastMessage>('ids-toast-message');
 
     expect(messageEl).toBeTruthy();
     expect(toastContainer.style.transform).toEqual('');
     toastContainer.style.transform = transform;
 
     expect(toastContainer.style.transform).toEqual(transform);
-    messageEl.removeToastMessage();
+    messageEl?.removeToastMessage();
     await wait(100);
     toastContainer = toast.toastContainer();
     messageEl = toastContainer.querySelector('ids-toast-message');
@@ -404,7 +402,7 @@ describe('IdsToast Component', () => {
     toast.draggable = true;
     toast.show(options);
     let toastContainer = toast.toastContainer();
-    let messageEl = toastContainer.querySelector('ids-toast-message');
+    let messageEl = toastContainer.querySelector<IdsToastMessage>('ids-toast-message');
 
     expect(messageEl).toBeTruthy();
 
@@ -417,7 +415,7 @@ describe('IdsToast Component', () => {
     toastContainer.style.transform = transform;
 
     expect(toastContainer.style.transform).toEqual(transform);
-    messageEl.removeToastMessage();
+    messageEl?.removeToastMessage();
     await wait(100);
     toastContainer = toast.toastContainer();
     messageEl = toastContainer.querySelector('ids-toast-message');
@@ -450,10 +448,10 @@ describe('IdsToast Component', () => {
     toast.destroyOnComplete = false;
     toast.show(options);
     let toastContainer = toast.toastContainer();
-    let messageEl = toastContainer.querySelector('ids-toast-message');
+    let messageEl = toastContainer.querySelector<IdsToastMessage>('ids-toast-message');
 
     expect(messageEl).toBeTruthy();
-    messageEl.removeToastMessage();
+    messageEl?.removeToastMessage();
     await wait(100);
     toastContainer = toast.toastContainer();
     messageEl = toastContainer.querySelector('ids-toast-message');
@@ -470,7 +468,7 @@ describe('IdsToast Component', () => {
     messageEl = toastContainer.querySelector('ids-toast-message');
 
     expect(messageEl).toBeTruthy();
-    messageEl.removeToastMessage();
+    messageEl?.removeToastMessage();
     await wait(100);
     toastContainer = toast.toastContainer();
     messageEl = toastContainer.querySelector('ids-toast-message');
@@ -481,29 +479,27 @@ describe('IdsToast Component', () => {
   it('should not destroy on complete toast', async () => {
     toast.destroyOnComplete = false;
     toast.show(options);
-    let toastContainer = toast.toastContainer();
-    let messageEl = toastContainer.querySelector('ids-toast-message');
+    const toastContainer = toast.toastContainer();
+    const messageEl = toastContainer.querySelector<IdsToastMessage>('ids-toast-message');
 
     expect(messageEl).toBeTruthy();
-    messageEl.removeToastMessage();
+    messageEl?.removeToastMessage();
     await wait(100);
-    toastContainer = toast.shadowRoot.querySelector('.toast-container');
-    messageEl = toast.shadowRoot.querySelector('ids-toast-message');
 
-    expect(toastContainer).toBeFalsy();
-    expect(messageEl).toBeFalsy();
+    expect(toast.shadowRoot?.querySelector('.toast-container')).toBeFalsy();
+    expect(toast.shadowRoot?.querySelector('ids-toast-message')).toBeFalsy();
   });
 
   it('should close with click (x) button toast message', async () => {
     toast.show(options);
     let toastContainer = toast.toastContainer();
     let messageEl = toastContainer.querySelector('ids-toast-message');
-    const closeButton = messageEl.shadowRoot.querySelector('.close-button');
+    const closeButton = messageEl?.shadowRoot?.querySelector('.close-button');
 
     expect(messageEl).toBeTruthy();
     expect(closeButton).toBeTruthy();
     const event = new Event('click', { bubbles: true });
-    closeButton.dispatchEvent(event);
+    closeButton?.dispatchEvent(event);
     await wait(100);
     toastContainer = toast.toastContainer();
     messageEl = toastContainer.querySelector('ids-toast-message');
@@ -531,17 +527,17 @@ describe('IdsToast Component', () => {
   it('should handle pause/play by mouse events toast message', async () => {
     toast.show(options);
     let toastContainer = toast.toastContainer();
-    let messageEl = toastContainer.querySelector('ids-toast-message');
+    let messageEl = toastContainer.querySelector<IdsToastMessage>('ids-toast-message');
 
     expect(messageEl).toBeTruthy();
     let event = new Event('mousedown', { bubbles: true });
-    messageEl.container.dispatchEvent(event);
+    messageEl?.container?.dispatchEvent(event);
 
     event = new Event('mouseup', { bubbles: true });
-    messageEl.container.dispatchEvent(event);
+    messageEl?.container?.dispatchEvent(event);
 
-    messageEl.audible = true;
-    messageEl.removeToastMessage();
+    messageEl?.setAttribute('audible', 'true');
+    messageEl?.removeToastMessage();
     await wait(100);
     toastContainer = toast.toastContainer();
     messageEl = toastContainer.querySelector('ids-toast-message');
@@ -555,10 +551,10 @@ describe('IdsToast Component', () => {
     options.progressBar = true;
     toast.show(options);
     let toastContainer = toast.toastContainer();
-    let messageEl = toastContainer.querySelector('ids-toast-message');
+    let messageEl = toastContainer.querySelector<IdsToastMessage>('ids-toast-message');
 
     expect(messageEl).toBeTruthy();
-    messageEl.removeToastMessage();
+    messageEl?.removeToastMessage();
     await wait(100);
     toastContainer = toast.toastContainer();
     messageEl = toastContainer.querySelector('ids-toast-message');
@@ -567,10 +563,10 @@ describe('IdsToast Component', () => {
     options.progressBar = false;
     toast.show(options);
     toastContainer = toast.toastContainer();
-    messageEl = toastContainer.querySelector('ids-toast-message');
+    messageEl = toastContainer.querySelector<IdsToastMessage>('ids-toast-message');
 
     expect(messageEl).toBeTruthy();
-    messageEl.removeToastMessage();
+    messageEl?.removeToastMessage();
     await wait(100);
     toastContainer = toast.toastContainer();
     messageEl = toastContainer.querySelector('ids-toast-message');
@@ -580,14 +576,14 @@ describe('IdsToast Component', () => {
     toast.destroyOnComplete = true;
     toast.show(options);
     toastContainer = toast.toastContainer();
-    messageEl = toastContainer.querySelector('ids-toast-message');
+    messageEl = toastContainer.querySelector<IdsToastMessage>('ids-toast-message');
 
     expect(messageEl).toBeTruthy();
     await wait(5);
-    const progressBar = messageEl.shadowRoot.querySelector('.progress-bar');
+    const progressBar = messageEl?.shadowRoot?.querySelector('.progress-bar');
     expect(progressBar).toBeTruthy();
-    messageEl.progressBar = false;
-    messageEl.removeToastMessage();
+    messageEl?.setAttribute('progress-bar', 'false');
+    messageEl?.removeToastMessage();
     await wait(100);
     toastContainer = toast.toastContainer();
     messageEl = toastContainer.querySelector('ids-toast-message');

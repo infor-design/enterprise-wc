@@ -20,6 +20,8 @@ import styles from './ids-scroll-view.scss';
 @customElement('ids-scroll-view')
 @scss(styles)
 export default class IdsScrollView extends Base {
+  controls?: HTMLElement | null = null;
+
   constructor() {
     super();
     this.isClick = false;
@@ -37,7 +39,7 @@ export default class IdsScrollView extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.controls = this.shadowRoot.querySelector('.ids-scroll-view-controls');
+    this.controls = this.shadowRoot?.querySelector('.ids-scroll-view-controls');
     this.#renderButtons();
     this.#attachEventHandlers();
   }
@@ -79,17 +81,17 @@ export default class IdsScrollView extends Base {
 
     // handle arrow keys
     this.listen(['ArrowLeft', 'ArrowRight', 'Enter'], this.controls, (e: any) => {
-      const selected = this.controls.querySelector('.selected');
+      const selected = this.controls?.querySelector('.selected');
       this.isClick = false;
 
-      if (e.key === 'ArrowRight' && selected.nextElementSibling) {
-        this.container.scrollBy(this.container.offsetWidth, 0);
-        this.#activateLink(selected.nextElementSibling, true);
+      if (e.key === 'ArrowRight' && selected?.nextElementSibling) {
+        this.container?.scrollBy(this.container.offsetWidth, 0);
+        this.#activateLink(<HTMLElement>selected.nextElementSibling, true);
         return;
       }
-      if (e.key === 'ArrowLeft' && selected.previousElementSibling) {
-        this.container.scrollBy(-this.container.offsetWidth, 0);
-        this.#activateLink(selected.previousElementSibling, true);
+      if (e.key === 'ArrowLeft' && selected?.previousElementSibling) {
+        this.container?.scrollBy(-this.container.offsetWidth, 0);
+        this.#activateLink(<HTMLElement>selected.previousElementSibling, true);
       }
       if (e.key === 'Enter') {
         e.preventDefault();
@@ -104,7 +106,7 @@ export default class IdsScrollView extends Base {
         (entries) => {
           const elemToCheck: IntersectionObserverEntry = entries[0];
           if (elemToCheck.isIntersecting && !this.isClick) {
-            this.#activateLink(this.controls.querySelectorAll('a')[scrollViewIndex], true);
+            this.#activateLink(this.controls?.querySelectorAll('a')[scrollViewIndex] as HTMLElement, true);
           }
         },
         { threshold: 0.55 }
@@ -120,10 +122,10 @@ export default class IdsScrollView extends Base {
    * @param {boolean} focus The next selected element
    */
   #activateLink(elem: HTMLElement, focus = false) {
-    const selected = this.controls.querySelector('.selected');
-    selected.classList.remove('selected');
-    selected.setAttribute('tabindex', '-1');
-    selected.removeAttribute('aria-selected');
+    const selected = this.controls?.querySelector('.selected');
+    selected?.classList.remove('selected');
+    selected?.setAttribute('tabindex', '-1');
+    selected?.removeAttribute('aria-selected');
 
     elem.classList.add('selected');
     elem.setAttribute('tabindex', '0');
@@ -143,7 +145,7 @@ export default class IdsScrollView extends Base {
     items.forEach((item: any, i: number) => {
       const id = `id-${i}`;
       item.id = id;
-      this.controls.insertAdjacentHTML('beforeend', `<a ${i === 0 ? ' class="selected"' : ''} href="#${id}" part="button" tabindex="${i === 0 ? '0' : '-1'}" role="tab" aria-selected="${i === 0 ? 'true' : 'false'}"><span class="audible">${item.getAttribute('alt')}</span></a>`);
+      this.controls?.insertAdjacentHTML('beforeend', `<a ${i === 0 ? ' class="selected"' : ''} href="#${id}" part="button" tabindex="${i === 0 ? '0' : '-1'}" role="tab" aria-selected="${i === 0 ? 'true' : 'false'}"><span class="audible">${item.getAttribute('alt')}</span></a>`);
     });
   }
 }

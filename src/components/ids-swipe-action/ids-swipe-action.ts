@@ -6,6 +6,7 @@ import Base from './ids-swipe-action-base';
 import styles from './ids-swipe-action.scss';
 
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
+import IdsButton from '../ids-button/ids-button';
 
 /**
  * IDS SwipeAction Component
@@ -20,6 +21,10 @@ import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-util
 @customElement('ids-swipe-action')
 @scss(styles)
 export default class IdsSwipeAction extends Base {
+  leftButton: IdsButton | null = null;
+
+  rightButton: IdsButton | null = null;
+
   constructor() {
     super();
   }
@@ -58,13 +63,13 @@ export default class IdsSwipeAction extends Base {
         this.leftButton.setAttribute('no-ripple', 'true');
 
         // Fix scroll position
-        this.container.style.visibility = 'hidden';
-        this.container.style.scrollBehavior = 'auto';
+        this.container?.style.setProperty('visibility', 'hidden');
+        this.container?.style.setProperty('scroll-behavior', 'auto');
         await cssTransitionTimeout(40);
-        this.container.scrollLeft = 85;
+        if (this.container) this.container.scrollLeft = 85;
         await cssTransitionTimeout(1);
-        this.container.style.scrollBehavior = 'smooth';
-        this.container.style.visibility = '';
+        this.container?.style.setProperty('scroll-behavior', 'smooth');
+        this.container?.style.setProperty('visibility', '');
       }
     }
   }
@@ -99,17 +104,17 @@ export default class IdsSwipeAction extends Base {
   #attachEventHandlers() {
     if (this.swipeType === 'continuous') {
       this.onEvent('swipe', this, (e: CustomEvent) => {
-        this.querySelector(`[slot="action-${e.detail.direction === 'left' ? 'right' : 'left'}"`).click();
+        this.querySelector<HTMLElement>(`[slot="action-${e.detail.direction === 'left' ? 'right' : 'left'}"`)?.click();
       }, { scrollContainer: this.container, passive: true });
     }
 
     // Close on click
     if (this.swipeType === 'reveal') {
       this.onEvent('click', this.leftButton, () => {
-        this.container.scrollLeft = 85;
+        if (this.container) this.container.scrollLeft = 85;
       });
       this.onEvent('click', this.rightButton, () => {
-        this.container.scrollLeft = 85;
+        if (this.container) this.container.scrollLeft = 85;
       });
     }
   }

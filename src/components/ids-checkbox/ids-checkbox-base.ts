@@ -7,12 +7,12 @@ import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
-const Base = IdsLocaleMixin(
-  IdsDirtyTrackerMixin(
-    IdsLabelStateMixin(
-      IdsValidationMixin(
-        IdsHitboxMixin(
-          IdsThemeMixin(
+const Base = IdsDirtyTrackerMixin(
+  IdsLabelStateMixin(
+    IdsValidationMixin(
+      IdsHitboxMixin(
+        IdsThemeMixin(
+          IdsLocaleMixin(
             IdsEventsMixin(
               IdsElement
             )

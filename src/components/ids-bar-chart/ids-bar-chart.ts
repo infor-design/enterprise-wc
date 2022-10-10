@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-bar-chart-base';
 import styles from './ids-bar-chart.scss';
-import type IdsChartData from '../ids-axis-chart/ids-axis-chart';
 
 type IdsBarChartSelected = {
   data?: any,
@@ -78,7 +77,7 @@ export default class IdsBarChart extends Base {
    * @returns {object} The markers and areas and lines
    */
   chartTemplate() {
-    const ariaLabel = `${!this.grouped && !this.stacked ? this.data[0]?.name : ''}`;
+    const ariaLabel = `${!this.stacked ? this.data[0]?.name : ''}`;
     return `<g class="bars" role="list" aria-label="${ariaLabel}">
       ${this.#bars()}
     </g>`;
@@ -259,7 +258,7 @@ export default class IdsBarChart extends Base {
    */
   get selectionElements(): Array<SVGElement> {
     if (!this.selectable) return [];
-    return [...this.container.querySelectorAll('rect.bar')];
+    return [...this.container?.querySelectorAll<SVGElement>('rect.bar') ?? []];
   }
 
   /**
@@ -267,7 +266,7 @@ export default class IdsBarChart extends Base {
    * @returns {Array<string>} The elements
    */
   tooltipElements(): Array<SVGElement> {
-    return this.container.querySelectorAll('rect.bar');
+    return [...this.container?.querySelectorAll<SVGElement>('rect.bar') ?? []];
   }
 
   /**
@@ -275,7 +274,7 @@ export default class IdsBarChart extends Base {
    * @private
    */
   #adjustVerticalLines() {
-    const lineSection = this.shadowRoot.querySelector('.vertical-lines');
+    const lineSection = this.shadowRoot?.querySelector('.vertical-lines');
     if (!lineSection) {
       return;
     }
@@ -285,12 +284,12 @@ export default class IdsBarChart extends Base {
       if (index === 0) {
         return;
       }
-      line.setAttribute('x1', this.sectionWidths.at(index).left);
-      line.setAttribute('x2', this.sectionWidths.at(index).left);
+      line.setAttribute('x1', String(this.sectionWidths.at(index)?.left));
+      line.setAttribute('x2', String(this.sectionWidths.at(index)?.left));
     });
 
     // Add two more
-    const left = this.sectionWidths.at(-1).left;
+    const left = this.sectionWidths.at(-1)?.left;
     const line = `<line x1="${left}" x2="${left}" y1="${lines[0].getAttribute('y1')}" y2="${lines[0].getAttribute('y2')}"/>`;
     lineSection.insertAdjacentHTML('beforeend', line);
   }
@@ -314,8 +313,8 @@ export default class IdsBarChart extends Base {
     barWidth *= this.barPercentage;
 
     // Generate the bars
-    this.markerData.points?.forEach((pointGroup: any, groupIndex: number) => {
-      pointGroup.forEach((point: IdsChartData, index: number) => {
+    this.markerData.points?.forEach((pointGroup, groupIndex) => {
+      pointGroup.forEach((point, index) => {
         let left;
         if (isGrouped) {
           left = this.sectionWidths[index].left
@@ -392,7 +391,7 @@ export default class IdsBarChart extends Base {
    */
   set barPercentage(value: number) {
     if (this.#isBetweenZeroToOne(Number(value))) {
-      this.setAttribute(attributes.BAR_PERCENTAGE, value);
+      this.setAttribute(attributes.BAR_PERCENTAGE, String(value));
     } else {
       this.removeAttribute(attributes.BAR_PERCENTAGE);
     }
@@ -411,7 +410,7 @@ export default class IdsBarChart extends Base {
    */
   set categoryPercentage(value: number) {
     if (this.#isBetweenZeroToOne(Number(value))) {
-      this.setAttribute(attributes.CATEGORY_PERCENTAGE, value);
+      this.setAttribute(attributes.CATEGORY_PERCENTAGE, String(value));
     } else {
       this.removeAttribute(attributes.CATEGORY_PERCENTAGE);
     }

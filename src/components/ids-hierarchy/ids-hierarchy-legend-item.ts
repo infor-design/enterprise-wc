@@ -52,7 +52,7 @@ export default class IdsHierarchyLegendItem extends Base {
    * Set the value of the text attribute
    * @param {string} value the value of the attribute
    */
-  set text(value: string) {
+  set text(value: string | null) {
     if (value) {
       this.setAttribute('text', value);
     } else {
@@ -61,13 +61,13 @@ export default class IdsHierarchyLegendItem extends Base {
   }
 
   /**
-   * @returns {string|undefined} containing value of the text attribute
+   * @returns {string|null} containing value of the text attribute
    */
-  get text() {
+  get text(): string | null {
     return this.getAttribute('text');
   }
 
-  get color(): string {
+  get color(): string | null {
     return this.getAttribute(attributes.COLOR);
   }
 
@@ -75,14 +75,14 @@ export default class IdsHierarchyLegendItem extends Base {
    * Set the color of the bar
    * @param {string} value The color value, this can be a hex code with the #
    */
-  set color(value: string) {
-    this.setAttribute(attributes.COLOR, value);
+  set color(value: string | null) {
+    this.setAttribute(attributes.COLOR, String(value));
 
     let color = value;
-    if (this.color.substring(0, 1) !== '#') {
+    if (this.color?.substring(0, 1) !== '#') {
       color = `var(--ids-color-palette-${this.color})`;
     }
 
-    this.container.style.setProperty('--background', color);
+    this.container?.style.setProperty('--background', color);
   }
 }

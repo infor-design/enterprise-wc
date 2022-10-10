@@ -4,10 +4,11 @@ import {
   stripTags
 } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { attributes } from '../../core/ids-attributes';
+import { IdsBaseConstructor } from '../../core/ids-element';
 
-const IdsXssMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsXssMixin = <T extends IdsBaseConstructor>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
     if (!this.state) {
       this.state = {};
     }
@@ -15,7 +16,10 @@ const IdsXssMixin = (superclass: any) => class extends superclass {
   }
 
   static get attributes() {
-    return [...super.attributes, attributes.XSS_IGNORED_TAGS];
+    return [
+      ...(superclass as any).attributes,
+      attributes.XSS_IGNORED_TAGS
+    ];
   }
 
   /**

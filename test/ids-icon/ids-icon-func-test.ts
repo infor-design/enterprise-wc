@@ -6,18 +6,19 @@ import IdsIcon from '../../src/components/ids-icon/ids-icon';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsIcon Component', () => {
-  let elem: any;
-  let container: any;
-  beforeEach(async () => {
+  let elem: IdsIcon;
+  let container: IdsContainer;
+
+  beforeEach(() => {
     container = new IdsContainer();
-    const icon = new IdsIcon();
-    icon.icon = 'close';
-    container.appendChild(icon);
+    elem = new IdsIcon();
+
+    elem.icon = 'close';
+    container.appendChild(elem);
     document.body.appendChild(container);
-    elem = document.querySelector('ids-icon');
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     document.body.innerHTML = '';
   });
 
@@ -73,8 +74,8 @@ describe('IdsIcon Component', () => {
     elem = new IdsIcon();
     document.body.appendChild(elem);
     elem.vertical = true;
-    expect(elem.vertical).toEqual('true');
-    expect(elem.getAttribute('vertical')).toEqual('true');
+    expect(elem.vertical).toBeTruthy();
+    expect(elem.getAttribute('vertical')).toEqual('');
     elem.vertical = null;
     expect(elem.vertical).toEqual(false);
     expect(elem.getAttribute('vertical')).toEqual(null);
@@ -98,7 +99,7 @@ describe('IdsIcon Component', () => {
     container.language = 'de';
     await processAnimFrame();
     expect(elem.getAttribute('dir')).toBeFalsy();
-    expect(elem.container.getAttribute('dir')).toBeFalsy();
+    expect(elem.container?.getAttribute('dir')).toBeFalsy();
     container.language = 'ar';
     await processAnimFrame();
     expect(elem.template()).toContain('class="mirrored"');
@@ -118,8 +119,8 @@ describe('IdsIcon Component', () => {
     elem.badgePosition = 'bottom-right';
     elem.badgeColor = null;
     elem.badgePosition = null;
-    expect(elem.getAttribute('badge-position')).toEqual('');
-    expect(elem.getAttribute('badge-color')).toEqual('');
+    expect(elem.getAttribute('badge-position')).toBeFalsy();
+    expect(elem.getAttribute('badge-color')).toBeFalsy();
   });
 
   it('can use empty message icons', () => {
