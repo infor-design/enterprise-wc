@@ -72,6 +72,11 @@ export default class IdsLayoutGridCell extends Base {
       this.style.setProperty('--grid-col-span', value);
       this.classList.add(`ids-layout-grid-col-span`);
 
+      if (value === 'full') {
+        this.style.setProperty('--grid-col-span', '1 / -1');
+        this.classList.add(`ids-layout-grid-col-span-full`);
+      }
+
       const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
       if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
         this.classList.remove(`ids-layout-grid-col-span`);

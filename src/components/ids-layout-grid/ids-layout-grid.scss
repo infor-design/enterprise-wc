@@ -365,3 +365,7 @@ $grid-cols-sm: 4;
 
   justify-content: var(--grid-justify-content);
 }
+
+:host(:not(.ids-layout-fluid-grid)) ::slotted(ids-layout-grid-cell.ids-layout-grid-col-span-full) {
+  grid-column: 1 / -1;
+}
