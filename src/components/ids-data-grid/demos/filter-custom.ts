@@ -1,4 +1,5 @@
 import '../ids-data-grid';
+import '../../ids-popup-menu/ids-popup-menu';
 import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
 
@@ -21,6 +22,7 @@ const myCustomFilter = (opt: any) => {
   if (operator === 'greater-equals') isMatch = (val.data >= val.condition);
   if (operator === 'less-than') isMatch = (val.data < val.condition);
   if (operator === 'less-equals') isMatch = (val.data <= val.condition);
+  if (operator === 'start-with') isMatch = (val.data.toString().startsWith(val.condition.toString()));
 
   return isMatch;
 };
