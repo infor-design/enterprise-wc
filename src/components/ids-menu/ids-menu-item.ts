@@ -154,26 +154,6 @@ export default class IdsMenuItem extends Base {
    * @returns {void}
    */
   attachEventHandlers() {
-    // On 'mouseenter', after a specified duration, run some events,
-    // including activation of submenus where applicable.
-    this.onEvent('mouseenter', this, () => {
-      // Highlight
-      this.menu.highlightItem(this);
-
-      // Tell the menu which item to use for converting a hover state to keyboard
-      if (!this.disabled) {
-        this.menu.lastHovered = this;
-      }
-    });
-
-    // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
-    // and unhighlight the item
-    this.onEvent('mouseleave', this, () => {
-      if (!this.hasSubmenu || this.submenu.hidden) {
-        this.unhighlight();
-      }
-    });
-
     // When any of this item's slots change, refresh the visual state of the item
     this.onEvent('slotchange', this.container, () => {
       this.refresh();
@@ -294,9 +274,11 @@ export default class IdsMenuItem extends Base {
       return;
     }
     // If the item's submenu is open, don't unhighlight.
+    /*
     if (!trueVal && this.hasSubmenu && !this.submenu.hidden) {
       return;
     }
+    */
 
     this.state.highlighted = trueVal;
     this.container?.classList[trueVal ? 'add' : 'remove']('highlighted');
@@ -315,6 +297,7 @@ export default class IdsMenuItem extends Base {
    */
   highlight() {
     this.highlighted = true;
+    this.triggerEvent('highlighted', this, { bubbles: true, detail: { elem: this } });
   }
 
   /**
@@ -323,6 +306,7 @@ export default class IdsMenuItem extends Base {
    */
   unhighlight() {
     this.highlighted = false;
+    // if (this.hasSubmenu) this.hideSubmenu();
   }
 
   /**

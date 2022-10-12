@@ -15,6 +15,14 @@
   }
 }
 
+// Fixes usability issues with some slotted IDS components inside menu items
+::slotted(ids-text) {
+  pointer-events: none;
+}
+::slotted(ids-icon) {
+  pointer-events: none;
+}
+
 // Resets position rules for nested menus
 ::slotted(ids-popup-menu) {
   position: relative;

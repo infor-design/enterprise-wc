@@ -13,6 +13,8 @@ import '../ids-separator/ids-separator';
 import styles from './ids-menu.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
+import type IdsMenuItem from './ids-menu-item';
+
 /**
  * IDS Menu Component
  * @type {IdsMenu|any}
@@ -45,18 +47,6 @@ export default class IdsMenu extends Base {
    * @returns {void}
    */
   attachEventHandlers() {
-    // Highlight handler -- Menu Items Only, don't change if the target is disabled
-    const highlightItem = (e: any) => {
-      const thisItem = e.target.closest('ids-menu-item');
-      this.highlightItem(thisItem);
-    };
-
-    // Unhighlight handler - Menu Items Only
-    const unhighlightItem = (e: any) => {
-      const thisItem = e.target.closest('ids-menu-item');
-      thisItem?.unhighlight();
-    };
-
     // Highlight the item on click
     // If the item doesn't contain a submenu, select it.
     // If the item does have a submenu, activate it.
@@ -68,9 +58,38 @@ export default class IdsMenu extends Base {
       e.stopPropagation();
     });
 
-    // Focus in/out causes highlight to change
-    this.onEvent('focusin', this, highlightItem);
-    this.onEvent('focusout', this, unhighlightItem);
+    // On 'mouseenter', after a specified duration, run some events,
+    // including activation of submenus where applicable.
+    this.onEvent('mouseover', this, (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target && target.tagName === 'IDS-MENU-ITEM') {
+        e.stopPropagation();
+
+        // Highlight
+        const menuItem = target as unknown as IdsMenuItem;
+        this.highlightItem(menuItem);
+
+        // Tell the menu which item to use for converting a hover state to keyboard
+        if (!menuItem.hasAttribute(attributes.DISABLED)) {
+          this.lastHovered = menuItem;
+        }
+      }
+    });
+
+    // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
+    // and unhighlight the item
+    this.onEvent('mouseout', this, (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target && target.tagName === 'IDS-MENU-ITEM') {
+        e.stopPropagation();
+
+        // Unhighlight
+        const menuItem = target as unknown as IdsMenuItem;
+        if (!menuItem.hasSubmenu || menuItem.submenu.hidden) {
+          menuItem.unhighlight();
+        }
+      }
+    });
   }
 
   /**
@@ -502,6 +521,7 @@ export default class IdsMenu extends Base {
     this.lastNavigated = currentItem;
     if (!currentItem.disabled && !currentItem.hidden && doFocus) {
       currentItem.focus();
+      this.highlightItem(currentItem);
     }
 
     return currentItem;

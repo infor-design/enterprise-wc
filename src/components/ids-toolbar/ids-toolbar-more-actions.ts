@@ -126,7 +126,9 @@ export default class IdsToolbarMoreActions extends Base {
       if (thisItem[menuProp]) {
         const thisSubItems = thisItem[menuProp].items;
         submenu = `<ids-popup-menu slot="submenu">
-          ${thisSubItems.map((subItem: any) => this.#moreActionsItemTemplate(subItem, true)).join('') || ''}
+          <ids-menu-group>
+            ${thisSubItems.map((subItem: any) => this.#moreActionsItemTemplate(subItem, true)).join('') || ''}
+          </ids-menu-group>
         </ids-popup-menu>`;
       }
     };
