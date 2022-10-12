@@ -37,7 +37,8 @@ ids-month-view {
 
     border-top: 1px solid var(--ids-color-palette-slate-30);
 
-    ids-modal-button:not(:first-child) {
+    ids-modal-button:not(hidden) + ids-modal-button,
+    .ids-modal-button:not(hidden) + .ids-modal-button {
       @include border-l-1();
 
       border-left-color: var(--ids-color-palette-slate-30);
@@ -47,7 +48,8 @@ ids-month-view {
   &[mode='dark'] .popup-footer {
     border-top-color: var(--ids-color-palette-slate-50);
 
-    ids-modal-button:not(:first-child):not(:focus) {
+    ids-modal-button:not(hidden) + ids-modal-button:not(focus),
+    .ids-modal-button:not(hidden) + .ids-modal-button:not(focus) {
       border-left-color: var(--ids-color-palette-slate-50);
     }
   }

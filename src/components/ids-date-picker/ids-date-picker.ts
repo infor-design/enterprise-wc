@@ -26,6 +26,15 @@ import '../ids-text/ids-text';
 import '../ids-time-picker/ids-time-picker';
 import '../ids-trigger-field/ids-trigger-field';
 
+// Datepicker Shared
+import {
+  IdsDatePickerCommonAttributes,
+  MIN_MONTH,
+  MAX_MONTH,
+  MONTH_KEYS,
+  PICKLIST_LENGTH
+} from './ids-date-picker-common';
+
 // Types
 import type {
   IdsRangeSettings,
@@ -38,14 +47,8 @@ import type IdsTimePicker from '../ids-time-picker/ids-time-picker';
 import type IdsExpandableArea from '../ids-expandable-area/ids-expandable-area';
 import type IdsToggleButton from '../ids-toggle-button/ids-toggle-button';
 
-// Import Styles
+// Styles
 import styles from './ids-date-picker.scss';
-import { IdsDatePickerCommonAttributes } from './ids-date-picker-common';
-
-const MIN_MONTH = 0;
-const MAX_MONTH = 11;
-const MONTH_KEYS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const PICKLIST_LENGTH = 6;
 
 /**
  * IDS Date Picker Component
@@ -118,15 +121,11 @@ class IdsDatePicker extends Base {
       attributes.DISABLED,
       attributes.EXPANDED,
       attributes.ID,
-      attributes.IS_CALENDAR_TOOLBAR,
-      attributes.IS_DROPDOWN,
       attributes.LABEL,
       attributes.MASK,
-      attributes.MINUTE_INTERVAL,
       attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
       attributes.READONLY,
-      attributes.SECOND_INTERVAL,
       attributes.SIZE,
       attributes.TABBABLE,
       attributes.VALIDATE,
@@ -149,6 +148,22 @@ class IdsDatePicker extends Base {
     if (this.#triggerField) {
       this.#triggerField.colorVariant = this.colorVariant;
     }
+  }
+
+  /**
+   * Push label-state to the trigger-field element
+   * @returns {void}
+   */
+  onLabelRequiredChange(): void {
+    if (this.#triggerField) this.#triggerField.labelRequired = this.labelRequired;
+  }
+
+  /**
+   * Push label-state to the trigger-field element
+   * @returns {void}
+   */
+  onLabelChange(): void {
+    if (this.#triggerField) this.#triggerField.label = this.label;
   }
 
   /**
