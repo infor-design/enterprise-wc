@@ -249,7 +249,7 @@ export default class IdsPopupMenu extends Base {
 
     submenus.forEach((submenu: any) => {
       const submenuIsIgnored = focusedSubmenu && focusedSubmenu.isEqualNode(submenu);
-      if (!submenu.hidden && !submenuIsIgnored) {
+      if (!submenu.hidden && !submenuIsIgnored && !submenu.contains(focusedSubmenu)) {
         submenu.hide();
       }
     });
