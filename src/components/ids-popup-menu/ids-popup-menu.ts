@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { getElementAtMouseLocation } from '../../utils/ids-dom-utils/ids-dom-utils';
 import '../ids-popup/ids-popup';
 import Base from './ids-popup-menu-base';
 
@@ -100,9 +101,7 @@ export default class IdsPopupMenu extends Base {
       if (!this.parentMenuItem) {
         this.triggerEvent('show', this, e);
       }
-      requestAnimationFrame(() => {
-        this.focusTarget?.focus();
-      });
+      this.focusTarget?.focus();
     });
 
     // When the underlying Popup triggers its "hide" event, pass the event to the Host element.
@@ -377,9 +376,17 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   onCancelTriggerHover(e: CustomEvent): void {
-    const newTargetNode = e.detail.mouseLeaveNode;
-    if (!this.contains(newTargetNode) && !this.isEqualNode(newTargetNode)) {
-      this.hide();
+    const mouseLeaveNode = e.detail.mouseLeaveNode;
+    const currentNodeAtMouse = getElementAtMouseLocation();
+
+    if (currentNodeAtMouse) {
+      if (!currentNodeAtMouse.isEqualNode(mouseLeaveNode) || !this.contains(mouseLeaveNode)) {
+        this.hide();
+        if (mouseLeaveNode.tagName === 'IDS-MENU-ITEM') {
+          mouseLeaveNode.highlight();
+          if (mouseLeaveNode.menu) mouseLeaveNode.menu.hideSubmenus(mouseLeaveNode);
+        }
+      }
     }
   }
 

@@ -273,12 +273,6 @@ export default class IdsMenuItem extends Base {
     if (trueVal && this.disabled) {
       return;
     }
-    // If the item's submenu is open, don't unhighlight.
-    /*
-    if (!trueVal && this.hasSubmenu && !this.submenu.hidden) {
-      return;
-    }
-    */
 
     this.state.highlighted = trueVal;
     this.container?.classList[trueVal ? 'add' : 'remove']('highlighted');
@@ -306,7 +300,6 @@ export default class IdsMenuItem extends Base {
    */
   unhighlight() {
     this.highlighted = false;
-    // if (this.hasSubmenu) this.hideSubmenu();
   }
 
   /**
@@ -685,7 +678,10 @@ export default class IdsMenuItem extends Base {
    * @returns {void}
    */
   focus() {
-    if (!this.hidden && !this.disabled) this.a?.focus();
+    if (!this.hidden && !this.disabled) {
+      this.a?.focus();
+      this.menu.highlightItem(this);
+    }
   }
 
   /**
