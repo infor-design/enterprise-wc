@@ -29,8 +29,8 @@ export default class IdsLayoutGrid extends Base {
   static get attributes(): any {
     return [
       attributes.AUTO,
-      'auto-rows',
-      'auto-flow',
+      attributes.AUTO_ROWS,
+      attributes.AUTO_FLOW,
       attributes.COLS,
       'cols-xs',
       'cols-sm',
@@ -40,9 +40,9 @@ export default class IdsLayoutGrid extends Base {
       'cols-xxl',
       attributes.FIXED,
       attributes.GAP,
-      'justify-content',
+      attributes.JUSTIFY_CONTENT,
       attributes.NO_MARGINS,
-      'max-col-width',
+      attributes.MAX_COL_WIDTH,
       attributes.MIN_COL_WIDTH,
       attributes.ROWS
     ];
