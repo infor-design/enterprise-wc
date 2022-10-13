@@ -136,6 +136,7 @@ export default class IdsPopupMenu extends Base {
     // NOTE: This will never occur on a top-level Popupmenu.
     if (this.parentMenu) {
       this.listen(['ArrowLeft'], this, (e: any) => {
+        e.stopPropagation();
         e.preventDefault();
         this.hide();
         this.parentMenuItem.focus();
