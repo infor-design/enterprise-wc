@@ -372,16 +372,15 @@ export default class IdsMenu extends Base {
    * - the first available menu item closest to the top of the menu that is not disabled or hidden.
    */
   get focusTarget() {
-    let target = this.lastHovered;
-    if (!target) {
-      const selected = this.getSelectedItems();
-      if (!selected.length) {
-        target = this.getFirstAvailableItem();
-      } else {
-        target = selected[0];
-      }
-    }
-    return target;
+    if (this.lastHovered) return this.lastHovered;
+
+    const highlighted = this.items.filter((item: IdsMenuItem) => item.highlighted);
+    if (highlighted.length) return highlighted[highlighted.length - 1];
+
+    const selected = this.getSelectedItems();
+    if (selected.length) return selected[0];
+
+    return this.getFirstAvailableItem();
   }
 
   /**

@@ -109,6 +109,7 @@ export default class IdsMenuItem extends Base {
       ...super.attributes,
       attributes.DISABLED,
       attributes.HIDDEN,
+      attributes.HIGHLIGHTED,
       attributes.ICON,
       attributes.SELECTED,
       attributes.SUBMENU,
@@ -272,6 +273,12 @@ export default class IdsMenuItem extends Base {
     // Don't highlight if the item is disabled.
     if (trueVal && this.disabled) {
       return;
+    }
+
+    if (trueVal) {
+      this.setAttribute(attributes.HIGHLIGHTED, 'true');
+    } else {
+      this.removeAttribute(attributes.HIGHLIGHTED);
     }
 
     this.state.highlighted = trueVal;

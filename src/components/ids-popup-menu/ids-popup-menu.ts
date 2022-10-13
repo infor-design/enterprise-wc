@@ -102,7 +102,12 @@ export default class IdsPopupMenu extends Base {
       if (!this.parentMenuItem) {
         this.triggerEvent('show', this, e);
       }
-      this.focusTarget?.focus();
+
+      const focusTarget = this.focusTarget;
+      if (focusTarget) {
+        focusTarget.highlight();
+        focusTarget.focus();
+      }
     });
 
     // When the underlying Popup triggers its "hide" event, pass the event to the Host element.
