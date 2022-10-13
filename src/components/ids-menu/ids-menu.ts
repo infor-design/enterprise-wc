@@ -484,11 +484,15 @@ export default class IdsMenu extends Base {
    */
   navigate(amt = 0, doFocus = false) {
     const items = this.items;
+    let currentItem = this.focusTarget;
+
+    /*
     let currentItem = this.focused || this.lastNavigated || items[0];
     if (this.lastHovered) {
       currentItem = this.lastHovered;
       this.lastHovered = undefined;
     }
+    */
 
     if (typeof amt !== 'number') {
       return currentItem;
