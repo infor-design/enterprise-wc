@@ -6,6 +6,7 @@ import '../ids-popup/ids-popup';
 import Base from './ids-popup-menu-base';
 
 import styles from './ids-popup-menu.scss';
+import type IdsMenuItem from '../ids-menu/ids-menu-item';
 
 /**
  * IDS Popup Menu Component
@@ -195,6 +196,8 @@ export default class IdsPopupMenu extends Base {
       return;
     }
 
+    this.refreshIconAlignment();
+
     this.hidden = false;
     this.#setVisibleARIA();
 
@@ -297,6 +300,17 @@ export default class IdsPopupMenu extends Base {
     if (this.container) {
       this.container.style.width = targetWidth;
     }
+  }
+
+  /**
+   * Refreshes the state of alignment of icons inside this menu
+   * @returns {void}
+   */
+  refreshIconAlignment(): void {
+    const hasIcons = this.detectIcons();
+    this.items.forEach((item: IdsMenuItem) => {
+      item.decorateForIcon(hasIcons);
+    });
   }
 
   /**

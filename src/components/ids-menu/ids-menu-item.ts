@@ -147,7 +147,7 @@ export default class IdsMenuItem extends Base {
     this.detectHidden();
     this.detectSubmenu();
     this.detectSelectability();
-    this.decorateForIcon();
+    this.decorateForIcon(this.hasAttribute(attributes.ICON));
   }
 
   /**
@@ -365,11 +365,11 @@ export default class IdsMenuItem extends Base {
   /**
    * Updates the alignment of text/icon content in the menu item to account for icons
    * that are present either on this menu item, or another one inside this menu item's group.
+   * @param {boolean} doShow true if the menu item should be decorated
    * @private
    */
-  decorateForIcon() {
-    const hasIcons = this.group.itemIcons.length > 0;
-    this.container?.classList[hasIcons ? 'add' : 'remove']('has-icon');
+  decorateForIcon(doShow: boolean) {
+    this.container?.classList[doShow ? 'add' : 'remove']('has-icon');
   }
 
   /**

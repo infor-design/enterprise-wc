@@ -677,4 +677,18 @@ export default class IdsMenu extends Base {
       }
     });
   }
+
+  /**
+   * Determines if this menu (not including its submenus) contains icons inside its visible menu items
+   * @returns {boolean} true if the menu items contain icons
+   */
+  detectIcons() {
+    let hasIcons = false;
+    for (let i = 0, item: IdsMenuItem; i < this.items.length; i++) {
+      if (hasIcons) break;
+      item = this.items[i];
+      if (!item.hidden && item.icon && item.icon.length) hasIcons = true;
+    }
+    return hasIcons;
+  }
 }

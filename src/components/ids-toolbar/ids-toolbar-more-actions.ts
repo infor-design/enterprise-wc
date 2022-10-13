@@ -379,6 +379,10 @@ export default class IdsToolbarMoreActions extends Base {
 
     this.button.hidden = !this.hasVisibleActions();
     this.button.disabled = !this.hasEnabledActions();
+
+    if (this.menu.visible) {
+      this.menu.refreshIconAlignment();
+    }
   }
 
   /**
