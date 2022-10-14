@@ -115,7 +115,7 @@
     }
   }
 
-  &:not(.text-center)
+  &:not(.text-center),
   &:not(.text-start),
   &:not(.text-end) {
     .ids-menu-item-text {

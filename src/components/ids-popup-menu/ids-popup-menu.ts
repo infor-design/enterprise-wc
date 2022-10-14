@@ -6,7 +6,6 @@ import '../ids-popup/ids-popup';
 import Base from './ids-popup-menu-base';
 
 import styles from './ids-popup-menu.scss';
-import type IdsMenuItem from '../ids-menu/ids-menu-item';
 
 /**
  * IDS Popup Menu Component
