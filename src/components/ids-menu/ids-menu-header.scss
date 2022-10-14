@@ -14,6 +14,11 @@
 
   color: var(--ids-color-palette-slate-70);
   list-style: none;
+  text-align: start;
+
+  &.align-for-icons {
+    @include pl-40();
+  }
 }
 
 // Handle Themes

@@ -14,6 +14,7 @@ import styles from './ids-menu.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import type IdsMenuItem from './ids-menu-item';
+import type IdsMenuHeader from './ids-menu-header';
 
 /**
  * IDS Menu Component
@@ -40,6 +41,22 @@ export default class IdsMenu extends Base {
       ...super.attributes,
       attributes.DISABLED,
     ];
+  }
+
+  /**
+   * Safely retrieves child elements of the menu without regard
+   * for whether or not they are direct descendants, or slotted
+   * @returns {Array<HTMLElement>} child element list
+   */
+  protected get childElements(): Array<HTMLElement> {
+    // Standard Implementation is to simply look at children
+    let target = [...this.children];
+
+    // If the first child is a slot, look in the slot for assigned items instead
+    if (this.children[0]?.tagName === 'SLOT') {
+      target = this.children[0].assignedElements();
+    }
+    return target;
   }
 
   /**
@@ -334,14 +351,15 @@ export default class IdsMenu extends Base {
    * @returns {Array<any>} [`IdsMenuGroup`] all available menu groups
    */
   get groups() {
-    // Standard Implementation is to simply look at children
-    let target = this.children;
+    return this.childElements?.filter((e) => e.matches('ids-menu-group'));
+  }
 
-    // If the first child is a slot, look in the slot for assigned items instead
-    if (this.children[0]?.tagName === 'SLOT') {
-      target = this.children[0].assignedElements();
-    }
-    return [...target].filter((e) => e.matches('ids-menu-group'));
+  /**
+   * @readonly
+   * @returns {Array<any>} [`IdsMenuHeader`] all available menu groups
+   */
+  get headers() {
+    return this.childElements?.filter((e) => e.matches('ids-menu-header'));
   }
 
   /**
@@ -701,7 +719,7 @@ export default class IdsMenu extends Base {
    */
   refreshIconAlignment(): void {
     this.detectIcons();
-    this.items.forEach((item: IdsMenuItem) => {
+    [...this.items, ...this.headers].forEach((item: IdsMenuItem | IdsMenuHeader) => {
       if (typeof item.decorateForIcon === 'function') item.decorateForIcon(this.hasIcons);
     });
   }
