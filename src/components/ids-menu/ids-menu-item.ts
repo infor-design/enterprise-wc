@@ -148,7 +148,7 @@ export default class IdsMenuItem extends Base {
     this.detectHidden();
     this.detectSubmenu();
     this.detectSelectability();
-    this.decorateForIcon(this.menu.hasIcons);
+    if (this.menu) this.decorateForIcon(this.menu.hasIcons);
   }
 
   /**
