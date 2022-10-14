@@ -115,6 +115,14 @@
     }
   }
 
+  &:not(.text-center)
+  &:not(.text-start),
+  &:not(.text-end) {
+    .ids-menu-item-text {
+      text-align: start;
+    }
+  }
+
   &.text-center,
   &.text-start,
   &.text-end {
