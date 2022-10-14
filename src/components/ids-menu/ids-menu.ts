@@ -32,6 +32,7 @@ export default class IdsMenu extends Base {
     this.state = {};
     this.lastHovered = undefined;
     this.lastNavigated = undefined;
+    this.hasIcons = false;
   }
 
   static get attributes(): Array<string> {
@@ -135,6 +136,8 @@ export default class IdsMenu extends Base {
     if (this.data) {
       this.renderFromData();
     }
+
+    this.refreshIconAlignment();
 
     // After repaint
     requestAnimationFrame(() => {
@@ -486,14 +489,6 @@ export default class IdsMenu extends Base {
     const items = this.items;
     let currentItem = this.focusTarget;
 
-    /*
-    let currentItem = this.focused || this.lastNavigated || items[0];
-    if (this.lastHovered) {
-      currentItem = this.lastHovered;
-      this.lastHovered = undefined;
-    }
-    */
-
     if (typeof amt !== 'number') {
       return currentItem;
     }
@@ -682,16 +677,32 @@ export default class IdsMenu extends Base {
   }
 
   /**
+   * @param {boolean} hasIcons true if the menu contains items displaying icons
+   */
+  protected hasIcons: boolean;
+
+  /**
    * Determines if this menu (not including its submenus) contains icons inside its visible menu items
    * @returns {boolean} true if the menu items contain icons
    */
   detectIcons() {
-    let hasIcons = false;
+    this.hasIcons = false;
     for (let i = 0, item: IdsMenuItem; i < this.items.length; i++) {
-      if (hasIcons) break;
+      if (this.hasIcons) break;
       item = this.items[i];
-      if (!item.hidden && item.icon && item.icon.length) hasIcons = true;
+      if (!item.hidden && item.icon && item.icon.length) this.hasIcons = true;
     }
-    return hasIcons;
+    return this.hasIcons;
+  }
+
+  /**
+   * Refreshes the state of alignment of icons inside this menu
+   * @returns {void}
+   */
+  refreshIconAlignment(): void {
+    this.detectIcons();
+    this.items.forEach((item: IdsMenuItem) => {
+      if (typeof item.decorateForIcon === 'function') item.decorateForIcon(this.hasIcons);
+    });
   }
 }

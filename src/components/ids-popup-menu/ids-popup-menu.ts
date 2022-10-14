@@ -308,17 +308,6 @@ export default class IdsPopupMenu extends Base {
   }
 
   /**
-   * Refreshes the state of alignment of icons inside this menu
-   * @returns {void}
-   */
-  refreshIconAlignment(): void {
-    const hasIcons = this.detectIcons();
-    this.items.forEach((item: IdsMenuItem) => {
-      item.decorateForIcon(hasIcons);
-    });
-  }
-
-  /**
    * Inherited from the Popup Open Events Mixin.
    * Runs when a click event is propagated to the window.
    * @returns {void}
