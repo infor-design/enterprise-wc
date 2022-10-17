@@ -1,8 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { calculateTextRenderWidth } from '../../utils/ids-object-utils/ids-object-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
-import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { escapeHTML, sanitizeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import Base from './ids-data-grid-base';
 import IdsDataSource from '../../core/ids-data-source';
@@ -99,6 +100,13 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * @returns {Array<string>} Drawer vetoable events
+   */
+  vetoableEventTypes = [
+    'beforetooltipshow'
+  ];
+
+  /**
    * Inner template contents
    * @returns {string} The template
    * @private
@@ -118,6 +126,9 @@ export default class IdsDataGrid extends Base {
           ${this.bodyTemplate()}
         </div>
         <slot name="menu-container"></slot>
+        <slot name="tooltip">
+          <ids-tooltip id="tooltip" exportparts="tooltip-popup, tooltip-arrow"></ids-tooltip>
+        </slot>
       </div>`;
 
     return html;
@@ -154,7 +165,7 @@ export default class IdsDataGrid extends Base {
     if ((this.columns.length === 0 && this.data.length === 0) || !this.initialized) {
       return;
     }
-    this.body.innerHTML = this.bodyTemplate();
+    this.body.innerHTML = this.bodyInnerTemplate();
     this.#setHeaderCheckbox();
   }
 
@@ -197,6 +208,7 @@ export default class IdsDataGrid extends Base {
 
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
+    this.setupTooltip();
 
     // Attach post filters setting
     this.filters.attachPostFiltersSetting();
@@ -217,6 +229,22 @@ export default class IdsDataGrid extends Base {
     `;
 
     return this.columnGroupsTemplate() + html;
+  }
+
+  /**
+   * Returns the markup for a header icon.
+   * @param {IdsDataGridColumn | IdsDataGridColumnGroup} column The column info
+   * @returns {string} The resuling header icon template
+   */
+  headerIconTemplate(column: IdsDataGridColumn | IdsDataGridColumnGroup): string {
+    const headerIcon = typeof column?.headerIcon === 'string' ? column.headerIcon : '';
+    if (headerIcon === '') return '';
+
+    const headerIconTooltip = column.headerIconTooltip || headerIcon;
+    return `
+      <span class="ids-data-grid-header-icon" data-headericontooltip="${headerIconTooltip}">
+        <ids-icon icon="${headerIcon}" size="medium"></ids-icon>
+      </span>`;
   }
 
   /**
@@ -262,6 +290,7 @@ export default class IdsDataGrid extends Base {
         <span class="ids-data-grid-header-text">
           ${headerContentTemplate}
         </span>
+        ${this.headerIconTemplate(column)}
         ${column.sortable ? sortIndicatorTemplate : ''}
       </span>${column.resizable ? resizerTemplate : ''}${column.reorderable ? reorderTemplate : ''}`;
 
@@ -284,6 +313,7 @@ export default class IdsDataGrid extends Base {
         aria-colindex="${index + 1}"
         column-id="${column.id}"
         role="columnheader"
+        data-textwidth="${this.#textWidth(headerContentWrapperTemplate, 1)}"
       >
         ${headerContentWrapperTemplate}
         ${headerFilterWrapperTemplate}
@@ -308,11 +338,12 @@ export default class IdsDataGrid extends Base {
       const align = columnGroup.align ? ` align-${columnGroup.align}` : '';
 
       // Header cell template
-      const html = `<span class="ids-data-grid-header-cell${align}" part="header-cell" column-group-id="${columnGroup.id || 'id'}" role="columnheader">
+      const html = `<span class="ids-data-grid-header-cell${align}" part="header-cell" column-group-id="${columnGroup.id || 'id'}" role="columnheader" data-textwidth="${this.#textWidth(columnGroup.name || '')}">
         <span class="ids-data-grid-header-cell-content">
           <span class="ids-data-grid-header-text">
             ${columnGroup.name || ''}
           </span>
+          ${this.headerIconTemplate(columnGroup)}
         </span>
       </span>`;
       columnGroupHtml += html;
@@ -338,8 +369,19 @@ export default class IdsDataGrid extends Base {
     }
     return `
       <div class="ids-data-grid-body" part="contents" role="rowgroup">
-        ${this.data.map((row: Record<string, any>, index: number) => this.rowTemplate(row, index, index)).join('')}
+        ${this.bodyInnerTemplate()}
       </div>
+    `;
+  }
+
+  /**
+   * Body inner template markup
+   * @private
+   * @returns {string} The template
+   */
+  bodyInnerTemplate() {
+    return `
+      ${this.data.map((row: Record<string, any>, index: number) => this.rowTemplate(row, index, index)).join('')}
     `;
   }
 
@@ -357,14 +399,18 @@ export default class IdsDataGrid extends Base {
     rowClasses += `${row?.rowActivated ? ' activated' : ''}`;
 
     const frozenLast = this.leftFrozenColumns.length;
+    const cellsHtml = this.visibleColumns.map((column: IdsDataGridColumn, j: number) => {
+      const content = this.cellTemplate(row, column, ariaIndex);
+      const isHyperlink = column?.formatter?.name === 'hyperlink';
+      const textwidth = this.#textWidth(content, isHyperlink ? 8 : 29);
+      return `
+        <span role="cell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ``}" aria-colindex="${j + 1}" data-textwidth="${textwidth}">${content}</span>
+      `;
+    }).join('');
 
     return `
       <div role="row" part="row" aria-rowindex="${ariaIndex + 1}" visible-rowindex="${index}" class="ids-data-grid-row${rowClasses}">
-        ${this.visibleColumns.map((column: IdsDataGridColumn, j: number) => `
-          <span role="cell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ``}" aria-colindex="${j + 1}">
-            ${this.cellTemplate(row, column, ariaIndex)}
-          </span>
-        `).join('')}
+        ${cellsHtml}
       </div>
     `;
   }
@@ -395,8 +441,22 @@ export default class IdsDataGrid extends Base {
    */
   cellTemplate(row: Record<string, unknown>, column: IdsDataGridColumn, index: number) {
     const formatters = (this.formatters as any);
-    if (!formatters[column?.formatter?.name || 'text'] && column?.formatter) return column?.formatter(row, column, index, this);
+    if (!formatters[column?.formatter?.name || 'text'] && column?.formatter) {
+      return sanitizeHTML(column?.formatter(row, column, index, this));
+    }
     return formatters[column?.formatter?.name || 'text'](row, column, index, this);
+  }
+
+  /**
+   * Calculates the text width to render given html.
+   * @private
+   * @param  {string} html The html to render.
+   * @param  {number} padding The leff plus right padding value.
+   * @returns {number} Calculated text width in pixels.
+   */
+  #textWidth(html: string, padding = 0): number {
+    const textContent = html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    return padding + calculateTextRenderWidth(this, textContent);
   }
 
   /**
@@ -792,6 +852,28 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Get column group data by given column group id
+   * @param {string} columnGroupId The column group id
+   * @returns {object} The column group data
+   */
+  columnGroupDataById(columnGroupId: string) {
+    return this.columnGroups?.filter(
+      (columnGroup: IdsDataGridColumnGroup) => columnGroup.id === columnGroupId
+    )[0];
+  }
+
+  /**
+   * Get column group index by given column group id
+   * @param {string} columnGroupId The column group id
+   * @returns {number} The column group index
+   */
+  columnGroupIdxById(columnGroupId: string): number {
+    return this.columnGroups?.findIndex(
+      (columnGroup: IdsDataGridColumn) => columnGroup.id === columnGroupId
+    );
+  }
+
+  /**
    * Get column data by given column id
    * @param {string} columnId The column id
    * @returns {object} The column data
@@ -931,12 +1013,12 @@ export default class IdsDataGrid extends Base {
   set label(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
-      this.shadowRoot.querySelector('.ids-data-grid').setAttribute('aria-label', value);
+      this.shadowRoot?.querySelector('.ids-data-grid')?.setAttribute('aria-label', value);
       return;
     }
 
     this.removeAttribute(attributes.LABEL);
-    this.shadowRoot.querySelector('.ids-data-grid').setAttribute('aria-label', 'Data Grid');
+    this.shadowRoot?.querySelector('.ids-data-grid')?.setAttribute('aria-label', 'Data Grid');
   }
 
   get label(): string { return this.getAttribute(attributes.LABEL) || 'Data Grid'; }
@@ -1228,10 +1310,10 @@ export default class IdsDataGrid extends Base {
    * @param {number} index the zero based index
    */
   deActivateRow(index: any) {
-    let row = index;
-    if (!index) {
+    if (typeof index === 'undefined' || index === null) {
       return;
     }
+    let row = index;
 
     if (typeof index === 'number') {
       row = this.rowByIndex(index);

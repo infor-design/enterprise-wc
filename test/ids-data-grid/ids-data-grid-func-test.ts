@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import '../helpers/canvas-mock';
 import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsContainer from '../../src/components/ids-container/ids-container';
@@ -34,7 +35,9 @@ describe('IdsDataGrid Component', () => {
       formatter: formatters.rowNumber,
       sortable: false,
       readonly: true,
-      width: 65
+      width: 65,
+      headerIcon: 'info',
+      headerIconTooltip: 'This is header icon'
     });
     cols.push({
       id: 'description',
