@@ -3,7 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import { escapeHTML, sanitizeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
-import { nextUntil } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { nextUntil, next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-data-grid-base';
 import IdsDataSource from '../../core/ids-data-source';
@@ -687,14 +687,23 @@ export default class IdsDataGrid extends Base {
       const key = e.key;
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
       const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
+      const nextRow = Number(next(this.activeCell.node.parentElement, `:not([hidden])`)?.getAttribute('data-index'));
+      const prevRow = Number(previous(this.activeCell.node.parentElement, `:not([hidden])`)?.getAttribute('data-index'));
+      const rowIndex = key === 'ArrowDown' ? nextRow : prevRow;
 
-      this.setActiveCell(Number(this.activeCell?.cell) + cellDiff, Number(this.activeCell?.row) + rowDiff);
+      this.setActiveCell(Number(this.activeCell?.cell) + cellDiff, rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex);
       e.preventDefault();
       e.stopPropagation();
     });
 
     // Handle Selection
     this.listen([' '], this, (e: Event) => {
+      const button = this.activeCell.node.querySelector('ids-button');
+      if (button) {
+        button.click();
+        e.preventDefault();
+        return;
+      }
       this.#handleRowSelection(this.rowByIndex(this.activeCell.row));
       e.preventDefault();
     });
@@ -1119,6 +1128,20 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Update the dataset
+   * @param {number} row the parent row that was clicked
+   * @param {Record<string, unknown>} data the data to apply to the row
+   */
+  updateRow(row: number, data: Record<string, unknown>) {
+    this.data[row] = { ...this.data[row], ...data };
+    if (this.treeGrid && this.data[row].ariaLevel === 1) {
+      this.datasource.originalData[row] = { ...this.data[row], ...data };
+      return;
+    }
+    debugger;
+  }
+
+  /**
    * Handle Expand/Collapse
    * @param {HTMLElement} row the parent row that was clicked
    */
@@ -1127,6 +1150,7 @@ export default class IdsDataGrid extends Base {
 
     // Handle Expand/Collapse in the component
     row.setAttribute('aria-expanded', !isExpanded);
+    this.updateRow(row.getAttribute('data-index'), { rowExpanded: !isExpanded });
     row.querySelector('.ids-data-grid-tree-container ids-button ids-icon').setAttribute('icon', !isExpanded ? 'plusminus-folder-open' : 'plusminus-folder-closed');
     const level = row.getAttribute('aria-level');
     let isParentCollapsed = false;
@@ -1136,6 +1160,7 @@ export default class IdsDataGrid extends Base {
       if (nodeLevel > Number(level) && !isParentCollapsed) {
         if (isExpanded) childRow.setAttribute('hidden', '');
         else childRow.removeAttribute('hidden');
+        this.updateRow(Number(childRow.getAttribute('data-index')), { rowHidden: !isExpanded });
       }
       if (childRow.getAttribute('aria-expanded')) isParentCollapsed = childRow.getAttribute('aria-expanded') === 'false';
     });

@@ -86,6 +86,10 @@ class IdsDataSource {
     return this.#currentData;
   }
 
+  get currentData() {
+    return this.#unFlattenData(this.#currentData);
+  }
+
   /* Provides ability to set the current data */
   set currentData(value: Record<string, any>) {
     this.#currentData = value;
@@ -128,6 +132,25 @@ class IdsDataSource {
     };
 
     addRows(data, data.length, 1);
+    return newData;
+  }
+
+  /**
+   * Flatten tree data internally
+   * @param {Record<string, unknown>} data The data array
+   * @returns {Record<string, unknown>} The flattened data
+   */
+  #unFlattenData(data: Record<string, any>) {
+    if (!this.#flatten) return data;
+
+    const newData = data.filter((row: Record<string, any>) => {
+      delete row.ariaSetSize;
+      delete row.ariaPosinset;
+      const level = row.ariaLevel;
+      delete row.ariaLevel;
+      return level === 1;
+    });
+
     return newData;
   }
 

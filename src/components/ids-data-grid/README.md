@@ -629,7 +629,7 @@ The following events are relevant to data-grid filters.
 - <kbd>Page Up</kbd> moves focus to the first cell in the current column
 - <kbd>Page Down</kbd> moves focus to the last cell in the current column
 - <kbd>Enter</kbd> toggles edit mode on the cell if it is editable. There is also an "auto edit detection". If the user starts typing then edit mode will happen automatically without enter.
-- <kbd>Space</kbd> Toggles the activate row. If suppressRowDeselection is set it will be ignored on deselect.
+- <kbd>Space</kbd> Toggles selection the activate row. If suppressRowDeselection is set it will be ignored on deselect. If the cell contains an expandable element then the row will toggle the expanded state.
 - <kbd>F2</kbd> toggles actionable mode. Pressing the <kbd>Tab</kbd> key while in actionable mode moves focus to the next actionable cell. While in actionable mode you can do things like type + enter. This will move you down a row when you hit enter. If the cell has a control that uses down arrow (like the drop downs or lookups that are editable). Then the user needs to hit enter to enable the edit mode on that cell.
 - <kbd>Triple Click</kbd> Not a keyboard shortcut, but if you have text in a cell that is overflowed a triple click will select all the text even the part that is invisible.
 - <kbd>Ctrl+A (PC) / Cmd+A (Mac)</kbd> If the grid is mixed or multi select this will select all rows.

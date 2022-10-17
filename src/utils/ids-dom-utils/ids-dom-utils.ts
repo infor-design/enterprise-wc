@@ -80,7 +80,7 @@ export function parents(node: any, selector = 'body'): Array<HTMLElement> {
 /**
  * Traverses down until matching the provided selector is found.
  * @param {HTMLElement} node the node to check
- * @param {string|undefined} selector containing a CSS selector to be used for matching
+ * @param {string|undefined} selector containing a CSS selector to be used
  * @returns {Array<HTMLElement>} the list of parent elements
  */
 export function nextUntil(node: any, selector: string): Array<HTMLElement> {
@@ -94,6 +94,40 @@ export function nextUntil(node: any, selector: string): Array<HTMLElement> {
   }
 
   return siblings;
+}
+
+/**
+ * Traverses up until matching selector is found (like jquery next)
+ * @param {HTMLElement} node the node to start
+ * @param {string|undefined} selector containing a CSS selector to be used
+ * @returns {HTMLElement} the element
+ */
+export function next(node: any, selector: string): HTMLElement {
+  node = node.nextElementSibling;
+
+  while (node) {
+    if (node.matches(selector)) return node;
+    node = node.nextElementSibling;
+  }
+
+  return node;
+}
+
+/**
+ * Traverses down until matching selector is found (like jquery prev)
+ * @param {HTMLElement} node the node to start
+ * @param {string|undefined} selector containing a CSS selector to be used
+ * @returns {HTMLElement} the element
+ */
+export function previous(node: any, selector: string): HTMLElement {
+  node = node.previousSibling;
+
+  while (node) {
+    if (node.matches(selector)) return node;
+    node = node.previousElementSibling;
+  }
+
+  return node;
 }
 
 /**
