@@ -5,20 +5,25 @@ import { IdsDataGridTooltipOptions } from './ids-data-grid-column';
 import debounce from '../../utils/ids-debounce-utils/ids-debounce-utils';
 
 import '../ids-tooltip/ids-tooltip';
+import { IdsConstructor } from '../../core/ids-element';
+import { EventsMixinInterface } from '../../mixins/ids-events-mixin/ids-events-mixin';
+import type IdsDataGrid from './ids-data-grid';
+
+type Constraints = IdsConstructor<EventsMixinInterface>;
 
 /**
  * A mixin that adds tooltip functionality to data grid
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsDataGridTooltipMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.SUPPRESS_TOOLTIPS
     ];
   }
@@ -134,14 +139,15 @@ const IdsDataGridTooltipMixin = (superclass: any) => class extends superclass {
    * @param  {HTMLElement[]} path List of path element.
    */
   async #tooltipBodyCell(path: HTMLElement[]) {
+    const ambientGrid = this as unknown as IdsDataGrid;
     const cellEl = this.#findInPath(path, '[role="cell"]') as HTMLElement;
     const textWidth = stringToNumber(cellEl.getAttribute('data-textwidth'));
 
     if ((cellEl.offsetWidth < cellEl.scrollWidth) || (cellEl.offsetWidth < textWidth)) {
       const rowIndex = stringToNumber(this.#findInPath(path, '[role="row"]')?.getAttribute('visible-rowindex'));
       const columnIndex = stringToNumber(cellEl.getAttribute('aria-colindex')) - 1;
-      const rowData = this.data[rowIndex];
-      const columnData = this.columns[columnIndex];
+      const rowData = ambientGrid.data[rowIndex];
+      const columnData = ambientGrid.columns[columnIndex];
       const columnId = columnData.id;
       const fieldData = rowData[columnId];
       const text = (cellEl.textContent || '').trim();
@@ -193,6 +199,7 @@ const IdsDataGridTooltipMixin = (superclass: any) => class extends superclass {
    * @param  {HTMLElement[]} path List of path element.
    */
   async #tooltipHeaderTitleOrIcon(path: HTMLElement[]) {
+    const ambientGrid = this as unknown as IdsDataGrid;
     const cellEl = this.#findInPath(path, '[role="columnheader"]') as HTMLElement;
     const titleEl = this.#findInPath(path, '.ids-data-grid-header-text') as HTMLElement;
     const iconEl = this.#findInPath(path, '.ids-data-grid-header-icon') as HTMLElement;
@@ -214,7 +221,7 @@ const IdsDataGridTooltipMixin = (superclass: any) => class extends superclass {
       // Set header group args
       if (isHeaderGroup) {
         const columnGroupId = cellEl.getAttribute('column-group-id');
-        const columnGroupData = this.columnGroupDataById(columnGroupId as string);
+        const columnGroupData = ambientGrid.columnGroupDataById(columnGroupId as string);
         data = columnGroupData;
 
         callbackArgs = {
@@ -222,13 +229,13 @@ const IdsDataGridTooltipMixin = (superclass: any) => class extends superclass {
           columnGroupId,
           columnGroupData,
           rowIndex: 0,
-          columnGroupIndex: this.columnGroupIdxById(columnGroupId as string),
+          columnGroupIndex: ambientGrid.columnGroupIdxById(columnGroupId as string),
         };
       } else {
         // Set header title args
         const columnId = cellEl.getAttribute('column-id');
-        const columnIndex = this.columnIdxById(columnId as string);
-        const columnData = this.columns[columnIndex as number];
+        const columnIndex = ambientGrid.columnIdxById(columnId as string);
+        const columnData = ambientGrid.columns[columnIndex as number];
         data = columnData;
 
         callbackArgs = {
@@ -236,7 +243,7 @@ const IdsDataGridTooltipMixin = (superclass: any) => class extends superclass {
           columnId,
           columnIndex,
           columnData,
-          rowIndex: this.columnGroups ? 1 : 0,
+          rowIndex: ambientGrid.columnGroups ? 1 : 0,
         };
       }
 
@@ -274,14 +281,15 @@ const IdsDataGridTooltipMixin = (superclass: any) => class extends superclass {
    * @param  {HTMLElement[]} path List of path element.
    */
   async #tooltipFilterButton(path: HTMLElement[]) {
+    const ambientGrid = this as unknown as IdsDataGrid;
     const cellEl: any = this.#findInPath(path, '[role="columnheader"]');
     const filterButton: any = this.#findInPath(path, 'ids-menu-button');
 
     if (filterButton) {
-      const rowIndex = this.columnGroups ? 1 : 0;
+      const rowIndex = ambientGrid.columnGroups ? 1 : 0;
       const columnId = cellEl.getAttribute('column-id');
-      const columnIndex = this.columnIdxById(columnId as string);
-      const columnData = this.columns[columnIndex];
+      const columnIndex = ambientGrid.columnIdxById(columnId as string);
+      const columnData = ambientGrid.columns[columnIndex];
       const text = (filterButton.text || '').trim();
 
       // The arguments to pass along callback
@@ -493,10 +501,10 @@ const IdsDataGridTooltipMixin = (superclass: any) => class extends superclass {
    */
   #attachTooltip(): void {
     // Add tooltip if not already
-    this.#tooltip = this.shadowRoot.querySelector('ids-tooltip');
+    this.#tooltip = this.shadowRoot?.querySelector('ids-tooltip');
     if (!this.#tooltip) {
-      this.shadowRoot.querySelector('slot[name="tooltip"]')?.insertAdjacentHTML('beforeend', '<ids-tooltip id="tooltip" exportparts="tooltip-popup, tooltip-arrow"></ids-tooltip>');
-      this.#tooltip = this.shadowRoot.querySelector('ids-tooltip');
+      this.shadowRoot?.querySelector('slot[name="tooltip"]')?.insertAdjacentHTML('beforeend', '<ids-tooltip id="tooltip" exportparts="tooltip-popup, tooltip-arrow"></ids-tooltip>');
+      this.#tooltip = this.shadowRoot?.querySelector('ids-tooltip');
     }
 
     // Attach tooltip events

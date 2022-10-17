@@ -4,13 +4,15 @@
 import '../helpers/resize-observer-mock';
 import '../helpers/match-media-mock';
 import IdsMasthead from '../../src/components/ids-masthead/ids-masthead';
+import type IdsButton from '../../src/components/ids-button/ids-button';
+import type IdsMenuButton from '../../src/components/ids-menu-button/ids-menu-button';
 
 describe('IdsMasthead Component', () => {
-  let element: any;
+  let element: IdsMasthead;
   let sections: any;
 
   beforeEach(async () => {
-    const masthead: any = new IdsMasthead();
+    const masthead = new IdsMasthead();
     masthead.icon = 'logo';
     masthead.title = 'title';
     masthead.innerHTML = `
@@ -20,7 +22,7 @@ describe('IdsMasthead Component', () => {
     `;
 
     document.body.appendChild(masthead);
-    element = document.querySelector('ids-masthead');
+    element = document.querySelector('ids-masthead') as IdsMasthead;
     sections = element.elements.sections;
   });
 
@@ -78,18 +80,18 @@ describe('IdsMasthead Component', () => {
     expect(element.icon).toBe(ICON1);
     expect(element.getAttribute('icon')).toBe(ICON1);
 
-    let logo = element.shadowRoot.querySelector('#logo');
-    expect(logo.id).toBe('logo');
-    expect(logo.classList.contains(`icon-${ICON1}`)).toBe(true);
+    let logo = element.shadowRoot?.querySelector('#logo');
+    expect(logo?.id).toBe('logo');
+    expect(logo?.classList.contains(`icon-${ICON1}`)).toBe(true);
     expect(element.template()).toMatchSnapshot();
 
     element.icon = ICON2;
     expect(element.icon).toBe(ICON2);
     expect(element.getAttribute('icon')).toBe(ICON2);
 
-    logo = element.shadowRoot.querySelector('#logo');
-    expect(logo.id).toBe('logo');
-    expect(logo.classList.contains(`icon-${ICON2}`)).toBe(true);
+    logo = element.shadowRoot?.querySelector('#logo');
+    expect(logo?.id).toBe('logo');
+    expect(logo?.classList.contains(`icon-${ICON2}`)).toBe(true);
     expect(element.template()).toMatchSnapshot();
   });
 
@@ -102,12 +104,12 @@ describe('IdsMasthead Component', () => {
     element.title = 'Infor Application';
     expect(element.title).toBe('Infor Application');
     expect(element.getAttribute('title')).toBe('Infor Application');
-    expect(element.shadowRoot.innerHTML).toContain('Infor Application');
+    expect(element.shadowRoot?.innerHTML).toContain('Infor Application');
     expect(element.template()).toMatchSnapshot();
   });
 
   it('restyles buttons to be square and transparent', () => {
-    const buttons: any[] = element.querySelectorAll('ids-button, ids-menu-button');
+    const buttons = element.querySelectorAll<IdsButton | IdsMenuButton>('ids-button, ids-menu-button');
     buttons.forEach((button) => {
       expect(button.colorVariant).toBe('alternate');
       expect(button.square).toBe(true);

@@ -5,10 +5,10 @@ import IdsVirtualScroll from '../../src/components/ids-virtual-scroll/ids-virtua
 import dataset from '../../src/assets/data/bikes.json';
 
 describe('IdsVirtualScroll Component', () => {
-  let virtualScroll: any;
+  let virtualScroll: IdsVirtualScroll;
 
   const appendVirtualScroll = () => {
-    const elem: any = new IdsVirtualScroll();
+    const elem = new IdsVirtualScroll();
     elem.innerHTML = `<div class="ids-list-view-body" part="contents"></div>`;
     document.body.appendChild(elem);
     elem.height = 308;
@@ -41,7 +41,7 @@ describe('IdsVirtualScroll Component', () => {
   it('renders rows on native scroll events', async () => {
     const startingHtml = virtualScroll.innerHTML;
 
-    virtualScroll.container.dispatchEvent(new Event('scroll'));
+    virtualScroll.container?.dispatchEvent(new Event('scroll'));
 
     expect(virtualScroll.innerHTML).toEqual(startingHtml);
   });
@@ -81,7 +81,7 @@ describe('IdsVirtualScroll Component', () => {
       virtualScroll.bufferSize = 100;
       expect(virtualScroll.getAttribute('buffer-size')).toEqual('100');
 
-      virtualScroll.renderItems();
+      virtualScroll.renderItems(false);
 
       expect((virtualScroll.innerHTML.match(/<div part="list-item"/g) || []).length).toEqual(virtualScroll.visibleItemCount());
     });
@@ -104,7 +104,7 @@ describe('IdsVirtualScroll Component', () => {
 
   it('removes the data value when reset', () => {
     virtualScroll.data = null;
-    expect(virtualScroll.datasource.data).toEqual(null);
+    expect(virtualScroll.datasource?.data).toEqual(null);
   });
 
   it('has a simple default template', () => {
@@ -116,7 +116,7 @@ describe('IdsVirtualScroll Component', () => {
 
   it('handles setting scrollTarget', () => {
     const errors = jest.spyOn(global.console, 'error');
-    virtualScroll.scrollTarget = virtualScroll.shadowRoot.querySelector('.ids-virtual-scroll');
+    virtualScroll.scrollTarget = virtualScroll.shadowRoot?.querySelector('.ids-virtual-scroll');
     expect(virtualScroll.scrollTarget).not.toBe(null);
 
     virtualScroll.scrollTarget = null;
@@ -124,18 +124,18 @@ describe('IdsVirtualScroll Component', () => {
   });
 
   it('can scroll to an item', () => {
-    expect(virtualScroll.scrollTop).toEqual('0');
+    expect(virtualScroll.scrollTop).toEqual(0);
     const index = 900;
     virtualScroll.scrollToIndex(index);
-    expect(virtualScroll.scrollTop).toEqual((index * virtualScroll.itemHeight).toString());
+    expect(virtualScroll.scrollTop).toEqual((index * virtualScroll.itemHeight));
   });
 
   it('can reset the scrollTop', () => {
-    expect(virtualScroll.scrollTop).toEqual('0');
-    virtualScroll.scrollTop = null;
+    expect(virtualScroll.scrollTop).toEqual(0);
+    virtualScroll.scrollTop = (null as any);
     virtualScroll.scrollTop = 100;
     virtualScroll.scrollTop = 0;
-    virtualScroll.scrollTop = null;
+    virtualScroll.scrollTop = (null as any);
     expect(virtualScroll.scrollTop).toEqual(0);
     expect(virtualScroll.getAttribute('scroll-top')).toEqual(null);
   });

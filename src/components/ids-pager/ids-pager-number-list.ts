@@ -85,8 +85,8 @@ export default class IdsPagerNumberList extends Base {
       nextValue = Number.parseInt(value as any);
     }
 
-    if (parseInt(this.getAttribute(attributes.PAGE_SIZE)) !== nextValue) {
-      this.setAttribute(attributes.PAGE_SIZE, nextValue);
+    if (parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '') !== nextValue) {
+      this.setAttribute(attributes.PAGE_SIZE, String(nextValue));
     }
 
     this.#populatePageNumberButtons();
@@ -94,7 +94,7 @@ export default class IdsPagerNumberList extends Base {
 
   /** @returns {number} The number of items shown per page */
   get pageSize(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_SIZE));
+    return parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '');
   }
 
   /** @param {number} value A value 1-based page number shown */
@@ -111,9 +111,9 @@ export default class IdsPagerNumberList extends Base {
     }
 
     if (!Number.isNaN(nextValue)
-    && Number.parseInt(this.getAttribute(attributes.PAGE_NUMBER)) !== nextValue
+    && Number.parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '') !== nextValue
     ) {
-      this.setAttribute(attributes.PAGE_NUMBER, nextValue);
+      this.setAttribute(attributes.PAGE_NUMBER, String(nextValue));
     }
 
     this.#populatePageNumberButtons();
@@ -121,7 +121,7 @@ export default class IdsPagerNumberList extends Base {
 
   /** @returns {number} A value 1-based page number displayed */
   get pageNumber(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_NUMBER)) || 1;
+    return parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '') || 1;
   }
 
   /** @param {number} value The number of items to track */
@@ -135,14 +135,14 @@ export default class IdsPagerNumberList extends Base {
       nextValue = Number.parseInt(value as any);
     }
 
-    if (Number.parseInt(this.getAttribute(attributes.TOTAL)) !== nextValue) {
-      this.setAttribute(attributes.TOTAL, nextValue);
+    if (Number.parseInt(this.getAttribute(attributes.TOTAL) ?? '') !== nextValue) {
+      this.setAttribute(attributes.TOTAL, String(nextValue));
     }
   }
 
   /** @returns {string|number} The number of items for pager is tracking */
   get total(): number {
-    return parseInt(this.getAttribute(attributes.TOTAL));
+    return parseInt(this.getAttribute(attributes.TOTAL) ?? '');
   }
 
   /** @returns {number|null} The calculated pageCount using total and pageSize */
@@ -223,7 +223,7 @@ export default class IdsPagerNumberList extends Base {
   set step(value: number | string) {
     const val = stringToNumber(this.getAttribute(attributes.STEP));
     if (!Number.isNaN(val)) {
-      this.setAttribute(attributes.STEP, val);
+      this.setAttribute(attributes.STEP, String(val));
       return;
     }
     this.removeAttribute(attributes.STEP);
@@ -240,7 +240,8 @@ export default class IdsPagerNumberList extends Base {
    * based on parentDisabled and disabled attribs
    */
   #updateDisabledState(): void {
-    for (const el of this.container.children) {
+    const children = this.container?.children ?? [];
+    for (const el of children) {
       if (this.disabledOverall) {
         el.setAttribute(attributes.DISABLED, '');
       } else {
@@ -274,7 +275,7 @@ export default class IdsPagerNumberList extends Base {
   #attachAria(): void {
     const pageCount = this.pageCount;
     const label = (id: any) => this.label.replace('{num}', `${id}`).replace('{total}', `${pageCount}`);
-    this.container.querySelectorAll('ids-button[data-id]').forEach((btn: any) => {
+    this.container?.querySelectorAll('ids-button[data-id]').forEach((btn: any) => {
       const id = btn?.getAttribute('data-id');
       if (id) btn?.button?.setAttribute('aria-label', label(id));
     });

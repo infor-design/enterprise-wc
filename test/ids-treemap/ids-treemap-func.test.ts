@@ -6,7 +6,7 @@ import IdsTreeMap from '../../src/components/ids-treemap/ids-treemap';
 import '../helpers/resize-observer-mock';
 
 describe('IdsTreemap Component initialization', () => {
-  let container: any;
+  let container: IdsContainer;
 
   const setupComponent = (component: any) => {
     component.title = 'Storage Utilization (78 GB)';
@@ -47,13 +47,12 @@ describe('IdsTreemap Component initialization', () => {
 });
 
 describe('IdsTreeMap Component', () => {
-  let treemap: any;
-  let origInnerWidth: any;
+  let treemap: IdsTreeMap;
+  let origInnerWidth: number;
 
-  beforeEach(async () => {
-    const elem: any = new IdsTreeMap();
-    document.body.appendChild(elem);
-    treemap = document.querySelector('ids-treemap');
+  beforeEach(() => {
+    treemap = new IdsTreeMap();
+    document.body.appendChild(treemap);
     treemap.data = treemap.treeMap({
       data: [
         {
@@ -69,13 +68,12 @@ describe('IdsTreeMap Component', () => {
           label: '18%'
         },
       ],
-      width: 1000,
       height: 300
     });
-    origInnerWidth = treemap.container.offsetWidth;
+    origInnerWidth = treemap.container?.offsetWidth as number;
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     Object.defineProperty(window, 'innerWidth', {
       configurable: true,
       value: origInnerWidth,
@@ -100,16 +98,15 @@ describe('IdsTreeMap Component', () => {
   });
 
   it('can set the treemap title', () => {
-    expect(treemap.title).toBe(null);
+    expect(treemap.title).toBe('');
     expect(treemap.getAttribute('title')).toBe(null);
 
     treemap.title = 'Storage Utilization (78 GB)';
     expect(treemap.title).toBe('Storage Utilization (78 GB)');
     expect(treemap.getAttribute('title')).toBe('Storage Utilization (78 GB)');
 
-    treemap.title = null;
     treemap.removeAttribute('title');
-    expect(treemap.title).toBe(null);
+    expect(treemap.title).toBe('');
     expect(treemap.getAttribute('title')).toBe(null);
   });
 
@@ -120,7 +117,7 @@ describe('IdsTreeMap Component', () => {
 
   it('can set the treemap width', async () => {
     treemap.title = 'Storage Utilization (78 GB)';
-    treemap.width = treemap.container.offsetWidth;
-    expect(treemap.width).toBe(treemap.container.offsetWidth);
+    treemap.width = treemap.container?.offsetWidth as number;
+    expect(treemap.width).toBe(treemap.container?.offsetWidth);
   });
 });

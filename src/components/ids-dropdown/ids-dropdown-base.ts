@@ -13,17 +13,17 @@ import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-lab
 import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 
 const Base = IdsThemeMixin(
-  IdsLocaleMixin(
-    IdsDirtyTrackerMixin(
-      IdsValidationInputMixin(
-        IdsLabelStateParentMixin(
-          IdsFieldHeightMixin(
-            IdsColorVariantMixin(
-              IdsKeyboardMixin(
-                IdsPopupOpenEventsMixin(
-                  IdsTooltipMixin(
-                    IdsEventsMixin(
-                      IdsXssMixin(
+  IdsDirtyTrackerMixin(
+    IdsValidationInputMixin(
+      IdsLabelStateParentMixin(
+        IdsFieldHeightMixin(
+          IdsColorVariantMixin(
+            IdsPopupOpenEventsMixin(
+              IdsTooltipMixin(
+                IdsXssMixin(
+                  IdsLocaleMixin(
+                    IdsKeyboardMixin(
+                      IdsEventsMixin(
                         IdsElement
                       )
                     )

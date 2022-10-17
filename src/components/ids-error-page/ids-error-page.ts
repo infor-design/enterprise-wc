@@ -6,6 +6,7 @@ import '../ids-modal/ids-modal';
 import '../ids-empty-message/ids-empty-message';
 import '../ids-icon/ids-icon';
 import styles from './ids-error-page.scss';
+import type IdsEmptyMessage from '../ids-empty-message/ids-empty-message';
 
 const DEFAULT_ICON = 'empty-error-loading';
 
@@ -68,7 +69,7 @@ export default class IdsErrorPage extends Base {
    * @param {string} value icon id
    * @memberof IdsErrorPage
    */
-  set icon(value: string) {
+  set icon(value: string | null) {
     if (value) {
       this.setAttribute(attributes.ICON, value);
     } else {
@@ -77,7 +78,7 @@ export default class IdsErrorPage extends Base {
 
     if (!this.container) return;
 
-    const emptyMessage = this.container.querySelector('ids-empty-message');
+    const emptyMessage = this.container.querySelector<IdsEmptyMessage>('ids-empty-message');
     if (emptyMessage) {
       emptyMessage.icon = value;
     }
@@ -98,7 +99,7 @@ export default class IdsErrorPage extends Base {
    * @param {string} value label text
    * @memberof IdsErrorPage
    */
-  set label(value: string) {
+  set label(value: string | null) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
     } else {
@@ -123,7 +124,7 @@ export default class IdsErrorPage extends Base {
    * @param {string} value description text
    * @memberof IdsErrorPage
    */
-  set description(value: string) {
+  set description(value: string | null) {
     if (value) {
       this.setAttribute(attributes.DESCRIPTION, value);
     } else {
@@ -148,7 +149,7 @@ export default class IdsErrorPage extends Base {
    * @param {string} value button text
    * @memberof IdsErrorPage
    */
-  set buttonText(value: string) {
+  set buttonText(value: string | null) {
     if (value) {
       this.setAttribute(attributes.BUTTON_TEXT, value);
     } else {
@@ -173,7 +174,7 @@ export default class IdsErrorPage extends Base {
    * @private
    */
   #attachEventHandlers(): void {
-    const button = this.container.querySelector('.action-button');
+    const button = this.container?.querySelector('.action-button');
     const actionBtnEvent = 'action-button';
 
     this.onEvent('click', button, (e:Event) => {
@@ -201,7 +202,7 @@ export default class IdsErrorPage extends Base {
    * @returns {string} concatenating the label and description.
    */
   get ariaLabelContent() {
-    const label = this.querySelector('[slot="label"')?.innerText;
+    const label = this.querySelector<HTMLElement>('[slot="label"')?.innerText;
     return `${label || ''} ${this.label || ''} ${this.description || ''}`;
   }
 
@@ -211,7 +212,7 @@ export default class IdsErrorPage extends Base {
    * @param {string} value attribute value
    * @private
    */
-  #refreshText(el: string, value: string): void {
+  #refreshText(el: string, value: string | null): void {
     if (!this.container) return;
     const elText = this.container.querySelector(el);
     if (elText) {

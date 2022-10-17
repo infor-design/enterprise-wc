@@ -5,6 +5,8 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base, { IdsHierarchyItemInfo } from './ids-hierarchy-item-base';
 
 import styles from './ids-hierarchy-item.scss';
+import IdsButton from '../ids-button/ids-button';
+import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 
 /**
  * IDS Hierarchy Item Component
@@ -20,10 +22,18 @@ export default class IdsHierarchyItem extends Base {
   /** store the previous "selected" value to prevent double firing events */
   #prevSelected = false;
 
+  childElements: IdsHierarchyItemInfo[] = [];
+
+  expander?: IdsButton | null;
+
+  dropdownMenu?: IdsMenuButton | null;
+
+  leaf?: HTMLElement | null;
+
+  nestedItemContainer?: HTMLElement | null;
+
   constructor() {
     super();
-    this.childElements = [];
-    this.#prevSelected = false;
   }
 
   /**
@@ -88,7 +98,7 @@ export default class IdsHierarchyItem extends Base {
   set expanded(value: string | null) {
     const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
-      this.setAttribute(attributes.EXPANDED, true);
+      this.setAttribute(attributes.EXPANDED, 'true');
     } else {
       this.removeAttribute?.(attributes.EXPANDED);
     }
@@ -108,7 +118,7 @@ export default class IdsHierarchyItem extends Base {
   set selected(value: string | boolean) {
     const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
-      this.setAttribute(attributes.SELECTED, true);
+      this.setAttribute(attributes.SELECTED, 'true');
       this.setAttribute('tabindex', '0');
       if (!this.#prevSelected) {
         this.triggerEvent('itemselect', this, { bubbles: true });
@@ -135,7 +145,7 @@ export default class IdsHierarchyItem extends Base {
   set rootItem(value: string | null) {
     const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
-      this.setAttribute(attributes.ROOT_ITEM, true);
+      this.setAttribute(attributes.ROOT_ITEM, 'true');
     } else {
       this.removeAttribute(attributes.ROOT_ITEM);
     }
@@ -148,7 +158,7 @@ export default class IdsHierarchyItem extends Base {
     return this.getAttribute(attributes.ROOT_ITEM);
   }
 
-  get color(): string {
+  get color(): string | null {
     return this.getAttribute(attributes.COLOR);
   }
 
@@ -156,18 +166,18 @@ export default class IdsHierarchyItem extends Base {
    * Set the color of the bar
    * @param {string} value The color value, this can be a hex code with the #
    */
-  set color(value: string) {
-    this.setAttribute(attributes.COLOR, value);
+  set color(value: string | null) {
+    this.setAttribute(attributes.COLOR, String(value));
 
     let color = value;
-    if (this.color.substring(0, 1) !== '#') {
+    if (this.color?.substring(0, 1) !== '#') {
       color = `var(--ids-color-palette-${this.color})`;
     }
 
-    const item = this.container.querySelector('.leaf-inside');
-    const avatar = this.container.querySelector('.avatar');
-    item.style.borderLeftColor = color;
-    avatar.style.borderColor = color;
+    const item = this.container?.querySelector<HTMLElement>('.leaf-inside');
+    const avatar = this.container?.querySelector<HTMLElement>('.avatar');
+    item?.style.setProperty('border-left-color', color);
+    avatar?.style.setProperty('border-color', color);
   }
 
   /**
@@ -188,7 +198,7 @@ export default class IdsHierarchyItem extends Base {
     this.state.hasChildren = value;
 
     if (value) {
-      this.container.classList.add('has-nested-items');
+      this.container?.classList.add('has-nested-items');
     }
   }
 
@@ -202,9 +212,9 @@ export default class IdsHierarchyItem extends Base {
    */
   #expandCollapse(expanded: string | null) {
     if (expanded) {
-      this.setAttribute(attributes.EXPANDED, false);
+      this.setAttribute(attributes.EXPANDED, 'false');
     } else {
-      this.setAttribute(attributes.EXPANDED, true);
+      this.setAttribute(attributes.EXPANDED, 'true');
     }
   }
 
@@ -214,10 +224,10 @@ export default class IdsHierarchyItem extends Base {
    * @returns {void}
    */
   #hasNestedItems() {
-    const nestedItems = this.container?.querySelector('[part="nested-items"]');
+    const nestedItems = this.container?.querySelector<HTMLSlotElement>('[part="nested-items"]');
     const hasNestedItems = !!nestedItems?.assignedElements().length;
     if (hasNestedItems) {
-      this.container.classList.add('has-nested-items');
+      this.container?.classList.add('has-nested-items');
     }
   }
 
@@ -243,12 +253,12 @@ export default class IdsHierarchyItem extends Base {
   #attachEventHandlers() {
     this.onEvent('click', this.expander, async () => {
       if (this.loadChildren) {
-        if (!this.expanded && !this.childElements.attached) {
+        if (!this.expanded && !(this.childElements as any).attached) {
           const data: IdsHierarchyItemInfo[] = await this.loadChildren();
           this.childElements = data.filter((d: IdsHierarchyItemInfo) => d.parentItem === this.getAttribute(attributes.ID));
 
           if (!this.childElements.length) {
-            this.container.classList.remove('has-nested-items');
+            this.container?.classList.remove('has-nested-items');
           }
 
           const templateStr = this.childElements.reduce((prev: string, cur: IdsHierarchyItemInfo) => `${prev}
@@ -260,9 +270,9 @@ export default class IdsHierarchyItem extends Base {
             </ids-hierarchy-item>
           `, '');
           this.innerHTML += templateStr;
-          this.childElements.attached = true;
+          (this.childElements as any).attached = true;
 
-          const childElementItems = this.querySelectorAll('ids-hierarchy-item');
+          const childElementItems = this.querySelectorAll<IdsHierarchyItem>('ids-hierarchy-item');
           for (const item of childElementItems) {
             item.hasChildren = data
               .filter((d: IdsHierarchyItemInfo) => d.parentItem === item.getAttribute(attributes.ID))
@@ -279,8 +289,8 @@ export default class IdsHierarchyItem extends Base {
       this.onEvent('click', this.dropdownMenu, () => {
         this.adjustZIndex(this.parentNode, 202);
 
-        const leafElement = this.shadowRoot?.querySelector('.leaf');
-        leafElement.style.zIndex = 201;
+        const leafElement = this.shadowRoot?.querySelector<HTMLElement>('.leaf');
+        leafElement?.style.setProperty('z-index', '201');
       });
     }
 
@@ -293,11 +303,11 @@ export default class IdsHierarchyItem extends Base {
     });
 
     this.onEvent('click', this.leaf, () => {
-      this.setAttribute(attributes.SELECTED, true);
+      this.setAttribute(attributes.SELECTED, 'true');
     });
 
     this.onEvent('touchstart', this.leaf, () => {
-      this.setAttribute(attributes.SELECTED, true);
+      this.setAttribute(attributes.SELECTED, 'true');
     }, { passive: true });
   }
 }

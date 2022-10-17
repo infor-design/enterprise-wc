@@ -3,6 +3,9 @@ import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-block-grid-item-base';
 import styles from './ids-block-grid-item.scss';
 import { attributes } from '../../core/ids-attributes';
+import type IdsCard from '../ids-card/ids-card';
+import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
 /**
  * IDS Block Grid Item Component
@@ -16,6 +19,8 @@ import { attributes } from '../../core/ids-attributes';
 @customElement('ids-block-grid-item')
 @scss(styles)
 export default class IdsBlockgridItem extends Base {
+  checkboxHasFocus = false;
+
   constructor(settings: any = {}) {
     super();
     this.state = {
@@ -53,7 +58,7 @@ export default class IdsBlockgridItem extends Base {
   #handleEvents() {
     this.onEvent('click', this, this.#handleSelectionChange);
 
-    const checkbox = this.container.querySelector('ids-checkbox');
+    const checkbox = this.container?.querySelector<IdsCheckbox>('ids-checkbox');
     this.onEvent('click.checkbox', checkbox, (e: any) => {
       e.stopPropagation();
       e.preventDefault();
@@ -66,7 +71,7 @@ export default class IdsBlockgridItem extends Base {
     });
 
     this.onEvent('focus.blockitem', this, () => {
-      this.querySelector('ids-card')?.container?.querySelector('ids-hyperlink').container?.focus();
+      this.querySelector<IdsCard>('ids-card')?.container?.querySelector<IdsHyperlink>('ids-hyperlink')?.container?.focus();
     });
 
     return this;
@@ -83,26 +88,26 @@ export default class IdsBlockgridItem extends Base {
         e.preventDefault();
         e.stopPropagation();
         this.checkboxHasFocus = true;
-        this.container.querySelector('ids-checkbox').container.classList.add('has-focus');
+        this.container?.querySelector<IdsCheckbox>('ids-checkbox')?.container?.classList.add('has-focus');
       } else {
         if (this.nextElementSibling && !e.shiftKey) {
           e.preventDefault();
           e.stopPropagation();
-          this.nextElementSibling.container.focus();
+          (this.nextElementSibling as IdsBlockgridItem)?.container?.focus();
         } else if (this.previousElementSibling && e.shiftKey) {
           e.preventDefault();
           e.stopPropagation();
-          this.previousElementSibling.container.focus();
+          (this.previousElementSibling as IdsBlockgridItem)?.container?.focus();
         }
 
         this.checkboxHasFocus = false;
-        this.container.querySelector('ids-checkbox').container.classList.remove('has-focus');
+        this.container?.querySelector<IdsCheckbox>('ids-checkbox')?.container?.classList.remove('has-focus');
       }
     });
 
     this.listen([' '], this, () => {
       if (this.checkboxHasFocus && this.selection === 'mixed') {
-        this.container.querySelector('ids-checkbox').dispatchEvent(new Event('click'));
+        this.container?.querySelector<IdsCheckbox>('ids-checkbox')?.dispatchEvent(new Event('click'));
       } else {
         this.dispatchEvent(new Event('click'));
       }
@@ -117,7 +122,7 @@ export default class IdsBlockgridItem extends Base {
    * @param {object} e Actual event
    */
   #handleSelectionChange(e: any) {
-    this.container.focus();
+    this.container?.focus();
     if (this.selection === 'single') {
       this.#handleSingleSelectionChange(e);
     } else if (this.selection === 'multiple') {
@@ -134,16 +139,16 @@ export default class IdsBlockgridItem extends Base {
    */
   #handleSingleSelectionChange(e: any) {
     if (this.selected === 'true') {
-      this.setAttribute(attributes.SELECTED, false);
-      this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, false);
+      this.setAttribute(attributes.SELECTED, 'false');
+      this.container?.querySelector<IdsCheckbox>('ids-checkbox')?.setAttribute(attributes.CHECKED, 'false');
     } else {
-      const blockElements = this.parentElement.querySelectorAll('ids-block-grid-item[selection="single"]');
-      [...blockElements].forEach((elem) => {
-        elem.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, false);
-        elem.setAttribute(attributes.SELECTED, false);
+      const blockElements = this.parentElement?.querySelectorAll<IdsBlockgridItem>('ids-block-grid-item[selection="single"]');
+      [...blockElements ?? []].forEach((elem) => {
+        elem.container?.querySelector('ids-checkbox')?.setAttribute(attributes.CHECKED, 'false');
+        elem.setAttribute(attributes.SELECTED, 'false');
       });
-      this.setAttribute(attributes.SELECTED, true);
-      this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, true);
+      this.setAttribute(attributes.SELECTED, 'true');
+      this.container?.querySelector<IdsCheckbox>('ids-checkbox')?.setAttribute(attributes.CHECKED, 'true');
     }
 
     const eventData = {
@@ -164,8 +169,8 @@ export default class IdsBlockgridItem extends Base {
    * @param {object} e Actual event
    */
   #handleMultiMixedSelectionChange(e: any) {
-    this.container.querySelector('ids-checkbox').setAttribute(attributes.CHECKED, this.selected !== 'true');
-    this.setAttribute(attributes.SELECTED, this.selected !== 'true');
+    this.container?.querySelector<IdsCheckbox>('ids-checkbox')?.setAttribute(attributes.CHECKED, String(this.selected !== 'true'));
+    this.setAttribute(attributes.SELECTED, String(this.selected !== 'true'));
 
     const eventData = {
       detail: {
@@ -184,14 +189,14 @@ export default class IdsBlockgridItem extends Base {
    * @private
    */
   #handlePreSelectionChange() {
-    if (this.preSelected === 'true') {
-      this.setAttribute(attributes.PRE_SELECTED, false);
+    if (this.preselected === 'true') {
+      this.setAttribute(attributes.PRE_SELECTED, 'false');
     } else {
-      const blockElements = this.parentElement.querySelectorAll('ids-block-grid-item[selection="mixed"]');
-      [...blockElements].forEach((elem) => {
-        elem.setAttribute(attributes.PRE_SELECTED, false);
+      const blockElements = this.parentElement?.querySelectorAll<IdsBlockgridItem>('ids-block-grid-item[selection="mixed"]');
+      [...blockElements ?? []].forEach((elem) => {
+        elem.setAttribute(attributes.PRE_SELECTED, 'false');
       });
-      this.setAttribute(attributes.PRE_SELECTED, true);
+      this.setAttribute(attributes.PRE_SELECTED, 'true');
     }
   }
 }

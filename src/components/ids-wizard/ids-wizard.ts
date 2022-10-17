@@ -62,7 +62,7 @@ export default class IdsWizard extends Base {
     const labelEls: any[] = [];
 
     for (let i = 0; i < this.children.length; i++) {
-      const labelEl = this.getStepEl(this, i + 1)?.children[1];
+      const labelEl = this.getStepEl(this, i + 1)?.children[1] as HTMLElement;
 
       if (labelEl) {
         labelEl.style.maxWidth = 'unset';
@@ -203,7 +203,7 @@ export default class IdsWizard extends Base {
    * @returns {number|string} step number (1-based)
    */
   get stepNumber(): number | string {
-    const stepNumber = parseInt(this.getAttribute(attributes.STEP_NUMBER));
+    const stepNumber = parseInt(this.getAttribute(attributes.STEP_NUMBER) ?? '');
 
     if (Number.isNaN(stepNumber)) {
       return -1;
@@ -228,11 +228,11 @@ export default class IdsWizard extends Base {
       throw new Error('ids-wizard: step number should be below step-count');
     }
 
-    this.setAttribute('step-number', v);
+    this.setAttribute('step-number', v.toString());
   }
 
   set clickable(value) {
-    this.setAttribute(attributes.CLICKABLE, value !== 'false');
+    this.setAttribute(attributes.CLICKABLE, String(value !== 'false'));
   }
 
   get clickable() {
@@ -292,7 +292,7 @@ export default class IdsWizard extends Base {
     }
 
     // set up observer for resize which prevents overlapping labels
-    this.resizeObserver.observe(this.container);
+    if (this.container) this.resizeObserver.observe(this.container);
 
     this.shouldUpdateCallbacks = false;
   }
@@ -309,7 +309,7 @@ export default class IdsWizard extends Base {
    */
   updateHrefURIs() {
     this.hrefURIs = <string | number | any>[...this.children].map((el, i) => {
-      let uriHash = encodeURI(el.textContent);
+      let uriHash = encodeURI(el.textContent ?? '');
       let collisionCount;
 
       // if an href was already used, and it isn't
@@ -321,7 +321,7 @@ export default class IdsWizard extends Base {
         && this.hrefsAssignedSet.has?.(uriHash)
       ) {
         collisionCount = collisionCount ? (collisionCount + 1) : 1;
-        uriHash = `${encodeURI(el.textContent)}-${collisionCount}`;
+        uriHash = `${encodeURI(el.textContent ?? '')}-${collisionCount}`;
       }
 
       this.hrefsAssignedSet.add(uriHash);
@@ -338,7 +338,7 @@ export default class IdsWizard extends Base {
    * @param {*} stepNumber step number
    * @returns {HTMLElement} the step element
    */
-  getStepEl(wizardEl: IdsWizard, stepNumber: number): IdsWizard {
+  getStepEl(wizardEl: IdsWizard, stepNumber: number): IdsWizard | undefined | null {
     return wizardEl?.shadowRoot?.querySelector(`.step[step-number="${stepNumber}"]`);
   }
 
@@ -362,7 +362,7 @@ export default class IdsWizard extends Base {
       totalWidth = wizardRect.width;
 
       for (let i = 0; i < w.children.length; i++) {
-        const [, labelEl] = this.getStepEl(w, i + 1).children;
+        const [, labelEl] = this.getStepEl(w, i + 1)?.children ?? [];
 
         const labelRect = labelEl.getBoundingClientRect();
         const offsetRect = {

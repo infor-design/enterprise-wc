@@ -1,17 +1,28 @@
 import { attributes } from '../../core/ids-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { ChartLegendHandler } from '../ids-chart-legend-mixin/ids-chart-legend-mixin';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
 // Default settings
 const DEFAULT_SELECTABLE = false;
+
+export interface ChartSelectionHandler {
+  onSelectableChange?(value?: boolean): void;
+}
+
+type Constraints = IdsConstructor<EventsMixinInterface & ChartSelectionHandler & ChartLegendHandler>;
 
 /**
  * A mixin that adds selection functionality to chart components
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsChartSelectionMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsChartSelectionMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  DEFAULT_SELECTABLE = DEFAULT_SELECTABLE;
+
+  constructor(...args: any[]) {
+    super(...args);
 
     if (!this.state) this.state = {};
     this.state.selectable = DEFAULT_SELECTABLE;
@@ -19,7 +30,7 @@ const IdsChartSelectionMixin = (superclass: any) => class extends superclass {
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.SELECTABLE
     ];
   }
@@ -38,7 +49,7 @@ const IdsChartSelectionMixin = (superclass: any) => class extends superclass {
 
     if (!this.selectable) return;
     this.onEvent('click.chartselection', this.container, async (e: any) => {
-      const index = this.selectionElements?.findIndex((el: SVGElement) => el === e.target);
+      const index = (this as any).selectionElements?.findIndex((el: SVGElement) => el === e.target);
       if (!Number.isNaN(index) && index > -1) this.setSelection?.(index);
     });
   }
@@ -97,7 +108,7 @@ const IdsChartSelectionMixin = (superclass: any) => class extends superclass {
     }
   }
 
-  get selectable() { return this.state.selectable; }
+  get selectable(): boolean { return this.state.selectable; }
 };
 
 export default IdsChartSelectionMixin;

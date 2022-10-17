@@ -3,6 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import Base from './ids-process-indicator-step-base';
 
 import styles from './ids-process-indicator-step.scss';
+import type IdsProcessIndicator from './ids-process-indicator';
 
 const statuses = ['cancelled', 'started', 'done'];
 const DEFAULT_LABEL = 'empty label';
@@ -26,21 +27,21 @@ export default class IdsProcessStep extends Base {
     super.connectedCallback();
 
     requestAnimationFrame(() => {
-      const parentElement = this.parentElement;
+      const parentElement = this.parentElement as IdsProcessIndicator;
       if (parentElement.tagName === 'IDS-PROCESS-INDICATOR') {
-        const steps = this.parentElement.querySelectorAll('ids-process-indicator-step');
+        const steps = parentElement.querySelectorAll<IdsProcessStep>('ids-process-indicator-step');
         const stepAmount = steps.length;
 
-        const line = this.container.querySelector('.line');
+        const line = this.container?.querySelector<HTMLElement>('.line');
 
         if (steps[stepAmount - 1] === this) {
           // reponsive styling for last step
           this.classList.add('last');
           // don't render the line for the last step
-          line.setAttribute('hidden', '');
+          line?.setAttribute('hidden', '');
         } else if (this.status === 'started' || this.status === 'done') {
           // render the line, conditionally color it based on status
-          line.style.setProperty('background-color', 'var(--ids-color-palette-azure-70)');
+          line?.style.setProperty('background-color', 'var(--ids-color-palette-azure-70)');
         }
       }
 
@@ -121,6 +122,9 @@ export default class IdsProcessStep extends Base {
    */
   #updateLabelVisibility(): void {
     const labelEl = this.#getLabelElement();
+
+    if (!labelEl) return;
+
     if (this.label === DEFAULT_LABEL) {
       this.#hide(labelEl);
     } else {
@@ -133,8 +137,8 @@ export default class IdsProcessStep extends Base {
    * @returns {HTMLElement} the element
    * @private
    */
-  #getLabelElement(): HTMLElement {
-    return this.container.querySelector('.label');
+  #getLabelElement(): HTMLElement | undefined | null {
+    return this.container?.querySelector('.label');
   }
 
   /**
@@ -156,8 +160,10 @@ export default class IdsProcessStep extends Base {
    */
   set label(value: string) {
     const val = value || DEFAULT_LABEL;
+    const labelElem = this.#getLabelElement();
+
     this.#setString(attributes.LABEL, val);
-    this.#getLabelElement().innerHTML = val;
+    if (labelElem) labelElem.innerHTML = val;
     this.#updateLabelVisibility();
   }
 
@@ -190,6 +196,6 @@ export default class IdsProcessStep extends Base {
 
   get status(): string {
     const status = this.getAttribute(attributes.STATUS);
-    return statuses.includes(status) ? status : '';
+    return status && statuses.includes(status) ? status : '';
   }
 }

@@ -1,21 +1,25 @@
 import { attributes } from '../../core/ids-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { waitForAnimationEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
-const IdsRippleMixin = (superclass: any) => class extends superclass {
+type Constraints = IdsConstructor<EventsMixinInterface>;
+
+const IdsRippleMixin = <T extends Constraints>(superclass: T) => class IdsRippleMixiner extends superclass {
   // HTMLElement containing ripple, typically component container
   rippleTarget?: HTMLElement | null;
 
   // Radius of ripple, defaults to 50
   rippleRadius = 50;
 
-  constructor() {
-    super();
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.NO_RIPPLE
     ];
   }
@@ -37,7 +41,7 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
   /**
    * @returns {boolean} true if ripple disabled
    */
-  get noRipple() {
+  get noRipple(): boolean {
     return this.hasAttribute(attributes.NO_RIPPLE);
   }
 
@@ -57,7 +61,7 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
    * @param {number} rippleRadius Used to calc ripple size and coordinates, defaults to 50
    * @returns {void}
    */
-  setupRipple(rippleTarget: HTMLElement, rippleRadius: number) {
+  setupRipple(rippleTarget?: HTMLElement, rippleRadius?: number) {
     this.rippleTarget = rippleTarget || this.container;
     this.rippleRadius = rippleRadius || this.rippleRadius;
     this.#attachRippleListeners();
@@ -124,7 +128,7 @@ const IdsRippleMixin = (superclass: any) => class extends superclass {
    * @returns {void}
    */
   async createRipple(x: number | undefined, y: number | undefined) {
-    if (this.noRipple || this.disabled) return;
+    if (this.noRipple || (this as any).disabled) return;
 
     this.removeRipples();
     const rippleTarget = this.rippleTarget;

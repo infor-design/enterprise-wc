@@ -5,6 +5,8 @@ import { applyContentAlignmentClass } from './ids-accordion-common';
 import Base from './ids-accordion-header-base';
 
 import styles from './ids-accordion-header.scss';
+import type IdsIcon from '../ids-icon/ids-icon';
+import IdsText from '../ids-text/ids-text';
 
 // Expander Types
 const EXPANDER_TYPES = ['caret', 'plus-minus'];
@@ -109,9 +111,9 @@ export default class IdsAccordionHeader extends Base {
   /**
    * @param {boolean} val true if this header should appear expanded
    */
-  set expanded(val: boolean) {
+  set expanded(val: boolean | string | null) {
     const trueVal = stringToBool(val);
-    this.container.classList[trueVal ? 'add' : 'remove']('expanded');
+    this.container?.classList[trueVal ? 'add' : 'remove']('expanded');
     this.panel.expanded = trueVal;
 
     if (trueVal) {
@@ -126,40 +128,40 @@ export default class IdsAccordionHeader extends Base {
   /**
    * @returns {string} the current expander type
    */
-  get expanderType(): string {
+  get expanderType(): string | null {
     return this.getAttribute(attributes.EXPANDER_TYPE);
   }
 
   /**
    * @param {string} val the type of expander to use
    */
-  set expanderType(val: string) {
+  set expanderType(val: string | null) {
     const currentVal = this.expanderType;
     let trueVal = EXPANDER_TYPES[0];
-    if (EXPANDER_TYPES.includes(val)) {
+    if (val && EXPANDER_TYPES.includes(val)) {
       trueVal = val;
     }
 
     if (currentVal !== trueVal) {
-      this.setAttribute(attributes.EXPANDER_TYPE, val);
+      this.setAttribute(attributes.EXPANDER_TYPE, String(val));
       this.toggleExpanderIcon(trueVal);
       this.#refreshExpanderIconClass(currentVal, trueVal);
     }
   }
 
   #refreshExpanderIconClass(oldType: any, newType: any) {
-    const cl = this.container.classList;
+    const cl = this.container?.classList;
     const oldTypeClass = `expander-type-${oldType}`;
     const newTypeClass = `expander-type-${newType}`;
-    cl.remove(oldTypeClass);
-    cl.add(newTypeClass);
+    cl?.remove(oldTypeClass);
+    cl?.add(newTypeClass);
   }
 
   /**
    * Focuses this accordion header
    */
   focus(): void {
-    this.container.focus();
+    this.container?.focus();
   }
 
   /**
@@ -172,13 +174,14 @@ export default class IdsAccordionHeader extends Base {
   /**
    * @param {string} val the type of display icon to show
    */
-  set icon(val: string) {
+  set icon(val: string | null) {
     if (this.icon !== val) {
       if (typeof val !== 'string' || !val.length) {
         this.removeAttribute('icon');
       } else {
         this.setAttribute('icon', `${val}`);
       }
+
       this.#refreshIconDisplay(val);
     }
   }
@@ -186,9 +189,13 @@ export default class IdsAccordionHeader extends Base {
   /**
    * @param {string} val the icon definition to apply
    */
-  #refreshIconDisplay(val: string | any[]) {
+  #refreshIconDisplay(val: string | any[] | null) {
     const iconDef = typeof val === 'string' && val.length ? val : null;
-    this.container.querySelector('.ids-accordion-display-icon').icon = iconDef;
+    const iconElem = this.container?.querySelector<IdsIcon>('.ids-accordion-display-icon');
+
+    if (iconElem) {
+      iconElem.icon = iconDef;
+    }
   }
 
   /**
@@ -224,11 +231,11 @@ export default class IdsAccordionHeader extends Base {
    * @param {boolean} isSelected true if the Accordion Header should appear "Selected"
    */
   #refreshSelected(isSelected: any) {
-    this.container.classList[isSelected ? 'add' : 'remove']('selected');
+    this.container?.classList[isSelected ? 'add' : 'remove']('selected');
 
-    const textNode = this.querySelector('ids-text, span');
+    const textNode = this.querySelector<IdsText>('ids-text, span');
     if (textNode && this.colorVariant === 'app-menu') {
-      textNode.fontWeight = isSelected ? 'bold' : '';
+      textNode.fontWeight = isSelected ? 'bold' : null;
     }
   }
 
@@ -256,8 +263,10 @@ export default class IdsAccordionHeader extends Base {
       // for any variants prefixed with `sub-`.
       const expanderIcon = this.templateExpanderIcon();
       this.container?.insertAdjacentHTML(appendLocation, expanderIcon);
+    } else if (appendLocation === 'afterbegin') {
+      this.container?.prepend(expander);
     } else {
-      this.container[appendLocation === 'afterbegin' ? 'prepend' : 'append'](expander);
+      this.container?.append(expander);
     }
 
     this.#refreshExpanderIconType();
@@ -295,10 +304,10 @@ export default class IdsAccordionHeader extends Base {
   set hiddenByFilter(val: boolean) {
     if (stringToBool(val)) {
       this.setAttribute(attributes.HIDDEN_BY_FILTER, '');
-      this.container.classList.add(attributes.HIDDEN_BY_FILTER);
+      this.container?.classList.add(attributes.HIDDEN_BY_FILTER);
     } else {
       this.removeAttribute(attributes.HIDDEN_BY_FILTER);
-      this.container.classList.remove(attributes.HIDDEN_BY_FILTER);
+      this.container?.classList.remove(attributes.HIDDEN_BY_FILTER);
     }
   }
 
@@ -316,10 +325,10 @@ export default class IdsAccordionHeader extends Base {
   set childFilterMatch(val: boolean) {
     if (stringToBool(val)) {
       this.setAttribute(attributes.CHILD_FILTER_MATCH, '');
-      this.container.classList.add(attributes.CHILD_FILTER_MATCH);
+      this.container?.classList.add(attributes.CHILD_FILTER_MATCH);
     } else {
       this.removeAttribute(attributes.CHILD_FILTER_MATCH);
-      this.container.classList.remove(attributes.CHILD_FILTER_MATCH);
+      this.container?.classList.remove(attributes.CHILD_FILTER_MATCH);
     }
   }
 
@@ -349,10 +358,10 @@ export default class IdsAccordionHeader extends Base {
 
     if (disabled) {
       this.setAttribute(attributes.DISABLED, `${disabled}`);
-      this.container.classList.add(attributes.DISABLED);
+      this.container?.classList.add(attributes.DISABLED);
     } else {
       this.removeAttribute(attributes.DISABLED);
-      this.container.classList.remove(attributes.DISABLED);
+      this.container?.classList.remove(attributes.DISABLED);
     }
   }
 }

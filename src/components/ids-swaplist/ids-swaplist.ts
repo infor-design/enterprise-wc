@@ -32,6 +32,8 @@ export default class IdsSwapList extends Base {
 
   datasource = new IdsDataSource();
 
+  defaultTemplate = '';
+
   connectedCallback() {
     super.connectedCallback();
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
@@ -115,8 +117,8 @@ export default class IdsSwapList extends Base {
    */
   set count(value: any) {
     const val = parseInt(value);
-    if (!Number.isNaN(val)) this.setAttribute(attributes.COUNT, val);
-    else this.setAttribute(attributes.COUNT, DEFAULT_COUNT);
+    if (!Number.isNaN(val)) this.setAttribute(attributes.COUNT, String(val));
+    else this.setAttribute(attributes.COUNT, String(DEFAULT_COUNT));
   }
 
   /**
@@ -127,7 +129,7 @@ export default class IdsSwapList extends Base {
    */
   get count(): number {
     const val = this.getAttribute(attributes.COUNT);
-    return parseInt(val) || DEFAULT_COUNT;
+    return val ? parseInt(val) : DEFAULT_COUNT;
   }
 
   /**
@@ -241,15 +243,14 @@ export default class IdsSwapList extends Base {
     this.listen('Enter', this.container, (e: any) => this.#handleItemSwap(e));
   }
 
-  /**
-   * Render the swaplist and attach event handlers
-   */
   render() {
     super.render(true);
 
     if (this.data?.length > 0) {
       this.attachEventHandlers();
     }
+
+    return this;
   }
 
   /**

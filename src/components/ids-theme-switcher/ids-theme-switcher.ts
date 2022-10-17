@@ -3,6 +3,8 @@ import { attributes } from '../../core/ids-attributes';
 import Base from './ids-theme-switcher-base';
 import '../ids-menu-button/ids-menu-button';
 import styles from './ids-theme-switcher.scss';
+import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
+import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
 
 /**
  * IDS Theme Switcher Component
@@ -10,15 +12,19 @@ import styles from './ids-theme-switcher.scss';
 @customElement('ids-theme-switcher')
 @scss(styles)
 export default class IdsThemeSwitcher extends Base {
+  popup?: IdsPopupMenu | null;
+
+  menuButton?: IdsMenuButton | null;
+
   constructor() {
     super();
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.popup = this.shadowRoot.querySelector('ids-popup-menu');
-    this.menuButton = this.shadowRoot.querySelector('ids-menu-button');
-    this.menuButton.configureMenu();
+    this.popup = this.shadowRoot?.querySelector('ids-popup-menu');
+    this.menuButton = this.shadowRoot?.querySelector('ids-menu-button');
+    this.menuButton?.configureMenu();
     this.#attachEventHandlers();
   }
 
@@ -143,7 +149,7 @@ export default class IdsThemeSwitcher extends Base {
   set mode(value: string) {
     if (value) {
       this.setAttribute('mode', value);
-      this.triggerEvent('themechanged', this, { detail: { elem: this, mode: value, version: this.version } });
+      this.triggerEvent('themechanged', this, { detail: { elem: this, mode: value } });
       return;
     }
 
@@ -158,6 +164,6 @@ export default class IdsThemeSwitcher extends Base {
    */
   onColorVariantRefresh(): void {
     // Updates the inner menu button's color variant, which should match the theme switcher's
-    this.container.colorVariant = this.colorVariant;
+    this.container?.setAttribute(attributes.COLOR_VARIANT, this.colorVariant as string);
   }
 }

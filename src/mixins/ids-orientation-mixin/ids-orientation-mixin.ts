@@ -1,13 +1,20 @@
 import { attributes } from '../../core/ids-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
+
+interface OrientationHandler {
+  onOrientationRefresh?(): void;
+}
+
+type Constraints = IdsConstructor<OrientationHandler>;
 
 /**
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsOrientationMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
 
     if (!this.state) {
       this.state = {};
@@ -19,6 +26,7 @@ const IdsOrientationMixin = (superclass: any) => class extends superclass {
     this.render = () => {
       super.render();
       this.#refreshOrientation();
+      return this;
     };
   }
 
@@ -29,7 +37,7 @@ const IdsOrientationMixin = (superclass: any) => class extends superclass {
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.ORIENTATION
     ];
   }

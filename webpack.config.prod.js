@@ -121,7 +121,7 @@ module.exports = {
 
             if (filePath.includes('core/')) {
               filePath = filePath.replace('core/', '').replace('.d.ts', '');
-              return `core/${filePath}.d.ts`;
+              return `core/${filePath.replace('src/', '')}.d.ts`;
             }
             return filePath;
           }

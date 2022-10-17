@@ -71,7 +71,7 @@ export default class IdsImage extends Base {
     this.offEvent('error.image');
     this.onEvent('error.image', img, () => {
       // Removing img on error loading
-      this.shadowRoot?.querySelector('img').remove();
+      this.shadowRoot?.querySelector('img')?.remove();
 
       // Adding placeholder element
       this.shadowRoot?.appendChild(this.#getPlaceholderEl());
@@ -90,9 +90,9 @@ export default class IdsImage extends Base {
    * @param {string} alt attribute value
    * @returns {HTMLElement} img element to attach to shadow
    */
-  #getImgEl(src: string, alt: string): HTMLElement {
-    const element: any = document.createElement('img');
-    element.classList = 'ids-image';
+  #getImgEl(src: string, alt: string): HTMLImageElement {
+    const element = document.createElement('img');
+    element.classList.add('ids-image');
     element.setAttribute('src', src);
     if (alt) {
       element.setAttribute('alt', alt);
@@ -117,7 +117,7 @@ export default class IdsImage extends Base {
    * @returns {string} src attribute value
    */
   get src(): string {
-    return this.getAttribute(attributes.SRC);
+    return this.getAttribute(attributes.SRC) || '';
   }
 
   /**
@@ -162,7 +162,7 @@ export default class IdsImage extends Base {
    * @returns {string} alt attribute value
    */
   get alt(): string {
-    return this.getAttribute(attributes.ALT);
+    return this.getAttribute(attributes.ALT) || '';
   }
 
   /**
@@ -177,8 +177,8 @@ export default class IdsImage extends Base {
       return;
     }
 
-    this.removeAttribute(attributes.ALT, val);
-    img?.removeAttribute(attributes.ALT, val);
+    this.removeAttribute(attributes.ALT);
+    img?.removeAttribute(attributes.ALT);
   }
 
   /**
@@ -186,7 +186,7 @@ export default class IdsImage extends Base {
    * @param {string} val size attribute value
    * @returns {'auto'|'sm'|'md'|'lg'} one of the predefined sizes
    */
-  #getSize(val: string) {
+  #getSize(val: string | null) {
     // List of sizes to compare with size attribute value
     const sizes = ['auto', 'sm', 'md', 'lg'];
 
@@ -212,7 +212,7 @@ export default class IdsImage extends Base {
    * Set the size for the image
    * @param {string} val size attribute value
    */
-  set size(val) {
+  set size(val: string | null) {
     this.setAttribute(attributes.SIZE, this.#getSize(val));
   }
 
@@ -234,7 +234,7 @@ export default class IdsImage extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.PLACEHOLDER, boolVal);
+      this.setAttribute(attributes.PLACEHOLDER, String(boolVal));
 
       return;
     }
@@ -260,7 +260,7 @@ export default class IdsImage extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.FALLBACK, boolVal);
+      this.setAttribute(attributes.FALLBACK, String(boolVal));
 
       return;
     }
@@ -286,7 +286,7 @@ export default class IdsImage extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.ROUND, boolVal);
+      this.setAttribute(attributes.ROUND, String(boolVal));
 
       return;
     }
@@ -317,8 +317,8 @@ export default class IdsImage extends Base {
    * @returns {HTMLElement} status element to attach to shadow
    */
   #getStatusEl(status: string) {
-    const element: any = document.createElement('div');
-    element.classList = `user-status ${status}`;
+    const element = document.createElement('div');
+    element.classList.add('user-status', status);
     element.innerHTML = `<ids-icon icon="user-status-${status}"></ids-icon>`;
 
     return element;
@@ -360,8 +360,8 @@ export default class IdsImage extends Base {
    * @returns {HTMLElement} initials element to attach to shadow
    */
   #getInitialsEl(initials: string) {
-    const element: any = document.createElement('div');
-    element.classList = `ids-image initials`;
+    const element = document.createElement('div');
+    element.classList.add('ids-image', 'initials');
     element.innerHTML = `<ids-text font-size="24" font-weight="bold">${initials}</ids-text>`;
 
     return element;
@@ -387,7 +387,7 @@ export default class IdsImage extends Base {
     element?.remove();
 
     if (val) {
-      this.shadowRoot?.appendChild(this.#getInitialsEl(cropText));
+      this.shadowRoot?.appendChild(this.#getInitialsEl(cropText ?? ''));
       this.setAttribute(attributes.INITIALS, val);
       return;
     }

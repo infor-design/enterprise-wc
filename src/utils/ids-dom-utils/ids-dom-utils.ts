@@ -153,7 +153,7 @@ export function getEditableRect(rect: DOMRect) {
  * @param {HTMLElement} el The element to check
  * @returns {boolean} true if overflowing, false otherwise
  */
-export function checkOverflow(el: HTMLElement) {
+export function checkOverflow(el?: HTMLElement | null) {
   if (!el) return false;
 
   const curOverflow = el.style.overflow;

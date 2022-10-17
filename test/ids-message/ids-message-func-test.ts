@@ -9,6 +9,7 @@ import '../../src/components/ids-message/ids-message';
 // Supporing components
 import '../../src/components/ids-modal-button/ids-modal-button';
 import '../../src/components/ids-text/ids-text';
+import type IdsMessage from '../../src/components/ids-message/ids-message';
 
 const messageId = 'test-message';
 const messageStatus = 'error';
@@ -20,10 +21,10 @@ const modalButtonHTML = `
   <ids-modal-button slot="buttons" type="primary" id="my-message-confirm">Confirm</ids-modal-button>`;
 
 describe('IdsMessage Component (using properties)', () => {
-  let messageEl: any;
+  let messageEl: IdsMessage;
 
   beforeEach(async () => {
-    messageEl = document.createElement('ids-message');
+    messageEl = document.createElement('ids-message') as IdsMessage;
     messageEl.id = messageId;
     messageEl.messageTitle = messageTitle;
     messageEl.status = messageStatus;
@@ -37,7 +38,6 @@ describe('IdsMessage Component (using properties)', () => {
 
   afterEach(async () => {
     document.body.innerHTML = '';
-    messageEl = null;
   });
 
   it('should render', () => {

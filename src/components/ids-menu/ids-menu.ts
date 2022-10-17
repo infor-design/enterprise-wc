@@ -12,7 +12,6 @@ import '../ids-separator/ids-separator';
 
 import styles from './ids-menu.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
 import type IdsMenuItem from './ids-menu-item';
 import type IdsMenuHeader from './ids-menu-header';
 
@@ -27,9 +26,14 @@ import type IdsMenuHeader from './ids-menu-header';
 @customElement('ids-menu')
 @scss(styles)
 export default class IdsMenu extends Base {
+  datasource = new IdsDataSource();
+
+  lastHovered?: any;
+
+  lastNavigated?: any;
+
   constructor() {
     super();
-    this.datasource = new IdsDataSource();
     this.state = {};
     this.lastHovered = undefined;
     this.lastNavigated = undefined;
@@ -54,9 +58,9 @@ export default class IdsMenu extends Base {
 
     // If the first child is a slot, look in the slot for assigned items instead
     if (this.children[0]?.tagName === 'SLOT') {
-      target = this.children[0].assignedElements();
+      target = (this.children[0] as HTMLSlotElement).assignedElements();
     }
-    return target;
+    return target as Array<HTMLElement>;
   }
 
   /**
@@ -103,7 +107,7 @@ export default class IdsMenu extends Base {
 
         // Unhighlight
         const menuItem = target as unknown as IdsMenuItem;
-        if (!menuItem.hasSubmenu || menuItem.submenu.hidden) {
+        if (!menuItem.hasSubmenu || menuItem.submenu?.hidden) {
           menuItem.unhighlight();
         }
       }
@@ -316,7 +320,7 @@ export default class IdsMenu extends Base {
    * @param {Array<any>|object} value The array to use
    * @returns {void}
    */
-  set data(value) {
+  set data(value: any) {
     if (value) {
       // If provided an object, search for a `contents` property and store that
       if (typeof value === 'object' && Array.isArray(value.contents)) {
@@ -336,7 +340,7 @@ export default class IdsMenu extends Base {
       return;
     }
 
-    this.datasource.data = null;
+    this.datasource.data = [];
   }
 
   /**
@@ -425,7 +429,7 @@ export default class IdsMenu extends Base {
    * @returns {HTMLElement} parent menu item, if this menu is a submenu
    */
   get parentMenuItem() {
-    return this.parentElement?.closest('ids-menu-item');
+    return this.parentElement?.closest<IdsMenuItem>('ids-menu-item');
   }
 
   /**

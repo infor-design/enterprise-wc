@@ -11,9 +11,14 @@ import {
   TYPES,
   SIZES,
   TEXT_ALIGN,
+  TypeValues,
+  TypeKeys,
+  SizeKeys,
 } from './ids-input-attributes';
 
 import styles from './ids-input.scss';
+import type IdsIcon from '../ids-icon/ids-icon';
+import type IdsButton from '../ids-button/ids-button';
 
 let instanceCounter = 0;
 
@@ -60,8 +65,20 @@ type IdsInputTemplateVariables = {
 @customElement('ids-input')
 @scss(styles)
 export default class IdsInput extends Base {
+  generatedId = '';
+
+  triggeredByChange = false;
+
   constructor() {
     super();
+
+    // Override HTMLElement id property
+    Object.defineProperty(this, 'id', {
+      get: () => this.#id,
+      set: (value) => { this.#id = value; },
+      configurable: true,
+      enumerable: true
+    });
   }
 
   isFormComponent = true;
@@ -260,31 +277,27 @@ export default class IdsInput extends Base {
       : '';
   }
 
-  set colorVariant(value: string | null) {
+  onColorVariantRefresh(value: string): void {
     super.colorVariant = value;
     if (this.clearable) {
       this.refreshClearableButtonStyles();
     }
   }
 
-  get colorVariant(): string | null {
-    return super.colorVariant;
-  }
-
   /**
    * @readonly
    * @returns {HTMLInputElement} the inner `input` element
    */
-  get input(): HTMLInputElement {
-    return this.container?.querySelector(`input[part="input"]`);
+  get input(): HTMLInputElement | undefined | null {
+    return this.container?.querySelector<HTMLInputElement>(`input[part="input"]`);
   }
 
   /**
    * @readonly
    * @returns {HTMLElement} the caps lock indicator icon, if one exists
    */
-  get capsLockIcon(): HTMLElement {
-    return this.container?.querySelector('#caps-lock-indicator');
+  get capsLockIcon(): HTMLElement | undefined | null {
+    return this.container?.querySelector<IdsIcon>('#caps-lock-indicator');
   }
 
   /**
@@ -292,7 +305,7 @@ export default class IdsInput extends Base {
    * @returns {HTMLElement} the element in this component's Shadow Root
    *  that wraps the input and any triggering elements or icons
    */
-  get fieldContainer(): HTMLElement {
+  get fieldContainer(): HTMLElement | undefined | null {
     return this.container?.querySelector('.field-container');
   }
 
@@ -300,11 +313,8 @@ export default class IdsInput extends Base {
    * @readonly
    * @returns {HTMLLabelElement} the inner `label` element
    */
-  get labelEl(): HTMLLabelElement {
-    return (
-      this.#labelEl
-      || this.shadowRoot?.querySelector(`[for="${this.id}-input"]`)
-    );
+  get labelEl(): HTMLLabelElement | undefined | null {
+    return this.#labelEl || this.shadowRoot?.querySelector<HTMLLabelElement>(`[for="${this.id}-input"]`);
   }
 
   /**
@@ -392,7 +402,7 @@ export default class IdsInput extends Base {
       const options = {
         prop1: prop,
         prop2: prop !== attributes.READONLY ? attributes.READONLY : attributes.DISABLED,
-        val: stringToBool(this[prop])
+        val: stringToBool((this as any)[prop])
       };
 
       if (options.val) {
@@ -534,7 +544,7 @@ export default class IdsInput extends Base {
     // reflect that change on the WebComponent host element.
     this.onEvent('change.input', this.container, (e: any) => {
       this.triggeredByChange = true;
-      this.value = this.input.value;
+      this.value = this.input?.value;
       this.triggerEvent('change', this, {
         bubbles: true,
         detail: {
@@ -574,7 +584,7 @@ export default class IdsInput extends Base {
       });
     } else {
       this.offEvent('click.input-showhidepassword');
-      this.input.type = this.type;
+      this.input?.setAttribute('type', this.type);
       showHidePasswordElem?.remove();
     }
   }
@@ -585,16 +595,15 @@ export default class IdsInput extends Base {
    */
   #passwordVisibilityHandler(): void {
     if (!this.shadowRoot) return;
-    const passwordButton = this.shadowRoot.querySelector(`.show-hide-password`);
+    const passwordButton = this.shadowRoot.querySelector<IdsButton>(`.show-hide-password`);
     const passwordField = this.shadowRoot.querySelector(`.ids-input-field`);
-    if (passwordButton) {
-      if (this.passwordVisible) {
-        passwordButton.text = 'HIDE';
-        passwordField.type = 'text';
-      } else {
-        passwordButton.text = 'SHOW';
-        passwordField.type = 'password';
-      }
+
+    if (this.passwordVisible) {
+      passwordButton?.setAttribute('text', 'HIDE');
+      passwordField?.setAttribute('type', 'text');
+    } else {
+      passwordButton?.setAttribute('text', 'SHOW');
+      passwordField?.setAttribute('type', 'password');
     }
   }
 
@@ -695,7 +704,7 @@ export default class IdsInput extends Base {
    * Set the `placeholder` of input
    * @param {string} value of the `placeholder` property
    */
-  set placeholder(value: string) {
+  set placeholder(value: string | null) {
     if (value) {
       this.setAttribute(attributes.PLACEHOLDER, value);
       this.input?.setAttribute(attributes.PLACEHOLDER, value);
@@ -705,7 +714,9 @@ export default class IdsInput extends Base {
     this.input?.removeAttribute(attributes.PLACEHOLDER);
   }
 
-  get placeholder(): string { return this.getAttribute(attributes.PLACEHOLDER); }
+  get placeholder(): string | null {
+    return this.getAttribute(attributes.PLACEHOLDER);
+  }
 
   /**
    * Set the input to readonly state
@@ -751,13 +762,15 @@ export default class IdsInput extends Base {
    * @param {string} value [xs, sm, mm, md, lg, full]
    */
   set size(value: string) {
-    const size = SIZES[value] || SIZES.default;
+    const size = SIZES[value as SizeKeys] || SIZES.default;
     this.setAttribute(attributes.SIZE, size);
     this.container?.classList.remove(...Object.values(SIZES));
     this.container?.classList.add(size);
   }
 
-  get size(): string { return this.getAttribute(attributes.SIZE) || SIZES.default; }
+  get size(): string {
+    return this.getAttribute(attributes.SIZE) || SIZES.default;
+  }
 
   /**
    * Sets the text alignment
@@ -770,14 +783,16 @@ export default class IdsInput extends Base {
     this.input?.classList.add(textAlign);
   }
 
-  get textAlign(): IdsInputAlignment { return this.getAttribute(attributes.TEXT_ALIGN) || TEXT_ALIGN.default; }
+  get textAlign(): IdsInputAlignment {
+    return this.getAttribute(attributes.TEXT_ALIGN) as IdsInputAlignment || TEXT_ALIGN.default;
+  }
 
   /**
    * Sets the input type
    * @param {string} value [text, password, number, phone, email]
    */
   set type(value: string) {
-    const type = TYPES[value];
+    const type = TYPES[value as TypeKeys];
     if (type) {
       this.setAttribute(attributes.TYPE, value);
       this.input?.setAttribute(attributes.TYPE, type);
@@ -787,13 +802,15 @@ export default class IdsInput extends Base {
     this.input?.setAttribute(attributes.TYPE, TYPES.default);
   }
 
-  get type(): string { return this.getAttribute(attributes.TYPE); }
+  get type(): string {
+    return this.getAttribute(attributes.TYPE) as TypeValues ?? TYPES.default;
+  }
 
   /**
    * Set the `value` attribute of input
    * @param {string} val the value property
    */
-  set value(val: string) {
+  set value(val: string | undefined) {
     let v = ['string', 'number'].includes(typeof val) ? String(val) : String(val || '');
     const currentValue = this.getAttribute(attributes.VALUE) || '';
 
@@ -826,14 +843,14 @@ export default class IdsInput extends Base {
    *
    * @param {string} value id
    */
-  set id(value: string) {
+  set #id(value: string) {
     if (value !== '') {
       this.setAttribute(attributes.ID, value);
       this.input?.setAttribute(attributes.ID, `${value}-input`);
     }
   }
 
-  get id(): string {
+  get #id(): string {
     return this.getAttribute(attributes.ID) || this.generatedId;
   }
 
@@ -847,7 +864,7 @@ export default class IdsInput extends Base {
   }
 
   get cursor(): string {
-    return this.getAttribute(attributes.CURSOR);
+    return this.getAttribute(attributes.CURSOR) ?? '';
   }
 
   /**
@@ -872,14 +889,14 @@ export default class IdsInput extends Base {
    * Overrides the standard "blur" behavior to instead tell the inner HTMLInput element to blur.
    */
   blur(): void {
-    this.input.blur();
+    this.input?.blur();
   }
 
   /**
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
    */
   focus(): void {
-    this.input.focus();
+    this.input?.focus();
   }
 
   /**

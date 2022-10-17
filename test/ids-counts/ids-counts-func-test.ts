@@ -17,20 +17,19 @@ const compact = `
 </ids-counts>`;
 
 describe('IdsCounts Component', () => {
-  let count: any;
+  let count: IdsCounts;
 
   beforeEach(async () => {
-    const elem: any = new IdsCounts();
+    count = new IdsCounts();
     const countValue = new IdsText();
     const countText = new IdsText();
     countValue.setAttribute('count-value', '');
     countText.setAttribute('count-text', '');
     countValue.innerText = '7';
     countText.innerHTML = 'Active <br /> Opportunities';
-    elem.appendChild(countValue);
-    elem.appendChild(countText);
-    document.body.appendChild(elem);
-    count = document.querySelector('ids-counts');
+    count.appendChild(countValue);
+    count.appendChild(countText);
+    document.body.appendChild(count);
   });
 
   afterEach(async () => {
@@ -65,26 +64,17 @@ describe('IdsCounts Component', () => {
   it('unsets container color when href property is set', () => {
     count.href = '#';
     count.color = 'success';
-    expect(count.container.getAttribute('color')).toEqual('');
+    expect(count.container?.getAttribute('color')).toEqual('');
 
     count.href = '#';
     count.color = 'danger';
-    expect(count.container.getAttribute('color')).toEqual('');
+    expect(count.container?.getAttribute('color')).toEqual('');
   });
 
   it('is able to change sizes via compact attribute', () => {
     count.compact = 'true';
     expect(count.getAttribute('compact')).toEqual('true');
-    expect(count.compact).toEqual('true');
-  });
-
-  it('sets any compact to "false" for any input other than "true" ', () => {
-    count.compact = 'True';
-    expect(count.getAttribute('compact')).toEqual('false');
-    expect(count.compact).toEqual('false');
-    count.compact = '';
-    expect(count.getAttribute('compact')).toEqual('false');
-    expect(count.compact).toEqual('false');
+    expect(count.compact).toBeTruthy();
   });
 
   it('is able to change link via href attribute', () => {
@@ -96,14 +86,14 @@ describe('IdsCounts Component', () => {
   it('creates an ids-hyperlink container', () => {
     count.remove();
     document.body.insertAdjacentHTML('beforeend', template);
-    count = document.querySelector('ids-counts');
-    expect(count.shadowRoot.querySelectorAll('ids-hyperlink').length).toEqual(1);
+    count = document.querySelector('ids-counts') as IdsCounts;
+    expect(count.shadowRoot?.querySelectorAll('ids-hyperlink').length).toEqual(1);
   });
 
   it('creates a compact counts component', () => {
     count.remove();
     document.body.insertAdjacentHTML('beforeend', compact);
-    count = document.querySelector('ids-counts');
-    expect(count.querySelector('[count-value]').fontSize).toEqual(40);
+    count = document.querySelector('ids-counts') as IdsCounts;
+    expect(count.querySelector<IdsText>('[count-value]')?.fontSize).toEqual('40');
   });
 });

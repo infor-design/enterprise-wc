@@ -48,7 +48,9 @@ export default class IdsBadge extends Base {
    * Return the badge shape between normal and round
    * @returns {string} The path data
    */
-  get shape(): string | null { return this.getAttribute('shape') || 'normal'; }
+  get shape(): string {
+    return this.getAttribute('shape') || 'normal';
+  }
 
   /**
    * Set the shape of the badge
@@ -68,7 +70,9 @@ export default class IdsBadge extends Base {
    * Return the badge color
    * @returns {string | null} the path data
    */
-  get color(): string | null { return this.getAttribute('color'); }
+  get color(): string | null {
+    return this.getAttribute('color');
+  }
 
   /**
    * Set the color
@@ -78,12 +82,6 @@ export default class IdsBadge extends Base {
     if (value) {
       this.setAttribute('color', value);
       this.container?.setAttribute('color', value);
-      let statusColor;
-      if (this.container) {
-        this.container.style.backgroundColor = statusColor;
-        this.container.style.borderColor = statusColor;
-      }
-
       if (value === 'error' || value === 'info' || value === 'warning') {
         this.container?.classList.add('ids-white');
       }

@@ -8,6 +8,8 @@ import '../ids-menu-button/ids-menu-button';
 import '../ids-popup-menu/ids-popup-menu';
 
 import styles from './ids-toolbar-more-actions.scss';
+import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
+import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 
 const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
 
@@ -174,16 +176,16 @@ export default class IdsToolbarMoreActions extends Base {
    * @readonly
    * @returns {HTMLElement} the inner menu button
    */
-  get button(): any {
-    return this.shadowRoot.querySelector('ids-menu-button');
+  get button(): IdsMenuButton | undefined | null {
+    return this.shadowRoot?.querySelector<IdsMenuButton>('ids-menu-button');
   }
 
   /**
    * @readonly
    * @returns {HTMLElement} the inner popup menu
    */
-  get menu(): any {
-    return this.shadowRoot.querySelector('ids-popup-menu');
+  get menu(): IdsPopupMenu | null {
+    return this.shadowRoot?.querySelector<IdsPopupMenu>('ids-popup-menu') || null;
   }
 
   /**
@@ -201,7 +203,7 @@ export default class IdsToolbarMoreActions extends Base {
   get overflowMenuItems(): Array<any> {
     const moreActionsMenu = this.querySelector(MORE_ACTIONS_SELECTOR);
     if (moreActionsMenu) {
-      return [...this.querySelector(MORE_ACTIONS_SELECTOR).children];
+      return [...this.querySelector(MORE_ACTIONS_SELECTOR)?.children ?? []];
     }
     return [];
   }
@@ -221,12 +223,12 @@ export default class IdsToolbarMoreActions extends Base {
     const trueVal = stringToBool(val);
 
     if (trueVal) {
-      this.setAttribute(attributes.DISABLED, val);
+      this.setAttribute(attributes.DISABLED, val.toString());
     } else {
       this.removeAttribute(attributes.DISABLED);
     }
 
-    this.button.disabled = trueVal;
+    this.button?.setAttribute(attributes.DISABLED, trueVal.toString());
     this.container?.classList[trueVal ? 'add' : 'remove'](attributes.DISABLED);
   }
 
@@ -262,8 +264,8 @@ export default class IdsToolbarMoreActions extends Base {
   /**
    * @param {string} value the type of toolbar
    */
-  set toolbarType(value: string) {
-    if (TOOLBAR_TYPES.includes(value)) {
+  set toolbarType(value: string | null) {
+    if (value && TOOLBAR_TYPES.includes(value)) {
       this.setAttribute(attributes.TOOLBAR_TYPE, value);
       this.container?.classList.add(value);
     } else {
@@ -275,7 +277,7 @@ export default class IdsToolbarMoreActions extends Base {
   /**
    * @returns {string} the type of toolbar
    */
-  get toolbarType(): string {
+  get toolbarType(): string | null {
     return this.getAttribute(attributes.TOOLBAR_TYPE);
   }
 
@@ -301,10 +303,10 @@ export default class IdsToolbarMoreActions extends Base {
   set visible(val: boolean | string) {
     if (stringToBool(val)) {
       this.setAttribute(attributes.VISIBLE, '');
-      this.menu.showIfAble();
+      this.menu?.showIfAble();
     } else {
       this.removeAttribute(attributes.VISIBLE);
-      this.menu.hide();
+      this.menu?.hide();
     }
   }
 
@@ -355,7 +357,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {void}
    */
   #refresh(): void {
-    if (this.menu.popup) {
+    if (this.menu?.popup) {
       this.menu.popup.align = 'bottom, right';
       this.menu.popup.alignEdge = 'bottom';
     }
@@ -377,10 +379,12 @@ export default class IdsToolbarMoreActions extends Base {
       }
     });
 
-    this.button.hidden = !this.hasVisibleActions();
-    this.button.disabled = !this.hasEnabledActions();
+    if (this.button) {
+      this.button.hidden = !this.hasVisibleActions();
+      this.button.disabled = !this.hasEnabledActions();
+    }
 
-    if (this.menu.visible) {
+    if (this.menu?.visible) {
       this.menu.refreshIconAlignment();
     }
   }
@@ -427,7 +431,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {void}
    */
   focus(): void {
-    this.button.focus();
+    this.button?.focus();
   }
 
   /**
@@ -469,9 +473,9 @@ export default class IdsToolbarMoreActions extends Base {
   onColorVariantRefresh(): void {
     const colorVariant = this.colorVariant;
     if (colorVariant === 'alternate-formatter') {
-      this.button.colorVariant = 'alternate-formatter';
+      this.button?.setAttribute(attributes.COLOR_VARIANT, 'alternate-formatter');
     } else {
-      this.button.colorVariant = null;
+      this.button?.removeAttribute(attributes.COLOR_VARIANT);
     }
   }
 }

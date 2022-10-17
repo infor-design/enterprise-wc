@@ -1,5 +1,14 @@
+// Interface
+export interface IdsInputInterface {
+  input?: any;
+  value?: any;
+  checked?: any;
+  fieldContainer?: HTMLElement | SVGElement | null;
+  labelEl?: HTMLLabelElement | null;
+}
+
 // Types
-const TYPES: any = {
+const TYPES = {
   default: 'text',
   text: 'text',
   password: 'password',
@@ -7,10 +16,14 @@ const TYPES: any = {
   phone: 'tel',
   email: 'email',
   color: 'color'
-};
+} as const;
+
+type TypeKeys = keyof typeof TYPES;
+
+type TypeValues = typeof TYPES[TypeKeys];
 
 // Setting defaults sizes
-const SIZES: any = {
+const SIZES = {
   default: 'md',
   xs: 'xs',
   sm: 'sm',
@@ -18,10 +31,14 @@ const SIZES: any = {
   md: 'md',
   lg: 'lg',
   full: 'full'
-};
+} as const;
+
+type SizeKeys = keyof typeof SIZES;
+
+type SizeValues = typeof SIZES[SizeKeys];
 
 // Setting defaults text-align
-const TEXT_ALIGN: any = {
+const TEXT_ALIGN = {
   default: 'start',
   start: 'start',
   center: 'center',
@@ -32,7 +49,11 @@ const instanceCounter = 0;
 
 export {
   TYPES,
+  TypeKeys,
+  TypeValues,
   SIZES,
+  SizeKeys,
+  SizeValues,
   TEXT_ALIGN,
   instanceCounter
 };

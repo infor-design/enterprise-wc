@@ -5,6 +5,7 @@ import { stringToBool, buildClassAttrib, removeNewLines } from '../../utils/ids-
 import Base from './ids-tab-more-base';
 import '../ids-popup-menu/ids-popup-menu';
 import '../ids-text/ids-text';
+import type IdsTabs from './ids-tabs';
 
 const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
 
@@ -99,7 +100,7 @@ export default class IdsTabMore extends Base {
    * @returns {Array<any>} array of IdsTab elements that can be placed in Overflow
    */
   get availableOverflowTabs() {
-    return this.parentElement.tabListElements;
+    return (this.parentElement as IdsTabs)?.tabListElements;
   }
 
   /**
@@ -107,7 +108,7 @@ export default class IdsTabMore extends Base {
    * @returns {string} the template for the More Actions Menu Group
    */
   #moreActionsMenuTemplate(): string {
-    const childTabs: Array<any> = this.availableOverflowTabs;
+    const childTabs = this.availableOverflowTabs;
     const renderedTabItems = childTabs?.map((i: HTMLElement) => this.#moreActionsItemTemplate(i)).join('') || '';
 
     // Cycle through tabs, if present, and render a menu item that represents them
@@ -216,7 +217,8 @@ export default class IdsTabMore extends Base {
       }
     });
 
-    if (this.container) this.container.querySelector('#count').innerHTML = `${overflowed}`;
+    const countElem = this.container?.querySelector('#count');
+    if (countElem) countElem.innerHTML = `${overflowed}`;
 
     this.hidden = !this.hasVisibleActions();
     if (!this.hasVisibleActions()) {
@@ -317,7 +319,7 @@ export default class IdsTabMore extends Base {
    * @returns {boolean} true if the Tab belongs to this Tab List and should be displayed by overflow
    */
   isOverflowed(tab: any): boolean {
-    if (!this.parentElement.contains(tab)) {
+    if (!this.parentElement?.contains(tab)) {
       return false;
     }
     if (tab.isEqualNode(this)) {
@@ -328,7 +330,7 @@ export default class IdsTabMore extends Base {
     }
 
     const tabRect = tab.getBoundingClientRect();
-    const moreTabRect = this.parentElement.moreContainer.getBoundingClientRect();
+    const moreTabRect = (this.parentElement as any)?.moreContainer?.getBoundingClientRect();
 
     if (this.locale?.isRTL()) {
       // Beyond left edge

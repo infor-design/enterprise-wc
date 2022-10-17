@@ -1,22 +1,27 @@
+import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
 import { attributes } from '../../core/ids-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+
+type Constraints = IdsConstructor<EventsMixinInterface>;
 
 /**
  * IdsClearableMixin attaches a button to input fields and text areas allowing their contents to be cleared.
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsClearableMixin = (superclass: any): any => class extends superclass {
+const IdsClearableMixin = <T extends Constraints>(superclass: T) => class extends superclass {
   // Input clearable events
   inputClearableEvents = ['blur.clearmixin', 'change.clearmixin', 'keyup.clearmixin'];
 
-  constructor() {
-    super();
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.CLEARABLE,
       attributes.CLEARABLE_FORCED,
     ];
@@ -24,6 +29,7 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
 
   connectedCallback() {
     super.connectedCallback?.();
+    this.render();
     this.handleClearable();
   }
 
@@ -32,7 +38,7 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
    * @returns {void}
    */
   handleClearable() {
-    let isClearable = this.clearable && !(this.disabled || this.readonly);
+    let isClearable = this.clearable && !((this as any).disabled || (this as any).readonly);
     isClearable = `${isClearable || this.clearableForced}`.toLowerCase() === 'true';
 
     if (isClearable) {
@@ -50,7 +56,7 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
     }
   }
 
-  #initClearableButton() {
+  #initClearableButton(): HTMLElement {
     const xButton: any = document.createElement('ids-trigger-button');
     const icon = document.createElement('ids-icon');
     const text = document.createElement('ids-text');
@@ -64,8 +70,8 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
     xButton.appendChild(icon);
     xButton.refreshProtoClasses();
 
-    if (this.colorVariant) {
-      xButton.colorVariant = this.colorVariant === 'app-menu' ? 'alternate' : this.colorVariant;
+    if ((this as any).colorVariant) {
+      xButton.colorVariant = (this as any).colorVariant === 'app-menu' ? 'alternate' : (this as any).colorVariant;
     }
     xButton.setAttribute('part', 'clearable-button');
     xButton.className = 'btn-clear';
@@ -84,16 +90,14 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
       return;
     }
 
-    let xButton = this.shadowRoot?.querySelector('.btn-clear');
+    let xButton = this.shadowRoot.querySelector('.btn-clear');
     if (!xButton) {
       xButton = this.#initClearableButton();
-      let parent = this.shadowRoot?.querySelector('.ids-input, .ids-textarea');
-
-      parent = parent?.querySelector('.field-container');
+      const parent = this.shadowRoot.querySelector('.ids-input, .ids-textarea')?.querySelector('.field-container');
       parent?.appendChild(xButton);
 
       const input = this.shadowRoot?.querySelector('.ids-input-field, .ids-textarea-field');
-      input.after(xButton);
+      input?.after(xButton);
 
       this.attachClearableEvents();
     }
@@ -110,7 +114,7 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
     const xButton = this.shadowRoot?.querySelector('.btn-clear');
     if (xButton) {
       xButton.remove();
-      this.container.classList.remove('has-clearable');
+      this.container?.classList.remove('has-clearable');
     }
     // @TODO: remove event handlers
   }
@@ -120,12 +124,14 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
    * @returns {void}
    */
   clear() {
-    if (this.input) {
-      this.value = '';
-      this.input.dispatchEvent(new Event('change'));
-      this.input.focus();
+    const selfInput = this as IdsInputInterface;
+
+    if (selfInput.input) {
+      selfInput.value = '';
+      selfInput.input.dispatchEvent(new Event('change'));
+      selfInput.input.focus();
       this.checkContents();
-      this.triggerEvent('cleared', this, { detail: { elem: this, value: this.value } });
+      this.triggerEvent('cleared', this, { detail: { elem: this, value: selfInput.value } });
     }
   }
 
@@ -135,15 +141,17 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
    * @returns {void}
    */
   checkContents() {
+    const selfInput = this as IdsInputInterface;
+
     const xButton = this.shadowRoot?.querySelector('.btn-clear');
     if (xButton) {
-      const text = this.input?.value;
+      const text = selfInput.input?.value;
       if (!text || !text.length) {
         xButton.classList.add('is-empty');
       } else {
         xButton.classList.remove('is-empty');
       }
-      this.triggerEvent('contents-checked', this, { detail: { elem: this, value: this.value } });
+      this.triggerEvent('contents-checked', this, { detail: { elem: this, value: selfInput.value } });
     }
   }
 
@@ -191,15 +199,17 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
    * @returns {void}
    */
   handleClearableInputEvents(evt: string, option: string) {
-    if (this.input && evt && typeof evt === 'string') {
+    const selfInput = this as IdsInputInterface;
+
+    if (selfInput.input && evt && typeof evt === 'string') {
       const eventName = evt;
       if (option === 'remove') {
         const handler = this.handledEvents?.get(eventName);
-        if (handler && handler.target === this.input) {
-          this.offEvent(eventName, this.input);
+        if (handler && handler.target === selfInput.input) {
+          this.offEvent(eventName, selfInput.input);
         }
       } else {
-        this.onEvent(eventName, this.input, () => {
+        this.onEvent(eventName, selfInput.input, () => {
           this.checkContents();
         });
       }
@@ -211,7 +221,7 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
    * @returns {void}
    */
   destroyClearable() {
-    this.input?.classList.remove('has-clearable');
+    (this as IdsInputInterface).input?.classList.remove('has-clearable');
     this.handleClearBtnClick('remove');
     this.inputClearableEvents.forEach((e) => this.handleClearableInputEvents(e, 'remove'));
     this.removeClearableButton();
@@ -231,7 +241,9 @@ const IdsClearableMixin = (superclass: any): any => class extends superclass {
     if (this.container) this.handleClearable();
   }
 
-  get clearable() { return this.getAttribute(attributes.CLEARABLE); }
+  get clearable(): boolean {
+    return stringToBool(this.getAttribute(attributes.CLEARABLE));
+  }
 
   /**
    * When set the input will force to add a clearable x button on readonly and disabled

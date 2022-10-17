@@ -11,10 +11,10 @@ import processAnimFrame from '../helpers/process-anim-frame';
 import getElTranslatePoint from '../../src/components/ids-draggable/get-el-translate-point';
 
 describe('IdsDraggable Component', () => {
-  let draggable: any;
+  let draggable: IdsDraggable;
 
   beforeAll(async () => {
-    const idsDraggable: any = new IdsDraggable();
+    const idsDraggable: IdsDraggable = new IdsDraggable();
     draggable = new IdsDraggable();
     document.body.appendChild(idsDraggable);
   });

@@ -1,7 +1,8 @@
 import { attributes } from '../../core/ids-attributes';
-import '../ids-events-mixin/ids-events-mixin';
-
 import type { IdsPopupElementRef } from '../../components/ids-popup/ids-popup-attributes';
+import { IdsConstructor } from '../../core/ids-element';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+import IdsPopup from '../../components/ids-popup/ids-popup';
 
 const POPUP_TRIGGER_TYPES = [
   'contextmenu',
@@ -19,6 +20,17 @@ const POPUP_INTERACTION_EVENT_NAMES = [
   'sloped-mouseleave.trigger'
 ];
 
+export interface PopupInteractionsCallbacks {
+  onTriggerClick?(e: Event): void;
+  onContextMenu?(e: Event): void;
+  onTriggerHover?(e: Event): void;
+  onCancelTriggerHover?(e: Event): void;
+  onTriggerHoverClick?(e: Event): void;
+  onTriggerImmediate?(): void;
+}
+
+type Constraints = IdsConstructor<EventsMixinInterface & PopupInteractionsCallbacks>;
+
 /**
  * This mixin can be used in components that wrap an inner IdsPopup component to provide:
  * - Event handling for.
@@ -26,9 +38,9 @@ const POPUP_INTERACTION_EVENT_NAMES = [
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsPopupInteractionsMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
 
     if (!this.state) {
       this.state = {};
@@ -44,7 +56,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    */
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.TARGET,
       attributes.TRIGGER_TYPE,
       attributes.TRIGGER_ELEM
@@ -63,7 +75,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
 
   #setInitialState() {
     const targetSelector = this.getAttribute(attributes.TARGET);
-    const initTarget = this.parentNode?.querySelector(targetSelector);
+    const initTarget = targetSelector ? this.parentNode?.querySelector<HTMLElement>(targetSelector) : null;
 
     if (this.popup && initTarget && !this.target) {
       this.popup.alignTarget = initTarget;
@@ -91,15 +103,15 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * @readonly
    * @returns {any} reference to the inner Popup component
    */
-  get popup() {
-    return this.shadowRoot?.querySelector('ids-popup');
+  get popup(): IdsPopup | undefined | null {
+    return this.shadowRoot?.querySelector<IdsPopup>('ids-popup');
   }
 
   /**
    * @returns {IdsPopupElementRef} reference to a target element, if applicable
    */
-  get target() {
-    return this.popup?.alignTarget;
+  get target(): IdsPopupElementRef {
+    return this.popup?.alignTarget ?? null;
   }
 
   /**
@@ -109,8 +121,8 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
   set target(val: IdsPopupElementRef | string) {
     if (this.popup && val !== this.popup.alignTarget) {
       this.removeTriggerEvents();
-      if (typeof val === typeof '') {
-        val = this.parentNode?.querySelector(val) || this.parentNode;
+      if (typeof val === 'string') {
+        val = this.parentNode?.querySelector<HTMLElement>(val) || this.parentNode as HTMLElement;
       }
       this.popup.alignTarget = val;
       this.refreshTriggerEvents();
@@ -152,8 +164,8 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * @param {string} val a valid trigger type
    */
   set triggerElem(val: IdsPopupElementRef | string) {
-    if (typeof val === typeof '') {
-      const trueTriggerElem = this.parentNode.querySelector(val);
+    if (typeof val === 'string') {
+      const trueTriggerElem = this.parentNode?.querySelector(val);
       if (trueTriggerElem) {
         this.removeTriggerEvents();
         this.state.triggerElem = trueTriggerElem;
@@ -202,10 +214,10 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
 
         break;
       case 'contextmenu':
-      // Standard `contextmenu` event behavior.
-      // `contextmenu` events should only apply to top-level Popup Menu components.
-      // (submenus open/close events are handled by their parent items)
-        if (this.parentMenu) {
+        // Standard `contextmenu` event behavior.
+        // `contextmenu` events should only apply to top-level Popup Menu components.
+        // (submenus open/close events are handled by their parent items)
+        if ((this as any).parentMenu) {
           break;
         }
 
@@ -250,7 +262,7 @@ const IdsPopupInteractionsMixin = (superclass: any) => class extends superclass 
    * @returns {void}
    */
   removeTriggerEvents() {
-    this.currentTargetElem?.removeAttribute('aria-controls');
+    (this as any).currentTargetElem?.removeAttribute('aria-controls');
     POPUP_INTERACTION_EVENT_NAMES.forEach((eventName) => {
       this.detachEventsByName(eventName);
     });

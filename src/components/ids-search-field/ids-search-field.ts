@@ -122,9 +122,8 @@ export default class IdsSearchField extends Base {
   async search(val: any): Promise<any> {
     let ret: any = [];
     const safeVal: any = stripHTML(val);
-
     if (this.#previousSearchValue !== safeVal) {
-      this.input.value = safeVal;
+      if (this.input) this.input.value = safeVal;
       this.#previousSearchValue = safeVal;
 
       if (typeof this.onSearch === 'function') {
@@ -192,7 +191,7 @@ export default class IdsSearchField extends Base {
       switch (event.key) {
         case 'Enter':
           if (shouldSearchOnReturn) {
-            this.onSearch(this.input.value);
+            this.onSearch(this.input?.value);
           }
           break;
         default:

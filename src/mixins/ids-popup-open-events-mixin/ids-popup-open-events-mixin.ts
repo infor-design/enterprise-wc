@@ -1,4 +1,12 @@
 import type { IdsPopupElementRef } from '../../components/ids-popup/ids-popup-attributes';
+import { IdsConstructor } from '../../core/ids-element';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+
+interface PopupOpener {
+  onOutsideClick?(e: Event): void;
+}
+
+type Constraints = IdsConstructor<EventsMixinInterface & PopupOpener>;
 
 /**
  * This mixin can be used with the IdsPopup component to provide event handling in some scenarios:
@@ -7,13 +15,13 @@ import type { IdsPopupElementRef } from '../../components/ids-popup/ids-popup-at
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsPopupOpenEventsMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsPopupOpenEventsMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   static get attributes() {
-    return [...super.attributes];
+    return [...(superclass as any).attributes];
   }
 
   disconnectedCallback() {
@@ -50,7 +58,7 @@ const IdsPopupOpenEventsMixin = (superclass: any) => class extends superclass {
       // Attach a click handler to the window for detecting clicks outside the popup.
       // If these aren't captured by a popup, the menu will close.
       this.onEvent('click.toplevel', this.popupOpenEventsTarget, (e: Event) => {
-        this?.onOutsideClick(e);
+        this.onOutsideClick?.(e);
       });
       this.hasOpenEvents = true;
       this.#currentPopupOpenEventsTarget = this.popupOpenEventsTarget;

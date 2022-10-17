@@ -26,7 +26,7 @@ export default class IdsMenuHeader extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.setAttribute(htmlAttributes.ROLE, 'none');
-    if (this.menu) this.decorateForIcon(this.menu.hasIcons);
+    if (this.menu) this.decorateForIcon((this.menu as any).hasIcons);
   }
 
   static get attributes() {
