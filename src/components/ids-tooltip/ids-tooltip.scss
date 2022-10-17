@@ -12,6 +12,12 @@
 }
 
 // Adjust Stuff for RTL
-ids-popup[dir='rtl']::part(arrow)::after {
-  display: none;
+ids-popup[dir='rtl'] {
+  &::part(arrow)::after,
+  &::part(arrow-top)::after,
+  &::part(arrow-right)::after,
+  &::part(arrow-bottom)::after,
+  &::part(arrow-left)::after {
+    display: none;
+  }
 }
