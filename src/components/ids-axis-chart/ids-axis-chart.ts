@@ -1,6 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { injectTemplate, stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
+import { calculateTextRenderWidth } from '../../utils/ids-object-utils/ids-object-utils';
 import { QUALITATIVE_COLORS } from './ids-chart-colors';
 import { patternData } from './ids-pattern-data';
 import NiceScale from './ids-nice-scale';
@@ -986,7 +987,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     let maxWidth = 0;
     for (let index = 0; index < this.markerData.markerCount; index++) {
       const v = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
-      const w = this.calculateTextRenderWidth(v);
+      const w = calculateTextRenderWidth(this, v);
       if (w > maxWidth) maxWidth = w;
     }
     this.#xMaxTextWidth = maxWidth;
@@ -1001,23 +1002,10 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     let maxWidth = 0;
     this.markerData.scaleY?.slice().forEach((value: any) => {
       const v = this.formatYLabel(value);
-      const w = this.calculateTextRenderWidth(v);
+      const w = calculateTextRenderWidth(this, v);
       if (w > maxWidth) maxWidth = w;
     });
     this.#yMaxTextWidth = maxWidth;
-  }
-
-  /**
-   * Calculates the width to render given text string.
-   * @private
-   * @param  {string} text The text to render.
-   * @returns {number} Calculated text width in pixels.
-   */
-  calculateTextRenderWidth(text: string): number {
-    this.canvas = this.canvas || document.createElement('canvas');
-    const context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
-    context.font = '400 16px arial';
-    return context.measureText(text).width;
   }
 
   /**

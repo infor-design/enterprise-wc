@@ -180,3 +180,20 @@ export function checkOverflow(el?: HTMLElement | null) {
 export function hasClass(el: any, className: any) {
   return el?.classList.contains(className);
 }
+
+/**
+ * Quickly listens for and dispatches a `mousemove` event on the document, which
+ * then gets the current coordinates of the mouse and determines which Light DOM element is beneath them.
+ * @returns {Element | null} the element which the mouse is currently hovering
+ */
+export function getElementAtMouseLocation() {
+  let mousePos: [number, number] = [0, 0];
+
+  const getCurrentCoords = (e: MouseEvent) => {
+    mousePos = [e.clientX, e.clientY];
+    document.removeEventListener('mousemove', getCurrentCoords);
+  };
+
+  document.addEventListener('mousemove', getCurrentCoords);
+  return document.elementFromPoint(...mousePos);
+}

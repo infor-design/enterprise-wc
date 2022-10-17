@@ -128,7 +128,9 @@ export default class IdsToolbarMoreActions extends Base {
       if (thisItem[menuProp]) {
         const thisSubItems = thisItem[menuProp].items;
         submenu = `<ids-popup-menu slot="submenu">
-          ${thisSubItems.map((subItem: any) => this.#moreActionsItemTemplate(subItem, true)).join('') || ''}
+          <ids-menu-group>
+            ${thisSubItems.map((subItem: any) => this.#moreActionsItemTemplate(subItem, true)).join('') || ''}
+          </ids-menu-group>
         </ids-popup-menu>`;
       }
     };
@@ -377,8 +379,14 @@ export default class IdsToolbarMoreActions extends Base {
       }
     });
 
-    this.button?.setAttribute(attributes.HIDDEN, (!this.hasVisibleActions()).toString());
-    this.button?.setAttribute(attributes.DISABLED, (!this.hasEnabledActions()).toString());
+    if (this.button) {
+      this.button.hidden = !this.hasVisibleActions();
+      this.button.disabled = !this.hasEnabledActions();
+    }
+
+    if (this.menu?.visible) {
+      this.menu.refreshIconAlignment();
+    }
   }
 
   /**

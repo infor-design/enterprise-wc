@@ -101,14 +101,15 @@ export default class IdsInput extends Base {
       attributes.CAPS_LOCK,
       attributes.CURSOR,
       attributes.DISABLED,
+      attributes.FORMAT,
       attributes.ID,
       attributes.NO_MARGINS,
-      attributes.PLACEHOLDER,
       attributes.PASSWORD_VISIBLE,
-      attributes.SIZE,
-      attributes.READONLY,
+      attributes.PLACEHOLDER,
       attributes.READONLY_BACKGROUND,
+      attributes.READONLY,
       attributes.REVEALABLE_PASSWORD,
+      attributes.SIZE,
       attributes.TABBABLE,
       attributes.TEXT_ALIGN,
       attributes.TEXT_ELLIPSIS,
@@ -896,5 +897,25 @@ export default class IdsInput extends Base {
    */
   focus(): void {
     this.input?.focus();
+  }
+
+  /**
+   * Set a format to be used in the validation
+   * @param {string|null} val date, time format
+   */
+  set format(val: string | null) {
+    if (val) {
+      this.setAttribute(attributes.FORMAT, val);
+    } else {
+      this.removeAttribute(attributes.FORMAT);
+    }
+  }
+
+  /**
+   * format attribute
+   * @returns {string|null} return date format
+   */
+  get format(): string | null {
+    return this.getAttribute(attributes.FORMAT);
   }
 }

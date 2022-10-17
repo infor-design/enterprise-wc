@@ -123,6 +123,7 @@ export default class IdsMenuItem extends Base {
       ...super.attributes,
       attributes.DISABLED,
       attributes.HIDDEN,
+      attributes.HIGHLIGHTED,
       attributes.ICON,
       attributes.SELECTED,
       attributes.SUBMENU,
@@ -161,33 +162,13 @@ export default class IdsMenuItem extends Base {
     this.detectHidden();
     this.detectSubmenu();
     this.detectSelectability();
-    this.decorateForIcon();
+    if (this.menu) this.decorateForIcon((this.menu as any).hasIcons);
   }
 
   /**
    * @returns {void}
    */
   attachEventHandlers() {
-    // On 'mouseenter', after a specified duration, run some events,
-    // including activation of submenus where applicable.
-    this.onEvent('mouseenter', this, () => {
-      // Highlight
-      this.menu?.highlightItem(this);
-
-      // Tell the menu which item to use for converting a hover state to keyboard
-      if (!this.disabled && this.menu) {
-        this.menu.lastHovered = this;
-      }
-    });
-
-    // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
-    // and unhighlight the item
-    this.onEvent('mouseleave', this, () => {
-      if (!this.hasSubmenu || this.submenu?.hidden) {
-        this.unhighlight();
-      }
-    });
-
     // When any of this item's slots change, refresh the visual state of the item
     this.onEvent('slotchange', this.container, () => {
       this.refresh();
@@ -301,9 +282,11 @@ export default class IdsMenuItem extends Base {
     if (trueVal && this.disabled) {
       return;
     }
-    // If the item's submenu is open, don't unhighlight.
-    if (!trueVal && this.hasSubmenu && !this.submenu?.hidden) {
-      return;
+
+    if (trueVal) {
+      this.setAttribute(attributes.HIGHLIGHTED, 'true');
+    } else {
+      this.removeAttribute(attributes.HIGHLIGHTED);
     }
 
     this.state.highlighted = trueVal;
@@ -323,6 +306,7 @@ export default class IdsMenuItem extends Base {
    */
   highlight() {
     this.highlighted = true;
+    this.triggerEvent('highlighted', this, { bubbles: true, detail: { elem: this } });
   }
 
   /**
@@ -396,11 +380,11 @@ export default class IdsMenuItem extends Base {
   /**
    * Updates the alignment of text/icon content in the menu item to account for icons
    * that are present either on this menu item, or another one inside this menu item's group.
+   * @param {boolean} doShow true if the menu item should be decorated
    * @private
    */
-  decorateForIcon() {
-    const hasIcons = this.group?.itemIcons?.length > 0;
-    this.container?.classList[hasIcons ? 'add' : 'remove']('has-icon');
+  decorateForIcon(doShow?: boolean) {
+    this.container?.classList[doShow ? 'add' : 'remove']('has-icon');
   }
 
   /**
@@ -709,7 +693,10 @@ export default class IdsMenuItem extends Base {
    * @returns {void}
    */
   focus() {
-    if (!this.hidden && !this.disabled) this.a?.focus();
+    if (!this.hidden && !this.disabled) {
+      this.a?.focus();
+      this.menu?.highlightItem(this);
+    }
   }
 
   /**

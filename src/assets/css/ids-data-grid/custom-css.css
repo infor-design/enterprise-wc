@@ -5,3 +5,47 @@ ids-data-grid::part(cell) {
 ids-data-grid::part(custom-cell) {
   background-color: #e6f1fd;
 }
+
+/**
+ * Tooltip styles
+ */
+
+ids-data-grid::part(custom-turquoise-tooltip-arrow-top)::after {
+  border-top-color: #2f8d8e;
+}
+
+ids-data-grid::part(custom-turquoise-tooltip-popup) {
+  background-color: #2f8d8e;
+}
+
+ids-data-grid::part(azure-tooltip-arrow-top)::after {
+  border-top-color: #0066d4;
+}
+
+ids-data-grid::part(azure-tooltip-popup) {
+  background-color: #0066d4;
+}
+
+ids-data-grid::part(ruby-tooltip-arrow-top)::after {
+  border-top-color: #c31014;
+}
+
+ids-data-grid::part(ruby-tooltip-popup) {
+  background-color: #c31014;
+}
+
+ids-data-grid::part(emerald-tooltip-arrow-top)::after {
+  border-top-color: #1c7f49;
+}
+
+ids-data-grid::part(emerald-tooltip-popup) {
+  background-color: #1c7f49;
+}
+
+ids-data-grid::part(amethyst-tooltip-arrow-top)::after {
+  border-top-color: #591da8;
+}
+
+ids-data-grid::part(amethyst-tooltip-popup) {
+  background-color: #591da8;
+}
