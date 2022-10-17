@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { isObjectAndNotEmpty } from '../../utils/ids-object-utils/ids-object-utils';
+import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 
 export type IdsValidationErrorMessage = {
   /** The unique id in the check messages */
@@ -559,7 +560,7 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
           options.dateFormat = dateFormat;
         }
 
-        this.message = hostCompoment.locale.translate('Invalid Date', { showBrackets: false });
+        this.message = hostCompoment.locale.translate('InvalidDate', { showBrackets: false });
 
         const parsedDate = hostCompoment.locale.parseDate(val, options);
         return !(((parsedDate === undefined) && val !== ''));
@@ -573,12 +574,19 @@ const IdsValidationMixin = (superclass: any): any => class extends superclass {
       check(input: any) {
         const hostCompoment = input.getRootNode().host;
         const val = input.value;
-        const pattern = hostCompoment.locale.calendar(hostCompoment.locale.locale.name).timeFormat;
 
-        this.message = hostCompoment.locale.translate('Invalid Time', { showBrackets: false });
+        if (!val) return true;
 
-        const parsedTime = hostCompoment.locale.parseDate(val, { pattern });
-        return !(((parsedTime === undefined) && val !== ''));
+        const defaultFormat = hostCompoment.locale.calendar(hostCompoment.locale.locale.name).timeFormat;
+        const attrFormat = hostCompoment.format;
+
+        const format = attrFormat || defaultFormat;
+
+        this.message = hostCompoment.locale.translate('InvalidTime', { showBrackets: false });
+
+        const parsedTime = hostCompoment.locale.parseDate(val, { dateFormat: format, strictTime: true });
+
+        return isValidDate(parsedTime);
       },
       message: 'Invalid Time',
       type: 'error',

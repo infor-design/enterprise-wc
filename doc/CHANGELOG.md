@@ -23,6 +23,7 @@
 - `[Form]` Fixed compact mode was not working with all components. ([#863](https://github.com/infor-design/enterprise-wc/issues/863))
 - `[Hierarchy]` Fixed hierarchy card submenus open in the wrong place. ([#832](https://github.com/infor-design/enterprise-wc/issues/832))
 - `[Input]` Fixed show/hide button for Safari browser. ([#923](https://github.com/infor-design/enterprise-wc/issues/923))
+- `[Input]` Fixed time validation. ([#805](https://github.com/infor-design/enterprise-wc/issues/805))
 - `[Lookup]` Fixed the dirty tacker was not able to reset. ([#871](https://github.com/infor-design/enterprise-wc/issues/871))
 - `[Pager]` Fixed the direction of the icons in RTL mode. ([#865](https://github.com/infor-design/enterprise-wc/issues/865))
 - `[Popup]` Added ability to place the popup at any side of the align target ([#748](https://github.com/infor-design/enterprise-wc/issues/748))
