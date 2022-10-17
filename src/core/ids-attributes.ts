@@ -152,6 +152,7 @@ export const attributes = {
   HIDE_CHECKBOXES: 'hide-checkboxes',
   HIDE_DOWN: 'hide-down',
   HIDE_UP: 'hide-up',
+  HIGHLIGHTED: 'highlighted',
   HITBOX: 'hitbox',
   HORIZONTAL: 'horizontal',
   HOURS: 'hours',
