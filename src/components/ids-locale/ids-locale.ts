@@ -972,7 +972,7 @@ class IdsLocale {
           dateObj.ms = value;
           break;
         case 'mm':
-          if (numberValue < 0 || numberValue >= 60) {
+          if (Number.isNaN(numberValue) || numberValue < 0 || numberValue >= 60) {
             if (!options?.strictTime) {
               dateObj.mm = 0;
               break;
@@ -982,11 +982,17 @@ class IdsLocale {
           }
           dateObj.mm = value;
           break;
-        case 'a':
+        case 'a': {
           if (!dateObj.h && formatParts[i + 1] && formatParts[i + 1].toLowerCase().substr(0, 1) === 'h') {
             // in a few cases am/pm is before hours
             dateObj.h = dateStringParts[i + 1];
             hasDayPeriodsFirst = true;
+          }
+          const isAM = dirtyDateString?.toLowerCase()?.includes(thisLocaleCalendar.dayPeriods[0]?.toLowerCase());
+          const isPM = dirtyDateString?.toLowerCase()?.includes(thisLocaleCalendar.dayPeriods[1]?.toLowerCase());
+
+          if (!(isAM || isPM) && options?.strictTime) {
+            return undefined;
           }
 
           if (dirtyDateString?.toLowerCase()?.includes(thisLocaleCalendar.dayPeriods[0]?.toLowerCase())) {
@@ -1009,6 +1015,7 @@ class IdsLocale {
             }
           }
           break;
+        }
         default:
           break;
       }

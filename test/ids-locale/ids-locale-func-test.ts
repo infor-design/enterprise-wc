@@ -1949,6 +1949,9 @@ describe('IdsLocale API', () => {
       expect(locale.parseDate('13:77 AM', { dateFormat: 'h:mm a', strictTime: true })).not.toBeDefined();
       expect(locale.parseDate('29:33:99', { dateFormat: 'HH:mm:ss', strictTime: true })).not.toBeDefined();
       expect(locale.parseDate('29:33:99', { dateFormat: 'H:mm:ss', strictTime: true })).not.toBeDefined();
+      expect(locale.parseDate('2:15 test', { dateFormat: 'h:mm a', strictTime: true })).not.toBeDefined();
+      expect(locale.parseDate('2:', { dateFormat: 'h:mm a', strictTime: true })).not.toBeDefined();
+      expect(locale.parseDate('2', { dateFormat: 'h:mm a', strictTime: true })).not.toBeDefined();
 
       // Non strict
       expect(locale.parseDate('11:77:99', { dateFormat: 'H:mm:ss' }).getSeconds()).toEqual(0);
