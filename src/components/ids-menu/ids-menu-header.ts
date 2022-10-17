@@ -26,6 +26,7 @@ export default class IdsMenuHeader extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.setAttribute(htmlAttributes.ROLE, 'none');
+    if (this.menu) this.decorateForIcon(this.menu.hasIcons);
   }
 
   static get attributes() {
@@ -34,7 +35,19 @@ export default class IdsMenuHeader extends Base {
     ];
   }
 
+  /**
+   * @readonly
+   * @returns {HTMLElement} the `IdsMenu` or `IdsPopupMenu` parent node.
+   */
+  get menu() {
+    return this.parentElement;
+  }
+
   template() {
     return `<div class="ids-menu-header" part="header" role="none"><slot></slot></div>`;
+  }
+
+  decorateForIcon(doShow: boolean) {
+    this.container?.classList[doShow ? 'add' : 'remove']('align-for-icons');
   }
 }
