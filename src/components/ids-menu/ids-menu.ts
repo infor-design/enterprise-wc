@@ -13,6 +13,7 @@ import '../ids-separator/ids-separator';
 import styles from './ids-menu.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import type IdsMenuItem from './ids-menu-item';
+import type IdsMenuHeader from './ids-menu-header';
 
 /**
  * IDS Menu Component
@@ -34,6 +35,9 @@ export default class IdsMenu extends Base {
   constructor() {
     super();
     this.state = {};
+    this.lastHovered = undefined;
+    this.lastNavigated = undefined;
+    this.hasIcons = false;
   }
 
   static get attributes(): Array<string> {
@@ -44,23 +48,27 @@ export default class IdsMenu extends Base {
   }
 
   /**
+   * Safely retrieves child elements of the menu without regard
+   * for whether or not they are direct descendants, or slotted
+   * @returns {Array<HTMLElement>} child element list
+   */
+  protected get childElements(): Array<HTMLElement> {
+    // Standard Implementation is to simply look at children
+    let target = [...this.children];
+
+    // If the first child is a slot, look in the slot for assigned items instead
+    if (this.children[0]?.tagName === 'SLOT') {
+      target = (this.children[0] as HTMLSlotElement).assignedElements();
+    }
+    return target as Array<HTMLElement>;
+  }
+
+  /**
    * Sets up event handlers used in this menu.
    * @private
    * @returns {void}
    */
   attachEventHandlers() {
-    // Highlight handler -- Menu Items Only, don't change if the target is disabled
-    const highlightItem = (e: any) => {
-      const thisItem = e.target.closest('ids-menu-item');
-      this.highlightItem(thisItem);
-    };
-
-    // Unhighlight handler - Menu Items Only
-    const unhighlightItem = (e: any) => {
-      const thisItem = e.target.closest('ids-menu-item');
-      thisItem?.unhighlight();
-    };
-
     // Highlight the item on click
     // If the item doesn't contain a submenu, select it.
     // If the item does have a submenu, activate it.
@@ -72,9 +80,38 @@ export default class IdsMenu extends Base {
       e.stopPropagation();
     });
 
-    // Focus in/out causes highlight to change
-    this.onEvent('focusin', this, highlightItem);
-    this.onEvent('focusout', this, unhighlightItem);
+    // On 'mouseenter', after a specified duration, run some events,
+    // including activation of submenus where applicable.
+    this.onEvent('mouseover', this, (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target && target.tagName === 'IDS-MENU-ITEM') {
+        e.stopPropagation();
+
+        // Highlight
+        const menuItem = target as unknown as IdsMenuItem;
+        this.highlightItem(menuItem);
+
+        // Tell the menu which item to use for converting a hover state to keyboard
+        if (!menuItem.hasAttribute(attributes.DISABLED)) {
+          this.lastHovered = menuItem;
+        }
+      }
+    });
+
+    // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
+    // and unhighlight the item
+    this.onEvent('mouseout', this, (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target && target.tagName === 'IDS-MENU-ITEM') {
+        e.stopPropagation();
+
+        // Unhighlight
+        const menuItem = target as unknown as IdsMenuItem;
+        if (!menuItem.hasSubmenu || menuItem.submenu?.hidden) {
+          menuItem.unhighlight();
+        }
+      }
+    });
   }
 
   /**
@@ -120,6 +157,8 @@ export default class IdsMenu extends Base {
     if (this.data) {
       this.renderFromData();
     }
+
+    this.refreshIconAlignment();
 
     // After repaint
     requestAnimationFrame(() => {
@@ -316,14 +355,15 @@ export default class IdsMenu extends Base {
    * @returns {Array<any>} [`IdsMenuGroup`] all available menu groups
    */
   get groups() {
-    // Standard Implementation is to simply look at children
-    let target: HTMLCollection | Element[] = this.children;
+    return this.childElements?.filter((e) => e.matches('ids-menu-group'));
+  }
 
-    // If the first child is a slot, look in the slot for assigned items instead
-    if (this.children[0] instanceof HTMLSlotElement) {
-      target = this.children[0].assignedElements();
-    }
-    return [...target].filter((e) => e.matches('ids-menu-group'));
+  /**
+   * @readonly
+   * @returns {Array<any>} [`IdsMenuHeader`] all available menu groups
+   */
+  get headers() {
+    return this.childElements?.filter((e) => e.matches('ids-menu-header'));
   }
 
   /**
@@ -357,16 +397,15 @@ export default class IdsMenu extends Base {
    * - the first available menu item closest to the top of the menu that is not disabled or hidden.
    */
   get focusTarget() {
-    let target = this.lastHovered;
-    if (!target) {
-      const selected = this.getSelectedItems();
-      if (!selected.length) {
-        target = this.getFirstAvailableItem();
-      } else {
-        target = selected[0];
-      }
-    }
-    return target;
+    if (this.lastHovered) return this.lastHovered;
+
+    const highlighted = this.items.filter((item: IdsMenuItem) => item.highlighted);
+    if (highlighted.length) return highlighted[highlighted.length - 1];
+
+    const selected = this.getSelectedItems();
+    if (selected.length) return selected[0];
+
+    return this.getFirstAvailableItem();
   }
 
   /**
@@ -470,11 +509,7 @@ export default class IdsMenu extends Base {
    */
   navigate(amt = 0, doFocus = false) {
     const items = this.items;
-    let currentItem = this.focused || this.lastNavigated || items[0];
-    if (this.lastHovered) {
-      currentItem = this.lastHovered;
-      this.lastHovered = undefined;
-    }
+    let currentItem = this.focusTarget;
 
     if (typeof amt !== 'number') {
       return currentItem;
@@ -506,6 +541,7 @@ export default class IdsMenu extends Base {
     this.lastNavigated = currentItem;
     if (!currentItem.disabled && !currentItem.hidden && doFocus) {
       currentItem.focus();
+      this.highlightItem(currentItem);
     }
 
     return currentItem;
@@ -659,6 +695,36 @@ export default class IdsMenu extends Base {
       if (doDeselect) {
         item.deselect();
       }
+    });
+  }
+
+  /**
+   * @param {boolean} hasIcons true if the menu contains items displaying icons
+   */
+  protected hasIcons: boolean;
+
+  /**
+   * Determines if this menu (not including its submenus) contains icons inside its visible menu items
+   * @returns {boolean} true if the menu items contain icons
+   */
+  detectIcons() {
+    this.hasIcons = false;
+    for (let i = 0, item: IdsMenuItem; i < this.items.length; i++) {
+      if (this.hasIcons) break;
+      item = this.items[i];
+      if (!item.hidden && item.icon && item.icon.length) this.hasIcons = true;
+    }
+    return this.hasIcons;
+  }
+
+  /**
+   * Refreshes the state of alignment of icons inside this menu
+   * @returns {void}
+   */
+  refreshIconAlignment(): void {
+    this.detectIcons();
+    [...this.items, ...this.headers].forEach((item: IdsMenuItem | IdsMenuHeader) => {
+      if (typeof item.decorateForIcon === 'function') item.decorateForIcon(this.hasIcons);
     });
   }
 }

@@ -110,21 +110,6 @@ export default class IdsMenuGroup extends Base {
   }
 
   /**
-   * References all icons that describe menu item contents (ignores dropdown/check icons)
-   * @readonly
-   * @returns {Array<HTMLElement>} list of items
-   */
-  get itemIcons() {
-    const icons: any = [];
-    this.items.forEach((item) => {
-      if (item.iconEl) {
-        icons.push(item.iconEl);
-      }
-    });
-    return icons;
-  }
-
-  /**
    * Sets/Remove an alignment CSS class
    * @private
    * @returns {void}

@@ -50,6 +50,26 @@ export default class IdsPopup extends Base {
 
   constructor() {
     super();
+    this.#align = CENTER;
+    this.#alignX = ALIGNMENTS_X[0];
+    this.#alignY = ALIGNMENTS_Y[0];
+    this.#alignEdge = ALIGNMENT_EDGES[0];
+    this.#alignTarget = null;
+    this.#animated = false;
+    this.#animationStyle = ANIMATION_STYLES[0];
+    this.#arrow = ARROW_TYPES[0];
+    this.#arrowTarget = null;
+    this.#bleed = false;
+    this.#containingElem = document.body;
+    this.#positionStyle = POSITION_STYLES[1];
+    this.#targetAlignEdge = '';
+    this.#type = TYPES[0]; // 'none'
+    this.#visible = false;
+    this.#x = 0;
+    this.#y = 0;
+
+    this.open = false;
+    this.shouldUpdate = false;
   }
 
   connectedCallback(): void {
@@ -276,7 +296,7 @@ export default class IdsPopup extends Base {
    * Can be left, right, top, bottom, center, and can also be a comma-delimited list of
    * multiple alignment types (for example: `left, top` or `right, bottom`)
    */
-  #align = CENTER;
+  #align: string;
 
   /**
    * @param {string} val a comma-delimited set of alignment types `direction1, direction2`
@@ -349,7 +369,7 @@ export default class IdsPopup extends Base {
    * @property {string} alignX the type of alignment to use on this component's
    *  X coordinate in relation to a parent element's X coordinate
    */
-  #alignX = ALIGNMENTS_X[0];
+  #alignX: string;
 
   /**
    * Strategy for the parent X alignment (see the ALIGNMENTS_X array)
@@ -392,7 +412,7 @@ export default class IdsPopup extends Base {
    * @property {string} alignY the type of alignment to use on this component's
    *  Y coordinate in relation to a parent element's Y coordinate
    */
-  #alignY = ALIGNMENTS_Y[0];
+  #alignY: string;
 
   /**
    * @param {string} val alignment strategy for the current parent Y alignment
@@ -432,12 +452,12 @@ export default class IdsPopup extends Base {
   /**
    * @property {string} alignEdge the primary edge of a target element to use for its alignment.
    */
-  #alignEdge = ALIGNMENT_EDGES[0];
+  #alignEdge: string;
 
   /**
    * Updates when the popup changing its primary align edge
    */
-  #targetAlignEdge = '';
+  #targetAlignEdge: string;
 
   /**
    *  Specifies the edge of the parent element to be placed adjacent,
@@ -540,7 +560,7 @@ export default class IdsPopup extends Base {
   /**
    * @property {boolean} animated true if animation should occur on this component
    */
-  #animated = false;
+  #animated: boolean;
 
   /**
    * Whether or not the component should animate its movement
@@ -578,7 +598,7 @@ export default class IdsPopup extends Base {
    * @property {string} animationStyle the type of alignment to use on this component's
    *  Y coordinate in relation to a parent element's Y coordinate
    */
-  #animationStyle = ANIMATION_STYLES[0];
+  #animationStyle: string;
 
   /**
    * @param {string} val the style of animation this popup uses to show/hide
@@ -618,7 +638,7 @@ export default class IdsPopup extends Base {
    * @property {boolean} bleed true if placement logic should allow crossing
    *  of the defined `containingElem` boundary
    */
-  #bleed = false;
+  #bleed: boolean;
 
   /**
    * @param {boolean|string} val true if bleeds should be respected by the Popup
@@ -646,7 +666,7 @@ export default class IdsPopup extends Base {
   /**
    * @property {IdsPopupElementRef} containingElem the element to use for containment of the Popup
    */
-  #containingElem: IdsPopupElementRef = document.body;
+  #containingElem: IdsPopupElementRef;
 
   /**
    * @param {IdsPopupElementRef} val an element that will appear to "contain" the Popup
@@ -718,13 +738,19 @@ export default class IdsPopup extends Base {
   #setArrowDirection(currentDir: string | null, newDir: string | null) {
     if (!this.container) return;
 
+    const arrowEl = this.arrowEl;
     const arrowElCl = this.arrowEl?.classList;
     const isNone = newDir === 'none';
 
-    if (this.arrowEl) this.arrowEl.hidden = isNone;
+    if (arrowEl) arrowEl.hidden = isNone;
+    let cssPart = 'arrow';
     if (currentDir === '') arrowElCl?.remove(...ARROW_TYPES);
     else if (currentDir) arrowElCl?.remove(currentDir);
-    if (newDir && !isNone) arrowElCl?.add(newDir);
+    if (newDir && !isNone) {
+      arrowElCl?.add(newDir);
+      cssPart += `-${newDir}`;
+    }
+    arrowEl?.setAttribute('part', cssPart);
   }
 
   /**
@@ -738,7 +764,7 @@ export default class IdsPopup extends Base {
   /**
    * @param {IdsPopupElementRef} arrowTarget
    */
-  #arrowTarget: IdsPopupElementRef = null;
+  #arrowTarget: IdsPopupElementRef;
 
   /**
    * Sets the element to align with via a css selector
@@ -786,7 +812,7 @@ export default class IdsPopup extends Base {
   /**
    * @property {string} positionStyle the method in which the Popup is positioned
    */
-  #positionStyle = POSITION_STYLES[1];
+  #positionStyle: string;
 
   /**
    * @param {string} val the position style string
@@ -847,7 +873,7 @@ export default class IdsPopup extends Base {
    * @property {number} type The style of popup to display.
    * Can be 'none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'
    */
-  #type = TYPES[0]; // 'none'
+  #type: string;
 
   /**
    * @param {string} val The popup type
@@ -886,12 +912,12 @@ export default class IdsPopup extends Base {
   /**
    * @property {boolean} open true if the Popup is not only visible, but also fully-animated open
    */
-  open = false;
+  open: boolean;
 
   /**
    * @property {boolean} visible true if the Popup should be visible
    */
-  #visible = false;
+  #visible: boolean;
 
   /**
    * Whether or not the component should be displayed
@@ -934,7 +960,7 @@ export default class IdsPopup extends Base {
    * @property {number} x represents the X coordinate if placed via coordinates,
    * or the X offset when placed in relation to a parent element.
    */
-  #x = 0;
+  #x: number;
 
   /**
    * Sets the X (left) coordinate of the Popup
@@ -960,7 +986,7 @@ export default class IdsPopup extends Base {
    * @property {number} y represents the Y coordinate if placed via coordinates,
    * or the Y offset when placed in relation to a parent element.
    */
-  #y = 0;
+  #y: number;
 
   /**
    * Sets the Y (top) coordinate of the Popup
