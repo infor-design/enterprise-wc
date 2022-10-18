@@ -5,19 +5,23 @@
   <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
-  <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Ids App Menu</ids-text>
-    </ids-layout-grid>
+  <ids-container role="main" padding="0" hidden>
 
-    <ids-layout-grid>
-      <ids-layout-grid-cell>
-        <ids-button id="app-menu-trigger" icon="menu">
-          <span slot="text" class="audible">Open App Menu</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
+    <ids-header>
+      <ids-toolbar>
+        <ids-toolbar-section>
+          <ids-button id="app-menu-trigger" icon="menu">
+            <span slot="text" class="audible">Open App Menu</span>
+          </ids-button>
+        </ids-toolbar-section>
+        <ids-toolbar-section type="title">
+          <ids-text font-size="20" type="h1">App Menu Example</ids-text>
+        </ids-toolbar-section>
+        <ids-toolbar-section align="end">
+          <ids-theme-switcher mode="light"></ids-theme-switcher>
+        </ids-toolbar-section>
+      </ids-toolbar>
+    </ids-header>
 
     <ids-app-menu id="app-menu">
       <!-- Avatar/Username Area -->

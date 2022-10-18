@@ -1,3 +1,5 @@
+import '../../ids-header/ids-header';
+
 import avatarPlaceholder from '../../../assets/images/avatar-placeholder.jpg';
 
 const avatarImg: any = window.document.getElementById('avatar');
