@@ -144,7 +144,7 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
     const textWidth = stringToNumber(cellEl.getAttribute('data-textwidth'));
 
     if ((cellEl.offsetWidth < cellEl.scrollWidth) || (cellEl.offsetWidth < textWidth)) {
-      const rowIndex = stringToNumber(this.#findInPath(path, '[role="row"]')?.getAttribute('visible-rowindex'));
+      const rowIndex = stringToNumber(this.#findInPath(path, '[role="row"]')?.getAttribute('data-rowindex'));
       const columnIndex = stringToNumber(cellEl.getAttribute('aria-colindex')) - 1;
       const rowData = ambientGrid.data[rowIndex];
       const columnData = ambientGrid.columns[columnIndex];
