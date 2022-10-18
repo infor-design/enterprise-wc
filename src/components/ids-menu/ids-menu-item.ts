@@ -9,6 +9,12 @@ import Base from './ids-menu-item-base';
 import '../ids-icon/ids-icon';
 
 import styles from './ids-menu-item.scss';
+import type IdsToolbarMoreActions from '../ids-toolbar/ids-toolbar-more-actions';
+import type IdsTabMore from '../ids-tabs/ids-tab-more';
+import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
+import type IdsMenu from './ids-menu';
+import type IdsMenuGroup from './ids-menu-group';
+import type IdsIcon from '../ids-icon/ids-icon';
 
 /**
  * IDS Menu Item Component
@@ -25,6 +31,8 @@ import styles from './ids-menu-item.scss';
 @customElement('ids-menu-item')
 @scss(styles)
 export default class IdsMenuItem extends Base {
+  shouldUpdate = true;
+
   /**
    * Build the menu item
    */
@@ -37,7 +45,13 @@ export default class IdsMenuItem extends Base {
       const attr = this.getAttribute(prop);
       this.state[prop] = attr || MENU_DEFAULTS[prop];
     });
-    this.shouldUpdate = true;
+
+    Object.defineProperty(this, 'tabIndex', {
+      get: () => this.#tabIndex,
+      set: (value) => { this.#tabIndex = value; },
+      configurable: true,
+      enumerable: true
+    });
   }
 
   /**
@@ -109,6 +123,7 @@ export default class IdsMenuItem extends Base {
       ...super.attributes,
       attributes.DISABLED,
       attributes.HIDDEN,
+      attributes.HIGHLIGHTED,
       attributes.ICON,
       attributes.SELECTED,
       attributes.SUBMENU,
@@ -147,33 +162,13 @@ export default class IdsMenuItem extends Base {
     this.detectHidden();
     this.detectSubmenu();
     this.detectSelectability();
-    this.decorateForIcon();
+    if (this.menu) this.decorateForIcon((this.menu as any).hasIcons);
   }
 
   /**
    * @returns {void}
    */
   attachEventHandlers() {
-    // On 'mouseenter', after a specified duration, run some events,
-    // including activation of submenus where applicable.
-    this.onEvent('mouseenter', this, () => {
-      // Highlight
-      this.menu.highlightItem(this);
-
-      // Tell the menu which item to use for converting a hover state to keyboard
-      if (!this.disabled) {
-        this.menu.lastHovered = this;
-      }
-    });
-
-    // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
-    // and unhighlight the item
-    this.onEvent('mouseleave', this, () => {
-      if (!this.hasSubmenu || this.submenu.hidden) {
-        this.unhighlight();
-      }
-    });
-
     // When any of this item's slots change, refresh the visual state of the item
     this.onEvent('slotchange', this.container, () => {
       this.refresh();
@@ -192,15 +187,15 @@ export default class IdsMenuItem extends Base {
    * @readonly
    * @returns {any} ['IdsMenu'] reference to the parent IdsMenu component, if one exists.
    */
-  get menu() {
-    const toolbarParent = this.closest('ids-toolbar-more-actions');
+  get menu(): IdsMenu | IdsPopupMenu | null {
+    const toolbarParent = this.closest<IdsToolbarMoreActions>('ids-toolbar-more-actions');
     if (toolbarParent) {
       return toolbarParent.menu;
     }
 
-    const tabMoreParent = this.closest('ids-tab-more');
+    const tabMoreParent = this.closest<IdsTabMore>('ids-tab-more');
     if (tabMoreParent) {
-      return tabMoreParent.container?.querySelector('ids-popup-menu');
+      return tabMoreParent.container?.querySelector<IdsPopupMenu>('ids-popup-menu') || null;
     }
 
     return this.closest('ids-menu, ids-popup-menu');
@@ -208,10 +203,10 @@ export default class IdsMenuItem extends Base {
 
   /**
    * @readonly
-   * @returns {any} ['IdsMenuGroup'] reference to the parent IdsMenuGroup component, if one exists.
+   * @returns {IdsMenuGroup} ['IdsMenuGroup'] reference to the parent IdsMenuGroup component, if one exists.
    */
   get group() {
-    return this.closest('ids-menu-group');
+    return this.closest<IdsMenuGroup>('ids-menu-group');
   }
 
   /**
@@ -231,7 +226,7 @@ export default class IdsMenuItem extends Base {
     const currentAttr = this.hasAttribute(attributes.DISABLED);
 
     if (trueVal) {
-      a.disabled = true;
+      (a as any).disabled = true;
       a.setAttribute(attributes.DISABLED, '');
       this.tabIndex = -1;
       this.container?.classList.add(attributes.DISABLED);
@@ -243,7 +238,7 @@ export default class IdsMenuItem extends Base {
       return;
     }
 
-    a.disabled = false;
+    (a as any).disabled = false;
     a.removeAttribute(attributes.DISABLED);
     this.tabIndex = 0;
     this.container?.classList.remove(attributes.DISABLED);
@@ -263,10 +258,11 @@ export default class IdsMenuItem extends Base {
   }
 
   /**
-   * @param {boolean|string} val true if the menu item should be hidden from view
+   * Handles global html hidden attribute changes
+   * @param {boolean} value hidden value
    */
-  set hidden(val) {
-    const newValue = stringToBool(val);
+  onHiddenChange(value: boolean | string) {
+    const newValue = stringToBool(value);
     if (newValue) {
       this.setAttribute(attributes.HIDDEN, '');
       this.container?.classList.add(attributes.HIDDEN);
@@ -274,13 +270,6 @@ export default class IdsMenuItem extends Base {
       this.removeAttribute(attributes.HIDDEN);
       this.container?.classList.remove(attributes.HIDDEN);
     }
-  }
-
-  /**
-   * @returns {boolean} true if the menu item is hidden from view
-   */
-  get hidden() {
-    return this.hasAttribute(attributes.HIDDEN);
   }
 
   /**
@@ -293,9 +282,11 @@ export default class IdsMenuItem extends Base {
     if (trueVal && this.disabled) {
       return;
     }
-    // If the item's submenu is open, don't unhighlight.
-    if (!trueVal && this.hasSubmenu && !this.submenu.hidden) {
-      return;
+
+    if (trueVal) {
+      this.setAttribute(attributes.HIGHLIGHTED, 'true');
+    } else {
+      this.removeAttribute(attributes.HIGHLIGHTED);
     }
 
     this.state.highlighted = trueVal;
@@ -315,6 +306,7 @@ export default class IdsMenuItem extends Base {
    */
   highlight() {
     this.highlighted = true;
+    this.triggerEvent('highlighted', this, { bubbles: true, detail: { elem: this } });
   }
 
   /**
@@ -355,7 +347,7 @@ export default class IdsMenuItem extends Base {
    * @returns {any} [IdsIcon | undefined] reference to a defined IDS Icon element, if applicable
    */
   get iconEl() {
-    const icon = [...this.children].find((e) => e.matches('ids-icon'));
+    const icon = [...this.children].find((e) => e.matches('ids-icon')) as IdsIcon | undefined;
     return icon;
   }
 
@@ -366,7 +358,7 @@ export default class IdsMenuItem extends Base {
    */
   appendIcon(iconName: string) {
     // First look specifically for an icon slot.
-    const icon = this.querySelector(`ids-icon[slot="icon"]`); // @TODO check for submenu icons here
+    const icon = this.querySelector<IdsIcon>(`ids-icon[slot="icon"]`); // @TODO check for submenu icons here
     if (icon) {
       icon.icon = iconName;
     } else {
@@ -388,11 +380,11 @@ export default class IdsMenuItem extends Base {
   /**
    * Updates the alignment of text/icon content in the menu item to account for icons
    * that are present either on this menu item, or another one inside this menu item's group.
+   * @param {boolean} doShow true if the menu item should be decorated
    * @private
    */
-  decorateForIcon() {
-    const hasIcons = this.group.itemIcons.length > 0;
-    this.container?.classList[hasIcons ? 'add' : 'remove']('has-icon');
+  decorateForIcon(doShow?: boolean) {
+    this.container?.classList[doShow ? 'add' : 'remove']('has-icon');
   }
 
   /**
@@ -406,7 +398,7 @@ export default class IdsMenuItem extends Base {
    * @readonly
    * @returns {any} [IdsMenu | IdsPopupMenu] submenu component, if one is present.
    */
-  get submenu() {
+  get submenu(): IdsMenu | IdsPopupMenu | null {
     return this.querySelector('ids-menu, ids-popup-menu');
   }
 
@@ -441,7 +433,7 @@ export default class IdsMenuItem extends Base {
     if (val === true || val === 'true') {
       if (this.submenu) {
         this.submenu.setAttribute(htmlAttributes.SLOT, 'submenu');
-        this.submenu.setAttribute(htmlAttributes.ARIA_EXPANDED, this.submenu.visible ? 'true' : 'false');
+        this.submenu.setAttribute(htmlAttributes.ARIA_EXPANDED, (this.submenu as IdsPopupMenu)?.visible ? 'true' : 'false');
       }
       this.a?.setAttribute(htmlAttributes.ROLE, 'button');
       this.a?.setAttribute(htmlAttributes.ARIA_HASPOPUP, 'true');
@@ -472,7 +464,7 @@ export default class IdsMenuItem extends Base {
    * @returns {void}
    */
   detectSelectability() {
-    const selectType = this.group.select;
+    const selectType = this.group?.select;
     const check = this.container?.querySelector('span.check');
 
     if (this.isSelectable) {
@@ -569,7 +561,7 @@ export default class IdsMenuItem extends Base {
    * @param {any} val [number|string] the tabindex value
    * @returns {void}
    */
-  set tabIndex(val) {
+  set #tabIndex(val) {
     const trueVal = Number(val);
     if (!this.state) this.state = {};
     if (this.state.tabIndex !== trueVal) {
@@ -589,7 +581,7 @@ export default class IdsMenuItem extends Base {
   /**
    * @returns {any} [number] the current tabindex number for the hyperlink
    */
-  get tabIndex() {
+  get #tabIndex() {
     return this.state?.tabIndex || 0;
   }
 
@@ -624,7 +616,7 @@ export default class IdsMenuItem extends Base {
    */
   get text() {
     const textNode = (n: any) => ((n.nodeType === Node.TEXT_NODE) || (n.name === 'ids-text'));
-    return [...this.childNodes].find((i) => textNode(i)).textContent.trim();
+    return [...this.childNodes].find((i) => textNode(i))?.textContent?.trim();
   }
 
   /**
@@ -675,12 +667,12 @@ export default class IdsMenuItem extends Base {
    * @returns {void}
    */
   showSubmenu() {
-    if (!this.hasSubmenu || (this.hasSubmenu && !this.submenu.hidden)) {
+    if (!this.hasSubmenu || (this.hasSubmenu && !this.submenu?.hidden)) {
       return;
     }
     this.a?.setAttribute(htmlAttributes.ARIA_EXPANDED, 'true');
-    this.menu.hideSubmenus(this);
-    this.submenu.show();
+    (this.menu as IdsPopupMenu)?.hideSubmenus(this);
+    (this.submenu as IdsPopupMenu)?.show();
   }
 
   /**
@@ -688,11 +680,11 @@ export default class IdsMenuItem extends Base {
    * @returns {void}
    */
   hideSubmenu() {
-    if (!this.hasSubmenu || (this.hasSubmenu && this.submenu.hidden)) {
+    if (!this.hasSubmenu || (this.hasSubmenu && this.submenu?.hidden)) {
       return;
     }
     this.a?.setAttribute(htmlAttributes.ARIA_EXPANDED, 'false');
-    this.submenu.hide();
+    (this.submenu as IdsPopupMenu)?.hide();
   }
 
   /**
@@ -701,7 +693,10 @@ export default class IdsMenuItem extends Base {
    * @returns {void}
    */
   focus() {
-    if (!this.hidden && !this.disabled) this.a?.focus();
+    if (!this.hidden && !this.disabled) {
+      this.a?.focus();
+      this.menu?.highlightItem(this);
+    }
   }
 
   /**

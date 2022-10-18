@@ -1,5 +1,6 @@
 import { IdsPopupElementRef } from '../../components/ids-popup/ids-popup-attributes';
 import { attributes } from '../../core/ids-attributes';
+import { IdsBaseConstructor } from '../../core/ids-element';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 /**
@@ -8,14 +9,14 @@ import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsAttachmentMixin = (superclass: any): any => class extends superclass {
-  constructor() {
-    super();
+const IdsAttachmentMixin = <T extends IdsBaseConstructor>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.ATTACHMENT,
     ];
   }
@@ -28,7 +29,7 @@ const IdsAttachmentMixin = (superclass: any): any => class extends superclass {
   /**
    * Attachment behavior's target element reference
    */
-  attachmentParentElement?: IdsPopupElementRef;
+  attachmentParentElement?: IdsPopupElementRef | null;
 
   /**
    * @param {string | null} val CSS selector string representing a target element
@@ -39,7 +40,7 @@ const IdsAttachmentMixin = (superclass: any): any => class extends superclass {
       this.#setAttachmentParent(val);
     } else {
       this.removeAttribute(attributes.ATTACHMENT);
-      this.attachementParentElement = null;
+      this.attachmentParentElement = null;
     }
   }
 
@@ -62,7 +63,7 @@ const IdsAttachmentMixin = (superclass: any): any => class extends superclass {
     this.attachmentParentElement = null;
   }
 
-  #setAttachmentParent(val: string): void {
+  #setAttachmentParent(val: string | null): void {
     const containerNode = getClosestContainerNode(this);
     const parentElem = containerNode.querySelector<HTMLElement | SVGElement>(`${val}`);
     this.attachmentParentElement = parentElem;

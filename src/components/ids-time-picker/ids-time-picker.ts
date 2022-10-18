@@ -8,8 +8,13 @@ import Base from './ids-time-picker-base';
 import '../ids-dropdown/ids-dropdown';
 import '../ids-popup/ids-popup';
 import '../ids-trigger-field/ids-trigger-field';
+import type IdsDropdown from '../ids-dropdown/ids-dropdown';
+import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import type IdsPopup from '../ids-popup/ids-popup';
 
 import styles from './ids-time-picker.scss';
+import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
+import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
 
 const range: any = (start: any, stop: any, step = 1) => (
   start > stop ? [] : [start, ...range(start + Math.abs(step), stop, step)]
@@ -40,15 +45,17 @@ const range: any = (start: any, stop: any, step = 1) => (
 @customElement('ids-time-picker')
 @scss(styles)
 export default class IdsTimePicker extends Base {
+  isFormComponent = true;
+
+  triggerButton?: IdsTriggerButton | null = null;
+
   constructor() {
     super();
   }
 
-  isFormComponent = true;
-
   connectedCallback() {
     super.connectedCallback();
-    this.triggerButton = this.container?.querySelector('ids-trigger-button');
+    this.triggerButton = this.container?.querySelector<IdsTriggerButton>('ids-trigger-button');
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#renderDropdowns();
@@ -190,7 +197,7 @@ export default class IdsTimePicker extends Base {
    */
   onDirtyTrackerChange(value: boolean) {
     if (value) {
-      this.input?.setAttribute(attributes.DIRTY_TRACKER, value);
+      this.input?.setAttribute(attributes.DIRTY_TRACKER, String(value));
     } else {
       this.input?.removeAttribute(attributes.DIRTY_TRACKER);
     }
@@ -290,10 +297,7 @@ export default class IdsTimePicker extends Base {
    */
   #renderDropdowns(): void {
     // Clear before rendering
-    this.container?.querySelectorAll('.dropdowns ids-dropdown, .dropdowns .separator')
-      .forEach((item: HTMLElement) => {
-        item.remove();
-      });
+    this.container?.querySelectorAll<HTMLElement>('.dropdowns ids-dropdown, .dropdowns .separator').forEach((item) => item.remove());
 
     // Adding dropdowns
     this.container?.querySelector('.dropdowns')?.insertAdjacentHTML('afterbegin', this.#dropdowns());
@@ -303,10 +307,10 @@ export default class IdsTimePicker extends Base {
    * Parse input date and populate dropdowns
    */
   #parseInputValue(): void {
-    const inputDate: Date = this.locale?.parseDate(
+    const inputDate = this.locale?.parseDate(
       this.input?.value || this.value,
       { dateFormat: this.format }
-    );
+    ) as Date;
     const hours24 = inputDate?.getHours();
     const hours12 = hoursTo12(hours24);
     const minutes = inputDate?.getMinutes();
@@ -547,10 +551,10 @@ export default class IdsTimePicker extends Base {
         check: (input: any) => {
           if (!input.value) return true;
 
-          const date: Date | undefined = this.locale.parseDate(
+          const date = this.locale.parseDate(
             input.value,
             { dateFormat: this.format, strictTime: true }
-          );
+          ) as Date;
 
           return isValidDate(date);
         }
@@ -585,7 +589,7 @@ export default class IdsTimePicker extends Base {
       this.removeOpenEvents();
 
       this.container?.classList.remove('is-open');
-      this.popup.setAttribute('tabindex', -1);
+      this.popup.setAttribute('tabindex', '-1');
     }
   }
 
@@ -593,9 +597,9 @@ export default class IdsTimePicker extends Base {
    * Open the timepicker's popup window
    */
   open() {
-    if (!this.popup.visible && !this.disabled && !this.readonly) {
-      this.popup.alignTarget = this.input?.container.querySelector('.field-container');
-      this.popup.arrowTarget = this.triggerButton;
+    if (this.popup && !this.popup.visible && !this.disabled && !this.readonly) {
+      this.popup.alignTarget = this.input?.container?.querySelector('.field-container') as IdsPopupElementRef;
+      this.popup.arrowTarget = this.triggerButton as IdsPopupElementRef;
       this.popup.align = `bottom, ${this.locale.isRTL() || ['md', 'lg', 'full'].includes(this.size) ? 'right' : 'left'}`;
       this.popup.arrow = 'bottom';
       this.popup.y = 16;
@@ -613,7 +617,9 @@ export default class IdsTimePicker extends Base {
 
       // Focus hours dropdown
       if (!this.autoselect) {
-        this.container?.querySelector('#hours')?.container.querySelector('ids-trigger-field')?.focus();
+        this.container
+          ?.querySelector<IdsDropdown>('#hours')?.container
+          ?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
       }
     }
   }
@@ -632,15 +638,15 @@ export default class IdsTimePicker extends Base {
   /**
    * @returns {HTMLElement} reference to the IdsPopup component
    */
-  get popup(): any {
-    return this.container?.querySelector('ids-popup') || null;
+  get popup(): IdsPopup | null {
+    return this.container?.querySelector<IdsPopup>('ids-popup') || null;
   }
 
   /**
    * @returns {HTMLElement} Reference to the IdsTriggerField
    */
-  get input(): any {
-    return this.container?.querySelector('ids-trigger-field') || null;
+  get input(): IdsTriggerField | null {
+    return this.container?.querySelector<IdsTriggerField>('ids-trigger-field') || null;
   }
 
   /**
@@ -695,7 +701,7 @@ export default class IdsTimePicker extends Base {
     const boolVal = stringToBool(value);
 
     if (boolVal) {
-      this.setAttribute(attributes.AUTOSELECT, boolVal);
+      this.setAttribute(attributes.AUTOSELECT, 'true');
     } else {
       this.removeAttribute(attributes.AUTOSELECT);
     }
@@ -718,8 +724,8 @@ export default class IdsTimePicker extends Base {
     const popupBtn = this.container?.querySelector('.popup-btn');
 
     if (boolVal) {
-      this.setAttribute(attributes.AUTOUPDATE, boolVal);
-      popupBtn?.setAttribute('hidden', boolVal);
+      this.setAttribute(attributes.AUTOUPDATE, 'true');
+      popupBtn?.setAttribute('hidden', 'true');
     } else {
       this.removeAttribute(attributes.AUTOUPDATE);
       popupBtn?.removeAttribute('hidden');
@@ -742,8 +748,8 @@ export default class IdsTimePicker extends Base {
     const boolVal = stringToBool(value);
 
     if (boolVal) {
-      this.setAttribute(attributes.DISABLED, boolVal);
-      this.input?.setAttribute(attributes.DISABLED, boolVal);
+      this.setAttribute(attributes.DISABLED, 'true');
+      this.input?.setAttribute(attributes.DISABLED, 'true');
     } else {
       this.removeAttribute(attributes.DISABLED);
       this.input?.removeAttribute(attributes.DISABLED);
@@ -766,8 +772,8 @@ export default class IdsTimePicker extends Base {
     const boolVal = stringToBool(value);
 
     if (boolVal) {
-      this.setAttribute(attributes.READONLY, boolVal);
-      this.input?.setAttribute(attributes.READONLY, boolVal);
+      this.setAttribute(attributes.READONLY, 'true');
+      this.input?.setAttribute(attributes.READONLY, 'true');
     } else {
       this.removeAttribute(attributes.READONLY);
       this.input?.removeAttribute(attributes.READONLY);
@@ -783,24 +789,28 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Sets the label attribute
-   * @param {string|null} value - the label's text
+   * Handles label attribute changes
+   * @param {string} value label value
    */
-  set label(value: string | null) {
+  onLabelChange(value: string | null) {
     if (value) {
-      this.setAttribute(attributes.LABEL, value);
       this.input?.setAttribute(attributes.LABEL, value);
     } else {
-      this.removeAttribute(attributes.LABEL);
       this.input?.removeAttribute(attributes.LABEL);
     }
   }
 
   /**
-   * Gets the label attribute
-   * @returns {string} default is ""
+   * Handles id attribute changes
+   * @param {string} value id value
    */
-  get label(): string { return this.getAttribute(attributes.LABEL) ?? ''; }
+  onIdChange(value: string | null) {
+    if (value) {
+      this.input?.setAttribute(attributes.ID, value);
+    } else {
+      this.input?.removeAttribute(attributes.ID);
+    }
+  }
 
   /**
    * Sets the placeholder attribute
@@ -832,8 +842,8 @@ export default class IdsTimePicker extends Base {
     const boolVal = stringToBool(value);
 
     if (boolVal) {
-      this.setAttribute(attributes.NO_MARGINS, boolVal);
-      this.input?.setAttribute(attributes.NO_MARGINS, boolVal);
+      this.setAttribute(attributes.NO_MARGINS, 'true');
+      this.input?.setAttribute(attributes.NO_MARGINS, 'true');
     } else {
       this.removeAttribute(attributes.NO_MARGINS);
       this.input?.removeAttribute(attributes.NO_MARGINS);
@@ -878,7 +888,7 @@ export default class IdsTimePicker extends Base {
     const numberVal = stringToNumber(val);
 
     if (!Number.isNaN(numberVal)) {
-      this.setAttribute(attributes.MINUTE_INTERVAL, numberVal);
+      this.setAttribute(attributes.MINUTE_INTERVAL, String(numberVal));
     } else {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
     }
@@ -908,7 +918,7 @@ export default class IdsTimePicker extends Base {
     const numberVal = stringToNumber(val);
 
     if (!Number.isNaN(numberVal)) {
-      this.setAttribute(attributes.SECOND_INTERVAL, numberVal);
+      this.setAttribute(attributes.SECOND_INTERVAL, String(numberVal));
     } else {
       this.removeAttribute(attributes.SECOND_INTERVAL);
     }
@@ -938,7 +948,7 @@ export default class IdsTimePicker extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.EMBEDDABLE, boolVal);
+      this.setAttribute(attributes.EMBEDDABLE, 'true');
     } else {
       this.removeAttribute(attributes.EMBEDDABLE);
     }
@@ -958,12 +968,12 @@ export default class IdsTimePicker extends Base {
    */
   set hours(value: string | number | null) {
     if (value !== null) {
-      this.setAttribute(attributes.HOURS, value);
+      this.setAttribute(attributes.HOURS, String(value));
     } else {
       this.removeAttribute(attributes.HOURS);
     }
 
-    this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.hours);
+    this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(this.hours));
   }
 
   /**
@@ -999,10 +1009,10 @@ export default class IdsTimePicker extends Base {
    * @returns {number} input value in 24 hours format
    */
   get hours24(): number {
-    const inputDate: Date = this.locale?.parseDate(
+    const inputDate = this.locale?.parseDate(
       this.input?.value || this.value,
       { dateFormat: this.format }
-    );
+    ) as Date;
 
     return inputDate.getHours();
   }
@@ -1013,12 +1023,12 @@ export default class IdsTimePicker extends Base {
    */
   set minutes(value: string | number | null) {
     if (value !== null) {
-      this.setAttribute(attributes.MINUTES, value);
+      this.setAttribute(attributes.MINUTES, String(value));
     } else {
       this.removeAttribute(attributes.MINUTES);
     }
 
-    this.container?.querySelector('ids-dropdown#minutes')?.setAttribute(attributes.VALUE, this.minutes);
+    this.container?.querySelector('ids-dropdown#minutes')?.setAttribute(attributes.VALUE, String(this.minutes));
   }
 
   /**
@@ -1048,12 +1058,12 @@ export default class IdsTimePicker extends Base {
    */
   set seconds(value: string | number | null) {
     if (value !== null) {
-      this.setAttribute(attributes.SECONDS, value);
+      this.setAttribute(attributes.SECONDS, String(value));
     } else {
       this.removeAttribute(attributes.SECONDS);
     }
 
-    this.container?.querySelector('ids-dropdown#seconds')?.setAttribute(attributes.VALUE, this.seconds);
+    this.container?.querySelector('ids-dropdown#seconds')?.setAttribute(attributes.VALUE, String(this.seconds));
   }
 
   /**
@@ -1091,7 +1101,7 @@ export default class IdsTimePicker extends Base {
     // Updating hours dropdown with AM/PM range
     if (this.#hasHourRange()) {
       this.#renderDropdowns();
-      this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, this.#getHourOptions()[0]);
+      this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(this.#getHourOptions()[0]));
     } else {
       this.container?.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
     }
@@ -1105,7 +1115,7 @@ export default class IdsTimePicker extends Base {
     const attrVal = this.getAttribute(attributes.PERIOD);
     const dayPeriods: Array<string> = this.#getDayPeriodsWithRange();
     const dayPeriodExists: boolean = dayPeriods.map((item: string) => item.toLowerCase())
-      .includes(attrVal?.toString().toLowerCase());
+      .includes(attrVal?.toString().toLowerCase() as string);
 
     if (!this.#hasPeriod()) return '';
 
@@ -1177,8 +1187,8 @@ export default class IdsTimePicker extends Base {
    * @param {boolean|string|null} val true or false depending if the trigger field is tabbable
    */
   set tabbable(val: boolean | string | null) {
-    this.setAttribute(attributes.TABBABLE, val);
-    this.input?.setAttribute(attributes.TABBABLE, val);
+    this.setAttribute(attributes.TABBABLE, String(val));
+    this.input?.setAttribute(attributes.TABBABLE, String(val));
   }
 
   /**
@@ -1193,32 +1203,12 @@ export default class IdsTimePicker extends Base {
   }
 
   /**
-   * Set trigger field/input id attribute
-   * @param {string} val id
-   */
-  set id(val: string) {
-    if (val) {
-      this.setAttribute(attributes.ID, val);
-      this.input?.setAttribute(attributes.ID, val);
-    } else {
-      this.removeAttribute(attributes.ID);
-      this.input?.removeAttribute(attributes.ID);
-    }
-  }
-
-  /**
-   * id attribute
-   * @returns {string} id param
-   */
-  get id(): string { return this.getAttribute(attributes.ID) ?? ''; }
-
-  /**
    * Set start of limited hours range
    * @param {string|number|null} val to be set as end-hour attribute
    */
   set startHour(val: number | string | null) {
     if (val) {
-      this.setAttribute(attributes.START_HOUR, val);
+      this.setAttribute(attributes.START_HOUR, String(val));
     } else {
       this.removeAttribute(attributes.START_HOUR);
     }
@@ -1246,7 +1236,7 @@ export default class IdsTimePicker extends Base {
    */
   set endHour(val: number | string | null) {
     if (val) {
-      this.setAttribute(attributes.END_HOUR, val);
+      this.setAttribute(attributes.END_HOUR, String(val));
     } else {
       this.removeAttribute(attributes.END_HOUR);
     }
@@ -1276,7 +1266,7 @@ export default class IdsTimePicker extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.USE_CURRENT_TIME, boolVal);
+      this.setAttribute(attributes.USE_CURRENT_TIME, 'true');
     } else {
       this.removeAttribute(attributes.USE_CURRENT_TIME);
     }
@@ -1300,7 +1290,7 @@ export default class IdsTimePicker extends Base {
     const boolVal = stringToBool(val);
 
     if (boolVal) {
-      this.setAttribute(attributes.MASK, boolVal);
+      this.setAttribute(attributes.MASK, 'true');
       this.input?.setAttribute(attributes.MASK, 'date');
     } else {
       this.removeAttribute(attributes.MASK);

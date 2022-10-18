@@ -2,20 +2,19 @@
  * @jest-environment jsdom
  */
 import IdsAlert from '../../src/components/ids-alert/ids-alert';
+import type IdsIcon from '../../src/components/ids-icon/ids-icon';
 
 describe('IdsAlert Component', () => {
-  let el: any;
+  let el: IdsAlert;
   let rootEl;
 
-  beforeEach(async () => {
-    const alert: any = new IdsAlert();
-
-    alert.icon = 'success';
-    document.body.appendChild(alert);
-    el = document.querySelector('ids-alert');
+  beforeEach(() => {
+    el = new IdsAlert();
+    el.icon = 'success';
+    document.body.appendChild(el);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     document.body.innerHTML = '';
   });
 
@@ -50,7 +49,7 @@ describe('IdsAlert Component', () => {
     document.body.appendChild(el);
     el.icon = 'info';
     expect(el.icon).toEqual('info');
-    rootEl = el.shadowRoot.querySelector('ids-icon');
+    rootEl = el.shadowRoot?.querySelector('ids-icon') as IdsIcon;
     expect(rootEl.icon).toBe('info');
     el.icon = null;
     expect(el.icon).toEqual(null);
@@ -61,7 +60,7 @@ describe('IdsAlert Component', () => {
     document.body.appendChild(el);
     el.icon = 'success';
     expect(el.icon).toEqual('success');
-    rootEl = el.shadowRoot.querySelector('ids-icon');
+    rootEl = el.shadowRoot?.querySelector('ids-icon') as IdsIcon;
     expect(rootEl.icon).toBe('success');
     el.icon = null;
     expect(el.icon).toEqual(null);
@@ -72,38 +71,31 @@ describe('IdsAlert Component', () => {
     document.body.appendChild(el);
     el.icon = 'add';
     expect(el.icon).toEqual('add');
-    rootEl = el.shadowRoot.querySelector('ids-icon');
+    rootEl = el.shadowRoot?.querySelector('ids-icon') as IdsIcon;
     expect(rootEl.icon).toBe('add');
     el.icon = null;
     expect(el.icon).toEqual(null);
   });
 
   it('should disable and enable', () => {
-    el.disabled = 'true';
-    el.template();
-    document.body.innerHTML = '';
-    const alert: any = new IdsAlert();
-    alert.icon = 'success';
-    document.body.appendChild(alert);
-    el = document.querySelector('ids-alert');
-    let icon = el.shadowRoot.querySelector('ids-icon');
+    let icon = el.shadowRoot?.querySelector('ids-icon');
     expect(el.getAttribute('disabled')).toEqual(null);
-    expect(icon.classList).not.toContain('disabled');
+    expect(icon?.classList).not.toContain('disabled');
+
     el.disabled = 'true';
-    icon = el.shadowRoot.querySelector('ids-icon');
+    icon = el.shadowRoot?.querySelector('ids-icon');
     expect(el.getAttribute('disabled')).toEqual('true');
-    expect(icon.classList).toContain('disabled');
+    expect(icon?.classList).toContain('disabled');
+
     el.disabled = 'false';
-    icon = el.shadowRoot.querySelector('ids-icon');
+    icon = el.shadowRoot?.querySelector('ids-icon');
     expect(el.getAttribute('disabled')).toEqual(null);
-    expect(icon.classList).not.toContain('disabled');
+    expect(icon?.classList).not.toContain('disabled');
   });
 
   it('supports setting mode', () => {
-    el = new IdsAlert();
-    document.body.appendChild(el);
     el.mode = 'dark';
-    expect(el.container.getAttribute('mode')).toEqual('dark');
+    expect(el.container?.getAttribute('mode')).toEqual('dark');
   });
 
   it('supports setting size', () => {

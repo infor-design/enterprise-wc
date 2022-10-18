@@ -1,20 +1,30 @@
 import { attributes } from '../../core/ids-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 import { checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { kebabCase } from '../../utils/ids-string-utils/ids-string-utils';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+
+export interface ChartLegendHandler {
+  setSelection?(dataIndex: string, isLegendClick?: boolean): void;
+}
+
+type Constraints = IdsConstructor<EventsMixinInterface & ChartLegendHandler>;
 
 /**
  * A mixin that adds selection functionality to components
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsChartLegendMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsChartLegendMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  legendsHref: string[] = [];
+
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.LEGEND_PLACEMENT,
     ];
   }
@@ -29,7 +39,7 @@ const IdsChartLegendMixin = (superclass: any) => class extends superclass {
    * @param {string} value The placement value
    */
   set legendPlacement(value) {
-    const chartContainer = this.shadowRoot.querySelector('.ids-chart-container');
+    const chartContainer = this.shadowRoot?.querySelector('.ids-chart-container');
 
     this.setAttribute(attributes.LEGEND_PLACEMENT, value);
     chartContainer?.classList.remove('legend-top', 'legend-bottom', 'legend-left', 'legend-right');
@@ -46,7 +56,7 @@ const IdsChartLegendMixin = (superclass: any) => class extends superclass {
   legendTemplate(setting = 'name') {
     let legend = `<div class="chart-legend">`;
 
-    this.data.forEach((group: any, index: number) => {
+    (this as any).data.forEach((group: any, index: number) => {
       const text = group[setting] ? group[setting] : group.name;
       const patternSvg = group.pattern ? `<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
         <rect width="12" height="12" fill="url(#${group.pattern})"></rect>
@@ -62,12 +72,13 @@ const IdsChartLegendMixin = (superclass: any) => class extends superclass {
    * Set the labels between name, shortName and abbreviatedName depending which fits best
    */
   adjustLabels() {
-    let legend = this.shadowRoot.querySelector('.chart-legend');
-    if (checkOverflow(this.shadowRoot.querySelector('.chart-legend'))) {
+    let legend = this.shadowRoot?.querySelector<HTMLElement>('.chart-legend');
+    if (legend && checkOverflow(legend)) {
       legend.outerHTML = this.legendTemplate('shortName');
     }
-    legend = this.shadowRoot.querySelector('.chart-legend');
-    if (checkOverflow(legend)) {
+
+    legend = this.shadowRoot?.querySelector('.chart-legend');
+    if (legend && checkOverflow(legend)) {
       legend.outerHTML = this.legendTemplate('abbreviatedName');
     }
   }
@@ -83,15 +94,15 @@ const IdsChartLegendMixin = (superclass: any) => class extends superclass {
     if (!legends[0]) return;
 
     let isChanged = false;
-    this.legendsHref = this.legendsHref || legends.map((el: HTMLElement) => el.getAttribute('href'));
+    this.legendsHref = this.legendsHref || legends.map((el) => el.getAttribute('href'));
     if (selectable && !legends[0].hasAttribute('href')) {
-      legends.forEach((el: HTMLElement, index: number) => {
+      legends.forEach((el, index: number) => {
         el.setAttribute('href', this.legendsHref[index] ?? '#');
         el.removeAttribute('aria-hidden');
       });
       isChanged = true;
     } else if (!selectable && legends[0].hasAttribute('href')) {
-      legends.forEach((el: HTMLElement) => {
+      legends.forEach((el) => {
         el.setAttribute('aria-hidden', 'true');
         el.removeAttribute('href');
       });
@@ -108,7 +119,7 @@ const IdsChartLegendMixin = (superclass: any) => class extends superclass {
    * @returns {void}
    */
   attachLegendEvents(): void {
-    const legend = this.shadowRoot.querySelector('slot[name="legend"]');
+    const legend = this.shadowRoot?.querySelector('slot[name="legend"]');
     this.offEvent('click.chartlegend', legend);
     this.onEvent('click.chartlegend', legend, async (e: any) => {
       const target = e.target;
@@ -125,7 +136,7 @@ const IdsChartLegendMixin = (superclass: any) => class extends superclass {
    * @returns {void}
    */
   detachLegendEvents(): void {
-    const legend = this.shadowRoot.querySelector('slot[name="legend"]');
+    const legend = this.shadowRoot?.querySelector('slot[name="legend"]');
     this.offEvent('click.chartlegend', legend);
   }
 };

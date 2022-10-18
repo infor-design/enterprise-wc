@@ -32,7 +32,13 @@ export default class IdsCheckbox extends Base {
     super();
   }
 
+  labelAudible?: boolean;
+
   isFormComponent = true;
+
+  input?: HTMLInputElement | null;
+
+  labelEl?: HTMLLabelElement | null;
 
   /**
    * Return the attributes we handle as getters/setters
@@ -64,8 +70,8 @@ export default class IdsCheckbox extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
-    this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
-    this.labelEl = this.shadowRoot.querySelector('label');
+    this.input = this.shadowRoot?.querySelector('input[type="checkbox"]');
+    this.labelEl = this.shadowRoot?.querySelector('label');
     this.#attachEventHandlers();
   }
 
@@ -108,13 +114,13 @@ export default class IdsCheckbox extends Base {
     this.onEvent('change', this.input, (e: Event) => {
       this.indeterminate = false;
       this.#triggeredChange = true;
-      this.checked = this.input.checked;
+      this.checked = !!this.input?.checked;
       this.triggerEvent(e.type, this, {
         detail: {
           elem: this,
           nativeEvent: e,
           value: this.value,
-          checked: this.input.checked
+          checked: this.input?.checked
         },
         bubbles: true
       });
@@ -136,7 +142,7 @@ export default class IdsCheckbox extends Base {
             elem: this,
             nativeEvent: e,
             value: this.value,
-            checked: this.input.checked
+            checked: !!this.input?.checked
           }
         });
       });
@@ -159,30 +165,19 @@ export default class IdsCheckbox extends Base {
    */
   set checked(value: boolean | string) {
     const val = stringToBool(value);
-    if (this.checked === val) {
-      return;
-    }
+    const checkmark = this.shadowRoot?.querySelector<HTMLInputElement>('.checkmark');
+
+    if (this.checked === val) return;
 
     if (val) {
-      this.setAttribute(attributes.CHECKED, val);
+      this.setAttribute(attributes.CHECKED, String(val));
+      checkmark?.classList.add(attributes.CHECKED);
     } else {
       this.removeAttribute(attributes.CHECKED);
+      checkmark?.classList.remove(attributes.CHECKED);
     }
 
-    const checkmark = this.shadowRoot?.querySelector('.checkmark');
-    if (checkmark) {
-      if (val) {
-        checkmark?.classList.add(attributes.CHECKED);
-        if (this.input) {
-          this.input.checked = true;
-        }
-      } else {
-        checkmark?.classList.remove(attributes.CHECKED);
-        if (this.input) {
-          this.input.checked = false;
-        }
-      }
-    }
+    if (this.input) this.input.checked = val;
 
     if (!this.#triggeredChange && this.input) {
       this.triggerEvent('change', this.input, { bubbles: true });
@@ -196,7 +191,7 @@ export default class IdsCheckbox extends Base {
    *  Sets the checkbox color to one of the colors in our color palette for example emerald07
    * @param {boolean|string} value If true will set `color` attribute
    */
-  set color(value: boolean | string) {
+  set color(value: boolean | string | null) {
     const rootEl = this.shadowRoot?.querySelector('.ids-checkbox');
     if (value) {
       this.setAttribute(attributes.COLOR, value.toString());
@@ -207,13 +202,13 @@ export default class IdsCheckbox extends Base {
     }
   }
 
-  get color(): boolean | string { return this.getAttribute(attributes.COLOR); }
+  get color(): string | null { return this.getAttribute(attributes.COLOR); }
 
   /**
    * Sets input to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
-  set disabled(value: boolean | string) {
+  set disabled(value: boolean | string | null) {
     const rootEl = this.shadowRoot?.querySelector('.ids-checkbox');
     const val = stringToBool(value);
     if (val) {
@@ -225,17 +220,17 @@ export default class IdsCheckbox extends Base {
       this.removeAttribute(attributes.DISABLED);
       this.input?.removeAttribute(attributes.DISABLED);
       rootEl?.classList.remove(attributes.DISABLED);
-      this.labelEl?.querySelector('.label-checkbox').removeAttribute(attributes.DISABLED);
+      this.labelEl?.querySelector('.label-checkbox')?.removeAttribute(attributes.DISABLED);
     }
   }
 
-  get disabled(): boolean | string { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): string | null { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Flips the checkbox orientation to horizontal
    * @param {boolean|string} value If true will set `horizontal` attribute
    */
-  set horizontal(value: boolean | string) {
+  set horizontal(value: boolean | string | null) {
     const rootEl = this.shadowRoot?.querySelector('.ids-checkbox');
     const val = stringToBool(value);
     if (val) {
@@ -247,13 +242,13 @@ export default class IdsCheckbox extends Base {
     }
   }
 
-  get horizontal(): boolean | string { return this.getAttribute(attributes.HORIZONTAL); }
+  get horizontal(): string | null { return this.getAttribute(attributes.HORIZONTAL); }
 
   /**
    * Sets the checkbox to the indeterminate state
    * @param {string|boolean} value The `indeterminate` attribute
    */
-  set indeterminate(value: string | boolean) {
+  set indeterminate(value: string | boolean | null) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.INDETERMINATE, val.toString());
@@ -271,19 +266,20 @@ export default class IdsCheckbox extends Base {
     }
   }
 
-  get indeterminate(): boolean | string { return this.getAttribute(attributes.INDETERMINATE); }
+  get indeterminate(): string | null { return this.getAttribute(attributes.INDETERMINATE); }
 
   /**
    * Set the checkbox `value` attribute
    * @param {string | boolean} val the value property
    */
-  set value(val: string | boolean) {
+  set value(val: string | boolean | null) {
     if (val) {
-      this.setAttribute(attributes.VALUE, val);
+      this.setAttribute(attributes.VALUE, String(val));
+      this.input?.setAttribute(attributes.VALUE, String(val));
     } else {
       this.removeAttribute(attributes.VALUE);
+      this.input?.removeAttribute(attributes.VALUE);
     }
-    this.input?.setAttribute(attributes.VALUE, (val || ''));
   }
 
   get value() { return this.getAttribute(attributes.VALUE); }
@@ -292,6 +288,6 @@ export default class IdsCheckbox extends Base {
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
    */
   focus(): void {
-    this.input.focus();
+    this.input?.focus();
   }
 }

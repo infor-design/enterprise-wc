@@ -340,7 +340,7 @@ class IdsLocale {
    * @returns {number} The number as an actual Number type unless the number
    * is a big int (19 significant digits), in this case a string will be returned
    */
-  parseNumber(input: string, options: any): number | string {
+  parseNumber(input: string, options?: any): number | string {
     const localeData = this.loadedLocales.get(options?.locale || this.locale.name);
     const numSettings = localeData.numbers;
     let numString: string | number = input;
@@ -408,7 +408,7 @@ class IdsLocale {
    * @param {object} options Additional date formatting settings.
    * @returns {string} the formatted date.
    */
-  formatDate(value: any, options: any): string {
+  formatDate(value: any, options?: any): string {
     const usedOptions = options;
     const usedLocale = usedOptions?.locale || this.locale.name;
 
@@ -550,7 +550,7 @@ class IdsLocale {
    * @param {object} options Additional date formatting settings
    * @returns {string} the hours in either 24 h or 12 h format
    */
-  formatHour(hour: any, options: any) {
+  formatHour(hour: any, options?: any) {
     let timeSeparator = this.calendar(options?.locale || this.locale.name).dateFormat.timeSeparator;
     if (typeof hour === 'string' && hour.indexOf(timeSeparator) === -1) {
       timeSeparator = ':';
@@ -972,7 +972,7 @@ class IdsLocale {
           dateObj.ms = value;
           break;
         case 'mm':
-          if (numberValue < 0 || numberValue >= 60) {
+          if (Number.isNaN(numberValue) || numberValue < 0 || numberValue >= 60) {
             if (!options?.strictTime) {
               dateObj.mm = 0;
               break;
@@ -982,11 +982,17 @@ class IdsLocale {
           }
           dateObj.mm = value;
           break;
-        case 'a':
+        case 'a': {
           if (!dateObj.h && formatParts[i + 1] && formatParts[i + 1].toLowerCase().substr(0, 1) === 'h') {
             // in a few cases am/pm is before hours
             dateObj.h = dateStringParts[i + 1];
             hasDayPeriodsFirst = true;
+          }
+          const isAM = dirtyDateString?.toLowerCase()?.includes(thisLocaleCalendar.dayPeriods[0]?.toLowerCase());
+          const isPM = dirtyDateString?.toLowerCase()?.includes(thisLocaleCalendar.dayPeriods[1]?.toLowerCase());
+
+          if (!(isAM || isPM) && options?.strictTime) {
+            return undefined;
           }
 
           if (dirtyDateString?.toLowerCase()?.includes(thisLocaleCalendar.dayPeriods[0]?.toLowerCase())) {
@@ -1009,6 +1015,7 @@ class IdsLocale {
             }
           }
           break;
+        }
         default:
           break;
       }
@@ -1220,7 +1227,7 @@ class IdsLocale {
    * @param {string} name the name of the calendar (fx: "gregorian", "islamic-umalqura")
    * @returns {object} containing calendar data
    */
-  calendar(locale: string, name?: string): any {
+  calendar(locale?: string, name?: string): any {
     const localeData = this.loadedLocales.get(locale || this.locale.name);
     const calendars = localeData?.calendars;
     if (name && calendars) {
@@ -1239,7 +1246,7 @@ class IdsLocale {
    * @param {string} locale The locale to use
    * @returns {object} containing calendar data for numbers
    */
-  numbers(locale: string): any {
+  numbers(locale?: string): any {
     const localeData = this.loadedLocales.get(locale || this.locale.name);
     return localeData.numbers;
   }

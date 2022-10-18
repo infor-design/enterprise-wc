@@ -3,6 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-form-base';
+import { FIELD_HEIGHTS } from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
 
 /**
  * IDS Form Component
@@ -75,7 +76,7 @@ export default class IdsForm extends Base {
   }
 
   get fieldHeight(): string {
-    return this.getAttribute(attributes.FIELD_HEIGHT);
+    return this.getAttribute(attributes.FIELD_HEIGHT) ?? FIELD_HEIGHTS.default;
   }
 
   /**

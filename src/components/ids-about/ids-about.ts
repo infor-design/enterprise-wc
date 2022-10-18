@@ -105,7 +105,7 @@ export default class IdsAbout extends Base {
    * @returns {string} concatenating the application name, product name and product version.
    */
   get ariaLabelContent(): string {
-    const appName = this.querySelector('[slot="appName"')?.innerText;
+    const appName = this.querySelector<HTMLSlotElement>('[slot="appName"')?.innerText;
 
     return `${appName || ''} ${this.productName || ''} ${this.productVersion || ''}`;
   }
@@ -113,7 +113,7 @@ export default class IdsAbout extends Base {
   /**
    * @returns {string} productName attribute value
    */
-  get productName(): string {
+  get productName(): string | null {
     return this.getAttribute(attributes.PRODUCT_NAME);
   }
 
@@ -121,16 +121,15 @@ export default class IdsAbout extends Base {
    * Set the product name property
    * @param {string} val productName attribute value
    */
-  set productName(val: string) {
-    this.setAttribute(attributes.PRODUCT_NAME, val);
-
+  set productName(val: string | null) {
+    this.setAttribute(attributes.PRODUCT_NAME, String(val));
     this.#refreshProduct();
   }
 
   /**
    * @returns {string} productVersion attribute value
    */
-  get productVersion(): string {
+  get productVersion(): string | null {
     return this.getAttribute(attributes.PRODUCT_VERSION);
   }
 
@@ -138,8 +137,8 @@ export default class IdsAbout extends Base {
    * Set the product version property
    * @param {string} val productVersion attribute value
    */
-  set productVersion(val: string) {
-    this.setAttribute(attributes.PRODUCT_VERSION, val);
+  set productVersion(val: string | null) {
+    this.setAttribute(attributes.PRODUCT_VERSION, String(val));
 
     this.#refreshProduct();
   }
@@ -152,7 +151,7 @@ export default class IdsAbout extends Base {
     const element = `<ids-text slot="product" type="p">${this.productName ? `${this.productName} ` : ''}${this.productVersion || ''}</ids-text>`;
 
     // Clear slot before rerender
-    slot.forEach((item: HTMLElement) => item.remove());
+    slot.forEach((item) => item.remove());
 
     if (this.productName || this.productVersion) {
       this.insertAdjacentHTML('beforeend', element);
@@ -176,10 +175,10 @@ export default class IdsAbout extends Base {
    * Sets whether or not to display device information.
    * @param {string|boolean} val deviceSpecs attribute value
    */
-  set deviceSpecs(val: string | boolean) {
+  set deviceSpecs(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
-    this.setAttribute(attributes.DEVICE_SPECS, boolVal);
+    this.setAttribute(attributes.DEVICE_SPECS, String(boolVal));
     this.#refreshDeviceSpecs();
   }
 
@@ -191,7 +190,7 @@ export default class IdsAbout extends Base {
     const slot = this.querySelectorAll('[slot="device"]');
 
     // Clear slot before rerender
-    slot.forEach((item: HTMLElement) => item.remove());
+    slot.forEach((item) => item.remove());
 
     if (this.deviceSpecs) {
       const specs = getSpecs();
@@ -213,15 +212,15 @@ export default class IdsAbout extends Base {
    * @returns {string} copyrightYear attribute value
    */
   get copyrightYear(): string {
-    return this.getAttribute(attributes.COPYRIGHT_YEAR) || new Date().getFullYear();
+    return this.getAttribute(attributes.COPYRIGHT_YEAR) || new Date().getFullYear().toString();
   }
 
   /**
    * Set the copyright year property
    * @param {string} val copyrightYear attribute value
    */
-  set copyrightYear(val: string) {
-    this.setAttribute(attributes.COPYRIGHT_YEAR, val);
+  set copyrightYear(val: string | number) {
+    this.setAttribute(attributes.COPYRIGHT_YEAR, String(val));
 
     this.#refreshCopyright();
   }
@@ -243,10 +242,10 @@ export default class IdsAbout extends Base {
    * Sets whether or not to display Legal Approved Infor Copyright Text
    * @param {string|boolean} val useDefaultCopyright attribute value
    */
-  set useDefaultCopyright(val: string | boolean) {
+  set useDefaultCopyright(val: string | boolean | null) {
     const boolVal = stringToBool(val);
 
-    this.setAttribute(attributes.USE_DEFAULT_COPYRIGHT, boolVal);
+    this.setAttribute(attributes.USE_DEFAULT_COPYRIGHT, String(boolVal));
     this.#refreshCopyright();
   }
 
@@ -260,7 +259,7 @@ export default class IdsAbout extends Base {
     const element = `<ids-text slot="copyright" type="p">${copyrightText} <ids-hyperlink target="_blank" text-decoration="underline" href="https://www.infor.com">www.infor.com</ids-hyperlink>.</ids-text>`;
 
     // Clear slot before rerender
-    slot.forEach((item: HTMLElement) => item.remove());
+    slot.forEach((item) => item.remove());
 
     if (this.useDefaultCopyright) {
       this.insertAdjacentHTML('beforeend', element);

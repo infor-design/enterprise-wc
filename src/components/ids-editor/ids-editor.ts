@@ -15,6 +15,10 @@ import debounce from '../../utils/ids-debounce-utils/ids-debounce-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { isObject } from '../../utils/ids-object-utils/ids-object-utils';
 
+import type IdsButton from '../ids-button/ids-button';
+import type IdsToolbarMoreActions from '../ids-toolbar/ids-toolbar-more-actions';
+import type IdsText from '../ids-text/ids-text';
+
 import {
   VIEWS,
   PARAGRAPH_SEPARATORS,
@@ -111,6 +115,10 @@ export default class IdsEditor extends Base {
   constructor() {
     super();
   }
+
+  validationElems?: Record<string, any>;
+
+  reqInitialize?: boolean;
 
   isFormComponent = true;
 
@@ -274,6 +282,10 @@ export default class IdsEditor extends Base {
    */
   #elems: any = {};
 
+  input?: any;
+
+  labelEl?: IdsText | null;
+
   /**
    * List of actions can be execute with editor.
    * extra actions get added in `#initContent()`
@@ -389,10 +401,10 @@ export default class IdsEditor extends Base {
    * @returns {Selection|null} The selection
    */
   #getSelection(): Selection | null {
-    if (!this.shadowRoot.getSelection) {
+    if (!(this.shadowRoot as any)?.getSelection) {
       return document.getSelection();
     }
-    return this.shadowRoot.getSelection();
+    return (this.shadowRoot as any)?.getSelection();
   }
 
   /**
@@ -594,11 +606,11 @@ export default class IdsEditor extends Base {
    */
   #setDisabled(): object {
     if (this.disabled) {
-      this.container.setAttribute(attributes.DISABLED, '');
+      this.container?.setAttribute(attributes.DISABLED, '');
       this.#elems?.textarea?.setAttribute(attributes.DISABLED, '');
       this.labelEl?.setAttribute(attributes.DISABLED, '');
     } else {
-      this.container.removeAttribute(attributes.DISABLED);
+      this.container?.removeAttribute(attributes.DISABLED);
       this.#elems?.textarea?.removeAttribute(attributes.DISABLED);
       this.labelEl?.removeAttribute(attributes.DISABLED);
     }
@@ -633,7 +645,7 @@ export default class IdsEditor extends Base {
     const setColorpicker = (key: string) => {
       const btn = this.querySelector(`[editor-action="${key}"]`);
       if (btn) {
-        let input = this.querySelector(`.${key}-input`);
+        let input = this.querySelector<HTMLElement>(`.${key}-input`);
         if (!input) {
           const elem = document.createElement('input');
           elem.setAttribute('type', 'color');
@@ -642,7 +654,7 @@ export default class IdsEditor extends Base {
           input = this.querySelector(`.${key}-input`);
         }
         const cssText = 'border:0;padding:0;margin:0;height:0;width:0;visibility:hidden;';
-        input.style.cssText = cssText;
+        if (input) input.style.cssText = cssText;
         this.#elems[`${key}Input`] = input;
       }
     };
@@ -650,27 +662,27 @@ export default class IdsEditor extends Base {
     setColorpicker('backcolor');
 
     // Set source/editor mode buttons
-    let btnSource = this.querySelector('[editor-action="sourcemode"]');
-    let btnEditor = this.querySelector('[editor-action="editormode"]');
+    let btnSource = this.querySelector<IdsButton>('[editor-action="sourcemode"]');
+    let btnEditor = this.querySelector<IdsButton>('[editor-action="editormode"]');
     if (btnSource || btnEditor) {
       if (!btnEditor) {
         const template = document.createElement('template');
         template.innerHTML = btnEditorModeTemplate;
-        btnSource.after(template.content.cloneNode(true));
+        btnSource?.after(template.content.cloneNode(true));
         btnEditor = this.querySelector('[editor-action="editormode"]');
       }
       if (!btnSource) {
         const template = document.createElement('template');
         template.innerHTML = btnSourceModeTemplate;
-        btnEditor.after(template.content.cloneNode(true));
+        btnEditor?.after(template.content.cloneNode(true));
         btnSource = this.querySelector('[editor-action="sourcemode"]');
       }
       if (this.view === 'source') {
-        btnSource.hidden = true;
-        btnEditor.hidden = false;
+        btnSource?.setAttribute(attributes.HIDDEN, 'true');
+        btnEditor?.setAttribute(attributes.HIDDEN, 'false');
       } else {
-        btnSource.hidden = false;
-        btnEditor.hidden = true;
+        btnSource?.setAttribute(attributes.HIDDEN, 'false');
+        btnEditor?.setAttribute(attributes.HIDDEN, 'true');
       }
     }
 
@@ -719,11 +731,11 @@ export default class IdsEditor extends Base {
     const appendModal = (key: string, btn: HTMLElement | null, html: string) => {
       const template = document.createElement('template');
       template.innerHTML = html;
-      this.container.appendChild(template.content.cloneNode(true));
+      this.container?.appendChild(template.content.cloneNode(true));
       this.#modals[key] = { btn, modal: qs(`#${key}-modal`, this.shadowRoot) };
     };
-    const hyperlinkBtn = this.querySelector('[editor-action="hyperlink"]');
-    const insertimageBtn = this.querySelector('[editor-action="insertimage"]');
+    const hyperlinkBtn = this.querySelector<IdsButton>('[editor-action="hyperlink"]');
+    const insertimageBtn = this.querySelector<IdsButton>('[editor-action="insertimage"]');
 
     // Remove elements
     const removeElems = [
@@ -1189,14 +1201,15 @@ export default class IdsEditor extends Base {
 
     // Set observer for resize
     this.#resizeObserver.disconnect();
-    this.#resizeObserver.observe(this.container);
+    if (this.container) this.#resizeObserver.observe(this.container);
 
     // EPC: @TODO replace this with the setting from infor-design/enterprise-wc#488
-    const moreActions = this.querySelector('ids-toolbar-more-actions');
+    const moreActions = this.querySelector<IdsToolbarMoreActions>('ids-toolbar-more-actions');
     this.onEvent('beforeshow.more-actions', moreActions, () => {
-      const currentWidth = moreActions.menu.popup.container.style.width;
-      if (!currentWidth) {
-        moreActions.menu.popup.container.style.width = '175px';
+      const popupContainer = moreActions?.menu?.popup?.container;
+      const currentWidth = popupContainer?.style.width;
+      if (!currentWidth && popupContainer) {
+        popupContainer.style.width = '175px';
       }
     });
 
@@ -1400,7 +1413,7 @@ export default class IdsEditor extends Base {
    * Set the placeholder text for editor
    * @param {string} value The placeholder value
    */
-  set placeholder(value: string) {
+  set placeholder(value: string | null) {
     if (value) {
       this.setAttribute(attributes.PLACEHOLDER, value);
       this.#elems?.editor?.setAttribute(attributes.PLACEHOLDER, value);
@@ -1412,7 +1425,9 @@ export default class IdsEditor extends Base {
     }
   }
 
-  get placeholder() { return this.getAttribute(attributes.PLACEHOLDER); }
+  get placeholder() {
+    return this.getAttribute(attributes.PLACEHOLDER);
+  }
 
   /**
    * Sets the editor to readonly
@@ -1421,12 +1436,12 @@ export default class IdsEditor extends Base {
   set readonly(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.READONLY, '');
-      this.container.setAttribute(attributes.READONLY, '');
+      this.container?.setAttribute(attributes.READONLY, '');
       this.#elems?.textarea?.setAttribute(attributes.READONLY, '');
       this.labelEl?.setAttribute(attributes.READONLY, '');
     } else {
       this.removeAttribute(attributes.READONLY);
-      this.container.removeAttribute(attributes.READONLY);
+      this.container?.removeAttribute(attributes.READONLY);
       this.#elems?.textarea?.removeAttribute(attributes.READONLY);
       this.labelEl?.removeAttribute(attributes.READONLY);
     }

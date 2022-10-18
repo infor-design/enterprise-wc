@@ -69,7 +69,7 @@ export default class IdsOverlay extends Base {
   /**
    * @param {number} val a percentage number for setting overlay transparency
    */
-  set opacity(val: number) {
+  set opacity(val: number | string) {
     let trueVal = Number(val);
     if (Number.isNaN(trueVal)) {
       return;
@@ -101,18 +101,18 @@ export default class IdsOverlay extends Base {
    * @param {boolean} val if true, shows the overlay.  If false, hides the overlay.
    */
   async #smoothlyAnimateVisibility(val: any) {
-    const cl = this.container.classList;
+    const cl = this.container?.classList;
 
-    if (val && !cl.contains('visible')) {
+    if (val && !cl?.contains('visible')) {
       // Make visible
-      cl.add('visible');
+      cl?.add('visible');
       requestAnimationFrame(() => {
         this.#changeOpacity(this.opacity);
       });
-    } else if (!val && cl.contains('visible')) {
+    } else if (!val && cl?.contains('visible')) {
       // Make hidden
       await this.#changeOpacity(0);
-      cl.remove('visible');
+      cl?.remove('visible');
     }
   }
 }

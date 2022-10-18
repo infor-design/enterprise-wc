@@ -11,6 +11,13 @@ import '../ids-text/ids-text';
 import '../ids-icon/ids-icon';
 
 import styles from './ids-dropdown.scss';
+import type IdsPopup from '../ids-popup/ids-popup';
+import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
+import type IdsListBox from '../ids-list-box/ids-list-box';
+import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
+import type IdsIcon from '../ids-icon/ids-icon';
+import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
 
 export type IdsDropdownOption = {
   id?: string,
@@ -45,20 +52,30 @@ export type IdsDropdownOptions = Array<IdsDropdownOption>;
 @customElement('ids-dropdown')
 @scss(styles)
 export default class IdsDropdown extends Base {
+  isFormComponent = true;
+
+  hasIcons = false;
+
+  popup?: IdsPopup | null;
+
+  trigger?: IdsTriggerButton | null;
+
+  listBox?: IdsListBox | null;
+
+  labelEl?: HTMLLabelElement | null;
+
   constructor() {
     super();
     this.state = { selectedIndex: 0 };
   }
-
-  isFormComponent = true;
 
   /**
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
     super.connectedCallback();
-    this.popup = this.container.querySelector('ids-popup');
-    this.trigger = this.container.querySelector('ids-trigger-button');
+    this.popup = this.container?.querySelector('ids-popup');
+    this.trigger = this.container?.querySelector('ids-trigger-button');
     this.listBox = this.querySelector('ids-list-box');
     this.labelEl = this.input?.labelEl;
 
@@ -249,19 +266,20 @@ export default class IdsDropdown extends Base {
   }
 
   get input() {
-    return this.container?.querySelector('ids-trigger-field');
+    return this.container?.querySelector<IdsTriggerField>('ids-trigger-field');
   }
 
   /**
    * Set the value of the dropdown using the value/id attribute if present
    * @param {string} value The value/id to use
    */
-  set value(value: string) {
-    const elem = this.querySelector(`ids-list-box-option[value="${value}"]`);
+  set value(value: string | null) {
+    const elem = this.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"]`);
 
     if (!elem && !this.clearable) {
       return;
     }
+
     this.clearSelected();
     this.selectOption(elem);
     this.selectIcon(elem);
@@ -279,10 +297,12 @@ export default class IdsDropdown extends Base {
         }
       });
     }
-    this.setAttribute(attributes.VALUE, value);
+    this.setAttribute(attributes.VALUE, String(value));
   }
 
-  get value(): string { return this.getAttribute(attributes.VALUE); }
+  get value(): string | null {
+    return this.getAttribute(attributes.VALUE);
+  }
 
   /**
    * Returns the selected Listbox option based on the Dropdown's value.
@@ -321,7 +341,7 @@ export default class IdsDropdown extends Base {
    * @returns {Array<any>} the array of options
    */
   get options() {
-    return this.querySelectorAll('ids-list-box-option');
+    return this.querySelectorAll<IdsListBoxOption>('ids-list-box-option');
   }
 
   /**
@@ -370,9 +390,13 @@ export default class IdsDropdown extends Base {
       this.setAttribute(attributes.DISABLED, 'true');
       return;
     }
-    this.input.disabled = false;
-    this.input.cursor = 'pointer';
-    this.input.bgTransparent = true;
+
+    if (this.input) {
+      this.input.disabled = false;
+      this.input.cursor = 'pointer';
+      this.input.bgTransparent = true;
+    }
+
     this.removeAttribute(attributes.DISABLED);
   }
 
@@ -410,7 +434,7 @@ export default class IdsDropdown extends Base {
    * @param {HTMLElement} option the option to select
    * @private
    */
-  selectOption(option: HTMLElement) {
+  selectOption(option: HTMLElement | undefined | null) {
     if (!this.popup?.visible) return;
 
     option?.setAttribute('aria-selected', 'true');
@@ -426,7 +450,7 @@ export default class IdsDropdown extends Base {
    * Removes selected attributes from an option
    * @param {HTMLElement} option element to remove attributes
    */
-  deselectOption(option: HTMLElement) {
+  deselectOption(option: HTMLElement | undefined | null) {
     option?.removeAttribute('aria-selected');
     option?.classList.remove('is-selected');
     option?.setAttribute('tabindex', '-1');
@@ -437,8 +461,8 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  selectIcon(option: HTMLElement) {
-    let dropdownIcon = this.input?.querySelector('ids-icon[slot="trigger-start"]');
+  selectIcon(option: HTMLElement | undefined | null) {
+    let dropdownIcon = this.input?.querySelector<IdsIcon>('ids-icon[slot="trigger-start"]');
 
     if (!dropdownIcon && !option) return;
 
@@ -454,7 +478,7 @@ export default class IdsDropdown extends Base {
       const dropdownIconContainer = document.createElement('span');
       dropdownIconContainer.slot = 'trigger-start';
       dropdownIconContainer.classList.add('icon-container');
-      dropdownIcon = document.createElement('ids-icon');
+      dropdownIcon = document.createElement('ids-icon') as IdsIcon;
       dropdownIcon.icon = icon?.icon;
       dropdownIcon.setAttribute('slot', 'trigger-start');
       dropdownIconContainer.append(dropdownIcon);
@@ -469,7 +493,7 @@ export default class IdsDropdown extends Base {
    * @private
    * @param {HTMLElement} option the option to select
    */
-  selectTooltip(option: HTMLElement) {
+  selectTooltip(option: HTMLElement | undefined | null) {
     const tooltip = option?.getAttribute('tooltip');
     if (tooltip) {
       this.tooltip = tooltip;
@@ -480,8 +504,7 @@ export default class IdsDropdown extends Base {
    * Remove the aria and state from the currently selected element
    */
   clearSelected() {
-    const option = this.querySelector('ids-list-box-option[aria-selected]');
-
+    const option = this.querySelector<IdsListBoxOption>('ids-list-box-option[aria-selected]');
     this.deselectOption(option);
   }
 
@@ -506,7 +529,7 @@ export default class IdsDropdown extends Base {
     if (!this.popup) return;
 
     this.popup.type = 'dropdown';
-    this.popup.alignTarget = this.input.fieldContainer;
+    this.popup.alignTarget = this.input?.fieldContainer as IdsPopupElementRef;
     this.popup.align = 'bottom, left';
     this.popup.arrow = 'none';
     this.popup.y = -1;
@@ -538,21 +561,21 @@ export default class IdsDropdown extends Base {
 
     // Open the popup and add a class
     this.#configurePopup();
-    this.popup.visible = true;
+    if (this.popup) this.popup.visible = true;
     this.addOpenEvents();
-    this.input.active = true;
+    if (this.input) this.input.active = true;
 
     // Focus and select input when typeahead is enabled
     if (this.typeahead) {
-      this.input.removeAttribute(attributes.READONLY);
-      this.input.focus();
+      this.input?.removeAttribute(attributes.READONLY);
+      this.input?.focus();
     }
 
     if (shouldSelect) {
-      this.input?.input.select();
+      this.input?.input?.select();
     }
 
-    this.container.classList.add('is-open');
+    this.container?.classList.add('is-open');
     this.#setAriaOnMenuOpen();
   }
 
@@ -565,12 +588,12 @@ export default class IdsDropdown extends Base {
     let html = '';
 
     const listbox = this.querySelector('ids-list-box');
-    listbox.innerHTML = '';
+    if (listbox) listbox.innerHTML = '';
 
     dataset.forEach((option: IdsDropdownOption) => {
       html += this.#templatelistBoxOption(this.#sanitizeOption(option));
     });
-    listbox.insertAdjacentHTML('afterbegin', html);
+    listbox?.insertAdjacentHTML('afterbegin', html);
     if (this.allowBlank) {
       this.#insertBlankOption();
     }
@@ -594,8 +617,7 @@ export default class IdsDropdown extends Base {
    * @returns {void}
    */
   onOutsideClick(e: any): void {
-    if (!(e.composedPath()?.includes(this.popup)
-      || e.composedPath()?.includes(this.input.fieldContainer))) {
+    if (!(e.composedPath()?.includes(this.popup) || e.composedPath()?.includes(this.input?.fieldContainer))) {
       this.close(true);
     }
   }
@@ -607,27 +629,27 @@ export default class IdsDropdown extends Base {
   close(noFocus?: boolean) {
     if (this.popup) {
       this.popup.visible = false;
-      this.input.active = false;
+      if (this.input) this.input.active = false;
     }
     this.#setAriaOnMenuClose();
     this.removeOpenEvents();
 
     if (!noFocus) {
-      this.input.focus();
+      this.input?.focus();
     }
 
     if (this.typeahead) {
       // In case unfinished typeahead (typing is in process)
       // closing popup will reset dropdown to the initial value
-      this.input.setAttribute(attributes.READONLY, true);
+      this.input?.setAttribute(attributes.READONLY, 'true');
       const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
-      this.input.value = initialValue || '';
+      if (this.input) this.input.value = initialValue || '';
       this.#loadDataSet(this.#optionsData);
       (window.getSelection() as Selection).removeAllRanges();
       this.#triggerIconChange('dropdown');
     }
 
-    this.container.classList.remove('is-open');
+    this.container?.classList.remove('is-open');
   }
 
   /**
@@ -635,7 +657,7 @@ export default class IdsDropdown extends Base {
    * @private
    */
   toggle(): void {
-    if (!this.popup.visible) {
+    if (!this.popup?.visible) {
       this.open(this.typeahead);
     } else {
       this.close();
@@ -685,13 +707,13 @@ export default class IdsDropdown extends Base {
     });
 
     this.offEvent('click.dropdown-input');
-    this.onEvent('click.dropdown-input', this.input.input, () => {
+    this.onEvent('click.dropdown-input', this.input?.input, () => {
       if (!this.typeahead) {
         this.toggle();
       }
 
       // Stays opened when clicking to input in typeahead
-      if (this.typeahead && !this.popup.visible) {
+      if (this.typeahead && !this.popup?.visible) {
         this.open(true);
       }
     });
@@ -701,7 +723,7 @@ export default class IdsDropdown extends Base {
     this.onEvent('click.dropdown-label', this.labelEl, (e: MouseEvent) => {
       e.preventDefault();
 
-      this.input.focus();
+      this.input?.focus();
     });
 
     this.offEvent('click.dropdown-trigger');
@@ -730,7 +752,7 @@ export default class IdsDropdown extends Base {
   #attachKeyboardListeners() {
     // Handle up and down arrow
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
-      if (!this.popup.visible) {
+      if (!this.popup?.visible) {
         this.open(this.typeahead);
         return;
       }
@@ -783,7 +805,7 @@ export default class IdsDropdown extends Base {
         // Excluding space key when typing
         if (e.key === ' ' && this.typeahead) return;
 
-        if (!this.popup.visible) {
+        if (!this.popup?.visible) {
           this.open(this.typeahead);
           return;
         }
@@ -796,12 +818,12 @@ export default class IdsDropdown extends Base {
 
     // Select on Tab
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
-      if (!this.popup.visible) {
+      if (!this.popup?.visible) {
         return;
       }
 
       if (e.shiftKey) {
-        this.input.focus();
+        this.input?.focus();
       }
 
       const selected = this.selected;
@@ -811,17 +833,17 @@ export default class IdsDropdown extends Base {
 
     // Delete/backspace should clear the value
     this.listen(['Backspace', 'Delete'], this, () => {
-      if (!this.clearable || (this.clearable && this.typeahead && this.popup.visible)) return;
+      if (!this.clearable || (this.clearable && this.typeahead && this.popup?.visible)) return;
 
       if (this.allowBlank) {
         this.value = 'blank';
       } else {
         // ids-multiselect shared
         (this.value as any) = this.#isMultiSelect ? [] : '';
-        this.input.value = '';
+        if (this.input) this.input.value = '';
       }
 
-      this.input.focus();
+      this.input?.focus();
     });
 
     return this;
@@ -836,22 +858,22 @@ export default class IdsDropdown extends Base {
     // Accepts the keyboard input while closed
     const excludeKeys = ['Backspace', 'Delete'];
 
-    if (!this.popup.visible) {
+    if (!this.popup?.visible) {
       if (!excludeKeys.some((item) => text?.includes(item))) {
-        this.input.value = text;
+        if (this.input) this.input.value = text;
         this.open(false);
       } else {
         return;
       }
     }
 
-    const inputValue: string = this.input.value;
+    const inputValue = this.input?.value ?? '';
     const resultsArr = this.#findMatches(inputValue);
     const results = resultsArr.map((item: IdsDropdownOption) => {
       const regex = new RegExp(inputValue, 'gi');
       const optionText = item.groupLabel ? item.label : item.label?.replace(
         regex,
-        `<span class="highlight">${inputValue.toLowerCase()}</span>`
+        `<span class="highlight">${inputValue?.toLowerCase()}</span>`
       );
 
       return this.#templatelistBoxOption({
@@ -860,15 +882,15 @@ export default class IdsDropdown extends Base {
       });
     }).join('');
 
-    if (results) {
+    if (results && this.listBox) {
       this.listBox.innerHTML = results;
       this.#selectFirstOption();
-    } else {
+    } else if (this.listBox) {
       this.listBox.innerHTML = `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
     }
 
     // Change location of the popup after results are populated and the popup's height change
-    this.popup.place();
+    this.popup?.place();
 
     this.#triggerIconChange('search');
 
@@ -881,7 +903,7 @@ export default class IdsDropdown extends Base {
    * @param {string} icon ids-icon icon value
    */
   #triggerIconChange(icon: string) {
-    const triggerIcon = this.container.querySelector('ids-icon[slot="icon"]');
+    const triggerIcon = this.container?.querySelector<IdsIcon>('ids-icon[slot="icon"]');
 
     if (triggerIcon?.icon && triggerIcon.icon !== icon) {
       triggerIcon.icon = icon;
@@ -988,45 +1010,28 @@ export default class IdsDropdown extends Base {
    */
   #setOptionsData() {
     this.#optionsData = [...this.options].map((item) => ({
-      id: item?.id,
-      label: item?.textContent?.trim(),
-      value: item?.getAttribute(attributes.VALUE),
-      icon: item?.querySelector('ids-icon')?.icon,
-      groupLabel: item?.hasAttribute(attributes.GROUP_LABEL)
+      id: item.id,
+      label: item.textContent?.trim() ?? '',
+      value: item.getAttribute(attributes.VALUE) as string,
+      icon: item.querySelector<IdsIcon>('ids-icon')?.icon,
+      groupLabel: item.hasAttribute(attributes.GROUP_LABEL)
     }));
   }
 
   #sanitizeOption(option: IdsDropdownOption): IdsDropdownOption {
     return ({
       ...option,
-      id: this.xssSanitize(option.id),
-      value: this.xssSanitize(option.value),
-      label: this.xssSanitize(option.label)
+      id: this.xssSanitize(option?.id ?? '') as string,
+      value: this.xssSanitize(option.value) as string,
+      label: this.xssSanitize(option.label) as string
     });
   }
-
-  /**
-   * Set the dirty tracking feature on to indicate a changed dropdown
-   * @param {boolean|string} value If true will set `dirty-tracker` attribute
-   */
-  set dirtyTracker(value: boolean | string) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
-    } else {
-      this.removeAttribute(attributes.DIRTY_TRACKER);
-    }
-
-    this.handleDirtyTracker();
-  }
-
-  get dirtyTracker(): string { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * Pass down `validate` attribute into IdsTriggerField
    * @param {string} value The `validate` attribute
    */
-  set validate(value: string) {
+  set validate(value: string | null) {
     if (value) {
       this.setAttribute(attributes.VALIDATE, value.toString());
       if (this.input) this.input.setAttribute(attributes.VALIDATE, value.toString());
@@ -1036,7 +1041,9 @@ export default class IdsDropdown extends Base {
     }
   }
 
-  get validate(): string { return this.getAttribute(attributes.VALIDATE); }
+  get validate(): string | null {
+    return this.getAttribute(attributes.VALIDATE);
+  }
 
   /**
    * Pass down `validation-events` attribute into IdsTriggerField
@@ -1097,7 +1104,7 @@ export default class IdsDropdown extends Base {
     const val = stringToBool(value);
 
     if (val) {
-      this.setAttribute(attributes.TYPEAHEAD, val);
+      this.setAttribute(attributes.TYPEAHEAD, String(val));
       this.#attachTypeaheadEvents();
       this.#setOptionsData();
     } else {
@@ -1124,7 +1131,7 @@ export default class IdsDropdown extends Base {
     const boolVal = stringToBool(value);
 
     if (boolVal) {
-      this.setAttribute(attributes.CLEARABLE, boolVal);
+      this.setAttribute(attributes.CLEARABLE, String(boolVal));
     } else {
       this.removeAttribute(attributes.CLEARABLE);
     }

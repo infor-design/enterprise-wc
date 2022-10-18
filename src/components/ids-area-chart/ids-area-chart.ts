@@ -69,9 +69,9 @@ export default class IdsAreaChart extends Base {
   get selectionElements(): Array<SVGElement> {
     if (!this.selectable) return [];
     return [
-      ...this.container.querySelectorAll('.areas [part="area"]'),
-      ...this.container.querySelectorAll('.markers [part="marker"]'),
-      ...this.container.querySelectorAll('.marker-lines [part="line"]')
+      ...this.container?.querySelectorAll<SVGElement>('.areas [part="area"]') ?? [],
+      ...this.container?.querySelectorAll<SVGElement>('.markers [part="marker"]') ?? [],
+      ...this.container?.querySelectorAll<SVGElement>('.marker-lines [part="line"]') ?? []
     ];
   }
 }

@@ -156,15 +156,15 @@ export default class IdsUploadAdvancedFile extends Base {
     const val = stringToBool(value);
     if (val) {
       el.root?.classList.add(attributes.DISABLED);
-      el.progress.setAttribute(attributes.DISABLED, val.toString());
-      el.btnClose.setAttribute(attributes.DISABLED, val.toString());
+      el.progress?.setAttribute(attributes.DISABLED, val.toString());
+      el.btnClose?.setAttribute(attributes.DISABLED, val.toString());
       el.alerts.forEach((alert: HTMLElement) => {
         alert?.setAttribute(attributes.DISABLED, val.toString());
       });
     } else {
       el.root?.classList.remove(attributes.DISABLED);
-      el.progress.removeAttribute(attributes.DISABLED);
-      el.btnClose.removeAttribute(attributes.DISABLED);
+      el.progress?.removeAttribute(attributes.DISABLED);
+      el.btnClose?.removeAttribute(attributes.DISABLED);
       el.alerts.forEach((alert: HTMLElement) => {
         alert?.removeAttribute(attributes.DISABLED);
       });
@@ -181,10 +181,10 @@ export default class IdsUploadAdvancedFile extends Base {
       return;
     }
 
-    const rootEl = this.shadowRoot.querySelector('.ids-upload-advanced-file');
-    const progress = this.shadowRoot.querySelector('ids-progress-bar');
-    const btnStart = this.shadowRoot.querySelector('.btn-start');
-    const closeButtonTextEl = this.shadowRoot.querySelector('.btn-close .audible');
+    const rootEl = this.shadowRoot?.querySelector('.ids-upload-advanced-file');
+    const progress = this.shadowRoot?.querySelector('ids-progress-bar');
+    const btnStart = this.shadowRoot?.querySelector('.btn-start');
+    const closeButtonTextEl = this.shadowRoot?.querySelector('.btn-close .audible');
     let value = stringToNumber((this.value as any));
     value = value > -1 ? value : 0;
     let shouldTrigger = true;
@@ -193,7 +193,7 @@ export default class IdsUploadAdvancedFile extends Base {
       btnStart.remove();
     }
     if (this.error) {
-      const errorMsg = this.shadowRoot.querySelector('.error-row .error-msg');
+      const errorMsg = this.shadowRoot?.querySelector('.error-row .error-msg');
       if (errorMsg) {
         errorMsg.innerHTML = this.errorHtml;
       }
@@ -205,7 +205,7 @@ export default class IdsUploadAdvancedFile extends Base {
       }
     } else if (this.status === IdsUploadAdvancedShared.STATUS.notStarted) {
       if (!btnStart) {
-        const progressRow = this.shadowRoot.querySelector('.progress-row');
+        const progressRow = this.shadowRoot?.querySelector('.progress-row');
         progressRow?.insertAdjacentHTML('beforeend', `
           <ids-button class="btn-start">
             <span slot="text" class="audible">${this.startButtonText}</span>
@@ -216,21 +216,21 @@ export default class IdsUploadAdvancedFile extends Base {
       this.status = IdsUploadAdvancedShared.STATUS.inProcess;
     }
 
-    const progressText = this.shadowRoot.querySelector('.progress-text');
+    const progressText = this.shadowRoot?.querySelector('.progress-text');
     if (progressText) {
       const percentText = progressText.querySelector('.percent');
-      percentText.textContent = `${Math.round(value)}%`;
+      if (percentText) percentText.textContent = `${Math.round(value)}%`;
 
       if (this.status === IdsUploadAdvancedShared.STATUS.completed) {
         progressText.remove();
       }
     }
 
-    closeButtonTextEl.innerHTML = this.closeButtonText;
+    if (closeButtonTextEl) closeButtonTextEl.innerHTML = this.closeButtonText;
     progress?.setAttribute(attributes.VALUE, value.toString());
     progress?.setAttribute(attributes.LABEL, this.progressLabelText);
     rootEl?.classList.remove(...Object.values(IdsUploadAdvancedShared.STATUS));
-    rootEl?.classList.add(this.status);
+    rootEl?.classList.add(this.status ?? '');
 
     if (shouldTrigger && this.status !== IdsUploadAdvancedShared.STATUS.inProcess) {
       const events: Record<string, string> = { notStarted: 'notstarted', errored: 'error', completed: 'complete' };
@@ -408,23 +408,24 @@ export default class IdsUploadAdvancedFile extends Base {
    * Sets the whole file element to disabled
    * @param {boolean|string} value If true will set disabled attribute
    */
-  set disabled(value: string | boolean) {
+  set disabled(value: string | boolean | null) {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
     } else {
       this.removeAttribute(attributes.DISABLED);
     }
-    this.toggleDisabled(value);
+
+    this.toggleDisabled(val);
   }
 
-  get disabled(): string | boolean { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): string | null { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Sets the file state to show there was an error during the file operations
    * @param {string} value error attribute
    */
-  set error(value: string | undefined) {
+  set error(value: string | null) {
     if (value) {
       this.setAttribute(attributes.ERROR, value.toString());
     } else {
@@ -433,25 +434,25 @@ export default class IdsUploadAdvancedFile extends Base {
     this.setStatus();
   }
 
-  get error(): string | undefined {
+  get error(): string | null {
     return this.getAttribute(attributes.ERROR);
   }
 
   /**
    * Sets the file name
-   * @param {string | undefined} value file-name attribute
+   * @param {string | null} value file-name attribute
    */
-  set fileName(value: string | undefined) {
+  set fileName(value: string | null) {
     if (value) {
       this.setAttribute(attributes.FILE_NAME, value.toString());
-      const el = this.shadowRoot?.querySelector('.file-name span');
+      const el = this.shadowRoot?.querySelector<HTMLElement>('.file-name span');
       if (el) el.innerHTML = this.fileName;
     } else {
       this.removeAttribute(attributes.FILE_NAME);
     }
   }
 
-  get fileName(): string | undefined {
+  get fileName(): string {
     return this.getAttribute(attributes.FILE_NAME) || '';
   }
 
@@ -459,7 +460,7 @@ export default class IdsUploadAdvancedFile extends Base {
    * Sets the file size in bytes
    * @param {string|number} value size attribute
    */
-  set size(value: string | number | undefined) {
+  set size(value: string | number | null) {
     if (value) {
       this.setAttribute(attributes.SIZE, value.toString());
       const el = this.shadowRoot?.querySelector('.size');
@@ -469,7 +470,9 @@ export default class IdsUploadAdvancedFile extends Base {
     }
   }
 
-  get size(): string | number | undefined { return this.getAttribute(attributes.SIZE); }
+  get size(): string | number | null {
+    return this.getAttribute(attributes.SIZE);
+  }
 
   /**
    * Sets the file status
@@ -478,7 +481,7 @@ export default class IdsUploadAdvancedFile extends Base {
   set status(value: string | undefined | null) {
     if (this.status === value) return;
     if (Object.values(IdsUploadAdvancedShared.STATUS).indexOf((value as string)) > -1) {
-      this.setAttribute(attributes.STATUS, value);
+      this.setAttribute(attributes.STATUS, String(value));
     } else {
       this.removeAttribute(attributes.STATUS);
     }
@@ -491,9 +494,9 @@ export default class IdsUploadAdvancedFile extends Base {
 
   /**
    * Sets the progress bar value
-   * @param {string|number| undefined} val value attribute
+   * @param {string|number| null} val value attribute
    */
-  set value(val: string | number | undefined) {
+  set value(val: string | number | null) {
     if (val) {
       if (!this.status || this.status === IdsUploadAdvancedShared.STATUS.inProcess) {
         this.setAttribute(attributes.VALUE, val.toString());
@@ -504,7 +507,7 @@ export default class IdsUploadAdvancedFile extends Base {
     this.setStatus();
   }
 
-  get value(): string | number | undefined {
+  get value(): string | number | null {
     return this.getAttribute(attributes.VALUE);
   }
 }

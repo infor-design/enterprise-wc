@@ -239,6 +239,14 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     white-space: nowrap;
   }
 
+  .ids-data-grid-header-icon {
+    @include text-white();
+    @include ml-4();
+    @include mt-4();
+
+    align-self: center;
+  }
+
   // Header sort styles
   .sort-indicator {
     @include relative();

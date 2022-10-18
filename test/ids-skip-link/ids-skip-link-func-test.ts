@@ -4,12 +4,11 @@
 import IdsSkipLink from '../../src/components/ids-skip-link/ids-skip-link';
 
 describe('IdsSkipLink Component', () => {
-  let elem: any;
+  let elem: IdsSkipLink;
 
   beforeEach(async () => {
-    const link: any = new IdsSkipLink();
-    document.body.appendChild(link);
-    elem = document.querySelector('ids-skip-link');
+    elem = new IdsSkipLink();
+    document.body.appendChild(elem);
   });
 
   afterEach(async () => {
@@ -27,8 +26,7 @@ describe('IdsSkipLink Component', () => {
 
   it('renders correctly', () => {
     elem.href = 'test';
-    elem.target = '_blank';
-    expect(elem.shadowRoot.outerHTML).toMatchSnapshot();
+    expect(elem.outerHTML).toMatchSnapshot();
   });
 
   it('renders href setting', () => {

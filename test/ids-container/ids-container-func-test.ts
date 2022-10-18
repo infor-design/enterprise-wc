@@ -4,14 +4,14 @@
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsContainer Component', () => {
-  let container: any;
+  let container: IdsContainer;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     container = new IdsContainer();
     document.body.appendChild(container);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     document.body.innerHTML = '';
   });
 
@@ -41,8 +41,8 @@ describe('IdsContainer Component', () => {
   });
 
   it('renders correctly', () => {
-    container.shadowRoot.querySelector('style').remove();
-    expect(container.shadowRoot.innerHTML).toMatchSnapshot();
+    container.shadowRoot?.querySelector('style')?.remove();
+    expect(container.shadowRoot?.innerHTML).toMatchSnapshot();
   });
 
   it('renders correctly for unscrollable', () => {
@@ -54,11 +54,11 @@ describe('IdsContainer Component', () => {
     expect(container.scrollable).toEqual('true');
     container.scrollable = true;
     expect(container.scrollable).toEqual('true');
-    expect(container.container.getAttribute('scrollable')).toEqual('true');
+    expect(container.container?.getAttribute('scrollable')).toEqual('true');
     container.scrollable = false;
     expect(container.scrollable).toEqual('false');
     expect(container.getAttribute('scrollable')).toEqual('false');
-    expect(container.container.getAttribute('scrollable')).toEqual('false');
+    expect(container.container?.getAttribute('scrollable')).toEqual('false');
     container.scrollable = 'true';
     expect(container.scrollable).toEqual('true');
     expect(container.getAttribute('scrollable')).toEqual('true');
@@ -66,7 +66,7 @@ describe('IdsContainer Component', () => {
 
   it('supports setting mode', () => {
     container.mode = 'dark';
-    expect(container.container.getAttribute('mode')).toEqual('dark');
+    expect(container.container?.getAttribute('mode')).toEqual('dark');
   });
 
   it('supports setting language', () => {
@@ -80,13 +80,13 @@ describe('IdsContainer Component', () => {
   });
 
   it('has a padding attribute', () => {
-    container.padding = 18;
+    container.padding = '18';
     expect(container.getAttribute('padding')).toEqual('18');
     expect(container.padding).toEqual('18');
   });
 
   it('has a reset attribute', () => {
-    expect(container.reset).toEqual('true');
+    expect(container.reset).toBeTruthy();
     container.reset = false;
     expect(document.querySelector('body')?.style.margin).toEqual('');
     expect(container.getAttribute('reset')).toBeFalsy();

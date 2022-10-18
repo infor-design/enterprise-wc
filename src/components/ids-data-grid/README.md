@@ -31,6 +31,8 @@ A Read-Only data grid uses "Formatters" to render cell content. A number of thes
 - `headerCell` allows you to further style the header cells
 - `row` allows you to further style the rows
 - `cell` allows you to further style the row cells
+- `tooltip-popup` allows you to further style or adjust the outer tooltip popup element
+- `tooltip-arrow` allows you to adjust the tooltip arrow element
 
 ## Features (With Code Examples)
 
@@ -136,6 +138,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
 - `suppressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
 - `suppressRowDeselection`  {boolean} Set to true to prevent rows from being deselected if click or space bar the row. i.e. once a row is selected, it remains selected until another row is selected in its place.
+- `suppressTooltips`  {boolean} Set to true to prevent display tooltips.
 
 ## Column Settings (General)
 
@@ -155,9 +158,18 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`minWidth` | {number} | The minimum width used to prevent resizing a column below this size. |
 |`maxWidth` | {number} | The maximum width used to prevent resizing a column above this size. |
 |`cssPart` | {string} | Allows you to set the name of a css part that can be used to customize the cell's css. This can be a string or a function. See the columns-custom-css example. The default cssPart for cells is called `cell` and it also can be used for more global changes.  |
-|`frozen` | {string} | Sets the column to be frozen on either left or right side by passing `left` or `right`. See the `columns-frozen` example for a working example. Frozen columns currently have some limitations to be addressed in the future. |
-|`width` | {number or string} | The column width, this can be an integer for fixed pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the css table browsers handling (this is known as `auto` columns). I.E. There are three column configurations: `auto`, `fixed` and `percent`.
-In addition one can specify any css grid column setting like `fr` or `ch`. In order to make what was called a `stretchColumn` in previous versions you can set the width to`minmax(130px, 4fr)`. This is some minimum width and a `fr` unit equal to the remaining number of columns (see example columns-stretch.html). For a spacer column you just need to specify one extra column at the end (see example columns-fixed.html) but this is not recommended for how it looks. |
+|`frozen` | {string} | Sets the column to be frozen on either left or right side by passing `left` or `right`. See the `columns-frozen` example for a working example. Frozen columns currently have some limitations to be addressed in the future. |<!--lint disable maximum-line-length definition-case-->
+|`width` | {number or string} | The column width, this can be an integer for fixed pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the css table browsers handling (this is known as `auto` columns). I.E. There are three column configurations: `auto`, `fixed` and `percent`. <br /><br />In addition one can specify any css grid column setting like `fr` or `ch`. In order to make what was called a `stretchColumn` in previous versions you can set the width to`minmax(130px, 4fr)`. This is some minimum width and a `fr` unit equal to the remaining number of columns (see example columns-stretch.html). For a spacer column you just need to specify one extra column at the end (see example columns-fixed.html) but this is not recommended for how it looks. |<!--lint enable maximum-line-length definition-case-->
+|`headerIcon` | {string} | Allows you to set the name of the header icon. |
+|`tooltipOptions` | {Object or Function} | Allows you to set the tooltip options. See the tooltip example. |
+|`tooltip` | {string or Function} | Let you set the tooltip content. |
+|`headerTooltip` | {string} | Let you set the header title tooltip content. |
+|`headerIconTooltip` | {string} | Let you set the header icon tooltip content. |
+|`filterButtonTooltip` | {string} | Let you set the header filter button tooltip content. |
+|`tooltipCssPart` | {string or Function} | Allows you to set the name of a tooltip css part that can be used to customize the tooltip css. This can be a string or a function. See the columns-custom-css example.
+|`headerTooltipCssPart` | {string} | Allows you to sets the header tooltip css part.
+|`headerIconTooltipCssPart` | {string} | Allows you to sets the header icon tooltip css part.
+|`filterButtonTooltipCssPart` | {string} | Allows you to sets the filter button tooltip css part.
 
 ## Column Settings (Specific)
 
@@ -234,6 +246,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `filterrowclosed` Fires after the filter row is closed by the user.
 - `columnresized` Fires when a column is resized or setColumnWidth is called.
 - `columnmoved` Fires when a column is moved / reordered or moveColumn is called
+- `beforetooltipshow` Fires before tooltip show, you can return false in the response to veto
 
 ## Methods
 
@@ -595,6 +608,165 @@ The following events are relevant to data-grid filters.
 - `filteroperatorchanged` Fires once a filter operator changed.
 - `filterrowopened` Fires after the filter row is opened by the user.
 - `filterrowclosed` Fires after the filter row is closed by the user.
+
+## Tooltip Code Examples
+
+Set suppress tooltips to turn off.
+
+```html
+<ids-data-grid id="data-grid-1" label="Books" suppress-tooltips>
+</ids-data-grid>
+```
+
+Set custom tooltip strings.
+
+```js
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  tooltip: 'This is a product Id',
+  headerTooltip: 'This is the product Id header title',
+  headerIconTooltip: 'This is product Id header icon',
+  filterButtonTooltip: 'This is the product Id filterButton'
+});
+```
+
+Set tooltip as callback.
+
+```js
+const tooltipCallback = (args: any): string => {
+  const { type, columnIndex, rowIndex, text } = args;
+
+  if (type === 'header-title') {
+    return `Text: ${text}<br/>Header Row: ${rowIndex}, Cell: ${columnIndex}`;
+  } else if (type === 'filter-button') {
+    return `Text: ${text}<br/>FilterButton Row: ${rowIndex}, Cell: ${columnIndex}`;
+  }
+  return `Text: ${text}<br/>for Row: ${rowIndex}, Cell: ${columnIndex}`;
+};
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  tooltip: tooltipCallback
+});
+```
+
+Set tooltip custom options.
+
+```js
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  tooltipOptions: {
+    placement: 'top',
+    headerPlacement: 'top',
+    headerIconPlacement: 'top',
+    filterButtonPlacement: 'bottom',
+    x: 0,
+    y: 10,
+    headerX: 0,
+    headerIconX: 0,
+    headerY: 10,
+    headerIconY: 10,
+    filterButtonX: 0,
+    filterButtonY: 22
+  }
+});
+```
+
+Set tooltip options as callback.
+
+```js
+const tooltipOptionsCallback = (args: any): string => {
+  const { type, columnIndex, rowIndex, text } = args;
+
+  if (type === 'header-title') {
+    return { headerPlacement: 'top', headerX: 0, headerY: 10 };
+  } else if (type === 'header-icon') {
+    return { headerIconPlacement: 'top', headerIconX: 0, headerIconY: 10 };
+  } else if (type === 'filter-button') {
+    return { filterButtonPlacement: 'bottom', filterButtonX: 0, filterButtonY: 22 };
+  }
+  return { placement: 'top', x: 0, y: 10 };
+};
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  tooltipOptions: tooltipOptionsCallback
+});
+```
+
+Set tooltip custom css.
+
+```js
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  tooltipCssPart: 'custom-turquoise',
+  headerTooltipCssPart: 'custom-turquoise',
+  headerIconTooltipCssPart: 'custom-turquoise',
+  filterButtonTooltipCssPart: 'custom-turquoise'
+});
+```
+```css
+/* tooltip css part `custom-turquoise` */
+ids-data-grid::part(custom-turquoise-tooltip-arrow-top)::after {
+  border-top-color: #2f8d8e;
+}
+ids-data-grid::part(custom-turquoise-tooltip-popup) {
+  background-color: #2f8d8e;
+}
+```
+
+Set tooltip custom css as callback.
+
+```js
+const tooltipCssPartCallback = (args: { type: string }): string => {
+  const { type } = args;
+  let cssPart = '';
+  // Set random css part each time, for `body-cell` tooltips
+  if (type === 'body-cell') {
+    const parts = ['azure', 'ruby'];
+    const randomIndex = Math.floor(Math.random() * parts.length);
+    cssPart = parts[randomIndex];
+  }
+  return cssPart;
+};
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  tooltipCssPart: tooltipCssPartCallback
+});
+```
+```css
+/* tooltip css part `azure` */
+ids-data-grid::part(azure-tooltip-arrow-top)::after {
+  border-top-color: #0066d4;
+}
+ids-data-grid::part(azure-tooltip-popup) {
+  background-color: #0066d4;
+}
+
+/* tooltip css part `ruby` */
+ids-data-grid::part(ruby-tooltip-arrow-top)::after {
+  border-top-color: #c31014;
+}
+ids-data-grid::part(ruby-tooltip-popup) {
+  background-color: #c31014;
+}
+```
 
 ## States and Variations
 

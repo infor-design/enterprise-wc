@@ -69,7 +69,10 @@ const COLLAPSED = 'collapsed';
 export default class IdsSplitter extends Base {
   constructor() {
     super();
-    if (!this.state) this.state = { ...SPLITTER_DEFAULTS };
+    this.state = {
+      ...this.state,
+      ...SPLITTER_DEFAULTS
+    };
   }
 
   /**
@@ -370,7 +373,7 @@ export default class IdsSplitter extends Base {
    * @returns {void}
    */
   #init() {
-    if (this.#initObserver) this.#initObserver.observe(this.container);
+    if (this.#initObserver && this.container) this.#initObserver.observe(this.container);
     else this.#initObserverCallback();
   }
 
@@ -430,7 +433,7 @@ export default class IdsSplitter extends Base {
    * @returns {object} This API object for chaining
    */
   #setContainer(): object {
-    this.#container.rect = this.container.getBoundingClientRect();
+    this.#container.rect = this.container?.getBoundingClientRect();
     this.#container.posStart = this.#container.rect[this.#prop.posStart];
     this.#container.size = this.#container.rect[this.#prop.dimension];
     return this;
@@ -442,7 +445,7 @@ export default class IdsSplitter extends Base {
    * @returns {object} This API object for chaining
    */
   #initialSizes(): object {
-    const panes = [...this.childNodes].filter((n) => n instanceof IdsSplitterPane);
+    const panes = [...this.childNodes].filter((n) => n instanceof IdsSplitterPane) as Array<any>;
     const defaults = { minSize: 0, size: (100 / panes.length) };
     const initial = {
       adjustable: { minSizes: [], sizes: [] },
@@ -636,7 +639,7 @@ export default class IdsSplitter extends Base {
               <ids-icon icon="drag" size="large" part="split-bar-icon"></ids-icon>
             </div>
           <ids-draggable>`;
-        this.container.appendChild(template.content.cloneNode(true));
+        this.container?.appendChild(template.content.cloneNode(true));
       }
     });
     return this;
@@ -648,10 +651,10 @@ export default class IdsSplitter extends Base {
    * @returns {object} This API object for chaining.
    */
   #setPairs(): object {
-    this.shadowRoot.host.setAttribute('role', 'group');
+    this.shadowRoot?.host.setAttribute('role', 'group');
     this.#panes.forEach((pane, i) => {
       if (i > 0) {
-        const splitBar = this.container.querySelector(`#${this.#splitId(i)}`);
+        const splitBar = this.container?.querySelector(`#${this.#splitId(i)}`);
         const zIdx = i - 1;
         const start: any = {
           pane: this.#panes[zIdx],
@@ -780,7 +783,7 @@ export default class IdsSplitter extends Base {
       if (this.disabled) el.setAttribute(attr, val);
       else el.removeAttribute(attr);
     };
-    toggleAttribute(this.container);
+    if (this.container) toggleAttribute(this.container);
     this.#pairs.forEach((pair) => {
       toggleAttribute(pair.splitBar);
       toggleAttribute(pair.splitBar, 'aria-disabled', 'true');
@@ -1127,7 +1130,7 @@ export default class IdsSplitter extends Base {
 
     // Set observer for resize
     this.#resizeObserver.disconnect();
-    this.#resizeObserver.observe(this.container);
+    if (this.container) this.#resizeObserver.observe(this.container);
     return this;
   }
 

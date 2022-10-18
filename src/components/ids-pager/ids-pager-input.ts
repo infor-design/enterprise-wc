@@ -7,6 +7,7 @@ import '../ids-text/ids-text';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-pager-input.scss';
+import type IdsInput from '../ids-input/ids-input';
 
 /**
  * IDS PagerInput Component
@@ -19,6 +20,8 @@ import styles from './ids-pager-input.scss';
 @customElement('ids-pager-input')
 @scss(styles)
 export default class IdsPagerInput extends Base {
+  input?: IdsInput | null;
+
   constructor() {
     super();
   }
@@ -55,10 +58,10 @@ export default class IdsPagerInput extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.input = this.shadowRoot.querySelector('ids-input');
+    this.input = this.shadowRoot?.querySelector<IdsInput>('ids-input');
 
     this.onEvent('change', this.input, () => {
-      const inputPageNumber = Math.min(parseInt(this.input.input.value), this.pageCount);
+      const inputPageNumber = Math.min(parseInt(this.input?.input?.value ?? ''), this.pageCount);
 
       if (inputPageNumber !== this.pageNumber) {
         if (!Number.isNaN(inputPageNumber)) {
@@ -66,7 +69,7 @@ export default class IdsPagerInput extends Base {
             bubbles: true,
             detail: { elem: this, value: inputPageNumber }
           });
-        } else {
+        } else if (this.input) {
           this.input.value = `${this.pageNumber}`;
         }
       }
@@ -76,17 +79,17 @@ export default class IdsPagerInput extends Base {
     // to the page number already provided by the pager
 
     this.onEvent('blur', this.input, () => {
-      if (this.input.value !== `${this.pageNumber}`) {
-        this.input.value = this.pageNumber;
+      if (this.input && this.input?.value !== `${this.pageNumber}`) {
+        this.input.value = `${this.pageNumber}`;
       }
     });
 
     this.listen('Enter', this.input, () => {
-      this.input.dispatchEvent(new Event('change', { bubbles: true }));
+      this.input?.dispatchEvent(new Event('change', { bubbles: true }));
     });
 
     if (!this.hasAttribute(attributes.PAGE_NUMBER)) {
-      this.setAttribute(attributes.PAGE_NUMBER, 1);
+      this.setAttribute(attributes.PAGE_NUMBER, '1');
     }
 
     // give parent a chance to reflect attributes
@@ -103,23 +106,23 @@ export default class IdsPagerInput extends Base {
       nextValue = Number.parseInt(value as any);
     }
 
-    if (parseInt(this.getAttribute(attributes.PAGE_SIZE)) !== nextValue) {
-      this.setAttribute(attributes.PAGE_SIZE, nextValue);
+    if (parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '') !== nextValue) {
+      this.setAttribute(attributes.PAGE_SIZE, String(nextValue));
     }
 
     this.#updatePageCountShown();
   }
 
-  /** @returns {string|number} The number of items shown per page */
-  get pageSize(): string | number {
-    return parseInt(this.getAttribute(attributes.PAGE_SIZE));
+  /** @returns {number} The number of items shown per page */
+  get pageSize(): number {
+    return parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '');
   }
 
   /** @param {string|number} value A 1-based page number shown */
   set pageNumber(value: string | number) {
     const pagerInputWebComponent = this.input;
     const pagerInputField = pagerInputWebComponent?.input;
-    const currentPageNumber = pagerInputField?.value || 1;
+    const currentPageNumber = pagerInputField?.value || '1';
     let nexPageNumber;
 
     if (Number.isNaN(Number.parseInt(value as any))) {
@@ -137,7 +140,7 @@ export default class IdsPagerInput extends Base {
     }
 
     if (pagerInputWebComponent) {
-      pagerInputWebComponent.value = nexPageNumber;
+      pagerInputWebComponent.value = String(nexPageNumber);
 
       if (pagerInputField) {
         // TODO: find a way within CSS to make input-field width auto-resize
@@ -146,13 +149,13 @@ export default class IdsPagerInput extends Base {
       }
     }
 
-    this.setAttribute(attributes.PAGE_NUMBER, nexPageNumber);
+    this.setAttribute(attributes.PAGE_NUMBER, String(nexPageNumber));
     this.#updatePageCountShown();
   }
 
-  /** @returns {string|number} value A 1-based page number displayed */
-  get pageNumber(): string | number {
-    return parseInt(this.getAttribute(attributes.PAGE_NUMBER)) || 1;
+  /** @returns {number} value A 1-based page number displayed */
+  get pageNumber(): number {
+    return parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '') || 1;
   }
 
   /** @param {string|number} value The number of items to track */
@@ -166,13 +169,13 @@ export default class IdsPagerInput extends Base {
       nextValue = Number.parseInt(value as any);
     }
 
-    this.setAttribute(attributes.TOTAL, nextValue);
+    this.setAttribute(attributes.TOTAL, String(nextValue));
     this.#updatePageCountShown();
   }
 
   /** @returns {string|number} The number of items for pager is tracking */
   get total(): string | number {
-    return parseInt(this.getAttribute(attributes.TOTAL)) || 0;
+    return parseInt(this.getAttribute(attributes.TOTAL) ?? '') || 0;
   }
 
   /** @returns {number} The calculated pageCount using total and pageSize */
@@ -239,8 +242,9 @@ export default class IdsPagerInput extends Base {
   #updatePageCountShown(): void {
     const pageCount = this.pageCount;
     const pageCountShown = (pageCount === null) ? 'N/A' : pageCount;
-    if (this.shadowRoot) {
-      this.shadowRoot.querySelector('span.page-count').textContent = pageCountShown;
+    const pageCountElem = this.shadowRoot?.querySelector('span.page-count');
+    if (pageCountElem) {
+      pageCountElem.textContent = String(pageCountShown);
     }
   }
 
@@ -249,16 +253,16 @@ export default class IdsPagerInput extends Base {
    * based on parentDisabled and disabled attribs
    */
   #updateDisabledState(): void {
-    const idsTextEls = this.shadowRoot.querySelectorAll('ids-text');
+    const idsTextEls = this.shadowRoot?.querySelectorAll('ids-text') ?? [];
 
     if (this.disabledOverall) {
-      this.input.setAttribute(attributes.DISABLED, '');
+      this.input?.setAttribute(attributes.DISABLED, '');
 
       for (const el of idsTextEls) {
         el.setAttribute(attributes.DISABLED, '');
       }
     } else {
-      this.input.removeAttribute(attributes.DISABLED);
+      this.input?.removeAttribute(attributes.DISABLED);
 
       for (const el of idsTextEls) {
         el.removeAttribute(attributes.DISABLED);

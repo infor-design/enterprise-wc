@@ -1,12 +1,29 @@
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
-import IdsEventsMixin from '../mixins/ids-events-mixin/ids-events-mixin';
 import styles from './ids-element.scss';
+
+export type IdsBaseConstructor = new (...args: any[]) => IdsElement;
+
+export type IdsConstructor<T> = new (...args: any[]) => T & IdsElement;
 
 /**
  * IDS Base Element
- * TODO: Remove IdsEventsMixins
  */
-export default class IdsElement extends IdsEventsMixin(HTMLElement) {
+export default class IdsElement extends HTMLElement {
+  /** Component's name */
+  name?: string;
+
+  /** State object for current states */
+  state: Record<string, any> = {};
+
+  /** Nonce used for scripts, links */
+  cachedNonce = '';
+
+  /** Component's first child element */
+  container?: HTMLElement | null = null;
+
+  /** Styles Flag */
+  hasStyles = false;
+
   constructor() {
     super();
     this.#addBaseName();
@@ -17,12 +34,6 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
   connectedCallback() {
     this.render();
   }
-
-  /** Component's name */
-  name?: string;
-
-  /** State object for current states */
-  state?: Record<string, unknown> | null;
 
   /**
    * Add a base name property
@@ -45,6 +56,22 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     if (oldValue === newValue) return;
 
     /**
+     * Maps global html attributes/property changes to
+     * their internal component callbacks
+     */
+    const self = this as any;
+    const setter = {
+      id: self.onIdChange,
+      hidden: self.onHiddenChange,
+      title: self.onTitleChange
+    }[name];
+
+    if (typeof setter === 'function') {
+      setter.call(this, newValue);
+      return;
+    }
+
+    /**
      * Fixes our handling of kebab-to-camelCase conversions in some specific cases
      * where HTMLElement uses different casing internally.
      * @param {string} thisName the attribute name to check
@@ -59,7 +86,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
       }
     };
 
-    this[getAttributeName(name)] = newValue;
+    (this as any)[getAttributeName(name)] = newValue;
   }
 
   /**
@@ -67,9 +94,8 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
    * in a component you can just call super.
    */
   disconnectedCallback() {
-    super.disconnectedCallback();
-    this.cssStyles = null;
-    this.popupOpenEventsTarget = null;
+    (this as any).cssStyles = null;
+    (this as any).popupOpenEventsTarget = null;
   }
 
   /**
@@ -124,12 +150,12 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
 
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);
-    if (this.shadowRoot?.firstElementChild.nodeName === 'STYLE' && !this.container) {
-      this.container = this.shadowRoot?.firstElementChild.nextElementSibling;
+    if (this.shadowRoot?.firstElementChild?.nodeName === 'STYLE' && !this.container) {
+      this.container = (this.shadowRoot?.firstElementChild.nextElementSibling as HTMLElement);
     }
 
-    if (this.shadowRoot?.firstElementChild.nodeName !== 'STYLE' && !this.container) {
-      this.container = this.shadowRoot?.firstElementChild;
+    if (this.shadowRoot?.firstElementChild?.nodeName !== 'STYLE' && !this.container) {
+      this.container = (this.shadowRoot?.firstElementChild as HTMLElement);
     }
     return this;
   }
@@ -167,7 +193,7 @@ export default class IdsElement extends IdsEventsMixin(HTMLElement) {
     }
 
     const style = document.createElement('style');
-    style.textContent = this.cssStyles;
+    style.textContent = (this as any).cssStyles;
     style.setAttribute('nonce', this.nonce);
 
     this.shadowRoot?.appendChild(style);

@@ -26,7 +26,8 @@ export default class IdsHeader extends Base {
     super.connectedCallback();
     this.#refreshVariants();
     // Set initial color
-    if (this.getAttribute('color')) this.color = this.getAttribute('color');
+    const initialColor = this.getAttribute('color');
+    if (initialColor) this.color = initialColor;
   }
 
   static get attributes() {
@@ -56,7 +57,7 @@ export default class IdsHeader extends Base {
     const elementNames = ['ids-button', 'ids-breadcrumb', 'ids-search-field', 'ids-text', 'ids-theme-switcher'];
 
     for (const element of elementNames) {
-      const idsElements = [...this.querySelectorAll(element)];
+      const idsElements = [...this.querySelectorAll<any>(element)];
       idsElements.forEach((elem) => {
         elem.colorVariant = 'alternate';
       });

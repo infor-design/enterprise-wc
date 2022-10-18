@@ -104,6 +104,9 @@
   - link: virtual-scroll.html
     type: Example
     description: Shows a basic data grid with virtual scrolling
+  - link: tooltip.html
+    type: Example
+    description: Shows a data grid with tooltip
   - link: xss-prevention.html
     type: Test
     description: Shows a data grid can prevent xss

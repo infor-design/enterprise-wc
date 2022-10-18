@@ -10,6 +10,8 @@ import '../ids-text/ids-text';
 import '../ids-checkbox/ids-checkbox';
 
 import styles from './ids-tree-node.scss';
+import type IdsTree from './ids-tree';
+import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
 /**
  * IDS Tree Node Component
@@ -28,14 +30,20 @@ import styles from './ids-tree-node.scss';
 @customElement('ids-tree-node')
 @scss(styles)
 export default class IdsTreeNode extends Base {
-  constructor() {
-    super();
-  }
-
   /**
    * Main node container
    */
-  nodeContainer: any = null;
+  nodeContainer?: HTMLElement | null = null;
+
+  groupNodesEl?: HTMLElement | null = null;
+
+  tree?: IdsTree | null = null;
+
+  isGroup = false;
+
+  constructor() {
+    super();
+  }
 
   /**
    * Invoked each time the custom element is appended into a document-connected element.
@@ -77,13 +85,13 @@ export default class IdsTreeNode extends Base {
 
     // Set the type is group or node
     const isNodeEl = (el: HTMLElement) => /^ids-tree-node$/i.test(el.nodeName);
-    this.isGroup = [...this.childNodes].some((el) => isNodeEl(el));
+    this.isGroup = [...this.childNodes].some((el) => isNodeEl(el as HTMLElement));
 
     // Set group template
     if (this.isGroup) {
       let childNodesHTML = '';
       for (let i = 0; i < this.childNodes.length; i++) {
-        const node = this.childNodes[i];
+        const node = this.childNodes[i] as HTMLElement;
         if (isNodeEl(node)) {
           childNodesHTML += node.outerHTML;
         }
@@ -202,7 +210,7 @@ export default class IdsTreeNode extends Base {
         this.groupNodesEl.style.maxHeight = `${this.groupNodesEl.scrollHeight}px`;
         this.offEvent('transitionend.expanded.tree', this.groupNodesEl);
         this.onEvent('transitionend.expanded.tree', this.groupNodesEl, () => {
-          this.groupNodesEl.style.maxHeight = '';
+          this.groupNodesEl?.style.removeProperty('max-height');
         });
       } else {
         // Collapse
@@ -211,8 +219,8 @@ export default class IdsTreeNode extends Base {
         this.groupNodesEl.style.maxHeight = `${this.groupNodesEl.scrollHeight}px`;
         this.groupNodesEl.style.transition = '';
         requestAnimationFrame(() => {
-          this.groupNodesEl.style.maxHeight = 0;
-          this.groupNodesEl.style.visibility = 'hidden';
+          this.groupNodesEl?.style.setProperty('max-height', '0');
+          this.groupNodesEl?.style.setProperty('visibility', 'hidden');
         });
       }
     }
@@ -257,7 +265,7 @@ export default class IdsTreeNode extends Base {
   #setToggleIconElement() {
     const toggleIconEl = this.nodeContainer?.querySelector('.toggle-icon');
     if (this.isGroup && this.useToggleTarget && !toggleIconEl) {
-      const refEl = this.shadowRoot.querySelector('slot.badge');
+      const refEl = this.shadowRoot?.querySelector('slot.badge') as HTMLSlotElement;
       const template = document.createElement('template');
       template.innerHTML = this.toggleIconHtml;
       this.nodeContainer?.insertBefore(template.content.cloneNode(true), refEl);
@@ -272,20 +280,18 @@ export default class IdsTreeNode extends Base {
    * @returns {void}
    */
   #setSelection() {
+    const checkboxElem = this.container?.querySelector<IdsCheckbox>('ids-checkbox');
+
     if (!!this.selectable && this.isSelected) {
-      this.container.setAttribute(attributes.SELECTED, '');
+      this.container?.setAttribute(attributes.SELECTED, '');
       this.nodeContainer?.setAttribute(attributes.SELECTED, '');
       this.nodeContainer?.setAttribute('aria-selected', 'true');
-      if (this.container.querySelector('ids-checkbox')) {
-        this.container.querySelector('ids-checkbox').checked = true;
-      }
+      if (checkboxElem) checkboxElem.checked = true;
     } else {
-      this.container.removeAttribute(attributes.SELECTED);
+      this.container?.removeAttribute(attributes.SELECTED);
       this.nodeContainer?.removeAttribute(attributes.SELECTED);
       this.nodeContainer?.setAttribute('aria-selected', 'false');
-      if (this.container.querySelector('ids-checkbox')) {
-        this.container.querySelector('ids-checkbox').checked = null;
-      }
+      if (checkboxElem) checkboxElem.checked = false;
     }
   }
 
@@ -335,7 +341,7 @@ export default class IdsTreeNode extends Base {
   get isSelected() { return !!this.selectable && this.selected; }
 
   get checkbox() {
-    return this.shadowRoot.querySelector('ids-checkbox');
+    return this.shadowRoot?.querySelector('ids-checkbox');
   }
 
   /**
@@ -463,8 +469,9 @@ export default class IdsTreeNode extends Base {
       this.removeAttribute(attributes.LABEL);
     }
 
-    if (this.isGroup) {
-      this.shadowRoot.querySelector('.text').textContent = `${value}`;
+    const textElem = this.shadowRoot?.querySelector('.text');
+    if (this.isGroup && textElem) {
+      textElem.textContent = `${value}`;
     }
   }
 

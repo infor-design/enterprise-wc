@@ -17,6 +17,9 @@
   - link: validation-custom.html
     type: Example
     description: Shows a custom validation message
+  - link: validation-date-time.html
+    type: Example
+    description: Shows date/time validation and masks
   - link: label-state.html
     type: Test
     description: Showing an example with hidden labels

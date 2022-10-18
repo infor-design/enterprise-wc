@@ -18,8 +18,8 @@ const DEFAULT_ACTIONSHEET_HTML = (
 );
 
 describe('IdsActionSheet Component', () => {
-  let el: any;
-  let container: any;
+  let el: IdsActionSheet;
+  let container: IdsContainer;
 
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
@@ -39,14 +39,13 @@ describe('IdsActionSheet Component', () => {
 
   beforeEach(async () => {
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
-    const elem: any = new IdsActionSheet();
-    document.body.appendChild(elem);
-    el = document.querySelector('ids-action-sheet');
+    el = new IdsActionSheet();
+    document.body.appendChild(el);
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
-    el = null;
+    (el as any) = null;
     (window.requestAnimationFrame as any).mockRestore();
   });
 
@@ -56,7 +55,7 @@ describe('IdsActionSheet Component', () => {
 
     const template = document.createElement('template');
     template.innerHTML = innerHTML;
-    el = template.content.childNodes[0];
+    el = template.content.childNodes[0] as IdsActionSheet;
     container.appendChild(el);
     document.body.appendChild(container);
 
@@ -80,7 +79,7 @@ describe('IdsActionSheet Component', () => {
   it('can set the visible attribute', () => {
     expect(el.getAttribute('visible')).toBe(null);
 
-    el.setAttribute('visible', true);
+    el.setAttribute('visible', 'true');
     expect(el.getAttribute('visible')).toBe('true');
 
     el.visible = null;
@@ -116,7 +115,7 @@ describe('IdsActionSheet Component', () => {
     const event = new MouseEvent('click', args);
 
     // dismiss
-    el.overlay.dispatchEvent(event);
+    el.overlay?.dispatchEvent(event);
     expect(el.getAttribute('visible')).toBe(null);
   });
 
@@ -130,7 +129,7 @@ describe('IdsActionSheet Component', () => {
     const event = new MouseEvent('click', args);
 
     // dismiss
-    el.cancelBtn.dispatchEvent(event);
+    el.cancelBtn?.dispatchEvent(event);
     expect(el.getAttribute('visible')).toBe(null);
   });
 
@@ -149,7 +148,7 @@ describe('IdsActionSheet Component', () => {
     });
 
     // dismiss
-    el.overlay.dispatchEvent(event);
+    el.overlay?.dispatchEvent(event);
     expect(el.getAttribute('visible')).toBe(null);
   });
 
@@ -168,7 +167,7 @@ describe('IdsActionSheet Component', () => {
     });
 
     // dismiss
-    el.cancelBtn.dispatchEvent(event);
+    el.cancelBtn?.dispatchEvent(event);
     expect(el.getAttribute('visible')).toBe(null);
   });
 
@@ -187,7 +186,7 @@ describe('IdsActionSheet Component', () => {
     });
 
     // dismiss
-    el.cancelBtn.dispatchEvent(event);
+    el.cancelBtn?.dispatchEvent(event);
     expect(el.getAttribute('visible')).toBe(null);
   });
 });

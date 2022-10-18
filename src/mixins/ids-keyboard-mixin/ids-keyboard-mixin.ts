@@ -1,24 +1,45 @@
+import { IdsConstructor } from '../../core/ids-element';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+
+export interface KeyboardMixinInterface {
+  listen(keycode: Array<string> | string, elem: HTMLElement | any, callback: unknown): void;
+  unlisten(key: string): void;
+  detachAllListeners(): void;
+  press(key: string): void
+}
+
+type Constraints = IdsConstructor<EventsMixinInterface>;
+
 /**
  * Handle keyboard shortcuts and pressed down keys
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsKeyboardMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends superclass
+  implements KeyboardMixinInterface {
+  hotkeys: Map<any, any> | null = null;
+
+  pressedKeys: Map<any, any> | null = null;
+
+  keyDownHandler?: (e: KeyboardEvent) => void;
+
+  keyUpHandler?: (e: KeyboardEvent) => void;
+
+  constructor(...args: any[]) {
+    super(...args);
     this.initKeyboardHandlers();
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
     ];
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
     this.detachAllListeners();
-    this.hotKeys = null;
+    this.hotkeys = null;
     this.pressedKeys = null;
   }
 
@@ -49,7 +70,7 @@ const IdsKeyboardMixin = (superclass: any) => class extends superclass {
    * @returns {Map} the current set of pressed keys
    */
   press(key: string) {
-    return this.pressedKeys.set(`${key}`, true);
+    return this.pressedKeys?.set(`${key}`, true);
   }
 
   /**
@@ -62,7 +83,7 @@ const IdsKeyboardMixin = (superclass: any) => class extends superclass {
     const keycodes = Array.isArray(keycode) ? keycode : [keycode];
 
     for (const c of keycodes) {
-      this.hotkeys.set(`${c}`, callback);
+      this.hotkeys?.set(`${c}`, callback);
     }
   }
 
@@ -72,7 +93,7 @@ const IdsKeyboardMixin = (superclass: any) => class extends superclass {
    * @returns {Map} the current set of hotkeys
    */
   unlisten(key: string) {
-    return this.hotkeys.delete(`${key}`);
+    return this.hotkeys?.delete(`${key}`);
   }
 
   /**
@@ -82,7 +103,7 @@ const IdsKeyboardMixin = (superclass: any) => class extends superclass {
    * @returns {boolean} whether or not the key had been previously logged as "pressed"
    */
   unpress(key: string) {
-    return this.pressedKeys.delete(`${key}`);
+    return this.pressedKeys?.delete(`${key}`);
   }
 
   /**
@@ -92,7 +113,7 @@ const IdsKeyboardMixin = (superclass: any) => class extends superclass {
    * @returns {void}
    */
   dispatchHotkeys(e: KeyboardEvent) {
-    this.hotkeys.forEach((value: any, key: any) => {
+    this.hotkeys?.forEach((value: any, key: any) => {
       if (key.split(',').indexOf(e.key) > -1) {
         value(e);
       }

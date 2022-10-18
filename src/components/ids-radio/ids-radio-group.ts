@@ -3,6 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-text/ids-text';
 import Base from './ids-radio-group-base';
+import type IdsRadio from './ids-radio';
 
 import styles from './ids-radio-group.scss';
 
@@ -26,6 +27,12 @@ export default class IdsRadioGroup extends Base {
   }
 
   isFormComponent = true;
+
+  input?: HTMLElement | null;
+
+  labelEl?: HTMLElement | null;
+
+  checked: any = null;
 
   /**
    * Return the attributes we handle as getters/setters
@@ -122,8 +129,8 @@ export default class IdsRadioGroup extends Base {
     this.value = null;
     this.checked = null;
     this.removeAllValidationMessages();
-    const radio = this.querySelector('ids-radio');
-    const rootEl = radio.shadowRoot?.querySelector('.ids-radio');
+    const radio = this.querySelector<IdsRadio>('ids-radio');
+    const rootEl = radio?.shadowRoot?.querySelector('.ids-radio');
     rootEl?.setAttribute('tabindex', '0');
   }
 
@@ -190,7 +197,7 @@ export default class IdsRadioGroup extends Base {
       this.input?.classList.remove(className);
     }
 
-    const args = { value: val, checked: radio };
+    const args = { detail: { value: val, checked: radio } };
     this.triggerEvent('change', this.input, args);
     this.triggerEvent('change', this, args);
   }
@@ -280,7 +287,7 @@ export default class IdsRadioGroup extends Base {
    * Set the `label` text
    * @param {string} value of the `label` text property
    */
-  set label(value: string) {
+  set label(value: string | null) {
     const rootEl = this.shadowRoot?.querySelector('.ids-radio-group');
     let labelText = this.shadowRoot?.querySelector('.group-label-text');
 
@@ -305,7 +312,7 @@ export default class IdsRadioGroup extends Base {
     labelText?.remove();
   }
 
-  get label(): string { return this.getAttribute(attributes.LABEL); }
+  get label(): string | null { return this.getAttribute(attributes.LABEL); }
 
   /**
    * Sets the checkbox to required

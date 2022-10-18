@@ -8,6 +8,7 @@ import Base from './ids-trigger-field-base';
 import './ids-trigger-button';
 
 import styles from './ids-trigger-field.scss';
+import type IdsTriggerButton from './ids-trigger-button';
 
 /**
  * IDS Trigger Field Component
@@ -32,10 +33,9 @@ export default class IdsTriggerField extends Base {
    */
   get elements() {
     return {
-      ...super.elements,
-      content: this.container.querySelector('.ids-trigger-field-content'),
-      label: this.container.querySelector('label'),
-      text: this.container.querySelector('ids-text'),
+      content: this.container?.querySelector('.ids-trigger-field-content'),
+      label: this.container?.querySelector('label'),
+      text: this.container?.querySelector('ids-text'),
     };
   }
 
@@ -116,22 +116,19 @@ export default class IdsTriggerField extends Base {
    * @returns {Array<HTMLElement>} containing references to slotted IdsTriggerButtons on this component
    */
   get buttons() {
-    return [...this.querySelectorAll('ids-trigger-button')];
+    return [...this.querySelectorAll<IdsTriggerButton>('ids-trigger-button')];
   }
 
   /**
    * @param {boolean | string} value true if this trigger field's buttons should be made accessible using the tab key
    */
   set tabbable(value: boolean | string) {
-    const currentValue = this.getAttribute(attributes.TABBABLE);
     const newValue = stringToBool(value);
 
-    if (currentValue !== newValue) {
-      if (newValue) {
-        this.setAttribute(attributes.TABBABLE, `${stripHTML(`${value}`)}`);
-      } else {
-        this.removeAttribute(attributes.TABBABLE);
-      }
+    if (newValue) {
+      this.setAttribute(attributes.TABBABLE, `${stripHTML(`${value}`)}`);
+    } else {
+      this.removeAttribute(attributes.TABBABLE);
     }
 
     this.buttons.forEach((button) => {
@@ -198,7 +195,7 @@ export default class IdsTriggerField extends Base {
    * Set format for date, time
    * @param {string} val date, time format
    */
-  set format(val: string) {
+  set format(val: string | null) {
     if (val) {
       this.setAttribute(attributes.FORMAT, val);
     } else {
@@ -210,7 +207,7 @@ export default class IdsTriggerField extends Base {
    * Return format
    * @returns {string} return date format
    */
-  get format(): string {
+  get format(): string | null {
     return this.getAttribute(attributes.FORMAT);
   }
 

@@ -5,6 +5,7 @@ import IdsBlockgrid from '../../src/components/ids-block-grid/ids-block-grid';
 import IdsBlockgridItem from '../../src/components/ids-block-grid/ids-block-grid-item';
 import '../../src/components/ids-checkbox/ids-checkbox';
 import '../helpers/resize-observer-mock';
+import type IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
 
 describe('IdsBlockgrid Component', () => {
   let blockgridEl: any;
@@ -124,15 +125,15 @@ describe('IdsBlockgridItem Component', () => {
     blockgridItemEl.selection = 'multiple';
 
     const checkboxEl = blockgridItemEl.shadowRoot.querySelector('ids-checkbox');
-    const checkboxEl2 = blockgridItemEl2.shadowRoot.querySelector('ids-checkbox');
+    const checkboxEl2 = blockgridItemEl2.shadowRoot?.querySelector<IdsCheckbox>('ids-checkbox');
 
     blockgridItemEl.dispatchEvent(clickEvent);
     expect(checkboxEl.checked).toBeTruthy();
-    expect(checkboxEl2.checked).toBeFalsy();
+    expect(checkboxEl2?.checked).toBeFalsy();
 
     blockgridItemEl2.dispatchEvent(clickEvent);
     expect(checkboxEl.checked).toBeTruthy();
-    expect(checkboxEl2.checked).toBeTruthy();
+    expect(checkboxEl2?.checked).toBeTruthy();
   });
 
   it('support block grid selection multiple keyboard', () => {
@@ -169,10 +170,10 @@ describe('IdsBlockgridItem Component', () => {
     const blockgridItemEl2 = new IdsBlockgridItem({ selection: 'mixed' });
     blockgridItemEl2.selection = 'mixed';
     blockgridEl.appendChild(blockgridItemEl2);
-    const checkboxEl2 = blockgridItemEl2.shadowRoot.querySelector('ids-checkbox');
+    const checkboxEl2 = blockgridItemEl2.shadowRoot?.querySelector('ids-checkbox');
 
     const clickEvent = new MouseEvent('click', { bubbles: true });
-    checkboxEl2.dispatchEvent(clickEvent);
+    checkboxEl2?.dispatchEvent(clickEvent);
     expect(blockgridItemEl2.selected).toBe('true');
   });
 

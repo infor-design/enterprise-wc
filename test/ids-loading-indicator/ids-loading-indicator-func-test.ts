@@ -4,9 +4,10 @@
 import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavior';
 import processAnimFrame from '../helpers/process-anim-frame';
 import '../../src/components/ids-loading-indicator/ids-loading-indicator';
+import type IdsLoadingIndicator from '../../src/components/ids-loading-indicator/ids-loading-indicator';
 
 describe('IdsLoadingIndicator Component', () => {
-  let elem: any;
+  let elem: IdsLoadingIndicator;
 
   const createElemViaTemplate = async (innerHTML: any) => {
     elem?.remove?.();
@@ -33,8 +34,8 @@ describe('IdsLoadingIndicator Component', () => {
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
 
-    elem.shadowRoot.querySelector('style').remove();
-    expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
+    elem.shadowRoot?.querySelector('style')?.remove();
+    expect(elem.shadowRoot?.innerHTML).toMatchSnapshot();
   });
 
   it('renders circular/determinate with no errors', async () => {
@@ -45,8 +46,8 @@ describe('IdsLoadingIndicator Component', () => {
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
 
-    elem.shadowRoot.querySelector('style').remove();
-    expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
+    elem.shadowRoot?.querySelector('style')?.remove();
+    expect(elem.shadowRoot?.innerHTML).toMatchSnapshot();
   });
 
   it('renders linear/indeterminate indicator without error', async () => {
@@ -57,8 +58,8 @@ describe('IdsLoadingIndicator Component', () => {
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
 
-    elem.shadowRoot.querySelector('style').remove();
-    expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
+    elem.shadowRoot?.querySelector('style')?.remove();
+    expect(elem.shadowRoot?.innerHTML).toMatchSnapshot();
   });
 
   it('renders linear/determinate indicator without error', async () => {
@@ -69,8 +70,8 @@ describe('IdsLoadingIndicator Component', () => {
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
 
-    elem.shadowRoot.querySelector('style').remove();
-    expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
+    elem.shadowRoot?.querySelector('style')?.remove();
+    expect(elem.shadowRoot?.innerHTML).toMatchSnapshot();
   });
 
   it('renders sticky/indeterminate indicator without error', async () => {
@@ -81,8 +82,8 @@ describe('IdsLoadingIndicator Component', () => {
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
 
-    elem.shadowRoot.querySelector('style').remove();
-    expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
+    elem.shadowRoot?.querySelector('style')?.remove();
+    expect(elem.shadowRoot?.innerHTML).toMatchSnapshot();
   });
 
   it('sets and gets the progress attribute reliably', async () => {
@@ -125,7 +126,7 @@ describe('IdsLoadingIndicator Component', () => {
     );
     expect(elem.type).toEqual('linear');
 
-    elem.setAttribute('sticky', true);
+    elem.setAttribute('sticky', 'true');
     expect(elem.type).toEqual('sticky');
 
     elem.removeAttribute('sticky');

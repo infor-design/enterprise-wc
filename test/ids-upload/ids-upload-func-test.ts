@@ -42,7 +42,7 @@ describe('IdsUpload Component', () => {
   });
 
   it('should handle events', () => {
-    expect(upload.isFilePickerOpened).toEqual(undefined);
+    expect(upload.isFilePickerOpened).toEqual(false);
     upload.value = 'test';
     upload.isFilePickerOpened = true;
     let event = new Event('focus', { bubbles: true });
@@ -134,9 +134,9 @@ describe('IdsUpload Component', () => {
     upload.disabled = 'true';
     upload.clear();
     expect(upload.textInput.value).toEqual('test2');
-    expect(upload.isFilePickerOpened).toEqual(undefined);
+    expect(upload.isFilePickerOpened).toEqual(false);
     upload.open();
-    expect(upload.isFilePickerOpened).toEqual(undefined);
+    expect(upload.isFilePickerOpened).toEqual(false);
     upload.disabled = null;
     upload.open();
     expect(upload.isFilePickerOpened).toEqual(true);
@@ -308,7 +308,7 @@ describe('IdsUpload Component', () => {
   it('should set field-height and compact', () => {
     expect(upload.getAttribute('field-height')).toEqual(null);
     expect(upload.getAttribute('compact')).toEqual(null);
-    expect(upload.textInput.fieldHeight).toBe(null);
+    expect(upload.textInput.fieldHeight).toBe('md');
     upload.fieldHeight = 'lg';
     expect(upload.getAttribute('field-height')).toEqual('lg');
     expect(upload.getAttribute('compact')).toEqual(null);
@@ -317,12 +317,12 @@ describe('IdsUpload Component', () => {
     upload.compact = true;
     expect(upload.getAttribute('field-height')).toEqual(null);
     expect(upload.getAttribute('compact')).toEqual('');
-    expect(upload.textInput.fieldHeight).toBe(null);
+    expect(upload.textInput.fieldHeight).toBe('md');
     upload.compact = null;
     upload.onFieldHeightChange();
     expect(upload.getAttribute('field-height')).toEqual(null);
     expect(upload.getAttribute('compact')).toEqual(null);
-    expect(upload.textInput.fieldHeight).toBe(null);
+    expect(upload.textInput.fieldHeight).toBe('md');
   });
 
   it('should render label filetype', () => {

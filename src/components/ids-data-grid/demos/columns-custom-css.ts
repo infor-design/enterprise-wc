@@ -12,6 +12,18 @@ const container: any = document.querySelector('ids-container');
 
 if (dataGrid) {
   (async function init() {
+    // Define tooltip css part callback
+    const tooltipCssPartCallback = (args: { type: string }): string => {
+      const { type } = args;
+      let cssPart = '';
+      if (type === 'body-cell') {
+        const parts = ['azure', 'ruby', 'emerald', 'amethyst'];
+        const randomIndex = Math.floor(Math.random() * parts.length);
+        cssPart = parts[randomIndex];
+      }
+      return cssPart;
+    };
+
     // Set Locale and wait for it to load
     await container?.setLocale('en-US');
 
@@ -32,6 +44,23 @@ if (dataGrid) {
       name: 'Ledger',
       field: 'ledger',
       formatter: dataGrid.formatters.text
+    });
+    columns.push({
+      id: 'tooltip-css-part',
+      name: 'Tooltip CssPart',
+      field: 'location',
+      formatter: dataGrid.formatters.text,
+      tooltipCssPart: 'custom-turquoise',
+      headerTooltipCssPart: 'custom-turquoise',
+      width: 100
+    });
+    columns.push({
+      id: 'tooltip-css-part-callback',
+      name: 'Tooltip CssPart Callback',
+      field: 'location',
+      formatter: dataGrid.formatters.text,
+      tooltipCssPart: tooltipCssPartCallback,
+      width: 110
     });
     columns.push({
       id: 'publishDate',

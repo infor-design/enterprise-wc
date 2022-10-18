@@ -1,7 +1,15 @@
+import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 import { stripTags, stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import type { IdsLabelStateMode } from './ids-label-state-common';
 import { IdsLabelStateAttributes, isLabelRequiredValid } from './ids-label-state-common';
+
+export interface LabelStateHandler {
+  onLabelStateChange?(variantName: IdsLabelStateMode): void;
+}
+
+type Constraints = IdsConstructor<LabelStateHandler>;
 
 /**
  * A mixin that will provide the container element of an IdsInputComponent with a class
@@ -9,27 +17,28 @@ import { IdsLabelStateAttributes, isLabelRequiredValid } from './ids-label-state
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsLabelStateMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsLabelStateMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
 
     if (!this.state) {
       this.state = {};
     }
     this.state.label = '';
-    this.state.labelState = null;
   }
 
   connectedCallback() {
     super.connectedCallback?.();
+    this.state.labelState = null;
+
     if (this.hasAttribute(attributes.LABEL_STATE)) {
-      this.labelState = this.getAttribute(attributes.LABEL_STATE);
+      this.labelState = this.getAttribute(attributes.LABEL_STATE) as IdsLabelStateMode;
     }
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       ...IdsLabelStateAttributes
     ];
   }
@@ -83,11 +92,11 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
   set labelRequired(value: string | boolean) {
     const safeValue = isLabelRequiredValid(value);
     if (value !== null) {
-      this.setAttribute(attributes.LABEL_REQUIRED, safeValue);
+      this.setAttribute(attributes.LABEL_REQUIRED, safeValue.toString());
     } else {
       this.removeAttribute(attributes.LABEL_REQUIRED);
     }
-    this.labelEl?.classList[!safeValue ? 'add' : 'remove']('no-required-indicator');
+    (this as IdsInputInterface).labelEl?.classList[!safeValue ? 'add' : 'remove']('no-required-indicator');
   }
 
   get labelRequired(): boolean {
@@ -156,10 +165,10 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
   #setlabelState(doHide: IdsLabelStateMode = null) {
     if (doHide) {
       this.#hideLabel();
-      this.input?.setAttribute(htmlAttributes.ARIA_LABEL, this.label);
+      (this as IdsInputInterface).input?.setAttribute(htmlAttributes.ARIA_LABEL, this.label);
     } else {
       this.#showLabel();
-      this.input?.removeAttribute(htmlAttributes.ARIA_LABEL);
+      (this as IdsInputInterface).input?.removeAttribute(htmlAttributes.ARIA_LABEL);
     }
   }
 
@@ -169,9 +178,10 @@ const IdsLabelStateMixin = (superclass: any) => class extends superclass {
 
   #showLabel() {
     const existingLabel = this.shadowRoot?.querySelector('label');
-    if (!existingLabel && !this.labelEl) {
-      if (this.fieldContainer) {
-        this.fieldContainer.insertAdjacentHTML('beforebegin', `<label for="${this.id}-input" class="ids-label-text">
+    const thisAsInput = this as IdsInputInterface;
+    if (!existingLabel && !thisAsInput.labelEl) {
+      if (thisAsInput.fieldContainer) {
+        thisAsInput.fieldContainer?.insertAdjacentHTML('beforebegin', `<label for="${(this as any).id}-input" class="ids-label-text">
           <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
         </label>`);
       }

@@ -9,6 +9,7 @@ import '../ids-text/ids-text';
 import '../ids-icon/ids-icon';
 
 import styles from './ids-upload.scss';
+import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
 // Input id
 const ID = 'ids-upload-id';
@@ -38,6 +39,14 @@ export default class IdsUpload extends Base {
   }
 
   isFormComponent = true;
+
+  isFilePickerOpened = false;
+
+  trigger?: IdsTriggerButton | null;
+
+  fileInput?: HTMLInputElement | null;
+
+  files?: FileList | null;
 
   /**
    * Return the attributes we handle as getters/setters
@@ -117,8 +126,7 @@ export default class IdsUpload extends Base {
     super.connectedCallback();
     this.trigger = this.shadowRoot?.querySelector('.trigger');
     this.fileInput = this.shadowRoot?.querySelector(`#${ID}`);
-
-    this.files = this.fileInput.files;
+    this.files = this.fileInput?.files;
     this.#attachEventHandlers();
   }
 
@@ -132,7 +140,7 @@ export default class IdsUpload extends Base {
     const dirtyTracker = trueVal(this.dirtyTracker) ? ` dirty-tracker="${this.dirtyTracker}"` : '';
     const disabled = trueVal(this.disabled) ? ` disabled="${this.disabled}"` : '';
     const readonlyBG = trueVal(this.readonly) ? '' : ' readonly-background';
-    const textEllipsis = trueVal(this.noTextEllipsis) ? '' : ' text-ellipsis="true"';
+    const textEllipsis = trueVal(this.textEllipsis) ? ' text-ellipsis="true"' : '';
     const label = this.label ? ` label="${this.label}"` : '';
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const multiple = trueVal(this.multiple) ? ` multiple="multiple"` : '';
@@ -223,7 +231,7 @@ export default class IdsUpload extends Base {
      */
     this.triggerEvent('change', this, {
       detail: {
-        files: this.fileInput.files,
+        files: this.fileInput?.files,
         textValue: this.value,
         elem: this,
         nativeEvent: e
@@ -242,8 +250,8 @@ export default class IdsUpload extends Base {
         this.isFilePickerOpened = false;
         // Need timeout because `focus` get before the `files` on fileInput
         setTimeout(() => {
-          const files = this.fileInput.files;
-          const eventName = `files${files.length ? 'select' : 'cancel'}`;
+          const files = this.fileInput?.files;
+          const eventName = `files${files?.length ? 'select' : 'cancel'}`;
           this.triggerEvent(eventName, this.fileInput, {
             detail: { files, elem: this }
           });
@@ -259,7 +267,7 @@ export default class IdsUpload extends Base {
    */
   handleFileInputChangeEvent(): void {
     this.onEvent('change', this.fileInput, (e: CustomEvent) => {
-      const files = this.fileInput.files;
+      const files = this.fileInput?.files;
       this.value = [].slice.call(files).map((f: any) => f.name).join(', ');
       this.dispatchChangeEvent(e);
     });
@@ -284,14 +292,14 @@ export default class IdsUpload extends Base {
   handleTextInputDragDrop(): void {
     if (this.hasAccess) {
       this.onEvent('dragenter', this.textInput, () => {
-        this.fileInput.style.zIndex = '1';
+        this.fileInput?.style.setProperty('z-index', '1');
       });
 
       const events = ['dragleave', 'dragend', 'drop'];
       events.forEach((eventName) => {
         this.onEvent(eventName, this.textInput, () => {
           setTimeout(() => {
-            this.fileInput.style.zIndex = '';
+            this.fileInput?.style.setProperty('z-index', '');
           }, 1);
         });
       });
@@ -402,9 +410,9 @@ export default class IdsUpload extends Base {
 
   /**
    * Set `accept` attribute
-   * @param {string | undefined} value `accept` attribute
+   * @param {string | null} value `accept` attribute
    */
-  set accept(value: string | undefined) {
+  set accept(value: string | null) {
     if (value) {
       this.setAttribute(attributes.ACCEPT, value);
       this.fileInput?.setAttribute(attributes.ACCEPT, value);
@@ -414,7 +422,7 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get accept(): string | undefined { return this.getAttribute(attributes.ACCEPT); }
+  get accept(): string | null { return this.getAttribute(attributes.ACCEPT); }
 
   /**
    * Set `disabled` attribute
@@ -436,13 +444,15 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get disabled(): boolean | string { return this.getAttribute(attributes.DISABLED); }
+  get disabled(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
+  }
 
   /**
    * Set the `label` text of input label
-   * @param {string | undefined} value of the `label` text property
+   * @param {string} value of the `label` text property
    */
-  set label(value: string | undefined) {
+  set label(value: string) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
       if (this.textInput) this.textInput.label = value;
@@ -452,24 +462,28 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get label(): string | undefined { return this.getAttribute(attributes.LABEL); }
+  get label(): string {
+    return this.getAttribute(attributes.LABEL) ?? '';
+  }
 
   /**
    * Set the label for filetype
-   * @param {string | undefined} value The label for filetype
+   * @param {string | null} value The label for filetype
    */
-  set labelFiletype(value: string | undefined) {
+  set labelFiletype(value: string | null) {
     const labelEL = this.shadowRoot?.querySelector('.label-filetype');
     if (value) {
       this.setAttribute(attributes.LABEL_FILETYPE, value);
-      labelEL.textContent = value;
+      if (labelEL)labelEL.textContent = value;
     } else {
       this.removeAttribute(attributes.LABEL_FILETYPE);
-      labelEL.textContent = this.labelFiletypeDefault;
+      if (labelEL) labelEL.textContent = this.labelFiletypeDefault;
     }
   }
 
-  get labelFiletype(): string | undefined { return this.getAttribute(attributes.LABEL_FILETYPE); }
+  get labelFiletype(): string | null {
+    return this.getAttribute(attributes.LABEL_FILETYPE);
+  }
 
   /**
    * Set `label-required` attribute
@@ -505,7 +519,9 @@ export default class IdsUpload extends Base {
     this.fileInput?.removeAttribute(attributes.MULTIPLE);
   }
 
-  get multiple(): boolean | string { return this.getAttribute(attributes.MULTIPLE); }
+  get multiple(): boolean {
+    return stringToBool(this.getAttribute(attributes.MULTIPLE));
+  }
 
   /**
    * Sets the no margins attribute
@@ -545,9 +561,9 @@ export default class IdsUpload extends Base {
 
   /**
    * Set the `placeholder` of input
-   * @param {string | undefined} value of the `placeholder` property
+   * @param {string | null} value of the `placeholder` property
    */
-  set placeholder(value: string | undefined) {
+  set placeholder(value: string | null) {
     if (value) {
       this.setAttribute(attributes.PLACEHOLDER, value);
       this.textInput.placeholder = value;
@@ -557,7 +573,9 @@ export default class IdsUpload extends Base {
     this.textInput.placeholder = null;
   }
 
-  get placeholder(): string | undefined { return this.getAttribute(attributes.PLACEHOLDER); }
+  get placeholder(): string | null {
+    return this.getAttribute(attributes.PLACEHOLDER);
+  }
 
   /**
    * Set the `readonly` of input
@@ -583,7 +601,9 @@ export default class IdsUpload extends Base {
     }
   }
 
-  get readonly(): boolean | string { return this.getAttribute(attributes.READONLY); }
+  get readonly(): boolean | string {
+    return stringToBool(this.getAttribute(attributes.READONLY));
+  }
 
   /**
    * Set the size of input
@@ -627,10 +647,10 @@ export default class IdsUpload extends Base {
     const labelEL = this.shadowRoot?.querySelector('.trigger-label');
     if (value) {
       this.setAttribute(attributes.TRIGGER_LABEL, value);
-      labelEL.textContent = value;
+      if (labelEL) labelEL.textContent = value;
     } else {
       this.removeAttribute(attributes.TRIGGER_LABEL);
-      labelEL.textContent = this.triggerLabelDefault;
+      if (labelEL) labelEL.textContent = this.triggerLabelDefault;
     }
   }
 
@@ -678,10 +698,10 @@ export default class IdsUpload extends Base {
       if (this.textInput) this.textInput.value = val;
     } else {
       this.removeAttribute(attributes.VALUE);
-      if (this.fileInput) this.fileInput.value = null;
+      if (this.fileInput) this.fileInput.value = '';
       if (this.textInput) this.textInput.value = '';
     }
-    if (this.files) this.files = this.fileInput.files;
+    if (this.files) this.files = this.fileInput?.files;
   }
 
   get value(): string | null { return this.getAttribute(attributes.VALUE); }

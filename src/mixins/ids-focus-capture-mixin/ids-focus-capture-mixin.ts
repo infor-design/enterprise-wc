@@ -4,8 +4,12 @@ import { attributes } from '../../core/ids-attributes';
 // Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { IdsConstructor } from '../../core/ids-element';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
 const FOCUS_CAPTURE_EVENTNAME = 'keydown.focus-capture';
+
+type Constraints = IdsConstructor<EventsMixinInterface>;
 
 /**
  * Doesn't allow keyboard focus to be present on elements outside of this one
@@ -13,14 +17,14 @@ const FOCUS_CAPTURE_EVENTNAME = 'keydown.focus-capture';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsFocusCaptureMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.CAPTURES_FOCUS,
       attributes.CYCLES_FOCUS
     ];

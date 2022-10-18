@@ -9,6 +9,12 @@ import IdsDataSource from '../../core/ids-data-source';
 const DEFAULT_HEIGHT = '100vh';
 const DEFAULT_ITEM_HEIGHT = 50;
 
+type OnAfterVirtualScrollArgs = {
+  elem: IdsVirtualScroll;
+  startIndex: number;
+  endIndex: number;
+};
+
 /**
  * IDS Virtual Scroll Component
  * @type {IdsVirtualScroll}
@@ -21,15 +27,34 @@ export default class IdsVirtualScroll extends Base {
   // Array is a pointer to a datasource in a parent component
   datasource: IdsDataSource | Record<string, any> = {};
 
+  timeout?: number | null;
+
+  initialized = false;
+
+  lastStart = NaN;
+
+  lastEnd = NaN;
+
+  eventTarget: HTMLElement | null = null;
+
+  onAfterVirtualScroll?: (data: OnAfterVirtualScrollArgs) => void;
+
+  // eslint-disable-next-line no-template-curly-in-string
+  stringTemplate = '<div class="ids-virtual-scroll-item" part="list-item">${productName}</div>';
+
   constructor() {
     super();
+
+    Object.defineProperty(this, 'scrollTop', {
+      get: () => this.#scrollTop,
+      set: (value) => { this.#scrollTop = value; },
+      enumerable: true,
+      configurable: true
+    });
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.initialized = false;
-    // eslint-disable-next-line no-template-curly-in-string
-    this.stringTemplate = '<div class="ids-virtual-scroll-item" part="list-item">${productName}</div>';
     this.applyHeight();
     this.renderItems(false);
     this.#attachEventHandlers();
@@ -49,7 +74,7 @@ export default class IdsVirtualScroll extends Base {
    * @private
    * @param {Event} e The scroll event data
    */
-  handleScroll(e: Event): void {
+  handleScroll(e: Partial<Event>): void {
     if (this.timeout) {
       cancelAnimationFrame(this.timeout);
     }
@@ -91,12 +116,12 @@ export default class IdsVirtualScroll extends Base {
         return node;
       });
 
-      const offset = this.container.querySelector('.offset');
-      offset.style.transform = `translateY(${this.offsetY}px)`;
+      const offset = this.container?.querySelector<HTMLElement>('.offset');
+      offset?.style.setProperty('transform', `translateY(${this.offsetY}px)`);
 
       // work-around for outside components to style contents inside this shadowroot
       const wrapper = this.querySelector('[part="contents"]');
-      wrapper.innerHTML = html;
+      if (wrapper) wrapper.innerHTML = html;
 
       this.triggerEvent('aftervirtualscroll', this, { detail: { elem: this, startIndex, endIndex } });
       if (this.onAfterVirtualScroll) this.onAfterVirtualScroll({ elem: this, startIndex, endIndex });
@@ -112,7 +137,7 @@ export default class IdsVirtualScroll extends Base {
     if (!this.initialized) {
       return;
     }
-    const content = this.container.querySelector('.ids-virtual-scroll-content');
+    const content = this.container?.querySelector<HTMLElement>('.ids-virtual-scroll-content');
 
     if (typeof this.height === 'string' && this.height?.includes('vh')) {
       const spaceFromTop = this.getBoundingClientRect().y;
@@ -121,10 +146,10 @@ export default class IdsVirtualScroll extends Base {
       this.style.height = `${this.height}`;
     }
 
-    content.style.height = `${this.contentHeight}px`;
+    content?.style.setProperty('height', `${this.contentHeight}px`);
 
-    const offset = this.container.querySelector('.offset');
-    offset.style.transform = `translateY(${this.offsetY}px)`;
+    const offset = this.container?.querySelector<HTMLElement>('.offset');
+    offset?.style.setProperty('transform', `translateY(${this.offsetY}px)`);
   }
 
   /**
@@ -171,9 +196,9 @@ export default class IdsVirtualScroll extends Base {
 
   /**
    * The height of the virtual scroll container
-   * @param {number|string|undefined} value the height for css
+   * @param {number|string|null} value the height for css
    */
-  set height(value: number | string | undefined) {
+  set height(value: number | string | null) {
     if (value) {
       this.setAttribute(attributes.HEIGHT, value.toString());
       this.applyHeight();
@@ -183,7 +208,7 @@ export default class IdsVirtualScroll extends Base {
     this.removeAttribute(attributes.HEIGHT);
   }
 
-  get height(): number | string | undefined {
+  get height(): number | string {
     return this.getAttribute(attributes.HEIGHT) || DEFAULT_HEIGHT;
   }
 
@@ -191,7 +216,7 @@ export default class IdsVirtualScroll extends Base {
    * The height of each item in the scroller. TODO: support dynamic heights
    * @param {number|string} value the height of each item in pixels
    */
-  set itemHeight(value: number) {
+  set itemHeight(value: number | null) {
     if (value) {
       this.setAttribute(attributes.ITEM_HEIGHT, value.toString());
       this.applyHeight();
@@ -203,15 +228,15 @@ export default class IdsVirtualScroll extends Base {
   }
 
   get itemHeight(): number {
-    const result = this.getAttribute(attributes.ITEM_HEIGHT) || DEFAULT_ITEM_HEIGHT;
-    return result;
+    const value = parseFloat(this.getAttribute(attributes.ITEM_HEIGHT) ?? '');
+    return Number.isNaN(value) ? DEFAULT_ITEM_HEIGHT : value;
   }
 
   /**
    * Extra padding at the top and bottom so that the data transition smoothly
    * @param {number} value The number of extra top and bottom elements
    */
-  set bufferSize(value: number) {
+  set bufferSize(value: number | null) {
     if (value) {
       this.setAttribute(attributes.BUFFER_SIZE, value.toString());
       return;
@@ -220,13 +245,16 @@ export default class IdsVirtualScroll extends Base {
     this.removeAttribute(attributes.BUFFER_SIZE);
   }
 
-  get bufferSize(): number { return this.getAttribute(attributes.BUFFER_SIZE) || 10; }
+  get bufferSize(): number {
+    const value = parseFloat(this.getAttribute(attributes.BUFFER_SIZE) ?? '');
+    return Number.isNaN(value) ? 10 : value;
+  }
 
   /**
    * Set the scroll top position and scroll down to that location
    * @param {number | string} value The number of pixels from the top
    */
-  set scrollTop(value: number | string | any) {
+  set #scrollTop(value: number | string | any) {
     const val = parseFloat(value);
     if (!(Number.isNaN(val))) {
       this.setAttribute(attributes.SCROLL_TOP, val.toString());
@@ -238,7 +266,10 @@ export default class IdsVirtualScroll extends Base {
     this.removeAttribute(attributes.SCROLL_TOP);
   }
 
-  get scrollTop(): number { return this.getAttribute(attributes.SCROLL_TOP) || 0; }
+  get #scrollTop(): number {
+    const value = parseFloat(this.getAttribute(attributes.SCROLL_TOP) ?? '');
+    return Number.isNaN(value) ? 0 : value;
+  }
 
   /**
    * Scroll to a indexed item bring it into center view.
@@ -281,13 +312,13 @@ export default class IdsVirtualScroll extends Base {
 
   /**
    * Set the data array of the listview
-   * @param {Array|undefined} array The array to use
+   * @param {Array|null} array The array to use
    */
-  set data(array: Array<any>) {
+  set data(array: Array<any> | null) {
     if (array && this.datasource) {
       this.datasource.data = array;
-      this.lastStart = null;
-      this.lastEnd = null;
+      this.lastStart = NaN;
+      this.lastEnd = NaN;
       this.scrollTop = 0;
       this.initialized = true;
       this.applyHeight();
@@ -304,9 +335,9 @@ export default class IdsVirtualScroll extends Base {
 
   /**
    * Set the scroll target to a external parent
-   * @param {HTMLElement|undefined} value The array to use
+   * @param {HTMLElement|null} value The array to use
    */
-  set scrollTarget(value: HTMLElement | undefined) {
+  set scrollTarget(value: HTMLElement | undefined | null) {
     if (value) {
       this.eventTarget = value;
       this.onEvent('scroll', this.eventTarget, (e: any) => {
@@ -315,7 +346,7 @@ export default class IdsVirtualScroll extends Base {
     }
   }
 
-  get scrollTarget(): HTMLElement | undefined {
-    return this?.eventTarget;
+  get scrollTarget(): HTMLElement | null {
+    return this.eventTarget;
   }
 }
