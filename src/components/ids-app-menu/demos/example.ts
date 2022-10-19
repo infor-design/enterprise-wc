@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const appMenuTriggerBtn: any = document.querySelector('#app-menu-trigger');
   const container: any = document.querySelector('ids-container');
 
-  appMenuTriggerBtn.addEventListener('click', (e) => {
+  appMenuTriggerBtn.addEventListener('click', () => {
     if (appMenuDrawer.visible) {
       appMenuDrawer.hide();
     } else {
