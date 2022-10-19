@@ -18,6 +18,8 @@ import type IdsMenuItem from '../ids-menu/ids-menu-item';
 let instanceCounter = 0;
 
 export interface IdsDataGridFilterConditions {
+  /** The filter element */
+  filterElem?: any;
   /** The id of the column */
   columnId?: string;
   /** The value filter */
@@ -43,6 +45,7 @@ export default class IdsDataGridFilters {
    * @type {object}
    */
   DEFAULTS = {
+    disableClientFilter: false,
     filterable: true,
     filterWhenTyping: true,
     filterRowDisabled: false
@@ -156,7 +159,7 @@ export default class IdsDataGridFilters {
     return `
       ${this.#filterButtonTemplate(TYPE, column)}
       <ids-date-picker
-        color-variant="alternate-formatter"
+        color-variant="${!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'}"
         data-filter-type="${TYPE}"
         size="${opt.size || 'full'}"
         label="${label}"
@@ -197,7 +200,7 @@ export default class IdsDataGridFilters {
     return `
       ${this.#filterButtonTemplate(TYPE, column)}
       <ids-time-picker
-        color-variant="alternate-formatter"
+        color-variant="${!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'}"
         data-filter-type="${TYPE}"
         size="${opt.size || 'full'}"
         label="${label}"
@@ -244,6 +247,26 @@ export default class IdsDataGridFilters {
   }
 
   /**
+   * Set datepicker type to range or single date.
+   * @private
+   * @param {object} datePicker datepicker element.
+   * @param {string} operator filter type.
+   * @returns {void}
+   */
+  #setDatePicker(datePicker: any, operator?: string): void {
+    if (datePicker) {
+      if (operator === 'in-range') {
+        datePicker.useRange = true;
+      } else {
+        const startDateValue = datePicker.value.split(datePicker.rangeSettings.separator)[0];
+        datePicker.rangeSettings = { start: null, end: null };
+        datePicker.useRange = false;
+        if (datePicker.value !== startDateValue) datePicker.value = startDateValue;
+      }
+    }
+  }
+
+  /**
    * Reset all filters as initial state.
    * @returns {void}
    */
@@ -269,7 +292,10 @@ export default class IdsDataGridFilters {
         if (btn) {
           let item = btn.menuEl.items.filter((itm: any) => itm.value === initial?.btn?.value)[0];
           if (!item) item = btn.menuEl.items[0];
-          if (item) btn.menuEl.selectItem(item);
+          if (item) {
+            btn.menuEl.selectItem(item);
+            if (datePicker) this.#setDatePicker(datePicker, item.value);
+          }
         }
       }
     });
@@ -295,21 +321,28 @@ export default class IdsDataGridFilters {
         const dropdown = node.querySelector('ids-dropdown');
         const datePicker = node.querySelector('ids-date-picker');
         const timePicker = node.querySelector('ids-time-picker');
+        const headerElem = node.closest('.ids-data-grid-header-cell');
+        const columnData = this.root.columnDataByHeaderElem(headerElem);
 
         if (input) input.value = c.value || '';
         if (datePicker) datePicker.value = c.value || '';
         if (timePicker) timePicker.value = c.value || '';
         if (dropdown) {
-          const headerElem = node.closest('.ids-data-grid-header-cell');
-          const columnData = this.root.columnDataByHeaderElem(headerElem);
           dropdown.value = c.value || '';
           if (dropdown.value === this.#dropdownNotFilterItem(columnData).value) toBeRemoved.push(i);
+        }
+        if (timePicker && !columnData.formatOptions?.dateFormat && !columnData.formatOptions?.timeStyle) {
+          if (!columnData.formatOptions) columnData.formatOptions = {};
+          columnData.formatOptions.dateFormat = timePicker.format;
+          columnData.formatOptions.timeStyle = 'short';
         }
         if (btn) {
           let item = btn.menuEl.items.filter((itm: any) => itm.value === c.operator)[0];
           if (!item) item = btn.menuEl.items[0];
           if (item) btn.menuEl.selectItem(item);
         }
+        if (!c.filterElem) c.filterElem = timePicker || datePicker || dropdown || input;
+        this.#setDatePicker(datePicker, c.operator);
       }
     });
     if (toBeRemoved.length) conditions = conditions.filter((c, i) => !toBeRemoved.includes(i));
@@ -344,15 +377,20 @@ export default class IdsDataGridFilters {
         }
         if (timePicker && !columnData.formatOptions?.dateFormat && !columnData.formatOptions?.timeStyle) {
           if (!columnData.formatOptions) columnData.formatOptions = {};
+          columnData.formatOptions.dateFormat = timePicker.format;
           columnData.formatOptions.timeStyle = 'short';
         }
+        this.#setDatePicker(datePicker, operator);
 
         if (operator === 'selected-notselected') return;
         if (value === '' && !dropdown && !(/\b(is-not-empty|is-empty|selected|not-selected)\b/g.test(operator))) return;
 
+        const filterElem = timePicker || datePicker || dropdown || input;
+
         const condition = {
           columnId: columnData.id,
           columnData,
+          filterElem,
           operator,
           value
         };
@@ -382,6 +420,13 @@ export default class IdsDataGridFilters {
 
     // No need to go further, if no condition/s to filter
     if ((!conditions?.length && !this.root.datasource.filtered) || !conditions) {
+      this.#filterIsProcessing = false;
+      return;
+    }
+
+    // Client filter
+    if (this.root.disableClientFilter) {
+      this.root.triggerEvent('clientfiltered', this.root, { bubbles: true, detail: { elem: this.root, conditions } });
       this.#filterIsProcessing = false;
       return;
     }
@@ -459,7 +504,7 @@ export default class IdsDataGridFilters {
         if (filterType === 'date' || filterType === 'time') {
           if (/string|undefined/g.test(typeof value)) value = formatterVal();
           const getValues = (rValue: any, cValue: any) => {
-            let format = c.format || column.formatOptions;
+            const format = c.format || column.formatOptions;
             cValue = this.root.locale?.parseDate(cValue, format);
             if (cValue) {
               if (filterType === 'time') {
@@ -473,13 +518,7 @@ export default class IdsDataGridFilters {
             }
 
             if (typeof rValue === 'string' && rValue) {
-              if (!column.sourceFormat) {
-                rValue = this.root.locale?.parseDate(rValue, format);
-              } else {
-                format = typeof column.sourceFormat === 'string'
-                  ? { dateFormat: column.sourceFormat } : column.sourceFormat;
-                rValue = this.root.locale?.parseDate(rValue, format);
-              }
+              rValue = this.root.locale?.parseDate(rValue, format);
 
               if (rValue) {
                 if (filterType === 'time') {
@@ -502,8 +541,18 @@ export default class IdsDataGridFilters {
           };
 
           let values = null;
-          if (c.operator === 'in-range') {
-            // range stuff
+          if (c.operator === 'in-range') { // range stuff
+            const datePicker = c.filterElem;
+            if (datePicker) {
+              if (c.value.indexOf(datePicker.rangeSettings.separator) > -1) {
+                const cValues = c.value.split(datePicker.rangeSettings.separator);
+                const range = { start: getValues(value, cValues[0]), end: getValues(value, cValues[1]) };
+                values = {
+                  rValue: range.start.rValue,
+                  cValue: { start: range.start.cValue, end: range.end.cValue }
+                };
+              } else values = getValues(value, c.value);
+            }
           } else {
             values = getValues(value, c.value);
           }
@@ -548,6 +597,9 @@ export default class IdsDataGridFilters {
             isMatch = !(value === null);
             break;
           case 'in-range':
+            if (typeof conditionValue === 'object') {
+              isMatch = value >= conditionValue.start && value <= conditionValue.end && value !== '';
+            } else isMatch = (value === conditionValue && value !== '');
             break;
           case 'less-than':
             isMatch = (value < conditionValue && (value !== '' && value !== null));
@@ -599,6 +651,7 @@ export default class IdsDataGridFilters {
     // Fires after filter action occurs
     if (isCleared || isFilterApply) {
       this.root.triggerEvent('filtered', this.root, {
+        bubbles: true,
         detail: { elem: this.root, type: isCleared ? 'clear' : 'apply', conditions }
       });
     }
@@ -642,7 +695,7 @@ export default class IdsDataGridFilters {
 
     // Set compulsory attributes for slotted elements
     const setCompulsoryAttributes = (el: any) => {
-      el?.setAttribute('color-variant', 'alternate-formatter');
+      el?.setAttribute('color-variant', (!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'));
       el?.setAttribute('label-state', 'collapsed');
       el?.setAttribute('no-margins', '');
       el?.setAttribute('compact', '');
@@ -651,20 +704,19 @@ export default class IdsDataGridFilters {
     this.filterNodes.forEach((n: any) => {
       const slot = n.querySelector('slot[name^="filter-"]');
       const node = slot ? slot.assignedElements()[0] : n;
-      if (!node) return;
-      const input = node.querySelector('ids-input');
+      const headerElem = n.closest('.ids-data-grid-header-cell');
+      const column = this.root.columnDataByHeaderElem(headerElem);
+      const input = node?.querySelector('ids-input');
       const type = input?.getAttribute('data-filter-type');
-      const dropdown = node.querySelector('ids-dropdown');
-      const datePicker = node.querySelector('ids-date-picker');
-      const timePicker = node.querySelector('ids-time-picker');
-      const btn = node.querySelector('ids-menu-button');
-      const menu = node.querySelector('ids-popup-menu');
+      const dropdown = node?.querySelector('ids-dropdown');
+      const datePicker = node?.querySelector('ids-date-picker');
+      const timePicker = node?.querySelector('ids-time-picker');
+      const btn = node?.querySelector('ids-menu-button');
+      const menu = node?.querySelector('ids-popup-menu');
       let menuAttachment = '.ids-data-grid-wrapper';
 
       // Slotted filter only
       if (slot && (input || dropdown || datePicker || timePicker || btn)) {
-        const headerElem = n.closest('.ids-data-grid-header-cell');
-        const column = this.root.columnDataByHeaderElem(headerElem);
         menuAttachment = 'ids-data-grid';
 
         // Slotted initial
@@ -683,7 +735,7 @@ export default class IdsDataGridFilters {
         setCompulsoryAttributes(timePicker);
         if (btn) {
           btn.cssClass = [...new Set([...btn.cssClass, 'compact'])];
-          btn.setAttribute('color-variant', 'alternate-formatter');
+          btn.setAttribute('color-variant', (!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'));
           btn.setAttribute('column-id', column.id);
           btn.setAttribute('square', 'true');
         }
@@ -709,6 +761,13 @@ export default class IdsDataGridFilters {
       // (normally it targets the body tag, but this causes usability issues when combined with data grid)
       if (timePicker) {
         timePicker.popupOpenEventsTarget = timePicker.closest('.ids-data-grid');
+      }
+
+      // Date picker adjust range settings
+      if (datePicker) {
+        const rangeSettings = column.filterOptions?.rangeSettings;
+        if (rangeSettings) datePicker.rangeSettings = rangeSettings;
+        datePicker.useRange = (btn?.menuEl?.getSelectedValues()[0] === 'in-range');
       }
 
       // Integer type mask
@@ -738,26 +797,29 @@ export default class IdsDataGridFilters {
    * @returns {void}
    */
   attachFilterEventHandlers() {
-    // Captures menu contents when using built-in filter menus, which are in Shadow Root
+    // Captures menu contents for menu button selection.
+    this.root.offEvent(`selected.${this.#id()}`, this.root.wrapper);
     this.root.onEvent(`selected.${this.#id()}`, this.root.wrapper, (e: any) => {
       const elem = e.detail?.elem;
       if (!elem || (elem && !(/ids-menu-item/gi.test(elem.nodeName)))) return;
       this.#handleMenuButtonSelected(elem);
     });
 
-    // Captures menu contents when using custom filter menus, which are slotted (light DOM)
-    this.root.onEvent(`selected.${this.#id()}`, this.root, (e: any) => {
-      const elem = e.detail?.elem;
-      if (!elem || (elem && !(/ids-menu-item/gi.test(elem.nodeName)))) return;
-      this.#handleMenuButtonSelected(elem);
-    });
-
-    // Change event for input, dropdown, multiselect, date-picker and time-picker
-    this.root.onEvent(`change.${this.#id()}`, this.root.header, (e: any) => {
+    // Change event for input, dropdown and multiselect
+    const header = this.root.container.querySelector('.ids-data-grid-header:not(.column-groups)');
+    this.root.onEvent(`change.${this.#id()}`, header, (e: any) => {
       const nodeName = e.target?.nodeName;
-      if (nodeName && /ids-(input|dropdown|multiselect|date-picker|time-picker)/gi.test(nodeName)) {
+      if (nodeName && /ids-(input|dropdown|multiselect)/gi.test(nodeName)) {
         this.applyFilter();
       }
+    });
+
+    // Change event for ids-date-picker and ids-time-picker
+    this.filterNodes.forEach((n: any) => {
+      const slot = n.querySelector('slot[name^="filter-"]');
+      const node = slot ? slot.assignedElements()[0] : n;
+      const elem = node?.querySelector('ids-date-picker, ids-time-picker');
+      if (elem) this.root.onEvent(`change.${this.#id()}`, elem.input, () => this.applyFilter());
     });
 
     // Set filter event when typing for input
@@ -784,6 +846,7 @@ export default class IdsDataGridFilters {
     target.icon = icon;
     target.querySelector('[slot="text"]').textContent = label;
     this.root.triggerEvent('filteroperatorchanged', this.root, {
+      bubbles: true,
       detail: {
         elem: this.root,
         targetElem: target,
@@ -845,8 +908,6 @@ export default class IdsDataGridFilters {
    */
   #filterButtonTemplate(type: string, column: IdsDataGridColumn) {
     const operators = this.#operators(type, column);
-    if (operators?.constructor !== Array) return '';
-
     const opt = column.filterOptions || {};
     const disabled = opt.disabled ? ' disabled' : '';
     const readonly = opt.readonly ? ' readonly' : '';
@@ -864,7 +925,7 @@ export default class IdsDataGridFilters {
       const defaultSel = !sel && i === 0;
       if (defaultSel) sel = op;
       const selected = op.value === sel.value ? ' selected="true"' : '';
-      items += `<ids-menu-item id="item-${id}" value="${op.value}" icon="${op.icon}"${selected}>${op.label}</ids-menu-item>`;
+      items += `<ids-menu-item id="item-${i}-${id}" value="${op.value}" icon="${op.icon}"${selected}>${op.label}</ids-menu-item>`;
     });
 
     this.#initial[column.id] = this.#initial[column.id] || {};
@@ -968,7 +1029,7 @@ export default class IdsDataGridFilters {
 
     return `
       <ids-dropdown
-        color-variant="alternate-formatter"
+        color-variant="${!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'}"
         label="${label}"
         label-state="collapsed"
         no-margins
@@ -988,7 +1049,7 @@ export default class IdsDataGridFilters {
    * @returns {Array<HTMLElement>} List of filter wrapper elements
    */
   get filterNodes() {
-    return this.root?.shadowRoot?.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper') || [];
+    return this.root?.shadowRoot?.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
   }
 
   /**
@@ -1020,7 +1081,7 @@ export default class IdsDataGridFilters {
    * @param {IdsDataGridColumn} column The column info
    * @returns {Array} List of button operators
    */
-  #operators(type: string, column: IdsDataGridColumn) {
+  #operators(type: string, column: IdsDataGridColumn): { value: string, label: string, icon: string, selected?: boolean }[] {
     if (column?.filterTerms?.constructor === Array) return column.filterTerms;
     const ds = this.#operatorsDataset;
     let operators: any = [];
@@ -1036,6 +1097,7 @@ export default class IdsDataGridFilters {
         operators = [
           ds.contains,
           ds.doesNotContain,
+          ds.equals,
           ds.doesNotEqual,
           ds.isEmpty,
           ds.isNotEmpty,

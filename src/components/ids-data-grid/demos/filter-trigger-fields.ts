@@ -21,19 +21,12 @@ const container: any = document.querySelector('ids-container');
     align: 'center'
   });
   columns.push({
-    id: 'publishDate',
-    name: 'Pub. Date',
-    field: 'publishDate',
-    filterType: dataGrid.filters.date,
-    formatter: dataGrid.formatters.date
-  });
-  columns.push({
-    id: 'publishTime',
-    name: 'Pub. Time',
-    field: 'publishDate',
-    width: 180,
-    filterType: dataGrid.filters.time,
-    formatter: dataGrid.formatters.time
+    id: 'integer',
+    name: 'Price (Int)',
+    field: 'price',
+    filterType: dataGrid.filters.integer,
+    formatter: dataGrid.formatters.integer,
+    formatOptions: { locale: 'en-US' }
   });
   columns.push({
     id: 'price',
@@ -45,12 +38,20 @@ const container: any = document.querySelector('ids-container');
     formatOptions: { locale: 'en-US' }
   });
   columns.push({
-    id: 'integer',
-    name: 'Price (Int)',
-    field: 'price',
-    filterType: dataGrid.filters.integer,
-    formatter: dataGrid.formatters.integer,
-    formatOptions: { locale: 'en-US' }
+    id: 'publishDate',
+    name: 'Pub. Date',
+    field: 'publishDate',
+    width: 180,
+    filterType: dataGrid.filters.date,
+    formatter: dataGrid.formatters.date
+  });
+  columns.push({
+    id: 'publishTime',
+    name: 'Pub. Time',
+    field: 'publishDate',
+    width: 180,
+    filterType: dataGrid.filters.time,
+    formatter: dataGrid.formatters.time
   });
   columns.push({
     id: 'active',

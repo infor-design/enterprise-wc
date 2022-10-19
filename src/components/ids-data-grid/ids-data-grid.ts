@@ -100,6 +100,7 @@ export default class IdsDataGrid extends Base {
       ...super.attributes,
       attributes.ALTERNATE_ROW_SHADING,
       attributes.AUTO_FIT,
+      attributes.DISABLE_CLIENT_FILTER,
       attributes.FILTER_ROW_DISABLED,
       attributes.FILTER_WHEN_TYPING,
       attributes.FILTERABLE,
@@ -1514,6 +1515,23 @@ export default class IdsDataGrid extends Base {
       detail: { elem: this, filterable: this.filterable }
     });
     return this;
+  }
+
+  /**
+   * Sets disable client filter
+   * @param {boolean|string} value IThe value
+   */
+  set disableClientFilter(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.DISABLE_CLIENT_FILTER, '');
+    } else {
+      this.removeAttribute(attributes.DISABLE_CLIENT_FILTER);
+    }
+  }
+
+  get disableClientFilter() {
+    const value = this.getAttribute(attributes.DISABLE_CLIENT_FILTER);
+    return value !== null ? stringToBool(value) : this.filters.DEFAULTS.disableClientFilter;
   }
 
   /**

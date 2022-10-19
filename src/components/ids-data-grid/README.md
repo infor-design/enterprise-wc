@@ -135,6 +135,9 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `columnGroups` {Array<object>} Allows you to group columns together in logical sets. See section below for details.
 - `rowHeight` {string | `'xs'` | `'sm'` | `'md'` | `'lg'`} Sets the height of each row
 - `data` {Array<object>} Sets the data to show in the data grid. This can be a JSON Array.
+- `disableClientFilter` {boolean} Sets to disable filter logic client side and let server do it.
+- `filterable` {boolean} Sets to turned on/off filters.
+- `filter-row-disabled` {boolean} Sets to disable filter row.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
 - `suppressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
 - `suppressRowDeselection`  {boolean} Set to true to prevent rows from being deselected if click or space bar the row. i.e. once a row is selected, it remains selected until another row is selected in its place.
@@ -240,6 +243,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `rowdeselected` Fires for each row that is deselected.
 - `rowactivated` Fires for each row that is activated.
 - `rowdeactivated` Fires for each row that is deactivated.
+- `clientfiltered` Fires after filter conditions changed, only fire with `disableClientFilter: true`.
 - `filtered` Fires after a filter action occurs, clear or apply filter condition.
 - `filteroperatorchanged` Fires once a filter operator changed.
 - `filterrowopened` Fires after the filter row is opened by the user.
@@ -289,6 +293,7 @@ If the built-in filters are not enough, creating a custom filter is an option. T
 
 1. `UI Only` In order to do custom UI part of filter, add as html markup thru a slot. It must use slot and column-id attributes for example: `<div slot="filter-n" column-id="n">...</div>` where n is the columnId same passed in the columns.
 1. `filterFunction` This is a user defined filter method which must return a boolean. It determines if a cell value should be considered as a valid filtered value.
+1. `disableClientFilter` This is an api setting to disable filter logic client side. It will set filter conditions and fire an event `clientfiltered` which can listen for custom logic.
 
 ### Filter Code Examples
 
@@ -586,6 +591,28 @@ columns.push({
   field: 'description',
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text
+});
+```
+
+Disable client filter
+
+```html
+<ids-data-grid id="data-grid-1" label="Books" disable-client-filter="true">
+</ids-data-grid>
+```
+
+```js
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.text
+});
+
+dataGrid.addEventListener('clientfiltered', (e: any) => {
+  console.info('clientfiltered:', e.detail);
 });
 ```
 
