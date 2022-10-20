@@ -133,7 +133,12 @@ export default class IdsDrawer extends Base {
       return;
     }
     this.onEvent('click.trigger', this.target, () => {
-      this.show();
+      // Closes the popup for app menu
+      if (this.type === TYPES[0] && this.visible) {
+        this.hide();
+      } else {
+        this.show();
+      }
     });
   }
 
