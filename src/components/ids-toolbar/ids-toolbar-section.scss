@@ -45,6 +45,11 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     }
   }
 
+  // Section type button has padding on each side for button focus state
+  &.button {
+    @include p-4();
+  }
+
   // Title sections are not Flex containers (so we can stack content)
   &.title {
     display: inline-block;
