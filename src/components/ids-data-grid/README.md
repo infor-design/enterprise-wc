@@ -137,7 +137,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `data` {Array<object>} Sets the data to show in the data grid. This can be a JSON Array.
 - `disableClientFilter` {boolean} Disables the filter logic client side in situations you want to filter server side.
 - `filterable` {boolean} Turns on or off the filter functionality.
-- `filter-row-disabled` {boolean} Sets to disable filter row.
+- `filter-row-disabled` {boolean} Disables the filter row.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
 - `suppressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
 - `suppressRowDeselection`  {boolean} Set to true to prevent rows from being deselected if click or space bar the row. i.e. once a row is selected, it remains selected until another row is selected in its place.
