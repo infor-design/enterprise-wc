@@ -243,7 +243,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `rowdeselected` Fires for each row that is deselected.
 - `rowactivated` Fires for each row that is activated.
 - `rowdeactivated` Fires for each row that is deactivated.
-- `clientfiltered` Fires after filter conditions changed, only fire with `disableClientFilter: true`.
+- `clientfiltered` Fires after filter conditions are changed. Only fires when `disableClientFilter: true`.
 - `filtered` Fires after a filter action occurs, clear or apply filter condition.
 - `filteroperatorchanged` Fires once a filter operator changed.
 - `filterrowopened` Fires after the filter row is opened by the user.
