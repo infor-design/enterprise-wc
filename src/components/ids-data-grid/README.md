@@ -135,7 +135,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `columnGroups` {Array<object>} Allows you to group columns together in logical sets. See section below for details.
 - `rowHeight` {string | `'xs'` | `'sm'` | `'md'` | `'lg'`} Sets the height of each row
 - `data` {Array<object>} Sets the data to show in the data grid. This can be a JSON Array.
-- `disableClientFilter` {boolean} Sets to disable filter logic client side and let server do it.
+- `disableClientFilter` {boolean} Disables the filter logic client side in situations you want to filter server side.
 - `filterable` {boolean} Turns on or off the filter functionality.
 - `filter-row-disabled` {boolean} Sets to disable filter row.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
