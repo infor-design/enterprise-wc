@@ -64,6 +64,10 @@
 
 // These rules are applied to `ids-toolbar-section:host` elements
 @mixin ids-toolbar-section-host-size-styles() {
+  ::slotted(ids-toolbar-section:not([favor])) {
+    overflow: hidden;
+  }
+
   ::slotted(ids-toolbar-section:not([type])) {
     flex: 0 0 auto;
   }
