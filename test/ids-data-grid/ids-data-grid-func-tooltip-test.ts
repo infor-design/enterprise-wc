@@ -286,7 +286,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   it('shows tooltip with text content for body cell', async () => {
-    sel = '.ids-data-grid-body [data-rowindex="0"] [aria-colindex="7"]';
+    sel = '.ids-data-grid-body [data-index="0"] [aria-colindex="7"]';
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip);
   });
 
@@ -306,7 +306,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   it('shows tooltip with custom content for body cell', async () => {
-    sel = '.ids-data-grid-body [data-rowindex="0"] [aria-colindex="3"]';
+    sel = '.ids-data-grid-body [data-index="0"] [aria-colindex="3"]';
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip);
   });
 
@@ -321,7 +321,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   it('shows tooltip with callback content for body cell', async () => {
-    sel = '.ids-data-grid-body [data-rowindex="0"] [aria-colindex="4"]';
+    sel = '.ids-data-grid-body [data-index="0"] [aria-colindex="4"]';
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip);
   });
 
@@ -379,7 +379,7 @@ describe('IdsDataGrid Component', () => {
     dataGrid.addEventListener('beforetooltipshow', (e: CustomEvent) => {
       e.detail.response(isVeto); // veto
     });
-    sel = '.ids-data-grid-body [data-rowindex="0"] [aria-colindex="7"]';
+    sel = '.ids-data-grid-body [data-index="0"] [aria-colindex="7"]';
     let elem = dataGrid.container.querySelector(sel);
 
     expect(tooltip.visible).toEqual(false);

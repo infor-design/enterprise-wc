@@ -119,19 +119,23 @@ class IdsDataSource {
     if (!this.#flatten) return data;
 
     const newData: Array<Record<string, any>> = [];
-    const addRows = (subData: Record<string, any>, length: number, depth: number) => {
+    const addRows = (subData: Record<string, any>, length: number, depth: number, parentElement: string) => {
       subData.map((row: Record<string, any>, index: number) => {
         row.ariaLevel = depth;
         row.ariaSetSize = length;
         row.ariaPosinset = index + 1;
+
+        if (depth === 1) row.originalElement = index;
+        if (depth > 1) row.parentElement = parentElement;
+
         newData.push(row);
         if (row.children) {
-          addRows(row.children, row.children.length, depth + 1);
+          addRows(row.children, row.children.length, depth + 1, `${row.parentElement ? `${row.parentElement} ` : ''}${index}`);
         }
       });
     };
 
-    addRows(data, data.length, 1);
+    addRows(data, data.length, 1, '');
     return newData;
   }
 
@@ -222,6 +226,7 @@ class IdsDataSource {
     if (this.flatten) {
       const clone = deepClone(this.#originalData);
       clone.sort(sort);
+      this.#originalData.sort(sort);
       this.#currentData = this.#flattenData(clone);
       return;
     }

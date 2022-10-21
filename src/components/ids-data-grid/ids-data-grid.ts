@@ -190,7 +190,7 @@ export default class IdsDataGrid extends Base {
     if ((this.columns.length === 0 && this.data.length === 0) || !this.initialized) {
       return;
     }
-    if (this.body) this.body.innerHTML = this.bodyInnerTemplate();
+    if (this.body) this.body.innerHTML = this.virtualScroll ? this.bodyTemplate() : this.bodyInnerTemplate();
     this.#setHeaderCheckbox();
   }
 
@@ -391,17 +391,9 @@ export default class IdsDataGrid extends Base {
    */
   bodyTemplate() {
     if (this.virtualScroll) {
-      return `
-        <ids-virtual-scroll>
-          <div class="ids-data-grid-body" part="contents"></div>
-        </ids-virtual-scroll>
-      `;
+      return `<ids-virtual-scroll><div class="ids-data-grid-body" part="contents"></div></ids-virtual-scroll>`;
     }
-    return `
-      <div class="ids-data-grid-body" part="contents" role="rowgroup">
-        ${this.bodyInnerTemplate()}
-      </div>
-    `;
+    return `<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
 
   /**
@@ -445,16 +437,10 @@ export default class IdsDataGrid extends Base {
       const content = this.cellTemplate(row, column, ariaRowIndex);
       const isHyperlink = column?.formatter?.name === 'hyperlink';
       const textwidth = this.#textWidth(content, isHyperlink ? 8 : 29);
-      return `
-        <span role="gridcell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ``}" aria-colindex="${j + 1}" data-textwidth="${textwidth}">${content}</span>
-      `;
+      return `<span role="gridcell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ``}" aria-colindex="${j + 1}" data-textwidth="${textwidth}">${content}</span>`;
     }).join('');
 
-    return `
-      <div role="row" part="row" aria-rowindex="${ariaRowIndex}" data-rowindex="${index}" ${isHidden} class="ids-data-grid-row${rowClasses}"${treeAttrs}>
-        ${cellsHtml}
-      </div>
-    `;
+    return `<div role="row" part="row" aria-rowindex="${ariaRowIndex}" data-index="${index}" ${isHidden} class="ids-data-grid-row${rowClasses}"${treeAttrs}>${cellsHtml}</div>`;
   }
 
   /**
@@ -1234,12 +1220,44 @@ export default class IdsDataGrid extends Base {
    * @param {Record<string, unknown>} data the data to apply to the row
    */
   updateRow(row: number, data: Record<string, unknown>) {
+    // Update the current data
     this.data[row] = { ...this.data[row], ...data };
-    if (this.treeGrid && this.data[row].ariaLevel === 1) {
-      this.datasource.originalData[row] = { ...this.data[row], ...data };
+
+    // Update the tree element in the original data
+    if (this.treeGrid) {
+      if (this.data[row].ariaLevel === 1) {
+        this.datasource.originalData[this.data[row].originalElement] = {
+          ...this.datasource.originalData[this.data[row].originalElement],
+          ...data
+        };
+        return;
+      }
+
+      // Update the child element
+      const parentRow = this.#findParentRow(this.datasource.originalData, this.data[row].parentElement);
+      parentRow.children[this.data[row].ariaPosinset - 1] = {
+        ...parentRow.children[this.data[row].ariaPosinset - 1],
+        ...data
+      };
       return;
     }
-    debugger;
+    // Non tree - update original data
+    this.datasource.originalData[row] = { ...this.datasource.originalData[row], ...data };
+  }
+
+  /**
+   * Find the parent id based on the cached props
+   * @param {Record<string, unknown>} data the parent row that was clicked
+   * @param {string} parentIds the string "1 2" of indexes
+   * @returns {Record<string, unknown>} The child record
+   */
+  #findParentRow(data: Record<string, unknown>, parentIds: string): any {
+    let childRow: any;
+    parentIds.split(' ').forEach((r: string, index: number) => {
+      if (index === 0) childRow = data[Number(r)];
+      else childRow = childRow.children[Number(r)];
+    });
+    return childRow;
   }
 
   /**
@@ -1261,7 +1279,7 @@ export default class IdsDataGrid extends Base {
       if (nodeLevel > Number(level) && !isParentCollapsed) {
         if (isExpanded) childRow.setAttribute('hidden', '');
         else childRow.removeAttribute('hidden');
-        this.updateRow(Number(childRow.getAttribute('data-index')), { rowHidden: !isExpanded });
+        this.updateRow(Number(childRow.getAttribute('data-index')), { rowHidden: isExpanded });
       }
       if (childRow.getAttribute('aria-expanded')) isParentCollapsed = childRow.getAttribute('aria-expanded') === 'false';
     });

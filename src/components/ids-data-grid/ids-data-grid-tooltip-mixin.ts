@@ -83,7 +83,7 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
    * @returns {HTMLElement[]} List of path element.
    */
   #eventPath(e: any): HTMLElement[] {
-    const path = e.path || e.composedPath() || [];
+    const path = e.composedPath() || [];
     return !path.length ? (e.orignPath || []) : path;
   }
 
@@ -144,7 +144,7 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
     const textWidth = stringToNumber(cellEl.getAttribute('data-textwidth'));
 
     if ((cellEl.offsetWidth < cellEl.scrollWidth) || (cellEl.offsetWidth < textWidth)) {
-      const rowIndex = stringToNumber(this.#findInPath(path, '[role="row"]')?.getAttribute('data-rowindex'));
+      const rowIndex = stringToNumber(this.#findInPath(path, '[role="row"]')?.getAttribute('data-index'));
       const columnIndex = stringToNumber(cellEl.getAttribute('aria-colindex')) - 1;
       const rowData = ambientGrid.data[rowIndex];
       const columnData = ambientGrid.columns[columnIndex];
