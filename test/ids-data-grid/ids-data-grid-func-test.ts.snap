@@ -15,7 +15,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         <div role="row" class="ids-data-grid-row">
           
       <span class="ids-data-grid-header-cell align-center" part="header-cell" aria-colindex="1" column-id="selectionCheckbox" role="columnheader" data-textwidth="1">
-        <span class="ids-data-grid-header-cell-content vertical-align-center">
+        <span class="ids-data-grid-header-cell-content has-selectioncheckbox vertical-align-center">
         <span class="ids-data-grid-header-text">
           <span class="ids-data-grid-checkbox-container">
         <span role="checkbox" aria-checked="false" aria-label="undefined" class="ids-data-grid-checkbox">
@@ -29,7 +29,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
       </span>
     
       <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="2" column-id="rowNumber" role="columnheader" data-textwidth="1">
-        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-cell-content has-headericon">
         <span class="ids-data-grid-header-text">
           #
         </span>

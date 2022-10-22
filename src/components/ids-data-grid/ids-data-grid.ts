@@ -294,14 +294,17 @@ export default class IdsDataGrid extends Base {
     const resizerTemplate = `<span class="resizer"></span>`;
     const reorderTemplate = `<div class="reorderer" draggable="true"><ids-icon icon="drag" size="medium"></ids-icon></div>`;
 
+    const selectionCheckbox = column.id !== 'selectionRadio' && column.id === 'selectionCheckbox';
     const colName = escapeHTML(column.name);
     const headerContentTemplate = `
-      ${(column.id !== 'selectionRadio' && column.id === 'selectionCheckbox') ? selectionCheckBoxTemplate : ''}
+      ${selectionCheckbox ? selectionCheckBoxTemplate : ''}
       ${(column.id !== 'selectionRadio' && column.id !== 'selectionCheckbox' && colName) ? colName : ''}
     `.trim();
 
     let cssClasses = 'ids-data-grid-header-cell-content';
     cssClasses += column.sortable ? ' is-sortable' : '';
+    cssClasses += selectionCheckbox ? ' has-selectioncheckbox' : '';
+    cssClasses += column.headerIcon ? ' has-headericon' : '';
 
     // Content row cell template
     const headerContentWrapperTemplate = `<span class="${cssClasses}">
@@ -356,8 +359,10 @@ export default class IdsDataGrid extends Base {
       const align = columnGroup.align ? ` align-${columnGroup.align}` : '';
 
       // Header cell template
+      let cssClasses = 'ids-data-grid-header-cell-content';
+      cssClasses += columnGroup.headerIcon ? ' has-headericon' : '';
       const html = `<span class="ids-data-grid-header-cell${align}" part="header-cell" column-group-id="${columnGroup.id || 'id'}" role="columnheader" data-textwidth="${this.#textWidth(columnGroup.name || '')}">
-        <span class="ids-data-grid-header-cell-content">
+        <span class="${cssClasses}">
           <span class="ids-data-grid-header-text">
             ${columnGroup.name || ''}
           </span>
