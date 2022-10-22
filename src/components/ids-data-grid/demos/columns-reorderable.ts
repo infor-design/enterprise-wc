@@ -40,6 +40,8 @@ if (dataGrid) {
       sortable: true,
       resizable: true,
       reorderable: true,
+      width: 200,
+      align: 'center',
       formatter: dataGrid.formatters.text
     });
     columns.push({

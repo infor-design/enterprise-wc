@@ -109,10 +109,6 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     &.align-center .ids-data-grid-header-cell-content,
     &.align-center .ids-data-grid-header-cell-filter-wrapper {
       justify-content: center;
-
-      .ids-data-grid-header-text {
-        text-indent: unset;
-      }
     }
 
     &.align-right .ids-data-grid-header-cell-content,
