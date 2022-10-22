@@ -243,7 +243,6 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `rowdeselected` Fires for each row that is deselected.
 - `rowactivated` Fires for each row that is activated.
 - `rowdeactivated` Fires for each row that is deactivated.
-- `clientfiltered` Fires after filter conditions are changed. Only fires when `disableClientFilter: true`.
 - `filtered` Fires after a filter action occurs, clear or apply filter condition.
 - `filteroperatorchanged` Fires once a filter operator changed.
 - `filterrowopened` Fires after the filter row is opened by the user.
@@ -293,7 +292,7 @@ If the built-in filters are not enough, creating a custom filter is an option. T
 
 1. `UI Only` In order to do custom UI part of filter, add as html markup thru a slot. It must use slot and column-id attributes for example: `<div slot="filter-n" column-id="n">...</div>` where n is the columnId same passed in the columns.
 1. `filterFunction` This is a user defined filter method which must return a boolean. It determines if a cell value should be considered as a valid filtered value.
-1. `disableClientFilter` This is an api setting to disable filter logic client side. It will set filter conditions and fire an event `clientfiltered` which can listen for custom logic.
+1. `disableClientFilter` This is an api setting to disable filter logic client side. It will set filter conditions and fire an event `filtered` which can listen for custom logic.
 
 ### Filter Code Examples
 
@@ -611,8 +610,8 @@ columns.push({
   filterType: dataGrid.filters.text
 });
 
-dataGrid.addEventListener('clientfiltered', (e: any) => {
-  console.info('clientfiltered:', e.detail);
+dataGrid.addEventListener('filtered', (e: any) => {
+  console.info('filtered:', e.detail);
 });
 ```
 

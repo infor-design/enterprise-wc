@@ -76,7 +76,7 @@ const container: any = document.querySelector('ids-container');
   setData();
 
   // Disable client filter
-  dataGrid.addEventListener('clientfiltered', (e: any) => {
-    console.info('clientfiltered:', e.detail);
+  dataGrid.addEventListener('filtered', (e: any) => {
+    console.info('filtered:', e.detail);
   });
 }());

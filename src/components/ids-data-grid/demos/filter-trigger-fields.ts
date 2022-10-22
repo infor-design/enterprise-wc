@@ -57,6 +57,7 @@ const container: any = document.querySelector('ids-container');
     id: 'active',
     name: 'Active',
     field: 'active',
+    align: 'center',
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.checkbox,
     isChecked: (value: any) => value === 'Yes'
@@ -76,6 +77,7 @@ const container: any = document.querySelector('ids-container');
     id: 'useForEmployee2',
     name: 'NotFilterdItem (custom)',
     field: 'useForEmployee',
+    width: 140,
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.dropdown,
     filterTerms: [
@@ -89,6 +91,7 @@ const container: any = document.querySelector('ids-container');
     name: 'Location',
     field: 'location',
     href: '#',
+    width: 140,
     formatter: dataGrid.formatters.hyperlink,
     filterType: dataGrid.filters.contents,
     filterOptions: {

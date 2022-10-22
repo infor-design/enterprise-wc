@@ -687,6 +687,27 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
+  it('should renders filter with slot no operator', () => {
+    dataGrid = createFromTemplate(dataGrid, `<ids-data-grid>
+      <div slot="filter-description" column-id="description">
+        <ids-input id="input-description" type="text" label="Slotted"></ids-input>
+      </div>
+    </ids-data-grid>`);
+
+    dataGrid.columns = columns();
+    dataGrid.data = dataset;
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    const wrapper = dataGrid.filters.filterWrapperById('description');
+    const slot = wrapper.querySelector('slot[name^="filter-"]');
+    const input = slot.assignedElements()[0].querySelector('ids-input');
+    input.value = '105';
+    input.dispatchEvent(new Event('keydownend'));
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
+  });
+
   it('should use custom filter', () => {
     const myCustomFilter = (opt: any) => {
       const { operator, columnId, value } = opt.condition;

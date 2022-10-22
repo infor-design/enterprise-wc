@@ -364,12 +364,13 @@ export default class IdsDataGridFilters {
         const dropdown = node.querySelector('ids-dropdown');
         const datePicker = node.querySelector('ids-date-picker');
         const timePicker = node.querySelector('ids-time-picker');
-        if (!btn && !dropdown) return;
+        if (!btn && !input && !dropdown) return;
 
         const headerElem = n.closest('.ids-data-grid-header-cell');
         const columnData = this.root.columnDataByHeaderElem(headerElem);
         let operator = btn?.menuEl?.getSelectedValues()[0];
         if (!operator) operator = btn?.menuEl?.items?.[0]?.value;
+        if (!operator && !btn && input) operator = 'contains';
         const value = input?.value ?? dropdown?.value ?? datePicker?.value ?? timePicker?.value ?? '';
         if (dropdown) {
           operator = 'equals';
@@ -426,7 +427,7 @@ export default class IdsDataGridFilters {
 
     // Client filter
     if (this.root.disableClientFilter) {
-      this.root.triggerEvent('clientfiltered', this.root, { bubbles: true, detail: { elem: this.root, conditions } });
+      this.root.triggerEvent('filtered', this.root, { bubbles: true, detail: { elem: this.root, conditions } });
       this.#filterIsProcessing = false;
       return;
     }
@@ -729,6 +730,7 @@ export default class IdsDataGridFilters {
         if (btn && !initial.btn) initial.btn = { value: btn.menuEl?.getSelectedValues()[0] };
 
         // Slotted attributes
+        dropdown?.setAttribute('size', 'full');
         setCompulsoryAttributes(input);
         setCompulsoryAttributes(dropdown);
         setCompulsoryAttributes(datePicker);
