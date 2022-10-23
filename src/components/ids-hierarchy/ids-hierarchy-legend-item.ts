@@ -23,6 +23,7 @@ export default class IdsHierarchyLegendItem extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
+    this.#setColor();
   }
 
   disconnectedCallback() {
@@ -77,8 +78,11 @@ export default class IdsHierarchyLegendItem extends Base {
    */
   set color(value: string | null) {
     this.setAttribute(attributes.COLOR, String(value));
+    this.#setColor();
+  }
 
-    let color = value;
+  #setColor() {
+    let color = this.color;
     if (this.color?.substring(0, 1) !== '#') {
       color = `var(--ids-color-palette-${this.color})`;
     }

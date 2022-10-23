@@ -48,6 +48,7 @@ export default class IdsHierarchyItem extends Base {
     this.nestedItemContainer = this.shadowRoot?.querySelector('[part="nested-items"]');
     this.#hasNestedItems();
     this.#attachEventHandlers();
+    this.#setColor();
   }
 
   /**
@@ -169,7 +170,11 @@ export default class IdsHierarchyItem extends Base {
   set color(value: string | null) {
     this.setAttribute(attributes.COLOR, String(value));
 
-    let color = value;
+    this.#setColor();
+  }
+
+  #setColor() {
+    let color = this.color;
     if (this.color?.substring(0, 1) !== '#') {
       color = `var(--ids-color-palette-${this.color})`;
     }
