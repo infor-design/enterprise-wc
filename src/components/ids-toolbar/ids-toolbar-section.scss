@@ -52,6 +52,8 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
 
   // Title sections are not Flex containers (so we can stack content)
   &.title {
+    @include py-4();
+
     display: inline-block;
   }
 
