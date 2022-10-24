@@ -4,12 +4,12 @@ const refsNew: Array<any> = [];
 
 /**
  * Deep clone an array creating a new array
- * @param {any} this The array to clone
+ * @param {any} object The array to clone
  * @param {Array} arr The array to clone
  * @param {Function} fn The functional call back used for recursion
  * @returns {Array} The array's clone
  */
-export function deepCloneArray(this: any, arr: any, fn?: any) {
+export function deepCloneArray(object: any, arr: any, fn?: any) {
   const keys = Object.keys(arr);
   const arrClone = new Array(keys.length);
 
@@ -26,7 +26,7 @@ export function deepCloneArray(this: any, arr: any, fn?: any) {
       if (index !== -1) {
         arrClone[k] = refsNew[index];
       } else {
-        arrClone[k] = fn.call(this, cur);
+        arrClone[k] = fn.call(object, cur);
       }
     }
   }
