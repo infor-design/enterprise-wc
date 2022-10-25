@@ -223,6 +223,7 @@ $grid-cols-sm: 4;
   }
 
   @media (min-width: $breakpoint-lg) {
+    --grid-cols: 12;
   }
 
   &.ids-layout-fluid-grid-xl {

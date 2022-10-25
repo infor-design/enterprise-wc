@@ -14,33 +14,9 @@
   - link: sandbox.html
     type: Sandbox
     description: Showing nesting and anchoring
-  - link: homepages-example-one.html
+  - link: homepages-example.html
     type: Masonry
-    description: Showing masonry style layouts
-  - link: homepages-example-two.html
-    type: Masonry
-    description: Showing masonry style layouts
-  - link: homepages-example-three.html
-    type: Masonry
-    description: Showing masonry style layouts
-  - link: homepages-example-four.html
-    type: Masonry
-    description: Showing masonry style layouts
-  - link: homepages-example-five.html
-    type: Masonry
-    description: Showing masonry style layouts
-  - link: homepages-example-six.html
-    type: Masonry
-    description: Showing masonry style layouts
-  - link: homepages-widget-uplift-one.html
-    type: Masonry
-    description: Showing masonry style layouts
-  - link: homepages-widget-uplift-two.html
-    type: Masonry
-    description: Showing masonry style layouts
-  - link: homepages-widget-uplift-three.html
-    type: Masonry
-    description: Showing masonry style layouts
+    description: Showing masonry style layout
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a layout grid that works with css only

@@ -340,6 +340,11 @@ export default class IdsLayoutGridCell extends Base {
 
   get justify(): string | null { return this.getAttribute(attributes.JUSTIFY); }
 
+  /**
+   * Set the order of the grid cell
+   * @param { string | null } value The number value for the order of the grid cell
+   * @memberof IdsLayoutGridCell
+   */
   set order(value: string | null) {
     if (value) {
       this.setAttribute(attributes.ORDER, value.toString());

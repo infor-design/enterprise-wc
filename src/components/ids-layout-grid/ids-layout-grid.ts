@@ -14,6 +14,10 @@ import './ids-layout-grid-cell';
 
 import styles from './ids-layout-grid.scss';
 
+const GRID_OPTIONS = {
+  autoFlow: ['row', 'column', 'dense', 'row dense', 'column dense']
+};
+
 /**
  * IDS Layout Grid Component
  * @type {IdsLayoutGrid}
@@ -32,12 +36,6 @@ export default class IdsLayoutGrid extends Base {
       attributes.AUTO_ROWS,
       attributes.AUTO_FLOW,
       attributes.COLS,
-      'cols-xs',
-      'cols-sm',
-      'cols-md',
-      'cols-lg',
-      'cols-xl',
-      'cols-xxl',
       attributes.FIXED,
       attributes.GAP,
       attributes.JUSTIFY_CONTENT,
@@ -162,78 +160,6 @@ export default class IdsLayoutGrid extends Base {
 
   get cols(): string | null { return this.getAttribute(attributes.COLS); }
 
-  set colsXs(value: string | null) {
-    if (value) {
-      this.setAttribute('cols-xs', value);
-      this.style.setProperty('--grid-cols-xs', value);
-      this.classList.add(colsGridClass);
-      this.classList.remove(autoGridClass);
-      this.classList.remove(fluidGridClass);
-    }
-  }
-
-  get colsXs(): string | null { return this.getAttribute('cols-xs'); }
-
-  set colsSm(value: string | null) {
-    if (value) {
-      this.setAttribute('cols-sm', value);
-      this.style.setProperty('--grid-cols-sm', value);
-      this.classList.add(colsGridClass);
-      this.classList.remove(autoGridClass);
-      this.classList.remove(fluidGridClass);
-    }
-  }
-
-  get colsSm(): string | null { return this.getAttribute('cols-sm'); }
-
-  set colsMd(value: string | null) {
-    if (value) {
-      this.setAttribute('cols-md', value);
-      this.style.setProperty('--grid-cols-md', value);
-      this.classList.add(colsGridClass);
-      this.classList.remove(autoGridClass);
-      this.classList.remove(fluidGridClass);
-    }
-  }
-
-  get colsMd(): string | null { return this.getAttribute('cols-md'); }
-
-  set colsLg(value: string | null) {
-    if (value) {
-      this.setAttribute('cols-lg', value);
-      this.style.setProperty('--grid-cols-lg', value);
-      this.classList.add(colsGridClass);
-      this.classList.remove(autoGridClass);
-      this.classList.remove(fluidGridClass);
-    }
-  }
-
-  get colsLg(): string | null { return this.getAttribute('cols-lg'); }
-
-  set colsXl(value: string | null) {
-    if (value) {
-      this.setAttribute('cols-xl', value);
-      this.style.setProperty('--grid-cols-xl', value);
-      this.classList.add(colsGridClass);
-      this.classList.remove(autoGridClass);
-      this.classList.remove(fluidGridClass);
-    }
-  }
-
-  get colsXl(): string | null { return this.getAttribute('cols-xl'); }
-
-  set colsXxl(value: string | null) {
-    if (value) {
-      this.setAttribute('cols-xxl', value);
-      this.style.setProperty('--grid-cols-xxl', value);
-      this.classList.add(colsGridClass);
-      this.classList.remove(autoGridClass);
-      this.classList.remove(fluidGridClass);
-    }
-  }
-
-  get colsXxl(): string | null { return this.getAttribute('cols-xxl'); }
-
   /**
    * Sets the amount of rows in the grid. Works best with fixed height grids
    * @param {string | null} value number of rows in a fixed grid
@@ -255,6 +181,11 @@ export default class IdsLayoutGrid extends Base {
 
   get rows(): string | null { return this.getAttribute(attributes.ROWS); }
 
+  /**
+   * Sets the auto-row value of the grid
+   * @param { string | null } value number value of the auto-row setting, ex: 1fr
+   * @memberof IdsLayoutGrid
+   */
   set autoRows(value: string | null) {
     if (value) {
       this.setAttribute('auto-rows', value);
@@ -269,8 +200,14 @@ export default class IdsLayoutGrid extends Base {
 
   get autoRows(): string | null { return this.getAttribute('auto-rows'); }
 
+  /**
+   * Sets the auto-flow attribute
+   * @param { string | null } value keyword value for the auto-flow setting:
+   * ('row', 'column', 'dense', 'row dense', 'column dense')
+   * @memberof IdsLayoutGrid
+   */
   set autoFlow(value: string | null) {
-    if (value) {
+    if (value && GRID_OPTIONS.autoFlow.includes(value)) {
       this.setAttribute('auto-flow', value);
       this.style.setProperty('--grid-auto-flow', value);
       this.classList.add('ids-layout-grid-auto-flow');

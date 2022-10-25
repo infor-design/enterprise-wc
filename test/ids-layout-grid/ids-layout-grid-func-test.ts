@@ -203,6 +203,15 @@ describe('IdsLayoutGrid Component', () => {
     expect(elem.getAttribute('style')).toEqual('');
   });
 
+  it('renders max-col-width setting', () => {
+    const elem: any = new IdsLayoutGrid();
+    elem.maxColWidth = '120px';
+    document.body.appendChild(elem);
+
+    expect(elem.maxColWidth).toEqual('120px');
+    expect(elem.getAttribute('style')).toEqual(`--grid-max-col-width: 120px;`);
+  });
+
   it('renders col-span setting', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
