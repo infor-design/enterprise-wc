@@ -127,6 +127,13 @@ module.exports = {
           }
         },
         {
+          from: './build/types/src/components/enterprise-wc.d.ts',
+          to({ absoluteFilename }) {
+            console.log(absoluteFilename.replace('/build/types/src/components/', `/build/dist/${isProduction ? 'production' : 'development'}/`))
+            return absoluteFilename.replace('/build/types/src/components/', `/build/dist/${isProduction ? 'production' : 'development'}/`);
+          }
+        },
+        {
           from: './src/components/**/README.md',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
