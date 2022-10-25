@@ -779,6 +779,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     if (typeof this.xAxisFormatter === 'function') {
       return this.xAxisFormatter(value, this.data, this);
     }
+    return '';
   }
 
   /**
