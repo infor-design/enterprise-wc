@@ -1,6 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { calculateTextRenderWidth } from '../../utils/ids-object-utils/ids-object-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
@@ -342,8 +341,7 @@ export default class IdsDataGrid extends Base {
         part="header-cell"
         aria-colindex="${index + 1}"
         column-id="${column.id}"
-        role="columnheader"
-        data-textwidth="${this.#textWidth(headerContentWrapperTemplate, 1)}"
+        role="columnheader"x
       >
         ${headerContentWrapperTemplate}
         ${headerFilterWrapperTemplate}
@@ -368,7 +366,7 @@ export default class IdsDataGrid extends Base {
       const align = columnGroup.align ? ` align-${columnGroup.align}` : '';
 
       // Header cell template
-      const html = `<span class="ids-data-grid-header-cell${align}" part="header-cell" column-group-id="${columnGroup.id || 'id'}" role="columnheader" data-textwidth="${this.#textWidth(columnGroup.name || '')}">
+      const html = `<span class="ids-data-grid-header-cell${align}" part="header-cell" column-group-id="${columnGroup.id || 'id'}" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
           <span class="ids-data-grid-header-text">
             ${columnGroup.name || ''}
@@ -435,9 +433,7 @@ export default class IdsDataGrid extends Base {
 
     const cellsHtml = this.visibleColumns.map((column: IdsDataGridColumn, j: number) => {
       const content = this.cellTemplate(row, column, ariaRowIndex);
-      const isHyperlink = column?.formatter?.name === 'hyperlink';
-      const textwidth = this.#textWidth(content, isHyperlink ? 8 : 29);
-      return `<span role="gridcell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ``}" aria-colindex="${j + 1}" data-textwidth="${textwidth}">${content}</span>`;
+      return `<span role="gridcell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ``}" aria-colindex="${j + 1}">${content}</span>`;
     }).join('');
 
     return `<div role="row" part="row" aria-rowindex="${ariaRowIndex}" data-index="${index}" ${isHidden} class="ids-data-grid-row${rowClasses}"${treeAttrs}>${cellsHtml}</div>`;
@@ -471,18 +467,6 @@ export default class IdsDataGrid extends Base {
     const formatters = (this.formatters as any);
     if (!formatters[column?.formatter?.name || 'text'] && column?.formatter) return column?.formatter(row, column, index, this);
     return formatters[column?.formatter?.name || 'text'](row, column, index, this);
-  }
-
-  /**
-   * Calculates the text width to render given html.
-   * @private
-   * @param  {string} html The html to render.
-   * @param  {number} padding The leff plus right padding value.
-   * @returns {number} Calculated text width in pixels.
-   */
-  #textWidth(html: string, padding = 0): number {
-    const textContent = html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-    return padding + calculateTextRenderWidth(this, textContent);
   }
 
   /**
@@ -876,7 +860,7 @@ export default class IdsDataGrid extends Base {
     const column = this.columnDataById(id);
     const sortField = column?.field !== column?.id ? column?.field : column?.id;
     this.sortColumn = { id, ascending };
-    this.datasource.sort(sortField, ascending);
+    this.datasource.sort(sortField || '', ascending);
     if (this.virtualScrollContainer) this.virtualScrollContainer.data = this.data;
     this.redrawBody();
     this.setSortState(id, ascending);
@@ -1388,6 +1372,8 @@ export default class IdsDataGrid extends Base {
         elem: this, row, data: this.data[index]
       }
     });
+
+    if (this.groupSelectsChildren) this.#toggleChildRows(row, true);
     this.#setHeaderCheckbox();
   }
 
@@ -1424,6 +1410,7 @@ export default class IdsDataGrid extends Base {
         elem: this, row, data: this.data[index]
       }
     });
+    if (this.groupSelectsChildren) this.#toggleChildRows(row, false);
     this.#setHeaderCheckbox();
   }
 
@@ -1514,6 +1501,27 @@ export default class IdsDataGrid extends Base {
       });
     }
     this.#setHeaderCheckbox();
+  }
+
+  /**
+   * Select/Desselect all child rows
+   * @param {number} row the row to measure from
+   * @param {boolean} isSelect true or false to select or deselect
+   * @private
+   */
+  #toggleChildRows(row: HTMLElement | null | undefined, isSelect: boolean) {
+    if (!row || !this.treeGrid || !this.groupSelectsChildren) return;
+    const level = row.getAttribute('aria-level');
+
+    nextUntil(row, `[aria-level="${level}"]`).forEach((childRow) => {
+      const nodeLevel = Number(childRow.getAttribute('aria-level'));
+      if (nodeLevel > Number(level)) {
+        this.groupSelectsChildren = false;
+        if (isSelect) this.selectRow(Number(childRow.getAttribute('data-index')));
+        else this.deSelectRow(Number(childRow.getAttribute('data-index')));
+        this.groupSelectsChildren = true;
+      }
+    });
   }
 
   /**
@@ -1728,5 +1736,22 @@ export default class IdsDataGrid extends Base {
 
   get treeGrid() {
     return stringToBool(this.getAttribute(attributes.TREE_GRID)) || false;
+  }
+
+  /**
+   * If true then the children will be selected when a group is selected
+   * @param {boolean|string} value The value
+   */
+  set groupSelectsChildren(value) {
+    value = stringToBool(value);
+    if (value) {
+      this.setAttribute(attributes.GROUP_SELECTS_CHILDREN, value.toString());
+    } else {
+      this.removeAttribute(attributes.GROUP_SELECTS_CHILDREN);
+    }
+  }
+
+  get groupSelectsChildren() {
+    return stringToBool(this.getAttribute(attributes.GROUP_SELECTS_CHILDREN)) || false;
   }
 }

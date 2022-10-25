@@ -1,8 +1,8 @@
-import IdsDataGrid from '../ids-data-grid';
 import treeLargeJSON from '../../../assets/data/tree-large.json';
+import IdsDataGrid from '../ids-data-grid';
 
 // Example for populating the DataGrid
-const dataGrid = document.querySelector<IdsDataGrid>('#tree-grid-virtual-scroll')!;
+const dataGrid = document.querySelector<IdsDataGrid>('#tree-grid-paging')!;
 
 // Do an ajax request
 const url: any = treeLargeJSON;
@@ -86,11 +86,21 @@ dataGrid.columns = columns;
 const setData = async () => {
   const res = await fetch(url);
   const data = await res.json();
+  dataGrid.pagination = 'client-side';
   dataGrid.data = data;
+  dataGrid.pageTotal = data.length;
 };
 
 setData();
 
 dataGrid.addEventListener('selectionchanged', (e: Event) => {
   console.info(`Selection Changed`, (<CustomEvent>e).detail);
+});
+
+dataGrid.pager.addEventListener('pagenumberchange', (e: Event) => {
+  console.info(`client-side page-number # ${(<CustomEvent>e).detail.value}`);
+});
+
+dataGrid.pager.addEventListener('pagesizechange', (e: Event) => {
+  console.info(`client-side page-size # ${(<CustomEvent>e).detail.value}`);
 });

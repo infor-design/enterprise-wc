@@ -151,7 +151,10 @@
       // valid for readability in async tests
       "no-await-in-loop": ["off", { }],
       // bit masks used for idiomatic MouseEvents.buttons detection w/ mousewheel down
-      "no-bitwise": 0
+      "no-bitwise": 0,
+      // Allows non-null assertions using the ! postfix operator.
+      "no-non-null-assertion": "off",
+      "@typescript-eslint/no-non-null-assertion": ["off"]
     }
   }]
 }

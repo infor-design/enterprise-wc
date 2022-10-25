@@ -143,6 +143,7 @@ export const attributes = {
   GROUPED: 'grouped',
   GROUP_LABEL: 'group-label',
   GROUP_DISABLED: 'group-disabled',
+  GROUP_SELECTS_CHILDREN: 'group-selects-children',
   GROW: 'grow',
   HANDLE: 'handle',
   HEIGHT: 'height',

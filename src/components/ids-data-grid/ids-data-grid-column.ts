@@ -80,7 +80,7 @@ export interface IdsDataGridColumn {
   /** The columns name */
   name: string;
   /** The columns field in the array to use */
-  field: string;
+  field?: string;
   /** The subsitute text to use (for hyperlink and some formatters) */
   text?: string;
   /** Allow column sorting */

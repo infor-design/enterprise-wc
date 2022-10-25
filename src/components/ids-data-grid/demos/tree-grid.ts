@@ -1,15 +1,11 @@
-import '../ids-data-grid';
+import IdsDataGrid from '../ids-data-grid';
 import buildingsJSON from '../../../assets/data/tree-buildings.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#tree-grid');
-const container: any = document.querySelector('ids-container');
+const dataGrid = document.querySelector<IdsDataGrid>('#tree-grid')!;
 
 if (dataGrid) {
   (async function init() {
-    // Set Locale and wait for it to load
-    await container?.setLocale('en-US');
-
     // Do an ajax request
     const url: any = buildingsJSON;
     const columns = [];
@@ -95,12 +91,12 @@ if (dataGrid) {
 
     setData();
 
-    dataGrid.addEventListener('rowexpanded', (e: CustomEvent) => {
-      console.info(`Row Expanded`, e.detail);
+    dataGrid.addEventListener('rowexpanded', (e: Event) => {
+      console.info(`Row Expanded`, (<CustomEvent>e).detail);
     });
 
-    dataGrid.addEventListener('rowcollapsed', (e: CustomEvent) => {
-      console.info(`Row Collapsed`, e.detail);
+    dataGrid.addEventListener('rowcollapsed', (e: Event) => {
+      console.info(`Row Collapsed`, (<CustomEvent>e).detail);
     });
   }());
 }

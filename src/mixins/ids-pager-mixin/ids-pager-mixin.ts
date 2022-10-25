@@ -1,11 +1,11 @@
 import { attributes } from '../../core/ids-attributes';
 import IdsDataSource from '../../core/ids-data-source';
 
-import '../../components/ids-pager/ids-pager';
 import '../../components/ids-button/ids-button';
 import '../../components/ids-menu-button/ids-menu-button';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor } from '../../core/ids-element';
+import IdsPager from '../../components/ids-pager/ids-pager';
 
 const PAGINATION_TYPES = {
   NONE: 'none',
@@ -61,7 +61,7 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
    * Get the internal IdsPager component
    * @returns {HTMLElement} the pager dom element
    */
-  get pager(): any {
+  get pager(): IdsPager {
     return this.#pager || this.querySelector('ids-pager') || document.createElement('ids-pager');
   }
 
@@ -165,7 +165,7 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
    * Get the page-number attribute
    * @returns {number} - the current page-number
    */
-  get pageNumber(): number { return parseInt(this.getAttribute(attributes.PAGE_NUMBER) || this.pager.pageNumber) || 1; }
+  get pageNumber(): number { return parseInt(this.getAttribute(attributes.PAGE_NUMBER) || '') || this.pager.pageNumber || 1; }
 
   /**
    * Set the page-size attribute
@@ -186,7 +186,7 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
    * Get the page-size attribute
    * @returns {number} - the current page-size
    */
-  get pageSize() { return parseInt(this.getAttribute(attributes.PAGE_SIZE) || this.pager.pageSize) || 1; }
+  get pageSize() { return parseInt(this.getAttribute(attributes.PAGE_SIZE) || '') || this.pager.pageSize || 1; }
 
   /**
    * Set the page-total attribute
@@ -211,6 +211,7 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
    * @private
    */
   #attachPager() {
+    debugger;
     if (!this.pagination || this.pagination === PAGINATION_TYPES.NONE) {
       this.pager.remove();
       return;

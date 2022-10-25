@@ -141,9 +141,10 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
   async #tooltipBodyCell(path: HTMLElement[]) {
     const ambientGrid = this as unknown as IdsDataGrid;
     const cellEl = this.#findInPath(path, '[role="gridcell"]') as HTMLElement;
-    const textWidth = stringToNumber(cellEl.getAttribute('data-textwidth'));
+    const link = this.#findInPath(path, 'ids-hyperlink');
+    const textEllipsis = (link ? cellEl : cellEl.querySelector('.text-ellipsis')) as HTMLElement;
 
-    if ((cellEl.offsetWidth < cellEl.scrollWidth) || (cellEl.offsetWidth < textWidth)) {
+    if (textEllipsis?.offsetWidth < textEllipsis?.scrollWidth) {
       const rowIndex = stringToNumber(this.#findInPath(path, '[role="row"]')?.getAttribute('data-index'));
       const columnIndex = stringToNumber(cellEl.getAttribute('aria-colindex')) - 1;
       const rowData = ambientGrid.data[rowIndex];
@@ -462,6 +463,7 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
    * @returns {void}
    */
   #showTooltip(opt: any): void {
+    if (this.#mouseOut) return;
     const {
       target,
       content,
@@ -494,6 +496,8 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
     this.#tooltip?.setAttribute('visible', 'false');
   }
 
+  #mouseOut = false;
+
   /**
    * Add tooltip and attach all tooltip events
    * @private
@@ -508,11 +512,13 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
     }
 
     // Attach tooltip events
-    this.onEvent('mouseover.data-grid', this.container, debounce(async (e: any) => {
-      this.#handleTooltip(e);
-    }, 250));
     this.onEvent('mouseout.data-grid', this.container, debounce(async () => {
+      this.#mouseOut = true;
       this.#hideTooltip();
+    }, 250));
+    this.onEvent('mouseover.data-grid', this.container, debounce(async (e: any) => {
+      this.#mouseOut = false;
+      this.#handleTooltip(e);
     }, 250));
     this.onEvent('scroll.data-grid', this.container, () => {
       this.#hideTooltip();
