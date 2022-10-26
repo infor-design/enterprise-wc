@@ -9,18 +9,20 @@
     <ids-theme-switcher mode="light"></ids-theme-switcher>
 
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Data Grid (filter)</ids-text>
+      <ids-text font-size="12" type="h1">Data Grid (disable client filter)</ids-text>
     </ids-layout-grid>
+
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
         <ids-data-grid
-          id="data-grid-filter-triggers"
+          id="data-grid-disable-client-filter"
           row-selection="multiple"
           label="Books"
-          row-height="md"
           pagination="client-side"
           page-number="1"
           page-size="10"
+          filter-when-typing="false"
+          disable-client-filter="true"
         >
         </ids-data-grid>
       </ids-layout-grid-cell>
