@@ -56,6 +56,9 @@
   - link: data-nested.html
     type: Example
     description: Showing nested data is supported
+  - link: disable-client-filter.html
+    type: Example
+    description: Shows a data grid with disable client filter
   - link: filter-trigger-fields.html
     type: Example
     description: Showing a filter row with date, time, dropdown

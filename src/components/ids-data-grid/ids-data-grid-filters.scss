@@ -26,10 +26,10 @@
     &.hidden {
       @include hidden();
     }
-  }
-}
 
-ids-dropdown::part(popup) {
-  overflow: hidden;
-  max-width: 100%;
+    ids-dropdown[compact] ids-list-box-option {
+      font-size: unset;
+      min-height: 28px;
+    }
+  }
 }

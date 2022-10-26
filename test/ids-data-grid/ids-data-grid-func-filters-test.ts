@@ -15,6 +15,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
 
   // Defaults data grid filters
   const d = {
+    disableClientFilter: false,
     filterable: true,
     filterWhenTyping: true,
     filterRowDisabled: false
@@ -161,6 +162,20 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('renders with list style', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const dataGrid2: any = new IdsDataGrid();
+    dataGrid2.listStyle = true;
+
+    document.body.appendChild(dataGrid2);
+    dataGrid2.columns = columns();
+    dataGrid2.data = dataset;
+    dataGrid2.remove();
+
+    expect(document.querySelectorAll('ids-data-grid').length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('should sets filterable', () => {
     expect(dataGrid.getAttribute('filterable')).toEqual(null);
     expect(dataGrid.filterable).toEqual(d.filterable);
@@ -217,6 +232,152 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.filterRowDisabled).toEqual(true);
     nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
     nodes.forEach((n: any) => expect(n.classList.contains('disabled')).toBeTruthy());
+  });
+
+  it('should sets disable client filter', () => {
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+
+    expect(dataGrid.getAttribute('disable-client-filter')).toEqual(null);
+    expect(dataGrid.disableClientFilter).toEqual(d.disableClientFilter);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    dataGrid.applyFilter([{ columnId: 'description', operator: 'equals', value: '105' }]);
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
+    dataGrid.applyFilter([]);
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    dataGrid.disableClientFilter = true;
+
+    expect(dataGrid.getAttribute('disable-client-filter')).toEqual('');
+    expect(dataGrid.disableClientFilter).toEqual(true);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    dataGrid.applyFilter([{ columnId: 'description', operator: 'equals', value: '105' }]);
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    dataGrid.applyFilter([]);
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    dataGrid.disableClientFilter = false;
+
+    expect(dataGrid.getAttribute('disable-client-filter')).toEqual(null);
+    expect(dataGrid.disableClientFilter).toEqual(d.disableClientFilter);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    dataGrid.applyFilter([{ columnId: 'description', operator: 'equals', value: '105' }]);
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
+    dataGrid.applyFilter([]);
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+  });
+
+  it('renders as disable and readonly filter elements', () => {
+    const disableFilterElemColumns = [{
+      id: 'trackDeprecationHistory',
+      name: 'Track Deprecation History',
+      field: 'trackDeprecationHistory',
+      formatter: formatters.dropdown,
+      filterType: dataGrid.filters.dropdown,
+      filterTerms: [
+        { value: 'Yes', label: 'Yes' },
+        { value: 'No', label: 'No' }
+      ],
+      filterOptions: { disabled: true, readonly: true }
+    }, {
+      id: 'publishDate',
+      name: 'Pub. Date',
+      field: 'publishDate',
+      formatter: formatters.date,
+      filterType: dataGrid.filters.date,
+      filterOptions: { rangeSettings: { maxDays: 2 } }
+    }];
+    const errors = jest.spyOn(global.console, 'error');
+    const dataGrid2: any = new IdsDataGrid();
+
+    document.body.appendChild(dataGrid2);
+    dataGrid2.columns = disableFilterElemColumns;
+    dataGrid2.data = dataset;
+    dataGrid2.remove();
+
+    expect(document.querySelectorAll('ids-data-grid').length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('should not filter on selected menu button', () => {
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    const event = new CustomEvent('selected');
+    dataGrid.wrapper.dispatchEvent(event);
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+  });
+
+  it('should close filter button on outside click', () => {
+    const filterWrapper = dataGrid.shadowRoot.querySelector('.ids-data-grid-header-cell[column-id="description"] .ids-data-grid-header-cell-filter-wrapper');
+    const buttonEl = filterWrapper.querySelector('ids-menu-button');
+    const menuEl = buttonEl?.menuEl;
+
+    expect(menuEl.visible).toBeFalsy();
+    const clickEvent = new MouseEvent('click');
+    buttonEl.dispatchEvent(clickEvent);
+
+    expect(menuEl.visible).toBeTruthy();
+    menuEl.onOutsideClick();
+
+    expect(menuEl.visible).toBeFalsy();
+  });
+
+  it('should sets filter with click on menu button', () => {
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    const filterWrapper = dataGrid.shadowRoot.querySelector('.ids-data-grid-header-cell[column-id="description"] .ids-data-grid-header-cell-filter-wrapper');
+    const filterInput = filterWrapper.querySelector('ids-input');
+    const buttonEl = filterWrapper.querySelector('ids-menu-button');
+    const menuEl = buttonEl?.menuEl;
+
+    filterInput.value = '102';
+    const clickEvent = new MouseEvent('click');
+    buttonEl.dispatchEvent(clickEvent);
+
+    expect(menuEl.visible).toBeTruthy();
+    const item = menuEl.querySelector('ids-menu-item[value="equals"]');
+    item.menu.target = buttonEl;
+    item.selected = true;
+
+    expect(menuEl.visible).toBeFalsy();
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
+  });
+
+  it('should sets filter with click on menu button and date range', () => {
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    const filterWrapper = dataGrid.shadowRoot.querySelector('.ids-data-grid-header-cell[column-id="publishDate"] .ids-data-grid-header-cell-filter-wrapper');
+    const filterInput = filterWrapper.querySelector('ids-date-picker');
+    const buttonEl = filterWrapper.querySelector('ids-menu-button');
+    const menuEl = buttonEl?.menuEl;
+
+    const clickEvent = new MouseEvent('click');
+    buttonEl.dispatchEvent(clickEvent);
+
+    expect(menuEl.visible).toBeTruthy();
+    let item = menuEl.querySelector('ids-menu-item[value="in-range"]');
+    item.menu.target = buttonEl;
+    item.selected = true;
+
+    expect(menuEl.visible).toBeFalsy();
+    filterInput.value = '12/5/2021 - 12/30/2021';
+    buttonEl.dispatchEvent(clickEvent);
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(2);
+    item = menuEl.querySelector('ids-menu-item[value="equals"]');
+    item.menu.target = buttonEl;
+    item.selected = true;
+
+    expect(menuEl.visible).toBeFalsy();
+    expect(filterInput.value).toEqual('12/5/2021');
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(0);
   });
 
   it('should sets filter when typing', () => {
@@ -380,6 +541,18 @@ describe('IdsDataGrid Component Filter Tests', () => {
     dataGrid.applyFilter([]);
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    dataGrid.applyFilter([{ columnId: 'publishDate', operator: 'in-range', value: '2/23/2021' }]);
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
+    dataGrid.applyFilter([]);
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    dataGrid.applyFilter([{ columnId: 'publishDate', operator: 'in-range', value: '12/10/2021 - 12/25/2021' }]);
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(2);
+    dataGrid.applyFilter([]);
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
   it('should filter rows as filter type time', () => {
@@ -388,7 +561,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
     dataGrid.applyFilter([{ columnId: 'publishTime', operator: 'equals', value: '1:25 PM' }]);
 
-    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(6);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(5);
     dataGrid.applyFilter([]);
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -459,6 +632,24 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
   });
 
+  it('should keep filter with redraw', () => {
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    dataGrid.applyFilter([{ columnId: 'description', operator: 'equals', value: '105' }]);
+    dataGrid.redraw();
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
+    dataGrid.applyFilter([{ columnId: 'integer', operator: 'equals', value: '14' }]);
+    dataGrid.redraw();
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
+    dataGrid.applyFilter([]);
+    dataGrid.redraw();
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+  });
+
   it('should not filter empty element', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
     const wrapper = dataGrid.filters.filterWrapperById('inStock');
@@ -494,6 +685,27 @@ describe('IdsDataGrid Component Filter Tests', () => {
 
     const selector = '.ids-data-grid-body .ids-data-grid-row';
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+  });
+
+  it('should renders filter with slot no operator', () => {
+    dataGrid = createFromTemplate(dataGrid, `<ids-data-grid>
+      <div slot="filter-description" column-id="description">
+        <ids-input id="input-description" type="text" label="Slotted"></ids-input>
+      </div>
+    </ids-data-grid>`);
+
+    dataGrid.columns = columns();
+    dataGrid.data = dataset;
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
+    const wrapper = dataGrid.filters.filterWrapperById('description');
+    const slot = wrapper.querySelector('slot[name^="filter-"]');
+    const input = slot.assignedElements()[0].querySelector('ids-input');
+    input.value = '105';
+    input.dispatchEvent(new Event('keydownend'));
+
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
   });
 
   it('should use custom filter', () => {

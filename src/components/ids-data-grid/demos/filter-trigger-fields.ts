@@ -18,9 +18,27 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter-triggers
     align: 'center'
   });
   columns.push({
+    id: 'integer',
+    name: 'Price (Int)',
+    field: 'price',
+    filterType: dataGrid.filters.integer,
+    formatter: dataGrid.formatters.integer,
+    formatOptions: { locale: 'en-US' }
+  });
+  columns.push({
+    id: 'price',
+    name: 'Price',
+    field: 'price',
+    width: 180,
+    filterType: dataGrid.filters.decimal,
+    formatter: dataGrid.formatters.decimal,
+    formatOptions: { locale: 'en-US' }
+  });
+  columns.push({
     id: 'publishDate',
     name: 'Pub. Date',
     field: 'publishDate',
+    width: 180,
     filterType: dataGrid.filters.date,
     formatter: dataGrid.formatters.date
   });
@@ -33,26 +51,10 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter-triggers
     formatter: dataGrid.formatters.time
   });
   columns.push({
-    id: 'price',
-    name: 'Price',
-    field: 'price',
-    width: 180,
-    filterType: dataGrid.filters.decimal,
-    formatter: dataGrid.formatters.decimal,
-    formatOptions: { locale: 'en-US' }
-  });
-  columns.push({
-    id: 'integer',
-    name: 'Price (Int)',
-    field: 'price',
-    filterType: dataGrid.filters.integer,
-    formatter: dataGrid.formatters.integer,
-    formatOptions: { locale: 'en-US' }
-  });
-  columns.push({
     id: 'active',
     name: 'Active',
     field: 'active',
+    align: 'center',
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.checkbox,
     isChecked: (value: any) => value === 'Yes'
@@ -72,6 +74,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter-triggers
     id: 'useForEmployee2',
     name: 'NotFilteredItem (custom)',
     field: 'useForEmployee',
+    width: 140,
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.dropdown,
     filterTerms: [
@@ -85,6 +88,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter-triggers
     name: 'Location',
     field: 'location',
     href: '#',
+    width: 140,
     formatter: dataGrid.formatters.hyperlink,
     filterType: dataGrid.filters.contents,
     filterOptions: {

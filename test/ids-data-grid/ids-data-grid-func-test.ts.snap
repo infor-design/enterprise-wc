@@ -7,4 +7,599 @@ exports[`IdsDataGrid Component Paging Tests renders pager 1`] = `
 />
 `;
 
-exports[`IdsDataGrid Component Paging Tests renders pager 2`] = ``;
+exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
+"<style nonce="0a59a005">:host { background-color: transparent; }</style><div class="ids-data-grid-wrapper">
+        <span class="ids-data-grid-sort-arrows"></span>
+        <div class="ids-data-grid" role="table" part="table" aria-label="Data Grid" data-row-height="lg" mode="light" style="--ids-data-grid-column-widths: 20px 65px minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) ;">
+      <div class="ids-data-grid-header" role="rowgroup" part="header">
+        <div role="row" class="ids-data-grid-row">
+
+      <span class="ids-data-grid-header-cell align-center" part="header-cell" aria-colindex="1" column-id="selectionCheckbox" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content vertical-align-center">
+        <span class="ids-data-grid-header-text">
+          <span class="ids-data-grid-checkbox-container">
+        <span role="checkbox" aria-checked="false" aria-label="undefined" class="ids-data-grid-checkbox">
+        </span>
+      </span>
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="2" column-id="rowNumber" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          #
+        </span>
+
+      <span class="ids-data-grid-header-icon" data-headericontooltip="This is header icon">
+        <ids-icon icon="info" size="medium"></ids-icon>
+      </span>
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="3" column-id="description" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content is-sortable">
+        <span class="ids-data-grid-header-text">
+          Description
+        </span>
+
+
+      <span class="sort-indicator">
+        <ids-icon icon="dropdown"></ids-icon>
+        <ids-icon icon="dropdown"></ids-icon>
+      </span>
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="4" column-id="ledger" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Ledger
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="5" column-id="publishDate" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Pub. Date
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="6" column-id="publishTime" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Pub. Time
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="7" column-id="price" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Price
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="8" column-id="bookCurrency" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Currency
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="9" column-id="transactionCurrency" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Transaction Currency
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="10" column-id="integer" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Price (Int)
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="11" column-id="location" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Location
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="12" column-id="postHistory" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Post History
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="13" column-id="inStock" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          In Stock
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="14" column-id="convention" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Convention
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="15" column-id="methodSwitch" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Method Switch
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="16" column-id="trackDeprecationHistory" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Track Deprecation History
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="17" column-id="useForEmployee" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Use For Employee
+        </span>
+
+
+      </span>
+
+      </span>
+
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="18" column-id="custom" role="columnheader" data-textwidth="1">
+        <span class="ids-data-grid-header-cell-content">
+        <span class="ids-data-grid-header-text">
+          Custom
+        </span>
+
+
+      </span>
+
+      </span>
+
+        </div>
+      </div>
+
+      <div class="ids-data-grid-body" part="contents" role="rowgroup">
+
+      <div role="row" part="row" aria-rowindex="1" visible-rowindex="0" class="ids-data-grid-row">
+
+        <span role="cell" part="cell" class="ids-data-grid-cell align-center" aria-colindex="1" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="undefined" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell readonly" aria-colindex="2" data-textwidth="29"><span class="text-ellipsis">1</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="3" data-textwidth="29"><span class="text-ellipsis">101</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="4" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="5" data-textwidth="29"><span class="text-ellipsis">23.4.2021</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="6" data-textwidth="29"><span class="text-ellipsis">14:25</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="7" data-textwidth="29"><span class="text-ellipsis">12.99</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="8" data-textwidth="29"><span class="text-ellipsis">USD</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="9" data-textwidth="29"><span class="text-ellipsis">Book</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="10" data-textwidth="29"><span class="text-ellipsis">13</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="11" data-textwidth="8"><ids-hyperlink href="#" tabindex="-1" role="link">United States</ids-hyperlink></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="12" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="13" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="true" aria-label="In Stock" class="ids-data-grid-checkbox checked"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="14" data-textwidth="29"><span class="text-ellipsis">Full Month</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="15" data-textwidth="29"><span class="text-ellipsis">Yes</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="16" data-textwidth="29"><span class="text-ellipsis">Yes</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="17" data-textwidth="29"><span class="text-ellipsis">••</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="18" data-textwidth="29"><span class="text-ellipsis">Custom: 12.99</span></span>
+
+      </div>
+
+      <div role="row" part="row" aria-rowindex="2" visible-rowindex="1" class="ids-data-grid-row">
+
+        <span role="cell" part="cell" class="ids-data-grid-cell align-center" aria-colindex="1" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="undefined" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell readonly" aria-colindex="2" data-textwidth="29"><span class="text-ellipsis">2</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="3" data-textwidth="29"><span class="text-ellipsis">102</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="4" data-textwidth="29"><span class="text-ellipsis">CORE</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="5" data-textwidth="29"><span class="text-ellipsis">23.2.2021</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="6" data-textwidth="29"><span class="text-ellipsis">13:25</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="7" data-textwidth="29"><span class="text-ellipsis">13.99</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="8" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="9" data-textwidth="29"><span class="text-ellipsis">Book</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="10" data-textwidth="29"><span class="text-ellipsis">14</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="11" data-textwidth="8"><ids-hyperlink href="#" tabindex="-1" role="link">Canada</ids-hyperlink></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="12" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="13" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="true" aria-label="In Stock" class="ids-data-grid-checkbox checked"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="14" data-textwidth="29"><span class="text-ellipsis">Full Month</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="15" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="16" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="17" data-textwidth="29"><span class="text-ellipsis">••</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="18" data-textwidth="29"><span class="text-ellipsis">Custom: 13.99</span></span>
+
+      </div>
+
+      <div role="row" part="row" aria-rowindex="3" visible-rowindex="2" class="ids-data-grid-row">
+
+        <span role="cell" part="cell" class="ids-data-grid-cell align-center" aria-colindex="1" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="undefined" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell readonly" aria-colindex="2" data-textwidth="29"><span class="text-ellipsis">3</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="3" data-textwidth="29"><span class="text-ellipsis">103</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="4" data-textwidth="29"><span class="text-ellipsis">CORE</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="5" data-textwidth="29"><span class="text-ellipsis">23.12.2021</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="6" data-textwidth="29"><span class="text-ellipsis">13:25</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="7" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="8" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="9" data-textwidth="29"><span class="text-ellipsis">Book</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="10" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="11" data-textwidth="8"><ids-hyperlink href="#" tabindex="-1" role="link">United States</ids-hyperlink></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="12" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="13" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="In Stock" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="14" data-textwidth="29"><span class="text-ellipsis">Full Month</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="15" data-textwidth="29"><span class="text-ellipsis">Yes</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="16" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="17" data-textwidth="29"><span class="text-ellipsis">•••</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="18" data-textwidth="29"><span class="text-ellipsis">Custom: 0</span></span>
+
+      </div>
+
+      <div role="row" part="row" aria-rowindex="4" visible-rowindex="3" class="ids-data-grid-row">
+
+        <span role="cell" part="cell" class="ids-data-grid-cell align-center" aria-colindex="1" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="undefined" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell readonly" aria-colindex="2" data-textwidth="29"><span class="text-ellipsis">4</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="3" data-textwidth="29"><span class="text-ellipsis">104</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="4" data-textwidth="29"><span class="text-ellipsis">CORE</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="5" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="6" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="7" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="8" data-textwidth="29"><span class="text-ellipsis">USD</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="9" data-textwidth="29"><span class="text-ellipsis">Book</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="10" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="11" data-textwidth="8"><ids-hyperlink href="#" tabindex="-1" role="link">Canada</ids-hyperlink></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="12" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="13" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="In Stock" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="14" data-textwidth="29"><span class="text-ellipsis">Full Month</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="15" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="16" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="17" data-textwidth="29"><span class="text-ellipsis">••</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="18" data-textwidth="29"><span class="text-ellipsis">Custom: 0</span></span>
+
+      </div>
+
+      <div role="row" part="row" aria-rowindex="5" visible-rowindex="4" class="ids-data-grid-row">
+
+        <span role="cell" part="cell" class="ids-data-grid-cell align-center" aria-colindex="1" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="undefined" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell readonly" aria-colindex="2" data-textwidth="29"><span class="text-ellipsis">5</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="3" data-textwidth="29"><span class="text-ellipsis">105</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="4" data-textwidth="29"><span class="text-ellipsis">CORE</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="5" data-textwidth="29"><span class="text-ellipsis">12.12.2021</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="6" data-textwidth="29"><span class="text-ellipsis">13:25</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="7" data-textwidth="29"><span class="text-ellipsis">15.99</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="8" data-textwidth="29"><span class="text-ellipsis">USD</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="9" data-textwidth="29"><span class="text-ellipsis">Book</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="10" data-textwidth="29"><span class="text-ellipsis">16</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="11" data-textwidth="8"><ids-hyperlink href="#" tabindex="-1" role="link">United States</ids-hyperlink></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="12" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="13" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="true" aria-label="In Stock" class="ids-data-grid-checkbox checked"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="14" data-textwidth="29"><span class="text-ellipsis">Full Month</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="15" data-textwidth="29"><span class="text-ellipsis">Yes</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="16" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="17" data-textwidth="29"><span class="text-ellipsis">•••</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="18" data-textwidth="29"><span class="text-ellipsis">Custom: 15.99</span></span>
+
+      </div>
+
+      <div role="row" part="row" aria-rowindex="6" visible-rowindex="5" class="ids-data-grid-row">
+
+        <span role="cell" part="cell" class="ids-data-grid-cell align-center" aria-colindex="1" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="undefined" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell readonly" aria-colindex="2" data-textwidth="29"><span class="text-ellipsis">6</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="3" data-textwidth="29"><span class="text-ellipsis">106</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="4" data-textwidth="29"><span class="text-ellipsis">CORE</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="5" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="6" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="7" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="8" data-textwidth="29"><span class="text-ellipsis">USD</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="9" data-textwidth="29"><span class="text-ellipsis">Book</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="10" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="11" data-textwidth="8"></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="12" data-textwidth="29"><span class="text-ellipsis">Yes</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="13" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="In Stock" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="14" data-textwidth="29"><span class="text-ellipsis">Full Month</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="15" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="16" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="17" data-textwidth="29"><span class="text-ellipsis">••</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="18" data-textwidth="29"><span class="text-ellipsis">Custom: 0</span></span>
+
+      </div>
+
+      <div role="row" part="row" aria-rowindex="7" visible-rowindex="6" class="ids-data-grid-row">
+
+        <span role="cell" part="cell" class="ids-data-grid-cell align-center" aria-colindex="1" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="undefined" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell readonly" aria-colindex="2" data-textwidth="29"><span class="text-ellipsis">7</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="3" data-textwidth="29"><span class="text-ellipsis">107</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="4" data-textwidth="29"><span class="text-ellipsis">CORE</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="5" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="6" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="7" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="8" data-textwidth="29"><span class="text-ellipsis">USD</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="9" data-textwidth="29"><span class="text-ellipsis">Book</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="10" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="11" data-textwidth="8"><ids-hyperlink href="#" tabindex="-1" role="link">Canada</ids-hyperlink></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="12" data-textwidth="29"><span class="text-ellipsis">Yes</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="13" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="In Stock" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="14" data-textwidth="29"><span class="text-ellipsis">Full Month</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="15" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="16" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="17" data-textwidth="29"><span class="text-ellipsis">••</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="18" data-textwidth="29"><span class="text-ellipsis">Custom: 0</span></span>
+
+      </div>
+
+      <div role="row" part="row" aria-rowindex="8" visible-rowindex="7" class="ids-data-grid-row">
+
+        <span role="cell" part="cell" class="ids-data-grid-cell align-center" aria-colindex="1" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="undefined" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell readonly" aria-colindex="2" data-textwidth="29"><span class="text-ellipsis">8</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="3" data-textwidth="29"><span class="text-ellipsis">108</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="4" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="5" data-textwidth="29"><span class="text-ellipsis">12.12.2020</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="6" data-textwidth="29"><span class="text-ellipsis">13:25</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="7" data-textwidth="29"><span class="text-ellipsis">15.50</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="8" data-textwidth="29"><span class="text-ellipsis">USD</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="9" data-textwidth="29"><span class="text-ellipsis">Book</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="10" data-textwidth="29"><span class="text-ellipsis">16</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="11" data-textwidth="8"></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="12" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="13" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="true" aria-label="In Stock" class="ids-data-grid-checkbox checked"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="14" data-textwidth="29"><span class="text-ellipsis">Full Month</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="15" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="16" data-textwidth="29"><span class="text-ellipsis">Yes</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="17" data-textwidth="29"><span class="text-ellipsis">•••</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="18" data-textwidth="29"><span class="text-ellipsis">Custom: 15.50</span></span>
+
+      </div>
+
+      <div role="row" part="row" aria-rowindex="9" visible-rowindex="8" class="ids-data-grid-row">
+
+        <span role="cell" part="cell" class="ids-data-grid-cell align-center" aria-colindex="1" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="undefined" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell readonly" aria-colindex="2" data-textwidth="29"><span class="text-ellipsis">9</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="3" data-textwidth="29"><span class="text-ellipsis">109</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="4" data-textwidth="29"><span class="text-ellipsis"></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="5" data-textwidth="29"><span class="text-ellipsis">12.12.2019</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="6" data-textwidth="29"><span class="text-ellipsis">13:25</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="7" data-textwidth="29"><span class="text-ellipsis">29.48</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="8" data-textwidth="29"><span class="text-ellipsis">USD</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="9" data-textwidth="29"><span class="text-ellipsis">Book</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="10" data-textwidth="29"><span class="text-ellipsis">29</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="11" data-textwidth="8"><ids-hyperlink href="#" tabindex="-1" role="link">United States</ids-hyperlink></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="12" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="13" data-textwidth="29"><span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="In Stock" class="ids-data-grid-checkbox"></span></span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="14" data-textwidth="29"><span class="text-ellipsis">Full Month</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="15" data-textwidth="29"><span class="text-ellipsis">Yes</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="16" data-textwidth="29"><span class="text-ellipsis">No</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="17" data-textwidth="29"><span class="text-ellipsis">••</span></span>
+
+        <span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="18" data-textwidth="29"><span class="text-ellipsis">Custom: 29.48</span></span>
+
+      </div>
+
+    </div>
+    </div><ids-pager total="9" page-number="1" page-size="10">
+      <ids-pager-button first="" total="9" page-number="1" nav-disabled="" page-size="10"></ids-pager-button>
+      <ids-pager-button previous="" total="9" page-number="1" nav-disabled="" page-size="10"></ids-pager-button>
+      <ids-pager-input total="9" page-number="1" page-size="10"></ids-pager-input>
+      <ids-pager-button next="" total="9" page-number="1" page-size="10" nav-disabled=""></ids-pager-button>
+      <ids-pager-button last="" total="9" page-number="1" page-size="10" nav-disabled=""></ids-pager-button>
+      <ids-pager-dropdown slot="end" page-size="10"></ids-pager-dropdown>
+    </ids-pager>
+        <slot name="menu-container"></slot>
+        <slot name="tooltip">
+          <ids-tooltip id="tooltip" exportparts="tooltip-popup, tooltip-arrow"></ids-tooltip>
+        </slot>
+      </div>"
+`;
