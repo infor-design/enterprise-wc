@@ -58,10 +58,18 @@ const myCustomFilter = (opt: any) => {
     filterType: dataGrid.filters.text
   });
   columns.push({
+    id: 'no-operator',
+    name: 'No operators',
+    field: 'color',
+    sortable: true,
+    formatter: dataGrid.formatters.text,
+    filterType: dataGrid.filters.text
+  });
+  columns.push({
     id: 'inStock',
     name: 'In Stock',
     field: 'inStock',
-    sortable: true,
+    align: 'center',
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.checkbox,
     isChecked: (value: any) => value === true

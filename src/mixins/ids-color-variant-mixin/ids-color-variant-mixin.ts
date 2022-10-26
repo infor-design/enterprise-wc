@@ -30,7 +30,7 @@ const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class ext
 
   connectedCallback() {
     super.connectedCallback();
-    this.#refreshColorVariant(null, this.colorVariant);
+    if (this.colorVariant) this.#refreshColorVariant(null, this.colorVariant);
   }
 
   static get attributes() {
