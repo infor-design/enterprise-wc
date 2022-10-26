@@ -1,8 +1,8 @@
-import '../ids-data-grid';
+import IdsDataGrid from '../ids-data-grid';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-virtual-scroll');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-virtual-scroll');
 
 // Do an ajax request
 const url: any = productsJSON;
@@ -86,6 +86,6 @@ const setData = async () => {
 
 setData();
 
-dataGrid.addEventListener('selectionchanged', (e: CustomEvent) => {
-  console.info(`Selection Changed`, e.detail);
+dataGrid.addEventListener('selectionchanged', (e: Event) => {
+  console.info(`Selection Changed`, (<CustomEvent>e).detail);
 });

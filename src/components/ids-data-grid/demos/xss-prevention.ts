@@ -1,8 +1,8 @@
 /* eslint-disable object-curly-newline */
-import '../ids-data-grid';
+import IdsDataGrid from '../ids-data-grid';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-1');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-1');
 const container: any = document.querySelector('ids-container');
 
 if (dataGrid) {

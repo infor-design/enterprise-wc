@@ -1,9 +1,9 @@
-import '../ids-data-grid';
+import IdsDataGrid from '../ids-data-grid';
 import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-paging-standalone');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-paging-standalone');
 const pager: any = document.querySelector('ids-pager');
 const container: any = document.querySelector('ids-container');
 
@@ -75,8 +75,8 @@ const container: any = document.querySelector('ids-container');
   dataGrid.data = data;
   dataGrid.pageTotal = data.length;
 
-  dataGrid.pager.addEventListener('pagenumberchange', async (e: CustomEvent) => {
-    console.info(`standalone page # ${e.detail.value}`);
+  dataGrid.pager.addEventListener('pagenumberchange', async (e: Event) => {
+    console.info(`standalone page # ${(<CustomEvent>e).detail.value}`);
   });
 
   console.info('Loading Time:', window.performance.now());

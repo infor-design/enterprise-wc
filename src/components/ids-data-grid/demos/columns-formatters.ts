@@ -1,4 +1,4 @@
-import '../ids-data-grid';
+import IdsDataGrid from '../ids-data-grid';
 import booksJSON from '../../../assets/data/books.json';
 import css from '../../../assets/css/ids-data-grid/custom-link.css';
 
@@ -6,14 +6,10 @@ const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-formatters');
-const container: any = document.querySelector('ids-container');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-formatters')!;
 
 if (dataGrid) {
   (async function init() {
-    // Set Locale and wait for it to load
-    await container?.setLocale('en-US');
-
     // Do an ajax request
     const url: any = booksJSON;
     const columns = [];

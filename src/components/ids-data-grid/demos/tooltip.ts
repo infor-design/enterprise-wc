@@ -1,9 +1,9 @@
-import '../ids-data-grid';
+import IdsDataGrid from '../ids-data-grid';
 import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-tooltip');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-tooltip');
 const container: any = document.querySelector('ids-container');
 
 (async function init() {
@@ -210,11 +210,11 @@ const container: any = document.querySelector('ids-container');
 
     // Set veto before tooltip show
     dataGrid.addEventListener('beforetooltipshow', (e: any) => {
-      const { rowIndex, columnIndex } = e.detail.data;
+      const { rowIndex, columnIndex } = (<CustomEvent>e).detail.data;
       const veto = !(rowIndex === 4 && columnIndex === 2);
       if (!veto) {
-        console.info('Veto!: ', e.detail.data);
-        e.detail.response(veto);
+        console.info('Veto!: ', (<CustomEvent>e).detail.data);
+        (<CustomEvent>e).detail.response(veto);
       }
     });
   };

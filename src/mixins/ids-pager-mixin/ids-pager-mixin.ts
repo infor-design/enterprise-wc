@@ -1,11 +1,12 @@
 import { attributes } from '../../core/ids-attributes';
 import IdsDataSource from '../../core/ids-data-source';
 
+import '../../components/ids-pager/ids-pager';
 import '../../components/ids-button/ids-button';
 import '../../components/ids-menu-button/ids-menu-button';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor } from '../../core/ids-element';
-import IdsPager from '../../components/ids-pager/ids-pager';
+import type IdsPager from '../../components/ids-pager/ids-pager';
 
 const PAGINATION_TYPES = {
   NONE: 'none',
@@ -211,7 +212,6 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
    * @private
    */
   #attachPager() {
-    debugger;
     if (!this.pagination || this.pagination === PAGINATION_TYPES.NONE) {
       this.pager.remove();
       return;

@@ -1,9 +1,9 @@
-import '../ids-data-grid';
+import IdsDataGrid from '../ids-data-grid';
 import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-paging-server-side');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-paging-server-side');
 const container: any = document.querySelector('ids-container');
 
 (async function init() {
@@ -92,16 +92,16 @@ const container: any = document.querySelector('ids-container');
 
   populatePaginatedDatagrid(1, 10); // load data for 1st page
 
-  dataGrid.pager.addEventListener('pagenumberchange', (e: CustomEvent) => {
-    console.info(`server-side page-number # ${e.detail.value}`);
-    const pageNumber = e.detail.value;
+  dataGrid.pager.addEventListener('pagenumberchange', (e: Event) => {
+    console.info(`server-side page-number # ${(<CustomEvent>e).detail.value}`);
+    const pageNumber = (<CustomEvent>e).detail.value;
     const pageSize = dataGrid.pageSize;
     populatePaginatedDatagrid(pageNumber, pageSize);
   });
 
-  dataGrid.pager.addEventListener('pagesizechange', (e: CustomEvent) => {
-    console.info(`server-side page-size # ${e.detail.value}`);
-    const pageSize = e.detail.value;
+  dataGrid.pager.addEventListener('pagesizechange', (e: Event) => {
+    console.info(`server-side page-size # ${(<CustomEvent>e).detail.value}`);
+    const pageSize = (<CustomEvent>e).detail.value;
     const pageNumber = dataGrid.pageNumber;
     populatePaginatedDatagrid(pageNumber, pageSize);
   });

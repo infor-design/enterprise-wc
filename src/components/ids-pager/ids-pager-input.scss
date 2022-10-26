@@ -30,3 +30,7 @@ ids-input::part(label) {
 ids-input::part(field-container) {
   @include mb-0();
 }
+
+ids-text {
+  @include mx-4();
+}

@@ -1,14 +1,11 @@
-import '../ids-data-grid';
+import IdsDataGrid from '../ids-data-grid';
 import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-filter');
-const container: any = document.querySelector('ids-container');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter')!;
 
 (async function init() {
-  // Set Locale and wait for it to load
-  await container.setLocale('en-US');
   const columns = [];
 
   // Set up columns

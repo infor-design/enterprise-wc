@@ -1,8 +1,8 @@
-import '../ids-data-grid';
+import IdsDataGrid from '../ids-data-grid';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-column-groups');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-column-groups');
 const container: any = document.querySelector('ids-container');
 
 if (dataGrid) {
@@ -131,7 +131,7 @@ if (dataGrid) {
       id: 'trackDeprecationHistory',
       name: 'Track Deprecation History',
       field: 'trackDeprecationHistory',
-      formatter: dataGrid.formatters.dropdown,
+      formatter: dataGrid.formatters.text,
       resizable: true,
     });
     columns.push({

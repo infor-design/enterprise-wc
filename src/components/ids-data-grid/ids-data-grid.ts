@@ -240,7 +240,7 @@ export default class IdsDataGrid extends Base {
     this.filters.attachPostFiltersSetting();
 
     // Set Counts/Totals
-    this.container?.setAttribute('aria-rowcount', this.rowCount);
+    this.container?.setAttribute('aria-rowcount', this.rowCount.toString());
   }
 
   /**
@@ -1012,7 +1012,7 @@ export default class IdsDataGrid extends Base {
    * Set the data of the data grid
    * @param {Array} value The array to use
    */
-  set data(value) {
+  set data(value: Array<Record<string, any>>) {
     if (value) {
       this.datasource.flatten = this.treeGrid;
       this.datasource.data = value;
@@ -1021,10 +1021,10 @@ export default class IdsDataGrid extends Base {
       return;
     }
 
-    this.datasource.data = null;
+    this.datasource.data = [];
   }
 
-  get data() { return this?.datasource?.data || []; }
+  get data(): Array<Record<string, any>> { return this?.datasource?.data || []; }
 
   /**
    * Set the list view to use virtual scrolling for a large amount of rows
@@ -1231,11 +1231,11 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Find the parent id based on the cached props
-   * @param {Record<string, unknown>} data the parent row that was clicked
+   * @param {Array<Record<string, any>>} data the parent row that was clicked
    * @param {string} parentIds the string "1 2" of indexes
    * @returns {Record<string, unknown>} The child record
    */
-  #findParentRow(data: Record<string, unknown>, parentIds: string): any {
+  #findParentRow(data: Array<Record<string, any>>, parentIds: string): any {
     let childRow: any;
     parentIds.split(' ').forEach((r: string, index: number) => {
       if (index === 0) childRow = data[Number(r)];

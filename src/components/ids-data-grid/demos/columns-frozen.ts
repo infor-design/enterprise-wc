@@ -1,8 +1,8 @@
-import '../ids-data-grid';
+import IdsDataGrid from '../ids-data-grid';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-frozen');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-frozen');
 const container: any = document.querySelector('ids-container');
 
 if (dataGrid) {
@@ -124,6 +124,7 @@ if (dataGrid) {
       width: 65,
       frozen: 'right'
     });
+
     dataGrid.columns = columns;
     const setData = async () => {
       const res = await fetch(url);

@@ -1,9 +1,9 @@
-import '../ids-data-grid';
+import IdsDataGrid from '../ids-data-grid';
 import '../../ids-container/ids-container';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-single-select');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-single-select');
 const container: any = document.querySelector('ids-container');
 
 (async function init() {
@@ -135,11 +135,11 @@ const container: any = document.querySelector('ids-container');
   setData();
 
   // Event Handlers
-  dataGrid.addEventListener('rowselected', (e: CustomEvent) => {
-    console.info(`Row Selected`, e.detail);
+  dataGrid.addEventListener('rowselected', (e: Event) => {
+    console.info(`Row Selected`, (<CustomEvent>e).detail);
   });
 
-  dataGrid.addEventListener('selectionchanged', (e: CustomEvent) => {
-    console.info(`Selection Changed`, e.detail);
+  dataGrid.addEventListener('selectionchanged', (e: Event) => {
+    console.info(`Selection Changed`, (<CustomEvent>e).detail);
   });
 }());

@@ -20,13 +20,13 @@ class IdsDataSource {
    * Holds a reference to the original data
    * @private
    */
-  #originalData: Record<string, any> = [];
+  #originalData: Array<Record<string, any>> = [];
 
   /**
    * Holds the data in its current state
    * @private
    */
-  #currentData: Record<string, any> = [];
+  #currentData: Array<Record<string, any>> = [];
 
   /**
    * Holds the current data to use with filter
@@ -78,9 +78,9 @@ class IdsDataSource {
    * Return the currently used data in its current state
    * @returns {Array | null} The attached array of data in its current state
    */
-  get data() {
+  get data(): Array<Record<string, any>> {
     if (this.pageSize && this.pageSize < this.total) {
-      return this.paginate(this.pageNumber, this.pageSize);
+      this.paginate(this.pageNumber, this.pageSize);
     }
 
     return this.#currentData;
@@ -91,7 +91,7 @@ class IdsDataSource {
   }
 
   /* Provides ability to set the current data */
-  set currentData(value: Record<string, any>) {
+  set currentData(value: Array<Record<string, any>>) {
     this.#currentData = value;
   }
 
@@ -115,7 +115,7 @@ class IdsDataSource {
    * @param {Record<string, unknown>} data The data array
    * @returns {Record<string, unknown>} The flattened data
    */
-  #flattenData(data: Record<string, any>) {
+  #flattenData(data: Array<Record<string, any>>) {
     if (!this.#flatten) return data;
 
     const newData: Array<Record<string, any>> = [];
@@ -194,18 +194,34 @@ class IdsDataSource {
    */
   get pageSize() { return this.#pageSize; }
 
+  /* To prevent running more than once */
+  #lastPageSize = -1;
+
+  #lastPageNumber = -1;
+
   /**
    * @param {number} pageNumber - a page number to start with
    * @param {number} pageSize - number of items to return
    * @returns {Array} the paginated data
    */
   paginate(pageNumber = 1, pageSize = 10) {
+    if (this.#lastPageSize === pageSize && this.#lastPageNumber === pageNumber) return this.#currentData;
+    this.#lastPageNumber = pageNumber;
+    this.#lastPageSize = pageSize;
+
     pageNumber = Math.max(pageNumber || 1, 1);
     pageSize = pageSize || 1;
 
     const last = pageNumber * pageSize;
     const start = last - pageSize;
-    return this.#currentData.slice(start, start + pageSize);
+
+    if (this.flatten) {
+      const clone = deepClone(this.#originalData);
+      this.#currentData = this.#flattenData(clone.slice(start, start + pageSize));
+      return this.#currentData;
+    }
+    this.#currentData = this.#originalData.slice(start, start + pageSize);
+    return this.#currentData;
   }
 
   /**

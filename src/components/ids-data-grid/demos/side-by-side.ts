@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
-import '../ids-data-grid';
+import IdsDataGrid from '../ids-data-grid';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-1');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-1');
 
 // Do an ajax request
 const url: any = booksJSON;

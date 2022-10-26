@@ -1,9 +1,9 @@
-import '../ids-data-grid';
+import IdsDataGrid from '../ids-data-grid';
 import '../../ids-container/ids-container';
 import companyJSON from '../../../assets/data/companies.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-list');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-list');
 const container: any = document.querySelector('ids-container');
 
 (async function init() {

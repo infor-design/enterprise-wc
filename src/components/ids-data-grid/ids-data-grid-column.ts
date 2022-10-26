@@ -1,6 +1,8 @@
 export interface IdsDataGridColumnFormatOptions {
   /* Set the style of the number fx integer */
   style?: string;
+  /* Sets the incoming locale */
+  locale?: string;
 }
 
 export interface IdsDataGridColumnGroup {
@@ -78,7 +80,7 @@ export interface IdsDataGridColumn {
   /** The columns unique id */
   id: string;
   /** The columns name */
-  name: string;
+  name?: string;
   /** The columns field in the array to use */
   field?: string;
   /** The subsitute text to use (for hyperlink and some formatters) */
@@ -139,6 +141,8 @@ export interface IdsDataGridColumn {
     autoselect?: boolean;
     /** Sets the auto update attribute (for time type filters) */
     autoupdate?: boolean;
+    /** If the filter type is "contents" lets you set a blank string to a text value (matched by ID) */
+    notFilteredItem?: { value: string, label: string }
   };
   /** True if the row is selected */
   rowSelected?: boolean;
