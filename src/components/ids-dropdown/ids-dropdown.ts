@@ -735,7 +735,7 @@ export default class IdsDropdown extends Base {
   #attachTypeaheadEvents() {
     // Handle Key Typeahead
     this.offEvent('keydownend.dropdown-typeahead');
-    this.onEvent('keydownend.dropdown-typeahead', this.input?.input, (e: CustomEvent) => {
+    this.onEvent('keydownend.dropdown-typeahead', this, (e: CustomEvent) => {
       this.#typeAhead(e.detail.keys);
     });
   }
