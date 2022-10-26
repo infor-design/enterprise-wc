@@ -3,8 +3,7 @@ import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-tooltip');
-const container: any = document.querySelector('ids-container');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-tooltip')!;
 
 (async function init() {
   // Define tooltip callback
@@ -202,6 +201,7 @@ const container: any = document.querySelector('ids-container');
   const url: any = productsJSON;
 
   dataGrid.columns = columns;
+
   const setData = async () => {
     const res = await fetch(url);
     const data = await res.json();

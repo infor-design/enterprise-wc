@@ -3,6 +3,8 @@ export interface IdsDataGridColumnFormatOptions {
   style?: string;
   /* Sets the incoming locale */
   locale?: string;
+  /** Sets the group (thousands) characte */
+  group?: string;
 }
 
 export interface IdsDataGridColumnGroup {
@@ -51,7 +53,7 @@ export interface IdsDataGridTooltipCallback {
 
 export interface IdsDataGridTooltipOptions {
   /* The tooltip placement */
-  placement?: 'top' | 'right' | 'bottom' | 'left';
+  placement?: 'top' | 'right' | 'bottom' | 'left'
   /* Sets tooltip edge horizontal space */
   x?: number;
   /* Sets tooltip edge vertical space */

@@ -4,12 +4,8 @@ import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-mixed')!;
-const container: any = document.querySelector('ids-container');
 
 (async function init() {
-  // Set Locale and wait for it to load
-  await container.setLocale('en-US');
-
   // Do an ajax request
   const url: any = booksJSON;
   const columns = [];
