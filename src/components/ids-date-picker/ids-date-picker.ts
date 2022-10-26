@@ -225,6 +225,9 @@ class IdsDatePicker extends Base {
             ${this.validate ? `validate="${this.validate}"` : ''}
             validation-events="${this.validationEvents}"
             value="${this.value}"
+            ${this.disabled ? `disabled="${this.disabled}"` : ''}
+            ${this.readonly ? `readonly="${this.readonly}"` : ''}
+            ${this.dirtyTracker ? `dirty-tracker="${this.dirtyTracker}"` : ''}
             ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
           >
             <ids-trigger-button slot="trigger-end" part="trigger-button">
