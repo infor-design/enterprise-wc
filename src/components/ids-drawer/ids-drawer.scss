@@ -116,9 +116,12 @@
     }
 
     &.type-app-menu {
-      @include app-menu-off-shadow();
       @include bg-slate-100();
       @include text-white();
+
+      @media (min-width: $breakpoint-md) {
+        @include app-menu-off-shadow();
+      }
     }
   }
 
@@ -129,9 +132,12 @@
     }
 
     &.type-app-menu {
-      @include app-menu-off-shadow();
       @include bg-black();
       @include text-slate-10();
+
+      @media (min-width: $breakpoint-md) {
+        @include app-menu-off-shadow();
+      }
     }
   }
 
@@ -142,9 +148,12 @@
     }
 
     &.type-app-menu {
-      @include app-menu-off-shadow();
       @include bg-black();
       @include text-slate-10();
+
+      @media (min-width: $breakpoint-md) {
+        @include app-menu-off-shadow();
+      }
     }
   }
 }

@@ -68,7 +68,8 @@
     overflow: hidden;
   }
 
-  ::slotted(ids-toolbar-section:not([type])) {
+  ::slotted(ids-toolbar-section:not([type])),
+  ::slotted(ids-toolbar-section[type='button']) {
     flex: 0 0 auto;
   }
 

@@ -62,3 +62,20 @@
     @include text-white();
   }
 }
+
+// ids-app-menu pushes the container
+:host(.app-menu)::part(container) {
+  @media (min-width: $breakpoint-md) {
+    @include mx-0();
+    @include transition(
+      width $transition-length $transition-ease,
+      margin $transition-length $transition-ease);
+  }
+}
+
+:host(.app-menu-is-open)::part(container) {
+  @media (min-width: $breakpoint-md) {
+    margin-inline-start: 300px;
+    width: calc(100% - 300px);
+  }
+}

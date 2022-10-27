@@ -483,7 +483,9 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     }
 
     &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
-      @include text-slate-80();
+      @include bg-transparent();
+      @include border-slate-30();
+      @include text-white();
     }
 
     .ids-input-field::placeholder {

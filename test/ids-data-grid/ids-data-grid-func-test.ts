@@ -1532,7 +1532,11 @@ describe('IdsDataGrid Component', () => {
     it('can handle ArrowRight key', () => {
       expect(dataGrid.activeCell.row).toEqual(0);
       expect(dataGrid.activeCell.cell).toEqual(0);
+      dataGrid.activeCell = null;
+      dataGrid.setActiveCell(0, 0, true);
 
+      expect(dataGrid.activeCell.row).toEqual(0);
+      expect(dataGrid.activeCell.cell).toEqual(0);
       const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
       dataGrid.dispatchEvent(event);
 
