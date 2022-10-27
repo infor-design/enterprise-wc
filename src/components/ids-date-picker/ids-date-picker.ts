@@ -1493,7 +1493,7 @@ class IdsDatePicker extends Base {
    * @returns {boolean} whether or not to show time picker
    */
   #hasTime(): boolean {
-    return this.format.includes('h') || this.format.includes('m') || this.format.includes('s');
+    return this.format?.includes('h') || this.format?.includes('m') || this.format?.includes('s');
   }
 
   /**
