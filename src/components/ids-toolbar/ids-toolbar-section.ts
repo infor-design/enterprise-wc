@@ -26,6 +26,7 @@ const TOOLBAR_TYPES = ['formatter'];
 const SECTION_TYPES = [
   'static',
   'buttonset',
+  'button',
   'fluid',
   'search',
   'title',

@@ -4,7 +4,8 @@
 
 ### 1.0.0-beta.3 Fixes
 
-- `[DataGrid]` Fixed some filter issues with datagrid. ([#932](https://github.com/infor-design/enterprise-wc/issues/932))
+- `[AppMenu]` Updated main example to be consistent with 4.x. ([#852](https://github.com/infor-design/enterprise-wc/issues/852))
+- `[DataGrid]` Fixed some filter issues with datagrid. ([#932](https://github.com/infor-design/enterprise-wc/issues/932)
 
 ## 1.0.0-beta.2
 
