@@ -7,11 +7,16 @@ import '../ids-button/ids-button';
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
 import '../ids-toolbar/ids-toolbar';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import styles from './ids-app-menu.scss';
 import type IdsAccordion from '../ids-accordion/ids-accordion';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
+import type IdsContainer from '../ids-container/ids-container';
+
+const CONTAINER_CLASS = 'app-menu';
+const CONTAINER_OPEN_CLASS = 'app-menu-is-open';
 
 /**
  * IDS App Menu Component
@@ -29,12 +34,22 @@ export default class IdsAppMenu extends Base {
     super();
   }
 
+  #container: IdsContainer | undefined | null;
+
   connectedCallback() {
     super.connectedCallback();
     this.edge = 'start';
     this.type = 'app-menu';
     this.#connectSearchField();
     this.#refreshVariants();
+    this.#setContainer();
+    this.#attachEventHandlers();
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback?.();
+    this.#detachEventHandlers();
+    this.#clearContainer();
   }
 
   static get attributes() {
@@ -98,6 +113,34 @@ export default class IdsAppMenu extends Base {
     });
   }
 
+  #attachEventHandlers() {
+    this.#detachEventHandlers();
+    this.onEvent('show.app-menu-show', this, () => {
+      this.#container?.classList.add(CONTAINER_OPEN_CLASS);
+    });
+    this.onEvent('hide.app-menu-hide', this, () => {
+      this.#container?.classList.remove(CONTAINER_OPEN_CLASS);
+    });
+  }
+
+  #detachEventHandlers() {
+    this.offEvent('show.app-menu-show');
+    this.offEvent('hide.app-menu-hide');
+  }
+
+  /**
+   * Adds CSS class to ids-container for initial CSS rules
+   */
+  #setContainer() {
+    this.#container = getClosest(this, 'ids-container');
+    this.#container?.classList.add(CONTAINER_CLASS);
+  }
+
+  #clearContainer() {
+    this.#container?.classList.remove(CONTAINER_CLASS, CONTAINER_OPEN_CLASS);
+    this.#container = null;
+  }
+
   /**
    * Attaches a slotted IdsSearchField component to the app menu
    */
@@ -114,6 +157,18 @@ export default class IdsAppMenu extends Base {
       };
       this.offEvent('cleared.search');
       this.onEvent('cleared.search', searchfield, () => this.clearFilterAccordion());
+    }
+  }
+
+  /**
+   * Inherited from the Popup Open Events Mixin.
+   * Runs when a click event is propagated to the window.
+   * @returns {void}
+   */
+  onOutsideClick() {
+    // Don't close the popup if md+ media query breakpoint
+    if (window.innerWidth < 840) {
+      this.hide();
     }
   }
 
