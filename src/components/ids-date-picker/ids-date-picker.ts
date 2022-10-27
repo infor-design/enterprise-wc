@@ -103,6 +103,7 @@ class IdsDatePicker extends Base {
     this.#addTimePicker();
     this.#setShowClear();
     this.#applyMask();
+    this.#setShowPicklistWeek();
   }
 
   /**
@@ -2379,9 +2380,17 @@ class IdsDatePicker extends Base {
 
     if (boolVal) {
       this.setAttribute(attributes.SHOW_PICKLIST_WEEK, String(boolVal));
-      this.#monthView?.setAttribute(attributes.SHOW_PICKLIST_WEEK, boolVal);
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
+    }
+
+    this.#setShowPicklistWeek();
+  }
+
+  #setShowPicklistWeek() {
+    if (this.showPicklistWeek) {
+      this.#monthView?.setAttribute(attributes.SHOW_PICKLIST_WEEK, 'true');
+    } else {
       this.#monthView?.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
     }
   }
