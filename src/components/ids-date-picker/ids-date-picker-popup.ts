@@ -68,6 +68,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     this.expandableArea = null;
     this.monthView = null;
     this.monthYearPicklist = null;
+    this.toolbar = null;
   }
 
   static get attributes(): Array<string> {
@@ -122,6 +123,9 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     </ids-popup>`;
   }
 
+  /**
+   * @returns {string} containing the inner Toolbar's template
+   */
   private toolbarTemplate(): string {
     const prevNextBtn = `<ids-button class="btn-previous">
       <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
@@ -625,6 +629,11 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.#handleDaySelectedEvent(e);
     });
 
+    this.offEvent('datechange');
+    this.onEvent('datechange', this.monthView, () => {
+      this.captureValueFromMonthView();
+    });
+
     // Handles input from header buttons
     this.offEvent('click.date-picker-header');
     this.onEvent('click.date-picker-header', this.container?.querySelector<IdsToolbar>('ids-toolbar'), (e: Event) => {
@@ -648,11 +657,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
           } else if (navBtn.classList.contains('btn-today')) {
             this.monthView.changeDate('today');
           }
-
-          this.day = this.monthView.day;
-          this.year = this.monthView.year;
-          this.month = this.monthView.month;
-          this.value = this.getFormattedDate(this.activeDate.toString());
         }
       }
     });
@@ -707,13 +711,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     e.stopPropagation();
 
     if (this.expanded) {
-      const { month, year, day } = this.monthYearPicklist;
-
-      this.year = year;
-      this.month = month;
-      this.day = day;
-      this.value = this.getFormattedDate(this.activeDate.toString());
-
+      this.captureValueFromPicklist();
       this.expanded = false;
       return;
     }
@@ -833,6 +831,30 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.focus();
       this.#triggerSelectedEvent();
     }
+  }
+
+  /**
+   * Gets the value from the selected items in the Month/Year Picklist
+   * and sets them in the Date Picker Popup
+   * @returns {void}
+   */
+  private captureValueFromPicklist() {
+    const { month, year } = this.monthYearPicklist;
+    this.year = year;
+    this.month = month;
+    this.value = this.getFormattedDate(this.activeDate.toString());
+  }
+
+  /**
+   * Captures the day/month/year values from the currently-selected date in the Month View
+   * @returns {void}
+   */
+  private captureValueFromMonthView() {
+    const { month, year, day } = this.monthView;
+    this.day = day;
+    this.year = year;
+    this.month = month;
+    this.value = this.getFormattedDate(this.activeDate.toString());
   }
 
   /**
