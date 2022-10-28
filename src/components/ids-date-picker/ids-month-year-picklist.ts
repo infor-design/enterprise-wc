@@ -1,6 +1,6 @@
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import Base from './ids-month-year-picker-view-base';
+import Base from './ids-month-year-picklist-base';
 
 import '../ids-text/ids-text';
 
@@ -22,20 +22,20 @@ import type {
   IdsDisableSettings,
 } from '../ids-month-view/ids-month-view';
 
-import styles from './ids-month-year-picker-view.scss';
+import styles from './ids-month-year-picklist.scss';
 
 /**
- * IDS Month/Year Picker View Component
- * @type {IdsMonthYearPickerView}
+ * IDS Month/Year PickList Component
+ * @type {IdsMonthYearPicklist}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
  */
-@customElement('ids-month-year-picker-view')
+@customElement('ids-month-year-picklist')
 @scss(styles)
-class IdsMonthYearPickerView extends Base {
+class IdsMonthYearPicklist extends Base {
   constructor() {
     super();
   }
@@ -492,4 +492,4 @@ class IdsMonthYearPickerView extends Base {
   }
 }
 
-export default IdsMonthYearPickerView;
+export default IdsMonthYearPicklist;
