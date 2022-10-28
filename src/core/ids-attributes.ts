@@ -124,6 +124,7 @@ export const attributes = {
   EXPANDABLE_ROW_TEMPLATE: 'expandable-row-template',
   EXPANDED: 'expanded',
   EXPANDER_TYPE: 'expander-type',
+  EXPAND_STYLE: 'expand-style',
   EXPAND_ICON: 'expand-icon',
   FALLBACK: 'fallback',
   FAVOR: 'favor',

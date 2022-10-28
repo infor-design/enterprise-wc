@@ -1,4 +1,5 @@
 import '../ids-date-picker-popup';
+import '../ids-month-year-picker-view';
 import '../ids-date-picker';
 import '../../ids-button/ids-button';
 import '../../ids-modal-button/ids-modal-button';

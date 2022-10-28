@@ -1,6 +1,6 @@
+import { IdsBaseConstructor } from '../../core/ids-element';
 import { IdsPopupElementRef } from '../../components/ids-popup/ids-popup-attributes';
 import { attributes } from '../../core/ids-attributes';
-import { IdsBaseConstructor } from '../../core/ids-element';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 /**
@@ -75,7 +75,7 @@ const IdsAttachmentMixin = <T extends IdsBaseConstructor>(superclass: T) => clas
    */
   appendToTargetParent(): void {
     if (!this.attachmentParentElement) return;
-    this.attachmentParentElement.append(this as unknown as Node);
+    this.attachmentParentElement.append(this);
   }
 
   /**
@@ -84,7 +84,7 @@ const IdsAttachmentMixin = <T extends IdsBaseConstructor>(superclass: T) => clas
    */
   appendToOriginalParent(): void {
     if (!this.originalParentElement) return;
-    this.originalParentElement.append(this as unknown as Node);
+    this.originalParentElement.append(this);
   }
 };
 

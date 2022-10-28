@@ -13,6 +13,8 @@ ids-month-view {
 }
 
 .ids-date-picker-popup {
+  min-width: 350px;
+
   &:not(.has-time) ids-month-view::part(table-container) {
     margin-bottom: 10px;
   }
@@ -56,5 +58,82 @@ ids-month-view {
 
   .popup-btn {
     @include w-full();
+  }
+}
+
+.ids-date-picker-content {
+  position: relative;
+}
+
+// =====================================
+// IdsExpandableArea
+
+ids-expandable-area {
+  display: block;
+}
+
+ids-expandable-area:not([expanded]),
+ids-expandable-area[expanded="false"] {
+  pointer-events: none;
+}
+
+ids-expandable-area::part(container) {
+  @include absolute();
+  @include m-0();
+  @include p-0();
+  @include h-full();
+  @include w-full();
+
+  z-index: 3;
+  border: none;
+  left: 0;
+}
+
+ids-expandable-area::part(header) {
+  display: none;
+}
+
+ids-expandable-area::part(pane) {
+  @include bg-white();
+}
+
+ids-expandable-area::part(footer) {
+  display: none;
+}
+
+ids-expandable-area::part(pane-content) {
+  @include mt-0();
+  @include h-full();
+}
+
+[mode='dark'] ids-expandable-area::part(pane) {
+  @include bg-slate-80();
+}
+
+// =====================================
+// Footer buttons
+
+.btn-today {
+  margin-right: -7px;
+
+  &::part(button) {
+    @include px-4();
+    @include py-2();
+
+    margin: 3px;
+  }
+}
+
+.btn-previous,
+.btn-next {
+  @include pl-0();
+
+  margin: 3px;
+
+  &::part(button) {
+    @include p-0();
+
+    width: 44px;
+    height: 44px;
   }
 }

@@ -16,6 +16,7 @@ export const IdsDatePickerCommonAttributes = [
   attributes.SHOW_TODAY,
   attributes.USE_CURRENT_TIME,
   attributes.USE_RANGE,
+  attributes.VALUE,
   attributes.YEAR
 ];
 

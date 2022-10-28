@@ -149,18 +149,15 @@ class IdsMonthView extends Base {
     return [
       ...super.attributes,
       attributes.COMPACT,
-      attributes.DAY,
       attributes.END_DATE,
       attributes.FIRST_DAY_OF_WEEK,
       attributes.IS_DATEPICKER,
-      attributes.MONTH,
       attributes.SHOW_PICKLIST_MONTH,
       attributes.SHOW_PICKLIST_WEEK,
       attributes.SHOW_PICKLIST_WEEK,
       attributes.SHOW_TODAY,
       attributes.START_DATE,
       attributes.USE_RANGE,
-      attributes.YEAR
     ];
   }
 
@@ -279,25 +276,25 @@ class IdsMonthView extends Base {
 
             // Arrow Up includes range start and same day previous week
             if (key === 38) {
-              this.#changeDate('previous-week', true);
+              this.changeDate('previous-week', true);
               this.#rangePropagation(this.year, this.month, this.day);
             }
 
             // Arrow Down includes range start and same day next week
             if (key === 40) {
-              this.#changeDate('next-week', true);
+              this.changeDate('next-week', true);
               this.#rangePropagation(this.year, this.month, this.day);
             }
 
             // Arrow Right or + key includes next day to range selection
             if (key === 39 || (key === 187 && e.shiftKey)) {
-              this.#changeDate('next-day', true);
+              this.changeDate('next-day', true);
               this.#rangePropagation(this.year, this.month, this.day);
             }
 
             // Arrow Left or - key includes previous day to range selection
             if (key === 37 || (key === 189 && !e.shiftKey)) {
-              this.#changeDate('previous-day', true);
+              this.changeDate('previous-day', true);
               this.#rangePropagation(this.year, this.month, this.day);
             }
 
@@ -326,57 +323,57 @@ class IdsMonthView extends Base {
 
         // Arrow Up selects same day previous week
         if (key === 38) {
-          this.#changeDate('previous-week');
+          this.changeDate('previous-week');
         }
 
         // Arrow Down selects same day next week
         if (key === 40) {
-          this.#changeDate('next-week');
+          this.changeDate('next-week');
         }
 
         // Arrow Right or + key selects next day
         if (key === 39 || (key === 187 && e.shiftKey)) {
-          this.#changeDate('next-day');
+          this.changeDate('next-day');
         }
 
         // Arrow Left or - key selects previous day
         if (key === 37 || (key === 189 && !e.shiftKey)) {
-          this.#changeDate('previous-day');
+          this.changeDate('previous-day');
         }
 
         // Page Up selects same day previous month
         if (key === 33 && !e.altKey && !(e.ctrlKey || e.metaKey)) {
-          this.#changeDate('previous-month');
+          this.changeDate('previous-month');
         }
 
         // Page Down selects same day next month
         if (key === 34 && !e.altKey && !(e.ctrlKey || e.metaKey)) {
-          this.#changeDate('next-month');
+          this.changeDate('next-month');
         }
 
         // ctrl + Page Up selects same day previous year
         if (key === 33 && (e.ctrlKey || e.metaKey)) {
-          this.#changeDate('previous-year');
+          this.changeDate('previous-year');
         }
 
         // ctrl + Page Down selects same day next year
         if (key === 34 && (e.ctrlKey || e.metaKey)) {
-          this.#changeDate('next-year');
+          this.changeDate('next-year');
         }
 
         // Home moves to start of the month
         if (key === 36) {
-          this.#changeDate('start-month');
+          this.changeDate('start-month');
         }
 
         // End moves to end of the month
         if (key === 35) {
-          this.#changeDate('end-month');
+          this.changeDate('end-month');
         }
 
         // 't' selects today
         if (key === 84) {
-          this.#changeDate('today');
+          this.changeDate('today');
         }
 
         // Add keys including Enter or Space triggers dayselected event in regular calendar
@@ -400,6 +397,8 @@ class IdsMonthView extends Base {
    * Add/Remove toolbar HTML to container
    */
   #renderToolbar(): void {
+    return; // @TODO this is temporary, take this out
+
     if (this.#isDisplayRange()) {
       this.container?.querySelector('ids-toolbar')?.remove();
       this.#detachToolbarEvents();
@@ -505,15 +504,15 @@ class IdsMonthView extends Base {
       e.stopPropagation();
       const target: any = e.target;
       if (target.classList.contains('btn-previous')) {
-        this.#changeDate('previous-month');
+        this.changeDate('previous-month');
       }
 
       if (target.classList.contains('btn-next')) {
-        this.#changeDate('next-month');
+        this.changeDate('next-month');
       }
 
       if (target.classList.contains('btn-today')) {
-        this.#changeDate('today');
+        this.changeDate('today');
 
         this.focus();
         this.#triggerSelectedEvent();
@@ -626,7 +625,7 @@ class IdsMonthView extends Base {
    * @param {string} type of event to be called
    * @param {boolean} limitMonth date changing is limited only to the current month
    */
-  #changeDate(type: string, limitMonth = false): void {
+  changeDate(type: string, limitMonth = false): void {
     if (type === 'next-month') {
       if (this.locale?.isIslamic()) {
         const umalqura = gregorianToUmalqura(this.activeDate);
@@ -1351,15 +1350,6 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * Get active/selected day in Date format
-   * @readonly
-   * @returns {Date} active date
-   */
-  get activeDate(): Date {
-    return new Date(this.year, this.month, this.day);
-  }
-
-  /**
    * show-today attribute
    * @returns {boolean} showToday param converted to boolean from attribute value
    */
@@ -1389,34 +1379,21 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * month attribute
-   * @returns {number} month param converted to number from attribute value with range (MIN_MONTH - MAX_MONTH)
+   * Inherited from `IdsDateAttributeMixin`
+   * @returns {void}
    */
-  get month(): number {
-    const attrVal = this.getAttribute(attributes.MONTH);
-    const numberVal = stringToNumber(attrVal);
-
-    if (!Number.isNaN(numberVal) && numberVal >= MIN_MONTH && numberVal <= MAX_MONTH) {
-      return numberVal;
+  onFirstDayOfWeekChange() {
+    if (this.container) {
+      this.#renderMonth();
+      this.#attachDatepicker();
     }
-
-    // Default is current month
-    return new Date().getMonth();
   }
 
   /**
-   * Set month param and render month table/toolbar
-   * @param {string|number|null} val month param value
+   * Inherited from `IdsDateAttributeMixin`
+   * @returns {void}
    */
-  set month(val: string | number | null) {
-    const numberVal = stringToNumber(val);
-
-    if (!Number.isNaN(numberVal) && numberVal >= MIN_MONTH && numberVal <= MAX_MONTH) {
-      this.setAttribute(attributes.MONTH, String(val));
-    } else {
-      this.removeAttribute(attributes.MONTH);
-    }
-
+  onMonthChange() {
     if (!this.container) return;
 
     // Month change in range calendar doesn't trigger a rerender, just selects a day
@@ -1430,34 +1407,10 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * year attribute
-   * @returns {number} year param converted to number from attribute value with 4-digit check
+   * Inherited from `IdsDateAttributeMixin`
+   * @returns {void}
    */
-  get year(): number {
-    const attrVal = this.getAttribute(attributes.YEAR) ?? '';
-    const numberVal = stringToNumber(attrVal);
-
-    if (!Number.isNaN(numberVal) && attrVal.length === 4) {
-      return numberVal;
-    }
-
-    // Default is current year
-    return new Date().getFullYear();
-  }
-
-  /**
-   * Set year param and render month table/toolbar
-   * @param {string|number|null} val year param value
-   */
-  set year(val: string | number | null) {
-    const numberVal = stringToNumber(val);
-
-    if (!Number.isNaN(numberVal) && numberVal.toString().length === 4) {
-      this.setAttribute(attributes.YEAR, String(val));
-    } else {
-      this.removeAttribute(attributes.YEAR);
-    }
-
+  onYearChange() {
     if (!this.container) return;
 
     // Year change in range calendar doesn't trigger a rerender, just selects a day
@@ -1471,35 +1424,12 @@ class IdsMonthView extends Base {
   }
 
   /**
-   * day attribute
-   * @returns {number} day param converted to number
+   * Inherited from `IdsDateAttributeMixin`
+   * @param {number} numberVal new value
+   * @param {boolean} validates true if the new value passed is valid
+   * @returns {void}
    */
-  get day(): number {
-    const attrVal = this.getAttribute(attributes.DAY);
-    const numberVal = stringToNumber(attrVal);
-
-    if (!Number.isNaN(numberVal) && numberVal > 0) {
-      return numberVal;
-    }
-
-    // Default is current day
-    return new Date().getDate();
-  }
-
-  /**
-   * Set day param and select active day
-   * @param {string|number|null} val day param value
-   */
-  set day(val: any) {
-    const numberVal = stringToNumber(val);
-    const validates = !Number.isNaN(numberVal) && numberVal > 0;
-
-    if (validates) {
-      this.setAttribute(attributes.DAY, val);
-    } else {
-      this.removeAttribute(attributes.DAY);
-    }
-
+  onDayChange(numberVal: number, validates: boolean) {
     if (!this.container) return;
 
     if (!(this.rangeSettings.start || this.useRange) && !this.isDatePicker) {
@@ -1574,41 +1504,6 @@ class IdsMonthView extends Base {
       this.#renderToolbar();
       this.#renderMonth();
       this.#attachKeyboardListeners();
-    }
-  }
-
-  /**
-   * fist-day-of-week attribute
-   * @returns {number} firstDayOfWeek param converted to number from attribute value with range (0-6)
-   */
-  get firstDayOfWeek(): number {
-    const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
-    const numberVal = stringToNumber(attrVal);
-
-    if (!Number.isNaN(numberVal) && numberVal >= 0 && numberVal <= 6) {
-      return numberVal;
-    }
-
-    // Default value
-    return 0;
-  }
-
-  /**
-   * Set first day of the week (0-6)
-   * @param {string|number|null} val firstDayOfWeek param value
-   */
-  set firstDayOfWeek(val: any) {
-    const numberVal = stringToNumber(val);
-
-    if (!Number.isNaN(numberVal)) {
-      this.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
-    } else {
-      this.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
-    }
-
-    if (this.container) {
-      this.#renderMonth();
-      this.#attachDatepicker();
     }
   }
 

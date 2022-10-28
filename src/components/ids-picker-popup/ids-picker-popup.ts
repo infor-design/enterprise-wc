@@ -4,16 +4,22 @@ import styles from './ids-picker-popup.scss';
 
 /**
  * IDS Picker Popup Component
- * @abstract
  * @type {IdsPickerPopup}
  * @inherits IdsPopup
  * @mixes IdsAttachmentMixin
+ * @mixes IdsEventsMixin
  * @mixes IdsPopupInteractionsMixin
  * @mixes IdsPopupOpenEventsMixin
  */
+
+export interface IdsPickerPopupCallbacks {
+  onHide?(): void;
+  onShow?() : void;
+}
+
 @customElement('ids-picker-popup')
 @scss(styles)
-abstract class IdsPickerPopup extends Base {
+class IdsPickerPopup extends Base {
   constructor() {
     super();
   }
@@ -23,7 +29,7 @@ abstract class IdsPickerPopup extends Base {
   }
 
   disconnectedCallback(): void {
-    this.disconnectedCallback?.();
+    super.disconnectedCallback?.();
   }
 
   static get attributes(): Array<string> {
@@ -45,22 +51,14 @@ abstract class IdsPickerPopup extends Base {
    */
   vetoableEventTypes: Array<string> = ['beforeshow'];
 
-  /**
-   * Component-specific logic that should occur when a picker popup hides
-   */
-  abstract onHide(): void;
-
-  /**
-   * Component-specific logic that should occur when a picker popup is displayed
-   */
-  abstract onShow(): void;
+  onHide?(): void;
 
   /**
    * Hides this menu and any of its submenus.
    * @returns {void}
    */
   async hide(): Promise<void> {
-    if (!this.popup.visible) return;
+    if (!this.popup?.visible) return;
 
     this.removeOpenEvents();
 
@@ -73,11 +71,13 @@ abstract class IdsPickerPopup extends Base {
     this.hidden = true;
   }
 
+  onShow?(): void;
+
   /**
    * @returns {void}
    */
   show(): void {
-    if (this.popup.visible) return;
+    if (!this.popup || this.popup.visible) return;
 
     // Trigger a veto-able `beforeshow` event.
     if (!this.triggerVetoableEvent('beforeshow')) {
@@ -100,6 +100,7 @@ abstract class IdsPickerPopup extends Base {
    * @returns {void}
    */
   toggleVisibility() {
+    if (!this.popup) return;
     if (!this.popup.visible) {
       this.show();
     } else {

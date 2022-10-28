@@ -1525,18 +1525,6 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * Callback invoked by label state parent mixin
-   * @param {string} val new label value
-   */
-  onLabelChange(val: string | null) {
-    if (val) {
-      this.#triggerField?.setAttribute(attributes.LABEL, val);
-    } else {
-      this.#triggerField?.removeAttribute(attributes.LABEL);
-    }
-  }
-
-  /**
    * Handles id attribute changes
    * @param {string} value id value
    */
