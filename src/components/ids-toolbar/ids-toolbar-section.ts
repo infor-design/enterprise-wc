@@ -7,6 +7,7 @@ import styles from './ids-toolbar-section.scss';
 const TOOLBAR_SECTION_ATTRIBUTES = [
   attributes.ALIGN,
   attributes.FAVOR,
+  attributes.INACTIVE,
   attributes.TOOLBAR_TYPE,
   attributes.TYPE
 ];
@@ -195,6 +196,28 @@ export default class IdsToolbarSection extends Base {
    */
   get favor(): boolean {
     return this.hasAttribute(attributes.FAVOR);
+  }
+
+  /**
+   * @param {string | boolean | null} value truthy if this toolbar section should be made "inactive"
+   * (takes up space, but items are not visible)
+   */
+  set inactive(value: string | boolean | null) {
+    const isInactive = stringToBool(value);
+    if (isInactive) {
+      this.setAttribute(attributes.INACTIVE, 'true');
+      this.container?.classList.add(attributes.INACTIVE);
+    } else {
+      this.removeAttribute(attributes.INACTIVE);
+      this.container?.classList.remove(attributes.INACTIVE);
+    }
+  }
+
+  /**
+   * @returns {boolean} true if the toolbar section is "inactive" (takes up space, but items are not visible)
+   */
+  get inactive(): boolean {
+    return this.hasAttribute(attributes.INACTIVE);
   }
 
   /**

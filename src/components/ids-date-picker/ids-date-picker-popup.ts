@@ -14,6 +14,7 @@ import '../ids-month-view/ids-month-view';
 import '../ids-text/ids-text';
 import IdsToggleButton from '../ids-toggle-button/ids-toggle-button';
 import IdsToolbar from '../ids-toolbar/ids-toolbar';
+import IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
 
 import { IdsPickerPopupCallbacks } from '../ids-picker-popup/ids-picker-popup';
 
@@ -50,14 +51,14 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
   protected monthYearPicklist: any;
 
-  protected toolbar: any;
+  protected toolbar: IdsToolbar | null | undefined;
 
   connectedCallback() {
     super.connectedCallback();
     this.expandableArea = this.container?.querySelector('ids-expandable-area');
     this.monthView = this.container?.querySelector('ids-month-view');
     this.monthYearPicklist = this.container?.querySelector('ids-month-year-picklist');
-    this.toolbar = this.container?.querySelector('ids-toolbar');
+    this.toolbar = this.container?.querySelector<IdsToolbar>('ids-toolbar');
     this.#attachEventListeners();
     this.#attachExpandedListener();
   }
@@ -147,7 +148,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
           <ids-icon slot="icon" icon="dropdown" class="dropdown-btn-icon"></ids-icon>
         </ids-toggle-button>
       </ids-toolbar-section>
-      <ids-toolbar-section align="end" type="fluid" class="toolbar-buttonset">
+      <ids-toolbar-section class="toolbar-buttonset monthview-nav" align="end" type="fluid"${this.expanded ? ' inactive' : ''}>
         ${todayBtn}
         ${prevNextBtn}
       </ids-toolbar-section>
@@ -250,9 +251,11 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     if (boolVal) {
       this.setAttribute(attributes.EXPANDED, `${boolVal}`);
       this.expandableArea?.setAttribute(attributes.EXPANDED, `${boolVal}`);
+      this.toolbar?.querySelector<IdsToolbarSection>('.monthview-nav')?.setAttribute(attributes.INACTIVE, 'true');
     } else {
       this.removeAttribute(attributes.EXPANDED);
       this.expandableArea?.removeAttribute(attributes.EXPANDED);
+      this.toolbar?.querySelector<IdsToolbarSection>('.monthview-nav')?.removeAttribute(attributes.INACTIVE);
     }
   }
 

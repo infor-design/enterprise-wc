@@ -173,6 +173,7 @@ export const attributes = {
   ICON_SIZE: 'icon-size',
   ID: 'id',
   ID_COLUMN: 'id-column',
+  INACTIVE: 'inactive',
   INDETERMINATE: 'indeterminate',
   INHERIT_COLOR: 'inherit-color',
   INITIALS: 'initials',
