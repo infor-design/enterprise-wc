@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
-import IdsDataGrid from '../ids-data-grid';
+import type IdsDataGrid from '../ids-data-grid';
+import '../ids-data-grid';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid

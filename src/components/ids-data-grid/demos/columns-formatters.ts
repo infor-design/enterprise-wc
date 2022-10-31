@@ -1,4 +1,7 @@
-import IdsDataGrid from '../ids-data-grid';
+import type IdsDataGrid from '../ids-data-grid';
+import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
+import { escapeHTML } from '../../../utils/ids-xss-utils/ids-xss-utils';
 import booksJSON from '../../../assets/data/books.json';
 import css from '../../../assets/css/ids-data-grid/custom-link.css';
 
@@ -12,7 +15,7 @@ if (dataGrid) {
   (async function init() {
     // Do an ajax request
     const url: any = booksJSON;
-    const columns = [];
+    const columns: IdsDataGridColumn[] = [];
 
     // Set up columns
     columns.push({
@@ -170,7 +173,7 @@ if (dataGrid) {
       sortable: false,
       formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
         const value = `${rowData[columnData.field] || ''}`;
-        return `<a part="custom-link" href="#" class="text-ellipsis">${value}</a>`;
+        return `<a part="custom-link" href="#" class="text-ellipsis">${escapeHTML(value)}</a>`;
       },
       click: (info: any) => {
         console.info('Custom Link Clicked', info);

@@ -7,6 +7,7 @@
     "available": "2022-05-08T01:57:17Z",
     "comments": "integer pede justo lacinia eget tincidunt eget tempus vel pede morbi porttitor lorem id ligula suspendisse ornare consequat lectus",
     "time": "22:14:42",
+    "rowExpanded": false,
     "children": [
       {
         "id": 1.1,
@@ -14,7 +15,8 @@
         "location": "Lower",
         "capacity": 2,
         "available": "2022-01-14T02:43:11Z",
-        "time": "7:20:19"
+        "time": "7:20:19",
+        "rowHidden": true
       }
     ]
   },
@@ -138,7 +140,6 @@
   {
     "id": 9,
     "name": "Grader",
-    "children": [],
     "location": "Huaniao",
     "capacity": 66,
     "available": "2022-04-26T12:48:16Z",
@@ -20580,7 +20581,6 @@
   {
     "id": 995,
     "name": "Trencher",
-    "children": [],
     "location": "Gislaved",
     "capacity": 92,
     "available": "2022-06-10T01:31:56Z",

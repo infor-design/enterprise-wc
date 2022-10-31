@@ -1,4 +1,6 @@
-import IdsDataGrid from '../ids-data-grid';
+import type IdsDataGrid from '../ids-data-grid';
+import '../ids-data-grid';
+import type { IdsDataGridColumn, IdsDataGridTooltipCallback } from '../ids-data-grid-column';
 import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
 
@@ -7,12 +9,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-tooltip')!;
 
 (async function init() {
   // Define tooltip callback
-  const tooltipCallback = (args: {
-    type: string,
-    columnIndex: number,
-    rowIndex: number,
-    text: string
-  }): string => {
+  const tooltipCallback = (args: IdsDataGridTooltipCallback): string => {
     const {
       type,
       columnIndex,
@@ -36,12 +33,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-tooltip')!;
   };
 
   // Define async tooltip callback.
-  const tooltipCallbackAsync = async (args: {
-    type: string,
-    columnIndex: number,
-    rowIndex: number,
-    text: string
-  }): Promise<string> => {
+  const tooltipCallbackAsync = async (args: IdsDataGridTooltipCallback): Promise<string> => {
     const {
       type,
       columnIndex,
@@ -66,7 +58,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-tooltip')!;
 
   // Set Locale and wait for it to load
   await container.setLocale('en-US');
-  const columns = [];
+  const columns: IdsDataGridColumn[] = [];
 
   // Set up columns
   columns.push({

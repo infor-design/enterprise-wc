@@ -1,4 +1,6 @@
-import IdsDataGrid from '../ids-data-grid';
+import type IdsDataGrid from '../ids-data-grid';
+import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
 
@@ -7,7 +9,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-paging-standalo
 const pager: any = document.querySelector('ids-pager');
 
 (async function init() {
-  const columns = [];
+  const columns: IdsDataGridColumn[] = [];
 
   // Set up columns
   columns.push({

@@ -19,7 +19,7 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Toolbar [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-custom-toolbar.html)
 - [ ] Editors / Editing / Dirty [example](https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html) including https://github.com/infor-design/enterprise/issues/6338 and a way to veto selection [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-beforeselect-veto.html)
 - [ ] Keyboard Navigation (included tabbable/not tabbable) see [standards](https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids) (actionable mode, X cell navigation, X row navigation)
-- [ ] More Accessibility see [standards](https://design.infor.com/code/ids-enterprise/latest/listview#accessibility)
+- [x] More Accessibility see [standards](https://design.infor.com/code/ids-enterprise/latest/listview#accessibility)
 - [ ] Disabled Rows [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-disabled-rows.html) test on http://localhost:4300/ids-data-grid/columns-formatters.html with disabled checkboxes
 - [ ] Grouped Rows [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-grouping-filter.html)
 - [ ] Tooltips [example](https://main-enterprise.demo.design.infor.com/components/datagrid/tooltips.html)
@@ -28,7 +28,7 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [x] Css class/Colors
 - [x] Custom Formatters and Editors Example
 - [ ] Context Menu
-
+- [ ] Select across pages is buggy on http://localhost:4300/ids-data-grid/pagination-client-side.html
 ## Minor
 
 - [ ] Row Reorder [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-row-reorder.html)

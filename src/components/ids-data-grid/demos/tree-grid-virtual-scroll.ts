@@ -1,4 +1,6 @@
-import IdsDataGrid from '../ids-data-grid';
+import type IdsDataGrid from '../ids-data-grid';
+import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import treeLargeJSON from '../../../assets/data/tree-large.json';
 
 // Example for populating the DataGrid
@@ -6,7 +8,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#tree-grid-virtual-scroll'
 
 // Do an ajax request
 const url: any = treeLargeJSON;
-const columns = [];
+const columns: IdsDataGridColumn[] = [];
 
 // Set up columns
 columns.push({

@@ -1,17 +1,15 @@
 /* eslint-disable object-curly-newline */
-import IdsDataGrid from '../ids-data-grid';
+import type IdsDataGrid from '../ids-data-grid';
+import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 
 // Example for populating the DataGrid
-const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-1');
-const container: any = document.querySelector('ids-container');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-1')!;
 
 if (dataGrid) {
   (async function init() {
-    // Set Locale and wait for it to load
-    await container?.setLocale('en-US');
-
     const data: any = [];
-    const columns = [];
+    const columns: IdsDataGridColumn[] = [];
 
     data.push({ id: 2, productId: 2241202, productName: 'Different Compressor', activity: '<script>alert()</script>', quantity: 2, price: 210.991, status: '', orderDate: new Date(2016, 2, 15, 0, 30, 36), portable: false, action: 'oh', description: 'The kit has an air blow gun that can be used for cleaning' });
     data.push({ id: 3, productId: 2342203, productName: 'Portable Compressor', activity: '&lt;script&gt;alert()&lt;script&gt;', portable: true, quantity: 1, price: 120.992, status: null, orderDate: new Date(2014, 6, 3), action: 'ac' });

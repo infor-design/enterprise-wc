@@ -1,4 +1,6 @@
-import IdsDataGrid from '../ids-data-grid';
+import type IdsDataGrid from '../ids-data-grid';
+import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import booksJSON from '../../../assets/data/books.json';
 
 import css from '../../../assets/css/ids-data-grid/custom-css.css';
@@ -29,7 +31,7 @@ if (dataGrid) {
 
     // Do an ajax request
     const url: any = booksJSON;
-    const columns = [];
+    const columns: IdsDataGridColumn[] = [];
 
     // Set up columns
     columns.push({

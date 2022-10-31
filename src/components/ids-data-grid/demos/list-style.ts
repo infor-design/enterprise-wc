@@ -1,4 +1,6 @@
-import IdsDataGrid from '../ids-data-grid';
+import type IdsDataGrid from '../ids-data-grid';
+import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import '../../ids-container/ids-container';
 import companyJSON from '../../../assets/data/companies.json';
 
@@ -8,7 +10,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-list')!;
 (async function init() {
   // Do an ajax request
   const url: any = companyJSON;
-  const columns = [];
+  const columns: IdsDataGridColumn[] = [];
 
   // Set up columns
   columns.push({

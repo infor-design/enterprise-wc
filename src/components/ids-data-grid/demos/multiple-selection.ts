@@ -1,6 +1,8 @@
 import '../../ids-container/ids-container';
 import booksJSON from '../../../assets/data/books.json';
-import IdsDataGrid from '../ids-data-grid';
+import type IdsDataGrid from '../ids-data-grid';
+import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-multi')!;
@@ -8,7 +10,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-multi')!;
 (async function init() {
   // Do an ajax request
   const url: any = booksJSON;
-  const columns = [];
+  const columns: IdsDataGridColumn[] = [];
 
   // Set up columns
   columns.push({

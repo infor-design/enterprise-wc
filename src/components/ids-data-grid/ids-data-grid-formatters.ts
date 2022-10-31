@@ -10,7 +10,7 @@ import type IdsDataGrid from './ids-data-grid';
 /* eslint-disable jsdoc/require-returns */
 /* eslint-disable jsdoc/require-param */
 export default class IdsDataGridFormatters {
-  #extractValue(item: Record<string, any>, field: string) {
+  #extractValue(item: Record<string, any>, field: string | undefined) {
     if (!field) return '';
 
     let rawValue;

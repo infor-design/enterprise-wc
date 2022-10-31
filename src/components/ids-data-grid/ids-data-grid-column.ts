@@ -95,12 +95,18 @@ export interface IdsDataGridColumn {
   readonly?: boolean;
   /** Adds a drag indicator and allows the columns to be moved by dragging */
   reorderable?: boolean;
-  /** Allow column sorting */
+  /** Set a column width in pixel or percent */
   width?: number | string;
+  /** Set a min column width for resizing */
+  minWidth?: number | string;
+  /** Set a max column width for resizing */
+  maxWidth?: number | string;
   /** Hide a column to be shown later */
   hidden?: boolean;
   /** Column Formatter Function */
   formatter?: (rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: any) => string;
+  /** Set the column to checked or unchecked (filtering) */
+  isChecked?: (value: boolean) => boolean;
   /** Enable Href / Link Columns */
   href?: string | ((rowData: Record<string, unknown>, columnData: IdsDataGridColumn) => string);
   /** Fires for clickable formatters (like button) */
@@ -146,6 +152,8 @@ export interface IdsDataGridColumn {
     /** If the filter type is "contents" lets you set a blank string to a text value (matched by ID) */
     notFilteredItem?: { value: string, label: string }
   };
+  /** Lets you make a dynamic filter function */
+  filterFunction?: any;
   /** True if the row is selected */
   rowSelected?: boolean;
   /** True if the row is activated */
@@ -171,7 +179,7 @@ export interface IdsDataGridColumn {
   /** Sets the tooltip options */
   tooltipOptions?: IdsDataGridTooltipOptions | ((options: IdsDataGridTooltipCallback) => IdsDataGridTooltipOptions);
   /** Sets the tooltip content */
-  tooltip?: string | ((options: IdsDataGridTooltipCallback) => string);
+  tooltip?: string | ((options: IdsDataGridTooltipCallback) => string | Promise<string>);
   /** Sets the header tooltip content */
   headerTooltip?: string;
   /** Sets the header icon tooltip content */

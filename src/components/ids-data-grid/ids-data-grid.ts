@@ -174,7 +174,7 @@ export default class IdsDataGrid extends Base {
    * @returns {void}
    */
   redrawBody(sync = true) {
-    if (sync) {
+    if (this.pagination !== 'client-side' && sync) {
       this.#syncSelectedRows();
       this.#syncActivatedRow();
     }
@@ -433,6 +433,10 @@ export default class IdsDataGrid extends Base {
       if (row.children) {
         treeAttrs += (row.rowExpanded === false) ? ` aria-expanded="false"` : ` aria-expanded="true"`;
       }
+    }
+
+    if (this.pagination === 'client-side' && this.pageNumber > 1) {
+      ariaRowIndex += ((this.pageNumber - 1) * this.pageSize);
     }
 
     const frozenLast = this.leftFrozenColumns.length;
@@ -1210,7 +1214,7 @@ export default class IdsDataGrid extends Base {
    * @param {number} row the parent row that was clicked
    * @param {Record<string, unknown>} data the data to apply to the row
    */
-  updateRow(row: number, data: Record<string, unknown>) {
+  updateDataRow(row: number, data: Record<string, unknown>) {
     // Update the current data
     this.data[row] = { ...this.data[row], ...data };
 
@@ -1260,7 +1264,7 @@ export default class IdsDataGrid extends Base {
 
     // Handle Expand/Collapse in the component
     row.setAttribute('aria-expanded', !isExpanded);
-    this.updateRow(row.getAttribute('data-index'), { rowExpanded: !isExpanded });
+    this.updateDataRow(Number(row.getAttribute('data-index')), { rowExpanded: !isExpanded });
     row.querySelector('.ids-data-grid-tree-container ids-button ids-icon').setAttribute('icon', !isExpanded ? 'plusminus-folder-open' : 'plusminus-folder-closed');
     const level = row.getAttribute('aria-level');
     let isParentCollapsed = false;
@@ -1270,7 +1274,7 @@ export default class IdsDataGrid extends Base {
       if (nodeLevel > Number(level) && !isParentCollapsed) {
         if (isExpanded) childRow.setAttribute('hidden', '');
         else childRow.removeAttribute('hidden');
-        this.updateRow(Number(childRow.getAttribute('data-index')), { rowHidden: isExpanded });
+        this.updateDataRow(Number(childRow.getAttribute('data-index')), { rowHidden: isExpanded });
       }
       if (childRow.getAttribute('aria-expanded')) isParentCollapsed = childRow.getAttribute('aria-expanded') === 'false';
     });
@@ -1294,10 +1298,11 @@ export default class IdsDataGrid extends Base {
       return;
     }
     const isSelected = row.classList.contains('selected');
+    const index = row.getAttribute('data-index');
+
     if (isSelected && !this.suppressRowDeselection) {
-      this.deSelectRow(row.getAttribute('aria-rowindex') - 1);
+      this.deSelectRow(index);
     } else {
-      const index = row.getAttribute('aria-rowindex') - 1;
       // Already selected
       if (this.state.selectedRows.includes(index)) {
         return;
@@ -1343,7 +1348,7 @@ export default class IdsDataGrid extends Base {
    * @returns {HTMLElement} The HTMLElement
    */
   rowByIndex(index: number) {
-    return this.shadowRoot?.querySelector<HTMLElement>(`.ids-data-grid-body .ids-data-grid-row[aria-rowindex="${index + 1}"]`);
+    return this.shadowRoot?.querySelector<HTMLElement>(`.ids-data-grid-body .ids-data-grid-row[data-index="${index}"]`);
   }
 
   /**
@@ -1372,7 +1377,7 @@ export default class IdsDataGrid extends Base {
       row?.classList.add('mixed');
     }
     this.state.selectedRows.push(index);
-    this.data[index].rowSelected = true;
+    this.updateDataRow(Number(row?.getAttribute('data-index')), { rowSelected: true });
 
     this.triggerEvent('rowselected', this, {
       detail: {
@@ -1410,7 +1415,7 @@ export default class IdsDataGrid extends Base {
     }
 
     this.state.selectedRows = this.state.selectedRows.filter((rowNumber: any) => rowNumber !== index);
-    this.data[index].rowSelected = undefined;
+    this.updateDataRow(Number(row?.getAttribute('data-index')), { rowSelected: undefined });
 
     this.triggerEvent('rowdeselected', this, {
       detail: {

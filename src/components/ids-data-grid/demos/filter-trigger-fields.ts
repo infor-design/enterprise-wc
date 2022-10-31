@@ -1,4 +1,6 @@
-import IdsDataGrid from '../ids-data-grid';
+import type IdsDataGrid from '../ids-data-grid';
+import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import '../../ids-container/ids-container';
 import booksJSON from '../../../assets/data/books.json';
 
@@ -6,7 +8,7 @@ import booksJSON from '../../../assets/data/books.json';
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter-triggers')!;
 
 (async function init() {
-  const columns = [];
+  const columns: IdsDataGridColumn[] = [];
 
   // Set up columns
   columns.push({

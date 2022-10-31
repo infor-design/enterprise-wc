@@ -339,7 +339,7 @@ describe('IdsAccordion Component', () => {
       expect(e.detail.language.name).toEqual(language.after);
     });
 
-    expect(accordion.language.name).toEqual(language.before);
+    expect((accordion.language as any).name).toEqual(language.before);
     container.addEventListener('languagechange', mockCallback);
     const event = new CustomEvent('languagechange', {
       detail: { language: { name: language.after } }

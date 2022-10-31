@@ -125,11 +125,19 @@ class IdsDataSource {
         row.ariaSetSize = length;
         row.ariaPosinset = index + 1;
 
-        if (depth === 1) row.originalElement = index;
+        if (depth === 1) {
+          row.originalElement = index;
+          if (this.pageNumber > 1) {
+            row.originalElement = index + ((this.pageNumber - 1) * this.pageSize);
+          }
+        }
         if (depth > 1) row.parentElement = parentElement;
 
         newData.push(row);
         if (row.children) {
+          if (this.pageNumber > 1) {
+            index += ((this.pageNumber - 1) * this.pageSize);
+          }
           addRows(row.children, row.children.length, depth + 1, `${row.parentElement ? `${row.parentElement} ` : ''}${index}`);
         }
       });
@@ -244,6 +252,11 @@ class IdsDataSource {
       clone.sort(sort);
       this.#originalData.sort(sort);
       this.#currentData = this.#flattenData(clone);
+
+      if (this.pageSize && this.pageSize < this.total) {
+        this.#lastPageSize = -1;
+        this.paginate(this.pageNumber, this.pageSize);
+      }
       return;
     }
     this.#currentData.sort(sort);
