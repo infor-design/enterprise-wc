@@ -180,9 +180,14 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @param {string|boolean|null} val show-today attribute value
    */
   set showToday(val: string | boolean | null) {
-    this.setAttribute(attributes.SHOW_TODAY, String(val));
-    this.monthView?.setAttribute(attributes.SHOW_TODAY, String(val));
-    this.monthYearPicklist?.setAttribute(attributes.SHOW_TODAY, String(val));
+    const doShow = stringToBool(val);
+    if (doShow) {
+      this.setAttribute(attributes.SHOW_TODAY, 'true');
+      this.todayBtnEl?.removeAttribute(attributes.HIDDEN);
+    } else {
+      this.setAttribute(attributes.SHOW_TODAY, 'false');
+      this.todayBtnEl?.setAttribute(attributes.HIDDEN, 'true');
+    }
   }
 
   onFirstDayOfWeekChange(newValue: number) {
@@ -198,7 +203,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.monthView?.removeAttribute(attributes.MONTH);
       this.monthYearPicklist?.removeAttribute(attributes.MONTH);
     }
-    // this.hideIfAble();
   }
 
   onYearChange(newValue: number, isValid: boolean) {
@@ -209,7 +213,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.monthView?.removeAttribute(attributes.YEAR);
       this.monthYearPicklist?.removeAttribute(attributes.YEAR);
     }
-    // this.hideIfAble();
   }
 
   onDayChange(newValue: number, isValid: boolean) {
@@ -220,7 +223,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.monthView?.removeAttribute(attributes.DAY);
       this.monthYearPicklist?.removeAttribute(attributes.DAY);
     }
-    // this.hideIfAble();
   }
 
   hideIfAble(): void {
@@ -236,6 +238,10 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
   get cancelBtnEl(): IdsModalButton | null | undefined {
     return this.container?.querySelector<IdsModalButton>('.popup-btn-cancel');
+  }
+
+  get todayBtnEl(): IdsButton | null | undefined {
+    return this.container?.querySelector<IdsButton>('.btn-today');
   }
 
   /**
@@ -301,11 +307,11 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
       if (val?.start && val?.end) {
         this.value = `${this.locale.formatDate(this.#setTime(val.start), { pattern: this.format })}${this.rangeSettings.separator}${this.locale.formatDate(this.#setTime(val.end), { pattern: this.format })}`;
-        btnApply?.removeAttribute('disabled');
+        btnApply?.removeAttribute(attributes.DISABLED);
       }
 
       if (val?.selectWeek) {
-        btnApply?.setAttribute('hidden', 'true');
+        btnApply?.setAttribute(attributes.HIDDEN, 'true');
       }
     }
   }
@@ -399,11 +405,14 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
    */
   set showCancel(val: string | boolean | null) {
     const boolVal = stringToBool(val);
+    const btn = this.container?.querySelector('.popup-btn-cancel');
 
     if (boolVal) {
       this.setAttribute(attributes.SHOW_CANCEL, String(boolVal));
+      btn?.removeAttribute(attributes.HIDDEN);
     } else {
       this.removeAttribute(attributes.SHOW_CANCEL);
+      btn?.setAttribute(attributes.HIDDEN, (!boolVal).toString());
     }
   }
 
@@ -429,7 +438,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     const boolVal = stringToBool(val);
 
     this.setAttribute(attributes.SHOW_PICKLIST_YEAR, String(boolVal));
-    this.monthView?.setAttribute(attributes.SHOW_PICKLIST_YEAR, boolVal);
+    this.monthYearPicklist?.setAttribute(attributes.SHOW_PICKLIST_YEAR, boolVal);
   }
 
   /**
@@ -454,7 +463,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     const boolVal = stringToBool(val);
 
     this.setAttribute(attributes.SHOW_PICKLIST_MONTH, String(boolVal));
-    this.monthView?.setAttribute(attributes.SHOW_PICKLIST_MONTH, boolVal);
+    this.monthYearPicklist?.setAttribute(attributes.SHOW_PICKLIST_MONTH, boolVal);
   }
 
   /**
