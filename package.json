@@ -61,7 +61,7 @@
     "@types/jest": "^29.2.0",
     "@types/jest-axe": "^3.5.5",
     "@types/puppeteer": "^5.4.7",
-    "@axe-core/puppeteer": "^4.5.0",
+    "@axe-core/puppeteer": "^4.4.5",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",
     "copy-webpack-plugin": "^11.0.0",
