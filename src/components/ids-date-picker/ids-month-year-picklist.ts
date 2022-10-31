@@ -147,20 +147,12 @@ class IdsMonthYearPicklist extends Base {
   }
 
   /**
- * Keyboard events handler
- * @param {KeyboardEvent} e keyboard event
- */
+   * Keyboard events handler
+   * @param {KeyboardEvent} e keyboard event
+   */
   private handleKeyDownEvent(e: KeyboardEvent): void {
-    const key: KeyboardEvent["keyCode"] = e.keyCode;
-    /*
-    const stopEvent = () => {
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      e.preventDefault();
-    };
-    */
-
     if (!this.container) return;
+    const key: KeyboardEvent['key'] = e.key;
 
     // Date Picker Dropdown keyboard events
     const btnUpYear = this.container.querySelector<HTMLElement>('.is-btn-up.is-year-nav');
@@ -173,33 +165,35 @@ class IdsMonthYearPicklist extends Base {
     const yearSelected = this.container.querySelector<HTMLElement>('.is-year.is-selected');
     const weekSelected = this.container.querySelector<HTMLElement>('.is-week.is-selected');
 
-    // Enter on picklist year btn up
-    if (key === 13 && btnUpYear?.matches(':focus')) {
-      this.picklistYearPaged(false);
-    }
+    if (key === 'Enter') {
+      // Enter on picklist year btn up
+      if (btnUpYear?.matches(':focus')) {
+        this.picklistYearPaged(false);
+      }
 
-    // Enter on picklist year btn down
-    if (key === 13 && btnDownYear?.matches(':focus')) {
-      this.picklistYearPaged(true);
-    }
+      // Enter on picklist year btn down
+      if (btnDownYear?.matches(':focus')) {
+        this.picklistYearPaged(true);
+      }
 
-    // Enter on picklist month btn up/down
-    if (key === 13 && (btnUpMonth?.matches(':focus') || btnDownMonth?.matches(':focus'))) {
-      this.picklistMonthPaged();
-    }
+      // Enter on picklist month btn up/down
+      if ((btnUpMonth?.matches(':focus') || btnDownMonth?.matches(':focus'))) {
+        this.picklistMonthPaged();
+      }
 
-    // Enter on picklist week btn up
-    if (key === 13 && btnUpWeek?.matches(':focus')) {
-      this.picklistWeekPaged(false);
-    }
+      // Enter on picklist week btn up
+      if (btnUpWeek?.matches(':focus')) {
+        this.picklistWeekPaged(false);
+      }
 
-    // Enter on picklist week btn down
-    if (key === 13 && btnDownWeek?.matches(':focus')) {
-      this.picklistWeekPaged(true);
+      // Enter on picklist week btn down
+      if (btnDownWeek?.matches(':focus')) {
+        this.picklistWeekPaged(true);
+      }
     }
 
     // Arrow Up on picklist month
-    if (key === 38 && monthSelected?.matches(':focus')) {
+    if (key === 'ArrowUp' && monthSelected?.matches(':focus')) {
       const month = this.month - 1;
       const el = this.container.querySelector<HTMLElement>(`.is-month[data-month="${month}"]`);
 
@@ -217,7 +211,7 @@ class IdsMonthYearPicklist extends Base {
     }
 
     // Arrow Down on picklist month
-    if (key === 40 && monthSelected?.matches(':focus')) {
+    if (key === 'ArrowDown' && monthSelected?.matches(':focus')) {
       const month = this.month + 1;
       const el = this.container.querySelector<HTMLElement>(`.is-month[data-month="${month}"]`);
 
@@ -235,7 +229,7 @@ class IdsMonthYearPicklist extends Base {
     }
 
     // Arrow Up on picklist year
-    if (key === 38 && yearSelected?.matches(':focus')) {
+    if (key === 'ArrowUp' && yearSelected?.matches(':focus')) {
       const year = this.year - 1;
 
       const el = this.container.querySelector<HTMLElement>(`.is-year[data-year="${year}"]`);
@@ -254,7 +248,7 @@ class IdsMonthYearPicklist extends Base {
     }
 
     // Arrow Down on picklist year
-    if (key === 40 && yearSelected?.matches(':focus')) {
+    if (key === 'ArrowDown' && yearSelected?.matches(':focus')) {
       const year = this.year + 1;
 
       const el = this.container.querySelector<HTMLElement>(`.is-year[data-year="${year}"]`);
@@ -273,7 +267,7 @@ class IdsMonthYearPicklist extends Base {
     }
 
     // Arrow Up on picklist week
-    if (key === 38 && weekSelected?.matches(':focus')) {
+    if (key === 'ArrowUp' && weekSelected?.matches(':focus')) {
       const weekIndex: number = stringToNumber(weekSelected.dataset.week) - 1;
       const week: number = this.getWeekNumber(weekIndex);
       const el = this.container.querySelector<HTMLElement>(`.is-week[data-week="${week}"]`);
@@ -293,7 +287,7 @@ class IdsMonthYearPicklist extends Base {
     }
 
     // Arrow Down on picklist year
-    if (key === 40 && weekSelected?.matches(':focus')) {
+    if (key === 'ArrowDown' && weekSelected?.matches(':focus')) {
       const weekIndex: number = stringToNumber(weekSelected.dataset.week) + 1;
       const week: number = this.getWeekNumber(weekIndex);
       const el = this.container.querySelector<HTMLElement>(`.is-week[data-week="${week}"]`);
@@ -313,21 +307,21 @@ class IdsMonthYearPicklist extends Base {
     }
 
     // Arrow Up on year btn up
-    if (key === 38 && btnUpYear?.matches(':focus')) {
+    if (key === 'ArrowUp' && btnUpYear?.matches(':focus')) {
       btnDownYear?.focus();
 
       return;
     }
 
     // Arrow Down on year btn down
-    if (key === 40 && btnDownYear?.matches(':focus')) {
+    if (key === 'ArrowDown' && btnDownYear?.matches(':focus')) {
       btnUpYear?.focus();
 
       return;
     }
 
     // Arrow Up on year btn down
-    if (key === 38 && btnDownYear?.matches(':focus')) {
+    if (key === 'ArrowUp' && btnDownYear?.matches(':focus')) {
       const el = this.container.querySelector<HTMLElement>('.is-year.is-last');
 
       this.unselectPicklist('year');
@@ -337,7 +331,7 @@ class IdsMonthYearPicklist extends Base {
     }
 
     // Arrow Down on year btn up
-    if (key === 40 && btnUpYear?.matches(':focus')) {
+    if (key === 'ArrowDown' && btnUpYear?.matches(':focus')) {
       const el = this.container.querySelector<HTMLElement>('.is-year');
 
       this.unselectPicklist('year');
@@ -347,21 +341,21 @@ class IdsMonthYearPicklist extends Base {
     }
 
     // Arrow Up on month btn up
-    if (key === 38 && btnUpMonth?.matches(':focus')) {
+    if (key === 'ArrowUp' && btnUpMonth?.matches(':focus')) {
       btnDownMonth?.focus();
 
       return;
     }
 
     // Arrow Down on month btn down
-    if (key === 40 && btnDownMonth?.matches(':focus')) {
+    if (key === 'ArrowDown' && btnDownMonth?.matches(':focus')) {
       btnUpMonth?.focus();
 
       return;
     }
 
     // Arrow Up on month btn down
-    if (key === 38 && btnDownMonth?.matches(':focus')) {
+    if (key === 'ArrowUp' && btnDownMonth?.matches(':focus')) {
       const el = this.container.querySelector<HTMLElement>('.is-month.is-last');
 
       this.unselectPicklist('month');
@@ -371,7 +365,7 @@ class IdsMonthYearPicklist extends Base {
     }
 
     // Arrow Down on month btn up
-    if (key === 40 && btnUpMonth?.matches(':focus')) {
+    if (key === 'ArrowDown' && btnUpMonth?.matches(':focus')) {
       const el = this.container.querySelector<HTMLElement>('.is-month');
 
       this.unselectPicklist('month');
@@ -381,21 +375,21 @@ class IdsMonthYearPicklist extends Base {
     }
 
     // Arrow Up on week btn up
-    if (key === 38 && btnUpWeek?.matches(':focus')) {
+    if (key === 'ArrowUp' && btnUpWeek?.matches(':focus')) {
       btnDownWeek?.focus();
 
       return;
     }
 
     // Arrow Down on week btn down
-    if (key === 40 && btnDownWeek?.matches(':focus')) {
+    if (key === 'ArrowDown' && btnDownWeek?.matches(':focus')) {
       btnUpWeek?.focus();
 
       return;
     }
 
     // Arrow Up on week btn down
-    if (key === 38 && btnDownWeek?.matches(':focus')) {
+    if (key === 'ArrowUp' && btnDownWeek?.matches(':focus')) {
       const el = this.container.querySelector<HTMLElement>('.is-week.is-last');
 
       this.unselectPicklist('month');
@@ -405,7 +399,7 @@ class IdsMonthYearPicklist extends Base {
     }
 
     // Arrow Down on week btn up
-    if (key === 40 && btnUpWeek?.matches(':focus')) {
+    if (key === 'ArrowUp' && btnUpWeek?.matches(':focus')) {
       const el = this.container.querySelector<HTMLElement>('.is-week');
 
       this.unselectPicklist('week');
@@ -647,9 +641,9 @@ class IdsMonthYearPicklist extends Base {
    */
   private selectPicklistEl(el: HTMLElement | null) {
     el?.classList.add('is-selected');
-    el?.setAttribute('tabindex', '0');
-    el?.setAttribute('aria-selected', 'true');
-    el?.setAttribute('role', 'gridcell');
+    el?.setAttribute(attributes.TABINDEX, '0');
+    el?.setAttribute(htmlAttributes.ARIA_SELECTED, 'true');
+    el?.setAttribute(htmlAttributes.ROLE, 'gridcell');
   }
 
   /**
@@ -660,12 +654,12 @@ class IdsMonthYearPicklist extends Base {
     const selector = `.picklist-item${type !== 'all' ? `.is-${type}` : ''}`;
 
     this.container?.querySelectorAll(selector).forEach((el: Element) => {
-      el.removeAttribute('tabindex');
+      el.removeAttribute(attributes.TABINDEX);
       el.classList.remove('is-selected');
-      el.removeAttribute('aria-selected');
+      el.removeAttribute(htmlAttributes.ARIA_SELECTED);
 
-      if (el.getAttribute('role') === 'gridcell') {
-        el.setAttribute('role', 'link');
+      if (el.getAttribute(htmlAttributes.ROLE) === 'gridcell') {
+        el.setAttribute(htmlAttributes.ROLE, 'link');
       }
     });
   }
@@ -788,7 +782,7 @@ class IdsMonthYearPicklist extends Base {
 
     const picklistBtns: any = this.container.querySelectorAll('.picklist-item.is-btn-up, .picklist-item.is-btn-down');
     picklistBtns.forEach((item: HTMLElement) => {
-      item.setAttribute('tabindex', '0');
+      item.setAttribute(attributes.TABINDEX, '0');
     });
 
     const monthEl = this.container.querySelector<HTMLElement>(`.picklist-item.is-month[data-month="${this.month}"]`);
@@ -807,7 +801,7 @@ class IdsMonthYearPicklist extends Base {
 
     const picklistBtns: any = this.container.querySelectorAll('.picklist-item.is-btn-up, .picklist-item.is-btn-down');
     picklistBtns.forEach((item: HTMLElement) => {
-      item.setAttribute('tabindex', '-1');
+      item.setAttribute(attributes.TABINDEX, '-1');
     });
   }
 }
