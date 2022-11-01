@@ -121,9 +121,16 @@ module.exports = {
 
             if (filePath.includes('core/')) {
               filePath = filePath.replace('core/', '').replace('.d.ts', '');
-              return `core/${filePath}.d.ts`;
+              return `core/${filePath.replace('src/', '')}.d.ts`;
             }
             return filePath;
+          }
+        },
+        {
+          from: './build/types/src/components/enterprise-wc.d.ts',
+          to({ absoluteFilename }) {
+            console.log(absoluteFilename.replace('/build/types/src/components/', `/build/dist/${isProduction ? 'production' : 'development'}/`))
+            return absoluteFilename.replace('/build/types/src/components/', `/build/dist/${isProduction ? 'production' : 'development'}/`);
           }
         },
         {

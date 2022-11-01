@@ -8,6 +8,8 @@ import '../ids-modal/ids-overlay';
 import '../ids-popup-menu/ids-popup-menu';
 
 import styles from './ids-action-sheet.scss';
+import type IdsOverlay from '../ids-modal/ids-overlay';
+import type IdsButton from '../ids-button/ids-button';
 
 /**
  * IDS Action Sheet Component
@@ -19,14 +21,18 @@ import styles from './ids-action-sheet.scss';
 @customElement('ids-action-sheet')
 @scss(styles)
 export default class IdsActionSheet extends Base {
+  overlay?: IdsOverlay | null;
+
+  cancelBtn?: IdsButton | null;
+
   constructor() {
     super();
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.overlay = this.shadowRoot.querySelector('ids-overlay');
-    this.cancelBtn = this.shadowRoot.querySelector('[part="cancel-btn"]');
+    this.overlay = this.shadowRoot?.querySelector('ids-overlay');
+    this.cancelBtn = this.shadowRoot?.querySelector('[part="cancel-btn"]');
     if (!this.hasAttribute(attributes.CANCEL_BTN_TEXT)) {
       this.setAttribute(attributes.CANCEL_BTN_TEXT, 'Cancel');
     }
@@ -69,11 +75,11 @@ export default class IdsActionSheet extends Base {
    * Set the visible attribute
    * @param {boolean | string} val true if the action sheet should appear
    */
-  set visible(val: boolean | string) {
+  set visible(val: boolean | string | null) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy && !this.hidden) {
-      this.setAttribute(attributes.VISIBLE, true);
-      this.overlay?.setAttribute(attributes.VISIBLE, true);
+      this.setAttribute(attributes.VISIBLE, 'true');
+      this.overlay?.setAttribute(attributes.VISIBLE, 'true');
     } else {
       this.removeAttribute(attributes.VISIBLE);
       this.overlay?.removeAttribute(attributes.VISIBLE);
@@ -91,23 +97,24 @@ export default class IdsActionSheet extends Base {
    * Set the btn text attribute
    * @param {string} val the inner text of the cancel btn
    */
-  set cancelBtnText(val: string) {
-    const idsButton = this.shadowRoot?.querySelector('ids-button');
+  set cancelBtnText(val: string | null) {
     if (val) {
       this.setAttribute(attributes.CANCEL_BTN_TEXT, val);
-      idsButton.style.display = 'inline-flex';
-      idsButton.innerText = val;
     } else {
       this.removeAttribute(attributes.CANCEL_BTN_TEXT);
-      idsButton.innerText = val;
-      idsButton.style.display = 'none';
+    }
+
+    const idsButton = this.shadowRoot?.querySelector<IdsButton>('ids-button');
+    if (idsButton) {
+      idsButton.style.display = val ? 'inline-flex' : 'none';
+      idsButton.innerText = val || '';
     }
   }
 
   /**
    * @returns {string} the inner text of the cancel btn
    */
-  get cancelBtnText(): string {
+  get cancelBtnText(): string | null {
     return this.getAttribute(attributes.CANCEL_BTN_TEXT);
   }
 
@@ -153,7 +160,8 @@ export default class IdsActionSheet extends Base {
   #setVisibility(mq: MediaQueryList) {
     if (mq.matches) {
       this.hidden = true;
-      this.overlay.hidden = true;
+      // TODO - do we need this?
+      // this.overlay?.hidden = true;
       this.removeAttribute('visible');
       this.overlay?.removeAttribute(attributes.VISIBLE);
     } else {

@@ -94,7 +94,7 @@ export function slotVal(root: any, slotName: string) {
  * @param {string} attr The attribute name to get the value.
  * @returns {boolean} The value
  */
-export function getBoolVal(elem: any, attr: string) {
+export function getBoolVal(elem: any, attr: string): boolean {
   const value: any = elem?.getAttribute(attr);
   return value !== null
     ? stringToBool(value) : DEFAULTS[camelCase(attr)];
@@ -105,6 +105,6 @@ export function getBoolVal(elem: any, attr: string) {
  * @param {boolean|string} val The value.
  * @returns {boolean} true if the value boolean
  */
-export function isBool(val: boolean | string) {
+export function isBool(val: boolean | string | null) {
   return val === true || val === 'true' || val === false || val === 'false';
 }

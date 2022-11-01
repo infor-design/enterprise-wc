@@ -58,6 +58,10 @@ export default class IdsTextarea extends Base {
     super();
   }
 
+  autogrowProcessing = false;
+
+  isSafari = false;
+
   isFormComponent = true;
 
   /**
@@ -165,7 +169,7 @@ export default class IdsTextarea extends Base {
       const options = {
         prop1: prop,
         prop2: prop !== attributes.READONLY ? attributes.READONLY : attributes.DISABLED,
-        val: stringToBool(this[prop])
+        val: stringToBool((this as any)[prop])
       };
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
@@ -265,7 +269,7 @@ export default class IdsTextarea extends Base {
       const oldHeight = this.input?.offsetHeight || 0;
 
       this.adjustHeight(oldHeight, maxHeight);
-      this.autogrowProcessing = null;
+      this.autogrowProcessing = false;
     }
   }
 

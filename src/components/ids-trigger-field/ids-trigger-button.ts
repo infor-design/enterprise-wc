@@ -116,19 +116,18 @@ export default class IdsTriggerButton extends Base {
   get inline(): boolean { return stringToBool(this.getAttribute(attributes.INLINE)); }
 
   #setBorderClass() {
-    this.button.classList.add('style-inline', this.inlineCssClass);
+    this.button?.classList.add('style-inline', this.inlineCssClass);
   }
 
   #removeBorderClass() {
-    this.button.classList.remove('style-inline', this.inlineCssClass);
+    this.button?.classList.remove('style-inline', this.inlineCssClass);
   }
 
   /**
    * @param {boolean} val true if this trigger button should inherit a parent component's text color for use internally
    */
   set inheritColor(val: boolean | string) {
-    const inheritColor = stringToBool(val);
-    if (inheritColor) {
+    if (stringToBool(val)) {
       this.setAttribute(attributes.INHERIT_COLOR, '');
       this.button?.classList.add('inherit-color');
     } else {
@@ -138,9 +137,9 @@ export default class IdsTriggerButton extends Base {
   }
 
   /**
-   * @returns {string} true if this trigger button inherits a parent component's text color for use internally
+   * @returns {boolean} true if this trigger button inherits a parent component's text color for use internally
    */
-  get inheritColor(): string {
+  get inheritColor(): boolean {
     return this.hasAttribute(attributes.INHERIT_COLOR);
   }
 }

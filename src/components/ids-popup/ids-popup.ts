@@ -44,8 +44,31 @@ import styles from './ids-popup.scss';
 @customElement('ids-popup')
 @scss(styles)
 export default class IdsPopup extends Base {
+  shouldUpdate = false;
+
+  isFlipped = false;
+
   constructor() {
     super();
+    this.#align = CENTER;
+    this.#alignX = ALIGNMENTS_X[0];
+    this.#alignY = ALIGNMENTS_Y[0];
+    this.#alignEdge = ALIGNMENT_EDGES[0];
+    this.#alignTarget = null;
+    this.#animated = false;
+    this.#animationStyle = ANIMATION_STYLES[0];
+    this.#arrow = ARROW_TYPES[0];
+    this.#arrowTarget = null;
+    this.#bleed = false;
+    this.#containingElem = document.body;
+    this.#positionStyle = POSITION_STYLES[1];
+    this.#targetAlignEdge = '';
+    this.#type = TYPES[0]; // 'none'
+    this.#visible = false;
+    this.#x = 0;
+    this.#y = 0;
+
+    this.open = false;
     this.shouldUpdate = false;
   }
 
@@ -129,10 +152,10 @@ export default class IdsPopup extends Base {
    */
   #fix3dMatrixOnResize(): void {
     this.style.transition = 'none';
-    this.container.style.transition = 'none';
+    this.container?.style.setProperty('transition', 'none');
     this.correct3dMatrix();
     this.style.transition = '';
-    this.container.style.transition = '';
+    this.container?.style.setProperty('transition', '');
   }
 
   /**
@@ -170,7 +193,7 @@ export default class IdsPopup extends Base {
 
     POPUP_PROPERTIES.forEach((prop) => {
       const camelProp = camelCase(prop);
-      this[camelProp] = this.getAttribute(prop) || this[camelProp];
+      (this as any)[camelProp] = this.getAttribute(prop) || (this as any)[camelProp];
     });
   }
 
@@ -198,7 +221,7 @@ export default class IdsPopup extends Base {
    * @readonly
    * @returns {HTMLElement} reference to the `content-wrapper` element
    */
-  get wrapper(): HTMLElement {
+  get wrapper(): HTMLElement | undefined | null {
     return this.shadowRoot?.querySelector('.content-wrapper');
   }
 
@@ -273,7 +296,7 @@ export default class IdsPopup extends Base {
    * Can be left, right, top, bottom, center, and can also be a comma-delimited list of
    * multiple alignment types (for example: `left, top` or `right, bottom`)
    */
-  #align = CENTER;
+  #align: string;
 
   /**
    * @param {string} val a comma-delimited set of alignment types `direction1, direction2`
@@ -346,7 +369,7 @@ export default class IdsPopup extends Base {
    * @property {string} alignX the type of alignment to use on this component's
    *  X coordinate in relation to a parent element's X coordinate
    */
-  #alignX = ALIGNMENTS_X[0];
+  #alignX: string;
 
   /**
    * Strategy for the parent X alignment (see the ALIGNMENTS_X array)
@@ -389,7 +412,7 @@ export default class IdsPopup extends Base {
    * @property {string} alignY the type of alignment to use on this component's
    *  Y coordinate in relation to a parent element's Y coordinate
    */
-  #alignY = ALIGNMENTS_Y[0];
+  #alignY: string;
 
   /**
    * @param {string} val alignment strategy for the current parent Y alignment
@@ -429,7 +452,12 @@ export default class IdsPopup extends Base {
   /**
    * @property {string} alignEdge the primary edge of a target element to use for its alignment.
    */
-  #alignEdge = ALIGNMENT_EDGES[0];
+  #alignEdge: string;
+
+  /**
+   * Updates when the popup changing its primary align edge
+   */
+  #targetAlignEdge: string;
 
   /**
    *  Specifies the edge of the parent element to be placed adjacent,
@@ -488,22 +516,51 @@ export default class IdsPopup extends Base {
    * @returns {string} representing the opposite edge of the currently-defined `alignEdge` property
    */
   get oppositeAlignEdge(): string {
-    switch (this.alignEdge) {
+    return this.#getOppositeEdge(this.alignEdge);
+  }
+
+  /**
+   * Helper to get opposite align edge
+   * @param {string|undefined} currentEdge current align edge
+   * @returns {string} opposite align edge
+   */
+  #getOppositeEdge(currentEdge?: string): string {
+    switch (currentEdge) {
       case 'left':
         return 'right';
       case 'right':
         return 'left';
       case 'top':
         return 'bottom';
-      default: // bottom
+      case 'bottom':
         return 'top';
+      default:
+        return 'none';
+    }
+  }
+
+  /**
+   * Helper to get nearest side to the align edge
+   * @param {string|undefined} currentEdge current align edge
+   * @returns {string} nearest align edge
+   */
+  #getNearestEdge(currentEdge?: string): string {
+    switch (currentEdge) {
+      case 'top':
+      case 'bottom':
+        return 'right';
+      case 'left':
+      case 'right':
+        return 'bottom';
+      default:
+        return 'none';
     }
   }
 
   /**
    * @property {boolean} animated true if animation should occur on this component
    */
-  #animated = false;
+  #animated: boolean;
 
   /**
    * Whether or not the component should animate its movement
@@ -541,7 +598,7 @@ export default class IdsPopup extends Base {
    * @property {string} animationStyle the type of alignment to use on this component's
    *  Y coordinate in relation to a parent element's Y coordinate
    */
-  #animationStyle = ANIMATION_STYLES[0];
+  #animationStyle: string;
 
   /**
    * @param {string} val the style of animation this popup uses to show/hide
@@ -581,7 +638,7 @@ export default class IdsPopup extends Base {
    * @property {boolean} bleed true if placement logic should allow crossing
    *  of the defined `containingElem` boundary
    */
-  #bleed = false;
+  #bleed: boolean;
 
   /**
    * @param {boolean|string} val true if bleeds should be respected by the Popup
@@ -609,7 +666,7 @@ export default class IdsPopup extends Base {
   /**
    * @property {IdsPopupElementRef} containingElem the element to use for containment of the Popup
    */
-  #containingElem: IdsPopupElementRef = document.body;
+  #containingElem: IdsPopupElementRef;
 
   /**
    * @param {IdsPopupElementRef} val an element that will appear to "contain" the Popup
@@ -681,27 +738,33 @@ export default class IdsPopup extends Base {
   #setArrowDirection(currentDir: string | null, newDir: string | null) {
     if (!this.container) return;
 
-    const arrowElCl = this.arrowEl.classList;
+    const arrowEl = this.arrowEl;
+    const arrowElCl = this.arrowEl?.classList;
     const isNone = newDir === 'none';
 
-    this.arrowEl.hidden = isNone;
-    if (currentDir === '') arrowElCl.remove(...ARROW_TYPES);
-    else if (currentDir) arrowElCl.remove(currentDir);
-    if (newDir && !isNone) arrowElCl.add(newDir);
+    if (arrowEl) arrowEl.hidden = isNone;
+    let cssPart = 'arrow';
+    if (currentDir === '') arrowElCl?.remove(...ARROW_TYPES);
+    else if (currentDir) arrowElCl?.remove(currentDir);
+    if (newDir && !isNone) {
+      arrowElCl?.add(newDir);
+      cssPart += `-${newDir}`;
+    }
+    arrowEl?.setAttribute('part', cssPart);
   }
 
   /**
    * @readonly
    * @returns {HTMLElement} referencing the internal arrow element
    */
-  get arrowEl(): HTMLElement {
+  get arrowEl(): HTMLElement | undefined | null {
     return this.container?.querySelector('.arrow');
   }
 
   /**
    * @param {IdsPopupElementRef} arrowTarget
    */
-  #arrowTarget: IdsPopupElementRef = null;
+  #arrowTarget: IdsPopupElementRef;
 
   /**
    * Sets the element to align with via a css selector
@@ -749,7 +812,7 @@ export default class IdsPopup extends Base {
   /**
    * @property {string} positionStyle the method in which the Popup is positioned
    */
-  #positionStyle = POSITION_STYLES[1];
+  #positionStyle: string;
 
   /**
    * @param {string} val the position style string
@@ -794,7 +857,7 @@ export default class IdsPopup extends Base {
    * Runs on viewport resize to correct a CSS class that controls scrolling behavior within viewport-positioned popups
    */
   #checkViewportPositionScrolling(): void {
-    if (!this.container) return;
+    if (!this.container || !this.wrapper) return;
     const cl = this.container.classList;
     cl.remove('fit-viewport');
 
@@ -810,7 +873,7 @@ export default class IdsPopup extends Base {
    * @property {number} type The style of popup to display.
    * Can be 'none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'
    */
-  #type = TYPES[0]; // 'none'
+  #type: string;
 
   /**
    * @param {string} val The popup type
@@ -849,12 +912,12 @@ export default class IdsPopup extends Base {
   /**
    * @property {boolean} open true if the Popup is not only visible, but also fully-animated open
    */
-  open = false;
+  open: boolean;
 
   /**
    * @property {boolean} visible true if the Popup should be visible
    */
-  #visible = false;
+  #visible: boolean;
 
   /**
    * Whether or not the component should be displayed
@@ -897,7 +960,7 @@ export default class IdsPopup extends Base {
    * @property {number} x represents the X coordinate if placed via coordinates,
    * or the X offset when placed in relation to a parent element.
    */
-  #x = 0;
+  #x: number;
 
   /**
    * Sets the X (left) coordinate of the Popup
@@ -923,7 +986,7 @@ export default class IdsPopup extends Base {
    * @property {number} y represents the Y coordinate if placed via coordinates,
    * or the Y offset when placed in relation to a parent element.
    */
-  #y = 0;
+  #y: number;
 
   /**
    * Sets the Y (top) coordinate of the Popup
@@ -971,22 +1034,16 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   async show() {
-    if (!this.visible) {
+    if (!this.visible || !this.container) {
       return;
     }
 
     // Fix location first
     this.place();
 
-    // If an arrow is displayed, place it correctly
-    this.#setArrowDirection('', this.arrow);
-    this.placeArrow();
+    this.placeArrow(this.#targetAlignEdge);
 
     this.removeAttribute('aria-hidden');
-
-    if (this.isFlipped) {
-      this.container.classList.add('flipped');
-    }
 
     // Change transparency/visibility
     this.container.classList.add('open');
@@ -1013,7 +1070,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   async hide() {
-    if (this.visible) {
+    if (this.visible || !this.container) {
       return;
     }
 
@@ -1032,11 +1089,6 @@ export default class IdsPopup extends Base {
         elem: this
       }
     });
-
-    if (this.isFlipped) {
-      this.container.classList.remove('flipped');
-      this.isFlipped = false;
-    }
 
     this.setAttribute('aria-hidden', 'true');
   }
@@ -1097,7 +1149,7 @@ export default class IdsPopup extends Base {
     popupRect = this.#nudge(popupRect);
 
     // Account for absolute-positioned parents
-    popupRect = this.#removeRelativeParentDistance(this.parentNode, popupRect);
+    popupRect = this.#removeRelativeParentDistance(this.parentNode as HTMLElement, popupRect);
 
     // Make user-defined adjustments, if applicable
     if (typeof this.onPlace === 'function') {
@@ -1110,34 +1162,29 @@ export default class IdsPopup extends Base {
   /**
    * Places the Popup using an external element as a starting point.
    * @private
-   * @param {string} [targetAlignEdge] if defined, runs placement logic against a different
-   *  alignment edge than the one defined on the component
    * @returns {void}
    */
-  #placeAgainstTarget(targetAlignEdge?: string): void {
+  #placeAgainstTarget(): void {
     if (!this.alignTarget) return;
-
-    let x = this.x;
-    let y = this.y;
 
     // Detect sizes/locations of the popup and the alignment target Element
     let popupRect = this.getBoundingClientRect();
-    const shouldFlip = this.#shouldFlip(popupRect);
 
-    this.container.classList.toggle('flipped', shouldFlip);
+    this.#targetAlignEdge = this.#getPlacementEdge(popupRect);
 
-    // Check boundaries and attempt to flip the component in the opposite direction, if needed.
-    // If neither side will properly fit the popup, the popup will shrink to fit
-    if (shouldFlip && !targetAlignEdge) {
-      this.#placeAgainstTarget(this.oppositeAlignEdge);
-      this.isFlipped = true;
-      return;
-    }
+    const shouldSwitchXY = this.alignEdge !== this.#targetAlignEdge
+      && this.#getOppositeEdge(this.alignEdge) !== this.#targetAlignEdge;
+
+    let x = shouldSwitchXY ? this.y : this.x;
+    let y = shouldSwitchXY ? this.x : this.y;
 
     const targetRect = this.alignTarget.getBoundingClientRect();
-    const alignEdge = targetAlignEdge || this.alignEdge;
+    const alignEdge = this.#targetAlignEdge || this.alignEdge;
     let alignXCentered = false;
     let alignYCentered = false;
+
+    // Add/remove CSS class if the popup on an opposite align edge
+    this.container?.classList.toggle('flipped', this.alignEdge !== this.#targetAlignEdge && !shouldSwitchXY);
 
     /*
      * NOTE: All calculatations are based on the top/left corner of the element rectangles.
@@ -1204,6 +1251,17 @@ export default class IdsPopup extends Base {
       }
     }
 
+    // If no alignment edge place it at the center
+    if (alignEdge === 'none') {
+      const containerWidth = this.containingElem?.clientWidth;
+      const containerHeight = this.containingElem?.clientHeight;
+
+      if (containerWidth && containerHeight) {
+        x = (containerWidth - popupRect.width) / 2;
+        y = (containerHeight - popupRect.height) / 2;
+      }
+    }
+
     // Set adjusted values
     popupRect.x = x;
     popupRect.y = y;
@@ -1211,13 +1269,8 @@ export default class IdsPopup extends Base {
     // If the Popup bleeds off the viewport, nudge it back into full view
     popupRect = this.#nudge(popupRect);
 
-    // If the popup was previously flipped, also flip the arrow alignment
-    if (this.arrow !== ARROW_TYPES[0] && targetAlignEdge) {
-      this.#setArrowDirection('', this.oppositeAlignEdge);
-    }
-
     // Account for absolute-positioned parents
-    popupRect = this.#removeRelativeParentDistance(this.parentNode, popupRect);
+    popupRect = this.#removeRelativeParentDistance(this.parentNode as HTMLElement, popupRect);
 
     // Make user-defined adjustments, if applicable
     if (typeof this.onPlace === 'function') {
@@ -1225,6 +1278,12 @@ export default class IdsPopup extends Base {
     }
 
     this.#renderPlacementInPixels(popupRect);
+
+    // If an arrow is displayed, place it correctly
+    if (this.arrow && this.arrow !== ARROW_TYPES[0]) {
+      this.#setArrowDirection('', this.#targetAlignEdge);
+      this.placeArrow(this.#targetAlignEdge);
+    }
   }
 
   /**
@@ -1242,7 +1301,7 @@ export default class IdsPopup extends Base {
    * @param {DOMRect} popupRect a Rect object representing the current state of the popup.
    * @returns {object} an adjusted Rect object with "nudged" coordinates.
    */
-  #nudge(popupRect: DOMRect): object {
+  #nudge(popupRect: DOMRect): DOMRect {
     // Don't adjust if bleeding is allowed
     if (this.bleed || !this.containingElem) {
       return popupRect;
@@ -1283,8 +1342,8 @@ export default class IdsPopup extends Base {
     return popupRect;
   }
 
-  #shouldFlip(popupRect: DOMRect): boolean {
-    if (!this.containingElem || !this.alignTarget) return false;
+  #getPlacementEdge(popupRect: DOMRect): string {
+    if (!this.containingElem || !this.alignTarget) return 'none';
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
@@ -1317,16 +1376,24 @@ export default class IdsPopup extends Base {
     };
 
     const currentDir = this.alignEdge;
-    const newDir = this.oppositeAlignEdge;
-    const currentDistance = getDistance(currentDir);
-    const newDistance = getDistance(newDir);
-
     const measuredPopupDimension = ['top', 'bottom'].includes(currentDir) ? 'height' : 'width';
-    const popupFits = popupRect[measuredPopupDimension] <= currentDistance;
 
-    // If the popup does not fit, and there's more space between the opposite edge
-    // and viewport boundary, compared to the current edge and its viewport boundary, return true.
-    return !popupFits && newDistance > currentDistance;
+    // Array of edges where popup should find its placement in order starting from alignEdge setting
+    const edgeOrder = [
+      this.alignEdge,
+      this.#getOppositeEdge(this.alignEdge),
+      this.#getNearestEdge(this.alignEdge),
+      this.#getOppositeEdge(this.#getNearestEdge(this.alignEdge)),
+    ];
+
+    // Gets the first edge in the provided edges array where popup fits
+    const edge = edgeOrder.find((item) => {
+      const dist = getDistance(item);
+
+      return popupRect[measuredPopupDimension] <= dist;
+    });
+
+    return edge || 'none';
   }
 
   /**
@@ -1347,7 +1414,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   correct3dMatrix(): void {
-    if (this.positionStyle !== 'viewport') {
+    if (!this.container || this.positionStyle !== 'viewport') {
       return;
     }
 
@@ -1384,7 +1451,7 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #remove3dMatrix() {
-    this.container.style.transform = '';
+    this.container?.style.removeProperty('transform');
   }
 
   /**
@@ -1394,7 +1461,7 @@ export default class IdsPopup extends Base {
    * @param {DOMRect} [rect] optionally pass in an existing rect and correct it
    * @returns {DOMRect} measurements adjusted for an absolutely-positioned parent
    */
-  #removeRelativeParentDistance(elem: HTMLElement, rect: DOMRect) {
+  #removeRelativeParentDistance(elem: HTMLElement, rect: DOMRect): DOMRect {
     const elemRect = getEditableRect(rect || elem.getBoundingClientRect());
     let foundRelativeParent = false;
 
@@ -1440,22 +1507,23 @@ export default class IdsPopup extends Base {
     };
 
     removeRelativeDistance(elem);
-    return elemRect;
+    return elemRect as DOMRect;
   }
 
   /**
-   * Handles alignment of an optional arrow element.  If an arrow target is specified,
+   * Handles alignment of an optional arrow element. If an arrow target is specified,
    * the arrow is placed to align correctly against the target.
+   * @param {string | undefined} alignEdge align edge to place the arrow
    * @returns {void}
    */
-  placeArrow(): void {
-    const arrow = this.arrow;
+  placeArrow(alignEdge?: string): void {
+    const arrow = alignEdge || this.arrow;
     const arrowEl = this.arrowEl;
     const element = this.alignTarget;
     const target = this.arrowTarget;
 
-    if (arrow === 'none' || !element || !target) {
-      arrowEl.hidden = true;
+    if (arrow === 'none' || !element || !target || !arrowEl) {
+      if (arrowEl) arrowEl.hidden = true;
       return;
     }
 
@@ -1515,17 +1583,17 @@ export default class IdsPopup extends Base {
     const currentHeight = this.height;
     if (currentHeight !== newHeight) {
       if (newHeight.length) {
-        this.container.style.height = newHeight;
+        this.container?.style.setProperty('height', newHeight);
         this.setAttribute(attributes.HEIGHT, newHeight);
       } else {
-        this.container.style.height = '';
+        this.container?.style.removeProperty('height');
         this.removeAttribute(attributes.HEIGHT);
       }
     }
   }
 
   get height(): string {
-    return this.container.style.height;
+    return this.container?.style.height || '';
   }
 
   set width(val: string) {
@@ -1533,16 +1601,16 @@ export default class IdsPopup extends Base {
     const currentWidth = this.width;
     if (currentWidth !== newWidth) {
       if (newWidth.length) {
-        this.container.style.width = newWidth;
+        this.container?.style.setProperty('width', newWidth);
         this.setAttribute(attributes.WIDTH, newWidth);
       } else {
-        this.container.style.width = '';
+        this.container?.style.removeProperty('width');
         this.removeAttribute(attributes.WIDTH);
       }
     }
   }
 
   get width(): string {
-    return this.container.style.width;
+    return this.container?.style.width ?? '';
   }
 }

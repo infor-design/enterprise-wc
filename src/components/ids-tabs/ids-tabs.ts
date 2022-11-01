@@ -7,6 +7,8 @@ import IdsHeader from '../ids-header/ids-header';
 import './ids-tab';
 import './ids-tab-more';
 import './ids-tab-divider';
+import type IdsTab from './ids-tab';
+import type IdsTabMore from './ids-tab-more';
 
 import styles from './ids-tabs.scss';
 
@@ -132,26 +134,26 @@ export default class IdsTabs extends Base {
    * @returns {HTMLElement} Tab List container element reference from the shadow root
    */
   get tabListContainer() {
-    return this.container.querySelector('.ids-tabs-list');
+    return this.container?.querySelector<HTMLElement>('.ids-tabs-list');
   }
 
   /**
    * @returns {HTMLElement} More Container
    */
   get moreContainer() {
-    return this.container.querySelector('.ids-tabs-list-more');
+    return this.container?.querySelector<HTMLElement>('.ids-tabs-list-more');
   }
 
   /**
    * @returns {Array<HTMLElement>} tabs that are connected to this component's Main slot
    */
   get tabListElements() {
-    const mainSlot = this.container.querySelector('slot:not([name])');
-    return mainSlot.assignedElements();
+    const mainSlot = this.container?.querySelector<HTMLSlotElement>('slot:not([name])');
+    return mainSlot?.assignedElements() as Array<HTMLElement>;
   }
 
-  get lastTab(): any {
-    return [...this.querySelectorAll('ids-tab')].pop();
+  get lastTab(): IdsTab | undefined {
+    return [...this.querySelectorAll<IdsTab>('ids-tab')].pop();
   }
 
   /**
@@ -178,7 +180,7 @@ export default class IdsTabs extends Base {
    */
   #detectParentColorVariant() {
     let isHeaderDescendent = false;
-    let currentElement = this.host || this.parentNode;
+    let currentElement = (this as any).host || this.parentNode;
 
     while (!isHeaderDescendent && currentElement) {
       if (currentElement instanceof IdsHeader) {
@@ -208,11 +210,11 @@ export default class IdsTabs extends Base {
     // Reusable handlers
     const nextTabHandler = (e: Event) => {
       this.nextTab((e.target as any).closest('ids-tab, ids-tab-more')).focus();
-      this.tabListContainer.scrollLeft = 0;
+      if (this.tabListContainer) this.tabListContainer.scrollLeft = 0;
     };
     const prevTabHandler = (e: Event) => {
       this.prevTab((e.target as any).closest('ids-tab, ids-tab-more')).focus();
-      this.tabListContainer.scrollLeft = 0;
+      if (this.tabListContainer) this.tabListContainer.scrollLeft = 0;
     };
 
     // Add key listeners and consider orientation for assignments
@@ -223,10 +225,10 @@ export default class IdsTabs extends Base {
 
     // Home/End keys should navigate to beginning/end of Tab list respectively
     this.listen('Home', this, () => {
-      this.children[0].focus();
+      (this.children[0] as HTMLElement)?.focus();
     });
     this.listen('End', this, () => {
-      this.children[this.children.length - 1].focus();
+      (this.children[this.children.length - 1] as HTMLElement)?.focus();
     });
 
     // Add Events/Key listeners for Tab Selection via click/keyboard
@@ -374,7 +376,7 @@ export default class IdsTabs extends Base {
     }
 
     if (!tab.selected) {
-      const current = this.querySelector('[selected]');
+      const current = this.querySelector<IdsTab>('[selected]');
       if (!current || (current && tab !== current)) {
         tab.selected = true;
         this.value = tab.value;
@@ -410,11 +412,11 @@ export default class IdsTabs extends Base {
    * Attempts to refresh state of the Tab List related to overflowed tabs, if applicable
    */
   #refreshOverflowedTabs(): void {
-    const moreTab = this.querySelector('ids-tab-more');
+    const moreTab = this.querySelector<IdsTabMore>('ids-tab-more');
     if (moreTab) {
       moreTab.renderOverflowedItems();
       moreTab.refreshOverflowedItems();
-      this.container.classList[!moreTab.hidden ? 'add' : 'remove']('has-more-actions');
+      this.container?.classList[!moreTab.hidden ? 'add' : 'remove']('has-more-actions');
     }
   }
 
@@ -423,7 +425,7 @@ export default class IdsTabs extends Base {
    * @returns {void}
    */
   onColorVariantRefresh(): void {
-    const tabs = [...this.querySelectorAll('ids-tab, ids-tab-more')];
+    const tabs = [...this.querySelectorAll<IdsTab | IdsTabMore>('ids-tab, ids-tab-more')];
     tabs.forEach((tab) => {
       tab.colorVariant = this.colorVariant;
     });
@@ -434,7 +436,7 @@ export default class IdsTabs extends Base {
    * @returns {void}
    */
   onOrientationRefresh(): void {
-    const tabs = [...this.querySelectorAll('ids-tab, ids-tab-more')];
+    const tabs = [...this.querySelectorAll<IdsTab | IdsTabMore>('ids-tab, ids-tab-more')];
     tabs.forEach((tab) => {
       tab.orientation = this.orientation;
     });

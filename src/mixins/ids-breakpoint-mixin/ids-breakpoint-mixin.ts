@@ -1,4 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
+import { IdsBaseConstructor } from '../../core/ids-element';
 import { Breakpoints, isWidthAbove, isWidthBelow } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 
 type IdsBreakpointRespondAttribute = keyof Breakpoints | null;
@@ -9,14 +10,14 @@ type IdsBreakpointResponseCallback = (val: keyof Breakpoints, matches: boolean) 
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsBreakpointMixin = (superclass: any): any => class extends superclass {
-  constructor() {
-    super();
+const IdsBreakpointMixin = <T extends IdsBaseConstructor>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.RESPOND_UP,
       attributes.RESPOND_DOWN,
     ];
@@ -43,7 +44,7 @@ const IdsBreakpointMixin = (superclass: any): any => class extends superclass {
 
   set respondUp(val: IdsBreakpointRespondAttribute) {
     if (val) {
-      this.setAttribute(attributes.RESPOND_UP, val);
+      this.setAttribute(attributes.RESPOND_UP, String(val));
       this.#setupRespondUp(val);
     } else {
       this.removeAttribute(attributes.RESPOND_UP);
@@ -86,7 +87,7 @@ const IdsBreakpointMixin = (superclass: any): any => class extends superclass {
 
   set respondDown(val: IdsBreakpointRespondAttribute) {
     if (val) {
-      this.setAttribute(attributes.RESPOND_DOWN, val);
+      this.setAttribute(attributes.RESPOND_DOWN, String(val));
       this.#setupRespondDown(val);
     } else {
       this.removeAttribute(attributes.RESPOND_DOWN);

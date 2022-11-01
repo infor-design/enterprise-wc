@@ -7,8 +7,16 @@ import '../ids-button/ids-button';
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
 import '../ids-toolbar/ids-toolbar';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import styles from './ids-app-menu.scss';
+import type IdsAccordion from '../ids-accordion/ids-accordion';
+import type IdsButton from '../ids-button/ids-button';
+import type IdsSearchField from '../ids-search-field/ids-search-field';
+import type IdsContainer from '../ids-container/ids-container';
+
+const CONTAINER_CLASS = 'app-menu';
+const CONTAINER_OPEN_CLASS = 'app-menu-is-open';
 
 /**
  * IDS App Menu Component
@@ -20,9 +28,13 @@ import styles from './ids-app-menu.scss';
 @customElement('ids-app-menu')
 @scss(styles)
 export default class IdsAppMenu extends Base {
+  globalKeydownListener?: (e: KeyboardEvent) => void;
+
   constructor() {
     super();
   }
+
+  #container: IdsContainer | undefined | null;
 
   connectedCallback() {
     super.connectedCallback();
@@ -30,6 +42,14 @@ export default class IdsAppMenu extends Base {
     this.type = 'app-menu';
     this.#connectSearchField();
     this.#refreshVariants();
+    this.#setContainer();
+    this.#attachEventHandlers();
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback?.();
+    this.#detachEventHandlers();
+    this.#clearContainer();
   }
 
   static get attributes() {
@@ -69,10 +89,10 @@ export default class IdsAppMenu extends Base {
 
   /**
    * @readonly
-   * @returns {HTMLElement} reference to an optionally-slotted IdsAccordion element
+   * @returns {IdsAccordion} reference to an optionally-slotted IdsAccordion element
    */
-  get accordion(): HTMLElement {
-    return this.querySelector(`ids-accordion:not([slot])`);
+  get accordion(): IdsAccordion | null {
+    return this.querySelector<IdsAccordion>(`ids-accordion:not([slot])`);
   }
 
   /**
@@ -82,22 +102,50 @@ export default class IdsAppMenu extends Base {
   isFiltered = false;
 
   #refreshVariants() {
-    const accordions = [...this.querySelectorAll('ids-accordion')];
+    const accordions = [...this.querySelectorAll<IdsAccordion>('ids-accordion')];
     accordions.forEach((acc) => {
       acc.colorVariant = 'app-menu';
     });
 
-    const btns = [...this.querySelectorAll('ids-button')];
+    const btns = [...this.querySelectorAll<IdsButton>('ids-button')];
     btns.forEach((btn) => {
       btn.colorVariant = 'alternate';
     });
+  }
+
+  #attachEventHandlers() {
+    this.#detachEventHandlers();
+    this.onEvent('show.app-menu-show', this, () => {
+      this.#container?.classList.add(CONTAINER_OPEN_CLASS);
+    });
+    this.onEvent('hide.app-menu-hide', this, () => {
+      this.#container?.classList.remove(CONTAINER_OPEN_CLASS);
+    });
+  }
+
+  #detachEventHandlers() {
+    this.offEvent('show.app-menu-show');
+    this.offEvent('hide.app-menu-hide');
+  }
+
+  /**
+   * Adds CSS class to ids-container for initial CSS rules
+   */
+  #setContainer() {
+    this.#container = getClosest(this, 'ids-container');
+    this.#container?.classList.add(CONTAINER_CLASS);
+  }
+
+  #clearContainer() {
+    this.#container?.classList.remove(CONTAINER_CLASS, CONTAINER_OPEN_CLASS);
+    this.#container = null;
   }
 
   /**
    * Attaches a slotted IdsSearchField component to the app menu
    */
   #connectSearchField() {
-    const searchfield = this.querySelector('ids-search-field[slot="search"]');
+    const searchfield = this.querySelector<IdsSearchField>('ids-search-field[slot="search"]');
     if (searchfield) {
       searchfield.onSearch = (value: string) => {
         if (value !== '') {
@@ -109,6 +157,18 @@ export default class IdsAppMenu extends Base {
       };
       this.offEvent('cleared.search');
       this.onEvent('cleared.search', searchfield, () => this.clearFilterAccordion());
+    }
+  }
+
+  /**
+   * Inherited from the Popup Open Events Mixin.
+   * Runs when a click event is propagated to the window.
+   * @returns {void}
+   */
+  onOutsideClick() {
+    // Don't close the popup if md+ media query breakpoint
+    if (window.innerWidth < 840) {
+      this.hide();
     }
   }
 
@@ -174,7 +234,7 @@ export default class IdsAppMenu extends Base {
    * @private
    */
   clearFilterAccordion() {
-    const filteredHeaders: any = [...this.accordion.querySelectorAll('ids-accordion-header[hidden-by-filter]')];
+    const filteredHeaders: any = [...this.accordion?.querySelectorAll('ids-accordion-header[hidden-by-filter]') ?? []];
     filteredHeaders.map((header: any) => {
       header.hiddenByFilter = false;
       return header;
@@ -190,7 +250,7 @@ export default class IdsAppMenu extends Base {
    * @returns {void}
    */
   #clearChildFilter() {
-    const childFilterMatches: any = [...this.accordion.querySelectorAll('[child-filter-match]')];
+    const childFilterMatches: any = [...this.accordion?.querySelectorAll('[child-filter-match]') ?? []];
     childFilterMatches.map((header: any) => {
       header.childFilterMatch = false;
       return header;
@@ -218,6 +278,6 @@ export default class IdsAppMenu extends Base {
    */
   removeOpenEvents() {
     super.removeOpenEvents();
-    document.removeEventListener('keydown', this.globalKeydownListener);
+    if (this.globalKeydownListener) document.removeEventListener('keydown', this.globalKeydownListener);
   }
 }

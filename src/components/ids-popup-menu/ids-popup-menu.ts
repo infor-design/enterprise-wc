@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { getElementAtMouseLocation } from '../../utils/ids-dom-utils/ids-dom-utils';
 import '../ids-popup/ids-popup';
 import Base from './ids-popup-menu-base';
 
@@ -34,7 +35,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {string} The template
    */
   template(): string {
-    const menuTemplate = Base.prototype.template.apply(this);
+    const menuTemplate = super.template();
     return `<ids-popup class="ids-popup-menu" type="menu">${menuTemplate}</ids-popup>`;
   }
 
@@ -57,8 +58,8 @@ export default class IdsPopupMenu extends Base {
       this.popupDelay = 200;
       this.target = this.parentMenuItem;
       this.triggerType = 'hover';
-      this.popup.align = 'right, top';
-      this.popup.alignEdge = 'right';
+      this.popup?.setAttribute('align', 'right, top');
+      this.popup?.setAttribute('align-edge', 'right');
     }
   }
 
@@ -100,9 +101,12 @@ export default class IdsPopupMenu extends Base {
       if (!this.parentMenuItem) {
         this.triggerEvent('show', this, e);
       }
-      requestAnimationFrame(() => {
-        this.focusTarget?.focus();
-      });
+
+      const focusTarget = this.focusTarget;
+      if (focusTarget) {
+        focusTarget.highlight();
+        focusTarget.focus();
+      }
     });
 
     // When the underlying Popup triggers its "hide" event, pass the event to the Host element.
@@ -137,9 +141,10 @@ export default class IdsPopupMenu extends Base {
     // NOTE: This will never occur on a top-level Popupmenu.
     if (this.parentMenu) {
       this.listen(['ArrowLeft'], this, (e: any) => {
+        e.stopPropagation();
         e.preventDefault();
         this.hide();
-        this.parentMenuItem.focus();
+        this.parentMenuItem?.focus();
       });
     }
 
@@ -172,7 +177,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   hide(): void {
-    if (!this.popup.visible) return;
+    if (!this.popup?.visible) return;
 
     this.hidden = true;
     this.#removeVisibleARIA();
@@ -188,12 +193,14 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   show(): void {
-    if (this.popup.visible) return;
+    if (this.popup?.visible) return;
 
     // Trigger a veto-able `beforeshow` event.
     if (!this.triggerVetoableEvent('beforeshow')) {
       return;
     }
+
+    this.refreshIconAlignment();
 
     this.hidden = false;
     this.#setVisibleARIA();
@@ -202,14 +209,14 @@ export default class IdsPopupMenu extends Base {
     this.hideSubmenus();
 
     // Show the popup and do placement
-    this.popup.visible = true;
-    this.popup.place();
+    this.popup?.setAttribute('visible', 'true');
+    this.popup?.place();
 
     this.addOpenEvents();
   }
 
   #setVisibleARIA(): void {
-    this.popup.querySelector('nav')?.setAttribute(htmlAttributes.ROLE, 'menu');
+    this.popup?.querySelector('nav')?.setAttribute(htmlAttributes.ROLE, 'menu');
     const items: Array<any> = [...this.querySelectorAll('ids-menu-item')];
     items.forEach((item, i) => {
       item.a.setAttribute(htmlAttributes.ARIA_POSINSET, i + 1);
@@ -218,7 +225,7 @@ export default class IdsPopupMenu extends Base {
   }
 
   #removeVisibleARIA(): void {
-    this.popup.querySelector('nav')?.removeAttribute(htmlAttributes.ROLE);
+    this.popup?.querySelector('nav')?.removeAttribute(htmlAttributes.ROLE);
   }
 
   /**
@@ -228,7 +235,7 @@ export default class IdsPopupMenu extends Base {
   showIfAble(): void {
     if (!this.target) {
       this.show();
-    } else if (!this.target.disabled && !this.target.hidden) {
+    } else if (!(this.target as any)?.disabled && !(this.target as any)?.hidden) {
       this.show();
     }
   }
@@ -249,7 +256,7 @@ export default class IdsPopupMenu extends Base {
 
     submenus.forEach((submenu: any) => {
       const submenuIsIgnored = focusedSubmenu && focusedSubmenu.isEqualNode(submenu);
-      if (!submenu.hidden && !submenuIsIgnored) {
+      if (!submenu.hidden && !submenuIsIgnored && !submenu.contains(focusedSubmenu)) {
         submenu.hide();
       }
     });
@@ -289,7 +296,7 @@ export default class IdsPopupMenu extends Base {
    */
   get width(): string | null {
     const width = this.container?.style.width;
-    return (width.length ? width : null);
+    return (width?.length ? width : null);
   }
 
   #setMenuWidth(targetWidth: string | null): void {
@@ -339,7 +346,7 @@ export default class IdsPopupMenu extends Base {
   onContextMenu(e: MouseEvent): void {
     e.preventDefault();
     e.stopPropagation();
-    this.popup.setPosition(e.pageX, e.pageY);
+    this.popup?.setPosition(e.pageX, e.pageY);
     this.showIfAble();
   }
 
@@ -360,10 +367,10 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   onTriggerHover(): void {
-    if (!this.target.disabled && !this.target.hidden) {
+    if (!(this.target as any).disabled && !(this.target as any).hidden) {
       // Hide all submenus attached to parent menu items (except this one)
       if (this.parentMenuItem) {
-        this.parentMenuItem.menu.hideSubmenus(this.target);
+        (this.parentMenuItem?.menu as IdsPopupMenu)?.hideSubmenus(this.target);
       }
 
       this.showIfAble();
@@ -377,9 +384,17 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   onCancelTriggerHover(e: CustomEvent): void {
-    const newTargetNode = e.detail.mouseLeaveNode;
-    if (!this.contains(newTargetNode) && !this.isEqualNode(newTargetNode)) {
-      this.hide();
+    const mouseLeaveNode = e.detail.mouseLeaveNode;
+    const currentNodeAtMouse = getElementAtMouseLocation();
+
+    if (currentNodeAtMouse) {
+      if (!currentNodeAtMouse.isEqualNode(mouseLeaveNode) || !this.contains(mouseLeaveNode)) {
+        this.hide();
+        if (mouseLeaveNode.tagName === 'IDS-MENU-ITEM') {
+          mouseLeaveNode.highlight();
+          if (mouseLeaveNode.menu) mouseLeaveNode.menu.hideSubmenus(mouseLeaveNode);
+        }
+      }
     }
   }
 

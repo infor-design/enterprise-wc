@@ -539,7 +539,7 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.id).toEqual('example');
     expect(timepicker.input?.getAttribute('id')).toEqual('example');
 
-    timepicker.id = null;
+    timepicker.removeAttribute('id');
     expect(timepicker.id).toEqual('');
   });
 

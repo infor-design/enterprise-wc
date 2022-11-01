@@ -59,7 +59,9 @@ export default class IdsTooltip extends Base {
    * @returns {string} The template
    */
   template(): string {
-    return `<ids-popup part="popup" id="${this.id || 'ids'}-tooltip">
+    const cssParts = 'popup: tooltip-popup, arrow: tooltip-arrow, arrow-top: tooltip-arrow-top, arrow-right: tooltip-arrow-right, arrow-bottom: tooltip-arrow-bottom, arrow-left: tooltip-arrow-left';
+
+    return `<ids-popup part="popup" id="${this.id || 'ids'}-tooltip" exportparts="${cssParts}">
         <div class="ids-tooltip" slot="content" part="tooltip">
           <slot></slot>
         </div>
@@ -279,9 +281,9 @@ export default class IdsTooltip extends Base {
 
   /**
    * @readonly
-   * @returns {IdsPopup | undefined} reference to the internal IdsPopup component
+   * @returns {IdsPopup | undefined | null} reference to the internal IdsPopup component
    */
-  get popup(): IdsPopup | undefined {
+  get popup(): IdsPopup | undefined | null {
     return this.shadowRoot?.querySelector('ids-popup');
   }
 
@@ -301,7 +303,7 @@ export default class IdsTooltip extends Base {
    */
   set delay(value: string | number) {
     if (value) {
-      this.setAttribute('delay', value);
+      this.setAttribute('delay', value.toString());
       return;
     }
 

@@ -23,8 +23,8 @@ describe('IdsHomePage Component', () => {
 
   const EVENTS = { resized: 'resized' };
 
-  let homePage: any;
-  let container: any;
+  let homePage: IdsHomePage;
+  let container: IdsContainer;
 
   beforeEach(async () => {
     container = new IdsContainer();
@@ -32,8 +32,8 @@ describe('IdsHomePage Component', () => {
     container.language = 'en';
     container.appendChild(elem);
     document.body.appendChild(container);
-    container = document.querySelector('ids-container');
-    homePage = container.querySelector('ids-home-page');
+    container = document.querySelector('ids-container') as IdsContainer;
+    homePage = container.querySelector('ids-home-page') as IdsHomePage;
   });
 
   afterEach(async () => {
@@ -190,9 +190,9 @@ describe('IdsHomePage Component', () => {
   it('should trigger resized event', async () => {
     const mockCallback = jest.fn(() => { });
     homePage.addEventListener(EVENTS.resized, mockCallback);
-    homePage.container.style.width = '1000px';
+    homePage.container?.style.setProperty('width', '1000px');
     await wait(100);
-    homePage.container.style.width = '800px';
+    homePage.container?.style.setProperty('width', '800px');
     homePage.refresh();
     expect(mockCallback).toHaveBeenCalled();
   });

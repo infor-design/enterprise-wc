@@ -24,7 +24,7 @@ export default class IdsListBuilder extends Base {
   }
 
   /** Active editor of the selected list item */
-  #selectedLiEditor: any;
+  #selectedLiEditor: IdsInput | null = null;
 
   /**
    * A clone of the list item being dragged,
@@ -92,11 +92,11 @@ export default class IdsListBuilder extends Base {
    * Set the selection mode of the listview
    * @param {string} value true to use virtual scrolling
    */
-  set selectable(value: string) {
+  set selectable(value: string | null) {
     super.selectable = value;
   }
 
-  get selectable(): string {
+  get selectable(): string | null {
     return super.selectable;
   }
 
@@ -152,8 +152,9 @@ export default class IdsListBuilder extends Base {
    * @returns {void}
    */
   #updateSelectedLiWithEditorValue(): void {
-    const listItem = this.selectedLi.querySelector('div[part="list-item"]');
-    listItem.querySelector('ids-text').innerHTML = this.#selectedLiEditor.value;
+    const listItem = this.selectedLi?.querySelector('div[part="list-item"]');
+    const textElem = listItem?.querySelector('ids-text');
+    if (textElem) textElem.innerHTML = this.#selectedLiEditor?.value ?? '';
   }
 
   /**
@@ -164,7 +165,7 @@ export default class IdsListBuilder extends Base {
   #removeSelectedLiEditor(): void {
     this.offEvent('keyup', this.#selectedLiEditor);
     if (this.#selectedLiEditor) {
-      this.#selectedLiEditor.parentNode.classList.remove('is-editing');
+      (this.#selectedLiEditor?.parentNode as HTMLElement)?.classList.remove('is-editing');
       this.#selectedLiEditor.remove();
     }
     this.#selectedLiEditor = null;
@@ -188,14 +189,14 @@ export default class IdsListBuilder extends Base {
         const listItem = this.selectedLi.querySelector(selectorStr);
 
         // insert into DOM
-        listItem.insertBefore(i, listItem.querySelector('ids-text'));
+        listItem?.insertBefore(i, listItem.querySelector('ids-text'));
 
         // hide inner text
-        listItem.classList.add('is-editing');
+        listItem?.classList.add('is-editing');
 
         // set the value of input
         this.#selectedLiEditor = i;
-        i.value = newEntry ? 'New Value' : listItem.querySelector('ids-text').innerHTML;
+        i.value = newEntry ? 'New Value' : listItem?.querySelector('ids-text')?.innerHTML;
         i.autoselect = 'true';
         i.noMargins = 'true';
         i.colorVariant = 'alternate';
@@ -210,11 +211,11 @@ export default class IdsListBuilder extends Base {
   }
 
   get selectedLi() {
-    return this.shadowRoot.querySelector('ids-swappable-item[selected]');
+    return this.shadowRoot?.querySelector<IdsSwappableItem>('ids-swappable-item[selected]');
   }
 
   get allSelectedLi() {
-    return this.shadowRoot.querySelectorAll('ids-swappable-item[selected]');
+    return this.shadowRoot?.querySelectorAll<IdsSwappableItem>('ids-swappable-item[selected]');
   }
 
   /**
@@ -223,7 +224,7 @@ export default class IdsListBuilder extends Base {
    * @returns {void}
    */
   #removeAllSelectedLi(): void {
-    const items = this.allSelectedLi;
+    const items = this.allSelectedLi || [];
     const indexOfItems = [];
 
     for (const item of items) {
@@ -240,7 +241,7 @@ export default class IdsListBuilder extends Base {
     this.updateDataFromDOM();
 
     for (const index of indexOfItems) {
-      const liItem = this.shadowRoot.querySelector(`ids-swappable-item[index="${index}"]`);
+      const liItem = this.shadowRoot?.querySelector<IdsSwappableItem>(`ids-swappable-item[index="${index}"]`);
 
       if (liItem) {
         this.toggleSelectedLi(liItem);
@@ -264,7 +265,7 @@ export default class IdsListBuilder extends Base {
    */
   #attachClickListeners(): void {
     // Add button
-    this.onEvent('click', this.shadowRoot.querySelector('#button-add'), () => {
+    this.onEvent('click', this.shadowRoot?.querySelector('#button-add'), () => {
       this.#unfocusAnySelectedLiEditor();
       let newSwappableItem;
 
@@ -274,18 +275,18 @@ export default class IdsListBuilder extends Base {
         this.dataKeys.forEach((key: string) => {
           newItemData[key] = 'New Value';
         });
-        this.shadowRoot.querySelector('.ids-list-builder')?.remove();
+        this.shadowRoot?.querySelector('.ids-list-builder')?.remove();
         this.data = [newItemData];
-        newSwappableItem = this.shadowRoot.querySelector('ids-swappable-item');
+        newSwappableItem = this.shadowRoot?.querySelector<IdsSwappableItem>('ids-swappable-item');
       } else {
         const selectionNull = !this.selectedLi;
         // if an item is selected, create a node under it, otherwise create a node above the first item
 
-        let targetDraggableItem = selectionNull ? this.shadowRoot.querySelector('ids-swappable-item') : this.selectedLi;
+        let targetDraggableItem = selectionNull ? this.shadowRoot?.querySelector<IdsSwappableItem>('ids-swappable-item') : this.selectedLi;
         if (!targetDraggableItem) {
           targetDraggableItem = new IdsSwappableItem();
         }
-        newSwappableItem = targetDraggableItem.cloneNode(true);
+        newSwappableItem = targetDraggableItem.cloneNode(true) as HTMLElement;
 
         const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
         if (targetDraggableItem.parentNode) {
@@ -294,11 +295,11 @@ export default class IdsListBuilder extends Base {
         }
       }
 
-      newSwappableItem.setAttribute('selected', '');
-      const listItem = newSwappableItem.querySelector('div[part="list-item"]');
+      newSwappableItem?.setAttribute('selected', '');
+      const listItem = newSwappableItem?.querySelector('div[part="list-item"]');
 
-      const listItemText = listItem.querySelector('ids-text');
-      listItemText.innerHTML = 'New Value';
+      const listItemText = listItem?.querySelector('ids-text');
+      if (listItemText) listItemText.innerHTML = 'New Value';
       // remove any selected attribute on li that may have propogated from the clone
       if (listItem?.getAttribute('selected')) listItem.removeAttribute('selected');
       this.resetIndices();
@@ -315,7 +316,7 @@ export default class IdsListBuilder extends Base {
     });
 
     // Up button
-    this.onEvent('click', this.shadowRoot.querySelector('#button-up'), () => {
+    this.onEvent('click', this.shadowRoot?.querySelector('#button-up'), () => {
       if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
@@ -334,7 +335,7 @@ export default class IdsListBuilder extends Base {
     });
 
     // Down button
-    this.onEvent('click', this.shadowRoot.querySelector('#button-down'), () => {
+    this.onEvent('click', this.shadowRoot?.querySelector('#button-down'), () => {
       if (this.selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
@@ -353,16 +354,16 @@ export default class IdsListBuilder extends Base {
     });
 
     // Edit button
-    this.onEvent('click', this.shadowRoot.querySelector('#button-edit'), () => {
+    this.onEvent('click', this.shadowRoot?.querySelector('#button-edit'), () => {
       this.#insertSelectedLiWithEditor();
     });
 
     // Delete button
-    this.onEvent('click', this.shadowRoot.querySelector('#button-delete'), () => {
+    this.onEvent('click', this.shadowRoot?.querySelector('#button-delete'), () => {
       this.#removeAllSelectedLi();
     });
 
-    this.getAllSwappableItems().forEach((li: any) => {
+    this.getAllSwappableItems()?.forEach((li: any) => {
       this.#attachClickListenersForLi(li);
     });
   }
@@ -385,7 +386,7 @@ export default class IdsListBuilder extends Base {
   }
 
   #attachKeyboardListeners(): void {
-    this.getAllSwappableItems().forEach((li: any) => {
+    this.getAllSwappableItems()?.forEach((li: any) => {
       this.#attachKeyboardListenersForLi(li);
     });
   }
@@ -475,8 +476,8 @@ export default class IdsListBuilder extends Base {
    * @returns {void}
    */
   resetIndices(): void {
-    const listItems = this.container?.querySelectorAll('ids-swappable-item');
-    listItems?.forEach((x: HTMLElement, i: number) => {
+    const listItems = this.container?.querySelectorAll<IdsSwappableItem>('ids-swappable-item');
+    listItems?.forEach((x, i) => {
       x.setAttribute('index', i.toString());
       x.setAttribute('id', `id_item_${i + 1}`);
       x.setAttribute('aria-posinset', `${i + 1}`);

@@ -11,7 +11,7 @@ export const IdsLabelStateAttributes = [
 
 export const isLabelStateValid = (value: string | null) => value === null || ['hidden', 'collapsed'].includes(value);
 
-export const isLabelRequiredValid = (value: string | boolean) => {
+export const isLabelRequiredValid = (value: string | boolean | null): boolean => {
   const isValid = typeof value !== 'undefined' && value !== null;
   return isValid ? stringToBool(value) : true;
 };

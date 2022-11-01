@@ -45,8 +45,8 @@ export default class IdsLayoutFlexItem extends Base {
    * Set the align self setting
    * @param {string} value The value
    */
-  set alignSelf(value: string) {
-    if (FLEX_ITEM_OPTIONS.alignSelf.includes(value)) {
+  set alignSelf(value: string | null) {
+    if (value && FLEX_ITEM_OPTIONS.alignSelf.includes(value)) {
       this.setAttribute(attributes.ALIGN_SELF, value);
     } else {
       this.removeAttribute(attributes.ALIGN_SELF);
@@ -59,10 +59,10 @@ export default class IdsLayoutFlexItem extends Base {
    * Set the grow setting
    * @param {number|string} value The value
    */
-  set grow(value: number | string) {
+  set grow(value: number | string | null) {
     const val = stringToNumber(value);
     if (!Number.isNaN(val) && FLEX_ITEM_OPTIONS.grow.includes(val)) {
-      this.setAttribute(attributes.GROW, val);
+      this.setAttribute(attributes.GROW, String(val));
     } else {
       this.removeAttribute(attributes.GROW);
     }
@@ -74,10 +74,10 @@ export default class IdsLayoutFlexItem extends Base {
    * Set the shrink setting
    * @param {number|string} value The value
    */
-  set shrink(value: number | string) {
+  set shrink(value: number | string | null) {
     const val = stringToNumber(value);
     if (!Number.isNaN(val) && FLEX_ITEM_OPTIONS.shrink.includes(val)) {
-      this.setAttribute(attributes.SHRINK, val);
+      this.setAttribute(attributes.SHRINK, String(val));
     } else {
       this.removeAttribute(attributes.SHRINK);
     }

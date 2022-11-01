@@ -41,7 +41,7 @@ export default class IdsTabContent extends Base {
       return;
     }
 
-    this.setAttribute(attributes.VALUE, value);
+    this.setAttribute(attributes.VALUE, String(value));
   }
 
   /** @returns {string} Value representing associated tab */

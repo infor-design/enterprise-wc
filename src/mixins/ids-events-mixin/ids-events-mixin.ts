@@ -2,6 +2,18 @@ import { stringToBool, isPrintable } from '../../utils/ids-string-utils/ids-stri
 import { requestAnimationTimeout, clearAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 import type { FrameRequestLoopHandler } from '../../utils/ids-timer-utils/ids-timer-utils';
 import { getEventBaseName } from './ids-events-common';
+import { IdsBaseConstructor } from '../../core/ids-element';
+
+export type EventOptions = { [key: string]: any } & AddEventListenerOptions;
+
+export interface EventsMixinInterface {
+  onEvent(eventName: string, target?: any, callback?: (evt: any) => void, options?: EventOptions): void;
+  offEvent(eventName: string, target?: any, options?: EventOptions): void;
+  triggerEvent(eventName: string, target: any, options?: CustomEventInit): void;
+  triggerVetoableEvent(eventType: string, data?: any): boolean;
+  detachEventsByName: (eventName: string) => void;
+  handledEvents: Map<any, any>;
+}
 
 /**
  * A mixin that adds event handler functionality that is also safely torn down when a component is
@@ -9,10 +21,46 @@ import { getEventBaseName } from './ids-events-common';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsEventsMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
-    this.handledEvents = new Map();
+const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class extends superclass
+  implements EventsMixinInterface {
+  handledEvents = new Map();
+
+  longPressOn = false;
+
+  swipeOn = false;
+
+  keyboardFocusOn = false;
+
+  keyDownEndOn = false;
+
+  hoverEndOn = false;
+
+  isClick = false;
+
+  timer?: FrameRequestLoopHandler | null;
+
+  slopedMouseLeaveTimer?: FrameRequestLoopHandler | null;
+
+  /** Starting pageX */
+  startX = NaN;
+
+  /** Starting pageY */
+  startY = NaN;
+
+  /** Tracking pageX */
+  trackedX = NaN;
+
+  /** Tracking pageY */
+  trackedY = NaN;
+
+  /**
+   * @returns {Array<string>} names of vetoable events.  Override this in your component
+   * to listen for and handle vetoable events.
+   */
+  vetoableEventTypes: string[] = [];
+
+  constructor(...args: any[]) {
+    super(...args);
 
     // for event-subscription related logic, bind "this" of the
     // functions to the class instance to avoid this calls from
@@ -25,13 +73,9 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
 
   static get attributes() {
     return [
-      ...super.attributes
+      ...(superclass as any).attributes
     ];
   }
-
-  timer?: FrameRequestLoopHandler;
-
-  slopedMouseLeaveTimer?: FrameRequestLoopHandler;
 
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
@@ -40,13 +84,13 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
 
   /**
    * Add and keep track of an event listener.
-   * @param {string|any} eventName The event name with optional namespace
-   * @param {HTMLElement} target The DOM element to register
+   * @param {string} eventName The event name with optional namespace
+   * @param {Element} target The DOM element to register
    * @param {Function|any} callback The callback code to execute
-   * @param {object} options Additional event settings (passive, once, bubbles ect)
+   * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
    */
-  onEvent(eventName: string, target: any, callback?: unknown, options?: Record<string, unknown>) {
-    if (!target) {
+  onEvent(eventName: string, target: any, callback?: (evt: any) => void, options?: EventOptions) {
+    if (!target || !callback) {
       return;
     }
 
@@ -76,9 +120,9 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    * Remove event listener
    * @param {string} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to deregister (or previous registered target)
-   * @param {object} options Additional event settings (passive, once, passive ect)
+   * @param {EventOptions} options Additional event settings (passive, once, passive ect)
    */
-  offEvent(eventName: string, target?: HTMLElement | unknown, options?: Record<string, unknown> | boolean) {
+  offEvent(eventName: string, target?: unknown, options?: EventOptions) {
     const handler = this.handledEvents.get(eventName);
     this.handledEvents.delete(eventName);
 
@@ -125,16 +169,10 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    * @param {HTMLElement} target The DOM element to register
    * @param {object} [options = {}] The custom data to send
    */
-  triggerEvent(eventName: string, target: any, options = {}) {
+  triggerEvent(eventName: string, target: any, options?: CustomEventInit<unknown>) {
     const event = new CustomEvent(getEventBaseName(eventName), options);
     target.dispatchEvent(event);
   }
-
-  /**
-   * @returns {Array<string>} names of vetoable events.  Override this in your component
-   * to listen for and handle vetoable events.
-   */
-  vetoableEventTypes = [];
 
   /**
    * Triggers an event that occurs before the show/hide operations that can "cancel"
@@ -142,7 +180,7 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    * @param {any} data extra data to send with vetoable event
    * @returns {boolean} true if the event works
    */
-  triggerVetoableEvent(eventType: string, data: Record<string, unknown>) {
+  triggerVetoableEvent(eventType: string, data?: any): boolean {
     if (!this.vetoableEventTypes?.includes((eventType as never))) {
       return false;
     }
@@ -194,11 +232,11 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
   /**
    * Setup a custom long press event (just one)
    * @private
-   * @param {string|any} eventName The event name with optional namespace
-   * @param {HTMLElement} target The DOM element to register
-   * @param {object} options Additional event settings (passive, once, bubbles ect)
+   * @param {string} eventName The event name with optional namespace
+   * @param {Element} target The DOM element to register
+   * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
    */
-  #addLongPressListener(eventName: string, target: HTMLElement, options?: Record<string, number | unknown>) {
+  #addLongPressListener(eventName: string, target: Element, options?: EventOptions) {
     if (this.longPressOn) return;
 
     this.onEvent('touchstart.longpress', target, (e: Event) => {
@@ -236,11 +274,11 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
   /**
    * Setup a custom swipe event (just one)
    * @private
-   * @param {string|any} eventName The event name with optional namespace
-   * @param {HTMLElement} target The DOM element to register
-   * @param {object} options Additional event settings (passive, once, bubbles ect)
+   * @param {string} eventName The event name with optional namespace
+   * @param {Element} target The DOM element to register
+   * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
    */
-  #addSwipeListener(eventName: string, target: HTMLElement, options?: Record<string, any>) {
+  #addSwipeListener(eventName: string, target: Element, options?: EventOptions) {
     if (this.swipeOn) {
       return;
     }
@@ -333,10 +371,10 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
   /**
    * Setup a custom keypress focus event
    * @private
-   * @param {string|any} eventName The event name with optional namespace
-   * @param {HTMLElement} target The DOM element to register
+   * @param {string} eventName The event name with optional namespace
+   * @param {Element} target The DOM element to register
    */
-  #addKeyboardFocusListener(eventName: string, target: HTMLElement) {
+  #addKeyboardFocusListener(eventName: string, target: Element) {
     if (this.keyboardFocusOn) {
       return;
     }
@@ -378,10 +416,10 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    * Setup a custom hoverend event that fires after a delay of the hover persists
    * @private
    * @param {string} eventName The event name with optional namespace
-   * @param {HTMLElement} target The DOM element to register
-   * @param {object} options Additional event settings (passive, once, bubbles ect)
+   * @param {Element} target The DOM element to register
+   * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
    */
-  #addHoverEndListener(eventName: string, target: HTMLElement, options?:Record<string, unknown>) {
+  #addHoverEndListener(eventName: string, target: Element, options?: EventOptions) {
     // Setup events
     this.onEvent('mouseenter.eventsmixin', target, (e: MouseEvent) => {
       this.clearTimer();
@@ -407,10 +445,10 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
    * and if mouse coordinates land within a "safe" area.
    * @private
    * @param {string} eventName The event name with optional namespace
-   * @param {HTMLElement} target The DOM element to register
-   * @param {object} options Additional event settings (passive, once, bubbles ect)
+   * @param {Element} target The DOM element to register
+   * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
    */
-  #addSlopedMouseLeaveListener(eventName: string, target: HTMLElement, options?: Record<string, unknown>) {
+  #addSlopedMouseLeaveListener(eventName: string, target: Element, options?: EventOptions) {
     const dispatchCustomEvent = (mouseLeaveNode: any, originalEvent: MouseEvent) => {
       const event = new CustomEvent(getEventBaseName(eventName), {
         detail: {
@@ -456,10 +494,10 @@ const IdsEventsMixin = (superclass: any) => class extends superclass {
     this.slopedMouseLeaveTimer = undefined;
     this.detachEventsByName('mousemove.eventsmixin');
     this.detachEventsByName('mouseenter.eventsmixin');
-    this.startX = null;
-    this.startY = null;
-    this.trackedX = null;
-    this.trackedY = null;
+    this.startX = NaN;
+    this.startY = NaN;
+    this.trackedX = NaN;
+    this.trackedY = NaN;
   }
 
   /**

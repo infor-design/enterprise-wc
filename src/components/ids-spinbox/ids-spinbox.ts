@@ -121,10 +121,10 @@ export default class IdsSpinbox extends Base {
     this.setAttribute(htmlAttributes.ARIA_LABEL, this.label);
 
     if (stringToBool(this.getAttribute(attributes.MAX))) {
-      this.setAttribute(htmlAttributes.ARIA_VALUEMAX, this.max);
+      this.setAttribute(htmlAttributes.ARIA_VALUEMAX, String(this.max));
     }
     if (stringToBool(this.getAttribute(attributes.MIN))) {
-      this.setAttribute(htmlAttributes.ARIA_VALUEMIN, this.min);
+      this.setAttribute(htmlAttributes.ARIA_VALUEMIN, String(this.min));
     }
 
     // Add slotted elements BEFORE size/tab adjustments
@@ -151,8 +151,8 @@ export default class IdsSpinbox extends Base {
    * @returns {void}
    */
   #attachEventHandlers() {
-    this.input.addEventListener('change', () => {
-      if (this.input.value !== this.value) {
+    this.input?.addEventListener('change', () => {
+      if (this.input && this.input.value !== this.value) {
         this.value = this.input.value;
         this.#onStepButtonUnpressed();
       }
@@ -262,7 +262,7 @@ export default class IdsSpinbox extends Base {
    */
   get max() {
     return this.hasAttribute(attributes.MAX)
-      ? parseInt(this.getAttribute(attributes.MAX))
+      ? parseInt(this.getAttribute(attributes.MAX) as string)
       : null;
   }
 
@@ -290,14 +290,14 @@ export default class IdsSpinbox extends Base {
    */
   get min() {
     return this.hasAttribute(attributes.MIN)
-      ? parseInt(this.getAttribute(attributes.MIN))
+      ? parseInt(this.getAttribute(attributes.MIN) as string)
       : null;
   }
 
   /**
    * @param {number|null} newValue step value on which the spinbox should count increments/decrements
    */
-  set step(newValue) {
+  set step(newValue: number | string | null) {
     const currentValue = this.getAttribute(attributes.STEP);
     if (currentValue !== newValue) {
       let numberValue = parseInt(newValue as any);
@@ -313,9 +313,9 @@ export default class IdsSpinbox extends Base {
   /**
    * @returns {number | string} step value on which the spinbox will count increments/decrements
    */
-  get step() {
+  get step(): number {
     return this.hasAttribute(attributes.STEP)
-      ? parseInt(this.getAttribute(attributes.STEP))
+      ? parseInt(this.getAttribute(attributes.STEP) as string)
       : 1;
   }
 
@@ -325,7 +325,7 @@ export default class IdsSpinbox extends Base {
    */
   set tabbable(value) {
     const isTabbable = stringToBool(value);
-    this.setAttribute(attributes.TABBABLE, isTabbable);
+    this.setAttribute(attributes.TABBABLE, String(isTabbable));
   }
 
   /**
@@ -339,7 +339,7 @@ export default class IdsSpinbox extends Base {
    * @param {number | string} value spinbox' input value
    */
   set value(value) {
-    if (`${value}`.trim() === '-') {
+    if (this.input && `${value}`.trim() === '-') {
       this.input.value = '';
       return;
     }

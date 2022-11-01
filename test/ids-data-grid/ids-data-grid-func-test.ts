@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import '../helpers/canvas-mock';
 import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsContainer from '../../src/components/ids-container/ids-container';
@@ -34,7 +35,9 @@ describe('IdsDataGrid Component', () => {
       formatter: formatters.rowNumber,
       sortable: false,
       readonly: true,
-      width: 65
+      width: 65,
+      headerIcon: 'info',
+      headerIconTooltip: 'This is header icon'
     });
     cols.push({
       id: 'description',
@@ -1529,7 +1532,11 @@ describe('IdsDataGrid Component', () => {
     it('can handle ArrowRight key', () => {
       expect(dataGrid.activeCell.row).toEqual(0);
       expect(dataGrid.activeCell.cell).toEqual(0);
+      dataGrid.activeCell = null;
+      dataGrid.setActiveCell(0, 0, true);
 
+      expect(dataGrid.activeCell.row).toEqual(0);
+      expect(dataGrid.activeCell.cell).toEqual(0);
       const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
       dataGrid.dispatchEvent(event);
 

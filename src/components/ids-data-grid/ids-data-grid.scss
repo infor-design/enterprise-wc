@@ -1,5 +1,6 @@
 @import '../../core/ids-base';
 @import './ids-data-grid-filters';
+@import '../../components/ids-popup-menu/ids-popup-menu';
 @import '../../mixins/sass/ids-checkbox-mixin';
 @import '../../mixins/sass/ids-radio-mixin';
 
@@ -68,7 +69,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 
   // Row Alternate Row Setting Feature
-  &.alt-row-shading .ids-data-grid-body [role='row']:nth-child(odd) {
+  &.alt-row-shading .ids-data-grid-body [role='row']:nth-child(even) {
     @include bg-slate-10();
   }
 
@@ -221,6 +222,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   .ids-data-grid-header-text {
     @include block();
+    @include px-16();
     @include py-8();
     @include font-bold();
     @include text-14();
@@ -229,9 +231,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
-    text-indent: 16px;
     user-select: none;
     white-space: nowrap;
+  }
+
+  .ids-data-grid-header-icon {
+    @include text-white();
+    @include ml-4();
+    @include mt-4();
+
+    align-self: center;
   }
 
   // Header sort styles
@@ -271,6 +280,17 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       .sort-indicator ids-icon {
         opacity: 1;
       }
+    }
+  }
+
+  .has-selectioncheckbox .ids-data-grid-header-text {
+    @include px-0();
+  }
+
+  .is-sortable,
+  .has-headericon {
+    .ids-data-grid-header-text {
+      @include pr-0();
     }
   }
 
@@ -602,7 +622,7 @@ table.ids-data-grid {
 
 // Dark Theme
 .ids-data-grid[mode='dark'] {
-  @include bg-slate-90();
+  @include bg-slate-100();
   @include border-slate-60();
 
   .ids-data-grid-header-cell {
@@ -638,6 +658,11 @@ table.ids-data-grid {
     @include text-slate-100();
   }
 
+  // Row Alternate Row Setting Feature
+  &.alt-row-shading .ids-data-grid-body [role='row']:nth-child(even) {
+    @include bg-slate-80();
+  }
+
   .ids-data-grid-cell {
     @include border-slate-60();
     @include text-white();
@@ -647,7 +672,7 @@ table.ids-data-grid {
     }
 
     &.frozen {
-      @include bg-slate-90();
+      @include bg-slate-100();
     }
 
     .ids-data-grid-checkbox {
@@ -721,8 +746,8 @@ table.ids-data-grid {
       @include bg-slate-60();
 
       &::after {
-        @include border-slate-90();
-        @include bg-slate-90();
+        @include border-slate-100();
+        @include bg-slate-100();
       }
     }
   }
@@ -730,7 +755,7 @@ table.ids-data-grid {
   .ids-data-grid-header-text .ids-data-grid-checkbox-container {
     .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
       @include bg-transparent();
-      @include border-slate-90();
+      @include border-slate-100();
     }
   }
 }

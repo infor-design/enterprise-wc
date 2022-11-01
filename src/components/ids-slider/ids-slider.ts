@@ -6,14 +6,16 @@ import { convertColorToRgba, convertStatusToIDSColor } from '../../utils/ids-col
 import Base from './ids-slider-base';
 
 import styles from './ids-slider.scss';
+import IdsDraggable from '../ids-draggable/ids-draggable';
+import IdsText from '../ids-text/ids-text';
 
 type IdsSliderType = 'single' | 'range' | 'step';
 
 type IdsSliderTrackBounds = {
-  BOTTOM: string;
-  LEFT: string;
-  RIGHT: string;
-  TOP: string;
+  BOTTOM: number;
+  LEFT: number;
+  RIGHT: number;
+  TOP: number;
 };
 
 const TYPES = [
@@ -25,6 +27,12 @@ const TYPES = [
 const DEFAULT_MIN = 0;
 const DEFAULT_MAX = 100;
 const DEFAULT_TYPE = TYPES[0];
+const DEFAULT_TRACKER_BOUNDS = {
+  BOTTOM: NaN,
+  LEFT: NaN,
+  RIGHT: NaN,
+  TOP: NaN
+};
 
 /**
  * IDS Slider Component
@@ -43,64 +51,64 @@ export default class IdsSlider extends Base {
 
   DEFAULT_TYPE = DEFAULT_TYPE;
 
-  #trackBounds: any;
+  #trackBounds: IdsSliderTrackBounds = DEFAULT_TRACKER_BOUNDS;
 
-  #label: string;
+  #label = '';
 
-  #labelSecondary: string;
+  #labelSecondary = '';
 
-  #labels: Array<string> = [];
+  #labels: string[] = [];
 
-  #isRTL: any;
+  #isRTL = false;
 
-  #mouseHover: any;
+  #mouseHover = false;
 
-  #percent: any;
+  #percent = NaN;
 
-  #percentSecondary: any;
+  #percentSecondary = NaN;
 
-  slider: any;
+  slider?: HTMLElement | null;
 
-  trackArea: any;
+  trackArea?: HTMLElement | null;
 
-  progressTrack: any;
+  progressTrack?: HTMLElement | null;
 
-  track: any;
+  track?: HTMLElement | null;
 
-  tickContainer: any;
+  tickContainer?: HTMLElement | null;
 
-  thumb: any;
+  thumb?: HTMLElement | null;
 
-  thumbDraggable: any;
+  thumbDraggable?: IdsDraggable | null;
 
-  thumbShadow: any;
+  thumbShadow?: HTMLElement | null;
 
-  tooltip: any;
+  tooltip?: HTMLElement | null;
 
-  tooltipText: any;
+  tooltipText?: IdsText | null;
 
-  tooltipPin: any;
+  tooltipPin?: HTMLElement | null;
 
-  firstTick: any;
+  firstTick?: HTMLElement | null;
 
-  lastTick: any;
+  lastTick?: HTMLElement | null;
 
-  thumbSecondary: any;
+  thumbSecondary?: HTMLElement | null;
 
-  thumbDraggableSecondary: any;
+  thumbDraggableSecondary?: IdsDraggable | null;
 
-  thumbShadowSecondary: any;
+  thumbShadowSecondary?: HTMLElement | null;
 
-  tooltipSecondary: any;
+  thumbSecondaryDraggable: any;
 
-  tooltipTextSecondary: any;
+  tooltipSecondary?: HTMLElement | null;
 
-  tooltipPinSecondary: any;
+  tooltipTextSecondary?: IdsText | null;
+
+  tooltipPinSecondary?: HTMLElement | null;
 
   constructor() {
     super();
-    this.#label = '';
-    this.#labelSecondary = '';
   }
 
   connectedCallback() {
@@ -129,7 +137,7 @@ export default class IdsSlider extends Base {
       this.tooltipTextSecondary = this.container?.querySelector('.tooltip.secondary .text.secondary');
       this.tooltipPinSecondary = this.container?.querySelector('.tooltip .pin.secondary');
     } else {
-      this.container?.querySelector('.thumb-draggable.secondary').remove();
+      this.container?.querySelector('.thumb-draggable.secondary')?.remove();
     }
 
     this.#attachEventListeners();
@@ -219,22 +227,22 @@ export default class IdsSlider extends Base {
       if (this.readonly) this.readonly = false;
       this.setAttribute(attributes.DISABLED, '');
       this.container?.classList.add(attributes.DISABLED);
-      this.thumbDraggable.disabled = true;
+      this.thumbDraggable?.setAttribute(attributes.DISABLED, 'true');
       this.thumbDraggable?.setAttribute(attributes.TABINDEX, '-1');
       this.#updateTooltipDisplay(true);
       if (this.type === 'range') {
-        this.thumbDraggableSecondary.disabled = true;
-        this.thumbDraggableSecondary.setAttribute(attributes.TABINDEX, '-1');
+        this.thumbDraggableSecondary?.setAttribute(attributes.DISABLED, 'true');
+        this.thumbDraggableSecondary?.setAttribute(attributes.TABINDEX, '-1');
         this.#updateTooltipDisplay(true, 'secondary');
       }
     } else {
       this.removeAttribute(attributes.DISABLED);
       this.container?.classList.remove(attributes.DISABLED);
-      this.thumbDraggable.disabled = false;
+      this.thumbDraggable?.setAttribute(attributes.DISABLED, 'false');
       this.thumbDraggable?.setAttribute(attributes.TABINDEX, '0');
       if (this.type === 'range') {
-        this.thumbDraggableSecondary.disabled = false;
-        this.thumbDraggableSecondary.setAttribute(attributes.TABINDEX, '0');
+        this.thumbDraggableSecondary?.setAttribute(attributes.DISABLED, 'false');
+        this.thumbDraggableSecondary?.setAttribute(attributes.TABINDEX, '0');
       }
     }
     this.#updateColor();
@@ -257,16 +265,16 @@ export default class IdsSlider extends Base {
       if (this.disabled) this.disabled = false;
       this.setAttribute(attributes.READONLY, '');
       this.container?.classList.add(attributes.READONLY);
-      this.thumbDraggable.disabled = true;
+      this.thumbDraggable?.setAttribute(attributes.DISABLED, 'true');
       if (this.type === 'range') {
-        this.thumbDraggableSecondary.disabled = true;
+        this.thumbDraggableSecondary?.setAttribute(attributes.DISABLED, 'true');
         this.#updateTooltipDisplay(true, 'secondary');
       }
     } else {
       this.removeAttribute(attributes.READONLY);
       this.container?.classList.remove(attributes.READONLY);
-      this.thumbDraggable.disabled = false;
-      if (this.type === 'range') this.thumbDraggableSecondary.disabled = false;
+      this.thumbDraggable?.setAttribute(attributes.DISABLED, 'false');
+      if (this.type === 'range') this.thumbDraggableSecondary?.setAttribute(attributes.DISABLED, 'false');
     }
     this.#updateColor();
   }
@@ -301,7 +309,7 @@ export default class IdsSlider extends Base {
    * @returns {string} the primary Slider thumb's label contents
    */
   get label(): string {
-    return this.#label || stripHTML(this.getAttribute(attributes.LABEL));
+    return this.#label || stripHTML(this.getAttribute(attributes.LABEL) ?? '');
   }
 
   /**
@@ -319,7 +327,7 @@ export default class IdsSlider extends Base {
         this.#labelSecondary = '';
         this.removeAttribute(attributes.LABEL_SECONDARY);
       }
-      this.thumbDraggableSecondary.setAttribute(htmlAttributes.ARIA_LABEL, `${this.#labelSecondary}`);
+      this.thumbDraggableSecondary?.setAttribute(htmlAttributes.ARIA_LABEL, `${this.#labelSecondary}`);
     }
   }
 
@@ -327,7 +335,7 @@ export default class IdsSlider extends Base {
    * @returns {string} the primary Slider thumb's label contents
    */
   get labelSecondary(): string {
-    return this.#labelSecondary || stripHTML(this.getAttribute(attributes.LABEL_SECONDARY));
+    return this.#labelSecondary || stripHTML(this.getAttribute(attributes.LABEL_SECONDARY) ?? '');
   }
 
   /**
@@ -337,7 +345,7 @@ export default class IdsSlider extends Base {
   set vertical(value: boolean) {
     const val = stringToBool(value);
     if (val) {
-      this.setAttribute(attributes.VERTICAL, val);
+      this.setAttribute(attributes.VERTICAL, 'true');
       this.thumbDraggable?.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'vertical');
       if (this.type === 'range') this.thumbDraggableSecondary?.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'vertical');
     } else {
@@ -413,7 +421,7 @@ export default class IdsSlider extends Base {
       type = 'secondary';
     }
 
-    tooltipText.innerHTML = Math.ceil(Number(value));
+    if (tooltipText) tooltipText.innerHTML = String(Math.ceil(Number(value)));
 
     if (this.type !== 'step') {
       this.#updateTooltipDisplay(false, type);
@@ -426,13 +434,13 @@ export default class IdsSlider extends Base {
    */
   #updateProgressBar(): void {
     if (this.type !== 'range') {
-      this.slider?.style.setProperty('--percentStart', 0);
-      this.slider?.style.setProperty('--percentEnd', this.percent);
+      this.slider?.style.setProperty('--percentStart', '0');
+      this.slider?.style.setProperty('--percentEnd', String(this.percent));
     } else {
       const minPercent = Math.min(this.percent, this.percentSecondary);
       const maxPercent = Math.max(this.percent, this.percentSecondary);
-      this.slider?.style.setProperty('--percentStart', minPercent);
-      this.slider?.style.setProperty('--percentEnd', maxPercent);
+      this.slider?.style.setProperty('--percentStart', String(minPercent));
+      this.slider?.style.setProperty('--percentEnd', String(maxPercent));
 
       if (this.#trackBounds) {
         const {
@@ -490,7 +498,7 @@ export default class IdsSlider extends Base {
         const labelAttr = !this.disabled ? ' label' : '';
 
         for (let i = 0; i < x; i++) {
-          if (labelElements && labelElementsLength < stepNumber) {
+          if (ticks && labelElements && labelElementsLength < stepNumber) {
             ticks[ticks.length - 1 - i]?.insertAdjacentHTML('afterbegin', `<ids-text${labelAttr} class="label"></ids-text>`);
           }
         }
@@ -508,7 +516,7 @@ export default class IdsSlider extends Base {
     } else {
       // set labels to be empty
       const labelElements = this.container?.querySelectorAll('.label');
-      labelElements.forEach((x: { innerHTML: string; }) => {
+      labelElements?.forEach((x: { innerHTML: string; }) => {
         x.innerHTML = '';
       });
     }
@@ -537,17 +545,16 @@ export default class IdsSlider extends Base {
 
       if (parseInt(value) >= 2) {
         this.setAttribute(attributes.STEP_NUMBER, value);
-        const ticks = this.container?.querySelectorAll('.tick') || [];
-        const stepLength = ticks?.length;
+        const stepLength = this.container?.querySelectorAll('.tick').length ?? 0;
 
         if (stepLength !== this.stepNumber) {
           const x = Math.abs(stepLength - this.stepNumber);
           for (let i = 0; i < x; i++) {
             // remove or add ticks accordingly
             if (stepLength > this.stepNumber) {
-              this.container?.querySelector('.tick').remove();
+              this.container?.querySelector('.tick')?.remove();
             } else {
-              this.container?.querySelector('.tick:last-child').insertAdjacentHTML('afterend', `<span class="tick"></span>`);
+              this.container?.querySelector('.tick:last-child')?.insertAdjacentHTML('afterend', `<span class="tick"></span>`);
             }
           }
         }
@@ -561,7 +568,7 @@ export default class IdsSlider extends Base {
   /**
    * @returns {number} the interval between slider ticks
    */
-  get stepNumber(): number { return parseInt(this.getAttribute(attributes.STEP_NUMBER)) || 2; }
+  get stepNumber(): number { return parseInt(this.getAttribute(attributes.STEP_NUMBER) ?? '') || 2; }
 
   /**
    * Sets the secondary slider thumb value based on percentage (range slider only)
@@ -578,7 +585,7 @@ export default class IdsSlider extends Base {
    */
   get percentSecondary(): number {
     // we need all these checks so that it still works with 0
-    if (Number.isNaN(this.#percentSecondary) || typeof this.#percentSecondary === 'undefined' || this.#percentSecondary === null || this.#percentSecondary === '') {
+    if (Number.isNaN(this.#percentSecondary) || typeof this.#percentSecondary === 'undefined' || this.#percentSecondary === null || (this.#percentSecondary as any) === '') {
       // calculate on the fly if not a valid number
       return ((this.valueSecondary - this.min) / (this.max - this.min)) * 100;
     }
@@ -599,7 +606,7 @@ export default class IdsSlider extends Base {
    * @returns {number} the primary thumb value as a percentage
    */
   get percent(): number {
-    if (Number.isNaN(this.#percent) || typeof this.#percent === 'undefined' || this.#percent === null || this.#percent === '') {
+    if (Number.isNaN(this.#percent) || typeof this.#percent === 'undefined' || this.#percent === null || (this.#percent as any) === '') {
       return ((this.value - this.min) / (this.max - this.min)) * 100;
     }
     return this.#percent;
@@ -639,21 +646,18 @@ export default class IdsSlider extends Base {
   set valueSecondary(value: string | number | any) {
     if (this.readonly || this.disabled) return;
 
-    const currentValue = this.getAttribute(attributes.VALUE_SECONDARY) || '';
     const newValue = this.#sanitizeValue(value, true);
 
-    if (currentValue !== newValue) {
-      this.setAttribute(attributes.VALUE_SECONDARY, `${newValue}`);
-      this.percentSecondary = ((newValue - this.min) / (this.max - this.min)) * 100;
-      this.thumbDraggableSecondary?.setAttribute(htmlAttributes.ARIA_VALUENOW, `${newValue}`);
-      this.thumbDraggableSecondary?.setAttribute(htmlAttributes.ARIA_VALUETEXT, `${newValue}`);
-      if (this.type === 'range') {
-        this.thumbDraggable?.setAttribute(htmlAttributes.ARIA_VALUEMIN, `${newValue}`);
-      }
-      this.#updateTooltip(newValue, 'secondary');
-      this.#moveThumb('secondary');
-      this.#triggerChangeEvent(newValue, 'secondary');
+    this.setAttribute(attributes.VALUE_SECONDARY, `${newValue}`);
+    this.percentSecondary = ((newValue - this.min) / (this.max - this.min)) * 100;
+    this.thumbDraggableSecondary?.setAttribute(htmlAttributes.ARIA_VALUENOW, `${newValue}`);
+    this.thumbDraggableSecondary?.setAttribute(htmlAttributes.ARIA_VALUETEXT, `${newValue}`);
+    if (this.type === 'range') {
+      this.thumbDraggable?.setAttribute(htmlAttributes.ARIA_VALUEMIN, `${newValue}`);
     }
+    this.#updateTooltip(newValue, 'secondary');
+    this.#moveThumb('secondary');
+    this.#triggerChangeEvent(newValue, 'secondary');
   }
 
   /**
@@ -664,7 +668,8 @@ export default class IdsSlider extends Base {
     if (b === null || b === '' || Number.isNaN(b)) {
       return this.max;
     }
-    return parseFloat(this.getAttribute(attributes.VALUE_SECONDARY));
+
+    return parseFloat(this.getAttribute(attributes.VALUE_SECONDARY) ?? '');
   }
 
   /**
@@ -674,7 +679,7 @@ export default class IdsSlider extends Base {
   set value(value: string | number | any) {
     if (this.readonly || this.disabled) return;
 
-    const currentValue = parseFloat(this.getAttribute(attributes.VALUE)) || this.min;
+    const currentValue = parseFloat(this.getAttribute(attributes.VALUE) ?? '') || this.min;
     const newValue = this.#sanitizeValue(value);
 
     if (currentValue !== newValue) {
@@ -699,7 +704,7 @@ export default class IdsSlider extends Base {
     if (a === null || a === '' || Number.isNaN(a)) {
       return this.min;
     }
-    return parseFloat(this.getAttribute(attributes.VALUE));
+    return parseFloat(this.getAttribute(attributes.VALUE) ?? '');
   }
 
   /**
@@ -725,7 +730,7 @@ export default class IdsSlider extends Base {
   set min(value: string | number | any) {
     const val: any = parseFloat(value);
     if (val >= this.max || val === null || val === '' || Number.isNaN(val)) {
-      this.setAttribute(attributes.MIN, DEFAULT_MIN);
+      this.setAttribute(attributes.MIN, String(DEFAULT_MIN));
     } else {
       this.setAttribute(attributes.MIN, val);
     }
@@ -735,7 +740,7 @@ export default class IdsSlider extends Base {
    * @returns {number} the minimum value possible that can be set on slider thumbs
    */
   get min(): number {
-    return parseFloat(this.getAttribute(attributes.MIN)) || DEFAULT_MIN;
+    return parseFloat(this.getAttribute(attributes.MIN) ?? '') || DEFAULT_MIN;
   }
 
   /**
@@ -745,7 +750,7 @@ export default class IdsSlider extends Base {
   set max(value: string | number | any) {
     const val: any = parseFloat(value);
     if (val <= this.min || val === null || val === '' || Number.isNaN(val)) {
-      this.setAttribute(attributes.MAX, this.min + DEFAULT_MAX);
+      this.setAttribute(attributes.MAX, String(this.min + DEFAULT_MAX));
     } else {
       this.setAttribute(attributes.MAX, val);
     }
@@ -755,7 +760,7 @@ export default class IdsSlider extends Base {
    * @returns {number} the maximum value possible that can be set on slider thumbs
    */
   get max(): number {
-    const val: any = parseFloat(this.getAttribute(attributes.MAX));
+    const val: any = parseFloat(this.getAttribute(attributes.MAX) ?? '');
     if (val <= this.min || val === null || val === '' || Number.isNaN(val)) {
       return DEFAULT_MAX;
     }
@@ -778,21 +783,19 @@ export default class IdsSlider extends Base {
   /**
    * @returns {IdsSliderType} the slider type
    */
-  get type(): IdsSliderType { return this.getAttribute(attributes.TYPE) || DEFAULT_TYPE; }
+  get type(): IdsSliderType {
+    return (this.getAttribute(attributes.TYPE) || DEFAULT_TYPE) as IdsSliderType;
+  }
 
   /**
    * Enables a tooltip displaying thumb values when either thumb is focused
    * @param {boolean | string} value true if the thumb should display tooltips
    */
-  set showTooltip(value: boolean | string) {
-    const currentValue = this.tooltip;
-    const newValue = stringToBool(value);
-    if (currentValue !== newValue) {
-      if (newValue) {
-        this.setAttribute(attributes.TOOLTIP, `${value}`);
-      } else {
-        this.removeAttribute(attributes.TOOLTIP);
-      }
+  set showTooltip(value: boolean | string | null) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.TOOLTIP, `${value}`);
+    } else {
+      this.removeAttribute(attributes.TOOLTIP);
     }
   }
 
@@ -835,7 +838,7 @@ export default class IdsSlider extends Base {
       color = this.color;
     }
 
-    const ticks = this.container?.querySelectorAll('.tick') || [];
+    const ticks = this.container?.querySelectorAll<HTMLElement>('.tick') || [];
 
     if (color) {
       let colorString = color;
@@ -889,9 +892,9 @@ export default class IdsSlider extends Base {
       hide = true;
     }
     if (primaryOrSecondary === 'secondary' && this.tooltipSecondary) {
-      this.tooltipSecondary.style.opacity = hide ? 0 : 1;
+      this.tooltipSecondary.style.setProperty('opacity', hide ? '0' : '1');
     } else {
-      this.tooltip.style.opacity = hide ? 0 : 1;
+      this.tooltip?.style.setProperty('opacity', hide ? '0' : '1');
     }
   }
 
@@ -969,7 +972,7 @@ export default class IdsSlider extends Base {
         // figure out which thumb is closer to the click location
         const mousePos = this.vertical ? y : x;
 
-        if (Math.abs(mousePos - thumbPos) > Math.abs(mousePos - thumbPosSecondary)) {
+        if (Math.abs(mousePos - (thumbPos ?? NaN)) > Math.abs(mousePos - (thumbPosSecondary ?? NaN))) {
           thumbDraggable = this.thumbDraggableSecondary;
           valueAttribute = 'valueSecondary';
           primaryOrSecondary = 'secondary';
@@ -983,14 +986,14 @@ export default class IdsSlider extends Base {
         }
       }
 
-      if (value !== this[valueAttribute]) {
-        this[valueAttribute] = value;
+      if (value !== (this as any)[valueAttribute]) {
+        (this as any)[valueAttribute] = value;
       } else {
         this.#moveThumb(primaryOrSecondary);
         this.#triggerChangeEvent(value, primaryOrSecondary);
       }
 
-      thumbDraggable.focus();
+      thumbDraggable?.focus();
     } else {
       // for step sliders, snap to the closest interval
       const arr = [];
@@ -1082,7 +1085,7 @@ export default class IdsSlider extends Base {
    */
   #calcTranslateFromPercent(nStart: number, nEnd: number, percent: number, centered: boolean): number {
     // minus thumb height bc it overshoots
-    const editedRange = Math.abs(nEnd - nStart) - this.thumbDraggable.clientWidth;
+    const editedRange = Math.abs(nEnd - nStart) - (this.thumbDraggable?.clientWidth ?? NaN);
     let coord = (Math.ceil(percent) / 100) * editedRange;
     coord = centered ? coord - (editedRange / 2) : coord;
 
@@ -1098,7 +1101,7 @@ export default class IdsSlider extends Base {
    * @returns {number} the percent/location of the thumb relative to the slider
    */
   #calcPercentFromRange(n: number, nStart: number, nEnd: number): number {
-    const thumbWidth = this.thumbDraggable?.clientWidth;
+    const thumbWidth = this.thumbDraggable?.clientWidth ?? NaN;
     let percent = 0;
     // allow bigger hit areas for controlling thumb
     const range = Math.abs(nStart - nEnd) - thumbWidth / 2;
@@ -1134,6 +1137,8 @@ export default class IdsSlider extends Base {
    * @returns {IdsSliderTrackBounds} The track area boundaries
    */
   #calculateTrackBounds(): IdsSliderTrackBounds {
+    if (!this.trackArea) return DEFAULT_TRACKER_BOUNDS;
+
     const rect = this.trackArea.getBoundingClientRect();
     const LEFT = rect.left + window.scrollX;
     const TOP = rect.top + window.scrollY;
@@ -1228,7 +1233,7 @@ export default class IdsSlider extends Base {
       }
     });
 
-    resizeObserver.observe(this.trackArea);
+    if (this.trackArea) resizeObserver.observe(this.trackArea);
   }
 
   /**
@@ -1281,8 +1286,8 @@ export default class IdsSlider extends Base {
 
     const swapZIndex = () => {
       if (obj.thumbDraggableOther) {
-        obj.thumbDraggableOther.style.zIndex = 50;
-        obj.thumbDraggable.style.zIndex = 51;
+        obj.thumbDraggableOther?.style.setProperty('z-index', '50');
+        obj.thumbDraggable?.style.setProperty('z-index', '51');
       }
     };
 
@@ -1295,7 +1300,7 @@ export default class IdsSlider extends Base {
 
       if (this.type === 'range') swapZIndex();
       // only set the percent--because changing the value causes the moveThumb() to fire like crazy
-      this[obj.percentAttribute] = percent;
+      (this as any)[obj.percentAttribute] = percent;
 
       // Expose this event externally
       this.triggerEvent('ids-slider-drag', this, {
@@ -1400,7 +1405,7 @@ export default class IdsSlider extends Base {
 
     // FOCUS/BLUR EVENTS
     this.onEvent('focusin', this.container, (e: FocusEvent) => {
-      if (!this.disabled && this.shadowRoot.activeElement) {
+      if (!this.disabled && this.shadowRoot?.activeElement) {
         this.#updateTooltipDisplay(false);
         const target = e.target instanceof HTMLElement && e.target;
 
@@ -1421,7 +1426,7 @@ export default class IdsSlider extends Base {
     });
 
     this.onEvent('focusout', this.container, () => {
-      if (!this.shadowRoot.activeElement && !this.#mouseHover) {
+      if (!this.shadowRoot?.activeElement && !this.#mouseHover) {
         this.#updateTooltipDisplay(true);
         this.#updateThumbShadow(true, 'primary');
         if (this.type === 'range') {

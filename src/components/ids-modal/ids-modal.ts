@@ -10,8 +10,9 @@ import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-util
 
 import zCounter from './ids-modal-z-counter';
 import '../ids-popup/ids-popup';
-import IdsOverlay from './ids-overlay';
 import '../ids-modal-button/ids-modal-button';
+import IdsOverlay from './ids-overlay';
+import type IdsModalButton from '../ids-modal-button/ids-modal-button';
 
 // Import Styles
 import styles from './ids-modal.scss';
@@ -35,6 +36,21 @@ type IdsModalFullsizeAttributeValue = null | 'null' | '' | keyof Breakpoints | '
 @customElement('ids-modal')
 @scss(styles)
 export default class IdsModal extends Base {
+  shouldUpdate = false;
+
+  onButtonClick?: (target: any) => void;
+
+  globalKeydownListener = (e: KeyboardEvent) => {
+    switch (e.key) {
+      case 'Escape':
+        e.stopImmediatePropagation();
+        this.hide();
+        break;
+      default:
+        break;
+    }
+  };
+
   constructor() {
     super();
 
@@ -63,12 +79,14 @@ export default class IdsModal extends Base {
   connectedCallback(): void {
     super.connectedCallback?.();
 
-    this.popup.type = 'modal';
-    this.popup.animated = true;
-    this.popup.animationStyle = 'scale-in';
+    if (this.popup) {
+      this.popup.type = 'modal';
+      this.popup.animated = true;
+      this.popup.animationStyle = 'scale-in';
+    }
 
     // Update ARIA / Sets up the label
-    this.messageTitle = this.querySelector('[slot="title"]')?.textContent;
+    this.messageTitle = this.querySelector('[slot="title"]')?.textContent ?? '';
     this.setAttribute('role', 'dialog');
     this.refreshAriaLabel();
 
@@ -123,10 +141,10 @@ export default class IdsModal extends Base {
 
   /**
    * @readonly
-   * @returns {NodeList} currently slotted buttons
+   * @returns {NodeListOf<IdsModalButton> } currently slotted buttons
    */
-  get buttons(): NodeList {
-    return this.querySelectorAll('[slot="buttons"]');
+  get buttons(): NodeListOf<IdsModalButton> {
+    return this.querySelectorAll<IdsModalButton>('[slot="buttons"]');
   }
 
   /**
@@ -179,7 +197,7 @@ export default class IdsModal extends Base {
             this.setAttribute(attributes.FULLSIZE, safeVal);
             this.popup?.classList.add(`can-fullsize`);
             this.respondDown = safeVal;
-            this.onBreakpointDownResponse = (detectedBreakpoint: string, matches: boolean) => {
+            this.onBreakpointDownResponse = (detectedBreakpoint: keyof Breakpoints, matches: boolean) => {
               makeFullsize(matches);
             };
           }
@@ -194,7 +212,7 @@ export default class IdsModal extends Base {
    */
   #clearBreakpointResponse(): void {
     if (this.respondDown) {
-      this.respondDown = undefined;
+      this.respondDown = null;
     }
     if (this.onBreakpointDownResponse) {
       this.onBreakpointDownResponse = undefined;
@@ -230,14 +248,6 @@ export default class IdsModal extends Base {
       this.state.overlay = null;
     }
     this.#refreshOverlay(this.state.overlay);
-  }
-
-  /**
-   * @readonly
-   * @returns {HTMLElement} the inner Popup
-   */
-  get popup(): any {
-    return this.shadowRoot?.querySelector('ids-popup');
   }
 
   /**
@@ -281,7 +291,7 @@ export default class IdsModal extends Base {
       // If one is found, replace the contents.  Otherwise, create one.
       if (!titleEls.length) {
         this.insertAdjacentHTML('afterbegin', `<ids-text slot="title" type="h2" font-size="24">${this.state.messageTitle}</ids-text>`);
-        titleEls = [this.querySelector('[slot="title"]')];
+        titleEls = [this.querySelector('[slot="title"]') as HTMLSlotElement];
       }
     }
 
@@ -322,9 +332,9 @@ export default class IdsModal extends Base {
     const footerEl = this.container.querySelector('.ids-modal-footer');
 
     if (this.buttons.length) {
-      footerEl.removeAttribute('hidden');
+      footerEl?.removeAttribute('hidden');
     } else {
-      footerEl.setAttribute('hidden', '');
+      footerEl?.setAttribute('hidden', '');
     }
   }
 
@@ -341,9 +351,9 @@ export default class IdsModal extends Base {
   }
 
   /**
-   * @param {boolean} val true if the Modal is visible.
+   * @param {boolean|string} val true if the Modal is visible.
    */
-  set visible(val: boolean) {
+  set visible(val: boolean | string | null) {
     const trueVal = stringToBool(val);
     if (this.#visible !== trueVal) {
       this.#visible = trueVal;
@@ -385,11 +395,11 @@ export default class IdsModal extends Base {
     }
 
     // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
-    this.style.zIndex = zCounter.increment();
+    this.style.setProperty('z-index', String(zCounter.increment()));
     if (this.overlay) this.overlay.visible = true;
     if (this.popup) {
       this.popup.visible = true;
-      if (this.popup.animated) {
+      if (this.popup.animated && this.popup.container) {
         await waitForTransitionEnd(this.popup.container, 'opacity');
       }
     }
@@ -438,15 +448,17 @@ export default class IdsModal extends Base {
       return;
     }
 
-    this.popup.animated = true;
+    const popupElem = this.popup;
+
+    if (popupElem) popupElem.animated = true;
 
     this.removeOpenEvents();
     this.overlay.visible = false;
-    this.popup.visible = false;
+    if (popupElem) popupElem.visible = false;
 
     // Animation-out can wait for the opacity transition to end before changing z-index.
-    if (this.popup.animated) {
-      await waitForTransitionEnd(this.popup.container, 'opacity');
+    if (popupElem && popupElem.container && popupElem.animated) {
+      await waitForTransitionEnd(popupElem.container, 'opacity');
     }
     this.style.zIndex = '';
     this.setAttribute('aria-hidden', 'true');
@@ -481,16 +493,6 @@ export default class IdsModal extends Base {
 
     // Adds a global event listener for the Keydown event on the body to capture close via Escape
     // (NOTE cannot use IdsEventsMixin here due to scoping)
-    this.globalKeydownListener = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case 'Escape':
-          e.stopImmediatePropagation();
-          this.hide();
-          break;
-        default:
-          break;
-      }
-    };
     document.addEventListener('keydown', this.globalKeydownListener);
 
     // If a Modal Button is clicked, fire an optional callback
@@ -526,7 +528,6 @@ export default class IdsModal extends Base {
 
     if (!val) {
       overlay = new IdsOverlay();
-      overlay.part = 'overlay';
       this.shadowRoot.prepend(overlay);
       this.popupOpenEventsTarget = this.overlay;
     } else {
@@ -572,16 +573,16 @@ export default class IdsModal extends Base {
    * @private
    */
   attachEventHandlers(): void {
-    const titleSlot = this.container.querySelector('slot[name="title"]');
-    const buttonSlot = this.container.querySelector('slot[name="buttons"]');
+    const titleSlot = this.container?.querySelector<HTMLSlotElement>('slot[name="title"]');
+    const buttonSlot = this.container?.querySelector<HTMLSlotElement>('slot[name="buttons"]');
 
     // Stagger these one frame to prevent them from occuring
     // immediately when the component invokes
     window.requestAnimationFrame(() => {
       this.onEvent('slotchange.title', titleSlot, () => {
-        const titleNodes = titleSlot.assignedNodes();
-        if (titleNodes.length) {
-          this.messageTitle = titleNodes[0].textContent;
+        const titleNodes = titleSlot?.assignedNodes();
+        if (titleNodes?.length) {
+          this.messageTitle = titleNodes[0].textContent ?? '';
         }
       });
       this.onEvent('slotchange.buttonset', buttonSlot, () => {

@@ -26,6 +26,14 @@ export default class IdsExpandableArea extends Base {
    */
   vetoableEventTypes = ['beforecollapse', 'beforeexpand'];
 
+  expander?: HTMLElement | null = null;
+
+  expanderDefault?: HTMLSlotElement | null = null;
+
+  expanderExpanded?: HTMLSlotElement | null = null;
+
+  pane?: HTMLElement | null = null;
+
   constructor() {
     super();
     this.state = {};
@@ -57,8 +65,8 @@ export default class IdsExpandableArea extends Base {
    * Set the type
    * @param {string | null} value The Type [null, toggle-btn]
    */
-  set type(value: string) {
-    if (EXPANDABLE_AREA_TYPES.indexOf(value) !== -1) {
+  set type(value: string | null) {
+    if (value && EXPANDABLE_AREA_TYPES.indexOf(value) !== -1) {
       this.setAttribute(attributes.TYPE, value);
     } else {
       this.setAttribute(attributes.TYPE, '');
@@ -73,7 +81,7 @@ export default class IdsExpandableArea extends Base {
    */
   set expanded(value: string | boolean | null) {
     if (value) {
-      this.setAttribute(attributes.EXPANDED, value);
+      this.setAttribute(attributes.EXPANDED, String(value));
     } else {
       this.setAttribute(attributes.EXPANDED, 'false');
     }
@@ -92,7 +100,7 @@ export default class IdsExpandableArea extends Base {
     const expanded = this.expanded === 'true' || false;
     this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
     this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
-    this.expander?.setAttribute('aria-expanded', expanded);
+    this.expander?.setAttribute('aria-expanded', String(expanded));
 
     // Hide/show the text link if default
     if (this.type !== EXPANDABLE_AREA_TYPES[0] && this.expanderDefault && this.expanderExpanded) {
@@ -127,8 +135,8 @@ export default class IdsExpandableArea extends Base {
     if (this.state.expanded) {
       requestAnimationFrame(() => {
         this.triggerEvent('collapse', this, { detail: { elem: this } });
-        this.pane.style.height = `${this.pane?.scrollHeight}px`;
-        this.pane.style.height = `0px`;
+        this.pane?.style.setProperty('height', `${this.pane?.scrollHeight}px`);
+        this.pane?.style.setProperty('height', `0px`);
       });
     }
 
@@ -154,7 +162,7 @@ export default class IdsExpandableArea extends Base {
     if (this.state.expanded === false) {
       requestAnimationFrame(() => {
         this.triggerEvent('expand', this, { detail: { elem: this } });
-        this.pane.style.height = `${this.pane.scrollHeight}px`;
+        this.pane?.style.setProperty('height', `${this.pane.scrollHeight}px`);
       });
     }
 
@@ -192,7 +200,7 @@ export default class IdsExpandableArea extends Base {
         detail: { elem: this }
       };
 
-      if (this.pane.style.height === '0px') {
+      if (this.pane?.style.height === '0px') {
         this.triggerEvent('aftercollapse', this, eventOpts);
       } else {
         this.triggerEvent('afterexpand', this, eventOpts);

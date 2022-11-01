@@ -30,7 +30,7 @@ export default class IdsTag extends Base {
     super.connectedCallback();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
-    this.#setContainerColor(this.color);
+    this.#setContainerColor(this.color || '');
   }
 
   /**
@@ -57,20 +57,22 @@ export default class IdsTag extends Base {
 
   /**
    * Set the tag color
-   * @param {string} value The color value, this can be not provided,
+   * @param {string|null} value The color value, this can be not provided,
    * secondary (white), error, success, danger, caution or a hex code with the #
    */
-  set color(value: string) {
+  set color(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COLOR, value);
     } else {
       this.removeAttribute(attributes.COLOR);
     }
-    this.#setContainerColor(value);
+    this.#setContainerColor(value || '');
     this.#addDimissibleIcon();
   }
 
-  get color(): string { return this.getAttribute(attributes.COLOR); }
+  get color(): string | null {
+    return this.getAttribute(attributes.COLOR);
+  }
 
   /**
    * Set the tag color on the element style
@@ -140,7 +142,21 @@ export default class IdsTag extends Base {
     this.#addDimissibleIcon();
   }
 
-  get dismissible(): boolean { return stringToBool(this.getAttribute(attributes.DISMISSIBLE)); }
+  get dismissible(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISMISSIBLE));
+  }
+
+  set disabled(value: string | boolean) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.DISABLED, '');
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+    }
+  }
+
+  get disabled(): boolean {
+    return this.hasAttribute('disabled');
+  }
 
   /**
    * Add the dismissible icon if the tag is dismissible
@@ -161,7 +177,7 @@ export default class IdsTag extends Base {
 
   /**
    * If set to true the tag has focus state and becomes a clickable link
-   * @param {boolean} value true of false depending if the tag is clickable
+   * @param {boolean} value true or false depending if the tag is clickable
    */
   set clickable(value: boolean) {
     const isClickable = stringToBool(value);
@@ -187,7 +203,13 @@ export default class IdsTag extends Base {
     }
   }
 
-  get clickable(): boolean { return this.getAttribute(attributes.CLICKABLE); }
+  /**
+   * Gets clickable state
+   * @returns {boolean} true or false depending if the tag is clickable
+   */
+  get clickable(): boolean {
+    return stringToBool(this.getAttribute(attributes.CLICKABLE));
+  }
 
   /**
    * Establish Internal Event Handlers

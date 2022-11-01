@@ -8,6 +8,8 @@ import {
 } from './ids-button-attributes';
 
 import styles from './ids-button.scss';
+import type IdsIcon from '../ids-icon/ids-icon';
+import type IdsText from '../ids-text/ids-text';
 
 /**
  * IDS Button Component
@@ -26,10 +28,19 @@ import styles from './ids-button.scss';
 @customElement('ids-button')
 @scss(styles)
 export default class IdsButton extends Base {
+  shouldUpdate = false;
+
   constructor() {
     super();
     Object.keys(BUTTON_DEFAULTS).forEach((prop) => {
       this.state[prop] = BUTTON_DEFAULTS[prop];
+    });
+
+    Object.defineProperty(this, 'tabIndex', {
+      get: () => this.#tabIndex,
+      set: (value) => { this.#tabIndex = value; },
+      configurable: true,
+      enumerable: true
     });
   }
 
@@ -44,11 +55,11 @@ export default class IdsButton extends Base {
   }
 
   #setInitialState() {
-    if (this.hasAttribute(attributes.ICON)) this.appendIcon(this.getAttribute(attributes.ICON));
-    if (this.hasAttribute(attributes.TEXT)) this.appendText(this.getAttribute(attributes.TEXT));
+    if (this.hasAttribute(attributes.ICON)) this.appendIcon(this.getAttribute(attributes.ICON) as string);
+    if (this.hasAttribute(attributes.TEXT)) this.appendText(this.getAttribute(attributes.TEXT) as string);
 
-    const isIconButton = this.button.classList.contains('ids-icon-button');
-    this.setupRipple(this.button, isIconButton ? 35 : 50);
+    const isIconButton = this.button?.classList.contains('ids-icon-button');
+    this.setupRipple(this.button as HTMLButtonElement, isIconButton ? 35 : 50);
     this.setIconAlignment();
     this.refreshProtoClasses();
   }
@@ -150,18 +161,35 @@ export default class IdsButton extends Base {
   }
 
   /**
+   * Handles hidden attribute changes
+   * @param {string} value true if hidden
+   */
+  onHiddenChange(value: string | boolean | null) {
+    const bool = stringToBool(value);
+    this.shouldUpdate = false;
+    if (bool) {
+      this.setAttribute(attributes.HIDDEN, '');
+    } else {
+      this.removeAttribute(attributes.HIDDEN);
+    }
+    this.shouldUpdate = true;
+    this.state.hidden = bool;
+    if (this.button) this.button.hidden = bool;
+  }
+
+  /**
    * @readonly
    * @returns {HTMLButtonElement} reference to the true button element used in the Shadow Root
    */
-  get button(): HTMLButtonElement {
-    return this.shadowRoot?.querySelector('button');
+  get button(): HTMLButtonElement | null {
+    return this.shadowRoot?.querySelector('button') || null;
   }
 
   /**
    * @param {Array<string>|string} val containing CSS classes that will be applied to the button
    * Strings will be split into an array and separated by whitespace.
    */
-  set cssClass(val) {
+  set cssClass(val: Array<string> | string) {
     let attr = val;
     let newCl: any[] = [];
     // @TODO replace with clone utils method
@@ -225,34 +253,10 @@ export default class IdsButton extends Base {
   }
 
   /**
-   * @param {boolean|string} val true if the button component should be hidden from view
-   */
-  set hidden(val: boolean | string) {
-    const isValueTruthy = stringToBool(val);
-    this.shouldUpdate = false;
-    if (isValueTruthy) {
-      this.setAttribute(attributes.HIDDEN, '');
-    } else {
-      this.removeAttribute(attributes.HIDDEN);
-    }
-
-    this.shouldUpdate = true;
-    this.state.hidden = isValueTruthy;
-    if (this.button) this.button.hidden = isValueTruthy;
-  }
-
-  /**
-   * @returns {boolean} true if the button component is hidden from view
-   */
-  get hidden(): boolean {
-    return this.state.hidden;
-  }
-
-  /**
    * Passes a tabIndex attribute from the custom element to the button
    * @param {number | string | null} val the tabIndex value
    */
-  set tabIndex(val: number | string | null) {
+  set #tabIndex(val: number | string | null) {
     const trueVal = Number(val);
 
     this.removeAttribute(attributes.TABINDEX);
@@ -270,7 +274,7 @@ export default class IdsButton extends Base {
   /**
    * @returns {number} the current tabIndex number for the button
    */
-  get tabIndex(): number {
+  get #tabIndex(): number {
     return this.state.tabIndex;
   }
 
@@ -292,9 +296,9 @@ export default class IdsButton extends Base {
 
   /**
    * Gets the current icon used on the button
-   * @returns {string | undefined} a defined IdsIcon's `icon` attribute, if one is present
+   * @returns {string} a defined IdsIcon's `icon` attribute, if one is present
    */
-  get icon(): string | undefined {
+  get icon(): string | undefined | null {
     return this.querySelector('ids-icon')?.getAttribute('icon');
   }
 
@@ -364,7 +368,7 @@ export default class IdsButton extends Base {
    * @private
    */
   appendIcon(iconName: string) {
-    const icon = this.querySelector(`ids-icon`); // @TODO check for dropdown/expander icons here
+    const icon = this.querySelector<IdsIcon>(`ids-icon`); // @TODO check for dropdown/expander icons here
     if (icon) {
       icon.icon = iconName;
       this.setIconAlignment();
@@ -578,13 +582,13 @@ export default class IdsButton extends Base {
       BUTTON_TYPES.forEach((type) => {
         const typeClassName = `btn-${type}`;
         if (val === type) {
-          if (type !== 'default' && !this.button.classList.contains(typeClassName)) {
-            this.button.classList.add(typeClassName);
+          if (type !== 'default' && !this.button?.classList.contains(typeClassName)) {
+            this.button?.classList.add(typeClassName);
           }
           return;
         }
-        if (this.button.classList.contains(typeClassName)) {
-          this.button.classList.remove(typeClassName);
+        if (this.button?.classList.contains(typeClassName)) {
+          this.button?.classList.remove(typeClassName);
         }
       });
     }
@@ -594,7 +598,7 @@ export default class IdsButton extends Base {
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLButton element.
    */
   focus(): void {
-    this.button.focus();
+    this.button?.focus();
   }
 
   /**
@@ -603,9 +607,9 @@ export default class IdsButton extends Base {
    * @returns {void}
    */
   onColorVariantRefresh(): void {
-    const icons = this.querySelectorAll('ids-icon');
-    const texts = this.querySelectorAll('ids-text');
-    const iterator = (el: { colorVariant: any; }) => {
+    const icons = this.querySelectorAll<IdsIcon>('ids-icon');
+    const texts = this.querySelectorAll<IdsText>('ids-text');
+    const iterator = (el: IdsIcon | IdsText) => {
       el.colorVariant = this.colorVariant;
     };
     [...icons, ...texts].forEach(iterator);

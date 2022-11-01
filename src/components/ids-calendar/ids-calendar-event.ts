@@ -35,6 +35,10 @@ export default class IdsCalendarEvent extends Base {
 
   #cssClass: string[] = [];
 
+  cachedEvent: CalendarEventData | null = null;
+
+  cachedEventType: CalendarEventTypeData | null = null;
+
   constructor() {
     super();
   }
@@ -181,9 +185,9 @@ export default class IdsCalendarEvent extends Base {
    * Sets calendar event data
    * @param {CalendarEventData} data Event data
    */
-  set eventData(data: CalendarEventData) {
-    this.cachedEvent = data;
-    this.setAttribute('data-id', data.id);
+  set eventData(data: CalendarEventData | undefined | null) {
+    this.cachedEvent = data ?? null;
+    if (data) this.setAttribute('data-id', data.id);
     this.refreshContent();
   }
 
@@ -191,17 +195,21 @@ export default class IdsCalendarEvent extends Base {
    * Gets calendar event data
    * @returns {CalendarEventData} Event data
    */
-  get eventData(): CalendarEventData {
+  get eventData(): CalendarEventData | null {
     return this.cachedEvent;
   }
 
   /**
    * Sets calendar event type
-   * @param {CalendarEventTypeData | undefined} data Event type
+   * @param {CalendarEventTypeData} data Event type
    */
-  set eventTypeData(data: CalendarEventTypeData | undefined) {
-    this.cachedEventType = data;
-    if (this.cachedEvent) this.cachedEvent.type = data?.id;
+  set eventTypeData(data: CalendarEventTypeData | undefined | null) {
+    this.cachedEventType = data ?? null;
+
+    // update cached event data
+    if (this.cachedEvent && data?.id) {
+      this.cachedEvent.type = data?.id;
+    }
 
     if (data?.color) {
       this.container?.setAttribute('color', data?.color);
@@ -214,7 +222,7 @@ export default class IdsCalendarEvent extends Base {
    * Gets calendar event type
    * @returns {CalendarEventTypeData} Event type
    */
-  get eventTypeData(): CalendarEventTypeData {
+  get eventTypeData(): CalendarEventTypeData | null {
     return this.cachedEventType;
   }
 
@@ -223,7 +231,12 @@ export default class IdsCalendarEvent extends Base {
    * @param {string | null} value css top value
    */
   set yOffset(value: string | null) {
-    this.setAttribute(attributes.Y_OFFSET, value);
+    if (value) {
+      this.setAttribute(attributes.Y_OFFSET, value);
+    } else {
+      this.removeAttribute(attributes.Y_OFFSET);
+    }
+
     this.recalc();
   }
 
@@ -241,7 +254,12 @@ export default class IdsCalendarEvent extends Base {
    * @param {string | null} value css left/right value
    */
   set xOffset(value: string | null) {
-    this.setAttribute(attributes.X_OFFSET, value);
+    if (value) {
+      this.setAttribute(attributes.X_OFFSET, value);
+    } else {
+      this.removeAttribute(attributes.X_OFFSET);
+    }
+
     this.recalc();
   }
 
@@ -257,7 +275,12 @@ export default class IdsCalendarEvent extends Base {
    * @param {string | null} value css height value
    */
   set height(value: string | null) {
-    this.setAttribute(attributes.HEIGHT, value);
+    if (value) {
+      this.setAttribute(attributes.HEIGHT, value);
+    } else {
+      this.removeAttribute(attributes.HEIGHT);
+    }
+
     this.recalc();
   }
 
@@ -274,7 +297,12 @@ export default class IdsCalendarEvent extends Base {
    * @param {string | null} value css width value
    */
   set width(value: string | null) {
-    this.setAttribute(attributes.WIDTH, value);
+    if (value) {
+      this.setAttribute(attributes.WIDTH, value);
+    } else {
+      this.removeAttribute(attributes.WIDTH);
+    }
+
     this.recalc();
   }
 
@@ -300,7 +328,7 @@ export default class IdsCalendarEvent extends Base {
    * @returns {Date} start date
    */
   get startDate(): Date {
-    return new Date(this.cachedEvent.starts);
+    return new Date(this.cachedEvent?.starts ?? '');
   }
 
   /**
@@ -308,7 +336,7 @@ export default class IdsCalendarEvent extends Base {
    * @returns {Date} end date
    */
   get endDate(): Date {
-    return new Date(this.cachedEvent.ends);
+    return new Date(this.cachedEvent?.ends ?? '');
   }
 
   /**
@@ -347,7 +375,7 @@ export default class IdsCalendarEvent extends Base {
    * @param {string} value Overflow values for IdsText
    */
   set overflow(value: string | null) {
-    this.setAttribute(attributes.OVERFLOW, value);
+    this.setAttribute(attributes.OVERFLOW, value ?? 'ellipsis');
     this.refreshContent();
   }
 

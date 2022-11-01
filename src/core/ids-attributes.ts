@@ -25,6 +25,7 @@ export const attributes = {
   APPEARANCE: 'appearance',
   ARROW: 'arrow',
   ARROW_TARGET: 'arrow-target',
+  ATTACHMENT: 'attachment',
   AUDIBLE: 'audible',
   AUTO: 'auto',
   AUTOCOMPLETE: 'autocomplete',
@@ -97,6 +98,7 @@ export const attributes = {
   DEVICE_SPECS: 'device-specs',
   DIRECTION: 'direction',
   DIRTY_TRACKER: 'dirty-tracker',
+  DISABLE_CLIENT_FILTER: 'disable-client-filter',
   DISABLED: 'disabled',
   DISABLE_EVENTS: 'disable-native-events',
   DISMISSIBLE: 'dismissible',
@@ -151,6 +153,7 @@ export const attributes = {
   HIDE_CHECKBOXES: 'hide-checkboxes',
   HIDE_DOWN: 'hide-down',
   HIDE_UP: 'hide-up',
+  HIGHLIGHTED: 'highlighted',
   HITBOX: 'hitbox',
   HORIZONTAL: 'horizontal',
   HOURS: 'hours',
@@ -418,4 +421,4 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.1';
+export const version = '1.0.0-beta.2';

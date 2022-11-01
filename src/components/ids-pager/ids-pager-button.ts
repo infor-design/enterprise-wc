@@ -9,6 +9,8 @@ import '../ids-icon/ids-icon';
 import { buttonTypes } from './ids-pager-attributes';
 
 import styles from './ids-pager-button.scss';
+import type IdsButton from '../ids-button/ids-button';
+import type IdsIcon from '../ids-icon/ids-icon';
 
 /**
  * IDS PagerButton Component
@@ -21,6 +23,10 @@ import styles from './ids-pager-button.scss';
 @customElement('ids-pager-button')
 @scss(styles)
 export default class IdsPagerButton extends Base {
+  button?: IdsButton | null;
+
+  icon?: IdsIcon | null;
+
   constructor() {
     super();
   }
@@ -59,8 +65,8 @@ export default class IdsPagerButton extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.button = this.shadowRoot.querySelector('ids-button');
-    this.icon = this.shadowRoot.querySelector('ids-icon');
+    this.button = this.shadowRoot?.querySelector('ids-button');
+    this.icon = this.shadowRoot?.querySelector('ids-icon');
     this.offEvent('click', this.button);
     this.onEvent('click', this.button, () => this.#onClick());
 
@@ -120,7 +126,7 @@ export default class IdsPagerButton extends Base {
    */
   set disabled(value: boolean | string) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.DISABLED, true);
+      this.setAttribute(attributes.DISABLED, 'true');
     } else {
       this.removeAttribute(attributes.DISABLED);
     }
@@ -143,7 +149,7 @@ export default class IdsPagerButton extends Base {
    * @param {string|number} value The number of items to track
    */
   set total(value: string | number) {
-    this.setAttribute(attributes.TOTAL, value);
+    this.setAttribute(attributes.TOTAL, String(value));
     this.#updateNavDisabled();
     this.#updateDisabledState();
   }
@@ -152,7 +158,7 @@ export default class IdsPagerButton extends Base {
    * @returns {string|number} The number of items for pager is tracking
    */
   get total(): string | number {
-    return parseInt(this.getAttribute(attributes.TOTAL));
+    return parseInt(this.getAttribute(attributes.TOTAL) ?? '');
   }
 
   /**
@@ -215,9 +221,9 @@ export default class IdsPagerButton extends Base {
     }
 
     if (!Number.isNaN(nextValue)
-    && Number.parseInt(this.getAttribute(attributes.PAGE_NUMBER)) !== nextValue
+    && Number.parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '') !== nextValue
     ) {
-      this.setAttribute(attributes.PAGE_NUMBER, nextValue);
+      this.setAttribute(attributes.PAGE_NUMBER, String(nextValue));
     }
 
     this.#updateNavDisabled();
@@ -226,7 +232,7 @@ export default class IdsPagerButton extends Base {
 
   /** @returns {number} value A 1-based page number displayed */
   get pageNumber(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
+    return parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '');
   }
 
   /** @param {number} value The number of items shown per page */
@@ -240,7 +246,7 @@ export default class IdsPagerButton extends Base {
     }
 
     if (this.getAttribute(attributes.PAGE_SIZE) !== `${nextValue}`) {
-      this.setAttribute(attributes.PAGE_SIZE, nextValue);
+      this.setAttribute(attributes.PAGE_SIZE, String(nextValue));
     }
 
     this.#updateNavDisabled();
@@ -249,14 +255,14 @@ export default class IdsPagerButton extends Base {
 
   /** @returns {number} The number of items shown per page */
   get pageSize(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_SIZE));
+    return parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '');
   }
 
   /**
    * Set the aria label text
    * @param {string} value The label text
    */
-  set label(value: string) {
+  set label(value: string | null) {
     if (value) {
       this.setAttribute(attributes.LABEL, value);
     } else {

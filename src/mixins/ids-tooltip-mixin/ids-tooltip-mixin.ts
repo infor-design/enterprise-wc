@@ -1,20 +1,24 @@
 import { attributes } from '../../core/ids-attributes';
 import '../../components/ids-tooltip/ids-tooltip';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+import { IdsConstructor } from '../../core/ids-element';
+import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
 
+type Constraints = IdsConstructor<EventsMixinInterface>;
 /**
 /**
  * A mixin that adds tooltip functionality to components
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsTooltipMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.TOOLTIP
     ];
   }
@@ -45,13 +49,18 @@ const IdsTooltipMixin = (superclass: any) => class extends superclass {
    * @returns {HTMLElement} The correct target element
    */
   get toolTipTarget(): any {
+    const fieldContainerElem = (this as IdsInputInterface).fieldContainer;
+
     // `this.fieldContainer` targets any IDS Component that extends IdsInput
-    if (this.fieldContainer instanceof HTMLElement || this.fieldContainer instanceof SVGElement) {
-      return this.fieldContainer;
+    if (fieldContainerElem instanceof HTMLElement || fieldContainerElem instanceof SVGElement) {
+      return fieldContainerElem;
     }
-    if (this.shadowRoot?.querySelector('ids-trigger-field')?.fieldContainer instanceof HTMLElement || this.shadowRoot?.querySelector('ids-trigger-field')?.fieldContainer instanceof SVGElement) {
-      return this.shadowRoot.querySelector('ids-trigger-field').fieldContainer;
+
+    const triggerField = this.shadowRoot?.querySelector<any>('ids-trigger-field');
+    if (triggerField?.fieldContainer instanceof HTMLElement || triggerField?.fieldContainer instanceof SVGElement) {
+      return triggerField.fieldContainer;
     }
+
     return this;
   }
 
@@ -60,7 +69,7 @@ const IdsTooltipMixin = (superclass: any) => class extends superclass {
    */
   showTooltip() {
     // For ellipsis tooltip check if overflowing and only show if it is
-    if (this.nodeName === 'IDS-TEXT' && this.tooltip === 'true' && !(this.container.scrollWidth > this.container.clientWidth)) {
+    if (this.nodeName === 'IDS-TEXT' && this.tooltip === 'true' && this.container && !(this.container.scrollWidth > this.container.clientWidth)) {
       return;
     }
 
@@ -95,12 +104,16 @@ const IdsTooltipMixin = (superclass: any) => class extends superclass {
    * Set the tooltip to a particular string
    * @param {string} value The tooltips value
    */
-  set tooltip(value) {
-    this.setAttribute('tooltip', value);
-    this.container?.setAttribute('tooltip', value);
+  set tooltip(value: string) {
+    if (value) {
+      this.setAttribute('tooltip', value);
+      this.container?.setAttribute('tooltip', value);
+    }
   }
 
-  get tooltip() { return this.getAttribute('tooltip'); }
+  get tooltip() {
+    return this.getAttribute('tooltip') as string;
+  }
 };
 
 export default IdsTooltipMixin;

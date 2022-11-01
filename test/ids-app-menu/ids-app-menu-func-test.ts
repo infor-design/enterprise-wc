@@ -11,6 +11,9 @@ import '../../src/components/ids-text/ids-text';
 
 import createFromTemplate from '../helpers/create-from-template';
 import waitForTimeout from '../helpers/wait-for-timeout';
+import type IdsAppMenu from '../../src/components/ids-app-menu/ids-app-menu';
+import type IdsAccordion from '../../src/components/ids-accordion/ids-accordion';
+import type IdsSearchField from '../../src/components/ids-search-field/ids-search-field';
 
 const createAppMenu = async (appMenu: any) => {
   appMenu = await createFromTemplate(appMenu, `<ids-app-menu id="app-menu">
@@ -54,7 +57,7 @@ const createAppMenu = async (appMenu: any) => {
 };
 
 describe('IdsAppMenu Component (rendering)', () => {
-  let appMenuElem: any;
+  let appMenuElem: IdsAppMenu;
 
   it('renders with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
@@ -66,7 +69,7 @@ describe('IdsAppMenu Component (rendering)', () => {
 });
 
 describe('IdsAppMenu Component', () => {
-  let appMenuElem: any;
+  let appMenuElem: IdsAppMenu;
 
   beforeEach(async () => {
     appMenuElem = await createAppMenu(appMenuElem);
@@ -82,7 +85,7 @@ describe('IdsAppMenu Component', () => {
   });
 
   it('should convert inner accordions to use the "app-menu" color variant', async () => {
-    const acc = appMenuElem.querySelector('ids-accordion');
+    const acc = appMenuElem.querySelector('ids-accordion') as IdsAccordion;
     waitForTimeout(() => expect(acc.colorVariant).toBe('app-menu'));
   });
 
@@ -123,11 +126,11 @@ describe('IdsAppMenu Component', () => {
   });
 
   it('provides an API for its accordion element', async () => {
-    expect(appMenuElem.accordion.name).toBe('ids-accordion');
+    expect(appMenuElem.accordion?.name).toBe('ids-accordion');
   });
 
   it('filters its navigation accordion when the search field is used', async () => {
-    const searchField = appMenuElem.querySelector('#search');
+    const searchField = appMenuElem.querySelector('#search') as IdsSearchField;
     expect(searchField).toBeDefined();
 
     // Filter for a top-level match...
@@ -184,7 +187,7 @@ describe('IdsAppMenu Component', () => {
       panel.remove();
     });
     appMenuElem.filterAccordion('');
-    appMenuElem.accordion.remove();
+    appMenuElem.accordion?.remove();
     appMenuElem.filterAccordion('');
   });
 });

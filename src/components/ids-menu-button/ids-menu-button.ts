@@ -1,6 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 
 import Base from './ids-menu-button-base';
@@ -10,6 +9,7 @@ import '../ids-menu/ids-menu-group';
 import '../ids-menu/ids-menu-item';
 
 import styles from '../ids-button/ids-button.scss';
+import type IdsIcon from '../ids-icon/ids-icon';
 
 /**
  * IDS Menu Button Component
@@ -47,19 +47,11 @@ export default class IdsMenuButton extends Base {
       this.#configureDropdownIcon(true);
     }
     this.configureMenu();
-    this.attachEventHandlers();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.dropdownIcon = null;
-  }
-
-  /**
-   * @returns {void}
-   */
-  attachEventHandlers() {
-    super.attachEventHandlers?.(this);
   }
 
   /**
@@ -131,7 +123,7 @@ export default class IdsMenuButton extends Base {
    * @returns {HTMLElement|null} the decorative dropdown icon element
    */
   get dropdownIconEl() {
-    return this.container?.querySelector('ids-icon:not([slot])');
+    return this.container?.querySelector<IdsIcon>('ids-icon:not([slot])');
   }
 
   /**
@@ -176,9 +168,8 @@ export default class IdsMenuButton extends Base {
     const findPopup = (root: any) => root?.querySelector(`ids-popup-menu[id="${this.menu}"]`)
       || root?.querySelector(`ids-action-sheet[id="${this.menu}"]`);
 
-    let el = findPopup(this.shadowRoot?.host?.parentNode);
-    const thisElem: any = this;
-    if (!el) el = findPopup(getClosestRootNode(thisElem));
+    let el = findPopup(this.parentElement);
+    if (!el) el = findPopup(this.getRootNode());
     return el;
   }
 
@@ -268,7 +259,7 @@ export default class IdsMenuButton extends Base {
     }
 
     if (val) {
-      this.setAttribute(attributes.FORMATTER_WIDTH, value);
+      this.setAttribute(attributes.FORMATTER_WIDTH, String(value));
       this.container?.classList.add(attributes.FORMATTER_WIDTH);
       if (this.container) this.container.style.minWidth = val;
     } else {

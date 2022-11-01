@@ -6,21 +6,20 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import processAnimFrame from '../helpers/process-anim-frame';
 import '../../src/components/ids-icon/ids-icon';
+import type IdsIcon from '../../src/components/ids-icon/ids-icon';
 
 describe('IdsButton Component', () => {
-  let btn: any;
+  let btn: IdsButton;
 
-  beforeEach(async () => {
-    const elem: any = new IdsButton();
-    elem.id = 'test-button';
-    elem.text = 'Test Button';
-    document.body.appendChild(elem);
-    btn = document.querySelector('ids-button');
+  beforeEach(() => {
+    btn = new IdsButton();
+    btn.id = 'test-button';
+    btn.text = 'Test Button';
+    document.body.appendChild(btn);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     document.body.innerHTML = '';
-    btn = null;
   });
 
   it('renders with no errors', () => {
@@ -64,7 +63,7 @@ describe('IdsButton Component', () => {
   it('focuses the inner button component when told to focus', () => {
     btn.focus();
 
-    expect(btn.shadowRoot.activeElement.isEqualNode(btn.button));
+    expect(btn.shadowRoot?.activeElement?.isEqualNode(btn.button));
   });
 
   it('can be disabled/enabled', () => {
@@ -72,26 +71,26 @@ describe('IdsButton Component', () => {
 
     expect(btn.hasAttribute('disabled')).toBeTruthy();
     expect(btn.disabled).toBeTruthy();
-    expect(btn.button.hasAttribute('disabled')).toBeTruthy();
+    expect(btn.button?.hasAttribute('disabled')).toBeTruthy();
     expect(btn.state.disabled).toBeTruthy();
 
     btn.disabled = false;
 
     expect(btn.hasAttribute('disabled')).toBeFalsy();
     expect(btn.disabled).toBeFalsy();
-    expect(btn.button.hasAttribute('disabled')).toBeFalsy();
+    expect(btn.button?.hasAttribute('disabled')).toBeFalsy();
     expect(btn.state.disabled).toBeFalsy();
   });
 
   it('can disabled padding', () => {
     btn.noPadding = true;
 
-    expect(btn.container.classList.contains('no-padding')).toBeTruthy();
+    expect(btn.container?.classList.contains('no-padding')).toBeTruthy();
     expect(btn.getAttribute('no-padding')).toEqual('true');
 
     btn.noPadding = false;
 
-    expect(btn.container.classList.contains('no-padding')).toBeFalsy();
+    expect(btn.container?.classList.contains('no-padding')).toBeFalsy();
     expect(btn.getAttribute('no-padding')).toBeFalsy();
   });
 
@@ -101,7 +100,7 @@ describe('IdsButton Component', () => {
     btn.text = 'test';
     container.appendChild(btn);
     document.body.appendChild(container);
-    expect(btn.container.classList.contains('rtl')).toBeFalsy();
+    expect(btn.container?.classList.contains('rtl')).toBeFalsy();
     await container.setLanguage('ar');
     await processAnimFrame();
     expect(btn.locale.isRTL()).toEqual(true);
@@ -112,43 +111,43 @@ describe('IdsButton Component', () => {
 
     expect(btn.hasAttribute('tabindex')).toBeFalsy();
     expect(btn.tabIndex).toEqual(-1);
-    expect(btn.button.getAttribute('tabindex')).toEqual('-1');
+    expect(btn.button?.getAttribute('tabindex')).toEqual('-1');
     expect(btn.state.tabIndex).toEqual(-1);
 
     btn.tabIndex = 0;
 
     expect(btn.hasAttribute('tabindex')).toBeFalsy();
     expect(btn.tabIndex).toEqual(0);
-    expect(btn.button.getAttribute('tabindex')).toEqual('0');
+    expect(btn.button?.getAttribute('tabindex')).toEqual('0');
     expect(btn.state.tabIndex).toEqual(0);
 
     btn.setAttribute('tabindex', '-1');
 
     expect(btn.hasAttribute('focusable')).toBeFalsy();
     expect(btn.tabIndex).toEqual(-1);
-    expect(btn.button.getAttribute('tabindex')).toEqual('-1');
+    expect(btn.button?.getAttribute('tabindex')).toEqual('-1');
     expect(btn.state.tabIndex).toEqual(-1);
 
     btn.setAttribute('tabindex', '0');
 
     expect(btn.hasAttribute('tabindex')).toBeFalsy();
     expect(btn.tabIndex).toEqual(0);
-    expect(btn.button.getAttribute('tabindex')).toEqual('0');
+    expect(btn.button?.getAttribute('tabindex')).toEqual('0');
     expect(btn.state.tabIndex).toEqual(0);
 
     // Handles incorrect values
-    btn.tabIndex = 'fish';
+    btn.tabIndex = ('fish' as any);
 
     expect(btn.hasAttribute('tabindex')).toBeFalsy();
     expect(btn.tabIndex).toEqual(0);
-    expect(btn.button.getAttribute('tabindex')).toEqual('0');
+    expect(btn.button?.getAttribute('tabindex')).toEqual('0');
     expect(btn.state.tabIndex).toEqual(0);
 
     btn.tabIndex = -2;
 
     expect(btn.hasAttribute('tabindex')).toBeFalsy();
     expect(btn.tabIndex).toEqual(0);
-    expect(btn.button.getAttribute('tabindex')).toEqual('0');
+    expect(btn.button?.getAttribute('tabindex')).toEqual('0');
     expect(btn.state.tabIndex).toEqual(0);
   });
 
@@ -157,20 +156,20 @@ describe('IdsButton Component', () => {
 
     expect(btn.getAttribute('css-class')).toBe('one two three');
     expect(btn.cssClass.includes('two')).toBeTruthy();
-    expect(btn.button.classList.contains('one')).toBeTruthy();
+    expect(btn.button?.classList.contains('one')).toBeTruthy();
 
     btn.cssClass = ['four', 'five', 'six'];
 
     expect(btn.getAttribute('css-class')).toBe('four five six');
     expect(btn.cssClass.includes('four')).toBeTruthy();
-    expect(btn.button.classList.contains('four')).toBeTruthy();
+    expect(btn.button?.classList.contains('four')).toBeTruthy();
 
     // Setting to empty removes the attribute and the Button element classes
     btn.cssClass = '';
 
     expect(btn.hasAttribute('css-class')).toBeFalsy();
     expect(btn.cssClass.includes('four')).toBeFalsy();
-    expect(btn.button.classList.contains('four')).toBeFalsy();
+    expect(btn.button?.classList.contains('four')).toBeFalsy();
   });
 
   it('can change its type', () => {
@@ -178,21 +177,21 @@ describe('IdsButton Component', () => {
 
     expect(btn.getAttribute('type')).toBe('primary');
     expect(btn.type).toBe('primary');
-    expect(btn.button.classList.contains('btn-primary')).toBeTruthy();
+    expect(btn.button?.classList.contains('btn-primary')).toBeTruthy();
     expect(btn.state.type).toBe('primary');
 
     btn.type = 'secondary';
 
     expect(btn.getAttribute('type')).toBe('secondary');
     expect(btn.type).toBe('secondary');
-    expect(btn.button.classList.contains('btn-secondary')).toBeTruthy();
+    expect(btn.button?.classList.contains('btn-secondary')).toBeTruthy();
     expect(btn.state.type).toBe('secondary');
 
     btn.type = 'tertiary';
 
     expect(btn.getAttribute('type')).toBe('tertiary');
     expect(btn.type).toBe('tertiary');
-    expect(btn.button.classList.contains('btn-tertiary')).toBeTruthy();
+    expect(btn.button?.classList.contains('btn-tertiary')).toBeTruthy();
     expect(btn.state.type).toBe('tertiary');
 
     // Default buttons don't have additional styles
@@ -200,7 +199,7 @@ describe('IdsButton Component', () => {
 
     expect(btn.getAttribute('type')).toBe(null);
     expect(btn.type).toBe('default');
-    expect(btn.button.classList.contains('default')).toBeFalsy();
+    expect(btn.button?.classList.contains('default')).toBeFalsy();
     expect(btn.state.type).toBe('default');
 
     // Setting a bad type will make the type become the "default"
@@ -208,7 +207,7 @@ describe('IdsButton Component', () => {
 
     expect(btn.getAttribute('type')).toBe(null);
     expect(btn.type).toBe('default');
-    expect(btn.button.classList.contains('default')).toBeFalsy();
+    expect(btn.button?.classList.contains('default')).toBeFalsy();
     expect(btn.state.type).toBe('default');
   });
 
@@ -232,12 +231,12 @@ describe('IdsButton Component', () => {
 
     expect(btn.getAttribute('icon')).toBe('settings');
     expect(btn.icon).toBe('settings');
-    expect(btn.querySelector('ids-icon').icon).toBe('settings');
+    expect(btn.querySelector<IdsIcon>('ids-icon')?.icon).toBe('settings');
 
     btn.icon = '';
 
     expect(btn.hasAttribute('icon')).toBeFalsy();
-    expect(btn.icon).not.toBeDefined();
+    expect(btn.icon).toBeFalsy();
     expect(btn.querySelector('ids-icon')).toBe(null);
   });
 
@@ -245,17 +244,17 @@ describe('IdsButton Component', () => {
     btn.icon = 'settings';
     btn.iconAlign = 'end';
 
-    expect(btn.button.classList.contains('align-icon-end')).toBeTruthy();
+    expect(btn.button?.classList.contains('align-icon-end')).toBeTruthy();
 
     btn.iconAlign = 'start';
 
-    expect(btn.button.classList.contains('align-icon-start')).toBeTruthy();
+    expect(btn.button?.classList.contains('align-icon-start')).toBeTruthy();
 
     // Can't set a bad one
     btn.iconAlign = 'fish';
 
-    expect(btn.button.classList.contains('align-icon-start')).toBeTruthy();
-    expect(btn.button.classList.contains('align-icon-fish')).toBeFalsy();
+    expect(btn.button?.classList.contains('align-icon-start')).toBeTruthy();
+    expect(btn.button?.classList.contains('align-icon-fish')).toBeFalsy();
   });
 
   it('can be an "icon-only" button', () => {
@@ -264,9 +263,9 @@ describe('IdsButton Component', () => {
 
     expect(btn.getAttribute('icon')).toBe('settings');
     expect(btn.icon).toBe('settings');
-    expect(btn.querySelector('ids-icon').icon).toBe('settings');
-    expect(btn.button.classList.contains('ids-icon-button')).toBeTruthy();
-    expect(btn.button.classList.contains('ids-button')).toBeFalsy();
+    expect(btn.querySelector<IdsIcon>('ids-icon')?.icon).toBe('settings');
+    expect(btn.button?.classList.contains('ids-icon-button')).toBeTruthy();
+    expect(btn.button?.classList.contains('ids-button')).toBeFalsy();
   });
 
   it('can reliably set the "square" attribute', () => {
@@ -299,18 +298,18 @@ describe('IdsButton Component', () => {
     btn.width = pixelWidth;
     expect(btn.width).toEqual(pixelWidth);
     expect(btn.style.width).toEqual('');
-    expect(btn.button.style.width).toEqual(pixelWidth);
+    expect(btn.button?.style.width).toEqual(pixelWidth);
 
     // with percentage
     const percentWidth = '90%';
     btn.width = percentWidth;
     expect(btn.width).toEqual(percentWidth);
     expect(btn.style.width).toEqual(percentWidth);
-    expect(btn.button.style.width).toEqual('');
+    expect(btn.button?.style.width).toEqual('');
 
     // reset
     btn.width = '';
-    expect(btn.button.style.width).toEqual('');
+    expect(btn.button?.style.width).toEqual('');
   });
 
   it('can set hidden', () => {
@@ -336,12 +335,12 @@ describe('IdsButton Component', () => {
 
   it('can get the icon element', () => {
     btn.icon = 'add';
-    expect(btn.iconEl.nodeName).toEqual('IDS-ICON');
+    expect(btn.iconEl?.nodeName).toEqual('IDS-ICON');
   });
 
   it('supports setting mode', () => {
     btn.mode = 'dark';
-    expect(btn.container.getAttribute('mode')).toEqual('dark');
+    expect(btn.container?.getAttribute('mode')).toEqual('dark');
   });
 
   it('supports setting color variants', async () => {

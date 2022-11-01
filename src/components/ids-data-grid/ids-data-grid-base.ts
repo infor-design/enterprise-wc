@@ -4,13 +4,16 @@ import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
+import IdsDataGridTooltipMixin from './ids-data-grid-tooltip-mixin';
 
-const Base = IdsLocaleMixin(
+const Base = IdsThemeMixin(
   IdsPagerMixin(
-    IdsKeyboardMixin(
-      IdsThemeMixin(
-        IdsEventsMixin(
-          IdsElement
+    IdsDataGridTooltipMixin(
+      IdsKeyboardMixin(
+        IdsLocaleMixin(
+          IdsEventsMixin(
+            IdsElement
+          )
         )
       )
     )

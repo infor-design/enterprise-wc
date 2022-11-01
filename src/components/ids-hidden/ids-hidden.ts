@@ -45,10 +45,10 @@ export default class IdsHidden extends Base {
    * @param {string} val xxl | xl | lg | md | sm | xs
    * @memberof IdsHidden
    */
-  set hideDown(val: keyof Breakpoints) {
+  set hideDown(val: keyof Breakpoints | null) {
     if (val) {
       const mqUp = isWidthBelow(val);
-      this.setAttribute(attributes.HIDE_DOWN, val);
+      this.setAttribute(attributes.HIDE_DOWN, String(val));
       mqUp.addEventListener('change', () => {
         this.checkScreen(mqUp);
       });
@@ -64,7 +64,7 @@ export default class IdsHidden extends Base {
    * @readonly
    * @memberof IdsHidden
    */
-  get hideDown(): keyof Breakpoints {
+  get hideDown(): keyof Breakpoints | null {
     return this.getAttribute(attributes.HIDE_DOWN);
   }
 
@@ -73,10 +73,10 @@ export default class IdsHidden extends Base {
    * @param {string} val xxl | xl | lg | md | sm | xs
    * @memberof IdsHidden
    */
-  set hideUp(val: keyof Breakpoints) {
+  set hideUp(val: keyof Breakpoints | null) {
     if (val) {
       const mqUp = isWidthAbove(val);
-      this.setAttribute(attributes.HIDE_UP, val);
+      this.setAttribute(attributes.HIDE_UP, String(val));
       mqUp.addEventListener('change', () => {
         this.checkScreen(mqUp);
       });
@@ -92,7 +92,7 @@ export default class IdsHidden extends Base {
    * @readonly
    * @memberof IdsHidden
    */
-  get hideUp(): keyof Breakpoints {
+  get hideUp(): keyof Breakpoints | null {
     return this.getAttribute(attributes.HIDE_UP);
   }
 
@@ -101,10 +101,10 @@ export default class IdsHidden extends Base {
    * @param {boolean} val of the visible attribute
    * @memberof IdsHidden
    */
-  set visible(val: boolean) {
+  set visible(val: boolean | string | null) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
-      this.setAttribute(attributes.VISIBLE, true);
+      this.setAttribute(attributes.VISIBLE, 'true');
       this.hidden = false;
     } else {
       this.removeAttribute(attributes.VISIBLE);
@@ -127,9 +127,9 @@ export default class IdsHidden extends Base {
    * @param {string} val the value to compare
    * @memberof IdsHidden
    */
-  set condition(val: string) {
+  set condition(val: string | boolean | null) {
     if (val) {
-      this.setAttribute(attributes.CONDITION, val);
+      this.setAttribute(attributes.CONDITION, String(val));
     } else {
       this.removeAttribute(attributes.CONDITION);
     }
@@ -151,9 +151,9 @@ export default class IdsHidden extends Base {
    * @param {boolean} val the value to compare
    * @memberof IdsHidden
    */
-  set value(val: string) {
+  set value(val: string | boolean | null) {
     if (val) {
-      this.setAttribute(attributes.VALUE, val === 'undefined' ? '' : val);
+      this.setAttribute(attributes.VALUE, String(val === 'undefined' ? '' : val));
     } else {
       this.removeAttribute(attributes.VALUE);
     }
@@ -181,7 +181,7 @@ export default class IdsHidden extends Base {
       this.removeAttribute('visible');
     } else {
       this.removeAttribute('hidden');
-      this.setAttribute('visible', true);
+      this.setAttribute('visible', 'true');
     }
   }
 
@@ -190,9 +190,10 @@ export default class IdsHidden extends Base {
    * @memberof IdsHidden
    */
   checkCompare() {
-    let condition: string | boolean = this.condition;
-    let value: string | boolean = this.value;
+    let condition = this.condition;
+    let value = this.value;
     let isMatch = false;
+
     value = value === 'undefined' ? '' : value;
     if (condition === 'false' || condition === 'true') {
       condition = stringToBool(condition);
@@ -212,7 +213,7 @@ export default class IdsHidden extends Base {
       this.removeAttribute('visible');
     } else {
       this.removeAttribute('hidden');
-      this.setAttribute('visible', true);
+      this.setAttribute('visible', 'true');
     }
   }
 }

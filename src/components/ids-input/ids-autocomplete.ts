@@ -4,15 +4,28 @@ import '../ids-popup/ids-popup';
 import '../ids-list-box/ids-list-box';
 import '../ids-list-box/ids-list-box-option';
 import IdsDataSource from '../../core/ids-data-source';
+import { EventsMixinInterface } from '../../mixins/ids-events-mixin/ids-events-mixin';
+import { KeyboardMixinInterface } from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import { LocaleMixinInterface } from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import { IdsInputInterface } from './ids-input-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 
-const IdsAutoComplete = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+type Constraints = IdsConstructor<EventsMixinInterface & KeyboardMixinInterface & LocaleMixinInterface>;
+
+const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends superclass {
+  /**
+   * Gets the internal IdsDataSource object
+   * @returns {IdsDataSource} object
+   */
+  datasource = new IdsDataSource();
+
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.AUTOCOMPLETE,
       attributes.SEARCH_FIELD
     ];
@@ -33,12 +46,6 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
   }
 
   /**
-   * Gets the internal IdsDataSource object
-   * @returns {IdsDataSource} object
-   */
-  datasource = new IdsDataSource();
-
-  /**
    * Set autocomplete attribute
    * @param {string | boolean | null} value autocomplete value
    */
@@ -51,10 +58,10 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
 
     if (val) {
       this.setAttribute(attributes.AUTOCOMPLETE, '');
-      this.container.classList.add('autocomplete');
+      this.container?.classList.add('autocomplete');
     } else {
       this.removeAttribute(attributes.AUTOCOMPLETE);
-      this.container.classList.remove('autocomplete');
+      this.container?.classList.remove('autocomplete');
     }
   }
 
@@ -161,18 +168,19 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
    * @returns {void}
    */
   displayMatches() {
-    if (this.readonly || this.disabled) {
+    if ((this as any).readonly || (this as any).disabled) {
       return;
     }
 
-    const resultsArr = this.findMatches(this.value, this.data);
+    const thisAsInput = this as IdsInputInterface;
+    const resultsArr = this.findMatches(thisAsInput.value as string, this.data);
     const results = resultsArr?.map((result) => {
-      const regex = new RegExp(this.value, 'gi');
-      const optionText = result[this.searchField].toString()?.replace(regex, `<span class="highlight">${this.value.toLowerCase()}</span>`);
+      const regex = new RegExp(thisAsInput.value as string, 'gi');
+      const optionText = result[this.searchField].toString()?.replace(regex, `<span class="highlight">${(thisAsInput.value as string)?.toLowerCase()}</span>`);
       return this.#templatelistBoxOption(result[this.searchField], optionText);
     }).join('');
 
-    if (this.value) {
+    if (thisAsInput.value) {
       this.openPopup();
       this.listBox.innerHTML = results || `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
 
@@ -256,13 +264,13 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
     }
 
     if (this.isSelected) {
-      this.value = this.isSelected.getAttribute('value');
+      (this as IdsInputInterface).value = this.isSelected.getAttribute('value');
 
       this.triggerEvent('selected', this, {
         bubbles: true,
         detail: {
           elem: this,
-          value: this.value
+          value: (this as IdsInputInterface).value
         }
       });
     }
@@ -278,7 +286,7 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
       bubbles: true,
       detail: {
         elem: this,
-        value: this.value
+        value: (this as IdsInputInterface).value
       }
     });
   }
@@ -308,7 +316,7 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
   #configurePopup() {
     this.popup.type = 'dropdown';
     this.popup.align = 'bottom, left';
-    this.popup.alignTarget = this.fieldContainer;
+    this.popup.alignTarget = (this as IdsInputInterface).fieldContainer;
     this.popup.y = -1;
   }
 
@@ -363,7 +371,7 @@ const IdsAutoComplete = (superclass: any) => class extends superclass {
       const lastOption = this.options[this.options.length - 1];
 
       if (e.altKey) {
-        this.value = selected.getAttribute('value');
+        (this as IdsInputInterface).value = selected.getAttribute('value');
         this.closePopup();
         return;
       }

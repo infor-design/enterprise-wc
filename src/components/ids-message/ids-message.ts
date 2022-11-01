@@ -6,6 +6,8 @@ import Base from './ids-message-base';
 import '../ids-icon/ids-icon';
 
 import styles from './ids-message.scss';
+import type IdsIcon from '../ids-icon/ids-icon';
+import type IdsOverlay from '../ids-modal/ids-overlay';
 
 /**
  * IDS Message Component
@@ -91,11 +93,11 @@ export default class IdsMessage extends Base {
   /**
    * @param {string} val the desired opacity of the overlay
    */
-  set opacity(val: string) {
+  set opacity(val: string | null) {
     if (val) {
       this.state.opacity = val;
 
-      const overlayElem = this.shadowRoot?.querySelector('ids-overlay');
+      const overlayElem = this.shadowRoot?.querySelector<IdsOverlay>('ids-overlay');
       if (overlayElem) {
         overlayElem.opacity = val;
       }
@@ -116,7 +118,7 @@ export default class IdsMessage extends Base {
     }
 
     // Replace the message content
-    messageEl.insertAdjacentHTML('afterbegin', content);
+    messageEl.insertAdjacentHTML('afterbegin', String(content));
     this.state.message = content;
   }
 
@@ -130,9 +132,9 @@ export default class IdsMessage extends Base {
   /**
    * @param {string} val the message's new status type
    */
-  set status(val: string) {
+  set status(val: string | null) {
     let realStatusValue = MESSAGE_STATUSES[0];
-    if (MESSAGE_STATUSES.includes(val)) {
+    if (val && MESSAGE_STATUSES.includes(val)) {
       realStatusValue = val;
     }
 
@@ -157,7 +159,7 @@ export default class IdsMessage extends Base {
    */
   #refreshStatus(val: string): void {
     const header = this.container?.querySelector('.ids-modal-header');
-    let icon = header?.querySelector('ids-icon');
+    let icon = header?.querySelector<IdsIcon>('ids-icon');
 
     if (val && val !== MESSAGE_STATUSES[0]) {
       if (!icon) {

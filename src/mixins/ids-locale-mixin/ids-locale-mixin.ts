@@ -1,14 +1,28 @@
 import IdsLocale from '../../components/ids-locale/ids-locale';
 import { attributes } from '../../core/ids-attributes';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+import { IdsConstructor } from '../../core/ids-element';
 
-const IdsLocaleMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
-  }
+export interface LocaleMixinInterface {
+  locale: IdsLocale;
+  language: string;
+  setDirection(): void;
+}
 
-  // Flag for one initial event call
+export interface LocaleHandler {
+  onLocaleChange?: (locale: IdsLocale) => void;
+}
+
+type Constraints = IdsConstructor<EventsMixinInterface & LocaleHandler>;
+
+const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends superclass implements LocaleMixinInterface {
+  /** Flag for one initial event call */
   initialized = false;
+
+  constructor(...args: any[]) {
+    super(...args);
+  }
 
   connectedCallback() {
     super.connectedCallback?.();
@@ -27,7 +41,7 @@ const IdsLocaleMixin = (superclass: any) => class extends superclass {
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.LANGUAGE,
       attributes.LOCALE
     ];
@@ -35,7 +49,7 @@ const IdsLocaleMixin = (superclass: any) => class extends superclass {
 
   /**
    * Provides access to a global `locale` instance
-   * @returns {any} link to the global locale instance
+   * @returns {IdsLocale} link to the global locale instance
    */
   get locale(): IdsLocale {
     this.attachLocale();
@@ -53,10 +67,10 @@ const IdsLocaleMixin = (superclass: any) => class extends superclass {
   setDirection() {
     if (this.locale?.isRTL()) {
       this.setAttribute('dir', 'rtl');
-      this.container.classList.add('rtl');
+      this.container?.classList.add('rtl');
     } else {
       this.removeAttribute('dir');
-      this.container.classList.remove('rtl');
+      this.container?.classList.remove('rtl');
     }
   }
 

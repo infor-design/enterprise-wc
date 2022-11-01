@@ -44,7 +44,7 @@ export default class IdsEmptyMessage extends Base {
   }
 
   iconData(): string {
-    return (<any>pathData)[this.icon];
+    return (<any>pathData)[this.icon as any];
   }
 
   /**
@@ -76,9 +76,9 @@ export default class IdsEmptyMessage extends Base {
     return this;
   }
 
-  get icon(): string { return this.getAttribute(attributes.ICON); }
+  get icon(): string | null { return this.getAttribute(attributes.ICON); }
 
-  set icon(value: string) {
+  set icon(value: string | null) {
     const svgIcon = this.shadowRoot?.querySelector('svg');
     if (value && (<any>pathData)[value]) {
       if (svgIcon) svgIcon.style.display = '';

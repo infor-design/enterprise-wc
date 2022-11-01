@@ -165,7 +165,9 @@ if (dataGrid) {
         {
           colspan: 2,
           id: 'group2',
-          name: 'Column Group Two'
+          name: 'Column Group Two',
+          headerIcon: 'error',
+          headerIconTooltip: 'The group2 icon.',
         },
         {
           colspan: 2,

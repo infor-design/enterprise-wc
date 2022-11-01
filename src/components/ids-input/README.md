@@ -147,6 +147,7 @@ setData();
 - `text-align` {string} set text-align to input, it will set `left` as defaults.
 - `type` {string} set the input type, it will set `text` as defaults.
 - `validate` {string} set the input validation rules, use `space` to add multiple validation rules.
+- `format` {string} if the validation rules include date/time, use the setting to set custom date/time format
 - `validationEvents` {string} set the input validation events, use `space` to add multiple validation rules, it will set `blur` as defaults.
 - `value` {string} set the input value.
 

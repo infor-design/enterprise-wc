@@ -7,6 +7,9 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 import waitForTimeout from '../helpers/wait-for-timeout';
 
 import createFromTemplate from '../helpers/create-from-template';
+import type IdsAccordion from '../../src/components/ids-accordion/ids-accordion';
+import type IdsAccordionPanel from '../../src/components/ids-accordion/ids-accordion-panel';
+import type IdsIcon from '../../src/components/ids-icon/ids-icon';
 
 const createAccordion = async (accordion: any, variant?: string | null) => {
   const variantProp = variant ? ` color-variant="${variant}"` : '';
@@ -32,31 +35,31 @@ const createAccordion = async (accordion: any, variant?: string | null) => {
 };
 
 describe('IdsAccordion Component', () => {
-  let accordion: any;
-  let panel: any;
-  let panel2: any;
-  let panel3: any;
-  let header: any;
-  let header2: any;
+  let accordion: IdsAccordion;
+  let panel: IdsAccordionPanel;
+  let panel2: IdsAccordionPanel;
+  let panel3: IdsAccordionPanel;
+  let header: IdsAccordionHeader;
+  let header2: IdsAccordionHeader;
 
   beforeEach(async () => {
     accordion = await createAccordion(accordion);
 
-    panel = document.querySelector('#p1');
-    panel2 = document.querySelector('#p2');
-    panel3 = document.querySelector('#p3');
-    header = (document.querySelector('#h1') as unknown as IdsAccordionHeader);
-    header2 = (document.querySelector('#h2') as unknown as IdsAccordionHeader);
+    panel = document.querySelector('#p1') as IdsAccordionPanel;
+    panel2 = document.querySelector('#p2') as IdsAccordionPanel;
+    panel3 = document.querySelector('#p3') as IdsAccordionPanel;
+    header = (document.querySelector('#h1') as IdsAccordionHeader);
+    header2 = (document.querySelector('#h2') as IdsAccordionHeader);
   });
 
   afterEach(async () => {
     accordion.remove();
-    accordion = null;
-    panel = null;
-    panel2 = null;
-    panel3 = null;
-    header = null;
-    header2 = null;
+    (accordion as any) = null;
+    (panel as any) = null;
+    (panel2 as any) = null;
+    (panel3 as any) = null;
+    (header as any) = null;
+    (header2 as any) = null;
   });
 
   it('renders correctly', async () => {
@@ -78,21 +81,21 @@ describe('IdsAccordion Component', () => {
 
   it('can set the pane title attribute', () => {
     const panelTitle = 'Expander text';
-    panel.pane.setAttribute('title', panelTitle);
-    expect(panel.pane.getAttribute('title')).toBe(panelTitle);
+    panel.pane?.setAttribute('title', panelTitle);
+    expect(panel.pane?.getAttribute('title')).toBe(panelTitle);
   });
 
   it('can change its expanded property', () => {
     const panelEl = accordion.querySelector('ids-accordion-panel');
 
-    panelEl.setAttribute('expanded', true);
+    panelEl?.setAttribute('expanded', 'true');
     panel.expanded = true;
-    expect(panelEl.getAttribute('expanded')).toBeTruthy();
+    expect(panelEl?.getAttribute('expanded')).toBeTruthy();
     expect(panel.getAttribute('expanded')).toBeTruthy();
 
-    panelEl.setAttribute('expanded', false);
+    panelEl?.setAttribute('expanded', 'false');
     panel.expanded = false;
-    expect(panelEl.getAttribute('expanded')).toBeFalsy();
+    expect(panelEl?.getAttribute('expanded')).toBeFalsy();
     expect(panel.expanded).toBeFalsy();
   });
 
@@ -111,11 +114,11 @@ describe('IdsAccordion Component', () => {
     const event = new MouseEvent('click', args);
 
     // Expand
-    panel.expander.dispatchEvent(event);
+    panel.expander?.dispatchEvent(event);
     expect(panel.expanded).toBeTruthy();
 
     // Collapse
-    panel.expander.dispatchEvent(event);
+    panel.expander?.dispatchEvent(event);
     expect(panel.expanded).toBeFalsy();
   });
 
@@ -133,12 +136,12 @@ describe('IdsAccordion Component', () => {
     const event: any = new TouchEvent('touchend', args);
 
     // Expand
-    panel.expander.dispatchEvent(event);
+    panel.expander?.dispatchEvent(event);
 
     expect(panel.expanded).toBeTruthy();
 
     // Collapse
-    panel.expander.dispatchEvent(event);
+    panel.expander?.dispatchEvent(event);
 
     expect(panel.expanded).toBeFalsy();
   });
@@ -184,8 +187,8 @@ describe('IdsAccordion Component', () => {
     let nextPanel = panel.nextElementSibling;
 
     panel.dispatchEvent(event);
-    nextPanel.setAttribute('tabindex', '0');
-    expect(nextPanel.getAttribute('tabindex')).toBe('0');
+    nextPanel?.setAttribute('tabindex', '0');
+    expect(nextPanel?.getAttribute('tabindex')).toBe('0');
 
     nextPanel = panel3.nextElementSibling;
     panel3.dispatchEvent(event);
@@ -197,8 +200,8 @@ describe('IdsAccordion Component', () => {
     let prevPanel = panel2.previousElementSibling;
 
     panel2.dispatchEvent(event);
-    prevPanel.setAttribute('tabindex', '0');
-    expect(prevPanel.getAttribute('tabindex')).toBe('0');
+    prevPanel?.setAttribute('tabindex', '0');
+    expect(prevPanel?.getAttribute('tabindex')).toBe('0');
 
     prevPanel = panel.previousElementSibling;
     panel.dispatchEvent(event);
@@ -207,7 +210,7 @@ describe('IdsAccordion Component', () => {
 
   it('supports setting mode', () => {
     accordion.mode = 'dark';
-    expect(accordion.container.getAttribute('mode')).toEqual('dark');
+    expect(accordion.container?.getAttribute('mode')).toEqual('dark');
   });
 
   it('supports setting allow one pane', () => {
@@ -228,7 +231,7 @@ describe('IdsAccordion Component', () => {
   });
 
   it('will not error if no pane', () => {
-    panel.container.querySelector('.ids-accordion-pane').remove();
+    panel.container?.querySelector('.ids-accordion-pane')?.remove();
     panel.collapsePane();
     expect(panel.pane).toBe(null);
   });
@@ -237,7 +240,7 @@ describe('IdsAccordion Component', () => {
     panel2.focus();
 
     expect((document.activeElement as any).isEqualNode(header2)).toBeTruthy();
-    expect(accordion.focused.isEqualNode(panel2)).toBeTruthy();
+    expect(accordion.focused?.isEqualNode(panel2)).toBeTruthy();
 
     // Create another element outside the app menu and focus it
     const extraneousElem = document.createElement('input');
@@ -251,21 +254,21 @@ describe('IdsAccordion Component', () => {
   it('can navigate among its panels programatically', () => {
     panel.focus();
     const next = accordion.navigate(1);
-    expect(next.isEqualNode(panel2)).toBeTruthy();
+    expect(next?.isEqualNode(panel2)).toBeTruthy();
 
     const prev = accordion.navigate(-1);
-    expect(prev.isEqualNode(panel)).toBeTruthy();
+    expect(prev?.isEqualNode(panel)).toBeTruthy();
 
     // If "0" is passed, stay put
     const none = accordion.navigate(0);
-    expect(none.isEqualNode(panel)).toBeTruthy();
+    expect(none?.isEqualNode(panel)).toBeTruthy();
 
     // Don't accept junk values
-    const junk = accordion.navigate('junk');
-    expect(junk.isEqualNode(panel)).toBeTruthy();
+    const junk = accordion.navigate('junk' as any);
+    expect(junk?.isEqualNode(panel)).toBeTruthy();
 
     const noArgs = accordion.navigate();
-    expect(noArgs.isEqualNode(panel)).toBeTruthy();
+    expect(noArgs?.isEqualNode(panel)).toBeTruthy();
   });
 
   it('can navigate among its panels using the keyboard', () => {
@@ -291,12 +294,12 @@ describe('IdsAccordion Component', () => {
   it('can select headers', () => {
     header.selected = true;
 
-    expect(header.container.classList.contains('selected')).toBeTruthy();
+    expect(header.container?.classList.contains('selected')).toBeTruthy();
 
     header2.selected = true;
 
     expect(header.selected).toBeFalsy();
-    expect(header2.container.classList.contains('selected')).toBeTruthy();
+    expect(header2.container?.classList.contains('selected')).toBeTruthy();
   });
 
   it('can change its headers expander type', async () => {
@@ -307,7 +310,7 @@ describe('IdsAccordion Component', () => {
   });
 
   it('can add/remove icons from accordion headers', () => {
-    const icon = header.container.querySelector('.ids-accordion-display-icon');
+    const icon = header.container?.querySelector('.ids-accordion-display-icon') as IdsIcon;
     header.icon = 'user';
 
     expect(header.getAttribute('icon')).toBe('user');
@@ -320,7 +323,7 @@ describe('IdsAccordion Component', () => {
   });
 
   it('toggle expander icon for header', async () => {
-    const icon = header.container.querySelector('.ids-accordion-expander-icon');
+    const icon = header.container?.querySelector('.ids-accordion-expander-icon') as IdsIcon;
     expect(icon.getAttribute('icon')).toBe('caret-down');
     header.toggleExpanderIcon(true);
     await waitForTimeout(() => expect(icon.getAttribute('icon')).toBe('caret-down'));
@@ -358,13 +361,13 @@ describe('IdsAccordion Component', () => {
 
   it('should add/remove alignment classes with panel\'s contentAlignment', () => {
     panel.contentAlignment = '';
-    expect(header.container.classList.contains('has-icon')).toBeFalsy();
+    expect(header.container?.classList.contains('has-icon')).toBeFalsy();
 
     panel.contentAlignment = 'has-icon';
-    expect(header.container.classList.contains('has-icon')).toBeTruthy();
+    expect(header.container?.classList.contains('has-icon')).toBeTruthy();
 
     panel.contentAlignment = 'has-menu';
-    expect(header.container.classList.contains('has-icon')).toBeFalsy();
+    expect(header.container?.classList.contains('has-icon')).toBeFalsy();
   });
 
   it('should not expand when panel is disabled', () => {

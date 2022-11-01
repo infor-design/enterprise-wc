@@ -1,5 +1,15 @@
 import { attributes } from '../../core/ids-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
+
+export interface ColorVariantHandler {
+  // as instance function
+  onColorVariantRefresh?(variantName: string | undefined | null): void;
+  // as instance property
+  onColorVariantRefresh?: (variantName: string | undefined | null) => void;
+}
+
+type Constraints = IdsConstructor<ColorVariantHandler>;
 
 /**
  * A mixin that will provide the container element of an IDS Component with a class
@@ -8,9 +18,9 @@ import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsColorVariantMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  constructor(...args: any[]) {
+    super(...args);
 
     if (!this.state) {
       this.state = {};
@@ -20,12 +30,12 @@ const IdsColorVariantMixin = (superclass: any) => class extends superclass {
 
   connectedCallback() {
     super.connectedCallback();
-    this.#refreshColorVariant(null, this.colorVariant);
+    if (this.colorVariant) this.#refreshColorVariant(null, this.colorVariant);
   }
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.COLOR_VARIANT
     ];
   }

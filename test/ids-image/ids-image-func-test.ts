@@ -10,7 +10,7 @@ const newSrc = '../assets/images/placeholder-154x120.png';
 const size = 'sm';
 
 describe('IdsImage Component (using properties)', () => {
-  let component: any;
+  let component: IdsImage;
 
   beforeEach(async () => {
     component = new IdsImage();
@@ -24,7 +24,7 @@ describe('IdsImage Component (using properties)', () => {
 
   afterEach(async () => {
     document.body.innerHTML = '';
-    component = null;
+    (component as any) = null;
   });
 
   it('should render', () => {

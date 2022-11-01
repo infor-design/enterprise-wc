@@ -7,6 +7,7 @@ import '../ids-text/ids-text';
 import '../ids-hyperlink/ids-hyperlink';
 
 import styles from './ids-counts.scss';
+import type IdsText from '../ids-text/ids-text';
 
 /**
  * IDS Counts Component
@@ -30,8 +31,8 @@ export default class IdsCounts extends Base {
   }
 
   #textProperties() {
-    this.querySelectorAll('[count-value]').forEach((value: any) => { value.fontSize = stringToBool(this.compact) ? 40 : 48; });
-    this.querySelectorAll('[count-text]').forEach((text: any) => { text.fontSize = 16; });
+    this.querySelectorAll<IdsText>('[count-value]').forEach((value) => { value.setAttribute(attributes.FONT_SIZE, this.compact ? '40' : '48'); });
+    this.querySelectorAll<IdsText>('[count-text]').forEach((text) => { text.setAttribute(attributes.FONT_SIZE, '16'); });
   }
 
   /**
@@ -64,18 +65,25 @@ export default class IdsCounts extends Base {
    * @param {string} value The color value. This can be omitted.
    * base (blue), caution, danger, success, warning, or a hex code with the "#"
    */
-  set color(value: string) {
+  set color(value: string | null) {
     if (this.href) this.container?.setAttribute('color', '');
-    const color = value[0] === '#' ? value : `var(--ids-color-status-${value})`;
-    if (this.container) this.container.style.color = color;
-    this.querySelectorAll('ids-text').forEach((node: any) => {
+
+    if (value) {
+      const color = value[0] === '#' ? value : `var(--ids-color-status-${value})`;
+      this.container?.style.setProperty('color', color);
+      this.setAttribute(attributes.COLOR, value);
+    } else {
+      this.container?.style.removeProperty('color');
+      this.removeAttribute(attributes.COLOR);
+    }
+
+    this.querySelectorAll<IdsText>('ids-text').forEach((node) => {
       node.color = 'unset';
       node.shadowRoot?.querySelector('span')?.style.setProperty('color', value);
     });
-    this.setAttribute(attributes.COLOR, value);
   }
 
-  get color(): string { return this.getAttribute(attributes.COLOR); }
+  get color(): string | null { return this.getAttribute(attributes.COLOR); }
 
   /**
    * Set the compact attribute
@@ -83,18 +91,24 @@ export default class IdsCounts extends Base {
    * default to regular size if this property is ommitted.
    */
   set compact(value: string | boolean) {
-    this.setAttribute(attributes.COMPACT, value === 'true' ? 'true' : 'false');
+    this.setAttribute(attributes.COMPACT, stringToBool(value) ? 'true' : 'false');
   }
 
-  get compact(): string | boolean { return this.getAttribute(attributes.COMPACT); }
+  get compact(): boolean {
+    return stringToBool(this.getAttribute(attributes.COMPACT));
+  }
 
   /**
    * Set the href attribute
    * @param {string} value The href link
    */
-  set href(value: string) {
-    this.setAttribute(attributes.HREF, value);
+  set href(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.HREF, value);
+    } else {
+      this.removeAttribute(attributes.HREF);
+    }
   }
 
-  get href(): string { return this.getAttribute(attributes.HREF); }
+  get href(): string | null { return this.getAttribute(attributes.HREF); }
 }

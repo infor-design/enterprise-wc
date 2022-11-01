@@ -90,7 +90,7 @@ export default class IdsPagerDropdown extends Base {
    * @param {number} value - new the page-size
    */
   set pageSize(value: number) {
-    this.setAttribute(attributes.PAGE_SIZE, value);
+    this.setAttribute(attributes.PAGE_SIZE, String(value));
 
     if (this.menuButton) {
       const span = this.menuButton.querySelector('span');
@@ -102,7 +102,7 @@ export default class IdsPagerDropdown extends Base {
    * Get the page-size attribute
    * @returns {number} - the current page-size
    */
-  get pageSize(): number { return parseInt(this.getAttribute(attributes.PAGE_SIZE)) || 10; }
+  get pageSize(): number { return parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '') || 10; }
 
   connectedCallback(): void {
     super.connectedCallback?.();

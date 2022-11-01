@@ -14,6 +14,9 @@ import '../ids-swappable/ids-swappable';
 import '../ids-swappable/ids-swappable-item';
 
 import styles from './ids-list-view.scss';
+import type IdsSwappableItem from '../ids-swappable/ids-swappable-item';
+import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
+import type IdsText from '../ids-text/ids-text';
 
 export interface IdsListViewActivatedItem {
   /** The index value in current dataset */
@@ -82,7 +85,9 @@ export default class IdsListView extends Base {
   #size = 0;
 
   /** The datasource container */
-  datasource: Record<string, any> = new IdsDataSource();
+  datasource = new IdsDataSource();
+
+  defaultTemplate = '';
 
   /**
    * @returns {Array<string>} Drawer vetoable events
@@ -130,18 +135,18 @@ export default class IdsListView extends Base {
 
   /**
    * Get list of all elements
-   * @returns {any} List of all list item elements
+   * @returns {NodeListOf<HTMLElement>} List of all list item elements
    */
-  getAllLi(): any {
-    return this.container?.querySelectorAll('div[part="list-item"]');
+  getAllLi(): NodeListOf<HTMLElement> | undefined {
+    return this.container?.querySelectorAll<HTMLElement>('div[part="list-item"]');
   }
 
   /**
    * Return all swappable items
-   * @returns {any} List of all swappable items
+   * @returns {NodeListOf<IdsSwappableItem>} List of all swappable items
    */
-  getAllSwappableItems(): any {
-    return this.container.querySelectorAll('ids-swappable-item');
+  getAllSwappableItems(): NodeListOf<IdsSwappableItem> | undefined {
+    return this.container?.querySelectorAll<IdsSwappableItem>('ids-swappable-item');
   }
 
   /**
@@ -149,7 +154,7 @@ export default class IdsListView extends Base {
    * @returns {void}
    */
   #addSortableStyles(): void {
-    this.getAllLi().forEach((li: HTMLElement) => {
+    this.getAllLi()?.forEach((li: HTMLElement) => {
       li.classList.add('sortable');
     });
   }
@@ -172,7 +177,7 @@ export default class IdsListView extends Base {
    * @returns {HTMLElement|null} The DOM element, or null if item not found.
    */
   #itemByIndex(index: number): HTMLElement | null {
-    return Number.isNaN(index) ? null
+    return Number.isNaN(index) || !this.container ? null
       : this.container.querySelector(`div[part="list-item"][index="${index}"]`);
   }
 
@@ -213,8 +218,8 @@ export default class IdsListView extends Base {
     let start = end - this.#size;
 
     if (this.virtualScroll) {
-      end = this.virtualScrollContainer.lastEnd;
-      start = this.virtualScrollContainer.lastStart;
+      end = this.virtualScrollContainer?.lastEnd as number;
+      start = this.virtualScrollContainer?.lastStart as number;
     }
 
     return dataIndex >= start && dataIndex < end;
@@ -272,7 +277,7 @@ export default class IdsListView extends Base {
       const focusedLi = this.getFocusedLi();
       // Mixed selectable, should do selection instead of activation if use keyboard
       if (this.selectable === 'mixed') {
-        const cb: any = focusedLi.querySelector('.list-item-checkbox');
+        const cb: any = focusedLi?.querySelector('.list-item-checkbox');
         if (cb) cb.checked = !cb.checked;
         this.#isTargetCheckbox = true;
       }
@@ -402,8 +407,8 @@ export default class IdsListView extends Base {
       }
 
       // Set accessbility
-      const container = this.container.querySelector('.ids-list-view-body');
-      container.setAttribute('aria-activedescendant', li.getAttribute('id'));
+      const container = this.container?.querySelector('.ids-list-view-body');
+      container?.setAttribute('aria-activedescendant', String(li.getAttribute('id')));
 
       // init new focus
       li.setAttribute('tabindex', '0'); // this clears after every render
@@ -415,9 +420,9 @@ export default class IdsListView extends Base {
    * Get currently focused list item.
    * @returns {HTMLElement} The focused list item.
    */
-  getFocusedLi(): HTMLElement {
-    const savedFocusedLi = this.container.querySelector(`div[part="list-item"][index="${this.#focusedLiIndex}"]`);
-    const val = savedFocusedLi ?? this.container.querySelector('div[part="list-item"][tabindex="0"]');
+  getFocusedLi(): HTMLElement | undefined | null {
+    const savedFocusedLi = this.container?.querySelector<HTMLElement>(`div[part="list-item"][index="${this.#focusedLiIndex}"]`);
+    const val = savedFocusedLi ?? this.container?.querySelector<HTMLElement>('div[part="list-item"][tabindex="0"]');
     return val;
   }
 
@@ -430,7 +435,7 @@ export default class IdsListView extends Base {
     let idx = li && typeof li.getAttribute === 'function' ? li.getAttribute('index') : null;
     idx = stringToNumber(idx);
     if (Number.isNaN(idx)) return;
-    const items = [...this.getAllLi()].slice(0, (idx + 1));
+    const items = [...this.getAllLi() ?? []].slice(0, (idx + 1));
     const prev = (item: any): any => (
       this.sortable
         ? item.parentElement.previousElementSibling?.firstElementChildwrapper
@@ -453,7 +458,7 @@ export default class IdsListView extends Base {
     let idx = li && typeof li.getAttribute === 'function' ? li.getAttribute('index') : null;
     idx = stringToNumber(idx);
     if (Number.isNaN(idx)) return;
-    const items = [...this.getAllLi()].slice(idx);
+    const items = [...this.getAllLi() ?? []].slice(idx);
     const next = (item: any): any => (
       this.sortable
         ? item.parentElement.nextElementSibling?.firstElementChild
@@ -602,9 +607,10 @@ export default class IdsListView extends Base {
    */
   #adjustVirtualScrollIndexes(startIndex: number): void {
     const items = this.getAllLi();
-    const len = items.length;
-    if (startIndex === 0) items[0]?.setAttribute('tabindex', 0);
-    items.forEach((item: any, i: number) => {
+    const len = items?.length;
+
+    if (startIndex === 0) items?.item(0)?.setAttribute('tabindex', '0');
+    items?.forEach((item: any, i: number) => {
       item?.setAttribute('index', i + startIndex);
       item?.setAttribute('aria-posinset', i + 1);
       item?.setAttribute('aria-setsize', len);
@@ -625,7 +631,7 @@ export default class IdsListView extends Base {
         this.body?.querySelectorAll('.list-item-checkbox').forEach((cb: any) => cb?.remove());
       } else if (!val && !isCheckbox) {
         // add
-        this.getAllLi().forEach((item: any) => {
+        this.getAllLi()?.forEach((item: any) => {
           if (!item) return;
           const index = item.getAttribute('index');
           const isSelected = item.hasAttribute('selected');
@@ -693,7 +699,7 @@ export default class IdsListView extends Base {
     if (!this.selectable || !item) return;
     if (item.tagName === 'IDS-SWAPPABLE-ITEM') {
       if (this.selectable === 'single') {
-        const prevSelectedLi: HTMLLIElement = this.selectedLi;
+        const prevSelectedLi: HTMLLIElement = (this as any).selectedLi;
         if (item !== prevSelectedLi && prevSelectedLi) {
           this.toggleSelectedAttribute(prevSelectedLi);
         }
@@ -708,9 +714,9 @@ export default class IdsListView extends Base {
    */
   updateDataFromDOM(): void {
     const newData: any = [];
-    this.container.querySelectorAll('div[part="list-item"]').forEach((x: any) => {
+    this.container?.querySelectorAll<HTMLElement>('div[part="list-item"]').forEach((x) => {
       const objItem: any = {};
-      x.querySelectorAll('ids-text').forEach((value: any, i: any) => {
+      x.querySelectorAll<IdsText>('ids-text').forEach((value, i) => {
         objItem[this.dataKeys[i]] = value.innerHTML;
       });
 
@@ -764,9 +770,12 @@ export default class IdsListView extends Base {
             ${this.itemTemplate(this.datasource.data[0])}
           </div>
         `);
-        this.virtualScrollContainer.itemHeight = itemHeight;
-        this.virtualScrollContainer.itemTemplate = this.listItemTemplateFunc();
-        this.virtualScrollContainer.data = this.data;
+
+        if (this.virtualScrollContainer) {
+          this.virtualScrollContainer.itemHeight = itemHeight;
+          this.virtualScrollContainer.itemTemplate = this.listItemTemplateFunc();
+          this.virtualScrollContainer.data = this.data;
+        }
       }
       this.#attachEventListeners();
     }
@@ -780,12 +789,12 @@ export default class IdsListView extends Base {
     }
   }
 
-  get virtualScrollContainer() {
-    return this.container.querySelector('ids-virtual-scroll');
+  get virtualScrollContainer(): IdsVirtualScroll | undefined | null {
+    return this.container?.querySelector<IdsVirtualScroll>('ids-virtual-scroll');
   }
 
   get body() {
-    return this.container.querySelector('.ids-list-view-body');
+    return this.container?.querySelector('.ids-list-view-body');
   }
 
   /**
@@ -796,7 +805,7 @@ export default class IdsListView extends Base {
     if (!this.container) return;
 
     const rootContainer = this.virtualScroll ? this.virtualScrollContainer : this.container;
-    rootContainer.style.height = `${this.height}`;
+    rootContainer?.style.setProperty('height', `${this.height}`);
   }
 
   /**
@@ -806,12 +815,12 @@ export default class IdsListView extends Base {
    * @returns {number} The item height
    */
   #checkTemplateHeight(itemTemplate: string): number {
-    this.container.insertAdjacentHTML('beforeEnd', itemTemplate);
-    const tester = this.shadowRoot.querySelector('#height-tester');
-    const height = tester.offsetHeight;
-    tester.remove();
+    this.container?.insertAdjacentHTML('beforeend', itemTemplate);
+    const tester = this.shadowRoot?.querySelector<HTMLElement>('#height-tester');
+    const height = tester?.offsetHeight;
+    tester?.remove();
 
-    return height;
+    return height ?? NaN;
   }
 
   /**
@@ -885,7 +894,7 @@ export default class IdsListView extends Base {
    * Used to determine if data has been loaded into IdsListView
    * @param {Array | null} value The array to use
    */
-  set loaded(value: any) { this.setAttribute(attributes.LOADED, !!value); }
+  set loaded(value: any) { this.setAttribute(attributes.LOADED, String(!!value)); }
 
   get loaded(): any { return stringToBool(attributes.LOADED); }
 
@@ -895,19 +904,19 @@ export default class IdsListView extends Base {
    */
   set dataKeys(value: any) {
     if (this.datasource) {
-      this.datasource.dataKeys = value || [];
+      (this.datasource as any).dataKeys = value || [];
     }
   }
 
-  get dataKeys(): any { return this?.datasource?.dataKeys || []; }
+  get dataKeys(): any { return (this.datasource as any).dataKeys || []; }
 
   /**
    * Set the list view to use virtual scrolling for a large amount of elements.
    * @param {string | boolean} value true to use virtual scrolling
    */
-  set virtualScroll(value: string | boolean) {
+  set virtualScroll(value: string | boolean | null) {
     if (/boolean|string/g.test(typeof value)) {
-      this.setAttribute(attributes.VIRTUAL_SCROLL, value);
+      this.setAttribute(attributes.VIRTUAL_SCROLL, String(value));
     } else {
       this.removeAttribute(attributes.VIRTUAL_SCROLL);
     }
@@ -921,9 +930,9 @@ export default class IdsListView extends Base {
    * Set the expected height of the viewport for virtual scrolling
    * @param {string | number} value true to use virtual scrolling
    */
-  set height(value: string | number) {
+  set height(value: string | number | undefined | null) {
     if (value) {
-      this.setAttribute(attributes.HEIGHT, value);
+      this.setAttribute(attributes.HEIGHT, String(value));
     } else {
       this.setAttribute(attributes.HEIGHT, LIST_VIEW_DEFAULTS.height);
     }
@@ -937,34 +946,34 @@ export default class IdsListView extends Base {
    * Set the expected height of each item
    * @param {string | number} value true to use virtual scrolling
    */
-  set itemHeight(value: string | number) {
+  set itemHeight(value: string | number | undefined | null) {
     if (value) {
-      this.setAttribute(attributes.ITEM_HEIGHT, value);
+      this.setAttribute(attributes.ITEM_HEIGHT, String(value));
     } else {
       this.removeAttribute(attributes.ITEM_HEIGHT);
     }
   }
 
-  get itemHeight(): string | number {
-    return this.getAttribute(attributes.ITEM_HEIGHT);
+  get itemHeight(): number {
+    return parseInt(this.getAttribute(attributes.ITEM_HEIGHT) ?? '');
   }
 
   /**
    * Set the selection mode of the listview
    * @param {string} value The value
    */
-  set selectable(value: string) {
+  set selectable(value: string | null) {
     this.container?.classList.remove(...this.selectableClass(true));
 
-    if (LIST_VIEW_DEFAULTS.selectableOptions.includes(value)) {
-      this.setAttribute(attributes.SELECTABLE, value);
-      this.container?.classList.add(this.selectableClass());
+    if (LIST_VIEW_DEFAULTS.selectableOptions.includes(String(value))) {
+      this.setAttribute(attributes.SELECTABLE, String(value));
+      this.container?.classList.add(this.selectableClass() as string);
     } else {
       this.removeAttribute(attributes.SELECTABLE);
     }
   }
 
-  get selectable(): string {
+  get selectable(): string | null {
     return this.getAttribute(attributes.SELECTABLE);
   }
 
@@ -1007,9 +1016,9 @@ export default class IdsListView extends Base {
    * Handles the sortable property and reflects it on the DOM.
    * @param {boolean|string} value The sortable parameter.
    */
-  set sortable(value: boolean | string) {
+  set sortable(value: boolean | string | null) {
     if (/boolean|string/g.test(typeof value)) {
-      this.setAttribute(attributes.SORTABLE, value);
+      this.setAttribute(attributes.SORTABLE, String(value));
     } else {
       this.removeAttribute(attributes.SORTABLE);
     }
@@ -1025,7 +1034,7 @@ export default class IdsListView extends Base {
    */
   set suppressDeactivation(value: boolean | string) {
     if (/boolean|string/g.test(typeof value)) {
-      this.setAttribute(attributes.SUPPRESS_DEACTIVATION, value);
+      this.setAttribute(attributes.SUPPRESS_DEACTIVATION, String(value));
     } else {
       this.removeAttribute(attributes.SUPPRESS_DEACTIVATION);
     }
@@ -1041,7 +1050,7 @@ export default class IdsListView extends Base {
    */
   set suppressDeselection(value: boolean | string) {
     if (/boolean|string/g.test(typeof value)) {
-      this.setAttribute(attributes.SUPPRESS_DESELECTION, value);
+      this.setAttribute(attributes.SUPPRESS_DESELECTION, String(value));
     } else {
       this.removeAttribute(attributes.SUPPRESS_DESELECTION);
     }
@@ -1057,7 +1066,7 @@ export default class IdsListView extends Base {
    */
   set hideCheckboxes(value: boolean | string) {
     if (/boolean|string/g.test(typeof value)) {
-      this.setAttribute(attributes.HIDE_CHECKBOXES, value);
+      this.setAttribute(attributes.HIDE_CHECKBOXES, String(value));
     } else {
       this.removeAttribute(attributes.HIDE_CHECKBOXES);
     }
@@ -1303,7 +1312,7 @@ export default class IdsListView extends Base {
     if (this.data?.[index]?.disabled) return true;
 
     const selected: any = this.selected;
-    if (!selected || (/^(multiple|mixed)$/g.test(this.selectable) && !selected.length)) return true;
+    if (!selected || (/^(multiple|mixed)$/g.test(String(this.selectable)) && !selected.length)) return true;
 
     if (this.selectable === 'single') {
       if (this.#isApply) this.#isApply = false;
@@ -1376,7 +1385,7 @@ export default class IdsListView extends Base {
     if (this.ds?.[dataIndex]?.disabled) return true;
 
     const selected: any = this.selected;
-    if (!selected || (/^(multiple|mixed)$/g.test(this.selectable) && !selected.length)) return true;
+    if (!selected || (/^(multiple|mixed)$/g.test(String(this.selectable)) && !selected.length)) return true;
 
     if (this.isInPage(dataIndex)) {
       return this.#deselectInPage(this.pageIndex(dataIndex) as any);
@@ -1451,20 +1460,9 @@ export default class IdsListView extends Base {
    * @param {Element} item list item
    * @returns {any} data object
    */
-  getListItemData(item: Element) {
-    const dataIdx = item.getAttribute('index');
+  getListItemData(item?: Element | null) {
+    const dataIdx = item?.getAttribute('index');
     return dataIdx ? this.data[dataIdx] : {};
-  }
-
-  /**
-   * Overrides the ids-sortable-mixin function to add styling for the placeholder node
-   * @param {Node} node the node to be cloned
-   * @returns {Node} the cloned node
-   */
-  createPlaceholderNode(node: any) {
-    const p = super.createPlaceholderNode(node);
-    p.querySelector('div[part="list-item"]').classList.add('placeholder'); // for styling the placeholder
-    return p;
   }
 
   /**
@@ -1479,10 +1477,10 @@ export default class IdsListView extends Base {
    * Return all selected Li indexes
    * @returns {any} List of selected li index
    */
-  getAllSelectedLiIndex(): any {
-    const listOfIndex: any[] = [];
-    this.container.querySelectorAll('ids-swappable-item[selected]')
-      .forEach((item: Element) => {
+  getAllSelectedLiIndex(): number[] {
+    const listOfIndex: number[] = [];
+    this.container?.querySelectorAll<IdsSwappableItem>('ids-swappable-item[selected]')
+      .forEach((item) => {
         listOfIndex.push(+(item.getAttribute('index') ?? -1));
       });
 

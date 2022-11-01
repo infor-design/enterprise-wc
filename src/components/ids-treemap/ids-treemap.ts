@@ -4,11 +4,6 @@ import Base from './ids-treemap-base';
 
 import styles from './ids-treemap.scss';
 
-const DEFAULT_DATA = [
-  { value: 1 },
-  { value: 2 }
-];
-
 const DEFAULT_HEIGHT = 300;
 
 type Data = {
@@ -37,6 +32,14 @@ type Squarify = {
   width: number
 };
 
+type TreemapRectangle = {
+  data: any[];
+  xBeginning: number;
+  yBeginning: number;
+  totalWidth: number,
+  totalHeight: number,
+};
+
 /**
  * IDS Tree Component
  * Based on Treemap Squarify: https://github.com/clementbat/treemap
@@ -50,11 +53,24 @@ type Squarify = {
 @customElement('ids-treemap')
 @scss(styles)
 export default class IdsTreeMap extends Base {
+  d: TreemapDataSet[] = [];
+
+  height = DEFAULT_HEIGHT;
+
+  width = NaN;
+
+  Rectangle: TreemapRectangle = {
+    data: [],
+    xBeginning: 0,
+    yBeginning: 0,
+    totalWidth: NaN,
+    totalHeight: DEFAULT_HEIGHT
+  };
+
+  initialData: Data[] = [];
+
   constructor() {
     super();
-    this.d = DEFAULT_DATA;
-    this.height = DEFAULT_HEIGHT;
-    this.width = '';
   }
 
   /**
@@ -98,31 +114,12 @@ export default class IdsTreeMap extends Base {
   }
 
   /**
-   * Set the title attribute
-   * @param {string | null} value of the title
-   * @memberof IdsTreeMap
+   * Handles title attribute changes
+   * @param {string} value title value
    */
-  set title(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.TITLE, value);
-    } else {
-      this.removeAttribute(attributes.TITLE);
-    }
-
+  onTitleChange(value: string | null) {
     const titleText = this.shadowRoot?.querySelector('[part="title"]');
-    if (titleText) {
-      titleText.innerHTML = value ? value.toString() : '';
-    }
-  }
-
-  /**
-   * Get the title attribute
-   * @returns {string | null} The value of the title attribute.
-   * @readonly
-   * @memberof IdsTreeMap
-   */
-  get title(): string | null {
-    return this.getAttribute(attributes.TITLE);
+    if (titleText) titleText.innerHTML = value || '';
   }
 
   /**
@@ -262,7 +259,7 @@ export default class IdsTreeMap extends Base {
   #validateArguments = (
     treemap: {
       data: Data[],
-      height: Pick<TreemapDataSet, 'height'>
+      height: number
     }
   ) => {
     const data = treemap.data;
@@ -419,7 +416,7 @@ export default class IdsTreeMap extends Base {
   treeMap(
     treemap: {
       data: Data[],
-      height: Pick<TreemapDataSet, 'height'>
+      height: number
     }
   ): TreemapDataSet[] {
     if (treemap && treemap.data.length > 0) {
@@ -427,7 +424,7 @@ export default class IdsTreeMap extends Base {
       const data = treemap.data;
 
       this.#validateArguments({ data, height });
-      this.width = this.container.offsetWidth;
+      this.width = this.container?.offsetWidth ?? NaN;
       this.height = height;
 
       this.Rectangle = {

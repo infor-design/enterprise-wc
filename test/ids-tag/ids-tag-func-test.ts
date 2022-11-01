@@ -2,17 +2,17 @@
  * @jest-environment jsdom
  */
 import IdsTag from '../../src/components/ids-tag/ids-tag';
+import IdsIcon from '../../src/components/ids-icon/ids-icon';
 
 describe('IdsTag Component', () => {
-  let tag: any;
+  let tag: IdsTag;
 
-  beforeEach(async () => {
-    const elem: any = new IdsTag();
-    document.body.appendChild(elem);
-    tag = document.querySelector('ids-tag');
+  beforeEach(() => {
+    tag = new IdsTag();
+    document.body.appendChild(tag);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     document.body.innerHTML = '';
   });
 
@@ -93,7 +93,7 @@ describe('IdsTag Component', () => {
 
   it('dismisses on click', () => {
     tag.dismissible = true;
-    tag.querySelector('ids-icon[icon="close"]').click();
+    tag.querySelector<IdsIcon>('ids-icon[icon="close"]')?.click();
     expect(document.querySelectorAll('ids-tag').length).toEqual(0);
   });
 
@@ -121,9 +121,9 @@ describe('IdsTag Component', () => {
 
   it('fires beforetagremove on dismiss', () => {
     tag.dismissible = true;
-    tag.addEventListener('beforetagremove', (e: CustomEvent) => {
+    tag.addEventListener('beforetagremove', ((e: CustomEvent) => {
       e.detail.response(false);
-    });
+    }) as EventListener);
     tag.dismiss();
 
     expect(document.body.contains(tag)).toEqual(true);
@@ -166,7 +166,7 @@ describe('IdsTag Component', () => {
     });
 
     tag.dismissible = true;
-    const icon = tag.querySelector('ids-icon[icon="close"]');
+    const icon = tag.querySelector('ids-icon[icon="close"]') as IdsIcon;
     const span = document.createElement('span');
     span.innerHTML = 'test';
     tag.insertBefore(span, icon);
@@ -183,27 +183,27 @@ describe('IdsTag Component', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
     tag.dispatchEvent(event);
 
-    expect(tag.container.classList.contains('focusable')).toEqual(true);
+    expect(tag.container?.classList.contains('focusable')).toEqual(true);
     expect(mockHandler.mock.calls.length).toBe(1);
   });
 
   it('removes the clickable attribute when reset', () => {
     tag.clickable = true;
     expect(tag.getAttribute('clickable')).toEqual('true');
-    expect(tag.clickable).toEqual('true');
+    expect(tag.clickable).toBeTruthy();
 
     tag.clickable = false;
     expect(tag.getAttribute('clickable')).toEqual(null);
-    expect(tag.clickable).toEqual(null);
-    expect(tag.container.classList.contains('focusable')).toEqual(false);
+    expect(tag.clickable).toBeFalsy();
+    expect(tag.container?.classList.contains('focusable')).toEqual(false);
   });
 
   it('supports setting mode', () => {
     tag.mode = 'dark';
-    expect(tag.container.getAttribute('mode')).toEqual('dark');
+    expect(tag.container?.getAttribute('mode')).toEqual('dark');
   });
 
-  it('should be able to set attributes before append', async () => {
+  it('should be able to set attributes before append', () => {
     const elem: any = new IdsTag();
     elem.color = 'red';
     elem.clickable = true;
@@ -215,7 +215,7 @@ describe('IdsTag Component', () => {
     expect(elem.getAttribute('dismissible')).toEqual('true');
   });
 
-  it('should be able to set attributes after append', async () => {
+  it('should be able to set attributes after append', () => {
     const elem: any = new IdsTag();
     document.body.appendChild(elem);
     elem.color = 'red';

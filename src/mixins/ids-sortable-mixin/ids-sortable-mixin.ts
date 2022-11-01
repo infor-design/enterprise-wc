@@ -1,5 +1,9 @@
 import { attributes } from '../../core/ids-attributes';
+import { IdsConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+
+type Constraints = IdsConstructor<EventsMixinInterface>;
 
 /**
  * A mixin that will provide the container element of an IDS Component with a "drag and drop" functionality
@@ -8,9 +12,11 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsSortableMixin = (superclass: any) => class extends superclass {
-  constructor() {
-    super();
+const IdsSortableMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  placeholder: Element | null = null;
+
+  constructor(...args: any[]) {
+    super(...args);
   }
 
   connectedCallback() {
@@ -20,7 +26,7 @@ const IdsSortableMixin = (superclass: any) => class extends superclass {
 
   static get attributes() {
     return [
-      ...super.attributes,
+      ...(superclass as any).attributes,
       attributes.SORTABLE,
     ];
   }
@@ -32,7 +38,7 @@ const IdsSortableMixin = (superclass: any) => class extends superclass {
   set sortable(value) {
     const val = stringToBool(value);
     if (val) {
-      this.setAttribute(attributes.SORTABLE, val);
+      this.setAttribute(attributes.SORTABLE, String(val));
     } else {
       this.removeAttribute(attributes.SORTABLE);
     }
@@ -88,9 +94,8 @@ const IdsSortableMixin = (superclass: any) => class extends superclass {
    * @param {Node} node the node being dragged around to clone
    * @returns {Node} a clone of the node
    */
-  createPlaceholderClone(node: Node) {
-    const p = node.cloneNode(true);
-    return p;
+  createPlaceholderClone(node: Node): Element {
+    return node.cloneNode(true) as Element;
   }
 
   /**
@@ -98,14 +103,14 @@ const IdsSortableMixin = (superclass: any) => class extends superclass {
    * @returns {NodeList | null} returns list of ids-draggable elements, or null
    */
   getAllDraggable() {
-    return this.sortable ? this.container.querySelectorAll('ids-draggable') : null;
+    return this.sortable ? this.container?.querySelectorAll<HTMLElement>('ids-draggable') : null;
   }
 
   /**
    * Adds dragging functionality to all list items
    */
   attachDragEventListeners() {
-    this.getAllDraggable().forEach((draggable: HTMLElement) => {
+    this.getAllDraggable()?.forEach((draggable: HTMLElement) => {
       this.attachDragEventListenersForDraggable(draggable);
     });
   }
@@ -140,8 +145,8 @@ const IdsSortableMixin = (superclass: any) => class extends superclass {
     el.style.removeProperty('opacity');
     el.style.removeProperty('z-index');
 
-    this.swap(el, this.placeholder);
     if (this.placeholder) {
+      this.swap(el, this.placeholder);
       this.placeholder.remove();
       this.placeholder = null;
     }
@@ -153,8 +158,10 @@ const IdsSortableMixin = (superclass: any) => class extends superclass {
    * @param {Element} el element to be dragged
    */
   onDrag(el: HTMLElement) {
-    let prevEle = this.placeholder?.previousElementSibling;
-    let nextEle = this.placeholder?.nextElementSibling;
+    if (!this.placeholder) return;
+
+    let prevEle = this.placeholder.previousElementSibling;
+    let nextEle = this.placeholder.nextElementSibling;
 
     // skip over the original node
     if (prevEle === el) {
