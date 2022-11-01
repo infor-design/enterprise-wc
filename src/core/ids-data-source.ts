@@ -132,13 +132,13 @@ class IdsDataSource {
           }
         }
         if (depth > 1) row.parentElement = parentElement;
-
         newData.push(row);
+
         if (row.children) {
           if (this.pageNumber > 1) {
             index += ((this.pageNumber - 1) * this.pageSize);
           }
-          addRows(row.children, row.children.length, depth + 1, `${row.parentElement ? `${row.parentElement} ` : ''}${index}`);
+          addRows(row.children, row.children.length, depth + 1, `${row.parentElement ? `${row.parentElement} ` : ''}${row.id}`);
         }
       });
     };
@@ -302,7 +302,7 @@ class IdsDataSource {
   filter(filterFunction: any) {
     // Updated the current data
     const updateCurrentData = (data: any) => {
-      this.#currentData = data;
+      this.#currentData = this.flatten ? this.#flattenData(data) : data;
       this.total = this.#currentData.length;
       this.pageNumber = 1;
     };
@@ -316,9 +316,9 @@ class IdsDataSource {
 
     // Check if need to filter or reset
     if (typeof filterFunction === 'function') {
-      this.#currentFilterData = this.#currentFilterData || this.#currentData;
-
-      // Run thru given filter process
+      this.#currentFilterData = this.#currentFilterData
+          || this.flatten ? deepClone(this.#originalData) : this.#currentData;
+      // Run thru the filter process
       this.#currentFilterData.forEach((row: any, index: number) => {
         row.isFilteredOut = filterFunction(row, index);
       });

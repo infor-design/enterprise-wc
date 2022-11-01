@@ -163,6 +163,7 @@ export const attributes = {
   ICON_ALIGN: 'icon-align',
   ICON_SIZE: 'icon-size',
   ID: 'id',
+  ID_COLUMN: 'id-column',
   INDETERMINATE: 'indeterminate',
   INHERIT_COLOR: 'inherit-color',
   INITIALS: 'initials',

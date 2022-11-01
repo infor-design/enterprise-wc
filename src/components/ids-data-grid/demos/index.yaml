@@ -101,6 +101,9 @@
   - link: tree-grid.html
     type: Example
     description: Shows displaying hierarchical data
+  - link: tree-grid-filter.html
+    type: Example
+    description: Shows a tree with filter
   - link: tree-grid-paging.html
     type: Example
     description: Shows a tree with paging

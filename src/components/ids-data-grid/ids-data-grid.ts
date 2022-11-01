@@ -510,6 +510,7 @@ export default class IdsDataGrid extends Base {
     this.offEvent('click.body', body);
     this.onEvent('click.body', body, (e: any) => {
       const cell = (e.target as any).closest('.ids-data-grid-cell');
+      if (!cell) return;
 
       const cellNum = cell.getAttribute('aria-colindex') - 1;
       const row = cell.parentNode;
@@ -1249,8 +1250,10 @@ export default class IdsDataGrid extends Base {
   #findParentRow(data: Array<Record<string, any>>, parentIds: string): any {
     let childRow: any;
     parentIds.split(' ').forEach((r: string, index: number) => {
-      if (index === 0) childRow = data[Number(r)];
-      else childRow = childRow.children[Number(r)];
+      // eslint-disable-next-line eqeqeq
+      if (index === 0) childRow = data.find((row: Record<string, any>) => row[this.idColumn] == r);
+      // eslint-disable-next-line eqeqeq
+      else childRow = childRow.children.find((cRow: Record<string, any>) => cRow.id == r);
     });
     return childRow;
   }
@@ -1782,5 +1785,21 @@ export default class IdsDataGrid extends Base {
 
   get groupSelectsChildren() {
     return stringToBool(this.getAttribute(attributes.GROUP_SELECTS_CHILDREN)) || false;
+  }
+
+  /**
+   * Used to set which column is the unique id column in the data set. This is needed for some operations.
+   * @param {string} value The value
+   */
+  set idColumn(value) {
+    if (value) {
+      this.setAttribute(attributes.ID_COLUMN, value.toString());
+    } else {
+      this.removeAttribute(attributes.ID_COLUMN);
+    }
+  }
+
+  get idColumn() {
+    return this.getAttribute(attributes.ID_COLUMN) || 'id';
   }
 }
