@@ -45,6 +45,9 @@ jobs:
         path: node_modules
         key: ids-enterprise-wc-036
 
+    - name: Clear Dependencies
+      run: rm -rf node_modules
+
     - name: Install Dependencies
       run: npm ci
 
