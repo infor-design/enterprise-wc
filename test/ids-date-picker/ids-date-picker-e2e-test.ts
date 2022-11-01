@@ -815,7 +815,7 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(weekDays).toEqual(['S', 'M', 'T', 'W', 'T', 'F', 'S']);
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-date-picker id="test" label="Date Field" value="3/4/2016" mask></ids-date-picker>`);
