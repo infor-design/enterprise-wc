@@ -503,7 +503,7 @@ export default class IdsSlider extends Base {
           }
         }
         // grab fresh label elements group
-        labelElements = this.container?.querySelectorAll('.label');
+        labelElements = this.container?.querySelectorAll('.label') || [];
       }
       // set the innerHTML for each label in the array
 
