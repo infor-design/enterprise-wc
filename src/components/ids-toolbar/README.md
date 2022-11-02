@@ -31,9 +31,9 @@ The Ids Toolbar can also be responsive, intelligently hiding buttons that can't 
 ### Toolbar Section
 
 - `align` - Determines the alignment of the items within this section.  Defaults to `start`, which is the left side of the Toolbar in a standard Left-to-Right toolbar setup.  Can also be `center` and `end` (right).
-- `favor` - Determines if this section should not shrink/collapse when the size of the entire Toolbar shrinks.  This causes the other Toolbar sections to become smaller first.
+- `favor` - Determines if this section should not shrink/collapse when the size of the entire Toolbar shrinks. This causes the other Toolbar sections to become smaller first.
 - `items` - provides access to all Toolbar items in this section.
-- `type` - Sets a pre-defined "type" on the toolbar section.  This defaults to `static` but can also be set to `title`, `buttonset`, and `search` to mimic those specific sections.  To create a custom section that fills available space, `fluid` is also an available type.
+- `type` - Sets a pre-defined "type" on the toolbar section. This defaults to `static` but can also be set to `title`, `buttonset`, and `search` to mimic those specific sections. To create a custom section that fills available space, `fluid` is also an available type. Type `button` is for a single button in the section to maintain button's focus state.
 
 ### Toolbar More Actions
 

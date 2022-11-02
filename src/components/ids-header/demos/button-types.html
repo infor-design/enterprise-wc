@@ -9,7 +9,7 @@
     <ids-text font-size="12" type="h1" audible="true">Ids Header (Different Button Types)</ids-text>
     <ids-header>
       <ids-toolbar>
-        <ids-toolbar-section>
+        <ids-toolbar-section type="button">
           <ids-button icon="menu" role="button" color-variant="alternate">
             <span slot="text" class="audible">Application Menu Trigger</span>
           </ids-button>
@@ -34,7 +34,9 @@
             <span slot="text">Trash</span>
           </ids-button>
         </ids-toolbar-section>
-        <ids-theme-switcher mode="light" color-variant="alternate"></ids-theme-switcher>
+        <ids-toolbar-section type="button">
+          <ids-theme-switcher mode="light" color-variant="alternate"></ids-theme-switcher>
+        </ids-toolbar-section>
       </ids-toolbar>
     </ids-header>
 

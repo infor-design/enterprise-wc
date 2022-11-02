@@ -100,6 +100,7 @@ export const attributes = {
   DEVICE_SPECS: 'device-specs',
   DIRECTION: 'direction',
   DIRTY_TRACKER: 'dirty-tracker',
+  DISABLE_CLIENT_FILTER: 'disable-client-filter',
   DISABLED: 'disabled',
   DISABLE_EVENTS: 'disable-native-events',
   DISMISSIBLE: 'dismissible',

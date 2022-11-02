@@ -222,6 +222,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   .ids-data-grid-header-text {
     @include block();
+    @include px-16();
     @include py-8();
     @include font-bold();
     @include text-14();
@@ -230,7 +231,6 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
-    text-indent: 16px;
     user-select: none;
     white-space: nowrap;
   }
@@ -280,6 +280,17 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       .sort-indicator ids-icon {
         opacity: 1;
       }
+    }
+  }
+
+  .has-selectioncheckbox .ids-data-grid-header-text {
+    @include px-0();
+  }
+
+  .is-sortable,
+  .has-headericon {
+    .ids-data-grid-header-text {
+      @include pr-0();
     }
   }
 

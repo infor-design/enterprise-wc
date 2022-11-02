@@ -10,7 +10,7 @@
 
     <ids-header>
       <ids-toolbar>
-        <ids-toolbar-section>
+        <ids-toolbar-section type="button">
           <ids-button icon="menu" role="button" color-variant="alternate">
             <span slot="text" class="audible">Application Menu Trigger</span>
           </ids-button>
@@ -54,7 +54,9 @@
             <ids-icon slot="icon" icon="delete"></ids-icon>
           </ids-button>
         </ids-toolbar-section>
-        <ids-theme-switcher mode="light" color-variant="alternate"></ids-theme-switcher>
+        <ids-toolbar-section type="button">
+          <ids-theme-switcher mode="light" color-variant="alternate"></ids-theme-switcher>
+        </ids-toolbar-section>
       </ids-toolbar>
     </ids-header>
   </ids-container>
