@@ -77,16 +77,15 @@ export default class IdsProgressChart extends Base {
   set icon(value: string | null) {
     const icon = this.container?.querySelector<IdsIcon>('.icon');
     if (value) {
-      if (icon) {
-        icon.style.display = '';
-        icon.style.margin = '0 4px';
-      }
       this.setAttribute(attributes.ICON, value);
+
       icon?.setAttribute(attributes.ICON, value);
+      icon?.style.setProperty('display', '');
+      icon?.style.setProperty('margin', '0 4px');
     } else {
-      if (icon) icon.style.display = 'none';
       this.setAttribute(attributes.ICON, '');
       icon?.setAttribute(attributes.ICON, '');
+      icon?.style.setProperty('display', 'none');
     }
   }
 
@@ -163,7 +162,7 @@ export default class IdsProgressChart extends Base {
     this.percentage = percentage;
 
     const progressBar = this.container?.querySelector<HTMLElement>('.bar-progress');
-    if (progressBar) progressBar.style.width = `${percentage}%`;
+    progressBar?.style.setProperty('width', `${percentage}%`);
   }
 
   /**
@@ -172,11 +171,8 @@ export default class IdsProgressChart extends Base {
    */
   #updateSize(): void {
     const bar = this.container?.querySelector<HTMLElement>('.bar');
-
-    if (bar) {
-      bar.style.minHeight = this.size === 'small' ? '10px' : '28px';
-      bar.style.borderRadius = this.size === 'small' ? '0px' : '2px';
-    }
+    bar?.style.setProperty('min-height', this.size === 'small' ? '10px' : '28px');
+    bar?.style.setProperty('border-radius', this.size === 'small' ? '0px' : '2px');
   }
 
   /**

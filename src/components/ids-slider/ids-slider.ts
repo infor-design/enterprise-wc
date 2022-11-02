@@ -471,7 +471,7 @@ export default class IdsSlider extends Base {
   }
 
   get labels(): Array<string> {
-    return this.#labels;
+    return this.#labels || [];
   }
 
   /**
@@ -482,33 +482,35 @@ export default class IdsSlider extends Base {
     if (this.type !== 'step') return;
 
     const labels = this.labels;
+    const labelsLength = labels?.length || 0;
     const stepNumber = this.stepNumber;
 
     // check to make sure labels length is equal to step number
 
-    if (labels.length === stepNumber) {
+    if (labelsLength === stepNumber) {
       // check amount of label elements -- add or remove accordingly
-      let labelElements = this.container?.querySelectorAll('.label');
-      const ticks = this.container?.querySelectorAll('.tick');
+      let labelElements = this.container?.querySelectorAll('.label') || [];
+      const labelElementsLength = labelElements.length || 0;
+      const ticks = this.container?.querySelectorAll('.tick') || [];
 
-      if (labelElements && labelElements?.length !== stepNumber) {
-        const x = Math.abs(stepNumber - labelElements.length);
+      if (labelElements && labelElementsLength !== stepNumber) {
+        const x = Math.abs(stepNumber - labelElementsLength);
         const labelAttr = !this.disabled ? ' label' : '';
 
         for (let i = 0; i < x; i++) {
-          if (ticks && labelElements.length < stepNumber) {
+          if (ticks && labelElements && labelElementsLength < stepNumber) {
             ticks[ticks.length - 1 - i]?.insertAdjacentHTML('afterbegin', `<ids-text${labelAttr} class="label"></ids-text>`);
           }
         }
         // grab fresh label elements group
-        labelElements = this.container?.querySelectorAll('.label');
+        labelElements = this.container?.querySelectorAll('.label') || [];
       }
       // set the innerHTML for each label in the array
 
-      if (labels.length === labelElements?.length) {
+      if (labels && labelsLength === labelElementsLength) {
         labelElements?.forEach((x: { innerHTML: any; classList: { add: (arg0: string) => any; }; }, i: number) => {
-          x.innerHTML = this.vertical ? labels[labels.length - 1 - i] : labels[i];
-          if (this.vertical) x.classList.add('vertical'); // add vertical styles
+          x.innerHTML = this.vertical ? labels[labelsLength - 1 - i] : labels[i];
+          if (this.vertical) x?.classList.add('vertical'); // add vertical styles
         });
       }
     } else {
@@ -542,7 +544,7 @@ export default class IdsSlider extends Base {
       // must have at least 2 steps
 
       if (parseInt(value) >= 2) {
-        this.setAttribute('step-number', value);
+        this.setAttribute(attributes.STEP_NUMBER, value);
         const stepLength = this.container?.querySelectorAll('.tick').length ?? 0;
 
         if (stepLength !== this.stepNumber) {
@@ -559,14 +561,14 @@ export default class IdsSlider extends Base {
       }
       this.labels = this.#generateNumericalLabels();
     } else {
-      this.removeAttribute('step-number');
+      this.removeAttribute(attributes.STEP_NUMBER);
     }
   }
 
   /**
    * @returns {number} the interval between slider ticks
    */
-  get stepNumber(): number { return parseInt(this.getAttribute('step-number') ?? '') || 2; }
+  get stepNumber(): number { return parseInt(this.getAttribute(attributes.STEP_NUMBER) ?? '') || 2; }
 
   /**
    * Sets the secondary slider thumb value based on percentage (range slider only)
@@ -836,7 +838,7 @@ export default class IdsSlider extends Base {
       color = this.color;
     }
 
-    const ticks = this.container?.querySelectorAll<HTMLElement>('.tick');
+    const ticks = this.container?.querySelectorAll<HTMLElement>('.tick') || [];
 
     if (color) {
       let colorString = color;
@@ -846,8 +848,8 @@ export default class IdsSlider extends Base {
       const rgbaColor = convertColorToRgba(colorString, 0.1);
 
       ticks?.forEach((tick: { children: HTMLCollection, style: CSSStyleDeclaration }) => {
-        tick.style.setProperty('background-color', colorString);
-        tick.children[0]?.setAttribute('label', '');
+        tick?.style.setProperty('background-color', colorString);
+        tick?.children[0]?.setAttribute('label', '');
       });
       this.thumb?.style.setProperty('background-color', colorString);
       this.thumbShadow?.style.setProperty('background-color', rgbaColor);
@@ -860,7 +862,7 @@ export default class IdsSlider extends Base {
       }
     } else {
       ticks?.forEach((tick: { children: HTMLCollection, style: CSSStyleDeclaration }) => {
-        tick.style.removeProperty('background-color');
+        tick?.style.removeProperty('background-color');
         if (!this.readonly) {
           tick.children[0]?.removeAttribute('label');
         } else {
@@ -872,9 +874,9 @@ export default class IdsSlider extends Base {
       this.thumbShadow?.style.removeProperty('border');
       this.progressTrack?.style.removeProperty('background-color');
       if (this.type === 'range' && this.thumbShadowSecondary && this.thumbSecondary) {
-        this.thumbShadowSecondary.style.removeProperty('background-color');
-        this.thumbShadowSecondary.style.removeProperty('border');
-        this.thumbSecondary.style.removeProperty('background-color');
+        this.thumbShadowSecondary?.style.removeProperty('background-color');
+        this.thumbShadowSecondary?.style.removeProperty('border');
+        this.thumbSecondary?.style.removeProperty('background-color');
       }
     }
   }
@@ -1407,7 +1409,7 @@ export default class IdsSlider extends Base {
         this.#updateTooltipDisplay(false);
         const target = e.target instanceof HTMLElement && e.target;
 
-        if (target && target.classList.contains('secondary')) {
+        if (target && target?.classList.contains('secondary')) {
           this.#updateThumbShadow(false, 'secondary');
           this.#updateThumbShadow(true, 'primary');
         } else {
