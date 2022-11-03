@@ -31,6 +31,8 @@ import type {
 
 import styles from './ids-date-picker-popup.scss';
 
+type IdsDatePickerPopupButton = IdsToggleButton | IdsModalButton | IdsButton;
+
 /**
  * IDS Date Picker Popup Component
  * @type {IdsDatePickerPopup}
@@ -163,6 +165,13 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @returns {Array<string>} Date Picker vetoable events
    */
   vetoableEventTypes: Array<string> = ['beforeshow'];
+
+  /**
+   * @returns {NodeList<IdsDatePickerPopupButton>} containing all buttons in the Date Picker Popup
+   */
+  get buttons() {
+    return this.container?.querySelectorAll<IdsDatePickerPopupButton>('ids-button, ids-modal-button, ids-toggle-button');
+  }
 
   /**
    * show-today attribute
@@ -949,6 +958,16 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
   }
 
   /**
+   * Removes all button ripples in the component
+   * @returns {void}
+   */
+  private removeRipples() {
+    this.buttons?.forEach((button: IdsDatePickerPopupButton) => {
+      button.removeRipples();
+    });
+  }
+
+  /**
    * Runs when this picker component hides
    * @returns {void}
    */
@@ -958,10 +977,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     }
     this.container?.setAttribute(htmlAttributes.TABINDEX, '-1');
     this.expanded = false;
-
-    this.container?.querySelectorAll<IdsButton | IdsModalButton>('ids-button, ids-modal-button')?.forEach((button: IdsButton | IdsModalButton) => {
-      button.removeRipples();
-    });
+    this.removeRipples();
   }
 
   /**
