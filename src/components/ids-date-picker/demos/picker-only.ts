@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
   picker.popup.arrowTarget = '#btn-dropdown-arrow';
 
   // Displays the selected day when picked from the Date Picker Popup's MonthView
-  const btn = document.querySelector<any>('ids-button');
+  const btn = document.querySelector<any>('#popup-trigger');
   btn.onEvent('dayselected', btn, (e: CustomEvent) => {
     const target = e.target;
-    if (target) console.info('"dayselected" event triggered', target);
+    if (target) console.info('"dayselected" event triggered', e.detail.date);
   });
 
   // Example for populating the legend

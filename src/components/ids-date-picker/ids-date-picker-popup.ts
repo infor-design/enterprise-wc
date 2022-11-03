@@ -943,7 +943,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     };
 
     if (this.target) {
-      this.target.triggerEvent('dayselected', this, args);
+      const event = new CustomEvent('dayselected', args);
+      this.target.dispatchEvent(event);
     }
   }
 
