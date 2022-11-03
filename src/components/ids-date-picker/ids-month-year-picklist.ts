@@ -803,6 +803,8 @@ class IdsMonthYearPicklist extends Base {
     picklistBtns.forEach((item: HTMLElement) => {
       item.setAttribute(attributes.TABINDEX, '-1');
     });
+
+    this.unselectPicklist('all');
   }
 }
 
