@@ -61,8 +61,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     this.monthView = this.container?.querySelector('ids-month-view');
     this.monthYearPicklist = this.container?.querySelector('ids-month-year-picklist');
     this.toolbar = this.container?.querySelector<IdsToolbar>('ids-toolbar');
-    this.#attachEventListeners();
-    this.#attachExpandedListener();
+    this.attachEventListeners();
+    this.attachExpandedListener();
   }
 
   disconnectedCallback(): void {
@@ -628,7 +628,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
   /**
    * Expanded/Collapsed event for Month/Year Picklist
    */
-  #attachExpandedListener() {
+  private attachExpandedListener() {
     this.offEvent('afterexpand');
     this.onEvent('afterexpand', this.container?.querySelector('ids-expandable-area'), () => {
       this.onPicklistExpand();
@@ -640,11 +640,11 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     });
   }
 
-  #attachEventListeners() {
+  private attachEventListeners() {
     // Selects day from the monthView
     this.offEvent('dayselected.date-picker-calendar');
     this.onEvent('dayselected.date-picker-calendar', this.monthView, (e: IdsDayselectedEvent) => {
-      this.#handleDaySelectedEvent(e);
+      this.handleDaySelectedEvent(e);
     });
 
     this.offEvent('datechange');
@@ -688,7 +688,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       e.stopPropagation();
 
       if (target.closest('.popup-btn-apply')) {
-        this.#handleApplyEvent(e);
+        this.handleApplyEvent(e);
         return;
       }
 
@@ -725,7 +725,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * Click to apply button event handler
    * @param {MouseEvent} e click event
    */
-  #handleApplyEvent(e: MouseEvent): void {
+  private handleApplyEvent(e: MouseEvent): void {
     e.stopPropagation();
 
     if (this.expanded) {
@@ -737,7 +737,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     const close = () => {
       this.hide();
       this.target?.focus();
-      this.#triggerSelectedEvent();
+      this.triggerSelectedEvent();
     };
 
     if (this.useRange) {
@@ -794,14 +794,14 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     if (this.target) {
       this.target.focus();
     }
-    this.#triggerSelectedEvent();
+    this.triggerSelectedEvent();
   }
 
   /**
    * Selected event handler
    * @param {IdsDayselectedEvent} e event from the calendar day selection
    */
-  #handleDaySelectedEvent(e: IdsDayselectedEvent): void {
+  private handleDaySelectedEvent(e: IdsDayselectedEvent): void {
     const inputDate: Date = this.locale.parseDate(this.value, { dateFormat: this.format });
 
     // Clear action
@@ -811,7 +811,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       if (this.monthView.selectDay) {
         this.monthView.selectDay();
       }
-      this.#triggerSelectedEvent();
+      this.triggerSelectedEvent();
 
       return;
     }
@@ -826,7 +826,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
         this.hide();
         this.focus();
-        this.#triggerSelectedEvent();
+        this.triggerSelectedEvent();
 
         return;
       }
@@ -847,7 +847,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.day = e.detail.date.getDate();
       this.hide();
       this.focus();
-      this.#triggerSelectedEvent();
+      this.triggerSelectedEvent();
     }
   }
 
@@ -940,7 +940,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * Trigger selected event with current params
    * @returns {void}
    */
-  #triggerSelectedEvent(): void {
+  private triggerSelectedEvent(): void {
     const args = {
       detail: {
         elem: this,
@@ -985,7 +985,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @returns {void}
    */
   onShow(): void {
-    this.#attachEventListeners();
+    this.attachEventListeners();
     this.monthView?.selectDay(this.year, this.month, this.day);
     this.container?.removeAttribute(htmlAttributes.TABINDEX);
     this.monthView.focus();
