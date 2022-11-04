@@ -111,6 +111,14 @@ ids-expandable-area::part(pane-content) {
 }
 
 // =====================================
+// Timepicker
+
+ids-time-picker {
+  display: flex;
+  justify-content: center;
+}
+
+// =====================================
 // Footer buttons
 
 .btn-today {

@@ -30,6 +30,7 @@ import type {
 } from '../ids-month-view/ids-month-view';
 
 import styles from './ids-date-picker-popup.scss';
+import IdsTimePicker from '../ids-time-picker/ids-time-picker';
 
 type IdsDatePickerPopupButton = IdsToggleButton | IdsModalButton | IdsButton;
 
@@ -53,6 +54,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
   protected monthYearPicklist: any;
 
+  protected timepicker: any;
+
   protected toolbar: IdsToolbar | null | undefined;
 
   connectedCallback() {
@@ -60,6 +63,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     this.expandableArea = this.container?.querySelector('ids-expandable-area');
     this.monthView = this.container?.querySelector('ids-month-view');
     this.monthYearPicklist = this.container?.querySelector('ids-month-year-picklist');
+    this.timepicker = this.container?.querySelector('ids-time-picker');
     this.toolbar = this.container?.querySelector<IdsToolbar>('ids-toolbar');
     this.attachEventListeners();
     this.attachExpandedListener();
@@ -70,6 +74,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     this.expandableArea = null;
     this.monthView = null;
     this.monthYearPicklist = null;
+    this.timepicker = null;
     this.toolbar = null;
   }
 
@@ -107,6 +112,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
           day="${this.day}"
           use-range="${this.useRange}"
         ></ids-month-view>
+      ${this.hasTime() ? this.timepickerTemplate() : ''}
       </div>
       <div
         slot="content"
@@ -123,6 +129,22 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
         </ids-modal-button>
       </div>
     </ids-popup>`;
+  }
+
+  /**
+   * @returns {string} containing the inner Timepicker's template
+   */
+  private timepickerTemplate(): string {
+    return `
+      <ids-time-picker
+        embeddable="true"
+        value="${this.value}"
+        format="${this.format}"
+        minute-interval="${this.minuteInterval}"
+        second-interval="${this.secondInterval}"
+        use-current-time="${this.useCurrentTime}"
+      ></ids-time-picker>
+    `;
   }
 
   /**
@@ -167,6 +189,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
   vetoableEventTypes: Array<string> = ['beforeshow'];
 
   /**
+   * @readonly
    * @returns {NodeList<IdsDatePickerPopupButton>} containing all buttons in the Date Picker Popup
    */
   get buttons() {
@@ -234,8 +257,21 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     }
   }
 
+  onFormatChange() {
+    if (!this.container) return;
+
+    const hasTime = this.hasTime();
+    this.container.classList.toggle('has-time', hasTime);
+    if (hasTime) {
+      if (!this.timepicker) {
+        this.monthView?.insertAdjacentHTML('afterend', this.timepickerTemplate());
+      }
+    } else {
+      this.timepicker?.remove();
+    }
+  }
+
   hideIfAble(): void {
-    // if (this.isCalendarToolbar) {
     if (!this.expanded && this.popup?.visible) {
       this.hide();
     }
@@ -315,7 +351,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.monthView.rangeSettings = val;
 
       if (val?.start && val?.end) {
-        this.value = `${this.locale.formatDate(this.#setTime(val.start), { pattern: this.format })}${this.rangeSettings.separator}${this.locale.formatDate(this.#setTime(val.end), { pattern: this.format })}`;
+        this.value = `${this.locale.formatDate(this.setTime(val.start), { pattern: this.format })}${this.rangeSettings.separator}${this.locale.formatDate(this.setTime(val.end), { pattern: this.format })}`;
         btnApply?.removeAttribute(attributes.DISABLED);
       }
 
@@ -342,8 +378,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     const timePicker = this.container?.querySelector('ids-time-picker');
 
     if (numberVal) {
-      this.setAttribute(attributes.MINUTE_INTERVAL, numberVal);
-      timePicker?.setAttribute(attributes.MINUTE_INTERVAL, numberVal.toString());
+      this.setAttribute(attributes.MINUTE_INTERVAL, `${numberVal}`);
+      timePicker?.setAttribute(attributes.MINUTE_INTERVAL, `${numberVal}`);
     } else {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
       timePicker?.removeAttribute(attributes.MINUTE_INTERVAL);
@@ -367,8 +403,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     const timePicker = this.container?.querySelector('ids-time-picker');
 
     if (numberVal) {
-      this.setAttribute(attributes.SECOND_INTERVAL, numberVal);
-      timePicker?.setAttribute(attributes.SECOND_INTERVAL, numberVal.toString());
+      this.setAttribute(attributes.SECOND_INTERVAL, `${numberVal}`);
+      timePicker?.setAttribute(attributes.SECOND_INTERVAL, `${numberVal}`);
     } else {
       this.removeAttribute(attributes.SECOND_INTERVAL);
       timePicker?.removeAttribute(attributes.SECOND_INTERVAL);
@@ -573,9 +609,9 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     if (!val) {
       this.removeAttribute(attributes.VALUE);
     } else {
-      const safeValue = this.getFormattedDate(val);
-      if (safeValue !== this.value) {
-        this.setAttribute(attributes.VALUE, safeValue);
+      // const safeValue = this.getFormattedDate(val);
+      if (val !== this.value) {
+        this.setAttribute(attributes.VALUE, val);
       }
 
       const dropdownEl = this.container?.querySelector<HTMLElement>('.dropdown-btn-text');
@@ -641,7 +677,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
   }
 
   private attachEventListeners() {
-    // Selects day from the monthView
+    // Selects day from the monthView (after user input)
     this.offEvent('dayselected.date-picker-calendar');
     this.onEvent('dayselected.date-picker-calendar', this.monthView, (e: IdsDayselectedEvent) => {
       this.handleDaySelectedEvent(e);
@@ -747,10 +783,10 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
         }
 
         this.value = [
-          this.locale.formatDate(this.#setTime(this.rangeSettings.start), { pattern: this.format }),
+          this.locale.formatDate(this.setTime(this.rangeSettings.start), { pattern: this.format }),
           this.rangeSettings.separator,
           this.locale.formatDate(
-            this.#setTime(this.rangeSettings.end ?? this.monthView.activeDate),
+            this.setTime(this.rangeSettings.end ?? this.monthView.activeDate),
             { pattern: this.format }
           ),
         ].filter(Boolean).join('');
@@ -758,7 +794,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
         close();
       } else {
         this.value = this.locale.formatDate(
-          this.#setTime(this.rangeSettings.start ?? this.monthView.activeDate),
+          this.setTime(this.rangeSettings.start ?? this.monthView.activeDate),
           { pattern: this.format }
         );
         this.rangeSettings = {
@@ -771,7 +807,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
     if (this.target) {
       this.value = this.locale.formatDate(
-        this.#setTime(this.monthView.activeDate),
+        this.setTime(this.monthView.activeDate),
         { pattern: this.format }
       );
     }
@@ -811,7 +847,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       if (this.monthView.selectDay) {
         this.monthView.selectDay();
       }
-      this.triggerSelectedEvent();
+      this.triggerSelectedEvent(e);
 
       return;
     }
@@ -819,14 +855,14 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     if (this.useRange) {
       if (this.rangeSettings.selectWeek) {
         this.value = [
-          this.locale.formatDate(this.#setTime(e.detail.rangeStart as Date), { pattern: this.format }),
+          this.locale.formatDate(this.setTime(e.detail.rangeStart as Date), { pattern: this.format }),
           this.rangeSettings.separator,
-          e.detail.rangeEnd && this.locale.formatDate(this.#setTime(e.detail.rangeEnd), { pattern: this.format })
+          e.detail.rangeEnd && this.locale.formatDate(this.setTime(e.detail.rangeEnd), { pattern: this.format })
         ].filter(Boolean).join('');
 
         this.hide();
         this.focus();
-        this.triggerSelectedEvent();
+        this.triggerSelectedEvent(e);
 
         return;
       }
@@ -839,7 +875,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       }
     } else {
       this.value = this.locale.formatDate(
-        this.#setTime(e.detail.date),
+        this.setTime(e.detail.date),
         { pattern: this.format }
       );
       this.year = e.detail.date.getFullYear();
@@ -847,7 +883,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.day = e.detail.date.getDate();
       this.hide();
       this.focus();
-      this.triggerSelectedEvent();
+      this.triggerSelectedEvent(e);
     }
   }
 
@@ -910,7 +946,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * Defines if the format has hours/minutes/seconds pattern to show time picker
    * @returns {boolean} whether or not to show time picker
    */
-  #hasTime(): boolean {
+  private hasTime(): boolean {
     return this.format.includes('h') || this.format.includes('m') || this.format.includes('s');
   }
 
@@ -919,11 +955,11 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @param {any} val date to add time values
    * @returns {Date} date with time values
    */
-  #setTime(val: any): Date {
+  private setTime(val: any): Date {
     const date = isValidDate(val) ? val : new Date(val);
-    const timePicker = this.container?.querySelector('ids-time-picker');
+    const timePicker = this.container?.querySelector<IdsTimePicker>('ids-time-picker');
 
-    if (!this.#hasTime() || !timePicker) return date;
+    if (!this.hasTime() || !timePicker) return date;
 
     const hours: number = timePicker.hours;
     const minutes: number = timePicker.minutes;
@@ -937,19 +973,24 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
   }
 
   /**
-   * Trigger selected event with current params
+   * Triggers the same `dayselected` event on the Popup's target element that came from the internal IdsMonthView
+   * @param {IdsDayselectedEvent} [e] optional event handler to pass arguments
    * @returns {void}
    */
-  private triggerSelectedEvent(): void {
-    const args = {
-      detail: {
-        elem: this,
-        date: this.monthView.activeDate,
-        useRange: this.useRange,
-        rangeStart: this.useRange && this.rangeSettings.start ? new Date(this.rangeSettings.start as string) : null,
-        rangeEnd: this.useRange && this.rangeSettings.end ? new Date(this.rangeSettings.end as string) : null
-      }
-    };
+  private triggerSelectedEvent(e?: IdsDayselectedEvent): void {
+    let args: IdsDayselectedEvent;
+    if (e) args = e;
+    else {
+      args = {
+        detail: {
+          elem: this,
+          date: this.activeDate,
+          useRange: this.useRange,
+          rangeStart: this.useRange && this.rangeSettings.start ? new Date(this.rangeSettings.start as string) : null,
+          rangeEnd: this.useRange && this.rangeSettings.end ? new Date(this.rangeSettings.end as string) : null
+        }
+      };
+    }
 
     if (this.target) {
       const event = new CustomEvent('dayselected', args);
