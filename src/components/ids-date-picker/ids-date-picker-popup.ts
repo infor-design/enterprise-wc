@@ -2,7 +2,7 @@ import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-date-picker-popup-base';
 import {
-  subtractDate, isValidDate, weekNumberToDate, weekNumber, hoursTo24
+  subtractDate, isValidDate, hoursTo24
 } from '../../utils/ids-date-utils/ids-date-utils';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
@@ -608,11 +608,9 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
   set value(val: string | null) {
     if (!val) {
       this.removeAttribute(attributes.VALUE);
-    } else {
-      // const safeValue = this.getFormattedDate(val);
-      if (val !== this.value) {
-        this.setAttribute(attributes.VALUE, val);
-      }
+    } else if (val !== this.value) {
+      this.setAttribute(attributes.VALUE, val);
+      this.syncDateAttributes(val);
 
       const dropdownEl = this.container?.querySelector<HTMLElement>('.dropdown-btn-text');
       if (dropdownEl) {
@@ -838,11 +836,11 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @param {IdsDayselectedEvent} e event from the calendar day selection
    */
   private handleDaySelectedEvent(e: IdsDayselectedEvent): void {
-    const inputDate: Date = this.locale.parseDate(this.value, { dateFormat: this.format });
+    const inputDate: Date | number[] | undefined = this.locale.parseDate(this.value, { dateFormat: this.format });
 
     // Clear action
     // Deselect the selected date by clicking to the selected date
-    if (isValidDate(inputDate) && inputDate.getTime() === e.detail.date.getTime()) {
+    if (inputDate instanceof Date && isValidDate(inputDate) && inputDate.getTime() === e.detail.date.getTime()) {
       this.value = '';
       if (this.monthView.selectDay) {
         this.monthView.selectDay();
@@ -896,7 +894,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     const { month, year } = this.monthYearPicklist;
     this.year = year;
     this.month = month;
-    this.value = this.getFormattedDate(this.activeDate.toString());
+    this.value = this.activeDate.toString();
   }
 
   /**
@@ -908,38 +906,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     this.day = day;
     this.year = year;
     this.month = month;
-    this.value = this.getFormattedDate(this.activeDate.toString());
-  }
-
-  /**
-   * Helper to get week number from paginated index
-   * @param {number} weekIndex index number as it comes from the paged loop
-   * @returns {number} week number
-   */
-  #getWeekNumber(weekIndex: number) {
-    // Get total number of weeks in the year by getting week number of the last day of the year
-    const totalWeeks = weekNumber(new Date(this.year, 11, 31), this.firstDayOfWeek);
-
-    if (weekIndex > totalWeeks) {
-      return weekIndex % totalWeeks;
-    }
-
-    if (weekIndex < 1) {
-      return totalWeeks + weekIndex;
-    }
-
-    return weekIndex;
-  }
-
-  /**
-   * Set month and day params based on week number
-   * @param {number} week number of a week
-   */
-  #setWeekDate(week: number) {
-    const date = weekNumberToDate(this.year, week, this.firstDayOfWeek);
-
-    this.month = date.getMonth();
-    this.day = date.getDate();
+    this.value = this.activeDate.toString();
   }
 
   /**
@@ -978,7 +945,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @returns {void}
    */
   private triggerSelectedEvent(e?: IdsDayselectedEvent): void {
-    let args: IdsDayselectedEvent;
+    let args: any;
     if (e) args = e;
     else {
       args = {
@@ -1006,6 +973,25 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     this.buttons?.forEach((button: IdsDatePickerPopupButton) => {
       button.removeRipples();
     });
+  }
+
+  private syncDateAttributes(val: string) {
+    const date = new Date(val);
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const day = date.getDate();
+
+    if (this.year !== year) {
+      this.year = year;
+    }
+
+    if (this.month !== month) {
+      this.month = month;
+    }
+
+    if (this.day !== day) {
+      this.day = day;
+    }
   }
 
   /**
