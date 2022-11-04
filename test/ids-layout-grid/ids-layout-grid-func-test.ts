@@ -209,6 +209,34 @@ describe('IdsLayoutGrid Component', () => {
     expect(elem.getAttribute('style')).toEqual(`--grid-max-col-width: 120px;`);
   });
 
+  it('renders auto-rows setting', () => {
+    const elem: any = new IdsLayoutGrid();
+    elem.autoRows = '1fr';
+    document.body.appendChild(elem);
+
+    expect(elem.autoRows).toEqual('1fr');
+    expect(elem.getAttribute('style')).toEqual(`--grid-auto-rows: 1fr;`);
+  });
+
+  it('renders auto-flow setting', () => {
+    const elem: any = new IdsLayoutGrid();
+    elem.autoFlow = 'dense';
+    document.body.appendChild(elem);
+
+    expect(elem.autoFlow).toEqual('dense');
+    expect(elem.getAttribute('style')).toEqual(`--grid-auto-flow: dense;`);
+  });
+
+  it('renders order setting', () => {
+    const col: any = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.order = 1;
+
+    expect(col.order).toEqual(null);
+    expect(document.querySelectorAll('.ids-layout-grid-cell-order').length).toEqual(1);
+    expect(col.getAttribute('style')).toEqual(`--grid-order: 1;`);
+  });
+
   it('renders col-span setting', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);

@@ -279,6 +279,7 @@ export default class IdsLayoutGrid extends Base {
     }
 
     this.removeAttribute(attributes.JUSTIFY_CONTENT);
+    this.style.removeProperty('--grid-justify-content');
   }
 
   get justifyContent(): string | null { return this.getAttribute(attributes.JUSTIFY_CONTENT); }
