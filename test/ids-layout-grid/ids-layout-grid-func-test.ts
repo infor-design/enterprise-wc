@@ -3,13 +3,11 @@
  */
 import IdsLayoutGrid from '../../src/components/ids-layout-grid/ids-layout-grid';
 import IdsLayoutGridCell from '../../src/components/ids-layout-grid/ids-layout-grid-cell';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsLayoutGrid Component', () => {
   let gridElem: any;
 
   beforeEach(async () => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
     const grid: any = new IdsLayoutGrid();
     const cell1: any = new IdsLayoutGridCell();
     const cell2: any = new IdsLayoutGridCell();
@@ -48,7 +46,6 @@ describe('IdsLayoutGrid Component', () => {
   });
 
   it('renders fluid-grid setting', async () => {
-    await processAnimFrame();
     expect(gridElem.getAttribute('cols')).toBe('fluid-grid');
   });
 
@@ -237,7 +234,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpan = 4;
-    await processAnimFrame();
     expect(document.querySelectorAll('.ids-layout-grid-col-span-4').length).toEqual(1);
   });
 
@@ -268,7 +264,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanXs = 4;
-    await processAnimFrame();
     expect(col.colSpanXs).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span-xs-4').length).toEqual(1);
   });
@@ -277,7 +272,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanXs = null;
-    await processAnimFrame();
     expect(col.colSpanXs).toEqual(null);
   });
 
@@ -285,7 +279,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanSm = 4;
-    await processAnimFrame();
     expect(col.colSpanSm).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span-sm-4').length).toEqual(1);
   });
@@ -294,7 +287,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanSm = null;
-    await processAnimFrame();
     expect(col.colSpanSm).toEqual(null);
   });
 
@@ -302,7 +294,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanMd = 4;
-    await processAnimFrame();
     expect(col.colSpanMd).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span-md-4').length).toEqual(1);
   });
@@ -311,7 +302,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanMd = null;
-    await processAnimFrame();
     expect(col.colSpanMd).toEqual(null);
   });
 
@@ -319,7 +309,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanLg = 4;
-    await processAnimFrame();
     expect(col.colSpanLg).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span-lg-4').length).toEqual(1);
   });
@@ -328,7 +317,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanLg = null;
-    await processAnimFrame();
     expect(col.colSpanLg).toEqual(null);
   });
 
@@ -336,7 +324,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanXl = 4;
-    await processAnimFrame();
     expect(col.colSpanXl).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span-xl-4').length).toEqual(1);
   });
@@ -345,7 +332,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanXl = null;
-    await processAnimFrame();
     expect(col.colSpanXl).toEqual(null);
   });
 
@@ -353,7 +339,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanXxl = 4;
-    await processAnimFrame();
     expect(col.colSpanXxl).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span-xxl-4').length).toEqual(1);
   });
@@ -362,7 +347,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanXxl = null;
-    await processAnimFrame();
     expect(col.colSpanXxl).toEqual(null);
   });
 

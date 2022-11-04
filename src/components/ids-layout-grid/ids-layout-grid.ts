@@ -188,17 +188,17 @@ export default class IdsLayoutGrid extends Base {
    */
   set autoRows(value: string | null) {
     if (value) {
-      this.setAttribute('auto-rows', value);
+      this.setAttribute(attributes.AUTO_ROWS, value);
       this.style.setProperty('--grid-auto-rows', value);
       this.classList.add('ids-layout-grid-auto-rows');
       return;
     }
 
-    this.removeAttribute('auto-rows');
+    this.removeAttribute(attributes.AUTO_ROWS);
     this.classList.remove('ids-layout-grid-auto-rows');
   }
 
-  get autoRows(): string | null { return this.getAttribute('auto-rows'); }
+  get autoRows(): string | null { return this.getAttribute(attributes.AUTO_ROWS); }
 
   /**
    * Sets the auto-flow attribute
@@ -208,17 +208,17 @@ export default class IdsLayoutGrid extends Base {
    */
   set autoFlow(value: string | null) {
     if (value && GRID_OPTIONS.autoFlow.includes(value)) {
-      this.setAttribute('auto-flow', value);
+      this.setAttribute(attributes.AUTO_FLOW, value);
       this.style.setProperty('--grid-auto-flow', value);
       this.classList.add('ids-layout-grid-auto-flow');
       return;
     }
 
-    this.removeAttribute('auto-flow');
+    this.removeAttribute(attributes.AUTO_FLOW);
     this.classList.remove('ids-layout-grid-auto-flow');
   }
 
-  get autoFlow(): string | null { return this.getAttribute('auto-flow'); }
+  get autoFlow(): string | null { return this.getAttribute(attributes.AUTO_FLOW); }
 
   /**
    * If true the grid will not have any margins
@@ -260,26 +260,26 @@ export default class IdsLayoutGrid extends Base {
    */
   set maxColWidth(value: string | null) {
     if (value) {
-      this.setAttribute('max-col-width', value.toString());
+      this.setAttribute(attributes.MAX_COL_WIDTH, value.toString());
       this.style.setProperty('--grid-max-col-width', value);
       return;
     }
 
-    this.removeAttribute('max-col-width');
+    this.removeAttribute(attributes.MAX_COL_WIDTH);
     this.style.removeProperty('--grid-max-col-width');
   }
 
-  get maxColWidth(): string | null { return this.getAttribute('max-col-width'); }
+  get maxColWidth(): string | null { return this.getAttribute(attributes.MAX_COL_WIDTH); }
 
   set justifyContent(value: string | null) {
     if (value) {
-      this.setAttribute('justify-content', value.toString());
+      this.setAttribute(attributes.JUSTIFY_CONTENT, value.toString());
       this.style.setProperty('--grid-justify-content', value);
       this.classList.add(`ids-layout-grid-justify-content`);
     }
 
-    this.removeAttribute('justify-content');
+    this.removeAttribute(attributes.JUSTIFY_CONTENT);
   }
 
-  get justifyContent(): string | null { return this.getAttribute('justify-content'); }
+  get justifyContent(): string | null { return this.getAttribute(attributes.JUSTIFY_CONTENT); }
 }
