@@ -26,9 +26,6 @@ if (dataGrid) {
       return cssPart;
     };
 
-    // Set Locale and wait for it to load
-    await container?.setLocale('en-US');
-
     // Do an ajax request
     const url: any = booksJSON;
     const columns: IdsDataGridColumn[] = [];

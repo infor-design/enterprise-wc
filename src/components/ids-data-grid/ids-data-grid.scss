@@ -56,19 +56,19 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   // Row Height Feature
   // Large by default
-  .ids-data-grid-body .ids-data-grid-row {
+  .ids-data-grid-body .ids-data-grid-row .ids-data-grid-cell {
     height: 50px;
   }
 
-  &[data-row-height='md'] .ids-data-grid-body .ids-data-grid-row {
+  &[data-row-height='md'] .ids-data-grid-body .ids-data-grid-row .ids-data-grid-cell {
     height: 40px;
   }
 
-  &[data-row-height='sm'] .ids-data-grid-body .ids-data-grid-row {
+  &[data-row-height='sm'] .ids-data-grid-body .ids-data-grid-row .ids-data-grid-cell {
     height: 35px;
   }
 
-  &[data-row-height='xs'] .ids-data-grid-body .ids-data-grid-row {
+  &[data-row-height='xs'] .ids-data-grid-body .ids-data-grid-row .ids-data-grid-cell {
     height: 30px;
   }
 
@@ -428,7 +428,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   .ids-data-grid-checkbox {
     @include checkbox-unchecked();
-    @include cursor-pointer();
+
+    &.editable {
+      @include cursor-pointer();
+    }
 
     position: relative;
     left: 0;
@@ -539,6 +542,13 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       @include bg-white();
       @include border-white();
     }
+  }
+
+  // Expandable Row
+  .ids-data-grid-expandable-row {
+    border-top: 1px solid $cell-border-color;
+    grid-column: 1 / -1;
+    padding: 8px;
   }
 
   // Standalone Css
@@ -947,6 +957,14 @@ table.ids-data-grid {
     &.align-right .ids-data-grid-header-cell-content,
     &.align-right .ids-data-grid-header-cell-filter-wrapper {
       direction: ltr;
+    }
+  }
+
+  // Negate Borders
+  .ids-data-grid-header-cell,
+  .ids-data-grid-cell {
+    &:last-child {
+      border-inline-end-width: 0;
     }
   }
 }

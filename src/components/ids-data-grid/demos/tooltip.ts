@@ -56,8 +56,6 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-tooltip')!;
     });
   };
 
-  // Set Locale and wait for it to load
-  await container.setLocale('en-US');
   const columns: IdsDataGridColumn[] = [];
 
   // Set up columns

@@ -161,4 +161,13 @@ export default class IdsDataGridFormatters {
     </ids-button>` : '&nbsp;';
     return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
   }
+
+  /** Shows an expander button */
+  expander(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    const button = `<ids-button tabindex="-1">
+        <ids-icon slot="icon" icon="plusminus-folder-${rowData.rowExpanded === true ? 'open' : 'closed'}"></ids-icon>
+      </ids-button>`;
+    return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
+  }
 }

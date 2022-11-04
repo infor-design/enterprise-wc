@@ -62,14 +62,14 @@ if (dataGrid) {
     });
     columns.push({
       id: 'description',
-      name: 'Description',
+      name: 'Text',
       field: 'description',
       sortable: true,
       formatter: dataGrid.formatters.text
     });
     columns.push({
       id: 'location',
-      name: 'Location',
+      name: 'Hyperlink',
       field: 'location',
       formatter: dataGrid.formatters.hyperlink,
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
@@ -87,7 +87,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'publishDate',
-      name: 'Pub. Date',
+      name: 'Date',
       field: 'publishDate',
       sortable: true,
       formatter: dataGrid.formatters.date,
@@ -95,7 +95,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'publishTime',
-      name: 'Pub. Time',
+      name: 'Time',
       field: 'publishDate',
       sortable: true,
       formatter: dataGrid.formatters.time,
@@ -103,7 +103,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'price',
-      name: 'Price (decimal)',
+      name: 'Decimal',
       field: 'price',
       align: 'right',
       sortable: true,
@@ -113,7 +113,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'price',
-      name: 'Price (integer)',
+      name: 'Integer',
       field: 'price',
       align: 'right',
       sortable: true,
@@ -123,7 +123,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'inStock',
-      name: 'In Stock',
+      name: 'Checkbox',
       field: 'inStock',
       align: 'center',
       sortable: true,
@@ -141,7 +141,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'more',
-      name: '',
+      name: 'Actions',
       sortable: false,
       resizable: true,
       formatter: dataGrid.formatters.button,
@@ -168,7 +168,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'custom',
-      name: 'Custom Link',
+      name: 'Custom Formatter',
       field: 'location',
       sortable: false,
       formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {

@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
 import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { nextUntil, next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
@@ -104,9 +104,13 @@ export default class IdsDataGrid extends Base {
       attributes.ALTERNATE_ROW_SHADING,
       attributes.AUTO_FIT,
       attributes.DISABLE_CLIENT_FILTER,
+      attributes.EXPANDABLE_ROW,
+      attributes.EXPANDABLE_ROW_TEMPLATE,
       attributes.FILTER_ROW_DISABLED,
       attributes.FILTER_WHEN_TYPING,
       attributes.FILTERABLE,
+      attributes.GROUP_SELECTS_CHILDREN,
+      attributes.ID_COLUMN,
       attributes.LABEL,
       attributes.LIST_STYLE,
       attributes.MODE,
@@ -435,6 +439,13 @@ export default class IdsDataGrid extends Base {
       }
     }
 
+    let expandableRowHtml = '';
+    if (this.expandableRow) {
+      treeAttrs += (row.rowExpanded === true) ? ` aria-expanded="true"` : ` aria-expanded="false"`;
+      const template = injectTemplate(this.querySelector(`#${this.expandableRowTemplate}`)?.innerHTML || '', row);
+      expandableRowHtml = `<div class="ids-data-grid-expandable-row"${row.rowExpanded === true ? '' : ` hidden`}>${template}</div>`;
+    }
+
     if (this.pagination === 'client-side' && this.pageNumber > 1) {
       ariaRowIndex += ((this.pageNumber - 1) * this.pageSize);
     }
@@ -447,7 +458,7 @@ export default class IdsDataGrid extends Base {
       return `<span role="gridcell" part="${this.#cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ``}" aria-colindex="${j + 1}">${content}</span>`;
     }).join('');
 
-    return `<div role="row" part="row" aria-rowindex="${ariaRowIndex}" data-index="${index}" ${isHidden} class="ids-data-grid-row${rowClasses}"${treeAttrs}>${cellsHtml}</div>`;
+    return `<div role="row" part="row" aria-rowindex="${ariaRowIndex}" data-index="${index}" ${isHidden} class="ids-data-grid-row${rowClasses}"${treeAttrs}>${cellsHtml}${expandableRowHtml}</div>`;
   }
 
   /**
@@ -532,7 +543,8 @@ export default class IdsDataGrid extends Base {
       }
 
       // Handle Expand/Collapse Clicking
-      if (isClickable && this.visibleColumns[cellNum]?.formatter?.name === 'tree') {
+      if (isClickable && (this.visibleColumns[cellNum]?.formatter?.name === 'tree'
+        || this.visibleColumns[cellNum]?.formatter?.name === 'expander')) {
         this.#handleRowExpandCollapse(row);
         return;
       }
@@ -1195,8 +1207,7 @@ export default class IdsDataGrid extends Base {
    * @returns {Array<object>} An array of all currently selected rows
    */
   get selectedRows() {
-    const selectedIndex = this.state.selectedRows;
-    return selectedIndex.map((index: number) => ({ index, data: this.data[index] }));
+    return this.state.selectedRows.map((index: number) => ({ index, data: this.data[index] }));
   }
 
   /**
@@ -1265,22 +1276,35 @@ export default class IdsDataGrid extends Base {
   #handleRowExpandCollapse(row: any) {
     const isExpanded = row.getAttribute('aria-expanded') === 'true';
 
-    // Handle Expand/Collapse in the component
-    row.setAttribute('aria-expanded', !isExpanded);
-    this.updateDataRow(Number(row.getAttribute('data-index')), { rowExpanded: !isExpanded });
-    row.querySelector('.ids-data-grid-tree-container ids-button ids-icon').setAttribute('icon', !isExpanded ? 'plusminus-folder-open' : 'plusminus-folder-closed');
-    const level = row.getAttribute('aria-level');
-    let isParentCollapsed = false;
+    // Handle Expand/Collapse for an expandedable row
+    if (this.expandableRow) {
+      const childRow = row.querySelector('.ids-data-grid-expandable-row');
+      if (!isExpanded) childRow.removeAttribute('hidden');
+      else childRow.setAttribute('hidden', '');
 
-    nextUntil(row, `[aria-level="${level}"]`).forEach((childRow) => {
-      const nodeLevel = Number(childRow.getAttribute('aria-level'));
-      if (nodeLevel > Number(level) && !isParentCollapsed) {
-        if (isExpanded) childRow.setAttribute('hidden', '');
-        else childRow.removeAttribute('hidden');
-        this.updateDataRow(Number(childRow.getAttribute('data-index')), { rowHidden: isExpanded });
-      }
-      if (childRow.getAttribute('aria-expanded')) isParentCollapsed = childRow.getAttribute('aria-expanded') === 'false';
-    });
+      row.setAttribute('aria-expanded', !isExpanded);
+      this.updateDataRow(Number(row.getAttribute('data-index')), { rowExpanded: !isExpanded });
+      row.querySelector('.ids-data-grid-tree-container ids-button ids-icon').setAttribute('icon', !isExpanded ? 'plusminus-folder-open' : 'plusminus-folder-closed');
+    }
+
+    // Handle Expand/Collapse for a tree
+    if (this.treeGrid) {
+      row.setAttribute('aria-expanded', !isExpanded);
+      this.updateDataRow(Number(row.getAttribute('data-index')), { rowExpanded: !isExpanded });
+      row.querySelector('.ids-data-grid-tree-container ids-button ids-icon').setAttribute('icon', !isExpanded ? 'plusminus-folder-open' : 'plusminus-folder-closed');
+      const level = row.getAttribute('aria-level');
+      let isParentCollapsed = false;
+
+      nextUntil(row, `[aria-level="${level}"]`).forEach((childRow) => {
+        const nodeLevel = Number(childRow.getAttribute('aria-level'));
+        if (nodeLevel > Number(level) && !isParentCollapsed) {
+          if (isExpanded) childRow.setAttribute('hidden', '');
+          else childRow.removeAttribute('hidden');
+          this.updateDataRow(Number(childRow.getAttribute('data-index')), { rowHidden: isExpanded });
+        }
+        if (childRow.getAttribute('aria-expanded')) isParentCollapsed = childRow.getAttribute('aria-expanded') === 'false';
+      });
+    }
 
     // Emit an Event
     const visibleRowIndex = Number(row.getAttribute('data-index'));
@@ -1388,7 +1412,7 @@ export default class IdsDataGrid extends Base {
       }
     });
 
-    if (this.groupSelectsChildren) this.#toggleChildRows(row, true);
+    if (this.groupSelectsChildren) this.#toggleChildRowSelection(row, true);
     this.#setHeaderCheckbox();
   }
 
@@ -1417,7 +1441,7 @@ export default class IdsDataGrid extends Base {
       radio?.setAttribute('aria-checked', 'false');
     }
 
-    this.state.selectedRows = this.state.selectedRows.filter((rowNumber: any) => rowNumber !== index);
+    this.state.selectedRows = this.state.selectedRows.filter((rowNumber: any) => rowNumber.toString() !== index.toString());
     this.updateDataRow(Number(row?.getAttribute('data-index')), { rowSelected: undefined });
 
     this.triggerEvent('rowdeselected', this, {
@@ -1425,7 +1449,7 @@ export default class IdsDataGrid extends Base {
         elem: this, row, data: this.data[index]
       }
     });
-    if (this.groupSelectsChildren) this.#toggleChildRows(row, false);
+    if (this.groupSelectsChildren) this.#toggleChildRowSelection(row, false);
     this.#setHeaderCheckbox();
   }
 
@@ -1524,7 +1548,7 @@ export default class IdsDataGrid extends Base {
    * @param {boolean} isSelect true or false to select or deselect
    * @private
    */
-  #toggleChildRows(row: HTMLElement | null | undefined, isSelect: boolean) {
+  #toggleChildRowSelection(row: HTMLElement | null | undefined, isSelect: boolean) {
     if (!row || !this.treeGrid || !this.groupSelectsChildren) return;
     const level = row.getAttribute('aria-level');
 
@@ -1618,7 +1642,7 @@ export default class IdsDataGrid extends Base {
     }
     if (this.autoFit === 'bottom') {
       const spaceFromTop = this.getBoundingClientRect().y;
-      this.container?.style.setProperty('height', `calc(100vh - ${spaceFromTop + 16}px)`);
+      this.container?.style.setProperty('height', `calc(100vh - ${spaceFromTop + 24}px)`);
       this.autoFitSet = true;
     }
     if (this.autoFit === true) {
@@ -1788,7 +1812,8 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Used to set which column is the unique id column in the data set. This is needed for some operations.
+   * Used to set which column is the unique id column in the data set.
+   * This is needed for some operations.
    * @param {string} value The value
    */
   set idColumn(value) {
@@ -1801,5 +1826,39 @@ export default class IdsDataGrid extends Base {
 
   get idColumn() {
     return this.getAttribute(attributes.ID_COLUMN) || 'id';
+  }
+
+  /**
+   * If true an expandable row is present in the grid. Also requires a expandable-row-template and
+   * an expander formatter.
+   * @param {string} value The value
+   */
+  set expandableRow(value) {
+    if (value) {
+      this.setAttribute(attributes.EXPANDABLE_ROW, value.toString());
+    } else {
+      this.removeAttribute(attributes.EXPANDABLE_ROW);
+    }
+  }
+
+  get expandableRow() {
+    return this.getAttribute(attributes.EXPANDABLE_ROW) || false;
+  }
+
+  /**
+   * An id that points to the template to use for expandable rows. Also requires the expandable-row setting
+   * and an expander formatter.
+   * @param {string} value The value
+   */
+  set expandableRowTemplate(value) {
+    if (value) {
+      this.setAttribute(attributes.EXPANDABLE_ROW_TEMPLATE, value.toString());
+    } else {
+      this.removeAttribute(attributes.EXPANDABLE_ROW_TEMPLATE);
+    }
+  }
+
+  get expandableRowTemplate() {
+    return this.getAttribute(attributes.EXPANDABLE_ROW_TEMPLATE) || '';
   }
 }
