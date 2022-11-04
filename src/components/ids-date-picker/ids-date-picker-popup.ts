@@ -581,13 +581,13 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     if (boolVal) {
       this.setAttribute(attributes.USE_RANGE, String(boolVal));
       this.monthView?.setAttribute(attributes.USE_RANGE, boolVal);
-      btnApply?.removeAttribute('hidden');
-      btnApply?.setAttribute('disabled', 'true');
+      btnApply?.removeAttribute(attributes.HIDDEN);
+      btnApply?.setAttribute(attributes.DISABLED, 'true');
     } else {
       this.removeAttribute(attributes.USE_RANGE);
       this.monthView?.removeAttribute(attributes.USE_RANGE);
-      btnApply?.setAttribute('hidden', 'true');
-      btnApply?.removeAttribute('disabled');
+      btnApply?.setAttribute(attributes.HIDDEN, 'true');
+      btnApply?.removeAttribute(attributes.DISABLED);
     }
   }
 
@@ -744,14 +744,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.onEvent('change.date-picker-input', this.target, (e: any) => {
         this.setAttribute(attributes.VALUE, e.detail.value);
       });
-
-      // Closes popup on input focus
-      /*
-      this.offEvent('focus.date-picker-input');
-      this.onEvent('focus.date-picker-input', this.target, () => {
-        this.hide();
-      });
-      */
     }
   }
 
@@ -975,7 +967,12 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     });
   }
 
-  private syncDateAttributes(val: string) {
+  /**
+   * Takes a string containing a date, or an actual Date object, and syncs its values
+   * to the correct properties provided by IdsDateAttributeMixin
+   * @param {string | Date} val incoming date string/object
+   */
+  private syncDateAttributes(val: string | Date) {
     const date = new Date(val);
     const month = date.getMonth();
     const year = date.getFullYear();
