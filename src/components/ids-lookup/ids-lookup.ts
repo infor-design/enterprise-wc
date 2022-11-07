@@ -133,6 +133,7 @@ export default class IdsLookup extends Base {
     <ids-trigger-field
       label="${this.label}"
       part="trigger-field"
+      value="${this.value}"
       ${this.autocomplete ? ` autocomplete search-field="${this.field}"` : ''}
       ${this.clearable ? ' clearable="true"' : ''}
       ${this.disabled ? ' disabled="true"' : ''}
