@@ -1,4 +1,5 @@
 import '../../ids-action-panel/ids-action-panel';
+import '../../ids-layout-flex/ids-layout-flex';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId: any = '#cap-trigger-btn';
