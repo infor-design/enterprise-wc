@@ -257,12 +257,16 @@ export default class IdsMenu extends Base {
       if (item.selected) {
         selected = ' selected="true"';
       }
+      let value = '';
+      if (typeof item.value !== 'undefined' && item.value !== null && item.value !== '') {
+        value = ` value="${item.value}"`;
+      }
       let submenu = '';
       if (item.submenu) {
         submenu = renderSubmenu(item.submenu);
       }
 
-      return `<ids-menu-item${id}${disabled}${icon}${selected}>
+      return `<ids-menu-item${id}${disabled}${icon}${selected}${value}>
         ${text}
         ${submenu}
       </ids-menu-item>`;
