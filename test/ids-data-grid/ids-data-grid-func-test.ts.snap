@@ -598,6 +598,8 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
       <ids-pager-dropdown slot="end" page-size="10"></ids-pager-dropdown>
     </ids-pager>
         <slot name="menu-container"></slot>
+        <slot name="contextmenu"></slot>
+        <slot name="header-contextmenu"></slot>
         <slot name="tooltip">
           <ids-tooltip id="tooltip" exportparts="tooltip-popup, tooltip-arrow"></ids-tooltip>
         </slot>

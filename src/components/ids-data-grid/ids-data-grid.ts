@@ -9,13 +9,14 @@ import Base from './ids-data-grid-base';
 import IdsDataSource from '../../core/ids-data-source';
 import IdsDataGridFormatters from './ids-data-grid-formatters';
 import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid-filters';
+import { IdsDataGridContextmenuArgs, setContextmenu } from './ids-data-grid-contextmenu';
 
-import '../ids-popup-menu/ids-popup-menu';
 import '../ids-virtual-scroll/ids-virtual-scroll';
 
 import styles from './ids-data-grid.scss';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
 import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
+import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 
 const rowHeights: any = {
   xs: 30,
@@ -78,7 +79,12 @@ export default class IdsDataGrid extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.state = { selectedRows: [], activatedRow: null };
+    this.state = {
+      selectedRows: [],
+      activatedRow: null,
+      menuData: null,
+      headerMenuData: null
+    };
     this.redrawBody();
   }
 
@@ -104,8 +110,10 @@ export default class IdsDataGrid extends Base {
       attributes.FILTER_ROW_DISABLED,
       attributes.FILTER_WHEN_TYPING,
       attributes.FILTERABLE,
+      attributes.HEADER_MENU_ID,
       attributes.LABEL,
       attributes.LIST_STYLE,
+      attributes.MENU_ID,
       attributes.ROW_HEIGHT,
       attributes.ROW_SELECTION,
       attributes.SUPPRESS_ROW_DEACTIVATION,
@@ -119,7 +127,8 @@ export default class IdsDataGrid extends Base {
    * @returns {Array<string>} Drawer vetoable events
    */
   vetoableEventTypes = [
-    'beforetooltipshow'
+    'beforemenushow',
+    'beforetooltipshow',
   ];
 
   /**
@@ -142,6 +151,8 @@ export default class IdsDataGrid extends Base {
           ${this.bodyTemplate()}
         </div>
         <slot name="menu-container"></slot>
+        <slot name="contextmenu"></slot>
+        <slot name="header-contextmenu"></slot>
         <slot name="tooltip">
           <ids-tooltip id="tooltip" exportparts="tooltip-popup, tooltip-arrow"></ids-tooltip>
         </slot>
@@ -230,7 +241,20 @@ export default class IdsDataGrid extends Base {
 
     // Attach post filters setting
     this.filters.attachPostFiltersSetting();
+
+    // Set contextmenu
+    setContextmenu.apply(this);
   }
+
+  /**
+   * Contextmenu stuff use for info and events
+   * @private
+   */
+  contextmenuStuff: {
+    menu?: IdsPopupMenu,
+    target?: HTMLElement,
+    callbackArgs?: IdsDataGridContextmenuArgs
+  } = {};
 
   /**
    * Header template markup
@@ -1015,6 +1039,56 @@ export default class IdsDataGrid extends Base {
   }
 
   get data() { return this?.datasource?.data || []; }
+
+  /**
+   * Set header menu id
+   * @param {string} value The header menu id
+   */
+  set headerMenuId(value) {
+    if (value) {
+      this.setAttribute(attributes.HEADER_MENU_ID, value);
+      return;
+    }
+    this.removeAttribute(attributes.HEADER_MENU_ID);
+  }
+
+  get headerMenuId() { return this.getAttribute(attributes.HEADER_MENU_ID); }
+
+  /**
+   * Set the header menu data
+   * @param {Array} value The array to use
+   */
+  set headerMenuData(value) {
+    this.state.headerMenuData = value;
+    setContextmenu.apply(this);
+  }
+
+  get headerMenuData() { return this?.state?.headerMenuData; }
+
+  /**
+   * Set menu id
+   * @param {string} value The menu id
+   */
+  set menuId(value) {
+    if (value) {
+      this.setAttribute(attributes.MENU_ID, value);
+      return;
+    }
+    this.removeAttribute(attributes.MENU_ID);
+  }
+
+  get menuId() { return this.getAttribute(attributes.MENU_ID); }
+
+  /**
+   * Set the menu data
+   * @param {Array} value The array to use
+   */
+  set menuData(value) {
+    this.state.menuData = value;
+    setContextmenu.apply(this);
+  }
+
+  get menuData() { return this?.state?.menuData; }
 
   /**
    * Set the list view to use virtual scrolling for a large amount of rows
