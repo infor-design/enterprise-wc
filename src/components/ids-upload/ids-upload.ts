@@ -612,10 +612,10 @@ export default class IdsUpload extends Base {
   set size(value: string | null) {
     if (value) {
       this.setAttribute(attributes.SIZE, value);
-      this.textInput.size = value;
+      this.textInput?.setAttribute(attributes.SIZE, value);
     } else {
       this.removeAttribute(attributes.SIZE);
-      this.textInput.size = null;
+      this.textInput?.removeAttribute(attributes.SIZE);
     }
   }
 
