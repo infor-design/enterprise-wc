@@ -137,7 +137,11 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `data` {Array<object>} Sets the data to show in the data grid. This can be a JSON Array.
 - `disableClientFilter` {boolean} Disables the filter logic client side in situations you want to filter server side.
 - `filterable` {boolean} Turns on or off the filter functionality.
-- `filter-row-disabled` {boolean} Disables the filter row.
+- `filterRowDisabled` {boolean} Disables the filter row.
+- `headerMenuData` {Array<object>} Dataset to build contextmenu for header and header group cells.
+- `headerMenuId` {string} ID of the popupmenu to use as contextmenu for header and header group cells.
+- `menuData` {Array<object>} Dataset to build contextmenu for body cells.
+- `menuId` {string} ID of the popupmenu to use as contextmenu for body cells.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
 - `suppressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
 - `suppressRowDeselection`  {boolean} Set to true to prevent rows from being deselected if click or space bar the row. i.e. once a row is selected, it remains selected until another row is selected in its place.
@@ -248,8 +252,11 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `filterrowopened` Fires after the filter row is opened by the user.
 - `filterrowclosed` Fires after the filter row is closed by the user.
 - `columnresized` Fires when a column is resized or setColumnWidth is called.
-- `columnmoved` Fires when a column is moved / reordered or moveColumn is called
-- `beforetooltipshow` Fires before tooltip show, you can return false in the response to veto
+- `columnmoved` Fires when a column is moved / reordered or moveColumn is called.
+- `beforetooltipshow` Fires before tooltip show, you can return false in the response to veto.
+- `beforemenushow` Fires before contextmenu show, you can return false in the response to veto.
+- `menushow` Fires after contextmenu show.
+- `menuselected` Fires after contextmenu item selected.
 
 ## Methods
 
@@ -792,6 +799,113 @@ ids-data-grid::part(ruby-tooltip-arrow-top)::after {
 ids-data-grid::part(ruby-tooltip-popup) {
   background-color: #c31014;
 }
+```
+
+## Contextmenu Code Examples
+
+The context menus can be set via the dataset.
+
+```html
+<ids-data-grid id="data-grid-1" label="Books">
+</ids-data-grid>
+```
+```js
+// Dataset for header cells contextmenu
+const headerMenuData = {
+  id: 'grid-header-contextmenu',
+  contents: [{
+    id: 'header-actions-group',
+    items: [
+      { id: 'actions-split', value: 'actions-split', text: 'Split' },
+      { id: 'actions-sort', value: 'actions-sort', text: 'Sort' },
+    ]
+  }],
+};
+
+// Dataset for body cells contextmenu
+const menuData = {
+  id: 'grid-contextmenu',
+  contents: [{
+    id: 'actions-group',
+    items: [
+      { id: 'item-1', value: 'item-1', text: 'Item One' },
+      { id: 'item-2', value: 'item-2', text: 'Item Two' },
+      { id: 'item-3', value: 'item-3', text: 'Item Three' }
+    ]
+  }],
+};
+
+// Set contextmenu data with data-grid
+dataGrid.menuData = menuData;
+dataGrid.headerMenuData = headerMenuData;
+
+// Set to return true/false in the response to veto before contextmenu show.
+dataGrid.addEventListener('beforemenushow', (e: any) => {
+  console.info('before contextmenu show', e.detail);
+  // e.detail.response(false);
+});
+
+// Set to watch after contextmenu show.
+dataGrid.addEventListener('menushow', (e: any) => {
+  console.info('After contextmenu show', e.detail);
+});
+
+// Set to watch after contextmenu item selected.
+dataGrid.addEventListener('menuselected', (e: any) => {
+  console.info('contextmenu item selected', e.detail);
+});
+```
+
+Set contextmenu thru Slot.
+
+```html
+<ids-data-grid id="data-grid-1" label="Books">
+  <!-- Contextmenu header cells -->
+  <ids-popup-menu trigger-type="custom" slot="header-contextmenu">
+    <ids-menu-group>
+      <ids-menu-item value="header-split">Split</ids-menu-item>
+      <ids-menu-item value="header-sort">Sort</ids-menu-item>
+    </ids-menu-group>
+  </ids-popup-menu>
+  <!-- Contextmenu body cells -->
+  <ids-popup-menu trigger-type="custom" slot="contextmenu">
+    <ids-menu-group>
+      <ids-menu-item value="item-1">Item One</ids-menu-item>
+      <ids-menu-item value="item-2">Item Two</ids-menu-item>
+      <ids-menu-item value="item-3">Item Three</ids-menu-item>
+      <ids-menu-item value="item-4">Item Four</ids-menu-item>
+    </ids-menu-group>
+  </ids-popup-menu>
+</ids-data-grid>
+```
+
+Set contextmenu thru ID.
+
+```html
+<ids-data-grid
+  header-menu-id="grid-header-contextmenu"
+  menu-id="grid-contextmenu"
+  id="data-grid-1"
+  label="Books"
+></ids-data-grid>
+
+<!-- Contextmenu header cells -->
+<ids-popup-menu trigger-type="custom" id="grid-header-contextmenu">
+  <ids-menu-group>
+    <ids-menu-item value="header-split">Split</ids-menu-item>
+    <ids-menu-item value="header-sort">Sort</ids-menu-item>
+  </ids-menu-group>
+</ids-popup-menu>
+
+<!-- Contextmenu body cells -->
+<ids-popup-menu trigger-type="custom" id="grid-contextmenu">
+  <ids-menu-group>
+    <ids-menu-item value="item-1">Item One</ids-menu-item>
+    <ids-menu-item value="item-2">Item Two</ids-menu-item>
+    <ids-menu-item value="item-3">Item Three</ids-menu-item>
+    <ids-menu-item value="item-4">Item Four</ids-menu-item>
+  </ids-menu-group>
+</ids-popup-menu>
 ```
 
 ## States and Variations

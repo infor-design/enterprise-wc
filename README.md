@@ -5,7 +5,7 @@
 [![Build Check](https://github.com/infor-design/enterprise-wc/actions/workflows/ci.yml/badge.svg)](https://github.com/infor-design/enterprise-wc/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/infor-design/enterprise-wc/badge.svg?branch=main)](https://coveralls.io/github/infor-design/enterprise-wc)
 
-Infor Design System's Enterprise component library is a framework independent UI library consisting of CSS and JS that provides Infor product development teams, partners, and customers the tools to create user experiences that are approachable, focused, relevant and perceptive.
+Infor Design System's Enterprise web component library is a framework independent UI library consisting of CSS and JS that provides Infor product development teams, partners, and customers the tools to create user experiences that are approachable, focused, relevant and perceptive.
 
 For guidelines on when and where to use the components see the [design.infor.com](http://design.infor.com).
 
@@ -26,8 +26,8 @@ For guidelines on when and where to use the components see the [design.infor.com
 - Fully Namespaced with an `ids-` namespace
 - We Follow the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki)
 - Includes types for typescript users
-- Every component has the CSS and DOM Encapsulated (in supported browsers)
-- 140+ Components to convert
+- Every component has the CSS and DOM Encapsulated
+- 100+ Components convert
 
 ## Browser Support
 
@@ -48,7 +48,7 @@ The components are available via npm/yarn:
 npm install --save ids-enterprise-wc@latest
 ```
 
-To Clone and Run this Repo locally:
+To Clone and Run this Repo locally (requires node 18 (16 or 17))
 
 ```sh
 mkdir enterprise-wc

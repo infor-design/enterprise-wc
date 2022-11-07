@@ -7,6 +7,7 @@ import IdsPopup from '../../components/ids-popup/ids-popup';
 const POPUP_TRIGGER_TYPES = [
   'contextmenu',
   'click',
+  'custom',
   'hover',
   'immediate'
 ];
@@ -249,6 +250,8 @@ const IdsPopupInteractionsMixin = <T extends Constraints>(superclass: T) => clas
         if (typeof this.onTriggerImmediate === 'function') {
           this.onTriggerImmediate();
         }
+        break;
+      case 'custom':
         break;
       default:
         break;

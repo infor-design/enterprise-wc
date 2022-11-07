@@ -759,6 +759,8 @@ export default class IdsDataGridFilters {
         menu.refreshTriggerEvents();
       }
 
+      btn?.setAttribute('data-filter-conditions-button', '');
+
       // Timepicker needs a different element to use for targeting outside clicks
       // (normally it targets the body tag, but this causes usability issues when combined with data grid)
       if (timePicker) {
@@ -835,6 +837,8 @@ export default class IdsDataGridFilters {
    */
   #handleMenuButtonSelected(el: IdsMenuItem) {
     const target = (el.menu as any)?.target;
+    if (!target?.hasAttribute('data-filter-conditions-button')) return;
+
     const { value, icon, text: label } = el;
     if (!icon || !target || target.icon === icon.replace(/^filter-/g, '')) return;
 
