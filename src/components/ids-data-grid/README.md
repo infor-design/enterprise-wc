@@ -803,7 +803,7 @@ ids-data-grid::part(ruby-tooltip-popup) {
 
 ## Contextmenu Code Examples
 
-Set contextmenu thru Dataset.
+The context menus can be set via the dataset.
 
 ```html
 <ids-data-grid id="data-grid-1" label="Books">
