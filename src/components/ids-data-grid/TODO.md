@@ -27,7 +27,7 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [x] Text align headers and cells [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-alerts-right-align.html)
 - [x] Css class/Colors
 - [x] Custom Formatters and Editors Example
-- [ ] Context Menu
+- [x] Context Menu
 
 ## Minor
 
