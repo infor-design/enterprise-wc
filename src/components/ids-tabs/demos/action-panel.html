@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Vertical Tabs Action Panel</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-action-panel id="cap-company-info" fullsize="lg">
+
+      <ids-toolbar slot="toolbar">
+        <ids-toolbar-section type="title">
+          <ids-text font-size="20" type="h2">Vertical Tabs</ids-text>
+        </ids-toolbar-section>
+
+        <ids-toolbar-section type="buttonset" align="end">
+          <ids-button id="btn-close" icon="close" no-padding>
+            <ids-text font-weight="bold">Close</ids-text>
+          </ids-button>
+        </ids-toolbar-section>
+      </ids-toolbar>
+
+      <ids-layout-grid no-margins="true">
+        <ids-layout-grid-cell col-span="4">
+          <ids-tabs orientation="vertical">
+            <ids-tab value="tab-1">Tab 1</ids-tab>
+            <ids-tab value="tab-2">Tab 2</ids-tab>
+            <ids-tab value="tab-3">Tab 3</ids-tab>
+            <ids-tab value="tab-4">Tab 4</ids-tab>
+          </ids-tabs>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="8">
+          <ids-text font-size="16" text-align="center">Content Panel</ids-text>
+          <ids-text></ids-text>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+    </ids-action-panel>
+
+    <ids-layout-grid>
+      <ids-layout-grid-column>
+        <ids-button type="secondary" id="cap-trigger-btn">Open Action Panel</ids-button>
+      </ids-layout-grid-column>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
