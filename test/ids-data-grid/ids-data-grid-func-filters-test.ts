@@ -567,7 +567,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should filter rows as filter other operators', () => {
+  it.only('should filter rows as filter other operators', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -600,16 +600,16 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(6);
     dataGrid.applyFilter([{ columnId: 'integer', operator: 'less-than', value: '14' }]);
 
-    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(4);
     dataGrid.applyFilter([{ columnId: 'integer', operator: 'less-equals', value: '14' }]);
 
-    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(2);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(5);
     dataGrid.applyFilter([{ columnId: 'integer', operator: 'greater-than', value: '14' }]);
 
-    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(3);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(4);
     dataGrid.applyFilter([{ columnId: 'integer', operator: 'greater-equals', value: '14' }]);
 
-    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(4);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(5);
     dataGrid.applyFilter([{ columnId: 'integer', operator: 'test', value: '14' }]);
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);

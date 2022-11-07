@@ -1184,7 +1184,7 @@ export default class IdsDataGrid extends Base {
     this.state.selectedRows = [];
     this.data?.forEach((row: any, index: number) => {
       if (row.rowSelected) {
-        this.state.selectedRows.push(index);
+        this.state.selectedRows.push(Number(index));
       }
     });
   }
@@ -1207,7 +1207,7 @@ export default class IdsDataGrid extends Base {
    * @returns {Array<object>} An array of all currently selected rows
    */
   get selectedRows() {
-    return this.state.selectedRows.map((index: number) => ({ index, data: this.data[index] }));
+    return this.state.selectedRows.map((index: number) => ({ index: Number(index), data: this.data[index] }));
   }
 
   /**
@@ -1660,7 +1660,8 @@ export default class IdsDataGrid extends Base {
    * @returns {object} the current active cell
    */
   setActiveCell(cell: number, row: number, nofocus?: boolean) {
-    if (row < 0 || cell < 0 || row > this.data.length - 1 || cell > this.visibleColumns.length - 1) {
+    if (row < 0 || cell < 0 || row > this.data.length - 1
+      || cell > this.visibleColumns.length - 1 || Number.isNaN(row) || Number.isNaN(row)) {
       return this.activeCell;
     }
 

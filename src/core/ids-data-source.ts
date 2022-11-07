@@ -316,8 +316,8 @@ class IdsDataSource {
 
     // Check if need to filter or reset
     if (typeof filterFunction === 'function') {
-      this.#currentFilterData = this.#currentFilterData
-          || this.flatten ? deepClone(this.#originalData) : this.#currentData;
+      this.#currentFilterData = this.#currentFilterData || this.#currentData;
+      if (this.flatten) this.#currentFilterData = deepClone(this.#originalData);
       // Run thru the filter process
       this.#currentFilterData.forEach((row: any, index: number) => {
         row.isFilteredOut = filterFunction(row, index);

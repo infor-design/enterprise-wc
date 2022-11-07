@@ -218,6 +218,7 @@ const columns = (grid: any) => {
 
 // Check tooltip for given element
 const checkTooltip = async (elem: any, grid: any, tooltipEl: any, shouldSetWidth = false) => {
+  debugger;
   expect(tooltipEl.visible).toEqual(false);
   expect(elem).toBeTruthy();
   const mouseover = new MouseEvent('mouseover', { bubbles: true });

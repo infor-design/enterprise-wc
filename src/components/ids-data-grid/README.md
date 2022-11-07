@@ -57,27 +57,27 @@ Column groups are achieved by providing an array to the `columnGroups` setting. 
 ```js
 dataGrid.columnGroups = [
 {
-    colspan: 3,
-    id: 'group1',
-    name: 'Column Group One',
-    align: 'center'
+  colspan: 3,
+  id: 'group1',
+  name: 'Column Group One',
+  align: 'center'
 },
 {
-    colspan: 2,
-    id: 'group2',
-    name: 'Column Group Two'
+  colspan: 2,
+  id: 'group2',
+  name: 'Column Group Two'
 },
 {
-    colspan: 2,
-    id: 'group3',
-    name: 'Column Group Three',
-    align: 'right'
+  colspan: 2,
+  id: 'group3',
+  name: 'Column Group Three',
+  align: 'right'
 },
 {
-    colspan: 11,
-    id: 'group4',
-    name: 'Column Group Four',
-    align: 'left'
+  colspan: 11,
+  id: 'group4',
+  name: 'Column Group Four',
+  align: 'left'
 }
 ];
 ```
@@ -124,6 +124,81 @@ The following events are relevant to selection/activation.
 `rowdeactivated` Fires when an individual row is deactivated and gives information about that row.
 `activationchanged` Fires once for each time activation changes and gives information about the active row.
 
+### Tree Grid
+
+The tree grid feature involves the setting `treeGrid` to true. In addition the data passed to the tree grid should contain a field called `children`. That contains the child rows. This can by unlimited levels but 2-4 is recommended as a max for a more usable UI. In addition you can preset some states by adding `rowExpanded: false` to the parent elements (default is expanded). And also set `rowHidden: false` for child rows that are expanded. You also need a `Expander` formatter on a cell (usually the first visible cell.
+
+Here is a code example for a tree grid.
+
+```html
+<ids-data-grid id="tree-grid" label="Buildings" tree-grid="true" group-selects-children="true"></ids-data-grid>
+```
+
+```js
+dataGrid.addEventListener('rowexpanded', (e) => {
+  console.info(`Row Expanded`, e.detail);
+});
+
+dataGrid.addEventListener('rowcollapsed', (e) => {
+  console.info(`Row Collapsed`, e.detail);
+});
+```
+
+The following events are relevant to selection/activation.
+
+`rowexpanded` Fires when a tree grid row is expanded by click or keyboard.
+`rowcollapsed` Fires when a tree grid row is collapsed by click or keyboard.
+
+Some additional settings are needed or possibly needed.
+
+- `idColumn` {string} For saving the row state during sort this should be set to the id column in the data set. Defaults to `id`.
+- `groupSelectsChildren` {boolean} If the tree grid has multiple selection, setting this will select all children when a parent is selected.
+- `suppressRowClickSelection` {boolean} If using selection you might want to set this so clicking a row will not select it.
+### Expandable Row
+
+The Expandable Row feature involves the setting `expandableRow` to true. In addition a row template should be provided via an id that points to the `expandableRowTemplate` which is a `template` element. You can preset the expandable state by adding `rowExpanded: true` to the row element you want to expand. The default is collapsed.
+
+Here is a code example for an expandable row
+
+```html
+<ids-data-grid
+    id="data-grid-expandable-row"
+    expandable-row="true"
+    expandable-row-template="expandable-row-tmpl"
+    label="Books">
+    <template id="expandable-row-tmpl">
+        <ids-layout-grid auto="true">
+        <ids-text font-size="16" type="span">${convention}</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+        <ids-text font-size="14" type="span">${price} USD</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+        <ids-text font-size="14" type="span">Lorem Ipsum is simply sample text of the printing and typesetting industry. Lorem Ipsum has been the industry standard sample text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only...</ids-text>
+        </ids-layout-grid>
+    </template>
+</ids-data-grid>
+```
+
+```js
+dataGrid.addEventListener('rowexpanded', (e) => {
+  console.info(`Row Expanded`, e.detail);
+});
+
+dataGrid.addEventListener('rowcollapsed', (e) => {
+  console.info(`Row Collapsed`, e.detail);
+});
+```
+
+The following events are relevant to expandable rows
+
+`rowexpanded` Fires when a tree grid row is expanded by click or keyboard.
+`rowcollapsed` Fires when a tree grid row is collapsed by click or keyboard.
+
+Some additional settings are needed or possibly needed.
+
+- `idColumn` {string} For saving the row state during sort this should be set to the id column in the data set. Defaults to `id`.
+- `expandableRowTemplate` {string} Should point to the row `template` element.
 ## Settings and Attributes
 
 When used as an attribute in the DOM the settings are kebab case, when used in JS they are camel case.
@@ -139,9 +214,15 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `filterable` {boolean} Turns on or off the filter functionality.
 - `filter-row-disabled` {boolean} Disables the filter row.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
+- `suppressRowClickSelection` {boolean} If using selection setting this will require clicking a checkbox or radio to select the row. Clicking other cells will not select the row.
 - `suppressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
 - `suppressRowDeselection`  {boolean} Set to true to prevent rows from being deselected if click or space bar the row. i.e. once a row is selected, it remains selected until another row is selected in its place.
 - `suppressTooltips`  {boolean} Set to true to prevent display tooltips.
+- `idColumn` {string} For saving the row state during sort this should be set to the id column in the data set. Defaults to `id`.
+- `expandableRow` {boolean} Indicates expandable rows will be used in the data grid.  See the expandable row section for more details.
+- `expandableRowTemplate` {string} Should point to the row `template` element for expandable rows.
+- `treeGrid` {boolean} Indicates a tree grid will be used  in the data grid. See the tree grid section for more details.
+- `groupSelectsChildren` {boolean} If a tree grid has multiple selection, setting this will select all children when a parent is selected.
 
 ## Column Settings (General)
 
@@ -228,6 +309,27 @@ columns.push({
 });
 ```
 
+To style a custom formatter you may need to add a css part for the element. For example:
+
+```js
+formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
+  const value = `${rowData[columnData.field] || ''}`;
+  return `<a part="custom-link" href="#" class="text-ellipsis">${escapeHTML(value)}</a>`;
+},
+```
+
+Then in the style sheet you add for you page you put the styles.
+
+```css
+ids-data-grid::part(custom-link) {
+  color: #da1217;
+}
+
+ids-data-grid::part(custom-link):hover {
+  color: #6c080b;
+}
+```
+
 The formatter is then linked via the column on the formatter setting. When the grid cell is rendered the formatter function is called and the following arguments are passed in.
 
 - `rowData` The current row's data from the data array.
@@ -250,13 +352,15 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `columnresized` Fires when a column is resized or setColumnWidth is called.
 - `columnmoved` Fires when a column is moved / reordered or moveColumn is called
 - `beforetooltipshow` Fires before tooltip show, you can return false in the response to veto
+- `rowExpanded` Fires when a tree or expandable row is expanded or collapsed
+- `rowCollapsed` Fires when a tree or expandable row is expanded or collapsed
 
 ## Methods
 
--- `setColumnWidth` Can be used to set the width of a column.
--- `setColumnVisibility` Can be used to set the visibility of a column.
--- `setActivateCell(cell, row)` Can be used to set focus of a cell.
-
+- `setColumnWidth` Can be used to set the width of a column.
+- `setColumnVisibility` Can be used to set the visibility of a column.
+- `setActivateCell(cell, row)` Can be used to set focus of a cell.
+- `selectedRows` Lists the indexes of the currently selected rows.
 ## Filters
 
 Data rows can be filter based on one or several criteria. Whole filter row can turned on/off by the api setting `filterable` and can be disabled by the api setting `filter-row-disabled`. The filter conditions can be applied thru the UI or programmatically. Each column can have its own filter type and turn on/off by columns setting.
@@ -865,7 +969,17 @@ ids-data-grid::part(ruby-tooltip-popup) {
 1.1.1 Non-text Content - All images, links and icons have text labels for screen readers when the formatters are used.
 - 1.4.3 Contrast (Minimum) - The visual presentation of text and links and images of text has a contrast ratio of at least 4.5:1.
 - 2.1.1 Keyboard - Make all functionality available from a keyboard. The grid has keyboard shortcuts and is usable with a screen reader due to the addition of aria tags.
-
+- A datagrid in general including this one uses the following aria tags
+  - `aria-label` labels the enter table on the main table
+  - `aria-rowcount` lists the visible row count on the main table
+  - `aria-colindex` the index of each column on the column elements
+  - `aria-rwindex` the index of each row on the row elements
+  - `aria-setsize` for tree grid lists the number of elements in each level (group)
+  - `aria-level` the level of indentation
+  - `aria-posinset` the depth into each set
+  - `aria-expanded` on the row it indicates if the row is expanded (for tree and expandable row)
+  - `aria-sort` indicates the sort direction on the sortable columns
+  - `aria-checked` indicates if the element is checked on checkbox columns and headers
 ## Regional Considerations
 
 Titles and labels should be localized in the current language. All elements will flip to the alternate side in Right To Left mode. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai). For some of these cases text-ellipsis is supported.
