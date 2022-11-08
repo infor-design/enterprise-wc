@@ -112,7 +112,7 @@ describe('IdsDataGrid Component', () => {
     const sel = {
       headerGroupCell: '.ids-data-grid-column-groups .ids-data-grid-header-cell',
       headerCell: '.ids-data-grid-header [role="row"]:not(.ids-data-grid-column-groups) .ids-data-grid-header-cell:nth-child(2)',
-      bodyCell: '.ids-data-grid-body [role="row"]:nth-child(2) [role="cell"]:nth-child(2)',
+      bodyCell: '.ids-data-grid-body [role="row"]:nth-child(2) [role="gridcell"]:nth-child(2)',
     };
     const headerGroupCell = dataGrid.shadowRoot.querySelector(sel.headerGroupCell);
     const headerCell = dataGrid.shadowRoot.querySelector(sel.headerCell);
@@ -156,14 +156,14 @@ describe('IdsDataGrid Component', () => {
     expect(bodyMenu.visible).toBeFalsy();
   });
 
-  it('should contextmenu thru slot', async () => {
+  it('should show contextmenu thru a slot', async () => {
     document.body.innerHTML = '';
     container = null;
     dataGrid = null;
 
     const sel = {
       headerCell: '.ids-data-grid-header [role="row"]:not(.ids-data-grid-column-groups) .ids-data-grid-header-cell:nth-child(2)',
-      bodyCell: '.ids-data-grid-body [role="row"]:nth-child(2) [role="cell"]:nth-child(2)',
+      bodyCell: '.ids-data-grid-body [role="row"]:nth-child(2) [role="gridcell"]:nth-child(2)',
     };
 
     const html = `
@@ -230,7 +230,7 @@ describe('IdsDataGrid Component', () => {
 
     const sel = {
       headerCell: '.ids-data-grid-header [role="row"]:not(.ids-data-grid-column-groups) .ids-data-grid-header-cell:nth-child(2)',
-      bodyCell: '.ids-data-grid-body [role="row"]:nth-child(2) [role="cell"]:nth-child(2)',
+      bodyCell: '.ids-data-grid-body [role="row"]:nth-child(2) [role="gridcell"]:nth-child(2)',
     };
 
     const html = `
@@ -294,7 +294,7 @@ describe('IdsDataGrid Component', () => {
     dataGrid.addEventListener('beforemenushow', (e: CustomEvent) => {
       e.detail.response(isVeto); // veto
     });
-    const sel = '.ids-data-grid-body [role="row"]:nth-child(2) [role="cell"]:nth-child(2)';
+    const sel = '.ids-data-grid-body [role="row"]:nth-child(2) [role="gridcell"]:nth-child(2)';
     const bodyCell = dataGrid.shadowRoot.querySelector(sel);
     const bodySlot = dataGrid.shadowRoot.querySelector('slot[name="contextmenu"]');
     const bodyMenu = bodySlot.assignedElements()[0];
