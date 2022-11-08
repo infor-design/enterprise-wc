@@ -62,7 +62,9 @@ export default class IdsDataGrid extends Base {
     this.initialized = false;
     this.state = {
       selectedRows: [],
-      activatedRow: []
+      activatedRow: [],
+      menuData: null,
+      headerMenuData: null
     };
   }
 
@@ -252,11 +254,11 @@ export default class IdsDataGrid extends Base {
     // Attach post filters setting
     this.filters.attachPostFiltersSetting();
 
-    // Set contextmenu
-    setContextmenu.apply(this);
-
     // Set Counts/Totals
     this.container?.setAttribute('aria-rowcount', this.rowCount.toString());
+
+    // Set contextmenu
+    setContextmenu.apply(this);
   }
 
   /**

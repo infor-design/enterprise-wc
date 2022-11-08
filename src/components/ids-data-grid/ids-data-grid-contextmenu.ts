@@ -113,7 +113,7 @@ function showContextmenu(this: IdsDataGrid): boolean {
  * @returns {void}
  */
 function contextmenuBodyCellArgs(this: IdsDataGrid, path: HTMLElement[], cellEl: HTMLElement): IdsDataGridContextmenuArgs {
-  const rowIndex = stringToNumber(findInPath(path, '[role="row"]')?.getAttribute('visible-rowindex'));
+  const rowIndex = stringToNumber(findInPath(path, '[role="row"]')?.getAttribute('data-index'));
   const columnIndex = stringToNumber(cellEl.getAttribute('aria-colindex')) - 1;
   const rowData = this.data[rowIndex];
   const columnData = this.columns[columnIndex];
@@ -197,7 +197,7 @@ function handleContextmenu(
 
   let args: { menu?: IdsPopupMenu, target?: HTMLElement, callbackArgs?: IdsDataGridContextmenuArgs } = {};
   const columnheader = findInPath(path, '[role="columnheader"]');
-  const cellEl = findInPath(path, '[role="cell"]');
+  const cellEl = findInPath(path, '[role="gridcell"]');
 
   if (cellEl && menu) {
     const callbackArgs = contextmenuBodyCellArgs.apply(this, [path, cellEl]);
