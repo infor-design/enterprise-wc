@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
+import { eventPath, findInPath } from '../../utils/ids-event-path-utils/ids-event-path-utils';
 import { sanitizeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { IdsDataGridTooltipOptions } from './ids-data-grid-column';
 import debounce from '../../utils/ids-debounce-utils/ids-debounce-utils';
@@ -77,57 +78,35 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
   }
 
   /**
-   * Get list of path elements for given event.
-   * @private
-   * @param  {MouseEvent} e The event.
-   * @returns {HTMLElement[]} List of path element.
-   */
-  #eventPath(e: any): HTMLElement[] {
-    const path = e.composedPath() || [];
-    return !path.length ? (e.orignPath || []) : path;
-  }
-
-  /**
-   * Find element by selector in given event path.
-   * @private
-   * @param  {HTMLElement[]} path  List of path element.
-   * @param  {string} s The selector value.
-   * @returns {HTMLElement|undefined} Found element.
-   */
-  #findInPath(path: HTMLElement[], s: string): HTMLElement | undefined {
-    return path?.find((el: HTMLElement) => el?.matches?.(s));
-  }
-
-  /**
    * Handle tooltip
    * @private
    * @param {MouseEvent} e The event
    */
   async #handleTooltip(e: any) {
-    const path = this.#eventPath(e);
+    const path = eventPath(e);
 
     // Close if previously showing
     this.#hideTooltip();
 
     // Body cell
-    if (this.#findInPath(path, '.ids-data-grid-body')
-      && this.#findInPath(path, '[role="gridcell"]')
+    if (findInPath(path, '.ids-data-grid-body')
+      && findInPath(path, '[role="gridcell"]')
     ) {
       await this.#tooltipBodyCell(path);
       return;
     }
 
     // Header title, and group header title
-    if (this.#findInPath(path, '.ids-data-grid-header-text')
-      || this.#findInPath(path, '.ids-data-grid-header-icon')
+    if (findInPath(path, '.ids-data-grid-header-text')
+      || findInPath(path, '.ids-data-grid-header-icon')
     ) {
       await this.#tooltipHeaderTitleOrIcon(path);
       return;
     }
 
     // Header filter button
-    if (this.#findInPath(path, '.ids-data-grid-header-cell-filter-wrapper')
-      && this.#findInPath(path, 'ids-menu-button')
+    if (findInPath(path, '.ids-data-grid-header-cell-filter-wrapper')
+      && findInPath(path, 'ids-menu-button')
     ) {
       await this.#tooltipFilterButton(path);
     }
@@ -140,12 +119,12 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
    */
   async #tooltipBodyCell(path: HTMLElement[]) {
     const ambientGrid = this as unknown as IdsDataGrid;
-    const cellEl = this.#findInPath(path, '[role="gridcell"]') as HTMLElement;
-    const link = this.#findInPath(path, 'ids-hyperlink');
+    const cellEl = findInPath(path, '[role="gridcell"]') as HTMLElement;
+    const link = findInPath(path, 'ids-hyperlink');
     const textEllipsis = (link ? cellEl : cellEl.querySelector('.text-ellipsis')) as HTMLElement;
 
     if (textEllipsis?.offsetWidth < textEllipsis?.scrollWidth) {
-      const rowIndex = stringToNumber(this.#findInPath(path, '[role="row"]')?.getAttribute('data-index'));
+      const rowIndex = stringToNumber(findInPath(path, '[role="row"]')?.getAttribute('data-index'));
       const columnIndex = stringToNumber(cellEl.getAttribute('aria-colindex')) - 1;
       const rowData = ambientGrid.data[rowIndex];
       const columnData = ambientGrid.columns[columnIndex];
@@ -201,9 +180,9 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
    */
   async #tooltipHeaderTitleOrIcon(path: HTMLElement[]) {
     const ambientGrid = this as unknown as IdsDataGrid;
-    const cellEl = this.#findInPath(path, '[role="columnheader"]') as HTMLElement;
-    const titleEl = this.#findInPath(path, '.ids-data-grid-header-text') as HTMLElement;
-    const iconEl = this.#findInPath(path, '.ids-data-grid-header-icon') as HTMLElement;
+    const cellEl = findInPath(path, '[role="columnheader"]') as HTMLElement;
+    const titleEl = findInPath(path, '.ids-data-grid-header-text') as HTMLElement;
+    const iconEl = findInPath(path, '.ids-data-grid-header-icon') as HTMLElement;
     const isHeaderIcon = !!iconEl;
 
     if (isHeaderIcon || (titleEl?.offsetWidth < titleEl?.scrollWidth)) {
@@ -283,8 +262,8 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
    */
   async #tooltipFilterButton(path: HTMLElement[]) {
     const ambientGrid = this as unknown as IdsDataGrid;
-    const cellEl: any = this.#findInPath(path, '[role="columnheader"]');
-    const filterButton: any = this.#findInPath(path, 'ids-menu-button');
+    const cellEl: any = findInPath(path, '[role="columnheader"]');
+    const filterButton: any = findInPath(path, 'ids-menu-button');
 
     if (filterButton) {
       const rowIndex = ambientGrid.columnGroups ? 1 : 0;

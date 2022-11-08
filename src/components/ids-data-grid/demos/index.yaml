@@ -53,6 +53,15 @@
   - link: columns-stretch.html
     type: Example
     description: Showing a stretch column
+  - link: contextmenu.html
+    type: Example
+    description: Shows a data grid with contextmenu
+  - link: contextmenu-thru-id.html
+    type: Example
+    description: Shows a data grid with contextmenu thru id
+  - link: contextmenu-thru-data.html
+    type: Example
+    description: Shows a data grid with contextmenu thru data
   - link: data-nested.html
     type: Example
     description: Showing nested data is supported
