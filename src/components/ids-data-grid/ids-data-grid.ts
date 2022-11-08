@@ -372,8 +372,7 @@ export default class IdsDataGrid extends Base {
         part="header-cell"
         aria-colindex="${index + 1}"
         column-id="${column.id}"
-        role="columnheader"x
-      >
+        role="columnheader">
         ${headerContentWrapperTemplate}
         ${headerFilterWrapperTemplate}
       </span>

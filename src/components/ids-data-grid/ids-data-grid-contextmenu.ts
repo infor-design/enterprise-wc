@@ -97,6 +97,7 @@ function showContextmenu(this: IdsDataGrid): boolean {
       return isShow;
     }
     menuEl.target = target;
+    if (callbackArgs.type === 'header') (menuEl.popup as any).y = 10;
     menuEl.show();
     isShow = true;
     this.triggerEvent('menushow', this, { bubbles: true, detail: args });
@@ -208,6 +209,7 @@ function handleContextmenu(
   }
 
   this.contextmenuStuff = { ...args };
+
   if (showContextmenu.apply(this)) e.preventDefault();
 }
 

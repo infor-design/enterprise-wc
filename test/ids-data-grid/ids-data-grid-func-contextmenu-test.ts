@@ -111,7 +111,7 @@ describe('IdsDataGrid Component', () => {
 
     const sel = {
       headerGroupCell: '.ids-data-grid-column-groups .ids-data-grid-header-cell',
-      headerCell: '.ids-data-grid-header [role="row"]:not(.ids-data-grid-column-groups) .ids-data-grid-header-cell:nth-child(2)',
+      headerCell: '.ids-data-grid-header[role="row"]:not(.ids-data-grid-column-groups) .ids-data-grid-header-cell:nth-child(2)',
       bodyCell: '.ids-data-grid-body [role="row"]:nth-child(2) [role="gridcell"]:nth-child(2)',
     };
     const headerGroupCell = dataGrid.shadowRoot.querySelector(sel.headerGroupCell);
@@ -162,7 +162,7 @@ describe('IdsDataGrid Component', () => {
     dataGrid = null;
 
     const sel = {
-      headerCell: '.ids-data-grid-header [role="row"]:not(.ids-data-grid-column-groups) .ids-data-grid-header-cell:nth-child(2)',
+      headerCell: '.ids-data-grid-header[role="row"]:not(.ids-data-grid-column-groups) .ids-data-grid-header-cell:nth-child(2)',
       bodyCell: '.ids-data-grid-body [role="row"]:nth-child(2) [role="gridcell"]:nth-child(2)',
     };
 
@@ -223,13 +223,13 @@ describe('IdsDataGrid Component', () => {
     expect(bodyMenu.visible).toBeFalsy();
   });
 
-  it('should contextmenu thru id', async () => {
+  it('should show a contextmenu via id', async () => {
     document.body.innerHTML = '';
     container = null;
     dataGrid = null;
 
     const sel = {
-      headerCell: '.ids-data-grid-header [role="row"]:not(.ids-data-grid-column-groups) .ids-data-grid-header-cell:nth-child(2)',
+      headerCell: '.ids-data-grid-header .ids-data-grid-row:not(.ids-data-grid-column-groups) .ids-data-grid-header-cell:nth-child(2)',
       bodyCell: '.ids-data-grid-body [role="row"]:nth-child(2) [role="gridcell"]:nth-child(2)',
     };
 

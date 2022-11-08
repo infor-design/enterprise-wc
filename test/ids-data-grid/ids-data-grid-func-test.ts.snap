@@ -14,7 +14,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
       <div class="ids-data-grid-header" role="row" part="header">
         <div class="ids-data-grid-row">
           
-      <span class="ids-data-grid-header-cell align-center" part="header-cell" aria-colindex="1" column-id="selectionCheckbox" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell align-center" part="header-cell" aria-colindex="1" column-id="selectionCheckbox" role="columnheader">
         <span class="ids-data-grid-header-cell-content has-selectioncheckbox vertical-align-center">
         <span class="ids-data-grid-header-text">
           <span class="ids-data-grid-checkbox-container">
@@ -28,7 +28,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="2" column-id="rowNumber" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="2" column-id="rowNumber" role="columnheader">
         <span class="ids-data-grid-header-cell-content has-headericon">
         <span class="ids-data-grid-header-text">
           #
@@ -42,7 +42,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="3" column-id="description" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="3" column-id="description" role="columnheader">
         <span class="ids-data-grid-header-cell-content is-sortable">
         <span class="ids-data-grid-header-text">
           Description
@@ -58,7 +58,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="4" column-id="ledger" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="4" column-id="ledger" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Ledger
@@ -69,7 +69,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="5" column-id="publishDate" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="5" column-id="publishDate" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Pub. Date
@@ -80,7 +80,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="6" column-id="publishTime" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="6" column-id="publishTime" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Pub. Time
@@ -91,7 +91,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="7" column-id="price" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="7" column-id="price" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Price
@@ -102,7 +102,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="8" column-id="bookCurrency" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="8" column-id="bookCurrency" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Currency
@@ -113,7 +113,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="9" column-id="transactionCurrency" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="9" column-id="transactionCurrency" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Transaction Currency
@@ -124,7 +124,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="10" column-id="integer" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="10" column-id="integer" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Price (Int)
@@ -135,7 +135,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="11" column-id="location" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="11" column-id="location" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Location
@@ -146,7 +146,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="12" column-id="postHistory" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="12" column-id="postHistory" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Post History
@@ -157,7 +157,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="13" column-id="inStock" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="13" column-id="inStock" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           In Stock
@@ -168,7 +168,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="14" column-id="convention" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="14" column-id="convention" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Convention
@@ -179,7 +179,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="15" column-id="methodSwitch" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="15" column-id="methodSwitch" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Method Switch
@@ -190,7 +190,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="16" column-id="trackDeprecationHistory" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="16" column-id="trackDeprecationHistory" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Track Deprecation History
@@ -201,7 +201,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="17" column-id="useForEmployee" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="17" column-id="useForEmployee" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Use For Employee
@@ -212,7 +212,7 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="18" column-id="custom" role="columnheader" x="">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="18" column-id="custom" role="columnheader">
         <span class="ids-data-grid-header-cell-content">
         <span class="ids-data-grid-header-text">
           Custom

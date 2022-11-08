@@ -12,8 +12,8 @@ export type HTMLElementEvent<T extends HTMLElement[]> = Event & {
  * @returns {HTMLElement[]} List of path element.
  */
 export function eventPath(e: HTMLElementEvent<HTMLElement[]>): HTMLElement[] {
-  const path = e.path || [];
-  return !path.length ? (e.orignPath || []) : path;
+  const path = e.composedPath() || [];
+  return !path.length ? (e.orignPath || []) : path as any;
 }
 
 /**
