@@ -433,7 +433,9 @@ export default class IdsSplitter extends Base {
    * @returns {object} This API object for chaining
    */
   #setContainer(): object {
-    this.#container.rect = this.container?.getBoundingClientRect();
+    if (!this.#container) return this;
+
+    this.#container.rect = this.container?.getBoundingClientRect() || {};
     this.#container.posStart = this.#container.rect[this.#prop.posStart];
     this.#container.size = this.#container.rect[this.#prop.dimension];
     return this;
@@ -725,10 +727,12 @@ export default class IdsSplitter extends Base {
           const min = maxTransVal * -1;
           const max = minTransVal * -1;
           const mid = s.mid * -1;
-          sb.style.setProperty('transform', `${translate}(${mid}px)`);
-          sb[minTransform] = `${min}px`;
-          sb[maxTransform] = `${max}px`;
-        } else {
+          if (sb) {
+            sb.style.setProperty('transform', `${translate}(${mid}px)`);
+            sb[minTransform] = `${min}px`;
+            sb[maxTransform] = `${max}px`;
+          }
+        } else if (sb) {
           sb.style.setProperty('transform', `${translate}(${s.mid}px)`);
           sb[minTransform] = `${minTransVal}px`;
           sb[maxTransform] = `${maxTransVal}px`;
@@ -861,7 +865,7 @@ export default class IdsSplitter extends Base {
 
         const translate = { x: +matrix[4], y: +matrix[5] };
         const trans = (translate as any)[this.axis] + this.#toPixel(diff);
-        sb.style.setProperty('transform', `${this.#prop.translate}(${trans}px)`);
+        sb?.style.setProperty('transform', `${this.#prop.translate}(${trans}px)`);
       }
     }
   }
@@ -1155,7 +1159,7 @@ export default class IdsSplitter extends Base {
       this.offEvent(`ids-dragend.${namespace}`, splitBar);
       this.offEvent(`click.${namespace}`, splitBar);
       this.offEvent(`keydown.${namespace}`, splitBar);
-      splitBar.remove?.();
+      splitBar?.remove?.();
     });
 
     this.#container = { size: 0 };
