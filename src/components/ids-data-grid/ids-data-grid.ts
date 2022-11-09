@@ -18,6 +18,9 @@ import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-colum
 import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 
+// Sub Components
+import './ids-data-grid-header';
+
 const rowHeights: any = {
   xs: 30,
   sm: 35,
@@ -278,11 +281,11 @@ export default class IdsDataGrid extends Base {
    */
   headerTemplate() {
     const html = `
-      <div class="ids-data-grid-header" role="rowgroup" part="header">
+      <ids-data-grid-header">
         <div class="ids-data-grid-row" role="row">
           ${this.visibleColumns.map((columnData: any, index: number) => `${this.headerCellTemplate(columnData, index)}`).join('')}
         </div>
-      </div>
+      </ids-data-grid-header">
     `;
 
     return this.columnGroupsTemplate() + html;
