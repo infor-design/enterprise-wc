@@ -69,7 +69,7 @@ export default class IdsColor extends Base {
     return `
       <ids-tooltip>${this.tooltip} ${this.hex}</ids-tooltip>
       <div class="ids-color ${this.size} no-color" tabindex="0" part="color">
-        <ids-icon class="color-check" icon="check" size="xsmall" part="hex"></ids-icon>
+        <ids-icon class="color-check" icon="check" size="small" part="hex"></ids-icon>
       </div>
     `;
   }
