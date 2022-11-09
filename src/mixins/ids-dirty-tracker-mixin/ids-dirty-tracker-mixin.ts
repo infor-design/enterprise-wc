@@ -83,7 +83,7 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
     let icon = this.shadowRoot?.querySelector('.icon-dirty');
     if (!icon) {
       icon = document.createElement('ids-icon');
-      icon.setAttribute('icon', 'dirty');
+      icon.setAttribute('icon', 'dirty-filled');
       icon.setAttribute('size', 'small');
       icon.className = 'icon-dirty';
       if (this.locale?.isRTL()) icon?.setAttribute('dir', 'rtl');

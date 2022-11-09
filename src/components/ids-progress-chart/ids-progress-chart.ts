@@ -29,6 +29,9 @@ export default class IdsProgressChart extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+    this.#updateProgress();
+    this.#updateColor();
+    this.#updateSize();
   }
 
   /**

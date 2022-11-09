@@ -397,6 +397,9 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     &:focus-within .field-container {
       @include border-slate-30();
       @include text-slate-30();
+
+      // Safari input text color
+      -webkit-text-fill-color: var(--ids-color-palette-slate-30);
     }
   }
 
@@ -502,6 +505,9 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     .field-container {
       @include border-slate-60();
       @include text-slate-60();
+
+      // Safari input text color
+      -webkit-text-fill-color: var(--ids-color-palette-slate-60);
     }
   }
 
@@ -607,6 +613,9 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     .field-container {
       @include border-slate-30();
       @include text-slate-30();
+
+      // Safari input text color
+      -webkit-text-fill-color: var(--ids-color-palette-slate-30);
     }
   }
 
