@@ -11,8 +11,8 @@ exports[`IdsDataGrid Component Paging Tests renders pager 2`] = `
 "<style nonce="0a59a005">:host { background-color: transparent; }</style><div class="ids-data-grid-wrapper">
         <span class="ids-data-grid-sort-arrows"></span>
         <div class="ids-data-grid" role="table" part="table" aria-label="Data Grid" data-row-height="lg" mode="light" style="--ids-data-grid-column-widths: 20px 65px minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) ;" aria-rowcount="9">
-      <div class="ids-data-grid-header" role="row" part="header">
-        <div class="ids-data-grid-row">
+      <div class="ids-data-grid-header" role="rowgroup" part="header">
+        <div class="ids-data-grid-row" role="row">
           
       <span class="ids-data-grid-header-cell align-center" part="header-cell" aria-colindex="1" column-id="selectionCheckbox" role="columnheader">
         <span class="ids-data-grid-header-cell-content has-selectioncheckbox vertical-align-center">

@@ -567,7 +567,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it.only('should filter rows as filter other operators', () => {
+  it('should filter rows as filter other operators', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -606,10 +606,10 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(5);
     dataGrid.applyFilter([{ columnId: 'integer', operator: 'greater-than', value: '14' }]);
 
-    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(4);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(2);
     dataGrid.applyFilter([{ columnId: 'integer', operator: 'greater-equals', value: '14' }]);
 
-    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(5);
+    expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(3);
     dataGrid.applyFilter([{ columnId: 'integer', operator: 'test', value: '14' }]);
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);

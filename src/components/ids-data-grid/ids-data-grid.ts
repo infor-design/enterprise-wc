@@ -278,8 +278,8 @@ export default class IdsDataGrid extends Base {
    */
   headerTemplate() {
     const html = `
-      <div class="ids-data-grid-header" role="row" part="header">
-        <div class="ids-data-grid-row">
+      <div class="ids-data-grid-header" role="rowgroup" part="header">
+        <div class="ids-data-grid-row" role="row">
           ${this.visibleColumns.map((columnData: any, index: number) => `${this.headerCellTemplate(columnData, index)}`).join('')}
         </div>
       </div>
@@ -389,7 +389,7 @@ export default class IdsDataGrid extends Base {
     if (!this.columnGroups) {
       return '';
     }
-    let columnGroupHtml = `<div class="ids-data-grid-header column-groups" part="header">
+    let columnGroupHtml = `<div class="ids-data-grid-header column-groups" part="header" role="rowgroup">
     <div role="row" class="ids-data-grid-row ids-data-grid-column-groups">`;
 
     this.columnGroups.forEach((columnGroup: IdsDataGridColumnGroup) => {
@@ -789,7 +789,7 @@ export default class IdsDataGrid extends Base {
       e.stopPropagation();
     });
 
-    // Handle Selection
+    // Handle Selection and Expand
     this.listen([' '], this, (e: Event) => {
       const button = this.activeCell.node.querySelector('ids-button');
       if (button) {
@@ -919,7 +919,7 @@ export default class IdsDataGrid extends Base {
    * @param {boolean} ascending Sort ascending (lowest first) or descending (lowest last)
    */
   setSortState(id: string, ascending = true) {
-    const sortedHeaders = [...this.shadowRoot?.querySelectorAll('.is-sortable') ?? []]
+    const sortedHeaders = [...this.shadowRoot!.querySelectorAll('.is-sortable')]
       .map((sorted) => sorted.closest('.ids-data-grid-header-cell'));
     sortedHeaders.forEach((header) => header?.removeAttribute('aria-sort'));
 
@@ -1070,7 +1070,7 @@ export default class IdsDataGrid extends Base {
     this.datasource.data = [];
   }
 
-  get data(): Array<Record<string, any>> { return this?.datasource?.data || []; }
+  get data(): Array<Record<string, any>> { return this?.datasource?.data; }
 
   /**
    * Set header menu id
@@ -1393,9 +1393,6 @@ export default class IdsDataGrid extends Base {
    * @param {HTMLElement} row the row that was clicked
    */
   #handleRowSelection(row: any) {
-    if (this.rowSelection === false) {
-      return;
-    }
     const isSelected = row.classList.contains('selected');
     const index = row.getAttribute('data-index');
 
@@ -1621,8 +1618,7 @@ export default class IdsDataGrid extends Base {
    * @private
    */
   #toggleChildRowSelection(row: HTMLElement | null | undefined, isSelect: boolean) {
-    if (!row || !this.treeGrid || !this.groupSelectsChildren) return;
-    const level = row.getAttribute('aria-level');
+    const level = row?.getAttribute('aria-level');
 
     nextUntil(row, `[aria-level="${level}"]`).forEach((childRow) => {
       const nodeLevel = Number(childRow.getAttribute('aria-level'));

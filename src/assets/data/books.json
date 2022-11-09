@@ -133,8 +133,7 @@
     "trackDeprecationHistory": "Yes",
     "useForEmployee": "Yes",
     "deprecationHistory": "Asset Label",
-    "publishDate": "2020-12-12T18:25:43.511Z",
-    "price": "15.50"
+    "publishDate": "2020-12-12T18:25:43.511Z"
   },
   {
     "book": 109,
@@ -151,7 +150,6 @@
     "useForEmployee": "No",
     "deprecationHistory": "Asset Label",
     "publishDate": "2019-12-12T18:25:43.511Z",
-    "price": "29.48",
     "location": "United States"
   }
 ]
