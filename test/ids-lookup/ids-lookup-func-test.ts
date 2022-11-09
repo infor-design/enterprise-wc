@@ -421,7 +421,7 @@ describe('IdsLookup Component', () => {
     lookup.addEventListener('selectionchanged', mockCallback2);
 
     lookup.modal.visible = true;
-    lookup.dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(8) .ids-data-grid-cell:nth-child(1)').click();
+    lookup.dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(8) .ids-data-grid-cell:nth-child(1) span').click();
 
     expect(mockCallback.mock.calls.length).toBe(1);
     expect(mockCallback2.mock.calls.length).toBe(1);
