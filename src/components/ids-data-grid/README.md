@@ -213,10 +213,10 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `disableClientFilter` {boolean} Disables the filter logic client side in situations you want to filter server side.
 - `filterable` {boolean} Turns on or off the filter functionality.
 - `filterRowDisabled` {boolean} Disables the filter row.
-- `headerMenuData` {Array<object>} Dataset to build contextmenu for header and header group cells.
-- `headerMenuId` {string} ID of the popupmenu to use as contextmenu for header and header group cells.
-- `menuData` {Array<object>} Dataset to build contextmenu for body cells.
-- `menuId` {string} ID of the popupmenu to use as contextmenu for body cells.
+- `headerMenuData` {Array<object>} Dataset to build context menu for header and header group cells.
+- `headerMenuId` {string} ID of the popupmenu to use as context menu for header and header group cells.
+- `menuData` {Array<object>} Dataset to build context menu for body cells.
+- `menuId` {string} ID of the popupmenu to use as context menu for body cells.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
 - `suppressRowClickSelection` {boolean} If using selection setting this will require clicking a checkbox or radio to select the row. Clicking other cells will not select the row.
 - `suppressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
@@ -359,13 +359,11 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `beforetooltipshow` Fires before tooltip show, you can return false in the response to veto
 - `rowExpanded` Fires when a tree or expandable row is expanded or collapsed
 - `rowCollapsed` Fires when a tree or expandable row is expanded or collapsed
-=======
 - `columnmoved` Fires when a column is moved / reordered or moveColumn is called.
 - `beforetooltipshow` Fires before tooltip show, you can return false in the response to veto.
-- `beforemenushow` Fires before contextmenu show, you can return false in the response to veto.
-- `menushow` Fires after contextmenu show.
-- `menuselected` Fires after contextmenu item selected.
->>>>>>> 60b50bcd079490cb4ec0a53c8802a40db44d8000
+- `beforemenushow` Fires before context menu show, you can return false in the response to veto.
+- `menushow` Fires after context menu show.
+- `menuselected` Fires after context menu item selected.
 
 ## Methods
 
@@ -910,7 +908,7 @@ ids-data-grid::part(ruby-tooltip-popup) {
 }
 ```
 
-## Contextmenu Code Examples
+## context menu Code Examples
 
 The context menus can be set via the dataset.
 
@@ -919,9 +917,9 @@ The context menus can be set via the dataset.
 </ids-data-grid>
 ```
 ```js
-// Dataset for header cells contextmenu
+// Dataset for header cells context menu
 const headerMenuData = {
-  id: 'grid-header-contextmenu',
+  id: 'grid-header-context menu',
   contents: [{
     id: 'header-actions-group',
     items: [
@@ -931,9 +929,9 @@ const headerMenuData = {
   }],
 };
 
-// Dataset for body cells contextmenu
+// Dataset for body cells context menu
 const menuData = {
-  id: 'grid-contextmenu',
+  id: 'grid-context menu',
   contents: [{
     id: 'actions-group',
     items: [
@@ -944,40 +942,40 @@ const menuData = {
   }],
 };
 
-// Set contextmenu data with data-grid
+// Set context menu data with data-grid
 dataGrid.menuData = menuData;
 dataGrid.headerMenuData = headerMenuData;
 
-// Set to return true/false in the response to veto before contextmenu show.
+// Set to return true/false in the response to veto before context menu show.
 dataGrid.addEventListener('beforemenushow', (e: any) => {
-  console.info('before contextmenu show', e.detail);
+  console.info('before context menu show', e.detail);
   // e.detail.response(false);
 });
 
-// Set to watch after contextmenu show.
+// Set to watch after context menu show.
 dataGrid.addEventListener('menushow', (e: any) => {
-  console.info('After contextmenu show', e.detail);
+  console.info('After context menu show', e.detail);
 });
 
-// Set to watch after contextmenu item selected.
+// Set to watch after context menu item selected.
 dataGrid.addEventListener('menuselected', (e: any) => {
-  console.info('contextmenu item selected', e.detail);
+  console.info('context menu item selected', e.detail);
 });
 ```
 
-Set contextmenu thru Slot.
+Set context menu thru Slot.
 
 ```html
 <ids-data-grid id="data-grid-1" label="Books">
-  <!-- Contextmenu header cells -->
-  <ids-popup-menu trigger-type="custom" slot="header-contextmenu">
+  <!-- context menu header cells -->
+  <ids-popup-menu trigger-type="custom" slot="header-context menu">
     <ids-menu-group>
       <ids-menu-item value="header-split">Split</ids-menu-item>
       <ids-menu-item value="header-sort">Sort</ids-menu-item>
     </ids-menu-group>
   </ids-popup-menu>
-  <!-- Contextmenu body cells -->
-  <ids-popup-menu trigger-type="custom" slot="contextmenu">
+  <!-- context menu body cells -->
+  <ids-popup-menu trigger-type="custom" slot="context menu">
     <ids-menu-group>
       <ids-menu-item value="item-1">Item One</ids-menu-item>
       <ids-menu-item value="item-2">Item Two</ids-menu-item>
@@ -988,26 +986,26 @@ Set contextmenu thru Slot.
 </ids-data-grid>
 ```
 
-Set contextmenu thru ID.
+Set context menu thru ID.
 
 ```html
 <ids-data-grid
-  header-menu-id="grid-header-contextmenu"
-  menu-id="grid-contextmenu"
+  header-menu-id="grid-header-context menu"
+  menu-id="grid-context menu"
   id="data-grid-1"
   label="Books"
 ></ids-data-grid>
 
-<!-- Contextmenu header cells -->
-<ids-popup-menu trigger-type="custom" id="grid-header-contextmenu">
+<!-- context menu header cells -->
+<ids-popup-menu trigger-type="custom" id="grid-header-context menu">
   <ids-menu-group>
     <ids-menu-item value="header-split">Split</ids-menu-item>
     <ids-menu-item value="header-sort">Sort</ids-menu-item>
   </ids-menu-group>
 </ids-popup-menu>
 
-<!-- Contextmenu body cells -->
-<ids-popup-menu trigger-type="custom" id="grid-contextmenu">
+<!-- context menu body cells -->
+<ids-popup-menu trigger-type="custom" id="grid-context menu">
   <ids-menu-group>
     <ids-menu-item value="item-1">Item One</ids-menu-item>
     <ids-menu-item value="item-2">Item Two</ids-menu-item>
