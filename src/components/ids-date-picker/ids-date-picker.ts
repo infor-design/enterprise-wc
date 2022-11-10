@@ -100,6 +100,10 @@ class IdsDatePicker extends Base {
     this.#attachEventHandlers();
     this.#attachExpandedListener();
     this.#attachKeyboardListeners();
+    this.#addTimePicker();
+    this.#setShowClear();
+    this.#applyMask();
+    this.#setShowPicklistWeek();
   }
 
   /**
@@ -225,6 +229,9 @@ class IdsDatePicker extends Base {
             ${this.validate ? `validate="${this.validate}"` : ''}
             validation-events="${this.validationEvents}"
             value="${this.value}"
+            ${this.disabled ? `disabled="${this.disabled}"` : ''}
+            ${this.readonly ? `readonly="${this.readonly}"` : ''}
+            ${this.dirtyTracker ? `dirty-tracker="${this.dirtyTracker}"` : ''}
             ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
           >
             <ids-trigger-button slot="trigger-end" part="trigger-button">
@@ -1374,6 +1381,7 @@ class IdsDatePicker extends Base {
    */
   #applyMask() {
     if (this.#triggerField && this.mask) {
+      this.#triggerField.mask = this.useRange ? 'rangeDate' : 'date';
       this.#triggerField.maskOptions = { format: this.format, delimeter: this.rangeSettings.separator };
       this.#triggerField.value = this.value;
     }
@@ -1434,7 +1442,7 @@ class IdsDatePicker extends Base {
    */
   #setAvailableDateValidation(): void {
     if (this.validate?.includes('availableDate')) {
-      this.#triggerField.addValidationRule({
+      this.#triggerField?.addValidationRule({
         id: 'availableDate',
         type: 'error',
         message: this.locale?.translate('UnavailableDate'),
@@ -1486,7 +1494,7 @@ class IdsDatePicker extends Base {
    * @returns {boolean} whether or not to show time picker
    */
   #hasTime(): boolean {
-    return this.format.includes('h') || this.format.includes('m') || this.format.includes('s');
+    return this.format?.includes('h') || this.format?.includes('m') || this.format?.includes('s');
   }
 
   /**
@@ -1774,6 +1782,12 @@ class IdsDatePicker extends Base {
 
     this.container?.querySelector('ids-time-picker')?.remove();
 
+    this.#addTimePicker();
+
+    this.#applyMask();
+  }
+
+  #addTimePicker() {
     if (this.#hasTime()) {
       this.#monthView?.insertAdjacentHTML('afterend', `
         <ids-time-picker
@@ -1788,8 +1802,6 @@ class IdsDatePicker extends Base {
     }
 
     this.container?.classList.toggle('has-time', this.#hasTime());
-
-    this.#applyMask();
   }
 
   /**
@@ -2257,17 +2269,26 @@ class IdsDatePicker extends Base {
    */
   set showClear(val: string | boolean | null) {
     const boolVal = stringToBool(val);
-    const btn = this.container?.querySelector('.popup-btn-clear');
 
     if (boolVal) {
       this.setAttribute(attributes.SHOW_CLEAR, 'true');
-      btn?.removeAttribute('hidden');
     } else {
       this.removeAttribute(attributes.SHOW_CLEAR);
-      btn?.setAttribute('hidden', (!boolVal).toString());
     }
 
-    btn?.classList.toggle('is-visible', boolVal);
+    this.#setShowClear();
+  }
+
+  #setShowClear() {
+    const btn = this.container?.querySelector('.popup-btn-clear');
+
+    if (this.showClear) {
+      btn?.removeAttribute('hidden');
+    } else {
+      btn?.setAttribute('hidden', (!this.showClear).toString());
+    }
+
+    btn?.classList.toggle('is-visible', this.showClear);
   }
 
   /**
@@ -2359,9 +2380,17 @@ class IdsDatePicker extends Base {
 
     if (boolVal) {
       this.setAttribute(attributes.SHOW_PICKLIST_WEEK, String(boolVal));
-      this.#monthView?.setAttribute(attributes.SHOW_PICKLIST_WEEK, boolVal);
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
+    }
+
+    this.#setShowPicklistWeek();
+  }
+
+  #setShowPicklistWeek() {
+    if (this.showPicklistWeek) {
+      this.#monthView?.setAttribute(attributes.SHOW_PICKLIST_WEEK, 'true');
+    } else {
       this.#monthView?.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
     }
   }

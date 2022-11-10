@@ -360,7 +360,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.value).toEqual('opt2');
     // Typing v letter (only Option Five to match)
     dropdown.input.value = 'v';
-    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'v' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'v' }));
     // Keydownend delay
     await wait(600);
     expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(1);
@@ -381,7 +381,7 @@ describe('IdsDropdown Component', () => {
     dropdown.open();
     // Typing y letter (no matches)
     dropdown.input.value = 'y';
-    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'y' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'y' }));
     // Keydownend delay
     await wait(600);
     expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(1);
@@ -408,7 +408,7 @@ describe('IdsDropdown Component', () => {
 
     // Typing v letter when closed (only Option Five to match)
     dropdown.input.value = 'v';
-    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'v' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'v' }));
 
     // Keydownend delay
     await wait(600);
@@ -841,7 +841,7 @@ describe('IdsDropdown Component', () => {
     // Typeahead filtering
     dropdown.typeahead = true;
     dropdown.input.value = '2';
-    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: '2' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: '2' }));
     // Keydownend delay
     await wait(600);
 
@@ -851,7 +851,7 @@ describe('IdsDropdown Component', () => {
     dropdown.value = '';
     dropdown.input.value = '';
     dropdown.input.value = 'w';
-    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'w' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'w' }));
     // Keydownend delay
     await wait(600);
 
@@ -861,7 +861,7 @@ describe('IdsDropdown Component', () => {
 
     dropdown.value = '';
     dropdown.input.value = 'u';
-    dropdown.input?.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'u' }));
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'u' }));
     // Keydownend delay
     await wait(600);
 

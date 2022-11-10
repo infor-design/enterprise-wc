@@ -137,6 +137,8 @@ export default class IdsInput extends Base {
     if (this.capsLock) {
       this.#capsLockEventSetUp(true);
     }
+
+    this.#setReadonlyBackground();
   }
 
   /**
@@ -742,11 +744,11 @@ export default class IdsInput extends Base {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.READONLY_BACKGROUND, val.toString());
-      this.container?.classList.add(attributes.READONLY_BACKGROUND);
     } else {
       this.removeAttribute(attributes.READONLY_BACKGROUND);
-      this.container?.classList.remove(attributes.READONLY_BACKGROUND);
     }
+
+    this.#setReadonlyBackground();
   }
 
   /**
@@ -755,6 +757,10 @@ export default class IdsInput extends Base {
    */
   get readonlyBackground(): boolean {
     return stringToBool(this.getAttribute(attributes.READONLY_BACKGROUND));
+  }
+
+  #setReadonlyBackground() {
+    this.container?.classList.toggle(attributes.READONLY_BACKGROUND, this.readonlyBackground);
   }
 
   /**

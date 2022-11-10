@@ -30,6 +30,7 @@ export default class IdsCard extends Base {
     super.connectedCallback();
     this.#setFooterClass();
     this.#handleEvents();
+    this.#setHeight();
   }
 
   /**
@@ -341,24 +342,21 @@ export default class IdsCard extends Base {
    * @param {number} height height in pixels
    */
   set height(height) {
-    const getLink = () => this.container?.querySelector<IdsHyperlink>('ids-hyperlink')?.container;
     if (height) {
       this.setAttribute(attributes.HEIGHT, height);
-      if (this.container) {
-        this.container.style.height = `${height}px`;
-        const linkEl = getLink();
-        if (linkEl) linkEl.style.height = `${height}px`;
-      }
-      this.querySelector('[slot]')?.classList.add('fixed-height');
     } else {
       this.removeAttribute(attributes.HEIGHT);
-      if (this.container) {
-        this.container.style.height = '';
-        const linkEl = getLink();
-        if (linkEl) linkEl.style.height = '';
-      }
-      this.querySelector('[slot]')?.classList.remove('fixed-height');
     }
+
+    this.#setHeight();
+  }
+
+  #setHeight() {
+    const linkEl = this.container?.querySelector<IdsHyperlink>('ids-hyperlink')?.container;
+
+    this.container?.style?.setProperty('height', this.height ? `${this.height}px` : '');
+    linkEl?.style?.setProperty('height', this.height ? `${this.height}px` : '');
+    this.querySelector('[slot]')?.classList.toggle('fixed-height', !!this.height);
   }
 
   /**

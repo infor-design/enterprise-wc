@@ -166,10 +166,11 @@ export default class IdsTimePicker extends Base {
           size="${this.size}"
           placeholder="${this.placeholder}"
           value="${this.value}"
-          disabled="${this.disabled}"
+          ${this.disabled ? `disabled="${this.disabled}"` : ''}
+          ${this.readonly ? `readonly="${this.readonly}"` : ''}
+          ${this.dirtyTracker ? `dirty-tracker="${this.dirtyTracker}"` : ''}
           ${this.validate ? `validate="${this.validate}"` : ''}
           validation-events="${this.validationEvents}"
-          ${this.mask ? 'mask="date"' : ''}
           part="input"
         >
           <ids-text audible="true" translate-text="true">UseArrow</ids-text>
@@ -211,7 +212,7 @@ export default class IdsTimePicker extends Base {
    * @returns {void}
    */
   onOutsideClick(e: any): void {
-    const path = e.path || (e.composedPath && e.composedPath());
+    const path = e.composedPath && e.composedPath();
     if ((!this.autoselect && !path?.includes(this.popup))
     || (this.autoselect && !path?.includes(this.popup) && !path?.includes(this.input))) {
       this.close();
@@ -576,6 +577,7 @@ export default class IdsTimePicker extends Base {
    */
   #applyMask() {
     if (this.input && this.mask) {
+      this.input.mask = 'date';
       this.input.maskOptions = { format: this.format };
     }
   }
