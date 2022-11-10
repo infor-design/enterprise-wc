@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Data Grid - Contextmenu thru Id</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+
+        <ids-data-grid id="data-grid-contextmenu-thru-id" header-menu-id="grid-header-menu" menu-id="grid-actions-menu" row-selection="multiple" label="Books">
+        </ids-data-grid>
+
+        <!-- Header Contextmenu -->
+        <ids-popup-menu id="grid-header-menu" trigger-type="custom" slot="header-contextmenu">
+          <ids-menu-group>
+            <ids-menu-item value="header-split">Split</ids-menu-item>
+            <ids-menu-item value="header-sort">Sort</ids-menu-item>
+            <ids-menu-item value="header-hide">Hide</ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+
+        <!-- Contextmenu -->
+        <ids-popup-menu id="grid-actions-menu" trigger-type="custom" slot="contextmenu">
+          <ids-menu-group>
+            <ids-menu-item value="item-one">Item One</ids-menu-item>
+            <ids-menu-item value="item-two">Item Two</ids-menu-item>
+            <ids-menu-item value="item-three">Item Three</ids-menu-item>
+            <ids-menu-item value="item-four">Item Four</ids-menu-item>
+            <ids-separator></ids-separator>
+            <ids-menu-item id="item-five" value="more-actions">
+              More Actions
+              <ids-popup-menu>
+                <ids-menu-group>
+                  <ids-menu-item value="sub-item-one">Sub-item One</ids-menu-item>
+                  <ids-menu-item value="sub-item-two">Sub-item Two</ids-menu-item>
+                  <ids-menu-item value="sub-item-three">Sub-item Three</ids-menu-item>
+                </ids-menu-group>
+              </ids-popup-menu>
+            </ids-menu-item>
+            <ids-menu-item id="item-six" value="even-more-actions">
+              Even More Actions
+              <ids-popup-menu>
+                <ids-menu-group>
+                  <ids-menu-item icon="settings" value="change-settings">
+                    Change Settings
+                    <ids-popup-menu>
+                      <ids-menu-group>
+                        <ids-menu-item value="setting-one">Setting One</ids-menu-item>
+                        <ids-menu-item value="setting-two">Setting Two</ids-menu-item>
+                        <ids-menu-item value="setting-three">Setting Three</ids-menu-item>
+                        <ids-menu-item value="reaaaaalllly-long-setting-number-four">REAAAAALLLLY Long Setting Number Four
+                        </ids-menu-item>
+                      </ids-menu-group>
+                    </ids-popup-menu>
+                  </ids-menu-item>
+                  <ids-menu-item icon="mail" value="send-mail">Send Mail</ids-menu-item>
+                  <ids-menu-item icon="filter" value="filter-content">Filter Content</ids-menu-item>
+                </ids-menu-group>
+              </ids-popup-menu>
+            </ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

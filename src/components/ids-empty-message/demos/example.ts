@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let exampleIconHtml = '';
 
   for (let i = 0; i < emptyIcons.length; i++) {
+    if (!emptyIcons[i][0].endsWith('-new')) continue;
+
     exampleIconHtml += `<ids-layout-grid-cell>
     <ids-card class="test-card">
       <div slot="card-header">

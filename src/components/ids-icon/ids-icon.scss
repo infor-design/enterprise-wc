@@ -21,6 +21,10 @@
   transform: scaleX(-1);
 }
 
+:host([icon='more']) svg {
+  height: 19px;
+}
+
 .notification-badge {
   @include bg-alert-error();
 
