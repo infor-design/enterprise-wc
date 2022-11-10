@@ -141,7 +141,7 @@ svg.circular-indicator.inline {
   /*
    * circumference is 2πr(45) => 282.74, or 283
    */
-  stroke-dashoffset: #{'calc(283 - (var(--progress) * 2.83))'};
+  stroke-dashoffset: #{'calc(283px - (var(--progress) * 2.83))'};
 }
 
 @keyframes indeterminate-spinner-progress-anim {
