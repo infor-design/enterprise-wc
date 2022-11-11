@@ -129,7 +129,7 @@ export default class IdsLoadingIndicator extends Base {
   }
 
   #setProgress() {
-    if (!Number.isNaN(this.progress)) {
+    if (this.progress !== undefined && !Number.isNaN(this.progress)) {
       this.shadowRoot?.querySelector('svg')?.style.setProperty('--progress', this.type === 'circular' ? `${this.progress}px` : this.progress);
     } else {
       this.shadowRoot?.querySelector('svg')?.style.removeProperty('--progress');
