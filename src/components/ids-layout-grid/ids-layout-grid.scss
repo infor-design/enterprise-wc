@@ -47,7 +47,7 @@ $grid-cols-sm: 4;
 
   // Tablet down go to auto layout
   @media all and (max-width: $breakpoint-md) {
-    grid-template-columns: repeat(auto-fit, minmax(var(--grid-min-col-width), var(--grid-max-col-width)));
+    grid-template-columns: repeat(auto-fit, minmax(calc(var(--grid-min-col-width) * 2), 1fr));
   }
 }
 
