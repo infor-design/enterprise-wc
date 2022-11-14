@@ -49,3 +49,4 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Change left and right padding (start and end) for row-heights
 - [ ] Tree Grid Lazy Loading Child Rows
 - [ ] Virtual Scroll with Frozen Columns
+- [ ] On tree grid if you de-select some child rows - should show as partial.

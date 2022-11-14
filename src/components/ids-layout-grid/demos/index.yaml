@@ -14,6 +14,9 @@
   - link: sandbox.html
     type: Sandbox
     description: Showing nesting and anchoring
+  - link: homepages-example.html
+    type: Masonry
+    description: Showing masonry style layout
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a layout grid that works with css only
