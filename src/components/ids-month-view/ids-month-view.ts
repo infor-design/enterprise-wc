@@ -1954,7 +1954,7 @@ class IdsMonthView extends Base {
 
       for (let i = 0; i < days; i++) {
         const calendarEvent = new IdsCalendarEvent();
-        const eventType = this.eventTypesData?.find((et: CalendarEventTypeData) => et.id === event.type);
+        const eventType = this.eventTypesData?.find((et: CalendarEventTypeData) => et.id === event.type) ?? null;
         const eventOrder = baseOrder + index;
         calendarEvent.eventTypeData = eventType;
         calendarEvent.eventData = event;

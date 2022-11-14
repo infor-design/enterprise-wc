@@ -254,7 +254,6 @@
 
     // Range selection
     &.range-selection + .range-selection,
-    &.range-selection + .range-selection,
     &.range-next:not(:first-of-type),
     &.range-prev:not(:last-of-type) {
       @include relative();
