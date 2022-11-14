@@ -1,0 +1,38 @@
+// Row Styles
+.ids-data-grid-row {
+  @include w-full();
+
+  display: grid;
+  grid-template-columns: var(--ids-data-grid-column-widths); // Filled in dynamically
+
+  &.selected:not(.mixed) .ids-data-grid-cell,
+  &.activated .ids-data-grid-cell {
+    @include bg-azure-10();
+  }
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// Row Height Feature - Large is default
+.ids-data-grid-row .ids-data-grid-cell {
+  height: 50px;
+}
+
+.ids-data-grid[data-row-height='md'] .ids-data-grid-row .ids-data-grid-cell {
+  height: 40px;
+}
+
+.ids-data-grid[data-row-height='sm'] .ids-data-grid-row .ids-data-grid-cell {
+  height: 35px;
+}
+
+.ids-data-grid[data-row-height='xs'] .ids-data-grid-row .ids-data-grid-cell {
+  height: 30px;
+}
+
+// Row Alternate Row Setting Feature
+.ids-data-grid.alt-row-shading ids-data-grid-row:nth-child(even) {
+  @include bg-slate-10();
+}

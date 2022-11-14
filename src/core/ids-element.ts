@@ -24,15 +24,18 @@ export default class IdsElement extends HTMLElement {
   /** Styles Flag */
   hasStyles = false;
 
-  constructor() {
+  constructor(public options?: { noShadowRoot: boolean }) {
     super();
-    this.#addBaseName();
-    this.#appendHostCss();
+
+    if (!options?.noShadowRoot) {
+      this.#addBaseName();
+      this.#appendHostCss();
+    }
   }
 
   /** Run the template when a component Is inserted */
   connectedCallback() {
-    this.render();
+    if (!this.options?.noShadowRoot) this.render();
   }
 
   /**

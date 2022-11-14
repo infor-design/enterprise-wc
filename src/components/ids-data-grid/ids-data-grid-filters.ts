@@ -271,7 +271,7 @@ export default class IdsDataGridFilters {
    * @returns {void}
    */
   resetFilters() {
-    this.filterNodes.forEach((n: any) => {
+    this.filterNodes?.forEach((n: any) => {
       const slot = n.querySelector('slot[name^="filter-"]');
       const node = slot ? slot.assignedElements()[0] : n;
       if (node) {
@@ -355,7 +355,7 @@ export default class IdsDataGridFilters {
    */
   filterConditions() {
     const filterExpr: any = [];
-    this.filterNodes.forEach((n: any) => {
+    this.filterNodes?.forEach((n: any) => {
       const slot = n.querySelector('slot[name^="filter-"]');
       const node = slot ? slot.assignedElements()[0] : n;
       if (node) {
@@ -663,7 +663,7 @@ export default class IdsDataGridFilters {
    * @returns {void}
    */
   setFilterRowDisabled() {
-    this.filterNodes.forEach((n: any) => {
+    this.filterNodes?.forEach((n: any) => {
       const slot = n.querySelector('slot[name^="filter-"]');
       const node = slot ? slot.assignedElements()[0] : n;
       if (node) {
@@ -687,10 +687,10 @@ export default class IdsDataGridFilters {
   }
 
   /**
-   * Attach post filters setting after rerender data grid
+   * Attach filters setting after data grid render
    * @returns {void}
    */
-  attachPostFiltersSetting() {
+  attachFilterSettings() {
     // Set filter row should be disabled or not
     if (this.root.filterRowDisabled) this.setFilterRowDisabled();
 
@@ -702,7 +702,7 @@ export default class IdsDataGridFilters {
       el?.setAttribute('compact', '');
     };
 
-    this.filterNodes.forEach((n: any) => {
+    this.filterNodes?.forEach((n: any) => {
       const slot = n.querySelector('slot[name^="filter-"]');
       const node = slot ? slot.assignedElements()[0] : n;
       const headerElem = n.closest('.ids-data-grid-header-cell');
@@ -810,7 +810,7 @@ export default class IdsDataGridFilters {
     });
 
     // Change event for input, dropdown and multiselect
-    const header = this.root.container.querySelector('.ids-data-grid-header:not(.column-groups)');
+    const header = this.root.container?.querySelector('.ids-data-grid-header:not(.column-groups)');
     this.root.onEvent(`change.${this.#id()}`, header, (e: any) => {
       const nodeName = e.target?.nodeName;
       if (nodeName && /ids-(input|dropdown|multiselect)/gi.test(nodeName)) {
@@ -819,7 +819,7 @@ export default class IdsDataGridFilters {
     });
 
     // Change event for ids-date-picker and ids-time-picker
-    this.filterNodes.forEach((n: any) => {
+    this.filterNodes?.forEach((n: any) => {
       const slot = n.querySelector('slot[name^="filter-"]');
       const node = slot ? slot.assignedElements()[0] : n;
       const elem = node?.querySelector('ids-date-picker, ids-time-picker');
@@ -871,7 +871,7 @@ export default class IdsDataGridFilters {
    * @returns {void}
    */
   setFilterWhenTyping() {
-    this.filterNodes.forEach((n: any) => {
+    this.filterNodes?.forEach((n: any) => {
       const slot = n.querySelector('slot[name^="filter-"]');
       const node = slot ? slot.assignedElements()[0] : n;
       const input = node?.querySelector('ids-input');

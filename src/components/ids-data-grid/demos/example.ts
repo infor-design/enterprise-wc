@@ -26,6 +26,8 @@ if (dataGrid) {
       name: '#',
       formatter: dataGrid.formatters.rowNumber,
       sortable: false,
+      resizable: true,
+      reorderable: true,
       readonly: true,
       width: 65
     });
@@ -34,30 +36,40 @@ if (dataGrid) {
       name: 'Description',
       field: 'description',
       sortable: true,
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.text
     });
     columns.push({
       id: 'ledger',
       name: 'Ledger',
       field: 'ledger',
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.text
     });
     columns.push({
       id: 'publishDate',
       name: 'Pub. Date',
       field: 'publishDate',
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.date
     });
     columns.push({
       id: 'publishTime',
       name: 'Pub. Time',
       field: 'publishDate',
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.time
     });
     columns.push({
       id: 'price',
       name: 'Price',
       field: 'price',
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.decimal,
       formatOptions: { locale: 'en-US' } // Data Values are in en-US
     });
@@ -65,6 +77,8 @@ if (dataGrid) {
       id: 'bookCurrency',
       name: 'Currency',
       field: 'bookCurrency',
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.text
     });
     columns.push({

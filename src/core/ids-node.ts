@@ -15,7 +15,6 @@ export default class IdsNode extends HTMLElement {
   }
 
   connectedCallback() {
-    debugger;
   }
 
   /**
@@ -42,12 +41,5 @@ export default class IdsNode extends HTMLElement {
    */
   static get attributes(): Array<string> {
     return [];
-  }
-
-  /**
-   * @returns {string} containing this component's HTML Template
-   */
-  template() {
-    return '';
   }
 }
