@@ -1,18 +1,21 @@
+import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
+import { escapeHTML } from '../../../utils/ids-xss-utils/ids-xss-utils';
 import booksJSON from '../../../assets/data/books.json';
+import css from '../../../assets/css/ids-data-grid/custom-link.css';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-formatters');
-const container: any = document.querySelector('ids-container');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-formatters')!;
 
 if (dataGrid) {
   (async function init() {
-    // Set Locale and wait for it to load
-    await container?.setLocale('en-US');
-
     // Do an ajax request
     const url: any = booksJSON;
-    const columns = [];
+    const columns: IdsDataGridColumn[] = [];
 
     // Set up columns
     columns.push({
@@ -51,27 +54,27 @@ if (dataGrid) {
       type: 'icon',
       align: 'center',
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-      click: (rowData: any) => {
-        console.info('Drilldown clicked', rowData);
+      click: (info: any) => {
+        console.info('Drilldown clicked', info);
       },
       text: 'Drill Down',
       width: 56
     });
     columns.push({
       id: 'description',
-      name: 'Description',
+      name: 'Text',
       field: 'description',
       sortable: true,
       formatter: dataGrid.formatters.text
     });
     columns.push({
       id: 'location',
-      name: 'Location',
+      name: 'Hyperlink',
       field: 'location',
       formatter: dataGrid.formatters.hyperlink,
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-      click: (rowData: any) => {
-        console.info('Link clicked', rowData);
+      click: (info: any) => {
+        console.info('Link clicked', info);
       },
       href: '#'
     });
@@ -84,7 +87,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'publishDate',
-      name: 'Pub. Date',
+      name: 'Date',
       field: 'publishDate',
       sortable: true,
       formatter: dataGrid.formatters.date,
@@ -92,7 +95,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'publishTime',
-      name: 'Pub. Time',
+      name: 'Time',
       field: 'publishDate',
       sortable: true,
       formatter: dataGrid.formatters.time,
@@ -100,7 +103,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'price',
-      name: 'Price (decimal)',
+      name: 'Decimal',
       field: 'price',
       align: 'right',
       sortable: true,
@@ -110,7 +113,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'price',
-      name: 'Price (integer)',
+      name: 'Integer',
       field: 'price',
       align: 'right',
       sortable: true,
@@ -120,7 +123,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'inStock',
-      name: 'In Stock',
+      name: 'Checkbox',
       field: 'inStock',
       align: 'center',
       sortable: true,
@@ -138,7 +141,7 @@ if (dataGrid) {
     });
     columns.push({
       id: 'more',
-      name: '',
+      name: 'Actions',
       sortable: false,
       resizable: true,
       formatter: dataGrid.formatters.button,
@@ -146,8 +149,8 @@ if (dataGrid) {
       type: 'icon',
       align: 'center',
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-      click: (rowData: any) => {
-        console.info('Actions clicked', rowData);
+      click: (info: any) => {
+        console.info('Actions clicked', info);
       },
       text: 'Actions',
       width: 56
@@ -160,6 +163,20 @@ if (dataGrid) {
       formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
         const value = `Custom: ${rowData[columnData.field] || '0'}`;
         return `<span class="text-ellipsis">${value}</span>`;
+      },
+      width: 180
+    });
+    columns.push({
+      id: 'custom',
+      name: 'Custom Formatter',
+      field: 'location',
+      sortable: false,
+      formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
+        const value = `${rowData[columnData.field] || ''}`;
+        return `<a part="custom-link" href="#" class="text-ellipsis">${escapeHTML(value)}</a>`;
+      },
+      click: (info: any) => {
+        console.info('Custom Link Clicked', info);
       },
       width: 180
     });

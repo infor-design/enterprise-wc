@@ -57,27 +57,27 @@ Column groups are achieved by providing an array to the `columnGroups` setting. 
 ```js
 dataGrid.columnGroups = [
 {
-    colspan: 3,
-    id: 'group1',
-    name: 'Column Group One',
-    align: 'center'
+  colspan: 3,
+  id: 'group1',
+  name: 'Column Group One',
+  align: 'center'
 },
 {
-    colspan: 2,
-    id: 'group2',
-    name: 'Column Group Two'
+  colspan: 2,
+  id: 'group2',
+  name: 'Column Group Two'
 },
 {
-    colspan: 2,
-    id: 'group3',
-    name: 'Column Group Three',
-    align: 'right'
+  colspan: 2,
+  id: 'group3',
+  name: 'Column Group Three',
+  align: 'right'
 },
 {
-    colspan: 11,
-    id: 'group4',
-    name: 'Column Group Four',
-    align: 'left'
+  colspan: 11,
+  id: 'group4',
+  name: 'Column Group Four',
+  align: 'left'
 }
 ];
 ```
@@ -124,6 +124,81 @@ The following events are relevant to selection/activation.
 `rowdeactivated` Fires when an individual row is deactivated and gives information about that row.
 `activationchanged` Fires once for each time activation changes and gives information about the active row.
 
+### Tree Grid
+
+The tree grid feature involves the setting `treeGrid` to true. In addition the data passed to the tree grid should contain a field called `children`. That contains the child rows. This can by unlimited levels but 2-4 is recommended as a max for a more usable UI. In addition you can preset some states by adding `rowExpanded: false` to the parent elements (default is expanded). And also set `rowHidden: false` for child rows that are expanded. You also need a `Expander` formatter on a cell (usually the first visible cell.
+
+Here is a code example for a tree grid.
+
+```html
+<ids-data-grid id="tree-grid" label="Buildings" tree-grid="true" group-selects-children="true"></ids-data-grid>
+```
+
+```js
+dataGrid.addEventListener('rowexpanded', (e) => {
+  console.info(`Row Expanded`, e.detail);
+});
+
+dataGrid.addEventListener('rowcollapsed', (e) => {
+  console.info(`Row Collapsed`, e.detail);
+});
+```
+
+The following events are relevant to selection/activation.
+
+`rowexpanded` Fires when a tree grid row is expanded by click or keyboard.
+`rowcollapsed` Fires when a tree grid row is collapsed by click or keyboard.
+
+Some additional settings are needed or possibly needed.
+
+- `idColumn` {string} For saving the row state during sort this should be set to the id column in the data set. Defaults to `id`.
+- `groupSelectsChildren` {boolean} If the tree grid has multiple selection, setting this will select all children when a parent is selected.
+- `suppressRowClickSelection` {boolean} If using selection you might want to set this so clicking a row will not select it.
+### Expandable Row
+
+The Expandable Row feature involves the setting `expandableRow` to true. In addition a row template should be provided via an id that points to the `expandableRowTemplate` which is a `template` element. You can preset the expandable state by adding `rowExpanded: true` to the row element you want to expand. The default is collapsed.
+
+Here is a code example for an expandable row
+
+```html
+<ids-data-grid
+    id="data-grid-expandable-row"
+    expandable-row="true"
+    expandable-row-template="expandable-row-tmpl"
+    label="Books">
+    <template id="expandable-row-tmpl">
+        <ids-layout-grid auto="true">
+        <ids-text font-size="16" type="span">${convention}</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+        <ids-text font-size="14" type="span">${price} USD</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+        <ids-text font-size="14" type="span">Lorem Ipsum is simply sample text of the printing and typesetting industry. Lorem Ipsum has been the industry standard sample text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only...</ids-text>
+        </ids-layout-grid>
+    </template>
+</ids-data-grid>
+```
+
+```js
+dataGrid.addEventListener('rowexpanded', (e) => {
+  console.info(`Row Expanded`, e.detail);
+});
+
+dataGrid.addEventListener('rowcollapsed', (e) => {
+  console.info(`Row Collapsed`, e.detail);
+});
+```
+
+The following events are relevant to expandable rows
+
+`rowexpanded` Fires when a tree grid row is expanded by click or keyboard.
+`rowcollapsed` Fires when a tree grid row is collapsed by click or keyboard.
+
+Some additional settings are needed or possibly needed.
+
+- `idColumn` {string} For saving the row state during sort this should be set to the id column in the data set. Defaults to `id`.
+- `expandableRowTemplate` {string} Should point to the row `template` element.
 ## Settings and Attributes
 
 When used as an attribute in the DOM the settings are kebab case, when used in JS they are camel case.
@@ -138,14 +213,20 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `disableClientFilter` {boolean} Disables the filter logic client side in situations you want to filter server side.
 - `filterable` {boolean} Turns on or off the filter functionality.
 - `filterRowDisabled` {boolean} Disables the filter row.
-- `headerMenuData` {Array<object>} Dataset to build contextmenu for header and header group cells.
-- `headerMenuId` {string} ID of the popupmenu to use as contextmenu for header and header group cells.
-- `menuData` {Array<object>} Dataset to build contextmenu for body cells.
-- `menuId` {string} ID of the popupmenu to use as contextmenu for body cells.
+- `headerMenuData` {Array<object>} Dataset to build context menu for header and header group cells.
+- `headerMenuId` {string} ID of the popupmenu to use as context menu for header and header group cells.
+- `menuData` {Array<object>} Dataset to build context menu for body cells.
+- `menuId` {string} ID of the popupmenu to use as context menu for body cells.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
+- `suppressRowClickSelection` {boolean} If using selection setting this will require clicking a checkbox or radio to select the row. Clicking other cells will not select the row.
 - `suppressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
 - `suppressRowDeselection`  {boolean} Set to true to prevent rows from being deselected if click or space bar the row. i.e. once a row is selected, it remains selected until another row is selected in its place.
 - `suppressTooltips`  {boolean} Set to true to prevent display tooltips.
+- `idColumn` {string} For saving the row state during sort this should be set to the id column in the data set. Defaults to `id`.
+- `expandableRow` {boolean} Indicates expandable rows will be used in the data grid.  See the expandable row section for more details.
+- `expandableRowTemplate` {string} Should point to the row `template` element for expandable rows.
+- `treeGrid` {boolean} Indicates a tree grid will be used  in the data grid. See the tree grid section for more details.
+- `groupSelectsChildren` {boolean} If a tree grid has multiple selection, setting this will select all children when a parent is selected.
 
 ## Column Settings (General)
 
@@ -232,6 +313,27 @@ columns.push({
 });
 ```
 
+To style a custom formatter you may need to add a css part for the element. For example:
+
+```js
+formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
+  const value = `${rowData[columnData.field] || ''}`;
+  return `<a part="custom-link" href="#" class="text-ellipsis">${escapeHTML(value)}</a>`;
+},
+```
+
+Then in the style sheet you add for you page you put the styles.
+
+```css
+ids-data-grid::part(custom-link) {
+  color: #da1217;
+}
+
+ids-data-grid::part(custom-link):hover {
+  color: #6c080b;
+}
+```
+
 The formatter is then linked via the column on the formatter setting. When the grid cell is rendered the formatter function is called and the following arguments are passed in.
 
 - `rowData` The current row's data from the data array.
@@ -252,18 +354,23 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `filterrowopened` Fires after the filter row is opened by the user.
 - `filterrowclosed` Fires after the filter row is closed by the user.
 - `columnresized` Fires when a column is resized or setColumnWidth is called.
+<<<<<<< HEAD
+- `columnmoved` Fires when a column is moved / reordered or moveColumn is called
+- `beforetooltipshow` Fires before tooltip show, you can return false in the response to veto
+- `rowExpanded` Fires when a tree or expandable row is expanded or collapsed
+- `rowCollapsed` Fires when a tree or expandable row is expanded or collapsed
 - `columnmoved` Fires when a column is moved / reordered or moveColumn is called.
 - `beforetooltipshow` Fires before tooltip show, you can return false in the response to veto.
-- `beforemenushow` Fires before contextmenu show, you can return false in the response to veto.
-- `menushow` Fires after contextmenu show.
-- `menuselected` Fires after contextmenu item selected.
+- `beforemenushow` Fires before context menu show, you can return false in the response to veto.
+- `menushow` Fires after context menu show.
+- `menuselected` Fires after context menu item selected.
 
 ## Methods
 
--- `setColumnWidth` Can be used to set the width of a column.
--- `setColumnVisibility` Can be used to set the visibility of a column.
--- `setActivateCell(cell, row)` Can be used to set focus of a cell.
-
+- `setColumnWidth` Can be used to set the width of a column.
+- `setColumnVisibility` Can be used to set the visibility of a column.
+- `setActivateCell(cell, row)` Can be used to set focus of a cell.
+- `selectedRows` Lists the indexes of the currently selected rows.
 ## Filters
 
 Data rows can be filter based on one or several criteria. Whole filter row can turned on/off by the api setting `filterable` and can be disabled by the api setting `filter-row-disabled`. The filter conditions can be applied thru the UI or programmatically. Each column can have its own filter type and turn on/off by columns setting.
@@ -801,7 +908,7 @@ ids-data-grid::part(ruby-tooltip-popup) {
 }
 ```
 
-## Contextmenu Code Examples
+## context menu Code Examples
 
 The context menus can be set via the dataset.
 
@@ -810,9 +917,9 @@ The context menus can be set via the dataset.
 </ids-data-grid>
 ```
 ```js
-// Dataset for header cells contextmenu
+// Dataset for header cells context menu
 const headerMenuData = {
-  id: 'grid-header-contextmenu',
+  id: 'grid-header-context menu',
   contents: [{
     id: 'header-actions-group',
     items: [
@@ -822,9 +929,9 @@ const headerMenuData = {
   }],
 };
 
-// Dataset for body cells contextmenu
+// Dataset for body cells context menu
 const menuData = {
-  id: 'grid-contextmenu',
+  id: 'grid-context menu',
   contents: [{
     id: 'actions-group',
     items: [
@@ -835,40 +942,40 @@ const menuData = {
   }],
 };
 
-// Set contextmenu data with data-grid
+// Set context menu data with data-grid
 dataGrid.menuData = menuData;
 dataGrid.headerMenuData = headerMenuData;
 
-// Set to return true/false in the response to veto before contextmenu show.
+// Set to return true/false in the response to veto before context menu show.
 dataGrid.addEventListener('beforemenushow', (e: any) => {
-  console.info('before contextmenu show', e.detail);
+  console.info('before context menu show', e.detail);
   // e.detail.response(false);
 });
 
-// Set to watch after contextmenu show.
+// Set to watch after context menu show.
 dataGrid.addEventListener('menushow', (e: any) => {
-  console.info('After contextmenu show', e.detail);
+  console.info('After context menu show', e.detail);
 });
 
-// Set to watch after contextmenu item selected.
+// Set to watch after context menu item selected.
 dataGrid.addEventListener('menuselected', (e: any) => {
-  console.info('contextmenu item selected', e.detail);
+  console.info('context menu item selected', e.detail);
 });
 ```
 
-Set contextmenu thru Slot.
+Set context menu thru Slot.
 
 ```html
 <ids-data-grid id="data-grid-1" label="Books">
-  <!-- Contextmenu header cells -->
-  <ids-popup-menu trigger-type="custom" slot="header-contextmenu">
+  <!-- context menu header cells -->
+  <ids-popup-menu trigger-type="custom" slot="header-context menu">
     <ids-menu-group>
       <ids-menu-item value="header-split">Split</ids-menu-item>
       <ids-menu-item value="header-sort">Sort</ids-menu-item>
     </ids-menu-group>
   </ids-popup-menu>
-  <!-- Contextmenu body cells -->
-  <ids-popup-menu trigger-type="custom" slot="contextmenu">
+  <!-- context menu body cells -->
+  <ids-popup-menu trigger-type="custom" slot="context menu">
     <ids-menu-group>
       <ids-menu-item value="item-1">Item One</ids-menu-item>
       <ids-menu-item value="item-2">Item Two</ids-menu-item>
@@ -879,26 +986,26 @@ Set contextmenu thru Slot.
 </ids-data-grid>
 ```
 
-Set contextmenu thru ID.
+Set context menu thru ID.
 
 ```html
 <ids-data-grid
-  header-menu-id="grid-header-contextmenu"
-  menu-id="grid-contextmenu"
+  header-menu-id="grid-header-context menu"
+  menu-id="grid-context menu"
   id="data-grid-1"
   label="Books"
 ></ids-data-grid>
 
-<!-- Contextmenu header cells -->
-<ids-popup-menu trigger-type="custom" id="grid-header-contextmenu">
+<!-- context menu header cells -->
+<ids-popup-menu trigger-type="custom" id="grid-header-context menu">
   <ids-menu-group>
     <ids-menu-item value="header-split">Split</ids-menu-item>
     <ids-menu-item value="header-sort">Sort</ids-menu-item>
   </ids-menu-group>
 </ids-popup-menu>
 
-<!-- Contextmenu body cells -->
-<ids-popup-menu trigger-type="custom" id="grid-contextmenu">
+<!-- context menu body cells -->
+<ids-popup-menu trigger-type="custom" id="grid-context menu">
   <ids-menu-group>
     <ids-menu-item value="item-1">Item One</ids-menu-item>
     <ids-menu-item value="item-2">Item Two</ids-menu-item>
@@ -941,7 +1048,7 @@ Set contextmenu thru ID.
 - <kbd>Page Up</kbd> moves focus to the first cell in the current column
 - <kbd>Page Down</kbd> moves focus to the last cell in the current column
 - <kbd>Enter</kbd> toggles edit mode on the cell if it is editable. There is also an "auto edit detection". If the user starts typing then edit mode will happen automatically without enter.
-- <kbd>Space</kbd> Toggles the activate row. If suppressRowDeselection is set it will be ignored on deselect.
+- <kbd>Space</kbd> Toggles selection the activate row. If suppressRowDeselection is set it will be ignored on deselect. If the cell contains an expandable element then the row will toggle the expanded state.
 - <kbd>F2</kbd> toggles actionable mode. Pressing the <kbd>Tab</kbd> key while in actionable mode moves focus to the next actionable cell. While in actionable mode you can do things like type + enter. This will move you down a row when you hit enter. If the cell has a control that uses down arrow (like the drop downs or lookups that are editable). Then the user needs to hit enter to enable the edit mode on that cell.
 - <kbd>Triple Click</kbd> Not a keyboard shortcut, but if you have text in a cell that is overflowed a triple click will select all the text even the part that is invisible.
 - <kbd>Ctrl+A (PC) / Cmd+A (Mac)</kbd> If the grid is mixed or multi select this will select all rows.
@@ -971,12 +1078,25 @@ Set contextmenu thru ID.
 - `frozenColumns` setting is now set on each column by adding `frozen: 'left'` or `frozen: 'right'` to the column definition.
 - Some events are renamed see the events section for more details, also the signature of the events has changed.
 - Custom formatter functions can now be any type of function and have a different signature.
+- The `expanded` column option for tree was renamed to `rowExpanded`.
+- The `expandrow/collapserow` events are renamed to `rowexpanded/rowcollapsed`
+
 ## Accessibility Guidelines
 
 1.1.1 Non-text Content - All images, links and icons have text labels for screen readers when the formatters are used.
 - 1.4.3 Contrast (Minimum) - The visual presentation of text and links and images of text has a contrast ratio of at least 4.5:1.
 - 2.1.1 Keyboard - Make all functionality available from a keyboard. The grid has keyboard shortcuts and is usable with a screen reader due to the addition of aria tags.
-
+- A datagrid in general including this one uses the following aria tags
+  - `aria-label` labels the enter table on the main table
+  - `aria-rowcount` lists the visible row count on the main table
+  - `aria-colindex` the index of each column on the column elements
+  - `aria-rwindex` the index of each row on the row elements
+  - `aria-setsize` for tree grid lists the number of elements in each level (group)
+  - `aria-level` the level of indentation
+  - `aria-posinset` the depth into each set
+  - `aria-expanded` on the row it indicates if the row is expanded (for tree and expandable row)
+  - `aria-sort` indicates the sort direction on the sortable columns
+  - `aria-checked` indicates if the element is checked on checkbox columns and headers
 ## Regional Considerations
 
 Titles and labels should be localized in the current language. All elements will flip to the alternate side in Right To Left mode. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai). For some of these cases text-ellipsis is supported.

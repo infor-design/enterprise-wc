@@ -56,9 +56,21 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
     return this.state.locale;
   }
 
+  /**
+   * Get the language from the container
+   * @returns {string} the language
+   */
   get language() {
     this.attachLocale();
     return this.locale?.language;
+  }
+
+  /**
+   * Get the language on the container
+   * @param {string} value the language value
+   */
+  set language(value: string) {
+    if (this.locale) this.locale.language = value;
   }
 
   /**
