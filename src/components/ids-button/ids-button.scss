@@ -52,6 +52,8 @@ button {
 .ids-toggle-button,
 .ids-menu-button:not(.ids-icon-button),
 .ids-modal-button {
+  @include antialiased();
+
   .ids-icon {
     @include inline-flex();
 

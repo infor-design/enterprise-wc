@@ -32,7 +32,7 @@
     "deprecationHistory": "Asset Label",
     "publishDate": "2021-02-23T18:25:43.511Z",
     "price": "13.99",
-    "location": "Canada"
+    "location": "<img src='a' onerror='alert(0)'/>Canada"
   },
   {
     "book": 103,
@@ -42,13 +42,14 @@
     "postHistory": "No",
     "active": "Yes",
     "inStock": false,
-    "convention": "Full Month",
+    "convention": "Half Month",
     "methodSwitch": "Yes",
     "trackDeprecationHistory": "No",
     "useForEmployee": "Yes",
     "deprecationHistory": "Asset Label",
     "publishDate": "2021-12-23T18:25:43.511Z",
-    "location": "United States"
+    "location": "United States",
+    "price": "1.21"
   },
   {
     "book": 104,
@@ -59,12 +60,13 @@
     "postHistory": "No",
     "active": "No",
     "inStock": false,
-    "convention": "Full Month",
+    "convention": "2 Weeks",
     "methodSwitch": "No",
     "trackDeprecationHistory": "No",
     "useForEmployee": "No",
     "deprecationHistory": "Asset Label",
-    "location": "Canada"
+    "location": "Canada",
+    "price": "1.21"
   },
   {
     "book": 105,
@@ -97,7 +99,8 @@
     "methodSwitch": "No",
     "trackDeprecationHistory": "No",
     "useForEmployee": "No",
-    "deprecationHistory": "Asset Label"
+    "deprecationHistory": "Asset Label",
+    "price": "1.21"
   },
   {
     "book": 107,
@@ -113,7 +116,8 @@
     "trackDeprecationHistory": "No",
     "useForEmployee": "No",
     "deprecationHistory": "Asset Label",
-    "location": "Canada"
+    "location": "Canada",
+    "price": "200.10"
   },
   {
     "book": 108,
@@ -129,8 +133,7 @@
     "trackDeprecationHistory": "Yes",
     "useForEmployee": "Yes",
     "deprecationHistory": "Asset Label",
-    "publishDate": "2020-12-12T18:25:43.511Z",
-    "price": "15.50"
+    "publishDate": "2020-12-12T18:25:43.511Z"
   },
   {
     "book": 109,
@@ -147,7 +150,6 @@
     "useForEmployee": "No",
     "deprecationHistory": "Asset Label",
     "publishDate": "2019-12-12T18:25:43.511Z",
-    "price": "29.48",
     "location": "United States"
   }
 ]

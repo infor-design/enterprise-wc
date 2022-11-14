@@ -7,6 +7,7 @@ import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../src/assets/data/books.json';
+import datasetTree from '../../src/assets/data/tree-buildings.json';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 import createFromTemplate from '../helpers/create-from-template';
@@ -180,6 +181,7 @@ describe('IdsDataGrid Component', () => {
     });
 
     it('can null dataset returns an array', () => {
+      dataGrid.datasource.data = null;
       dataGrid.data = null;
       expect(dataGrid.data).toEqual([]);
     });
@@ -250,6 +252,22 @@ describe('IdsDataGrid Component', () => {
     it('renders row data', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(dataGrid.columns.length * 9);
+    });
+
+    it('skips hidden rows', async () => {
+      dataGrid.data[1].rowHidden = true;
+
+      dataGrid.columns = [{
+        id: 'description',
+        name: 'description',
+        field: 'description'
+      }];
+
+      await processAnimFrame();
+      const row1 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
+      const row2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2];
+      expect(row1.getAttribute('hidden')).toBeFalsy();
+      expect(row2.getAttribute('hidden')).toBe('');
     });
 
     it('skips re-rerender if no data', () => {
@@ -849,6 +867,13 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('[column-id]')[2].getAttribute('aria-sort')).toBe('ascending');
     });
 
+    it('doesnt error when not sortable', () => {
+      const errors = jest.spyOn(global.console, 'error');
+      dataGrid.columns = [{ id: 'description', field: 'description', name: 'description' }];
+      dataGrid.setSortState('description');
+      expect(errors).not.toHaveBeenCalled();
+    });
+
     it('wont error in columnDataByHeaderElem', () => {
       const badQuery = dataGrid.container.querySelector('.ids-data-grid-header-cell:nth-child(1000)');
       expect(dataGrid.columnDataByHeaderElem(badQuery)).toBe(undefined);
@@ -1261,7 +1286,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('12.99');
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('');
+        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('1.21');
     });
 
     it('can render with the decimal formatter (with defaults)', () => {
@@ -1271,7 +1296,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('12.99');
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('');
+        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('1.21');
     });
 
     it('can render with the integer formatter', () => {
@@ -1279,7 +1304,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('13');
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('');
+        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('1');
     });
 
     it('can render with the integer formatter (with defaults)', () => {
@@ -1289,7 +1314,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('13');
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('');
+        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('1');
     });
 
     it('can render with the hyperlink formatter', () => {
@@ -1358,7 +1383,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[17].querySelector('span').textContent).toEqual('Custom: 13.99');
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
-        .querySelectorAll('.ids-data-grid-cell')[17].querySelector('span').textContent).toEqual('Custom: 0');
+        .querySelectorAll('.ids-data-grid-cell')[17].querySelector('span').textContent).toEqual('Custom: 1.21');
     });
 
     it('can render disabled checkbox', () => {
@@ -1526,6 +1551,59 @@ describe('IdsDataGrid Component', () => {
       const badge = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-badge');
       expect(badge.getAttribute('color')).toBe(null);
     });
+
+    it('can render with the tree formatter', async () => {
+      dataGrid.treeGrid = true;
+      const oldChildren = dataGrid.data[0];
+      dataGrid.data[0].children = [{ description: 'test' }];
+      dataGrid.data[0].rowExpanded = true;
+      dataGrid.data[1].children = [{ description: 'test' }];
+      dataGrid.data[1].rowExpanded = false;
+
+      dataGrid.columns = [{
+        id: 'description',
+        name: 'description',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.tree
+      }];
+
+      await processAnimFrame();
+
+      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button).toBeTruthy();
+      expect(button.tabIndex).toBe(-1);
+      expect(button.querySelector('ids-icon').getAttribute('icon')).toBe('plusminus-folder-open');
+
+      const button2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-button');
+      expect(button2.querySelector('ids-icon').getAttribute('icon')).toBe('plusminus-folder-closed');
+
+      dataGrid.data[0].children = oldChildren;
+      dataGrid.data[0].rowExpanded = false;
+    });
+
+    it('can render with the expander formatter', async () => {
+      // eslint-disable-next-line no-template-curly-in-string
+      dataGrid.insertAdjacentHTML('afterbegin', '<template id="template-id"><span>${description}</span></template>');
+      dataGrid.expandableRow = true;
+      dataGrid.expandableRowTemplate = `template-id`;
+      dataGrid.data[1].rowExpanded = true;
+
+      dataGrid.columns = [{
+        id: 'description',
+        name: 'description',
+        formatter: dataGrid.formatters.expander
+      }];
+
+      await processAnimFrame();
+      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      expect(button).toBeTruthy();
+      expect(button.tabIndex).toBe(-1);
+      expect(button.querySelector('ids-icon').getAttribute('icon')).toBe('plusminus-folder-closed');
+
+      const button2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-button');
+      expect(button2.querySelector('ids-icon').getAttribute('icon')).toBe('plusminus-folder-open');
+    });
   });
 
   describe('Keyboard Tests', () => {
@@ -1619,6 +1697,12 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activeCell.row).toEqual(7);
       dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.row).toEqual(8);
+    });
+
+    it('can handle errant click', () => {
+      const errors = jest.spyOn(global.console, 'error');
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body').dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      expect(errors).not.toHaveBeenCalled();
     });
 
     it('can handle ArrowUp key', () => {
@@ -1775,30 +1859,25 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows[0].index).toBe(7);
     });
 
-    it('keeps selections on sort for mixed selection', () => {
+    it('keeps selections on sort for mixed selection', async () => {
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionCheckbox';
       newColumns[0].formatter = formatters.selectionCheckbox;
       dataGrid.rowSelection = 'mixed';
       dataGrid.columns = newColumns;
+      await processAnimFrame();
 
       expect(dataGrid.selectedRows.length).toBe(0);
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(3) .ids-data-grid-cell:nth-child(2)').click();
-      expect(dataGrid.selectedRows.length).toBe(1);
       expect(dataGrid.activatedRow.index).toBe(2);
-      expect(dataGrid.selectedRows[0].index).toBe(1);
 
       let headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
       headers[2].querySelector('.ids-data-grid-header-cell-content').click();
-      expect(dataGrid.selectedRows.length).toBe(1);
       expect(dataGrid.activatedRow.index).toBe(2);
-      expect(dataGrid.selectedRows[0].index).toBe(1);
 
       headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
       headers[2].querySelector('.ids-data-grid-header-cell-content').click();
-      expect(dataGrid.selectedRows.length).toBe(1);
-      expect(dataGrid.selectedRows[0].index).toBe(7);
       expect(dataGrid.activatedRow.index).toBe(6);
 
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row.activated').getAttribute('aria-rowindex')).toBe('7');
@@ -2123,7 +2202,7 @@ describe('IdsDataGrid Component', () => {
       expect(endSlotNodes[0].querySelector('ids-popup-menu')).toBeDefined();
     });
 
-    it.skip('page-size popup-menu has options for: 10, 25, 50, 100', () => {
+    it('page-size popup-menu has options for: 10, 25, 50, 100', () => {
       dataGrid.pagination = 'client-side';
       dataGrid.pageNumber = 1;
       dataGrid.pageSize = 3;
@@ -2157,6 +2236,246 @@ describe('IdsDataGrid Component', () => {
 
       select100.dispatchEvent(mouseClick);
       expect(menuButton.textContent).toContain('100 Records per page');
+    });
+  });
+
+  describe('Expandable Row Tests', () => {
+    // Some is covered by test can render with the expander formatter
+    it('can render a template', async () => {
+      // eslint-disable-next-line no-template-curly-in-string
+      dataGrid.insertAdjacentHTML('afterbegin', '<template id="template-id"><span>${description}</span></template>');
+      dataGrid.expandableRow = true;
+      dataGrid.expandableRowTemplate = `template-id`;
+      dataGrid.data[1].rowExpanded = true;
+
+      dataGrid.columns = [{
+        id: 'description',
+        name: 'description',
+        formatter: dataGrid.formatters.expander
+      }];
+
+      await processAnimFrame();
+      const area = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-expandable-row').innerHTML;
+      expect(area).toBe('<span>101</span>');
+    });
+
+    it('can an empty template if invalid expandableRowTemplate', async () => {
+      // eslint-disable-next-line no-template-curly-in-string
+      dataGrid.expandableRow = true;
+      dataGrid.expandableRowTemplate = `template-idxx`;
+      dataGrid.data[1].rowExpanded = true;
+
+      dataGrid.columns = [{
+        id: 'description',
+        name: 'description',
+        formatter: dataGrid.formatters.expander
+      }];
+
+      await processAnimFrame();
+      const area = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-expandable-row').innerHTML;
+      expect(area).toBe('');
+    });
+
+    it('can expand/collapse expandableRow', async () => {
+      // eslint-disable-next-line no-template-curly-in-string
+      dataGrid.insertAdjacentHTML('afterbegin', '<template id="template-id"><span>${description}</span></template>');
+      dataGrid.expandableRow = true;
+      dataGrid.expandableRowTemplate = `template-id`;
+
+      dataGrid.columns = [{
+        id: 'description',
+        name: 'description',
+        formatter: dataGrid.formatters.expander
+      }];
+
+      await processAnimFrame();
+      const firstRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
+      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
+      expect(firstRow.querySelector('.ids-data-grid-expandable-row').hasAttribute('hidden')).toBeTruthy();
+
+      const expandButton = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[0].querySelector('ids-button');
+
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+      expandButton.dispatchEvent(mouseClick);
+      expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
+      expect(firstRow.querySelector('.ids-data-grid-expandable-row').hasAttribute('hidden')).toBeFalsy();
+
+      expandButton.dispatchEvent(mouseClick);
+      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
+      expect(firstRow.querySelector('.ids-data-grid-expandable-row').hasAttribute('hidden')).toBeTruthy();
+    });
+
+    it('can set the expandableRow setting', () => {
+      dataGrid.expandableRow = true;
+      expect(dataGrid.getAttribute('expandable-row')).toEqual('true');
+
+      dataGrid.expandableRow = false;
+      expect(dataGrid.getAttribute('expandable-row')).toBeFalsy();
+    });
+
+    it('can set the expandableRowTemplate setting', () => {
+      dataGrid.expandableRowTemplate = 'myid';
+      expect(dataGrid.getAttribute('expandable-row-template')).toEqual('myid');
+      expect(dataGrid.expandableRowTemplate).toEqual('myid');
+
+      dataGrid.expandableRowTemplate = '';
+      expect(dataGrid.getAttribute('expandable-row-template')).toBeFalsy();
+      expect(dataGrid.expandableRowTemplate).toEqual('');
+    });
+  });
+
+  describe('Tree Grid Tests', () => {
+    const treeColumns: any = [];
+    treeColumns.push({
+      id: 'selectionCheckbox',
+      name: 'selection',
+      sortable: false,
+      resizable: false,
+      formatter: formatters.selectionCheckbox,
+      align: 'center',
+      frozen: 'left'
+    });
+    treeColumns.push({
+      id: 'name',
+      name: 'Name',
+      field: 'name',
+      sortable: true,
+      resizable: true,
+      formatter: formatters.tree
+    });
+    treeColumns.push({
+      id: 'id',
+      name: 'Id',
+      field: 'id',
+      sortable: true,
+      resizable: true,
+      formatter: formatters.text
+    });
+
+    it('can render a tree', async () => {
+      dataGrid.treeGrid = true;
+      dataGrid.columns = treeColumns;
+      dataGrid.data = datasetTree;
+
+      const rows = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row');
+      expect(rows.length).toBe(23);
+    });
+
+    it('can expand/collapse tree', async () => {
+      dataGrid.treeGrid = true;
+      dataGrid.columns = treeColumns;
+      dataGrid.data = datasetTree;
+      dataGrid.rowSelection = 'multiple';
+
+      const firstRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
+      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(3);
+      const expandButton = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
+
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+      expandButton.dispatchEvent(mouseClick);
+      expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(0);
+
+      const seventhRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[7];
+      expect(seventhRow.getAttribute('aria-expanded')).toEqual('true');
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(0);
+      const expandButton2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[7].querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
+
+      expandButton2.dispatchEvent(mouseClick);
+      expect(seventhRow.getAttribute('aria-expanded')).toEqual('false');
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(7);
+    });
+
+    it('handles selection without children', async () => {
+      dataGrid.treeGrid = true;
+      dataGrid.columns = treeColumns;
+      dataGrid.data = datasetTree;
+      dataGrid.rowSelection = 'multiple';
+
+      const selectCheck = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[1];
+      expect(dataGrid.selectedRows.length).toBe(0);
+
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+      selectCheck.dispatchEvent(mouseClick);
+      expect(dataGrid.selectedRows.length).toBe(1);
+      selectCheck.dispatchEvent(mouseClick);
+      expect(dataGrid.selectedRows.length).toBe(0);
+    });
+
+    it('handles selection including children', async () => {
+      dataGrid.treeGrid = true;
+      dataGrid.columns = treeColumns;
+      dataGrid.data = datasetTree;
+      dataGrid.rowSelection = 'multiple';
+      dataGrid.groupSelectsChildren = true;
+
+      const selectCheck = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[1];
+      expect(dataGrid.selectedRows.length).toBe(0);
+
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+      selectCheck.dispatchEvent(mouseClick);
+      expect(dataGrid.selectedRows.length).toBe(4);
+      selectCheck.dispatchEvent(mouseClick);
+      expect(dataGrid.selectedRows.length).toBe(0);
+    });
+
+    it('handles suppressRowClickSelection including children', async () => {
+      dataGrid.treeGrid = true;
+      dataGrid.columns = treeColumns;
+      dataGrid.data = datasetTree;
+      dataGrid.suppressRowClickSelection = true;
+      dataGrid.rowSelection = 'multiple';
+
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+      const otherCell = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[2];
+      otherCell.dispatchEvent(mouseClick);
+      expect(dataGrid.selectedRows.length).toBe(0);
+
+      const selectCheck = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[0];
+      selectCheck.dispatchEvent(mouseClick);
+      expect(dataGrid.selectedRows.length).toBe(1);
+    });
+
+    it('can expand with the keyboard', async () => {
+      dataGrid.treeGrid = true;
+      dataGrid.columns = treeColumns;
+      dataGrid.data = datasetTree;
+
+      const firstRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
+      expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
+
+      dataGrid.setActiveCell(0, 0, true);
+      const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+      dataGrid.dispatchEvent(event);
+
+      const event2 = new KeyboardEvent('keydown', { key: ' ' });
+      dataGrid.dispatchEvent(event2);
+      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
+    });
+
+    it('can set the suppressRowClickSelection setting', () => {
+      dataGrid.suppressRowClickSelection = true;
+      expect(dataGrid.getAttribute('suppress-row-click-selection')).toEqual('true');
+
+      dataGrid.suppressRowClickSelection = false;
+      expect(dataGrid.getAttribute('suppress-row-click-selection')).toBeFalsy();
+    });
+
+    it('can set the treeGrid setting', () => {
+      dataGrid.treeGrid = true;
+      expect(dataGrid.getAttribute('tree-grid')).toEqual('true');
+
+      dataGrid.treeGrid = false;
+      expect(dataGrid.getAttribute('tree-grid')).toBeFalsy();
+    });
+
+    it('can set the idColumn setting', () => {
+      dataGrid.idColumn = 'myid';
+      expect(dataGrid.getAttribute('id-column')).toEqual('myid');
+
+      dataGrid.idColumn = '';
+      expect(dataGrid.getAttribute('id-column')).toBeFalsy();
     });
   });
 });

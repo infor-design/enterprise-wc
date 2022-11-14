@@ -36,11 +36,11 @@ export default class IdsElement extends HTMLElement {
   }
 
   /**
-   * Add the component version and baseclass
+   * Add a base name property
    * @private
    */
   #addBaseName() {
-    // Add the base class and version
+    // Add the base name
     this.name = this.nodeName?.toLowerCase();
   }
 

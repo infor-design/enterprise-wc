@@ -331,14 +331,14 @@ export default class IdsLookup extends Base {
 
   /**
    * Set the data array of the data grid
-   * @param {Record<string, unknown> | undefined} value The array to use
+   * @param {Array<Record<string, any>>} value The array to use
    */
-  set data(value: Record<string, unknown> | undefined) {
+  set data(value: Array<Record<string, any>>) {
     if (this.dataGrid) this.dataGrid.data = value;
     this.#syncSelectedRows();
   }
 
-  get data(): Record<string, unknown> | undefined { return this.dataGrid?.data; }
+  get data(): Array<Record<string, any>> { return this.dataGrid ? this.dataGrid.data : []; }
 
   /**
    * Sync the selected rows in the dataGrid

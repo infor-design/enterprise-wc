@@ -1,8 +1,10 @@
+import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-column-groups');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-column-groups');
 const container: any = document.querySelector('ids-container');
 
 if (dataGrid) {
@@ -12,7 +14,7 @@ if (dataGrid) {
 
     // Do an ajax request
     const url: any = booksJSON;
-    const columns = [];
+    const columns: IdsDataGridColumn[] = [];
 
     // Set up columns
     columns.push({
@@ -131,7 +133,7 @@ if (dataGrid) {
       id: 'trackDeprecationHistory',
       name: 'Track Deprecation History',
       field: 'trackDeprecationHistory',
-      formatter: dataGrid.formatters.dropdown,
+      formatter: dataGrid.formatters.text,
       resizable: true,
     });
     columns.push({

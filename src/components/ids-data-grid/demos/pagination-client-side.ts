@@ -1,17 +1,23 @@
-import '../ids-data-grid';
-import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
+import type IdsDataGrid from '../ids-data-grid';
+import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-paging-client-side');
-const container: any = document.querySelector('ids-container');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-paging-client-side')!;
 
 (async function init() {
-  // Set Locale and wait for it to load
-  await container.setLocale('en-US');
-  const columns = [];
+  const columns: IdsDataGridColumn[] = [];
 
   // Set up columns
+  columns.push({
+    id: 'selectionCheckbox',
+    name: 'selection',
+    sortable: false,
+    resizable: false,
+    formatter: dataGrid.formatters.selectionCheckbox,
+    align: 'center'
+  });
   columns.push({
     id: 'id',
     name: 'ID',
@@ -72,12 +78,12 @@ const container: any = document.querySelector('ids-container');
   dataGrid.data = data;
   dataGrid.pageTotal = data.length;
 
-  dataGrid.pager.addEventListener('pagenumberchange', (e: CustomEvent) => {
-    console.info(`client-side page-number # ${e.detail.value}`);
+  dataGrid.pager.addEventListener('pagenumberchange', (e: Event) => {
+    console.info(`client-side page-number # ${(<CustomEvent>e).detail.value}`);
   });
 
-  dataGrid.pager.addEventListener('pagesizechange', (e: CustomEvent) => {
-    console.info(`client-side page-size # ${e.detail.value}`);
+  dataGrid.pager.addEventListener('pagesizechange', (e: Event) => {
+    console.info(`client-side page-size # ${(<CustomEvent>e).detail.value}`);
   });
 
   console.info('Loading Time:', window.performance.now());

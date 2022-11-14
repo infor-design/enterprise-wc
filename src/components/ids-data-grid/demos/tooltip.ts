@@ -1,19 +1,15 @@
+import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
+import type { IdsDataGridColumn, IdsDataGridTooltipCallback } from '../ids-data-grid-column';
 import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-tooltip');
-const container: any = document.querySelector('ids-container');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-tooltip')!;
 
 (async function init() {
   // Define tooltip callback
-  const tooltipCallback = (args: {
-    type: string,
-    columnIndex: number,
-    rowIndex: number,
-    text: string
-  }): string => {
+  const tooltipCallback = (args: IdsDataGridTooltipCallback): string => {
     const {
       type,
       columnIndex,
@@ -37,12 +33,7 @@ const container: any = document.querySelector('ids-container');
   };
 
   // Define async tooltip callback.
-  const tooltipCallbackAsync = async (args: {
-    type: string,
-    columnIndex: number,
-    rowIndex: number,
-    text: string
-  }): Promise<string> => {
+  const tooltipCallbackAsync = async (args: IdsDataGridTooltipCallback): Promise<string> => {
     const {
       type,
       columnIndex,
@@ -65,9 +56,7 @@ const container: any = document.querySelector('ids-container');
     });
   };
 
-  // Set Locale and wait for it to load
-  await container.setLocale('en-US');
-  const columns = [];
+  const columns: IdsDataGridColumn[] = [];
 
   // Set up columns
   columns.push({
@@ -202,6 +191,7 @@ const container: any = document.querySelector('ids-container');
   const url: any = productsJSON;
 
   dataGrid.columns = columns;
+
   const setData = async () => {
     const res = await fetch(url);
     const data = await res.json();
@@ -210,11 +200,11 @@ const container: any = document.querySelector('ids-container');
 
     // Set veto before tooltip show
     dataGrid.addEventListener('beforetooltipshow', (e: any) => {
-      const { rowIndex, columnIndex } = e.detail.data;
+      const { rowIndex, columnIndex } = (<CustomEvent>e).detail.data;
       const veto = !(rowIndex === 4 && columnIndex === 2);
       if (!veto) {
-        console.info('Veto!: ', e.detail.data);
-        e.detail.response(veto);
+        console.info('Veto!: ', (<CustomEvent>e).detail.data);
+        (<CustomEvent>e).detail.response(veto);
       }
     });
   };
