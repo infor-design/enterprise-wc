@@ -39,6 +39,10 @@ export default class IdsCalendarEvent extends Base {
 
   cachedEventType: CalendarEventTypeData | null = null;
 
+  CUSTOM_EVENT_COUNT = 3;
+
+  #dateKey = '';
+
   constructor() {
     super();
   }
@@ -409,5 +413,21 @@ export default class IdsCalendarEvent extends Base {
    */
   get color(): string {
     return this.eventTypeData?.color || 'azure';
+  }
+
+  /**
+   * Sets dateKey property
+   * @param {string} val dateKey string
+   */
+  set dateKey(val: string) {
+    this.#dateKey = val;
+  }
+
+  /**
+   * Gets dateKey property
+   * @returns {string} dateKey string
+   */
+  get dateKey(): string {
+    return this.#dateKey;
   }
 }

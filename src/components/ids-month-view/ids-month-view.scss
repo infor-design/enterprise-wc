@@ -254,6 +254,7 @@
 
     // Range selection
     &.range-selection + .range-selection,
+    &.range-selection + .range-selection,
     &.range-next:not(:first-of-type),
     &.range-prev:not(:last-of-type) {
       @include relative();
@@ -460,6 +461,18 @@
 
       left: calc(100% - 25px);
       top: 13px;
+      width: 10px;
+      text-align: center;
+    }
+
+    // Feature Request 911
+    .custom-calendar-day-text {
+      @include absolute();
+      @include cursor-pointer();
+      @include z-1();
+
+      left: calc(100% - 25px);
+      top: 2px;
       width: 10px;
       text-align: center;
     }
