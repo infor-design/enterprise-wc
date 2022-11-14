@@ -564,6 +564,13 @@ export default class IdsDataGrid extends Base {
         });
       }
 
+      // Fires for each row that is clicked
+      this.triggerEvent('rowclick', this, {
+        detail: {
+          elem: this, row, data: this.data[rowNum]
+        }
+      });
+
       // Handle Expand/Collapse Clicking
       if (isClickable && (this.visibleColumns[cellNum]?.formatter?.name === 'tree'
         || this.visibleColumns[cellNum]?.formatter?.name === 'expander')) {
@@ -590,6 +597,22 @@ export default class IdsDataGrid extends Base {
           this.#handleRowSelection(row);
         }
       }
+    });
+
+    // Add double click to the table body
+    this.offEvent('dblclick.body', body);
+    this.onEvent('dblclick.body', body, (e: MouseEvent) => {
+      const row = (e.target as HTMLElement)?.closest('.ids-data-grid-row');
+      const rowIndex: string | null | undefined = row?.getAttribute('data-index');
+
+      if (!rowIndex) return;
+
+      // Fires for each row that is double clicked
+      this.triggerEvent('rowdoubleclick', this, {
+        detail: {
+          elem: this, row, data: this.data[Number(rowIndex)]
+        }
+      });
     });
 
     // Add a click to the table header
