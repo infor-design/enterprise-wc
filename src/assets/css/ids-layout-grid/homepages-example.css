@@ -1,0 +1,8 @@
+.section-container {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+ids-card::part(card) {
+  margin-bottom: 0;
+}
