@@ -2478,4 +2478,25 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('id-column')).toBeFalsy();
     });
   });
+
+  describe('Events Tests', () => {
+    it('should fire rowclick and rowdoubleclick events', () => {
+      const clickCallback = jest.fn((e) => {
+        expect(e.detail.row?.getAttribute('data-index')).toEqual('0');
+      });
+      const dblClickCallback = jest.fn((e) => {
+        expect(e.detail.row?.getAttribute('data-index')).toEqual('0');
+      });
+
+      dataGrid.addEventListener('rowclick', clickCallback);
+      dataGrid.addEventListener('rowdoubleclick', dblClickCallback);
+
+      const firstCellInRow = dataGrid.container.querySelector('.ids-data-grid-body .ids-data-grid-cell');
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+      const dblClickEvent = new MouseEvent('dblclick', { bubbles: true });
+
+      firstCellInRow.dispatchEvent(clickEvent);
+      firstCellInRow.dispatchEvent(dblClickEvent);
+    });
+  });
 });
