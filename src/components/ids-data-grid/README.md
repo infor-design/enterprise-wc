@@ -349,12 +349,13 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `rowdeselected` Fires for each row that is deselected.
 - `rowactivated` Fires for each row that is activated.
 - `rowdeactivated` Fires for each row that is deactivated.
+- `rowclick` Fires for each row that is clicked.
+- `rowdoubleclick` Fires for each row that is double clicked.
 - `filtered` Fires after a filter action occurs, clear or apply filter condition.
 - `filteroperatorchanged` Fires once a filter operator changed.
 - `filterrowopened` Fires after the filter row is opened by the user.
 - `filterrowclosed` Fires after the filter row is closed by the user.
 - `columnresized` Fires when a column is resized or setColumnWidth is called.
-<<<<<<< HEAD
 - `columnmoved` Fires when a column is moved / reordered or moveColumn is called
 - `beforetooltipshow` Fires before tooltip show, you can return false in the response to veto
 - `rowExpanded` Fires when a tree or expandable row is expanded or collapsed
