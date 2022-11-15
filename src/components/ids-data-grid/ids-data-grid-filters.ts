@@ -1,7 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { hasClass } from '../../utils/ids-dom-utils/ids-dom-utils';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
-
+import IdsDataGridCell from './ids-data-grid-cell';
 import '../ids-menu-button/ids-menu-button';
 import '../ids-popup-menu/ids-popup-menu';
 import '../ids-popup/ids-popup';
@@ -470,7 +470,7 @@ export default class IdsDataGridFilters {
         const column = c.columnData;
         const stringVal = (v: any) => ((v === null || v === undefined) ? '' : v.toString().toLowerCase());
         const formatterVal = () => {
-          const val = this.root.cellTemplate(row, column, index, this.root);
+          const val = IdsDataGridCell.template(row, column, index, this.root);
           const rex = /(<([^>]+)>)|(amp;)|(&lt;([^>]+)&gt;)/ig;
           return val.replace(rex, '').trim().toLowerCase();
         };

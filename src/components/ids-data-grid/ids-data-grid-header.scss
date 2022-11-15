@@ -9,6 +9,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   z-index: 4; // Higher than the frozen columns
 }
 
+// Negates the padding
+.ids-data-grid-header-text .ids-data-grid-checkbox-container {
+  width: 20px;
+
+  .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
+    @include bg-white();
+    @include border-white();
+  }
+}
+
 // Grouped Headers
 .ids-data-grid-column-groups {
   @include border-0();
@@ -274,5 +284,219 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   &::after {
     border-bottom: 5px solid $header-bg-color;
     bottom: -9px;
+  }
+}
+
+// Standalone Css
+tr.ids-data-grid-header {
+  position: initial;
+}
+
+th.ids-data-grid-header-cell {
+  @include table-cell();
+}
+
+// List Style Feature
+.ids-data-grid.is-list-style {
+  // Change Header Color
+  .ids-data-grid-header-cell {
+    @include bg-slate-10();
+    @include border-slate-10();
+  }
+
+  .ids-data-grid-header-text {
+    @include text-slate-100();
+  }
+
+  // Change Sort Icon Colors
+  .is-sortable {
+    ids-icon {
+      @include text-slate-50();
+    }
+  }
+
+  [aria-sort='descending'] .is-sortable ids-icon:last-child {
+    @include text-slate-20();
+  }
+
+  [aria-sort='ascending'] .is-sortable ids-icon:first-child {
+    @include text-slate-20();
+  }
+
+  // Change Header Checkbox
+  .ids-data-grid-header-text .ids-data-grid-checkbox-container {
+    .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
+      @include border-slate-70();
+    }
+  }
+}
+
+// Used for Frozen Columns
+.ids-data-grid-body {
+  min-width: fit-content;
+}
+
+// Dark Theme
+.ids-data-grid[mode='dark'] {
+  .ids-data-grid-header-cell {
+    @include bg-slate-20();
+    @include border-slate-80();
+
+    .reorderer ids-icon {
+      color: var(--ids-color-palette-slate-100);
+    }
+
+    &.dragging {
+      background-color: var(--ids-color-palette-slate-20) !important;
+    }
+
+    &.active-drag-column {
+      background-color: var(--ids-color-palette-slate-10);
+    }
+  }
+
+  .ids-data-grid-header-text {
+    @include text-slate-100();
+  }
+
+  .is-sortable .sort-indicator ids-icon {
+    @include text-slate-40();
+  }
+
+  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+    @include text-slate-100();
+  }
+
+  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+    @include text-slate-100();
+  }
+
+  // List Style Feature
+  &.is-list-style {
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-slate-80();
+      @include border-slate-80();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-slate-30();
+    }
+
+    // Change Sort Icon
+    .is-sortable .sort-indicator ids-icon {
+      @include text-slate-40();
+    }
+
+    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+      @include text-slate-20();
+    }
+
+    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+      @include text-slate-20();
+    }
+
+    // Change Header Checkbox
+    .ids-data-grid-header-text .ids-data-grid-checkbox-container {
+      .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
+        @include border-slate-40();
+      }
+    }
+  }
+
+  .ids-data-grid-header-text .ids-data-grid-checkbox-container {
+    .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
+      @include bg-transparent();
+      @include border-slate-100();
+    }
+  }
+}
+
+:host([mode='dark']) {
+  .ids-data-grid-sort-arrows {
+    &::before {
+      border-top: 5px solid var(--ids-color-palette-slate-20);
+    }
+
+    &::after {
+      border-bottom: 5px solid var(--ids-color-palette-slate-20);
+    }
+  }
+}
+
+// Contrast Theme
+.ids-data-grid[mode='contrast'] {
+  .ids-data-grid-header-cell {
+    @include bg-slate-70();
+    @include border-slate-40();
+
+    .reorderer ids-icon {
+      color: var(--ids-color-palette-slate-10);
+    }
+
+    &.dragging {
+      background-color: var(--ids-color-palette-slate-70) !important;
+    }
+
+    &.active-drag-column {
+      background-color: var(--ids-color-palette-slate-50);
+    }
+  }
+
+  .ids-data-grid-header-text {
+    @include text-white();
+  }
+
+  .is-sortable .sort-indicator ids-icon {
+    @include text-slate-40();
+  }
+
+  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+    @include text-white();
+  }
+
+  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+    @include text-white();
+  }
+
+  // List Style Feature
+  &.is-list-style {
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-slate-30();
+      @include border-slate-30();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-slate-100();
+    }
+
+    // Change Sort Icon
+    .is-sortable .sort-indicator ids-icon {
+      @include text-slate-60();
+    }
+
+    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
+      @include text-slate-30();
+    }
+
+    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
+      @include text-slate-30();
+    }
+  }
+}
+
+// Handle RTL
+:host([dir='rtl']) {
+  // Negate right alignment
+  .ids-data-grid-header-cell {
+    &.align-right .ids-data-grid-header-cell-content,
+    &.align-right .ids-data-grid-header-cell-filter-wrapper {
+      direction: ltr;
+    }
+
+    &:last-child {
+      border-inline-end-width: 0;
+    }
   }
 }

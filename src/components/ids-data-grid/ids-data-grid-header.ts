@@ -17,6 +17,9 @@ export default class IdsDataGridHeader extends Base {
 
   constructor() {
     super({ noShadowRoot: true });
+    this.state = {
+      headerMenuData: null
+    };
   }
 
   connectedCallback(): void {
@@ -30,18 +33,17 @@ export default class IdsDataGridHeader extends Base {
    * @private
    */
   #attachEventHandlers() {
-    // Select all/deselect all
-    this.headerCheckbox = <HTMLElement> this.querySelector('ids-data-grid-header .ids-data-grid-checkbox-container .ids-data-grid-checkbox');
-    this.offEvent('click.select', this.headerCheckbox);
-    this.onEvent('click.select', this.headerCheckbox, (e: any) => {
-      if (e.target.classList.contains('checked') || e.target.classList.contains('indeterminate')) {
-        this.dataGrid?.deSelectAllRows();
-      } else {
-        this.dataGrid?.selectAllRows();
-      }
-    });
+    this.#attachSelectionHandler();
+    this.#attachSortHandler();
+    this.#attachResizeHandlers();
+    this.#attachReorderHandlers();
+  }
 
-    // Sort By Clicking Headers
+  /**
+   * Attach handlers to sort via clicking the headers
+   * @private
+   */
+  #attachSortHandler() {
     this.offEvent('click.sort', this);
     this.onEvent('click.sort', this, (e: any) => {
       // Dont sort on resize
@@ -58,8 +60,23 @@ export default class IdsDataGridHeader extends Base {
         );
       }
     });
+  }
 
-    this.#attachResizeHandlers();
+  /**
+   * Attach handlers to sort via clicking the headers
+   * @private
+   */
+  #attachSelectionHandler() {
+    // Select all/deselect all
+    this.headerCheckbox = <HTMLElement> this.querySelector('ids-data-grid-header .ids-data-grid-checkbox-container .ids-data-grid-checkbox');
+    this.offEvent('click.select', this.headerCheckbox);
+    this.onEvent('click.select', this.headerCheckbox, (e: any) => {
+      if (e.target.classList.contains('checked') || e.target.classList.contains('indeterminate')) {
+        this.dataGrid?.deSelectAllRows();
+      } else {
+        this.dataGrid?.selectAllRows();
+      }
+    });
   }
 
   /**
@@ -121,6 +138,84 @@ export default class IdsDataGridHeader extends Base {
   }
 
   /**
+   * Establish Reorder handlers for moving columns
+   * @private
+   */
+  #attachReorderHandlers() {
+    const dragArrows = this.dataGrid?.wrapper?.querySelector<HTMLElement>('.ids-data-grid-sort-arrows');
+    let dragger: HTMLElement;
+    let startIndex = 0;
+
+    // Style the Dragger
+    this.offEvent('dragstart.resize', this);
+    this.onEvent('dragstart.resize', this, (e: DragEvent) => {
+      const target = (e.target as any);
+      if (!target.classList.contains('reorderer')) {
+        return;
+      }
+
+      target.parentNode.classList.add('active-drag-column');
+      dragger = target.parentNode.cloneNode(true);
+      dragger.classList.add('dragging');
+      dragger.style.position = 'absolute';
+      dragger.style.top = '0';
+      dragger.style.left = '-1000px';
+
+      this?.appendChild(dragger);
+      // Based on width of 110
+      e?.dataTransfer?.setDragImage(dragger, this.dataGrid?.locale.isRTL() ? 100 : 10, 18);
+
+      target.style.position = 'absolute';
+      startIndex = target.parentNode.getAttribute('aria-colindex');
+    });
+
+    // Show the arrows
+    this.offEvent('dragenter.resize', this);
+    this.onEvent('dragenter.resize', this, (e: DragEvent) => {
+      const cell = (e.target as any).closest('.ids-data-grid-header-cell');
+      if (cell.classList.contains('active-drag-column')) return;
+
+      const rect = cell.getBoundingClientRect();
+      const curIndex = cell.getAttribute('aria-colindex');
+      const cellLeft = rect.left + (startIndex < curIndex ? rect.width + 1 : 1);
+      const cellRight = rect.left + (startIndex < curIndex ? 1 : rect.width + 1);
+
+      dragArrows?.style.setProperty('left', `${this.dataGrid?.locale.isRTL() ? cellRight : cellLeft}px`);
+      dragArrows?.style.setProperty('height', `${rect.height}px`);
+      dragArrows?.style.setProperty('display', 'block');
+
+      e.preventDefault();
+    });
+
+    // Use a normal cursor (not drag and drop)
+    this.offEvent('dragover.resize', this);
+    this.onEvent('dragover.resize', this, (e: DragEvent) => {
+      e.dataTransfer!.dropEffect = 'move';
+      e.preventDefault();
+    });
+
+    const removeDragger = (e: DragEvent) => {
+      this.querySelector('.active-drag-column')?.classList.remove('active-drag-column');
+      dragger.remove();
+      dragArrows?.style.setProperty('display', 'none');
+      e.preventDefault();
+    };
+
+    // Set everything temp element back to normal
+    this.offEvent('dragend.resize', this);
+    this.onEvent('dragend.resize', this, (e: DragEvent) => {
+      removeDragger(e);
+    });
+
+    this.offEvent('drop.resize', this);
+    this.onEvent('drop.resize', this, (e: DragEvent) => {
+      const cell = (e.target as any).closest('.ids-data-grid-header-cell');
+      this.dataGrid?.moveColumn(startIndex - 1, cell.getAttribute('aria-colindex') - 1);
+      removeDragger(e);
+    });
+  }
+
+  /**
    * Set the header checkbox state
    * @private
    */
@@ -150,6 +245,36 @@ export default class IdsDataGridHeader extends Base {
       this.headerCheckbox.classList.add('indeterminate');
       this.headerCheckbox.setAttribute('aria-checked', 'mixed');
     }
+  }
+
+  /**
+   * Set the sort column and sort direction on the UI only
+   * @param {string} id The column id (or field) to set
+   * @param {boolean} ascending Sort ascending (lowest first) or descending (lowest last)
+   */
+  setSortState(id: string, ascending = true) {
+    const sortedHeaders = [...this!.querySelectorAll('.is-sortable')]
+      .map((sorted) => sorted.closest('.ids-data-grid-header-cell'));
+    sortedHeaders.forEach((header) => header?.removeAttribute('aria-sort'));
+
+    const header = this.querySelector(`[column-id="${id}"]`);
+    if (header && sortedHeaders.includes(header)) {
+      header.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
+    }
+  }
+
+  /**
+   * Set filter row to be shown or hidden
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  setFilterRow() {
+    const nodes = this?.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
+    nodes?.forEach((n) => n?.classList?.[this.dataGrid?.filterable ? 'remove' : 'add']('hidden'));
+    this.dataGrid?.triggerEvent(this.dataGrid?.filterable ? 'filterrowopened' : 'filterrowclosed', this.dataGrid, {
+      detail: { elem: this, filterable: this.dataGrid?.filterable }
+    });
+    return this;
   }
 
   /**

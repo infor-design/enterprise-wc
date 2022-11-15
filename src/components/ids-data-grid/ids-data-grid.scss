@@ -2,6 +2,7 @@
 @import './ids-data-grid-filters';
 @import './ids-data-grid-header';
 @import './ids-data-grid-row';
+@import './ids-data-grid-cell';
 @import '../../components/ids-popup-menu/ids-popup-menu';
 @import '../../mixins/sass/ids-checkbox-mixin';
 @import '../../mixins/sass/ids-radio-mixin';
@@ -10,10 +11,6 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
 :host {
   --ids-data-grid-column-widths: repeat(1, minmax(110px, 1fr));
-}
-
-:host([virtual-scroll]) .ids-data-grid-body .ids-data-grid-row:last-child {
-  border-bottom: solid 1px $cell-border-color;
 }
 
 .ids-data-grid {
@@ -27,113 +24,14 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   border-collapse: collapse;
   border-color: $cell-border-color;
   contain: content;
+  display: inline-grid;
   overflow: auto;
   scroll-behavior: smooth;
-
-  // @TODO: Remove as part of infor-design/enterprise-wc#648
-  min-height: 25vh;
 
   // Font Info
   @include antialiased();
   @include font-sans();
   @include text-16();
-
-  // Cell Styles
-  .ids-data-grid-cell {
-    // Border and Background
-    @include border-0();
-    @include border-l-1();
-    @include border-t-1();
-    @include border-solid();
-    @include inline-flex();
-    @include text-slate-100();
-
-    align-items: center;
-    border-color: $cell-border-color;
-    overflow: hidden;
-    white-space: nowrap;
-
-    // Hide first/last border
-    &:first-child {
-      border-inline-start-width: 0;
-    }
-
-    // Negate link margins
-    ids-hyperlink {
-      margin: 8px;
-    }
-
-    ids-badge {
-      padding-inline-start: 8px;
-      padding-inline-end: 8px;
-    }
-
-    // Text ellipsis
-    .text-ellipsis {
-      @include block();
-      @include px-16();
-
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    // Text Alignment
-    &.align-center > *:first-child {
-      margin: 0 auto;
-    }
-
-    &.align-right > *:first-child {
-      margin-inline-start: auto;
-      margin-inline-end: 0;
-    }
-
-    // Readonly Cell
-    &.readonly {
-      @include bg-slate-20();
-    }
-
-    // Focus State
-    &:focus {
-      @include shadow();
-
-      outline: 1px solid var(--ids-color-palette-azure-60);
-      outline-offset: -1px;
-    }
-
-    // Frozen Cells
-    &.frozen {
-      @include bg-white();
-
-      position: sticky;
-      z-index: 3;
-    }
-
-    // Change borders for scrolling
-    &.frozen-last {
-      border-inline-end-width: 1px;
-
-      + .ids-data-grid-cell {
-        border-inline-start-width: 0;
-      }
-    }
-
-    &.frozen-left {
-      position: sticky;
-      left: 0;
-
-      // Dynamically added widths
-      @for $i from 2 through 10 {
-        &:nth-of-type(#{$i}) {
-          left: var(--ids-data-grid-frozen-column-left-width-#{$i});
-        }
-      }
-    }
-
-    &.frozen-right {
-      position: sticky;
-      right: 0;
-    }
-  }
 
   // Selection Checkbox
   .ids-data-grid-checkbox-container {
@@ -250,98 +148,14 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     }
   }
 
-  // Negates the padding
-  .ids-data-grid-header-text .ids-data-grid-checkbox-container {
-    width: 20px;
-
-    .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
-      @include bg-white();
-      @include border-white();
-    }
-  }
-
-  // Expandable Row
-  .ids-data-grid-expandable-row {
-    border-top: 1px solid $cell-border-color;
-    grid-column: 1 / -1;
-    padding: 8px;
-  }
-
-  // Standalone Css
-  tr.ids-data-grid-header {
-    position: initial;
-  }
-
-  tr.ids-data-grid-row {
-    @include table-row();
-
-    height: 50px;
-  }
-
-  td.ids-data-grid-cell,
-  th.ids-data-grid-header-cell {
-    @include table-cell();
-  }
-
-  td.ids-data-grid-cell {
-    @include px-16();
-  }
-
   // List Style Feature
   &.is-list-style {
     border-width: 0;
-
-    // Change Header Color
-    .ids-data-grid-header-cell {
-      @include bg-slate-10();
-      @include border-slate-10();
-    }
-
-    .ids-data-grid-header-text {
-      @include text-slate-100();
-    }
-
-    // Change Cell Borders/BG
-    .ids-data-grid-cell {
-      border-inline-start-width: 0;
-      border-top: 1px solid var(--ids-color-palette-slate-20);
-
-      &.readonly {
-        @include bg-slate-10();
-      }
-    }
-
-    .ids-data-grid-body .ids-data-grid-row:first-child .ids-data-grid-cell {
-      border-top: 0;
-    }
-
-    // Change Sort Icon Colors
-    .is-sortable {
-      ids-icon {
-        @include text-slate-50();
-      }
-    }
-
-    [aria-sort='descending'] .is-sortable ids-icon:last-child {
-      @include text-slate-20();
-    }
-
-    [aria-sort='ascending'] .is-sortable ids-icon:first-child {
-      @include text-slate-20();
-    }
-
-    // Change Header Checkbox
-    .ids-data-grid-header-text .ids-data-grid-checkbox-container {
-      .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
-        @include border-slate-70();
-      }
-    }
   }
 }
 
 // Used for Frozen Columns
-.ids-data-grid-body,
-.ids-data-grid-header {
+.ids-data-grid-body {
   min-width: fit-content;
 }
 
@@ -355,115 +169,6 @@ table.ids-data-grid {
 .ids-data-grid[mode='dark'] {
   @include bg-slate-100();
   @include border-slate-60();
-
-  .ids-data-grid-header-cell {
-    @include bg-slate-20();
-    @include border-slate-80();
-
-    .reorderer ids-icon {
-      color: var(--ids-color-palette-slate-100);
-    }
-
-    &.dragging {
-      background-color: var(--ids-color-palette-slate-20) !important;
-    }
-
-    &.active-drag-column {
-      background-color: var(--ids-color-palette-slate-10);
-    }
-  }
-
-  .ids-data-grid-header-text {
-    @include text-slate-100();
-  }
-
-  .is-sortable .sort-indicator ids-icon {
-    @include text-slate-40();
-  }
-
-  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-    @include text-slate-100();
-  }
-
-  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-    @include text-slate-100();
-  }
-
-  // Row Alternate Row Setting Feature
-  &.alt-row-shading .ids-data-grid-body [role='row']:nth-child(even) {
-    @include bg-slate-80();
-  }
-
-  .ids-data-grid-cell {
-    @include border-slate-60();
-    @include text-white();
-
-    &.readonly {
-      @include bg-slate-70();
-    }
-
-    &.frozen {
-      @include bg-slate-100();
-    }
-
-    .ids-data-grid-checkbox {
-      @include border-slate-40();
-
-      &.disabled {
-        @include bg-slate-50();
-        @include border-slate-50();
-      }
-    }
-
-    .ids-data-grid-checkbox.checked {
-      @include border-azure-60();
-
-      &.disabled {
-        @include bg-slate-50();
-        @include border-slate-50();
-      }
-    }
-  }
-
-  // List Style Feature
-  &.is-list-style {
-    // Change Header Color
-    .ids-data-grid-header-cell {
-      @include bg-slate-80();
-      @include border-slate-80();
-    }
-
-    .ids-data-grid-header-text {
-      @include text-slate-30();
-    }
-
-    // Change Sort Icon
-    .is-sortable .sort-indicator ids-icon {
-      @include text-slate-40();
-    }
-
-    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-      @include text-slate-20();
-    }
-
-    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-      @include text-slate-20();
-    }
-
-    // Change Header Checkbox
-    .ids-data-grid-header-text .ids-data-grid-checkbox-container {
-      .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
-        @include border-slate-40();
-      }
-    }
-  }
-
-  // Selection
-  .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
-  .ids-data-grid-row.activated .ids-data-grid-cell {
-    // Uses a non pallette color - no better looking ones
-    background-color: #334d60;
-  }
 
   .ids-data-grid-radio {
     @include border-slate-20();
@@ -482,128 +187,11 @@ table.ids-data-grid {
       }
     }
   }
-
-  .ids-data-grid-header-text .ids-data-grid-checkbox-container {
-    .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
-      @include bg-transparent();
-      @include border-slate-100();
-    }
-  }
-}
-
-:host([mode='dark']) {
-  .ids-data-grid-sort-arrows {
-    &::before {
-      border-top: 5px solid var(--ids-color-palette-slate-20);
-    }
-
-    &::after {
-      border-bottom: 5px solid var(--ids-color-palette-slate-20);
-    }
-  }
 }
 
 // Contrast Theme
 .ids-data-grid[mode='contrast'] {
   @include bg-white();
-
-  .ids-data-grid-header-cell {
-    @include bg-slate-70();
-    @include border-slate-40();
-
-    .reorderer ids-icon {
-      color: var(--ids-color-palette-slate-10);
-    }
-
-    &.dragging {
-      background-color: var(--ids-color-palette-slate-70) !important;
-    }
-
-    &.active-drag-column {
-      background-color: var(--ids-color-palette-slate-50);
-    }
-  }
-
-  .ids-data-grid-header-text {
-    @include text-white();
-  }
-
-  .is-sortable .sort-indicator ids-icon {
-    @include text-slate-40();
-  }
-
-  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-    @include text-white();
-  }
-
-  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-    @include text-white();
-  }
-
-  .ids-data-grid-cell {
-    @include border-slate-60();
-    @include text-slate-100();
-
-    &.readonly {
-      @include bg-slate-20();
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
-      outline: 1px solid var(--ids-color-palette-azure-80);
-    }
-
-    .ids-data-grid-checkbox {
-      @include border-slate-90();
-
-      &.disabled {
-        @include bg-slate-60();
-        @include border-slate-60();
-      }
-    }
-
-    .ids-data-grid-checkbox.checked {
-      @include border-azure-90();
-
-      &.disabled {
-        @include bg-slate-60();
-        @include border-slate-60();
-      }
-    }
-  }
-
-  // List Style Feature
-  &.is-list-style {
-    // Change Header Color
-    .ids-data-grid-header-cell {
-      @include bg-slate-30();
-      @include border-slate-30();
-    }
-
-    .ids-data-grid-header-text {
-      @include text-slate-100();
-    }
-
-    // Change Cell Borders/BG
-    .ids-data-grid-cell {
-      &.readonly {
-        @include bg-slate-20();
-      }
-    }
-
-    // Change Sort Icon
-    .is-sortable .sort-indicator ids-icon {
-      @include text-slate-60();
-    }
-
-    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-      @include text-slate-30();
-    }
-
-    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-      @include text-slate-30();
-    }
-  }
 
   .ids-data-grid-radio {
     @include bg-white();
@@ -625,31 +213,6 @@ table.ids-data-grid {
       &::after {
         @include bg-white();
       }
-    }
-  }
-
-  // Selection
-  .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
-  .ids-data-grid-row.activated .ids-data-grid-cell {
-    @include bg-azure-20();
-  }
-}
-
-// Handle RTL
-:host([dir='rtl']) {
-  // Negate right alignment
-  .ids-data-grid-header-cell {
-    &.align-right .ids-data-grid-header-cell-content,
-    &.align-right .ids-data-grid-header-cell-filter-wrapper {
-      direction: ltr;
-    }
-  }
-
-  // Negate Borders
-  .ids-data-grid-header-cell,
-  .ids-data-grid-cell {
-    &:last-child {
-      border-inline-end-width: 0;
     }
   }
 }

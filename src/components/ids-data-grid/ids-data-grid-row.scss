@@ -1,3 +1,5 @@
+$cell-border-color: var(--ids-color-palette-slate-30);
+
 // Row Styles
 .ids-data-grid-row {
   @include w-full();
@@ -35,4 +37,42 @@
 // Row Alternate Row Setting Feature
 .ids-data-grid.alt-row-shading ids-data-grid-row:nth-child(even) {
   @include bg-slate-10();
+}
+
+// Expandable Row
+.ids-data-grid-expandable-row {
+  border-top: 1px solid $cell-border-color;
+  grid-column: 1 / -1;
+  padding: 8px;
+}
+
+// Standalone Css
+tr.ids-data-grid-row {
+  @include table-row();
+
+  height: 50px;
+}
+
+// Dark Theme
+.ids-data-grid[mode='dark'] {
+  // Row Alternate Row Setting Feature
+  &.alt-row-shading .ids-data-grid-body [role='row']:nth-child(even) {
+    @include bg-slate-80();
+  }
+
+  // Selection
+  .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
+  .ids-data-grid-row.activated .ids-data-grid-cell {
+    // Uses a non pallette color - no better looking ones
+    background-color: #334d60;
+  }
+}
+
+// Contrast Theme
+.ids-data-grid[mode='contrast'] {
+  // Selection
+  .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
+  .ids-data-grid-row.activated .ids-data-grid-cell {
+    @include bg-azure-20();
+  }
 }

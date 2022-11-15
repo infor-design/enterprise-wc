@@ -85,7 +85,10 @@
     description: Shows a data grid with readonly list styling
   - link: mixed-selection.html
     type: Example
-    escription: Shows a data grid with mixed selection
+    description: Shows a data grid with mixed selection
+  - link: multiple.html
+    type: Example
+    description: Shows an example with multiple data grids on a page
   - link: multiple-selection.html
     type: Example
     description: Shows a data grid with multiple selection

@@ -1097,6 +1097,14 @@ Set context menu thru ID.
   - `aria-expanded` on the row it indicates if the row is expanded (for tree and expandable row)
   - `aria-sort` indicates the sort direction on the sortable columns
   - `aria-checked` indicates if the element is checked on checkbox columns and headers
+
 ## Regional Considerations
 
 Titles and labels should be localized in the current language. All elements will flip to the alternate side in Right To Left mode. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai). For some of these cases text-ellipsis is supported.
+
+## Code Separation (For Developers)
+
+The code is divided into several files. Here is a description of where everything is.
+
+- `ids-data-grid-header.ts` contains most header functionality, the header template, and code related to header actions like sort, reorder and selection.
+- `ids-data-grid-header.scss` contains all css related to `ids-data-grid-header` and its children
