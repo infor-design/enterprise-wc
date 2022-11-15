@@ -110,6 +110,8 @@ export default class IdsProgressChart extends Base {
    * @private
    */
   #updateColor(): void {
+    if (!this.color) return;
+
     let prop = this.color;
 
     const includesAlert = this.color?.includes('error') || this.color?.includes('caution') || this.color?.includes('warning');
