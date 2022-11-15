@@ -698,8 +698,9 @@ export default class IdsCalendar extends Base {
         day="${date.getDate()}"
         year="${date.getFullYear()}"
         view-picker="true"
-        show-today="true"
-      ></ids-month-view>
+        show-today="true">
+        <slot name="MonthViewCalendarEventTemplate" slot="customCalendarEvent"></slot>
+      </ids-month-view>
     `;
   }
 
