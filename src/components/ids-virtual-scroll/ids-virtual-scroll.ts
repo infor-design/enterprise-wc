@@ -44,13 +44,6 @@ export default class IdsVirtualScroll extends Base {
 
   constructor() {
     super();
-
-    Object.defineProperty(this, 'scrollTop', {
-      get: () => this.#scrollTop,
-      set: (value) => { this.#scrollTop = value; },
-      enumerable: true,
-      configurable: true
-    });
   }
 
   connectedCallback() {
@@ -111,7 +104,7 @@ export default class IdsVirtualScroll extends Base {
 
       let html = '';
       visibleItems.map((item: any, index: number) => {
-        const node = this.itemTemplate(item, index, startIndex + index);
+        const node = this.itemTemplate(item, index, startIndex + index + 1);
         html += node;
         return node;
       });
@@ -254,7 +247,7 @@ export default class IdsVirtualScroll extends Base {
    * Set the scroll top position and scroll down to that location
    * @param {number | string} value The number of pixels from the top
    */
-  set #scrollTop(value: number | string | any) {
+  set scrollTop(value: number | string | any) {
     const val = parseFloat(value);
     if (!(Number.isNaN(val))) {
       this.setAttribute(attributes.SCROLL_TOP, val.toString());
@@ -266,7 +259,7 @@ export default class IdsVirtualScroll extends Base {
     this.removeAttribute(attributes.SCROLL_TOP);
   }
 
-  get #scrollTop(): number {
+  get scrollTop(): number {
     const value = parseFloat(this.getAttribute(attributes.SCROLL_TOP) ?? '');
     return Number.isNaN(value) ? 0 : value;
   }

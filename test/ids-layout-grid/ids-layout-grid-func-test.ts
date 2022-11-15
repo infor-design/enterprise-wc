@@ -3,13 +3,11 @@
  */
 import IdsLayoutGrid from '../../src/components/ids-layout-grid/ids-layout-grid';
 import IdsLayoutGridCell from '../../src/components/ids-layout-grid/ids-layout-grid-cell';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsLayoutGrid Component', () => {
   let gridElem: any;
 
   beforeEach(async () => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
     const grid: any = new IdsLayoutGrid();
     const cell1: any = new IdsLayoutGridCell();
     const cell2: any = new IdsLayoutGridCell();
@@ -48,7 +46,6 @@ describe('IdsLayoutGrid Component', () => {
   });
 
   it('renders fluid-grid setting', async () => {
-    await processAnimFrame();
     expect(gridElem.getAttribute('cols')).toBe('fluid-grid');
   });
 
@@ -203,6 +200,43 @@ describe('IdsLayoutGrid Component', () => {
     expect(elem.getAttribute('style')).toEqual('');
   });
 
+  it('renders max-col-width setting', () => {
+    const elem: any = new IdsLayoutGrid();
+    elem.maxColWidth = '120px';
+    document.body.appendChild(elem);
+
+    expect(elem.maxColWidth).toEqual('120px');
+    expect(elem.getAttribute('style')).toEqual(`--grid-max-col-width: 120px;`);
+  });
+
+  it('renders auto-rows setting', () => {
+    const elem: any = new IdsLayoutGrid();
+    elem.autoRows = '1fr';
+    document.body.appendChild(elem);
+
+    expect(elem.autoRows).toEqual('1fr');
+    expect(elem.getAttribute('style')).toEqual(`--grid-auto-rows: 1fr;`);
+  });
+
+  it('renders auto-flow setting', () => {
+    const elem: any = new IdsLayoutGrid();
+    elem.autoFlow = 'dense';
+    document.body.appendChild(elem);
+
+    expect(elem.autoFlow).toEqual('dense');
+    expect(elem.getAttribute('style')).toEqual(`--grid-auto-flow: dense;`);
+  });
+
+  it('renders order setting', () => {
+    const col: any = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.order = 1;
+
+    expect(col.order).toEqual(null);
+    expect(document.querySelectorAll('.ids-layout-grid-cell-order').length).toEqual(1);
+    expect(col.getAttribute('style')).toEqual(`--grid-order: 1;`);
+  });
+
   it('renders col-span setting', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
@@ -228,7 +262,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpan = 4;
-    await processAnimFrame();
     expect(document.querySelectorAll('.ids-layout-grid-col-span-4').length).toEqual(1);
   });
 
@@ -259,7 +292,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanXs = 4;
-    await processAnimFrame();
     expect(col.colSpanXs).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span-xs-4').length).toEqual(1);
   });
@@ -268,7 +300,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanXs = null;
-    await processAnimFrame();
     expect(col.colSpanXs).toEqual(null);
   });
 
@@ -276,7 +307,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanSm = 4;
-    await processAnimFrame();
     expect(col.colSpanSm).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span-sm-4').length).toEqual(1);
   });
@@ -285,7 +315,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanSm = null;
-    await processAnimFrame();
     expect(col.colSpanSm).toEqual(null);
   });
 
@@ -293,7 +322,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanMd = 4;
-    await processAnimFrame();
     expect(col.colSpanMd).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span-md-4').length).toEqual(1);
   });
@@ -302,7 +330,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanMd = null;
-    await processAnimFrame();
     expect(col.colSpanMd).toEqual(null);
   });
 
@@ -310,7 +337,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanLg = 4;
-    await processAnimFrame();
     expect(col.colSpanLg).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span-lg-4').length).toEqual(1);
   });
@@ -319,7 +345,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanLg = null;
-    await processAnimFrame();
     expect(col.colSpanLg).toEqual(null);
   });
 
@@ -327,7 +352,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanXl = 4;
-    await processAnimFrame();
     expect(col.colSpanXl).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span-xl-4').length).toEqual(1);
   });
@@ -336,7 +360,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanXl = null;
-    await processAnimFrame();
     expect(col.colSpanXl).toEqual(null);
   });
 
@@ -344,7 +367,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanXxl = 4;
-    await processAnimFrame();
     expect(col.colSpanXxl).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span-xxl-4').length).toEqual(1);
   });
@@ -353,7 +375,6 @@ describe('IdsLayoutGrid Component', () => {
     const col: any = new IdsLayoutGridCell();
     gridElem.appendChild(col);
     col.colSpanXxl = null;
-    await processAnimFrame();
     expect(col.colSpanXxl).toEqual(null);
   });
 

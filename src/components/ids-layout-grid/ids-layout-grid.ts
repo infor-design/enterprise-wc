@@ -14,6 +14,10 @@ import './ids-layout-grid-cell';
 
 import styles from './ids-layout-grid.scss';
 
+const GRID_OPTIONS = {
+  autoFlow: ['row', 'column', 'dense', 'row dense', 'column dense']
+};
+
 /**
  * IDS Layout Grid Component
  * @type {IdsLayoutGrid}
@@ -29,10 +33,14 @@ export default class IdsLayoutGrid extends Base {
   static get attributes(): any {
     return [
       attributes.AUTO,
+      attributes.AUTO_ROWS,
+      attributes.AUTO_FLOW,
       attributes.COLS,
       attributes.FIXED,
       attributes.GAP,
+      attributes.JUSTIFY_CONTENT,
       attributes.NO_MARGINS,
+      attributes.MAX_COL_WIDTH,
       attributes.MIN_COL_WIDTH,
       attributes.ROWS
     ];
@@ -174,6 +182,45 @@ export default class IdsLayoutGrid extends Base {
   get rows(): string | null { return this.getAttribute(attributes.ROWS); }
 
   /**
+   * Sets the auto-row value of the grid
+   * @param { string | null } value number value of the auto-row setting, ex: 1fr
+   * @memberof IdsLayoutGrid
+   */
+  set autoRows(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.AUTO_ROWS, value);
+      this.style.setProperty('--grid-auto-rows', value);
+      this.classList.add('ids-layout-grid-auto-rows');
+      return;
+    }
+
+    this.removeAttribute(attributes.AUTO_ROWS);
+    this.classList.remove('ids-layout-grid-auto-rows');
+  }
+
+  get autoRows(): string | null { return this.getAttribute(attributes.AUTO_ROWS); }
+
+  /**
+   * Sets the auto-flow attribute
+   * @param { string | null } value keyword value for the auto-flow setting:
+   * ('row', 'column', 'dense', 'row dense', 'column dense')
+   * @memberof IdsLayoutGrid
+   */
+  set autoFlow(value: string | null) {
+    if (value && GRID_OPTIONS.autoFlow.includes(value)) {
+      this.setAttribute(attributes.AUTO_FLOW, value);
+      this.style.setProperty('--grid-auto-flow', value);
+      this.classList.add('ids-layout-grid-auto-flow');
+      return;
+    }
+
+    this.removeAttribute(attributes.AUTO_FLOW);
+    this.classList.remove('ids-layout-grid-auto-flow');
+  }
+
+  get autoFlow(): string | null { return this.getAttribute(attributes.AUTO_FLOW); }
+
+  /**
    * If true the grid will not have any margins
    * @param {boolean | string | null} value true or false/nothing
    */
@@ -206,4 +253,35 @@ export default class IdsLayoutGrid extends Base {
   }
 
   get minColWidth(): string | null { return this.getAttribute(attributes.MIN_COL_WIDTH); }
+
+  /**
+   * Sets the max col width on the grid
+   * @param {string | null} value number for pixel length
+   */
+  set maxColWidth(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.MAX_COL_WIDTH, value.toString());
+      this.style.setProperty('--grid-max-col-width', value);
+      return;
+    }
+
+    this.removeAttribute(attributes.MAX_COL_WIDTH);
+    this.style.removeProperty('--grid-max-col-width');
+  }
+
+  get maxColWidth(): string | null { return this.getAttribute(attributes.MAX_COL_WIDTH); }
+
+  set justifyContent(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.JUSTIFY_CONTENT, value.toString());
+      this.style.setProperty('--grid-justify-content', value);
+      this.classList.add(`ids-layout-grid-justify-content`);
+      return;
+    }
+
+    this.removeAttribute(attributes.JUSTIFY_CONTENT);
+    this.style.removeProperty('--grid-justify-content');
+  }
+
+  get justifyContent(): string | null { return this.getAttribute(attributes.JUSTIFY_CONTENT); }
 }

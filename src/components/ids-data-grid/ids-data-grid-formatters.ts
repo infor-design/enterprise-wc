@@ -10,7 +10,7 @@ import type IdsDataGrid from './ids-data-grid';
 /* eslint-disable jsdoc/require-returns */
 /* eslint-disable jsdoc/require-param */
 export default class IdsDataGridFormatters {
-  #extractValue(item: Record<string, any>, field: string) {
+  #extractValue(item: Record<string, any>, field: string | undefined) {
     if (!field) return '';
 
     let rawValue;
@@ -46,11 +46,9 @@ export default class IdsDataGridFormatters {
     return typeof color === 'function' ? color(row, value, col, item) : color;
   }
 
-  /** Formats Text */
+  /** Displays a Text String */
   text(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
-    // A bit faster in virtual mode with ${rowData[columnData.field]}
     return `<span class="text-ellipsis">${this.#extractValue(rowData, columnData.field)}</span>`;
-    // return `<span class="text-ellipsis">${api.datasource.columnValue(index, columnData.field)}</span>`;
   }
 
   /** Masks text with stars */
@@ -60,7 +58,7 @@ export default class IdsDataGridFormatters {
 
   /** Formats a sequencing running count of rows */
   rowNumber(_rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    return `<span class="text-ellipsis">${index + 1}</span>`;
+    return `<span class="text-ellipsis">${index}</span>`;
   }
 
   /** Formats date data as a date string in the desired format */
@@ -153,5 +151,23 @@ export default class IdsDataGridFormatters {
     const color = this.#color(index, value, columnData, rowData);
 
     return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
+  }
+
+  /** Shows an Tree */
+  tree(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    const button = rowData?.children ? `<ids-button tabindex="-1">
+      <ids-icon slot="icon" icon="plusminus-folder-${rowData.rowExpanded === false ? 'closed' : 'open'}"></ids-icon>
+    </ids-button>` : '&nbsp;';
+    return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
+  }
+
+  /** Shows an expander button */
+  expander(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    const button = `<ids-button tabindex="-1">
+        <ids-icon slot="icon" icon="plusminus-folder-${rowData.rowExpanded === true ? 'open' : 'closed'}"></ids-icon>
+      </ids-button>`;
+    return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
   }
 }

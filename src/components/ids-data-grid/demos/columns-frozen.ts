@@ -1,8 +1,10 @@
+import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-frozen');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-frozen');
 const container: any = document.querySelector('ids-container');
 
 if (dataGrid) {
@@ -12,7 +14,7 @@ if (dataGrid) {
 
     // Do an ajax request
     const url: any = productsJSON.slice(0, 50);
-    const columns = [];
+    const columns: IdsDataGridColumn[] = [];
 
     // Set up columns
     columns.push({
@@ -117,13 +119,14 @@ if (dataGrid) {
       icon: 'more',
       type: 'icon',
       align: 'center',
-      click: (rowData: any) => {
-        console.info('Actions clicked', rowData);
+      click: (info: any) => {
+        console.info('Actions clicked', info);
       },
       text: '',
       width: 65,
       frozen: 'right'
     });
+
     dataGrid.columns = columns;
     const setData = async () => {
       const res = await fetch(url);

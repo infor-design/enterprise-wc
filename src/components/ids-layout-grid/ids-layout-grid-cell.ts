@@ -30,6 +30,7 @@ export default class IdsLayoutGridCell extends Base {
       attributes.COL_END,
       attributes.FILL,
       attributes.JUSTIFY,
+      attributes.ORDER,
       attributes.ROW_SPAN,
       attributes.ROW_START,
       attributes.ROW_END,
@@ -65,11 +66,16 @@ export default class IdsLayoutGridCell extends Base {
    * Set the amount of columns to span
    * @param {string | null} value The number value for the columns to span in the grid
    */
-  set colSpan(value: string | null) {
+  set colSpan(value: string | null | any) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN, value);
       this.style.setProperty('--grid-col-span', value);
       this.classList.add(`ids-layout-grid-col-span`);
+
+      if (value === 'full') {
+        this.style.setProperty('--grid-col-span', '1 / -1');
+        this.classList.add(`ids-layout-grid-col-span-full`);
+      }
 
       const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
       if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
@@ -93,6 +99,8 @@ export default class IdsLayoutGridCell extends Base {
   set colSpanXs(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_XS, value);
+      this.style.setProperty('--grid-col-span-xs', value);
+      this.classList.add(`ids-layout-grid-col-span`);
 
       const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
       if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
@@ -113,6 +121,8 @@ export default class IdsLayoutGridCell extends Base {
   set colSpanSm(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_SM, value);
+      this.style.setProperty('--grid-col-span-sm', value);
+      this.classList.add(`ids-layout-grid-col-span`);
 
       const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
       if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
@@ -133,6 +143,8 @@ export default class IdsLayoutGridCell extends Base {
   set colSpanMd(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_MD, value);
+      this.style.setProperty('--grid-col-span-md', value);
+      this.classList.add(`ids-layout-grid-col-span`);
 
       const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
       if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
@@ -153,6 +165,8 @@ export default class IdsLayoutGridCell extends Base {
   set colSpanLg(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_LG, value);
+      this.style.setProperty('--grid-col-span-lg', value);
+      this.classList.add(`ids-layout-grid-col-span`);
 
       const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
       if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
@@ -173,6 +187,8 @@ export default class IdsLayoutGridCell extends Base {
   set colSpanXl(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_XL, value);
+      this.style.setProperty('--grid-col-span-xl', value);
+      this.classList.add(`ids-layout-grid-col-span`);
 
       const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
       if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
@@ -193,6 +209,8 @@ export default class IdsLayoutGridCell extends Base {
   set colSpanXxl(value: string | null) {
     if (value) {
       this.setAttribute(attributes.COL_SPAN_XXL, value);
+      this.style.setProperty('--grid-col-span-xxl', value);
+      this.classList.add(`ids-layout-grid-col-span`);
 
       const gridCols = this.parentColSetting ? this.parentColSetting : this.defaultColSetting;
       if (gridCols === this.defaultColSetting || gridCols === 'fluid-grid-xl') {
@@ -321,4 +339,21 @@ export default class IdsLayoutGridCell extends Base {
   }
 
   get justify(): string | null { return this.getAttribute(attributes.JUSTIFY); }
+
+  /**
+   * Set the order of the grid cell
+   * @param { string | null } value The number value for the order of the grid cell
+   * @memberof IdsLayoutGridCell
+   */
+  set order(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.ORDER, value.toString());
+      this.style.setProperty('--grid-order', value);
+      this.classList.add(`ids-layout-grid-cell-order`);
+    }
+
+    this.removeAttribute(attributes.ORDER);
+  }
+
+  get order(): string | null { return this.getAttribute(attributes.ORDER); }
 }

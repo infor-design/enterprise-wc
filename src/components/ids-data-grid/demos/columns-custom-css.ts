@@ -1,19 +1,21 @@
+import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import booksJSON from '../../../assets/data/books.json';
 
 import css from '../../../assets/css/ids-data-grid/custom-css.css';
+import { IdsDataGridTooltipCallback } from '../ids-data-grid-column';
 
 const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-custom-css');
-const container: any = document.querySelector('ids-container');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-custom-css')!;
 
 if (dataGrid) {
   (async function init() {
     // Define tooltip css part callback
-    const tooltipCssPartCallback = (args: { type: string }): string => {
+    const tooltipCssPartCallback = (args: IdsDataGridTooltipCallback): string => {
       const { type } = args;
       let cssPart = '';
       if (type === 'body-cell') {
@@ -24,12 +26,9 @@ if (dataGrid) {
       return cssPart;
     };
 
-    // Set Locale and wait for it to load
-    await container?.setLocale('en-US');
-
     // Do an ajax request
     const url: any = booksJSON;
-    const columns = [];
+    const columns: IdsDataGridColumn[] = [];
 
     // Set up columns
     columns.push({

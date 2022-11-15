@@ -129,4 +129,16 @@ describe('Ids Data Grid Other Percy Tests', () => {
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-columns-row-shading');
   });
+
+  it('should not have visual regressions in expandable row (percy)', async () => {
+    await page.goto('http://localhost:4444/ids-data-grid/expandable-row.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('ids-layout-grid-cell');
+    await percySnapshot(page, 'ids-data-grid-expandable-row');
+  });
+
+  it('should not have visual regressions in tree grid (percy)', async () => {
+    await page.goto('http://localhost:4444/ids-data-grid/tree-grid.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('ids-layout-grid-cell');
+    await percySnapshot(page, 'ids-data-grid-tree-grid');
+  });
 });

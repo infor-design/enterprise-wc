@@ -1,18 +1,16 @@
+import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import '../../ids-container/ids-container';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-single-select');
-const container: any = document.querySelector('ids-container');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-single-select')!;
 
 (async function init() {
-  // Set Locale and wait for it to load
-  await container.setLocale('en-US');
-
   // Do an ajax request
   const url: any = booksJSON;
-  const columns = [];
+  const columns: IdsDataGridColumn[] = [];
 
   // Set up columns
   columns.push({
@@ -109,7 +107,7 @@ const container: any = document.querySelector('ids-container');
     id: 'trackDeprecationHistory',
     name: 'Track Deprecation History',
     field: 'trackDeprecationHistory',
-    formatter: dataGrid.formatters.dropdown
+    formatter: dataGrid.formatters.text
   });
   columns.push({
     id: 'useForEmployee',
@@ -135,11 +133,11 @@ const container: any = document.querySelector('ids-container');
   setData();
 
   // Event Handlers
-  dataGrid.addEventListener('rowselected', (e: CustomEvent) => {
-    console.info(`Row Selected`, e.detail);
+  dataGrid.addEventListener('rowselected', (e: Event) => {
+    console.info(`Row Selected`, (<CustomEvent>e).detail);
   });
 
-  dataGrid.addEventListener('selectionchanged', (e: CustomEvent) => {
-    console.info(`Selection Changed`, e.detail);
+  dataGrid.addEventListener('selectionchanged', (e: Event) => {
+    console.info(`Selection Changed`, (<CustomEvent>e).detail);
   });
 }());

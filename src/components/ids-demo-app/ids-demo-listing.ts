@@ -76,7 +76,7 @@ export default class IdsDemoListing extends Base {
    * Set the yaml on the data grid
    * @param {string} value of the label text
    */
-  set data(value: Record<string, any>) {
+  set data(value: Array<Record<string, any>>) {
     if (this.container) {
       (this.container as IdsDataGrid).data = value;
     }

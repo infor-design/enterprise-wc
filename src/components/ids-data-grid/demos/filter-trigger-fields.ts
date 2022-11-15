@@ -1,15 +1,14 @@
+import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import '../../ids-container/ids-container';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-filter-triggers');
-const container: any = document.querySelector('ids-container');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter-triggers')!;
 
 (async function init() {
-  // Set Locale and wait for it to load
-  await container.setLocale('en-US');
-  const columns = [];
+  const columns: IdsDataGridColumn[] = [];
 
   // Set up columns
   columns.push({
@@ -64,7 +63,7 @@ const container: any = document.querySelector('ids-container');
   });
   columns.push({
     id: 'useForEmployee',
-    name: 'NotFilterdItem (blank)',
+    name: 'NotFilteredItem (blank)',
     field: 'useForEmployee',
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.dropdown,
@@ -75,7 +74,7 @@ const container: any = document.querySelector('ids-container');
   });
   columns.push({
     id: 'useForEmployee2',
-    name: 'NotFilterdItem (custom)',
+    name: 'NotFilteredItem (custom)',
     field: 'useForEmployee',
     width: 140,
     formatter: dataGrid.formatters.text,

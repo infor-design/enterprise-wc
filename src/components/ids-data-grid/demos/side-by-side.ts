@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
+import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-1');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-1')!;
 
 // Do an ajax request
 const url: any = booksJSON;
@@ -71,19 +72,19 @@ columns.push({
   id: 'trackDeprecationHistory',
   name: 'Track Deprecation History',
   field: 'trackDeprecationHistory',
-  formatter: dataGrid.formatters.dropdown
+  formatter: dataGrid.formatters.text
 });
 columns.push({
   id: 'useForEmployee',
   name: 'Use For Employee',
   field: 'useForEmployee',
-  formatter: dataGrid.formatters.dropdown
+  formatter: dataGrid.formatters.text
 });
 columns.push({
   id: 'deprecationHistory',
   name: 'Deprecation History',
   field: 'deprecationHistory',
-  formatter: dataGrid.formatters.dropdown
+  formatter: dataGrid.formatters.text
 });
 
 dataGrid.columns = columns;

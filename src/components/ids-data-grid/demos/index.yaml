@@ -68,6 +68,9 @@
   - link: disable-client-filter.html
     type: Example
     description: Shows a data grid with disable client filter
+  - link: expandable-row.html
+    type: Example
+    description: Shows a data grid with and expandable row
   - link: filter-trigger-fields.html
     type: Example
     description: Showing a filter row with date, time, dropdown
@@ -104,6 +107,21 @@
   - link: standalone-css.html
     type: Standalone CSS
     description: Shows a css only styles table
+  - link: suppress-row-click-selection.html
+    type: Example
+    description: Shows selection only with the checkbox
+  - link: tree-grid.html
+    type: Example
+    description: Shows displaying hierarchical data
+  - link: tree-grid-filter.html
+    type: Example
+    description: Shows a tree with filter
+  - link: tree-grid-paging.html
+    type: Example
+    description: Shows a tree with paging
+  - link: tree-grid-virtual-scroll.html
+    type: Example
+    description: Shows a tree with virtual scrolling
   - link: virtual-scroll.html
     type: Example
     description: Shows a basic data grid with virtual scrolling

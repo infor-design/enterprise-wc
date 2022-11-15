@@ -1,6 +1,10 @@
 export interface IdsDataGridColumnFormatOptions {
   /* Set the style of the number fx integer */
   style?: string;
+  /* Sets the incoming locale */
+  locale?: string;
+  /** Sets the group (thousands) characte */
+  group?: string;
 }
 
 export interface IdsDataGridColumnGroup {
@@ -49,7 +53,7 @@ export interface IdsDataGridTooltipCallback {
 
 export interface IdsDataGridTooltipOptions {
   /* The tooltip placement */
-  placement?: 'top' | 'right' | 'bottom' | 'left';
+  placement?: 'top' | 'right' | 'bottom' | 'left'
   /* Sets tooltip edge horizontal space */
   x?: number;
   /* Sets tooltip edge vertical space */
@@ -78,9 +82,9 @@ export interface IdsDataGridColumn {
   /** The columns unique id */
   id: string;
   /** The columns name */
-  name: string;
+  name?: string;
   /** The columns field in the array to use */
-  field: string;
+  field?: string;
   /** The subsitute text to use (for hyperlink and some formatters) */
   text?: string;
   /** Allow column sorting */
@@ -91,12 +95,18 @@ export interface IdsDataGridColumn {
   readonly?: boolean;
   /** Adds a drag indicator and allows the columns to be moved by dragging */
   reorderable?: boolean;
-  /** Allow column sorting */
+  /** Set a column width in pixel or percent */
   width?: number | string;
+  /** Set a min column width for resizing */
+  minWidth?: number | string;
+  /** Set a max column width for resizing */
+  maxWidth?: number | string;
   /** Hide a column to be shown later */
   hidden?: boolean;
   /** Column Formatter Function */
   formatter?: (rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: any) => string;
+  /** Set the column to checked or unchecked (filtering) */
+  isChecked?: (value: boolean) => boolean;
   /** Enable Href / Link Columns */
   href?: string | ((rowData: Record<string, unknown>, columnData: IdsDataGridColumn) => string);
   /** Fires for clickable formatters (like button) */
@@ -139,7 +149,11 @@ export interface IdsDataGridColumn {
     autoselect?: boolean;
     /** Sets the auto update attribute (for time type filters) */
     autoupdate?: boolean;
+    /** If the filter type is "contents" lets you set a blank string to a text value (matched by ID) */
+    notFilteredItem?: { value: string, label: string }
   };
+  /** Lets you make a dynamic filter function */
+  filterFunction?: any;
   /** True if the row is selected */
   rowSelected?: boolean;
   /** True if the row is activated */
@@ -160,10 +174,12 @@ export interface IdsDataGridColumn {
   headerAlign?: string;
   /** Freeze the columns to either the `left` or `right` sides */
   frozen?: string;
+  /** If a tree or expandable row will set the state of the row */
+  rowExpanded?: boolean;
   /** Sets the tooltip options */
   tooltipOptions?: IdsDataGridTooltipOptions | ((options: IdsDataGridTooltipCallback) => IdsDataGridTooltipOptions);
   /** Sets the tooltip content */
-  tooltip?: string | ((options: IdsDataGridTooltipCallback) => string);
+  tooltip?: string | ((options: IdsDataGridTooltipCallback) => string | Promise<string>);
   /** Sets the header tooltip content */
   headerTooltip?: string;
   /** Sets the header icon tooltip content */

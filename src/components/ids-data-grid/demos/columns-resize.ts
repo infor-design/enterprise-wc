@@ -1,18 +1,16 @@
+import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-columns-resize');
-const container: any = document.querySelector('ids-container');
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-columns-resize')!;
 
 if (dataGrid) {
   (async function init() {
-    // Set Locale and wait for it to load
-    await container?.setLocale('en-US');
-
     // Do an ajax request
     const url: any = booksJSON;
-    const columns = [];
+    const columns: IdsDataGridColumn[] = [];
 
     // Set up columns
     columns.push({
@@ -139,7 +137,7 @@ if (dataGrid) {
       name: 'Track Deprecation History',
       field: 'trackDeprecationHistory',
       resizable: true,
-      formatter: dataGrid.formatters.dropdown
+      formatter: dataGrid.formatters.text
     });
     columns.push({
       id: 'useForEmployee',
