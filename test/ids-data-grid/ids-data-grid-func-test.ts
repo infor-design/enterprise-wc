@@ -479,6 +479,31 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('[part="custom-cell"]').length).toEqual(14);
     });
 
+    it('supports setting cellSelectedCssPart', () => {
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        cssPart: 'custom-cell',
+        cellSelectedCssPart: 'custom-cell-selected'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency',
+        cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
+        cellSelectedCssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell-selected' : '')
+      }];
+
+      dataGrid.selectAllRows();
+      expect(dataGrid.shadowRoot.querySelectorAll('[part="custom-cell-selected"]').length).toEqual(14);
+    });
+
     it('supports setting frozen columns', () => {
       expect(dataGrid.hasFrozenColumns).toEqual(false);
       dataGrid.columns = [{
