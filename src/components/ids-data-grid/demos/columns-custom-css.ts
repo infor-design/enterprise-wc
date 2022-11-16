@@ -7,6 +7,7 @@ import { IdsDataGridTooltipCallback } from '../ids-data-grid-column';
 
 // Custom Datagrid Cell Colors are defined in this file:
 import css from '../../../assets/css/ids-data-grid/custom-css.css';
+
 const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
