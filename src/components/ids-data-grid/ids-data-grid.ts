@@ -493,8 +493,8 @@ export default class IdsDataGrid extends Base {
    */
   #cssPart(column: IdsDataGridColumn, rowIndex: number, cellIndex: number) {
     const cssPart = column.cssPart || 'cell';
-    if (typeof column.cssPart === 'function') {
-      return column.cssPart(rowIndex, cellIndex);
+    if (typeof cssPart === 'function') {
+      return cssPart(rowIndex, cellIndex);
     }
     return cssPart;
   }
@@ -1495,8 +1495,10 @@ export default class IdsDataGrid extends Base {
     if (this.rowSelection === 'mixed') {
       row?.classList.add('mixed');
     }
+
     this.state.selectedRows.push(index);
     this.updateDataRow(Number(row?.getAttribute('data-index')), { rowSelected: true });
+    if (row) this.updateRowCells(index, row);
 
     this.triggerEvent('rowselected', this, {
       detail: {
@@ -1535,6 +1537,7 @@ export default class IdsDataGrid extends Base {
 
     this.state.selectedRows = this.state.selectedRows.filter((rowNumber: any) => rowNumber.toString() !== index.toString());
     this.updateDataRow(Number(row?.getAttribute('data-index')), { rowSelected: undefined });
+    if (row) this.updateRowCells(index, row);
 
     this.triggerEvent('rowdeselected', this, {
       detail: {
@@ -1562,6 +1565,7 @@ export default class IdsDataGrid extends Base {
     (row as any).classList.add('activated');
     this.state.activatedRow = index;
     (this.data[index] as any).rowActivated = true;
+    if (row) this.updateRowCells(index, row);
 
     this.triggerEvent('rowactivated', this, {
       detail: {
@@ -1590,6 +1594,7 @@ export default class IdsDataGrid extends Base {
     row.classList.remove('activated');
     this.state.activatedRow = null;
     (this.data[index] as any).rowActivated = undefined;
+    if (row) this.updateRowCells(index, row);
 
     this.triggerEvent('rowdeactivated', this, {
       detail: {
@@ -1632,6 +1637,35 @@ export default class IdsDataGrid extends Base {
       });
     }
     this.#setHeaderCheckbox();
+  }
+
+  /**
+   * Updates some attributes/classes on a single row's cells
+   * @private
+   * @param {number} index the row index
+   * @param {HTMLElement} row the row HTML element (previously captured)
+   */
+  private updateRowCells(index: number, row: HTMLElement) {
+    if (!row) return;
+
+    const cells = row.querySelectorAll('.ids-data-grid-cell');
+    if (cells?.length) {
+      [...cells].forEach((cell: Element, columnIndex: number) => {
+        const columnData = this.columns[columnIndex];
+        let cssPart = columnData.cssPart || 'cell';
+
+        // Updates selected rows to display the correct CSS part (also activated rows in mixed-selection mode)
+        if (row.classList.contains('selected') || row.classList.contains('activated')) {
+          if (columnData.cellSelectedCssPart) cssPart = columnData.cellSelectedCssPart;
+          else cssPart = 'cell-selected';
+        }
+
+        if (typeof cssPart === 'function') {
+          cssPart = cssPart(index, columnIndex);
+        }
+        cell.setAttribute('part', cssPart);
+      });
+    }
   }
 
   /**

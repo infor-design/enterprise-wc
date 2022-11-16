@@ -3,9 +3,10 @@ import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import booksJSON from '../../../assets/data/books.json';
 
-import css from '../../../assets/css/ids-data-grid/custom-css.css';
 import { IdsDataGridTooltipCallback } from '../ids-data-grid-column';
 
+// Custom Datagrid Cell Colors are defined in this file:
+import css from '../../../assets/css/ids-data-grid/custom-css.css';
 const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
@@ -31,6 +32,14 @@ if (dataGrid) {
     const columns: IdsDataGridColumn[] = [];
 
     // Set up columns
+    columns.push({
+      id: 'selectionCheckbox',
+      name: 'selection',
+      sortable: false,
+      resizable: false,
+      formatter: dataGrid.formatters.selectionCheckbox,
+      align: 'center'
+    });
     columns.push({
       id: 'description',
       name: 'Description',
@@ -67,6 +76,7 @@ if (dataGrid) {
       field: 'publishDate',
       formatter: dataGrid.formatters.date,
       cssPart: 'custom-cell',
+      cellSelectedCssPart: 'custom-cell-selected-1'
     });
     columns.push({
       id: 'price',
@@ -74,7 +84,8 @@ if (dataGrid) {
       field: 'price',
       formatter: dataGrid.formatters.decimal,
       formatOptions: { locale: 'en-US' },
-      cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : '')
+      cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
+      cellSelectedCssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell-selected-1' : 'custom-cell-selected-2')
     });
 
     dataGrid.columns = columns;
