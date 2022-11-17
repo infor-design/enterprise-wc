@@ -419,6 +419,19 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     }
   }
 
+  // Row Naviation Styles
+  &.row-navigation .ids-data-grid-row {
+    &.is-focused {
+      outline: 1px solid var(--ids-color-palette-azure-80);
+      outline-offset: -1px;
+    }
+
+    .ids-data-grid-cell:focus {
+      box-shadow: none;
+      outline: none;
+    }
+  }
+
   // Selection Checkbox
   .ids-data-grid-checkbox-container {
     display: flex;

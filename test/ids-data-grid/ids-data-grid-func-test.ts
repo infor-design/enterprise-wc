@@ -1699,6 +1699,23 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activeCell.row).toEqual(8);
     });
 
+    it('can handle keyboard row navigation', () => {
+      // focus on first grid cell
+      expect(dataGrid.activeCell.row).toEqual(0);
+      expect(dataGrid.activeCell.cell).toEqual(0);
+      dataGrid.activeCell.node.focus();
+
+      // dipatch arrow down event
+      const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+      dataGrid.rowNavigation = true;
+      dataGrid.dispatchEvent(event);
+
+      // expect second row to be focused
+      const rowElem = dataGrid.rowByIndex(dataGrid.activeCell.row);
+      expect(rowElem.getAttribute('aria-rowindex')).toEqual('2');
+      expect(rowElem?.classList.contains('is-focused')).toBeTruthy();
+    });
+
     it('can handle errant click', () => {
       const errors = jest.spyOn(global.console, 'error');
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body').dispatchEvent(new MouseEvent('click', { bubbles: true }));
@@ -1993,14 +2010,14 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(1);
     });
 
-    it('handles a deActivateRow method', () => {
-      dataGrid.deActivateRow(1);
+    it('handles a deactivateRow method', () => {
+      dataGrid.deactivateRow(1);
       expect(dataGrid.activatedRow).toBeFalsy();
 
       dataGrid.rowSelection = 'mixed';
       dataGrid.activateRow(1);
       expect(dataGrid.activatedRow).toBeTruthy();
-      dataGrid.deActivateRow(1);
+      dataGrid.deactivateRow(1);
       expect(dataGrid.activatedRow).toBeFalsy();
     });
   });

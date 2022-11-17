@@ -217,6 +217,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `headerMenuId` {string} ID of the popupmenu to use as context menu for header and header group cells.
 - `menuData` {Array<object>} Dataset to build context menu for body cells.
 - `menuId` {string} ID of the popupmenu to use as context menu for body cells.
+- `rowNavigation` {boolean} If using row navigation, the row will be focused when navigating the data grid via clicks and keyboard events.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
 - `suppressRowClickSelection` {boolean} If using selection setting this will require clicking a checkbox or radio to select the row. Clicking other cells will not select the row.
 - `suppressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.

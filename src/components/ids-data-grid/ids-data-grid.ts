@@ -126,6 +126,7 @@ export default class IdsDataGrid extends Base {
       attributes.MENU_ID,
       attributes.MODE,
       attributes.ROW_HEIGHT,
+      attributes.ROW_NAVIGATION,
       attributes.ROW_SELECTION,
       attributes.SUPPRESS_ROW_CLICK_SELECTION,
       attributes.SUPPRESS_ROW_DEACTIVATION,
@@ -555,6 +556,9 @@ export default class IdsDataGrid extends Base {
       // Focus Cell
       this.setActiveCell(cellNum, rowNum, isHyperlink);
 
+      // Focus Row
+      this.#handleRowNavigation(false);
+
       // Handle click callbacks
       if (isClickable && this.visibleColumns[cellNum].click !== undefined && !e.target?.getAttribute('disabled')) {
         (this.visibleColumns[cellNum] as any).click({
@@ -808,6 +812,7 @@ export default class IdsDataGrid extends Base {
       const rowIndex = key === 'ArrowDown' ? nextRow : prevRow;
 
       this.setActiveCell(Number(this.activeCell?.cell) + cellDiff, rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex);
+      this.#handleRowNavigation(this.rowSelection === 'mixed');
       e.preventDefault();
       e.stopPropagation();
     });
@@ -1198,6 +1203,25 @@ export default class IdsDataGrid extends Base {
   get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'lg'; }
 
   /**
+   * Sets keyboard navigation to rows
+   * @param {boolean} value toggle row navigation
+   */
+  set rowNavigation(value: string | boolean | null) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.ROW_NAVIGATION, '');
+      this.container?.classList.add('row-navigation');
+      this.#handleRowNavigation(this.rowSelection === 'mixed');
+    } else {
+      this.removeAttribute(attributes.ROW_NAVIGATION);
+      this.container?.classList.remove('row-navigation');
+    }
+  }
+
+  get rowNavigation(): boolean {
+    return this.hasAttribute(attributes.ROW_NAVIGATION);
+  }
+
+  /**
    * Set the style of the grid to list style for simple readonly lists
    * @param {boolean} value list styling to use
    */
@@ -1446,9 +1470,9 @@ export default class IdsDataGrid extends Base {
     const currentRow = row.getAttribute('aria-rowindex') - 1;
 
     if (isActivated && !this.suppressRowDeactivation) {
-      this.deActivateRow(currentRow);
+      this.deactivateRow(currentRow);
     } else {
-      this.deActivateRow(this.state.activatedRow);
+      this.deactivateRow(this.state.activatedRow);
       this.activateRow(currentRow);
     }
 
@@ -1462,12 +1486,41 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Handle row navigation via click/keyboard
+   * @param {boolean} activateRow flag to activate row when focused
+   */
+  #handleRowNavigation(activateRow = false) {
+    if (!this.rowNavigation) return;
+
+    const prevIndex = this.state.focusedRow || this.state.activatedRow;
+    const prevElem = this.rowByAriaIndex(prevIndex);
+    const currElem = this.activeCell.node?.parentElement;
+    const currIndex = Number(currElem?.getAttribute('aria-rowindex'));
+
+    prevElem?.classList.remove('is-focused');
+    currElem?.classList.add('is-focused');
+
+    if (activateRow) this.#handleRowActivation(currElem);
+
+    this.state.focusedRow = currIndex;
+  }
+
+  /**
    * Get the row HTMLElement
    * @param {number} index the zero based index
-   * @returns {HTMLElement} The HTMLElement
+   * @returns {HTMLElement} Row HTMLElement
    */
   rowByIndex(index: number) {
     return this.shadowRoot?.querySelector<HTMLElement>(`.ids-data-grid-body .ids-data-grid-row[data-index="${index}"]`);
+  }
+
+  /**
+   * Get the row HTMLElement by aria index
+   * @param {number} index row index
+   * @returns {HTMLElement} Row HTMLElement
+   */
+  rowByAriaIndex(index: number) {
+    return this.shadowRoot?.querySelector<HTMLElement>(`.ids-data-grid-body .ids-data-grid-row[aria-rowindex="${index}"]`);
   }
 
   /**
@@ -1555,7 +1608,7 @@ export default class IdsDataGrid extends Base {
       row = this.rowByIndex(index);
     }
 
-    if (this.rowSelection !== 'mixed') {
+    if (!row || this.rowSelection !== 'mixed') {
       return;
     }
 
@@ -1574,7 +1627,7 @@ export default class IdsDataGrid extends Base {
    * Set a row to be deactivated
    * @param {number} index the zero based index
    */
-  deActivateRow(index: any) {
+  deactivateRow(index: any) {
     if (typeof index === 'undefined' || index === null) {
       return;
     }
@@ -1584,7 +1637,7 @@ export default class IdsDataGrid extends Base {
       row = this.rowByIndex(index);
     }
 
-    if (this.rowSelection !== 'mixed') {
+    if (!row || this.rowSelection !== 'mixed') {
       return;
     }
     row.classList.remove('activated');
