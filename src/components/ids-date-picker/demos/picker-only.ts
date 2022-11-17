@@ -3,16 +3,24 @@ import '../ids-month-year-picklist';
 import '../ids-date-picker';
 import '../../ids-button/ids-button';
 import '../../ids-modal-button/ids-modal-button';
+import '../../ids-trigger-field/ids-trigger-field';
+import '../../ids-trigger-field/ids-trigger-button';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const picker = document.querySelector<any>('ids-date-picker-popup');
-  picker.popup.arrowTarget = '#btn-dropdown-arrow';
+  const field = document.querySelector<any>('ids-trigger-field')!;
+  const picker = document.querySelector<any>('ids-date-picker-popup')!;
+  if (picker.popup) {
+    picker.popup.arrowTarget = '#composed-date-picker-button';
+  }
 
   // Displays the selected day when picked from the Date Picker Popup's MonthView
-  const btn = document.querySelector<any>('#popup-trigger');
-  btn.onEvent('dayselected', btn, (e: CustomEvent) => {
-    const target = e.target;
-    if (target) console.info('"dayselected" event triggered', e.detail.date);
+  // const btn = document.querySelector<any>('#composed-date-picker-button')!;
+  field.onEvent('dayselected', field, (e: CustomEvent) => {
+    const target = (e.target as any);
+    if (target) {
+      console.info('"dayselected" event triggered', e.detail.date);
+      field.value = picker.value;
+    }
   });
 
   // Example for populating the legend

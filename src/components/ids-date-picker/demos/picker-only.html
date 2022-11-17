@@ -14,19 +14,20 @@
     </ids-layout-grid>
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-button id="popup-trigger" type="secondary">
-          <span>Trigger Date Popup</span>
-          <ids-icon id="btn-dropdown-arrow" icon="dropdown"></ids-icon>
-        </ids-button>
+
+        <ids-trigger-field id="composed-date-picker-field" size="md" label="Date Picker (composed)" value="">
+          <ids-trigger-button slot="trigger-end" id="composed-date-picker-button">
+            <ids-text audible="true">Select Date</ids-text>
+            <ids-icon slot="icon" icon="calendar"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
         <ids-date-picker-popup
           format="M/d/yyyy hh:mm a"
           placeholder="true"
-          target="#popup-trigger"
+          target="#composed-date-picker-field"
+          trigger-elem="#composed-date-picker-button"
           trigger-type="click"
           use-current-time="time"></ids-date-picker-popup>
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
-        <ids-month-year-picklist></ids-month-year-picklist>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
