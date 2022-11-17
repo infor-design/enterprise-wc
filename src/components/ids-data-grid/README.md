@@ -1107,5 +1107,15 @@ Titles and labels should be localized in the current language. All elements will
 
 The code is divided into several files. Here is a description of where everything is.
 
+- `ids-data-grid-cell.ts` creates a non-shadow root `ids-data-grid-cell`, and handles its own selection, and activation.
+- `ids-data-grid-cell.scss` contains all css related to `.ids-data-grid-cell` and its children
+- `ids-data-grid-contextmenu.ts` contains code in the form of export functions, that adds ability to get right click menus on headers and cells
+- `ids-data-grid-filter.scss` contains all css related to the filter row and its children
+- `ids-data-grid-filter.ts` contains code to implement the filtering functionality and its ui (some functions are in ids-data-source)
+- `ids-data-grid-formatters.ts` contains all formatter functions and some supporting code like data extraction
 - `ids-data-grid-header.ts` contains most header functionality, the header template, and code related to header actions like sort, reorder and selection.
-- `ids-data-grid-header.scss` contains all css related to `ids-data-grid-header` and its children
+- `ids-data-grid-header.scss` contains all css related to `.ids-data-grid-header` and its children
+- `ids-data-grid-row.ts` contains most row functionality, the row template, and code related to row actions like expand, collapse, select, activate
+- `ids-data-grid-row.scss` contains all css related to `.ids-data-grid-row` and its children
+- `ids-data-grid-tooltip-mixin.js` contains a tooltip mixin that adds tooltip functionality to cells and headers, its different from `ids-tooltip-mixin` (more specific)
+- `ids-data-grid.js` contains all main data grid code, the api and settings and the main generator loop for the data grid

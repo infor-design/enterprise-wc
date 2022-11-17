@@ -24,10 +24,10 @@ export default class IdsElement extends HTMLElement {
   /** Styles Flag */
   hasStyles = false;
 
-  constructor(public options?: { noShadowRoot: boolean }) {
+  constructor(public args?: { noShadowRoot?: boolean, noStyles?: boolean }) {
     super();
 
-    if (!options?.noShadowRoot) {
+    if (!args?.noShadowRoot) {
       this.#addBaseName();
       this.#appendHostCss();
     }
@@ -35,7 +35,7 @@ export default class IdsElement extends HTMLElement {
 
   /** Run the template when a component Is inserted */
   connectedCallback() {
-    if (!this.options?.noShadowRoot) this.render();
+    if (!this.args?.noShadowRoot) this.render();
   }
 
   /**
@@ -191,7 +191,7 @@ export default class IdsElement extends HTMLElement {
    * @private
    */
   appendStyles() {
-    if (this.hasStyles) {
+    if (this.hasStyles || this.args?.noStyles) {
       return;
     }
 

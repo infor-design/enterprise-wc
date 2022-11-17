@@ -6,14 +6,11 @@ import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import type IdsDataGrid from './ids-data-grid';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
 
-// Mixin Here
-const Base = IdsEventsMixin(IdsElement);
-
 @customElement('ids-data-grid-header')
-export default class IdsDataGridHeader extends Base {
-  headerCheckbox?: HTMLElement;
+export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
+  rootNode?: any;
 
-  dataGrid: IdsDataGrid | undefined;
+  headerCheckbox?: HTMLElement;
 
   constructor() {
     super({ noShadowRoot: true });
@@ -24,8 +21,16 @@ export default class IdsDataGridHeader extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.dataGrid = (this.getRootNode() as any).host as IdsDataGrid;
     this.#attachEventHandlers();
+  }
+
+  /**
+   * Reference to the data grid parent
+   * @returns {IdsDataGrid} the data grid parent
+   */
+  get dataGrid() {
+    if (!this.rootNode) this.rootNode = (this.getRootNode() as any);
+    return (this.rootNode.host) as IdsDataGrid;
   }
 
   /**
@@ -252,7 +257,7 @@ export default class IdsDataGridHeader extends Base {
    * @param {string} id The column id (or field) to set
    * @param {boolean} ascending Sort ascending (lowest first) or descending (lowest last)
    */
-  setSortState(id: string, ascending = true) {
+  setSortState(id: string, ascending: boolean) {
     const sortedHeaders = [...this!.querySelectorAll('.is-sortable')]
       .map((sorted) => sorted.closest('.ids-data-grid-header-cell'));
     sortedHeaders.forEach((header) => header?.removeAttribute('aria-sort'));

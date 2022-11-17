@@ -8,7 +8,7 @@ import IdsDataGridCell from './ids-data-grid-cell';
 
 @customElement('ids-data-grid-row')
 export default class IdsDataGridRow extends IdsElement {
-  dataGrid: IdsDataGrid | undefined;
+  rootNode?: any;
 
   constructor() {
     super({ noShadowRoot: true });
@@ -16,7 +16,15 @@ export default class IdsDataGridRow extends IdsElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.dataGrid = (this.getRootNode() as any).host as IdsDataGrid;
+  }
+
+  /**
+   * Reference to the data grid parent
+   * @returns {IdsDataGrid} the data grid parent
+   */
+  get dataGrid() {
+    if (!this.rootNode) this.rootNode = (this.getRootNode() as any);
+    return (this.rootNode.host) as IdsDataGrid;
   }
 
   /**
@@ -123,6 +131,23 @@ export default class IdsDataGridRow extends IdsElement {
         this.dataGrid.groupSelectsChildren = true;
       }
     });
+  }
+
+  /**
+   * Select this row node
+   */
+  set selected(select: boolean) {
+    if (select) {
+      this.classList.add('selected');
+      this.setAttribute('aria-selected', 'true');
+
+      if (this.dataGrid?.rowSelection === 'mixed') {
+        this?.classList.add('mixed');
+      }
+    } else {
+      this.classList.remove('selected');
+      this.removeAttribute('aria-selected');
+    }
   }
 
   /**

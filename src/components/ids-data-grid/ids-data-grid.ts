@@ -889,7 +889,7 @@ export default class IdsDataGrid extends Base {
    * Get the selected rows
    * @returns {Array<object>} An array of all currently selected rows
    */
-  get selectedRows() {
+  get selectedRows(): Array<{ index: number, data: Record<string, unknown> }> {
     return this.data.flatMap((row: Record<string, unknown>, index: number) => {
       if (row.rowSelected) return { index: Number(index), data: row };
       return [];
@@ -984,11 +984,9 @@ export default class IdsDataGrid extends Base {
       radio?.setAttribute('aria-checked', 'true');
     }
 
-    row?.classList.add('selected');
-    row?.setAttribute('aria-selected', 'true');
-    if (this.rowSelection === 'mixed') {
-      row?.classList.add('mixed');
-    }
+    if (!row) return;
+
+    row.selected = true;
     this.updateDataset(Number(row?.getAttribute('data-index')), { rowSelected: true });
 
     this.triggerEvent('rowselected', this, {
@@ -1196,11 +1194,27 @@ export default class IdsDataGrid extends Base {
    * Set the active cell for focus
    * @param {number} cell The cell to focus (zero based)
    * @param {number} row The row to focus (zero based)
-   * @param {boolean} nofocus If true, do not focus the cell
+   * @param {boolean} noFocus If true, do not focus the cell
    * @returns {object} the current active cell
    */
-  setActiveCell(cell: number, row: number, nofocus?: boolean) {
-    return IdsDataGridCell.setActiveCell(cell, row, this, nofocus);
+  setActiveCell(cell: number, row: number, noFocus?: boolean) {
+    if (row < 0 || cell < 0 || row > this.data.length - 1
+      || cell > this.visibleColumns.length - 1 || Number.isNaN(row) || Number.isNaN(row)) {
+      return this.activeCell;
+    }
+
+    if (!this.activeCell) this.activeCell = {};
+    this.activeCell.cell = Number(cell);
+    this.activeCell.row = Number(row);
+
+    const queriedRows = this.shadowRoot?.querySelectorAll('.ids-data-grid-body ids-data-grid-row');
+    const rowNode = queriedRows?.item(row); // exclude header rows
+    const queriedCells = rowNode?.querySelectorAll<HTMLElement>('ids-data-grid-cell');
+    if (queriedCells && queriedCells.length > 0) {
+      const cellNode = queriedCells[cell] as IdsDataGridCell;
+      cellNode.activate(Boolean(noFocus));
+    }
+    return this.activeCell;
   }
 
   /**
