@@ -18,7 +18,7 @@ export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
 
   eventTypesJson: CustomCalendarEventTypeData[] | any = [];
 
-  eventPillHeight = '20px';
+  eventPillHeight = '20px'; // Default heigh for 1 line event pill
 
   constructor() {
     super();
@@ -40,7 +40,7 @@ export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
         this.manageEventPillsPosition(this.dateKey, order, this.eventTypeData);
         // position event element vertically
         if (order === 0) {
-          this.container.style.top = '20px';
+          this.container.style.top = '35px';
         } else if (eventPositionMap.get(`${this.dateKey}_${order}`)) {
           this.container.style.top = `${eventPositionMap.get(`${this.dateKey}_${order}`)}px`;
         } else {
@@ -142,23 +142,23 @@ export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
    * @param {CalendarEventTypeData} eventType Event
    */
   manageEventPillsPosition(dateKey: string, eventOrder: number, eventType: CalendarEventTypeData | any): void {
-    const MAX_EVENT_PILL_ATTR_COUNT = 4;
+    // const MAX_EVENT_PILL_ATTR_COUNT = 3;
     if (eventOrder === 0) {
       if (eventType.noOfAttributes === 3) {
-        eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 60);
+        eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 70);
       } else if (eventType.noOfAttributes === 2) {
-        eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 54);
+        eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 60);
       } else if (eventType.noOfAttributes === 1) {
-        eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 40);
+        eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 50);
       }
       eventPillAttributesMap.set(`${dateKey}_${eventOrder}`, eventType.noOfAttributes);
     } else if (eventOrder === 1) {
       const attributesCount = eventPillAttributesMap.get(`${dateKey}_${eventOrder - 1}`);
-      if ((attributesCount + eventType.noOfAttributes) > MAX_EVENT_PILL_ATTR_COUNT) {
-        this.CUSTOM_EVENT_COUNT = 1;
-      } else {
-        this.CUSTOM_EVENT_COUNT = 2;
-      }
+      // if ((attributesCount + eventType.noOfAttributes) > MAX_EVENT_PILL_ATTR_COUNT) {
+      //   this.#CUSTOM_EVENT_COUNT = 1;
+      // } else {
+      //   this.#CUSTOM_EVENT_COUNT = 2;
+      // }
 
       if (attributesCount === 3) {
         eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 100);
@@ -168,42 +168,44 @@ export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
         eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 60);
       }
       eventPillAttributesMap.set(`${dateKey}_${eventOrder}`, eventType.noOfAttributes);
-    } else if (eventOrder === 2) {
-      const firstPillAttributesCount = eventPillAttributesMap.get(`${dateKey}_${eventOrder - 2}`);
-      const secondPillAttributesCount = eventPillAttributesMap.get(`${dateKey}_${eventOrder - 1}`);
-      if ((firstPillAttributesCount + secondPillAttributesCount + eventType.noOfAttributes) > MAX_EVENT_PILL_ATTR_COUNT) {
-        this.CUSTOM_EVENT_COUNT = 2;
-      } else {
-        this.CUSTOM_EVENT_COUNT = 3;
-      }
-
-      if (secondPillAttributesCount === 3) {
-        eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 70);
-      } else if (secondPillAttributesCount === 2) {
-        eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 85);
-      } else if (secondPillAttributesCount === 1) {
-        eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 75);
-      }
-      eventPillAttributesMap.set(`${dateKey}_${eventOrder}`, eventType.noOfAttributes);
-    } else if (eventOrder === 3) {
-      const firstPillAttributesCount = eventPillAttributesMap.get(`${dateKey}_${eventOrder - 3}`);
-      const secondPillAttributesCount = eventPillAttributesMap.get(`${dateKey}_${eventOrder - 2}`);
-      const thirdPillAttributesCount = eventPillAttributesMap.get(`${dateKey}_${eventOrder - 1}`);
-
-      if ((firstPillAttributesCount + secondPillAttributesCount + thirdPillAttributesCount
-        + eventType.noOfAttributes) > MAX_EVENT_PILL_ATTR_COUNT) {
-        this.CUSTOM_EVENT_COUNT = 2;
-      } else {
-        this.CUSTOM_EVENT_COUNT = 3;
-      }
-
-      if (thirdPillAttributesCount === 3) {
-        eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 65);
-      } else if (thirdPillAttributesCount === 2) {
-        eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 85);
-      } else if (thirdPillAttributesCount === 1) {
-        eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 100);
-      }
     }
+    // else if (eventOrder === 2) {
+    //   const firstPillAttributesCount = eventPillAttributesMap.get(`${dateKey}_${eventOrder - 2}`);
+    //   const secondPillAttributesCount = eventPillAttributesMap.get(`${dateKey}_${eventOrder - 1}`);
+    //   if ((firstPillAttributesCount + secondPillAttributesCount + eventType.noOfAttributes) > MAX_EVENT_PILL_ATTR_COUNT) {
+    //     this.customEventCount = 1;
+    //   } else {
+    //     this.customEventCount = 2;
+    //   }
+
+    //   if (secondPillAttributesCount === 3) {
+    //     eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 70);
+    //   } else if (secondPillAttributesCount === 2) {
+    //     eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 85);
+    //   } else if (secondPillAttributesCount === 1) {
+    //     eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 75);
+    //   }
+    //   eventPillAttributesMap.set(`${dateKey}_${eventOrder}`, eventType.noOfAttributes);
+    // }
+    // else if (eventOrder === 3) {
+    //   const firstPillAttributesCount = eventPillAttributesMap.get(`${dateKey}_${eventOrder - 3}`);
+    //   const secondPillAttributesCount = eventPillAttributesMap.get(`${dateKey}_${eventOrder - 2}`);
+    //   const thirdPillAttributesCount = eventPillAttributesMap.get(`${dateKey}_${eventOrder - 1}`);
+
+    //   if ((firstPillAttributesCount + secondPillAttributesCount + thirdPillAttributesCount
+    //     + eventType.noOfAttributes) > MAX_EVENT_PILL_ATTR_COUNT) {
+    //     this.customEventCount = 1;
+    //   } else {
+    //     this.customEventCount = 2;
+    //   }
+
+    //   if (thirdPillAttributesCount === 3) {
+    //     eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 65);
+    //   } else if (thirdPillAttributesCount === 2) {
+    //     eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 85);
+    //   } else if (thirdPillAttributesCount === 1) {
+    //     eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 100);
+    //   }
+    // }
   }
 }

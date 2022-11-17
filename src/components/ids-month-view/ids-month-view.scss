@@ -464,18 +464,6 @@
       text-align: center;
     }
 
-    // Feature Request 911
-    .custom-calendar-day-text {
-      @include absolute();
-      @include cursor-pointer();
-      @include z-1();
-
-      left: calc(100% - 25px);
-      top: 2px;
-      width: 10px;
-      text-align: center;
-    }
-
     &.month-label .day-text {
       left: auto;
       width: 100%;

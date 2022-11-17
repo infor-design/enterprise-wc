@@ -39,8 +39,6 @@ export default class IdsCalendarEvent extends Base {
 
   cachedEventType: CalendarEventTypeData | null = null;
 
-  CUSTOM_EVENT_COUNT = 3;
-
   #dateKey = '';
 
   constructor() {
