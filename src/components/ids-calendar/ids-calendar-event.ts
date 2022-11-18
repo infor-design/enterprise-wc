@@ -35,11 +35,11 @@ export default class IdsCalendarEvent extends Base {
 
   #cssClass: string[] = [];
 
+  #dateKey = ``;
+
   cachedEvent: CalendarEventData | null = null;
 
   cachedEventType: CalendarEventTypeData | null = null;
-
-  #dateKey = '';
 
   constructor() {
     super();

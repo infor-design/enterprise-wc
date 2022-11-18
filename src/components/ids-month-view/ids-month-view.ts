@@ -1940,25 +1940,16 @@ class IdsMonthView extends Base {
     if (!this.container) return;
 
     const eventsContainer = this.container?.querySelector(`.events-container[data-key="${dateKey}"]`);
-    // const orders = [...(eventsContainer?.querySelectorAll('ids-calendar-event')) || []].map((elem: any) => elem.order);
     const orders = [...(eventsContainer?.childNodes) || []].map((elem: any) => elem.order);
     const baseOrder = orders.length ? Math.max(...orders) + 1 : 0;
     let isOverflowing = false;
-    const idsCalendar = document.querySelector('ids-calendar');
-    const isCustom = idsCalendar?.getAttribute('is-custom');
     events.forEach((event: CalendarEventData, index: number) => {
       const start = new Date(event.starts);
       const end = new Date(event.ends);
       const days = this.#countDays(start, end) || 1;
 
       for (let i = 0; i < days; i++) {
-        let calendarEvent = new IdsCalendarEvent();
-        // Custom Calendar Event
-        if (isCustom && customCalendarEvent?.name === 'MonthViewCalendarEventTemplate') {
-          if (customCalendarEvent.assignedNodes()[0]) {
-            calendarEvent = customCalendarEvent.assignedNodes()[0].cloneNode(true);
-          }
-        }
+        const { calendarEvent, isCustom } = this.#newCalendarEvent(customCalendarEvent);
         const eventType = this.eventTypesData?.find((et: CalendarEventTypeData) => et.id === event.type) ?? null;
         const eventOrder = baseOrder + index;
         calendarEvent.eventTypeData = eventType;
@@ -1991,24 +1982,11 @@ class IdsMonthView extends Base {
             calendarEvent.cssClass = extraCss;
           }
 
-          if (!isCustom) {
-            // position event element vertically
-            calendarEvent.setAttribute(attributes.Y_OFFSET, `${(calendarEvent.order * 16) + BASE_Y_OFFSET}px`);
+          calendarEvent.setAttribute(attributes.Y_OFFSET, `${(calendarEvent.order * 16) + BASE_Y_OFFSET}px`);
+          isOverflowing = isCustom ? (calendarEvent.order > CUSTOM_EVENT_COUNT - 1)
+            : (calendarEvent.order > MAX_EVENT_COUNT - 1);
+          calendarEvent.hidden = isOverflowing;
 
-            // hide overflowing event elements
-            if (calendarEvent.order > MAX_EVENT_COUNT - 1) {
-              calendarEvent.hidden = true;
-              isOverflowing = true;
-            }
-          } else {
-            const customEventDateKey = `${year}${month}${day}`;
-            calendarEvent.dateKey = customEventDateKey;
-            // hide overflowing event elements
-            if (calendarEvent.order > CUSTOM_EVENT_COUNT - 1) {
-              calendarEvent.hidden = true;
-              isOverflowing = true;
-            }
-          }
           dateCell.querySelector('.events-container')?.appendChild(calendarEvent as any);
         }
       }
@@ -2042,6 +2020,21 @@ class IdsMonthView extends Base {
     `;
 
     eventsContainer.insertAdjacentHTML('beforeend', tmpl);
+  }
+
+  /**
+ * Generates new IdsCalendarEvent
+ * @param {IdsCalendarEvent} customCalendarEvent optional custom event to use instead of default
+ * @returns {IdsCalendarEvent} calendar event
+ */
+  #newCalendarEvent(customCalendarEvent?: any): { isCustom: boolean, calendarEvent: any } {
+    if (customCalendarEvent?.name === 'MonthViewCalendarEventTemplate') {
+      const eventTemplate = customCalendarEvent.assignedNodes()[0];
+      if (eventTemplate) {
+        return { isCustom: true, calendarEvent: eventTemplate.cloneNode(true) };
+      }
+    }
+    return { isCustom: false, calendarEvent: new IdsCalendarEvent() };
   }
 }
 
