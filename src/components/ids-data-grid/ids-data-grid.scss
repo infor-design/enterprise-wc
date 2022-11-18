@@ -161,6 +161,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
 // Standalone Css Borders
 table.ids-data-grid {
+  display: table;
   outline: 1px solid var(--ids-color-palette-slate-30);
   outline-offset: -1px;
 }

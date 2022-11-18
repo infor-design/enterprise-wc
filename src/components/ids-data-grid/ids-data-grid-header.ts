@@ -335,7 +335,7 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
 
     let cssClasses = 'ids-data-grid-header-cell-content';
     cssClasses += column.sortable ? ' is-sortable' : '';
-    cssClasses += selectionCheckbox ? ' has-selectioncheckbox' : '';
+    cssClasses += selectionCheckbox ? ' has-selectioncheckbox vertical-align-center' : '';
     cssClasses += column.headerIcon ? ' has-headericon' : '';
 
     // Content row cell template
