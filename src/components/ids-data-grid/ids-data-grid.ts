@@ -556,9 +556,6 @@ export default class IdsDataGrid extends Base {
       // Focus Cell
       this.setActiveCell(cellNum, rowNum, isHyperlink);
 
-      // Focus Row
-      this.#handleRowNavigation(false);
-
       // Handle click callbacks
       if (isClickable && this.visibleColumns[cellNum].click !== undefined && !e.target?.getAttribute('disabled')) {
         (this.visibleColumns[cellNum] as any).click({
@@ -812,7 +809,9 @@ export default class IdsDataGrid extends Base {
       const rowIndex = key === 'ArrowDown' ? nextRow : prevRow;
 
       this.setActiveCell(Number(this.activeCell?.cell) + cellDiff, rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex);
-      this.#handleRowNavigation(this.rowSelection === 'mixed');
+      if (this.rowSelection === 'mixed') {
+        this.#handleRowActivation(this.activeCell.node.parentElement);
+      }
       e.preventDefault();
       e.stopPropagation();
     });
@@ -1210,7 +1209,6 @@ export default class IdsDataGrid extends Base {
     if (stringToBool(value)) {
       this.setAttribute(attributes.ROW_NAVIGATION, '');
       this.container?.classList.add('row-navigation');
-      this.#handleRowNavigation(this.rowSelection === 'mixed');
     } else {
       this.removeAttribute(attributes.ROW_NAVIGATION);
       this.container?.classList.remove('row-navigation');
@@ -1483,21 +1481,6 @@ export default class IdsDataGrid extends Base {
         row
       }
     });
-  }
-
-  /**
-   * Handle row navigation via click/keyboard
-   * @param {boolean} activateRow flag to activate row when focused
-   */
-  #handleRowNavigation(activateRow = false) {
-    if (!this.rowNavigation) return;
-
-    const currElem = this.activeCell.node?.parentElement;
-    const currIndex = Number(currElem?.getAttribute('aria-rowindex'));
-
-    if (activateRow) this.#handleRowActivation(currElem);
-
-    this.state.focusedRow = currIndex;
   }
 
   /**
