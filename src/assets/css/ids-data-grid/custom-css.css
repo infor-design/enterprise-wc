@@ -2,14 +2,25 @@ ids-data-grid::part(cell) {
   background-color: #ebf9f1;
 }
 
+ids-data-grid::part(cell-selected) {
+  background-color: #c9dad0;
+}
+
 ids-data-grid::part(custom-cell) {
   background-color: #e6f1fd;
+}
+
+ids-data-grid::part(custom-cell-selected-1) {
+  background-color: #c0cfde;
+}
+
+ids-data-grid::part(custom-cell-selected-2) {
+  background-color: #c0cfde;
 }
 
 /**
  * Tooltip styles
  */
-
 ids-data-grid::part(custom-turquoise-tooltip-arrow-top)::after {
   border-top-color: #2f8d8e;
 }

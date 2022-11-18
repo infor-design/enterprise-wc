@@ -161,8 +161,8 @@ export default class IdsDataGridRow extends IdsElement {
   static template(row: Record<string, unknown>, index: number, ariaRowIndex: number, dataGrid: IdsDataGrid): string {
     const cssPart = (column: IdsDataGridColumn, rowIndex: number, cellIndex: number) => {
       const part = column.cssPart || 'cell';
-      if (typeof column.cssPart === 'function') {
-        return column.cssPart(rowIndex, cellIndex);
+      if (typeof part === 'function') {
+        return part(rowIndex, cellIndex);
       }
       return part;
     };
