@@ -479,6 +479,32 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('[part="custom-cell"]').length).toEqual(14);
     });
 
+    it('supports setting cellSelectedCssPart', () => {
+      dataGrid.rowSelection = 'multiple';
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        cssPart: 'custom-cell',
+        cellSelectedCssPart: 'custom-cell-selected'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency',
+        cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
+        cellSelectedCssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell-selected' : '')
+      }];
+
+      dataGrid.selectAllRows();
+      expect(dataGrid.shadowRoot.querySelectorAll('[part="custom-cell-selected"]').length).toEqual(14);
+    });
+
     it('supports setting frozen columns', () => {
       expect(dataGrid.hasFrozenColumns).toEqual(false);
       dataGrid.columns = [{
@@ -1851,12 +1877,17 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('row-selection')).toBeFalsy();
     });
 
-    it('keeps selections on sort for single selection', () => {
+    it('keeps selections on sort for single selection', async () => {
+      dataGrid.deSelectAllRows();
+      dataGrid.data = deepClone(dataset);
+
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionRadio';
       newColumns[0].formatter = formatters.selectionRadio;
       dataGrid.rowSelection = 'single';
       dataGrid.columns = newColumns;
+
+      await processAnimFrame();
 
       expect(dataGrid.selectedRows.length).toBe(0);
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
