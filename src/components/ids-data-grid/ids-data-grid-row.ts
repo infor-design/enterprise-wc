@@ -151,6 +151,37 @@ export default class IdsDataGridRow extends IdsElement {
   }
 
   /**
+   * Updates some attributes/classes on a single row's cells
+   * @private
+   * @param {number} index the row index
+   */
+  updateCells(index: number) {
+    const row = this;
+
+    const cells = row.querySelectorAll('.ids-data-grid-cell');
+    if (cells?.length) {
+      [...cells].forEach((cell: Element, columnIndex: number) => {
+        const columnData = this.dataGrid?.columns[columnIndex];
+        let cssPart = columnData.cssPart || 'cell';
+
+        // Updates selected rows to display the correct CSS part (also activated rows in mixed-selection mode)
+        if (
+          (this.dataGrid?.rowSelection === 'mixed' && row.classList.contains('activated'))
+          || ((this.dataGrid?.rowSelection === 'single' || this.dataGrid?.rowSelection === 'multiple') && row.classList.contains('selected'))
+        ) {
+          if (columnData.cellSelectedCssPart) cssPart = columnData.cellSelectedCssPart;
+          else cssPart = 'cell-selected';
+        }
+
+        if (typeof cssPart === 'function') {
+          cssPart = cssPart(index, columnIndex);
+        }
+        cell.setAttribute('part', cssPart);
+      });
+    }
+  }
+
+  /**
    * Return the row's markup
    * @param {Record<string, unknown>} row The row data object
    * @param {number} index The data row index

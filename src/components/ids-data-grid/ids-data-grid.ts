@@ -988,6 +988,7 @@ export default class IdsDataGrid extends Base {
 
     row.selected = true;
     this.updateDataset(Number(row?.getAttribute('data-index')), { rowSelected: true });
+    if ((this.rowSelection === 'single' || this.rowSelection === 'multiple') && row) row.updateCells(index);
 
     this.triggerEvent('rowselected', this, {
       detail: {
@@ -1031,6 +1032,8 @@ export default class IdsDataGrid extends Base {
         elem: this, row, data: this.data[index]
       }
     });
+
+    row?.updateCells(index);
     if (this.groupSelectsChildren) row?.toggleChildRowSelection(false);
     this.header.setHeaderCheckbox();
   }
@@ -1051,6 +1054,7 @@ export default class IdsDataGrid extends Base {
 
     (row as any).classList.add('activated');
     this.updateDataset(Number(row?.getAttribute('data-index')), { rowActivated: true });
+    row?.updateCells(index);
 
     this.triggerEvent('rowactivated', this, {
       detail: {
@@ -1078,6 +1082,7 @@ export default class IdsDataGrid extends Base {
     }
     row.classList.remove('activated');
     this.updateDataset(Number(row?.getAttribute('data-index')), { rowActivated: undefined });
+    row.updateCells(index);
 
     this.triggerEvent('rowdeactivated', this, {
       detail: {
