@@ -1498,7 +1498,10 @@ export default class IdsDataGrid extends Base {
 
     this.state.selectedRows.push(index);
     this.updateDataRow(Number(row?.getAttribute('data-index')), { rowSelected: true });
-    if (row) this.updateRowCells(index, row);
+
+    if (this.rowSelection === 'single' || this.rowSelection === 'multiple') {
+      if (row) this.updateRowCells(index, row);
+    }
 
     this.triggerEvent('rowselected', this, {
       detail: {
@@ -1655,7 +1658,10 @@ export default class IdsDataGrid extends Base {
         let cssPart = columnData.cssPart || 'cell';
 
         // Updates selected rows to display the correct CSS part (also activated rows in mixed-selection mode)
-        if (row.classList.contains('selected') || row.classList.contains('activated')) {
+        if (
+          (this.rowSelection === 'mixed' && row.classList.contains('activated'))
+          || ((this.rowSelection === 'single' || this.rowSelection === 'multiple') && row.classList.contains('selected'))
+        ) {
           if (columnData.cellSelectedCssPart) cssPart = columnData.cellSelectedCssPart;
           else cssPart = 'cell-selected';
         }

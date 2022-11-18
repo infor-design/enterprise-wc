@@ -480,6 +480,7 @@ describe('IdsDataGrid Component', () => {
     });
 
     it('supports setting cellSelectedCssPart', () => {
+      dataGrid.rowSelection = 'multiple';
       dataGrid.columns = [{
         id: 'price',
         name: 'Price',
