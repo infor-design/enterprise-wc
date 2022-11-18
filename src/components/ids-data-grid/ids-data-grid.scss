@@ -421,8 +421,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   // Row Naviation Styles
   &.row-navigation .ids-data-grid-row {
-    &.is-focused {
-      outline: 1px solid var(--ids-color-palette-azure-80);
+    &:focus-within {
+      @include shadow();
+
+      outline: 1px solid var(--ids-color-palette-azure-60);
       outline-offset: -1px;
     }
 
@@ -786,6 +788,16 @@ table.ids-data-grid {
     }
   }
 
+  // Row Naviation Styles (Dark)
+  &.row-navigation .ids-data-grid-row {
+    &:focus-within {
+      @include shadow();
+
+      outline: 1px solid var(--ids-color-palette-slate-60);
+      outline-offset: -1px;
+    }
+  }
+
   // Selection
   .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
   .ids-data-grid-row.activated .ids-data-grid-cell {
@@ -932,6 +944,14 @@ table.ids-data-grid {
       @include text-slate-30();
     }
   }
+
+  // Row Naviation Styles (Contrast)
+  &.row-navigation .ids-data-grid-row {
+    &:focus-within {
+      box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
+      outline: 1px solid var(--ids-color-palette-azure-80);
+    }
+  }  
 
   .ids-data-grid-radio {
     @include bg-white();

@@ -1492,13 +1492,8 @@ export default class IdsDataGrid extends Base {
   #handleRowNavigation(activateRow = false) {
     if (!this.rowNavigation) return;
 
-    const prevIndex = this.state.focusedRow || this.state.activatedRow;
-    const prevElem = this.rowByAriaIndex(prevIndex);
     const currElem = this.activeCell.node?.parentElement;
     const currIndex = Number(currElem?.getAttribute('aria-rowindex'));
-
-    prevElem?.classList.remove('is-focused');
-    currElem?.classList.add('is-focused');
 
     if (activateRow) this.#handleRowActivation(currElem);
 
@@ -1512,15 +1507,6 @@ export default class IdsDataGrid extends Base {
    */
   rowByIndex(index: number) {
     return this.shadowRoot?.querySelector<HTMLElement>(`.ids-data-grid-body .ids-data-grid-row[data-index="${index}"]`);
-  }
-
-  /**
-   * Get the row HTMLElement by aria index
-   * @param {number} index row index
-   * @returns {HTMLElement} Row HTMLElement
-   */
-  rowByAriaIndex(index: number) {
-    return this.shadowRoot?.querySelector<HTMLElement>(`.ids-data-grid-body .ids-data-grid-row[aria-rowindex="${index}"]`);
   }
 
   /**

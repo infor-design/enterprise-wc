@@ -1713,7 +1713,6 @@ describe('IdsDataGrid Component', () => {
       // expect second row to be focused
       const rowElem = dataGrid.rowByIndex(dataGrid.activeCell.row);
       expect(rowElem.getAttribute('aria-rowindex')).toEqual('2');
-      expect(rowElem?.classList.contains('is-focused')).toBeTruthy();
     });
 
     it('can handle errant click', () => {

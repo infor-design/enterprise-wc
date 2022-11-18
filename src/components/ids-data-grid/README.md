@@ -1075,6 +1075,7 @@ Set context menu thru ID.
 - Can now be imported as a single JS file and used with encapsulated styles
 - `Drill Down` Formatter is now covered by `Button` formatter with `icon="drilldown"`
 - `textOverflow` setting is now by default
+- `rowNavigation` setting has replaced `cellNavigation`. Cell navigation is the default behavior.
 - `stretchColumn` is now more flexible and can be achieved by setting a column width to `minmax(130px, 4fr)`. I.E. some min width and a `fr` unit equal to the remaining number of columns (or similar variations).
 - split columns are not supported anymore but could be done with a custom formatter if needed
 - `frozenColumns` setting is now set on each column by adding `frozen: 'left'` or `frozen: 'right'` to the column definition.
