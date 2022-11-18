@@ -31,6 +31,7 @@ A Read-Only data grid uses "Formatters" to render cell content. A number of thes
 - `headerCell` allows you to further style the header cells
 - `row` allows you to further style the rows
 - `cell` allows you to further style the row cells
+- `cell-selected` allows you to further style row cells that are selected (in mixed-selection mode, activated cells are also styled)
 - `tooltip-popup` allows you to further style or adjust the outer tooltip popup element
 - `tooltip-arrow` allows you to adjust the tooltip arrow element
 
@@ -258,6 +259,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`headerTooltipCssPart` | {string} | Allows you to sets the header tooltip css part.
 |`headerIconTooltipCssPart` | {string} | Allows you to sets the header icon tooltip css part.
 |`filterButtonTooltipCssPart` | {string} | Allows you to sets the filter button tooltip css part.
+|`cellSelectedCssPart` | {string} | Allows customization of a selected cell's background color.
 
 ## Column Settings (Specific)
 
@@ -749,6 +751,68 @@ The following events are relevant to data-grid filters.
 - `filteroperatorchanged` Fires once a filter operator changed.
 - `filterrowopened` Fires after the filter row is opened by the user.
 - `filterrowclosed` Fires after the filter row is closed by the user.
+
+## Custom cell colors
+
+In some cases, it may be desirable to customize the background color of cells.  This can be done with the `cssPart` column setting:
+
+```js
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  cssPart: 'custom-cell'
+});
+```
+
+The `cssPart` property is translated into a `part` attribute that is applied to every cell in the column.  In the event the color needs to be conditional based on the row index or other logic, a function can be used:
+
+```js
+columns.push({
+  // ...
+  cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell-1' : 'custom-cell-2')
+  // ...
+});
+```
+
+After this is defined, accompanying CSS can be written to target the parts `custom-cell`, `custom-cell-1`, and `custom-cell-2` to change background color or other CSS properties of the cell:
+
+```css
+ids-data-grid::part(cell) {
+  background-color: #ebf9f1;
+}
+
+ids-data-grid::part(cell-selected) {
+  background-color: #c9dad0;
+}
+```
+
+### Changing selected cell colors
+
+Another column setting, `cellSelectedCssPart` can be used alongside `cssPart` to customize the selected color of the row in a similar way.  When using `mixed` selection, this color is also applied to activated rows:
+
+```js
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  cssPart: 'custom-cell',
+  cellSelectedCssPart: 'custom-cell-selected'
+});
+```
+
+This column setting can also be a function, just like `cssPart`:
+
+```js
+columns.push({
+  // ...
+  cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell-1' : 'custom-cell-2'),
+  cellSelectedCssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell-selected-1' : 'custom-cell-selected-2')
+  // ...
+});
+```
 
 ## Tooltip Code Examples
 

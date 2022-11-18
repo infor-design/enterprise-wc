@@ -194,4 +194,6 @@ export interface IdsDataGridColumn {
   headerIconTooltipCssPart?: string;
   /** Sets the header filter button tooltip css part */
   filterButtonTooltipCssPart?: string;
+  /** Sets the cell activation color css part */
+  cellSelectedCssPart?: string | ((rowIndex: number, cellIndex: number) => string);
 }
