@@ -47,7 +47,7 @@ class IdsMonthYearPicklist extends Base {
   }
 
   disconnectedCallback(): void {
-    this.disconnectedCallback?.();
+    super.disconnectedCallback?.();
   }
 
   static get attributes(): Array<string> {

@@ -69,6 +69,10 @@ class IdsPickerPopup extends Base {
     if (typeof this.onHide === 'function') this.onHide();
 
     this.hidden = true;
+
+    if (this.triggerType === 'immediate') {
+      this.remove();
+    }
   }
 
   onShow?(): void;
@@ -110,6 +114,15 @@ class IdsPickerPopup extends Base {
 
   onTriggerClick() {
     this.toggleVisibility();
+  }
+
+  /**
+   * Inherited from the Popup Interactions Mixin.
+   * Runs as soon as the Popup is connected to the DOM.
+   * @returns {void}
+   */
+  onTriggerImmediate(): void {
+    this.show();
   }
 
   onOutsideClick(e: Event) {

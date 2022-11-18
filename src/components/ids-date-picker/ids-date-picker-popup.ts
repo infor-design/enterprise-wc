@@ -70,7 +70,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
   }
 
   disconnectedCallback(): void {
-    this.disconnectedCallback?.();
+    super.disconnectedCallback?.();
     this.expandableArea = null;
     this.monthView = null;
     this.monthYearPicklist = null;
@@ -100,7 +100,9 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
           expand-style="fill"
           expanded="${this.expanded}"
         >
-          <ids-month-year-picklist slot="pane"></ids-month-year-picklist>
+          <ids-month-year-picklist
+            slot="pane"
+            ${this.showPicklistYear ? 'show-picklist-year="true"' : ''}></ids-month-year-picklist>
         </ids-expandable-area>
         <ids-month-view
           compact="true"
@@ -941,6 +943,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     if (e) args = e;
     else {
       args = {
+        bubbles: true,
         detail: {
           elem: this,
           date: this.activeDate,
@@ -965,6 +968,16 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     this.buttons?.forEach((button: IdsDatePickerPopupButton) => {
       button.removeRipples();
     });
+  }
+
+  /**
+   * Removes all button ripples in the component
+   * @returns {void}
+   */
+  private selectDay() {
+    if (this.monthView && typeof this.monthView.selectDay === 'function') {
+      this.monthView.selectDay();
+    }
   }
 
   /**
@@ -996,9 +1009,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @returns {void}
    */
   onHide() {
-    if (this.monthView.selectDay) {
-      this.monthView.selectDay();
-    }
+    this.selectDay();
     this.container?.setAttribute(htmlAttributes.TABINDEX, '-1');
     this.expanded = false;
     this.removeRipples();
@@ -1012,7 +1023,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     this.attachEventListeners();
     this.monthView?.selectDay(this.year, this.month, this.day);
     this.container?.removeAttribute(htmlAttributes.TABINDEX);
-    this.monthView.focus();
+    this.monthView?.focus();
   }
 }
 
