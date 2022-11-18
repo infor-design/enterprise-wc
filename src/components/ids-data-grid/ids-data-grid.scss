@@ -54,22 +54,63 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     }
   }
 
-  // Row Height Feature
+  // Row Height Feature with Formatters spacing
   // Large by default
-  .ids-data-grid-body .ids-data-grid-row .ids-data-grid-cell {
-    height: 50px;
+  &[data-row-height='md'] {
+    .ids-data-grid-cell {
+      height: 40px;
+
+      .text-ellipsis,
+      ids-badge {
+        @include px-12();
+      }
+
+      ids-hyperlink {
+        @include m-12();
+      }
+    }
+
+    .ids-data-grid-header-text {
+      @include px-12();
+    }
   }
 
-  &[data-row-height='md'] .ids-data-grid-body .ids-data-grid-row .ids-data-grid-cell {
-    height: 40px;
+  &[data-row-height='sm'] {
+    .ids-data-grid-cell {
+      height: 35px;
+
+      .text-ellipsis,
+      ids-badge {
+        @include px-8();
+      }
+
+      ids-hyperlink {
+        @include m-8();
+      }
+    }
+
+    .ids-data-grid-header-text {
+      @include px-8();
+    }
   }
 
-  &[data-row-height='sm'] .ids-data-grid-body .ids-data-grid-row .ids-data-grid-cell {
-    height: 35px;
-  }
+  &[data-row-height='xs'] {
+    .ids-data-grid-cell {
+      height: 30px;
 
-  &[data-row-height='xs'] .ids-data-grid-body .ids-data-grid-row .ids-data-grid-cell {
-    height: 30px;
+      .text-ellipsis,
+      ids-badge {
+        @include px-4();
+      }
+
+      ids-hyperlink {
+        @include m-4();
+      }
+    }
+
+    .ids-data-grid-header-text {
+      @include px-4();
+    }
   }
 
   // Row Alternate Row Setting Feature
@@ -226,11 +267,11 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   .ids-data-grid-header-text {
     @include block();
-    @include px-16();
     @include py-8();
     @include font-bold();
     @include text-14();
     @include text-white();
+    @include px-16();
 
     overflow: hidden;
     text-align: left;
@@ -336,20 +377,25 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     border-color: $cell-border-color;
     overflow: hidden;
     white-space: nowrap;
+    height: 50px;
 
     // Hide first/last border
     &:first-child {
       border-inline-start-width: 0;
     }
 
-    // Negate link margins
-    ids-hyperlink {
-      margin: 8px;
+    // Reset badge margin to center it vertically
+    ids-badge::part(badge) {
+      @include mb-0();
+      @include mr-0();
     }
 
     ids-badge {
-      padding-inline-start: 8px;
-      padding-inline-end: 8px;
+      @include px-16();
+    }
+
+    ids-hyperlink {
+      @include m-16();
     }
 
     // Text ellipsis
@@ -503,7 +549,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 
   // Tree Grid
-  .ids-data-grid-tree-container {
+  .ids-data-grid-cell .ids-data-grid-tree-container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -523,13 +569,13 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   // Dynamically added indents
   @for $i from 2 through 8 {
-    [aria-level='#{$i}'] .ids-data-grid-tree-container .text-ellipsis {
+    [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container .text-ellipsis {
       padding-inline-start: #{(($i - 2) * 27) + 64px};
     }
-    [aria-level='#{$i}'] .ids-data-grid-tree-container ids-button {
+    [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container ids-button {
       padding-inline-start: #{(($i - 2) * 27) + 55px};
     }
-    [aria-level='#{$i}'] .ids-data-grid-tree-container ids-button + .text-ellipsis {
+    [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container ids-button + .text-ellipsis {
       padding-inline-start: 0;
     }
   }
