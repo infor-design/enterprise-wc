@@ -15,13 +15,12 @@ ids-data-grid::part(custom-cell-selected-1) {
 }
 
 ids-data-grid::part(custom-cell-selected-2) {
-  background-color: #e2e2e2;
+  background-color: #c0cfde;
 }
 
 /**
  * Tooltip styles
  */
-
 ids-data-grid::part(custom-turquoise-tooltip-arrow-top)::after {
   border-top-color: #2f8d8e;
 }
