@@ -5,7 +5,7 @@ import styles from './ids-picker-popup.scss';
 /**
  * IDS Picker Popup Component
  * @type {IdsPickerPopup}
- * @inherits IdsPopup
+ * @inherits IdsElement
  * @mixes IdsAttachmentMixin
  * @mixes IdsEventsMixin
  * @mixes IdsPopupInteractionsMixin
@@ -69,10 +69,6 @@ class IdsPickerPopup extends Base {
     if (typeof this.onHide === 'function') this.onHide();
 
     this.hidden = true;
-
-    if (this.triggerType === 'immediate') {
-      this.remove();
-    }
   }
 
   onShow?(): void;
@@ -112,6 +108,13 @@ class IdsPickerPopup extends Base {
     }
   }
 
+  onOutsideClick(e: Event) {
+    const target = (e.target as HTMLElement);
+    if (!this.contains(target)) {
+      this.hide();
+    }
+  }
+
   onTriggerClick() {
     this.toggleVisibility();
   }
@@ -123,12 +126,6 @@ class IdsPickerPopup extends Base {
    */
   onTriggerImmediate(): void {
     this.show();
-  }
-
-  onOutsideClick(e: Event) {
-    if (!this.contains(e.target as HTMLElement)) {
-      this.hide();
-    }
   }
 }
 

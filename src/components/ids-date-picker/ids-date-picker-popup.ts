@@ -261,16 +261,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
   onFormatChange() {
     if (!this.container) return;
-
-    const hasTime = this.hasTime();
-    this.container.classList.toggle('has-time', hasTime);
-    if (hasTime) {
-      if (!this.timepicker) {
-        this.monthView?.insertAdjacentHTML('afterend', this.timepickerTemplate());
-      }
-    } else {
-      this.timepicker?.remove();
-    }
+    this.updateTimepickerDisplay();
   }
 
   hideIfAble(): void {
@@ -530,10 +521,10 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
     if (boolVal) {
       this.setAttribute(attributes.SHOW_PICKLIST_WEEK, String(boolVal));
-      this.monthView?.setAttribute(attributes.SHOW_PICKLIST_WEEK, boolVal);
+      this.monthYearPicklist?.setAttribute(attributes.SHOW_PICKLIST_WEEK, boolVal);
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
-      this.monthView?.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
+      this.monthYearPicklist?.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
     }
   }
 
@@ -552,6 +543,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
   set useCurrentTime(val: string | boolean | null) {
     const boolVal = stringToBool(val);
     const timePicker = this.container?.querySelector('ids-time-picker');
+
+    this.updateTimepickerDisplay();
 
     if (boolVal) {
       this.setAttribute(attributes.USE_CURRENT_TIME, boolVal.toString());
@@ -957,6 +950,23 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
     if (this.target) {
       const event = new CustomEvent('dayselected', args);
       this.target.dispatchEvent(event);
+    }
+  }
+
+  /**
+   * Renders or removes an embedded IdsTimePicker component
+   */
+  private updateTimepickerDisplay() {
+    const hasTime = this.hasTime();
+    this.container?.classList.toggle('has-time', hasTime);
+    if (hasTime) {
+      if (!this.timepicker) {
+        this.monthView?.insertAdjacentHTML('afterend', this.timepickerTemplate());
+        this.timepicker = this.container?.querySelector('ids-time-picker');
+      }
+    } else {
+      this.timepicker?.remove();
+      this.timepicker = null;
     }
   }
 

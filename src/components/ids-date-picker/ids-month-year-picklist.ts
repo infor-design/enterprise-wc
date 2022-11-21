@@ -44,6 +44,12 @@ class IdsMonthYearPicklist extends Base {
     super.connectedCallback();
     this.attachEventListeners();
     this.setAttribute(htmlAttributes.ROLE, 'application');
+
+    // Set reasonable default
+    if (!this.hasPicklistConfigurationAttributes()) {
+      this.setAttribute(attributes.SHOW_PICKLIST_MONTH, 'true');
+      this.setAttribute(attributes.SHOW_PICKLIST_YEAR, 'true');
+    }
   }
 
   disconnectedCallback(): void {
@@ -132,6 +138,15 @@ class IdsMonthYearPicklist extends Base {
     } else {
       this.removeAttribute(attributes.DISABLED);
     }
+  }
+
+  /**
+   * @returns {boolean} true if any picklists are currently showing
+   */
+  private hasPicklistConfigurationAttributes() {
+    return this.hasAttribute(attributes.SHOW_PICKLIST_MONTH)
+      || this.hasAttribute(attributes.SHOW_PICKLIST_YEAR)
+      || this.hasAttribute(attributes.SHOW_PICKLIST_WEEK);
   }
 
   private attachEventListeners() {

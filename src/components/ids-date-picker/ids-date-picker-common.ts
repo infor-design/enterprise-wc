@@ -13,6 +13,7 @@ export const IdsDatePickerCommonAttributes = [
   attributes.SHOW_CLEAR,
   attributes.SHOW_PICKLIST_MONTH,
   attributes.SHOW_PICKLIST_WEEK,
+  attributes.SHOW_PICKLIST_YEAR,
   attributes.SHOW_TODAY,
   attributes.USE_CURRENT_TIME,
   attributes.USE_RANGE,
