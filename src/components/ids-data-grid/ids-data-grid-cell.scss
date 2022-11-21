@@ -10,6 +10,7 @@
 
   align-items: center;
   border-color: $cell-border-color;
+  height: 50px;
   overflow: hidden;
   white-space: nowrap;
 
@@ -18,14 +19,18 @@
     border-inline-start-width: 0;
   }
 
-  // Negate link margins
-  ids-hyperlink {
-    margin: 8px;
+  // Reset badge margin to center it vertically
+  ids-badge::part(badge) {
+    @include mb-0();
+    @include mr-0();
   }
 
   ids-badge {
-    padding-inline-start: 8px;
-    padding-inline-end: 8px;
+    @include px-16();
+  }
+
+  ids-hyperlink {
+    @include m-16();
   }
 
   // Text ellipsis

@@ -17,21 +17,65 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   }
 }
 
-// Row Height Feature - Large is default
-.ids-data-grid-row .ids-data-grid-cell {
-  height: 50px;
-}
+// Row Height Feature with Formatters spacing
+.ids-data-grid {
+  // Large by default
+  &[data-row-height='md'] {
+    .ids-data-grid-cell {
+      height: 40px;
 
-.ids-data-grid[data-row-height='md'] .ids-data-grid-row .ids-data-grid-cell {
-  height: 40px;
-}
+      .text-ellipsis,
+      ids-badge {
+        @include px-12();
+      }
 
-.ids-data-grid[data-row-height='sm'] .ids-data-grid-row .ids-data-grid-cell {
-  height: 35px;
-}
+      ids-hyperlink {
+        @include m-12();
+      }
+    }
 
-.ids-data-grid[data-row-height='xs'] .ids-data-grid-row .ids-data-grid-cell {
-  height: 30px;
+    .ids-data-grid-header-text {
+      @include px-12();
+    }
+  }
+
+  &[data-row-height='sm'] {
+    .ids-data-grid-cell {
+      height: 35px;
+
+      .text-ellipsis,
+      ids-badge {
+        @include px-8();
+      }
+
+      ids-hyperlink {
+        @include m-8();
+      }
+    }
+
+    .ids-data-grid-header-text {
+      @include px-8();
+    }
+  }
+
+  &[data-row-height='xs'] {
+    .ids-data-grid-cell {
+      height: 30px;
+
+      .text-ellipsis,
+      ids-badge {
+        @include px-4();
+      }
+
+      ids-hyperlink {
+        @include m-4();
+      }
+    }
+
+    .ids-data-grid-header-text {
+      @include px-4();
+    }
+  }
 }
 
 // Row Alternate Row Setting Feature
