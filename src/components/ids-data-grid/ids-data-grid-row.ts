@@ -99,9 +99,9 @@ export default class IdsDataGridRow extends IdsElement {
     const currentRow = Number(this.getAttribute('aria-rowindex')) - 1;
 
     if (isActivated && !this.dataGrid?.suppressRowDeactivation) {
-      this.dataGrid?.deActivateRow(currentRow);
+      this.dataGrid?.deactivateRow(currentRow);
     } else {
-      if (this.dataGrid?.activatedRow.index) this.dataGrid?.deActivateRow(this.dataGrid?.activatedRow.index);
+      if (this.dataGrid?.activatedRow.index) this.dataGrid?.deactivateRow(this.dataGrid?.activatedRow.index);
       this.dataGrid?.activateRow(currentRow);
     }
 

@@ -53,6 +53,21 @@ tr.ids-data-grid-row {
   height: 50px;
 }
 
+// Row Naviation Styles
+.ids-data-grid.row-navigation .ids-data-grid-row {
+  &:focus-within {
+    @include shadow();
+
+    outline: 1px solid var(--ids-color-palette-azure-60);
+    outline-offset: -1px;
+  }
+
+  .ids-data-grid-cell:focus {
+    box-shadow: none;
+    outline: none;
+  }
+}
+
 // Dark Theme
 .ids-data-grid[mode='dark'] {
   // Row Alternate Row Setting Feature
@@ -66,6 +81,16 @@ tr.ids-data-grid-row {
     // Uses a non pallette color - no better looking ones
     background-color: #334d60;
   }
+
+  // Row Naviation Styles (Dark)
+  &.row-navigation .ids-data-grid-row {
+    &:focus-within {
+      @include shadow();
+
+      outline: 1px solid var(--ids-color-palette-slate-60);
+      outline-offset: -1px;
+    }
+  }
 }
 
 // Contrast Theme
@@ -74,5 +99,13 @@ tr.ids-data-grid-row {
   .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
   .ids-data-grid-row.activated .ids-data-grid-cell {
     @include bg-azure-20();
+  }
+
+  // Row Naviation Styles (Contrast)
+  &.row-navigation .ids-data-grid-row {
+    &:focus-within {
+      box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
+      outline: 1px solid var(--ids-color-palette-azure-80);
+    }
   }
 }

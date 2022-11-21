@@ -101,6 +101,9 @@
   - link: pagination-standalone.html
     type: Example
     description: Showing a data grid with standalone pagination
+  - link: row-navigation.html
+    type: Example
+    description: Showing a data grid with row navigation
   - link: side-by-side.html
     type: Side by Side
     description: Showing a data grid next to a 4.x data grid
@@ -131,6 +134,9 @@
   - link: tooltip.html
     type: Example
     description: Shows a data grid with tooltip
+  - link: row-height.html
+    type: Example
+    description: Shows a data grid with different row height sizes
   - link: xss-prevention.html
     type: Test
     description: Shows a data grid can prevent xss
