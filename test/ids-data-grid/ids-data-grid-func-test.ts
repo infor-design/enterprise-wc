@@ -2072,15 +2072,16 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(1);
     });
 
-    it('handles a deactivateRow method', () => {
+    it('handles a deactivateRow method', async () => {
       dataGrid.deactivateRow(1);
       expect(dataGrid.activatedRow).toEqual({});
 
       dataGrid.rowSelection = 'mixed';
       dataGrid.activateRow(1);
-      expect(dataGrid.activatedRow).toEqual({});
+      await processAnimFrame();
+      expect(dataGrid.activatedRow.data).toBeTruthy();
       dataGrid.deactivateRow(null);
-      expect(dataGrid.activatedRow).toEqual({});
+      expect(dataGrid.activatedRow.data).toBeTruthy();
     });
   });
 
