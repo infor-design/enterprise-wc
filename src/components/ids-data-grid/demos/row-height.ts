@@ -1,5 +1,6 @@
 import type IdsDataGrid from '../ids-data-grid';
-import type IdsDropdown from '../../ids-dropdown/ids-dropdown';
+import type IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
+import type IdsMenuItem from '../../ids-menu/ids-menu-item';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import { escapeHTML } from '../../../utils/ids-xss-utils/ids-xss-utils';
@@ -10,12 +11,12 @@ const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-row-height')!;
-const dropdown = document.querySelector<IdsDropdown>('#dropdown-row-height')!;
+const rowHeightMenu = document.querySelector<IdsPopupMenu>('#row-height-menu')!;
 
 if (dataGrid) {
-  // Change row height with dropdown
-  dropdown?.addEventListener('change', (e: Event) => {
-    dataGrid.rowHeight = (e.target as IdsDropdown).value as string;
+  // Change row height with popup menu
+  rowHeightMenu?.addEventListener('selected', (e: Event) => {
+    dataGrid.rowHeight = (e.target as IdsMenuItem).value as string;
   });
 
   // Setup datagrid
