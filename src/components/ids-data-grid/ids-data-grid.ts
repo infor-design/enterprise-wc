@@ -8,6 +8,7 @@ import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
 // Dependencies
 import IdsDataSource from '../../core/ids-data-source';
 import IdsDataGridFormatters from './ids-data-grid-formatters';
+import { editors } from './ids-data-grid-editors';
 import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid-filters';
 import { IdsDataGridContextmenuArgs, setContextmenu } from './ids-data-grid-contextmenu';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
@@ -116,6 +117,9 @@ export default class IdsDataGrid extends Base {
   /** API for list of formatters */
   readonly formatters: IdsDataGridFormatters = new IdsDataGridFormatters();
 
+  /** API for list of editors */
+  readonly editors = editors;
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -126,6 +130,7 @@ export default class IdsDataGrid extends Base {
       attributes.ALTERNATE_ROW_SHADING,
       attributes.AUTO_FIT,
       attributes.DISABLE_CLIENT_FILTER,
+      attributes.EDITABLE,
       attributes.EXPANDABLE_ROW,
       attributes.EXPANDABLE_ROW_TEMPLATE,
       attributes.FILTER_ROW_DISABLED,
@@ -308,22 +313,23 @@ export default class IdsDataGrid extends Base {
     const body = this.shadowRoot?.querySelector('.ids-data-grid-body');
     this.offEvent('click.body', body);
     this.onEvent('click.body', body, (e: any) => {
-      const cell = (e.target as any).closest('ids-data-grid-cell');
+      const cell: IdsDataGridCell = (e.target as any).closest('ids-data-grid-cell');
       if (!cell) return;
 
-      const cellNum = cell.getAttribute('aria-colindex') - 1;
+      const cellNum = Number(cell.getAttribute('aria-colindex')) - 1;
       const row = <IdsDataGridRow>cell.parentNode;
       const rowNum = Number(row.getAttribute('data-index'));
       const isHyperlink = e.target?.nodeName === 'IDS-HYPERLINK' || e.target?.nodeName === 'A';
       const isButton = e.target?.nodeName === 'IDS-BUTTON';
       const isClickable = isButton || isHyperlink;
+      const column: IdsDataGridColumn = this.visibleColumns[cellNum];
 
       // Focus Cell
       this.setActiveCell(cellNum, rowNum, isHyperlink);
 
       // Handle click callbacks
-      if (isClickable && this.visibleColumns[cellNum].click !== undefined && !e.target?.getAttribute('disabled')) {
-        (this.visibleColumns[cellNum] as any).click({
+      if (isClickable && column.click !== undefined && !e.target?.getAttribute('disabled')) {
+        (column as any).click({
           rowData: this.data[rowNum],
           columnData: this.visibleColumns[cellNum],
           event: e
@@ -338,8 +344,8 @@ export default class IdsDataGrid extends Base {
       });
 
       // Handle Expand/Collapse Clicking
-      if (isClickable && (this.visibleColumns[cellNum]?.formatter?.name === 'tree'
-        || this.visibleColumns[cellNum]?.formatter?.name === 'expander')) {
+      if (isClickable && (column?.formatter?.name === 'tree'
+        || column?.formatter?.name === 'expander')) {
         row.toggleExpandCollapse();
         return;
       }
@@ -363,6 +369,9 @@ export default class IdsDataGrid extends Base {
           row.toggleSelection();
         }
       }
+
+      // Handle Editing
+      if (this.editable && column.editor) cell.startCellEditing();
     });
 
     // Add double click to the table body
@@ -1373,6 +1382,22 @@ export default class IdsDataGrid extends Base {
   }
 
   get expandableRowTemplate() {
+    return this.getAttribute(attributes.EXPANDABLE_ROW_TEMPLATE) || '';
+  }
+
+  /**
+   * Set to true if one or more editors is present, with the intention of editing
+   * @param {boolean} value true indicates the grid may be editable
+   */
+  set editable(value) {
+    if (value) {
+      this.setAttribute(attributes.EXPANDABLE_ROW_TEMPLATE, value.toString());
+    } else {
+      this.removeAttribute(attributes.EXPANDABLE_ROW_TEMPLATE);
+    }
+  }
+
+  get editable() {
     return this.getAttribute(attributes.EXPANDABLE_ROW_TEMPLATE) || '';
   }
 }

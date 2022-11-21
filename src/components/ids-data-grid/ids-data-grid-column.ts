@@ -1,3 +1,5 @@
+import { IdsDataGridEditor } from './ids-data-grid-editors';
+
 export interface IdsDataGridColumnFormatOptions {
   /* Set the style of the number fx integer */
   style?: string;
@@ -194,4 +196,6 @@ export interface IdsDataGridColumn {
   headerIconTooltipCssPart?: string;
   /** Sets the header filter button tooltip css part */
   filterButtonTooltipCssPart?: string;
+  /** Setup an editor */
+  editor?: { type: 'text' | 'date' | 'time' | 'checkbox' | 'dropdown', inline: boolean, editor?: IdsDataGridEditor }
 }

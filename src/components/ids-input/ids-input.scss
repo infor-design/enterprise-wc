@@ -492,6 +492,19 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       @include text-slate-40();
     }
   }
+
+  // Flush/Invisible Variant (used in IdsDataGrid cell editing)
+  &.color-variant-borderless {
+    margin: 0;
+
+    .field-container {
+      @include border-transparent();
+    }
+
+    &:focus-within .field-container {
+      box-shadow: none;
+    }
+  }
 }
 
 .ids-input[mode='dark'] {

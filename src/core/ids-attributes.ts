@@ -113,6 +113,7 @@ export const attributes = {
   DRAGGING: 'dragging',
   DROPDOWN_ICON: 'dropdown-icon',
   EDGE: 'edge',
+  EDITABLE: 'editable',
   END_DATE: 'end-date',
   END_HOUR: 'end-hour',
   ERROR: 'error',

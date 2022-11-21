@@ -2,6 +2,7 @@ import { customElement } from '../../core/ids-decorators';
 import IdsElement from '../../core/ids-element';
 import type IdsDataGrid from './ids-data-grid';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
+import { IdsDataGridEditor } from './ids-data-grid-editors';
 
 @customElement('ids-data-grid-cell')
 export default class IdsDataGridCell extends IdsElement {
@@ -53,6 +54,42 @@ export default class IdsDataGridCell extends IdsElement {
     }
     this.dataGrid.triggerEvent('activecellchanged', this.dataGrid, { detail: { elem: this, activeCell: this.dataGrid.activeCell } });
     return this.dataGrid.activeCell;
+  }
+
+  /** The editor element */
+  editor?: IdsDataGridEditor;
+
+  /** If currently in edit mode */
+  isEditing?:boolean;
+
+  /** Begin Edit Mode */
+  startCellEditing() {
+    const column = this.dataGrid?.columns[Number(this.getAttribute('aria-colindex')) - 1];
+    const columnEditor = this.dataGrid.editors.find((obj) => obj.type === column?.editor?.type);
+    if (!columnEditor || !columnEditor.editor || this.isEditing) return;
+
+    this.editor = columnEditor.editor;
+    this.editor?.init();
+
+    // Clear cell and set value
+    const value = this.innerText;
+    const input = this.editor.input!;
+    this.innerHTML = '';
+    this.appendChild(this.editor?.input as any);
+    input.value = value;
+    input.focus();
+
+    // Set states
+    this.classList.add('is-editing');
+    this.isEditing = true;
+
+    // Save on Click Out
+    // input!.addEventListener('blur', () => {
+    //   this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, { [String(column?.field)]: this.editor?.save() });
+    //   this.editor?.destroy();
+    //   this.renderCell();
+    //   this.isEditing = false;
+    // });
   }
 
   /**
