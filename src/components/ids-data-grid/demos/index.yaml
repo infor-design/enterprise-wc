@@ -98,6 +98,9 @@
   - link: pagination-standalone.html
     type: Example
     description: Showing a data grid with standalone pagination
+  - link: row-navigation.html
+    type: Example
+    description: Showing a data grid with row navigation
   - link: side-by-side.html
     type: Side by Side
     description: Showing a data grid next to a 4.x data grid
