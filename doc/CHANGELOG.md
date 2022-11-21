@@ -12,6 +12,7 @@
 - `[DataGrid]` Added suppress row click for selection functionality. ([#737](https://github.com/infor-design/enterprise-wc/issues/737)
 - `[DataGrid]` Added support for context menu. ([#963](https://github.com/infor-design/enterprise-wc/issues/963))
 - `[DataGrid]` Added rowclick and rowdoubleclick events. ([#994](https://github.com/infor-design/enterprise-wc/issues/994))
+- `[DataGrid]` Added left and right padding (start and end) for row-heights. ([#996](https://github.com/infor-design/enterprise-wc/issues/996))
 - `[Icons]` All icons have padding on top and bottom effectively making them 4px smaller by design. This change may require some UI corrections to css. ([#6868](https://github.com/infor-design/enterprise/issues/6868))
 - `[Icons]` Over 60 new icons and 126 new industry focused icons. ([#6868](https://github.com/infor-design/enterprise/issues/6868))
 - `[Icons]` Added new empty state icons. ([#6934](https://github.com/infor-design/enterprise/issues/6934))
