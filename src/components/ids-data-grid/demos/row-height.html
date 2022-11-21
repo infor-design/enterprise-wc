@@ -10,9 +10,9 @@
     <ids-layout-grid auto="true">
       <ids-text font-size="12" type="h1">Data Grid Row Height</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="1">
+    <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-toolbar>
+        <ids-toolbar padding="5">
           <ids-toolbar-section align="end" favor>
             <ids-menu-button id="menu-button" menu="row-height-menu">
               <ids-icon slot="icon" icon="more"></ids-icon>
@@ -30,11 +30,8 @@
             </ids-popup-menu>
           </ids-toolbar-section>
         </ids-toolbar>
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
         <ids-data-grid id="data-grid-row-height" row-selection="multiple" label="Row Height" row-height="xs"></ids-data-grid>
       </ids-layout-grid-cell>
-    </ids-layout-grid>
   </ids-container>
 </body>
 </html>

@@ -89,7 +89,7 @@ function setContextmenuCompulsoryAttributes(menu?: IdsPopupMenu): void {
  * @returns {void}
  */
 function showContextmenu(this: IdsDataGrid): boolean {
-  const { menu: menuEl, target, callbackArgs } = this.contextmenuStuff;
+  const { menu: menuEl, target, callbackArgs } = this.contextMenuInfo;
   let isShow = false;
   if (menuEl && target && callbackArgs) {
     const args = { ...callbackArgs, menuEl };
@@ -194,7 +194,7 @@ function handleContextmenu(
   const path = eventPath(e);
   if (menu?.visible) menu?.hide();
   if (headerMenu?.visible) headerMenu?.hide();
-  this.contextmenuStuff = {};
+  this.contextMenuInfo = {};
 
   let args: { menu?: IdsPopupMenu, target?: HTMLElement, callbackArgs?: IdsDataGridContextmenuArgs } = {};
   const columnheader = findInPath(path, '[role="columnheader"]');
@@ -208,7 +208,7 @@ function handleContextmenu(
     args = { menu: headerMenu, target: columnheader, callbackArgs };
   }
 
-  this.contextmenuStuff = { ...args };
+  this.contextMenuInfo = { ...args };
 
   if (showContextmenu.apply(this)) e.preventDefault();
 }
@@ -228,7 +228,7 @@ function handleContextmenuSelectedItem(
 ): void {
   if (menuEl) {
     const args: IdsDataGridContextmenuArgs = {
-      ...this.contextmenuStuff.callbackArgs,
+      ...this.contextMenuInfo.callbackArgs,
       menuSelectedEvent: e,
       menuSelectedValue: e?.detail?.value,
       menuEl
@@ -243,7 +243,7 @@ function handleContextmenuSelectedItem(
  * @returns {void}
  */
 export function setContextmenu(this: IdsDataGrid) {
-  this.contextmenuStuff = {};
+  this.contextMenuInfo = {};
   const menu: IdsPopupMenu | undefined = getContextmenuElem.apply(this);
   const headerMenu: IdsPopupMenu | undefined = getContextmenuElem.apply(this, [true]);
 

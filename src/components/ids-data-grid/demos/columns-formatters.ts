@@ -171,6 +171,7 @@ if (dataGrid) {
       name: 'Custom Formatter',
       field: 'location',
       sortable: false,
+      // formatter: (): string => `<ids-hyperlink href="#" tabindex="-1">Click me!</ids-hyperlink>`,
       formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
         const value = `${rowData[columnData.field] || ''}`;
         return `<a part="custom-link" href="#" class="text-ellipsis">${escapeHTML(value)}</a>`;

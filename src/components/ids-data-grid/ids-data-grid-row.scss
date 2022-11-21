@@ -1,0 +1,155 @@
+$cell-border-color: var(--ids-color-palette-slate-30);
+
+// Row Styles
+.ids-data-grid-row {
+  @include w-full();
+
+  display: grid;
+  grid-template-columns: var(--ids-data-grid-column-widths); // Filled in dynamically
+
+  &.selected:not(.mixed) .ids-data-grid-cell,
+  &.activated .ids-data-grid-cell {
+    @include bg-azure-10();
+  }
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// Row Height Feature with Formatters spacing
+.ids-data-grid {
+  // Large by default
+  &[data-row-height='md'] {
+    .ids-data-grid-cell {
+      height: 40px;
+
+      .text-ellipsis,
+      ids-badge {
+        @include px-12();
+      }
+
+      ids-hyperlink {
+        @include m-12();
+      }
+    }
+
+    .ids-data-grid-header-text {
+      @include px-12();
+    }
+  }
+
+  &[data-row-height='sm'] {
+    .ids-data-grid-cell {
+      height: 35px;
+
+      .text-ellipsis,
+      ids-badge {
+        @include px-8();
+      }
+
+      ids-hyperlink {
+        @include m-8();
+      }
+    }
+
+    .ids-data-grid-header-text {
+      @include px-8();
+    }
+  }
+
+  &[data-row-height='xs'] {
+    .ids-data-grid-cell {
+      height: 30px;
+
+      .text-ellipsis,
+      ids-badge {
+        @include px-4();
+      }
+
+      ids-hyperlink {
+        @include m-4();
+      }
+    }
+
+    .ids-data-grid-header-text {
+      @include px-4();
+    }
+  }
+}
+
+// Row Alternate Row Setting Feature
+.ids-data-grid.alt-row-shading ids-data-grid-row:nth-child(even) {
+  @include bg-slate-10();
+}
+
+// Expandable Row
+.ids-data-grid-expandable-row {
+  border-top: 1px solid $cell-border-color;
+  grid-column: 1 / -1;
+  padding: 8px;
+}
+
+// Standalone Css
+tr.ids-data-grid-row {
+  @include table-row();
+
+  height: 50px;
+}
+
+// Row Naviation Styles
+.ids-data-grid.row-navigation .ids-data-grid-row {
+  &:focus-within {
+    @include shadow();
+
+    outline: 1px solid var(--ids-color-palette-azure-60);
+    outline-offset: -1px;
+  }
+
+  .ids-data-grid-cell:focus {
+    box-shadow: none;
+    outline: none;
+  }
+}
+
+// Dark Theme
+.ids-data-grid[mode='dark'] {
+  // Row Alternate Row Setting Feature
+  &.alt-row-shading .ids-data-grid-body [role='row']:nth-child(even) {
+    @include bg-slate-80();
+  }
+
+  // Selection
+  .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
+  .ids-data-grid-row.activated .ids-data-grid-cell {
+    // Uses a non pallette color - no better looking ones
+    background-color: #334d60;
+  }
+
+  // Row Naviation Styles (Dark)
+  &.row-navigation .ids-data-grid-row {
+    &:focus-within {
+      @include shadow();
+
+      outline: 1px solid var(--ids-color-palette-slate-60);
+      outline-offset: -1px;
+    }
+  }
+}
+
+// Contrast Theme
+.ids-data-grid[mode='contrast'] {
+  // Selection
+  .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
+  .ids-data-grid-row.activated .ids-data-grid-cell {
+    @include bg-azure-20();
+  }
+
+  // Row Naviation Styles (Contrast)
+  &.row-navigation .ids-data-grid-row {
+    &:focus-within {
+      box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
+      outline: 1px solid var(--ids-color-palette-azure-80);
+    }
+  }
+}

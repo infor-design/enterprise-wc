@@ -160,7 +160,7 @@ describe('IdsDataGrid Component', () => {
     document.body.appendChild(container);
     dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
     dataGrid.columns = columns();
-    dataGrid.data = dataset;
+    dataGrid.data = deepClone(dataset);
   });
 
   afterEach(async () => {
@@ -220,6 +220,8 @@ describe('IdsDataGrid Component', () => {
 
     it('can get the header element with a setter', () => {
       expect(dataGrid.header.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);
+      expect(dataGrid.header.rootNode).toBeTruthy();
+      expect(dataGrid.header.headerCheckbox).toBeTruthy();
     });
 
     it('skips render column no styleSheets in headless browsers', () => {
@@ -890,6 +892,13 @@ describe('IdsDataGrid Component', () => {
 
     it('sets sort state via the API', () => {
       dataGrid.setSortState('description');
+      expect(dataGrid.shadowRoot.querySelectorAll('[column-id]')[2].getAttribute('aria-sort')).toBe('ascending');
+    });
+
+    it('sets sort state via the API with direction', () => {
+      dataGrid.setSortState('description', false);
+      expect(dataGrid.shadowRoot.querySelectorAll('[column-id]')[2].getAttribute('aria-sort')).toBe('descending');
+      dataGrid.setSortState('description', true);
       expect(dataGrid.shadowRoot.querySelectorAll('[column-id]')[2].getAttribute('aria-sort')).toBe('ascending');
     });
 
@@ -1937,10 +1946,25 @@ describe('IdsDataGrid Component', () => {
       dataGrid.rowSelection = 'multiple';
       dataGrid.columns = newColumns;
       dataGrid.redraw();
-      dataGrid.headerCheckbox.click();
+      dataGrid.header.headerCheckbox.click();
       expect(dataGrid.selectedRows.length).toBe(9);
-      dataGrid.headerCheckbox.click();
+      dataGrid.header.setHeaderCheckbox();
+      dataGrid.header.headerCheckbox.click();
       expect(dataGrid.selectedRows.length).toBe(0);
+    });
+
+    it('can select the row ui via the row element', () => {
+      const newColumns = deepClone(columns());
+      newColumns[0].id = 'selectionCheckbox';
+      newColumns[0].formatter = formatters.selectionCheckbox;
+      dataGrid.rowSelection = 'multiple';
+      dataGrid.columns = newColumns;
+      dataGrid.redraw();
+      const row = dataGrid.shadowRoot.querySelector('ids-data-grid-row:nth-child(2)');
+      row.selected = true;
+      expect(row.getAttribute('aria-selected')).toBe('true');
+      row.selected = false;
+      expect(row.getAttribute('aria-selected')).toBeFalsy();
     });
 
     it('can disable the selectionCheckbox', () => {
@@ -2000,6 +2024,14 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows.length).toBe(0);
       expect(dataGrid.rowByIndex(1).classList.contains('mixed')).toBeFalsy();
     });
+
+    it('has no error on invalid selectRow / deSelectRow calls', () => {
+      const errors = jest.spyOn(global.console, 'error');
+      dataGrid.rowSelection = 'mixed';
+      dataGrid.selectRow(100000);
+      dataGrid.deSelectRow(100000);
+      expect(errors).not.toHaveBeenCalled();
+    });
   });
 
   describe('Activation Tests', () => {
@@ -2009,7 +2041,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
       expect(dataGrid.activatedRow.index).toBe(1);
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
-      expect(dataGrid.activatedRow).toBeFalsy();
+      expect(dataGrid.activatedRow).toEqual({});
 
       dataGrid.suppressRowDeactivation = true;
       expect(dataGrid.suppressRowDeactivation).toBeTruthy();
@@ -2040,15 +2072,16 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(1);
     });
 
-    it('handles a deactivateRow method', () => {
+    it('handles a deactivateRow method', async () => {
       dataGrid.deactivateRow(1);
-      expect(dataGrid.activatedRow).toBeFalsy();
+      expect(dataGrid.activatedRow).toEqual({});
 
       dataGrid.rowSelection = 'mixed';
       dataGrid.activateRow(1);
-      expect(dataGrid.activatedRow).toBeTruthy();
-      dataGrid.deactivateRow(1);
-      expect(dataGrid.activatedRow).toBeFalsy();
+      await processAnimFrame();
+      expect(dataGrid.activatedRow.data).toBeTruthy();
+      dataGrid.deactivateRow(null);
+      expect(dataGrid.activatedRow.data).toBeTruthy();
     });
   });
 
@@ -2544,6 +2577,13 @@ describe('IdsDataGrid Component', () => {
 
       firstCellInRow.dispatchEvent(clickEvent);
       firstCellInRow.dispatchEvent(dblClickEvent);
+
+      // body click edge case
+      const body = dataGrid.container.querySelector('.ids-data-grid-body');
+      body.dispatchEvent(clickEvent);
+      body.dispatchEvent(dblClickEvent);
+      expect(clickCallback.mock.calls.length).toBe(1);
+      expect(dblClickCallback.mock.calls.length).toBe(1);
     });
   });
 });

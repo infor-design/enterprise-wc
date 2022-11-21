@@ -1,0 +1,213 @@
+// Cell Styles
+.ids-data-grid-cell {
+  // Border and Background
+  @include border-0();
+  @include border-l-1();
+  @include border-t-1();
+  @include border-solid();
+  @include inline-flex();
+  @include text-slate-100();
+
+  align-items: center;
+  border-color: $cell-border-color;
+  height: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+
+  // Hide first/last border
+  &:first-child {
+    border-inline-start-width: 0;
+  }
+
+  // Reset badge margin to center it vertically
+  ids-badge::part(badge) {
+    @include mb-0();
+    @include mr-0();
+  }
+
+  ids-badge {
+    @include px-16();
+  }
+
+  ids-hyperlink {
+    @include m-16();
+  }
+
+  // Text ellipsis
+  .text-ellipsis {
+    @include block();
+    @include px-16();
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // Text Alignment
+  &.align-center > *:first-child {
+    margin: 0 auto;
+  }
+
+  &.align-right > *:first-child {
+    margin-inline-start: auto;
+    margin-inline-end: 0;
+  }
+
+  // Readonly Cell
+  &.readonly {
+    @include bg-slate-20();
+  }
+
+  // Focus State
+  &:focus {
+    @include shadow();
+
+    outline: 1px solid var(--ids-color-palette-azure-60);
+    outline-offset: -1px;
+  }
+
+  // Frozen Cells
+  &.frozen {
+    @include bg-white();
+
+    position: sticky;
+    z-index: 3;
+  }
+
+  // Change borders for scrolling
+  &.frozen-last {
+    border-inline-end-width: 1px;
+
+    + .ids-data-grid-cell {
+      border-inline-start-width: 0;
+    }
+  }
+
+  &.frozen-left {
+    position: sticky;
+    left: 0;
+
+    // Dynamically added widths
+    @for $i from 2 through 10 {
+      &:nth-of-type(#{$i}) {
+        left: var(--ids-data-grid-frozen-column-left-width-#{$i});
+      }
+    }
+  }
+
+  &.frozen-right {
+    position: sticky;
+    right: 0;
+  }
+}
+
+// List Style Feature
+.ids-data-grid.is-list-style {
+  // Change Cell Borders/BG
+  .ids-data-grid-cell {
+    border-inline-start-width: 0;
+    border-top: 1px solid var(--ids-color-palette-slate-20);
+
+    &.readonly {
+      @include bg-slate-10();
+    }
+  }
+
+  .ids-data-grid-body .ids-data-grid-row:first-child .ids-data-grid-cell {
+    border-top: 0;
+  }
+}
+
+// Standalone Css
+td.ids-data-grid-cell {
+  @include table-cell();
+  @include px-16();
+}
+
+// Dark Theme
+.ids-data-grid[mode='dark'] {
+  .ids-data-grid-cell {
+    @include border-slate-60();
+    @include text-white();
+
+    &.readonly {
+      @include bg-slate-70();
+    }
+
+    &.frozen {
+      @include bg-slate-100();
+    }
+
+    .ids-data-grid-checkbox {
+      @include border-slate-40();
+
+      &.disabled {
+        @include bg-slate-50();
+        @include border-slate-50();
+      }
+    }
+
+    .ids-data-grid-checkbox.checked {
+      @include border-azure-60();
+
+      &.disabled {
+        @include bg-slate-50();
+        @include border-slate-50();
+      }
+    }
+  }
+}
+
+// Contrast Theme
+.ids-data-grid[mode='contrast'] {
+  .ids-data-grid-cell {
+    @include border-slate-60();
+    @include text-slate-100();
+
+    &.readonly {
+      @include bg-slate-20();
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
+      outline: 1px solid var(--ids-color-palette-azure-80);
+    }
+
+    .ids-data-grid-checkbox {
+      @include border-slate-90();
+
+      &.disabled {
+        @include bg-slate-60();
+        @include border-slate-60();
+      }
+    }
+
+    .ids-data-grid-checkbox.checked {
+      @include border-azure-90();
+
+      &.disabled {
+        @include bg-slate-60();
+        @include border-slate-60();
+      }
+    }
+  }
+
+  // List Style Feature
+  &.is-list-style {
+    // Change Cell Borders/BG
+    .ids-data-grid-cell {
+      &.readonly {
+        @include bg-slate-20();
+      }
+    }
+  }
+}
+
+// Handle RTL
+:host([dir='rtl']) {
+  // Negate Borders
+  .ids-data-grid-cell {
+    &:last-child {
+      border-inline-end-width: 0;
+    }
+  }
+}
