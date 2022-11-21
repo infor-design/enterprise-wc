@@ -46,7 +46,7 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Column Groups with Frozen Columns
 - [ ] Optimize the row recycling in virtual scroll (load from top or bottom only)
 - [ ] Row Span Feature
-- [ ] Change left and right padding (start and end) for row-heights
+- [x] Change left and right padding (start and end) for row-heights
 - [ ] Tree Grid Lazy Loading Child Rows
 - [ ] Virtual Scroll with Frozen Columns
 - [ ] On tree grid if you de-select some child rows - should show as partial.
