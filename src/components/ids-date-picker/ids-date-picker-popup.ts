@@ -755,12 +755,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       return;
     }
 
-    const close = () => {
-      this.hide();
-      this.target?.focus();
-      this.triggerSelectedEvent();
-    };
-
     if (this.useRange) {
       if (this.rangeSettings.end || (this.rangeSettings.start && !this.rangeSettings.end)) {
         if (this.rangeSettings.minDays && (this.rangeSettings.start === this.rangeSettings.end)) {
@@ -776,7 +770,9 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
           ),
         ].filter(Boolean).join('');
 
-        close();
+        this.hide();
+        this.target?.focus();
+        this.triggerSelectedEvent();
       } else {
         this.value = this.locale.formatDate(
           this.setTime(this.rangeSettings.start ?? this.monthView.activeDate),
@@ -797,11 +793,13 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       );
     }
 
-    close();
+    this.hide();
+    this.target?.focus();
+    this.triggerSelectedEvent();
   }
 
   /**
-   * Clears the contents of
+   * Clears the contents of the Date Picker Popup and its corresponding target, if applicable
    * @returns {void}
    */
   clear() {
@@ -832,6 +830,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       if (this.monthView.selectDay) {
         this.monthView.selectDay();
       }
+      this.target?.focus();
       this.triggerSelectedEvent(e);
 
       return;
@@ -846,7 +845,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
         ].filter(Boolean).join('');
 
         this.hide();
-        this.focus();
+        this.target?.focus();
         this.triggerSelectedEvent(e);
 
         return;
@@ -867,7 +866,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.month = e.detail.date.getMonth();
       this.day = e.detail.date.getDate();
       this.hide();
-      this.focus();
+      this.target?.focus();
       this.triggerSelectedEvent(e);
     }
   }
