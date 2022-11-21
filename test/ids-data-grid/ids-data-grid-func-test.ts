@@ -481,6 +481,32 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('[part="custom-cell"]').length).toEqual(14);
     });
 
+    it('supports setting cellSelectedCssPart', () => {
+      dataGrid.rowSelection = 'multiple';
+      dataGrid.columns = [{
+        id: 'price',
+        name: 'Price',
+        field: 'price',
+        cssPart: 'custom-cell',
+        cellSelectedCssPart: 'custom-cell-selected'
+      },
+      {
+        id: 'bookCurrency',
+        name: 'Currency',
+        field: 'bookCurrency'
+      },
+      {
+        id: 'transactionCurrency',
+        name: 'Transaction Currency',
+        field: 'transactionCurrency',
+        cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
+        cellSelectedCssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell-selected' : '')
+      }];
+
+      dataGrid.selectAllRows();
+      expect(dataGrid.shadowRoot.querySelectorAll('[part="custom-cell-selected"]').length).toEqual(14);
+    });
+
     it('supports setting frozen columns', () => {
       expect(dataGrid.hasFrozenColumns).toEqual(false);
       dataGrid.columns = [{
@@ -1708,6 +1734,22 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activeCell.row).toEqual(8);
     });
 
+    it('can handle keyboard row navigation', () => {
+      // focus on first grid cell
+      expect(dataGrid.activeCell.row).toEqual(0);
+      expect(dataGrid.activeCell.cell).toEqual(0);
+      dataGrid.activeCell.node.focus();
+
+      // dipatch arrow down event
+      const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+      dataGrid.rowNavigation = true;
+      dataGrid.dispatchEvent(event);
+
+      // expect second row to be focused
+      const rowElem = dataGrid.rowByIndex(dataGrid.activeCell.row);
+      expect(rowElem.getAttribute('aria-rowindex')).toEqual('2');
+    });
+
     it('can handle errant click', () => {
       const errors = jest.spyOn(global.console, 'error');
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body').dispatchEvent(new MouseEvent('click', { bubbles: true }));
@@ -1844,12 +1886,17 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('row-selection')).toBeFalsy();
     });
 
-    it('keeps selections on sort for single selection', () => {
+    it('keeps selections on sort for single selection', async () => {
+      dataGrid.deSelectAllRows();
+      dataGrid.data = deepClone(dataset);
+
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionRadio';
       newColumns[0].formatter = formatters.selectionRadio;
       dataGrid.rowSelection = 'single';
       dataGrid.columns = newColumns;
+
+      await processAnimFrame();
 
       expect(dataGrid.selectedRows.length).toBe(0);
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
@@ -2025,17 +2072,16 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(1);
     });
 
-    it('handles a deActivateRow method', () => {
-      dataGrid.deActivateRow(1);
+    it('handles a deactivateRow method', async () => {
+      dataGrid.deactivateRow(1);
       expect(dataGrid.activatedRow).toEqual({});
 
       dataGrid.rowSelection = 'mixed';
       dataGrid.activateRow(1);
-      expect(dataGrid.activatedRow).toBeTruthy();
-      dataGrid.deActivateRow(1);
-      expect(dataGrid.activatedRow).toEqual({});
-      dataGrid.deActivateRow(null);
-      expect(dataGrid.activatedRow).toEqual({});
+      await processAnimFrame();
+      expect(dataGrid.activatedRow.data).toBeTruthy();
+      dataGrid.deactivateRow(null);
+      expect(dataGrid.activatedRow.data).toBeTruthy();
     });
   });
 

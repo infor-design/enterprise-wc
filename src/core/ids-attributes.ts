@@ -292,6 +292,7 @@ export const attributes = {
   ROWS: 'rows',
   ROW_END: 'row-end',
   ROW_HEIGHT: 'row-height',
+  ROW_NAVIGATION: 'row-navigation',
   ROW_SELECTION: 'row-selection',
   ROW_SPAN: 'row-span',
   ROW_START: 'row-start',

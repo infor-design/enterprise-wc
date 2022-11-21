@@ -117,7 +117,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   }
 
   // Tree Grid
-  .ids-data-grid-tree-container {
+  .ids-data-grid-cell .ids-data-grid-tree-container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -137,13 +137,13 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
   // Dynamically added indents
   @for $i from 2 through 8 {
-    [aria-level='#{$i}'] .ids-data-grid-tree-container .text-ellipsis {
+    [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container .text-ellipsis {
       padding-inline-start: #{(($i - 2) * 27) + 64px};
     }
-    [aria-level='#{$i}'] .ids-data-grid-tree-container ids-button {
+    [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container ids-button {
       padding-inline-start: #{(($i - 2) * 27) + 55px};
     }
-    [aria-level='#{$i}'] .ids-data-grid-tree-container ids-button + .text-ellipsis {
+    [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container ids-button + .text-ellipsis {
       padding-inline-start: 0;
     }
   }

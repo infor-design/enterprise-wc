@@ -160,11 +160,11 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
 .ids-data-grid-header-text {
   @include block();
-  @include px-16();
   @include py-8();
   @include font-bold();
   @include text-14();
   @include text-white();
+  @include px-16();
 
   overflow: hidden;
   text-align: left;
