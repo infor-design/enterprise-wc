@@ -494,7 +494,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
         const value = dataPoints.data?.[index]?.value || 0;
         const cyPerc = ((value - (this.markerData.scale.niceMin || 0))
           / (this.markerData.scale.niceMax - this.markerData.scale.niceMin));
-        const cyWidth = (cyPerc * ((this.margins.rightInner + this.markerData.gridRight) - this.markerData.gridLeft));
+        const cyWidth = (cyPerc * (this.markerData.gridRight - this.markerData.gridLeft));
         points.push({ top, left: this.markerData.gridRight - cyWidth, value });
         top += this.#namesLineGap();
       }
