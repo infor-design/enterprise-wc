@@ -46,7 +46,7 @@ export type IdsChartMarkerData = {
   /** The scale calculations */
   scale: NiceScale,
   /** The y scale values */
-  scaleY?: Array<number>,
+  scaleValues?: Array<number>,
   /** The point data in the group */
   points?: Array<Array<IdsChartPointData>>,
   /** The location of the top of the grid */
@@ -73,6 +73,11 @@ export type SectionWidth = {
   left: number;
 };
 
+export type SectionHeight = {
+  height: number;
+  top: number;
+};
+
 /**
  * IDS Axis Chart Component
  * @type {IdsAxisChart}
@@ -89,7 +94,8 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     super();
 
     // Setup the default values
-    this.state = {};
+    this.state = this.state || {};
+    this.state.horizontal = false;
     this.state.yAxisFormatter = {
       notation: 'compact',
       compactDisplay: 'short'
@@ -107,6 +113,10 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
   sectionWidths: SectionWidth[] = [];
 
   sectionWidth = NaN;
+
+  sectionHeights: SectionHeight[] = [];
+
+  sectionHeight = NaN;
 
   resizeToParentHeight?: boolean;
 
@@ -182,10 +192,11 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       attributes.AXIS_LABEL_TOP,
       attributes.DATA,
       attributes.HEIGHT,
+      attributes.HORIZONTAL,
       attributes.MARGINS,
       attributes.SHOW_HORIZONTAL_GRID_LINES,
       attributes.SHOW_VERTICAL_GRID_LINES,
-      attributes.ROTATE_X_LABELS,
+      attributes.ROTATE_NAME_LABELS,
       attributes.STACKED,
       attributes.TITLE,
       attributes.WIDTH
@@ -197,8 +208,9 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @returns {string} The template
    */
   template(): string {
+    const horizontal = this.horizontal ? ' horizontal' : '';
     return `<div class="ids-chart-container" part="container">
-      <svg class="ids-axis-chart" part="chart" width="${this.width}" height="${this.height}" xmlns="http://www.w3.org/2000/svg">
+      <svg class="ids-axis-chart${horizontal}" part="chart" width="${this.width}" height="${this.height}" xmlns="http://www.w3.org/2000/svg">
       </svg>
       <slot name="legend">
       </slot>
@@ -342,10 +354,16 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     const extra = this.#yMaxTextWidth + this.margins.left;
 
     // X-labels
-    let calcX: any = (x: any) => stringToNumber(x) - extra;
+    let calcX: any = (x: any) => {
+      let val = stringToNumber(x) - extra;
+      val += this.horizontal ? (this.margins.leftInner + this.margins.rightInner) : 0;
+      return val;
+    };
     const newX = labels.x.map((label: any) => calcX(label.getAttribute('x'))).reverse();
     labels.x.forEach((label: any, i: number) => {
-      label.setAttribute('transform', `rotate(${this.rotateXLabels}, ${newX[i]}, ${label.getAttribute('y')})`);
+      if (!this.horizontal) {
+        label.setAttribute('transform', `rotate(${this.rotateNameLabels}, ${newX[i]}, ${label.getAttribute('y')})`);
+      }
       label.setAttribute('x', newX[i]);
       label.setAttribute('text-anchor', 'start');
       if (this.alignXLabels === 'middle') label.setAttribute('transform-origin', '0 -4px');
@@ -353,8 +371,24 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
 
     // Y-labels
     calcX = (x: any) => `-${stringToNumber(x) + extra}px`;
-    labels.y.forEach((label: any) => label
-      .style.setProperty('--ids-axis-chart-ylabels-x', calcX(label.getAttribute('x'))));
+    labels.y.forEach((label: any) => {
+      if (this.horizontal) {
+        const trans = label.getAttribute('transform')?.split(',');
+        if (trans?.length === 3) {
+          const transX = stringToNumber(trans[1]);
+          const transY = stringToNumber(trans[2]);
+          label.setAttribute('transform-origin', `${transX}px ${transY}px`);
+          label.setAttribute('transform', `rotate(${this.rotateNameLabels}) scale(-1, 1)`);
+        } else {
+          const calX = calcX(label.getAttribute('x'));
+          const transStr = `scale(-1, 1) translate(${calX}, 0)`;
+          label.style.setProperty('transform', transStr);
+        }
+      } else {
+        const calX = calcX(label.getAttribute('x'));
+        label.style.setProperty('--ids-axis-chart-ylabels-x', calX);
+      }
+    });
   }
 
   /** The marker data to use to draw the chart */
@@ -420,46 +454,105 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     const groupMax = Math.max(...this.markerData.groupTotals);
     const scale: NiceScale = new NiceScale(this.yAxisMin, this.stacked ? groupMax : this.markerData.max);
     this.markerData.scale = scale;
-    this.markerData.scaleY = [];
+    this.markerData.scaleValues = [];
     for (let i = (scale.niceMin || 0); i <= (scale.niceMax); i += (Number(scale.tickSpacing))) {
-      this.markerData.scaleY.push(i);
+      this.markerData.scaleValues.push(i);
     }
 
     // Set max text width for labels
     this.xMaxTextWidth();
     this.yMaxTextWidth();
 
-    // Calculate the Data Points / Locations
+    this.markerData.gridTop = this.margins.top + this.textWidths.top;
+    this.markerData.gridBottom = this.height - this.margins.bottom - this.textWidths.bottom;
+    this.markerData.gridLeft = this.textWidths.left + this.margins.left
+      + (this.margins.leftInner * 2) + this.margins.rightInner;
+    this.markerData.gridRight = this.width - this.margins.right - this.textWidths.right;
+
+    // Set the data points / locations
+    if (this.horizontal) {
+      this.#horizontalPoints();
+      this.#sectionHeights();
+    } else {
+      this.#verticalPoints();
+      this.#sectionWidths();
+    }
+  }
+
+  /**
+   * Set horizontal data points / locations
+   * @private
+   * @returns {void}
+   */
+  #horizontalPoints(): void {
+    this.markerData.points = [];
+    this.data?.forEach((dataPoints: IdsChartData) => {
+      let top: number = this.textWidths.top + this.margins.top + this.margins.topInner;
+      const points: Array<IdsChartPointData> = [];
+      for (let index = 0; index < this.markerData.markerCount; index++) {
+        // y = (value - min) / (max - min)
+        const value = dataPoints.data?.[index]?.value || 0;
+        const cyPerc = ((value - (this.markerData.scale.niceMin || 0))
+          / (this.markerData.scale.niceMax - this.markerData.scale.niceMin));
+        const cyWidth = (cyPerc * ((this.margins.rightInner + this.markerData.gridRight) - this.markerData.gridLeft));
+        points.push({ top, left: this.markerData.gridRight - cyWidth, value });
+        top += this.#namesLineGap();
+      }
+      this.markerData.points?.push(points as any);
+    });
+  }
+
+  /**
+   * Set vertical data points / locations
+   * @private
+   * @returns {void}
+   */
+  #verticalPoints(): void {
     this.markerData.points = [];
     this.data?.forEach((dataPoints: IdsChartData) => {
       let left: number = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
       const points: Array<IdsChartPointData> = [];
       for (let index = 0; index < this.markerData.markerCount; index++) {
-        left = index === 0 ? left : left + this.#xLineGap();
-
-        const value = dataPoints.data && dataPoints.data[index] ? (dataPoints.data[index].value || 0) : 0;
-        this.markerData.gridTop = this.margins.top + this.textWidths.top;
-        this.markerData.gridBottom = Number(this.height) - this.margins.bottom - this.textWidths.bottom;
-        this.markerData.gridLeft = this.textWidths.left + this.margins.left
-          + (this.margins.leftInner * 2) + this.margins.rightInner;
-        this.markerData.gridRight = Number(this.width) - this.margins.right - this.textWidths.right;
-
         // y = (value - min) / (max - min)
+        const value = dataPoints.data?.[index]?.value || 0;
         const cyPerc = ((value - (this.markerData.scale.niceMin || 0))
           / (this.markerData.scale.niceMax - this.markerData.scale.niceMin));
         const cyHeight = (cyPerc * (this.markerData.gridBottom - this.markerData.gridTop));
         points.push({ left, top: this.markerData.gridBottom - cyHeight, value });
+        left += this.#namesLineGap();
       }
       this.markerData.points?.push(points as any);
     });
+  }
 
-    // Calculate the width of each category section (used in other places)
+  /**
+   * Set the widths of each category section (used in other places)
+   * @private
+   * @returns {void}
+   */
+  #sectionWidths(): void {
     this.sectionWidth = (this.markerData.gridRight - this.markerData.gridLeft) / this.markerData.markerCount;
     let left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
     this.sectionWidths = [];
     for (let index = 0; index < this.markerData.markerCount + 1; index++) {
       this.sectionWidths.push({ left, width: this.sectionWidth });
       left += this.sectionWidth;
+    }
+  }
+
+  /**
+   * Set the heights of each category section (used in other places)
+   * @private
+   * @returns {void}
+   */
+  #sectionHeights(): void {
+    this.sectionHeight = (this.markerData.gridBottom - this.markerData.gridTop) / this.markerData.markerCount;
+    let top = this.textWidths.top + this.margins.top + this.margins.topInner;
+    if (this.isGrouped) top -= (this.markerData.groupCount || 0) % 2;
+    this.sectionHeights = [];
+    for (let index = 0; index < this.markerData.markerCount; index++) {
+      this.sectionHeights.push({ top, height: this.sectionHeight });
+      top += this.sectionHeight;
     }
   }
 
@@ -512,7 +605,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       ${this.#verticalLines()}
     </g>
     <g class="grid horizontal-lines${!this.showHorizontalGridLines ? ' hidden' : ''}">
-      ${this.#horizonatalLines()}
+      ${this.#horizontalLines()}
     </g>
     ${this.chartTemplate()}
     <g class="labels x-labels">
@@ -656,19 +749,19 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @returns {void}
    */
   #setAxisLabels(opt: 'bottom' | 'end' | 'start' | 'top'): void {
-    if (!this.#axisLabelsText) return;
+    if (this.#axisLabelsText) {
+      const current = this.#axisLabelsText[opt];
+      const labels = {
+        bottom: this.axisLabelBottom,
+        end: this.axisLabelEnd,
+        start: this.axisLabelStart,
+        top: this.axisLabelTop
+      };
 
-    const current = this.#axisLabelsText[opt];
-    const labels = {
-      bottom: this.axisLabelBottom,
-      end: this.axisLabelEnd,
-      start: this.axisLabelStart,
-      top: this.axisLabelTop
-    };
-
-    if (typeof current !== 'undefined' && current !== labels[opt]) {
-      this.#axisLabelsText[opt] = labels[opt] || '';
-      if (this.initialized) this.redraw();
+      if (typeof current !== 'undefined' && current !== labels[opt]) {
+        this.#axisLabelsText[opt] = labels[opt] || '';
+        if (this.initialized) this.redraw();
+      }
     }
   }
 
@@ -678,89 +771,79 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @returns {string} The axis label markup
    */
   #axisLabels(): string {
-    if (!this.#axisLabelsText) return '';
-
-    // Size
-    const gap = 12;
-    const inline = { start: gap, mid: this.width / 2, end: this.width - gap };
-    const block = { start: gap, mid: this.height / 2, end: this.height - gap };
-
-    // Position
-    const isRTL = this.locale?.isRTL();
-    const scale = isRTL ? ' scale(-1, 1)' : '';
-    const transform = {
-      top: `translate(${inline.mid}, ${block.start})${scale}`,
-      bottom: `translate(${inline.mid}, ${block.end})${scale}`,
-      start: `translate(${inline.start}, ${block.mid}) rotate(-90)${scale}`,
-      end: `translate(${inline.end}, ${block.mid}) rotate(90)${scale}`
-    };
-
-    // HTML
     let html = '';
-    ['top', 'bottom', 'start', 'end'].forEach((type: string) => {
-      if ((this.#axisLabelsText as any)[type]) {
-        html += `<text
+    if (this.#axisLabelsText) {
+      // Size
+      const gap = 12;
+      const inline = { start: gap, mid: this.width / 2, end: this.width - gap };
+      const block = { start: gap, mid: this.height / 2, end: this.height - gap };
+
+      // Position
+      const isRTL = this.locale?.isRTL();
+      const scale = isRTL ? ' scale(-1, 1)' : '';
+      const transform = {
+        top: `translate(${inline.mid}, ${block.start})${scale}`,
+        bottom: `translate(${inline.mid}, ${block.end})${scale}`,
+        start: `translate(${inline.start}, ${block.mid}) rotate(-90)${scale}`,
+        end: `translate(${inline.end}, ${block.mid}) rotate(90)${scale}`
+      };
+
+      // HTML
+      ['top', 'bottom', 'start', 'end'].forEach((type: string) => {
+        if ((this.#axisLabelsText as any)[type]) {
+          html += `<text
           class="axis-label-${type}"
           transform="${(transform as any)[type]}"
         >${(this.#axisLabelsText as any)[type]}</text>`;
-      }
-    });
-
+        }
+      });
+    }
     return html;
   }
 
   /**
-   * Return the y line data for the svg
+   * Return the horizontal line data for the svg
    * @private
-   * @returns {string} The y line markup
+   * @returns {string} The horizontal line markup
    */
-  #horizonatalLines(): string {
+  #horizontalLines(): string {
     let lineHtml = '';
-    let top = 0;
-    const left = this.textWidths.left + this.margins.left + this.margins.leftInner;
-    const width = Number(this.width) - this.margins.right;
+    let top = this.margins.top + this.margins.topInner;
+    const start = this.textWidths.left + this.margins.left + this.margins.leftInner;
+    const end = this.width - this.margins.right;
 
-    this.markerData.scaleY?.forEach(() => {
-      top = top === 0 ? this.margins.top + this.margins.topInner : top + this.#yLineGap();
-      lineHtml += `<line x1="${left}" x2="${width}" y1="${top}" y2="${top}"></line>`;
-    });
+    // Max number of lines
+    const { markerCount, scaleValues } = this.markerData;
+    const max = this.horizontal ? (markerCount + 1) : (scaleValues?.length || 0);
+
+    for (let i = 0; i < max; i++) {
+      lineHtml += `<line x1="${start}" x2="${end}" y1="${top}" y2="${top}"></line>`;
+      top += this.horizontal ? this.#namesLineGap() : this.#valuesLineGap();
+    }
 
     return lineHtml;
   }
 
   /**
-   * Return the x line data for the svg
+   * Return the vertical line data for the svg
    * @private
-   * @returns {string} The x line markup
+   * @returns {string} The vertical line markup
    */
   #verticalLines(): string {
     let lineHtml = '';
-    let left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
-    const height = Number(this.height) - this.margins.bottom - this.textWidths.bottom;
+    let left = this.textWidths.left + this.margins.left;
+    left += this.margins.leftInner * (this.horizontal ? 1 : 2);
+    const top = this.margins.top;
+    const bottom = this.height - this.margins.bottom - this.textWidths.bottom;
 
-    for (let index = 0; index < this.markerData.markerCount; index++) {
-      left = index === 0 ? left : left + this.#xLineGap();
-      lineHtml += `<line x1="${left}" x2="${left}" y1="${this.margins.top}" y2="${height}"></line>`;
+    // Max number of lines
+    const { markerCount, scaleValues } = this.markerData;
+    const max = this.horizontal ? (scaleValues?.length || 0) : markerCount;
+
+    for (let i = 0; i < max; i++) {
+      lineHtml += `<line x1="${left}" x2="${left}" y1="${top}" y2="${bottom}"></line>`;
+      left += this.horizontal ? this.#valuesLineGap() : this.#namesLineGap();
     }
-    return lineHtml;
-  }
-
-  /**
-   * Return the y label data for the svg
-   * @private
-   * @returns {string} The y label markup
-   */
-  #yLabels(): string {
-    let lineHtml = '';
-    let top = 0;
-    // 3 is the half height of the text - could figure this out based on font size?
-    const textHeight = 3;
-    const left = this.textWidths.left + this.margins.left;
-
-    this.markerData.scaleY?.slice().reverse().forEach((value: any) => {
-      top = top === 0 ? this.margins.top + textHeight : top + this.#yLineGap();
-      lineHtml += `<text x="${left}" y="${top}" aria-hidden="true">${this.formatYLabel(value)}</text>`;
-    });
 
     return lineHtml;
   }
@@ -771,10 +854,8 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @returns {string} The formatted value
    * @private
    */
-  #formatXLabel(value: string): any {
-    if (!this.xAxisFormatter) {
-      return value;
-    }
+  #formatXLabel(value: string | ((value: unknown, data: Array<IdsChartData>, api: this) => string)) {
+    if (!this.xAxisFormatter) return value;
 
     if (typeof this.xAxisFormatter === 'function') {
       return this.xAxisFormatter(value, this.data, this);
@@ -784,19 +865,118 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
 
   /**
    * Format the value for the y label in a variety of ways
-   * @param {string | Function} value The value to format value
+   * @param {string|Function} value The value to format value
    * @returns {string} The formatted value
    * @private
    */
   formatYLabel(value: string | ((value: unknown, data: Array<IdsChartData>, api: this) => string)) {
-    if (!this.yAxisFormatter) {
-      return value;
-    }
+    if (!this.yAxisFormatter) return value;
 
     if (typeof this.yAxisFormatter === 'function') {
       return this.yAxisFormatter(value, this.data, this);
     }
     return new Intl.NumberFormat(this.locale?.locale?.name || 'en', this.yAxisFormatter).format(value as any);
+  }
+
+  #nameLabels(): string {
+    let labelHtml = '';
+    let left = 0;
+    let top = 0;
+    const gap = this.#namesLineGap();
+
+    if (this.horizontal) {
+      // 3 is the half height of the text - could figure this out based on font size?
+      const textSize = 3;
+      left = this.textWidths.left + this.margins.left;
+      top = this.margins.top + this.margins.topInner + textSize + (gap / 2);
+      if (this.axisLabelTop) top += this.axisLabelMargin;
+
+      for (let index = 0; index < this.markerData.markerCount; index++) {
+        const transform = this.rotateNameLabels !== 0
+          ? ` transform="rotate(${this.rotateNameLabels}, ${left}, ${top})"` : '';
+        const value = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
+        labelHtml += `<text x="${left}" y="${top}" aria-hidden="true"${transform}>${value}</text>`;
+        top += gap;
+      }
+    } else {
+      left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
+      top = this.height - this.margins.top - this.margins.bottom + this.margins.bottomInner;
+      if (this.axisLabelTop) top += this.axisLabelMargin;
+
+      for (let index = 0; index < this.markerData.markerCount; index++) {
+        const value = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
+        let transform;
+        if (this.alignXLabels === 'middle') {
+          const x = left + (this.sectionWidths[index].width / 2);
+          transform = this.rotateNameLabels !== 0 ? ` transform="rotate(${this.rotateNameLabels}, ${x}, ${top})" transform-origin="8px 8px"` : '';
+          labelHtml += `<text x="${x}" y="${top}" alignment-baseline="middle" text-anchor="middle" aria-hidden="true"${transform}>${value}</text>`;
+        } else {
+          transform = this.rotateNameLabels !== 0 ? ` transform="rotate(${this.rotateNameLabels}, ${left}, ${top})" text-anchor="end"` : '';
+          labelHtml += `<text x="${left}" y="${top}" aria-hidden="true"${transform}>${value}</text>`;
+        }
+        left += this.alignXLabels === 'middle' ? this.sectionWidths[index].width : gap;
+      }
+    }
+    return labelHtml;
+  }
+
+  /**
+   * Return the value labels data
+   * @private
+   * @returns {string} The value labels markup
+   */
+  #valueLabels(): string {
+    let lineHtml = '';
+    let left = 0;
+    let top = 0;
+
+    if (this.horizontal) {
+      left = this.textWidths.left + this.margins.left + this.margins.leftInner;
+      top = this.height - this.margins.top - this.margins.bottom + this.margins.bottomInner;
+      if (this.axisLabelTop) top += this.axisLabelMargin;
+
+      this.markerData.scaleValues?.slice().forEach((value: any) => {
+        lineHtml += `<text x="${left}" y="${top}" aria-hidden="true">${this.formatYLabel(value)}</text>`;
+        left += this.#valuesLineGap();
+      });
+    } else {
+      // 3 is the half height of the text - could figure this out based on font size?
+      const textSize = 3;
+      left = this.textWidths.left + this.margins.left;
+      top = this.margins.top + textSize;
+
+      this.markerData.scaleValues?.slice().reverse().forEach((value: any) => {
+        lineHtml += `<text x="${left}" y="${top}" aria-hidden="true">${this.formatYLabel(value)}</text>`;
+        top += this.#valuesLineGap();
+      });
+    }
+    return lineHtml;
+  }
+
+  #namesLineGap() {
+    if (this.horizontal) {
+      const { gridTop, gridBottom, markerCount } = this.markerData;
+      return (gridBottom - gridTop) / markerCount;
+    }
+    const left = this.textWidths.left + this.margins.left + this.margins.leftInner;
+    const width = this.width - this.margins.right - (this.margins.rightInner * 2);
+    return ((width - left) / (this.markerData.markerCount - 1));
+  }
+
+  #valuesLineGap() {
+    const len = this.markerData.scaleValues?.length || 0;
+    let v = 0;
+    if (this.horizontal) {
+      v += this.margins.left + this.margins.right;
+      v += this.textWidths.left + this.textWidths.right;
+      v += (this.margins.leftInner * 2) + this.margins.rightInner;
+      v = this.width - v;
+    } else {
+      v += this.margins.top + this.margins.bottom;
+      v += this.textWidths.top + this.textWidths.bottom;
+      v = this.height - v;
+    }
+    return (v / (len - 1));
   }
 
   /**
@@ -805,38 +985,16 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @returns {string} The x label markup
    */
   #xLabels(): string {
-    let labelHtml = '';
-    let left = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
-    let height = Number(this.height) - this.margins.top - this.margins.bottom + this.margins.bottomInner;
-    if (this.axisLabelTop) height += this.axisLabelMargin;
-
-    for (let index = 0; index < this.markerData.markerCount; index++) {
-      const value = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
-      left = index === 0 ? left : left + (this.alignXLabels === 'middle' ? this.sectionWidths[index].width : this.#xLineGap());
-
-      let transform;
-      if (this.alignXLabels === 'middle') {
-        const x = left + (this.sectionWidths[index].width / 2);
-        transform = this.rotateXLabels !== 0 ? ` transform="rotate(${this.rotateXLabels}, ${x}, ${height})" transform-origin="8px 8px"` : '';
-        labelHtml += `<text x="${x}" y="${height}" alignment-baseline="middle" text-anchor="middle" aria-hidden="true"${transform}>${value}</text>`;
-      } else {
-        transform = this.rotateXLabels !== 0 ? ` transform="rotate(${this.rotateXLabels}, ${left}, ${height})" text-anchor="end"` : '';
-        labelHtml += `<text x="${left}" y="${height}" aria-hidden="true"${transform}>${value}</text>`;
-      }
-    }
-    return labelHtml;
+    return this.horizontal ? this.#valueLabels() : this.#nameLabels();
   }
 
   /**
-   * Return the measurements for the gap on the y axis
+   * Return the y label data for the svg
    * @private
-   * @returns {string} The y gap calculation
+   * @returns {string} The y label markup
    */
-  #yLineGap() {
-    return ((
-      Number(this.height) - this.margins.top - this.margins.bottom - this.textWidths.bottom - this.textWidths.top)
-      / ((this.markerData.scaleY as any).length - 1)
-    );
+  #yLabels(): string {
+    return this.horizontal ? this.#nameLabels() : this.#valueLabels();
   }
 
   /**
@@ -857,18 +1015,6 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     this.svg?.classList.remove('hidden');
     this.emptyMessage?.style.setProperty('height', '');
     this.emptyMessage?.setAttribute('hidden', '');
-  }
-
-  /**
-   * Return the measurements for the gap between points on the x axis
-   * @private
-   * @returns {string} The x gap calculation
-   */
-  #xLineGap() {
-    const left = this.textWidths.left + this.margins.left + this.margins.leftInner;
-    const width = Number(this.width) - this.margins.right - (this.margins.rightInner * 2);
-
-    return ((width - left) / (this.markerData.markerCount - 1));
   }
 
   /**
@@ -919,6 +1065,32 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
   get height(): number {
     const value = stringToNumber(this.getAttribute(attributes.HEIGHT));
     return !Number.isNaN(value) ? value : 500;
+  }
+
+  /**
+   * Flips the orientation to horizontal
+   * supported `Axis` and `Bar` type charts
+   * @param {boolean | string} value If true will set `horizontal` attribute
+   */
+  set horizontal(value: boolean | string) {
+    if (!(/^ids-(axis|bar)-chart$/gi.test(this.nodeName))) return;
+
+    const val = stringToBool(value);
+    if (val !== this.state.horizontal) {
+      this.state.horizontal = val;
+      if (val) {
+        this.setAttribute(attributes.HORIZONTAL, '');
+        this.svg?.classList.add(attributes.HORIZONTAL);
+      } else {
+        this.removeAttribute(attributes.HORIZONTAL);
+        this.svg?.classList.remove(attributes.HORIZONTAL);
+      }
+      this.redraw();
+    }
+  }
+
+  get horizontal(): boolean {
+    return this.state.horizontal;
   }
 
   /**
@@ -980,18 +1152,44 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
   }
 
   /**
-   * Set the max width to render the x-axis
+   * Get the max width to render names axis
    * @private
-   * @returns {void}
+   * @returns {number} Calculated width
    */
-  xMaxTextWidth(): void {
+  #maxTextWidthForNames(): number {
     let maxWidth = 0;
     for (let index = 0; index < this.markerData.markerCount; index++) {
       const v = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
       const w = calculateTextRenderWidth(this, v);
       if (w > maxWidth) maxWidth = w;
     }
-    this.#xMaxTextWidth = maxWidth;
+    return maxWidth;
+  }
+
+  /**
+   * Get the max width to render values axis
+   * @private
+   * @returns {number} Calculated width
+   */
+  #maxTextWidthForValues(): number {
+    let maxWidth = 0;
+    this.markerData.scaleValues?.slice().forEach((value: any) => {
+      const v = this.formatYLabel(value);
+      const w = calculateTextRenderWidth(this, v);
+      if (w > maxWidth) maxWidth = w;
+    });
+    return maxWidth;
+  }
+
+  /**
+   * Set the max width to render the x-axis
+   * @private
+   * @returns {void}
+   */
+  xMaxTextWidth(): void {
+    this.#xMaxTextWidth = this.horizontal
+      ? this.#maxTextWidthForValues()
+      : this.#maxTextWidthForNames();
   }
 
   /**
@@ -1000,13 +1198,9 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @returns {void}
    */
   yMaxTextWidth(): void {
-    let maxWidth = 0;
-    this.markerData.scaleY?.slice().forEach((value: any) => {
-      const v = this.formatYLabel(value);
-      const w = calculateTextRenderWidth(this, v);
-      if (w > maxWidth) maxWidth = w;
-    });
-    this.#yMaxTextWidth = maxWidth;
+    this.#yMaxTextWidth = this.horizontal
+      ? this.#maxTextWidthForNames()
+      : this.#maxTextWidthForValues();
   }
 
   /**
@@ -1036,8 +1230,8 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @returns {number} The calc value
    */
   get bottomRotateMargin(): number {
-    if (!this.rotateXLabels) return 0;
-    const angle = this.rotateXLabels % 90;
+    if (!this.rotateNameLabels) return 0;
+    const angle = this.rotateNameLabels % 90;
     const total = this.#xMaxTextWidth - 12;
     const part = total / 90;
     return (Math.abs(angle) === 0) ? total : (part * Math.abs(angle));
@@ -1117,10 +1311,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
 
   get showVerticalGridLines(): boolean {
     const value = this.getAttribute(attributes.SHOW_VERTICAL_GRID_LINES);
-    if (value) {
-      return stringToBool(this.getAttribute(attributes.SHOW_VERTICAL_GRID_LINES));
-    }
-    return false;
+    return value !== null ? stringToBool(value) : this.horizontal;
   }
 
   /**
@@ -1134,10 +1325,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
 
   get showHorizontalGridLines(): boolean {
     const value = this.getAttribute(attributes.SHOW_HORIZONTAL_GRID_LINES);
-    if (value) {
-      return stringToBool(this.getAttribute(attributes.SHOW_HORIZONTAL_GRID_LINES));
-    }
-    return true;
+    return value !== null ? stringToBool(value) : !this.horizontal;
   }
 
   /**
@@ -1365,19 +1553,19 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
   }
 
   /**
-   * Set the rotation for the axis label text (eg 45deg)
+   * Set the rotation for the axis name label text (eg 45deg)
    * @param {number} value the number of degrees to rotate the text
    */
-  set rotateXLabels(value: number) {
+  set rotateNameLabels(value: number) {
     if (value) {
-      this.setAttribute(attributes.ROTATE_X_LABELS, String(value));
+      this.setAttribute(attributes.ROTATE_NAME_LABELS, String(value));
     } else {
-      this.removeAttribute(attributes.ROTATE_X_LABELS);
+      this.removeAttribute(attributes.ROTATE_NAME_LABELS);
     }
     if (this.initialized) this.redraw();
   }
 
-  get rotateXLabels(): number {
-    return Number(this.getAttribute(attributes.ROTATE_X_LABELS)) || 0;
+  get rotateNameLabels(): number {
+    return Number(this.getAttribute(attributes.ROTATE_NAME_LABELS)) || 0;
   }
 }

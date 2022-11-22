@@ -87,6 +87,7 @@ To make a stacked bar chart use `stacked="true"` and provide the appropriately f
 
 - `barPercentage` {number} A percent (0-1) of the available width each bar should be within the category width. 1.0 will take the whole category width and put the bars right next to each other. In a grouped chart the barPercentage value, will use as whole category percentage. We change the defaults depending on stacked or grouped bar charts but this can be adjusted to change the bar sizes.
 - `categoryPercentage` {number} Percent (0-1) of the available width for each category section. We change the defaults depending on stacked or grouped bar charts.
+- `horizontal` {boolean} Flips the orientation to horizontal.
 
 The following shows the relationship between the bar percentage option and the category percentage option.
 
@@ -159,6 +160,18 @@ mesh
 pluses
 waves
 big-waves
+```
+
+Showing component as horizontal orientation.
+
+```html
+<ids-bar-chart
+  horizontal
+  width="700"
+  height="400"
+  id="bar-horizontal-example"
+  title="Horizontal example"
+></ids-bar-chart>
 ```
 
 ## Events
