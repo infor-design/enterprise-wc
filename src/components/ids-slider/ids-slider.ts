@@ -143,6 +143,9 @@ export default class IdsSlider extends Base {
     this.#attachEventListeners();
     this.#attachUIStyles();
     this.#attachARIA();
+    this.#setVertical();
+    this.#setStepNumber();
+    this.#setStepLabels();
 
     // @TODO find a better way to apply animation/transition rules after the component loads (#698)
     setTimeout(() => {
@@ -346,14 +349,23 @@ export default class IdsSlider extends Base {
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.VERTICAL, 'true');
-      this.thumbDraggable?.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'vertical');
-      if (this.type === 'range') this.thumbDraggableSecondary?.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'vertical');
     } else {
       this.removeAttribute(attributes.VERTICAL);
-      this.thumbDraggable?.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'horizontal');
-      if (this.type === 'range') this.thumbDraggableSecondary?.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'horizontal');
     }
-    if (val) {
+    this.#setVertical();
+  }
+
+  /**
+   * @returns {boolean} true if the slider is vertical
+   */
+  get vertical() {
+    return this.hasAttribute(attributes.VERTICAL);
+  }
+
+  #setVertical() {
+    if (this.vertical) {
+      this.thumbDraggable?.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'vertical');
+      if (this.type === 'range') this.thumbDraggableSecondary?.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'vertical');
       this.container?.classList.add('vertical');
       this.slider?.classList.add('vertical');
       this.progressTrack?.classList.add('vertical');
@@ -364,14 +376,10 @@ export default class IdsSlider extends Base {
       if (this.type === 'range') this.tooltipSecondary?.classList.add('vertical');
       this.tooltipPin?.classList.add('vertical');
       if (this.type === 'range') this.tooltipPinSecondary?.classList.add('vertical');
+    } else {
+      this.thumbDraggable?.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'horizontal');
+      if (this.type === 'range') this.thumbDraggableSecondary?.setAttribute(htmlAttributes.ARIA_ORIENTATION, 'horizontal');
     }
-  }
-
-  /**
-   * @returns {boolean} true if the slider is vertical
-   */
-  get vertical() {
-    return this.hasAttribute(attributes.VERTICAL);
   }
 
   /**
@@ -542,9 +550,24 @@ export default class IdsSlider extends Base {
   set stepNumber(value: string | number | any) {
     if (this.type === 'step') {
       // must have at least 2 steps
-
       if (parseInt(value) >= 2) {
         this.setAttribute(attributes.STEP_NUMBER, value);
+      }
+    } else {
+      this.removeAttribute(attributes.STEP_NUMBER);
+    }
+
+    this.#setStepNumber();
+  }
+
+  /**
+   * @returns {number} the interval between slider ticks
+   */
+  get stepNumber(): number { return parseInt(this.getAttribute(attributes.STEP_NUMBER) ?? '') || 2; }
+
+  #setStepNumber() {
+    if (this.type === 'step') {
+      if (this.stepNumber >= 2) {
         const stepLength = this.container?.querySelectorAll('.tick').length ?? 0;
 
         if (stepLength !== this.stepNumber) {
@@ -560,15 +583,8 @@ export default class IdsSlider extends Base {
         }
       }
       this.labels = this.#generateNumericalLabels();
-    } else {
-      this.removeAttribute(attributes.STEP_NUMBER);
     }
   }
-
-  /**
-   * @returns {number} the interval between slider ticks
-   */
-  get stepNumber(): number { return parseInt(this.getAttribute(attributes.STEP_NUMBER) ?? '') || 2; }
 
   /**
    * Sets the secondary slider thumb value based on percentage (range slider only)

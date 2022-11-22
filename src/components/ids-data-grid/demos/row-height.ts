@@ -1,4 +1,6 @@
 import type IdsDataGrid from '../ids-data-grid';
+import type IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
+import type IdsMenuItem from '../../ids-menu/ids-menu-item';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import { escapeHTML } from '../../../utils/ids-xss-utils/ids-xss-utils';
@@ -8,10 +10,16 @@ import css from '../../../assets/css/ids-data-grid/custom-link.css';
 const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
-// Example for populating the DataGrid
-const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-formatters')!;
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-row-height')!;
+const rowHeightMenu = document.querySelector<IdsPopupMenu>('#row-height-menu')!;
 
 if (dataGrid) {
+  // Change row height with popup menu
+  rowHeightMenu?.addEventListener('selected', (e: Event) => {
+    dataGrid.rowHeight = (e.target as IdsMenuItem).value as string;
+  });
+
+  // Setup datagrid
   (async function init() {
     // Do an ajax request
     const url: any = booksJSON;
@@ -91,7 +99,7 @@ if (dataGrid) {
       field: 'publishDate',
       sortable: true,
       formatter: dataGrid.formatters.date,
-      width: 200
+      width: 100
     });
     columns.push({
       id: 'publishTime',
@@ -99,7 +107,7 @@ if (dataGrid) {
       field: 'publishDate',
       sortable: true,
       formatter: dataGrid.formatters.time,
-      width: 200
+      width: 100
     });
     columns.push({
       id: 'price',
@@ -109,7 +117,7 @@ if (dataGrid) {
       sortable: true,
       formatter: dataGrid.formatters.decimal,
       formatOptions: { locale: 'en-US' },
-      width: 200
+      width: 100
     });
     columns.push({
       id: 'price',
@@ -119,16 +127,17 @@ if (dataGrid) {
       sortable: true,
       formatter: dataGrid.formatters.integer,
       formatOptions: { locale: 'en-US' },
-      width: 200
+      width: 100
     });
     columns.push({
       id: 'inStock',
       name: 'Checkbox',
       field: 'inStock',
       align: 'center',
-      sortable: true,
+      sortable: false,
       formatter: dataGrid.formatters.checkbox,
-      disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101
+      disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
+      width: 50
     });
     columns.push({
       id: 'badge',
@@ -137,7 +146,6 @@ if (dataGrid) {
       color: 'info',
       sortable: true,
       formatter: dataGrid.formatters.badge,
-      width: 75
     });
     columns.push({
       id: 'more',
@@ -171,7 +179,6 @@ if (dataGrid) {
       name: 'Custom Formatter',
       field: 'location',
       sortable: false,
-      // formatter: (): string => `<ids-hyperlink href="#" tabindex="-1">Click me!</ids-hyperlink>`,
       formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
         const value = `${rowData[columnData.field] || ''}`;
         return `<a part="custom-link" href="#" class="text-ellipsis">${escapeHTML(value)}</a>`;

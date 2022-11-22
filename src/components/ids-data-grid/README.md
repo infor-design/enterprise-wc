@@ -31,6 +31,7 @@ A Read-Only data grid uses "Formatters" to render cell content. A number of thes
 - `headerCell` allows you to further style the header cells
 - `row` allows you to further style the rows
 - `cell` allows you to further style the row cells
+- `cell-selected` allows you to further style row cells that are selected (in mixed-selection mode, activated cells are also styled)
 - `tooltip-popup` allows you to further style or adjust the outer tooltip popup element
 - `tooltip-arrow` allows you to adjust the tooltip arrow element
 
@@ -217,6 +218,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `headerMenuId` {string} ID of the popupmenu to use as context menu for header and header group cells.
 - `menuData` {Array<object>} Dataset to build context menu for body cells.
 - `menuId` {string} ID of the popupmenu to use as context menu for body cells.
+- `rowNavigation` {boolean} If using row navigation, the row will be focused when navigating the data grid via clicks and keyboard events.
 - `rowSelection` {string|boolean} Set the row selection mode between false, 'single', 'multiple' and 'mixed
 - `suppressRowClickSelection` {boolean} If using selection setting this will require clicking a checkbox or radio to select the row. Clicking other cells will not select the row.
 - `suppressRowDeactivation` {boolean} Set to true to prevent rows from being deactivated if clicked. i.e. once a row is activated, it remains activated until another row is activated in its place.
@@ -258,6 +260,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`headerTooltipCssPart` | {string} | Allows you to sets the header tooltip css part.
 |`headerIconTooltipCssPart` | {string} | Allows you to sets the header icon tooltip css part.
 |`filterButtonTooltipCssPart` | {string} | Allows you to sets the filter button tooltip css part.
+|`cellSelectedCssPart` | {string} | Allows customization of a selected cell's background color.
 
 ## Column Settings (Specific)
 
@@ -349,12 +352,13 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `rowdeselected` Fires for each row that is deselected.
 - `rowactivated` Fires for each row that is activated.
 - `rowdeactivated` Fires for each row that is deactivated.
+- `rowclick` Fires for each row that is clicked.
+- `rowdoubleclick` Fires for each row that is double clicked.
 - `filtered` Fires after a filter action occurs, clear or apply filter condition.
 - `filteroperatorchanged` Fires once a filter operator changed.
 - `filterrowopened` Fires after the filter row is opened by the user.
 - `filterrowclosed` Fires after the filter row is closed by the user.
 - `columnresized` Fires when a column is resized or setColumnWidth is called.
-<<<<<<< HEAD
 - `columnmoved` Fires when a column is moved / reordered or moveColumn is called
 - `beforetooltipshow` Fires before tooltip show, you can return false in the response to veto
 - `rowExpanded` Fires when a tree or expandable row is expanded or collapsed
@@ -749,6 +753,68 @@ The following events are relevant to data-grid filters.
 - `filterrowopened` Fires after the filter row is opened by the user.
 - `filterrowclosed` Fires after the filter row is closed by the user.
 
+## Custom cell colors
+
+In some cases, it may be desirable to customize the background color of cells.  This can be done with the `cssPart` column setting:
+
+```js
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  cssPart: 'custom-cell'
+});
+```
+
+The `cssPart` property is translated into a `part` attribute that is applied to every cell in the column.  In the event the color needs to be conditional based on the row index or other logic, a function can be used:
+
+```js
+columns.push({
+  // ...
+  cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell-1' : 'custom-cell-2')
+  // ...
+});
+```
+
+After this is defined, accompanying CSS can be written to target the parts `custom-cell`, `custom-cell-1`, and `custom-cell-2` to change background color or other CSS properties of the cell:
+
+```css
+ids-data-grid::part(cell) {
+  background-color: #ebf9f1;
+}
+
+ids-data-grid::part(cell-selected) {
+  background-color: #c9dad0;
+}
+```
+
+### Changing selected cell colors
+
+Another column setting, `cellSelectedCssPart` can be used alongside `cssPart` to customize the selected color of the row in a similar way.  When using `mixed` selection, this color is also applied to activated rows:
+
+```js
+const columns = [];
+columns.push({
+  id: 'text',
+  name: 'Text',
+  field: 'description',
+  cssPart: 'custom-cell',
+  cellSelectedCssPart: 'custom-cell-selected'
+});
+```
+
+This column setting can also be a function, just like `cssPart`:
+
+```js
+columns.push({
+  // ...
+  cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell-1' : 'custom-cell-2'),
+  cellSelectedCssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell-selected-1' : 'custom-cell-selected-2')
+  // ...
+});
+```
+
 ## Tooltip Code Examples
 
 Set suppress tooltips to turn off.
@@ -1073,6 +1139,7 @@ Set context menu thru ID.
 - Can now be imported as a single JS file and used with encapsulated styles
 - `Drill Down` Formatter is now covered by `Button` formatter with `icon="drilldown"`
 - `textOverflow` setting is now by default
+- `rowNavigation` setting has replaced `cellNavigation`. Cell navigation is the default behavior.
 - `stretchColumn` is now more flexible and can be achieved by setting a column width to `minmax(130px, 4fr)`. I.E. some min width and a `fr` unit equal to the remaining number of columns (or similar variations).
 - split columns are not supported anymore but could be done with a custom formatter if needed
 - `frozenColumns` setting is now set on each column by adding `frozen: 'left'` or `frozen: 'right'` to the column definition.
@@ -1097,6 +1164,24 @@ Set context menu thru ID.
   - `aria-expanded` on the row it indicates if the row is expanded (for tree and expandable row)
   - `aria-sort` indicates the sort direction on the sortable columns
   - `aria-checked` indicates if the element is checked on checkbox columns and headers
+
 ## Regional Considerations
 
 Titles and labels should be localized in the current language. All elements will flip to the alternate side in Right To Left mode. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai). For some of these cases text-ellipsis is supported.
+
+## Code Separation (For Developers)
+
+The code is divided into several files. Here is a description of where everything is.
+
+- `ids-data-grid-cell.ts` creates a non-shadow root `ids-data-grid-cell`, and handles its own selection, and activation.
+- `ids-data-grid-cell.scss` contains all css related to `.ids-data-grid-cell` and its children
+- `ids-data-grid-contextmenu.ts` contains code in the form of export functions, that adds ability to get right click menus on headers and cells
+- `ids-data-grid-filter.scss` contains all css related to the filter row and its children
+- `ids-data-grid-filter.ts` contains code to implement the filtering functionality and its ui (some functions are in ids-data-source)
+- `ids-data-grid-formatters.ts` contains all formatter functions and some supporting code like data extraction
+- `ids-data-grid-header.ts` contains most header functionality, the header template, and code related to header actions like sort, reorder and selection.
+- `ids-data-grid-header.scss` contains all css related to `.ids-data-grid-header` and its children
+- `ids-data-grid-row.ts` contains most row functionality, the row template, and code related to row actions like expand, collapse, select, activate
+- `ids-data-grid-row.scss` contains all css related to `.ids-data-grid-row` and its children
+- `ids-data-grid-tooltip-mixin.js` contains a tooltip mixin that adds tooltip functionality to cells and headers, its different from `ids-tooltip-mixin` (more specific)
+- `ids-data-grid.js` contains all main data grid code, the api and settings and the main generator loop for the data grid

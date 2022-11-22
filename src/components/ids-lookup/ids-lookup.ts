@@ -133,6 +133,7 @@ export default class IdsLookup extends Base {
     <ids-trigger-field
       label="${this.label}"
       part="trigger-field"
+      value="${this.value}"
       ${this.autocomplete ? ` autocomplete search-field="${this.field}"` : ''}
       ${this.clearable ? ' clearable="true"' : ''}
       ${this.disabled ? ' disabled="true"' : ''}
@@ -371,7 +372,7 @@ export default class IdsLookup extends Base {
 
     // Deselect rows, if any extra previously selected in grid
     notFound = [];
-    if (this.dataGrid?.selectedRows.length > values.length) {
+    if (this.dataGrid?.selectedRows && this.dataGrid?.selectedRows.length > values.length) {
       this.dataGrid?.selectedRows.forEach((d: any) => {
         if (!values.includes(d.data[this.field])) notFound.push(d.index);
       });
@@ -530,7 +531,7 @@ export default class IdsLookup extends Base {
    * @private
    */
   #setInputValue(): void {
-    this.value = this.dataGrid?.selectedRows.map((r: any) => r.data[this.field]).join(this.delimiter);
+    this.value = this.dataGrid?.selectedRows.map((r: any) => r.data[this.field]).join(this.delimiter) || '';
   }
 
   /**

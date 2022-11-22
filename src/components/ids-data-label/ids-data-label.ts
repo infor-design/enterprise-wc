@@ -1,7 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-data-label-base';
 import styles from './ids-data-label.scss';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
 import '../ids-text/ids-text';
 
 /**
@@ -12,7 +14,7 @@ import '../ids-text/ids-text';
  */
 @customElement('ids-data-label')
 @scss(styles)
-export default class IdsDataLabel extends Base {
+export default class IdsDataLabel extends IdsThemeMixin(IdsEventsMixin(IdsElement)) {
   constructor() {
     super();
 

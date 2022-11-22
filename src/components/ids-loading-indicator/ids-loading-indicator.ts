@@ -34,6 +34,7 @@ export default class IdsLoadingIndicator extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
+    this.#setProgress();
   }
 
   /**
@@ -120,10 +121,18 @@ export default class IdsLoadingIndicator extends Base {
     const hasValue = !Number.isNaN(Number.parseFloat(value));
     if (hasValue) {
       this.setAttribute(attributes.PROGRESS, String(parseFloat(value)));
-      this.shadowRoot?.querySelector('svg')?.style?.setProperty?.('--progress', value);
     } else {
       this.removeAttribute(attributes.PROGRESS);
-      this.shadowRoot?.querySelector('svg')?.style?.removeProperty?.('--progress');
+    }
+
+    this.#setProgress();
+  }
+
+  #setProgress() {
+    if (this.progress !== undefined && !Number.isNaN(this.progress)) {
+      this.shadowRoot?.querySelector('svg')?.style.setProperty('--progress', this.type === 'circular' ? `${this.progress}px` : this.progress);
+    } else {
+      this.shadowRoot?.querySelector('svg')?.style.removeProperty('--progress');
     }
 
     this.updatePercentageVisible();
