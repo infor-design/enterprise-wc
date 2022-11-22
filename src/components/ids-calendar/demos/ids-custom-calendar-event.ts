@@ -1,9 +1,7 @@
 import IdsCalendarEvent from '../ids-calendar-event';
-// import styles from './ids-custom-calendar-event.scss';
 import { customElement } from '../../../core/ids-decorators';
 
 @customElement('ids-custom-calendar-event')
-// @scss(styles)
 export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
   #cssClass: string[] = [];
 
