@@ -1948,7 +1948,7 @@ class IdsMonthView extends Base {
       const days = this.#countDays(start, end) || 1;
 
       for (let i = 0; i < days; i++) {
-        const { calendarEvent, isCustom } = this.#newCalendarEvent(customCalendarEvent);
+        const { calendarEvent } = this.#newCalendarEvent(customCalendarEvent);
         const eventType = this.eventTypesData?.find((et: CalendarEventTypeData) => et.id === event.type) ?? null;
         const eventOrder = baseOrder + index;
         calendarEvent.eventTypeData = eventType;
@@ -2026,14 +2026,14 @@ class IdsMonthView extends Base {
  * @param {IdsCalendarEvent} customCalendarEvent optional custom event to use instead of default
  * @returns {IdsCalendarEvent} calendar event
  */
-  #newCalendarEvent(customCalendarEvent?: any): { isCustom: boolean, calendarEvent: any } {
+  #newCalendarEvent(customCalendarEvent?: any): { calendarEvent: any } {
     if (customCalendarEvent?.name === 'MonthViewCalendarEventTemplate') {
       const eventTemplate = customCalendarEvent.assignedNodes()[0];
       if (eventTemplate) {
-        return { isCustom: true, calendarEvent: eventTemplate.cloneNode(true) };
+        return { calendarEvent: eventTemplate.cloneNode(true) };
       }
     }
-    return { isCustom: false, calendarEvent: new IdsCalendarEvent() };
+    return { calendarEvent: new IdsCalendarEvent() };
   }
 }
 
