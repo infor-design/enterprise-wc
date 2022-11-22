@@ -1217,7 +1217,8 @@ class IdsMonthView extends Base {
    */
   getActiveDayEvents(): CalendarEventData[] {
     const activeDay = this.getSelectedDay();
-    const eventElems = activeDay ? [...activeDay.querySelectorAll('ids-calendar-event')] : [];
+    // const eventElems = activeDay ? [...activeDay.querySelectorAll('ids-calendar-event')] : [];
+    const eventElems = activeDay ? [...activeDay.childNodes] : [];
     const events = eventElems.map((elem: any) => elem.eventData);
 
     return events;
@@ -1983,10 +1984,11 @@ class IdsMonthView extends Base {
           }
 
           calendarEvent.setAttribute(attributes.Y_OFFSET, `${(calendarEvent.order * 16) + BASE_Y_OFFSET}px`);
-          isOverflowing = isCustom ? (calendarEvent.order > CUSTOM_EVENT_COUNT - 1)
-            : (calendarEvent.order > MAX_EVENT_COUNT - 1);
-          calendarEvent.hidden = isOverflowing;
-
+          // hide overflowing event elements
+          if (calendarEvent.order > MAX_EVENT_COUNT - 1) {
+            calendarEvent.hidden = true;
+            isOverflowing = true;
+          }
           dateCell.querySelector('.events-container')?.appendChild(calendarEvent as any);
         }
       }

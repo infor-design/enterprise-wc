@@ -1,4 +1,4 @@
-@import '../../core/ids-base';
+@import '../../../core/ids-base';
 
 @mixin event-border-accent($color) {
   &:not(.calendar-event-continue):not(.calendar-event-ends) {
