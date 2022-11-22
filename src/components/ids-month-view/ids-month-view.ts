@@ -45,7 +45,6 @@ const MAX_MONTH = 11;
 const WEEK_LENGTH = 7;
 const BASE_Y_OFFSET = 35;
 const MAX_EVENT_COUNT = 3;
-const CUSTOM_EVENT_COUNT = 1;
 
 export type IdsRangeSettings = {
   start?: any,
@@ -1217,7 +1216,6 @@ class IdsMonthView extends Base {
    */
   getActiveDayEvents(): CalendarEventData[] {
     const activeDay = this.getSelectedDay();
-    // const eventElems = activeDay ? [...activeDay.querySelectorAll('ids-calendar-event')] : [];
     const eventElems = activeDay ? [...activeDay.childNodes] : [];
     const events = eventElems.map((elem: any) => elem.eventData);
 
@@ -2008,7 +2006,6 @@ class IdsMonthView extends Base {
   #renderEventsOverflow(eventsContainer: any, dateKey: string): void {
     if (!eventsContainer) return;
 
-    // let calendarEvents = [...eventsContainer.querySelectorAll('ids-calendar-event')];
     const calendarEvents = [...eventsContainer.childNodes];
     const hiddenEvents = calendarEvents.filter((elem: IdsCalendarEvent) => elem.hidden);
     const year = dateKey.substring(0, 4);
