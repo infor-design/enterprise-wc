@@ -1216,7 +1216,7 @@ class IdsMonthView extends Base {
    */
   getActiveDayEvents(): CalendarEventData[] {
     const activeDay = this.getSelectedDay();
-    const eventElems = activeDay ? [...activeDay.childNodes] : [];
+    const eventElems = activeDay ? [...activeDay.querySelectorAll('ids-calendar-event')] : [];
     const events = eventElems.map((elem: any) => elem.eventData);
 
     return events;
