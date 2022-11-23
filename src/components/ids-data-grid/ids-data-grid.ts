@@ -448,6 +448,23 @@ export default class IdsDataGrid extends Base {
       row.toggleSelection();
       e.preventDefault();
     });
+
+    // Follow links with keyboard
+    this.listen(['Enter'], this, () => {
+      const hyperlink = this.activeCell.node.querySelector('ids-hyperlink');
+      const button = this.activeCell.node.querySelector('ids-button');
+      const customLink = this.activeCell.node.querySelector('a');
+
+      hyperlink?.container.focus();
+      hyperlink?.click();
+      button?.click();
+      customLink?.click();
+
+      if (customLink) {
+        this.activeCell.node.focus();
+      }
+    });
+
     return this;
   }
 
