@@ -35,6 +35,8 @@ export default class IdsCalendarEvent extends Base {
 
   #cssClass: string[] = [];
 
+  #dateKey = '';
+
   cachedEvent: CalendarEventData | null = null;
 
   cachedEventType: CalendarEventTypeData | null = null;
@@ -409,5 +411,21 @@ export default class IdsCalendarEvent extends Base {
    */
   get color(): string {
     return this.eventTypeData?.color || 'azure';
+  }
+
+  /**
+   * Sets dateKey property
+   * @param {string} val dateKey string
+   */
+  set dateKey(val: string) {
+    this.#dateKey = val;
+  }
+
+  /**
+   * Gets dateKey property
+   * @returns {string} dateKey string
+   */
+  get dateKey(): string {
+    return this.#dateKey;
   }
 }
