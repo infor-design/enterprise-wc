@@ -9,14 +9,20 @@
     <ids-theme-switcher mode="light"></ids-theme-switcher>
 
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Line Chart</ids-text>
+      <ids-text font-size="12" type="h1">Bar Chart (Horizontal Rotate Name Labels)</ids-text>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-line-chart title="A line chart showing component usage" width="800" height="500" id="index-example" show-vertical-grid-lines="true" rotate-name-labels="-65"></ids-line-chart>
+        <ids-bar-chart
+          rotate-name-labels="-65"
+          id="horizontal-rotate-name-labels-example"
+          title="Bar Chart horizontal rotate name labels"
+          width="700"
+          height="500"
+          horizontal>
+        </ids-bar-chart>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-
   </ids-container>
 </body>
 </html>
