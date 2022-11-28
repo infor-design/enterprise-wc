@@ -455,14 +455,11 @@ export default class IdsDataGrid extends Base {
       const button = this.activeCell.node.querySelector('ids-button');
       const customLink = this.activeCell.node.querySelector('a');
 
-      hyperlink?.container.focus();
-      hyperlink?.click();
+      hyperlink?.container.click();
       button?.click();
       customLink?.click();
 
-      if (customLink) {
-        this.activeCell.node.focus();
-      }
+      this.activeCell.node.focus();
     });
 
     return this;
