@@ -56,6 +56,9 @@ export default class IdsDataGridCell extends IdsElement {
     return this.dataGrid.activeCell;
   }
 
+  /** Previous Value before Editing */
+  oldValue: unknown;
+
   /** The editor element */
   editor?: IdsDataGridEditor;
 
@@ -63,33 +66,78 @@ export default class IdsDataGridCell extends IdsElement {
   isEditing?:boolean;
 
   /** Begin Edit Mode */
-  startCellEditing() {
+  startCellEdit() {
     const column = this.dataGrid?.columns[Number(this.getAttribute('aria-colindex')) - 1];
     const columnEditor = this.dataGrid.editors.find((obj) => obj.type === column?.editor?.type);
-    if (!columnEditor || !columnEditor.editor || this.isEditing) return;
+    if (!columnEditor || !columnEditor.editor || this.isEditing || !this.dataGrid) return;
 
+    // Init Editor
+    let canEdit = true;
+    const response = (veto: any) => {
+      canEdit = !!veto;
+    };
+
+    this.dataGrid.triggerEvent('beforecelledit', this.dataGrid, {
+      detail: {
+        elem: this, editor: this.editor, column, data: this.dataGrid.data[this.dataGrid.activeCell.row], response
+      }
+    });
+
+    if (!canEdit) {
+      return;
+    }
+
+    this.oldValue = this.innerText;
     this.editor = columnEditor.editor;
-    this.editor?.init();
-
-    // Clear cell and set value
-    const value = this.innerText;
-    const input = this.editor.input!;
-    this.innerHTML = '';
-    this.appendChild(this.editor?.input as any);
-    input.value = value;
-    input.focus();
+    this.editor?.init(this);
 
     // Set states
     this.classList.add('is-editing');
     this.isEditing = true;
 
-    // Save on Click Out
-    // input!.addEventListener('blur', () => {
-    //   this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, { [String(column?.field)]: this.editor?.save() });
-    //   this.editor?.destroy();
-    //   this.renderCell();
-    //   this.isEditing = false;
-    // });
+    // Save on Click Out Event
+    this.editor.input?.addEventListener('blur', () => {
+      this.endCellEdit();
+    });
+
+    this.dataGrid?.triggerEvent('celledit', this.dataGrid, {
+      detail: {
+        elem: this, editor: this.editor, column, data: this.dataGrid.data[this.dataGrid?.activeCell.row]
+      }
+    });
+
+    this.dataGrid.activeCellEditor = this;
+  }
+
+  /** End Cell Edit */
+  endCellEdit() {
+    const column = this.dataGrid?.columns[Number(this.getAttribute('aria-colindex')) - 1];
+    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, { [String(column?.field)]: this.editor?.save() });
+    this.editor?.destroy();
+    this.renderCell();
+    this.isEditing = false;
+    this.dataGrid?.triggerEvent('endcelledit', this.dataGrid, {
+      detail: {
+        elem: this, editor: this.editor, column, data: this.dataGrid.data[this.dataGrid?.activeCell.row]
+      }
+    });
+    this.dataGrid.activeCellEditor = undefined;
+  }
+
+  /** Cancel Cell Edit */
+  cancelCellEdit() {
+    const column = this.dataGrid?.columns[Number(this.getAttribute('aria-colindex')) - 1];
+    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, { [String(column?.field)]: this.oldValue });
+    this.renderCell();
+    this.dataGrid?.triggerEvent('cancel', this.dataGrid, {
+      detail: {
+        elem: this,
+        editor: this.editor,
+        column,
+        data: this.dataGrid.data[this.dataGrid?.activeCell.row],
+        oldValue: this.oldValue
+      }
+    });
   }
 
   /**

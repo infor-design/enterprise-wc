@@ -372,7 +372,7 @@ export default class IdsDataGrid extends Base {
       }
 
       // Handle Editing
-      if (this.editable && column.editor) cell.startCellEditing();
+      if (this.editable && column.editor) cell.startCellEdit();
     });
 
     // Add double click to the table body
@@ -995,6 +995,22 @@ export default class IdsDataGrid extends Base {
     return this.shadowRoot?.querySelector<IdsDataGridRow>(`.ids-data-grid-body ids-data-grid-row[data-index="${index}"]`);
   }
 
+  activeCellEditor?: IdsDataGridCell;
+
+  /**
+   * Commit editing on any active editor
+   */
+  commitCellEdit() {
+    this.activeCellEditor?.endCellEdit();
+  }
+
+  /**
+   * Cancel editing on any active editor
+   */
+  cancelCellEdit() {
+    this.activeCellEditor?.cancelCellEdit();
+  }
+
   /**
    * Set a row to selected
    * @param {number} index the zero based index
@@ -1181,6 +1197,22 @@ export default class IdsDataGrid extends Base {
       sm: 35,
       md: 40,
       lg: 50
+    };
+
+    return rowHeights[this.rowHeight];
+  }
+
+  /**
+   * Get the cell padding in pixels (not including border)
+   * @private
+   * @returns {number} The pixel padding
+   */
+  get cellPadding(): number {
+    const rowHeights: any = {
+      xs: 3,
+      sm: 7,
+      md: 11,
+      lg: 15
     };
 
     return rowHeights[this.rowHeight];

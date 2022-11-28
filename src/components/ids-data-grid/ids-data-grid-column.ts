@@ -199,5 +199,9 @@ export interface IdsDataGridColumn {
   /** Sets the cell activation color css part */
   cellSelectedCssPart?: string | ((rowIndex: number, cellIndex: number) => string);
   /** Setup an editor */
-  editor?: { type: 'text' | 'date' | 'time' | 'checkbox' | 'dropdown', inline: boolean, editor?: IdsDataGridEditor }
+  editor?: {
+    type: 'input' | 'date' | 'time' | 'checkbox' | 'dropdown',
+    inline: boolean,
+    editor?: IdsDataGridEditor
+  }
 }

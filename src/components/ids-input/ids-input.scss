@@ -181,7 +181,6 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     @include relative();
     @include border-1();
     @include border-solid();
-    @include rounded-default();
 
     align-items: center;
     border-collapse: separate;
@@ -496,6 +495,11 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   // Flush/Invisible Variant (used in IdsDataGrid cell editing)
   &.color-variant-borderless {
     margin: 0;
+    border-radius: 0;
+
+    input {
+      font-size: 16px;
+    }
 
     .field-container {
       @include border-transparent();
