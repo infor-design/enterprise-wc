@@ -53,6 +53,20 @@
     }
   }
 
+  &.horizontal {
+    .grid {
+      &.horizontal-lines line:last-child {
+        stroke: inherit;
+        stroke-dasharray: inherit;
+      }
+
+      &.vertical-lines line:first-child {
+        stroke: var(--ids-color-palette-slate-70);
+        stroke-dasharray: none;
+      }
+    }
+  }
+
   // Focusable Groups
   g[tabindex='0'] {
     &:focus {
@@ -175,16 +189,18 @@ ids-empty-message:not([hidden]),
 :host([dir='rtl']) {
   .ids-axis-chart {
     transform: scale(-1, 1);
+
+    &:not(.horizontal) {
+      .labels.y-labels text {
+        transform: scale(-1, 1) translate(var(--ids-axis-chart-ylabels-x, -45px), 0);
+      }
+    }
   }
 
   .labels {
     &.x-labels {
       transform: scale(-1, 1);
       transform-origin: unset;
-    }
-
-    &.y-labels text {
-      transform: scale(-1, 1) translate(var(--ids-axis-chart-ylabels-x, -45px), 0);
     }
   }
 }

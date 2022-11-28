@@ -17,6 +17,9 @@
   - link: axis-label.html
     type: Example
     description: Shows configuring axis label
-  - link: rotate-x-labels.html
+  - link: rotate-name-labels.html
     type: Example
-    description: Shows rotating x axis labels
+    description: Shows rotating axis name labels
+  - link: horizontal.html
+    type: Example
+    description: Shows as horizontal usage
