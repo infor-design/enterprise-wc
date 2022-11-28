@@ -26,6 +26,18 @@
   - link: no-animation.html
     type: Example
     description: Shows configuring no animation
-  - link: rotate-x-labels.html
+  - link: rotate-name-labels.html
     type: Example
-    description: Shows rotating x axis labels
+    description: Shows rotating axis name labels
+  - link: horizontal.html
+    type: Example
+    description: Shows a horizontal bar chart
+  - link: horizontal-grouped.html
+    type: Example
+    description: Shows a horizontal grouped bar chart
+  - link: horizontal-stacked.html
+    type: Example
+    description: Shows a horizontal stacked bar chart
+  - link: horizontal-rotate-name-labels.html
+    type: Example
+    description: Shows a horizontal rotating name labels bar chart

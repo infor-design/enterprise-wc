@@ -15,7 +15,7 @@ describe('Ids Line Chart Percy Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('pierce/.chart-legend');
     await page.evaluate(() => {
-      (document as any).querySelector('#no-animation-example').setAttribute('rotate-x-labels', '-65');
+      (document as any).querySelector('#no-animation-example').setAttribute('rotate-name-labels', '-65');
     });
     await percySnapshot(page, 'ids-line-chart-rotate-new-light');
   });
