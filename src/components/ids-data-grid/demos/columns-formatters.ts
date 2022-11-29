@@ -174,7 +174,7 @@ if (dataGrid) {
       // formatter: (): string => `<ids-hyperlink href="#" tabindex="-1">Click me!</ids-hyperlink>`,
       formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
         const value = `${rowData[columnData.field] || ''}`;
-        return `<a part="custom-link" href="#" class="text-ellipsis">${escapeHTML(value)}</a>`;
+        return `<a part="custom-link" href="#" class="text-ellipsis" tabindex="-1">${escapeHTML(value)}</a>`;
       },
       click: (info: any) => {
         console.info('Custom Link Clicked', info);
