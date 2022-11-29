@@ -11,7 +11,8 @@ import Base from './ids-icon-base';
 import styles from './ids-icon.scss';
 
 const emptyIconPathData: any = emptyPathImport;
-const pathData : any = pathImport;
+const pathData: Record<string, string> = pathImport;
+const customIcons: Record<string, string> = {};
 
 /**
  * IDS Icon Component
@@ -23,7 +24,7 @@ const pathData : any = pathImport;
 @customElement('ids-icon')
 @scss(styles)
 export default class IdsIcon extends Base {
-  pathData: any = pathData;
+  pathData: Record<string, string> = pathData;
 
   constructor() {
     super();
@@ -50,6 +51,42 @@ export default class IdsIcon extends Base {
       attributes.VIEWBOX,
       attributes.WIDTH
     ];
+  }
+
+  /**
+   * Add a custom icon
+   * @param {string} name name of attribute
+   * @param {string} data attribute names and values
+   */
+  static addIcon(name: string, data: any[]) {
+    if (!name || !data) return;
+
+    /**
+     * Builds SVG icon data
+     * @param {any} node Attribute names/values of an SVG element
+     * @returns {string} SVG element string
+     */
+    function buildSVG(node: any) {
+      const tagName = node.shape;
+      const children = node.contents;
+      let contents = '';
+
+      // Filter valid attributes and build attribute string
+      const refElem = document.createElement(tagName);
+      const attrs: string = Object.keys(node).reduce((prev, attr) => {
+        const attrNameVal = (attr in refElem || attr in refElem.style) ? `${attr}="${node[attr]}"` : '';
+        return prev + attrNameVal;
+      }, '');
+
+      // Recursively iterate through children nodes, if any
+      if (Array.isArray(children) && children.length) {
+        children.forEach((child: any) => { contents += buildSVG(child); });
+      }
+
+      return `<${tagName} ${attrs}>${contents}</${tagName}>`;
+    }
+
+    customIcons[name] = data.reduce((prev, curr) => (prev + buildSVG(curr)), '');
   }
 
   /**
@@ -97,13 +134,8 @@ export default class IdsIcon extends Base {
    * @returns {string} the path data
    */
   iconData(): string {
-    let iconData = '';
-    if (emptyIconPathData[this.icon]) {
-      iconData = emptyIconPathData[this.icon];
-    } else {
-      iconData = pathData[this.icon];
-    }
-    return iconData;
+    const icon = this.icon;
+    return emptyIconPathData[icon] || pathData[icon] || customIcons[icon] || '';
   }
 
   /**
@@ -323,9 +355,11 @@ export default class IdsIcon extends Base {
    */
   set icon(value: string | null) {
     const svgElem = this.shadowRoot?.querySelector('svg');
-    const isPathData = pathData.hasOwnProperty(value);
-    const isEmptyPathData = emptyIconPathData.hasOwnProperty(value);
-    if (value && (isPathData || isEmptyPathData)) {
+    const isPathData = pathData.hasOwnProperty(value ?? '');
+    const isEmptyPathData = emptyIconPathData.hasOwnProperty(value ?? '');
+    const isCustomPathData = customIcons.hasOwnProperty(value ?? '');
+
+    if (value && (isPathData || isEmptyPathData || isCustomPathData)) {
       this.setAttribute(attributes.ICON, value);
       if (svgElem) {
         svgElem.style.display = '';

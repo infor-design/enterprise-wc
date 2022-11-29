@@ -146,4 +146,19 @@ describe('IdsIcon Component', () => {
     elem.width = '';
     expect(elem.getAttribute('width')).toBeFalsy();
   });
+
+  it('can add a custom icon', () => {
+    IdsIcon.addIcon('test-custom', [{
+      shape: 'circle',
+      id: 'circleId',
+      cx: '9',
+      cy: '9',
+      r: '7',
+      stroke: '#606066',
+      'vector-effect': 'non-scaling-stroke'
+    }]);
+
+    elem.icon = 'test-custom';
+    expect(elem.container?.querySelector('circle')?.id).toEqual('circleId');
+  });
 });

@@ -4,6 +4,14 @@ import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import { escapeHTML } from '../../../utils/ids-xss-utils/ids-xss-utils';
 import booksJSON from '../../../assets/data/books.json';
 import css from '../../../assets/css/ids-data-grid/custom-link.css';
+import IdsIcon from '../../ids-icon/ids-icon';
+
+// Add custom icon
+IdsIcon.addIcon('custom-airplane', [{
+  shape: 'path',
+  d: 'm7 16.81-1.57-1 .49-9L.83 3.37s-.51-1.51 1-1.56c1 .63 5.09 3.33 5.09 3.33l7.8-4.33 1.62 1-5.87 5.64 3.36 2.14 2.11-.9 1.31.85-.44.72-1.56 1-.39.63-.19 1.82-.45.73-1.31-.86-.07-2.36L9.45 9.1Z',
+  transform: 'translate(-0.25 -0.23)'
+}]);
 
 const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
@@ -42,22 +50,6 @@ if (dataGrid) {
       formatter: dataGrid.formatters.rowNumber,
       sortable: false,
       readonly: true,
-      width: 56
-    });
-    columns.push({
-      id: 'drilldown',
-      name: '',
-      sortable: false,
-      resizable: false,
-      formatter: dataGrid.formatters.button,
-      icon: 'drilldown',
-      type: 'icon',
-      align: 'center',
-      disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-      click: (info: any) => {
-        console.info('Drilldown clicked', info);
-      },
-      text: 'Drill Down',
       width: 56
     });
     columns.push({
@@ -186,6 +178,22 @@ if (dataGrid) {
       name: '',
       field: '',
       sortable: false
+    });
+    columns.push({
+      id: 'airplane',
+      name: '',
+      sortable: false,
+      resizable: false,
+      formatter: dataGrid.formatters.button,
+      icon: 'custom-airplane',
+      type: 'icon',
+      align: 'center',
+      disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
+      click: (info: any) => {
+        console.info('Airplane clicked', info);
+      },
+      text: 'Drill Down',
+      width: 56
     });
 
     dataGrid.columns = columns;
