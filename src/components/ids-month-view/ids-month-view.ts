@@ -17,6 +17,7 @@ import {
   umalquraToGregorian,
   weeksInMonth,
   weeksInRange,
+  removeDateRange
 } from '../../utils/ids-date-utils/ids-date-utils';
 import {
   stringToBool,
@@ -58,6 +59,9 @@ export type IdsRangeSettings = {
   includeDisabled?: boolean,
   selectWeek?: boolean
 };
+export interface IdsRangeSettingsInterface {
+  rangeSettings?: IdsRangeSettings;
+}
 
 export type IdsDisableSettings = {
   dates?: Array<string>,
@@ -68,7 +72,7 @@ export type IdsDisableSettings = {
   isEnable?: boolean
 };
 
-export type IdsDayselectedEvent = CustomEvent & {
+export type IdsDayselectedEvent = {
   detail: {
     elem: IdsMonthView,
     date: Date,
@@ -102,7 +106,7 @@ export type IdsLegend = {
  */
 @customElement('ids-month-view')
 @scss(styles)
-class IdsMonthView extends Base {
+class IdsMonthView extends Base implements IdsRangeSettingsInterface {
   constructor() {
     super();
   }
@@ -1953,8 +1957,12 @@ class IdsMonthView extends Base {
    * @param {string} val string representation of a date
    */
   protected selectDayFromValue(val: string) {
-    // @TODO this needs to handle ranges as well // val.slice(val.indexOf(this.rangeSettings?.separator || '-'))
-    const { month, day, year } = getDateValuesFromString(val);
+    let usableValue = val;
+    if (this.useRange && this.rangeSettings.separator && this.rangeSettings.end) {
+      usableValue = removeDateRange(val, this.rangeSettings.separator);
+    }
+
+    const { month, day, year } = getDateValuesFromString(usableValue);
     this.day = day;
     this.month = month;
     this.year = year;

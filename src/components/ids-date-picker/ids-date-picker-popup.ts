@@ -2,7 +2,7 @@ import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-date-picker-popup-base';
 import {
-  subtractDate, isValidDate, hoursTo24
+  subtractDate, isValidDate, hoursTo24, removeDateRange
 } from '../../utils/ids-date-utils/ids-date-utils';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
@@ -25,6 +25,7 @@ import {
 // Types
 import type {
   IdsRangeSettings,
+  IdsRangeSettingsInterface,
   IdsDayselectedEvent,
   IdsLegend
 } from '../ids-month-view/ids-month-view';
@@ -43,7 +44,7 @@ type IdsDatePickerPopupButton = IdsToggleButton | IdsModalButton | IdsButton;
  */
 @customElement('ids-date-picker-popup')
 @scss(styles)
-class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
+class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRangeSettingsInterface {
   constructor() {
     super();
   }
@@ -354,8 +355,15 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.monthView.rangeSettings = val;
 
       if (val?.start && val?.end) {
-        this.value = `${this.locale.formatDate(this.setTime(val.start), { pattern: this.format })}${this.rangeSettings.separator}${this.locale.formatDate(this.setTime(val.end), { pattern: this.format })}`;
-        btnApply?.removeAttribute(attributes.DISABLED);
+        const formattedStart = this.locale.formatDate(this.setTime(val.start), { pattern: this.format });
+        const formattedEnd = this.locale.formatDate(this.setTime(val.end), { pattern: this.format });
+        this.value = `${formattedStart}${val.separator}${formattedEnd}`;
+        if (!val.selectWeek) btnApply?.removeAttribute(attributes.DISABLED);
+      } else {
+        if (val?.separator && this.value.indexOf(val?.separator) > -1) {
+          this.value = removeDateRange(this.value, val?.separator);
+        }
+        btnApply?.setAttribute(attributes.DISABLED, 'true');
       }
 
       if (val?.selectWeek) {
@@ -983,7 +991,12 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @param {string | Date} val incoming date string/object
    */
   private syncDateAttributes(val: string | Date) {
-    const date = new Date(val);
+    let usableValue = val;
+    if (typeof val === 'string' && this.useRange && this.rangeSettings.separator) {
+      usableValue = removeDateRange(val, this.rangeSettings.separator);
+    }
+
+    const date = new Date(usableValue);
     const month = date.getMonth();
     const year = date.getFullYear();
     const day = date.getDate();
@@ -1002,7 +1015,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
     if (this.monthView) {
       if (typeof this.monthView.selectDayFromValue === 'function') {
-        this.monthView.selectDayFromValue(val);
+        this.monthView.selectDayFromValue(usableValue);
       }
     }
 
