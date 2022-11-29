@@ -419,15 +419,15 @@ export default class IdsDataGridFilters {
     }
     this.#conditions = conditions;
 
-    // No need to go further, if no condition/s to filter
-    if ((!conditions?.length && !this.root.datasource.filtered) || !conditions) {
+    // Client filter
+    if (this.root.disableClientFilter) {
+      this.root.triggerEvent('filtered', this.root, { bubbles: true, detail: { elem: this.root, conditions } });
       this.#filterIsProcessing = false;
       return;
     }
 
-    // Client filter
-    if (this.root.disableClientFilter) {
-      this.root.triggerEvent('filtered', this.root, { bubbles: true, detail: { elem: this.root, conditions } });
+    // No need to go further, if no condition/s to filter
+    if ((!conditions?.length && !this.root.datasource.filtered) || !conditions) {
       this.#filterIsProcessing = false;
       return;
     }
