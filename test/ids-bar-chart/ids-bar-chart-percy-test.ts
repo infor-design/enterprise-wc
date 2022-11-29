@@ -13,7 +13,7 @@ describe('Ids Bar Chart Percy Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('pierce/.chart-legend');
     await page.evaluate(() => {
-      (document as any).querySelector('#no-animation-example').setAttribute('rotate-x-labels', '-65');
+      (document as any).querySelector('#no-animation-example').setAttribute('rotate-name-labels', '-65');
     });
     await percySnapshot(page, 'ids-bar-chart-rotate-new-light');
   });
@@ -58,5 +58,29 @@ describe('Ids Bar Chart Percy Tests', () => {
     await page.goto('http://localhost:4444/ids-bar-chart/grouped.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('pierce/.chart-legend');
     await percySnapshot(page, 'ids-bar-chart-grouped');
+  });
+
+  it('should not have visual regressions with horizontal', async () => {
+    await page.goto('http://localhost:4444/ids-bar-chart/horizontal.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('pierce/.chart-legend');
+    await percySnapshot(page, 'ids-bar-chart-horizontal');
+  });
+
+  it('should not have visual regressions with horizontal grouped', async () => {
+    await page.goto('http://localhost:4444/ids-bar-chart/horizontal-grouped.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('pierce/.chart-legend');
+    await percySnapshot(page, 'ids-bar-chart-horizontal-grouped');
+  });
+
+  it('should not have visual regressions with horizontal stacked', async () => {
+    await page.goto('http://localhost:4444/ids-bar-chart/horizontal-stacked.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('pierce/.chart-legend');
+    await percySnapshot(page, 'ids-bar-chart-horizontal-stacked');
+  });
+
+  it('should not have visual regressions with horizontal rotating name labels', async () => {
+    await page.goto('http://localhost:4444/ids-bar-chart/horizontal-rotate-name-labels.html', { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('pierce/.chart-legend');
+    await percySnapshot(page, 'ids-bar-chart-horizontal-rotate-name-labels');
   });
 });

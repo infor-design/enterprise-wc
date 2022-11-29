@@ -86,7 +86,7 @@ describe('IdsAreaChart Component', () => {
   });
 
   it('should set selectable', () => {
-    expect(areaChart.selectable).toEqual(undefined);
+    expect(areaChart.selectable).toEqual(false);
     expect(areaChart.getAttribute('selectable')).toEqual(null);
     areaChart.selectable = true;
     expect(areaChart.selectable).toEqual(true);
