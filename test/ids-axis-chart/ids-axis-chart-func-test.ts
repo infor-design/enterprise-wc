@@ -270,6 +270,8 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[1].textContent).toEqual('F');
     expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[2].textContent).toEqual('M');
     expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[3].textContent).toEqual('A');
+    axisChart.xAxisFormatter = 'test';
+    expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[0].textContent).toEqual('');
   });
 
   it('can set the y axis formatter to empty', async () => {
@@ -307,6 +309,11 @@ describe('IdsAxisChart Component', () => {
 
   it('has no tooltip elements when only the base', () => {
     expect(axisChart.tooltipElements()).toEqual([]);
+  });
+
+  it('should get tooltip template', () => {
+    const tmpl = '<b>${label}</b> ${value}'; // eslint-disable-line
+    expect(axisChart.tooltipTemplate()).toEqual(tmpl);
   });
 
   it('has no tooltip elements when only the base', () => {
@@ -374,7 +381,7 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('should set axis rotation', async () => {
-    axisChart.rotateXLabels = '-60';
+    axisChart.rotateNameLabels = '-60';
 
     const xLabels = axisChart.shadowRoot.querySelectorAll('.labels.x-labels text');
     expect(xLabels.length).toEqual(6);
@@ -392,8 +399,44 @@ describe('IdsAxisChart Component', () => {
     expect(xLabels[0].getAttribute('transform')).toContain('rotate(-60');
     expect(xLabels[5].getAttribute('transform')).toContain('rotate(-60');
 
-    axisChart.rotateXLabels = '';
+    axisChart.rotateNameLabels = '';
     axisChart.redraw();
     expect(xLabels[0].getAttribute('transform')).toContain('rotate(-60');
+  });
+
+  it('should set horizontal', () => {
+    expect(axisChart.horizontal).toEqual(false);
+    expect(axisChart.getAttribute('horizontal')).toEqual(null);
+    axisChart.horizontal = true;
+    expect(axisChart.horizontal).toEqual(true);
+    expect(axisChart.getAttribute('horizontal')).toEqual('');
+    axisChart.horizontal = false;
+    expect(axisChart.horizontal).toEqual(false);
+    expect(axisChart.getAttribute('horizontal')).toEqual(null);
+  });
+
+  it('should set horizontal axis rotation', async () => {
+    axisChart.rotateNameLabels = '-60';
+    axisChart.horizontal = true;
+
+    const yLabels = axisChart.shadowRoot.querySelectorAll('.labels.y-labels text');
+    expect(yLabels.length).toEqual(6);
+    expect(yLabels[0].getAttribute('transform')).toContain('rotate(-60');
+    expect(yLabels[5].getAttribute('transform')).toContain('rotate(-60');
+
+    expect(yLabels[0].getAttribute('transform-origin')).toEqual(null);
+    expect(yLabels[0].getAttribute('transform-origin')).toEqual(null);
+
+    container.language = 'ar';
+    axisChart.alignXLabels = 'middle';
+    axisChart.redraw();
+    await processAnimFrame();
+
+    expect(yLabels[0].getAttribute('transform')).toContain('rotate(-60');
+    expect(yLabels[5].getAttribute('transform')).toContain('rotate(-60');
+
+    axisChart.rotateNameLabels = '';
+    axisChart.redraw();
+    expect(yLabels[0].getAttribute('transform')).toContain('rotate(-60');
   });
 });
