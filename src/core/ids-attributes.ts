@@ -278,6 +278,7 @@ export const attributes = {
   PROGRESS: 'progress',
   PROGRESS_BAR: 'progress-bar',
   PROGRESS_COLOR: 'progress-color',
+  RANGE_SETTINGS: 'range-settings',
   READONLY: 'readonly',
   READONLY_BACKGROUND: 'readonly-background',
   RELATIVE_BOUNDS: 'relative-bounds',

@@ -12,7 +12,7 @@
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h1">Ids Date Picker Popup (Composed with Ids Trigger Field)</ids-text>
-        <ids-text font-size="16" type="p">This example shares a single IdsDatePickerPopup component across all the trigger fields</ids-text>
+        <p><ids-text font-size="16" type="p">This example shares a single IdsDatePickerPopup component across all the trigger fields</ids-text></p>
       </ids-layout-grid-cell>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
@@ -45,6 +45,17 @@
           label="With Week Numbers"
           placeholder="M/d/yyyy">
           <ids-trigger-button slot="trigger-end" id="date-picker-week-number-button">
+            <ids-text audible="true">Select Date</ids-text>
+            <ids-icon slot="icon" icon="calendar"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+        <ids-trigger-field
+          id="date-picker-range-week-field"
+          size="md"
+          label="Range Picker (entire week)"
+          placeholder="M/d/yyyy">
+          <ids-trigger-button slot="trigger-end" id="date-picker-range-week-button">
             <ids-text audible="true">Select Date</ids-text>
             <ids-icon slot="icon" icon="calendar"></ids-icon>
           </ids-trigger-button>

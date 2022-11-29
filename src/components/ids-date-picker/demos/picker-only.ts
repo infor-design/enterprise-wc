@@ -52,7 +52,18 @@ const fieldDefs = [
   {
     id: 'date-picker-week-number-field',
     format: 'M/d/yyyy',
-    showPicklistWeek: true
+    showPicklistWeek: true,
+    showPicklistYear: true,
+  },
+  {
+    id: 'date-picker-range-week-field',
+    format: 'M/d/yyyy',
+    rangeSettings: {
+      selectWeek: true
+    },
+    showPicklistWeek: true,
+    showPicklistYear: true,
+    useRange: true
   }
 ];
 
@@ -65,15 +76,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // Updates an existing IdsDatePickerPopup
   const updatePopup = (popupEl: any, data: any) => {
     if (!popupEl || !data) return;
-    const booleanProps = ['showCancel', 'showClear', 'showPicklistWeek', 'showPicklistYear', 'showPicklistMonth'];
-    const stringProps = ['format', 'legend', 'useCurrentTime'];
+    const booleanProps = ['showCancel', 'showClear', 'showPicklistWeek', 'showPicklistYear', 'showPicklistMonth', 'useRange'];
+    const otherProps = ['format', 'legend', 'rangeSettings', 'useCurrentTime'];
 
     booleanProps.forEach((prop) => {
       if (data[prop]) popupEl[prop] = data[prop];
       else popupEl[prop] = false;
     });
 
-    stringProps.forEach((prop) => {
+    otherProps.forEach((prop) => {
       if (data[prop]) popupEl[prop] = data[prop];
       else popupEl[prop] = null;
     });
@@ -105,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (data.legend) picker.legend = data.legend;
+    if (data.rangeSettings) picker.rangeSettings = data.rangeSettings;
 
     return picker;
   };
@@ -131,8 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
         picker.popup.arrowTarget = `#${btnId}`;
         picker.popup.animated = true;
         if (!picker.popup.visible) {
-          picker.popup.place();
           picker.show();
+        } else {
+          picker.popup.place();
+          picker.popup.placeArrow();
         }
       }
     }

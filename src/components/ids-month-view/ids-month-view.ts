@@ -39,6 +39,7 @@ import styles from './ids-month-view.scss';
 import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../ids-calendar/ids-calendar-event';
 import type IdsDatePicker from '../ids-date-picker/ids-date-picker';
 import type IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
+import { getDateValuesFromString } from '../ids-date-picker/ids-date-picker-common';
 
 const MIN_MONTH = 0;
 const MAX_MONTH = 11;
@@ -154,7 +155,7 @@ class IdsMonthView extends Base {
       attributes.IS_DATEPICKER,
       attributes.SHOW_PICKLIST_MONTH,
       attributes.SHOW_PICKLIST_WEEK,
-      attributes.SHOW_PICKLIST_WEEK,
+      attributes.SHOW_PICKLIST_YEAR,
       attributes.SHOW_TODAY,
       attributes.START_DATE,
       attributes.USE_RANGE,
@@ -817,7 +818,7 @@ class IdsMonthView extends Base {
       }
     }
 
-    this.triggerDateChange(this.activeDate);
+    this.triggerDateChange(this.activeDate, type);
     this.#attachDatepicker();
   }
 
@@ -1622,15 +1623,21 @@ class IdsMonthView extends Base {
    * @param {IdsRangeSettings} val settings to be assigned to default range settings
    */
   set rangeSettings(val: IdsRangeSettings) {
-    this.#rangeSettings = {
-      ...this.#rangeSettings,
-      ...deepClone(val)
-    };
+    if (!val || val === null) this.resetRangeSettings();
+    else {
+      this.#rangeSettings = {
+        ...this.#rangeSettings,
+        ...deepClone(val)
+      };
+    }
 
     if (!this.container) return;
 
     if (this.useRange && val?.start) {
       this.selectDay();
+    } else {
+      this.#clearRangeClasses();
+      this.selectDay(this.year, this.month, this.day);
     }
 
     this.container.classList.toggle('range-select-week', this.#rangeSettings.selectWeek);
@@ -1940,6 +1947,42 @@ class IdsMonthView extends Base {
       }
     }
     return { isCustom: false, calendarEvent: new IdsCalendarEvent() };
+  }
+
+  /**
+   * @param {string} val string representation of a date
+   */
+  protected selectDayFromValue(val: string) {
+    // @TODO this needs to handle ranges as well // val.slice(val.indexOf(this.rangeSettings?.separator || '-'))
+    const { month, day, year } = getDateValuesFromString(val);
+    this.day = day;
+    this.month = month;
+    this.year = year;
+
+    if (this.useRange) {
+      this.selectDay();
+      this.#renderRangeSelection();
+    } else {
+      this.#clearRangeClasses();
+      this.selectDay(year, month, day);
+    }
+  }
+
+  /**
+   * Sets the `rangeSettings` object back to its original defaults
+   */
+  protected resetRangeSettings() {
+    this.rangeSettings = {
+      start: null,
+      end: null,
+      separator: ' - ',
+      minDays: 0,
+      maxDays: 0,
+      selectForward: false,
+      selectBackward: false,
+      includeDisabled: false,
+      selectWeek: false
+    };
   }
 }
 

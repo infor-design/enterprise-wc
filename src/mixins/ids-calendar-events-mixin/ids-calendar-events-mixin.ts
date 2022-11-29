@@ -155,7 +155,7 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
       <ids-toolbar-section align="end">
         <ids-menu-button id="view-picker-btn" menu="view-picker" value="${view}" dropdown-icon>
           <span slot="text"><ids-text translate-text="true">${value}</ids-text></span>
-        </ids-menu-button>      
+        </ids-menu-button>
         <ids-popup-menu id="view-picker" trigger-type="click" target="#view-picker-btn">
           <ids-menu-group select="single">
             <ids-menu-item value="month" selected="${view === 'month'}">
@@ -223,10 +223,14 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
   /**
    * Triggers date change event used in month/week views
    * @param {Date} date date
+   * @param {string} type context/reason for the date change, if applicable
    */
-  triggerDateChange(date: Date) {
+  triggerDateChange(date: Date, type: string) {
     this.triggerEvent('datechange', this, {
-      detail: { date },
+      detail: {
+        date,
+        type
+      },
       bubbles: true,
       cancelable: true,
       composed: true
