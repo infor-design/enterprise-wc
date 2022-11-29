@@ -274,24 +274,23 @@ export default class IdsBarChart extends Base {
    * @private
    */
   #adjustVerticalLines() {
+    if (this.horizontal) return;
     const lineSection = this.shadowRoot?.querySelector('.vertical-lines');
-    if (!lineSection) {
-      return;
+    if (lineSection) {
+      const lines = lineSection.querySelectorAll('line');
+      lines.forEach((line: SVGLineElement, index: number) => {
+        if (index === 0) {
+          return;
+        }
+        line.setAttribute('x1', String(this.sectionWidths.at(index)?.left));
+        line.setAttribute('x2', String(this.sectionWidths.at(index)?.left));
+      });
+
+      // Add two more
+      const left = this.sectionWidths.at(-1)?.left;
+      const line = `<line x1="${left}" x2="${left}" y1="${lines[0].getAttribute('y1')}" y2="${lines[0].getAttribute('y2')}"/>`;
+      lineSection.insertAdjacentHTML('beforeend', line);
     }
-
-    const lines = lineSection.querySelectorAll('line');
-    lines.forEach((line: SVGLineElement, index: number) => {
-      if (index === 0) {
-        return;
-      }
-      line.setAttribute('x1', String(this.sectionWidths.at(index)?.left));
-      line.setAttribute('x2', String(this.sectionWidths.at(index)?.left));
-    });
-
-    // Add two more
-    const left = this.sectionWidths.at(-1)?.left;
-    const line = `<line x1="${left}" x2="${left}" y1="${lines[0].getAttribute('y1')}" y2="${lines[0].getAttribute('y2')}"/>`;
-    lineSection.insertAdjacentHTML('beforeend', line);
   }
 
   /**
@@ -300,6 +299,8 @@ export default class IdsBarChart extends Base {
    * @private
    */
   #bars() {
+    if (this.horizontal) return this.#horizontalBars();
+
     let barHTML = '';
     const runningHeight: Record<number, number> = [];
     const groupCount = this.groupCount;
@@ -343,6 +344,63 @@ export default class IdsBarChart extends Base {
           <rect class="bar color-${groupIndex + 1}" aria-hidden="true" group-index="${groupIndex}" index="${index}" width="${barWidth}" height="${height}" x="${left}" y="${top}"${pattern}>
             <animate attributeName="height" from="0" to="${height}" ${this.animated ? this.cubicBezier : this.cubicBezier.replace('0.8s', '0.01s')}></animate>
             <animate attributeName="y" from="${bottom}" to="${top}" ${this.animated ? this.cubicBezier : this.cubicBezier.replace('0.8s', '0.01s')}></animate>
+          </rect></g>`;
+      });
+    });
+
+    return barHTML;
+  }
+
+  /**
+   * Generate the svg markup for the horizontal bars.
+   * @private
+   * @returns {string} The markup
+   */
+  #horizontalBars() {
+    let barHTML = '';
+    const runningWidth: Record<number, number> = [];
+    const groupCount = this.groupCount;
+    const isGrouped = this.isGrouped;
+    const sectionHeight = this.sectionHeight;
+    const categoryHeight = (this.categoryPercentage * sectionHeight);
+    const barGap = 1;
+
+    // Calculate the height of each bar and bar "category" and fit it in even sections
+    let barHeight = isGrouped ? ((categoryHeight - (groupCount * barGap)) / groupCount) : categoryHeight;
+    barHeight *= this.barPercentage;
+
+    // Generate the bars
+    this.markerData.points?.forEach((pointGroup, groupIndex) => {
+      pointGroup.forEach((point, index) => {
+        let top;
+        if (isGrouped) {
+          top = this.sectionHeights[index].top
+            + ((sectionHeight - categoryHeight) / 2)
+            + ((categoryHeight - (barHeight * groupCount)) / 2);
+          top += (barHeight * groupIndex) + (groupIndex * barGap);
+        } else {
+          top = this.sectionHeights[index].top
+            + ((sectionHeight - categoryHeight) / 2)
+            + ((categoryHeight - barHeight) / 2);
+        }
+
+        let x = this.markerData.gridLeft - this.margins.leftInner - this.margins.rightInner;
+        const startEdge = x;
+        const right = this.markerData.gridRight;
+        const width = right - point.left;
+        const pattern = this.data[groupIndex]?.pattern ? ` fill="url(#${this.data[groupIndex]?.pattern})"` : '';
+        const label = (this.data as any)[0]?.data[index]?.name;
+
+        if (this.stacked) {
+          x = groupIndex > 0 ? runningWidth[index] : x;
+          runningWidth[index] = (runningWidth[index] || x) + width;
+        }
+
+        barHTML += `<g role="listitem">
+          <text class="audible" x="${x}" y="${this.markerData.gridBottom}">${label} ${point.value}</text>
+          <rect class="bar color-${groupIndex + 1}" aria-hidden="true" group-index="${groupIndex}" index="${index}" width="${width}" height="${barHeight}" x="${x}" y="${top}"${pattern}>
+            <animate attributeName="x" from="${startEdge}" to="${x}" ${this.animated ? this.cubicBezier : this.cubicBezier.replace('0.8s', '0.01s')}></animate>
+            <animate attributeName="width" from="0" to="${width}" ${this.animated ? this.cubicBezier : this.cubicBezier.replace('0.8s', '0.01s')}></animate>
           </rect></g>`;
       });
     });

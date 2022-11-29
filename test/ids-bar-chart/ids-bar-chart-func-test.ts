@@ -270,7 +270,7 @@ describe('IdsBarChart Component', () => {
   });
 
   it('should set selectable', () => {
-    expect(barChart.selectable).toEqual(undefined);
+    expect(barChart.selectable).toEqual(false);
     expect(barChart.getAttribute('selectable')).toEqual(null);
     barChart.selectable = true;
     expect(barChart.selectable).toEqual(true);
@@ -458,5 +458,117 @@ describe('IdsBarChart Component', () => {
     );
     selected = barChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
     expect(selected.length).toEqual(3);
+  });
+
+  it('should set horizontal', () => {
+    expect(barChart.horizontal).toEqual(false);
+    expect(barChart.getAttribute('horizontal')).toEqual(null);
+    barChart.horizontal = true;
+    expect(barChart.horizontal).toEqual(true);
+    expect(barChart.getAttribute('horizontal')).toEqual('');
+    barChart.horizontal = false;
+    expect(barChart.horizontal).toEqual(false);
+    expect(barChart.getAttribute('horizontal')).toEqual(null);
+  });
+
+  it('should set horizontal with axis labels', () => {
+    barChart.axisLabelBottom = 'Bottom axis label';
+    barChart.axisLabelEnd = 'End axis label';
+    barChart.axisLabelStart = 'Start axis label';
+    barChart.axisLabelTop = 'Top axis label';
+    barChart.setAttribute('axis-label-margin', '16');
+    expect(barChart.horizontal).toEqual(false);
+    expect(barChart.getAttribute('horizontal')).toEqual(null);
+    barChart.horizontal = true;
+    expect(barChart.horizontal).toEqual(true);
+    expect(barChart.getAttribute('horizontal')).toEqual('');
+    barChart.horizontal = false;
+    expect(barChart.horizontal).toEqual(false);
+    expect(barChart.getAttribute('horizontal')).toEqual(null);
+  });
+
+  it('should set horizontal axis rotation and stacked', async () => {
+    barChart.rotateNameLabels = '-60';
+    barChart.stacked = true;
+    barChart.horizontal = true;
+
+    const yLabels = barChart.shadowRoot.querySelectorAll('.labels.y-labels text');
+    expect(yLabels.length).toEqual(6);
+    expect(yLabels[0].getAttribute('transform')).toContain('rotate(-60');
+    expect(yLabels[5].getAttribute('transform')).toContain('rotate(-60');
+
+    expect(yLabels[0].getAttribute('transform-origin')).toEqual(null);
+    expect(yLabels[0].getAttribute('transform-origin')).toEqual(null);
+  });
+
+  it('should set horizontal group and color', async () => {
+    document.body.innerHTML = '';
+    barChart = new IdsBarChart();
+    document.body.appendChild(barChart);
+    barChart.horizontal = true;
+
+    // Mock stylesheets
+    barChart.shadowRoot.styleSheets = [{
+      cssRules: [{ selectorText: ':host' }],
+      insertRule: jest.fn(),
+      deleteRule: jest.fn()
+    }];
+
+    barChart.data = [{
+      data: [{
+        name: 'Jan',
+        value: 100
+      }, {
+        name: 'Feb',
+        value: 3111
+      }],
+      name: 'Component A',
+      color: '#DA1217'
+    }, {
+      data: [{
+        name: 'Jan',
+        value: 2211
+      }, {
+        name: 'Feb',
+        value: 2111
+      }],
+      name: 'Component B',
+      color: 'test'
+    }];
+    await processAnimFrame();
+
+    const yLabels = barChart.shadowRoot.querySelectorAll('.labels.y-labels text');
+    expect(yLabels.length).toEqual(2);
+  });
+
+  it('should set horizontal single group and pattern', async () => {
+    document.body.innerHTML = '';
+    barChart = new IdsBarChart();
+    document.body.appendChild(barChart);
+    barChart.horizontal = true;
+
+    // Mock stylesheets
+    barChart.shadowRoot.styleSheets = [{
+      insertRule: jest.fn()
+    }];
+
+    barChart.data = [{
+      data: [{
+        name: 'Jan',
+        value: 100
+      }, {
+        name: 'Feb',
+        value: 3111
+      }],
+      name: 'Component A',
+      shortName: 'Comp A',
+      abbreviatedName: 'A',
+      pattern: 'circles',
+      patternColor: '#DA1217'
+    }];
+    await processAnimFrame();
+
+    const yLabels = barChart.shadowRoot.querySelectorAll('.labels.y-labels text');
+    expect(yLabels.length).toEqual(2);
   });
 });

@@ -119,4 +119,12 @@ describe('IdsLineChart Component', () => {
     expect(lineChart.getSelected().groupIndex).toEqual('1');
     expect(lineChart.getSelected().index).toEqual('2');
   });
+
+  it('should not let set horizontal', () => {
+    expect(lineChart.horizontal).toEqual(false);
+    expect(lineChart.getAttribute('horizontal')).toEqual(null);
+    lineChart.horizontal = true;
+    expect(lineChart.horizontal).toEqual(false);
+    expect(lineChart.getAttribute('horizontal')).toEqual(null);
+  });
 });
