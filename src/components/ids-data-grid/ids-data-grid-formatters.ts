@@ -156,7 +156,7 @@ export default class IdsDataGridFormatters {
   /** Shows an Tree */
   tree(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     const value: any = this.#extractValue(rowData, columnData.field);
-    const button = rowData?.children ? `<ids-button tabindex="-1">
+    const button = rowData?.children ? `<ids-button tabindex="-1" class="expand-button">
       <ids-icon slot="icon" icon="plusminus-folder-${rowData.rowExpanded === false ? 'closed' : 'open'}"></ids-icon>
     </ids-button>` : '&nbsp;';
     return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
@@ -165,7 +165,7 @@ export default class IdsDataGridFormatters {
   /** Shows an expander button */
   expander(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     const value: any = this.#extractValue(rowData, columnData.field);
-    const button = `<ids-button tabindex="-1">
+    const button = `<ids-button tabindex="-1" class="expand-button">
         <ids-icon slot="icon" icon="plusminus-folder-${rowData.rowExpanded === true ? 'open' : 'closed'}"></ids-icon>
       </ids-button>`;
     return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
