@@ -102,7 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
           ${data.showPicklistMonth ? 'show-picklist-month="true"' : ''}
           ${data.showPicklistWeek ? 'show-picklist-week="true"' : ''}
           ${data.showPicklistYear ? 'show-picklist-year="true"' : ''}
-          ${data.useCurrentTime ? 'use-current-time="time"' : ''}></ids-date-picker-popup>`;
+          ${data.useCurrentTime ? 'use-current-time="time"' : ''}
+          ${data.useRange ? 'use-range' : ''}></ids-date-picker-popup>`;
     demoIdsContainer.insertAdjacentHTML('beforeend', pickerHTML);
 
     const picker = document.querySelector<any>('ids-date-picker-popup')!;
