@@ -8,6 +8,9 @@
   - link: example.html
     type: Main Example
     description: Shows all available icons and sizes
+  - link: custom-icon.html
+    type: Example
+    description: Shows custom icons defined by user
   - link: notification-badge.html
     type: Example
     description: Example of notifications badges on icons

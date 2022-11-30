@@ -4,6 +4,10 @@ import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import { escapeHTML } from '../../../utils/ids-xss-utils/ids-xss-utils';
 import booksJSON from '../../../assets/data/books.json';
 import css from '../../../assets/css/ids-data-grid/custom-link.css';
+import { addIcon } from '../../ids-icon/ids-icon';
+
+// Add custom icon
+addIcon('custom-cargoship', '<path transform="translate(-0.12 -4.69)" d="m17.54 12.23-1.42 1H3.1l-2-2.6h16.42ZM3.32 8.85h2.74V7H3.32Zm4.78 0h2.74V7H8.1Zm8.56 1.62V5.19h-3.4v5.21"></path>');
 
 const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
@@ -42,22 +46,6 @@ if (dataGrid) {
       formatter: dataGrid.formatters.rowNumber,
       sortable: false,
       readonly: true,
-      width: 56
-    });
-    columns.push({
-      id: 'drilldown',
-      name: '',
-      sortable: false,
-      resizable: false,
-      formatter: dataGrid.formatters.button,
-      icon: 'drilldown',
-      type: 'icon',
-      align: 'center',
-      disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-      click: (info: any) => {
-        console.info('Drilldown clicked', info);
-      },
-      text: 'Drill Down',
       width: 56
     });
     columns.push({
@@ -180,6 +168,22 @@ if (dataGrid) {
         console.info('Custom Link Clicked', info);
       },
       width: 180
+    });
+    columns.push({
+      id: 'cargoship',
+      name: '',
+      sortable: false,
+      resizable: false,
+      formatter: dataGrid.formatters.button,
+      icon: 'custom-cargoship',
+      type: 'icon',
+      align: 'center',
+      disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
+      click: (info: any) => {
+        console.info('Cargoship clicked', info);
+      },
+      text: 'Drill Down',
+      width: 56
     });
     columns.push({
       id: 'spacer',

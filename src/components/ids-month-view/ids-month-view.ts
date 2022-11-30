@@ -2032,10 +2032,10 @@ class IdsMonthView extends Base {
   }
 
   /**
- * Generates new IdsCalendarEvent
- * @param {IdsCalendarEvent} customCalendarEvent optional custom event to use instead of default
- * @returns {IdsCalendarEvent} calendar event
- */
+   * Generates new IdsCalendarEvent
+   * @param {IdsCalendarEvent} customCalendarEvent optional custom event to use instead of default
+   * @returns {IdsCalendarEvent} calendar event
+   */
   #newCalendarEvent(customCalendarEvent?: any): { isCustom: boolean, calendarEvent: any } {
     if (customCalendarEvent?.name === 'MonthViewCalendarEventTemplate') {
       const eventTemplate = customCalendarEvent.assignedNodes()[0];
