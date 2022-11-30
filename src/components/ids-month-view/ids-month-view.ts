@@ -138,6 +138,9 @@ class IdsMonthView extends Base {
     isEnable: false
   };
 
+  // Flag value for custom calendar event
+  #isCustom = false;
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -894,7 +897,7 @@ class IdsMonthView extends Base {
       this.rangeSettings.start = dateTime <= startTime ? dateTime : this.rangeSettings.start;
 
       this.#renderRangeSelection();
-    // Start not set or both not set
+      // Start not set or both not set
     } else {
       this.rangeSettings.start = dateTime;
       this.rangeSettings.end = null;
@@ -1216,7 +1219,11 @@ class IdsMonthView extends Base {
    */
   getActiveDayEvents(): CalendarEventData[] {
     const activeDay = this.getSelectedDay();
-    const eventElems = activeDay ? [...activeDay.querySelectorAll('ids-calendar-event')] : [];
+    let eventElems = activeDay ? [...activeDay.querySelectorAll('ids-calendar-event')] : [];
+    if (this.#isCustom && activeDay) {
+      const customCalendarEvents: any = activeDay.querySelectorAll('.events-container > [slot]');
+      eventElems = activeDay ? [...customCalendarEvents] : [];
+    }
     const events = eventElems.map((elem: any) => elem.eventData);
 
     return events;
@@ -1911,9 +1918,10 @@ class IdsMonthView extends Base {
     const eventsInRange = this.filterEventsByMonth(this.eventsData);
     const monthEvents = this.#groupEventsByDay(eventsInRange);
 
+    const customCalendarEvent: any = this.querySelector('[slot="customCalendarEvent"]');
     for (const dateKey in monthEvents) {
       if (monthEvents.hasOwnProperty(dateKey)) {
-        this.#renderDayEvents(dateKey, monthEvents[dateKey]);
+        this.#renderDayEvents(dateKey, monthEvents[dateKey], customCalendarEvent);
       }
     }
   }
@@ -1932,22 +1940,22 @@ class IdsMonthView extends Base {
    * Renders calendar events within corresponding date's table cell
    * @param {string} dateKey generated date key
    * @param {CalendarEventData[]} events calendar events
+   * @param {any} customCalendarEvent custom calendar events
    */
-  #renderDayEvents(dateKey: string, events: CalendarEventData[]): void {
+  #renderDayEvents(dateKey: string, events: CalendarEventData[], customCalendarEvent?: any): void {
     if (!this.container) return;
 
     const eventsContainer = this.container?.querySelector(`.events-container[data-key="${dateKey}"]`);
-    const orders = [...(eventsContainer?.querySelectorAll('ids-calendar-event')) || []].map((elem: any) => elem.order);
+    const orders = [...(eventsContainer?.childNodes) || []].map((elem: any) => elem.order);
     const baseOrder = orders.length ? Math.max(...orders) + 1 : 0;
     let isOverflowing = false;
-
     events.forEach((event: CalendarEventData, index: number) => {
       const start = new Date(event.starts);
       const end = new Date(event.ends);
       const days = this.#countDays(start, end) || 1;
 
       for (let i = 0; i < days; i++) {
-        const calendarEvent = new IdsCalendarEvent();
+        const { calendarEvent, isCustom } = this.#newCalendarEvent(customCalendarEvent);
         const eventType = this.eventTypesData?.find((et: CalendarEventTypeData) => et.id === event.type) ?? null;
         const eventOrder = baseOrder + index;
         calendarEvent.eventTypeData = eventType;
@@ -1980,15 +1988,15 @@ class IdsMonthView extends Base {
             calendarEvent.cssClass = extraCss;
           }
 
-          // hide overflowing event elements
-          if (calendarEvent.order > MAX_EVENT_COUNT - 1) {
-            calendarEvent.hidden = true;
-            isOverflowing = true;
-          }
-
-          // position event element vertically
           calendarEvent.setAttribute(attributes.Y_OFFSET, `${(calendarEvent.order * 16) + BASE_Y_OFFSET}px`);
-
+          // hide overflowing event elements
+          isOverflowing = isCustom ? (calendarEvent.order > 0) : (calendarEvent.order > MAX_EVENT_COUNT - 1);
+          calendarEvent.hidden = isOverflowing;
+          if (isCustom) {
+            // setting dateKey value for custom calendar event
+            const customEventDateKey = `${year}${month}${day}`;
+            calendarEvent.dateKey = customEventDateKey;
+          }
           dateCell.querySelector('.events-container')?.appendChild(calendarEvent as any);
         }
       }
@@ -2008,7 +2016,7 @@ class IdsMonthView extends Base {
   #renderEventsOverflow(eventsContainer: any, dateKey: string): void {
     if (!eventsContainer) return;
 
-    const calendarEvents = [...eventsContainer.querySelectorAll('ids-calendar-event')];
+    const calendarEvents = [...eventsContainer.childNodes];
     const hiddenEvents = calendarEvents.filter((elem: IdsCalendarEvent) => elem.hidden);
     const year = dateKey.substring(0, 4);
     const month = parseInt(dateKey.substring(4, 6)) + 1;
@@ -2021,6 +2029,22 @@ class IdsMonthView extends Base {
     `;
 
     eventsContainer.insertAdjacentHTML('beforeend', tmpl);
+  }
+
+  /**
+ * Generates new IdsCalendarEvent
+ * @param {IdsCalendarEvent} customCalendarEvent optional custom event to use instead of default
+ * @returns {IdsCalendarEvent} calendar event
+ */
+  #newCalendarEvent(customCalendarEvent?: any): { isCustom: boolean, calendarEvent: any } {
+    if (customCalendarEvent?.name === 'MonthViewCalendarEventTemplate') {
+      const eventTemplate = customCalendarEvent.assignedNodes()[0];
+      if (eventTemplate) {
+        this.#isCustom = true;
+        return { isCustom: true, calendarEvent: eventTemplate.cloneNode(true) };
+      }
+    }
+    return { isCustom: false, calendarEvent: new IdsCalendarEvent() };
   }
 }
 
