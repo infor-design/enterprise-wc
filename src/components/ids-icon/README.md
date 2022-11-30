@@ -65,6 +65,23 @@ These badges can also be displayed in 5 possible colors
 <ids-icon icon="notes" badge-position="top-left" badge-color="error"></ids-icon>
 ```
 
+Add a custom icon by importing the `addIcon` function from the IdsIcon module and providing the icon name and SVG markup.
+You can also, instead of SVG markup, pass an array of objects defining the SVG elements' attribute names and values
+We recommend you use [svgo](https://github.com/svg/svgo) to optimize your SVG before adding them to IdsIcon.
+```js
+import { addIcon } from '../ids-icon';
+
+// Pass SVG markup
+addIcon('custom-cargoship', '<path transform="translate(-0.12 -4.69)" d="m17.54 12.23-1.42 1H3.1l-2-2.6h16.42ZM3.32 8.85h2.74V7H3.32Zm4.78 0h2.74V7H8.1Zm8.56 1.62V5.19h-3.4v5.21"></path>');
+
+// OR, Pass object defined SVG
+addIcon('custom-cargoship', [{
+  shape: 'path',
+  d: 'm17.54 12.23-1.42 1H3.1l-2-2.6h16.42ZM3.32 8.85h2.74V7H3.32Zm4.78 0h2.74V7H8.1Zm8.56 1.62V5.19h-3.4v5.21',
+  transform: 'translate(-0.12 -4.69)'
+}]);
+```
+
 ## States and Variations
 
 - Color

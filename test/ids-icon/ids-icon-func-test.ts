@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import IdsIcon from '../../src/components/ids-icon/ids-icon';
+import IdsIcon, { addIcon } from '../../src/components/ids-icon/ids-icon';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsIcon Component', () => {
@@ -145,5 +145,26 @@ describe('IdsIcon Component', () => {
     expect(elem.getAttribute('height')).toBeFalsy();
     elem.width = '';
     expect(elem.getAttribute('width')).toBeFalsy();
+  });
+
+  it('can add a custom icon', () => {
+    // test passing object-defined SVG
+    addIcon('test-custom', [{
+      shape: 'circle',
+      id: 'circleId',
+      cx: '9',
+      cy: '9',
+      r: '7',
+      stroke: '#606066',
+      'vector-effect': 'non-scaling-stroke'
+    }]);
+
+    elem.icon = 'test-custom';
+    expect(elem.container?.querySelector('circle')?.id).toEqual('circleId');
+
+    // test passing SVG markup
+    addIcon('test-custom2', '<circle id="circleId2" cx="9" cy="9" r="7"></circle>');
+    elem.icon = 'test-custom2';
+    expect(elem.container?.querySelector('circle')?.id).toEqual('circleId2');
   });
 });
