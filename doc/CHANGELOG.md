@@ -16,6 +16,7 @@
 - `[DataGrid]` Added rowNavigation functionality. ([#993](https://github.com/infor-design/enterprise-wc/issues/993))
 - `[DataGrid]` Added left and right padding (start and end) for row-heights. ([#996](https://github.com/infor-design/enterprise-wc/issues/996))
 - `[DataGrid]` Fixed click function on columns is not firing when using the keyboard. ([#1005](https://github.com/infor-design/enterprise-wc/issues/1005))
+- `[DataGrid]` Fixed a bug that when using disableClientFilter does not emit filtered event when empty. ([#1008](https://github.com/infor-design/enterprise-wc/issues/1008))
 - `[DataGrid]` Fixed a bug that tree/expanded formatters could not be extended as the tree would not expand. ([#1018](https://github.com/infor-design/enterprise-wc/issues/1018))
 - `[Icons]` All icons have padding on top and bottom effectively making them 4px smaller by design. This change may require some UI corrections to css. ([#6868](https://github.com/infor-design/enterprise/issues/6868))
 - `[Icons]` Over 60 new icons and 126 new industry focused icons. ([#6868](https://github.com/infor-design/enterprise/issues/6868))
