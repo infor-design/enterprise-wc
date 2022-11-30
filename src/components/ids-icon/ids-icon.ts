@@ -15,6 +15,47 @@ const pathData: Record<string, string> = pathImport;
 const customIcons: Record<string, string> = {};
 
 /**
+ * Add a custom icon
+ * @param {string} name name of attribute
+ * @param {string} data attribute names and values
+ */
+export function addIcon(name: string, data: any[] | string) {
+  if (!name || !data) return;
+
+  if (typeof data === 'string') {
+    customIcons[name] = data;
+    return;
+  }
+
+  /**
+   * Builds SVG icon data
+   * @param {any} node Attribute names/values of an SVG element
+   * @returns {string} SVG element string
+   */
+  function buildSVG(node: any) {
+    const tagName = node.shape;
+    const children = node.contents;
+    let contents = '';
+
+    // Filter valid attributes and build attribute string
+    const refElem = document.createElement(tagName);
+    const attrs: string = Object.keys(node).reduce((prev, attr) => {
+      const attrNameVal = (attr in refElem || attr in refElem.style) ? `${attr}="${node[attr]}"` : '';
+      return prev + attrNameVal;
+    }, '');
+
+    // Recursively iterate through children nodes, if any
+    if (Array.isArray(children) && children.length) {
+      children.forEach((child: any) => { contents += buildSVG(child); });
+    }
+
+    return `<${tagName} ${attrs}>${contents}</${tagName}>`;
+  }
+
+  customIcons[name] = data.reduce((prev, curr) => (prev + buildSVG(curr)), '');
+}
+
+/**
  * IDS Icon Component
  * @type {IdsIcon}
  * @inherits IdsElement
@@ -51,42 +92,6 @@ export default class IdsIcon extends Base {
       attributes.VIEWBOX,
       attributes.WIDTH
     ];
-  }
-
-  /**
-   * Add a custom icon
-   * @param {string} name name of attribute
-   * @param {string} data attribute names and values
-   */
-  static addIcon(name: string, data: any[]) {
-    if (!name || !data) return;
-
-    /**
-     * Builds SVG icon data
-     * @param {any} node Attribute names/values of an SVG element
-     * @returns {string} SVG element string
-     */
-    function buildSVG(node: any) {
-      const tagName = node.shape;
-      const children = node.contents;
-      let contents = '';
-
-      // Filter valid attributes and build attribute string
-      const refElem = document.createElement(tagName);
-      const attrs: string = Object.keys(node).reduce((prev, attr) => {
-        const attrNameVal = (attr in refElem || attr in refElem.style) ? `${attr}="${node[attr]}"` : '';
-        return prev + attrNameVal;
-      }, '');
-
-      // Recursively iterate through children nodes, if any
-      if (Array.isArray(children) && children.length) {
-        children.forEach((child: any) => { contents += buildSVG(child); });
-      }
-
-      return `<${tagName} ${attrs}>${contents}</${tagName}>`;
-    }
-
-    customIcons[name] = data.reduce((prev, curr) => (prev + buildSVG(curr)), '');
   }
 
   /**
