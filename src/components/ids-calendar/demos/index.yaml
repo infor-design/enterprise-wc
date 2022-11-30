@@ -8,3 +8,6 @@
   - link: example.html
     type: Main Example
     description: Default Calendar View
+  - link: example-custom.html
+    type: Example
+    description: Custom Calendar View

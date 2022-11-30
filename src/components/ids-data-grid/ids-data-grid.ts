@@ -317,6 +317,7 @@ export default class IdsDataGrid extends Base {
       const rowNum = Number(row.getAttribute('data-index'));
       const isHyperlink = e.target?.nodeName === 'IDS-HYPERLINK' || e.target?.nodeName === 'A';
       const isButton = e.target?.nodeName === 'IDS-BUTTON';
+      const isExpandButton = isButton && e.target?.classList.contains('expand-button');
       const isClickable = isButton || isHyperlink;
 
       // Focus Cell
@@ -339,8 +340,7 @@ export default class IdsDataGrid extends Base {
       });
 
       // Handle Expand/Collapse Clicking
-      if (isClickable && (this.visibleColumns[cellNum]?.formatter?.name === 'tree'
-        || this.visibleColumns[cellNum]?.formatter?.name === 'expander')) {
+      if (isClickable && isExpandButton) {
         row.toggleExpandCollapse();
         return;
       }
