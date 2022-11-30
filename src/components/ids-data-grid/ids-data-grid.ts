@@ -322,6 +322,7 @@ export default class IdsDataGrid extends Base {
       const rowNum = Number(row.getAttribute('data-index'));
       const isHyperlink = e.target?.nodeName === 'IDS-HYPERLINK' || e.target?.nodeName === 'A';
       const isButton = e.target?.nodeName === 'IDS-BUTTON';
+      const isExpandButton = isButton && e.target?.classList.contains('expand-button');
       const isClickable = isButton || isHyperlink;
       const column: IdsDataGridColumn = this.visibleColumns[cellNum];
 
@@ -345,8 +346,7 @@ export default class IdsDataGrid extends Base {
       });
 
       // Handle Expand/Collapse Clicking
-      if (isClickable && (column?.formatter?.name === 'tree'
-        || column?.formatter?.name === 'expander')) {
+      if (isClickable && isExpandButton) {
         row.toggleExpandCollapse();
         return;
       }

@@ -128,6 +128,9 @@
   - link: tree-grid.html
     type: Example
     description: Shows displaying hierarchical data
+  - link: tree-grid-custom-css.html
+    type: Example
+    description: Shows a tree with custom formatting
   - link: tree-grid-filter.html
     type: Example
     description: Shows a tree with filter

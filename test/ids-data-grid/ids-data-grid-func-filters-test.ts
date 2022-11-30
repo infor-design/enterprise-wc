@@ -974,4 +974,15 @@ describe('IdsDataGrid Component Filter Tests', () => {
 
     expect(mockCallback.mock.calls.length).toBe(2);
   });
+
+  it('fires filtered event when disableClientFilter with empty values', () => {
+    const mockCallback = jest.fn();
+
+    dataGrid.disableClientFilter = true;
+    dataGrid.addEventListener('filtered', mockCallback);
+    dataGrid.container.querySelector('ids-input[data-filter-type="text"]').value = '';
+    dataGrid.applyFilter();
+
+    expect(mockCallback).toHaveBeenCalled();
+  });
 });
