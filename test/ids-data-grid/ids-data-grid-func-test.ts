@@ -1814,7 +1814,7 @@ describe('IdsDataGrid Component', () => {
         field: 'location',
         formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
           const value = `${rowData[columnData.field] || ''}`;
-          return `<a part="custom-link" href="#" class="text-ellipsis">${value}</a>`;
+          return `<a part="custom-link" href="#" class="text-ellipsis" tabindex="-1">${value}</a>`;
         },
         click: customLinkClickListener,
       });
