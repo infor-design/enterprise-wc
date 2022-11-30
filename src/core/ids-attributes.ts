@@ -359,6 +359,7 @@ export const attributes = {
   TIMELINE_INTERVAL: 'timeline-interval',
   TIMEOUT: 'timeout',
   TITLE: 'title',
+  TOGGLEABLE: 'toggleable',
   TOGGLE_COLLAPSE_ICON: 'toggle-collapse-icon',
   TOGGLE_EXPAND_ICON: 'toggle-expand-icon',
   TOGGLE_ICON_ROTATE: 'toggle-icon-rotate',

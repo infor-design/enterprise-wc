@@ -1203,22 +1203,6 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Get the cell padding in pixels (not including border)
-   * @private
-   * @returns {number} The pixel padding
-   */
-  get cellPadding(): number {
-    const rowHeights: any = {
-      xs: 3,
-      sm: 7,
-      md: 11,
-      lg: 15
-    };
-
-    return rowHeights[this.rowHeight];
-  }
-
-  /**
    * Set the card to auto fit to its parent size
    * @param {boolean|string|null} value The auto fit
    */

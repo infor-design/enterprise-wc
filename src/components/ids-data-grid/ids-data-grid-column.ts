@@ -201,7 +201,8 @@ export interface IdsDataGridColumn {
   /** Setup an editor */
   editor?: {
     type: 'input' | 'date' | 'time' | 'checkbox' | 'dropdown',
-    inline: boolean,
-    editor?: IdsDataGridEditor
+    inline?: boolean,
+    editor?: IdsDataGridEditor,
+    editorSettings?: Record<string, unknown>
   }
 }

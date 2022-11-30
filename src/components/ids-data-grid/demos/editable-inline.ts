@@ -11,7 +11,20 @@ const rowHeightMenu = document.querySelector<IdsPopupMenu>('#row-height-menu')!;
 
 // Change row height with popup menu
 rowHeightMenu?.addEventListener('selected', (e: Event) => {
-  dataGrid.rowHeight = (e.target as IdsMenuItem).value as string;
+  const value = (e.target as IdsMenuItem).value;
+  if (value !== 'is-list') {
+    dataGrid.rowHeight = value as string;
+  }
+  if (value === 'is-list') {
+    dataGrid.listStyle = !dataGrid.listStyle;
+  }
+});
+
+rowHeightMenu?.addEventListener('deselected', (e: Event) => {
+  const value = (e.target as IdsMenuItem).value;
+  if (value === 'is-list') {
+    dataGrid.listStyle = !dataGrid.listStyle;
+  }
 });
 
 (async function init() {
@@ -48,17 +61,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     formatter: dataGrid.formatters.text,
     editor: {
       type: 'input',
-      editorSettings: {
-        autoselect: true,
-        placeholder: 'Type a description',
-        dirtyTracker: true,
-        mask: 'number',
-        maskOptions: {
-          allowDecimal: true,
-          decimalLimit: 2,
-          integerLimit: 3
-        }
-      }
+      inline: true
     }
   });
   columns.push({
@@ -100,32 +103,6 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     field: 'bookCurrency',
     resizable: true,
     reorderable: true,
-    formatter: dataGrid.formatters.text
-  });
-  columns.push({
-    id: 'transactionCurrency',
-    name: 'Transaction Currency',
-    field: 'transactionCurrency',
-    formatter: dataGrid.formatters.text,
-  });
-  columns.push({
-    id: 'integer',
-    name: 'Price (Int)',
-    field: 'price',
-    formatter: dataGrid.formatters.integer,
-    formatOptions: { locale: 'en-US' } // Data Values are in en-US
-  });
-  columns.push({
-    id: 'location',
-    name: 'Location',
-    field: 'location',
-    formatter: dataGrid.formatters.hyperlink,
-    href: '#'
-  });
-  columns.push({
-    id: 'postHistory',
-    name: 'Post History',
-    field: 'postHistory',
     formatter: dataGrid.formatters.text
   });
 

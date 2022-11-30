@@ -1,6 +1,6 @@
 # Ids Dirty Tracker Mixin
 
-This mixin tracks the input element text/value changes and show a dirty indicator icon (yellow triangle) to indicate the field has been modified from the starting value. It relies on there being an input element reference from which to check and it will work on `this.input` for the input.
+This mixin tracks the input element text/value changes and show a dirty indicator icon (yellow triangle) to indicate the field has been modified from the starting value. It relies on the existence of an input element reference `this.input`.
 
 To implement the dirty tracker mixin:
 

@@ -225,7 +225,13 @@ export default class IdsDataGridRow extends IdsElement {
 
     const cellsHtml = dataGrid?.visibleColumns.map((column: IdsDataGridColumn, j: number) => {
       const content = IdsDataGridCell.template(row, column, ariaRowIndex, dataGrid);
-      return `<ids-data-grid-cell role="gridcell" part="${cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ``}" aria-colindex="${j + 1}">${content}</ids-data-grid-cell>`;
+      let cssClasses = 'ids-data-grid-cell';
+      cssClasses += `${column?.readonly ? ' readonly' : ''}`;
+      cssClasses += `${column?.align ? ` align-${column?.align}` : ''}`;
+      cssClasses += `${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ''}`;
+      cssClasses += `${column?.editor ? ` is-editable${column?.editor?.inline ? ' is-inline' : ''}` : ''}`;
+
+      return `<ids-data-grid-cell role="gridcell" part="${cssPart(column, index, j)}" class="${cssClasses}" aria-colindex="${j + 1}">${content}</ids-data-grid-cell>`;
     }).join('');
 
     return `<ids-data-grid-row role="row" part="row" aria-rowindex="${ariaRowIndex}" data-index="${index}" ${isHidden} class="ids-data-grid-row${rowClasses}"${treeAttrs}>${cellsHtml}${expandableRowHtml}</ids-data-grid-row>`;

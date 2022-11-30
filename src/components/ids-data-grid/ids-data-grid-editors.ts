@@ -12,7 +12,7 @@ export interface IdsDataGridEditorOptions {
 }
 
 export interface IdsDataGridEditor {
-  /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
+  /** The type of editor (i.e. input, dropdown, checkbox ect) */
   type: string;
   /** The main editor element */
   input?: IdsInput | IdsCheckbox;
@@ -23,9 +23,16 @@ export interface IdsDataGridEditor {
   /** The function that tears down all aspects of the editor */
   destroy: () => void;
 }
-export class TextEditor implements IdsDataGridEditor {
-  /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
-  type = 'text';
+
+const applySettings = (elem: any, settings?: Record<string, any> | undefined) => {
+  // eslint-disable-next-line guard-for-in
+  for (const setting in settings) {
+    elem[setting] = settings[setting];
+  }
+};
+export class InputEditor implements IdsDataGridEditor {
+  /** The type of editor (i.e. input, dropdown, checkbox ect) */
+  type = 'input';
 
   /** Holds the Editor */
   input?: IdsInput;
@@ -35,8 +42,10 @@ export class TextEditor implements IdsDataGridEditor {
    * @param {IdsDataGridCell} cell the cell element
    */
   init(cell?: IdsDataGridCell) {
+    const isInline = cell?.column.editor?.inline;
     this.input = <IdsInput> document.createElement('ids-input');
-    this.input.colorVariant = 'borderless';
+    this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
+    this.input.size = isInline ? 'full' : '';
     this.input.fieldHeight = String(cell?.dataGrid?.rowHeight);
     this.input.labelState = 'collapsed';
 
@@ -47,9 +56,8 @@ export class TextEditor implements IdsDataGridEditor {
     this.input.value = value;
 
     if (this.input instanceof IdsInput && cell) {
-      this.input.shadowRoot?.querySelector('input')?.style.setProperty('width', `${cell.offsetWidth - 5}px`);
-      this.input.padding = cell.dataGrid.cellPadding;
-      this.input.select();
+      if (!isInline) this.input.shadowRoot?.querySelector('input')?.style.setProperty('width', `${cell.offsetWidth - 5}px`);
+      applySettings(this.input, cell?.column.editor?.editorSettings);
     }
     this.input.focus();
   }
@@ -68,5 +76,5 @@ export class TextEditor implements IdsDataGridEditor {
 export const editors: Array<{ type: string, editor?: IdsDataGridEditor }> = [];
 editors.push({
   type: 'input',
-  editor: new TextEditor()
+  editor: new InputEditor()
 });

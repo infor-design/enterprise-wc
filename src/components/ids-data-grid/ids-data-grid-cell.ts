@@ -26,10 +26,18 @@ export default class IdsDataGridCell extends IdsElement {
   }
 
   /**
+   * Get the column definition
+   * @returns {IdsDataGridColumn} the current cells column
+   */
+  get column() {
+    return this.dataGrid?.columns[Number(this.getAttribute('aria-colindex')) - 1];
+  }
+
+  /**
    * Rerender a cell - may be used later
    */
   renderCell() {
-    const column = this.dataGrid?.columns[Number(this.getAttribute('aria-colindex')) - 1];
+    const column = this.column;
     let index = Number(this.parentElement?.getAttribute('data-index'));
 
     if (column?.formatter?.name === 'rowNumber') {
@@ -67,7 +75,7 @@ export default class IdsDataGridCell extends IdsElement {
 
   /** Begin Edit Mode */
   startCellEdit() {
-    const column = this.dataGrid?.columns[Number(this.getAttribute('aria-colindex')) - 1];
+    const column = this.column;
     const columnEditor = this.dataGrid.editors.find((obj) => obj.type === column?.editor?.type);
     if (!columnEditor || !columnEditor.editor || this.isEditing || !this.dataGrid) return;
 
@@ -93,6 +101,7 @@ export default class IdsDataGridCell extends IdsElement {
 
     // Set states
     this.classList.add('is-editing');
+    if (column.editor?.inline) this.classList.add('is-inline');
     this.isEditing = true;
 
     // Save on Click Out Event
@@ -111,7 +120,7 @@ export default class IdsDataGridCell extends IdsElement {
 
   /** End Cell Edit */
   endCellEdit() {
-    const column = this.dataGrid?.columns[Number(this.getAttribute('aria-colindex')) - 1];
+    const column = this.column;
     this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, { [String(column?.field)]: this.editor?.save() });
     this.editor?.destroy();
     this.renderCell();
@@ -126,7 +135,7 @@ export default class IdsDataGridCell extends IdsElement {
 
   /** Cancel Cell Edit */
   cancelCellEdit() {
-    const column = this.dataGrid?.columns[Number(this.getAttribute('aria-colindex')) - 1];
+    const column = this.column;
     this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, { [String(column?.field)]: this.oldValue });
     this.renderCell();
     this.dataGrid?.triggerEvent('cancel', this.dataGrid, {

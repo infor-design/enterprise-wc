@@ -130,6 +130,7 @@ export default class IdsMenuItem extends Base {
       attributes.TARGET,
       attributes.TABINDEX,
       attributes.TEXT_ALIGN,
+      attributes.TOGGLEABLE,
       attributes.VALUE,
       attributes.VIEWBOX
     ];
@@ -520,7 +521,7 @@ export default class IdsMenuItem extends Base {
 
       // Build/Fire a `selected` event for performing other actions.
       // This event only fires when selection type changes.
-      if (trueVal || this.group?.select === 'multiple') {
+      if (this.group?.select === 'multiple' || (this.group?.select === 'single' && this.toggleable) || (this.group?.select === 'single' && trueVal)) {
         this.triggerEvent(duringEventName, this, {
           bubbles: true,
           detail: {
@@ -717,5 +718,26 @@ export default class IdsMenuItem extends Base {
    */
   get viewbox() {
     return this.getAttribute(attributes.VIEWBOX);
+  }
+
+  /**
+   * For selectable menu items they may be toggleable for on/off
+   * @param {boolean | string} value for icon viewbox
+   */
+  set toggleable(value) {
+    const isToggleable = stringToBool(value);
+    if (isToggleable) {
+      this.setAttribute(attributes.TOGGLEABLE, 'true');
+    } else {
+      this.removeAttribute(attributes.TOGGLEABLE);
+    }
+  }
+
+  /**
+   * Return the viewbox
+   * @returns {boolean} the viewbox
+   */
+  get toggleable() {
+    return stringToBool(this.getAttribute(attributes.TOGGLEABLE));
   }
 }

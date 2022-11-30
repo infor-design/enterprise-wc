@@ -87,7 +87,7 @@ export default class IdsInput extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate', 'alternate-formatter', 'borderless'];
+  colorVariants = ['alternate', 'alternate-formatter', 'borderless', 'in-cell'];
 
   /**
    * @returns {Array<string>} IdsInput component observable attributes
@@ -944,12 +944,5 @@ export default class IdsInput extends Base {
    */
   get format(): string | null {
     return this.getAttribute(attributes.FORMAT);
-  }
-
-  /**
-   * Selects all the text in a the input element
-   */
-  select() {
-    this.input?.select();
   }
 }
