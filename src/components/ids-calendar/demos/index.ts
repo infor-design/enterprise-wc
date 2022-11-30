@@ -12,6 +12,7 @@ import '../../ids-list-box/ids-list-box';
 import '../../ids-time-picker/ids-time-picker';
 import '../../ids-textarea/ids-textarea';
 import '../../ids-demo-app/ids-demo-listing';
+import './ids-custom-calendar-event';
 import indexYaml from './index.yaml';
 
 const demoListing: any = document.querySelector('ids-demo-listing');
