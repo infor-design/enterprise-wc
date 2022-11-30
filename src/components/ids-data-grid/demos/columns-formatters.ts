@@ -7,7 +7,7 @@ import css from '../../../assets/css/ids-data-grid/custom-link.css';
 import { addIcon } from '../../ids-icon/ids-icon';
 
 // Add custom icon
-addIcon('custom-airplane', '<path transform="translate(-0.25 -0.23)" d="m7 16.81-1.57-1 .49-9L.83 3.37s-.51-1.51 1-1.56c1 .63 5.09 3.33 5.09 3.33l7.8-4.33 1.62 1-5.87 5.64 3.36 2.14 2.11-.9 1.31.85-.44.72-1.56 1-.39.63-.19 1.82-.45.73-1.31-.86-.07-2.36L9.45 9.1Z"></path>');
+addIcon('custom-cargoship', '<path transform="translate(-0.12 -4.69)" d="m17.54 12.23-1.42 1H3.1l-2-2.6h16.42ZM3.32 8.85h2.74V7H3.32Zm4.78 0h2.74V7H8.1Zm8.56 1.62V5.19h-3.4v5.21"></path>');
 
 const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
@@ -170,26 +170,26 @@ if (dataGrid) {
       width: 180
     });
     columns.push({
-      id: 'spacer',
-      name: '',
-      field: '',
-      sortable: false
-    });
-    columns.push({
-      id: 'airplane',
+      id: 'cargoship',
       name: '',
       sortable: false,
       resizable: false,
       formatter: dataGrid.formatters.button,
-      icon: 'custom-airplane',
+      icon: 'custom-cargoship',
       type: 'icon',
       align: 'center',
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
       click: (info: any) => {
-        console.info('Airplane clicked', info);
+        console.info('Cargoship clicked', info);
       },
       text: 'Drill Down',
       width: 56
+    });
+    columns.push({
+      id: 'spacer',
+      name: '',
+      field: '',
+      sortable: false
     });
 
     dataGrid.columns = columns;
