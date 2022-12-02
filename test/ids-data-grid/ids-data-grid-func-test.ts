@@ -1774,6 +1774,56 @@ describe('IdsDataGrid Component', () => {
       dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.row).toEqual(0);
     });
+
+    it('should follow cell links with keyboard', () => {
+      const hyperlinkClickListener = jest.fn();
+      const buttonClickListener = jest.fn();
+      const customLinkClickListener = jest.fn();
+
+      dataGrid.columns.splice(0, 0, {
+        id: 'location-with-listener',
+        name: 'Location',
+        field: 'location',
+        formatter: formatters.hyperlink,
+        href: '#',
+        click: hyperlinkClickListener,
+      });
+      dataGrid.redraw();
+      dataGrid.container.querySelector('ids-data-grid-cell').focus();
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+      expect(hyperlinkClickListener).toHaveBeenCalled();
+
+      dataGrid.columns.splice(0, 0, {
+        id: 'drilldown',
+        name: '',
+        formatter: dataGrid.formatters.button,
+        icon: 'drilldown',
+        type: 'icon',
+        click: buttonClickListener,
+      });
+      dataGrid.redraw();
+      dataGrid.container.querySelector('ids-data-grid-cell').focus();
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+      expect(buttonClickListener).toHaveBeenCalled();
+
+      dataGrid.columns.splice(0, 0, {
+        id: 'custom',
+        name: 'Custom Formatter',
+        field: 'location',
+        formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
+          const value = `${rowData[columnData.field] || ''}`;
+          return `<a part="custom-link" href="#" class="text-ellipsis" tabindex="-1">${value}</a>`;
+        },
+        click: customLinkClickListener,
+      });
+      dataGrid.redraw();
+      dataGrid.container.querySelector('ids-data-grid-cell').focus();
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+      expect(customLinkClickListener).toHaveBeenCalled();
+    });
   });
 
   describe('Active Cell Tests', () => {
