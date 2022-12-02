@@ -417,6 +417,16 @@ export default class IdsDataGrid extends Base {
     const element = this.columns[correctFromIndex];
     this.columns.splice(correctFromIndex, 1);
     this.columns.splice(correctToIndex, 0, element);
+
+    // Move the dirty data
+    this.dirtyCells.forEach((dirtyRow: Record<string, any>) => {
+      if (dirtyRow.cell === fromIndex) {
+        const row: any = this.data[dirtyRow?.row];
+        const cellIndex = row.dirtyCells.findIndex((item: any) => item.cell === fromIndex);
+        row.dirtyCells[cellIndex].cell = toIndex;
+      }
+    });
+
     this.redraw();
     this.triggerEvent('columnmoved', this, { detail: { elem: this, fromIndex: correctFromIndex, toIndex: correctToIndex } });
   }
@@ -1442,5 +1452,33 @@ export default class IdsDataGrid extends Base {
 
   get editable() {
     return this.getAttribute(attributes.EXPANDABLE_ROW_TEMPLATE) || '';
+  }
+
+  /**
+   * Get all the currently dirty cells
+   * @returns {Array<{ row: number, cell: number, columnId: string | null, originalValue: any }>} info about the dirty cells
+   */
+  get dirtyCells(): Array<{ row: number, cell: number, columnId: string | null, originalValue: any }> {
+    const dirtyCells: Array<{ row: number, cell: number, columnId: string | null, originalValue: any }> = [];
+    for (let index = 0; index < this.data.length; index++) {
+      if (this.data[index]?.dirtyCells) {
+        dirtyCells.push(...this.data[index].dirtyCells);
+      }
+    }
+    return dirtyCells;
+  }
+
+  /**
+   * Reset any currently dirty cells
+   */
+  resetDirtyCells() {
+    this.data.forEach((row) => {
+      if (row?.dirtyCells) {
+        delete row.dirtyCells;
+      }
+    });
+    this.container?.querySelectorAll('ids-data-grid-cell.is-dirty').forEach((elem) => {
+      elem.classList.remove('is-dirty');
+    });
   }
 }

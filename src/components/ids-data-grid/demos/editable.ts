@@ -50,7 +50,6 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
       type: 'input',
       editorSettings: {
         autoselect: true,
-        placeholder: 'Type a description',
         dirtyTracker: true,
         mask: 'number',
         maskOptions: {

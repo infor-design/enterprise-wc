@@ -19,9 +19,9 @@ export interface IdsDataGridEditor {
   /** The function that invokes and sets values on the input */
   init: (cell?: IdsDataGridCell) => void;
   /** The function that transforms and saved the editor */
-  save: () => void;
+  save: (cell?: IdsDataGridCell) => void;
   /** The function that tears down all aspects of the editor */
-  destroy: () => void;
+  destroy: (cell?: IdsDataGridCell) => void;
 }
 
 const applySettings = (elem: any, settings?: Record<string, any> | undefined) => {

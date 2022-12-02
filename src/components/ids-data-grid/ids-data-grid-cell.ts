@@ -65,7 +65,7 @@ export default class IdsDataGridCell extends IdsElement {
   }
 
   /** Previous Value before Editing */
-  oldValue: unknown;
+  originalValue: unknown;
 
   /** The editor element */
   editor?: IdsDataGridEditor;
@@ -95,7 +95,7 @@ export default class IdsDataGridCell extends IdsElement {
       return;
     }
 
-    this.oldValue = this.innerText;
+    this.originalValue = this.innerText;
     this.editor = columnEditor.editor;
     this.editor?.init(this);
 
@@ -121,8 +121,17 @@ export default class IdsDataGridCell extends IdsElement {
   /** End Cell Edit */
   endCellEdit() {
     const column = this.column;
-    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, { [String(column?.field)]: this.editor?.save() });
-    this.editor?.destroy();
+
+    const isDirty = this.editor?.input?.isDirty;
+    const newValue = this.editor?.save(this);
+    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
+      [String(column?.field)]: newValue,
+    });
+
+    // Save Dirty State on the row
+    if (isDirty) this.#saveDirtyState(newValue);
+
+    this.editor?.destroy(this);
     this.renderCell();
     this.isEditing = false;
     this.dataGrid?.triggerEvent('endcelledit', this.dataGrid, {
@@ -133,10 +142,46 @@ export default class IdsDataGridCell extends IdsElement {
     this.dataGrid.activeCellEditor = undefined;
   }
 
+  /**
+   * Save the dirty state s
+   * @param {boolean} newValue the current value
+   */
+  #saveDirtyState(newValue: any) {
+    let rowDirtyCells = this.dataGrid.data[this.dataGrid?.activeCell.row].dirtyCells;
+    if (rowDirtyCells === undefined) rowDirtyCells = [];
+    const cell = Number(this.getAttribute('aria-colindex')) - 1;
+    const previousCellInfo = rowDirtyCells.filter((item: any) => item.cell === cell);
+
+    if (previousCellInfo[0] && newValue === previousCellInfo[0].orginalValue) {
+      const oldIndex = rowDirtyCells.findIndex((item: any) => item.cell === cell);
+      rowDirtyCells.splice(oldIndex, 1);
+      // Value was reset
+      this?.classList.remove('is-dirty');
+      this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
+        dirtyCells: rowDirtyCells
+      });
+      return;
+    }
+
+    this?.classList.add('is-dirty');
+
+    if (previousCellInfo.length === 0) {
+      rowDirtyCells.push({
+        row: Number(this.parentElement?.getAttribute('aria-rowindex')) - 1,
+        cell: Number(this?.getAttribute('aria-colindex')) - 1,
+        columnId: this.column.id,
+        orginalValue: this?.editor?.input?.dirty.original
+      });
+      this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
+        dirtyCells: rowDirtyCells
+      });
+    }
+  }
+
   /** Cancel Cell Edit */
   cancelCellEdit() {
     const column = this.column;
-    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, { [String(column?.field)]: this.oldValue });
+    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, { [String(column?.field)]: this.originalValue });
     this.renderCell();
     this.dataGrid?.triggerEvent('cancel', this.dataGrid, {
       detail: {
@@ -144,7 +189,7 @@ export default class IdsDataGridCell extends IdsElement {
         editor: this.editor,
         column,
         data: this.dataGrid.data[this.dataGrid?.activeCell.row],
-        oldValue: this.oldValue
+        oldValue: this.originalValue
       }
     });
   }

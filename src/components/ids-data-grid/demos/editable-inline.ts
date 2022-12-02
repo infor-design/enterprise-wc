@@ -61,7 +61,11 @@ rowHeightMenu?.addEventListener('deselected', (e: Event) => {
     formatter: dataGrid.formatters.text,
     editor: {
       type: 'input',
-      inline: true
+      inline: true,
+      editorSettings: {
+        autoselect: true,
+        dirtyTracker: true
+      }
     }
   });
   columns.push({
