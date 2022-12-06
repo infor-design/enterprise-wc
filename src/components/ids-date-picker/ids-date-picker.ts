@@ -481,8 +481,8 @@ class IdsDatePicker extends Base {
         this.container?.removeAttribute('tabindex');
       }
     } else {
-      if (this.#monthView.selectDay) {
-        this.#monthView.selectDay();
+      if (this.#monthView?.selectDay) {
+        this.#monthView?.selectDay();
       }
       this.removeOpenEvents();
       this.#popup.visible = false;
@@ -776,8 +776,8 @@ class IdsDatePicker extends Base {
     // Deselect the selected date by clicking to the selected date
     if (isValidDate(inputDate) && inputDate.getTime() === e.detail.date.getTime()) {
       this.value = '';
-      if (this.#monthView.selectDay) {
-        this.#monthView.selectDay();
+      if (this.#monthView?.selectDay) {
+        this.#monthView?.selectDay();
       }
       this.#triggerSelectedEvent();
 

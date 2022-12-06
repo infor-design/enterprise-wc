@@ -106,6 +106,7 @@ export const attributes = {
   DISMISSIBLE: 'dismissible',
   DISPLAY: 'display',
   DISPLAY_TIME: 'display-time',
+  DISPLAY_SELECTED_TEXT: 'display-selected-text',
   DONUT: 'donut',
   DONUT_TEXT: 'donut-text',
   DRAG_MODE: 'drag-mode',

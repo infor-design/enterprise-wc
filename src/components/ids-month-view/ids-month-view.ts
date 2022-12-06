@@ -29,17 +29,13 @@ import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils
 
 // Supporting components
 import '../ids-button/ids-button';
-import '../ids-date-picker/ids-date-picker';
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
-import '../ids-toolbar/ids-toolbar';
 import '../ids-trigger-field/ids-trigger-button';
 
 // Import Styles
 import styles from './ids-month-view.scss';
 import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../ids-calendar/ids-calendar-event';
-import type IdsDatePicker from '../ids-date-picker/ids-date-picker';
-import type IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
 import { getDateValuesFromString } from '../ids-date-picker/ids-date-picker-common';
 
 const MIN_MONTH = 0;
@@ -192,7 +188,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     this.offEvent('languagechange.month-view-container');
     this.onEvent('languagechange.month-view-container', getClosest(this, 'ids-container'), () => {
       this.setDirection();
-      this.#renderToolbar();
       this.#renderMonth();
     });
 
@@ -201,7 +196,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     this.onEvent('localechange.month-view-container', getClosest(this, 'ids-container'), () => {
       this.setDirection();
       this.#renderMonth();
-      this.#attachDatepicker();
     });
 
     // Day select event
@@ -399,183 +393,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
   }
 
   /**
-   * Add/Remove toolbar HTML to container
-   */
-  #renderToolbar(): void {
-    return; // @TODO this is temporary, take this out
-
-    if (this.#isDisplayRange()) {
-      this.container?.querySelector('ids-toolbar')?.remove();
-      this.#detachToolbarEvents();
-
-      return;
-    }
-
-    const prevNextBtn = `<ids-button class="btn-previous">
-      <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
-      <ids-icon slot="icon" icon="chevron-left"></ids-icon>
-    </ids-button>
-    <ids-button class="btn-next">
-      <ids-text audible="true" translate-text="true">NextMonth</ids-text>
-      <ids-icon slot="icon" icon="chevron-right"></ids-icon>
-    </ids-button>`;
-    const todayBtn = this.showToday ? `<ids-button css-class="no-padding" class="btn-today">
-      <ids-text
-        class="month-view-btn-text"
-        font-size="16"
-        translate-text="true"
-        font-weight="bold"
-      >Today</ids-text>
-    </ids-button>` : '';
-
-    const toolbarTemplate = `<ids-toolbar class="month-view-header" tabbable="true">
-      ${!this.compact ? `
-        <ids-toolbar-section type="buttonset" class="toolbar-buttonset">
-          ${prevNextBtn}
-          <ids-date-picker
-            is-calendar-toolbar="true"
-            value="${this.#formatMonthText()}"
-            month="${this.month}"
-            year="${this.year}"
-            day="${this.day}"
-            first-day-of-week="${this.firstDayOfWeek}"
-            show-picklist-month="${this.showPicklistMonth}"
-            show-picklist-year="${this.showPicklistYear}"
-            show-picklist-week="${this.showPicklistWeek}"
-            show-today=${this.showToday}"
-          ></ids-date-picker>
-          ${todayBtn}
-        </ids-toolbar-section>
-        ${this.viewPicker ? this.createViewPickerTemplate('month') : ''}
-      ` : `
-        <ids-toolbar-section favor>
-          <div class="datepicker-section">
-            ${!this.isDatePicker ? `
-              <ids-trigger-button>
-                <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
-                <ids-icon slot="icon" icon="schedule" class="trigger-icon"></ids-icon>
-              </ids-trigger-button>
-            ` : ''}
-            <ids-date-picker
-              is-dropdown="true"
-              value="${this.#formatMonthText()}"
-              year="${this.year}"
-              month="${this.month}"
-              day="${this.day}"
-              first-day-of-week="${this.firstDayOfWeek}"
-              show-picklist-month="${this.showPicklistMonth}"
-              show-picklist-year="${this.showPicklistYear}"
-              show-picklist-week="${this.showPicklistWeek}"
-            ></ids-date-picker>
-          </div>
-        </ids-toolbar-section>
-        <ids-toolbar-section align="end" type="fluid" class="toolbar-buttonset">
-          ${todayBtn}
-          ${prevNextBtn}
-          ${!this.isDatePicker ? `
-            <ids-button css-class="no-padding" class="btn-apply" hidden="true">
-              <ids-text
-                class="month-view-btn-text"
-                font-size="16"
-                translate-text="true"
-                font-weight="bold"
-              >Apply</ids-text>
-            </ids-button>
-          ` : ''}
-        </ids-toolbar-section>
-      `}
-    </ids-toolbar>`;
-
-    // Clear/add HTML
-    this.container?.querySelector('ids-toolbar')?.remove();
-    this.container?.insertAdjacentHTML('afterbegin', toolbarTemplate);
-
-    // Configure View Picker
-    if (this.viewPicker) this.viewPickerConnected();
-
-    // Toolbar events
-    this.#attachToolbarEvents();
-  }
-
-  /**
-   * Add next/previous/today click events when toolbar is attached
-   */
-  #attachToolbarEvents(): void {
-    const buttonSet = this.container?.querySelector<IdsToolbarSection>('ids-toolbar-section.toolbar-buttonset');
-    const toolbarDatepicker = this.container?.querySelector<IdsDatePicker>('ids-date-picker');
-
-    this.offEvent('click.month-view-buttons');
-    this.onEvent('click.month-view-buttons', buttonSet, (e: MouseEvent) => {
-      e.stopPropagation();
-      const target: any = e.target;
-      if (target.classList.contains('btn-previous')) {
-        this.changeDate('previous-month');
-      }
-
-      if (target.classList.contains('btn-next')) {
-        this.changeDate('next-month');
-      }
-
-      if (target.classList.contains('btn-today')) {
-        this.changeDate('today');
-
-        this.focus();
-        this.#triggerSelectedEvent();
-      }
-
-      if (target.classList.contains('btn-apply')) {
-        const year = toolbarDatepicker?.year ?? null;
-        const month = toolbarDatepicker?.month ?? null;
-
-        this.year = year;
-        this.month = month;
-
-        if (toolbarDatepicker) toolbarDatepicker.expanded = false;
-
-        this.#triggerSelectedEvent();
-      }
-    });
-
-    this.offEvent('dayselected.month-view-datepicker');
-    this.onEvent('dayselected.month-view-datepicker', toolbarDatepicker, (e: CustomEvent) => {
-      const date: Date = e.detail.date;
-
-      this.day = date.getDate();
-      this.year = date.getFullYear();
-      this.month = date.getMonth();
-    });
-
-    // Date picker dropdown picklist expanded or collapsed
-    this.offEvent('expanded.month-view-picklist');
-    this.onEvent('expanded.month-view-picklist', toolbarDatepicker, (e: CustomEvent) => {
-      const expanded: boolean = e.detail.expanded;
-
-      this.container?.querySelector('.btn-today')?.setAttribute('hidden', expanded.toString());
-      this.container?.querySelector('.btn-apply')?.setAttribute('hidden', (!expanded).toString());
-      this.container?.querySelector('.btn-previous')?.setAttribute('hidden', expanded.toString());
-      this.container?.querySelector('.btn-next')?.setAttribute('hidden', expanded.toString());
-
-      if (expanded) {
-        this.container?.querySelector('td.is-selected')?.removeAttribute('tabindex');
-      } else {
-        this.container?.querySelector('td.is-selected')?.setAttribute('tabindex', '0');
-      }
-    });
-
-    if (this.viewPicker) {
-      this.attachViewPickerEvents('month');
-    }
-  }
-
-  /**
-   * Remove calendar toolbar events when showing range of dates
-   */
-  #detachToolbarEvents(): void {
-    this.offEvent('click.month-view-buttons');
-    this.offEvent('dayselected.month-view-datepicker');
-  }
-
-  /**
    * Add/remove legend HTML to the container
    */
   #renderLegend(): void {
@@ -595,34 +412,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     this.container?.querySelector('.month-view-container')?.insertAdjacentHTML('beforeend', template);
 
     this.#colorToVar();
-  }
-
-  /**
-   * Helper to format datepicker text in the toolbar
-   * @returns {string} locale formatted month year
-   */
-  #formatMonthText(): string {
-    const monthKeys = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const month = this.locale?.translate(`MonthWide${monthKeys[this.activeDate.getMonth()]}`);
-
-    return `${month} ${this.activeDate.getFullYear()}`;
-  }
-
-  /**
-   * Datepicker changing locale formatted text
-   */
-  #attachDatepicker(): void {
-    const text = this.#formatMonthText();
-    const datepicker = this.container?.querySelector<IdsDatePicker>('ids-date-picker');
-
-    if (!this.#isDisplayRange() && datepicker) {
-      datepicker.value = text;
-      datepicker.month = this.month;
-      datepicker.year = this.year;
-      datepicker.day = this.day;
-      datepicker.firstDayOfWeek = this.firstDayOfWeek;
-      datepicker.showToday = this.showToday;
-    }
   }
 
   /**
@@ -823,7 +612,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     }
 
     this.triggerDateChange(this.activeDate, type);
-    this.#attachDatepicker();
   }
 
   /**
@@ -1355,42 +1143,12 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
   }
 
   /**
-   * show-today attribute
-   * @returns {boolean} showToday param converted to boolean from attribute value
-   */
-  get showToday(): boolean {
-    const attrVal = this.getAttribute(attributes.SHOW_TODAY);
-
-    return stringToBool(attrVal);
-  }
-
-  /**
-   * Set whether or not the today button should be shown
-   * @param {string|boolean|null} val showToday param value
-   */
-  set showToday(val: string | boolean | null) {
-    const boolVal = stringToBool(val);
-
-    if (boolVal) {
-      this.setAttribute(attributes.SHOW_TODAY, 'true');
-    } else {
-      this.removeAttribute(attributes.SHOW_TODAY);
-    }
-
-    if (this.container) {
-      this.#renderToolbar();
-      this.#attachDatepicker();
-    }
-  }
-
-  /**
    * Inherited from `IdsDateAttributeMixin`
    * @returns {void}
    */
   onFirstDayOfWeekChange() {
     if (this.container) {
       this.#renderMonth();
-      this.#attachDatepicker();
     }
   }
 
@@ -1406,7 +1164,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       this.selectDay(this.year, this.month, this.day);
     } else {
       this.#renderMonth();
-      this.#attachDatepicker();
       this.#renderRangeSelection();
     }
   }
@@ -1423,7 +1180,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       this.selectDay(this.year, this.month, this.day);
     } else {
       this.#renderMonth();
-      this.#attachDatepicker();
       this.#renderRangeSelection();
     }
   }
@@ -1439,10 +1195,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
 
     if (!(this.rangeSettings.start || this.useRange) && !this.isDatePicker) {
       this.selectDay(this.year, this.month, validates ? numberVal : this.day);
-    }
-
-    if (!this.#isDisplayRange()) {
-      this.#attachDatepicker();
     }
   }
 
@@ -1473,7 +1225,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     }
 
     if (this.container) {
-      this.#renderToolbar();
       this.#renderMonth();
       this.#attachKeyboardListeners();
     }
@@ -1506,7 +1257,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     }
 
     if (this.container) {
-      this.#renderToolbar();
       this.#renderMonth();
       this.#attachKeyboardListeners();
     }
@@ -1541,7 +1291,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
 
     if (this.container) {
       // Render related views
-      this.#renderToolbar();
       this.#renderWeekDays();
     }
   }

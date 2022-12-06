@@ -3,12 +3,15 @@ import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 import IdsCalendarEventsMixin from '../../mixins/ids-calendar-events-mixin/ids-calendar-events-mixin';
+import IdsDateAttributeMixin from '../../mixins/ids-date-attribute-mixin/ids-date-attribute-mixin';
 
 const Base = IdsThemeMixin(
-  IdsCalendarEventsMixin(
-    IdsLocaleMixin(
-      IdsEventsMixin(
-        IdsElement
+  IdsDateAttributeMixin(
+    IdsCalendarEventsMixin(
+      IdsLocaleMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
       )
     )
   )

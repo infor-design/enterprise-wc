@@ -7,6 +7,7 @@ import '../../ids-data-label/ids-data-label';
 import '../../ids-popup/ids-popup';
 import '../../ids-input/ids-input';
 import '../../ids-date-picker/ids-date-picker';
+import '../../ids-date-picker/ids-date-picker-popup';
 import '../../ids-dropdown/ids-dropdown';
 import '../../ids-list-box/ids-list-box';
 import '../../ids-time-picker/ids-time-picker';

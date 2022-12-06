@@ -9,6 +9,7 @@ export interface CalendarEventsHandler {
   renderEventsData?(forceRender?: boolean): void;
   onEventsChange?(data: CalendarEventData[]): void;
   onEventTypesChange?(data: CalendarEventTypeData[]): void;
+  onViewPickerChange?(doShow?: boolean): void;
 }
 
 type Constraints = IdsConstructor<EventsMixinInterface & CalendarEventsHandler>;
@@ -81,10 +82,15 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
    * @param {string|boolean} value show view picker if true
    */
   set viewPicker(value: string | boolean) {
-    if (stringToBool(value)) {
+    const doShowViewPicker = stringToBool(value);
+    if (doShowViewPicker) {
       this.setAttribute(attributes.VIEW_PICKER, '');
     } else {
       this.removeAttribute(attributes.VIEW_PICKER);
+    }
+
+    if (typeof this.onViewPickerChange === 'function') {
+      this.onViewPickerChange(doShowViewPicker);
     }
   }
 
@@ -152,24 +158,22 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
     const value = view[0].toUpperCase() + view.slice(1).toLowerCase();
 
     return `
-      <ids-toolbar-section align="end">
-        <ids-menu-button id="view-picker-btn" menu="view-picker" value="${view}" dropdown-icon>
-          <span slot="text"><ids-text translate-text="true">${value}</ids-text></span>
-        </ids-menu-button>
-        <ids-popup-menu id="view-picker" trigger-type="click" target="#view-picker-btn">
-          <ids-menu-group select="single">
-            <ids-menu-item value="month" selected="${view === 'month'}">
-              <ids-text translate-text="true">Month</ids-text>
-            </ids-menu-item>
-            <ids-menu-item value="week" selected="${view === 'week'}">
-              <ids-text translate-text="true">Week</ids-text>
-            </ids-menu-item>
-            <ids-menu-item value="day" selected="${view === 'day'}">
-              <ids-text translate-text="true">Day</ids-text>
-            </ids-menu-item>
-          </ids-menu-group>
-        </ids-popup-menu>
-      </ids-toolbarbar-section>
+      <ids-menu-button id="view-picker-btn" menu="view-picker" value="${view}" dropdown-icon display-selected-text>
+        <span slot="text"><ids-text translate-text="true">${value}</ids-text></span>
+      </ids-menu-button>
+      <ids-popup-menu id="view-picker" trigger-type="click" target="#view-picker-btn">
+        <ids-menu-group select="single">
+          <ids-menu-item value="month" selected="${view === 'month'}">
+            <ids-text translate-text="true">Month</ids-text>
+          </ids-menu-item>
+          <ids-menu-item value="week" selected="${view === 'week'}">
+            <ids-text translate-text="true">Week</ids-text>
+          </ids-menu-item>
+          <ids-menu-item value="day" selected="${view === 'day'}">
+            <ids-text translate-text="true">Day</ids-text>
+          </ids-menu-item>
+        </ids-menu-group>
+      </ids-popup-menu>
     `;
   }
 

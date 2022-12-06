@@ -99,7 +99,7 @@ export default class IdsToolbarSection extends Base {
 
   template(): string {
     return `
-      <div class="ids-toolbar-section">
+      <div class="ids-toolbar-section" part="container">
         <slot></slot>
       </div>
     `;

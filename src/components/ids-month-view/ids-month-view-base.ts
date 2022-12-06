@@ -7,8 +7,8 @@ import IdsElement from '../../core/ids-element';
 
 const Base = IdsThemeMixin(
   IdsDateAttributeMixin(
-    IdsLocaleMixin(
-      IdsCalendarEventsMixin(
+    IdsCalendarEventsMixin(
+      IdsLocaleMixin(
         IdsEventsMixin(
           IdsElement
         )

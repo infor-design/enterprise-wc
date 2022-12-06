@@ -7,7 +7,8 @@ import {
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsButton from '../ids-button/ids-button';
-import IdsModalButton from '../ids-modal-button/ids-modal-button';
+import type IdsModalButton from '../ids-modal-button/ids-modal-button';
+import '../ids-modal-button/ids-modal-button';
 import '../ids-expandable-area/ids-expandable-area';
 import './ids-month-year-picklist';
 import '../ids-month-view/ids-month-view';
@@ -646,17 +647,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
   private onPicklistCollapse() {
     this.monthYearPicklist.deactivatePicklist();
     this.updateActionButtonStateOnShow();
-  }
-
-  /**
-   * Helper to format datepicker text in the toolbar
-   * @returns {string} locale formatted month year
-   */
-  private formatMonthText(): string {
-    const monthKeys = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const month = this.locale?.translate(`MonthWide${monthKeys[this.activeDate.getMonth()]}`);
-
-    return `${month} ${this.activeDate.getFullYear()}`;
   }
 
   /**

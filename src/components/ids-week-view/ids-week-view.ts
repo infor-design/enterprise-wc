@@ -18,7 +18,6 @@ import '../ids-date-picker/ids-date-picker';
 import '../ids-button/ids-button';
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
-import '../ids-toolbar/ids-toolbar';
 
 import styles from './ids-week-view.scss';
 import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../ids-calendar/ids-calendar-event';
@@ -55,7 +54,6 @@ export default class IdsWeekView extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.setDirection();
-    this.#renderToolbar();
     this.#renderWeek();
     this.#attachEventHandlers();
   }
@@ -122,146 +120,16 @@ export default class IdsWeekView extends Base {
     this.offEvent('localechange.week-view-container');
     this.onEvent('localechange.week-view-container', getClosest(this, 'ids-container'), () => {
       this.#renderWeek();
-      this.#attachDatepicker();
     });
 
     return this;
   }
 
   /**
-   * Add toolbar HTML to shadow
-   */
-  #renderToolbar() {
-    if (!this.locale) {
-      return;
-    }
-    const isDayView = daysDiff(this.startDate, this.endDate) === 1;
-    const toolbarTemplate = `<ids-toolbar tabbable="true" class="week-view-header">
-      <ids-toolbar-section type="buttonset">
-        <ids-button class="week-view-btn-previous">
-          <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
-          <ids-icon slot="icon" icon="chevron-left"></ids-icon>
-        </ids-button>
-        <ids-button class="week-view-btn-next">
-          <ids-text audible="true" translate-text="true">NextMonth</ids-text>
-          <ids-icon slot="icon" icon="chevron-right"></ids-icon>
-        </ids-button>
-        <ids-date-picker
-          is-calendar-toolbar="true"
-        ></ids-date-picker>
-        ${this.showToday ? `
-          <ids-button css-class="no-padding" class="week-view-btn-today">
-            <ids-text
-              class="week-view-today-text"
-              font-size="16"
-              translate-text="true"
-              translation-key="Today"
-              font-weight="bold"
-            >Today</ids-text>
-          </ids-button>` : ''}
-      </ids-toolbar-section>
-      ${this.viewPicker ? this.createViewPickerTemplate(isDayView ? 'day' : 'week') : ''}
-    </ids-toolbar>`;
-
-    // Clear/add HTML
-    this.container?.querySelector('ids-toolbar')?.remove();
-    this.container?.insertAdjacentHTML('afterbegin', toolbarTemplate);
-
-    // Configure view picker
-    if (this.viewPicker) this.viewPickerConnected();
-
-    // Toolbar events
-    this.#attachToolbarEvents();
-
-    this.#attachDatepicker();
-  }
-
-  /**
-   * Add next/previous/today click events when toolbar attached to shadow
-   */
-  #attachToolbarEvents() {
-    this.offEvent('click.week-view-previous');
-    this.onEvent('click.week-view-previous', this.container?.querySelector('.week-view-btn-previous'), () => {
-      this.#changeDate('previous');
-    });
-
-    this.offEvent('click.week-view-next');
-    this.onEvent('click.week-view-next', this.container?.querySelector('.week-view-btn-next'), () => {
-      this.#changeDate('next');
-    });
-
-    this.offEvent('dayselected.week-view-datepicker');
-    this.onEvent('dayselected.week-view-datepicker', this.container?.querySelector('ids-date-picker'), (e: CustomEvent) => {
-      this.#datepickerChangeDate(e.detail.date);
-    });
-
-    if (this.showToday) {
-      this.offEvent('click.week-view-today');
-      this.onEvent('click.week-view-today', this.container?.querySelector('.week-view-btn-today'), () => {
-        this.#changeDate('today');
-      });
-    } else {
-      this.offEvent('click.week-view-today');
-    }
-
-    if (this.viewPicker) {
-      this.attachViewPickerEvents('week');
-    }
-  }
-
-  /**
-   * Helper to format startDate/endDate to month range
-   * @returns {string} locale formatted month range
-   */
-  #formatMonthRange() {
-    if (!this.locale) return '';
-
-    const startDate = this.startDate;
-    const endDate = subtractDate(this.endDate, 1, 'days');
-    const startMonth = this.locale.formatDate(startDate, { month: 'long' });
-    const endMonth = this.locale.formatDate(endDate, { month: 'long' });
-    const startYear = this.locale.formatDate(startDate, { year: 'numeric' });
-    const endYear = this.locale.formatDate(endDate, { year: 'numeric' });
-
-    if (endYear !== startYear) {
-      return `${this.locale.formatDate(startDate, {
-        month: 'short',
-        year: 'numeric',
-      })} - ${this.locale.formatDate(endDate, {
-        month: 'short',
-        year: 'numeric',
-      })}`;
-    }
-
-    if (endMonth !== startMonth) {
-      return `${this.locale.formatDate(startDate, { month: 'short' })} - ${endMonth} ${startYear}`;
-    }
-
-    return this.locale.formatDate(startDate, { month: 'long', year: 'numeric' });
-  }
-
-  /**
-   * Datepicker changing text
-   */
-  #attachDatepicker() {
-    const text = this.#formatMonthRange();
-    const datepicker: any = this.container?.querySelector('ids-date-picker');
-
-    if (datepicker) {
-      datepicker.value = text;
-      datepicker.year = this.startDate.getFullYear();
-      datepicker.month = this.startDate.getMonth();
-      datepicker.day = this.startDate.getDate();
-      datepicker.showToday = this.showToday;
-      datepicker.firstDayOfWeek = this.firstDayOfWeek;
-    }
-  }
-
-  /**
    * Change startDate/endDate by event type
    * @param {'next'|'previous'|'today'} type of event to be called
    */
-  #changeDate(type: 'next' | 'previous' | 'today') {
+  changeDate(type: 'next' | 'previous' | 'today') {
     const diff = daysDiff(this.startDate, this.endDate);
     const hasIrregularDays = diff !== 7;
     let startDate: Date;
@@ -288,20 +156,7 @@ export default class IdsWeekView extends Base {
     });
 
     this.state.activeDate = this.startDate;
-    this.triggerDateChange(this.startDate);
-    this.#attachDatepicker();
-  }
-
-  /**
-   * When datepicker changing date
-   * @param {Date} date datepicker dayselected event date
-   */
-  #datepickerChangeDate(date: Date) {
-    const diff = daysDiff(this.startDate, this.endDate);
-    const hasIrregularDays = diff !== 7;
-
-    this.startDate = hasIrregularDays ? date : firstDayOfWeekDate(date, this.firstDayOfWeek);
-    this.endDate = addDate(this.startDate, diff - 1, 'days');
+    this.triggerDateChange(this.startDate, type);
   }
 
   /**
@@ -755,7 +610,6 @@ export default class IdsWeekView extends Base {
     }
 
     this.#renderWeek();
-    this.#attachDatepicker();
   }
 
   /**
@@ -787,7 +641,6 @@ export default class IdsWeekView extends Base {
     }
 
     this.#renderWeek();
-    this.#attachDatepicker();
   }
 
   /**
@@ -820,7 +673,6 @@ export default class IdsWeekView extends Base {
     }
 
     this.#renderWeek();
-    this.#attachDatepicker();
   }
 
   /**
@@ -853,7 +705,6 @@ export default class IdsWeekView extends Base {
     }
 
     this.#renderWeek();
-    this.#attachDatepicker();
   }
 
   /**
