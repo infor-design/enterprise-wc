@@ -423,6 +423,7 @@ export default class IdsDataGridFilters {
     if (this.root.disableClientFilter) {
       this.root.triggerEvent('filtered', this.root, { bubbles: true, detail: { elem: this.root, conditions } });
       this.#filterIsProcessing = false;
+      this.root.saveUserSettings?.();
       return;
     }
 
@@ -655,6 +656,7 @@ export default class IdsDataGridFilters {
         bubbles: true,
         detail: { elem: this.root, type: isCleared ? 'clear' : 'apply', conditions }
       });
+      this.root.saveUserSettings?.();
     }
   }
 

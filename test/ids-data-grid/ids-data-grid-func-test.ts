@@ -248,6 +248,18 @@ describe('IdsDataGrid Component', () => {
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);
     });
+
+    it('should set user uniqueId', () => {
+      const uniqueId = 'some-uniqueid';
+      expect(dataGrid.getAttribute('unique-id')).toEqual(null);
+      expect(dataGrid.uniqueId).toEqual(null);
+      dataGrid.uniqueId = uniqueId;
+      expect(dataGrid.getAttribute('unique-id')).toEqual(uniqueId);
+      expect(dataGrid.uniqueId).toEqual(uniqueId);
+      dataGrid.uniqueId = false;
+      expect(dataGrid.getAttribute('unique-id')).toEqual(null);
+      expect(dataGrid.uniqueId).toEqual(null);
+    });
   });
 
   describe('Row Rendering Tests', () => {

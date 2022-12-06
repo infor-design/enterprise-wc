@@ -29,16 +29,19 @@ import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
+import IdsDataGridSaveUserSettingsMixin from './ids-data-grid-save-user-settings-mixin';
 import IdsDataGridTooltipMixin from './ids-data-grid-tooltip-mixin';
 import IdsDataGridCell from './ids-data-grid-cell';
 
 const Base = IdsThemeMixin(
   IdsPagerMixin(
-    IdsDataGridTooltipMixin(
-      IdsKeyboardMixin(
-        IdsLocaleMixin(
-          IdsEventsMixin(
-            IdsElement
+    IdsDataGridSaveUserSettingsMixin(
+      IdsDataGridTooltipMixin(
+        IdsKeyboardMixin(
+          IdsLocaleMixin(
+            IdsEventsMixin(
+              IdsElement
+            )
           )
         )
       )
@@ -103,6 +106,8 @@ export default class IdsDataGrid extends Base {
   }
 
   connectedCallback() {
+    if (this.initialized) this.restoreUserSettings?.();
+
     super.connectedCallback();
     this.redrawBody();
   }
@@ -146,6 +151,7 @@ export default class IdsDataGrid extends Base {
       attributes.SUPPRESS_ROW_DESELECTION,
       attributes.TREE_GRID,
       attributes.VIRTUAL_SCROLL,
+      attributes.UNIQUE_ID,
     ];
   }
 
@@ -197,11 +203,31 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Sync pager to refresh updated dataset
+   * @private
+   * @returns {void}
+   */
+  #syncPager(): void {
+    const props = ['total', 'pageNumber', 'pageSize'];
+    const isValid = (v: any) => typeof v !== 'undefined' && v !== null;
+
+    props.forEach((prop) => {
+      const pager: any = this.pager;
+      const ds: any = this.datasource;
+      const isValidProps = isValid(pager?.[prop]) && isValid(ds?.[prop]);
+      if (this.initialized && isValidProps && pager[prop] !== ds[prop]) {
+        pager[prop] = ds[prop];
+      }
+    });
+  }
+
+  /**
    * Sync and then redraw the body section
    * @returns {void}
    */
   redrawBody() {
     this.#redrawBodyTemplate();
+    this.#syncPager();
   }
 
   /**
@@ -394,6 +420,7 @@ export default class IdsDataGrid extends Base {
     });
 
     this.filters?.attachFilterEventHandlers();
+    this.attachUserSettingsEventHandlers?.();
   }
 
   /**
@@ -410,6 +437,7 @@ export default class IdsDataGrid extends Base {
     this.columns.splice(correctToIndex, 0, element);
     this.redraw();
     this.triggerEvent('columnmoved', this, { detail: { elem: this, fromIndex: correctFromIndex, toIndex: correctToIndex } });
+    this.saveUserSettings?.();
   }
 
   /**
@@ -532,6 +560,7 @@ export default class IdsDataGrid extends Base {
       this.#setColumnGroupsWidth();
     }
     this.triggerEvent('columnresized', this, { detail: { index: idx, column, columns: this.columns } });
+    this.saveUserSettings?.();
   }
 
   /**
@@ -582,6 +611,7 @@ export default class IdsDataGrid extends Base {
     this.redrawBody();
     this.header.setSortState(id, ascending);
     this.triggerEvent('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
+    this.saveUserSettings?.();
   }
 
   /**
@@ -831,9 +861,8 @@ export default class IdsDataGrid extends Base {
       this.shadowRoot?.querySelector('.ids-data-grid')?.setAttribute('data-row-height', 'lg');
     }
 
-    if (this.virtualScroll) {
-      this.redraw();
-    }
+    if (this.virtualScroll) this.redraw();
+    this.saveUserSettings?.();
   }
 
   get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'lg'; }
@@ -1425,4 +1454,19 @@ export default class IdsDataGrid extends Base {
   get expandableRowTemplate() {
     return this.getAttribute(attributes.EXPANDABLE_ROW_TEMPLATE) || '';
   }
+
+  /**
+   * Set uniqueId to save to local storage.
+   * @param {number|string|null} value A uniqueId use to save to local storage.
+   */
+  set uniqueId(value: number | string | null) {
+    const val = /number|string/g.test(typeof value) ? `${value}` : null;
+    if (typeof val === 'string' && val !== '') {
+      this.setAttribute(attributes.UNIQUE_ID, val);
+    } else {
+      this.removeAttribute(attributes.UNIQUE_ID);
+    }
+  }
+
+  get uniqueId(): string | null { return this.getAttribute(attributes.UNIQUE_ID); }
 }

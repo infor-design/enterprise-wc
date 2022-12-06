@@ -200,6 +200,7 @@ Some additional settings are needed or possibly needed.
 
 - `idColumn` {string} For saving the row state during sort this should be set to the id column in the data set. Defaults to `id`.
 - `expandableRowTemplate` {string} Should point to the row `template` element.
+
 ## Settings and Attributes
 
 When used as an attribute in the DOM the settings are kebab case, when used in JS they are camel case.
@@ -229,6 +230,13 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `expandableRowTemplate` {string} Should point to the row `template` element for expandable rows.
 - `treeGrid` {boolean} Indicates a tree grid will be used  in the data grid. See the tree grid section for more details.
 - `groupSelectsChildren` {boolean} If a tree grid has multiple selection, setting this will select all children when a parent is selected.
+- `savesActivePage` {boolean} Sets to saves active page to local storage.
+- `savesColumns` {boolean} Sets to saves columns to local storage.
+- `savesFilter` {boolean} Sets to saves filter to local storage.
+- `savesPageSize` {boolean} Sets to saves page size to local storage.
+- `savesRowHeight` {boolean} Sets to saves row height to local storage.
+- `savesSortOrder` {boolean} Sets to saves sort order to local storage.
+- `savesUserSettings` {boolean} Sets to saves all user settings to local storage.
 
 ## Column Settings (General)
 
@@ -368,6 +376,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `beforemenushow` Fires before context menu show, you can return false in the response to veto.
 - `menushow` Fires after context menu show.
 - `menuselected` Fires after context menu item selected.
+- `settingschanged` Fires after settings are changed in some way.
 
 ## Methods
 
@@ -375,6 +384,35 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `setColumnVisibility` Can be used to set the visibility of a column.
 - `setActivateCell(cell, row)` Can be used to set focus of a cell.
 - `selectedRows` Lists the indexes of the currently selected rows.
+- `saveActivePage` Save active page to local storage.
+- `saveColumns` Save columns to local storage.
+- `saveFilter` Save filter conditions to local storage.
+- `savePageSize` Save page size to local storage.
+- `saveRowHeight` Save row height to local storage.
+- `saveSortOrder` Save sort order to local storage.
+- `saveAllUserSettings` Save all user settings to local storage.
+- `savedActivePage` Get saved active page from local storage.
+- `savedColumns` Get saved columns from local storage.
+- `savedFilter` Get saved filter conditions from local storage.
+- `savedPageSize` Get saved page size from local storage.
+- `savedRowHeight` Get saved row height from local storage.
+- `savedSortOrder` Get saved sort order from local storage.
+- `savedAllUserSettings` Get saved all user settings from local storage.
+- `clearSavedActivePage` Clear saved active page from local storage.
+- `clearSavedColumns` Clear saved columns from local storage.
+- `clearSavedFilter` Clear saved filter conditions from local storage.
+- `clearSavedPageSize` Clear saved page size from local storage.
+- `clearSavedRowHeight` Clear saved row height from local storage.
+- `clearSavedSortOrder` Clear saved sort order from local storage.
+- `clearSavedAllUserSettings` Clear saved all user settings from local storage.
+- `restoreActivePage(value?: number)` Restore active page with given value or from local storage.
+- `restoreColumns(value?: IdsDataGridColumn[])` Restore columns with given value or from local storage.
+- `restoreFilter(value?: IdsDataGridFilterConditions[])` Restore filter conditions with given value or from local storage.
+- `restorePageSize(value?: number)` Restore page size with given value or from local storage.
+- `restoreRowHeight(value?: string)` Restore row height with given value or from local storage.
+- `restoreSortOrder(value?: { id: string, ascending: boolean })` Restore sort order with given value or from local storage.
+- `restoreUserSettings(value?: IdsDataGridSaveUserSettings)` Restore all user settings with given value or from local storage.
+
 ## Filters
 
 Data rows can be filter based on one or several criteria. Whole filter row can turned on/off by the api setting `filterable` and can be disabled by the api setting `filter-row-disabled`. The filter conditions can be applied thru the UI or programmatically. Each column can have its own filter type and turn on/off by columns setting.
