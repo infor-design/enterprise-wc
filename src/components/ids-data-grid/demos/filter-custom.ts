@@ -3,6 +3,9 @@ import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import '../../ids-popup-menu/ids-popup-menu';
 import '../../ids-container/ids-container';
+import '../../ids-button/ids-button';
+import '../../ids-layout-flex/ids-layout-flex';
+import IdsInput from '../../ids-input/ids-input';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
@@ -62,7 +65,8 @@ const myCustomFilter = (opt: any) => {
     field: 'color',
     sortable: true,
     formatter: dataGrid.formatters.text,
-    filterType: dataGrid.filters.text
+    filterType: dataGrid.filters.text,
+    filterConditions: []
   });
   columns.push({
     id: 'inStock',
@@ -88,7 +92,7 @@ const myCustomFilter = (opt: any) => {
     sortable: true,
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.text,
-    filterTerms: [{
+    filterConditions: [{
       value: 'contains',
       label: 'Contains',
       icon: 'filter-contains'
@@ -113,3 +117,26 @@ const myCustomFilter = (opt: any) => {
   };
   setData();
 }());
+
+// Listen for filtered events
+dataGrid.addEventListener('filtered', (evt) => {
+  console.log('IdsDataGrid "filtered" event', evt);
+});
+
+// Handle set filter btn
+const aquaFilterBtn = document.body.querySelector('#set-filter-btn');
+aquaFilterBtn?.addEventListener('click', () => {
+  const colorInput = document.body.querySelector<IdsInput>('#filter-input');
+
+  dataGrid.filters.setFilterConditions([{
+    columnId: 'no-operator',
+    operator: 'contains',
+    value: colorInput?.value.trim()
+  }]);
+});
+
+// Handle apply filter btn
+const applyFilterBtn = document.body.querySelector('#apply-filter-btn');
+applyFilterBtn?.addEventListener('click', () => {
+  dataGrid.filters.applyFilter();
+});

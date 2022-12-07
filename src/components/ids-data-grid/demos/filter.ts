@@ -58,7 +58,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter')!;
     reorderable: true,
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.text,
-    filterTerms: [{
+    filterConditions: [{
       value: 'contains',
       label: 'Contains',
       icon: 'filter-contains'
