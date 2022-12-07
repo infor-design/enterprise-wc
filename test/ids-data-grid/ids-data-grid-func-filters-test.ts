@@ -948,6 +948,19 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(mockCallback.mock.calls.length).toBe(2);
   });
 
+  it('should not fire filtered event when setting filter conditions', () => {
+    const mockCallback = jest.fn();
+
+    dataGrid.addEventListener('filtered', mockCallback);
+    dataGrid.filters.setFilterConditions([{
+      columnId: 'description',
+      operator: 'contains',
+      value: 'test'
+    }]);
+
+    expect(mockCallback).not.toHaveBeenCalled();
+  });
+
   it('fires open/close filter row event', () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toBeTruthy();
