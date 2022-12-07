@@ -67,6 +67,9 @@ export default class IdsCheckbox extends Base {
   connectedCallback(): void {
     super.connectedCallback();
     this.#attachEventHandlers();
+    if (this.dirtyTracker) {
+      this.handleDirtyTracker();
+    }
   }
 
   /**
