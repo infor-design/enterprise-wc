@@ -201,17 +201,6 @@ const IdsDateAttributeMixin = <T extends Constraints>(superclass: T) => class ex
   }
 
   /**
-   * Helper to format datepicker text in the toolbar
-   * @returns {string} locale formatted month year
-   */
-  formatMonthText(): string {
-    const monthKeys = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const month = this.locale?.translate(`MonthWide${monthKeys[this.activeDate.getMonth()]}`);
-
-    return `${month} ${this.activeDate.getFullYear()}`;
-  }
-
-  /**
    * Takes a string containing a date and formats it per the provided locale and date format
    * @param {string} date the desired date string to format
    * @returns {string} the correctly formatted date string

@@ -68,7 +68,7 @@ export type IdsDisableSettings = {
   isEnable?: boolean
 };
 
-export type IdsDayselectedEvent = {
+export type IdsDayselectedEvent = CustomEventInit & {
   detail: {
     elem: IdsMonthView,
     date: Date,

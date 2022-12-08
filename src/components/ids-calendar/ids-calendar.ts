@@ -20,6 +20,7 @@ import {
   lastDayOfWeekDate,
   subtractDate
 } from '../../utils/ids-date-utils/ids-date-utils';
+import IdsLocale from '../ids-locale/ids-locale';
 
 type CalendarEventDetail = {
   id: string;
@@ -184,7 +185,6 @@ export default class IdsCalendar extends Base {
     this.#attachEventHandlers();
     this.#resizeObserver.observe(getClosest(this, 'ids-container'));
     this.viewPickerConnected();
-    this.#updateDatePickerPopupTrigger();
   }
 
   /**
@@ -203,6 +203,13 @@ export default class IdsCalendar extends Base {
     this.renderLegend(data);
     this.#toggleMonthLegend(data, this.state.isMobile);
   }
+
+  /**
+   * @param {IdsLocale} locale the new locale object
+   */
+  onLocaleChange = (locale: IdsLocale) => {
+    this.#updateDatePickerPopupTrigger(locale);
+  };
 
   /**
    * Ids Calendar template
@@ -441,6 +448,7 @@ export default class IdsCalendar extends Base {
       const updateCalendar = () => {
         this.#updateActiveDate(evt.detail.date);
         this.state.selected = evt.detail?.events || [];
+        this.#updateDatePickerPopupTrigger(undefined, evt.detail.date);
         this.updateEventDetails(evt.detail?.events);
       };
 
@@ -528,11 +536,6 @@ export default class IdsCalendar extends Base {
       this.#insertFormPopup(elem.container, elem.eventData);
     });
 
-    this.offEvent('refresh-calendar-toolbar', this);
-    this.onEvent('refresh-calendar-toolbar', this, () => {
-      console.info('toolbar event captured');
-    });
-
     if (this.viewPicker) this.attachViewPickerEvents('month');
 
     this.#attachToolbarEventHandlers();
@@ -552,6 +555,11 @@ export default class IdsCalendar extends Base {
   #attachToolbarEventHandlers(): void {
     const buttonSet = this.container?.querySelector<IdsToolbarSection>('ids-toolbar-section.toolbar-buttonset');
     const toolbarDatepickerPopup = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup');
+
+    this.offEvent('show.popup');
+    this.onEvent('show.popup', toolbarDatepickerPopup, () => {
+      this.#updateDatePickerPopupTrigger(this.locale);
+    });
 
     this.offEvent('click.month-view-buttons');
     this.onEvent('click.month-view-buttons', buttonSet, (e: MouseEvent) => {
@@ -593,13 +601,7 @@ export default class IdsCalendar extends Base {
     this.onEvent('dayselected.month-view-datepicker', toolbarDatepickerPopup, (e: CustomEvent) => {
       e.stopPropagation();
       const date: Date = e.detail.date;
-      const calendarMonthView = this.container?.querySelector<IdsMonthView>('ids-month-view');
-
-      if (calendarMonthView) {
-        calendarMonthView.day = date.getDate();
-        calendarMonthView.year = date.getFullYear();
-        calendarMonthView.month = date.getMonth();
-      }
+      this.changeDate(date, this.state.view === 'day');
     });
 
     // Date picker dropdown picklist expanded or collapsed
@@ -854,23 +856,32 @@ export default class IdsCalendar extends Base {
     date = date || this.date;
     const dateAttr = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
     this.setAttribute('date', dateAttr);
-    this.#updateDatePickerPopupTrigger();
+    this.#updateDatePickerPopupTrigger(undefined, date);
     this.state.skipRender = false;
   }
 
   /**
    * Updates the text content of the Date Picker Popup's trigger button
+   * @param {IdsLocale} [locale] if provided, sets a different locale from the currently-set locale
+   * @param {Date} [date] if provided, sets an alternate date from the currently-set date
    */
-  #updateDatePickerPopupTrigger() {
+  #updateDatePickerPopupTrigger(locale?: IdsLocale, date?: Date) {
     const btnEl = this.container?.querySelector('.btn-picker');
     const textEl = btnEl?.querySelector('ids-text');
+    const targetDate = date || this.date;
+
+    const formattedDate = this.formatMonthRange(locale) || null;
+
     if (textEl) {
-      textEl.textContent = this.getView()?.formatMonthText() || null;
+      textEl.textContent = formattedDate;
     }
 
     const datePickerPopup = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup');
     if (datePickerPopup) {
-      datePickerPopup?.formatMonthText();
+      datePickerPopup.day = targetDate.getDay();
+      datePickerPopup.month = targetDate.getMonth();
+      datePickerPopup.year = targetDate.getFullYear();
+      datePickerPopup.updateMonthYearPickerTriggerDisplay(locale, targetDate);
     }
   }
 
@@ -1209,32 +1220,34 @@ export default class IdsCalendar extends Base {
 
   /**
    * Helper to format startDate/endDate to month range
+   * @param {IdsLocale} locale an optional, provided IdsLocale object
    * @returns {string} locale formatted month range
    */
-  #formatMonthRange() {
-    if (!this.locale) return '';
+  formatMonthRange(locale?: IdsLocale) {
+    const targetLocale = locale || this.locale;
+    if (!targetLocale) return '';
 
     const startDate = this.startDate;
     const endDate = subtractDate(this.endDate, 1, 'days');
-    const startMonth = this.locale.formatDate(startDate, { month: 'long' });
-    const endMonth = this.locale.formatDate(endDate, { month: 'long' });
-    const startYear = this.locale.formatDate(startDate, { year: 'numeric' });
-    const endYear = this.locale.formatDate(endDate, { year: 'numeric' });
+    const startMonth = targetLocale.formatDate(startDate, { month: 'long' });
+    const endMonth = targetLocale.formatDate(endDate, { month: 'long' });
+    const startYear = targetLocale.formatDate(startDate, { year: 'numeric' });
+    const endYear = targetLocale.formatDate(endDate, { year: 'numeric' });
 
     if (endYear !== startYear) {
-      return `${this.locale.formatDate(startDate, {
+      return `${targetLocale.formatDate(startDate, {
         month: 'short',
         year: 'numeric',
-      })} - ${this.locale.formatDate(endDate, {
+      })} - ${targetLocale.formatDate(endDate, {
         month: 'short',
         year: 'numeric',
       })}`;
     }
 
     if (endMonth !== startMonth) {
-      return `${this.locale.formatDate(startDate, { month: 'short' })} - ${endMonth} ${startYear}`;
+      return `${targetLocale.formatDate(startDate, { month: 'short' })} - ${endMonth} ${startYear}`;
     }
 
-    return this.locale.formatDate(startDate, { month: 'long', year: 'numeric' });
+    return targetLocale.formatDate(startDate, { month: 'long', year: 'numeric' });
   }
 }

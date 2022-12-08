@@ -7,6 +7,7 @@ import {
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsButton from '../ids-button/ids-button';
+import type IdsLocale from '../ids-locale/ids-locale';
 import type IdsModalButton from '../ids-modal-button/ids-modal-button';
 import '../ids-modal-button/ids-modal-button';
 import '../ids-expandable-area/ids-expandable-area';
@@ -14,8 +15,10 @@ import './ids-month-year-picklist';
 import '../ids-month-view/ids-month-view';
 import '../ids-text/ids-text';
 import IdsToggleButton from '../ids-toggle-button/ids-toggle-button';
-import IdsToolbar from '../ids-toolbar/ids-toolbar';
-import IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
+import '../ids-toolbar/ids-toolbar';
+import type IdsToolbar from '../ids-toolbar/ids-toolbar';
+import '../ids-toolbar/ids-toolbar-section';
+import type IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
 
 import { IdsPickerPopupCallbacks } from '../ids-picker-popup/ids-picker-popup';
 
@@ -275,6 +278,13 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     if (!this.container) return;
     this.updateTimepickerDisplay();
   }
+
+  /**
+   * @param {IdsLocale} locale the new locale object
+   */
+  onLocaleChange = (locale: IdsLocale) => {
+    this.updateMonthYearPickerTriggerDisplay(locale);
+  };
 
   hideIfAble(): void {
     if (!this.expanded && this.popup?.visible) {
@@ -667,12 +677,13 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
   private attachEventListeners() {
     // Selects day from the monthView (after user input)
     this.offEvent('dayselected.date-picker-calendar');
-    this.onEvent('dayselected.date-picker-calendar', this.monthView, (e: IdsDayselectedEvent) => {
+    this.onEvent('dayselected.date-picker-calendar', this.monthView, (e: CustomEvent) => {
       this.handleDaySelectedEvent(e);
     });
 
     this.offEvent('datechange');
-    this.onEvent('datechange', this.monthView, () => {
+    this.onEvent('datechange', this.monthView, (e: CustomEvent) => {
+      e.stopPropagation();
       this.updateMonthYearPickerTriggerDisplay();
     });
 
@@ -1013,13 +1024,34 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
   }
 
   /**
+   * Helper to format datepicker text in the toolbar
+   * @param {IdsLocale} [locale] an optional, provided IdsLocale object
+   * @param {Date} [date] an optional, provided Date object (defaults to `this.activeDate`)
+   * @returns {string} locale formatted month year
+   */
+  private formatMonthText(locale?: IdsLocale, date?: Date): string {
+    const targetLocale = locale || this.locale;
+    const targetDate = date || this.activeDate;
+
+    if (!targetLocale) return '';
+
+    const monthKeys = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const month = targetLocale?.translate(`MonthWide${monthKeys[targetDate.getMonth()]}`);
+
+    return `${month} ${targetDate.getFullYear()}`;
+  }
+
+  /**
    * Updates the text contents of the Month/Year Picker's trigger button to reflect current state
+   * @param {IdsLocale} [locale] incoming IdsLocale object, if applicable
+   * @param {Date} [date] an optional, provided Date object (defaults to `this.activeDate`)
    * @returns {void}
    */
-  private updateMonthYearPickerTriggerDisplay() {
+  updateMonthYearPickerTriggerDisplay(locale?: IdsLocale, date?: Date) {
+    const formattedDate = this.formatMonthText(locale, date) || '';
     const dropdownEl = this.container?.querySelector<HTMLElement>('.dropdown-btn-text');
     if (dropdownEl) {
-      dropdownEl.innerText = this.formatMonthText();
+      dropdownEl.innerText = formattedDate;
     }
   }
 

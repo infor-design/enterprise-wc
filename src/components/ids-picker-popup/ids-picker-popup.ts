@@ -67,6 +67,12 @@ class IdsPickerPopup extends Base {
     await this.popup.hide();
 
     if (typeof this.onHide === 'function') this.onHide();
+    this.triggerEvent('hide', this, {
+      bubbles: true,
+      detail: {
+        elem: this
+      }
+    });
 
     this.hidden = true;
   }
@@ -91,6 +97,12 @@ class IdsPickerPopup extends Base {
     this.popup.show();
 
     if (typeof this.onShow === 'function') this.onShow();
+    this.triggerEvent('show', this, {
+      bubbles: true,
+      detail: {
+        elem: this
+      }
+    });
 
     this.addOpenEvents();
   }
