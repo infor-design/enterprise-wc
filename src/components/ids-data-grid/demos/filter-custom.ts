@@ -120,7 +120,7 @@ const myCustomFilter = (opt: any) => {
 
 // Listen for filtered events
 dataGrid.addEventListener('filtered', (evt) => {
-  console.log('IdsDataGrid "filtered" event', evt);
+  console.info('IdsDataGrid "filtered" event', evt);
 });
 
 // Handle set filter btn

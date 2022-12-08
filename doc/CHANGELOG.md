@@ -18,6 +18,7 @@
 - `[DataGrid]` Fixed click function on columns is not firing when using the keyboard. ([#1005](https://github.com/infor-design/enterprise-wc/issues/1005))
 - `[DataGrid]` Fixed a bug that when using disableClientFilter does not emit filtered event when empty. ([#1008](https://github.com/infor-design/enterprise-wc/issues/1008))
 - `[DataGrid]` Fixed a bug that tree/expanded formatters could not be extended as the tree would not expand. ([#1018](https://github.com/infor-design/enterprise-wc/issues/1018))
+- `[DataGrid]` Fixed bug where filtered event fired when calling setFilterCondition() ([#1006](https://github.com/infor-design/enterprise-wc/issues/1006))
 - `[Icons]` All icons have padding on top and bottom effectively making them 4px smaller by design. This change may require some UI corrections to css. ([#6868](https://github.com/infor-design/enterprise/issues/6868))
 - `[Icons]` Over 60 new icons and 126 new industry focused icons. ([#6868](https://github.com/infor-design/enterprise/issues/6868))
 - `[Icons]` Added new empty state icons. ([#6934](https://github.com/infor-design/enterprise/issues/6934))
