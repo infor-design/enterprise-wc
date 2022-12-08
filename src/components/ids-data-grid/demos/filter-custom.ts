@@ -124,8 +124,8 @@ dataGrid.addEventListener('filtered', (evt) => {
 });
 
 // Handle set filter btn
-const aquaFilterBtn = document.body.querySelector('#set-filter-btn');
-aquaFilterBtn?.addEventListener('click', () => {
+const setFilterBtn = document.body.querySelector('#set-filter-btn');
+setFilterBtn?.addEventListener('click', () => {
   const colorInput = document.body.querySelector<IdsInput>('#filter-input');
 
   dataGrid.filters.setFilterConditions([{
