@@ -56,7 +56,8 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
           allowDecimal: true,
           decimalLimit: 2,
           integerLimit: 3
-        }
+        },
+        validate: 'required'
       }
     }
   });

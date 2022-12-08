@@ -370,6 +370,10 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       display: none;
     }
 
+    .validation-message {
+      display: none;
+    }
+
     .field-container {
       background-color: transparent !important;
       border-color: transparent !important;

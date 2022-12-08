@@ -385,6 +385,103 @@
     .arrow.top {
       bottom: -6px;
     }
+
+    // Used for alerts
+    &.error-color {
+      background-color: var(--ids-color-status-danger);
+
+      .arrow.bottom,
+      .arrow.bottom::after {
+        border-bottom-color: var(--ids-color-status-danger);
+      }
+
+      .arrow.left,
+      .arrow.left::after {
+        border-left-color: var(--ids-color-status-danger);
+      }
+
+      .arrow.right,
+      .arrow.right::after {
+        border-right-color: var(--ids-color-status-danger);
+      }
+
+      .arrow.top,
+      .arrow.top::after {
+        border-top-color: var(--ids-color-status-danger);
+      }
+    }
+
+    &.info-color {
+      background-color: var(--ids-color-status-base);
+
+      .arrow.bottom,
+      .arrow.bottom::after {
+        border-bottom-color: var(--ids-color-status-base);
+      }
+
+      .arrow.left,
+      .arrow.left::after {
+        border-left-color: var(--ids-color-status-base);
+      }
+
+      .arrow.right,
+      .arrow.right::after {
+        border-right-color: var(--ids-color-status-base);
+      }
+
+      .arrow.top,
+      .arrow.top::after {
+        border-top-color: var(--ids-color-status-base);
+      }
+    }
+
+    &.alert-color {
+      background-color: var(--ids-color-status-warning);
+
+      .arrow.bottom,
+      .arrow.bottom::after {
+        border-bottom-color: var(--ids-color-status-warning);
+      }
+
+      .arrow.left,
+      .arrow.left::after {
+        border-left-color: var(--ids-color-status-warning);
+      }
+
+      .arrow.right,
+      .arrow.right::after {
+        border-right-color: var(--ids-color-status-warning);
+      }
+
+      .arrow.top,
+      .arrow.top::after {
+        border-top-color: var(--ids-color-status-warning);
+      }
+    }
+
+    &.success-color {
+      background-color: var(--ids-color-status-success);
+
+      .arrow.bottom,
+      .arrow.bottom::after {
+        border-bottom-color: var(--ids-color-status-success);
+      }
+
+      .arrow.left,
+      .arrow.left::after {
+        border-left-color: var(--ids-color-status-success);
+      }
+
+      .arrow.right,
+      .arrow.right::after {
+        border-right-color: var(--ids-color-status-success);
+      }
+
+      .arrow.top,
+      .arrow.top::after {
+        border-top-color: var(--ids-color-status-success);
+      }
+    }
   }
 
   // style: "tooltip-alt"
@@ -572,5 +669,9 @@
 :host([dir='rtl']) {
   .arrow.bottom::after {
     left: 8px;
+  }
+
+  .ids-popup.tooltip .arrow.top::after {
+    left: 7px;
   }
 }

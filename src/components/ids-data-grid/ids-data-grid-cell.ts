@@ -8,6 +8,8 @@ import { IdsDataGridEditor } from './ids-data-grid-editors';
 export default class IdsDataGridCell extends IdsElement {
   rootNode?: any;
 
+  isInValid = false;
+
   constructor() {
     super({ noShadowRoot: true });
   }
@@ -44,7 +46,13 @@ export default class IdsDataGridCell extends IdsElement {
       index += 1;
     }
     const row: Record<string, any> | undefined = this.dataGrid?.data[index];
-    this.innerHTML = IdsDataGridCell.template(row, column, index, this.dataGrid);
+    let template = IdsDataGridCell.template(row, column, index, this.dataGrid);
+
+    if (row.invalidCells) {
+      const message = row.invalidCells.find((info: any) => info.cell === Number(this.getAttribute('aria-colindex')) - 1);
+      template += `<ids-alert icon="error" tooltip="${message.validationMessages[0]?.message}"></ids-alert>`;
+    }
+    this.innerHTML = template;
   }
 
   /**
@@ -66,6 +74,9 @@ export default class IdsDataGridCell extends IdsElement {
 
   /** Previous Value before Editing */
   originalValue: unknown;
+
+  /** Previous Invalid state before reseting */
+  previousInvalidState = '';
 
   /** The editor element */
   editor?: IdsDataGridEditor;
@@ -101,6 +112,10 @@ export default class IdsDataGridCell extends IdsElement {
 
     // Set states
     this.classList.add('is-editing');
+    if (this.classList.contains('is-invalid')) {
+      this.classList.remove('is-invalid');
+      this.isInValid = true;
+    }
     if (column.editor?.inline) this.classList.add('is-inline');
     this.isEditing = true;
 
@@ -123,6 +138,7 @@ export default class IdsDataGridCell extends IdsElement {
     const column = this.column;
 
     const isDirty = this.editor?.input?.isDirty;
+    const isValid = this.editor?.input?.isValid;
     const newValue = this.editor?.save(this);
     this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
       [String(column?.field)]: newValue,
@@ -130,6 +146,8 @@ export default class IdsDataGridCell extends IdsElement {
 
     // Save Dirty State on the row
     if (isDirty) this.#saveDirtyState(newValue);
+    if (!isValid) this.#saveValidState(this.editor?.input?.validationMessages);
+    if (this.isInValid && isValid) this.#resetValidState();
 
     this.editor?.destroy(this);
     this.renderCell();
@@ -143,7 +161,7 @@ export default class IdsDataGridCell extends IdsElement {
   }
 
   /**
-   * Save the dirty state s
+   * Save the dirty state info on the row
    * @param {boolean} newValue the current value
    */
   #saveDirtyState(newValue: any) {
@@ -152,7 +170,7 @@ export default class IdsDataGridCell extends IdsElement {
     const cell = Number(this.getAttribute('aria-colindex')) - 1;
     const previousCellInfo = rowDirtyCells.filter((item: any) => item.cell === cell);
 
-    if (previousCellInfo[0] && newValue === previousCellInfo[0].orginalValue) {
+    if (previousCellInfo[0] && newValue === previousCellInfo[0].originalValue) {
       const oldIndex = rowDirtyCells.findIndex((item: any) => item.cell === cell);
       rowDirtyCells.splice(oldIndex, 1);
       // Value was reset
@@ -170,12 +188,49 @@ export default class IdsDataGridCell extends IdsElement {
         row: Number(this.parentElement?.getAttribute('aria-rowindex')) - 1,
         cell: Number(this?.getAttribute('aria-colindex')) - 1,
         columnId: this.column.id,
-        orginalValue: this?.editor?.input?.dirty.original
+        originalValue: this?.editor?.input?.dirty.original
       });
       this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
         dirtyCells: rowDirtyCells
       });
     }
+  }
+
+  /**
+   * Save the validation state info on the row
+   * @param {any} validationMessages the current value
+   */
+  #saveValidState(validationMessages: any) {
+    let rowInvalidCells = this.dataGrid.data[this.dataGrid?.activeCell.row].invalidCells;
+    if (!rowInvalidCells) rowInvalidCells = [];
+    const cell = Number(this.getAttribute('aria-colindex')) - 1;
+    const previousCellInfo = rowInvalidCells.filter((item: any) => item.cell === cell);
+
+    this?.classList.add('is-invalid');
+
+    if (previousCellInfo.length === 0) {
+      this.previousInvalidState = validationMessages.id;
+      rowInvalidCells.push({
+        row: Number(this.parentElement?.getAttribute('aria-rowindex')) - 1,
+        cell: Number(this?.getAttribute('aria-colindex')) - 1,
+        columnId: this.column.id,
+        validationMessages
+      });
+      this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
+        invalidCells: rowInvalidCells
+      });
+    }
+  }
+
+  /**
+   * Set back the valid state
+   */
+  #resetValidState() {
+    this?.classList.remove('is-invalid');
+    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
+      invalidCells: undefined
+    });
+    this.isInValid = false;
   }
 
   /** Cancel Cell Edit */
@@ -204,7 +259,14 @@ export default class IdsDataGridCell extends IdsElement {
    */
   static template(row: Record<string, unknown>, column: IdsDataGridColumn, index: number, dataGrid: IdsDataGrid): string {
     const dataGridFormatters = (dataGrid.formatters as any);
-    if (!dataGridFormatters[column?.formatter?.name || 'text'] && column?.formatter) return column?.formatter(row, column, index, dataGrid);
-    return dataGridFormatters[column?.formatter?.name || 'text'](row, column, index, dataGrid);
+    let template = '';
+    if (!dataGridFormatters[column?.formatter?.name || 'text'] && column?.formatter) template = column?.formatter(row, column, index, dataGrid);
+    template = dataGridFormatters[column?.formatter?.name || 'text'](row, column, index, dataGrid);
+
+    if (row.invalidCells) {
+      const message = (row.invalidCells as any).find((info: any) => info.cell === dataGrid.columnIdxById(column.id));
+      if (message) template += `<ids-alert icon="error" tooltip="${message?.validationMessages[0]?.message}"></ids-alert>`;
+    }
+    return template;
   }
 }

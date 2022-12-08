@@ -1,6 +1,7 @@
 import '../ids-hyperlink/ids-hyperlink';
 import '../ids-button/ids-button';
 import '../ids-badge/ids-badge';
+import '../ids-alert/ids-alert';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
