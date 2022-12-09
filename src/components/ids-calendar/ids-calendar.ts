@@ -459,7 +459,6 @@ export default class IdsCalendar extends Base {
       const updateCalendar = () => {
         this.#updateActiveDate(evt.detail.date);
         this.state.selected = evt.detail?.events || [];
-        this.#updateDatePickerPopupTrigger(undefined, evt.detail.date);
         this.updateEventDetails(evt.detail?.events);
       };
 

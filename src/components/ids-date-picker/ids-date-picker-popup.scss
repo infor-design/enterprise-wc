@@ -132,6 +132,10 @@ ids-time-picker {
   }
 }
 
+.btn-today-text {
+  @include text-azure-60();
+}
+
 .btn-previous,
 .btn-next {
   @include pl-0();

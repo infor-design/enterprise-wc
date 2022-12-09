@@ -168,7 +168,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     </ids-button>`;
     const todayBtn = this.showToday ? `<ids-button css-class="no-padding" class="btn-today">
       <ids-text
-        class="month-view-btn-text"
+        class="btn-today-text"
         font-size="16"
         translate-text="true"
         font-weight="bold"
