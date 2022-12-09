@@ -340,7 +340,7 @@ export default class IdsCalendar extends Base {
    * @param {boolean} isModal opens modal if true
    */
   createNewEvent(id: string, isModal = false): void {
-    const date = new Date(this.activeDate || this.date);
+    const date = new Date(this.date);
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();
@@ -682,21 +682,24 @@ export default class IdsCalendar extends Base {
    * @param {CalendarEventData} eventData calendar event component
    */
   #insertFormPopup(target: HTMLElement, eventData: CalendarEventData): void {
-    const template = `
-      <ids-popup
-        id="event-form-popup"
-        arrow="right"
-        x="160"
-        align="center"
-        animated="false"
-        visible="false"
-        type="menu"
-        position-style="absolute">
-        ${this.#eventFormTemplate(eventData)}
-      </ids-popup>
-    `;
-
-    this.container?.insertAdjacentHTML('beforeend', template);
+    const popup = this.#getEventFormPopup();
+    if (popup) {
+      popup.innerHTML = `${this.#eventFormTemplate(eventData)}`;
+    } else {
+      this.container?.insertAdjacentHTML('beforeend', `
+        <ids-popup
+          id="event-form-popup"
+          arrow="right"
+          x="160"
+          align="center"
+          animated="false"
+          visible="false"
+          type="menu"
+          position-style="absolute">
+          ${this.#eventFormTemplate(eventData)}
+        </ids-popup>
+      `);
+    }
     this.positionFormPopup(target);
     this.#attachFormEventHandlers();
     this.#getEventFormPopup()?.querySelector<HTMLElement>('#event-subject')?.focus();
