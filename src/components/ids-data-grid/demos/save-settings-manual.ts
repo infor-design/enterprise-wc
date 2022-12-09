@@ -131,10 +131,10 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-save-settings-m
    * Save user settings
    */
   dataGrid.addEventListener('settingschanged', (e: any) => {
-    console.info('Settings Changed:', e.detail.userSettings);
+    console.info('Settings Changed:', e.detail.settings);
 
     // Save each in local storage (or use your own DB)
-    const s = e.detail.userSettings;
+    const s = e.detail.settings;
     if (isValid(s.activePage)) setItem('activePage', s.activePage);
     if (isValid(s.columns)) setItem('columns', JSON.stringify(s.columns));
     if (isValid(s.filter)) setItem('filter', JSON.stringify(s.filter));
@@ -156,12 +156,86 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-save-settings-m
       rowHeight: getItem('rowHeight'),
       sortOrder: getItem('sortOrder')
     };
-    if (isValid(s.activePage)) dataGrid.restoreActivePage(Number(s.activePage));
-    if (isValid(s.columns)) dataGrid.restoreColumns(JSON.parse(s.columns || ''));
-    if (isValid(s.filter)) dataGrid.restoreFilter(JSON.parse(s.filter || ''));
-    if (isValid(s.pageSize)) dataGrid.restorePageSize(Number(s.pageSize));
-    if (isValid(s.rowHeight)) dataGrid.restoreRowHeight(s.rowHeight || '');
-    if (isValid(s.sortOrder)) dataGrid.restoreSortOrder(JSON.parse(s.sortOrder || ''));
+
+    // Active page
+    if (isValid(s.activePage)) {
+      dataGrid.restoreSetting(dataGrid.settings.activePage, Number(s.activePage));
+    }
+
+    // Columns
+    if (isValid(s.columns)) {
+      dataGrid.restoreSetting(dataGrid.settings.columns, JSON.parse(s.columns || ''));
+    }
+
+    // Filter
+    if (isValid(s.filter)) {
+      dataGrid.restoreSetting(dataGrid.settings.filter, JSON.parse(s.filter || ''));
+    }
+
+    // Page size
+    if (isValid(s.pageSize)) {
+      dataGrid.restoreSetting(dataGrid.settings.pageSize, Number(s.pageSize));
+    }
+
+    // Row height
+    if (isValid(s.rowHeight)) {
+      dataGrid.restoreSetting(dataGrid.settings.rowHeight, (s.rowHeight || ''));
+    }
+
+    // Sort order
+    if (isValid(s.sortOrder)) {
+      dataGrid.restoreSetting(dataGrid.settings.sortOrder, JSON.parse(s.sortOrder || ''));
+    }
+
+    /*
+    // Restore all settings
+    const allSettings: any = {};
+    Object.entries(s).forEach(([key, value]) => {
+      if (isValid(value)) {
+        let val;
+        switch (key) {
+          case 'activePage': val = Number(value); break;
+          case 'columns': val = JSON.parse(value || ''); break;
+          case 'filter': val = JSON.parse(value || ''); break;
+          case 'pageSize': val = Number(value); break;
+          case 'rowHeight': val = value; break;
+          case 'sortOrder': val = JSON.parse(value || ''); break;
+          default: break;
+        }
+        allSettings[key] = val;
+      }
+    });
+    dataGrid.restoreAllSettings(allSettings);
+    */
+  });
+
+  /* ==========================================================
+   * Clear settings from local storage
+   */
+  const btnClearSettings = document.querySelector<IdsPopupMenu>('#btn-clear-settings')!;
+  btnClearSettings?.addEventListener('click', () => {
+    // Local storage keys
+    const lsKeys = {
+      activePage: uniqueKey('activePage'),
+      columns: uniqueKey('columns'),
+      filter: uniqueKey('filter'),
+      pageSize: uniqueKey('pageSize'),
+      rowHeight: uniqueKey('rowHeight'),
+      sortOrder: uniqueKey('sortOrder')
+    };
+
+    // Clear all settings
+    dataGrid.clearAllSettings(lsKeys);
+
+    /*
+    // Clear each individual setting
+    dataGrid.clearSetting(dataGrid.settings.activePage, lsKeys.activePage);
+    dataGrid.clearSetting(dataGrid.settings.columns, lsKeys.columns);
+    dataGrid.clearSetting(dataGrid.settings.filter, lsKeys.filter);
+    dataGrid.clearSetting(dataGrid.settings.pageSize, lsKeys.pageSize);
+    dataGrid.clearSetting(dataGrid.settings.rowHeight, lsKeys.rowHeight);
+    dataGrid.clearSetting(dataGrid.settings.sortOrder, lsKeys.sortOrder);
+    */
   });
 
   /* ==========================================================

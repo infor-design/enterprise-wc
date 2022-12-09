@@ -29,13 +29,13 @@ import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
-import IdsDataGridSaveUserSettingsMixin from './ids-data-grid-save-user-settings-mixin';
+import IdsDataGridSaveSettingsMixin from './ids-data-grid-save-settings-mixin';
 import IdsDataGridTooltipMixin from './ids-data-grid-tooltip-mixin';
 import IdsDataGridCell from './ids-data-grid-cell';
 
 const Base = IdsThemeMixin(
   IdsPagerMixin(
-    IdsDataGridSaveUserSettingsMixin(
+    IdsDataGridSaveSettingsMixin(
       IdsDataGridTooltipMixin(
         IdsKeyboardMixin(
           IdsLocaleMixin(
@@ -106,7 +106,7 @@ export default class IdsDataGrid extends Base {
   }
 
   connectedCallback() {
-    if (this.initialized) this.restoreUserSettings?.();
+    if (this.initialized) this.restoreAllSettings?.();
 
     super.connectedCallback();
     this.redrawBody();
@@ -420,7 +420,7 @@ export default class IdsDataGrid extends Base {
     });
 
     this.filters?.attachFilterEventHandlers();
-    this.attachUserSettingsEventHandlers?.();
+    this.attachSaveSettingsEventHandlers?.();
   }
 
   /**
@@ -437,7 +437,7 @@ export default class IdsDataGrid extends Base {
     this.columns.splice(correctToIndex, 0, element);
     this.redraw();
     this.triggerEvent('columnmoved', this, { detail: { elem: this, fromIndex: correctFromIndex, toIndex: correctToIndex } });
-    this.saveUserSettings?.();
+    this.saveSettings?.();
   }
 
   /**
@@ -560,7 +560,7 @@ export default class IdsDataGrid extends Base {
       this.#setColumnGroupsWidth();
     }
     this.triggerEvent('columnresized', this, { detail: { index: idx, column, columns: this.columns } });
-    this.saveUserSettings?.();
+    this.saveSettings?.();
   }
 
   /**
@@ -611,7 +611,7 @@ export default class IdsDataGrid extends Base {
     this.redrawBody();
     this.header.setSortState(id, ascending);
     this.triggerEvent('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
-    this.saveUserSettings?.();
+    this.saveSettings?.();
   }
 
   /**
@@ -862,7 +862,7 @@ export default class IdsDataGrid extends Base {
     }
 
     if (this.virtualScroll) this.redraw();
-    this.saveUserSettings?.();
+    this.saveSettings?.();
   }
 
   get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'lg'; }

@@ -9,7 +9,7 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../src/assets/data/books.json';
 import wait from '../helpers/wait';
 
-describe('IdsDataGrid Component Save User Settings Tests', () => {
+describe('IdsDataGrid Component Save Settings Tests', () => {
   let dataGrid: any;
   let container: any;
 
@@ -155,90 +155,91 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should set to saves active page', () => {
-    expect(dataGrid.getAttribute('saves-active-page')).toEqual(null);
-    expect(dataGrid.savesActivePage).toEqual(false);
-    dataGrid.savesActivePage = true;
-    expect(dataGrid.getAttribute('saves-active-page')).toEqual('');
-    expect(dataGrid.savesActivePage).toEqual(true);
-    dataGrid.savesActivePage = false;
-    expect(dataGrid.getAttribute('saves-active-page')).toEqual(null);
-    expect(dataGrid.savesActivePage).toEqual(false);
+  it('should set to save active page', () => {
+    expect(dataGrid.getAttribute('save-active-page')).toEqual(null);
+    expect(dataGrid.saveActivePage).toEqual(false);
+    dataGrid.saveActivePage = true;
+    expect(dataGrid.getAttribute('save-active-page')).toEqual('');
+    expect(dataGrid.saveActivePage).toEqual(true);
+    dataGrid.saveActivePage = false;
+    expect(dataGrid.getAttribute('save-active-page')).toEqual(null);
+    expect(dataGrid.saveActivePage).toEqual(false);
   });
 
-  it('should set to saves columns', () => {
-    expect(dataGrid.getAttribute('saves-columns')).toEqual(null);
-    expect(dataGrid.savesColumns).toEqual(false);
-    dataGrid.savesColumns = true;
-    expect(dataGrid.getAttribute('saves-columns')).toEqual('');
-    expect(dataGrid.savesColumns).toEqual(true);
-    dataGrid.savesColumns = false;
-    expect(dataGrid.getAttribute('saves-columns')).toEqual(null);
-    expect(dataGrid.savesColumns).toEqual(false);
+  it('should set to save columns', () => {
+    expect(dataGrid.getAttribute('save-columns')).toEqual(null);
+    expect(dataGrid.saveColumns).toEqual(false);
+    dataGrid.saveColumns = true;
+    expect(dataGrid.getAttribute('save-columns')).toEqual('');
+    expect(dataGrid.saveColumns).toEqual(true);
+    dataGrid.saveColumns = false;
+    expect(dataGrid.getAttribute('save-columns')).toEqual(null);
+    expect(dataGrid.saveColumns).toEqual(false);
   });
 
-  it('should set to saves filter', () => {
-    expect(dataGrid.getAttribute('saves-filter')).toEqual(null);
-    expect(dataGrid.savesFilter).toEqual(false);
-    dataGrid.savesFilter = true;
-    expect(dataGrid.getAttribute('saves-filter')).toEqual('');
-    expect(dataGrid.savesFilter).toEqual(true);
-    dataGrid.savesFilter = false;
-    expect(dataGrid.getAttribute('saves-filter')).toEqual(null);
-    expect(dataGrid.savesFilter).toEqual(false);
+  it('should set to save filter', () => {
+    expect(dataGrid.getAttribute('save-filter')).toEqual(null);
+    expect(dataGrid.saveFilter).toEqual(false);
+    dataGrid.saveFilter = true;
+    expect(dataGrid.getAttribute('save-filter')).toEqual('');
+    expect(dataGrid.saveFilter).toEqual(true);
+    dataGrid.saveFilter = false;
+    expect(dataGrid.getAttribute('save-filter')).toEqual(null);
+    expect(dataGrid.saveFilter).toEqual(false);
   });
 
-  it('should set to saves page size', () => {
-    expect(dataGrid.getAttribute('saves-page-size')).toEqual(null);
-    expect(dataGrid.savesPageSize).toEqual(false);
-    dataGrid.savesPageSize = true;
-    expect(dataGrid.getAttribute('saves-page-size')).toEqual('');
-    expect(dataGrid.savesPageSize).toEqual(true);
-    dataGrid.savesPageSize = false;
-    expect(dataGrid.getAttribute('saves-page-size')).toEqual(null);
-    expect(dataGrid.savesPageSize).toEqual(false);
+  it('should set to save page size', () => {
+    expect(dataGrid.getAttribute('save-page-size')).toEqual(null);
+    expect(dataGrid.savePageSize).toEqual(false);
+    dataGrid.savePageSize = true;
+    expect(dataGrid.getAttribute('save-page-size')).toEqual('');
+    expect(dataGrid.savePageSize).toEqual(true);
+    dataGrid.savePageSize = false;
+    expect(dataGrid.getAttribute('save-page-size')).toEqual(null);
+    expect(dataGrid.savePageSize).toEqual(false);
   });
 
-  it('should set to saves row height', () => {
-    expect(dataGrid.getAttribute('saves-row-height')).toEqual(null);
-    expect(dataGrid.savesRowHeight).toEqual(false);
-    dataGrid.savesRowHeight = true;
-    expect(dataGrid.getAttribute('saves-row-height')).toEqual('');
-    expect(dataGrid.savesRowHeight).toEqual(true);
-    dataGrid.savesRowHeight = false;
-    expect(dataGrid.getAttribute('saves-row-height')).toEqual(null);
-    expect(dataGrid.savesRowHeight).toEqual(false);
+  it('should set to save row height', () => {
+    expect(dataGrid.getAttribute('save-row-height')).toEqual(null);
+    expect(dataGrid.saveRowHeight).toEqual(false);
+    dataGrid.saveRowHeight = true;
+    expect(dataGrid.getAttribute('save-row-height')).toEqual('');
+    expect(dataGrid.saveRowHeight).toEqual(true);
+    dataGrid.saveRowHeight = false;
+    expect(dataGrid.getAttribute('save-row-height')).toEqual(null);
+    expect(dataGrid.saveRowHeight).toEqual(false);
   });
 
-  it('should set to saves sort order', () => {
-    expect(dataGrid.getAttribute('saves-sort-order')).toEqual(null);
-    expect(dataGrid.savesSortOrder).toEqual(false);
-    dataGrid.savesSortOrder = true;
-    expect(dataGrid.getAttribute('saves-sort-order')).toEqual('');
-    expect(dataGrid.savesSortOrder).toEqual(true);
-    dataGrid.savesSortOrder = false;
-    expect(dataGrid.getAttribute('saves-sort-order')).toEqual(null);
-    expect(dataGrid.savesSortOrder).toEqual(false);
+  it('should set to save sort order', () => {
+    expect(dataGrid.getAttribute('save-sort-order')).toEqual(null);
+    expect(dataGrid.saveSortOrder).toEqual(false);
+    dataGrid.saveSortOrder = true;
+    expect(dataGrid.getAttribute('save-sort-order')).toEqual('');
+    expect(dataGrid.saveSortOrder).toEqual(true);
+    dataGrid.saveSortOrder = false;
+    expect(dataGrid.getAttribute('save-sort-order')).toEqual(null);
+    expect(dataGrid.saveSortOrder).toEqual(false);
   });
 
-  it('should set to saves user settings', () => {
-    expect(dataGrid.getAttribute('saves-user-settings')).toEqual(null);
-    expect(dataGrid.savesUserSettings).toEqual(false);
-    dataGrid.savesUserSettings = true;
-    expect(dataGrid.getAttribute('saves-user-settings')).toEqual('');
-    expect(dataGrid.savesUserSettings).toEqual(true);
-    dataGrid.savesUserSettings = false;
-    expect(dataGrid.getAttribute('saves-user-settings')).toEqual(null);
-    expect(dataGrid.savesUserSettings).toEqual(false);
+  it('should set to save user settings', () => {
+    expect(dataGrid.getAttribute('save-user-settings')).toEqual(null);
+    expect(dataGrid.saveUserSettings).toEqual(false);
+    dataGrid.saveUserSettings = true;
+    expect(dataGrid.getAttribute('save-user-settings')).toEqual('');
+    expect(dataGrid.saveUserSettings).toEqual(true);
+    dataGrid.saveUserSettings = false;
+    expect(dataGrid.getAttribute('save-user-settings')).toEqual(null);
+    expect(dataGrid.saveUserSettings).toEqual(false);
   });
 
   it('should save/restore active page with local storage', () => {
     dataGrid.pageNumber = 1;
-    expect(dataGrid.savedActivePage()).toEqual(null);
-    dataGrid.savesActivePage = true;
-    dataGrid.saveActivePage();
+    const setting = 'active-page';
+    expect(dataGrid.savedSetting(setting)).toEqual(null);
+    dataGrid.saveActivePage = true;
+    dataGrid.saveSetting(setting);
 
-    expect(dataGrid.savedActivePage()).toEqual(1);
+    expect(dataGrid.savedSetting(setting)).toEqual(1);
     document.body.innerHTML = '';
     container = new IdsContainer();
     dataGrid = new IdsDataGrid();
@@ -249,19 +250,20 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
     dataGrid.data = dataset;
     dataGrid.uniqueId = 'some-uniqueid-1';
 
-    expect(dataGrid.savedActivePage()).toEqual(1);
-    dataGrid.restoreActivePage();
-    dataGrid.clearSavedActivePage();
+    expect(dataGrid.savedSetting(setting)).toEqual(1);
+    dataGrid.restoreSetting(setting);
+    dataGrid.clearSetting(setting);
 
-    expect(dataGrid.savedActivePage()).toEqual(null);
+    expect(dataGrid.savedSetting(setting)).toEqual(null);
   });
 
   it('should save/restore columns with local storage', () => {
-    expect(dataGrid.savedColumns()).toEqual(null);
-    dataGrid.savesColumns = true;
-    dataGrid.saveColumns();
+    const setting = 'columns';
+    expect(dataGrid.savedSetting(setting)).toEqual(null);
+    dataGrid.saveColumns = true;
+    dataGrid.saveSetting(setting);
 
-    expect(dataGrid.savedColumns()).toEqual(expect.arrayContaining([
+    expect(dataGrid.savedSetting(setting)).toEqual(expect.arrayContaining([
       expect.objectContaining({ id: 'description' }),
       expect.objectContaining({ id: 'ledger' })
     ]));
@@ -275,28 +277,29 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
     dataGrid.data = dataset;
     dataGrid.uniqueId = 'some-uniqueid-1';
 
-    expect(dataGrid.savedColumns()).toEqual(expect.arrayContaining([
+    expect(dataGrid.savedSetting(setting)).toEqual(expect.arrayContaining([
       expect.objectContaining({ id: 'description' }),
       expect.objectContaining({ id: 'ledger' })
     ]));
-    dataGrid.restoreColumns();
-    dataGrid.clearSavedColumns();
+    dataGrid.restoreSetting(setting);
+    dataGrid.clearSetting(setting);
 
-    expect(dataGrid.savedColumns()).toEqual(null);
+    expect(dataGrid.savedSetting(setting)).toEqual(null);
   });
 
   it('should save/restore filter with local storage', () => {
-    expect(dataGrid.savedFilter()).toEqual(null);
-    dataGrid.savesFilter = true;
-    dataGrid.saveFilter();
+    const setting = 'filter';
+    expect(dataGrid.savedSetting(setting)).toEqual(null);
+    dataGrid.saveFilter = true;
+    dataGrid.saveSetting(setting);
 
-    expect(dataGrid.savedFilter()).toEqual([]);
+    expect(dataGrid.savedSetting(setting)).toEqual([]);
     const selector = '.ids-data-grid-body .ids-data-grid-row';
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
     dataGrid.applyFilter([{ columnId: 'description', operator: 'equals', value: '105' }]);
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
-    expect(dataGrid.savedFilter()).toEqual(
+    expect(dataGrid.savedSetting(setting)).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ columnId: 'description' }),
         expect.objectContaining({ operator: 'equals' }),
@@ -313,26 +316,27 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
     dataGrid.data = dataset;
     dataGrid.uniqueId = 'some-uniqueid-1';
 
-    expect(dataGrid.savedFilter()).toEqual(
+    expect(dataGrid.savedSetting(setting)).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ columnId: 'description' }),
         expect.objectContaining({ operator: 'equals' }),
         expect.objectContaining({ value: '105' })
       ])
     );
-    dataGrid.restoreFilter();
-    dataGrid.clearSavedFilter();
+    dataGrid.restoreSetting(setting);
+    dataGrid.clearSetting(setting);
 
-    expect(dataGrid.savedFilter()).toEqual(null);
+    expect(dataGrid.savedSetting(setting)).toEqual(null);
   });
 
   it('should save/restore page size with local storage', () => {
+    const setting = 'page-size';
     dataGrid.pageSize = 5;
-    expect(dataGrid.savedPageSize()).toEqual(null);
-    dataGrid.savesPageSize = true;
-    dataGrid.savePageSize();
+    expect(dataGrid.savedSetting(setting)).toEqual(null);
+    dataGrid.savePageSize = true;
+    dataGrid.saveSetting(setting);
 
-    expect(dataGrid.savedPageSize()).toEqual(5);
+    expect(dataGrid.savedSetting(setting)).toEqual(5);
     document.body.innerHTML = '';
     container = new IdsContainer();
     dataGrid = new IdsDataGrid();
@@ -343,19 +347,20 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
     dataGrid.data = dataset;
     dataGrid.uniqueId = 'some-uniqueid-1';
 
-    expect(dataGrid.savedPageSize()).toEqual(5);
-    dataGrid.restorePageSize();
-    dataGrid.clearSavedPageSize();
+    expect(dataGrid.savedSetting(setting)).toEqual(5);
+    dataGrid.restoreSetting(setting);
+    dataGrid.clearSetting(setting);
 
-    expect(dataGrid.savedPageSize()).toEqual(null);
+    expect(dataGrid.savedSetting(setting)).toEqual(null);
   });
 
   it('should save/restore row height with local storage', () => {
-    expect(dataGrid.savedRowHeight()).toEqual(null);
-    dataGrid.savesRowHeight = true;
-    dataGrid.saveRowHeight();
+    const setting = 'row-height';
+    expect(dataGrid.savedSetting(setting)).toEqual(null);
+    dataGrid.saveRowHeight = true;
+    dataGrid.saveSetting(setting);
 
-    expect(dataGrid.savedRowHeight()).toEqual('lg');
+    expect(dataGrid.savedSetting(setting)).toEqual('lg');
     document.body.innerHTML = '';
     container = new IdsContainer();
     dataGrid = new IdsDataGrid();
@@ -366,22 +371,23 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
     dataGrid.data = dataset;
     dataGrid.uniqueId = 'some-uniqueid-1';
 
-    expect(dataGrid.savedRowHeight()).toEqual('lg');
-    dataGrid.restoreRowHeight();
-    dataGrid.clearSavedRowHeight();
+    expect(dataGrid.savedSetting(setting)).toEqual('lg');
+    dataGrid.restoreSetting(setting);
+    dataGrid.clearSetting(setting);
 
-    expect(dataGrid.savedRowHeight()).toEqual(null);
+    expect(dataGrid.savedSetting(setting)).toEqual(null);
   });
 
   it('should save/restore sort order to local storage', () => {
-    expect(dataGrid.savedSortOrder()).toEqual(null);
-    dataGrid.savesSortOrder = true;
-    dataGrid.saveSortOrder();
+    const setting = 'sort-order';
+    expect(dataGrid.savedSetting(setting)).toEqual(null);
+    dataGrid.saveSortOrder = true;
+    dataGrid.saveSetting(setting);
 
-    expect(dataGrid.savedSortOrder()).toEqual(null);
+    expect(dataGrid.savedSetting(setting)).toEqual(null);
     dataGrid.setSortColumn('description', true);
 
-    expect(dataGrid.savedSortOrder()).toEqual(
+    expect(dataGrid.savedSetting(setting)).toEqual(
       expect.objectContaining({
         id: 'description',
         ascending: true
@@ -397,20 +403,20 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
     dataGrid.data = dataset;
     dataGrid.uniqueId = 'some-uniqueid-1';
 
-    expect(dataGrid.savedSortOrder()).toEqual(
+    expect(dataGrid.savedSetting(setting)).toEqual(
       expect.objectContaining({
         id: 'description',
         ascending: true
       })
     );
-    dataGrid.restoreSortOrder();
-    dataGrid.clearSavedSortOrder();
+    dataGrid.restoreSetting(setting);
+    dataGrid.clearSetting(setting);
 
-    expect(dataGrid.savedSortOrder()).toEqual(null);
+    expect(dataGrid.savedSetting(setting)).toEqual(null);
   });
 
   it('should save all user settings to local storage', () => {
-    expect(dataGrid.savedAllUserSettings()).toEqual(
+    expect(dataGrid.savedAllSettings()).toEqual(
       expect.objectContaining({
         activePage: null,
         columns: null,
@@ -420,10 +426,10 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
         sortOrder: null
       })
     );
-    dataGrid.savesUserSettings = true;
-    dataGrid.saveAllUserSettings();
+    dataGrid.saveUserSettings = true;
+    dataGrid.saveAllSettings();
 
-    expect(dataGrid.savedAllUserSettings()).toEqual(
+    expect(dataGrid.savedAllSettings()).toEqual(
       expect.objectContaining({
         activePage: 1,
         columns: expect.arrayContaining([
@@ -436,11 +442,11 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
         sortOrder: null
       })
     );
-    dataGrid.clearSavedAllUserSettings();
+    dataGrid.clearAllSettings();
   });
 
   it('should auto save user settings', () => {
-    expect(dataGrid.savedAllUserSettings()).toEqual(
+    expect(dataGrid.savedAllSettings()).toEqual(
       expect.objectContaining({
         activePage: null,
         columns: null,
@@ -452,15 +458,15 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
     );
     dataGrid.pageSize = 5;
     dataGrid.setSortColumn('description', true);
-    dataGrid.savesActivePage = true;
-    dataGrid.savesColumns = true;
-    dataGrid.savesFilter = true;
-    dataGrid.savesPageSize = true;
-    dataGrid.savesRowHeight = true;
-    dataGrid.savesSortOrder = true;
-    dataGrid.saveUserSettings();
+    dataGrid.saveActivePage = true;
+    dataGrid.saveColumns = true;
+    dataGrid.saveFilter = true;
+    dataGrid.savePageSize = true;
+    dataGrid.saveRowHeight = true;
+    dataGrid.saveSortOrder = true;
+    dataGrid.saveSettings();
 
-    expect(dataGrid.savedAllUserSettings()).toEqual(
+    expect(dataGrid.savedAllSettings()).toEqual(
       expect.objectContaining({
         activePage: 1,
         columns: expect.arrayContaining([
@@ -473,9 +479,9 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
         sortOrder: expect.objectContaining({ id: 'description', ascending: true })
       })
     );
-    dataGrid.clearSavedAllUserSettings();
+    dataGrid.clearAllSettings();
 
-    expect(dataGrid.savedAllUserSettings()).toEqual(
+    expect(dataGrid.savedAllSettings()).toEqual(
       expect.objectContaining({
         activePage: null,
         columns: null,
@@ -485,15 +491,15 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
         sortOrder: null
       })
     );
-    dataGrid.savesActivePage = false;
-    dataGrid.savesColumns = false;
-    dataGrid.savesFilter = false;
-    dataGrid.savesPageSize = false;
-    dataGrid.savesRowHeight = false;
-    dataGrid.savesSortOrder = false;
-    dataGrid.saveUserSettings();
+    dataGrid.saveActivePage = false;
+    dataGrid.saveColumns = false;
+    dataGrid.saveFilter = false;
+    dataGrid.savePageSize = false;
+    dataGrid.saveRowHeight = false;
+    dataGrid.saveSortOrder = false;
+    dataGrid.saveSettings();
 
-    expect(dataGrid.savedAllUserSettings()).toEqual(
+    expect(dataGrid.savedAllSettings()).toEqual(
       expect.objectContaining({
         activePage: null,
         columns: null,
@@ -503,10 +509,10 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
         sortOrder: null
       })
     );
-    dataGrid.savesUserSettings = true;
-    dataGrid.saveUserSettings();
+    dataGrid.saveUserSettings = true;
+    dataGrid.saveSettings();
 
-    expect(dataGrid.savedAllUserSettings()).toEqual(
+    expect(dataGrid.savedAllSettings()).toEqual(
       expect.objectContaining({
         activePage: 1,
         columns: expect.arrayContaining([
@@ -519,7 +525,7 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
         sortOrder: expect.objectContaining({ id: 'description', ascending: true })
       })
     );
-    dataGrid.clearSavedAllUserSettings();
+    dataGrid.clearAllSettings();
   });
 
   it('should save on pager change', async () => {
@@ -527,7 +533,7 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
     dataGrid.pageSize = 10;
     await wait(10);
 
-    expect(await dataGrid.savedAllUserSettings()).toEqual(
+    expect(await dataGrid.savedAllSettings()).toEqual(
       expect.objectContaining({
         activePage: null,
         columns: null,
@@ -539,10 +545,10 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
     );
 
     dataGrid.pager.dispatchEvent(new CustomEvent('pagenumberchange', { detail: { value: 2 } }));
-    dataGrid.savesUserSettings = true;
+    dataGrid.saveUserSettings = true;
     dataGrid.pager.dispatchEvent(new CustomEvent('pagesizechange', { detail: { value: 5 } }));
 
-    expect(await dataGrid.savedAllUserSettings()).toEqual(
+    expect(await dataGrid.savedAllSettings()).toEqual(
       expect.objectContaining({
         activePage: 2,
         columns: expect.arrayContaining([
@@ -555,6 +561,6 @@ describe('IdsDataGrid Component Save User Settings Tests', () => {
         sortOrder: null
       })
     );
-    dataGrid.clearSavedAllUserSettings();
+    dataGrid.clearAllSettings();
   });
 });
