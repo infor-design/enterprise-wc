@@ -119,6 +119,16 @@ class IdsMonthYearPicklist extends Base {
     </div>`;
   }
 
+  private refreshPicklists() {
+    if (this.container) {
+      this.container.innerHTML = `
+        ${this.showPicklistWeek ? this.templatePicklistWeeks() : ''}
+        ${this.showPicklistMonth && !this.showPicklistWeek ? this.templatePicklistMonths() : ''}
+        ${this.showPicklistYear ? this.templatePicklistYears() : ''}
+      `;
+    }
+  }
+
   /**
    * disabled attribute
    * @returns {boolean} disabled param
@@ -704,16 +714,7 @@ class IdsMonthYearPicklist extends Base {
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_YEAR);
     }
-    this.updatePicklistYear(boolVal);
-  }
-
-  private updatePicklistYear(val: boolean) {
-    const yearSection = this.container?.querySelector<HTMLElement>('.picklist-section.year');
-    if (val) {
-      if (!yearSection) this.container?.insertAdjacentHTML('beforeend', this.templatePicklistYears());
-    } else {
-      yearSection?.remove();
-    }
+    this.refreshPicklists();
   }
 
   /**
@@ -741,16 +742,7 @@ class IdsMonthYearPicklist extends Base {
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_MONTH);
     }
-    this.updatePicklistMonth(boolVal);
-  }
-
-  private updatePicklistMonth(val: boolean) {
-    const monthSection = this.container?.querySelector<HTMLElement>('.picklist-section.month');
-    if (val) {
-      if (!monthSection) this.container?.insertAdjacentHTML('afterbegin', this.templatePicklistMonths());
-    } else {
-      monthSection?.remove();
-    }
+    this.refreshPicklists();
   }
 
   /**
@@ -772,25 +764,15 @@ class IdsMonthYearPicklist extends Base {
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
     }
-    this.updatePicklistWeek(boolVal);
+    this.refreshPicklists();
   }
 
-  private updatePicklistWeek(val: boolean) {
-    const weekSection = this.container?.querySelector<HTMLElement>('.picklist-section.week');
-    const monthSection = this.container?.querySelector<HTMLElement>('.picklist-section.month');
-
-    if (val) {
-      if (!weekSection) {
-        if (monthSection) {
-          monthSection.insertAdjacentHTML('beforebegin', this.templatePicklistWeeks());
-        } else {
-          this.container?.insertAdjacentHTML('afterbegin', this.templatePicklistWeeks());
-        }
-      }
-    } else {
-      weekSection?.remove();
-    }
-  }
+  /**
+   *
+   */
+  onLocaleChange = () => {
+    this.refreshPicklists();
+  };
 
   activatePicklist() {
     if (!this.container) return;

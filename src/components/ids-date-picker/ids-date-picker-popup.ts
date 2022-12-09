@@ -610,7 +610,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     } else {
       this.removeAttribute(attributes.USE_RANGE);
       this.monthView?.removeAttribute(attributes.USE_RANGE);
-      btnApply?.setAttribute(attributes.HIDDEN, 'true');
+      if (!this.expanded) btnApply?.setAttribute(attributes.HIDDEN, 'true');
       btnApply?.removeAttribute(attributes.DISABLED);
     }
   }
