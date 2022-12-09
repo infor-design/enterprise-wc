@@ -49,7 +49,7 @@ type CalendarViewTypes = 'month' | 'week' | 'day';
 export default class IdsCalendar extends Base {
   #mobileBreakpoint = parseInt(breakpoints.md);
 
-  #resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => this.#onResize(entries));
+  #resizeObserver?: ResizeObserver | null;
 
   #selectedEventId = '';
 
@@ -183,7 +183,7 @@ export default class IdsCalendar extends Base {
     this.setDirection();
     this.changeView('month');
     this.#attachEventHandlers();
-    this.#resizeObserver.observe(getClosest(this, 'ids-container'));
+    this.#configureResizeObserver();
     this.viewPickerConnected();
   }
 
@@ -192,7 +192,18 @@ export default class IdsCalendar extends Base {
    */
   disconnectedCallback() {
     super.disconnectedCallback?.();
-    this.#resizeObserver?.disconnect();
+    if (this.#resizeObserver) {
+      this.#resizeObserver.disconnect();
+      this.#resizeObserver = null;
+    }
+  }
+
+  /**
+   * Configures IdsCalendar's resize observer
+   */
+  #configureResizeObserver() {
+    this.#resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => this.#onResize(entries));
+    this.#resizeObserver.observe(getClosest(this, 'ids-container'));
   }
 
   /**
