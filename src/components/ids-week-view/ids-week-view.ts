@@ -312,14 +312,14 @@ export default class IdsWeekView extends Base {
     }
 
     // Add timeline element
-    this.container?.querySelectorAll('.week-view-hour-row:nth-child(1) td')
+    this.container?.querySelectorAll<HTMLElement>('.week-view-hour-row:nth-child(1) td')
       .forEach((item: HTMLElement) => item.insertAdjacentHTML(
         'afterbegin',
         '<div class="week-view-time-marker"></div>'
       ));
 
     const hoursDiff = this.endHour - this.startHour + 1;
-    const hourRowElement = this.container?.querySelector('.week-view-hour-row');
+    const hourRowElement = this.container?.querySelector<HTMLElement>('.week-view-hour-row');
     const timelineInterval = this.timelineInterval;
 
     // Timeline position based on current hour and startHour/endHour parameters
@@ -577,7 +577,7 @@ export default class IdsWeekView extends Base {
     // set container height to fit all events
     if (eventCount >= 2) {
       this.container
-        ?.querySelectorAll('.week-view-all-day-wrapper')
+        ?.querySelectorAll<HTMLElement>('.week-view-all-day-wrapper')
         .forEach((elem: HTMLElement) => {
           elem.style.height = `${44 + ((eventCount - 1) * 23)}px`;
         });
