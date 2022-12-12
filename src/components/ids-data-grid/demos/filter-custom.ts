@@ -118,25 +118,40 @@ const myCustomFilter = (opt: any) => {
   setData();
 }());
 
+const setFilterBtn = document.body.querySelector('#set-filter-btn');
+const applyFilterBtn = document.body.querySelector('#apply-filter-btn');
+const colorInput = document.body.querySelector<IdsInput>('#filter-input');
+
+/**
+ * Sets filter conditions on data grid
+ * @param {string} value input value
+ */
+function setGridFilter(value = '') {
+  dataGrid.filters.setFilterConditions([{
+    columnId: 'no-operator',
+    operator: 'contains',
+    value: value.trim()
+  }]);
+}
+
+// Listen for color input Enter and Backspace events
+colorInput?.addEventListener('keyup', ((evt) => {
+  if (evt.key === 'Enter' || evt.key === 'Backspace') {
+    setGridFilter(colorInput?.value);
+  }
+}));
+
 // Listen for filtered events
 dataGrid.addEventListener('filtered', (evt) => {
   console.info('IdsDataGrid "filtered" event', evt);
 });
 
 // Handle set filter btn
-const setFilterBtn = document.body.querySelector('#set-filter-btn');
 setFilterBtn?.addEventListener('click', () => {
-  const colorInput = document.body.querySelector<IdsInput>('#filter-input');
-
-  dataGrid.filters.setFilterConditions([{
-    columnId: 'no-operator',
-    operator: 'contains',
-    value: colorInput?.value.trim()
-  }]);
+  setGridFilter(colorInput?.value);
 });
 
 // Handle apply filter btn
-const applyFilterBtn = document.body.querySelector('#apply-filter-btn');
 applyFilterBtn?.addEventListener('click', () => {
   dataGrid.filters.applyFilter();
 });
