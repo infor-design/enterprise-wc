@@ -259,7 +259,6 @@ describe('IdsCheckbox Component', () => {
   });
 
   it('should remove events', () => {
-    cb.input = null;
     document.body.innerHTML = '';
     const elem: any = new IdsCheckbox();
     document.body.appendChild(elem);
