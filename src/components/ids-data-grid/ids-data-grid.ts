@@ -97,6 +97,11 @@ export default class IdsDataGrid extends Base {
     return this.container?.querySelector<HTMLElement>('.ids-data-grid-body');
   }
 
+  get rows() {
+    // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
+    return [...this.container?.querySelectorAll<HTMLElement>('.ids-data-grid-body ids-data-grid-row')];
+  }
+
   /* Returns the outside wrapper element */
   get wrapper() {
     return this.container?.parentNode as HTMLElement | undefined | null;
@@ -105,7 +110,212 @@ export default class IdsDataGrid extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.redrawBody();
+    this.container?.style.setProperty('max-height', '95vh');
+
+    let nextRowIndex = 0;
+    let prevRowIndex = 0;
+    let jumpToIndex = 0;
+    let previousScrollTop = 0;
+    let previousTimestamp = 0;
+    let requestAnimationFrameRef: any = null;
+    let numRows = 0;
+
+    // this.body?.style.setProperty('transform', `translateY(${1580 * 50}px)`);
+
+    this.onEvent('scroll', this.container, (evt) => {
+      if (requestAnimationFrameRef) {
+        cancelAnimationFrame(requestAnimationFrameRef);
+      }
+
+      const isScrollingDown = this.container.scrollTop > previousScrollTop;
+      const isScrollingUp = !isScrollingDown;
+
+      previousScrollTop = this.container.scrollTop;
+
+      const body = this.body;
+      const data = this.data;
+      const rows = this.rows;
+
+      const first = rows[0];
+      const last = rows[rows.length - 1];
+      const firstRowIndex = first?.rowIndex;
+      const lastRowIndex = last?.rowIndex;
+
+      prevRowIndex = firstRowIndex - 1;
+      nextRowIndex = lastRowIndex + 1;
+
+      if (this.data.length !== numRows) {
+        numRows = this.data.length;
+        this.body?.style.setProperty('height', `${numRows * 50}px`);
+      }
+
+      // console.log('prevRowIndex, nextRowIndex', prevRowIndex, nextRowIndex);
+      if (prevRowIndex < -1 || nextRowIndex > numRows) return;
+
+      requestAnimationFrameRef = requestAnimationFrame((timestamp) => {
+        // # This timestamp conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
+        if (timestamp <= (previousTimestamp + 60)) return;
+        // if (timestamp <= (previousTimestamp + 1000)) return;
+        previousTimestamp = timestamp;
+
+        // console.log('RAF timestamp', timestamp);
+
+        const recycleRows: any[] = [];
+
+        if (isScrollingUp) {
+          return;
+          // NOTE: Using Array.every as an alternaive to using a for-loop with a break
+          const reversedRows = rows.reverse();
+          reversedRows
+            .every((row, idx) => {
+              const currentIndex = prevRowIndex - idx;
+              const rowViewport = row.viewport;
+              const isOffScreen = rowViewport.bottom > (window.innerHeight + 1000);
+              if (currentIndex < 0 || !isOffScreen) {
+                return false;
+              }
+
+              row.rowIndex = currentIndex;
+              return recycleRows.unshift(row);
+            });
+
+          // NOTE: body.prepend is faster than body.innerHTML
+          body.prepend(...recycleRows);
+        }
+        if (isScrollingDown) {
+          rows.every((row, idx) => {
+            const currentIndex = nextRowIndex + idx;
+            const rowViewport = row.viewport;
+            const isOffScreen = rowViewport.top < 0;
+            if (currentIndex >= numRows || !isOffScreen) {
+              jumpToIndex = currentIndex;
+              return false;
+            }
+
+            row.rowIndex = currentIndex;
+            return recycleRows.push(row);
+          });
+
+          if (recycleRows.length < 1) return;
+          const frontRow = recycleRows[0];
+          const frontIndex = frontRow.rowIndex;
+          const frontHeight = frontRow.viewport.height;
+
+          // NOTE: body.append is faster than body.innerHTML
+          // NOTE: body.append is faster than multiple calls to appendChild()
+          const oldScrollTop = this.container.scrollTop;
+          const headerHeight = this.header?.getBoundingClientRect().height ?? 40;
+          console.log('headerHeight', headerHeight);
+          const newScrollPosition = oldScrollTop - (headerHeight + (frontHeight * (0 + recycleRows.length)));
+          console.log(timestamp, 'this.container.scrollTop BEFORE', oldScrollTop);
+          body.append(...recycleRows);
+          console.log(timestamp, 'this.container.scrollTop AFTER', this.container.scrollTop);
+          body?.style.setProperty('transform', `translateY(${newScrollPosition}px)`);
+          // this.container.scrollTop = oldScrollTop;
+          
+          // const scrollToPosition = jumpToIndex * frontHeight;
+          // console.log({ frontIndex, frontHeight, jumpToIndex, scrollToPosition });
+          // // this.container.scrollTop = scrollToPosition;
+          // // body?.style.setProperty('transform', `translateY(${scrollToPosition}px)`);
+          // // body?.style.setProperty('transform', `translateY(${frontIndex * frontHeight}px)`);
+          // // this.container.scrollTop = frontIndex * frontHeight;
+        }
+      });
+    // }, { passive: true });
+    });
+
+    // this.#attachScrollEvent();
   }
+
+  // #attachScrollEvent() {
+  //   // const rootNode = this.getRootNode();
+  //   // const idsContainer = rootNode.querySelector('ids-container');
+  //   // this.onEvent('scroll', idsContainer?.container, (evt) => {});
+
+  //   let nextRowIndex = 0;
+  //   let prevRowIndex = 0;
+  //   let previousTimestamp = 0;
+  //   let previousScrollTop = 0;
+  //   let requestAnimationFrameRef: any = null;
+
+  //   this.container?.style.setProperty('max-height', '90vh');
+  //   let scrollBufferSize = 0;
+  //   this.onEvent('scroll', this.container, (evt) => {
+  //     if (requestAnimationFrameRef) {
+  //       cancelAnimationFrame(requestAnimationFrameRef);
+  //     }
+
+  //     const body = this.body;
+  //     const data = this.data;
+  //     const rows = this.rows;
+  //     const first = rows[0];
+  //     const firstRowViewport = first?.viewport;
+  //     // console.log('firstRowViewport', firstRowViewport);
+  //     this.container?.style.setProperty('height', `${data.length * firstRowViewport.height}px`);
+
+  //     const last = rows[rows.length - 1];
+  //     const lastRowViewport = last?.viewport;
+
+  //     const firstRowIndex = first?.rowIndex;
+  //     const lastRowIndex = last?.rowIndex;
+  //     prevRowIndex = firstRowIndex - 1;
+  //     nextRowIndex = lastRowIndex + 1;
+
+  //     const numRows = this.data.length;
+  //     if (prevRowIndex < -1 || nextRowIndex > numRows) return;
+  //     // this.#updateScrollBuffer(scrollBufferSize);
+
+  //     requestAnimationFrameRef = requestAnimationFrame((timestamp) => {
+  //       console.log('timestamp, UP, DOWN', timestamp, firstRowViewport.isMovingUp, firstRowViewport.isMovingDown);
+  //       // if (timestamp === previousTimestamp) return;
+  //       // # This timestamp conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
+  //       if (timestamp <= (previousTimestamp + 300)) return;
+  //       previousTimestamp = timestamp;
+
+  //       const recycleRows: any[] = [];
+  //       // const visibleRows = rows.filter((row) => row.viewport.isWithin);
+  //       // console.log('visibleRows', visibleRows)
+
+  //       if (firstRowViewport.isMovingDown) {
+  //         // NOTE: Using Array.every as an alternaive to using a for-loop with a break
+  //         const reversedRows = rows.reverse();
+  //         reversedRows
+  //           .every((row, idx) => {
+  //             const currentIndex = prevRowIndex - idx;
+  //             const rowViewport = row.viewport;
+  //             if (currentIndex < 0 || !rowViewport.isBelow) {
+  //               return false;
+  //             }
+  //             scrollBufferSize -= rowViewport.height;
+  //             row.rowIndex = currentIndex;
+  //             return recycleRows.unshift(row);
+  //           });
+
+  //         // NOTE: body.prepend is faster than body.innerHTML
+  //         body.prepend(...recycleRows);
+  //       } else if (firstRowViewport.isMovingUp) {
+  //         // NOTE: Using Array.every as an alternaive to using a for-loop with a break
+  //         rows.every((row, idx) => {
+  //           const currentIndex = nextRowIndex + idx;
+  //           const rowViewport = row.viewport;
+  //           if (currentIndex >= numRows || !rowViewport.isAbove) {
+  //             return false;
+  //           }
+  //           // console.log('scrollBufferSize, rowViewport.height', scrollBufferSize, rowViewport.height);
+  //           // scrollBufferSize = row.offsetTop + rowViewport.height;
+  //           scrollBufferSize += rowViewport.height;
+  //           row.rowIndex = currentIndex;
+  //           return recycleRows.push(row);
+  //         });
+
+  //         // NOTE: body.append is faster than body.innerHTML
+  //         // NOTE: body.append is faster than multiple calls to appendChild()
+  //         body.append(...recycleRows);
+  //       }
+  //       // this.body?.style.setProperty('transform', `translateY(${scrollBufferSize}px)`);
+  //     });
+  //   }, { passive: true });
+  // }
 
   /** Reference to datasource API */
   readonly datasource: IdsDataSource = new IdsDataSource();
@@ -294,8 +504,10 @@ export default class IdsDataGrid extends Base {
    */
   bodyInnerTemplate() {
     let innerHTML = '';
-    for (let index = 0; index < this.data.length; index++) {
-      innerHTML += IdsDataGridRow.template(this.data[index], index, index + 1, this);
+    const slicedData = this.data.slice(0, 50);
+    for (let index = 0; index < slicedData.length; index++) {
+      innerHTML += IdsDataGridRow.template(slicedData[index], index, index + 1, this);
+      // innerHTML += `<ids-data-grid-row row-index="${index}"></ids-data-grid-row>`;
     }
     return innerHTML;
   }
