@@ -5,8 +5,6 @@
   @include my-8;
 
   $step-marker-width: 14px;
-  $visited-step-color: var(--ids-color-palette-azure-60);
-  $unvisited-step-color: var(--ids-color-palette-graphite-90);
 
   box-sizing: border-box;
   position: relative;
@@ -71,11 +69,11 @@
   }
 
   .step:not(.visited) .step-label {
-    color: $unvisited-step-color;
+    @include text-slate-60();
   }
 
   .step.visited .step-label {
-    color: $visited-step-color;
+    @include text-azure-60();
   }
 
   .step:not(.clickable) .step-label {
@@ -113,7 +111,7 @@
     .step-marker > svg:nth-child(1) {
       width: $step-marker-width;
       height: $step-marker-width;
-      fill: $visited-step-color;
+      fill: var(--ids-color-palette-azure-60);
       stroke: none;
       z-index: 2;
     }
@@ -122,7 +120,7 @@
       width: #{$step-marker-width + 5px};
       height: #{$step-marker-width + 5px};
       fill: var(--ids-color-palette-graphite-10);
-      stroke: $visited-step-color;
+      stroke: var(--ids-color-palette-azure-60);
       stroke-width: 1px;
       z-index: 1;
     }
@@ -135,18 +133,19 @@
   }
 
   .path-segment::before {
+    @include bg-slate-60();
+
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
     width: 100%;
     height: 2px;
-    background-color: $unvisited-step-color;
     content: '';
   }
 
   .path-segment.visited::before {
-    background-color: $visited-step-color;
+    @include bg-azure-60();
   }
 
   .path-segment.from-prev {
@@ -163,9 +162,65 @@
 
   .step:not(.visited) {
     svg:first-child circle {
-      fill: var(--ids-color-palette-graphite-10);
-      stroke: $unvisited-step-color;
+      fill: transparent;
+      stroke: var(--ids-color-palette-slate-60);
       stroke-width: 3px;
+    }
+  }
+
+  // Themes
+  &[mode='dark'] {
+    .step:not(.visited) {
+      svg:first-child circle {
+        stroke: var(--ids-color-palette-slate-40);
+      }
+    }
+
+    .step:not(.visited) .step-label {
+      @include text-slate-30();
+    }
+
+    .step.visited .step-label {
+      @include text-azure-40();
+    }
+
+    .path-segment:not(.visited)::before {
+      @include bg-slate-40();
+    }
+
+    .path-segment.visited::before {
+      @include bg-slate-60();
+    }
+
+    .step-marker > svg:nth-child(1) {
+      fill: var(--ids-color-palette-slate-60);
+    }
+
+    .step-marker > svg:nth-child(2) {
+      fill: var(--ids-color-palette-slate-90);
+      stroke: var(--ids-color-palette-slate-60);
+    }
+  }
+
+  &[mode='contrast'] {
+    .step:not(.visited) .step-label {
+      @include text-slate-90();
+    }
+
+    .step.visited .step-label {
+      @include text-azure-90();
+    }
+
+    .path-segment.visited::before {
+      @include bg-azure-90();
+    }
+
+    .step-marker > svg:nth-child(1) {
+      fill: var(--ids-color-palette-azure-90);
+    }
+
+    .step-marker > svg:nth-child(2) {
+      stroke: var(--ids-color-palette-azure-90);
     }
   }
 }
