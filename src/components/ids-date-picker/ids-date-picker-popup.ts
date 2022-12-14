@@ -5,37 +5,39 @@ import {
   subtractDate, isValidDate, hoursTo24, removeDateRange
 } from '../../utils/ids-date-utils/ids-date-utils';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
-
-import IdsButton from '../ids-button/ids-button';
-import type IdsLocale from '../ids-locale/ids-locale';
-import type IdsModalButton from '../ids-modal-button/ids-modal-button';
-import '../ids-modal-button/ids-modal-button';
-import '../ids-expandable-area/ids-expandable-area';
-import './ids-month-year-picklist';
-import '../ids-month-view/ids-month-view';
-import '../ids-text/ids-text';
-import IdsToggleButton from '../ids-toggle-button/ids-toggle-button';
-import '../ids-toolbar/ids-toolbar';
-import type IdsToolbar from '../ids-toolbar/ids-toolbar';
-import '../ids-toolbar/ids-toolbar-section';
-import type IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
-
 import { IdsPickerPopupCallbacks } from '../ids-picker-popup/ids-picker-popup';
-
 import {
   IdsDatePickerCommonAttributes,
 } from './ids-date-picker-common';
 
+// Components
+import './ids-month-year-picklist';
+import '../ids-button/ids-button';
+import '../ids-modal-button/ids-modal-button';
+import '../ids-expandable-area/ids-expandable-area';
+import '../ids-month-view/ids-month-view';
+import '../ids-text/ids-text';
+import '../ids-time-picker/ids-time-picker';
+import '../ids-toggle-button/ids-toggle-button';
+import '../ids-toolbar/ids-toolbar';
+import '../ids-toolbar/ids-toolbar-section';
+
 // Types
+import type IdsButton from '../ids-button/ids-button';
+import type IdsLocale from '../ids-locale/ids-locale';
+import type IdsModalButton from '../ids-modal-button/ids-modal-button';
 import type {
   IdsRangeSettings,
   IdsRangeSettingsInterface,
   IdsDayselectedEvent,
   IdsLegend
 } from '../ids-month-view/ids-month-view';
+import type IdsTimePicker from '../ids-time-picker/ids-time-picker';
+import type IdsToggleButton from '../ids-toggle-button/ids-toggle-button';
+import type IdsToolbar from '../ids-toolbar/ids-toolbar';
+import type IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
 
 import styles from './ids-date-picker-popup.scss';
-import IdsTimePicker from '../ids-time-picker/ids-time-picker';
 
 type IdsDatePickerPopupButton = IdsToggleButton | IdsModalButton | IdsButton;
 
