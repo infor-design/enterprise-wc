@@ -67,7 +67,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter-triggers
     field: 'useForEmployee',
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.dropdown,
-    filterTerms: [
+    filterConditions: [
       { value: 'Yes', label: 'Yes' },
       { value: 'No', label: 'No' }
     ]
@@ -79,7 +79,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter-triggers
     width: 140,
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.dropdown,
-    filterTerms: [
+    filterConditions: [
       { value: 'not-filtered', label: 'Not Filtered' },
       { value: 'Yes', label: 'Yes' },
       { value: 'No', label: 'No' }

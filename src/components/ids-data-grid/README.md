@@ -404,7 +404,7 @@ All the filter settings can be passed thru columns data.
 |Setting|Type|Description|
 |---|---|---|
 |`filterType` | Function | Data grid built-in filter method, see the dedicated section below. |
-|`filterTerms` | Array | List of items to be use as operators in menu-button or options in dropdown. |
+|`filterConditions` | Array | List of items to be use as operators in menu-button or options in dropdown. |
 |`filterFunction` | Function | User defined filter method, it must return a boolean. |
 |`filterOptions` | Object | Setting for components are in use, for example: `label, placeholder, disabled`. |
 |`isChecked` | Function | User defined filter method, it must return a boolean. This method use along built-in `checkbox` only, when filter data value is not boolean type. |
@@ -417,7 +417,7 @@ All the filter settings can be passed thru columns data.
 |`integer` | It filter as integer comparison. Contains input and menu-button with list of default operators. |
 |`decimal` | It filter as decimal comparison. Contains input and menu-button with list of default operators. |
 |`contents` | It filter as text comparison. Contains dropdown and auto generate list of items based on column data. |
-|`dropdown` | It filter as text comparison. Contains dropdown and must pass list of item by setting `filterTerms`. |
+|`dropdown` | It filter as text comparison. Contains dropdown and must pass list of item by setting `filterConditions`. |
 |`checkbox` | It filter as boolean comparison. Contains menu-button with list of default operators. |
 |`date` | It filter as date comparison. Contains date-picker and menu-button with list of default operators. |
 |`time` | It filter as time comparison. Contains time-picker and menu-button with list of default operators. |
@@ -573,7 +573,7 @@ columns.push({
   field: 'description',
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text,
-  filterTerms: [{
+  filterConditions: [{
     value: 'contains',
     label: 'Contains',
     icon: 'filter-contains'
@@ -612,7 +612,7 @@ columns.push({
   field: 'useForEmployee',
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.dropdown,
-  filterTerms: [
+  filterConditions: [
     { value: 'Yes', label: 'Yes' },
     { value: 'No', label: 'No' }
   ]
@@ -623,7 +623,7 @@ columns.push({
   field: 'useForEmployee',
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.dropdown,
-  filterTerms: [
+  filterConditions: [
     { value: 'not-filtered', label: 'Not Filtered' },
     { value: 'Yes', label: 'Yes' },
     { value: 'No', label: 'No' }
