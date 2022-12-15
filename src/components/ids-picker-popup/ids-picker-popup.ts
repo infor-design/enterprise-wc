@@ -55,9 +55,10 @@ class IdsPickerPopup extends Base {
 
   /**
    * Hides this menu and any of its submenus.
+   * @param {boolean} [doFocus] if true, instructs the listening component that focus should change to a different element
    * @returns {void}
    */
-  async hide(): Promise<void> {
+  async hide(doFocus?: boolean): Promise<void> {
     if (!this.popup?.visible) return;
 
     this.removeOpenEvents();
@@ -70,7 +71,8 @@ class IdsPickerPopup extends Base {
     this.triggerEvent('hide', this, {
       bubbles: true,
       detail: {
-        elem: this
+        doFocus,
+        elem: this,
       }
     });
 

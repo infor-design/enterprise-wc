@@ -138,6 +138,21 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePopup(picker, data);
       } else {
         picker = createPopup(fieldId, btnId, data);
+
+        // Date Picker Popup's `hide` event can cause the field to become focused
+        picker.addEventListener('hide', (e: CustomEvent) => {
+          e.stopPropagation();
+          if (e.detail.doFocus) {
+            picker.target?.focus();
+          }
+        });
+
+        // Date Picker Popup's `show` event will be used to capture the value from
+        // its assigned trigger field
+        picker.addEventListener('show', (e: CustomEvent) => {
+          e.stopPropagation();
+          picker.value = picker.target?.value;
+        });
       }
 
       if (picker.popup) {

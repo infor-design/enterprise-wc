@@ -25,7 +25,6 @@ import {
   buildClassAttrib,
 } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
 // Supporting components
 import '../ids-button/ids-button';
@@ -38,35 +37,19 @@ import styles from './ids-month-view.scss';
 import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../ids-calendar/ids-calendar-event';
 import { getDateValuesFromString } from '../ids-date-picker/ids-date-picker-common';
 
-const MIN_MONTH = 0;
-const MAX_MONTH = 11;
-const WEEK_LENGTH = 7;
-const BASE_Y_OFFSET = 35;
-const MAX_EVENT_COUNT = 3;
-
-export type IdsRangeSettings = {
-  start?: any,
-  end?: any,
-  separator?: string,
-  minDays?: number,
-  maxDays?: number,
-  selectForward?: boolean,
-  selectBackward?: boolean,
-  includeDisabled?: boolean,
-  selectWeek?: boolean
-};
-export interface IdsRangeSettingsInterface {
-  rangeSettings?: IdsRangeSettings;
-}
-
-export type IdsDisableSettings = {
-  dates?: Array<string>,
-  years?: Array<number>,
-  minDate?: string,
-  maxDate?: string,
-  dayOfWeek?: Array<number>,
-  isEnable?: boolean
-};
+import type {
+  IdsRangeSettings,
+  IdsDisableSettings,
+  IdsLegendSettings,
+} from './ids-month-view-common';
+import {
+  BASE_Y_OFFSET,
+  MIN_MONTH,
+  MAX_MONTH,
+  MAX_EVENT_COUNT,
+  WEEK_LENGTH,
+  IdsRangeSettingsInterface
+} from './ids-month-view-common';
 
 export type IdsDayselectedEvent = CustomEventInit & {
   detail: {
@@ -80,13 +63,6 @@ export type IdsDayselectedEvent = CustomEventInit & {
   bubbles?: boolean;
   cancelable?: boolean;
   composed?: boolean;
-};
-
-export type IdsLegend = {
-  name: string,
-  color: string,
-  dates?: Array<string>,
-  dayOfWeek?: Array<number>
 };
 
 /**
@@ -114,31 +90,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     this.#renderMonth();
   }
 
-  #currentLegend = [];
-
-  // Range picker default settings
-  #rangeSettings: IdsRangeSettings = {
-    start: null,
-    end: null,
-    separator: ' - ',
-    minDays: 0,
-    maxDays: 0,
-    selectForward: false,
-    selectBackward: false,
-    includeDisabled: false,
-    selectWeek: false
-  };
-
-  // Disabled default settings
-  #disableSettings: IdsDisableSettings = {
-    dates: [],
-    years: [],
-    minDate: '',
-    maxDate: '',
-    dayOfWeek: [],
-    isEnable: false
-  };
-
   // Flag value for custom calendar event
   #isCustom = false;
 
@@ -158,7 +109,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       attributes.SHOW_PICKLIST_YEAR,
       attributes.SHOW_TODAY,
       attributes.START_DATE,
-      attributes.USE_RANGE,
     ];
   }
 
@@ -396,7 +346,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    * Add/remove legend HTML to the container
    */
   #renderLegend(): void {
-    const template = this.legend.length > 0 ? `
+    const template = (this.legend && this.legend.length > 0) ? `
       <div class="month-view-legend">
         ${this.legend.map((item: any) => `
           <div class="month-view-legend-item ${item.cssClass || ''}">
@@ -736,7 +686,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
 
       element?.classList.add('range-selection');
 
-      if (!this.#rangeSettings.includeDisabled) {
+      if (!this.rangeSettings.includeDisabled) {
         element?.classList.add('not-included');
       }
 
@@ -834,7 +784,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
           this.container?.querySelector(selectedQuery)
             ?.classList.add(diff > 0 ? 'range-next' : 'range-prev');
 
-          if (!this.#rangeSettings.includeDisabled) {
+          if (!this.rangeSettings.includeDisabled) {
             this.container?.querySelector(selectedQuery)?.classList.add('not-included');
           }
         });
@@ -855,7 +805,8 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       minDate,
       maxDate,
       isEnable
-    }: IdsDisableSettings = this.#disableSettings;
+    }: IdsDisableSettings = this.disableSettings;
+
     const isOutOfDisplayRange: boolean = this.#isDisplayRange()
       && (date < (this.startDate as Date) || date > (this.endDate as Date));
     const ifYear: boolean = (years as Array<number>).some(
@@ -926,7 +877,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       const isSelectedWithRange: boolean = this.useRange && !this.rangeSettings.start && dateMatch;
       const isDisabled: boolean = this.isDisabledByDate(date);
       const isAlternate: boolean = !this.#isDisplayRange() && (date < firstDayOfRange || date > lastDayOfRange);
-      const legend: any = this.#getLegendByDate(date);
+      const legend: any = this.getLegendByDate(date);
       const isRangeSelection: boolean = this.#isRangeByDate(date);
       const isToday: boolean = year === now.getFullYear() && month === now.getMonth() && day === now.getDate();
       const classAttr: string = buildClassAttrib(
@@ -1036,7 +987,8 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
         date: this.activeDate,
         useRange: this.useRange,
         rangeStart: this.useRange && this.rangeSettings.start ? new Date(this.rangeSettings.start) : null,
-        rangeEnd: this.useRange && this.rangeSettings.end ? new Date(this.rangeSettings.end) : null
+        rangeEnd: this.useRange && this.rangeSettings.end ? new Date(this.rangeSettings.end) : null,
+        value: this.getFormattedDate(this.activeDate)
       },
       bubbles: true,
       cancelable: true,
@@ -1097,20 +1049,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
   }
 
   /**
-   * Find legend object by date provided
-   * @param {Date} date to check if has any legend
-   * @returns {IdsLegend} legend object for a specific date
-   */
-  #getLegendByDate(date: Date): IdsLegend | undefined {
-    return this.legend.find((legend: IdsLegend) => {
-      const ifDayOfWeek = legend.dayOfWeek?.includes(date.getDay());
-      const ifDate = legend.dates?.some((item: any) => new Date(item).getTime() === date.getTime());
-
-      return ifDayOfWeek || ifDate;
-    });
-  }
-
-  /**
    * Iterate legend items with color data and add color css variable
    */
   #colorToVar(): void {
@@ -1147,9 +1085,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    * @returns {void}
    */
   onFirstDayOfWeekChange() {
-    if (this.container) {
-      this.#renderMonth();
-    }
+    if (this.container) this.#renderMonth();
   }
 
   /**
@@ -1322,68 +1258,19 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     this.container?.classList.toggle('is-date-picker', boolVal);
   }
 
-  /**
-   * @returns {Array<IdsLegend>} array of legend items
-   */
-  get legend(): Array<IdsLegend> {
-    return this.#currentLegend;
+  onDisableSettingsChange() {
+    this.#renderMonth();
   }
 
-  /**
-   * Set and validate array of legend items
-   * Not an empty array of object with name, color, dates or dayOfWeek properties
-   * @param {Array<IdsLegend>|null} val array of legend items
-   */
-  set legend(val: Array<IdsLegend> | null) {
-    // Remove legend by setting null
-    if (val === null) {
-      this.#currentLegend = [];
-      this.#renderMonth();
-      this.#renderLegend();
-      this.container?.classList.remove('has-legend');
-
-      return;
-    }
-
+  onLegendSettingsChange(val: IdsLegendSettings) {
     if (!this.container) return;
 
-    // Check if legend validates
-    if (
-      Array.isArray(val)
-      && val.length > 0
-      && val.every(
-        (item: any) => item.name && item.color && (item.dates || item.dayOfWeek)
-      )
-    ) {
-      this.#currentLegend = deepClone(val);
-      this.#renderMonth();
-      this.#renderLegend();
-      this.container?.classList.add('has-legend');
-    } else {
-      throw new Error('ids-month-view: Invalid legend data provided');
-    }
+    this.#renderMonth();
+    this.#renderLegend();
+    this.container.classList[val && val.length ? 'add' : 'remove']('has-legend');
   }
 
-  /**
-   * @returns {IdsRangeSettings} range settings object
-   */
-  get rangeSettings(): IdsRangeSettings {
-    return this.#rangeSettings;
-  }
-
-  /**
-   * Set range selection settings
-   * @param {IdsRangeSettings} val settings to be assigned to default range settings
-   */
-  set rangeSettings(val: IdsRangeSettings) {
-    if (!val || val === null) this.resetRangeSettings();
-    else {
-      this.#rangeSettings = {
-        ...this.#rangeSettings,
-        ...deepClone(val)
-      };
-    }
-
+  onRangeSettingsChange(val: IdsRangeSettings) {
     if (!this.container) return;
 
     if (this.useRange && val?.start) {
@@ -1393,56 +1280,18 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       this.selectDay(this.year, this.month, this.day);
     }
 
-    this.container.classList.toggle('range-select-week', this.#rangeSettings.selectWeek);
+    this.container.classList.toggle('range-select-week', this.rangeSettings.selectWeek);
     this.#renderRangeSelection();
   }
 
-  /**
-   * use-range attribute
-   * @returns {boolean} useRange param converted to boolean from attribute value
-   */
-  get useRange(): boolean {
-    const attrVal = this.getAttribute(attributes.USE_RANGE);
-
-    return stringToBool(attrVal);
-  }
-
-  /**
-   * Set whether or not the component should be a range picker
-   * @param {string|boolean|null} val useRange param value
-   */
-  set useRange(val: string | boolean | null) {
-    const boolVal = stringToBool(val);
-
-    if (boolVal) {
-      this.setAttribute(attributes.USE_RANGE, 'true');
+  onUseRangeChange(newValue: boolean) {
+    if (newValue) {
       this.selectDay();
       this.#renderRangeSelection();
     } else {
-      this.removeAttribute(attributes.USE_RANGE);
       this.#clearRangeClasses();
       this.selectDay(this.year, this.month, this.day);
     }
-  }
-
-  /**
-   * @returns {IdsDisableSettings} disable settings object
-   */
-  get disable(): IdsDisableSettings {
-    return this.#disableSettings;
-  }
-
-  /**
-   * Set disable settings
-   * @param {IdsDisableSettings} val settings to be assigned to default disable settings
-   */
-  set disable(val: IdsDisableSettings) {
-    this.#disableSettings = {
-      ...this.#disableSettings,
-      ...deepClone(val)
-    };
-
-    this.#renderMonth();
   }
 
   /**
@@ -1723,23 +1572,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       this.#clearRangeClasses();
       this.selectDay(year, month, day);
     }
-  }
-
-  /**
-   * Sets the `rangeSettings` object back to its original defaults
-   */
-  protected resetRangeSettings() {
-    this.rangeSettings = {
-      start: null,
-      end: null,
-      separator: ' - ',
-      minDays: 0,
-      maxDays: 0,
-      selectForward: false,
-      selectBackward: false,
-      includeDisabled: false,
-      selectWeek: false
-    };
   }
 }
 

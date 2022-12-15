@@ -1,6 +1,8 @@
 import { attributes } from '../../core/ids-attributes';
 import { IdsConstructor } from '../../core/ids-element';
 import { LocaleHandler, LocaleMixinInterface } from '../ids-locale-mixin/ids-locale-mixin';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+import { CalendarEventsHandler } from '../ids-calendar-events-mixin/ids-calendar-events-mixin';
 
 import { MIN_MONTH, MAX_MONTH } from '../../components/ids-date-picker/ids-date-picker-common';
 import { stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
@@ -16,7 +18,8 @@ export interface DateAttributeInterface {
   onYearChange?(newValue: number, isValid: boolean): void;
 }
 
-type Constraints = IdsConstructor<DateAttributeInterface & LocaleMixinInterface & LocaleHandler>;
+type Constraints = IdsConstructor<
+DateAttributeInterface & LocaleMixinInterface & LocaleHandler & EventsMixinInterface & CalendarEventsHandler>;
 
 const isValidDay = (numberVal: number) => !Number.isNaN(numberVal) && numberVal > 0;
 const isValidMonth = (numberVal: number) => !Number.isNaN(numberVal) && numberVal >= MIN_MONTH && numberVal <= MAX_MONTH;
@@ -205,7 +208,7 @@ const IdsDateAttributeMixin = <T extends Constraints>(superclass: T) => class ex
    * @param {string} date the desired date string to format
    * @returns {string} the correctly formatted date string
    */
-  getFormattedDate(date: string) {
+  getFormattedDate(date: Date | string) {
     return this.locale.formatDate(
       date,
       { pattern: this.format }

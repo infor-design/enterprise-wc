@@ -29,9 +29,10 @@ import type IdsModalButton from '../ids-modal-button/ids-modal-button';
 import type {
   IdsRangeSettings,
   IdsRangeSettingsInterface,
-  IdsDayselectedEvent,
-  IdsLegend
-} from '../ids-month-view/ids-month-view';
+  IdsLegendSettings,
+  IdsDisableSettings
+} from '../ids-month-view/ids-month-view-common';
+import type { IdsDayselectedEvent } from '../ids-month-view/ids-month-view';
 import type IdsTimePicker from '../ids-time-picker/ids-time-picker';
 import type IdsToggleButton from '../ids-toggle-button/ids-toggle-button';
 import type IdsToolbar from '../ids-toolbar/ids-toolbar';
@@ -53,6 +54,7 @@ type IdsDatePickerPopupButton = IdsToggleButton | IdsModalButton | IdsButton;
 class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRangeSettingsInterface {
   constructor() {
     super();
+    this.#value = '';
   }
 
   protected expandableArea: any;
@@ -278,6 +280,9 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
   onFormatChange() {
     if (!this.container) return;
+
+    this.monthView.format = this.format;
+    if (this.timepicker) this.timepicker.format = this.format;
     this.updateTimepickerDisplay();
   }
 
@@ -331,38 +336,32 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     }
   }
 
-  /**
-   * @returns {Array<IdsLegend>} array of legend items
-   */
-  get legend(): Array<IdsLegend> {
-    return this.monthView?.legend;
+  onDisableSettingsChange(val: IdsDisableSettings) {
+    if (this.monthView) this.monthView.disableSettings = val;
+  }
+
+  onLegendSettingsChange(val: IdsLegendSettings) {
+    if (this.monthView) this.monthView.legend = val;
   }
 
   /**
-   * Set array of legend items to month view component
-   * Validation of data is provided by the month view component
-   * @param {Array<IdsLegend>|null} val array of legend items
-   */
-  set legend(val: Array<IdsLegend> | null) {
-    if (this.monthView) {
-      this.monthView.legend = val;
-    }
-  }
-
-  /**
-   * Get range settings for month view component
-   * @returns {object} month view range settings
+   * Defer to the inner IdsMonthView for `rangeSettings` if possible
+   * @returns {IdsRangeSettings} month view range settings
    */
   get rangeSettings(): IdsRangeSettings {
-    return this.monthView?.rangeSettings;
+    return this.monthView?.rangeSettings || super.rangeSettings;
   }
 
   /**
    * Pass range selection settings for month view component
    * and update input value if passed settings contain start/end
-   * @param {object} val settings to be assigned to default range settings
+   * @param {IdsRangeSettings} val settings to be assigned to default range settings
    */
   set rangeSettings(val: IdsRangeSettings) {
+    super.rangeSettings = val;
+  }
+
+  onRangeSettingsChange(val: IdsRangeSettings) {
     if (this.monthView) {
       const btnApply = this.applyBtnEl;
       this.monthView.rangeSettings = val;
@@ -617,29 +616,33 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     }
   }
 
+  #value: string;
+
   /**
    * value attribute
    * @returns {string} value param
    */
   get value(): string {
-    return this.getAttribute(attributes.VALUE) ?? '';
+    return this.#value;
   }
 
   /**
-   * Set input value. Should parse a date from the value
-   * Set dropdown button text if the component is dropdown
-   * Set text if the component is used in calendar toolbar
+   * Set Date Picker Popup's stored value. Should parse a date from the value.
    * @param {string|null} val value param
    */
   set value(val: string | null) {
-    const currentValue = this.value;
-    if (val !== currentValue) {
-      if (!val) {
-        this.removeAttribute(attributes.VALUE);
-      } else if (val !== this.value) {
-        this.setAttribute(attributes.VALUE, val);
-        this.syncDateAttributes(val);
-      }
+    if (!val) {
+      this.#value = '';
+      this.removeAttribute(attributes.VALUE);
+      return;
+    }
+
+    const currentValue = new Date(this.#value).getUTCDate();
+    const newValue = new Date(val).getUTCDate();
+    if (newValue !== currentValue) {
+      this.#value = val;
+      this.setAttribute(attributes.VALUE, val);
+      this.syncDateAttributes(val);
     }
   }
 
@@ -731,13 +734,13 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
       if (target.closest('.popup-btn-clear')) {
         this.clear();
-        this.hide();
+        this.hide(true);
         return;
       }
 
       if (target.closest('.popup-btn-cancel')) {
         this.expanded = false;
-        this.hide();
+        this.hide(true);
       }
     });
 
@@ -778,8 +781,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
           ),
         ].filter(Boolean).join('');
 
-        this.hide();
-        this.target?.focus();
+        this.hide(true);
         this.triggerSelectedEvent();
       } else {
         this.value = this.locale.formatDate(
@@ -801,8 +803,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
       );
     }
 
-    this.hide();
-    this.target?.focus();
+    this.hide(true);
     this.triggerSelectedEvent();
   }
 
@@ -818,9 +819,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
       end: null
     };
     this.value = '';
-    if (this.target) {
-      this.target.focus();
-    }
     this.triggerSelectedEvent();
   }
 
@@ -838,7 +836,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
       if (this.monthView.selectDay) {
         this.monthView.selectDay();
       }
-      this.target?.focus();
       this.triggerSelectedEvent(e);
 
       return;
@@ -852,8 +849,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
           e.detail.rangeEnd && this.locale.formatDate(this.setTime(e.detail.rangeEnd), { pattern: this.format })
         ].filter(Boolean).join('');
 
-        this.hide();
-        this.target?.focus();
+        this.hide(true);
         this.triggerSelectedEvent(e);
 
         return;
@@ -873,8 +869,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
       this.year = e.detail.date.getFullYear();
       this.month = e.detail.date.getMonth();
       this.day = e.detail.date.getDate();
-      this.hide();
-      this.target?.focus();
+      this.hide(true);
       this.triggerSelectedEvent(e);
     }
   }
@@ -937,7 +932,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
           date: this.activeDate,
           useRange: this.useRange,
           rangeStart: this.useRange && this.rangeSettings.start ? new Date(this.rangeSettings.start as string) : null,
-          rangeEnd: this.useRange && this.rangeSettings.end ? new Date(this.rangeSettings.end as string) : null
+          rangeEnd: this.useRange && this.rangeSettings.end ? new Date(this.rangeSettings.end as string) : null,
+          value: this.getFormattedDate(this.activeDate)
         }
       };
     }
@@ -973,19 +969,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     this.buttons?.forEach((button: IdsDatePickerPopupButton) => {
       button.removeRipples();
     });
-  }
-
-  /**
-   * Removes all button ripples in the component
-   * @returns {void}
-   */
-  private selectDayFromTarget() {
-    if (!this.target) return;
-
-    const hasValue = typeof this.target.value === 'string' && this.target.value.length;
-    if (!hasValue) return;
-
-    this.syncDateAttributes(this.target.value);
   }
 
   /**
@@ -1073,7 +1056,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    */
   onShow(): void {
     this.attachEventListeners();
-    this.selectDayFromTarget();
     this.updateActionButtonStateOnShow();
     this.container?.removeAttribute(htmlAttributes.TABINDEX);
     this.monthView?.focus();
