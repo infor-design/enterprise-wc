@@ -97,6 +97,17 @@ export default class IdsDataGrid extends Base {
     return this.container?.querySelector<HTMLElement>('.ids-data-grid-body');
   }
 
+  get buffer() {
+    let buffer = this.container?.querySelector<HTMLElement>('.ids-data-grid-buffer');
+    if (!buffer) {
+      buffer = document.createElement('div');
+      buffer.classList.add('ids-data-grid-buffer');
+      buffer.style.height = '1px';
+      this.header.insertAdjacentElement('afterend', buffer);
+    }
+    return buffer;
+  }
+
   get rows() {
     // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
     return [...this.container?.querySelectorAll<HTMLElement>('.ids-data-grid-body ids-data-grid-row')];
@@ -119,12 +130,15 @@ export default class IdsDataGrid extends Base {
     let previousTimestamp = 0;
     let requestAnimationFrameRef: any = null;
     let numRows = 0;
+    let rowHeight = 0;
+    let numHeight = 0;
+    let previousNumHeight = 0;
 
     // this.body?.style.setProperty('transform', `translateY(${1580 * 50}px)`);
 
     this.onEvent('scroll', this.container, (evt) => {
       if (requestAnimationFrameRef) {
-        cancelAnimationFrame(requestAnimationFrameRef);
+        // cancelAnimationFrame(requestAnimationFrameRef);
       }
 
       const isScrollingDown = this.container.scrollTop > previousScrollTop;
@@ -146,11 +160,14 @@ export default class IdsDataGrid extends Base {
 
       if (this.data.length !== numRows) {
         numRows = this.data.length;
-        this.body?.style.setProperty('height', `${numRows * 50}px`);
+        this.body?.style.setProperty('height', `${numRows * 51}px`);
       }
 
       // console.log('prevRowIndex, nextRowIndex', prevRowIndex, nextRowIndex);
       if (prevRowIndex < -1 || nextRowIndex > numRows) return;
+
+      const headerPos = this.header?.getBoundingClientRect();
+      // console.log('headerPos', headerPos);
 
       requestAnimationFrameRef = requestAnimationFrame((timestamp) => {
         // # This timestamp conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
@@ -164,6 +181,7 @@ export default class IdsDataGrid extends Base {
 
         if (isScrollingUp) {
           return;
+
           // NOTE: Using Array.every as an alternaive to using a for-loop with a break
           const reversedRows = rows.reverse();
           reversedRows
@@ -186,12 +204,15 @@ export default class IdsDataGrid extends Base {
           rows.every((row, idx) => {
             const currentIndex = nextRowIndex + idx;
             const rowViewport = row.viewport;
-            const isOffScreen = rowViewport.top < 0;
+            // const isOffScreen = rowViewport.top < -200;
+            // console.log('rowViewport.y, headerPos.y', rowViewport.y, headerPos.y);
+            const isOffScreen = rowViewport.y < (headerPos.y - 200);
             if (currentIndex >= numRows || !isOffScreen) {
               jumpToIndex = currentIndex;
               return false;
             }
 
+            numHeight += rowViewport.height;
             row.rowIndex = currentIndex;
             return recycleRows.push(row);
           });
@@ -204,21 +225,32 @@ export default class IdsDataGrid extends Base {
           // NOTE: body.append is faster than body.innerHTML
           // NOTE: body.append is faster than multiple calls to appendChild()
           const oldScrollTop = this.container.scrollTop;
-          const headerHeight = this.header?.getBoundingClientRect().height ?? 40;
-          console.log('headerHeight', headerHeight);
-          const newScrollPosition = oldScrollTop - (headerHeight + (frontHeight * (0 + recycleRows.length)));
-          console.log(timestamp, 'this.container.scrollTop BEFORE', oldScrollTop);
+          const headerHeight = headerPos.height ?? 40;
+          const newScrollPosition = oldScrollTop - (headerHeight + (frontHeight * (1 + recycleRows.length)));
           body.append(...recycleRows);
-          console.log(timestamp, 'this.container.scrollTop AFTER', this.container.scrollTop);
-          body?.style.setProperty('transform', `translateY(${newScrollPosition}px)`);
           // this.container.scrollTop = oldScrollTop;
-          
+          // body?.style.setProperty('transform', `translateY(${oldScrollTop - (headerHeight + (2 + recycleRows.length))}px)`);
+          // body?.style.setProperty('transform', `translateY(${newScrollPosition}px)`);
+          // this.container.scrollTop = oldScrollTop;
           // const scrollToPosition = jumpToIndex * frontHeight;
-          // console.log({ frontIndex, frontHeight, jumpToIndex, scrollToPosition });
           // // this.container.scrollTop = scrollToPosition;
           // // body?.style.setProperty('transform', `translateY(${scrollToPosition}px)`);
           // // body?.style.setProperty('transform', `translateY(${frontIndex * frontHeight}px)`);
+          // const newScrollTop = numHeight;
+          const newScrollTop = (oldScrollTop - numHeight) - (headerHeight * 4);
+          // const newScrollTop = (numHeight + oldScrollTop) - headerHeight;
+          // body?.style.setProperty('transform', `translateY(${newScrollTop}px)`);
+          // this.container.scrollTop = oldScrollTop;
+          // body?.style.setProperty('transform', `translateY(${oldScrollTop}px)`);
+          console.log({ previousNumHeight, numHeight });
+          previousNumHeight = numHeight + previousNumHeight;
+          body?.style.setProperty('transform', `translateY(${previousNumHeight}px)`);
+          // body?.style.setProperty('transform', `translateY(${this.rows[0].rowIndex * 51}px)`);
           // // this.container.scrollTop = frontIndex * frontHeight;
+          // const bufferHeight = parseInt(this.buffer?.style.height ?? 0);
+          // console.log('this.buffer.style.height', bufferHeight);
+          // this.buffer.style.setProperty('height', `${numHeight + bufferHeight}px`);
+          numHeight = 0;
         }
       });
     // }, { passive: true });
@@ -504,7 +536,7 @@ export default class IdsDataGrid extends Base {
    */
   bodyInnerTemplate() {
     let innerHTML = '';
-    const slicedData = this.data.slice(0, 50);
+    const slicedData = this.data.slice(0, 150);
     for (let index = 0; index < slicedData.length; index++) {
       innerHTML += IdsDataGridRow.template(slicedData[index], index, index + 1, this);
       // innerHTML += `<ids-data-grid-row row-index="${index}"></ids-data-grid-row>`;
