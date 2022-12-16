@@ -136,6 +136,7 @@ export default class IdsDataGrid extends Base {
     let bodyOffsetHeight = 0;
     let prevBodyOffsetHeight = 0;
     let topRowIndex = 0;
+    let bottomRowIndex = 0;
 
     // this.body?.style.setProperty('transform', `translateY(${1580 * 50}px)`);
 
@@ -170,6 +171,7 @@ export default class IdsDataGrid extends Base {
       if (prevRowIndex < -1 || nextRowIndex > numRows) return;
 
       const headerGeometry = this.header?.getBoundingClientRect();
+      const containerGeometry = this.container?.getBoundingClientRect();
 
       requestAnimationFrameRef = requestAnimationFrame((timestamp) => {
         // # This timestamp-conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
@@ -180,25 +182,40 @@ export default class IdsDataGrid extends Base {
         const recycleRows: any[] = [];
 
         if (isScrollingUp) {
-          return;
-
           // NOTE: Using Array.every as an alternaive to using a for-loop with a break
           const reversedRows = rows.reverse();
           reversedRows
             .every((row, idx) => {
               const currentIndex = prevRowIndex - idx;
               const rowViewport = row.viewport;
-              const isOffScreen = rowViewport.bottom > (window.innerHeight + 1000);
-              if (currentIndex < 0 || !isOffScreen) {
+              const isOffScreen = rowViewport.y > (containerGeometry.height + VIRTUAL_SCROLL_BUFFER_SIZE);
+              // const isOffScreen = rowViewport.y > (window.innerHeight + VIRTUAL_SCROLL_BUFFER_SIZE);
+              // const isOffScreen = rowViewport.bottom > (window.innerHeight + VIRTUAL_SCROLL_BUFFER_SIZE);
+              if (!isOffScreen) {
+                bottomRowIndex = row.rowIndex;
+                return false;
+              }
+              if (currentIndex < 0) {
+                body?.style.setProperty('transform', `translateY(0px)`);
                 return false;
               }
 
+              // NOTE: dynamic row height calculation fails here, because
+              // NOTE: some of rowViewport.height calculations fall through the cracks
+              // NOTE: and are thrown off when cancelAnimationFrame is called above
+              bodyOffsetHeight += rowViewport.height;
               row.rowIndex = currentIndex;
               return recycleRows.unshift(row);
             });
 
           // NOTE: body.prepend is faster than body.innerHTML
           body.prepend(...recycleRows);
+          // const bodyOffsetY = bottomRowIndex * VIRTUAL_SCROLL_ROW_HEIGHT;
+          // body?.style.setProperty('transform', `translateY(${bodyOffsetY}px)`);
+
+          prevBodyOffsetHeight -= (recycleRows.length * VIRTUAL_SCROLL_ROW_HEIGHT);
+          // prevBodyOffsetHeight -= bodyOffsetHeight;
+          body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
         }
         if (isScrollingDown) {
           rows.every((row, idx) => {
@@ -215,8 +232,8 @@ export default class IdsDataGrid extends Base {
             }
 
             // NOTE: dynamic row height calculation fails here, because
-            // NOTE: some of rowViewport.height calculations fall
-            // NOTE: through the cracks when cancelAnimationFrame is called above
+            // NOTE: some of rowViewport.height calculations fall through the cracks
+            // NOTE: and are thrown off when cancelAnimationFrame is called above
             bodyOffsetHeight += rowViewport.height;
             row.rowIndex = currentIndex;
             return recycleRows.push(row);
@@ -226,10 +243,9 @@ export default class IdsDataGrid extends Base {
           // NOTE: body.append is faster than body.innerHTML
           // NOTE: body.append is faster than multiple calls to appendChild()
           body.append(...recycleRows);
-          const rowIndexHeight = topRowIndex * VIRTUAL_SCROLL_ROW_HEIGHT;
-          body?.style.setProperty('transform', `translateY(${rowIndexHeight}px)`);
           // prevBodyOffsetHeight = bodyOffsetHeight + prevBodyOffsetHeight;
-          // body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
+          prevBodyOffsetHeight = topRowIndex * VIRTUAL_SCROLL_ROW_HEIGHT;
+          body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
           bodyOffsetHeight = 0;
         }
       });
