@@ -47,7 +47,8 @@ const Base = IdsThemeMixin(
 );
 
 const VIRTUAL_SCROLL_NUM_ROWS = 150; // TODO: make a getter/setter
-const VIRTUAL_SCROLL_BUFFER_SIZE = 10 * 51; // TODO: make a getter/setter
+const VIRTUAL_SCROLL_ROW_HEIGHT = 51; // TODO: make a getter/setter
+const VIRTUAL_SCROLL_BUFFER_SIZE = 10 * VIRTUAL_SCROLL_ROW_HEIGHT; // TODO: make a getter/setter
 
 /**
  * IDS Data Grid Component
@@ -125,18 +126,16 @@ export default class IdsDataGrid extends Base {
     super.connectedCallback();
     this.redrawBody();
     this.container?.style.setProperty('max-height', '95vh');
-    // this.container?.style.setProperty('max-height', `${VIRTUAL_SCROLL_NUM_ROWS * 51}px`);
 
     let nextRowIndex = 0;
     let prevRowIndex = 0;
-    let jumpToIndex = 0;
     let previousScrollTop = 0;
     let previousTimestamp = 0;
     let requestAnimationFrameRef: any = null;
     let numRows = 0;
-    let rowHeight = 0;
-    let numHeight = 0;
-    let previousNumHeight = 0;
+    let bodyOffsetHeight = 0;
+    let prevBodyOffsetHeight = 0;
+    let topRowIndex = 0;
 
     // this.body?.style.setProperty('transform', `translateY(${1580 * 50}px)`);
 
@@ -164,14 +163,13 @@ export default class IdsDataGrid extends Base {
 
       if (this.data.length !== numRows) {
         numRows = this.data.length;
-        this.body?.style.setProperty('height', `${(numRows - VIRTUAL_SCROLL_NUM_ROWS) * 51}px`);
+        this.body?.style.setProperty('height', `${(numRows - VIRTUAL_SCROLL_NUM_ROWS) * VIRTUAL_SCROLL_ROW_HEIGHT}px`);
       }
 
       // console.log('prevRowIndex, nextRowIndex', prevRowIndex, nextRowIndex);
       if (prevRowIndex < -1 || nextRowIndex > numRows) return;
 
       const headerPos = this.header?.getBoundingClientRect();
-      // console.log('headerPos', headerPos);
 
       requestAnimationFrameRef = requestAnimationFrame((timestamp) => {
         // # This timestamp conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
@@ -208,58 +206,35 @@ export default class IdsDataGrid extends Base {
           rows.every((row, idx) => {
             const currentIndex = nextRowIndex + idx;
             const rowViewport = row.viewport;
-            // const isOffScreen = rowViewport.top < -200;
-            // console.log('rowViewport.y, headerPos.y', rowViewport.y, headerPos.y);
             const isOffScreen = rowViewport.y < (headerPos.y - (VIRTUAL_SCROLL_BUFFER_SIZE));
             if (!isOffScreen) {
-              // jumpToIndex = currentIndex;
+              topRowIndex = row.rowIndex;
               return false;
             }
             if (currentIndex >= numRows) {
-              this.body?.style.setProperty('height', `${VIRTUAL_SCROLL_NUM_ROWS * 51}px`);
+              this.body?.style.setProperty('height', `${VIRTUAL_SCROLL_NUM_ROWS * VIRTUAL_SCROLL_ROW_HEIGHT}px`);
               return false;
             }
 
-            numHeight += rowViewport.height;
+            // NOTE: dynamic row height calculation fails here, because
+            // NOTE: some of rowViewport.height calculations fall
+            // NOTE: through the cracks when cancelAnimationFrame is called above
+            bodyOffsetHeight += rowViewport.height;
             row.rowIndex = currentIndex;
             return recycleRows.push(row);
           });
 
           if (recycleRows.length < 1) return;
-          // const frontRow = recycleRows[0];
-          // const frontIndex = frontRow.rowIndex;
-          // const frontHeight = frontRow.viewport.height;
-
           // NOTE: body.append is faster than body.innerHTML
           // NOTE: body.append is faster than multiple calls to appendChild()
-          // const oldScrollTop = this.container.scrollTop;
-          // const headerHeight = headerPos.height ?? 40;
-          // const newScrollPosition = oldScrollTop - (headerHeight + (frontHeight * (1 + recycleRows.length)));
           body.append(...recycleRows);
-          // this.container.scrollTop = oldScrollTop;
-          // body?.style.setProperty('transform', `translateY(${oldScrollTop - (headerHeight + (2 + recycleRows.length))}px)`);
-          // body?.style.setProperty('transform', `translateY(${newScrollPosition}px)`);
-          // this.container.scrollTop = oldScrollTop;
-          // const scrollToPosition = jumpToIndex * frontHeight;
-          // // this.container.scrollTop = scrollToPosition;
-          // // body?.style.setProperty('transform', `translateY(${scrollToPosition}px)`);
-          // // body?.style.setProperty('transform', `translateY(${frontIndex * frontHeight}px)`);
-          // const newScrollTop = numHeight;
-          // const newScrollTop = (oldScrollTop - numHeight) - (headerHeight * 4);
-          // const newScrollTop = (numHeight + oldScrollTop) - headerHeight;
-          // body?.style.setProperty('transform', `translateY(${newScrollTop}px)`);
-          // this.container.scrollTop = oldScrollTop;
-          // body?.style.setProperty('transform', `translateY(${oldScrollTop}px)`);
-          const rowIndexHeight = this.rows[0].rowIndex * 51;
-          previousNumHeight = numHeight + previousNumHeight;
-          // console.log({ rowIndexHeight, previousNumHeight, oldScrollTop, numHeight });
-          body?.style.setProperty('transform', `translateY(${previousNumHeight}px)`);
-          // body?.style.setProperty('transform', `translateY(${rowIndexHeight}px)`);
-          // // this.container.scrollTop = frontIndex * frontHeight;
-          // const bufferHeight = parseInt(this.buffer?.style.height ?? 0);
-          // console.log('this.buffer.style.height', bufferHeight);
-          // this.buffer.style.setProperty('height', `${numHeight + bufferHeight}px`);
-          numHeight = 0;
+          // const frontRowIndex = this.rows[0].rowIndex;
+          // console.log({ frontRowIndex, topRowIndex });
+          const rowIndexHeight = topRowIndex * VIRTUAL_SCROLL_ROW_HEIGHT;
+          body?.style.setProperty('transform', `translateY(${rowIndexHeight}px)`);
+          // prevBodyOffsetHeight = bodyOffsetHeight + prevBodyOffsetHeight;
+          // body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
+          bodyOffsetHeight = 0;
         }
       });
     }, { capture: true, passive: true });

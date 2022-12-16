@@ -75,36 +75,8 @@ export default class IdsDataGridRow extends IdsElement {
     return this.parentDataGrid?.visibleColumns || [];
   }
 
-  #oldTop = 0;
-
   get viewport() {
-    const position: DOMRect = this.getBoundingClientRect();
-    const isAbove = position.bottom < this.parentDataGrid.offsetTop;
-    // const isAbove = position.bottom < (this.parentDataGrid.offsetTop - 200);
-    // const isAbove = position.bottom < -200;
-    // const isBelow = position.top > window.innerHeight;
-    const isBelow = position.top > (window.innerHeight + 1000);
-    const isWithin = !isAbove && !isBelow;
-
-    const oldTop = this.#oldTop;
-    const newTop = position.top;
-    this.#oldTop = newTop;
-    const isMovingDown = newTop > oldTop;
-    const isMovingUp = !isMovingDown;
-    // console.log('isMovingDown, isMovingUp', isMovingDown, isMovingUp);
-    // console.log('position.top', position.top);
-    return {
-      isAbove,
-      isBelow,
-      isWithin,
-      isMovingUp,
-      isMovingDown,
-      bottom: position.bottom,
-      top: position.top,
-      height: position.height,
-      x: position.x,
-      y: position.y,
-    };
+    return this.getBoundingClientRect();
   }
 
   /**
