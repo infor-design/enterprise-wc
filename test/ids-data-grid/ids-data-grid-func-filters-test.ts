@@ -110,7 +110,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
       field: 'trackDeprecationHistory',
       formatter: formatters.dropdown,
       filterType: dataGrid.filters.dropdown,
-      filterTerms: [
+      filterConditions: [
         { value: 'Yes', label: 'Yes' },
         { value: 'No', label: 'No' }
       ]
@@ -121,7 +121,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
       field: 'useForEmployee',
       formatter: dataGrid.formatters.text,
       filterType: dataGrid.filters.dropdown,
-      filterTerms: [
+      filterConditions: [
         { value: 'not-filtered', label: 'Not Filtered' },
         { value: 'Yes', label: 'Yes' },
         { value: 'No', label: 'No' }
@@ -277,7 +277,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
       field: 'trackDeprecationHistory',
       formatter: formatters.dropdown,
       filterType: dataGrid.filters.dropdown,
-      filterTerms: [
+      filterConditions: [
         { value: 'Yes', label: 'Yes' },
         { value: 'No', label: 'No' }
       ],
@@ -827,7 +827,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
       field: 'inStock',
       formatter: formatters.text,
       filterType: dataGrid.filters.checkbox,
-      filterTerms: []
+      filterConditions: []
     });
     cols.push({
       id: 'trackDeprecationHistory',
@@ -842,7 +842,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
       field: 'useForEmployee',
       formatter: dataGrid.formatters.text,
       filterType: dataGrid.filters.dropdown,
-      filterTerms: []
+      filterConditions: []
     });
     cols.push({
       id: 'integer',
@@ -946,6 +946,19 @@ describe('IdsDataGrid Component Filter Tests', () => {
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
     expect(mockCallback.mock.calls.length).toBe(2);
+  });
+
+  it('should not fire filtered event when setting filter conditions', () => {
+    const mockCallback = jest.fn();
+
+    dataGrid.addEventListener('filtered', mockCallback);
+    dataGrid.filters.setFilterConditions([{
+      columnId: 'description',
+      operator: 'contains',
+      value: 'test'
+    }]);
+
+    expect(mockCallback).not.toHaveBeenCalled();
   });
 
   it('fires open/close filter row event', () => {

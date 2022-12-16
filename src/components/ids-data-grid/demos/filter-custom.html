@@ -12,6 +12,14 @@
       <ids-text font-size="12" type="h1">Data Grid (Custom Filter)</ids-text>
     </ids-layout-grid>
 
+    <ids-layout-grid cols="1">
+      <ids-layout-grid-cell>
+        <ids-input type="text" id="filter-input" label="Color Filter"></ids-input>
+        <ids-button type="secondary" id="set-filter-btn">Set Color Filter</ids-button>
+        <ids-button type="secondary" id="apply-filter-btn">Apply Color Filter</ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
         <ids-data-grid
@@ -52,10 +60,6 @@
               </ids-menu-group>
             </ids-popup-menu>
             <ids-input id="input-filter-color" type="text" size="full" placeholder="Slotted color" label="Slotted color input">
-            </ids-input>
-          </div>
-          <div slot="filter-no-operator" column-id="no-operator">
-            <ids-input id="input-filter-no-operator" type="text" size="full" placeholder="Slotted no-operator" label="Slotted input no-operator">
             </ids-input>
           </div>
         </ids-data-grid>

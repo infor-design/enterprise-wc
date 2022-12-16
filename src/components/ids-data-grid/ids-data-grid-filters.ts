@@ -80,6 +80,13 @@ export default class IdsDataGridFilters {
   focused: any;
 
   /**
+   * Suppress filtered event
+   * @private
+   * @type {boolean}
+   */
+  #suppressFilteredEvent = false;
+
+  /**
    * Text filter markup.
    * @param {IdsDataGridColumn} column The column info
    * @returns {string} The resulting template
@@ -307,6 +314,7 @@ export default class IdsDataGridFilters {
    * @returns {Array<object>} An array of currently showing filter conditions.
    */
   setFilterConditions(conditions: Array<IdsDataGridFilterConditions>) {
+    this.#suppressFilteredEvent = true;
     this.resetFilters();
     const toBeRemoved: any = [];
     conditions.forEach((c, i) => {
@@ -346,6 +354,7 @@ export default class IdsDataGridFilters {
       }
     });
     if (toBeRemoved.length) conditions = conditions.filter((c, i) => !toBeRemoved.includes(i));
+    this.#suppressFilteredEvent = false;
     return conditions;
   }
 
@@ -423,6 +432,7 @@ export default class IdsDataGridFilters {
     if (this.root.disableClientFilter) {
       this.root.triggerEvent('filtered', this.root, { bubbles: true, detail: { elem: this.root, conditions } });
       this.#filterIsProcessing = false;
+      this.root.saveSettings?.();
       return;
     }
 
@@ -655,6 +665,7 @@ export default class IdsDataGridFilters {
         bubbles: true,
         detail: { elem: this.root, type: isCleared ? 'clear' : 'apply', conditions }
       });
+      this.root.saveSettings?.();
     }
   }
 
@@ -811,7 +822,7 @@ export default class IdsDataGridFilters {
     const header = this.root.container?.querySelector('.ids-data-grid-header:not(.column-groups)');
     this.root.onEvent(`change.${this.#id()}`, header, (e: any) => {
       const nodeName = e.target?.nodeName;
-      if (nodeName && /ids-(input|dropdown|multiselect)/gi.test(nodeName)) {
+      if (!this.#suppressFilteredEvent && nodeName && /ids-(input|dropdown|multiselect)/gi.test(nodeName)) {
         this.applyFilter();
       }
     });
@@ -912,6 +923,9 @@ export default class IdsDataGridFilters {
    */
   #filterButtonTemplate(type: string, column: IdsDataGridColumn) {
     const operators = this.#operators(type, column);
+
+    if (!operators?.length) return '';
+
     const opt = column.filterOptions || {};
     const disabled = opt.disabled ? ' disabled' : '';
     const readonly = opt.readonly ? ' readonly' : '';
@@ -1086,7 +1100,7 @@ export default class IdsDataGridFilters {
    * @returns {Array} List of button operators
    */
   #operators(type: string, column: IdsDataGridColumn): { value: string, label: string, icon: string, selected?: boolean }[] {
-    if (column?.filterTerms?.constructor === Array) return column.filterTerms;
+    if (column?.filterConditions?.constructor === Array) return column.filterConditions;
     const ds = this.#operatorsDataset;
     let operators: any = [];
 

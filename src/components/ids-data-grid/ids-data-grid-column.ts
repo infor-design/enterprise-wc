@@ -122,7 +122,7 @@ export interface IdsDataGridColumn {
   /** Column Filter to use */
   filterType?: string | any;
   /** Column Filter options to show */
-  filterTerms?: any[];
+  filterConditions?: any[];
   /** Options to pass to the filter */
   filterOptions?: {
     /** The columns unique id */

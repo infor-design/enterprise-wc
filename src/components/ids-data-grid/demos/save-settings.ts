@@ -1,11 +1,19 @@
 import type IdsDataGrid from '../ids-data-grid';
+import type IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
+import type IdsMenuItem from '../../ids-menu/ids-menu-item';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter')!;
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-save-settings')!;
+const rowHeightMenu = document.querySelector<IdsPopupMenu>('#row-height-menu')!;
+
+// Change row height with popup menu
+rowHeightMenu?.addEventListener('selected', (e: Event) => {
+  dataGrid.rowHeight = (e.target as IdsMenuItem).value as string;
+});
 
 (async function init() {
   const columns: IdsDataGridColumn[] = [];
@@ -58,7 +66,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter')!;
     reorderable: true,
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.text,
-    filterConditions: [{
+    filterTerms: [{
       value: 'contains',
       label: 'Contains',
       icon: 'filter-contains'

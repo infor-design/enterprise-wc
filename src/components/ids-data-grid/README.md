@@ -200,6 +200,7 @@ Some additional settings are needed or possibly needed.
 
 - `idColumn` {string} For saving the row state during sort this should be set to the id column in the data set. Defaults to `id`.
 - `expandableRowTemplate` {string} Should point to the row `template` element.
+
 ## Settings and Attributes
 
 When used as an attribute in the DOM the settings are kebab case, when used in JS they are camel case.
@@ -229,6 +230,13 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `expandableRowTemplate` {string} Should point to the row `template` element for expandable rows.
 - `treeGrid` {boolean} Indicates a tree grid will be used  in the data grid. See the tree grid section for more details.
 - `groupSelectsChildren` {boolean} If a tree grid has multiple selection, setting this will select all children when a parent is selected.
+- `saveActivePage` {boolean} If set the active page on the pager will be saved to local storage.
+- `saveColumns` {boolean} If set columns will be saved to local storage.
+- `saveFilter` {boolean} If set filter will be saved to local storage.
+- `savePageSize` {boolean} If set the page size on the pager will be saved to local storage.
+- `saveRowHeight` {boolean} If set row height will be saved to local storage.
+- `saveSortOrder` {boolean} If set column sort order will be saved to local storage.
+- `saveUserSettings` {boolean} If set all settings will be saved to local storage.
 
 ## Column Settings (General)
 
@@ -368,6 +376,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `beforemenushow` Fires before context menu show, you can return false in the response to veto.
 - `menushow` Fires after context menu show.
 - `menuselected` Fires after context menu item selected.
+- `settingschanged` Fires after settings are changed in some way.
 
 ## Methods
 
@@ -375,6 +384,15 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `setColumnVisibility` Can be used to set the visibility of a column.
 - `setActivateCell(cell, row)` Can be used to set focus of a cell.
 - `selectedRows` Lists the indexes of the currently selected rows.
+- `saveSetting(setting: string)` Save the given setting to local storage.
+- `saveAllSettings` Save all user settings to local storage.
+- `savedSetting(setting: string)` Get saved given setting value from local storage.
+- `savedAllSettings` Get saved all user settings from local storage.
+- `clearSetting(setting: string, key?: string)` Clear the given saved setting from local storage.
+- `clearAllSettings(userKeys: unknown)` Clear saved all user settings from local storage.
+- `restoreSetting(setting: string, value?: unknown)` Restore the given saved setting from local storage.
+- `restoreAllSettings(userSettings?: IdsDataGridSaveSettings)` Restore all user settings with given value or from local storage.
+
 ## Filters
 
 Data rows can be filter based on one or several criteria. Whole filter row can turned on/off by the api setting `filterable` and can be disabled by the api setting `filter-row-disabled`. The filter conditions can be applied thru the UI or programmatically. Each column can have its own filter type and turn on/off by columns setting.
@@ -386,7 +404,7 @@ All the filter settings can be passed thru columns data.
 |Setting|Type|Description|
 |---|---|---|
 |`filterType` | Function | Data grid built-in filter method, see the dedicated section below. |
-|`filterTerms` | Array | List of items to be use as operators in menu-button or options in dropdown. |
+|`filterConditions` | Array | List of items to be use as operators in menu-button or options in dropdown. |
 |`filterFunction` | Function | User defined filter method, it must return a boolean. |
 |`filterOptions` | Object | Setting for components are in use, for example: `label, placeholder, disabled`. |
 |`isChecked` | Function | User defined filter method, it must return a boolean. This method use along built-in `checkbox` only, when filter data value is not boolean type. |
@@ -399,7 +417,7 @@ All the filter settings can be passed thru columns data.
 |`integer` | It filter as integer comparison. Contains input and menu-button with list of default operators. |
 |`decimal` | It filter as decimal comparison. Contains input and menu-button with list of default operators. |
 |`contents` | It filter as text comparison. Contains dropdown and auto generate list of items based on column data. |
-|`dropdown` | It filter as text comparison. Contains dropdown and must pass list of item by setting `filterTerms`. |
+|`dropdown` | It filter as text comparison. Contains dropdown and must pass list of item by setting `filterConditions`. |
 |`checkbox` | It filter as boolean comparison. Contains menu-button with list of default operators. |
 |`date` | It filter as date comparison. Contains date-picker and menu-button with list of default operators. |
 |`time` | It filter as time comparison. Contains time-picker and menu-button with list of default operators. |
@@ -555,7 +573,7 @@ columns.push({
   field: 'description',
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text,
-  filterTerms: [{
+  filterConditions: [{
     value: 'contains',
     label: 'Contains',
     icon: 'filter-contains'
@@ -594,7 +612,7 @@ columns.push({
   field: 'useForEmployee',
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.dropdown,
-  filterTerms: [
+  filterConditions: [
     { value: 'Yes', label: 'Yes' },
     { value: 'No', label: 'No' }
   ]
@@ -605,7 +623,7 @@ columns.push({
   field: 'useForEmployee',
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.dropdown,
-  filterTerms: [
+  filterConditions: [
     { value: 'not-filtered', label: 'Not Filtered' },
     { value: 'Yes', label: 'Yes' },
     { value: 'No', label: 'No' }

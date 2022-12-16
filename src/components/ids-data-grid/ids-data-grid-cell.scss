@@ -1,3 +1,7 @@
+@import '../../core/ids-base';
+
+$cell-border-color: var(--ids-color-palette-slate-30);
+
 // Cell Styles
 .ids-data-grid-cell {
   // Border and Background
