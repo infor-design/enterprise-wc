@@ -777,6 +777,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
     if (this.expanded) {
       this.captureValueFromPicklist();
+      this.updateMonthYearPickerTriggerDisplay();
       this.expanded = false;
       return;
     }
