@@ -211,8 +211,12 @@ export default class IdsDataGrid extends Base {
             // const isOffScreen = rowViewport.top < -200;
             // console.log('rowViewport.y, headerPos.y', rowViewport.y, headerPos.y);
             const isOffScreen = rowViewport.y < (headerPos.y - (VIRTUAL_SCROLL_BUFFER_SIZE));
-            if (currentIndex >= numRows || !isOffScreen) {
-              jumpToIndex = currentIndex;
+            if (!isOffScreen) {
+              // jumpToIndex = currentIndex;
+              return false;
+            }
+            if (currentIndex >= numRows) {
+              this.body?.style.setProperty('height', `${VIRTUAL_SCROLL_NUM_ROWS * 51}px`);
               return false;
             }
 
@@ -222,15 +226,15 @@ export default class IdsDataGrid extends Base {
           });
 
           if (recycleRows.length < 1) return;
-          const frontRow = recycleRows[0];
-          const frontIndex = frontRow.rowIndex;
-          const frontHeight = frontRow.viewport.height;
+          // const frontRow = recycleRows[0];
+          // const frontIndex = frontRow.rowIndex;
+          // const frontHeight = frontRow.viewport.height;
 
           // NOTE: body.append is faster than body.innerHTML
           // NOTE: body.append is faster than multiple calls to appendChild()
-          const oldScrollTop = this.container.scrollTop;
-          const headerHeight = headerPos.height ?? 40;
-          const newScrollPosition = oldScrollTop - (headerHeight + (frontHeight * (1 + recycleRows.length)));
+          // const oldScrollTop = this.container.scrollTop;
+          // const headerHeight = headerPos.height ?? 40;
+          // const newScrollPosition = oldScrollTop - (headerHeight + (frontHeight * (1 + recycleRows.length)));
           body.append(...recycleRows);
           // this.container.scrollTop = oldScrollTop;
           // body?.style.setProperty('transform', `translateY(${oldScrollTop - (headerHeight + (2 + recycleRows.length))}px)`);
@@ -241,14 +245,14 @@ export default class IdsDataGrid extends Base {
           // // body?.style.setProperty('transform', `translateY(${scrollToPosition}px)`);
           // // body?.style.setProperty('transform', `translateY(${frontIndex * frontHeight}px)`);
           // const newScrollTop = numHeight;
-          const newScrollTop = (oldScrollTop - numHeight) - (headerHeight * 4);
+          // const newScrollTop = (oldScrollTop - numHeight) - (headerHeight * 4);
           // const newScrollTop = (numHeight + oldScrollTop) - headerHeight;
           // body?.style.setProperty('transform', `translateY(${newScrollTop}px)`);
           // this.container.scrollTop = oldScrollTop;
           // body?.style.setProperty('transform', `translateY(${oldScrollTop}px)`);
           const rowIndexHeight = this.rows[0].rowIndex * 51;
           previousNumHeight = numHeight + previousNumHeight;
-          console.log({ rowIndexHeight, previousNumHeight, oldScrollTop, numHeight });
+          // console.log({ rowIndexHeight, previousNumHeight, oldScrollTop, numHeight });
           // body?.style.setProperty('transform', `translateY(${previousNumHeight}px)`);
           body?.style.setProperty('transform', `translateY(${rowIndexHeight}px)`);
           // // this.container.scrollTop = frontIndex * frontHeight;
