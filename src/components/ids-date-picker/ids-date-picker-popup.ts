@@ -866,11 +866,15 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
     if (this.useRange) {
       if (this.rangeSettings.selectWeek) {
+        const fixedDate = this.setTime(e.detail.rangeStart as Date);
         this.value = [
-          this.locale.formatDate(this.setTime(e.detail.rangeStart as Date), { pattern: this.format }),
+          this.locale.formatDate(fixedDate, { pattern: this.format }),
           this.rangeSettings.separator,
           e.detail.rangeEnd && this.locale.formatDate(this.setTime(e.detail.rangeEnd), { pattern: this.format })
         ].filter(Boolean).join('');
+
+        e.detail.date = fixedDate;
+        e.detail.value = this.value;
 
         this.hide(true);
         this.triggerSelectedEvent(e);
@@ -885,13 +889,18 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
         btnApply?.setAttribute(attributes.DISABLED, 'true');
       }
     } else {
+      const fixedDate = this.setTime(e.detail.date);
       this.value = this.locale.formatDate(
-        this.setTime(e.detail.date),
+        fixedDate,
         { pattern: this.format }
       );
       this.year = e.detail.date.getFullYear();
       this.month = e.detail.date.getMonth();
       this.day = e.detail.date.getDate();
+
+      e.detail.date = fixedDate;
+      e.detail.value = this.value;
+
       this.hide(true);
       this.triggerSelectedEvent(e);
     }
