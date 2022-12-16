@@ -927,6 +927,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    * @returns {boolean} whether or not to show time picker
    */
   private hasTime(): boolean {
+    if (!this.format) return false;
     return this.format.includes('h') || this.format.includes('m') || this.format.includes('s');
   }
 

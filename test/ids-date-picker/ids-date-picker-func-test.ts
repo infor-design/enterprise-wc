@@ -439,9 +439,9 @@ describe('IdsDatePicker Component Tests', () => {
     });
 
     it('can set visible and get the popup', () => {
-      expect(component.container.querySelector('ids-popup').hasAttribute('visible')).toBeFalsy();
-      component.popup.visible = true;
-      expect(component.container.querySelector('ids-popup').hasAttribute('visible')).toBeTruthy();
+      expect(component.container.querySelector('ids-date-picker-popup').container.querySelector('ids-popup').hasAttribute('visible')).toBeFalsy();
+      component.container.querySelector('ids-date-picker-popup').popup.visible = true;
+      expect(component.container.querySelector('ids-date-picker-popup').container.querySelector('ids-popup').hasAttribute('visible')).toBeTruthy();
     });
 
     it('should change attributes', () => {
@@ -531,8 +531,8 @@ describe('IdsDatePicker Component Tests', () => {
       const mockShowCallback = jest.fn();
       const mockHideCallback = jest.fn();
 
-      component.popup.addEventListener('show', mockShowCallback);
-      component.popup.addEventListener('hide', mockHideCallback);
+      component.container.addEventListener('show', mockShowCallback);
+      component.container.addEventListener('hide', mockHideCallback);
 
       component.open();
 
@@ -670,7 +670,7 @@ describe('IdsDatePicker Component Tests', () => {
       component.format = 'MMM yyyy';
       component.open();
 
-      const monthView = component.container.querySelector('ids-month-view');
+      const monthView = component.container.querySelector('ids-date-picker-popup').container.querySelector('ids-month-view');
       monthView.dispatchEvent(daySelectedEvent(new Date(2000, 2, 1)));
 
       expect(component.value).toEqual('Mar 2000');
@@ -700,7 +700,7 @@ describe('IdsDatePicker Component Tests', () => {
       component.close();
       component.format = 'MMM yyyy';
       component.value = 'Feb 2020';
-      const monthView = component.container.querySelector('ids-month-view');
+      const monthView = component.container.querySelector('ids-date-picker-popup');
       component.open();
 
       expect(monthView.activeDate).toEqual(new Date(2020, 1, 1));

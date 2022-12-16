@@ -6,6 +6,8 @@ import '../../ids-modal-button/ids-modal-button';
 import '../../ids-trigger-field/ids-trigger-field';
 import '../../ids-trigger-field/ids-trigger-button';
 
+import type IdsTriggerField from '../../ids-trigger-field/ids-trigger-field';
+
 const fieldDefs = [
   {
     id: 'date-time-picker-current-time-field',
@@ -127,6 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const configurePopup = (btnEl: any) => {
     const btnId = btnEl.getAttribute('id');
     const fieldId = btnId.replace('-button', '-field');
+    const field = document.querySelector<IdsTriggerField>(`#${fieldId}`)!;
+
     const data = fieldDefs.find((entry) => entry.id === fieldId);
     let picker = document.querySelector<any>('ids-date-picker-popup')!;
 
@@ -135,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (picker.popup) picker.popup.animated = false;
         picker.target = `#${fieldId}`;
         picker.triggerElem = `#${btnId}`;
+        if (field.value) picker.value = field.value;
         updatePopup(picker, data);
       } else {
         picker = createPopup(fieldId, btnId, data);

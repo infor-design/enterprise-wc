@@ -1211,11 +1211,7 @@ class IdsDatePicker extends Base {
    */
   set showPicklistYear(val: string | boolean | null) {
     const boolVal = stringToBool(val);
-    if (boolVal) {
-      this.setAttribute(attributes.SHOW_PICKLIST_YEAR, 'true');
-    } else {
-      this.removeAttribute(attributes.SHOW_PICKLIST_YEAR);
-    }
+    this.setAttribute(attributes.SHOW_PICKLIST_YEAR, String(boolVal));
     if (this.#picker) this.#picker.showPicklistYear = boolVal;
   }
 
@@ -1239,11 +1235,7 @@ class IdsDatePicker extends Base {
    */
   set showPicklistMonth(val: string | boolean | null) {
     const boolVal = stringToBool(val);
-    if (boolVal) {
-      this.setAttribute(attributes.SHOW_PICKLIST_MONTH, 'true');
-    } else {
-      this.removeAttribute(attributes.SHOW_PICKLIST_MONTH);
-    }
+    this.setAttribute(attributes.SHOW_PICKLIST_MONTH, String(boolVal));
     if (this.#picker) this.#picker.showPicklistMonth = boolVal;
   }
 
@@ -1261,11 +1253,7 @@ class IdsDatePicker extends Base {
    */
   set showPicklistWeek(val: string | boolean | null) {
     const boolVal = stringToBool(val);
-    if (boolVal) {
-      this.setAttribute(attributes.SHOW_PICKLIST_WEEK, 'true');
-    } else {
-      this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
-    }
+    this.setAttribute(attributes.SHOW_PICKLIST_WEEK, String(boolVal));
     if (this.#picker) this.#picker.showPicklistWeek = boolVal;
   }
 
