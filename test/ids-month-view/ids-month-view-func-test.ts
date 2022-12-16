@@ -411,7 +411,7 @@ describe('IdsMonthView Component (range of dates)', () => {
   });
 
   it('should get/set disable settings', () => {
-    expect(component.disable).toEqual({
+    expect(component.disableSettings).toEqual({
       dates: [],
       years: [],
       minDate: '',
@@ -420,12 +420,12 @@ describe('IdsMonthView Component (range of dates)', () => {
       isEnable: false
     });
 
-    component.disable = {
+    component.disableSettings = {
       dates: [],
       years: [2021]
     };
 
-    expect(component.disable).toEqual({
+    expect(component.disableSettings).toEqual({
       dates: [],
       years: [2021],
       minDate: '',

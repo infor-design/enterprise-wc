@@ -1096,6 +1096,15 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
       btnApply?.setAttribute(attributes.HIDDEN, 'true');
     }
   }
+
+  /**
+   * Passes through to IdsMonthView to check if a specified date is disabled (not available for choosing)
+   * @param {Date} date the date to check
+   * @returns {boolean} wheter or not the date is disabled
+   */
+  isDisabledByDate(date: Date) {
+    return this.monthView.isDisabledByDate(date);
+  }
 }
 
 export default IdsDatePickerPopup;

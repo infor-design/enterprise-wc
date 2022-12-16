@@ -581,7 +581,7 @@ class IdsDatePicker extends Base {
           const date = this.locale.parseDate(
             input.value,
             this.format
-          );
+          ) as Date;
 
           return isValidDate(date) && !this.#popup?.isDisabledByDate(date);
         }

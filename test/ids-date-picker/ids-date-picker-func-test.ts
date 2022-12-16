@@ -597,7 +597,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.showPicklistWeek).toBeFalsy();
       expect(component.showClear).toBeFalsy();
       expect(component.showCancel).toBeFalsy();
-      expect(component.disable).toEqual({
+      expect(component.disableSettings).toEqual({
         dates: [],
         years: [],
         minDate: '',
@@ -789,7 +789,7 @@ describe('IdsDatePicker Component Tests', () => {
 
     it('should validate unavailable dates', () => {
       let isValid;
-      component.disable = {
+      component.disableSettings = {
         dates: ['2/15/2010', '2/25/2010'],
         dayOfWeek: [0, 6]
       };
