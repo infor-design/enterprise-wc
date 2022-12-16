@@ -75,7 +75,7 @@ class IdsDatePicker extends Base {
 
   isFormComponent = true;
 
-  #popup?: IdsDatePickerPopupRef;
+  #picker?: IdsDatePickerPopupRef;
 
   #triggerButton: any;
 
@@ -83,10 +83,10 @@ class IdsDatePicker extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.#popup = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup');
+    this.#picker = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup');
     this.#triggerButton = this.container?.querySelector('ids-trigger-button');
     this.#triggerField = this.container?.querySelector('ids-trigger-field');
-    this.#configurePopup();
+    this.#configurePicker();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#applyMask();
@@ -262,33 +262,33 @@ class IdsDatePicker extends Base {
    * @returns {IdsDatePickerPopupRef} reference to the IdsPopup component
    */
   get popup(): IdsDatePickerPopupRef {
-    return this.#popup;
+    return this.#picker;
   }
 
-  #configurePopup() {
-    if (this.#popup) {
-      this.#popup.appendToTargetParent();
-      this.#popup.popupOpenEventsTarget = document.body;
-      this.#popup.onOutsideClick = (e: Event) => {
-        if (this.#popup) {
-          if (!e.composedPath()?.includes(this.#popup)) {
+  #configurePicker() {
+    if (this.#picker) {
+      this.#picker.appendToTargetParent();
+      this.#picker.popupOpenEventsTarget = document.body;
+      this.#picker.onOutsideClick = (e: Event) => {
+        if (this.#picker) {
+          if (!e.composedPath()?.includes(this.#picker)) {
             this.#togglePopup(false);
           }
         }
       };
-      this.#popup.setAttribute(attributes.TRIGGER_TYPE, 'click');
-      this.#popup.setAttribute(attributes.TARGET, `#${this.#triggerField.getAttribute('id')}`);
-      this.#popup.setAttribute(attributes.TRIGGER_ELEM, `#${this.#triggerButton.getAttribute('id')}`);
+      this.#picker.setAttribute(attributes.TRIGGER_TYPE, 'click');
+      this.#picker.setAttribute(attributes.TARGET, `#${this.#triggerField.getAttribute('id')}`);
+      this.#picker.setAttribute(attributes.TRIGGER_ELEM, `#${this.#triggerButton.getAttribute('id')}`);
 
       // Configure inner IdsPopup
-      this.#popup.popup?.setAttribute(attributes.ARROW_TARGET, `#${this.#triggerButton.getAttribute('id')}`);
-      this.#popup.popup?.setAttribute(attributes.ALIGN, `bottom, ${this.locale.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
+      this.#picker.popup?.setAttribute(attributes.ARROW_TARGET, `#${this.#triggerButton.getAttribute('id')}`);
+      this.#picker.popup?.setAttribute(attributes.ALIGN, `bottom, ${this.locale.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
 
-      this.#popup.refreshTriggerEvents();
+      this.#picker.refreshTriggerEvents();
 
       if (this.#triggerField) {
-        this.#popup.format = this.format;
-        this.#popup.value = this.#triggerField.value;
+        this.#picker.format = this.format;
+        this.#picker.value = this.#triggerField.value;
       }
     }
   }
@@ -321,19 +321,19 @@ class IdsDatePicker extends Base {
     this.offEvent('change.date-picker-input');
     this.onEvent('change.date-picker-input', this.#triggerField, (e: any) => {
       this.setAttribute(attributes.VALUE, e.detail.value);
-      this.#popup?.setAttribute(attributes.VALUE, e.detail.value);
+      this.#picker?.setAttribute(attributes.VALUE, e.detail.value);
     });
 
     // Date Picker Popup's `dayselected` event causes the trigger field value to the change
     this.offEvent('dayselected.date-picker-popup');
-    this.onEvent('dayselected.date-picker-popup', this.#popup, (e: IdsDayselectedEvent) => {
+    this.onEvent('dayselected.date-picker-popup', this.#picker, (e: IdsDayselectedEvent) => {
       this.setAttribute(attributes.VALUE, e.detail.value);
       this.#triggerField?.setAttribute(attributes.VALUE, e.detail.value);
     });
 
     // Date Picker Popup's `hide` event can cause the field to become focused
     this.offEvent('hide.date-picker-popup');
-    this.onEvent('hide.date-picker-popup', this.#popup, (e: CustomEvent) => {
+    this.onEvent('hide.date-picker-popup', this.#picker, (e: CustomEvent) => {
       e.stopPropagation();
       if (e.detail.doFocus) {
         this.#triggerField?.focus();
@@ -374,20 +374,20 @@ class IdsDatePicker extends Base {
       this.#parseInputDate();
 
       if (this.value) {
-        this.#popup?.setAttribute('value', this.value);
+        this.#picker?.setAttribute('value', this.value);
       }
 
-      this.#popup?.show();
+      this.#picker?.show();
 
       this.container?.classList.add('is-open');
 
-      this.#popup?.focus();
+      this.#picker?.focus();
 
       if (this.isCalendarToolbar) {
         this.container?.removeAttribute('tabindex');
       }
     } else {
-      this.#popup?.hide();
+      this.#picker?.hide();
 
       this.container?.classList.remove('is-open');
 
@@ -405,7 +405,7 @@ class IdsDatePicker extends Base {
     const args = {
       detail: {
         elem: this,
-        date: this.#popup?.activeDate,
+        date: this.#picker?.activeDate,
         useRange: this.useRange,
         rangeStart: this.useRange && this.rangeSettings.start ? new Date(this.rangeSettings.start as string) : null,
         rangeEnd: this.useRange && this.rangeSettings.end ? new Date(this.rangeSettings.end as string) : null,
@@ -421,6 +421,8 @@ class IdsDatePicker extends Base {
    * @param {KeyboardEvent} e keyboard event
    */
   #handleKeyDownEvent(e: KeyboardEvent): void {
+    if (!this.container) return;
+
     const key = e.key;
     const stopEvent = () => {
       e.stopPropagation();
@@ -428,19 +430,15 @@ class IdsDatePicker extends Base {
       e.preventDefault();
     };
 
-    if (!this.container) return;
-
     // Arrow Down opens calendar popup
-    if (key === 'ArrowDown' && !this.#popup?.popup?.visible) {
+    if (key === 'ArrowDown' && !this.#picker?.popup?.visible) {
       stopEvent();
-
       this.#togglePopup(true);
     }
 
     // Escape closes calendar popup
     if (key === 'Escape') {
       stopEvent();
-
       this.#togglePopup(false);
       this.focus();
     }
@@ -521,8 +519,8 @@ class IdsDatePicker extends Base {
       { dateFormat: this.format }
     ) : null;
 
-    if (this.#popup) {
-      this.#popup.rangeSettings = {
+    if (this.#picker) {
+      this.#picker.rangeSettings = {
         start: rangeStart,
         end: rangeEnd
       };
@@ -583,7 +581,7 @@ class IdsDatePicker extends Base {
             this.format
           ) as Date;
 
-          return isValidDate(date) && !this.#popup?.isDisabledByDate(date);
+          return isValidDate(date) && !this.#picker?.isDisabledByDate(date);
         }
       });
     }
@@ -872,10 +870,10 @@ class IdsDatePicker extends Base {
 
   onFormatChange(newValue: string) {
     if (newValue) {
-      this.#popup?.setAttribute(attributes.FORMAT, newValue);
+      this.#picker?.setAttribute(attributes.FORMAT, newValue);
       this.#triggerField?.setAttribute(attributes.FORMAT, newValue);
     } else {
-      this.#popup?.removeAttribute(attributes.FORMAT);
+      this.#picker?.removeAttribute(attributes.FORMAT);
       this.#triggerField?.removeAttribute(attributes.FORMAT);
     }
 
@@ -957,7 +955,7 @@ class IdsDatePicker extends Base {
    */
   set showToday(val: string | boolean | null) {
     this.setAttribute(attributes.SHOW_TODAY, String(val));
-    this.#popup?.setAttribute(attributes.SHOW_TODAY, String(val));
+    this.#picker?.setAttribute(attributes.SHOW_TODAY, String(val));
   }
 
   /**
@@ -979,43 +977,37 @@ class IdsDatePicker extends Base {
   }
 
   onFirstDayOfWeekChange(newValue: number) {
-    this.#popup?.setAttribute(attributes.FIRST_DAY_OF_WEEK, String(newValue));
+    this.#picker?.setAttribute(attributes.FIRST_DAY_OF_WEEK, String(newValue));
   }
 
   onMonthChange(newValue: number, isValid: boolean) {
     if (isValid) {
-      this.#popup?.setAttribute(attributes.MONTH, String(newValue));
+      this.#picker?.setAttribute(attributes.MONTH, String(newValue));
     } else {
-      this.#popup?.removeAttribute(attributes.MONTH);
+      this.#picker?.removeAttribute(attributes.MONTH);
     }
 
-    if (this.isCalendarToolbar) {
-      this.#togglePopup(isValid);
-    }
+    if (this.isCalendarToolbar) this.#togglePopup(isValid);
   }
 
   onYearChange(newValue: number, isValid: boolean) {
     if (isValid) {
-      this.#popup?.setAttribute(attributes.YEAR, String(newValue));
+      this.#picker?.setAttribute(attributes.YEAR, String(newValue));
     } else {
-      this.#popup?.removeAttribute(attributes.YEAR);
+      this.#picker?.removeAttribute(attributes.YEAR);
     }
 
-    if (this.isCalendarToolbar) {
-      this.#togglePopup(isValid);
-    }
+    if (this.isCalendarToolbar) this.#togglePopup(isValid);
   }
 
   onDayChange(newValue: number, isValid: boolean) {
     if (isValid) {
-      this.#popup?.setAttribute(attributes.DAY, String(newValue));
+      this.#picker?.setAttribute(attributes.DAY, String(newValue));
     } else {
-      this.#popup?.removeAttribute(attributes.DAY);
+      this.#picker?.removeAttribute(attributes.DAY);
     }
 
-    if (this.isCalendarToolbar) {
-      this.#togglePopup(isValid);
-    }
+    if (this.isCalendarToolbar) this.#togglePopup(isValid);
   }
 
   /**
@@ -1043,26 +1035,26 @@ class IdsDatePicker extends Base {
     const boolVal = stringToBool(val);
     if (boolVal) {
       this.setAttribute(attributes.EXPANDED, `${boolVal}`);
-      this.#popup?.setAttribute(attributes.EXPANDED, String(val));
+      this.#picker?.setAttribute(attributes.EXPANDED, String(val));
       this.#triggerExpandedEvent(boolVal);
     } else {
       this.removeAttribute(attributes.EXPANDED);
-      this.#popup?.removeAttribute(attributes.EXPANDED);
+      this.#picker?.removeAttribute(attributes.EXPANDED);
     }
     this.container.classList.toggle('is-expanded', boolVal);
   }
 
   onDisableSettingsChange(val: IdsDisableSettings) {
-    if (this.#popup) this.#popup.disableSettings = val;
+    if (this.#picker) this.#picker.disableSettings = val;
   }
 
   onLegendSettingsChange(val: Array<IdsLegend>) {
-    if (this.#popup) this.#popup.legend = val;
+    if (this.#picker) this.#picker.legend = val;
   }
 
   onRangeSettingsChange(val: IdsRangeSettings) {
-    if (this.#popup) {
-      this.#popup.rangeSettings = val;
+    if (this.#picker) {
+      this.#picker.rangeSettings = val;
 
       if (val?.start && val?.end) {
         const startDate = this.locale.formatDate(this.#setTime(val.start), { pattern: this.format });
@@ -1076,11 +1068,11 @@ class IdsDatePicker extends Base {
     const btnApply = this.container?.querySelector('.popup-btn-apply');
 
     if (newValue) {
-      this.#popup?.setAttribute(attributes.USE_RANGE, String(newValue));
+      this.#picker?.setAttribute(attributes.USE_RANGE, String(newValue));
       btnApply?.removeAttribute('hidden');
       btnApply?.setAttribute('disabled', 'true');
     } else {
-      this.#popup?.removeAttribute(attributes.USE_RANGE);
+      this.#picker?.removeAttribute(attributes.USE_RANGE);
       btnApply?.setAttribute('hidden', 'true');
       btnApply?.removeAttribute('disabled');
     }
@@ -1131,7 +1123,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
     }
-    if (this.#popup) this.#popup.secondInterval = numberVal;
+    if (this.#picker) this.#picker.secondInterval = numberVal;
   }
 
   /**
@@ -1153,7 +1145,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.SECOND_INTERVAL);
     }
-    if (this.#popup) this.#popup.secondInterval = numberVal;
+    if (this.#picker) this.#picker.secondInterval = numberVal;
   }
 
   /**
@@ -1175,7 +1167,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.SHOW_CLEAR);
     }
-    if (this.#popup) this.#popup.showClear = boolVal;
+    if (this.#picker) this.#picker.showClear = boolVal;
   }
 
   /**
@@ -1197,7 +1189,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.SHOW_CANCEL);
     }
-    if (this.#popup) this.#popup.showCancel = boolVal;
+    if (this.#picker) this.#picker.showCancel = boolVal;
   }
 
   /**
@@ -1224,7 +1216,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_YEAR);
     }
-    if (this.#popup) this.#popup.showPicklistYear = boolVal;
+    if (this.#picker) this.#picker.showPicklistYear = boolVal;
   }
 
   /**
@@ -1252,7 +1244,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_MONTH);
     }
-    if (this.#popup) this.#popup.showPicklistMonth = boolVal;
+    if (this.#picker) this.#picker.showPicklistMonth = boolVal;
   }
 
   /**
@@ -1274,7 +1266,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
     }
-    if (this.#popup) this.#popup.showPicklistWeek = boolVal;
+    if (this.#picker) this.#picker.showPicklistWeek = boolVal;
   }
 
   /**
@@ -1298,7 +1290,7 @@ class IdsDatePicker extends Base {
       this.removeAttribute(attributes.USE_CURRENT_TIME);
     }
 
-    if (this.#popup) this.#popup.useCurrentTime = boolVal;
+    if (this.#picker) this.#picker.useCurrentTime = boolVal;
   }
 }
 
