@@ -439,7 +439,7 @@ class IdsMonthYearPicklist extends Base {
    * @returns {string|undefined} years list items
    */
   private renderPicklistYears(): string | undefined {
-    const disabledSettings: IdsDisableSettings = getClosest(this, 'ids-month-view')?.disable;
+    const disabledSettings: IdsDisableSettings = getClosest(this, 'ids-month-view')?.disableSettings;
     const startYear: number = this.year - 2;
     const years: string = Array.from({ length: PICKLIST_LENGTH }).map((_, index) => {
       const year: number = startYear + index;
@@ -558,7 +558,7 @@ class IdsMonthYearPicklist extends Base {
     }
 
     if (yearItem) {
-      const disabledSettings: IdsDisableSettings = getClosest(this, 'ids-month-view')?.disable;
+      const disabledSettings: IdsDisableSettings = getClosest(this, 'ids-month-view')?.disableSettings;
       const isDisabled: boolean | undefined = disabledSettings?.years?.includes(stringToNumber(yearItem.dataset.year));
 
       if (isDisabled) return;
@@ -588,7 +588,7 @@ class IdsMonthYearPicklist extends Base {
    * @param {boolean} isNext increase/descrese picklist year
    */
   private picklistYearPaged(isNext: boolean) {
-    const disabledSettings: IdsDisableSettings = getClosest(this, 'ids-month-view')?.disable;
+    const disabledSettings: IdsDisableSettings = getClosest(this, 'ids-month-view')?.disableSettings;
 
     this.container?.querySelectorAll('.picklist-item.is-year').forEach((el: any) => {
       const elYear: number = stringToNumber(el.dataset.year);

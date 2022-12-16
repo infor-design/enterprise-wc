@@ -670,8 +670,10 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     this.monthView = this.container?.querySelector<IdsMonthView>('ids-month-view');
     this.monthYearPicklist = this.container?.querySelector<IdsMonthYearPicklist>('ids-month-year-picklist');
 
-    if (this.hasTime()) this.timepicker = this.container?.querySelector<IdsTimePicker>('ids-time-picker');
-    else {
+    if (this.hasTime()) {
+      this.timepicker = this.container?.querySelector<IdsTimePicker>('ids-time-picker');
+      if (this.useCurrentTime) this.setCurrentTime();
+    } else {
       this.timepicker?.remove();
       this.timepicker = null;
     }
@@ -732,6 +734,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
               this.monthView?.changeDate('previous-month');
             } else if (navBtn.classList.contains('btn-today')) {
               this.monthView?.changeDate('today');
+              this.setCurrentTime();
             }
           }
         }
@@ -1035,6 +1038,12 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     }
 
     this.updateMonthYearPickerTriggerDisplay();
+  }
+
+  private setCurrentTime() {
+    if (this.timepicker) {
+      this.timepicker.value = this.locale.formatDate(new Date(), { pattern: this.format });
+    }
   }
 
   /**
