@@ -253,8 +253,8 @@ export default class IdsDataGrid extends Base {
           const rowIndexHeight = this.rows[0].rowIndex * 51;
           previousNumHeight = numHeight + previousNumHeight;
           // console.log({ rowIndexHeight, previousNumHeight, oldScrollTop, numHeight });
-          // body?.style.setProperty('transform', `translateY(${previousNumHeight}px)`);
-          body?.style.setProperty('transform', `translateY(${rowIndexHeight}px)`);
+          body?.style.setProperty('transform', `translateY(${previousNumHeight}px)`);
+          // body?.style.setProperty('transform', `translateY(${rowIndexHeight}px)`);
           // // this.container.scrollTop = frontIndex * frontHeight;
           // const bufferHeight = parseInt(this.buffer?.style.height ?? 0);
           // console.log('this.buffer.style.height', bufferHeight);
