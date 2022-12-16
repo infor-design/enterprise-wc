@@ -5,8 +5,12 @@ export interface IdsDataGridColumnFormatOptions {
   style?: string;
   /* Sets the incoming locale */
   locale?: string;
-  /** Sets the group (thousands) characte */
+  /** Sets the group (thousands) characters */
   group?: string;
+  /** Sets the time style */
+  timeStyle?: string
+  /** Date format to use for parsing ect */
+  dateFormat?: string
 }
 
 export interface IdsDataGridColumnGroup {
@@ -93,8 +97,6 @@ export interface IdsDataGridColumn {
   sortable?: boolean;
   /** Allow column resizing */
   resizable?: boolean;
-  /** Make the column readonly */
-  readonly?: boolean;
   /** Adds a drag indicator and allows the columns to be moved by dragging */
   reorderable?: boolean;
   /** Set a column width in pixel or percent */
@@ -164,8 +166,10 @@ export interface IdsDataGridColumn {
   cssPart?: string | ((rowIndex: number, cellIndex: number) => string);
   /** Pass the type option to formatters that support it */
   type?: string;
-  /** Disable the column with a boolean of a dynamic function */
+  /** Disable the column with a boolean or a dynamic function */
   disabled?: boolean | ((row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>) => boolean);
+  /** Make the column readonly with a boolean or a dynamic function */
+  readonly?: boolean | ((row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>) => boolean);
   /** Name of the icon too use for formatters that support it */
   icon?: string;
   /** Name of the header icon */

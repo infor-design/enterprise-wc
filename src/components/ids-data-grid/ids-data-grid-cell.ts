@@ -84,14 +84,22 @@ export default class IdsDataGridCell extends IdsElement {
   /** If currently in edit mode */
   isEditing?:boolean;
 
-  /** Begin Edit Mode */
-  startCellEdit() {
+  /**
+   * Start Edit Mode
+   * @param {boolean} isClick If true of clicking activated the editor (vs keyboard)
+   */
+  startCellEdit(isClick?: boolean) {
     const column = this.column;
+    if (!column.editor) return;
     const columnEditor = this.dataGrid.editors.find((obj) => obj.type === column?.editor?.type);
     if (!columnEditor || !columnEditor.editor || this.isEditing || !this.dataGrid) return;
 
     // Init Editor
-    let canEdit = true;
+    let canEdit = !(this.classList.contains('is-readonly') || this.classList.contains('is-disabled'));
+    if (!canEdit) {
+      return;
+    }
+
     const response = (veto: any) => {
       canEdit = !!veto;
     };
@@ -108,7 +116,8 @@ export default class IdsDataGridCell extends IdsElement {
 
     this.originalValue = this.innerText;
     this.editor = columnEditor.editor;
-    this.editor?.init(this);
+    this.editor.isClick = isClick;
+    this.editor.init(this);
 
     // Set states
     this.classList.add('is-editing');
@@ -116,11 +125,11 @@ export default class IdsDataGridCell extends IdsElement {
       this.classList.remove('is-invalid');
       this.isInValid = true;
     }
-    if (column.editor?.inline) this.classList.add('is-inline');
+    if (column.editor.inline) this.classList.add('is-inline');
     this.isEditing = true;
 
     // Save on Click Out Event
-    this.editor.input?.addEventListener('blur', () => {
+    this.editor.input?.onEvent('blur', this.editor.input, () => {
       this.endCellEdit();
     });
 
@@ -136,28 +145,70 @@ export default class IdsDataGridCell extends IdsElement {
   /** End Cell Edit */
   endCellEdit() {
     const column = this.column;
+    const input = this.editor?.input;
+    input?.offEvent('blur', input);
+    if (this.editor?.type === 'input') input?.setDirtyTracker(input?.value as any);
 
-    const isDirty = this.editor?.input?.isDirty;
-    const isValid = this.editor?.input?.isValid;
+    const isDirty = column.editor?.editorSettings?.dirtyTracker && input?.isDirty;
+    const isValid = column.editor?.editorSettings?.validate ? input?.isValid : true;
     const newValue = this.editor?.save(this);
-    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
-      [String(column?.field)]: newValue,
-    });
+    this.#saveCellValue(newValue);
 
-    // Save Dirty State on the row
+    // Save dirty and valid state on the row
     if (isDirty) this.#saveDirtyState(newValue);
-    if (!isValid) this.#saveValidState(this.editor?.input?.validationMessages);
+    if (!isValid) this.#saveValidState(input?.validationMessages);
     if (this.isInValid && isValid) this.#resetValidState();
 
     this.editor?.destroy(this);
     this.renderCell();
     this.isEditing = false;
+    this.classList.remove('is-editing');
+
     this.dataGrid?.triggerEvent('endcelledit', this.dataGrid, {
       detail: {
         elem: this, editor: this.editor, column, data: this.dataGrid.data[this.dataGrid?.activeCell.row]
       }
     });
     this.dataGrid.activeCellEditor = undefined;
+  }
+
+  /** Cancel Cell Edit */
+  cancelCellEdit() {
+    const column = this.column;
+    const input = this.editor?.input;
+    input?.offEvent('blur', input);
+    input?.setDirtyTracker(input?.value as any);
+
+    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, { [String(column?.field)]: this.originalValue });
+    this.editor?.destroy(this);
+    this.renderCell();
+    this.isEditing = false;
+    this.classList.remove('is-editing');
+
+    this.dataGrid?.triggerEvent('cancel', this.dataGrid, {
+      detail: {
+        elem: this,
+        editor: this.editor,
+        column,
+        data: this.dataGrid.data[this.dataGrid?.activeCell.row],
+        oldValue: this.originalValue
+      }
+    });
+    this.dataGrid.activeCellEditor = undefined;
+  }
+
+  /**
+   * Save cell Edit Back into data set
+   * @param {any} newValue the value to coerce and save
+   */
+  #saveCellValue(newValue: any) {
+    const column = this.column;
+    if (column.editor?.editorSettings?.mask === 'date') {
+      newValue = this.dataGrid.locale.parseDate(newValue, column.formatOptions);
+    }
+    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
+      [String(column?.field)]: newValue,
+    });
   }
 
   /**
@@ -231,22 +282,6 @@ export default class IdsDataGridCell extends IdsElement {
       invalidCells: undefined
     });
     this.isInValid = false;
-  }
-
-  /** Cancel Cell Edit */
-  cancelCellEdit() {
-    const column = this.column;
-    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, { [String(column?.field)]: this.originalValue });
-    this.renderCell();
-    this.dataGrid?.triggerEvent('cancel', this.dataGrid, {
-      detail: {
-        elem: this,
-        editor: this.editor,
-        column,
-        data: this.dataGrid.data[this.dataGrid?.activeCell.row],
-        oldValue: this.originalValue
-      }
-    });
   }
 
   /**

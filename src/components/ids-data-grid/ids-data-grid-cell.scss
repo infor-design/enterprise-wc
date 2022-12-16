@@ -53,9 +53,13 @@
     margin-inline-end: 0;
   }
 
-  // Readonly Cell
-  &.readonly {
-    @include bg-slate-20();
+  // Readonly and disabled Cells
+  &.is-readonly {
+    @include bg-slate-10();
+  }
+
+  &.is-disabled {
+    color: var(--ids-color-palette-slate-30);
   }
 
   // Focus State
@@ -69,6 +73,15 @@
 
   &.is-editable.is-inline {
     box-shadow: inset 0 0 0 4px white, inset 0 0 0 5px var(--ids-color-palette-slate-40);
+  }
+
+  &.is-editing ids-checkbox {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    left: 6px;
+    top: 4px;
   }
 
   // Frozen Cells
@@ -166,8 +179,12 @@
     border-inline-start-width: 0;
     border-top: 1px solid var(--ids-color-palette-slate-20);
 
-    &.readonly {
+    &.is-readonly {
       @include bg-slate-10();
+    }
+
+    &.is-disabled {
+      color: var(--ids-color-palette-slate-30);
     }
   }
 
@@ -188,8 +205,12 @@ td.ids-data-grid-cell {
     @include border-slate-60();
     @include text-white();
 
-    &.readonly {
+    &.is-readonly {
       @include bg-slate-70();
+    }
+
+    &.is-disabled {
+      color: var(--ids-color-palette-slate-50);
     }
 
     &.frozen {
@@ -226,8 +247,12 @@ td.ids-data-grid-cell {
     @include border-slate-60();
     @include text-slate-100();
 
-    &.readonly {
-      @include bg-slate-20();
+    &.is-readonly {
+      @include bg-slate-10();
+    }
+
+    &.is-disabled {
+      color: var(--ids-color-palette-slate-40);
     }
 
     &:focus {
@@ -267,7 +292,7 @@ td.ids-data-grid-cell {
   &.is-list-style {
     // Change Cell Borders/BG
     .ids-data-grid-cell {
-      &.readonly {
+      &.is-readonly {
         @include bg-slate-20();
       }
     }

@@ -1382,7 +1382,7 @@ class IdsDatePicker extends Base {
   #applyMask() {
     if (this.#triggerField && this.mask) {
       this.#triggerField.mask = this.useRange ? 'rangeDate' : 'date';
-      this.#triggerField.maskOptions = { format: this.format, delimeter: this.rangeSettings.separator };
+      this.#triggerField.maskOptions = { format: this.format, delimiter: this.rangeSettings.separator };
       this.#triggerField.value = this.value;
     }
   }

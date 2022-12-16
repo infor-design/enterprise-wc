@@ -34,13 +34,14 @@ $cell-border-color: var(--ids-color-palette-slate-30);
       }
     }
 
-    .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
+    /* stylelint-disable-next-line max-line-length */
+    .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
       padding-inline-start: 12px;
       transition: padding 0.3s ease;
     }
 
     /* stylelint-disable-next-line max-line-length */
-    .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
+    .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
       padding-inline-start: 16px;
     }
   }
@@ -59,13 +60,14 @@ $cell-border-color: var(--ids-color-palette-slate-30);
       }
     }
 
-    .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
+    /* stylelint-disable-next-line max-line-length */
+    .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
       padding-inline-start: 8px;
       transition: padding 0.3s ease;
     }
 
     /* stylelint-disable-next-line max-line-length */
-    .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
+    .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
       padding-inline-start: 16px;
     }
   }
@@ -84,13 +86,14 @@ $cell-border-color: var(--ids-color-palette-slate-30);
       }
     }
 
-    .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
+    /* stylelint-disable-next-line max-line-length */
+    .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
       padding-inline-start: 4px;
       transition: padding 0.3s ease;
     }
 
     /* stylelint-disable-next-line max-line-length */
-    .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
+    .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
       padding-inline-start: 16px;
     }
   }

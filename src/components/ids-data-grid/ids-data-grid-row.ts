@@ -232,17 +232,32 @@ export default class IdsDataGridRow extends IdsElement {
 
     const frozenLast = dataGrid?.leftFrozenColumns.length;
     const isHidden = row.rowHidden ? ' hidden' : '';
+    const isReadonly = (column: IdsDataGridColumn, content: string): boolean => {
+      if (!column?.readonly) return false;
+      if (typeof column?.readonly === 'function') return column?.readonly(index, content, column, row);
+      if (typeof column?.readonly === 'boolean') return column?.readonly;
+      return false;
+    };
+
+    const isDisabled = (column: IdsDataGridColumn, content: string): boolean => {
+      if (!column?.disabled) return false;
+      if (typeof column?.disabled === 'function') return column?.disabled(index, content, column, row);
+      if (typeof column?.disabled === 'boolean') return column?.disabled;
+      return false;
+    };
 
     const cellsHtml = dataGrid?.visibleColumns.map((column: IdsDataGridColumn, j: number) => {
       const content = IdsDataGridCell.template(row, column, ariaRowIndex, dataGrid);
       let cssClasses = 'ids-data-grid-cell';
-      cssClasses += `${column?.readonly ? ' readonly' : ''}`;
+      const hasReadonlyClass = isReadonly(column, content);
+      const hasDisabledClass = isDisabled(column, content);
+      cssClasses += `${hasReadonlyClass ? ' is-readonly' : ''}`;
+      cssClasses += `${hasDisabledClass ? ' is-disabled' : ''}`;
       cssClasses += `${isDirtyCell(row, column, j) ? ' is-dirty' : ''}`;
       cssClasses += `${isInvalidCell(row, column, j) ? ' is-invalid' : ''}`;
       cssClasses += `${column?.align ? ` align-${column?.align}` : ''}`;
       cssClasses += `${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ''}`;
-      cssClasses += `${column?.editor ? ` is-editable${column?.editor?.inline ? ' is-inline' : ''}` : ''}`;
-
+      cssClasses += `${column?.editor && !hasReadonlyClass && !hasDisabledClass ? ` is-editable${column?.editor?.inline ? ' is-inline' : ''}` : ''}`;
       return `<ids-data-grid-cell role="gridcell" part="${cssPart(column, index, j)}" class="${cssClasses}" aria-colindex="${j + 1}">${content}</ids-data-grid-cell>`;
     }).join('');
 

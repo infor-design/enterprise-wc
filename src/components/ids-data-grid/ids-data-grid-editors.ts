@@ -1,6 +1,8 @@
+// eslint-disable-next-line max-classes-per-file
 import IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import IdsInput from '../ids-input/ids-input';
 import type IdsDataGridCell from './ids-data-grid-cell';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 export interface IdsDataGridEditorOptions {
   /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
@@ -22,6 +24,8 @@ export interface IdsDataGridEditor {
   save: (cell?: IdsDataGridCell) => void;
   /** The function that tears down all aspects of the editor */
   destroy: (cell?: IdsDataGridCell) => void;
+  /** Indicates click was used to edit */
+  isClick?: boolean;
 }
 
 const applySettings = (elem: any, settings?: Record<string, any> | undefined) => {
@@ -69,7 +73,47 @@ export class InputEditor implements IdsDataGridEditor {
 
   /* Destroy the editor */
   destroy() {
-    this.input?.remove();
+    this.input = undefined;
+  }
+}
+
+export class CheckboxEditor implements IdsDataGridEditor {
+  /** The type of editor (i.e. input, dropdown, checkbox ect) */
+  type = 'checkbox';
+
+  /** Holds the Editor */
+  input?: IdsCheckbox;
+
+  /** Indicates if keyboard was used to init the editor */
+  isClick?: boolean;
+
+  /**
+   * Create an input and set the value and focus states
+   * @param {IdsDataGridCell} cell the cell element
+   */
+  init(cell?: IdsDataGridCell) {
+    // const isInline = cell?.column.editor?.inline;
+    this.input = <IdsCheckbox> document.createElement('ids-checkbox');
+
+    // Clear cell and set value
+    const value = stringToBool(cell?.querySelector('[aria-checked]')?.getAttribute('aria-checked'));
+    cell!.innerHTML = '';
+    if (!this.isClick) this.input.noAnimation = true;
+    this.input.checked = this.isClick ? !value : value;
+
+    cell?.appendChild(this.input as any);
+    this.input.focus();
+  }
+
+  /* Transform the value */
+  save() {
+    return this.input?.checked;
+  }
+
+  /* Destroy the editor */
+  destroy() {
+    this.input?.offEvent('keydown');
+    this.input = undefined;
   }
 }
 
@@ -77,4 +121,8 @@ export const editors: Array<{ type: string, editor?: IdsDataGridEditor }> = [];
 editors.push({
   type: 'input',
   editor: new InputEditor()
+});
+editors.push({
+  type: 'checkbox',
+  editor: new CheckboxEditor()
 });

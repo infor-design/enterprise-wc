@@ -18,6 +18,8 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   // Do an ajax request
   const url: any = booksJSON;
   const columns: IdsDataGridColumn[] = [];
+  const pageContainer: any = document.querySelector('ids-container');
+  const calendar = pageContainer.locale.calendar();
 
   // Set up columns
   columns.push({
@@ -27,16 +29,6 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     resizable: false,
     formatter: dataGrid.formatters.selectionCheckbox,
     align: 'center'
-  });
-  columns.push({
-    id: 'rowNumber',
-    name: '#',
-    formatter: dataGrid.formatters.rowNumber,
-    sortable: false,
-    resizable: true,
-    reorderable: true,
-    readonly: true,
-    width: 65
   });
   columns.push({
     id: 'description',
@@ -51,15 +43,15 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
       editorSettings: {
         autoselect: true,
         dirtyTracker: true,
-        mask: 'number',
-        maskOptions: {
-          allowDecimal: true,
-          decimalLimit: 2,
-          integerLimit: 3
-        },
         validate: 'required'
       }
-    }
+    },
+    readonly(row: number) {
+      return row % 2 === 0;
+    },
+    // disabled(row: number) {
+    //   return row % 2 === 0;
+    // },
   });
   columns.push({
     id: 'ledger',
@@ -67,7 +59,15 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     field: 'ledger',
     resizable: true,
     reorderable: true,
-    formatter: dataGrid.formatters.text
+    formatter: dataGrid.formatters.text,
+    editor: {
+      type: 'input',
+      editorSettings: {
+        autoselect: true,
+        dirtyTracker: true,
+        mask: [/[a-zA-Z]/, /[a-zA-Z]/, /[a-zA-Z]/, /[a-zA-Z]/]
+      }
+    },
   });
   columns.push({
     id: 'publishDate',
@@ -75,7 +75,15 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     field: 'publishDate',
     resizable: true,
     reorderable: true,
-    formatter: dataGrid.formatters.date
+    formatter: dataGrid.formatters.date,
+    editor: {
+      type: 'input',
+      editorSettings: {
+        autoselect: true,
+        dirtyTracker: false,
+        mask: 'date'
+      }
+    }
   });
   columns.push({
     id: 'publishTime',
@@ -83,7 +91,23 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     field: 'publishDate',
     resizable: true,
     reorderable: true,
-    formatter: dataGrid.formatters.time
+    formatter: dataGrid.formatters.time,
+    formatOptions: {
+      locale: 'en-US',
+      dateFormat: calendar.dateFormat.hour,
+      timeStyle: 'short'
+    },
+    editor: {
+      type: 'input',
+      editorSettings: {
+        autoselect: true,
+        dirtyTracker: false,
+        mask: 'date',
+        maskOptions: {
+          format: calendar.dateFormat.hour
+        }
+      }
+    }
   });
   columns.push({
     id: 'price',
@@ -92,7 +116,20 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     resizable: true,
     reorderable: true,
     formatter: dataGrid.formatters.decimal,
-    formatOptions: { locale: 'en-US' } // Data Values are in en-US
+    formatOptions: { locale: 'en-US' },
+    editor: {
+      type: 'input',
+      editorSettings: {
+        autoselect: true,
+        dirtyTracker: true,
+        mask: 'number',
+        maskOptions: {
+          allowDecimal: true,
+          integerLimit: 3,
+          decimalLimit: 2
+        }
+      }
+    },
   });
   columns.push({
     id: 'bookCurrency',
@@ -113,7 +150,20 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     name: 'Price (Int)',
     field: 'price',
     formatter: dataGrid.formatters.integer,
-    formatOptions: { locale: 'en-US' } // Data Values are in en-US
+    formatOptions: { locale: 'en-US' }, // Data Values are in en-US
+    editor: {
+      type: 'input',
+      editorSettings: {
+        autoselect: true,
+        dirtyTracker: true,
+        mask: 'number',
+        maskOptions: {
+          allowDecimal: false,
+          integerLimit: 3
+        },
+        validate: 'required'
+      }
+    },
   });
   columns.push({
     id: 'location',
@@ -126,7 +176,14 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     id: 'postHistory',
     name: 'Post History',
     field: 'postHistory',
-    formatter: dataGrid.formatters.text
+    formatter: dataGrid.formatters.checkbox,
+    align: 'center',
+    editor: {
+      type: 'checkbox',
+      editorSettings: {
+        dirtyTracker: false,
+      }
+    },
   });
 
   dataGrid.columns = columns;
@@ -154,5 +211,25 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
 
   dataGrid.addEventListener('cancelcelledit', (e: Event) => {
     console.info(`Edit Was Cancelled`, (<CustomEvent>e).detail);
+  });
+
+  // Example Buttons
+  document.querySelector('#add-row')?.addEventListener('click', () => {
+    dataGrid.addRow({ description: 'New Row', ledgder: 'CORE' });
+
+    dataGrid.setActiveCell(0, dataGrid.data.length - 1);
+    dataGrid.editFirstCell();
+  });
+
+  document.querySelector('#delete-row')?.addEventListener('click', () => {
+    dataGrid.selectedRows.forEach((row: any) => {
+      dataGrid.removeRow(row.index);
+    });
+  });
+
+  document.querySelector('#clear-row')?.addEventListener('click', () => {
+    dataGrid.selectedRows.forEach((row: any) => {
+      dataGrid.clearRow(row.index);
+    });
   });
 }());

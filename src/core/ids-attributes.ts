@@ -114,6 +114,7 @@ export const attributes = {
   DROPDOWN_ICON: 'dropdown-icon',
   EDGE: 'edge',
   EDITABLE: 'editable',
+  EDIT_NEXT_ON_ENTER_PRESS: 'edit-next-on-enter-press',
   END_DATE: 'end-date',
   END_HOUR: 'end-hour',
   ERROR: 'error',
@@ -236,6 +237,7 @@ export const attributes = {
   NAME: 'name',
   NAV_DISABLED: 'nav-disabled',
   NEXT: 'next',
+  NO_ANIMATION: 'no-animation',
   NO_HEADER: 'no-header',
   NO_MARGINS: 'no-margins',
   NO_PADDING: 'no-padding',
@@ -438,3 +440,12 @@ export const prefix = {
 };
 
 export const version = '1.0.0-beta.2';
+
+export enum IdsDirection {
+  Up = 'up',
+  Down = 'down',
+  Left = 'left',
+  Right = 'right',
+  Next = 'next',
+  Previous = 'previous'
+}

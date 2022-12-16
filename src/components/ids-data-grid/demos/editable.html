@@ -14,6 +14,18 @@
       <ids-layout-grid-cell>
         <ids-toolbar padding="5">
           <ids-toolbar-section align="end" favor>
+            <ids-button id="add-row">
+              <span class="audible">Add Row</span>
+              <ids-icon slot="icon" icon="add"></ids-icon>
+            </ids-button>
+            <ids-button id="delete-row">
+              <span class="audible">Delete Row</span>
+              <ids-icon slot="icon" icon="delete"></ids-icon>
+            </ids-button>
+            <ids-button id="clear-row">
+              <span class="audible">Clear Row</span>
+              <ids-icon slot="icon" icon="clear-formatting"></ids-icon>
+            </ids-button>
             <ids-menu-button id="menu-button" menu="row-height-menu">
               <ids-icon slot="icon" icon="more"></ids-icon>
               <span class="audible">Settings Menu Button</span>
@@ -29,7 +41,14 @@
             </ids-popup-menu>
           </ids-toolbar-section>
         </ids-toolbar>
-        <ids-data-grid id="data-grid-editable" suppress-row-click-selection="true" row-selection="multiple" label="Books" editable="true"></ids-data-grid>
+        <ids-data-grid
+          id="data-grid-editable"
+          suppress-row-click-selection="true"
+          row-selection="multiple"
+          label="Books"
+          editable="true"
+          edit-next-on-enter-press="true">
+        </ids-data-grid>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

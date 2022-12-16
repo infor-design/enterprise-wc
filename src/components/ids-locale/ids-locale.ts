@@ -798,7 +798,7 @@ class IdsLocale {
     }
 
     if (dateFormat.indexOf(' ') === -1 && dateFormat.indexOf('.') === -1 && dateFormat.indexOf('/') === -1 && dateFormat.indexOf('-') === -1) {
-      // Remove delimeter for the data string.
+      // Remove delimiter for the data string.
       if (dateString.indexOf(' ') !== -1) {
         dateString = dateString.split(' ').join('');
       } else if (dateString.indexOf('.') !== -1) {

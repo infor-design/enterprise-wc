@@ -1,8 +1,7 @@
 // Utils
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
+import { attributes, IdsDirection } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 // Dependencies
@@ -131,6 +130,7 @@ export default class IdsDataGrid extends Base {
       attributes.AUTO_FIT,
       attributes.DISABLE_CLIENT_FILTER,
       attributes.EDITABLE,
+      attributes.EDIT_NEXT_ON_ENTER_PRESS,
       attributes.EXPANDABLE_ROW,
       attributes.EXPANDABLE_ROW_TEMPLATE,
       attributes.FILTER_ROW_DISABLED,
@@ -316,6 +316,7 @@ export default class IdsDataGrid extends Base {
     this.onEvent('click.body', body, (e: any) => {
       const cell: IdsDataGridCell = (e.target as any).closest('ids-data-grid-cell');
       if (!cell) return;
+      if (cell.isEditing) return;
 
       const cellNum = Number(cell.getAttribute('aria-colindex')) - 1;
       const row = <IdsDataGridRow>cell.parentNode;
@@ -353,7 +354,7 @@ export default class IdsDataGrid extends Base {
 
       // Handle mixed selection
       if (this.rowSelection === 'mixed') {
-        if (cell.children[0].classList.contains('ids-data-grid-checkbox-container')) {
+        if (cell.children[0]?.classList.contains('ids-data-grid-checkbox-container')) {
           row.toggleSelection();
         } else {
           row.toggleRowActivation();
@@ -363,7 +364,7 @@ export default class IdsDataGrid extends Base {
 
       // Handle selection if not disabled
       if (this.rowSelection !== false && this.rowSelection !== 'mixed') {
-        if (this.suppressRowClickSelection && cell.children[0].classList.contains('ids-data-grid-checkbox-container')) {
+        if (this.suppressRowClickSelection && cell.children[0]?.classList.contains('is-selection-checkbox')) {
           row.toggleSelection();
         }
         if (!this.suppressRowClickSelection) {
@@ -372,7 +373,7 @@ export default class IdsDataGrid extends Base {
       }
 
       // Handle Editing
-      if (this.editable && column.editor) cell.startCellEdit();
+      if (this.editable && column.editor) cell.startCellEdit(true);
     });
 
     // Add double click to the table body
@@ -440,15 +441,18 @@ export default class IdsDataGrid extends Base {
     // Handle arrow navigation
     this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e: KeyboardEvent) => {
       const key = e.key;
+      const cellNode = this.activeCell.node;
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
       const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
-      const nextRow = Number(next(this.activeCell.node.parentElement, `:not([hidden])`)?.getAttribute('data-index'));
-      const prevRow = Number(previous(this.activeCell.node.parentElement, `:not([hidden])`)?.getAttribute('data-index'));
+      const nextRow = Number(next(cellNode.parentElement, `:not([hidden])`)?.getAttribute('data-index'));
+      const prevRow = Number(previous(cellNode.parentElement, `:not([hidden])`)?.getAttribute('data-index'));
       const rowIndex = key === 'ArrowDown' ? nextRow : prevRow;
+
+      if (this.activeCellEditor) cellNode.endCellEdit();
 
       this.setActiveCell(Number(this.activeCell?.cell) + cellDiff, rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex);
       if (this.rowSelection === 'mixed') {
-        (this.activeCell.node.parentElement as IdsDataGridRow).toggleRowActivation();
+        (cellNode.parentElement as IdsDataGridRow).toggleRowActivation();
       }
       e.preventDefault();
       e.stopPropagation();
@@ -456,6 +460,7 @@ export default class IdsDataGrid extends Base {
 
     // Handle Selection and Expand
     this.listen([' '], this, (e: Event) => {
+      if (this.activeCellEditor) return;
       const button = this.activeCell.node.querySelector('ids-button');
       if (button) {
         button.click();
@@ -463,16 +468,25 @@ export default class IdsDataGrid extends Base {
         return;
       }
 
+      const child = this.activeCell.node.children[0];
+      const isCheckbox = child?.classList.contains('ids-data-grid-checkbox-container')
+        && !child?.classList.contains('is-selection-checkbox');
+      if (isCheckbox) {
+        this.activeCell.node.click();
+        e.preventDefault();
+        return;
+      }
       const row = this.rowByIndex(this.activeCell.row)!;
       row.toggleSelection();
       e.preventDefault();
     });
 
-    // Follow links with keyboard
-    this.listen(['Enter'], this, () => {
-      const hyperlink = this.activeCell.node.querySelector('ids-hyperlink');
-      const button = this.activeCell.node.querySelector('ids-button');
-      const customLink = this.activeCell.node.querySelector('a');
+    // Follow links with keyboard and start editing
+    this.listen(['Enter'], this, (e: KeyboardEvent) => {
+      const cellNode = this.activeCell.node;
+      const hyperlink = cellNode.querySelector('ids-hyperlink');
+      const button = cellNode.querySelector('ids-button');
+      const customLink = cellNode.querySelector('a');
 
       if (hyperlink && !hyperlink.container.matches(':focus') && !hyperlink.hasAttribute('disabled')) {
         hyperlink.container.click();
@@ -486,11 +500,118 @@ export default class IdsDataGrid extends Base {
       customLink?.click();
 
       if (customLink) {
-        this.activeCell.node.focus();
+        cellNode.focus();
       }
+      this.#handleEditMode(e, cellNode);
     });
 
+    if (this.editable) {
+      // Commit Edit
+      this.listen(['F2'], this, () => {
+        const cellNode = this.activeCell.node;
+        if (this.activeCellEditor) {
+          cellNode.endCellEdit();
+          cellNode.focus();
+        }
+      });
+
+      // Cancel Edit
+      this.listen(['Escape'], this, () => {
+        const cellNode = this.activeCell.node;
+        if (this.activeCellEditor) {
+          cellNode.cancelCellEdit();
+          cellNode.focus();
+        }
+      });
+
+      // Edit Next
+      this.listen(['Tab'], this, (e: KeyboardEvent) => {
+        if (this.activeCellEditor) {
+          if (e.shiftKey) this.#editAdjacentCell(IdsDirection.Previous);
+          else this.#editAdjacentCell(IdsDirection.Next);
+
+          e.stopImmediatePropagation();
+          e.stopPropagation();
+          e.preventDefault();
+          return false;
+        }
+        return true;
+      });
+
+      // Enter Edit by typing
+      this.offEvent('keydown.body', this);
+      this.onEvent('keydown.body', this, (e: KeyboardEvent) => {
+        const isPrintableKey = e.key.length === 1;
+        if (!this.activeCellEditor && isPrintableKey && e.key !== ' ') {
+          this.activeCell.node.startCellEdit();
+        }
+      });
+    }
     return this;
+  }
+
+  /**
+   * Find the next editable cell and start editing it
+   * @private
+   * @param {IdsDirection} direction The cell element
+   */
+  #editAdjacentCell(direction: IdsDirection) {
+    this.commitCellEdit();
+
+    let nextCell = direction === IdsDirection.Next
+      ? next(this.activeCell.node, '.is-editable') as IdsDataGridCell
+      : previous(this.activeCell.node, '.is-editable') as IdsDataGridCell;
+
+    const rows = this.body?.querySelectorAll('.ids-data-grid-row');
+    if (!nextCell && rows && direction === IdsDirection.Next) {
+      for (let index = this.activeCell.row + 1; index < rows.length; index++) {
+        const row = rows[index];
+        nextCell = next(row.firstChild, '.is-editable') as IdsDataGridCell;
+        if (nextCell) break;
+      }
+    }
+
+    if (!nextCell && rows && direction === IdsDirection.Previous) {
+      for (let index = this.activeCell.row - 1; index >= 0; index--) {
+        const row = rows[index];
+        if ((row.lastChild as Element).classList?.contains('is-editable')) {
+          nextCell = row.lastChild as IdsDataGridCell;
+          break;
+        }
+        nextCell = previous(row.lastChild, '.is-editable') as IdsDataGridCell;
+        if (nextCell) break;
+      }
+    }
+
+    if (!nextCell) {
+      this.activeCell.node.focus();
+      this.activeCell.node.startCellEdit();
+      return;
+    }
+
+    const row = Number(nextCell.parentElement?.getAttribute('aria-rowindex')) - 1;
+    const cell = Number(nextCell.getAttribute('aria-colindex')) - 1;
+    this.setActiveCell(cell, row, true);
+    nextCell.startCellEdit();
+  }
+
+  /**
+   * Save or start editing
+   * @param {KeyboardEvent} e The cell event
+   * @param {IdsDataGridCell} cellNode The cell element
+   * @private
+   */
+  #handleEditMode(e: KeyboardEvent, cellNode: IdsDataGridCell) {
+    // Editing Keyboard
+    if (this.editable && cellNode.classList.contains('is-editable') && cellNode.classList.contains('is-editing')) {
+      cellNode.endCellEdit();
+      cellNode.focus();
+
+      if (this.editNextOnEnterPress) {
+        this.setActiveCell(Number(this.activeCell?.cell), Number(this.activeCell?.row) + (e.shiftKey ? -1 : 1));
+        this.activeCell.node.startCellEdit();
+      }
+    } else cellNode.startCellEdit();
   }
 
   /**
@@ -718,7 +839,7 @@ export default class IdsDataGrid extends Base {
    * @param {Array} value The array to use
    */
   set columns(value: IdsDataGridColumn[] | undefined | null) {
-    this.currentColumns = value ? deepClone(value) : [{ id: '', name: '' }];
+    this.currentColumns = value || [{ id: '', name: '' }];
     this.redraw();
   }
 
@@ -1042,6 +1163,43 @@ export default class IdsDataGrid extends Base {
    */
   cancelCellEdit() {
     this.activeCellEditor?.cancelCellEdit();
+  }
+
+  /**
+   * Add a row to the data grid
+   * @param {Record<string, unknown>} data the data to add to the row
+   */
+  addRow(data: Record<string, unknown>) {
+    this.datasource.originalData.push(data);
+    this.data = this.datasource.originalData;
+    this.redrawBody();
+  }
+
+  /**
+   * Remove a row by index for the data
+   * @param {number} index the row index to remove
+   */
+  removeRow(index: number) {
+    this.datasource.originalData.splice(index, 1);
+    this.data = this.datasource.originalData;
+    this.redrawBody();
+  }
+
+  /**
+   * Clear all values in a row a row by index
+   * @param {number} index the row index to clear
+   */
+  clearRow(index: number) {
+    this.datasource.originalData[index] = {};
+    this.data = this.datasource.originalData;
+    this.redrawBody();
+  }
+
+  /**
+   * Edit the first editable cell
+   */
+  editFirstCell() {
+    this.#editAdjacentCell(IdsDirection.Next);
   }
 
   /**
@@ -1462,19 +1620,35 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Set to true if one or more editors is present, with the intention of editing
-   * @param {boolean} value true indicates the grid may be editable
+   * Set to true if one or more editors is present to activate editing
+   * @param {boolean} value true indicates some cells may be editable
    */
-  set editable(value) {
+  set editable(value: boolean) {
+    value = stringToBool(value);
     if (value) {
-      this.setAttribute(attributes.EXPANDABLE_ROW_TEMPLATE, value.toString());
+      this.setAttribute(attributes.EDITABLE, value.toString());
     } else {
-      this.removeAttribute(attributes.EXPANDABLE_ROW_TEMPLATE);
+      this.removeAttribute(attributes.EDITABLE);
     }
   }
 
-  get editable() {
-    return this.getAttribute(attributes.EXPANDABLE_ROW_TEMPLATE) || '';
+  get editable(): boolean {
+    return stringToBool(this.getAttribute(attributes.EDITABLE));
+  }
+
+  /**
+   * Set to false to avoid moving up and down rows when editing and hitting enter
+   * @param {boolean} value false indicates the grid will not switch rows on edit
+   */
+  set editNextOnEnterPress(value: boolean) {
+    value = stringToBool(value);
+    if (value) {
+      this.setAttribute(attributes.EDIT_NEXT_ON_ENTER_PRESS, value.toString());
+    }
+  }
+
+  get editNextOnEnterPress(): boolean {
+    return stringToBool(this.getAttribute(attributes.EDIT_NEXT_ON_ENTER_PRESS)) || false;
   }
 
   /**
