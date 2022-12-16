@@ -169,15 +169,13 @@ export default class IdsDataGrid extends Base {
       // console.log('prevRowIndex, nextRowIndex', prevRowIndex, nextRowIndex);
       if (prevRowIndex < -1 || nextRowIndex > numRows) return;
 
-      const headerPos = this.header?.getBoundingClientRect();
+      const headerGeometry = this.header?.getBoundingClientRect();
 
       requestAnimationFrameRef = requestAnimationFrame((timestamp) => {
-        // # This timestamp conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
+        // # This timestamp-conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
         if (timestamp <= (previousTimestamp + 60)) return;
         // if (timestamp <= (previousTimestamp + 120)) return;
         previousTimestamp = timestamp;
-
-        // console.log('RAF timestamp', timestamp);
 
         const recycleRows: any[] = [];
 
@@ -206,7 +204,7 @@ export default class IdsDataGrid extends Base {
           rows.every((row, idx) => {
             const currentIndex = nextRowIndex + idx;
             const rowViewport = row.viewport;
-            const isOffScreen = rowViewport.y < (headerPos.y - (VIRTUAL_SCROLL_BUFFER_SIZE));
+            const isOffScreen = rowViewport.y < (headerGeometry.y - (VIRTUAL_SCROLL_BUFFER_SIZE));
             if (!isOffScreen) {
               topRowIndex = row.rowIndex;
               return false;
@@ -228,8 +226,6 @@ export default class IdsDataGrid extends Base {
           // NOTE: body.append is faster than body.innerHTML
           // NOTE: body.append is faster than multiple calls to appendChild()
           body.append(...recycleRows);
-          // const frontRowIndex = this.rows[0].rowIndex;
-          // console.log({ frontRowIndex, topRowIndex });
           const rowIndexHeight = topRowIndex * VIRTUAL_SCROLL_ROW_HEIGHT;
           body?.style.setProperty('transform', `translateY(${rowIndexHeight}px)`);
           // prevBodyOffsetHeight = bodyOffsetHeight + prevBodyOffsetHeight;
