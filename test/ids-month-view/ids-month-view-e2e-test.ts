@@ -831,7 +831,7 @@ describe('Ids Month View e2e Tests', () => {
       const element = document.querySelector(el);
 
       if (element) {
-        element.disable = {
+        element.disableSettings = {
           dayOfWeek: [0, 6],
           dates: ['11/16/2021']
         };
@@ -852,7 +852,7 @@ describe('Ids Month View e2e Tests', () => {
       const element = document.querySelector(el);
 
       if (element) {
-        element.disable = {
+        element.disableSettings = {
           dayOfWeek: []
         };
       }
@@ -880,7 +880,7 @@ describe('Ids Month View e2e Tests', () => {
       const element = document.querySelector(el);
 
       if (element) {
-        element.disable = {
+        element.disableSettings = {
           dates: []
         };
       }
@@ -899,7 +899,7 @@ describe('Ids Month View e2e Tests', () => {
       const element = document.querySelector(el);
 
       if (element) {
-        element.disable = {
+        element.disableSettings = {
           minDate: '11/6/2021',
           maxDate: '11/28/2021'
         };
@@ -919,7 +919,7 @@ describe('Ids Month View e2e Tests', () => {
       const element = document.querySelector(el);
 
       if (element) {
-        element.disable = {
+        element.disableSettings = {
           isEnable: true
         };
       }
@@ -951,7 +951,7 @@ describe('Ids Month View e2e Tests', () => {
       const element = document.querySelector(el);
 
       if (element) {
-        element.disable = {
+        element.disableSettings = {
           minDate: '',
           maxDate: '',
           isEnable: false,
