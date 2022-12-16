@@ -1552,9 +1552,10 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
   }
 
   /**
+   * Selects the Month View's current day from a stringified date
    * @param {string} val string representation of a date
    */
-  protected selectDayFromValue(val: string) {
+  selectDayFromValue(val: string) {
     let usableValue = val;
     if (this.useRange && this.rangeSettings.separator && this.rangeSettings.end) {
       usableValue = removeDateRange(val, this.rangeSettings.separator);

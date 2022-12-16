@@ -20,7 +20,7 @@ import {
 // Types
 import type {
   IdsDisableSettings,
-} from '../ids-month-view/ids-month-view';
+} from '../ids-month-view/ids-month-view-common';
 
 import styles from './ids-month-year-picklist.scss';
 

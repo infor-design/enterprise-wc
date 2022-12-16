@@ -24,8 +24,11 @@ import '../ids-toolbar/ids-toolbar-section';
 
 // Types
 import type IdsButton from '../ids-button/ids-button';
+import type IdsExpandableArea from '../ids-expandable-area/ids-expandable-area';
 import type IdsLocale from '../ids-locale/ids-locale';
 import type IdsModalButton from '../ids-modal-button/ids-modal-button';
+import type IdsMonthView from '../ids-month-view/ids-month-view';
+import type IdsMonthYearPicklist from './ids-month-year-picklist';
 import type {
   IdsRangeSettings,
   IdsRangeSettingsInterface,
@@ -57,13 +60,13 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     this.#value = '';
   }
 
-  protected expandableArea: any;
+  protected expandableArea: IdsExpandableArea | null | undefined;
 
-  protected monthView: any;
+  protected monthView: IdsMonthView | null | undefined;
 
-  protected monthYearPicklist: any;
+  protected monthYearPicklist: IdsMonthYearPicklist | null | undefined;
 
-  protected timepicker: any;
+  protected timepicker: IdsTimePicker | null | undefined;
 
   protected toolbar: IdsToolbar | null | undefined;
 
@@ -240,14 +243,14 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
   }
 
   onFirstDayOfWeekChange(newValue: number) {
-    this.monthView?.setAttribute(attributes.FIRST_DAY_OF_WEEK, newValue);
-    this.monthYearPicklist?.setAttribute(attributes.FIRST_DAY_OF_WEEK, newValue);
+    this.monthView?.setAttribute(attributes.FIRST_DAY_OF_WEEK, `${newValue}`);
+    this.monthYearPicklist?.setAttribute(attributes.FIRST_DAY_OF_WEEK, `${newValue}`);
   }
 
   onMonthChange(newValue: number, isValid: boolean) {
     if (isValid) {
-      this.monthView?.setAttribute(attributes.MONTH, newValue);
-      this.monthYearPicklist?.setAttribute(attributes.MONTH, newValue);
+      this.monthView?.setAttribute(attributes.MONTH, `${newValue}`);
+      this.monthYearPicklist?.setAttribute(attributes.MONTH, `${newValue}`);
     } else {
       this.monthView?.removeAttribute(attributes.MONTH);
       this.monthYearPicklist?.removeAttribute(attributes.MONTH);
@@ -256,8 +259,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
   onYearChange(newValue: number, isValid: boolean) {
     if (isValid) {
-      this.monthView?.setAttribute(attributes.YEAR, newValue);
-      this.monthYearPicklist?.setAttribute(attributes.MONTH, newValue);
+      this.monthView?.setAttribute(attributes.YEAR, `${newValue}`);
+      this.monthYearPicklist?.setAttribute(attributes.MONTH, `${newValue}`);
     } else {
       this.monthView?.removeAttribute(attributes.YEAR);
       this.monthYearPicklist?.removeAttribute(attributes.YEAR);
@@ -266,8 +269,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
   onDayChange(newValue: number, isValid: boolean) {
     if (isValid) {
-      this.monthView?.setAttribute(attributes.DAY, newValue);
-      this.monthYearPicklist?.setAttribute(attributes.DAY, newValue);
+      this.monthView?.setAttribute(attributes.DAY, `${newValue}`);
+      this.monthYearPicklist?.setAttribute(attributes.DAY, `${newValue}`);
     } else {
       this.monthView?.removeAttribute(attributes.DAY);
       this.monthYearPicklist?.removeAttribute(attributes.DAY);
@@ -276,8 +279,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
   onFormatChange() {
     if (!this.container) return;
-
-    this.monthView.format = this.format;
+    if (this.monthView) this.monthView.format = this.format;
     if (this.timepicker) this.timepicker.format = this.format;
     this.updateTimepickerDisplay();
   }
@@ -502,7 +504,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     const boolVal = stringToBool(val);
 
     this.setAttribute(attributes.SHOW_PICKLIST_YEAR, String(boolVal));
-    this.monthYearPicklist?.setAttribute(attributes.SHOW_PICKLIST_YEAR, boolVal);
+    this.monthYearPicklist?.setAttribute(attributes.SHOW_PICKLIST_YEAR, String(boolVal));
   }
 
   /**
@@ -527,7 +529,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     const boolVal = stringToBool(val);
 
     this.setAttribute(attributes.SHOW_PICKLIST_MONTH, String(boolVal));
-    this.monthYearPicklist?.setAttribute(attributes.SHOW_PICKLIST_MONTH, boolVal);
+    this.monthYearPicklist?.setAttribute(attributes.SHOW_PICKLIST_MONTH, String(boolVal));
   }
 
   /**
@@ -547,7 +549,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
     if (boolVal) {
       this.setAttribute(attributes.SHOW_PICKLIST_WEEK, String(boolVal));
-      this.monthYearPicklist?.setAttribute(attributes.SHOW_PICKLIST_WEEK, boolVal);
+      this.monthYearPicklist?.setAttribute(attributes.SHOW_PICKLIST_WEEK, String(boolVal));
     } else {
       this.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
       this.monthYearPicklist?.removeAttribute(attributes.SHOW_PICKLIST_WEEK);
@@ -573,8 +575,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     this.updateTimepickerDisplay();
 
     if (boolVal) {
-      this.setAttribute(attributes.USE_CURRENT_TIME, boolVal.toString());
-      timePicker?.setAttribute(attributes.USE_CURRENT_TIME, boolVal.toString());
+      this.setAttribute(attributes.USE_CURRENT_TIME, String(boolVal));
+      timePicker?.setAttribute(attributes.USE_CURRENT_TIME, String(boolVal));
     } else {
       this.removeAttribute(attributes.USE_CURRENT_TIME);
       timePicker?.removeAttribute(attributes.USE_CURRENT_TIME);
@@ -601,7 +603,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
     if (boolVal) {
       this.setAttribute(attributes.USE_RANGE, String(boolVal));
-      this.monthView?.setAttribute(attributes.USE_RANGE, boolVal);
+      this.monthView?.setAttribute(attributes.USE_RANGE, String(boolVal));
       btnApply?.removeAttribute(attributes.HIDDEN);
       btnApply?.setAttribute(attributes.DISABLED, 'true');
     } else {
@@ -646,7 +648,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     const btnApply = this.applyBtnEl;
     const btnCancel = this.cancelBtnEl;
 
-    this.monthYearPicklist.activatePicklist();
+    this.monthYearPicklist?.activatePicklist();
     btnApply?.removeAttribute(attributes.HIDDEN);
     btnApply?.removeAttribute(attributes.DISABLED);
 
@@ -656,7 +658,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
   }
 
   private onPicklistCollapse() {
-    this.monthYearPicklist.deactivatePicklist();
+    this.monthYearPicklist?.deactivatePicklist();
     this.updateActionButtonStateOnShow();
   }
 
@@ -664,11 +666,11 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    * Checks internal component refs based on settings
    */
   configureComponents() {
-    this.expandableArea = this.container?.querySelector('ids-expandable-area');
-    this.monthView = this.container?.querySelector('ids-month-view');
-    this.monthYearPicklist = this.container?.querySelector('ids-month-year-picklist');
+    this.expandableArea = this.container?.querySelector<IdsExpandableArea>('ids-expandable-area');
+    this.monthView = this.container?.querySelector<IdsMonthView>('ids-month-view');
+    this.monthYearPicklist = this.container?.querySelector<IdsMonthYearPicklist>('ids-month-year-picklist');
 
-    if (this.hasTime()) this.timepicker = this.container?.querySelector('ids-time-picker');
+    if (this.hasTime()) this.timepicker = this.container?.querySelector<IdsTimePicker>('ids-time-picker');
     else {
       this.timepicker?.remove();
       this.timepicker = null;
@@ -709,30 +711,32 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
     // Handles input from header buttons
     this.offEvent('click.date-picker-header');
-    this.onEvent('click.date-picker-header', this.container?.querySelector<IdsToolbar>('ids-toolbar'), (e: Event) => {
-      const target = e.target as HTMLElement;
+    if (this.toolbar) {
+      this.onEvent('click.date-picker-header', this.toolbar, (e: Event) => {
+        const target = e.target as HTMLElement;
 
-      const dropdownBtn: IdsToggleButton | null = target.closest('.dropdown-btn');
-      if (dropdownBtn) {
-        if (!dropdownBtn.disabled) {
-          this.expanded = !this.expanded;
+        const dropdownBtn: IdsToggleButton | null = target.closest('.dropdown-btn');
+        if (dropdownBtn) {
+          if (!dropdownBtn.disabled) {
+            this.expanded = !this.expanded;
+          }
+          return;
         }
-        return;
-      }
 
-      const navBtn: IdsButton | null = target.closest('.btn-previous, .btn-next, .btn-today');
-      if (navBtn) {
-        if (!navBtn.disabled) {
-          if (navBtn.classList.contains('btn-next')) {
-            this.monthView.changeDate('next-month');
-          } else if (navBtn.classList.contains('btn-previous')) {
-            this.monthView.changeDate('previous-month');
-          } else if (navBtn.classList.contains('btn-today')) {
-            this.monthView.changeDate('today');
+        const navBtn: IdsButton | null = target.closest('.btn-previous, .btn-next, .btn-today');
+        if (navBtn) {
+          if (!navBtn.disabled) {
+            if (navBtn.classList.contains('btn-next')) {
+              this.monthView?.changeDate('next-month');
+            } else if (navBtn.classList.contains('btn-previous')) {
+              this.monthView?.changeDate('previous-month');
+            } else if (navBtn.classList.contains('btn-today')) {
+              this.monthView?.changeDate('today');
+            }
           }
         }
-      }
-    });
+      });
+    }
 
     // Handles input from footer buttons
     this.offEvent('click.date-picker-footer');
@@ -774,6 +778,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    */
   private handleApplyEvent(e: MouseEvent): void {
     e.stopPropagation();
+    if (!this.monthView) return;
 
     if (this.expanded) {
       this.captureValueFromPicklist();
@@ -843,6 +848,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    * @param {IdsDayselectedEvent} e event from the calendar day selection
    */
   private handleDaySelectedEvent(e: IdsDayselectedEvent): void {
+    if (!this.monthView) return;
+
     const inputDate: Date | number[] | undefined = this.locale.parseDate(this.value, { dateFormat: this.format });
 
     // Clear action
@@ -896,6 +903,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    * @returns {void}
    */
   private captureValueFromPicklist() {
+    if (!this.monthYearPicklist) return;
     const { month, year } = this.monthYearPicklist;
     this.year = year;
     this.month = month;
@@ -1013,7 +1021,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
     if (this.monthView) {
       if (typeof this.monthView.selectDayFromValue === 'function') {
-        this.monthView.selectDayFromValue(usableValue);
+        this.monthView.selectDayFromValue(`${usableValue}`);
       }
     }
 
@@ -1104,7 +1112,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    * @returns {boolean} wheter or not the date is disabled
    */
   isDisabledByDate(date: Date) {
-    return this.monthView.isDisabledByDate(date);
+    return this.monthView?.isDisabledByDate(date);
   }
 }
 
