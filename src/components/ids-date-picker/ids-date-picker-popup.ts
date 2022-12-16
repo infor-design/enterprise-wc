@@ -69,11 +69,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
   connectedCallback() {
     super.connectedCallback();
-    this.expandableArea = this.container?.querySelector('ids-expandable-area');
-    this.monthView = this.container?.querySelector('ids-month-view');
-    this.monthYearPicklist = this.container?.querySelector('ids-month-year-picklist');
-    this.timepicker = this.container?.querySelector('ids-time-picker');
-    this.toolbar = this.container?.querySelector<IdsToolbar>('ids-toolbar');
+    this.configureComponents();
     this.attachEventListeners();
     this.attachExpandedListener();
   }
@@ -665,18 +661,37 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
   }
 
   /**
+   * Checks internal component refs based on settings
+   */
+  configureComponents() {
+    this.expandableArea = this.container?.querySelector('ids-expandable-area');
+    this.monthView = this.container?.querySelector('ids-month-view');
+    this.monthYearPicklist = this.container?.querySelector('ids-month-year-picklist');
+
+    if (this.hasTime()) this.timepicker = this.container?.querySelector('ids-time-picker');
+    else {
+      this.timepicker?.remove();
+      this.timepicker = null;
+    }
+
+    this.toolbar = this.container?.querySelector<IdsToolbar>('ids-toolbar');
+  }
+
+  /**
    * Expanded/Collapsed event for Month/Year Picklist
    */
   private attachExpandedListener() {
-    this.offEvent('afterexpand');
-    this.onEvent('afterexpand', this.container?.querySelector('ids-expandable-area'), () => {
-      this.onPicklistExpand();
-    });
+    if (this.expandableArea) {
+      this.offEvent('afterexpand');
+      this.onEvent('afterexpand', this.expandableArea, () => {
+        this.onPicklistExpand();
+      });
 
-    this.offEvent('beforecollapse');
-    this.onEvent('beforecollapse', this.container?.querySelector('ids-expandable-area'), () => {
-      this.onPicklistCollapse();
-    });
+      this.offEvent('beforecollapse');
+      this.onEvent('beforecollapse', this.expandableArea, () => {
+        this.onPicklistCollapse();
+      });
+    }
   }
 
   private attachEventListeners() {
@@ -987,16 +1002,12 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     const year = date.getFullYear();
     const day = date.getDate();
 
-    if (this.year !== year) {
-      this.year = year;
-    }
+    if (this.year !== year) this.year = year;
+    if (this.month !== month) this.month = month;
+    if (this.day !== day) this.day = day;
 
-    if (this.month !== month) {
-      this.month = month;
-    }
-
-    if (this.day !== day) {
-      this.day = day;
+    if (this.hasTime()) {
+      if (this.timepicker) this.timepicker.value = this.value;
     }
 
     if (this.monthView) {
