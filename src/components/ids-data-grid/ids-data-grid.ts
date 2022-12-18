@@ -125,6 +125,10 @@ export default class IdsDataGrid extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.redrawBody();
+    this.#attachVirtualScrollEvent();
+  }
+
+  #attachVirtualScrollEvent() {
     this.container?.style.setProperty('max-height', '95vh');
 
     let nextRowIndex = 0;
@@ -251,99 +255,7 @@ export default class IdsDataGrid extends Base {
       });
     }, { capture: true, passive: true });
     // });
-
-    // this.#attachScrollEvent();
   }
-
-  // #attachScrollEvent() {
-  //   // const rootNode = this.getRootNode();
-  //   // const idsContainer = rootNode.querySelector('ids-container');
-  //   // this.onEvent('scroll', idsContainer?.container, (evt) => {});
-
-  //   let nextRowIndex = 0;
-  //   let prevRowIndex = 0;
-  //   let previousTimestamp = 0;
-  //   let previousScrollTop = 0;
-  //   let requestAnimationFrameRef: any = null;
-
-  //   this.container?.style.setProperty('max-height', '90vh');
-  //   let scrollBufferSize = 0;
-  //   this.onEvent('scroll', this.container, (evt) => {
-  //     if (requestAnimationFrameRef) {
-  //       cancelAnimationFrame(requestAnimationFrameRef);
-  //     }
-
-  //     const body = this.body;
-  //     const data = this.data;
-  //     const rows = this.rows;
-  //     const first = rows[0];
-  //     const firstRowViewport = first?.viewport;
-  //     // console.log('firstRowViewport', firstRowViewport);
-  //     this.container?.style.setProperty('height', `${data.length * firstRowViewport.height}px`);
-
-  //     const last = rows[rows.length - 1];
-  //     const lastRowViewport = last?.viewport;
-
-  //     const firstRowIndex = first?.rowIndex;
-  //     const lastRowIndex = last?.rowIndex;
-  //     prevRowIndex = firstRowIndex - 1;
-  //     nextRowIndex = lastRowIndex + 1;
-
-  //     const numRows = this.data.length;
-  //     if (prevRowIndex < -1 || nextRowIndex > numRows) return;
-  //     // this.#updateScrollBuffer(scrollBufferSize);
-
-  //     requestAnimationFrameRef = requestAnimationFrame((timestamp) => {
-  //       console.log('timestamp, UP, DOWN', timestamp, firstRowViewport.isMovingUp, firstRowViewport.isMovingDown);
-  //       // if (timestamp === previousTimestamp) return;
-  //       // # This timestamp conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
-  //       if (timestamp <= (previousTimestamp + 300)) return;
-  //       previousTimestamp = timestamp;
-
-  //       const recycleRows: any[] = [];
-  //       // const visibleRows = rows.filter((row) => row.viewport.isWithin);
-  //       // console.log('visibleRows', visibleRows)
-
-  //       if (firstRowViewport.isMovingDown) {
-  //         // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-  //         const reversedRows = rows.reverse();
-  //         reversedRows
-  //           .every((row, idx) => {
-  //             const currentIndex = prevRowIndex - idx;
-  //             const rowViewport = row.viewport;
-  //             if (currentIndex < 0 || !rowViewport.isBelow) {
-  //               return false;
-  //             }
-  //             scrollBufferSize -= rowViewport.height;
-  //             row.rowIndex = currentIndex;
-  //             return recycleRows.unshift(row);
-  //           });
-
-  //         // NOTE: body.prepend is faster than body.innerHTML
-  //         body.prepend(...recycleRows);
-  //       } else if (firstRowViewport.isMovingUp) {
-  //         // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-  //         rows.every((row, idx) => {
-  //           const currentIndex = nextRowIndex + idx;
-  //           const rowViewport = row.viewport;
-  //           if (currentIndex >= numRows || !rowViewport.isAbove) {
-  //             return false;
-  //           }
-  //           // console.log('scrollBufferSize, rowViewport.height', scrollBufferSize, rowViewport.height);
-  //           // scrollBufferSize = row.offsetTop + rowViewport.height;
-  //           scrollBufferSize += rowViewport.height;
-  //           row.rowIndex = currentIndex;
-  //           return recycleRows.push(row);
-  //         });
-
-  //         // NOTE: body.append is faster than body.innerHTML
-  //         // NOTE: body.append is faster than multiple calls to appendChild()
-  //         body.append(...recycleRows);
-  //       }
-  //       // this.body?.style.setProperty('transform', `translateY(${scrollBufferSize}px)`);
-  //     });
-  //   }, { passive: true });
-  // }
 
   /** Reference to datasource API */
   readonly datasource: IdsDataSource = new IdsDataSource();
