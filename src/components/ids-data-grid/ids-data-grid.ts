@@ -129,8 +129,6 @@ export default class IdsDataGrid extends Base {
   }
 
   #attachVirtualScrollEvent() {
-    this.container?.style.setProperty('max-height', '95vh');
-
     let nextRowIndex = 0;
     let prevRowIndex = 0;
     let previousScrollTop = 0;
@@ -142,7 +140,7 @@ export default class IdsDataGrid extends Base {
     let topRowIndex = 0;
     let bottomRowIndex = 0;
 
-    // this.body?.style.setProperty('transform', `translateY(${1580 * 50}px)`);
+    this.container?.style.setProperty('max-height', '95vh');
 
     this.onEvent('scroll', this.container, (evt) => {
       if (requestAnimationFrameRef) {
@@ -166,8 +164,8 @@ export default class IdsDataGrid extends Base {
       prevRowIndex = firstRowIndex - 1;
       nextRowIndex = lastRowIndex + 1;
 
-      if (this.data.length !== numRows) {
-        numRows = this.data.length;
+      if (data.length !== numRows) {
+        numRows = data.length;
         this.body?.style.setProperty('height', `${(numRows - VIRTUAL_SCROLL_NUM_ROWS) * VIRTUAL_SCROLL_ROW_HEIGHT}px`);
       }
 
@@ -180,7 +178,6 @@ export default class IdsDataGrid extends Base {
       requestAnimationFrameRef = requestAnimationFrame((timestamp) => {
         // # This timestamp-conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
         if (timestamp <= (previousTimestamp + 60)) return;
-        // if (timestamp <= (previousTimestamp + 120)) return;
         previousTimestamp = timestamp;
 
         const recycleRows: any[] = [];
