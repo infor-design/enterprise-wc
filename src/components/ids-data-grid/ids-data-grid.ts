@@ -48,7 +48,7 @@ const Base = IdsThemeMixin(
 
 const VIRTUAL_SCROLL_NUM_ROWS = 150; // TODO: make a getter/setter
 const VIRTUAL_SCROLL_ROW_HEIGHT = 51; // TODO: make a getter/setter
-const VIRTUAL_SCROLL_BUFFER_SIZE = 10 * VIRTUAL_SCROLL_ROW_HEIGHT; // TODO: make a getter/setter
+const VIRTUAL_SCROLL_BUFFER_SIZE = 20 * VIRTUAL_SCROLL_ROW_HEIGHT; // TODO: make a getter/setter
 
 /**
  * IDS Data Grid Component
@@ -101,17 +101,6 @@ export default class IdsDataGrid extends Base {
     return this.container?.querySelector<HTMLElement>('.ids-data-grid-body');
   }
 
-  get buffer() {
-    let buffer = this.container?.querySelector<HTMLElement>('.ids-data-grid-buffer');
-    if (!buffer) {
-      buffer = document.createElement('div');
-      buffer.classList.add('ids-data-grid-buffer');
-      buffer.style.height = '1px';
-      this.header.insertAdjacentElement('afterend', buffer);
-    }
-    return buffer;
-  }
-
   get rows() {
     // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
     return [...this.container?.querySelectorAll<HTMLElement>('.ids-data-grid-body ids-data-grid-row')];
@@ -129,6 +118,8 @@ export default class IdsDataGrid extends Base {
   }
 
   #attachVirtualScrollEvent() {
+    // const debounce = 5;
+    // let debounceInterval = 0;
     let nextRowIndex = 0;
     let prevRowIndex = 0;
     let previousScrollTop = 0;
@@ -143,6 +134,12 @@ export default class IdsDataGrid extends Base {
     this.container?.style.setProperty('max-height', '95vh');
 
     this.onEvent('scroll', this.container, (evt) => {
+      // debounceInterval++;
+      // if (debounceInterval % debounce !== 0) {
+      //   return;
+      // }
+      // console.log('debounceInterval', debounceInterval);
+
       if (requestAnimationFrameRef) {
         cancelAnimationFrame(requestAnimationFrameRef);
       }
@@ -169,7 +166,6 @@ export default class IdsDataGrid extends Base {
         this.body?.style.setProperty('height', `${(numRows - VIRTUAL_SCROLL_NUM_ROWS) * VIRTUAL_SCROLL_ROW_HEIGHT}px`);
       }
 
-      // console.log('prevRowIndex, nextRowIndex', prevRowIndex, nextRowIndex);
       if (prevRowIndex < -1 || nextRowIndex > numRows) return;
 
       const headerGeometry = this.header?.getBoundingClientRect();
@@ -193,7 +189,6 @@ export default class IdsDataGrid extends Base {
               // const isOffScreen = rowViewport.y > (window.innerHeight + VIRTUAL_SCROLL_BUFFER_SIZE);
               // const isOffScreen = rowViewport.bottom > (window.innerHeight + VIRTUAL_SCROLL_BUFFER_SIZE);
               if (!isOffScreen) {
-                bottomRowIndex = row.rowIndex;
                 return false;
               }
               if (currentIndex < 0) {
@@ -211,20 +206,15 @@ export default class IdsDataGrid extends Base {
 
           // NOTE: body.prepend is faster than body.innerHTML
           body.prepend(...recycleRows);
-          // const bodyOffsetY = bottomRowIndex * VIRTUAL_SCROLL_ROW_HEIGHT;
-          // body?.style.setProperty('transform', `translateY(${bodyOffsetY}px)`);
-
           prevBodyOffsetHeight -= (recycleRows.length * VIRTUAL_SCROLL_ROW_HEIGHT);
-          // prevBodyOffsetHeight -= bodyOffsetHeight;
           body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
-        }
-        if (isScrollingDown) {
+        } else if (isScrollingDown) {
           rows.every((row, idx) => {
             const currentIndex = nextRowIndex + idx;
             const rowViewport = row.viewport;
             const isOffScreen = rowViewport.y < (headerGeometry.y - (VIRTUAL_SCROLL_BUFFER_SIZE));
             if (!isOffScreen) {
-              topRowIndex = row.rowIndex;
+              // topRowIndex = row.rowIndex;
               return false;
             }
             if (currentIndex >= numRows) {
@@ -243,8 +233,10 @@ export default class IdsDataGrid extends Base {
           if (recycleRows.length < 1) return;
           // NOTE: body.append is faster than body.innerHTML
           // NOTE: body.append is faster than multiple calls to appendChild()
-          body.append(...recycleRows);
           // prevBodyOffsetHeight = bodyOffsetHeight + prevBodyOffsetHeight;
+          // NOTE: getting topRowIndex from this.rows[0] is the most reliable approach, but it's less performant
+          body.append(...recycleRows);
+          topRowIndex = this.rows[0].rowIndex;
           prevBodyOffsetHeight = topRowIndex * VIRTUAL_SCROLL_ROW_HEIGHT;
           body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
           bodyOffsetHeight = 0;

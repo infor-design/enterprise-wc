@@ -28,25 +28,6 @@ export default class IdsDataGridRow extends IdsElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    // this.innerHTML = this.cellsHTML();
-    // this.loadCells();
-  }
-
-  loadCells() {
-    const rowIndex = this.rowIndex;
-    if (rowIndex < 0) return '';
-
-    const ariaIndex = rowIndex;
-    const data = this.data;
-    const row = data[rowIndex];
-
-    const cellsHtml = this.visibleColumns.map((column: IdsDataGridColumn) => {
-      // const content = this.cellTemplate(row, column, ariaIndex);
-      const content = IdsDataGridCell.template(row, column, ariaIndex, this.parentDataGrid);
-      return `<span slot="${column.id}">${content}</span>`;
-    }).join('');
-
-    this.innerHTML = cellsHtml;
   }
 
   /**
@@ -97,7 +78,9 @@ export default class IdsDataGridRow extends IdsElement {
     if (oldValue === newValue) return;
 
     if (name === attributes.ROW_INDEX) {
-      this.innerHTML = this.cellsHTML();
+      requestAnimationFrame(() => {
+        this.innerHTML = this.cellsHTML();
+      });
     }
   }
 
