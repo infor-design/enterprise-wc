@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">Data Grid (Custom Empty Message thru Settings)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-data-grid
+          id="data-grid-empty-message-custom-thru-settings"
+          empty-message-description="There is no data available for this filter, please make a new selection to see more results."
+          empty-message-icon="empty-error-loading-new"
+          empty-message-label="No Data (thru Settings)"
+          row-selection="multiple"
+          label="Books"
+          row-height="md"
+          pagination="client-side"
+          page-number="1"
+          page-size="10"
+        >
+        </ids-data-grid>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+  </ids-container>
+</body>
+</html>

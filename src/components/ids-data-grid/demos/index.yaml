@@ -146,6 +146,15 @@
   - link: save-settings-manual.html
     type: Example
     description: Shows a data grid to save manualy user settings
+  - link: empty-message.html
+    type: Example
+    description: Shows a data grid with empty message
+  - link: empty-message-custom-thru-slot.html
+    type: Example
+    description: Shows a data grid with custom empty message (thru slot)
+  - link: empty-message-custom-thru-settings.html
+    type: Example
+    description: Shows a data grid with custom empty message (thru settings)
   - link: xss-prevention.html
     type: Test
     description: Shows a data grid can prevent xss
