@@ -29,18 +29,18 @@
 
   + .picklist-section {
     &::before {
-        @include absolute();
-        @include bg-slate-30();
+      @include absolute();
+      @include bg-slate-30();
 
-        content: ' ';
-        width: 1px;
-        left: 0;
-        right: 0;
-        margin-left: auto;
-        margin-right: auto;
-        height: calc(75% + 14px);
-        top: calc(12.5% - 4px);
-      }
+      content: ' ';
+      width: 1px;
+      left: 0;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      height: calc(75% + 14px);
+      top: calc(12.5% - 4px);
+    }
   }
 }
 

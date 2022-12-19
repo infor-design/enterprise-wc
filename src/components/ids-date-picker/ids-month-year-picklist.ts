@@ -28,6 +28,7 @@ import styles from './ids-month-year-picklist.scss';
  * IDS Month/Year PickList Component
  * @type {IdsMonthYearPicklist}
  * @inherits IdsElement
+ * @mixes IdsDateAttributeMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsLocaleMixin

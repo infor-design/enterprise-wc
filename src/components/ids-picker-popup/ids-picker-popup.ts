@@ -1,6 +1,5 @@
-import { customElement, scss } from '../../core/ids-decorators';
+import { customElement } from '../../core/ids-decorators';
 import Base from './ids-picker-popup-base';
-import styles from './ids-picker-popup.scss';
 
 /**
  * IDS Picker Popup Component
@@ -18,7 +17,6 @@ export interface IdsPickerPopupCallbacks {
 }
 
 @customElement('ids-picker-popup')
-@scss(styles)
 class IdsPickerPopup extends Base {
   constructor() {
     super();

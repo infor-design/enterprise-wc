@@ -48,9 +48,10 @@ type IdsDatePickerPopupButton = IdsToggleButton | IdsModalButton | IdsButton;
 /**
  * IDS Date Picker Popup Component
  * @type {IdsDatePickerPopup}
- * @inherits IdsPopup
+ * @inherits IdsPickerPopup
  * @mixes IdsDateAttributeMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsMonthViewAttributeMixin
  */
 @customElement('ids-date-picker-popup')
 @scss(styles)

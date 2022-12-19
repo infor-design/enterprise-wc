@@ -47,13 +47,14 @@ type IdsDatePickerPopupRef = IdsDatePickerPopup | null | undefined;
  * @type {IdsDatePicker}
  * @inherits IdsElement
  * @mixes IdsColorVariantMixin
+ * @mixes IdsDateAttributeMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsEventsMixin
  * @mixes IdsFieldHeightMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsLabelStateParentMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsPopupOpenEventsMixin
+ * @mixes IdsMonthViewAttributeMixin
  * @mixes IdsThemeMixin
  * @part container - the container of the component
  * @part trigger-field - the trigger container
