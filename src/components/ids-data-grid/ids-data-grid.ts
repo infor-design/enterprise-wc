@@ -118,8 +118,8 @@ export default class IdsDataGrid extends Base {
   }
 
   #attachVirtualScrollEvent() {
-    // const debounce = 5;
-    // let debounceInterval = 0;
+    const debounceRate = 3;
+    let debounceInterval = 0;
     let nextRowIndex = 0;
     let prevRowIndex = 0;
     let previousScrollTop = 0;
@@ -135,10 +135,9 @@ export default class IdsDataGrid extends Base {
 
     this.onEvent('scroll', this.container, (evt) => {
       // debounceInterval++;
-      // if (debounceInterval % debounce !== 0) {
+      // if (debounceInterval % debounceRate !== 0) {
       //   return;
       // }
-      // console.log('debounceInterval', debounceInterval);
 
       if (requestAnimationFrameRef) {
         cancelAnimationFrame(requestAnimationFrameRef);
@@ -243,7 +242,6 @@ export default class IdsDataGrid extends Base {
         }
       });
     }, { capture: true, passive: true });
-    // });
   }
 
   /** Reference to datasource API */
