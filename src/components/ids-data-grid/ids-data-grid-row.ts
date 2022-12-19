@@ -39,21 +39,16 @@ export default class IdsDataGridRow extends IdsElement {
     return (this.rootNode.host) as IdsDataGrid;
   }
 
-  get parentDataGrid() {
-    // TODO add check to ensure this is actually a DataGrid element
-    return this.getRootNode()?.host;
-  }
-
   get data(): Record<string, any>[] {
-    return this.parentDataGrid?.data || [];
+    return this.dataGrid?.data || [];
   }
 
   get columns(): IdsDataGridColumn[] {
-    return this.parentDataGrid?.columns || [];
+    return this.dataGrid?.columns || [];
   }
 
   get visibleColumns(): IdsDataGridColumn[] {
-    return this.parentDataGrid?.visibleColumns || [];
+    return this.dataGrid?.visibleColumns || [];
   }
 
   get viewport() {
@@ -278,21 +273,6 @@ export default class IdsDataGridRow extends IdsElement {
       >
       </ids-data-grid-row>
     `;
-
-    // return `
-    //   <ids-data-grid-row 
-    //     row-index="${index}"
-    //     role="row"
-    //     part="row"
-    //     aria-rowindex="${ariaRowIndex}"
-    //     data-index="${index}"
-    //     ${isHidden}
-    //     class="ids-data-grid-row${rowClasses}"
-    //     ${treeAttrs}
-    //   >
-    //     ${IdsDataGridRow.cellsHTML(row, index, ariaRowIndex, dataGrid)}
-    //   </ids-data-grid-row>
-    // `;
   }
 
   /**
