@@ -1110,8 +1110,8 @@ Set empty message thru slot (markup).
 ```html
 <ids-data-grid id="data-grid-em-thru-slot" label="Books">
   <ids-empty-message hidden icon="empty-search-data-new" slot="empty-message">
-    <ids-text type="h2" font-size="20" label="true" slot="label">No Data (thru Slot)</ids-text>
-    <ids-text hidden label="true" slot="description">There is no data available for this filter.</ids-text>
+    <ids-text type="h2" font-size="20" label="true" slot="label">No Data</ids-text>
+    <ids-text hidden label="true" slot="description">There is no data available.</ids-text>
   </ids-empty-message>
 </ids-data-grid>
 ```
@@ -1123,8 +1123,8 @@ Set empty message thru settings (markup).
   id="data-grid-em-thru-settings"
   label="Books"
   empty-message-icon="empty-error-loading-new"
-  empty-message-label="No Data (thru Settings - markup)"
-  empty-message-description="There is no data available for this filter"
+  empty-message-label="No Data"
+  empty-message-description="There is no data available."
 ></ids-data-grid>
 ```
 
@@ -1138,8 +1138,8 @@ Set empty message thru settings (javascript).
 ```js
 const dataGrid = document.querySelector('#data-grid-em-thru-settings-js');
 dataGrid.emptyMessageIcon = 'empty-error-loading-new';
-dataGrid.emptyMessageLabel = 'No Data (thru Settings - js)';
-dataGrid.emptyMessageDescription = 'There is no data available for this filter';
+dataGrid.emptyMessageLabel = 'No Data';
+dataGrid.emptyMessageDescription = 'There is no data available.';
 ```
 
 ## States and Variations
