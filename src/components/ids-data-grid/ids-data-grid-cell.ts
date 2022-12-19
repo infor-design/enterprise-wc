@@ -55,6 +55,8 @@ export default class IdsDataGridCell extends IdsElement {
     return this.dataGrid.activeCell;
   }
 
+  static cellCache: { [key: string]: string } = {};
+
   /**
    * Return the Template for the cell contents
    * @param {object} row The data item for the row
@@ -64,8 +66,20 @@ export default class IdsDataGridCell extends IdsElement {
    * @returns {string} The template to display
    */
   static template(row: Record<string, unknown>, column: IdsDataGridColumn, index: number, dataGrid: IdsDataGrid): string {
-    const dataGridFormatters = (dataGrid.formatters as any);
-    if (!dataGridFormatters[column?.formatter?.name || 'text'] && column?.formatter) return column?.formatter(row, column, index, dataGrid);
-    return dataGridFormatters[column?.formatter?.name || 'text'](row, column, index, dataGrid);
+    const cacheKey = `${column.id}:${index}`;
+
+    // NOTE: this type of param-based caching is good for upscroll when revising rows that have been seen already.
+    // NOTE: we also need a content-cache that caches based on the actual data that's being rendered
+    // NOTE: content-cache should probably be done in the IdsDataGridFormatters class
+    if (!IdsDataGridCell.cellCache[cacheKey]) {
+      const dataGridFormatters = (dataGrid.formatters as any);
+      if (!dataGridFormatters[column?.formatter?.name || 'text'] && column?.formatter) {
+        IdsDataGridCell.cellCache[cacheKey] = column?.formatter(row, column, index, dataGrid);
+      } else {
+        IdsDataGridCell.cellCache[cacheKey] = dataGridFormatters[column?.formatter?.name || 'text'](row, column, index, dataGrid);
+      }
+    }
+
+    return IdsDataGridCell.cellCache[cacheKey];
   }
 }
