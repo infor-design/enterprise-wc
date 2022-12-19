@@ -647,6 +647,13 @@ export default class IdsCalendar extends Base {
   #attachFormEventHandlers(): void {
     const popup = this.#getEventFormPopup();
 
+    // Don't allow IdsDatePicker `dayselected` events from inside this form
+    // to propagate to the main IdsMonthView
+    this.offEvent('dayselected.calendar-event-form');
+    this.onEvent('dayselected.calendar-event-form', popup, (evt: CustomEvent) => {
+      evt.stopPropagation();
+    });
+
     this.offEvent('click.calendar-event-form', popup);
     this.onEvent('click.calendar-event-form', popup, (evt: any) => {
       if (evt.target && evt.target.tagName === 'IDS-BUTTON') {

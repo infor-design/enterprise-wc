@@ -283,7 +283,7 @@ class IdsDatePicker extends Base {
 
       // Configure inner IdsPopup
       this.#picker.popup?.setAttribute(attributes.ARROW_TARGET, `#${this.#triggerButton.getAttribute('id')}`);
-      this.#picker.popup?.setAttribute(attributes.ALIGN, `bottom, ${this.locale.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
+      if (this.locale && this.locale.isRTL) this.#picker.popup?.setAttribute(attributes.ALIGN, `bottom, ${this.locale.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
 
       this.#picker.refreshTriggerEvents();
 
@@ -329,6 +329,7 @@ class IdsDatePicker extends Base {
     this.offEvent('dayselected.date-picker-popup');
     this.onEvent('dayselected.date-picker-popup', this.#picker, (e: IdsDayselectedEvent) => {
       this.setAttribute(attributes.VALUE, e.detail.value);
+      this.parseEventDate(e.detail.value);
       this.#triggerField?.setAttribute(attributes.VALUE, e.detail.value);
     });
 
@@ -521,13 +522,39 @@ class IdsDatePicker extends Base {
     ) : null;
 
     if (this.#picker) {
-      this.#picker.rangeSettings = {
-        start: rangeStart,
-        end: rangeEnd
-      };
+      this.#picker.rangeSettings.start = rangeStart;
+      this.#picker.rangeSettings.end = rangeEnd;
     }
 
     setDateParams((rangeStart as Date) ?? new Date());
+  }
+
+  /**
+   * Takes a date string value (presumably passed from an event) and converts
+   * the value to day/month/year attributes
+   * @param {string} val stringified date
+   */
+  parseEventDate(val: string) {
+    if (!val || typeof val !== 'string') return;
+
+    const date = new Date(val);
+    if (!isValidDate(date)) return;
+
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const day = date.getDate();
+
+    if (this.year !== year) {
+      this.year = year;
+    }
+
+    if (this.month !== month) {
+      this.month = month;
+    }
+
+    if (this.day !== day) {
+      this.day = day;
+    }
   }
 
   /**

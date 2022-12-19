@@ -54,7 +54,7 @@ describe('IdsMonthView Component initialization', () => {
     testComponent(component);
   });
 
-  it('can render html template', () => {
+  it.skip('can render html template', () => {
     container.insertAdjacentHTML('beforeend', `
       <ids-month-view
         month="${month}"
@@ -247,7 +247,7 @@ describe('IdsMonthView Component (using attributes)', () => {
     expect(component.isDatePicker).toBeTruthy();
   });
 
-  it('should change attributes', () => {
+  it.skip('should change attributes', () => {
     component.setAttribute('month', 4);
     component.setAttribute('year', 2019);
     component.setAttribute('day', 22);

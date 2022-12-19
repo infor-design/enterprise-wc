@@ -813,9 +813,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
           this.setTime(this.rangeSettings.start ?? this.monthView.activeDate),
           { pattern: this.format }
         );
-        this.rangeSettings = {
-          start: this.monthView.activeDate
-        };
+        this.rangeSettings.start = this.monthView.activeDate;
       }
 
       return;
@@ -838,11 +836,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    */
   clear() {
     this.expanded = false;
-
-    this.rangeSettings = {
-      start: null,
-      end: null
-    };
+    this.resetRangeSettings();
     this.value = '';
     this.triggerSelectedEvent();
   }

@@ -49,6 +49,14 @@ class IdsPickerPopup extends Base {
    */
   vetoableEventTypes: Array<string> = ['beforeshow'];
 
+  /**
+   * @readonly
+   * @returns {boolean} true if the inner IdsPopup is visible
+   */
+  get visible() {
+    return this.popup?.visible || false;
+  }
+
   onHide?(): void;
 
   /**

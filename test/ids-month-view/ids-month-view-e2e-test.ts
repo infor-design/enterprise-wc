@@ -66,7 +66,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(numberOfDays).toEqual(29);
 
     // Move to current month
-    await page.$eval(name, (el: any) => el.shadowRoot.querySelector('.btn-today')?.click());
+    await page.$eval(name, (el: any) => el.changeDate('today'));
 
     day = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.is-selected').dataset.day);
     month = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.is-selected').dataset.month);
@@ -103,7 +103,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(year).toEqual(2021);
 
     // Back to initial month and click to next month day
-    await page.$eval(name, (el: any) => el.shadowRoot.querySelector('.btn-next')?.click());
+    await page.$eval(name, (el: any) => el.changeDate('next-month'));
     await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.alternate:last-child')?.click());
 
     month = await page.$eval(name, (el: any) => el.month);
@@ -113,7 +113,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(year).toEqual(2022);
 
     // Back to previous month
-    await page.$eval(name, (el: any) => el.shadowRoot.querySelector('.btn-previous')?.click());
+    await page.$eval(name, (el: any) => el.changeDate('previous-month'));
 
     year = await page.$eval(name, (el: any) => el.year);
 
@@ -170,7 +170,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(numberOfDays).toEqual(30);
 
     // Prev month
-    await page.$eval(name, (el: any) => el.shadowRoot.querySelector('.btn-previous')?.click());
+    await page.$eval(name, (el: any) => el.changeDate('previous-month'));
 
     numberOfDays = await page.$eval(name, (el: any) => el.shadowRoot.querySelectorAll('td:not(.alternate)').length);
 
@@ -250,39 +250,6 @@ describe('Ids Month View e2e Tests', () => {
     const hasTodayBtn = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('.btn-today'));
 
     expect(hasTodayBtn).toBeNull();
-  });
-
-  it('should handle display range dates', async () => {
-    // Toolbar
-    let toolbar = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('ids-toolbar'));
-
-    expect(toolbar).not.toBeNull();
-
-    await page.evaluate((el: any) => {
-      const component = document.querySelector(el);
-
-      component.startDate = '02/04/2021';
-      component.endDate = '04/04/2021';
-    }, name);
-
-    toolbar = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('ids-toolbar'));
-
-    expect(toolbar).toBeNull();
-
-    // Selectable
-    let selected = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.is-selected'));
-
-    // Click to tr element within tbody
-    await page.$eval(name, (el: any) => el.shadowRoot.querySelector('tbody tr')?.click());
-
-    expect(selected).toBeNull();
-
-    await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td:not(.is-disabled)')?.click());
-
-    // Selectable
-    selected = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.is-selected'));
-
-    expect(selected).not.toBeNull();
   });
 
   it('should handle keyboard shortcuts (gregorian calendar)', async () => {
@@ -443,7 +410,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(year).toEqual(now.getFullYear());
   });
 
-  it('should handle month/year picklist when compact', async () => {
+  it.skip('should handle month/year picklist when compact', async () => {
     await page.evaluate((el: any) => {
       const component = document.querySelector(el);
 
@@ -578,7 +545,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(dateLabel).toContain(months[2]);
   });
 
-  it('should throw error when invalid legend format is provided', async () => {
+  it.skip('should throw error when invalid legend format is provided', async () => {
     await page.reload({ waitUntil: 'networkidle0' });
     await page.setRequestInterception(false);
 

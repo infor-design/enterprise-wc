@@ -7,7 +7,7 @@ export const MAX_EVENT_COUNT = 3;
 export type IdsRangeSettings = {
   start?: any,
   end?: any,
-  separator?: string,
+  separator: string,
   minDays?: number,
   maxDays?: number,
   selectForward?: boolean,

@@ -16,6 +16,8 @@ import '../ids-date-picker/ids-date-picker-popup';
 import '../ids-time-picker/ids-time-picker';
 
 import type IdsMenuItem from '../ids-menu/ids-menu-item';
+import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
 
 // Instance counter
 let instanceCounter = 0;
@@ -259,15 +261,19 @@ export default class IdsDataGridFilters {
    * @param {string} operator filter type.
    * @returns {void}
    */
-  #setDatePicker(datePicker: any, operator?: string): void {
+  #setDatePicker(datePicker: IdsTriggerField, operator?: string): void {
     if (datePicker) {
-      if (operator === 'in-range') {
-        datePicker.useRange = true;
-      } else {
-        const startDateValue = datePicker.value.split(datePicker.rangeSettings.separator)[0];
-        datePicker.rangeSettings = { start: null, end: null };
-        datePicker.useRange = false;
-        if (datePicker.value !== startDateValue) datePicker.value = startDateValue;
+      const popupId = datePicker.getAttribute('id')?.replace('field-', 'popup-');
+      const popupEl: IdsDatePickerPopup = this.root.querySelector(popupId)!;
+      if (popupEl) {
+        if (operator === 'in-range') {
+          popupEl.useRange = true;
+        } else {
+          const startDateValue = popupEl.value.split(popupEl.rangeSettings.separator)[0];
+          popupEl.resetRangeSettings();
+          popupEl.useRange = false;
+          if (popupEl.value !== startDateValue) popupEl.value = startDateValue;
+        }
       }
     }
   }
@@ -287,20 +293,20 @@ export default class IdsDataGridFilters {
 
         const input = node.querySelector('ids-input');
         const dropdown = node.querySelector('ids-dropdown');
-        const datePicker = node.querySelector('ids-date-picker');
+        const triggerField = node.querySelector('ids-trigger-field');
         const timePicker = node.querySelector('ids-time-picker');
         const btn = node.querySelector('ids-menu-button');
 
         if (input) input.value = initial?.input?.value || '';
         if (dropdown) dropdown.value = initial?.dropdown?.value || '';
-        if (datePicker) datePicker.value = initial?.datePicker?.value || '';
+        if (triggerField) triggerField.value = initial?.triggerField?.value || '';
         if (timePicker) timePicker.value = initial?.timePicker?.value || '';
         if (btn) {
           let item = btn.menuEl.items.filter((itm: any) => itm.value === initial?.btn?.value)[0];
           if (!item) item = btn.menuEl.items[0];
           if (item) {
             btn.menuEl.selectItem(item);
-            if (datePicker) this.#setDatePicker(datePicker, item.value);
+            if (triggerField) this.#setDatePicker(triggerField, item.value);
           }
         }
       }
@@ -326,13 +332,13 @@ export default class IdsDataGridFilters {
         const input = node.querySelector('ids-input');
         const btn = node.querySelector('ids-menu-button');
         const dropdown = node.querySelector('ids-dropdown');
-        const datePicker = node.querySelector('ids-date-picker');
+        const triggerField = node.querySelector('ids-trigger-field');
         const timePicker = node.querySelector('ids-time-picker');
         const headerElem = node.closest('.ids-data-grid-header-cell');
         const columnData = this.root.columnDataByHeaderElem(headerElem);
 
         if (input) input.value = c.value || '';
-        if (datePicker) datePicker.value = c.value || '';
+        if (triggerField) triggerField.value = c.value || '';
         if (timePicker) timePicker.value = c.value || '';
         if (dropdown) {
           dropdown.value = c.value || '';
@@ -348,8 +354,8 @@ export default class IdsDataGridFilters {
           if (!item) item = btn.menuEl.items[0];
           if (item) btn.menuEl.selectItem(item);
         }
-        if (!c.filterElem) c.filterElem = timePicker || datePicker || dropdown || input;
-        this.#setDatePicker(datePicker, c.operator);
+        if (!c.filterElem) c.filterElem = timePicker || triggerField || dropdown || input;
+        this.#setDatePicker(triggerField, c.operator);
       }
     });
     if (toBeRemoved.length) conditions = conditions.filter((c, i) => !toBeRemoved.includes(i));
@@ -371,7 +377,6 @@ export default class IdsDataGridFilters {
         const triggerField = node.querySelector('ids-trigger-field');
         const btn = node.querySelector('ids-menu-button');
         const dropdown = node.querySelector('ids-dropdown');
-        const datePicker = node.querySelector('ids-date-picker');
         const timePicker = node.querySelector('ids-time-picker');
         if (!btn && !input && !triggerField && !dropdown) return;
 
@@ -380,7 +385,7 @@ export default class IdsDataGridFilters {
         let operator = btn?.menuEl?.getSelectedValues()[0];
         if (!operator) operator = btn?.menuEl?.items?.[0]?.value;
         if (!operator && !btn && input) operator = 'contains';
-        const value = input?.value ?? triggerField?.value ?? dropdown?.value ?? datePicker?.value ?? timePicker?.value ?? '';
+        const value = input?.value ?? triggerField?.value ?? dropdown?.value ?? timePicker?.value ?? '';
         if (dropdown) {
           operator = 'equals';
           if (value === this.#dropdownNotFilterItem(columnData).value) return;
@@ -390,12 +395,12 @@ export default class IdsDataGridFilters {
           columnData.formatOptions.dateFormat = timePicker.format;
           columnData.formatOptions.timeStyle = 'short';
         }
-        this.#setDatePicker(datePicker, operator);
+        this.#setDatePicker(triggerField, operator);
 
         if (operator === 'selected-notselected') return;
         if (value === '' && !dropdown && !(/\b(is-not-empty|is-empty|selected|not-selected)\b/g.test(operator))) return;
 
-        const filterElem = timePicker || datePicker || dropdown || triggerField || input;
+        const filterElem = timePicker || dropdown || triggerField || input;
 
         const condition = {
           columnId: columnData.id,
@@ -553,10 +558,11 @@ export default class IdsDataGridFilters {
 
           let values = null;
           if (c.operator === 'in-range') { // range stuff
-            const datePicker = c.filterElem;
-            if (datePicker) {
-              if (c.value.indexOf(datePicker.rangeSettings.separator) > -1) {
-                const cValues = c.value.split(datePicker.rangeSettings.separator);
+            // const filterElem: IdsTriggerField = c.filterElem;
+            const datePickerPopup: IdsDatePickerPopup = this.root.querySelector(`#${c.filterElem.getAttribute('aria-controls')}`)!;
+            if (datePickerPopup) {
+              if (c.value.indexOf(datePickerPopup.rangeSettings.separator) > -1) {
+                const cValues = c.value.split(datePickerPopup.rangeSettings.separator);
                 const range = { start: getValues(value, cValues[0]), end: getValues(value, cValues[1]) };
                 values = {
                   rValue: range.start.rValue,
