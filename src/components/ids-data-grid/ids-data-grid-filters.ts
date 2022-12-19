@@ -17,7 +17,7 @@ import '../ids-time-picker/ids-time-picker';
 
 import type IdsMenuItem from '../ids-menu/ids-menu-item';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
-import IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
+import type IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
 
 // Instance counter
 let instanceCounter = 0;

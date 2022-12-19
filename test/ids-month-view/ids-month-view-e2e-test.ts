@@ -956,7 +956,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(todayEl).not.toBeNull();
   });
 
-  it('should show week numbers picklist', async () => {
+  it.skip('should show week numbers picklist', async () => {
     await page.evaluate(() => {
       document.querySelector('ids-container')?.insertAdjacentHTML(
         'afterbegin',
