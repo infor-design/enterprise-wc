@@ -184,7 +184,10 @@ describe('IdsDataGrid Component', () => {
       formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
         const value = `Custom: ${rowData[columnData.field] || '0'}`;
         return `<span class="text-ellipsis">${value}</span>`;
-      }
+      },
+      editor: {
+        type: 'input'
+      },
     });
     return cols;
   };
@@ -1246,15 +1249,14 @@ describe('IdsDataGrid Component', () => {
       }];
 
       const cols = (dataGrid).columns;
-      (dataset[1] as any).dirtyCells = [];
-      (dataset[1] as any).dirtyCells.push({
+      dataGrid.data[1].dirtyCells = [];
+      dataGrid.data[1].dirtyCells.push({
         row: 1, cell: 0, columnId: 'price', originalValue: '12.99'
       });
-      (dataset[2] as any).dirtyCells = [];
-      (dataset[2] as any).dirtyCells.push({
+      dataGrid.data[2].dirtyCells = [];
+      dataGrid.data[2].dirtyCells.push({
         row: 2, cell: 0, columnId: 'price', originalValue: '13.99'
       });
-      dataGrid.redraw();
 
       expect(cols[0].id).toBe('price');
       expect(cols[1].id).toBe('bookCurrency');
@@ -2154,6 +2156,17 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.rowByIndex(1).classList.contains('mixed')).toBeFalsy();
     });
 
+    it('handles a deSelectRow method', () => {
+      dataGrid.rowNavigation = true;
+      dataGrid.rowSelection = 'mixed';
+      dataGrid.setActiveCell(0, 0);
+      const event2 = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
+      dataGrid.dispatchEvent(event2);
+
+      dataGrid.deSelectRow(1);
+      expect(dataGrid.activatedRow.index).toBe(0);
+    });
+
     it('has no error on invalid selectRow / deSelectRow calls', () => {
       const errors = jest.spyOn(global.console, 'error');
       dataGrid.rowSelection = 'mixed';
@@ -3021,6 +3034,116 @@ describe('IdsDataGrid Component', () => {
       dataGrid.setActiveCell(0, 1);
       dataGrid.editFirstCell();
       expect(descCell.classList.contains('is-editing')).toBeTruthy();
+    });
+
+    it('can enter edit mode with enter and exit with arrows', () => {
+      dataGrid.editable = true;
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      expect(descCell.classList.contains('is-editable')).toBeTruthy();
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      dataGrid.dispatchEvent(event);
+      const event2 = new KeyboardEvent('keydown', { key: ' ' }); // Ignored
+      dataGrid.dispatchEvent(event2);
+      dataGrid.dispatchEvent(event2);
+      expect(descCell.classList.contains('is-editing')).toBeTruthy();
+      const event3 = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
+      dataGrid.dispatchEvent(event3);
+      expect(descCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    it('can enter edit mode with enter and exit with f2', () => {
+      dataGrid.editable = true;
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      expect(descCell.classList.contains('is-editable')).toBeTruthy();
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      dataGrid.dispatchEvent(event);
+      const event2 = new KeyboardEvent('keydown', { key: 'F2' });
+      dataGrid.dispatchEvent(event2);
+      expect(descCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    it('can enter edit mode with enter and cancel with ESC', () => {
+      dataGrid.editable = true;
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      expect(descCell.classList.contains('is-editable')).toBeTruthy();
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      dataGrid.dispatchEvent(event);
+      const event2 = new KeyboardEvent('keydown', { key: 'Escape' });
+      dataGrid.dispatchEvent(event2);
+      expect(descCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    it('can enter edit mode with enter by typing', () => {
+      dataGrid.editable = true;
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      expect(descCell.classList.contains('is-editable')).toBeTruthy();
+      const event = new KeyboardEvent('keydown', { key: 'a' });
+      dataGrid.dispatchEvent(event);
+      expect(descCell.classList.contains('is-editing')).toBeTruthy();
+    });
+
+    it('can enter edit mode and editNextOnEnterPress', () => {
+      dataGrid.editable = true;
+      dataGrid.editNextOnEnterPress = true;
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      expect(descCell.classList.contains('is-editable')).toBeTruthy();
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      dataGrid.dispatchEvent(event);
+      expect(descCell.classList.contains('is-editing')).toBeTruthy();
+      const event2 = new KeyboardEvent('keydown', { key: 'a' });
+      dataGrid.dispatchEvent(event2);
+
+      dataGrid.dispatchEvent(event);
+      expect(descCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    it('can continue to enter edit mode with tabbing', () => {
+      dataGrid.editable = true;
+      const tabKey = new KeyboardEvent('keydown', { key: 'Tab' });
+      dataGrid.dispatchEvent(tabKey); // Does nothing
+
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      expect(descCell.classList.contains('is-editable')).toBeTruthy();
+      const event = new KeyboardEvent('keydown', { key: 'a' });
+      dataGrid.dispatchEvent(event);
+      expect(descCell.classList.contains('is-editing')).toBeTruthy();
+      for (let index = 0; index < 300; index++) {
+        dataGrid.dispatchEvent(tabKey);
+        expect(dataGrid.container.querySelectorAll('.is-editing').length).toBe(1);
+      }
+
+      const shiftTabKey = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true });
+      for (let index = 0; index < 300; index++) {
+        dataGrid.dispatchEvent(shiftTabKey);
+        expect(dataGrid.container.querySelectorAll('.is-editing').length).toBe(1);
+      }
+
+      for (let index = 0; index < 300; index++) {
+        dataGrid.dispatchEvent(tabKey);
+        expect(dataGrid.container.querySelectorAll('.is-editing').length).toBe(1);
+      }
+
+      for (let index = 0; index < 300; index++) {
+        dataGrid.dispatchEvent(shiftTabKey);
+        expect(dataGrid.container.querySelectorAll('.is-editing').length).toBe(1);
+      }
+    });
+
+    it('space toggles editable checkboxes', () => {
+      dataGrid.editable = true;
+      const checkCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
+      dataGrid.setActiveCell(11, 1);
+      expect(checkCell.querySelector('[aria-checked]').getAttribute('aria-checked')).toBe('false');
+      const event = new KeyboardEvent('keydown', { key: ' ' });
+      dataGrid.dispatchEvent(event);
+      const checkCell2 = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
+      expect(checkCell2.querySelector('ids-checkbox').getAttribute('checked')).toBe('true');
     });
   });
 });

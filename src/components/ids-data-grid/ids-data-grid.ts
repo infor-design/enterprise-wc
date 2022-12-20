@@ -479,7 +479,7 @@ export default class IdsDataGrid extends Base {
       if (this.activeCellEditor) cellNode.endCellEdit();
 
       this.setActiveCell(Number(this.activeCell?.cell) + cellDiff, rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex);
-      if (this.rowSelection === 'mixed') {
+      if (this.rowSelection === 'mixed' && this.rowNavigation) {
         (cellNode.parentElement as IdsDataGridRow).toggleRowActivation();
       }
       e.preventDefault();
@@ -533,48 +533,46 @@ export default class IdsDataGrid extends Base {
       this.#handleEditMode(e, cellNode);
     });
 
-    if (this.editable) {
-      // Commit Edit
-      this.listen(['F2'], this, () => {
-        const cellNode = this.activeCell.node;
-        if (this.activeCellEditor) {
-          cellNode.endCellEdit();
-          cellNode.focus();
-        }
-      });
+    // Commit Edit
+    this.listen(['F2'], this, () => {
+      const cellNode = this.activeCell.node;
+      if (this.activeCellEditor) {
+        cellNode.endCellEdit();
+        cellNode.focus();
+      }
+    });
 
-      // Cancel Edit
-      this.listen(['Escape'], this, () => {
-        const cellNode = this.activeCell.node;
-        if (this.activeCellEditor) {
-          cellNode.cancelCellEdit();
-          cellNode.focus();
-        }
-      });
+    // Cancel Edit
+    this.listen(['Escape'], this, () => {
+      const cellNode = this.activeCell.node;
+      if (this.activeCellEditor) {
+        cellNode.cancelCellEdit();
+        cellNode.focus();
+      }
+    });
 
-      // Edit Next
-      this.listen(['Tab'], this, (e: KeyboardEvent) => {
-        if (this.activeCellEditor) {
-          if (e.shiftKey) this.#editAdjacentCell(IdsDirection.Previous);
-          else this.#editAdjacentCell(IdsDirection.Next);
+    // Edit Next
+    this.listen(['Tab'], this, (e: KeyboardEvent) => {
+      if (this.activeCellEditor) {
+        if (e.shiftKey) this.#editAdjacentCell(IdsDirection.Previous);
+        else this.#editAdjacentCell(IdsDirection.Next);
 
-          e.stopImmediatePropagation();
-          e.stopPropagation();
-          e.preventDefault();
-          return false;
-        }
-        return true;
-      });
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        e.preventDefault();
+        return false;
+      }
+      return true;
+    });
 
-      // Enter Edit by typing
-      this.offEvent('keydown.body', this);
-      this.onEvent('keydown.body', this, (e: KeyboardEvent) => {
-        const isPrintableKey = e.key.length === 1;
-        if (!this.activeCellEditor && isPrintableKey && e.key !== ' ') {
-          this.activeCell.node.startCellEdit();
-        }
-      });
-    }
+    // Enter Edit by typing
+    this.offEvent('keydown.body', this);
+    this.onEvent('keydown.body', this, (e: KeyboardEvent) => {
+      const isPrintableKey = e.key.length === 1;
+      if (!this.activeCellEditor && isPrintableKey && e.key !== ' ') {
+        this.activeCell.node.startCellEdit();
+      }
+    });
     return this;
   }
 
