@@ -119,7 +119,7 @@ export default class IdsDataGrid extends Base {
   }
 
   #attachVirtualScrollEvent() {
-    const debounceRate = 3;
+    const debounceRate = 10;
     let debounceInterval = 0;
     let nextRowIndex = 0;
     let prevRowIndex = 0;

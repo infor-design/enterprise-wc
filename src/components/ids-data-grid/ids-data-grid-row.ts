@@ -69,12 +69,17 @@ export default class IdsDataGridRow extends IdsElement {
 
   get rowIndex(): number { return Number(this.getAttribute(attributes.ROW_INDEX) ?? -1); }
 
+  // NOTE: check memory footprint of this caching strategy
+  static rowCache: { [key: string]: string } = {};
+
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue === newValue) return;
 
     if (name === attributes.ROW_INDEX) {
+      // NOTE: check memory footprint of this caching strategy
+      IdsDataGridRow.rowCache[newValue] = IdsDataGridRow.rowCache[newValue] ?? this.cellsHTML();
       requestAnimationFrame(() => {
-        this.innerHTML = this.cellsHTML();
+        this.innerHTML = IdsDataGridRow.rowCache[newValue];
       });
     }
   }
@@ -284,9 +289,9 @@ export default class IdsDataGridRow extends IdsElement {
    * @returns {string} The html string for the row
    */
   cellsHTML(): string {
-    const dataGrid = this.dataGrid;
     const index = this.rowIndex;
     const ariaRowIndex = index;
+    const dataGrid = this.dataGrid;
     const row = this.data[index];
 
     const cssPart = (column: IdsDataGridColumn, rowIndex: number, cellIndex: number) => {

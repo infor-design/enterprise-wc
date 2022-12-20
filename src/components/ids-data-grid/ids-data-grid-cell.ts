@@ -55,6 +55,7 @@ export default class IdsDataGridCell extends IdsElement {
     return this.dataGrid.activeCell;
   }
 
+  // NOTE: check memory footprint of this caching strategy
   static cellCache: { [key: string]: string } = {};
 
   /**
