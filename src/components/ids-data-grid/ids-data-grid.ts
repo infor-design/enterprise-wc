@@ -50,6 +50,7 @@ const VIRTUAL_SCROLL_NUM_ROWS = 150; // TODO: make a getter/setter
 const VIRTUAL_SCROLL_ROW_HEIGHT = 51; // TODO: make a getter/setter
 const VIRTUAL_SCROLL_BUFFER_SIZE = 20 * VIRTUAL_SCROLL_ROW_HEIGHT; // TODO: make a getter/setter
 const VIRTUAL_SCROLL_RAF_DELAY = 60; // TODO: make a getter/setter
+const VIRTUAL_SCROLL_DEBOUNCE_RATE = 10; // TODO: make a getter/setter
 
 /**
  * IDS Data Grid Component
@@ -119,7 +120,6 @@ export default class IdsDataGrid extends Base {
   }
 
   #attachVirtualScrollEvent() {
-    const debounceRate = 10;
     let debounceInterval = 0;
     let nextRowIndex = 0;
     let prevRowIndex = 0;
@@ -135,10 +135,10 @@ export default class IdsDataGrid extends Base {
     this.container?.style.setProperty('max-height', '95vh');
 
     this.onEvent('scroll', this.container, (evt) => {
-      // debounceInterval++;
-      // if (debounceInterval % debounceRate !== 0) {
-      //   return;
-      // }
+      debounceInterval++;
+      if (debounceInterval % VIRTUAL_SCROLL_DEBOUNCE_RATE !== 0) {
+        return;
+      }
 
       if (requestAnimationFrameRef) {
         cancelAnimationFrame(requestAnimationFrameRef);
