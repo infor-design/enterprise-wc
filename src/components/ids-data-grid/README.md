@@ -201,6 +201,66 @@ Some additional settings are needed or possibly needed.
 - `idColumn` {string} For saving the row state during sort this should be set to the id column in the data set. Defaults to `id`.
 - `expandableRowTemplate` {string} Should point to the row `template` element.
 
+### Editing
+
+The Editing features start by setting `editable` to true. In addition you should add editors to columns and enable features of each of the editors. The features different depending on the component used for editing. See the Keyboard section for information on which keys can be used when editing..
+
+Here is a code example for an editable text cell.
+
+```js
+columns.push({
+    id: 'description',
+    name: 'Description',
+    field: 'description',
+    sortable: true,
+    resizable: true,
+    reorderable: true,
+    formatter: dataGrid.formatters.text,
+    editor: {
+      type: 'input',
+      inline: true,
+      editorSettings: {
+        autoselect: true,
+        dirtyTracker: true
+      }
+    }
+  });
+```
+
+To cancel or disabled editing there are a few ways:
+
+- setting the column `editor` setting to undefined will disable editing on the column (as will not having an editor setting at all).
+- adding a `readonly` or `disabled` function which returned true for some cells based on a condition will disable or mark the cell readonly.
+- return false in the `beforecelledit` event in the response function
+
+The following settings are available on editors.
+
+`type` As of now can be `checkbox` or `input` but more will be added.
+`inline` Default is false. If true the editor (for example an input) will be visible in a field.
+`editorSettings` Is an object that is loosely typed that lets you pass any option the editor supports in. For example any of the IdsInput or IdsCheckbox options can be passing in. Some special ones are:
+`editorSettings.autoselect` Text will be selected when entering edit moded
+`editorSettings.dirtyTracker` Enables the dirty tracker that marks changed cells.
+`editorSettings.validate` Text will be selected when entering edit moded
+`editorSettings.mask` Will pass mask settings to the input (if supported).
+`editorSettings.maskOptions` Will pass maskOptions settings to the input (if supported).
+
+When the use clicks in the cell or activates editing with the keyboard with the Enter key and types. The following events will fire.
+
+`beforecelledit` Fires before a cell is being edit (before edit is started). Can be vetoed by returning false as shown below.
+`celledit` Fires exactly when a cell is being edited.
+`endcelledit` Fires when a cell edit is completed and changed.
+`cancelcelledit` Fires when an edit is cancelled via the <kbd>Esc</kbd> key.
+
+To cancel editing based on some condition or if editing is not allowed you can veto the `beforecelledit` event.
+
+```js
+  dataGrid.addEventListener('beforecelledit', (e: Event) => {
+    (<CustomEvent>e).detail.response(false);
+  });
+```
+
+There are a few utility functions for editing the data grid mentioned in the Methods section.
+
 ## Settings and Attributes
 
 When used as an attribute in the DOM the settings are kebab case, when used in JS they are camel case.
@@ -237,6 +297,8 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `saveRowHeight` {boolean} If set row height will be saved to local storage.
 - `saveSortOrder` {boolean} If set column sort order will be saved to local storage.
 - `saveUserSettings` {boolean} If set all settings will be saved to local storage.
+- `editable` {boolean} If true in addition to adding editors to columns the data grid is editable.
+- `editNextOnEnterPress` {boolean} If enabled when editing using <kbd>ENTER</kbd> will finish editing and start editing the same cell in next row and <kbd>SHIFT + ENTER</kbd> will edit the previous row.
 
 ## Column Settings (General)
 
@@ -249,6 +311,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`resizable` | {boolean} | If false the column will not be resizable, thus is a fixed size and can never be changed by the user by dragging the left and right edge.  When completed a `columnresized` event will fire. See the `columns-resizable` example for a working example. |
 |`reorderable` | {boolean} | If true the column can be dragged into another position with adjacent columns. When completed a `columnmoved` event will fire. See the `columns-reorderable` example for a working example. This currently does not work with grouped columns. |
 |`readonly` | {boolean or Function} | If true the cell will be set to readonly color, indicating no editing.|
+|`disabled` | {boolean or Function} | If true the cell will be set to disabled color, indicating no editing.|
 |`formatter`| {Function} | Controls how the data is rendered in the cell.|
 |`hidden` | {boolean} | Excludes the column from being added to the DOM.|
 |`align` | {string} | Can be `left` or `right` or `center` to align both the cell and the header. Left is the default so does not need to be specified. |
@@ -269,6 +332,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`headerIconTooltipCssPart` | {string} | Allows you to sets the header icon tooltip css part.
 |`filterButtonTooltipCssPart` | {string} | Allows you to sets the filter button tooltip css part.
 |`cellSelectedCssPart` | {string} | Allows customization of a selected cell's background color.
+|`editor` | {object} | Adds an editor to the column if editable is set on the grid. See editing section for more details.
 
 ## Column Settings (Specific)
 
@@ -391,7 +455,14 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `clearSetting(setting: string, key?: string)` Clear the given saved setting from local storage.
 - `clearAllSettings(userKeys: unknown)` Clear saved all user settings from local storage.
 - `restoreSetting(setting: string, value?: unknown)` Restore the given saved setting from local storage.
-- `restoreAllSettings(userSettings?: IdsDataGridSaveSettings)` Restore all user settings with given value or from local storage.
+- `editFirstCell` Puts the first cell on the active row into edit mode.
+- `addRow(data: Record<string, unknown>)` Adds a new row and defaults the values to all those provided in the data
+- `removeRow(index: number)` Removed the provided row index from the dataset and visual datagrid
+- `clearRow(index: number)` Clears all values on the given row.
+- `commitCellEdit` Stops editing and commits the value in the active editor.
+- `cancelCellEdit` Stops editing and reverts the value in the active editor.
+- `resetDirtyCells` Clears all dirty cell indicators.
+- `dirtyCells` Gives a list of all currently dirty cells.
 
 ## Filters
 
@@ -1124,18 +1195,24 @@ Set context menu thru ID.
 
 ## Keyboard Guidelines
 
-- <kbd>Tab</kbd>The initial tab enters the grid with focus on the first cell of the first row, often a header. A second tab moves out of the grid to the next tab stop on the page. Once focus is established in the grid, a TAB into or a Shift Tab into the grid will return to the cell which last had focus.
+- <kbd>Tab</kbd>The initial tab enters the grid with focus on the first cell of the first row, often a header. A second tab moves out of the grid to the next tab stop on the page. Once focus is established in the grid, a TAB into or a Shift Tab into the grid will return to the cell which last had focus. If in edit mode will finish editing and start editing the next cell.
+- <kbd>Shift + Tab</kbd> Moves the reverse of tab. If in edit mode will finish editing and start editing the previous cell.
 - <kbd>Left</kbd> and <kbd>Right</kbd> Move focus to the adjacent column's cell. There is no wrap at the end or beginning of columns.
 - <kbd>Up</kbd> and <kbd>Down</kbd> Move focus to the adjacent row's cell. There is no wrap at the first or last row.
 - <kbd>Home</kbd> moves focus to the first cell of the current row
 - <kbd>End</kbd> moves focus to the last cell of the current row
 - <kbd>Page Up</kbd> moves focus to the first cell in the current column
 - <kbd>Page Down</kbd> moves focus to the last cell in the current column
-- <kbd>Enter</kbd> toggles edit mode on the cell if it is editable. There is also an "auto edit detection". If the user starts typing then edit mode will happen automatically without enter.
-- <kbd>Space</kbd> Toggles selection the activate row. If suppressRowDeselection is set it will be ignored on deselect. If the cell contains an expandable element then the row will toggle the expanded state.
+- <kbd>Space</kbd> Toggles selection the activate row. If suppressRowDeselection is set it will be ignored on deselect. If the cell contains an expandable element then the row will toggle the expanded state. If the cell contains a checkbox editor, will toggle the checkbox state.
 - <kbd>F2</kbd> toggles actionable mode. Pressing the <kbd>Tab</kbd> key while in actionable mode moves focus to the next actionable cell. While in actionable mode you can do things like type + enter. This will move you down a row when you hit enter. If the cell has a control that uses down arrow (like the drop downs or lookups that are editable). Then the user needs to hit enter to enable the edit mode on that cell.
 - <kbd>Triple Click</kbd> Not a keyboard shortcut, but if you have text in a cell that is overflowed a triple click will select all the text even the part that is invisible.
 - <kbd>Ctrl+A (PC) / Cmd+A (Mac)</kbd> If the grid is mixed or multi select this will select all rows.
+- <kbd>Ctrl+A (PC) / Cmd+A (Mac)</kbd> If the grid is mixed or multi select this will select all rows.
+- <kbd>Enter</kbd> Activates edit mode on the cell if it is editable. There is also an "auto edit detection". If the user starts typing then edit mode will happen automatically without enter. If in edit mode already <kbd>Enter</kbd> will finish edit mode. If `editNextOnEnterPress` is enabled then editing will start on the same column in next row.
+- <kbd>Shift + Enter</kbd> Same as enter but if `editNextOnEnterPress` is enabled then editing will start on the same column in previous row.
+- <kbd>F2</kbd> Finish editing same as Enter. But if `editNextOnEnterPress` is enabled, will stay in same cell. `cancelEditMode` will fire.
+- <kbd>CMD/CTRL + Enter</kbd> Finish editing same as Enter.
+- <kbd>ESC</kbd> Revert to the previous valye and cancel editing. `cancelEditMode` will fire.
 
 ## Responsive Guidelines
 
@@ -1165,6 +1242,8 @@ Set context menu thru ID.
 - Custom formatter functions can now be any type of function and have a different signature.
 - The `expanded` column option for tree was renamed to `rowExpanded`.
 - The `expandrow/collapserow` events are renamed to `rowexpanded/rowcollapsed`
+- The `beforeentereditmode/entereditmode/exiteditmode` event is renamed to `beforecelledit/celledit/endcelledit/cancelcelledit`
+- The `actionablemode` feature has been replaced with simply tabbing to the next editable field when in edit mode.
 
 ## Accessibility Guidelines
 

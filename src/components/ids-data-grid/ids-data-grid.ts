@@ -1688,11 +1688,13 @@ export default class IdsDataGrid extends Base {
     value = stringToBool(value);
     if (value) {
       this.setAttribute(attributes.EDIT_NEXT_ON_ENTER_PRESS, value.toString());
+    } else {
+      this.removeAttribute(attributes.EDIT_NEXT_ON_ENTER_PRESS);
     }
   }
 
   get editNextOnEnterPress(): boolean {
-    return stringToBool(this.getAttribute(attributes.EDIT_NEXT_ON_ENTER_PRESS)) || false;
+    return stringToBool(this.getAttribute(attributes.EDIT_NEXT_ON_ENTER_PRESS));
   }
 
   /**

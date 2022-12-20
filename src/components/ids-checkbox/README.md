@@ -97,13 +97,14 @@ Hide label and show only checkbox:
 - `dirty-tracker` {boolean} set dirty tracker.
 - `disabled` {boolean} set disabled state.
 - `horizontal` {boolean} set checkbox layout inline as horizontal.
-- `indeterminate` {boolean} This set to neither checked nor unchecked.
+- `` {boolean} This set to neither checked nor unchecked.
 - `label` {string} set the label text.
 - `label-state` {string} sets the checkbox label state -- can be `hidden`, or omitted.
 - `label-required` {boolean} set validation `required` indicator, default is set to `true`.
 - `validate` {string} set the validation rule `required`.
 - `validation-events` {string} set the validation events, use `space` to add multiple default is set to `change`.
 - `value` {string} set the checkbox value.
+- `noAnimation` {boolean} disable the checkbox animation
 
 ## Events
 

@@ -233,9 +233,8 @@ export default class IdsDataGridRow extends IdsElement {
     const frozenLast = dataGrid?.leftFrozenColumns.length;
     const isHidden = row.rowHidden ? ' hidden' : '';
     const isReadonly = (column: IdsDataGridColumn, content: string): boolean => {
-      if (!column?.readonly) return false;
+      if (column.readonly && column?.readonly === true) return true;
       if (typeof column?.readonly === 'function') return column?.readonly(index, content, column, row);
-      if (typeof column?.readonly === 'boolean') return column?.readonly;
       return false;
     };
 

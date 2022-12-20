@@ -39,6 +39,18 @@ A simple menu with three items can be created by creating a `ids-menu` with a si
 </ids-menu>
 ```
 
+A menu can have a toggleable menu item that is indicated with a check that toggles when you turn it on and off. In this example selecting `Two` will mark it checked and unchecked
+
+```html
+<ids-menu id="simple-menu">
+  <ids-menu-group>
+    <ids-menu-item>One</ids-menu-item>
+    <ids-menu-item toggleable>Two</ids-menu-item>
+    <ids-menu-item>Three</ids-menu-item>
+  </ids-menu-group>
+</ids-menu>
+```
+
 A more complicated menu can be formed using combinations of  `ids-menu` with a `ids-menu-group` and nested `ids-menu-item` components.
 
 ```html

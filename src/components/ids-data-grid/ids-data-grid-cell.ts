@@ -92,7 +92,7 @@ export default class IdsDataGridCell extends IdsElement {
     const column = this.column;
     if (!column.editor) return;
     const columnEditor = this.dataGrid.editors.find((obj) => obj.type === column?.editor?.type);
-    if (!columnEditor || !columnEditor.editor || this.isEditing || !this.dataGrid) return;
+    if (!columnEditor || !columnEditor.editor || this.isEditing) return;
 
     // Init Editor
     let canEdit = !(this.classList.contains('is-readonly') || this.classList.contains('is-disabled'));
@@ -295,8 +295,9 @@ export default class IdsDataGridCell extends IdsElement {
   static template(row: Record<string, unknown>, column: IdsDataGridColumn, index: number, dataGrid: IdsDataGrid): string {
     const dataGridFormatters = (dataGrid.formatters as any);
     let template = '';
+
     if (!dataGridFormatters[column?.formatter?.name || 'text'] && column?.formatter) template = column?.formatter(row, column, index, dataGrid);
-    template = dataGridFormatters[column?.formatter?.name || 'text'](row, column, index, dataGrid);
+    else template = dataGridFormatters[column?.formatter?.name || 'text'](row, column, index, dataGrid);
 
     if (row.invalidCells) {
       const message = (row.invalidCells as any).find((info: any) => info.cell === dataGrid.columnIdxById(column.id));

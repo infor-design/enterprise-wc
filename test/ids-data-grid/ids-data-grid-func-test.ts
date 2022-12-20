@@ -13,6 +13,8 @@ import processAnimFrame from '../helpers/process-anim-frame';
 import createFromTemplate from '../helpers/create-from-template';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import IdsPager from '../../src/components/ids-pager/ids-pager';
+import '../../src/components/ids-checkbox/ids-checkbox';
+import IdsDataGridRow from '../../src/components/ids-data-grid/ids-data-grid-row';
 
 describe('IdsDataGrid Component', () => {
   let dataGrid: any;
@@ -45,7 +47,18 @@ describe('IdsDataGrid Component', () => {
       name: 'Description',
       field: 'description',
       sortable: true,
-      formatter: formatters.text
+      formatter: formatters.text,
+      editor: {
+        type: 'input',
+        editorSettings: {
+          autoselect: true,
+          dirtyTracker: true,
+          validate: 'required'
+        }
+      },
+      readonly(row: number) {
+        return row % 2 === 0;
+      },
     });
     cols.push({
       id: 'ledger',
@@ -57,7 +70,15 @@ describe('IdsDataGrid Component', () => {
       id: 'publishDate',
       name: 'Pub. Date',
       field: 'publishDate',
-      formatter: formatters.date
+      formatter: formatters.date,
+      editor: {
+        type: 'input',
+        editorSettings: {
+          autoselect: true,
+          dirtyTracker: false,
+          mask: 'date'
+        }
+      }
     });
     cols.push({
       id: 'publishTime',
@@ -70,7 +91,21 @@ describe('IdsDataGrid Component', () => {
       name: 'Price',
       field: 'price',
       formatter: formatters.decimal,
-      formatOptions: { locale: 'en-US' } // Data Values are in en-US
+      formatOptions: { locale: 'en-US' },
+      editor: {
+        type: 'input',
+        editorSettings: {
+          autoselect: true,
+          dirtyTracker: true,
+          mask: 'number',
+          maskOptions: {
+            allowDecimal: true,
+            integerLimit: 3,
+            decimalLimit: 2
+          },
+          validate: 'required'
+        }
+      }
     });
     cols.push({
       id: 'bookCurrency',
@@ -102,7 +137,14 @@ describe('IdsDataGrid Component', () => {
       id: 'postHistory',
       name: 'Post History',
       field: 'postHistory',
-      formatter: formatters.text
+      formatter: dataGrid.formatters.checkbox,
+      align: 'center',
+      editor: {
+        type: 'checkbox',
+        editorSettings: {
+          dirtyTracker: false,
+        }
+      },
     });
     cols.push({
       id: 'inStock',
@@ -354,9 +396,9 @@ describe('IdsDataGrid Component', () => {
       dataGrid.redraw();
 
       // Height is zero...
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-datagrid-row').length).toEqual(0);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(1);
       dataGrid.setSortColumn('description', true);
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-datagrid-row').length).toEqual(0);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(1);
     });
 
     it('can reset the virtualScroll option', () => {
@@ -1204,6 +1246,16 @@ describe('IdsDataGrid Component', () => {
       }];
 
       const cols = (dataGrid).columns;
+      (dataset[1] as any).dirtyCells = [];
+      (dataset[1] as any).dirtyCells.push({
+        row: 1, cell: 0, columnId: 'price', originalValue: '12.99'
+      });
+      (dataset[2] as any).dirtyCells = [];
+      (dataset[2] as any).dirtyCells.push({
+        row: 2, cell: 0, columnId: 'price', originalValue: '13.99'
+      });
+      dataGrid.redraw();
+
       expect(cols[0].id).toBe('price');
       expect(cols[1].id).toBe('bookCurrency');
       expect(cols[2].id).toBe('other');
@@ -1211,6 +1263,10 @@ describe('IdsDataGrid Component', () => {
       expect(cols[0].id).toBe('bookCurrency');
       expect(cols[1].id).toBe('price');
       expect(cols[2].id).toBe('other');
+
+      (dataset[1] as any).dirtyCells = undefined;
+      (dataset[2] as any).dirtyCells = undefined;
+      dataGrid.resetDirtyCells();
     });
   });
 
@@ -1762,6 +1818,16 @@ describe('IdsDataGrid Component', () => {
       expect(rowElem.getAttribute('aria-rowindex')).toEqual('2');
     });
 
+    it('can set the rowNavigation setting', () => {
+      dataGrid.rowNavigation = true;
+      expect(dataGrid.getAttribute('row-navigation')).toEqual('');
+      expect(dataGrid.rowNavigation).toEqual(true);
+
+      dataGrid.rowNavigation = false;
+      expect(dataGrid.getAttribute('row-navigation')).toBeFalsy();
+      expect(dataGrid.rowNavigation).toEqual(false);
+    });
+
     it('can handle errant click', () => {
       const errors = jest.spyOn(global.console, 'error');
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body').dispatchEvent(new MouseEvent('click', { bubbles: true }));
@@ -1892,7 +1958,7 @@ describe('IdsDataGrid Component', () => {
   describe('RTL/Language Tests', () => {
     it('supports readonly columns / RTL', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[1].classList.contains('readonly')).toBeTruthy();
+        .querySelectorAll('.ids-data-grid-cell')[1].classList.contains('is-readonly')).toBeTruthy();
     });
 
     it('supports readonly RTL when set from the container', async () => {
@@ -1912,6 +1978,7 @@ describe('IdsDataGrid Component', () => {
       // Set to en-US for the example
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(7)').textContent.trim()).toEqual('13.99');
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(10)').textContent.trim()).toEqual('14');
+      container.locale = 'en-US';
     });
   });
 
@@ -2646,6 +2713,314 @@ describe('IdsDataGrid Component', () => {
       body.dispatchEvent(dblClickEvent);
       expect(clickCallback.mock.calls.length).toBe(1);
       expect(dblClickCallback.mock.calls.length).toBe(1);
+    });
+  });
+
+  describe('Editing Tests', () => {
+    it('should be able to edit a cell and type a value', () => {
+      dataGrid.editable = true;
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      const nextCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(4)');
+
+      editableCell.dispatchEvent(clickEvent);
+      expect(editableCell.classList.contains('is-editing')).toBeTruthy();
+      editableCell.querySelector('ids-input').value = 'test';
+
+      nextCell.dispatchEvent(clickEvent);
+      expect(editableCell.textContent).toBe('test');
+    });
+
+    it('should be able to edit a cell and validate a value', () => {
+      dataGrid.editable = true;
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      const nextCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(4)');
+
+      editableCell.dispatchEvent(clickEvent);
+      editableCell.dispatchEvent(clickEvent); // skipped
+      editableCell.querySelector('ids-input').value = '';
+
+      nextCell.dispatchEvent(clickEvent);
+      expect(editableCell.textContent).toBe('');
+      expect(editableCell.classList.contains('is-invalid')).toBeTruthy();
+    });
+
+    it('should handle error situations', () => {
+      const errors = jest.spyOn(global.console, 'error');
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      editableCell.isEditing = true;
+      editableCell.startCellEdit();
+      expect(errors).not.toHaveBeenCalled();
+    });
+
+    it('can veto edit on with readonly/disabled', () => {
+      const readonlyCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(1) > .ids-data-grid-cell:nth-child(3)');
+      readonlyCell.startCellEdit();
+      expect(readonlyCell.classList.contains('is-editing')).toBeFalsy();
+      readonlyCell.classList.remove('is-readonly');
+      readonlyCell.classList.add('is-disabled');
+      readonlyCell.startCellEdit();
+      expect(readonlyCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    it('can veto edit on with beforeCellEdit', () => {
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.addEventListener('beforecelledit', (e: Event) => {
+        (<CustomEvent>e).detail.response(false);
+      });
+
+      editableCell.startCellEdit();
+      expect(editableCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    it('clears invalid state on edit', () => {
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      editableCell.classList.add('is-invalid');
+      editableCell.startCellEdit();
+      expect(editableCell.classList.contains('is-invalid')).toBeFalsy();
+    });
+
+    it('add inline class', () => {
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      editableCell.column.editor.inline = true;
+      editableCell.startCellEdit();
+      expect(editableCell.classList.contains('is-inline')).toBeTruthy();
+    });
+
+    it('rendercell on rowNumber columns', () => {
+      const rowNumberCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(1) > .ids-data-grid-cell:nth-child(2)');
+      rowNumberCell.renderCell();
+      expect(rowNumberCell.textContent).toBe('1');
+    });
+
+    it('endCellEdit on valid columns', () => {
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      editableCell.column.editor.editorSettings.validate = null;
+      editableCell.endCellEdit();
+      expect(editableCell.isInValid).toBe(false);
+    });
+
+    it('should be able to edit a cell and reset validation state', () => {
+      dataGrid.editable = true;
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      editableCell.isInValid = true;
+
+      editableCell.startCellEdit();
+      editableCell.querySelector('ids-input').value = '102';
+      editableCell.endCellEdit();
+
+      expect(editableCell.classList.contains('is-invalid')).toBeFalsy();
+    });
+
+    it('should be able to cancell a cell and reset validation state', () => {
+      dataGrid.editable = true;
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      expect(editableCell.textContent).toBe('102');
+
+      editableCell.startCellEdit();
+      editableCell.querySelector('ids-input').value = 'Test';
+      editableCell.cancelCellEdit();
+      expect(editableCell.textContent).toBe('102');
+    });
+
+    it('can edit date cells', () => {
+      dataGrid.editable = true;
+      dataGrid.setActiveCell(2, 1);
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(5)');
+      const nextCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(4)');
+      expect(editableCell.textContent).toBe('2/23/2021');
+
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+
+      editableCell.dispatchEvent(clickEvent);
+      editableCell.querySelector('ids-input').value = '10/10/2023';
+      nextCell.dispatchEvent(clickEvent);
+      expect(editableCell.textContent).toBe('10/10/2023');
+    });
+
+    it('show and revert dirty indicators on cells', () => {
+      dataGrid.editable = true;
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      editableCell.startCellEdit();
+      editableCell.querySelector('ids-input').value = 'test';
+      editableCell.querySelector('ids-input').dirty = {};
+      editableCell.querySelector('ids-input').dirty.original = '102';
+      editableCell.endCellEdit();
+
+      expect(editableCell.classList.contains('is-dirty')).toBeTruthy();
+
+      editableCell.startCellEdit();
+      editableCell.querySelector('ids-input').value = '102';
+      editableCell.endCellEdit();
+
+      expect(editableCell.classList.contains('is-dirty')).toBeFalsy();
+    });
+
+    it('show and revert validation indicators on cells', () => {
+      dataGrid.editable = true;
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      const nextCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(4)');
+
+      expect(editableCell.textContent).toBe('102');
+
+      editableCell.dispatchEvent(clickEvent);
+      editableCell.querySelector('ids-input').value = '';
+      nextCell.dispatchEvent(clickEvent);
+      expect(editableCell.textContent).toBe('');
+      expect(editableCell.classList.contains('is-invalid')).toBeTruthy();
+
+      editableCell.dispatchEvent(clickEvent);
+      editableCell.querySelector('ids-input').value = '102';
+      nextCell.dispatchEvent(clickEvent);
+      expect(editableCell.textContent).toBe('102');
+      expect(editableCell.classList.contains('is-invalid')).toBeFalsy();
+    });
+
+    it('can edit as checkboxes', () => {
+      dataGrid.editable = true;
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+      const nextCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(4)');
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
+
+      expect(editableCell.querySelector('[aria-checked]').getAttribute('aria-checked')).toBe('false');
+      editableCell.dispatchEvent(clickEvent);
+      nextCell.dispatchEvent(clickEvent);
+      expect(editableCell.querySelector('[aria-checked]').getAttribute('aria-checked')).toBe('true');
+    });
+
+    it('covers the checkboxes editor', () => {
+      dataGrid.editable = true;
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
+      editableCell.startCellEdit();
+      editableCell.editor.isClick = true;
+      editableCell.editor.init(editableCell);
+      expect(editableCell.editor.input.checked).toBe(true);
+      editableCell.endCellEdit();
+
+      editableCell.startCellEdit();
+      editableCell.editor.isClick = false;
+      editableCell.editor.init(editableCell);
+      expect(editableCell.editor.input.checked).toBe(false);
+      editableCell.endCellEdit();
+    });
+
+    it('row renders special classes', () => {
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      (dataset[1] as any).dirtyCells = [];
+      (dataset[1] as any).dirtyCells.push({
+        cell: 1,
+        columnId: 'description',
+        originalValue: '102'
+      });
+      expect(IdsDataGridRow.template(dataset[1], 1, 1, editableCell.dataGrid).indexOf('is-dirty')).toBeGreaterThan(-1);
+
+      (dataset[1] as any).invalidCells = [];
+      (dataset[1] as any).invalidCells.push({
+        cell: 1,
+        columnId: 'description',
+        row: 1,
+        validationMessages: { message: 'Required', type: 'error', id: 'required' }
+      });
+      expect(IdsDataGridRow.template(dataset[1], 1, 1, editableCell.dataGrid).indexOf('is-invalid')).toBeGreaterThan(-1);
+
+      editableCell.column.editor.inline = true;
+      expect(IdsDataGridRow.template(dataset[1], 1, 1, editableCell.dataGrid).indexOf('is-inline')).toBeGreaterThan(-1);
+      editableCell.column.editor.inline = false;
+
+      (dataset[1] as any).invalidCells = undefined;
+      dataGrid.resetDirtyCells();
+    });
+
+    it('can reset dirty cells', () => {
+      dataGrid.editable = true;
+      dataGrid.resetDirtyCells();
+      expect(dataGrid.dirtyCells.length).toBe(0);
+      dataGrid.data[1].dirtyCells = [];
+      dataGrid.data[1].dirtyCells.push({ row: 1, cell: 0, originalValue: 'x' });
+      expect(dataGrid.dirtyCells.length).toBe(1);
+      dataGrid.resetDirtyCells();
+      expect(dataGrid.dirtyCells.length).toBe(0);
+    });
+
+    it('can set the editable setting', () => {
+      dataGrid.editable = true;
+      expect(dataGrid.getAttribute('editable')).toEqual('true');
+      expect(dataGrid.editable).toEqual(true);
+
+      dataGrid.editable = false;
+      expect(dataGrid.getAttribute('editable')).toBeFalsy();
+      expect(dataGrid.editable).toEqual(false);
+    });
+
+    it('can set the editNextOnEnterPress setting', () => {
+      dataGrid.editNextOnEnterPress = true;
+      expect(dataGrid.getAttribute('edit-next-on-enter-press')).toEqual('true');
+      expect(dataGrid.editNextOnEnterPress).toEqual(true);
+
+      dataGrid.editNextOnEnterPress = false;
+      expect(dataGrid.getAttribute('edit-next-on-enter-press')).toBeFalsy();
+      expect(dataGrid.editNextOnEnterPress).toEqual(false);
+    });
+
+    it('can call commit commitCellEdit', () => {
+      dataGrid.editable = true;
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+
+      expect(editableCell.textContent).toBe('102');
+
+      editableCell.dispatchEvent(clickEvent);
+      editableCell.querySelector('ids-input').value = 'test';
+      dataGrid.commitCellEdit();
+
+      expect(editableCell.textContent).toBe('test');
+    });
+
+    it('can call commit cancelCellEdit', () => {
+      dataGrid.editable = true;
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+
+      expect(editableCell.textContent).toBe('102');
+
+      editableCell.startCellEdit();
+      dataGrid.cancelCellEdit();
+
+      expect(editableCell.textContent).toBe('102');
+      expect(editableCell.classList.contains('is-editing')).toBe(false);
+    });
+
+    it('can call addRow', () => {
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+      dataGrid.addRow({ description: 'test' });
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(11);
+    });
+
+    it('can call removeRow', () => {
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+      dataGrid.addRow({ description: 'test' });
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(11);
+      dataGrid.removeRow(9);
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+    });
+
+    it('can call removeRow', () => {
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(8) > .ids-data-grid-cell:nth-child(3)');
+
+      expect(descCell.textContent).toEqual('108');
+      dataGrid.clearRow(7);
+      expect(dataGrid.container.querySelector('.ids-data-grid-row:nth-child(8) > .ids-data-grid-cell:nth-child(3)').textContent).toEqual('');
+    });
+
+    it('can call editFirstCell', () => {
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+
+      expect(descCell.classList.contains('is-editing')).toBeFalsy();
+      dataGrid.setActiveCell(0, 1);
+      dataGrid.editFirstCell();
+      expect(descCell.classList.contains('is-editing')).toBeTruthy();
     });
   });
 });
