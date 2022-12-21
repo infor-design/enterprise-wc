@@ -50,7 +50,7 @@ export default class IdsDataGridCell extends IdsElement {
 
     if (row.invalidCells) {
       const message = row.invalidCells.find((info: any) => info.cell === Number(this.getAttribute('aria-colindex')) - 1);
-      template += `<ids-alert icon="error" tooltip="${message.validationMessages[0]?.message}"></ids-alert>`;
+      if (message) template += `<ids-alert icon="error" tooltip="${message.validationMessages[0]?.message}"></ids-alert>`;
     }
     this.innerHTML = template;
   }
