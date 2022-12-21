@@ -261,18 +261,22 @@ export default class IdsDataGrid extends Base {
   }
 
   scrollRowIntoView(rowIndex: number) {
+    const virtualScrollSettings = this.virtualScrollSettings;
     const selector = `.ids-data-grid-body ids-data-grid-row[row-index="${rowIndex}"]`;
     const selectedRow = this.container?.querySelector<HTMLElement>(selector);
+    const bufferRowIndex = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
+
     if (!selectedRow) {
-      const bufferRowIndex = Math.max(rowIndex - this.virtualScrollSettings.BUFFER_ROWS, 0);
       this.rows.forEach((row, idx) => {
         row.rowIndex = bufferRowIndex + idx;
       });
     }
-    // const bodyTranslateY = (rowIndex * this.virtualScrollSettings.ROW_HEIGHT) - this.virtualScrollSettings.BUFFER_HEIGHT;
-    const bodyTranslateY = (rowIndex * this.virtualScrollSettings.ROW_HEIGHT);
-    this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
-    this.container.scrollTop = bodyTranslateY;
+
+    requestAnimationFrame(() => {
+      const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
+      this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+      this.container.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+    });
   }
 
   /** Reference to datasource API */
