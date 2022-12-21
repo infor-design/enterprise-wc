@@ -1011,20 +1011,45 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    */
   selectDay(year?: any, month?: any, day?: any): void {
     // Clear before
-    this.container?.querySelectorAll('td.is-selected')?.forEach((item: Element) => {
-      item?.removeAttribute('aria-selected');
-      item?.removeAttribute('tabindex');
-      item?.setAttribute('role', 'link');
-      item?.classList.remove('is-selected');
-    });
+    this.#makeAllDeselected();
     const selectedQuery = `td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`;
-    const selected = this.container?.querySelector(selectedQuery);
+    const selected = this.container?.querySelector<HTMLTableCellElement>(selectedQuery);
+    if (selected) this.#makeSelected(selected);
+  }
 
-    // Selectable attributes
-    selected?.setAttribute('tabindex', '0');
-    selected?.setAttribute('aria-selected', 'true');
-    selected?.setAttribute('role', 'gridcell');
-    selected?.classList.add('is-selected');
+  /**
+   * Makes a specified day in the Month View table appear "selected"
+   * @param {HTMLTableCellElement} elem the element to make appear "selected"
+   * @returns {void}
+   */
+  #makeSelected(elem: HTMLTableCellElement): void {
+    if (!elem) return;
+    elem.setAttribute(attributes.TABINDEX, '0');
+    elem.setAttribute('aria-selected', 'true');
+    elem.setAttribute('role', 'gridcell');
+    elem.classList.add('is-selected');
+  }
+
+  /**
+   * Makes a specified day in the Month View table appear "selected"
+   * @param {HTMLTableCellElement} elem the element to make appear "selected"
+   * @returns {void}
+   */
+  #makeDeselected(elem: HTMLTableCellElement): void {
+    if (!elem) return;
+    elem.removeAttribute(attributes.TABINDEX);
+    elem.removeAttribute('aria-selected');
+    elem.setAttribute('role', 'link');
+    elem.classList.remove('is-selected');
+  }
+
+  /**
+   * Clears all previously-selected days from the Month View
+   */
+  #makeAllDeselected(): void {
+    this.container?.querySelectorAll<HTMLTableCellElement>('td.is-selected')?.forEach((item: HTMLTableCellElement) => {
+      this.#makeDeselected(item);
+    });
   }
 
   /**
@@ -1067,7 +1092,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    * Queries selected day cell element
    * @returns {HTMLElement} selected day
    */
-  getSelectedDay(): HTMLElement | null {
+  getSelectedDay(): HTMLTableCellElement | null {
     const selectedQuery = `td[data-year="${this.year}"][data-month="${this.month}"][data-day="${this.day}"]`;
     return this.container?.querySelector(selectedQuery) || null;
   }
@@ -1077,7 +1102,15 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    * @returns {void}
    */
   focus(): void {
-    this.getSelectedDay()?.focus();
+    const selectedDay = this.getSelectedDay();
+    if (selectedDay) {
+      const isDisabled = selectedDay.classList.contains('is-disabled');
+      if (!isDisabled) {
+        this.#makeAllDeselected();
+        this.#makeSelected(selectedDay);
+        selectedDay.focus();
+      }
+    }
   }
 
   /**

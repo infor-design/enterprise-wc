@@ -1092,7 +1092,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     this.attachEventListeners();
     this.updateActionButtonStateOnShow();
     this.container?.removeAttribute(htmlAttributes.TABINDEX);
-    this.monthView?.focus();
+    this.focus();
   }
 
   /**
@@ -1127,6 +1127,17 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    */
   isDisabledByDate(date: Date) {
     return this.monthView?.isDisabledByDate(date);
+  }
+
+  /**
+   * Passes focus to the inner MonthView component
+   */
+  focus() {
+    if (this.expanded) {
+      this.monthYearPicklist?.focus();
+    } else {
+      this.monthView?.focus();
+    }
   }
 }
 

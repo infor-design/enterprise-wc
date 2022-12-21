@@ -312,7 +312,6 @@ export default class IdsCalendar extends Base {
       <ids-icon icon="calendar"></ids-icon>
     </ids-button>
     <ids-date-picker-popup
-      format="MMM yyyy"
       show-today="true"
       target="#btn-picker"
       trigger-elem="#btn-picker"
@@ -569,6 +568,15 @@ export default class IdsCalendar extends Base {
     this.offEvent('show.popup');
     this.onEvent('show.popup', toolbarDatepickerPopup, () => {
       this.#updateDatePickerPopupTrigger(this.locale);
+    });
+
+    // Date Picker Popup's `hide` event can cause the field to become focused
+    this.offEvent('hide.popup');
+    this.onEvent('hide.popup', toolbarDatepickerPopup, (e: CustomEvent) => {
+      e.stopPropagation();
+      if (e.detail.doFocus) {
+        if (toolbarDatepickerPopup) toolbarDatepickerPopup.target?.focus();
+      }
     });
 
     this.offEvent('click.month-view-buttons');
@@ -898,7 +906,7 @@ export default class IdsCalendar extends Base {
 
     const datePickerPopup = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup');
     if (datePickerPopup) {
-      datePickerPopup.day = targetDate.getDay();
+      datePickerPopup.day = targetDate.getDate();
       datePickerPopup.month = targetDate.getMonth();
       datePickerPopup.year = targetDate.getFullYear();
       datePickerPopup.updateMonthYearPickerTriggerDisplay(locale, targetDate);

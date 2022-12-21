@@ -133,10 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const data = fieldDefs.find((entry) => entry.id === fieldId);
     let picker = document.querySelector<any>('ids-date-picker-popup')!;
+    let currentTarget;
 
     if (data) {
       if (picker) {
         if (picker.popup) picker.popup.animated = false;
+        currentTarget = picker.target;
         picker.target = `#${fieldId}`;
         picker.triggerElem = `#${btnId}`;
         if (field.value) picker.value = field.value;
@@ -163,11 +165,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (picker.popup) {
         picker.popup.arrowTarget = `#${btnId}`;
         picker.popup.animated = true;
+
         if (!picker.popup.visible) {
           picker.show();
-        } else {
+        } else if (picker.target !== currentTarget) {
           picker.popup.place();
           picker.popup.placeArrow();
+        } else {
+          picker.hide();
         }
       }
     }
