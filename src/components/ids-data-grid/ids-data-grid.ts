@@ -202,8 +202,12 @@ export default class IdsDataGrid extends Base {
           if (timestamp <= (previousTimestamp + virtualScrollSettings.RAF_DELAY)) return;
           previousTimestamp = timestamp;
 
-          // NOTE: body.prepend is faster than body.innerHTML
-          body.prepend(...recycleRows);
+          if (recycleRows.length < virtualScrollSettings.NUM_ROWS) {
+            // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
+            // NOTE: body.prepend is faster than body.innerHTML
+            body.prepend(...recycleRows);
+          }
+
           prevBodyOffsetHeight -= (recycleRows.length * virtualScrollSettings.ROW_HEIGHT);
           body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
         });
@@ -237,12 +241,16 @@ export default class IdsDataGrid extends Base {
           if (timestamp <= (previousTimestamp + virtualScrollSettings.RAF_DELAY)) return;
           previousTimestamp = timestamp;
 
-          // NOTE: body.append is faster than body.innerHTML
-          // NOTE: body.append is faster than multiple calls to appendChild()
-          // prevBodyOffsetHeight = bodyOffsetHeight + prevBodyOffsetHeight;
+          if (recycleRows.length < virtualScrollSettings.NUM_ROWS) {
+            // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
+            // NOTE: body.append is faster than body.innerHTML
+            // NOTE: body.append is faster than multiple calls to appendChild()
+            body.append(...recycleRows);
+          }
+
           // NOTE: getting topRowIndex from this.rows[0] is the most reliable approach, but it's less performant
-          body.append(...recycleRows);
           topRowIndex = this.rows[0].rowIndex;
+          // prevBodyOffsetHeight = bodyOffsetHeight + prevBodyOffsetHeight;
           // prevBodyOffsetHeight = this.container.scrollTop - virtualScrollSettings.BUFFER_HEIGHT;
           prevBodyOffsetHeight = topRowIndex * virtualScrollSettings.ROW_HEIGHT;
           body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
@@ -250,6 +258,21 @@ export default class IdsDataGrid extends Base {
         });
       }
     }, { capture: true, passive: true });
+  }
+
+  scrollRowIntoView(rowIndex: number) {
+    const selector = `.ids-data-grid-body ids-data-grid-row[row-index="${rowIndex}"]`;
+    const selectedRow = this.container?.querySelector<HTMLElement>(selector);
+    if (!selectedRow) {
+      const bufferRowIndex = Math.max(rowIndex - this.virtualScrollSettings.BUFFER_ROWS, 0);
+      this.rows.forEach((row, idx) => {
+        row.rowIndex = bufferRowIndex + idx;
+      });
+    }
+    // const bodyTranslateY = (rowIndex * this.virtualScrollSettings.ROW_HEIGHT) - this.virtualScrollSettings.BUFFER_HEIGHT;
+    const bodyTranslateY = (rowIndex * this.virtualScrollSettings.ROW_HEIGHT);
+    this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+    this.container.scrollTop = bodyTranslateY;
   }
 
   /** Reference to datasource API */
