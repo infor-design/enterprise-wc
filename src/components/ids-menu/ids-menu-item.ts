@@ -521,7 +521,7 @@ export default class IdsMenuItem extends Base {
 
       // Build/Fire a `selected` event for performing other actions.
       // This event only fires when selection type changes.
-      if (this.group?.select === 'multiple' || (this.group?.select === 'single' && this.toggleable) || (this.group?.select === 'single' && trueVal)) {
+      if (trueVal || this.group?.select === 'multiple' || this.toggleable) {
         this.triggerEvent(duringEventName, this, {
           bubbles: true,
           detail: {
