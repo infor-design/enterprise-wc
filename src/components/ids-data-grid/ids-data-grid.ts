@@ -166,8 +166,8 @@ export default class IdsDataGrid extends Base {
 
       if (prevRowIndex < -1 || nextRowIndex > numRows) return;
 
-      const headerGeometry = this.header?.getBoundingClientRect();
-      const containerGeometry = this.container?.getBoundingClientRect();
+      const headerDimensions = this.header?.getBoundingClientRect();
+      const containerDimensions = this.container?.getBoundingClientRect();
 
       const recycleRows: any[] = [];
 
@@ -178,7 +178,7 @@ export default class IdsDataGrid extends Base {
           .every((row, idx) => {
             const currentIndex = prevRowIndex - idx;
             const rowViewport = row.viewport;
-            const isOffScreen = rowViewport.y > (containerGeometry.height + virtualScrollSettings.BUFFER_SIZE);
+            const isOffScreen = rowViewport.y > (containerDimensions.height + virtualScrollSettings.BUFFER_SIZE);
             // const isOffScreen = rowViewport.y > (window.innerHeight + virtualScrollSettings.BUFFER_SIZE);
             // const isOffScreen = rowViewport.bottom > (window.innerHeight + virtualScrollSettings.BUFFER_SIZE);
             if (!isOffScreen) {
@@ -211,7 +211,7 @@ export default class IdsDataGrid extends Base {
         rows.every((row, idx) => {
           const currentIndex = nextRowIndex + idx;
           const rowViewport = row.viewport;
-          const isOffScreen = rowViewport.y < (headerGeometry.y - (virtualScrollSettings.BUFFER_SIZE));
+          const isOffScreen = rowViewport.y < (headerDimensions.y - (virtualScrollSettings.BUFFER_SIZE));
           if (!isOffScreen) {
             // topRowIndex = row.rowIndex;
             return false;
