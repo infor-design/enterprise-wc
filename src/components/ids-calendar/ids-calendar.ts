@@ -509,8 +509,7 @@ export default class IdsCalendar extends Base {
     this.onEvent('overflow-click.calendar-container', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
       if (evt.detail.date) {
-        this.#updateActiveDate(evt.detail.date);
-        this.changeView('day');
+        this.setViewPickerValue('day');
         this.updateEventDetails(this.state.selected);
       }
     });

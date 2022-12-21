@@ -14,6 +14,8 @@ export interface CalendarEventsHandler {
 
 type Constraints = IdsConstructor<EventsMixinInterface & CalendarEventsHandler>;
 
+type IdsCalendarViewType = 'month' | 'year' | 'day';
+
 const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class extends superclass {
   #eventsData: CalendarEventData[] = [];
 
@@ -206,10 +208,10 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
 
   /**
    * Trigger viewchange event used in month/week views
-   * @param {string} view moth | week | day
+   * @param {IdsCalendarViewType} view month | week | day
    * @param {Date} activeDate date
    */
-  #triggerViewChange(view: 'month' | 'week' | 'day', activeDate?: Date): void {
+  #triggerViewChange(view: IdsCalendarViewType, activeDate?: Date): void {
     if (!view) return;
 
     this.triggerEvent('viewchange', this, {
@@ -266,6 +268,14 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
    */
   getEventTypeById(id: string | null): CalendarEventTypeData | undefined {
     return this.#eventTypesData.find((item: CalendarEventTypeData) => id === item.id);
+  }
+
+  /**
+   * @param {IdsCalendarViewType} val View Picker setting type
+   */
+  setViewPickerValue(val: IdsCalendarViewType) {
+    const viewPickerEl = this.container?.querySelector<IdsMenuButton>('#view-picker-btn');
+    if (viewPickerEl) viewPickerEl.value = val;
   }
 };
 
