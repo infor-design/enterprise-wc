@@ -264,19 +264,18 @@ export default class IdsDataGrid extends Base {
     rowIndex = Math.max(rowIndex, 0);
     rowIndex = Math.min(rowIndex, (this.data.length - 1));
 
+    const rows = this.rows;
+    if (!rows.length) return;
+
     const virtualScrollSettings = this.virtualScrollSettings;
-    const selector = `.ids-data-grid-body ids-data-grid-row[row-index="${rowIndex}"]`;
-    const selectedRow = this.container?.querySelector<HTMLElement>(selector);
-    const bufferRowIndex = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
-    // console.log({ rowIndex, bufferRowIndex, selectedRow });
-    if (!selectedRow) {
-      this.rows.forEach((row, idx) => {
-        row.rowIndex = bufferRowIndex + idx;
-      });
-    }
+    const bufferIndexTop = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
+
+    rows.forEach((row, idx) => {
+      row.rowIndex = bufferIndexTop + idx;
+    });
 
     requestAnimationFrame(() => {
-      const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
+      const bodyTranslateY = bufferIndexTop * virtualScrollSettings.ROW_HEIGHT;
       this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
       this.container.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
     });
