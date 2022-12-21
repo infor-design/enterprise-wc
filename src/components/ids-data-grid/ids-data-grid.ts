@@ -261,11 +261,14 @@ export default class IdsDataGrid extends Base {
   }
 
   scrollRowIntoView(rowIndex: number) {
+    rowIndex = Math.max(rowIndex, 0);
+    rowIndex = Math.min(rowIndex, (this.data.length - 1));
+
     const virtualScrollSettings = this.virtualScrollSettings;
     const selector = `.ids-data-grid-body ids-data-grid-row[row-index="${rowIndex}"]`;
     const selectedRow = this.container?.querySelector<HTMLElement>(selector);
     const bufferRowIndex = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
-
+    // console.log({ rowIndex, bufferRowIndex, selectedRow });
     if (!selectedRow) {
       this.rows.forEach((row, idx) => {
         row.rowIndex = bufferRowIndex + idx;
