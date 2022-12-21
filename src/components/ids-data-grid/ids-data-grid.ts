@@ -46,12 +46,6 @@ const Base = IdsThemeMixin(
   )
 );
 
-const VIRTUAL_SCROLL_NUM_ROWS = 150; // TODO: make a getter/setter
-const VIRTUAL_SCROLL_ROW_HEIGHT = 51; // TODO: make a getter/setter
-const VIRTUAL_SCROLL_BUFFER_SIZE = 20 * VIRTUAL_SCROLL_ROW_HEIGHT; // TODO: make a getter/setter
-const VIRTUAL_SCROLL_RAF_DELAY = 60; // TODO: make a getter/setter
-const VIRTUAL_SCROLL_DEBOUNCE_RATE = 10; // TODO: make a getter/setter
-
 /**
  * IDS Data Grid Component
  * @type {IdsDataGrid}
@@ -138,7 +132,7 @@ export default class IdsDataGrid extends Base {
 
     this.onEvent('scroll', this.container, (evt) => {
       debounceInterval++;
-      if (debounceInterval % VIRTUAL_SCROLL_DEBOUNCE_RATE !== 0) {
+      if (debounceInterval % this.virtualScrollSettings.VIRTUAL_SCROLL_DEBOUNCE_RATE !== 0) {
         return;
       }
 
@@ -165,7 +159,8 @@ export default class IdsDataGrid extends Base {
 
       if (data.length !== numRows) {
         numRows = data.length;
-        this.body?.style.setProperty('height', `${(numRows - VIRTUAL_SCROLL_NUM_ROWS) * VIRTUAL_SCROLL_ROW_HEIGHT}px`);
+        const bodyHeight = (numRows - this.virtualScrollSettings.VIRTUAL_SCROLL_NUM_ROWS) * this.rowPixelHeight;
+        this.body?.style.setProperty('height', `${bodyHeight}px`);
       }
 
       if (prevRowIndex < -1 || nextRowIndex > numRows) return;
@@ -182,9 +177,9 @@ export default class IdsDataGrid extends Base {
           .every((row, idx) => {
             const currentIndex = prevRowIndex - idx;
             const rowViewport = row.viewport;
-            const isOffScreen = rowViewport.y > (containerGeometry.height + VIRTUAL_SCROLL_BUFFER_SIZE);
-            // const isOffScreen = rowViewport.y > (window.innerHeight + VIRTUAL_SCROLL_BUFFER_SIZE);
-            // const isOffScreen = rowViewport.bottom > (window.innerHeight + VIRTUAL_SCROLL_BUFFER_SIZE);
+            const isOffScreen = rowViewport.y > (containerGeometry.height + this.virtualScrollSettings.VIRTUAL_SCROLL_BUFFER_SIZE);
+            // const isOffScreen = rowViewport.y > (window.innerHeight + this.virtualScrollSettings.VIRTUAL_SCROLL_BUFFER_SIZE);
+            // const isOffScreen = rowViewport.bottom > (window.innerHeight + this.virtualScrollSettings.VIRTUAL_SCROLL_BUFFER_SIZE);
             if (!isOffScreen) {
               return false;
             }
@@ -203,25 +198,25 @@ export default class IdsDataGrid extends Base {
 
         requestAnimationFrameRef = requestAnimationFrame((timestamp) => {
           // # This timestamp-conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
-          if (timestamp <= (previousTimestamp + VIRTUAL_SCROLL_RAF_DELAY)) return;
+          if (timestamp <= (previousTimestamp + this.virtualScrollSettings.VIRTUAL_SCROLL_RAF_DELAY)) return;
           previousTimestamp = timestamp;
 
           // NOTE: body.prepend is faster than body.innerHTML
           body.prepend(...recycleRows);
-          prevBodyOffsetHeight -= (recycleRows.length * VIRTUAL_SCROLL_ROW_HEIGHT);
+          prevBodyOffsetHeight -= (recycleRows.length * this.rowPixelHeight);
           body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
         });
       } else if (isScrollingDown) {
         rows.every((row, idx) => {
           const currentIndex = nextRowIndex + idx;
           const rowViewport = row.viewport;
-          const isOffScreen = rowViewport.y < (headerGeometry.y - (VIRTUAL_SCROLL_BUFFER_SIZE));
+          const isOffScreen = rowViewport.y < (headerGeometry.y - (this.virtualScrollSettings.VIRTUAL_SCROLL_BUFFER_SIZE));
           if (!isOffScreen) {
             // topRowIndex = row.rowIndex;
             return false;
           }
           if (currentIndex >= numRows) {
-            this.body?.style.setProperty('height', `${VIRTUAL_SCROLL_NUM_ROWS * VIRTUAL_SCROLL_ROW_HEIGHT}px`);
+            this.body?.style.setProperty('height', `${this.virtualScrollSettings.VIRTUAL_SCROLL_NUM_ROWS * this.rowPixelHeight}px`);
             return false;
           }
 
@@ -237,7 +232,7 @@ export default class IdsDataGrid extends Base {
 
         requestAnimationFrameRef = requestAnimationFrame((timestamp) => {
           // # This timestamp-conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
-          if (timestamp <= (previousTimestamp + VIRTUAL_SCROLL_RAF_DELAY)) return;
+          if (timestamp <= (previousTimestamp + this.virtualScrollSettings.VIRTUAL_SCROLL_RAF_DELAY)) return;
           previousTimestamp = timestamp;
 
           // NOTE: body.append is faster than body.innerHTML
@@ -246,7 +241,7 @@ export default class IdsDataGrid extends Base {
           // NOTE: getting topRowIndex from this.rows[0] is the most reliable approach, but it's less performant
           body.append(...recycleRows);
           topRowIndex = this.rows[0].rowIndex;
-          prevBodyOffsetHeight = topRowIndex * VIRTUAL_SCROLL_ROW_HEIGHT;
+          prevBodyOffsetHeight = topRowIndex * this.rowPixelHeight;
           body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
           bodyOffsetHeight = 0;
         });
@@ -442,7 +437,7 @@ export default class IdsDataGrid extends Base {
    */
   bodyInnerTemplate() {
     let innerHTML = '';
-    const data = this.virtualScroll ? this.data.slice(0, VIRTUAL_SCROLL_NUM_ROWS) : this.data;
+    const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.VIRTUAL_SCROLL_NUM_ROWS) : this.data;
     for (let index = 0; index < data.length; index++) {
       innerHTML += IdsDataGridRow.template(data[index], index, index + 1, this);
       // innerHTML += `<ids-data-grid-row row-index="${index}"></ids-data-grid-row>`;
@@ -950,6 +945,25 @@ export default class IdsDataGrid extends Base {
   }
 
   get virtualScroll(): boolean { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
+
+  get virtualScrollSettings() {
+    // const VIRTUAL_SCROLL_ROW_HEIGHT = 51;
+    const VIRTUAL_SCROLL_ROW_HEIGHT = this.rowPixelHeight;
+    const VIRTUAL_SCROLL_NUM_ROWS = 150;
+    const VIRTUAL_SCROLL_BUFFER_ROWS = 20;
+    const VIRTUAL_SCROLL_BUFFER_SIZE = VIRTUAL_SCROLL_BUFFER_ROWS * VIRTUAL_SCROLL_ROW_HEIGHT;
+    const VIRTUAL_SCROLL_RAF_DELAY = 60;
+    const VIRTUAL_SCROLL_DEBOUNCE_RATE = 10;
+
+    return {
+      VIRTUAL_SCROLL_ROW_HEIGHT,
+      VIRTUAL_SCROLL_NUM_ROWS,
+      VIRTUAL_SCROLL_BUFFER_ROWS,
+      VIRTUAL_SCROLL_BUFFER_SIZE,
+      VIRTUAL_SCROLL_RAF_DELAY,
+      VIRTUAL_SCROLL_DEBOUNCE_RATE,
+    };
+  }
 
   /**
    * Set the aria-label element in the DOM. This should be translated.
