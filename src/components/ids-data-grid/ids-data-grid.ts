@@ -116,7 +116,9 @@ export default class IdsDataGrid extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.redrawBody();
-    this.#attachVirtualScrollEvent();
+    if (this.virtualScroll) {
+      this.#attachVirtualScrollEvent();
+    }
   }
 
   #attachVirtualScrollEvent() {
@@ -358,7 +360,8 @@ export default class IdsDataGrid extends Base {
     if ((this.columns.length === 0 && this.data.length === 0) || !this.initialized) {
       return;
     }
-    if (this.body) this.body.innerHTML = this.virtualScroll ? this.bodyTemplate() : this.bodyInnerTemplate();
+    // if (this.body) this.body.innerHTML = this.virtualScroll ? this.bodyTemplate() : this.bodyInnerTemplate();
+    if (this.body) this.body.innerHTML = this.bodyInnerTemplate();
     this.header?.setHeaderCheckbox();
   }
 
@@ -376,21 +379,21 @@ export default class IdsDataGrid extends Base {
     if (this.container) this.container.innerHTML = header + body;
     this.#setColumnWidths();
 
-    // Setup virtual scrolling
-    if (this.virtualScroll && this.data.length > 0) {
-      this.virtualScrollContainer = this.shadowRoot?.querySelector<IdsVirtualScroll>('ids-virtual-scroll');
-      if (this.virtualScrollContainer) {
-        this.virtualScrollContainer.scrollTarget = this.container;
+    // // Setup virtual scrolling
+    // if (this.virtualScroll && this.data.length > 0) {
+    //   this.virtualScrollContainer = this.shadowRoot?.querySelector<IdsVirtualScroll>('ids-virtual-scroll');
+    //   if (this.virtualScrollContainer) {
+    //     this.virtualScrollContainer.scrollTarget = this.container;
 
-        this.virtualScrollContainer.itemTemplate = (
-          row: any,
-          index: number,
-          ariaRowIndex: number
-        ) => IdsDataGridRow.template(row, index, ariaRowIndex, this);
-        this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
-        this.virtualScrollContainer.data = this.data;
-      }
-    }
+    //     this.virtualScrollContainer.itemTemplate = (
+    //       row: any,
+    //       index: number,
+    //       ariaRowIndex: number
+    //     ) => IdsDataGridRow.template(row, index, ariaRowIndex, this);
+    //     this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
+    //     this.virtualScrollContainer.data = this.data;
+    //   }
+    // }
 
     if (this.data.length > 0) this.setActiveCell(0, 0, true);
 
@@ -426,9 +429,9 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyTemplate() {
-    if (this.virtualScroll) {
-      return `<ids-virtual-scroll><div class="ids-data-grid-body" part="contents"></div></ids-virtual-scroll>`;
-    }
+    // if (this.virtualScroll) {
+    //   return `<ids-virtual-scroll><div class="ids-data-grid-body" part="contents"></div></ids-virtual-scroll>`;
+    // }
     return `<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
 
@@ -439,9 +442,9 @@ export default class IdsDataGrid extends Base {
    */
   bodyInnerTemplate() {
     let innerHTML = '';
-    const slicedData = this.data.slice(0, VIRTUAL_SCROLL_NUM_ROWS);
-    for (let index = 0; index < slicedData.length; index++) {
-      innerHTML += IdsDataGridRow.template(slicedData[index], index, index + 1, this);
+    const data = this.virtualScroll ? this.data.slice(0, VIRTUAL_SCROLL_NUM_ROWS) : this.data;
+    for (let index = 0; index < data.length; index++) {
+      innerHTML += IdsDataGridRow.template(data[index], index, index + 1, this);
       // innerHTML += `<ids-data-grid-row row-index="${index}"></ids-data-grid-row>`;
     }
     return innerHTML;
@@ -725,7 +728,7 @@ export default class IdsDataGrid extends Base {
     const sortField = column?.field !== column?.id ? column?.field : column?.id;
     this.sortColumn = { id, ascending };
     this.datasource.sort(sortField || '', ascending);
-    if (this.virtualScrollContainer) this.virtualScrollContainer.data = this.data;
+    // if (this.virtualScrollContainer) this.virtualScrollContainer.data = this.data;
     this.redrawBody();
     this.header.setSortState(id, ascending);
     this.triggerEvent('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
@@ -978,9 +981,9 @@ export default class IdsDataGrid extends Base {
       this.shadowRoot?.querySelector('.ids-data-grid')?.setAttribute('data-row-height', 'lg');
     }
 
-    if (this.virtualScroll) {
-      this.redraw();
-    }
+    // if (this.virtualScroll) {
+    //   this.redraw();
+    // }
   }
 
   get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'lg'; }
