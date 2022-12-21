@@ -27,6 +27,7 @@
 - `[Icons]` Over 60 new icons and 126 new industry focused icons. ([#6868](https://github.com/infor-design/enterprise/issues/6868))
 - `[Icons]` Added new empty state icons. ([#6934](https://github.com/infor-design/enterprise/issues/6934))
 - `[Icons]` Added feature to add custom icons ([#990](https://github.com/infor-design/enterprise-wc/issues/990))
+- `[ListView]` Fixed a bug where the component is showing errors when changing data by activating an item ([#1036](https://github.com/infor-design/enterprise-wc/issues/1036))
 - `[Wizard]` Fixed dark/contrast mode colors. ([#1007](https://github.com/infor-design/enterprise-wc/issues/1007))
 
 ## 1.0.0-beta.2
