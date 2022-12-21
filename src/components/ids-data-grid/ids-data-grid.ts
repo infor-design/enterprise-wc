@@ -159,7 +159,7 @@ export default class IdsDataGrid extends Base {
 
       if (data.length !== numRows) {
         numRows = data.length;
-        const bodyHeight = (numRows - this.virtualScrollSettings.NUM_ROWS) * this.rowPixelHeight;
+        const bodyHeight = (numRows - this.virtualScrollSettings.NUM_ROWS) * this.virtualScrollSettings.ROW_HEIGHT;
         this.body?.style.setProperty('height', `${bodyHeight}px`);
       }
 
@@ -203,7 +203,7 @@ export default class IdsDataGrid extends Base {
 
           // NOTE: body.prepend is faster than body.innerHTML
           body.prepend(...recycleRows);
-          prevBodyOffsetHeight -= (recycleRows.length * this.rowPixelHeight);
+          prevBodyOffsetHeight -= (recycleRows.length * this.virtualScrollSettings.ROW_HEIGHT);
           body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
         });
       } else if (isScrollingDown) {
@@ -216,7 +216,7 @@ export default class IdsDataGrid extends Base {
             return false;
           }
           if (currentIndex >= numRows) {
-            this.body?.style.setProperty('height', `${this.virtualScrollSettings.NUM_ROWS * this.rowPixelHeight}px`);
+            this.body?.style.setProperty('height', `${this.virtualScrollSettings.NUM_ROWS * this.virtualScrollSettings.ROW_HEIGHT}px`);
             return false;
           }
 
@@ -241,7 +241,7 @@ export default class IdsDataGrid extends Base {
           // NOTE: getting topRowIndex from this.rows[0] is the most reliable approach, but it's less performant
           body.append(...recycleRows);
           topRowIndex = this.rows[0].rowIndex;
-          prevBodyOffsetHeight = topRowIndex * this.rowPixelHeight;
+          prevBodyOffsetHeight = topRowIndex * this.virtualScrollSettings.ROW_HEIGHT;
           body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
           bodyOffsetHeight = 0;
         });
