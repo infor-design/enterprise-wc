@@ -277,6 +277,10 @@ class IdsDatePicker extends Base {
           }
         }
       };
+      this.#picker.onTriggerClick = () => {
+        if (this.disabled || this.readonly) return;
+        this.#picker?.toggleVisibility();
+      };
       this.#picker.setAttribute(attributes.TRIGGER_TYPE, 'click');
       this.#picker.setAttribute(attributes.TARGET, `#${this.#triggerField.getAttribute('id')}`);
       this.#picker.setAttribute(attributes.TRIGGER_ELEM, `#${this.#triggerButton.getAttribute('id')}`);
