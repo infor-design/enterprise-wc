@@ -1252,7 +1252,9 @@ export default class IdsListView extends Base {
     if (!this.triggerVetoableEvent('beforeitemdeactivated', { ...args() })) {
       return false;
     }
-    delete this.ds[dataIndex].itemActivated;
+    if (this.ds[dataIndex]?.itemActivated) {
+      delete this.ds[dataIndex].itemActivated;
+    }
     this.#activatedIndex = -1;
     this.#triggerEvent('itemdeactivated', { ...args() });
 

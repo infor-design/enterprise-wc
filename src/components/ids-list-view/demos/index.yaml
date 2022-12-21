@@ -35,6 +35,9 @@
   - link: embellishment.html
     type: Example
     description: Showing a list view using embellishment types
+  - link: data-changing.html
+    type: Example
+    description: Showing a list view changing data
   - link: side-by-side.html
     type: Side by Side
     description: Showing a list view side by side with a 4.x busy indicator

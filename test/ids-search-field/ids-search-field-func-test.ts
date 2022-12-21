@@ -147,4 +147,20 @@ describe('IdsSearchField Component', () => {
     results = await s.search('f');
     expect(results.length).toBe(2);
   });
+
+  it('readonly/disabled should be clearable with clearable-forced setting', async () => {
+    s = await createFromTemplate(s, HTMLSnippets.DISABLED_SEARCH_FIELD);
+    s.clearable = true;
+    expect(s.container.querySelector('.btn-clear')).toBeNull();
+
+    s.clearable = false;
+    s.clearableForced = true;
+    expect(s.container.querySelector('.btn-clear')).not.toBeNull();
+
+    s = await createFromTemplate(s, HTMLSnippets.READONLY_SEARCH_FIELD);
+    s.clearable = true;
+    expect(s.container.querySelector('.btn-clear')).toBeNull();
+    s.clearableForced = true;
+    expect(s.container.querySelector('.btn-clear')).not.toBeNull();
+  });
 });
