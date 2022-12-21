@@ -3,6 +3,12 @@ import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import productInfo from '../../../assets/data/product-info.json';
 
+// Custom Datagrid Cell Colors are defined in this file:
+import css from '../../../assets/css/ids-data-grid/custom-css.css';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
+
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#m3-virtual-scroll')!;
 
@@ -33,7 +39,8 @@ columns.push({
   field: 'itemNumber',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.hyperlink,
+  // formatter: dataGrid.formatters.hyperlink,
+  formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text,
   filterConditions: []
 });
@@ -163,7 +170,8 @@ columns.push({
   field: 'category',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.text,
+  cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : '')
 });
 columns.push({
   id: 'weight',
@@ -171,7 +179,8 @@ columns.push({
   field: 'weight',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.text,
+  cssPart: 'custom-cell'
 });
 columns.push({
   id: 'shipWeight',
@@ -179,7 +188,8 @@ columns.push({
   field: 'shipWeight',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.text,
+  cssPart: 'custom-cell'
 });
 columns.push({
   id: 'manufacturer',
@@ -187,7 +197,12 @@ columns.push({
   field: 'manufacturer',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.text
+  width: 185,
+  formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
+    const value = `${rowData[columnData.field] || ''}`;
+    return !value ? '' : `<span class="text-ellipsis">${value}&nbsp;<ids-icon part="custom-cell-icon" icon="edit"></ids-icon></span>`;
+  },
+  cssPart: 'custom-cell'
 });
 columns.push({
   id: 'qtyOnOrder',

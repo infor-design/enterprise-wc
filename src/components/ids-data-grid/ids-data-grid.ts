@@ -241,6 +241,11 @@ export default class IdsDataGrid extends Base {
     }
     if (this.body) this.body.innerHTML = this.virtualScroll ? this.bodyTemplate() : this.bodyInnerTemplate();
     this.header?.setHeaderCheckbox();
+
+    if (this.virtualScrollContainer) {
+      this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
+      this.virtualScrollContainer.data = this.data;
+    }
   }
 
   /**

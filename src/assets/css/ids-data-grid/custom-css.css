@@ -1,13 +1,14 @@
-ids-data-grid::part(cell) {
-  background-color: #ebf9f1;
+ids-data-grid::part(custom-cell) {
+  background-color: #e6f1fd;
+}
+
+ids-data-grid::part(custom-cell-icon) {
+  position: relative;
+  top: 3px;
 }
 
 ids-data-grid::part(cell-selected) {
   background-color: #c9dad0;
-}
-
-ids-data-grid::part(custom-cell) {
-  background-color: #e6f1fd;
 }
 
 ids-data-grid::part(custom-cell-selected-1) {
