@@ -178,9 +178,9 @@ export default class IdsDataGrid extends Base {
           .every((row, idx) => {
             const currentIndex = prevRowIndex - idx;
             const rowViewport = row.viewport;
-            const isOffScreen = rowViewport.y > (containerDimensions.height + virtualScrollSettings.BUFFER_SIZE);
-            // const isOffScreen = rowViewport.y > (window.innerHeight + virtualScrollSettings.BUFFER_SIZE);
-            // const isOffScreen = rowViewport.bottom > (window.innerHeight + virtualScrollSettings.BUFFER_SIZE);
+            const isOffScreen = rowViewport.y > (containerDimensions.height + virtualScrollSettings.BUFFER_HEIGHT);
+            // const isOffScreen = rowViewport.y > (window.innerHeight + virtualScrollSettings.BUFFER_HEIGHT);
+            // const isOffScreen = rowViewport.bottom > (window.innerHeight + virtualScrollSettings.BUFFER_HEIGHT);
             if (!isOffScreen) {
               return false;
             }
@@ -211,13 +211,14 @@ export default class IdsDataGrid extends Base {
         rows.every((row, idx) => {
           const currentIndex = nextRowIndex + idx;
           const rowViewport = row.viewport;
-          const isOffScreen = rowViewport.y < (headerDimensions.y - (virtualScrollSettings.BUFFER_SIZE));
+          const isOffScreen = rowViewport.y < (headerDimensions.y - (virtualScrollSettings.BUFFER_HEIGHT));
+
           if (!isOffScreen) {
             // topRowIndex = row.rowIndex;
             return false;
           }
           if (currentIndex >= numRows) {
-            this.body?.style.setProperty('height', `${virtualScrollSettings.NUM_ROWS * virtualScrollSettings.ROW_HEIGHT}px`);
+            this.body?.style.setProperty('height', `${virtualScrollSettings.BODY_HEIGHT}px`);
             return false;
           }
 
@@ -242,7 +243,7 @@ export default class IdsDataGrid extends Base {
           // NOTE: getting topRowIndex from this.rows[0] is the most reliable approach, but it's less performant
           body.append(...recycleRows);
           topRowIndex = this.rows[0].rowIndex;
-          // prevBodyOffsetHeight = this.container.scrollTop - virtualScrollSettings.BUFFER_SIZE;
+          // prevBodyOffsetHeight = this.container.scrollTop - virtualScrollSettings.BUFFER_HEIGHT;
           prevBodyOffsetHeight = topRowIndex * virtualScrollSettings.ROW_HEIGHT;
           body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
           bodyOffsetHeight = 0;
@@ -951,16 +952,18 @@ export default class IdsDataGrid extends Base {
   get virtualScrollSettings() {
     const ROW_HEIGHT = this.rowPixelHeight || 50;
     const NUM_ROWS = 150;
+    const BODY_HEIGHT = NUM_ROWS * ROW_HEIGHT;
     const BUFFER_ROWS = 20;
-    const BUFFER_SIZE = BUFFER_ROWS * ROW_HEIGHT;
+    const BUFFER_HEIGHT = BUFFER_ROWS * ROW_HEIGHT;
     const RAF_DELAY = 60;
     const DEBOUNCE_RATE = 10;
 
     return {
       ROW_HEIGHT,
       NUM_ROWS,
+      BODY_HEIGHT,
       BUFFER_ROWS,
-      BUFFER_SIZE,
+      BUFFER_HEIGHT,
       RAF_DELAY,
       DEBOUNCE_RATE,
     };
