@@ -845,7 +845,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    * Selected event handler
    * @param {IdsDayselectedEvent} e event from the calendar day selection
    */
-  private handleDaySelectedEvent(e: IdsDayselectedEvent): void {
+  private handleDaySelectedEvent(e: CustomEvent): void {
     if (!this.monthView) return;
 
     const inputDate: Date | number[] | undefined = this.locale.parseDate(this.value, { dateFormat: this.format });
@@ -880,6 +880,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
         return;
       }
 
+      e.stopPropagation();
       const btnApply = this.applyBtnEl;
       if (e.detail.rangeStart && e.detail.rangeEnd) {
         btnApply?.removeAttribute(attributes.DISABLED);
@@ -965,7 +966,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
           useRange: this.useRange,
           rangeStart: this.useRange && this.rangeSettings.start ? new Date(this.rangeSettings.start as string) : null,
           rangeEnd: this.useRange && this.rangeSettings.end ? new Date(this.rangeSettings.end as string) : null,
-          value: this.getFormattedDate(this.activeDate)
+          value: this.value
         }
       };
     }

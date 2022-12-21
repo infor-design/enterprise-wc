@@ -264,7 +264,7 @@ export default class IdsDataGridFilters {
   #setDatePicker(datePicker: IdsTriggerField, operator?: string): void {
     if (datePicker) {
       const popupId = datePicker.getAttribute('id')?.replace('field-', 'popup-');
-      const popupEl: IdsDatePickerPopup = this.root.querySelector(popupId)!;
+      const popupEl: IdsDatePickerPopup = this.root.wrapper.querySelector(`#${popupId}`)!;
       if (popupEl) {
         if (operator === 'in-range') {
           popupEl.useRange = true;
@@ -558,8 +558,7 @@ export default class IdsDataGridFilters {
 
           let values = null;
           if (c.operator === 'in-range') { // range stuff
-            // const filterElem: IdsTriggerField = c.filterElem;
-            const datePickerPopup: IdsDatePickerPopup = this.root.querySelector(`#${c.filterElem.getAttribute('aria-controls')}`)!;
+            const datePickerPopup: IdsDatePickerPopup = this.root.wrapper.querySelector(`#${c.filterElem.getAttribute('aria-controls')}`)!;
             if (datePickerPopup) {
               if (c.value.indexOf(datePickerPopup.rangeSettings.separator) > -1) {
                 const cValues = c.value.split(datePickerPopup.rangeSettings.separator);
@@ -690,6 +689,7 @@ export default class IdsDataGridFilters {
           node.querySelector('ids-menu-button'),
           node.querySelector('ids-dropdown'),
           node.querySelector('ids-date-picker'),
+          node.querySelector('ids-trigger-field'),
           node.querySelector('ids-time-picker')
         ].forEach((el) => {
           if (this.root.filterRowDisabled) {
@@ -848,8 +848,7 @@ export default class IdsDataGridFilters {
 
     // Capture 'dayselected' events from IdsDatePickerPopup
     this.root.onEvent(`dayselected.${this.#id()}`, this.root.wrapper, (e: any) => {
-      const elem = e.detail?.elem;
-      e.target.value = elem.getFormattedDate(elem.activeDate);
+      e.target.value = e.detail.value;
       this.applyFilter();
     });
 
