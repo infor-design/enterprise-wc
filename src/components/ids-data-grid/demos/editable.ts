@@ -222,13 +222,13 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   });
 
   document.querySelector('#delete-row')?.addEventListener('click', () => {
-    dataGrid.selectedRows.forEach((row: any) => {
+    dataGrid.selectedRows.reverse().forEach((row: any) => {
       dataGrid.removeRow(row.index);
     });
   });
 
   document.querySelector('#clear-row')?.addEventListener('click', () => {
-    dataGrid.selectedRows.forEach((row: any) => {
+    dataGrid.selectedRows.reverse().forEach((row: any) => {
       dataGrid.clearRow(row.index);
     });
   });

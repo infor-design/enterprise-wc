@@ -147,7 +147,11 @@ export default class IdsDataGridCell extends IdsElement {
     const column = this.column;
     const input = this.editor?.input;
     input?.offEvent('blur', input);
-    if (this.editor?.type === 'input') input?.setDirtyTracker(input?.value as any);
+
+    if (this.editor?.type === 'input') {
+      input?.setDirtyTracker(input?.value as any);
+      input?.checkValidation();
+    }
 
     const isDirty = column.editor?.editorSettings?.dirtyTracker && input?.isDirty;
     const isValid = column.editor?.editorSettings?.validate ? input?.isValid : true;
