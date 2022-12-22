@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { hasClass } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 import IdsDataGridCell from './ids-data-grid-cell';
 import '../ids-menu-button/ids-menu-button';
@@ -1174,7 +1175,7 @@ export default class IdsDataGridFilters {
 
     // Collect and built, all the operators for contents type
     const contentsOperators = () => {
-      const val = this.root.datasource.allData.map((row: any) => row[column.id]);
+      const val = this.root.datasource.allData.map((row: any) => escapeHTML(row[column.id]));
       return [...new Set(val)].map((v) => ({ value: v || '', label: v || '' }));
     };
 
