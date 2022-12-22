@@ -238,9 +238,9 @@ The following settings are available on editors.
 `type` As of now can be `checkbox` or `input` but more will be added.
 `inline` Default is false. If true the editor (for example an input) will be visible in a field.
 `editorSettings` Is an object that is loosely typed that lets you pass any option the editor supports in. For example any of the IdsInput or IdsCheckbox options can be passing in. Some special ones are:
-`editorSettings.autoselect` Text will be selected when entering edit moded
+`editorSettings.autoselect` Text will be selected when entering edit mode
 `editorSettings.dirtyTracker` Enables the dirty tracker that marks changed cells.
-`editorSettings.validate` Text will be selected when entering edit moded
+`editorSettings.validate` Text will be selected when entering edit mode
 `editorSettings.mask` Will pass mask settings to the input (if supported).
 `editorSettings.maskOptions` Will pass maskOptions settings to the input (if supported).
 
@@ -297,6 +297,10 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `saveRowHeight` {boolean} If set row height will be saved to local storage.
 - `saveSortOrder` {boolean} If set column sort order will be saved to local storage.
 - `saveUserSettings` {boolean} If set all settings will be saved to local storage.
+- `emptyMessageDescription` {string} Set empty message description text.
+- `emptyMessageIcon` {string} Set empty message icon name.
+- `emptyMessageLabel` {string} Set empty message label text.
+- `suppressEmptyMessage` {boolean} Set to true to prevent display empty message.
 - `editable` {boolean} If true in addition to adding editors to columns the data grid is editable.
 - `editNextOnEnterPress` {boolean} If enabled when editing using <kbd>ENTER</kbd> will finish editing and start editing the same cell in next row and <kbd>SHIFT + ENTER</kbd> will edit the previous row.
 
@@ -1170,6 +1174,45 @@ Set context menu thru ID.
 </ids-popup-menu>
 ```
 
+## Empty Message
+
+Set empty message thru slot (markup).
+
+```html
+<ids-data-grid id="data-grid-em-thru-slot" label="Books">
+  <ids-empty-message hidden icon="empty-search-data-new" slot="empty-message">
+    <ids-text type="h2" font-size="20" label="true" slot="label">No Data</ids-text>
+    <ids-text hidden label="true" slot="description">There is no data available.</ids-text>
+  </ids-empty-message>
+</ids-data-grid>
+```
+
+Set empty message thru settings (markup).
+
+```html
+<ids-data-grid
+  id="data-grid-em-thru-settings"
+  label="Books"
+  empty-message-icon="empty-error-loading-new"
+  empty-message-label="No Data"
+  empty-message-description="There is no data available."
+></ids-data-grid>
+```
+
+Set empty message thru settings (javascript).
+
+```html
+<ids-data-grid id="data-grid-em-thru-settings-js" label="Books">
+</ids-data-grid>
+```
+
+```js
+const dataGrid = document.querySelector('#data-grid-em-thru-settings-js');
+dataGrid.emptyMessageIcon = 'empty-error-loading-new';
+dataGrid.emptyMessageLabel = 'No Data';
+dataGrid.emptyMessageDescription = 'There is no data available.';
+```
+
 ## States and Variations
 
 **Rows**
@@ -1212,7 +1255,7 @@ Set context menu thru ID.
 - <kbd>Shift + Enter</kbd> Same as enter but if `editNextOnEnterPress` is enabled then editing will start on the same column in previous row.
 - <kbd>F2</kbd> Finish editing same as Enter. But if `editNextOnEnterPress` is enabled, will stay in same cell. `cancelEditMode` will fire.
 - <kbd>CMD/CTRL + Enter</kbd> Finish editing same as Enter.
-- <kbd>ESC</kbd> Revert to the previous valye and cancel editing. `cancelEditMode` will fire.
+- <kbd>ESC</kbd> Revert to the previous value and cancel editing. `cancelEditMode` will fire.
 
 ## Responsive Guidelines
 

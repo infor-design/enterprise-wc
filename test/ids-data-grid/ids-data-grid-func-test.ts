@@ -399,9 +399,9 @@ describe('IdsDataGrid Component', () => {
       dataGrid.redraw();
 
       // Height is zero...
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(1);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
       dataGrid.setSortColumn('description', true);
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(1);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(19);
     });
 
     it('can reset the virtualScroll option', () => {
@@ -1804,6 +1804,20 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activeCell.row).toEqual(8);
     });
 
+    it('should set row navigation', () => {
+      expect(dataGrid.getAttribute('row-navigation')).toEqual(null);
+      expect(dataGrid.container.classList.contains('row-navigation')).toBeFalsy();
+      expect(dataGrid.rowNavigation).toEqual(false);
+      dataGrid.rowNavigation = true;
+      expect(dataGrid.getAttribute('row-navigation')).toEqual('');
+      expect(dataGrid.container.classList.contains('row-navigation')).toBeTruthy();
+      expect(dataGrid.rowNavigation).toEqual(true);
+      dataGrid.rowNavigation = false;
+      expect(dataGrid.getAttribute('row-navigation')).toEqual(null);
+      expect(dataGrid.container.classList.contains('row-navigation')).toBeFalsy();
+      expect(dataGrid.rowNavigation).toEqual(false);
+    });
+
     it('can handle keyboard row navigation', () => {
       // focus on first grid cell
       expect(dataGrid.activeCell.row).toEqual(0);
@@ -1816,6 +1830,20 @@ describe('IdsDataGrid Component', () => {
       dataGrid.dispatchEvent(event);
 
       // expect second row to be focused
+      const rowElem = dataGrid.rowByIndex(dataGrid.activeCell.row);
+      expect(rowElem.getAttribute('aria-rowindex')).toEqual('2');
+    });
+
+    it('can handle keyboard with mixed row selection', () => {
+      dataGrid.rowSelection = 'mixed';
+      expect(dataGrid.activeCell.row).toEqual(0);
+      expect(dataGrid.activeCell.cell).toEqual(0);
+      dataGrid.activeCell.node.focus();
+
+      const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+      dataGrid.rowNavigation = true;
+      dataGrid.dispatchEvent(event);
+
       const rowElem = dataGrid.rowByIndex(dataGrid.activeCell.row);
       expect(rowElem.getAttribute('aria-rowindex')).toEqual('2');
     });
@@ -2229,11 +2257,15 @@ describe('IdsDataGrid Component', () => {
 
   describe('Paging Tests', () => {
     it('renders pager', () => {
+      const selector = '.ids-data-grid-body .ids-data-grid-row';
       dataGrid.pagination = 'client-side';
       dataGrid.pageSize = 10;
       dataGrid.replaceWith(dataGrid);
-      expect(dataGrid).toMatchSnapshot();
-      expect(dataGrid.shadowRoot.innerHTML).toMatchSnapshot();
+
+      expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBeDefined();
+      expect(dataGrid.pagination).toBe('client-side');
+      expect(dataGrid.pageSize).toBe(10);
+      expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
     });
 
     it('hides pager when pagination attribute is "none"', () => {

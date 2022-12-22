@@ -13,6 +13,14 @@ import { IdsDataGridContextmenuArgs, setContextmenu } from './ids-data-grid-cont
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
 import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
+import {
+  IdsDataGridEmptyMessageElements,
+  setEmptyMessage,
+  resetEmptyMessageElements,
+  hideEmptyMessage,
+  IdsDataGridToggleEmptyMessage,
+  emptyMessageTemplate,
+} from './ids-data-grid-empty-message';
 
 // Styles
 import styles from './ids-data-grid.scss';
@@ -81,6 +89,8 @@ export default class IdsDataGrid extends Base {
 
   sortColumn?: Record<string, any>;
 
+  emptyMessageElements?: IdsDataGridEmptyMessageElements;
+
   constructor() {
     super();
 
@@ -134,6 +144,9 @@ export default class IdsDataGrid extends Base {
       attributes.ALTERNATE_ROW_SHADING,
       attributes.AUTO_FIT,
       attributes.DISABLE_CLIENT_FILTER,
+      attributes.EMPTY_MESSAGE_DESCRIPTION,
+      attributes.EMPTY_MESSAGE_ICON,
+      attributes.EMPTY_MESSAGE_LABEL,
       attributes.EDITABLE,
       attributes.EDIT_NEXT_ON_ENTER_PRESS,
       attributes.EXPANDABLE_ROW,
@@ -151,6 +164,7 @@ export default class IdsDataGrid extends Base {
       attributes.ROW_HEIGHT,
       attributes.ROW_NAVIGATION,
       attributes.ROW_SELECTION,
+      attributes.SUPPRESS_EMPTY_MESSAGE,
       attributes.SUPPRESS_ROW_CLICK_SELECTION,
       attributes.SUPPRESS_ROW_DEACTIVATION,
       attributes.SUPPRESS_ROW_DESELECTION,
@@ -196,6 +210,15 @@ export default class IdsDataGrid extends Base {
       </div>`;
 
     return html;
+  }
+
+  /**
+   * Toggle the empty message.
+   * @param {boolean | number} hide If true, will hide empty message.
+   * @returns {void}
+   */
+  toggleEmptyMessage(hide?: boolean | number): void {
+    IdsDataGridToggleEmptyMessage.apply(this, [hide]);
   }
 
   /**
@@ -253,7 +276,7 @@ export default class IdsDataGrid extends Base {
    * @private
    */
   redraw() {
-    if ((this.columns.length === 0 && this.data.length === 0) || !this.initialized) {
+    if (this.columns.length === 0 || !this.initialized) {
       return;
     }
 
@@ -263,7 +286,7 @@ export default class IdsDataGrid extends Base {
     this.#setColumnWidths();
 
     // Setup virtual scrolling
-    if (this.virtualScroll && this.data.length > 0) {
+    if (this.virtualScroll && this.data?.length > 0) {
       this.virtualScrollContainer = this.shadowRoot?.querySelector<IdsVirtualScroll>('ids-virtual-scroll');
       if (this.virtualScrollContainer) {
         this.virtualScrollContainer.scrollTarget = this.container;
@@ -278,7 +301,7 @@ export default class IdsDataGrid extends Base {
       }
     }
 
-    if (this.data.length > 0) this.setActiveCell(0, 0, true);
+    if (this.data?.length > 0) this.setActiveCell(0, 0, true);
 
     this.#applyAutoFit();
     this.header.setHeaderCheckbox();
@@ -294,6 +317,9 @@ export default class IdsDataGrid extends Base {
 
     // Set contextmenu
     setContextmenu.apply(this);
+
+    // Show/hide empty message
+    this.toggleEmptyMessage();
   }
 
   /**
@@ -312,10 +338,12 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyTemplate() {
+    let html = emptyMessageTemplate.apply(this);
     if (this.virtualScroll) {
-      return `<ids-virtual-scroll><div class="ids-data-grid-body" part="contents"></div></ids-virtual-scroll>`;
+      html += `<ids-virtual-scroll><div class="ids-data-grid-body" part="contents"></div></ids-virtual-scroll>`;
     }
-    return `<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
+    html += `<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
+    return html;
   }
 
   /**
@@ -455,6 +483,7 @@ export default class IdsDataGrid extends Base {
       }
     });
 
+    resetEmptyMessageElements.apply(this);
     this.redraw();
     this.triggerEvent('columnmoved', this, { detail: { elem: this, fromIndex: correctFromIndex, toIndex: correctToIndex } });
     this.saveSettings?.();
@@ -468,6 +497,7 @@ export default class IdsDataGrid extends Base {
   #attachKeyboardListeners() {
     // Handle arrow navigation
     this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e: KeyboardEvent) => {
+      if (!this.activeCell?.node) return;
       const key = e.key;
       const cellNode = this.activeCell.node;
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
@@ -489,6 +519,7 @@ export default class IdsDataGrid extends Base {
     // Handle Selection and Expand
     this.listen([' '], this, (e: Event) => {
       if (this.activeCellEditor) return;
+      if (!this.activeCell?.node) return;
       const button = this.activeCell.node.querySelector('ids-button');
       if (button) {
         button.click();
@@ -511,6 +542,7 @@ export default class IdsDataGrid extends Base {
 
     // Follow links with keyboard and start editing
     this.listen(['Enter'], this, (e: KeyboardEvent) => {
+      if (!this.activeCell?.node) return;
       const cellNode = this.activeCell.node;
       const hyperlink = cellNode.querySelector('ids-hyperlink');
       const button = cellNode.querySelector('ids-button');
@@ -892,6 +924,7 @@ export default class IdsDataGrid extends Base {
    */
   set data(value: Array<Record<string, any>>) {
     if (value) {
+      hideEmptyMessage.apply(this);
       this.datasource.flatten = this.treeGrid;
       this.datasource.data = value;
       this.initialized = true;
@@ -903,6 +936,57 @@ export default class IdsDataGrid extends Base {
   }
 
   get data(): Array<Record<string, any>> { return this?.datasource?.data; }
+
+  /**
+   * Set empty message description
+   * @param {string} value The value
+   */
+  set emptyMessageDescription(value: string | null) {
+    if (typeof value === 'string' && value !== '') {
+      this.setAttribute(attributes.EMPTY_MESSAGE_DESCRIPTION, value);
+    } else {
+      this.removeAttribute(attributes.EMPTY_MESSAGE_DESCRIPTION);
+    }
+    setEmptyMessage.apply(this);
+  }
+
+  get emptyMessageDescription(): string | null {
+    return this.getAttribute(attributes.EMPTY_MESSAGE_DESCRIPTION);
+  }
+
+  /**
+   * Set empty message icon
+   * @param {string} value The value
+   */
+  set emptyMessageIcon(value: string | null) {
+    if (typeof value === 'string' && value !== '') {
+      this.setAttribute(attributes.EMPTY_MESSAGE_ICON, value);
+    } else {
+      this.removeAttribute(attributes.EMPTY_MESSAGE_ICON);
+    }
+    setEmptyMessage.apply(this);
+  }
+
+  get emptyMessageIcon(): string | null {
+    return this.getAttribute(attributes.EMPTY_MESSAGE_ICON);
+  }
+
+  /**
+   * Set empty message label
+   * @param {string} value The value
+   */
+  set emptyMessageLabel(value: string | null) {
+    if (typeof value === 'string' && value !== '') {
+      this.setAttribute(attributes.EMPTY_MESSAGE_LABEL, value);
+    } else {
+      this.removeAttribute(attributes.EMPTY_MESSAGE_LABEL);
+    }
+    setEmptyMessage.apply(this);
+  }
+
+  get emptyMessageLabel(): string | null {
+    return this.getAttribute(attributes.EMPTY_MESSAGE_LABEL);
+  }
 
   /**
    * Set header menu id
@@ -1052,6 +1136,23 @@ export default class IdsDataGrid extends Base {
   }
 
   get rowSelection() { return this.getAttribute(attributes.ROW_SELECTION) || false; }
+
+  /**
+   * Set suppress empty message
+   * @param {string|boolean} value The value
+   */
+  set suppressEmptyMessage(value: string | boolean) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.SUPPRESS_EMPTY_MESSAGE, '');
+    } else {
+      this.removeAttribute(attributes.SUPPRESS_EMPTY_MESSAGE);
+    }
+    setEmptyMessage.apply(this);
+  }
+
+  get suppressEmptyMessage(): boolean {
+    return this.hasAttribute(attributes.SUPPRESS_EMPTY_MESSAGE);
+  }
 
   /*
   * Set to true to prevent rows from being selectedd when clicking the row,only the checkbox will select.

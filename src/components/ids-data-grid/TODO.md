@@ -12,8 +12,8 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Formatters left: Tag, Alerts, Image, Favorite, Card (templates), Targeted Achievement etc, Multi Button
 - [x] Fix icon and field sizes on http://localhost:4300/ids-data-grid/filter.html
 - [x] Save Settings [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-save-settings.html)
-- [ ] Empty Message [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-empty-message.html)
 - [x] Expandable Row [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-expandable-row.html)
+- [x] Empty Message [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-empty-message.html)
 - [ ] Export Csv and Xls [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-export-from-button.html)
 - [x] Grouped Headers [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-grouped-headers.html)
 - [ ] Toolbar [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-custom-toolbar.html)

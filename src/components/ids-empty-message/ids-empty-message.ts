@@ -80,13 +80,14 @@ export default class IdsEmptyMessage extends Base {
 
   set icon(value: string | null) {
     const svgIcon = this.shadowRoot?.querySelector('svg');
-    if (value && (<any>pathData)[value]) {
-      if (svgIcon) svgIcon.style.display = '';
+    const iconData = (pathData as any)[value as string];
+    if (value && iconData) {
+      svgIcon?.style.setProperty('display', '');
       this.setAttribute(attributes.ICON, value);
-      if (svgIcon) svgIcon.innerHTML = this.iconData();
+      if (svgIcon) svgIcon.innerHTML = iconData;
     } else {
       this.removeAttribute(attributes.ICON);
-      if (svgIcon) svgIcon.style.display = 'none';
+      svgIcon?.style.setProperty('display', 'none');
     }
   }
 }
