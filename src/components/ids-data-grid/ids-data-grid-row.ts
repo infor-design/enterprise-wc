@@ -51,7 +51,7 @@ export default class IdsDataGridRow extends IdsElement {
     return this.dataGrid?.visibleColumns || [];
   }
 
-  get viewport() {
+  get dimensions() {
     return this.getBoundingClientRect();
   }
 

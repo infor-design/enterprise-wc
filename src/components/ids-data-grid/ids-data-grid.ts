@@ -177,10 +177,10 @@ export default class IdsDataGrid extends Base {
         reversedRows
           .every((row, idx) => {
             const currentIndex = prevRowIndex - idx;
-            const rowViewport = row.viewport;
-            const isOffScreen = rowViewport.y > (containerDimensions.height + virtualScrollSettings.BUFFER_HEIGHT);
-            // const isOffScreen = rowViewport.y > (window.innerHeight + virtualScrollSettings.BUFFER_HEIGHT);
-            // const isOffScreen = rowViewport.bottom > (window.innerHeight + virtualScrollSettings.BUFFER_HEIGHT);
+            const rowDimensions = row.dimensions;
+            const isOffScreen = rowDimensions.y > (containerDimensions.height + virtualScrollSettings.BUFFER_HEIGHT);
+            // const isOffScreen = rowDimensions.y > (window.innerHeight + virtualScrollSettings.BUFFER_HEIGHT);
+            // const isOffScreen = rowDimensions.bottom > (window.innerHeight + virtualScrollSettings.BUFFER_HEIGHT);
             if (!isOffScreen) {
               return false;
             }
@@ -190,9 +190,9 @@ export default class IdsDataGrid extends Base {
             }
 
             // NOTE: dynamic row height calculation fails here, because
-            // NOTE: some of rowViewport.height calculations fall through the cracks
+            // NOTE: some of rowDimensions.height calculations fall through the cracks
             // NOTE: and are thrown off when cancelAnimationFrame is called above
-            bodyOffsetHeight += rowViewport.height;
+            bodyOffsetHeight += rowDimensions.height;
             row.rowIndex = currentIndex;
             return recycleRows.unshift(row);
           });
@@ -214,8 +214,8 @@ export default class IdsDataGrid extends Base {
       } else if (isScrollingDown) {
         rows.every((row, idx) => {
           const currentIndex = nextRowIndex + idx;
-          const rowViewport = row.viewport;
-          const isOffScreen = rowViewport.y < (headerDimensions.y - (virtualScrollSettings.BUFFER_HEIGHT));
+          const rowDimensions = row.dimensions;
+          const isOffScreen = rowDimensions.y < (headerDimensions.y - (virtualScrollSettings.BUFFER_HEIGHT));
 
           if (!isOffScreen) {
             // topRowIndex = row.rowIndex;
@@ -227,9 +227,9 @@ export default class IdsDataGrid extends Base {
           }
 
           // NOTE: dynamic row height calculation fails here, because
-          // NOTE: some of rowViewport.height calculations fall through the cracks
+          // NOTE: some of rowDimensions.height calculations fall through the cracks
           // NOTE: and are thrown off when cancelAnimationFrame is called above
-          bodyOffsetHeight += rowViewport.height;
+          bodyOffsetHeight += rowDimensions.height;
           row.rowIndex = currentIndex;
           return recycleRows.push(row);
         });
