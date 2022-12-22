@@ -240,7 +240,6 @@ export default class IdsDataGridCell extends IdsElement {
 
     if (previousCellInfo.length === 0) {
       rowDirtyCells.push({
-        row: Number(this.parentElement?.getAttribute('aria-rowindex')) - 1,
         cell: Number(this?.getAttribute('aria-colindex')) - 1,
         columnId: this.column.id,
         originalValue: this?.editor?.input?.dirty.original
@@ -266,7 +265,6 @@ export default class IdsDataGridCell extends IdsElement {
     if (previousCellInfo.length === 0) {
       this.previousInvalidState = validationMessages.id;
       rowInvalidCells.push({
-        row: Number(this.parentElement?.getAttribute('aria-rowindex')) - 1,
         cell: Number(this?.getAttribute('aria-colindex')) - 1,
         columnId: this.column.id,
         validationMessages
