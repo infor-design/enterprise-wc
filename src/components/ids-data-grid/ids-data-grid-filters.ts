@@ -661,6 +661,7 @@ export default class IdsDataGridFilters {
 
     // Fires after filter action occurs
     if (isCleared || isFilterApply) {
+      this.root.toggleEmptyMessage();
       this.root.triggerEvent('filtered', this.root, {
         bubbles: true,
         detail: { elem: this.root, type: isCleared ? 'clear' : 'apply', conditions }

@@ -237,6 +237,10 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `saveRowHeight` {boolean} If set row height will be saved to local storage.
 - `saveSortOrder` {boolean} If set column sort order will be saved to local storage.
 - `saveUserSettings` {boolean} If set all settings will be saved to local storage.
+- `emptyMessageDescription` {string} Set empty message description text.
+- `emptyMessageIcon` {string} Set empty message icon name.
+- `emptyMessageLabel` {string} Set empty message label text.
+- `suppressEmptyMessage` {boolean} Set to true to prevent display empty message.
 
 ## Column Settings (General)
 
@@ -1097,6 +1101,45 @@ Set context menu thru ID.
     <ids-menu-item value="item-4">Item Four</ids-menu-item>
   </ids-menu-group>
 </ids-popup-menu>
+```
+
+## Empty Message
+
+Set empty message thru slot (markup).
+
+```html
+<ids-data-grid id="data-grid-em-thru-slot" label="Books">
+  <ids-empty-message hidden icon="empty-search-data-new" slot="empty-message">
+    <ids-text type="h2" font-size="20" label="true" slot="label">No Data</ids-text>
+    <ids-text hidden label="true" slot="description">There is no data available.</ids-text>
+  </ids-empty-message>
+</ids-data-grid>
+```
+
+Set empty message thru settings (markup).
+
+```html
+<ids-data-grid
+  id="data-grid-em-thru-settings"
+  label="Books"
+  empty-message-icon="empty-error-loading-new"
+  empty-message-label="No Data"
+  empty-message-description="There is no data available."
+></ids-data-grid>
+```
+
+Set empty message thru settings (javascript).
+
+```html
+<ids-data-grid id="data-grid-em-thru-settings-js" label="Books">
+</ids-data-grid>
+```
+
+```js
+const dataGrid = document.querySelector('#data-grid-em-thru-settings-js');
+dataGrid.emptyMessageIcon = 'empty-error-loading-new';
+dataGrid.emptyMessageLabel = 'No Data';
+dataGrid.emptyMessageDescription = 'There is no data available.';
 ```
 
 ## States and Variations
