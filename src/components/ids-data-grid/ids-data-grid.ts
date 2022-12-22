@@ -116,6 +116,10 @@ export default class IdsDataGrid extends Base {
     }
   }
 
+  #detachVirtualScrollEvent() {
+    this.offEvent('scroll', this.container);
+  }
+
   #attachVirtualScrollEvent() {
     const virtualScrollSettings = this.virtualScrollSettings;
     let debounceInterval = 0;
@@ -261,13 +265,13 @@ export default class IdsDataGrid extends Base {
     }, { capture: true, passive: true });
   }
 
-  #moveRowToTop(rowIndex: number) {
+  #recycleRowToTop(rowIndex: number) {
     this.rows.forEach((row, idx) => {
       row.rowIndex = rowIndex + idx;
     });
   }
 
-  #moveTopRowsDown(rowCount: number) {
+  #recycleTopRowsDown(rowCount: number) {
     const rows = this.rows;
     if (!rowCount || !rows.length) return;
     const data = this.data;
@@ -284,13 +288,14 @@ export default class IdsDataGrid extends Base {
     });
 
     if (!rowsToMove.length) return;
+    if (rowsToMove.length >= this.virtualScrollSettings.NUM_ROWS) return; // no need shift DOM if all rows changed
 
     requestAnimationFrame(() => {
       this.body.append(...rowsToMove);
     });
   }
 
-  #moveBottomRowsUp(rowCount: number) {
+  #recycleBottomRowsUp(rowCount: number) {
     const rows = this.rows;
     if (!rowCount || !rows.length) return;
 
@@ -307,6 +312,7 @@ export default class IdsDataGrid extends Base {
     });
 
     if (!rowsToMove.length) return;
+    if (rowsToMove.length >= this.virtualScrollSettings.NUM_ROWS) return; // no need shift DOM if all rows changed
 
     requestAnimationFrame(() => {
       this.body.prepend(...rowsToMove.reverse());
@@ -328,41 +334,61 @@ export default class IdsDataGrid extends Base {
     const isBelowLastRow = rowIndex > lastRowIndex;
     const isInRange = !isAboveFirstRow && !isBelowLastRow;
 
+    console.log({
+      rowIndex,
+      // firstRow,
+      // lastRow,
+      firstRowIndex,
+      lastRowIndex,
+      // isAboveFirstRow,
+      // isBelowLastRow,
+      // isInRange,
+    });
+
     const virtualScrollSettings = this.virtualScrollSettings;
     const bufferIndexTop = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
 
     if (isInRange) {
       const numTopRows = Math.abs(firstRowIndex - rowIndex);
       const numExcessRows = numTopRows - virtualScrollSettings.BUFFER_ROWS;
+      console.log('isInRange', { numTopRows, numExcessRows });
       if (numExcessRows) {
-        this.#moveTopRowsDown(numExcessRows);
+        this.#recycleTopRowsDown(numExcessRows);
       } else {
-        this.#moveBottomRowsUp(Math.abs(numExcessRows));
+        this.#recycleBottomRowsUp(Math.abs(numExcessRows));
       }
     } else if (isAboveFirstRow) {
       const distanceFromTop = Math.abs(firstRowIndex - rowIndex);
       const numExcessRows = distanceFromTop + virtualScrollSettings.BUFFER_ROWS;
+      console.log('isAboveFirstRow', { distanceFromTop, numExcessRows });
       if (numExcessRows < virtualScrollSettings.NUM_ROWS) {
-        this.#moveBottomRowsUp(numExcessRows);
+        this.#recycleBottomRowsUp(numExcessRows);
       } else {
-        this.#moveRowToTop(bufferIndexTop);
+        this.#recycleRowToTop(bufferIndexTop);
       }
     } else if (isBelowLastRow) {
       const distanceFromBottom = Math.abs(rowIndex - lastRowIndex);
-      const numExcessRows = distanceFromBottom - virtualScrollSettings.BUFFER_ROWS;
-      if (numExcessRows < virtualScrollSettings.NUM_ROWS) {
-        this.#moveTopRowsDown(numExcessRows);
+      const distanceOutOfReach = distanceFromBottom - virtualScrollSettings.BUFFER_ROWS;
+      console.log('isBelowLastRow', { distanceFromBottom, distanceOutOfReach });
+      if (distanceOutOfReach > 0) {
+        this.#recycleRowToTop(bufferIndexTop);
       } else {
-        this.#moveRowToTop(bufferIndexTop);
+        this.#recycleTopRowsDown(Math.abs(distanceOutOfReach));
       }
     } else {
-      this.#moveRowToTop(bufferIndexTop);
+      this.#recycleRowToTop(bufferIndexTop);
     }
 
     requestAnimationFrame(() => {
+      this.#detachVirtualScrollEvent();
+
       const bodyTranslateY = bufferIndexTop * virtualScrollSettings.ROW_HEIGHT;
+      const newScrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+      console.log('requestAnimationFrame', { bufferIndexTop, newScrollTop });
       this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
       this.container.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+
+      this.#attachVirtualScrollEvent();
     });
   }
 
