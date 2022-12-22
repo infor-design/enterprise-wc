@@ -341,7 +341,7 @@ export default class IdsDataGrid extends Base {
     const emptyMesageTemplate = emptyMessageTemplate.apply(this);
 
     if (this.virtualScroll) {
-      return `<ids-virtual-scroll>${emptyMesageTemplate}<div class="ids-data-grid-body" part="contents"></div></ids-virtual-scroll>`;
+      return `${emptyMesageTemplate}<ids-virtual-scroll><div class="ids-data-grid-body" part="contents"></div></ids-virtual-scroll>`;
     }
     return `${emptyMesageTemplate}<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
