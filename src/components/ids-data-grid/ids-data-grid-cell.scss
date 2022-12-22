@@ -140,7 +140,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   }
 
   &.is-invalid {
-    background-color: var(--ids-color-palette-ruby-10);
+    background-color: rgba(232 79 79 / 0.1);
   }
 
   ids-alert {
@@ -221,6 +221,14 @@ td.ids-data-grid-cell {
       @include bg-slate-100();
     }
 
+    &.is-invalid {
+      background-color: rgba(232 79 79 / 0.1);
+    }
+
+    &.is-dirty::before {
+      border-color: var(--ids-color-palette-amber-40) transparent transparent var(--ids-color-palette-amber-40);
+    }
+
     .ids-data-grid-checkbox {
       @include border-slate-40();
 
@@ -259,6 +267,14 @@ td.ids-data-grid-cell {
       color: var(--ids-color-palette-slate-40);
     }
 
+    &.is-invalid {
+      background-color: rgba(232 79 79 / 0.1);
+    }
+
+    &.is-dirty::before {
+      border-color: var(--ids-color-palette-amber-40) transparent transparent var(--ids-color-palette-amber-40);
+    }
+
     &:focus {
       box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
       outline: 1px solid var(--ids-color-palette-azure-80);
@@ -285,10 +301,6 @@ td.ids-data-grid-cell {
     &.is-editing:not(.is-inline):focus-within {
       box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
       outline: 1px solid var(--ids-color-palette-azure-80);
-    }
-
-    &.is-dirty::before {
-      border-color: var(--ids-color-palette-amber-50) transparent transparent var(--ids-color-palette-amber-50);
     }
   }
 

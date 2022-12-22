@@ -483,6 +483,15 @@ export default class IdsDataGrid extends Base {
       }
     });
 
+    // Move the validation data
+    this.invalidCells.forEach((invalidRow: Record<string, any>) => {
+      if (invalidRow.cell === fromIndex) {
+        const row: any = this.data[invalidRow?.row];
+        const cellIndex = row.invalidCells.findIndex((item: any) => item.cell === fromIndex);
+        row.invalidCells[cellIndex].cell = toIndex;
+      }
+    });
+
     resetEmptyMessageElements.apply(this);
     this.redraw();
     this.triggerEvent('columnmoved', this, { detail: { elem: this, fromIndex: correctFromIndex, toIndex: correctToIndex } });
@@ -1224,10 +1233,12 @@ export default class IdsDataGrid extends Base {
    * Update the dataset
    * @param {number} row the parent row that was clicked
    * @param {Record<string, unknown>} data the data to apply to the row
+   * @param {boolean} isClear do not keep current data
    */
-  updateDataset(row: number, data: Record<string, unknown>) {
+  updateDataset(row: number, data: Record<string, unknown>, isClear?: boolean) {
     // Update the current data
-    this.data[row] = { ...this.data[row], ...data };
+    if (isClear) this.data[row] = data;
+    else this.data[row] = { ...this.data[row], ...data };
 
     // Update the tree element in the original data
     if (this.treeGrid) {
@@ -1248,7 +1259,8 @@ export default class IdsDataGrid extends Base {
       return;
     }
     // Non tree - update original data
-    this.datasource.originalData[row] = { ...this.datasource.originalData[row], ...data };
+    if (isClear) this.datasource.originalData[row] = data;
+    else this.datasource.originalData[row] = { ...this.datasource.originalData[row], ...data };
   }
 
   /**
@@ -1318,8 +1330,7 @@ export default class IdsDataGrid extends Base {
    * @param {number} index the row index to clear
    */
   clearRow(index: number) {
-    this.datasource.originalData[index] = {};
-    this.data = this.datasource.originalData;
+    this.updateDataset(index, {}, true);
     this.redrawBody();
   }
 
@@ -1794,6 +1805,20 @@ export default class IdsDataGrid extends Base {
 
   get editNextOnEnterPress(): boolean {
     return stringToBool(this.getAttribute(attributes.EDIT_NEXT_ON_ENTER_PRESS));
+  }
+
+  /**
+   * Get all the currently invalid cells
+   * @returns {Array<{ row: number, cell: number, columnId: string | null, validationMessages: any }>} cell invalid info
+   */
+  get invalidCells(): Array<{ row: number, cell: number, columnId: string | null, validationMessages: any }> {
+    const invalidCells: Array<{ row: number, cell: number, columnId: string | null, validationMessages: any }> = [];
+    for (let index = 0; index < this.data.length; index++) {
+      if (this.data[index]?.invalidCells) {
+        invalidCells.push(...this.data[index].invalidCells);
+      }
+    }
+    return invalidCells;
   }
 
   /**
