@@ -338,12 +338,12 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyTemplate() {
-    let html = emptyMessageTemplate.apply(this);
+    const emptyMesageTemplate = emptyMessageTemplate.apply(this);
+
     if (this.virtualScroll) {
-      html += `<ids-virtual-scroll><div class="ids-data-grid-body" part="contents"></div></ids-virtual-scroll>`;
+      return `<ids-virtual-scroll>${emptyMesageTemplate}<div class="ids-data-grid-body" part="contents"></div></ids-virtual-scroll>`;
     }
-    html += `<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
-    return html;
+    return `${emptyMesageTemplate}<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
 
   /**
