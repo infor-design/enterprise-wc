@@ -1,0 +1,152 @@
+@import '../../core/ids-base';
+
+// Date Picker Popup padding reset
+ids-popup::part(popup) {
+  @include py-0();
+}
+
+.ids-date-picker-popup .ids-popup.menu {
+  @include py-0();
+}
+
+ids-month-view {
+  @include w-full();
+}
+
+.ids-date-picker-popup {
+  min-width: 350px;
+
+  &:not(.has-time) ids-month-view::part(table-container) {
+    margin-bottom: 10px;
+  }
+
+  ids-popup::part(popup) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  &[mode='dark'] {
+    ids-popup::part(popup) {
+      @include bg-slate-80();
+    }
+
+    ids-popup::part(arrow)::after {
+      border-bottom-color: var(--ids-color-palette-slate-80);
+    }
+  }
+
+  .popup-footer {
+    @include flex();
+
+    border-top: 1px solid var(--ids-color-palette-slate-30);
+
+    ids-modal-button:not([hidden]) + ids-modal-button,
+    .ids-modal-button:not([hidden]) + .ids-modal-button {
+      @include border-l-1();
+
+      border-left-color: var(--ids-color-palette-slate-30);
+    }
+  }
+
+  &[mode='dark'] .popup-footer {
+    border-top-color: var(--ids-color-palette-slate-50);
+
+    ids-modal-button:not([hidden]) + ids-modal-button:not(:focus),
+    .ids-modal-button:not([hidden]) + .ids-modal-button:not(:focus) {
+      border-left-color: var(--ids-color-palette-slate-50);
+    }
+  }
+
+  .popup-btn {
+    @include w-full();
+  }
+}
+
+.ids-date-picker-content {
+  position: relative;
+}
+
+// =====================================
+// IdsExpandableArea
+
+ids-expandable-area {
+  display: block;
+}
+
+ids-expandable-area:not([expanded]),
+ids-expandable-area[expanded='false'] {
+  pointer-events: none;
+}
+
+ids-expandable-area::part(container) {
+  @include absolute();
+  @include m-0();
+  @include p-0();
+  @include h-full();
+  @include w-full();
+
+  z-index: 3;
+  border: none;
+  left: 0;
+}
+
+ids-expandable-area::part(header) {
+  display: none;
+}
+
+ids-expandable-area::part(pane) {
+  @include bg-white();
+}
+
+ids-expandable-area::part(footer) {
+  display: none;
+}
+
+ids-expandable-area::part(pane-content) {
+  @include mt-0();
+  @include h-full();
+}
+
+[mode='dark'] ids-expandable-area::part(pane) {
+  @include bg-slate-80();
+}
+
+// =====================================
+// Timepicker
+
+ids-time-picker {
+  display: flex;
+  justify-content: center;
+}
+
+// =====================================
+// Footer buttons
+
+.btn-today {
+  margin-right: -7px;
+
+  &::part(button) {
+    @include px-4();
+    @include py-2();
+
+    margin: 3px;
+  }
+}
+
+.btn-today-text {
+  @include text-azure-60();
+}
+
+.btn-previous,
+.btn-next {
+  @include pl-0();
+
+  margin: 3px;
+
+  &::part(button) {
+    @include p-0();
+
+    width: 44px;
+    height: 44px;
+  }
+}

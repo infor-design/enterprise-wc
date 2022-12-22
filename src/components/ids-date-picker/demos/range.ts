@@ -67,7 +67,7 @@ import '../ids-date-picker';
       start: '2/5/2018',
       end: '2/28/2018'
     };
-    rangePickerNotIncluded.disable = {
+    rangePickerNotIncluded.disableSettings = {
       dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018']
     };
   }
@@ -79,7 +79,7 @@ import '../ids-date-picker';
       end: '2/28/2018',
       includeDisabled: true
     };
-    rangePickerIncluded.disable = {
+    rangePickerIncluded.disableSettings = {
       dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018']
     };
   }
@@ -90,7 +90,7 @@ import '../ids-date-picker';
       start: '2/5/2018',
       end: '2/28/2018'
     };
-    rangePickerLegend.disable = {
+    rangePickerLegend.disableSettings = {
       dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018']
     };
     rangePickerLegend.legend = [
