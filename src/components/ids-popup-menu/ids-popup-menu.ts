@@ -74,7 +74,7 @@ export default class IdsPopupMenu extends Base {
   }
 
   /**
-   * @returns {Array<string>} Drawer vetoable events
+   * @returns {Array<string>} Popup Menu vetoable events
    */
   vetoableEventTypes: Array<string> = ['beforeshow'];
 

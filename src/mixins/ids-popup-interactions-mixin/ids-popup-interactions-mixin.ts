@@ -29,6 +29,12 @@ export interface PopupInteractionsCallbacks {
   onTriggerHoverClick?(e: Event): void;
   onTriggerImmediate?(): void;
 }
+/*
+export interface PopupInteractionsProps {
+  popup?: IdsPopup | undefined | null;
+  target?: IdsPopupElementRef;
+}
+*/
 
 type Constraints = IdsConstructor<EventsMixinInterface & PopupInteractionsCallbacks>;
 

@@ -63,6 +63,29 @@
   display: block;
 }
 
+.calendar-contents {
+  flex-grow: 1;
+}
+
+.calendar-toolbar-pane {
+  @include border-1();
+  @include border-solid();
+  @include border-slate-20();
+  @include bg-white();
+
+  display: block;
+  border-bottom: 0;
+  left: 0;
+  top: 0;
+  z-index: 4;
+  flex-shrink: 0;
+}
+
+ids-toolbar-section::part(container),
+.ids-toolbar-section {
+  align-items: center;
+}
+
 .calendar-view-pane {
   flex-grow: 1;
 }
@@ -93,6 +116,15 @@
 
 ids-accordion-panel::part(content) {
   padding: 4px 0;
+}
+
+.btn-previous,
+.btn-next {
+  height: 36px;
+}
+
+.btn-today-text {
+  @include text-azure-60();
 }
 
 .calendar-events-list {

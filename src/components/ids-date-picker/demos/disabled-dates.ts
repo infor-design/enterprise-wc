@@ -6,27 +6,27 @@ const disabledMinMax: any = document.querySelector('#e2e-date-picker-disabled-mi
 const disabledReverse: any = document.querySelector('#e2e-date-picker-disabled-reverse');
 
 if (disabledDates) {
-  disabledDates.disable = {
+  disabledDates.disableSettings = {
     dates: ['6/9/2015', '6/12/2015'],
     dayOfWeek: [0, 6]
   };
 }
 
 if (disabledYears) {
-  disabledYears.disable = {
+  disabledYears.disableSettings = {
     years: [2019, 2021, 2030, 2034]
   };
 }
 
 if (disabledMinMax) {
-  disabledMinMax.disable = {
+  disabledMinMax.disableSettings = {
     minDate: '6/3/2020',
     maxDate: '6/25/2020'
   };
 }
 
 if (disabledReverse) {
-  disabledReverse.disable = {
+  disabledReverse.disableSettings = {
     minDate: '6/3/2020',
     maxDate: '6/25/2020',
     isEnable: true

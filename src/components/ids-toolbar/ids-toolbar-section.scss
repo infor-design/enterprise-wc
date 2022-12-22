@@ -83,5 +83,19 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     @include px-12();
   }
 
+  // "Inactive" sections retain their dimensions (width/height) but their contents
+  // become invisible and unable to respond to interactions
+  &.inactive {
+    > * {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    ::slotted(*) {
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
   @include ids-toolbar-section-inner-size-styles();
 }

@@ -27,6 +27,11 @@ const TOOLBAR_TYPES = ['formatter'];
 @customElement('ids-toolbar')
 @scss(styles)
 export default class IdsToolbar extends Base {
+  /**
+   * Watches for Toolbar size changes
+   */
+  #resizeObserver?: ResizeObserver | null;
+
   constructor() {
     super();
   }
@@ -46,7 +51,7 @@ export default class IdsToolbar extends Base {
     this.setAttribute('role', 'toolbar');
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
-    this.#resizeObserver.observe(this);
+    this.#configureResizeObserver();
     this.#setType(null, this.type);
     this.makeTabbable(this.detectTabbable());
 
@@ -57,17 +62,22 @@ export default class IdsToolbar extends Base {
 
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
-    this.#resizeObserver.disconnect(this.container);
-    this.#resizeObserver = null;
+    if (this.#resizeObserver) {
+      this.#resizeObserver.disconnect();
+      this.#resizeObserver = null;
+    }
   }
 
   /**
-   * Attach the resize observer.
+   * Configures the resize observer.
    * @private
    */
-  #resizeObserver: any = new ResizeObserver(() => {
-    this.#resize();
-  });
+  #configureResizeObserver(): void {
+    this.#resizeObserver = new ResizeObserver(() => {
+      this.#resize();
+    });
+    this.#resizeObserver.observe(this);
+  }
 
   /**
    * Sets up event handlers assigned to the Toolbar and its child elements
