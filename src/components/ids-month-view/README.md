@@ -143,7 +143,7 @@ monthView.legend = [
 monthView.legend = null;
 
 // Add disabled dates
-monthView.disable = {
+monthView.disableSettings = {
   dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018'],
   dayOfWeek: [0, 6],
   minDate: '2/6/2018',

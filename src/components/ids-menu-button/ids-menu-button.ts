@@ -9,6 +9,7 @@ import '../ids-menu/ids-menu-group';
 import '../ids-menu/ids-menu-item';
 
 import styles from '../ids-button/ids-button.scss';
+
 import type IdsIcon from '../ids-icon/ids-icon';
 
 /**
@@ -30,6 +31,7 @@ export default class IdsMenuButton extends Base {
     return [
       ...super.attributes,
       attributes.DISABLED,
+      attributes.DISPLAY_SELECTED_TEXT,
       attributes.DROPDOWN_ICON,
       attributes.FORMATTER_WIDTH,
       attributes.ID,
@@ -96,6 +98,23 @@ export default class IdsMenuButton extends Base {
     } else if (icon) {
       icon.remove();
     }
+  }
+
+  /**
+   * @param {boolean | string} val true if the menu button should adopt a selected menu item's text content when chosen
+   */
+  set displaySelectedText(val: boolean | string) {
+    const bool = stringToBool(val);
+    if (bool) this.setAttribute(attributes.DISPLAY_SELECTED_TEXT, `${val}`);
+    else this.removeAttribute(attributes.DISPLAY_SELECTED_TEXT);
+    this.configureMenu();
+  }
+
+  /**
+   * @returns {string} true if the menu button will adopt a selected menu item's text content when chosen
+   */
+  get displaySelectedText() {
+    return stringToBool(this.getAttribute(attributes.DISPLAY_SELECTED_TEXT));
   }
 
   /**
@@ -203,6 +222,16 @@ export default class IdsMenuButton extends Base {
     if (!hasHideHandler) {
       this.onEvent('hide', this.menuEl, () => {
         this.setActiveState(false);
+      });
+    }
+
+    // Enabled using `displaySelectedText` setting
+    this.offEvent('selected.menu');
+    if (this.menuEl && this.displaySelectedText) {
+      this.onEvent('selected.menu', this.menuEl, (e: CustomEvent) => {
+        let btnTextEl = this.querySelector('ids-text, span');
+        if (!btnTextEl) btnTextEl = this;
+        btnTextEl.textContent = e.detail.elem.textContent.trim();
       });
     }
   }

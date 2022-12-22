@@ -214,15 +214,12 @@ export default class IdsTriggerField extends Base {
   /**
    * Establish Internal Event Handlers
    * @private
-   * @returns {this} The IdsTriggerField API for chaining.
    */
-  #attachTriggerButtonEvents(): this {
-    const buttons = this.querySelectorAll('ids-trigger-button');
-    if (buttons) {
-      [...buttons].forEach((button) => this.onEvent('click', button, () => this.trigger()));
-    }
-
-    return this;
+  #attachTriggerButtonEvents() {
+    this.onEvent('click.trigger-button', this, (e: CustomEvent) => {
+      const btn = (e.target as IdsTriggerButton);
+      if (btn) this.trigger();
+    });
   }
 
   /**

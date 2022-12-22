@@ -22,24 +22,6 @@ $hour-row-height: 25px;
   // excluding component top offset
   max-height: calc(100vh - 26px - var(--offset-top, 0px));
 
-  .week-view-header {
-    @include border-slate-20();
-    @include bg-white();
-
-    display: block;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    left: 0;
-    top: 0;
-    z-index: 4;
-    height: 50px;
-    flex-shrink: 0;
-  }
-
-  .week-view-today-text {
-    @include text-azure-60();
-  }
-
   .week-view-table-header {
     th {
       background-clip: padding-box;

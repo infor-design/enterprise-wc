@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Ids Date Picker Popup (Composed with Ids Trigger Field)</ids-text>
+        <p><ids-text font-size="16" type="p">The Trigger Fields in this example are NOT IdsDatePicker components. This example shares a single IdsDatePickerPopup component across all four trigger fields, demonstrating how to use the IdsDatePickerPopup by itself, similar to its usage in IdsCalendar and IdsDataGrid.</ids-text></p>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell id="trigger-field-container">
+        <ids-trigger-field
+          id="date-time-picker-current-time-field"
+          size="md"
+          label="Date/Time Picker Current Time"
+          placeholder="M/d/yyyy hh:mm a">
+          <ids-trigger-button slot="trigger-end" id="date-time-picker-current-time-button">
+            <ids-text audible="true">Select Date</ids-text>
+            <ids-icon slot="icon" icon="calendar"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+        <ids-trigger-field
+          id="date-picker-cancel-clear-field"
+          size="sm"
+          label="With Cancel/Clear Buttons"
+          placeholder="M/d/yyyy">
+          <ids-trigger-button slot="trigger-end" id="date-picker-cancel-clear-button">
+            <ids-text audible="true">Select Date</ids-text>
+            <ids-icon slot="icon" icon="calendar"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+        <ids-trigger-field
+          id="date-picker-week-number-field"
+          size="sm"
+          label="With Week Numbers"
+          placeholder="M/d/yyyy">
+          <ids-trigger-button slot="trigger-end" id="date-picker-week-number-button">
+            <ids-text audible="true">Select Date</ids-text>
+            <ids-icon slot="icon" icon="calendar"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+
+        <ids-trigger-field
+          id="date-picker-range-week-field"
+          size="md"
+          label="Range Picker (entire week)"
+          placeholder="M/d/yyyy">
+          <ids-trigger-button slot="trigger-end" id="date-picker-range-week-button">
+            <ids-text audible="true">Select Date</ids-text>
+            <ids-icon slot="icon" icon="calendar"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -27,4 +27,37 @@ describe('Ids Calendar e2e Tests', () => {
     });
     expect(await countObjects(page)).toEqual(numberOfObjects);
   });
+
+  it.skip('should handle display range dates', async () => {
+    const name = 'ids-month-view';
+    let toolbar = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('ids-toolbar'));
+
+    expect(toolbar).not.toBeNull();
+
+    await page.evaluate((el: any) => {
+      const component = document.querySelector(el);
+
+      component.startDate = '02/04/2021';
+      component.endDate = '04/04/2021';
+    }, name);
+
+    toolbar = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('ids-toolbar'));
+
+    expect(toolbar).toBeNull();
+
+    // Selectable
+    let selected = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.is-selected'));
+
+    // Click to tr element within tbody
+    await page.$eval(name, (el: any) => el.shadowRoot.querySelector('tbody tr')?.click());
+
+    expect(selected).toBeNull();
+
+    await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td:not(.is-disabled)')?.click());
+
+    // Selectable
+    selected = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.is-selected'));
+
+    expect(selected).not.toBeNull();
+  });
 });

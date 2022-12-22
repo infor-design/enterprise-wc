@@ -26,8 +26,8 @@
   pointer-events: none;
 }
 
-// Host elements receive left/top animations
-:host([animated]) {
+// Visible, animated host elements receive left/top animations
+:host([visible][animated]) {
   transition:
     left $popup-transition-length $popup-transition-ease,
     top $popup-transition-length $popup-transition-ease;

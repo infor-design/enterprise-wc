@@ -9,7 +9,8 @@ import styles from './ids-trigger-button.scss';
 /**
  * IDS Trigger Button Component
  * @type {IdsTriggerButton}
- * @inherits IdsElement
+ * @inherits IdsButton
+ * @mixes IdsFieldHeightMixin
  */
 @customElement('ids-trigger-button')
 @scss(styles)
