@@ -366,58 +366,6 @@ export default class IdsDataGrid extends Base {
     });
   }
 
-  scrollRowIntoView2(rowIndex: number) {
-    rowIndex = Math.max(rowIndex, 0);
-    rowIndex = Math.min(rowIndex, (this.data.length - 1));
-
-    const rows = this.rows;
-    if (!rows.length) return;
-
-    const firstRow = rows[0];
-    const lastRow = rows[rows.length - 1];
-    const firstRowIndex = firstRow.rowIndex;
-    const lastRowIndex = lastRow.rowIndex;
-    const rowIndexInRange = rowIndex >= firstRowIndex && rowIndex <= lastRowIndex;
-
-    const virtualScrollSettings = this.virtualScrollSettings;
-    const bufferIndexTop = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
-
-    if (rowIndexInRange) {
-      const leadingRowCount = Math.abs(firstRowIndex - rowIndex);
-      const leadingRows = rows.slice(0, leadingRowCount);
-      if (leadingRows.length > this.virtualScrollSettings.BUFFER_ROWS) {
-        // Move rows from top to bottom
-        const recycleTopRows = leadingRows.slice(0, (-1 * this.virtualScrollSettings.BUFFER_ROWS));
-        if (recycleTopRows.length) {
-          recycleTopRows.forEach((row, idx) => {
-            row.rowIndex = lastRowIndex + (idx + 1);
-          });
-          this.body.append(...recycleTopRows);
-        }
-      } else {
-        // Move rows from bottom to top
-        const missingRowCount = this.virtualScrollSettings.BUFFER_ROWS - leadingRows.length;
-        if (missingRowCount) {
-          const recycleBottomRows = rows.slice((-1 * missingRowCount));
-          recycleBottomRows.forEach((row, idx) => {
-            row.rowIndex = firstRowIndex - (idx + 1);
-          });
-          this.body.prepend(...recycleBottomRows.reverse());
-        }
-      }
-    } else {
-      rows.forEach((row, idx) => {
-        row.rowIndex = bufferIndexTop + idx;
-      });
-    }
-
-    requestAnimationFrame(() => {
-      const bodyTranslateY = bufferIndexTop * virtualScrollSettings.ROW_HEIGHT;
-      this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
-      this.container.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
-    });
-  }
-
   /** Reference to datasource API */
   readonly datasource: IdsDataSource = new IdsDataSource();
 
