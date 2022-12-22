@@ -111,8 +111,28 @@ export default class IdsDataGrid extends Base {
     super.connectedCallback();
     this.redrawBody();
     if (this.virtualScroll) {
+      this.container?.style.setProperty('max-height', '95vh');
       this.#attachVirtualScrollEvent();
     }
+
+    // const virtualScrollSettings = this.virtualScrollSettings;
+    // let debounceInterval = 0;
+    // let lastIndex = NaN;
+
+    // this.container?.style.setProperty('max-height', '95vh');
+    // this.onEvent('scroll', this.container, (evt) => {
+    //   // evt.preventDefault();
+    //   debounceInterval++;
+    //   if (debounceInterval % virtualScrollSettings.DEBOUNCE_RATE !== 0) {
+    //     return;
+    //   }
+
+    //   const headerDimensions = this.header?.getBoundingClientRect();
+    //   const rowIndex = Math.round(((this.container?.scrollTop ?? 0) + headerDimensions.height) / this.virtualScrollSettings.ROW_HEIGHT);
+    //   if (lastIndex === rowIndex) return;
+    //   lastIndex = rowIndex;
+    //   this.scrollRowIntoView(rowIndex);
+    // }, { capture: true, passive: true });
   }
 
   #attachVirtualScrollEvent() {
@@ -260,6 +280,52 @@ export default class IdsDataGrid extends Base {
     }, { capture: true, passive: true });
   }
 
+  #moveTopRowsDown(rowCount: number) {
+    const rows = this.rows;
+    if (!rowCount || !rows.length) return;
+    const data = this.data;
+
+    const bottomRow = rows[rows.length - 1];
+    const bottomRowIndex = bottomRow.rowIndex;
+    const selectedRows = rows.slice(0, rowCount);
+    const rowsToMove: any[] = [];
+    selectedRows.every((row, idx) => {
+      const nextIndex = bottomRowIndex + (idx + 1);
+      if (nextIndex >= data.length) return false;
+      row.rowIndex = nextIndex;
+      return rowsToMove.push(row);
+    });
+
+    if (!rowsToMove.length) return;
+
+    requestAnimationFrame(() => {
+      this.body.append(...rowsToMove);
+    });
+  }
+
+  #moveBottomRowsUp(rowCount: number) {
+    const rows = this.rows;
+    if (!rowCount || !rows.length) return;
+
+    const topRow = rows[0];
+    const topRowIndex = topRow.rowIndex;
+    const selectedRows = rows.slice((-1 * rowCount));
+    const rowsToMove: any[] = [];
+
+    selectedRows.every((row, idx) => {
+      const prevIndex = topRowIndex - (idx + 1);
+      if (prevIndex < 0) return false;
+      row.rowIndex = prevIndex;
+      return rowsToMove.push(row);
+    });
+
+    if (!rowsToMove.length) return;
+
+    requestAnimationFrame(() => {
+      this.body.prepend(...rowsToMove.reverse());
+    });
+  }
+
   scrollRowIntoView(rowIndex: number) {
     rowIndex = Math.max(rowIndex, 0);
     rowIndex = Math.min(rowIndex, (this.data.length - 1));
@@ -267,12 +333,50 @@ export default class IdsDataGrid extends Base {
     const rows = this.rows;
     if (!rows.length) return;
 
+    const firstRow = rows[0];
+    const lastRow = rows[rows.length - 1];
+    const firstRowIndex = firstRow.rowIndex;
+    const lastRowIndex = lastRow.rowIndex;
+    const isAboveFirstRow = rowIndex < firstRowIndex;
+    const isBelowLastRow = rowIndex > lastRowIndex;
+    const isInRange = !isAboveFirstRow && !isBelowLastRow;
+
     const virtualScrollSettings = this.virtualScrollSettings;
     const bufferIndexTop = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
 
-    rows.forEach((row, idx) => {
-      row.rowIndex = bufferIndexTop + idx;
-    });
+    if (isInRange) {
+      const numTopRows = Math.abs(firstRowIndex - rowIndex);
+      const numExcessRows = numTopRows - virtualScrollSettings.BUFFER_ROWS;
+      if (numExcessRows) {
+        this.#moveTopRowsDown(numExcessRows);
+      } else {
+        this.#moveBottomRowsUp(Math.abs(numExcessRows));
+      }
+    } else if (isAboveFirstRow) {
+      const distanceFromTop = Math.abs(firstRowIndex - rowIndex);
+      const numExcessRows = distanceFromTop + virtualScrollSettings.BUFFER_ROWS;
+      if (numExcessRows < virtualScrollSettings.NUM_ROWS) {
+        this.#moveBottomRowsUp(numExcessRows);
+      } else {
+        rows.forEach((row, idx) => {
+          row.rowIndex = bufferIndexTop + idx;
+        });
+      }
+    } else if (isBelowLastRow) {
+      const distanceFromBottom = Math.abs(rowIndex - lastRowIndex);
+      const numExcessRows = distanceFromBottom - virtualScrollSettings.BUFFER_ROWS;
+      if (numExcessRows < virtualScrollSettings.NUM_ROWS) {
+        this.#moveTopRowsDown(numExcessRows);
+      } else {
+        rows.forEach((row, idx) => {
+          row.rowIndex = bufferIndexTop + idx;
+        });
+      }
+    } else {
+      rows.forEach((row, idx) => {
+        row.rowIndex = bufferIndexTop + idx;
+      });
+    }
 
     requestAnimationFrame(() => {
       const bodyTranslateY = bufferIndexTop * virtualScrollSettings.ROW_HEIGHT;
@@ -280,6 +384,58 @@ export default class IdsDataGrid extends Base {
       this.container.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
     });
   }
+
+  // scrollRowIntoView(rowIndex: number) {
+  //   rowIndex = Math.max(rowIndex, 0);
+  //   rowIndex = Math.min(rowIndex, (this.data.length - 1));
+
+  //   const rows = this.rows;
+  //   if (!rows.length) return;
+
+  //   const firstRow = rows[0];
+  //   const lastRow = rows[rows.length - 1];
+  //   const firstRowIndex = firstRow.rowIndex;
+  //   const lastRowIndex = lastRow.rowIndex;
+  //   const rowIndexInRange = rowIndex >= firstRowIndex && rowIndex <= lastRowIndex;
+
+  //   const virtualScrollSettings = this.virtualScrollSettings;
+  //   const bufferIndexTop = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
+
+  //   if (rowIndexInRange) {
+  //     const leadingRowCount = Math.abs(firstRowIndex - rowIndex);
+  //     const leadingRows = rows.slice(0, leadingRowCount);
+  //     if (leadingRows.length > this.virtualScrollSettings.BUFFER_ROWS) {
+  //       // Move rows from top to bottom
+  //       const recycleTopRows = leadingRows.slice(0, (-1 * this.virtualScrollSettings.BUFFER_ROWS));
+  //       if (recycleTopRows.length) {
+  //         recycleTopRows.forEach((row, idx) => {
+  //           row.rowIndex = lastRowIndex + (idx + 1);
+  //         });
+  //         this.body.append(...recycleTopRows);
+  //       }
+  //     } else {
+  //       // Move rows from bottom to top
+  //       const missingRowCount = this.virtualScrollSettings.BUFFER_ROWS - leadingRows.length;
+  //       if (missingRowCount) {
+  //         const recycleBottomRows = rows.slice((-1 * missingRowCount));
+  //         recycleBottomRows.forEach((row, idx) => {
+  //           row.rowIndex = firstRowIndex - (idx + 1);
+  //         });
+  //         this.body.prepend(...recycleBottomRows.reverse());
+  //       }
+  //     }
+  //   } else {
+  //     rows.forEach((row, idx) => {
+  //       row.rowIndex = bufferIndexTop + idx;
+  //     });
+  //   }
+
+  //   requestAnimationFrame(() => {
+  //     const bodyTranslateY = bufferIndexTop * virtualScrollSettings.ROW_HEIGHT;
+  //     this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+  //     this.container.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+  //   });
+  // }
 
   /** Reference to datasource API */
   readonly datasource: IdsDataSource = new IdsDataSource();
