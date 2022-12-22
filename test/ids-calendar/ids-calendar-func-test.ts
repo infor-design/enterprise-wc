@@ -186,7 +186,7 @@ describe('IdsCalendar Component', () => {
   });
 
   it('changes to day view when overflow-click event is triggered', () => {
-    const changeViewSpy = jest.spyOn(component, 'changeView').mockImplementation();
+    const changeViewSpy = jest.spyOn(component, 'setViewPickerValue').mockImplementation();
 
     component.triggerEvent('overflow-click', component.container, {
       detail: { date: new Date() }
@@ -196,10 +196,10 @@ describe('IdsCalendar Component', () => {
     changeViewSpy.mockClear();
   });
 
-  it.skip('changes view when viewchange event is triggered', () => {
+  it('changes view when viewchange event is triggered', () => {
     const changeViewSpy = jest.spyOn(component, 'changeView').mockImplementation();
 
-    component.triggerEvent('viewchange', component.container, {
+    component.triggerEvent('viewchange', component, {
       detail: {
         date: new Date(),
         view: 'day'
