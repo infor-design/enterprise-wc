@@ -92,7 +92,7 @@ const IdsDataGridSaveSettingsMixin = <T extends Constraints>(superclass: T) => c
   }
 
   get saveActivePage() {
-    return stringToBool(this.getAttribute(attributes.SAVE_ACTIVE_PAGE));
+    return this.hasAttribute(attributes.SAVE_ACTIVE_PAGE);
   }
 
   /**
@@ -104,7 +104,7 @@ const IdsDataGridSaveSettingsMixin = <T extends Constraints>(superclass: T) => c
   }
 
   get saveColumns() {
-    return stringToBool(this.getAttribute(attributes.SAVE_COLUMNS));
+    return this.hasAttribute(attributes.SAVE_COLUMNS);
   }
 
   /**
@@ -116,7 +116,7 @@ const IdsDataGridSaveSettingsMixin = <T extends Constraints>(superclass: T) => c
   }
 
   get saveFilter() {
-    return stringToBool(this.getAttribute(attributes.SAVE_FILTER));
+    return this.hasAttribute(attributes.SAVE_FILTER);
   }
 
   /**
@@ -128,7 +128,7 @@ const IdsDataGridSaveSettingsMixin = <T extends Constraints>(superclass: T) => c
   }
 
   get savePageSize() {
-    return stringToBool(this.getAttribute(attributes.SAVE_PAGE_SIZE));
+    return this.hasAttribute(attributes.SAVE_PAGE_SIZE);
   }
 
   /**
@@ -140,7 +140,7 @@ const IdsDataGridSaveSettingsMixin = <T extends Constraints>(superclass: T) => c
   }
 
   get saveRowHeight() {
-    return stringToBool(this.getAttribute(attributes.SAVE_ROW_HEIGHT));
+    return this.hasAttribute(attributes.SAVE_ROW_HEIGHT);
   }
 
   /**
@@ -152,7 +152,7 @@ const IdsDataGridSaveSettingsMixin = <T extends Constraints>(superclass: T) => c
   }
 
   get saveSortOrder() {
-    return stringToBool(this.getAttribute(attributes.SAVE_SORT_ORDER));
+    return this.hasAttribute(attributes.SAVE_SORT_ORDER);
   }
 
   /**
@@ -164,7 +164,7 @@ const IdsDataGridSaveSettingsMixin = <T extends Constraints>(superclass: T) => c
   }
 
   get saveUserSettings() {
-    return stringToBool(this.getAttribute(attributes.SAVE_USER_SETTINGS));
+    return this.hasAttribute(attributes.SAVE_USER_SETTINGS);
   }
 
   /**

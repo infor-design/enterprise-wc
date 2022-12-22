@@ -7,6 +7,10 @@
   height: 100vh;
 }
 
+:host([hidden]) {
+  display: none;
+}
+
 .ids-virtual-scroll {
   @include w-full();
 

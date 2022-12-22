@@ -47,7 +47,7 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
   }
 
   get suppressTooltips() {
-    return stringToBool(this.getAttribute(attributes.SUPPRESS_TOOLTIPS)) || false;
+    return this.hasAttribute(attributes.SUPPRESS_TOOLTIPS);
   }
 
   /**

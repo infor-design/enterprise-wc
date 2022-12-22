@@ -32,7 +32,7 @@ describe('Ids Data Grid e2e Tests', () => {
 describe('Ids Data Grid Virtual Scroll e2e Tests', () => {
   const url = 'http://localhost:4444/ids-data-grid/virtual-scroll.html';
 
-  it('should render some rows', async () => {
+  it.skip('should render some rows', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('pierce/.ids-data-grid-row');
 
