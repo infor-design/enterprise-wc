@@ -265,9 +265,23 @@ export default class IdsDataGrid extends Base {
     }, { capture: true, passive: true });
   }
 
-  #recycleRowToTop(rowIndex: number) {
-    this.rows.forEach((row, idx) => {
-      row.rowIndex = rowIndex + idx;
+  #recycleAllRows(topRowIndex: number) {
+    const rows = this.rows;
+    if (!rows.length) return;
+
+    const veryLastIndex = this.data.length - 1;
+    topRowIndex = Math.min(topRowIndex, veryLastIndex);
+    topRowIndex = Math.max(topRowIndex, 0);
+
+    this.rows.every((row, idx) => {
+      const nextRowIndex = topRowIndex + idx;
+      if (nextRowIndex > veryLastIndex) {
+        const moveTheRestToTop = this.virtualScrollSettings.NUM_ROWS - idx;
+        this.#recycleBottomRowsUp(moveTheRestToTop);
+        return false;
+      }
+      row.rowIndex = nextRowIndex;
+      return true;
     });
   }
 
@@ -312,7 +326,6 @@ export default class IdsDataGrid extends Base {
     });
 
     if (!rowsToMove.length) return;
-    if (rowsToMove.length >= this.virtualScrollSettings.NUM_ROWS) return; // no need shift DOM if all rows changed
 
     requestAnimationFrame(() => {
       this.body.prepend(...rowsToMove.reverse());
@@ -326,13 +339,17 @@ export default class IdsDataGrid extends Base {
     const rows = this.rows;
     if (!rows.length) return;
 
+    const virtualScrollSettings = this.virtualScrollSettings;
     const firstRow = rows[0];
     const lastRow = rows[rows.length - 1];
     const firstRowIndex = firstRow.rowIndex;
     const lastRowIndex = lastRow.rowIndex;
-    const isAboveFirstRow = rowIndex < firstRowIndex;
-    const isBelowLastRow = rowIndex > lastRowIndex;
+    const isAboveFirstRow = rowIndex < firstRowIndex; // 77 < 77 === false
+    const isBelowLastRow = rowIndex > lastRowIndex; // 77 > 1000 === false
     const isInRange = !isAboveFirstRow && !isBelowLastRow;
+    // const bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
+    // const moveDown = bufferRowIndex - firstRowIndex;
+    // const moveUp = Math.abs(bufferRowIndex);
 
     console.log({
       rowIndex,
@@ -345,38 +362,71 @@ export default class IdsDataGrid extends Base {
       // isInRange,
     });
 
-    const virtualScrollSettings = this.virtualScrollSettings;
     const bufferIndexTop = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
 
     if (isInRange) {
-      const numTopRows = Math.abs(firstRowIndex - rowIndex);
-      const numExcessRows = numTopRows - virtualScrollSettings.BUFFER_ROWS;
-      console.log('isInRange', { numTopRows, numExcessRows });
-      if (numExcessRows) {
-        this.#recycleTopRowsDown(numExcessRows);
-      } else {
-        this.#recycleBottomRowsUp(Math.abs(numExcessRows));
+      const bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS; // 77 - 20 = 57
+      const moveRowsDown = bufferRowIndex - firstRowIndex; // 57 - 77 = -20;
+      const moveRowsUp = Math.abs(bufferRowIndex); // |57|
+      console.log('isInRange', { bufferRowIndex, moveRowsDown, moveRowsUp });
+
+      if (rowIndex === firstRowIndex) {
+        // do nothing
+      } else if (moveRowsDown > 0) {
+        this.#recycleTopRowsDown(moveRowsDown);
+      } else if (moveRowsUp > 0) {
+        this.#recycleBottomRowsUp(moveRowsUp);
       }
+
+      // const topBufferIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS; // 130 - 20 = 110
+      // const numTopRowsNeeded = topBufferIndex < firstRowIndex ? topBufferIndex + virtualScrollSettings.BUFFER_ROWS : 0;
+      // const numBottomRowsNeeded = topBufferIndex > firstRowIndex ? topBufferIndex - firstRowIndex : 0;
+      // const numTopRows = Math.max(0, firstRowIndex - rowIndex); // 157 - 270 = -113
+      // const numBottomRows = Math.max(0, lastRowIndex - rowIndex); // 306 - 270 = 36
+      // const numTopRowsNeeded = numTopRows + virtualScrollSettings.BUFFER_ROWS; // -113 + 20 = -93
+      // // const numBottomRowsNeeded = numBottomRows + virtualScrollSettings.BUFFER_ROWS; // 19 + 20 = 39
+      // const numExcessTopRows = firstRowIndex - numTopRowsNeeded; // 157 - -93 = 110;
+      // // const numExcessTopRows = Math.abs(numTopRowsNeeded); // 110
+      // console.log('isInRange', { numTopRows, numTopRowsNeeded, numExcessTopRows });
+      // if (numTopRowsNeeded > 0) { // -110 === false
+      //   this.#recycleBottomRowsUp(numTopRowsNeeded);
+      // } else if (numExcessTopRows > 0) { // 110 === true
+      //   this.#recycleTopRowsDown(numExcessTopRows);
+      // }
     } else if (isAboveFirstRow) {
-      const distanceFromTop = Math.abs(firstRowIndex - rowIndex);
-      const numExcessRows = distanceFromTop + virtualScrollSettings.BUFFER_ROWS;
-      console.log('isAboveFirstRow', { distanceFromTop, numExcessRows });
-      if (numExcessRows < virtualScrollSettings.NUM_ROWS) {
-        this.#recycleBottomRowsUp(numExcessRows);
+      const bufferRowIndex = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0); // 700 - 20 = 680 || 0
+      const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex); // -10 - 790 = |-800| ........ 680 - 710 = |-30|
+      console.log('isAboveFirstRow', { bufferRowIndex, moveRowsUp });
+      if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
+        this.#recycleBottomRowsUp(moveRowsUp);
       } else {
-        this.#recycleRowToTop(bufferIndexTop);
+        this.#recycleAllRows(bufferRowIndex);
       }
+
+      // const distanceFromTop = Math.abs(firstRowIndex - rowIndex); // 700 - 100 = 600
+      // const numTopRowsNeeded = distanceFromTop + virtualScrollSettings.BUFFER_ROWS; // 600 + 20 = 625
+      // console.log('isAboveFirstRow', { distanceFromTop, numTopRowsNeeded });
+      // if (numTopRowsNeeded > 0) { // 625 === true
+      //   this.#recycleBottomRowsUp(numTopRowsNeeded);
+      // } else {
+      //   // this.#recycleAllRows(bufferIndexTop);
+      // }
     } else if (isBelowLastRow) {
-      const distanceFromBottom = Math.abs(rowIndex - lastRowIndex);
-      const distanceOutOfReach = distanceFromBottom - virtualScrollSettings.BUFFER_ROWS;
-      console.log('isBelowLastRow', { distanceFromBottom, distanceOutOfReach });
-      if (distanceOutOfReach > 0) {
-        this.#recycleRowToTop(bufferIndexTop);
-      } else {
-        this.#recycleTopRowsDown(Math.abs(distanceOutOfReach));
-      }
+      // const bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
+      const bufferRowIndex = Math.min(rowIndex - virtualScrollSettings.BUFFER_ROWS, this.data.length - 1);
+      console.log('isBelowLastRow', { bufferRowIndex });
+      this.#recycleAllRows(bufferRowIndex);
+
+      // const distanceFromBottom = Math.abs(rowIndex - lastRowIndex);
+      // const distanceOutOfReach = distanceFromBottom - virtualScrollSettings.BUFFER_ROWS;
+      // console.log('isBelowLastRow', { distanceFromBottom, distanceOutOfReach });
+      // if (distanceOutOfReach > 0) {
+      //   this.#recycleAllRows(bufferIndexTop);
+      // } else {
+      //   this.#recycleTopRowsDown(Math.abs(distanceOutOfReach));
+      // }
     } else {
-      this.#recycleRowToTop(bufferIndexTop);
+      // this.#recycleAllRows(bufferIndexTop);
     }
 
     requestAnimationFrame(() => {
