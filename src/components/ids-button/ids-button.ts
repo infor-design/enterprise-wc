@@ -85,9 +85,9 @@ export default class IdsButton extends Base {
    * @returns {Array<string>} containing classes used to identify this button prototype
    */
   get protoClasses() {
-    const textSlot = this.querySelector('span:not(.audible), ids-text:not([audible])');
-    const iconSlot = this.querySelector('ids-icon[slot]') || this.querySelector('ids-icon');
-    if (iconSlot && (!textSlot)) {
+    const textContent = this.querySelector('span:not(.audible), ids-text:not([audible])');
+    const iconContent = this.querySelector('ids-icon[slot]') || this.querySelector('ids-icon');
+    if (iconContent && (!textContent)) {
       return ['ids-icon-button'];
     }
     return ['ids-button'];
@@ -146,18 +146,9 @@ export default class IdsButton extends Base {
       ? ' align-icon-end'
       : ' align-icon-start';
 
-    const slots = this.#templateSlots();
-
     return `<button part="button" class="${protoClasses}${type}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
-      ${slots}
+      <slot></slot>
     </button>`;
-  }
-
-  #templateSlots() {
-    const namedSlots = this.state?.iconAlign === 'end'
-      ? `<slot name="text" part="text"></slot><slot name="icon"></slot>`
-      : `<slot name="icon" part="icon"></slot><slot name="text"></slot>`;
-    return `${namedSlots}<slot></slot>`;
   }
 
   /**
@@ -369,11 +360,18 @@ export default class IdsButton extends Base {
    */
   appendIcon(iconName: string) {
     const icon = this.querySelector<IdsIcon>(`ids-icon`); // @TODO check for dropdown/expander icons here
+    const align = this.iconAlign;
+    const iconInsertTarget = align === 'end' ? 'beforeend' : 'afterbegin';
+
     if (icon) {
-      icon.icon = iconName;
-      this.setIconAlignment();
+      if (icon.icon !== iconName) {
+        icon.icon = iconName;
+        this.setIconAlignment();
+      }
+      if (align === 'end' && this.hasIncorrectEndElement()) this.append(icon);
+      else if (this.hasIncorrectStartElement()) this.prepend(icon);
     } else {
-      this.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${iconName}" class="ids-icon"></ids-icon>`);
+      this.insertAdjacentHTML(iconInsertTarget, `<ids-icon icon="${iconName}" class="ids-icon"></ids-icon>`);
     }
 
     this.refreshProtoClasses();
@@ -386,9 +384,7 @@ export default class IdsButton extends Base {
   removeIcon(): void {
     const icon = this.querySelector(`ids-icon`); // @TODO check for dropdown/expander icons here
 
-    if (icon) {
-      icon.remove();
-    }
+    if (icon) icon.remove();
     this.setIconAlignment();
     this.refreshProtoClasses();
   }
@@ -407,20 +403,21 @@ export default class IdsButton extends Base {
     // Append the icon, if needed
     if (iconStr) {
       this.button.classList.add(`align-icon-${alignment}`);
-    }
-
-    // Re-arrange the slots
-    const iconSlot = this.button.querySelector('slot[name="icon"]');
-    if (!iconSlot) {
-      return;
-    }
-
-    if (alignment === 'end') {
-      this.button.appendChild(iconSlot);
-    } else {
-      this.button.prepend(iconSlot);
+      const incorrectStartElement = this.hasIncorrectStartElement();
+      const incorrectEndElement = this.hasIncorrectEndElement();
+      if (incorrectStartElement || incorrectEndElement) this.appendIcon(iconStr);
     }
   }
+
+  /**
+   * @returns {boolean} true if an icon element isn't the first child element of this button
+   */
+  private hasIncorrectStartElement() { return this.iconAlign === 'start' && !this.children[0].isEqualNode(this.iconEl); }
+
+  /**
+   * @returns {boolean} true if an icon element isn't the last child element of this button
+   */
+  private hasIncorrectEndElement() { return this.iconAlign === 'end' && !this.children[this.children.length - 1].isEqualNode(this.iconEl); }
 
   /**
    * @param {string | null} val the text value
@@ -458,10 +455,15 @@ export default class IdsButton extends Base {
    */
   appendText(val: string) {
     const text = this.querySelector(`span:not(.audible)`);
+    const align = this.iconAlign;
+    const iconInsertTarget = align === 'end' ? 'afterbegin' : 'beforeend';
+
     if (text) {
       text.textContent = val;
+      if (align === 'end' && this.hasIncorrectEndElement()) this.prepend(text);
+      else if (this.hasIncorrectStartElement()) this.append(text);
     } else {
-      this.insertAdjacentHTML('afterbegin', `<span>${val}</span>`);
+      this.insertAdjacentHTML(iconInsertTarget, `<span>${val}</span>`);
     }
     this.refreshProtoClasses();
   }
@@ -608,9 +610,9 @@ export default class IdsButton extends Base {
    */
   onColorVariantRefresh(): void {
     const icons = this.querySelectorAll<IdsIcon>('ids-icon');
-    const texts = this.querySelectorAll<IdsText>('ids-text');
-    const iterator = (el: IdsIcon | IdsText) => {
-      el.colorVariant = this.colorVariant;
+    const texts = this.querySelectorAll<IdsText | HTMLSpanElement>('ids-text, span');
+    const iterator = (el: IdsIcon | IdsText | HTMLSpanElement) => {
+      if (!(el instanceof HTMLSpanElement)) el.colorVariant = this.colorVariant;
     };
     [...icons, ...texts].forEach(iterator);
   }
