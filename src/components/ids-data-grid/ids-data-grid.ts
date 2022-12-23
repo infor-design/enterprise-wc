@@ -120,7 +120,7 @@ export default class IdsDataGrid extends Base {
     this.container?.style.setProperty('max-height', '95vh');
 
     let lastRowIndex = 0;
-    // const virtualScrollSettings = this.virtualScrollSettings;
+    const virtualScrollSettings = this.virtualScrollSettings;
     // let debounceInterval = 0;
 
     this.onEvent('scroll', this.container, () => {
@@ -129,12 +129,75 @@ export default class IdsDataGrid extends Base {
       //   return;
       // }
 
-      const rowIndex = Math.floor(this.container.scrollTop / this.virtualScrollSettings.ROW_HEIGHT);
+      const rowIndex = Math.floor(this.container.scrollTop / virtualScrollSettings.ROW_HEIGHT);
       if (rowIndex === lastRowIndex) return;
       lastRowIndex = rowIndex;
 
       this.scrollRowIntoView(rowIndex, false);
     }, { passive: true, capture: true });
+  }
+
+  scrollRowIntoView(rowIndex: number, doScroll = true) {
+    rowIndex = Math.max(rowIndex, 0);
+    rowIndex = Math.min(rowIndex, (this.data.length - 1));
+
+    const rows = this.rows;
+    if (!rows.length) return;
+
+    const virtualScrollSettings = this.virtualScrollSettings;
+    const firstRow = rows[0];
+    const lastRow = rows[rows.length - 1];
+    const firstRowIndex = firstRow.rowIndex;
+    const lastRowIndex = lastRow.rowIndex;
+    const isAboveFirstRow = rowIndex < firstRowIndex;
+    const isBelowLastRow = rowIndex > lastRowIndex;
+    const isInRange = !isAboveFirstRow && !isBelowLastRow;
+
+    const bufferIndexTop = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
+
+    if (isInRange) {
+      const bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
+      const moveRowsDown = bufferRowIndex - firstRowIndex;
+      const moveRowsUp = Math.abs(bufferRowIndex);
+
+      if (moveRowsDown > 0) {
+        this.#recycleTopRowsDown(moveRowsDown);
+      } else if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
+        this.#recycleBottomRowsUp(moveRowsUp);
+      }
+    } else if (isAboveFirstRow) {
+      const bufferRowIndex = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
+      const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex);
+      if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
+        this.#recycleBottomRowsUp(moveRowsUp);
+      } else {
+        this.#recycleAllRows(bufferRowIndex);
+      }
+    } else if (isBelowLastRow) {
+      const bufferRowIndex = Math.min(rowIndex - virtualScrollSettings.BUFFER_ROWS, this.data.length - 1);
+      this.#recycleAllRows(bufferRowIndex);
+    }
+
+    requestAnimationFrame(() => {
+      const bodyTranslateY = bufferIndexTop * virtualScrollSettings.ROW_HEIGHT;
+      this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+      if (doScroll) {
+        this.container.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+      }
+
+      // NOTE: The container.scrollTop logic above starts failing as you approach the bottom of the data-grid
+      // NOTE: The following commented-out logic needs to be tweaked to resolve this bug
+      // const data = this.data;
+      // const translateYBufferSafePoint = (data.length - virtualScrollSettings.NUM_ROWS);
+      // const translateYFromBufferIndex = bufferIndexTop * virtualScrollSettings.ROW_HEIGHT;
+      // const extraneousScrollBuffer = Math.max(0, bufferIndexTop - translateYBufferSafePoint); // 851 - 850 = 1
+      // const translateYFromBiggerBuffer = (bufferIndexTop + extraneousScrollBuffer) * virtualScrollSettings.ROW_HEIGHT;
+      // const isBufferIndexUsable = bufferIndexTop <= translateYBufferSafePoint;
+      // const translateYBody = isBufferIndexUsable ? translateYFromBufferIndex : translateYFromBiggerBuffer;
+      // const newScrollToTop = (rowIndex + extraneousScrollBuffer) * virtualScrollSettings.ROW_HEIGHT;
+      // this.body?.style.setProperty('transform', `translateY(${translateYBody}px)`);
+      // this.container.scrollTop = newScrollToTop;
+    });
   }
 
   #recycleAllRows(topRowIndex: number) {
@@ -201,73 +264,6 @@ export default class IdsDataGrid extends Base {
 
     requestAnimationFrame(() => {
       this.body.prepend(...rowsToMove.reverse());
-    });
-  }
-
-  scrollRowIntoView(rowIndex: number, doScroll = true) {
-    rowIndex = Math.max(rowIndex, 0);
-    rowIndex = Math.min(rowIndex, (this.data.length - 1));
-
-    const rows = this.rows;
-    if (!rows.length) return;
-
-    const virtualScrollSettings = this.virtualScrollSettings;
-    const firstRow = rows[0];
-    const lastRow = rows[rows.length - 1];
-    const firstRowIndex = firstRow.rowIndex;
-    const lastRowIndex = lastRow.rowIndex;
-    const isAboveFirstRow = rowIndex < firstRowIndex;
-    const isBelowLastRow = rowIndex > lastRowIndex;
-    const isInRange = !isAboveFirstRow && !isBelowLastRow;
-
-    const bufferIndexTop = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
-
-    if (isInRange) {
-      const bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
-      const moveRowsDown = bufferRowIndex - firstRowIndex;
-      const moveRowsUp = Math.abs(bufferRowIndex);
-
-      if (moveRowsDown > 0) {
-        this.#recycleTopRowsDown(moveRowsDown);
-      } else if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
-        this.#recycleBottomRowsUp(moveRowsUp);
-      } else {
-        // this.#recycleAllRows(bufferRowIndex);
-      }
-    } else if (isAboveFirstRow) {
-      const bufferRowIndex = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
-      const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex);
-      if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
-        this.#recycleBottomRowsUp(moveRowsUp);
-      } else {
-        this.#recycleAllRows(bufferRowIndex);
-      }
-    } else if (isBelowLastRow) {
-      const bufferRowIndex = Math.min(rowIndex - virtualScrollSettings.BUFFER_ROWS, this.data.length - 1);
-      this.#recycleAllRows(bufferRowIndex);
-    } else {
-      // this.#recycleAllRows(bufferIndexTop);
-    }
-
-    requestAnimationFrame(() => {
-      const bodyTranslateY = bufferIndexTop * virtualScrollSettings.ROW_HEIGHT;
-      this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
-      if (doScroll) {
-        this.container.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
-      }
-
-      // NOTE: The container.scrollTop logic above starts failing as you approach the bottom of the data-grid
-      // NOTE: The following commented-out logic needs to be tweaked to resolve this bug
-      // const data = this.data;
-      // const translateYBufferSafePoint = (data.length - virtualScrollSettings.NUM_ROWS);
-      // const translateYFromBufferIndex = bufferIndexTop * virtualScrollSettings.ROW_HEIGHT;
-      // const extraneousScrollBuffer = Math.max(0, bufferIndexTop - translateYBufferSafePoint); // 851 - 850 = 1
-      // const translateYFromBiggerBuffer = (bufferIndexTop + extraneousScrollBuffer) * virtualScrollSettings.ROW_HEIGHT;
-      // const isBufferIndexUsable = bufferIndexTop <= translateYBufferSafePoint;
-      // const translateYBody = isBufferIndexUsable ? translateYFromBufferIndex : translateYFromBiggerBuffer;
-      // const newScrollToTop = (rowIndex + extraneousScrollBuffer) * virtualScrollSettings.ROW_HEIGHT;
-      // this.body?.style.setProperty('transform', `translateY(${translateYBody}px)`);
-      // this.container.scrollTop = newScrollToTop;
     });
   }
 
