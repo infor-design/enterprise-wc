@@ -1815,8 +1815,8 @@ export default class IdsDataGrid extends Base {
     const invalidCells: Array<{ row: number, cell: number, columnId: string | null, validationMessages: any }> = [];
     for (let index = 0; index < this.data.length; index++) {
       if (this.data[index]?.invalidCells) {
-        this.data[index].invalidCells.forEach((dirtyCellInRow: any) => {
-          dirtyCellInRow.row = index;
+        this.data[index].invalidCells?.forEach((invalidCellInRow: any) => {
+          invalidCellInRow.row = index;
         });
         invalidCells.push(...this.data[index].invalidCells);
       }
@@ -1832,11 +1832,10 @@ export default class IdsDataGrid extends Base {
     const dirtyCells: Array<{ row: number, cell: number, columnId: string | null, originalValue: any }> = [];
     for (let index = 0; index < this.data.length; index++) {
       if (this.data[index]?.dirtyCells) {
-        this.data[index].dirtyCells.row = index;
-        this.data[index].invalidCells.forEach((dirtyCellInRow: any) => {
+        this.data[index].dirtyCells?.forEach((dirtyCellInRow: any) => {
           dirtyCellInRow.row = index;
         });
-        dirtyCells.push(...this.data[index].invalidCells);
+        dirtyCells.push(...this.data[index].dirtyCells);
       }
     }
     return dirtyCells;
