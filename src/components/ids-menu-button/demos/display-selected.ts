@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const btnEl: any = document.querySelector('#menu-button');
-  const btnSpanEl: any = btnEl.querySelector('[slot="text"]');
+  const btnSpanEl: any = btnEl.querySelector('span');
   const menuEl: any = document.querySelector('#my-menu');
   menuEl.addEventListener('selected', (e: any) => {
     const target = e.detail.elem;

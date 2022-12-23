@@ -160,7 +160,7 @@ Set an arbitrary error message.
 
 ```html
 <ids-button id="error-btn" type="secondary">
-  <span slot="text">Set Error</span>
+  <span>Set Error</span>
 </ids-button>
 <ids-upload-advanced id="error-el"></ids-upload-advanced>
 ```
@@ -178,7 +178,7 @@ Set an arbitrary error message on each file.
 
 ```html
 <ids-button id="error-files-btn" type="secondary">
-  <span slot="text">Set Error on each file</span>
+  <span>Set Error on each file</span>
 </ids-button>
 <ids-upload-advanced id="error-files-el"></ids-upload-advanced>
 ```

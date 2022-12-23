@@ -55,7 +55,7 @@ export default class IdsPagerDropdown extends Base {
     return `
       <div class="ids-pager-dropdown">
         <ids-menu-button id="pager-size-menu-button" menu="pager-size-menu" role="button" dropdown-icon>
-          <span slot="text">${pageSize} ${this.label}</span>
+          <span>${pageSize} ${this.label}</span>
         </ids-menu-button>
         <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger-type="click">
           <ids-menu-group select="single">

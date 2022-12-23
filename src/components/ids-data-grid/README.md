@@ -705,7 +705,7 @@ Custom filter UI part.
 <ids-data-grid id="data-grid-1" label="Books" filterable="true">
   <div slot="filter-description" column-id="description">
     <ids-menu-button id="btn-filter-description" icon="filter-greater-equals" menu="menu-filter-description" dropdown-icon>
-      <span slot="text" class="audible">Greater Than Or Equals</span>
+      <span class="audible">Greater Than Or Equals</span>
     </ids-menu-button>
     <ids-popup-menu id="menu-filter-description" target="#btn-filter-description">
       <ids-menu-group select="single">

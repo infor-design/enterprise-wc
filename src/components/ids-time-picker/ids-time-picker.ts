@@ -176,7 +176,7 @@ export default class IdsTimePicker extends Base {
           <ids-text audible="true" translate-text="true">UseArrow</ids-text>
           <ids-trigger-button slot="trigger-end" part="trigger-button">
             <ids-text audible="true" translate-text="true">TimepickerTriggerButton</ids-text>
-            <ids-icon slot="icon" icon="clock" part="icon"></ids-icon>
+            <ids-icon icon="clock" part="icon"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
         <ids-popup type="menu" tabindex="-1" part="popup">

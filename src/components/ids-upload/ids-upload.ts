@@ -174,8 +174,8 @@ export default class IdsUpload extends Base {
           part="input"
         >
           <ids-trigger-button slot="trigger-end" part="button" class="trigger"${disabled}${readonlyBtn}>
-            <ids-text slot="text" audible="true" class="trigger-label">${triggerLabel}</ids-text>
-            <ids-icon slot="icon" icon="folder"></ids-icon>
+            <ids-text audible="true" class="trigger-label">${triggerLabel}</ids-text>
+            <ids-icon icon="folder"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
       </div>`;

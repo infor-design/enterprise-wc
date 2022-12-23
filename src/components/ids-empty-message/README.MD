@@ -26,7 +26,7 @@ A simple implementation of the empty-message component
     <ids-text type="h2" font-size="20" label="true" slot="label">Document Management</ids-text>
     <ids-text label="true" slot="description">Description of empty message that explains why and possible contain a hyperlink.</ids-text>
     <ids-button class="action-button" slot="button" type="primary">
-      <span slot="text">BUTTON NAME</span>
+      <span>BUTTON NAME</span>
     </ids-button>
   </ids-empty-message>
 ```

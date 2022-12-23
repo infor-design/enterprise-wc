@@ -63,8 +63,8 @@ Ids Expandable Area - Toggle Button
         text-off="Employee"
         text-on="Employee"
     >
-        <span slot="text"></span>
-        <ids-icon slot="icon" icon="settings"></ids-icon>
+        <span></span>
+        <ids-icon icon="settings"></ids-icon>
     </ids-toggle-button>
     <ids-text slot="pane" font-size="14">
         Ubiquitous out-of-the-box, scalable; communities disintermediate beta-test, enable utilize markets dynamic

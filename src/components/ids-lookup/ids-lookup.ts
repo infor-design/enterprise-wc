@@ -150,7 +150,7 @@ export default class IdsLookup extends Base {
         disabled="${this.disabled}"
         readonly="${this.readonly}">
         <ids-text audible="true">LookupTriggerButton</ids-text>
-        <ids-icon slot="icon" icon="search-list" part="icon"></ids-icon>
+        <ids-icon icon="search-list" part="icon"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
     <slot name="lookup-modal">
@@ -164,10 +164,10 @@ export default class IdsLookup extends Base {
         </ids-layout-grid>
 
       <ids-modal-button slot="buttons" id="modal-cancel-btn" type="secondary">
-        <span slot="text">Cancel</span>
+        <span>Cancel</span>
         </ids-modal-button>
         <ids-modal-button slot="buttons" id="modal-apply-btn" type="primary">
-          <span slot="text">Apply</span>
+          <span>Apply</span>
         </ids-modal-button>
       </ids-modal>
     </slot>
