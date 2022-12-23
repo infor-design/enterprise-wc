@@ -182,15 +182,17 @@ export default class IdsDataGrid extends Base {
         reversedRows
           .every((row, idx) => {
             const currentIndex = prevRowIndex - idx;
+
+            if (currentIndex < 0) {
+              body?.style.setProperty('transform', `translateY(0px)`);
+              return false;
+            }
+
             const rowDimensions = row.dimensions;
             const isOffScreen = rowDimensions.y > (containerDimensions.height + virtualScrollSettings.BUFFER_HEIGHT);
             // const isOffScreen = rowDimensions.y > (window.innerHeight + virtualScrollSettings.BUFFER_HEIGHT);
             // const isOffScreen = rowDimensions.bottom > (window.innerHeight + virtualScrollSettings.BUFFER_HEIGHT);
             if (!isOffScreen) {
-              return false;
-            }
-            if (currentIndex < 0) {
-              body?.style.setProperty('transform', `translateY(0px)`);
               return false;
             }
 
@@ -219,15 +221,16 @@ export default class IdsDataGrid extends Base {
       } else if (isScrollingDown) {
         rows.every((row, idx) => {
           const currentIndex = nextRowIndex + idx;
-          const rowDimensions = row.dimensions;
-          const isOffScreen = rowDimensions.y < (headerDimensions.y - (virtualScrollSettings.BUFFER_HEIGHT));
 
-          if (!isOffScreen) {
-            // topRowIndex = row.rowIndex;
+          if (currentIndex >= numRows) {
+            body?.style.setProperty('height', `${virtualScrollSettings.BODY_HEIGHT}px`);
             return false;
           }
-          if (currentIndex >= numRows) {
-            this.body?.style.setProperty('height', `${virtualScrollSettings.BODY_HEIGHT}px`);
+
+          const rowDimensions = row.dimensions;
+          const isOffScreen = rowDimensions.y < (headerDimensions.y - (virtualScrollSettings.BUFFER_HEIGHT));
+          if (!isOffScreen) {
+            // topRowIndex = row.rowIndex;
             return false;
           }
 
