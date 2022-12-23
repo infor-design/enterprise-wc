@@ -341,6 +341,7 @@ export default class IdsDataGrid extends Base {
 
     const rows = this.rows;
     if (!rows.length) return;
+    const data = this.data;
 
     const virtualScrollSettings = this.virtualScrollSettings;
     const firstRow = rows[0];
@@ -389,6 +390,18 @@ export default class IdsDataGrid extends Base {
       const bodyTranslateY = bufferIndexTop * virtualScrollSettings.ROW_HEIGHT;
       this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
       this.container.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+
+      // NOTE: The container.scrollTop logic above starts failing as you approach the bottom of the data-grid
+      // NOTE: The following commented-out logic needs to be tweaked to resolve this bug
+      // const translateYFromBufferIndex = bufferIndexTop * virtualScrollSettings.ROW_HEIGHT;
+      // const translateYBufferSafePoint = (data.length - virtualScrollSettings.NUM_ROWS);
+      // const extraneousScrollBuffer = Math.max(0, bufferIndexTop - translateYBufferSafePoint); // 851 - 850 = 1
+      // const translateYFromBiggerBuffer = (bufferIndexTop + extraneousScrollBuffer) * virtualScrollSettings.ROW_HEIGHT;
+      // const isBufferIndexUsable = bufferIndexTop <= translateYBufferSafePoint;
+      // const translateYBody = isBufferIndexUsable ? translateYFromBufferIndex : translateYFromBiggerBuffer;
+      // const newScrollToTop = (rowIndex + extraneousScrollBuffer) * virtualScrollSettings.ROW_HEIGHT;
+      // this.body?.style.setProperty('transform', `translateY(${translateYBody}px)`);
+      // this.container.scrollTop = newScrollToTop;
 
       this.#attachVirtualScrollEvent();
     });
