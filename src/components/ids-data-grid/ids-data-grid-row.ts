@@ -77,9 +77,10 @@ export default class IdsDataGridRow extends IdsElement {
 
     if (name === attributes.ROW_INDEX) {
       // NOTE: check memory footprint of this caching strategy
-      IdsDataGridRow.rowCache[newValue] = IdsDataGridRow.rowCache[newValue] ?? this.cellsHTML();
+      // IdsDataGridRow.rowCache[newValue] = IdsDataGridRow.rowCache[newValue] ?? this.cellsHTML();
       requestAnimationFrame(() => {
-        this.innerHTML = IdsDataGridRow.rowCache[newValue];
+        // this.innerHTML = IdsDataGridRow.rowCache[newValue];
+        this.innerHTML = this.cellsHTML();
       });
     }
   }
