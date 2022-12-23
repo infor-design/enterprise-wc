@@ -4,14 +4,20 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-button-base';
 import {
-  BUTTON_TYPES, BUTTON_DEFAULTS, BUTTON_ATTRIBUTES, ICON_ALIGN, baseProtoClasses
-} from './ids-button-attributes';
+  BUTTON_TYPES,
+  BUTTON_DEFAULTS,
+  BUTTON_ATTRIBUTES,
+  ICON_ALIGN_CLASSNAMES,
+  baseProtoClasses
+} from './ids-button-common';
+import type {
+  IdsButtonIconAlignment,
+  IdsButtonType
+} from './ids-button-common';
 
 import styles from './ids-button.scss';
 import type IdsIcon from '../ids-icon/ids-icon';
 import type IdsText from '../ids-text/ids-text';
-
-export type IdsIconAlign = undefined | 'start' | 'end';
 
 /**
  * IDS Button Component
@@ -88,7 +94,7 @@ export default class IdsButton extends Base {
    */
   get protoClasses() {
     const textContent = this.querySelector('span:not(.audible), ids-text:not([audible])');
-    const iconContent = this.querySelector('ids-icon[slot]') || this.querySelector('ids-icon');
+    const iconContent = this.iconEl;
     if (iconContent && (!textContent)) {
       return ['ids-icon-button'];
     }
@@ -291,7 +297,7 @@ export default class IdsButton extends Base {
    * @returns {string} a defined IdsIcon's `icon` attribute, if one is present
    */
   get icon(): string | undefined | null {
-    return this.querySelector('ids-icon')?.getAttribute('icon');
+    return this.iconEl?.getAttribute('icon');
   }
 
   /**
@@ -305,10 +311,10 @@ export default class IdsButton extends Base {
 
   /**
    * Sets the automatic alignment of an existing icon to the 'start' or 'end' of the text
-   * @param {IdsIconAlign} val automatic icon alignment setting, if applicable (defaults to undefined).
+   * @param {IdsButtonIconAlignment} val automatic icon alignment setting, if applicable (defaults to undefined).
    */
-  set iconAlign(val: IdsIconAlign) {
-    if (!ICON_ALIGN.includes(`align-icon-${val}`)) {
+  set iconAlign(val: IdsButtonIconAlignment) {
+    if (!ICON_ALIGN_CLASSNAMES.includes(`align-icon-${val}`)) {
       val = undefined;
     }
     this.state.iconAlign = val;
@@ -316,9 +322,9 @@ export default class IdsButton extends Base {
   }
 
   /**
-   * @returns {IdsIconAlign} automatic icon alignment setting, if enabled
+   * @returns {IdsButtonIconAlignment} automatic icon alignment setting, if enabled
    */
-  get iconAlign(): IdsIconAlign {
+  get iconAlign(): IdsButtonIconAlignment {
     return this.state?.iconAlign;
   }
 
@@ -327,7 +333,7 @@ export default class IdsButton extends Base {
    * @returns {string | null} 100%, 90px, 50rem etc.
    */
   get width(): string | null {
-    return this.getAttribute('width');
+    return this.getAttribute(attributes.WIDTH);
   }
 
   /**
@@ -336,7 +342,7 @@ export default class IdsButton extends Base {
    */
   set width(w: string | null) {
     if (!w) {
-      this.removeAttribute('width');
+      this.removeAttribute(attributes.WIDTH);
       this.style.width = '';
       if (this.button) this.button.style.width = '';
       return;
@@ -351,7 +357,7 @@ export default class IdsButton extends Base {
       if (this.button) this.button.style.width = w;
     }
 
-    this.setAttribute('width', w);
+    this.setAttribute(attributes.WIDTH, w);
   }
 
   /**
@@ -399,7 +405,7 @@ export default class IdsButton extends Base {
 
     const alignment = this.iconAlign;
     const iconStr = this.icon;
-    this.button.classList.remove(...ICON_ALIGN);
+    this.button.classList.remove(...ICON_ALIGN_CLASSNAMES);
 
     // Align and append the icon, if needed
     if (alignment) {
@@ -489,9 +495,9 @@ export default class IdsButton extends Base {
 
   /**
    * Set the button types between 'default', 'primary', 'secondary', 'tertiary', or 'destructive'
-   * @param {string | null} val a valid button "type"
+   * @param {IdsButtonType | null} val a valid button "type"
    */
-  set type(val: string | null) {
+  set type(val: IdsButtonType | null) {
     if (!val || BUTTON_TYPES.indexOf(val) <= 0) {
       this.removeAttribute(attributes.TYPE);
       this.state.type = BUTTON_TYPES[0];
@@ -503,9 +509,9 @@ export default class IdsButton extends Base {
   }
 
   /**
-   * @returns {string} the currently set type
+   * @returns {IdsButtonType} the currently set type
    */
-  get type(): string {
+  get type(): IdsButtonType {
     return this.state.type;
   }
 
@@ -535,11 +541,11 @@ export default class IdsButton extends Base {
     const trueVal = stringToBool(val);
     if (isTruthy !== trueVal) {
       if (trueVal) {
-        this.container?.classList.add('no-padding');
-        this.setAttribute('no-padding', 'true');
+        this.container?.classList.add(attributes.NO_PADDING);
+        this.setAttribute(attributes.NO_PADDING, 'true');
       } else {
-        this.container?.classList.remove('no-padding');
-        this.removeAttribute('no-padding');
+        this.container?.classList.remove(attributes.NO_PADDING);
+        this.removeAttribute(attributes.NO_PADDING);
       }
     }
   }
@@ -548,7 +554,7 @@ export default class IdsButton extends Base {
    * @returns {boolean | string} true if the button does not currently have standard padding rules applied
    */
   get noPadding(): boolean | string {
-    return stringToBool(this.getAttribute(attributes.NO_PADDING)); // this.container.classList.contains('no-padding');
+    return stringToBool(this.getAttribute(attributes.NO_PADDING));
   }
 
   /**

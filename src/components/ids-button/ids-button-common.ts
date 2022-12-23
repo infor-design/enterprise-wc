@@ -1,7 +1,11 @@
 import { attributes } from '../../core/ids-attributes';
 
+export type IdsButtonIconAlignment = undefined | 'start' | 'end';
+
+export type IdsButtonType = 'default' | 'primary' | 'secondary' | 'tertiary' | 'destructive' | 'swipe-action-right' | 'swipe-action-left';
+
 // Button Styles
-const BUTTON_TYPES = [
+export const BUTTON_TYPES: Array<IdsButtonType> = [
   'default',
   'primary',
   'secondary',
@@ -12,7 +16,7 @@ const BUTTON_TYPES = [
 ];
 
 // Default Button state values
-const BUTTON_DEFAULTS: any = {
+export const BUTTON_DEFAULTS: any = {
   cssClass: [],
   disabled: false,
   hidden: false,
@@ -22,7 +26,7 @@ const BUTTON_DEFAULTS: any = {
 };
 
 // Definable attributes
-const BUTTON_ATTRIBUTES: string[] = [
+export const BUTTON_ATTRIBUTES: string[] = [
   attributes.CSS_CLASS,
   attributes.DISABLED,
   attributes.HIDDEN,
@@ -38,19 +42,16 @@ const BUTTON_ATTRIBUTES: string[] = [
   attributes.WIDTH
 ];
 
-// Icon alignments
-const ICON_ALIGN = [
+// Icon alignment CSS class names
+export const ICON_ALIGN_CLASSNAMES = [
   'align-icon-start',
   'align-icon-end'
 ];
 
-const baseProtoClasses = [
+// IdsButton CSS classes representing button types
+export const baseProtoClasses = [
   'ids-button',
   'ids-icon-button',
   'ids-menu-button',
   'ids-toggle-button'
 ];
-
-export {
-  BUTTON_TYPES, BUTTON_DEFAULTS, BUTTON_ATTRIBUTES, ICON_ALIGN, baseProtoClasses
-};
