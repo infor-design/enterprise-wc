@@ -308,12 +308,14 @@ export default class IdsDataGrid extends Base {
     if (isInRange) {
       const bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
       const moveRowsDown = bufferRowIndex - firstRowIndex;
-      const moveRowsUp = Math.abs(bufferRowIndex);
+      const moveRowsUp = Math.abs(moveRowsDown);
 
       if (moveRowsDown > 0) {
         this.#recycleTopRowsDown(moveRowsDown);
       } else if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
         this.#recycleBottomRowsUp(moveRowsUp);
+      } else {
+        return;
       }
     } else if (isAboveFirstRow) {
       const bufferRowIndex = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
@@ -1571,7 +1573,12 @@ export default class IdsDataGrid extends Base {
     const queriedCells = rowNode?.querySelectorAll<HTMLElement>('ids-data-grid-cell');
     if (queriedCells && queriedCells.length > 0) {
       const cellNode = queriedCells[cell] as IdsDataGridCell;
-      cellNode.activate(Boolean(noFocus));
+      if (this.virtualScroll) {
+        cellNode.activate(!!'nofocus');
+        // this.scrollRowIntoView(row);
+      } else {
+        cellNode.activate(Boolean(noFocus));
+      }
     }
     return this.activeCell;
   }
