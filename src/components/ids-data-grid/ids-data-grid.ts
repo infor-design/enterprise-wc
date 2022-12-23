@@ -112,7 +112,6 @@ export default class IdsDataGrid extends Base {
     this.redrawBody();
 
     if (this.virtualScroll) {
-      // this.#attachVirtualScrollEvent();
       this.#attachVirtualScrollEvent();
     }
   }
@@ -124,7 +123,7 @@ export default class IdsDataGrid extends Base {
     // const virtualScrollSettings = this.virtualScrollSettings;
     // let debounceInterval = 0;
 
-    this.onEvent('scroll', this.container, (evt) => {
+    this.onEvent('scroll', this.container, () => {
       // debounceInterval++;
       // if (debounceInterval % virtualScrollSettings.DEBOUNCE_RATE !== 0) {
       //   return;
@@ -134,162 +133,9 @@ export default class IdsDataGrid extends Base {
       if (rowIndex === lastRowIndex) return;
       lastRowIndex = rowIndex;
 
-      this.scrollRowIntoView(rowIndex);
-    });
+      this.scrollRowIntoView(rowIndex, false);
+    }, { passive: true, capture: true });
   }
-
-  // #detachVirtualScrollEvent() {
-  //   this.offEvent('scroll', this.container);
-  // }
-
-  // #attachVirtualScrollEvent() {
-  //   const virtualScrollSettings = this.virtualScrollSettings;
-  //   let debounceInterval = 0;
-  //   let nextRowIndex = 0;
-  //   let prevRowIndex = 0;
-  //   let previousScrollTop = 0;
-  //   let previousTimestamp = 0;
-  //   let requestAnimationFrameRef: any = null;
-  //   let numRows = 0;
-  //   let bodyOffsetHeight = 0;
-  //   let prevBodyOffsetHeight = 0;
-  //   let topRowIndex = 0;
-  //   let bottomRowIndex = 0;
-
-  //   this.container?.style.setProperty('max-height', '95vh');
-
-  //   this.onEvent('scroll', this.container, (evt) => {
-  //     debounceInterval++;
-  //     if (debounceInterval % virtualScrollSettings.DEBOUNCE_RATE !== 0) {
-  //       return;
-  //     }
-
-  //     if (requestAnimationFrameRef) {
-  //       cancelAnimationFrame(requestAnimationFrameRef);
-  //     }
-
-  //     console.log('this.container.scrollTop, previousScrollTop', this.container.scrollTop, previousScrollTop);
-  //     const isScrollingDown = this.container.scrollTop > previousScrollTop;
-  //     const isScrollingUp = !isScrollingDown;
-
-  //     previousScrollTop = this.container.scrollTop;
-
-  //     const body = this.body;
-  //     const data = this.data;
-  //     const rows = this.rows;
-
-  //     const first = rows[0];
-  //     const last = rows[rows.length - 1];
-  //     const firstRowIndex = first?.rowIndex;
-  //     const lastRowIndex = last?.rowIndex;
-
-  //     prevRowIndex = firstRowIndex - 1;
-  //     nextRowIndex = lastRowIndex + 1;
-
-  //     if (data.length !== numRows) {
-  //       numRows = data.length;
-  //       const bodyHeight = (numRows - virtualScrollSettings.NUM_ROWS) * virtualScrollSettings.ROW_HEIGHT;
-  //       this.body?.style.setProperty('height', `${bodyHeight}px`);
-  //     }
-
-  //     if (prevRowIndex < -1 || nextRowIndex > numRows) return;
-
-  //     const headerDimensions = this.header?.getBoundingClientRect();
-  //     const containerDimensions = this.container?.getBoundingClientRect();
-
-  //     const recycleRows: any[] = [];
-
-  //     if (isScrollingUp) {
-  //       // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-  //       const reversedRows = rows.reverse();
-  //       reversedRows
-  //         .every((row, idx) => {
-  //           const currentIndex = prevRowIndex - idx;
-
-  //           if (currentIndex < 0) {
-  //             body?.style.setProperty('transform', `translateY(0px)`);
-  //             return false;
-  //           }
-
-  //           const rowDimensions = row.dimensions;
-  //           const isOffScreen = rowDimensions.y > (containerDimensions.height + virtualScrollSettings.BUFFER_HEIGHT);
-  //           // const isOffScreen = rowDimensions.y > (window.innerHeight + virtualScrollSettings.BUFFER_HEIGHT);
-  //           // const isOffScreen = rowDimensions.bottom > (window.innerHeight + virtualScrollSettings.BUFFER_HEIGHT);
-  //           if (!isOffScreen) {
-  //             return false;
-  //           }
-
-  //           // NOTE: dynamic row height calculation fails here, because
-  //           // NOTE: some of rowDimensions.height calculations fall through the cracks
-  //           // NOTE: and are thrown off when cancelAnimationFrame is called above
-  //           bodyOffsetHeight += rowDimensions.height;
-  //           row.rowIndex = currentIndex;
-  //           return recycleRows.unshift(row);
-  //         });
-
-  //       requestAnimationFrameRef = requestAnimationFrame((timestamp) => {
-  //         // # This timestamp-conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
-  //         if (timestamp <= (previousTimestamp + virtualScrollSettings.RAF_DELAY)) return;
-  //         previousTimestamp = timestamp;
-
-  //         if (recycleRows.length < virtualScrollSettings.NUM_ROWS) {
-  //           // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
-  //           // NOTE: body.prepend is faster than body.innerHTML
-  //           body.prepend(...recycleRows);
-  //         }
-
-  //         prevBodyOffsetHeight -= (recycleRows.length * virtualScrollSettings.ROW_HEIGHT);
-  //         body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
-  //       });
-  //     } else if (isScrollingDown) {
-  //       rows.every((row, idx) => {
-  //         const currentIndex = nextRowIndex + idx;
-
-  //         if (currentIndex >= numRows) {
-  //           body?.style.setProperty('height', `${virtualScrollSettings.BODY_HEIGHT}px`);
-  //           return false;
-  //         }
-
-  //         const rowDimensions = row.dimensions;
-  //         const isOffScreen = rowDimensions.y < (headerDimensions.y - (virtualScrollSettings.BUFFER_HEIGHT));
-  //         if (!isOffScreen) {
-  //           // topRowIndex = row.rowIndex;
-  //           return false;
-  //         }
-
-  //         // NOTE: dynamic row height calculation fails here, because
-  //         // NOTE: some of rowDimensions.height calculations fall through the cracks
-  //         // NOTE: and are thrown off when cancelAnimationFrame is called above
-  //         bodyOffsetHeight += rowDimensions.height;
-  //         row.rowIndex = currentIndex;
-  //         return recycleRows.push(row);
-  //       });
-
-  //       if (recycleRows.length < 1) return;
-
-  //       requestAnimationFrameRef = requestAnimationFrame((timestamp) => {
-  //         // # This timestamp-conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
-  //         if (timestamp <= (previousTimestamp + virtualScrollSettings.RAF_DELAY)) return;
-  //         previousTimestamp = timestamp;
-
-  //         if (recycleRows.length < virtualScrollSettings.NUM_ROWS) {
-  //           // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
-  //           // NOTE: body.append is faster than body.innerHTML
-  //           // NOTE: body.append is faster than multiple calls to appendChild()
-  //           body.append(...recycleRows);
-  //         }
-
-  //         // NOTE: getting topRowIndex from this.rows[0] is the most reliable approach, but it's less performant
-  //         topRowIndex = this.rows[0].rowIndex;
-  //         // prevBodyOffsetHeight = bodyOffsetHeight + prevBodyOffsetHeight;
-  //         // prevBodyOffsetHeight = this.container.scrollTop - virtualScrollSettings.BUFFER_HEIGHT;
-  //         prevBodyOffsetHeight = topRowIndex * virtualScrollSettings.ROW_HEIGHT;
-  //         body?.style.setProperty('transform', `translateY(${prevBodyOffsetHeight}px)`);
-  //         bodyOffsetHeight = 0;
-  //       });
-  //     }
-  //   }, { capture: true, passive: true });
-  // }
 
   #recycleAllRows(topRowIndex: number) {
     const rows = this.rows;
@@ -358,7 +204,7 @@ export default class IdsDataGrid extends Base {
     });
   }
 
-  scrollRowIntoView(rowIndex: number) {
+  scrollRowIntoView(rowIndex: number, doScroll = true) {
     rowIndex = Math.max(rowIndex, 0);
     rowIndex = Math.min(rowIndex, (this.data.length - 1));
 
@@ -380,7 +226,6 @@ export default class IdsDataGrid extends Base {
       const bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
       const moveRowsDown = bufferRowIndex - firstRowIndex;
       const moveRowsUp = Math.abs(bufferRowIndex);
-      console.log('isInRange', { bufferRowIndex, moveRowsDown, moveRowsUp });
 
       if (moveRowsDown > 0) {
         this.#recycleTopRowsDown(moveRowsDown);
@@ -392,7 +237,6 @@ export default class IdsDataGrid extends Base {
     } else if (isAboveFirstRow) {
       const bufferRowIndex = Math.max(rowIndex - virtualScrollSettings.BUFFER_ROWS, 0);
       const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex);
-      console.log('isAboveFirstRow', { bufferRowIndex, moveRowsUp });
       if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
         this.#recycleBottomRowsUp(moveRowsUp);
       } else {
@@ -400,18 +244,17 @@ export default class IdsDataGrid extends Base {
       }
     } else if (isBelowLastRow) {
       const bufferRowIndex = Math.min(rowIndex - virtualScrollSettings.BUFFER_ROWS, this.data.length - 1);
-      console.log('isBelowLastRow', { bufferRowIndex });
       this.#recycleAllRows(bufferRowIndex);
     } else {
       // this.#recycleAllRows(bufferIndexTop);
     }
 
     requestAnimationFrame(() => {
-      // this.#detachVirtualScrollEvent();
-
       const bodyTranslateY = bufferIndexTop * virtualScrollSettings.ROW_HEIGHT;
       this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
-      // this.container.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+      if (doScroll) {
+        this.container.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+      }
 
       // NOTE: The container.scrollTop logic above starts failing as you approach the bottom of the data-grid
       // NOTE: The following commented-out logic needs to be tweaked to resolve this bug
@@ -425,8 +268,6 @@ export default class IdsDataGrid extends Base {
       // const newScrollToTop = (rowIndex + extraneousScrollBuffer) * virtualScrollSettings.ROW_HEIGHT;
       // this.body?.style.setProperty('transform', `translateY(${translateYBody}px)`);
       // this.container.scrollTop = newScrollToTop;
-
-      // this.#attachVirtualScrollEvent();
     });
   }
 
