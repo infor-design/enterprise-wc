@@ -11,6 +11,8 @@ import styles from './ids-button.scss';
 import type IdsIcon from '../ids-icon/ids-icon';
 import type IdsText from '../ids-text/ids-text';
 
+export type IdsIconAlign = undefined | 'start' | 'end';
+
 /**
  * IDS Button Component
  * @type {IdsButton}
@@ -142,9 +144,8 @@ export default class IdsButton extends Base {
       protoClasses = `${this.protoClasses.join(' ')}`;
     }
 
-    const alignCSS = this.state?.iconAlign === 'end'
-      ? ' align-icon-end'
-      : ' align-icon-start';
+    let alignCSS = '';
+    if (this.state?.iconAlign) alignCSS = ` align-icon-${this.state?.iconAlign}`;
 
     return `<button part="button" class="${protoClasses}${type}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
       <slot></slot>
@@ -303,22 +304,22 @@ export default class IdsButton extends Base {
   }
 
   /**
-   * Sets the alignment of an existing icon to the 'start' or 'end' of the text
-   * @param {string} val the alignment type to set.
+   * Sets the automatic alignment of an existing icon to the 'start' or 'end' of the text
+   * @param {IdsIconAlign} val automatic icon alignment setting, if applicable (defaults to undefined).
    */
-  set iconAlign(val: string) {
+  set iconAlign(val: IdsIconAlign) {
     if (!ICON_ALIGN.includes(`align-icon-${val}`)) {
-      val = 'start';
+      val = undefined;
     }
     this.state.iconAlign = val;
     this.setIconAlignment();
   }
 
   /**
-   * @returns {string} containing 'start' or 'end'
+   * @returns {IdsIconAlign} automatic icon alignment setting, if enabled
    */
-  get iconAlign(): string {
-    return this.state?.iconAlign || 'start';
+  get iconAlign(): IdsIconAlign {
+    return this.state?.iconAlign;
   }
 
   /**
@@ -396,28 +397,34 @@ export default class IdsButton extends Base {
   setIconAlignment(): void {
     if (!this.button) return;
 
-    const alignment = this.iconAlign || 'start';
+    const alignment = this.iconAlign;
     const iconStr = this.icon;
     this.button.classList.remove(...ICON_ALIGN);
 
-    // Append the icon, if needed
-    if (iconStr) {
-      this.button.classList.add(`align-icon-${alignment}`);
-      const incorrectStartElement = this.hasIncorrectStartElement();
-      const incorrectEndElement = this.hasIncorrectEndElement();
-      if (incorrectStartElement || incorrectEndElement) this.appendIcon(iconStr);
+    // Align and append the icon, if needed
+    if (alignment) {
+      if (iconStr) {
+        this.button.classList.add(`align-icon-${alignment}`);
+        const incorrectStartElement = this.hasIncorrectStartElement();
+        const incorrectEndElement = this.hasIncorrectEndElement();
+        if (incorrectStartElement || incorrectEndElement) this.appendIcon(iconStr);
+      }
     }
   }
 
   /**
    * @returns {boolean} true if an icon element isn't the first child element of this button
    */
-  private hasIncorrectStartElement() { return this.iconAlign === 'start' && !this.children[0].isEqualNode(this.iconEl); }
+  private hasIncorrectStartElement() {
+    return this.iconAlign === 'start' && !this.children[0].isEqualNode(this.iconEl);
+  }
 
   /**
    * @returns {boolean} true if an icon element isn't the last child element of this button
    */
-  private hasIncorrectEndElement() { return this.iconAlign === 'end' && !this.children[this.children.length - 1].isEqualNode(this.iconEl); }
+  private hasIncorrectEndElement() {
+    return this.iconAlign === 'end' && !this.children[this.children.length - 1].isEqualNode(this.iconEl);
+  }
 
   /**
    * @param {string | null} val the text value
@@ -461,7 +468,7 @@ export default class IdsButton extends Base {
     if (text) {
       text.textContent = val;
       if (align === 'end' && this.hasIncorrectEndElement()) this.prepend(text);
-      else if (this.hasIncorrectStartElement()) this.append(text);
+      else if (align === 'start' && this.hasIncorrectStartElement()) this.append(text);
     } else {
       this.insertAdjacentHTML(iconInsertTarget, `<span>${val}</span>`);
     }
@@ -490,9 +497,7 @@ export default class IdsButton extends Base {
       this.state.type = BUTTON_TYPES[0];
     } else {
       this.setAttribute(attributes.TYPE, val);
-      if (this.state.type !== val) {
-        this.state.type = val;
-      }
+      if (this.state.type !== val) this.state.type = val;
     }
     this.setTypeClass(val);
   }

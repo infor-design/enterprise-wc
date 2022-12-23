@@ -17,7 +17,7 @@ const BUTTON_DEFAULTS: any = {
   disabled: false,
   hidden: false,
   tabIndex: 0,
-  iconAlign: 'start',
+  iconAlign: undefined,
   type: BUTTON_TYPES[0]
 };
 
