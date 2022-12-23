@@ -68,6 +68,8 @@ export default class IdsDataGridCell extends IdsElement {
    */
   static template(row: Record<string, unknown>, column: IdsDataGridColumn, index: number, dataGrid: IdsDataGrid): string {
     const cacheKey = `${column.id}:${index}`;
+
+    // NOTE: disabling caching here until cache-busting strategy in place
     delete IdsDataGridCell.cellCache[cacheKey];
 
     // NOTE: this type of param-based caching is good for upscroll when revising rows that have been seen already.
