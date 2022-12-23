@@ -124,6 +124,7 @@ export default class IdsDataGrid extends Base {
     // let debounceInterval = 0;
 
     this.onEvent('scroll', this.container, () => {
+      // NOTE: debounces causes scrollRowIntoView-strategy to have more white-flashes
       // debounceInterval++;
       // if (debounceInterval % virtualScrollSettings.DEBOUNCE_RATE !== 0) {
       //   return;
@@ -145,8 +146,9 @@ export default class IdsDataGrid extends Base {
     if (!rows.length) return;
 
     const virtualScrollSettings = this.virtualScrollSettings;
+    const maxRowIndex = rows.length - 1;
     const firstRow = rows[0];
-    const lastRow = rows[rows.length - 1];
+    const lastRow = rows[maxRowIndex];
     const firstRowIndex = firstRow.rowIndex;
     const lastRowIndex = lastRow.rowIndex;
     const isAboveFirstRow = rowIndex < firstRowIndex;
