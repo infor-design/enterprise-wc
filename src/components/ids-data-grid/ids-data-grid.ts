@@ -269,8 +269,8 @@ export default class IdsDataGrid extends Base {
 
           if (recycleRows.length < virtualScrollSettings.NUM_ROWS) {
             // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
-            // NOTE: body.append is faster than body.innerHTML
-            // NOTE: body.append is faster than multiple calls to appendChild()
+            // NOTE: body.append seesm to be faster than body.innerHTML
+            // NOTE: body.append seesm to be faster than multiple calls to appendChild()
             body.append(...recycleRows);
           }
 
@@ -330,7 +330,11 @@ export default class IdsDataGrid extends Base {
       this.#recycleAllRows(bufferRowIndex);
     }
 
-    requestAnimationFrame(() => {
+    requestAnimationFrame((timestamp) => {
+      // # This timestamp-conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
+      // if (timestamp <= (previousTimestamp + virtualScrollSettings.RAF_DELAY)) return;
+      // previousTimestamp = timestamp;
+
       const bodyTranslateY = bufferIndexTop * virtualScrollSettings.ROW_HEIGHT;
       this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
       if (doScroll) {
@@ -360,6 +364,7 @@ export default class IdsDataGrid extends Base {
     topRowIndex = Math.min(topRowIndex, veryLastIndex);
     topRowIndex = Math.max(topRowIndex, 0);
 
+    // NOTE: Using Array.every as an alternaive to using a for-loop with a break
     this.rows.every((row, idx) => {
       const nextRowIndex = topRowIndex + idx;
       if (nextRowIndex > veryLastIndex) {
@@ -381,6 +386,8 @@ export default class IdsDataGrid extends Base {
     const bottomRowIndex = bottomRow.rowIndex;
     const selectedRows = rows.slice(0, rowCount);
     const rowsToMove: any[] = [];
+
+    // NOTE: Using Array.every as an alternaive to using a for-loop with a break
     selectedRows.every((row, idx) => {
       const nextIndex = bottomRowIndex + (idx + 1);
       if (nextIndex >= data.length) return false;
@@ -389,9 +396,13 @@ export default class IdsDataGrid extends Base {
     });
 
     if (!rowsToMove.length) return;
-    if (rowsToMove.length >= this.virtualScrollSettings.NUM_ROWS) return; // no need shift DOM if all rows changed
+
+    // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
+    if (rowsToMove.length >= this.virtualScrollSettings.NUM_ROWS) return;
 
     requestAnimationFrame(() => {
+      // NOTE: body.append is faster than body.innerHTML
+      // NOTE: body.append is faster than multiple calls to appendChild()
       this.body.append(...rowsToMove);
     });
   }
@@ -405,6 +416,7 @@ export default class IdsDataGrid extends Base {
     const selectedRows = rows.slice((-1 * rowCount));
     const rowsToMove: any[] = [];
 
+    // NOTE: Using Array.every as an alternaive to using a for-loop with a break
     selectedRows.every((row, idx) => {
       const prevIndex = topRowIndex - (idx + 1);
       if (prevIndex < 0) return false;
@@ -415,6 +427,7 @@ export default class IdsDataGrid extends Base {
     if (!rowsToMove.length) return;
 
     requestAnimationFrame(() => {
+      // NOTE: body.prepend() seems to be faster than body.innerHTML
       this.body.prepend(...rowsToMove.reverse());
     });
   }
