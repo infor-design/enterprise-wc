@@ -144,25 +144,30 @@ export default class IdsDataGrid extends Base {
 
     const rows = this.rows;
     if (!rows.length) return;
+    const data = this.data;
 
     const virtualScrollSettings = this.virtualScrollSettings;
     const firstRow = rows[0];
     const lastRow = rows[rows.length - 1];
     const firstRowIndex = firstRow.rowIndex;
     const lastRowIndex = lastRow.rowIndex;
+    const maxRowIndex = data.length - 1;
     const isAboveFirstRow = rowIndex < firstRowIndex;
     const isBelowLastRow = rowIndex > lastRowIndex;
     const isInRange = !isAboveFirstRow && !isBelowLastRow;
 
     let bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
     bufferRowIndex = Math.max(bufferRowIndex, 0);
-    bufferRowIndex = Math.min(bufferRowIndex, this.data.length - 1);
+    bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
 
     if (isInRange) {
       const moveRowsDown = bufferRowIndex - firstRowIndex;
       const moveRowsUp = Math.abs(moveRowsDown);
 
       if (moveRowsDown > 0) {
+        if (lastRowIndex === maxRowIndex) {
+          return;
+        }
         this.#recycleTopRowsDown(moveRowsDown);
       } else if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
         this.#recycleBottomRowsUp(moveRowsUp);
