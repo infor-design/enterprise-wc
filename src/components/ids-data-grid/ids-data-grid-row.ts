@@ -197,6 +197,16 @@ export default class IdsDataGridRow extends IdsElement {
       }
       return part;
     };
+
+    const isDirtyCell = (currentRow: Record<string, unknown>, column: IdsDataGridColumn, cell: number): boolean => {
+      if (!currentRow.dirtyCells) return false;
+      return (currentRow.dirtyCells as any).findIndex((item: any) => item.cell === cell) !== -1;
+    };
+
+    const isInvalidCell = (currentRow: Record<string, unknown>, column: IdsDataGridColumn, cell: number): boolean => {
+      if (!currentRow.invalidCells) return false;
+      return (currentRow.invalidCells as any).findIndex((item: any) => item.cell === cell) !== -1;
+    };
     let rowClasses = `${row?.rowSelected ? ' selected' : ''}`;
     rowClasses += `${row?.rowSelected && dataGrid?.rowSelection === 'mixed' ? ' mixed' : ''}`;
     rowClasses += `${row?.rowActivated ? ' activated' : ''}`;
@@ -222,10 +232,32 @@ export default class IdsDataGridRow extends IdsElement {
 
     const frozenLast = dataGrid?.leftFrozenColumns.length;
     const isHidden = row.rowHidden ? ' hidden' : '';
+    const isReadonly = (column: IdsDataGridColumn, content: string): boolean => {
+      if (column.readonly && column?.readonly === true) return true;
+      if (typeof column?.readonly === 'function') return column?.readonly(index, content, column, row);
+      return false;
+    };
+
+    const isDisabled = (column: IdsDataGridColumn, content: string): boolean => {
+      if (!column?.disabled) return false;
+      if (typeof column?.disabled === 'function') return column?.disabled(index, content, column, row);
+      if (typeof column?.disabled === 'boolean') return column?.disabled;
+      return false;
+    };
 
     const cellsHtml = dataGrid?.visibleColumns.map((column: IdsDataGridColumn, j: number) => {
       const content = IdsDataGridCell.template(row, column, ariaRowIndex, dataGrid);
-      return `<ids-data-grid-cell role="gridcell" part="${cssPart(column, index, j)}" class="ids-data-grid-cell${column?.readonly ? ` readonly` : ``}${column?.align ? ` align-${column?.align}` : ``}${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ``}" aria-colindex="${j + 1}">${content}</ids-data-grid-cell>`;
+      let cssClasses = 'ids-data-grid-cell';
+      const hasReadonlyClass = isReadonly(column, content);
+      const hasDisabledClass = isDisabled(column, content);
+      cssClasses += `${hasReadonlyClass ? ' is-readonly' : ''}`;
+      cssClasses += `${hasDisabledClass ? ' is-disabled' : ''}`;
+      cssClasses += `${isDirtyCell(row, column, j) ? ' is-dirty' : ''}`;
+      cssClasses += `${isInvalidCell(row, column, j) ? ' is-invalid' : ''}`;
+      cssClasses += `${column?.align ? ` align-${column?.align}` : ''}`;
+      cssClasses += `${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ''}`;
+      cssClasses += `${column?.editor && !hasReadonlyClass && !hasDisabledClass ? ` is-editable${column?.editor?.inline ? ' is-inline' : ''}` : ''}`;
+      return `<ids-data-grid-cell role="gridcell" part="${cssPart(column, index, j)}" class="${cssClasses}" aria-colindex="${j + 1}">${content}</ids-data-grid-cell>`;
     }).join('');
 
     return `<ids-data-grid-row role="row" part="row" aria-rowindex="${ariaRowIndex}" data-index="${index}" ${isHidden} class="ids-data-grid-row${rowClasses}"${treeAttrs}>${cellsHtml}${expandableRowHtml}</ids-data-grid-row>`;

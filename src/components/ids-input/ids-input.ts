@@ -87,7 +87,7 @@ export default class IdsInput extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate', 'alternate-formatter'];
+  colorVariants = ['alternate', 'alternate-formatter', 'borderless', 'in-cell'];
 
   /**
    * @returns {Array<string>} IdsInput component observable attributes
@@ -104,6 +104,7 @@ export default class IdsInput extends Base {
       attributes.FORMAT,
       attributes.ID,
       attributes.NO_MARGINS,
+      attributes.PADDING,
       attributes.PASSWORD_VISIBLE,
       attributes.PLACEHOLDER,
       attributes.READONLY_BACKGROUND,
@@ -875,7 +876,7 @@ export default class IdsInput extends Base {
 
   /**
    * Sets the no margins attribute
-   * @param {boolean | string} n string value from the no margins attribute
+   * @param {boolean | string} n true or false or as a string
    */
   set noMargins(n: boolean | string) {
     if (stringToBool(n)) {
@@ -889,6 +890,26 @@ export default class IdsInput extends Base {
 
   get noMargins(): boolean {
     return stringToBool(this.getAttribute(attributes.NO_MARGINS));
+  }
+
+  /**
+   * Sets the inner padding (inline-start and end)
+   * @param {string} n string value for the padding
+   */
+  set padding(n: string | number) {
+    if (n) {
+      this.setAttribute(attributes.PADDING, String(n));
+      this.input?.style.setProperty('padding-inline-start', `${n}px`);
+      this.input?.style.setProperty('padding-inline-end', `${n}px`);
+      return;
+    }
+    this.removeAttribute(attributes.PADDING);
+    this.input?.style.setProperty('padding-inline-start', ``);
+    this.input?.style.setProperty('padding-inline-end', ``);
+  }
+
+  get padding(): string | number {
+    return this.getAttribute(attributes.PADDING) || '';
   }
 
   /**

@@ -138,6 +138,7 @@ export default class IdsLookup extends Base {
       ${this.clearable ? ' clearable="true"' : ''}
       ${this.disabled ? ' disabled="true"' : ''}
       ${this.readonly ? ' readonly="true"' : ''}
+      ${this.dirtyTracker ? ' dirty-tracker="true"' : ''}
       ${this.compact ? ' compact' : ''}
       ${this.size ? ` size="${this.size}"` : ''}
       ${this.fieldHeight ? ` field-height="${this.fieldHeight}"` : ''}

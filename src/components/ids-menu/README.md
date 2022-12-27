@@ -39,6 +39,18 @@ A simple menu with three items can be created by creating a `ids-menu` with a si
 </ids-menu>
 ```
 
+A menu can have a toggleable menu item that is indicated with a check that toggles when you turn it on and off. In this example selecting `Two` will mark it checked and unchecked
+
+```html
+<ids-menu id="simple-menu">
+  <ids-menu-group>
+    <ids-menu-item>One</ids-menu-item>
+    <ids-menu-item toggleable>Two</ids-menu-item>
+    <ids-menu-item>Three</ids-menu-item>
+  </ids-menu-group>
+</ids-menu>
+```
+
 A more complicated menu can be formed using combinations of  `ids-menu` with a `ids-menu-group` and nested `ids-menu-item` components.
 
 ```html
@@ -84,7 +96,7 @@ When an `<ids-menu-item>` element is selected from a menu, it has the potential 
 </ids-menu>
 ```
 
-In this example, when any of the menu's items are chosen by click or by keyboard, no selection events are fired.  This is because there is no `select` attribute dertermining single or multiple selection.  The menu item chosen will not change the menu's selection state, and will simply fire a `pick` event.
+In this example, when any of the menu's items are chosen by click or by keyboard, no selection events are fired.  This is because there is no `select` attribute determining single or multiple selection.  The menu item chosen will not change the menu's selection state, and will simply fire a `pick` event.
 
 This next example will cause a both a `selected` event and a `pick` event to fire whenever an item is chosen.  No `deselected` events will fire in this case:
 
@@ -94,6 +106,16 @@ This next example will cause a both a `selected` event and a `pick` event to fir
     <ids-menu-item icon="mail" value="mail">Mail</ids-menu-item>
     <ids-menu-item icon="filter" value="filter">Filter</ids-menu-item>
     <ids-menu-item icon="settings" value="settings">Settings</ids-menu-item>
+  </ids-menu-group>
+</ids-menu>
+```
+
+You can also have `toggleable` menu items where the menu item check can be turned on and off. For example
+
+```html
+<ids-menu>
+  <ids-menu-group select="single">
+    <ids-menu-item icon="mail" toggable value="mail">Keep Active</ids-menu-item>
   </ids-menu-group>
 </ids-menu>
 ```

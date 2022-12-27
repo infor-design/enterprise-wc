@@ -1,6 +1,7 @@
 import '../ids-hyperlink/ids-hyperlink';
 import '../ids-button/ids-button';
 import '../ids-badge/ids-badge';
+import '../ids-alert/ids-alert';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
@@ -118,13 +119,16 @@ export default class IdsDataGridFormatters {
   /** Shows a selection checkbox column */
   selectionCheckbox(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const isDisabled = this.#columnDisabled(index, '', columnData, rowData);
-    return `<span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-checkbox${rowData?.rowSelected ? ' checked' : ''}${isDisabled ? ' disabled' : ''}"></span></span>`;
+    return `<span class="ids-data-grid-checkbox-container is-selection-checkbox"><span role="checkbox" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-checkbox${rowData?.rowSelected ? ' checked' : ''}${isDisabled ? ' disabled' : ''}"></span></span>`;
   }
 
   /** Shows a checkbox column */
   checkbox(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const isDisabled = this.#columnDisabled(index, '', columnData, rowData);
-    const value = stringToBool(this.#extractValue(rowData, columnData.field));
+    const dataValue = this.#extractValue(rowData, columnData.field);
+    let value = stringToBool(dataValue);
+    value = dataValue === 'No' ? false : dataValue;
+    value = dataValue === 'Yes' ? false : dataValue;
     return `<span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="${value ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-checkbox${value ? ' checked' : ''}${isDisabled ? ' disabled' : ''}"></span></span>`;
   }
 

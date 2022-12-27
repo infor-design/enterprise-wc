@@ -221,6 +221,8 @@ describe('IdsDataGrid Component', () => {
     bodyMenu.items[0].select();
     expect(headerMenu.visible).toBeFalsy();
     expect(bodyMenu.visible).toBeFalsy();
+    headerMenu.dispatchEvent(new MouseEvent('selected', { bubbles: true }));
+    bodyMenu.dispatchEvent(new MouseEvent('selected', { bubbles: true }));
   });
 
   it('should show a contextmenu via id', async () => {

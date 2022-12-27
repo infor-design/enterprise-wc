@@ -43,6 +43,7 @@ export default class IdsCheckbox extends Base {
   static get attributes(): Array<any> {
     return [
       ...super.attributes,
+      attributes.NO_ANIMATION,
       attributes.CHECKED,
       attributes.COLOR,
       attributes.DISABLED,
@@ -83,7 +84,8 @@ export default class IdsCheckbox extends Base {
     const disabled = stringToBool(this.disabled) ? ' disabled' : '';
     const horizontal = stringToBool(this.horizontal) ? ' horizontal' : '';
     const checked = stringToBool(this.checked) ? ' checked' : '';
-    const rootClass = ` class="ids-checkbox${disabled}${horizontal}"`;
+    const noAnimation = stringToBool(this.noAnimation) ? ' no-animation' : '';
+    const rootClass = ` class="ids-checkbox${disabled}${horizontal}${noAnimation}"`;
     let checkboxClass = 'checkbox';
     checkboxClass += stringToBool(this.indeterminate) ? ' indeterminate' : '';
     checkboxClass = ` class="${checkboxClass}"`;
@@ -133,7 +135,6 @@ export default class IdsCheckbox extends Base {
     const events = ['focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (e: Event) => {
-        e.stopPropagation();
         this.triggerEvent(e.type, this, {
           detail: {
             elem: this,
@@ -296,6 +297,23 @@ export default class IdsCheckbox extends Base {
   }
 
   get value() { return this.getAttribute(attributes.VALUE); }
+
+  /**
+   * Disable the check animation
+   * @param {string | boolean} value the value property
+   */
+  set noAnimation(value: string | boolean | null) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.NO_ANIMATION, String(val));
+      this.container?.classList.add('no-animation');
+    } else {
+      this.removeAttribute(attributes.NO_ANIMATION);
+      this.container?.classList.remove('no-animation');
+    }
+  }
+
+  get noAnimation() { return stringToBool(this.getAttribute(attributes.NO_ANIMATION)) || false; }
 
   /**
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.

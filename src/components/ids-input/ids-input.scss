@@ -181,7 +181,6 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     @include relative();
     @include border-1();
     @include border-solid();
-    @include rounded-default();
 
     align-items: center;
     border-collapse: separate;
@@ -353,6 +352,92 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
         margin-bottom: 0;
         height: $border-input-field-height-compact;
       }
+    }
+  }
+
+  // Data Grid Variants
+
+  // Flush/Invisible Variant (used in IdsDataGrid cell editing)
+  &.color-variant-borderless {
+    margin: 1px;
+    border-radius: 0;
+
+    input {
+      font-size: 16px !important;
+    }
+
+    .icon-dirty {
+      display: none;
+    }
+
+    .validation-message {
+      display: none;
+    }
+
+    .field-container {
+      background-color: transparent !important;
+      border-color: transparent !important;
+    }
+
+    &:focus-within .field-container {
+      box-shadow: none !important;
+    }
+
+    &.ids-input.field-height-lg .ids-input-field {
+      padding-inline: 14px;
+    }
+
+    &.ids-input.field-height-md .ids-input-field {
+      padding-inline: 10px;
+    }
+
+    &.ids-input.field-height-sm .ids-input-field {
+      padding-inline: 6px;
+    }
+
+    &.ids-input.field-height-xs .ids-input-field {
+      padding-inline: 2px;
+    }
+  }
+
+  // Flush/Invisible Variant (used in IdsDataGrid cell editing)
+  &.color-variant-in-cell {
+    margin: 1px;
+
+    input {
+      font-size: 16px;
+    }
+
+    &.ids-input.field-height-lg .ids-input-field {
+      padding-inline: 11px;
+      height: 40px;
+    }
+
+    &.ids-input.full .field-container {
+      margin-inline: 3px;
+    }
+
+    &.ids-input.field-height-md .ids-input-field {
+      padding-inline: 6px;
+      height: 30px;
+    }
+
+    &.ids-input.field-height-sm .ids-input-field {
+      padding-inline: 4px;
+      height: 27px;
+    }
+
+    &.ids-input.field-height-sm.full .field-container {
+      margin-inline: 2px;
+    }
+
+    &.ids-input.field-height-xs .ids-input-field {
+      padding-inline: 1px;
+      height: 24px;
+    }
+
+    &.ids-input.field-height-xs.full .field-container {
+      margin-inline: 1px;
     }
   }
 }

@@ -230,6 +230,20 @@ describe('IdsCheckbox Component', () => {
     expect(cb.input.classList).not.toContain('indeterminate');
   });
 
+  it('should set noAnimation', () => {
+    expect(cb.getAttribute('no-animation')).toEqual(null);
+    expect(cb.container.classList).not.toContain('no-animation');
+    cb.noAnimation = true;
+    expect(cb.getAttribute('no-animation')).toEqual('true');
+    expect(cb.container.classList).toContain('no-animation');
+    cb.noAnimation = false;
+    expect(cb.getAttribute('no-animation')).toEqual(null);
+    expect(cb.container.classList).not.toContain('no-animation');
+    cb.noAnimation = true;
+    expect(cb.getAttribute('no-animation')).toEqual('true');
+    expect(cb.container.classList).toContain('no-animation');
+  });
+
   it('should rander display horizontal', () => {
     let rootEl = cb.shadowRoot.querySelector('.ids-checkbox');
     expect(rootEl.classList).not.toContain('horizontal');
