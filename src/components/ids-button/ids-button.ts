@@ -1,5 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-button-base';
@@ -65,6 +65,8 @@ export default class IdsButton extends Base {
   #setInitialState() {
     if (this.hasAttribute(attributes.ICON)) this.appendIcon(this.getAttribute(attributes.ICON) as string);
     if (this.hasAttribute(attributes.TEXT)) this.appendText(this.getAttribute(attributes.TEXT) as string);
+
+    this.setAriaText();
 
     const isIconButton = this.button?.classList.contains('ids-icon-button');
     this.setupRipple(this.button as HTMLButtonElement, isIconButton ? 35 : 50);
@@ -173,6 +175,12 @@ export default class IdsButton extends Base {
     this.shouldUpdate = true;
     this.state.hidden = bool;
     if (this.button) this.button.hidden = bool;
+  }
+
+  private setAriaText() {
+    if (this.container) {
+      this.container.setAttribute(htmlAttributes.ARIA_LABEL, this.text || 'Button');
+    }
   }
 
   /**
@@ -473,6 +481,7 @@ export default class IdsButton extends Base {
 
     if (text) {
       text.textContent = val;
+      this.setAriaText();
       if (align === 'end' && this.hasIncorrectEndElement()) this.prepend(text);
       else if (align === 'start' && this.hasIncorrectStartElement()) this.append(text);
     } else {
