@@ -275,6 +275,7 @@ export default class IdsDropdown extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
+    console.log('setting dropdown value');
     const elem = this.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"]`);
 
     if (!elem && !this.clearable) {
@@ -554,7 +555,7 @@ export default class IdsDropdown extends Base {
     // Trigger an async callback for contents
     if (typeof this.state.beforeShow === 'function') {
       const stuff = await this.state.beforeShow();
-      this.#loadDataSet(stuff);
+      this.loadDataSet(stuff);
       if (this.typeahead) {
         this.#optionsData = stuff;
       }
@@ -578,6 +579,14 @@ export default class IdsDropdown extends Base {
 
     this.container?.classList.add('is-open');
     this.#setAriaOnMenuOpen();
+
+    this.triggerEvent('open', this, {
+      bubbles: true,
+      detail: {
+        elem: this,
+        value: this.value
+      }
+    });
   }
 
   /**
@@ -585,7 +594,7 @@ export default class IdsDropdown extends Base {
    * @param {IdsDropdownOptions} dataset The dataset to use with value, label ect...
    * @private
    */
-  #loadDataSet(dataset: IdsDropdownOptions) {
+  loadDataSet(dataset: IdsDropdownOptions) {
     let html = '';
 
     const listbox = this.querySelector('ids-list-box');
@@ -645,12 +654,19 @@ export default class IdsDropdown extends Base {
       this.input?.setAttribute(attributes.READONLY, 'true');
       const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
       if (this.input) this.input.value = initialValue || '';
-      this.#loadDataSet(this.#optionsData);
+      this.loadDataSet(this.#optionsData);
       (window.getSelection() as Selection).removeAllRanges();
       this.#triggerIconChange('dropdown');
     }
 
     this.container?.classList.remove('is-open');
+    this.triggerEvent('close', this, {
+      bubbles: true,
+      detail: {
+        elem: this,
+        value: this.value
+      }
+    });
   }
 
   /**
@@ -691,10 +707,13 @@ export default class IdsDropdown extends Base {
   attachClickEvent() {
     this.offEvent('click.dropdown-list-box');
     this.onEvent('click.dropdown-list-box', this.listBox, (e: any) => {
+      console.log('dropdown click', e);
       // Excluding group labels
       if (e.target?.hasAttribute(attributes.GROUP_LABEL) || e.target.closest('ids-list-box-option')?.hasAttribute(attributes.GROUP_LABEL)) {
         return;
       }
+
+      console.log('dropdown click after check', e);
 
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
         this.value = e.target.getAttribute('value');
