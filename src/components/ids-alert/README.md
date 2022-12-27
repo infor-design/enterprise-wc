@@ -29,6 +29,12 @@ An alert can be used in a disabled situation so comes with a disabled style
 <ids-alert icon="info" disabled="true"></ids-alert>
 ```
 
+An alert can have a tooltip
+
+```html
+<ids-alert icon="errorr" tooltip="Info about the error"></ids-alert>
+```
+
 ## Class Hierarchy
 
 - IdsAlert
@@ -41,6 +47,7 @@ An alert can be used in a disabled situation so comes with a disabled style
 
 - `icon` {boolean} Set the type of icon / alert to show options include  'alert' | 'success' | 'dirty' | 'error' | 'info' |'pending' | 'new' | 'in-progress'
 - `disabled` {boolean} Set alert to disabled
+- `tooltip` {string} Sets the string content for a tooltip
 
 ## Themeable Parts
 

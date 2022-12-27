@@ -157,6 +157,12 @@
     }
   }
 
+  &.no-animation {
+    input[type='checkbox']:checked ~ .checkmark::after {
+      animation: none;
+    }
+  }
+
   // Colored Checkboxes
   @include checkbox-colored();
 

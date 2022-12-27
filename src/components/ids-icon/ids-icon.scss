@@ -25,6 +25,10 @@
   height: 19px;
 }
 
+:host([icon='add']) svg {
+  width: 17px;
+}
+
 .notification-badge {
   @include bg-alert-error();
 

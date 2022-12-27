@@ -287,6 +287,7 @@ class IdsDataSource {
       return;
     }
     this.#currentData.sort(sort);
+    this.#originalData.sort(sort);
   }
 
   /**
