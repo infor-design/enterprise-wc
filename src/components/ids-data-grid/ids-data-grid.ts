@@ -1325,6 +1325,7 @@ export default class IdsDataGrid extends Base {
    */
   selectAllRows() {
     this.data?.forEach((row: any, index: number) => {
+      this.state.selected[index] = true;
       this.selectRow(index);
       row.rowSelected = true;
     });
@@ -1343,6 +1344,8 @@ export default class IdsDataGrid extends Base {
    */
   deSelectAllRows() {
     this.data?.forEach((row: any, index: number) => {
+      this.state.selected[index] = false;
+
       if (row.rowSelected) {
         this.deSelectRow(index);
         row.rowSelected = false;
