@@ -214,6 +214,7 @@ class IdsDatePicker extends Base {
             ${this.label ? `label="${this.label}"` : ''}
             placeholder="${this.placeholder}"
             size="${this.size}"
+            format="${this.format}"
             ${this.validate ? `validate="${this.validate}"` : ''}
             validation-events="${this.validationEvents}"
             value="${this.value}"
@@ -318,7 +319,6 @@ class IdsDatePicker extends Base {
     // Respond to container changing language
     this.offEvent('languagechange.date-picker-container');
     this.onEvent('languagechange.date-picker-container', getClosest(this, 'ids-container'), () => {
-      this.#setDateValidation();
       this.#setAvailableDateValidation();
     });
 
@@ -569,29 +569,6 @@ class IdsDatePicker extends Base {
       this.#triggerField.mask = this.useRange ? 'rangeDate' : 'date';
       this.#triggerField.maskOptions = { format: this.format, delimeter: this.rangeSettings.separator };
       this.#triggerField.value = this.value;
-    }
-  }
-
-  /**
-   * Valid date validation extend validation mixin
-   */
-  #setDateValidation(): void {
-    if (this.validate?.includes('date')) {
-      this.#triggerField?.addValidationRule({
-        id: 'date',
-        type: 'error',
-        message: this.locale?.translate('InvalidDate'),
-        check: (input: any) => {
-          if (!input.value) return true;
-
-          const date = this.locale.parseDate(
-            input.value,
-            this.format
-          );
-
-          return isValidDate(date);
-        }
-      });
     }
   }
 
@@ -876,7 +853,6 @@ class IdsDatePicker extends Base {
       this.#triggerField?.handleValidation();
     }
 
-    this.#setDateValidation();
     this.#setAvailableDateValidation();
   }
 
