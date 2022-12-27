@@ -62,8 +62,10 @@ export default class IdsDataGridRow extends IdsElement {
   set rowIndex(value: number) {
     if (value >= 0) {
       this.setAttribute(attributes.ROW_INDEX, String(value));
+      this.setAttribute('data-index', String(value));
     } else {
       this.removeAttribute(attributes.ROW_INDEX);
+      this.removeAttribute('data-index');
     }
   }
 
@@ -294,8 +296,14 @@ export default class IdsDataGridRow extends IdsElement {
   cellsHTML(): string {
     const index = this.rowIndex;
     const ariaRowIndex = index;
-    const dataGrid = this.dataGrid;
     const row = this.data[index];
+    const dataGrid = this.dataGrid;
+
+    if (dataGrid.state.selected[index]) {
+      dataGrid.selectRow(index);
+    } else {
+      dataGrid.deSelectRow(index);
+    }
 
     const cssPart = (column: IdsDataGridColumn, rowIndex: number, cellIndex: number) => {
       const part = column.cssPart || 'cell';

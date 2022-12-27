@@ -83,7 +83,8 @@ export default class IdsDataGrid extends Base {
 
     this.initialized = false;
     this.state = {
-      menuData: null
+      menuData: null,
+      selected: {},
     };
   }
 
@@ -1212,6 +1213,8 @@ export default class IdsDataGrid extends Base {
     if (!row) return;
 
     row.selected = true;
+    this.state.selected[index] = true;
+
     this.updateDataset(Number(row?.getAttribute('data-index')), { rowSelected: true });
     if ((this.rowSelection === 'single' || this.rowSelection === 'multiple') && row) row.updateCells(index);
 
@@ -1231,6 +1234,7 @@ export default class IdsDataGrid extends Base {
    */
   deSelectRow(index: number) {
     const row = this.rowByIndex(index);
+    this.state.selected[index] = false;
 
     if (this.rowSelection === 'mixed') {
       row?.classList.remove('mixed');
