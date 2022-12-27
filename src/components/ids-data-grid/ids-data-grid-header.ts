@@ -201,7 +201,7 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
 
     const removeDragger = (e: DragEvent) => {
       this.querySelector('.active-drag-column')?.classList.remove('active-drag-column');
-      dragger.remove();
+      dragger?.remove();
       dragArrows?.style.setProperty('display', 'none');
       e.preventDefault();
     };
@@ -337,6 +337,7 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     cssClasses += column.sortable ? ' is-sortable' : '';
     cssClasses += selectionCheckbox ? ' has-selectioncheckbox vertical-align-center' : '';
     cssClasses += column.headerIcon ? ' has-headericon' : '';
+    cssClasses += column.reorderable ? ' is-reorderable' : '';
 
     // Content row cell template
     const headerContentWrapperTemplate = `<span class="${cssClasses}">

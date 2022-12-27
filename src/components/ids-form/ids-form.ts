@@ -97,7 +97,7 @@ export default class IdsForm extends Base {
           name: el.name,
           isDirty: el.isDirty,
           isValid: el.isValid,
-          orginalValue: el.dirty?.original,
+          originalValue: el.dirty?.original,
           validationMessages: el.validationMessages
         }));
         this.triggerEvent('submit', this, { bubbles: true, detail: { components: formValues } });

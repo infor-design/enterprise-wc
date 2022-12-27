@@ -114,6 +114,8 @@ export const attributes = {
   DRAGGING: 'dragging',
   DROPDOWN_ICON: 'dropdown-icon',
   EDGE: 'edge',
+  EDITABLE: 'editable',
+  EDIT_NEXT_ON_ENTER_PRESS: 'edit-next-on-enter-press',
   EMPTY_MESSAGE_DESCRIPTION: 'empty-message-description',
   EMPTY_MESSAGE_ICON: 'empty-message-icon',
   EMPTY_MESSAGE_LABEL: 'empty-message-label',
@@ -241,6 +243,7 @@ export const attributes = {
   NAME: 'name',
   NAV_DISABLED: 'nav-disabled',
   NEXT: 'next',
+  NO_ANIMATION: 'no-animation',
   NO_HEADER: 'no-header',
   NO_MARGINS: 'no-margins',
   NO_PADDING: 'no-padding',
@@ -373,6 +376,7 @@ export const attributes = {
   TIMELINE_INTERVAL: 'timeline-interval',
   TIMEOUT: 'timeout',
   TITLE: 'title',
+  TOGGLEABLE: 'toggleable',
   TOGGLE_COLLAPSE_ICON: 'toggle-collapse-icon',
   TOGGLE_EXPAND_ICON: 'toggle-expand-icon',
   TOGGLE_ICON_ROTATE: 'toggle-icon-rotate',
@@ -451,3 +455,12 @@ export const prefix = {
 };
 
 export const version = '1.0.0-beta.2';
+
+export enum IdsDirection {
+  Up = 'up',
+  Down = 'down',
+  Left = 'left',
+  Right = 'right',
+  Next = 'next',
+  Previous = 'previous'
+}

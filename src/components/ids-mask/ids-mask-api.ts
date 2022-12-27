@@ -98,7 +98,7 @@ class MaskAPI {
     // Adjusts the caret position to the end of the value in some cases (range number/date masks).
     // @TODO Re-enable this code when we re-implement range date/time/number masks
     /*
-    if (opts.patternOptions?.delimeter && processResult?.conformedValue !== rawValue) {
+    if (opts.patternOptions?.delimiter && processResult?.conformedValue !== rawValue) {
       processResult.caretPos = processResult.conformedValue.length;
     }
     */

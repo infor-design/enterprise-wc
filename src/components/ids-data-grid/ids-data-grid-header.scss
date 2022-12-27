@@ -88,9 +88,9 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     ids-icon {
       position: absolute;
       color: var(--ids-color-palette-white);
-      inset-inline-start: -7px;
+      inset-inline-start: -8px;
       text-align: center;
-      top: 9px;
+      top: calc(50% - 9px);
     }
   }
 

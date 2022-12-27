@@ -666,17 +666,14 @@ export default class IdsMenu extends Base {
     }
 
     const group = menuItem.group;
-    switch (group.select) {
-      case 'multiple':
+    if (group.select === 'multiple' || menuItem.toggleable) {
       // Multiple-select mode (Toggles selection, ignores others)
-        menuItem[menuItem.selected ? 'deselect' : 'select']();
-        break;
-      default:
+      menuItem[menuItem.selected ? 'deselect' : 'select']();
+    } else {
       // "none" and "single" select mode.
       // In "single" mode, deselection of other items is handled by event
       // at the menu group level.
-        menuItem.select();
-        break;
+      menuItem.select();
     }
   }
 

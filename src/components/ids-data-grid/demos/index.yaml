@@ -68,6 +68,12 @@
   - link: disable-client-filter.html
     type: Example
     description: Shows a data grid with disable client filter
+  - link: editable.html
+    type: Example
+    description: Shows a data grid with editable cells
+  - link: editable-inline.html
+    type: Example
+    description: Shows a data grid with inline editable cells
   - link: expandable-row.html
     type: Example
     description: Shows a data grid with and expandable row

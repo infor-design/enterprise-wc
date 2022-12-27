@@ -156,7 +156,7 @@ describe('IdsInput (Masked)', () => {
     input.mask = rangeDateMask;
     input.maskPipe = autoCorrectedDatePipe;
     input.maskOptions = {
-      delimeter: ' - ',
+      delimiter: ' - ',
       symbols: {
         separator: '/'
       }

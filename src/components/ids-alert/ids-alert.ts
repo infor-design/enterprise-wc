@@ -3,9 +3,13 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { sizes } from '../ids-icon/ids-icon-attributes';
 
-import Base from './ids-alert-base';
-import '../ids-icon/ids-icon';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 
+import IdsElement from '../../core/ids-element';
+
+import '../ids-icon/ids-icon';
 import styles from './ids-alert.scss';
 
 /**
@@ -18,13 +22,25 @@ import styles from './ids-alert.scss';
  */
 @customElement('ids-alert')
 @scss(styles)
-export default class IdsAlert extends Base {
+export default class IdsAlert extends IdsTooltipMixin(IdsThemeMixin(IdsEventsMixin(IdsElement))) {
   constructor() {
     super();
   }
 
   connectedCallback() {
     super.connectedCallback();
+  }
+
+  /**
+   * Setup some special config for the tooltip
+   * @param {any} tooltip the tooltip element
+   */
+  beforeTooltipShow(tooltip?: any) {
+    // Color the tooltip
+    if (tooltip.popup) {
+      tooltip.popup?.container?.classList.add(`${this.toolTipTarget.getAttribute('icon')}-color`);
+      tooltip.popup.y = 12;
+    }
   }
 
   /**
@@ -36,13 +52,13 @@ export default class IdsAlert extends Base {
       ...super.attributes,
       attributes.DISABLED,
       attributes.ICON,
+      attributes.TOOLTIP,
       attributes.SIZE
     ];
   }
 
   /**
    * Create the Template for the contents
-   *
    * @returns {string} The template
    */
   template(): string {

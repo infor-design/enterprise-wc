@@ -16,6 +16,7 @@
 - `[DataGrid]` Added expandable row functionality. ([#737](https://github.com/infor-design/enterprise-wc/issues/737)
 - `[DataGrid]` Added suppress row click for selection functionality. ([#737](https://github.com/infor-design/enterprise-wc/issues/737)
 - `[DataGrid]` Added support for context menu. ([#963](https://github.com/infor-design/enterprise-wc/issues/963))
+- `[DataGrid]` Added support for editing. ([#991](https://github.com/infor-design/enterprise-wc/issues/991))
 - `[DataGrid]` Added `rowclick` and `rowdoubleclick` events. ([#994](https://github.com/infor-design/enterprise-wc/issues/- `[DataGrid]` Added `ids-data-grid-cell`, `ids-data-grid-row` and `ids-data-grid-header` components and better code separation. ([#968](https://github.com/infor-design/enterprise-wc/issues/968))
 - `[DataGrid]` Added support for save user settings. ([#992](https://github.com/infor-design/enterprise-wc/issues/992))
 - `[DataGrid]` Added rowNavigation functionality. ([#993](https://github.com/infor-design/enterprise-wc/issues/993))
@@ -26,11 +27,13 @@
 - `[DataGrid]` Fixed bug where filtered event fired when calling setFilterCondition() ([#1006](https://github.com/infor-design/enterprise-wc/issues/1006))
 - `[DatePicker]` Separated the "picker" portion of IdsDatePicker into its own component, allowing separate usage by other components. ([#958](https://github.com/infor-design/enterprise-wc/issues/958))
 - `[DatePicker/MonthView]` Fixed a circular dependency issue between Date Pickers and Month Views. ([#959](https://github.com/infor-design/enterprise-wc/issues/959))
+- `[DatePicker]` Fixed validation date error message in Safari browser. ([#1015](https://github.com/infor-design/enterprise-wc/issues/1015))
 - `[Icons]` All icons have padding on top and bottom effectively making them 4px smaller by design. This change may require some UI corrections to css. ([#6868](https://github.com/infor-design/enterprise/issues/6868))
 - `[Icons]` Over 60 new icons and 126 new industry focused icons. ([#6868](https://github.com/infor-design/enterprise/issues/6868))
 - `[Icons]` Added new empty state icons. ([#6934](https://github.com/infor-design/enterprise/issues/6934))
 - `[Icons]` Added feature to add custom icons ([#990](https://github.com/infor-design/enterprise-wc/issues/990))
 - `[ListView]` Fixed a bug where the component is showing errors when changing data by activating an item ([#1036](https://github.com/infor-design/enterprise-wc/issues/1036))
+- `[Lookup]` Fixed dirty tracking in Safari browser. ([#1017](https://github.com/infor-design/enterprise-wc/issues/1017))
 - `[Wizard]` Fixed dark/contrast mode colors. ([#1007](https://github.com/infor-design/enterprise-wc/issues/1007))
 
 ## 1.0.0-beta.2

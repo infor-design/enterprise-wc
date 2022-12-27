@@ -418,8 +418,8 @@ export function dateMask(rawValue = '', options: IdsMaskOptions = {}): IdsMaskGe
  * @returns {IdsMaskGeneratorResult} containing a mask that will match a formatted date,
  */
 export function rangeDateMask(rawValue = '', options: IdsMaskOptions = {}): IdsMaskGeneratorResult {
-  const parts: Array<string> = rawValue.split(options.delimeter);
-  const delimiterArr: Array<string> = options.delimeter.split('');
+  const parts: Array<string> = rawValue.split(options.delimiter);
+  const delimiterArr: Array<string> = options.delimiter.split('');
   const firstDate: IdsMaskGeneratorResult = dateMask(parts[0], options);
   const secondDate: IdsMaskGeneratorResult = dateMask(parts[1], options);
 
