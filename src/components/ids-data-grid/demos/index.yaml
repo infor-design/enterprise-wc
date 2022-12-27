@@ -89,6 +89,9 @@
   - link: list-style.html
     type: Example
     description: Shows a data grid with readonly list styling
+  - link: m3-features.html
+    type: Example
+    description: Shows m3 teams typical usage
   - link: mixed-selection.html
     type: Example
     description: Shows a data grid with mixed selection
