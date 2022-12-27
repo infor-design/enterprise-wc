@@ -300,6 +300,7 @@ export default class IdsDataGridRow extends IdsElement {
     const dataGrid = this.dataGrid;
 
     if (dataGrid.state.selected[index]) {
+      // NOTE: Fix this relatively heavy operation (esp. if/when caching is disabled).
       dataGrid.selectRow(index);
     } else {
       dataGrid.deSelectRow(index);
