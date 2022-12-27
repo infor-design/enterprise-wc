@@ -7,7 +7,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   // Border and Background
   @include border-0();
   @include border-l-1();
-  @include border-t-1();
+  @include border-b-1();
   @include border-solid();
   @include inline-flex();
   @include text-slate-100();
@@ -181,7 +181,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   // Change Cell Borders/BG
   .ids-data-grid-cell {
     border-inline-start-width: 0;
-    border-top: 1px solid var(--ids-color-palette-slate-20);
+    border-bottom: 1px solid var(--ids-color-palette-slate-20);
 
     &.is-readonly {
       @include bg-slate-10();
