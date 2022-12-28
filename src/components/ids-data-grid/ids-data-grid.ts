@@ -122,15 +122,8 @@ export default class IdsDataGrid extends Base {
 
     let lastRowIndex = 0;
     const virtualScrollSettings = this.virtualScrollSettings;
-    // let debounceInterval = 0;
 
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, () => {
-      // NOTE: debounces causes scrollRowIntoView-strategy to have more white-flashes
-      // debounceInterval++;
-      // if (debounceInterval % virtualScrollSettings.DEBOUNCE_RATE !== 0) {
-      //   return;
-      // }
-
       const rowIndex = Math.floor(this.container.scrollTop / virtualScrollSettings.ROW_HEIGHT);
       if (rowIndex === lastRowIndex) return;
       lastRowIndex = rowIndex;
@@ -187,29 +180,12 @@ export default class IdsDataGrid extends Base {
       this.#recycleAllRows(bufferRowIndex);
     }
 
-    requestAnimationFrame((timestamp) => {
-      // # This timestamp-conditional "debounces" scrolling up and prevents scrollbar from jumping up+down
-      // if (timestamp <= (previousTimestamp + virtualScrollSettings.RAF_DELAY)) return;
-      // previousTimestamp = timestamp;
-
+    requestAnimationFrame(() => {
       const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
       this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
       if (doScroll) {
         this.container.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
       }
-
-      // NOTE: The container.scrollTop logic above starts failing as you approach the bottom of the data-grid
-      // NOTE: The following commented-out logic needs to be tweaked to resolve this bug
-      // const data = this.data;
-      // const translateYBufferSafePoint = (data.length - virtualScrollSettings.NUM_ROWS);
-      // const translateYFromBufferIndex = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
-      // const extraneousScrollBuffer = Math.max(0, bufferRowIndex - translateYBufferSafePoint); // 851 - 850 = 1
-      // const translateYFromBiggerBuffer = (bufferRowIndex + extraneousScrollBuffer) * virtualScrollSettings.ROW_HEIGHT;
-      // const isBufferIndexUsable = bufferRowIndex <= translateYBufferSafePoint;
-      // const translateYBody = isBufferIndexUsable ? translateYFromBufferIndex : translateYFromBiggerBuffer;
-      // const newScrollToTop = (rowIndex + extraneousScrollBuffer) * virtualScrollSettings.ROW_HEIGHT;
-      // this.body?.style.setProperty('transform', `translateY(${translateYBody}px)`);
-      // this.container.scrollTop = newScrollToTop;
     });
   }
 
@@ -1459,7 +1435,6 @@ export default class IdsDataGrid extends Base {
       const cellNode = queriedCells[cell] as IdsDataGridCell;
       if (this.virtualScroll) {
         cellNode.activate(false);
-        // this.scrollRowIntoView(row);
       } else {
         cellNode.activate(Boolean(noFocus));
       }
