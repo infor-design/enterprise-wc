@@ -103,7 +103,7 @@ export default class IdsPagerDropdown extends Base {
     this.setAttribute(attributes.PAGE_SIZE, String(val));
 
     if (this.menuButton) {
-      this.menuButton.querySelector('[slot="text"]').textContent = `${val} ${this.label}`;
+      this.menuButton.querySelector('span').textContent = `${val} ${this.label}`;
       const item = this.menuButton.menuEl.items.filter((itm: any) => itm.value === String(val))[0];
       if (item) this.menuButton.menuEl.selectItem(item);
       else this.menuButton.menuEl.innerHTML = this.#itemsTemplate();
