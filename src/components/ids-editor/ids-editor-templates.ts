@@ -35,15 +35,15 @@ export const editorTemplate = `
 // Editor mode button template
 export const btnEditorModeTemplate = `
   <ids-button editor-action="editormode" square="true" tooltip="View Visual" color-variant="alternate-formatter">
-    <span slot="text" class="audible">View Visual</span>
-    <ids-icon slot="icon" icon="visual" width="50" viewbox="0 0 73 18"></ids-icon>
+    <span class="audible">View Visual</span>
+    <ids-icon icon="visual" width="50" viewbox="0 0 73 18"></ids-icon>
   </ids-button>`;
 
 // Source mode button template
 export const btnSourceModeTemplate = `
   <ids-button editor-action="sourcemode" square="true" tooltip="View Source" color-variant="alternate-formatter">
-    <span slot="text" class="audible">View Source</span>
-    <ids-icon slot="icon" icon="html" width="38" viewbox="0 0 54 18"></ids-icon>
+    <span class="audible">View Source</span>
+    <ids-icon icon="html" width="38" viewbox="0 0 54 18"></ids-icon>
   </ids-button>`;
 
 // Toolbar template
@@ -61,7 +61,7 @@ export const toolbarTemplate = `
         no-padding="true"
         trigger-type="click"
         color-variant="alternate-formatter">
-        <span slot="text">Normal Text</span>
+        <span>Normal Text</span>
       </ids-menu-button>
       <ids-popup-menu id="menu-formatblock-{instanceCounter}" target="#btn-formatblock-{instanceCounter}">
         <ids-menu-group>
@@ -73,65 +73,65 @@ export const toolbarTemplate = `
       </ids-popup-menu>
       <ids-separator vertical></ids-separator>
       <ids-button editor-action="bold" square="true" tooltip="Toggle Bold Text" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Bold</span>
-        <ids-icon slot="icon" icon="bold"></ids-icon>
+        <span class="audible">Bold</span>
+        <ids-icon icon="bold"></ids-icon>
       </ids-button>
       <ids-button editor-action="italic" square="true" tooltip="Toggle Italic Text" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Italic</span>
-        <ids-icon slot="icon" icon="italic"></ids-icon>
+        <span class="audible">Italic</span>
+        <ids-icon icon="italic"></ids-icon>
       </ids-button>
       <ids-button editor-action="underline" square="true" tooltip="Toggle Underline Text" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Underline</span>
-        <ids-icon slot="icon" icon="underline"></ids-icon>
+        <span class="audible">Underline</span>
+        <ids-icon icon="underline"></ids-icon>
       </ids-button>
       <ids-button editor-action="strikethrough" square="true" tooltip="Toggle Strike Through Text" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Strike through</span>
-        <ids-icon slot="icon" icon="strike-through"></ids-icon>
+        <span class="audible">Strike through</span>
+        <ids-icon icon="strike-through"></ids-icon>
       </ids-button>
       <ids-separator vertical></ids-separator>
       <ids-button editor-action="forecolor" square="true" tooltip="Text Color" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Text color</span>
-        <ids-icon slot="icon" icon="fore-color"></ids-icon>
+        <span class="audible">Text color</span>
+        <ids-icon icon="fore-color"></ids-icon>
       </ids-button>
       <ids-separator vertical></ids-separator>
       <ids-button editor-action="alignleft" square="true" tooltip="Align Left" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Align left</span>
-        <ids-icon slot="icon" icon="left-text-align"></ids-icon>
+        <span class="audible">Align left</span>
+        <ids-icon icon="left-text-align"></ids-icon>
       </ids-button>
       <ids-button editor-action="aligncenter" square="true" tooltip="Align Center" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Align center</span>
-        <ids-icon slot="icon" icon="center-text"></ids-icon>
+        <span class="audible">Align center</span>
+        <ids-icon icon="center-text"></ids-icon>
       </ids-button>
       <ids-button editor-action="alignright" square="true" tooltip="Align Right" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Align right</span>
-        <ids-icon slot="icon" icon="right-text-align"></ids-icon>
+        <span class="audible">Align right</span>
+        <ids-icon icon="right-text-align"></ids-icon>
       </ids-button>
       <ids-separator vertical></ids-separator>
       <ids-button editor-action="blockquote" square="true" tooltip="Block Quote" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Block quote</span>
-        <ids-icon slot="icon" icon="quote"></ids-icon>
+        <span class="audible">Block quote</span>
+        <ids-icon icon="quote"></ids-icon>
       </ids-button>
       <ids-button editor-action="orderedlist" square="true" tooltip="Insert/Remove Numbered List" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Ordered List</span>
-        <ids-icon slot="icon" icon="number-list"></ids-icon>
+        <span class="audible">Ordered List</span>
+        <ids-icon icon="number-list"></ids-icon>
       </ids-button>
       <ids-button editor-action="unorderedlist" square="true" tooltip="Insert/Remove Bulleted List" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Unordered List</span>
-        <ids-icon slot="icon" icon="bullet-list"></ids-icon>
+        <span class="audible">Unordered List</span>
+        <ids-icon icon="bullet-list"></ids-icon>
       </ids-button>
       <ids-separator vertical></ids-separator>
       <ids-button editor-action="hyperlink" square="true" tooltip="Insert Hyperlink" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Insert Hyperlink</span>
-        <ids-icon slot="icon" icon="link"></ids-icon>
+        <span class="audible">Insert Hyperlink</span>
+        <ids-icon icon="link"></ids-icon>
       </ids-button>
       <ids-button editor-action="insertimage" square="true" tooltip="Insert Image" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Insert Image</span>
-        <ids-icon slot="icon" icon="insert-image"></ids-icon>
+        <span class="audible">Insert Image</span>
+        <ids-icon icon="insert-image"></ids-icon>
       </ids-button>
       <ids-separator vertical></ids-separator>
       <ids-button editor-action="clearformatting" square="true" tooltip="Clear Formatting" color-variant="alternate-formatter">
-        <span slot="text" class="audible">Clear Formatting</span>
-        <ids-icon slot="icon" icon="clear-formatting"></ids-icon>
+        <span class="audible">Clear Formatting</span>
+        <ids-icon icon="clear-formatting"></ids-icon>
       </ids-button>
       <ids-separator vertical></ids-separator>
       ${btnSourceModeTemplate}
@@ -164,10 +164,10 @@ export const hyperlinkModalTemplate = `
       </ids-layout-grid-cell>
     </ids-layout-grid>
     <ids-modal-button slot="buttons" id="{key}-modal-cancel-btn" type="secondary">
-      <span slot="text">Cancel</span>
+      <span>Cancel</span>
     </ids-modal-button>
     <ids-modal-button slot="buttons" id="{key}-modal-apply-btn" type="primary">
-      <span slot="text">Apply</span>
+      <span>Apply</span>
     </ids-modal-button>
   </ids-modal>`;
 
@@ -183,9 +183,9 @@ export const insertimageModalTemplate = `
     </ids-layout-grid>
 
     <ids-modal-button slot="buttons" id="{key}-modal-cancel-btn" type="secondary">
-      <span slot="text">Cancel</span>
+      <span>Cancel</span>
     </ids-modal-button>
     <ids-modal-button slot="buttons" id="{key}-modal-apply-btn" type="primary">
-      <span slot="text">Apply</span>
+      <span>Apply</span>
     </ids-modal-button>
   </ids-modal>`;

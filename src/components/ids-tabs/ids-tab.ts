@@ -107,7 +107,7 @@ export default class IdsTab extends Base {
       colorVariant = ` color-variant="${this.#getDismissibleVariant()}"`;
     }
     return `<ids-trigger-button slot="close" label="Close"${colorVariant} inherit-color>
-      <ids-icon slot="icon" icon="close" size="xsmall"></ids-icon>
+      <ids-icon icon="close" size="xsmall"></ids-icon>
     </ids-trigger-button>`;
   }
 

@@ -439,7 +439,7 @@ describe('IdsLookup Component', () => {
       <ids-modal slot="lookup-modal" id="custom-lookup-modal" aria-labelledby="custom-lookup-modal-title">
         <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Custom Lookup Modal</ids-text>
         <ids-modal-button slot="buttons" id="modal-cancel-btn" type="primary">
-          <span slot="text">Apply</span>
+          <span>Apply</span>
         </ids-modal-button>
       </ids-modal>
     </ids-lookup>`);

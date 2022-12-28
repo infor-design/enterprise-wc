@@ -23,7 +23,7 @@ describe('Ids Menu Button e2e Tests', () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-menu-button id="test" icon="settings" type="tertiary" menu="my-menu" dropdown-icon>
-        <span slot="text">Settings</span>
+        <span>Settings</span>
       </ids-menu-button>`);
       document.querySelector('#test')?.remove();
     });

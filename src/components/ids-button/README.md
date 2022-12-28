@@ -49,15 +49,6 @@ IDS Buttons can be designed to make the icon appear by itself, without any visib
 </ids-button>
 ```
 
-It's also possible to use named slots to more specifically identify elements inside the button.  In this scenario the icon will always come first:
-
-```html
-<ids-button id="my-button" type="primary">
-  <ids-icon slot="icon" icon="settings"></ids-icon>
-  <span slot="text">My Button</span>
-</ids-button>
-```
-
 ### Color Variants
 
 If placing a button inside a container with a contrasting background color, sometimes the "base" styles for Ids Button types aren't adequate for passing contrast checks. To resolve this problem, the `color-variant` property can be used by way of the [IdsColorVariantMixin](../../mixins/ids-color-variant-mixin/README.md):
@@ -65,22 +56,22 @@ If placing a button inside a container with a contrasting background color, some
 ```html
 <!-- Generates a default (Tertiary) Button with white text and focus/hover states --->
 <ids-button id="my-button-1" color-variant="alternate">
-  <span slot="text">My Button</span>
+  <span>My Button</span>
 </ids-button>
 
 <!-- Generates a Primary Button with a slightly more bright Azure --->
 <ids-button id="my-button-2" type="primary" color-variant="alternate">
-  <span slot="text">My Button</span>
+  <span>My Button</span>
 </ids-button>
 
 <!-- Generates a Secondary Button with a slightly more bright Slate --->
 <ids-button id="my-button-3" type="primary" color-variant="alternate">
-  <span slot="text">My Button</span>
+  <span>My Button</span>
 </ids-button>
 
 <!-- Generates a button to use with toolbar formatter type --->
 <ids-button id="my-button-4" color-variant="alternate-formatter">
-  <span slot="text">My Button</span>
+  <span>My Button</span>
 </ids-button>
 ```
 
@@ -102,12 +93,16 @@ IDS button types include:
 - `secondary`
 - `tertiary`
 
-An IDS Button that contains an icon has the icon aligned left of the button text by default.  To switch the alignment, it's possible to set the `icon-align` attribute.
+### Alignment
+
+By default, alignment of text/icons within an IDS Button will occur based on the DOM order of those elements.  However, if the `icon-align` attribute is specified, the alignment order of the inner elements can be forced.
+
+The example below will result in the icon appearing after the text, even though the DOM order is the opposite:
 
 ```html
 <ids-button id="my-button" type="primary" icon-align="end">
-  <ids-icon slot="icon" icon="settings"></ids-icon>
-  <span slot="text">My Button</span>
+  <ids-icon icon="settings"></ids-icon>
+  <span>My Button</span>
 </ids-button>
 ```
 
@@ -115,10 +110,9 @@ The attribute has the following effects:
 
 | prop value | LTR (default) Icon Location | RTL Icon Location |
 | :--------- | :-------------------------- | :---------------- |
+| undefined  | n/a | n/a |
 | 'start'    | icon to the left of text | icon to the right of text |
 | 'end'      | icon to the right of text | icon to the left of text |
-
-In the absence of the property, icons will align to `start` by default.
 
 ## Settings and Attributes
 
@@ -162,8 +156,8 @@ The IDS Button component is now a WebComponent.  Instead of using classes to def
 
 <!-- this is the same button using the WebComponent -->
 <ids-button id="my-button" type="primary">
-  <ids-icon slot="icon" icon="settings"></ids-icon>
-  <span slot="text">My Button</span>
+  <ids-icon icon="settings"></ids-icon>
+  <span>My Button</span>
 </ids-button>
 ```
 

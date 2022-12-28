@@ -201,14 +201,6 @@ describe('IdsButton Component', () => {
     expect(btn.type).toBe('default');
     expect(btn.button?.classList.contains('default')).toBeFalsy();
     expect(btn.state.type).toBe('default');
-
-    // Setting a bad type will make the type become the "default"
-    btn.type = 'not-real';
-
-    expect(btn.getAttribute('type')).toBe(null);
-    expect(btn.type).toBe('default');
-    expect(btn.button?.classList.contains('default')).toBeFalsy();
-    expect(btn.state.type).toBe('default');
   });
 
   it('can change its text via attribute', () => {
@@ -250,11 +242,10 @@ describe('IdsButton Component', () => {
 
     expect(btn.button?.classList.contains('align-icon-start')).toBeTruthy();
 
-    // Can't set a bad one
-    btn.iconAlign = 'fish';
+    btn.iconAlign = undefined;
 
-    expect(btn.button?.classList.contains('align-icon-start')).toBeTruthy();
-    expect(btn.button?.classList.contains('align-icon-fish')).toBeFalsy();
+    expect(btn.button?.classList.contains('align-icon-start')).toBeFalsy();
+    expect(btn.button?.classList.contains('align-icon-end')).toBeFalsy();
   });
 
   it('can be an "icon-only" button', () => {

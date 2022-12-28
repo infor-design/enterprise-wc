@@ -6,8 +6,8 @@ exports[`IdsMasthead Component renders and updates logo 1`] = `
         <ids-toolbar-section id="start" align="start" type="fluid">
           <span id="logo-wrapper">
         <ids-button id="logo" class="icon-logo" color-variant="alternate" square="true">
-          <ids-icon slot="icon" icon="logo" viewbox="0 0 32 34" width="30" height="30"></ids-icon>
-          <ids-text slot="text" audible="true">Masthead logo</ids-text>
+          <ids-icon icon="logo" viewbox="0 0 32 34" width="30" height="30"></ids-icon>
+          <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       </span>
           <ids-text id="title" color-variant="alternate" font-size="14" font-weight="bold">title</ids-text>
@@ -35,8 +35,8 @@ exports[`IdsMasthead Component renders and updates logo 2`] = `
         <ids-toolbar-section id="start" align="start" type="fluid">
           <span id="logo-wrapper">
         <ids-button id="logo" class="icon-star-outlined" color-variant="alternate" square="true">
-          <ids-icon slot="icon" icon="star-outlined"></ids-icon>
-          <ids-text slot="text" audible="true">Masthead logo</ids-text>
+          <ids-icon icon="star-outlined"></ids-icon>
+          <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       </span>
           <ids-text id="title" color-variant="alternate" font-size="14" font-weight="bold">title</ids-text>
@@ -64,8 +64,8 @@ exports[`IdsMasthead Component renders and updates title 1`] = `
         <ids-toolbar-section id="start" align="start" type="fluid">
           <span id="logo-wrapper">
         <ids-button id="logo" class="icon-logo" color-variant="alternate" square="true">
-          <ids-icon slot="icon" icon="logo" viewbox="0 0 32 34" width="30" height="30"></ids-icon>
-          <ids-text slot="text" audible="true">Masthead logo</ids-text>
+          <ids-icon icon="logo" viewbox="0 0 32 34" width="30" height="30"></ids-icon>
+          <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       </span>
           <ids-text id="title" color-variant="alternate" font-size="14" font-weight="bold">Infor Application</ids-text>
@@ -93,8 +93,8 @@ exports[`IdsMasthead Component renders any icon 1`] = `
         <ids-toolbar-section id="start" align="start" type="fluid">
           <span id="logo-wrapper">
         <ids-button id="logo" class="icon-info" color-variant="alternate" square="true">
-          <ids-icon slot="icon" icon="info"></ids-icon>
-          <ids-text slot="text" audible="true">Masthead logo</ids-text>
+          <ids-icon icon="info"></ids-icon>
+          <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       </span>
           <ids-text id="title" color-variant="alternate" font-size="14" font-weight="bold">title</ids-text>
@@ -122,8 +122,8 @@ exports[`IdsMasthead Component renders any icon 2`] = `
         <ids-toolbar-section id="start" align="start" type="fluid">
           <span id="logo-wrapper">
         <ids-button id="logo" class="icon-user" color-variant="alternate" square="true">
-          <ids-icon slot="icon" icon="user"></ids-icon>
-          <ids-text slot="text" audible="true">Masthead logo</ids-text>
+          <ids-icon icon="user"></ids-icon>
+          <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       </span>
           <ids-text id="title" color-variant="alternate" font-size="14" font-weight="bold">title</ids-text>

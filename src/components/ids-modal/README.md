@@ -57,8 +57,8 @@ Other elements on the page, such as an [Ids Button](../ids-button/README.md) can
 </ids-modal>
 
 <ids-button id="trigger-button" type="secondary">
-    <span slot="text">Trigger Modal</span>
-    <ids-icon slot="icon" icon="launch"></ids-icon>
+    <span>Trigger Modal</span>
+    <ids-icon icon="launch"></ids-icon>
 </ids-button>
 ```
 

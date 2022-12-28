@@ -54,7 +54,7 @@ To create a Popup that appears to align itself against a button, you could do th
 ...
 
 <ids-button id="my-button">
-  <span slot="text">My Button</span>
+  <span>My Button</span>
 </ids-button>
 ```
 
@@ -147,7 +147,7 @@ Some Popup styles need to "point" at their triggering element for context, such 
   <div slot="content">My Popup</div>
 </ids-popup>
 <ids-button id="my-button">
-  <span slot="text">My Button</span>
+  <span>My Button</span>
 </ids-button>
 ```
 

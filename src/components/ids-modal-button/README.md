@@ -18,10 +18,10 @@ Modal Buttons extend regular buttons and are constructed with similar markup.
 
 ```html
 <ids-modal-button id="button-ok" type="primary">
-    <ids-text slot="text">OK</ids-text>
+    <ids-text>OK</ids-text>
 </ids-modal-button>
 <ids-modal-button id="button-ok" type="secondary" cancel>
-    <ids-text slot="text">Cancel</ids-text>
+    <ids-text>Cancel</ids-text>
 </ids-modal-button>
 ```
 

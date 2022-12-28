@@ -75,10 +75,10 @@ export default class IdsToastMessage extends Base {
 
     const closeButton = `
       <ids-trigger-button part="close-button" class="close-button">
-        <ids-text slot="text" audible="true">
+        <ids-text audible="true">
           <slot name="close-button-label">${d.closeButtonLabel}</slot>
         </ids-text>
-        <ids-icon slot="icon" icon="close" part="close-button-icon" size="small"></ids-icon>
+        <ids-icon icon="close" part="close-button-icon" size="small"></ids-icon>
       </ids-trigger-button>`;
 
     const progress = `<div class="progress-bar${hiddenProgressBarClass}" part="progress-bar"></div>`;

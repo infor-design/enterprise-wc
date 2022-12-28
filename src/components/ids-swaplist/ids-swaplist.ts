@@ -141,15 +141,15 @@ export default class IdsSwapList extends Base {
   buttonTemplate(i: number): string {
     const leftArrow = `
       <ids-button id="left-arrow-${i}" class="left-arrow">
-        <span slot="text" class="audible">Swap Item Left</span>
-        <ids-icon slot="icon" icon="arrow-left" size="xsmall"></ids-icon>
+        <span class="audible">Swap Item Left</span>
+        <ids-icon icon="arrow-left" size="xsmall"></ids-icon>
       </ids-button>
     `;
 
     const rightArrow = `
       <ids-button id="right-arrow-${i}" class="right-arrow">
-        <span slot="text" class="audible">Swap Item Left</span>
-        <ids-icon slot="icon" icon="arrow-right" size="xsmall"></ids-icon>
+        <span class="audible">Swap Item Left</span>
+        <ids-icon icon="arrow-right" size="xsmall"></ids-icon>
       </ids-button>
     `;
     let html = ``;

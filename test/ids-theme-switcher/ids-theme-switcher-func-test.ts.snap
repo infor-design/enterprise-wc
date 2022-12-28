@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IdsThemeSwitcher Component renders correctly 1`] = `
-"<ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu" mode="light" aria-controls="ids-theme-menu" aria-haspopup="menu">
-            <ids-icon slot="icon" icon="more"></ids-icon>
-            <span class="audible">Theme Switcher</span>
-        </ids-menu-button><ids-popup-menu id="ids-theme-menu" target="#ids-theme-switcher" trigger-type="click" mode="light" role="none" hidden="">
-        <ids-menu-group role="group" aria-label="Menu group containing 2 item(s)">
+"<ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu" icon="more" mode="light" aria-controls="ids-theme-menu" aria-haspopup="menu"><ids-icon icon="more" class="ids-icon"></ids-icon>
+      <span class="audible">Theme Switcher</span>
+    </ids-menu-button>
+    <ids-popup-menu id="ids-theme-menu" target="#ids-theme-switcher" trigger-type="click" mode="light" role="none" hidden="">
+      <ids-menu-group role="group" aria-label="Menu group containing 2 item(s)">
     <ids-menu-item mode="light">
       <ids-text translate-text="true">Mode</ids-text>
         <ids-popup-menu slot="submenu" aria-expanded="false" mode="light" role="none" hidden="">
@@ -61,5 +61,6 @@ exports[`IdsThemeSwitcher Component renders correctly 1`] = `
           </ids-menu-group>
         </ids-popup-menu>
       </ids-menu-item>
-    </ids-menu-group></ids-popup-menu>"
+    </ids-menu-group>
+    </ids-popup-menu>"
 `;

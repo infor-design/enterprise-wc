@@ -82,7 +82,7 @@ export default class IdsHierarchyItem extends Base {
               <slot name="menu"></slot>
               <ids-button part="icon-btn" id="icon-only-button-default">
                 <span class="audible">Default Button</span>
-                <ids-icon slot="icon" icon="caret-down"></ids-icon>
+                <ids-icon icon="caret-down"></ids-icon>
               </ids-button>
             </div>
           </div>

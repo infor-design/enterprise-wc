@@ -13,7 +13,7 @@
     <ids-layout-grid cols="4" gap="md">
       <ids-layout-grid-cell>
           <ids-menu-button id="menu-button" icon="settings" type="tertiary" menu="my-menu" dropdown-icon>
-            <span slot="text">Settings</span>
+            <span>Settings</span>
           </ids-menu-button>
           <ids-popup-menu id="my-menu" target="menu-button" trigger-type="click">
             <ids-menu-group>
@@ -36,8 +36,7 @@
             </ids-menu-group>
           </ids-popup-menu>
 
-          <ids-menu-button id="icon-button" menu="icon-menu">
-            <ids-icon slot="icon" icon="more"></ids-icon>
+          <ids-menu-button id="icon-button" menu="icon-menu" icon="more">
             <span class="audible">Icon Only Button</span>
           </ids-menu-button>
           <ids-popup-menu id="icon-menu" target="icon-button" trigger-type="click">
