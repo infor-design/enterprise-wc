@@ -123,16 +123,21 @@ export default class IdsDataGrid extends Base {
     let lastRowIndex = 0;
     const virtualScrollSettings = this.virtualScrollSettings;
 
-    this.onEvent('scroll.data-grid.virtual-scroll', this.container, () => {
+    this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
+      evt.stopImmediatePropagation();
       const rowIndex = Math.floor(this.container.scrollTop / virtualScrollSettings.ROW_HEIGHT);
       if (rowIndex === lastRowIndex) return;
       lastRowIndex = rowIndex;
 
       this.scrollRowIntoView(rowIndex, false);
-    }, { passive: true, capture: true });
+    }, { capture: true, passive: true });
   }
 
+  #rafReference = NaN;
+
   scrollRowIntoView(rowIndex: number, doScroll = true) {
+    if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
+
     rowIndex = Math.max(rowIndex, 0);
     rowIndex = Math.min(rowIndex, (this.data.length - 1));
 
@@ -180,7 +185,7 @@ export default class IdsDataGrid extends Base {
       this.#recycleAllRows(bufferRowIndex);
     }
 
-    requestAnimationFrame(() => {
+    this.#rafReference = requestAnimationFrame(() => {
       const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
       this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
       if (doScroll) {
@@ -233,7 +238,7 @@ export default class IdsDataGrid extends Base {
     // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
     if (rowsToMove.length >= this.virtualScrollSettings.NUM_ROWS) return;
 
-    requestAnimationFrame(() => {
+    this.#rafReference = requestAnimationFrame(() => {
       // NOTE: body.append is faster than body.innerHTML
       // NOTE: body.append is faster than multiple calls to appendChild()
       this.body.append(...rowsToMove);
@@ -259,7 +264,7 @@ export default class IdsDataGrid extends Base {
 
     if (!rowsToMove.length) return;
 
-    requestAnimationFrame(() => {
+    this.#rafReference = requestAnimationFrame(() => {
       // NOTE: body.prepend() seems to be faster than body.innerHTML
       this.body.prepend(...rowsToMove.reverse());
     });
