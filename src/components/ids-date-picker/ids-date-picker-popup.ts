@@ -164,11 +164,11 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
   private toolbarTemplate(): string {
     const prevNextBtn = `<ids-button class="btn-previous">
       <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
-      <ids-icon slot="icon" icon="chevron-left"></ids-icon>
+      <ids-icon icon="chevron-left"></ids-icon>
     </ids-button>
     <ids-button class="btn-next">
       <ids-text audible="true" translate-text="true">NextMonth</ids-text>
-      <ids-icon slot="icon" icon="chevron-right"></ids-icon>
+      <ids-icon icon="chevron-right"></ids-icon>
     </ids-button>`;
     const todayBtn = this.showToday ? `<ids-button css-class="no-padding" class="btn-today">
       <ids-text
@@ -183,8 +183,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
       <ids-toolbar-section favor>
         <ids-toggle-button id="month-year-view-trigger" icon-off="dropdown" icon-on="dropdown" icon="dropdown" icon-align="end" no-padding class="dropdown-btn">
           <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
-          <ids-text slot="text" class="dropdown-btn-text" font-size="20">${this.formatMonthText()}</ids-text>
-          <ids-icon slot="icon" icon="dropdown" class="dropdown-btn-icon"></ids-icon>
+          <ids-text class="dropdown-btn-text" font-size="20">${this.formatMonthText()}</ids-text>
+          <ids-icon icon="dropdown" class="dropdown-btn-icon"></ids-icon>
         </ids-toggle-button>
       </ids-toolbar-section>
       <ids-toolbar-section class="toolbar-buttonset monthview-nav" align="end" type="fluid"${this.expanded ? ' inactive' : ''}>

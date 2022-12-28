@@ -300,11 +300,11 @@ export default class IdsCalendar extends Base {
   #createToolbarTemplate() {
     const navBtns = `<ids-button class="btn-previous">
       <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
-      <ids-icon slot="icon" icon="chevron-left"></ids-icon>
+      <ids-icon icon="chevron-left"></ids-icon>
     </ids-button>
     <ids-button class="btn-next">
       <ids-text audible="true" translate-text="true">NextMonth</ids-text>
-      <ids-icon slot="icon" icon="chevron-right"></ids-icon>
+      <ids-icon icon="chevron-right"></ids-icon>
     </ids-button>`;
 
     const datePickerPopup = `<ids-button class="btn-picker" id="btn-picker" css-class="no-padding">
@@ -410,7 +410,7 @@ export default class IdsCalendar extends Base {
         <div id="event-form-header" class="inline-container" color="${eventType?.color || 'azure'}">
           <ids-text font-size="16" font-weight="bold">${eventType?.label || ''}</ids-text>
           <ids-button data-action="close">
-            <ids-icon slot="icon" icon="close"></ids-icon>
+            <ids-icon icon="close"></ids-icon>
           </ids-button>
         </div>
         <div id="event-form-content">
@@ -431,10 +431,10 @@ export default class IdsCalendar extends Base {
         </div>
         <div id="event-form-actions" class="inline-container">
           <ids-button data-action="close" no-padding>
-            <ids-text font-weight="bold" translate-text="true" slot="text">Cancel</ids-text>
+            <ids-text font-weight="bold" translate-text="true">Cancel</ids-text>
           </ids-button>
           <ids-button data-action="submit" no-padding>
-            <ids-text font-weight="bold" translate-text="true" slot="text">Submit</ids-text>
+            <ids-text font-weight="bold" translate-text="true">Submit</ids-text>
           </ids-button>
         </div>
       </form>

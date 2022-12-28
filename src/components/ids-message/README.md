@@ -66,8 +66,8 @@ You can also use the Modal's `target` property to activate a Message component b
 </ids-message>
 
 <ids-button id="trigger-button" type="secondary">
-    <span slot="text">Show Message</span>
-    <ids-icon slot="icon" icon="launch"></ids-icon>
+    <span>Show Message</span>
+    <ids-icon icon="launch"></ids-icon>
 </ids-button>
 ```
 

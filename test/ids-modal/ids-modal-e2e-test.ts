@@ -50,7 +50,7 @@ describe('Ids Modal e2e Tests', () => {
       document.body.insertAdjacentHTML('beforeend', `<ids-modal id="test" aria-labelledby="my-modal-title">
         <ids-text slot="title" font-size="24" type="h2" id="my-modal-title">Active IDS Modal</ids-text>
         <ids-modal-button slot="buttons" id="modal-close-btn" type="primary">
-          <span slot="text">OK</span>
+          <span>OK</span>
         </ids-modal-button>
       </ids-modal>`);
       document.querySelector('#test')?.remove();

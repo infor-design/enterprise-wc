@@ -60,11 +60,11 @@ Ids Toolbars are comprised of the Toolbar element, an indeterminate number of To
     </ids-toolbar-section>
     <ids-toolbar-section type="buttonset" align="end">
         <ids-button id="button-1" role="button">
-            <span slot="text">Text</span>
+            <span>Text</span>
         </ids-button>
         <ids-button id="button-2">
-            <span slot="text" class="audible">Settings</span>
-            <ids-icon slot="icon" icon="settings"></ids-icon>
+            <span class="audible">Settings</span>
+            <ids-icon icon="settings"></ids-icon>
         </ids-button>
     </ids-toolbar-section>
     <ids-toolbar-more-actions>
@@ -93,7 +93,7 @@ Toolbar sections can be configured with different "types" that can determine the
 ```html
 <ids-toolbar-section>
     <ids-button icon="menu" role="button">
-        <span slot="text" class="audible">Application Menu Trigger</span>
+        <span class="audible">Application Menu Trigger</span>
     </ids-button>
 </ids-toolbar-section>
 ```
@@ -107,11 +107,11 @@ For compatibility with 4.x components Toolbars, the IDS Toolbar also supports `t
 </ids-toolbar-section>
 <ids-toolbar-section type="buttonset" align="end">
     <ids-button id="button-1" role="button">
-        <span slot="text">Text</span>
+        <span>Text</span>
     </ids-button>
     <ids-button id="button-2">
-        <span slot="text" class="audible">Settings</span>
-        <ids-icon slot="icon" icon="settings"></ids-icon>
+        <span class="audible">Settings</span>
+        <ids-icon icon="settings"></ids-icon>
     </ids-button>
 </ids-toolbar-section>
 ```
@@ -136,17 +136,17 @@ Toolbar Buttonset sections can contain an indeterminate number of components.  G
 ```html
 <ids-toolbar-section type="buttonset" align="end">
     <ids-button id="button-1" role="button">
-        <span slot="text">Text</span>
+        <span>Text</span>
     </ids-button>
     <ids-button id="button-2">
-        <span slot="text" class="audible">Settings</span>
-        <ids-icon slot="icon" icon="settings"></ids-icon>
+        <span class="audible">Settings</span>
+        <ids-icon icon="settings"></ids-icon>
     </ids-button>
     <ids-button id="button-3" role="button">
-        <span slot="text">Text</span>
+        <span>Text</span>
     </ids-button>
     <ids-button id="button-4" role="button">
-        <span slot="text">Text</span>
+        <span>Text</span>
     </ids-button>
 </ids-toolbar-section>
 ```
@@ -158,14 +158,14 @@ Toolbars can also contain sections that are meant to be customized with CSS.  It
     <!-- takes up as little space as possible --->
     <ids-toolbar-section type="static">
         <ids-button id="button-1" role="button">
-            <span slot="text">Button 1</span>
+            <span>Button 1</span>
         </ids-button>
     </ids-toolbar-section>
 
     <!-- fills the rest of the toolbar space -->
     <ids-toolbar-section type="fluid" align="end">
         <ids-button id="button-2" role="button">
-            <span slot="text">Button 2</span>
+            <span>Button 2</span>
         </ids-button>
     </ids-toolbar-section>
 <ids-toolbar>
@@ -177,11 +177,11 @@ The toolbar can be set as the formatter styles:
 <ids-toolbar type="formatter">
   <ids-toolbar-section type="buttonset">
     <ids-button id="button-1" role="button">
-      <span slot="text">Button 1</span>
+      <span>Button 1</span>
     </ids-button>
     <ids-separator vertical></ids-separator>
     <ids-button id="button-2" role="button">
-      <span slot="text">Button 2</span>
+      <span>Button 2</span>
     </ids-button>
   </ids-toolbar-section>
 <ids-toolbar>

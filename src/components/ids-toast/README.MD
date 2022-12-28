@@ -22,7 +22,7 @@ A normal toast used as a web component.
 
 ```html
 <ids-button id="btn-toast" type="secondary">
-  <span slot="text">Toast Message</span>
+  <span>Toast Message</span>
 </ids-button>
 ```
 
@@ -49,7 +49,7 @@ Set position of the toast container in specific place
 
 ```html
 <ids-button id="btn-toast" type="secondary">
-  <span slot="text">Position</span>
+  <span>Position</span>
 </ids-button>
 ```
 
@@ -77,7 +77,7 @@ Set user to allows drag/drop the toast container
 
 ```html
 <ids-button id="btn-toast" type="secondary">
-  <span slot="text">Draggable</span>
+  <span>Draggable</span>
 </ids-button>
 ```
 
@@ -104,7 +104,7 @@ Save toast container position to local storage, apply only when draggable set to
 
 ```html
 <ids-button id="btn-toast" type="secondary">
-  <span slot="text">Save position</span>
+  <span>Save position</span>
 </ids-button>
 ```
 
@@ -136,7 +136,7 @@ Clear the saved position from local storage
 
 ```html
 <ids-button id="btn-toast" type="secondary">
-  <span slot="text">Clear saved position</span>
+  <span>Clear saved position</span>
 </ids-button>
 ```
 
@@ -155,7 +155,7 @@ Clear all toast related saved position from local storage
 
 ```html
 <ids-button id="btn-toast" type="secondary">
-  <span slot="text">Clear (all) saved positions</span>
+  <span>Clear (all) saved positions</span>
 </ids-button>
 ```
 
@@ -172,7 +172,7 @@ Set to not destroy after complete all the toast messages
 
 ```html
 <ids-button id="btn-toast" type="secondary">
-  <span slot="text">No destroy after complete</span>
+  <span>No destroy after complete</span>
 </ids-button>
 ```
 
@@ -199,7 +199,7 @@ Set to put links in the toast message
 
 ```html
 ids-button id="btn-toast" type="secondary">
-  <span slot="text">Allow link</span>
+  <span>Allow link</span>
 </ids-button>
 ```
 
@@ -226,7 +226,7 @@ Set the amount of time (2 seconds), the toast should be present on-screen
 
 ```html
 <ids-button id="btn-toast" type="secondary">
-  <span slot="text">Timeout (2 seconds)</span>
+  <span>Timeout (2 seconds)</span>
 </ids-button>
 ```
 
@@ -253,7 +253,7 @@ Custom text that use for close button label in the toast message
 
 ```html
 <ids-button id="btn-toast" type="secondary">
-  <span slot="text">Close button custom label text</span>
+  <span>Close button custom label text</span>
 </ids-button>
 ```
 
@@ -280,7 +280,7 @@ Hide the progress bar in toast message
 
 ```html
 <ids-button id="btn-toast" type="secondary">
-  <span slot="text">Progress bar (hidden)</span>
+  <span>Progress bar (hidden)</span>
 </ids-button>
 ```
 
@@ -307,7 +307,7 @@ Let toast message to be invisible on the screen
 
 ```html
 <ids-button id="btn-toast" type="secondary">
-  <span slot="text">Audible only</span>
+  <span>Audible only</span>
 </ids-button>
 ```
 
@@ -334,7 +334,7 @@ Toast message by markup
 
 ```html
 <ids-button id="btn-toast" type="secondary">
-  <span slot="text">Toast message by markup</span>
+  <span>Toast message by markup</span>
 </ids-button>
 <ids-toast id="toast-markup" destroy-on-complete="false">
   <span slot="title">Application Offline</span>

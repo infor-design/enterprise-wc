@@ -58,13 +58,13 @@ To include these Toolbars, simply add them to the App Menu's markup with `[slot=
   <ids-toolbar slot="header">
     <ids-toolbar-section align="center-even" type="fluid">
       <ids-button id="header-btn-download" icon="download">
-        <ids-text slot="text" audible>Download</ids-text>
+        <ids-text audible>Download</ids-text>
       </ids-button>
       <ids-button id="header-btn-print" icon="print">
-        <ids-text slot="text" audible>Print</ids-text>
+        <ids-text audible>Print</ids-text>
       </ids-button>
       <ids-button id="header-btn-purchasing" icon="purchasing">
-        <ids-text slot="text" audible>Purchasing</ids-text>
+        <ids-text audible>Purchasing</ids-text>
       </ids-button>
     </ids-toolbar-section>
   </ids-toolbar>
@@ -73,17 +73,17 @@ To include these Toolbars, simply add them to the App Menu's markup with `[slot=
   <ids-toolbar slot="footer">
     <ids-toolbar-section align="center-even" type="fluid">
       <ids-button id="footer-btn-settings">
-        <ids-icon slot="icon" icon="settings"></ids-icon>
-        <span slot="text">Settings</span>
+        <ids-icon icon="settings"></ids-icon>
+        <span>Settings</span>
       </ids-button>
       <ids-button id="footer-btn-proxy" icon="employee-directory">
-        <ids-text slot="text" audible>Proxy as User</ids-text>
+        <ids-text audible>Proxy as User</ids-text>
       </ids-button>
       <ids-button id="footer-btn-about" icon="info-linear">
-        <ids-text slot="text" audible>About This Application</ids-text>
+        <ids-text audible>About This Application</ids-text>
       </ids-button>
       <ids-button id="footer-btn-logout" icon="logout">
-        <ids-text slot="text" audible>Logout</ids-text>
+        <ids-text audible>Logout</ids-text>
       </ids-button>
     </ids-toolbar-section>
   </ids-toolbar>

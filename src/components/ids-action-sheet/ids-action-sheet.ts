@@ -62,9 +62,7 @@ export default class IdsActionSheet extends Base {
         <div class="ids-action-sheet-inner">
           <slot></slot>
           <ids-button type="secondary" part="cancel-btn">
-            <span slot="text">
-              ${this.cancelBtnText}
-            </span>
+            <span>${this.cancelBtnText}</span>
           </ids-button>
         </div>
       </div>

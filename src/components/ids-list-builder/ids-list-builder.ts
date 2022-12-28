@@ -59,26 +59,26 @@ export default class IdsListBuilder extends Base {
             <ids-toolbar tabbable="true">
               <ids-toolbar-section type="buttonset">
                 <ids-button id="button-add" color-variant="alternate">
-                  <span slot="text" class="audible">Add List Item</span>
-                  <ids-icon slot="icon" icon="add"></ids-icon>
+                  <span class="audible">Add List Item</span>
+                  <ids-icon icon="add"></ids-icon>
                 </ids-button>
                 <div class="separator"></div>
                 <ids-button id="button-up" color-variant="alternate">
-                  <span slot="text" class="audible">Move Up List Item</span>
-                  <ids-icon slot="icon" icon="arrow-up"></ids-icon>
+                  <span class="audible">Move Up List Item</span>
+                  <ids-icon icon="arrow-up"></ids-icon>
                 </ids-button>
                 <ids-button id="button-down" color-variant="alternate">
-                  <span slot="text" class="audible">Move Down List Item</span>
-                  <ids-icon slot="icon" icon="arrow-down"></ids-icon>
+                  <span class="audible">Move Down List Item</span>
+                  <ids-icon icon="arrow-down"></ids-icon>
                 </ids-button>
                 <div class="separator"></div>
                 <ids-button id="button-edit" color-variant="alternate">
-                  <span slot="text" class="audible">Edit List Item</span>
-                  <ids-icon slot="icon" icon="edit"></ids-icon>
+                  <span class="audible">Edit List Item</span>
+                  <ids-icon icon="edit"></ids-icon>
                 </ids-button>
                 <ids-button id="button-delete" color-variant="alternate">
-                  <span slot="text" class="audible">Delete Down List Item</span>
-                  <ids-icon slot="icon" icon="delete"></ids-icon>
+                  <span class="audible">Delete Down List Item</span>
+                  <ids-icon icon="delete"></ids-icon>
                 </ids-button>
               </ids-toolbar-section>
             </ids-toolbar>
