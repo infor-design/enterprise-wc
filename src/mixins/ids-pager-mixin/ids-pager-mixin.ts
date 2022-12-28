@@ -176,11 +176,6 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
     this.setAttribute(attributes.PAGE_SIZE, String(value));
     this.pager.pageSize = Number(value);
     this.datasource.pageSize = Number(value);
-
-    const dropdown: any = this.pager.querySelector('ids-pager-dropdown');
-    if (dropdown) {
-      dropdown.pageSize = value;
-    }
   }
 
   /**
