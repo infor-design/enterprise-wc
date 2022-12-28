@@ -450,15 +450,19 @@ export default class IdsDataGrid extends Base {
     return `<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
 
+  resetCache() {
+    // NOTE: simple way to clear cache until a better cache-busting strategy is in implemented
+    IdsDataGridRow.rowCache = {};
+    IdsDataGridCell.cellCache = {};
+  }
+
   /**
    * Body inner template markup
    * @private
    * @returns {string} The template
    */
   bodyInnerTemplate() {
-    // NOTE: simple way to clear cache until a better cache-busting strategy is in implemented
-    IdsDataGridRow.rowCache = {};
-    IdsDataGridCell.cellCache = {};
+    this.resetCache();
 
     let innerHTML = '';
     const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.NUM_ROWS) : this.data;
@@ -1454,7 +1458,7 @@ export default class IdsDataGrid extends Base {
     if (queriedCells && queriedCells.length > 0) {
       const cellNode = queriedCells[cell] as IdsDataGridCell;
       if (this.virtualScroll) {
-        cellNode.activate(!!'nofocus');
+        cellNode.activate(false);
         // this.scrollRowIntoView(row);
       } else {
         cellNode.activate(Boolean(noFocus));
