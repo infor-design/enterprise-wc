@@ -456,6 +456,10 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyInnerTemplate() {
+    // NOTE: simple way to clear cache until a better cache-busting strategy is in implemented
+    IdsDataGridRow.rowCache = {};
+    IdsDataGridCell.cellCache = {};
+
     let innerHTML = '';
     const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.NUM_ROWS) : this.data;
     for (let index = 0; index < data.length; index++) {

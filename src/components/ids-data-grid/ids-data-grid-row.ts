@@ -78,13 +78,11 @@ export default class IdsDataGridRow extends IdsElement {
     if (oldValue === newValue) return;
 
     if (name === attributes.ROW_INDEX) {
-      // NOTE: disabling caching until cache-busting strategy in place
+      // NOTE: This is current cache strategy via memoization.
       // NOTE: check memory footprint of this caching strategy
-      // IdsDataGridRow.rowCache[newValue] = IdsDataGridRow.rowCache[newValue] ?? this.cellsHTML();
+      IdsDataGridRow.rowCache[newValue] = IdsDataGridRow.rowCache[newValue] ?? this.cellsHTML();
       requestAnimationFrame(() => {
-        // NOTE: disabling caching until cache-busting strategy in place
-        // this.innerHTML = IdsDataGridRow.rowCache[newValue];
-        this.innerHTML = this.cellsHTML();
+        this.innerHTML = IdsDataGridRow.rowCache[newValue];
       });
     }
   }
@@ -303,6 +301,7 @@ export default class IdsDataGridRow extends IdsElement {
       // NOTE: Fix this relatively heavy operation (esp. if/when caching is disabled).
       dataGrid.selectRow(index);
     } else {
+      // NOTE: Fix this relatively heavy operation (esp. if/when caching is disabled).
       dataGrid.deSelectRow(index);
     }
 
