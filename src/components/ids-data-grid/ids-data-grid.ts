@@ -154,7 +154,19 @@ export default class IdsDataGrid extends Base {
    * ...repainting of the browser window would happen during scrolling
    * ...and we'd errors like "redraw happened during scrolling"
    *
+   * One thing to note is RAFs should have as little logic as possible within them...
+   * ...and should only contain the CSS+DOM manipulations.
+   * It's best to do (as much as possible) logic+calculations outside the RAF,
+   * and then when ready to move things around, do those inside the RAF.
+   * this keeps the RAF short and sweet, and keeps our FPS-lag low.
+   *
    * @see https://medium.com/@moshe_31114/building-our-recycle-list-solution-in-react-17a21a9605a0
+   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-i-11ib
+   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-ii-3j86
+   * @see https://fluffy.es/solve-duplicated-cells
+   * @see https://vaadin.com/docs/latest/components/grid#columns
+   * @see https://www.htmlelements.com/demos/grid/datagrid-bind-to-json
+   * @see https://medium.com/teads-engineering/the-most-accurate-way-to-schedule-a-function-in-a-web-browser-eadcd164da12
    */
   #rafReference = NaN;
 
