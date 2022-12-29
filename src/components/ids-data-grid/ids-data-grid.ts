@@ -148,16 +148,44 @@ export default class IdsDataGrid extends Base {
       lastRowIndex = rowIndex;
 
       this.scrollRowIntoView(rowIndex, false);
-    }, { capture: true, passive: true });
+    }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
   }
 
-  /* Stores the last request animation from used during virtual scroll */
+  /**
+   * Stores the last request animation from used during virtual scroll.
+   * RAFs are recommended in the row-recycling articles we referenced.
+   * If we were to take them out, what would happen is the repainting of the browser
+   * window would happen during scrolling and we'd errors like "redraw happened during scrolling.
+   *
+   * One thing to note is RAFs should have as little logic as possible within them
+   * and should only contain the CSS+DOM manipulations.
+   * It's best to do (as much as possible) logic+calculations outside the RAF,
+   * and then when ready to move things around, do those inside the RAF.
+   * this keeps the RAF short and sweet, and keeps our FPS-lag low.
+   */
   #rafReference = NaN;
 
   /**
-   * Scrolls the specified row into view
-   * @param {number} rowIndex The row index to scroll to
-   * @param {boolean} doScroll When virtual scrolling is used internaly this is used.
+   * We always want to set doScroll=true when scrollRowIntoView() is called manually in code...
+   * ...so when the "public" uses it they would simply do scrollRowIntoView(x).
+   *
+   * However, this method is also used in the "onscroll" event-handler...
+   * ...within that "onscroll" event-handler, we want doScroll=false,
+   * ...and let the browser handle moving/panning the window without interference.
+   *
+   * @param {number} rowIndex - which row to scroll into view.
+   * @param {boolean} doScroll - set to "true" to have the browser perform the scroll action
+   * @see IdsDataGrid.#attachVirtualScrollEvent()
+   * @see https://medium.com/@moshe_31114/building-our-recycle-list-solution-in-react-17a21a9605a0
+   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-i-11ib
+   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-ii-3j86
+   * @see https://fluffy.es/solve-duplicated-cells
+   * @see https://vaadin.com/docs/latest/components/grid#columns
+   * @see https://www.htmlelements.com/demos/grid/datagrid-bind-to-json
+   * @see https://dev.to/gopal1996/understanding-reflow-and-repaint-in-the-browser-1jbg
+   * @see https://medium.com/teads-engineering/the-most-accurate-way-to-schedule-a-function-in-a-web-browser-eadcd164da12
+   * @see https://javascript.info/bubbling-and-capturing#capturing
+   * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
    */
   scrollRowIntoView(rowIndex: number, doScroll = true) {
     if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
@@ -1246,7 +1274,7 @@ export default class IdsDataGrid extends Base {
     const ROW_HEIGHT = this.rowPixelHeight || 50;
     const NUM_ROWS = 150;
     const BODY_HEIGHT = NUM_ROWS * ROW_HEIGHT;
-    const BUFFER_ROWS = 20;
+    const BUFFER_ROWS = 50;
     const BUFFER_HEIGHT = BUFFER_ROWS * ROW_HEIGHT;
     const RAF_DELAY = 60;
     const DEBOUNCE_RATE = 10;
