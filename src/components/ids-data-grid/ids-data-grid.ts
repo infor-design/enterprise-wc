@@ -276,11 +276,11 @@ export default class IdsDataGrid extends Base {
 
     const bottomRow: any = rows[rows.length - 1];
     const bottomRowIndex = bottomRow.rowIndex;
-    const selectedRows = rows.slice(0, rowCount);
+    const queuedRows = rows.slice(0, rowCount);
     const rowsToMove: any[] = [];
 
     // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-    selectedRows.every((row: any, idx) => {
+    queuedRows.every((row: any, idx) => {
       const nextIndex = bottomRowIndex + (idx + 1);
       if (nextIndex >= data.length) return false;
       row.rowIndex = nextIndex;
@@ -306,11 +306,11 @@ export default class IdsDataGrid extends Base {
 
     const topRow: any = rows[0];
     const topRowIndex = topRow.rowIndex;
-    const selectedRows = rows.slice((-1 * rowCount));
+    const queuedRows = rows.slice((-1 * rowCount));
     const rowsToMove: any[] = [];
 
     // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-    selectedRows.every((row: any, idx) => {
+    queuedRows.every((row: any, idx) => {
       const prevIndex = topRowIndex - (idx + 1);
       if (prevIndex < 0) return false;
       row.rowIndex = prevIndex;
