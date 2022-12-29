@@ -59,7 +59,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
   // Readonly and disabled Cells
   &.is-readonly {
-    @include bg-slate-10();
+    background-color: rgba(0 0 0 / 0.07);
   }
 
   &.is-disabled {
@@ -184,7 +184,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     border-bottom: 1px solid var(--ids-color-palette-slate-20);
 
     &.is-readonly {
-      @include bg-slate-10();
+      background-color: rgba(0 0 0 / 0.07);
     }
 
     &.is-disabled {
@@ -210,7 +210,7 @@ td.ids-data-grid-cell {
     @include text-white();
 
     &.is-readonly {
-      @include bg-slate-70();
+      background-color: rgba(119 119 124 / 0.18);
     }
 
     &.is-disabled {
@@ -256,11 +256,11 @@ td.ids-data-grid-cell {
 // Contrast Theme
 .ids-data-grid[mode='contrast'] {
   .ids-data-grid-cell {
-    @include border-slate-60();
+    @include border-slate-50();
     @include text-slate-100();
 
     &.is-readonly {
-      @include bg-slate-10();
+      background-color: rgba(0 0 0 / 0.09);
     }
 
     &.is-disabled {
@@ -309,7 +309,7 @@ td.ids-data-grid-cell {
     // Change Cell Borders/BG
     .ids-data-grid-cell {
       &.is-readonly {
-        @include bg-slate-20();
+        background-color: rgba(0 0 0 / 0.09);
       }
     }
   }

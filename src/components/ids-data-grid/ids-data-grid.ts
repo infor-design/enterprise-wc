@@ -111,9 +111,11 @@ export default class IdsDataGrid extends Base {
     return this.container?.querySelector<HTMLElement>('.ids-data-grid-body');
   }
 
+  /* Returns all the row elements in an array */
   get rows() {
     // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
-    return [...this.container?.querySelectorAll<HTMLElement>('.ids-data-grid-body ids-data-grid-row')];
+    if (!this.container) return [];
+    return [...this.container.querySelectorAll<HTMLElement>('.ids-data-grid-body ids-data-grid-row')];
   }
 
   /* Returns the outside wrapper element */
@@ -132,6 +134,7 @@ export default class IdsDataGrid extends Base {
     }
   }
 
+  /* Attach Events for virtual scrolling */
   #attachVirtualScrollEvent() {
     this.container?.style.setProperty('max-height', '95vh');
 
@@ -140,7 +143,7 @@ export default class IdsDataGrid extends Base {
 
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
-      const rowIndex = Math.floor(this.container.scrollTop / virtualScrollSettings.ROW_HEIGHT);
+      const rowIndex = Math.floor(this.container!.scrollTop / virtualScrollSettings.ROW_HEIGHT);
       if (rowIndex === lastRowIndex) return;
       lastRowIndex = rowIndex;
 
@@ -148,8 +151,14 @@ export default class IdsDataGrid extends Base {
     }, { capture: true, passive: true });
   }
 
+  /* Stores the last request animation from used during virtual scroll */
   #rafReference = NaN;
 
+  /**
+   * Scrolls the specified row into view
+   * @param {number} rowIndex The row index to scroll to
+   * @param {boolean} doScroll When virtual scrolling is used internaly this is used.
+   */
   scrollRowIntoView(rowIndex: number, doScroll = true) {
     if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
 
@@ -161,8 +170,8 @@ export default class IdsDataGrid extends Base {
     const data = this.data;
 
     const virtualScrollSettings = this.virtualScrollSettings;
-    const firstRow = rows[0];
-    const lastRow = rows[rows.length - 1];
+    const firstRow: any = rows[0];
+    const lastRow: any = rows[rows.length - 1];
     const firstRowIndex = firstRow.rowIndex;
     const lastRowIndex = lastRow.rowIndex;
     const maxRowIndex = data.length - 1;
@@ -204,11 +213,12 @@ export default class IdsDataGrid extends Base {
       const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
       this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
       if (doScroll) {
-        this.container.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+        this.container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
       }
     });
   }
 
+  /* Recycle the rows duing scrolling */
   #recycleAllRows(topRowIndex: number) {
     const rows = this.rows;
     if (!rows.length) return;
@@ -217,8 +227,8 @@ export default class IdsDataGrid extends Base {
     topRowIndex = Math.min(topRowIndex, veryLastIndex);
     topRowIndex = Math.max(topRowIndex, 0);
 
-    // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-    this.rows.every((row, idx) => {
+    // Using Array.every as an alternaive to using a for-loop with a break
+    this.rows.every((row: any, idx) => {
       const nextRowIndex = topRowIndex + idx;
       if (nextRowIndex > veryLastIndex) {
         const moveTheRestToTop = this.virtualScrollSettings.NUM_ROWS - idx;
@@ -230,18 +240,19 @@ export default class IdsDataGrid extends Base {
     });
   }
 
+  /* Recycle the rows duing scrolling from the top */
   #recycleTopRowsDown(rowCount: number) {
     const rows = this.rows;
     if (!rowCount || !rows.length) return;
     const data = this.data;
 
-    const bottomRow = rows[rows.length - 1];
+    const bottomRow: any = rows[rows.length - 1];
     const bottomRowIndex = bottomRow.rowIndex;
     const selectedRows = rows.slice(0, rowCount);
     const rowsToMove: any[] = [];
 
     // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-    selectedRows.every((row, idx) => {
+    selectedRows.every((row: any, idx) => {
       const nextIndex = bottomRowIndex + (idx + 1);
       if (nextIndex >= data.length) return false;
       row.rowIndex = nextIndex;
@@ -256,21 +267,22 @@ export default class IdsDataGrid extends Base {
     this.#rafReference = requestAnimationFrame(() => {
       // NOTE: body.append is faster than body.innerHTML
       // NOTE: body.append is faster than multiple calls to appendChild()
-      this.body.append(...rowsToMove);
+      this.body?.append(...rowsToMove);
     });
   }
 
+  /* Recycle the rows duing scrolling from the bottom */
   #recycleBottomRowsUp(rowCount: number) {
     const rows = this.rows;
     if (!rowCount || !rows.length) return;
 
-    const topRow = rows[0];
+    const topRow: any = rows[0];
     const topRowIndex = topRow.rowIndex;
     const selectedRows = rows.slice((-1 * rowCount));
     const rowsToMove: any[] = [];
 
     // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-    selectedRows.every((row, idx) => {
+    selectedRows.every((row: any, idx) => {
       const prevIndex = topRowIndex - (idx + 1);
       if (prevIndex < 0) return false;
       row.rowIndex = prevIndex;
@@ -281,7 +293,7 @@ export default class IdsDataGrid extends Base {
 
     this.#rafReference = requestAnimationFrame(() => {
       // NOTE: body.prepend() seems to be faster than body.innerHTML
-      this.body.prepend(...rowsToMove.reverse());
+      this.body?.prepend(...rowsToMove.reverse());
     });
   }
 
@@ -440,7 +452,7 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * redraw the list by re applying the template
+   * Redraw the list by reapplying the template
    * @private
    */
   redraw() {
@@ -452,8 +464,6 @@ export default class IdsDataGrid extends Base {
     const body = this.bodyTemplate();
     if (this.container) this.container.innerHTML = header + body;
     this.#setColumnWidths();
-
-    if (this.data?.length > 0) this.setActiveCell(0, 0, true);
 
     this.#applyAutoFit();
     this.header.setHeaderCheckbox();
@@ -472,6 +482,17 @@ export default class IdsDataGrid extends Base {
 
     // Show/hide empty message
     this.toggleEmptyMessage();
+
+    // Do some things after redra
+    this.afterRedraw();
+  }
+
+  /** Do some things after redraw */
+  afterRedraw() {
+    requestAnimationFrame(() => {
+      // Set Focus
+      this.setActiveCell(0, 0, true);
+    });
   }
 
   /**

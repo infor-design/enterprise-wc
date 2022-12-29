@@ -19,7 +19,7 @@ export default class IdsDataGridRow extends IdsElement {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-   static get attributes() {
+  static get attributes() {
     return [
       ...super.attributes,
       attributes.ROW_INDEX,
@@ -270,7 +270,7 @@ export default class IdsDataGridRow extends IdsElement {
     const isHidden = row.rowHidden ? ' hidden' : '';
 
     return `
-      <ids-data-grid-row 
+      <ids-data-grid-row
         row-index="${index}"
         role="row"
         part="row"
@@ -346,6 +346,7 @@ export default class IdsDataGridRow extends IdsElement {
       const content = IdsDataGridCell.template(row, column, ariaRowIndex, dataGrid);
       const hasReadonlyClass = isReadonly(column, content);
       const hasDisabledClass = isDisabled(column, content);
+
       let cssClasses = 'ids-data-grid-cell';
       cssClasses += `${hasReadonlyClass ? ' is-readonly' : ''}`;
       cssClasses += `${hasDisabledClass ? ' is-disabled' : ''}`;
@@ -356,7 +357,6 @@ export default class IdsDataGridRow extends IdsElement {
       cssClasses += `${column?.editor && !hasReadonlyClass && !hasDisabledClass ? ` is-editable${column?.editor?.inline ? ' is-inline' : ''}` : ''}`;
       return `<ids-data-grid-cell role="gridcell" part="${cssPart(column, index, j)}" class="${cssClasses}" aria-colindex="${j + 1}">${content}</ids-data-grid-cell>`;
     }).join('');
-
     return `${cellsHtml}${expandableRowHtml}`;
   }
 }

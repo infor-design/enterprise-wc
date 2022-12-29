@@ -449,6 +449,12 @@
       @include text-black();
     }
 
+    &.is-active,
+    &:focus {
+      @include border-azure-80();
+      @include shadow();
+    }
+
     &[disabled] {
       @include text-slate-40();
     }
