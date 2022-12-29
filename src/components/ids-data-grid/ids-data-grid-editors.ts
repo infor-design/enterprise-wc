@@ -4,6 +4,7 @@ import IdsInput from '../ids-input/ids-input';
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
 import type IdsDataGridCell from './ids-data-grid-cell';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 
 export interface IdsDataGridEditorOptions {
   /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
@@ -123,63 +124,83 @@ export class DropdownEditor implements IdsDataGridEditor {
 
   input?: IdsDropdown;
 
-  #value?: string;
+  #value?: string | null;
 
   #stopPropagation = false;
 
+  #stopPropagationCb = this.stopPropagation.bind(this);
+
   init(cell?: IdsDataGridCell): void {
-    this.input = <IdsDropdown>document.createElement('ids-dropdown');
-    this.input.insertAdjacentHTML('beforeend', '<ids-list-box></ids-list-box>');
-
-    this.#attchEventListeners(cell);
-
     const settings = cell?.column?.editor?.editorSettings ?? {};
     const dataset = <any[]>settings?.options ?? [];
+
+    this.#value = cell?.querySelector('[data-value]')?.getAttribute('data-value') ?? null;
+
+    this.input = <IdsDropdown>document.createElement('ids-dropdown');
+    this.input.insertAdjacentHTML('beforeend', '<ids-list-box></ids-list-box>');
     this.input.loadDataSet(dataset);
-    this.input.typeahead = <boolean>settings.typeahead ?? false;
+    this.input.typeahead = true;
+
     cell!.innerHTML = '';
-    cell!.appendChild(this.input);
     cell!.style.setProperty('overflow', 'visible');
+    cell!.appendChild(this.input);
+
+    this.input.value = this.#value;
     this.input.size = 'full';
-    this.input.focus();
+    this.input.labelState = 'collapsed';
+    this.input.colorVariant = 'borderless';
+
+    // add styling for trigger field > .field-container
+
+    this.input.container?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
+    this.#attchEventListeners();
   }
 
-  #attchEventListeners(cell?: IdsDataGridCell) {
-    this.input?.onEvent('blur', this.input, (evt) => {
-      if (this.#stopPropagation) {
-        evt.stopPropagation();
-        evt.stopImmediatePropagation();
-      }
-    });
+  stopPropagation(evt: CustomEvent) {
+    // try stop propgation if target isn't within cell
+    if (this.#stopPropagation) {
+      evt.stopImmediatePropagation();
+    }
+  }
 
-    this.input?.onEvent('change', this.input, (evt) => { this.#value = evt.detail.value; });
+  #attchEventListeners() {
     this.input?.onEvent('open', this.input, () => { this.#stopPropagation = true; });
     this.input?.onEvent('close', this.input, () => { this.#stopPropagation = false; });
+    this.input?.onEvent('change', this.input, (evt) => { this.#value = evt.detail.value; });
+    this.input?.onEvent('blur', this.input, this.#stopPropagationCb);
   }
 
-  save(cell?: IdsDataGridCell | undefined) {
-    console.log('save', cell);
+  save() {
     return this.#value;
   }
 
   destroy(cell?: IdsDataGridCell | undefined): void {
-    console.log('destroy', cell);
+    // remove event listeners
     this.input?.offEvent('change');
     this.input?.offEvent('open');
     this.input?.offEvent('close');
-    cell?.style.setProperty('overflow', 'hidden');
+    this.input?.offEvent('blur', this.input, this.#stopPropagationCb);
+
+    // revert cell style changes
+    cell?.style.removeProperty('overflow');
+
+    // unassign cache
+    this.#value = undefined;
   }
 }
 
 export const editors: Array<{ type: string, editor?: IdsDataGridEditor }> = [];
+
 editors.push({
   type: 'input',
   editor: new InputEditor()
 });
+
 editors.push({
   type: 'checkbox',
   editor: new CheckboxEditor()
 });
+
 editors.push({
   type: 'dropdown',
   editor: new DropdownEditor()

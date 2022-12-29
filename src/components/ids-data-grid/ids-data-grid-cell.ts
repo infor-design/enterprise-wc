@@ -117,7 +117,14 @@ export default class IdsDataGridCell extends IdsElement {
     this.originalValue = this.innerText;
     this.editor = columnEditor.editor;
     this.editor.isClick = isClick;
+
+    // Override original value if dropdown
+    if (this.editor.type === 'dropdown') {
+      this.originalValue = this.querySelector('[data-value]')?.getAttribute('data-value');
+    }
+
     this.editor.init(this);
+
 
     // Set states
     this.classList.add('is-editing');

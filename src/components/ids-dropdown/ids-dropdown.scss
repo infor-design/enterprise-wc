@@ -6,6 +6,17 @@
   position: relative;
 }
 
+// Datagrid dropdown editor
+.ids-dropdown.color-variant-borderless {
+  ids-trigger-field::part(container) {
+    margin: 0;
+  }
+
+  ids-trigger-field::part(field-container) {
+    box-shadow: none !important;
+  }
+}
+
 // Icon Placement
 .icon-container {
   @include text-slate-100();

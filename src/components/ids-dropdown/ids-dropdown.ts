@@ -119,7 +119,7 @@ export default class IdsDropdown extends Base {
    * List of available color variants for this component
    * @returns {Array<string>}
    */
-  colorVariants: Array<string> = ['alternate-formatter'];
+  colorVariants: Array<string> = ['alternate-formatter', 'borderless'];
 
   /**
    * Push color variant to the container element
@@ -275,7 +275,6 @@ export default class IdsDropdown extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
-    console.log('setting dropdown value');
     const elem = this.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"]`);
 
     if (!elem && !this.clearable) {
@@ -707,13 +706,10 @@ export default class IdsDropdown extends Base {
   attachClickEvent() {
     this.offEvent('click.dropdown-list-box');
     this.onEvent('click.dropdown-list-box', this.listBox, (e: any) => {
-      console.log('dropdown click', e);
       // Excluding group labels
       if (e.target?.hasAttribute(attributes.GROUP_LABEL) || e.target.closest('ids-list-box-option')?.hasAttribute(attributes.GROUP_LABEL)) {
         return;
       }
-
-      console.log('dropdown click after check', e);
 
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
         this.value = e.target.getAttribute('value');
@@ -772,13 +768,14 @@ export default class IdsDropdown extends Base {
   #attachKeyboardListeners() {
     // Handle up and down arrow
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      e.preventDefault();
+
       if (!this.popup?.visible) {
         this.open(this.typeahead);
         return;
       }
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      e.preventDefault();
 
       const selected: any = this.selected;
       const next = selected?.nextElementSibling;
@@ -956,7 +953,7 @@ export default class IdsDropdown extends Base {
   #templatelistBoxOption(option: IdsDropdownOption): string {
     return `<ids-list-box-option
       ${option.id ? `id=${option.id}` : ''}
-      ${option.value ? `value="${option.value}"` : ''}
+      ${option.value ? `value="${option.value}"` : 'value=""'}
       ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${option.label || ''}</ids-list-box-option>`;
   }
 

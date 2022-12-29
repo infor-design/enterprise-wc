@@ -137,11 +137,10 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     field: 'bookCurrency',
     resizable: true,
     reorderable: true,
-    formatter: dataGrid.formatters.text,
+    formatter: dataGrid.formatters.dropdown,
     editor: {
       type: 'dropdown',
       editorSettings: {
-        typeahead: true,
         options: [
           {
             id: '',
