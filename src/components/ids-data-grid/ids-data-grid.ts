@@ -1259,7 +1259,7 @@ export default class IdsDataGrid extends Base {
     const ROW_HEIGHT = this.rowPixelHeight || 50;
     const NUM_ROWS = 150;
     const BODY_HEIGHT = NUM_ROWS * ROW_HEIGHT;
-    const BUFFER_ROWS = 20;
+    const BUFFER_ROWS = 50;
     const BUFFER_HEIGHT = BUFFER_ROWS * ROW_HEIGHT;
     const RAF_DELAY = 60;
     const DEBOUNCE_RATE = 10;
