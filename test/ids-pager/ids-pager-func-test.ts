@@ -39,6 +39,10 @@ const HTMLSnippets = {
       </section>
     </ids-pager>`
   ),
+  NUMBER_LIST: (
+    `<ids-pager type="list" step="0" page-size="20" page-number="10" total="500">
+    </ids-pager>`
+  ),
   NUMBER_LIST_NAV: (
     `<ids-pager page-size="20" page-number="10" total="150">
       <section>
@@ -73,6 +77,17 @@ const HTMLSnippets = {
       <section slot="end">
         Right-Aligned-Content
       </section>
+    </ids-pager>`
+  ),
+  DROPDOWN_CONTENT: (
+    `<ids-pager page-number="1" page-size="10" total="200" id="ids-pager-example">
+      <ids-pager-dropdown slot="start" label="test1"></ids-pager-dropdown>
+      <ids-pager-button first></ids-pager-button>
+      <ids-pager-button previous></ids-pager-button>
+      <ids-pager-input></ids-pager-input>
+      <ids-pager-button next></ids-pager-button>
+      <ids-pager-button last></ids-pager-button>
+      <ids-pager-dropdown slot="end" label="test2"></ids-pager-dropdown>
     </ids-pager>`
   )
 };
@@ -284,6 +299,16 @@ describe('IdsPager Component', () => {
 
     elem.disabled = true;
     expect(elem.disabled).toEqual(true);
+  });
+
+  it('sets the list type', async () => {
+    elem = await createElemViaTemplate(HTMLSnippets.NUMBER_LIST);
+    expect(elem.type).toEqual('list');
+  });
+
+  it('sets the dropdowns', async () => {
+    elem = await createElemViaTemplate(HTMLSnippets.DROPDOWN_CONTENT);
+    expect(elem.elements.dropdowns.length).toEqual(2);
   });
 
   it('sets the ids-pager page-number above max value and it is limited', async () => {
