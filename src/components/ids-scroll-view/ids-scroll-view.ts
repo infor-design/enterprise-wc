@@ -99,6 +99,12 @@ export default class IdsScrollView extends Base {
       }
     });
 
+    this.offEvent('touchstart.scroll-view-touch');
+    this.onEvent('touchstart.scroll-view-touch', this.container, () => {
+      // Reset the property so the controls can be updated when swipe
+      this.isClick = false;
+    });
+
     // Set selected state on scroll/swipe
     this.querySelectorAll('[slot]').forEach((elem: any, i: any) => {
       const scrollViewIndex = i;
