@@ -148,6 +148,14 @@ export default class IdsDataGrid extends Base {
     }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
   }
 
+  /**
+   * RAFs are actually recommended in the row-recycling articles we referenced.
+   * If we were to take them out, what would happen is the...
+   * ...repainting of the browser window would happen during scrolling
+   * ...and we'd errors like "redraw happened during scrolling"
+   *
+   * @see https://medium.com/@moshe_31114/building-our-recycle-list-solution-in-react-17a21a9605a0
+   */
   #rafReference = NaN;
 
   /**
