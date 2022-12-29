@@ -150,6 +150,16 @@ export default class IdsDataGrid extends Base {
 
   #rafReference = NaN;
 
+  /**
+   * We only want to set doScroll=true when scrollRowIntoView() is called manually in code.
+   * This method is also used in the "onscroll" event-handler...
+   * ...within that "onscroll" event-handler, we want doScroll=false,
+   * ...and let the browser handle moving/panning the window.
+   *
+   * @param {number} rowIndex - which row to scroll into view.
+   * @param {boolean} doScroll - set to "true" to have the browser perform the scroll action
+   * @see IdsDataGrid.#attachVirtualScrollEvent()
+   */
   scrollRowIntoView(rowIndex: number, doScroll = true) {
     if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
 
