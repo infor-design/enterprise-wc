@@ -166,6 +166,7 @@ export default class IdsDataGrid extends Base {
    * @see https://fluffy.es/solve-duplicated-cells
    * @see https://vaadin.com/docs/latest/components/grid#columns
    * @see https://www.htmlelements.com/demos/grid/datagrid-bind-to-json
+   * @see https://dev.to/gopal1996/understanding-reflow-and-repaint-in-the-browser-1jbg
    * @see https://medium.com/teads-engineering/the-most-accurate-way-to-schedule-a-function-in-a-web-browser-eadcd164da12
    */
   #rafReference = NaN;
