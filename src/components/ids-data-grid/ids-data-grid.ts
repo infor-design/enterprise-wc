@@ -159,15 +159,6 @@ export default class IdsDataGrid extends Base {
    * It's best to do (as much as possible) logic+calculations outside the RAF,
    * and then when ready to move things around, do those inside the RAF.
    * this keeps the RAF short and sweet, and keeps our FPS-lag low.
-   *
-   * @see https://medium.com/@moshe_31114/building-our-recycle-list-solution-in-react-17a21a9605a0
-   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-i-11ib
-   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-ii-3j86
-   * @see https://fluffy.es/solve-duplicated-cells
-   * @see https://vaadin.com/docs/latest/components/grid#columns
-   * @see https://www.htmlelements.com/demos/grid/datagrid-bind-to-json
-   * @see https://dev.to/gopal1996/understanding-reflow-and-repaint-in-the-browser-1jbg
-   * @see https://medium.com/teads-engineering/the-most-accurate-way-to-schedule-a-function-in-a-web-browser-eadcd164da12
    */
   #rafReference = NaN;
 
@@ -182,6 +173,16 @@ export default class IdsDataGrid extends Base {
    * @param {number} rowIndex - which row to scroll into view.
    * @param {boolean} doScroll - set to "true" to have the browser perform the scroll action
    * @see IdsDataGrid.#attachVirtualScrollEvent()
+   * @see https://medium.com/@moshe_31114/building-our-recycle-list-solution-in-react-17a21a9605a0
+   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-i-11ib
+   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-ii-3j86
+   * @see https://fluffy.es/solve-duplicated-cells
+   * @see https://vaadin.com/docs/latest/components/grid#columns
+   * @see https://www.htmlelements.com/demos/grid/datagrid-bind-to-json
+   * @see https://dev.to/gopal1996/understanding-reflow-and-repaint-in-the-browser-1jbg
+   * @see https://medium.com/teads-engineering/the-most-accurate-way-to-schedule-a-function-in-a-web-browser-eadcd164da12
+   * @see https://javascript.info/bubbling-and-capturing#capturing
+   * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
    */
   scrollRowIntoView(rowIndex: number, doScroll = true) {
     if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
