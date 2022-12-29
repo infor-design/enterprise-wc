@@ -145,7 +145,7 @@ export default class IdsDataGrid extends Base {
       lastRowIndex = rowIndex;
 
       this.scrollRowIntoView(rowIndex, false);
-    }, { capture: true, passive: true });
+    }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
   }
 
   #rafReference = NaN;
