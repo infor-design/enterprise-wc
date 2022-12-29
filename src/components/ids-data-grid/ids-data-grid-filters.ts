@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { hasClass } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 import IdsDataGridCell from './ids-data-grid-cell';
 import '../ids-menu-button/ids-menu-button';
@@ -9,10 +10,15 @@ import '../ids-menu/ids-menu';
 import '../ids-menu/ids-menu-item';
 import '../ids-input/ids-input';
 import '../ids-dropdown/ids-dropdown';
-import '../ids-date-picker/ids-date-picker';
+import '../ids-icon/ids-icon';
+import '../ids-trigger-field/ids-trigger-button';
+import '../ids-trigger-field/ids-trigger-field';
+import '../ids-date-picker/ids-date-picker-popup';
 import '../ids-time-picker/ids-time-picker';
 
 import type IdsMenuItem from '../ids-menu/ids-menu-item';
+import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import type IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
 
 // Instance counter
 let instanceCounter = 0;
@@ -80,6 +86,13 @@ export default class IdsDataGridFilters {
   focused: any;
 
   /**
+   * Suppress filtered event
+   * @private
+   * @type {boolean}
+   */
+  #suppressFilteredEvent = false;
+
+  /**
    * Text filter markup.
    * @param {IdsDataGridColumn} column The column info
    * @returns {string} The resulting template
@@ -142,13 +155,10 @@ export default class IdsDataGridFilters {
     const TYPE = 'date';
     const id = `${this.#id(column)}-${TYPE}`;
     const opt = column.filterOptions || {};
-    const label = opt.label || 'Filter date picker';
     const format = opt.format ? ` format="${opt.format}"` : '';
-    const placeholder = opt.placeholder ? ` placeholder="${opt.placeholder}"` : '';
     const showToday = opt.showToday ? ` show-today="${opt.showToday}"` : '';
     const firstDayOfWeek = opt.firstDayOfWeek ? ` first-day-of-week="${opt.firstDayOfWeek}"` : '';
     const disabled = opt.disabled ? ' disabled' : '';
-    const readonly = opt.readonly ? ' readonly' : '';
 
     const filtered = this.#conditions.filter((c: IdsDataGridFilterConditions) => c.columnId === column.id);
     let value = (filtered[0] as any)?.value ?? null;
@@ -158,17 +168,16 @@ export default class IdsDataGridFilters {
 
     return `
       ${this.#filterButtonTemplate(TYPE, column)}
-      <ids-date-picker
-        color-variant="${!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'}"
+      ${this.#triggerFieldTemplate(TYPE, column, 'calendar', 'DatePickerTriggerButton')}
+      <ids-date-picker-popup
+        attachment=".ids-data-grid-wrapper"
         data-filter-type="${TYPE}"
-        size="${opt.size || 'full'}"
-        label="${label}"
-        label-state="collapsed"
-        id="${id}"
+        trigger-type="click"
+        id="popup-${id}"
         no-margins
         compact="true"
-        ${format}${placeholder}${showToday}${firstDayOfWeek}${value}${disabled}${readonly}
-      ></ids-date-picker>
+        ${format}${showToday}${firstDayOfWeek}${value}${disabled}
+      ></ids-date-picker-popup>
     `;
   }
 
@@ -253,15 +262,19 @@ export default class IdsDataGridFilters {
    * @param {string} operator filter type.
    * @returns {void}
    */
-  #setDatePicker(datePicker: any, operator?: string): void {
+  #setDatePicker(datePicker: IdsTriggerField, operator?: string): void {
     if (datePicker) {
-      if (operator === 'in-range') {
-        datePicker.useRange = true;
-      } else {
-        const startDateValue = datePicker.value.split(datePicker.rangeSettings.separator)[0];
-        datePicker.rangeSettings = { start: null, end: null };
-        datePicker.useRange = false;
-        if (datePicker.value !== startDateValue) datePicker.value = startDateValue;
+      const popupId = datePicker.getAttribute('id')?.replace('field-', 'popup-');
+      const popupEl: IdsDatePickerPopup = this.root.wrapper.querySelector(`#${popupId}`)!;
+      if (popupEl) {
+        if (operator === 'in-range') {
+          popupEl.useRange = true;
+        } else {
+          const startDateValue = popupEl.value.split(popupEl.rangeSettings.separator)[0];
+          popupEl.resetRangeSettings();
+          popupEl.useRange = false;
+          if (popupEl.value !== startDateValue) popupEl.value = startDateValue;
+        }
       }
     }
   }
@@ -281,20 +294,20 @@ export default class IdsDataGridFilters {
 
         const input = node.querySelector('ids-input');
         const dropdown = node.querySelector('ids-dropdown');
-        const datePicker = node.querySelector('ids-date-picker');
+        const triggerField = node.querySelector('ids-trigger-field');
         const timePicker = node.querySelector('ids-time-picker');
         const btn = node.querySelector('ids-menu-button');
 
         if (input) input.value = initial?.input?.value || '';
         if (dropdown) dropdown.value = initial?.dropdown?.value || '';
-        if (datePicker) datePicker.value = initial?.datePicker?.value || '';
+        if (triggerField) triggerField.value = initial?.triggerField?.value || '';
         if (timePicker) timePicker.value = initial?.timePicker?.value || '';
         if (btn) {
           let item = btn.menuEl.items.filter((itm: any) => itm.value === initial?.btn?.value)[0];
           if (!item) item = btn.menuEl.items[0];
           if (item) {
             btn.menuEl.selectItem(item);
-            if (datePicker) this.#setDatePicker(datePicker, item.value);
+            if (triggerField) this.#setDatePicker(triggerField, item.value);
           }
         }
       }
@@ -307,6 +320,7 @@ export default class IdsDataGridFilters {
    * @returns {Array<object>} An array of currently showing filter conditions.
    */
   setFilterConditions(conditions: Array<IdsDataGridFilterConditions>) {
+    this.#suppressFilteredEvent = true;
     this.resetFilters();
     const toBeRemoved: any = [];
     conditions.forEach((c, i) => {
@@ -319,13 +333,13 @@ export default class IdsDataGridFilters {
         const input = node.querySelector('ids-input');
         const btn = node.querySelector('ids-menu-button');
         const dropdown = node.querySelector('ids-dropdown');
-        const datePicker = node.querySelector('ids-date-picker');
+        const triggerField = node.querySelector('ids-trigger-field');
         const timePicker = node.querySelector('ids-time-picker');
         const headerElem = node.closest('.ids-data-grid-header-cell');
         const columnData = this.root.columnDataByHeaderElem(headerElem);
 
         if (input) input.value = c.value || '';
-        if (datePicker) datePicker.value = c.value || '';
+        if (triggerField) triggerField.value = c.value || '';
         if (timePicker) timePicker.value = c.value || '';
         if (dropdown) {
           dropdown.value = c.value || '';
@@ -341,11 +355,12 @@ export default class IdsDataGridFilters {
           if (!item) item = btn.menuEl.items[0];
           if (item) btn.menuEl.selectItem(item);
         }
-        if (!c.filterElem) c.filterElem = timePicker || datePicker || dropdown || input;
-        this.#setDatePicker(datePicker, c.operator);
+        if (!c.filterElem) c.filterElem = timePicker || triggerField || dropdown || input;
+        this.#setDatePicker(triggerField, c.operator);
       }
     });
     if (toBeRemoved.length) conditions = conditions.filter((c, i) => !toBeRemoved.includes(i));
+    this.#suppressFilteredEvent = false;
     return conditions;
   }
 
@@ -360,18 +375,18 @@ export default class IdsDataGridFilters {
       const node = slot ? slot.assignedElements()[0] : n;
       if (node) {
         const input = node.querySelector('ids-input');
+        const triggerField = node.querySelector('ids-trigger-field');
         const btn = node.querySelector('ids-menu-button');
         const dropdown = node.querySelector('ids-dropdown');
-        const datePicker = node.querySelector('ids-date-picker');
         const timePicker = node.querySelector('ids-time-picker');
-        if (!btn && !input && !dropdown) return;
+        if (!btn && !input && !triggerField && !dropdown) return;
 
         const headerElem = n.closest('.ids-data-grid-header-cell');
         const columnData = this.root.columnDataByHeaderElem(headerElem);
         let operator = btn?.menuEl?.getSelectedValues()[0];
         if (!operator) operator = btn?.menuEl?.items?.[0]?.value;
         if (!operator && !btn && input) operator = 'contains';
-        const value = input?.value ?? dropdown?.value ?? datePicker?.value ?? timePicker?.value ?? '';
+        const value = input?.value ?? triggerField?.value ?? dropdown?.value ?? timePicker?.value ?? '';
         if (dropdown) {
           operator = 'equals';
           if (value === this.#dropdownNotFilterItem(columnData).value) return;
@@ -381,12 +396,12 @@ export default class IdsDataGridFilters {
           columnData.formatOptions.dateFormat = timePicker.format;
           columnData.formatOptions.timeStyle = 'short';
         }
-        this.#setDatePicker(datePicker, operator);
+        this.#setDatePicker(triggerField, operator);
 
         if (operator === 'selected-notselected') return;
         if (value === '' && !dropdown && !(/\b(is-not-empty|is-empty|selected|not-selected)\b/g.test(operator))) return;
 
-        const filterElem = timePicker || datePicker || dropdown || input;
+        const filterElem = timePicker || dropdown || triggerField || input;
 
         const condition = {
           columnId: columnData.id,
@@ -423,6 +438,7 @@ export default class IdsDataGridFilters {
     if (this.root.disableClientFilter) {
       this.root.triggerEvent('filtered', this.root, { bubbles: true, detail: { elem: this.root, conditions } });
       this.#filterIsProcessing = false;
+      this.root.saveSettings?.();
       return;
     }
 
@@ -543,10 +559,10 @@ export default class IdsDataGridFilters {
 
           let values = null;
           if (c.operator === 'in-range') { // range stuff
-            const datePicker = c.filterElem;
-            if (datePicker) {
-              if (c.value.indexOf(datePicker.rangeSettings.separator) > -1) {
-                const cValues = c.value.split(datePicker.rangeSettings.separator);
+            const datePickerPopup: IdsDatePickerPopup = this.root.wrapper.querySelector(`#${c.filterElem.getAttribute('aria-controls')}`)!;
+            if (datePickerPopup) {
+              if (c.value.indexOf(datePickerPopup.rangeSettings.separator) > -1) {
+                const cValues = c.value.split(datePickerPopup.rangeSettings.separator);
                 const range = { start: getValues(value, cValues[0]), end: getValues(value, cValues[1]) };
                 values = {
                   rValue: range.start.rValue,
@@ -651,10 +667,12 @@ export default class IdsDataGridFilters {
 
     // Fires after filter action occurs
     if (isCleared || isFilterApply) {
+      this.root.toggleEmptyMessage();
       this.root.triggerEvent('filtered', this.root, {
         bubbles: true,
         detail: { elem: this.root, type: isCleared ? 'clear' : 'apply', conditions }
       });
+      this.root.saveSettings?.();
     }
   }
 
@@ -672,6 +690,7 @@ export default class IdsDataGridFilters {
           node.querySelector('ids-menu-button'),
           node.querySelector('ids-dropdown'),
           node.querySelector('ids-date-picker'),
+          node.querySelector('ids-trigger-field'),
           node.querySelector('ids-time-picker')
         ].forEach((el) => {
           if (this.root.filterRowDisabled) {
@@ -714,6 +733,9 @@ export default class IdsDataGridFilters {
       const timePicker = node?.querySelector('ids-time-picker');
       const btn = node?.querySelector('ids-menu-button');
       const menu = node?.querySelector('ids-popup-menu');
+      const triggerBtn = node?.querySelector('ids-trigger-button');
+      const triggerField = node?.querySelector('ids-trigger-field');
+      const datePickerPopup = node?.querySelector('ids-date-picker-popup');
       let menuAttachment = '.ids-data-grid-wrapper';
 
       // Slotted filter only
@@ -768,10 +790,19 @@ export default class IdsDataGridFilters {
       }
 
       // Date picker adjust range settings
-      if (datePicker) {
+      if (datePickerPopup) {
+        datePickerPopup.appendToTargetParent();
+        datePickerPopup.popupOpenEventsTarget = datePickerPopup.closest('.ids-data-grid-wrapper');
+        datePickerPopup.setAttribute(attributes.TRIGGER_TYPE, 'click');
+        datePickerPopup.setAttribute(attributes.TARGET, `#${triggerField.getAttribute('id')}`);
+        datePickerPopup.setAttribute(attributes.TRIGGER_ELEM, `#${triggerBtn.getAttribute('id')}`);
+        datePickerPopup.popup.setAttribute(attributes.ARROW_TARGET, `#${triggerBtn.getAttribute('id')}`);
+        datePickerPopup.setAttribute(attributes.ATTACHMENT, menuAttachment);
+        datePickerPopup.refreshTriggerEvents();
+
         const rangeSettings = column.filterOptions?.rangeSettings;
-        if (rangeSettings) datePicker.rangeSettings = rangeSettings;
-        datePicker.useRange = (btn?.menuEl?.getSelectedValues()[0] === 'in-range');
+        if (rangeSettings) datePickerPopup.rangeSettings = rangeSettings;
+        datePickerPopup.useRange = (btn?.menuEl?.getSelectedValues()[0] === 'in-range');
       }
 
       // Integer type mask
@@ -811,9 +842,15 @@ export default class IdsDataGridFilters {
     const header = this.root.container?.querySelector('.ids-data-grid-header:not(.column-groups)');
     this.root.onEvent(`change.${this.#id()}`, header, (e: any) => {
       const nodeName = e.target?.nodeName;
-      if (nodeName && /ids-(input|dropdown|multiselect)/gi.test(nodeName)) {
+      if (!this.#suppressFilteredEvent && nodeName && /ids-(input|trigger-field|dropdown|multiselect)/gi.test(nodeName)) {
         this.applyFilter();
       }
+    });
+
+    // Capture 'dayselected' events from IdsDatePickerPopup
+    this.root.onEvent(`dayselected.${this.#id()}`, this.root.wrapper, (e: any) => {
+      e.target.value = e.detail.value;
+      this.applyFilter();
     });
 
     // Change event for ids-date-picker and ids-time-picker
@@ -848,7 +885,7 @@ export default class IdsDataGridFilters {
       label: (target.text || '').trim()
     };
     target.icon = icon;
-    target.querySelector('[slot="text"]').textContent = label;
+    target.querySelector('span, ids-text').textContent = label;
     this.root.triggerEvent('filteroperatorchanged', this.root, {
       bubbles: true,
       detail: {
@@ -912,6 +949,9 @@ export default class IdsDataGridFilters {
    */
   #filterButtonTemplate(type: string, column: IdsDataGridColumn) {
     const operators = this.#operators(type, column);
+
+    if (!operators?.length) return '';
+
     const opt = column.filterOptions || {};
     const disabled = opt.disabled ? ' disabled' : '';
     const readonly = opt.readonly ? ' readonly' : '';
@@ -947,7 +987,7 @@ export default class IdsDataGridFilters {
         trigger-type="click"
         ${disabled}${readonly}
         dropdown-icon>
-        <span slot="text" class="audible">${sel.label}</span>
+        <span class="audible">${sel.label}</span>
       </ids-menu-button>
       <ids-popup-menu id="menu-${id}" target="#btn-${id}">
         <ids-menu-group select="single">${items}</ids-menu-group>
@@ -986,6 +1026,49 @@ export default class IdsDataGridFilters {
       compact
       ${placeholder}${disabled}${readonly}${value}>
     </ids-input>`;
+  }
+
+  /**
+   * Get trigger field template string
+   * @private
+   * @param {string} type Must be exactly the same as filter method name
+   * @param {IdsDataGridColumn} column The column info.
+   * @param {string} [icon] if provided, defines the icon used on this field's trigger button
+   * @param {string} [btnText] if provided, defines the text content of this field's trigger button
+   * @returns {string} The template string
+   */
+  #triggerFieldTemplate(type: any, column: any, icon?: string, btnText?: string) {
+    const fieldId = `field-${this.#id(column)}-${type}`;
+    const triggerBtnId = `triggerBtn-${this.#id(column)}-${type}`;
+    const opt = column.filterOptions || {};
+    const triggerBtnIcon = icon ? ` icon="${icon}"` : '';
+    const triggerBtnText = btnText ? `<ids-text audible="true" translate-text="true">${btnText}</ids-text>` : '';
+    const label = opt.label || 'Filter Input';
+    const placeholder = opt.placeholder ? ` placeholder="${opt.placeholder}"` : '';
+    const disabled = opt.disabled ? ' disabled' : '';
+    const readonly = opt.readonly ? ' readonly' : '';
+
+    let value = this.#conditions.filter((c: any) => c.columnId === column.id)[0]?.value ?? null;
+    this.#initial[column.id] = this.#initial[column.id] || {};
+    if (!this.#initial[column.id].input) this.#initial[column.id].input = { value };
+    value = value ? ` value="${value}"` : '';
+
+    return `<ids-trigger-field
+      color-variant="${!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'}"
+      data-filter-type="${type}"
+      type="${opt.type || 'text'}"
+      size="${opt.size || 'full'}"
+      label="${label}"
+      label-state="collapsed"
+      id="${fieldId}"
+      no-margins
+      compact
+      ${placeholder}${disabled}${readonly}${value}>
+      <ids-trigger-button id="${triggerBtnId}" slot="trigger-end"${triggerBtnIcon}>
+        <ids-icon part="icon"></ids-icon>
+        ${triggerBtnText}
+      </ids-trigger-button>
+    </ids-trigger-field>`;
   }
 
   /**
@@ -1086,13 +1169,13 @@ export default class IdsDataGridFilters {
    * @returns {Array} List of button operators
    */
   #operators(type: string, column: IdsDataGridColumn): { value: string, label: string, icon: string, selected?: boolean }[] {
-    if (column?.filterTerms?.constructor === Array) return column.filterTerms;
+    if (column?.filterConditions?.constructor === Array) return column.filterConditions;
     const ds = this.#operatorsDataset;
     let operators: any = [];
 
     // Collect and built, all the operators for contents type
     const contentsOperators = () => {
-      const val = this.root.datasource.allData.map((row: any) => row[column.id]);
+      const val = this.root.datasource.allData.map((row: any) => escapeHTML(row[column.id]));
       return [...new Set(val)].map((v) => ({ value: v || '', label: v || '' }));
     };
 

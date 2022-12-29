@@ -62,7 +62,14 @@ class IdsDataSource {
    * Return all the currently used data, without paging or filter
    * @returns {Array | null} All the currently used data
    */
-  get allData() { return this.#currentFilterData ?? this.#currentData; }
+  get allData() {
+    if (this.#currentFilterData) {
+      return this.flatten
+        ? this.#flattenData(this.#currentFilterData)
+        : this.#currentFilterData;
+    }
+    return this.#currentData;
+  }
 
   /**
    * Sets the data array on the data source object
@@ -80,7 +87,7 @@ class IdsDataSource {
    */
   get data(): Array<Record<string, any>> {
     if (this.pageSize && this.pageSize < this.total) {
-      this.paginate(this.pageNumber, this.pageSize);
+      return this.paginate(this.pageNumber, this.pageSize);
     }
 
     return this.#currentData;
@@ -202,10 +209,32 @@ class IdsDataSource {
    */
   get pageSize() { return this.#pageSize; }
 
-  /* To prevent running more than once */
-  #lastPageSize = -1;
+  /**
+   * Prevent running more than once with pagination
+   * @private
+   */
+  #prevState: any = { pageNumber: -1, pageSize: -1, data: null };
 
-  #lastPageNumber = -1;
+  /**
+   * Reset previous state
+   * @private
+   * @returns {void}
+   */
+  #resetPrevState(): void {
+    this.#prevState = { pageNumber: -1, pageSize: -1, data: null };
+  }
+
+  /**
+   * Ckeck previous state
+   * @private
+   * @param {number|string} num Page number
+   * @param {number|string} size Page size
+   * @returns {boolean} True, if previous state
+   */
+  #isPrevState(num: number | string, size: number | string): boolean {
+    const { pageNumber, pageSize } = this.#prevState;
+    return pageNumber === Number(num) && pageSize === Number(size);
+  }
 
   /**
    * @param {number} pageNumber - a page number to start with
@@ -213,23 +242,26 @@ class IdsDataSource {
    * @returns {Array} the paginated data
    */
   paginate(pageNumber = 1, pageSize = 10) {
-    if (this.#lastPageSize === pageSize && this.#lastPageNumber === pageNumber) return this.#currentData;
-    this.#lastPageNumber = pageNumber;
-    this.#lastPageSize = pageSize;
+    if (this.#isPrevState(pageNumber, pageSize)) return this.#prevState.data;
+    this.#prevState.pageNumber = Number(pageNumber);
+    this.#prevState.pageSize = Number(pageSize);
 
     pageNumber = Math.max(pageNumber || 1, 1);
     pageSize = pageSize || 1;
 
     const last = pageNumber * pageSize;
     const start = last - pageSize;
+    let data;
 
     if (this.flatten) {
-      const clone = deepClone(this.#originalData);
-      this.#currentData = this.#flattenData(clone.slice(start, start + pageSize));
-      return this.#currentData;
+      const unFlattenData = this.#unFlattenData(deepClone(this.#currentData));
+      data = this.#flattenData(unFlattenData.slice(start, start + pageSize));
+    } else {
+      data = this.#currentData.slice(start, start + pageSize);
     }
-    this.#currentData = this.#originalData.slice(start, start + pageSize);
-    return this.#currentData;
+    this.#prevState.data = data;
+
+    return data;
   }
 
   /**
@@ -247,19 +279,15 @@ class IdsDataSource {
    */
   sort(field: string, reverse: boolean) {
     const sort = this.sortFunction(field, reverse);
+    this.#resetPrevState();
     if (this.flatten) {
-      const clone = deepClone(this.#originalData);
-      clone.sort(sort);
-      this.#originalData.sort(sort);
-      this.#currentData = this.#flattenData(clone);
-
-      if (this.pageSize && this.pageSize < this.total) {
-        this.#lastPageSize = -1;
-        this.paginate(this.pageNumber, this.pageSize);
-      }
+      const unFlattenData = this.#unFlattenData(this.#currentData);
+      unFlattenData.sort(sort);
+      this.#currentData = this.#flattenData(unFlattenData);
       return;
     }
     this.#currentData.sort(sort);
+    this.#originalData.sort(sort);
   }
 
   /**
@@ -311,13 +339,15 @@ class IdsDataSource {
     const resetCurrentData = () => {
       updateCurrentData(this.#currentFilterData);
       this.#currentFilterData = null;
+      this.#resetPrevState();
       delete (this as any).filtered;
     };
 
     // Check if need to filter or reset
     if (typeof filterFunction === 'function') {
-      this.#currentFilterData = this.#currentFilterData || this.#currentData;
-      if (this.flatten) this.#currentFilterData = deepClone(this.#originalData);
+      const useData = this.flatten ? this.#unFlattenData(this.#currentData) : this.#currentData;
+      this.#currentFilterData = this.#currentFilterData || useData;
+
       // Run thru the filter process
       this.#currentFilterData.forEach((row: any, index: number) => {
         row.isFilteredOut = filterFunction(row, index);
@@ -332,6 +362,7 @@ class IdsDataSource {
           return r;
         });
         updateCurrentData(data);
+        this.#resetPrevState();
         (this as any).filtered = true;
       } else {
         resetCurrentData(); // reset, if none of filtered row found

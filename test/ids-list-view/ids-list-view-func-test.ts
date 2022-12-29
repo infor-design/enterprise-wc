@@ -703,4 +703,23 @@ describe('IdsListView Component', () => {
     listView.container?.querySelector<HTMLElement>(sel(4))?.click();
     expect(listView.activatedItem).toEqual(null);
   });
+
+  it('should not have errors when changing data by activating an item', () => {
+    let activatedItem = -1;
+
+    listView.addEventListener('itemactivated', (e: any) => {
+      activatedItem = e.detail.index;
+
+      listView.data = [
+        { productName: 'new product 1' },
+        { productName: 'new product 2' },
+      ];
+    });
+
+    listView.activateItem(0);
+    expect(activatedItem).toEqual(0);
+
+    listView.activateItem(1);
+    expect(activatedItem).toEqual(1);
+  });
 });

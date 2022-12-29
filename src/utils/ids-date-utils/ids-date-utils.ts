@@ -378,3 +378,15 @@ export function hoursTo24(hours: number, dayPeriodIndex?: number | undefined): n
 export function hoursTo12(hours: number): number {
   return hours === 0 || hours === 12 ? 12 : hours % 12;
 }
+
+/**
+ * Extracts the first half of a date range from inside a string (two dates in a string with a separator between them)
+ * @param {string} val the date range string
+ * @param {string} sep desired separator to use
+ * @returns {string} a string with a single date
+ */
+export function removeDateRange(val: string, sep: string) {
+  const i = val.indexOf(sep);
+  if (i !== -1) return val.replace(val.slice(i, val.length), '');
+  return val;
+}

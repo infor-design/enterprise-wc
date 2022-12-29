@@ -12,7 +12,7 @@ import '../../src/components/ids-toolbar/ids-toolbar-more-actions';
 const getToolbarExampleHTML = async (extras = false) => `
      <ids-toolbar-section id="appmenu-section">
        <ids-button icon="menu" role="button" id="button-appmenu">
-         <span slot="text" class="audible">Application Menu Trigger</span>
+         <span class="audible">Application Menu Trigger</span>
        </ids-button>
      </ids-toolbar-section>
      <ids-toolbar-section id="title-section" type="title">
@@ -20,11 +20,11 @@ const getToolbarExampleHTML = async (extras = false) => `
      </ids-toolbar-section>
      <ids-toolbar-section id="buttonset-section" type="buttonset" align="end">
        <ids-button id="button-1" role="button">
-         <span slot="text">Text</span>
+         <span>Text</span>
        </ids-button>
 
        <ids-menu-button role="button" id="button-2" menu="button-2-menu" dropdown-icon>
-         <span slot="text">Menu</span>
+         <span>Menu</span>
        </ids-menu-button>
        <ids-popup-menu id="button-2-menu" target="#button-2">
          <ids-menu-group>
@@ -44,13 +44,13 @@ const getToolbarExampleHTML = async (extras = false) => `
        </ids-popup-menu>
 
        <ids-button id="button-3"${extras ? ' disabled' : ''}>
-         <span slot="text" class="audible">Settings</span>
-         <ids-icon slot="icon" icon="settings"></ids-icon>
+         <span class="audible">Settings</span>
+         <ids-icon icon="settings"></ids-icon>
        </ids-button>
 
        <ids-button id="button-4"${extras ? ' hidden' : ''}>
-         <span slot="text" class="audible">Trash</span>
-         <ids-icon slot="icon" icon="delete"></ids-icon>
+         <span class="audible">Trash</span>
+         <ids-icon icon="delete"></ids-icon>
        </ids-button>
      </ids-toolbar-section>
 

@@ -687,6 +687,16 @@ describe('IdsInput Component', () => {
     expect(input.hasAttribute('no-margins')).toBeFalsy();
   });
 
+  it('supports setting padding', () => {
+    input.padding = '10';
+    expect(input.padding).toEqual('10');
+    expect(input.input.style.getPropertyValue('padding-inline-end')).toEqual('10px');
+
+    input.padding = '';
+    expect(input.padding).toEqual('');
+    expect(input.input.style.getPropertyValue('padding-inline-end')).toEqual('');
+  });
+
   it('focuses its inner HTMLInputElement when the host element becomes focused', () => {
     input.focus();
     expect(document.activeElement).toEqual(input);

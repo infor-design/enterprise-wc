@@ -200,6 +200,67 @@ Some additional settings are needed or possibly needed.
 
 - `idColumn` {string} For saving the row state during sort this should be set to the id column in the data set. Defaults to `id`.
 - `expandableRowTemplate` {string} Should point to the row `template` element.
+
+### Editing
+
+The Editing features start by setting `editable` to true. In addition you should add editors to columns and enable features of each of the editors. The features different depending on the component used for editing. See the Keyboard section for information on which keys can be used when editing..
+
+Here is a code example for an editable text cell.
+
+```js
+columns.push({
+    id: 'description',
+    name: 'Description',
+    field: 'description',
+    sortable: true,
+    resizable: true,
+    reorderable: true,
+    formatter: dataGrid.formatters.text,
+    editor: {
+      type: 'input',
+      inline: true,
+      editorSettings: {
+        autoselect: true,
+        dirtyTracker: true
+      }
+    }
+  });
+```
+
+To cancel or disabled editing there are a few ways:
+
+- setting the column `editor` setting to undefined will disable editing on the column (as will not having an editor setting at all).
+- adding a `readonly` or `disabled` function which returned true for some cells based on a condition will disable or mark the cell readonly.
+- return false in the `beforecelledit` event in the response function
+
+The following settings are available on editors.
+
+`type` As of now can be `checkbox` or `input` but more will be added.
+`inline` Default is false. If true the editor (for example an input) will be visible in a field.
+`editorSettings` Is an object that is loosely typed that lets you pass any option the editor supports in. For example any of the IdsInput or IdsCheckbox options can be passing in. Some special ones are:
+`editorSettings.autoselect` Text will be selected when entering edit mode
+`editorSettings.dirtyTracker` Enables the dirty tracker that marks changed cells.
+`editorSettings.validate` Text will be selected when entering edit mode
+`editorSettings.mask` Will pass mask settings to the input (if supported).
+`editorSettings.maskOptions` Will pass maskOptions settings to the input (if supported).
+
+When the use clicks in the cell or activates editing with the keyboard with the Enter key and types. The following events will fire.
+
+`beforecelledit` Fires before a cell is being edit (before edit is started). Can be vetoed by returning false as shown below.
+`celledit` Fires exactly when a cell is being edited.
+`endcelledit` Fires when a cell edit is completed and changed.
+`cancelcelledit` Fires when an edit is cancelled via the <kbd>Esc</kbd> key.
+
+To cancel editing based on some condition or if editing is not allowed you can veto the `beforecelledit` event.
+
+```js
+  dataGrid.addEventListener('beforecelledit', (e: Event) => {
+    (<CustomEvent>e).detail.response(false);
+  });
+```
+
+There are a few utility functions for editing the data grid mentioned in the Methods section.
+
 ## Settings and Attributes
 
 When used as an attribute in the DOM the settings are kebab case, when used in JS they are camel case.
@@ -229,6 +290,19 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `expandableRowTemplate` {string} Should point to the row `template` element for expandable rows.
 - `treeGrid` {boolean} Indicates a tree grid will be used  in the data grid. See the tree grid section for more details.
 - `groupSelectsChildren` {boolean} If a tree grid has multiple selection, setting this will select all children when a parent is selected.
+- `saveActivePage` {boolean} If set the active page on the pager will be saved to local storage.
+- `saveColumns` {boolean} If set columns will be saved to local storage.
+- `saveFilter` {boolean} If set filter will be saved to local storage.
+- `savePageSize` {boolean} If set the page size on the pager will be saved to local storage.
+- `saveRowHeight` {boolean} If set row height will be saved to local storage.
+- `saveSortOrder` {boolean} If set column sort order will be saved to local storage.
+- `saveUserSettings` {boolean} If set all settings will be saved to local storage.
+- `emptyMessageDescription` {string} Set empty message description text.
+- `emptyMessageIcon` {string} Set empty message icon name.
+- `emptyMessageLabel` {string} Set empty message label text.
+- `suppressEmptyMessage` {boolean} Set to true to prevent display empty message.
+- `editable` {boolean} If true in addition to adding editors to columns the data grid is editable.
+- `editNextOnEnterPress` {boolean} If enabled when editing using <kbd>ENTER</kbd> will finish editing and start editing the same cell in next row and <kbd>SHIFT + ENTER</kbd> will edit the previous row.
 
 ## Column Settings (General)
 
@@ -241,6 +315,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`resizable` | {boolean} | If false the column will not be resizable, thus is a fixed size and can never be changed by the user by dragging the left and right edge.  When completed a `columnresized` event will fire. See the `columns-resizable` example for a working example. |
 |`reorderable` | {boolean} | If true the column can be dragged into another position with adjacent columns. When completed a `columnmoved` event will fire. See the `columns-reorderable` example for a working example. This currently does not work with grouped columns. |
 |`readonly` | {boolean or Function} | If true the cell will be set to readonly color, indicating no editing.|
+|`disabled` | {boolean or Function} | If true the cell will be set to disabled color, indicating no editing.|
 |`formatter`| {Function} | Controls how the data is rendered in the cell.|
 |`hidden` | {boolean} | Excludes the column from being added to the DOM.|
 |`align` | {string} | Can be `left` or `right` or `center` to align both the cell and the header. Left is the default so does not need to be specified. |
@@ -261,6 +336,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`headerIconTooltipCssPart` | {string} | Allows you to sets the header icon tooltip css part.
 |`filterButtonTooltipCssPart` | {string} | Allows you to sets the filter button tooltip css part.
 |`cellSelectedCssPart` | {string} | Allows customization of a selected cell's background color.
+|`editor` | {object} | Adds an editor to the column if editable is set on the grid. See editing section for more details.
 
 ## Column Settings (Specific)
 
@@ -368,6 +444,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `beforemenushow` Fires before context menu show, you can return false in the response to veto.
 - `menushow` Fires after context menu show.
 - `menuselected` Fires after context menu item selected.
+- `settingschanged` Fires after settings are changed in some way.
 
 ## Methods
 
@@ -375,6 +452,22 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `setColumnVisibility` Can be used to set the visibility of a column.
 - `setActivateCell(cell, row)` Can be used to set focus of a cell.
 - `selectedRows` Lists the indexes of the currently selected rows.
+- `saveSetting(setting: string)` Save the given setting to local storage.
+- `saveAllSettings` Save all user settings to local storage.
+- `savedSetting(setting: string)` Get saved given setting value from local storage.
+- `savedAllSettings` Get saved all user settings from local storage.
+- `clearSetting(setting: string, key?: string)` Clear the given saved setting from local storage.
+- `clearAllSettings(userKeys: unknown)` Clear saved all user settings from local storage.
+- `restoreSetting(setting: string, value?: unknown)` Restore the given saved setting from local storage.
+- `editFirstCell` Puts the first cell on the active row into edit mode.
+- `addRow(data: Record<string, unknown>)` Adds a new row and defaults the values to all those provided in the data
+- `removeRow(index: number)` Removed the provided row index from the dataset and visual datagrid
+- `clearRow(index: number)` Clears all values on the given row.
+- `commitCellEdit` Stops editing and commits the value in the active editor.
+- `cancelCellEdit` Stops editing and reverts the value in the active editor.
+- `resetDirtyCells` Clears all dirty cell indicators.
+- `dirtyCells` Gives a list of all currently dirty cells.
+
 ## Filters
 
 Data rows can be filter based on one or several criteria. Whole filter row can turned on/off by the api setting `filterable` and can be disabled by the api setting `filter-row-disabled`. The filter conditions can be applied thru the UI or programmatically. Each column can have its own filter type and turn on/off by columns setting.
@@ -386,7 +479,7 @@ All the filter settings can be passed thru columns data.
 |Setting|Type|Description|
 |---|---|---|
 |`filterType` | Function | Data grid built-in filter method, see the dedicated section below. |
-|`filterTerms` | Array | List of items to be use as operators in menu-button or options in dropdown. |
+|`filterConditions` | Array | List of items to be use as operators in menu-button or options in dropdown. |
 |`filterFunction` | Function | User defined filter method, it must return a boolean. |
 |`filterOptions` | Object | Setting for components are in use, for example: `label, placeholder, disabled`. |
 |`isChecked` | Function | User defined filter method, it must return a boolean. This method use along built-in `checkbox` only, when filter data value is not boolean type. |
@@ -399,7 +492,7 @@ All the filter settings can be passed thru columns data.
 |`integer` | It filter as integer comparison. Contains input and menu-button with list of default operators. |
 |`decimal` | It filter as decimal comparison. Contains input and menu-button with list of default operators. |
 |`contents` | It filter as text comparison. Contains dropdown and auto generate list of items based on column data. |
-|`dropdown` | It filter as text comparison. Contains dropdown and must pass list of item by setting `filterTerms`. |
+|`dropdown` | It filter as text comparison. Contains dropdown and must pass list of item by setting `filterConditions`. |
 |`checkbox` | It filter as boolean comparison. Contains menu-button with list of default operators. |
 |`date` | It filter as date comparison. Contains date-picker and menu-button with list of default operators. |
 |`time` | It filter as time comparison. Contains time-picker and menu-button with list of default operators. |
@@ -555,7 +648,7 @@ columns.push({
   field: 'description',
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text,
-  filterTerms: [{
+  filterConditions: [{
     value: 'contains',
     label: 'Contains',
     icon: 'filter-contains'
@@ -594,7 +687,7 @@ columns.push({
   field: 'useForEmployee',
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.dropdown,
-  filterTerms: [
+  filterConditions: [
     { value: 'Yes', label: 'Yes' },
     { value: 'No', label: 'No' }
   ]
@@ -605,7 +698,7 @@ columns.push({
   field: 'useForEmployee',
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.dropdown,
-  filterTerms: [
+  filterConditions: [
     { value: 'not-filtered', label: 'Not Filtered' },
     { value: 'Yes', label: 'Yes' },
     { value: 'No', label: 'No' }
@@ -683,7 +776,7 @@ Custom filter UI part.
 <ids-data-grid id="data-grid-1" label="Books" filterable="true">
   <div slot="filter-description" column-id="description">
     <ids-menu-button id="btn-filter-description" icon="filter-greater-equals" menu="menu-filter-description" dropdown-icon>
-      <span slot="text" class="audible">Greater Than Or Equals</span>
+      <span class="audible">Greater Than Or Equals</span>
     </ids-menu-button>
     <ids-popup-menu id="menu-filter-description" target="#btn-filter-description">
       <ids-menu-group select="single">
@@ -1081,6 +1174,45 @@ Set context menu thru ID.
 </ids-popup-menu>
 ```
 
+## Empty Message
+
+Set empty message thru slot (markup).
+
+```html
+<ids-data-grid id="data-grid-em-thru-slot" label="Books">
+  <ids-empty-message hidden icon="empty-search-data-new" slot="empty-message">
+    <ids-text type="h2" font-size="20" label="true" slot="label">No Data</ids-text>
+    <ids-text hidden label="true" slot="description">There is no data available.</ids-text>
+  </ids-empty-message>
+</ids-data-grid>
+```
+
+Set empty message thru settings (markup).
+
+```html
+<ids-data-grid
+  id="data-grid-em-thru-settings"
+  label="Books"
+  empty-message-icon="empty-error-loading-new"
+  empty-message-label="No Data"
+  empty-message-description="There is no data available."
+></ids-data-grid>
+```
+
+Set empty message thru settings (javascript).
+
+```html
+<ids-data-grid id="data-grid-em-thru-settings-js" label="Books">
+</ids-data-grid>
+```
+
+```js
+const dataGrid = document.querySelector('#data-grid-em-thru-settings-js');
+dataGrid.emptyMessageIcon = 'empty-error-loading-new';
+dataGrid.emptyMessageLabel = 'No Data';
+dataGrid.emptyMessageDescription = 'There is no data available.';
+```
+
 ## States and Variations
 
 **Rows**
@@ -1106,18 +1238,24 @@ Set context menu thru ID.
 
 ## Keyboard Guidelines
 
-- <kbd>Tab</kbd>The initial tab enters the grid with focus on the first cell of the first row, often a header. A second tab moves out of the grid to the next tab stop on the page. Once focus is established in the grid, a TAB into or a Shift Tab into the grid will return to the cell which last had focus.
+- <kbd>Tab</kbd>The initial tab enters the grid with focus on the first cell of the first row, often a header. A second tab moves out of the grid to the next tab stop on the page. Once focus is established in the grid, a TAB into or a Shift Tab into the grid will return to the cell which last had focus. If in edit mode will finish editing and start editing the next cell.
+- <kbd>Shift + Tab</kbd> Moves the reverse of tab. If in edit mode will finish editing and start editing the previous cell.
 - <kbd>Left</kbd> and <kbd>Right</kbd> Move focus to the adjacent column's cell. There is no wrap at the end or beginning of columns.
 - <kbd>Up</kbd> and <kbd>Down</kbd> Move focus to the adjacent row's cell. There is no wrap at the first or last row.
 - <kbd>Home</kbd> moves focus to the first cell of the current row
 - <kbd>End</kbd> moves focus to the last cell of the current row
 - <kbd>Page Up</kbd> moves focus to the first cell in the current column
 - <kbd>Page Down</kbd> moves focus to the last cell in the current column
-- <kbd>Enter</kbd> toggles edit mode on the cell if it is editable. There is also an "auto edit detection". If the user starts typing then edit mode will happen automatically without enter.
-- <kbd>Space</kbd> Toggles selection the activate row. If suppressRowDeselection is set it will be ignored on deselect. If the cell contains an expandable element then the row will toggle the expanded state.
+- <kbd>Space</kbd> Toggles selection the activate row. If suppressRowDeselection is set it will be ignored on deselect. If the cell contains an expandable element then the row will toggle the expanded state. If the cell contains a checkbox editor, will toggle the checkbox state.
 - <kbd>F2</kbd> toggles actionable mode. Pressing the <kbd>Tab</kbd> key while in actionable mode moves focus to the next actionable cell. While in actionable mode you can do things like type + enter. This will move you down a row when you hit enter. If the cell has a control that uses down arrow (like the drop downs or lookups that are editable). Then the user needs to hit enter to enable the edit mode on that cell.
 - <kbd>Triple Click</kbd> Not a keyboard shortcut, but if you have text in a cell that is overflowed a triple click will select all the text even the part that is invisible.
 - <kbd>Ctrl+A (PC) / Cmd+A (Mac)</kbd> If the grid is mixed or multi select this will select all rows.
+- <kbd>Ctrl+A (PC) / Cmd+A (Mac)</kbd> If the grid is mixed or multi select this will select all rows.
+- <kbd>Enter</kbd> Activates edit mode on the cell if it is editable. There is also an "auto edit detection". If the user starts typing then edit mode will happen automatically without enter. If in edit mode already <kbd>Enter</kbd> will finish edit mode. If `editNextOnEnterPress` is enabled then editing will start on the same column in next row.
+- <kbd>Shift + Enter</kbd> Same as enter but if `editNextOnEnterPress` is enabled then editing will start on the same column in previous row.
+- <kbd>F2</kbd> Finish editing same as Enter. But if `editNextOnEnterPress` is enabled, will stay in same cell. `cancelEditMode` will fire.
+- <kbd>CMD/CTRL + Enter</kbd> Finish editing same as Enter.
+- <kbd>ESC</kbd> Revert to the previous value and cancel editing. `cancelEditMode` will fire.
 
 ## Responsive Guidelines
 
@@ -1147,6 +1285,8 @@ Set context menu thru ID.
 - Custom formatter functions can now be any type of function and have a different signature.
 - The `expanded` column option for tree was renamed to `rowExpanded`.
 - The `expandrow/collapserow` events are renamed to `rowexpanded/rowcollapsed`
+- The `beforeentereditmode/entereditmode/exiteditmode` event is renamed to `beforecelledit/celledit/endcelledit/cancelcelledit`
+- The `actionablemode` feature has been replaced with simply tabbing to the next editable field when in edit mode.
 
 ## Accessibility Guidelines
 

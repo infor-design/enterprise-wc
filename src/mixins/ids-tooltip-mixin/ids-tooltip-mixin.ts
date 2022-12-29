@@ -1,8 +1,10 @@
 import { attributes } from '../../core/ids-attributes';
-import '../../components/ids-tooltip/ids-tooltip';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor } from '../../core/ids-element';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
+import '../../components/ids-tooltip/ids-tooltip';
+import type IdsTooltip from '../../components/ids-tooltip/ids-tooltip';
 
 type Constraints = IdsConstructor<EventsMixinInterface>;
 /**
@@ -74,7 +76,7 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
     }
 
     // Append an IDS Tooltip and show it
-    const tooltip: any = document.createElement('ids-tooltip');
+    const tooltip: IdsTooltip = document.createElement('ids-tooltip') as IdsTooltip;
     let container = document.querySelector('ids-container');
     if (!container) {
       container = document.body;
@@ -86,7 +88,6 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
     }
     tooltip.state.noAria = true;
     tooltip.target = this.toolTipTarget;
-    tooltip.alignTarget = this.toolTipTarget;
 
     // Handle Ellipsis Text if tooltip="true"
     tooltip.textContent = this.tooltip === 'true' ? this.textContent : this.tooltip;
@@ -94,10 +95,21 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
     // Show it
     tooltip.visible = true;
 
+    if (getClosest(this, 'ids-container')?.getAttribute('dir') === 'rtl') tooltip.popup?.setAttribute('dir', 'rtl');
+    if (this.beforeTooltipShow) this.beforeTooltipShow(tooltip);
+
     // Remove it when closed
     tooltip.onEvent('hide.tooltipmixin', tooltip, () => {
       tooltip.remove();
     });
+  }
+
+  /**
+   * Setup some special config for the tooltip
+   * @param {any} tooltip The tooltip to configure
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  beforeTooltipShow(tooltip?: any) {
   }
 
   /**

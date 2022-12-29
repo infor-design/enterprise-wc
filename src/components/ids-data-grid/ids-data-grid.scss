@@ -14,6 +14,11 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 }
 
 .ids-data-grid {
+  ids-empty-message,
+  ::slotted(ids-empty-message) {
+    margin-top: 36px;
+  }
+
   // Outside border and Background and sizing
   @include bg-white();
   @include border-1();

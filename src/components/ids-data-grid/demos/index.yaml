@@ -68,6 +68,12 @@
   - link: disable-client-filter.html
     type: Example
     description: Shows a data grid with disable client filter
+  - link: editable.html
+    type: Example
+    description: Shows a data grid with editable cells
+  - link: editable-inline.html
+    type: Example
+    description: Shows a data grid with inline editable cells
   - link: expandable-row.html
     type: Example
     description: Shows a data grid with and expandable row
@@ -83,6 +89,9 @@
   - link: list-style.html
     type: Example
     description: Shows a data grid with readonly list styling
+  - link: m3-features.html
+    type: Example
+    description: Shows m3 teams typical usage
   - link: mixed-selection.html
     type: Example
     description: Shows a data grid with mixed selection
@@ -140,7 +149,21 @@
   - link: tooltip.html
     type: Example
     description: Shows a data grid with tooltip
+  - link: save-settings.html
+    type: Example
+    description: Shows a data grid to save user settings
+  - link: save-settings-manual.html
+    type: Example
+    description: Shows a data grid to save manualy user settings
+  - link: empty-message.html
+    type: Example
+    description: Shows a data grid with empty message
+  - link: empty-message-custom-thru-slot.html
+    type: Example
+    description: Shows a data grid with custom empty message (thru slot)
+  - link: empty-message-custom-thru-settings.html
+    type: Example
+    description: Shows a data grid with custom empty message (thru settings)
   - link: xss-prevention.html
     type: Test
     description: Shows a data grid can prevent xss
-

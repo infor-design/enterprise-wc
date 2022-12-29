@@ -9,7 +9,7 @@
     <ids-toolbar>
       <ids-toolbar-section align="end" type="fluid">
         <ids-menu-button menu="add-event" value="${view}">
-          <ids-icon slot="icon" icon="add"></ids-icon>
+          <ids-icon icon="add"></ids-icon>
           <span class="audible">Add Event</span>
         </ids-menu-button>
         <ids-popup-menu id="add-event" trigger="click">
@@ -34,7 +34,7 @@
     </ids-layout-grid>
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell auto="true">
-        <ids-calendar date="10/22/2019" show-legend show-details></ids-calendar>
+        <ids-calendar date="10/22/2019" show-legend show-details show-today view-picker></ids-calendar>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

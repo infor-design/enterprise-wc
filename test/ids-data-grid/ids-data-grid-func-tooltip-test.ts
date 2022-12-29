@@ -163,7 +163,7 @@ const columns = (grid: any) => {
     reorderable: true,
     formatter: grid.formatters.text,
     filterType: grid.filters.text,
-    filterTerms: [{
+    filterConditions: [{
       value: 'contains',
       label: 'Contains',
       icon: 'filter-contains'

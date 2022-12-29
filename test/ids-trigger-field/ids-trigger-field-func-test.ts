@@ -18,7 +18,7 @@ const DEFAULT_TRIGGERFIELD_HTML = (
     >
       <ids-trigger-button slot="trigger-end">
         <ids-text audible="true">Date Field trigger</ids-text>
-        <ids-icon slot="icon" icon="schedule"></ids-icon>
+        <ids-icon icon="schedule"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
   `
@@ -34,7 +34,7 @@ const REQUIRED_TRIGGERFIELD_HTML = (
     >
       <ids-trigger-button slot="trigger-end">
         <ids-text audible="true">Date Field trigger</ids-text>
-        <ids-icon slot="icon" icon="schedule"></ids-icon>
+        <ids-icon icon="schedule"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
   `
@@ -49,11 +49,11 @@ const TWO_BUTTON_TRIGGERFIELD_HTML = (
     >
       <ids-trigger-button slot="trigger-start">
         <ids-text audible="true">Starting Trigger Button</ids-text>
-        <ids-icon slot="icon" icon="schedule"></ids-icon>
+        <ids-icon icon="schedule"></ids-icon>
       </ids-trigger-button>
       <ids-trigger-button slot="trigger-end">
         <ids-text audible="true">Ending Trigger Button</ids-text>
-        <ids-icon slot="icon" icon="schedule"></ids-icon>
+        <ids-icon icon="schedule"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>`
 );

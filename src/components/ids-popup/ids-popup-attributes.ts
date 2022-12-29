@@ -1,6 +1,7 @@
+import type IdsElement from '../../core/ids-element';
 import { attributes } from '../../core/ids-attributes';
 
-export type IdsPopupElementRef = HTMLElement | SVGElement | null;
+export type IdsPopupElementRef = IdsElement | HTMLElement | SVGElement | null;
 
 const CENTER = 'center';
 

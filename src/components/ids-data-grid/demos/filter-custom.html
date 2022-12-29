@@ -12,6 +12,14 @@
       <ids-text font-size="12" type="h1">Data Grid (Custom Filter)</ids-text>
     </ids-layout-grid>
 
+    <ids-layout-grid cols="1">
+      <ids-layout-grid-cell>
+        <ids-input type="text" id="filter-input" label="Color Filter"></ids-input>
+        <ids-button type="secondary" id="set-filter-btn">Set Color Filter</ids-button>
+        <ids-button type="secondary" id="apply-filter-btn">Apply Color Filter</ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
         <ids-data-grid
@@ -25,7 +33,7 @@
         >
           <div slot="filter-productId" column-id="productId">
             <ids-menu-button id="btn-filter-product-id" icon="filter-greater-equals" menu="menu-filter-product-id" dropdown-icon>
-              <span slot="text" class="audible">Greater Than Or Equals</span>
+              <span class="audible">Greater Than Or Equals</span>
             </ids-menu-button>
             <ids-popup-menu id="menu-filter-product-id" target="#btn-filter-product-id">
               <ids-menu-group select="single">
@@ -42,7 +50,7 @@
           </div>
           <div slot="filter-color" column-id="color">
             <ids-menu-button id="btn-filter-color" icon="filter-contains" menu="menu-filter-color" dropdown-icon>
-              <span slot="text" class="audible">Contains</span>
+              <span class="audible">Contains</span>
             </ids-menu-button>
             <ids-popup-menu id="menu-filter-color" target="#btn-filter-color">
               <ids-menu-group select="single">
@@ -52,10 +60,6 @@
               </ids-menu-group>
             </ids-popup-menu>
             <ids-input id="input-filter-color" type="text" size="full" placeholder="Slotted color" label="Slotted color input">
-            </ids-input>
-          </div>
-          <div slot="filter-no-operator" column-id="no-operator">
-            <ids-input id="input-filter-no-operator" type="text" size="full" placeholder="Slotted no-operator" label="Slotted input no-operator">
             </ids-input>
           </div>
         </ids-data-grid>

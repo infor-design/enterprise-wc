@@ -9,7 +9,7 @@ describe('IdsRippleMixin Tests', () => {
   beforeEach(async () => {
     // create ids button
     idsButton = new IdsButton();
-    idsButton.innerHTML = '<span slot="text">Default Button</span>';
+    idsButton.innerHTML = '<span>Default Button</span>';
     document.body.appendChild(idsButton);
   });
 

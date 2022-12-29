@@ -5,6 +5,11 @@ import Base from './ids-exandable-area-base';
 
 import styles from './ids-expandable-area.scss';
 
+export enum IdsExpandableAreaExpandStyles {
+  fixed,
+  fill
+}
+
 /**
  * IDS Expandable Area Component
  * @type {IdsExpandableArea}
@@ -56,8 +61,8 @@ export default class IdsExpandableArea extends Base {
   static get attributes(): Array<string> {
     return [
       attributes.EXPANDED,
-      attributes.TYPE,
-      attributes.MODE
+      attributes.EXPAND_STYLE,
+      attributes.TYPE
     ];
   }
 
@@ -90,6 +95,23 @@ export default class IdsExpandableArea extends Base {
 
   get expanded(): string | null {
     return this.getAttribute(attributes.EXPANDED);
+  }
+
+  /**
+   * Set the expanded property
+   * @param {string} value true/false
+   */
+  set expandStyle(value: string) {
+    if (value !== `${IdsExpandableAreaExpandStyles[0]}`) {
+      this.setAttribute(attributes.EXPAND_STYLE, String(value));
+    } else {
+      this.removeAttribute(attributes.EXPAND_STYLE);
+    }
+    this.switchState();
+  }
+
+  get expandStyle(): string {
+    return this.getAttribute(attributes.EXPAND_STYLE) || `${IdsExpandableAreaExpandStyles[0]}`;
   }
 
   /**
@@ -135,7 +157,7 @@ export default class IdsExpandableArea extends Base {
     if (this.state.expanded) {
       requestAnimationFrame(() => {
         this.triggerEvent('collapse', this, { detail: { elem: this } });
-        this.pane?.style.setProperty('height', `${this.pane?.scrollHeight}px`);
+        this.pane?.style.setProperty('height', this.targetExpandedSize());
         this.pane?.style.setProperty('height', `0px`);
       });
     }
@@ -162,11 +184,23 @@ export default class IdsExpandableArea extends Base {
     if (this.state.expanded === false) {
       requestAnimationFrame(() => {
         this.triggerEvent('expand', this, { detail: { elem: this } });
-        this.pane?.style.setProperty('height', `${this.pane.scrollHeight}px`);
+        this.pane?.style.setProperty('height', this.targetExpandedSize());
       });
     }
 
     this.state.expanded = true;
+  }
+
+  /**
+   * @returns {string} containing the value of the pane's `height` css property
+   */
+  private targetExpandedSize() {
+    switch (this.expandStyle) {
+      case IdsExpandableAreaExpandStyles[1]:
+        return `100%`;
+      default:
+        return `${this.pane?.scrollHeight}px`;
+    }
   }
 
   /**

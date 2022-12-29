@@ -1,8 +1,11 @@
 import Base from './ids-calendar-base';
 import { CalendarEventData, CalendarEventTypeData } from './ids-calendar-event';
+import IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
 import IdsMonthView from '../ids-month-view/ids-month-view';
 import IdsWeekView from '../ids-week-view/ids-week-view';
 import IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import '../ids-toolbar/ids-toolbar';
+import IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
 import styles from './ids-calendar.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { attributes } from '../../core/ids-attributes';
@@ -14,8 +17,10 @@ import {
   dateDiff,
   firstDayOfWeekDate,
   isValidDate,
-  lastDayOfWeekDate
+  lastDayOfWeekDate,
+  subtractDate
 } from '../../utils/ids-date-utils/ids-date-utils';
+import IdsLocale from '../ids-locale/ids-locale';
 
 type CalendarEventDetail = {
   id: string;
@@ -44,11 +49,9 @@ type CalendarViewTypes = 'month' | 'week' | 'day';
 export default class IdsCalendar extends Base {
   #mobileBreakpoint = parseInt(breakpoints.md);
 
-  #resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => this.#onResize(entries));
+  #resizeObserver?: ResizeObserver | null;
 
   #selectedEventId = '';
-
-  activeDate?: Date;
 
   constructor() {
     super();
@@ -112,6 +115,40 @@ export default class IdsCalendar extends Base {
   }
 
   /**
+   * show-today attribute
+   * @returns {boolean} showToday param converted to boolean from attribute value
+   */
+  get showToday(): boolean {
+    const attrVal = this.getAttribute(attributes.SHOW_TODAY);
+
+    return stringToBool(attrVal);
+  }
+
+  /**
+   * Set whether or not the today button should be shown
+   * @param {string|boolean} val showToday param value
+   */
+  set showToday(val: string | boolean) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.SHOW_TODAY, 'true');
+    } else {
+      this.removeAttribute(attributes.SHOW_TODAY);
+    }
+    this.#updateTodayBtn(boolVal);
+  }
+
+  #updateTodayBtn(val: boolean) {
+    const el = this.container?.querySelector('ids-toolbar-section');
+    if (val) {
+      el?.insertAdjacentHTML('beforeend', this.#todayBtnTemplate());
+    } else {
+      this.container?.querySelector('.btn-today')?.remove();
+    }
+  }
+
+  /**
    * Setting for calendar date
    * @param {Date|string} val user date input
    */
@@ -146,7 +183,8 @@ export default class IdsCalendar extends Base {
     this.setDirection();
     this.changeView('month');
     this.#attachEventHandlers();
-    this.#resizeObserver.observe(getClosest(this, 'ids-container'));
+    this.#configureResizeObserver();
+    this.viewPickerConnected();
   }
 
   /**
@@ -154,7 +192,18 @@ export default class IdsCalendar extends Base {
    */
   disconnectedCallback() {
     super.disconnectedCallback?.();
-    this.#resizeObserver?.disconnect();
+    if (this.#resizeObserver) {
+      this.#resizeObserver.disconnect();
+      this.#resizeObserver = null;
+    }
+  }
+
+  /**
+   * Configures IdsCalendar's resize observer
+   */
+  #configureResizeObserver() {
+    this.#resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => this.#onResize(entries));
+    this.#resizeObserver.observe(getClosest(this, 'ids-container'));
   }
 
   /**
@@ -167,6 +216,13 @@ export default class IdsCalendar extends Base {
   }
 
   /**
+   * @param {IdsLocale} locale the new locale object
+   */
+  onLocaleChange = (locale: IdsLocale) => {
+    this.#updateDatePickerPopupTrigger(locale);
+  };
+
+  /**
    * Ids Calendar template
    * @returns {string} html template
    */
@@ -174,7 +230,10 @@ export default class IdsCalendar extends Base {
     return `
       <div class="ids-calendar">
         <div class="calendar-legend-pane"><slot name="legend"></slot></div>
-        <div class="calendar-view-pane"></div>
+        <div class="calendar-contents">
+          <div class="calendar-toolbar-pane">${this.#createToolbarTemplate()}</div>
+          <div class="calendar-view-pane"></div>
+        </div>
         <div class="calendar-details-pane"></div>
       </div>
     `;
@@ -226,12 +285,61 @@ export default class IdsCalendar extends Base {
   }
 
   /**
+   * @returns {string} containing the template for the Calendar Toolbar's "Today" Button
+   */
+  #todayBtnTemplate() {
+    return this.showToday ? `<ids-button css-class="no-padding" class="btn-today">
+      <ids-text class="btn-today-text" font-size="16" translate-text="true" font-weight="bold">Today</ids-text>
+    </ids-button>` : '';
+  }
+
+  /**
+   * Renders an IdsToolbar component with calendar controls
+   * @returns {string} Calendar's IdsToolbar template
+   */
+  #createToolbarTemplate() {
+    const navBtns = `<ids-button class="btn-previous">
+      <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
+      <ids-icon icon="chevron-left"></ids-icon>
+    </ids-button>
+    <ids-button class="btn-next">
+      <ids-text audible="true" translate-text="true">NextMonth</ids-text>
+      <ids-icon icon="chevron-right"></ids-icon>
+    </ids-button>`;
+
+    const datePickerPopup = `<ids-button class="btn-picker" id="btn-picker" css-class="no-padding">
+      <ids-text font-size="20"></ids-text>
+      <ids-icon icon="calendar"></ids-icon>
+    </ids-button>
+    <ids-date-picker-popup
+      show-today="true"
+      target="#btn-picker"
+      trigger-elem="#btn-picker"
+      trigger-type="click"></ids-date-picker-popup>`;
+
+    const todayBtn = this.#todayBtnTemplate();
+
+    return `
+      <ids-toolbar slot="toolbar" id="calendar-toolbar" class="calendar-toolbar" tabbable="true">
+        <ids-toolbar-section type="buttonset" class="toolbar-buttonset">
+          ${navBtns}
+          ${datePickerPopup}
+          ${todayBtn}
+        </ids-toolbar-section>
+        <ids-toolbar-section type="buttonset" align="end">
+          ${this.viewPicker ? this.createViewPickerTemplate('month') : ''}
+        </ids-toolbar-section>
+      </ids-toolbar>
+    `;
+  }
+
+  /**
    * Creates new calendar event
    * @param {string} id user defined id
    * @param {boolean} isModal opens modal if true
    */
   createNewEvent(id: string, isModal = false): void {
-    const date = new Date(this.activeDate || this.date);
+    const date = new Date(this.date);
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();
@@ -302,7 +410,7 @@ export default class IdsCalendar extends Base {
         <div id="event-form-header" class="inline-container" color="${eventType?.color || 'azure'}">
           <ids-text font-size="16" font-weight="bold">${eventType?.label || ''}</ids-text>
           <ids-button data-action="close">
-            <ids-icon slot="icon" icon="close"></ids-icon>
+            <ids-icon icon="close"></ids-icon>
           </ids-button>
         </div>
         <div id="event-form-content">
@@ -323,10 +431,10 @@ export default class IdsCalendar extends Base {
         </div>
         <div id="event-form-actions" class="inline-container">
           <ids-button data-action="close" no-padding>
-            <ids-text font-weight="bold" translate-text="true" slot="text">Cancel</ids-text>
+            <ids-text font-weight="bold" translate-text="true">Cancel</ids-text>
           </ids-button>
           <ids-button data-action="submit" no-padding>
-            <ids-text font-weight="bold" translate-text="true" slot="text">Submit</ids-text>
+            <ids-text font-weight="bold" translate-text="true">Submit</ids-text>
           </ids-button>
         </div>
       </form>
@@ -373,8 +481,8 @@ export default class IdsCalendar extends Base {
       daySelectedDate = evt.detail.date;
     });
 
-    this.offEvent('viewchange.calendar-container');
-    this.onEvent('viewchange.calendar-container', this.container, (evt: CustomEvent) => {
+    this.offEvent('viewchange.calendar');
+    this.onEvent('viewchange.calendar', this, (evt: CustomEvent) => {
       evt.stopPropagation();
       this.#updateActiveDate(evt.detail.date);
       this.changeView(evt.detail.view);
@@ -401,8 +509,7 @@ export default class IdsCalendar extends Base {
     this.onEvent('overflow-click.calendar-container', this.container, (evt: CustomEvent) => {
       evt.stopPropagation();
       if (evt.detail.date) {
-        this.#updateActiveDate(evt.detail.date);
-        this.changeView('day');
+        this.setViewPickerValue('day');
         this.updateEventDetails(this.state.selected);
       }
     });
@@ -436,6 +543,10 @@ export default class IdsCalendar extends Base {
       this.#removePopup();
       this.#insertFormPopup(elem.container, elem.eventData);
     });
+
+    if (this.viewPicker) this.attachViewPickerEvents('month');
+
+    this.#attachToolbarEventHandlers();
   }
 
   /**
@@ -447,10 +558,108 @@ export default class IdsCalendar extends Base {
   }
 
   /**
+   * Add next/previous/today click events when toolbar is attached
+   */
+  #attachToolbarEventHandlers(): void {
+    const buttonSet = this.container?.querySelector<IdsToolbarSection>('ids-toolbar-section.toolbar-buttonset');
+    const toolbarDatepickerPopup = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup');
+
+    this.offEvent('show.popup');
+    this.onEvent('show.popup', toolbarDatepickerPopup, () => {
+      this.#updateDatePickerPopupTrigger(this.locale);
+    });
+
+    // Date Picker Popup's `hide` event can cause the field to become focused
+    this.offEvent('hide.popup');
+    this.onEvent('hide.popup', toolbarDatepickerPopup, (e: CustomEvent) => {
+      e.stopPropagation();
+      if (e.detail.doFocus) {
+        if (toolbarDatepickerPopup) toolbarDatepickerPopup.target?.focus();
+      }
+    });
+
+    this.offEvent('click.month-view-buttons');
+    this.onEvent('click.month-view-buttons', buttonSet, (e: MouseEvent) => {
+      e.stopPropagation();
+      const target: any = e.target;
+      const monthView = this.container?.querySelector<IdsMonthView>('ids-month-view');
+      const weekView = this.container?.querySelector<IdsWeekView>('ids-week-view');
+
+      if (target.classList.contains('btn-previous')) {
+        monthView?.changeDate('previous-month');
+        weekView?.changeDate('previous');
+      }
+
+      if (target.classList.contains('btn-next')) {
+        monthView?.changeDate('next-month');
+        weekView?.changeDate('next');
+      }
+
+      if (target.classList.contains('btn-today')) {
+        const targetView = monthView || weekView;
+        targetView?.changeDate('today');
+        targetView?.focus();
+      }
+
+      if (target.classList.contains('btn-apply')) {
+        const year = toolbarDatepickerPopup?.year ?? null;
+        const month = toolbarDatepickerPopup?.month ?? null;
+
+        if (monthView) {
+          monthView.year = year;
+          monthView.month = month;
+        }
+
+        if (toolbarDatepickerPopup) toolbarDatepickerPopup.expanded = false;
+      }
+    });
+
+    this.offEvent('dayselected.month-view-datepicker');
+    this.onEvent('dayselected.month-view-datepicker', toolbarDatepickerPopup, (e: CustomEvent) => {
+      e.stopPropagation();
+      const date: Date = e.detail.date;
+      this.changeDate(date, this.state.view === 'day');
+    });
+
+    // Date picker dropdown picklist expanded or collapsed
+    this.offEvent('expanded.month-view-picklist');
+    this.onEvent('expanded.month-view-picklist', toolbarDatepickerPopup, (e: CustomEvent) => {
+      const expanded: boolean = e.detail.expanded;
+
+      this.container?.querySelector('.btn-today')?.setAttribute('hidden', expanded.toString());
+      this.container?.querySelector('.btn-apply')?.setAttribute('hidden', (!expanded).toString());
+      this.container?.querySelector('.btn-previous')?.setAttribute('hidden', expanded.toString());
+      this.container?.querySelector('.btn-next')?.setAttribute('hidden', expanded.toString());
+
+      if (expanded) {
+        this.container?.querySelector('td.is-selected')?.removeAttribute('tabindex');
+      } else {
+        this.container?.querySelector('td.is-selected')?.setAttribute('tabindex', '0');
+      }
+    });
+
+    if (this.showToday) {
+      this.offEvent('click.week-view-today');
+      this.onEvent('click.week-view-today', this.container?.querySelector('.btn-today'), () => {
+        this.getView()?.changeDate('today');
+      });
+    } else {
+      this.offEvent('click.week-view-today');
+    }
+  }
+
+  /**
    * Attach calendar event form handlers
    */
   #attachFormEventHandlers(): void {
     const popup = this.#getEventFormPopup();
+
+    // Don't allow IdsDatePicker `dayselected` events from inside this form
+    // to propagate to the main IdsMonthView
+    this.offEvent('dayselected.calendar-event-form');
+    this.onEvent('dayselected.calendar-event-form', popup, (evt: CustomEvent) => {
+      evt.stopPropagation();
+    });
 
     this.offEvent('click.calendar-event-form', popup);
     this.onEvent('click.calendar-event-form', popup, (evt: any) => {
@@ -487,21 +696,24 @@ export default class IdsCalendar extends Base {
    * @param {CalendarEventData} eventData calendar event component
    */
   #insertFormPopup(target: HTMLElement, eventData: CalendarEventData): void {
-    const template = `
-      <ids-popup
-        id="event-form-popup"
-        arrow="right"
-        x="160"
-        align="center"
-        animated="false"
-        visible="false"
-        type="menu"
-        position-style="absolute">
-        ${this.#eventFormTemplate(eventData)}
-      </ids-popup>
-    `;
-
-    this.container?.insertAdjacentHTML('beforeend', template);
+    const popup = this.#getEventFormPopup();
+    if (popup) {
+      popup.innerHTML = `${this.#eventFormTemplate(eventData)}`;
+    } else {
+      this.container?.insertAdjacentHTML('beforeend', `
+        <ids-popup
+          id="event-form-popup"
+          arrow="right"
+          x="160"
+          align="center"
+          animated="false"
+          visible="false"
+          type="menu"
+          position-style="absolute">
+          ${this.#eventFormTemplate(eventData)}
+        </ids-popup>
+      `);
+    }
     this.positionFormPopup(target);
     this.#attachFormEventHandlers();
     this.#getEventFormPopup()?.querySelector<HTMLElement>('#event-subject')?.focus();
@@ -671,7 +883,33 @@ export default class IdsCalendar extends Base {
     date = date || this.date;
     const dateAttr = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
     this.setAttribute('date', dateAttr);
+    this.#updateDatePickerPopupTrigger(undefined, date);
     this.state.skipRender = false;
+  }
+
+  /**
+   * Updates the text content of the Date Picker Popup's trigger button
+   * @param {IdsLocale} [locale] if provided, sets a different locale from the currently-set locale
+   * @param {Date} [date] if provided, sets an alternate date from the currently-set date
+   */
+  #updateDatePickerPopupTrigger(locale?: IdsLocale, date?: Date) {
+    const btnEl = this.container?.querySelector('.btn-picker');
+    const textEl = btnEl?.querySelector('ids-text');
+    const targetDate = date || this.date;
+
+    const formattedDate = this.formatMonthRange(locale) || null;
+
+    if (textEl) {
+      textEl.textContent = formattedDate;
+    }
+
+    const datePickerPopup = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup');
+    if (datePickerPopup) {
+      datePickerPopup.day = targetDate.getDate();
+      datePickerPopup.month = targetDate.getMonth();
+      datePickerPopup.year = targetDate.getFullYear();
+      datePickerPopup.updateMonthYearPickerTriggerDisplay(locale, targetDate);
+    }
   }
 
   #getSelectedEvents(): CalendarEventData[] {
@@ -696,9 +934,7 @@ export default class IdsCalendar extends Base {
       <ids-month-view
         month="${date.getMonth()}"
         day="${date.getDate()}"
-        year="${date.getFullYear()}"
-        view-picker="true"
-        show-today="true">
+        year="${date.getFullYear()}">
         <slot name="MonthViewCalendarEventTemplate" slot="customCalendarEvent"></slot>
       </ids-month-view>
     `;
@@ -718,8 +954,6 @@ export default class IdsCalendar extends Base {
       <ids-week-view
         start-date="${start}"
         end-date="${end}"
-        view-picker="true"
-        show-today="true"
       ></ids-week-view>
     `;
   }
@@ -1009,5 +1243,38 @@ export default class IdsCalendar extends Base {
 
     this.relayCalendarData();
     this.updateEventDetails();
+  }
+
+  /**
+   * Helper to format startDate/endDate to month range
+   * @param {IdsLocale} locale an optional, provided IdsLocale object
+   * @returns {string} locale formatted month range
+   */
+  formatMonthRange(locale?: IdsLocale) {
+    const targetLocale = locale || this.locale;
+    if (!targetLocale) return '';
+
+    const startDate = this.startDate;
+    const endDate = subtractDate(this.endDate, 1, 'days');
+    const startMonth = targetLocale.formatDate(startDate, { month: 'long' });
+    const endMonth = targetLocale.formatDate(endDate, { month: 'long' });
+    const startYear = targetLocale.formatDate(startDate, { year: 'numeric' });
+    const endYear = targetLocale.formatDate(endDate, { year: 'numeric' });
+
+    if (endYear !== startYear) {
+      return `${targetLocale.formatDate(startDate, {
+        month: 'short',
+        year: 'numeric',
+      })} - ${targetLocale.formatDate(endDate, {
+        month: 'short',
+        year: 'numeric',
+      })}`;
+    }
+
+    if (endMonth !== startMonth) {
+      return `${targetLocale.formatDate(startDate, { month: 'short' })} - ${endMonth} ${startYear}`;
+    }
+
+    return targetLocale.formatDate(startDate, { month: 'long', year: 'numeric' });
   }
 }

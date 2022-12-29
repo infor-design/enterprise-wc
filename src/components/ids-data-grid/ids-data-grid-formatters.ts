@@ -1,6 +1,7 @@
 import '../ids-hyperlink/ids-hyperlink';
 import '../ids-button/ids-button';
 import '../ids-badge/ids-badge';
+import '../ids-alert/ids-alert';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
@@ -118,13 +119,16 @@ export default class IdsDataGridFormatters {
   /** Shows a selection checkbox column */
   selectionCheckbox(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const isDisabled = this.#columnDisabled(index, '', columnData, rowData);
-    return `<span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-checkbox${rowData?.rowSelected ? ' checked' : ''}${isDisabled ? ' disabled' : ''}"></span></span>`;
+    return `<span class="ids-data-grid-checkbox-container is-selection-checkbox"><span role="checkbox" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-checkbox${rowData?.rowSelected ? ' checked' : ''}${isDisabled ? ' disabled' : ''}"></span></span>`;
   }
 
   /** Shows a checkbox column */
   checkbox(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const isDisabled = this.#columnDisabled(index, '', columnData, rowData);
-    const value = stringToBool(this.#extractValue(rowData, columnData.field));
+    const dataValue = this.#extractValue(rowData, columnData.field);
+    let value = stringToBool(dataValue);
+    value = dataValue === 'No' ? false : dataValue;
+    value = dataValue === 'Yes' ? false : dataValue;
     return `<span class="ids-data-grid-checkbox-container"><span role="checkbox" aria-checked="${value ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-checkbox${value ? ' checked' : ''}${isDisabled ? ' disabled' : ''}"></span></span>`;
   }
 
@@ -140,7 +144,7 @@ export default class IdsDataGridFormatters {
     // Type / disabled / icon / text
     return `<ids-button tabindex="-1" ${this.#columnDisabled(index, value, columnData, rowData) ? ' disabled="true"' : ''}${columnData.type ? ` type="${columnData.type}"` : ' type="tertiary"'}>
       <span class="audible">${columnData.text || ' Button'}</span>
-      ${columnData.icon ? `<ids-icon slot="icon" icon="${columnData.icon}"></ids-icon>` : ''}
+      ${columnData.icon ? `<ids-icon icon="${columnData.icon}"></ids-icon>` : ''}
     </ids-button>`;
   }
 
@@ -157,7 +161,7 @@ export default class IdsDataGridFormatters {
   tree(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     const value: any = this.#extractValue(rowData, columnData.field);
     const button = rowData?.children ? `<ids-button tabindex="-1" class="expand-button">
-      <ids-icon slot="icon" icon="plusminus-folder-${rowData.rowExpanded === false ? 'closed' : 'open'}"></ids-icon>
+      <ids-icon icon="plusminus-folder-${rowData.rowExpanded === false ? 'closed' : 'open'}"></ids-icon>
     </ids-button>` : '&nbsp;';
     return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
   }
@@ -166,7 +170,7 @@ export default class IdsDataGridFormatters {
   expander(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     const value: any = this.#extractValue(rowData, columnData.field);
     const button = `<ids-button tabindex="-1" class="expand-button">
-        <ids-icon slot="icon" icon="plusminus-folder-${rowData.rowExpanded === true ? 'open' : 'closed'}"></ids-icon>
+        <ids-icon icon="plusminus-folder-${rowData.rowExpanded === true ? 'open' : 'closed'}"></ids-icon>
       </ids-button>`;
     return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
   }

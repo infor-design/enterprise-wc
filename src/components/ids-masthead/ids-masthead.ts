@@ -181,13 +181,13 @@ export default class IdsMasthead extends Base {
     let icon = this.icon;
 
     if (icon) {
-      const logoIcon = `<ids-icon slot="icon" icon="${icon}" viewbox="0 0 32 34" width="30" height="30"></ids-icon>`;
-      const otherIcon = `<ids-icon slot="icon" icon="${icon}"></ids-icon>`;
+      const logoIcon = `<ids-icon icon="${icon}" viewbox="0 0 32 34" width="30" height="30"></ids-icon>`;
+      const otherIcon = `<ids-icon icon="${icon}"></ids-icon>`;
 
       icon = `
         <ids-button id="logo" class="icon-${icon}" color-variant="alternate" square="true">
           ${icon === 'logo' ? logoIcon : otherIcon}
-          <ids-text slot="text" audible="true">Masthead logo</ids-text>
+          <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       `;
     }
@@ -279,7 +279,7 @@ export default class IdsMasthead extends Base {
         button.type = 'default';
 
         const buttonParentSlot = button.closest('[slot]');
-        const buttonText = button.querySelector<HTMLElement>('[slot="text"]');
+        const buttonText = button.querySelector<HTMLElement>('span, ids-text');
         const hasAudible = buttonText?.classList.contains('audible');
         const hasAudibleOff = buttonText?.classList.contains('audible-off');
 

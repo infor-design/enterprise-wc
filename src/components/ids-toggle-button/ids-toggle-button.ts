@@ -1,7 +1,10 @@
+import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import Base from './ids-toggle-button-base';
 
-import { BUTTON_ATTRIBUTES, BUTTON_TYPES } from '../ids-button/ids-button-attributes';
+import { BUTTON_ATTRIBUTES, BUTTON_TYPES } from '../ids-button/ids-button-common';
+import type { IdsButtonType } from '../ids-button/ids-button-common';
+
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-icon/ids-icon';
 
@@ -28,11 +31,11 @@ export default class IdsToggleButton extends Base {
    */
   static get attributes(): Array<string> {
     return BUTTON_ATTRIBUTES.concat([
-      'icon-off',
-      'icon-on',
-      'text-off',
-      'text-on',
-      'pressed',
+      attributes.ICON_OFF,
+      attributes.ICON_ON,
+      attributes.TEXT_OFF,
+      attributes.TEXT_ON,
+      attributes.PRESSED,
     ]);
   }
 
@@ -56,9 +59,9 @@ export default class IdsToggleButton extends Base {
     this.shouldUpdate = false;
 
     if (trueVal) {
-      this.setAttribute('pressed', trueVal.toString());
+      this.setAttribute(attributes.PRESSED, trueVal.toString());
     } else {
-      this.removeAttribute('pressed');
+      this.removeAttribute(attributes.PRESSED);
     }
     this.shouldUpdate = true;
 
@@ -72,17 +75,17 @@ export default class IdsToggleButton extends Base {
 
   /**
    * Override setting the "type" on Toggle Buttons, since they can only be the default style
-   * @param {string} val a valid type
+   * @param {IdsButtonType | null} val a valid type
    */
-  set type(val: string | null) {
+  set type(val: IdsButtonType | null) {
     val = BUTTON_TYPES[0];
     super.type = val;
   }
 
   /**
-   * @returns {string} the currently set type
+   * @returns {IdsButtonType} the currently set type
    */
-  get type(): string {
+  get type(): IdsButtonType {
     return super.type;
   }
 
@@ -93,9 +96,9 @@ export default class IdsToggleButton extends Base {
    */
   set iconOff(val: string) {
     if (typeof val === 'string' && val.length) {
-      this.setAttribute('icon-off', val);
+      this.setAttribute(attributes.ICON_OFF, val);
     } else {
-      this.removeAttribute('icon-off');
+      this.removeAttribute(attributes.ICON_OFF);
     }
 
     this.refreshIcon();
@@ -105,7 +108,7 @@ export default class IdsToggleButton extends Base {
    * @returns {string} the current icon representing the `unpressed/off` state
    */
   get iconOff(): string {
-    return this.getAttribute('icon-off') || DEFAULT_ICON_OFF;
+    return this.getAttribute(attributes.ICON_OFF) || DEFAULT_ICON_OFF;
   }
 
   /**
@@ -115,9 +118,9 @@ export default class IdsToggleButton extends Base {
    */
   set iconOn(val: string) {
     if (typeof val === 'string' && val.length) {
-      this.setAttribute('icon-on', val);
+      this.setAttribute(attributes.ICON_ON, val);
     } else {
-      this.removeAttribute('icon-on');
+      this.removeAttribute(attributes.ICON_ON);
     }
     this.refreshIcon();
   }
@@ -126,7 +129,7 @@ export default class IdsToggleButton extends Base {
    * @returns {string} the current icon representing the `pressed/on` state
    */
   get iconOn(): string {
-    return this.getAttribute('icon-on') || DEFAULT_ICON_ON;
+    return this.getAttribute(attributes.ICON_ON) || DEFAULT_ICON_ON;
   }
 
   /**
@@ -136,9 +139,9 @@ export default class IdsToggleButton extends Base {
    */
   set textOff(val: string) {
     if (typeof val !== 'string' || !val.length) {
-      this.removeAttribute('text-off');
+      this.removeAttribute(attributes.TEXT_OFF);
     } else {
-      this.setAttribute('text-off', val);
+      this.setAttribute(attributes.TEXT_OFF, val);
     }
     this.refreshText();
   }
@@ -157,9 +160,9 @@ export default class IdsToggleButton extends Base {
    */
   set textOn(val: string) {
     if (typeof val !== 'string' || !val.length) {
-      this.removeAttribute('text-on');
+      this.removeAttribute(attributes.TEXT_ON);
     } else {
-      this.setAttribute('text-on', val);
+      this.setAttribute(attributes.TEXT_ON, val);
     }
     this.refreshText();
   }
@@ -168,7 +171,7 @@ export default class IdsToggleButton extends Base {
    * @returns {string} the current icon representing the `pressed/on` state
    */
   get textOn(): string {
-    return this.getAttribute('text-on') || '';
+    return this.getAttribute(attributes.TEXT_ON) || '';
   }
 
   /**

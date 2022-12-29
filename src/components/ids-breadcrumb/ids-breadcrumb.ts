@@ -159,10 +159,10 @@ export default class IdsBreadcrumb extends Base {
       <div class="ids-breadcrumb${truncated}">
         <div class="ids-breadcrumb-menu hidden">
           <ids-menu-button id="icon-button" menu="icon-menu">
-            <ids-icon slot="icon" icon="more"></ids-icon>
+            <ids-icon icon="more"></ids-icon>
             <span class="audible">Icon Only Button</span>
           </ids-menu-button>
-          <ids-popup-menu id="icon-menu" target="icon-button" trigger-type="click">
+          <ids-popup-menu id="icon-menu" target="#icon-button" trigger-type="click">
             <ids-menu-group>
             </ids-menu-group>
           </ids-popup-menu>

@@ -57,11 +57,12 @@ export default class IdsThemeSwitcher extends Base {
    * @returns {string} The template
    */
   template(): string {
-    return `<ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu" color-variant="${this.colorVariant}">
-            <ids-icon slot="icon" icon="more"></ids-icon>
-            <span class="audible">Theme Switcher</span>
-        </ids-menu-button><ids-popup-menu id="ids-theme-menu" target="#ids-theme-switcher" trigger-type="click">
-        ${this.menuTemplate()}</ids-popup-menu>`;
+    return `<ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu" color-variant="${this.colorVariant}" icon="more">
+      <span class="audible">Theme Switcher</span>
+    </ids-menu-button>
+    <ids-popup-menu id="ids-theme-menu" target="#ids-theme-switcher" trigger-type="click">
+      ${this.menuTemplate()}
+    </ids-popup-menu>`;
   }
 
   /**

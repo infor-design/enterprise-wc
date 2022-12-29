@@ -20,6 +20,11 @@ const IdsHitboxMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     ];
   }
 
+  connectedCallback(): void {
+    super.connectedCallback?.();
+    this.#setHitbox();
+  }
+
   /**
    * Sets the checkbox to add hitbox style.
    * @param {boolean|string} value If true, it will apply the hitbox stylings.
@@ -28,14 +33,18 @@ const IdsHitboxMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.HITBOX, val.toString());
-      this.container?.classList.add(attributes.HITBOX);
     } else {
       this.removeAttribute(attributes.HITBOX);
-      this.container?.classList.remove(attributes.HITBOX);
     }
+
+    this.#setHitbox();
   }
 
   get hitbox() { return this.getAttribute(attributes.HITBOX); }
+
+  #setHitbox() {
+    this.container?.classList.toggle(attributes.HITBOX, Boolean(this.hitbox));
+  }
 };
 
 export default IdsHitboxMixin;

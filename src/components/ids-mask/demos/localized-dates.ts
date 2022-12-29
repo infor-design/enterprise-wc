@@ -20,6 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   dateInputTime.placeholder = dateInputTime.maskOptions.format;
 
+  const dateHourTime: any = document.querySelector('#mask-hour-time');
+  dateHourTime.mask = 'date';
+  dateHourTime.maskOptions = {
+    format: calendar.dateFormat.hour
+  };
+  dateHourTime.placeholder = dateHourTime.maskOptions.format;
+
   // Change locale on the date input when the Page container's locale changes
   pageContainer.addEventListener('localechange', () => {
     calendar = pageContainer.locale.calendar();
@@ -33,5 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
     dateInputTime.value = '';
     dateInputTime.maskOptions.format = timeFormat;
     dateInputTime.placeholder = dateInputTime.maskOptions.format;
+
+    dateHourTime.value = '';
+    dateHourTime.maskOptions.format = calendar.dateFormat.hour;
+    dateHourTime.placeholder = dateHourTime.maskOptions.format;
   });
 });
