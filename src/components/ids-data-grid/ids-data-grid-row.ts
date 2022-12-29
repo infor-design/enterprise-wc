@@ -91,6 +91,7 @@ export default class IdsDataGridRow extends IdsElement {
    * Toggle Selection on the row element (via click/keyboard in the main dataGrid)
    */
   toggleSelection() {
+    this.dataGrid?.resetCache();
     const isSelected = this.classList.contains('selected');
     const index = Number(this.getAttribute('data-index'));
 
@@ -298,10 +299,12 @@ export default class IdsDataGridRow extends IdsElement {
     const dataGrid = this.dataGrid;
 
     if (dataGrid.state.selected[index]) {
-      // NOTE: Fix this relatively heavy operation (esp. if/when caching is disabled).
+      // NOTE: Fix these relatively heavy operation (esp. if/when caching is disabled).
+      this.selected = true;
       dataGrid.selectRow(index);
     } else {
-      // NOTE: Fix this relatively heavy operation (esp. if/when caching is disabled).
+      // NOTE: Fix these relatively heavy operation (esp. if/when caching is disabled).
+      this.selected = false;
       dataGrid.deSelectRow(index);
     }
 
