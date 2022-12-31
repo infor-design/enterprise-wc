@@ -128,18 +128,19 @@ export default class IdsDataGrid extends Base {
 
     super.connectedCallback();
     this.redrawBody();
-
-    if (this.virtualScroll) {
-      this.#attachVirtualScrollEvent();
-    }
+    this.#attachVirtualScrollEvent();
   }
 
   /* Attach Events for virtual scrolling */
   #attachVirtualScrollEvent() {
+    if (!this.virtualScroll) return;
+
     this.container?.style.setProperty('max-height', '95vh');
 
     let lastRowIndex = 0;
     const virtualScrollSettings = this.virtualScrollSettings;
+
+    this.scrollRowIntoView(0, false); // initialize virtual-scroll styles
 
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
@@ -217,12 +218,17 @@ export default class IdsDataGrid extends Base {
 
       if (moveRowsDown > 0) {
         if (lastRowIndex === maxRowIndex) {
+          // padding-bottom is no longer needed when the very last-row is rendered
+          this.body?.style.setProperty('padding-bottom', '0px');
+
+          // exit early because don't want to interfere with browser-scroll if already at bottom of list.
           return;
         }
         this.#recycleTopRowsDown(moveRowsDown);
       } else if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
         this.#recycleBottomRowsUp(moveRowsUp);
       } else {
+        // exit early because nothing to do.
         return;
       }
     } else if (isAboveFirstRow) {
@@ -237,9 +243,19 @@ export default class IdsDataGrid extends Base {
       this.#recycleAllRows(bufferRowIndex);
     }
 
+    const scrollTop = this.container?.scrollTop || 0; // IMPORTANT: setting scrollTop inside RAF causes infinite jank
+
     this.#rafReference = requestAnimationFrame(() => {
+      // NOTE: repaint of padding is more performant than margin
+      const maxPaddingBottom = data.length * virtualScrollSettings.ROW_HEIGHT;
+      const paddingRequired = scrollTop < maxPaddingBottom;
+
       const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
+      const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
+
       this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+      this.body?.style.setProperty('padding-bottom', `${paddingRequired ? bodyPaddingBottom : 0}px`);
+
       if (doScroll) {
         this.container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
       }
@@ -497,6 +513,7 @@ export default class IdsDataGrid extends Base {
     this.header.setHeaderCheckbox();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
+    this.#attachVirtualScrollEvent();
     this.setupTooltip();
 
     // Attach post filters setting
@@ -511,7 +528,7 @@ export default class IdsDataGrid extends Base {
     // Show/hide empty message
     this.toggleEmptyMessage();
 
-    // Do some things after redra
+    // Do some things after redraw
     this.afterRedraw();
   }
 
@@ -1271,6 +1288,7 @@ export default class IdsDataGrid extends Base {
   get virtualScroll(): boolean { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
   get virtualScrollSettings() {
+    const ENABLED = !!this.virtualScroll;
     const ROW_HEIGHT = this.rowPixelHeight || 50;
     const NUM_ROWS = 150;
     const BODY_HEIGHT = NUM_ROWS * ROW_HEIGHT;
@@ -1280,6 +1298,7 @@ export default class IdsDataGrid extends Base {
     const DEBOUNCE_RATE = 10;
 
     return {
+      ENABLED,
       ROW_HEIGHT,
       NUM_ROWS,
       BODY_HEIGHT,
