@@ -298,7 +298,8 @@ export default class IdsDataGridCell extends IdsElement {
    * @returns {string} The template to display
    */
   static template(row: Record<string, unknown>, column: IdsDataGridColumn, index: number, dataGrid: IdsDataGrid): string {
-    const cacheKey = `${column.id}:${index}`;
+    const selected = dataGrid.state.selected[index] ? 'select' : 'deselect';
+    const cacheKey = `${column.id}:${index}:${selected}`;
 
     // NOTE: This is how we could disable cache until a proper cache-busting strategy is in place
     // delete IdsDataGridCell.cellCache[cacheKey];

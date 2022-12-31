@@ -78,14 +78,15 @@ export default class IdsDataGridRow extends IdsElement {
     if (oldValue === newValue) return;
 
     if (name === attributes.ROW_INDEX) {
-      // TODO: disabling row-caching for now to fix row-selection bug.
-      delete IdsDataGridRow.rowCache[newValue];
+      const rowIndex = Number(newValue);
+      const selectState = this.dataGrid.state.selected[rowIndex] ? 'select' : 'deselect';
+      const cacheKey = `${rowIndex}:${selectState}`;
 
       // NOTE: This is current cache strategy via memoization.
       // NOTE: check memory footprint of this caching strategy
-      IdsDataGridRow.rowCache[newValue] = IdsDataGridRow.rowCache[newValue] ?? this.cellsHTML();
+      IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
       requestAnimationFrame(() => {
-        this.innerHTML = IdsDataGridRow.rowCache[newValue];
+        this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
       });
     }
   }
