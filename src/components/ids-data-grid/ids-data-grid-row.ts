@@ -78,6 +78,9 @@ export default class IdsDataGridRow extends IdsElement {
     if (oldValue === newValue) return;
 
     if (name === attributes.ROW_INDEX) {
+      // TODO: disabling row-caching for now to fix row-selection bug.
+      delete IdsDataGridRow.rowCache[newValue];
+
       // NOTE: This is current cache strategy via memoization.
       // NOTE: check memory footprint of this caching strategy
       IdsDataGridRow.rowCache[newValue] = IdsDataGridRow.rowCache[newValue] ?? this.cellsHTML();
