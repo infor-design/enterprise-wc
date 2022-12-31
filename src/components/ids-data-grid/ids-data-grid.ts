@@ -1846,7 +1846,7 @@ export default class IdsDataGrid extends Base {
     if (queriedCells && queriedCells.length > 0) {
       const cellNode = queriedCells[cell] as IdsDataGridCell;
       if (this.virtualScroll) {
-        cellNode.activate(false);
+        cellNode.activate(true);
       } else {
         cellNode.activate(Boolean(noFocus));
       }
