@@ -1532,7 +1532,7 @@ export default class IdsDataGrid extends Base {
    * @returns {HTMLElement} Row HTMLElement
    */
   rowByIndex(index: number): IdsDataGridRow | undefined | null {
-    return this.shadowRoot?.querySelector<IdsDataGridRow>(`.ids-data-grid-body ids-data-grid-row[data-index="${index}"]`);
+    return this.shadowRoot?.querySelector<IdsDataGridRow>(`.ids-data-grid-body ids-data-grid-row[row-index="${index}"]`);
   }
 
   activeCellEditor?: IdsDataGridCell;
@@ -1590,9 +1590,11 @@ export default class IdsDataGrid extends Base {
   /**
    * Set a row to selected
    * @param {number} index the zero based index
+   * @param {boolean} triggerEvent fire an event with the selected row
    */
-  selectRow(index: number) {
+  selectRow(index: number, triggerEvent = true) {
     const row = this.rowByIndex(index);
+    if (!row) return;
 
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
       const checkbox = row?.querySelector('.ids-data-grid-checkbox');
@@ -1615,11 +1617,13 @@ export default class IdsDataGrid extends Base {
     this.updateDataset(Number(row?.getAttribute('data-index')), { rowSelected: true });
     if ((this.rowSelection === 'single' || this.rowSelection === 'multiple') && row) row.updateCells(index);
 
-    this.triggerEvent('rowselected', this, {
-      detail: {
-        elem: this, row, data: this.data[index]
-      }
-    });
+    if (triggerEvent) {
+      this.triggerEvent('rowselected', this, {
+        detail: {
+          elem: this, row, data: this.data[index]
+        }
+      });
+    }
 
     if (this.groupSelectsChildren) row?.toggleChildRowSelection(true);
     this.header.setHeaderCheckbox();
@@ -1628,39 +1632,44 @@ export default class IdsDataGrid extends Base {
   /**
    * Set a row to be deselected
    * @param {number} index the zero based index
+   * @param {boolean} triggerEvent fire an event with the deselected row
    */
-  deSelectRow(index: number) {
+  deSelectRow(index: number, triggerEvent = true) {
     const row = this.rowByIndex(index);
+    if (!row) return;
+
     this.state.selected[index] = false;
 
     if (this.rowSelection === 'mixed') {
-      row?.classList.remove('mixed');
+      row.classList.remove('mixed');
     }
-    row?.classList.remove('selected');
-    row?.removeAttribute('aria-selected');
+    row.classList.remove('selected');
+    row.removeAttribute('aria-selected');
 
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
-      const checkbox = row?.querySelector('.ids-data-grid-checkbox');
+      const checkbox = row.querySelector('.ids-data-grid-checkbox');
       checkbox?.classList.remove('checked');
       checkbox?.setAttribute('aria-checked', 'false');
     }
 
     if (this.rowSelection === 'single') {
-      const radio = row?.querySelector('.ids-data-grid-radio');
+      const radio = row.querySelector('.ids-data-grid-radio');
       radio?.classList.remove('checked');
       radio?.setAttribute('aria-checked', 'false');
     }
 
-    this.updateDataset(Number(row?.getAttribute('data-index')), { rowSelected: undefined });
+    this.updateDataset(row.rowIndex, { rowSelected: undefined });
 
-    this.triggerEvent('rowdeselected', this, {
-      detail: {
-        elem: this, row, data: this.data[index]
-      }
-    });
+    if (triggerEvent) {
+      this.triggerEvent('rowdeselected', this, {
+        detail: {
+          elem: this, row, data: this.data[index]
+        }
+      });
+    }
 
-    row?.updateCells(index);
-    if (this.groupSelectsChildren) row?.toggleChildRowSelection(false);
+    row.updateCells(index);
+    if (this.groupSelectsChildren) row.toggleChildRowSelection(false);
     this.header.setHeaderCheckbox();
   }
 

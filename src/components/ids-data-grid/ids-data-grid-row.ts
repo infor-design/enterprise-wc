@@ -301,11 +301,11 @@ export default class IdsDataGridRow extends IdsElement {
     if (dataGrid.state.selected[index]) {
       // NOTE: Fix these relatively heavy operation (esp. if/when caching is disabled).
       this.selected = true;
-      dataGrid.selectRow(index);
+      dataGrid.selectRow(index, false);
     } else {
       // NOTE: Fix these relatively heavy operation (esp. if/when caching is disabled).
       this.selected = false;
-      dataGrid.deSelectRow(index);
+      dataGrid.deSelectRow(index, false);
     }
 
     const cssPart = (column: IdsDataGridColumn, rowIndex: number, cellIndex: number) => {
