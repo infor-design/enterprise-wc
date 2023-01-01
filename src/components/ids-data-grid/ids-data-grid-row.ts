@@ -85,7 +85,7 @@ export default class IdsDataGridRow extends IdsElement {
       // NOTE: This is current cache strategy via memoization.
       // NOTE: check memory footprint of this caching strategy
       IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
-      requestAnimationFrame(() => {
+      this.dataGrid.requestAnimationFrame(() => {
         this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
       });
     }
