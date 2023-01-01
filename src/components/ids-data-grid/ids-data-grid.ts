@@ -167,6 +167,14 @@ export default class IdsDataGrid extends Base {
    */
   #rafReference = NaN;
 
+  requestAnimationFrame(rafCallback: () => void) {
+    // if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
+
+    this.#rafReference = requestAnimationFrame(() => {
+      rafCallback();
+    });
+  }
+
   /**
    * We always want to set doScroll=true when scrollRowIntoView() is called manually in code...
    * ...so when the "public" uses it they would simply do scrollRowIntoView(x).
@@ -2117,14 +2125,6 @@ export default class IdsDataGrid extends Base {
     });
     this.container?.querySelectorAll('ids-data-grid-cell.is-dirty').forEach((elem) => {
       elem.classList.remove('is-dirty');
-    });
-  }
-
-  requestAnimationFrame(rafCallback: () => void) {
-    // if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
-
-    this.#rafReference = requestAnimationFrame(() => {
-      rafCallback();
     });
   }
 }
