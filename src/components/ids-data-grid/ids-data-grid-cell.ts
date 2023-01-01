@@ -40,13 +40,10 @@ export default class IdsDataGridCell extends IdsElement {
    */
   renderCell() {
     const column = this.column;
-    let index = Number(this.parentElement?.getAttribute('data-index'));
+    const rowIndex = Number(this.parentElement?.getAttribute('row-index'));
 
-    if (column?.formatter?.name === 'rowNumber') {
-      index += 1;
-    }
-    const row: Record<string, any> | undefined = this.dataGrid?.data[index];
-    let template = IdsDataGridCell.template(row, column, index, this.dataGrid);
+    const row: Record<string, any> | undefined = this.dataGrid?.data[rowIndex];
+    let template = IdsDataGridCell.template(row, column, rowIndex, this.dataGrid);
 
     if (row.invalidCells) {
       const message = row.invalidCells.find((info: any) => info.cell === Number(this.getAttribute('aria-colindex')) - 1);
@@ -293,13 +290,13 @@ export default class IdsDataGridCell extends IdsElement {
    * Return the Template for the cell contents
    * @param {object} row The data item for the row
    * @param {object} column The column data for the row
-   * @param {object} index The running index
+   * @param {object} rowIndex The running row-index
    * @param {IdsDataGrid} dataGrid The dataGrid instance
    * @returns {string} The template to display
    */
-  static template(row: Record<string, unknown>, column: IdsDataGridColumn, index: number, dataGrid: IdsDataGrid): string {
-    const selected = dataGrid.state.selected[index] ? 'select' : 'deselect';
-    const cacheKey = `${column.id}:${index}:${selected}`;
+  static template(row: Record<string, unknown>, column: IdsDataGridColumn, rowIndex: number, dataGrid: IdsDataGrid): string {
+    const selected = dataGrid.state.selected[rowIndex] ? 'select' : 'deselect';
+    const cacheKey = `${column.id}:${rowIndex}:${selected}`;
 
     // NOTE: This is how we could disable cache until a proper cache-busting strategy is in place
     // delete IdsDataGridCell.cellCache[cacheKey];
@@ -311,8 +308,8 @@ export default class IdsDataGridCell extends IdsElement {
       const dataGridFormatters = (dataGrid.formatters as any);
       let template = '';
 
-      if (!dataGridFormatters[column?.formatter?.name || 'text'] && column?.formatter) template = column?.formatter(row, column, index, dataGrid);
-      else template = dataGridFormatters[column?.formatter?.name || 'text'](row, column, index, dataGrid);
+      if (!dataGridFormatters[column?.formatter?.name || 'text'] && column?.formatter) template = column?.formatter(row, column, rowIndex, dataGrid);
+      else template = dataGridFormatters[column?.formatter?.name || 'text'](row, column, rowIndex, dataGrid);
 
       if (row.invalidCells) {
         const message = (row.invalidCells as any).find((info: any) => info.cell === dataGrid.columnIdxById(column.id));
