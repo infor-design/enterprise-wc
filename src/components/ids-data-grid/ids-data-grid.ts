@@ -246,7 +246,7 @@ export default class IdsDataGrid extends Base {
 
     const scrollTop = this.container?.scrollTop || 0; // IMPORTANT: setting scrollTop inside RAF causes infinite jank
 
-    this.#rafReference = requestAnimationFrame(() => {
+    this.requestAnimationFrame(() => {
       // NOTE: repaint of padding is more performant than margin
       const maxPaddingBottom = data.length * virtualScrollSettings.ROW_HEIGHT;
       const paddingRequired = scrollTop < maxPaddingBottom;
@@ -309,7 +309,7 @@ export default class IdsDataGrid extends Base {
     // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
     if (rowsToMove.length >= this.virtualScrollSettings.NUM_ROWS) return;
 
-    this.#rafReference = requestAnimationFrame(() => {
+    this.requestAnimationFrame(() => {
       // NOTE: body.append is faster than body.innerHTML
       // NOTE: body.append is faster than multiple calls to appendChild()
       this.body?.append(...rowsToMove);
@@ -336,7 +336,7 @@ export default class IdsDataGrid extends Base {
 
     if (!rowsToMove.length) return;
 
-    this.#rafReference = requestAnimationFrame(() => {
+    this.requestAnimationFrame(() => {
       // NOTE: body.prepend() seems to be faster than body.innerHTML
       this.body?.prepend(...rowsToMove.reverse());
     });
@@ -2108,6 +2108,14 @@ export default class IdsDataGrid extends Base {
     });
     this.container?.querySelectorAll('ids-data-grid-cell.is-dirty').forEach((elem) => {
       elem.classList.remove('is-dirty');
+    });
+  }
+
+  requestAnimationFrame(rafCallback: () => void) {
+    // if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
+
+    this.#rafReference = requestAnimationFrame(() => {
+      rafCallback();
     });
   }
 }
