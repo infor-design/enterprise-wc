@@ -142,6 +142,7 @@ export default class IdsDataGrid extends Base {
 
     this.scrollRowIntoView(0, false); // initialize virtual-scroll styles
 
+    this.offEvent('scroll.data-grid.virtual-scroll', this.container);
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
       const rowIndex = Math.floor(this.container!.scrollTop / virtualScrollSettings.ROW_HEIGHT);
