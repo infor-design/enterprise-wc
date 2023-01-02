@@ -132,22 +132,25 @@ export default class IdsDataGrid extends Base {
   /* Attach Events for virtual scrolling */
   #attachVirtualScrollEvent() {
     if (!this.virtualScroll) return;
+    const virtualScrollSettings = this.virtualScrollSettings;
+    const data = this.data;
+    const maxRowIndex = data.length - 1;
+    const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BUFFER_HEIGHT;
 
     this.container?.style.setProperty('max-height', '95vh');
+    this.body?.style.setProperty('padding-bottom', `${maxPaddingBottom}px`);
 
-    let lastRowIndex = 0;
-    const virtualScrollSettings = this.virtualScrollSettings;
-
-    this.scrollRowIntoView(0, false); // initialize virtual-scroll styles
-
+    let debounceRowIndex = 0;
     this.offEvent('scroll.data-grid.virtual-scroll', this.container);
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
-      const rowIndex = Math.floor(this.container!.scrollTop / virtualScrollSettings.ROW_HEIGHT);
-      if (rowIndex === lastRowIndex) return;
-      lastRowIndex = rowIndex;
 
-      this.scrollRowIntoView(rowIndex, false);
+      const rowIndex = Math.floor(this.container!.scrollTop / virtualScrollSettings.ROW_HEIGHT);
+
+      if (rowIndex === debounceRowIndex) return;
+      debounceRowIndex = rowIndex;
+
+      this.scrollRowIntoView(Math.min(rowIndex, maxRowIndex), false);
     }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
   }
 
@@ -219,18 +222,16 @@ export default class IdsDataGrid extends Base {
     bufferRowIndex = Math.max(bufferRowIndex, 0);
     bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
 
+    if (lastRowIndex >= maxRowIndex) {
+      // padding-bottom is no longer needed when the very last-row is rendered
+      this.body?.style.setProperty('padding-bottom', '0px');
+    }
+
     if (isInRange) {
       const moveRowsDown = bufferRowIndex - firstRowIndex;
       const moveRowsUp = Math.abs(moveRowsDown);
 
       if (moveRowsDown > 0) {
-        if (lastRowIndex === maxRowIndex) {
-          // padding-bottom is no longer needed when the very last-row is rendered
-          this.body?.style.setProperty('padding-bottom', '0px');
-
-          // exit early because don't want to interfere with browser-scroll if already at bottom of list.
-          return;
-        }
         this.#recycleTopRowsDown(moveRowsDown);
       } else if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
         this.#recycleBottomRowsUp(moveRowsUp);
