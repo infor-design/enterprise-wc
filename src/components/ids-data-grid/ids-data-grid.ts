@@ -77,8 +77,6 @@ const Base = IdsThemeMixin(
 @customElement('ids-data-grid')
 @scss(styles)
 export default class IdsDataGrid extends Base {
-  virtualScrollContainer?: IdsVirtualScroll | null;
-
   isResizing = false;
 
   activeCell: Record<string, any> = {};
@@ -497,11 +495,6 @@ export default class IdsDataGrid extends Base {
     }
     if (this.body) this.body.innerHTML = this.bodyInnerTemplate();
     this.header?.setHeaderCheckbox();
-
-    if (this.virtualScrollContainer) {
-      this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
-      this.virtualScrollContainer.data = this.data;
-    }
   }
 
   /**
@@ -1032,7 +1025,6 @@ export default class IdsDataGrid extends Base {
     const sortField = column?.field !== column?.id ? column?.field : column?.id;
     this.sortColumn = { id, ascending };
     this.datasource.sort(sortField || '', ascending);
-    // if (this.virtualScrollContainer) this.virtualScrollContainer.data = this.data;
     this.redrawBody();
     this.header.setSortState(id, ascending);
     this.triggerEvent('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
