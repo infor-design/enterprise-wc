@@ -743,15 +743,27 @@ export default class IdsDataGrid extends Base {
       if (!this.activeCell?.node) return;
       const key = e.key;
       const cellNode = this.activeCell.node;
+      const cellNumber = Number(this.activeCell?.cell);
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
       const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
       const nextRow = Number(next(cellNode.parentElement, `:not([hidden])`)?.getAttribute('row-index'));
       const prevRow = Number(previous(cellNode.parentElement, `:not([hidden])`)?.getAttribute('row-index'));
       const rowIndex = key === 'ArrowDown' ? nextRow : prevRow;
 
+      const movingHorizontal = key === 'ArrowLeft' || key === 'ArrowRight';
+      const reachedHorizontalBounds = cellNumber < 0 || cellNumber >= this.visibleColumns.length;
+      if (movingHorizontal && reachedHorizontalBounds) return;
+
+      const movingVertical = key === 'ArrowDown' || key === 'ArrowUp';
+      const reachedVerticalBounds = nextRow >= this.data.length || prevRow < 0;
+      if (movingVertical && reachedVerticalBounds) return;
+
       if (this.activeCellEditor) cellNode.endCellEdit();
 
-      this.setActiveCell(Number(this.activeCell?.cell) + cellDiff, rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex);
+      const activateCellNumber = cellNumber + cellDiff;
+      const activateRowIndex = rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex;
+      this.setActiveCell(activateCellNumber, activateRowIndex);
+
       if (this.rowSelection === 'mixed' && this.rowNavigation) {
         (cellNode.parentElement as IdsDataGridRow).toggleRowActivation();
       }
@@ -1843,33 +1855,31 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Set the active cell for focus
-   * @param {number} cell The cell to focus (zero based)
-   * @param {number} row The row to focus (zero based)
+   * @param {number} cellNumber The cell to focus (zero based)
+   * @param {number} rowIndex The row to focus (zero based)
    * @param {boolean} noFocus If true, do not focus the cell
    * @returns {object} the current active cell
    */
-  setActiveCell(cell: number, row: number, noFocus?: boolean) {
-    if (row < 0 || cell < 0 || row > this.data.length - 1
-      || cell > this.visibleColumns.length - 1 || Number.isNaN(row) || Number.isNaN(row)) {
+  setActiveCell(cellNumber: number, rowIndex: number, noFocus?: boolean) {
+    if (rowIndex < 0 || cellNumber < 0 || rowIndex > this.data.length - 1
+      || cellNumber > this.visibleColumns.length - 1 || Number.isNaN(rowIndex) || Number.isNaN(rowIndex)) {
       return this.activeCell;
     }
 
     if (!this.activeCell) this.activeCell = {};
-    this.activeCell.cell = Number(cell);
-    this.activeCell.row = Number(row);
+    this.activeCell.cell = Number(cellNumber);
+    this.activeCell.row = Number(rowIndex);
 
-    const queriedRows = this.shadowRoot?.querySelectorAll('.ids-data-grid-body ids-data-grid-row');
-    const rowNode = queriedRows?.item(row); // exclude header rows
+    let rowNode = this.rowByIndex(rowIndex);
+    if (!rowNode && this.virtualScroll) {
+      this.scrollRowIntoView(rowIndex);
+      rowNode = this.rowByIndex(rowIndex);
+    }
+
     const queriedCells = rowNode?.querySelectorAll<HTMLElement>('ids-data-grid-cell');
     if (queriedCells && queriedCells.length > 0) {
-      const cellNode = queriedCells[cell] as IdsDataGridCell;
-      if (this.virtualScroll) {
-        // Setting cellNode.activate(false) fixes keyboard-nav error, but causes erratic autoscrolling
-        // cellNode.activate(false);
-        cellNode.activate(true);
-      } else {
-        cellNode.activate(Boolean(noFocus));
-      }
+      const cellNode = queriedCells[cellNumber] as IdsDataGridCell;
+      cellNode.activate(Boolean(noFocus));
     }
     return this.activeCell;
   }
