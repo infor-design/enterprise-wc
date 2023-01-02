@@ -745,8 +745,8 @@ export default class IdsDataGrid extends Base {
       const cellNode = this.activeCell.node;
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
       const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
-      const nextRow = Number(next(cellNode.parentElement, `:not([hidden])`)?.getAttribute('data-index'));
-      const prevRow = Number(previous(cellNode.parentElement, `:not([hidden])`)?.getAttribute('data-index'));
+      const nextRow = Number(next(cellNode.parentElement, `:not([hidden])`)?.getAttribute('row-index'));
+      const prevRow = Number(previous(cellNode.parentElement, `:not([hidden])`)?.getAttribute('row-index'));
       const rowIndex = key === 'ArrowDown' ? nextRow : prevRow;
 
       if (this.activeCellEditor) cellNode.endCellEdit();
@@ -1864,6 +1864,8 @@ export default class IdsDataGrid extends Base {
     if (queriedCells && queriedCells.length > 0) {
       const cellNode = queriedCells[cell] as IdsDataGridCell;
       if (this.virtualScroll) {
+        // Setting cellNode.activate(false) fixes keyboard-nav error, but causes erratic autoscrolling
+        // cellNode.activate(false);
         cellNode.activate(true);
       } else {
         cellNode.activate(Boolean(noFocus));
