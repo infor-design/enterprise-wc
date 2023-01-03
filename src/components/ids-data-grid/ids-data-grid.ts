@@ -89,6 +89,8 @@ export default class IdsDataGrid extends Base {
 
   emptyMessageElements?: IdsDataGridEmptyMessageElements;
 
+  cacheHash = (new Date()).getTime();
+
   constructor() {
     super();
 

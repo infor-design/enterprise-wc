@@ -85,9 +85,10 @@ export default class IdsDataGridRow extends IdsElement {
    * @param {number} row the row index
    */
   renderRow(row: number) {
+    const cacheHash = this.dataGrid.cacheHash;
     const rowIndex = Number(row);
     const selectState = this.dataGrid.data[row].rowSelected ? 'select' : 'deselect';
-    const cacheKey = `${rowIndex}:${selectState}`;
+    const cacheKey = `${cacheHash}:${rowIndex}:${selectState}`;
 
     // This is current cache strategy via memoization.
     IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
