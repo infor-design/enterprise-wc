@@ -1,5 +1,6 @@
 import { customElement } from '../../core/ids-decorators';
 import IdsElement from '../../core/ids-element';
+import type IdsInput from '../ids-input/ids-input';
 import type IdsDataGrid from './ids-data-grid';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 import { IdsDataGridEditor } from './ids-data-grid-editors';
@@ -157,7 +158,7 @@ export default class IdsDataGridCell extends IdsElement {
 
     if (this.editor?.type === 'input') {
       input?.setDirtyTracker(input?.value as any);
-      input?.checkValidation();
+      (<IdsInput>input)?.checkValidation();
     }
 
     const isDirty = column.editor?.editorSettings?.dirtyTracker && input?.isDirty;

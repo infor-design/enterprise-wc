@@ -140,6 +140,7 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input.insertAdjacentHTML('beforeend', '<ids-list-box></ids-list-box>');
     this.input.loadDataSet(dataset);
     this.input.typeahead = true;
+    this.input.dirtyTracker = true;
 
     cell!.innerHTML = '';
     cell!.style.setProperty('overflow', 'visible');
@@ -153,7 +154,7 @@ export class DropdownEditor implements IdsDataGridEditor {
     // add styling for trigger field > .field-container
 
     this.input.container?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
-    this.#attchEventListeners();
+    this.#attchEventListeners(cell);
   }
 
   stopPropagation(evt: CustomEvent) {
@@ -163,7 +164,8 @@ export class DropdownEditor implements IdsDataGridEditor {
     }
   }
 
-  #attchEventListeners() {
+  #attchEventListeners(cell?: IdsDataGridCell) {
+    this.input?.onEvent('outside-click.dropdown', this.input, () => { cell?.cancelCellEdit(); });
     this.input?.onEvent('open', this.input, () => { this.#stopPropagation = true; });
     this.input?.onEvent('close', this.input, () => { this.#stopPropagation = false; });
     this.input?.onEvent('change', this.input, (evt) => { this.#value = evt.detail.value; });
@@ -180,6 +182,7 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input?.offEvent('open');
     this.input?.offEvent('close');
     this.input?.offEvent('blur', this.input, this.#stopPropagationCb);
+    this.input?.offEvent('outside-click.dropdown');
 
     // revert cell style changes
     cell?.style.removeProperty('overflow');
