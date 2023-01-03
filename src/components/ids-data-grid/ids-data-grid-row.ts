@@ -117,10 +117,10 @@ export default class IdsDataGridRow extends IdsElement {
 
       // Handle Expanded
       if (this.dataGrid.data[row]?.rowExpanded) {
-        this.setAttribute('aria-expanded', 'false');
+        this.setAttribute('aria-expanded', 'true');
       }
       if (!this.dataGrid.data[row]?.rowExpanded && this.getAttribute('aria-expanded') === 'false') {
-        this.setAttribute('aria-expanded', 'true');
+        this.setAttribute('aria-expanded', 'false');
       }
 
       // Handle Hidden
