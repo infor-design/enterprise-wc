@@ -93,45 +93,46 @@ export default class IdsDataGridRow extends IdsElement {
     // This is current cache strategy via memoization.
     IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
     this.dataGrid.requestAnimationFrame(() => {
-      this.setAttribute('data-index', String(row));
-      this.setAttribute('aria-rowindex', String(row + 1));
-
-      // Handle Selection
-      if (this.dataGrid.data[row]?.rowSelected) {
-        this.selected = this.dataGrid.data[row].rowSelected;
-      }
-      if (!this.dataGrid.data[row]?.rowSelected && this.classList.contains('selected')) {
-        this.selected = this.dataGrid.data[row].rowSelected;
-      }
-
-      // Handle Tree
-      if (this.dataGrid?.treeGrid) {
-        this.setAttribute('aria-setsize', this.dataGrid.data[row]?.ariaSetSize);
-        this.setAttribute('aria-level', this.dataGrid.data[row]?.ariaLevel);
-        this.setAttribute('aria-posinset', this.dataGrid.data[row]?.ariaPosinset);
-
-        if (this.dataGrid.data[row]?.children) {
-          this.setAttribute('aria-expanded', this.dataGrid.data[row]?.rowExpanded === false ? 'false' : 'true');
-        }
-      }
-
-      // Handle Expanded
-      if (this.dataGrid.data[row]?.rowExpanded) {
-        this.setAttribute('aria-expanded', 'true');
-      }
-      if (!this.dataGrid.data[row]?.rowExpanded && this.getAttribute('aria-expanded') === 'false') {
-        this.setAttribute('aria-expanded', 'false');
-      }
-
-      // Handle Hidden
-      if (this.dataGrid.data[row]?.rowHidden) {
-        this.classList.add('hidden');
-      }
-      if (!this.dataGrid.data[row]?.rowHidden && this.classList.contains('hidden')) {
-        this.classList.remove('hidden');
-      }
       this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
     });
+
+    this.setAttribute('data-index', String(row));
+    this.setAttribute('aria-rowindex', String(row + 1));
+
+    // Handle Selection
+    if (this.dataGrid.data[row]?.rowSelected) {
+      this.selected = this.dataGrid.data[row].rowSelected;
+    }
+    if (!this.dataGrid.data[row]?.rowSelected && this.classList.contains('selected')) {
+      this.selected = this.dataGrid.data[row].rowSelected;
+    }
+
+    // Handle Tree
+    if (this.dataGrid?.treeGrid) {
+      this.setAttribute('aria-setsize', this.dataGrid.data[row]?.ariaSetSize);
+      this.setAttribute('aria-level', this.dataGrid.data[row]?.ariaLevel);
+      this.setAttribute('aria-posinset', this.dataGrid.data[row]?.ariaPosinset);
+
+      if (this.dataGrid.data[row]?.children) {
+        this.setAttribute('aria-expanded', this.dataGrid.data[row]?.rowExpanded === false ? 'false' : 'true');
+      }
+    }
+
+    // Handle Expanded
+    if (this.dataGrid.data[row]?.rowExpanded) {
+      this.setAttribute('aria-expanded', 'true');
+    }
+    if (!this.dataGrid.data[row]?.rowExpanded && this.getAttribute('aria-expanded') === 'false') {
+      this.setAttribute('aria-expanded', 'false');
+    }
+
+    // Handle Hidden
+    if (this.dataGrid.data[row]?.rowHidden) {
+      this.classList.add('hidden');
+    }
+    if (!this.dataGrid.data[row]?.rowHidden && this.classList.contains('hidden')) {
+      this.classList.remove('hidden');
+    }
   }
 
   /**
