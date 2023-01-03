@@ -230,7 +230,13 @@
 .ids-text-decoration-hover {
   text-decoration: none;
 
-  &[href]:hover {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+:host(:not([allow-empty-href='false'])) {
+  .ids-hyperlink:not(.ids-text-decoration-none):not(.ids-text-decoration-hover) {
     text-decoration: underline;
   }
 }
