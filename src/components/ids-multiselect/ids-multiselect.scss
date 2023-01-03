@@ -15,9 +15,13 @@ ids-trigger-field {
       @include cursor-default();
     }
   }
+
+  ids-text {
+    max-width: 266px;
+  }
 }
 
-:host([tags='true']) {
+:host {
   .has-value {
     ids-trigger-field {
       &::part(content-area) {
@@ -37,7 +41,7 @@ ids-trigger-field {
   }
 }
 
-:host([tags='true']:not([disabled])) {
+:host(:not([disabled])) {
   .has-value {
     ids-trigger-field {
       &::part(field-container) {

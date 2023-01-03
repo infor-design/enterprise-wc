@@ -5,6 +5,7 @@ import '../ids-checkbox/ids-checkbox';
 import '../ids-dropdown/ids-dropdown';
 import Base from './ids-multiselect-base';
 import '../ids-tag/ids-tag';
+import '../ids-text/ids-text';
 
 // Import Sass to be encapsulated in the component shadowRoot
 import styles from './ids-multiselect.scss';
@@ -14,6 +15,7 @@ import type { IdsDropdownOption, IdsDropdownOptions } from '../ids-dropdown/ids-
 import type IdsTag from '../ids-tag/ids-tag';
 import type IdsIcon from '../ids-icon/ids-icon';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import type IdsText from '../ids-text/ids-text';
 
 /**
  * IDS Multiselect Component
@@ -294,9 +296,8 @@ class IdsMultiselect extends Base {
       if (this.tags) {
         this.#updateDisplay();
         this.popup?.place();
+        this.container?.classList.toggle('has-value', this.#selectedList.length > 0);
       }
-
-      this.container?.classList.toggle('has-value', this.#selectedList.length > 0);
     }
 
     this.clearSelected();
@@ -308,6 +309,7 @@ class IdsMultiselect extends Base {
    */
   #updateDisplay() {
     const selected = this.#optionsData.filter((item: IdsDropdownOption) => this.#selectedList.includes(item.value));
+    const newValue = selected.map((item: IdsDropdownOption) => item.label).join(', ');
 
     if (this.tags) {
       // Clear tags before rerender
@@ -324,9 +326,20 @@ class IdsMultiselect extends Base {
         >${item.label}</ids-tag>`;
       }).join('');
       this.input?.insertAdjacentHTML('afterbegin', tags);
-    }
+    } else {
+      this.input?.querySelector<IdsText>('ids-text')?.remove();
 
-    const newValue = selected.map((item: IdsDropdownOption) => item.label).join(', ');
+      this.input?.insertAdjacentHTML('afterbegin', `<ids-text overflow="ellipsis" tooltip="true">${newValue}</ids-text>`);
+      const text = this.input?.querySelector<IdsText>('ids-text');
+      if (text?.beforeTooltipShow) {
+        text.beforeTooltipShow = (tooltip) => {
+          tooltip.popup.alignTarget = this.input?.fieldContainer;
+          tooltip.popup.align = 'top, left';
+          tooltip.popup.width = '284px';
+          tooltip.target = this.input?.fieldContainer;
+        };
+      }
+    }
 
     if (this.input) this.input.value = newValue;
   }
