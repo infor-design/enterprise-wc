@@ -36,6 +36,7 @@
 - `[ListView]` Fixed a bug where the component is showing errors when changing data by activating an item ([#1036](https://github.com/infor-design/enterprise-wc/issues/1036))
 - `[Lookup]` Fixed dirty tracking in Safari browser. ([#1017](https://github.com/infor-design/enterprise-wc/issues/1017))
 - `[Pager]` Fixed page size dropdown selected popup item. ([#1034](https://github.com/infor-design/enterprise-wc/issues/1034))
+- `[ScrollView]` Fixed buttons do not update after being clicked. ([#951](https://github.com/infor-design/enterprise-wc/issues/951))
 - `[Wizard]` Fixed dark/contrast mode colors. ([#1007](https://github.com/infor-design/enterprise-wc/issues/1007))
 
 ## 1.0.0-beta.2
