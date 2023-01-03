@@ -25,7 +25,7 @@ describe('Ids Toolbar e2e Tests', () => {
       document.body.insertAdjacentHTML('beforeend', `<ids-toolbar id="test">
       <ids-toolbar-section>
         <ids-button icon="menu" role="button">
-          <span slot="text" class="audible">Application Menu Trigger</span>
+          <span class="audible">Application Menu Trigger</span>
         </ids-button></ids-toolbar>`);
       document.querySelector('#test')?.remove();
     });

@@ -195,13 +195,13 @@ class IdsDatePicker extends Base {
           <ids-text audible="true" translate-text="true">SelectDay</ids-text>
           <ids-trigger-button>
             <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
-            <ids-icon slot="icon" icon="schedule" class="datepicker-icon"></ids-icon>
+            <ids-icon icon="schedule" class="datepicker-icon"></ids-icon>
           </ids-trigger-button>
         ` : ``}
         ${this.isDropdown ? `
           <ids-toggle-button icon-off="dropdown" icon-on="dropdown" icon="dropdown" icon-align="end" class="dropdown-btn">
-            <ids-icon slot="icon" icon="dropdown" class="dropdown-btn-icon"></ids-icon>
-            <ids-text slot="text" class="dropdown-btn-text" font-size="20">${this.value}</ids-text>
+            <ids-icon icon="dropdown" class="dropdown-btn-icon"></ids-icon>
+            <ids-text class="dropdown-btn-text" font-size="20">${this.value}</ids-text>
           </ids-toggle-button>
           <ids-expandable-area type="toggle-btn" expanded="${this.expanded}">
             <div class="picklist" slot="pane" role="application"></div>
@@ -227,7 +227,7 @@ class IdsDatePicker extends Base {
               id="triggerBtn-${this.id ? this.id : ''}"
               slot="trigger-end" part="trigger-button">
               <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
-              <ids-icon part="icon" slot="icon" icon="schedule"></ids-icon>
+              <ids-icon part="icon" icon="schedule"></ids-icon>
             </ids-trigger-button>
           </ids-trigger-field>
         ` : ``}

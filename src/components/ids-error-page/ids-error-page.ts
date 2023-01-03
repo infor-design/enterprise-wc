@@ -57,7 +57,7 @@ export default class IdsErrorPage extends Base {
             ${this.description ?? 'Add Description'}
           </ids-text>
           <ids-button class="action-button" slot="button" type="primary">
-            <span slot="text">${this.buttonText ?? 'Action'}</span>
+            <span>${this.buttonText ?? 'Action'}</span>
           </ids-button>
         </ids-empty-message>
       </div>

@@ -29,11 +29,11 @@ Header components can contain other navigation components, such as [IdsBreadcrum
     </ids-toolbar-section>
     <ids-toolbar-section type="buttonset" align="end">
       <ids-button id="button-1" role="button">
-        <span slot="text">Text</span>
+        <span>Text</span>
       </ids-button>
       <ids-button id="button-2">
-        <span slot="text" class="audible">Settings</span>
-        <ids-icon slot="icon" icon="settings"></ids-icon>
+        <span class="audible">Settings</span>
+        <ids-icon icon="settings"></ids-icon>
       </ids-button>
     </ids-toolbar-section>
   </ids-toolbar>

@@ -37,7 +37,7 @@ Add an IdsTriggerField to the page and inside its slot add one or more ids-trigg
 <ids-trigger-field size="sm" label="Date Field">
   <ids-trigger-button slot="end">
     <ids-text audible="true">Date Field trigger</ids-text>
-    <ids-icon slot="icon" icon="schedule"></ids-icon>
+    <ids-icon icon="schedule"></ids-icon>
   </ids-trigger-button>
 </ids-trigger-field>
 ```
@@ -68,7 +68,7 @@ Example usage with `inline` attribute enabled in ids-trigger-buttons.
 <ids-trigger-field size="sm" label="Select an option">
   <ids-trigger-button slot="trigger-end" inline>
     <ids-text>Show options</ids-text>
-    <ids-icon slot="icon" icon="dropdown"></ids-icon>
+    <ids-icon icon="dropdown"></ids-icon>
   </ids-trigger-button>
 </ids-trigger-field>
 ```

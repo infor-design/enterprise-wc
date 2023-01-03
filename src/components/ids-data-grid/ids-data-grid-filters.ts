@@ -885,7 +885,7 @@ export default class IdsDataGridFilters {
       label: (target.text || '').trim()
     };
     target.icon = icon;
-    target.querySelector('[slot="text"]').textContent = label;
+    target.querySelector('span, ids-text').textContent = label;
     this.root.triggerEvent('filteroperatorchanged', this.root, {
       bubbles: true,
       detail: {
@@ -987,7 +987,7 @@ export default class IdsDataGridFilters {
         trigger-type="click"
         ${disabled}${readonly}
         dropdown-icon>
-        <span slot="text" class="audible">${sel.label}</span>
+        <span class="audible">${sel.label}</span>
       </ids-menu-button>
       <ids-popup-menu id="menu-${id}" target="#btn-${id}">
         <ids-menu-group select="single">${items}</ids-menu-group>

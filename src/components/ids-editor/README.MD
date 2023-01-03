@@ -66,21 +66,21 @@ Custom toolbar with editor component.
   <ids-toolbar slot="toolbar" tabbable="true" type="formatter">
     <ids-toolbar-section type="buttonset">
       <ids-button editor-action="bold" square="true" tooltip="Toggle Bold Text">
-        <span slot="text" class="audible">Bold</span>
-        <ids-icon slot="icon" icon="bold"></ids-icon>
+        <span class="audible">Bold</span>
+        <ids-icon icon="bold"></ids-icon>
       </ids-button>
       <ids-button editor-action="italic" square="true" tooltip="Toggle Italic Text">
-        <span slot="text" class="audible">Italic</span>
-        <ids-icon slot="icon" icon="italic"></ids-icon>
+        <span class="audible">Italic</span>
+        <ids-icon icon="italic"></ids-icon>
       </ids-button>
       <ids-button editor-action="underline" square="true" tooltip="Toggle Underline Text">
-        <span slot="text" class="audible">Underline</span>
-        <ids-icon slot="icon" icon="underline"></ids-icon>
+        <span class="audible">Underline</span>
+        <ids-icon icon="underline"></ids-icon>
       </ids-button>
       <ids-separator vertical></ids-separator>
       <ids-button editor-action="sourcemode" square="true" tooltip="View Source">
-        <span slot="text" class="audible">View Source</span>
-        <ids-icon slot="icon" icon="html" width="38" viewbox="0 0 54 18"></ids-icon>
+        <span class="audible">View Source</span>
+        <ids-icon icon="html" width="38" viewbox="0 0 54 18"></ids-icon>
       </ids-button>
     </ids-toolbar-section>
   </ids-toolbar>

@@ -50,24 +50,33 @@ export default class IdsPagerDropdown extends Base {
   }
 
   template(): string {
-    const pageSize = Math.max(this.pageSize || 0, 1);
-
     return `
       <div class="ids-pager-dropdown">
         <ids-menu-button id="pager-size-menu-button" menu="pager-size-menu" role="button" dropdown-icon>
-          <span slot="text">${pageSize} ${this.label}</span>
+          <span>${this.pageSize} ${this.label}</span>
         </ids-menu-button>
         <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger-type="click">
-          <ids-menu-group select="single">
-            <ids-menu-item value="5">5</ids-menu-item>
-            <ids-menu-item value="10">10</ids-menu-item>
-            <ids-menu-item value="25">25</ids-menu-item>
-            <ids-menu-item value="50">50</ids-menu-item>
-            <ids-menu-item value="100">100</ids-menu-item>
-          </ids-menu-group>
+          ${this.#itemsTemplate()}
         </ids-popup-menu>
       </div>
     `;
+  }
+
+  /**
+   * Get items template
+   * @private
+   * @returns {string} items template
+   */
+  #itemsTemplate(): string {
+    const sizes = [5, 10, 25, 50, 100];
+    const uniqueSizes = [...new Set([this.pageSize, ...sizes])].sort((a, b) => a - b);
+
+    const items = uniqueSizes.map((size) => {
+      const selected = size === this.pageSize ? ' selected' : '';
+      return `<ids-menu-item value="${size}"${selected}>${size}</ids-menu-item>`;
+    }).join('');
+
+    return `<ids-menu-group select="single">${items}</ids-menu-group>`;
   }
 
   /**
@@ -90,11 +99,14 @@ export default class IdsPagerDropdown extends Base {
    * @param {number} value - new the page-size
    */
   set pageSize(value: number) {
-    this.setAttribute(attributes.PAGE_SIZE, String(value));
+    const val = this.#validPageSize(value);
+    this.setAttribute(attributes.PAGE_SIZE, String(val));
 
     if (this.menuButton) {
-      const span = this.menuButton.querySelector('span');
-      span.textContent = `${value} ${this.label}`;
+      this.menuButton.querySelector('span').textContent = `${val} ${this.label}`;
+      const item = this.menuButton.menuEl.items.filter((itm: any) => itm.value === String(val))[0];
+      if (item) this.menuButton.menuEl.selectItem(item);
+      else this.menuButton.menuEl.innerHTML = this.#itemsTemplate();
     }
   }
 
@@ -102,7 +114,20 @@ export default class IdsPagerDropdown extends Base {
    * Get the page-size attribute
    * @returns {number} - the current page-size
    */
-  get pageSize(): number { return parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '') || 10; }
+  get pageSize(): number {
+    return this.#validPageSize(this.getAttribute(attributes.PAGE_SIZE) || '');
+  }
+
+  /**
+   * Check given page size value, if not a number return default
+   * @private
+   * @param {number | string} value The value
+   * @returns {number} Given value or default
+   */
+  #validPageSize(value: number | string): number {
+    const val = parseInt(value as any);
+    return Number.isNaN(val) ? 10 : val;
+  }
 
   connectedCallback(): void {
     super.connectedCallback?.();
@@ -119,7 +144,7 @@ export default class IdsPagerDropdown extends Base {
     if (popupMenuGroup) {
       popupMenuGroup.style.minWidth = '175px';
       popupMenuGroup.style.textAlign = 'left';
-      popupMenu.setSelectedValues(String(this.pageSize), popupMenuGroup);
+      popupMenu?.setSelectedValues?.(String(this.pageSize), popupMenuGroup);
     }
 
     this.#attachEventListeners();

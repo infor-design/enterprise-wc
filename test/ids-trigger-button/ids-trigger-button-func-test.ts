@@ -43,7 +43,7 @@ describe('IdsTriggerButton Component', () => {
   it('supports readonly initially', () => {
     triggerButton = createFromTemplate(triggerButton, `<ids-trigger-button readonly="true">
       <ids-text audible="true">Search trigger</ids-text>
-      <ids-icon slot="icon" icon="search"></ids-icon>
+      <ids-icon icon="search"></ids-icon>
     </ids-trigger-button>`);
 
     expect(triggerButton.readonly).toEqual(true);
@@ -80,7 +80,7 @@ describe('IdsTriggerButton Component', () => {
     // Looks like an "End" trigger button by default
     triggerButton = createFromTemplate(triggerButton, `<ids-trigger-button inline>
       <ids-text audible="true">+</ids-text>
-      <ids-icon slot="icon" icon="search"></ids-icon>
+      <ids-icon icon="search"></ids-icon>
     </ids-trigger-button>`);
 
     expect(triggerButton.hasAttribute('inline')).toBeTruthy();
@@ -90,7 +90,7 @@ describe('IdsTriggerButton Component', () => {
     // add "slot='trigger-start'" to look like a "Start" trigger button
     triggerButton = createFromTemplate(triggerButton, `<ids-trigger-button slot="trigger-start" inline>
       <ids-text audible="true">+</ids-text>
-      <ids-icon slot="icon" icon="search"></ids-icon>
+      <ids-icon icon="search"></ids-icon>
     </ids-trigger-button>`);
 
     expect(triggerButton.container.classList.contains('inline-end')).toBeFalsy();
@@ -99,7 +99,7 @@ describe('IdsTriggerButton Component', () => {
     // No inline setting
     triggerButton = createFromTemplate(triggerButton, `<ids-trigger-button slot="trigger-start">
       <ids-text audible="true">+</ids-text>
-      <ids-icon slot="icon" icon="search"></ids-icon>
+      <ids-icon icon="search"></ids-icon>
     </ids-trigger-button>`);
 
     expect(triggerButton.hasAttribute('inline')).toBeFalsy();

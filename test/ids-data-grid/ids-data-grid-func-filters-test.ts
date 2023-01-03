@@ -730,7 +730,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     dataGrid = createFromTemplate(dataGrid, `<ids-data-grid>
       <div slot="filter-price" column-id="price">
         <ids-menu-button id="btn-filter-price" icon="filter-greater-equals" menu="menu-filter-price" dropdown-icon>
-          <span slot="text" class="audible">Greater Than Or Equals</span>
+          <span class="audible">Greater Than Or Equals</span>
         </ids-menu-button>
         <ids-popup-menu id="menu-filter-price" target="#btn-filter-price">
           <ids-menu-group select="single">

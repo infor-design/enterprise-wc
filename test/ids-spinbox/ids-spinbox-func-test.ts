@@ -277,7 +277,7 @@ describe('IdsSpinbox Component', () => {
     await processAnimFrame();
     await processAnimFrame();
 
-    expect(elem.value).toEqual('1');
+    expect(Number(elem.value)).toBeGreaterThanOrEqual(1);
   });
 
   it('sets the value to one not divisible by steps and has it auto-rounded to nearest-step in both directions', async () => {

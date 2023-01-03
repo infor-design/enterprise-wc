@@ -65,7 +65,7 @@ export default class IdsToolbarMoreActions extends Base {
 
     return `<div class="ids-toolbar-section ids-toolbar-more-actions more">
       <ids-menu-button id="${menuButtonId}" menu="${menuId}"${disabled}>
-        <ids-icon slot="icon" icon="${icon}"></ids-icon>
+        <ids-icon icon="${icon}"></ids-icon>
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
       <ids-popup-menu id="${menuId}" target="#${menuButtonId}" trigger-type="click">

@@ -10,6 +10,8 @@ import './ids-pager-dropdown';
 import './ids-pager-input';
 import './ids-pager-number-list';
 
+import type IdsPagerDropdown from './ids-pager-dropdown';
+
 import styles from './ids-pager.scss';
 
 /**
@@ -39,7 +41,8 @@ export default class IdsPager extends Base {
         start: this.container?.querySelector('.pager-section.start slot'),
         middle: this.container?.querySelector('.pager-section.middle slot'),
         end: this.container?.querySelector('.pager-section.end slot'),
-      }
+      },
+      dropdowns: this.querySelectorAll('ids-pager-dropdown')
     };
   }
 
@@ -182,16 +185,9 @@ export default class IdsPager extends Base {
 
   /** @param {number} value The number of items shown per page */
   set pageSize(value: number) {
-    let nextValue = parseInt(value as any);
-
-    if (Number.isNaN(nextValue)) {
-      nextValue = 1;
-    } else if (nextValue < 1) {
-      nextValue = 1;
-    } else {
-      nextValue = Number.parseInt(value as any);
-    }
-    this.setAttribute(attributes.PAGE_SIZE, String(nextValue));
+    let val = Number.parseInt(value as any);
+    if (Number.isNaN(val) || val < 1) val = 1;
+    this.setAttribute(attributes.PAGE_SIZE, String(val));
     this.#keepPageNumberInBounds();
   }
 
@@ -274,18 +270,16 @@ export default class IdsPager extends Base {
   }
 
   #keepPageNumberInBounds(): void {
-    let nextValue = parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '');
+    const attrVal = Number.parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '');
+    let val = attrVal;
+    if (Number.isNaN(val) || val <= 1) val = 1;
+    else if (this.pageCount && val > this.pageCount) val = this.pageCount;
 
-    if (Number.isNaN(nextValue)) {
-      nextValue = 1;
-    } else if (nextValue <= 1) {
-      nextValue = 1;
-    } else if (this.pageCount && nextValue > this.pageCount) {
-      nextValue = this.pageCount;
-    }
+    // Dropdowns
+    this.elements.dropdowns.forEach((d: IdsPagerDropdown) => {
+      if (d.pageSize !== this.pageSize) d.pageSize = this.pageSize;
+    });
 
-    if (parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '') !== nextValue) {
-      this.setAttribute(attributes.PAGE_NUMBER, String(nextValue));
-    }
+    if (val !== attrVal) this.setAttribute(attributes.PAGE_NUMBER, String(val));
   }
 }

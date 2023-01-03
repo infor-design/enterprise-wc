@@ -196,7 +196,7 @@ export default class IdsDropdown extends Base {
           disabled="${this.disabled}"
         >
           <ids-text audible="true" translate-text="true">DropdownTriggerButton</ids-text>
-          <ids-icon slot="icon" icon="dropdown" part="icon"></ids-icon>
+          <ids-icon icon="dropdown" part="icon"></ids-icon>
         </ids-trigger-button>
       </ids-trigger-field>
     <ids-popup type="menu" part="popup">
@@ -921,7 +921,7 @@ export default class IdsDropdown extends Base {
    * @param {string} icon ids-icon icon value
    */
   #triggerIconChange(icon: string) {
-    const triggerIcon = this.container?.querySelector<IdsIcon>('ids-icon[slot="icon"]');
+    const triggerIcon = this.container?.querySelector<IdsTriggerButton>('ids-trigger-button')?.querySelector<IdsIcon>('ids-icon');
 
     if (triggerIcon?.icon && triggerIcon.icon !== icon) {
       triggerIcon.icon = icon;

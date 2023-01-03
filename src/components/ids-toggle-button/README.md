@@ -20,8 +20,8 @@ While it's possible to manually set the `icon` and `text` attributes of a Toggle
 
 ```html
 <ids-toggle-button id="my-toggle" icon-on="star-filled" icon-off="star-outlined" text-off="Toggle Button (Off)" text-on="Toggle Button (On)">
-  <ids-icon slot="icon" icon="settings"></ids-icon>
-  <span slot="text"></span>
+  <ids-icon icon="settings"></ids-icon>
+  <span></span>
 </ids-toggle-button>
 ```
 

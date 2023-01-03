@@ -360,8 +360,8 @@ export default class IdsUploadAdvanced extends Base {
         </div>
         <div class="btn-close">
           <ids-button id="btn-close-error" part="btn-close-error">
-            <span slot="text" class="audible">${textCloseBtnError}</span>
-            <ids-icon slot="icon" icon="close" size="xsmall"></ids-icon>
+            <span class="audible">${textCloseBtnError}</span>
+            <ids-icon icon="close" size="xsmall"></ids-icon>
           </ids-button>
         </div>
       `;
@@ -886,10 +886,10 @@ export default class IdsUploadAdvanced extends Base {
         <ids-toolbar>
           <ids-toolbar-section type="buttonset" align="end">
             <ids-button id="btn-cancel-all" part="btn-cancel-all" role="button" no-padding>
-              <span slot="text">${text.cancel}</span>
+              <span>${text.cancel}</span>
             </ids-button>
             <ids-button id="btn-start-all" part="btn-start-all" role="button" no-padding>
-              <span slot="text">${text.start}</span>
+              <span>${text.start}</span>
             </ids-button>
           </ids-toolbar-section>
         </ids-toolbar>
