@@ -204,6 +204,7 @@ export default class IdsDataGridCell extends IdsElement {
    */
   #saveCellValue(newValue: any) {
     const column = this.column;
+    this.dataGrid.resetCache(this.dataGrid?.activeCell.row);
     if (column.editor?.editorSettings?.mask === 'date') {
       newValue = this.dataGrid.locale.parseDate(newValue, column.formatOptions);
     }

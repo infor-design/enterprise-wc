@@ -537,8 +537,10 @@ export default class IdsDataGrid extends Base {
   /** Do some things after redraw */
   afterRedraw() {
     requestAnimationFrame(() => {
-      // Set Focus
-      this.setActiveCell(0, 0, true);
+      requestAnimationFrame(() => {
+        // Set Focus
+        this.setActiveCell(0, 0, true);
+      });
     });
   }
 
@@ -563,8 +565,9 @@ export default class IdsDataGrid extends Base {
     return `${emptyMesageTemplate}<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
 
-  resetCache() {
+  resetCache(rowIndex?: number) {
     // NOTE: simple way to clear cache until a better cache-busting strategy is in implemented
+    if (rowIndex && rowIndex >= 0) delete IdsDataGridRow.rowCache[rowIndex];
     IdsDataGridRow.rowCache = {};
     IdsDataGridCell.cellCache = {};
   }
@@ -849,7 +852,7 @@ export default class IdsDataGrid extends Base {
     this.onEvent('keydown.body', this, (e: KeyboardEvent) => {
       const isPrintableKey = e.key.length === 1;
       if (!this.activeCellEditor && isPrintableKey && e.key !== ' ') {
-        this.activeCell.node.startCellEdit();
+        this.activeCell.node?.startCellEdit();
       }
     });
     return this;
