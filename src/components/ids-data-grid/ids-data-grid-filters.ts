@@ -674,6 +674,10 @@ export default class IdsDataGridFilters {
       });
       this.root.saveSettings?.();
     }
+
+    requestAnimationFrame(() => {
+      this.root.setActiveCell(0, 0, true);
+    });
   }
 
   /**

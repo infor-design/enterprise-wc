@@ -710,6 +710,11 @@ export default class IdsDataGrid extends Base {
         const cellIndex = row.dirtyCells.findIndex((item: any) => item.cell === fromIndex);
         row.dirtyCells[cellIndex].cell = toIndex;
       }
+      if (dirtyRow.cell === toIndex) {
+        const row: any = this.data[dirtyRow?.row];
+        const cellIndex = row.dirtyCells.findIndex((item: any) => item.cell === toIndex);
+        row.dirtyCells[cellIndex].cell = fromIndex;
+      }
     });
 
     // Move the validation data

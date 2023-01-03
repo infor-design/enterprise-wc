@@ -108,7 +108,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
 // Expandable Row
 .ids-data-grid-expandable-row {
-  border-top: 1px solid $cell-border-color;
+  border-bottom: 1px solid $cell-border-color;
   grid-column: 1 / -1;
   padding: 8px;
 }
