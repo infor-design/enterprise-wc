@@ -11,7 +11,7 @@ import { editors } from './ids-data-grid-editors';
 import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid-filters';
 import { IdsDataGridContextmenuArgs, setContextmenu } from './ids-data-grid-contextmenu';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
-import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
+
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import {
   IdsDataGridEmptyMessageElements,
@@ -94,8 +94,7 @@ export default class IdsDataGrid extends Base {
 
     this.initialized = false;
     this.state = {
-      menuData: null,
-      selected: {},
+      menuData: null
     };
   }
 
@@ -582,7 +581,6 @@ export default class IdsDataGrid extends Base {
     const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.NUM_ROWS) : this.data;
     for (let index = 0; index < data.length; index++) {
       innerHTML += IdsDataGridRow.template(data[index], index, index + 1, this);
-      // innerHTML += `<ids-data-grid-row row-index="${index}"></ids-data-grid-row>`;
     }
     return innerHTML;
   }
@@ -1301,6 +1299,10 @@ export default class IdsDataGrid extends Base {
 
   get virtualScroll(): boolean { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
+  /**
+   * Some future configurable virtual scroll settings
+   * @returns {object} the current settings
+   */
   get virtualScrollSettings() {
     const ENABLED = !!this.virtualScroll;
     const ROW_HEIGHT = this.rowPixelHeight || 50;
@@ -1625,7 +1627,6 @@ export default class IdsDataGrid extends Base {
     if (!row) return;
 
     row.selected = true;
-    this.state.selected[index] = true;
 
     this.updateDataset(Number(row?.getAttribute('data-index')), { rowSelected: true });
     if ((this.rowSelection === 'single' || this.rowSelection === 'multiple') && row) row.updateCells(index);
@@ -1650,8 +1651,6 @@ export default class IdsDataGrid extends Base {
   deSelectRow(index: number, triggerEvent = true) {
     const row = this.rowByIndex(index);
     if (!row) return;
-
-    this.state.selected[index] = false;
 
     if (this.rowSelection === 'mixed') {
       row.classList.remove('mixed');
@@ -1744,7 +1743,6 @@ export default class IdsDataGrid extends Base {
    */
   selectAllRows() {
     this.data?.forEach((row: any, index: number) => {
-      this.state.selected[index] = true;
       this.selectRow(index);
       row.rowSelected = true;
     });
@@ -1763,8 +1761,6 @@ export default class IdsDataGrid extends Base {
    */
   deSelectAllRows() {
     this.data?.forEach((row: any, index: number) => {
-      this.state.selected[index] = false;
-
       if (row.rowSelected) {
         this.deSelectRow(index);
         row.rowSelected = false;
