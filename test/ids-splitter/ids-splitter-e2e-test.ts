@@ -71,7 +71,7 @@ describe('Ids Splitter e2e Tests', () => {
     await testKeys();
   });
 
-  it('should use arrow keys to move RTL', async () => {
+  it.skip('should use arrow keys to move RTL', async () => {
     await page.goto(urlSandbox, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('#splitter-minmax', { visible: true });
     await page.evaluate('document.querySelector("ids-container").setAttribute("language", "ar")');

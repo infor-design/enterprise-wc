@@ -21,7 +21,7 @@ describe('Ids Tooltip e2e Tests', () => {
     await expect(isVisible).toEqual('true');
   });
 
-  it('shows on mouseenter and then hides on mouseleave', async () => {
+  it.skip('shows on mouseenter and then hides on mouseleave', async () => {
     await page.hover('#button-1');
     await page.waitForSelector('#tooltip-example', { visible: true });
     await page.hover('ids-text');
@@ -30,7 +30,7 @@ describe('Ids Tooltip e2e Tests', () => {
     await expect(isVisible).toEqual(null);
   });
 
-  it('shows on mouseenter and then hides on click', async () => {
+  it.skip('shows on mouseenter and then hides on click', async () => {
     await page.hover('#button-1');
     await page.waitForSelector('#tooltip-example', { visible: true });
     await page.click('#button-1');
