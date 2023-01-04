@@ -39,7 +39,10 @@ export function getSpecs() {
   } else if (nUAgent.indexOf('Chrome') !== -1) {
     verOffset = nUAgent.indexOf('Chrome');
     browser = 'Chrome';
-    appVersion = nUAgent.substring(verOffset + 7).substring(0, 3);
+    appVersion = nUAgent.substring(verOffset + 7);
+    if (Number(appVersion.substring(0, 3)) >= 108) {
+      appVersion = appVersion.substring(0, 3);
+    }
   } else if (nUAgent.indexOf('Safari') !== -1) {
     verOffset = nUAgent.indexOf('Safari');
     browser = 'Safari';
