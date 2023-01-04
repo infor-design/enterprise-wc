@@ -45,7 +45,6 @@ $ids-button-rounded-size: 8px;
   @include border-solid();
   @include font-normal();
   @include font-sans();
-  @include px-28();
   @include text-16();
 
   overflow: hidden;

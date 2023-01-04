@@ -73,8 +73,15 @@ button {
     @include block();
   }
 
-  &:not(.no-padding):not(.ids-icon-button):not(.ids-trigger-button) {
+  // Assign padding based on type/usage
+  // ====================================================
+  &:not(.no-padding) {
     @include ids-standard-button-padding();
+  }
+
+  &.btn-tertiary,
+  &.btn-tertiary-destructive {
+    @include ids-inline-button-padding();
   }
 
   &.no-padding {
