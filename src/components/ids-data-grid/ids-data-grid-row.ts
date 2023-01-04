@@ -28,6 +28,7 @@ export default class IdsDataGridRow extends IdsElement {
 
   connectedCallback(): void {
     super.connectedCallback();
+    this.#setAttributes();
   }
 
   /**
@@ -95,7 +96,10 @@ export default class IdsDataGridRow extends IdsElement {
     this.dataGrid.requestAnimationFrame(() => {
       this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
     });
+  }
 
+  #setAttributes() {
+    const row = this.rowIndex;
     this.setAttribute('data-index', String(row));
     this.setAttribute('aria-rowindex', String(row + 1));
 
