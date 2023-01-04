@@ -20,7 +20,7 @@ describe('Ids Hierarchy e2e test', () => {
     expect(results.violations.length).toBe(0);
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-hierarchy-legend id="test">

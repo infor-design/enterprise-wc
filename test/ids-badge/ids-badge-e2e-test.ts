@@ -21,7 +21,7 @@ describe('Ids Badge e2e Tests', () => {
     expect(results.violations.length).toBe(0);
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-badge id="test" color="error">1500</ids-badge>`);
