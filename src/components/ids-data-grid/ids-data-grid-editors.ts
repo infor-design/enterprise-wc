@@ -15,6 +15,13 @@ export interface IdsDataGridEditorOptions {
   inline: boolean;
 }
 
+export interface IdsDataGridSaveValue {
+  // value to be saved in data set
+  value?: string | number | boolean | null;
+  // (optional) value used for dirty checking
+  dirtyCheckValue?: string | number | boolean | null;
+}
+
 export interface IdsDataGridEditor {
   /** The type of editor (i.e. input, dropdown, checkbox ect) */
   type: string;
@@ -23,7 +30,7 @@ export interface IdsDataGridEditor {
   /** The function that invokes and sets values on the input */
   init: (cell?: IdsDataGridCell) => void;
   /** The function that transforms and saved the editor */
-  save: (cell?: IdsDataGridCell) => void;
+  save: (cell?: IdsDataGridCell) => IdsDataGridSaveValue | undefined | null;
   /** The function that tears down all aspects of the editor */
   destroy: (cell?: IdsDataGridCell) => void;
   /** Indicates click was used to edit */
@@ -70,7 +77,7 @@ export class InputEditor implements IdsDataGridEditor {
 
   /* Transform the value */
   save() {
-    return this.input?.value;
+    return { value: this.input?.value };
   }
 
   /* Destroy the editor */
@@ -109,7 +116,7 @@ export class CheckboxEditor implements IdsDataGridEditor {
 
   /* Transform the value */
   save() {
-    return this.input?.checked;
+    return { value: this.input?.checked };
   }
 
   /* Destroy the editor */
@@ -120,27 +127,31 @@ export class CheckboxEditor implements IdsDataGridEditor {
 }
 
 export class DropdownEditor implements IdsDataGridEditor {
+  /** The type of editor (i.e. input, dropdown, checkbox ect) */
   type = 'dropdown';
 
+  /** Holds the Editor */
   input?: IdsDropdown;
 
+  /** Cache dropdown value */
   #value?: string | null;
 
-  #stopPropagation = false;
-
+  /** Callback reference to handle blur event propagation */
   #stopPropagationCb = this.stopPropagation.bind(this);
 
   init(cell?: IdsDataGridCell): void {
-    const settings = cell?.column?.editor?.editorSettings ?? {};
-    const dataset = <any[]>settings?.options ?? [];
-
     this.#value = cell?.querySelector('[data-value]')?.getAttribute('data-value') ?? null;
+    const settings = { ...cell?.column?.editor?.editorSettings };
+    const dataset = <any[]>settings?.options ?? [];
 
     this.input = <IdsDropdown>document.createElement('ids-dropdown');
     this.input.insertAdjacentHTML('beforeend', '<ids-list-box></ids-list-box>');
     this.input.loadDataSet(dataset);
-    this.input.typeahead = true;
-    this.input.dirtyTracker = true;
+
+    // apply user settings
+    delete settings.options;
+    applySettings(this.input, settings);
+    this.input.typeahead = false;
 
     cell!.innerHTML = '';
     cell!.style.setProperty('overflow', 'visible');
@@ -150,45 +161,44 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input.size = 'full';
     this.input.labelState = 'collapsed';
     this.input.colorVariant = 'borderless';
-
-    // add styling for trigger field > .field-container
-
+    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight);
     this.input.container?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
-    this.#attchEventListeners(cell);
+    this.#attchEventListeners();
   }
 
-  stopPropagation(evt: CustomEvent) {
-    // try stop propgation if target isn't within cell
-    if (this.#stopPropagation) {
+  /**
+   * Overrides data grid cell's focusout event handling
+   * @param {FocusEvent} evt focus event
+   */
+  stopPropagation(evt: FocusEvent) {
+    if (evt.relatedTarget !== null) {
+      evt.stopPropagation();
       evt.stopImmediatePropagation();
     }
   }
 
-  #attchEventListeners(cell?: IdsDataGridCell) {
-    this.input?.onEvent('outside-click.dropdown', this.input, () => { cell?.cancelCellEdit(); });
-    this.input?.onEvent('open', this.input, () => { this.#stopPropagation = true; });
-    this.input?.onEvent('close', this.input, () => { this.#stopPropagation = false; });
+  /**
+   * Attach dropdown event handlers
+   */
+  #attchEventListeners() {
     this.input?.onEvent('change', this.input, (evt) => { this.#value = evt.detail.value; });
-    this.input?.onEvent('blur', this.input, this.#stopPropagationCb);
+    this.input?.onEvent('focusout', this.input, this.#stopPropagationCb);
   }
 
+  /* Save selected dropdown value */
   save() {
-    return this.#value;
+    return { value: this.#value, dirtyCheckValue: this.input?.input?.value };
   }
 
+  /**
+   * Destroy dropdown editor
+   * @param {IdsDataGridCell} cell the cell element
+   */
   destroy(cell?: IdsDataGridCell | undefined): void {
-    // remove event listeners
     this.input?.offEvent('change');
-    this.input?.offEvent('open');
-    this.input?.offEvent('close');
-    this.input?.offEvent('blur', this.input, this.#stopPropagationCb);
-    this.input?.offEvent('outside-click.dropdown');
-
-    // revert cell style changes
-    cell?.style.removeProperty('overflow');
-
-    // unassign cache
+    this.input?.offEvent('focusout', this.input, this.#stopPropagationCb);
     this.#value = undefined;
+    cell?.style.removeProperty('overflow');
   }
 }
 

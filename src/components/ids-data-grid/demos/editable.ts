@@ -142,6 +142,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
       type: 'dropdown',
       editorSettings: {
         dirtyTracker: true,
+        validate: 'required',
         options: [
           {
             id: '',

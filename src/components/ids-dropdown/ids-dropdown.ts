@@ -627,7 +627,6 @@ export default class IdsDropdown extends Base {
    */
   onOutsideClick(e: any): void {
     if (!(e.composedPath()?.includes(this.popup) || e.composedPath()?.includes(this.input?.fieldContainer))) {
-      this.triggerEvent('outside-click.dropdown', this);
       this.close(true);
     }
   }

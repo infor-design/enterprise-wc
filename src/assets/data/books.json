@@ -92,7 +92,7 @@
     "book": 106,
     "description": "106",
     "ledger": "CORE",
-    "bookCurrency": "usd",
+    "bookCurrency": "yen",
     "transactionCurrency": "Book",
     "postHistory": true,
     "active": "Yes",

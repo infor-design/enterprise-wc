@@ -181,6 +181,6 @@ export default class IdsDataGridFormatters {
     const value = rowData[field];
     const valueOpt = options.find((opt) => opt.value === value);
 
-    return `<span class="text-ellipsis" data-value="${valueOpt.value}" data-id="${valueOpt.id}">${valueOpt.label}</span>`;
+    return `<span class="text-ellipsis" data-value="${valueOpt?.value ?? ''}" data-id="${valueOpt?.id ?? ''}">${valueOpt?.label ?? ''}</span>`;
   }
 }
