@@ -30,4 +30,12 @@
     padding: 0 16px 16px;
     text-align: center;
   }
+
+  @media all and (max-width: $breakpoint-sm) {
+    max-width: $breakpoint-xs - 20px;
+  }
+
+  @media all and (max-width: $breakpoint-xs) {
+    max-width: $breakpoint-xs - 100px;
+  }
 }
