@@ -424,6 +424,8 @@ export default class IdsDataGridFilters {
    * @returns {void}
    */
   applyFilter(conditions?: any) {
+    this.root?.resetCache();
+
     if (this.#filterIsProcessing || !this.root.filterable || this.root.filterRowDisabled) return;
     this.#filterIsProcessing = true;
 
