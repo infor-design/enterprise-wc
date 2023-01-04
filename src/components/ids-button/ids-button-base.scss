@@ -5,6 +5,8 @@
 @import '../../core/ids-base';
 @import '../../mixins/sass/ids-ripple-mixin';
 
+$ids-button-rounded-size: 8px;
+
 // Mixin for a "blank" shadow (same as the standard one with a completely transparent alpha)
 @mixin blank-shadow() {
   box-shadow: 0 0 3px 2px rgba(54 138 192 / 0);
@@ -125,7 +127,8 @@
  */
 @mixin ids-standard-button-colors() {
   @include inline-flex();
-  @include rounded-default();
+
+  border-radius: $ids-button-rounded-size;
 
   &[mode='light'],
   &:not([mode]) {
@@ -134,6 +137,7 @@
 
     @include border-transparent();
     @include text-slate-60();
+    @include font-bold();
 
     &.is-active,
     &:focus {
@@ -142,11 +146,13 @@
     }
 
     &:hover {
-      @include text-black();
+      @include text-azure-70();
+      @include bg-azure-10();
     }
 
     &[disabled] {
       @include text-slate-30();
+      @include bg-transparent();
     }
 
     .ripple-effect {
@@ -184,9 +190,10 @@
     // Secondary Button Styles
 
     &.btn-secondary {
-      @include bg-slate-30();
-
-      color: var(--ids-color-font-base);
+      @include bg-transparent();
+      @include border-2();
+      @include border-azure-70();
+      @include text-azure-70();
 
       &.is-active,
       &:focus {
@@ -195,11 +202,13 @@
 
       &:hover {
         @include bg-slate-40();
+        @include bg-azure-10();
       }
 
       &[disabled] {
-        @include bg-slate-20();
+        @include bg-transparent();
         @include border-slate-20();
+        @include text-slate-30();
       }
 
       .ripple-effect {
@@ -212,7 +221,7 @@
 
     &.color-variant-alternate,
     &.color-variant-alternate-formatter {
-      @include text-slate-20();
+      @include text-slate-10();
 
       opacity: 0.7;
 
@@ -225,12 +234,16 @@
       }
 
       &:hover {
-        @include text-slate-10();
+        @include bg-azure-90();
+        @include text-white();
 
         opacity: 1;
       }
 
       &[disabled] {
+        @include bg-transparent();
+        @include text-white();
+
         opacity: 0.3;
       }
 
@@ -242,6 +255,8 @@
       // Light Mode Alternate Primary Styles
 
       &.btn-primary {
+        @include text-slate-10();
+
         background-color: var(--ids-color-palette-azure-40);
         border-color: var(--ids-color-palette-azure-40);
         color: var(--ids-color-brand-primary-contrast);
@@ -256,11 +271,13 @@
 
         &:hover {
           @include bg-azure-30();
+          @include text-white();
         }
 
         &[disabled] {
           @include bg-azure-30();
           @include border-azure-30();
+          @include text-white();
 
           opacity: 0.7;
         }
@@ -274,8 +291,10 @@
       // Light Mode Alternate Secondary Styles
 
       &.btn-secondary {
-        @include bg-slate-30();
-        @include text-slate-100();
+        @include border-2();
+        @include border-azure-40();
+        @include bg-transparent();
+        @include text-azure-40();
 
         opacity: 1;
 
@@ -285,13 +304,15 @@
         }
 
         &:hover {
-          @include bg-slate-40();
-          @include text-slate-100();
+          @include bg-azure-90();
+          @include border-azure-30();
+          @include text-white();
         }
 
         &[disabled] {
-          @include bg-slate-20();
+          @include bg-slate-90();
           @include border-slate-20();
+          @include text-slate-20();
 
           opacity: 0.7;
         }
@@ -326,7 +347,8 @@
   // Dark Mode
 
   &[mode='dark'] {
-    @include text-slate-20();
+    @include text-white();
+    @include font-bold();
 
     &.is-active,
     &:focus {
@@ -335,10 +357,12 @@
     }
 
     &:hover {
-      @include text-white();
+      @include text-azure-30();
+      @include bg-slate-90();
     }
 
     &[disabled] {
+      @include bg-transparent();
       @include text-slate-40();
     }
 
@@ -350,8 +374,9 @@
     // Dark Mode Primary Button Styles
 
     &.btn-primary {
-      background-color: var(--ids-color-brand-primary-base);
-      border-color: var(--ids-color-brand-primary-base);
+      @include bg-azure-40();
+      @include border-azure-40();
+
       color: var(--ids-color-palette-white);
 
       &.is-active,
@@ -360,14 +385,14 @@
       }
 
       &:hover {
-        @include bg-azure-80();
-        @include border-azure-80();
+        @include bg-azure-30();
+        @include border-azure-30();
       }
 
       &[disabled] {
-        @include bg-azure-30();
-        @include border-azure-30();
-        @include text-white();
+        @include bg-slate-90();
+        @include border-slate-90();
+        @include text-slate-40();
       }
 
       .ripple-effect {
@@ -379,9 +404,10 @@
     // Dark Mode Secondary Button Styles
 
     &.btn-secondary {
-      @include border-slate-30();
-      @include bg-slate-30();
-      @include text-slate-80();
+      @include border-azure-60();
+      @include border-2();
+      @include bg-transparent();
+      @include text-azure-60();
 
       &.is-active,
       &:focus {
@@ -389,13 +415,15 @@
       }
 
       &:hover {
-        @include border-slate-40();
-        @include bg-slate-40();
+        @include border-azure-30();
+        @include text-azure-30();
+        @include bg-slate-90();
       }
 
       &[disabled] {
-        @include bg-slate-40();
+        @include bg-slate-90();
         @include border-slate-40();
+        @include text-slate-40();
       }
 
       .ripple-effect {
@@ -407,22 +435,46 @@
     &.color-variant-alternate {
       @include text-white();
 
-      // Dark Mode Primary Alternate Styles
-      // TODO: NONE YET
+      &:hover {
+        @include bg-azure-90();
+      }
 
-      // Dark Mode Secondary Alternate Styles
-      &.btn-secondary {
-        @include bg-slate-30();
-        @include text-graphite-100();
+      &[disabled] {
+        @include bg-transparent();
+        @include text-slate-40();
+      }
+
+      // Dark Mode Primary Alternate Styles
+      &.btn-primary {
 
         &:hover {
-          @include text-graphite-100();
+          @include bg-azure-30();
+          @include border-azure-30();
         }
 
         &[disabled] {
-          @include bg-slate-20();
-          @include border-slate-20();
-          @include text-graphite-100();
+          @include bg-slate-90();
+          @include border-slate-90();
+        }
+      }
+
+      // Dark Mode Secondary Alternate Styles
+      &.btn-secondary {
+        @include bg-transparent();
+        @include border-2();
+        @include border-azure-60();
+        @include text-azure-60();
+
+        &:hover {
+          @include bg-azure-90();
+          @include border-azure-30();
+          @include text-azure-30();
+        }
+
+        &[disabled] {
+          @include bg-slate-90();
+          @include border-graphite-40();
+          @include text-graphite-40();
         }
       }
     }
@@ -443,35 +495,61 @@
   // High-Contrast Mode
 
   &[mode='contrast'] {
-    @include text-slate-100();
+    @include text-slate-80();
+    @include font-bold();
+
+    &.is-active,
+    &:focus {
+      @include border-azure-80();
+      @include shadow();
+    }
 
     &:hover {
-      @include text-black();
+      @include bg-azure-10();
+      @include text-azure-80();
     }
 
     &[disabled] {
+      @include bg-transparent();
       @include text-slate-40();
     }
 
     // High-Contrast Mode Primary Styles
     &.btn-primary {
-      @include bg-azure-90();
+      @include bg-azure-80();
       @include text-white();
 
+      &:hover {
+        @include bg-azure-90();
+      }
+
       &[disabled] {
-        @include bg-azure-30();
+        @include bg-slate-20();
+        @include text-slate-40();
+      }
+
+      .ripple-effect {
+        background-color: var(--ids-color-brand-primary-contrast);
       }
     }
 
     // High-Contrast Mode Secondary Styles
     &.btn-secondary {
-      @include bg-slate-70();
-      @include border-slate-70();
-      @include text-white();
+      @include border-2();
+      @include bg-transparent();
+      @include border-azure-80();
+      @include text-azure-80();
+
+      &:hover {
+        @include bg-azure-10();
+        @include border-azure-90();
+        @include text-azure-90();
+      }
 
       &[disabled] {
-        @include bg-slate-40();
-        @include border-slate-40();
+        @include bg-slate-10();
+        @include border-slate-50();
+        @include text-slate-50();
       }
     }
 
@@ -482,10 +560,12 @@
       opacity: 1;
 
       &:hover {
+        @include bg-azure-90();
         @include text-white();
       }
 
       &[disabled] {
+        @include bg-transparent();
         @include text-slate-40();
       }
 
@@ -501,8 +581,8 @@
         }
 
         &[disabled] {
-          @include bg-azure-70();
-          @include border-azure-70();
+          @include bg-slate-70();
+          @include border-slate-70();
 
           opacity: 0.7;
         }
@@ -510,16 +590,21 @@
 
       // High-Contrast Mode Alternate Secondary Styles
       &.btn-secondary {
-        @include bg-slate-60();
-        @include border-slate-60();
+        @include border-2();
+        @include border-azure-60();
+        @include bg-transparent();
+        @include text-azure-60();
 
         &:hover {
-          @include bg-slate-50();
+          @include border-azure-30();
+          @include text-azure-30();
+          @include bg-azure-90();
         }
 
         &[disabled] {
-          @include bg-slate-70();
-          @include border-slate-70();
+          @include bg-slate-90();
+          @include border-graphite-40();
+          @include text-graphite-30();
 
           opacity: 0.7;
         }

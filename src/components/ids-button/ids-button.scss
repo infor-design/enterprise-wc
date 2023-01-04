@@ -107,7 +107,7 @@ button {
   @include py-8();
 
   &:not(.square) {
-    @include rounded-round();
+    border-radius: $ids-button-rounded-size;
   }
 
   // Fixes an issue that causes the ripple effect not to appear "round" on Safari.
