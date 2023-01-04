@@ -616,7 +616,7 @@ export default class IdsDataGrid extends Base {
     this.onEvent('keydown.body', this, (e: KeyboardEvent) => {
       const isPrintableKey = e.key.length === 1;
       if (!this.activeCellEditor && isPrintableKey && e.key !== ' ') {
-        this.activeCell.node.startCellEdit();
+        this.activeCell?.node?.startCellEdit?.();
       }
     });
     return this;
