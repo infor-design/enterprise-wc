@@ -62,7 +62,6 @@ const IdsClearableMixin = <T extends Constraints>(superclass: T) => class extend
     const text = document.createElement('ids-text');
     icon.setAttribute('icon', 'close');
     icon.setAttribute('size', 'small');
-    icon.setAttribute('slot', 'icon');
     text.setAttribute('audible', 'true');
     text.textContent = 'clear';
 
