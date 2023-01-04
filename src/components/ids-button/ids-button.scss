@@ -113,6 +113,11 @@ button {
   @include px-8();
   @include py-8();
 
+  &:not(.no-padding) {
+    @include px-8();
+    @include py-8();
+  }
+
   &:not(.square) {
     border-radius: $ids-button-rounded-size;
   }

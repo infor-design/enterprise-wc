@@ -208,6 +208,7 @@ $ids-button-rounded-size: 8px;
 
       &:hover {
         @include bg-azure-80();
+        @include border-azure-80();
       }
 
       &[disabled] {
@@ -236,6 +237,7 @@ $ids-button-rounded-size: 8px;
 
       &:hover {
         @include bg-ruby-70();
+        @include border-ruby-70();
       }
 
       &[disabled] {
@@ -315,6 +317,37 @@ $ids-button-rounded-size: 8px;
       }
 
       // ====================================================
+      // Light Mode Alternate Tertiary Destructive
+
+      &.btn-tertiary-destructive {
+        @include text-ruby-70();
+
+        opacity: 1;
+
+        &.is-active,
+        &:focus {
+          @include border-ruby-70();
+          @include shadow-error();
+        }
+
+        &:hover {
+          @include bg-ruby-30();
+          @include text-ruby-90();
+        }
+
+        &[disabled] {
+          @include text-ruby-30();
+          @include bg-transparent();
+
+          opacity: 0.7;
+        }
+
+        .ripple-effect {
+          background-color: var(--ids-color-status-danger);
+        }
+      }
+
+      // ====================================================
       // Light Mode Alternate Primary
 
       &.btn-primary {
@@ -343,6 +376,37 @@ $ids-button-rounded-size: 8px;
           @include text-white();
 
           opacity: 0.7;
+        }
+
+        .ripple-effect {
+          background-color: var(--ids-color-brand-primary-contrast);
+        }
+      }
+
+      // ====================================================
+      // Light Mode Alternate Primary Destructive
+
+      &.btn-primary-destructive {
+        @include bg-ruby-70();
+        @include border-ruby-70();
+        @include text-white();
+
+        opacity: 1;
+
+        &.is-active,
+        &:focus {
+          @include solid-destructive-button-shadow();
+        }
+
+        &:hover {
+          @include bg-ruby-80();
+          @include border-ruby-80();
+        }
+
+        &[disabled] {
+          @include bg-slate-20();
+          @include border-slate-20();
+          @include text-slate-40();
         }
 
         .ripple-effect {
@@ -565,6 +629,35 @@ $ids-button-rounded-size: 8px;
       }
 
       // ====================================================
+      // Dark Mode Alternate Tertiary Destructive Button
+
+      &.btn-tertiary-destructive {
+        @include text-ruby-40();
+
+        &.is-active,
+        &:focus {
+          @include border-ruby-50();
+          @include shadow-error();
+        }
+
+        &:hover {
+          @include bg-ruby-50();
+          @include text-ruby-100();
+        }
+
+        &[disabled] {
+          @include text-ruby-30();
+          @include bg-transparent();
+
+          opacity: 0.7;
+        }
+
+        .ripple-effect {
+          background-color: var(--ids-color-status-danger);
+        }
+      }
+
+      // ====================================================
       // Dark Mode Primary Alternate
 
       &.btn-primary {
@@ -577,6 +670,35 @@ $ids-button-rounded-size: 8px;
         &[disabled] {
           @include bg-slate-90();
           @include border-slate-90();
+        }
+      }
+
+      // ====================================================
+      // Dark Mode Primary Alternate Destructive Button
+
+      &.btn-primary-destructive {
+        @include bg-ruby-40();
+        @include border-ruby-40();
+        @include text-slate-90();
+
+        &.is-active,
+        &:focus {
+          @include solid-destructive-button-shadow();
+        }
+
+        &:hover {
+          @include bg-ruby-30();
+          @include border-ruby-30();
+        }
+
+        &[disabled] {
+          @include bg-slate-90();
+          @include border-slate-90();
+          @include text-slate-40();
+        }
+
+        .ripple-effect {
+          background-color: var(--ids-color-brand-primary-contrast);
         }
       }
 
@@ -757,6 +879,33 @@ $ids-button-rounded-size: 8px;
       }
 
       // ====================================================
+      // High-Contrast Mode Alternate Tertiary Destructive Button
+
+      &.btn-tertiary-destructive {
+        @include text-ruby-60();
+
+        &.is-active,
+        &:focus {
+          @include border-ruby-60();
+          @include shadow-error();
+        }
+
+        &:hover {
+          @include bg-ruby-30();
+          @include text-ruby-80();
+        }
+
+        &[disabled] {
+          @include text-ruby-30();
+          @include bg-transparent();
+        }
+
+        .ripple-effect {
+          background-color: var(--ids-color-status-danger);
+        }
+      }
+
+      // ====================================================
       // High-Contrast Mode Alternate Primary
 
       &.btn-primary {
@@ -774,6 +923,35 @@ $ids-button-rounded-size: 8px;
           @include border-slate-70();
 
           opacity: 0.7;
+        }
+      }
+
+      // ====================================================
+      // High-Contrast Mode Alternate Primary Destructive Button
+
+      &.btn-primary-destructive {
+        @include bg-ruby-60();
+        @include border-ruby-60();
+        @include text-white();
+
+        &.is-active,
+        &:focus {
+          @include solid-destructive-button-shadow();
+        }
+
+        &:hover {
+          @include bg-ruby-70();
+          @include border-ruby-70();
+        }
+
+        &[disabled] {
+          @include bg-slate-20();
+          @include border-slate-20();
+          @include text-slate-40();
+        }
+
+        .ripple-effect {
+          background-color: var(--ids-color-brand-primary-contrast);
         }
       }
 
