@@ -661,7 +661,6 @@ $ids-button-rounded-size: 8px;
       // Dark Mode Primary Alternate
 
       &.btn-primary {
-
         &:hover {
           @include bg-azure-30();
           @include border-azure-30();
