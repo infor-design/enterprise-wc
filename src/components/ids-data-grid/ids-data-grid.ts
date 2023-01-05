@@ -170,8 +170,6 @@ export default class IdsDataGrid extends Base {
   #rafReference = NaN;
 
   requestAnimationFrame(fnCallback: () => void) {
-    // if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
-
     if (this.virtualScroll) {
       this.#rafReference = requestAnimationFrame(() => {
         fnCallback();
@@ -212,6 +210,8 @@ export default class IdsDataGrid extends Base {
     const rows = this.rows;
     if (!rows.length) return;
     const data = this.data;
+    const container = this.container;
+    const body = this.body;
 
     const virtualScrollSettings = this.virtualScrollSettings;
     const firstRow: any = rows[0];
@@ -229,7 +229,7 @@ export default class IdsDataGrid extends Base {
 
     if (lastRowIndex >= maxRowIndex) {
       // padding-bottom is no longer needed when the very last-row is rendered
-      this.body?.style.setProperty('padding-bottom', '0px');
+      body?.style.setProperty('padding-bottom', '0px');
     }
 
     if (isInRange) {
@@ -256,7 +256,7 @@ export default class IdsDataGrid extends Base {
       this.#recycleAllRows(bufferRowIndex);
     }
 
-    const scrollTop = this.container?.scrollTop || 0; // IMPORTANT: setting scrollTop inside RAF causes infinite jank
+    const scrollTop = container?.scrollTop || 0; // IMPORTANT: setting scrollTop inside RAF causes infinite jank
 
     this.requestAnimationFrame(() => {
       // NOTE: repaint of padding is more performant than margin
@@ -266,11 +266,11 @@ export default class IdsDataGrid extends Base {
       const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
       const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
 
-      this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
-      this.body?.style.setProperty('padding-bottom', `${paddingRequired ? bodyPaddingBottom : 0}px`);
+      body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+      body?.style.setProperty('padding-bottom', `${paddingRequired ? bodyPaddingBottom : 0}px`);
 
       if (doScroll) {
-        this.container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+        container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
       }
     });
   }
