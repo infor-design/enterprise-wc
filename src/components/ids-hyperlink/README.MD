@@ -34,6 +34,7 @@ A Disabled appearing hyperlink element.
 - `disabled` {boolean} Set the link to disabled
 - `href` {string} Set the links href to a url or file
 - `target` {string} Set the links target attribute. Valid values are '_blank' | '_self' | '_parent' | '_top' | frame name.
+- `allow-empty-href` {boolean} Allows underline and styling of the link when href attribute is empty. Defaults to true.
 - `mode` {string} Set the theme mode
 - `version` {string} Set the theme version
 

@@ -15,6 +15,7 @@ export const attributes = {
   ALIGN_X_LABELS: 'align-x-labels',
   ALIGN_Y: 'align-y',
   ALLOW_BLANK: 'allow-blank',
+  ALLOW_EMPTY_HREF: 'allow-empty-href',
   ALLOW_LINK: 'allow-link',
   ALLOW_ONE_PANE: 'allow-one-pane',
   ALT: 'alt',
