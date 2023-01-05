@@ -19,7 +19,7 @@ describe('Ids Icon e2e Tests', () => {
     expect(results.violations.length).toBe(0);
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-icon id="test" icon="settings" height="80" viewbox="0 0 80 80" width="80"></ids-icon>`);

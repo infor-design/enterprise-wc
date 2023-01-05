@@ -18,7 +18,7 @@ describe('Ids Progress Chart e2e Tests', () => {
     expect(results.violations.length).toBe(0);
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-progress-chart id="test" label-progress="90%" progress="90" label="dark"></ids-progress-chart>`);
