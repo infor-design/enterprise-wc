@@ -15,55 +15,57 @@ $border-input-field-height-md: $input-field-height-md - 2;
 $border-input-field-height-lg: $input-field-height-lg - 2;
 
 :host {
+  @include w-full();
+
   display: block;
   overflow-x: hidden;
   overflow-y: auto;
   max-height: 300px;
   scroll-behavior: smooth;
   min-width: $input-size-xs - 2;
-  width: 298px;
+  max-width: 298px;
 }
 
 // Width Sizes
 :host([size='xs']) {
   &,
   ::slotted(ids-list-box-option) {
-    width: $border-input-size-xs;
+    max-width: $border-input-size-xs;
   }
 }
 
 :host([size='sm']) {
   &,
   ::slotted(ids-list-box-option) {
-    width: $border-input-size-sm;
+    max-width: $border-input-size-sm;
   }
 }
 
 :host([size='md']) {
   &,
   ::slotted(ids-list-box-option) {
-    width: $border-input-size-md;
+    max-width: $border-input-size-md;
   }
 }
 
 :host([size='mm']) {
   &,
   ::slotted(ids-list-box-option) {
-    width: $border-input-size-mm;
+    max-width: $border-input-size-mm;
   }
 }
 
 :host([size='lg']) {
   &,
   ::slotted(ids-list-box-option) {
-    width: $border-input-size-lg;
+    max-width: $border-input-size-lg;
   }
 }
 
 :host([size='full']) {
   &,
   ::slotted(ids-list-box-option) {
-    width: $input-size-full;
+    max-width: $input-size-full;
   }
 }
 
