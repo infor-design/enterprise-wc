@@ -334,26 +334,26 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
   }
 
   /**
-   * Defer to the inner IdsMonthView for `rangeSettings` if possible
+   * Defer to the inner IdsMonthView for getting `rangeSettings` if possible
    * @returns {IdsRangeSettings} month view range settings
    */
-  get rangeSettings(): IdsRangeSettings {
-    return this.monthView?.rangeSettings || super.rangeSettings;
+  getRangeSettings(): IdsRangeSettings {
+    return this.monthView?.rangeSettings || this.rangeSettings;
   }
 
   /**
-   * Pass range selection settings for month view component
-   * and update input value if passed settings contain start/end
-   * @param {IdsRangeSettings} val settings to be assigned to default range settings
+   * Defer to the inner IdsMonthView for storing `rangeSettings` if possible
+   * @param {IdsRangeSettings} val incoming range settings
    */
-  set rangeSettings(val: IdsRangeSettings) {
-    super.rangeSettings = val;
+  setRangeSettings(val: IdsRangeSettings) {
+    if (this.monthView) this.monthView.rangeSettings = val;
+    else this.rangeSettings = val;
   }
 
   onRangeSettingsChange(val: IdsRangeSettings) {
     if (this.monthView) {
       const btnApply = this.applyBtnEl;
-      this.monthView.rangeSettings = val;
+      this.setRangeSettings(val);
 
       if (val?.start && val?.end) {
         const formattedStart = this.locale.formatDate(this.setTime(val.start), { pattern: this.format });
@@ -790,17 +790,19 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
       return;
     }
 
+    const rangeSettings = this.getRangeSettings();
     if (this.useRange) {
-      if (this.rangeSettings.end || (this.rangeSettings.start && !this.rangeSettings.end)) {
-        if (this.rangeSettings.minDays && (this.rangeSettings.start === this.rangeSettings.end)) {
-          this.rangeSettings.start = subtractDate(this.rangeSettings.start, this.rangeSettings.minDays, 'days');
+      if (rangeSettings.end || (rangeSettings.start && !rangeSettings.end)) {
+        if (rangeSettings.minDays && (rangeSettings.start === rangeSettings.end)) {
+          rangeSettings.start = subtractDate(rangeSettings.start, rangeSettings.minDays, 'days');
+          this.setRangeSettings(rangeSettings);
         }
 
         this.value = [
-          this.locale.formatDate(this.setTime(this.rangeSettings.start), { pattern: this.format }),
-          this.rangeSettings.separator,
+          this.locale.formatDate(this.setTime(rangeSettings.start), { pattern: this.format }),
+          rangeSettings.separator,
           this.locale.formatDate(
-            this.setTime(this.rangeSettings.end ?? this.getActiveDate()),
+            this.setTime(rangeSettings.end ?? this.getActiveDate()),
             { pattern: this.format }
           ),
         ].filter(Boolean).join('');
@@ -809,10 +811,11 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
         this.triggerSelectedEvent();
       } else {
         this.value = this.locale.formatDate(
-          this.setTime(this.rangeSettings.start ?? this.getActiveDate()),
+          this.setTime(rangeSettings.start ?? this.getActiveDate()),
           { pattern: this.format }
         );
-        this.rangeSettings.start = this.getActiveDate();
+        rangeSettings.start = this.getActiveDate();
+        this.setRangeSettings(rangeSettings);
       }
 
       return;
@@ -862,11 +865,12 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     }
 
     if (this.useRange) {
-      if (this.rangeSettings.selectWeek) {
+      const rangeSettings = this.getRangeSettings();
+      if (rangeSettings.selectWeek) {
         const fixedDate = this.setTime(e.detail.rangeStart as Date);
         this.value = [
           this.locale.formatDate(fixedDate, { pattern: this.format }),
-          this.rangeSettings.separator,
+          rangeSettings.separator,
           e.detail.rangeEnd && this.locale.formatDate(this.setTime(e.detail.rangeEnd), { pattern: this.format })
         ].filter(Boolean).join('');
 
@@ -957,14 +961,15 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     let args: any;
     if (e) args = e;
     else {
+      const rangeSettings = this.getRangeSettings();
       args = {
         bubbles: true,
         detail: {
           elem: this,
           date: this.getActiveDate(),
           useRange: this.useRange,
-          rangeStart: this.useRange && this.rangeSettings.start ? new Date(this.rangeSettings.start as string) : null,
-          rangeEnd: this.useRange && this.rangeSettings.end ? new Date(this.rangeSettings.end as string) : null,
+          rangeStart: this.useRange && rangeSettings.start ? new Date(rangeSettings.start as string) : null,
+          rangeEnd: this.useRange && rangeSettings.end ? new Date(rangeSettings.end as string) : null,
           value: this.value
         }
       };
@@ -1010,8 +1015,10 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    */
   private syncDateAttributes(val: string | Date) {
     let usableValue = val;
-    if (typeof val === 'string' && this.useRange && this.rangeSettings.separator) {
-      usableValue = removeDateRange(val, this.rangeSettings.separator);
+    const rangeSettings = this.getRangeSettings();
+
+    if (typeof val === 'string' && this.useRange && rangeSettings.separator) {
+      usableValue = removeDateRange(val, rangeSettings.separator);
     }
 
     const date = new Date(usableValue);
@@ -1100,7 +1107,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    */
   private updateActionButtonStateOnShow() {
     const btnApply = this.applyBtnEl;
-    const hasPartialRangeSelected = !(this.rangeSettings.start && this.rangeSettings.end);
+    const rangeSettings = this.getRangeSettings();
+    const hasPartialRangeSelected = !(rangeSettings.start && rangeSettings.end);
 
     if (!this.useRange) {
       if (btnApply) {
@@ -1112,7 +1120,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
         const btnCancel = this.cancelBtnEl;
         btnCancel?.removeAttribute(attributes.HIDDEN);
       }
-    } else if (!this.rangeSettings.selectWeek) {
+    } else if (!rangeSettings.selectWeek) {
       btnApply?.removeAttribute(attributes.HIDDEN);
       btnApply?.setAttribute(attributes.DISABLED, `${hasPartialRangeSelected}`);
     } else {
