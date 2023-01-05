@@ -60,7 +60,6 @@
   }
 }
 
-
 // Dropdown Editor Borderless
 .ids-dropdown.color-variant-borderless {
   ids-trigger-field::part(container) {
@@ -71,7 +70,7 @@
     box-shadow: none !important;
   }
 
-  ids-popup[mode="contrast"]::part(popup) {
+  ids-popup[mode='contrast']::part(popup) {
     box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
     outline: 1px solid var(--ids-color-palette-azure-80);
   }
