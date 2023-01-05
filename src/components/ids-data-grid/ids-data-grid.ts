@@ -169,12 +169,16 @@ export default class IdsDataGrid extends Base {
    */
   #rafReference = NaN;
 
-  requestAnimationFrame(rafCallback: () => void) {
+  requestAnimationFrame(fnCallback: () => void) {
     // if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
 
-    this.#rafReference = requestAnimationFrame(() => {
-      rafCallback();
-    });
+    if (this.virtualScroll) {
+      this.#rafReference = requestAnimationFrame(() => {
+        fnCallback();
+      });
+    } else {
+      fnCallback();
+    }
   }
 
   /**
