@@ -136,6 +136,15 @@ describe('IdsHyperlink Component', () => {
     expect(elem.fontWeight).toEqual(null);
   });
 
+  it('should handle allow-empty-href setting', () => {
+    expect(elem.allowEmptyHref).toBeTruthy();
+
+    elem.allowEmptyHref = false;
+
+    expect(elem.getAttribute('allow-empty-href')).toEqual('false');
+    expect(elem.allowEmptyHref).toBeFalsy();
+  });
+
   /* To do */
   // it('doesn\'t set the role attribute if one already exists', () => {
 

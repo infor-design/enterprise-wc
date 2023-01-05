@@ -66,7 +66,7 @@ const tooltipCallbackAsync = async (args: {
   });
 };
 
-const tooltipWait = 251;
+const tooltipWait = 500;
 
 const columns = (grid: any) => {
   const cols = [];

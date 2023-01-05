@@ -34,11 +34,12 @@ export default class IdsHyperlink extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.ALLOW_EMPTY_HREF,
       attributes.COLOR,
       attributes.DISABLED,
-      attributes.HREF,
       attributes.FONT_SIZE,
       attributes.FONT_WEIGHT,
+      attributes.HREF,
       attributes.MODE,
       attributes.TARGET,
       attributes.TEXT_DECORATION
@@ -216,5 +217,23 @@ export default class IdsHyperlink extends Base {
 
   get fontWeight(): string | null {
     return this.getAttribute(attributes.FONT_WEIGHT);
+  }
+
+  /**
+   * Allows underline and styling of the link when href attribute is empty
+   * @param {string | boolean | null} value whether or not to allow underline when href attribute is empty
+   */
+  set allowEmptyHref(value: string | boolean | null) {
+    const boolVal = stringToBool(value);
+    this.setAttribute(attributes.ALLOW_EMPTY_HREF, String(boolVal));
+  }
+
+  get allowEmptyHref(): boolean {
+    const attrVal = this.getAttribute(attributes.ALLOW_EMPTY_HREF);
+    if (attrVal) {
+      return stringToBool(attrVal);
+    }
+
+    return true;
   }
 }
