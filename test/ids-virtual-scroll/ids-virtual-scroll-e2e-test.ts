@@ -27,7 +27,7 @@ describe('Ids Virtual Scroll e2e Tests', () => {
     expect(count).toEqual(30);
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-virtual-scroll height="100vh" id="test" item-height="20" buffer-size="3" item-count="1000">

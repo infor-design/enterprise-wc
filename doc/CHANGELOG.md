@@ -5,6 +5,7 @@
 ### 1.0.0-beta.3 Fixes
 
 - `[General]` Fixed a list of issues in Safari browser. ([#956](https://github.com/infor-design/enterprise-wc/issues/956))
+- `[About]` Chrome no longer shows minor version on the about info so this has been removed. ([#7067](https://github.com/infor-design/enterprise/issues/7067))
 - `[AppMenu]` Updated main example to be consistent with 4.x. ([#852](https://github.com/infor-design/enterprise-wc/issues/852))
 - `[BarChart]` Added support to flip horizontal. ([#963](https://github.com/infor-design/enterprise-wc/issues/893))
 - `[Breadcrumb]` Fixed popup menu being cutoff in truncated example. ([#906](https://github.com/infor-design/enterprise-wc/issues/906))
@@ -30,6 +31,7 @@
 - `[DatePicker]` Separated the "picker" portion of IdsDatePicker into its own component, allowing separate usage by other components. ([#958](https://github.com/infor-design/enterprise-wc/issues/958))
 - `[DatePicker/MonthView]` Fixed a circular dependency issue between Date Pickers and Month Views. ([#959](https://github.com/infor-design/enterprise-wc/issues/959))
 - `[DatePicker]` Fixed validation date error message in Safari browser. ([#1015](https://github.com/infor-design/enterprise-wc/issues/1015))
+- `[Hyperlink]` Added option to show styling when no href. ([#1075](https://github.com/infor-design/enterprise-wc/issues/1075))
 - `[Icons]` All icons have padding on top and bottom effectively making them 4px smaller by design. This change may require some UI corrections to css. ([#6868](https://github.com/infor-design/enterprise/issues/6868))
 - `[Icons]` Over 60 new icons and 126 new industry focused icons. ([#6868](https://github.com/infor-design/enterprise/issues/6868))
 - `[Icons]` Added new empty state icons. ([#6934](https://github.com/infor-design/enterprise/issues/6934))

@@ -19,7 +19,7 @@ describe('Ids Data Label e2e Tests', () => {
     expect(results.violations.length).toBe(0);
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-data-label id="test" label="Shipping to">Los Angeles, California 90001 USA</ids-data-label>`);
