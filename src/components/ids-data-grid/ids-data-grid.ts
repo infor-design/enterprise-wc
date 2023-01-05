@@ -130,230 +130,6 @@ export default class IdsDataGrid extends Base {
     this.#attachVirtualScrollEvent();
   }
 
-  /* Attach Events for virtual scrolling */
-  #attachVirtualScrollEvent() {
-    if (!this.virtualScroll) return;
-    const virtualScrollSettings = this.virtualScrollSettings;
-    const data = this.data;
-    const maxRowIndex = data.length - 1;
-    const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BUFFER_HEIGHT;
-
-    this.container?.style.setProperty('max-height', '95vh');
-    this.body?.style.setProperty('padding-bottom', `${maxPaddingBottom}px`);
-
-    let debounceRowIndex = 0;
-    this.offEvent('scroll.data-grid.virtual-scroll', this.container);
-    this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
-      evt.stopImmediatePropagation();
-
-      const rowIndex = Math.floor(this.container!.scrollTop / virtualScrollSettings.ROW_HEIGHT);
-
-      if (rowIndex === debounceRowIndex) return;
-      debounceRowIndex = rowIndex;
-
-      this.scrollRowIntoView(Math.min(rowIndex, maxRowIndex), false);
-    }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
-  }
-
-  /**
-   * Stores the last request animation from used during virtual scroll.
-   * RAFs are recommended in the row-recycling articles we referenced.
-   * If we were to take them out, what would happen is the repainting of the browser
-   * window would happen during scrolling and we'd errors like "redraw happened during scrolling.
-   *
-   * One thing to note is RAFs should have as little logic as possible within them
-   * and should only contain the CSS+DOM manipulations.
-   * It's best to do (as much as possible) logic+calculations outside the RAF,
-   * and then when ready to move things around, do those inside the RAF.
-   * this keeps the RAF short and sweet, and keeps our FPS-lag low.
-   */
-  #rafReference = NaN;
-
-  requestAnimationFrame(fnCallback: () => void) {
-    if (this.virtualScroll) {
-      this.#rafReference = requestAnimationFrame(() => {
-        fnCallback();
-      });
-    } else {
-      fnCallback();
-    }
-  }
-
-  /**
-   * We always want to set doScroll=true when scrollRowIntoView() is called manually in code...
-   * ...so when the "public" uses it they would simply do scrollRowIntoView(x).
-   *
-   * However, this method is also used in the "onscroll" event-handler...
-   * ...within that "onscroll" event-handler, we want doScroll=false,
-   * ...and let the browser handle moving/panning the window without interference.
-   *
-   * @param {number} rowIndex - which row to scroll into view.
-   * @param {boolean} doScroll - set to "true" to have the browser perform the scroll action
-   * @see IdsDataGrid.#attachVirtualScrollEvent()
-   * @see https://medium.com/@moshe_31114/building-our-recycle-list-solution-in-react-17a21a9605a0
-   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-i-11ib
-   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-ii-3j86
-   * @see https://fluffy.es/solve-duplicated-cells
-   * @see https://vaadin.com/docs/latest/components/grid#columns
-   * @see https://www.htmlelements.com/demos/grid/datagrid-bind-to-json
-   * @see https://dev.to/gopal1996/understanding-reflow-and-repaint-in-the-browser-1jbg
-   * @see https://medium.com/teads-engineering/the-most-accurate-way-to-schedule-a-function-in-a-web-browser-eadcd164da12
-   * @see https://javascript.info/bubbling-and-capturing#capturing
-   * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
-   */
-  scrollRowIntoView(rowIndex: number, doScroll = true) {
-    if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
-
-    rowIndex = Math.max(rowIndex, 0);
-    rowIndex = Math.min(rowIndex, (this.data.length - 1));
-
-    const rows = this.rows;
-    if (!rows.length) return;
-    const data = this.data;
-    const container = this.container;
-    const body = this.body;
-
-    const virtualScrollSettings = this.virtualScrollSettings;
-    const firstRow: any = rows[0];
-    const lastRow: any = rows[rows.length - 1];
-    const firstRowIndex = firstRow.rowIndex;
-    const lastRowIndex = lastRow.rowIndex;
-    const maxRowIndex = data.length - 1;
-    const isAboveFirstRow = rowIndex < firstRowIndex;
-    const isBelowLastRow = rowIndex > lastRowIndex;
-    const isInRange = !isAboveFirstRow && !isBelowLastRow;
-
-    let bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
-    bufferRowIndex = Math.max(bufferRowIndex, 0);
-    bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
-
-    if (lastRowIndex >= maxRowIndex) {
-      // padding-bottom is no longer needed when the very last-row is rendered
-      body?.style.setProperty('padding-bottom', '0px');
-    }
-
-    if (isInRange) {
-      const moveRowsDown = bufferRowIndex - firstRowIndex;
-      const moveRowsUp = Math.abs(moveRowsDown);
-
-      if (moveRowsDown > 0) {
-        this.#recycleTopRowsDown(moveRowsDown);
-      } else if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
-        this.#recycleBottomRowsUp(moveRowsUp);
-      } else {
-        // exit early because nothing to do.
-        return;
-      }
-    } else if (isAboveFirstRow) {
-      const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex);
-
-      if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
-        this.#recycleBottomRowsUp(moveRowsUp);
-      } else {
-        this.#recycleAllRows(bufferRowIndex);
-      }
-    } else if (isBelowLastRow) {
-      this.#recycleAllRows(bufferRowIndex);
-    }
-
-    const scrollTop = container?.scrollTop || 0; // IMPORTANT: setting scrollTop inside RAF causes infinite jank
-
-    this.requestAnimationFrame(() => {
-      // NOTE: repaint of padding is more performant than margin
-      const maxPaddingBottom = data.length * virtualScrollSettings.ROW_HEIGHT;
-      const paddingRequired = scrollTop < maxPaddingBottom;
-
-      const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
-      const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
-
-      body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
-      body?.style.setProperty('padding-bottom', `${paddingRequired ? bodyPaddingBottom : 0}px`);
-
-      if (doScroll) {
-        container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
-      }
-    });
-  }
-
-  /* Recycle the rows duing scrolling */
-  #recycleAllRows(topRowIndex: number) {
-    const rows = this.rows;
-    if (!rows.length) return;
-
-    const veryLastIndex = this.data.length - 1;
-    topRowIndex = Math.min(topRowIndex, veryLastIndex);
-    topRowIndex = Math.max(topRowIndex, 0);
-
-    // Using Array.every as an alternaive to using a for-loop with a break
-    this.rows.every((row: any, idx) => {
-      const nextRowIndex = topRowIndex + idx;
-      if (nextRowIndex > veryLastIndex) {
-        const moveTheRestToTop = this.virtualScrollSettings.NUM_ROWS - idx;
-        this.#recycleBottomRowsUp(moveTheRestToTop);
-        return false;
-      }
-      row.rowIndex = nextRowIndex;
-      return true;
-    });
-  }
-
-  /* Recycle the rows duing scrolling from the top */
-  #recycleTopRowsDown(rowCount: number) {
-    const rows = this.rows;
-    if (!rowCount || !rows.length) return;
-    const data = this.data;
-
-    const bottomRow: any = rows[rows.length - 1];
-    const bottomRowIndex = bottomRow.rowIndex;
-    const staleRows = rows.slice(0, rowCount);
-    const rowsToMove: any[] = [];
-
-    // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-    staleRows.every((row: any, idx) => {
-      const nextIndex = bottomRowIndex + (idx + 1);
-      if (nextIndex >= data.length) return false;
-      row.rowIndex = nextIndex;
-      return rowsToMove.push(row);
-    });
-
-    if (!rowsToMove.length) return;
-
-    // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
-    if (rowsToMove.length >= this.virtualScrollSettings.NUM_ROWS) return;
-
-    this.requestAnimationFrame(() => {
-      // NOTE: body.append is faster than body.innerHTML
-      // NOTE: body.append is faster than multiple calls to appendChild()
-      this.body?.append(...rowsToMove);
-    });
-  }
-
-  /* Recycle the rows duing scrolling from the bottom */
-  #recycleBottomRowsUp(rowCount: number) {
-    const rows = this.rows;
-    if (!rowCount || !rows.length) return;
-
-    const topRow: any = rows[0];
-    const topRowIndex = topRow.rowIndex;
-    const staleRows = rows.slice((-1 * rowCount));
-    const rowsToMove: any[] = [];
-
-    // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-    staleRows.every((row: any, idx) => {
-      const prevIndex = topRowIndex - (idx + 1);
-      if (prevIndex < 0) return false;
-      row.rowIndex = prevIndex;
-      return rowsToMove.push(row);
-    });
-
-    if (!rowsToMove.length) return;
-
-    this.requestAnimationFrame(() => {
-      // NOTE: body.prepend() seems to be faster than body.innerHTML
-      this.body?.prepend(...rowsToMove.reverse());
-    });
-  }
-
   /** Reference to datasource API */
   readonly datasource: IdsDataSource = new IdsDataSource();
 
@@ -396,6 +172,7 @@ export default class IdsDataGrid extends Base {
       attributes.ROW_HEIGHT,
       attributes.ROW_NAVIGATION,
       attributes.ROW_SELECTION,
+      attributes.SUPPRESS_CACHING,
       attributes.SUPPRESS_EMPTY_MESSAGE,
       attributes.SUPPRESS_ROW_CLICK_SELECTION,
       attributes.SUPPRESS_ROW_DEACTIVATION,
@@ -1339,6 +1116,230 @@ export default class IdsDataGrid extends Base {
     };
   }
 
+  /* Attach Events for virtual scrolling */
+  #attachVirtualScrollEvent() {
+    if (!this.virtualScroll) return;
+    const virtualScrollSettings = this.virtualScrollSettings;
+    const data = this.data;
+    const maxRowIndex = data.length - 1;
+    const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BUFFER_HEIGHT;
+
+    this.container?.style.setProperty('max-height', '95vh');
+    this.body?.style.setProperty('padding-bottom', `${maxPaddingBottom}px`);
+
+    let debounceRowIndex = 0;
+    this.offEvent('scroll.data-grid.virtual-scroll', this.container);
+    this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
+      evt.stopImmediatePropagation();
+
+      const rowIndex = Math.floor(this.container!.scrollTop / virtualScrollSettings.ROW_HEIGHT);
+
+      if (rowIndex === debounceRowIndex) return;
+      debounceRowIndex = rowIndex;
+
+      this.scrollRowIntoView(Math.min(rowIndex, maxRowIndex), false);
+    }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
+  }
+
+  /**
+   * Stores the last request animation from used during virtual scroll.
+   * RAFs are recommended in the row-recycling articles we referenced.
+   * If we were to take them out, what would happen is the repainting of the browser
+   * window would happen during scrolling and we'd errors like "redraw happened during scrolling.
+   *
+   * One thing to note is RAFs should have as little logic as possible within them
+   * and should only contain the CSS+DOM manipulations.
+   * It's best to do (as much as possible) logic+calculations outside the RAF,
+   * and then when ready to move things around, do those inside the RAF.
+   * this keeps the RAF short and sweet, and keeps our FPS-lag low.
+   */
+  #rafReference = NaN;
+
+  requestAnimationFrame(fnCallback: () => void) {
+    if (this.virtualScroll) {
+      this.#rafReference = requestAnimationFrame(() => {
+        fnCallback();
+      });
+    } else {
+      fnCallback();
+    }
+  }
+
+  /**
+   * We always want to set doScroll=true when scrollRowIntoView() is called manually in code...
+   * ...so when the "public" uses it they would simply do scrollRowIntoView(x).
+   *
+   * However, this method is also used in the "onscroll" event-handler...
+   * ...within that "onscroll" event-handler, we want doScroll=false,
+   * ...and let the browser handle moving/panning the window without interference.
+   *
+   * @param {number} rowIndex - which row to scroll into view.
+   * @param {boolean} doScroll - set to "true" to have the browser perform the scroll action
+   * @see IdsDataGrid.#attachVirtualScrollEvent()
+   * @see https://medium.com/@moshe_31114/building-our-recycle-list-solution-in-react-17a21a9605a0
+   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-i-11ib
+   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-ii-3j86
+   * @see https://fluffy.es/solve-duplicated-cells
+   * @see https://vaadin.com/docs/latest/components/grid#columns
+   * @see https://www.htmlelements.com/demos/grid/datagrid-bind-to-json
+   * @see https://dev.to/gopal1996/understanding-reflow-and-repaint-in-the-browser-1jbg
+   * @see https://medium.com/teads-engineering/the-most-accurate-way-to-schedule-a-function-in-a-web-browser-eadcd164da12
+   * @see https://javascript.info/bubbling-and-capturing#capturing
+   * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+   */
+  scrollRowIntoView(rowIndex: number, doScroll = true) {
+    if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
+
+    rowIndex = Math.max(rowIndex, 0);
+    rowIndex = Math.min(rowIndex, (this.data.length - 1));
+
+    const rows = this.rows;
+    if (!rows.length) return;
+    const data = this.data;
+    const container = this.container;
+    const body = this.body;
+
+    const virtualScrollSettings = this.virtualScrollSettings;
+    const firstRow: any = rows[0];
+    const lastRow: any = rows[rows.length - 1];
+    const firstRowIndex = firstRow.rowIndex;
+    const lastRowIndex = lastRow.rowIndex;
+    const maxRowIndex = data.length - 1;
+    const isAboveFirstRow = rowIndex < firstRowIndex;
+    const isBelowLastRow = rowIndex > lastRowIndex;
+    const isInRange = !isAboveFirstRow && !isBelowLastRow;
+
+    let bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
+    bufferRowIndex = Math.max(bufferRowIndex, 0);
+    bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
+
+    if (lastRowIndex >= maxRowIndex) {
+      // padding-bottom is no longer needed when the very last-row is rendered
+      body?.style.setProperty('padding-bottom', '0px');
+    }
+
+    if (isInRange) {
+      const moveRowsDown = bufferRowIndex - firstRowIndex;
+      const moveRowsUp = Math.abs(moveRowsDown);
+
+      if (moveRowsDown > 0) {
+        this.#recycleTopRowsDown(moveRowsDown);
+      } else if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
+        this.#recycleBottomRowsUp(moveRowsUp);
+      } else {
+        // exit early because nothing to do.
+        return;
+      }
+    } else if (isAboveFirstRow) {
+      const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex);
+
+      if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
+        this.#recycleBottomRowsUp(moveRowsUp);
+      } else {
+        this.#recycleAllRows(bufferRowIndex);
+      }
+    } else if (isBelowLastRow) {
+      this.#recycleAllRows(bufferRowIndex);
+    }
+
+    const scrollTop = container?.scrollTop || 0; // IMPORTANT: setting scrollTop inside RAF causes infinite jank
+
+    this.requestAnimationFrame(() => {
+      // NOTE: repaint of padding is more performant than margin
+      const maxPaddingBottom = data.length * virtualScrollSettings.ROW_HEIGHT;
+      const paddingRequired = scrollTop < maxPaddingBottom;
+
+      const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
+      const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
+
+      body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+      body?.style.setProperty('padding-bottom', `${paddingRequired ? bodyPaddingBottom : 0}px`);
+
+      if (doScroll) {
+        container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+      }
+    });
+  }
+
+  /* Recycle the rows duing scrolling */
+  #recycleAllRows(topRowIndex: number) {
+    const rows = this.rows;
+    if (!rows.length) return;
+
+    const veryLastIndex = this.data.length - 1;
+    topRowIndex = Math.min(topRowIndex, veryLastIndex);
+    topRowIndex = Math.max(topRowIndex, 0);
+
+    // Using Array.every as an alternaive to using a for-loop with a break
+    this.rows.every((row: any, idx) => {
+      const nextRowIndex = topRowIndex + idx;
+      if (nextRowIndex > veryLastIndex) {
+        const moveTheRestToTop = this.virtualScrollSettings.NUM_ROWS - idx;
+        this.#recycleBottomRowsUp(moveTheRestToTop);
+        return false;
+      }
+      row.rowIndex = nextRowIndex;
+      return true;
+    });
+  }
+
+  /* Recycle the rows duing scrolling from the top */
+  #recycleTopRowsDown(rowCount: number) {
+    const rows = this.rows;
+    if (!rowCount || !rows.length) return;
+    const data = this.data;
+
+    const bottomRow: any = rows[rows.length - 1];
+    const bottomRowIndex = bottomRow.rowIndex;
+    const staleRows = rows.slice(0, rowCount);
+    const rowsToMove: any[] = [];
+
+    // NOTE: Using Array.every as an alternaive to using a for-loop with a break
+    staleRows.every((row: any, idx) => {
+      const nextIndex = bottomRowIndex + (idx + 1);
+      if (nextIndex >= data.length) return false;
+      row.rowIndex = nextIndex;
+      return rowsToMove.push(row);
+    });
+
+    if (!rowsToMove.length) return;
+
+    // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
+    if (rowsToMove.length >= this.virtualScrollSettings.NUM_ROWS) return;
+
+    this.requestAnimationFrame(() => {
+      // NOTE: body.append is faster than body.innerHTML
+      // NOTE: body.append is faster than multiple calls to appendChild()
+      this.body?.append(...rowsToMove);
+    });
+  }
+
+  /* Recycle the rows duing scrolling from the bottom */
+  #recycleBottomRowsUp(rowCount: number) {
+    const rows = this.rows;
+    if (!rowCount || !rows.length) return;
+
+    const topRow: any = rows[0];
+    const topRowIndex = topRow.rowIndex;
+    const staleRows = rows.slice((-1 * rowCount));
+    const rowsToMove: any[] = [];
+
+    // NOTE: Using Array.every as an alternaive to using a for-loop with a break
+    staleRows.every((row: any, idx) => {
+      const prevIndex = topRowIndex - (idx + 1);
+      if (prevIndex < 0) return false;
+      row.rowIndex = prevIndex;
+      return rowsToMove.push(row);
+    });
+
+    if (!rowsToMove.length) return;
+
+    this.requestAnimationFrame(() => {
+      // NOTE: body.prepend() seems to be faster than body.innerHTML
+      this.body?.prepend(...rowsToMove.reverse());
+    });
+  }
+
   /**
    * Set the aria-label element in the DOM. This should be translated.
    * @param {string} value The aria label
@@ -1854,6 +1855,22 @@ export default class IdsDataGrid extends Base {
       this.wrapper?.style.setProperty('height', '100%');
       this.autoFitSet = true;
     }
+  }
+
+  /**
+   * Suppress row row and cell caching
+   * @param {boolean|string|null} value false to not cache
+   */
+  set suppressCaching(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.SUPPRESS_CACHING, String(value));
+      return;
+    }
+    this.removeAttribute(attributes.SUPPRESS_CACHING);
+  }
+
+  get suppressCaching(): boolean {
+    return stringToBool(this.getAttribute(attributes.SUPPRESS_CACHING)) || false;
   }
 
   /**

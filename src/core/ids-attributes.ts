@@ -359,6 +359,7 @@ export const attributes = {
   STICKY: 'sticky',
   SUBMENU: 'submenu',
   SUBMIT_BUTTON: 'submit-button',
+  SUPPRESS_CACHING: 'suppress-caching',
   SUPPRESS_DEACTIVATION: 'suppress-deactivation',
   SUPPRESS_DESELECTION: 'suppress-deselection',
   SUPPRESS_EMPTY_MESSAGE: 'suppress-empty-message',

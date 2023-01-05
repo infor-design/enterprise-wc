@@ -14,7 +14,6 @@ import createFromTemplate from '../helpers/create-from-template';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import IdsPager from '../../src/components/ids-pager/ids-pager';
 import '../../src/components/ids-checkbox/ids-checkbox';
-import IdsDataGridRow from '../../src/components/ids-data-grid/ids-data-grid-row';
 
 describe('IdsDataGrid Component', () => {
   let dataGrid: any;
@@ -403,7 +402,7 @@ describe('IdsDataGrid Component', () => {
       // Height is zero...
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
       dataGrid.setSortColumn('description', true);
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(19);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
     });
 
     it('can reset the virtualScroll option', async () => {
@@ -414,7 +413,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.columns = columns();
       dataGrid.data = dataset;
       await processAnimFrame();
-      expect(dataGrid.shadowRoot.querySelectorAll('ids-virtual-scroll').length).toEqual(1);
+      expect(dataGrid.shadowRoot.querySelectorAll('ids-virtual-scroll').length).toEqual(0);
     });
 
     it('has the right row height for each rowHeight value', () => {
@@ -1323,23 +1322,23 @@ describe('IdsDataGrid Component', () => {
       dataGrid.rowHeight = 'xs';
 
       await processAnimFrame();
-      expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('30');
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(30);
 
       dataGrid.rowHeight = 'sm';
-      expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('35');
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(35);
 
       dataGrid.rowHeight = 'md';
-      expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('40');
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(40);
 
       dataGrid.rowHeight = null;
-      expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(50);
 
       dataGrid.rowHeight = 'lg';
-      expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(50);
 
       dataGrid.virtualScroll = false;
       dataGrid.rowHeight = 'sm';
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('sm');
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(35);
       expect(dataGrid.getAttribute('row-height')).toEqual('sm');
     });
   });
@@ -1899,6 +1898,7 @@ describe('IdsDataGrid Component', () => {
         href: '#',
         click: hyperlinkClickListener,
       });
+      dataGrid.resetCache();
       dataGrid.redraw();
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
@@ -1913,6 +1913,7 @@ describe('IdsDataGrid Component', () => {
         type: 'icon',
         click: buttonClickListener,
       });
+      dataGrid.resetCache();
       dataGrid.redraw();
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
@@ -1929,6 +1930,7 @@ describe('IdsDataGrid Component', () => {
         },
         click: customLinkClickListener,
       });
+      dataGrid.resetCache();
       dataGrid.redraw();
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
@@ -2177,6 +2179,14 @@ describe('IdsDataGrid Component', () => {
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(3) .ids-data-grid-cell:nth-child(1)').click();
       expect(dataGrid.selectedRows.length).toBe(1);
       expect(dataGrid.selectedRows[0].index).toBe(2);
+    });
+
+    it('handles suppressing caching', () => {
+      expect(dataGrid.suppressCaching).toBe(false);
+      dataGrid.suppressCaching = true;
+      expect(dataGrid.suppressCaching).toBe(true);
+      dataGrid.suppressCaching = false;
+      expect(dataGrid.suppressCaching).toBe(false);
     });
 
     it('handles a deSelectRow method', () => {
@@ -2956,33 +2966,6 @@ describe('IdsDataGrid Component', () => {
       editableCell.editor.init(editableCell);
       expect(editableCell.editor.input.checked).toBe(false);
       editableCell.endCellEdit();
-    });
-
-    it('row renders special classes', () => {
-      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
-      (dataset[1] as any).dirtyCells = [];
-      (dataset[1] as any).dirtyCells.push({
-        cell: 1,
-        columnId: 'description',
-        originalValue: '102'
-      });
-      expect(IdsDataGridRow.template(dataset[1], 1, 1, editableCell.dataGrid).indexOf('is-dirty')).toBeGreaterThan(-1);
-
-      (dataset[1] as any).invalidCells = [];
-      (dataset[1] as any).invalidCells.push({
-        cell: 1,
-        columnId: 'description',
-        row: 1,
-        validationMessages: { message: 'Required', type: 'error', id: 'required' }
-      });
-      expect(IdsDataGridRow.template(dataset[1], 1, 1, editableCell.dataGrid).indexOf('is-invalid')).toBeGreaterThan(-1);
-
-      editableCell.column.editor.inline = true;
-      expect(IdsDataGridRow.template(dataset[1], 1, 1, editableCell.dataGrid).indexOf('is-inline')).toBeGreaterThan(-1);
-      editableCell.column.editor.inline = false;
-
-      (dataset[1] as any).invalidCells = undefined;
-      dataGrid.resetDirtyCells();
     });
 
     it('can reset dirty cells', () => {
