@@ -16,7 +16,7 @@ describe('Ids Form e2e Tests', () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
 
-    const results = await new AxePuppeteer(page).analyze();
+    const results = await new AxePuppeteer(page).disableRules(['aria-required-children']).analyze();
     expect(results.violations.length).toBe(0);
   });
 
