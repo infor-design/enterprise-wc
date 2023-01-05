@@ -578,14 +578,6 @@ export default class IdsDropdown extends Base {
 
     this.container?.classList.add('is-open');
     this.#setAriaOnMenuOpen();
-
-    this.triggerEvent('open', this, {
-      bubbles: true,
-      detail: {
-        elem: this,
-        value: this.value
-      }
-    });
   }
 
   /**
@@ -659,13 +651,6 @@ export default class IdsDropdown extends Base {
     }
 
     this.container?.classList.remove('is-open');
-    this.triggerEvent('close', this, {
-      bubbles: true,
-      detail: {
-        elem: this,
-        value: this.value
-      }
-    });
   }
 
   /**
