@@ -226,7 +226,7 @@ export default class IdsColorPicker extends Base {
       const [cssVarName, label, colorCategory, colorCode] = cssVar.match(COLOR_PALETTE_CSS_VAR_REGEX) || [];
       color.label = label;
       color.tooltip = `${colorCategory} ${colorCode}`;
-      color.hex = getComputedStyle(this.parentElement as HTMLElement).getPropertyValue(cssVarName) || `var(${cssVarName})`;
+      color.hex = getComputedStyle(this.parentElement as HTMLElement).getPropertyValue(String(cssVarName)) || `var(${cssVarName})`;
       color.classList.add((Number(colorCode) < 40) ? 'light' : 'dark');
       return color;
     });

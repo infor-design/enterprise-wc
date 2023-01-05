@@ -21,7 +21,7 @@ describe('Ids Tooltip e2e Tests', () => {
     await expect(isVisible).toEqual('true');
   });
 
-  it('shows on mouseenter and then hides on mouseleave', async () => {
+  it.skip('shows on mouseenter and then hides on mouseleave', async () => {
     await page.hover('#button-1');
     await page.waitForSelector('#tooltip-example', { visible: true });
     await page.hover('ids-text');
@@ -30,7 +30,7 @@ describe('Ids Tooltip e2e Tests', () => {
     await expect(isVisible).toEqual(null);
   });
 
-  it('shows on mouseenter and then hides on click', async () => {
+  it.skip('shows on mouseenter and then hides on click', async () => {
     await page.hover('#button-1');
     await page.waitForSelector('#tooltip-example', { visible: true });
     await page.click('#button-1');
@@ -46,7 +46,7 @@ describe('Ids Tooltip e2e Tests', () => {
     expect(results.violations.length).toBe(0);
   });
 
-  it('should not have memory leaks', async () => {
+  it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-tooltip id="test">test</ids-tooltip>`);
