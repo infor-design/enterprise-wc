@@ -385,22 +385,18 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 
     &.ids-input.field-height-lg .ids-input-field {
       padding-inline: 14px;
-      height: 50px;
     }
 
     &.ids-input.field-height-md .ids-input-field {
       padding-inline: 10px;
-      height: 40px;
     }
 
     &.ids-input.field-height-sm .ids-input-field {
       padding-inline: 6px;
-      height: 35px;
     }
 
     &.ids-input.field-height-xs .ids-input-field {
       padding-inline: 2px;
-      height: 30px;
     }
   }
 

@@ -141,6 +141,7 @@ export class DropdownEditor implements IdsDataGridEditor {
 
   init(cell?: IdsDataGridCell): void {
     this.#value = cell?.querySelector('[data-value]')?.getAttribute('data-value') ?? null;
+    const isInline = cell?.column.editor?.inline;
     const settings = { ...cell?.column?.editor?.editorSettings };
     const dataset = <any[]>settings?.options ?? [];
 
@@ -154,16 +155,20 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input.typeahead = false;
 
     cell!.innerHTML = '';
-    cell!.style.setProperty('overflow', 'visible');
+    cell!.classList.add('is-dropdown');
     cell!.appendChild(this.input);
 
     this.input.value = this.#value;
     this.input.size = 'full';
     this.input.labelState = 'collapsed';
-    this.input.colorVariant = 'borderless';
+    this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
     this.input.fieldHeight = String(cell?.dataGrid?.rowHeight);
     this.input.container?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
     this.#attchEventListeners();
+
+    if (isInline) {
+      this.input.open();
+    }
   }
 
   /**
@@ -171,7 +176,9 @@ export class DropdownEditor implements IdsDataGridEditor {
    * @param {FocusEvent} evt focus event
    */
   stopPropagation(evt: FocusEvent) {
-    if (evt.relatedTarget !== null) {
+    const tagName = evt.relatedTarget instanceof HTMLElement ? evt.relatedTarget.tagName : evt.relatedTarget;
+
+    if (tagName === 'IDS-DROPDOWN' || tagName === 'IDS-LIST-BOX-OPTION') {
       evt.stopPropagation();
       evt.stopImmediatePropagation();
     }
@@ -192,13 +199,11 @@ export class DropdownEditor implements IdsDataGridEditor {
 
   /**
    * Destroy dropdown editor
-   * @param {IdsDataGridCell} cell the cell element
    */
-  destroy(cell?: IdsDataGridCell | undefined): void {
+  destroy(): void {
     this.input?.offEvent('change');
     this.input?.offEvent('focusout', this.input, this.#stopPropagationCb);
     this.#value = undefined;
-    cell?.style.removeProperty('overflow');
   }
 }
 

@@ -77,6 +77,11 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
   &.is-editable.is-inline {
     box-shadow: inset 0 0 0 4px white, inset 0 0 0 5px var(--ids-color-palette-slate-40);
+
+    ids-icon.dropdown-editor-icon {
+      margin-inline: calc(100% - 32px);
+      position: absolute;
+    }
   }
 
   &.is-editing ids-checkbox {
@@ -86,6 +91,33 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     position: relative;
     left: 6px;
     top: 4px;
+  }
+
+  // Dropdown Editing
+  &.is-editing.is-dropdown {
+    overflow: visible;
+
+    &.is-dirty::before {
+      margin-inline: 3px;
+    }
+  }
+
+  // Dropdown Editing Borderless
+  &.is-editing.is-dropdown:not(.is-inline) {
+    border-left-width: 0;
+  }
+
+  // Dropdown Editing Inline
+  &.is-editing.is-dropdown.is-inline {
+    box-shadow: none;
+
+    ids-dropdown {
+      padding: 0 4px;
+    }
+
+    &.is-dirty::before {
+      margin-inline: 6px;
+    }
   }
 
   // Frozen Cells

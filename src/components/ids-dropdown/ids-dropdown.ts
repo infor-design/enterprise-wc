@@ -119,7 +119,7 @@ export default class IdsDropdown extends Base {
    * List of available color variants for this component
    * @returns {Array<string>}
    */
-  colorVariants: Array<string> = ['alternate-formatter', 'borderless'];
+  colorVariants: Array<string> = ['alternate-formatter', 'borderless', 'in-cell'];
 
   /**
    * Push color variant to the container element
@@ -199,11 +199,11 @@ export default class IdsDropdown extends Base {
           <ids-icon icon="dropdown" part="icon"></ids-icon>
         </ids-trigger-button>
       </ids-trigger-field>
-    <ids-popup type="menu" part="popup">
-      <slot slot="content">
-      </slot>
-    </ids-popup>
-  </div>`;
+      <ids-popup type="menu" part="popup">
+        <slot slot="content">
+        </slot>
+      </ids-popup>
+    </div>`;
   }
 
   /**
