@@ -574,31 +574,13 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     }
   }
 
-  /**
-   * use-range attribute
-   * @returns {boolean} useRange param converted to boolean from attribute value
-   */
-  get useRange(): boolean {
-    const attrVal = this.getAttribute(attributes.USE_RANGE);
-
-    return stringToBool(attrVal);
-  }
-
-  /**
-   * Set whether or not the component should be a range picker
-   * @param {string|boolean|null} val useRange param value
-   */
-  set useRange(val: string | boolean | null) {
-    const boolVal = stringToBool(val);
+  onUseRangeChange(val: boolean) {
     const btnApply = this.applyBtnEl;
-
-    if (boolVal) {
-      this.setAttribute(attributes.USE_RANGE, String(boolVal));
-      this.monthView?.setAttribute(attributes.USE_RANGE, String(boolVal));
+    if (val) {
+      this.monthView?.setAttribute(attributes.USE_RANGE, String(val));
       btnApply?.removeAttribute(attributes.HIDDEN);
       btnApply?.setAttribute(attributes.DISABLED, 'true');
     } else {
-      this.removeAttribute(attributes.USE_RANGE);
       this.monthView?.removeAttribute(attributes.USE_RANGE);
       if (!this.expanded) btnApply?.setAttribute(attributes.HIDDEN, 'true');
       btnApply?.removeAttribute(attributes.DISABLED);

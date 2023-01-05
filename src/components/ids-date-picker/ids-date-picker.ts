@@ -1083,11 +1083,10 @@ class IdsDatePicker extends Base {
     }
   }
 
-  onUseRangeChange(newValue: boolean) {
+  onUseRangeChange(val: boolean) {
     const btnApply = this.container?.querySelector('.popup-btn-apply');
-
-    if (newValue) {
-      this.#picker?.setAttribute(attributes.USE_RANGE, String(newValue));
+    if (val) {
+      this.#picker?.setAttribute(attributes.USE_RANGE, String(val));
       btnApply?.removeAttribute('hidden');
       btnApply?.setAttribute('disabled', 'true');
     } else {
