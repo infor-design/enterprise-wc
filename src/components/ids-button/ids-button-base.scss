@@ -24,44 +24,6 @@ $ids-button-rounded-size: 8px;
     0 0 4px 3px $border-color // primary color (shadowy-part)
 }
 
-// Used to make the focus "border" appear to be separated from the button.
-@mixin solid-button-shadow-dark() {
-  box-shadow:
-    0 0 0 2px var(--ids-color-palette-slate-100), // bg color
-    0 0 0 3px var(--ids-color-palette-azure-40), // primary color (border)
-    0 0 4px 3px var(--ids-color-palette-azure-40) // primary color (shadowy-part)
-}
-
-// Used to make the focus "border" appear to be separated from the button.
-@mixin solid-button-shadow-contrast() {
-  box-shadow:
-    0 0 0 2px var(--ids-color-palette-white), // bg color
-    0 0 0 3px var(--ids-color-palette-azure-80), // primary color (border)
-    0 0 4px 3px var(--ids-color-palette-azure-80) // primary color (shadowy-part)
-}
-
-// Same as the standard button shadow, but takes on "error" or "destructive" colors
-@mixin solid-destructive-button-shadow() {
-  box-shadow:
-    0 0 0 2px var(--ids-color-palette-white), // bg color
-    0 0 0 3px var(--ids-color-palette-ruby-60), // primary color (border)
-    0 0 4px 3px var(--ids-color-palette-ruby-60) // primary color (shadowy-part)
-}
-
-@mixin solid-destructive-button-shadow-dark() {
-  box-shadow:
-    0 0 0 2px var(--ids-color-palette-slate-100), // bg color
-    0 0 0 3px var(--ids-color-palette-ruby-40), // primary color (border)
-    0 0 4px 3px var(--ids-color-palette-ruby-40) // primary color (shadowy-part)
-}
-
-@mixin solid-destructive-button-shadow-contrast() {
-  box-shadow:
-    0 0 0 2px var(--ids-color-palette-white), // bg color
-    0 0 0 3px var(--ids-color-palette-ruby-60), // primary color (border)
-    0 0 4px 3px var(--ids-color-palette-ruby-60) // primary color (shadowy-part)
-}
-
 // Used to make the focus "border" on non-solid buttons (modal buttons, etc)
 @mixin modal-button-shadow() {
   box-shadow: 0 0 3px 1px var(--ids-color-brand-primary-base) // primary color (shadowy-part)
