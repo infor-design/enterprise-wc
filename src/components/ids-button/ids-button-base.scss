@@ -24,8 +24,8 @@ $ids-button-rounded-size: 8px;
 @mixin solid-destructive-button-shadow {
   box-shadow:
     0 0 0 2px var(--ids-color-palette-white), // bg color
-    0 0 0 3px var(--ids-color-palette-ruby-06), // primary color (border)
-    0 0 4px 3px var(--ids-color-palette-ruby-06) // primary color (shadowy-part)
+    0 0 0 3px var(--ids-color-palette-ruby-60), // primary color (border)
+    0 0 4px 3px var(--ids-color-palette-ruby-60) // primary color (shadowy-part)
 }
 
 // Used to make the focus "border" on non-solid buttons (modal buttons, etc)
