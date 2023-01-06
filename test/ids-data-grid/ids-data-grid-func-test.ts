@@ -1890,6 +1890,7 @@ describe('IdsDataGrid Component', () => {
       const buttonClickListener = jest.fn();
       const customLinkClickListener = jest.fn();
 
+      dataGrid.resetCache();
       dataGrid.columns.splice(0, 0, {
         id: 'location-with-listener',
         name: 'Location',
@@ -1900,11 +1901,13 @@ describe('IdsDataGrid Component', () => {
       });
       dataGrid.resetCache();
       dataGrid.redraw();
+      dataGrid.setActiveCell(0, 0, false);
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
       expect(hyperlinkClickListener).toHaveBeenCalled();
 
+      dataGrid.resetCache();
       dataGrid.columns.splice(0, 0, {
         id: 'drilldown',
         name: '',
@@ -1915,11 +1918,13 @@ describe('IdsDataGrid Component', () => {
       });
       dataGrid.resetCache();
       dataGrid.redraw();
+      dataGrid.setActiveCell(0, 0, false);
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
       expect(buttonClickListener).toHaveBeenCalled();
 
+      dataGrid.resetCache();
       dataGrid.columns.splice(0, 0, {
         id: 'custom',
         name: 'Custom Formatter',
@@ -1932,6 +1937,7 @@ describe('IdsDataGrid Component', () => {
       });
       dataGrid.resetCache();
       dataGrid.redraw();
+      dataGrid.setActiveCell(0, 0, false);
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
@@ -2551,13 +2557,14 @@ describe('IdsDataGrid Component', () => {
       dataGrid.insertAdjacentHTML('afterbegin', '<template id="template-id"><span>${description}</span></template>');
       dataGrid.expandableRow = true;
       dataGrid.expandableRowTemplate = `template-id`;
-
+      dataGrid.resetCache();
       dataGrid.columns = [{
         id: 'description',
         name: 'description',
         formatter: dataGrid.formatters.expander
       }];
-
+      dataGrid.resetCache();
+      dataGrid.redraw();
       await processAnimFrame();
       const firstRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
       expect(firstRow.getAttribute('aria-expanded')).toEqual('false');

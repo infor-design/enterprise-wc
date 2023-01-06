@@ -395,7 +395,6 @@ export default class IdsDataGrid extends Base {
 
       // Focus Cell
       this.setActiveCell(cellNum, rowNum, isHyperlink);
-
       // Handle click callbacks
       if (isClickable && column.click !== undefined && !e.target?.getAttribute('disabled')) {
         (column as any).click({
@@ -936,6 +935,7 @@ export default class IdsDataGrid extends Base {
    * @param {Array} value The array to use
    */
   set columns(value: IdsDataGridColumn[] | undefined | null) {
+    this.resetCache();
     this.currentColumns = value || [{ id: '', name: '' }];
     this.redraw();
   }

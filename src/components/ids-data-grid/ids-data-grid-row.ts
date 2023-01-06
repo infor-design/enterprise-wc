@@ -98,6 +98,7 @@ export default class IdsDataGridRow extends IdsElement {
     });
   }
 
+  /** Set row attributes and classes */
   #setAttributes() {
     const row = this.rowIndex;
     this.setAttribute('data-index', String(row));
@@ -127,6 +128,9 @@ export default class IdsDataGridRow extends IdsElement {
       this.setAttribute('aria-expanded', 'true');
     }
     if (!this.dataGrid.data[row]?.rowExpanded && this.getAttribute('aria-expanded') === 'false') {
+      this.setAttribute('aria-expanded', 'false');
+    }
+    if (!this.dataGrid.data[row]?.rowExpanded && this.dataGrid.expandableRow) {
       this.setAttribute('aria-expanded', 'false');
     }
 
