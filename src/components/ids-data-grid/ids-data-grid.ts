@@ -1157,9 +1157,7 @@ export default class IdsDataGrid extends Base {
 
   requestAnimationFrame(fnCallback: () => void) {
     if (this.virtualScroll) {
-      this.#rafReference = requestAnimationFrame(() => {
-        fnCallback();
-      });
+      this.#rafReference = requestAnimationFrame(fnCallback);
     } else {
       fnCallback();
     }
