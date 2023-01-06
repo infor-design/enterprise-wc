@@ -12,16 +12,50 @@ $ids-button-rounded-size: 8px;
   box-shadow: 0 0 3px 2px rgba(54 138 192 / 0);
 }
 
+@mixin shadow-error-alternate() {
+  box-shadow: 0 0 3px 2px rgba(239, 131, 133, 0.3);
+}
+
 // Used to make the focus "border" appear to be separated from the button.
-@mixin solid-button-shadow() {
+@mixin outset-button-shadow($bg-color, $border-color) {
+  box-shadow:
+    0 0 0 2px $bg-color, // bg color
+    0 0 0 3px $border-color, // primary color (border)
+    0 0 4px 3px $border-color // primary color (shadowy-part)
+}
+
+// Used to make the focus "border" appear to be separated from the button.
+@mixin solid-button-shadow-dark() {
+  box-shadow:
+    0 0 0 2px var(--ids-color-palette-slate-100), // bg color
+    0 0 0 3px var(--ids-color-palette-azure-40), // primary color (border)
+    0 0 4px 3px var(--ids-color-palette-azure-40) // primary color (shadowy-part)
+}
+
+// Used to make the focus "border" appear to be separated from the button.
+@mixin solid-button-shadow-contrast() {
   box-shadow:
     0 0 0 2px var(--ids-color-palette-white), // bg color
-    0 0 0 3px var(--ids-color-brand-primary-base), // primary color (border)
-    0 0 4px 3px var(--ids-color-brand-primary-base) // primary color (shadowy-part)
+    0 0 0 3px var(--ids-color-palette-azure-80), // primary color (border)
+    0 0 4px 3px var(--ids-color-palette-azure-80) // primary color (shadowy-part)
 }
 
 // Same as the standard button shadow, but takes on "error" or "destructive" colors
-@mixin solid-destructive-button-shadow {
+@mixin solid-destructive-button-shadow() {
+  box-shadow:
+    0 0 0 2px var(--ids-color-palette-white), // bg color
+    0 0 0 3px var(--ids-color-palette-ruby-60), // primary color (border)
+    0 0 4px 3px var(--ids-color-palette-ruby-60) // primary color (shadowy-part)
+}
+
+@mixin solid-destructive-button-shadow-dark() {
+  box-shadow:
+    0 0 0 2px var(--ids-color-palette-slate-100), // bg color
+    0 0 0 3px var(--ids-color-palette-ruby-40), // primary color (border)
+    0 0 4px 3px var(--ids-color-palette-ruby-40) // primary color (shadowy-part)
+}
+
+@mixin solid-destructive-button-shadow-contrast() {
   box-shadow:
     0 0 0 2px var(--ids-color-palette-white), // bg color
     0 0 0 3px var(--ids-color-palette-ruby-60), // primary color (border)
@@ -203,7 +237,10 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include solid-button-shadow();
+        @include outset-button-shadow(
+          var(--ids-color-palette-white),
+          var(--ids-color-palette-azure-60)
+        );
       }
 
       &:hover {
@@ -232,7 +269,10 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include solid-destructive-button-shadow();
+        @include outset-button-shadow(
+          var(--ids-color-palette-white),
+          var(--ids-color-palette-ruby-60)
+        );
       }
 
       &:hover {
@@ -262,7 +302,10 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include solid-button-shadow();
+        @include outset-button-shadow(
+          var(--ids-color-palette-white),
+          var(--ids-color-palette-azure-60)
+        );
       }
 
       &:hover {
@@ -284,7 +327,7 @@ $ids-button-rounded-size: 8px;
     // ====================================================
     // Light Mode Alternate
 
-    // Don't apply these rules to formatter buttons
+    // Don't apply these rules to "alternate-formatter"-style buttons
     &.color-variant-alternate {
       &:hover {
         @include bg-azure-90();
@@ -356,14 +399,14 @@ $ids-button-rounded-size: 8px;
       // Light Mode Alternate Tertiary Destructive
 
       &.btn-tertiary-destructive {
-        @include text-ruby-70();
+        @include text-ruby-50();
 
         opacity: 1;
 
         &.is-active,
         &:focus {
-          @include border-ruby-70();
-          @include shadow-error();
+          @include border-ruby-30();
+          @include shadow-error-alternate();
         }
 
         &:hover {
@@ -395,7 +438,10 @@ $ids-button-rounded-size: 8px;
 
         &.is-active,
         &:focus {
-          @include alternate-button-shadow();
+          @include outset-button-shadow(
+            var(--ids-color-palette-slate-30),
+            var(--ids-color-palette-white)
+          );
 
           border-color: var(--ids-color-palette-white);
         }
@@ -430,7 +476,10 @@ $ids-button-rounded-size: 8px;
 
         &.is-active,
         &:focus {
-          @include solid-destructive-button-shadow();
+          @include outset-button-shadow(
+            var(--ids-color-palette-slate-70),
+            var(--ids-color-palette-ruby-30)
+          );
         }
 
         &:hover {
@@ -439,9 +488,9 @@ $ids-button-rounded-size: 8px;
         }
 
         &[disabled] {
-          @include bg-slate-20();
-          @include border-slate-20();
-          @include text-slate-40();
+          @include bg-slate-40();
+          @include border-slate-40();
+          @include text-slate-20();
         }
 
         .ripple-effect {
@@ -462,7 +511,10 @@ $ids-button-rounded-size: 8px;
 
         &.is-active,
         &:focus {
-          @include alternate-button-shadow();
+          @include outset-button-shadow(
+            var(--ids-color-palette-slate-30),
+            var(--ids-color-palette-white)
+          );
         }
 
         &:hover {
@@ -572,7 +624,10 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include solid-button-shadow();
+        @include outset-button-shadow(
+          var(--ids-color-palette-slate-100),
+          var(--ids-color-palette-azure-40)
+        );
       }
 
       &:hover {
@@ -601,7 +656,10 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include solid-destructive-button-shadow();
+        @include outset-button-shadow(
+          var(--ids-color-palette-slate-100),
+          var(--ids-color-palette-ruby-40)
+        );
       }
 
       &:hover {
@@ -624,14 +682,17 @@ $ids-button-rounded-size: 8px;
     // Dark Mode Secondary Button
 
     &.btn-secondary {
-      @include border-azure-60();
+      @include border-azure-50();
       @include border-2();
       @include bg-transparent();
-      @include text-azure-60();
+      @include text-azure-50();
 
       &.is-active,
       &:focus {
-        @include solid-button-shadow();
+        @include outset-button-shadow(
+          var(--ids-color-palette-slate-100),
+          var(--ids-color-palette-azure-50)
+        );
       }
 
       &:hover {
@@ -675,7 +736,7 @@ $ids-button-rounded-size: 8px;
         &.is-active,
         &:focus {
           @include border-ruby-50();
-          @include shadow-error();
+          @include shadow-error-alternate();
         }
 
         &:hover {
@@ -699,6 +760,14 @@ $ids-button-rounded-size: 8px;
       // Dark Mode Primary Alternate
 
       &.btn-primary {
+        &.is-active,
+        &:focus {
+          @include outset-button-shadow(
+            var(--ids-color-palette-black),
+            var(--ids-color-palette-white)
+          );
+        }
+
         &:hover {
           @include bg-azure-30();
           @include border-azure-30();
@@ -720,7 +789,10 @@ $ids-button-rounded-size: 8px;
 
         &.is-active,
         &:focus {
-          @include solid-destructive-button-shadow();
+          @include outset-button-shadow(
+            var(--ids-color-palette-slate-100),
+            var(--ids-color-palette-ruby-40)
+          );
         }
 
         &:hover {
@@ -748,6 +820,14 @@ $ids-button-rounded-size: 8px;
         @include border-azure-60();
         @include text-azure-60();
 
+        &.is-active,
+        &:focus {
+          @include outset-button-shadow(
+            var(--ids-color-palette-black),
+            var(--ids-color-palette-white)
+          );
+        }
+
         &:hover {
           @include bg-azure-90();
           @include border-azure-30();
@@ -770,8 +850,7 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        border-color: var(--ids-color-palette-azure-50);
-        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-40);
+        @include shadow();
       }
 
       &:hover {
@@ -840,6 +919,14 @@ $ids-button-rounded-size: 8px;
       @include bg-azure-80();
       @include text-white();
 
+      &.is-active,
+      &:focus {
+        @include outset-button-shadow(
+          var(--ids-color-palette-white),
+          var(--ids-color-palette-azure-80)
+        );
+      }
+
       &:hover {
         @include bg-azure-90();
       }
@@ -864,7 +951,10 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include solid-destructive-button-shadow();
+        @include outset-button-shadow(
+          var(--ids-color-palette-white),
+          var(--ids-color-palette-ruby-60)
+        );
       }
 
       &:hover {
@@ -892,6 +982,14 @@ $ids-button-rounded-size: 8px;
       @include border-azure-80();
       @include text-azure-80();
 
+      &.is-active,
+      &:focus {
+        @include outset-button-shadow(
+          var(--ids-color-palette-white),
+          var(--ids-color-palette-azure-80)
+        );
+      }
+
       &:hover {
         @include bg-azure-10();
         @include border-azure-90();
@@ -913,6 +1011,11 @@ $ids-button-rounded-size: 8px;
 
       opacity: 1;
 
+      &.is-active,
+      &:focus {
+        @include alternate-button-shadow();
+      }
+
       &:hover {
         @include bg-azure-90();
         @include text-white();
@@ -932,7 +1035,7 @@ $ids-button-rounded-size: 8px;
         &.is-active,
         &:focus {
           @include border-ruby-60();
-          @include shadow-error();
+          @include shadow-error-alternate();
         }
 
         &:hover {
@@ -958,6 +1061,14 @@ $ids-button-rounded-size: 8px;
         @include border-azure-60();
         @include text-white();
 
+        &.is-active,
+        &:focus {
+          @include outset-button-shadow(
+            var(--ids-color-palette-black),
+            var(--ids-color-palette-azure-60)
+          );
+        }
+
         &:hover {
           @include bg-azure-50();
           @include text-white();
@@ -981,7 +1092,10 @@ $ids-button-rounded-size: 8px;
 
         &.is-active,
         &:focus {
-          @include solid-destructive-button-shadow();
+          @include outset-button-shadow(
+            var(--ids-color-palette-black),
+            var(--ids-color-palette-ruby-60)
+          );
         }
 
         &:hover {
@@ -1008,6 +1122,14 @@ $ids-button-rounded-size: 8px;
         @include border-azure-60();
         @include bg-transparent();
         @include text-azure-60();
+
+        &.is-active,
+        &:focus {
+          @include outset-button-shadow(
+            var(--ids-color-palette-black),
+            var(--ids-color-palette-azure-60)
+          );
+        }
 
         &:hover {
           @include border-azure-30();
