@@ -58,6 +58,7 @@
   @include text-white();
 }
 
+:host([mode='dark']:hover:not(.is-selected):not([group-label]):not(.multiselect-option)),
 :host([mode='dark']:hover:not(.is-selected)),
 :host([mode='dark'].multiselect-option:focus),
 :host([mode='dark'].multiselect-option.is-selected),

@@ -3234,7 +3234,6 @@ describe('IdsDataGrid Component', () => {
 
       const dropdown = dropdownCell.querySelector('ids-dropdown');
       dropdown.focus();
-      dropdown.dispatchEvent(arrowDownKey); // opens dropdown
       dropdown.dispatchEvent(arrowDownKey); // navigates list box options
       dropdown.dispatchEvent(enterKey); // selects option
       expect(dropdown.value).toEqual('yen');

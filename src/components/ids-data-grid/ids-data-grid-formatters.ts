@@ -180,9 +180,18 @@ export default class IdsDataGridFormatters {
     const options = <any[]>columnData.editor?.editorSettings?.options;
     const value = rowData[field];
     const valueOpt = options.find((opt) => opt.value === value);
-    const editIcon = columnData.editor?.inline && columnData.editor.type === 'dropdown'
-      ? `<ids-icon icon="dropdown" class="dropdown-editor-icon"></ids-icon>` : '';
 
-    return `<span class="text-ellipsis" data-value="${valueOpt?.value ?? ''}" data-id="${valueOpt?.id ?? ''}">${valueOpt?.label ?? ''}</span>${editIcon}`;
+    return `
+      <span
+        class="text-ellipsis dropdown-cell-value"
+        data-value="${valueOpt?.value ?? ''}"
+        data-id="${valueOpt?.id ?? ''}">
+          ${valueOpt?.label ?? ''}
+      </span>
+      <ids-icon
+        icon="dropdown"
+        class="dropdown-cell-icon">
+      </ids-icon>
+    `;
   }
 }

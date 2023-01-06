@@ -255,6 +255,7 @@ export default class IdsDataGridRow extends IdsElement {
       cssClasses += `${isDirtyCell(row, column, j) ? ' is-dirty' : ''}`;
       cssClasses += `${isInvalidCell(row, column, j) ? ' is-invalid' : ''}`;
       cssClasses += `${column?.align ? ` align-${column?.align}` : ''}`;
+      cssClasses += `${column?.editor?.type === 'dropdown' ? ' is-dropdown' : ''}`;
       cssClasses += `${column?.frozen ? ` frozen frozen-${column?.frozen}${j + 1 === frozenLast ? ' frozen-last' : ''}` : ''}`;
       cssClasses += `${column?.editor && !hasReadonlyClass && !hasDisabledClass ? ` is-editable${column?.editor?.inline ? ' is-inline' : ''}` : ''}`;
       return `<ids-data-grid-cell role="gridcell" part="${cssPart(column, index, j)}" class="${cssClasses}" aria-colindex="${j + 1}">${content}</ids-data-grid-cell>`;

@@ -78,9 +78,9 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   &.is-editable.is-inline {
     box-shadow: inset 0 0 0 4px white, inset 0 0 0 5px var(--ids-color-palette-slate-40);
 
-    ids-icon.dropdown-editor-icon {
-      margin-inline: calc(100% - 32px);
-      position: absolute;
+    ids-icon.dropdown-cell-icon {
+      visibility: visible;
+      margin-inline-end: 14px;
     }
   }
 
@@ -91,6 +91,30 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     position: relative;
     left: 6px;
     top: 4px;
+  }
+
+  // Dropdown Editable Cell
+  &.is-editable.is-dropdown {
+    .dropdown-cell-value {
+      @include w-full();
+    }
+
+    .dropdown-cell-icon {
+      margin-inline-end: 10px;
+      visibility: hidden;
+    }
+
+    // is-borderless:hover
+    &:not(.is-inline):focus,
+    &:not(.is-inline):hover {
+      .dropdown-cell-icon {
+        visibility: visible;
+      }
+
+      ids-alert {
+        margin-inline: calc(100% - 48px);
+      }
+    }
   }
 
   // Dropdown Editing

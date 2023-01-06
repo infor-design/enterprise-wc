@@ -139,6 +139,9 @@ export class DropdownEditor implements IdsDataGridEditor {
   /** Callback reference to handle blur event propagation */
   #stopPropagationCb = this.stopPropagation.bind(this);
 
+  /** Indicates if keyboard was used to init the editor */
+  isClick?: boolean;
+
   init(cell?: IdsDataGridCell): void {
     this.#value = cell?.querySelector('[data-value]')?.getAttribute('data-value') ?? null;
     const isInline = cell?.column.editor?.inline;
@@ -155,7 +158,6 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input.typeahead = false;
 
     cell!.innerHTML = '';
-    cell!.classList.add('is-dropdown');
     cell!.appendChild(this.input);
 
     this.input.value = this.#value;
@@ -165,10 +167,7 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input.fieldHeight = String(cell?.dataGrid?.rowHeight);
     this.input.container?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
     this.#attchEventListeners();
-
-    if (isInline) {
-      this.input.open();
-    }
+    this.input.open();
   }
 
   /**

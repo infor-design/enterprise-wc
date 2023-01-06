@@ -273,7 +273,7 @@ The following settings are available on editors.
 `editorSettings.validate` Text will be selected when entering edit mode
 `editorSettings.mask` Will pass mask settings to the input (if supported).
 `editorSettings.maskOptions` Will pass maskOptions settings to the input (if supported).
-`editorSettings.options` Data set used for dropdown editor's list box options.
+`editorSettings.options` Dataset used for dropdown editor's list box options.
 
 When the use clicks in the cell or activates editing with the keyboard with the Enter key and types. The following events will fire.
 
