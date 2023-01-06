@@ -1,239 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title><%= htmlWebpackPlugin.options.title %></title>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
   <%= htmlWebpackPlugin.options.font %>
 </head>
+
 <body>
   <ids-container color-variant="alternate" role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1" color-variant="alternate">Buttons (Alternate Color Variant)</ids-text>
+      <ids-text font-size="18" type="h1" color-variant="alternate">IdsButton Example Matrix (Alternate Color Variant)</ids-text>
     </ids-layout-grid>
 
     <ids-layout-grid cols="6" gap="md">
       <ids-layout-grid-cell>
-        <ids-button id="test-button-default" color-variant="alternate">
-          <span>Default</span>
-        </ids-button>
+        <p><ids-text font-size="12" type="span" color-variant="alternate">Default</ids-text></p>
+        <p>
+          <ids-button id="test-button-default" color-variant="alternate">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-disabled-button-default" disabled="true" color-variant="alternate">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-only-button-default" color-variant="alternate">
+            <span class="audible">Action</span>
+            <ids-icon icon="settings"></ids-icon>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-button-default" color-variant="alternate">
+            <ids-icon icon="settings"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-end-button-default" icon-align="end" color-variant="alternate">
+            <span>Action</span>
+            <ids-icon icon="settings"></ids-icon>
+          </ids-button>
+        </p>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell>
-        <ids-button id="test-button-primary" type="primary" color-variant="alternate">
-          <span>Primary</span>
-        </ids-button>
+        <p><ids-text font-size="12" type="span" color-variant="alternate">Primary</ids-text></p>
+        <p>
+          <ids-button id="test-button-primary" type="primary" color-variant="alternate">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-disabled-button-primary" type="primary" disabled="true" color-variant="alternate">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-only-button-primary" type="primary" color-variant="alternate">
+            <span class="audible">Action</span>
+            <ids-icon icon="settings"></ids-icon>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-button-primary" type="primary" color-variant="alternate">
+            <ids-icon icon="settings"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-end-button-primary" icon-align="end" type="primary" color-variant="alternate">
+            <span>Action</span>
+            <ids-icon icon="settings"></ids-icon>
+          </ids-button>
+        </p>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell>
-        <ids-button id="test-button-secondary" type="secondary" color-variant="alternate">
-          <span>Secondary</span>
-        </ids-button>
+        <p><ids-text font-size="12" type="span" color-variant="alternate">Secondary</ids-text></p>
+        <p>
+          <ids-button id="test-button-secondary" type="secondary" color-variant="alternate">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-disabled-button-secondary" type="secondary" disabled="true" color-variant="alternate">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-only-button-secondary" type="secondary" color-variant="alternate">
+            <span class="audible">Action</span>
+            <ids-icon icon="settings"></ids-icon>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-button-secondary" type="secondary" color-variant="alternate">
+            <ids-icon icon="settings"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-end-button-secondary" icon-align="end" type="secondary" color-variant="alternate">
+            <span>Action</span>
+            <ids-icon icon="settings"></ids-icon>
+          </ids-button>
+        </p>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell>
-        <ids-button id="test-button-tertiary" type="tertiary" color-variant="alternate">
-          <span>Tertiary</span>
-        </ids-button>
+        <p><ids-text font-size="12" type="span" color-variant="alternate">Tertiary</ids-text></p>
+        <p>
+          <ids-button id="test-button-tertiary" type="tertiary" color-variant="alternate">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-disabled-button-tertiary" type="tertiary" disabled="true" color-variant="alternate">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-only-button-tertiary" type="tertiary" color-variant="alternate">
+            <span class="audible">Action</span>
+            <ids-icon icon="settings"></ids-icon>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-button-tertiary" type="tertiary" color-variant="alternate">
+            <ids-icon icon="settings"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-end-button-tertiary" icon-align="end" type="tertiary" color-variant="alternate">
+            <span>Action</span>
+            <ids-icon icon="settings"></ids-icon>
+          </ids-button>
+        </p>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell>
-        <ids-button id="test-button-primary-destructive" type="primary-destructive" color-variant="alternate">
-          <span>Primary Destructive</span>
-        </ids-button>
+        <p><ids-text font-size="12" type="span" color-variant="alternate">Primary Destructive</ids-text></p>
+        <p>
+          <ids-button id="test-button-primary-destructive" type="primary-destructive" color-variant="alternate">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-disabled-button-primary-destructive" type="primary-destructive" disabled="true" color-variant="alternate">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-only-button-primary-destructive" type="primary-destructive" color-variant="alternate">
+            <span class="audible">Action</span>
+            <ids-icon icon="settings"></ids-icon>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-button-primary-destructive" type="primary-destructive" color-variant="alternate">
+            <ids-icon icon="settings"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-end-button-primary-destructive" icon-align="end" type="primary-destructive" color-variant="alternate">
+            <span>Action</span>
+            <ids-icon icon="settings"></ids-icon>
+          </ids-button>
+        </p>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell>
-        <ids-button id="test-button-tertiary-destructive" type="tertiary-destructive" color-variant="alternate">
-          <span>Tertiary Destructive</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
-
-    <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1" color-variant="alternate">Disabled Buttons</ids-text>
-    </ids-layout-grid>
-
-    <ids-layout-grid cols="6" gap="md">
-      <ids-layout-grid-cell>
-        <ids-button id="test-disabled-button-default" disabled="true" color-variant="alternate">
-          <span>Default</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-disabled-button-primary" type="primary" disabled="true" color-variant="alternate">
-          <span>Primary</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-disabled-button-secondary" type="secondary" disabled="true" color-variant="alternate">
-          <span>Secondary</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-disabled-button-tertiary" type="tertiary" disabled="true" color-variant="alternate">
-          <span>Tertiary</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-disabled-button-primary-destructive" type="primary-destructive" disabled="true" color-variant="alternate">
-          <span>Primary Destructive</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-disabled-button-tertiary-destructive" type="tertiary-destructive" disabled="true" color-variant="alternate">
-          <span>Tertiary Destructive</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
-
-    <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1" color-variant="alternate">Icon Only Buttons</ids-text>
-    </ids-layout-grid>
-
-    <ids-layout-grid cols="6" gap="md">
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-only-button-default" color-variant="alternate">
-          <span class="audible">Default</span>
-          <ids-icon icon="settings"></ids-icon>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-only-button-primary" type="primary" color-variant="alternate">
-          <span class="audible">Primary</span>
-          <ids-icon icon="settings"></ids-icon>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-only-button-secondary" type="secondary" color-variant="alternate">
-          <span class="audible">Secondary</span>
-          <ids-icon icon="settings"></ids-icon>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-only-button-tertiary" type="tertiary" color-variant="alternate">
-          <span class="audible">Tertiary</span>
-          <ids-icon icon="settings"></ids-icon>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-only-button-primary-destructive" type="primary-destructive" color-variant="alternate">
-          <span class="audible">Primary Destructive</span>
-          <ids-icon icon="settings"></ids-icon>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-only-button-tertiary-destructive" type="tertiary-destructive" color-variant="alternate">
-          <span class="audible">Tertiary Destructive</span>
-          <ids-icon icon="settings"></ids-icon>
-        </ids-button>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
-
-    <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1" color-variant="alternate">Icon + Text Buttons</ids-text>
-    </ids-layout-grid>
-
-    <ids-layout-grid cols="6" gap="md">
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-button-default" color-variant="alternate">
-          <ids-icon icon="settings"></ids-icon>
-          <span>Default</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-button-primary" type="primary" color-variant="alternate">
-          <ids-icon icon="settings"></ids-icon>
-          <span>Primary</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-button-secondary" type="secondary" color-variant="alternate">
-          <ids-icon icon="settings"></ids-icon>
-          <span>Secondary</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-button-tertiary" type="tertiary" color-variant="alternate">
-          <ids-icon icon="settings"></ids-icon>
-          <span>Tertiary</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-button-primary-destructive" type="primary-destructive" color-variant="alternate">
-          <ids-icon icon="settings"></ids-icon>
-          <span>Primary Destructive</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-button-tertiary-destructive" type="tertiary-destructive" color-variant="alternate">
-          <ids-icon icon="settings"></ids-icon>
-          <span>Tertiary Destructive</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
-
-    <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1" color-variant="alternate">Text + Icon Buttons</ids-text>
-    </ids-layout-grid>
-
-    <ids-layout-grid cols="6" gap="md">
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-end-button-default" icon-align="end" color-variant="alternate">
-          <span>Default</span>
-          <ids-icon icon="settings"></ids-icon>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-end-button-primary" icon-align="end" type="primary" color-variant="alternate">
-          <span>Primary</span>
-          <ids-icon icon="settings"></ids-icon>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-end-button-secondary" icon-align="end" type="secondary" color-variant="alternate">
-          <span>Secondary</span>
-          <ids-icon icon="settings"></ids-icon>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-end-button-tertiary" icon-align="end" type="tertiary" color-variant="alternate">
-          <span>Tertiary</span>
-          <ids-icon icon="settings"></ids-icon>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-end-button-primary-destructive" icon-align="end" type="primary-destructive" color-variant="alternate">
-          <span>Primary Destructive</span>
-          <ids-icon icon="settings"></ids-icon>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-icon-end-button-tertiary-destructive" icon-align="end" type="tertiary-destructive" color-variant="alternate">
-          <span>Tertiary Destructive</span>
-          <ids-icon icon="settings"></ids-icon>
-        </ids-button>
+        <p><ids-text font-size="12" type="span" color-variant="alternate">Tertiary Destructive</ids-text></p>
+        <p>
+          <ids-button id="test-button-tertiary-destructive" type="tertiary-destructive" color-variant="alternate">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-disabled-button-tertiary-destructive" type="tertiary-destructive" disabled="true" color-variant="alternate">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-only-button-tertiary-destructive" type="tertiary-destructive" color-variant="alternate">
+            <span class="audible">Action</span>
+            <ids-icon icon="settings"></ids-icon>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-button-tertiary-destructive" type="tertiary-destructive" color-variant="alternate">
+            <ids-icon icon="settings"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-icon-end-button-tertiary-destructive" icon-align="end" type="tertiary-destructive" color-variant="alternate">
+            <span>Action</span>
+            <ids-icon icon="settings"></ids-icon>
+          </ids-button>
+        </p>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
 </body>
+
 </html>

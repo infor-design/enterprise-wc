@@ -11,127 +11,124 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto="true">
-      <ids-text font-size="24" type="h1">Standard</ids-text>
-    </ids-layout-grid>
-
-    <ids-layout-grid cols="4" gap="md">
-      <ids-layout-grid-cell><ids-text font-size="18" type="h2">Primary</ids-text></ids-layout-grid-cell>
-      <ids-layout-grid-cell><ids-text font-size="18" type="h2">Secondary</ids-text></ids-layout-grid-cell>
-      <ids-layout-grid-cell><ids-text font-size="18" type="h2">Tertiary</ids-text></ids-layout-grid-cell>
-      <ids-layout-grid-cell><ids-text font-size="18" type="h2">Icon</ids-text></ids-layout-grid-cell>
-    </ids-layout-grid>
 
     <ids-layout-grid cols="4" gap="md">
       <ids-layout-grid-cell>
-        <ids-button id="test-button-primary" type="primary">
-          <span>Action</span>
-        </ids-button>
+        <p>
+          <ids-text font-size="18" type="h2">Primary</ids-text>
+        </p>
+        <p>
+          <ids-button id="test-button-primary" type="primary">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-disabled-button-primary" type="primary" disabled>
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-button-icon-primary" type="primary">
+            <ids-icon icon="folder"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell>
-        <ids-button id="test-button-secondary" type="secondary">
-          <span>Action</span>
-        </ids-button>
+        <p>
+          <ids-text font-size="18" type="h2">Secondary</ids-text>
+        </p>
+        <p>
+          <ids-button id="test-button-secondary" type="secondary">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-disabled-button-secondary" type="secondary" disabled>
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-button-icon-secondary" type="secondary">
+            <ids-icon icon="folder"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell>
-        <ids-button id="test-button-tertiary" type="tertiary">
-          <ids-icon icon="folder"></ids-icon>
-          <span>Action</span>
-        </ids-button>
+        <p>
+          <ids-text font-size="18" type="h2">Tertiary</ids-text>
+        </p>
+        <p>
+          <ids-button id="test-button-tertiary" type="tertiary">
+            <ids-icon icon="folder"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-disabled-button-tertiary" type="tertiary" disabled>
+            <ids-icon icon="folder"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell>
-        <ids-button id="test-button-icon">
-          <ids-icon icon="folder"></ids-icon>
-          <span class="audible">Action</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
-
-    <ids-layout-grid cols="4" gap="md">
-      <ids-layout-grid-cell>
-        <ids-button id="test-disabled-button-primary" type="primary" disabled>
-          <span>Action</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-disabled-button-secondary" type="secondary" disabled>
-          <span>Action</span>
-        </ids-button>
+        <p>
+          <ids-text font-size="18" type="h2">Icon</ids-text>
+        </p>
+        <p>
+          <ids-button id="test-button-icon">
+            <ids-icon icon="folder"></ids-icon>
+            <span class="audible">Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button id="test-disabled-button-icon" disabled>
+            <ids-icon icon="folder"></ids-icon>
+            <span class="audible">Action</span>
+          </ids-button>
+        </p>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell>
-        <ids-button id="test-disabled-button-tertiary" type="tertiary" disabled>
-          <ids-icon icon="folder"></ids-icon>
-          <span>Action</span>
-        </ids-button>
+        <p>
+          <ids-text font-size="18" type="h2">Destructive Primary</ids-text>
+        </p>
+
+        <p>
+          <ids-button id="test-button-primary-destructive" type="primary-destructive">
+            <span>Action</span>
+          </ids-button>
+        </p>
+
+        <p>
+          <ids-button id="test-button-disabled-primary-destructive" type="primary-destructive" disabled>
+            <span>Action</span>
+          </ids-button>
+        </p>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell>
-        <ids-button id="test-disabled-button-icon" disabled>
-          <ids-icon icon="folder"></ids-icon>
-          <span class="audible">Action</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
+        <p>
+          <ids-text font-size="18" type="h2">Destructive Tertiary</ids-text>
+        </p>
 
-    <ids-layout-grid cols="4" gap="md">
-      <ids-layout-grid-cell>
-        <ids-button id="test-button-icon-primary" type="primary">
-          <ids-icon icon="folder"></ids-icon>
-          <span>Action</span>
-        </ids-button>
-      </ids-layout-grid-cell>
+        <p>
+          <ids-button id="test-button-tertiary-destructive" type="tertiary-destructive">
+            <ids-icon icon="folder"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
 
-      <ids-layout-grid-cell>
-        <ids-button id="test-button-icon-secondary" type="secondary">
-          <ids-icon icon="folder"></ids-icon>
-          <span>Action</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
-
-    <p></p>
-
-    <ids-layout-grid auto="true">
-      <ids-text font-size="24" type="h1">Destructive</ids-text>
-    </ids-layout-grid>
-
-    <ids-layout-grid cols="4" gap="md">
-      <ids-layout-grid-cell><ids-text font-size="18" type="h2">Primary</ids-text></ids-layout-grid-cell>
-      <ids-layout-grid-cell><ids-text font-size="18" type="h2">Tertiary</ids-text></ids-layout-grid-cell>
-    </ids-layout-grid>
-
-    <ids-layout-grid cols="4" gap="md">
-      <ids-layout-grid-cell>
-        <ids-button id="test-button-primary-destructive" type="primary-destructive">
-          <span>Action</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-button-tertiary-destructive" type="tertiary-destructive">
-          <ids-icon icon="folder"></ids-icon>
-          <span>Action</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
-
-    <ids-layout-grid cols="4" gap="md">
-      <ids-layout-grid-cell>
-        <ids-button id="test-button-disabled-primary-destructive" type="primary-destructive" disabled>
-          <span>Action</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-
-      <ids-layout-grid-cell>
-        <ids-button id="test-button-disabled-tertiary-destructive" type="tertiary-destructive" disabled>
-          <ids-icon icon="folder"></ids-icon>
-          <span>Action</span>
-        </ids-button>
+        <p>
+          <ids-button id="test-button-disabled-tertiary-destructive" type="tertiary-destructive" disabled>
+            <ids-icon icon="folder"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
