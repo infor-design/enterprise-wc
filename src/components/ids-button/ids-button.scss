@@ -154,7 +154,8 @@ button {
 
 // Mix-in special rules for contextual buttons
 .ids-button,
-.ids-icon-button {
+.ids-icon-button,
+.ids-menu-button {
   @include ids-standard-contextual-button-colors();
 }
 

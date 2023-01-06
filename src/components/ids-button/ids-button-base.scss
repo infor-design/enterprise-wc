@@ -16,7 +16,12 @@ $ids-button-rounded-size: 8px;
   box-shadow: 0 0 3px 2px rgba(239, 131, 133, 0.3);
 }
 
-// Used to make the focus "border" appear to be separated from the button.
+// Used to make simple focus borders on tertiary/default button styles
+@mixin simple-shadow($base-color) {
+  box-shadow: 0 0 3px 2px $base-color;
+}
+
+// Used to make the focus "border" appear to be separated from the button (primary/secondary types).
 @mixin outset-button-shadow($bg-color, $border-color) {
   box-shadow:
     0 0 0 2px $bg-color, // bg color
@@ -30,7 +35,6 @@ $ids-button-rounded-size: 8px;
 }
 
 @mixin alternate-button-shadow() {
-  border-color: var(--ids-color-palette-white);
   box-shadow: 0 0 3px 2px rgba(255 255 255 / 0.7);
 }
 
@@ -145,7 +149,6 @@ $ids-button-rounded-size: 8px;
     &.is-active,
     &:focus {
       @include border-azure-50();
-      @include shadow();
     }
 
     &:hover {
@@ -171,7 +174,6 @@ $ids-button-rounded-size: 8px;
       &.is-active,
       &:focus {
         @include border-ruby-70();
-        @include shadow-error();
       }
 
       &:hover {
@@ -199,10 +201,7 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-white),
-          var(--ids-color-palette-azure-60)
-        );
+        border-color: var(--ids-color-brand-primary-base);
       }
 
       &:hover {
@@ -231,10 +230,7 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-white),
-          var(--ids-color-palette-ruby-60)
-        );
+        @include border-alert-error();
       }
 
       &:hover {
@@ -264,10 +260,7 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-white),
-          var(--ids-color-palette-azure-60)
-        );
+        @include border-azure-70();
       }
 
       &:hover {
@@ -334,9 +327,8 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include alternate-button-shadow();
+        @include border-white();
 
-        border-color: var(--ids-color-palette-white);
         opacity: 1;
       }
 
@@ -368,7 +360,6 @@ $ids-button-rounded-size: 8px;
         &.is-active,
         &:focus {
           @include border-ruby-30();
-          @include shadow-error-alternate();
         }
 
         &:hover {
@@ -400,12 +391,7 @@ $ids-button-rounded-size: 8px;
 
         &.is-active,
         &:focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-slate-30),
-            var(--ids-color-palette-white)
-          );
-
-          border-color: var(--ids-color-palette-white);
+          @include border-azure-40();
         }
 
         &:hover {
@@ -438,10 +424,7 @@ $ids-button-rounded-size: 8px;
 
         &.is-active,
         &:focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-slate-70),
-            var(--ids-color-palette-ruby-30)
-          );
+          @include border-ruby-70();
         }
 
         &:hover {
@@ -473,10 +456,7 @@ $ids-button-rounded-size: 8px;
 
         &.is-active,
         &:focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-slate-30),
-            var(--ids-color-palette-white)
-          );
+          @include border-azure-40();
         }
 
         &:hover {
@@ -505,7 +485,6 @@ $ids-button-rounded-size: 8px;
       &.is-active,
       &:focus {
         border-color: var(--ids-color-palette-azure-50);
-        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
       }
 
       &:hover {
@@ -532,7 +511,6 @@ $ids-button-rounded-size: 8px;
     &.is-active,
     &:focus {
       @include border-azure-50();
-      @include shadow();
     }
 
     &:hover {
@@ -558,7 +536,6 @@ $ids-button-rounded-size: 8px;
       &.is-active,
       &:focus {
         @include border-ruby-40();
-        @include shadow-error();
       }
 
       &:hover {
@@ -584,14 +561,6 @@ $ids-button-rounded-size: 8px;
 
       color: var(--ids-color-palette-white);
 
-      &.is-active,
-      &:focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-slate-100),
-          var(--ids-color-palette-azure-40)
-        );
-      }
-
       &:hover {
         @include bg-azure-30();
         @include border-azure-30();
@@ -615,14 +584,6 @@ $ids-button-rounded-size: 8px;
       @include bg-ruby-40();
       @include border-ruby-40();
       @include text-slate-90();
-
-      &.is-active,
-      &:focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-slate-100),
-          var(--ids-color-palette-ruby-40)
-        );
-      }
 
       &:hover {
         @include bg-ruby-30();
@@ -649,14 +610,6 @@ $ids-button-rounded-size: 8px;
       @include bg-transparent();
       @include text-azure-50();
 
-      &.is-active,
-      &:focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-slate-100),
-          var(--ids-color-palette-azure-50)
-        );
-      }
-
       &:hover {
         @include border-azure-30();
         @include text-azure-30();
@@ -680,6 +633,11 @@ $ids-button-rounded-size: 8px;
     &.color-variant-alternate {
       @include text-white();
 
+      &.is-active,
+      &:focus {
+        @include border-white();
+      }
+
       &:hover {
         @include bg-azure-90();
       }
@@ -698,7 +656,6 @@ $ids-button-rounded-size: 8px;
         &.is-active,
         &:focus {
           @include border-ruby-50();
-          @include shadow-error-alternate();
         }
 
         &:hover {
@@ -724,10 +681,7 @@ $ids-button-rounded-size: 8px;
       &.btn-primary {
         &.is-active,
         &:focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-black),
-            var(--ids-color-palette-white)
-          );
+          @include border-azure-40();
         }
 
         &:hover {
@@ -748,14 +702,6 @@ $ids-button-rounded-size: 8px;
         @include bg-ruby-40();
         @include border-ruby-40();
         @include text-slate-90();
-
-        &.is-active,
-        &:focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-slate-100),
-            var(--ids-color-palette-ruby-40)
-          );
-        }
 
         &:hover {
           @include bg-ruby-30();
@@ -784,10 +730,7 @@ $ids-button-rounded-size: 8px;
 
         &.is-active,
         &:focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-black),
-            var(--ids-color-palette-white)
-          );
+          @include border-azure-60();
         }
 
         &:hover {
@@ -810,11 +753,6 @@ $ids-button-rounded-size: 8px;
     &.color-variant-alternate-formatter {
       @include text-slate-70();
 
-      &.is-active,
-      &:focus {
-        @include shadow();
-      }
-
       &:hover {
         @include bg-transparent();
       }
@@ -834,7 +772,6 @@ $ids-button-rounded-size: 8px;
     &.is-active,
     &:focus {
       @include border-azure-80();
-      @include shadow();
     }
 
     &:hover {
@@ -856,7 +793,6 @@ $ids-button-rounded-size: 8px;
       &.is-active,
       &:focus {
         @include border-ruby-60();
-        @include shadow-error();
       }
 
       &:hover {
@@ -883,10 +819,7 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-white),
-          var(--ids-color-palette-azure-80)
-        );
+        @include border-azure-80();
       }
 
       &:hover {
@@ -913,10 +846,7 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-white),
-          var(--ids-color-palette-ruby-60)
-        );
+        @include border-ruby-60();
       }
 
       &:hover {
@@ -946,10 +876,7 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-white),
-          var(--ids-color-palette-azure-80)
-        );
+        @include border-azure-80();
       }
 
       &:hover {
@@ -975,7 +902,7 @@ $ids-button-rounded-size: 8px;
 
       &.is-active,
       &:focus {
-        @include alternate-button-shadow();
+        @include border-white();
       }
 
       &:hover {
@@ -997,7 +924,6 @@ $ids-button-rounded-size: 8px;
         &.is-active,
         &:focus {
           @include border-ruby-60();
-          @include shadow-error-alternate();
         }
 
         &:hover {
@@ -1025,10 +951,7 @@ $ids-button-rounded-size: 8px;
 
         &.is-active,
         &:focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-black),
-            var(--ids-color-palette-azure-60)
-          );
+          @include border-azure-60();
         }
 
         &:hover {
@@ -1054,10 +977,7 @@ $ids-button-rounded-size: 8px;
 
         &.is-active,
         &:focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-black),
-            var(--ids-color-palette-ruby-60)
-          );
+          @include border-ruby-60();
         }
 
         &:hover {
@@ -1115,7 +1035,6 @@ $ids-button-rounded-size: 8px;
       &.is-active,
       &:focus {
         border-color: var(--ids-color-palette-azure-40);
-        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-50);
       }
 
       &:hover {
@@ -1133,23 +1052,167 @@ $ids-button-rounded-size: 8px;
  * Provides the standard color rules for buttons that need box shadow
  */
 @mixin ids-standard-contextual-button-colors() {
+  &:not(.btn-primary):not(.btn-secondary):not(.btn-primary-destructive):not(.btn-tertiary-destructive) {
+    // ====================================================
+    // Default/Tertiary Default/Light Mode
+    &[mode='light'],
+    &:not([mode]) {
+      &.is-active,
+      &:focus {
+        @include simple-shadow(rgba(0, 114, 237, 0.3)); // Azure06
+      }
+
+      &.color-variant-alternate {
+        &.is-active,
+        &:focus {
+          @include simple-shadow(rgba(255, 255, 255, 0.7));
+        }
+      }
+
+      &.color-variant-alternate-formatter {
+        &.is-active,
+        &:focus {
+          @include simple-shadow(simple-shadow(rgba(0, 114, 237, 0.3))); // Azure06
+        }
+      }
+    }
+
+    &[mode='dark'] {
+      &.is-active,
+      &:focus {
+        @include simple-shadow(rgba(85, 163, 243, 0.3)); // Azure04
+      }
+
+      &.color-variant-alternate {
+        &.is-active,
+        &:focus {
+          @include simple-shadow(rgba(255, 255, 255, 0.7));
+        }
+      }
+
+      &.color-variant-alternate-formatter {
+        &.is-active,
+        &:focus {
+          @include shadow();
+        }
+      }
+    }
+
+    &[mode='contrast'] {
+      &.is-active,
+      &:focus {
+        @include simple-shadow(rgba(0, 114, 237, 0.3)); // Azure06
+      }
+
+      &.color-variant-alternate {
+        &.is-active,
+        &:focus {
+          @include simple-shadow(rgba(255, 255, 255, 0.7));
+        }
+      }
+
+      &.color-variant-alternate-formatter {
+        &.is-active,
+        &:focus {
+          @include simple-shadow(simple-shadow(rgba(28, 134, 239, 0.3))); // Azure05
+        }
+      }
+    }
+  }
+
+  &.btn-tertiary-destructive {
+    // ====================================================
+    // Tertiary Destructive Default/Light Mode
+    &[mode='light'],
+    &:not([mode]) {
+      &.is-active,
+      &:focus {
+        @include shadow-error();
+      }
+
+      &.color-variant-alternate,
+      &.color-variant-alternate-formatter {
+        &.is-active,
+        &:focus {
+          @include simple-shadow(rgba(237, 148, 149, 0.3)); // Ruby03
+        }
+      }
+    }
+
+    &[mode='dark'] {
+      &.is-active,
+      &:focus {
+        @include simple-shadow(rgba(237, 148, 149, 0.3)); // Ruby03
+      }
+
+      &.color-variant-alternate,
+      &.color-variant-alternate-formatter {
+        &.is-active,
+        &:focus {
+          @include simple-shadow(rgba(237, 148, 149, 0.3)); // Ruby03
+        }
+      }
+    }
+
+    &[mode='contrast'] {
+      &.is-active,
+      &:focus {
+        @include shadow-error();
+      }
+
+      &.color-variant-alternate,
+      &.color-variant-alternate-formatter {
+        &.is-active,
+        &:focus {
+          @include simple-shadow(rgba(237, 148, 149, 0.3)); // Ruby03
+        }
+      }
+    }
+  }
+
   &.btn-primary {
+    // ====================================================
+    // Primary Default/Light Mode
+    &[mode='light'],
+    &:not([mode]) {
+      &.is-active,
+      &:focus {
+        @include outset-button-shadow(
+          var(--ids-color-palette-white),
+          var(--ids-color-palette-azure-60)
+        );
+      }
+
+      &.color-variant-alternate {
+        &.is-active,
+        &:focus {
+          @include outset-button-shadow(
+            var(--ids-color-palette-slate-70),
+            var(--ids-color-palette-white)
+          );
+        }
+      }
+    }
+
     // ====================================================
     // Primary Dark Mode
 
     &[mode='dark'] {
       &.is-active,
       &:focus {
-        box-shadow:
-          0 0 0 2px var(--ids-color-palette-slate-90),
-          0 0 0 3px var(--ids-color-palette-azure-60),
-          0 0 4px 2px rgba(141 201 230 / 0.3);
+        @include outset-button-shadow(
+          var(--ids-color-palette-slate-100),
+          var(--ids-color-palette-azure-40)
+        );
       }
 
       &.color-variant-alternate {
         &.is-active,
         &:focus {
-          @include alternate-button-shadow();
+          @include outset-button-shadow(
+            var(--ids-color-palette-black),
+            var(--ids-color-palette-white)
+          );
         }
       }
     }
@@ -1160,16 +1223,88 @@ $ids-button-rounded-size: 8px;
     &[mode='contrast'] {
       &.is-active,
       &:focus {
-        box-shadow:
-          0 0 0 2px var(--ids-color-palette-slate-10),
-          0 0 0 3px var(--ids-color-palette-azure-90),
-          0 0 4px 2px rgba(41 41 41 / 0.3);
+        @include outset-button-shadow(
+          var(--ids-color-palette-white),
+          var(--ids-color-palette-azure-80)
+        );
       }
 
       &.color-variant-alternate {
         &.is-active,
         &:focus {
-          @include alternate-button-shadow();
+          @include outset-button-shadow(
+            var(--ids-color-palette-black),
+            var(--ids-color-palette-white)
+          );
+        }
+      }
+    }
+  }
+
+  &.btn-primary-destructive {
+    // ====================================================
+    // Primary Destructive Default/Light Mode
+    &[mode='light'],
+    &:not([mode]) {
+      &.is-active,
+      &:focus {
+        @include outset-button-shadow(
+          var(--ids-color-palette-white),
+          var(--ids-color-palette-ruby-60)
+        );
+      }
+
+      &.color-variant-alternate {
+        &.is-active,
+        &:focus {
+          @include outset-button-shadow(
+            var(--ids-color-palette-slate-70),
+            var(--ids-color-palette-ruby-30)
+          );
+        }
+      }
+    }
+
+    // ====================================================
+    // Primary Destructive Dark Mode
+    &[mode='dark'] {
+      &.is-active,
+      &:focus {
+        @include outset-button-shadow(
+          var(--ids-color-palette-slate-100),
+          var(--ids-color-palette-ruby-40)
+        );
+      }
+
+      &.color-variant-alternate {
+        &.is-active,
+        &:focus {
+          @include outset-button-shadow(
+            var(--ids-color-palette-slate-100),
+            var(--ids-color-palette-ruby-40)
+          );
+        }
+      }
+    }
+
+    // ====================================================
+    // Primary Destructive High-Contrast Mode
+    &[mode='contrast'] {
+      &.is-active,
+      &:focus {
+        @include outset-button-shadow(
+          var(--ids-color-palette-white),
+          var(--ids-color-palette-ruby-60)
+        );
+      }
+
+      &.color-variant-alternate {
+        &.is-active,
+        &:focus {
+          @include outset-button-shadow(
+            var(--ids-color-palette-black),
+            var(--ids-color-palette-ruby-60)
+          );
         }
       }
     }
@@ -1177,20 +1312,46 @@ $ids-button-rounded-size: 8px;
 
   &.btn-secondary {
     // ====================================================
-    // Secondary Dark Mode
-    &[mode='dark'] {
+    // Secondary Default/Light Mode
+    &[mode='light'],
+    &:not([mode]) {
       &.is-active,
       &:focus {
-        box-shadow:
-          0 0 0 2px var(--ids-color-palette-slate-90),
-          0 0 0 3px var(--ids-color-palette-azure-60),
-          0 0 4px 2px rgba(141 201 230 / 0.3);
+        @include outset-button-shadow(
+          var(--ids-color-palette-slate-10),
+          var(--ids-color-palette-azure-60)
+        );
       }
 
       &.color-variant-alternate {
         &.is-active,
         &:focus {
-          @include alternate-button-shadow();
+          @include outset-button-shadow(
+            var(--ids-color-palette-slate-70),
+            var(--ids-color-palette-white)
+          );
+        }
+      }
+    }
+
+    // ====================================================
+    // Secondary Dark Mode
+    &[mode='dark'] {
+      &.is-active,
+      &:focus {
+        @include outset-button-shadow(
+          var(--ids-color-palette-slate-100),
+          var(--ids-color-palette-azure-40)
+        );
+      }
+
+      &.color-variant-alternate {
+        &.is-active,
+        &:focus {
+          @include outset-button-shadow(
+            var(--ids-color-palette-black),
+            var(--ids-color-palette-white)
+          );
         }
       }
     }
@@ -1201,16 +1362,19 @@ $ids-button-rounded-size: 8px;
     &[mode='contrast'] {
       &.is-active,
       &:focus {
-        box-shadow:
-          0 0 0 2px var(--ids-color-palette-slate-10),
-          0 0 0 3px var(--ids-color-palette-azure-90),
-          0 0 4px 2px rgba(41 41 41 / 0.3);
+        @include outset-button-shadow(
+          var(--ids-color-palette-white),
+          var(--ids-color-palette-azure-80)
+        );
       }
 
       &.color-variant-alternate {
         &.is-active,
         &:focus {
-          @include alternate-button-shadow();
+          @include outset-button-shadow(
+            var(--ids-color-palette-black),
+            var(--ids-color-palette-white)
+          );
         }
       }
     }
