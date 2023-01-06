@@ -284,6 +284,43 @@ $ids-button-rounded-size: 8px;
     // ====================================================
     // Light Mode Alternate
 
+    // Don't apply these rules to formatter buttons
+    &.color-variant-alternate {
+      &:hover {
+        @include bg-azure-90();
+      }
+
+      &.btn-tertiary-destructive {
+        &:hover {
+          @include bg-ruby-30();
+        }
+      }
+
+      &[mode='dark'] {
+        &:hover {
+          @include bg-slate-90();
+        }
+
+        &.btn-tertiary-destructive {
+          &:hover {
+            @include bg-ruby-30();
+          }
+        }
+      }
+
+      &[mode='contrast'] {
+        &:hover {
+          @include bg-slate-90();
+        }
+
+        &.btn-tertiary-destructive {
+          &:hover {
+            @include bg-ruby-30();
+          }
+        }
+      }
+    }
+
     &.color-variant-alternate,
     &.color-variant-alternate-formatter {
       @include text-slate-10();
@@ -299,7 +336,6 @@ $ids-button-rounded-size: 8px;
       }
 
       &:hover {
-        @include bg-azure-90();
         @include text-white();
 
         opacity: 1;
@@ -331,7 +367,6 @@ $ids-button-rounded-size: 8px;
         }
 
         &:hover {
-          @include bg-ruby-30();
           @include text-ruby-90();
         }
 
@@ -459,6 +494,10 @@ $ids-button-rounded-size: 8px;
         box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
       }
 
+      &:hover {
+        @include bg-transparent();
+      }
+
       .ripple-effect {
         background-color: var(--ids-color-palette-azure-40);
       }
@@ -509,7 +548,6 @@ $ids-button-rounded-size: 8px;
       }
 
       &:hover {
-        @include bg-ruby-30();
         @include text-ruby-80();
       }
 
@@ -734,6 +772,14 @@ $ids-button-rounded-size: 8px;
       &:focus {
         border-color: var(--ids-color-palette-azure-50);
         box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-40);
+      }
+
+      &:hover {
+        @include bg-transparent();
+      }
+
+      .ripple-effect {
+        background-color: var(--ids-color-palette-azure-40);
       }
     }
   }
@@ -986,6 +1032,10 @@ $ids-button-rounded-size: 8px;
       &:focus {
         border-color: var(--ids-color-palette-azure-40);
         box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-50);
+      }
+
+      &:hover {
+        @include bg-transparent();
       }
 
       .ripple-effect {
