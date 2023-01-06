@@ -1125,7 +1125,9 @@ export default class IdsDataGrid extends Base {
     const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BUFFER_HEIGHT;
 
     this.container?.style.setProperty('max-height', '95vh');
-    this.body?.style.setProperty('padding-bottom', `${maxPaddingBottom}px`);
+    if (maxPaddingBottom >= 0) {
+      this.body?.style.setProperty('padding-bottom', `${maxPaddingBottom}px`);
+    }
 
     let debounceRowIndex = 0;
     this.offEvent('scroll.data-grid.virtual-scroll', this.container);
@@ -1212,8 +1214,10 @@ export default class IdsDataGrid extends Base {
     bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
 
     if (lastRowIndex >= maxRowIndex) {
-      // padding-bottom is no longer needed when the very last-row is rendered
-      body?.style.setProperty('padding-bottom', '0px');
+      // padding-bottom is no longer needed when the very last-row is rendered - avoid white space
+      this.requestAnimationFrame(() => {
+        body?.style.setProperty('padding-bottom', '0px');
+      });
     }
 
     if (isInRange) {
@@ -1252,7 +1256,6 @@ export default class IdsDataGrid extends Base {
 
       body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
       body?.style.setProperty('padding-bottom', `${paddingRequired ? bodyPaddingBottom : 0}px`);
-
       if (doScroll) {
         container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
       }

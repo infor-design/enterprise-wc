@@ -28,7 +28,6 @@ export default class IdsDataGridRow extends IdsElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.#setAttributes();
   }
 
   /**
@@ -95,6 +94,7 @@ export default class IdsDataGridRow extends IdsElement {
     IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
     this.dataGrid.requestAnimationFrame(() => {
       this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
+      this.#setAttributes();
     });
   }
 
