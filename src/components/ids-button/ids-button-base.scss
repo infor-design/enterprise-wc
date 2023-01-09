@@ -116,6 +116,11 @@ $ids-button-rounded-size: 8px;
   &.no-margins {
     @include mx-0();
   }
+
+  // Account for 2px borders on secondary buttons
+  &:not(.btn-secondary) {
+    @include m-1();
+  }
 }
 
 /**
