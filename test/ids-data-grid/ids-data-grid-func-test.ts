@@ -2112,6 +2112,27 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows.length).toBe(0);
     });
 
+    it('can shift click to select in between', () => {
+      const newColumns = deepClone(columns());
+      newColumns[0].id = 'selectionCheckbox';
+      newColumns[0].formatter = formatters.selectionCheckbox;
+      dataGrid.rowSelection = 'multiple';
+      dataGrid.columns = newColumns;
+      dataGrid.redraw();
+
+      expect(dataGrid.selectedRows.length).toBe(0);
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
+      expect(dataGrid.selectedRows.length).toBe(1);
+      let event = new MouseEvent('click', { bubbles: true, shiftKey: true });
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(7) .ids-data-grid-cell:nth-child(1)').dispatchEvent(event);
+      expect(dataGrid.selectedRows.length).toBe(6);
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(6) .ids-data-grid-cell:nth-child(1)').click();
+      expect(dataGrid.selectedRows.length).toBe(5);
+      event = new MouseEvent('click', { bubbles: true, shiftKey: true });
+      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(4) .ids-data-grid-cell:nth-child(1)').dispatchEvent(event);
+      expect(dataGrid.selectedRows.length).toBe(3);
+    });
+
     it('can select the row ui via the row element', () => {
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionCheckbox';
