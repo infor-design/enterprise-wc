@@ -1121,7 +1121,7 @@ export default class IdsDataGrid extends Base {
     if (!this.virtualScroll) return;
     const virtualScrollSettings = this.virtualScrollSettings;
     const data = this.data;
-    const maxRowIndex = data.length - 1;
+
     const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BUFFER_HEIGHT;
 
     this.container?.style.setProperty('max-height', '95vh');
@@ -1139,7 +1139,7 @@ export default class IdsDataGrid extends Base {
       if (rowIndex === debounceRowIndex) return;
       debounceRowIndex = rowIndex;
 
-      this.scrollRowIntoView(Math.min(rowIndex, maxRowIndex), false);
+      this.scrollRowIntoView(rowIndex, false);
     }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
   }
 
@@ -1190,12 +1190,16 @@ export default class IdsDataGrid extends Base {
   scrollRowIntoView(rowIndex: number, doScroll = true) {
     if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
 
-    rowIndex = Math.max(rowIndex, 0);
-    rowIndex = Math.min(rowIndex, (this.data.length - 1));
-
-    const rows = this.rows;
-    if (!rows.length) return;
     const data = this.data;
+    const rows = this.rows;
+
+    const maxRowIndex = data.length - 1;
+    const initialRowIndex = rowIndex;
+    rowIndex = Math.max(rowIndex, 0);
+    rowIndex = Math.min(rowIndex, maxRowIndex);
+
+    if (!rows.length) return;
+
     const container = this.container;
     const body = this.body;
 
@@ -1204,7 +1208,7 @@ export default class IdsDataGrid extends Base {
     const lastRow: any = rows[rows.length - 1];
     const firstRowIndex = firstRow.rowIndex;
     const lastRowIndex = lastRow.rowIndex;
-    const maxRowIndex = data.length - 1;
+
     const isAboveFirstRow = rowIndex < firstRowIndex;
     const isBelowLastRow = rowIndex > lastRowIndex;
     const isInRange = !isAboveFirstRow && !isBelowLastRow;
@@ -1229,8 +1233,7 @@ export default class IdsDataGrid extends Base {
       } else if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
         this.#recycleBottomRowsUp(moveRowsUp);
       } else {
-        // exit early because nothing to do.
-        return;
+        return; // exit early because nothing to do.
       }
     } else if (isAboveFirstRow) {
       const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex);
@@ -1256,6 +1259,7 @@ export default class IdsDataGrid extends Base {
 
       body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
       body?.style.setProperty('padding-bottom', `${paddingRequired ? bodyPaddingBottom : 0}px`);
+
       if (doScroll) {
         container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
       }
