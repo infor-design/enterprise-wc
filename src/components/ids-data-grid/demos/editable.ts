@@ -137,13 +137,42 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     field: 'bookCurrency',
     resizable: true,
     reorderable: true,
-    formatter: dataGrid.formatters.text
+    formatter: dataGrid.formatters.dropdown,
+    editor: {
+      type: 'dropdown',
+      editorSettings: {
+        dirtyTracker: true,
+        validate: 'required',
+        options: [
+          {
+            id: '',
+            label: '',
+            value: ''
+          },
+          {
+            id: 'usd',
+            label: 'USD',
+            value: 'usd'
+          },
+          {
+            id: 'eur',
+            label: 'EUR',
+            value: 'eur'
+          },
+          {
+            id: 'yen',
+            label: 'YEN',
+            value: 'yen'
+          }
+        ]
+      }
+    }
   });
   columns.push({
     id: 'transactionCurrency',
     name: 'Transaction Currency',
     field: 'transactionCurrency',
-    formatter: dataGrid.formatters.text,
+    formatter: dataGrid.formatters.text
   });
   columns.push({
     id: 'integer',
