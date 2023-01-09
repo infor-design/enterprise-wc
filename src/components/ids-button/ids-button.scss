@@ -73,8 +73,15 @@ button {
     @include block();
   }
 
-  &:not(.no-padding):not(.ids-icon-button):not(.ids-trigger-button) {
+  // Assign padding based on type/usage
+  // ====================================================
+  &:not(.no-padding) {
     @include ids-standard-button-padding();
+  }
+
+  &.btn-tertiary,
+  &.btn-tertiary-destructive {
+    @include ids-inline-button-padding();
   }
 
   &.no-padding {
@@ -106,8 +113,13 @@ button {
   @include px-8();
   @include py-8();
 
+  &:not(.no-padding) {
+    @include px-8();
+    @include py-8();
+  }
+
   &:not(.square) {
-    @include rounded-round();
+    border-radius: $ids-button-rounded-size;
   }
 
   // Fixes an issue that causes the ripple effect not to appear "round" on Safari.
@@ -142,7 +154,8 @@ button {
 
 // Mix-in special rules for contextual buttons
 .ids-button,
-.ids-icon-button {
+.ids-icon-button,
+.ids-menu-button {
   @include ids-standard-contextual-button-colors();
 }
 

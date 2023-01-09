@@ -2,7 +2,7 @@ import { attributes } from '../../core/ids-attributes';
 
 export type IdsButtonIconAlignment = undefined | 'start' | 'end';
 
-export type IdsButtonType = 'default' | 'primary' | 'secondary' | 'tertiary' | 'destructive' | 'swipe-action-right' | 'swipe-action-left';
+export type IdsButtonType = 'default' | 'primary' | 'secondary' | 'tertiary' | 'primary-destructive' | 'tertiary-destructive' | 'swipe-action-right' | 'swipe-action-left';
 
 // Button Styles
 export const BUTTON_TYPES: Array<IdsButtonType> = [
@@ -10,7 +10,8 @@ export const BUTTON_TYPES: Array<IdsButtonType> = [
   'primary',
   'secondary',
   'tertiary',
-  'destructive',
+  'primary-destructive',
+  'tertiary-destructive',
   'swipe-action-left',
   'swipe-action-right'
 ];

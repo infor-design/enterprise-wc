@@ -44,7 +44,7 @@
 }
 
 .ids-container[mode='dark'] {
-  @include bg-slate-90();
+  @include bg-slate-100();
   @include text-slate-10();
 
   &.color-variant-alternate {
@@ -54,7 +54,7 @@
 }
 
 .ids-container[mode='contrast'] {
-  @include bg-slate-10();
+  @include bg-white();
   @include text-slate-100();
 
   &.color-variant-alternate {
