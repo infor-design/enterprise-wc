@@ -1,5 +1,7 @@
 import { customElement } from '../../core/ids-decorators';
 import IdsElement from '../../core/ids-element';
+import type IdsDropdown from '../ids-dropdown/ids-dropdown';
+import type IdsInput from '../ids-input/ids-input';
 import type IdsDataGrid from './ids-data-grid';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 import { IdsDataGridEditor } from './ids-data-grid-editors';
@@ -117,6 +119,12 @@ export default class IdsDataGridCell extends IdsElement {
     this.originalValue = this.innerText;
     this.editor = columnEditor.editor;
     this.editor.isClick = isClick;
+
+    // Override original value if dropdown
+    if (this.editor.type === 'dropdown') {
+      this.originalValue = this.querySelector('[data-value]')?.getAttribute('data-value');
+    }
+
     this.editor.init(this);
 
     // Set states
@@ -129,7 +137,7 @@ export default class IdsDataGridCell extends IdsElement {
     this.isEditing = true;
 
     // Save on Click Out Event
-    this.editor.input?.onEvent('blur', this.editor.input, () => {
+    this.editor.input?.onEvent('focusout', this.editor.input, () => {
       this.endCellEdit();
     });
 
@@ -146,20 +154,24 @@ export default class IdsDataGridCell extends IdsElement {
   endCellEdit() {
     const column = this.column;
     const input = this.editor?.input;
-    input?.offEvent('blur', input);
+    input?.offEvent('focusout', input);
 
     if (this.editor?.type === 'input') {
       input?.setDirtyTracker(input?.value as any);
-      input?.checkValidation();
+      (<IdsInput>input)?.checkValidation();
+    }
+
+    if (this.editor?.type === 'dropdown') {
+      (<IdsDropdown>input)?.input?.checkValidation();
     }
 
     const isDirty = column.editor?.editorSettings?.dirtyTracker && input?.isDirty;
     const isValid = column.editor?.editorSettings?.validate ? input?.isValid : true;
     const newValue = this.editor?.save(this);
-    this.#saveCellValue(newValue);
+    this.#saveCellValue(newValue?.value);
 
     // Save dirty and valid state on the row
-    if (isDirty) this.#saveDirtyState(newValue);
+    if (isDirty) this.#saveDirtyState(newValue?.dirtyCheckValue ?? newValue?.value);
     if (!isValid) this.#saveValidState(input?.validationMessages);
     if (this.isInValid && isValid) this.#resetValidState();
 
@@ -180,7 +192,7 @@ export default class IdsDataGridCell extends IdsElement {
   cancelCellEdit() {
     const column = this.column;
     const input = this.editor?.input;
-    input?.offEvent('blur', input);
+    input?.offEvent('focusout', input);
     input?.setDirtyTracker(input?.value as any);
 
     this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, { [String(column?.field)]: this.originalValue });
@@ -189,7 +201,7 @@ export default class IdsDataGridCell extends IdsElement {
     this.isEditing = false;
     this.classList.remove('is-editing');
 
-    this.dataGrid?.triggerEvent('cancel', this.dataGrid, {
+    this.dataGrid?.triggerEvent('cancelcelledit', this.dataGrid, {
       detail: {
         elem: this,
         editor: this.editor,
