@@ -2,7 +2,7 @@
 
 exports[`IdsDropdown Component renders correctly 1`] = `
 "<ids-dropdown id="dropdown-1" label="Normal Dropdown" value="opt2" dirty-tracker="true" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press Down arrow to select" aria-controls="ids-list-box-dropdown-1">
-      <ids-list-box id="ids-list-box-dropdown-1" aria-label="Listbox" role="listbox">
+      <ids-list-box id="ids-list-box-dropdown-1" aria-label="Listbox" size="md" role="listbox">
         <ids-list-box-option value="opt1" id="opt1" role="option" tabindex="-1">Option One</ids-list-box-option>
         <ids-list-box-option value="opt2" id="opt2" role="option" tabindex="-1">Option Two</ids-list-box-option>
         <ids-list-box-option value="opt3" id="opt3" role="option" tabindex="-1">Option Three</ids-list-box-option>
