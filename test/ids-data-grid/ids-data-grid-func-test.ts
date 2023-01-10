@@ -110,7 +110,37 @@ describe('IdsDataGrid Component', () => {
       id: 'bookCurrency',
       name: 'Currency',
       field: 'bookCurrency',
-      formatter: formatters.text
+      resizable: true,
+      reorderable: true,
+      formatter: dataGrid.formatters.dropdown,
+      editor: {
+        type: 'dropdown',
+        editorSettings: {
+          dirtyTracker: true,
+          options: [
+            {
+              id: '',
+              label: '',
+              value: ''
+            },
+            {
+              id: 'usd',
+              label: 'USD',
+              value: 'usd'
+            },
+            {
+              id: 'eur',
+              label: 'EUR',
+              value: 'eur'
+            },
+            {
+              id: 'yen',
+              label: 'YEN',
+              value: 'yen'
+            }
+          ]
+        }
+      }
     });
     cols.push({
       id: 'transactionCurrency',
@@ -168,7 +198,7 @@ describe('IdsDataGrid Component', () => {
       id: 'trackDeprecationHistory',
       name: 'Track Deprecation History',
       field: 'trackDeprecationHistory',
-      formatter: formatters.dropdown
+      formatter: formatters.text
     });
     cols.push({
       id: 'useForEmployee',
@@ -2785,6 +2815,14 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Editing Tests', () => {
+    const dropdownCellQuery = () => dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(8)');
+    const activateDropdownCell = () => {
+      dataGrid.editable = true;
+      dataGrid.setActiveCell(7, 1);
+      const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
+      dataGrid.dispatchEvent(enterKey);
+    };
+
     it('should be able to edit a cell and type a value', () => {
       dataGrid.editable = true;
       const clickEvent = new MouseEvent('click', { bubbles: true });
@@ -3174,6 +3212,29 @@ describe('IdsDataGrid Component', () => {
       dataGrid.dispatchEvent(event);
       const checkCell2 = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
       expect(checkCell2.querySelector('ids-checkbox').getAttribute('checked')).toBe('true');
+    });
+
+    it('supports a dropdown editor', () => {
+      const dropdownCell = dropdownCellQuery();
+      activateDropdownCell();
+      expect(dropdownCell.classList.contains('is-editing')).toBeTruthy();
+      expect(dropdownCell.querySelector('ids-dropdown')).not.toBeNull();
+    });
+
+    it('can change cell value using dropdown editor', () => {
+      const dropdownCell = dropdownCellQuery();
+      const arrowDownKey = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+      const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
+      activateDropdownCell();
+
+      const dropdown = dropdownCell.querySelector('ids-dropdown');
+      dropdown.focus();
+      dropdown.dispatchEvent(arrowDownKey); // navigates list box options
+      dropdown.dispatchEvent(enterKey); // selects option
+      expect(dropdown.value).toEqual('yen');
+
+      dropdownCell.endCellEdit();
+      expect(dropdownCell.classList.contains('is-editing')).toBeFalsy();
     });
   });
 });

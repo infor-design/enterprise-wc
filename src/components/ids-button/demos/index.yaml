@@ -7,7 +7,13 @@
  examples:
   - link: example.html
     type: Main Example
-    description: Shows most available buttons
+    description: Shows common button configurations
+  - link: matrix.html
+    type: Example
+    description: Shows all available button types, statuses, and content layouts
+  - link: performance.html
+    type: Test
+    description: Test performance of many buttons
   - link: responsive.html
     type: Example
     description: Showing a button width setting
@@ -17,9 +23,6 @@
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a button that works with css only
-  - link: test-fallback-slot.html
-    type: Test
-    description: Showing a button with an unamed slot working
-  - link: performance.html
-    type: Test
-    description: Test performance of many buttons
+  - link: variant-alternate.html
+    type: Example
+    description: Shows alternate variant button types, statuses, and content layouts
