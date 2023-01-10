@@ -310,11 +310,11 @@ class IdsMultiselect extends Base {
   #updateDisplay() {
     const selected = this.#optionsData.filter((item: IdsDropdownOption) => this.#selectedList.includes(item.value));
     const newValue = selected.map((item: IdsDropdownOption) => item.label).join(', ');
+    // Clear tags before rerender
+    this.input?.querySelectorAll<IdsTag>('ids-tag').forEach((item) => item.remove());
+    this.input?.querySelector<IdsText>('ids-text')?.remove();
 
     if (this.tags) {
-      // Clear tags before rerender
-      this.input?.querySelectorAll<IdsTag>('ids-tag').forEach((item) => item.remove());
-
       const tags = selected.map((item: any) => {
         const disabled = this.disabled ? ` disabled="true"` : ``;
 
@@ -327,16 +327,22 @@ class IdsMultiselect extends Base {
       }).join('');
       this.input?.insertAdjacentHTML('afterbegin', tags);
     } else {
-      this.input?.querySelector<IdsText>('ids-text')?.remove();
-
       this.input?.insertAdjacentHTML('afterbegin', `<ids-text overflow="ellipsis" tooltip="true">${newValue}</ids-text>`);
+
       const text = this.input?.querySelector<IdsText>('ids-text');
+      const fieldContainer = this.input?.fieldContainer;
+
+      // Adjust settings for the tooltip
       if (text?.beforeTooltipShow) {
         text.beforeTooltipShow = (tooltip) => {
-          tooltip.popup.alignTarget = this.input?.fieldContainer;
           tooltip.popup.align = 'top, left';
-          tooltip.popup.width = '284px';
-          tooltip.target = this.input?.fieldContainer;
+          tooltip.popup.alignTarget = fieldContainer;
+          tooltip.target = fieldContainer;
+          tooltip.popup.style?.setProperty('text-align', 'center');
+
+          if (fieldContainer?.clientWidth) {
+            tooltip.popup.width = `${fieldContainer.clientWidth - 14}px`;
+          }
         };
       }
     }

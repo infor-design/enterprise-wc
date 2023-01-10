@@ -16,27 +16,38 @@ ids-trigger-field {
       @include cursor-default();
     }
   }
-
-  ids-text {
-    max-width: 266px;
-  }
 }
 
 :host {
   .has-value {
     ids-trigger-field {
       &::part(content-area) {
-        @include w-full();
         @include flex();
 
+        width: calc(100% - 34px);
         flex-wrap: wrap;
-        max-width: inherit;
       }
 
       &::part(input) {
         @include p-0();
 
         flex: 1;
+      }
+
+      ids-text {
+        max-width: 100%;
+
+        &::part(text) {
+          @include pl-8();
+        }
+      }
+
+      &[compact],
+      &[field-height='xs'] {
+        ids-text::part(text) {
+          @include pl-4();
+          @include text-14();
+        }
       }
     }
   }
