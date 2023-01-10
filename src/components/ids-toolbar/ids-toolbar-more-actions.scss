@@ -8,3 +8,10 @@
   align-self: center;
   justify-self: center;
 }
+
+.ids-toolbar-more-actions {
+  @include p-4();
+
+  white-space: nowrap;
+  width: auto;
+}

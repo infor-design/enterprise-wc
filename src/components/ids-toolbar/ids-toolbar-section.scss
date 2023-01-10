@@ -10,6 +10,8 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
 }
 
 .ids-toolbar-section {
+  @include p-4();
+
   white-space: nowrap;
   width: auto;
 
@@ -32,7 +34,6 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   // Buttonsets have top padding (accounts for button focus states)
   &.buttonset {
     @include flex();
-    @include py-4();
 
     // In buttonset areas, automatically add padding between buttons
     ::slotted(ids-button:not(:first-child)),
@@ -45,15 +46,8 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     }
   }
 
-  // Section type button has padding on each side for button focus state
-  &.button {
-    @include p-4();
-  }
-
   // Title sections are not Flex containers (so we can stack content)
   &.title {
-    @include py-4();
-
     display: inline-block;
   }
 
@@ -70,12 +64,6 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
 
     flex-grow: 1;
     align-items: center;
-
-    &.align-center-even {
-      ::slotted(*) {
-        margin: auto !important;
-      }
-    }
   }
 
   // Contains Searchfields

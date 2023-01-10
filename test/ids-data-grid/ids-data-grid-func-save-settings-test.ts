@@ -100,7 +100,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
       id: 'trackDeprecationHistory',
       name: 'Track Deprecation History',
       field: 'trackDeprecationHistory',
-      formatter: formatters.dropdown,
+      formatter: formatters.text,
       filterType: dataGrid.filters.dropdown,
       filterConditions: [
         { value: 'Yes', label: 'Yes' },

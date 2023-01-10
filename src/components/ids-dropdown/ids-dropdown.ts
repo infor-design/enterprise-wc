@@ -119,7 +119,7 @@ export default class IdsDropdown extends Base {
    * List of available color variants for this component
    * @returns {Array<string>}
    */
-  colorVariants: Array<string> = ['alternate-formatter'];
+  colorVariants: Array<string> = ['alternate-formatter', 'borderless', 'in-cell'];
 
   /**
    * Push color variant to the container element
@@ -199,11 +199,11 @@ export default class IdsDropdown extends Base {
           <ids-icon icon="dropdown" part="icon"></ids-icon>
         </ids-trigger-button>
       </ids-trigger-field>
-    <ids-popup type="menu" part="popup">
-      <slot slot="content">
-      </slot>
-    </ids-popup>
-  </div>`;
+      <ids-popup type="menu" part="popup">
+        <slot slot="content">
+        </slot>
+      </ids-popup>
+    </div>`;
   }
 
   /**
@@ -554,7 +554,7 @@ export default class IdsDropdown extends Base {
     // Trigger an async callback for contents
     if (typeof this.state.beforeShow === 'function') {
       const stuff = await this.state.beforeShow();
-      this.#loadDataSet(stuff);
+      this.loadDataSet(stuff);
       if (this.typeahead) {
         this.#optionsData = stuff;
       }
@@ -585,7 +585,7 @@ export default class IdsDropdown extends Base {
    * @param {IdsDropdownOptions} dataset The dataset to use with value, label ect...
    * @private
    */
-  #loadDataSet(dataset: IdsDropdownOptions) {
+  loadDataSet(dataset: IdsDropdownOptions) {
     let html = '';
 
     const listbox = this.querySelector('ids-list-box');
@@ -645,7 +645,7 @@ export default class IdsDropdown extends Base {
       this.input?.setAttribute(attributes.READONLY, 'true');
       const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
       if (this.input) this.input.value = initialValue || '';
-      this.#loadDataSet(this.#optionsData);
+      this.loadDataSet(this.#optionsData);
       (window.getSelection() as Selection).removeAllRanges();
       this.#triggerIconChange('dropdown');
     }
@@ -753,13 +753,14 @@ export default class IdsDropdown extends Base {
   #attachKeyboardListeners() {
     // Handle up and down arrow
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      e.preventDefault();
+
       if (!this.popup?.visible) {
         this.open(this.typeahead);
         return;
       }
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      e.preventDefault();
 
       const selected: any = this.selected;
       const next = selected?.nextElementSibling;
@@ -937,7 +938,7 @@ export default class IdsDropdown extends Base {
   #templatelistBoxOption(option: IdsDropdownOption): string {
     return `<ids-list-box-option
       ${option.id ? `id=${option.id}` : ''}
-      ${option.value ? `value="${option.value}"` : ''}
+      ${option.value ? `value="${option.value}"` : 'value=""'}
       ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${option.label || ''}</ids-list-box-option>`;
   }
 

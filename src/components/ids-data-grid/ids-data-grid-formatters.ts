@@ -174,4 +174,24 @@ export default class IdsDataGridFormatters {
       </ids-button>`;
     return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
   }
+
+  dropdown(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
+    const field = columnData.field ?? '';
+    const options = <any[]>columnData.editor?.editorSettings?.options;
+    const value = rowData[field];
+    const valueOpt = options.find((opt) => opt.value === value);
+
+    return `
+      <span
+        class="text-ellipsis dropdown-cell-value"
+        data-value="${valueOpt?.value ?? ''}"
+        data-id="${valueOpt?.id ?? ''}">
+          ${valueOpt?.label ?? ''}
+      </span>
+      <ids-icon
+        icon="dropdown"
+        class="dropdown-cell-icon">
+      </ids-icon>
+    `;
+  }
 }

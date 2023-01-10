@@ -203,7 +203,7 @@ Some additional settings are needed or possibly needed.
 
 ### Editing
 
-The Editing features start by setting `editable` to true. In addition you should add editors to columns and enable features of each of the editors. The features different depending on the component used for editing. See the Keyboard section for information on which keys can be used when editing..
+The Editing features start by setting `editable` to true. In addition you should add editors to columns and enable features of each of the editors. The features differ depending on the component used for editing. See the Keyboard section for information on which keys can be used when editing..
 
 Here is a code example for an editable text cell.
 
@@ -227,6 +227,36 @@ columns.push({
   });
 ```
 
+Here is a code example for an editable dropdown cell
+
+```js
+columns.push({
+  id: 'description',
+  name: 'Description',
+  field: 'description',
+  resizable: true,
+  reorderable: true,
+  formatter: dataGrid.formatters.dropdown,
+  editor: {
+    type: 'dropdown',
+    editorSettings: {
+      dirtyTracker: true,
+      validate: 'required',
+      options: [
+        {
+          label: 'Option 1',
+          value: 'opt1'
+        },
+        {
+          label: 'Option 2',
+          value: 'opt2'
+        }
+      ]
+    }
+  }
+});
+```
+
 To cancel or disabled editing there are a few ways:
 
 - setting the column `editor` setting to undefined will disable editing on the column (as will not having an editor setting at all).
@@ -235,7 +265,7 @@ To cancel or disabled editing there are a few ways:
 
 The following settings are available on editors.
 
-`type` As of now can be `checkbox` or `input` but more will be added.
+`type` As of now can be `checkbox`, `input`, or `dropdown` but more will be added.
 `inline` Default is false. If true the editor (for example an input) will be visible in a field.
 `editorSettings` Is an object that is loosely typed that lets you pass any option the editor supports in. For example any of the IdsInput or IdsCheckbox options can be passing in. Some special ones are:
 `editorSettings.autoselect` Text will be selected when entering edit mode
@@ -243,6 +273,7 @@ The following settings are available on editors.
 `editorSettings.validate` Text will be selected when entering edit mode
 `editorSettings.mask` Will pass mask settings to the input (if supported).
 `editorSettings.maskOptions` Will pass maskOptions settings to the input (if supported).
+`editorSettings.options` Dataset used for dropdown editor's list box options.
 
 When the use clicks in the cell or activates editing with the keyboard with the Enter key and types. The following events will fire.
 

@@ -675,35 +675,7 @@ export default class IdsWeekView extends Base {
     this.#renderWeek();
   }
 
-  /**
-   * fist-day-of-week attribute
-   * @returns {number} firstDayOfWeek param converted to number from attribute value with range (0-6)
-   */
-  get firstDayOfWeek(): number {
-    const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
-    const numberVal = stringToNumber(attrVal);
-
-    if (!Number.isNaN(numberVal) && numberVal >= 0 && numberVal <= 6) {
-      return numberVal;
-    }
-
-    // Default value
-    return 0;
-  }
-
-  /**
-   * Set first day of the week (0-6)
-   * @param {string|number} val firstDayOfWeek param value
-   */
-  set firstDayOfWeek(val: string | number) {
-    const numberVal = typeof val === 'number' ? val : stringToNumber(val);
-
-    if (!Number.isNaN(numberVal)) {
-      this.setAttribute(attributes.FIRST_DAY_OF_WEEK, String(val));
-    } else {
-      this.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
-    }
-
+  onFirstDayOfWeekChange() {
     this.#renderWeek();
   }
 
