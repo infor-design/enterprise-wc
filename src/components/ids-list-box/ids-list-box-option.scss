@@ -2,6 +2,7 @@
 @import '../../core/ids-base';
 
 :host {
+  @include w-full();
   @include cursor-pointer();
   @include block();
   @include text-slate-100();
@@ -15,7 +16,7 @@
   text-indent: 8px;
   user-select: none;
   min-width: $input-size-xs - 2;
-  width: 298px;
+  max-width: 298px;
   text-transform: capitalize;
   text-overflow: ellipsis;
   white-space: nowrap;

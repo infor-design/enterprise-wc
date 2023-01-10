@@ -1,5 +1,6 @@
 /* Ids Dropdown Component */
 @import '../../mixins/sass/ids-validation-mixin';
+@import '../../core/ids-base';
 
 // Most Styles are in list-box, popup and trigger field
 .ids-dropdown {
@@ -28,13 +29,6 @@
 
   .typeahead.is-open ids-trigger-field::part(field-container) {
     @include bg-slate-80();
-  }
-}
-
-:host([size='full']) {
-  &,
-  ids-popup {
-    @include w-full();
   }
 }
 
@@ -109,4 +103,38 @@
   ids-trigger-field::part(container) {
     margin: 1px 0;
   }
+}
+
+// Dropdown menu width
+:host ids-popup {
+  max-width: $input-size-md;
+}
+
+:host([size='xs']) ids-popup {
+  max-width: $input-size-xs;
+}
+
+:host([size='sm']) ids-popup {
+  max-width: $input-size-sm;
+}
+
+:host([size='mm']) ids-popup {
+  max-width: $input-size-mm;
+}
+
+:host([size='md']) ids-popup {
+  max-width: $input-size-md;
+}
+
+:host([size='lg']) ids-popup {
+  max-width: $input-size-lg;
+}
+
+:host([size='full']) ids-popup {
+  max-width: $input-size-full;
+}
+
+:host ids-popup,
+:host([size='full']) {
+  @include w-full();
 }

@@ -106,7 +106,7 @@ export default class IdsTriggerField extends Base {
           align-target="#${this.id}-input"
           part="popup"
         >
-          <ids-list-box slot="content"></ids-list-box>
+          <ids-list-box slot="content" size="${this.size}"></ids-list-box>
         </ids-popup>` : ''}
     </div>`;
   }
