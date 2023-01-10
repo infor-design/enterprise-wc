@@ -310,7 +310,7 @@ class IdsMultiselect extends Base {
   #updateDisplay() {
     const selected = this.#optionsData.filter((item: IdsDropdownOption) => this.#selectedList.includes(item.value));
     const newValue = selected.map((item: IdsDropdownOption) => item.label).join(', ');
-    // Clear tags before rerender
+    // Clear tags/text before rerender
     this.input?.querySelectorAll<IdsTag>('ids-tag').forEach((item) => item.remove());
     this.input?.querySelector<IdsText>('ids-text')?.remove();
 
