@@ -276,7 +276,9 @@ export default class IdsDataGrid extends Base {
     if ((this.columns.length === 0 && this.data.length === 0) || !this.initialized) {
       return;
     }
+
     if (this.body) this.body.innerHTML = this.bodyInnerTemplate();
+    this.#resetLastSelectedRow();
     this.header?.setHeaderCheckbox();
   }
 
@@ -372,6 +374,66 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Check if row is selected.
+   * @param {number} index The row index
+   * @returns {boolean} True, if row is selected
+   */
+  rowIsSelected(index: number): boolean {
+    return !!this.data[index].rowSelected;
+  }
+
+  /**
+   * Keep flag for last selected row
+   * @private
+   */
+  #lastSelectedRow: number | null = null;
+
+  /**
+   * Reset flag for last selected row
+   * @private
+   * @returns {void}
+   */
+  #resetLastSelectedRow(): void {
+    this.#lastSelectedRow = null;
+  }
+
+  /**
+   * Toggle rows selection between given index and last selected
+   * @private
+   * @param {number} index The row index
+   * @returns {void}
+   */
+  #toggleSelectionInBetween(index: number): void {
+    if (this.#lastSelectedRow === null) return;
+
+    const start = Math.min(index, this.#lastSelectedRow);
+    const end = Math.max(index, this.#lastSelectedRow);
+    const isSelected = this.rowIsSelected(index);
+    for (let i = start; i <= end; i++) {
+      if (isSelected) this.deSelectRow(i);
+      else this.selectRow(i);
+    }
+    this.#getSelection()?.removeAllRanges?.();
+    this.header.setHeaderCheckbox();
+
+    this.triggerEvent('selectionchanged', this, {
+      detail: { elem: this, selectedRows: this.selectedRows }
+    });
+  }
+
+  /**
+   * Get current selection
+   * @private
+   * @returns {Selection|null} The selection
+   */
+  #getSelection(): Selection | null {
+    if (!(this.shadowRoot as any)?.getSelection) {
+      return document.getSelection();
+    }
+    return (this.shadowRoot as any)?.getSelection();
+  }
+
+  /**
    * Handle all triggering and handling of events
    * @private
    */
@@ -411,6 +473,15 @@ export default class IdsDataGrid extends Base {
         }
       });
 
+      // Handle multiple or mixed selection
+      const handleMultipleOrMixedSelection = () => {
+        if ((this.rowSelection === 'multiple') || (this.rowSelection === 'mixed')) {
+          if (e.shiftKey && this.#lastSelectedRow !== null) this.#toggleSelectionInBetween(rowNum);
+          else row.toggleSelection();
+          this.#lastSelectedRow = rowNum;
+        } else row.toggleSelection();
+      };
+
       // Handle Expand/Collapse Clicking
       if (isClickable && isExpandButton) {
         row.toggleExpandCollapse();
@@ -420,7 +491,7 @@ export default class IdsDataGrid extends Base {
       // Handle mixed selection
       if (this.rowSelection === 'mixed') {
         if (cell.children[0]?.classList.contains('ids-data-grid-checkbox-container')) {
-          row.toggleSelection();
+          handleMultipleOrMixedSelection();
         } else {
           row.toggleRowActivation();
         }
@@ -429,12 +500,10 @@ export default class IdsDataGrid extends Base {
 
       // Handle selection if not disabled
       if (this.rowSelection !== false && this.rowSelection !== 'mixed') {
-        if (this.suppressRowClickSelection && cell.children[0]?.classList.contains('is-selection-checkbox')) {
-          row.toggleSelection();
-        }
-        if (!this.suppressRowClickSelection) {
-          row.toggleSelection();
-        }
+        if ((!this.suppressRowClickSelection) || (
+          this.suppressRowClickSelection
+          && cell.children[0]?.classList.contains('is-selection-checkbox')
+        )) handleMultipleOrMixedSelection();
       }
 
       // Handle Editing

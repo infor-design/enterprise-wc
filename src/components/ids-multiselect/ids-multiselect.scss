@@ -18,15 +18,14 @@ ids-trigger-field {
   }
 }
 
-:host([tags='true']) {
+:host {
   .has-value {
     ids-trigger-field {
       &::part(content-area) {
-        @include w-full();
         @include flex();
 
+        width: calc(100% - 34px);
         flex-wrap: wrap;
-        max-width: inherit;
       }
 
       &::part(input) {
@@ -34,11 +33,27 @@ ids-trigger-field {
 
         flex: 1;
       }
+
+      ids-text {
+        max-width: 100%;
+
+        &::part(text) {
+          @include pl-8();
+        }
+      }
+
+      &[compact],
+      &[field-height='xs'] {
+        ids-text::part(text) {
+          @include pl-4();
+          @include text-14();
+        }
+      }
     }
   }
 }
 
-:host([tags='true']:not([disabled])) {
+:host(:not([disabled])) {
   .has-value {
     ids-trigger-field {
       &::part(field-container) {
