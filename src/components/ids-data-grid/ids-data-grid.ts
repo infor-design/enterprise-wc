@@ -1194,7 +1194,7 @@ export default class IdsDataGrid extends Base {
     const rows = this.rows;
 
     const maxRowIndex = data.length - 1;
-    const initialRowIndex = rowIndex;
+    // const initialRowIndex = rowIndex;
     rowIndex = Math.max(rowIndex, 0);
     rowIndex = Math.min(rowIndex, maxRowIndex);
 
@@ -1212,24 +1212,20 @@ export default class IdsDataGrid extends Base {
     const isAboveFirstRow = rowIndex < firstRowIndex;
     const isBelowLastRow = rowIndex > lastRowIndex;
     const isInRange = !isAboveFirstRow && !isBelowLastRow;
+    const reachedTheBottom = lastRowIndex >= maxRowIndex;
 
     let bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
     bufferRowIndex = Math.max(bufferRowIndex, 0);
     bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
-
-    if (lastRowIndex >= maxRowIndex) {
-      // padding-bottom is no longer needed when the very last-row is rendered - avoid white space
-      this.requestAnimationFrame(() => {
-        body?.style.setProperty('padding-bottom', '0px');
-      });
-    }
 
     if (isInRange) {
       const moveRowsDown = bufferRowIndex - firstRowIndex;
       const moveRowsUp = Math.abs(moveRowsDown);
 
       if (moveRowsDown > 0) {
-        this.#recycleTopRowsDown(moveRowsDown);
+        if (!reachedTheBottom) {
+          this.#recycleTopRowsDown(moveRowsDown);
+        }
       } else if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
         this.#recycleBottomRowsUp(moveRowsUp);
       } else {
@@ -1247,18 +1243,18 @@ export default class IdsDataGrid extends Base {
       this.#recycleAllRows(bufferRowIndex);
     }
 
-    const scrollTop = container?.scrollTop || 0; // IMPORTANT: setting scrollTop inside RAF causes infinite jank
-
     this.requestAnimationFrame(() => {
       // NOTE: repaint of padding is more performant than margin
-      const maxPaddingBottom = data.length * virtualScrollSettings.ROW_HEIGHT;
-      const paddingRequired = scrollTop < maxPaddingBottom;
+      const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BUFFER_HEIGHT;
 
       const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
       const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
 
-      body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
-      body?.style.setProperty('padding-bottom', `${paddingRequired ? bodyPaddingBottom : 0}px`);
+      if (!reachedTheBottom) {
+        body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+      }
+
+      body?.style.setProperty('padding-bottom', `${bodyPaddingBottom}px`);
 
       if (doScroll) {
         container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
