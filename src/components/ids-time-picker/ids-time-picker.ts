@@ -5,6 +5,8 @@ import { hoursTo12, hoursTo24, isValidDate } from '../../utils/ids-date-utils/id
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import Base from './ids-time-picker-base';
+import { IdsTimePickerCommonAttributes, IdsTimePickerMixinAttributes, range } from './ids-time-picker-common';
+
 import '../ids-dropdown/ids-dropdown';
 import '../ids-popup/ids-popup';
 import '../ids-trigger-field/ids-trigger-field';
@@ -15,10 +17,6 @@ import type IdsPopup from '../ids-popup/ids-popup';
 import styles from './ids-time-picker.scss';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
-
-const range: any = (start: any, stop: any, step = 1) => (
-  start > stop ? [] : [start, ...range(start + Math.abs(step), stop, step)]
-);
 
 /**
  * IDS TimePicker Component
@@ -75,28 +73,8 @@ export default class IdsTimePicker extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.AUTOSELECT,
-      attributes.AUTOUPDATE,
-      attributes.DISABLED,
-      attributes.EMBEDDABLE,
-      attributes.END_HOUR,
-      attributes.FORMAT,
-      attributes.HOURS,
-      attributes.ID,
-      attributes.LABEL,
-      attributes.MINUTES,
-      attributes.NO_MARGINS,
-      attributes.PERIOD,
-      attributes.PLACEHOLDER,
-      attributes.READONLY,
-      attributes.SECONDS,
-      attributes.SIZE,
-      attributes.START_HOUR,
-      attributes.TABBABLE,
-      attributes.USE_CURRENT_TIME,
-      attributes.VALIDATE,
-      attributes.VALIDATION_EVENTS,
-      attributes.VALUE,
+      ...IdsTimePickerCommonAttributes,
+      ...IdsTimePickerMixinAttributes,
     ];
   }
 
