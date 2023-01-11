@@ -406,4 +406,28 @@ describe('IdsMultiselect Component', () => {
 
     expect(multiselect.value).toEqual(['opt1']);
   });
+
+  it('should handle overflowed text', async () => {
+    multiselect = createFromTemplate(
+      `<ids-multiselect label="Overflow text multiselect">
+        <ids-list-box>
+          <ids-list-box-option value="opt1" id="opt1" selected>Option One</ids-list-box-option>
+          <ids-list-box-option value="opt2" id="opt2" selected>Option Two</ids-list-box-option>
+          <ids-list-box-option value="opt3" id="opt3" selected>Option Three</ids-list-box-option>
+        </ids-list-box>
+      </ids-multiselect>`
+    );
+    const getText = () => multiselect.input.querySelector('ids-text');
+
+    expect(multiselect.value).toEqual(['opt1', 'opt2', 'opt3']);
+    expect(getText()?.textContent).toEqual('Option One, Option Two, Option Three');
+
+    multiselect.value = ['opt1'];
+
+    expect(getText()?.textContent).toEqual('Option One');
+
+    multiselect.value = [];
+
+    expect(getText()?.textContent).toBe('');
+  });
 });

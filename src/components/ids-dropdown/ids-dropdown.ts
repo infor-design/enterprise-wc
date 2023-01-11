@@ -87,6 +87,7 @@ export default class IdsDropdown extends Base {
     this.value = this.getAttribute('value');
     this.resetDirtyTracker();
     this.container?.classList.toggle('typeahead', this.typeahead);
+    this.listBox?.setAttribute(attributes.SIZE, this.size);
   }
 
   /**
