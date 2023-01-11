@@ -1,13 +1,18 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
-import { hoursTo12 } from '../../utils/ids-date-utils/ids-date-utils'; // , hoursTo24, isValidDate
+import { hoursTo12, hoursTo24 } from '../../utils/ids-date-utils/ids-date-utils'; // , isValidDate
 
 import Base from './ids-time-picker-popup-base';
 import { IdsTimePickerCommonAttributes, IdsTimePickerMixinAttributes, range } from './ids-time-picker-common';
 import { IdsPickerPopupCallbacks } from '../ids-picker-popup/ids-picker-popup';
 
 import styles from './ids-time-picker-popup.scss';
+
+import type IdsButton from '../ids-button/ids-button';
+import type IdsModalButton from '../ids-modal-button/ids-modal-button';
+
+type IdsTimePickerPopupButton = IdsButton | IdsModalButton;
 
 /**
  * IDS Time Picker Popup Component
@@ -26,9 +31,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
   connectedCallback() {
     super.connectedCallback();
-    // this.configureComponents();
-    // this.attachEventListeners();
-    // this.attachExpandedListener();
+    this.attachEventListeners();
   }
 
   disconnectedCallback(): void {
@@ -124,6 +127,24 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
   #renderDropdowns(): void {
     const dropdownContainer = this.container?.querySelector<HTMLDivElement>('.dropdowns');
     if (dropdownContainer) dropdownContainer.innerHTML = this.#dropdowns();
+  }
+
+  private attachEventListeners() {
+    this.offEvent('change.time-picker-dropdowns');
+    this.onEvent('change.time-picker-dropdowns', this.container?.querySelector('.dropdowns'), (e: any) => {
+      const currentId = e.detail?.elem?.id;
+      if (!currentId) return;
+
+      this.setAttribute(currentId, e.detail.value);
+      if (this.autoupdate) this.triggerSelectedEvent();
+    });
+
+    this.offEvent('click.time-picker-set');
+    this.onEvent('click.time-picker-set', this.container?.querySelector('.popup-btn'), () => {
+      this.value = this.getFormattedTime();
+      this.triggerSelectedEvent();
+      this.hide(true);
+    });
   }
 
   /**
@@ -244,12 +265,83 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
   }
 
   /**
+   * Removes all button ripples in the component
+   * @returns {void}
+   */
+  private removeRipples() {
+    this.buttons?.forEach((button: IdsTimePickerPopupButton) => {
+      button.removeRipples();
+    });
+  }
+
+  /**
    * @param {number} value minutes or seconds to be rounded
    * @param {number} interval for value to be rounded to
    * @returns {number} rounded value
    */
   #roundToInterval(value: number, interval: number): number {
     return Math.round(value / interval) * interval;
+  }
+
+  /**
+   * Parse input date and populate dropdowns
+   * @param {string} val time attribute string
+   */
+  syncTimeAttributes(val: string): void {
+    const inputDate = this.locale?.parseDate(
+      val || this.value,
+      { dateFormat: this.format }
+    ) as Date;
+    const hours24 = inputDate?.getHours();
+    const hours12 = hoursTo12(hours24);
+    const minutes = inputDate?.getMinutes();
+    const seconds = inputDate?.getSeconds();
+    const period = inputDate && this.locale?.calendar()?.dayPeriods[hours24 >= 12 ? 1 : 0];
+
+    if (this.#is24Hours() && hours24 !== this.hours) {
+      this.hours = hours24;
+    }
+
+    if (this.#is12Hours() && hours12 !== this.hours) {
+      this.hours = hours12;
+    }
+
+    if (minutes !== this.minutes) {
+      this.minutes = minutes;
+    }
+
+    if (seconds !== this.seconds) {
+      this.seconds = seconds;
+    }
+
+    if (this.#hasPeriod()) {
+      this.period = period;
+    }
+  }
+
+  /**
+   * Triggers the same `timeselected` event on the Popup's target element that came from the internal Dropdowns
+   * @param {CustomEvent} [e] optional event handler to pass arguments
+   * @returns {void}
+   */
+  private triggerSelectedEvent(e?: CustomEvent): void {
+    let args: any;
+    if (e) args = e;
+    else {
+      args = {
+        bubbles: true,
+        detail: {
+          elem: this,
+          date: this.activeDate,
+          value: this.getFormattedTime()
+        }
+      };
+    }
+
+    if (this.target) {
+      const event = new CustomEvent('timeselected', args);
+      this.target.dispatchEvent(event);
+    }
   }
 
   /**
@@ -275,6 +367,14 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
    */
   get autoupdate(): boolean {
     return stringToBool(this.getAttribute(attributes.AUTOUPDATE));
+  }
+
+  /**
+   * @readonly
+   * @returns {NodeList<IdsTimePickerPopupButton>} containing all buttons in the Date Picker Popup
+   */
+  get buttons() {
+    return this.container?.querySelectorAll<IdsTimePickerPopupButton>('ids-button, ids-modal-button, ids-toggle-button');
   }
 
   /**
@@ -593,6 +693,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
     if (value !== currentValue) {
       this.#value = value;
       this.setAttribute(attributes.VALUE, value);
+      this.syncTimeAttributes(value);
     }
   }
 
@@ -601,6 +702,21 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @returns {string} the current timestring value of the timepicker
    */
   get value(): string { return this.#value || ''; }
+
+  /**
+   * @returns {string} formatted time string
+   */
+  getFormattedTime() {
+    const date: Date = new Date();
+    const dayPeriodIndex: number = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+
+    date.setHours(hoursTo24(this.hours, dayPeriodIndex), this.minutes, this.seconds);
+    return this.locale.formatDate(date, { pattern: this.format });
+  }
+
+  onHide() {
+    this.removeRipples();
+  }
 }
 
 export default IdsTimePickerPopup;

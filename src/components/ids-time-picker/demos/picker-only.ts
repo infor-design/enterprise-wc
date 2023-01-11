@@ -9,8 +9,18 @@ import type IdsTriggerField from '../../ids-trigger-field/ids-trigger-field';
 const fieldDefs = [
   {
     id: 'time-picker-current-time-field',
-    format: 'M/d/yyyy hh:mm a',
+    format: 'hh:mm a',
     useCurrentTime: 'time'
+  },
+  {
+    id: 'time-picker-all-dropdowns-field',
+    format: 'hh:mm:ss a',
+    minuteInterval: '15',
+    secondInterval: '10'
+  },
+  {
+    id: 'time-picker-24-field',
+    format: 'HH:mm'
   }
 ];
 
@@ -18,13 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const demoIdsContainer = document.querySelector<any>('ids-container')!;
   const triggerFieldContainer = document.querySelector<any>('#trigger-field-container')!;
 
-  // const getFieldIdFromBtnId = (btnEl: any) => btnEl.getAttribute('id')?.replace('-button', '-field') || '';
+  const getFieldIdFromBtnId = (btnEl: any) => btnEl.getAttribute('id')?.replace('-button', '-field') || '';
 
   // Updates an existing IdsTimePickerPopup
   const updatePopup = (popupEl: any, data: any) => {
     if (!popupEl || !data) return;
     const booleanProps: string[] = [];
-    const otherProps = ['format', 'useCurrentTime'];
+    const otherProps = ['format', 'minuteInterval', 'useCurrentTime', 'secondInterval'];
 
     booleanProps.forEach((prop) => {
       if (data[prop]) popupEl[prop] = data[prop];
@@ -138,22 +148,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Displays the selected day when picked from the Date Picker Popup's MonthView
   // const btn = document.querySelector<any>('#composed-date-picker-button')!;
-  /*
-  triggerFieldContainer.addEventListener('dayselected', (e: CustomEvent) => {
+  triggerFieldContainer.addEventListener('timeselected', (e: CustomEvent) => {
     const target = (e.target as any); // trigger field
     if (target) {
-      const picker = document.querySelector<any>('ids-date-picker-popup')!;
+      const picker = document.querySelector<any>('ids-time-picker-popup')!;
       const fieldId = getFieldIdFromBtnId(target);
       if (target.tagName === 'IDS-TRIGGER-BUTTON') {
         const field = document.querySelector<any>(`#${fieldId}`);
-        console.info('"dayselected" event triggered', e.detail.date, `. Value will be passed to field "${fieldId}"`);
+        console.info('"timeselected" event triggered', e.detail.value, `. Value will be passed to field "${fieldId}"`);
         field.value = picker.value;
       }
       if (target.tagName === 'IDS-TRIGGER-FIELD') {
-        console.info('"dayselected" event triggered', e.detail.date, `. Value will be passed to field "${fieldId}"`);
-        target.value = picker.value;
+        console.info('"timeselected" event triggered', e.detail.value, `. Value will be passed to field "${fieldId}"`);
+        target.value = e.detail.value;
       }
     }
   });
-  */
 });
