@@ -7,6 +7,7 @@ import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../src/assets/data/books.json';
+import productsDataset from '../../src/assets/data/products.json';
 import datasetTree from '../../src/assets/data/tree-buildings.json';
 import processAnimFrame from '../helpers/process-anim-frame';
 
@@ -462,6 +463,149 @@ describe('IdsDataGrid Component', () => {
       dataGrid.redrawBody();
       expect(dataGrid.rowPixelHeight).toEqual(30);
     });
+
+    it('contains virtualScrollSettings', () => {
+      const BUFFER_ROWS = 50;
+      const NUM_ROWS = 150;
+      const DEFAULT_SETTINGS = {
+        BUFFER_ROWS,
+        NUM_ROWS,
+        BODY_HEIGHT: 7500,
+        BUFFER_HEIGHT: 2500,
+        DEBOUNCE_RATE: 10,
+        ENABLED: false,
+        RAF_DELAY: 60,
+        ROW_HEIGHT: 50,
+      };
+
+      expect(dataGrid.virtualScrollSettings).toEqual(DEFAULT_SETTINGS);
+
+      dataGrid.virtualScroll = true;
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+      });
+
+      dataGrid.rowHeight = 'md';
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+        ROW_HEIGHT: 40,
+        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 40,
+        BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 40,
+      });
+
+      dataGrid.rowHeight = 'sm';
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+        ROW_HEIGHT: 35,
+        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 35,
+        BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 35,
+      });
+
+      dataGrid.rowHeight = 'xs';
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+        ROW_HEIGHT: 30,
+        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 30,
+        BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 30,
+      });
+
+      dataGrid.redrawBody();
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+        ROW_HEIGHT: 30,
+        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 30,
+        BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 30,
+      });
+    });
+
+    it('attaches scroll event handler', async () => {
+      expect(dataGrid.virtualScroll).toBeFalsy();
+
+      const listener = jest.spyOn(dataGrid.container, 'addEventListener');
+      expect(listener).toBeCalledTimes(0);
+
+      dataGrid.virtualScroll = true;
+      expect(dataGrid.virtualScroll).toBeTruthy();
+
+      expect(listener).toBeCalledWith('scroll', expect.any(Function), { capture: true, passive: true });
+    });
+
+    it.skip('can recycle cells down', async () => {
+      expect(dataGrid.data).toEqual(dataset);
+
+      dataGrid.virtualScroll = true;
+      dataGrid.data = productsDataset;
+      expect(dataGrid.data).toEqual(productsDataset);
+
+      const { NUM_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
+
+      expect(dataGrid.rows.length).toBe(NUM_ROWS);
+      expect(dataGrid.rows[0].rowIndex).toBe(0);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+
+      expect(dataGrid.container.scrollTop).toBe(0);
+      // dataGrid.container.scrollTop = BUFFER_ROWS * ROW_HEIGHT;
+      dataGrid.scrollRowIntoView(BUFFER_ROWS * ROW_HEIGHT);
+      await processAnimFrame();
+      expect(dataGrid.container.scrollTop).toBeGreaterThan(100);
+
+      expect(dataGrid.rows[0].rowIndex).toBe(0);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+    });
+
+    it.skip('can recycle cells up', async () => {
+      expect(dataGrid.data).toEqual(dataset);
+
+      dataGrid.virtualScroll = true;
+      dataGrid.data = productsDataset;
+      expect(dataGrid.data).toEqual(productsDataset);
+
+      const { NUM_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
+
+      expect(dataGrid.rows.length).toBe(NUM_ROWS);
+      expect(dataGrid.rows[0].rowIndex).toBe(0);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+
+      expect(dataGrid.container.scrollTop).toBe(0);
+      // dataGrid.container.scrollTop = BUFFER_ROWS * ROW_HEIGHT;
+      dataGrid.scrollRowIntoView(BUFFER_ROWS * ROW_HEIGHT);
+      await processAnimFrame();
+      expect(dataGrid.container.scrollTop).toBeGreaterThan(100);
+
+      expect(dataGrid.rows[0].rowIndex).toBe(0);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+    });
+
+    it.todo('does not recycle cells down when at the bottom');
+
+    it.todo('does not recycle cells up when at the top');
+
+    it.todo('can scroll row 10 into view');
+
+    it.todo('can scroll row 2 into view');
+
+    it.todo('can scroll row 100 into view');
+
+    it.todo('scrolls first row into view when given row-index too small');
+
+    it.todo('scrolls last row into view when given row-index too large');
+
+    it.todo('caches rows');
+
+    it.todo('caches cells');
+
+    it.todo('can bust row-cache');
+
+    it.todo('can bust cell-cache');
+
+    it.todo('does not use requestAnimationFrame (RAF) if virtural scroll is disabled');
+
+    it.todo('scrollRowIntoView()');
   });
 
   describe('Column Rendering Tests', () => {
