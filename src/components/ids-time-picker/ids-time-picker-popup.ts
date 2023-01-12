@@ -51,9 +51,15 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @returns {string} The template
    */
   template(): string {
+    const dropdownHTML = `<div class="dropdowns" part="dropdowns">${this.#dropdowns()}</div>`;
+
+    if (this.embeddable) {
+      return `<div class="ids-time-picker-popup embedded" part="container">${dropdownHTML}</div>`;
+    }
+
     return `<ids-popup class="ids-time-picker-popup" type="menu" tabindex="-1" part="popup" x="12">
       <section slot="content">
-        <div class="dropdowns" part="dropdowns">${this.#dropdowns()}</div>
+        ${dropdownHTML}
         <ids-modal-button class="popup-btn" hidden="${this.autoupdate}" part="btn-set">
           <ids-text translate-text="true">SetTime</ids-text>
         </ids-modal-button>
@@ -125,13 +131,16 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * Attaches Time Picker dropdowns to the shadow root
    */
   #renderDropdowns(): void {
-    const dropdownContainer = this.container?.querySelector<HTMLDivElement>('.dropdowns');
-    if (dropdownContainer) dropdownContainer.innerHTML = this.#dropdowns();
+    const el = this.dropdownContainerEl;
+    if (el) el.innerHTML = this.#dropdowns();
   }
 
+  /**
+   * Attaches event listeners for inner elements
+   */
   private attachEventListeners() {
     this.offEvent('change.time-picker-dropdowns');
-    this.onEvent('change.time-picker-dropdowns', this.container?.querySelector('.dropdowns'), (e: any) => {
+    this.onEvent('change.time-picker-dropdowns', this.dropdownContainerEl, (e: any) => {
       const currentId = e.detail?.elem?.id;
       if (!currentId) return;
 
@@ -140,7 +149,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
     });
 
     this.offEvent('click.time-picker-set');
-    this.onEvent('click.time-picker-set', this.container?.querySelector('.popup-btn'), () => {
+    this.onEvent('click.time-picker-set', this.applyButtonEl, () => {
       this.value = this.getFormattedTime();
       this.triggerSelectedEvent();
       this.hide(true);
@@ -338,10 +347,11 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       };
     }
 
-    if (this.target) {
-      const event = new CustomEvent('timeselected', args);
-      this.target.dispatchEvent(event);
-    }
+    // Time Picker Popup emits the event in `embeddable` mode.
+    // The target element emits the event otherwise
+    const event = new CustomEvent('timeselected', args);
+    if (this.embeddable) this.dispatchEvent(event);
+    else if (this.target) this.target.dispatchEvent(event);
   }
 
   /**
@@ -350,7 +360,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
    */
   set autoupdate(value: boolean) {
     const boolVal = stringToBool(value);
-    const popupBtn = this.container?.querySelector('.popup-btn');
+    const popupBtn = this.applyButtonEl;
 
     if (boolVal) {
       this.setAttribute(attributes.AUTOUPDATE, 'true');
@@ -371,10 +381,51 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
   /**
    * @readonly
+   * @returns {IdsModalButton} reference to the Time Picker's "Apply" button, if applicable
+   */
+  get applyButtonEl() {
+    return this.container?.querySelector('.popup-btn');
+  }
+
+  /**
+   * @readonly
    * @returns {NodeList<IdsTimePickerPopupButton>} containing all buttons in the Date Picker Popup
    */
   get buttons() {
     return this.container?.querySelectorAll<IdsTimePickerPopupButton>('ids-button, ids-modal-button, ids-toggle-button');
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLDivElement} containing element for Time Picker dropdowns
+   */
+  get dropdownContainerEl() {
+    return this.shadowRoot?.querySelector<HTMLDivElement>('div.dropdowns');
+  }
+
+  /**
+   * Set whether or not show only hours/minutes/seconds dropdowns without input
+   * @param {string|boolean|null} val embeddable param value
+   */
+  set embeddable(val: string | boolean | null) {
+    const boolVal = stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.EMBEDDABLE, 'true');
+    } else {
+      this.removeAttribute(attributes.EMBEDDABLE);
+    }
+
+    this.render();
+    this.connectedCallback();
+  }
+
+  /**
+   * embeddable attribute
+   * @returns {boolean} whether or not to show only hours/minutes/seconds dropdowns without input
+   */
+  get embeddable(): boolean {
+    return stringToBool(this.getAttribute(attributes.EMBEDDABLE));
   }
 
   /**
