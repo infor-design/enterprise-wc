@@ -69,9 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    // if (data.legend) picker.legend = data.legend;
-    // if (data.rangeSettings) picker.rangeSettings = data.rangeSettings;
-
     return picker;
   };
 

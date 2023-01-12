@@ -1179,4 +1179,11 @@ export default class IdsDropdown extends Base {
   get placeholder(): string {
     return this.getAttribute(attributes.PLACEHOLDER) ?? '';
   }
+
+  /**
+   * Pass focus internally
+   */
+  focus() {
+    this.input?.focus();
+  }
 }

@@ -11,6 +11,7 @@ import styles from './ids-time-picker-popup.scss';
 
 import type IdsButton from '../ids-button/ids-button';
 import type IdsModalButton from '../ids-modal-button/ids-modal-button';
+import type IdsDropdown from '../ids-dropdown/ids-dropdown';
 
 type IdsTimePickerPopupButton = IdsButton | IdsModalButton;
 
@@ -153,6 +154,13 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.value = this.getFormattedTime();
       this.triggerSelectedEvent();
       this.hide(true);
+    });
+
+    this.listen(['Escape', 'Backspace'], this, (e: KeyboardEvent) => {
+      if (this.embeddable) return;
+      if (e.key === 'Escape' || e.key === 'Backspace') {
+        this.hide(true);
+      }
     });
   }
 
@@ -384,7 +392,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @returns {IdsModalButton} reference to the Time Picker's "Apply" button, if applicable
    */
   get applyButtonEl() {
-    return this.container?.querySelector('.popup-btn');
+    return this.container?.querySelector<IdsModalButton>('.popup-btn');
   }
 
   /**
@@ -755,6 +763,15 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
   get value(): string { return this.#value || ''; }
 
   /**
+   * Focuses the first available dropdown element
+   */
+  focus() {
+    const dropdownEl = this.container?.querySelector<IdsDropdown>('ids-dropdown');
+    if (dropdownEl) dropdownEl.focus();
+    else this.applyButtonEl?.focus();
+  }
+
+  /**
    * @returns {string} formatted time string
    */
   getFormattedTime() {
@@ -767,6 +784,12 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
   onHide() {
     this.removeRipples();
+    this.container?.setAttribute('tabindex', '-1');
+  }
+
+  onShow() {
+    this.container?.removeAttribute('tabindex');
+    this.focus();
   }
 }
 
