@@ -42,13 +42,10 @@ export default class IdsDataGridCell extends IdsElement {
    */
   renderCell() {
     const column = this.column;
-    let index = Number(this.parentElement?.getAttribute('data-index'));
+    const rowIndex = Number(this.parentElement?.getAttribute('row-index'));
 
-    if (column?.formatter?.name === 'rowNumber') {
-      index += 1;
-    }
-    const row: Record<string, any> | undefined = this.dataGrid?.data[index];
-    let template = IdsDataGridCell.template(row, column, index, this.dataGrid);
+    const row: Record<string, any> | undefined = this.dataGrid?.data[rowIndex];
+    let template = IdsDataGridCell.template(row, column, rowIndex, this.dataGrid);
 
     if (row.invalidCells) {
       const message = row.invalidCells.find((info: any) => info.cell === Number(this.getAttribute('aria-colindex')) - 1);
@@ -219,6 +216,7 @@ export default class IdsDataGridCell extends IdsElement {
    */
   #saveCellValue(newValue: any) {
     const column = this.column;
+    this.dataGrid.resetCache(this.dataGrid?.activeCell.row);
     if (column.editor?.editorSettings?.mask === 'date') {
       newValue = this.dataGrid.locale.parseDate(newValue, column.formatOptions);
     }
@@ -298,25 +296,42 @@ export default class IdsDataGridCell extends IdsElement {
     this.isInValid = false;
   }
 
+  // NOTE: check memory footprint of this caching strategy
+  static cellCache: { [key: string]: string } = {};
+
   /**
    * Return the Template for the cell contents
    * @param {object} row The data item for the row
    * @param {object} column The column data for the row
-   * @param {object} index The running index
+   * @param {object} rowIndex The running row-index
    * @param {IdsDataGrid} dataGrid The dataGrid instance
    * @returns {string} The template to display
    */
-  static template(row: Record<string, unknown>, column: IdsDataGridColumn, index: number, dataGrid: IdsDataGrid): string {
-    const dataGridFormatters = (dataGrid.formatters as any);
-    let template = '';
+  static template(row: Record<string, unknown>, column: IdsDataGridColumn, rowIndex: number, dataGrid: IdsDataGrid): string {
+    const cacheHash = dataGrid.cacheHash;
+    const selected = row.rowSelected ? 'select' : 'deselect';
+    const cacheKey = `${cacheHash}:${column.id}:${rowIndex}:${selected}`;
 
-    if (!dataGridFormatters[column?.formatter?.name || 'text'] && column?.formatter) template = column?.formatter(row, column, index, dataGrid);
-    else template = dataGridFormatters[column?.formatter?.name || 'text'](row, column, index, dataGrid);
+    // NOTE: This is how we could disable cache until a proper cache-busting strategy is in place
+    // delete IdsDataGridCell.cellCache[cacheKey];
 
-    if (row.invalidCells) {
-      const message = (row.invalidCells as any).find((info: any) => info.cell === dataGrid.columnIdxById(column.id));
-      if (message) template += `<ids-alert icon="error" tooltip="${message?.validationMessages[0]?.message}"></ids-alert>`;
+    // NOTE: this type of param-based caching is good for upscroll when revising rows that have been seen already.
+    // NOTE: we also need a content-cache that caches based on the actual data that's being rendered
+    // NOTE: content-cache should probably be done in the IdsDataGridFormatters class
+    if (!IdsDataGridCell.cellCache[cacheKey]) {
+      const dataGridFormatters = (dataGrid.formatters as any);
+      let template = '';
+
+      if (!dataGridFormatters[column?.formatter?.name || 'text'] && column?.formatter) template = column?.formatter(row, column, rowIndex, dataGrid);
+      else template = dataGridFormatters[column?.formatter?.name || 'text'](row, column, rowIndex, dataGrid);
+
+      if (row.invalidCells) {
+        const message = (row.invalidCells as any).find((info: any) => info.cell === dataGrid.columnIdxById(column.id));
+        if (message) template += `<ids-alert icon="error" tooltip="${message?.validationMessages[0]?.message}"></ids-alert>`;
+      }
+      IdsDataGridCell.cellCache[cacheKey] = template;
     }
-    return template;
+
+    return IdsDataGridCell.cellCache[cacheKey];
   }
 }

@@ -501,7 +501,8 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
     }, 250));
     this.onEvent('scroll.data-grid', this.container, () => {
       this.#hideTooltip();
-    });
+      this.offEvent('scroll.data-grid', this.container);
+    }, { capture: true, passive: true });
   }
 
   /**

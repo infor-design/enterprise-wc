@@ -11,7 +11,7 @@ import { editors } from './ids-data-grid-editors';
 import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid-filters';
 import { IdsDataGridContextmenuArgs, setContextmenu } from './ids-data-grid-contextmenu';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
-import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
+
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import {
   IdsDataGridEmptyMessageElements,
@@ -77,8 +77,6 @@ const Base = IdsThemeMixin(
 @customElement('ids-data-grid')
 @scss(styles)
 export default class IdsDataGrid extends Base {
-  virtualScrollContainer?: IdsVirtualScroll | null;
-
   isResizing = false;
 
   activeCell: Record<string, any> = {};
@@ -90,6 +88,8 @@ export default class IdsDataGrid extends Base {
   sortColumn?: Record<string, any>;
 
   emptyMessageElements?: IdsDataGridEmptyMessageElements;
+
+  cacheHash = Math.random().toString(32).substring(2, 10);
 
   constructor() {
     super();
@@ -110,6 +110,13 @@ export default class IdsDataGrid extends Base {
     return this.container?.querySelector<HTMLElement>('.ids-data-grid-body');
   }
 
+  /* Returns all the row elements in an array */
+  get rows() {
+    // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
+    if (!this.container) return [];
+    return [...this.container.querySelectorAll<HTMLElement>('.ids-data-grid-body ids-data-grid-row')];
+  }
+
   /* Returns the outside wrapper element */
   get wrapper() {
     return this.container?.parentNode as HTMLElement | undefined | null;
@@ -120,6 +127,7 @@ export default class IdsDataGrid extends Base {
 
     super.connectedCallback();
     this.redrawBody();
+    this.#attachVirtualScrollEvent();
   }
 
   /** Reference to datasource API */
@@ -164,6 +172,7 @@ export default class IdsDataGrid extends Base {
       attributes.ROW_HEIGHT,
       attributes.ROW_NAVIGATION,
       attributes.ROW_SELECTION,
+      attributes.SUPPRESS_CACHING,
       attributes.SUPPRESS_EMPTY_MESSAGE,
       attributes.SUPPRESS_ROW_CLICK_SELECTION,
       attributes.SUPPRESS_ROW_DEACTIVATION,
@@ -267,18 +276,14 @@ export default class IdsDataGrid extends Base {
     if ((this.columns.length === 0 && this.data.length === 0) || !this.initialized) {
       return;
     }
-    if (this.body) this.body.innerHTML = this.virtualScroll ? this.bodyTemplate() : this.bodyInnerTemplate();
+
+    if (this.body) this.body.innerHTML = this.bodyInnerTemplate();
     this.#resetLastSelectedRow();
     this.header?.setHeaderCheckbox();
-
-    if (this.virtualScrollContainer) {
-      this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
-      this.virtualScrollContainer.data = this.data;
-    }
   }
 
   /**
-   * redraw the list by re applying the template
+   * Redraw the list by reapplying the template
    * @private
    */
   redraw() {
@@ -291,28 +296,11 @@ export default class IdsDataGrid extends Base {
     if (this.container) this.container.innerHTML = header + body;
     this.#setColumnWidths();
 
-    // Setup virtual scrolling
-    if (this.virtualScroll && this.data?.length > 0) {
-      this.virtualScrollContainer = this.shadowRoot?.querySelector<IdsVirtualScroll>('ids-virtual-scroll');
-      if (this.virtualScrollContainer) {
-        this.virtualScrollContainer.scrollTarget = this.container;
-
-        this.virtualScrollContainer.itemTemplate = (
-          row: any,
-          index: number,
-          ariaRowIndex: number
-        ) => IdsDataGridRow.template(row, index, ariaRowIndex, this);
-        this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
-        this.virtualScrollContainer.data = this.data;
-      }
-    }
-
-    if (this.data?.length > 0) this.setActiveCell(0, 0, true);
-
     this.#applyAutoFit();
     this.header.setHeaderCheckbox();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
+    this.#attachVirtualScrollEvent();
     this.setupTooltip();
 
     // Attach post filters setting
@@ -326,6 +314,19 @@ export default class IdsDataGrid extends Base {
 
     // Show/hide empty message
     this.toggleEmptyMessage();
+
+    // Do some things after redraw
+    this.afterRedraw();
+  }
+
+  /** Do some things after redraw */
+  afterRedraw() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // Set Focus
+        this.setActiveCell(0, 0, true);
+      });
+    });
   }
 
   /**
@@ -346,10 +347,22 @@ export default class IdsDataGrid extends Base {
   bodyTemplate() {
     const emptyMesageTemplate = emptyMessageTemplate.apply(this);
 
-    if (this.virtualScroll) {
-      return `${emptyMesageTemplate}<ids-virtual-scroll><div class="ids-data-grid-body" part="contents"></div></ids-virtual-scroll>`;
-    }
     return `${emptyMesageTemplate}<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
+  }
+
+  /**
+   * Simple way to clear cache until a better cache-busting strategy is in implemented
+   * @param {number|undefined} rowIndex - (optional) row-index to target specific rowCache to clear
+   * @returns {void}
+   */
+  resetCache(rowIndex?: number): void {
+    if (rowIndex === 0 || (rowIndex && rowIndex >= 1)) {
+      delete IdsDataGridRow.rowCache[rowIndex];
+      // return; // TODO: returning currently breaks cell-editor tests... must fix
+    }
+
+    IdsDataGridRow.rowCache = {};
+    IdsDataGridCell.cellCache = {};
   }
 
   /**
@@ -358,9 +371,12 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyInnerTemplate() {
+    this.resetCache();
+
     let innerHTML = '';
-    for (let index = 0; index < this.data.length; index++) {
-      innerHTML += IdsDataGridRow.template(this.data[index], index, index + 1, this);
+    const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.NUM_ROWS) : this.data;
+    for (let index = 0; index < data.length; index++) {
+      innerHTML += IdsDataGridRow.template(data[index], index, index + 1, this);
     }
     return innerHTML;
   }
@@ -431,7 +447,8 @@ export default class IdsDataGrid extends Base {
    */
   #attachEventHandlers() {
     // Add a cell click handler
-    const body = this.shadowRoot?.querySelector('.ids-data-grid-body');
+    const body = this.body;
+
     this.offEvent('click.body', body);
     this.onEvent('click.body', body, (e: any) => {
       const cell: IdsDataGridCell = (e.target as any).closest('ids-data-grid-cell');
@@ -440,7 +457,8 @@ export default class IdsDataGrid extends Base {
 
       const cellNum = Number(cell.getAttribute('aria-colindex')) - 1;
       const row = <IdsDataGridRow>cell.parentNode;
-      const rowNum = Number(row.getAttribute('data-index'));
+      const rowNum = row.rowIndex;
+
       const isHyperlink = e.target?.nodeName === 'IDS-HYPERLINK' || e.target?.nodeName === 'A';
       const isButton = e.target?.nodeName === 'IDS-BUTTON';
       const isExpandButton = isButton && e.target?.classList.contains('expand-button');
@@ -449,7 +467,6 @@ export default class IdsDataGrid extends Base {
 
       // Focus Cell
       this.setActiveCell(cellNum, rowNum, isHyperlink);
-
       // Handle click callbacks
       if (isClickable && column.click !== undefined && !e.target?.getAttribute('disabled')) {
         (column as any).click({
@@ -554,6 +571,11 @@ export default class IdsDataGrid extends Base {
         const cellIndex = row.dirtyCells.findIndex((item: any) => item.cell === fromIndex);
         row.dirtyCells[cellIndex].cell = toIndex;
       }
+      if (dirtyRow.cell === toIndex) {
+        const row: any = this.data[dirtyRow?.row];
+        const cellIndex = row.dirtyCells.findIndex((item: any) => item.cell === toIndex);
+        row.dirtyCells[cellIndex].cell = fromIndex;
+      }
     });
 
     // Move the validation data
@@ -582,15 +604,27 @@ export default class IdsDataGrid extends Base {
       if (!this.activeCell?.node) return;
       const key = e.key;
       const cellNode = this.activeCell.node;
+      const cellNumber = Number(this.activeCell?.cell);
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
       const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
-      const nextRow = Number(next(cellNode.parentElement, `:not([hidden])`)?.getAttribute('data-index'));
-      const prevRow = Number(previous(cellNode.parentElement, `:not([hidden])`)?.getAttribute('data-index'));
+      const nextRow = Number(next(cellNode.parentElement, `:not([hidden])`)?.getAttribute('row-index'));
+      const prevRow = Number(previous(cellNode.parentElement, `:not([hidden])`)?.getAttribute('row-index'));
       const rowIndex = key === 'ArrowDown' ? nextRow : prevRow;
+
+      const movingHorizontal = key === 'ArrowLeft' || key === 'ArrowRight';
+      const reachedHorizontalBounds = cellNumber < 0 || cellNumber >= this.visibleColumns.length;
+      if (movingHorizontal && reachedHorizontalBounds) return;
+
+      const movingVertical = key === 'ArrowDown' || key === 'ArrowUp';
+      const reachedVerticalBounds = nextRow >= this.data.length || prevRow < 0;
+      if (movingVertical && reachedVerticalBounds) return;
 
       if (this.activeCellEditor) cellNode.endCellEdit();
 
-      this.setActiveCell(Number(this.activeCell?.cell) + cellDiff, rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex);
+      const activateCellNumber = cellNumber + cellDiff;
+      const activateRowIndex = rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex;
+      this.setActiveCell(activateCellNumber, activateRowIndex);
+
       if (this.rowSelection === 'mixed' && this.rowNavigation) {
         (cellNode.parentElement as IdsDataGridRow).toggleRowActivation();
       }
@@ -859,7 +893,6 @@ export default class IdsDataGrid extends Base {
     const sortField = column?.field !== column?.id ? column?.field : column?.id;
     this.sortColumn = { id, ascending };
     this.datasource.sort(sortField || '', ascending);
-    if (this.virtualScrollContainer) this.virtualScrollContainer.data = this.data;
     this.redrawBody();
     this.header.setSortState(id, ascending);
     this.triggerEvent('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
@@ -981,6 +1014,7 @@ export default class IdsDataGrid extends Base {
    * @param {Array} value The array to use
    */
   set columns(value: IdsDataGridColumn[] | undefined | null) {
+    this.resetCache();
     this.currentColumns = value || [{ id: '', name: '' }];
     this.redraw();
   }
@@ -1136,6 +1170,256 @@ export default class IdsDataGrid extends Base {
   get virtualScroll(): boolean { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
   /**
+   * Some future configurable virtual scroll settings
+   * @returns {object} the current settings
+   */
+  get virtualScrollSettings() {
+    const ENABLED = !!this.virtualScroll;
+    const ROW_HEIGHT = this.rowPixelHeight || 50;
+    const NUM_ROWS = 150;
+    const BODY_HEIGHT = NUM_ROWS * ROW_HEIGHT;
+    const BUFFER_ROWS = 50;
+    const BUFFER_HEIGHT = BUFFER_ROWS * ROW_HEIGHT;
+    const RAF_DELAY = 60;
+    const DEBOUNCE_RATE = 10;
+
+    return {
+      ENABLED,
+      ROW_HEIGHT,
+      NUM_ROWS,
+      BODY_HEIGHT,
+      BUFFER_ROWS,
+      BUFFER_HEIGHT,
+      RAF_DELAY,
+      DEBOUNCE_RATE,
+    };
+  }
+
+  /* Attach Events for virtual scrolling */
+  #attachVirtualScrollEvent() {
+    if (!this.virtualScroll) return;
+    const virtualScrollSettings = this.virtualScrollSettings;
+    const data = this.data;
+
+    const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BODY_HEIGHT;
+
+    this.container?.style.setProperty('max-height', '95vh');
+    if (maxPaddingBottom >= 0) {
+      this.body?.style.setProperty('padding-bottom', `${maxPaddingBottom}px`);
+    }
+
+    let debounceRowIndex = 0;
+    this.offEvent('scroll.data-grid.virtual-scroll', this.container);
+    this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
+      evt.stopImmediatePropagation();
+
+      const rowIndex = Math.floor(this.container!.scrollTop / virtualScrollSettings.ROW_HEIGHT);
+
+      if (rowIndex === debounceRowIndex) return;
+      debounceRowIndex = rowIndex;
+
+      this.scrollRowIntoView(rowIndex, false);
+    }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
+  }
+
+  /**
+   * Stores the last request animation from used during virtual scroll.
+   * RAFs are recommended in the row-recycling articles we referenced.
+   * If we were to take them out, what would happen is the repainting of the browser
+   * window would happen during scrolling and we'd errors like "redraw happened during scrolling.
+   *
+   * One thing to note is RAFs should have as little logic as possible within them
+   * and should only contain the CSS+DOM manipulations.
+   * It's best to do (as much as possible) logic+calculations outside the RAF,
+   * and then when ready to move things around, do those inside the RAF.
+   * this keeps the RAF short and sweet, and keeps our FPS-lag low.
+   */
+  #rafReference = NaN;
+
+  requestAnimationFrame(fnCallback: () => void) {
+    if (this.virtualScroll) {
+      this.#rafReference = requestAnimationFrame(fnCallback);
+    } else {
+      fnCallback();
+    }
+  }
+
+  /**
+   * We always want to set doScroll=true when scrollRowIntoView() is called manually in code...
+   * ...so when the "public" uses it they would simply do scrollRowIntoView(x).
+   *
+   * However, this method is also used in the "onscroll" event-handler...
+   * ...within that "onscroll" event-handler, we want doScroll=false,
+   * ...and let the browser handle moving/panning the window without interference.
+   *
+   * @param {number} rowIndex - which row to scroll into view.
+   * @param {boolean} doScroll - set to "true" to have the browser perform the scroll action
+   * @see IdsDataGrid.#attachVirtualScrollEvent()
+   * @see https://medium.com/@moshe_31114/building-our-recycle-list-solution-in-react-17a21a9605a0
+   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-i-11ib
+   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-ii-3j86
+   * @see https://fluffy.es/solve-duplicated-cells
+   * @see https://vaadin.com/docs/latest/components/grid#columns
+   * @see https://www.htmlelements.com/demos/grid/datagrid-bind-to-json
+   * @see https://dev.to/gopal1996/understanding-reflow-and-repaint-in-the-browser-1jbg
+   * @see https://medium.com/teads-engineering/the-most-accurate-way-to-schedule-a-function-in-a-web-browser-eadcd164da12
+   * @see https://javascript.info/bubbling-and-capturing#capturing
+   * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+   */
+  scrollRowIntoView(rowIndex: number, doScroll = true) {
+    if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
+
+    const data = this.data;
+    const rows = this.rows;
+
+    const maxRowIndex = data.length - 1;
+    rowIndex = Math.max(rowIndex, 0);
+    rowIndex = Math.min(rowIndex, maxRowIndex);
+
+    if (!rows.length) return;
+
+    const container = this.container;
+    const body = this.body;
+
+    const virtualScrollSettings = this.virtualScrollSettings;
+    const firstRow: any = rows[0];
+    const lastRow: any = rows[rows.length - 1];
+    const firstRowIndex = firstRow.rowIndex;
+    const lastRowIndex = lastRow.rowIndex;
+
+    const isAboveFirstRow = rowIndex < firstRowIndex;
+    const isBelowLastRow = rowIndex > lastRowIndex;
+    const isInRange = !isAboveFirstRow && !isBelowLastRow;
+    const reachedTheBottom = lastRowIndex >= maxRowIndex;
+
+    let bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
+    bufferRowIndex = Math.max(bufferRowIndex, 0);
+    bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
+
+    if (isInRange) {
+      const moveRowsDown = bufferRowIndex - firstRowIndex;
+      const moveRowsUp = Math.abs(moveRowsDown);
+
+      if (moveRowsDown > 0) {
+        if (!reachedTheBottom) {
+          this.#recycleTopRowsDown(moveRowsDown);
+        }
+      } else if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
+        this.#recycleBottomRowsUp(moveRowsUp);
+      } else {
+        return; // exit early because nothing to do.
+      }
+    } else if (isAboveFirstRow) {
+      const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex);
+
+      if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
+        this.#recycleBottomRowsUp(moveRowsUp);
+      } else {
+        this.#recycleAllRows(bufferRowIndex);
+      }
+    } else if (isBelowLastRow) {
+      this.#recycleAllRows(bufferRowIndex);
+    }
+
+    this.requestAnimationFrame(() => {
+      // NOTE: repaint of padding is more performant than margin
+      const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BODY_HEIGHT;
+
+      const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
+      const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
+
+      if (!reachedTheBottom) {
+        body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+      }
+
+      body?.style.setProperty('padding-bottom', `${Math.max(bodyPaddingBottom, 0)}px`);
+
+      if (doScroll) {
+        container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+      }
+    });
+  }
+
+  /* Recycle the rows duing scrolling */
+  #recycleAllRows(topRowIndex: number) {
+    const rows = this.rows;
+    if (!rows.length) return;
+
+    const veryLastIndex = this.data.length - 1;
+    topRowIndex = Math.min(topRowIndex, veryLastIndex);
+    topRowIndex = Math.max(topRowIndex, 0);
+
+    // Using Array.every as an alternaive to using a for-loop with a break
+    this.rows.every((row: any, idx) => {
+      const nextRowIndex = topRowIndex + idx;
+      if (nextRowIndex > veryLastIndex) {
+        const moveTheRestToTop = this.virtualScrollSettings.NUM_ROWS - idx;
+        this.#recycleBottomRowsUp(moveTheRestToTop);
+        return false;
+      }
+      row.rowIndex = nextRowIndex;
+      return true;
+    });
+  }
+
+  /* Recycle the rows duing scrolling from the top */
+  #recycleTopRowsDown(rowCount: number) {
+    const rows = this.rows;
+    if (!rowCount || !rows.length) return;
+    const data = this.data;
+
+    const bottomRow: any = rows[rows.length - 1];
+    const bottomRowIndex = bottomRow.rowIndex;
+    const staleRows = rows.slice(0, rowCount);
+    const rowsToMove: any[] = [];
+
+    // NOTE: Using Array.every as an alternaive to using a for-loop with a break
+    staleRows.every((row: any, idx) => {
+      const nextIndex = bottomRowIndex + (idx + 1);
+      if (nextIndex >= data.length) return false;
+      row.rowIndex = nextIndex;
+      return rowsToMove.push(row);
+    });
+
+    if (!rowsToMove.length) return;
+
+    // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
+    if (rowsToMove.length >= this.virtualScrollSettings.NUM_ROWS) return;
+
+    this.requestAnimationFrame(() => {
+      // NOTE: body.append is faster than body.innerHTML
+      // NOTE: body.append is faster than multiple calls to appendChild()
+      this.body?.append(...rowsToMove);
+    });
+  }
+
+  /* Recycle the rows duing scrolling from the bottom */
+  #recycleBottomRowsUp(rowCount: number) {
+    const rows = this.rows;
+    if (!rowCount || !rows.length) return;
+
+    const topRow: any = rows[0];
+    const topRowIndex = topRow.rowIndex;
+    const staleRows = rows.slice((-1 * rowCount));
+    const rowsToMove: any[] = [];
+
+    // NOTE: Using Array.every as an alternaive to using a for-loop with a break
+    staleRows.every((row: any, idx) => {
+      const prevIndex = topRowIndex - (idx + 1);
+      if (prevIndex < 0) return false;
+      row.rowIndex = prevIndex;
+      return rowsToMove.push(row);
+    });
+
+    if (!rowsToMove.length) return;
+
+    this.requestAnimationFrame(() => {
+      // NOTE: body.prepend() seems to be faster than body.innerHTML
+      this.body?.prepend(...rowsToMove.reverse());
+    });
+  }
+
+  /**
    * Set the aria-label element in the DOM. This should be translated.
    * @param {string} value The aria label
    */
@@ -1164,8 +1448,6 @@ export default class IdsDataGrid extends Base {
       this.removeAttribute(attributes.ROW_HEIGHT);
       this.shadowRoot?.querySelector('.ids-data-grid')?.setAttribute('data-row-height', 'lg');
     }
-
-    if (this.virtualScroll) this.redraw();
     this.saveSettings?.();
   }
 
@@ -1359,7 +1641,7 @@ export default class IdsDataGrid extends Base {
    * @returns {HTMLElement} Row HTMLElement
    */
   rowByIndex(index: number): IdsDataGridRow | undefined | null {
-    return this.shadowRoot?.querySelector<IdsDataGridRow>(`.ids-data-grid-body ids-data-grid-row[data-index="${index}"]`);
+    return this.shadowRoot?.querySelector<IdsDataGridRow>(`.ids-data-grid-body ids-data-grid-row[row-index="${index}"]`);
   }
 
   activeCellEditor?: IdsDataGridCell;
@@ -1417,9 +1699,11 @@ export default class IdsDataGrid extends Base {
   /**
    * Set a row to selected
    * @param {number} index the zero based index
+   * @param {boolean} triggerEvent fire an event with the selected row
    */
-  selectRow(index: number) {
+  selectRow(index: number, triggerEvent = true) {
     const row = this.rowByIndex(index);
+    if (!row) return;
 
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
       const checkbox = row?.querySelector('.ids-data-grid-checkbox');
@@ -1437,14 +1721,17 @@ export default class IdsDataGrid extends Base {
     if (!row) return;
 
     row.selected = true;
+
     this.updateDataset(Number(row?.getAttribute('data-index')), { rowSelected: true });
     if ((this.rowSelection === 'single' || this.rowSelection === 'multiple') && row) row.updateCells(index);
 
-    this.triggerEvent('rowselected', this, {
-      detail: {
-        elem: this, row, data: this.data[index]
-      }
-    });
+    if (triggerEvent) {
+      this.triggerEvent('rowselected', this, {
+        detail: {
+          elem: this, row, data: this.data[index]
+        }
+      });
+    }
 
     if (this.groupSelectsChildren) row?.toggleChildRowSelection(true);
     this.header.setHeaderCheckbox();
@@ -1453,38 +1740,42 @@ export default class IdsDataGrid extends Base {
   /**
    * Set a row to be deselected
    * @param {number} index the zero based index
+   * @param {boolean} triggerEvent fire an event with the deselected row
    */
-  deSelectRow(index: number) {
+  deSelectRow(index: number, triggerEvent = true) {
     const row = this.rowByIndex(index);
+    if (!row) return;
 
     if (this.rowSelection === 'mixed') {
-      row?.classList.remove('mixed');
+      row.classList.remove('mixed');
     }
-    row?.classList.remove('selected');
-    row?.removeAttribute('aria-selected');
+    row.classList.remove('selected');
+    row.removeAttribute('aria-selected');
 
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
-      const checkbox = row?.querySelector('.ids-data-grid-checkbox');
+      const checkbox = row.querySelector('.ids-data-grid-checkbox');
       checkbox?.classList.remove('checked');
       checkbox?.setAttribute('aria-checked', 'false');
     }
 
     if (this.rowSelection === 'single') {
-      const radio = row?.querySelector('.ids-data-grid-radio');
+      const radio = row.querySelector('.ids-data-grid-radio');
       radio?.classList.remove('checked');
       radio?.setAttribute('aria-checked', 'false');
     }
 
-    this.updateDataset(Number(row?.getAttribute('data-index')), { rowSelected: undefined });
+    this.updateDataset(row.rowIndex, { rowSelected: undefined });
 
-    this.triggerEvent('rowdeselected', this, {
-      detail: {
-        elem: this, row, data: this.data[index]
-      }
-    });
+    if (triggerEvent) {
+      this.triggerEvent('rowdeselected', this, {
+        detail: {
+          elem: this, row, data: this.data[index]
+        }
+      });
+    }
 
-    row?.updateCells(index);
-    if (this.groupSelectsChildren) row?.toggleChildRowSelection(false);
+    row.updateCells(index);
+    if (this.groupSelectsChildren) row.toggleChildRowSelection(false);
     this.header.setHeaderCheckbox();
   }
 
@@ -1646,27 +1937,47 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Suppress row row and cell caching
+   * @param {boolean|string|null} value false to not cache
+   */
+  set suppressCaching(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.SUPPRESS_CACHING, String(value));
+      return;
+    }
+    this.removeAttribute(attributes.SUPPRESS_CACHING);
+  }
+
+  get suppressCaching(): boolean {
+    return stringToBool(this.getAttribute(attributes.SUPPRESS_CACHING)) || false;
+  }
+
+  /**
    * Set the active cell for focus
-   * @param {number} cell The cell to focus (zero based)
-   * @param {number} row The row to focus (zero based)
+   * @param {number} cellNumber The cell to focus (zero based)
+   * @param {number} rowIndex The row to focus (zero based)
    * @param {boolean} noFocus If true, do not focus the cell
    * @returns {object} the current active cell
    */
-  setActiveCell(cell: number, row: number, noFocus?: boolean) {
-    if (row < 0 || cell < 0 || row > this.data.length - 1
-      || cell > this.visibleColumns.length - 1 || Number.isNaN(row) || Number.isNaN(row)) {
+  setActiveCell(cellNumber: number, rowIndex: number, noFocus?: boolean) {
+    if (rowIndex < 0 || cellNumber < 0 || rowIndex > this.data.length - 1
+      || cellNumber > this.visibleColumns.length - 1 || Number.isNaN(rowIndex) || Number.isNaN(rowIndex)) {
       return this.activeCell;
     }
 
     if (!this.activeCell) this.activeCell = {};
-    this.activeCell.cell = Number(cell);
-    this.activeCell.row = Number(row);
+    this.activeCell.cell = Number(cellNumber);
+    this.activeCell.row = Number(rowIndex);
 
-    const queriedRows = this.shadowRoot?.querySelectorAll('.ids-data-grid-body ids-data-grid-row');
-    const rowNode = queriedRows?.item(row); // exclude header rows
+    let rowNode = this.rowByIndex(rowIndex);
+    if (!rowNode && this.virtualScroll) {
+      this.scrollRowIntoView(rowIndex);
+      rowNode = this.rowByIndex(rowIndex);
+    }
+
     const queriedCells = rowNode?.querySelectorAll<HTMLElement>('ids-data-grid-cell');
     if (queriedCells && queriedCells.length > 0) {
-      const cellNode = queriedCells[cell] as IdsDataGridCell;
+      const cellNode = queriedCells[cellNumber] as IdsDataGridCell;
       cellNode.activate(Boolean(noFocus));
     }
     return this.activeCell;

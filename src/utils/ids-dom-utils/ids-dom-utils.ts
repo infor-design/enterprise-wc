@@ -120,7 +120,7 @@ export function next(node: any, selector: string): HTMLElement {
  * @returns {HTMLElement} the element
  */
 export function previous(node: any, selector: string): HTMLElement {
-  node = node.previousSibling;
+  node = node.previousElementSibling;
 
   while (node) {
     if (node.matches(selector)) return node;
