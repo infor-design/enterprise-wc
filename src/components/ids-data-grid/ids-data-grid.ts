@@ -350,9 +350,17 @@ export default class IdsDataGrid extends Base {
     return `${emptyMesageTemplate}<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
 
-  resetCache(rowIndex?: number) {
-    // NOTE: simple way to clear cache until a better cache-busting strategy is in implemented
-    if (rowIndex && rowIndex >= 0) delete IdsDataGridRow.rowCache[rowIndex];
+  /**
+   * Simple way to clear cache until a better cache-busting strategy is in implemented
+   * @param {number|undefined} rowIndex - (optional) row-index to target specific rowCache to clear
+   * @returns {void}
+   */
+  resetCache(rowIndex?: number): void {
+    if (rowIndex === 0 || (rowIndex && rowIndex >= 1)) {
+      delete IdsDataGridRow.rowCache[rowIndex];
+      // return; // TODO: returning currently breaks cell-editor tests... must fix
+    }
+
     IdsDataGridRow.rowCache = {};
     IdsDataGridCell.cellCache = {};
   }
@@ -449,7 +457,8 @@ export default class IdsDataGrid extends Base {
 
       const cellNum = Number(cell.getAttribute('aria-colindex')) - 1;
       const row = <IdsDataGridRow>cell.parentNode;
-      const rowNum = Number(row.getAttribute('data-index'));
+      const rowNum = row.rowIndex;
+
       const isHyperlink = e.target?.nodeName === 'IDS-HYPERLINK' || e.target?.nodeName === 'A';
       const isButton = e.target?.nodeName === 'IDS-BUTTON';
       const isExpandButton = isButton && e.target?.classList.contains('expand-button');
