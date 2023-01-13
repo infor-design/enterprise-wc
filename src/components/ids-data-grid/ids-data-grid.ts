@@ -439,7 +439,8 @@ export default class IdsDataGrid extends Base {
    */
   #attachEventHandlers() {
     // Add a cell click handler
-    const body = this.shadowRoot?.querySelector('.ids-data-grid-body');
+    const body = this.body;
+
     this.offEvent('click.body', body);
     this.onEvent('click.body', body, (e: any) => {
       const cell: IdsDataGridCell = (e.target as any).closest('ids-data-grid-cell');
@@ -1191,7 +1192,7 @@ export default class IdsDataGrid extends Base {
     const virtualScrollSettings = this.virtualScrollSettings;
     const data = this.data;
 
-    const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BUFFER_HEIGHT;
+    const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BODY_HEIGHT;
 
     this.container?.style.setProperty('max-height', '95vh');
     if (maxPaddingBottom >= 0) {
@@ -1263,7 +1264,6 @@ export default class IdsDataGrid extends Base {
     const rows = this.rows;
 
     const maxRowIndex = data.length - 1;
-    // const initialRowIndex = rowIndex;
     rowIndex = Math.max(rowIndex, 0);
     rowIndex = Math.min(rowIndex, maxRowIndex);
 
@@ -1314,7 +1314,7 @@ export default class IdsDataGrid extends Base {
 
     this.requestAnimationFrame(() => {
       // NOTE: repaint of padding is more performant than margin
-      const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BUFFER_HEIGHT;
+      const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BODY_HEIGHT;
 
       const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
       const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
@@ -1323,7 +1323,7 @@ export default class IdsDataGrid extends Base {
         body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
       }
 
-      body?.style.setProperty('padding-bottom', `${bodyPaddingBottom}px`);
+      body?.style.setProperty('padding-bottom', `${Math.max(bodyPaddingBottom, 0)}px`);
 
       if (doScroll) {
         container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
