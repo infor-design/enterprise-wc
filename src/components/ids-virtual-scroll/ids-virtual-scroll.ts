@@ -339,6 +339,9 @@ export default class IdsVirtualScroll extends Base {
    */
   set scrollTarget(value: HTMLElement | undefined | null) {
     if (value) {
+      // first, unset old scrollTarget
+      this.offEvent('scroll', this.eventTarget);
+
       this.eventTarget = value;
       this.onEvent('scroll', this.eventTarget, (e: any) => {
         this.handleScroll(e);

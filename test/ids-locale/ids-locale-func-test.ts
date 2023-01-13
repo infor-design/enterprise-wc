@@ -1206,7 +1206,7 @@ describe('IdsLocale API', () => {
 
     it('should be able to return time format', async () => {
       await locale.setLocale('en-US');
-      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40, 45), { timeStyle: 'medium' }).replace(' ', ' ')).toEqual('1:40:45 PM');
+      expect(locale.formatDate(new Date(2015, 0, 8, 13, 40, 45), { timeStyle: 'medium' }).replace(' ', ' ').replace(' ', ' ')).toEqual('1:40:45 PM');
 
       await locale.setLocale('de-DE');
       expect(locale.formatDate(new Date(2015, 0, 8, 13, 40, 45), { timeStyle: 'medium' })).toEqual('13:40:45');
@@ -1761,7 +1761,7 @@ describe('IdsLocale API', () => {
     it('should format hour range', async () => {
       await locale.setLocale('en-US');
 
-      // expect(locale.formatHourRange(0, 5)).toEqual('12 - 5:00 AM');
+      // // expect(locale.formatHourRange(0, 5)).toEqual('12 - 5:00 AM');
       // expect(locale.formatHourRange(0.5, 5)).toEqual('12:30 - 5:00 AM');
       expect(locale.formatHourRange(5, 10)).toEqual('5 - 10:00 AM');
       expect(locale.formatHourRange(10, 12)).toEqual('10:00 AM - 12:00 PM');
