@@ -26,7 +26,8 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
     return [
       ...(superclass as any).attributes,
       attributes.CAPTURES_FOCUS,
-      attributes.CYCLES_FOCUS
+      attributes.CYCLES_FOCUS,
+      attributes.FOCUS_INLINE
     ];
   }
 
@@ -38,7 +39,7 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.#hostNode = getClosestContainerNode(this);
+    if (this.hasAttribute(attributes.FOCUS_INLINE)) this.syncInline(true);
   }
 
   disconnectedCallback(): void {
@@ -156,6 +157,7 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
   #focusableSelectors = [
     'button',
     'ids-button',
+    'ids-dropdown',
     'ids-menu-button',
     'ids-modal-button',
     'ids-toggle-button',
@@ -203,6 +205,7 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
    * @returns {Array<HTMLElement>} focusable elements inside of this WebComponent's Light DOM
    */
   get focusableElements() {
+    if (this.focusInline) return this.focusableElementsInDocument;
     return this.focusableElementsInDocument.filter((i: any) => this.contains(i));
   }
 
@@ -297,6 +300,35 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
     if (!this.contains(this.#hostNode.activeElement)) {
       this.setFocus(index);
     }
+  }
+
+  /**
+   * Sets the correct host node to use for focus detection
+   * @param {boolean | null} val if truthy, uses this component's shadow root for focus detection
+   */
+  syncInline(val: boolean | null) {
+    if (val) this.#hostNode = this.shadowRoot;
+    else this.#hostNode = getClosestContainerNode(this);
+  }
+
+  /**
+   * @param {boolean | string} val true if focus detection should only occur within this component's shadow root
+   */
+  set focusInline(val: boolean | string | null) {
+    const newValue = stringToBool(val);
+    if (newValue) {
+      this.setAttribute(attributes.FOCUS_INLINE, 'true');
+    } else {
+      this.removeAttribute(attributes.FOCUS_INLINE);
+    }
+    this.syncInline(newValue);
+  }
+
+  /**
+   * @returns {boolean} true if this component should only capture focus within its shadow root
+   */
+  get focusInline() {
+    return this.hasAttribute(attributes.FOCUS_INLINE);
   }
 };
 

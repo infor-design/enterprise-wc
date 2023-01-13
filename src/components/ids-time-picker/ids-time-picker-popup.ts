@@ -33,6 +33,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
   connectedCallback() {
     super.connectedCallback();
     this.attachEventListeners();
+    this.setAttribute(attributes.FOCUS_INLINE, 'true');
   }
 
   disconnectedCallback(): void {
@@ -61,7 +62,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
     return `<ids-popup class="ids-time-picker-popup" type="menu" tabindex="-1" part="popup" x="12">
       <section slot="content">
         ${dropdownHTML}
-        <ids-modal-button class="popup-btn" hidden="${this.autoupdate}" part="btn-set">
+        <ids-modal-button class="popup-btn" hidden="${this.autoupdate}" part="btn-set" type="primary">
           <ids-text translate-text="true">SetTime</ids-text>
         </ids-modal-button>
       </section>
@@ -785,10 +786,12 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
   onHide() {
     this.removeRipples();
     this.container?.setAttribute('tabindex', '-1');
+    this.capturesFocus = false;
   }
 
   onShow() {
     this.container?.removeAttribute('tabindex');
+    this.capturesFocus = true;
     this.focus();
   }
 }
