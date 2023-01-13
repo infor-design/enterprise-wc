@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 /**
  * @jest-environment jsdom
  */
@@ -182,7 +183,7 @@ describe('IdsCalendar Component', () => {
     const start = new Date(2022, 7, 15);
     const end = new Date(2022, 7, 18);
     const dateRange = component.formatDateRange(start, end);
-    expect(dateRange).toEqual('August 15, 2022 at 12:00 AM - August 18, 2022 at 12:00 AM');
+    expect(dateRange.replace(/ /g, ' ')).toEqual('August 15, 2022 at 12:00 AM - August 18, 2022 at 12:00 AM');
   });
 
   it('changes to day view when overflow-click event is triggered', () => {
