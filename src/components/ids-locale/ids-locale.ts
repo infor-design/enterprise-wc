@@ -594,6 +594,8 @@ class IdsLocale {
     }
 
     range = range.replace('  ', ' ');
+    range = range.replace(' ', ' ');
+    range = range.replace(' ', ' ');
     if (removePeriod) {
       range = range.replace(':00 -', ' -');
     }
