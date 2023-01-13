@@ -526,6 +526,9 @@ class IdsLocale {
     if (!options || options?.dateStyle === 'short' || options?.year === 'numeric') {
       formattedDate = formattedDate.replace(', ', ' ');
     }
+
+    // eslint-disable-next-line no-irregular-whitespace
+    formattedDate = formattedDate.replace(/ /g, ' '); // remove irregular space
     return formattedDate;
   }
 
