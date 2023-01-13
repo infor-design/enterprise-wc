@@ -112,6 +112,12 @@ export class CheckboxEditor implements IdsDataGridEditor {
 
     cell?.appendChild(this.input as any);
     this.input.focus();
+    if (this.isClick) {
+      requestAnimationFrame(() => {
+        cell?.endCellEdit();
+        cell?.focus();
+      });
+    }
   }
 
   /* Transform the value */

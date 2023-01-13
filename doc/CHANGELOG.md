@@ -17,6 +17,7 @@
 - `[Datagrid]` Prevented Date Picker Popup filter menus from being cut off by Data Grid's container overflow ([#667](https://github.com/infor-design/enterprise-wc/issues/667))
 - `[DataGrid]` Added tree grid functionality. ([#737](https://github.com/infor-design/enterprise-wc/issues/737)
 - `[DataGrid]` Added expandable row functionality. ([#737](https://github.com/infor-design/enterprise-wc/issues/737)
+- `[DataGrid]` Fixed a bug that checkbox editors need to be clicked twice. ([#1095](https://github.com/infor-design/enterprise-wc/issues/1095)
 - `[DataGrid]` Added suppress row click for selection functionality. ([#737](https://github.com/infor-design/enterprise-wc/issues/737)
 - `[DataGrid]` Added support for context menu. ([#963](https://github.com/infor-design/enterprise-wc/issues/963))
 - `[DataGrid]` Added support for editing. ([#991](https://github.com/infor-design/enterprise-wc/issues/991))

@@ -177,7 +177,7 @@ export default class IdsDataGridFormatters {
 
   dropdown(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     const field = columnData.field ?? '';
-    const options = <any[]>columnData.editor?.editorSettings?.options;
+    const options = <any[]>columnData.editor?.editorSettings?.options || [];
     const value = rowData[field];
     const valueOpt = options.find((opt) => opt.value === value);
 
