@@ -1554,8 +1554,8 @@ describe('IdsDataGrid Component', () => {
 
     it('can render with the time formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML)
-        .toEqual(new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric' }).format(new Date('2021-04-23T18:25:43.511Z')));
+        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML.replace(' ', ' '))
+        .toEqual(new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric' }).format(new Date('2021-04-23T18:25:43.511Z')).replace(' ', ' '));
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
         .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML)
