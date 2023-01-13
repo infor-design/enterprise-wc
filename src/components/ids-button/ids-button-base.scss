@@ -784,12 +784,6 @@ $ids-button-rounded-size: 8px;
       @include text-azure-80();
     }
 
-    &.is-active,
-    &:focus {
-      @include border-azure-80();
-      @include shadow();
-    }
-
     &[disabled] {
       @include bg-transparent();
       @include text-slate-40();
