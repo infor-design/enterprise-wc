@@ -121,7 +121,7 @@ class IdsDatePicker extends Base {
    * List of available color variants for this component
    * @returns {Array<string>}
    */
-  colorVariants = ['alternate-formatter'];
+  colorVariants = ['alternate-formatter', 'borderless', 'in-cell'];
 
   /**
    * Push color variant to the trigger-field element
@@ -274,6 +274,7 @@ class IdsDatePicker extends Base {
       this.#picker.onOutsideClick = (e: Event) => {
         if (this.#picker) {
           if (!e.composedPath()?.includes(this.#picker)) {
+            this.triggerEvent('outsideclick.datepicker', this);
             this.#togglePopup(false);
           }
         }

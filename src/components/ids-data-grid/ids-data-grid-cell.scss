@@ -93,6 +93,12 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     top: 4px;
   }
 
+  // Editing with popups
+  &.is-editing.is-dropdown,
+  &.is-editing.is-datepicker {
+    overflow: visible;
+  }
+
   // Dropdown Editable Cell
   &.is-editable.is-dropdown {
     .dropdown-cell-value {
@@ -119,8 +125,6 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
   // Dropdown Editing
   &.is-editing.is-dropdown {
-    overflow: visible;
-
     &.is-dirty::before {
       margin-inline: 3px;
     }

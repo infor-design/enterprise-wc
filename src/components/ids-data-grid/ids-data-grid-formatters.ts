@@ -66,7 +66,7 @@ export default class IdsDataGridFormatters {
   date(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
     let value: any = this.#extractValue(rowData, columnData.field);
     value = api.locale?.formatDate(value, columnData.formatOptions) ?? value.toString();
-    return `<span class="text-ellipsis">${value}</span>`;
+    return `<span class="text-ellipsis" data-value="${value}">${value}</span>`;
   }
 
   /** Formats date data as a time string in the desired format */
@@ -175,6 +175,7 @@ export default class IdsDataGridFormatters {
     return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
   }
 
+  /** Shows a dropdown list */
   dropdown(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     const field = columnData.field ?? '';
     const options = <any[]>columnData.editor?.editorSettings?.options;

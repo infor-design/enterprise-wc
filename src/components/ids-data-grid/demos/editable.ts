@@ -77,11 +77,9 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     reorderable: true,
     formatter: dataGrid.formatters.date,
     editor: {
-      type: 'input',
+      type: 'datepicker',
       editorSettings: {
-        autoselect: true,
-        dirtyTracker: false,
-        mask: 'date'
+        dirtyTracker: false
       }
     }
   });
