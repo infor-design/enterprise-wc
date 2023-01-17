@@ -9,6 +9,8 @@ import { IdsPickerPopupCallbacks } from '../ids-picker-popup/ids-picker-popup';
 
 import styles from './ids-time-picker-popup.scss';
 
+import '../ids-modal-button/ids-modal-button';
+
 import type IdsButton from '../ids-button/ids-button';
 import type IdsModalButton from '../ids-modal-button/ids-modal-button';
 import type IdsDropdown from '../ids-dropdown/ids-dropdown';
@@ -132,7 +134,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
   /**
    * Attaches Time Picker dropdowns to the shadow root
    */
-  #renderDropdowns(): void {
+  renderDropdowns(): void {
     const el = this.dropdownContainerEl;
     if (el) el.innerHTML = this.#dropdowns();
   }
@@ -527,7 +529,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
     }
 
-    this.#renderDropdowns();
+    this.renderDropdowns();
   }
 
   /**
@@ -592,7 +594,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.SECOND_INTERVAL);
     }
 
-    this.#renderDropdowns();
+    this.renderDropdowns();
   }
 
   /**
@@ -622,7 +624,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
     // Updating hours dropdown with AM/PM range
     if (this.#hasHourRange()) {
-      this.#renderDropdowns();
+      this.renderDropdowns();
       this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(this.#getHourOptions()[0]));
     } else {
       this.container?.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
@@ -669,7 +671,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.START_HOUR);
     }
 
-    this.#renderDropdowns();
+    this.renderDropdowns();
   }
 
   /**
@@ -697,7 +699,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.END_HOUR);
     }
 
-    this.#renderDropdowns();
+    this.renderDropdowns();
   }
 
   /**
@@ -727,7 +729,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.USE_CURRENT_TIME);
     }
 
-    this.#renderDropdowns();
+    this.renderDropdowns();
   }
 
   /**
