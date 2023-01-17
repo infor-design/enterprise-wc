@@ -170,8 +170,9 @@ columns.push({
   field: 'category',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.text,
-  cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : '')
+  formatter: dataGrid.formatters.tag,
+  color: 'info',
+  cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
 });
 columns.push({
   id: 'weight',

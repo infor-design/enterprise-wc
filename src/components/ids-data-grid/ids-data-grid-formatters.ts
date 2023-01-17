@@ -2,6 +2,8 @@ import '../ids-hyperlink/ids-hyperlink';
 import '../ids-button/ids-button';
 import '../ids-badge/ids-badge';
 import '../ids-alert/ids-alert';
+// import '../ids-progress-chart/ids-progress-chart';
+// import '../ids-tag/ids-tag';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
@@ -193,5 +195,53 @@ export default class IdsDataGridFormatters {
         class="dropdown-cell-icon">
       </ids-icon>
     `;
+  }
+
+  tag(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    if (!value) return '';
+    const color = this.#color(index, value, columnData, rowData);
+
+    return `<ids-tag color="${color || ''}">${value}</ids-tag>`;
+  }
+
+  alert(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    if (!value) return '';
+    const color = this.#color(index, value, columnData, rowData);
+
+    return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
+  }
+
+  image(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    if (!value) return '';
+    const color = this.#color(index, value, columnData, rowData);
+
+    return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
+  }
+
+  favorite(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    if (!value) return '';
+    const color = this.#color(index, value, columnData, rowData);
+
+    return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
+  }
+
+  card(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    if (!value) return '';
+    const color = this.#color(index, value, columnData, rowData);
+
+    return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
+  }
+
+  progress(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    if (!value) return '';
+    const color = this.#color(index, value, columnData, rowData);
+
+    return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
   }
 }
