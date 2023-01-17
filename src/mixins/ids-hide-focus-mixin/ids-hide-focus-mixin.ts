@@ -23,8 +23,11 @@ const IdsHideFocusMixin = <T extends Constraints>(superclass: T) => class extend
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.#attachHideFocusEvents();
-    this.#addCssClass();
+
+    if (this.hideFocus) {
+      this.#attachHideFocusEvents();
+      this.#addCssClass();
+    }
   }
 
   disconnectedCallback() {
@@ -75,15 +78,20 @@ const IdsHideFocusMixin = <T extends Constraints>(superclass: T) => class extend
   set hideFocus(value: string | boolean | null) {
     const boolVal = stringToBool(value);
     this.setAttribute(attributes.HIDE_FOCUS, String(boolVal));
+
+    if (boolVal) {
+      this.#addCssClass();
+      this.#attachHideFocusEvents();
+    } else {
+      this.#removeCssClass();
+      this.#removeHideFocusEvents();
+    }
   }
 
   get hideFocus(): boolean {
     const attrVal = this.getAttribute(attributes.HIDE_FOCUS);
-    if (attrVal) {
-      return stringToBool(attrVal);
-    }
 
-    return true;
+    return attrVal ? stringToBool(attrVal) : true;
   }
 };
 
