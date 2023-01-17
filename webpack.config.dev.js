@@ -10,7 +10,6 @@ const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'produ
 module.exports = {
   entry: demoEntry(),
   output: {
-    chunkFormat: 'module',
     path: path.resolve(__dirname, './build/development'),
     filename: '[name]/[name].js',
     assetModuleFilename: '[path][name][ext]',
@@ -20,7 +19,7 @@ module.exports = {
   mode: isProduction ? 'production' : 'development',
   optimization: {
     splitChunks: {
-      chunks: 'async'
+      chunks: 'all'
     },
   },
   resolve: {
@@ -55,10 +54,12 @@ module.exports = {
         test: /\.ts?$/,
         use: [
           {
-            loader: 'ts-loader',
+            loader: 'esbuild-loader',
             options: {
-              transpileOnly: true,
-            }
+              loader: 'ts',
+              format: 'esm',
+              target: 'es2021'
+            },
           }
         ],
         exclude: [/node_modules/],

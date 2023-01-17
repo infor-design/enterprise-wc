@@ -2,10 +2,25 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-container-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsElement from '../../core/ids-element';
+
 import locale from '../ids-locale/ids-locale-global';
 
 import styles from './ids-container.scss';
+
+const Base = IdsThemeMixin(
+  IdsLocaleMixin(
+    IdsColorVariantMixin(
+      IdsEventsMixin(
+        IdsElement
+      )
+    )
+  )
+);
 
 /**
  * IDS Container Component

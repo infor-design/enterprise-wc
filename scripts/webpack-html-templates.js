@@ -58,6 +58,7 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
       filename: `index.html`,
       chunks: chunkList,
       favicon: './src/assets/images/favicon.ico',
+      scriptLoading: 'module',
       meta: metaTags,
       font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&amp;amp;display=swap" rel="stylesheet">'
     });
@@ -76,6 +77,7 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
     filename: `${chunkName}/${chunkFileName}`,
     chunks: chunkList,
     favicon: './src/assets/images/favicon.ico',
+    scriptLoading: 'module',
     meta: metaTags,
     font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&amp;amp;display=swap" rel="stylesheet">'
   });
