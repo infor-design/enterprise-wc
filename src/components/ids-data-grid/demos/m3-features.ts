@@ -122,7 +122,7 @@ columns.push({
   field: 'color',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.color,
 });
 columns.push({
   id: 'icon',
@@ -130,7 +130,17 @@ columns.push({
   field: 'icon',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.icon,
+  color: 'success',
+});
+columns.push({
+  id: 'icon-text',
+  name: 'Icon + Text',
+  field: 'icon',
+  sortable: true,
+  resizable: true,
+  formatter: dataGrid.formatters.icon,
+  icon: 'user-profile',
 });
 columns.push({
   id: 'qtyOnHand',
@@ -166,11 +176,21 @@ columns.push({
 });
 columns.push({
   id: 'category',
-  name: 'Category',
+  name: 'Category (Tag)',
   field: 'category',
   sortable: true,
   resizable: true,
   formatter: dataGrid.formatters.tag,
+  color: 'info',
+  cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
+});
+columns.push({
+  id: 'category-alert',
+  name: 'Category (Alert)',
+  field: 'category',
+  sortable: true,
+  resizable: true,
+  formatter: dataGrid.formatters.alert,
   color: 'info',
   cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
 });

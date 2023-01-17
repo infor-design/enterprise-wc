@@ -117,6 +117,8 @@ export interface IdsDataGridColumn {
   click?: string | ((rowData: Record<string, unknown>, columnData: IdsDataGridColumn, event: MouseEvent) => void);
   /** Get the color dynamically from a function or as text */
   color?: string | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
+  /** Get the size dynamically from a function or as text */
+  size?: string | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
   /** Options to pass to the formatter */
   formatOptions?: IdsDataGridColumnFormatOptions;
   /** Column Filter to use */

@@ -2,8 +2,10 @@ import '../ids-hyperlink/ids-hyperlink';
 import '../ids-button/ids-button';
 import '../ids-badge/ids-badge';
 import '../ids-alert/ids-alert';
-// import '../ids-progress-chart/ids-progress-chart';
-// import '../ids-tag/ids-tag';
+import '../ids-color/ids-color';
+import '../ids-icon/ids-icon';
+import '../ids-progress-chart/ids-progress-chart';
+import '../ids-tag/ids-tag';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
@@ -197,20 +199,50 @@ export default class IdsDataGridFormatters {
     `;
   }
 
+  alert(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    if (!value && !columnData.icon) return '';
+
+    const icon = columnData.icon ?? 'alert';
+    const tooltip = value ? `tooltip="${value}"` : '';
+
+    return `<ids-alert icon="${icon}" ${tooltip}></ids-alert>`;
+  }
+
+  color(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    if (!columnData.color && !value) return '';
+
+    const color = this.#color(index, value, columnData, rowData);
+
+    const hex = color || value || '#C2A1F1';
+    const tooltip = !color && value ? `tooltip="${value}"` : '';
+
+    return `<ids-color hex="${hex}" ${tooltip}></ids-color>`;
+  }
+
+  icon(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    if (!value && !columnData.icon) return '';
+
+    const color = this.#color(index, value, columnData, rowData) || '';
+    const badgeColor = color ? `badge-color="${color}" badge-position="top-left"` : '';
+
+    const sizes = ['small', 'medium', 'large', 'xl', 'xxl'];
+    const size = String(columnData.size) in sizes ? columnData.size : 'large';
+
+    const icon = String(columnData.icon || value).replace('icon-', '');
+    const text = columnData.icon ? value : '';
+
+    return `<ids-icon icon="${icon}" size="${size}" ${badgeColor}></ids-icon>${text}`;
+  }
+
   tag(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
     if (!value) return '';
     const color = this.#color(index, value, columnData, rowData);
 
     return `<ids-tag color="${color || ''}">${value}</ids-tag>`;
-  }
-
-  alert(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    const value: any = this.#extractValue(rowData, columnData.field);
-    if (!value) return '';
-    const color = this.#color(index, value, columnData, rowData);
-
-    return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
   }
 
   image(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
