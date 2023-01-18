@@ -16,6 +16,7 @@
 - `[Breadcrumb]` Fixed popup menu being cutoff in truncated example. ([#906](https://github.com/infor-design/enterprise-wc/issues/906))
 - `[Button]` Removed named `text/icon` slots, re-worked the `iconAlign` setting to use only the default slot, and updated all examples/tests/docs to use only the default slot ([#839](https://github.com/infor-design/enterprise-wc/issues/839))
 - `[Button]` Updated all button style variants to reflect new IDS designs. ([#1046](https://github.com/infor-design/enterprise-wc/issues/1046))
+- `[Button/Tabs]` Added hide focus mixin. ([#1044](https://github.com/infor-design/enterprise-wc/issues/1044))
 - `[Checkbox]` Fixed validate, dirty tracking and hitbox settings in Safari browser. ([#1013](https://github.com/infor-design/enterprise-wc/issues/1013))
 - `[DataGrid]` Added support for empty message. ([#648](https://github.com/infor-design/enterprise-wc/issues/648))
 - `[DataGrid]` Fixed some filter issues with datagrid. ([#932](https://github.com/infor-design/enterprise-wc/issues/932)
