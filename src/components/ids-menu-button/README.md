@@ -55,6 +55,14 @@ Menu Buttons themselves can have the Dropdown Icon set directly on the markup:
 </ids-menu-button>
 ```
 
+Both the regular IdsButton `icon` setting and `dropdown-icon` can be used together:
+
+```html
+<ids-menu-button id="my-button" menu="my-menu" icon="settings" dropdown-icon>
+    <span>My Menu Button</span>
+</ids-menu-button>
+```
+
 The Dropdown Icon can be customized, if necessary:
 
 ```html
