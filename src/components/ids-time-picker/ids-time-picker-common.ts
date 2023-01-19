@@ -22,8 +22,10 @@ export const IdsTimePickerMixinAttributes = [
   attributes.FORMAT,
   attributes.HOURS,
   attributes.MINUTES,
+  attributes.MINUTE_INTERVAL,
   attributes.PERIOD,
   attributes.SECONDS,
+  attributes.SECOND_INTERVAL,
   attributes.START_HOUR,
   attributes.USE_CURRENT_TIME,
 ];

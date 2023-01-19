@@ -10,6 +10,7 @@ import { IdsPickerPopupCallbacks } from '../ids-picker-popup/ids-picker-popup';
 import styles from './ids-time-picker-popup.scss';
 
 import '../ids-modal-button/ids-modal-button';
+import '../ids-dropdown/ids-dropdown';
 
 import type IdsButton from '../ids-button/ids-button';
 import type IdsModalButton from '../ids-modal-button/ids-modal-button';
@@ -140,6 +141,14 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
   }
 
   /**
+   * Updates the value from
+   */
+  updateValue() {
+    this.value = this.getFormattedTime();
+    if (this.autoupdate) this.triggerSelectedEvent();
+  }
+
+  /**
    * Attaches event listeners for inner elements
    */
   private attachEventListeners() {
@@ -154,7 +163,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
     this.offEvent('click.time-picker-set');
     this.onEvent('click.time-picker-set', this.applyButtonEl, () => {
-      this.value = this.getFormattedTime();
+      this.updateValue();
       this.triggerSelectedEvent();
       this.hide(true);
     });
@@ -284,6 +293,11 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
     }, []);
   }
 
+  onFormatChange() {
+    this.updateValue();
+    this.renderDropdowns();
+  }
+
   /**
    * Removes all button ripples in the component
    * @returns {void}
@@ -384,7 +398,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
   /**
    * Gets the autoupdate attribute
-   * @returns {boolean} true if autoselect is enabled
+   * @returns {boolean} true if autoupdate is enabled
    */
   get autoupdate(): boolean {
     return stringToBool(this.getAttribute(attributes.AUTOUPDATE));
@@ -450,7 +464,8 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.HOURS);
     }
 
-    this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(this.hours));
+    this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(value));
+    this.updateValue();
   }
 
   /**
@@ -492,7 +507,8 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.MINUTES);
     }
 
-    this.container?.querySelector('ids-dropdown#minutes')?.setAttribute(attributes.VALUE, String(this.minutes));
+    this.updateValue();
+    this.container?.querySelector('ids-dropdown#minutes')?.setAttribute(attributes.VALUE, String(value));
   }
 
   /**
@@ -529,6 +545,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
     }
 
+    this.updateValue();
     this.renderDropdowns();
   }
 
@@ -557,7 +574,8 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.SECONDS);
     }
 
-    this.container?.querySelector('ids-dropdown#seconds')?.setAttribute(attributes.VALUE, String(this.seconds));
+    this.updateValue();
+    this.container?.querySelector('ids-dropdown#seconds')?.setAttribute(attributes.VALUE, String(value));
   }
 
   /**
@@ -594,6 +612,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.SECOND_INTERVAL);
     }
 
+    this.updateValue();
     this.renderDropdowns();
   }
 
@@ -623,11 +642,14 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
     }
 
     // Updating hours dropdown with AM/PM range
-    if (this.#hasHourRange()) {
-      this.renderDropdowns();
-      this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(this.#getHourOptions()[0]));
-    } else {
-      this.container?.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, this.period);
+    this.updateValue();
+    this.renderDropdowns();
+    if (value) {
+      if (this.#hasHourRange()) {
+        this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(this.#getHourOptions()[0]));
+      } else {
+        this.container?.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, value.toString().toUpperCase());
+      }
     }
   }
 
@@ -671,6 +693,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.START_HOUR);
     }
 
+    this.updateValue();
     this.renderDropdowns();
   }
 
@@ -699,6 +722,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.END_HOUR);
     }
 
+    this.updateValue();
     this.renderDropdowns();
   }
 
@@ -729,6 +753,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.USE_CURRENT_TIME);
     }
 
+    this.updateValue();
     this.renderDropdowns();
   }
 
@@ -754,7 +779,12 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
     const currentValue = this.#value;
     if (value !== currentValue) {
       this.#value = value;
-      this.setAttribute(attributes.VALUE, value);
+      if (value) {
+        this.setAttribute(attributes.VALUE, value);
+      } else {
+        this.removeAttribute(attributes.VALUE);
+      }
+
       this.syncTimeAttributes(value);
     }
   }

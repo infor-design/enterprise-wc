@@ -197,32 +197,36 @@ export default class IdsTimePicker extends Base {
     const btnId = btn?.getAttribute('id');
     const picker = this.picker;
 
-    if (picker && btn) {
-      picker.setAttribute(attributes.TARGET, `#${fieldId}`);
-      picker.setAttribute(attributes.TRIGGER_TYPE, 'click');
-      picker.setAttribute(attributes.TRIGGER_ELEM, `#${btnId}`);
-      if (picker.popup) {
-        picker.popup.x = 0;
-        picker.popup.setAttribute(attributes.ARROW_TARGET, `#${btnId}`);
-      }
-
-      picker.onOutsideClick = (e: any) => {
-        const path = e.composedPath && e.composedPath();
-        if (!path?.includes(picker) && !path?.includes(this.input)) {
-          picker.hide();
-        }
-      };
-
-      picker.onTriggerClick = () => {
-        if (this.disabled || this.readonly) return;
-        picker?.toggleVisibility();
-      };
-
-      picker.refreshTriggerEvents();
+    if (picker) {
+      picker.format = this.format;
 
       if (this.input) {
-        picker.format = this.format;
         picker.value = this.input.value;
+      }
+
+      if (btn) {
+        picker.setAttribute(attributes.TARGET, `#${fieldId}`);
+        picker.setAttribute(attributes.TRIGGER_TYPE, 'click');
+        picker.setAttribute(attributes.TRIGGER_ELEM, `#${btnId}`);
+
+        if (picker.popup) {
+          picker.popup.x = 0;
+          picker.popup.setAttribute(attributes.ARROW_TARGET, `#${btnId}`);
+        }
+
+        picker.onOutsideClick = (e: any) => {
+          const path = e.composedPath && e.composedPath();
+          if (!path?.includes(picker) && !path?.includes(this.input)) {
+            picker.hide();
+          }
+        };
+
+        picker.onTriggerClick = () => {
+          if (this.disabled || this.readonly) return;
+          picker?.toggleVisibility();
+        };
+
+        picker.refreshTriggerEvents();
       }
     }
   }
@@ -269,7 +273,10 @@ export default class IdsTimePicker extends Base {
     });
 
     this.offEvent('hide.picker');
-    this.onEvent('hide.picker', this.picker, () => {
+    this.onEvent('hide.picker', this.picker, (e: CustomEvent) => {
+      if (e.detail.doFocus) {
+        this.input?.focus();
+      }
       this.onHide();
     });
 
@@ -288,6 +295,9 @@ export default class IdsTimePicker extends Base {
     // Translate Labels
     this.offEvent('languagechange.time-picker-container');
     this.onEvent('languagechange.time-picker-container', getClosest(this, 'ids-container'), () => {
+      if (!this.hasAttribute(attributes.FORMAT)) {
+        this.setAttribute(attributes.FORMAT, this.locale?.calendar().timeFormat);
+      }
       this.picker?.renderDropdowns();
       this.#setTimeValidation();
     });
@@ -453,14 +463,12 @@ export default class IdsTimePicker extends Base {
   #getTimeOnField(): string {
     const date: Date = new Date();
 
-    if (this.picker) {
-      const dayPeriodIndex: number = this.locale?.calendar().dayPeriods?.indexOf(this.picker.period);
-      date.setHours(
-        hoursTo24(this.picker.hours, dayPeriodIndex),
-        this.picker.minutes,
-        this.picker.seconds
-      );
-    }
+    const dayPeriodIndex: number = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+    date.setHours(
+      hoursTo24(this.hours, dayPeriodIndex),
+      this.minutes,
+      this.seconds
+    );
 
     return this.locale.formatDate(date, { pattern: this.format });
   }
@@ -516,6 +524,22 @@ export default class IdsTimePicker extends Base {
       this.input.mask = 'date';
       this.input.maskOptions = { format: this.format };
     }
+  }
+
+  /**
+   * Public method to open timepicker popup
+   * @returns {void}
+   */
+  open(): void {
+    this.picker?.show();
+  }
+
+  /**
+   * Public method to close timepicker popup
+   * @returns {void}
+   */
+  close(): void {
+    this.picker?.hide(false);
   }
 
   /**
@@ -575,11 +599,11 @@ export default class IdsTimePicker extends Base {
   set format(value: string | null) {
     if (value) {
       this.setAttribute(attributes.FORMAT, value);
+      this.picker?.setAttribute(attributes.FORMAT, `${value}`);
     } else {
       this.removeAttribute(attributes.FORMAT);
+      this.picker?.setAttribute(attributes.FORMAT, `${this.locale?.calendar().timeFormat}`);
     }
-
-    if (this.picker) this.picker.format = value;
     this.#applyMask();
   }
 
@@ -894,7 +918,8 @@ export default class IdsTimePicker extends Base {
       this.removeAttribute(attributes.HOURS);
     }
 
-    if (this.picker) this.picker.hours = String(this.hours);
+    if (this.picker) this.picker.hours = value;
+    if (this.autoupdate) this.#setTimeOnField();
   }
 
   /**
@@ -902,6 +927,8 @@ export default class IdsTimePicker extends Base {
    * @returns {number} hours attribute value converted to number
    */
   get hours(): number {
+    if (this.picker) return this.picker.hours;
+
     const numberVal = stringToNumber(this.getAttribute(attributes.HOURS));
 
     if (!Number.isNaN(numberVal)) {
@@ -943,13 +970,15 @@ export default class IdsTimePicker extends Base {
    * @param {string|number|null} value minutes param value
    */
   set minutes(value: string | number | null) {
+    const stringValue = String(value);
     if (value !== null) {
-      this.setAttribute(attributes.MINUTES, String(value));
+      this.setAttribute(attributes.MINUTES, stringValue);
     } else {
       this.removeAttribute(attributes.MINUTES);
     }
 
-    if (this.picker) this.picker.minutes = String(this.minutes);
+    if (this.picker) this.picker.minutes = value;
+    if (this.autoupdate) this.#setTimeOnField();
   }
 
   /**
@@ -957,6 +986,8 @@ export default class IdsTimePicker extends Base {
    * @returns {number} minutes attribute value converted to number
    */
   get minutes(): number {
+    if (this.picker) return this.picker.minutes;
+
     const numberVal = stringToNumber(this.getAttribute(attributes.MINUTES));
 
     if (!Number.isNaN(numberVal)) {
@@ -978,12 +1009,14 @@ export default class IdsTimePicker extends Base {
    * @param {string|number|null} value seconds param value
    */
   set seconds(value: string | number | null) {
+    const stringValue = String(value);
     if (value !== null) {
-      this.setAttribute(attributes.SECONDS, String(value));
+      this.setAttribute(attributes.SECONDS, stringValue);
     } else {
       this.removeAttribute(attributes.SECONDS);
     }
-    if (this.picker) this.picker.seconds = String(this.seconds);
+    if (this.picker) this.picker.seconds = value;
+    if (this.autoupdate) this.#setTimeOnField();
   }
 
   /**
@@ -991,6 +1024,8 @@ export default class IdsTimePicker extends Base {
    * @returns {number} seconds attribute value converted to number
    */
   get seconds(): number {
+    if (this.picker) return this.picker.seconds;
+
     const numberVal = stringToNumber(this.getAttribute(attributes.SECONDS));
 
     if (!Number.isNaN(numberVal)) {
@@ -1021,11 +1056,12 @@ export default class IdsTimePicker extends Base {
     // Updating hours dropdown with AM/PM range
     if (this.picker) {
       if (this.#hasHourRange()) {
-        this.picker.hours = String(String(this.#getHourOptions()[0]));
+        this.picker.hours = String(this.#getHourOptions()[0]);
       } else {
-        this.picker.period = String(this.period);
+        this.picker.period = value;
       }
     }
+    if (this.autoupdate) this.#setTimeOnField();
   }
 
   /**
@@ -1033,6 +1069,8 @@ export default class IdsTimePicker extends Base {
    * @returns {string} period attribute value
    */
   get period(): string {
+    if (this.picker) return this.picker.period;
+
     const attrVal = this.getAttribute(attributes.PERIOD);
     const dayPeriods: Array<string> = this.#getDayPeriodsWithRange();
     const dayPeriodExists: boolean = dayPeriods.map((item: string) => item.toLowerCase())
@@ -1142,6 +1180,8 @@ export default class IdsTimePicker extends Base {
    * @returns {number} startHour param converted to number from attribute value
    */
   get startHour(): number {
+    if (this.picker) return this.picker.startHour;
+
     const numberVal = stringToNumber(this.getAttribute(attributes.START_HOUR));
 
     if (!Number.isNaN(numberVal) && numberVal >= 0) {
@@ -1170,6 +1210,8 @@ export default class IdsTimePicker extends Base {
    * @returns {number} endHour param converted to number from attribute value
    */
   get endHour(): number {
+    if (this.picker) return this.picker.endHour;
+
     const numberVal = stringToNumber(this.getAttribute(attributes.END_HOUR));
 
     if (!Number.isNaN(numberVal) && numberVal <= 24) {
@@ -1200,6 +1242,7 @@ export default class IdsTimePicker extends Base {
    * @returns {number} useCurrentTime param converted to boolean from attribute value
    */
   get useCurrentTime(): boolean {
+    if (this.picker) return this.picker.useCurrentTime;
     return stringToBool(this.getAttribute(attributes.USE_CURRENT_TIME));
   }
 
