@@ -1,5 +1,6 @@
 const path = require('path');
 const sass = require('sass');
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -13,23 +14,28 @@ module.exports = {
   entry: () => prodEntry(),
   output: {
     filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : `${prodOutput(pathData.chunk.name)}/[name].js`),
-    chunkFormat: 'module',
-    asyncChunks: true,
     path: path.resolve(__dirname, `build/dist/${isProduction ? 'production' : 'development'}`),
-    publicPath: '',
-    clean: true
+    publicPath: '/',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
   infrastructureLogging: {
-    level: 'verbose' // or 'verbose' if any debug info is needed
+    level: 'error' // or 'verbose' if any debug info is needed
   },
+  stats: 'normal', // or detailed if needed
   resolve: {
     extensions: ['.js', '.ts'],
     modules: ['node_modules']
   },
   optimization: {
     splitChunks: {
-      chunks: 'async',
+      chunks: 'all'
     },
+    minimizer: [
+      new ESBuildMinifyPlugin({
+        target: 'es2022'
+      })
+    ]
   },
   module: {
     rules: [
@@ -79,8 +85,17 @@ module.exports = {
       },
       {
         test: /\.ts?$/,
-        use: 'ts-loader',
-        exclude: [/node_modules/]
+        use: [
+          {
+            loader: 'esbuild-loader',
+            options: {
+              loader: 'ts',
+              format: 'esm',
+              target: 'es2022'
+            },
+          }
+        ],
+        exclude: [/node_modules/],
       }
     ]
   },
@@ -108,6 +123,7 @@ module.exports = {
             });
             let css = result.css.toString();
             css = css.replace(':host {', ':root {');
+
             return css;
           }
         },

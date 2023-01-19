@@ -1,4 +1,6 @@
 import { isValidDate, gregorianToUmalqura } from '../../utils/ids-date-utils/ids-date-utils';
+import './cultures/en-US';
+import './cultures/en-messages';
 
 /**
  * A mixin that adds locale functionality to components

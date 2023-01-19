@@ -58,7 +58,7 @@ module.exports = {
             options: {
               loader: 'ts',
               format: 'esm',
-              target: 'es2021'
+              target: 'es2022'
             },
           }
         ],

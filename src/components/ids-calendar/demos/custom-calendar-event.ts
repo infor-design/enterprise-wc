@@ -1,5 +1,5 @@
 import IdsCalendarEvent, { CalendarEventTypeData } from '../ids-calendar-event';
-import styles from './ids-custom-calendar-event.scss';
+import styles from './custom-calendar-event.scss';
 import { customElement, scss } from '../../../core/ids-decorators';
 
 interface CustomCalendarEventTypeData extends CalendarEventTypeData {
