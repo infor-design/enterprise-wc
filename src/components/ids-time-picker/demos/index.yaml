@@ -23,6 +23,9 @@
   - link: open.html
     type: Test
     description: Test page for axe scans and percy screenshots
+  - link: picker-only.html
+    type: Test
+    description: Shows a Time Picker Popup attached to regular trigger fields
   - link: side-by-side.html
     type: Side by Side
     description: Shows time picker side by side with a 4.x time picker
