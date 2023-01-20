@@ -104,7 +104,7 @@ export default class IdsTimePicker extends Base {
    * List of available color variants for this component
    * @returns {Array<string>}
    */
-  colorVariants = ['alternate-formatter'];
+  colorVariants = ['alternate-formatter', 'borderless', 'in-cell'];
 
   /**
    * Push color variant to the trigger-field element
@@ -215,6 +215,7 @@ export default class IdsTimePicker extends Base {
     const path = e.composedPath && e.composedPath();
     if ((!this.autoselect && !path?.includes(this.popup))
     || (this.autoselect && !path?.includes(this.popup) && !path?.includes(this.input))) {
+      this.triggerEvent('outsideclick.timepicker', this);
       this.close();
     }
   }
@@ -226,6 +227,7 @@ export default class IdsTimePicker extends Base {
    */
   #attachKeyboardListeners(): IdsTimePicker {
     this.listen(['ArrowDown', 'Escape', 'Backspace'], this, (e: KeyboardEvent) => {
+      e.stopPropagation();
       if (e.key === 'ArrowDown') {
         this.open();
       } else if (e.key === 'Escape' || e.key === 'Backspace') {
@@ -685,6 +687,9 @@ export default class IdsTimePicker extends Base {
 
       if (this.input) {
         this.input.value = value;
+        this.triggerEvent('change.timepicker', this, {
+          detail: { elem: this, value }
+        });
       }
     }
   }

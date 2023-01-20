@@ -997,7 +997,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    * to the correct properties provided by IdsDateAttributeMixin
    * @param {string | Date} val incoming date string/object
    */
-  private syncDateAttributes(val: string | Date) {
+  public syncDateAttributes(val: string | Date) {
     let usableValue = val;
     const rangeSettings = this.getRangeSettings();
 

@@ -553,7 +553,7 @@ class IdsDatePicker extends Base {
   parseEventDate(val: string) {
     if (!val || typeof val !== 'string') return;
 
-    const date = new Date(val);
+    const date = this.locale.parseDate(val) as Date;
     if (!isValidDate(date)) return;
 
     const month = date.getMonth();

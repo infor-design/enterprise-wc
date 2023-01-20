@@ -79,7 +79,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     editor: {
       type: 'datepicker',
       editorSettings: {
-        dirtyTracker: false
+        dirtyTracker: true
       }
     }
   });
@@ -90,20 +90,10 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     resizable: true,
     reorderable: true,
     formatter: dataGrid.formatters.time,
-    formatOptions: {
-      locale: 'en-US',
-      dateFormat: calendar.dateFormat.hour,
-      timeStyle: 'short'
-    },
     editor: {
-      type: 'input',
+      type: 'timepicker',
       editorSettings: {
-        autoselect: true,
-        dirtyTracker: false,
-        mask: 'date',
-        maskOptions: {
-          format: calendar.dateFormat.hour
-        }
+        dirtyTracker: true
       }
     }
   });
@@ -223,22 +213,22 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   setData();
 
   // Event Handlers
-  dataGrid.addEventListener('beforecelledit', (e: Event) => {
-    // Can be vetoed (<CustomEvent>e).detail.response(false);
-    console.info(`Edit Started`, (<CustomEvent>e).detail);
-  });
+  // dataGrid.addEventListener('beforecelledit', (e: Event) => {
+  //   // Can be vetoed (<CustomEvent>e).detail.response(false);
+  //   console.info(`Edit Started`, (<CustomEvent>e).detail);
+  // });
 
-  dataGrid.addEventListener('celledit', (e: Event) => {
-    console.info(`Currently Editing`, (<CustomEvent>e).detail);
-  });
+  // dataGrid.addEventListener('celledit', (e: Event) => {
+  //   console.info(`Currently Editing`, (<CustomEvent>e).detail);
+  // });
 
-  dataGrid.addEventListener('endcelledit', (e: Event) => {
-    console.info(`Edit Ended`, (<CustomEvent>e).detail);
-  });
+  // dataGrid.addEventListener('endcelledit', (e: Event) => {
+  //   console.info(`Edit Ended`, (<CustomEvent>e).detail);
+  // });
 
-  dataGrid.addEventListener('cancelcelledit', (e: Event) => {
-    console.info(`Edit Was Cancelled`, (<CustomEvent>e).detail);
-  });
+  // dataGrid.addEventListener('cancelcelledit', (e: Event) => {
+  //   console.info(`Edit Was Cancelled`, (<CustomEvent>e).detail);
+  // });
 
   // Example Buttons
   document.querySelector('#add-row')?.addEventListener('click', () => {

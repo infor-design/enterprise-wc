@@ -120,9 +120,14 @@ export default class IdsDataGridCell extends IdsElement {
     this.editor = columnEditor.editor;
     this.editor.isClick = isClick;
 
+    const editorType = this.editor.type;
     // Override original value if dropdown
-    if (this.editor.type === 'dropdown') {
+    if (editorType === 'dropdown') {
       this.originalValue = this.querySelector('[data-value]')?.getAttribute('data-value');
+    } else if (editorType === 'timepicker' || editorType === 'datepicker') {
+      const rowData = this.dataGrid.data[this.dataGrid.activeCell.row];
+      const rowVal = rowData[this.column.field!];
+      this.originalValue = rowVal;
     }
 
     this.editor.init(this);
@@ -154,18 +159,19 @@ export default class IdsDataGridCell extends IdsElement {
   endCellEdit() {
     const column = this.column;
     const input = this.editor?.input;
+    const editorType = this.editor?.type;
     input?.offEvent('focusout', input);
 
-    if (this.editor?.type === 'input') {
+    if (editorType === 'input') {
       input?.setDirtyTracker(input?.value as any);
       (<IdsInput>input)?.checkValidation();
     }
 
-    if (this.editor?.type === 'dropdown') {
+    if (editorType === 'dropdown' || editorType === 'timepicker' || editorType === 'datepicker') {
       (<IdsDropdown>input)?.input?.checkValidation();
     }
 
-    const isDirty = column.editor?.editorSettings?.dirtyTracker && input?.isDirty;
+    const isDirty = column.editor?.editorSettings?.dirtyTracker && (input?.isDirty || input?.input.isDirty);
     const isValid = column.editor?.editorSettings?.validate ? input?.isValid : true;
     const newValue = this.editor?.save(this);
     this.#saveCellValue(newValue?.value);

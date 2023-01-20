@@ -82,7 +82,13 @@ rowHeightMenu?.addEventListener('deselected', (e: Event) => {
     field: 'publishDate',
     resizable: true,
     reorderable: true,
-    formatter: dataGrid.formatters.date
+    formatter: dataGrid.formatters.date,
+    editor: {
+      type: 'datepicker',
+      editorSettings: {
+        dirtyTracker: true
+      }
+    }
   });
   columns.push({
     id: 'publishTime',
@@ -90,7 +96,13 @@ rowHeightMenu?.addEventListener('deselected', (e: Event) => {
     field: 'publishDate',
     resizable: true,
     reorderable: true,
-    formatter: dataGrid.formatters.time
+    formatter: dataGrid.formatters.time,
+    editor: {
+      type: 'timepicker',
+      editorSettings: {
+        dirtyTracker: true
+      }
+    }
   });
   columns.push({
     id: 'price',

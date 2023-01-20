@@ -95,6 +95,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
   // Editing with popups
   &.is-editing.is-dropdown,
+  &.is-editing.is-timepicker,
   &.is-editing.is-datepicker {
     overflow: visible;
   }
