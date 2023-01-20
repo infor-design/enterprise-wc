@@ -24,6 +24,10 @@ Normally, this is done simply with `npm link` and the local NPM repository on yo
 
 After running this task, go to the root folder of the destination project and run `npm link ids-enterprise-wc` to install the symlinked copy of the components.  Note that if you've previously run `npm install` and already have a copy of the Ids Web Components package, you must remove that dependency with `npm uninstall` or deletion before making the link.
 
+## Using a symlink to test locally
+
+In some cases you may just want to set a symlink from a build folder to another local folder where `node_modules/ids-enterprise-wc is expected` to be. To do so make sure the `/ids-enterprise-wc` folder is deleted and then run a command like `ln -s /Users/<user>/<folder>/enterprise-wc/build/dist/development /Users/<user>/<folder>/enterprise-wc-examples/angular-ids-wc/node_modules/ids-enterprise-wc`
+
 ### Removing local changes
 
 Normally re-running the `publish:link` task is sufficient to update the local NPM package.  However, if you need to remove the package from the local NPM repo manually, use this process:
