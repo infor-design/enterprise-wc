@@ -8,27 +8,30 @@
   - link: example.html
     type: Main Example
     description: Shows all ids-time-picker combinations
-  - link: sizes.html
+  - link: embeddable.html
     type: Example
-    description: Showing width and height size variations
+    description: Shows the "embeddable" view style (for IdsDatePicker)
   - link: intervals.html
     type: Example
     description: Showing minutes/seconds intervals
   - link: label-state.html
     type: Test
     description: Showing an example with hidden labels
-  - link: sandbox.html
-    type: Sandbox
-    description: Showing various time formats and other scenarios
   - link: open.html
     type: Test
     description: Test page for axe scans and percy screenshots
   - link: picker-only.html
     type: Test
     description: Shows a Time Picker Popup attached to regular trigger fields
+  - link: sandbox.html
+    type: Sandbox
+    description: Showing various time formats and other scenarios
   - link: side-by-side.html
     type: Side by Side
     description: Shows time picker side by side with a 4.x time picker
+  - link: sizes.html
+    type: Example
+    description: Showing width and height size variations
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a limited time picker that works with css only
