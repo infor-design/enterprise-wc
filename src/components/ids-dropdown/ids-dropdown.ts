@@ -18,19 +18,20 @@ import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 import '../ids-trigger-field/ids-trigger-field';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-input/ids-input';
-import '../ids-popup/ids-popup';
+import './ids-dropdown-list';
 import '../ids-list-box/ids-list-box';
 import '../ids-text/ids-text';
 import '../ids-icon/ids-icon';
 
 import styles from './ids-dropdown.scss';
-import type IdsPopup from '../ids-popup/ids-popup';
+import type IdsDropdownList from './ids-dropdown-list';
 import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import type IdsListBox from '../ids-list-box/ids-list-box';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsIcon from '../ids-icon/ids-icon';
 import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
+import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 export type IdsDropdownOption = {
   id?: string,
@@ -95,7 +96,7 @@ export default class IdsDropdown extends Base {
 
   hasIcons = false;
 
-  popup?: IdsPopup | null;
+  dropdownList?: IdsDropdownList | null;
 
   trigger?: IdsTriggerButton | null;
 
@@ -113,9 +114,9 @@ export default class IdsDropdown extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.popup = this.container?.querySelector('ids-popup');
+    this.configureDropdownList();
     this.trigger = this.container?.querySelector('ids-trigger-button');
-    this.listBox = this.querySelector('ids-list-box');
+    this.listBox = this.dropdownList?.querySelector('ids-list-box');
     this.labelEl = this.input?.labelEl;
 
     this
@@ -142,6 +143,7 @@ export default class IdsDropdown extends Base {
       attributes.DISABLED,
       attributes.GROUP,
       attributes.GROUP_LABEL,
+      attributes.LIST,
       attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
       attributes.READONLY,
@@ -212,6 +214,8 @@ export default class IdsDropdown extends Base {
     const labelState = this.labelState ? ` label-state="${this.labelState}"` : '';
     const compact = this.compact ? ' compact' : '';
     const noMargins = this.noMargins ? ' no-margins' : '';
+    const builtInDropdown = !this.list ? '<ids-dropdown-list><slot></slot></ids-dropdown-list>' : '';
+
     this.hasIcons = this.querySelector('ids-list-box-option ids-icon') !== null;
 
     return `
@@ -239,10 +243,7 @@ export default class IdsDropdown extends Base {
           <ids-icon icon="dropdown" part="icon"></ids-icon>
         </ids-trigger-button>
       </ids-trigger-field>
-      <ids-popup type="menu" part="popup">
-        <slot slot="content">
-        </slot>
-      </ids-popup>
+      ${builtInDropdown}
     </div>`;
   }
 
@@ -267,43 +268,6 @@ export default class IdsDropdown extends Base {
     }
     Object.keys(attrs).forEach((key: any) => this.setAttribute(key, attrs[key]));
     return this;
-  }
-
-  /**
-   * Add internal aria attributes while open
-   * @private
-   * @returns {void}
-   */
-  #setAriaOnMenuOpen(): void {
-    this.setAttribute('aria-expanded', 'true');
-
-    // Add aria for the open state
-    const selected = this.selectedOption || this.querySelector('ids-list-box-option:not([group-label])');
-    this.listBox?.setAttribute('tabindex', '0');
-
-    if (selected && this.value) {
-      this.selectOption(selected);
-
-      if (!this.typeahead) {
-        selected.focus();
-      }
-    }
-  }
-
-  /**
-   * Add internal aria attributes while closed
-   * @private
-   * @returns {void}
-   */
-  #setAriaOnMenuClose() {
-    this.setAttribute('aria-expanded', 'false');
-    this.listBox?.removeAttribute('tabindex');
-
-    const selected = this.selected;
-
-    if (selected) {
-      this.deselectOption(selected);
-    }
   }
 
   get input() {
@@ -476,7 +440,7 @@ export default class IdsDropdown extends Base {
    * @private
    */
   selectOption(option: HTMLElement | undefined | null) {
-    if (!this.popup?.visible) return;
+    if (!this.dropdownList?.popup?.visible) return;
 
     option?.setAttribute('aria-selected', 'true');
     option?.classList.add('is-selected');
@@ -567,19 +531,21 @@ export default class IdsDropdown extends Base {
   }
 
   #configurePopup() {
-    if (!this.popup) return;
+    if (!this.dropdownList?.popup) return;
 
-    this.popup.type = 'dropdown';
-    this.popup.alignTarget = this.input?.fieldContainer as IdsPopupElementRef;
-    this.popup.align = 'bottom, left';
-    this.popup.arrow = 'none';
-    this.popup.y = -1;
-    this.popup.x = 0;
+    this.dropdownList.popup.type = 'dropdown';
+    this.dropdownList.popup.alignTarget = this.input?.fieldContainer as IdsPopupElementRef;
+    this.dropdownList.popup.align = 'bottom, left';
+    this.dropdownList.popup.arrow = 'none';
+    this.dropdownList.popup.y = -1;
+    this.dropdownList.popup.x = 0;
 
+    /*
     // Fix aria if the menu is closed
-    if (!this.popup.visible) {
+    if (!this.dropdownList.popup.visible) {
       this.#setAriaOnMenuClose();
     }
+    */
   }
 
   /**
@@ -602,7 +568,7 @@ export default class IdsDropdown extends Base {
 
     // Open the popup and add a class
     this.#configurePopup();
-    if (this.popup) this.popup.visible = true;
+    if (this.dropdownList) this.dropdownList.popup?.setAttribute('visible', 'true');
     this.addOpenEvents();
     if (this.input) this.input.active = true;
 
@@ -617,7 +583,7 @@ export default class IdsDropdown extends Base {
     }
 
     this.container?.classList.add('is-open');
-    this.#setAriaOnMenuOpen();
+    // this.#setAriaOnMenuOpen();
   }
 
   /**
@@ -658,7 +624,7 @@ export default class IdsDropdown extends Base {
    * @returns {void}
    */
   onOutsideClick(e: any): void {
-    if (!(e.composedPath()?.includes(this.popup) || e.composedPath()?.includes(this.input?.fieldContainer))) {
+    if (!(e.composedPath()?.includes(this.dropdownList) || e.composedPath()?.includes(this.input?.fieldContainer))) {
       this.close(true);
     }
   }
@@ -668,12 +634,12 @@ export default class IdsDropdown extends Base {
    * @param {boolean} noFocus if true do not focus on close
    */
   close(noFocus?: boolean) {
-    if (this.popup) {
-      this.popup.visible = false;
+    if (this.dropdownList) {
+      this.dropdownList.popup?.removeAttribute('visible');
       if (this.input) this.input.active = false;
     }
-    this.#setAriaOnMenuClose();
-    this.removeOpenEvents();
+    // this.#setAriaOnMenuClose();
+    // this.removeOpenEvents();
 
     if (!noFocus) {
       this.input?.focus();
@@ -698,7 +664,7 @@ export default class IdsDropdown extends Base {
    * @private
    */
   toggle(): void {
-    if (!this.popup?.visible) {
+    if (!this.dropdownList?.popup?.visible) {
       this.open(this.typeahead);
     } else {
       this.close();
@@ -728,6 +694,7 @@ export default class IdsDropdown extends Base {
   };
 
   attachClickEvent() {
+<<<<<<< HEAD
     this.offEvent('click.dropdown-list-box');
     this.onEvent('click.dropdown-list-box', this.listBox, (e: any) => {
       const closestOptEl = e.target.closest('ids-list-box-option');
@@ -744,6 +711,8 @@ export default class IdsDropdown extends Base {
       this.close();
     });
 
+=======
+>>>>>>> b4d2662aa (Add IdsDropdownList, move some features from IdsDropdown)
     this.offEvent('click.dropdown-input');
     this.onEvent('click.dropdown-input', this.input?.input, () => {
       if (!this.typeahead) {
@@ -751,7 +720,7 @@ export default class IdsDropdown extends Base {
       }
 
       // Stays opened when clicking to input in typeahead
-      if (this.typeahead && !this.popup?.visible) {
+      if (this.typeahead && !this.dropdownList?.popup?.visible) {
         this.open(true);
       }
     });
@@ -794,7 +763,7 @@ export default class IdsDropdown extends Base {
       e.stopImmediatePropagation();
       e.preventDefault();
 
-      if (!this.popup?.visible) {
+      if (!this.dropdownList?.popup?.visible) {
         this.open(this.typeahead);
         return;
       }
@@ -844,7 +813,7 @@ export default class IdsDropdown extends Base {
         // Excluding space key when typing
         if (e.key === ' ' && this.typeahead) return;
 
-        if (!this.popup?.visible) {
+        if (!this.dropdownList?.popup?.visible) {
           this.open(this.typeahead);
           return;
         }
@@ -857,7 +826,7 @@ export default class IdsDropdown extends Base {
 
     // Select on Tab
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
-      if (!this.popup?.visible) {
+      if (!this.dropdownList?.popup?.visible) {
         return;
       }
 
@@ -872,7 +841,7 @@ export default class IdsDropdown extends Base {
 
     // Delete/backspace should clear the value
     this.listen(['Backspace', 'Delete'], this, () => {
-      if (!this.clearable || (this.clearable && this.typeahead && this.popup?.visible)) return;
+      if (!this.clearable || (this.clearable && this.typeahead && this.dropdownList?.popup?.visible)) return;
 
       if (this.allowBlank) {
         this.value = 'blank';
@@ -897,7 +866,7 @@ export default class IdsDropdown extends Base {
     // Accepts the keyboard input while closed
     const excludeKeys = ['Backspace', 'Delete'];
 
-    if (!this.popup?.visible) {
+    if (!this.dropdownList?.popup?.visible) {
       if (!excludeKeys.some((item) => text?.includes(item))) {
         if (this.input) this.input.value = text;
         this.open(false);
@@ -929,7 +898,7 @@ export default class IdsDropdown extends Base {
     }
 
     // Change location of the popup after results are populated and the popup's height change
-    this.popup?.place();
+    this.dropdownList?.popup?.place();
 
     this.#triggerIconChange('search');
 
@@ -1101,6 +1070,38 @@ export default class IdsDropdown extends Base {
   get validationEvents(): string { return this.getAttribute(attributes.VALIDATION_EVENTS) || 'change'; }
 
   /**
+   *
+   */
+  private configureDropdownList() {
+    let targetNode = this.container?.querySelector<IdsDropdownList>('ids-dropdown-list');
+
+    if (this.hasAttribute(attributes.LIST)) {
+      if (this.dropdownList && this.container?.contains(this.dropdownList)) {
+        this.dropdownList.remove();
+        this.dropdownList = null;
+      }
+      const containerNode = getClosestContainerNode(this);
+
+      targetNode = containerNode.querySelector<IdsDropdownList>(`#${this.getAttribute(attributes.LIST)}`);
+    }
+    this.dropdownList = targetNode;
+  }
+
+  /**
+   *
+   */
+  set list(val: string | null) {
+    if (val && typeof val === 'string') {
+      this.setAttribute(attributes.LIST, val);
+    } else {
+      this.removeAttribute(attributes.LIST);
+    }
+    this.configureDropdownList();
+  }
+
+  get list(): string | null { return this.getAttribute(attributes.LIST); }
+
+  /**
    * Sets the no margins attribute
    * @param {boolean} value The value for no margins attribute
    */
@@ -1125,9 +1126,11 @@ export default class IdsDropdown extends Base {
   set size(value: string) {
     if (value) {
       this.setAttribute(attributes.SIZE, value);
+      this.dropdownList?.setAttribute(attributes.SIZE, value);
       this.listBox?.setAttribute(attributes.SIZE, value);
     } else {
       this.removeAttribute(attributes.SIZE);
+      this.dropdownList?.removeAttribute(attributes.SIZE);
       this.listBox?.removeAttribute(attributes.SIZE);
     }
     if (this.input) this.input.setAttribute(attributes.SIZE, this.size);

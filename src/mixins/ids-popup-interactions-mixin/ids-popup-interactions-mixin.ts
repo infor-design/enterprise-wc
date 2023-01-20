@@ -22,6 +22,7 @@ const POPUP_INTERACTION_EVENT_NAMES = [
 ];
 
 export interface PopupInteractionsCallbacks {
+  onTargetChange?(oldTarget: IdsPopupElementRef, newTarget: IdsPopupElementRef): void;
   onTriggerClick?(e: Event): void;
   onContextMenu?(e: Event): void;
   onTriggerHover?(e: Event): void;
@@ -127,12 +128,15 @@ const IdsPopupInteractionsMixin = <T extends Constraints>(superclass: T) => clas
    */
   set target(val: IdsPopupElementRef | string) {
     if (this.popup && val !== this.popup.alignTarget) {
+      const previousTarget = this.popup.alignTarget;
       this.removeTriggerEvents();
       if (typeof val === 'string') {
         val = this.parentNode?.querySelector<HTMLElement>(val) || this.parentNode as HTMLElement;
       }
       this.popup.alignTarget = val;
       this.refreshTriggerEvents();
+
+      if (typeof this.onTargetChange === 'function') this.onTargetChange(previousTarget, val);
     }
   }
 
