@@ -166,6 +166,7 @@ export const attributes = {
   HIDDEN_BY_FILTER: 'hidden-by-filter',
   HIDE_CHECKBOXES: 'hide-checkboxes',
   HIDE_DOWN: 'hide-down',
+  HIDE_FOCUS: 'hide-focus',
   HIDE_UP: 'hide-up',
   HIGHLIGHTED: 'highlighted',
   HITBOX: 'hitbox',
