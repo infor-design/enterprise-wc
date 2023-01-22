@@ -14,9 +14,12 @@ type IdsTabOnActionCallback = (isSelected: boolean) => void;
  * IDS Tab Component
  * @type {IdsTab}
  * @inherits IdsElement
- * @part container - the tab container itself
+ * @mixes IdsColorVariantMixin
+ * @mixes IdsOrientationMixin
+ * @mixes IdsThemeMixin
+ * @mixes IdsHideFocusMixin
  * @mixes IdsEventsMixin
- * @private
+ * @part container - the tab container itself
  */
 @customElement('ids-tab')
 @scss(styles)

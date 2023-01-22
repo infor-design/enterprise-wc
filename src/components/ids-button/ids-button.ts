@@ -29,6 +29,7 @@ import type IdsText from '../ids-text/ids-text';
  * @mixes IdsRippleMixin
  * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
+ * @mixes IdsHideFocusMixin
  * @part button - the button element
  * @part icon - the icon element
  * @part text - the text element

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h2">Ids Button Focus On Click</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <p>
+          <ids-button type="primary" hide-focus="false">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button type="primary" hide-focus="false">
+            <ids-icon icon="folder"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button type="secondary" hide-focus="false">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button type="secondary" hide-focus="false">
+            <ids-icon icon="folder"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <p>
+          <ids-button type="tertiary" hide-focus="false">
+            <ids-icon icon="folder"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button hide-focus="false">
+            <ids-icon icon="folder"></ids-icon>
+            <span class="audible">Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button type="primary-destructive" hide-focus="false">
+            <span>Action</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button type="tertiary-destructive" hide-focus="false">
+            <ids-icon icon="folder"></ids-icon>
+            <span>Action</span>
+          </ids-button>
+        </p>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
