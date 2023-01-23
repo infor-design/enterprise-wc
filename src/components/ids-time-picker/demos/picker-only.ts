@@ -86,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (data) {
       if (picker) {
         if (picker.popup) {
-          picker.popup.animated = false;
           picker.popup.align = 'left, top';
           picker.popup.arrow = 'bottom';
           picker.popup.arrowTarget = `#${btnId}`;
@@ -119,8 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
         picker.popup.arrow = 'bottom';
         picker.popup.arrowTarget = `#${btnId}`;
         picker.popup.align = 'left, top';
-        picker.popup.animated = true;
-
         if (!picker.popup.visible) {
           picker.show();
         } else if (picker.target !== currentTarget) {

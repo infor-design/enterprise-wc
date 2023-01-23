@@ -5,6 +5,11 @@ ids-popup::part(popup) {
   @include py-0();
 }
 
+// Remove left/top transforms from animation on this component's popup
+ids-popup[visible][animated] {
+  transition: none;
+}
+
 .ids-date-picker-popup .ids-popup.menu {
   @include py-0();
 }

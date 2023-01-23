@@ -62,7 +62,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       return `<div class="ids-time-picker-popup embedded" part="container">${dropdownHTML}</div>`;
     }
 
-    return `<ids-popup class="ids-time-picker-popup" type="menu" tabindex="-1" part="popup" x="12">
+    return `<ids-popup class="ids-time-picker-popup" type="menu" tabindex="-1" part="popup" x="12" animated>
       <section slot="content">
         ${dropdownHTML}
         <ids-modal-button class="popup-btn" hidden="${this.autoupdate}" part="btn-set" type="primary">
