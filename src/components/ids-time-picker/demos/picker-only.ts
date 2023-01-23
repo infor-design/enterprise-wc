@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePopup(picker, data);
       } else {
         picker = createPopup(fieldId, btnId, data);
+        if (field.value) picker.value = field.value;
 
         // Date Picker Popup's `hide` event can cause the field to become focused
         picker.addEventListener('hide', (e: CustomEvent) => {

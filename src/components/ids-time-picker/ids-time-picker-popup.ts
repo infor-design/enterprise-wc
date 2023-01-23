@@ -144,11 +144,15 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
   }
 
   /**
-   * Updates the value from
+   * Updates the value from attribute setters
    */
-  updateValue() {
-    this.value = this.getFormattedTime();
-    if (this.autoupdate) this.triggerSelectedEvent();
+  private updateValue() {
+    const newValue = this.getFormattedTime();
+    if (this.#value !== newValue) {
+      this.#value = newValue;
+      if (this.#value !== null) this.setAttribute(attributes.VALUE, newValue);
+      if (this.autoupdate) this.triggerSelectedEvent();
+    }
   }
 
   /**
@@ -327,7 +331,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
   syncTimeAttributes(val: string): void {
     const inputDate = this.locale?.parseDate(
       val || this.value,
-      { dateFormat: this.format }
+      { pattern: this.format }
     ) as Date;
     const hours24 = inputDate?.getHours();
     const hours12 = hoursTo12(hours24);
@@ -467,8 +471,8 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       this.removeAttribute(attributes.HOURS);
     }
 
-    this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(value));
     this.updateValue();
+    this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(value));
   }
 
   /**
