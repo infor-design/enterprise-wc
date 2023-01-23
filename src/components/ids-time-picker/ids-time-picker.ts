@@ -131,6 +131,7 @@ export default class IdsTimePicker extends Base {
     const createTimePicker = () => `<ids-time-picker-popup
         id="popup-${this.id ? this.id : ''}"
         align="left, top"
+        animated
         arrow="bottom"
         autoupdate="${this.autoupdate}"
         embeddable="${this.embeddable}"

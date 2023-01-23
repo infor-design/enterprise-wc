@@ -104,8 +104,8 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
    */
   #attachFocusEvents() {
     const keydownEventHandler = (e: any) => {
-      const isOnFirst = this.#hostNode.activeElement.isEqualNode(this.firstFocusableElement);
-      const isOnLast = this.#hostNode.activeElement.isEqualNode(this.lastFocusableElement);
+      const isOnFirst = this.#hostNode.activeElement?.isEqualNode(this.firstFocusableElement);
+      const isOnLast = this.#hostNode.activeElement?.isEqualNode(this.lastFocusableElement);
 
       switch (e.key) {
         case 'Tab':
