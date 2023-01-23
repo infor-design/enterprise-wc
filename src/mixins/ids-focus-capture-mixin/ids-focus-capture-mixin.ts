@@ -46,6 +46,7 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
     super.disconnectedCallback?.();
     this.#removeFocusEvents();
     this.#hostNode = undefined;
+    this.#focusableElementsInDocument = null;
   }
 
   /**
@@ -86,10 +87,10 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
       this.#cyclesFocus = newVal;
       if (newVal) {
         this.setAttribute(attributes.CYCLES_FOCUS, `${newVal}`);
+        this.gainFocus();
       } else {
         this.removeAttribute(attributes.CYCLES_FOCUS);
       }
-      this.gainFocus();
     }
   }
 
@@ -146,11 +147,10 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
    * Adds/Removes the focus event based on component state
    */
   #updateFocusEvents() {
+    this.#removeFocusEvents();
     if (this.capturesFocus) {
       this.gainFocus();
       this.#attachFocusEvents();
-    } else {
-      this.#removeFocusEvents();
     }
   }
 
@@ -193,11 +193,14 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
    * @returns {Array<HTMLElement>} all possible focusable elements within Light DOM on the current page
    */
   get focusableElementsInDocument() {
-    if (!this.#focusableElementsInDocument.length && this.focusableSelectors.length) {
-      const selectorStr = this.focusableSelectors.join(', ');
-      this.#focusableElementsInDocument = [...this.#hostNode.querySelectorAll(selectorStr)];
-    }
+    if (!this.#focusableElementsInDocument.length && this.focusableSelectors.length) this.refreshFocusableElements();
     return this.#focusableElementsInDocument;
+  }
+
+  refreshFocusableElements() {
+    const selectorStr = this.focusableSelectors.join(', ');
+    this.#focusableElementsInDocument = [...this.#hostNode.querySelectorAll(selectorStr)]
+      .filter((i: HTMLElement) => !i.hasAttribute(attributes.HIDDEN));
   }
 
   /**

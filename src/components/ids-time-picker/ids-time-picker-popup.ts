@@ -138,6 +138,9 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
   renderDropdowns(): void {
     const el = this.dropdownContainerEl;
     if (el) el.innerHTML = this.#dropdowns();
+
+    // Refresh values stored in mixin properties
+    this.refreshFocusableElements();
   }
 
   /**
@@ -819,11 +822,13 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
     this.removeRipples();
     this.container?.setAttribute('tabindex', '-1');
     this.capturesFocus = false;
+    this.cyclesFocus = false;
   }
 
   onShow() {
     this.container?.removeAttribute('tabindex');
     this.capturesFocus = true;
+    this.cyclesFocus = true;
     this.focus();
   }
 }

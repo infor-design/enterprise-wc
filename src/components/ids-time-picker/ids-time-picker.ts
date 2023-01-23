@@ -11,7 +11,6 @@ import '../ids-dropdown/ids-dropdown';
 import '../ids-popup/ids-popup';
 import './ids-time-picker-popup';
 import '../ids-trigger-field/ids-trigger-field';
-import type IdsDropdown from '../ids-dropdown/ids-dropdown';
 import type IdsTimePickerPopup from './ids-time-picker-popup';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsPopup from '../ids-popup/ids-popup';
@@ -274,7 +273,7 @@ export default class IdsTimePicker extends Base {
 
     this.offEvent('hide.picker');
     this.onEvent('hide.picker', this.picker, (e: CustomEvent) => {
-      if (e.detail.doFocus) {
+      if (e.detail.doFocus && !this.autoselect) {
         this.input?.focus();
       }
       this.onHide();
@@ -287,8 +286,10 @@ export default class IdsTimePicker extends Base {
 
     this.offEvent('focus.time-picker-input');
     this.onEvent('focus.time-picker-input', this.input, () => {
-      if (this.autoselect) {
-        this.picker?.show();
+      if (this.picker && this.autoselect) {
+        if (!this.picker.visible) {
+          this.picker.show();
+        }
       }
     });
 
@@ -570,12 +571,7 @@ export default class IdsTimePicker extends Base {
       this.#parseInputValue();
     }
 
-    // Focus hours dropdown
-    if (!this.autoselect) {
-      this.container
-        ?.querySelector<IdsDropdown>('#hours')?.container
-        ?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
-    }
+    this.picker?.focus();
   }
 
   /**
