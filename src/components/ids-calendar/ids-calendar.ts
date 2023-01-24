@@ -985,7 +985,8 @@ export default class IdsCalendar extends Base {
     const startDateStr = this.locale.formatDate(start, dateTimeOpts);
     const endDateStr = this.locale.formatDate(end, dateTimeOpts);
 
-    return `${startDateStr} - ${endDateStr}`;
+    // eslint-disable-next-line no-irregular-whitespace
+    return `${startDateStr} - ${endDateStr}`.replace(/ /g, ' ');
   }
 
   /**

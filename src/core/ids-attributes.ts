@@ -166,6 +166,7 @@ export const attributes = {
   HIDDEN_BY_FILTER: 'hidden-by-filter',
   HIDE_CHECKBOXES: 'hide-checkboxes',
   HIDE_DOWN: 'hide-down',
+  HIDE_FOCUS: 'hide-focus',
   HIDE_UP: 'hide-up',
   HIGHLIGHTED: 'highlighted',
   HITBOX: 'hitbox',
@@ -305,6 +306,7 @@ export const attributes = {
   ROWS: 'rows',
   ROW_END: 'row-end',
   ROW_HEIGHT: 'row-height',
+  ROW_INDEX: 'row-index',
   ROW_NAVIGATION: 'row-navigation',
   ROW_SELECTION: 'row-selection',
   ROW_SPAN: 'row-span',
@@ -358,6 +360,7 @@ export const attributes = {
   STICKY: 'sticky',
   SUBMENU: 'submenu',
   SUBMIT_BUTTON: 'submit-button',
+  SUPPRESS_CACHING: 'suppress-caching',
   SUPPRESS_DEACTIVATION: 'suppress-deactivation',
   SUPPRESS_DESELECTION: 'suppress-deselection',
   SUPPRESS_EMPTY_MESSAGE: 'suppress-empty-message',
@@ -460,7 +463,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.2';
+export const version = '1.0.0-beta.3';
 
 export enum IdsDirection {
   Up = 'up',

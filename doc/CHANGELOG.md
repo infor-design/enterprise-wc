@@ -1,9 +1,14 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.4
+
+### 1.0.0-beta.4 Fixes
 ## 1.0.0-beta.3
 
 ### 1.0.0-beta.3 Fixes
 
+- `[DataGrid]` Added row-recycling pattern and caching to improve virtual-scroll performance. ([#972](https://github.com/infor-design/enterprise-wc/issues/972))
+- `[DataGrid]` Fixed arrow-keys on virtual-scroll and added scrollRowIntoView() method. ([#929](https://github.com/infor-design/enterprise-wc/issues/929))
 - `[General]` Fixed a list of issues in Safari browser. ([#956](https://github.com/infor-design/enterprise-wc/issues/956))
 - `[About]` Chrome no longer shows minor version on the about info so this has been removed. ([#7067](https://github.com/infor-design/enterprise/issues/7067))
 - `[AppMenu]` Updated main example to be consistent with 4.x. ([#852](https://github.com/infor-design/enterprise-wc/issues/852))
@@ -11,12 +16,14 @@
 - `[Breadcrumb]` Fixed popup menu being cutoff in truncated example. ([#906](https://github.com/infor-design/enterprise-wc/issues/906))
 - `[Button]` Removed named `text/icon` slots, re-worked the `iconAlign` setting to use only the default slot, and updated all examples/tests/docs to use only the default slot ([#839](https://github.com/infor-design/enterprise-wc/issues/839))
 - `[Button]` Updated all button style variants to reflect new IDS designs. ([#1046](https://github.com/infor-design/enterprise-wc/issues/1046))
+- `[Button/Tabs]` Added hide focus mixin. ([#1044](https://github.com/infor-design/enterprise-wc/issues/1044))
 - `[Checkbox]` Fixed validate, dirty tracking and hitbox settings in Safari browser. ([#1013](https://github.com/infor-design/enterprise-wc/issues/1013))
 - `[DataGrid]` Added support for empty message. ([#648](https://github.com/infor-design/enterprise-wc/issues/648))
 - `[DataGrid]` Fixed some filter issues with datagrid. ([#932](https://github.com/infor-design/enterprise-wc/issues/932)
 - `[Datagrid]` Prevented Date Picker Popup filter menus from being cut off by Data Grid's container overflow ([#667](https://github.com/infor-design/enterprise-wc/issues/667))
 - `[DataGrid]` Added tree grid functionality. ([#737](https://github.com/infor-design/enterprise-wc/issues/737)
 - `[DataGrid]` Added expandable row functionality. ([#737](https://github.com/infor-design/enterprise-wc/issues/737)
+- `[DataGrid]` Fixed a bug that checkbox editors need to be clicked twice. ([#1095](https://github.com/infor-design/enterprise-wc/issues/1095)
 - `[DataGrid]` Added suppress row click for selection functionality. ([#737](https://github.com/infor-design/enterprise-wc/issues/737)
 - `[DataGrid]` Added support for context menu. ([#963](https://github.com/infor-design/enterprise-wc/issues/963))
 - `[DataGrid]` Added support for editing. ([#991](https://github.com/infor-design/enterprise-wc/issues/991))

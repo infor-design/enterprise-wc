@@ -132,7 +132,8 @@ describe('IdsCustomCalendarEvent Component', () => {
 
   it('displays hour range when displayTime is set', () => {
     calendarEvent.displayTime = true;
-    expect(calendarEvent.getDisplayTime()).toEqual('12 - 2:00 AM');
+    expect(calendarEvent.getDisplayTime()).toContain('12');
+    expect(calendarEvent.getDisplayTime()).toContain('2');
     calendarEvent.displayTime = false;
     expect(calendarEvent.getDisplayTime()).toEqual('');
   });

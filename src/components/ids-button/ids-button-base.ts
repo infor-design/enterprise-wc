@@ -4,6 +4,7 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsRippleMixin from '../../mixins/ids-ripple-mixin/ids-ripple-mixin';
+import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsTooltipMixin(
@@ -11,8 +12,10 @@ const Base = IdsTooltipMixin(
     IdsLocaleMixin(
       IdsRippleMixin(
         IdsColorVariantMixin(
-          IdsEventsMixin(
-            IdsElement
+          IdsHideFocusMixin(
+            IdsEventsMixin(
+              IdsElement
+            )
           )
         )
       )

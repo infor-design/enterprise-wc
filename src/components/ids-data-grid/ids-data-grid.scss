@@ -33,9 +33,12 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   border-collapse: collapse;
   border-color: $cell-border-color;
   contain: content;
-  display: inline-grid;
   overflow: auto;
   scroll-behavior: smooth;
+
+  // Needed so sticky header works in safari
+  display: inline-grid;
+  align-content: flex-start;
 
   // Font Info
   @include antialiased();

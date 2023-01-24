@@ -31,11 +31,10 @@ Standalone primary buttons could be built this way:
 </ids-button>
 ```
 
-Add an icon to the primary button this way:
+Add an icon to the button using the `icon` attribute:
 
 ```html
-<ids-button id="my-button" type="primary">
-  <ids-icon icon="settings"></ids-icon>
+<ids-button id="my-button" type="primary" icon="settings">
   <span>My Button</span>
 </ids-button>
 ```
@@ -43,8 +42,7 @@ Add an icon to the primary button this way:
 IDS Buttons can be designed to make the icon appear by itself, without any visible text.  For accessibility reasons, descriptive text explaining the button's function should always be present.  In this scenario, the text span can have an "audible" class added, which will visually hide the text, but keep it accessible to screen readers:
 
 ```html
-<ids-button id="my-button" type="primary">
-  <ids-icon icon="settings"></ids-icon>
+<ids-button id="my-button" type="primary" icon="settings">
   <span class="audible">My Button</span>
 </ids-button>
 ```
@@ -90,8 +88,10 @@ IDS button types include:
 
 - `default` (not displayed as a "type" attribute when set)
 - `primary`
+- `primary-destructive`
 - `secondary`
 - `tertiary`
+- `tertiary-destructive`
 
 ### Alignment
 
@@ -100,8 +100,7 @@ By default, alignment of text/icons within an IDS Button will occur based on the
 The example below will result in the icon appearing after the text, even though the DOM order is the opposite:
 
 ```html
-<ids-button id="my-button" type="primary" icon-align="end">
-  <ids-icon icon="settings"></ids-icon>
+<ids-button id="my-button" type="primary" icon="settings" icon-align="end">
   <span>My Button</span>
 </ids-button>
 ```
@@ -119,11 +118,11 @@ The attribute has the following effects:
 - `colorVariant` {'alternate' | 'alternate-formatter'} Set the variants theme styles
 - `cssClass` {Array<string> | string | null} Contains space-delimited CSS classes (or an array of CSS classes) that will be passed to the Shadow Root button
 - `disabled` {boolean} Sets the internal Button element's `disabled` property to enable/disable the button
-- `icon` {string | null} A string representing an icon to display inside the button.  This icon will become the content of the Shadow Root button's `icon` slot when set
+- `icon` {string | null} A string representing an icon to display inside the button.  This string is passed to a slotted [IdsIcon](../ids-icon/README.md) element's `icon` setting to set the desired icon type.
 - `iconAlign` {string} Defines which side to align the Button's icon against, can be 'start' or 'end'
 - `tabIndex` {string | number} Sets the internal Button element's `tabIndex` property for controlling focus
-- `text` {string} API-level method of setting a button's text content. This will become the content of the Shadow Root button's `text` slot when set
-- `text` {string} The type/purpose of the button to display
+- `text` {string} API-level method of setting a button's text content. This will become the content of the slotted text node when set.
+- `type` {string} The type/purpose of the button to display
 - `tooltip` {string} Sets up a string based tooltip
 - `square` {boolean} whether the corners of the button as an icon-button are angled/90°
 - `width` {string} Sets width of button. Accepts percent, pixels, rem, etc.
@@ -139,10 +138,21 @@ The IDS Button doesn't contain any interactions beyond a standard HTMLButtonElem
 
 - Buttons can optionally be 100% width of their parent container on mobile breakpoints
 
+## Accessibility Guidelines
+
+- All buttons, including icon-only buttons, should have some kind of text description inside the button for explaining its action to a visually-impaired user. This text can be hidden visually by way of using an `audible` CSS class on the text content.
+
+## Regional Considerations
+
+Be conscious of the layout of content within your buttons when they are present in RTL situations.
+
 ## Converting from Previous Versions
 
-### Converting from 4.x
+**3.x to 4.x**
+- Change class `inforFormButton` default to `btn-primary`
+- Change class `inforFormButton` to `btn-secondary
 
+**4.x to 5.x**
 The IDS Button component is now a WebComponent.  Instead of using classes to define the type, it is done directly with a "type" attribute:
 
 ```html
@@ -155,28 +165,12 @@ The IDS Button component is now a WebComponent.  Instead of using classes to def
 </button>
 
 <!-- this is the same button using the WebComponent -->
-<ids-button id="my-button" type="primary">
-  <ids-icon icon="settings"></ids-icon>
+<ids-button id="my-button" type="primary" icon="settings">
   <span>My Button</span>
 </ids-button>
 ```
 
-## Accessibility Guidelines
-
-- All buttons, including icon-only buttons, should have some kind of text description inside the button for explaining its action to a visually-impaired user. This text can be hidden visually by way of using an `audible` CSS class on the text content.
-
-## Regional Considerations
-
-Be conscious of the layout of content within your buttons when they are present in RTL situations.
-
-## Converting from Previous Versions (Breaking Changes)
-
-**3.x to 4.x**
-- Change class `inforFormButton` default to `btn-primary`
-- Change class `inforFormButton` to `btn-secondary`
-
-**4.x to 5.x**
 - Markup has changed to a custom element `<ids-button id="my-button" type="primary"></ids-button>`
 - Can now be imported as a single JS file and used with encapsulated styles.
-- Some button properties are now attributes - "type", "text", "icon", "disabled", "focusable", etc.
-- Separate components `ids-toggle-button` and `ids-menu-button` ect..
+- Some button properties are now attributes - "type", "text", "icon", "disabled", etc.
+- Some components now extend IdsButton, such as [IdsToggleButton](../ids-toggle-button/README.md) and [IdsMenuButton](../ids-menu-button/README.md)...

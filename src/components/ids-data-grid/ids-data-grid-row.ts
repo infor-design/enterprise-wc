@@ -1,4 +1,5 @@
 import { customElement } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import { nextUntil } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsElement from '../../core/ids-element';
@@ -14,6 +15,17 @@ export default class IdsDataGridRow extends IdsElement {
     super({ noShadowRoot: true });
   }
 
+  /**
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
+   */
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.ROW_INDEX,
+    ];
+  }
+
   connectedCallback(): void {
     super.connectedCallback();
   }
@@ -27,10 +39,115 @@ export default class IdsDataGridRow extends IdsElement {
     return (this.rootNode.host) as IdsDataGrid;
   }
 
+  get data(): Record<string, any>[] {
+    return this.dataGrid?.data || [];
+  }
+
+  get columns(): IdsDataGridColumn[] {
+    return this.dataGrid?.columns || [];
+  }
+
+  get visibleColumns(): IdsDataGridColumn[] {
+    return this.dataGrid?.visibleColumns || [];
+  }
+
+  get dimensions() {
+    return this.getBoundingClientRect();
+  }
+
+  /**
+   * Set the row index. This index will be used to popuplate data from ids-data-grid.
+   * @param {number} value the index
+   */
+  set rowIndex(value: number) {
+    if (value !== null && value >= 0) {
+      this.setAttribute(attributes.ROW_INDEX, String(value));
+    } else {
+      this.removeAttribute(attributes.ROW_INDEX);
+    }
+  }
+
+  get rowIndex(): number { return Number(this.getAttribute(attributes.ROW_INDEX) ?? -1); }
+
+  /** Implements row cache */
+  static rowCache: { [key: string]: string } = {};
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    if (oldValue === newValue) return;
+
+    if (name === attributes.ROW_INDEX) {
+      this.renderRow(Number(newValue));
+    }
+  }
+
+  /**
+   * Render the row again from the cache or template.
+   * @param {number} row the row index
+   */
+  renderRow(row: number) {
+    const cacheHash = this.dataGrid.cacheHash;
+    const rowIndex = Number(row);
+    const selectState = this.dataGrid.data[row].rowSelected ? 'select' : 'deselect';
+    const cacheKey = `${cacheHash}:${rowIndex}:${selectState}`;
+
+    // This is current cache strategy via memoization.
+    IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
+    this.dataGrid.requestAnimationFrame(() => {
+      this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
+      this.#setAttributes();
+    });
+  }
+
+  /** Set row attributes and classes */
+  #setAttributes() {
+    const row = this.rowIndex;
+    this.setAttribute('data-index', String(row));
+    this.setAttribute('aria-rowindex', String(row + 1));
+
+    // Handle Selection
+    if (this.dataGrid.data[row]?.rowSelected) {
+      this.selected = this.dataGrid.data[row].rowSelected;
+    }
+    if (!this.dataGrid.data[row]?.rowSelected && this.classList.contains('selected')) {
+      this.selected = this.dataGrid.data[row].rowSelected;
+    }
+
+    // Handle Tree
+    if (this.dataGrid?.treeGrid) {
+      this.setAttribute('aria-setsize', this.dataGrid.data[row]?.ariaSetSize);
+      this.setAttribute('aria-level', this.dataGrid.data[row]?.ariaLevel);
+      this.setAttribute('aria-posinset', this.dataGrid.data[row]?.ariaPosinset);
+
+      if (this.dataGrid.data[row]?.children) {
+        this.setAttribute('aria-expanded', this.dataGrid.data[row]?.rowExpanded === false ? 'false' : 'true');
+      }
+    }
+
+    // Handle Expanded
+    if (this.dataGrid.data[row]?.rowExpanded) {
+      this.setAttribute('aria-expanded', 'true');
+    }
+    if (!this.dataGrid.data[row]?.rowExpanded && this.getAttribute('aria-expanded') === 'false') {
+      this.setAttribute('aria-expanded', 'false');
+    }
+    if (!this.dataGrid.data[row]?.rowExpanded && this.dataGrid.expandableRow) {
+      this.setAttribute('aria-expanded', 'false');
+    }
+
+    // Handle Hidden
+    if (this.dataGrid.data[row]?.rowHidden) {
+      this.classList.add('hidden');
+    }
+    if (!this.dataGrid.data[row]?.rowHidden && this.classList.contains('hidden')) {
+      this.classList.remove('hidden');
+    }
+  }
+
   /**
    * Toggle Selection on the row element (via click/keyboard in the main dataGrid)
    */
   toggleSelection() {
+    this.dataGrid?.resetCache();
     const isSelected = this.classList.contains('selected');
     const index = Number(this.getAttribute('data-index'));
 
@@ -190,6 +307,49 @@ export default class IdsDataGridRow extends IdsElement {
    * @returns {string} The html string for the row
    */
   static template(row: Record<string, unknown>, index: number, ariaRowIndex: number, dataGrid: IdsDataGrid): string {
+    let rowClasses = `${row?.rowSelected ? ' selected' : ''}`;
+    rowClasses += `${row?.rowSelected && dataGrid?.rowSelection === 'mixed' ? ' mixed' : ''}`;
+    rowClasses += `${row?.rowActivated ? ' activated' : ''}`;
+
+    let treeAttrs = '';
+    if (dataGrid?.treeGrid) {
+      treeAttrs += ` aria-setsize="${row.ariaSetSize}" aria-level="${row.ariaLevel}" aria-posinset="${row.ariaPosinset}"`;
+      if (row.children) {
+        treeAttrs += (row.rowExpanded === false) ? ` aria-expanded="false"` : ` aria-expanded="true"`;
+      }
+    }
+
+    if (dataGrid?.pagination === 'client-side' && dataGrid?.pageNumber > 1) {
+      ariaRowIndex += (Number(dataGrid?.pageNumber) - 1) * Number(dataGrid?.pageSize);
+    }
+
+    const isHidden = row.rowHidden ? ' hidden' : '';
+
+    return `
+      <ids-data-grid-row
+        row-index="${index}"
+        role="row"
+        part="row"
+        aria-rowindex="${ariaRowIndex}"
+        data-index="${index}"
+        ${isHidden}
+        class="ids-data-grid-row${rowClasses}"
+        ${treeAttrs}
+      >
+      </ids-data-grid-row>
+    `;
+  }
+
+  /**
+   * Return the cells' markup
+   * @returns {string} The html string for the row
+   */
+  cellsHTML(): string {
+    const index = this.rowIndex;
+    const ariaRowIndex = index;
+    const row = this.data[index];
+    const dataGrid = this.dataGrid;
+
     const cssPart = (column: IdsDataGridColumn, rowIndex: number, cellIndex: number) => {
       const part = column.cssPart || 'cell';
       if (typeof part === 'function') {
@@ -207,31 +367,7 @@ export default class IdsDataGridRow extends IdsElement {
       if (!currentRow.invalidCells) return false;
       return (currentRow.invalidCells as any).findIndex((item: any) => item.cell === cell) !== -1;
     };
-    let rowClasses = `${row?.rowSelected ? ' selected' : ''}`;
-    rowClasses += `${row?.rowSelected && dataGrid?.rowSelection === 'mixed' ? ' mixed' : ''}`;
-    rowClasses += `${row?.rowActivated ? ' activated' : ''}`;
 
-    let treeAttrs = '';
-    if (dataGrid?.treeGrid) {
-      treeAttrs += ` aria-setsize="${row.ariaSetSize}" aria-level="${row.ariaLevel}" aria-posinset="${row.ariaPosinset}"`;
-      if (row.children) {
-        treeAttrs += (row.rowExpanded === false) ? ` aria-expanded="false"` : ` aria-expanded="true"`;
-      }
-    }
-
-    let expandableRowHtml = '';
-    if (dataGrid?.expandableRow) {
-      treeAttrs += (row.rowExpanded === true) ? ` aria-expanded="true"` : ` aria-expanded="false"`;
-      const template = injectTemplate(dataGrid?.querySelector(`#${dataGrid?.expandableRowTemplate}`)?.innerHTML || '', row);
-      expandableRowHtml = `<div class="ids-data-grid-expandable-row"${row.rowExpanded === true ? '' : ` hidden`}>${template}</div>`;
-    }
-
-    if (dataGrid?.pagination === 'client-side' && dataGrid?.pageNumber > 1) {
-      ariaRowIndex += (Number(dataGrid?.pageNumber) - 1) * Number(dataGrid?.pageSize);
-    }
-
-    const frozenLast = dataGrid?.leftFrozenColumns.length;
-    const isHidden = row.rowHidden ? ' hidden' : '';
     const isReadonly = (column: IdsDataGridColumn, content: string): boolean => {
       if (column.readonly && column?.readonly === true) return true;
       if (typeof column?.readonly === 'function') return column?.readonly(index, content, column, row);
@@ -245,11 +381,19 @@ export default class IdsDataGridRow extends IdsElement {
       return false;
     };
 
+    let expandableRowHtml = '';
+    if (dataGrid?.expandableRow) {
+      const template = injectTemplate(dataGrid?.querySelector(`#${dataGrid?.expandableRowTemplate}`)?.innerHTML || '', row);
+      expandableRowHtml = `<div class="ids-data-grid-expandable-row"${row.rowExpanded === true ? '' : ` hidden`}>${template}</div>`;
+    }
+
+    const frozenLast = dataGrid?.leftFrozenColumns.length;
     const cellsHtml = dataGrid?.visibleColumns.map((column: IdsDataGridColumn, j: number) => {
       const content = IdsDataGridCell.template(row, column, ariaRowIndex, dataGrid);
-      let cssClasses = 'ids-data-grid-cell';
       const hasReadonlyClass = isReadonly(column, content);
       const hasDisabledClass = isDisabled(column, content);
+
+      let cssClasses = 'ids-data-grid-cell';
       cssClasses += `${hasReadonlyClass ? ' is-readonly' : ''}`;
       cssClasses += `${hasDisabledClass ? ' is-disabled' : ''}`;
       cssClasses += `${isDirtyCell(row, column, j) ? ' is-dirty' : ''}`;
@@ -260,7 +404,6 @@ export default class IdsDataGridRow extends IdsElement {
       cssClasses += `${column?.editor && !hasReadonlyClass && !hasDisabledClass ? ` is-editable${column?.editor?.inline ? ' is-inline' : ''}` : ''}`;
       return `<ids-data-grid-cell role="gridcell" part="${cssPart(column, index, j)}" class="${cssClasses}" aria-colindex="${j + 1}">${content}</ids-data-grid-cell>`;
     }).join('');
-
-    return `<ids-data-grid-row role="row" part="row" aria-rowindex="${ariaRowIndex}" data-index="${index}" ${isHidden} class="ids-data-grid-row${rowClasses}"${treeAttrs}>${cellsHtml}${expandableRowHtml}</ids-data-grid-row>`;
+    return `${cellsHtml}${expandableRowHtml}`;
   }
 }

@@ -7,6 +7,7 @@ import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../src/assets/data/books.json';
+import productsDataset from '../../src/assets/data/products.json';
 import datasetTree from '../../src/assets/data/tree-buildings.json';
 import processAnimFrame from '../helpers/process-anim-frame';
 
@@ -14,7 +15,6 @@ import createFromTemplate from '../helpers/create-from-template';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import IdsPager from '../../src/components/ids-pager/ids-pager';
 import '../../src/components/ids-checkbox/ids-checkbox';
-import IdsDataGridRow from '../../src/components/ids-data-grid/ids-data-grid-row';
 
 describe('IdsDataGrid Component', () => {
   let dataGrid: any;
@@ -236,6 +236,8 @@ describe('IdsDataGrid Component', () => {
     dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
     dataGrid.columns = columns();
     dataGrid.data = deepClone(dataset);
+    await processAnimFrame();
+    await processAnimFrame();
   });
 
   afterEach(async () => {
@@ -424,25 +426,25 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('virtual-scroll')).toEqual(null);
     });
 
-    it.skip('renders can sort with the virtualScroll option', () => {
+    it('renders can sort with the virtualScroll option', async () => {
       dataGrid.virtualScroll = true;
       dataGrid.redraw();
-
+      await processAnimFrame();
       // Height is zero...
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
       dataGrid.setSortColumn('description', true);
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(19);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
     });
 
-    it('can reset the virtualScroll option', () => {
+    it('can reset the virtualScroll option', async () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       dataGrid.virtualScroll = true;
       document.body.appendChild(dataGrid);
       dataGrid.columns = columns();
       dataGrid.data = dataset;
-
-      expect(dataGrid.shadowRoot.querySelectorAll('ids-virtual-scroll').length).toEqual(1);
+      await processAnimFrame();
+      expect(dataGrid.shadowRoot.querySelectorAll('ids-virtual-scroll').length).toEqual(0);
     });
 
     it('has the right row height for each rowHeight value', () => {
@@ -461,6 +463,149 @@ describe('IdsDataGrid Component', () => {
       dataGrid.redrawBody();
       expect(dataGrid.rowPixelHeight).toEqual(30);
     });
+
+    it('contains virtualScrollSettings', () => {
+      const BUFFER_ROWS = 50;
+      const NUM_ROWS = 150;
+      const DEFAULT_SETTINGS = {
+        BUFFER_ROWS,
+        NUM_ROWS,
+        BODY_HEIGHT: 7500,
+        BUFFER_HEIGHT: 2500,
+        DEBOUNCE_RATE: 10,
+        ENABLED: false,
+        RAF_DELAY: 60,
+        ROW_HEIGHT: 50,
+      };
+
+      expect(dataGrid.virtualScrollSettings).toEqual(DEFAULT_SETTINGS);
+
+      dataGrid.virtualScroll = true;
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+      });
+
+      dataGrid.rowHeight = 'md';
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+        ROW_HEIGHT: 40,
+        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 40,
+        BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 40,
+      });
+
+      dataGrid.rowHeight = 'sm';
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+        ROW_HEIGHT: 35,
+        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 35,
+        BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 35,
+      });
+
+      dataGrid.rowHeight = 'xs';
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+        ROW_HEIGHT: 30,
+        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 30,
+        BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 30,
+      });
+
+      dataGrid.redrawBody();
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+        ROW_HEIGHT: 30,
+        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 30,
+        BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 30,
+      });
+    });
+
+    it('attaches scroll event handler', async () => {
+      expect(dataGrid.virtualScroll).toBeFalsy();
+
+      const listener = jest.spyOn(dataGrid.container, 'addEventListener');
+      expect(listener).toBeCalledTimes(0);
+
+      dataGrid.virtualScroll = true;
+      expect(dataGrid.virtualScroll).toBeTruthy();
+
+      expect(listener).toBeCalledWith('scroll', expect.any(Function), { capture: true, passive: true });
+    });
+
+    it.skip('can recycle cells down', async () => {
+      expect(dataGrid.data).toEqual(dataset);
+
+      dataGrid.virtualScroll = true;
+      dataGrid.data = productsDataset;
+      expect(dataGrid.data).toEqual(productsDataset);
+
+      const { NUM_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
+
+      expect(dataGrid.rows.length).toBe(NUM_ROWS);
+      expect(dataGrid.rows[0].rowIndex).toBe(0);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+
+      expect(dataGrid.container.scrollTop).toBe(0);
+      // dataGrid.container.scrollTop = BUFFER_ROWS * ROW_HEIGHT;
+      dataGrid.scrollRowIntoView(BUFFER_ROWS * ROW_HEIGHT);
+      await processAnimFrame();
+      expect(dataGrid.container.scrollTop).toBeGreaterThan(100);
+
+      expect(dataGrid.rows[0].rowIndex).toBe(0);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+    });
+
+    it.skip('can recycle cells up', async () => {
+      expect(dataGrid.data).toEqual(dataset);
+
+      dataGrid.virtualScroll = true;
+      dataGrid.data = productsDataset;
+      expect(dataGrid.data).toEqual(productsDataset);
+
+      const { NUM_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
+
+      expect(dataGrid.rows.length).toBe(NUM_ROWS);
+      expect(dataGrid.rows[0].rowIndex).toBe(0);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+
+      expect(dataGrid.container.scrollTop).toBe(0);
+      // dataGrid.container.scrollTop = BUFFER_ROWS * ROW_HEIGHT;
+      dataGrid.scrollRowIntoView(BUFFER_ROWS * ROW_HEIGHT);
+      await processAnimFrame();
+      expect(dataGrid.container.scrollTop).toBeGreaterThan(100);
+
+      expect(dataGrid.rows[0].rowIndex).toBe(0);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+    });
+
+    it.todo('does not recycle cells down when at the bottom');
+
+    it.todo('does not recycle cells up when at the top');
+
+    it.todo('can scroll row 10 into view');
+
+    it.todo('can scroll row 2 into view');
+
+    it.todo('can scroll row 100 into view');
+
+    it.todo('scrolls first row into view when given row-index too small');
+
+    it.todo('scrolls last row into view when given row-index too large');
+
+    it.todo('caches rows');
+
+    it.todo('caches cells');
+
+    it.todo('can bust row-cache');
+
+    it.todo('can bust cell-cache');
+
+    it.todo('does not use requestAnimationFrame (RAF) if virtural scroll is disabled');
+
+    it.todo('scrollRowIntoView()');
   });
 
   describe('Column Rendering Tests', () => {
@@ -1345,29 +1490,30 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('row-height')).toEqual('lg');
     });
 
-    it('can set the rowHeight setting in virtualScroll mode', () => {
-      requestAnimationFrame(() => {
-        dataGrid.virtualScroll = true;
-        dataGrid.rowHeight = 'xs';
-        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('30');
+    it('can set the rowHeight setting in virtualScroll mode', async () => {
+      await processAnimFrame();
+      dataGrid.virtualScroll = true;
+      dataGrid.rowHeight = 'xs';
 
-        dataGrid.rowHeight = 'sm';
-        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('35');
+      await processAnimFrame();
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(30);
 
-        dataGrid.rowHeight = 'md';
-        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('40');
+      dataGrid.rowHeight = 'sm';
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(35);
 
-        dataGrid.rowHeight = null;
-        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
+      dataGrid.rowHeight = 'md';
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(40);
 
-        dataGrid.rowHeight = 'lg';
-        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
+      dataGrid.rowHeight = null;
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(50);
 
-        dataGrid.virtualScroll = false;
-        dataGrid.rowHeight = 'sm';
-        expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('sm');
-        expect(dataGrid.getAttribute('row-height')).toEqual('sm');
-      });
+      dataGrid.rowHeight = 'lg';
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(50);
+
+      dataGrid.virtualScroll = false;
+      dataGrid.rowHeight = 'sm';
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(35);
+      expect(dataGrid.getAttribute('row-height')).toEqual('sm');
     });
   });
 
@@ -1408,8 +1554,8 @@ describe('IdsDataGrid Component', () => {
 
     it('can render with the time formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML)
-        .toEqual(new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric' }).format(new Date('2021-04-23T18:25:43.511Z')));
+        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML.replace(' ', ' '))
+        .toEqual(new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric' }).format(new Date('2021-04-23T18:25:43.511Z')).replace(' ', ' '));
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
         .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML)
@@ -1918,6 +2064,7 @@ describe('IdsDataGrid Component', () => {
       const buttonClickListener = jest.fn();
       const customLinkClickListener = jest.fn();
 
+      dataGrid.resetCache();
       dataGrid.columns.splice(0, 0, {
         id: 'location-with-listener',
         name: 'Location',
@@ -1926,12 +2073,15 @@ describe('IdsDataGrid Component', () => {
         href: '#',
         click: hyperlinkClickListener,
       });
+      dataGrid.resetCache();
       dataGrid.redraw();
+      dataGrid.setActiveCell(0, 0, false);
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
       expect(hyperlinkClickListener).toHaveBeenCalled();
 
+      dataGrid.resetCache();
       dataGrid.columns.splice(0, 0, {
         id: 'drilldown',
         name: '',
@@ -1940,12 +2090,15 @@ describe('IdsDataGrid Component', () => {
         type: 'icon',
         click: buttonClickListener,
       });
+      dataGrid.resetCache();
       dataGrid.redraw();
+      dataGrid.setActiveCell(0, 0, false);
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
       expect(buttonClickListener).toHaveBeenCalled();
 
+      dataGrid.resetCache();
       dataGrid.columns.splice(0, 0, {
         id: 'custom',
         name: 'Custom Formatter',
@@ -1956,7 +2109,9 @@ describe('IdsDataGrid Component', () => {
         },
         click: customLinkClickListener,
       });
+      dataGrid.resetCache();
       dataGrid.redraw();
+      dataGrid.setActiveCell(0, 0, false);
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
@@ -2023,7 +2178,7 @@ describe('IdsDataGrid Component', () => {
 
     it('supports readonly RTL when set from the container', async () => {
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(5)').textContent.trim()).toEqual('2/23/2021');
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(6)').textContent.trim()).toEqual('1:25 PM');
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(6)').textContent.trim().replace(' ', ' ')).toEqual('1:25 PM');
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(7)').textContent.trim()).toEqual('13.99');
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(10)').textContent.trim()).toEqual('14');
 
@@ -2225,6 +2380,14 @@ describe('IdsDataGrid Component', () => {
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(3) .ids-data-grid-cell:nth-child(1)').click();
       expect(dataGrid.selectedRows.length).toBe(1);
       expect(dataGrid.selectedRows[0].index).toBe(2);
+    });
+
+    it('handles suppressing caching', () => {
+      expect(dataGrid.suppressCaching).toBe(false);
+      dataGrid.suppressCaching = true;
+      expect(dataGrid.suppressCaching).toBe(true);
+      dataGrid.suppressCaching = false;
+      expect(dataGrid.suppressCaching).toBe(false);
     });
 
     it('handles a deSelectRow method', () => {
@@ -2589,13 +2752,14 @@ describe('IdsDataGrid Component', () => {
       dataGrid.insertAdjacentHTML('afterbegin', '<template id="template-id"><span>${description}</span></template>');
       dataGrid.expandableRow = true;
       dataGrid.expandableRowTemplate = `template-id`;
-
+      dataGrid.resetCache();
       dataGrid.columns = [{
         id: 'description',
         name: 'description',
         formatter: dataGrid.formatters.expander
       }];
-
+      dataGrid.resetCache();
+      dataGrid.redraw();
       await processAnimFrame();
       const firstRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
       expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
@@ -3014,33 +3178,6 @@ describe('IdsDataGrid Component', () => {
       editableCell.endCellEdit();
     });
 
-    it('row renders special classes', () => {
-      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
-      (dataset[1] as any).dirtyCells = [];
-      (dataset[1] as any).dirtyCells.push({
-        cell: 1,
-        columnId: 'description',
-        originalValue: '102'
-      });
-      expect(IdsDataGridRow.template(dataset[1], 1, 1, editableCell.dataGrid).indexOf('is-dirty')).toBeGreaterThan(-1);
-
-      (dataset[1] as any).invalidCells = [];
-      (dataset[1] as any).invalidCells.push({
-        cell: 1,
-        columnId: 'description',
-        row: 1,
-        validationMessages: { message: 'Required', type: 'error', id: 'required' }
-      });
-      expect(IdsDataGridRow.template(dataset[1], 1, 1, editableCell.dataGrid).indexOf('is-invalid')).toBeGreaterThan(-1);
-
-      editableCell.column.editor.inline = true;
-      expect(IdsDataGridRow.template(dataset[1], 1, 1, editableCell.dataGrid).indexOf('is-inline')).toBeGreaterThan(-1);
-      editableCell.column.editor.inline = false;
-
-      (dataset[1] as any).invalidCells = undefined;
-      dataGrid.resetDirtyCells();
-    });
-
     it('can reset dirty cells', () => {
       dataGrid.editable = true;
       dataGrid.resetDirtyCells();
@@ -3105,7 +3242,8 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(11);
     });
 
-    it('can call removeRow', () => {
+    it('can call removeRow', async () => {
+      await processAnimFrame();
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
       dataGrid.addRow({ description: 'test' });
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(11);
@@ -3113,11 +3251,12 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
     });
 
-    it('can call removeRow', () => {
+    it('can call clearRow', async () => {
       const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(8) > .ids-data-grid-cell:nth-child(3)');
 
       expect(descCell.textContent).toEqual('108');
       dataGrid.clearRow(7);
+      await processAnimFrame();
       expect(dataGrid.container.querySelector('.ids-data-grid-row:nth-child(8) > .ids-data-grid-cell:nth-child(3)').textContent).toEqual('');
     });
 
