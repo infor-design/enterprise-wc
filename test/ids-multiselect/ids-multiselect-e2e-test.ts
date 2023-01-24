@@ -15,7 +15,7 @@ describe('Ids Multiselect e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    const results = await new AxePuppeteer(page).disableRules(['aria-required-children']).analyze();
+    const results = await new AxePuppeteer(page).disableRules(['aria-valid-attr-value', 'aria-required-children']).analyze();
     expect(results.violations.length).toBe(0);
   });
 

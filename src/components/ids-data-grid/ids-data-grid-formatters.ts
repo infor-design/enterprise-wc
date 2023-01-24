@@ -59,7 +59,7 @@ export default class IdsDataGridFormatters {
 
   /** Formats a sequencing running count of rows */
   rowNumber(_rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    return `<span class="text-ellipsis">${index}</span>`;
+    return `<span class="text-ellipsis">${index + 1}</span>`;
   }
 
   /** Formats date data as a date string in the desired format */
@@ -180,7 +180,7 @@ export default class IdsDataGridFormatters {
   /** Shows a dropdown list */
   dropdown(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     const field = columnData.field ?? '';
-    const options = <any[]>columnData.editor?.editorSettings?.options;
+    const options = <any[]>columnData.editor?.editorSettings?.options || [];
     const value = rowData[field];
     const valueOpt = options.find((opt) => opt.value === value);
 

@@ -17,6 +17,9 @@
   - link: responsive.html
     type: Example
     description: Showing a button width setting
+  - link: focus-on-click.html
+    type: Example
+    description: Showing a button focuses on click
   - link: side-by-side.html
     type: Side By Side
     description: Showing an button with a 4.x button

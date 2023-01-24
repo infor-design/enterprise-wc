@@ -101,6 +101,9 @@
   - link: multiple-selection.html
     type: Example
     description: Shows a data grid with multiple selection
+  - link: multiple-virtual-scroll.html
+    type: Example
+    description: Shows an example with multiple data grids on a page using virtual scroll
   - link: pagination-client-side.html
     type: Example
     description: Showing a data grid with client-side pagination

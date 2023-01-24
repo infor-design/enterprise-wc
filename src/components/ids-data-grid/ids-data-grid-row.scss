@@ -11,7 +11,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
   &.selected:not(.mixed) .ids-data-grid-cell,
   &.activated .ids-data-grid-cell {
-    @include bg-azure-10();
+    background-color: rgba(85 163 243 / 0.13);
   }
 
   &[hidden] {
@@ -108,7 +108,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
 // Expandable Row
 .ids-data-grid-expandable-row {
-  border-top: 1px solid $cell-border-color;
+  border-bottom: 1px solid $cell-border-color;
   grid-column: 1 / -1;
   padding: 8px;
 }
@@ -120,13 +120,13 @@ tr.ids-data-grid-row {
   height: 50px;
 }
 
-// Row Naviation Styles
+// Row Navigation Styles
 .ids-data-grid.row-navigation .ids-data-grid-row {
   &:focus-within {
-    @include shadow();
-
-    outline: 1px solid var(--ids-color-palette-azure-60);
-    outline-offset: -1px;
+    box-shadow:
+      inset 0 0 0 1px var(--ids-color-palette-azure-40),
+      0 1px 0 0 var(--ids-color-palette-azure-40),
+      0 0 3px 2px rgb(54 138 192 / 0.3);
   }
 
   .ids-data-grid-cell:focus {
@@ -146,16 +146,16 @@ tr.ids-data-grid-row {
   .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
   .ids-data-grid-row.activated .ids-data-grid-cell {
     // Uses a non pallette color - no better looking ones
-    background-color: #334d60;
+    background-color: rgba(85 163 243 / 0.12);
   }
 
-  // Row Naviation Styles (Dark)
+  // Row Navigation Styles (Dark)
   &.row-navigation .ids-data-grid-row {
     &:focus-within {
-      @include shadow();
-
-      outline: 1px solid var(--ids-color-palette-slate-60);
-      outline-offset: -1px;
+      box-shadow:
+        inset 0 0 0 1px var(--ids-color-palette-azure-50),
+        0 1px 0 0 var(--ids-color-palette-azure-50),
+        0 0 3px 2px rgb(54 138 192 / 0.3);
     }
   }
 }
@@ -165,14 +165,16 @@ tr.ids-data-grid-row {
   // Selection
   .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
   .ids-data-grid-row.activated .ids-data-grid-cell {
-    @include bg-azure-20();
+    background-color: rgba(85 163 243 / 0.2);
   }
 
-  // Row Naviation Styles (Contrast)
+  // Row Navigation Styles (Contrast)
   &.row-navigation .ids-data-grid-row {
     &:focus-within {
-      box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
-      outline: 1px solid var(--ids-color-palette-azure-80);
+      box-shadow:
+        inset 0 0 0 1px var(--ids-color-palette-azure-70),
+        0 1px 0 0 var(--ids-color-palette-azure-70),
+        0 0 3px 2px rgb(54 138 192 / 0.3);
     }
   }
 }

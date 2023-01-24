@@ -143,9 +143,9 @@ $ids-tab-vertical-height: 42px;
   height: 100%;
   user-select: none;
 
-  &:focus-visible,
-  &:focus,
-  &:focus-within {
+  &:not(.hide-focus):focus-visible,
+  &:not(.hide-focus):focus,
+  &:not(.hide-focus):focus-within {
     @include shadow();
     @include border-solid();
 
@@ -246,7 +246,7 @@ $ids-tab-vertical-height: 42px;
     height: $ids-tab-vertical-height;
 
     &.selected {
-      &:focus {
+      &:not(.hide-focus):focus {
         @include ids-tabs-focus-border();
       }
     }
@@ -312,9 +312,9 @@ $ids-tab-vertical-height: 42px;
       }
     }
 
-    &:focus-visible,
-    &:focus,
-    &:focus-within {
+    &:not(.hide-focus):focus-visible,
+    &:not(.hide-focus):focus,
+    &:not(.hide-focus):focus-within {
       &:not(.disabled) {
         @include ids-tabs-focus-border();
       }
@@ -347,9 +347,9 @@ $ids-tab-vertical-height: 42px;
         @include text-azure-60;
       }
 
-      &:focus-visible,
-      &:focus,
-      &:focus-within {
+      &:not(.hide-focus):focus-visible,
+      &:not(.hide-focus):focus,
+      &:not(.hide-focus):focus-within {
         @include border-azure-60();
       }
 
@@ -380,7 +380,7 @@ $ids-tab-vertical-height: 42px;
           @include bg-azure-60();
           @include text-white();
 
-          &:focus {
+          &:not(.hide-focus):focus {
             @include border-none();
 
             &::before {
@@ -405,9 +405,9 @@ $ids-tab-vertical-height: 42px;
         }
       }
 
-      &:focus-visible,
-      &:focus,
-      &:focus-within {
+      &:not(.hide-focus):focus-visible,
+      &:not(.hide-focus):focus,
+      &:not(.hide-focus):focus-within {
         @include border-white();
       }
 
@@ -472,9 +472,9 @@ $ids-tab-vertical-height: 42px;
         @include text-white();
       }
 
-      &:focus-visible,
-      &:focus,
-      &:focus-within {
+      &:not(.hide-focus):focus-visible,
+      &:not(.hide-focus):focus,
+      &:not(.hide-focus):focus-within {
         @include border-azure-40();
       }
 
@@ -508,7 +508,7 @@ $ids-tab-vertical-height: 42px;
           @include bg-azure-60();
           @include text-white();
 
-          &:focus {
+          &:not(.hide-focus):focus {
             @include border-none();
 
             &::before {
@@ -533,9 +533,9 @@ $ids-tab-vertical-height: 42px;
         }
       }
 
-      &:focus-visible,
-      &:focus,
-      &:focus-within {
+      &:not(.hide-focus):focus-visible,
+      &:not(.hide-focus):focus,
+      &:not(.hide-focus):focus-within {
         @include border-white();
       }
 
