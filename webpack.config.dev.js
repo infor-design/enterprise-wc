@@ -48,7 +48,7 @@ module.exports = {
     // For fake file upload behavior
     setupMiddlewares: handleUpload
   },
-  devtool: 'cheap-module-source-map', // eval-source-map
+  devtool: 'cheap-module-source-map', // cheap-module-source-map -> original; eval-cheap-module-source-map -> works
   module: {
     rules: [
       {

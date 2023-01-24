@@ -6,6 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/infor-design/enterprise-wc.git"
   },
+  "keywords": ["infor design system", "infor design system web components"],
   "bugs": {
     "url": "https://github.com/infor-design/enterprise-wc/issues"
   },
