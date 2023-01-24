@@ -18,8 +18,6 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   // Do an ajax request
   const url: any = booksJSON;
   const columns: IdsDataGridColumn[] = [];
-  const pageContainer: any = document.querySelector('ids-container');
-  const calendar = pageContainer.locale.calendar();
 
   // Set up columns
   columns.push({
@@ -79,6 +77,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     editor: {
       type: 'datepicker',
       editorSettings: {
+        validate: 'required',
         dirtyTracker: true
       }
     }
@@ -213,26 +212,31 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   setData();
 
   // Event Handlers
-  // dataGrid.addEventListener('beforecelledit', (e: Event) => {
-  //   // Can be vetoed (<CustomEvent>e).detail.response(false);
-  //   console.info(`Edit Started`, (<CustomEvent>e).detail);
-  // });
+  dataGrid.addEventListener('beforecelledit', (e: Event) => {
+    // Can be vetoed (<CustomEvent>e).detail.response(false);
+    console.info(`Edit Started`, (<CustomEvent>e).detail);
+  });
 
-  // dataGrid.addEventListener('celledit', (e: Event) => {
-  //   console.info(`Currently Editing`, (<CustomEvent>e).detail);
-  // });
+  dataGrid.addEventListener('celledit', (e: Event) => {
+    console.info(`Currently Editing`, (<CustomEvent>e).detail);
+  });
 
-  // dataGrid.addEventListener('endcelledit', (e: Event) => {
-  //   console.info(`Edit Ended`, (<CustomEvent>e).detail);
-  // });
+  dataGrid.addEventListener('endcelledit', (e: Event) => {
+    console.info(`Edit Ended`, (<CustomEvent>e).detail);
+  });
 
-  // dataGrid.addEventListener('cancelcelledit', (e: Event) => {
-  //   console.info(`Edit Was Cancelled`, (<CustomEvent>e).detail);
-  // });
+  dataGrid.addEventListener('cancelcelledit', (e: Event) => {
+    console.info(`Edit Was Cancelled`, (<CustomEvent>e).detail);
+  });
 
   // Example Buttons
   document.querySelector('#add-row')?.addEventListener('click', () => {
-    dataGrid.addRow({ description: 'New Row', ledgder: 'CORE' });
+    const newRows = [
+      { description: 'New Row 1', ledgder: 'CORE' },
+      { description: 'New Row 2', ledgder: 'CORE' },
+      { description: 'New Row 3', ledgder: 'CORE' }
+    ];
+    dataGrid.addRow(newRows);
 
     dataGrid.setActiveCell(0, dataGrid.data.length - 1);
     dataGrid.editFirstCell();

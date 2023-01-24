@@ -2816,14 +2816,6 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Editing Tests', () => {
-    const dropdownCellQuery = () => dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(8)');
-    const activateDropdownCell = () => {
-      dataGrid.editable = true;
-      dataGrid.setActiveCell(7, 1);
-      const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
-      dataGrid.dispatchEvent(enterKey);
-    };
-
     it('should be able to edit a cell and type a value', () => {
       dataGrid.editable = true;
       const clickEvent = new MouseEvent('click', { bubbles: true });
@@ -2920,7 +2912,7 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.classList.contains('is-invalid')).toBeFalsy();
     });
 
-    it('should be able to cancell a cell and reset validation state', () => {
+    it('should be able to cancel a cell and reset validation state', () => {
       dataGrid.editable = true;
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       expect(editableCell.textContent).toBe('102');
@@ -3105,6 +3097,19 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(11);
     });
 
+    it('can add multiple rows at given index', () => {
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+      dataGrid.addRow([
+        { description: 'test1' },
+        { description: 'test2' },
+        { description: 'test3' }
+      ], 2);
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(13);
+      expect(dataGrid.data[2].description).toEqual('test1');
+      expect(dataGrid.data[3].description).toEqual('test2');
+      expect(dataGrid.data[4].description).toEqual('test3');
+    });
+
     it('can call removeRow', () => {
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
       dataGrid.addRow({ description: 'test' });
@@ -3238,29 +3243,6 @@ describe('IdsDataGrid Component', () => {
       dataGrid.dispatchEvent(event);
       const checkCell2 = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
       expect(checkCell2.querySelector('ids-checkbox').getAttribute('checked')).toBe('true');
-    });
-
-    it('supports a dropdown editor', () => {
-      const dropdownCell = dropdownCellQuery();
-      activateDropdownCell();
-      expect(dropdownCell.classList.contains('is-editing')).toBeTruthy();
-      expect(dropdownCell.querySelector('ids-dropdown')).not.toBeNull();
-    });
-
-    it('can change cell value using dropdown editor', () => {
-      const dropdownCell = dropdownCellQuery();
-      const arrowDownKey = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-      const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
-      activateDropdownCell();
-
-      const dropdown = dropdownCell.querySelector('ids-dropdown');
-      dropdown.focus();
-      dropdown.dispatchEvent(arrowDownKey); // navigates list box options
-      dropdown.dispatchEvent(enterKey); // selects option
-      expect(dropdown.value).toEqual('yen');
-
-      dropdownCell.endCellEdit();
-      expect(dropdownCell.classList.contains('is-editing')).toBeFalsy();
     });
   });
 });

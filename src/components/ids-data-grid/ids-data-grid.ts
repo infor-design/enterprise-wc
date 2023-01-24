@@ -1381,9 +1381,12 @@ export default class IdsDataGrid extends Base {
   /**
    * Add a row to the data grid
    * @param {Record<string, unknown>} data the data to add to the row
+   * @param {number} index insert position for new row(s)
    */
-  addRow(data: Record<string, unknown>) {
-    this.datasource.originalData.push(data);
+  addRow(data: Record<string, unknown> | Array<Record<string, unknown>>, index?: number) {
+    const insertIdx = index ?? this.datasource.originalData.length;
+    const newRows = Array.isArray(data) ? data : [data];
+    this.datasource.originalData.splice(insertIdx, 0, ...newRows);
     this.data = this.datasource.originalData;
     this.redrawBody();
   }

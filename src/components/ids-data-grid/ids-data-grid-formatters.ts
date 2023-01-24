@@ -66,14 +66,16 @@ export default class IdsDataGridFormatters {
   date(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
     let value: any = this.#extractValue(rowData, columnData.field);
     value = api.locale?.formatDate(value, columnData.formatOptions) ?? value.toString();
-    return `<span class="text-ellipsis">${value}</span>`;
+    const icon = columnData.editor?.type === 'datepicker' ? '<ids-icon icon="schedule" class="editor-cell-icon"></ids-icon>' : '';
+    return `<span class="text-ellipsis">${value}</span>${icon}`;
   }
 
   /** Formats date data as a time string in the desired format */
   time(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
     let value: any = this.#extractValue(rowData, columnData.field);
     value = api.locale?.formatDate(value, columnData.formatOptions || { timeStyle: 'short' }) ?? value.toString();
-    return `<span class="text-ellipsis">${value}</span>`;
+    const icon = columnData.editor?.type === 'timepicker' ? '<ids-icon icon="clock" class="editor-cell-icon"></ids-icon>' : '';
+    return `<span class="text-ellipsis">${value}</span>${icon}`;
   }
 
   /** Formats number data as a decimal string in the specific locale */
@@ -191,7 +193,7 @@ export default class IdsDataGridFormatters {
       </span>
       <ids-icon
         icon="dropdown"
-        class="dropdown-cell-icon">
+        class="editor-cell-icon">
       </ids-icon>
     `;
   }

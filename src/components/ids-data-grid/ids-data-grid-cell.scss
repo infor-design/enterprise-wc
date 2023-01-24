@@ -75,12 +75,36 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     outline-offset: -1px;
   }
 
-  &.is-editable.is-inline {
-    box-shadow: inset 0 0 0 4px white, inset 0 0 0 5px var(--ids-color-palette-slate-40);
+  &.is-editable {
+    &.is-inline {
+      box-shadow: inset 0 0 0 4px white, inset 0 0 0 5px var(--ids-color-palette-slate-40);
+  
+      ids-icon.editor-cell-icon {
+        visibility: visible;
+        margin-inline-end: 14px;
+      }
+    }
 
-    ids-icon.dropdown-cell-icon {
-      visibility: visible;
-      margin-inline-end: 14px;
+    &.is-timepicker,
+    &.is-datepicker {
+      justify-content: space-between;
+    }
+
+    .editor-cell-icon {
+      margin-inline-end: 10px;
+      visibility: hidden;
+    }
+
+    // is-borderless:hover
+    &:not(.is-inline):focus,
+    &:not(.is-inline):hover {
+      .editor-cell-icon {
+        visibility: visible;
+      }
+
+      ids-alert {
+        margin-inline: calc(100% - 48px);
+      }
     }
   }
 
@@ -104,23 +128,6 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   &.is-editable.is-dropdown {
     .dropdown-cell-value {
       @include w-full();
-    }
-
-    .dropdown-cell-icon {
-      margin-inline-end: 10px;
-      visibility: hidden;
-    }
-
-    // is-borderless:hover
-    &:not(.is-inline):focus,
-    &:not(.is-inline):hover {
-      .dropdown-cell-icon {
-        visibility: visible;
-      }
-
-      ids-alert {
-        margin-inline: calc(100% - 48px);
-      }
     }
   }
 
