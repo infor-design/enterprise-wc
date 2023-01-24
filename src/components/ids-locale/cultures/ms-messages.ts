@@ -140,7 +140,7 @@ const messages = {
   EmailValidation: { id: 'EmailValidation', value: 'Alamat e-mel tidak sah', comment: 'This the rule for email validation' },
   Emerald: { id: 'Emerald', value: 'Zamrud', comment: 'Color in our color palette' },
   EndsWith: { id: 'EndsWith', value: 'Berakhir Dengan', comment: 'for condition filtering' },
-  English: { id: 'English', value: 'Bahasa Inggeris (Australia)', comment: 'Language name for English' },
+  English: { id: 'English', value: 'Bahasa Inggeris (Amerika Syarikat)', comment: 'Language name for English' },
   EnterComments: { id: 'EnterComments', value: 'Masukkan komen di sini...', comment: 'Placeholder text for a text input (comments)' },
   Equals: { id: 'Equals', value: 'Sama dengan', comment: 'Equals in icons for filtering' },
   Error: { id: 'Error', value: 'Ralat', comment: 'Title, Spoken Text describing fact an error has occured' },

@@ -140,7 +140,7 @@ const messages = {
   EmailValidation: { id: 'EmailValidation', value: 'Adresă de e-mail incorectă', comment: 'This the rule for email validation' },
   Emerald: { id: 'Emerald', value: 'Smarald', comment: 'Color in our color palette' },
   EndsWith: { id: 'EndsWith', value: 'Se termină cu', comment: 'for condition filtering' },
-  English: { id: 'English', value: 'Engleză (Australia)', comment: 'Language name for English' },
+  English: { id: 'English', value: 'Engleză (Statele Unite)', comment: 'Language name for English' },
   EnterComments: { id: 'EnterComments', value: 'Introduceți comentarii aici...', comment: 'Placeholder text for a text input (comments)' },
   Equals: { id: 'Equals', value: 'Este egal cu', comment: 'Equals in icons for filtering' },
   Error: { id: 'Error', value: 'Eroare', comment: 'Title, Spoken Text describing fact an error has occured' },

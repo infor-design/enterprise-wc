@@ -140,7 +140,7 @@ const messages = {
   EmailValidation: { id: 'EmailValidation', value: 'E-postadresse ikke gyldig', comment: 'This the rule for email validation' },
   Emerald: { id: 'Emerald', value: 'Smaragdgrønn', comment: 'Color in our color palette' },
   EndsWith: { id: 'EndsWith', value: 'Slutter med', comment: 'for condition filtering' },
-  English: { id: 'English', value: 'Engelsk (Australia)', comment: 'Language name for English' },
+  English: { id: 'English', value: 'Engelsk (forente stater)', comment: 'Language name for English' },
   EnterComments: { id: 'EnterComments', value: 'Angi kommentarer her ...', comment: 'Placeholder text for a text input (comments)' },
   Equals: { id: 'Equals', value: 'Er lik', comment: 'Equals in icons for filtering' },
   Error: { id: 'Error', value: 'Feil', comment: 'Title, Spoken Text describing fact an error has occured' },

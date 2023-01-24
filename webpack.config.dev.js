@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const demoEntry = require('./scripts/webpack-dev-entry');
@@ -47,7 +48,7 @@ module.exports = {
     // For fake file upload behavior
     setupMiddlewares: handleUpload
   },
-  devtool: 'cheap-module-source-map',
+  devtool: 'cheap-module-source-map', // eval-source-map
   module: {
     rules: [
       {
@@ -113,9 +114,25 @@ module.exports = {
     ]
   },
   plugins: [
-    new BundleAnalyzerPlugin({
-      analyzerMode: process.env.npm_lifecycle_event === 'build:dev:stats' ? 'server' : 'disabled',
-      reportFilename: 'dev-build-report.html'
-    })
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './src/components/ids-locale/cultures/*.ts',
+          to({ absoluteFilename }) {
+            const baseName = path.basename(absoluteFilename);
+            const folders = path.dirname(absoluteFilename).split(path.sep);
+            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
+            filePath = filePath.replace('src/components', '').replace('ts', 'js');
+            return filePath;
+          }
+        }
+      ]
+    }),
+    new BundleAnalyzerPlugin(
+      {
+        analyzerMode: process.env.npm_lifecycle_event === 'build:dev:stats' ? 'server' : 'disabled',
+        reportFilename: 'dev-build-report.html'
+      }
+    )
   ].concat(WebpackHtmlExamples)
 };

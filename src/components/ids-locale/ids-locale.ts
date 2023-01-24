@@ -1,6 +1,6 @@
 import { isValidDate, gregorianToUmalqura } from '../../utils/ids-date-utils/ids-date-utils';
-import './cultures/en-US';
-import './cultures/en-messages';
+import { locale as localeEn } from './cultures/en-US';
+import { messages as messagesEn } from './cultures/en-messages';
 
 /**
  * A mixin that adds locale functionality to components
@@ -23,6 +23,9 @@ class IdsLocale {
   constructor() {
     this.loadedLocales = new Map();
     this.loadedLanguages = new Map();
+
+    this.loadedLocales.set('en-US', localeEn);
+    this.loadedLanguages.set('en', messagesEn);
 
     this.state = {
       defaultLocale: {
@@ -58,7 +61,7 @@ class IdsLocale {
    * @returns {Promise} A promise that will resolve when complete
    */
   loadLanguageScript(value: string) {
-    const promise = import(`./cultures/${value}-messages.ts`);
+    const promise = import(/* webpackIgnore: true */`../ids-locale/cultures/${value}-messages.js`);
     promise.then((module) => {
       // do something with the translations
       this.loadedLanguages.set(value, module.messages);
@@ -211,7 +214,7 @@ class IdsLocale {
    * @returns {Promise} A promise that will resolve when complete
    */
   loadLocaleScript(value: string) {
-    const promise = import(`./cultures/${value}.ts`);
+    const promise = import(/* webpackIgnore: true */`../ids-locale/cultures/${value}.js`);
     promise.then((module) => {
       // do something with the locale data
       this.loadedLocales.set(value, module.locale);

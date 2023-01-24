@@ -140,7 +140,7 @@ const messages = {
   EmailValidation: { id: 'EmailValidation', value: 'Sähköpostiosoite ei ole kelvollinen', comment: 'This the rule for email validation' },
   Emerald: { id: 'Emerald', value: 'Smaragdinvihreä', comment: 'Color in our color palette' },
   EndsWith: { id: 'EndsWith', value: 'Päättyy merkkijonoon', comment: 'for condition filtering' },
-  English: { id: 'English', value: 'Englanti (Australia)', comment: 'Language name for English' },
+  English: { id: 'English', value: 'Englanti (USA)', comment: 'Language name for English' },
   EnterComments: { id: 'EnterComments', value: 'Kirjoita kommentit tähän...', comment: 'Placeholder text for a text input (comments)' },
   Equals: { id: 'Equals', value: 'Yhtä suuri kuin', comment: 'Equals in icons for filtering' },
   Error: { id: 'Error', value: 'Virhe', comment: 'Title, Spoken Text describing fact an error has occured' },
