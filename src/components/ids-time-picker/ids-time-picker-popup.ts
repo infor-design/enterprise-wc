@@ -28,15 +28,19 @@ type IdsTimePickerPopupButton = IdsButton | IdsModalButton;
 @customElement('ids-time-picker-popup')
 @scss(styles)
 class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
+  private isRendering: boolean;
+
   constructor() {
     super();
     this.#value = '';
+    this.isRendering = true;
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.attachEventListeners();
     this.setAttribute(attributes.FOCUS_INLINE, 'true');
+    this.isRendering = false;
   }
 
   disconnectedCallback(): void {
@@ -136,11 +140,14 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * Attaches Time Picker dropdowns to the shadow root
    */
   renderDropdowns(): void {
+    this.isRendering = true;
+
     const el = this.dropdownContainerEl;
     if (el) el.innerHTML = this.#dropdowns();
 
     // Refresh values stored in mixin properties
     this.refreshFocusableElements();
+    this.isRendering = false;
   }
 
   /**
@@ -151,7 +158,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
     if (this.#value !== newValue) {
       this.#value = newValue;
       if (this.#value !== null) this.setAttribute(attributes.VALUE, newValue);
-      if (this.autoupdate) this.triggerSelectedEvent();
+      // if (this.autoupdate) this.triggerSelectedEvent();
     }
   }
 
@@ -366,6 +373,8 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @returns {void}
    */
   private triggerSelectedEvent(e?: CustomEvent): void {
+    if (this.isRendering) return;
+
     let args: any;
     if (e) args = e;
     else {
