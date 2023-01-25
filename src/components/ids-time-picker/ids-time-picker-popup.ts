@@ -70,7 +70,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       <section slot="content">
         ${dropdownHTML}
         <ids-modal-button class="popup-btn" hidden="${this.autoupdate}" part="btn-set" type="primary">
-          <ids-text translate-text="true">SetTime</ids-text>
+          <ids-text translate-text="true" font-weight="bold">SetTime</ids-text>
         </ids-modal-button>
       </section>
     </ids-popup>`;

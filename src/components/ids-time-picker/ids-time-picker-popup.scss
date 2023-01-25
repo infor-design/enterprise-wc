@@ -20,7 +20,6 @@ ids-popup[visible][animated] {
     &::part(button) {
       @include h-full();
       @include p-0();
-      @include text-azure-70();
       @include py-12();
 
       align-items: center;
@@ -102,6 +101,21 @@ ids-popup[visible][animated] {
   }
 
   // Themes
+  &:not([mode]),
+  &[mode='light'] {
+    .popup-btn {
+      border-top-color: var(--ids-color-palette-slate-50);
+
+      &::part(button) {
+        @include text-azure-60();
+      }
+
+      &::part(button):hover {
+        @include text-azure-70();
+      }
+    }
+  }
+
   &[mode='dark'] {
     .separator.colons {
       @include text-slate-30();
@@ -111,7 +125,11 @@ ids-popup[visible][animated] {
       border-top-color: var(--ids-color-palette-slate-50);
 
       &::part(button) {
-        @include text-azure-60();
+        @include text-azure-30();
+      }
+
+      &::part(button):hover {
+        @include text-azure-20();
       }
     }
 
@@ -132,7 +150,13 @@ ids-popup[visible][animated] {
 
     .popup-btn {
       &::part(button) {
+        @include bg-white();
         @include text-azure-90();
+      }
+
+      &::part(button):hover {
+        @include bg-white();
+        @include text-azure-70();
       }
     }
 
