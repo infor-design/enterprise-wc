@@ -11,6 +11,7 @@ app
 build
 .nyc_output
 out
+meta.json
 
 # OS Setting Files
 .DS_Store

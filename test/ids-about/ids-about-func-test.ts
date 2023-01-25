@@ -13,8 +13,8 @@ import '../../src/components/ids-text/ids-text';
 import '../../src/components/ids-hyperlink/ids-hyperlink';
 
 // locale messages
-import { messages as esMessages } from '../../src/components/ids-locale/cultures/es-messages';
-import { messages as jaMessages } from '../../src/components/ids-locale/cultures/ja-messages';
+import { messages as esMessages } from '../../src/components/ids-locale/data/es-messages';
+import { messages as jaMessages } from '../../src/components/ids-locale/data/ja-messages';
 
 const name = 'ids-about';
 const id = 'test-about-component';

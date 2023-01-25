@@ -53,11 +53,11 @@ document.querySelector('ids-container').locale.translate('Actions'); // Returns 
 
 ## Currently Supported Locales
 
-For a list of all the supported locales and languages see the <a href="https://github.com/infor-design/enterprise-wc/tree/main/src/ids-locale/cultures" target="_blank">component source locale folder.</a>.
+For a list of all the supported locales and languages see the <a href="https://github.com/infor-design/enterprise-wc/tree/main/src/ids-locale/locale-data" target="_blank">component source locale folder.</a>.
 
 ## Translation Features
 
-You can use a feature on ids-text to translate text. This example will take the text and use it as a key to lookup the translation and present it. If the language is changed on the container or component the text will be updated on the fly. If coming from 4.x note that the translate API and in general no longer require a cultures folder as the data is contained in the npm package.
+You can use a setting on ids-text to translate text. This example will take the text and use it as a key to lookup the translation and present it. If the language is changed on the container or component the text will be updated on the fly. The language data must first be loaded.
 
 ```html
 <ids-text font-size="16" translate-text="true" language="de">BrowserLanguage</ids-text>
@@ -268,12 +268,10 @@ locale.parseDate('2020-02-26 下午12:00', { dateFormat: 'yyyy/M/d ah:mm', local
 
 - You can now change the locale on the `ids-container` element to have it propagate down to the children components
 - The `set` api is now called `setLocale`. The `setLanguage` is still called `setLanguage`
-- The translate API and in general no longer require a cultures folder as this is contained in the npm package.
 - `toLocaleString` Is deprecated as function as now `formatNumber` uses it
 - The `formatNumber` function now uses `toLocaleString` internally which has some minor differences. As a result the the rounding and truncation behavior has slightly changed and some other details are listed in the formatDate section.
 - The `formatDate` function now uses [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) internally which has some minor differences. This was done to reduce the number of locale bugs and code.
 - The `getLocale` function is not needed since we can use await now so was removed
-- We did not include the culturesPath as its not needed since the locales are contained with the locale code
 - ShowAsUndefined option is deprecated, now undefined locales will all be shown in square brackets
 - Round option on formatNumber is deprecated
 - Options on formatNumber now use toLocaleString options (which are similar)

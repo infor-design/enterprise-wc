@@ -8,8 +8,6 @@ const prodOutput = (pathData) => {
   const srcFileListFilter = srcFileListArray.filter((chunk) => chunk.includes(`${pathData}.ts`));
   const srcFileListFilterItem = srcFileListFilter[0];
 
-  if (srcFileListFilterItem === undefined) console.log(srcFileListFilterItem, pathData);
-
   const srcFileListFilterItemArray = srcFileListFilterItem.split(isWin32);
   srcFileListFilterItemArray.splice(0, 1);
   srcFileListFilterItemArray.pop();

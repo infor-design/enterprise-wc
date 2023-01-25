@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
 import * as fs from 'fs';
 import * as path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import esbuild from 'esbuild';
+import * as esbuild from 'esbuild';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { sassPlugin } from 'esbuild-sass-plugin';
 
@@ -44,16 +45,16 @@ const fsFiles = (dirPath = './', fileType = '', fileOptions = []) => {
 // Clean out directory first
 fs.rmSync('build/dist/development', { recursive: true, force: true });
 
-let components = fsFiles('./src/components', 'ts');
-components = components.filter((item) => (!item.includes('demo') && !item.includes('-base')));
+let components = fsFiles('./src/', 'ts');
+components = components.filter((item) => (!item.includes('demo') && !item.includes('-base') && !item.includes('ids-locale/data')));
 
-const outDir = 'build/dist/development/components';
+const outDir = 'build/dist/development';
 const cssFiles = [];
 
 // Run EsBuild
 // eslint-disable-next-line max-len
 // npx esbuild src/components/ids-tag/ids-tag.ts src/components/ids-alert/ids-alert.ts --bundle --splitting --outdir=out --format=esm
-esbuild
+const result = await esbuild
   .build({
     entryPoints: components,
     outdir: outDir,
@@ -61,6 +62,7 @@ esbuild
     splitting: true,
     chunkNames: 'chunks/ids-[name]-[hash]',
     format: 'esm',
+    metafile: true,
     plugins: [
       sassPlugin({
         type: 'css-text',
@@ -70,7 +72,7 @@ esbuild
           if (rootDir === 'components') {
             const noHost = source.replace(':host {', ':root {');
             const comp = path.basename(path.dirname(filePath));
-            const file = `${outDir}${path.sep}${comp}${path.sep}${comp}.css`;
+            const file = `${outDir}${path.sep}components${path.sep}${comp}${path.sep}${comp}.css`;
             cssFiles.push({ file, source: noHost });
             fs.mkdirSync(path.dirname(file), { recursive: true }, () => {});
             fs.writeFileSync(file, noHost, () => {});
@@ -80,8 +82,21 @@ esbuild
       })
     ],
   })
-  .then(() => {
-    // eslint-disable-next-line no-console
-    console.log('⚡ Build complete! ⚡');
-  })
   .catch(() => process.exit(1));
+
+// Copy Locales
+const locales = fsFiles('./src/components/ids-locale/data', 'ts');
+const localeDir = `${outDir}/locale-data/`;
+fs.mkdirSync(localeDir, { recursive: true }, () => {});
+
+locales.forEach((locale) => {
+  fs.copyFile(locale, `${localeDir}${path.basename(locale)}`.replace('.ts', '.js'), (err) => {
+    if (err) {
+      console.error(err);
+    }
+  });
+});
+
+// Can view this file at https://esbuild.github.io/analyze/
+fs.writeFileSync('meta.json', JSON.stringify(result.metafile));
+console.info('⚡ Build complete! ⚡');

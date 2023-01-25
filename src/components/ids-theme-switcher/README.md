@@ -48,4 +48,4 @@ Add an ids-theme-switcher to the page near the top and set the version and mode 
 
 ## Regional Considerations
 
-As a point of interest colors do have certain meaning associated to them for countries and cultures. We found this [article on color meaning](https://www.shutterstock.com/blog/color-symbolism-and-meanings-around-the-world) interesting.
+As a point of interest colors can have certain meanings associated with them for countries and cultures. We found this [article on color meaning](https://www.shutterstock.com/blog/color-symbolism-and-meanings-around-the-world) interesting.

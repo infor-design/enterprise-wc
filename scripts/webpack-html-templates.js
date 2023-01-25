@@ -10,7 +10,7 @@ if (filterComponents) {
   htmlTemplates = htmlTemplates.filter((item) => item.indexOf(filterComponents) > -1 || item.indexOf('ids-container') > -1 || item.indexOf('ids-text') > -1 || item.indexOf('ids-layout-grid') > -1 || item.indexOf('ids-text') > -1);
 }
 
-const WebpackHtmlExamples = htmlTemplates.map((template) => {
+const htmlExamples = htmlTemplates.map((template) => {
   const chunkArray = template.split(isWin32);
   chunkArray.splice(0, 2);
   const chunkName = chunkArray[0];
@@ -36,10 +36,12 @@ const WebpackHtmlExamples = htmlTemplates.map((template) => {
   };
 
   if (!noCSP) {
+    // 'unsafe-eval'is only needed because of
+    // the current devtool used as a workaround.
     metaTags.csp = {
       'http-equiv': 'Content-Security-Policy',
       content: `
-        script-src 'self' https://unpkg.com/;
+        script-src 'self' https://unpkg.com/ 'unsafe-eval';
         style-src 'self' https://fonts.googleapis.com 'nonce-0a59a005';
         font-src 'self' data: https://fonts.gstatic.com;
       `
@@ -83,4 +85,6 @@ const WebpackHtmlExamples = htmlTemplates.map((template) => {
   });
 });
 
-module.exports = WebpackHtmlExamples;
+// eslint-disable-next-line no-console
+console.info(`${htmlExamples.length} Examples`);
+module.exports = htmlExamples;

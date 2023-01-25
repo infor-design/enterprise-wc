@@ -2,7 +2,6 @@
   "name": "ids-enterprise-wc",
   "version": "1.0.0-beta.3",
   "description": "The Web Component version of the IDS Enterprise component library",
-  "main": "enterprise-wc.js",
   "author": "Infor Design",
   "license": "Apache-2.0",
   "homepage": "https://design.infor.com",
@@ -23,7 +22,6 @@
   "bugs": {
     "url": "https://github.com/infor-design/enterprise-wc/issues"
   },
-  "types": "enterprise-wc.d.ts",
   "scripts": {
     "build:dist": "npx rimraf build/dist/development && npx tsc && npx webpack --config ./webpack.config.prod.js",
     "build:dist:prod": "npx rimraf build/dist/production && npx tsc && npx webpack --config ./webpack.config.prod.js --mode production",
@@ -107,7 +105,6 @@
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4",
     "webpack": "5.75.0",
-    "webpack-bundle-analyzer": "^4.7.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1",
     "yaml-loader": "^0.8.0"
