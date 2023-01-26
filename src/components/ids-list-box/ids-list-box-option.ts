@@ -39,7 +39,8 @@ export default class IdsListBoxOption extends Base {
     return [
       ...super.attributes,
       attributes.GROUP_LABEL,
-      attributes.TOOLTIP
+      attributes.TOOLTIP,
+      attributes.VALUE
     ];
   }
 
@@ -55,5 +56,14 @@ export default class IdsListBoxOption extends Base {
    */
   template(): string {
     return `<slot></slot>`;
+  }
+
+  set value(val: string | null) {
+    if (val) this.setAttribute(attributes.VALUE, `${val}`);
+    else this.removeAttribute(attributes.VALUE);
+  }
+
+  get value(): string | null {
+    return this.getAttribute(attributes.VALUE);
   }
 }

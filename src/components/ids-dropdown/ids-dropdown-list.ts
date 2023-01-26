@@ -5,6 +5,10 @@ import Base from './ids-dropdown-list-base';
 
 import styles from './ids-dropdown-list.scss';
 import type IdsListBox from '../ids-list-box/ids-list-box';
+import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
+
+import { IdsDropdownCommonAttributes } from './ids-dropdown-common';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * IDS Dropdown List Component
@@ -29,18 +33,7 @@ export default class IdsDropdownList extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.ALLOW_BLANK,
-      attributes.CLEARABLE,
-      attributes.CLEARABLE_TEXT,
-      attributes.DISABLED,
-      attributes.GROUP,
-      attributes.GROUP_LABEL,
-      attributes.NO_MARGINS,
-      attributes.PLACEHOLDER,
-      attributes.READONLY,
-      attributes.SIZE,
-      attributes.TYPEAHEAD,
-      attributes.VALUE
+      ...IdsDropdownCommonAttributes
     ];
   }
 
@@ -59,6 +52,11 @@ export default class IdsDropdownList extends Base {
     this.attachEventHandlers();
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.listBox = null;
+  }
+
   onHide() {
     this.setAriaOnMenuClose();
   }
@@ -75,24 +73,50 @@ export default class IdsDropdownList extends Base {
   private attachEventHandlers() {
     this.offEvent('click.dropdown-list-box');
     this.onEvent('click.dropdown-list-box', this.listBox, (e: any) => {
-      // Excluding group labels
-      if (e.target?.hasAttribute(attributes.GROUP_LABEL) || e.target.closest('ids-list-box-option')?.hasAttribute(attributes.GROUP_LABEL)) {
-        return;
+      let target: HTMLElement | null = (e.target as HTMLElement);
+
+      if (target && target.nodeName !== 'IDS-LIST-BOX-OPTION') {
+        target = target.closest('ids-list-box-option');
       }
 
-      if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
-        this.value = e.target.getAttribute('value');
-      }
+      if (target) {
+        // Excluding group labels
+        if (target.hasAttribute(attributes.GROUP_LABEL)) return;
 
-      if (e.target.closest('ids-list-box-option')) {
-        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
-      }
+        this.value = target.getAttribute(attributes.VALUE);
 
-      this.hide();
+        this.triggerSelectedEvent();
+      }
     });
   }
 
+  /**
+   * Triggers the same `dayselected` event on the Popup's target element that came from the internal IdsMonthView
+   * @param {CustomEvent} [e] optional event handler to pass arguments
+   * @returns {void}
+   */
+  private triggerSelectedEvent(e?: CustomEvent): void {
+    let args: any;
+    if (e) args = e;
+    else {
+      args = {
+        bubbles: true,
+        detail: {
+          elem: this,
+          value: this.value
+        }
+      };
+    }
+
+    if (this.target) {
+      const event = new CustomEvent('selected', args);
+      this.target.dispatchEvent(event);
+    }
+  }
+
   private configurePopup() {
+    this.listBox = this.querySelector<IdsListBox>('ids-list-box');
+
     if (this.popup) {
       this.popup.type = 'dropdown';
       // this.popup.alignTarget = this.input?.fieldContainer as IdsPopupElementRef;
@@ -142,5 +166,108 @@ export default class IdsDropdownList extends Base {
     if (selected) {
       this.deselectOption(selected);
     }
+  }
+
+  /**
+   * Returns the currently available options
+   * @returns {Array<any>} the array of options
+   */
+  get options() {
+    return this.querySelectorAll<IdsListBoxOption>('ids-list-box-option');
+  }
+
+  /**
+   * Returns the selected Listbox option based on the Dropdown's value.
+   * @returns {HTMLElement| null} the selected option
+   */
+  get selectedOption(): HTMLElement | null {
+    return this.querySelector(`ids-list-box-option[value="${this.value}"]`);
+  }
+
+  /**
+   * Returns the currently-selected Listbox option
+   * (may be different from the Dropdown's value because of user input)
+   * @readonly
+   * @returns {HTMLElement|null} Reference to a selected Listbox option if one is present
+   */
+  get selected(): HTMLElement | null {
+    return this.querySelector('ids-list-box-option.is-selected');
+  }
+
+  /**
+   * Set typeahead attribute
+   * @param {string | boolean | null} value typeahead value
+   */
+  set typeahead(value: string | boolean | null) {
+    const val = stringToBool(value);
+
+    if (val) {
+      this.setAttribute(attributes.TYPEAHEAD, String(val));
+      // this.#attachTypeaheadEvents();
+      // this.#setOptionsData();
+    } else {
+      // this.removeAttribute(attributes.TYPEAHEAD);
+      // this.#removeTypeaheadEvents();
+    }
+
+    this.container?.classList.toggle('typeahead', val);
+  }
+
+  /**
+   * Get the typeahead attribute
+   * @returns {boolean} typeahead attribute value converted to boolean
+   */
+  get typeahead(): boolean {
+    return stringToBool(this.getAttribute(attributes.TYPEAHEAD));
+  }
+
+  /**
+   * Set the value of the dropdown using the value/id attribute if present
+   * @param {string} value The value/id to use
+   */
+  set value(value: string | null) {
+    const elem = this.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"]`);
+
+    if (!elem && !this.hasAttribute(attributes.CLEARABLE)) {
+      return;
+    }
+
+    // this.clearSelected();
+    // this.selectOption(elem);
+    // this.selectIcon(elem);
+    // this.selectTooltip(elem);
+
+    this.setAttribute(attributes.VALUE, String(value));
+  }
+
+  get value(): string | null {
+    return this.getAttribute(attributes.VALUE);
+  }
+
+  /**
+   * Set the aria and state on the element
+   * @param {HTMLElement} option the option to select
+   * @private
+   */
+  selectOption(option: HTMLElement | undefined | null) {
+    if (!this?.popup?.visible) return;
+
+    option?.setAttribute('aria-selected', 'true');
+    option?.classList.add('is-selected');
+    option?.setAttribute('tabindex', '0');
+
+    if (option?.id) {
+      this.listBox?.setAttribute('aria-activedescendant', option.id);
+    }
+  }
+
+  /**
+   * Removes selected attributes from an option
+   * @param {HTMLElement} option element to remove attributes
+   */
+  deselectOption(option: HTMLElement | undefined | null) {
+    option?.removeAttribute('aria-selected');
+    option?.classList.remove('is-selected');
+    option?.setAttribute('tabindex', '-1');
   }
 }
