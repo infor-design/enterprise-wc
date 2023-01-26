@@ -14,15 +14,15 @@ import { sassPlugin } from 'esbuild-sass-plugin';
 import fsFiles from './node-fs-files.mjs';
 
 const args = process.argv;
-const mode = args[3] && args[3].indexOf('prod') > 1 ? 'production' : 'development';
+const mode = args[2] && args[2].indexOf('mode') > 1 ? args[3] : 'development';
 
 // Clean out directory first
-fs.rmSync('build/dist/development', { recursive: true, force: true });
+const outDir = mode === 'production' ? 'build/dist/production' : 'build/dist/development';
+fs.rmSync(outDir, { recursive: true, force: true });
 
 let components = fsFiles('./src/', 'ts');
 components = components.filter((item) => (!item.includes('demo') && !item.includes('-base') && !item.includes('ids-locale/data')));
 
-const outDir = 'build/dist/development';
 const cssFiles = [];
 
 // Run EsBuild

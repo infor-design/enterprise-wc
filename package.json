@@ -23,8 +23,8 @@
     "url": "https://github.com/infor-design/enterprise-wc/issues"
   },
   "scripts": {
-    "build:dist": "npx rimraf build/dist/development && npx tsc && npx webpack --config ./webpack.config.prod.js",
-    "build:dist:prod": "npx rimraf build/dist/production && npx tsc && npx webpack --config ./webpack.config.prod.js --mode production",
+    "build:dist": "npx rimraf build/dist/development && npx tsc && node scripts/esbuild-prod.mjs",
+    "build:dist:prod": "npx rimraf build/dist/production && npx tsc && node scripts/esbuild-prod.mjs --mode production",
     "build": "npx rimraf build/dist/development && node --max-old-space-size=8192 node_modules/webpack/bin/webpack --config ./webpack.config.dev.js",
     "build:coverage": "npx rimraf build/dist/development && node --max-old-space-size=8192 node_modules/webpack/bin/webpack --config ./webpack.config.dev.js --env coverage",
     "build:demos:prod": "webpack --config ./webpack.config.dev.js --mode production",
