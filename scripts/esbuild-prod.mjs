@@ -1,46 +1,20 @@
 /* eslint-disable no-console */
+// Custom Build Script Using Es Build
+// usage:
+//  node scripts/esbuild-prod.mjs -- mode=production
+//  node scripts/esbuild-prod.mjs -- mode=development
+//  node scripts/esbuild-prod.mjs
 import * as fs from 'fs';
 import * as path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as esbuild from 'esbuild';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { sassPlugin } from 'esbuild-sass-plugin';
+// eslint-disable-next-line import/extensions
+import fsFiles from './node-fs-files.mjs';
 
-// Function to get all files
-const fsFiles = (dirPath = './', fileType = '', fileOptions = []) => {
-  // Return Files array
-  const files = fs.readdirSync(dirPath);
-  // Loop through files array
-  files.forEach((file) => {
-    // File options is an array then push items in.
-    const arrPush = () => fileOptions.push(path.join(dirPath, '/', file));
-    // File options is an object assign key and set value.
-    // eslint-disable-next-line no-return-assign
-    const objAssign = () => fileOptions[path.join(file.split('.')[0])] = path.join(dirPath, '/', file);
-    // Check if `${dirPath}/${file}` is a folder or a file
-    if (fs.statSync(`${dirPath}/${file}`).isDirectory()) {
-      fileOptions = fsFiles(`${dirPath}/${file}`, fileType, fileOptions);
-    } else {
-      // Check if fileType is an empty string and return all files.
-      if (fileType === '') {
-        if (Array.isArray(fileOptions)) {
-          arrPush();
-        } else {
-          objAssign();
-        }
-      }
-      // Check for specific file type if fileType does not equal emplty string.
-      if (file.split('.')[1] === fileType) {
-        if (Array.isArray(fileOptions)) {
-          arrPush();
-        } else {
-          objAssign();
-        }
-      }
-    }
-  });
-  return fileOptions;
-};
+const args = process.argv;
+const mode = args[3] && args[3].indexOf('prod') > 1 ? 'production' : 'development';
 
 // Clean out directory first
 fs.rmSync('build/dist/development', { recursive: true, force: true });
@@ -60,6 +34,8 @@ const result = await esbuild
     outdir: outDir,
     bundle: true,
     splitting: true,
+    minify: mode === 'production',
+    sourcemap: mode === 'development',
     chunkNames: 'chunks/ids-[name]-[hash]',
     format: 'esm',
     metafile: true,
@@ -97,6 +73,32 @@ locales.forEach((locale) => {
   });
 });
 
+// Copy Types
+let types = fsFiles('./build/types/src', 'd.ts');
+types = types.filter((item) => (!item.includes('demo') && !item.includes('locale-data') && !item.includes('ids-locale')));
+
+types.forEach((type) => {
+  fs.copyFile(type, type.replace('build/types/src', outDir), (err) => {
+    if (err) {
+      console.error(err);
+    }
+  });
+});
+
+// Copy Markdown
+fs.copyFile('./LICENSE', `${outDir}/LICENSE`, (err) => {
+  if (err) {
+    console.error(err);
+  }
+});
+
+fs.copyFile('./README.md', `${outDir}/README.md`, (err) => {
+  if (err) {
+    console.error(err);
+  }
+});
+
+// Create Stats File
 // Can view this file at https://esbuild.github.io/analyze/
-fs.writeFileSync('meta.json', JSON.stringify(result.metafile));
+fs.writeFileSync('build-stats.json', JSON.stringify(result.metafile));
 console.info('⚡ Build complete! ⚡');

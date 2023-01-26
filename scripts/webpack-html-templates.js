@@ -1,8 +1,8 @@
 const fs = require('fs');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const NodeFsFiles = require('./node-fs-files');
+const fsFiles = require('./node-fs-files');
 
-let htmlTemplates = NodeFsFiles(`./src/components`, 'html');
+let htmlTemplates = fsFiles(`./src/components`, 'html');
 const isWin32 = process.platform === 'win32' ? '\\' : '/';
 const filterComponents = process.env.npm_config_components || '';
 

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import * as fs from 'fs';
+import * as path from 'path';
 
 const fsFiles = (dirPath = './', fileType = '', fileOptions = []) => {
   // Return Files array
@@ -36,4 +36,4 @@ const fsFiles = (dirPath = './', fileType = '', fileOptions = []) => {
   return fileOptions;
 };
 
-module.exports = fsFiles;
+export default fsFiles;

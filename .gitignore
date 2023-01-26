@@ -12,6 +12,7 @@ build
 .nyc_output
 out
 meta.json
+build-stats.json
 
 # OS Setting Files
 .DS_Store

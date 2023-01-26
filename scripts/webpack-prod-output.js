@@ -1,6 +1,6 @@
-const NodeFsFiles = require('./node-fs-files');
+const fsFiles = require('./node-fs-files');
 
-const srcFileListArray = NodeFsFiles('./src', 'ts');
+const srcFileListArray = fsFiles('./src', 'ts');
 
 const prodOutput = (pathData) => {
   if (!pathData || pathData === 'runtime') return '';

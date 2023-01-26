@@ -1,7 +1,4 @@
 const path = require('path');
-const sass = require('sass');
-const { ESBuildMinifyPlugin } = require('esbuild-loader');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const prodEntry = require('./scripts/webpack-prod-entry');
@@ -22,7 +19,6 @@ module.exports = {
   infrastructureLogging: {
     level: 'error' // or 'verbose' if any debug info is needed
   },
-  stats: 'normal', // or detailed if needed
   resolve: {
     extensions: ['.js', '.ts'],
     modules: ['node_modules']
@@ -30,12 +26,7 @@ module.exports = {
   optimization: {
     splitChunks: {
       chunks: 'all'
-    },
-    minimizer: [
-      new ESBuildMinifyPlugin({
-        target: 'es2022'
-      })
-    ]
+    }
   },
   module: {
     rules: [
@@ -100,33 +91,12 @@ module.exports = {
     ]
   },
   plugins: [
-    new BundleAnalyzerPlugin({
-      analyzerMode: process.env.npm_lifecycle_event === 'build:stats' ? 'server' : 'disabled',
-      reportFilename: 'prod-build-report.html'
-    }),
     new MiniCssExtractPlugin({
       filename: '[name]/[name].css'
     }),
     // Copy the standalone css and d.ts files to the output directory
     new CopyWebpackPlugin({
       patterns: [
-        {
-          from: './src/components/**/*.scss',
-          to({ absoluteFilename }) {
-            const baseName = path.basename(absoluteFilename);
-            const folders = path.dirname(absoluteFilename).split(path.sep);
-            return `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName.replace('scss', 'css')}`;
-          },
-          transform(content, transFormPath) {
-            const result = sass.renderSync({
-              file: transFormPath
-            });
-            let css = result.css.toString();
-            css = css.replace(':host {', ':root {');
-
-            return css;
-          }
-        },
         {
           from: './build/types/src/**/ids*.d.ts',
           to({ absoluteFilename }) {
@@ -139,13 +109,14 @@ module.exports = {
               filePath = filePath.replace('core/', '').replace('.d.ts', '');
               return `core/${filePath.replace('src/', '')}.d.ts`;
             }
+            console.log(absoluteFilename, filePath);
             return filePath;
           }
         },
         {
-          from: './build/types/src/components/enterprise-wc.d.ts',
+          from: './build/types/src/enterprise-wc.d.ts',
           to({ absoluteFilename }) {
-            return absoluteFilename.replace('/build/types/src/components/', `/build/dist/${isProduction ? 'production' : 'development'}/`);
+            return absoluteFilename.replace('/build/types/src/', `/build/dist/${isProduction ? 'production' : 'development'}/`);
           }
         },
         {
