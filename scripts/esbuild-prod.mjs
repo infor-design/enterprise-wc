@@ -66,11 +66,7 @@ const localeDir = `${outDir}/locale-data/`;
 fs.mkdirSync(localeDir, { recursive: true }, () => {});
 
 locales.forEach((locale) => {
-  fs.copyFile(locale, `${localeDir}${path.basename(locale)}`.replace('.ts', '.js'), (err) => {
-    if (err) {
-      console.error(err);
-    }
-  });
+  fs.copyFileSync(locale, `${localeDir}${path.basename(locale)}`.replace('.ts', '.js'));
 });
 
 // Copy Types
@@ -78,27 +74,28 @@ let types = fsFiles('./build/types/src', 'd.ts');
 types = types.filter((item) => (!item.includes('demo') && !item.includes('locale-data') && !item.includes('ids-locale')));
 
 types.forEach((type) => {
-  fs.copyFile(type, type.replace('build/types/src', outDir), (err) => {
-    if (err) {
-      console.error(err);
-    }
-  });
+  fs.copyFileSync(type, type.replace('build/types/src', outDir));
 });
 
 // Copy Markdown
-fs.copyFile('./LICENSE', `${outDir}/LICENSE`, (err) => {
-  if (err) {
-    console.error(err);
-  }
-});
+fs.copyFileSync('./LICENSE', `${outDir}/LICENSE`);
+fs.copyFileSync('./README.md', `${outDir}/README.md`);
 
-fs.copyFile('./README.md', `${outDir}/README.md`, (err) => {
-  if (err) {
-    console.error(err);
-  }
-});
+// Minify locale data
+if (mode === 'production') {
+  fs.rmSync(`${outDir}/locale-data`, { recursive: true, force: true });
+
+  const localesOnly = fsFiles('./src/components/ids-locale/data', 'ts');
+  await esbuild
+    .build({
+      entryPoints: localesOnly,
+      outdir: `${outDir}/locale-data`,
+      minify: true,
+    })
+    .catch(() => process.exit(1));
+}
 
 // Create Stats File
 // Can view this file at https://esbuild.github.io/analyze/
 fs.writeFileSync('build-stats.json', JSON.stringify(result.metafile));
-console.info('⚡ Build complete! ⚡');
+console.info(`⚡ Build complete ⚡`);
