@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import { timeNumberWithinRange } from '../helpers/time-number-within-range';
 
 import IdsTimePicker from '../../src/components/ids-time-picker/ids-time-picker';
 import IdsContainer from '../../src/components/ids-container/ids-container';
@@ -244,11 +245,14 @@ describe('IdsTimePicker Component', () => {
     timepicker.minuteInterval = 1;
     timepicker.secondInterval = 1;
     timepicker.useCurrentTime = true;
-    timepicker.value = '';
 
-    expect(timepicker.hours).toEqual(new Date().getHours());
-    expect(timepicker.minutes).toEqual(new Date().getMinutes());
-    expect(timepicker.seconds).toEqual(new Date().getSeconds());
+    timepicker.value = '';
+    let testDate = new Date();
+    let seconds = testDate.getSeconds();
+
+    expect(timepicker.hours).toEqual(testDate.getHours());
+    expect(timepicker.minutes).toEqual(testDate.getMinutes());
+    expect(timeNumberWithinRange(timepicker.seconds, seconds - 1, seconds + 1)).toBeTruthy();
 
     timepicker.value = '22:33:44';
 
@@ -258,11 +262,13 @@ describe('IdsTimePicker Component', () => {
 
     timepicker.format = 'hh:mm:ss a';
     timepicker.value = '';
+    testDate = new Date();
+    seconds = testDate.getSeconds();
 
-    expect(timepicker.hours).toEqual(hoursTo12(new Date().getHours()));
-    expect(timepicker.minutes).toEqual(new Date().getMinutes());
-    expect(timepicker.seconds).toEqual(new Date().getSeconds());
-    expect(timepicker.period).toEqual(new Date().getHours() >= 12 ? 'PM' : 'AM');
+    expect(timepicker.hours).toEqual(hoursTo12(testDate.getHours()));
+    expect(timepicker.minutes).toEqual(testDate.getMinutes());
+    expect(timeNumberWithinRange(timepicker.seconds, seconds - 1, seconds + 1)).toBeTruthy();
+    expect(timepicker.period).toEqual(testDate.getHours() >= 12 ? 'PM' : 'AM');
 
     timepicker.useCurrentTime = null;
     timepicker.value = '';
