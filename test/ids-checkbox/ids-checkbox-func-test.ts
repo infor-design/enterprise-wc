@@ -3,6 +3,7 @@
  */
 import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 
 describe('IdsCheckbox Component', () => {
   let cb: any;
@@ -12,6 +13,8 @@ describe('IdsCheckbox Component', () => {
     container = new IdsContainer();
     const elem: any = new IdsCheckbox();
     container.appendChild(elem);
+    container.locale.loadedLanguages.set('ar', arMessages);
+
     document.body.appendChild(container);
     cb = document.querySelector('ids-checkbox');
   });

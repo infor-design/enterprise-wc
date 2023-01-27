@@ -12,7 +12,9 @@ import '../../src/components/ids-list-box/ids-list-box';
 import '../../src/components/ids-list-box/ids-list-box-option';
 import '../../src/components/ids-trigger-field/ids-trigger-field';
 import states from '../../src/assets/data/states.json';
+
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 
 describe('IdsMultiselect Component', () => {
   let multiselect: any;
@@ -23,6 +25,7 @@ describe('IdsMultiselect Component', () => {
     container?.remove();
 
     container = new IdsContainer();
+
     const template = document.createElement('template');
     template.innerHTML = innerHTML;
     multiselect = template.content.childNodes[0];
@@ -304,6 +307,7 @@ describe('IdsMultiselect Component', () => {
   });
 
   it('can changing language from the container', async () => {
+    container.locale.loadedLanguages.set('de', deMessages);
     await container.setLanguage('de');
     await processAnimFrame();
     expect(multiselect.getAttribute('aria-description')).toEqual('Drücken Sie zum Auswählen die Nach-unten-Taste');

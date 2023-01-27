@@ -2,12 +2,21 @@
  * @jest-environment jsdom
  */
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
+import { locale as arSALocale } from '../../src/components/ids-locale/data/ar-SA';
 
 describe('IdsContainer Component', () => {
   let container: IdsContainer;
 
   beforeEach(() => {
     container = new IdsContainer();
+    container.locale.loadedLanguages.set('ar', arMessages);
+    container.locale.loadedLanguages.set('de', deMessages);
+    container.locale.loadedLocales.set('de-DE', deDELocale);
+    container.locale.loadedLocales.set('ar-SA', arSALocale);
+
     document.body.appendChild(container);
   });
 

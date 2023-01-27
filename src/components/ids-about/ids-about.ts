@@ -3,11 +3,14 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getSpecs } from '../../utils/ids-device-env-specs-utils/ids-device-env-specs-utils';
 
-import Base from './ids-about-base';
-import '../ids-modal/ids-modal';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsModal from '../ids-modal/ids-modal';
 import '../ids-hyperlink/ids-hyperlink';
-
 import styles from './ids-about.scss';
+
+const Base = IdsLocaleMixin(
+  IdsModal
+);
 
 /**
  * IDS About Component

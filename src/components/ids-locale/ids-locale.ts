@@ -248,7 +248,7 @@ class IdsLocale {
    * Set the locale for a component and wait for it to finish (async)
    * @param {string} value The locale string value
    */
-  async setLocale(value: string) {
+  async setLocale(value: string | null | undefined) {
     if (!value) {
       return;
     }
@@ -289,7 +289,7 @@ class IdsLocale {
    * @param {object} [options] the objects to use for formatting
    * @returns {string} the formatted number
    */
-  formatNumber(value: any, options: any): string {
+  formatNumber(value: any, options?: any): string {
     // Set some options to map it closer to our old defaults
     let opts = options;
     let val = value;

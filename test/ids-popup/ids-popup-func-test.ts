@@ -7,6 +7,7 @@ import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsPopup from '../../src/components/ids-popup/ids-popup';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 
 /**
  * Creates the test div used as an ArrowTarget in many of the below tests
@@ -29,6 +30,7 @@ describe('IdsPopup Component', () => {
 
   beforeEach(async () => {
     container = new IdsContainer();
+    container.locale.loadedLanguages.set('ar', arMessages);
 
     // Create Popup w/ basic dimensions
     popup = new IdsPopup();

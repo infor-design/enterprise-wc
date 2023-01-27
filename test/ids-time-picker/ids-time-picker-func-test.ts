@@ -7,17 +7,23 @@ import IdsTimePicker from '../../src/components/ids-time-picker/ids-time-picker'
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import { attributes } from '../../src/core/ids-attributes';
 import { hoursTo12 } from '../../src/utils/ids-date-utils/ids-date-utils';
+import { messages as esMessages } from '../../src/components/ids-locale/data/es-messages';
+import { locale as es419Locale } from '../../src/components/ids-locale/data/es-419';
 
 describe('IdsTimePicker Component', () => {
   let timepicker: any;
+  let container: any;
 
   beforeEach(async () => {
-    const container: any = new IdsContainer();
-    container.setLocale('en-US');
+    container = new IdsContainer();
     document.body.appendChild(container);
     const element: any = new IdsTimePicker();
     document.body.appendChild(element);
     timepicker = document.querySelector('ids-time-picker');
+
+    container.locale.loadedLanguages.set('es', esMessages);
+    container.locale.loadedLocales.set('es-419', es419Locale);
+    container.setLocale('en-US');
   });
 
   afterEach(async () => {
@@ -137,8 +143,7 @@ describe('IdsTimePicker Component', () => {
 
     expect(timepicker.getAttribute(attributes.FORMAT)).toBeNull();
     expect(timepicker.format).toEqual(timepicker.locale.calendar().timeFormat);
-
-    await (document.querySelector('ids-container') as any)?.setLocale('es-419');
+    await container.setLocale('es-419');
 
     expect(timepicker.format).toEqual('HH:mm');
   });

@@ -3,6 +3,7 @@
  */
 import IdsRadio from '../../src/components/ids-radio/ids-radio';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 
 describe('IdsRadio Component', () => {
   let rb: any;
@@ -10,6 +11,7 @@ describe('IdsRadio Component', () => {
 
   beforeEach(async () => {
     container = new IdsContainer();
+    container.locale.loadedLanguages.set('de', deMessages);
     const elem = new IdsRadio();
     container.appendChild(elem);
     document.body.appendChild(container);

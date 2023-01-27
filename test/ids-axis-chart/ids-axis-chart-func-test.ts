@@ -10,6 +10,12 @@ import '../helpers/resize-observer-mock';
 import dataset from '../../src/assets/data/components.json';
 import processAnimFrame from '../helpers/process-anim-frame';
 
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import { messages as frFRMessages } from '../../src/components/ids-locale/data/fr-FR-messages';
+import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
+import { locale as frFRLocale } from '../../src/components/ids-locale/data/fr-FR';
+
 describe('IdsAxisChart Component', () => {
   let axisChart: any;
   let container: any;
@@ -19,6 +25,12 @@ describe('IdsAxisChart Component', () => {
     axisChart = new IdsAxisChart();
 
     container.appendChild(axisChart);
+    container.locale.loadedLanguages.set('ar', arMessages);
+    container.locale.loadedLanguages.set('de', deMessages);
+    container.locale.loadedLanguages.set('fr-FR', frFRMessages);
+    container.locale.loadedLocales.set('fr-FR', frFRLocale);
+    container.locale.loadedLocales.set('de-DE', deDELocale);
+
     document.body.appendChild(container);
     axisChart.data = dataset;
   });

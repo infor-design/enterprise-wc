@@ -7,6 +7,8 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import '../helpers/resize-observer-mock';
 import processAnimFrame from '../helpers/process-anim-frame';
+import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
 
 describe('IdsPieChart Component', () => {
   let pieChart: any;
@@ -14,6 +16,9 @@ describe('IdsPieChart Component', () => {
 
   beforeEach(async () => {
     container = new IdsContainer();
+    container.locale.loadedLanguages.set('de', deMessages);
+    container.locale.loadedLocales.set('de-DE', deDELocale);
+
     pieChart = new IdsPieChart();
     document.body.appendChild(container);
     container.appendChild(pieChart);

@@ -10,6 +10,7 @@ import {
   id,
   EVENTS
 } from '../../src/components/ids-toast/ids-toast-shared';
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 
 describe('IdsToast Component', () => {
   const origInnerWidth = window.innerWidth;
@@ -20,6 +21,8 @@ describe('IdsToast Component', () => {
 
   beforeEach(async () => {
     container = new IdsContainer();
+    container.locale.loadedLanguages.set('ar', arMessages);
+
     toast = new IdsToast();
     container.appendChild(toast);
     document.body.appendChild(container);

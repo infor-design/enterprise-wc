@@ -16,6 +16,10 @@ import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-u
 import IdsPager from '../../src/components/ids-pager/ids-pager';
 import '../../src/components/ids-checkbox/ids-checkbox';
 
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
+
 describe('IdsDataGrid Component', () => {
   let dataGrid: any;
   let container: any;
@@ -230,6 +234,10 @@ describe('IdsDataGrid Component', () => {
     (window.StyleSheet as any).insertRule = () => '';
 
     container = new IdsContainer();
+    container.locale.loadedLanguages.set('ar', arMessages);
+    container.locale.loadedLanguages.set('de', deMessages);
+    container.locale.loadedLocales.set('de-DE', deDELocale);
+
     dataGrid = new IdsDataGrid();
     container.appendChild(dataGrid);
     document.body.appendChild(container);

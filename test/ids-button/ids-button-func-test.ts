@@ -7,6 +7,7 @@ import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavi
 import processAnimFrame from '../helpers/process-anim-frame';
 import '../../src/components/ids-icon/ids-icon';
 import type IdsIcon from '../../src/components/ids-icon/ids-icon';
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 
 describe('IdsButton Component', () => {
   let btn: IdsButton;
@@ -101,6 +102,7 @@ describe('IdsButton Component', () => {
     container.appendChild(btn);
     document.body.appendChild(container);
     expect(btn.container?.classList.contains('rtl')).toBeFalsy();
+    container.locale.loadedLanguages.set('ar', arMessages);
     await container.setLanguage('ar');
     await processAnimFrame();
     expect(btn.locale.isRTL()).toEqual(true);

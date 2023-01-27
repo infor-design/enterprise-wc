@@ -15,6 +15,7 @@ import '../../src/components/ids-hyperlink/ids-hyperlink';
 // locale messages
 import { messages as esMessages } from '../../src/components/ids-locale/data/es-messages';
 import { messages as jaMessages } from '../../src/components/ids-locale/data/ja-messages';
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 
 const name = 'ids-about';
 const id = 'test-about-component';
@@ -30,6 +31,10 @@ describe('IdsAbout Component (using properties)', () => {
   beforeEach(async () => {
     const container: any = document.createElement('ids-container');
     document.body.appendChild(container);
+
+    container.locale.loadedLanguages.set('ar', arMessages);
+    container.locale.loadedLanguages.set('es', esMessages);
+    container.locale.loadedLanguages.set('ja', jaMessages);
     await container.setLanguage('en');
 
     component = new IdsAbout();

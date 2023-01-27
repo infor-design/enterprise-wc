@@ -8,6 +8,7 @@ import '../../src/components/ids-input/ids-input';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import '../../src/components/ids-pager/ids-pager';
 import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
+import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 
 const HTMLSnippets = {
   NAV_BUTTONS_WITHOUT_NESTING: (
@@ -99,6 +100,7 @@ describe('IdsPager Component', () => {
   const createElemViaTemplate = async (innerHTML: any) => {
     elem?.remove?.();
     container = new IdsContainer();
+    container.locale.loadedLanguages.set('de', deMessages);
 
     const template = document.createElement('template');
     template.innerHTML = innerHTML;
