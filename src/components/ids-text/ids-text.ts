@@ -4,7 +4,12 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-import Base from './ids-text-base';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-text.scss';
 
@@ -19,6 +24,18 @@ const TEXT_ALIGNMENTS = ['start', 'end', 'center', 'justify'];
 
 // Statuses
 const STATUSES = ['base', 'error', 'info', 'success', 'warning'];
+
+const Base = IdsColorVariantMixin(
+  IdsLocaleMixin(
+    IdsTooltipMixin(
+      IdsThemeMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Text Component

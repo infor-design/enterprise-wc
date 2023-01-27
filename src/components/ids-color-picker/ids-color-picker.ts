@@ -6,10 +6,10 @@ import IdsColor, { SwatchSizesType } from '../ids-color/ids-color';
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import '../ids-input/ids-input';
-
-import Base from './ids-color-picker-base';
-
+import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import styles from './ids-color-picker.scss';
+
+const Base = IdsPopupOpenEventsMixin(IdsTriggerField);
 
 /**
  * IDS Color Picker

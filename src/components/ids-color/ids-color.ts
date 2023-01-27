@@ -1,11 +1,22 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import Base from './ids-color-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-color.scss';
 import IdsTooltip from '../ids-tooltip/ids-tooltip';
 import IdsIcon from '../ids-icon/ids-icon';
+
+const Base = IdsThemeMixin(
+  IdsKeyboardMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 const SwatchSizes = ['xs', 'sm', 'mm', 'md', 'lg'] as const;
 export type SwatchSizesType = typeof SwatchSizes[number];

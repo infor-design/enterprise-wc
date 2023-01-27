@@ -3,7 +3,10 @@ import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { convertColorToRgba, convertStatusToIDSColor } from '../../utils/ids-color-utils/ids-color-utils';
-import Base from './ids-slider-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-slider.scss';
 import IdsDraggable from '../ids-draggable/ids-draggable';
@@ -33,6 +36,14 @@ const DEFAULT_TRACKER_BOUNDS = {
   RIGHT: NaN,
   TOP: NaN
 };
+
+const Base = IdsThemeMixin(
+  IdsLocaleMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS Slider Component

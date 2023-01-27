@@ -1,7 +1,10 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import Base from './ids-toolbar-section-base';
+import IdsElement from '../../core/ids-element';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+
 import styles from './ids-toolbar-section.scss';
 
 const TOOLBAR_SECTION_ATTRIBUTES = [
@@ -78,6 +81,12 @@ function setCssClassFromGroup(targetClass: string, targetElem: HTMLElement, grou
     }
   });
 }
+
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Toolbar Section Component

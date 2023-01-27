@@ -9,7 +9,13 @@ import {
 import IdsDataSource from '../../core/ids-data-source';
 import '../ids-virtual-scroll/ids-virtual-scroll';
 import '../ids-checkbox/ids-checkbox';
-import Base from './ids-list-view-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
+
 import '../ids-swappable/ids-swappable';
 import '../ids-swappable/ids-swappable-item';
 
@@ -17,6 +23,18 @@ import styles from './ids-list-view.scss';
 import type IdsSwappableItem from '../ids-swappable/ids-swappable-item';
 import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 import type IdsText from '../ids-text/ids-text';
+
+const Base = IdsLocaleMixin(
+  IdsThemeMixin(
+    IdsPagerMixin(
+      IdsKeyboardMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
+      )
+    )
+  )
+);
 
 export interface IdsListViewActivatedItem {
   /** The index value in current dataset */

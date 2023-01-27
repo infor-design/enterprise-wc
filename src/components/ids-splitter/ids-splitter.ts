@@ -1,13 +1,25 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import Base from './ids-splitter-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
+
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsSplitterLocalStorage from './ids-splitter-local-storage';
 import IdsSplitterPane from './ids-splitter-pane';
 import '../ids-draggable/ids-draggable';
 
 import styles from './ids-splitter.scss';
+
+const Base = IdsLocaleMixin(
+  IdsThemeMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * Collapse expand options interface

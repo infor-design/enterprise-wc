@@ -6,12 +6,16 @@ import { QUALITATIVE_COLORS } from './ids-chart-colors';
 import { patternData } from './ids-pattern-data';
 import NiceScale from './ids-nice-scale';
 import debounce from '../../utils/ids-debounce-utils/ids-debounce-utils';
-import Base from './ids-axis-chart-base';
+import IdsChartLegendMixin from '../../mixins/ids-chart-legend-mixin/ids-chart-legend-mixin';
+import IdsChartSelectionMixin, { ChartSelectionHandler } from '../../mixins/ids-chart-selection-mixin/ids-chart-selection-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 import IdsDataSource from '../../core/ids-data-source';
 import '../ids-tooltip/ids-tooltip';
 import '../ids-empty-message/ids-empty-message';
 import styles from './ids-axis-chart.scss';
-import { ChartSelectionHandler } from '../../mixins/ids-chart-selection-mixin/ids-chart-selection-mixin';
 import type IdsEmptyMessage from '../ids-empty-message/ids-empty-message';
 import type IdsText from '../ids-text/ids-text';
 import type IdsTooltip from '../ids-tooltip/ids-tooltip';
@@ -77,6 +81,18 @@ export type SectionHeight = {
   height: number;
   top: number;
 };
+
+const Base = IdsChartLegendMixin(
+  IdsChartSelectionMixin(
+    IdsThemeMixin(
+      IdsLocaleMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Axis Chart Component

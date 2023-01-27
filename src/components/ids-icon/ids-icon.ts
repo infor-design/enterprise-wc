@@ -7,12 +7,24 @@ import { sizes } from './ids-icon-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-import Base from './ids-icon-base';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+
 import styles from './ids-icon.scss';
 
 const emptyIconPathData: any = emptyPathImport;
 const pathData: Record<string, string> = pathImport;
 const customIcons: Record<string, string> = {};
+
+const Base = IdsLocaleMixin(
+  IdsColorVariantMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * Add a custom icon

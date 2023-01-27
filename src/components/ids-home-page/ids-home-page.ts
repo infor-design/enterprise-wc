@@ -4,9 +4,20 @@ import { stringToBool, stringToNumber, camelCase } from '../../utils/ids-string-
 import { HOME_PAGE_DEFAULTS, EVENTS } from './ids-home-page-attributes';
 
 import '../ids-card/ids-card';
-import Base from './ids-home-page-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-home-page.scss';
+
+const Base = IdsLocaleMixin(
+  IdsThemeMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 export interface IdsHomePageBlock {
   /** The block width */

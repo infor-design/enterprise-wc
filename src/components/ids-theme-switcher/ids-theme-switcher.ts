@@ -1,10 +1,22 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-theme-switcher-base';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
+
 import '../ids-menu-button/ids-menu-button';
 import styles from './ids-theme-switcher.scss';
 import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
+
+const Base = IdsLocaleMixin(
+  IdsColorVariantMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS Theme Switcher Component

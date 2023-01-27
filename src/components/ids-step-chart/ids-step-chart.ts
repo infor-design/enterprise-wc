@@ -5,9 +5,17 @@ import '../ids-color/ids-color';
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
 
-import Base from './ids-step-chart-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-step-chart.scss';
+
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Step Chart Component

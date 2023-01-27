@@ -1,11 +1,14 @@
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import Base from './ids-date-picker-popup-base';
+import IdsMonthViewAttributeMixin from '../ids-month-view/ids-month-view-attribute-mixin';
+import IdsDateAttributeMixin from '../../mixins/ids-date-attribute-mixin/ids-date-attribute-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsPickerPopup, { IdsPickerPopupCallbacks } from '../ids-picker-popup/ids-picker-popup';
+
 import {
   subtractDate, isValidDate, hoursTo24, removeDateRange
 } from '../../utils/ids-date-utils/ids-date-utils';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
-import { IdsPickerPopupCallbacks } from '../ids-picker-popup/ids-picker-popup';
 import {
   IdsDatePickerCommonAttributes,
 } from './ids-date-picker-common';
@@ -44,6 +47,14 @@ import type IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
 import styles from './ids-date-picker-popup.scss';
 
 type IdsDatePickerPopupButton = IdsToggleButton | IdsModalButton | IdsButton;
+
+const Base = IdsMonthViewAttributeMixin(
+  IdsDateAttributeMixin(
+    IdsLocaleMixin(
+      IdsPickerPopup
+    )
+  )
+);
 
 /**
  * IDS Date Picker Popup Component

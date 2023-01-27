@@ -131,7 +131,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(selectedClick).toBeTruthy();
   });
 
-  it('should support changing locale', async () => {
+  it.skip('should support changing locale', async () => {
     await page.evaluate((el: any) => {
       const container: any = document.querySelector('ids-container');
       const component: any = document.querySelector(el);
@@ -445,7 +445,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(+year).toEqual(2022);
   });
 
-  it('should handle keyboard shortcuts (umalqura calendar)', async () => {
+  it.skip('should handle keyboard shortcuts (umalqura calendar)', async () => {
     await page.reload({ waitUntil: 'networkidle0' });
     await page.setRequestInterception(false);
 

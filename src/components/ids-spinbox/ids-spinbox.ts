@@ -2,7 +2,8 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-trigger-field/ids-trigger-button';
-import Base from './ids-spinbox-base';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+
 import styles from './ids-spinbox.scss';
 
 /**
@@ -23,7 +24,7 @@ const MOUSE_LEFT = 0b001;
  */
 @customElement('ids-spinbox')
 @scss(styles)
-export default class IdsSpinbox extends Base {
+export default class IdsSpinbox extends IdsTriggerField {
   constructor() {
     super();
   }

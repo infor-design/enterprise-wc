@@ -3,9 +3,20 @@ import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { getElementAtMouseLocation } from '../../utils/ids-dom-utils/ids-dom-utils';
 import '../ids-popup/ids-popup';
-import Base from './ids-popup-menu-base';
+import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
+import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
+import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin';
+import IdsMenu from '../ids-menu/ids-menu';
 
 import styles from './ids-popup-menu.scss';
+
+const Base = IdsPopupOpenEventsMixin(
+  IdsPopupInteractionsMixin(
+    IdsAttachmentMixin(
+      IdsMenu
+    )
+  )
+);
 
 /**
  * IDS Popup Menu Component

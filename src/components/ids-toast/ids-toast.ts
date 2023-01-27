@@ -1,7 +1,11 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import Base from './ids-toast-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
 
 import { isObject } from '../../utils/ids-object-utils/ids-object-utils';
 import { stripHTML, stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
@@ -24,6 +28,16 @@ import './ids-toast-message';
 import '../ids-draggable/ids-draggable';
 
 import styles from './ids-toast.scss';
+
+const Base = IdsThemeMixin(
+  IdsLocaleMixin(
+    IdsKeyboardMixin(
+      IdsEventsMixin(
+        IdsElement
+      )
+    )
+  )
+);
 
 /**
  * IDS Toast Component

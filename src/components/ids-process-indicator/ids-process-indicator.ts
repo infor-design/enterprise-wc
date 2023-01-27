@@ -1,10 +1,19 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import Base from './ids-process-indicator-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
+
 import './ids-process-indicator-step';
 import '../ids-alert/ids-alert';
 
 import styles from './ids-process-indicator.scss';
 import type IdsProcessStep from './ids-process-indicator-step';
+
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Process Indicator Component

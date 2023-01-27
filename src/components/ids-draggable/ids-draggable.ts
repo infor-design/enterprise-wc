@@ -2,9 +2,10 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-draggable-base';
-import getElTranslatePoint from './get-el-translate-point';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
 
+import getElTranslatePoint from './get-el-translate-point';
 import styles from './ids-draggable.scss';
 
 const CURSOR_EL_SIZE = 32;
@@ -17,7 +18,7 @@ const CURSOR_EL_SIZE = 32;
  */
 @customElement('ids-draggable')
 @scss(styles)
-export default class IdsDraggable extends Base {
+export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
   #relativeBounds: any = {};
 
   constructor() {

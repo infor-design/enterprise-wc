@@ -1,7 +1,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import Base from './ids-pager-button-base';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-button/ids-button';
@@ -11,6 +14,14 @@ import { buttonTypes } from './ids-pager-attributes';
 import styles from './ids-pager-button.scss';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsIcon from '../ids-icon/ids-icon';
+
+const Base = IdsLocaleMixin(
+  IdsTooltipMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS PagerButton Component
