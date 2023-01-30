@@ -4,7 +4,6 @@ import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-lab
 import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
 import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
-import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
@@ -12,16 +11,14 @@ import IdsElement from '../../core/ids-element';
 
 const Base = IdsThemeMixin(
   IdsLabelStateParentMixin(
-    IdsPopupOpenEventsMixin(
-      IdsDirtyTrackerMixin(
-        IdsFieldHeightMixin(
-          IdsColorVariantMixin(
-            IdsValidationInputMixin(
-              IdsLocaleMixin(
-                IdsKeyboardMixin(
-                  IdsEventsMixin(
-                    IdsElement
-                  )
+    IdsDirtyTrackerMixin(
+      IdsFieldHeightMixin(
+        IdsColorVariantMixin(
+          IdsValidationInputMixin(
+            IdsLocaleMixin(
+              IdsKeyboardMixin(
+                IdsEventsMixin(
+                  IdsElement
                 )
               )
             )

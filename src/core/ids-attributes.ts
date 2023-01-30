@@ -144,6 +144,7 @@ export const attributes = {
   FIRST_DAY_OF_WEEK: 'first-day-of-week',
   FIXED: 'fixed',
   FOCUSABLE: 'focusable',
+  FOCUS_INLINE: 'focus-inline',
   FONT_SIZE: 'font-size',
   FONT_WEIGHT: 'font-weight',
   FORMAT: 'format',
