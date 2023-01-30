@@ -329,34 +329,20 @@ export default class IdsRadioGroup extends Base {
   get label(): string | null { return this.getAttribute(attributes.LABEL); }
 
   /**
-   * Sets the validation check to use
-   * @param {string | null} value The `validate` attribute
+   * Sets the checkbox to required
+   * @param {string | null} value The `label-required` attribute
    */
-  set validate(value: string | null) {
+  set labelRequired(value: string | null) {
+    const val = stringToBool(value);
     if (value) {
-      this.setAttribute(attributes.VALIDATE, value);
+      this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
     } else {
-      this.removeAttribute(attributes.VALIDATE);
+      this.removeAttribute(attributes.LABEL_REQUIRED);
     }
-    this.handleValidation();
+    this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
   }
 
-  get validate(): string | null { return this.getAttribute(attributes.VALIDATE); }
-
-  /**
-   * Sets which events to fire validation on
-   * @param {string | null} value The `validation-events` attribute
-   */
-  set validationEvents(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATION_EVENTS, value);
-    } else {
-      this.removeAttribute(attributes.VALIDATION_EVENTS);
-    }
-    this.handleValidation();
-  }
-
-  get validationEvents(): string | null { return this.getAttribute(attributes.VALIDATION_EVENTS); }
+  get labelRequired(): string | null { return this.getAttribute(attributes.LABEL_REQUIRED); }
 
   /**
    * Sets the checkbox `value` attribute

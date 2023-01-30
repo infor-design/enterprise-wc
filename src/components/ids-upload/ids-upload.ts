@@ -479,24 +479,6 @@ export default class IdsUpload extends Base {
   }
 
   /**
-   * Set the `label` text of input label
-   * @param {string} value of the `label` text property
-   */
-  set label(value: string) {
-    if (value) {
-      this.setAttribute(attributes.LABEL, value);
-      if (this.textInput) this.textInput.label = value;
-    } else {
-      this.removeAttribute(attributes.LABEL);
-      if (this.textInput) this.textInput.label = null;
-    }
-  }
-
-  get label(): string {
-    return this.getAttribute(attributes.LABEL) ?? '';
-  }
-
-  /**
    * Set the label for filetype
    * @param {string | null} value The label for filetype
    */

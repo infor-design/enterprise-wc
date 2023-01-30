@@ -218,28 +218,6 @@ export default class IdsSpinbox extends IdsTriggerField {
   }
 
   /**
-   * Sets the contents of the label and updates relevant ARIA attributes
-   * @param {string} value the new label contents
-   */
-  set label(value) {
-    super.label = value;
-    const newValue = super.label;
-
-    if (newValue) {
-      this.setAttribute(htmlAttributes.ARIA_LABEL, `${newValue}`);
-    } else {
-      this.removeAttribute(htmlAttributes.ARIA_LABEL);
-    }
-  }
-
-  /**
-   * @returns {string} the text contents of the label
-   */
-  get label() {
-    return super.label;
-  }
-
-  /**
    * @param {number|null} newValue maximum value of the spinbox
    */
   set max(newValue) {
