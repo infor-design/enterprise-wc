@@ -692,17 +692,15 @@ export default class IdsDropdown extends Base {
   attachClickEvent() {
     this.offEvent('click.dropdown-list-box');
     this.onEvent('click.dropdown-list-box', this.listBox, (e: any) => {
+      const closestOptEl = e.target.closest('ids-list-box-option');
+
       // Excluding group labels
-      if (e.target?.hasAttribute(attributes.GROUP_LABEL) || e.target.closest('ids-list-box-option')?.hasAttribute(attributes.GROUP_LABEL)) {
+      if (e.target?.hasAttribute(attributes.GROUP_LABEL) || closestOptEl?.hasAttribute(attributes.GROUP_LABEL)) {
         return;
       }
 
-      if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
-        this.value = e.target.getAttribute('value');
-      }
-
-      if (e.target.closest('ids-list-box-option')) {
-        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
+      if (closestOptEl) {
+        this.value = closestOptEl.getAttribute('value');
       }
 
       this.close();
@@ -1180,5 +1178,12 @@ export default class IdsDropdown extends Base {
    */
   get placeholder(): string {
     return this.getAttribute(attributes.PLACEHOLDER) ?? '';
+  }
+
+  /**
+   * Pass focus internally
+   */
+  focus() {
+    this.input?.focus();
   }
 }

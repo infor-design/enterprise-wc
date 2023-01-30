@@ -26,7 +26,8 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
     return [
       ...(superclass as any).attributes,
       attributes.CAPTURES_FOCUS,
-      attributes.CYCLES_FOCUS
+      attributes.CYCLES_FOCUS,
+      attributes.FOCUS_INLINE
     ];
   }
 
@@ -38,13 +39,14 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.#hostNode = getClosestContainerNode(this);
+    if (this.hasAttribute(attributes.FOCUS_INLINE)) this.syncInline(true);
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
     this.#removeFocusEvents();
     this.#hostNode = undefined;
+    this.#focusableElementsInDocument = null;
   }
 
   /**
@@ -85,10 +87,10 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
       this.#cyclesFocus = newVal;
       if (newVal) {
         this.setAttribute(attributes.CYCLES_FOCUS, `${newVal}`);
+        this.gainFocus();
       } else {
         this.removeAttribute(attributes.CYCLES_FOCUS);
       }
-      this.gainFocus();
     }
   }
 
@@ -102,8 +104,8 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
    */
   #attachFocusEvents() {
     const keydownEventHandler = (e: any) => {
-      const isOnFirst = this.#hostNode.activeElement.isEqualNode(this.firstFocusableElement);
-      const isOnLast = this.#hostNode.activeElement.isEqualNode(this.lastFocusableElement);
+      const isOnFirst = this.#hostNode.activeElement?.isEqualNode(this.firstFocusableElement);
+      const isOnLast = this.#hostNode.activeElement?.isEqualNode(this.lastFocusableElement);
 
       switch (e.key) {
         case 'Tab':
@@ -145,17 +147,17 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
    * Adds/Removes the focus event based on component state
    */
   #updateFocusEvents() {
+    this.#removeFocusEvents();
     if (this.capturesFocus) {
       this.gainFocus();
       this.#attachFocusEvents();
-    } else {
-      this.#removeFocusEvents();
     }
   }
 
   #focusableSelectors = [
     'button',
     'ids-button',
+    'ids-dropdown',
     'ids-menu-button',
     'ids-modal-button',
     'ids-toggle-button',
@@ -191,11 +193,14 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
    * @returns {Array<HTMLElement>} all possible focusable elements within Light DOM on the current page
    */
   get focusableElementsInDocument() {
-    if (!this.#focusableElementsInDocument.length && this.focusableSelectors.length) {
-      const selectorStr = this.focusableSelectors.join(', ');
-      this.#focusableElementsInDocument = [...this.#hostNode.querySelectorAll(selectorStr)];
-    }
+    if (!this.#focusableElementsInDocument.length && this.focusableSelectors.length) this.refreshFocusableElements();
     return this.#focusableElementsInDocument;
+  }
+
+  refreshFocusableElements() {
+    const selectorStr = this.focusableSelectors.join(', ');
+    this.#focusableElementsInDocument = [...this.#hostNode.querySelectorAll(selectorStr)]
+      .filter((i: HTMLElement) => !i.hasAttribute(attributes.HIDDEN));
   }
 
   /**
@@ -203,6 +208,7 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
    * @returns {Array<HTMLElement>} focusable elements inside of this WebComponent's Light DOM
    */
   get focusableElements() {
+    if (this.focusInline) return this.focusableElementsInDocument;
     return this.focusableElementsInDocument.filter((i: any) => this.contains(i));
   }
 
@@ -297,6 +303,35 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
     if (!this.contains(this.#hostNode.activeElement)) {
       this.setFocus(index);
     }
+  }
+
+  /**
+   * Sets the correct host node to use for focus detection
+   * @param {boolean | null} val if truthy, uses this component's shadow root for focus detection
+   */
+  syncInline(val: boolean | null) {
+    if (val) this.#hostNode = this.shadowRoot;
+    else this.#hostNode = getClosestContainerNode(this);
+  }
+
+  /**
+   * @param {boolean | string} val true if focus detection should only occur within this component's shadow root
+   */
+  set focusInline(val: boolean | string | null) {
+    const newValue = stringToBool(val);
+    if (newValue) {
+      this.setAttribute(attributes.FOCUS_INLINE, 'true');
+    } else {
+      this.removeAttribute(attributes.FOCUS_INLINE);
+    }
+    this.syncInline(newValue);
+  }
+
+  /**
+   * @returns {boolean} true if this component should only capture focus within its shadow root
+   */
+  get focusInline() {
+    return this.hasAttribute(attributes.FOCUS_INLINE);
   }
 };
 

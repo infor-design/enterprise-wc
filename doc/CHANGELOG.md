@@ -53,6 +53,7 @@
 - `[Multiselect]` Added ellipsis and tooltip to overflowed text. ([#924](https://github.com/infor-design/enterprise-wc/issues/924))
 - `[Pager]` Fixed page size dropdown selected popup item. ([#1034](https://github.com/infor-design/enterprise-wc/issues/1034))
 - `[ScrollView]` Fixed buttons do not update after being clicked. ([#951](https://github.com/infor-design/enterprise-wc/issues/951))
+- `[TimePicker]` Separated the time picker popup into its own web component. ([#1063](https://github.com/infor-design/enterprise-wc/issues/1063))
 - `[Wizard]` Fixed dark/contrast mode colors. ([#1007](https://github.com/infor-design/enterprise-wc/issues/1007))
 
 ## 1.0.0-beta.2
