@@ -516,24 +516,6 @@ export default class IdsUpload extends Base {
   }
 
   /**
-   * Set `label-required` attribute
-   * @param {boolean|string} value The `label-required` attribute
-   */
-  set labelRequired(value: boolean | string) {
-    if (typeof value === 'boolean' || typeof value === 'string') {
-      this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
-    } else {
-      this.removeAttribute(attributes.LABEL_REQUIRED);
-    }
-    this.textInput.labelRequired = this.labelRequired;
-  }
-
-  get labelRequired(): boolean {
-    const value = this.getAttribute(attributes.LABEL_REQUIRED);
-    return value !== null ? stringToBool(value) : true;
-  }
-
-  /**
    * Set the `multiple` attribute for filetype
    * @param {boolean|string} value of the `multiple` property
    */

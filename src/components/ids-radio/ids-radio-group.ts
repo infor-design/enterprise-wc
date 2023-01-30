@@ -88,7 +88,7 @@ export default class IdsRadioGroup extends Base {
     const disabledAria = stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
     const horizontal = stringToBool(this.horizontal) ? ' horizontal' : '';
     const rootClass = ` class="ids-radio-group${disabled}${horizontal}"`;
-    const rInd = !(stringToBool(this.labelRequired) || this.labelRequired === null);
+    const rInd = !(stringToBool((this as any).labelRequired) || (this as any).labelRequired === null);
     const labelClass = ` class="group-label-text${rInd ? ' no-required-indicator' : ''}"`;
 
     // Label
@@ -327,22 +327,6 @@ export default class IdsRadioGroup extends Base {
   }
 
   get label(): string | null { return this.getAttribute(attributes.LABEL); }
-
-  /**
-   * Sets the checkbox to required
-   * @param {string | null} value The `label-required` attribute
-   */
-  set labelRequired(value: string | null) {
-    const val = stringToBool(value);
-    if (value) {
-      this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
-    } else {
-      this.removeAttribute(attributes.LABEL_REQUIRED);
-    }
-    this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
-  }
-
-  get labelRequired(): string | null { return this.getAttribute(attributes.LABEL_REQUIRED); }
 
   /**
    * Sets the validation check to use
