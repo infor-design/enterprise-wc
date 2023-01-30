@@ -3373,6 +3373,26 @@ describe('IdsDataGrid Component', () => {
       }
     });
 
+    it.skip('can create rows while tabbing', () => {
+      // test setting
+      expect(dataGrid.addNewAtEnd).toEqual(false);
+      dataGrid.addNewAtEnd = true;
+      expect(dataGrid.addNewAtEnd).toEqual(true);
+
+      const rows = dataGrid.rows;
+      const rowsLen = rows.length;
+      //const colsLen = columns().length;
+      const lastRow = dataGrid.setActiveCell(2, rowsLen - 1);
+      lastRow.node.focus();
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+      const tabKey = new KeyboardEvent('keydown', { key: 'Tab' });
+      for (let i = 0; i < 20; i++) {
+        dataGrid.dispatchEvent(tabKey);
+      }
+      expect(dataGrid.rows.length).toBeGreaterThan(rowsLen);
+    });
+
     it('space toggles editable checkboxes', () => {
       dataGrid.editable = true;
       const checkCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
@@ -3382,6 +3402,91 @@ describe('IdsDataGrid Component', () => {
       dataGrid.dispatchEvent(event);
       const checkCell2 = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
       expect(checkCell2.querySelector('ids-checkbox').getAttribute('checked')).toBe('true');
+    });
+
+    const cellQuery = (col: number, row: number) => dataGrid.container.querySelector(`.ids-data-grid-row:nth-child(${row}) > .ids-data-grid-cell:nth-child(${col})`);
+    const activateCell = (col: number, row: number) => {
+      dataGrid.editable = true;
+      const activeCell = dataGrid.setActiveCell(col, row);
+      activeCell.node.focus();
+      const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
+      dataGrid.dispatchEvent(enterKey);
+    };
+
+    it('supports a dropdown editor', () => {
+      const dropdownCell = cellQuery(8, 2);
+      activateCell(7, 1);
+      expect(dropdownCell.classList.contains('is-editing')).toBeTruthy();
+      expect(dropdownCell.querySelector('ids-dropdown')).not.toBeNull();
+    });
+
+    it('can change cell value using dropdown editor', () => {
+      const dropdownCell = cellQuery(8, 2);
+      const arrowDownKey = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+      const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
+      activateCell(7, 1);
+
+      const dropdown = dropdownCell.querySelector('ids-dropdown');
+      dropdown.focus();
+      dropdown.dispatchEvent(arrowDownKey); // navigates list box options
+      dropdown.dispatchEvent(enterKey); // selects option
+      expect(dropdown.value).toEqual('yen');
+
+      dropdownCell.endCellEdit();
+      expect(dropdownCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    it('supports a datepicker editor', () => {
+      const columnsCopy = columns();
+      const publishDateCol = columnsCopy.find((col) => col.id === 'publishDate');
+      publishDateCol!.editor = {
+        type: 'datepicker',
+        editorSettings: {
+          dirtyTracker: true
+        }
+      };
+      dataGrid.columns = columnsCopy;
+
+      const activeCell = dataGrid.setActiveCell(4, 0);
+      const gridCell = activeCell.node;
+
+      // activate cell editing
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      const datePicker = gridCell.querySelector('ids-date-picker');
+      expect(datePicker).toBeDefined();
+
+      // set new value
+      datePicker.value = '4/30/2023';
+      gridCell.endCellEdit();
+
+      expect(gridCell.textContent).toEqual('4/30/2023');
+    });
+
+    it('supports a timepicker editor', () => {
+      const columnsCopy = columns();
+      const publishDateCol = columnsCopy.find((col) => col.id === 'publishTime');
+      publishDateCol!.editor = {
+        type: 'timepicker',
+        editorSettings: {
+          dirtyTracker: true
+        }
+      };
+      dataGrid.columns = columnsCopy;
+
+      const activeCell = dataGrid.setActiveCell(5, 0);
+      const gridCell = activeCell.node;
+
+      // activate cell editing
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      const timePicker = gridCell.querySelector('ids-time-picker');
+      expect(timePicker).toBeDefined();
+      expect(timePicker.value).toEqual('2:25 PM');
+
+      // set new value
+      timePicker.value = '3:45 AM';
+      gridCell.endCellEdit();
+
+      expect(gridCell.textContent).toEqual('3:45 AM');
     });
   });
 });

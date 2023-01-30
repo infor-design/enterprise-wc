@@ -88,6 +88,10 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     &.is-timepicker,
     &.is-datepicker {
       justify-content: space-between;
+
+      .text-ellipsis {
+        padding-inline-end: 0;
+      }
     }
 
     .editor-cell-icon {
