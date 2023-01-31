@@ -3236,12 +3236,13 @@ describe('IdsDataGrid Component', () => {
 
     it('can add multiple rows at given index', () => {
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
-      dataGrid.addRow([
+      dataGrid.addRows([
         { description: 'test1' },
         { description: 'test2' },
         { description: 'test3' }
       ], 2);
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(13);
+      expect(dataGrid.container.getAttribute('aria-rowcount')).toEqual('12');
       expect(dataGrid.data[2].description).toEqual('test1');
       expect(dataGrid.data[3].description).toEqual('test2');
       expect(dataGrid.data[4].description).toEqual('test3');
@@ -3254,6 +3255,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(11);
       dataGrid.removeRow(9);
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+      expect(dataGrid.container.getAttribute('aria-rowcount')).toEqual('9');
     });
 
     it('can call clearRow', async () => {
@@ -3373,18 +3375,18 @@ describe('IdsDataGrid Component', () => {
       }
     });
 
-    it.skip('can create rows while tabbing', () => {
+    it('can create rows while tabbing', () => {
       // test setting
-      expect(dataGrid.addNewAtEnd).toEqual(false);
+      dataGrid.editable = true;
+      dataGrid.editNextOnEnterPress = true;
       dataGrid.addNewAtEnd = true;
       expect(dataGrid.addNewAtEnd).toEqual(true);
 
-      const rows = dataGrid.rows;
-      const rowsLen = rows.length;
-      //const colsLen = columns().length;
-      const lastRow = dataGrid.setActiveCell(2, rowsLen - 1);
-      lastRow.node.focus();
+      const rowsLen = dataGrid.rows.length;
+      const cell = dataGrid.setActiveCell(2, 7);
+      expect(cell.node.classList.contains('is-editable')).toBeTruthy();
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      expect(cell.node.classList.contains('is-editing')).toBeTruthy();
 
       const tabKey = new KeyboardEvent('keydown', { key: 'Tab' });
       for (let i = 0; i < 20; i++) {

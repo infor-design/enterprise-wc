@@ -340,6 +340,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
     applySettings(component, cell?.column.editor?.editorSettings);
 
     // apply required settings
+    component.id = `${cell.column.field}-time-picker`;
     component.fieldHeight = String(cell?.dataGrid?.rowHeight);
     component.labelState = 'collapsed';
     component.colorVariant = 'borderless';

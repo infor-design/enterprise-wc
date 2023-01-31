@@ -8,6 +8,8 @@ import booksJSON from '../../../assets/data/books.json';
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-editable')!;
 const rowHeightMenu = document.querySelector<IdsPopupMenu>('#row-height-menu')!;
+const pageContainer: any = document.querySelector('ids-container');
+const calendar = pageContainer.locale.calendar();
 
 // Change row height with popup menu
 rowHeightMenu?.addEventListener('selected', (e: Event) => {
@@ -84,9 +86,11 @@ rowHeightMenu?.addEventListener('deselected', (e: Event) => {
     reorderable: true,
     formatter: dataGrid.formatters.date,
     editor: {
-      type: 'datepicker',
+      type: 'input',
       editorSettings: {
-        dirtyTracker: true
+        autoselect: true,
+        dirtyTracker: false,
+        mask: 'date'
       }
     }
   });
@@ -97,10 +101,20 @@ rowHeightMenu?.addEventListener('deselected', (e: Event) => {
     resizable: true,
     reorderable: true,
     formatter: dataGrid.formatters.time,
+    formatOptions: {
+      locale: 'en-US',
+      dateFormat: calendar.dateFormat.hour,
+      timeStyle: 'short'
+    },
     editor: {
-      type: 'timepicker',
+      type: 'input',
       editorSettings: {
-        dirtyTracker: true
+        autoselect: true,
+        dirtyTracker: false,
+        mask: 'date',
+        maskOptions: {
+          format: calendar.dateFormat.hour
+        }
       }
     }
   });

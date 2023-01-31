@@ -231,13 +231,8 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
 
   // Example Buttons
   document.querySelector('#add-row')?.addEventListener('click', () => {
-    const newRows = [
-      { description: 'New Row 1', ledgder: 'CORE' },
-      { description: 'New Row 2', ledgder: 'CORE' },
-      { description: 'New Row 3', ledgder: 'CORE' }
-    ];
-    dataGrid.addRow(newRows);
-
+    const newRow = { description: 'New Row', ledgder: 'CORE' };
+    dataGrid.addRow(newRow);
     dataGrid.setActiveCell(0, dataGrid.data.length - 1);
     dataGrid.editFirstCell();
   });

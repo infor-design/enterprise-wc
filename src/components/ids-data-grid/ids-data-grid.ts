@@ -308,7 +308,7 @@ export default class IdsDataGrid extends Base {
     this.filters.attachFilterSettings();
 
     // Set Counts/Totals
-    this.container?.setAttribute('aria-rowcount', this.rowCount.toString());
+    this.#updateRowCount();
 
     // Set contextmenu
     setContextmenu.apply(this);
@@ -1644,6 +1644,13 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Updates row count attribute on container
+   */
+  #updateRowCount() {
+    this.container?.setAttribute('aria-rowcount', this.rowCount.toString());
+  }
+
+  /**
    * Get the row HTMLElement
    * @param {number} index the zero based index
    * @returns {HTMLElement} Row HTMLElement
@@ -1671,14 +1678,27 @@ export default class IdsDataGrid extends Base {
   /**
    * Add a row to the data grid
    * @param {Record<string, unknown>} data the data to add to the row
-   * @param {number} index insert position for new row(s)
+   * @param {number} index insert position for new row
    */
-  addRow(data: Record<string, unknown> | Array<Record<string, unknown>>, index?: number) {
+  addRow(data: Record<string, unknown>, index?: number) {
     const insertIdx = index ?? this.datasource.originalData.length;
-    const newRows = Array.isArray(data) ? data : [data];
-    this.datasource.originalData.splice(insertIdx, 0, ...newRows);
+    this.datasource.originalData.splice(insertIdx, 0, data);
     this.datasource.data = this.datasource.originalData;
     this.redrawBody();
+    this.#updateRowCount();
+  }
+
+  /**
+   * Add multiple rows to the data grid
+   * @param {Array<Record<string, unknown>>} data multiple row data
+   * @param {number} index insert position for new rows
+   */
+  addRows(data: Array<Record<string, unknown>> = [], index?: number) {
+    const insertIdx = index ?? this.datasource.originalData.length;
+    this.datasource.originalData.splice(insertIdx, 0, ...data);
+    this.datasource.data = this.datasource.originalData;
+    this.redrawBody();
+    this.#updateRowCount();
   }
 
   /**
@@ -1689,6 +1709,7 @@ export default class IdsDataGrid extends Base {
     this.datasource.originalData.splice(index, 1);
     this.datasource.data = this.datasource.originalData;
     this.redrawBody();
+    this.#updateRowCount();
   }
 
   /**
