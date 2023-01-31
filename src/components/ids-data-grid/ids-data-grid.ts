@@ -1738,7 +1738,7 @@ export default class IdsDataGrid extends Base {
     if (!row) return;
 
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
-      const checkbox = row?.querySelector('.ids-data-grid-checkbox');
+      const checkbox = row?.querySelector('.is-selection-checkbox .ids-data-grid-checkbox');
       checkbox?.classList.add('checked');
       checkbox?.setAttribute('aria-checked', 'true');
     }
@@ -1785,7 +1785,7 @@ export default class IdsDataGrid extends Base {
     row.removeAttribute('aria-selected');
 
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
-      const checkbox = row.querySelector('.ids-data-grid-checkbox');
+      const checkbox = row.querySelector('.is-selection-checkbox .ids-data-grid-checkbox');
       checkbox?.classList.remove('checked');
       checkbox?.setAttribute('aria-checked', 'false');
     }
