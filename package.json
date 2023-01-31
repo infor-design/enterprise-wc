@@ -49,6 +49,7 @@
     "test:percy:local": "npx percy exec -- npm run test:percy",
     "test:debug": "PERCY_LOGLEVEL=silent node --inspect-brk node_modules/.bin/jest --runInBand --detectOpenHandles --forceExit",
     "test:vulnerabilities": "snyk test",
+    "test:circular": "npx madge --circular --extensions ts ./",
     "ncu": "npx ncu"
   },
   "devDependencies": {

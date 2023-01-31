@@ -1077,12 +1077,6 @@ export default class IdsSplitter extends Base {
    * @returns {object} This API object for chaining
    */
   #attachEventHandlers(): object {
-    // Respond to parent changing language
-    this.offEvent('languagechange.splitter');
-    this.onEvent('languagechange.splitter', this.closest('ids-container'), () => {
-      this.#resize();
-    });
-
     const slot = this.shadowRoot?.querySelector('slot');
     this.offEvent('slotchange.splitter', slot);
     this.onEvent('slotchange.splitter', slot, () => {
@@ -1150,6 +1144,11 @@ export default class IdsSplitter extends Base {
     return this;
   }
 
+  /** Handle Languages Changes */
+  onLanguageChange = () => {
+    this.#resize();
+  };
+
   /**
    * Destroy added elements and unbind events.
    * @returns {object} This API object for chaining
@@ -1157,7 +1156,6 @@ export default class IdsSplitter extends Base {
   #destroy(): object {
     const slot = this.shadowRoot?.querySelector('slot');
     this.offEvent('slotchange.splitter', slot);
-    this.offEvent('languagechange.splitter');
     this.#resizeObserver.disconnect();
     this.#initObserver?.disconnect();
 

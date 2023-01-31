@@ -2,7 +2,7 @@
 const container: any = document.querySelector('ids-container');
 
 // Asyncronously load a language and display the strings
-(async function loadMessages() {
+(async function runExamples() {
   const append = (number: any) => {
     const html = `<ids-layout-grid-cell col-span="3">
     <ids-text>${number}</ids-text>

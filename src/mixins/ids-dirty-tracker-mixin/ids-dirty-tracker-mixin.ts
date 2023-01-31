@@ -1,6 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { IdsConstructor } from '../../core/ids-element';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
@@ -201,13 +200,6 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
    * @returns {void}
    */
   dirtyTrackerEvents(option = '') {
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', getClosest(this, 'ids-container'), () => {
-      const icon = this.dirtyContainer?.querySelector('.icon-dirty');
-      if (this.locale?.isRTL()) icon?.setAttribute('dir', 'rtl');
-      else icon?.removeAttribute('dir');
-    });
-
     const thisAsInput = this as IdsInputInterface;
     if ((this as IdsInputInterface).input) {
       const eventName = 'change.dirtytrackermixin';
@@ -225,6 +217,13 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
       }
     }
   }
+
+  /** Handle Languages Changes */
+  onLanguageChange = () => {
+    const icon = this.dirtyContainer?.querySelector('.icon-dirty');
+    if (this.locale?.isRTL()) icon?.setAttribute('dir', 'rtl');
+    else icon?.removeAttribute('dir');
+  };
 
   /**
    * Reset dirty tracker

@@ -559,12 +559,6 @@ export default class IdsHomePage extends Base {
    * @returns {object} This API object for chaining
    */
   #attachEventHandlers(): object {
-    // Respond to parent changing language
-    this.offEvent('languagechange.tree');
-    this.onEvent('languagechange.tree', this.closest('ids-container'), () => {
-      this.#resize();
-    });
-
     const slot = this.shadowRoot?.querySelector(`slot[name="card"]`);
     this.offEvent('slotchange', slot);
     this.onEvent('slotchange', slot, () => {
@@ -576,6 +570,11 @@ export default class IdsHomePage extends Base {
     if (this.container) this.#resizeObserver.observe(this.container);
     return this;
   }
+
+  /** Handle Languages Changes */
+  onLanguageChange = () => {
+    this.#resize();
+  };
 
   /**
    * Get the boolean value for given attribute.

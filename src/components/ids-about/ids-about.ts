@@ -78,17 +78,15 @@ export default class IdsAbout extends Base {
     this.#refreshCopyright();
 
     // Respond to parent changing language
-    this.offEvent('languagechange.about-container');
-    this.onEvent('languagechange.about-container', this.closest('ids-container'), () => {
+    this.onLanguageChange = () => {
       this.#refreshDeviceSpecs();
       this.#refreshCopyright();
-    });
+    };
 
-    this.offEvent('localechange.about-container');
-    this.onEvent('localechange.about-container', this.closest('ids-container'), () => {
+    this.onLocaleChange = () => {
       this.#refreshDeviceSpecs();
       this.#refreshCopyright();
-    });
+    };
     return this;
   }
 

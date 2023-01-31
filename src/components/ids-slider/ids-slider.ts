@@ -415,15 +415,12 @@ export default class IdsSlider extends Base {
   }
 
   /**
-   * Add event listener for when the language changes to check for RTL
-   * @private
+   * Handle Languages Changes
    */
-  #attachRTLListener(): void {
-    this.onEvent('languagechange.container', this.closest('ids-container'), (e: CustomEvent) => {
-      const isRTL = this.locale.isRTL(e.detail.language.name);
-      this.isRTL = isRTL;
-    });
-  }
+  onLanguageChange = () => {
+    const isRTL = this.locale.isRTL();
+    this.isRTL = isRTL;
+  };
 
   /**
    * Helper method to update the UI of the tooltip and its text
@@ -1149,7 +1146,6 @@ export default class IdsSlider extends Base {
    * @private
    */
   #attachEventListeners(): void {
-    this.#attachRTLListener();
     this.#attachResizeObserver();
     this.#attachDragEventListeners();
     if (this.type === 'range') this.#attachDragEventListeners('secondary');

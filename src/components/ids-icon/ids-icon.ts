@@ -5,7 +5,6 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { sizes } from './ids-icon-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
@@ -85,7 +84,6 @@ export default class IdsIcon extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.#attachEventHandlers();
   }
 
   /**
@@ -106,19 +104,14 @@ export default class IdsIcon extends Base {
     ];
   }
 
-  /**
-   * Handle change events
-   */
-  #attachEventHandlers() {
-    this.offEvent('languagechange.icon-container');
-    this.onEvent('languagechange.icon-container', getClosest(this, 'ids-container'), () => {
-      if (this.isMirrored(this.icon)) {
-        this.container?.classList.add('mirrored');
-      } else {
-        this.container?.classList.remove('mirrored');
-      }
-    });
-  }
+  /** Handle Languages Changes */
+  onLanguageChange = () => {
+    if (this.isMirrored(this.icon)) {
+      this.container?.classList.add('mirrored');
+    } else {
+      this.container?.classList.remove('mirrored');
+    }
+  };
 
   /**
    * Create the Template for the contents

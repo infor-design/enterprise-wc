@@ -235,8 +235,29 @@ export default class IdsCalendar extends Base {
   /**
    * @param {IdsLocale} locale the new locale object
    */
-  onLocaleChange = (locale: IdsLocale) => {
+  onLocaleChange = (locale: IdsLocale | undefined) => {
+    this.updateEventDetails(this.state.selected);
+    this.renderLegend(this.eventTypesData);
     this.#updateDatePickerPopupTrigger(locale);
+
+    const monthView = this.container?.querySelector<IdsMonthView>('ids-month-view');
+    if (monthView) {
+      (monthView as any).locale = this.localeName;
+      monthView.language = this.language.name;
+    }
+    const weekView = this.container?.querySelector<IdsWeekView>('ids-week-view');
+    if (weekView) {
+      (weekView as any).locale = this.localeName;
+      weekView.language = this.language.name;
+    }
+    this.container?.querySelectorAll('[translate-text]').forEach((textElem: Element) => {
+      (textElem as any).language = this.language.name;
+    });
+    requestAnimationFrame(() => {
+      this.querySelectorAll('ids-checkbox[data-id]').forEach((checkElem: Element) => {
+        (checkElem as any).setAttribute('language', this.language.name);
+      });
+    });
   };
 
   /**
@@ -529,12 +550,6 @@ export default class IdsCalendar extends Base {
         this.setViewPickerValue('day');
         this.updateEventDetails(this.state.selected);
       }
-    });
-
-    this.offEvent('localechange.calendar-container');
-    this.onEvent('localechange.calendar-container', this.closest('ids-container'), () => {
-      this.updateEventDetails(this.state.selected);
-      this.renderLegend(this.eventTypesData);
     });
 
     this.onEvent('click.details-item', this.container?.querySelector('.calendar-details-pane'), (evt: any) => {

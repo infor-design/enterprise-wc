@@ -22,8 +22,6 @@ import {
 import {
   isValidDate, umalquraToGregorian, hoursTo24
 } from '../../utils/ids-date-utils/ids-date-utils';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
-
 // Supporting components
 import './ids-date-picker-popup';
 import '../ids-button/ids-button';
@@ -339,24 +337,6 @@ class IdsDatePicker extends Base {
    * @returns {object} The object for chaining
    */
   #attachEventHandlers(): object {
-    // Respond to container changing locale
-    this.offEvent('localechange.date-picker-container');
-    this.onEvent('localechange.date-picker-container', getClosest(this, 'ids-container'), () => {
-      this.setDirection();
-      this.#applyMask();
-
-      // Locale change first day of week only if it's not set as attribute
-      if (this.firstDayOfWeek === null) {
-        this.firstDayOfWeek = this.locale?.calendar().firstDayofWeek || 0;
-      }
-    });
-
-    // Respond to container changing language
-    this.offEvent('languagechange.date-picker-container');
-    this.onEvent('languagechange.date-picker-container', getClosest(this, 'ids-container'), () => {
-      this.#setAvailableDateValidation();
-    });
-
     // Input value change triggers component value change
     this.offEvent('change.date-picker-input');
     this.onEvent('change.date-picker-input', this.#triggerField, (e: any) => {
@@ -390,6 +370,32 @@ class IdsDatePicker extends Base {
 
     return this;
   }
+
+  // Respond to changing locale
+  onLocaleChange = () => {
+    if (this.#picker) {
+      (this.#picker as any).locale = this.localeName;
+      (this.#picker as any).language = this.language.name;
+    }
+    this.#triggerField.locale = this.localeName;
+    this.#triggerField.language = this.language.name;
+    this.setDirection();
+    this.#applyMask();
+
+    // Locale change first day of week only if it's not set as attribute
+    if (this.firstDayOfWeek === null) {
+      this.firstDayOfWeek = this.locale?.calendar().firstDayofWeek || 0;
+    }
+  };
+
+  // Respond to changing language
+  onLanguageChange = () => {
+    this.#triggerField.language = this.language.name;
+    if (this.#picker) {
+      (this.#picker as any).language = this.language.name;
+    }
+    this.#setAvailableDateValidation();
+  };
 
   /**
    * Establish Internal Keyboard shortcuts

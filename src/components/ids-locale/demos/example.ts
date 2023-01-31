@@ -7,7 +7,7 @@
   await container.setLanguage(initialLocale);
 
   // Show them in the page
-  const keys = Object.keys(container.language.messages);
+  const keys = Object.keys(container.locale.language.messages);
   for (let i = 0; i < keys.length; i++) {
     html += `<ids-layout-grid-cell col-span="1">
       <ids-text font-weight="bold">${keys[i]}</ids-text>

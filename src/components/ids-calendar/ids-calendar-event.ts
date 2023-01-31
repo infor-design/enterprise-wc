@@ -135,11 +135,12 @@ export default class IdsCalendarEvent extends Base {
       evt.stopPropagation();
       triggerFn('click');
     });
-
-    this.onEvent('languagechange.calendar-event', this.closest('ids-container'), () => {
-      this.refreshContent();
-    });
   }
+
+  /** Respond to language changes */
+  onLanguageChange = () => {
+    this.refreshContent();
+  };
 
   /**
    * Refreshses calendar event content with current settings

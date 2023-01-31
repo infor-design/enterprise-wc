@@ -19,7 +19,6 @@ import '../ids-button/ids-button';
 import '../ids-modal-button/ids-modal-button';
 import '../ids-expandable-area/ids-expandable-area';
 import '../ids-month-view/ids-month-view';
-import '../ids-text/ids-text';
 import '../ids-time-picker/ids-time-picker';
 import '../ids-toggle-button/ids-toggle-button';
 import '../ids-toolbar/ids-toolbar';
@@ -45,6 +44,7 @@ import type IdsToolbar from '../ids-toolbar/ids-toolbar';
 import type IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
 
 import styles from './ids-date-picker-popup.scss';
+import IdsText from '../ids-text/ids-text';
 
 type IdsDatePickerPopupButton = IdsToggleButton | IdsModalButton | IdsButton;
 
@@ -289,8 +289,19 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
   /**
    * @param {IdsLocale} locale the new locale object
    */
-  onLocaleChange = (locale: IdsLocale) => {
+  onLocaleChange = (locale: IdsLocale | undefined) => {
     this.updateMonthYearPickerTriggerDisplay(locale);
+    if (this.monthYearPicklist) {
+      (this.monthYearPicklist as any).locale = this.localeName;
+      this.monthYearPicklist.language = this.language.name;
+    }
+    if (this.monthView) {
+      (this.monthView as any).locale = this.localeName;
+      this.monthView.language = this.language.name;
+    }
+    this.shadowRoot?.querySelectorAll('[translate-text]').forEach((textElem: Element) => {
+      (textElem as IdsText).language = this.language.name;
+    });
   };
 
   hideIfAble(): void {

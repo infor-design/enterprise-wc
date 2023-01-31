@@ -2,7 +2,6 @@ import fontSizes from 'ids-identity/dist/theme-new/tokens/web/ui.config.font-siz
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
@@ -122,10 +121,9 @@ export default class IdsText extends Base {
    */
   #attachEventHandlers() {
     if (this.translateText) {
-      this.offEvent('languagechange.text-container');
-      this.onEvent('languagechange.text-container', getClosest((this as any), 'ids-container'), () => {
+      this.onLanguageChange = () => {
         this.#translateAsync();
-      });
+      };
     }
   }
 

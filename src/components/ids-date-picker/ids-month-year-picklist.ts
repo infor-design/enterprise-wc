@@ -786,7 +786,7 @@ class IdsMonthYearPicklist extends Base {
   }
 
   /**
-   *
+   * Respond to locale changes
    */
   onLocaleChange = () => {
     this.refreshPicklists();

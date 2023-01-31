@@ -106,6 +106,8 @@ const Base = IdsChartLegendMixin(
 @customElement('ids-axis-chart')
 @scss(styles)
 export default class IdsAxisChart extends Base implements ChartSelectionHandler {
+  initialized = false;
+
   constructor() {
     super();
 
@@ -246,16 +248,16 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @private
    */
   #attachEventHandlers(): void {
-    this.onEvent('localechange.about-container', this.closest('ids-container'), async () => {
+    this.onLocaleChange = () => {
       this.redraw();
       const textElem = this.shadowRoot?.querySelector<IdsText>('ids-empty-message ids-text');
       if (textElem) textElem.textContent = this.locale?.translate('NoData');
-    });
+    };
 
-    this.onEvent('languagechange.about-container', this.closest('ids-container'), async () => {
+    this.onLanguageChange = () => {
       const textElem = this.shadowRoot?.querySelector<IdsText>('ids-empty-message ids-text');
       if (textElem) textElem.textContent = this.locale?.translate('NoData');
-    });
+    };
   }
 
   /** Max width for x-labels text */

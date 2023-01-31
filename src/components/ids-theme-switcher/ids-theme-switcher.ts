@@ -5,6 +5,7 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
+import type IdsText from '../ids-text/ids-text';
 import '../ids-menu-button/ids-menu-button';
 import styles from './ids-theme-switcher.scss';
 import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
@@ -63,6 +64,26 @@ export default class IdsThemeSwitcher extends Base {
       }
     });
   }
+
+  // Respond to changing locale
+  onLocaleChange = () => {
+    if (this.popup?.popup) {
+      this.popup.popup.locale = this.localeName;
+      this.popup.popup.language = this.language.name;
+    }
+    if (this.menuButton) {
+      this.menuButton.locale = this.localeName;
+      this.menuButton.language = this.language.name;
+    }
+    this.shadowRoot?.querySelectorAll('[translate-text]').forEach((textElem: Element) => {
+      (textElem as IdsText).language = this.language.name;
+    });
+  };
+
+  // Respond to changing language
+  onLanguageChange = () => {
+
+  };
 
   /**
    * Create the Template for the contents

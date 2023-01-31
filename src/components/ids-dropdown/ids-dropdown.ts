@@ -719,14 +719,13 @@ export default class IdsDropdown extends Base {
       (window.getSelection() as Selection).removeAllRanges();
     });
 
-    // Handle the Locale Change
-    this.offEvent('languagechange.dropdown-container');
-    this.onEvent('languagechange.dropdown-container', this.closest('ids-container'), () => {
-      this.#addAria();
-    });
-
     return this;
   }
+
+  /** Handle the Locale Change */
+  onLanguageChange = () => {
+    this.#addAria();
+  };
 
   attachClickEvent() {
     this.offEvent('click.dropdown-list-box');

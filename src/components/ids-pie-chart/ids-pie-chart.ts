@@ -77,6 +77,8 @@ const Base = IdsChartLegendMixin(
 @customElement('ids-pie-chart')
 @scss(styles)
 export default class IdsPieChart extends Base {
+  initialized = false;
+
   constructor() {
     super();
 
@@ -121,7 +123,6 @@ export default class IdsPieChart extends Base {
 
     this.redraw();
     this.legendsClickable?.(this.selectable);
-    this.#attachEventHandlers();
   }
 
   /**
@@ -203,22 +204,18 @@ export default class IdsPieChart extends Base {
     </div>`;
   }
 
-  /**
-   * Setup event handling
-   * @private
-   */
-  #attachEventHandlers(): void {
-    this.onEvent('localechange.pie', this.closest('ids-container'), async () => {
-      this.redraw();
-      const textElem = this.shadowRoot?.querySelector('ids-empty-message ids-text');
-      if (textElem) textElem.textContent = this.locale?.translate('NoData');
-    });
+  // Respond to changing locale
+  onLocaleChange = () => {
+    this.redraw();
+    const textElem = this.shadowRoot?.querySelector('ids-empty-message ids-text');
+    if (textElem) textElem.textContent = this.locale?.translate('NoData');
+  };
 
-    this.onEvent('languagechange.pie', this.closest('ids-container'), async () => {
-      const textElem = this.shadowRoot?.querySelector('ids-empty-message ids-text');
-      if (textElem) textElem.textContent = this.locale?.translate('NoData');
-    });
-  }
+  // Respond to changing language
+  onLanguageChange = () => {
+    const textElem = this.shadowRoot?.querySelector('ids-empty-message ids-text');
+    if (textElem) textElem.textContent = this.locale?.translate('NoData');
+  };
 
   /**
    * Get the percentages as rounded and total

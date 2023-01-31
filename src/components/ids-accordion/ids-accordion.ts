@@ -267,20 +267,20 @@ export default class IdsAccordion extends Base {
    * @returns {void}
    */
   #handleEvents() {
-    this.offEvent('languagechange.accordion-container');
-    this.onEvent('languagechange.accordion-container', this.closest('ids-container'), () => {
-      // TODO - Do we need this?
-      // if (this.header) {
-      //   this.header.language = e.detail.language.name;
-      // }
-      this.#assignDepthDependentStyles(this, 0, false, false, false, true);
-    });
-
     // Responds to `selected` events triggered by children
     this.onEvent('selected', this, (e: CustomEvent) => {
       this.#deselectOtherHeaders((e.target as HTMLElement));
     });
   }
+
+  /** Respond to language changes */
+  onLanguageChange = () => {
+    // TODO - Do we need this?
+    // if (this.header) {
+    //   this.header.language = e.detail.language.name;
+    // }
+    this.#assignDepthDependentStyles(this, 0, false, false, false, true);
+  };
 
   /**
    * Makes accordion headers appear to be deselected, except for the provided one.

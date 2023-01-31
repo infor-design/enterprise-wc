@@ -2,7 +2,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 import { hoursTo12, hoursTo24, isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
@@ -310,13 +309,6 @@ export default class IdsTimePicker extends Base {
       }
     });
 
-    // Translate Labels
-    this.offEvent('languagechange.time-picker-container');
-    this.onEvent('languagechange.time-picker-container', getClosest(this, 'ids-container'), () => {
-      this.#renderDropdowns();
-      this.#setTimeValidation();
-    });
-
     // Change component value on input value change
     this.offEvent('change.time-picker-input');
     this.onEvent('change.time-picker-input', this.input, (e: any) => {
@@ -325,6 +317,12 @@ export default class IdsTimePicker extends Base {
 
     return this;
   }
+
+  /** Translate Labels on Language Change */
+  onLanguageChange = () => {
+    this.#renderDropdowns();
+    this.#setTimeValidation();
+  };
 
   /**
    * Render dropdowns

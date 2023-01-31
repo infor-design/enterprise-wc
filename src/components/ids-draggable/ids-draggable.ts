@@ -279,7 +279,7 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
    * sets an optional integer attribute for an element
    * (may offload as general util; just need to think
    * through this a bit more)
-   * @param {Base} elem ids element to update
+   * @param {HTMLElement} elem ids element to update
    * @param {string} attribute the attribute to update
    * @param {any} value a value to set on the
    */

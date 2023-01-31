@@ -87,6 +87,9 @@ export default class IdsListView extends Base {
     super();
   }
 
+  /** Is the component initialized */
+  initialized = false;
+
   /** The currently focused list item */
   #focusedLiIndex: any = 0;
 

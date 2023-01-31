@@ -26,7 +26,6 @@ import '../ids-text/ids-text';
 
 import styles from './ids-week-view.scss';
 import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../ids-calendar/ids-calendar-event';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { clearAnimationInterval, FrameRequestLoopHandler, requestAnimationInterval } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 interface DayMapData {
@@ -125,22 +124,19 @@ export default class IdsWeekView extends Base {
       }
     });
     this.ro.observe(this.container as HTMLElement);
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.week-view-container');
-    this.onEvent('languagechange.week-view-container', getClosest(this, 'ids-container'), () => {
-      this.#renderWeek();
-      this.#attachOffsetTop();
-    });
-
-    // Respond to parent changing locale
-    this.offEvent('localechange.week-view-container');
-    this.onEvent('localechange.week-view-container', getClosest(this, 'ids-container'), () => {
-      this.#renderWeek();
-    });
-
     return this;
   }
+
+  /** Respond to locale changes */
+  onLocaleChange = () => {
+    this.#renderWeek();
+  };
+
+  /** Respond to language changes */
+  onLanguageChange = () => {
+    this.#renderWeek();
+    this.#attachOffsetTop();
+  };
 
   /**
    * Change startDate/endDate by event type

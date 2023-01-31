@@ -30,7 +30,6 @@ import {
   stringToNumber,
   buildClassAttrib,
 } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 // Supporting components
 import '../ids-button/ids-button';
@@ -154,20 +153,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    * @returns {void}
    */
   #attachEventHandlers() {
-    // Respond to container changing language
-    this.offEvent('languagechange.month-view-container');
-    this.onEvent('languagechange.month-view-container', getClosest(this, 'ids-container'), () => {
-      this.setDirection();
-      this.#renderMonth();
-    });
-
-    // Respond to container changing locale
-    this.offEvent('localechange.month-view-container');
-    this.onEvent('localechange.month-view-container', getClosest(this, 'ids-container'), () => {
-      this.setDirection();
-      this.#renderMonth();
-    });
-
     // Day select event
     this.offEvent('click.month-view-dayselect');
     this.onEvent('click.month-view-dayselect', this.container?.querySelector('tbody'), (e: MouseEvent) => {
@@ -209,6 +194,16 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
 
     return this;
   }
+
+  onLanguageChange = () => {
+    this.setDirection();
+    this.#renderMonth();
+  };
+
+  onLocaleChange = () => {
+    this.setDirection();
+    this.#renderMonth();
+  };
 
   /**
    * Establish Internal Keyboard shortcuts
