@@ -138,3 +138,8 @@
 :host([size='full']) {
   @include w-full();
 }
+
+// Change state for external dropdown list
+:host([list]:not([disabled])) {
+  cursor: pointer;
+}
