@@ -34,7 +34,7 @@ export interface IdsPickerPopupCallbacks {
 }
 
 @customElement('ids-picker-popup')
-class IdsPickerPopup extends Base {
+class IdsPickerPopup extends Base implements IdsPickerPopupCallbacks {
   constructor() {
     super();
   }
@@ -152,7 +152,12 @@ class IdsPickerPopup extends Base {
     }
   }
 
-  onTriggerClick() {
+  /**
+   * Inherited from `IdsPopupInteractionsMixin`
+   * @param {Event} _ the original click event
+   */
+  // eslint-disable-next-line
+  onTriggerClick(_: Event) {
     this.toggleVisibility();
   }
 

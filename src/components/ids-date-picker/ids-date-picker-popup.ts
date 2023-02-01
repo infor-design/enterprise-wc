@@ -67,7 +67,7 @@ const Base = IdsMonthViewAttributeMixin(
  */
 @customElement('ids-date-picker-popup')
 @scss(styles)
-class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRangeSettingsInterface {
+class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
   constructor() {
     super();
     this.#value = '';

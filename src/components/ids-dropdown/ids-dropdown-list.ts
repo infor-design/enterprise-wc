@@ -38,7 +38,7 @@ export default class IdsDropdownList extends Base {
   }
 
   template() {
-    return `<ids-popup class="ids-dropdown-list" type="menu" part="dropdown-list">
+    return `<ids-popup class="ids-dropdown-list" type="menu" part="dropdown-list" y="0">
       <slot slot="content"></slot>
     </ids-popup>`;
   }
@@ -62,6 +62,7 @@ export default class IdsDropdownList extends Base {
   }
 
   onShow() {
+    this.configurePopup();
     this.setAriaOnMenuOpen();
   }
 
@@ -72,7 +73,7 @@ export default class IdsDropdownList extends Base {
 
   private attachEventHandlers() {
     this.offEvent('click.dropdown-list-box');
-    this.onEvent('click.dropdown-list-box', this.listBox, (e: any) => {
+    this.onEvent('click.dropdown-list-box', this, (e: any) => {
       let target: HTMLElement | null = (e.target as HTMLElement);
 
       if (target && target.nodeName !== 'IDS-LIST-BOX-OPTION') {
@@ -117,6 +118,14 @@ export default class IdsDropdownList extends Base {
   private configurePopup() {
     this.listBox = this.querySelector<IdsListBox>('ids-list-box');
 
+    // If no list box element is present as a direct descendant,
+    // assume usage inside IdsDropdown and search for slotted ListBox
+    if (!this.listBox) {
+      if (this.children[0]?.tagName === 'SLOT') {
+        this.listBox = (this.children[0] as HTMLSlotElement).assignedElements()?.[0] as IdsListBox;
+      }
+    }
+
     if (this.popup) {
       this.popup.type = 'dropdown';
       // this.popup.alignTarget = this.input?.fieldContainer as IdsPopupElementRef;
@@ -127,7 +136,7 @@ export default class IdsDropdownList extends Base {
       // Fix aria if the menu is closed
       if (!this.popup.visible) {
         this.setAriaOnMenuClose();
-      }
+      } else if (this.popup.visible) this.popup.setPosition(null, null, false, true);
     }
   }
 
@@ -226,14 +235,14 @@ export default class IdsDropdownList extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
-    const elem = this.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"]`);
+    const elem = this.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"]`);
 
     if (!elem && !this.hasAttribute(attributes.CLEARABLE)) {
       return;
     }
 
-    // this.clearSelected();
-    // this.selectOption(elem);
+    this.clearSelected();
+    this.selectOption(elem);
     // this.selectIcon(elem);
     // this.selectTooltip(elem);
 
@@ -242,6 +251,14 @@ export default class IdsDropdownList extends Base {
 
   get value(): string | null {
     return this.getAttribute(attributes.VALUE);
+  }
+
+  /**
+   * Remove the aria and state from the currently selected element
+   */
+  clearSelected() {
+    const option = this.listBox?.querySelector<IdsListBoxOption>('ids-list-box-option[aria-selected]');
+    this.deselectOption(option);
   }
 
   /**
