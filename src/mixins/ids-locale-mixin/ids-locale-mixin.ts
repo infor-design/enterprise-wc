@@ -4,9 +4,10 @@ import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor } from '../../core/ids-element';
 
 export interface LocaleMixinInterface {
-  locale: IdsLocale;
+  locale: string;
   language: string;
   setDirection(): void;
+  localeAPI: IdsLocale;
 }
 
 export interface LocaleHandler {
@@ -27,8 +28,8 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
     super.connectedCallback?.();
 
     // Set initial lang and locale
-    this.setAttribute('language', this.localeAPI.state.language);
-    this.setAttribute('locale', this.localeAPI.state.localeName);
+    if (this.localeAPI.state.language !== 'en') this.setAttribute('language', this.localeAPI.state.language);
+    if (this.localeAPI.state.localeName !== 'en-US') this.setAttribute('locale', this.localeAPI.state.localeName);
   }
 
   static get attributes() {
@@ -45,10 +46,12 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
    */
   async setLanguage(value: string) {
     await this.localeAPI.setLanguage(value);
+
+    if (this.nodeName === 'IDS-CONTAINER') this.localeAPI.setDocumentLangAttribute(this, value);
     this.setAttribute('language', value);
 
     if (typeof this.onLanguageChange === 'function' && this.previousLanguage !== value) {
-      this.onLanguageChange(this.locale);
+      this.onLanguageChange(this.localeAPI);
     }
     if (this.previousLanguage !== value) {
       this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
@@ -58,7 +61,7 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
       this.#notifyChildrenLanguage(this.querySelectorAll(`[language="${this.previousLanguage}"]`), value);
     });
 
-    this.localeAPI.updateLangTag(this, value);
+    this.localeAPI.updateDirectionAttribute(this, value);
     this.setDirection();
 
     this.previousLanguage = value;
@@ -74,7 +77,7 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
   set language(value: string) {
     if (value && value !== this.language.name) {
       this.setLanguage(value);
-      if (this.locale) this.locale.language = value;
+      if (this.locale) this.localeAPI.language = value;
     }
   }
 
@@ -83,7 +86,7 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
    * @returns {object} The language data object
    */
   get language(): any {
-    return this?.locale?.language;
+    return this?.localeAPI?.language;
   }
 
   /**
@@ -109,10 +112,12 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
       await this.localeAPI.setLocale(value);
       const lang = this.localeAPI.correctLanguage(value);
       this.setAttribute('locale', value);
+
+      if (this.nodeName === 'IDS-CONTAINER') this.localeAPI.setDocumentLangAttribute(this, lang);
       await this.setLanguage(lang);
 
       if (typeof this.onLocaleChange === 'function' && this.previousLocale !== value) {
-        this.onLocaleChange(this.locale);
+        this.onLocaleChange(this.localeAPI);
       }
       if (this.previousLocale !== value) {
         this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
@@ -127,13 +132,13 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
    * @param {string} value The locale string value
    */
   set locale(value: string) {
-    if (value && value !== this.localName) {
+    if (value && value !== this.locale && typeof value === 'string') {
       this.setLocale(value);
     }
   }
 
-  get locale(): any {
-    return this.localeAPI;
+  get locale(): string {
+    return this.localeAPI.state.localeName;
   }
 
   /**
@@ -147,15 +152,11 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
     });
   }
 
-  get localeName(): string {
-    return this.localeAPI.state.localeName;
-  }
-
   /**
    * Set the direction attribute
    */
   setDirection() {
-    if (this.locale?.isRTL()) {
+    if (this.localeAPI?.isRTL()) {
       this.setAttribute('dir', 'rtl');
       this.container?.classList.add('rtl');
     } else {

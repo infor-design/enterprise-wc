@@ -527,7 +527,7 @@ export default class IdsHomePage extends Base {
         const box = this.cardWidth + this.#gapX;
         const totalWidth = box * this.#columns;
         const top = (this.cardHeight + this.#gapY) * available.row;
-        const left = this.locale?.isRTL()
+        const left = this.localeAPI?.isRTL()
           ? totalWidth - ((box * block.w) + (box * available.col))
           : box * available.col;
         const pos = { left, top };

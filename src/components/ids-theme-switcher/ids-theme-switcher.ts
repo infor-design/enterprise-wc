@@ -59,7 +59,7 @@ export default class IdsThemeSwitcher extends Base {
         this.mode = val;
       }
       if (val?.indexOf('-') > -1) {
-        if (this.locale) this.locale.setLocale(val);
+        if (this.locale) this.localeAPI.setLocale(val);
         (document.querySelector('ids-container') as any).setLocale(val);
       }
     });
@@ -68,11 +68,11 @@ export default class IdsThemeSwitcher extends Base {
   // Respond to changing locale
   onLocaleChange = () => {
     if (this.popup?.popup) {
-      this.popup.popup.locale = this.localeName;
+      this.popup.popup.locale = this.locale;
       this.popup.popup.language = this.language.name;
     }
     if (this.menuButton) {
-      this.menuButton.locale = this.localeName;
+      this.menuButton.locale = this.locale;
       this.menuButton.language = this.language.name;
     }
     this.shadowRoot?.querySelectorAll('[translate-text]').forEach((textElem: Element) => {

@@ -243,7 +243,7 @@ export default class IdsIcon extends Base {
       'unsubscribe',
     ];
 
-    if (this.locale?.isRTL() && mirroredIcons.includes(iconName)) {
+    if (this.localeAPI?.isRTL() && mirroredIcons.includes(iconName)) {
       return true;
     }
     return false;

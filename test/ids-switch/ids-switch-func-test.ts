@@ -4,6 +4,8 @@
 import IdsSwitch from '../../src/components/ids-switch/ids-switch';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import processAnimFrame from '../helpers/process-anim-frame';
+
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 
 describe('IdsSwitch Component', () => {
@@ -12,7 +14,7 @@ describe('IdsSwitch Component', () => {
 
   beforeEach(() => {
     container = new IdsContainer();
-    container.locale.loadedLanguages.set('de', deMessages);
+    IdsLocaleData.loadedLanguages.set('de', deMessages);
 
     el = new IdsSwitch();
     container.appendChild(el);

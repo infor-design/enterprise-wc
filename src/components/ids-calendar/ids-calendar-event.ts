@@ -171,7 +171,7 @@ export default class IdsCalendarEvent extends Base {
       this.container.style.top = this.yOffset;
     }
 
-    if (this.locale?.isRTL()) {
+    if (this.localeAPI?.isRTL()) {
       this.container.style.right = this.xOffset || '';
       this.container.style.removeProperty('left');
     } else {
@@ -189,7 +189,7 @@ export default class IdsCalendarEvent extends Base {
       const startHours = this.startDate.getHours() + (this.startDate.getMinutes() / 60);
       const endHours = this.endDate.getHours() + (this.startDate.getMinutes() / 60);
 
-      return this.locale?.formatHourRange(startHours, endHours, {});
+      return this.localeAPI?.formatHourRange(startHours, endHours, {});
     }
 
     return '';

@@ -234,7 +234,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       </slot>
       <slot name="empty-message">
         <ids-empty-message icon="empty-no-data" hidden>
-          <ids-text type="h2" font-size="20" label="true" slot="label">${this.locale?.translate('NoData') || 'No Data Available'}</ids-text>
+          <ids-text type="h2" font-size="20" label="true" slot="label">${this.localeAPI?.translate('NoData') || 'No Data Available'}</ids-text>
         </ids-empty-message>
       </slot>
       <slot name="tooltip">
@@ -251,12 +251,12 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     this.onLocaleChange = () => {
       this.redraw();
       const textElem = this.shadowRoot?.querySelector<IdsText>('ids-empty-message ids-text');
-      if (textElem) textElem.textContent = this.locale?.translate('NoData');
+      if (textElem) textElem.textContent = this.localeAPI?.translate('NoData');
     };
 
     this.onLanguageChange = () => {
       const textElem = this.shadowRoot?.querySelector<IdsText>('ids-empty-message ids-text');
-      if (textElem) textElem.textContent = this.locale?.translate('NoData');
+      if (textElem) textElem.textContent = this.localeAPI?.translate('NoData');
     };
   }
 
@@ -361,7 +361,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @private
    */
   #adjustRTL(): void {
-    if (!this.locale?.isRTL()) return;
+    if (!this.localeAPI?.isRTL()) return;
 
     const labels = {
       x: [...this.svg?.querySelectorAll('.labels.x-labels text') ?? []],
@@ -797,7 +797,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       const block = { start: gap, mid: this.height / 2, end: this.height - gap };
 
       // Position
-      const isRTL = this.locale?.isRTL();
+      const isRTL = this.localeAPI?.isRTL();
       const scale = isRTL ? ' scale(-1, 1)' : '';
       const transform = {
         top: `translate(${inline.mid}, ${block.start})${scale}`,
@@ -893,7 +893,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     if (typeof this.yAxisFormatter === 'function') {
       return this.yAxisFormatter(value, this.data, this);
     }
-    return new Intl.NumberFormat(this.locale?.locale?.name || 'en', this.yAxisFormatter).format(value as any);
+    return new Intl.NumberFormat(this.locale || 'en', this.yAxisFormatter).format(value as any);
   }
 
   #nameLabels(): string {

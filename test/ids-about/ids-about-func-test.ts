@@ -6,6 +6,7 @@ import '../helpers/match-media-mock';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsAbout from '../../src/components/ids-about/ids-about';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 // Supporing components
 import '../../src/components/ids-container/ids-container';
@@ -32,9 +33,9 @@ describe('IdsAbout Component (using properties)', () => {
     const container: any = document.createElement('ids-container');
     document.body.appendChild(container);
 
-    container.locale.loadedLanguages.set('ar', arMessages);
-    container.locale.loadedLanguages.set('es', esMessages);
-    container.locale.loadedLanguages.set('ja', jaMessages);
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
+    IdsLocaleData.loadedLanguages.set('es', esMessages);
+    IdsLocaleData.loadedLanguages.set('ja', jaMessages);
     await container.setLanguage('en');
 
     component = new IdsAbout();

@@ -432,7 +432,7 @@ export default class IdsSplitter extends Base {
         translate: 'translateX',
         minTransform: 'minTransformX',
         maxTransform: 'maxTransformX',
-        useRTL: this.locale?.isRTL()
+        useRTL: this.localeAPI?.isRTL()
       };
     }
     this.#prop = { ...prop, barPixel: 22, barPercentage: this.#toPercentage(22) };

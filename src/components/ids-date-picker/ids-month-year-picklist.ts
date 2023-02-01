@@ -477,7 +477,7 @@ class IdsMonthYearPicklist extends Base {
    * @returns {string|undefined} months list items
    */
   private renderPicklistMonths(): string | undefined {
-    const monthsList: Array<string> = MONTH_KEYS.map((item) => this.locale?.translate(`MonthWide${item}`));
+    const monthsList: Array<string> = MONTH_KEYS.map((item) => this.localeAPI?.translate(`MonthWide${item}`));
 
     const months: string = monthsList?.map((item: string, index: number) => `<li
         data-month="${index}"
@@ -631,7 +631,7 @@ class IdsMonthYearPicklist extends Base {
    * Loop through the entire list of the months
    */
   private picklistMonthPaged() {
-    const monthsList: Array<string> = MONTH_KEYS.map((item) => this.locale?.translate(`MonthWide${item}`));
+    const monthsList: Array<string> = MONTH_KEYS.map((item) => this.localeAPI?.translate(`MonthWide${item}`));
 
     this.container?.querySelectorAll('.picklist-item.is-month').forEach((el: any, index: number) => {
       const elMonth: number = stringToNumber(el.dataset.month);

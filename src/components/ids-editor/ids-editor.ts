@@ -1028,7 +1028,7 @@ export default class IdsEditor extends Base {
 
     // Set text align
     if (/^(alignleft|alignright|aligncenter|alignjustify)$/i.test(action)) {
-      const alignDoc = this.locale?.isRTL() ? 'right' : 'left';
+      const alignDoc = this.localeAPI?.isRTL() ? 'right' : 'left';
       const align = action.replace('align', '');
       selectionBlockElems(sel, this.#elems.editor).forEach((elem) => {
         if (align === alignDoc) elem?.removeAttribute('style');

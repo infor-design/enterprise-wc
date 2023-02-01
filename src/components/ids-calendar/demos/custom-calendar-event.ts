@@ -111,6 +111,6 @@ export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
   getHourRange(start: Date, end: Date) {
     const startHours = start.getHours() + start.getMinutes() / 60;
     const endHours = end.getHours() + start.getMinutes() / 60;
-    return this.locale?.formatHourRange(startHours, endHours, {});
+    return this.localeAPI?.formatHourRange(startHours, endHours, {});
   }
 }

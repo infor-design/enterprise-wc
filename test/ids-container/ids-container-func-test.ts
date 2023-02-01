@@ -6,16 +6,17 @@ import { messages as arMessages } from '../../src/components/ids-locale/data/ar-
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
 import { locale as arSALocale } from '../../src/components/ids-locale/data/ar-SA';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 describe('IdsContainer Component', () => {
   let container: IdsContainer;
 
   beforeEach(() => {
     container = new IdsContainer();
-    container.locale.loadedLanguages.set('ar', arMessages);
-    container.locale.loadedLanguages.set('de', deMessages);
-    container.locale.loadedLocales.set('de-DE', deDELocale);
-    container.locale.loadedLocales.set('ar-SA', arSALocale);
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
+    IdsLocaleData.loadedLanguages.set('de', deMessages);
+    IdsLocaleData.loadedLocales.set('de-DE', deDELocale);
+    IdsLocaleData.loadedLocales.set('ar-SA', arSALocale);
 
     document.body.appendChild(container);
   });
@@ -40,12 +41,12 @@ describe('IdsContainer Component', () => {
 
   it('can set locale via attribute', () => {
     container.locale = 'de-DE';
-    expect(container.locale.state.localeName).toEqual('de-DE');
+    expect(container.locale).toEqual('de-DE');
   });
 
   it('can set locale via async func', async () => {
     await container.setLocale('ar-SA');
-    expect(container.localeName).toEqual('ar-SA');
+    expect(container.locale).toEqual('ar-SA');
     expect(container.getAttribute('dir')).toEqual('rtl');
   });
 

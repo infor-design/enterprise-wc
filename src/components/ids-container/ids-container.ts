@@ -59,7 +59,7 @@ export default class IdsContainer extends Base {
   }
 
   disconnectedCallback() {
-    this.state.locale.removeLangAttribute();
+    this.localeAPI.removeLangAttribute();
     super.disconnectedCallback();
   }
 

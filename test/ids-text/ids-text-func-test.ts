@@ -3,6 +3,7 @@
  */
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsText from '../../src/components/ids-text/ids-text';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 import { messages as fiMessages } from '../../src/components/ids-locale/data/fi-messages';
 
 describe('IdsText Component', () => {
@@ -234,7 +235,7 @@ describe('IdsText Component', () => {
 
   it('can translate text', async () => {
     const container: any = new IdsContainer();
-    container.locale.loadedLanguages.set('fi', fiMessages);
+    IdsLocaleData.loadedLanguages.set('fi', fiMessages);
     const text: any = new IdsText();
     text.textContent = 'BrowserLanguage';
     text.translateText = true;

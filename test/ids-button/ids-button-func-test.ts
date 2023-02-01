@@ -8,6 +8,7 @@ import processAnimFrame from '../helpers/process-anim-frame';
 import '../../src/components/ids-icon/ids-icon';
 import type IdsIcon from '../../src/components/ids-icon/ids-icon';
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 describe('IdsButton Component', () => {
   let btn: IdsButton;
@@ -102,10 +103,10 @@ describe('IdsButton Component', () => {
     container.appendChild(btn);
     document.body.appendChild(container);
     expect(btn.container?.classList.contains('rtl')).toBeFalsy();
-    container.locale.loadedLanguages.set('ar', arMessages);
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
     await container.setLanguage('ar');
     await processAnimFrame();
-    expect(btn.locale.isRTL()).toEqual(true);
+    expect(btn.localeAPI.isRTL()).toEqual(true);
   });
 
   it('can be focusable or not', () => {

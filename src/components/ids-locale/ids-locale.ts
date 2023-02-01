@@ -66,12 +66,30 @@ class IdsLocale {
    * @param {HTMLElement} elem The element to set it on.
    * @param {string} value The value to check
    */
-  updateLangTag(elem: HTMLElement, value: string) {
+  updateDirectionAttribute(elem: HTMLElement, value: string) {
     if (this.isRTL(value)) {
       elem.setAttribute('dir', 'rtl');
       return;
     }
     elem.removeAttribute('dir');
+  }
+
+  /**
+   * Sets the lang (langauge) tag on an element
+   * @param {HTMLElement} elem The element to set it on.
+   * @param {string} value The value to check
+   */
+  setDocumentLangAttribute(elem: HTMLElement, value: string) {
+    if (value) {
+      document?.querySelector('html')?.setAttribute('lang', value);
+      return;
+    }
+    document?.querySelector('html')?.removeAttribute('lang');
+  }
+
+  /** Reset the language attribute to clean up */
+  removeLangAttribute() {
+    document?.querySelector('html')?.removeAttribute('lang');
   }
 
   /**
@@ -104,19 +122,12 @@ class IdsLocale {
     const lang = this.correctLanguage(value);
     if (this.state.language !== lang) {
       this.state.language = lang;
-
-      document.querySelector('html')?.setAttribute('lang', lang);
     }
 
     if (this.state.language === lang && IdsLocaleData.loadedLanguages.get(this.state.language)) {
       return;
     }
     await this.loadLanguageScript(lang);
-  }
-
-  /** Reset the language attribute to clean up */
-  removeLangAttribute() {
-    document.querySelector('html')?.removeAttribute('lang');
   }
 
   /**

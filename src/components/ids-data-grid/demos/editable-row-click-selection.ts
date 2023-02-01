@@ -19,7 +19,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   const url: any = booksJSON;
   const columns: IdsDataGridColumn[] = [];
   const pageContainer: any = document.querySelector('ids-container');
-  const calendar = pageContainer.locale.calendar();
+  const calendar = pageContainer.localeAPI.calendar();
 
   // Set up columns
   columns.push({

@@ -9,6 +9,7 @@ import '../helpers/canvas-mock';
 import '../helpers/resize-observer-mock';
 import dataset from '../../src/assets/data/components.json';
 import processAnimFrame from '../helpers/process-anim-frame';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
@@ -25,11 +26,11 @@ describe('IdsAxisChart Component', () => {
     axisChart = new IdsAxisChart();
 
     container.appendChild(axisChart);
-    container.locale.loadedLanguages.set('ar', arMessages);
-    container.locale.loadedLanguages.set('de', deMessages);
-    container.locale.loadedLanguages.set('fr-FR', frFRMessages);
-    container.locale.loadedLocales.set('fr-FR', frFRLocale);
-    container.locale.loadedLocales.set('de-DE', deDELocale);
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
+    IdsLocaleData.loadedLanguages.set('de', deMessages);
+    IdsLocaleData.loadedLanguages.set('fr-FR', frFRMessages);
+    IdsLocaleData.loadedLocales.set('fr-FR', frFRLocale);
+    IdsLocaleData.loadedLocales.set('de-DE', deDELocale);
 
     document.body.appendChild(container);
     axisChart.data = dataset;

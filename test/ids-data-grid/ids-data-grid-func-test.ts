@@ -10,6 +10,7 @@ import dataset from '../../src/assets/data/books.json';
 import productsDataset from '../../src/assets/data/products.json';
 import datasetTree from '../../src/assets/data/tree-buildings.json';
 import processAnimFrame from '../helpers/process-anim-frame';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 import createFromTemplate from '../helpers/create-from-template';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
@@ -234,9 +235,9 @@ describe('IdsDataGrid Component', () => {
     (window.StyleSheet as any).insertRule = () => '';
 
     container = new IdsContainer();
-    container.locale.loadedLanguages.set('ar', arMessages);
-    container.locale.loadedLanguages.set('de', deMessages);
-    container.locale.loadedLocales.set('de-DE', deDELocale);
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
+    IdsLocaleData.loadedLanguages.set('de', deMessages);
+    IdsLocaleData.loadedLocales.set('de-DE', deDELocale);
 
     dataGrid = new IdsDataGrid();
     container.appendChild(dataGrid);

@@ -294,7 +294,7 @@ export default class IdsToast extends Base {
     addAttribute(toastEl, attributes.AUDIBLE);
     addAttribute(toastEl, attributes.PROGRESS_BAR);
     addAttribute(toastEl, attributes.TIMEOUT);
-    if (this.locale?.isRTL()) {
+    if (this.localeAPI?.isRTL()) {
       this.setAttribute('dir', 'rtl');
       toastEl.setAttribute('dir', 'rtl');
     }

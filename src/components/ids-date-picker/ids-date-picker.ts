@@ -321,7 +321,7 @@ class IdsDatePicker extends Base {
 
       // Configure inner IdsPopup
       this.#picker.popup?.setAttribute(attributes.ARROW_TARGET, `#${this.#triggerButton.getAttribute('id')}`);
-      if (this.locale && this.locale.isRTL) this.#picker.popup?.setAttribute(attributes.ALIGN, `bottom, ${this.locale.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
+      if (this.localeAPI && this.localeAPI.isRTL) this.#picker.popup?.setAttribute(attributes.ALIGN, `bottom, ${this.localeAPI.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
 
       this.#picker.refreshTriggerEvents();
 
@@ -374,17 +374,17 @@ class IdsDatePicker extends Base {
   // Respond to changing locale
   onLocaleChange = () => {
     if (this.#picker) {
-      (this.#picker as any).locale = this.localeName;
-      (this.#picker as any).language = this.language.name;
+      this.#picker.locale = this.locale;
+      this.#picker.language = this.language.name;
     }
-    this.#triggerField.locale = this.localeName;
+    this.#triggerField.locale = this.locale;
     this.#triggerField.language = this.language.name;
     this.setDirection();
     this.#applyMask();
 
     // Locale change first day of week only if it's not set as attribute
     if (this.firstDayOfWeek === null) {
-      this.firstDayOfWeek = this.locale?.calendar().firstDayofWeek || 0;
+      this.firstDayOfWeek = this.localeAPI?.calendar().firstDayofWeek || 0;
     }
   };
 
@@ -525,11 +525,11 @@ class IdsDatePicker extends Base {
   #parseInputDate() {
     if (this.isCalendarToolbar) return;
 
-    const parsedDate = this.locale.parseDate(
+    const parsedDate = this.localeAPI.parseDate(
       this.#triggerField?.value,
       { dateFormat: this.format }
     );
-    const inputDate = this.locale.isIslamic() ? (parsedDate && umalquraToGregorian(
+    const inputDate = this.localeAPI.isIslamic() ? (parsedDate && umalquraToGregorian(
       (parsedDate as number[])[0],
       (parsedDate as number[])[1],
       (parsedDate as number[])[2]
@@ -568,11 +568,11 @@ class IdsDatePicker extends Base {
     }
 
     const rangeParts: Array<string> = this.#triggerField.value?.split(this.rangeSettings.separator) || [];
-    const rangeStart = rangeParts[0] ? this.locale.parseDate(
+    const rangeStart = rangeParts[0] ? this.localeAPI.parseDate(
       rangeParts[0],
       { dateFormat: this.format }
     ) : null;
-    const rangeEnd = rangeParts[1] ? this.locale.parseDate(
+    const rangeEnd = rangeParts[1] ? this.localeAPI.parseDate(
       rangeParts[1],
       { dateFormat: this.format }
     ) : null;
@@ -633,11 +633,11 @@ class IdsDatePicker extends Base {
       this.#triggerField?.addValidationRule({
         id: 'availableDate',
         type: 'error',
-        message: this.locale?.translate('UnavailableDate'),
+        message: this.localeAPI?.translate('UnavailableDate'),
         check: (input: any) => {
           if (!input.value) return true;
 
-          const date = this.locale.parseDate(
+          const date = this.localeAPI.parseDate(
             input.value,
             this.format
           ) as Date;
@@ -700,7 +700,7 @@ class IdsDatePicker extends Base {
     const minutes: number = timePicker.minutes;
     const seconds: number = timePicker.seconds;
     const period: string = timePicker.period;
-    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(period);
+    const dayPeriodIndex = this.localeAPI?.calendar().dayPeriods?.indexOf(period);
 
     date.setHours(hoursTo24(hours, dayPeriodIndex), minutes, seconds);
 
@@ -1117,8 +1117,8 @@ class IdsDatePicker extends Base {
       this.#picker.rangeSettings = val;
 
       if (val?.start && val?.end) {
-        const startDate = this.locale.formatDate(this.#setTime(val.start), { pattern: this.format });
-        const endDate = this.locale.formatDate(this.#setTime(val.end), { pattern: this.format });
+        const startDate = this.localeAPI.formatDate(this.#setTime(val.start), { pattern: this.format });
+        const endDate = this.localeAPI.formatDate(this.#setTime(val.end), { pattern: this.format });
         this.value = `${startDate}${this.rangeSettings.separator}${endDate}`;
       }
     }

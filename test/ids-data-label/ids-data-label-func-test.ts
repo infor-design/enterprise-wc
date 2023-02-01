@@ -6,6 +6,7 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 import waitForTimeout from '../helpers/wait-for-timeout';
 import processAnimFrame from '../helpers/process-anim-frame';
 import { messages as frMessages } from '../../src/components/ids-locale/data/fr-messages';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 describe('IdsDataLabel Component', () => {
   let dataLabel: IdsDataLabel;
@@ -13,7 +14,7 @@ describe('IdsDataLabel Component', () => {
 
   beforeEach(async () => {
     container = new IdsContainer();
-    container.locale.loadedLanguages.set('fr', frMessages);
+    IdsLocaleData.loadedLanguages.set('fr', frMessages);
 
     dataLabel = new IdsDataLabel();
     dataLabel.innerHTML = `Los Angeles, California 90001 USA`;

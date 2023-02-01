@@ -199,13 +199,13 @@ export default class IdsAbout extends Base {
     if (this.deviceSpecs) {
       const specs = getSpecs();
       const element = `<ids-text slot="device" type="p">
-        <span>${this.locale?.translate('Platform')} : ${specs.platform}</span><br/>
-        <span>${this.locale?.translate('Mobile')} : ${specs.isMobile}</span><br/>
-        <span>${this.locale?.translate('Browser')} : ${specs.browser} (${specs.browserVersion})</span><br/>
-        <span>${this.locale?.translate('Locale')} : ${this.locale?.locale.name || 'en-US'}</span><br/>
-        <span>${this.locale?.translate('Language')} : ${this.locale?.language.name || 'en'}</span><br/>
-        <span>${this.locale?.translate('BrowserLanguage')} : ${specs.browserLanguage}</span><br/>
-        <span>${this.locale?.translate('Version')} : ${specs.idsVersion}</span>
+        <span>${this.localeAPI?.translate('Platform')} : ${specs.platform}</span><br/>
+        <span>${this.localeAPI?.translate('Mobile')} : ${specs.isMobile}</span><br/>
+        <span>${this.localeAPI?.translate('Browser')} : ${specs.browser} (${specs.browserVersion})</span><br/>
+        <span>${this.localeAPI?.translate('Locale')} : ${this.localeAPI?.locale.name || 'en-US'}</span><br/>
+        <span>${this.localeAPI?.translate('Language')} : ${this.localeAPI?.language.name || 'en'}</span><br/>
+        <span>${this.localeAPI?.translate('BrowserLanguage')} : ${specs.browserLanguage}</span><br/>
+        <span>${this.localeAPI?.translate('Version')} : ${specs.idsVersion}</span>
       </ids-text>`;
 
       this.insertAdjacentHTML('beforeend', element);
@@ -259,7 +259,7 @@ export default class IdsAbout extends Base {
    */
   #refreshCopyright() {
     const slot = this.querySelectorAll('[slot="copyright"]');
-    const copyrightText = this.locale?.translate('AboutText').replace('{0}', this.copyrightYear);
+    const copyrightText = this.localeAPI?.translate('AboutText').replace('{0}', this.copyrightYear);
     const element = `<ids-text slot="copyright" type="p">${copyrightText} <ids-hyperlink target="_blank" text-decoration="underline" href="https://www.infor.com">www.infor.com</ids-hyperlink>.</ids-text>`;
 
     // Clear slot before rerender

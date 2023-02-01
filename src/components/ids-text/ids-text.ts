@@ -411,11 +411,11 @@ export default class IdsText extends Base {
   async #translateAsync() {
     const translationKey = this.getAttribute('translation-key');
 
-    if (!this.locale || !translationKey) {
+    if (!this.localeAPI || !translationKey) {
       return;
     }
 
-    await this.locale.setLanguage(this.locale.language.name);
-    this.textContent = this.locale.translate(translationKey);
+    await this.localeAPI.setLanguage(this.localeAPI.language.name);
+    this.textContent = this.localeAPI.translate(translationKey);
   }
 }

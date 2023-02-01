@@ -93,7 +93,7 @@ export default class IdsMenuGroup extends Base {
   }
 
   #getGeneratedLabel() {
-    const str = this.locale?.translate('MenuGroup') || '';
+    const str = this.localeAPI?.translate('MenuGroup') || '';
     return str.replace('{0}', this.items.length);
   }
 

@@ -85,7 +85,7 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
       icon.setAttribute('icon', 'dirty-filled');
       icon.setAttribute('size', 'small');
       icon.className = 'icon-dirty';
-      if (this.locale?.isRTL()) icon?.setAttribute('dir', 'rtl');
+      if (this.localeAPI?.isRTL()) icon?.setAttribute('dir', 'rtl');
       if (this.isCheckbox) {
         thisAsInput.labelEl?.appendChild(icon);
         this.dirtyContainer = thisAsInput.labelEl;
@@ -221,7 +221,7 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
   /** Handle Languages Changes */
   onLanguageChange = () => {
     const icon = this.dirtyContainer?.querySelector('.icon-dirty');
-    if (this.locale?.isRTL()) icon?.setAttribute('dir', 'rtl');
+    if (this.localeAPI?.isRTL()) icon?.setAttribute('dir', 'rtl');
     else icon?.removeAttribute('dir');
   };
 

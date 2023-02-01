@@ -401,7 +401,7 @@ export default class IdsPopupMenu extends Base {
     if (currentNodeAtMouse) {
       if (!currentNodeAtMouse.isEqualNode(mouseLeaveNode) || !this.contains(mouseLeaveNode)) {
         this.hide();
-        if (mouseLeaveNode.tagName === 'IDS-MENU-ITEM') {
+        if (mouseLeaveNode?.tagName === 'IDS-MENU-ITEM') {
           mouseLeaveNode.highlight();
           if (mouseLeaveNode.menu) mouseLeaveNode.menu.hideSubmenus(mouseLeaveNode);
         }

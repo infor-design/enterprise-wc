@@ -418,7 +418,7 @@ export default class IdsSlider extends Base {
    * Handle Languages Changes
    */
   onLanguageChange = () => {
-    const isRTL = this.locale.isRTL();
+    const isRTL = this.localeAPI.isRTL();
     this.isRTL = isRTL;
   };
 

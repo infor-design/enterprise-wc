@@ -195,7 +195,7 @@ export default class IdsPieChart extends Base {
       </slot>
       <slot name="empty-message">
         <ids-empty-message icon="empty-no-data" hidden>
-          <ids-text type="h2" font-size="20" label="true" slot="label">${this.locale?.translate('NoData') || 'No Data Available'}</ids-text>
+          <ids-text type="h2" font-size="20" label="true" slot="label">${this.localeAPI?.translate('NoData') || 'No Data Available'}</ids-text>
         </ids-empty-message>
       </slot>
       <slot name="tooltip">
@@ -208,13 +208,13 @@ export default class IdsPieChart extends Base {
   onLocaleChange = () => {
     this.redraw();
     const textElem = this.shadowRoot?.querySelector('ids-empty-message ids-text');
-    if (textElem) textElem.textContent = this.locale?.translate('NoData');
+    if (textElem) textElem.textContent = this.localeAPI?.translate('NoData');
   };
 
   // Respond to changing language
   onLanguageChange = () => {
     const textElem = this.shadowRoot?.querySelector('ids-empty-message ids-text');
-    if (textElem) textElem.textContent = this.locale?.translate('NoData');
+    if (textElem) textElem.textContent = this.localeAPI?.translate('NoData');
   };
 
   /**
@@ -246,7 +246,7 @@ export default class IdsPieChart extends Base {
       const colorClass = slice.pattern ? '' : ` color-${index + 1}`;
       const patternSvg = slice.pattern ? `<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg"><rect width="12" height="12" fill="url(#${slice.pattern})"></rect></svg>` : '';
 
-      let legendValue = `${slice.name} (${this.percents[index].rounded}${this.locale?.numbers().percentSign || '%'})`;
+      let legendValue = `${slice.name} (${this.percents[index].rounded}${this.localeAPI?.numbers().percentSign || '%'})`;
       if (typeof this.legendFormatter === 'function') {
         legendValue = this.legendFormatter(slice, this.percents[index], this);
       }

@@ -2,9 +2,9 @@
 
 ## Description
 
-The locale API handles many aspects and i18n use cases including: dates, numbers, calendars (like `arabic` and `gregorian`), translation and right to left. The Locale component is used in many other components to handle various localization and i18n use cases. The locale API will be available on the `ids-container` as the root element to set the locale or language. And also on any component that needs the locale information so they can be set separate.
+The locale API handles globalization use cases such as dates, numbers, calendars (`arabic` and `gregorian`), translation and right to left (RTL). The Locale component is used as a mixin in many other components to handle these use cases. The main locale API will be available on the `ids-container` as the root element to set the locale or language. Its also available on each component that needs the locale information so they can be set separate.
 
-The Locale API handles the following functionality
+The Locale API handles the following
 
 - formatting numbers for a locale
 - parsing numbers for a locale
@@ -15,9 +15,10 @@ The Locale API handles the following functionality
 
 ## Whats new in this version
 
-- Solved the problems making some functions async so that you don't need to wait for the locale to load.
-- Used Intl.DateTimeFormat and this adds many features like additional calendars
-- Uses standard browser Apis due to dropping IE 11
+- Made en/ en-US the default locale so that its loaded without waiting.
+- Added async functions for loading locales
+- Uses Intl.DateTimeFormat and this adds many features like additional calendars
+- Uses Intl.DateTimeFormat so IE 11 support is dropped
 
 ## Use Cases
 
@@ -48,7 +49,7 @@ It is possible to use the translation strings in another language, independently
 ```javascript
 await document.querySelector('ids-container').setLocale('de-DE');
 await document.querySelector('ids-container').setLanguage('da');
-document.querySelector('ids-container').locale.translate('Actions'); // Returns 'Handlinger'
+document.querySelector('ids-container').localeAPI.translate('Actions'); // Returns 'Handlinger'
 ```
 
 ## Currently Supported Locales
@@ -73,9 +74,9 @@ const myStrings = {
     YourWelcome: { id: 'YourWelcome', value: 'Prego', comment: '' }
 };
 
-container.locale.extendTranslations(Locale.currentLanguage.name, myStrings);
-container.locale.translate('Thanks');      // Returns Grazie
-container.locale.translate('YourWelcome'); // Returns Prego
+container.localeAPI.extendTranslations(localeAPI.currentLanguage.name, myStrings);
+container.localeAPI.translate('Thanks');      // Returns Grazie
+container.localeAPI.translate('YourWelcome'); // Returns Prego
 ```
 
 ### Translation API
@@ -97,15 +98,15 @@ The formatNumber function accepts a numberFormat object with formatting informat
 For example:
 
 ```js
-container.locale.numberFormat(number, {minimumFractionDigits: 3, maximumFractionDigits: 3});
+container.localeAPI.numberFormat(number, {minimumFractionDigits: 3, maximumFractionDigits: 3});
 ```
 
 ```javascript
-container.locale.formatNumber(20.1, { minimumFractionDigits: 2 }));
+container.localeAPI.formatNumber(20.1, { minimumFractionDigits: 2 }));
 // Returns 20.10
-container.locale.formatNumber(5.1, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+container.localeAPI.formatNumber(5.1, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 // Returns 5.10
-container.locale.locale.formatNumber(12345.12, {
+container.localeAPI.formatNumber(12345.12, {
   style: 'currency',
   currency: 'USD'
 });
@@ -133,19 +134,19 @@ The following options are supported:
 If you have a formatted number you can convert it back to a number object with the opposite function parseNumber. This function takes no additional arguments but it may need to make assumptions based on locale settings in the current locale.
 
 ```javascript
-container.locale.parseNumber('$12,345.13');
+container.localeAPI.parseNumber('$12,345.13');
 // Returns 12345.13
-container.locale.parseNumber('1,234,567,890.12346');
+container.localeAPI.parseNumber('1,234,567,890.12346');
 // Returns 1234567890.12346
 ```
 
 To convert from a Chinese/Arabic/Hindi number we added a function to convert the numbers to english numbers.
 
 ```javascript
-locale.convertNumberToEnglish('١٢٣٤٥٦٧٨٩٠');        // Arabic to 1234567890
-locale.convertNumberToEnglish('壹貳叄肆伍陸柒捌玖零'); // Chinese Financial to 1234567890
-locale.convertNumberToEnglish('一二三四五六七八九零'); // Chinese Simplified to 1234567890
-locale.convertNumberToEnglish('१२३४५६७८९०');         // Devangari to 1234567890
+localeAPI.convertNumberToEnglish('١٢٣٤٥٦٧٨٩٠');        // Arabic to 1234567890
+localeAPI.convertNumberToEnglish('壹貳叄肆伍陸柒捌玖零'); // Chinese Financial to 1234567890
+localeAPI.convertNumberToEnglish('一二三四五六七八九零'); // Chinese Simplified to 1234567890
+localeAPI.convertNumberToEnglish('१२३४५६७८९०');         // Devangari to 1234567890
 ```
 
 ### Converting from Previous Versions (Number Formatting)
@@ -167,10 +168,10 @@ The following options are deprecated options from 4.x
 It is possible to use `formatDate` display dates in the current or a specified locale. To do this just call the `getLocale` api function to ensure the data is loaded.
 
 ```javascript
-locale.formatDate(new Date(2019, 5, 8), { dateStyle: 'short', locale: 'nl-NL' }));
+localeAPI.formatDate(new Date(2019, 5, 8), { dateStyle: 'short', locale: 'nl-NL' }));
 // 08-06-2019
 
-locale.formatDate(new Date(2019, 5, 8), { dateStyle: 'long', locale: 'es-ES' });
+localeAPI.formatDate(new Date(2019, 5, 8), { dateStyle: 'long', locale: 'es-ES' });
 // 8 de junio de 2019
 ```
 
@@ -228,21 +229,21 @@ If you have a formatted date you can convert it back to a date object with the o
 We support a limited date parser that requires information about what the source string format is. It can currently only handle certain dates. [The reasons for this are many](https://blog.sffc.xyz/post/190943794505/why-you-should-not-parse-localized-strings). If you need more a better approach might be to keep the date a reference and only format it for display.
 
 ```javascript
-locale.parseDate('2020-02-26 下午12:00', { dateFormat: 'yyyy/M/d ah:mm' });
+localeAPI.parseDate('2020-02-26 下午12:00', { dateFormat: 'yyyy/M/d ah:mm' });
 // 08-06-2019
 ```
 
 When parsing dates you either need to be in the same locale or pass the `dateFormat` being used in the string in.
 
 ```javascript
-locale.setLocale('zh-TW');
-locale.parseDate('2020-02-26 下午12:00', { dateFormat: 'yyyy/M/d ah:mm' });
+localeAPI.setLocale('zh-TW');
+localeAPI.parseDate('2020-02-26 下午12:00', { dateFormat: 'yyyy/M/d ah:mm' });
 // 08-06-2019
 
 // Or
-locale.setLocale('zh-TW');
-locale.setLocale('en-US');
-locale.parseDate('2020-02-26 下午12:00', { dateFormat: 'yyyy/M/d ah:mm', locale: 'zh-TW'});
+localeAPI.setLocale('zh-TW');
+localeAPI.setLocale('en-US');
+localeAPI.parseDate('2020-02-26 下午12:00', { dateFormat: 'yyyy/M/d ah:mm', locale: 'zh-TW'});
 // 08-06-2019
 ```
 

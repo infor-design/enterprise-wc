@@ -26,6 +26,7 @@ describe('IdsTag Component', () => {
   });
 
   it('renders correctly', () => {
+    debugger;
     expect(tag.outerHTML).toMatchSnapshot();
     tag.dismissible = true;
     expect(tag.outerHTML).toMatchSnapshot();

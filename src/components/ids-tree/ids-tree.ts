@@ -986,7 +986,7 @@ export default class IdsTree extends Base {
         const key = e.code;
         if (allow.indexOf(key) > -1) {
           const current = this.#current(n.elem);
-          const isRTL = this.locale.isRTL();
+          const isRTL = this.localeAPI.isRTL();
 
           if (key === 'ArrowDown') {
             move.next(current);

@@ -7,6 +7,8 @@ import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsPopup from '../../src/components/ids-popup/ids-popup';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 
 /**
@@ -30,7 +32,7 @@ describe('IdsPopup Component', () => {
 
   beforeEach(async () => {
     container = new IdsContainer();
-    container.locale.loadedLanguages.set('ar', arMessages);
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
 
     // Create Popup w/ basic dimensions
     popup = new IdsPopup();

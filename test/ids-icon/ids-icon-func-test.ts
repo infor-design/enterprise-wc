@@ -6,6 +6,7 @@ import IdsIcon, { addIcon } from '../../src/components/ids-icon/ids-icon';
 import processAnimFrame from '../helpers/process-anim-frame';
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 describe('IdsIcon Component', () => {
   let elem: IdsIcon;
@@ -13,8 +14,8 @@ describe('IdsIcon Component', () => {
 
   beforeEach(() => {
     container = new IdsContainer();
-    container.locale.loadedLanguages.set('de', deMessages);
-    container.locale.loadedLanguages.set('ar', arMessages);
+    IdsLocaleData.loadedLanguages.set('de', deMessages);
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
     elem = new IdsIcon();
 
     elem.icon = 'close';

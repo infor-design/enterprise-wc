@@ -51,6 +51,7 @@ export default class IdsTag extends Base {
    */
   static get attributes(): Array<string> {
     return [
+      ...super.attributes,
       attributes.COLOR,
       attributes.CLICKABLE,
       attributes.DISMISSIBLE,

@@ -4,6 +4,7 @@
 import IdsRadio from '../../src/components/ids-radio/ids-radio';
 import IdsRadioGroup from '../../src/components/ids-radio/ids-radio-group';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 
 jest.useFakeTimers();
@@ -14,7 +15,7 @@ describe('IdsRadioGroup Component', () => {
 
   beforeEach(async () => {
     container = new IdsContainer();
-    container.locale.loadedLanguages.set('de', deMessages);
+    IdsLocaleData.loadedLanguages.set('de', deMessages);
 
     const rb1 = new IdsRadio();
     const rb2 = new IdsRadio();

@@ -257,7 +257,7 @@ export default class IdsDropdown extends Base {
       'aria-expanded': 'false',
       'aria-autocomplete': 'list',
       'aria-haspopup': 'listbox',
-      'aria-description': this.locale?.translate('PressDown'),
+      'aria-description': this.localeAPI?.translate('PressDown'),
       'aria-controls': this.listBox?.getAttribute('id') || `ids-list-box-${this.id}`
     };
 
@@ -925,7 +925,7 @@ export default class IdsDropdown extends Base {
       this.listBox.innerHTML = results;
       this.#selectFirstOption();
     } else if (this.listBox) {
-      this.listBox.innerHTML = `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
+      this.listBox.innerHTML = `<ids-list-box-option>${this.localeAPI.translate('NoResults')}</ids-list-box-option>`;
     }
 
     // Change location of the popup after results are populated and the popup's height change

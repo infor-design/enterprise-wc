@@ -334,7 +334,7 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
     const tabRect = tab.getBoundingClientRect();
     const moreTabRect = (this.parentElement as any)?.moreContainer?.getBoundingClientRect();
 
-    if (this.locale?.isRTL()) {
+    if (this.localeAPI?.isRTL()) {
       // Beyond left edge
       return tabRect.left < moreTabRect.right - 1;
     }

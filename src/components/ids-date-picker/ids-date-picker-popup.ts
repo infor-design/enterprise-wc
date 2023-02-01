@@ -292,11 +292,11 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
   onLocaleChange = (locale: IdsLocale | undefined) => {
     this.updateMonthYearPickerTriggerDisplay(locale);
     if (this.monthYearPicklist) {
-      (this.monthYearPicklist as any).locale = this.localeName;
+      this.monthYearPicklist.locale = this.locale;
       this.monthYearPicklist.language = this.language.name;
     }
     if (this.monthView) {
-      (this.monthView as any).locale = this.localeName;
+      this.monthView.locale = this.locale;
       this.monthView.language = this.language.name;
     }
     this.shadowRoot?.querySelectorAll('[translate-text]').forEach((textElem: Element) => {
@@ -378,8 +378,8 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
       this.setRangeSettings(val);
 
       if (val?.start && val?.end) {
-        const formattedStart = this.locale.formatDate(this.setTime(val.start), { pattern: this.format });
-        const formattedEnd = this.locale.formatDate(this.setTime(val.end), { pattern: this.format });
+        const formattedStart = this.localeAPI.formatDate(this.setTime(val.start), { pattern: this.format });
+        const formattedEnd = this.localeAPI.formatDate(this.setTime(val.end), { pattern: this.format });
         this.value = `${formattedStart}${val.separator}${formattedEnd}`;
         if (!val.selectWeek) btnApply?.removeAttribute(attributes.DISABLED);
       } else {
@@ -803,9 +803,9 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
         }
 
         this.value = [
-          this.locale.formatDate(this.setTime(rangeSettings.start), { pattern: this.format }),
+          this.localeAPI.formatDate(this.setTime(rangeSettings.start), { pattern: this.format }),
           rangeSettings.separator,
-          this.locale.formatDate(
+          this.localeAPI.formatDate(
             this.setTime(rangeSettings.end ?? this.getActiveDate()),
             { pattern: this.format }
           ),
@@ -814,7 +814,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
         this.hide(true);
         this.triggerSelectedEvent();
       } else {
-        this.value = this.locale.formatDate(
+        this.value = this.localeAPI.formatDate(
           this.setTime(rangeSettings.start ?? this.getActiveDate()),
           { pattern: this.format }
         );
@@ -826,7 +826,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     }
 
     if (this.target) {
-      this.value = this.locale.formatDate(
+      this.value = this.localeAPI.formatDate(
         this.setTime(this.getActiveDate()),
         { pattern: this.format }
       );
@@ -854,7 +854,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
   private handleDaySelectedEvent(e: CustomEvent): void {
     if (!this.monthView) return;
 
-    const inputDate: Date | number[] | undefined = this.locale.parseDate(this.value, { dateFormat: this.format });
+    const inputDate: Date | number[] | undefined = this.localeAPI.parseDate(this.value, { dateFormat: this.format });
 
     // Clear action
     // Deselect the selected date by clicking to the selected date
@@ -873,9 +873,9 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
       if (rangeSettings.selectWeek) {
         const fixedDate = this.setTime(e.detail.rangeStart as Date);
         this.value = [
-          this.locale.formatDate(fixedDate, { pattern: this.format }),
+          this.localeAPI.formatDate(fixedDate, { pattern: this.format }),
           rangeSettings.separator,
-          e.detail.rangeEnd && this.locale.formatDate(this.setTime(e.detail.rangeEnd), { pattern: this.format })
+          e.detail.rangeEnd && this.localeAPI.formatDate(this.setTime(e.detail.rangeEnd), { pattern: this.format })
         ].filter(Boolean).join('');
 
         e.detail.date = fixedDate;
@@ -896,7 +896,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
       }
     } else {
       const fixedDate = this.setTime(e.detail.date);
-      this.value = this.locale.formatDate(
+      this.value = this.localeAPI.formatDate(
         fixedDate,
         { pattern: this.format }
       );
@@ -949,7 +949,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     const minutes: number = timePicker.minutes;
     const seconds: number = timePicker.seconds;
     const period: string = timePicker.period;
-    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(period);
+    const dayPeriodIndex = this.localeAPI?.calendar().dayPeriods?.indexOf(period);
 
     date.setHours(hoursTo24(hours, dayPeriodIndex), minutes, seconds);
 
@@ -1049,7 +1049,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
   private setCurrentTime() {
     if (this.timepicker) {
-      this.timepicker.value = this.locale.formatDate(new Date(), { pattern: this.format });
+      this.timepicker.value = this.localeAPI.formatDate(new Date(), { pattern: this.format });
     }
   }
 
@@ -1060,7 +1060,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
    * @returns {string} locale formatted month year
    */
   private formatMonthText(locale?: IdsLocale, date?: Date): string {
-    const targetLocale = locale || this.locale;
+    const targetLocale = locale || this.localeAPI;
     const targetDate = date || this.getActiveDate();
 
     if (!targetLocale) return '';

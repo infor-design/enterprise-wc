@@ -200,7 +200,7 @@ export default class IdsWeekView extends Base {
     const hoursDiff = this.endHour - this.startHour + 1;
     const isDayView = diff === 1 || diff === 0;
     // Get locale loaded calendars and dayOfWeek calendar setting
-    const calendars = this.locale.locale.options.calendars;
+    const calendars = this.localeAPI.locale.options.calendars;
     const dayOfWeekSetting = (calendars)[0]?.dateFormat?.dayOfWeek;
     // Determinate day/weekday order based on calendar settings (d EEE or EEE)
     const emphasis: boolean = dayOfWeekSetting && dayOfWeekSetting.split(' ')[0] === 'EEE';
@@ -214,8 +214,8 @@ export default class IdsWeekView extends Base {
 
     const daysTemplate = Array.from({ length: diff }, (_, index) => {
       const date = this.startDate.setDate(this.startDate.getDate() + index);
-      const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
-      const weekday = this.locale.formatDate(date, { weekday: 'short' });
+      const dayNumeric = this.localeAPI.formatDate(date, { day: 'numeric' });
+      const weekday = this.localeAPI.formatDate(date, { weekday: 'short' });
       const isToday = isTodaysDate(new Date(date));
       const dataKey = this.generateDateKey(new Date(date));
 
@@ -254,7 +254,7 @@ export default class IdsWeekView extends Base {
       <tr class="week-view-hour-row" data-hour="${hour}">
         <td>
           <div class="week-view-cell-wrapper">
-            <ids-text font-size="12">${calendars ? this.locale.formatHour(this.startHour + index) : ''}</ids-text>
+            <ids-text font-size="12">${calendars ? this.localeAPI.formatHour(this.startHour + index) : ''}</ids-text>
           </div>
         </td>
         ${cellTemplate}
