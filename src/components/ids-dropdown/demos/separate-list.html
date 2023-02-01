@@ -18,14 +18,12 @@
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
 
-        <ids-dropdown id="dropdown-1" list="separate-list" label="Dropdown Using Ajax" value="opt2" dirty-tracker="true"></ids-dropdown>
+        <ids-dropdown id="dropdown-1" list="separate-list" label="Dropdown (list is adjacent)" value="blank" dirty-tracker="true" allow-blank="true"></ids-dropdown>
         <ids-dropdown-list id="separate-list">
           <ids-list-box>
-            <ids-list-box-option value="opt1" id="opt1-d8">
-              <span>Option One</span>
-            </ids-list-box-option>
-            <ids-list-box-option value="opt2" id="opt2-d8">
-              <span>Option Two</span>
+            <ids-list-box-option value="blank" id="blank"><span></span></ids-list-box-option>
+            <ids-list-box-option value="opt1" id="opt1-d8"><span>Option One</span></ids-list-box-option>
+            <ids-list-box-option value="opt2" id="opt2-d8"><span>Option Two</span></ids-list-box-option>
           </ids-list-box>
         </ids-dropdown-list>
 

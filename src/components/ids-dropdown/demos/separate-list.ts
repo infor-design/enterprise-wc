@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         picker = createPopup(fieldId, btnId, data);
         currentTarget = picker.target as IdsDropdown;
+        if (field.value) picker.value = field.value;
 
         // Dropdown List's `hide` event can cause the field to become focused
         picker.onEvent('hide', picker, (e: CustomEvent) => {

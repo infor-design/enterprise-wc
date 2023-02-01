@@ -7,7 +7,6 @@ import styles from './ids-dropdown-list.scss';
 import type IdsListBox from '../ids-list-box/ids-list-box';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 
-import { IdsDropdownCommonAttributes } from './ids-dropdown-common';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
@@ -32,13 +31,12 @@ export default class IdsDropdownList extends Base {
    */
   static get attributes() {
     return [
-      ...super.attributes,
-      ...IdsDropdownCommonAttributes
+      ...super.attributes
     ];
   }
 
   template() {
-    return `<ids-popup class="ids-dropdown-list" type="menu" part="dropdown-list" y="0">
+    return `<ids-popup class="ids-dropdown-list" type="menu" part="dropdown-list" y="-1">
       <slot slot="content"></slot>
     </ids-popup>`;
   }
@@ -128,7 +126,6 @@ export default class IdsDropdownList extends Base {
 
     if (this.popup) {
       this.popup.type = 'dropdown';
-      // this.popup.alignTarget = this.input?.fieldContainer as IdsPopupElementRef;
       this.popup.align = 'bottom, left';
       this.popup.arrow = 'none';
       this.popup.y = -1;
@@ -286,5 +283,40 @@ export default class IdsDropdownList extends Base {
     option?.removeAttribute('aria-selected');
     option?.classList.remove('is-selected');
     option?.setAttribute('tabindex', '-1');
+  }
+
+  onAllowBlankChange(val: boolean) {
+    if (val) this.insertBlank();
+    else this.removeBlank();
+  }
+
+  onClearableTextChange() {
+    if (this.allowBlank) this.insertBlank();
+  }
+
+  /**
+   * Insert blank option into list box
+   */
+  private insertBlank(): void {
+    const list = this.listBox;
+    const blankOption = `<ids-list-box-option value="blank" aria-label="Blank">${this.clearableText ?? '&nbsp;'}</ids-list-box-option>`;
+    this.removeBlank();
+    list?.insertAdjacentHTML('afterbegin', blankOption);
+  }
+
+  /**
+   * Remove blank options from list box
+   */
+  private removeBlank(): void {
+    this.listBox?.querySelector('ids-list-box-option[value="blank"]')?.remove();
+  }
+
+  /**
+   * Refreshes the state of the "blank" option in the Dropdown list
+   * @returns {void}
+   */
+  configureBlank() {
+    if (this.clearableText) this.insertBlank();
+    else this.removeBlank();
   }
 }

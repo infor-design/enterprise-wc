@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsDropdownAttributeMixin from './ids-dropdown-attributes-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
@@ -31,33 +32,22 @@ import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsIcon from '../ids-icon/ids-icon';
 import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { IdsDropdownCommonAttributes } from './ids-dropdown-common';
+import { IdsDropdownOption, IdsDropdownOptions } from './ids-dropdown-common';
 
-export type IdsDropdownOption = {
-  id?: string,
-  label: string,
-  value: string,
-  icon?: string,
-  groupLabel?: boolean,
-  // ids-multiselect shared
-  selected?: boolean,
-  index?: number
-};
-
-export type IdsDropdownOptions = Array<IdsDropdownOption>;
-
-const Base = IdsThemeMixin(
-  IdsDirtyTrackerMixin(
-    IdsValidationInputMixin(
-      IdsLabelStateParentMixin(
-        IdsFieldHeightMixin(
-          IdsColorVariantMixin(
-            IdsTooltipMixin(
-              IdsXssMixin(
-                IdsLocaleMixin(
-                  IdsKeyboardMixin(
-                    IdsEventsMixin(
-                      IdsElement
+const Base = IdsDropdownAttributeMixin(
+  IdsThemeMixin(
+    IdsDirtyTrackerMixin(
+      IdsValidationInputMixin(
+        IdsLabelStateParentMixin(
+          IdsFieldHeightMixin(
+            IdsColorVariantMixin(
+              IdsTooltipMixin(
+                IdsXssMixin(
+                  IdsLocaleMixin(
+                    IdsKeyboardMixin(
+                      IdsEventsMixin(
+                        IdsElement
+                      )
                     )
                   )
                 )
@@ -135,8 +125,7 @@ export default class IdsDropdown extends Base {
    */
   static get attributes() {
     return [
-      ...super.attributes,
-      ...IdsDropdownCommonAttributes
+      ...super.attributes
     ];
   }
 
@@ -267,6 +256,10 @@ export default class IdsDropdown extends Base {
 
   get input() {
     return this.container?.querySelector<IdsTriggerField>('ids-trigger-field');
+  }
+
+  get popup() {
+    return this.dropdownList?.popup;
   }
 
   /**
@@ -402,29 +395,9 @@ export default class IdsDropdown extends Base {
     return stringToBool(this.getAttribute(attributes.DISABLED)) || false;
   }
 
-  /**
-   * Sets allow-blank setting
-   * @param {string|boolean} value adds blank option if true
-   */
-  set allowBlank(value: boolean | string) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.ALLOW_BLANK, '');
-      this.#insertBlankOption();
-    } else {
-      this.#removeBlank();
-      this.removeAttribute(attributes.ALLOW_BLANK);
-      if (this.value === 'blank') {
-        this.removeAttribute(attributes.VALUE);
-      }
-    }
-  }
-
-  /**
-   * Gets allow-blank value
-   * @returns {boolean} allow-blank value
-   */
-  get allowBlank(): boolean {
-    return stringToBool(this.getAttribute(attributes.ALLOW_BLANK));
+  onAllowBlankChange(val: boolean) {
+    if (this.dropdownList) this.dropdownList.allowBlank = val;
+    if (!val && this.value === 'blank') this.removeAttribute(attributes.VALUE);
   }
 
   /**
@@ -496,23 +469,6 @@ export default class IdsDropdown extends Base {
     this.deselectOption(option);
   }
 
-  /**
-   * Insert blank option into list box
-   */
-  #insertBlankOption(): void {
-    const list = this.dropdownList?.querySelector('ids-list-box');
-    const blankOption = `<ids-list-box-option value="blank" aria-label="Blank">${this.clearableText ?? '&nbsp;'}</ids-list-box-option>`;
-    this.#removeBlank();
-    list?.insertAdjacentHTML('afterbegin', blankOption);
-  }
-
-  /**
-   * Remove blank options from list box
-   */
-  #removeBlank(): void {
-    this.dropdownList?.querySelector('ids-list-box-option[value="blank"]')?.remove();
-  }
-
   #configurePopup() {
     if (this.dropdownList && this.trigger) {
       this.dropdownList.removeTriggerEvents();
@@ -544,11 +500,11 @@ export default class IdsDropdown extends Base {
       this.dropdownList.setAttribute(attributes.TARGET, `#${targetElemId}`);
       this.dropdownList.setAttribute(attributes.TRIGGER_ELEM, `#${triggerElemId}`);
       this.dropdownList.setAttribute(attributes.TRIGGER_TYPE, 'click');
+      this.dropdownList.popupOpenEventsTarget = document.body;
 
       // Configure inner IdsPopup
-      if (this.locale && this.locale.isRTL) this.dropdownList.popup?.setAttribute(attributes.ALIGN, `bottom, ${this.locale.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
-
-      // this.dropdownList.refreshTriggerEvents();
+      if (this.locale && this.locale.isRTL)
+        this.dropdownList.popup?.setAttribute(attributes.ALIGN, `bottom, ${this.locale.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
 
       if (this.input) {
         this.dropdownList.value = this.input.value;
@@ -608,7 +564,7 @@ export default class IdsDropdown extends Base {
     });
     listbox?.insertAdjacentHTML('afterbegin', html);
     if (this.allowBlank) {
-      this.#insertBlankOption();
+      this.dropdownList?.configureBlank();
     }
     this.value = this.getAttribute(attributes.VALUE);
   }
@@ -1171,39 +1127,9 @@ export default class IdsDropdown extends Base {
     return stringToBool(this.getAttribute(attributes.TYPEAHEAD));
   }
 
-  /**
-   * When set the value can be cleared with Backspace/Delete
-   * @param {boolean|string|null} value clearable value
-   */
-  set clearable(value: boolean | string | null) {
-    const boolVal = stringToBool(value);
-
-    if (boolVal) {
-      this.setAttribute(attributes.CLEARABLE, String(boolVal));
-    } else {
-      this.removeAttribute(attributes.CLEARABLE);
-    }
+  onClearableTextChange(val: string | null) {
+    if (this.dropdownList) this.dropdownList.clearableText = val;
   }
-
-  get clearable() { return stringToBool(this.getAttribute(attributes.CLEARABLE)); }
-
-  /**
-   * When set the blank option will have a text
-   * @param {string|null} value blank option text
-   */
-  set clearableText(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.CLEARABLE_TEXT, value);
-    } else {
-      this.removeAttribute(attributes.CLEARABLE_TEXT);
-    }
-
-    if (this.allowBlank) {
-      this.#insertBlankOption();
-    }
-  }
-
-  get clearableText() { return this.getAttribute(attributes.CLEARABLE_TEXT); }
 
   /**
    * Sets the placeholder attribute

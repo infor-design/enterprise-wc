@@ -1,5 +1,18 @@
 import { attributes } from '../../core/ids-attributes';
 
+export type IdsDropdownOption = {
+  id?: string,
+  label: string,
+  value: string,
+  icon?: string,
+  groupLabel?: boolean,
+  // ids-multiselect shared
+  selected?: boolean,
+  index?: number
+};
+
+export type IdsDropdownOptions = Array<IdsDropdownOption>;
+
 export const IdsDropdownCommonAttributes = [
   attributes.ALLOW_BLANK,
   attributes.CLEARABLE,

@@ -321,7 +321,7 @@ describe('IdsDropdown Component', () => {
   it('can click outside an open list to close it', (done) => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
-    dropdown.onOutsideClick = jest.fn();
+    dropdown.dropdownList.onOutsideClick = jest.fn();
     dropdown.open();
 
     setTimeout(() => {
@@ -329,7 +329,7 @@ describe('IdsDropdown Component', () => {
       document.body.dispatchEvent(clickEvent);
 
       setTimeout(() => {
-        expect(dropdown.onOutsideClick).toHaveBeenCalled();
+        expect(dropdown.dropdownList.onOutsideClick).toHaveBeenCalled();
         done();
       });
     }, 70);
