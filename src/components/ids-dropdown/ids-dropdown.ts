@@ -722,25 +722,6 @@ export default class IdsDropdown extends Base {
   };
 
   attachClickEvent() {
-<<<<<<< HEAD
-    this.offEvent('click.dropdown-list-box');
-    this.onEvent('click.dropdown-list-box', this.listBox, (e: any) => {
-      const closestOptEl = e.target.closest('ids-list-box-option');
-
-      // Excluding group labels
-      if (e.target?.hasAttribute(attributes.GROUP_LABEL) || closestOptEl?.hasAttribute(attributes.GROUP_LABEL)) {
-        return;
-      }
-
-      if (closestOptEl) {
-        this.value = closestOptEl.getAttribute('value');
-      }
-
-      this.close();
-    });
-
-=======
->>>>>>> b4d2662aa (Add IdsDropdownList, move some features from IdsDropdown)
     this.offEvent('click.dropdown-input');
     this.onEvent('click.dropdown-input', this.input?.input, () => {
       if (!this.typeahead) {
