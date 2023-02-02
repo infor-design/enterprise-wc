@@ -1342,18 +1342,18 @@ describe('IdsLocale API', () => {
       IdsLocaleData.loadedLanguages.set('ar', arMessages);
       document.body.appendChild(container);
 
-      container.language = 'de';
+      await container.setLanguage('de');
       let html = window.document.getElementsByTagName('html')[0];
       expect(html.getAttribute('lang')).toEqual('de');
       expect(container.getAttribute('language')).toEqual('de');
 
-      container.language = 'ar';
+      await container.setLanguage('ar');
       html = window.document.getElementsByTagName('html')[0];
       expect(html.getAttribute('lang')).toEqual('ar');
       expect(container.getAttribute('language')).toEqual('ar');
       expect(container.getAttribute('dir')).toEqual('rtl');
 
-      container.language = 'de';
+      await container.setLanguage('de');
       html = window.document.getElementsByTagName('html')[0];
       expect(html.getAttribute('lang')).toEqual('de');
       expect(container.getAttribute('language')).toEqual('de');

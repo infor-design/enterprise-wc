@@ -204,7 +204,7 @@ export default class IdsButton extends Base {
 
   private setAriaText() {
     if (this.container) {
-      this.container.setAttribute(htmlAttributes.ARIA_LABEL, this.text || 'Button');
+      this.container.setAttribute(htmlAttributes.ARIA_LABEL, this.text?.trim() || 'Button');
     }
   }
 

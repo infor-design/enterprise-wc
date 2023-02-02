@@ -856,7 +856,7 @@ describe('IdsPopup Component', () => {
   });
 
   it('can change child languages', async () => {
-    container.language = 'ar';
+    await container.setLanguage('ar');
     await processAnimFrame();
     expect(popup.getAttribute('dir')).toEqual('rtl');
   });

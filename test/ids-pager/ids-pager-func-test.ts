@@ -10,6 +10,7 @@ import '../../src/components/ids-pager/ids-pager';
 import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
 import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import IdsPagerButton from '../../src/components/ids-pager/ids-pager-button';
 
 const HTMLSnippets = {
   NAV_BUTTONS_WITHOUT_NESTING: (
@@ -813,10 +814,11 @@ describe('IdsPager Component', () => {
   });
 
   it('can change child languages', async () => {
-    const button1 = elem.querySelector('ids-pager-button');
-    container.language = 'de';
-    setTimeout(() => {
-      expect(button1.getAttribute('language')).toEqual('de');
-    });
+    const button1 = new IdsPagerButton();
+    container.appendChild(button1);
+    await container.setLanguage('de');
+    await processAnimFrame();
+    expect(button1.getAttribute('language')).toEqual('de');
+    expect(button1.language.name).toEqual('de');
   });
 });

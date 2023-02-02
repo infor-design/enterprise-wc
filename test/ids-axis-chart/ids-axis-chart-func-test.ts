@@ -366,10 +366,10 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('should adjust RTL', async () => {
-    container.language = 'ar';
+    await container.setLanguage('ar');
     await processAnimFrame();
 
-    expect(axisChart.locale.isRTL()).toBe(true);
+    expect(axisChart.localeAPI.isRTL()).toBe(true);
   });
 
   it('should set axis label', async () => {
@@ -380,9 +380,9 @@ describe('IdsAxisChart Component', () => {
     axisChart.axisLabelTop = 'Top axis label';
     axisChart.axisLabelMargin = 20;
     expect(axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length).toEqual(4);
-    container.language = 'ar';
+    await container.setLanguage('ar');
     await processAnimFrame();
-    expect(axisChart.locale.isRTL()).toBe(true);
+    expect(axisChart.localeAPI.isRTL()).toBe(true);
 
     axisChart.axisLabelBottom = '';
     axisChart.axisLabelEnd = '';
@@ -404,7 +404,7 @@ describe('IdsAxisChart Component', () => {
     expect(xLabels[0].getAttribute('transform-origin')).toEqual(null);
     expect(xLabels[0].getAttribute('transform-origin')).toEqual(null);
 
-    container.language = 'ar';
+    await container.setLanguage('ar');
     axisChart.alignXLabels = 'middle';
     axisChart.redraw();
     await processAnimFrame();
@@ -440,7 +440,7 @@ describe('IdsAxisChart Component', () => {
     expect(yLabels[0].getAttribute('transform-origin')).toEqual(null);
     expect(yLabels[0].getAttribute('transform-origin')).toEqual(null);
 
-    container.language = 'ar';
+    await container.setLanguage('ar');
     axisChart.alignXLabels = 'middle';
     axisChart.redraw();
     await processAnimFrame();

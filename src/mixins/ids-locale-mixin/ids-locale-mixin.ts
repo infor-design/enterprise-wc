@@ -57,9 +57,10 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
       this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
     }
 
-    requestAnimationFrame(() => {
-      this.#notifyChildrenLanguage(this.querySelectorAll(`[language="${this.previousLanguage}"]`), value);
-    });
+    if (this.children.length > 0) {
+      const previous = this.previousLanguage;
+      this.#notifyChildrenLanguage(this.querySelectorAll('*'), value, previous);
+    }
 
     this.localeAPI.updateDirectionAttribute(this, value);
     this.setDirection();
@@ -93,10 +94,13 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
    * Set the setter on all children
    * @param {NodeListOf<HTMLElement>} children the children to set
    * @param {string} language The language string value
+   * @param {string} previousLanguage The previous language string value
    */
-  #notifyChildrenLanguage(children: NodeListOf<HTMLElement>, language: string) {
-    children.forEach((element: HTMLElement) => {
-      (element as any).language = language;
+  #notifyChildrenLanguage(children: NodeListOf<HTMLElement>, language: string, previousLanguage: string) {
+    children.forEach((element: any) => {
+      if (element.language && element.language.name === previousLanguage) {
+        element.language = language;
+      }
     });
   }
 
@@ -122,7 +126,13 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
       if (this.previousLocale !== value) {
         this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
       }
-      this.#notifyChildrenLocale(this.querySelectorAll(`[locale="${this.previousLocale}"]`), value);
+
+      if (this.children.length > 0) {
+        const previous = this.previousLocale;
+        requestAnimationFrame(() => {
+          this.#notifyChildrenLocale(this.querySelectorAll('*'), value, previous);
+        });
+      }
     }
     this.previousLocale = value;
   }
@@ -145,10 +155,13 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
    * Set the setter on all children
    * @param {NodeListOf<HTMLElement>} children the children to set
    * @param {string} locale The locale string value
+   * @param {string} previousLocale The previous locale string value
    */
-  #notifyChildrenLocale(children: NodeListOf<HTMLElement>, locale: string) {
-    children.forEach((element: HTMLElement) => {
-      (element as any).locale = locale;
+  #notifyChildrenLocale(children: NodeListOf<HTMLElement>, locale: string, previousLocale: string) {
+    children.forEach((element: any) => {
+      if (element.locale && element.locale === previousLocale) {
+        element.locale = locale;
+      }
     });
   }
 

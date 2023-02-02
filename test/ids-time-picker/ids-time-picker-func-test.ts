@@ -134,8 +134,8 @@ describe('IdsTimePicker Component', () => {
     timepicker.format = null;
 
     expect(timepicker.getAttribute(attributes.FORMAT)).toBeNull();
-    expect(timepicker.format).toEqual(timepicker.locale.calendar().timeFormat);
-    await container.setLocale('es-419');
+    expect(timepicker.format).toEqual(timepicker.localeAPI.calendar().timeFormat);
+    await timepicker.setLocale('es-419');
 
     expect(timepicker.format).toEqual('HH:mm');
   });

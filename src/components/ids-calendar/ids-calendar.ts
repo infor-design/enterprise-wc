@@ -202,6 +202,7 @@ export default class IdsCalendar extends Base {
     this.#attachEventHandlers();
     this.#configureResizeObserver();
     this.viewPickerConnected();
+    this.onLocaleChange(this.localeAPI);
   }
 
   /**
@@ -936,11 +937,11 @@ export default class IdsCalendar extends Base {
     }
 
     const datePickerPopup = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup');
-    if (datePickerPopup) {
+    if (datePickerPopup && datePickerPopup?.updateMonthYearPickerTriggerDisplay) {
       datePickerPopup.day = targetDate.getDate();
       datePickerPopup.month = targetDate.getMonth();
       datePickerPopup.year = targetDate.getFullYear();
-      datePickerPopup.updateMonthYearPickerTriggerDisplay(locale, targetDate);
+      datePickerPopup?.updateMonthYearPickerTriggerDisplay(locale, targetDate);
     }
   }
 

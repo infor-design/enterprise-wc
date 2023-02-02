@@ -79,12 +79,12 @@ describe('IdsContainer Component', () => {
     expect(container.container?.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting language', () => {
-    container.language = 'ar';
+  it('supports setting language', async () => {
+    await container.setLanguage('ar');
     expect(container.getAttribute('language')).toEqual('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');
 
-    container.language = 'de';
+    await container.setLanguage('de');
     expect(container.getAttribute('language')).toEqual('de');
     expect(container.getAttribute('dir')).toEqual(null);
   });

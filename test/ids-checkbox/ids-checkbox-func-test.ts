@@ -316,8 +316,8 @@ describe('IdsCheckbox Component', () => {
     expect(cb.getAttribute('indeterminate')).toEqual('true');
   });
 
-  it('can change language to rtl from the container', () => {
-    container.language = 'ar';
+  it('can change language to rtl from the container', async () => {
+    await container.setLanguage('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');
   });
 

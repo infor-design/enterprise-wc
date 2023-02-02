@@ -79,7 +79,7 @@ describe('IdsThemeSwitcher Component', () => {
   });
 
   it('can change language', async () => {
-    container.language = 'ar';
+    await container.setLanguage('ar');
     setTimeout(() => {
       expect(switcher.getAttribute('dir')).toEqual('rtl');
     });

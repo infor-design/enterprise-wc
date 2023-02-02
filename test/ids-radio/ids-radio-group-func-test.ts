@@ -392,9 +392,7 @@ describe('IdsRadioGroup Component', () => {
   });
 
   it('can change language from the container', async () => {
-    container.language = 'de';
-    setTimeout(() => {
-      expect(rg.getAttribute('language')).toEqual('de');
-    });
+    await container.setLanguage('de');
+    expect(rg.getAttribute('language')).toEqual('de');
   });
 });

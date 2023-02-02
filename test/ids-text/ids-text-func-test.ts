@@ -5,6 +5,7 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsText from '../../src/components/ids-text/ids-text';
 import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 import { messages as fiMessages } from '../../src/components/ids-locale/data/fi-messages';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsText Component', () => {
   let elem: any;
@@ -245,6 +246,7 @@ describe('IdsText Component', () => {
     await container.setLanguage('en');
     expect(text.textContent).toEqual('Browser Language');
     await container.setLanguage('fi');
+    await processAnimFrame();
     expect(text.textContent).toEqual('Selaimen kieli');
 
     text.removeAttribute('translation-key');

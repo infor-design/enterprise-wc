@@ -137,10 +137,8 @@ describe('IdsSwitch Component', () => {
   });
 
   it('can change language from the container', async () => {
-    container.language = 'de';
-    setTimeout(() => {
-      expect(el.getAttribute('language')).toEqual('de');
-    });
+    await container.setLanguage('de');
+    expect(el.getAttribute('language')).toEqual('de');
   });
 
   it('can focus its inner Input element', () => {

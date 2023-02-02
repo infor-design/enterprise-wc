@@ -93,7 +93,9 @@ describe('IdsIcon Component', () => {
     icon.icon = 'previous-page';
     container.appendChild(icon);
     document.body.appendChild(container);
-    container.language = 'ar';
+
+    await processAnimFrame();
+    await container.setLanguage('ar');
     await processAnimFrame();
     expect(icon.isMirrored('previous-page')).toBeTruthy();
     expect(icon.template()).toContain('class="mirrored"');
@@ -101,11 +103,11 @@ describe('IdsIcon Component', () => {
 
   it('can change language from the container', async () => {
     elem.icon = 'previous-page';
-    container.language = 'de';
+    await container.setLanguage('de');
     await processAnimFrame();
     expect(elem.getAttribute('dir')).toBeFalsy();
     expect(elem.container?.getAttribute('dir')).toBeFalsy();
-    container.language = 'ar';
+    await container.setLanguage('ar');
     await processAnimFrame();
     expect(elem.template()).toContain('class="mirrored"');
   });

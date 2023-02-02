@@ -188,10 +188,8 @@ describe('IdsRadio Component', () => {
   });
 
   it('can change language from the container', async () => {
-    container.language = 'de';
-    setTimeout(() => {
-      expect(rb.getAttribute('language')).toEqual('de');
-    });
+    await container.setLanguage('de');
+    expect(rb.getAttribute('language')).toEqual('de');
   });
 
   it('can focus its inner Input element', () => {

@@ -6,14 +6,17 @@
     "type": "git",
     "url": "git+https://github.com/infor-design/enterprise-wc.git"
   },
-  "keywords": ["infor design system", "infor design system web components"],
+  "keywords": ["infor design system", "web components", "library", "user interface"],
   "bugs": {
     "url": "https://github.com/infor-design/enterprise-wc/issues"
   },
   "type": "module",
-  "module": "./components/enterprise-wc.js",
-  "types": "./components/enterprise-wc.d.ts",
-  "main": "./components/enterprise-wc.js",
+  "module": "./enterprise-wc.js",
+  "exports": {
+    ".": "./enterprise-wc.js"
+  },
+  "types": "./enterprise-wc.d.ts",
+  "main": "./enterprise-wc.js",
   "author": "Infor Design",
   "license": "Apache-2.0",
   "homepage": "https://design.infor.com"

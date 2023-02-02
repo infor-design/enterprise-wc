@@ -1001,10 +1001,10 @@ describe('IdsDataGrid Component', () => {
       (window as any).getComputedStyle = () => ({ width: 200 });
       await processAnimFrame();
 
-      container.language = 'ar';
+      await container.setLanguage('ar');
       await processAnimFrame();
 
-      expect(dataGrid.locale.isRTL()).toBe(true);
+      expect(dataGrid.localeAPI.isRTL()).toBe(true);
 
       dataGrid.columns = [{
         id: 'price',
@@ -1198,7 +1198,7 @@ describe('IdsDataGrid Component', () => {
     });
 
     it('resets direction on sort', async () => {
-      container.language = 'ar';
+      await container.setLanguage('ar');
       await processAnimFrame();
       expect(dataGrid.getAttribute('dir')).toEqual('rtl');
 
@@ -1260,7 +1260,7 @@ describe('IdsDataGrid Component', () => {
       nodes[1].dispatchEvent(dragenter);
       nodes[0].dispatchEvent(dragenter);
 
-      dataGrid.locale.isRTL = () => true;
+      dataGrid.localeAPI.isRTL = () => true;
       nodes[1].dispatchEvent(dragenter);
       nodes[0].dispatchEvent(dragenter);
       expect(dataGrid.wrapper.querySelector('.ids-data-grid-sort-arrows').style.display).toBe('block');
@@ -1351,7 +1351,7 @@ describe('IdsDataGrid Component', () => {
       }];
       await processAnimFrame();
 
-      container.language = 'ar';
+      await container.setLanguage('ar');
       await processAnimFrame();
       expect(dataGrid.getAttribute('dir')).toEqual('rtl');
 
@@ -2191,7 +2191,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(7)').textContent.trim()).toEqual('13.99');
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(10)').textContent.trim()).toEqual('14');
 
-      container.language = 'ar';
+      await container.setLanguage('ar');
       await processAnimFrame();
       expect(dataGrid.getAttribute('dir')).toEqual('rtl');
 
