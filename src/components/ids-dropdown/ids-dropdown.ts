@@ -416,7 +416,11 @@ export default class IdsDropdown extends Base {
    * @private
    */
   selectOption(option: HTMLElement | undefined | null) {
-    this.dropdownList?.selectOption(option);
+    if (this.dropdownList) {
+      if (this.value !== this.dropdownList.value) {
+        this.dropdownList.selectOption(option);
+      }
+    }
   }
 
   /**
@@ -580,7 +584,10 @@ export default class IdsDropdown extends Base {
     if (this.allowBlank) {
       this.dropdownList?.configureBlank();
     }
-    this.value = this.getAttribute(attributes.VALUE);
+    const currentValue = this.getAttribute(attributes.VALUE);
+    if (this.value !== currentValue) {
+      this.value = currentValue;
+    }
   }
 
   /**

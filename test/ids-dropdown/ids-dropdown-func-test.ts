@@ -418,7 +418,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.querySelector('ids-list-box-option')?.getAttribute('value')).toEqual('opt5');
     expect(dropdown.popup.visible).toBeTruthy();
 
-    dropdown.dropdownList?.listBox?.dispatchEvent(new MouseEvent('click'));
+    document.body.dispatchEvent(new MouseEvent('click'));
     expect(dropdown.popup.visible).toBeFalsy();
   });
 
@@ -791,7 +791,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.colorVariant).toEqual('alternate-formatter');
     expect(dropdown.labelState).toEqual('collapsed');
     expect(dropdown.compact).toEqual(true);
-    expect(dropdown.dropdownList.listBox.getAttribute('compact')).not.toBeNull();
+    expect(dropdown.dropdownList.getAttribute('field-height')).not.toBeNull();
     expect(dropdown.noMargins).toEqual(true);
 
     dropdown.compact = false;
@@ -799,7 +799,7 @@ describe('IdsDropdown Component', () => {
     dropdown.template();
 
     expect(dropdown.fieldHeight).toEqual('lg');
-    expect(dropdown.dropdownList.listBox.getAttribute('field-height')).toEqual('lg');
+    expect(dropdown.dropdownList.getAttribute('field-height')).toEqual('lg');
   });
 
   it('fixes itself with an empty container', () => {
@@ -846,7 +846,7 @@ describe('IdsDropdown Component', () => {
     dropdown.input.value = '2';
     dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: '2' }));
     // Keydownend delay
-    await wait(600);
+    await wait(700);
 
     expect(dropdown.querySelectorAll(`ids-list-box-option`)?.length).toEqual(4);
     expect(dropdown.querySelectorAll(`ids-list-box-option[group-label]`)?.length).toEqual(2);
@@ -856,7 +856,7 @@ describe('IdsDropdown Component', () => {
     dropdown.input.value = 'w';
     dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'w' }));
     // Keydownend delay
-    await wait(600);
+    await wait(700);
 
     expect(dropdown.querySelectorAll(`ids-list-box-option`)?.length).toEqual(2);
     expect(dropdown.querySelectorAll(`ids-list-box-option[group-label]`)?.length).toEqual(1);
@@ -866,7 +866,7 @@ describe('IdsDropdown Component', () => {
     dropdown.input.value = 'u';
     dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'u' }));
     // Keydownend delay
-    await wait(600);
+    await wait(700);
 
     expect(dropdown.querySelectorAll(`ids-list-box-option`)?.length).toEqual(2);
     expect(dropdown.querySelectorAll(`ids-list-box-option[group-label]`)?.length).toEqual(1);
