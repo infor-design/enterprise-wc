@@ -624,9 +624,6 @@ export default class IdsTimePicker extends Base {
 
       if (this.input) {
         this.input.value = value;
-        this.triggerEvent('change.timepicker', this, {
-          detail: { elem: this, value }
-        });
       }
     }
   }

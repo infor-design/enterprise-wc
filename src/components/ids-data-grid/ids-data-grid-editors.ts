@@ -278,7 +278,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
   }
 
   #stopPropagation(evt: FocusEvent): void {
-    const isOpen = this.input?.popup?.isOpen;
+    const isOpen = this.input?.popup?.hidden === false;
     if (isOpen) evt.stopImmediatePropagation();
   }
 

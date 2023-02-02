@@ -71,8 +71,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
   protected toolbar: IdsToolbar | null | undefined;
 
-  public isOpen = false;
-
   connectedCallback() {
     super.connectedCallback();
     this.configureComponents();
@@ -1073,7 +1071,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     this.container?.setAttribute(htmlAttributes.TABINDEX, '-1');
     this.expanded = false;
     this.removeRipples();
-    this.isOpen = false;
   }
 
   /**
@@ -1085,7 +1082,6 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
     this.updateActionButtonStateOnShow();
     this.container?.removeAttribute(htmlAttributes.TABINDEX);
     this.focus();
-    this.isOpen = true;
   }
 
   /**
