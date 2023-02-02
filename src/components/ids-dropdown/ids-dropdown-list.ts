@@ -319,4 +319,19 @@ export default class IdsDropdownList extends Base {
     if (this.clearableText) this.insertBlank();
     else this.removeBlank();
   }
+
+  onFieldHeightChange(val: string) {
+    const attr = val === attributes.COMPACT ? { name: attributes.COMPACT, val: '' } : { name: attributes.FIELD_HEIGHT, val };
+    if (val) {
+      this.listBox?.setAttribute(attr.name, attr.val);
+    } else {
+      this.listBox?.removeAttribute(attributes.COMPACT);
+      this.listBox?.removeAttribute(attributes.FIELD_HEIGHT);
+    }
+  }
+
+  onSizeChange(value: string) {
+    if (value) this.listBox?.setAttribute(attributes.SIZE, value);
+    else this.listBox?.removeAttribute(attributes.SIZE);
+  }
 }

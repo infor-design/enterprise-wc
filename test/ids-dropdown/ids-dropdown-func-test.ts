@@ -418,7 +418,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.querySelector('ids-list-box-option')?.getAttribute('value')).toEqual('opt5');
     expect(dropdown.popup.visible).toBeTruthy();
 
-    dropdown.listBox?.dispatchEvent(new MouseEvent('click'));
+    dropdown.dropdownList?.listBox?.dispatchEvent(new MouseEvent('click'));
     expect(dropdown.popup.visible).toBeFalsy();
   });
 
@@ -748,7 +748,7 @@ describe('IdsDropdown Component', () => {
 
       expect(dropdown.getAttribute('size')).toEqual(size);
       expect(dropdown.input.getAttribute('size')).toEqual(size);
-      expect(dropdown.listBox.getAttribute('size')).toEqual(size);
+      expect(dropdown.dropdownList.listBox.getAttribute('size')).toEqual(size);
     };
 
     expect(dropdown.getAttribute('size')).toEqual(null);
@@ -758,7 +758,7 @@ describe('IdsDropdown Component', () => {
 
     expect(dropdown.getAttribute('size')).toEqual(null);
     expect(dropdown.input.getAttribute('size')).toEqual(defaultSize);
-    expect(dropdown.listBox.getAttribute('size')).toEqual(null);
+    expect(dropdown.dropdownList.listBox.getAttribute('size')).toEqual(null);
   });
 
   it('should set no margins', () => {
@@ -791,7 +791,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.colorVariant).toEqual('alternate-formatter');
     expect(dropdown.labelState).toEqual('collapsed');
     expect(dropdown.compact).toEqual(true);
-    expect(dropdown.listBox.getAttribute('compact')).not.toBeNull();
+    expect(dropdown.dropdownList.listBox.getAttribute('compact')).not.toBeNull();
     expect(dropdown.noMargins).toEqual(true);
 
     dropdown.compact = false;
@@ -799,7 +799,7 @@ describe('IdsDropdown Component', () => {
     dropdown.template();
 
     expect(dropdown.fieldHeight).toEqual('lg');
-    expect(dropdown.listBox.getAttribute('field-height')).toEqual('lg');
+    expect(dropdown.dropdownList.listBox.getAttribute('field-height')).toEqual('lg');
   });
 
   it('fixes itself with an empty container', () => {

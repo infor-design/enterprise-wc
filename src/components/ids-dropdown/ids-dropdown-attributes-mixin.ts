@@ -7,6 +7,7 @@ export interface DropdownAttributeMixinInterface {
   // as instance functions
   onAllowBlankChange?(newValue: boolean): void;
   onClearableTextChange?(newValue: string | null): void;
+  onSizeChange?(newValue: string): void;
 }
 
 type Constraints = IdsConstructor<DropdownAttributeMixinInterface>;
@@ -95,6 +96,19 @@ const IdsDropdownAttributeMixin = <T extends Constraints>(superclass: T) => clas
   }
 
   get clearableText() { return this.getAttribute(attributes.CLEARABLE_TEXT); }
+
+  /**
+   * Set the dropdown size
+   * @param {string} value The value
+   */
+  set size(value: string) {
+    if (value) this.setAttribute(attributes.SIZE, value);
+    else this.removeAttribute(attributes.SIZE);
+
+    if (typeof this.onSizeChange === 'function') this.onSizeChange(value);
+  }
+
+  get size(): string { return this.getAttribute(attributes.SIZE) ?? 'md'; }
 };
 
 export default IdsDropdownAttributeMixin;
