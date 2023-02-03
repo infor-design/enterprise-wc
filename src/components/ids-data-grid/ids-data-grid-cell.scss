@@ -95,15 +95,15 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     }
 
     .editor-cell-icon {
-      margin-inline-end: 12px;
-      visibility: hidden;
+      margin-inline-end: 10px;
+      display: none;
     }
 
     // is-borderless:hover
     &:not(.is-inline):focus,
     &:not(.is-inline):hover {
       .editor-cell-icon {
-        visibility: visible;
+        display: flex;
       }
 
       ids-alert {

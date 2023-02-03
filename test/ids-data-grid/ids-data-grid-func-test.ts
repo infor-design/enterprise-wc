@@ -3158,13 +3158,13 @@ describe('IdsDataGrid Component', () => {
       dataGrid.editable = true;
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
       editableCell.startCellEdit();
-      editableCell.editor.isClick = true;
+      editableCell.editor.clickEvent = new MouseEvent('click');
       editableCell.editor.init(editableCell);
       expect(editableCell.editor.input.checked).toBe(true);
       editableCell.endCellEdit();
 
       editableCell.startCellEdit();
-      editableCell.editor.isClick = false;
+      editableCell.editor.clickEvent = undefined;
       editableCell.editor.init(editableCell);
       expect(editableCell.editor.input.checked).toBe(false);
       editableCell.endCellEdit();
