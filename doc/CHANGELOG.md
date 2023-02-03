@@ -1,5 +1,9 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.5
+
+### 1.0.0-beta.5 Fixes
+
 ## 1.0.0-beta.4
 
 ### 1.0.0-beta.4 Fixes
