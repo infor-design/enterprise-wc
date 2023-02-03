@@ -230,12 +230,14 @@ export default class IdsDropdown extends Base {
     const fieldHeight = this.fieldHeight ? ` field-height="${this.fieldHeight}"` : '';
     const compact = this.compact ? ' compact' : '';
     const size = this.size ? ` size="${this.size}"` : '';
+    const value = this.value ? ` value="${this.value}"` : '';
 
     return `<ids-dropdown-list
       id="dropdownList-${this.id ? this.id : ''}"
       ${fieldHeight}
       ${compact}
-      ${size}>
+      ${size}
+      ${value}>
       <slot></slot>
     </ids-dropdown-list>`;
   }
@@ -415,7 +417,7 @@ export default class IdsDropdown extends Base {
    * @param {HTMLElement} option the option to select
    * @private
    */
-  selectOption(option: HTMLElement | undefined | null) {
+  selectOption(option: HTMLElement | string | undefined | null) {
     if (this.dropdownList) {
       if (this.value !== this.dropdownList.value) {
         this.dropdownList.selectOption(option);
@@ -479,8 +481,7 @@ export default class IdsDropdown extends Base {
    * Remove the aria and state from the currently selected element
    */
   clearSelected() {
-    const option = this.dropdownList?.querySelector<IdsListBoxOption>('ids-list-box-option[aria-selected]');
-    this.deselectOption(option);
+    this.dropdownList?.clearSelected();
   }
 
   #configurePopup() {
@@ -705,7 +706,7 @@ export default class IdsDropdown extends Base {
     this.#addAria();
   };
 
-  private attachClickEvent() {{
+  attachClickEvent() {{
     this.offEvent('click.dropdown-input');
     if (!this.list) this.onEvent('click.dropdown-input', this.input, (e: MouseEvent) => {
       if (!this.dropdownList?.visible) {

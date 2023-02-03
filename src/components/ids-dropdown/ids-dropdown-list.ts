@@ -62,6 +62,7 @@ export default class IdsDropdownList extends Base {
   onShow() {
     this.configurePopup();
     this.setAriaOnMenuOpen();
+    if (this.value) this.selectOption(this.value);
   }
 
   onTargetChange() {
@@ -263,8 +264,12 @@ export default class IdsDropdownList extends Base {
    * @param {HTMLElement} option the option to select
    * @private
    */
-  selectOption(option: HTMLElement | undefined | null) {
+  selectOption(option: HTMLElement | string | undefined | null) {
     if (!this?.popup?.visible) return;
+
+    if (typeof option === 'string') {
+      option = this.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${option}"]`);
+    }
 
     option?.setAttribute('aria-selected', 'true');
     option?.classList.add('is-selected');
