@@ -172,13 +172,15 @@ export default class IdsDropdown extends Base {
    */
   onFieldHeightChange(val: string) {
     if (val) {
-      const attr = val === attributes.COMPACT ? { name: attributes.COMPACT, val: '' } : { name: attributes.FIELD_HEIGHT, val };
+      const attr = val === attributes.COMPACT ? { name: attributes.COMPACT, val: 'true' } : { name: attributes.FIELD_HEIGHT, val };
       this.input?.setAttribute(attr.name, attr.val);
+      this.dropdownList?.setAttribute(attr.name, attr.val);
     } else {
       this.input?.removeAttribute(attributes.COMPACT);
       this.input?.removeAttribute(attributes.FIELD_HEIGHT);
+      this.dropdownList?.removeAttribute(attributes.COMPACT);
+      this.dropdownList?.removeAttribute(attributes.FIELD_HEIGHT);
     }
-    this.dropdownList?.setAttribute(attributes.FIELD_HEIGHT, val);
   }
 
   /**
@@ -227,8 +229,8 @@ export default class IdsDropdown extends Base {
   }
 
   private templateDropdownList(): string {
-    const fieldHeight = this.fieldHeight ? ` field-height="${this.fieldHeight}"` : '';
-    const compact = this.compact ? ' compact' : '';
+    const fieldHeight = this.fieldHeight && this.fieldHeight !== 'compact' ? ` field-height="${this.fieldHeight}"` : '';
+    const compact = this.compact || this.fieldHeight === 'compact' ? ' compact' : '';
     const size = this.size ? ` size="${this.size}"` : '';
     const value = this.value ? ` value="${this.value}"` : '';
 
@@ -666,12 +668,6 @@ export default class IdsDropdown extends Base {
       this.input?.focus();
     });
 
-    this.offEvent('selected.dropdown-list');
-    this.onEvent('selected.dropdown-list', this.input, (e: CustomEvent) => {
-      e.stopPropagation();
-      this.value = e.detail.value;
-    });
-
     // Date Picker Popup's `hide` event can cause the field to become focused
     this.offEvent('hide.date-picker-popup');
     this.onEvent('hide.date-picker-popup', this.container, () => {
@@ -690,14 +686,6 @@ export default class IdsDropdown extends Base {
       this.#addAria();
     });
 
-    // Close the list on change, if applicable
-    this.offEvent('change.list');
-    this.onEvent('change.list', this, () => {
-      if (this.dropdownList?.popup?.visible) {
-        this.dropdownList?.hide();
-      }
-    });
-
     return this;
   }
 
@@ -706,14 +694,28 @@ export default class IdsDropdown extends Base {
     this.#addAria();
   };
 
-  attachClickEvent() {{
+  attachClickEvent() {
     this.offEvent('click.dropdown-input');
     if (!this.list) this.onEvent('click.dropdown-input', this.input, (e: MouseEvent) => {
       if (!this.dropdownList?.visible) {
         this.dropdownList?.onTriggerClick?.(e);
       }
     });
-  }}
+
+    this.offEvent('selected.dropdown-list');
+    this.onEvent('selected.dropdown-list', this.input, (e: CustomEvent) => {
+      e.stopPropagation();
+      this.value = e.detail.value;
+    });
+
+    // Close the list on change, if applicable
+    this.offEvent('change.list');
+    this.onEvent('change.list', this, () => {
+      if (this.dropdownList?.popup?.visible) {
+        this.dropdownList?.hide();
+      }
+    });
+  }
 
   #attachTypeaheadEvents() {
     // Handle Key Typeahead
