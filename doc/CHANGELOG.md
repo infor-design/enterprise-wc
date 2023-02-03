@@ -4,6 +4,8 @@
 
 ### 1.0.0-beta.5 Fixes
 
+- `[Build]` Fixed an incorrect `exports` in the package.json. ([#814](https://github.com/infor-design/enterprise-wc/issues/814))
+
 ## 1.0.0-beta.4
 
 ### 1.0.0-beta.4 Fixes
