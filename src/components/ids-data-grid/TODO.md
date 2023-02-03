@@ -44,7 +44,7 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [x] Xss Tests
 - [ ] Colspans [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-colspan.html)
 - [ ] Column Groups with Frozen Columns
-- [ ] Optimize the row recycling in virtual scroll (load from top or bottom only)
+- [x] Optimize the row recycling in virtual scroll (load from top or bottom only)
 - [ ] Row Span Feature
 - [x] Change left and right padding (start and end) for row-heights
 - [ ] Tree Grid Lazy Loading Child Rows
