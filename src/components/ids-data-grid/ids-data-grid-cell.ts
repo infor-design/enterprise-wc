@@ -93,9 +93,9 @@ export default class IdsDataGridCell extends IdsElement {
 
   /**
    * Start Edit Mode
-   * @param {boolean} isClick If true of clicking activated the editor (vs keyboard)
+   * @param {MouseEvent} clickEvent event passed if activated by click (vs keyboard)
    */
-  startCellEdit(isClick?: boolean) {
+  startCellEdit(clickEvent?: MouseEvent) {
     // end previous cell edit
     if (this.dataGrid.activeCellEditor instanceof IdsDataGridCell && this.dataGrid.activeCellEditor !== this) {
       this.dataGrid.activeCellEditor.endCellEdit();
@@ -128,7 +128,7 @@ export default class IdsDataGridCell extends IdsElement {
 
     this.originalValue = this.textContent;
     this.editor = columnEditor.editor;
-    this.editor.isClick = isClick;
+    this.editor.clickEvent = clickEvent;
 
     const editorType = this.editor.type;
     // Override original value if dropdown
@@ -140,10 +140,10 @@ export default class IdsDataGridCell extends IdsElement {
       this.originalValue = rowVal;
     }
 
+    this.classList.add('is-editing');
     this.editor.init(this);
 
     // Set states
-    this.classList.add('is-editing');
     if (this.classList.contains('is-invalid')) {
       this.classList.remove('is-invalid');
       this.isInValid = true;

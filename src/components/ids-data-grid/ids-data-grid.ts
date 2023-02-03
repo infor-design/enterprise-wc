@@ -518,7 +518,9 @@ export default class IdsDataGrid extends Base {
       }
 
       // Handle Editing
-      if (this.editable && column.editor) cell.startCellEdit(true);
+      if (this.editable && column.editor) {
+        cell.startCellEdit(e);
+      }
     });
 
     // Add double click to the table body

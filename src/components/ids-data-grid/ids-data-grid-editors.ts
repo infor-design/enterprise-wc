@@ -38,8 +38,8 @@ export interface IdsDataGridEditor {
   save: (cell?: IdsDataGridCell) => IdsDataGridSaveValue | undefined | null;
   /** The function that tears down all aspects of the editor */
   destroy: (cell?: IdsDataGridCell) => void;
-  /** Indicates click was used to edit */
-  isClick?: boolean;
+  /** MouseEvent if click was used to edit */
+  clickEvent?: MouseEvent
 }
 
 const applySettings = (elem: any, settings?: Record<string, any> | undefined) => {
@@ -98,8 +98,8 @@ export class CheckboxEditor implements IdsDataGridEditor {
   /** Holds the Editor */
   input?: IdsCheckbox;
 
-  /** Indicates if keyboard was used to init the editor */
-  isClick?: boolean;
+  /** MouseEvent if click was used to edit */
+  clickEvent?: MouseEvent;
 
   /**
    * Create an input and set the value and focus states
@@ -112,12 +112,12 @@ export class CheckboxEditor implements IdsDataGridEditor {
     // Clear cell and set value
     const value = stringToBool(cell?.querySelector('[aria-checked]')?.getAttribute('aria-checked'));
     cell!.innerHTML = '';
-    if (!this.isClick) this.input.noAnimation = true;
-    this.input.checked = this.isClick ? !value : value;
+    if (!this.clickEvent) this.input.noAnimation = true;
+    this.input.checked = this.clickEvent ? !value : value;
 
     cell?.appendChild(this.input as any);
     this.input.focus();
-    if (this.isClick) {
+    if (this.clickEvent) {
       requestAnimationFrame(() => {
         cell?.endCellEdit();
         cell?.focus();
@@ -150,8 +150,8 @@ export class DropdownEditor implements IdsDataGridEditor {
   /** Callback reference to handle blur event propagation */
   #stopPropagationCb = this.stopPropagation.bind(this);
 
-  /** Indicates if keyboard was used to init the editor */
-  isClick?: boolean;
+  /** MouseEvent if click was used to edit */
+  clickEvent?: MouseEvent;
 
   init(cell?: IdsDataGridCell): void {
     this.#value = cell?.querySelector('[data-value]')?.getAttribute('data-value') ?? null;
@@ -222,7 +222,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
 
   public input?: IdsDatePicker;
 
-  public isClick?: boolean;
+  clickEvent?: MouseEvent;
 
   #value?: Date;
 
@@ -230,6 +230,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
 
   init(cell?: IdsDataGridCell) {
     this.input = this.#buildDatePicker(cell!);
+    const autoOpen = (<HTMLElement> this.clickEvent?.target)?.classList?.contains('editor-cell-icon');
 
     // parse date string
     this.#update(cell!, cell!.originalValue as string);
@@ -241,6 +242,13 @@ export class DatePickerEditor implements IdsDataGridEditor {
     this.input.popup?.syncDateAttributes(this.#value ?? new Date());
     this.input.input!.autoselect = true;
     this.input.input?.focus();
+
+    if (autoOpen) {
+      // TODO why is rAF needed here
+      requestAnimationFrame(() => {
+        this.input?.open();
+      });
+    }
 
     this.#attachEventListeners(cell);
   }
@@ -309,12 +317,13 @@ export class TimePickerEditor implements IdsDataGridEditor {
 
   input?: IdsTimePicker;
 
-  isClick?: boolean;
+  clickEvent?: MouseEvent;
 
   #originalDate?: Date;
 
   init(cell?: IdsDataGridCell | undefined) {
     this.input = this.#buildTimePicker(cell!);
+    const autoOpen = (<HTMLElement> this.clickEvent?.target)?.classList?.contains('editor-cell-icon');
 
     // parse date string
     const dateString = cell!.originalValue as string ?? '';
@@ -328,7 +337,9 @@ export class TimePickerEditor implements IdsDataGridEditor {
     cell!.innerHTML = '';
     cell!.appendChild(this.input);
     this.input.input!.autoselect = true;
-    this.input.container?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
+    this.input.input?.focus();
+
+    if (autoOpen) this.input.open();
 
     this.#attachEventListeners();
   }
