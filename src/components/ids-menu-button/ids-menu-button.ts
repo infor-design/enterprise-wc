@@ -49,7 +49,7 @@ export default class IdsMenuButton extends IdsButton {
     if (this.hasAttribute(attributes.DROPDOWN_ICON)) {
       this.#configureDropdownIcon(true);
     }
-    this.configureMenu();
+    this.#initMenuPopup();
   }
 
   disconnectedCallback() {
@@ -191,6 +191,16 @@ export default class IdsMenuButton extends IdsButton {
     let el = findPopup(this.parentElement);
     if (!el) el = findPopup(this.getRootNode());
     return el;
+  }
+
+  /**
+   * Set popup menu initially
+   * @private
+   * @returns {void}
+   */
+  #initMenuPopup(): void {
+    this.configureMenu();
+    if (!this.menuEl?.popup) requestAnimationFrame(() => this.configureMenu());
   }
 
   /**

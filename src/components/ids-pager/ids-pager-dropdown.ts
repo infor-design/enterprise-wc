@@ -3,12 +3,14 @@ import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
+import { stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 import './ids-pager-button';
 import './ids-pager-input';
 import './ids-pager-number-list';
 
 import styles from './ids-pager.scss';
+import type IdsPager from './ids-pager';
 
 const Base = IdsThemeMixin(
   IdsEventsMixin(
@@ -27,8 +29,22 @@ const Base = IdsThemeMixin(
 @customElement('ids-pager-dropdown')
 @scss(styles)
 export default class IdsPagerDropdown extends Base {
+  rootNode: any;
+
+  readonly DEFAULT_PAGE_SIZE = 10;
+
   constructor() {
     super();
+  }
+
+  /**
+   * Reference to the pager parent
+   * @returns {IdsPager} the parent element
+   */
+  get pager(): IdsPager {
+    if (!this.rootNode) this.rootNode = (this.getRootNode?.() as any)?.host;
+    if (this.rootNode?.nodeName !== 'IDS-PAGER') this.rootNode = this.closest('ids-pager');
+    return this.rootNode as IdsPager;
   }
 
   /**
@@ -70,14 +86,16 @@ export default class IdsPagerDropdown extends Base {
   /**
    * Get items template
    * @private
+   * @param {number} pageSize The page size value
    * @returns {string} items template
    */
-  #itemsTemplate(): string {
+  #itemsTemplate(pageSize?: number): string {
+    pageSize = pageSize ?? this.pageSize;
     const sizes = [5, 10, 25, 50, 100];
-    const uniqueSizes = [...new Set([this.pageSize, ...sizes])].sort((a, b) => a - b);
+    const uniqueSizes = [...new Set([pageSize, ...sizes])].sort((a, b) => a - b);
 
     const items = uniqueSizes.map((size) => {
-      const selected = size === this.pageSize ? ' selected' : '';
+      const selected = size === pageSize ? ' selected' : '';
       return `<ids-menu-item value="${size}"${selected}>${size}</ids-menu-item>`;
     }).join('');
 
@@ -105,14 +123,13 @@ export default class IdsPagerDropdown extends Base {
    */
   set pageSize(value: number) {
     const val = this.#validPageSize(value);
-    this.setAttribute(attributes.PAGE_SIZE, String(val));
-
-    if (this.menuButton) {
+    if (this.menuButton?.menuEl?.items) {
       this.menuButton.querySelector('span').textContent = `${val} ${this.label}`;
       const item = this.menuButton.menuEl.items.filter((itm: any) => itm.value === String(val))[0];
       if (item) this.menuButton.menuEl.selectItem(item);
-      else this.menuButton.menuEl.innerHTML = this.#itemsTemplate();
+      else this.menuButton.menuEl.innerHTML = this.#itemsTemplate(val);
     }
+    this.setAttribute(attributes.PAGE_SIZE, String(val));
   }
 
   /**
@@ -120,22 +137,51 @@ export default class IdsPagerDropdown extends Base {
    * @returns {number} - the current page-size
    */
   get pageSize(): number {
-    return this.#validPageSize(this.getAttribute(attributes.PAGE_SIZE) || '');
+    return this.pager?.pageSize
+      ?? this.#validPageSize(this.getAttribute(attributes.PAGE_SIZE));
   }
 
   /**
    * Check given page size value, if not a number return default
    * @private
-   * @param {number | string} value The value
+   * @param {number | string | null} value The value
    * @returns {number} Given value or default
    */
-  #validPageSize(value: number | string): number {
-    const val = parseInt(value as any);
-    return Number.isNaN(val) ? 10 : val;
+  #validPageSize(value?: number | string | null): number {
+    const val = stringToNumber(value);
+    return !Number.isNaN(val) && val > 0 ? val : this.DEFAULT_PAGE_SIZE;
+  }
+
+  /**
+   * React to attributes changing on the web-component
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
+   */
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
+    if (oldValue === newValue) return;
+
+    const shouldRerender = [
+      attributes.DISABLED,
+      attributes.LABEL,
+      attributes.MODE,
+      attributes.TOTAL,
+      attributes.PAGE_SIZE,
+      attributes.PAGE_NUMBER
+    ].includes(name);
+
+    if (shouldRerender) {
+      this.connectedCallback();
+    }
   }
 
   connectedCallback(): void {
     super.connectedCallback?.();
+
+    const pageSize = this.pager?.pageSize ?? this.pageSize;
+    if (this.pager) this.pageSize = pageSize;
 
     const popupMenu: any = this.popupMenu;
     if (popupMenu) {
@@ -149,7 +195,10 @@ export default class IdsPagerDropdown extends Base {
     if (popupMenuGroup) {
       popupMenuGroup.style.minWidth = '175px';
       popupMenuGroup.style.textAlign = 'left';
-      popupMenu?.setSelectedValues?.(String(this.pageSize), popupMenuGroup);
+      const sel = stringToNumber(popupMenu?.getSelectedValues?.()?.[0]);
+      if (!Number.isNaN(sel) && sel !== pageSize) {
+        popupMenu?.setSelectedValues?.(String(pageSize), popupMenuGroup);
+      }
     }
 
     this.#attachEventListeners();
@@ -161,10 +210,8 @@ export default class IdsPagerDropdown extends Base {
       this.offEvent('selected', popupMenu);
       this.onEvent('selected', popupMenu, (evt: CustomEvent) => {
         const oldPageSize = this.pageSize;
-        const newPageSize = evt.detail?.value || oldPageSize;
+        const newPageSize = stringToNumber(evt.detail?.value || oldPageSize);
         if (newPageSize !== oldPageSize) {
-          this.pageSize = newPageSize;
-
           this.triggerEvent('pagesizechange', this, {
             bubbles: true,
             composed: true,

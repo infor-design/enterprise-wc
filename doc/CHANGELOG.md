@@ -13,6 +13,7 @@
 - `[Build]` All scripts in the npm package are now ES Modules and use lazy loading to reduce size and payload. Scripts must be imports as ES modules script `type="module"` ([#814](https://github.com/infor-design/enterprise-wc/issues/814))
 - `[Build]` Npm package reduced in size from approximately 84 MB to 19 MB (Dev Version from 275 MB to 47 MB). ([#814](https://github.com/infor-design/enterprise-wc/issues/814))
 - `[Build]` Beta 4-6 dropped due to mistake in package.json in test deploys ([#814](https://github.com/infor-design/enterprise-wc/issues/814))
+- `[General]` Fixed to angular examples where attributes property binding was not work properly for ids-toggle-button, ids-app-menu, ids-menu-button, ids-pager, ids-text, ids-toolbar. ([#941](https://github.com/infor-design/enterprise-wc/issues/941))
 - `[Locale]` Locale information files and messages are now separate from the build. They must be served as assets from the `node_modules/ids-enterprise-wc/locale-data` folder. ([#1107](https://github.com/infor-design/enterprise-wc/issues/1107))
 
 ## 1.0.0-beta.3

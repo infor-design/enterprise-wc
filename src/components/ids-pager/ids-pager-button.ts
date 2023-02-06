@@ -6,7 +6,7 @@ import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-button/ids-button';
 import '../ids-icon/ids-icon';
 import { buttonTypes } from './ids-pager-attributes';
@@ -14,6 +14,7 @@ import { buttonTypes } from './ids-pager-attributes';
 import styles from './ids-pager-button.scss';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsIcon from '../ids-icon/ids-icon';
+import type IdsPager from './ids-pager';
 
 const Base = IdsLocaleMixin(
   IdsTooltipMixin(
@@ -34,6 +35,10 @@ const Base = IdsLocaleMixin(
 @customElement('ids-pager-button')
 @scss(styles)
 export default class IdsPagerButton extends Base {
+  readonly DEFAULT_PAGE_SIZE = 10;
+
+  rootNode: any;
+
   button?: IdsButton | null;
 
   icon?: IdsIcon | null;
@@ -74,6 +79,31 @@ export default class IdsPagerButton extends Base {
     ];
   }
 
+  /**
+   * React to attributes changing on the web-component
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
+   */
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
+    const shouldRerender = [
+      attributes.DISABLED,
+      attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE,
+      attributes.STEP,
+      attributes.TOTAL,
+      attributes.TYPE,
+    ].includes(name);
+
+    if (shouldRerender) {
+      if (oldValue !== newValue) {
+        this.connectedCallback();
+      }
+    }
+  }
+
   connectedCallback(): void {
     super.connectedCallback();
     this.button = this.shadowRoot?.querySelector('ids-button');
@@ -81,8 +111,25 @@ export default class IdsPagerButton extends Base {
     this.offEvent('click', this.button);
     this.onEvent('click', this.button, () => this.#onClick());
 
+    if (this.pager) {
+      this.disabled = this.pager.disabled;
+      this.pageNumber = this.pager.pageNumber;
+      this.pageSize = this.pager.pageSize;
+      this.total = this.pager.total;
+    }
+
     this.#updateNavDisabled();
     this.#updateDisabledState();
+  }
+
+  /**
+   * Reference to the pager parent
+   * @returns {IdsPager} the parent element
+   */
+  get pager(): IdsPager {
+    if (!this.rootNode) this.rootNode = (this.getRootNode?.() as any)?.host;
+    if (this.rootNode?.nodeName !== 'IDS-PAGER') this.rootNode = this.closest('ids-pager');
+    return this.rootNode as IdsPager;
   }
 
   /**
@@ -90,9 +137,10 @@ export default class IdsPagerButton extends Base {
    * inferred from pageSize and total
    */
   get pageCount(): number | null {
-    return (this.total !== null && !Number.isNaN(this.total))
-      ? Math.ceil(Number(this.total) / this.pageSize)
+    const val = this.hasAttribute(attributes.TOTAL)
+      ? Math.ceil(this.total / this.pageSize)
       : null;
+    return this.pager?.pageCount ?? val;
   }
 
   /**
@@ -157,19 +205,23 @@ export default class IdsPagerButton extends Base {
   }
 
   /**
-   * @param {string|number} value The number of items to track
+   * @param {number} value The number of items to track
    */
-  set total(value: string | number) {
-    this.setAttribute(attributes.TOTAL, String(value));
+  set total(value: number) {
+    let val = stringToNumber(value);
+    if (Number.isNaN(val) || val < 1) val = 1;
+    this.setAttribute(attributes.TOTAL, String(val));
+
     this.#updateNavDisabled();
     this.#updateDisabledState();
   }
 
   /**
-   * @returns {string|number} The number of items for pager is tracking
+   * @returns {number} The number of items for pager is tracking
    */
-  get total(): string | number {
-    return parseInt(this.getAttribute(attributes.TOTAL) ?? '');
+  get total(): number {
+    const val = stringToNumber(this.getAttribute(attributes.TOTAL));
+    return this.pager?.total ?? val;
   }
 
   /**
@@ -220,22 +272,10 @@ export default class IdsPagerButton extends Base {
    * @param {number} value A 1-based page number shown
    */
   set pageNumber(value: number) {
-    let nextValue = Number.parseInt(value as any);
-
-    if (Number.isNaN(nextValue)) {
-      nextValue = 1;
-    } else if (nextValue <= 1) {
-      nextValue = 1;
-    } else {
-      const pageCount = Math.ceil(this.total as any / this.pageSize);
-      nextValue = Math.min(nextValue, pageCount);
-    }
-
-    if (!Number.isNaN(nextValue)
-    && Number.parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '') !== nextValue
-    ) {
-      this.setAttribute(attributes.PAGE_NUMBER, String(nextValue));
-    }
+    let val = stringToNumber(value);
+    if (Number.isNaN(val) || val < 1) val = 1;
+    else if (this.pageCount) val = Math.min(val, this.pageCount);
+    this.setAttribute(attributes.PAGE_NUMBER, String(val));
 
     this.#updateNavDisabled();
     this.#updateDisabledState();
@@ -243,22 +283,14 @@ export default class IdsPagerButton extends Base {
 
   /** @returns {number} value A 1-based page number displayed */
   get pageNumber(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '');
+    const val = stringToNumber(this.getAttribute(attributes.PAGE_NUMBER) ?? 1);
+    return this.pager?.pageNumber ?? val;
   }
 
   /** @param {number} value The number of items shown per page */
   set pageSize(value: number) {
-    let nextValue;
-
-    if (Number.isNaN(Number.parseInt(value as any))) {
-      nextValue = 1;
-    } else {
-      nextValue = Number.parseInt(value as any);
-    }
-
-    if (this.getAttribute(attributes.PAGE_SIZE) !== `${nextValue}`) {
-      this.setAttribute(attributes.PAGE_SIZE, String(nextValue));
-    }
+    const val = this.#validPageSize(value);
+    this.setAttribute(attributes.PAGE_SIZE, String(val));
 
     this.#updateNavDisabled();
     this.#updateDisabledState();
@@ -266,7 +298,19 @@ export default class IdsPagerButton extends Base {
 
   /** @returns {number} The number of items shown per page */
   get pageSize(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '');
+    return this.pager?.pageSize
+      ?? this.#validPageSize(this.getAttribute(attributes.PAGE_SIZE));
+  }
+
+  /**
+   * Check given page size value, if not a number return default
+   * @private
+   * @param {number | string | null} value The value
+   * @returns {number} Given value or default
+   */
+  #validPageSize(value?: number | string | null): number {
+    const val = stringToNumber(value);
+    return !Number.isNaN(val) && val > 0 ? val : this.DEFAULT_PAGE_SIZE;
   }
 
   /**

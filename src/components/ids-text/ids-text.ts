@@ -101,7 +101,12 @@ export default class IdsText extends Base {
     classList += (this.fontWeight === 'bold' || this.fontWeight === 'lighter')
       ? ` ${this.fontWeight}` : '';
 
+    const color = this.color;
+    const style = typeof color === 'string' && color !== 'unset' && color !== ''
+      ? ` style="color: var(--ids-color-palette-${this.color})"` : '';
+
     return `<${tag}
+      ${style}
       class="${classList}"
       mode="${this.mode}"
       part="text"
@@ -204,21 +209,18 @@ export default class IdsText extends Base {
    * @param {string | null} value  "unset" or undefined/null
    */
   set color(value: string | null) {
-    if (value === 'unset') {
+    const unsetClass = 'ids-text-color-unset';
+    this.container?.classList.remove(unsetClass);
+
+    if (typeof value === 'string' && value !== '') {
       this.setAttribute(attributes.COLOR, value);
-      if (this.container) this.container.classList.add('ids-text-color-unset');
-      return;
-    }
-    if (typeof value === 'string') {
-      this.setAttribute(attributes.COLOR, value);
-      if (this.container) {
-        this.container.classList.remove('ids-text-color-unset');
-        this.container.style.color = `var(--ids-color-palette-${value})`;
-      }
+      if (value === 'unset') {
+        this.container?.classList.add(unsetClass);
+        this.container?.style.removeProperty('color');
+      } else this.container?.style.setProperty('color', `var(--ids-color-palette-${value})`);
       return;
     }
     this.removeAttribute(attributes.COLOR);
-    if (this.container) this.container.classList.remove('ids-text-color-unset');
   }
 
   get color(): string | null {
