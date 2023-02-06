@@ -217,6 +217,7 @@ export default class IdsDataGridFormatters {
     `;
   }
 
+  /* Shows ids-alert, and the field value will appear in a tooltip. An `icon` option can be provided as an override. */
   alert(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     const value: any = this.#extractValue(rowData, columnData.field);
     if (!value && !columnData.icon) return '';
@@ -227,6 +228,7 @@ export default class IdsDataGridFormatters {
     return `<ids-alert icon="${icon}" ${tooltip}></ids-alert>`;
   }
 
+  /* Shows ids-color. If a `color` option is provided, the field's value will appear in a tooltip. */
   color(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
     if (!columnData.color && !value) return '<ids-color></ids-color>';
@@ -239,6 +241,7 @@ export default class IdsDataGridFormatters {
     return `<ids-color hex="${hex}" ${tooltip}></ids-color>`;
   }
 
+  /* Shows the field value within an ids-counts. A `color` option can be provided to override the color of ids-count. */
   counts(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
     const color = this.#color(index, value, columnData, rowData);
@@ -250,6 +253,7 @@ export default class IdsDataGridFormatters {
     `;
   }
 
+  /* Shows the field value as an ids-icon. An `icon` and `size` option can be provided as overrides. */
   icon(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
     if (!value && !columnData.icon) return '';
@@ -267,6 +271,7 @@ export default class IdsDataGridFormatters {
     return `<ids-icon icon="${icon}" size="${size}" ${badgeColor}></ids-icon>${text}`;
   }
 
+  /* Shows the field value as a `star-filled` or `star-outlined`. A `size` option can be provided as an override. */
   favorite(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
 
@@ -280,6 +285,7 @@ export default class IdsDataGridFormatters {
     );
   }
 
+  /* Shows the field value as an `ids-tag`. A `color` option can be provdied as an override. */
   tag(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
     if (!value) return '';
@@ -288,6 +294,10 @@ export default class IdsDataGridFormatters {
     return `<ids-tag color="${color || ''}">${value}</ids-tag>`;
   }
 
+  /*
+    Shows the field value as an `ids-progress`. A `text` option can be provided to customize the label.
+    A `color` and `max` option can be provided as overrides.
+  */
   progress(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
     // const color = this.#color(index, value, columnData, rowData);
@@ -309,6 +319,10 @@ export default class IdsDataGridFormatters {
     `;
   }
 
+  /*
+    Shows the field value as an `ids-rating`. A `text` option can be provided to customize the label.
+    A `color` and `max` option can be provided as overrides.
+  */
   rating(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
     const color = this.#color(index, value, columnData, rowData) || 'azure06';
@@ -339,6 +353,10 @@ export default class IdsDataGridFormatters {
     `;
   }
 
+  /*
+    Shows the field value as an `ids-slider`. A `text` option can be provided to customize the label.
+    A `color`, `max`, `min` and `type` option can be provided as overrides.
+  */
   slider(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
     const color = this.#color(index, value, columnData, rowData) || 'azure06';
@@ -374,6 +392,10 @@ export default class IdsDataGridFormatters {
     `;
   }
 
+  /*
+    Shows the field value as an `ids-step-chart`. A `text` option can be provided to customize the label.
+    A `color` and `max` option can be provided as overrides.
+  */
   stepChart(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
     const color = this.#color(index, value, columnData, rowData) || 'azure06';
@@ -408,6 +430,7 @@ export default class IdsDataGridFormatters {
     `;
   }
 
+  /* Shows the field value as an `ids-image`. A `text` option can be provided to the `alt` and `title` attributes. */
   image(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     const value: any = this.#extractValue(rowData, columnData.field);
     if (!value) return '';

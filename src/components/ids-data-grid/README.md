@@ -394,6 +394,17 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 | `hyperlink` | Displays an `ids-hyperlink`. Other column settings like `href` can be used to set the link href and `text` can be used to set the text to specific text. Use the `click` setting/function to get an callback handler. |
 | `checkbox` | Displays an `ids-checkbox`. The value will be checked depending on if the attached field is true or `"true"`. |
 | `badge` | Displays an `ids-badge`. The associated field will be placed in the badge. The `color` option can also be set to set the ids-badge color setting. |
+| `alert` | Displays `ids-alert` element, and the field value will appear in a tooltip. An `icon` option can be provided as an override.|
+| `color` | Displays `ids-color` element. If a `color` option is provided as an override, the field's value will appear in a tooltip. |
+| `counts` | Displays the field value (or 0 if empty) within an `ids-counts` element. A `color` option can be provided to override the color of `ids-count`. |
+| `icon` | Displays the field value as an `ids-icon`. An `icon` option can be provided as an override, and the field value will appear beside this `icon` override. A `size` option can also be provided. |
+| `favorite` | Displays the field value as a `star-filled` if truthy or `star-outlined` if false. A `size` option can be provided as an override. |
+| `tag` | Displays the field value as an `ids-tag`. A `color` option can be provdied as an override. |
+| `progress` | Displays the field value as an `ids-progress`. A `text` option can be provided to customize the label. A `color` and `max` option can be provided as overrides. |
+| `rating` | Displays the field value as an `ids-rating`. A `text` option can be provided to customize the label. A `color` and `max` option can be provided as overrides. |
+| `slider` | Displays the field value as an `ids-slider`. A `text` option can be provided to customize the label. A `color`, `max`, `min` and `type` option can be provided as overrides. |
+| `stepChart` | Displays the field value as an `ids-step-chart`. A `text` option can be provided to customize the label. A `color` and `max` option can be provided as overrides. |
+| `image` | Displays the field value as an `ids-image`. A `text` option can be provided to the `alt` and `title` attributes. |
 
 ### Deprecated Formatters (Deprecated from 4.x)
 
