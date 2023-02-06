@@ -57,9 +57,13 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
       this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
     }
 
+    const previous = this.previousLanguage;
     if (this.children.length > 0) {
-      const previous = this.previousLanguage;
       this.#notifyChildrenLanguage(this.querySelectorAll('*'), value, previous);
+    }
+
+    if (this.shadowRoot && this.shadowRoot?.children?.length > 0) {
+      this.#notifyChildrenLanguage(this.shadowRoot.querySelectorAll('*'), value, previous);
     }
 
     this.localeAPI.updateDirectionAttribute(this, value);
@@ -78,7 +82,6 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
   set language(value: string) {
     if (value && value !== this.language.name) {
       this.setLanguage(value);
-      if (this.locale) this.localeAPI.language = value;
     }
   }
 
@@ -87,7 +90,10 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
    * @returns {object} The language data object
    */
   get language(): any {
-    return this?.localeAPI?.language;
+    return {
+      name: this.getAttribute('language') || 'en',
+      messages: this?.localeAPI?.language.messages
+    };
   }
 
   /**

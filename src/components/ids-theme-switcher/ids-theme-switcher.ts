@@ -80,11 +80,6 @@ export default class IdsThemeSwitcher extends Base {
     });
   };
 
-  // Respond to changing language
-  onLanguageChange = () => {
-
-  };
-
   /**
    * Create the Template for the contents
    * @returns {string} The template

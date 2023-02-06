@@ -1,6 +1,6 @@
 {
   "name": "ids-enterprise-wc",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "description": "The Web Component version of the IDS Enterprise component library",
   "repository": {
     "type": "git",
@@ -12,9 +12,6 @@
   },
   "type": "module",
   "module": "./enterprise-wc.js",
-  "exports": {
-    ".": "./enterprise-wc.js"
-  },
   "types": "./enterprise-wc.d.ts",
   "main": "./enterprise-wc.js",
   "author": "Infor Design",

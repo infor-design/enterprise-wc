@@ -2,14 +2,14 @@
 
 ## Publishing a package to NPM
 
-- Search for `1.0.0-beta.n` (current version) and replace with next version `1.0.0-beta.5`
+- Search for `1.0.0-beta.n` (current version) and replace with next version `1.0.0-beta.6`
 - It will be in`package.json`, `package-dist.json`, about tests, and `src/core/ids-attributes.js` and this file.
 - Commit and push
-- Make and push a tag with `git tag 1.0.0-beta.5 && git push origin --tags`
+- Make and push a tag with `git tag 1.0.0-beta.6 && git push origin --tags`
 - Run command `npm run publish:dry-run` to test first if you wish
 - Run command `npm run publish:npm` or `publish:debug` (we may want to publish debuggable code for a period of time of stability)
 - Install GitHub cli so you get the [`gh`](https://cli.github.com/manual/gh_release_create) command with `brew install gh`
-- Run command `gh release create 1.0.0-beta.5 --title "1.0.0-beta.5" --notes-file "doc/CHANGELOG.md"`
+- Run command `gh release create 1.0.0-beta.6 --title "1.0.0-beta.6" --notes-file "doc/CHANGELOG.md"`
 - Go to [`the releases page`](https://github.com/infor-design/enterprise-wc/releases) and edit the changelog contents if needed and make a pre-release if needed
 - Update the change log and add a new section
 - Commit and push (direct to repo or PR)
