@@ -5,7 +5,6 @@ import { hoursTo12, hoursTo24 } from '../../utils/ids-date-utils/ids-date-utils'
 
 import Base from './ids-time-picker-popup-base';
 import { IdsTimePickerCommonAttributes, IdsTimePickerMixinAttributes, range } from './ids-time-picker-common';
-import { IdsPickerPopupCallbacks } from '../ids-picker-popup/ids-picker-popup';
 
 import styles from './ids-time-picker-popup.scss';
 
@@ -27,7 +26,7 @@ type IdsTimePickerPopupButton = IdsButton | IdsModalButton;
  */
 @customElement('ids-time-picker-popup')
 @scss(styles)
-class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
+class IdsTimePickerPopup extends Base {
   private isRendering: boolean;
 
   constructor() {
