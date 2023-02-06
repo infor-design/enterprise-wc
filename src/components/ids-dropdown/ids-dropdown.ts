@@ -524,8 +524,9 @@ export default class IdsDropdown extends Base {
       this.dropdownList.popupOpenEventsTarget = document.body;
 
       // Configure inner IdsPopup
-      if (this.locale && this.locale.isRTL)
+      if (this.locale && this.locale.isRTL) {
         this.dropdownList.popup?.setAttribute(attributes.ALIGN, `bottom, ${this.locale.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
+      }
 
       if (this.input) {
         this.dropdownList.value = this.input.value;
@@ -696,11 +697,13 @@ export default class IdsDropdown extends Base {
 
   attachClickEvent() {
     this.offEvent('click.dropdown-input');
-    if (!this.list) this.onEvent('click.dropdown-input', this.input, (e: MouseEvent) => {
-      if (!this.dropdownList?.visible) {
-        this.dropdownList?.onTriggerClick?.(e);
-      }
-    });
+    if (!this.list) {
+      this.onEvent('click.dropdown-input', this.input, (e: MouseEvent) => {
+        if (!this.dropdownList?.visible) {
+          this.dropdownList?.onTriggerClick?.(e);
+        }
+      });
+    }
 
     this.offEvent('selected.dropdown-list');
     this.onEvent('selected.dropdown-list', this.input, (e: CustomEvent) => {
