@@ -1,10 +1,16 @@
 import '../ids-hyperlink/ids-hyperlink';
 import '../ids-button/ids-button';
-import '../ids-badge/ids-badge';
 import '../ids-alert/ids-alert';
+import '../ids-badge/ids-badge';
+import '../ids-card/ids-card';
 import '../ids-color/ids-color';
+import '../ids-counts/ids-counts';
 import '../ids-icon/ids-icon';
-import '../ids-progress-chart/ids-progress-chart';
+import '../ids-image/ids-image';
+import '../ids-progress-bar/ids-progress-bar';
+import '../ids-rating/ids-rating';
+import '../ids-slider/ids-slider';
+import '../ids-step-chart/ids-step-chart';
 import '../ids-tag/ids-tag';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -49,6 +55,18 @@ export default class IdsDataGridFormatters {
     const color = col.color;
 
     return typeof color === 'function' ? color(row, value, col, item) : color;
+  }
+
+  #readonly(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): boolean | undefined {
+    const readonly = col.readonly;
+
+    return typeof readonly === 'function' ? readonly(row, value, col, item) : readonly;
+  }
+
+  #size(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): string | undefined {
+    const size = col.size;
+
+    return typeof size === 'function' ? size(row, value, col, item) : size;
   }
 
   /** Displays a Text String */
@@ -211,7 +229,7 @@ export default class IdsDataGridFormatters {
 
   color(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
-    if (!columnData.color && !value) return '';
+    if (!columnData.color && !value) return '<ids-color></ids-color>';
 
     const color = this.#color(index, value, columnData, rowData);
 
@@ -219,6 +237,17 @@ export default class IdsDataGridFormatters {
     const tooltip = !color && value ? `tooltip="${value}"` : '';
 
     return `<ids-color hex="${hex}" ${tooltip}></ids-color>`;
+  }
+
+  counts(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
+    const color = this.#color(index, value, columnData, rowData);
+
+    return `
+      <ids-counts compact color="${color || ''}">
+        <ids-text count-value>${Number.isNaN(value) ? 0 : value}</ids-text>
+      </ids-counts>
+    `;
   }
 
   icon(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
@@ -229,12 +258,26 @@ export default class IdsDataGridFormatters {
     const badgeColor = color ? `badge-color="${color}" badge-position="top-left"` : '';
 
     const sizes = ['small', 'medium', 'large', 'xl', 'xxl'];
-    const size = String(columnData.size) in sizes ? columnData.size : 'large';
+    let size = this.#size(index, value, columnData, rowData) || '';
+    size = sizes.includes(size) ? size : 'large';
 
     const icon = String(columnData.icon || value).replace('icon-', '');
-    const text = columnData.icon ? value : '';
+    const text = (columnData.icon && typeof value === typeof '') ? value : '';
 
     return `<ids-icon icon="${icon}" size="${size}" ${badgeColor}></ids-icon>${text}`;
+  }
+
+  favorite(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+
+    return this.icon(
+      rowData,
+      {
+        ...columnData,
+        icon: value ? 'star-filled' : 'star-outlined',
+      },
+      index,
+    );
   }
 
   tag(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
@@ -245,35 +288,139 @@ export default class IdsDataGridFormatters {
     return `<ids-tag color="${color || ''}">${value}</ids-tag>`;
   }
 
-  image(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    const value: any = this.#extractValue(rowData, columnData.field);
-    if (!value) return '';
-    const color = this.#color(index, value, columnData, rowData);
+  progress(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
+    const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
+    // const color = this.#color(index, value, columnData, rowData);
 
-    return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
+    const val = Number.isNaN(value) ? 0 : value;
+    let max = columnData.max ?? 10;
+    if (!columnData.max && value > 1) {
+      const digitCount = String(Math.floor(value)).length;
+      max = parseInt(`1`.padEnd(digitCount + 1, '0'));
+    }
+
+    // TODO: Fix label and label-audible attribute
+    // const label = columnData.text ? `label="${columnData.text}" label-audible` : '';
+    const label = columnData.text ? `label="${columnData.text} (${val} / ${max})"` : '';
+
+    return `
+      <ids-progress-bar ${label} max="${max}" value="${val}">
+      </ids-progress-bar>
+    `;
   }
 
-  favorite(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    const value: any = this.#extractValue(rowData, columnData.field);
-    if (!value) return '';
-    const color = this.#color(index, value, columnData, rowData);
+  rating(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
+    const color = this.#color(index, value, columnData, rowData) || 'azure06';
 
-    return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
+    const max = columnData.max ?? 5;
+    let val = Number.isNaN(value) ? 0 : value;
+    if ((!columnData.max && val > 1) || val > max) {
+      const digitCount = String(Math.floor(val)).length;
+      const divisor = parseInt(`1`.padEnd(digitCount + 1, '0'));
+
+      if (val > 10) {
+        val = (val / divisor) * max;
+      }
+    }
+
+    const label = columnData.text ?? `${val} of ${max} stars`;
+    const readonly = this.#readonly(index, value, columnData, rowData) ? 'readonly' : '';
+
+    return `
+      <ids-rating
+        label="${label}"
+        color="${color}"
+        stars="${max}"
+        value="${val}"
+        ${readonly}
+      >
+      </ids-rating>
+    `;
   }
 
-  card(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    const value: any = this.#extractValue(rowData, columnData.field);
-    if (!value) return '';
-    const color = this.#color(index, value, columnData, rowData);
+  slider(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
+    const color = this.#color(index, value, columnData, rowData) || 'azure06';
 
-    return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
+    const type = columnData.type ?? 'single';
+    const min = columnData.min ?? 0;
+    const max = columnData.max ?? 100;
+    let val = Number.isNaN(value) ? 0 : value;
+    if ((!columnData.max && val > 1) || val > max) {
+      const digitCount = String(Math.floor(val)).length;
+      const divisor = parseInt(`1`.padEnd(digitCount + 1, '0'));
+
+      if (val > 10) {
+        val = (val / divisor) * max;
+      }
+    }
+
+    const label = columnData.text ?? `${val} of ${max} stars`;
+    const readonly = this.#readonly(index, value, columnData, rowData) ? 'readonly' : '';
+
+    return `
+      <ids-slider
+        type="${type}"
+        label="${label}"
+        color="${color}"
+        min="${min}"
+        max="${max}"
+        value="${val}"
+        show-tooltip
+        ${readonly}
+      >
+      </ids-slider>
+    `;
   }
 
-  progress(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+  stepChart(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
+    const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
+    const color = this.#color(index, value, columnData, rowData) || 'azure06';
+
+    let max = columnData.max ?? 5;
+    if (!columnData.max && value > 1) {
+      const digitCount = String(Math.floor(value)).length;
+      max = parseInt(`1`.padEnd(digitCount + 1, '0'));
+    }
+
+    let val = Number.isNaN(value) ? 0 : value;
+    if (max > 10) {
+      val = (val / max) * 10;
+      max = 10;
+    }
+
+    const label = columnData.text ?? `${val} of ${max} steps completed`;
+    const completedSteps = Math.floor(val);
+    const stepsInProgress = Math.ceil(val);
+    const showStepsInProgress = completedSteps !== stepsInProgress;
+
+    return `
+      <ids-step-chart
+        label="${label}"
+        color="${color}"
+        progress-color="ruby02"
+        step-number="${Math.min(max, 10)}"
+        steps-in-progress="${showStepsInProgress ? stepsInProgress : 0}"
+        value="${Math.floor(val)}"
+      >
+      </ids-step-chart>
+    `;
+  }
+
+  image(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     const value: any = this.#extractValue(rowData, columnData.field);
     if (!value) return '';
-    const color = this.#color(index, value, columnData, rowData);
 
-    return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
+    const metadata = columnData.text ? `alt="${columnData.text}" title="${columnData.text}"` : '';
+
+    return `<ids-image src="${value}" ${metadata}></ids-image>`;
+  }
+
+  card(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    if (!value) return '';
+
+    return `<ids-card>${value}</ids-card>`;
   }
 }

@@ -1,0 +1,370 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsDataGrid Component Formatter Tests can render with the alert formatter 1`] = `"<ids-alert icon="alert" tooltip="Demo Category"></ids-alert>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the alert formatter with icon 1`] = `"<ids-alert icon="confirm" tooltip="Demo Category"></ids-alert>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the alert formatter without tooltip 1`] = `"<ids-alert icon="confirm" ></ids-alert>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the card formatter 1`] = `"<ids-card>Full Month</ids-card>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the card formatter without value 1`] = `""`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the color formatter 1`] = `"<ids-color hex="#35d783" tooltip="#35d783"></ids-color>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the color formatter with blank color 1`] = `"<ids-color></ids-color>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the color formatter with color-override 1`] = `"<ids-color hex="#FF0000" ></ids-color>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the color formatter without tooltip 1`] = `"<ids-color hex="#FF0000" ></ids-color>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the counts formatter 1`] = `
+"
+      <ids-counts compact color="">
+        <ids-text count-value>4.6</ids-text>
+      </ids-counts>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the counts formatter with color-override 1`] = `
+"
+      <ids-counts compact color="#4caf50">
+        <ids-text count-value>4.6</ids-text>
+      </ids-counts>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the counts formatter without a value 1`] = `
+"
+      <ids-counts compact color="">
+        <ids-text count-value>0</ids-text>
+      </ids-counts>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the favorite formatter 1`] = `"<ids-icon icon="star-filled" size="large" ></ids-icon>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the favorite formatter with size override 1`] = `"<ids-icon icon="star-filled" size="xxl" ></ids-icon>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the favorite formatter without value 1`] = `"<ids-icon icon="star-outlined" size="large" ></ids-icon>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter 1`] = `"<ids-icon icon="closed-folder" size="large" ></ids-icon>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter as empty string 1`] = `""`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with color-override 1`] = `"<ids-icon icon="closed-folder" size="large" badge-color="#FF00FF" badge-position="top-left"></ids-icon>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with icon-override 1`] = `"<ids-icon icon="confirm" size="large" ></ids-icon>icon-closed-folder"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with icon-override without value 1`] = `"<ids-icon icon="confirm" size="large" ></ids-icon>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with invalid size-override 1`] = `"<ids-icon icon="closed-folder" size="large" ></ids-icon>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with size-override 1`] = `"<ids-icon icon="closed-folder" size="small" ></ids-icon>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the image formatter 1`] = `"<ids-image src="https://placekitten.com/200/100" ></ids-image>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the image formatter with alt/title text 1`] = `"<ids-image src="https://placekitten.com/200/100" alt="Image Alt/Title Text" title="Image Alt/Title Text"></ids-image>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the image formatter without value 1`] = `""`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the progress formatter 1`] = `
+"
+      <ids-progress-bar  max="10" value="4.6">
+      </ids-progress-bar>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the progress formatter with color-override 1`] = `
+"
+      <ids-progress-bar  max="10" value="4.6">
+      </ids-progress-bar>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the progress formatter with max-override 1`] = `
+"
+      <ids-progress-bar  max="5" value="4.6">
+      </ids-progress-bar>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the progress formatter with text/label override 1`] = `
+"
+      <ids-progress-bar label="Progess Override (4.6 / 10)" max="10" value="4.6">
+      </ids-progress-bar>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the progress formatter without value 1`] = `
+"
+      <ids-progress-bar  max="10" value="0">
+      </ids-progress-bar>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the rating formatter 1`] = `
+"
+      <ids-rating
+        label="4.6 of 5 stars"
+        color="azure06"
+        stars="5"
+        value="4.6"
+        
+      >
+      </ids-rating>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the rating formatter as readonly 1`] = `
+"
+      <ids-rating
+        label="4.6 of 5 stars"
+        color="azure06"
+        stars="5"
+        value="4.6"
+        readonly
+      >
+      </ids-rating>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the rating formatter with color-override 1`] = `
+"
+      <ids-rating
+        label="4.6 of 5 stars"
+        color="azure06"
+        stars="5"
+        value="4.6"
+        
+      >
+      </ids-rating>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the rating formatter with max-override 1`] = `
+"
+      <ids-rating
+        label="4.6 of 5 stars"
+        color="azure06"
+        stars="5"
+        value="4.6"
+        
+      >
+      </ids-rating>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the rating formatter with text/label override 1`] = `
+"
+      <ids-rating
+        label="Rating Override"
+        color="azure06"
+        stars="5"
+        value="4.6"
+        
+      >
+      </ids-rating>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the rating formatter without value 1`] = `
+"
+      <ids-rating
+        label="0 of 5 stars"
+        color="azure06"
+        stars="5"
+        value="0"
+        
+      >
+      </ids-rating>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the slider formatter 1`] = `
+"
+      <ids-slider
+        type="single"
+        label="4.6 of 100 stars"
+        color="azure06"
+        min="0"
+        max="100"
+        value="4.6"
+        show-tooltip
+        
+      >
+      </ids-slider>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the slider formatter as readonly 1`] = `
+"
+      <ids-slider
+        type="single"
+        label="4.6 of 100 stars"
+        color="azure06"
+        min="0"
+        max="100"
+        value="4.6"
+        show-tooltip
+        readonly
+      >
+      </ids-slider>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the slider formatter with color-override 1`] = `
+"
+      <ids-slider
+        type="single"
+        label="4.6 of 100 stars"
+        color="azure06"
+        min="0"
+        max="100"
+        value="4.6"
+        show-tooltip
+        
+      >
+      </ids-slider>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the slider formatter with max-override 1`] = `
+"
+      <ids-slider
+        type="single"
+        label="4.6 of 5 stars"
+        color="azure06"
+        min="0"
+        max="5"
+        value="4.6"
+        show-tooltip
+        
+      >
+      </ids-slider>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the slider formatter with min-override 1`] = `
+"
+      <ids-slider
+        type="single"
+        label="4.6 of 100 stars"
+        color="azure06"
+        min="3"
+        max="100"
+        value="4.6"
+        show-tooltip
+        
+      >
+      </ids-slider>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the slider formatter with text/label override 1`] = `
+"
+      <ids-slider
+        type="single"
+        label="Slider Override"
+        color="azure06"
+        min="0"
+        max="100"
+        value="4.6"
+        show-tooltip
+        
+      >
+      </ids-slider>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the slider formatter without value 1`] = `
+"
+      <ids-slider
+        type="single"
+        label="0 of 100 stars"
+        color="azure06"
+        min="0"
+        max="100"
+        value="0"
+        show-tooltip
+        
+      >
+      </ids-slider>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the stepChart formatter 1`] = `
+"
+      <ids-step-chart
+        label="4.6 of 10 steps completed"
+        color="azure06"
+        progress-color="ruby02"
+        step-number="10"
+        steps-in-progress="5"
+        value="4"
+      >
+      </ids-step-chart>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the stepChart formatter with color-override 1`] = `
+"
+      <ids-step-chart
+        label="4.6 of 10 steps completed"
+        color="azure06"
+        progress-color="ruby02"
+        step-number="10"
+        steps-in-progress="5"
+        value="4"
+      >
+      </ids-step-chart>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the stepChart formatter with max-override 1`] = `
+"
+      <ids-step-chart
+        label="4.6 of 7 steps completed"
+        color="azure06"
+        progress-color="ruby02"
+        step-number="7"
+        steps-in-progress="5"
+        value="4"
+      >
+      </ids-step-chart>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the stepChart formatter with text/label override 1`] = `
+"
+      <ids-step-chart
+        label="Step-Chart Override"
+        color="azure06"
+        progress-color="ruby02"
+        step-number="10"
+        steps-in-progress="5"
+        value="4"
+      >
+      </ids-step-chart>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the stepChart formatter without value 1`] = `
+"
+      <ids-step-chart
+        label="0 of 5 steps completed"
+        color="azure06"
+        progress-color="ruby02"
+        step-number="5"
+        steps-in-progress="0"
+        value="0"
+      >
+      </ids-step-chart>
+    "
+`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the tag formatter 1`] = `"<ids-tag color="">Demo Category</ids-tag>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the tag formatter with color-override 1`] = `"<ids-tag color="success">Demo Category</ids-tag>"`;
+
+exports[`IdsDataGrid Component Formatter Tests can render with the tag formatter without value 1`] = `""`;

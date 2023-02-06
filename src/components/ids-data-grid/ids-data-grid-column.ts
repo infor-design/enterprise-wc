@@ -93,6 +93,10 @@ export interface IdsDataGridColumn {
   field?: string;
   /** The subsitute text to use (for hyperlink and some formatters) */
   text?: string;
+  /** Max value of a range */
+  max?: number;
+  /** Mininum value of a range */
+  min?: number;
   /** Allow column sorting */
   sortable?: boolean;
   /** Allow column resizing */

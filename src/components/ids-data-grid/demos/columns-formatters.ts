@@ -110,6 +110,60 @@ if (dataGrid) {
       width: 200
     });
     columns.push({
+      id: 'count',
+      name: 'Count',
+      field: 'count',
+      sortable: true,
+      formatter: dataGrid.formatters.counts,
+      width: 100,
+      color: '#4caf50'
+    });
+    columns.push({
+      id: 'count-progress',
+      name: 'Progress Bar',
+      field: 'count',
+      sortable: true,
+      formatter: dataGrid.formatters.progress,
+      width: 200,
+      resizable: true,
+      color: '#4caf50',
+      text: 'Your Progess'
+    });
+    columns.push({
+      id: 'count-rating',
+      name: 'Rating',
+      field: 'count',
+      sortable: true,
+      formatter: dataGrid.formatters.rating,
+      width: 200,
+      color: 'azure06',
+      max: 5,
+      readonly: false,
+      resizable: true,
+    });
+    columns.push({
+      id: 'count-slider',
+      name: 'Slider',
+      field: 'count',
+      sortable: true,
+      formatter: dataGrid.formatters.slider,
+      width: 200,
+      color: 'azure06',
+      max: 5,
+      readonly: false,
+      resizable: true,
+    });
+    columns.push({
+      id: 'count-step-chart',
+      name: 'Step Chart',
+      field: 'count',
+      sortable: true,
+      formatter: dataGrid.formatters.stepChart,
+      width: 200,
+      resizable: true,
+      color: 'azure06',
+    });
+    columns.push({
       id: 'inStock',
       name: 'Checkbox',
       field: 'inStock',
@@ -119,6 +173,17 @@ if (dataGrid) {
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101
     });
     columns.push({
+      id: 'inStock-favorite',
+      name: 'Favorite',
+      field: 'inStock',
+      align: 'center',
+      sortable: true,
+      // color: 'red',
+      readonly: false,
+      size: 'large',
+      formatter: dataGrid.formatters.favorite,
+    });
+    columns.push({
       id: 'badge',
       name: 'Badge',
       field: 'price',
@@ -126,6 +191,60 @@ if (dataGrid) {
       sortable: true,
       formatter: dataGrid.formatters.badge,
       width: 75
+    });
+    columns.push({
+      id: 'category-tag',
+      name: 'Tag',
+      field: 'category',
+      sortable: true,
+      resizable: true,
+      formatter: dataGrid.formatters.tag,
+      color: 'success',
+      cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
+    });
+    columns.push({
+      id: 'category-alert',
+      name: 'Alert',
+      field: 'category',
+      sortable: true,
+      resizable: true,
+      align: 'center',
+      formatter: dataGrid.formatters.alert,
+      color: 'info',
+      cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
+    });
+    columns.push({
+      id: 'color',
+      name: 'Color',
+      field: 'color',
+      sortable: true,
+      resizable: true,
+      formatter: dataGrid.formatters.color,
+    });
+    columns.push({
+      id: 'icon',
+      name: 'Icon',
+      field: 'icon',
+      sortable: true,
+      resizable: true,
+      formatter: dataGrid.formatters.icon,
+      color: 'success',
+    });
+    columns.push({
+      id: 'icon-text',
+      name: 'Custom Icon',
+      field: 'icon',
+      sortable: true,
+      resizable: true,
+      formatter: dataGrid.formatters.icon,
+      icon: 'user-profile',
+    });
+    columns.push({
+      id: 'image',
+      name: 'Image',
+      field: 'image',
+      text: 'Image Alt Text',
+      formatter: dataGrid.formatters.image,
     });
     columns.push({
       id: 'more',
