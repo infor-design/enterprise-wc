@@ -7,6 +7,7 @@ import '../ids-text/ids-text';
 import '../ids-button/ids-button';
 
 import styles from './ids-pager-number-list.scss';
+import type IdsPager from './ids-pager';
 
 /**
  * IDS PagerNumberList Component
@@ -19,6 +20,10 @@ import styles from './ids-pager-number-list.scss';
 @scss(styles)
 export default class IdsPagerNumberList extends Base {
   readonly DEFAULT_STEP = 3;
+
+  readonly DEFAULT_PAGE_SIZE = 10;
+
+  rootNode: any;
 
   constructor() {
     super();
@@ -69,87 +74,91 @@ export default class IdsPagerNumberList extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
+
+    if (this.pager) {
+      this.disabled = this.pager.disabled;
+      this.pageNumber = this.pager.pageNumber;
+      this.pageSize = this.pager.pageSize;
+      this.step = this.pager.step;
+      this.total = this.pager.total;
+    }
+
     this.#populatePageNumberButtons();
     this.#attachEventHandlers();
+  }
+
+  /**
+   * Reference to the pager parent
+   * @returns {IdsPager} the parent element
+   */
+  get pager(): IdsPager {
+    if (!this.rootNode) this.rootNode = (this.getRootNode?.() as any)?.host;
+    if (this.rootNode?.nodeName !== 'IDS-PAGER') this.rootNode = this.closest('ids-pager');
+    return this.rootNode as IdsPager;
   }
 
   /**
    * @param {number} value The number of items shown per page
    */
   set pageSize(value: number) {
-    let nextValue;
-
-    if (Number.isNaN(Number.parseInt(value as any))) {
-      nextValue = 1;
-    } else {
-      nextValue = Number.parseInt(value as any);
-    }
-
-    if (parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '') !== nextValue) {
-      this.setAttribute(attributes.PAGE_SIZE, String(nextValue));
-    }
+    const val = this.#validPageSize(value);
+    this.setAttribute(attributes.PAGE_SIZE, String(val));
 
     this.#populatePageNumberButtons();
   }
 
   /** @returns {number} The number of items shown per page */
   get pageSize(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '');
+    return this.pager?.pageSize
+      ?? this.#validPageSize(this.getAttribute(attributes.PAGE_SIZE));
+  }
+
+  /**
+   * Check given page size value, if not a number return default
+   * @private
+   * @param {number | string | null} value The value
+   * @returns {number} Given value or default
+   */
+  #validPageSize(value?: number | string | null): number {
+    const val = stringToNumber(value);
+    return !Number.isNaN(val) && val > 0 ? val : this.DEFAULT_PAGE_SIZE;
   }
 
   /** @param {number} value A value 1-based page number shown */
   set pageNumber(value: number) {
-    let nextValue = Number.parseInt(value as any);
-
-    if (Number.isNaN(nextValue)) {
-      nextValue = 1;
-    } else if (nextValue <= 1) {
-      nextValue = 1;
-    } else {
-      const pageCount = Math.ceil(this.total / this.pageSize);
-      nextValue = Math.min(nextValue, pageCount);
-    }
-
-    if (!Number.isNaN(nextValue)
-    && Number.parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '') !== nextValue
-    ) {
-      this.setAttribute(attributes.PAGE_NUMBER, String(nextValue));
-    }
+    let val = stringToNumber(value);
+    if (Number.isNaN(val) || val < 1) val = 1;
+    else if (this.pageCount) val = Math.min(val, this.pageCount);
+    this.setAttribute(attributes.PAGE_NUMBER, String(val));
 
     this.#populatePageNumberButtons();
   }
 
   /** @returns {number} A value 1-based page number displayed */
   get pageNumber(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '') || 1;
+    const val = stringToNumber(this.getAttribute(attributes.PAGE_NUMBER) ?? 1);
+    return this.pager?.pageNumber ?? val;
   }
 
   /** @param {number} value The number of items to track */
   set total(value: number) {
-    let nextValue;
-    if (Number.isNaN(Number.parseInt(value as any))) {
-      nextValue = 1;
-    } else if (Number.parseInt(value as any) <= 0) {
-      nextValue = 1;
-    } else {
-      nextValue = Number.parseInt(value as any);
-    }
-
-    if (Number.parseInt(this.getAttribute(attributes.TOTAL) ?? '') !== nextValue) {
-      this.setAttribute(attributes.TOTAL, String(nextValue));
-    }
+    let val = stringToNumber(value);
+    if (Number.isNaN(val) || val < 1) val = 1;
+    this.setAttribute(attributes.TOTAL, String(val));
   }
 
   /** @returns {string|number} The number of items for pager is tracking */
   get total(): number {
-    return parseInt(this.getAttribute(attributes.TOTAL) ?? '');
+    const val = stringToNumber(this.getAttribute(attributes.TOTAL));
+    return this.pager?.total ?? val;
   }
 
   /** @returns {number|null} The calculated pageCount using total and pageSize */
   get pageCount(): number | null {
-    return this.hasAttribute(attributes.TOTAL)
+    const val = this.hasAttribute(attributes.TOTAL)
       ? Math.ceil(this.total / this.pageSize)
       : null;
+    return this.pager?.pageCount ?? val;
   }
 
   /** @param {boolean|string} value Whether to disable input at app-specified-level */
@@ -221,7 +230,7 @@ export default class IdsPagerNumberList extends Base {
    * @param {number|string} value The number of steps
    */
   set step(value: number | string) {
-    const val = stringToNumber(this.getAttribute(attributes.STEP));
+    const val = stringToNumber(value);
     if (!Number.isNaN(val)) {
       this.setAttribute(attributes.STEP, String(val));
       return;
@@ -231,8 +240,9 @@ export default class IdsPagerNumberList extends Base {
 
   /** @returns {number} The number of steps */
   get step(): number {
-    const val = stringToNumber(this.getAttribute(attributes.STEP));
-    return !Number.isNaN(val) ? val : this.DEFAULT_STEP;
+    let val = stringToNumber(this.getAttribute(attributes.STEP));
+    if (Number.isNaN(val)) val = this.DEFAULT_STEP;
+    return (this.pager?.step ?? val) as number;
   }
 
   /**

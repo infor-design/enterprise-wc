@@ -98,8 +98,9 @@ export default class IdsToolbarSection extends Base {
   }
 
   template(): string {
+    const align = this.hasAttribute('align') ? ` align-${this.align}` : '';
     return `
-      <div class="ids-toolbar-section" part="container">
+      <div class="ids-toolbar-section${align}" part="container">
         <slot></slot>
       </div>
     `;

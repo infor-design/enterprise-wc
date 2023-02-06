@@ -172,23 +172,23 @@ describe('IdsPager Component', () => {
     const defaultStep = 3;
 
     expect(listEl.step).toEqual(defaultStep);
-    expect(listEl.getAttribute('step')).toEqual(null);
-    listEl.setAttribute('step', '2');
+    expect(listEl.getAttribute('step')).toEqual(String(defaultStep));
+    el.setAttribute('step', '2');
 
     expect(listEl.step).toEqual(2);
     expect(listEl.getAttribute('step')).toEqual('2');
-    listEl.setAttribute('step', '-1');
+    el.setAttribute('step', '-1');
 
     expect(listEl.step).toEqual(-1);
     expect(listEl.getAttribute('step')).toEqual('-1');
-    listEl.removeAttribute('step');
+    el.removeAttribute('step');
 
     expect(listEl.step).toEqual(defaultStep);
-    expect(listEl.getAttribute('step')).toEqual(null);
-    listEl.setAttribute('step', 'test');
+    expect(listEl.getAttribute('step')).toEqual(String(defaultStep));
+    el.setAttribute('step', 'test');
 
     expect(listEl.step).toEqual(defaultStep);
-    expect(listEl.getAttribute('step')).toEqual(null);
+    expect(listEl.getAttribute('step')).toEqual(String(defaultStep));
   });
 
   it('shows tooltip-popup when IdsPagerButton.tooltip is not empty', async () => {
@@ -270,10 +270,10 @@ describe('IdsPager Component', () => {
   it('sets the ids-pager page-size to invalid values and it gets reset to 1', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     elem.setAttribute('page-size', 'z35');
-    expect(elem.pageSize).toEqual(1);
+    expect(elem.pageSize).toEqual(10);
 
     elem.setAttribute('page-size', '-1');
-    expect(elem.pageSize).toEqual(1);
+    expect(elem.pageSize).toEqual(10);
   });
 
   it('can set disabled on ids-pager predictably', async () => {
@@ -329,10 +329,10 @@ describe('IdsPager Component', () => {
   it('creates a pager and toggles the last button attribute predictably', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     const lastNavButton = elem.querySelector('ids-pager-button[last]');
-    lastNavButton.setAttribute('disabled', true);
+    elem.setAttribute('disabled', true);
     expect(lastNavButton.disabled).toEqual(true);
 
-    lastNavButton.disabled = false;
+    elem.disabled = false;
     expect(lastNavButton.hasAttribute('disabled')).toEqual(false);
   });
 
@@ -410,7 +410,7 @@ describe('IdsPager Component', () => {
     expect(elem.pageSize).toEqual(11);
 
     elem.setAttribute('page-size', 'z100');
-    expect(elem.pageSize).toEqual(1);
+    expect(elem.pageSize).toEqual(10);
   });
 
   it('creates a an ids-pager-button with "previous" flag set and nav-disabled works reliably', async () => {
@@ -667,17 +667,17 @@ describe('IdsPager Component', () => {
       `<ids-pager-input page-number="10" page-size="2" first></ids-pager-input>`
     );
 
-    expect(elem.pageCount).toEqual(1);
+    expect(elem.pageCount).toEqual(null);
   });
 
-  it('sets total on ids-pager-input to non-numeric value and gets page-number reset to 1', async () => {
+  it('sets default page size on ids-pager-input for non-numeric value', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-input page-number="10" page-size="2" total="100" first></ids-pager-input>`
     );
 
     elem.pageSize = 'z22';
 
-    expect(elem.pageSize).toEqual(1);
+    expect(elem.pageSize).toEqual(10);
   });
 
   it('sets pageNumber on ids-pager-input to non-numeric value and gets page-number reset to 1', async () => {
@@ -739,12 +739,12 @@ describe('IdsPager Component', () => {
     expect(elem.parentDisabled).toEqual(true);
   });
 
-  it('it sets the pageSize on ids-pager-number-list to non numeric and it is reset to 1', async () => {
+  it('it sets the pageSize on ids-pager-number-list to non numeric and it is reset to default', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-number-list page-number="1" page-size="z2z" total="100" first></ids-pager-number-list>`
     );
 
-    expect(elem.pageSize).toEqual(1);
+    expect(elem.pageSize).toEqual(10);
   });
 
   it('it sets the pageNumber on ids-pager-number-list to invalid sizes and it is reset to 1', async () => {

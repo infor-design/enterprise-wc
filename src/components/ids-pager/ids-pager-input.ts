@@ -4,10 +4,11 @@ import { attributes } from '../../core/ids-attributes';
 import Base from './ids-pager-input-base';
 import '../ids-input/ids-input';
 import '../ids-text/ids-text';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-pager-input.scss';
 import type IdsInput from '../ids-input/ids-input';
+import type IdsPager from './ids-pager';
 
 /**
  * IDS PagerInput Component
@@ -20,6 +21,10 @@ import type IdsInput from '../ids-input/ids-input';
 @customElement('ids-pager-input')
 @scss(styles)
 export default class IdsPagerInput extends Base {
+  readonly DEFAULT_PAGE_SIZE = 10;
+
+  rootNode: any;
+
   input?: IdsInput | null;
 
   constructor() {
@@ -56,135 +61,168 @@ export default class IdsPagerInput extends Base {
     ];
   }
 
+  /**
+   * React to attributes changing on the web-component
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
+   */
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
+    const shouldRerender = [
+      attributes.DISABLED,
+      attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE,
+      attributes.STEP,
+      attributes.TOTAL,
+      attributes.TYPE,
+    ].includes(name);
+
+    if (shouldRerender) {
+      if (oldValue !== newValue) {
+        this.connectedCallback();
+      }
+    }
+  }
+
+  /**
+   * Track and use to prvent multiple input change events
+   */
+  #inputChanged = false;
+
   connectedCallback(): void {
     super.connectedCallback();
+
+    if (this.pager) {
+      this.disabled = this.pager.disabled;
+      this.pageNumber = this.pager.pageNumber;
+      this.pageSize = this.pager.pageSize;
+      this.total = this.pager.total;
+    }
+
     this.input = this.shadowRoot?.querySelector<IdsInput>('ids-input');
 
-    this.onEvent('change', this.input, () => {
-      const inputPageNumber = Math.min(parseInt(this.input?.input?.value ?? ''), this.pageCount);
-
-      if (inputPageNumber !== this.pageNumber) {
-        if (!Number.isNaN(inputPageNumber)) {
-          this.triggerEvent('pagenumberchange', this, {
-            bubbles: true,
-            detail: { elem: this, value: inputPageNumber }
-          });
-        } else if (this.input) {
-          this.input.value = `${this.pageNumber}`;
-        }
-      }
-    });
+    this.offEvent('change.pagerinput', this.input);
+    this.onEvent('change.pagerinput', this.input, () => this.#handleInputChange());
 
     // when leaving user focus, input should adjust itself
     // to the page number already provided by the pager
 
-    this.onEvent('blur', this.input, () => {
-      if (this.input && this.input?.value !== `${this.pageNumber}`) {
-        this.input.value = `${this.pageNumber}`;
-      }
+    this.offEvent('blur.pagerinput', this.input);
+    this.onEvent('blur.pagerinput', this.input, () => {
+      if (!this.#inputChanged) this.#handleInputChange();
+      this.#inputChanged = false;
     });
 
-    this.listen('Enter', this.input, () => {
+    this.offEvent('Enter.pagerinput', this.input);
+    this.listen('Enter.pagerinput', this.input, () => {
       this.input?.dispatchEvent(new Event('change', { bubbles: true }));
     });
 
-    if (!this.hasAttribute(attributes.PAGE_NUMBER)) {
-      this.setAttribute(attributes.PAGE_NUMBER, '1');
+    if (!this.hasAttribute(attributes.PAGE_NUMBER) && this.pager?.pageNumber) {
+      this.setAttribute(attributes.PAGE_NUMBER, String(this.pager.pageNumber));
     }
 
     // give parent a chance to reflect attributes
     this.#updatePageCountShown();
   }
 
+  /**
+   * Reference to the pager parent
+   * @returns {IdsPager} the parent element
+   */
+  get pager(): IdsPager {
+    if (!this.rootNode) this.rootNode = (this.getRootNode?.() as any)?.host;
+    if (this.rootNode?.nodeName !== 'IDS-PAGER') this.rootNode = this.closest('ids-pager');
+    return this.rootNode as IdsPager;
+  }
+
   /** @param {string|number} value The number of items to show per page */
   set pageSize(value: string | number) {
-    let nextValue;
-
-    if (Number.isNaN(Number.parseInt(value as any))) {
-      nextValue = 1;
-    } else {
-      nextValue = Number.parseInt(value as any);
-    }
-
-    if (parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '') !== nextValue) {
-      this.setAttribute(attributes.PAGE_SIZE, String(nextValue));
-    }
-
+    const val = this.#validPageSize(value);
+    this.setAttribute(attributes.PAGE_SIZE, String(val));
     this.#updatePageCountShown();
   }
 
   /** @returns {number} The number of items shown per page */
   get pageSize(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '');
+    return this.pager?.pageSize
+      ?? this.#validPageSize(this.getAttribute(attributes.PAGE_SIZE));
+  }
+
+  /**
+   * Check given page size value, if not a number return default
+   * @private
+   * @param {number | string | null} value The value
+   * @returns {number} Given value or default
+   */
+  #validPageSize(value?: number | string | null): number {
+    const val = stringToNumber(value);
+    return !Number.isNaN(val) && val > 0 ? val : this.DEFAULT_PAGE_SIZE;
   }
 
   /** @param {string|number} value A 1-based page number shown */
   set pageNumber(value: string | number) {
-    const pagerInputWebComponent = this.input;
-    const pagerInputField = pagerInputWebComponent?.input;
-    const currentPageNumber = pagerInputField?.value || '1';
-    let nexPageNumber;
+    const inputHost = this.input;
+    const input = inputHost?.input;
+    const currentVal = stringToNumber(input?.value);
 
-    if (Number.isNaN(Number.parseInt(value as any))) {
-      nexPageNumber = 1;
-    } else if (Number.parseInt(value as any) <= 1) {
-      nexPageNumber = 1;
-    } else {
-      nexPageNumber = Number.parseInt(value as any);
+    let val = stringToNumber(value);
+    if (Number.isNaN(val) || val < 1) val = 1;
+    else {
+      const pageCount = stringToNumber(this.pageCount);
+      if (Number.isNaN(pageCount)) return;
+      val = Math.min(val, pageCount);
     }
 
-    const isSamePageNumber = parseInt(nexPageNumber as any) === parseInt(currentPageNumber);
-    if (isSamePageNumber) {
-      // no need to update if page number did not changed.
-      return;
-    }
+    // TODO: find a way within CSS to make input-field width auto-resize
+    input?.style.setProperty('width', `${String(val).length}em`);
 
-    if (pagerInputWebComponent) {
-      pagerInputWebComponent.value = String(nexPageNumber);
+    // no need to update if page number did not changed.
+    if (Number.isNaN(currentVal) || val === currentVal) return;
 
-      if (pagerInputField) {
-        // TODO: find a way within CSS to make input-field width auto-resize
-        const inputFieldWidth = String(nexPageNumber).length;
-        pagerInputField.style.width = `${inputFieldWidth}em`;
+    if (inputHost) {
+      inputHost.value = String(val);
+      if (!this.#inputChanged && val !== this.pageNumber) {
+        this.triggerEvent('pagenumberchange', this, {
+          bubbles: true,
+          detail: { elem: this, value: val }
+        });
       }
+      this.#inputChanged = false;
     }
 
-    this.setAttribute(attributes.PAGE_NUMBER, String(nexPageNumber));
+    this.setAttribute(attributes.PAGE_NUMBER, String(val));
     this.#updatePageCountShown();
   }
 
   /** @returns {number} value A 1-based page number displayed */
   get pageNumber(): number {
-    return parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '') || 1;
+    const val = stringToNumber(this.getAttribute(attributes.PAGE_NUMBER) ?? 1);
+    return this.pager?.pageNumber ?? val;
   }
 
   /** @param {string|number} value The number of items to track */
   set total(value: string | number) {
-    let nextValue;
-    if (Number.isNaN(Number.parseInt(value as any))) {
-      nextValue = 1;
-    } else if (Number.parseInt(value as any) <= 0) {
-      nextValue = 1;
-    } else {
-      nextValue = Number.parseInt(value as any);
-    }
-
-    this.setAttribute(attributes.TOTAL, String(nextValue));
+    let val = stringToNumber(value);
+    if (Number.isNaN(val) || val < 1) val = 1;
+    this.setAttribute(attributes.TOTAL, String(val));
     this.#updatePageCountShown();
   }
 
-  /** @returns {string|number} The number of items for pager is tracking */
-  get total(): string | number {
-    return parseInt(this.getAttribute(attributes.TOTAL) ?? '') || 0;
+  /** @returns {number} The number of items for pager is tracking */
+  get total(): number {
+    const val = stringToNumber(this.getAttribute(attributes.TOTAL));
+    return this.pager?.total ?? val;
   }
 
-  /** @returns {number} The calculated pageCount using total and pageSize */
-  get pageCount(): number {
-    const total = this.total || 0;
-    const pageSize = this.pageSize || 1;
-    const pageCount = Math.ceil(Number(total) / Number(pageSize));
-
-    return Math.max(pageCount, 1);
+  /** @returns {number|null} The calculated pageCount using total and pageSize */
+  get pageCount(): number | null {
+    const val = this.hasAttribute(attributes.TOTAL)
+      ? Math.ceil(this.total / this.pageSize)
+      : null;
+    return this.pager?.pageCount ?? val;
   }
 
   /** @param {boolean|string} value Whether or not to disable input at app-specified-level */
@@ -236,6 +274,33 @@ export default class IdsPagerInput extends Base {
     return (this.hasAttribute(attributes.DISABLED)
       || this.hasAttribute(attributes.PARENT_DISABLED)
     );
+  }
+
+  /**
+   * Handle innput change
+   * @private
+   * @returns {void}
+   */
+  #handleInputChange(): void {
+    const pageCount = stringToNumber(this.pageCount);
+    if (this.input && !Number.isNaN(pageCount) && pageCount > 1) {
+      const pageNumber = this.pageNumber;
+      const inputVal = stringToNumber(this.input.value);
+      const val = Math.max(1, Math.min(inputVal, pageCount));
+      if (val !== inputVal) this.input.value = `${val}`;
+
+      if (val !== pageNumber) {
+        if (!Number.isNaN(val)) {
+          this.#inputChanged = true;
+          this.triggerEvent('pagenumberchange', this, {
+            bubbles: true,
+            detail: { elem: this, value: val }
+          });
+        } else if (this.input) {
+          this.input.value = `${pageNumber}`;
+        }
+      }
+    }
   }
 
   /** Updates text found in page-count within ids-text span */

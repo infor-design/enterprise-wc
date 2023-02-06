@@ -3,6 +3,9 @@
 ## 1.0.0-beta.4
 
 ### 1.0.0-beta.4 Fixes
+
+- `[General]` Fixed to angular examples where attributes property binding was not work properly for ids-toggle-button, ids-app-menu, ids-menu-button, ids-pager, ids-text, ids-toolbar. ([#941](https://github.com/infor-design/enterprise-wc/issues/941))
+
 ## 1.0.0-beta.3
 
 ### 1.0.0-beta.3 Fixes
