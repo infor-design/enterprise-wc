@@ -3,10 +3,24 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { ALIGNMENT_TYPES, applyContentAlignmentClass } from './ids-accordion-common';
 
-import Base from './ids-accordion-panel-base';
-import IdsAccordionHeader from './ids-accordion-header';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
+import IdsAccordionHeader from './ids-accordion-header';
 import styles from './ids-accordion-panel.scss';
+
+const Base = IdsColorVariantMixin(
+  IdsThemeMixin(
+    IdsKeyboardMixin(
+      IdsEventsMixin(
+        IdsElement
+      )
+    )
+  )
+);
 
 /**
  * IDS Accordion Panel Component

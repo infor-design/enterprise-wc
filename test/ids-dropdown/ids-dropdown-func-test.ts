@@ -12,6 +12,8 @@ import '../../src/components/ids-list-box/ids-list-box-option';
 import '../../src/components/ids-trigger-field/ids-trigger-field';
 import states from '../../src/assets/data/states.json';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 describe('IdsDropdown Component', () => {
   let dropdown: any;
@@ -552,6 +554,7 @@ describe('IdsDropdown Component', () => {
   });
 
   it('can changing language from the container', async () => {
+    IdsLocaleData.loadedLanguages.set('de', deMessages);
     await container.setLanguage('de');
     await processAnimFrame();
     expect(dropdown.getAttribute('aria-description')).toEqual('Drücken Sie zum Auswählen die Nach-unten-Taste');

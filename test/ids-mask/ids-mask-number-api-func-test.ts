@@ -4,8 +4,9 @@
 import MaskAPI from '../../src/components/ids-mask/ids-mask-api';
 import { IdsMaskOptions } from '../../src/components/ids-mask/ids-mask-common';
 import { numberMask } from '../../src/components/ids-mask/ids-masks';
-import locale from '../../src/components/ids-locale/ids-locale-global';
+import IdsLocale from '../../src/components/ids-locale/ids-locale';
 
+const locale = new IdsLocale();
 let api: any;
 
 describe('IdsMaskAPI (Number)', () => {

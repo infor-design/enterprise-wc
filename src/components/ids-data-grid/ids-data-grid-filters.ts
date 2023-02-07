@@ -516,15 +516,15 @@ export default class IdsDataGridFilters {
         // Integer
         if (filterType === 'integer') {
           value = formatterVal();
-          value = this.root.locale?.parseNumber(value);
-          conditionValue = this.root.locale?.parseNumber(conditionValue);
+          value = this.root.localeAPI?.parseNumber(value);
+          conditionValue = this.root.localeAPI?.parseNumber(conditionValue);
         }
 
         if (filterType === 'date' || filterType === 'time') {
           if (/string|undefined/g.test(typeof value)) value = formatterVal();
           const getValues = (rValue: any, cValue: any) => {
             const format = c.format || column.formatOptions;
-            cValue = this.root.locale?.parseDate(cValue, format);
+            cValue = this.root.localeAPI?.parseDate(cValue, format);
             if (cValue) {
               if (filterType === 'time') {
                 // drop the day, month and year
@@ -537,7 +537,7 @@ export default class IdsDataGridFilters {
             }
 
             if (typeof rValue === 'string' && rValue) {
-              rValue = this.root.locale?.parseDate(rValue, format);
+              rValue = this.root.localeAPI?.parseDate(rValue, format);
 
               if (rValue) {
                 if (filterType === 'time') {

@@ -1,9 +1,18 @@
 import { customElement, scss } from '../../core/ids-decorators';
-
-// Import Mixins
-import Base from './ids-splitter-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-splitter-pane.scss';
+
+const Base = IdsLocaleMixin(
+  IdsThemeMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS SplitterPane Component

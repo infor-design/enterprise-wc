@@ -1,12 +1,33 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
-import Base, { IdsHierarchyItemInfo } from './ids-hierarchy-item-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-hierarchy-item.scss';
 import IdsButton from '../ids-button/ids-button';
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
+
+const Base = IdsColorVariantMixin(
+  IdsThemeMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
+
+export interface IdsHierarchyItemInfo {
+  id: string;
+  name: string;
+  position: string;
+  employmentType: string;
+  parentItem: string;
+  isLeaf: boolean;
+  color: string;
+  picture?: string;
+}
 
 /**
  * IDS Hierarchy Item Component

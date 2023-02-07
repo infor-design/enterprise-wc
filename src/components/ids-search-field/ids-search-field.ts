@@ -2,7 +2,8 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
-import Base from './ids-search-field-base';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-input/ids-input';
 import '../ids-icon/ids-icon';
@@ -23,7 +24,7 @@ const DEFAULT_PLACEHOLDER = 'Type to search';
  */
 @customElement('ids-search-field')
 @scss(styles)
-export default class IdsSearchField extends Base {
+export default class IdsSearchField extends IdsTriggerField {
   constructor() {
     super();
   }

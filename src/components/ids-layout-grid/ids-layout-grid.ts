@@ -9,7 +9,7 @@ import {
   noMarginsClass
 } from './ids-layout-grid-attributes';
 
-import Base from './ids-layout-grid-base';
+import IdsElement from '../../core/ids-element';
 import './ids-layout-grid-cell';
 
 import styles from './ids-layout-grid.scss';
@@ -25,7 +25,7 @@ const GRID_OPTIONS = {
  */
 @customElement('ids-layout-grid')
 @scss(styles)
-export default class IdsLayoutGrid extends Base {
+export default class IdsLayoutGrid extends IdsElement {
   constructor() {
     super();
   }

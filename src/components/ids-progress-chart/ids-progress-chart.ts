@@ -1,6 +1,8 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-progress-chart-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-progress-chart.scss';
 import type IdsIcon from '../ids-icon/ids-icon';
@@ -10,6 +12,12 @@ import type IdsText from '../ids-text/ids-text';
 const DEFAULT_PROGRESS = 0;
 const DEFAULT_TOTAL = 100;
 const DEFAULT_SIZE = 'normal';
+
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Progress Chart Component

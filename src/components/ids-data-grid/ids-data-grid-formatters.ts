@@ -65,7 +65,7 @@ export default class IdsDataGridFormatters {
   /** Formats date data as a date string in the desired format */
   date(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
     let value: any = this.#extractValue(rowData, columnData.field);
-    value = api.locale?.formatDate(value, columnData.formatOptions) ?? value.toString();
+    value = api.localeAPI?.formatDate(value, columnData.formatOptions) ?? value.toString();
     const icon = columnData.editor?.type === 'datepicker' ? '<ids-icon icon="schedule" class="editor-cell-icon"></ids-icon>' : '';
     return `<span class="text-ellipsis">${value}</span>${icon}`;
   }
@@ -73,15 +73,15 @@ export default class IdsDataGridFormatters {
   /** Formats date data as a time string in the desired format */
   time(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
     let value: any = this.#extractValue(rowData, columnData.field);
-    value = api.locale?.formatDate(value, columnData.formatOptions || { timeStyle: 'short' }) ?? value.toString();
+    value = api.localeAPI?.formatDate(value, columnData.formatOptions || { timeStyle: 'short' }) ?? value.toString();
     const icon = columnData.editor?.type === 'timepicker' ? '<ids-icon icon="clock" class="editor-cell-icon"></ids-icon>' : '';
     return `<span class="text-ellipsis">${value}</span>${icon}`;
   }
 
-  /** Formats number data as a decimal string in the specific locale */
+  /** Formats number data as a decimal string in the specific localeAPI */
   decimal(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
     let value: any = this.#extractValue(rowData, columnData.field);
-    value = api.locale?.formatNumber(value, columnData.formatOptions
+    value = api.localeAPI?.formatNumber(value, columnData.formatOptions
       || { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? value.toString();
     return `<span class="text-ellipsis">${value === 'NaN' ? '' : value}</span>`;
   }
@@ -92,7 +92,7 @@ export default class IdsDataGridFormatters {
     const opts = columnData.formatOptions || { };
     opts.style = 'integer';
 
-    value = api.locale?.formatNumber(value, opts) ?? value.toString();
+    value = api.localeAPI?.formatNumber(value, opts) ?? value.toString();
     return `<span class="text-ellipsis">${value === 'NaN' ? '' : value}</span>`;
   }
 

@@ -10,7 +10,10 @@ import {
   waitForTransitionEnd,
 } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-import Base from './ids-popup-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
 
 import type { IdsPopupElementRef } from './ids-popup-attributes';
 
@@ -30,6 +33,14 @@ import {
 } from './ids-popup-attributes';
 
 import styles from './ids-popup.scss';
+
+const Base = IdsLocaleMixin(
+  IdsThemeMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS Popup Component

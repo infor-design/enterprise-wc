@@ -4,7 +4,7 @@ import '../../ids-dropdown/ids-dropdown';
 
 document.addEventListener('DOMContentLoaded', () => {
   const pageContainer: any = document.querySelector('ids-container');
-  let calendar = pageContainer.locale.calendar();
+  let calendar = pageContainer.localeAPI.calendar();
 
   // Configure Short Date input
   const dateInputShort: any = document.querySelector('#mask-date-short');
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Change locale on the date input when the Page container's locale changes
   pageContainer.addEventListener('localechange', () => {
-    calendar = pageContainer.locale.calendar();
+    calendar = pageContainer.localeAPI.calendar();
     const shortFormat = calendar.dateFormat.short;
     const timeFormat = calendar.dateFormat.timestamp;
 

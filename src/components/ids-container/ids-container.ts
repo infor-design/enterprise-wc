@@ -2,10 +2,23 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-container-base';
-import locale from '../ids-locale/ids-locale-global';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-container.scss';
+
+const Base = IdsThemeMixin(
+  IdsLocaleMixin(
+    IdsColorVariantMixin(
+      IdsEventsMixin(
+        IdsElement
+      )
+    )
+  )
+);
 
 /**
  * IDS Container Component
@@ -21,7 +34,6 @@ import styles from './ids-container.scss';
 export default class IdsContainer extends Base {
   constructor() {
     super();
-    this.state.locale = locale;
   }
 
   /**
@@ -32,10 +44,6 @@ export default class IdsContainer extends Base {
     if (this.reset) {
       this.#addReset();
     }
-
-    // Set initial lang and locale
-    this.setAttribute('language', this.state.locale.state.language);
-    this.setAttribute('locale', this.state.locale.state.localeName);
 
     // Remove hidden for FOUC
     this.onEvent('load.container', window, () => {
@@ -51,7 +59,7 @@ export default class IdsContainer extends Base {
   }
 
   disconnectedCallback() {
-    this.state.locale.removeLangAttribute();
+    this.localeAPI.removeLangAttribute();
     super.disconnectedCallback();
   }
 
@@ -139,78 +147,4 @@ export default class IdsContainer extends Base {
   }
 
   get reset(): boolean | string { return this.getAttribute(attributes.RESET) || 'true'; }
-
-  /**
-   * Set the language for a component and wait for it to finish (async)
-   * @param {string} value The language string value
-   */
-  async setLanguage(value: string) {
-    await this.state.locale.setLanguage(value);
-    this.language = value;
-    this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
-  }
-
-  /**
-   * Set the language for a component
-   * @param {string} value The language string value
-   */
-  set language(value: string) {
-    if (value) {
-      this.state.locale.setLanguage(value);
-      this.state.locale.updateLangTag(this, value);
-      this.setAttribute('language', value);
-      requestAnimationFrame(() => {
-        this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
-      });
-    }
-  }
-
-  /**
-   * Get the language data keys and message for the current language
-   * @returns {object} The language data object
-   */
-  get language(): string {
-    return this.state?.locale?.language;
-  }
-
-  /**
-   * Set the locale for a component and wait for it to finish (async)
-   * @param {string} value The locale string value
-   */
-  async setLocale(value: string) {
-    if (value) {
-      await this.state.locale.setLocale(value);
-      const lang = this.state.locale.correctLanguage(value);
-      this.setAttribute('locale', value);
-      this.setAttribute('language', lang);
-      this.state.locale.updateLangTag(this, lang);
-      this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
-    }
-  }
-
-  /**
-   * Set the locale for a component
-   * @param {string} value The locale string value
-   */
-  set locale(value: string) {
-    if (value) {
-      this.state.locale.setLocale(value);
-      const lang = this.state.locale.correctLanguage(value);
-      this.setAttribute('locale', value);
-      this.setAttribute('language', lang);
-      this.state.locale.updateLangTag(this, lang);
-
-      requestAnimationFrame(() => {
-        this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.state?.locale } });
-      });
-    }
-  }
-
-  get locale(): any {
-    return this.state.locale;
-  }
-
-  get localeName(): string {
-    return this.state.locale.state.localeName;
-  }
 }

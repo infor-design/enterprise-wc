@@ -2,13 +2,31 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-tab-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsOrientationMixin from '../../mixins/ids-orientation-mixin/ids-orientation-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
+import IdsElement from '../../core/ids-element';
+
 import '../ids-text/ids-text';
 
 import styles from './ids-tab.scss';
 import type IdsText from '../ids-text/ids-text';
 
 type IdsTabOnActionCallback = (isSelected: boolean) => void;
+
+const Base = IdsColorVariantMixin(
+  IdsOrientationMixin(
+    IdsThemeMixin(
+      IdsHideFocusMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Tab Component

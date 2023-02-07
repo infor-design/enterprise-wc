@@ -1,4 +1,7 @@
-import Base from './ids-calendar-event-base';
+import IdsElement from '../../core/ids-element';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import styles from './ids-calendar-event.scss';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -26,6 +29,14 @@ export type CalendarEventTypeData = {
   checked: boolean;
   disabled?: boolean
 };
+
+const Base = IdsThemeMixin(
+  IdsLocaleMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 @customElement('ids-calendar-event')
 @scss(styles)
@@ -124,11 +135,12 @@ export default class IdsCalendarEvent extends Base {
       evt.stopPropagation();
       triggerFn('click');
     });
-
-    this.onEvent('languagechange.calendar-event', this.closest('ids-container'), () => {
-      this.refreshContent();
-    });
   }
+
+  /** Respond to language changes */
+  onLanguageChange = () => {
+    this.refreshContent();
+  };
 
   /**
    * Refreshses calendar event content with current settings
@@ -159,7 +171,7 @@ export default class IdsCalendarEvent extends Base {
       this.container.style.top = this.yOffset;
     }
 
-    if (this.locale?.isRTL()) {
+    if (this.localeAPI?.isRTL()) {
       this.container.style.right = this.xOffset || '';
       this.container.style.removeProperty('left');
     } else {
@@ -177,7 +189,7 @@ export default class IdsCalendarEvent extends Base {
       const startHours = this.startDate.getHours() + (this.startDate.getMinutes() / 60);
       const endHours = this.endDate.getHours() + (this.startDate.getMinutes() / 60);
 
-      return this.locale?.formatHourRange(startHours, endHours, {});
+      return this.localeAPI?.formatHourRange(startHours, endHours, {});
     }
 
     return '';

@@ -18,6 +18,10 @@ ids-month-view {
   @include w-full();
 }
 
+#month-year-view-trigger {
+  margin: 4px;
+}
+
 .ids-date-picker-popup {
   min-width: 350px;
 

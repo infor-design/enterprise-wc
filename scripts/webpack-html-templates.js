@@ -1,16 +1,16 @@
 const fs = require('fs');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const NodeFsFiles = require('./node-fs-files');
+const fsFiles = require('./node-fs-files');
 
-let WebpackHtmlTemplates = NodeFsFiles(`./src/components`, 'html');
+let htmlTemplates = fsFiles(`./src/components`, 'html');
 const isWin32 = process.platform === 'win32' ? '\\' : '/';
 const filterComponents = process.env.npm_config_components || '';
 
 if (filterComponents) {
-  WebpackHtmlTemplates = WebpackHtmlTemplates.filter((item) => item.indexOf(filterComponents) > -1 || item.indexOf('ids-container') > -1 || item.indexOf('ids-text') > -1 || item.indexOf('ids-layout-grid') > -1 || item.indexOf('ids-text') > -1);
+  htmlTemplates = htmlTemplates.filter((item) => item.indexOf(filterComponents) > -1 || item.indexOf('ids-container') > -1 || item.indexOf('ids-text') > -1 || item.indexOf('ids-layout-grid') > -1 || item.indexOf('ids-text') > -1);
 }
 
-const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
+const htmlExamples = htmlTemplates.map((template) => {
   const chunkArray = template.split(isWin32);
   chunkArray.splice(0, 2);
   const chunkName = chunkArray[0];
@@ -36,10 +36,12 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
   };
 
   if (!noCSP) {
+    // 'unsafe-eval'is only needed because of
+    // the current devtool used as a workaround.
     metaTags.csp = {
       'http-equiv': 'Content-Security-Policy',
       content: `
-        script-src 'self' https://unpkg.com/;
+        script-src 'self' https://unpkg.com/ 'unsafe-eval';
         style-src 'self' https://fonts.googleapis.com 'nonce-0a59a005';
         font-src 'self' data: https://fonts.gstatic.com;
       `
@@ -58,6 +60,7 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
       filename: `index.html`,
       chunks: chunkList,
       favicon: './src/assets/images/favicon.ico',
+      scriptLoading: 'module',
       meta: metaTags,
       font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&amp;amp;display=swap" rel="stylesheet">'
     });
@@ -76,9 +79,12 @@ const WebpackHtmlExamples = WebpackHtmlTemplates.map((template) => {
     filename: `${chunkName}/${chunkFileName}`,
     chunks: chunkList,
     favicon: './src/assets/images/favicon.ico',
+    scriptLoading: 'module',
     meta: metaTags,
     font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&amp;amp;display=swap" rel="stylesheet">'
   });
 });
 
-module.exports = WebpackHtmlExamples;
+// eslint-disable-next-line no-console
+console.info(`${htmlExamples.length} Examples`);
+module.exports = htmlExamples;

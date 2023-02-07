@@ -4,9 +4,27 @@ import {
 } from '../../core/ids-decorators';
 
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-swappable-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsSelectionMixin from '../../mixins/ids-selection-mixin/ids-selection-mixin';
+import IdsElement from '../../core/ids-element';
+
 import styles from './ids-swappable.scss';
 import IdsSwappableItem from './ids-swappable-item';
+
+const Base = IdsThemeMixin(
+  IdsKeyboardMixin(
+    IdsLocaleMixin(
+      IdsEventsMixin(
+        IdsSelectionMixin(
+          IdsElement
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Swappable Component

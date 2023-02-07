@@ -1,15 +1,14 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { stringToBool, stringToNumber, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
+
+import IdsDropdown from '../ids-dropdown/ids-dropdown';
 
 import '../ids-checkbox/ids-checkbox';
-import '../ids-dropdown/ids-dropdown';
-import Base from './ids-multiselect-base';
 import '../ids-tag/ids-tag';
 import '../ids-text/ids-text';
 
-// Import Sass to be encapsulated in the component shadowRoot
 import styles from './ids-multiselect.scss';
-import { stringToBool, stringToNumber, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
 
 import type { IdsDropdownOption, IdsDropdownOptions } from '../ids-dropdown/ids-dropdown';
 import type IdsTag from '../ids-tag/ids-tag';
@@ -27,7 +26,7 @@ import type IdsText from '../ids-text/ids-text';
  */
 @customElement('ids-multiselect')
 @scss(styles)
-class IdsMultiselect extends Base {
+class IdsMultiselect extends IdsDropdown {
   constructor() {
     super();
   }

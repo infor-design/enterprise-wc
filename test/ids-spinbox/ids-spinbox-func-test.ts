@@ -289,15 +289,4 @@ describe('IdsSpinbox Component', () => {
 
     expect(elem.value).toEqual('20');
   });
-
-  it('can change language from the container', async () => {
-    container = await createFromTemplate(container, `<ids-container id="test-container">${DEFAULT_SPINBOX_HTML}</ids-container>`);
-    await processAnimFrame();
-    elem = container.querySelector('ids-spinbox');
-
-    container.language = 'de';
-    await processAnimFrame();
-
-    expect(elem.language.name).toEqual('de');
-  });
 });

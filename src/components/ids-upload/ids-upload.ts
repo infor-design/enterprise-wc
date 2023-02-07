@@ -2,7 +2,17 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-upload-base';
+import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-label-state-parent-mixin';
+import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
+import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
+import IdsElement from '../../core/ids-element';
+
 import '../ids-trigger-field/ids-trigger-field';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-text/ids-text';
@@ -13,6 +23,26 @@ import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
 // Input id
 const ID = 'ids-upload-id';
+
+const Base = IdsThemeMixin(
+  IdsLabelStateParentMixin(
+    IdsDirtyTrackerMixin(
+      IdsLocaleMixin(
+        IdsFieldHeightMixin(
+          IdsValidationInputMixin(
+            IdsColorVariantMixin(
+              IdsTooltipMixin(
+                IdsEventsMixin(
+                  IdsElement
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Upload Component
@@ -449,24 +479,6 @@ export default class IdsUpload extends Base {
   }
 
   /**
-   * Set the `label` text of input label
-   * @param {string} value of the `label` text property
-   */
-  set label(value: string) {
-    if (value) {
-      this.setAttribute(attributes.LABEL, value);
-      if (this.textInput) this.textInput.label = value;
-    } else {
-      this.removeAttribute(attributes.LABEL);
-      if (this.textInput) this.textInput.label = null;
-    }
-  }
-
-  get label(): string {
-    return this.getAttribute(attributes.LABEL) ?? '';
-  }
-
-  /**
    * Set the label for filetype
    * @param {string | null} value The label for filetype
    */
@@ -483,24 +495,6 @@ export default class IdsUpload extends Base {
 
   get labelFiletype(): string | null {
     return this.getAttribute(attributes.LABEL_FILETYPE);
-  }
-
-  /**
-   * Set `label-required` attribute
-   * @param {boolean|string} value The `label-required` attribute
-   */
-  set labelRequired(value: boolean | string) {
-    if (typeof value === 'boolean' || typeof value === 'string') {
-      this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
-    } else {
-      this.removeAttribute(attributes.LABEL_REQUIRED);
-    }
-    this.textInput.labelRequired = this.labelRequired;
-  }
-
-  get labelRequired(): boolean {
-    const value = this.getAttribute(attributes.LABEL_REQUIRED);
-    return value !== null ? stringToBool(value) : true;
   }
 
   /**

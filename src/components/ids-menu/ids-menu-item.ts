@@ -5,7 +5,11 @@ import {
 } from './ids-menu-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-menu-item-base';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
+
 import '../ids-icon/ids-icon';
 
 import styles from './ids-menu-item.scss';
@@ -15,6 +19,14 @@ import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import type IdsMenu from './ids-menu';
 import type IdsMenuGroup from './ids-menu-group';
 import type IdsIcon from '../ids-icon/ids-icon';
+
+const Base = IdsLocaleMixin(
+  IdsThemeMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS Menu Item Component

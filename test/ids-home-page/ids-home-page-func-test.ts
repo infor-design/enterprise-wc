@@ -7,6 +7,8 @@ import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsHomePage from '../../src/components/ids-home-page/ids-home-page';
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 describe('IdsHomePage Component', () => {
   const origInnerWidth = window.innerWidth;
@@ -31,6 +33,8 @@ describe('IdsHomePage Component', () => {
     const elem = new IdsHomePage();
     container.language = 'en';
     container.appendChild(elem);
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
+
     document.body.appendChild(container);
     container = document.querySelector('ids-container') as IdsContainer;
     homePage = container.querySelector('ids-home-page') as IdsHomePage;

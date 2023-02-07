@@ -1,7 +1,8 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsInput from '../ids-input/ids-input';
 import '../ids-toolbar/ids-toolbar';
-import Base from './ids-list-builder-base';
+import IdsListView from '../ids-list-view/ids-list-view';
+
 import styles from './ids-list-builder.scss';
 import IdsSwappableItem from '../ids-swappable/ids-swappable-item';
 
@@ -15,7 +16,7 @@ import IdsSwappableItem from '../ids-swappable/ids-swappable-item';
  */
 @customElement('ids-list-builder')
 @scss(styles)
-export default class IdsListBuilder extends Base {
+export default class IdsListBuilder extends IdsListView {
   /**
    * Call the constructor and then initialize
    */

@@ -7,9 +7,21 @@ import '../ids-alert/ids-alert';
 import '../ids-icon/ids-icon';
 import '../ids-hyperlink/ids-hyperlink';
 import '../ids-button/ids-button';
-import Base from './ids-notification-banner-base';
+
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-notification-banner.scss';
+
+const Base = IdsThemeMixin(
+  IdsKeyboardMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS Notification Banner

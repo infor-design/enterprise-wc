@@ -2,9 +2,18 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 import { hoursTo12, hoursTo24, isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-import Base from './ids-time-picker-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-label-state-parent-mixin';
+import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
+import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
+import IdsElement from '../../core/ids-element';
+
 import { IdsTimePickerCommonAttributes, IdsTimePickerMixinAttributes, range } from './ids-time-picker-common';
 
 import '../ids-dropdown/ids-dropdown';
@@ -17,6 +26,26 @@ import type IdsPopup from '../ids-popup/ids-popup';
 
 import styles from './ids-time-picker.scss';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
+
+const Base = IdsThemeMixin(
+  IdsLabelStateParentMixin(
+    IdsDirtyTrackerMixin(
+      IdsFieldHeightMixin(
+        IdsColorVariantMixin(
+          IdsValidationInputMixin(
+            IdsLocaleMixin(
+              IdsKeyboardMixin(
+                IdsEventsMixin(
+                  IdsElement
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS TimePicker Component
@@ -295,16 +324,6 @@ export default class IdsTimePicker extends Base {
       }
     });
 
-    // Translate Labels
-    this.offEvent('languagechange.time-picker-container');
-    this.onEvent('languagechange.time-picker-container', getClosest(this, 'ids-container'), () => {
-      if (!this.hasAttribute(attributes.FORMAT)) {
-        this.setAttribute(attributes.FORMAT, this.locale?.calendar().timeFormat);
-      }
-      this.picker?.renderDropdowns();
-      this.#setTimeValidation();
-    });
-
     // Change component value on input value change
     this.offEvent('change.time-picker-input');
     this.onEvent('change.time-picker-input', this.input, (e: any) => {
@@ -314,11 +333,20 @@ export default class IdsTimePicker extends Base {
     return this;
   }
 
+  /** Translate Labels on Language Change */
+  onLanguageChange = () => {
+    if (!this.hasAttribute(attributes.FORMAT)) {
+      this.setAttribute(attributes.FORMAT, this.localeAPI?.calendar().timeFormat);
+    }
+    this.picker?.renderDropdowns();
+    this.#setTimeValidation();
+  };
+
   /**
    * Parse input date and populate dropdowns
    */
   #parseInputValue(): void {
-    const inputDate = this.locale?.parseDate(
+    const inputDate = this.localeAPI?.parseDate(
       this.input?.value || this.value,
       { dateFormat: this.format }
     ) as Date;
@@ -326,7 +354,7 @@ export default class IdsTimePicker extends Base {
     const hours12 = hoursTo12(hours24);
     const minutes = inputDate?.getMinutes();
     const seconds = inputDate?.getSeconds();
-    const period = inputDate && this.locale?.calendar()?.dayPeriods[hours24 >= 12 ? 1 : 0];
+    const period = inputDate && this.localeAPI?.calendar()?.dayPeriods[hours24 >= 12 ? 1 : 0];
 
     if (this.#is24Hours() && hours24 !== this.hours) {
       this.hours = hours24;
@@ -383,7 +411,7 @@ export default class IdsTimePicker extends Base {
       return range(this.startHour, this.endHour > 23 ? 23 : this.endHour);
     }
 
-    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+    const dayPeriodIndex = this.localeAPI?.calendar().dayPeriods?.indexOf(this.period);
 
     // Including 12AM or 12PM to the range
     if ((dayPeriodIndex === 0 && this.startHour === 0)
@@ -406,7 +434,7 @@ export default class IdsTimePicker extends Base {
    * @returns {number} start hour in range by day period
    */
   #getPeriodStartHour(): number {
-    const dayPeriodIndex: number = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+    const dayPeriodIndex: number = this.localeAPI?.calendar().dayPeriods?.indexOf(this.period);
 
     if ((this.startHour <= 12 && dayPeriodIndex === 1) || this.startHour === 0) {
       return 1;
@@ -423,7 +451,7 @@ export default class IdsTimePicker extends Base {
    * @returns {number} end hour in range by day period
    */
   #getPeriodEndHour() {
-    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+    const dayPeriodIndex = this.localeAPI?.calendar().dayPeriods?.indexOf(this.period);
 
     if ((this.endHour >= 12 && dayPeriodIndex === 0) || this.endHour === 24) {
       return 11;
@@ -440,7 +468,7 @@ export default class IdsTimePicker extends Base {
    * @returns {Array<string>} list of available day periods
    */
   #getDayPeriodsWithRange(): Array<string> {
-    const dayPeriods: Array<string> = this.locale?.calendar().dayPeriods || [];
+    const dayPeriods: Array<string> = this.localeAPI?.calendar().dayPeriods || [];
 
     if (!this.#hasHourRange()) {
       return dayPeriods;
@@ -466,14 +494,14 @@ export default class IdsTimePicker extends Base {
   #getTimeOnField(): string {
     const date: Date = new Date();
 
-    const dayPeriodIndex: number = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+    const dayPeriodIndex: number = this.localeAPI?.calendar().dayPeriods?.indexOf(this.period);
     date.setHours(
       hoursTo24(this.hours, dayPeriodIndex),
       this.minutes,
       this.seconds
     );
 
-    return this.locale.formatDate(date, { pattern: this.format });
+    return this.localeAPI.formatDate(date, { pattern: this.format });
   }
 
   /**
@@ -495,11 +523,11 @@ export default class IdsTimePicker extends Base {
       this.input?.addValidationRule({
         id: 'time',
         type: 'error',
-        message: this.locale?.translate('InvalidTime'),
+        message: this.localeAPI?.translate('InvalidTime'),
         check: (input: any) => {
           if (!input.value) return true;
 
-          const date = this.locale.parseDate(
+          const date = this.localeAPI.parseDate(
             input.value,
             { dateFormat: this.format, strictTime: true }
           ) as Date;
@@ -562,7 +590,7 @@ export default class IdsTimePicker extends Base {
     if (this.picker) {
       this.picker.removeAttribute(attributes.TABINDEX);
       if (this.picker.popup) {
-        this.picker.popup.align = `bottom, ${this.locale.isRTL() || ['md', 'lg', 'full'].includes(this.size) ? 'right' : 'left'}`;
+        this.picker.popup.align = `bottom, ${this.localeAPI.isRTL() || ['md', 'lg', 'full'].includes(this.size) ? 'right' : 'left'}`;
         this.picker.popup.arrow = 'bottom';
         this.picker.popup.y = 16;
       }
@@ -600,7 +628,7 @@ export default class IdsTimePicker extends Base {
       this.picker?.setAttribute(attributes.FORMAT, `${value}`);
     } else {
       this.removeAttribute(attributes.FORMAT);
-      this.picker?.setAttribute(attributes.FORMAT, `${this.locale?.calendar().timeFormat}`);
+      this.picker?.setAttribute(attributes.FORMAT, `${this.localeAPI?.calendar().timeFormat}`);
     }
     this.#applyMask();
   }
@@ -610,7 +638,7 @@ export default class IdsTimePicker extends Base {
    * @returns {string} the time format being used
    */
   get format(): string {
-    return this.getAttribute(attributes.FORMAT) || this.locale?.calendar().timeFormat || 'hh:mm a';
+    return this.getAttribute(attributes.FORMAT) || this.localeAPI?.calendar().timeFormat || 'hh:mm a';
   }
 
   /**
@@ -955,7 +983,7 @@ export default class IdsTimePicker extends Base {
    * @returns {number} input value in 24 hours format
    */
   get hours24(): number {
-    const inputDate = this.locale?.parseDate(
+    const inputDate = this.localeAPI?.parseDate(
       this.input?.value || this.value,
       { dateFormat: this.format }
     ) as Date;

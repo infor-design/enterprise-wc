@@ -2,9 +2,17 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsDataSource from '../../core/ids-data-source';
 import IdsBlockGridItem from './ids-block-grid-item';
-import Base from './ids-block-grid-base';
+import IdsElement from '../../core/ids-element';
+import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 
 import styles from './ids-block-grid.scss';
+
+const Base = IdsPagerMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Block Grid Component

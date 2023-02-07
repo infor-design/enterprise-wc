@@ -80,7 +80,7 @@ const IdsLabelStateParentMixin = <T extends Constraints>(superclass: T) => class
     if (isValid) {
       this.setAttribute(attributes.LABEL_REQUIRED, isValid.toString());
     } else {
-      this.removeAttribute(attributes.LABEL_REQUIRED);
+      this.setAttribute(attributes.LABEL_REQUIRED, 'false');
     }
     if (typeof this.onLabelRequiredChange === 'function') this.onLabelRequiredChange();
   }

@@ -237,7 +237,7 @@ export default class IdsDataGridCell extends IdsElement {
     const column = this.column;
     this.dataGrid.resetCache(this.dataGrid?.activeCell.row);
     if (column.editor?.editorSettings?.mask === 'date') {
-      newValue = this.dataGrid.locale.parseDate(newValue, column.formatOptions);
+      newValue = this.dataGrid.localeAPI.parseDate(newValue, column.formatOptions);
     }
     this.dataGrid?.updateDataset(this.row, {
       [String(column?.field)]: newValue,

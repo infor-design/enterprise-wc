@@ -487,7 +487,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `saveSetting(setting: string)` Save the given setting to local storage.
 - `saveAllSettings` Save all user settings to local storage.
 - `savedSetting(setting: string)` Get saved given setting value from local storage.
-- `savedAllSettings` Get saved all user settings from local storage.
+- `allSavedSettings` Get saved all user settings from local storage.
 - `clearSetting(setting: string, key?: string)` Clear the given saved setting from local storage.
 - `clearAllSettings(userKeys: unknown)` Clear saved all user settings from local storage.
 - `restoreSetting(setting: string, value?: unknown)` Restore the given saved setting from local storage.
