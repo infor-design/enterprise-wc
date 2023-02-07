@@ -153,4 +153,9 @@ describe('Ids Data Grid Other Percy Tests', () => {
     await page.waitForSelector('ids-layout-grid-cell');
     await percySnapshot(page, 'ids-data-grid-editable-grid');
   });
+
+  it('should not have visual regressions in tree custom css', async () => {
+    await page.goto('http://localhost:4444/ids-data-grid/tree-grid-custom-css.html', { waitUntil: ['networkidle2', 'load'] });
+    await percySnapshot(page, 'tree-grid-custom-css', { widths: [1280] });
+  });
 });

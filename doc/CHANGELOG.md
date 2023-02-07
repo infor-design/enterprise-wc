@@ -5,6 +5,7 @@
 ### 1.0.0-beta.4 Fixes
 
 - `[General]` Fixed to angular examples where attributes property binding was not work properly for ids-toggle-button, ids-app-menu, ids-menu-button, ids-pager, ids-text, ids-toolbar. ([#941](https://github.com/infor-design/enterprise-wc/issues/941))
+- `[DataGrid]` Added an addition to the `ids-data-grid/tree-grid-custom-css.html` example to show a link in the tree expander cell. This required a change to the structure of the `click` callback so that the event data can be used to view the target element. The types did not match the function signature. ([#1076](https://github.com/infor-design/enterprise-wc/issues/1076))
 
 ## 1.0.0-beta.3
 

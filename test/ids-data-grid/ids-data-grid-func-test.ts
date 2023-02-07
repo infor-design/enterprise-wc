@@ -1702,6 +1702,31 @@ describe('IdsDataGrid Component', () => {
       expect(clickListener).toHaveBeenCalledTimes(1);
     });
 
+    it('column click event supports event data', (done) => {
+      const mockCallback = jest.fn((rowData: any, columnData: any, e: MouseEvent) => {
+        expect(rowData).toBeTruthy();
+        expect(columnData).toBeTruthy();
+        expect((e.target as any).nodeName).toBe('IDS-BUTTON');
+        done();
+      });
+      dataGrid.columns = [{
+        id: 'button',
+        name: 'button',
+        sortable: false,
+        resizable: false,
+        formatter: dataGrid.formatters.button,
+        icon: 'settings',
+        align: 'center',
+        type: 'icon',
+        click: mockCallback,
+        text: 'button'
+      }];
+
+      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+      button.dispatchEvent(mouseClick);
+    });
+
     it('can render with the button formatter defaults', async () => {
       dataGrid.columns = [{
         id: 'button',
