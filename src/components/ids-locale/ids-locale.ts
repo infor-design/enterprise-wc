@@ -1,4 +1,7 @@
 import { isValidDate, gregorianToUmalqura } from '../../utils/ids-date-utils/ids-date-utils';
+import { locale as localeEn } from './data/en-US';
+import { messages as messagesEn } from './data/en-messages';
+import IdsLocaleData from './ids-locale-data';
 
 /**
  * A mixin that adds locale functionality to components
@@ -6,12 +9,6 @@ import { isValidDate, gregorianToUmalqura } from '../../utils/ids-date-utils/ids
  * @returns {any} The extended object
  */
 class IdsLocale {
-  // The Locale files that have been loaded up
-  loadedLocales?: any = new Map();
-
-  // The lang files that have been loaded up
-  loadedLanguages?: any = new Map();
-
   // State object
   state?: any;
 
@@ -19,8 +16,8 @@ class IdsLocale {
   dateFormatter?: Intl.DateTimeFormat;
 
   constructor() {
-    this.loadedLocales = new Map();
-    this.loadedLanguages = new Map();
+    IdsLocaleData.loadedLocales.set('en-US', localeEn);
+    IdsLocaleData.loadedLanguages.set('en', messagesEn);
 
     this.state = {
       defaultLocale: {
@@ -46,7 +43,7 @@ class IdsLocale {
     this.state.defaultLocale.messages = this.language.messages;
     this.state.defaultLocale.language = defaultLang;
     this.state.defaultLocale.localeName = defaultLocale;
-    this.state.defaultLocale.localeOptions = this.loadedLocales.get(defaultLocale);
+    this.state.defaultLocale.localeOptions = IdsLocaleData.loadedLocales.get(defaultLocale);
   }
 
   /**
@@ -56,10 +53,10 @@ class IdsLocale {
    * @returns {Promise} A promise that will resolve when complete
    */
   loadLanguageScript(value: string) {
-    const promise = import(`./cultures/${value}-messages.ts`);
+    const promise = import(/* webpackIgnore: true */`../locale-data/${value}-messages.js`);
     promise.then((module) => {
       // do something with the translations
-      this.loadedLanguages.set(value, module.messages);
+      IdsLocaleData.loadedLanguages.set(value, module.messages);
     });
     return promise;
   }
@@ -69,12 +66,30 @@ class IdsLocale {
    * @param {HTMLElement} elem The element to set it on.
    * @param {string} value The value to check
    */
-  updateLangTag(elem: HTMLElement, value: string) {
+  updateDirectionAttribute(elem: HTMLElement, value: string) {
     if (this.isRTL(value)) {
       elem.setAttribute('dir', 'rtl');
       return;
     }
     elem.removeAttribute('dir');
+  }
+
+  /**
+   * Sets the lang (langauge) tag on an element
+   * @param {HTMLElement} elem The element to set it on.
+   * @param {string} value The value to check
+   */
+  setDocumentLangAttribute(elem: HTMLElement, value: string) {
+    if (value) {
+      document?.querySelector('html')?.setAttribute('lang', value);
+      return;
+    }
+    document?.querySelector('html')?.removeAttribute('lang');
+  }
+
+  /** Reset the language attribute to clean up */
+  removeLangAttribute() {
+    document?.querySelector('html')?.removeAttribute('lang');
   }
 
   /**
@@ -95,7 +110,7 @@ class IdsLocale {
   get language(): any {
     return {
       name: this.state.language,
-      messages: this.loadedLanguages.get(this.state.language) || {}
+      messages: IdsLocaleData.loadedLanguages.get(this.state.language) || {}
     };
   }
 
@@ -107,19 +122,12 @@ class IdsLocale {
     const lang = this.correctLanguage(value);
     if (this.state.language !== lang) {
       this.state.language = lang;
-
-      document.querySelector('html')?.setAttribute('lang', lang);
     }
 
-    if (this.state.language === lang && this.loadedLanguages.get(this.state.language)) {
+    if (this.state.language === lang && IdsLocaleData.loadedLanguages.get(this.state.language)) {
       return;
     }
     await this.loadLanguageScript(lang);
-  }
-
-  /** Reset the language attribute to clean up */
-  removeLangAttribute() {
-    document.querySelector('html')?.removeAttribute('lang');
   }
 
   /**
@@ -166,7 +174,7 @@ class IdsLocale {
 
     let messages = this.language.messages;
     if (options?.language) {
-      messages = this.loadedLanguages.get(options?.language) || messages;
+      messages = IdsLocaleData.loadedLanguages.get(options?.language) || messages;
     }
 
     // Substitue The English Expression if missing
@@ -191,15 +199,15 @@ class IdsLocale {
    * @param {object} messages Strings in the form of
    */
   extendTranslations(lang: string, messages: any) {
-    if (!this.loadedLanguages.has(lang)) {
+    if (!IdsLocaleData.loadedLanguages.has(lang)) {
       return;
     }
 
-    const base = this.loadedLanguages.get(lang);
+    const base = IdsLocaleData.loadedLanguages.get(lang);
     Object.keys(messages).forEach((key) => {
       base[key] = messages[key];
     });
-    this.loadedLanguages.set(lang, base);
+    IdsLocaleData.loadedLanguages.set(lang, base);
   }
 
   /**
@@ -209,10 +217,10 @@ class IdsLocale {
    * @returns {Promise} A promise that will resolve when complete
    */
   loadLocaleScript(value: string) {
-    const promise = import(`./cultures/${value}.ts`);
+    const promise = import(/* webpackIgnore: true */`../locale-data/${value}.js`);
     promise.then((module) => {
       // do something with the locale data
-      this.loadedLocales.set(value, module.locale);
+      IdsLocaleData.loadedLocales.set(value, module.locale);
     });
     return promise;
   }
@@ -235,7 +243,7 @@ class IdsLocale {
   get locale(): any {
     return {
       name: this.state.localeName,
-      options: this.loadedLocales.get(this.state.localeName) || {}
+      options: IdsLocaleData.loadedLocales.get(this.state.localeName) || {}
     };
   }
 
@@ -243,7 +251,7 @@ class IdsLocale {
    * Set the locale for a component and wait for it to finish (async)
    * @param {string} value The locale string value
    */
-  async setLocale(value: string) {
+  async setLocale(value: string | null | undefined) {
     if (!value) {
       return;
     }
@@ -254,7 +262,7 @@ class IdsLocale {
       this.setLanguage(locale);
     }
 
-    if (this.state.localeName === locale && this.loadedLocales.get(this.state.localeName)) {
+    if (this.state.localeName === locale && IdsLocaleData.loadedLocales.get(this.state.localeName)) {
       return;
     }
     await this.loadLocaleScript(locale);
@@ -284,7 +292,7 @@ class IdsLocale {
    * @param {object} [options] the objects to use for formatting
    * @returns {string} the formatted number
    */
-  formatNumber(value: any, options: any): string {
+  formatNumber(value: any, options?: any): string {
     // Set some options to map it closer to our old defaults
     let opts = options;
     let val = value;
@@ -341,7 +349,7 @@ class IdsLocale {
    * is a big int (19 significant digits), in this case a string will be returned
    */
   parseNumber(input: string, options?: any): number | string {
-    const localeData = this.loadedLocales.get(options?.locale || this.locale.name);
+    const localeData = IdsLocaleData.loadedLocales.get(options?.locale || this.locale.name);
     const numSettings = localeData.numbers;
     let numString: string | number = input;
 
@@ -1233,7 +1241,7 @@ class IdsLocale {
    * @returns {object} containing calendar data
    */
   calendar(locale?: string, name?: string): any {
-    const localeData = this.loadedLocales.get(locale || this.locale.name);
+    const localeData = IdsLocaleData.loadedLocales.get(locale || this.locale.name);
     const calendars = localeData?.calendars;
     if (name && calendars) {
       for (let i = 0; i < calendars.length; i++) {
@@ -1252,7 +1260,7 @@ class IdsLocale {
    * @returns {object} containing calendar data for numbers
    */
   numbers(locale?: string): any {
-    const localeData = this.loadedLocales.get(locale || this.locale.name);
+    const localeData = IdsLocaleData.loadedLocales.get(locale || this.locale.name);
     return localeData.numbers;
   }
 }

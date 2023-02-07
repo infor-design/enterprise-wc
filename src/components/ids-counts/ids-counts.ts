@@ -2,12 +2,21 @@ import { customElement, scss, } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-count-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
+
 import '../ids-text/ids-text';
 import '../ids-hyperlink/ids-hyperlink';
 
 import styles from './ids-counts.scss';
 import type IdsText from '../ids-text/ids-text';
+
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Counts Component

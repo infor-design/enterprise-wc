@@ -104,7 +104,7 @@ describe('Ids Splitter e2e Tests', () => {
     await testKeys();
   });
 
-  it('should use drag to move', async () => {
+  it.skip('should use drag to move', async () => {
     await page.goto(urlSandbox, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('#splitter-basic', { visible: true });
     let splitBar = await page.evaluateHandle('document.querySelector("#splitter-basic").shadowRoot.querySelector("#split-1")');

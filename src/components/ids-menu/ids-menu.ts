@@ -4,7 +4,11 @@ import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils
 import { isValidGroup, isUsableItem } from './ids-menu-attributes';
 
 import IdsDataSource from '../../core/ids-data-source';
-import Base from './ids-menu-base';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+
 import './ids-menu-group';
 import './ids-menu-header';
 import './ids-menu-item';
@@ -14,6 +18,14 @@ import styles from './ids-menu.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import type IdsMenuItem from './ids-menu-item';
 import type IdsMenuHeader from './ids-menu-header';
+
+const Base = IdsKeyboardMixin(
+  IdsThemeMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS Menu Component

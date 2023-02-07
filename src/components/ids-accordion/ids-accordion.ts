@@ -1,12 +1,32 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import Base from './ids-accordion-base';
+
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
+
 import './ids-accordion-header';
 import './ids-accordion-panel';
 import styles from './ids-accordion.scss';
+
 import type IdsAccordionHeader from './ids-accordion-header';
 import type IdsAccordionPanel from './ids-accordion-panel';
+
+const Base = IdsColorVariantMixin(
+  IdsThemeMixin(
+    IdsKeyboardMixin(
+      IdsLocaleMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Accordion Component
@@ -247,20 +267,20 @@ export default class IdsAccordion extends Base {
    * @returns {void}
    */
   #handleEvents() {
-    this.offEvent('languagechange.accordion-container');
-    this.onEvent('languagechange.accordion-container', this.closest('ids-container'), () => {
-      // TODO - Do we need this?
-      // if (this.header) {
-      //   this.header.language = e.detail.language.name;
-      // }
-      this.#assignDepthDependentStyles(this, 0, false, false, false, true);
-    });
-
     // Responds to `selected` events triggered by children
     this.onEvent('selected', this, (e: CustomEvent) => {
       this.#deselectOtherHeaders((e.target as HTMLElement));
     });
   }
+
+  /** Respond to language changes */
+  onLanguageChange = () => {
+    // TODO - Do we need this?
+    // if (this.header) {
+    //   this.header.language = e.detail.language.name;
+    // }
+    this.#assignDepthDependentStyles(this, 0, false, false, false, true);
+  };
 
   /**
    * Makes accordion headers appear to be deselected, except for the provided one.

@@ -1,7 +1,8 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
-import Base from './ids-line-chart-base';
+import IdsAxisChart from '../ids-axis-chart/ids-axis-chart';
+
 import styles from './ids-line-chart.scss';
 
 type IdsLineChartMarkers = {
@@ -32,7 +33,7 @@ type IdsLineChartSelectedBy = {
  */
 @customElement('ids-line-chart')
 @scss(styles)
-export default class IdsLineChart extends Base {
+export default class IdsLineChart extends IdsAxisChart {
   constructor() {
     super();
 

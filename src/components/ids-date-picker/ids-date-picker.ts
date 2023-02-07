@@ -1,7 +1,18 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import Base from './ids-date-picker-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-label-state-parent-mixin';
+import IdsDateAttributeMixin from '../../mixins/ids-date-attribute-mixin/ids-date-attribute-mixin';
+import IdsMonthViewAttributeMixin from '../ids-month-view/ids-month-view-attribute-mixin';
+import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
+import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
+import IdsElement from '../../core/ids-element';
 
 import {
   buildClassAttrib,
@@ -11,8 +22,6 @@ import {
 import {
   isValidDate, umalquraToGregorian, hoursTo24
 } from '../../utils/ids-date-utils/ids-date-utils';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
-
 // Supporting components
 import './ids-date-picker-popup';
 import '../ids-button/ids-button';
@@ -41,6 +50,30 @@ import type IdsToggleButton from '../ids-toggle-button/ids-toggle-button';
 import styles from './ids-date-picker.scss';
 
 type IdsDatePickerPopupRef = IdsDatePickerPopup | null | undefined;
+
+const Base = IdsThemeMixin(
+  IdsDirtyTrackerMixin(
+    IdsLabelStateParentMixin(
+      IdsFieldHeightMixin(
+        IdsColorVariantMixin(
+          IdsValidationInputMixin(
+            IdsMonthViewAttributeMixin(
+              IdsDateAttributeMixin(
+                IdsLocaleMixin(
+                  IdsKeyboardMixin(
+                    IdsEventsMixin(
+                      IdsElement
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Date Picker Component
@@ -288,7 +321,7 @@ class IdsDatePicker extends Base {
 
       // Configure inner IdsPopup
       this.#picker.popup?.setAttribute(attributes.ARROW_TARGET, `#${this.#triggerButton.getAttribute('id')}`);
-      if (this.locale && this.locale.isRTL) this.#picker.popup?.setAttribute(attributes.ALIGN, `bottom, ${this.locale.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
+      if (this.localeAPI && this.localeAPI.isRTL) this.#picker.popup?.setAttribute(attributes.ALIGN, `bottom, ${this.localeAPI.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
 
       this.#picker.refreshTriggerEvents();
 
@@ -304,24 +337,6 @@ class IdsDatePicker extends Base {
    * @returns {object} The object for chaining
    */
   #attachEventHandlers(): object {
-    // Respond to container changing locale
-    this.offEvent('localechange.date-picker-container');
-    this.onEvent('localechange.date-picker-container', getClosest(this, 'ids-container'), () => {
-      this.setDirection();
-      this.#applyMask();
-
-      // Locale change first day of week only if it's not set as attribute
-      if (this.firstDayOfWeek === null) {
-        this.firstDayOfWeek = this.locale?.calendar().firstDayofWeek || 0;
-      }
-    });
-
-    // Respond to container changing language
-    this.offEvent('languagechange.date-picker-container');
-    this.onEvent('languagechange.date-picker-container', getClosest(this, 'ids-container'), () => {
-      this.#setAvailableDateValidation();
-    });
-
     // Input value change triggers component value change
     this.offEvent('change.date-picker-input');
     this.onEvent('change.date-picker-input', this.#triggerField, (e: any) => {
@@ -355,6 +370,32 @@ class IdsDatePicker extends Base {
 
     return this;
   }
+
+  // Respond to changing locale
+  onLocaleChange = () => {
+    if (this.#picker) {
+      this.#picker.locale = this.locale;
+      this.#picker.language = this.language.name;
+    }
+    this.#triggerField.locale = this.locale;
+    this.#triggerField.language = this.language.name;
+    this.setDirection();
+    this.#applyMask();
+
+    // Locale change first day of week only if it's not set as attribute
+    if (this.firstDayOfWeek === null) {
+      this.firstDayOfWeek = this.localeAPI?.calendar().firstDayofWeek || 0;
+    }
+  };
+
+  // Respond to changing language
+  onLanguageChange = () => {
+    this.#triggerField.language = this.language.name;
+    if (this.#picker) {
+      (this.#picker as any).language = this.language.name;
+    }
+    this.#setAvailableDateValidation();
+  };
 
   /**
    * Establish Internal Keyboard shortcuts
@@ -484,11 +525,11 @@ class IdsDatePicker extends Base {
   #parseInputDate() {
     if (this.isCalendarToolbar) return;
 
-    const parsedDate = this.locale.parseDate(
+    const parsedDate = this.localeAPI.parseDate(
       this.#triggerField?.value,
       { dateFormat: this.format }
     );
-    const inputDate = this.locale.isIslamic() ? (parsedDate && umalquraToGregorian(
+    const inputDate = this.localeAPI.isIslamic() ? (parsedDate && umalquraToGregorian(
       (parsedDate as number[])[0],
       (parsedDate as number[])[1],
       (parsedDate as number[])[2]
@@ -527,11 +568,11 @@ class IdsDatePicker extends Base {
     }
 
     const rangeParts: Array<string> = this.#triggerField.value?.split(this.rangeSettings.separator) || [];
-    const rangeStart = rangeParts[0] ? this.locale.parseDate(
+    const rangeStart = rangeParts[0] ? this.localeAPI.parseDate(
       rangeParts[0],
       { dateFormat: this.format }
     ) : null;
-    const rangeEnd = rangeParts[1] ? this.locale.parseDate(
+    const rangeEnd = rangeParts[1] ? this.localeAPI.parseDate(
       rangeParts[1],
       { dateFormat: this.format }
     ) : null;
@@ -592,11 +633,11 @@ class IdsDatePicker extends Base {
       this.#triggerField?.addValidationRule({
         id: 'availableDate',
         type: 'error',
-        message: this.locale?.translate('UnavailableDate'),
+        message: this.localeAPI?.translate('UnavailableDate'),
         check: (input: any) => {
           if (!input.value) return true;
 
-          const date = this.locale.parseDate(
+          const date = this.localeAPI.parseDate(
             input.value,
             this.format
           ) as Date;
@@ -659,7 +700,7 @@ class IdsDatePicker extends Base {
     const minutes: number = timePicker.minutes;
     const seconds: number = timePicker.seconds;
     const period: string = timePicker.period;
-    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(period);
+    const dayPeriodIndex = this.localeAPI?.calendar().dayPeriods?.indexOf(period);
 
     date.setHours(hoursTo24(hours, dayPeriodIndex), minutes, seconds);
 
@@ -1076,8 +1117,8 @@ class IdsDatePicker extends Base {
       this.#picker.rangeSettings = val;
 
       if (val?.start && val?.end) {
-        const startDate = this.locale.formatDate(this.#setTime(val.start), { pattern: this.format });
-        const endDate = this.locale.formatDate(this.#setTime(val.end), { pattern: this.format });
+        const startDate = this.localeAPI.formatDate(this.#setTime(val.start), { pattern: this.format });
+        const endDate = this.localeAPI.formatDate(this.#setTime(val.end), { pattern: this.format });
         this.value = `${startDate}${this.rangeSettings.separator}${endDate}`;
       }
     }

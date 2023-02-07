@@ -2,10 +2,24 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-text/ids-text';
-import Base from './ids-radio-group-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation-mixin';
+import IdsElement from '../../core/ids-element';
 import type IdsRadio from './ids-radio';
 
 import styles from './ids-radio-group.scss';
+
+const Base = IdsValidationMixin(
+  IdsDirtyTrackerMixin(
+    IdsLocaleMixin(
+      IdsEventsMixin(
+        IdsElement
+      )
+    )
+  )
+);
 
 /**
  * IDS Radio Group Component
@@ -74,7 +88,7 @@ export default class IdsRadioGroup extends Base {
     const disabledAria = stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
     const horizontal = stringToBool(this.horizontal) ? ' horizontal' : '';
     const rootClass = ` class="ids-radio-group${disabled}${horizontal}"`;
-    const rInd = !(stringToBool(this.labelRequired) || this.labelRequired === null);
+    const rInd = !(stringToBool((this as any).labelRequired) || (this as any).labelRequired === null);
     const labelClass = ` class="group-label-text${rInd ? ' no-required-indicator' : ''}"`;
 
     // Label
@@ -329,36 +343,6 @@ export default class IdsRadioGroup extends Base {
   }
 
   get labelRequired(): string | null { return this.getAttribute(attributes.LABEL_REQUIRED); }
-
-  /**
-   * Sets the validation check to use
-   * @param {string | null} value The `validate` attribute
-   */
-  set validate(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATE, value);
-    } else {
-      this.removeAttribute(attributes.VALIDATE);
-    }
-    this.handleValidation();
-  }
-
-  get validate(): string | null { return this.getAttribute(attributes.VALIDATE); }
-
-  /**
-   * Sets which events to fire validation on
-   * @param {string | null} value The `validation-events` attribute
-   */
-  set validationEvents(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATION_EVENTS, value);
-    } else {
-      this.removeAttribute(attributes.VALIDATION_EVENTS);
-    }
-    this.handleValidation();
-  }
-
-  get validationEvents(): string | null { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Sets the checkbox `value` attribute

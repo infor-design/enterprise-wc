@@ -306,7 +306,7 @@ const IdsDataGridSaveSettingsMixin = <T extends Constraints>(superclass: T) => c
    * Get saved all user settings.
    * @returns {IdsDataGridSaveSettings} Saved value
    */
-  savedAllSettings(): IdsDataGridSaveSettings {
+  allSavedSettings(): IdsDataGridSaveSettings {
     return Object.fromEntries(
       Object.entries(this.settings).map(([k, v]) => [k, this.savedSetting(v)])
     );

@@ -3,6 +3,8 @@
  */
 import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 
 describe('IdsCheckbox Component', () => {
   let cb: any;
@@ -12,6 +14,8 @@ describe('IdsCheckbox Component', () => {
     container = new IdsContainer();
     const elem: any = new IdsCheckbox();
     container.appendChild(elem);
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
+
     document.body.appendChild(container);
     cb = document.querySelector('ids-checkbox');
   });
@@ -312,8 +316,8 @@ describe('IdsCheckbox Component', () => {
     expect(cb.getAttribute('indeterminate')).toEqual('true');
   });
 
-  it('can change language to rtl from the container', () => {
-    container.language = 'ar';
+  it('can change language to rtl from the container', async () => {
+    await container.setLanguage('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');
   });
 

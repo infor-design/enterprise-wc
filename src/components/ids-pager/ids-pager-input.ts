@@ -1,7 +1,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import Base from './ids-pager-input-base';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+
 import '../ids-input/ids-input';
 import '../ids-text/ids-text';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
@@ -9,6 +12,12 @@ import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-s
 import styles from './ids-pager-input.scss';
 import type IdsInput from '../ids-input/ids-input';
 import type IdsPager from './ids-pager';
+
+const Base = IdsKeyboardMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS PagerInput Component

@@ -77,6 +77,8 @@ const Base = IdsThemeMixin(
 @customElement('ids-data-grid')
 @scss(styles)
 export default class IdsDataGrid extends Base {
+  initialized = false;
+
   isResizing = false;
 
   activeCell: Record<string, any> = {};
@@ -532,20 +534,16 @@ export default class IdsDataGrid extends Base {
       });
     });
 
-    // Handle the Locale Change
-    this.offEvent('languagechange.data-grid-container');
-    this.onEvent('languagechange.data-grid-container', this.closest('ids-container'), () => {
-      this.redraw();
-    });
-
-    this.offEvent('localechange.data-grid-container');
-    this.onEvent('localechange.data-grid-container', this.closest('ids-container'), () => {
-      this.redraw();
-    });
-
     this.filters?.attachFilterEventHandlers();
     this.attachSaveSettingsEventHandlers?.();
   }
+
+  /**
+   * Handle Locale (and language) change
+   */
+  onLocaleChange = () => {
+    this.redraw();
+  };
 
   /**
    * Move a column to a new position. Use `columnIndex` to get the column by id.

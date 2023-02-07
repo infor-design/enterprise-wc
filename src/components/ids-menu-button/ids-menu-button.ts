@@ -2,7 +2,8 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 
-import Base from './ids-menu-button-base';
+import IdsButton from '../ids-button/ids-button';
+
 import '../ids-icon/ids-icon';
 import '../ids-popup-menu/ids-popup-menu';
 import '../ids-menu/ids-menu-group';
@@ -19,7 +20,7 @@ import type IdsIcon from '../ids-icon/ids-icon';
  */
 @customElement('ids-menu-button')
 @scss(styles)
-export default class IdsMenuButton extends Base {
+export default class IdsMenuButton extends IdsButton {
   constructor() {
     super();
   }

@@ -2,13 +2,36 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-textarea-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsLabelStateMixin from '../../mixins/ids-label-state-mixin/ids-label-state-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsClearableMixin from '../../mixins/ids-clearable-mixin/ids-clearable-mixin';
+import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
+import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
 import '../ids-trigger-field/ids-trigger-field';
 
 import styles from './ids-textarea.scss';
+
+const Base = IdsThemeMixin(
+  IdsDirtyTrackerMixin(
+    IdsLocaleMixin(
+      IdsLabelStateMixin(
+        IdsValidationMixin(
+          IdsClearableMixin(
+            IdsEventsMixin(
+              IdsElement
+            )
+          )
+        )
+      )
+    )
+  )
+);
 
 // Textarea id
 const ID = 'ids-textarea-id';

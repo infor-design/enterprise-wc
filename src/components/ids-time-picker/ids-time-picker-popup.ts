@@ -101,21 +101,21 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
 
     const hours = dropdown({
       id: 'hours',
-      label: this.locale?.translate('Hours') || 'Hours',
+      label: this.localeAPI?.translate('Hours') || 'Hours',
       options: this.#getHourOptions(),
       value: this.hours,
       padStart: this.format.includes('HH') || this.format.includes('hh')
     });
     const minutes = dropdown({
       id: 'minutes',
-      label: this.locale?.translate('Minutes') || 'Minutes',
+      label: this.localeAPI?.translate('Minutes') || 'Minutes',
       options: range(0, 59, this.minuteInterval),
       value: this.minutes,
       padStart: this.format.includes('mm')
     });
     const seconds = this.#hasSeconds() && dropdown({
       id: 'seconds',
-      label: this.locale?.translate('Seconds') || 'Seconds',
+      label: this.localeAPI?.translate('Seconds') || 'Seconds',
       options: range(0, 59, this.secondInterval),
       value: this.seconds,
       padStart: true
@@ -123,7 +123,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
     const dayPeriods = this.#getDayPeriodsWithRange();
     const period = this.#hasPeriod() && dayPeriods && dropdown({
       id: 'period',
-      label: this.locale?.translate('Period') || 'Period',
+      label: this.localeAPI?.translate('Period') || 'Period',
       options: dayPeriods,
       value: this.period
     });
@@ -203,7 +203,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
       return range(this.startHour, this.endHour > 23 ? 23 : this.endHour);
     }
 
-    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+    const dayPeriodIndex = this.localeAPI?.calendar().dayPeriods?.indexOf(this.period);
 
     // Including 12AM or 12PM to the range
     if ((dayPeriodIndex === 0 && this.startHour === 0)
@@ -254,7 +254,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @returns {number} start hour in range by day period
    */
   #getPeriodStartHour(): number {
-    const dayPeriodIndex: number = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+    const dayPeriodIndex: number = this.localeAPI?.calendar().dayPeriods?.indexOf(this.period);
 
     if ((this.startHour <= 12 && dayPeriodIndex === 1) || this.startHour === 0) {
       return 1;
@@ -271,7 +271,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @returns {number} end hour in range by day period
    */
   #getPeriodEndHour() {
-    const dayPeriodIndex = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+    const dayPeriodIndex = this.localeAPI?.calendar().dayPeriods?.indexOf(this.period);
 
     if ((this.endHour >= 12 && dayPeriodIndex === 0) || this.endHour === 24) {
       return 11;
@@ -288,7 +288,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @returns {Array<string>} list of available day periods
    */
   #getDayPeriodsWithRange(): Array<string> {
-    const dayPeriods: Array<string> = this.locale?.calendar().dayPeriods || [];
+    const dayPeriods: Array<string> = this.localeAPI?.calendar().dayPeriods || [];
 
     if (!this.#hasHourRange()) {
       return dayPeriods;
@@ -336,7 +336,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
    * @param {string} val time attribute string
    */
   syncTimeAttributes(val: string): void {
-    const inputDate = this.locale?.parseDate(
+    const inputDate = this.localeAPI?.parseDate(
       val || this.value,
       { pattern: this.format }
     ) as Date;
@@ -344,7 +344,7 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
     const hours12 = hoursTo12(hours24);
     const minutes = inputDate?.getMinutes();
     const seconds = inputDate?.getSeconds();
-    const period = inputDate && this.locale?.calendar()?.dayPeriods[hours24 >= 12 ? 1 : 0];
+    const period = inputDate && this.localeAPI?.calendar()?.dayPeriods[hours24 >= 12 ? 1 : 0];
 
     if (this.#is24Hours() && hours24 !== this.hours) {
       this.hours = hours24;
@@ -825,10 +825,10 @@ class IdsTimePickerPopup extends Base implements IdsPickerPopupCallbacks {
    */
   getFormattedTime() {
     const date: Date = new Date();
-    const dayPeriodIndex: number = this.locale?.calendar().dayPeriods?.indexOf(this.period);
+    const dayPeriodIndex: number = this.localeAPI?.calendar().dayPeriods?.indexOf(this.period);
 
     date.setHours(hoursTo24(this.hours, dayPeriodIndex), this.minutes, this.seconds);
-    return this.locale.formatDate(date, { pattern: this.format });
+    return this.localeAPI.formatDate(date, { pattern: this.format });
   }
 
   onHide() {

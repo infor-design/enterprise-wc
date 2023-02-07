@@ -1,6 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import Base from './ids-toggle-button-base';
+import IdsButton from '../ids-button/ids-button';
 
 import { BUTTON_ATTRIBUTES, BUTTON_TYPES } from '../ids-button/ids-button-common';
 import type { IdsButtonType } from '../ids-button/ids-button-common';
@@ -21,7 +21,7 @@ const DEFAULT_ICON_ON = 'star-filled';
  */
 @customElement('ids-toggle-button')
 @scss(styles)
-export default class IdsToggleButton extends Base {
+export default class IdsToggleButton extends IdsButton {
   constructor() {
     super();
   }

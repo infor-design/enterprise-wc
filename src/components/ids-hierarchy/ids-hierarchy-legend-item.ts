@@ -1,8 +1,13 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-hierarchy-legend-item-base';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-hierarchy-legend-item.scss';
+
+const Base = IdsColorVariantMixin(
+  IdsElement
+);
 
 /**
  * IDS Hierarchy Legend Item Component

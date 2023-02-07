@@ -1,7 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import Base from './ids-tabs-context-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
+
 import './ids-tab-content';
 
 import styles from './ids-tabs.scss';
@@ -16,7 +18,7 @@ import type IdsTabContent from './ids-tab-content';
  */
 @customElement('ids-tabs-context')
 @scss(styles)
-export default class IdsTabsContext extends Base {
+export default class IdsTabsContext extends IdsEventsMixin(IdsElement) {
   constructor() {
     super();
   }

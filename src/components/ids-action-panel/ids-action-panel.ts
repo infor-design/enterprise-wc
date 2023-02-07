@@ -1,8 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
-
-import Base from './ids-action-panel-base';
+import IdsModal from '../ids-modal/ids-modal';
 import '../ids-toolbar/ids-toolbar';
-
 import styles from './ids-action-panel.scss';
 
 /**
@@ -12,7 +10,7 @@ import styles from './ids-action-panel.scss';
  */
 @customElement('ids-action-panel')
 @scss(styles)
-export default class IdsActionPanel extends Base {
+export default class IdsActionPanel extends IdsModal {
   constructor() {
     super();
   }

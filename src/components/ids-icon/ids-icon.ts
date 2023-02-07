@@ -5,14 +5,25 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { sizes } from './ids-icon-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-import Base from './ids-icon-base';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+
 import styles from './ids-icon.scss';
 
 const emptyIconPathData: any = emptyPathImport;
 const pathData: Record<string, string> = pathImport;
 const customIcons: Record<string, string> = {};
+
+const Base = IdsLocaleMixin(
+  IdsColorVariantMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * Add a custom icon
@@ -73,7 +84,6 @@ export default class IdsIcon extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.#attachEventHandlers();
   }
 
   /**
@@ -94,19 +104,14 @@ export default class IdsIcon extends Base {
     ];
   }
 
-  /**
-   * Handle change events
-   */
-  #attachEventHandlers() {
-    this.offEvent('languagechange.icon-container');
-    this.onEvent('languagechange.icon-container', getClosest(this, 'ids-container'), () => {
-      if (this.isMirrored(this.icon)) {
-        this.container?.classList.add('mirrored');
-      } else {
-        this.container?.classList.remove('mirrored');
-      }
-    });
-  }
+  /** Handle Languages Changes */
+  onLanguageChange = () => {
+    if (this.isMirrored(this.icon)) {
+      this.container?.classList.add('mirrored');
+    } else {
+      this.container?.classList.remove('mirrored');
+    }
+  };
 
   /**
    * Create the Template for the contents
@@ -238,7 +243,7 @@ export default class IdsIcon extends Base {
       'unsubscribe',
     ];
 
-    if (this.locale?.isRTL() && mirroredIcons.includes(iconName)) {
+    if (this.localeAPI?.isRTL() && mirroredIcons.includes(iconName)) {
       return true;
     }
     return false;

@@ -1,5 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import Base from './ids-tab-divider-base';
+import '../../mixins/ids-events-mixin/ids-events-mixin';
+import '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-tab-divider.scss';
 
@@ -11,7 +13,7 @@ import styles from './ids-tab-divider.scss';
  */
 @customElement('ids-tab-divider')
 @scss(styles)
-export default class IdsTabDivider extends Base {
+export default class IdsTabDivider extends IdsElement {
   constructor() {
     super();
   }

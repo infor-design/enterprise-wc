@@ -1,8 +1,8 @@
-const NodeFsFiles = require('./node-fs-files');
+const fsFiles = require('./node-fs-files');
 
 const prodEntry = () => {
   const prodEntryObj = {};
-  const entryArray = NodeFsFiles('./src', 'ts');
+  const entryArray = fsFiles('./src', 'ts');
   const isWin32 = process.platform === 'win32' ? '\\' : '/';
   const entryProdFilter = entryArray.filter((item) => (!item.includes('demo') && !item.includes('scripts')));
 

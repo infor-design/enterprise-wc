@@ -9,6 +9,13 @@ import '../helpers/canvas-mock';
 import '../helpers/resize-observer-mock';
 import dataset from '../../src/assets/data/components.json';
 import processAnimFrame from '../helpers/process-anim-frame';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import { messages as frFRMessages } from '../../src/components/ids-locale/data/fr-FR-messages';
+import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
+import { locale as frFRLocale } from '../../src/components/ids-locale/data/fr-FR';
 
 describe('IdsAxisChart Component', () => {
   let axisChart: any;
@@ -19,6 +26,12 @@ describe('IdsAxisChart Component', () => {
     axisChart = new IdsAxisChart();
 
     container.appendChild(axisChart);
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
+    IdsLocaleData.loadedLanguages.set('de', deMessages);
+    IdsLocaleData.loadedLanguages.set('fr-FR', frFRMessages);
+    IdsLocaleData.loadedLocales.set('fr-FR', frFRLocale);
+    IdsLocaleData.loadedLocales.set('de-DE', deDELocale);
+
     document.body.appendChild(container);
     axisChart.data = dataset;
   });
@@ -353,10 +366,10 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('should adjust RTL', async () => {
-    container.language = 'ar';
+    await container.setLanguage('ar');
     await processAnimFrame();
 
-    expect(axisChart.locale.isRTL()).toBe(true);
+    expect(axisChart.localeAPI.isRTL()).toBe(true);
   });
 
   it('should set axis label', async () => {
@@ -367,9 +380,9 @@ describe('IdsAxisChart Component', () => {
     axisChart.axisLabelTop = 'Top axis label';
     axisChart.axisLabelMargin = 20;
     expect(axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length).toEqual(4);
-    container.language = 'ar';
+    await container.setLanguage('ar');
     await processAnimFrame();
-    expect(axisChart.locale.isRTL()).toBe(true);
+    expect(axisChart.localeAPI.isRTL()).toBe(true);
 
     axisChart.axisLabelBottom = '';
     axisChart.axisLabelEnd = '';
@@ -391,7 +404,7 @@ describe('IdsAxisChart Component', () => {
     expect(xLabels[0].getAttribute('transform-origin')).toEqual(null);
     expect(xLabels[0].getAttribute('transform-origin')).toEqual(null);
 
-    container.language = 'ar';
+    await container.setLanguage('ar');
     axisChart.alignXLabels = 'middle';
     axisChart.redraw();
     await processAnimFrame();
@@ -427,7 +440,7 @@ describe('IdsAxisChart Component', () => {
     expect(yLabels[0].getAttribute('transform-origin')).toEqual(null);
     expect(yLabels[0].getAttribute('transform-origin')).toEqual(null);
 
-    container.language = 'ar';
+    await container.setLanguage('ar');
     axisChart.alignXLabels = 'middle';
     axisChart.redraw();
     await processAnimFrame();
