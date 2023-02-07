@@ -46,6 +46,7 @@ export default class IdsTriggerField extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#attachTriggerButtonEvents();
+    this.#setFieldHeight();
   }
 
   /**
@@ -219,6 +220,23 @@ export default class IdsTriggerField extends Base {
     this.onEvent('click.trigger-button', this, (e: CustomEvent) => {
       const btn = (e.target as IdsTriggerButton);
       if (btn) this.trigger();
+    });
+  }
+
+  /**
+   * Set field height and compact attributes
+   * @private
+   * @returns {void}
+   */
+  #setFieldHeight(): void {
+    const setAttr = (btn: IdsTriggerButton, attr: string, val: string) => {
+      if (this.hasAttribute(attr)) btn?.setAttribute(attr, val);
+      else btn?.removeAttribute(attr);
+    };
+
+    this.buttons?.forEach((btn) => {
+      setAttr(btn, attributes.COMPACT, '');
+      setAttr(btn, attributes.FIELD_HEIGHT, this.fieldHeight);
     });
   }
 
