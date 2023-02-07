@@ -3,9 +3,17 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getPercentageTextHtml, getInnerIndicatorHtml } from './ids-loading-indicator-attributes';
 
-import Base from './ids-loading-indicator-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-loading-indicator.scss';
+
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Loading Indicator Component

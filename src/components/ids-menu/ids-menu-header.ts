@@ -1,12 +1,17 @@
-// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { htmlAttributes } from '../../core/ids-attributes';
 
-// Import Base and Mixins
-import Base from './ids-menu-header-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
-// Import Styles
 import styles from './ids-menu-header.scss';
+
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Menu Header Component

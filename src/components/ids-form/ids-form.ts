@@ -2,8 +2,15 @@ import { customElement } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-form-base';
-import { FIELD_HEIGHTS } from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
+import IdsFieldHeightMixin, { FIELD_HEIGHTS } from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
+
+const Base = IdsFieldHeightMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Form Component

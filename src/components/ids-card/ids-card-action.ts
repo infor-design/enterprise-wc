@@ -1,5 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import Base from './ids-card-action-base';
+import IdsElement from '../../core/ids-element';
 import styles from './ids-card-action.scss';
 
 /**
@@ -9,7 +9,7 @@ import styles from './ids-card-action.scss';
  */
 @customElement('ids-card-action')
 @scss(styles)
-export default class IdsCardAction extends Base {
+export default class IdsCardAction extends IdsElement {
   constructor() {
     super();
   }

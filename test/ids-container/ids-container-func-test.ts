@@ -2,12 +2,22 @@
  * @jest-environment jsdom
  */
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
+import { locale as arSALocale } from '../../src/components/ids-locale/data/ar-SA';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 describe('IdsContainer Component', () => {
   let container: IdsContainer;
 
   beforeEach(() => {
     container = new IdsContainer();
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
+    IdsLocaleData.loadedLanguages.set('de', deMessages);
+    IdsLocaleData.loadedLocales.set('de-DE', deDELocale);
+    IdsLocaleData.loadedLocales.set('ar-SA', arSALocale);
+
     document.body.appendChild(container);
   });
 
@@ -31,12 +41,12 @@ describe('IdsContainer Component', () => {
 
   it('can set locale via attribute', () => {
     container.locale = 'de-DE';
-    expect(container.locale.state.localeName).toEqual('de-DE');
+    expect(container.locale).toEqual('de-DE');
   });
 
   it('can set locale via async func', async () => {
     await container.setLocale('ar-SA');
-    expect(container.localeName).toEqual('ar-SA');
+    expect(container.locale).toEqual('ar-SA');
     expect(container.getAttribute('dir')).toEqual('rtl');
   });
 
@@ -69,12 +79,12 @@ describe('IdsContainer Component', () => {
     expect(container.container?.getAttribute('mode')).toEqual('dark');
   });
 
-  it('supports setting language', () => {
-    container.language = 'ar';
+  it('supports setting language', async () => {
+    await container.setLanguage('ar');
     expect(container.getAttribute('language')).toEqual('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');
 
-    container.language = 'de';
+    await container.setLanguage('de');
     expect(container.getAttribute('language')).toEqual('de');
     expect(container.getAttribute('dir')).toEqual(null);
   });

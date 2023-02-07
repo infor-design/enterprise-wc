@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsDrawer from '../ids-drawer/ids-drawer';
 
-import Base from './ids-app-base';
-import '../ids-drawer/ids-drawer';
 import '../ids-accordion/ids-accordion';
 import '../ids-button/ids-button';
 import '../ids-icon/ids-icon';
@@ -17,6 +17,10 @@ import type IdsContainer from '../ids-container/ids-container';
 
 const CONTAINER_CLASS = 'app-menu';
 const CONTAINER_OPEN_CLASS = 'app-menu-is-open';
+
+const Base = IdsKeyboardMixin(
+  IdsDrawer
+);
 
 /**
  * IDS App Menu Component

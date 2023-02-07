@@ -15,7 +15,7 @@ describe('IdsLocaleMixin Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('locale is empty when no container', async () => {
-    expect(elem.locale).toBeFalsy();
+  it('locale is present when no container', async () => {
+    expect(elem.localeAPI).toBeTruthy();
   });
 });

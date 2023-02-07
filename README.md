@@ -1,7 +1,7 @@
 # Infor Design Systems's Web Component Beta Library
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![npm version](https://badge.fury.io/js/ids-enterprise.svg)](https://badge.fury.io/js/ids-enterprise)
+[![npm version](https://badge.fury.io/js/ids-enterprise.svg)](https://badge.fury.io/js/ids-enterprise-wc)
 [![Build Check](https://github.com/infor-design/enterprise-wc/actions/workflows/ci.yml/badge.svg)](https://github.com/infor-design/enterprise-wc/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/infor-design/enterprise-wc/badge.svg?branch=main)](https://coveralls.io/github/infor-design/enterprise-wc)
 
@@ -62,7 +62,7 @@ npm run start
 
 ## Documentation
 
-- For each component see the .md file in the relevant [component folder](https://github.com/infor-design/enterprise-wc/tree/main/src)
+- For each component see the `.md` file in the relevant [component folder](https://github.com/infor-design/enterprise-wc/tree/main/src)
 - See the [Change Log](doc/CHANGELOG.md) for info on breaking changes as well more info in each individual component
 
 ## Contributing

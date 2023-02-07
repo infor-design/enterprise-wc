@@ -43,7 +43,7 @@ module.exports = {
   coveragePathIgnorePatterns: [
     '/node_modules/',
     '/build/types',
-    '/components/enterprise-wc.ts',
+    '/src/components/enterprise-wc.ts',
   ],
 
   // Indicates which provider should be used to instrument code for coverage

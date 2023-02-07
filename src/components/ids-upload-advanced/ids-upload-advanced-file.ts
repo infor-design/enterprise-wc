@@ -2,7 +2,10 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { camelCase, stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-upload-advanced-file-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
 
 import '../ids-alert/ids-alert';
 import '../ids-trigger-field/ids-trigger-button';
@@ -10,6 +13,14 @@ import '../ids-progress-bar/ids-progress-bar';
 import IdsUploadAdvancedShared from './ids-upload-advanced-shared';
 
 import styles from './ids-upload-advanced-file.scss';
+
+const Base = IdsThemeMixin(
+  IdsLocaleMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS UploadAdvancedFile Component

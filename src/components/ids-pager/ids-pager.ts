@@ -2,8 +2,9 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import Base from './ids-pager-base';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 
 import './ids-pager-button';
 import './ids-pager-dropdown';
@@ -13,6 +14,12 @@ import './ids-pager-number-list';
 import type IdsPagerDropdown from './ids-pager-dropdown';
 
 import styles from './ids-pager.scss';
+
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Pager Component

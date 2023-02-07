@@ -5,12 +5,17 @@ import IdsSwitch from '../../src/components/ids-switch/ids-switch';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import processAnimFrame from '../helpers/process-anim-frame';
 
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+
 describe('IdsSwitch Component', () => {
   let el: IdsSwitch;
   let container: IdsContainer;
 
   beforeEach(() => {
     container = new IdsContainer();
+    IdsLocaleData.loadedLanguages.set('de', deMessages);
+
     el = new IdsSwitch();
     container.appendChild(el);
     document.body.appendChild(container);
@@ -132,10 +137,8 @@ describe('IdsSwitch Component', () => {
   });
 
   it('can change language from the container', async () => {
-    container.language = 'de';
-    setTimeout(() => {
-      expect(el.getAttribute('language')).toEqual('de');
-    });
+    await container.setLanguage('de');
+    expect(el.getAttribute('language')).toEqual('de');
   });
 
   it('can focus its inner Input element', () => {

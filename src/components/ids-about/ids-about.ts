@@ -3,11 +3,14 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getSpecs } from '../../utils/ids-device-env-specs-utils/ids-device-env-specs-utils';
 
-import Base from './ids-about-base';
-import '../ids-modal/ids-modal';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsModal from '../ids-modal/ids-modal';
 import '../ids-hyperlink/ids-hyperlink';
-
 import styles from './ids-about.scss';
+
+const Base = IdsLocaleMixin(
+  IdsModal
+);
 
 /**
  * IDS About Component
@@ -75,17 +78,15 @@ export default class IdsAbout extends Base {
     this.#refreshCopyright();
 
     // Respond to parent changing language
-    this.offEvent('languagechange.about-container');
-    this.onEvent('languagechange.about-container', this.closest('ids-container'), () => {
+    this.onLanguageChange = () => {
       this.#refreshDeviceSpecs();
       this.#refreshCopyright();
-    });
+    };
 
-    this.offEvent('localechange.about-container');
-    this.onEvent('localechange.about-container', this.closest('ids-container'), () => {
+    this.onLocaleChange = () => {
       this.#refreshDeviceSpecs();
       this.#refreshCopyright();
-    });
+    };
     return this;
   }
 
@@ -198,13 +199,13 @@ export default class IdsAbout extends Base {
     if (this.deviceSpecs) {
       const specs = getSpecs();
       const element = `<ids-text slot="device" type="p">
-        <span>${this.locale?.translate('Platform')} : ${specs.platform}</span><br/>
-        <span>${this.locale?.translate('Mobile')} : ${specs.isMobile}</span><br/>
-        <span>${this.locale?.translate('Browser')} : ${specs.browser} (${specs.browserVersion})</span><br/>
-        <span>${this.locale?.translate('Locale')} : ${this.locale?.locale.name || 'en-US'}</span><br/>
-        <span>${this.locale?.translate('Language')} : ${this.locale?.language.name || 'en'}</span><br/>
-        <span>${this.locale?.translate('BrowserLanguage')} : ${specs.browserLanguage}</span><br/>
-        <span>${this.locale?.translate('Version')} : ${specs.idsVersion}</span>
+        <span>${this.localeAPI?.translate('Platform')} : ${specs.platform}</span><br/>
+        <span>${this.localeAPI?.translate('Mobile')} : ${specs.isMobile}</span><br/>
+        <span>${this.localeAPI?.translate('Browser')} : ${specs.browser} (${specs.browserVersion})</span><br/>
+        <span>${this.localeAPI?.translate('Locale')} : ${this.localeAPI?.locale.name || 'en-US'}</span><br/>
+        <span>${this.localeAPI?.translate('Language')} : ${this.localeAPI?.language.name || 'en'}</span><br/>
+        <span>${this.localeAPI?.translate('BrowserLanguage')} : ${specs.browserLanguage}</span><br/>
+        <span>${this.localeAPI?.translate('Version')} : ${specs.idsVersion}</span>
       </ids-text>`;
 
       this.insertAdjacentHTML('beforeend', element);
@@ -258,7 +259,7 @@ export default class IdsAbout extends Base {
    */
   #refreshCopyright() {
     const slot = this.querySelectorAll('[slot="copyright"]');
-    const copyrightText = this.locale?.translate('AboutText').replace('{0}', this.copyrightYear);
+    const copyrightText = this.localeAPI?.translate('AboutText').replace('{0}', this.copyrightYear);
     const element = `<ids-text slot="copyright" type="p">${copyrightText} <ids-hyperlink target="_blank" text-decoration="underline" href="https://www.infor.com">www.infor.com</ids-hyperlink>.</ids-text>`;
 
     // Clear slot before rerender

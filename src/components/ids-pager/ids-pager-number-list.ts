@@ -2,12 +2,21 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-pager-number-list-base';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+
 import '../ids-text/ids-text';
 import '../ids-button/ids-button';
 
 import styles from './ids-pager-number-list.scss';
 import type IdsPager from './ids-pager';
+
+const Base = IdsKeyboardMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS PagerNumberList Component

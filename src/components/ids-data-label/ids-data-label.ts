@@ -3,6 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import styles from './ids-data-label.scss';
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 import '../ids-text/ids-text';
 
@@ -14,7 +15,7 @@ import '../ids-text/ids-text';
  */
 @customElement('ids-data-label')
 @scss(styles)
-export default class IdsDataLabel extends IdsThemeMixin(IdsEventsMixin(IdsElement)) {
+export default class IdsDataLabel extends IdsThemeMixin(IdsLocaleMixin(IdsEventsMixin(IdsElement))) {
   constructor() {
     super();
 
@@ -25,11 +26,6 @@ export default class IdsDataLabel extends IdsThemeMixin(IdsEventsMixin(IdsElemen
 
   connectedCallback() {
     super.connectedCallback();
-    this.offEvent('languagechange');
-    this.onEvent('languagechange', this.closest('ids-container'), (e: CustomEvent) => {
-      this.language = e.detail.language.name;
-    });
-    this.language = this.closest('ids-container')?.getAttribute('language');
   }
 
   /**
@@ -110,11 +106,5 @@ export default class IdsDataLabel extends IdsThemeMixin(IdsEventsMixin(IdsElemen
    */
   get colon(): string {
     return this.labelPosition === 'left' ? ':' : '';
-  }
-
-  set language(value: string | undefined | null) {
-    if (value) {
-      this.setAttribute('language', value);
-    }
   }
 }

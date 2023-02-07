@@ -1,9 +1,9 @@
 const path = require('path');
-const NodeFsFiles = require('./node-fs-files');
+const fsFiles = require('./node-fs-files');
 
 const demoEntry = () => {
   const demoEntryObj = {};
-  const entryArray = NodeFsFiles('./src/components', 'ts');
+  const entryArray = fsFiles('./src/components', 'ts');
   const isWin32 = process.platform === 'win32' ? '\\' : '/';
   let entryDemoFilter = entryArray.filter((item) => (item.includes('demo') && item.includes('.ts')));
   const filterComponents = process.env.npm_config_components || '';
