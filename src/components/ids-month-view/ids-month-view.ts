@@ -1,7 +1,13 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import Base from './ids-month-view-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsDateAttributeMixin from '../../mixins/ids-date-attribute-mixin/ids-date-attribute-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsCalendarEventsMixin from '../../mixins/ids-calendar-events-mixin/ids-calendar-events-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsMonthViewAttributeMixin from './ids-month-view-attribute-mixin';
 
 // Import Utils
 import {
@@ -24,7 +30,6 @@ import {
   stringToNumber,
   buildClassAttrib,
 } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 // Supporting components
 import '../ids-button/ids-button';
@@ -64,6 +69,20 @@ export type IdsDayselectedEvent = CustomEventInit & {
   cancelable?: boolean;
   composed?: boolean;
 };
+
+const Base = IdsMonthViewAttributeMixin(
+  IdsDateAttributeMixin(
+    IdsCalendarEventsMixin(
+      IdsThemeMixin(
+        IdsLocaleMixin(
+          IdsEventsMixin(
+            IdsElement
+          )
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Month View Component
@@ -119,7 +138,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
   template(): string {
     return `<div class="ids-month-view ${this.compact ? 'is-compact' : 'is-fullsize'}${this.isDatePicker ? ' is-date-picker' : ''}" part="container">
       <div class="month-view-container" part="table-container">
-        <table class="month-view-table" aria-label="${this.locale?.translate('Calendar')}" role="application">
+        <table class="month-view-table" aria-label="${this.localeAPI?.translate('Calendar')}" role="application">
           <thead class="month-view-table-header">
             <tr></tr>
           </thead>
@@ -134,20 +153,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    * @returns {void}
    */
   #attachEventHandlers() {
-    // Respond to container changing language
-    this.offEvent('languagechange.month-view-container');
-    this.onEvent('languagechange.month-view-container', getClosest(this, 'ids-container'), () => {
-      this.setDirection();
-      this.#renderMonth();
-    });
-
-    // Respond to container changing locale
-    this.offEvent('localechange.month-view-container');
-    this.onEvent('localechange.month-view-container', getClosest(this, 'ids-container'), () => {
-      this.setDirection();
-      this.#renderMonth();
-    });
-
     // Day select event
     this.offEvent('click.month-view-dayselect');
     this.onEvent('click.month-view-dayselect', this.container?.querySelector('tbody'), (e: MouseEvent) => {
@@ -189,6 +194,16 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
 
     return this;
   }
+
+  onLanguageChange = () => {
+    this.setDirection();
+    this.#renderMonth();
+  };
+
+  onLocaleChange = () => {
+    this.setDirection();
+    this.#renderMonth();
+  };
 
   /**
    * Establish Internal Keyboard shortcuts
@@ -371,7 +386,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    */
   changeDate(type: string, limitMonth = false): void {
     if (type === 'next-month') {
-      if (this.locale?.isIslamic()) {
+      if (this.localeAPI?.isIslamic()) {
         const umalqura = gregorianToUmalqura(this.activeDate);
         const year = umalqura.month === MAX_MONTH ? umalqura.year + 1 : umalqura.year;
         const month = umalqura.month === MAX_MONTH ? MIN_MONTH : umalqura.month + 1;
@@ -388,7 +403,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     }
 
     if (type === 'previous-month') {
-      if (this.locale?.isIslamic()) {
+      if (this.localeAPI?.isIslamic()) {
         const umalqura = gregorianToUmalqura(this.activeDate);
         const year = umalqura.month === MIN_MONTH ? umalqura.year - 1 : umalqura.year;
         const month = umalqura.month === MIN_MONTH ? MAX_MONTH : umalqura.month - 1;
@@ -405,11 +420,11 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     }
 
     if (type === 'next-day') {
-      const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+      const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.localeAPI?.isIslamic());
 
       if (lastDayOfMonth.getDate() === this.day && limitMonth) return;
 
-      if (this.locale?.isIslamic()) {
+      if (this.localeAPI?.isIslamic()) {
         const nextDate = addDate(this.activeDate, 1, 'days');
 
         this.day = nextDate.getDate();
@@ -433,11 +448,11 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     }
 
     if (type === 'previous-day') {
-      const firstDayOfMonth = firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+      const firstDayOfMonth = firstDayOfMonthDate(this.year, this.month, this.day, this.localeAPI?.isIslamic());
 
       if (firstDayOfMonth.getDate() === this.day && limitMonth) return;
 
-      if (this.locale?.isIslamic()) {
+      if (this.localeAPI?.isIslamic()) {
         const prevDate = subtractDate(this.activeDate, 1, 'days');
 
         this.day = prevDate.getDate();
@@ -461,7 +476,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     }
 
     if (type === 'next-year') {
-      if (this.locale?.isIslamic()) {
+      if (this.localeAPI?.isIslamic()) {
         const umalqura = gregorianToUmalqura(this.activeDate);
         const gregorian = umalquraToGregorian(
           umalqura.year + 1,
@@ -480,7 +495,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     }
 
     if (type === 'previous-year') {
-      if (this.locale?.isIslamic()) {
+      if (this.localeAPI?.isIslamic()) {
         const umalqura = gregorianToUmalqura(this.activeDate);
         const gregorian = umalquraToGregorian(
           umalqura.year - 1,
@@ -513,13 +528,13 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
 
     if (type === 'next-week') {
       const nextWeek = addDate(this.activeDate, WEEK_LENGTH, 'days');
-      const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+      const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.localeAPI?.isIslamic());
 
       if (nextWeek > lastDayOfMonth && limitMonth) return;
 
       this.day = nextWeek.getDate();
 
-      if (nextWeek > lastDayOfMonth || this.locale?.isIslamic()) {
+      if (nextWeek > lastDayOfMonth || this.localeAPI?.isIslamic()) {
         this.year = nextWeek.getFullYear();
         this.month = nextWeek.getMonth();
       }
@@ -527,35 +542,35 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
 
     if (type === 'previous-week') {
       const prevWeek = subtractDate(this.activeDate, WEEK_LENGTH, 'days');
-      const firstDayOfMonth = firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+      const firstDayOfMonth = firstDayOfMonthDate(this.year, this.month, this.day, this.localeAPI?.isIslamic());
 
       if (prevWeek < firstDayOfMonth && limitMonth) return;
 
       this.day = prevWeek.getDate();
 
-      if (prevWeek < firstDayOfMonth || this.locale?.isIslamic()) {
+      if (prevWeek < firstDayOfMonth || this.localeAPI?.isIslamic()) {
         this.year = prevWeek.getFullYear();
         this.month = prevWeek.getMonth();
       }
     }
 
     if (type === 'start-month') {
-      const firstDayOfMonth = firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+      const firstDayOfMonth = firstDayOfMonthDate(this.year, this.month, this.day, this.localeAPI?.isIslamic());
 
       this.day = firstDayOfMonth.getDate();
 
-      if (this.locale?.isIslamic()) {
+      if (this.localeAPI?.isIslamic()) {
         this.year = firstDayOfMonth.getFullYear();
         this.month = firstDayOfMonth.getMonth();
       }
     }
 
     if (type === 'end-month') {
-      const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+      const lastDayOfMonth = lastDayOfMonthDate(this.year, this.month, this.day, this.localeAPI?.isIslamic());
 
       this.day = lastDayOfMonth.getDate();
 
-      if (this.locale?.isIslamic()) {
+      if (this.localeAPI?.isIslamic()) {
         this.month = lastDayOfMonth.getMonth();
         this.year = lastDayOfMonth.getFullYear();
       }
@@ -579,11 +594,11 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
 
       this.day = day;
 
-      if (stringToNumber(month) !== this.month || this.locale?.isIslamic()) {
+      if (stringToNumber(month) !== this.month || this.localeAPI?.isIslamic()) {
         this.month = month;
       }
 
-      if (stringToNumber(year) !== this.year || this.locale?.isIslamic()) {
+      if (stringToNumber(year) !== this.year || this.localeAPI?.isIslamic()) {
         this.year = year;
       }
 
@@ -833,7 +848,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    */
   #monthInDayFormat(date: Date, rangeStartsOn: Date): string | undefined {
     const isFirstDayOfRange = daysDiff(date, rangeStartsOn) === 0;
-    const isFirstDayOfMonth = this.locale?.isIslamic()
+    const isFirstDayOfMonth = this.localeAPI?.isIslamic()
       ? gregorianToUmalqura(date).day === 1
       : date.getDate() === 1;
 
@@ -852,10 +867,10 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
   #getCellTemplate(weekIndex: number): string {
     const firstDayOfRange: Date = this.#isDisplayRange()
       ? (this.startDate as Date)
-      : firstDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+      : firstDayOfMonthDate(this.year, this.month, this.day, this.localeAPI?.isIslamic());
     const lastDayOfRange: Date = this.#isDisplayRange()
       ? (this.endDate as Date)
-      : lastDayOfMonthDate(this.year, this.month, this.day, this.locale?.isIslamic());
+      : lastDayOfMonthDate(this.year, this.month, this.day, this.localeAPI?.isIslamic());
     const rangeStartsOn = firstDayOfWeekDate(firstDayOfRange, this.firstDayOfWeek);
     const now: Date = new Date();
     const isCompact = this.compact;
@@ -863,12 +878,12 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     return Array.from({ length: WEEK_LENGTH }).map((_, index) => {
       const date: Date = addDate(rangeStartsOn, (weekIndex * WEEK_LENGTH) + index, 'days');
       const monthFormat: string | undefined = this.#monthInDayFormat(date, rangeStartsOn);
-      const dayText: string = this.locale?.formatDate(date, {
+      const dayText: string = this.localeAPI?.formatDate(date, {
         day: 'numeric',
         month: monthFormat,
         numberingSystem: 'latn'
       });
-      const ariaLabel: string = this.locale?.formatDate(date, { dateStyle: 'full' });
+      const ariaLabel: string = this.localeAPI?.formatDate(date, { dateStyle: 'full' });
       const day: number = date.getDate();
       const month: number = date.getMonth();
       const year: number = date.getFullYear();
@@ -913,7 +928,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    */
   #renderWeekDays(): void {
     const weekDayKeys = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const weekDays = weekDayKeys.map((item) => this.locale?.translate(`${this.compact ? 'DayNarrow' : 'DayAbbreviated'}${item}`));
+    const weekDays = weekDayKeys.map((item) => this.localeAPI?.translate(`${this.compact ? 'DayNarrow' : 'DayAbbreviated'}${item}`));
 
     const weekDaysTemplate = weekDays.map((el: any, index: number) => {
       const weekday = weekDays[(index + this.firstDayOfWeek) % WEEK_LENGTH];
@@ -939,7 +954,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
   #renderMonth(): void {
     const weeksCount = this.#isDisplayRange()
       ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
-      : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.locale?.isIslamic());
+      : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.localeAPI?.isIslamic());
 
     const rowsTemplate = Array.from({ length: weeksCount }).map((_, weekIndex) => `<tr>${this.#getCellTemplate(weekIndex)}</tr>`).join('');
 
@@ -1561,7 +1576,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     const date = `${month}/${day}/${year}`;
     const tmpl = `
       <ids-text data-date="${date}" class="events-overflow" font-size="12">
-        ${hiddenEvents.length}+ ${this.locale.translate('More')}
+        ${hiddenEvents.length}+ ${this.localeAPI.translate('More')}
       </ids-text>
     `;
 

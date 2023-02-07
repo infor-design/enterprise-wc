@@ -184,7 +184,7 @@ const IdsMaskMixin = <T extends Constraints>(superclass: T) => class extends sup
 
     this.maskState.pattern = trueVal;
     if (typeof this.onLocaleChange === 'function' && this.locale) {
-      this.onLocaleChange(this.locale);
+      this.onLocaleChange(this.localeAPI);
     }
   }
 
@@ -224,7 +224,7 @@ const IdsMaskMixin = <T extends Constraints>(superclass: T) => class extends sup
     const processOptions: any = {
       caretTrapIndexes: [],
       guide: this.maskState.guide,
-      locale: this.locale,
+      locale: this.localeAPI,
       keepCharacterPositions: this.maskState.keepCharacterPositions,
       pattern: this.mask,
       patternOptions: opts,

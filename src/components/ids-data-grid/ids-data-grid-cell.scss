@@ -373,6 +373,12 @@ td.ids-data-grid-cell {
 
 // Handle RTL
 :host([dir='rtl']) {
+  .ids-data-grid.is-list-style {
+    .ids-data-grid-cell {
+      border-inline-end-width: 0;
+    }
+  }
+
   // Negate Borders
   .ids-data-grid-cell {
     &:last-child {

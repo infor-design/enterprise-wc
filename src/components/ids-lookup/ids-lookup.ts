@@ -1,21 +1,50 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 
-import Base from './ids-lookup-base';
+import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
+import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
+import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-label-state-parent-mixin';
+import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
+import { IdsDataGridColumn } from '../ids-data-grid/ids-data-grid-column';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import '../ids-trigger-field/ids-trigger-field';
 import '../ids-modal/ids-modal';
 import '../ids-data-grid/ids-data-grid';
 
-import styles from './ids-lookup.scss';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import type IdsDataGrid from '../ids-data-grid/ids-data-grid';
 import type IdsModal from '../ids-modal/ids-modal';
 import type IdsText from '../ids-text/ids-text';
-import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
-import { IdsDataGridColumn } from '../ids-data-grid/ids-data-grid-column';
+import styles from './ids-lookup.scss';
+
+const Base = IdsDirtyTrackerMixin(
+  IdsLabelStateParentMixin(
+    IdsLocaleMixin(
+      IdsKeyboardMixin(
+        IdsValidationInputMixin(
+          IdsFieldHeightMixin(
+            IdsTooltipMixin(
+              IdsThemeMixin(
+                IdsEventsMixin(
+                  IdsElement
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Lookup Component

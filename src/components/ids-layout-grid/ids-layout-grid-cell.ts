@@ -1,6 +1,6 @@
 import { customElement } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-layout-grid-cell-base';
+import IdsElement from '../../core/ids-element';
 
 /**
  * IDS Layout Grid Cell Component
@@ -8,7 +8,7 @@ import Base from './ids-layout-grid-cell-base';
  * @inherits IdsElement
  */
 @customElement('ids-layout-grid-cell')
-export default class IdsLayoutGridCell extends Base {
+export default class IdsLayoutGridCell extends IdsElement {
   constructor() {
     super();
   }

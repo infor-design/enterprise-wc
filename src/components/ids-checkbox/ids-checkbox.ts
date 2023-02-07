@@ -2,10 +2,33 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-checkbox-base';
-import '../ids-text/ids-text';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
+import IdsLabelStateMixin from '../../mixins/ids-label-state-mixin/ids-label-state-mixin';
+import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation-mixin';
+import IdsHitboxMixin from '../../mixins/ids-hitbox-mixin/ids-hitbox-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
 
+import '../ids-text/ids-text';
 import styles from './ids-checkbox.scss';
+
+const Base = IdsDirtyTrackerMixin(
+  IdsLabelStateMixin(
+    IdsValidationMixin(
+      IdsHitboxMixin(
+        IdsThemeMixin(
+          IdsLocaleMixin(
+            IdsEventsMixin(
+              IdsElement
+            )
+          )
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Checkbox Component

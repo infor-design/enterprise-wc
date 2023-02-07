@@ -1,6 +1,7 @@
 import { customElement } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-demo-listing-base';
+import IdsElement from '../../core/ids-element';
+
 import '../ids-data-grid/ids-data-grid';
 import type IdsDataGrid from '../ids-data-grid/ids-data-grid';
 
@@ -10,7 +11,7 @@ import type IdsDataGrid from '../ids-data-grid/ids-data-grid';
  * @inherits IdsElement
  */
 @customElement('ids-demo-listing')
-export default class IdsDemoListing extends Base {
+export default class IdsDemoListing extends IdsElement {
   constructor() {
     super();
   }

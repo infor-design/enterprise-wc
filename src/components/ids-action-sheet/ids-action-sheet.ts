@@ -2,14 +2,22 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
-import Base from './ids-action-sheet-base';
 import '../ids-modal/ids-overlay';
 import '../ids-popup-menu/ids-popup-menu';
 
 import styles from './ids-action-sheet.scss';
 import type IdsOverlay from '../ids-modal/ids-overlay';
 import type IdsButton from '../ids-button/ids-button';
+
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Action Sheet Component

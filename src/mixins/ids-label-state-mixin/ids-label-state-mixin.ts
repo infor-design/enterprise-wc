@@ -89,7 +89,7 @@ const IdsLabelStateMixin = <T extends Constraints>(superclass: T) => class exten
    * Set `label-required` attribute
    * @param {string} value The `label-required` attribute
    */
-  set labelRequired(value: string | boolean) {
+  set labelRequired(value: string | boolean | null) {
     const safeValue = isLabelRequiredValid(value);
     if (value !== null) {
       this.setAttribute(attributes.LABEL_REQUIRED, safeValue.toString());
@@ -97,6 +97,7 @@ const IdsLabelStateMixin = <T extends Constraints>(superclass: T) => class exten
       this.removeAttribute(attributes.LABEL_REQUIRED);
     }
     (this as IdsInputInterface).labelEl?.classList[!safeValue ? 'add' : 'remove']('no-required-indicator');
+    if ((this as any).textInput) ((this as any).textInput).labelRequired = this.labelRequired;
   }
 
   get labelRequired(): boolean {

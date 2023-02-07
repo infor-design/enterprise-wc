@@ -7,6 +7,9 @@ import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsPopup from '../../src/components/ids-popup/ids-popup';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 
 /**
  * Creates the test div used as an ArrowTarget in many of the below tests
@@ -29,6 +32,7 @@ describe('IdsPopup Component', () => {
 
   beforeEach(async () => {
     container = new IdsContainer();
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
 
     // Create Popup w/ basic dimensions
     popup = new IdsPopup();
@@ -852,7 +856,7 @@ describe('IdsPopup Component', () => {
   });
 
   it('can change child languages', async () => {
-    container.language = 'ar';
+    await container.setLanguage('ar');
     await processAnimFrame();
     expect(popup.getAttribute('dir')).toEqual('rtl');
   });

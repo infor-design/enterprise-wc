@@ -1,7 +1,12 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import Base from './ids-week-view-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsCalendarEventsMixin from '../../mixins/ids-calendar-events-mixin/ids-calendar-events-mixin';
+import IdsDateAttributeMixin from '../../mixins/ids-date-attribute-mixin/ids-date-attribute-mixin';
 
 import {
   daysDiff,
@@ -21,13 +26,24 @@ import '../ids-text/ids-text';
 
 import styles from './ids-week-view.scss';
 import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../ids-calendar/ids-calendar-event';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { clearAnimationInterval, FrameRequestLoopHandler, requestAnimationInterval } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 interface DayMapData {
   key: number;
   elem: HTMLTableCellElement;
 }
+
+const Base = IdsThemeMixin(
+  IdsDateAttributeMixin(
+    IdsCalendarEventsMixin(
+      IdsLocaleMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Week View Component
@@ -108,22 +124,19 @@ export default class IdsWeekView extends Base {
       }
     });
     this.ro.observe(this.container as HTMLElement);
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.week-view-container');
-    this.onEvent('languagechange.week-view-container', getClosest(this, 'ids-container'), () => {
-      this.#renderWeek();
-      this.#attachOffsetTop();
-    });
-
-    // Respond to parent changing locale
-    this.offEvent('localechange.week-view-container');
-    this.onEvent('localechange.week-view-container', getClosest(this, 'ids-container'), () => {
-      this.#renderWeek();
-    });
-
     return this;
   }
+
+  /** Respond to locale changes */
+  onLocaleChange = () => {
+    this.#renderWeek();
+  };
+
+  /** Respond to language changes */
+  onLanguageChange = () => {
+    this.#renderWeek();
+    this.#attachOffsetTop();
+  };
 
   /**
    * Change startDate/endDate by event type
@@ -187,7 +200,7 @@ export default class IdsWeekView extends Base {
     const hoursDiff = this.endHour - this.startHour + 1;
     const isDayView = diff === 1 || diff === 0;
     // Get locale loaded calendars and dayOfWeek calendar setting
-    const calendars = this.locale.locale.options.calendars;
+    const calendars = this.localeAPI.locale.options.calendars;
     const dayOfWeekSetting = (calendars)[0]?.dateFormat?.dayOfWeek;
     // Determinate day/weekday order based on calendar settings (d EEE or EEE)
     const emphasis: boolean = dayOfWeekSetting && dayOfWeekSetting.split(' ')[0] === 'EEE';
@@ -201,8 +214,8 @@ export default class IdsWeekView extends Base {
 
     const daysTemplate = Array.from({ length: diff }, (_, index) => {
       const date = this.startDate.setDate(this.startDate.getDate() + index);
-      const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
-      const weekday = this.locale.formatDate(date, { weekday: 'short' });
+      const dayNumeric = this.localeAPI.formatDate(date, { day: 'numeric' });
+      const weekday = this.localeAPI.formatDate(date, { weekday: 'short' });
       const isToday = isTodaysDate(new Date(date));
       const dataKey = this.generateDateKey(new Date(date));
 
@@ -241,7 +254,7 @@ export default class IdsWeekView extends Base {
       <tr class="week-view-hour-row" data-hour="${hour}">
         <td>
           <div class="week-view-cell-wrapper">
-            <ids-text font-size="12">${calendars ? this.locale.formatHour(this.startHour + index) : ''}</ids-text>
+            <ids-text font-size="12">${calendars ? this.localeAPI.formatHour(this.startHour + index) : ''}</ids-text>
           </div>
         </td>
         ${cellTemplate}

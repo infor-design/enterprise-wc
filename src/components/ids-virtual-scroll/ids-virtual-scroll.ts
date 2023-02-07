@@ -1,6 +1,8 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-virtual-scroll-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
+
 import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-virtual-scroll.scss';
@@ -23,7 +25,7 @@ type OnAfterVirtualScrollArgs = {
  */
 @customElement('ids-virtual-scroll')
 @scss(styles)
-export default class IdsVirtualScroll extends Base {
+export default class IdsVirtualScroll extends IdsEventsMixin(IdsElement) {
   // Array is a pointer to a datasource in a parent component
   datasource: IdsDataSource | Record<string, any> = {};
 

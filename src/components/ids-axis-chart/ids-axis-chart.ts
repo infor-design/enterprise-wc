@@ -6,12 +6,16 @@ import { QUALITATIVE_COLORS } from './ids-chart-colors';
 import { patternData } from './ids-pattern-data';
 import NiceScale from './ids-nice-scale';
 import debounce from '../../utils/ids-debounce-utils/ids-debounce-utils';
-import Base from './ids-axis-chart-base';
+import IdsChartLegendMixin from '../../mixins/ids-chart-legend-mixin/ids-chart-legend-mixin';
+import IdsChartSelectionMixin, { ChartSelectionHandler } from '../../mixins/ids-chart-selection-mixin/ids-chart-selection-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 import IdsDataSource from '../../core/ids-data-source';
 import '../ids-tooltip/ids-tooltip';
 import '../ids-empty-message/ids-empty-message';
 import styles from './ids-axis-chart.scss';
-import { ChartSelectionHandler } from '../../mixins/ids-chart-selection-mixin/ids-chart-selection-mixin';
 import type IdsEmptyMessage from '../ids-empty-message/ids-empty-message';
 import type IdsText from '../ids-text/ids-text';
 import type IdsTooltip from '../ids-tooltip/ids-tooltip';
@@ -78,6 +82,18 @@ export type SectionHeight = {
   top: number;
 };
 
+const Base = IdsChartLegendMixin(
+  IdsChartSelectionMixin(
+    IdsThemeMixin(
+      IdsLocaleMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
+      )
+    )
+  )
+);
+
 /**
  * IDS Axis Chart Component
  * @type {IdsAxisChart}
@@ -90,6 +106,8 @@ export type SectionHeight = {
 @customElement('ids-axis-chart')
 @scss(styles)
 export default class IdsAxisChart extends Base implements ChartSelectionHandler {
+  initialized = false;
+
   constructor() {
     super();
 
@@ -216,7 +234,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       </slot>
       <slot name="empty-message">
         <ids-empty-message icon="empty-no-data" hidden>
-          <ids-text type="h2" font-size="20" label="true" slot="label">${this.locale?.translate('NoData') || 'No Data Available'}</ids-text>
+          <ids-text type="h2" font-size="20" label="true" slot="label">${this.localeAPI?.translate('NoData') || 'No Data Available'}</ids-text>
         </ids-empty-message>
       </slot>
       <slot name="tooltip">
@@ -230,16 +248,16 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @private
    */
   #attachEventHandlers(): void {
-    this.onEvent('localechange.about-container', this.closest('ids-container'), async () => {
+    this.onLocaleChange = () => {
       this.redraw();
       const textElem = this.shadowRoot?.querySelector<IdsText>('ids-empty-message ids-text');
-      if (textElem) textElem.textContent = this.locale?.translate('NoData');
-    });
+      if (textElem) textElem.textContent = this.localeAPI?.translate('NoData');
+    };
 
-    this.onEvent('languagechange.about-container', this.closest('ids-container'), async () => {
+    this.onLanguageChange = () => {
       const textElem = this.shadowRoot?.querySelector<IdsText>('ids-empty-message ids-text');
-      if (textElem) textElem.textContent = this.locale?.translate('NoData');
-    });
+      if (textElem) textElem.textContent = this.localeAPI?.translate('NoData');
+    };
   }
 
   /** Max width for x-labels text */
@@ -343,7 +361,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @private
    */
   #adjustRTL(): void {
-    if (!this.locale?.isRTL()) return;
+    if (!this.localeAPI?.isRTL()) return;
 
     const labels = {
       x: [...this.svg?.querySelectorAll('.labels.x-labels text') ?? []],
@@ -779,7 +797,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       const block = { start: gap, mid: this.height / 2, end: this.height - gap };
 
       // Position
-      const isRTL = this.locale?.isRTL();
+      const isRTL = this.localeAPI?.isRTL();
       const scale = isRTL ? ' scale(-1, 1)' : '';
       const transform = {
         top: `translate(${inline.mid}, ${block.start})${scale}`,
@@ -875,7 +893,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     if (typeof this.yAxisFormatter === 'function') {
       return this.yAxisFormatter(value, this.data, this);
     }
-    return new Intl.NumberFormat(this.locale?.locale?.name || 'en', this.yAxisFormatter).format(value as any);
+    return new Intl.NumberFormat(this.locale || 'en', this.yAxisFormatter).format(value as any);
   }
 
   #nameLabels(): string {

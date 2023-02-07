@@ -1,6 +1,7 @@
 import { customElement } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-hierarchy-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
 
 /**
  * IDS Hierarchy Component
@@ -9,7 +10,7 @@ import Base from './ids-hierarchy-base';
  * @mixes IdsEventsMixin
  */
 @customElement('ids-hierarchy')
-export default class IdsHierarchy extends Base {
+export default class IdsHierarchy extends IdsEventsMixin(IdsElement) {
   constructor() {
     super();
   }

@@ -1,18 +1,22 @@
-// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 
-// Import Base and Mixins
-import Base from './ids-menu-group-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsMenuHeader from './ids-menu-header';
+import IdsMenuItem from './ids-menu-item';
+import IdsElement from '../../core/ids-element';
 
-// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { MENU_GROUP_SELECT_TYPES } from './ids-menu-attributes';
 
-// Import Styles
 import styles from './ids-menu-group.scss';
-import IdsMenuHeader from './ids-menu-header';
-import IdsMenuItem from './ids-menu-item';
+
+const Base = IdsLocaleMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Menu Group Component
@@ -89,7 +93,7 @@ export default class IdsMenuGroup extends Base {
   }
 
   #getGeneratedLabel() {
-    const str = this.locale?.translate('MenuGroup') || '';
+    const str = this.localeAPI?.translate('MenuGroup') || '';
     return str.replace('{0}', this.items.length);
   }
 

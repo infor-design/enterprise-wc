@@ -1,7 +1,11 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import Base from './ids-tree-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
+
 import IdsDataSource from '../../core/ids-data-source';
 import IdsTreeShared from './ids-tree-shared';
 import './ids-tree-node';
@@ -11,6 +15,14 @@ import { unescapeHTML, escapeHTML } from '../../utils/ids-xss-utils/ids-xss-util
 import { stringToBool, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-tree.scss';
+
+const Base = IdsThemeMixin(
+  IdsLocaleMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS Tree Component
@@ -974,7 +986,7 @@ export default class IdsTree extends Base {
         const key = e.code;
         if (allow.indexOf(key) > -1) {
           const current = this.#current(n.elem);
-          const isRTL = this.locale.isRTL();
+          const isRTL = this.localeAPI.isRTL();
 
           if (key === 'ArrowDown') {
             move.next(current);
