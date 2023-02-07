@@ -269,7 +269,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
   }
 
   #update(cell: IdsDataGridCell, dateString: string) {
-    const inputDate = cell?.dataGrid.locale.parseDate(dateString) as Date;
+    const inputDate = cell?.dataGrid.localeAPI.parseDate(dateString) as Date;
 
     if (!isValidDate(inputDate)) return;
 
@@ -282,7 +282,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
       this.#value = inputDate;
     }
 
-    this.#displayValue = cell!.dataGrid.locale.formatDate(this.#value);
+    this.#displayValue = cell!.dataGrid.localeAPI.formatDate(this.#value);
   }
 
   #stopPropagation(evt: FocusEvent): void {
@@ -328,10 +328,10 @@ export class TimePickerEditor implements IdsDataGridEditor {
     // parse date string
     const dateString = cell!.originalValue as string ?? '';
     const formatOpts = cell!.column.formatOptions;
-    const date = cell!.dataGrid.locale.parseDate(dateString, formatOpts, true) as Date;
+    const date = cell!.dataGrid.localeAPI.parseDate(dateString, formatOpts, true) as Date;
     const isValid = isValidDate(date);
     this.#originalDate = isValid ? date : undefined;
-    this.input.value = isValid ? cell!.dataGrid.locale.formatDate(this.#originalDate, { pattern: this.input.format }) : '';
+    this.input.value = isValid ? cell!.dataGrid.localeAPI.formatDate(this.#originalDate, { pattern: this.input.format }) : '';
 
     // insert time picker and focus
     cell!.innerHTML = '';
