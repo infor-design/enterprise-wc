@@ -1,0 +1,10 @@
+---
+ component: Grid
+ link: ids-grid
+ description: Responsive Grid
+ category: Layouts
+ keywords: List, List View, Listview, Grid, Responsively
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows a grid
