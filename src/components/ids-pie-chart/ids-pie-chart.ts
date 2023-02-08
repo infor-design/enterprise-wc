@@ -9,7 +9,13 @@ import {
   kebabCase
 } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-pie-chart-base';
+import IdsChartLegendMixin from '../../mixins/ids-chart-legend-mixin/ids-chart-legend-mixin';
+import IdsChartSelectionMixin from '../../mixins/ids-chart-selection-mixin/ids-chart-selection-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
+
 import IdsDataSource from '../../core/ids-data-source';
 
 import '../ids-tooltip/ids-tooltip';
@@ -44,6 +50,18 @@ type PercentData = {
   rounded: number;
 };
 
+const Base = IdsChartLegendMixin(
+  IdsChartSelectionMixin(
+    IdsThemeMixin(
+      IdsLocaleMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
+      )
+    )
+  )
+);
+
 /**
  * IDS Pie Chart Component
  * @type {IdsPieChart}
@@ -59,6 +77,8 @@ type PercentData = {
 @customElement('ids-pie-chart')
 @scss(styles)
 export default class IdsPieChart extends Base {
+  initialized = false;
+
   constructor() {
     super();
 
@@ -103,7 +123,6 @@ export default class IdsPieChart extends Base {
 
     this.redraw();
     this.legendsClickable?.(this.selectable);
-    this.#attachEventHandlers();
   }
 
   /**
@@ -176,7 +195,7 @@ export default class IdsPieChart extends Base {
       </slot>
       <slot name="empty-message">
         <ids-empty-message icon="empty-no-data" hidden>
-          <ids-text type="h2" font-size="20" label="true" slot="label">${this.locale?.translate('NoData') || 'No Data Available'}</ids-text>
+          <ids-text type="h2" font-size="20" label="true" slot="label">${this.localeAPI?.translate('NoData') || 'No Data Available'}</ids-text>
         </ids-empty-message>
       </slot>
       <slot name="tooltip">
@@ -185,22 +204,18 @@ export default class IdsPieChart extends Base {
     </div>`;
   }
 
-  /**
-   * Setup event handling
-   * @private
-   */
-  #attachEventHandlers(): void {
-    this.onEvent('localechange.pie', this.closest('ids-container'), async () => {
-      this.redraw();
-      const textElem = this.shadowRoot?.querySelector('ids-empty-message ids-text');
-      if (textElem) textElem.textContent = this.locale?.translate('NoData');
-    });
+  // Respond to changing locale
+  onLocaleChange = () => {
+    this.redraw();
+    const textElem = this.shadowRoot?.querySelector('ids-empty-message ids-text');
+    if (textElem) textElem.textContent = this.localeAPI?.translate('NoData');
+  };
 
-    this.onEvent('languagechange.pie', this.closest('ids-container'), async () => {
-      const textElem = this.shadowRoot?.querySelector('ids-empty-message ids-text');
-      if (textElem) textElem.textContent = this.locale?.translate('NoData');
-    });
-  }
+  // Respond to changing language
+  onLanguageChange = () => {
+    const textElem = this.shadowRoot?.querySelector('ids-empty-message ids-text');
+    if (textElem) textElem.textContent = this.localeAPI?.translate('NoData');
+  };
 
   /**
    * Get the percentages as rounded and total
@@ -231,7 +246,7 @@ export default class IdsPieChart extends Base {
       const colorClass = slice.pattern ? '' : ` color-${index + 1}`;
       const patternSvg = slice.pattern ? `<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg"><rect width="12" height="12" fill="url(#${slice.pattern})"></rect></svg>` : '';
 
-      let legendValue = `${slice.name} (${this.percents[index].rounded}${this.locale?.numbers().percentSign || '%'})`;
+      let legendValue = `${slice.name} (${this.percents[index].rounded}${this.localeAPI?.numbers().percentSign || '%'})`;
       if (typeof this.legendFormatter === 'function') {
         legendValue = this.legendFormatter(slice, this.percents[index], this);
       }

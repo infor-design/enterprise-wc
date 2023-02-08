@@ -182,7 +182,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
 
     if (thisAsInput.value) {
       this.openPopup();
-      this.listBox.innerHTML = results || `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
+      this.listBox.innerHTML = results || `<ids-list-box-option>${(this.localeAPI).translate('NoResults')}</ids-list-box-option>`;
 
       // Change location of the popup after results are populated and the popup's height change
       this.popup.place();

@@ -3,7 +3,7 @@
  */
 import '../../src/mixins/ids-locale-mixin/ids-locale-mixin';
 import '../../src/components/ids-text/ids-text';
-import IdsCustomCalendarEvent from '../../src/components/ids-calendar/demos/ids-custom-calendar-event';
+import IdsCustomCalendarEvent from '../../src/components/ids-calendar/demos/custom-calendar-event';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
 const EVENT_ITEM = {

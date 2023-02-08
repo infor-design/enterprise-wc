@@ -1,7 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { EXPANDABLE_AREA_TYPES } from './ids-exandable-area-attributes';
-import Base from './ids-exandable-area-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-expandable-area.scss';
 
@@ -9,6 +11,12 @@ export enum IdsExpandableAreaExpandStyles {
   fixed,
   fill
 }
+
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Expandable Area Component

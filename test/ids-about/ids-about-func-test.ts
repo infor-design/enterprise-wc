@@ -6,6 +6,7 @@ import '../helpers/match-media-mock';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsAbout from '../../src/components/ids-about/ids-about';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 // Supporing components
 import '../../src/components/ids-container/ids-container';
@@ -13,8 +14,9 @@ import '../../src/components/ids-text/ids-text';
 import '../../src/components/ids-hyperlink/ids-hyperlink';
 
 // locale messages
-import { messages as esMessages } from '../../src/components/ids-locale/cultures/es-messages';
-import { messages as jaMessages } from '../../src/components/ids-locale/cultures/ja-messages';
+import { messages as esMessages } from '../../src/components/ids-locale/data/es-messages';
+import { messages as jaMessages } from '../../src/components/ids-locale/data/ja-messages';
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 
 const name = 'ids-about';
 const id = 'test-about-component';
@@ -30,6 +32,10 @@ describe('IdsAbout Component (using properties)', () => {
   beforeEach(async () => {
     const container: any = document.createElement('ids-container');
     document.body.appendChild(container);
+
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
+    IdsLocaleData.loadedLanguages.set('es', esMessages);
+    IdsLocaleData.loadedLanguages.set('ja', jaMessages);
     await container.setLanguage('en');
 
     component = new IdsAbout();

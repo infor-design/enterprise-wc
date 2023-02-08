@@ -2,7 +2,10 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-upload-advanced-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
 
 import './ids-upload-advanced-file';
 import '../ids-hyperlink/ids-hyperlink';
@@ -15,6 +18,14 @@ import '../ids-toolbar/ids-toolbar';
 import '../ids-button/ids-button';
 
 const shared = IdsUploadAdvancedShared;
+
+const Base = IdsThemeMixin(
+  IdsLocaleMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS UploadAdvanced Component

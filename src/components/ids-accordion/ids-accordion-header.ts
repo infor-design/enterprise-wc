@@ -2,7 +2,11 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { applyContentAlignmentClass } from './ids-accordion-common';
-import Base from './ids-accordion-header-base';
+
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-accordion-header.scss';
 import type IdsIcon from '../ids-icon/ids-icon';
@@ -17,6 +21,14 @@ const DEFAULT_ICON_OFF = 'caret-down';
 // Submenu Style Icons
 const ICON_MINUS = 'plusminus-folder-closed';
 const ICON_PLUS = 'plusminus-folder-open';
+
+const Base = IdsColorVariantMixin(
+  IdsThemeMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS Accordion Header Component

@@ -11,3 +11,6 @@
   - link: numbers.html
     type: Example
     description: Shows parsing numbers
+  - link: dropdown.html
+    type: Example
+    description: Shows two different language dropdowns

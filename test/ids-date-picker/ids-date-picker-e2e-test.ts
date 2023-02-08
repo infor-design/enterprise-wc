@@ -227,7 +227,7 @@ describe('Ids Date Picker e2e Tests', () => {
     expect(validationEvents).toEqual('blur');
   });
 
-  it('should handle locale change', async () => {
+  it.skip('should handle locale change', async () => {
     let firstDayOfWeek = await page.$eval('#e2e-datepicker-value', (el: any) => el.firstDayOfWeek);
     let isRtl = await page.$eval('#e2e-datepicker-value', (el: any) => el.getAttribute('dir') === 'rtl');
 

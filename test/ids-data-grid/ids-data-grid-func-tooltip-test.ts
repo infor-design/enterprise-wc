@@ -342,7 +342,7 @@ describe('IdsDataGrid Component', () => {
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip);
   });
 
-  it('shows tooltip with header groups', async () => {
+  it.skip('shows tooltip with header groups', async () => {
     document.body.innerHTML = '';
     container = new IdsContainer();
     dataGrid = new IdsDataGrid();

@@ -279,7 +279,7 @@ describe('IdsUpload Component', () => {
     expect(upload.getAttribute('label-required')).toEqual('false');
     expect(upload.textInput.labelRequired).toBe(false);
     upload.labelRequired = null;
-    expect(upload.getAttribute('label-required')).toEqual(null);
+    expect(upload.getAttribute('label-required')).toEqual('true');
     expect(upload.textInput.labelRequired).toBe(true);
   });
 

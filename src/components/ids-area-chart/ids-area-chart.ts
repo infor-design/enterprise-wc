@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import '../ids-line-chart/ids-line-chart';
-import Base from './ids-area-chart-base';
+import IdsLineChart from '../ids-line-chart/ids-line-chart';
+
 import styles from './ids-area-chart.scss';
 
 /**
@@ -15,7 +15,7 @@ import styles from './ids-area-chart.scss';
  */
 @customElement('ids-area-chart')
 @scss(styles)
-export default class IdsAreaChart extends Base {
+export default class IdsAreaChart extends IdsLineChart {
   constructor() {
     super();
 

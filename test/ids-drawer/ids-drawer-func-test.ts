@@ -8,6 +8,8 @@ import '../../src/components/ids-button/ids-button';
 import createFromTemplate from '../helpers/create-from-template';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import waitForTimeout from '../helpers/wait-for-timeout';
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 describe('IdsDrawer Component', () => {
   let elem: any;
@@ -141,6 +143,7 @@ describe('IdsDrawer Component', () => {
     const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.appendChild(elem2);
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
 
     await container.setLanguage('ar');
     waitForTimeout(() => expect(elem.getAttribute('dir')).toBe('rtl'));

@@ -3,11 +3,20 @@ import pathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import Base from './ids-empty-message-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
+
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
 
 import styles from './ids-empty-message.scss';
+
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Empty Message Component

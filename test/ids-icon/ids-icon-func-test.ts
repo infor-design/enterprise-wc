@@ -4,6 +4,9 @@
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsIcon, { addIcon } from '../../src/components/ids-icon/ids-icon';
 import processAnimFrame from '../helpers/process-anim-frame';
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 describe('IdsIcon Component', () => {
   let elem: IdsIcon;
@@ -11,6 +14,8 @@ describe('IdsIcon Component', () => {
 
   beforeEach(() => {
     container = new IdsContainer();
+    IdsLocaleData.loadedLanguages.set('de', deMessages);
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
     elem = new IdsIcon();
 
     elem.icon = 'close';
@@ -88,7 +93,9 @@ describe('IdsIcon Component', () => {
     icon.icon = 'previous-page';
     container.appendChild(icon);
     document.body.appendChild(container);
-    container.language = 'ar';
+
+    await processAnimFrame();
+    await container.setLanguage('ar');
     await processAnimFrame();
     expect(icon.isMirrored('previous-page')).toBeTruthy();
     expect(icon.template()).toContain('class="mirrored"');
@@ -96,11 +103,11 @@ describe('IdsIcon Component', () => {
 
   it('can change language from the container', async () => {
     elem.icon = 'previous-page';
-    container.language = 'de';
+    await container.setLanguage('de');
     await processAnimFrame();
     expect(elem.getAttribute('dir')).toBeFalsy();
     expect(elem.container?.getAttribute('dir')).toBeFalsy();
-    container.language = 'ar';
+    await container.setLanguage('ar');
     await processAnimFrame();
     expect(elem.template()).toContain('class="mirrored"');
   });

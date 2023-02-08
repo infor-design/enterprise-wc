@@ -1,8 +1,10 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import Base from './ids-masthead-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsHeader from '../ids-header/ids-header';
 
-import '../ids-header/ids-header';
 import '../ids-toolbar/ids-toolbar';
 
 import styles from './ids-masthead.scss';
@@ -10,6 +12,14 @@ import type IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
 import type IdsToolbarMoreActions from '../ids-toolbar/ids-toolbar-more-actions';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
+
+const Base = IdsThemeMixin(
+  IdsKeyboardMixin(
+    IdsEventsMixin(
+      IdsHeader
+    )
+  )
+);
 
 export type MastheadSlots = {
   start: HTMLElement | null;

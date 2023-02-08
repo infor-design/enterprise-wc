@@ -2,7 +2,8 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-trigger-field/ids-trigger-button';
-import Base from './ids-spinbox-base';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+
 import styles from './ids-spinbox.scss';
 
 /**
@@ -23,7 +24,7 @@ const MOUSE_LEFT = 0b001;
  */
 @customElement('ids-spinbox')
 @scss(styles)
-export default class IdsSpinbox extends Base {
+export default class IdsSpinbox extends IdsTriggerField {
   constructor() {
     super();
   }
@@ -214,28 +215,6 @@ export default class IdsSpinbox extends Base {
    */
   get incrementButton() {
     return this.querySelector('ids-trigger-button[slot="trigger-end"]');
-  }
-
-  /**
-   * Sets the contents of the label and updates relevant ARIA attributes
-   * @param {string} value the new label contents
-   */
-  set label(value) {
-    super.label = value;
-    const newValue = super.label;
-
-    if (newValue) {
-      this.setAttribute(htmlAttributes.ARIA_LABEL, `${newValue}`);
-    } else {
-      this.removeAttribute(htmlAttributes.ARIA_LABEL);
-    }
-  }
-
-  /**
-   * @returns {string} the text contents of the label
-   */
-  get label() {
-    return super.label;
   }
 
   /**

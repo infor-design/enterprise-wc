@@ -1,8 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-error-page-base';
+import IdsModal from '../ids-modal/ids-modal';
 
-import '../ids-modal/ids-modal';
 import '../ids-empty-message/ids-empty-message';
 import '../ids-icon/ids-icon';
 import styles from './ids-error-page.scss';
@@ -20,7 +19,7 @@ const DEFAULT_ICON = 'empty-error-loading';
  */
 @customElement('ids-error-page')
 @scss(styles)
-export default class IdsErrorPage extends Base {
+export default class IdsErrorPage extends IdsModal {
   constructor() {
     super();
   }

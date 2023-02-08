@@ -7,7 +7,10 @@ import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 import './ids-toolbar-section';
 import './ids-toolbar-more-actions';
 
-import Base from './ids-toolbar-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-toolbar.scss';
 import type IdsToolbarMoreActions from './ids-toolbar-more-actions';
@@ -15,6 +18,14 @@ import type IdsToolbarMoreActions from './ids-toolbar-more-actions';
 const FORMATTER_VARIANT = 'alternate-formatter';
 
 const TOOLBAR_TYPES = ['formatter'];
+
+const Base = IdsThemeMixin(
+  IdsKeyboardMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS Toolbar Component

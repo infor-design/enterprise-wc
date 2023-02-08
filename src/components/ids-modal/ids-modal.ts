@@ -2,7 +2,15 @@ import { attributes } from '../../core/ids-attributes';
 import { breakpoints, Breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import { customElement, scss } from '../../core/ids-decorators';
 
-import Base from './ids-modal-base';
+import IdsBreakpointMixin from '../../mixins/ids-breakpoint-mixin/ids-breakpoint-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsFocusCaptureMixin from '../../mixins/ids-focus-capture-mixin/ids-focus-capture-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin';
+import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
+import IdsElement from '../../core/ids-element';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
@@ -18,6 +26,24 @@ import type IdsModalButton from '../ids-modal-button/ids-modal-button';
 import styles from './ids-modal.scss';
 
 type IdsModalFullsizeAttributeValue = null | 'null' | '' | keyof Breakpoints | 'always';
+
+const Base = IdsXssMixin(
+  IdsBreakpointMixin(
+    IdsFocusCaptureMixin(
+      IdsKeyboardMixin(
+        IdsPopupInteractionsMixin(
+          IdsPopupOpenEventsMixin(
+            IdsThemeMixin(
+              IdsEventsMixin(
+                IdsElement
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Modal Component

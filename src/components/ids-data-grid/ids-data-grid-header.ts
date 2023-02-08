@@ -99,7 +99,7 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
       // Determine how far the mouse has been moved
       const dx = e.clientX - x;
       // Update the width of column to ${w + dx}px
-      this.dataGrid?.setColumnWidth(columnId, w + (!this.dataGrid.locale.isRTL() ? dx : -dx));
+      this.dataGrid?.setColumnWidth(columnId, w + (!this.dataGrid.localeAPI.isRTL() ? dx : -dx));
     };
 
     // When user releases the mouse, remove the existing event listeners
@@ -168,7 +168,7 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
 
       this?.appendChild(dragger);
       // Based on width of 110
-      e?.dataTransfer?.setDragImage(dragger, this.dataGrid?.locale.isRTL() ? 100 : 10, 18);
+      e?.dataTransfer?.setDragImage(dragger, this.dataGrid?.localeAPI.isRTL() ? 100 : 10, 18);
 
       target.style.position = 'absolute';
       startIndex = target.parentNode.getAttribute('aria-colindex');
@@ -185,7 +185,7 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
       const cellLeft = rect.left + (startIndex < curIndex ? rect.width + 1 : 1);
       const cellRight = rect.left + (startIndex < curIndex ? 1 : rect.width + 1);
 
-      dragArrows?.style.setProperty('left', `${this.dataGrid?.locale.isRTL() ? cellRight : cellLeft}px`);
+      dragArrows?.style.setProperty('left', `${this.dataGrid?.localeAPI.isRTL() ? cellRight : cellLeft}px`);
       dragArrows?.style.setProperty('height', `${rect.height}px`);
       dragArrows?.style.setProperty('display', 'block');
 

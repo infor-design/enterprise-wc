@@ -15,6 +15,9 @@ import {
 import '../../src/components/ids-editor/ids-editor-clean-utils';
 import '../../src/components/ids-editor/ids-editor-shared';
 import '../../src/components/ids-editor/ids-editor-formatters';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 
 document.execCommand = jest.fn();
 document.queryCommandSupported = jest.fn();
@@ -31,6 +34,7 @@ describe('IdsEditor Component', () => {
     document.body.appendChild(container);
     editor = container.querySelector('ids-editor');
     await container.setLanguage('en');
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
   });
 
   afterEach(async () => {

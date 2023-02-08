@@ -1,10 +1,25 @@
 import fontSizes from 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-hyperlink-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsHitboxMixin from '../../mixins/ids-hitbox-mixin/ids-hitbox-mixin';
+import IdsElement from '../../core/ids-element';
+
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-hyperlink.scss';
+
+const Base = IdsHitboxMixin(
+  IdsColorVariantMixin(
+    IdsThemeMixin(
+      IdsEventsMixin(
+        IdsElement
+      )
+    )
+  )
+);
 
 /**
  * IDS Hyperlink Component
