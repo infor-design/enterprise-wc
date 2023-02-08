@@ -9,7 +9,7 @@ import booksJSON from '../../../assets/data/books.json';
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-editable')!;
 const rowHeightMenu = document.querySelector<IdsPopupMenu>('#row-height-menu')!;
 const pageContainer: any = document.querySelector('ids-container');
-const calendar = pageContainer.locale.calendar();
+const calendar = pageContainer.localeAPI.calendar();
 
 // Change row height with popup menu
 rowHeightMenu?.addEventListener('selected', (e: Event) => {
