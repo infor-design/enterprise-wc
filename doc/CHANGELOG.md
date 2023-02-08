@@ -8,6 +8,7 @@
 
 ### 1.0.0-beta.6 Fixes
 
+- `[DataGrid]` Added more cell-formatters. ([#1021](https://github.com/infor-design/enterprise-wc/issues/1021))
 - `[Build]` Fixed tsc errors running the build commands `npm run build:dist`. ([#1059](https://github.com/infor-design/enterprise-wc/issues/1059))
 - `[Build]` Fixed errors using `new IdsComponentName()` when imported from the npm package. ([#971](https://github.com/infor-design/enterprise-wc/issues/971))
 - `[Build]` All scripts in the npm package are now ES Modules and use lazy loading to reduce size and payload. Scripts must be imports as ES modules script `type="module"` ([#814](https://github.com/infor-design/enterprise-wc/issues/814))
@@ -20,7 +21,6 @@
 
 ### 1.0.0-beta.3 Fixes
 
-- `[DataGrid]` Added more cell-formatters. ([#1021](https://github.com/infor-design/enterprise-wc/issues/1021))
 - `[DataGrid]` Added row-recycling pattern and caching to improve virtual-scroll performance. ([#972](https://github.com/infor-design/enterprise-wc/issues/972))
 - `[DataGrid]` Fixed arrow-keys on virtual-scroll and added scrollRowIntoView() method. ([#929](https://github.com/infor-design/enterprise-wc/issues/929))
 - `[General]` Fixed a list of issues in Safari browser. ([#956](https://github.com/infor-design/enterprise-wc/issues/956))
