@@ -58,6 +58,7 @@
     "trackDeprecationHistory": "No",
     "useForEmployee": "Yes",
     "icon": null,
+    "image": "https://placekitten.com/400/300",
     "category": null,
     "deprecationHistory": "Asset Label",
     "publishDate": "2021-12-23T18:25:43.511Z",

@@ -719,43 +719,6 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.color({ rowData, color: null }, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the counts formatter', () => {
-      const columnData = {
-        id: 'count',
-        name: 'Count',
-        field: 'count',
-        formatter: formatters.counts,
-        width: 100,
-      };
-
-      expect(formatters.counts(rowData, columnData, 1)).toMatchSnapshot();
-    });
-
-    it('can render with the counts formatter with color-override', () => {
-      const columnData = {
-        id: 'count',
-        name: 'Count',
-        field: 'count',
-        formatter: formatters.counts,
-        width: 100,
-        color: '#4caf50'
-      };
-
-      expect(formatters.counts(rowData, columnData, 1)).toMatchSnapshot();
-    });
-
-    it('can render with the counts formatter without a value', () => {
-      const columnData = {
-        id: 'count',
-        name: 'Count',
-        field: 'count',
-        formatter: formatters.counts,
-        width: 100,
-      };
-
-      expect(formatters.counts({ rowData, count: null }, columnData, 1)).toMatchSnapshot();
-    });
-
     it('can render with the icon formatter', () => {
       const columnData = {
         id: 'icon',
@@ -860,7 +823,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.favorite({ rowData, inStock: null }, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the favorite formatter with size override', () => {
+    it('can render with the favorite formatter with size-override', () => {
       const columnData = {
         id: 'inStock-favorite',
         name: 'Favorite',
@@ -917,18 +880,6 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.progress(rowData, columnData)).toMatchSnapshot();
     });
 
-    it('can render with the progress formatter with color-override', () => {
-      const columnData = {
-        id: 'count-progress',
-        name: 'Progress Bar',
-        field: 'count',
-        color: '#4caf50',
-        formatter: formatters.progress,
-      };
-
-      expect(formatters.progress(rowData, columnData)).toMatchSnapshot();
-    });
-
     it('can render with the progress formatter with max-override', () => {
       const columnData = {
         id: 'count-progress',
@@ -975,7 +926,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.rating(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the rating formatter as readonly', () => {
+    it('can render with the rating formatter as readonly=true', () => {
       const columnData = {
         id: 'count-rating',
         name: 'Rating',
@@ -987,12 +938,24 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.rating(rowData, columnData, 1)).toMatchSnapshot();
     });
 
+    it('can render with the rating formatter as readonly=false', () => {
+      const columnData = {
+        id: 'count-rating',
+        name: 'Rating',
+        field: 'count',
+        readonly: false,
+        formatter: formatters.rating,
+      };
+
+      expect(formatters.rating(rowData, columnData, 1)).toMatchSnapshot();
+    });
+
     it('can render with the rating formatter with color-override', () => {
       const columnData = {
         id: 'count-rating',
         name: 'Rating',
         field: 'count',
-        color: 'azure06',
+        color: 'orange',
         formatter: formatters.rating,
       };
 
@@ -1004,7 +967,7 @@ describe('IdsDataGrid Component', () => {
         id: 'count-rating',
         name: 'Rating',
         field: 'count',
-        max: 5,
+        max: 10,
         formatter: formatters.rating,
       };
 
@@ -1045,12 +1008,24 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.slider(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the slider formatter as readonly', () => {
+    it('can render with the slider formatter as readonly=true', () => {
       const columnData = {
         id: 'count-slider',
         name: 'Slider',
         field: 'count',
         readonly: true,
+        formatter: formatters.slider,
+      };
+
+      expect(formatters.slider(rowData, columnData, 1)).toMatchSnapshot();
+    });
+
+    it('can render with the slider formatter as readonly=false', () => {
+      const columnData = {
+        id: 'count-slider',
+        name: 'Slider',
+        field: 'count',
+        readonly: false,
         formatter: formatters.slider,
       };
 
@@ -1145,18 +1120,6 @@ describe('IdsDataGrid Component', () => {
         name: 'Step Chart',
         field: 'count',
         max: 7,
-        formatter: formatters.stepChart,
-      };
-
-      expect(formatters.stepChart(rowData, columnData, 1)).toMatchSnapshot();
-    });
-
-    it('can render with the stepChart formatter with text/label override', () => {
-      const columnData = {
-        id: 'count-step-chart',
-        name: 'Step Chart',
-        field: 'count',
-        text: 'Step-Chart Override',
         formatter: formatters.stepChart,
       };
 

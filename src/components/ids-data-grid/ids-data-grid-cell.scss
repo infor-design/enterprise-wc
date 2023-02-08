@@ -200,7 +200,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   }
 
   ids-alert {
-    position: absolute;
+    position: relative;
     margin-inline: calc(100% - 24px);
     margin-top: 3px;
   }

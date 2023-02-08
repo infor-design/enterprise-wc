@@ -8,6 +8,10 @@
   @include rounded-md();
 }
 
+:host {
+  @include w-full();
+}
+
 .ids-progress-bar {
   contain: content;
 

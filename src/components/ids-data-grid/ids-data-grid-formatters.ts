@@ -241,18 +241,6 @@ export default class IdsDataGridFormatters {
     return `<ids-color hex="${hex}" ${tooltip}></ids-color>`;
   }
 
-  /* Shows the field value within an ids-counts. A `color` option can be provided to override the color of ids-count. */
-  counts(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
-    const color = this.#color(index, value, columnData, rowData);
-
-    return `
-      <ids-counts compact color="${color || ''}">
-        <ids-text count-value>${Number.isNaN(value) ? 0 : value}</ids-text>
-      </ids-counts>
-    `;
-  }
-
   /* Shows the field value as an ids-icon. An `icon` and `size` option can be provided as overrides. */
   icon(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
@@ -275,11 +263,15 @@ export default class IdsDataGridFormatters {
   favorite(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
 
-    return this.icon(
-      rowData,
+    return this.rating(
+      {
+        ...rowData,
+        [String(columnData.field)]: value ? 1 : 0,
+      },
       {
         ...columnData,
-        icon: value ? 'star-filled' : 'star-outlined',
+        max: 1,
+        min: 0,
       },
       index,
     );
@@ -310,11 +302,10 @@ export default class IdsDataGridFormatters {
     }
 
     // TODO: Fix label and label-audible attribute
-    // const label = columnData.text ? `label="${columnData.text}" label-audible` : '';
-    const label = columnData.text ? `label="${columnData.text} (${val} / ${max})"` : '';
+    const label = `label="${columnData?.text || `${val} of ${max}`}" label-audible`;
 
     return `
-      <ids-progress-bar ${label} max="${max}" value="${val}">
+      <ids-progress-bar ${label} max="${max}" value="${val}" readonly>
       </ids-progress-bar>
     `;
   }
@@ -325,7 +316,7 @@ export default class IdsDataGridFormatters {
   */
   rating(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
-    const color = this.#color(index, value, columnData, rowData) || 'azure06';
+    const color = this.#color(index, value, columnData, rowData);
 
     const max = columnData.max ?? 5;
     let val = Number.isNaN(value) ? 0 : value;
@@ -338,16 +329,21 @@ export default class IdsDataGridFormatters {
       }
     }
 
+    const sizes = ['small', 'medium', 'large', 'xl', 'xxl'];
+    let size = this.#size(index, value, columnData, rowData) || '';
+    size = sizes.includes(size) ? size : 'large';
+
     const label = columnData.text ?? `${val} of ${max} stars`;
-    const readonly = this.#readonly(index, value, columnData, rowData) ? 'readonly' : '';
+    const readonly = this.#readonly(index, value, columnData, rowData) ?? true;
 
     return `
       <ids-rating
         label="${label}"
-        color="${color}"
+        size="${size}"
         stars="${max}"
         value="${val}"
-        ${readonly}
+        ${color ? `color="${color}"` : ''}
+        ${readonly ? 'readonly' : ''}
       >
       </ids-rating>
     `;
@@ -359,9 +355,8 @@ export default class IdsDataGridFormatters {
   */
   slider(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
-    const color = this.#color(index, value, columnData, rowData) || 'azure06';
+    const color = this.#color(index, value, columnData, rowData);
 
-    const type = columnData.type ?? 'single';
     const min = columnData.min ?? 0;
     const max = columnData.max ?? 100;
     let val = Number.isNaN(value) ? 0 : value;
@@ -374,19 +369,20 @@ export default class IdsDataGridFormatters {
       }
     }
 
+    const type = columnData.type ?? 'single';
     const label = columnData.text ?? `${val} of ${max} stars`;
-    const readonly = this.#readonly(index, value, columnData, rowData) ? 'readonly' : '';
+    const readonly = this.#readonly(index, value, columnData, rowData) ?? true;
 
     return `
       <ids-slider
         type="${type}"
         label="${label}"
-        color="${color}"
-        min="${min}"
+        min="${Math.max(min, 0)}"
         max="${max}"
-        value="${val}"
+        value="${Math.min(val, max)}"
         show-tooltip
-        ${readonly}
+        ${color ? `color="${color}"` : ''}
+        ${readonly ? 'readonly' : ''}
       >
       </ids-slider>
     `;
@@ -398,7 +394,7 @@ export default class IdsDataGridFormatters {
   */
   stepChart(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
-    const color = this.#color(index, value, columnData, rowData) || 'azure06';
+    const color = this.#color(index, value, columnData, rowData);
 
     let max = columnData.max ?? 5;
     if (!columnData.max && value > 1) {
@@ -412,19 +408,18 @@ export default class IdsDataGridFormatters {
       max = 10;
     }
 
-    const label = columnData.text ?? `${val} of ${max} steps completed`;
+    // const label = columnData.text ?? `${val} of ${max} steps completed`;
     const completedSteps = Math.floor(val);
     const stepsInProgress = Math.ceil(val);
     const showStepsInProgress = completedSteps !== stepsInProgress;
 
     return `
       <ids-step-chart
-        label="${label}"
-        color="${color}"
-        progress-color="ruby02"
         step-number="${Math.min(max, 10)}"
         steps-in-progress="${showStepsInProgress ? stepsInProgress : 0}"
         value="${Math.floor(val)}"
+        progress-color="ruby02"
+        ${color ? `color="${color}"` : ''}
       >
       </ids-step-chart>
     `;

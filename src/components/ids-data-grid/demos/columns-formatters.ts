@@ -1,6 +1,8 @@
 import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
+import type IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
+import type IdsMenuItem from '../../ids-menu/ids-menu-item';
 import { escapeHTML } from '../../../utils/ids-xss-utils/ids-xss-utils';
 import booksJSON from '../../../assets/data/books.json';
 import css from '../../../assets/css/ids-data-grid/custom-link.css';
@@ -14,6 +16,7 @@ document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-formatters')!;
+const rowHeightMenu = document.querySelector<IdsPopupMenu>('#row-height-menu')!;
 
 if (dataGrid) {
   (async function init() {
@@ -110,15 +113,6 @@ if (dataGrid) {
       width: 200
     });
     columns.push({
-      id: 'count',
-      name: 'Count',
-      field: 'count',
-      sortable: true,
-      formatter: dataGrid.formatters.counts,
-      width: 100,
-      color: '#4caf50'
-    });
-    columns.push({
       id: 'count-progress',
       name: 'Progress Bar',
       field: 'count',
@@ -133,25 +127,25 @@ if (dataGrid) {
       id: 'count-rating',
       name: 'Rating',
       field: 'count',
+      align: 'center',
       sortable: true,
+      resizable: true,
       formatter: dataGrid.formatters.rating,
       width: 200,
       color: 'azure06',
       max: 5,
-      readonly: false,
-      resizable: true,
     });
     columns.push({
       id: 'count-slider',
       name: 'Slider',
       field: 'count',
+      resizable: true,
+      width: 200,
       sortable: true,
       formatter: dataGrid.formatters.slider,
-      width: 200,
       color: 'azure06',
-      max: 5,
-      readonly: false,
-      resizable: true,
+      max: 10,
+      type: 'step',
     });
     columns.push({
       id: 'count-step-chart',
@@ -178,8 +172,6 @@ if (dataGrid) {
       field: 'inStock',
       align: 'center',
       sortable: true,
-      // color: 'red',
-      readonly: false,
       size: 'large',
       formatter: dataGrid.formatters.favorite,
     });
@@ -187,28 +179,32 @@ if (dataGrid) {
       id: 'badge',
       name: 'Badge',
       field: 'price',
+      align: 'center',
       color: 'info',
       sortable: true,
+      resizable: true,
+      width: 100,
       formatter: dataGrid.formatters.badge,
-      width: 75
     });
     columns.push({
       id: 'category-tag',
       name: 'Tag',
       field: 'category',
+      align: 'center',
       sortable: true,
       resizable: true,
-      formatter: dataGrid.formatters.tag,
+      width: 200,
       color: 'success',
+      formatter: dataGrid.formatters.tag,
       cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
     });
     columns.push({
       id: 'category-alert',
       name: 'Alert',
       field: 'category',
+      align: 'center',
       sortable: true,
       resizable: true,
-      align: 'center',
       formatter: dataGrid.formatters.alert,
       color: 'info',
       cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
@@ -217,6 +213,7 @@ if (dataGrid) {
       id: 'color',
       name: 'Color',
       field: 'color',
+      align: 'center',
       sortable: true,
       resizable: true,
       formatter: dataGrid.formatters.color,
@@ -225,6 +222,7 @@ if (dataGrid) {
       id: 'icon',
       name: 'Icon',
       field: 'icon',
+      align: 'center',
       sortable: true,
       resizable: true,
       formatter: dataGrid.formatters.icon,
@@ -234,6 +232,8 @@ if (dataGrid) {
       id: 'icon-text',
       name: 'Custom Icon',
       field: 'icon',
+      width: 200,
+      align: 'left',
       sortable: true,
       resizable: true,
       formatter: dataGrid.formatters.icon,
@@ -243,6 +243,9 @@ if (dataGrid) {
       id: 'image',
       name: 'Image',
       field: 'image',
+      align: 'center',
+      sortable: true,
+      resizable: true,
       text: 'Image Alt Text',
       formatter: dataGrid.formatters.image,
     });
@@ -312,6 +315,12 @@ if (dataGrid) {
     });
 
     dataGrid.columns = columns;
+
+    // Change row height with popup menu
+    rowHeightMenu?.addEventListener('selected', (e: Event) => {
+      dataGrid.rowHeight = (e.target as IdsMenuItem).value as string;
+    });
+
     const setData = async () => {
       const res = await fetch(url);
       const data = await res.json();
