@@ -38,82 +38,100 @@ export default class IdsGrid extends IdsElement {
 
   set colsXs(value: string | null) {
     if (value !== null) {
-      this.setAttribute('cols-xs', value);
+      this.setAttribute(attributes.COLS_XS, value);
     } else {
-      this.removeAttribute('cols-xs');
+      this.removeAttribute(attributes.COLS_XS);
     }
   }
 
-  get colsXs(): string | null { return this.getAttribute('cols-xs'); }
+  get colsXs(): string | null { return this.getAttribute(attributes.COLS_XS); }
 
   set colsSm(value: string | null) {
     if (value !== null) {
-      this.setAttribute('cols-sm', value);
+      this.setAttribute(attributes.COLS_SM, value);
     } else {
-      this.removeAttribute('cols-sm');
+      this.removeAttribute(attributes.COLS_SM);
     }
   }
 
-  get colsSm(): string | null { return this.getAttribute('cols-sm'); }
+  get colsSm(): string | null { return this.getAttribute(attributes.COLS_SM); }
 
   set colsMd(value: string | null) {
     if (value !== null) {
-      this.setAttribute('cols-md', value);
+      this.setAttribute(attributes.COLS_MD, value);
     } else {
-      this.removeAttribute('cols-md');
+      this.removeAttribute(attributes.COLS_MD);
     }
   }
 
-  get colsMd(): string | null { return this.getAttribute('cols-md'); }
+  get colsMd(): string | null { return this.getAttribute(attributes.COLS_MD); }
 
   set colsLg(value: string | null) {
     if (value !== null) {
-      this.setAttribute('cols-lg', value);
+      this.setAttribute(attributes.COLS_LG, value);
     } else {
-      this.removeAttribute('cols-lg');
+      this.removeAttribute(attributes.COLS_LG);
     }
   }
 
-  get colsLg(): string | null { return this.getAttribute('cols-lg'); }
+  get colsLg(): string | null { return this.getAttribute(attributes.COLS_LG); }
 
   set colsXl(value: string | null) {
     if (value !== null) {
-      this.setAttribute('cols-xl', value);
+      this.setAttribute(attributes.COLS_XL, value);
     } else {
-      this.removeAttribute('cols-xl');
+      this.removeAttribute(attributes.COLS_XL);
     }
   }
 
-  get colsXl(): string | null { return this.getAttribute('cols-xl'); }
+  get colsXl(): string | null { return this.getAttribute(attributes.COLS_XL); }
 
   set colsXxl(value: string | null) {
     if (value !== null) {
-      this.setAttribute('cols-xxl', value);
+      this.setAttribute(attributes.COLS_XXL, value);
     } else {
-      this.removeAttribute('cols-xxl');
+      this.removeAttribute(attributes.COLS_XXL);
     }
   }
 
-  get colsXxl(): string | null { return this.getAttribute('cols-xxl'); }
+  get colsXxl(): string | null { return this.getAttribute(attributes.COLS_XXL); }
 
   set minColWidth(value: string | null) {
     if (value !== null) {
-      this.setAttribute('min-col-width', value);
+      this.setAttribute(attributes.MIN_COL_WIDTH, value);
     }
   }
 
   get minColWidth(): string | null {
-    return this.getAttribute('min-col-width');
+    return this.getAttribute(attributes.MIN_COL_WIDTH);
   }
 
   set maxColWidth(value: string | null) {
     if (value !== null) {
-      this.setAttribute('max-col-width', value);
+      this.setAttribute(attributes.MAX_COL_WIDTH, value);
     }
   }
 
   get maxColWidth(): string | null {
-    return this.getAttribute('max-col-width');
+    return this.getAttribute(attributes.MAX_COL_WIDTH);
+  }
+
+  /**
+   * Handle The Gap Setting
+   * @returns {string} The Gap [none, sm, md, lg, xl]
+   */
+  get gap(): string | null { return this.getAttribute(attributes.GAP); }
+
+  /**
+   * Set the grid gap
+   * @param {string} value The Gap [none, sm, md, lg, xl]
+   */
+  set gap(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.GAP, value);
+    }
+
+    this.removeAttribute(attributes.GAP);
   }
 
   constructor() {
@@ -123,14 +141,15 @@ export default class IdsGrid extends IdsElement {
   static get attributes(): any {
     return [
       attributes.COLS,
-      'cols-xs',
-      'cols-sm',
-      'cols-md',
-      'cols-lg',
-      'cols-xl',
-      'cols-xxl',
-      'min-col-width',
-      'max-col-width'
+      attributes.COLS_XS,
+      attributes.COLS_SM,
+      attributes.COLS_MD,
+      attributes.COLS_LG,
+      attributes.COLS_XL,
+      attributes.COLS_XXL,
+      attributes.MIN_COL_WIDTH,
+      attributes.MAX_COL_WIDTH,
+      attributes.GAP
     ];
   }
 
@@ -143,6 +162,7 @@ export default class IdsGrid extends IdsElement {
     this.classList.add('grid');
     this.setColumns();
     this.setMinMaxWidth();
+    this.setGap();
   }
 
   private setColumns() {
@@ -158,6 +178,12 @@ export default class IdsGrid extends IdsElement {
       if (this[setting] !== null) {
         this.style.setProperty(varName, this[setting]);
       }
+    }
+  }
+
+  private setGap() {
+    if (this.gap !== null) {
+      this.classList.add(`grid-gap-${this.gap}`);
     }
   }
 

@@ -14,8 +14,12 @@
 // sm: '600px',
 // xs: '360px'
 
+$spacing-unit: 8px;
 $grid-cols: 16;
-$grid-gap: 16px;
+$grid-gap-sm: $spacing-unit;
+$grid-gap: $spacing-unit * 2;
+$grid-gap-md: $spacing-unit * 3;
+$grid-gap-lg: $spacing-unit * 4;
 $container-width: 1488px;
 $min-col-width: var(--min-col-width);
 $max-col-width: var(--max-col-width);
@@ -30,6 +34,18 @@ $breakpoint-xxl: 1488px;
   display: grid;
   grid-gap: $grid-gap;
   justify-content: center;
+}
+
+:host(.grid.grid-gap-sm) {
+  grid-gap: $grid-gap-sm;
+}
+
+:host(.grid.grid-gap-md) {
+  grid-gap: $grid-gap-md;
+}
+
+:host(.grid.grid-gap-lg) {
+  grid-gap: $grid-gap-lg;
 }
 
 /**
