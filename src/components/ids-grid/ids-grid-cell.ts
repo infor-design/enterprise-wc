@@ -14,7 +14,7 @@ export default class IdsGridCell extends IdsElement {
    * @param {string | null} value The number value for the columns to span in the grid
    */
   set colSpan(value: string | null | any) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute(attributes.COL_SPAN, value);
     } else {
       this.removeAttribute(attributes.COL_SPAN);
@@ -26,7 +26,7 @@ export default class IdsGridCell extends IdsElement {
   }
 
   set colSpanXs(value: string | null | any) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute(attributes.COL_SPAN_XS, value);
     } else {
       this.removeAttribute(attributes.COL_SPAN_XS);
@@ -38,7 +38,7 @@ export default class IdsGridCell extends IdsElement {
   }
 
   set colSpanSm(value: string | null | any) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute(attributes.COL_SPAN_SM, value);
     } else {
       this.removeAttribute(attributes.COL_SPAN_SM);
@@ -50,7 +50,7 @@ export default class IdsGridCell extends IdsElement {
   }
 
   set colSpanMd(value: string | null | any) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute(attributes.COL_SPAN_MD, value);
     } else {
       this.removeAttribute(attributes.COL_SPAN_MD);
@@ -62,7 +62,7 @@ export default class IdsGridCell extends IdsElement {
   }
 
   set colSpanLg(value: string | null | any) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute(attributes.COL_SPAN_LG, value);
     } else {
       this.removeAttribute(attributes.COL_SPAN_LG);
@@ -74,7 +74,7 @@ export default class IdsGridCell extends IdsElement {
   }
 
   set colSpanXl(value: string | null | any) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute(attributes.COL_SPAN_XL, value);
     } else {
       this.removeAttribute(attributes.COL_SPAN_XL);
@@ -85,8 +85,20 @@ export default class IdsGridCell extends IdsElement {
     return this.getAttribute(attributes.COL_SPAN_XL);
   }
 
+  set colSpanXxl(value: string | null | any) {
+    if (value !== null) {
+      this.setAttribute(attributes.COL_SPAN_XXL, value);
+    } else {
+      this.removeAttribute(attributes.COL_SPAN_XXL);
+    }
+  }
+
+  get colSpanXxl(): string | null | any {
+    return this.getAttribute(attributes.COL_SPAN_XXL);
+  }
+
   set rowSpan(value: string | null | any) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute(attributes.ROW_SPAN, value);
     } else {
       this.removeAttribute(attributes.ROW_SPAN);
@@ -98,7 +110,7 @@ export default class IdsGridCell extends IdsElement {
   }
 
   set height(value: string | null | any) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute('height', value);
     } else {
       this.removeAttribute('height');
@@ -110,7 +122,7 @@ export default class IdsGridCell extends IdsElement {
   }
 
   set fill(value: string | null | any) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute('fill', value);
     } else {
       this.removeAttribute('fill');
@@ -137,6 +149,7 @@ export default class IdsGridCell extends IdsElement {
       attributes.COL_SPAN_MD,
       attributes.COL_SPAN_LG,
       attributes.COL_SPAN_XL,
+      attributes.COL_SPAN_XXL,
       attributes.ROW_SPAN
     ];
   }
@@ -177,6 +190,10 @@ export default class IdsGridCell extends IdsElement {
 
     if (this.colSpanXl !== null) {
       this.classList.add(`span-xl-${this.colSpanXl}`);
+    }
+
+    if (this.colSpanXxl !== null) {
+      this.classList.add(`span-xxl-${this.colSpanXxl}`);
     }
   }
 

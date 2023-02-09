@@ -2,7 +2,21 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsElement from '../../core/ids-element';
 import styles from './ids-grid.scss';
-const BREAKPOINTS = ['', 'xs', 'sm', 'md', 'lg', 'xl'];
+
+const gridSizes = [
+  { size: 'cols', className: 'grid-cols' },
+  { size: 'colsXs', className: 'grid-cols-xs' },
+  { size: 'colsSm', className: 'grid-cols-sm' },
+  { size: 'colsMd', className: 'grid-cols-md' },
+  { size: 'colsLg', className: 'grid-cols-lg' },
+  { size: 'colsXl', className: 'grid-cols-xl' },
+  { size: 'colsXxl', className: 'grid-cols-xxl' }
+];
+
+const minMaxWidths = [
+  { setting: 'minColWidth', varName: '--min-col-width' },
+  { setting: 'maxColWidth', varName: '--max-col-width' }
+];
 
 /**
  * IDS Grid Component
@@ -13,7 +27,7 @@ const BREAKPOINTS = ['', 'xs', 'sm', 'md', 'lg', 'xl'];
 @scss(styles)
 export default class IdsGrid extends IdsElement {
   set cols(value: string | null) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute(attributes.COLS, value);
     } else {
       this.removeAttribute(attributes.COLS);
@@ -23,7 +37,7 @@ export default class IdsGrid extends IdsElement {
   get cols(): string | null { return this.getAttribute(attributes.COLS); }
 
   set colsXs(value: string | null) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute('cols-xs', value);
     } else {
       this.removeAttribute('cols-xs');
@@ -33,7 +47,7 @@ export default class IdsGrid extends IdsElement {
   get colsXs(): string | null { return this.getAttribute('cols-xs'); }
 
   set colsSm(value: string | null) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute('cols-sm', value);
     } else {
       this.removeAttribute('cols-sm');
@@ -43,7 +57,7 @@ export default class IdsGrid extends IdsElement {
   get colsSm(): string | null { return this.getAttribute('cols-sm'); }
 
   set colsMd(value: string | null) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute('cols-md', value);
     } else {
       this.removeAttribute('cols-md');
@@ -53,7 +67,7 @@ export default class IdsGrid extends IdsElement {
   get colsMd(): string | null { return this.getAttribute('cols-md'); }
 
   set colsLg(value: string | null) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute('cols-lg', value);
     } else {
       this.removeAttribute('cols-lg');
@@ -63,7 +77,7 @@ export default class IdsGrid extends IdsElement {
   get colsLg(): string | null { return this.getAttribute('cols-lg'); }
 
   set colsXl(value: string | null) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute('cols-xl', value);
     } else {
       this.removeAttribute('cols-xl');
@@ -72,8 +86,18 @@ export default class IdsGrid extends IdsElement {
 
   get colsXl(): string | null { return this.getAttribute('cols-xl'); }
 
+  set colsXxl(value: string | null) {
+    if (value !== null) {
+      this.setAttribute('cols-xxl', value);
+    } else {
+      this.removeAttribute('cols-xxl');
+    }
+  }
+
+  get colsXxl(): string | null { return this.getAttribute('cols-xxl'); }
+
   set minColWidth(value: string | null) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute('min-col-width', value);
     }
   }
@@ -83,7 +107,7 @@ export default class IdsGrid extends IdsElement {
   }
 
   set maxColWidth(value: string | null) {
-    if (value) {
+    if (value !== null) {
       this.setAttribute('max-col-width', value);
     }
   }
@@ -104,6 +128,7 @@ export default class IdsGrid extends IdsElement {
       'cols-md',
       'cols-lg',
       'cols-xl',
+      'cols-xxl',
       'min-col-width',
       'max-col-width'
     ];
@@ -111,70 +136,28 @@ export default class IdsGrid extends IdsElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.settings();
-    this.getColumns('cols');
+    this.addSettings();
   }
 
-  // Loop through all of the breakpoints to see if the media query
-  // matches and grab the column value from the relevant prop if so
-  private getColumns(property: string) {
-    let matched;
-
-    for (const breakpoint of BREAKPOINTS) {
-      // Grab the value of the property, if it exists and our
-      // media query matches we return the value
-      const columns = (this as any)[property + breakpoint.charAt(0).toUpperCase() + breakpoint.slice(1)];
-
-      if (columns !== undefined) {
-        matched = columns;
-      }
-    }
-
-    // Return the last matched columns since the breakpoints
-    // increase in size and we want to return the largest match
-    console.log(matched);
-    return matched;
-  }
-
-  private settings() {
+  private addSettings() {
     this.classList.add('grid');
     this.setColumns();
     this.setMinMaxWidth();
   }
 
   private setColumns() {
-    if (this.cols !== null) {
-      this.classList.add(`grid-cols-${this.cols}`);
-    }
-
-    if (this.colsXs !== null) {
-      this.classList.add(`grid-cols-xs-${this.colsXs}`);
-    }
-
-    if (this.colsSm !== null) {
-      this.classList.add(`grid-cols-sm-${this.colsSm}`);
-    }
-
-    if (this.colsMd !== null) {
-      this.classList.add(`grid-cols-md-${this.colsMd}`);
-    }
-
-    if (this.colsLg !== null) {
-      this.classList.add(`grid-cols-lg-${this.colsLg}`);
-    }
-
-    if (this.colsXl !== null) {
-      this.classList.add(`grid-cols-xl-${this.colsXl}`);
+    for (const { size, className } of gridSizes) {
+      if (this[size] !== null) {
+        this.classList.add(`${className}-${this[size]}`);
+      }
     }
   }
 
   private setMinMaxWidth() {
-    if (this.minColWidth !== null) {
-      this.style.setProperty('--min-col-width', `${this.minColWidth}`);
-    }
-
-    if (this.maxColWidth !== null) {
-      this.style.setProperty('--max-col-width', `${this.maxColWidth}`);
+    for (const { setting, varName } of minMaxWidths) {
+      if (this[setting] !== null) {
+        this.style.setProperty(varName, this[setting]);
+      }
     }
   }
 

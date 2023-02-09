@@ -22,8 +22,9 @@ $max-col-width: var(--max-col-width);
 $breakpoint-xs: 360px;
 $breakpoint-sm: 600px;
 $breakpoint-md: 840px;
-$breakpoint-lg: 1280px;
-$breakpoint-xl: $container-width;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-xxl: 1488px;
 
 :host(.grid) {
   display: grid;
@@ -197,6 +198,26 @@ $breakpoint-xl: $container-width;
     }
 
     :host(.grid) > ::slotted(.row-span-xl-#{$i}) {
+      grid-row: span $i / span $i;
+    }
+  }
+}
+
+/**
+  Grid Columms and Rows - XxLarge and up
+*/
+@media (min-width: $breakpoint-xxl) {
+  @for $i from 1 through $grid-cols {
+    :host(.grid-cols-xxl-#{$i}) {
+      width: 100%;
+      grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
+    }
+
+    :host(.grid) > ::slotted(.span-xxl-#{$i}) {
+      grid-column: span $i / span $i;
+    }
+
+    :host(.grid) > ::slotted(.row-span-xxl-#{$i}) {
       grid-row: span $i / span $i;
     }
   }
