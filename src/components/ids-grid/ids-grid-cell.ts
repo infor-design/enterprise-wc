@@ -109,6 +109,10 @@ export default class IdsGridCell extends IdsElement {
     return this.getAttribute(attributes.ROW_SPAN);
   }
 
+  /**
+   * Set a height and center the card
+   * @param {number} value height in pixels
+   */
   set height(value: string | null | any) {
     if (value !== null) {
       this.setAttribute('height', value);
@@ -119,6 +123,22 @@ export default class IdsGridCell extends IdsElement {
 
   get height(): string | null | any {
     return this.getAttribute('height');
+  }
+
+  /**
+   * Set a minHeight and center the card
+   * @param {number} value minHeight in pixels
+   */
+  set minHeight(value: string | null | any) {
+    if (value !== null) {
+      this.setAttribute('min-height', value);
+    } else {
+      this.removeAttribute('min-height');
+    }
+  }
+
+  get minHeight(): string | null | any {
+    return this.getAttribute('min-height');
   }
 
   set fill(value: string | null | any) {
@@ -150,7 +170,9 @@ export default class IdsGridCell extends IdsElement {
       attributes.COL_SPAN_LG,
       attributes.COL_SPAN_XL,
       attributes.COL_SPAN_XXL,
-      attributes.ROW_SPAN
+      attributes.ROW_SPAN,
+      attributes.HEIGHT,
+      'min-height'
     ];
   }
 
@@ -165,6 +187,7 @@ export default class IdsGridCell extends IdsElement {
     this.setRowSpan();
     this.setFill();
     this.setHeight();
+    this.setMinHeight();
   }
 
   private setColSpan() {
@@ -205,7 +228,13 @@ export default class IdsGridCell extends IdsElement {
 
   private setHeight() {
     if (this.height !== null) {
-      this.classList.add(`height-${this.height}`);
+      this.style.setProperty('height', this.height);
+    }
+  }
+
+  private setMinHeight() {
+    if (this.minHeight !== null) {
+      this.style.setProperty('min-height', this.minHeight);
     }
   }
 

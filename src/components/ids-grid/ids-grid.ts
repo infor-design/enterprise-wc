@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsElement from '../../core/ids-element';
 import styles from './ids-grid.scss';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 const gridSizes = [
   { size: 'cols', className: 'grid-cols' },
@@ -26,6 +27,11 @@ const minMaxWidths = [
 @customElement('ids-grid')
 @scss(styles)
 export default class IdsGrid extends IdsElement {
+  /**
+   * Columns setter
+   *
+   * @memberof IdsGrid
+   */
   set cols(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.COLS, value);
@@ -36,6 +42,11 @@ export default class IdsGrid extends IdsElement {
 
   get cols(): string | null { return this.getAttribute(attributes.COLS); }
 
+  /**
+   * Columns XS setter
+   *
+   * @memberof IdsGrid
+   */
   set colsXs(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.COLS_XS, value);
@@ -46,6 +57,11 @@ export default class IdsGrid extends IdsElement {
 
   get colsXs(): string | null { return this.getAttribute(attributes.COLS_XS); }
 
+  /**
+   * Columns SM setter
+   *
+   * @memberof IdsGrid
+   */
   set colsSm(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.COLS_SM, value);
@@ -56,6 +72,11 @@ export default class IdsGrid extends IdsElement {
 
   get colsSm(): string | null { return this.getAttribute(attributes.COLS_SM); }
 
+  /**
+   * Columns MD setter
+   *
+   * @memberof IdsGrid
+   */
   set colsMd(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.COLS_MD, value);
@@ -66,6 +87,11 @@ export default class IdsGrid extends IdsElement {
 
   get colsMd(): string | null { return this.getAttribute(attributes.COLS_MD); }
 
+  /**
+   * Columns LG setter
+   *
+   * @memberof IdsGrid
+   */
   set colsLg(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.COLS_LG, value);
@@ -76,6 +102,11 @@ export default class IdsGrid extends IdsElement {
 
   get colsLg(): string | null { return this.getAttribute(attributes.COLS_LG); }
 
+  /**
+   * Columns XL setter
+   *
+   * @memberof IdsGrid
+   */
   set colsXl(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.COLS_XL, value);
@@ -86,6 +117,11 @@ export default class IdsGrid extends IdsElement {
 
   get colsXl(): string | null { return this.getAttribute(attributes.COLS_XL); }
 
+  /**
+   * Columns XXL setter
+   *
+   * @memberof IdsGrid
+   */
   set colsXxl(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.COLS_XXL, value);
@@ -96,9 +132,16 @@ export default class IdsGrid extends IdsElement {
 
   get colsXxl(): string | null { return this.getAttribute(attributes.COLS_XXL); }
 
+  /**
+   * Columns minColWidth setter
+   *
+   * @memberof IdsGrid
+   */
   set minColWidth(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.MIN_COL_WIDTH, value);
+    } else {
+      this.removeAttribute(attributes.MIN_COL_WIDTH);
     }
   }
 
@@ -106,9 +149,16 @@ export default class IdsGrid extends IdsElement {
     return this.getAttribute(attributes.MIN_COL_WIDTH);
   }
 
+  /**
+   * Columns maxColWidth setter
+   *
+   * @memberof IdsGrid
+   */
   set maxColWidth(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.MAX_COL_WIDTH, value);
+    } else {
+      this.removeAttribute(attributes.MAX_COL_WIDTH);
     }
   }
 
@@ -129,9 +179,35 @@ export default class IdsGrid extends IdsElement {
   set gap(value: string | null) {
     if (value) {
       this.setAttribute(attributes.GAP, value);
+    } else {
+      this.removeAttribute(attributes.GAP);
     }
+  }
 
-    this.removeAttribute(attributes.GAP);
+  set autoFit(value: string | boolean | null) {
+    const isTruthy = stringToBool(value);
+    if (isTruthy) {
+      this.setAttribute('auto-fit', '');
+    } else {
+      this.removeAttribute('auto-fit');
+    }
+  }
+
+  get autoFit(): string | boolean | null {
+    return stringToBool(this.getAttribute('auto-fit'));
+  }
+
+  set autoFill(value: string | boolean | null) {
+    const isTruthy = stringToBool(value);
+    if (isTruthy) {
+      this.setAttribute('auto-fill', '');
+    } else {
+      this.removeAttribute('auto-fill');
+    }
+  }
+
+  get autoFill(): string | boolean | null {
+    return stringToBool(this.getAttribute('auto-fill'));
   }
 
   constructor() {
@@ -149,7 +225,9 @@ export default class IdsGrid extends IdsElement {
       attributes.COLS_XXL,
       attributes.MIN_COL_WIDTH,
       attributes.MAX_COL_WIDTH,
-      attributes.GAP
+      attributes.GAP,
+      'auto-fit',
+      'auto-fill'
     ];
   }
 
@@ -163,6 +241,8 @@ export default class IdsGrid extends IdsElement {
     this.setColumns();
     this.setMinMaxWidth();
     this.setGap();
+    this.setAutoFit();
+    this.setAutoFill();
   }
 
   private setColumns() {
@@ -184,6 +264,18 @@ export default class IdsGrid extends IdsElement {
   private setGap() {
     if (this.gap !== null) {
       this.classList.add(`grid-gap-${this.gap}`);
+    }
+  }
+
+  private setAutoFit() {
+    if (this.autoFit) {
+      this.classList.add('grid-auto-fit');
+    }
+  }
+
+  private setAutoFill() {
+    if (this.autoFill) {
+      this.classList.add('grid-auto-fill');
     }
   }
 
