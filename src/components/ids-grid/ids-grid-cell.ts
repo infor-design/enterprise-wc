@@ -1,6 +1,17 @@
 import { customElement } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsElement from '../../core/ids-element';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+const colSpanSizes = [
+  { size: 'colSpan', className: 'span' },
+  { size: 'colSpanXs', className: 'span-xs' },
+  { size: 'colSpanSm', className: 'span-sm' },
+  { size: 'colSpanMd', className: 'span-md' },
+  { size: 'colSpanLg', className: 'span-lg' },
+  { size: 'colSpanXl', className: 'span-xl' },
+  { size: 'colSpanXxl', className: 'span-xxl' }
+];
 
 /**
  * IDS Grid Cell Component
@@ -115,14 +126,14 @@ export default class IdsGridCell extends IdsElement {
    */
   set height(value: string | null | any) {
     if (value !== null) {
-      this.setAttribute('height', value);
+      this.setAttribute(attributes.HEIGHT, value);
     } else {
-      this.removeAttribute('height');
+      this.removeAttribute(attributes.HEIGHT);
     }
   }
 
   get height(): string | null | any {
-    return this.getAttribute('height');
+    return this.getAttribute(attributes.HEIGHT);
   }
 
   /**
@@ -131,30 +142,31 @@ export default class IdsGridCell extends IdsElement {
    */
   set minHeight(value: string | null | any) {
     if (value !== null) {
-      this.setAttribute('min-height', value);
+      this.setAttribute(attributes.MIN_HEIGHT, value);
     } else {
-      this.removeAttribute('min-height');
+      this.removeAttribute(attributes.MIN_HEIGHT);
     }
   }
 
   get minHeight(): string | null | any {
-    return this.getAttribute('min-height');
+    return this.getAttribute(attributes.MIN_HEIGHT);
   }
 
   set fill(value: string | null | any) {
-    if (value !== null) {
-      this.setAttribute('fill', value);
+    const isTruthy = stringToBool(value);
+    if (isTruthy) {
+      this.setAttribute(attributes.FILL, '');
     } else {
-      this.removeAttribute('fill');
+      this.removeAttribute(attributes.FILL);
     }
   }
 
-  get fill(): string | null | any {
-    return this.getAttribute('fill');
+  get fill(): string | boolean | null | any {
+    return stringToBool(this.getAttribute(attributes.FILL));
   }
 
   constructor() {
-    super();
+    super({ noShadowRoot: true });
   }
 
   /**
@@ -170,9 +182,10 @@ export default class IdsGridCell extends IdsElement {
       attributes.COL_SPAN_LG,
       attributes.COL_SPAN_XL,
       attributes.COL_SPAN_XXL,
-      attributes.ROW_SPAN,
+      attributes.FILL,
+      attributes.MIN_HEIGHT,
       attributes.HEIGHT,
-      'min-height'
+      attributes.ROW_SPAN,
     ];
   }
 
@@ -191,32 +204,10 @@ export default class IdsGridCell extends IdsElement {
   }
 
   private setColSpan() {
-    if (this.colSpan !== null) {
-      this.classList.add(`span-${this.colSpan}`);
-    }
-
-    if (this.colSpanXs !== null) {
-      this.classList.add(`span-xs-${this.colSpanXs}`);
-    }
-
-    if (this.colSpanSm !== null) {
-      this.classList.add(`span-sm-${this.colSpanSm}`);
-    }
-
-    if (this.colSpanMd !== null) {
-      this.classList.add(`span-md-${this.colSpanMd}`);
-    }
-
-    if (this.colSpanLg !== null) {
-      this.classList.add(`span-lg-${this.colSpanLg}`);
-    }
-
-    if (this.colSpanXl !== null) {
-      this.classList.add(`span-xl-${this.colSpanXl}`);
-    }
-
-    if (this.colSpanXxl !== null) {
-      this.classList.add(`span-xxl-${this.colSpanXxl}`);
+    for (const { size, className } of colSpanSizes) {
+      if (this[size as keyof IdsGridCell] !== null) {
+        this.classList.add(`${className}-${this[size as keyof IdsGridCell]}`);
+      }
     }
   }
 
@@ -228,19 +219,19 @@ export default class IdsGridCell extends IdsElement {
 
   private setHeight() {
     if (this.height !== null) {
-      this.style.setProperty('height', this.height);
+      this.style.setProperty(attributes.HEIGHT, this.height);
     }
   }
 
   private setMinHeight() {
     if (this.minHeight !== null) {
-      this.style.setProperty('min-height', this.minHeight);
+      this.style.setProperty(attributes.MIN_HEIGHT, this.minHeight);
     }
   }
 
   private setFill() {
     if (this.fill !== null) {
-      this.classList.add('fill');
+      this.classList.add(attributes.FILL);
     }
   }
 

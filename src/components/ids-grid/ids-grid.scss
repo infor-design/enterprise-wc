@@ -1,18 +1,10 @@
 /*
   Grid Settings
 */
-:root {
+:host {
   --min-col-width: 0;
-  --max-col-width: 0;
+  --max-col-width: 1fr;
 }
-
-// Breakpoints from tokens
-// xxl: '1440px',
-// xl: '1280px',
-// lg: '1024px',
-// md: '840px',
-// sm: '600px',
-// xs: '360px'
 
 $spacing-unit: 8px;
 $grid-cols: 16;
@@ -20,7 +12,6 @@ $grid-gap-sm: $spacing-unit;
 $grid-gap: $spacing-unit * 2;
 $grid-gap-md: $spacing-unit * 3;
 $grid-gap-lg: $spacing-unit * 4;
-$container-width: 1488px;
 $min-col-width: var(--min-col-width);
 $max-col-width: var(--max-col-width);
 $breakpoint-xs: 360px;
@@ -28,7 +19,7 @@ $breakpoint-sm: 600px;
 $breakpoint-md: 840px;
 $breakpoint-lg: 1024px;
 $breakpoint-xl: 1280px;
-$breakpoint-xxl: 1488px;
+$breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
 
 :host(.grid) {
   display: grid;
@@ -239,25 +230,9 @@ $breakpoint-xxl: 1488px;
   }
 }
 
-// Utils
+// Utils for testing
 $fillColor: #FFE9E9;
 $textColor: #FF391E;
-
-* {
-  color: $textColor;
-  font-family: sans-serif;
-}
-
-h1 {
-  font-size: 24px;
-  text-align: center;
-  margin-bottom: 16px;
-}
-
-.container {
-  max-width: $container-width;
-  margin: 0 auto 120px;
-}
 
 ::slotted(.grid-cell) {
   color: $textColor;
@@ -270,22 +245,6 @@ h1 {
 
 ::slotted(.grid-cell.fill) {
   background-color: $fillColor;
-}
-
-::slotted(.height-full) {
-  height: 100%;
-}
-
-::slotted(.height-176) {
-  height: 176px;
-}
-
-::slotted(.height-368) {
-  height: 368px;
-}
-
-::slotted(.height-752) {
-  min-height: 752px;
 }
 
 ::slotted(.height-auto) {

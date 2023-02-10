@@ -4,7 +4,7 @@ import IdsElement from '../../core/ids-element';
 import styles from './ids-grid.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-const gridSizes = [
+const gridSizes: any = [
   { size: 'cols', className: 'grid-cols' },
   { size: 'colsXs', className: 'grid-cols-xs' },
   { size: 'colsSm', className: 'grid-cols-sm' },
@@ -187,27 +187,27 @@ export default class IdsGrid extends IdsElement {
   set autoFit(value: string | boolean | null) {
     const isTruthy = stringToBool(value);
     if (isTruthy) {
-      this.setAttribute('auto-fit', '');
+      this.setAttribute(attributes.AUTO_FIT, '');
     } else {
-      this.removeAttribute('auto-fit');
+      this.removeAttribute(attributes.AUTO_FIT);
     }
   }
 
   get autoFit(): string | boolean | null {
-    return stringToBool(this.getAttribute('auto-fit'));
+    return stringToBool(this.getAttribute(attributes.AUTO_FIT));
   }
 
   set autoFill(value: string | boolean | null) {
     const isTruthy = stringToBool(value);
     if (isTruthy) {
-      this.setAttribute('auto-fill', '');
+      this.setAttribute(attributes.AUTO_FILL, '');
     } else {
-      this.removeAttribute('auto-fill');
+      this.removeAttribute(attributes.AUTO_FILL);
     }
   }
 
   get autoFill(): string | boolean | null {
-    return stringToBool(this.getAttribute('auto-fill'));
+    return stringToBool(this.getAttribute(attributes.AUTO_FILL));
   }
 
   constructor() {
@@ -226,8 +226,8 @@ export default class IdsGrid extends IdsElement {
       attributes.MIN_COL_WIDTH,
       attributes.MAX_COL_WIDTH,
       attributes.GAP,
-      'auto-fit',
-      'auto-fill'
+      attributes.AUTO_FIT,
+      attributes.AUTO_FILL
     ];
   }
 
@@ -247,16 +247,16 @@ export default class IdsGrid extends IdsElement {
 
   private setColumns() {
     for (const { size, className } of gridSizes) {
-      if (this[size] !== null) {
-        this.classList.add(`${className}-${this[size]}`);
+      if (this[size as keyof IdsGrid] !== null) {
+        this.classList.add(`${className}-${this[size as keyof IdsGrid]}`);
       }
     }
   }
 
   private setMinMaxWidth() {
     for (const { setting, varName } of minMaxWidths) {
-      if (this[setting] !== null) {
-        this.style.setProperty(varName, this[setting]);
+      if (this[setting as keyof IdsGrid] !== null) {
+        this.style.setProperty(varName, this[setting as keyof IdsGrid]);
       }
     }
   }
