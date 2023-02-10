@@ -71,7 +71,12 @@ locales.forEach((locale) => {
 
 // Copy Types
 let types = fsFiles('./build/types/src', 'd.ts');
-types = types.filter((item) => (!item.includes('demo') && !item.includes('locale-data') && !item.includes('ids-locale')));
+types = types.filter((item) => (!item.includes('demo')
+    && !item.includes('locale-data')
+    && !item.includes('ids-locale/data/')
+    && !item.includes('ids-locale/info/')
+    && !item.includes('ids-locale-global')
+    && !item.includes('cultures')));
 
 types.forEach((type) => {
   fs.copyFileSync(type, type.replace('build/types/src', outDir));
