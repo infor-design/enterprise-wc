@@ -1,13 +1,24 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import Base from './ids-dropdown-list-base';
+import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsPickerPopup from '../ids-picker-popup/ids-picker-popup';
+import IdsDropdownAttributeMixin from './ids-dropdown-attributes-mixin';
 
 import styles from './ids-dropdown-list.scss';
 import type IdsListBox from '../ids-list-box/ids-list-box';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+const Base = IdsDropdownAttributeMixin(
+  IdsLocaleMixin(
+    IdsFieldHeightMixin(
+      IdsPickerPopup
+    )
+  )
+);
 
 /**
  * IDS Dropdown List Component
