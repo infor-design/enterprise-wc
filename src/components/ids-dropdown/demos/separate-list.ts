@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const getFieldIdFromBtnId = (btnEl: any) => btnEl.getAttribute('id')?.replace('-button', '-field') || '';
 
   // Creates a new IdsDropdownList
-  const createPopup = (fieldId: string, btnId: string, data: any) => {
+  const createPopup = (fieldId: string, btnId: string) => {
     const pickerHTML = `<ids-dropdown-list
           target="#${fieldId}"
           trigger-elem="#${btnId}"
@@ -37,37 +37,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const fieldId = btnId.replace('-button', '-field');
     const field = document.querySelector<IdsDropdown>(`#${fieldId}`)!;
 
-    const data = fieldDefs.find((entry) => entry.id === fieldId);
     let picker = document.querySelector<IdsDropdownList>('ids-dropdown-list')!;
     let currentTarget: IdsDropdown;
 
-    if (data) {
-      if (picker) {
-        if (picker.popup) picker.popup.animated = false;
-        currentTarget = picker.target as IdsDropdown;
-        picker.target = `#${fieldId}`;
-        picker.triggerElem = `#${btnId}`;
-        if (field.value) picker.value = field.value;
-      } else {
-        picker = createPopup(fieldId, btnId, data);
-        currentTarget = picker.target as IdsDropdown;
-        if (field.value) picker.value = field.value;
+    if (picker) {
+      if (picker.popup) picker.popup.animated = false;
+      currentTarget = picker.target as IdsDropdown;
+      picker.target = `#${fieldId}`;
+      picker.triggerElem = `#${btnId}`;
+      if (field.value) picker.value = field.value;
+    } else {
+      picker = createPopup(fieldId, btnId);
+      currentTarget = picker.target as IdsDropdown;
+      if (field.value) picker.value = field.value;
 
-        // Dropdown List's `hide` event can cause the field to become focused
-        picker.onEvent('hide', picker, (e: CustomEvent) => {
-          e.stopPropagation();
-          if (e.detail.doFocus) {
-            picker.target?.focus();
-          }
-        });
+      // Dropdown List's `hide` event can cause the field to become focused
+      picker.onEvent('hide', picker, (e: CustomEvent) => {
+        e.stopPropagation();
+        if (e.detail.doFocus) {
+          picker.target?.focus();
+        }
+      });
 
-        // Dropdown List's`show` event will be used to capture the value from
-        // its assigned trigger field
-        picker.onEvent('show', picker, (e: CustomEvent) => {
-          e.stopPropagation();
-          picker.value = currentTarget?.value;
-        });
-      }
+      // Dropdown List's`show` event will be used to capture the value from
+      // its assigned trigger field
+      picker.onEvent('show', picker, (e: CustomEvent) => {
+        e.stopPropagation();
+        picker.value = currentTarget?.value;
+      });
     }
   };
 
