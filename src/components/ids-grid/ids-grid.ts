@@ -19,6 +19,14 @@ const minMaxWidths = [
   { setting: 'maxColWidth', varName: '--max-col-width' }
 ];
 
+// const flowSettings = [
+//   { setting: 'flowCol', className: 'grid-flow-col' },
+//   { setting: 'flowColDense', className: 'grid-flow-col-dense' },
+//   { setting: 'flowDense', className: 'grid-flow-dense' },
+//   { setting: 'flowRow', className: 'grid-flow-row' },
+//   { setting: 'flowRowDense', className: 'grid-flow-row-dense' },
+// ];
+
 /**
  * IDS Grid Component
  * @type {IdsGrid}
@@ -27,6 +35,32 @@ const minMaxWidths = [
 @customElement('ids-grid')
 @scss(styles)
 export default class IdsGrid extends IdsElement {
+  set autoFit(value: string | boolean | null) {
+    const isTruthy = stringToBool(value);
+    if (isTruthy) {
+      this.setAttribute(attributes.AUTO_FIT, '');
+    } else {
+      this.removeAttribute(attributes.AUTO_FIT);
+    }
+  }
+
+  get autoFit(): string | boolean | null {
+    return stringToBool(this.getAttribute(attributes.AUTO_FIT));
+  }
+
+  set autoFill(value: string | boolean | null) {
+    const isTruthy = stringToBool(value);
+    if (isTruthy) {
+      this.setAttribute(attributes.AUTO_FILL, '');
+    } else {
+      this.removeAttribute(attributes.AUTO_FILL);
+    }
+  }
+
+  get autoFill(): string | boolean | null {
+    return stringToBool(this.getAttribute(attributes.AUTO_FILL));
+  }
+
   /**
    * Columns setter
    *
@@ -184,30 +218,76 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
-  set autoFit(value: string | boolean | null) {
-    const isTruthy = stringToBool(value);
-    if (isTruthy) {
-      this.setAttribute(attributes.AUTO_FIT, '');
+  set flow(value: string | null) {
+    if (value !== null) {
+      this.setAttribute('flow', value);
     } else {
-      this.removeAttribute(attributes.AUTO_FIT);
+      this.removeAttribute('flow');
     }
   }
 
-  get autoFit(): string | boolean | null {
-    return stringToBool(this.getAttribute(attributes.AUTO_FIT));
+  get flow(): string | null {
+    return this.getAttribute('flow');
   }
 
-  set autoFill(value: string | boolean | null) {
-    const isTruthy = stringToBool(value);
-    if (isTruthy) {
-      this.setAttribute(attributes.AUTO_FILL, '');
+  set flowCol(value: string | null) {
+    if (value !== null) {
+      this.setAttribute('flow-col', value);
     } else {
-      this.removeAttribute(attributes.AUTO_FILL);
+      this.removeAttribute('flow-col');
     }
   }
 
-  get autoFill(): string | boolean | null {
-    return stringToBool(this.getAttribute(attributes.AUTO_FILL));
+  get flowCol(): string | null {
+    return this.getAttribute('flow-col');
+  }
+
+  set flowColDense(value: string | null) {
+    if (value !== null) {
+      this.setAttribute('flow-col-dense', value);
+    } else {
+      this.removeAttribute('flow-col-dense');
+    }
+  }
+
+  get flowColDense(): string | null {
+    return this.getAttribute('flow-col-dense');
+  }
+
+  set flowDense(value: string | null) {
+    if (value !== null) {
+      this.setAttribute('flow-dense', value);
+    } else {
+      this.removeAttribute('flow-dense');
+    }
+  }
+
+  get flowDense(): string | null {
+    return this.getAttribute('flow-dense');
+  }
+
+  set flowRow(value: string | null) {
+    if (value !== null) {
+      this.setAttribute('flow-row', value);
+    } else {
+      this.removeAttribute('flow-row');
+    }
+  }
+
+  get flowRow(): string | null {
+    return this.getAttribute('flow-row');
+  }
+
+  set flowRowDense(value: string | null) {
+    if (value !== null) {
+      this.setAttribute('flow-row-dense', value);
+    } else {
+      this.removeAttribute('flow-row-dense');
+    }
+  }
+
+  get flowRowDense(): string | null {
+    return this.getAttribute('flow-row-dense');
   }
 
   constructor() {
@@ -216,6 +296,8 @@ export default class IdsGrid extends IdsElement {
 
   static get attributes(): any {
     return [
+      attributes.AUTO_FIT,
+      attributes.AUTO_FILL,
       attributes.COLS,
       attributes.COLS_XS,
       attributes.COLS_SM,
@@ -223,11 +305,15 @@ export default class IdsGrid extends IdsElement {
       attributes.COLS_LG,
       attributes.COLS_XL,
       attributes.COLS_XXL,
-      attributes.MIN_COL_WIDTH,
-      attributes.MAX_COL_WIDTH,
+      'flow',
+      'flow-col',
+      'flow-col-dense',
+      'flow-dense',
+      'flow-row',
+      'flow-row-dense',
       attributes.GAP,
-      attributes.AUTO_FIT,
-      attributes.AUTO_FILL
+      attributes.MAX_COL_WIDTH,
+      attributes.MIN_COL_WIDTH,
     ];
   }
 
@@ -243,6 +329,7 @@ export default class IdsGrid extends IdsElement {
     this.setGap();
     this.setAutoFit();
     this.setAutoFill();
+    this.setFlow();
   }
 
   private setColumns() {
@@ -276,6 +363,12 @@ export default class IdsGrid extends IdsElement {
   private setAutoFill() {
     if (this.autoFill) {
       this.classList.add('grid-auto-fill');
+    }
+  }
+
+  private setFlow() {
+    if (this.flow !== null) {
+      this.classList.add(`grid-flow-${this.flow}`);
     }
   }
 
