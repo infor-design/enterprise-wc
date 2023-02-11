@@ -1,78 +1,156 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsDataGrid Component Formatter Tests can render with the alert formatter 1`] = `"<ids-alert icon="alert" tooltip="Demo Category"></ids-alert>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the alert formatter 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-alert icon="alert" tooltip="Demo Category"></ids-alert>
+      </span>
+    "
+`;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the alert formatter with icon 1`] = `"<ids-alert icon="confirm" tooltip="Demo Category"></ids-alert>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the alert formatter with icon 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-alert icon="confirm" tooltip="Demo Category"></ids-alert>
+      </span>
+    "
+`;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the alert formatter without tooltip 1`] = `"<ids-alert icon="confirm" ></ids-alert>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the alert formatter without tooltip 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-alert icon="confirm" ></ids-alert>
+      </span>
+    "
+`;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the card formatter 1`] = `"<ids-card>Full Month</ids-card>"`;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the card formatter without value 1`] = `""`;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the color formatter 1`] = `"<ids-color hex="#35d783" tooltip="#35d783"></ids-color>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the color formatter 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-color hex="#35d783" tooltip="#35d783"></ids-color>
+      </span>
+    "
+`;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the color formatter with blank color 1`] = `"<ids-color></ids-color>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the color formatter with blank color 1`] = `"<span class="text-ellipsis"><ids-color></ids-color></span>"`;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the color formatter with color-override 1`] = `"<ids-color hex="#FF0000" ></ids-color>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the color formatter with color-override 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-color hex="#FF0000" ></ids-color>
+      </span>
+    "
+`;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the color formatter without tooltip 1`] = `"<ids-color hex="#FF0000" ></ids-color>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the color formatter without tooltip 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-color hex="#FF0000" ></ids-color>
+      </span>
+    "
+`;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the favorite formatter 1`] = `
 "
-      <ids-rating
-        label="1 of 1 stars"
-        size="large"
-        stars="1"
-        value="1"
-        
-        readonly
-      >
-      </ids-rating>
+      <span class="text-ellipsis">
+        <ids-rating
+          label="1 of 1 stars"
+          size="large"
+          stars="1"
+          value="1"
+          
+          readonly
+        >
+        </ids-rating>
+      </span>
     "
 `;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the favorite formatter with size-override 1`] = `
 "
-      <ids-rating
-        label="1 of 1 stars"
-        size="xxl"
-        stars="1"
-        value="1"
-        
-        readonly
-      >
-      </ids-rating>
+      <span class="text-ellipsis">
+        <ids-rating
+          label="1 of 1 stars"
+          size="xxl"
+          stars="1"
+          value="1"
+          
+          readonly
+        >
+        </ids-rating>
+      </span>
     "
 `;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the favorite formatter without value 1`] = `
 "
-      <ids-rating
-        label="0 of 1 stars"
-        size="large"
-        stars="1"
-        value="0"
-        
-        readonly
-      >
-      </ids-rating>
+      <span class="text-ellipsis">
+        <ids-rating
+          label="0 of 1 stars"
+          size="large"
+          stars="1"
+          value="0"
+          
+          readonly
+        >
+        </ids-rating>
+      </span>
     "
 `;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter 1`] = `"<ids-icon icon="closed-folder" size="large" ></ids-icon>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-icon icon="closed-folder" size="large" ></ids-icon>
+      </span>
+    "
+`;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter as empty string 1`] = `""`;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with color-override 1`] = `"<ids-icon icon="closed-folder" size="large" badge-color="#FF00FF" badge-position="top-left"></ids-icon>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with color-override 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-icon icon="closed-folder" size="large" badge-color="#FF00FF" badge-position="top-left"></ids-icon>
+      </span>
+    "
+`;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with icon-override 1`] = `"<ids-icon icon="confirm" size="large" ></ids-icon>icon-closed-folder"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with icon-override 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-icon icon="confirm" size="large" ></ids-icon>icon-closed-folder
+      </span>
+    "
+`;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with icon-override without value 1`] = `"<ids-icon icon="confirm" size="large" ></ids-icon>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with icon-override without value 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-icon icon="confirm" size="large" ></ids-icon>
+      </span>
+    "
+`;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with invalid size-override 1`] = `"<ids-icon icon="closed-folder" size="large" ></ids-icon>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with invalid size-override 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-icon icon="closed-folder" size="large" ></ids-icon>
+      </span>
+    "
+`;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with size-override 1`] = `"<ids-icon icon="closed-folder" size="small" ></ids-icon>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with size-override 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-icon icon="closed-folder" size="small" ></ids-icon>
+      </span>
+    "
+`;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the image formatter 1`] = `"<ids-image src="https://placekitten.com/200/100" ></ids-image>"`;
 
@@ -110,99 +188,113 @@ exports[`IdsDataGrid Component Formatter Tests can render with the progress form
 
 exports[`IdsDataGrid Component Formatter Tests can render with the rating formatter 1`] = `
 "
-      <ids-rating
-        label="4.6 of 5 stars"
-        size="large"
-        stars="5"
-        value="4.6"
-        
-        readonly
-      >
-      </ids-rating>
+      <span class="text-ellipsis">
+        <ids-rating
+          label="4.6 of 5 stars"
+          size="large"
+          stars="5"
+          value="4.6"
+          
+          readonly
+        >
+        </ids-rating>
+      </span>
     "
 `;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the rating formatter as readonly=false 1`] = `
 "
-      <ids-rating
-        label="4.6 of 5 stars"
-        size="large"
-        stars="5"
-        value="4.6"
-        
-        
-      >
-      </ids-rating>
+      <span class="text-ellipsis">
+        <ids-rating
+          label="4.6 of 5 stars"
+          size="large"
+          stars="5"
+          value="4.6"
+          
+          
+        >
+        </ids-rating>
+      </span>
     "
 `;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the rating formatter as readonly=true 1`] = `
 "
-      <ids-rating
-        label="4.6 of 5 stars"
-        size="large"
-        stars="5"
-        value="4.6"
-        
-        readonly
-      >
-      </ids-rating>
+      <span class="text-ellipsis">
+        <ids-rating
+          label="4.6 of 5 stars"
+          size="large"
+          stars="5"
+          value="4.6"
+          
+          readonly
+        >
+        </ids-rating>
+      </span>
     "
 `;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the rating formatter with color-override 1`] = `
 "
-      <ids-rating
-        label="4.6 of 5 stars"
-        size="large"
-        stars="5"
-        value="4.6"
-        color="orange"
-        readonly
-      >
-      </ids-rating>
+      <span class="text-ellipsis">
+        <ids-rating
+          label="4.6 of 5 stars"
+          size="large"
+          stars="5"
+          value="4.6"
+          color="orange"
+          readonly
+        >
+        </ids-rating>
+      </span>
     "
 `;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the rating formatter with max-override 1`] = `
 "
-      <ids-rating
-        label="4.6 of 10 stars"
-        size="large"
-        stars="10"
-        value="4.6"
-        
-        readonly
-      >
-      </ids-rating>
+      <span class="text-ellipsis">
+        <ids-rating
+          label="4.6 of 10 stars"
+          size="large"
+          stars="10"
+          value="4.6"
+          
+          readonly
+        >
+        </ids-rating>
+      </span>
     "
 `;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the rating formatter with text/label override 1`] = `
 "
-      <ids-rating
-        label="Rating Override"
-        size="large"
-        stars="5"
-        value="4.6"
-        
-        readonly
-      >
-      </ids-rating>
+      <span class="text-ellipsis">
+        <ids-rating
+          label="Rating Override"
+          size="large"
+          stars="5"
+          value="4.6"
+          
+          readonly
+        >
+        </ids-rating>
+      </span>
     "
 `;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the rating formatter without value 1`] = `
 "
-      <ids-rating
-        label="0 of 5 stars"
-        size="large"
-        stars="5"
-        value="0"
-        
-        readonly
-      >
-      </ids-rating>
+      <span class="text-ellipsis">
+        <ids-rating
+          label="0 of 5 stars"
+          size="large"
+          stars="5"
+          value="0"
+          
+          readonly
+        >
+        </ids-rating>
+      </span>
     "
 `;
 
@@ -386,8 +478,20 @@ exports[`IdsDataGrid Component Formatter Tests can render with the stepChart for
     "
 `;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the tag formatter 1`] = `"<ids-tag color="">Demo Category</ids-tag>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the tag formatter 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-tag color="">Demo Category</ids-tag>
+      </span>
+    "
+`;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the tag formatter with color-override 1`] = `"<ids-tag color="success">Demo Category</ids-tag>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the tag formatter with color-override 1`] = `
+"
+      <span class="text-ellipsis">
+        <ids-tag color="success">Demo Category</ids-tag>
+      </span>
+    "
+`;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the tag formatter without value 1`] = `""`;
