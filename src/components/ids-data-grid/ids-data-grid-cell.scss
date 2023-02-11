@@ -43,10 +43,9 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     @include inline-flex();
     @include px-16();
 
-    flex-direction: row;
+    flex-flow: row nowrap;
     align-content: center;
     align-items: center;
-    flex-wrap: nowrap;
     height: inherit;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -55,6 +54,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   // Text Alignment
   &.align-center > *:first-child {
     @include inline-flex();
+
     margin: 0 auto;
   }
 
