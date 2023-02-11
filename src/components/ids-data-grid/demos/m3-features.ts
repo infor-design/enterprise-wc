@@ -120,6 +120,7 @@ columns.push({
   id: 'color',
   name: 'Color',
   field: 'color',
+  align: 'center',
   sortable: true,
   resizable: true,
   formatter: dataGrid.formatters.color,
@@ -128,6 +129,7 @@ columns.push({
   id: 'icon',
   name: 'Icon',
   field: 'icon',
+  align: 'center',
   sortable: true,
   resizable: true,
   formatter: dataGrid.formatters.icon,
@@ -176,8 +178,9 @@ columns.push({
 });
 columns.push({
   id: 'category',
-  name: 'Category (Tag)',
+  name: 'Tag',
   field: 'category',
+  align: 'center',
   sortable: true,
   resizable: true,
   formatter: dataGrid.formatters.tag,
@@ -186,8 +189,9 @@ columns.push({
 });
 columns.push({
   id: 'category-alert',
-  name: 'Category (Alert)',
+  name: 'Alert',
   field: 'category',
+  align: 'center',
   sortable: true,
   resizable: true,
   formatter: dataGrid.formatters.alert,

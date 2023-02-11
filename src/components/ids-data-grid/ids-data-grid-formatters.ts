@@ -225,20 +225,28 @@ export default class IdsDataGridFormatters {
     const icon = columnData.icon ?? 'alert';
     const tooltip = value ? `tooltip="${value}"` : '';
 
-    return `<ids-alert icon="${icon}" ${tooltip}></ids-alert>`;
+    return `
+      <span class="text-ellipsis">
+        <ids-alert icon="${icon}" ${tooltip}></ids-alert>
+      </span>
+    `;
   }
 
   /* Shows ids-color. If a `color` option is provided, the field's value will appear in a tooltip. */
   color(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
-    if (!columnData.color && !value) return '<ids-color></ids-color>';
+    if (!columnData.color && !value) return '<span class="text-ellipsis"><ids-color></ids-color></span>';
 
     const color = this.#color(index, value, columnData, rowData);
 
     const hex = color || value || '#C2A1F1';
     const tooltip = !color && value ? `tooltip="${value}"` : '';
 
-    return `<ids-color hex="${hex}" ${tooltip}></ids-color>`;
+    return `
+      <span class="text-ellipsis">
+        <ids-color hex="${hex}" ${tooltip}></ids-color>
+      </span>
+    `;
   }
 
   /* Shows the field value as an ids-icon. An `icon` and `size` option can be provided as overrides. */
@@ -256,7 +264,11 @@ export default class IdsDataGridFormatters {
     const icon = String(columnData.icon || value).replace('icon-', '');
     const text = (columnData.icon && typeof value === typeof '') ? value : '';
 
-    return `<ids-icon icon="${icon}" size="${size}" ${badgeColor}></ids-icon>${text}`;
+    return `
+      <span class="text-ellipsis">
+        <ids-icon icon="${icon}" size="${size}" ${badgeColor}></ids-icon>${text}
+      </span>
+    `;
   }
 
   /* Shows the field value as a `star-filled` or `star-outlined`. A `size` option can be provided as an override. */
@@ -283,7 +295,11 @@ export default class IdsDataGridFormatters {
     if (!value) return '';
     const color = this.#color(index, value, columnData, rowData);
 
-    return `<ids-tag color="${color || ''}">${value}</ids-tag>`;
+    return `
+      <span class="text-ellipsis">
+        <ids-tag color="${color || ''}">${value}</ids-tag>
+      </span>
+    `;
   }
 
   /*
@@ -337,15 +353,17 @@ export default class IdsDataGridFormatters {
     const readonly = this.#readonly(index, value, columnData, rowData) ?? true;
 
     return `
-      <ids-rating
-        label="${label}"
-        size="${size}"
-        stars="${max}"
-        value="${val}"
-        ${color ? `color="${color}"` : ''}
-        ${readonly ? 'readonly' : ''}
-      >
-      </ids-rating>
+      <span class="text-ellipsis">
+        <ids-rating
+          label="${label}"
+          size="${size}"
+          stars="${max}"
+          value="${val}"
+          ${color ? `color="${color}"` : ''}
+          ${readonly ? 'readonly' : ''}
+        >
+        </ids-rating>
+      </span>
     `;
   }
 

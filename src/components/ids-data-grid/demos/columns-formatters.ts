@@ -136,18 +136,6 @@ if (dataGrid) {
       max: 5,
     });
     columns.push({
-      id: 'count-slider',
-      name: 'Slider',
-      field: 'count',
-      resizable: true,
-      width: 200,
-      sortable: true,
-      formatter: dataGrid.formatters.slider,
-      color: 'azure06',
-      max: 10,
-      type: 'step',
-    });
-    columns.push({
       id: 'count-step-chart',
       name: 'Step Chart',
       field: 'count',
