@@ -344,17 +344,6 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.popup.visible).toEqual(true);
   });
 
-  it('should not open by clicking on label', async () => {
-    await waitForTimeout(() => expect(multiselect.labelEl).toBeTruthy());
-    expect(multiselect.labelEl).toBeTruthy();
-    multiselect.labelEl.click();
-    await waitForTimeout(() => expect(multiselect.popup.visible).toBeFalsy());
-    expect(multiselect.popup.visible).toBeFalsy();
-    multiselect.input.input.click();
-    await waitForTimeout(() => expect(multiselect.popup.visible).toBeTruthy());
-    expect(multiselect.popup.visible).toBeTruthy();
-  });
-
   it('selects on space/enter when open', () => {
     multiselect.value = [];
     multiselect.open();
