@@ -665,7 +665,7 @@ class IdsLocale {
    * @param {boolean} isStrict If true missing date parts will be considered invalid. If false the current month/day.
    * @returns {Date | Array | undefined} The date object it could calculate from the string
    */
-  parseDate(dateString: string, options: any, isStrict?: boolean) {
+  parseDate(dateString: string, options?: any, isStrict?: boolean) {
     type DateObj = {
       day?: number | string,
       month?: number | string,

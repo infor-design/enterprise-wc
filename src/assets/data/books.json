@@ -12,10 +12,15 @@
     "methodSwitch": "Yes",
     "trackDeprecationHistory": "Yes",
     "useForEmployee": "No",
+    "icon": "icon-edit",
+    "image": "https://placekitten.com/200/100",
+    "category": "Demo Category",
+    "count": "3",
     "deprecationHistory": "Asset Label",
     "publishDate": "2021-04-23T18:25:43.511Z",
     "price": "12.99",
-    "location": "United States"
+    "location": "United States",
+    "color": "#165eab"
   },
   {
     "book": 102,
@@ -30,10 +35,14 @@
     "methodSwitch": "No",
     "trackDeprecationHistory": "No",
     "useForEmployee": "No",
+    "icon": "icon-closed-folder",
+    "category": "Demo Category",
+    "count": "4.6",
     "deprecationHistory": "Asset Label",
     "publishDate": "2021-02-23T18:25:43.511Z",
     "price": "13.99",
-    "location": "<img src='a' onerror='alert(0)'/>Canada"
+    "location": "<img src='a' onerror='alert(0)'/>Canada",
+    "color": "#35d783"
   },
   {
     "book": 103,
@@ -48,9 +57,13 @@
     "methodSwitch": "Yes",
     "trackDeprecationHistory": "No",
     "useForEmployee": "Yes",
+    "icon": null,
+    "image": "https://placekitten.com/400/300",
+    "category": null,
     "deprecationHistory": "Asset Label",
     "publishDate": "2021-12-23T18:25:43.511Z",
     "location": "United States",
+    "color": "orange",
     "price": "1.21"
   },
   {
@@ -66,8 +79,12 @@
     "methodSwitch": "No",
     "trackDeprecationHistory": "No",
     "useForEmployee": "No",
+    "icon": "closed-folder",
+    "category": "Demo Category",
+    "count": "85",
     "deprecationHistory": "Asset Label",
     "location": "Canada",
+    "color": "#f50c14",
     "price": "1.21"
   },
   {
@@ -83,10 +100,14 @@
     "methodSwitch": "Yes",
     "trackDeprecationHistory": "No",
     "useForEmployee": "Yes",
+    "icon": "headphones",
+    "category": "Demo Category",
+    "count": 73,
     "deprecationHistory": "Asset Label",
     "publishDate": "2021-12-12T18:25:43.511Z",
     "price": "15.99",
-    "location": "United States"
+    "location": "United States",
+    "color": null
   },
   {
     "book": 106,
@@ -101,6 +122,8 @@
     "methodSwitch": "No",
     "trackDeprecationHistory": "No",
     "useForEmployee": "No",
+    "icon": null,
+    "category": null,
     "deprecationHistory": "Asset Label",
     "price": "1.21"
   },
@@ -117,8 +140,13 @@
     "methodSwitch": "No",
     "trackDeprecationHistory": "No",
     "useForEmployee": "No",
+    "icon": "icon-edit",
+    "image": "https://placekitten.com/200/100",
+    "category": "Demo Category",
+    "count": 6,
     "deprecationHistory": "Asset Label",
     "location": "Canada",
+    "color": "#8d1cf3",
     "price": "200.10"
   },
   {
@@ -134,6 +162,9 @@
     "methodSwitch": "No",
     "trackDeprecationHistory": "Yes",
     "useForEmployee": "Yes",
+    "icon": "special-item",
+    "category": "Demo Category",
+    "count": 9,
     "deprecationHistory": "Asset Label",
     "publishDate": "2020-12-12T18:25:43.511Z"
   },
@@ -150,8 +181,12 @@
     "methodSwitch": "Yes",
     "trackDeprecationHistory": "No",
     "useForEmployee": "No",
+    "icon": "icon-special-item",
+    "category": "Demo Category",
+    "count": 900,
     "deprecationHistory": "Asset Label",
     "publishDate": "2019-12-12T18:25:43.511Z",
-    "location": "United States"
+    "location": "United States",
+    "color": "#F00"
   }
 ]

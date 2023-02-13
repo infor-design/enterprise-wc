@@ -6,10 +6,13 @@
 
 - `[Locale]` Locale information files and messages are now separate from the build. They must be served as assets from the `node_modules/ids-enterprise-wc/locale-data` folder. ([#1107](https://github.com/infor-design/enterprise-wc/issues/1107))
 
+- `[Trigger Field]` Fixed trigger field buttons padding. ([#1091](https://github.com/infor-design/enterprise-wc/issues/1091))
+
 ## 1.0.0-beta.6
 
 ### 1.0.0-beta.6 Fixes
 
+- `[DataGrid]` Added more cell-formatters. ([#1021](https://github.com/infor-design/enterprise-wc/issues/1021))
 - `[Build]` Fixed tsc errors running the build commands `npm run build:dist`. ([#1059](https://github.com/infor-design/enterprise-wc/issues/1059))
 - `[Build]` Fixed errors using `new IdsComponentName()` when imported from the npm package. ([#971](https://github.com/infor-design/enterprise-wc/issues/971))
 - `[Build]` All scripts in the npm package are now ES Modules and use lazy loading to reduce size and payload. Scripts must be imports as ES modules script `type="module"` ([#814](https://github.com/infor-design/enterprise-wc/issues/814))
@@ -43,6 +46,10 @@
 - `[DataGrid]` Added support for context menu. ([#963](https://github.com/infor-design/enterprise-wc/issues/963))
 - `[DataGrid]` Added support for editing. ([#991](https://github.com/infor-design/enterprise-wc/issues/991))
 - `[DataGrid]` Added support for dropdown editing ([#1045](https://github.com/infor-design/enterprise-wc/issues/1045))
+- `[DataGrid]` Added support for timepicker editing ([#1045](https://github.com/infor-design/enterprise-wc/issues/1045))
+- `[DataGrid]` Added support for datepicker editing ([#1045](https://github.com/infor-design/enterprise-wc/issues/1045))
+- `[DataGrid]` Added support to add multiple rows at given index ([#1045](https://github.com/infor-design/enterprise-wc/issues/1045))
+- `[DataGrid]` Added `addNewAtEnd` setting ([#1045](https://github.com/infor-design/enterprise-wc/issues/1045))
 - `[DataGrid]` Added `rowclick` and `rowdoubleclick` events. ([#994](https://github.com/infor-design/enterprise-wc/issues/994))
 - `[DataGrid]` Added `ids-data-grid-cell`, `ids-data-grid-row` and `ids-data-grid-header` components and better code separation. ([#968](https://github.com/infor-design/enterprise-wc/issues/968))
 - `[DataGrid]` Added support for save user settings. ([#992](https://github.com/infor-design/enterprise-wc/issues/992))
