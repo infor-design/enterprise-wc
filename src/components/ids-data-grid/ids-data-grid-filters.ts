@@ -10,15 +10,18 @@ import '../ids-menu/ids-menu';
 import '../ids-menu/ids-menu-item';
 import '../ids-input/ids-input';
 import '../ids-dropdown/ids-dropdown';
+import '../ids-dropdown/ids-dropdown-list';
 import '../ids-icon/ids-icon';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-trigger-field/ids-trigger-field';
 import '../ids-date-picker/ids-date-picker-popup';
 import '../ids-time-picker/ids-time-picker-popup';
 
+import type IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
+import type IdsDropdown from '../ids-dropdown/ids-dropdown';
+import type IdsDropdownList from '../ids-dropdown/ids-dropdown-list';
 import type IdsMenuItem from '../ids-menu/ids-menu-item';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
-import type IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
 
 // Instance counter
 let instanceCounter = 0;
@@ -738,6 +741,7 @@ export default class IdsDataGridFilters {
       const input = node?.querySelector('ids-input');
       const type = input?.getAttribute('data-filter-type');
       const dropdown = node?.querySelector('ids-dropdown');
+      const dropdownList = node?.querySelector('ids-dropdown-list');
       const datePicker = node?.querySelector('ids-date-picker');
       const timePicker = node?.querySelector('ids-time-picker');
       const btn = node?.querySelector('ids-menu-button');
@@ -762,7 +766,6 @@ export default class IdsDataGridFilters {
         if (btn && !initial.btn) initial.btn = { value: btn.menuEl?.getSelectedValues()[0] };
 
         // Slotted attributes
-        dropdown?.setAttribute('size', 'full');
         setCompulsoryAttributes(input);
         setCompulsoryAttributes(dropdown);
         setCompulsoryAttributes(datePicker);
@@ -822,6 +825,31 @@ export default class IdsDataGridFilters {
         timePickerPopup.format = format;
       }
 
+      // Dropdown/List settings
+      if (dropdown && dropdownList) {
+        dropdownList.configurePopup();
+        dropdownList.setAttribute('size', 'full');
+        dropdownList.setAttribute(attributes.ATTACHMENT, menuAttachment);
+        dropdownList.appendToTargetParent();
+        dropdownList.popupOpenEventsTarget = document.body;
+        dropdownList.setAttribute(attributes.TRIGGER_TYPE, 'custom');
+        dropdownList.setAttribute(attributes.TARGET, `#${dropdown.getAttribute('id')}`);
+        dropdownList.setAttribute(attributes.TRIGGER_ELEM, `#${dropdown.getAttribute('id')}`);
+        dropdown.onEvent('click', dropdown, () => {
+          const popup = dropdownList.popup;
+          if (popup) {
+            if (!popup.visible) dropdownList.show();
+            else dropdownList.hide();
+          }
+        });
+        dropdownList.onOutsideClick = (e: MouseEvent) => {
+          if (!e.composedPath().includes(dropdownList)) {
+            dropdownList.hide();
+          }
+        };
+        dropdownList.refreshTriggerEvents();
+      }
+
       // Integer type mask
       if (type === 'integer') {
         input.mask = 'number';
@@ -847,12 +875,19 @@ export default class IdsDataGridFilters {
    * @returns {void}
    */
   attachFilterEventHandlers() {
-    // Captures menu contents for menu button selection.
+    // Captures selected contents from menu/dropdown list items.
     this.root.offEvent(`selected.${this.#id()}`, this.root.wrapper);
     this.root.onEvent(`selected.${this.#id()}`, this.root.wrapper, (e: any) => {
       const elem = e.detail?.elem;
-      if (!elem || (elem && !(/ids-menu-item/gi.test(elem.nodeName)))) return;
-      this.#handleMenuButtonSelected(elem);
+      if (!elem) return;
+
+      if (/ids-menu-item/gi.test(elem.nodeName)) {
+        this.#handleMenuButtonSelected(elem);
+      }
+
+      if (/ids-dropdown-list/gi.test(elem.nodeName)) {
+        e.target.value = e.detail.value;
+      }
     });
 
     // Change event for input, dropdown and multiselect
@@ -1142,6 +1177,7 @@ export default class IdsDataGridFilters {
         color-variant="${!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'}"
         label="${label}"
         label-state="collapsed"
+        list="#${id}-list"
         no-margins
         compact
         data-filter-type="${type}"
@@ -1149,8 +1185,10 @@ export default class IdsDataGridFilters {
         id="${id}"
         ${value}${disabled}${readonly}
       >
-        <ids-list-box>${items}</ids-list-box>
       </ids-dropdown>
+      <ids-dropdown-list id="${id}-list">
+        <ids-list-box>${items}</ids-list-box>
+      </ids-dropdown-list>
     `;
   }
 

@@ -486,8 +486,11 @@ export default class IdsDropdown extends Base {
     this.dropdownList?.clearSelected();
   }
 
-  #configurePopup() {
-    if (this.dropdownList && this.trigger) {
+  /**
+   *
+   */
+  configurePopup() {
+    if (this.dropdownList?.popup && this.trigger) {
       this.dropdownList.removeTriggerEvents();
       this.dropdownList.appendToTargetParent();
       this.dropdownList.popupOpenEventsTarget = (this.list ? this : this.container as IdsPopupElementRef);
@@ -516,7 +519,7 @@ export default class IdsDropdown extends Base {
       };
 
       // Associate the Dropdown List component with this Dropdown component's trigger button
-      const triggerElemId = (this.list ? this.input : this.trigger)?.getAttribute('id');
+      const triggerElemId = (this.list ? this : this.trigger)?.getAttribute('id');
       const targetElemId = (this.list ? this : this.input)?.getAttribute('id');
       this.dropdownList.setAttribute(attributes.TARGET, `#${targetElemId}`);
       this.dropdownList.setAttribute(attributes.TRIGGER_ELEM, `#${triggerElemId}`);
@@ -524,8 +527,9 @@ export default class IdsDropdown extends Base {
       this.dropdownList.popupOpenEventsTarget = document.body;
 
       // Configure inner IdsPopup
-      if (this.locale && this.locale.isRTL) {
-        this.dropdownList.popup?.setAttribute(attributes.ALIGN, `bottom, ${this.locale.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
+      const isRTL = this.localeAPI.isRTL();
+      if (this.locale && isRTL) {
+        this.dropdownList.popup?.setAttribute(attributes.ALIGN, `bottom, ${isRTL || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
       }
 
       if (this.input) {
@@ -1076,7 +1080,7 @@ export default class IdsDropdown extends Base {
       }
     }
     this.dropdownList = targetNode;
-    this.#configurePopup();
+    this.configurePopup();
     this.attachClickEvent();
   }
 
