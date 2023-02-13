@@ -791,7 +791,8 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.colorVariant).toEqual('alternate-formatter');
     expect(dropdown.labelState).toEqual('collapsed');
     expect(dropdown.compact).toEqual(true);
-    expect(dropdown.dropdownList.getAttribute('field-height')).not.toBeNull();
+    expect(dropdown.getAttribute('field-height')).toBeNull();
+    expect(dropdown.hasAttribute('compact')).toBeTruthy();
     expect(dropdown.noMargins).toEqual(true);
 
     dropdown.compact = false;
@@ -799,7 +800,8 @@ describe('IdsDropdown Component', () => {
     dropdown.template();
 
     expect(dropdown.fieldHeight).toEqual('lg');
-    expect(dropdown.dropdownList.getAttribute('field-height')).toEqual('lg');
+    expect(dropdown.hasAttribute('compact')).toBeFalsy();
+    expect(dropdown.getAttribute('field-height')).toEqual('lg');
   });
 
   it('fixes itself with an empty container', () => {
