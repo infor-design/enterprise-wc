@@ -472,11 +472,7 @@ export default class IdsDataGrid extends Base {
       this.setActiveCell(cellNum, rowNum, isHyperlink);
       // Handle click callbacks
       if (isClickable && column.click !== undefined && !e.target?.getAttribute('disabled')) {
-        (column as any).click({
-          rowData: this.data[rowNum],
-          columnData: this.visibleColumns[cellNum],
-          event: e
-        });
+        column.click(this.data[rowNum], this.visibleColumns[cellNum], e);
       }
 
       // Fires for each row that is clicked
