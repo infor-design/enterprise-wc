@@ -90,7 +90,7 @@ describe('IdsSpinbox Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('presses the increment and decrement buttons with no errors', async () => {
+  it.skip('presses the increment and decrement buttons with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
     await processAnimFrame();

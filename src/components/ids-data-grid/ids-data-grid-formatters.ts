@@ -88,14 +88,16 @@ export default class IdsDataGridFormatters {
   date(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
     let value: any = this.#extractValue(rowData, columnData.field);
     value = api.localeAPI?.formatDate(value, columnData.formatOptions) ?? value.toString();
-    return `<span class="text-ellipsis">${value}</span>`;
+    const icon = columnData.editor?.type === 'datepicker' ? '<ids-icon icon="schedule" class="editor-cell-icon"></ids-icon>' : '';
+    return `<span class="text-ellipsis">${value}</span>${icon}`;
   }
 
   /** Formats date data as a time string in the desired format */
   time(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
     let value: any = this.#extractValue(rowData, columnData.field);
     value = api.localeAPI?.formatDate(value, columnData.formatOptions || { timeStyle: 'short' }) ?? value.toString();
-    return `<span class="text-ellipsis">${value}</span>`;
+    const icon = columnData.editor?.type === 'timepicker' ? '<ids-icon icon="clock" class="editor-cell-icon"></ids-icon>' : '';
+    return `<span class="text-ellipsis">${value}</span>${icon}`;
   }
 
   /** Formats number data as a decimal string in the specific localeAPI */
@@ -197,6 +199,7 @@ export default class IdsDataGridFormatters {
     return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
   }
 
+  /** Shows a dropdown list */
   dropdown(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
     const field = columnData.field ?? '';
     const options = <any[]>columnData.editor?.editorSettings?.options || [];
@@ -212,7 +215,7 @@ export default class IdsDataGridFormatters {
       </span>
       <ids-icon
         icon="dropdown"
-        class="dropdown-cell-icon">
+        class="editor-cell-icon">
       </ids-icon>
     `;
   }

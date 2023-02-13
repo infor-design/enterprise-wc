@@ -8,6 +8,8 @@ import booksJSON from '../../../assets/data/books.json';
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-editable')!;
 const rowHeightMenu = document.querySelector<IdsPopupMenu>('#row-height-menu')!;
+const pageContainer: any = document.querySelector('ids-container');
+const calendar = pageContainer.localeAPI.calendar();
 
 // Change row height with popup menu
 rowHeightMenu?.addEventListener('selected', (e: Event) => {
@@ -82,7 +84,15 @@ rowHeightMenu?.addEventListener('deselected', (e: Event) => {
     field: 'publishDate',
     resizable: true,
     reorderable: true,
-    formatter: dataGrid.formatters.date
+    formatter: dataGrid.formatters.date,
+    editor: {
+      type: 'input',
+      editorSettings: {
+        autoselect: true,
+        dirtyTracker: false,
+        mask: 'date'
+      }
+    }
   });
   columns.push({
     id: 'publishTime',
@@ -90,7 +100,23 @@ rowHeightMenu?.addEventListener('deselected', (e: Event) => {
     field: 'publishDate',
     resizable: true,
     reorderable: true,
-    formatter: dataGrid.formatters.time
+    formatter: dataGrid.formatters.time,
+    formatOptions: {
+      locale: 'en-US',
+      dateFormat: calendar.dateFormat.hour,
+      timeStyle: 'short'
+    },
+    editor: {
+      type: 'input',
+      editorSettings: {
+        autoselect: true,
+        dirtyTracker: false,
+        mask: 'date',
+        maskOptions: {
+          format: calendar.dateFormat.hour
+        }
+      }
+    }
   });
   columns.push({
     id: 'price',
