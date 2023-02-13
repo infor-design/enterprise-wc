@@ -1,0 +1,13 @@
+.hero {
+  background-color: #003876;
+  padding: 16px;
+}
+
+.wrapper {
+  margin: 16px 0;
+}
+
+.container {
+  max-width: 1488px;
+  margin: 0 auto;
+}

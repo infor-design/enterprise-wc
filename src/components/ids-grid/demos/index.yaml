@@ -8,3 +8,9 @@
   - link: example.html
     type: Main Example
     description: Shows a grid
+  - link: example-workspace.html
+    type: Workspace Example
+    description: Shows a workspace grid
+  - link: example-fluid-resize.html
+    type: Workspace Fluid Example
+    description: Shows a fluid workspace grid

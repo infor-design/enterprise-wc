@@ -290,6 +290,18 @@ export default class IdsGrid extends IdsElement {
     return this.getAttribute('flow-row-dense');
   }
 
+  set rowHeight(value: string | null) {
+    if (value !== null) {
+      this.setAttribute('row-height', value);
+    } else {
+      this.removeAttribute('row-height');
+    }
+  }
+
+  get rowHeight(): string | null {
+    return this.getAttribute('row-height');
+  }
+
   constructor() {
     super();
   }
@@ -314,6 +326,7 @@ export default class IdsGrid extends IdsElement {
       attributes.GAP,
       attributes.MAX_COL_WIDTH,
       attributes.MIN_COL_WIDTH,
+      'row-height'
     ];
   }
 
@@ -330,6 +343,7 @@ export default class IdsGrid extends IdsElement {
     this.setAutoFit();
     this.setAutoFill();
     this.setFlow();
+    this.setRowHeigt();
   }
 
   private setColumns() {
@@ -369,6 +383,13 @@ export default class IdsGrid extends IdsElement {
   private setFlow() {
     if (this.flow !== null) {
       this.classList.add(`grid-flow-${this.flow}`);
+    }
+  }
+
+  private setRowHeigt() {
+    if (this.rowHeight !== null) {
+      this.classList.add('grid-auto-row-height');
+      this.style.setProperty('--grid-auto-row-height', this.rowHeight);
     }
   }
 

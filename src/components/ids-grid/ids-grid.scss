@@ -2,8 +2,9 @@
   Grid Settings
 */
 :host {
-  --min-col-width: 0;
+  --min-col-width: 0; // Do we need thresholds for min/max col widths.. sm (50px) | md (176px) | lg (360px) etc.
   --max-col-width: 1fr;
+  --grid-auto-row-height: 0;
 }
 
 $spacing-unit: 8px;
@@ -86,6 +87,26 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
 
 :host(.grid-flow-col-dense) {
   grid-auto-flow: column dense;
+}
+
+:host(.auto-rows-auto) {
+  grid-auto-rows: auto;
+}
+
+:host(.auto-rows-min) {
+  grid-auto-rows: min-content;
+}
+
+:host(.auto-rows-max) {
+  grid-auto-rows: max-content;
+}
+
+:host(.auto-rows-fr) {
+  grid-auto-rows: minmax(0, 1fr);
+}
+
+:host(.grid-auto-row-height) {
+  grid-auto-rows: var(--grid-auto-row-height);
 }
 
 ::slotted(.span-full) {

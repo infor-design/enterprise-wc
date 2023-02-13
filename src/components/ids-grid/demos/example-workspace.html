@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <%= htmlWebpackPlugin.options.font %>
+  </head>
+  <body>
+    <ids-container role="main" padding="0" hidden>
+      <ids-masthead title="Infor Application" icon="logo" role="navigation">
+        <section title="start" slot="start">
+          <ids-button icon="grid"><span class="audible">Grid Button</span></ids-button>
+        </section>
+        <section title="center" slot="center">
+          <ids-button icon="home"><span>Home</span></ids-button>
+          <ids-button icon="star-outlined"><span>Star</span></ids-button>
+          <ids-button icon="info"><span>Info</span></ids-button>
+        </section>
+        <section title="end" slot="end">
+          <ids-button icon="user"><span class="audible">User Button</span></ids-button>
+          <ids-button icon="mingle-share"><span class="audible">Mingle Button</span></ids-button>
+          <ids-button icon="bookmark-outlined"><span class="audible">Bookmark Button</span></ids-button>
+        </section>
+      </ids-masthead>
+      <ids-header>
+        <ids-toolbar>
+          <ids-toolbar-section type="title">
+            <ids-text font-size="20">Workspace Title</ids-text>
+          </ids-toolbar-section>
+          <ids-toolbar-section type="button">
+            <ids-theme-switcher mode="light"></ids-theme-switcher>
+          </ids-toolbar-section>
+        </ids-toolbar>
+      </ids-header>
+
+      <div class="hero">
+        <ids-grid
+          cols="2"
+          cols-xl="4"
+          cols-xxl="8"
+          min-col-width="172px"
+          max-col-width="172px"
+          flow="row-dense"
+        >
+
+          <ids-grid-cell col-span="2" height="368px" fill></ids-grid-cell>
+          <ids-grid-cell col-span="2" height="368px">
+            <ids-grid cols="2">
+              <ids-grid-cell height="176px" fill></ids-grid-cell>
+              <ids-grid-cell height="176px" fill></ids-grid-cell>
+              <ids-grid-cell col-span="2" fill height="176px"></ids-grid-cell>
+            </ids-grid>
+          </ids-grid-cell>
+          <ids-grid-cell col-span="2" col-span-xl="4" min-height="368px" fill></ids-grid-cell>
+        </ids-grid>
+      </div>
+
+      <div class="wrapper">
+        <ids-grid
+          cols="2"
+          cols-xl="4"
+          cols-xxl="8"
+          min-col-width="172px"
+          max-col-width="172px"
+          flow="row-dense"
+        >
+          <ids-grid-cell height="176px" fill></ids-grid-cell>
+          <ids-grid-cell height="176px" fill></ids-grid-cell>
+          <ids-grid-cell height="176px" fill></ids-grid-cell>
+          <ids-grid-cell height="176px" fill></ids-grid-cell>
+          <ids-grid-cell height="176px" fill></ids-grid-cell>
+          <ids-grid-cell height="176px" fill></ids-grid-cell>
+          <ids-grid-cell height="176px" fill></ids-grid-cell>
+          <ids-grid-cell height="176px" fill></ids-grid-cell>
+          <ids-grid-cell col-span="2" height="368px" fill></ids-grid-cell>
+          <ids-grid-cell col-span="2" height="368px">
+            <ids-grid cols="2">
+              <ids-grid-cell height="176px" fill></ids-grid-cell>
+              <ids-grid-cell height="176px" fill></ids-grid-cell>
+              <ids-grid-cell col-span="2" fill height="176px"></ids-grid-cell>
+            </ids-grid>
+          </ids-grid-cell>
+          <ids-grid-cell col-span="2" col-span-xl="4" row-span="2" min-height="752px" fill></ids-grid-cell>
+          <ids-grid-cell col-span="2" col-span-xl="4" height="368px" fill></ids-grid-cell>
+          <ids-grid-cell col-span="2" col-span-xxl="3" height="368px" fill></ids-grid-cell>
+          <ids-grid-cell col-span="2" col-span-xxl="5" height="368px" fill></ids-grid-cell>
+          <ids-grid-cell col-span="2" col-span-xl="4" col-span-xxl="8" height="176px" fill></ids-grid-cell>
+        </ids-grid>
+      </div>
+    </ids-container>
+  </body>
+</html>

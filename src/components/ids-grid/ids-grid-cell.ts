@@ -320,7 +320,7 @@ export default class IdsGridCell extends IdsElement {
   }
 
   private setFill() {
-    if (this.fill !== null) {
+    if (this.fill === true) {
       this.classList.add(attributes.FILL);
     }
   }
