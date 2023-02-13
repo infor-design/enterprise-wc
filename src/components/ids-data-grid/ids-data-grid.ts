@@ -151,6 +151,7 @@ export default class IdsDataGrid extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.ADD_NEW_AT_END,
       attributes.ALTERNATE_ROW_SHADING,
       attributes.AUTO_FIT,
       attributes.DISABLE_CLIENT_FILTER,
@@ -309,7 +310,7 @@ export default class IdsDataGrid extends Base {
     this.filters.attachFilterSettings();
 
     // Set Counts/Totals
-    this.container?.setAttribute('aria-rowcount', this.rowCount.toString());
+    this.#updateRowCount();
 
     // Set contextmenu
     setContextmenu.apply(this);
@@ -471,11 +472,7 @@ export default class IdsDataGrid extends Base {
       this.setActiveCell(cellNum, rowNum, isHyperlink);
       // Handle click callbacks
       if (isClickable && column.click !== undefined && !e.target?.getAttribute('disabled')) {
-        (column as any).click({
-          rowData: this.data[rowNum],
-          columnData: this.visibleColumns[cellNum],
-          event: e
-        });
+        column.click(this.data[rowNum], this.visibleColumns[cellNum], e);
       }
 
       // Fires for each row that is clicked
@@ -519,7 +516,9 @@ export default class IdsDataGrid extends Base {
       }
 
       // Handle Editing
-      if (this.editable && column.editor) cell.startCellEdit(true);
+      if (this.editable && column.editor) {
+        cell.startCellEdit(e);
+      }
     });
 
     // Add double click to the table body
@@ -726,8 +725,9 @@ export default class IdsDataGrid extends Base {
    * Find the next editable cell and start editing it
    * @private
    * @param {IdsDirection} direction The cell element
+   * @returns {IdsDataGridCell} IdsDataGridCell
    */
-  #editAdjacentCell(direction: IdsDirection) {
+  #editAdjacentCell(direction: IdsDirection): IdsDataGridCell {
     this.commitCellEdit();
 
     let nextCell = direction === IdsDirection.Next
@@ -756,15 +756,21 @@ export default class IdsDataGrid extends Base {
     }
 
     if (!nextCell) {
+      if (this.addNewAtEnd) {
+        this.addRow({});
+        return this.#editAdjacentCell(IdsDirection.Next);
+      }
+
       this.activeCell.node.focus();
       this.activeCell.node.startCellEdit();
-      return;
+      return this.activeCell.node;
     }
 
     const row = Number(nextCell.parentElement?.getAttribute('aria-rowindex')) - 1;
     const cell = Number(nextCell.getAttribute('aria-colindex')) - 1;
     this.setActiveCell(cell, row, true);
     nextCell.startCellEdit();
+    return nextCell;
   }
 
   /**
@@ -1634,6 +1640,13 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Updates row count attribute on container
+   */
+  #updateRowCount() {
+    this.container?.setAttribute('aria-rowcount', this.rowCount.toString());
+  }
+
+  /**
    * Get the row HTMLElement
    * @param {number} index the zero based index
    * @returns {HTMLElement} Row HTMLElement
@@ -1661,11 +1674,27 @@ export default class IdsDataGrid extends Base {
   /**
    * Add a row to the data grid
    * @param {Record<string, unknown>} data the data to add to the row
+   * @param {number} index insert position for new row
    */
-  addRow(data: Record<string, unknown>) {
-    this.datasource.originalData.push(data);
-    this.data = this.datasource.originalData;
+  addRow(data: Record<string, unknown>, index?: number) {
+    const insertIdx = index ?? this.datasource.originalData.length;
+    this.datasource.originalData.splice(insertIdx, 0, data);
+    this.datasource.data = this.datasource.originalData;
     this.redrawBody();
+    this.#updateRowCount();
+  }
+
+  /**
+   * Add multiple rows to the data grid
+   * @param {Array<Record<string, unknown>>} data multiple row data
+   * @param {number} index insert position for new rows
+   */
+  addRows(data: Array<Record<string, unknown>> = [], index?: number) {
+    const insertIdx = index ?? this.datasource.originalData.length;
+    this.datasource.originalData.splice(insertIdx, 0, ...data);
+    this.datasource.data = this.datasource.originalData;
+    this.redrawBody();
+    this.#updateRowCount();
   }
 
   /**
@@ -1674,8 +1703,9 @@ export default class IdsDataGrid extends Base {
    */
   removeRow(index: number) {
     this.datasource.originalData.splice(index, 1);
-    this.data = this.datasource.originalData;
+    this.datasource.data = this.datasource.originalData;
     this.redrawBody();
+    this.#updateRowCount();
   }
 
   /**
@@ -2187,6 +2217,23 @@ export default class IdsDataGrid extends Base {
 
   get editNextOnEnterPress(): boolean {
     return stringToBool(this.getAttribute(attributes.EDIT_NEXT_ON_ENTER_PRESS));
+  }
+
+  /**
+   * Set to true to automatically append rows when keyboard navigating
+   * the data grid in editable mode
+   * @param {boolean} val boolean flag
+   */
+  set addNewAtEnd(val: string | boolean) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.ADD_NEW_AT_END, 'true');
+    } else {
+      this.removeAttribute(attributes.ADD_NEW_AT_END);
+    }
+  }
+
+  get addNewAtEnd(): boolean {
+    return stringToBool(this.getAttribute(attributes.ADD_NEW_AT_END));
   }
 
   /**

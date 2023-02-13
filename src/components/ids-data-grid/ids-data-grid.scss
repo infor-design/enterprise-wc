@@ -143,7 +143,13 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     }
 
     .text-ellipsis {
+      // No Ellipsis on tree columns, let links be focusable
+      overflow: initial;
       padding-inline-start: 40px;
+
+      ids-hyperlink {
+        margin-inline-start: 0;
+      }
     }
   }
 

@@ -415,3 +415,46 @@
     }
   }
 }
+
+// Date Picker Editor Borderless
+.ids-date-picker.color-variant-borderless {
+  ids-trigger-field::part(container) {
+    margin: 1px 0;
+  }
+
+  ids-trigger-field::part(field-container) {
+    border: none;
+  }
+
+  ids-trigger-field::part(input) {
+    padding-inline-end: 0 !important;
+  }
+
+  &.field-height-lg {
+    ids-trigger-field::part(input) {
+      padding-inline: 16px;
+      height: 50px;
+    }
+  }
+
+  &.field-height-md {
+    ids-trigger-field::part(input) {
+      padding-inline: 12px;
+      height: 40px;
+    }
+  }
+
+  &.field-height-sm {
+    ids-trigger-field::part(input) {
+      padding-inline: 8px;
+      height: 35px;
+    }
+  }
+
+  &.field-height-xs {
+    ids-trigger-field::part(input) {
+      padding-inline: 4px;
+      height: 30px;
+    }
+  }
+}

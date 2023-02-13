@@ -40,15 +40,21 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
   // Text ellipsis
   .text-ellipsis {
-    @include block();
+    @include inline-flex();
     @include px-16();
 
+    flex-flow: row nowrap;
+    align-content: center;
+    align-items: center;
+    height: inherit;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   // Text Alignment
   &.align-center > *:first-child {
+    @include inline-flex();
+
     margin: 0 auto;
   }
 
@@ -75,12 +81,40 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     outline-offset: -1px;
   }
 
-  &.is-editable.is-inline {
-    box-shadow: inset 0 0 0 4px white, inset 0 0 0 5px var(--ids-color-palette-slate-40);
+  &.is-editable {
+    &.is-inline {
+      box-shadow: inset 0 0 0 4px white, inset 0 0 0 5px var(--ids-color-palette-slate-40);
 
-    ids-icon.dropdown-cell-icon {
-      visibility: visible;
-      margin-inline-end: 14px;
+      ids-icon.editor-cell-icon {
+        visibility: visible;
+        margin-inline-end: 14px;
+      }
+    }
+
+    &.is-timepicker,
+    &.is-datepicker {
+      justify-content: space-between;
+
+      .text-ellipsis {
+        padding-inline-end: 0;
+      }
+    }
+
+    .editor-cell-icon {
+      margin-inline-end: 10px;
+      display: none;
+    }
+
+    // is-borderless:hover
+    &:not(.is-inline):focus,
+    &:not(.is-inline):hover {
+      .editor-cell-icon {
+        display: flex;
+      }
+
+      ids-alert {
+        margin-inline: calc(100% - 48px);
+      }
     }
   }
 
@@ -93,34 +127,22 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     top: 4px;
   }
 
+  // Editing with popups
+  &.is-editing.is-dropdown,
+  &.is-editing.is-timepicker,
+  &.is-editing.is-datepicker {
+    overflow: visible;
+  }
+
   // Dropdown Editable Cell
   &.is-editable.is-dropdown {
     .dropdown-cell-value {
       @include w-full();
     }
-
-    .dropdown-cell-icon {
-      margin-inline-end: 10px;
-      visibility: hidden;
-    }
-
-    // is-borderless:hover
-    &:not(.is-inline):focus,
-    &:not(.is-inline):hover {
-      .dropdown-cell-icon {
-        visibility: visible;
-      }
-
-      ids-alert {
-        margin-inline: calc(100% - 48px);
-      }
-    }
   }
 
   // Dropdown Editing
   &.is-editing.is-dropdown {
-    overflow: visible;
-
     &.is-dirty::before {
       margin-inline: 3px;
     }
@@ -200,8 +222,6 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   }
 
   ids-alert {
-    position: absolute;
-    margin-inline: calc(100% - 24px);
     margin-top: 3px;
   }
 }

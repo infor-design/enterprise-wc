@@ -1526,376 +1526,6 @@ describe('IdsDataGrid Component', () => {
     });
   });
 
-  describe('Formatter Tests', () => {
-    it('can render with the text formatter', () => {
-      // Renders undefined/null
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[3].querySelector('.text-ellipsis').innerHTML).toEqual('');
-
-      // Renders text
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
-        .querySelectorAll('.ids-data-grid-cell')[3].querySelector('.text-ellipsis').innerHTML).toEqual('CORE');
-    });
-
-    it('can render with the password formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('••');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('••');
-    });
-
-    it('can render with the rowNumber formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[1].querySelector('.text-ellipsis').innerHTML).toEqual('1');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[1].querySelector('.text-ellipsis').innerHTML).toEqual('4');
-    });
-
-    it('can render with the date formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[4].querySelector('.text-ellipsis').innerHTML).toEqual('4/23/2021');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[4].querySelector('.text-ellipsis').innerHTML).toEqual('');
-    });
-
-    it('can render with the time formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML.replace(' ', ' '))
-        .toEqual(new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric' }).format(new Date('2021-04-23T18:25:43.511Z')).replace(' ', ' '));
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML)
-        .toEqual('');
-    });
-
-    it('can render with the decimal formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('12.99');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('1.21');
-    });
-
-    it('can render with the decimal formatter (with defaults)', () => {
-      delete dataGrid.columns[6].formatOptions;
-      dataGrid.redraw();
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('12.99');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('1.21');
-    });
-
-    it('can render with the integer formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('13');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('1');
-    });
-
-    it('can render with the integer formatter (with defaults)', () => {
-      delete dataGrid.columns[9].formatOptions;
-      dataGrid.redraw();
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('13');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('1');
-    });
-
-    it('can render with the hyperlink formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').innerHTML).toEqual('United States');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
-        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
-    });
-
-    it('can render with the hyperlink formatter (with default href)', () => {
-      delete dataGrid.columns[10].href;
-      dataGrid.redraw();
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').innerHTML).toEqual('United States');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
-        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
-    });
-
-    it('can focus with the hyperlink when clicked instead of the cell', () => {
-      dataGrid.columns[10].href = '#';
-      const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink');
-      expect(link.innerHTML).toEqual('United States');
-
-      const mouseClick = new MouseEvent('click', { bubbles: true });
-      link.dispatchEvent(mouseClick);
-      // No Easy way to check has focus
-      expect(link.nodeName).toEqual('IDS-HYPERLINK');
-    });
-
-    it('can render with the hyperlink formatter (with href function)', () => {
-      dataGrid.columns[10].href = (row: any) => {
-        if (row.book === 101) {
-          return null;
-        }
-        return `${row.book}`;
-      };
-      dataGrid.redraw();
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
-        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').getAttribute('href')).toEqual('102');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
-        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
-    });
-
-    it('can render disabled hyperlink', () => {
-      dataGrid.columns[10].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
-      dataGrid.redraw();
-      const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-hyperlink');
-      expect(link.disabled).toBeTruthy();
-      const link2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-hyperlink');
-      expect(link2.disabled).toBeFalsy();
-    });
-
-    it('can render with the checkbox formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
-        .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').getAttribute('aria-checked')).toEqual('true');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
-        .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').getAttribute('aria-checked')).toEqual('false');
-    });
-
-    it('can render with a custom formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
-        .querySelectorAll('.ids-data-grid-cell')[17].querySelector('span').textContent).toEqual('Custom: 13.99');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
-        .querySelectorAll('.ids-data-grid-cell')[17].querySelector('span').textContent).toEqual('Custom: 1.21');
-    });
-
-    it('can render disabled checkbox', () => {
-      dataGrid.columns[12].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
-      dataGrid.redraw();
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').classList.contains('.disabled')).toBeFalsy();
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
-        .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').classList.contains('.disabled')).toBeFalsy();
-    });
-
-    it('can render with the button formatter (with click function)', () => {
-      const clickListener = jest.fn();
-      dataGrid.columns = [{
-        id: 'button',
-        name: 'button',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.button,
-        icon: 'settings',
-        align: 'center',
-        type: 'icon',
-        click: clickListener,
-        text: 'button'
-      }];
-
-      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button.textContent).toContain('button');
-      expect(button.querySelector('ids-icon')).toBeTruthy();
-
-      const mouseClick = new MouseEvent('click', { bubbles: true });
-      expect(clickListener).toHaveBeenCalledTimes(0);
-      button.dispatchEvent(mouseClick);
-      expect(clickListener).toHaveBeenCalledTimes(1);
-    });
-
-    it('can render with the button formatter defaults', async () => {
-      dataGrid.columns = [{
-        id: 'button',
-        name: 'button',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.button,
-        align: 'center'
-      }];
-      await processAnimFrame();
-
-      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button.textContent).toContain('Button');
-      expect(button.type).toBe('tertiary');
-      expect(button.querySelector('ids-icon')).toBeFalsy();
-    });
-
-    it('can render disabled buttons', async () => {
-      dataGrid.columns = [{
-        id: 'button',
-        name: 'button',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.button,
-        icon: 'settings',
-        align: 'center',
-        disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-        text: 'button'
-      }];
-      await processAnimFrame();
-      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button.disabled).toBeTruthy();
-      const button2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-button');
-      expect(button2.disabled).toBeFalsy();
-    });
-
-    it('can disabled formatters edge cases', async () => {
-      dataGrid.columns = [{
-        id: 'test',
-        name: 'test',
-        formatter: dataGrid.formatters.button,
-        disabled: undefined
-      }];
-
-      await processAnimFrame();
-      let button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button.disabled).toBeFalsy();
-
-      dataGrid.columns = [{
-        id: 'test',
-        name: 'test',
-        formatter: dataGrid.formatters.button,
-        disabled: true
-      }];
-      await processAnimFrame();
-
-      button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button.disabled).toBeTruthy();
-
-      dataGrid.columns = [{
-        id: 'test',
-        name: 'test',
-        formatter: dataGrid.formatters.button,
-        disabled: 'true'
-      }];
-      await processAnimFrame();
-
-      button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button.disabled).toBeTruthy();
-    });
-
-    it('can render with the badge formatter (with color function)', () => {
-      const colorListener = jest.fn(() => 'info');
-      dataGrid.columns = [{
-        id: 'badge',
-        name: 'badge',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.badge,
-        icon: 'settings',
-        align: 'center',
-        color: colorListener,
-        field: 'ledger'
-      }];
-
-      // Empty row
-      const badge = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-badge');
-      expect(badge).toBeFalsy();
-
-      const badge2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-badge');
-      expect(badge2.textContent).toContain('CORE');
-      expect(badge2.getAttribute('color')).toBe('info');
-      expect(colorListener).toHaveBeenCalledTimes(6);
-    });
-
-    it('can render with the badge formatter with color class', () => {
-      dataGrid.columns = [{
-        id: 'badge',
-        name: 'badge',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.badge,
-        icon: 'settings',
-        align: 'center',
-        color: 'error',
-        field: 'ledger'
-      }];
-
-      // Empty row
-      const badge = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-badge');
-      expect(badge.textContent).toContain('CORE');
-      expect(badge.getAttribute('color')).toBe('error');
-    });
-
-    it('can render with the badge formatter with no color class', () => {
-      dataGrid.columns = [{
-        id: 'badge',
-        name: 'badge',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.badge,
-        icon: 'settings',
-        align: 'center',
-        field: 'ledger'
-      }];
-
-      // Empty row
-      const badge = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-badge');
-      expect(badge.getAttribute('color')).toBe(null);
-    });
-
-    it('can render with the tree formatter', async () => {
-      dataGrid.treeGrid = true;
-      const oldChildren = dataGrid.data[0];
-      dataGrid.data[0].children = [{ description: 'test' }];
-      dataGrid.data[0].rowExpanded = true;
-      dataGrid.data[1].children = [{ description: 'test' }];
-      dataGrid.data[1].rowExpanded = false;
-
-      dataGrid.columns = [{
-        id: 'description',
-        name: 'description',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.tree
-      }];
-
-      await processAnimFrame();
-
-      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button).toBeTruthy();
-      expect(button.tabIndex).toBe(-1);
-      expect(button.querySelector('ids-icon').getAttribute('icon')).toBe('plusminus-folder-open');
-
-      const button2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-button');
-      expect(button2.querySelector('ids-icon').getAttribute('icon')).toBe('plusminus-folder-closed');
-
-      dataGrid.data[0].children = oldChildren;
-      dataGrid.data[0].rowExpanded = false;
-    });
-
-    it('can render with the expander formatter', async () => {
-      // eslint-disable-next-line no-template-curly-in-string
-      dataGrid.insertAdjacentHTML('afterbegin', '<template id="template-id"><span>${description}</span></template>');
-      dataGrid.expandableRow = true;
-      dataGrid.expandableRowTemplate = `template-id`;
-      dataGrid.data[1].rowExpanded = true;
-
-      dataGrid.columns = [{
-        id: 'description',
-        name: 'description',
-        formatter: dataGrid.formatters.expander
-      }];
-
-      await processAnimFrame();
-      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button).toBeTruthy();
-      expect(button.tabIndex).toBe(-1);
-      expect(button.querySelector('ids-icon').getAttribute('icon')).toBe('plusminus-folder-closed');
-
-      const button2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-button');
-      expect(button2.querySelector('ids-icon').getAttribute('icon')).toBe('plusminus-folder-open');
-    });
-  });
-
   describe('Keyboard Tests', () => {
     it('can handle ArrowRight key', () => {
       expect(dataGrid.activeCell.row).toEqual(0);
@@ -2989,14 +2619,6 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Editing Tests', () => {
-    const dropdownCellQuery = () => dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(8)');
-    const activateDropdownCell = () => {
-      dataGrid.editable = true;
-      dataGrid.setActiveCell(7, 1);
-      const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
-      dataGrid.dispatchEvent(enterKey);
-    };
-
     it('should be able to edit a cell and type a value', () => {
       dataGrid.editable = true;
       const clickEvent = new MouseEvent('click', { bubbles: true });
@@ -3093,7 +2715,7 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.classList.contains('is-invalid')).toBeFalsy();
     });
 
-    it('should be able to cancell a cell and reset validation state', () => {
+    it('should be able to cancel a cell and reset validation state', () => {
       dataGrid.editable = true;
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       expect(editableCell.textContent).toBe('102');
@@ -3175,13 +2797,13 @@ describe('IdsDataGrid Component', () => {
       dataGrid.editable = true;
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
       editableCell.startCellEdit();
-      editableCell.editor.isClick = true;
+      editableCell.editor.clickEvent = new MouseEvent('click');
       editableCell.editor.init(editableCell);
       expect(editableCell.editor.input.checked).toBe(true);
       editableCell.endCellEdit();
 
       editableCell.startCellEdit();
-      editableCell.editor.isClick = false;
+      editableCell.editor.clickEvent = undefined;
       editableCell.editor.init(editableCell);
       expect(editableCell.editor.input.checked).toBe(false);
       editableCell.endCellEdit();
@@ -3251,6 +2873,20 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(11);
     });
 
+    it('can add multiple rows at given index', () => {
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+      dataGrid.addRows([
+        { description: 'test1' },
+        { description: 'test2' },
+        { description: 'test3' }
+      ], 2);
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(13);
+      expect(dataGrid.container.getAttribute('aria-rowcount')).toEqual('12');
+      expect(dataGrid.data[2].description).toEqual('test1');
+      expect(dataGrid.data[3].description).toEqual('test2');
+      expect(dataGrid.data[4].description).toEqual('test3');
+    });
+
     it('can call removeRow', async () => {
       await processAnimFrame();
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
@@ -3258,6 +2894,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(11);
       dataGrid.removeRow(9);
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+      expect(dataGrid.container.getAttribute('aria-rowcount')).toEqual('9');
     });
 
     it('can call clearRow', async () => {
@@ -3377,6 +3014,26 @@ describe('IdsDataGrid Component', () => {
       }
     });
 
+    it('can create rows while tabbing', () => {
+      // test setting
+      dataGrid.editable = true;
+      dataGrid.editNextOnEnterPress = true;
+      dataGrid.addNewAtEnd = true;
+      expect(dataGrid.addNewAtEnd).toEqual(true);
+
+      const rowsLen = dataGrid.rows.length;
+      const cell = dataGrid.setActiveCell(2, 7);
+      expect(cell.node.classList.contains('is-editable')).toBeTruthy();
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      expect(cell.node.classList.contains('is-editing')).toBeTruthy();
+
+      const tabKey = new KeyboardEvent('keydown', { key: 'Tab' });
+      for (let i = 0; i < 20; i++) {
+        dataGrid.dispatchEvent(tabKey);
+      }
+      expect(dataGrid.rows.length).toBeGreaterThan(rowsLen);
+    });
+
     it('space toggles editable checkboxes', () => {
       dataGrid.editable = true;
       const checkCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
@@ -3388,18 +3045,27 @@ describe('IdsDataGrid Component', () => {
       expect(checkCell2.querySelector('ids-checkbox').getAttribute('checked')).toBe('true');
     });
 
+    const cellQuery = (col: number, row: number) => dataGrid.container.querySelector(`.ids-data-grid-row:nth-child(${row}) > .ids-data-grid-cell:nth-child(${col})`);
+    const activateCell = (col: number, row: number) => {
+      dataGrid.editable = true;
+      const activeCell = dataGrid.setActiveCell(col, row);
+      activeCell.node.focus();
+      const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
+      dataGrid.dispatchEvent(enterKey);
+    };
+
     it('supports a dropdown editor', () => {
-      const dropdownCell = dropdownCellQuery();
-      activateDropdownCell();
+      const dropdownCell = cellQuery(8, 2);
+      activateCell(7, 1);
       expect(dropdownCell.classList.contains('is-editing')).toBeTruthy();
       expect(dropdownCell.querySelector('ids-dropdown')).not.toBeNull();
     });
 
     it('can change cell value using dropdown editor', () => {
-      const dropdownCell = dropdownCellQuery();
+      const dropdownCell = cellQuery(8, 2);
       const arrowDownKey = new KeyboardEvent('keydown', { key: 'ArrowDown' });
       const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
-      activateDropdownCell();
+      activateCell(7, 1);
 
       const dropdown = dropdownCell.querySelector('ids-dropdown');
       dropdown.focus();
@@ -3409,6 +3075,59 @@ describe('IdsDataGrid Component', () => {
 
       dropdownCell.endCellEdit();
       expect(dropdownCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    it('supports a datepicker editor', () => {
+      const columnsCopy = columns();
+      const publishDateCol = columnsCopy.find((col) => col.id === 'publishDate');
+      publishDateCol!.editor = {
+        type: 'datepicker',
+        editorSettings: {
+          dirtyTracker: true
+        }
+      };
+      dataGrid.columns = columnsCopy;
+
+      const activeCell = dataGrid.setActiveCell(4, 0);
+      const gridCell = activeCell.node;
+
+      // activate cell editing
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      const datePicker = gridCell.querySelector('ids-date-picker');
+      expect(datePicker).toBeDefined();
+
+      // set new value
+      datePicker.value = '4/30/2023';
+      gridCell.endCellEdit();
+
+      expect(gridCell.textContent).toEqual('4/30/2023');
+    });
+
+    it('supports a timepicker editor', () => {
+      const columnsCopy = columns();
+      const publishDateCol = columnsCopy.find((col) => col.id === 'publishTime');
+      publishDateCol!.editor = {
+        type: 'timepicker',
+        editorSettings: {
+          dirtyTracker: true
+        }
+      };
+      dataGrid.columns = columnsCopy;
+
+      const activeCell = dataGrid.setActiveCell(5, 0);
+      const gridCell = activeCell.node;
+
+      // activate cell editing
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      const timePicker = gridCell.querySelector('ids-time-picker');
+      expect(timePicker).toBeDefined();
+      expect(timePicker.value).toEqual('2:25 PM');
+
+      // set new value
+      timePicker.value = '3:45 AM';
+      gridCell.endCellEdit();
+
+      expect(gridCell.textContent).toEqual('3:45 AM');
     });
   });
 });

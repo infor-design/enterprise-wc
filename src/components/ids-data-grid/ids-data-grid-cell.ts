@@ -38,6 +38,14 @@ export default class IdsDataGridCell extends IdsElement {
   }
 
   /**
+   * Get row of table cell
+   * @returns {number} table row index
+   */
+  get row(): number {
+    return Number(this.parentElement?.getAttribute('data-index'));
+  }
+
+  /**
    * Rerender a cell - may be used later
    */
   renderCell() {
@@ -85,9 +93,14 @@ export default class IdsDataGridCell extends IdsElement {
 
   /**
    * Start Edit Mode
-   * @param {boolean} isClick If true of clicking activated the editor (vs keyboard)
+   * @param {MouseEvent} clickEvent event passed if activated by click (vs keyboard)
    */
-  startCellEdit(isClick?: boolean) {
+  startCellEdit(clickEvent?: MouseEvent) {
+    // end previous cell edit
+    if (this.dataGrid.activeCellEditor instanceof IdsDataGridCell && this.dataGrid.activeCellEditor !== this) {
+      this.dataGrid.activeCellEditor.endCellEdit();
+    }
+
     const column = this.column;
     if (!column.editor) return;
     const columnEditor = this.dataGrid.editors.find((obj) => obj.type === column?.editor?.type);
@@ -113,19 +126,24 @@ export default class IdsDataGridCell extends IdsElement {
       return;
     }
 
-    this.originalValue = this.innerText;
+    this.originalValue = this.textContent;
     this.editor = columnEditor.editor;
-    this.editor.isClick = isClick;
+    this.editor.clickEvent = clickEvent;
 
+    const editorType = this.editor.type;
     // Override original value if dropdown
-    if (this.editor.type === 'dropdown') {
+    if (editorType === 'dropdown') {
       this.originalValue = this.querySelector('[data-value]')?.getAttribute('data-value');
+    } else if (editorType === 'timepicker' || editorType === 'datepicker') {
+      const rowData = this.dataGrid.data[this.dataGrid.activeCell.row];
+      const rowVal = rowData[this.column.field!];
+      this.originalValue = rowVal;
     }
 
+    this.classList.add('is-editing');
     this.editor.init(this);
 
     // Set states
-    this.classList.add('is-editing');
     if (this.classList.contains('is-invalid')) {
       this.classList.remove('is-invalid');
       this.isInValid = true;
@@ -140,7 +158,7 @@ export default class IdsDataGridCell extends IdsElement {
 
     this.dataGrid?.triggerEvent('celledit', this.dataGrid, {
       detail: {
-        elem: this, editor: this.editor, column, data: this.dataGrid.data[this.dataGrid?.activeCell.row]
+        elem: this, editor: this.editor, column, data: this.dataGrid.data[this.row]
       }
     });
 
@@ -151,18 +169,19 @@ export default class IdsDataGridCell extends IdsElement {
   endCellEdit() {
     const column = this.column;
     const input = this.editor?.input;
+    const editorType = this.editor?.type;
     input?.offEvent('focusout', input);
 
-    if (this.editor?.type === 'input') {
+    if (editorType === 'input') {
       input?.setDirtyTracker(input?.value as any);
       (<IdsInput>input)?.checkValidation();
     }
 
-    if (this.editor?.type === 'dropdown') {
+    if (editorType === 'dropdown' || editorType === 'timepicker' || editorType === 'datepicker') {
       (<IdsDropdown>input)?.input?.checkValidation();
     }
 
-    const isDirty = column.editor?.editorSettings?.dirtyTracker && input?.isDirty;
+    const isDirty = column.editor?.editorSettings?.dirtyTracker && (input?.isDirty || input?.input.isDirty);
     const isValid = column.editor?.editorSettings?.validate ? input?.isValid : true;
     const newValue = this.editor?.save(this);
     this.#saveCellValue(newValue?.value);
@@ -179,7 +198,7 @@ export default class IdsDataGridCell extends IdsElement {
 
     this.dataGrid?.triggerEvent('endcelledit', this.dataGrid, {
       detail: {
-        elem: this, editor: this.editor, column, data: this.dataGrid.data[this.dataGrid?.activeCell.row]
+        elem: this, editor: this.editor, column, data: this.dataGrid.data[this.row]
       }
     });
     this.dataGrid.activeCellEditor = undefined;
@@ -192,7 +211,7 @@ export default class IdsDataGridCell extends IdsElement {
     input?.offEvent('focusout', input);
     input?.setDirtyTracker(input?.value as any);
 
-    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, { [String(column?.field)]: this.originalValue });
+    this.dataGrid?.updateDataset(this.row, { [String(column?.field)]: this.originalValue });
     this.editor?.destroy(this);
     this.renderCell();
     this.isEditing = false;
@@ -203,7 +222,7 @@ export default class IdsDataGridCell extends IdsElement {
         elem: this,
         editor: this.editor,
         column,
-        data: this.dataGrid.data[this.dataGrid?.activeCell.row],
+        data: this.dataGrid.data[this.row],
         oldValue: this.originalValue
       }
     });
@@ -220,7 +239,7 @@ export default class IdsDataGridCell extends IdsElement {
     if (column.editor?.editorSettings?.mask === 'date') {
       newValue = this.dataGrid.localeAPI.parseDate(newValue, column.formatOptions);
     }
-    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
+    this.dataGrid?.updateDataset(this.row, {
       [String(column?.field)]: newValue,
     });
   }
@@ -230,7 +249,7 @@ export default class IdsDataGridCell extends IdsElement {
    * @param {boolean} newValue the current value
    */
   #saveDirtyState(newValue: any) {
-    let rowDirtyCells = this.dataGrid.data[this.dataGrid?.activeCell.row].dirtyCells;
+    let rowDirtyCells = this.dataGrid.data[this.row].dirtyCells;
     if (rowDirtyCells === undefined) rowDirtyCells = [];
     const cell = Number(this.getAttribute('aria-colindex')) - 1;
     const previousCellInfo = rowDirtyCells.filter((item: any) => item.cell === cell);
@@ -240,7 +259,7 @@ export default class IdsDataGridCell extends IdsElement {
       rowDirtyCells.splice(oldIndex, 1);
       // Value was reset
       this?.classList.remove('is-dirty');
-      this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
+      this.dataGrid?.updateDataset(this.row, {
         dirtyCells: rowDirtyCells
       });
       return;
@@ -254,7 +273,7 @@ export default class IdsDataGridCell extends IdsElement {
         columnId: this.column.id,
         originalValue: this?.editor?.input?.dirty.original
       });
-      this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
+      this.dataGrid?.updateDataset(this.row, {
         dirtyCells: rowDirtyCells
       });
     }
@@ -265,7 +284,7 @@ export default class IdsDataGridCell extends IdsElement {
    * @param {any} validationMessages the current value
    */
   #saveValidState(validationMessages: any) {
-    let rowInvalidCells = this.dataGrid.data[this.dataGrid?.activeCell.row].invalidCells;
+    let rowInvalidCells = this.dataGrid.data[this.row].invalidCells;
     if (!rowInvalidCells) rowInvalidCells = [];
     const cell = Number(this.getAttribute('aria-colindex')) - 1;
     const previousCellInfo = rowInvalidCells.filter((item: any) => item.cell === cell);
@@ -279,7 +298,7 @@ export default class IdsDataGridCell extends IdsElement {
         columnId: this.column.id,
         validationMessages
       });
-      this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
+      this.dataGrid?.updateDataset(this.row, {
         invalidCells: rowInvalidCells
       });
     }
@@ -290,7 +309,7 @@ export default class IdsDataGridCell extends IdsElement {
    */
   #resetValidState() {
     this?.classList.remove('is-invalid');
-    this.dataGrid?.updateDataset(this.dataGrid?.activeCell.row, {
+    this.dataGrid?.updateDataset(this.row, {
       invalidCells: undefined
     });
     this.isInValid = false;

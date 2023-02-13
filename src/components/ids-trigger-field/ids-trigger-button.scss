@@ -7,6 +7,18 @@
   }
 }
 
+:host([compact]),
+:host([field-height='xs']),
+:host([field-height='sm']) {
+  .ids-trigger-button.ids-icon-button {
+    @include p-0();
+
+    &:not(.square) {
+      @include rounded-md();
+    }
+  }
+}
+
 .ids-trigger-button {
   @include bg-transparent();
   @include flex();

@@ -4,17 +4,21 @@
 
 ### 1.0.0-beta.7 Fixes
 
+- `[Locale]` Locale information files and messages are now separate from the build. They must be served as assets from the `node_modules/ids-enterprise-wc/locale-data` folder. ([#1107](https://github.com/infor-design/enterprise-wc/issues/1107))
+- `[Trigger Field]` Fixed trigger field buttons padding. ([#1091](https://github.com/infor-design/enterprise-wc/issues/1091))
+
 ## 1.0.0-beta.6
 
 ### 1.0.0-beta.6 Fixes
 
+- `[DataGrid]` Added more cell-formatters. ([#1021](https://github.com/infor-design/enterprise-wc/issues/1021))
 - `[Build]` Fixed tsc errors running the build commands `npm run build:dist`. ([#1059](https://github.com/infor-design/enterprise-wc/issues/1059))
 - `[Build]` Fixed errors using `new IdsComponentName()` when imported from the npm package. ([#971](https://github.com/infor-design/enterprise-wc/issues/971))
 - `[Build]` All scripts in the npm package are now ES Modules and use lazy loading to reduce size and payload. Scripts must be imports as ES modules script `type="module"` ([#814](https://github.com/infor-design/enterprise-wc/issues/814))
 - `[Build]` Npm package reduced in size from approximately 84 MB to 19 MB (Dev Version from 275 MB to 47 MB). ([#814](https://github.com/infor-design/enterprise-wc/issues/814))
 - `[Build]` Beta 4-6 dropped due to mistake in package.json in test deploys ([#814](https://github.com/infor-design/enterprise-wc/issues/814))
 - `[General]` Fixed to angular examples where attributes property binding was not work properly for ids-toggle-button, ids-app-menu, ids-menu-button, ids-pager, ids-text, ids-toolbar. ([#941](https://github.com/infor-design/enterprise-wc/issues/941))
-- `[Locale]` Locale information files and messages are now separate from the build. They must be served as assets from the `node_modules/ids-enterprise-wc/locale-data` folder. ([#1107](https://github.com/infor-design/enterprise-wc/issues/1107))
+- `[DataGrid]` Added an addition to the `ids-data-grid/tree-grid-custom-css.html` example to show a link in the tree expander cell. This required a change to the structure of the `click` callback so that the event data can be used to view the target element. The types did not match the function signature. ([#1076](https://github.com/infor-design/enterprise-wc/issues/1076))
 
 ## 1.0.0-beta.3
 
@@ -41,6 +45,10 @@
 - `[DataGrid]` Added support for context menu. ([#963](https://github.com/infor-design/enterprise-wc/issues/963))
 - `[DataGrid]` Added support for editing. ([#991](https://github.com/infor-design/enterprise-wc/issues/991))
 - `[DataGrid]` Added support for dropdown editing ([#1045](https://github.com/infor-design/enterprise-wc/issues/1045))
+- `[DataGrid]` Added support for timepicker editing ([#1045](https://github.com/infor-design/enterprise-wc/issues/1045))
+- `[DataGrid]` Added support for datepicker editing ([#1045](https://github.com/infor-design/enterprise-wc/issues/1045))
+- `[DataGrid]` Added support to add multiple rows at given index ([#1045](https://github.com/infor-design/enterprise-wc/issues/1045))
+- `[DataGrid]` Added `addNewAtEnd` setting ([#1045](https://github.com/infor-design/enterprise-wc/issues/1045))
 - `[DataGrid]` Added `rowclick` and `rowdoubleclick` events. ([#994](https://github.com/infor-design/enterprise-wc/issues/994))
 - `[DataGrid]` Added `ids-data-grid-cell`, `ids-data-grid-row` and `ids-data-grid-header` components and better code separation. ([#968](https://github.com/infor-design/enterprise-wc/issues/968))
 - `[DataGrid]` Added support for save user settings. ([#992](https://github.com/infor-design/enterprise-wc/issues/992))
