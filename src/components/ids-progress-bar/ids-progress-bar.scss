@@ -8,6 +8,14 @@
   @include rounded-md();
 }
 
+:host-context(ids-data-grid-cell) {
+  @include m-16;
+}
+
+:host {
+  @include w-full();
+}
+
 .ids-progress-bar {
   contain: content;
 
