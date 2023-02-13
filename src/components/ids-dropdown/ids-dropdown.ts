@@ -881,7 +881,7 @@ export default class IdsDropdown extends Base {
           this.dropdownList.listBox.innerHTML = results;
           this.#selectFirstOption();
         } else {
-          this.dropdownList.listBox.innerHTML = `<ids-list-box-option>${this.locale.translate('NoResults')}</ids-list-box-option>`;
+          this.dropdownList.listBox.innerHTML = `<ids-list-box-option>${this.localeAPI.translate('NoResults')}</ids-list-box-option>`;
         }
       }
 

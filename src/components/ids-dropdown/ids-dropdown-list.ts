@@ -10,6 +10,7 @@ import styles from './ids-dropdown-list.scss';
 import type IdsListBox from '../ids-list-box/ids-list-box';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 
+import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 const Base = IdsDropdownAttributeMixin(
@@ -136,6 +137,18 @@ export default class IdsDropdownList extends Base {
       }
     }
 
+    // External dropdown lists configured for "full" size need extra help
+    // determining what size matches their target element.
+    const rootNode = getClosestRootNode(this);
+    if (this.size === 'full' && this.target && rootNode && rootNode.tagName !== 'IDS-DROPDOWN') {
+      const targetWidth = `${this.target.clientWidth}px`;
+      this.style.width = targetWidth;
+      if (this.popup) {
+        this.popup.style.maxWidth = targetWidth;
+        this.popup.style.width = targetWidth;
+      }
+    }
+
     if (this.popup) {
       this.popup.type = 'dropdown';
       this.popup.align = 'bottom, left';
@@ -221,11 +234,8 @@ export default class IdsDropdownList extends Base {
 
     if (val) {
       this.setAttribute(attributes.TYPEAHEAD, String(val));
-      // this.#attachTypeaheadEvents();
-      // this.#setOptionsData();
     } else {
-      // this.removeAttribute(attributes.TYPEAHEAD);
-      // this.#removeTypeaheadEvents();
+      this.removeAttribute(attributes.TYPEAHEAD);
     }
 
     this.container?.classList.toggle('typeahead', val);
@@ -245,16 +255,11 @@ export default class IdsDropdownList extends Base {
    */
   set value(value: string | null) {
     const elem = this.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"]`);
-
     if (!elem && !this.hasAttribute(attributes.CLEARABLE)) {
       return;
     }
-
     this.clearSelected();
     this.selectOption(elem);
-    // this.selectIcon(elem);
-    // this.selectTooltip(elem);
-
     this.setAttribute(attributes.VALUE, String(value));
   }
 

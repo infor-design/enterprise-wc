@@ -18,8 +18,6 @@ import '../ids-date-picker/ids-date-picker-popup';
 import '../ids-time-picker/ids-time-picker-popup';
 
 import type IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
-import type IdsDropdown from '../ids-dropdown/ids-dropdown';
-import type IdsDropdownList from '../ids-dropdown/ids-dropdown-list';
 import type IdsMenuItem from '../ids-menu/ids-menu-item';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 

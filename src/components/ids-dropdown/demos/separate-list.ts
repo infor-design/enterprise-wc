@@ -6,12 +6,6 @@ import type IdsContainer from '../../ids-container/ids-container';
 import type IdsDropdown from '../ids-dropdown';
 import type IdsDropdownList from '../ids-dropdown-list';
 
-const fieldDefs = [
-  {
-    id: 'dropdown-1',
-  },
-];
-
 document.addEventListener('DOMContentLoaded', () => {
   const demoIdsContainer = document.querySelector<IdsContainer>('ids-container')!;
   const dropdownEl = document.querySelector<IdsDropdown>('#dropdown-1')!;
