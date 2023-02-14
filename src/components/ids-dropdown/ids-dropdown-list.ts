@@ -95,7 +95,7 @@ export default class IdsDropdownList extends Base {
         // Excluding group labels
         if (target.hasAttribute(attributes.GROUP_LABEL)) return;
 
-        this.value = target.getAttribute(attributes.VALUE);
+        this.value = target.getAttribute(attributes.VALUE) || '';
 
         this.triggerSelectedEvent();
       }
@@ -263,7 +263,7 @@ export default class IdsDropdownList extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
-    const elem = this.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"]`);
+    const elem = this.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"], ids-list-box-option:not([value])`);
     if (!elem && !this.hasAttribute(attributes.CLEARABLE)) {
       return;
     }
@@ -285,6 +285,15 @@ export default class IdsDropdownList extends Base {
   }
 
   /**
+   * Gets a reference to an IdsDropdownList option based on a provided value
+   * @param {string} val referenced value
+   * @returns {IdsListBoxOption | null} element representing the provided value
+   */
+  getOption(val: string) {
+    return this.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${val}"]`);
+  }
+
+  /**
    * Set the aria and state on the element
    * @param {HTMLElement} option the option to select
    * @private
@@ -293,7 +302,7 @@ export default class IdsDropdownList extends Base {
     if (!this?.popup?.visible) return;
 
     if (typeof option === 'string') {
-      option = this.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${option}"]`);
+      option = this.getOption(option);
     }
 
     option?.setAttribute('aria-selected', 'true');
@@ -338,7 +347,7 @@ export default class IdsDropdownList extends Base {
    * Remove blank options from list box
    */
   private removeBlank(): void {
-    this.listBox?.querySelector('ids-list-box-option[value="blank"]')?.remove();
+    this.getOption('blank')?.remove();
   }
 
   /**

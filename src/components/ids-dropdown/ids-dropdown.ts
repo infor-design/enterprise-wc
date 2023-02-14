@@ -281,7 +281,7 @@ export default class IdsDropdown extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
-    const elem = this.dropdownList?.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"]`);
+    const elem = this.dropdownList?.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"], ids-list-box-option:not([value])`);
     if (!elem && !this.clearable) return;
 
     this.clearSelected();

@@ -827,6 +827,7 @@ export default class IdsDataGridFilters {
       if (dropdown && dropdownList) {
         dropdownList.configurePopup();
         dropdownList.setAttribute('size', 'full');
+        dropdown.input.value = (dropdownList.selected || dropdownList.listBox?.children[0])?.textContent || '';
         dropdownList.setAttribute(attributes.ATTACHMENT, menuAttachment);
         dropdownList.appendToTargetParent();
         dropdownList.popupOpenEventsTarget = document.body;
