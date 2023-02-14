@@ -37,7 +37,7 @@ export default class IdsThemeSwitcher extends Base {
     super.connectedCallback();
     this.popup = this.shadowRoot?.querySelector('ids-popup-menu');
     this.menuButton = this.shadowRoot?.querySelector('ids-menu-button');
-    this.menuButton?.configureMenu();
+    if (this.menuButton?.configureMenu) this.menuButton?.configureMenu();
     this.#attachEventHandlers();
   }
 
