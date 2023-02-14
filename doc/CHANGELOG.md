@@ -19,6 +19,7 @@
 - `[DataGrid]` Add events for `scrollstart` and `scrollend`. ([#1102](https://github.com/infor-design/enterprise-wc/issues/1102)) 
 - `[DataGrid]` Fixed tooltip to show without text overflow. ([#1126](https://github.com/infor-design/enterprise-wc/issues/1126)
 - `[DataGrid]` Placed the empty message at the center of the component. ([#1100](https://github.com/infor-design/enterprise-wc/issues/1100))
+- `[Datagrid/Dropdown]` Separated IdsDropdownList into its own component, re-integrated the new component into IdsDropdown, and fixed containment/cutoff issues in IdsDataGrid using the new list component. ([#1065](https://github.com/infor-design/enterprise-wc/issues/1065))
 - `[DataGrid/TimePicker]` IdsDataGrid now uses the IdsTimePickerPopup component inside Time-based filters. ([#1064](https://github.com/infor-design/enterprise-wc/issues/1064))
 - `[Icons]` Changed the way custom icons work so they can be used only at one time and from a file. ([#1122](https://github.com/infor-design/enterprise-wc/issues/1122))
 - `[Icons]` Clean up examples for icons. ([#509](https://github.com/infor-design/enterprise-wc/issues/509))
