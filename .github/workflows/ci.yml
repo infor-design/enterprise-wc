@@ -4,11 +4,12 @@ name: Build Check
 
 on:
   pull_request:
-    branches: [main]
-    types: [opened, reopened, synchronize, unlabeled]
+    branches: [ main ]
+    types: [ opened, reopened, synchronize, unlabeled ]
 
 jobs:
   build:
+
     if: "!contains(github.event.pull_request.labels.*.name, 'skip ci tests')"
     runs-on: ubuntu-latest
 
@@ -17,43 +18,43 @@ jobs:
         node-version: [18.x]
 
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - uses: szenius/set-timezone@v1.0
-        with:
-          timezoneLinux: "America/New_York"
-          timezoneMacos: "America/New_York"
-          timezoneWindows: "America/New_York"
+    - uses: szenius/set-timezone@v1.0
+      with:
+        timezoneLinux: "America/New_York"
+        timezoneMacos: "America/New_York"
+        timezoneWindows: "America/New_York"
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
 
-      - name: Check Memory Limit
-        run: node -e 'console.log(v8.getHeapStatistics().heap_size_limit/(1024*1024))'
+    - name: Check Memory Limit
+      run:  node -e 'console.log(v8.getHeapStatistics().heap_size_limit/(1024*1024))'
 
-      - name: Set Swap Space
-        uses: pierotofy/set-swap-space@master
-        with:
-          swap-size-gb: 10
+    - name: Set Swap Space
+      uses: pierotofy/set-swap-space@master
+      with:
+        swap-size-gb: 10
 
-      - name: Install Dependencies
-        run: npm ci
+    - name: Install Dependencies
+      run: npm ci
 
-      - name: Run Lint Checks
-        run: npm run lint && npx tsc
+    - name: Run Lint Checks
+      run: npm run lint && npx tsc
 
-      - name: Build and Compile
-        run: npm run build:coverage
+    - name: Build and Compile
+      run: npm run build:coverage
 
-      - name: Run Tests (including Percy)
-        run: npx percy exec -- npm run test:ci
-        env:
-          NODE_OPTIONS: "--max-old-space-size=8192"
-          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+    - name: Run Tests (including Percy)
+      run: npx percy exec -- npm run test:ci
+      env:
+        NODE_OPTIONS: "--max-old-space-size=8192"
+        PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
 
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
