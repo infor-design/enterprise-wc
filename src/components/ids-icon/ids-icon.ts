@@ -349,10 +349,14 @@ export default class IdsIcon extends Base {
    */
   set icon(value: string | null) {
     const svgElem = this.shadowRoot?.querySelector('svg');
+    if (value) {
+      this.setAttribute(attributes.ICON, value);
+    } else {
+      this.removeAttribute(attributes.ICON);
+    }
     const iconData = this.iconData();
 
     if (value && iconData) {
-      this.setAttribute(attributes.ICON, value);
       if (svgElem) {
         svgElem.style.display = '';
         svgElem.innerHTML = this.iconData();

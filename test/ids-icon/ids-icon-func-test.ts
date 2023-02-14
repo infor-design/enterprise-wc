@@ -2,11 +2,12 @@
  * @jest-environment jsdom
  */
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import IdsIcon, { addIcon } from '../../src/components/ids-icon/ids-icon';
+import IdsIcon from '../../src/components/ids-icon/ids-icon';
 import processAnimFrame from '../helpers/process-anim-frame';
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+import customIconJSON from '../../src/components/ids-icon/demos/custom-icon-data.json';
 
 describe('IdsIcon Component', () => {
   let elem: IdsIcon;
@@ -154,24 +155,14 @@ describe('IdsIcon Component', () => {
     expect(elem.getAttribute('width')).toBeFalsy();
   });
 
-  it('can add a custom icon', () => {
-    // test passing object-defined SVG
-    addIcon('test-custom', [{
-      shape: 'circle',
-      id: 'circleId',
-      cx: '9',
-      cy: '9',
-      r: '7',
-      stroke: '#606066',
-      'vector-effect': 'non-scaling-stroke'
-    }]);
+  it('can add a custom icon sheet', async () => {
+    expect(customIconJSON).toBeTruthy();
+    IdsIcon.customIconData = customIconJSON;
+    expect(IdsIcon.customIconData).toBeTruthy();
 
-    elem.icon = 'test-custom';
-    expect(elem.container?.querySelector('circle')?.id).toEqual('circleId');
-
-    // test passing SVG markup
-    addIcon('test-custom2', '<circle id="circleId2" cx="9" cy="9" r="7"></circle>');
-    elem.icon = 'test-custom2';
-    expect(elem.container?.querySelector('circle')?.id).toEqual('circleId2');
+    // <ids-icon icon="custom-airplane" size="large"></ids-icon>
+    elem.icon = 'custom-airplane';
+    expect((IdsIcon.customIconData as any)['custom-airplane']).toBeTruthy();
+    expect(elem.container?.innerHTML).toEqual((IdsIcon.customIconData as any)['custom-airplane']);
   });
 });
