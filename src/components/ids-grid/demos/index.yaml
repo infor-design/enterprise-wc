@@ -11,6 +11,12 @@
   - link: example-workspace.html
     type: Workspace Example
     description: Shows a workspace grid
+  - link: example-workspace-2.html
+    type: Workspace Example 2
+    description: Shows a workspace grid
   - link: example-fluid-resize.html
-    type: Workspace Fluid Example
+    type: Workspace 12 column Fluid Example
     description: Shows a fluid workspace grid
+  - link: example-fluid-resize-16.html
+    type: Workspace 16 column Fluid Example
+    description: Shows a 16 column fluid workspace grid

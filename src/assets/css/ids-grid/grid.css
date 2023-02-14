@@ -11,3 +11,9 @@
   max-width: 1488px;
   margin: 0 auto;
 }
+
+.sticky {
+  position: sticky;
+  top: 16px;
+  align-self: start;
+}

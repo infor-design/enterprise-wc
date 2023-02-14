@@ -113,6 +113,10 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
   grid-column: 1 / -1;
 }
 
+::slotted(.row-span-all) {
+  grid-row: 1 / -1;
+}
+
 /**
   Grid Columms and Rows - Base
 */
