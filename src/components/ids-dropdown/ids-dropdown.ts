@@ -172,7 +172,7 @@ export default class IdsDropdown extends Base {
    */
   onFieldHeightChange(val: string) {
     if (val) {
-      const attr = val === attributes.COMPACT ? { name: attributes.COMPACT, val: 'true' } : { name: attributes.FIELD_HEIGHT, val };
+      const attr = val === attributes.COMPACT ? { name: attributes.COMPACT, val: '' } : { name: attributes.FIELD_HEIGHT, val };
       this.input?.setAttribute(attr.name, attr.val);
       this.dropdownList?.setAttribute(attr.name, attr.val);
     } else {

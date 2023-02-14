@@ -137,6 +137,14 @@ export default class IdsDropdownList extends Base {
       }
     }
 
+    // IdsListBox has styles that are dependent on field height/compact settings,
+    // but doesn't implement IdsFieldHeightMixin, so these are passed here.
+    if (this.listBox) {
+      if (this.compact && !this.listBox?.hasAttribute(attributes.COMPACT)) {
+        this.listBox.setAttribute(attributes.COMPACT, 'true');
+      }
+    }
+
     // External dropdown lists configured for "full" size need extra help
     // determining what size matches their target element.
     const rootNode = getClosestRootNode(this);
@@ -155,6 +163,7 @@ export default class IdsDropdownList extends Base {
       this.popup.arrow = 'none';
       this.popup.y = -1;
       this.popup.x = 0;
+
       // Fix aria if the menu is closed
       if (!this.popup.visible) {
         this.setAriaOnMenuClose();
