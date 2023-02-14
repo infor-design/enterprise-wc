@@ -10,7 +10,6 @@ import styles from './ids-dropdown-list.scss';
 import type IdsListBox from '../ids-list-box/ids-list-box';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 
-import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 const Base = IdsDropdownAttributeMixin(
