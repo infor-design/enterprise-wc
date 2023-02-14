@@ -31,7 +31,7 @@
     "start": "npx rimraf build/development && node --max-old-space-size=8192 node_modules/webpack/bin/webpack serve --live-reload --open --config ./webpack.config.dev.js",
     "start:filter:example": "npm --components=data-grid run start",
     "lint": "npx eslint src test && npx stylelint src/**/**/*.scss --config .stylelintrc.json && npm run mdlint && npx htmlhint 'src/**/*.html'",
-    "mdlint": "npx remark . -f",
+    "mdlint": "npx remark . -q -f",
     "publish:dry-run": "npm run build:dist:prod && npm run copy-static:prod && npm publish --dry-run",
     "publish:npm": "npm run build:dist:prod && npm run copy-static:prod && cd build/dist/production && npm publish",
     "publish:debug": "npm run build:dist && npm run copy-static:dev && cd build/dist/development && npm publish",
