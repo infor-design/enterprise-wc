@@ -38,7 +38,8 @@ export default class IdsAlert extends IdsTooltipMixin(IdsThemeMixin(IdsEventsMix
   beforeTooltipShow(tooltip?: any) {
     // Color the tooltip
     if (tooltip.popup) {
-      tooltip.popup?.container?.classList.add(`${this.toolTipTarget.getAttribute('icon')}-color`);
+      const hasColor = this.toolTipTarget.getAttribute('color');
+      tooltip.popup?.container?.classList.add(`${hasColor || this.toolTipTarget.getAttribute('icon')}-color`);
       tooltip.popup.y = 12;
     }
   }
@@ -50,6 +51,7 @@ export default class IdsAlert extends IdsTooltipMixin(IdsThemeMixin(IdsEventsMix
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.COLOR,
       attributes.DISABLED,
       attributes.ICON,
       attributes.TOOLTIP,
@@ -64,6 +66,23 @@ export default class IdsAlert extends IdsTooltipMixin(IdsThemeMixin(IdsEventsMix
   template(): string {
     const cssClass = stringToBool(this.disabled) ? ' class="disabled"' : '';
     return `<ids-icon size="${this.size}"${cssClass} icon="${this.icon}" part="icon"></ids-icon>`;
+  }
+
+  /**
+   * Set the alert color
+   * @param {string|null} value The color to use between: error, success, info, alert, amber, amethyst
+   */
+  set color(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.COLOR, value);
+      this.shadowRoot?.querySelector('ids-icon')?.setAttribute(attributes.COLOR, value);
+    } else {
+      this.removeAttribute(attributes.COLOR);
+    }
+  }
+
+  get color(): string | null {
+    return this.getAttribute(attributes.COLOR);
   }
 
   /**
