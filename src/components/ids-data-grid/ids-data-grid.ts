@@ -1038,6 +1038,11 @@ export default class IdsDataGrid extends Base {
 
   get columnGroups() { return this.state?.columnsGroups || null; }
 
+  moreData(value: Array<Record<string, any>>) {
+    this.datasource.data = this.data.concat(value);
+    this.#attachVirtualScrollEvent();
+  }
+
   /**
    * Set the data of the data grid
    * @param {Array} value The array to use
@@ -1226,6 +1231,22 @@ export default class IdsDataGrid extends Base {
     }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
   }
 
+  #virtualScrollEventCache: { [key: string]: number } = {};
+
+  #virtualScrollEvent(rowIndex: number, eventType?: 'top' | 'bottom') {
+    if (!eventType) {
+      this.#virtualScrollEventCache = {}; // reset event-cache
+    } else if (rowIndex !== this.#virtualScrollEventCache[eventType]) {
+      this.#virtualScrollEventCache[eventType] = rowIndex;
+
+      this.triggerEvent(`virtualscroll-${eventType}`, this, {
+        bubbles: true,
+        composed: true,
+        detail: { elem: this, value: rowIndex, eventType }
+      });
+    }
+  }
+
   /**
    * Stores the last request animation from used during virtual scroll.
    * RAFs are recommended in the row-recycling articles we referenced.
@@ -1294,13 +1315,24 @@ export default class IdsDataGrid extends Base {
     const isAboveFirstRow = rowIndex < firstRowIndex;
     const isBelowLastRow = rowIndex > lastRowIndex;
     const isInRange = !isAboveFirstRow && !isBelowLastRow;
+    const reachedTheTop = firstRowIndex <= 0;
     const reachedTheBottom = lastRowIndex >= maxRowIndex;
 
     let bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
     bufferRowIndex = Math.max(bufferRowIndex, 0);
     bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
 
+    if (reachedTheTop) {
+      this.#virtualScrollEvent(firstRowIndex, 'top');
+    } else if (reachedTheBottom) {
+      this.#virtualScrollEvent(lastRowIndex, 'bottom');
+    } else {
+      this.#virtualScrollEvent(0);
+    }
+
     if (isInRange) {
+      // if rowIndex is in range of the currently visible rows:
+      // then we should only move rows up or down according to how big the buffer should be.
       const moveRowsDown = bufferRowIndex - firstRowIndex;
       const moveRowsUp = Math.abs(moveRowsDown);
 
@@ -1314,6 +1346,8 @@ export default class IdsDataGrid extends Base {
         return; // exit early because nothing to do.
       }
     } else if (isAboveFirstRow) {
+      // if rowIndex should appear above the currently visible rows,
+      // then we must figure out how many rows we must move up from the bottom to render the rowIndex row
       const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex);
 
       if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
@@ -1322,6 +1356,8 @@ export default class IdsDataGrid extends Base {
         this.#recycleAllRows(bufferRowIndex);
       }
     } else if (isBelowLastRow) {
+      // if rowIndex should appear below the currently visible rows,
+      // then we recycle all rows, since none of the visible rows are needed
       this.#recycleAllRows(bufferRowIndex);
     }
 

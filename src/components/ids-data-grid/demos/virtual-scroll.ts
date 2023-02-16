@@ -2,6 +2,7 @@ import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import productsJSON from '../../../assets/data/products.json';
+import additionalProductsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-virtual-scroll')!;
@@ -90,4 +91,19 @@ setData();
 
 dataGrid.addEventListener('selectionchanged', (e: Event) => {
   console.info(`Selection Changed`, (<CustomEvent>e).detail);
+});
+
+dataGrid.addEventListener('virtualscroll-top', async (e: Event) => {
+  console.info(`Virtual Scroll top reached`, (<CustomEvent>e).detail);
+});
+
+dataGrid.addEventListener('virtualscroll-bottom', async (e: Event) => {
+  console.info(`Virtual Scroll bottom reached`, (<CustomEvent>e).detail);
+
+  if (dataGrid.data.length >= 3000) return;
+
+  const res = await fetch(String(additionalProductsJSON));
+  const additionalData = await res.json();
+
+  dataGrid.moreData(additionalData);
 });
