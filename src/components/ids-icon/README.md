@@ -30,6 +30,7 @@ Icons come in 6 sizes depending where it is used.
 <ids-icon icon="notes" size="large"></ids-icon>
 <ids-icon icon="notes" size="medium"></ids-icon>
 <ids-icon icon="notes" size="small"></ids-icon>
+<!-- Used only for extreme edge cases -->
 <ids-icon icon="notes" size="xsmall"></ids-icon>
 ```
 
@@ -65,21 +66,30 @@ These badges can also be displayed in 5 possible colors
 <ids-icon icon="notes" badge-position="top-left" badge-color="error"></ids-icon>
 ```
 
-Add a custom icon by importing the `addIcon` function from the IdsIcon module and providing the icon name and SVG markup.
-You can also, instead of SVG markup, pass an array of objects defining the SVG elements' attribute names and values
-We recommend you use [svgo](https://github.com/svg/svgo) to optimize your SVG before adding them to IdsIcon.
+Add a custom icons by importing a custom icon file in the same format we use. The format of the json file is something like:
+
+```json
+{
+  "my-icon1": "<path d=\"m7 16.81-1.57-1 .49-9L.83 3.37s-.51-1.51 1-1.56c1 .63 5.09 3.33 5.09 3.33l7.8-4.33 1.62 1-5.87 5.64 3.36 2.14 2.11-.9 1.31.85-.44.72-1.56 1-.39.63-.19 1.82-.45.73-1.31-.86-.07-2.36L9.45 9.1Z\"></path>",
+  "my-icon2": "<path d=\"m17.54 12.23-1.42 1H3.1l-2-2.6h16.42ZM3.32 8.85h2.74V7H3.32Zm4.78 0h2.74V7H8.1Zm8.56 1.62V5.19h-3.4v5.21\"></path>"
+}
+```
+
+We recommend you use [svgo](https://github.com/svg/svgo) to optimize your SVG before adding them to IdsIcon. In particular inline colors and transforms can causes issues rendering the icons in buttons and other places.
+
+To import the file use the IdsIcon static api. The file only needs to be imported once because this is static then it can be used everywhere on the page or in your framework if you do it in the right place like app startup.
+
 ```js
-import { addIcon } from '../ids-icon';
+import customIconJSON from './custom-icon-data.json';
 
-// Pass SVG markup
-addIcon('custom-cargoship', '<path transform="translate(-0.12 -4.69)" d="m17.54 12.23-1.42 1H3.1l-2-2.6h16.42ZM3.32 8.85h2.74V7H3.32Zm4.78 0h2.74V7H8.1Zm8.56 1.62V5.19h-3.4v5.21"></path>');
+// May need to fetch the file with ajax...
+IdsIcon.customIconData = customIconData; // JSON String
+```
 
-// OR, Pass object defined SVG
-addIcon('custom-cargoship', [{
-  shape: 'path',
-  d: 'm17.54 12.23-1.42 1H3.1l-2-2.6h16.42ZM3.32 8.85h2.74V7H3.32Zm4.78 0h2.74V7H8.1Zm8.56 1.62V5.19h-3.4v5.21',
-  transform: 'translate(-0.12 -4.69)'
-}]);
+One the files are imported they can be used like a normal ids-icon
+
+```html
+<ids-icon icon="my-icon1" size="large"></ids-icon>
 ```
 
 ## States and Variations
