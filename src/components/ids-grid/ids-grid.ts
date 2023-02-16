@@ -4,7 +4,7 @@ import IdsElement from '../../core/ids-element';
 import styles from './ids-grid.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-const gridSizes: any = [
+const gridSizes = [
   { size: 'cols', className: 'grid-cols' },
   { size: 'colsXs', className: 'grid-cols-xs' },
   { size: 'colsSm', className: 'grid-cols-sm' },
@@ -14,18 +14,25 @@ const gridSizes: any = [
   { size: 'colsXxl', className: 'grid-cols-xxl' }
 ];
 
+const rowSizes = [
+  { size: 'rows', className: 'grid-rows' },
+  { size: 'rowsXs', className: 'grid-rows-xs' },
+  { size: 'rowsSm', className: 'grid-rows-sm' },
+  { size: 'rowsMd', className: 'grid-rows-md' },
+  { size: 'rowsLg', className: 'grid-rows-lg' },
+  { size: 'rowsXl', className: 'grid-rows-xl' },
+  { size: 'rowsXxl', className: 'grid-rows-xxl' }
+];
+
 const minMaxWidths = [
   { setting: 'minColWidth', varName: '--min-col-width' },
   { setting: 'maxColWidth', varName: '--max-col-width' }
 ];
 
-// const flowSettings = [
-//   { setting: 'flowCol', className: 'grid-flow-col' },
-//   { setting: 'flowColDense', className: 'grid-flow-col-dense' },
-//   { setting: 'flowDense', className: 'grid-flow-dense' },
-//   { setting: 'flowRow', className: 'grid-flow-row' },
-//   { setting: 'flowRowDense', className: 'grid-flow-row-dense' },
-// ];
+const minMaxRowHeights = [
+  { setting: 'minRowHeight', varName: '--min-row-height' },
+  { setting: 'maxRowHeight', varName: '--max-row-height' }
+];
 
 /**
  * IDS Grid Component
@@ -35,6 +42,11 @@ const minMaxWidths = [
 @customElement('ids-grid')
 @scss(styles)
 export default class IdsGrid extends IdsElement {
+  /**
+   * Set auto-fit attribute
+   * @param {boolean | string | null} value boolean
+   * @memberof IdsGrid
+   */
   set autoFit(value: string | boolean | null) {
     const isTruthy = stringToBool(value);
     if (isTruthy) {
@@ -44,10 +56,22 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get auto-fit attribute
+   * @readonly
+   * @type {(string | boolean | null)}
+   * @returns {boolean} Indicates whether the auto-fit is enabled
+   * @memberof IdsGrid
+   */
   get autoFit(): string | boolean | null {
     return stringToBool(this.getAttribute(attributes.AUTO_FIT));
   }
 
+  /**
+   * Set auto-fill attribute
+   * @param {boolean | string | null} value boolean
+   * @memberof IdsGrid
+   */
   set autoFill(value: string | boolean | null) {
     const isTruthy = stringToBool(value);
     if (isTruthy) {
@@ -57,13 +81,20 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get auto-fill attribute
+   * @readonly
+   * @type {(string | boolean | null)}
+   * @returns {boolean} Indicates whether the auto-fill is enabled
+   * @memberof IdsGrid
+   */
   get autoFill(): string | boolean | null {
     return stringToBool(this.getAttribute(attributes.AUTO_FILL));
   }
 
   /**
-   * Columns setter
-   *
+   * Set columns attribute
+   * @param {boolean | string | null} value sets the number of columns
    * @memberof IdsGrid
    */
   set cols(value: string | null) {
@@ -74,11 +105,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get columns attribute
+   * @readonly
+   * @type {(string | null)}
+   * @returns {string | null} The number of columns of the grid
+   * @memberof IdsGrid
+   */
   get cols(): string | null { return this.getAttribute(attributes.COLS); }
 
   /**
-   * Columns XS setter
-   *
+   * Set XS columns attribute
+   * @param {boolean | string | null} value sets the number of columns at the XS breakpoint
    * @memberof IdsGrid
    */
   set colsXs(value: string | null) {
@@ -89,11 +127,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get XS columns attribute
+   * @readonly
+   * @type {(string | null)}
+   * @returns {string | null} The number of columns of the grid at the XS breakpoint
+   * @memberof IdsGrid
+   */
   get colsXs(): string | null { return this.getAttribute(attributes.COLS_XS); }
 
   /**
-   * Columns SM setter
-   *
+   * Set SM columns attribute
+   * @param {boolean | string | null} value sets the number of columns at the SM breakpoint
    * @memberof IdsGrid
    */
   set colsSm(value: string | null) {
@@ -104,11 +149,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get SM columns attribute
+   * @readonly
+   * @type {(string | null)}
+   * @returns {string | null} The number of columns of the grid at the SM breakpoint
+   * @memberof IdsGrid
+   */
   get colsSm(): string | null { return this.getAttribute(attributes.COLS_SM); }
 
   /**
-   * Columns MD setter
-   *
+   * Set MD columns attribute
+   * @param {boolean | string | null} value sets the number of columns at the MD breakpoint
    * @memberof IdsGrid
    */
   set colsMd(value: string | null) {
@@ -119,11 +171,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get MD columns attribute
+   * @readonly
+   * @type {(string | null)}
+   * @returns {string | null} The number of columns of the grid at the MD breakpoint
+   * @memberof IdsGrid
+   */
   get colsMd(): string | null { return this.getAttribute(attributes.COLS_MD); }
 
   /**
-   * Columns LG setter
-   *
+   * Set LG columns attribute
+   * @param {boolean | string | null} value sets the number of columns at the LG breakpoint
    * @memberof IdsGrid
    */
   set colsLg(value: string | null) {
@@ -134,11 +193,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get LG columns attribute
+   * @readonly
+   * @type {(string | null)}
+   * @returns {string | null} The number of columns of the grid at the LG breakpoint
+   * @memberof IdsGrid
+   */
   get colsLg(): string | null { return this.getAttribute(attributes.COLS_LG); }
 
   /**
-   * Columns XL setter
-   *
+   * Set XL columns attribute
+   * @param {boolean | string | null} value sets the number of columns at the XL breakpoint
    * @memberof IdsGrid
    */
   set colsXl(value: string | null) {
@@ -149,11 +215,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get XL columns attribute
+   * @readonly
+   * @type {(string | null)}
+   * @returns {string | null} The number of columns of the grid at the XL breakpoint
+   * @memberof IdsGrid
+   */
   get colsXl(): string | null { return this.getAttribute(attributes.COLS_XL); }
 
   /**
-   * Columns XXL setter
-   *
+   * Set XXL columns attribute
+   * @param {boolean | string | null} value sets the number of columns at the XXL breakpoint
    * @memberof IdsGrid
    */
   set colsXxl(value: string | null) {
@@ -164,11 +237,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get XXL columns attribute
+   * @readonly
+   * @type {(string | null)}
+   * @returns {string | null} The number of columns of the grid at the XXL breakpoint
+   * @memberof IdsGrid
+   */
   get colsXxl(): string | null { return this.getAttribute(attributes.COLS_XXL); }
 
   /**
-   * Columns minColWidth setter
-   *
+   * Set the minColWidth attribute
+   * @param {string | null} value Number value that sets the min-width of the grid columns
    * @memberof IdsGrid
    */
   set minColWidth(value: string | null) {
@@ -179,13 +259,44 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the minColWidth attribute
+   * @readonly
+   * @type {(string | null)}
+   * @returns {string | null} The number value that represents the min-height of the grid columns
+   * @memberof IdsGrid
+   */
   get minColWidth(): string | null {
     return this.getAttribute(attributes.MIN_COL_WIDTH);
   }
 
   /**
-   * Columns maxColWidth setter
-   *
+   * Set the minRowHeight attribute
+   * @param {string | null} value Number value that sets the height of the grid rows
+   * @memberof IdsGrid
+   */
+  set minRowHeight(value: string | null) {
+    if (value !== null) {
+      this.setAttribute(attributes.MIN_ROW_HEIGHT, value);
+    } else {
+      this.removeAttribute(attributes.MIN_ROW_HEIGHT);
+    }
+  }
+
+  /**
+   * Get the minRowHeight attribute
+   * @readonly
+   * @type {(string | null)}
+   * @returns {string | null} The number value that represents the min-height of the grid rows
+   * @memberof IdsGrid
+   */
+  get minRowHeight(): string | null {
+    return this.getAttribute(attributes.MIN_ROW_HEIGHT);
+  }
+
+  /**
+   * Set the maxColWidth attribute
+   * @param {string | null} value Number value that sets the max-width of the grid columns
    * @memberof IdsGrid
    */
   set maxColWidth(value: string | null) {
@@ -196,8 +307,39 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the maxColWidth attribute
+   * @readonly
+   * @type {(string | null)}
+   * @returns {string | null} The number value that represents the max-width of the grid columns
+   * @memberof IdsGrid
+   */
   get maxColWidth(): string | null {
     return this.getAttribute(attributes.MAX_COL_WIDTH);
+  }
+
+  /**
+   * Set the maxRowHeight attribute
+   * @param {string | null} value Number value that sets the max-height of the grid rows
+   * @memberof IdsGrid
+   */
+  set maxRowHeight(value: string | null) {
+    if (value !== null) {
+      this.setAttribute(attributes.MAX_ROW_HEIGHT, value);
+    } else {
+      this.removeAttribute(attributes.MAX_ROW_HEIGHT);
+    }
+  }
+
+  /**
+   * Get the maxRowHeight attribute
+   * @readonly
+   * @type {(string | null)}
+   * @returns {string | null} The number value that represents the max-height of the grid rows
+   * @memberof IdsGrid
+   */
+  get maxRowHeight(): string | null {
+    return this.getAttribute(attributes.MAX_ROW_HEIGHT);
   }
 
   /**
@@ -220,86 +362,110 @@ export default class IdsGrid extends IdsElement {
 
   set flow(value: string | null) {
     if (value !== null) {
-      this.setAttribute('flow', value);
+      this.setAttribute(attributes.FLOW, value);
     } else {
-      this.removeAttribute('flow');
+      this.removeAttribute(attributes.FLOW);
     }
   }
 
   get flow(): string | null {
-    return this.getAttribute('flow');
+    return this.getAttribute(attributes.FLOW);
   }
 
-  set flowCol(value: string | null) {
+  set rows(value: string | null) {
     if (value !== null) {
-      this.setAttribute('flow-col', value);
+      this.setAttribute(attributes.ROWS, value);
     } else {
-      this.removeAttribute('flow-col');
+      this.removeAttribute(attributes.ROWS);
     }
   }
 
-  get flowCol(): string | null {
-    return this.getAttribute('flow-col');
+  get rows(): string | null {
+    return this.getAttribute(attributes.ROWS);
   }
 
-  set flowColDense(value: string | null) {
+  set rowsXs(value: string | null) {
     if (value !== null) {
-      this.setAttribute('flow-col-dense', value);
+      this.setAttribute(attributes.ROWS_XS, value);
     } else {
-      this.removeAttribute('flow-col-dense');
+      this.removeAttribute(attributes.ROWS_XS);
     }
   }
 
-  get flowColDense(): string | null {
-    return this.getAttribute('flow-col-dense');
+  get rowsXs(): string | null {
+    return this.getAttribute(attributes.ROWS_XS);
   }
 
-  set flowDense(value: string | null) {
+  set rowsSm(value: string | null) {
     if (value !== null) {
-      this.setAttribute('flow-dense', value);
+      this.setAttribute(attributes.ROWS_SM, value);
     } else {
-      this.removeAttribute('flow-dense');
+      this.removeAttribute(attributes.ROWS_SM);
     }
   }
 
-  get flowDense(): string | null {
-    return this.getAttribute('flow-dense');
+  get rowsSm(): string | null {
+    return this.getAttribute(attributes.ROWS_SM);
   }
 
-  set flowRow(value: string | null) {
+  set rowsMd(value: string | null) {
     if (value !== null) {
-      this.setAttribute('flow-row', value);
+      this.setAttribute(attributes.ROWS_MD, value);
     } else {
-      this.removeAttribute('flow-row');
+      this.removeAttribute(attributes.ROWS_MD);
     }
   }
 
-  get flowRow(): string | null {
-    return this.getAttribute('flow-row');
+  get rowsMd(): string | null {
+    return this.getAttribute(attributes.ROWS_MD);
   }
 
-  set flowRowDense(value: string | null) {
+  set rowsLg(value: string | null) {
     if (value !== null) {
-      this.setAttribute('flow-row-dense', value);
+      this.setAttribute(attributes.ROWS_LG, value);
     } else {
-      this.removeAttribute('flow-row-dense');
+      this.removeAttribute(attributes.ROWS_LG);
     }
   }
 
-  get flowRowDense(): string | null {
-    return this.getAttribute('flow-row-dense');
+  get rowsLg(): string | null {
+    return this.getAttribute(attributes.ROWS_LG);
+  }
+
+  set rowsXl(value: string | null) {
+    if (value !== null) {
+      this.setAttribute(attributes.ROWS_XL, value);
+    } else {
+      this.removeAttribute(attributes.ROWS_XL);
+    }
+  }
+
+  get rowsXl(): string | null {
+    return this.getAttribute(attributes.ROWS_XL);
+  }
+
+  set rowsXxl(value: string | null) {
+    if (value !== null) {
+      this.setAttribute(attributes.ROWS_XXL, value);
+    } else {
+      this.removeAttribute(attributes.ROWS_XXL);
+    }
+  }
+
+  get rowsXxl(): string | null {
+    return this.getAttribute(attributes.ROWS_XXL);
   }
 
   set rowHeight(value: string | null) {
     if (value !== null) {
-      this.setAttribute('row-height', value);
+      this.setAttribute(attributes.ROW_HEIGHT, value);
     } else {
-      this.removeAttribute('row-height');
+      this.removeAttribute(attributes.ROW_HEIGHT);
     }
   }
 
   get rowHeight(): string | null {
-    return this.getAttribute('row-height');
+    return this.getAttribute(attributes.ROW_HEIGHT);
   }
 
   constructor() {
@@ -317,16 +483,20 @@ export default class IdsGrid extends IdsElement {
       attributes.COLS_LG,
       attributes.COLS_XL,
       attributes.COLS_XXL,
-      'flow',
-      'flow-col',
-      'flow-col-dense',
-      'flow-dense',
-      'flow-row',
-      'flow-row-dense',
+      attributes.FLOW,
       attributes.GAP,
       attributes.MAX_COL_WIDTH,
       attributes.MIN_COL_WIDTH,
-      'row-height'
+      attributes.MAX_ROW_HEIGHT,
+      attributes.MIN_ROW_HEIGHT,
+      attributes.ROW_HEIGHT,
+      attributes.ROWS,
+      attributes.ROWS_XS,
+      attributes.ROWS_SM,
+      attributes.ROWS_MD,
+      attributes.ROWS_LG,
+      attributes.ROWS_XL,
+      attributes.ROWS_XXL
     ];
   }
 
@@ -338,12 +508,14 @@ export default class IdsGrid extends IdsElement {
   private addSettings() {
     this.classList.add('grid');
     this.setColumns();
+    this.setRows();
     this.setMinMaxWidth();
+    this.setMinMaxRowHeight();
     this.setGap();
     this.setAutoFit();
     this.setAutoFill();
     this.setFlow();
-    this.setRowHeigt();
+    this.setRowHeight();
   }
 
   private setColumns() {
@@ -354,8 +526,24 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  private setRows() {
+    for (const { size, className } of rowSizes) {
+      if (this[size as keyof IdsGrid] !== null) {
+        this.classList.add(`${className}-${this[size as keyof IdsGrid]}`);
+      }
+    }
+  }
+
   private setMinMaxWidth() {
     for (const { setting, varName } of minMaxWidths) {
+      if (this[setting as keyof IdsGrid] !== null) {
+        this.style.setProperty(varName, this[setting as keyof IdsGrid]);
+      }
+    }
+  }
+
+  private setMinMaxRowHeight() {
+    for (const { setting, varName } of minMaxRowHeights) {
       if (this[setting as keyof IdsGrid] !== null) {
         this.style.setProperty(varName, this[setting as keyof IdsGrid]);
       }
@@ -386,7 +574,7 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
-  private setRowHeigt() {
+  private setRowHeight() {
     if (this.rowHeight !== null) {
       this.classList.add('grid-auto-row-height');
       this.style.setProperty('--grid-auto-row-height', this.rowHeight);

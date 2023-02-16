@@ -274,6 +274,9 @@ export default class IdsGridCell extends IdsElement {
       attributes.ROW_SPAN_LG,
       attributes.ROW_SPAN_XL,
       attributes.ROW_SPAN_XXL,
+      // col-start (offset) settings
+      // order settings
+      // sticky settings?
     ];
   }
 

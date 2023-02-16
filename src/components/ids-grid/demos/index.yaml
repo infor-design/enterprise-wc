@@ -8,12 +8,15 @@
   - link: example.html
     type: Main Example
     description: Shows a grid
+  - link: example-fluid-max.html
+    type: Main Example with fluid max-width
+    description: Shows a grid
   - link: example-workspace.html
     type: Workspace Example
     description: Shows a workspace grid
   - link: example-workspace-2.html
     type: Workspace Example 2
-    description: Shows a workspace grid
+    description: Shows a workspace grid with sticky sidebar
   - link: example-fluid-resize.html
     type: Workspace 12 column Fluid Example
     description: Shows a fluid workspace grid
