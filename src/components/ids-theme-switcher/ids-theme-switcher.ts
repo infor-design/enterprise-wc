@@ -6,9 +6,10 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
 import type IdsText from '../ids-text/ids-text';
+import '../ids-menu-button/ids-menu-button';
 import styles from './ids-theme-switcher.scss';
 import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
-import '../ids-menu-button/ids-menu-button';
+import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
 
 const Base = IdsLocaleMixin(
   IdsColorVariantMixin(
