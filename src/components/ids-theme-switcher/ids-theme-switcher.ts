@@ -8,7 +8,7 @@ import IdsElement from '../../core/ids-element';
 import type IdsText from '../ids-text/ids-text';
 import styles from './ids-theme-switcher.scss';
 import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
-import IdsMenuButton from '../ids-menu-button/ids-menu-button';
+import '../ids-menu-button/ids-menu-button';
 
 const Base = IdsLocaleMixin(
   IdsColorVariantMixin(
@@ -35,7 +35,6 @@ export default class IdsThemeSwitcher extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.popup = this.shadowRoot?.querySelector('ids-popup-menu');
-    this.menuButton = new IdsMenuButton();
     this.menuButton = this.shadowRoot?.querySelector('ids-menu-button');
     this.menuButton?.configureMenu();
     this.#attachEventHandlers();
