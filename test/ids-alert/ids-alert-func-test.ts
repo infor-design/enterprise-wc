@@ -105,4 +105,13 @@ describe('IdsAlert Component', () => {
     el.size = '';
     expect(el.size).toEqual('normal');
   });
+
+  it('supports setting color', () => {
+    expect(el.color).toEqual(null);
+    el.color = 'error';
+    expect(el.color).toEqual('error');
+    expect(el.container?.getAttribute('color')).toEqual('error');
+    el.color = '';
+    expect(el.color).toEqual(null);
+  });
 });
