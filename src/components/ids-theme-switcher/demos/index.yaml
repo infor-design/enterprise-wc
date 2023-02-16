@@ -8,4 +8,8 @@
   - link: example.html
     type: Main Example
     description: Showing a tag with the switcher
+  - link: hidden.html
+    type: Example
+    description: Showing a switcher that is hidden but still functional
+
 

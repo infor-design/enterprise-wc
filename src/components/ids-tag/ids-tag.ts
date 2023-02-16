@@ -70,7 +70,7 @@ export default class IdsTag extends Base {
 
   /**
    * Set the tag color
-   * @param {string|null} value The color value, this can be not provided,
+   * @param {string|null} value The color to use between
    * secondary (white), error, success, danger, caution or a hex code with the #
    */
   set color(value: string | null) {
