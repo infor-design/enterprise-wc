@@ -9,3 +9,7 @@
   justify-content: flex-end;
   padding: 0;
 }
+
+:host([hidden]) {
+  display: none;
+}

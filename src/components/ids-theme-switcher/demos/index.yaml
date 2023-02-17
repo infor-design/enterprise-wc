@@ -10,4 +10,8 @@
     description: Showing a tag with the switcher
   - link: theme-builder.html
     type: Example
-    description: Showing a theme builder example
+    description: Showing a theme builder example  - link: hidden.html
+    type: Example
+    description: Showing a switcher that is hidden but still functional
+
+

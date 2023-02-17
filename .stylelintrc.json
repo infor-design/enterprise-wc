@@ -30,13 +30,11 @@
       "ignore": ["custom-elements"]
     }],
     "selector-not-notation": null,
-    "string-quotes": "single",
     "import-notation": null,
     "scss/at-mixin-argumentless-call-parentheses": null,
     "scss/dollar-variable-empty-line-before": null,
     "alpha-value-notation": "number",
     "keyframes-name-pattern": null,
-    "max-line-length": 120,
     "value-keyword-case": ["lower", {
       "ignoreKeywords": ["currentColor"]
     }]
