@@ -8,10 +8,11 @@
   - link: example.html
     type: Main Example
     description: Showing a tag with the switcher
-  - link: theme-builder.html
-    type: Example
-    description: Showing a theme builder example  - link: hidden.html
+  - link: hidden.html
     type: Example
     description: Showing a switcher that is hidden but still functional
+  - link: theme-builder.html
+    type: Example
+    description: Showing a theme builder example
 
 
