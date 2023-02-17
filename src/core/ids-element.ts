@@ -212,13 +212,42 @@ export default class IdsElement extends HTMLElement {
     if (!win.idsStylesAdded) {
       const doc = (document.head as any);
       const style = document.createElement('style');
-      // TODO This can work without a replace
       style.textContent = styles.replace(':host {', ':root {');
       style.id = 'ids-styles';
       style.setAttribute('nonce', this.nonce);
 
       doc.appendChild(style);
       win.idsStylesAdded = true;
+      this.theme = 'nova-light';
     }
+  }
+
+  /**
+   * Append theme css
+   * @param {string} theme name of the theme
+   * @private
+   */
+  set theme(theme: string) {
+    this.loadTheme(theme);
+    document.body.querySelector('ids-theme-switcher')?.setAttribute('theme', theme);
+  }
+
+  /**
+   * Get the theme and load it
+   * @param {string} theme name of the theme
+   */
+  async loadTheme(theme: string) {
+    await fetch(`../themes/ids-theme-${theme}.css`)
+      .then(async (data) => {
+        const themeStyles = await data.text();
+
+        const doc = (document.head as any);
+        const styleElem = document.querySelector('#ids-theme');
+        const style = styleElem || document.createElement('style');
+        style.textContent = themeStyles;
+        style.id = 'ids-theme';
+        style.setAttribute('nonce', this.nonce);
+        if (!styleElem) doc.appendChild(style);
+      });
   }
 }

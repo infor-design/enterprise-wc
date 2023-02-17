@@ -1,4 +1,5 @@
 const path = require('path');
+const sass = require('sass');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const demoEntry = require('./scripts/webpack-dev-entry');
@@ -126,7 +127,22 @@ module.exports = {
               .replace('ts', 'js');
             return filePath;
           }
-        }
+        },
+        {
+          from: './src/themes/**/*.scss',
+          to({ absoluteFilename }) {
+            const baseName = path.basename(absoluteFilename);
+            return `themes/${baseName.replace('scss', 'css')}`;
+          },
+          transform(content, transFormPath) {
+            const result = sass.renderSync({
+              file: transFormPath
+            });
+            let css = result.css.toString();
+            css = css.replace(':host {', ':root {');
+            return css;
+          }
+        },
       ]
     }),
   ].concat(htmlExamples)

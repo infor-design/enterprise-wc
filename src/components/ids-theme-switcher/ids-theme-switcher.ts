@@ -100,7 +100,7 @@ export default class IdsThemeSwitcher extends Base {
   menuTemplate(): string {
     return `<ids-menu-group>
     <ids-menu-item>
-      <ids-text translate-text="true">Mode</ids-text>
+      <ids-text translate-text="true">Theme</ids-text>
         <ids-popup-menu>
           <ids-menu-group select="single">
             <ids-menu-item selected="true" value="light">
@@ -162,7 +162,12 @@ export default class IdsThemeSwitcher extends Base {
    * @returns {Array} The attributes in an array
    */
   static get attributes(): Array<any> {
-    return [...super.attributes, attributes.LANGUAGE, attributes.MODE];
+    return [
+      ...super.attributes,
+      attributes.LANGUAGE,
+      attributes.MODE,
+      attributes.THEME
+    ];
   }
 
   /**
@@ -177,15 +182,31 @@ export default class IdsThemeSwitcher extends Base {
    */
   set mode(value: string) {
     if (value) {
-      this.setAttribute('mode', value);
+      this.setAttribute(attributes.MODE, value);
       this.triggerEvent('themechanged', this, { detail: { elem: this, mode: value } });
       return;
     }
 
-    this.removeAttribute('mode');
+    this.removeAttribute(attributes.MODE);
   }
 
-  get mode(): string { return this.getAttribute('mode') || 'light'; }
+  get mode(): string { return this.getAttribute(attributes.MODE) || 'light'; }
+
+  /**
+   * Set the theme
+   * @param {string} value The mode value for example: light, dark, or high-contrast
+   */
+  set theme(value: string) {
+    if (value) {
+      this.setAttribute(attributes.MODE, value);
+      this.triggerEvent('themechanged', this, { detail: { elem: this, theme: value } });
+      return;
+    }
+
+    this.removeAttribute(attributes.MODE);
+  }
+
+  get theme(): string { return this.getAttribute(attributes.MODE) || 'vibrant-dark-amber'; }
 
   /**
    * Implements callback from IdsColorVariantMixin used to

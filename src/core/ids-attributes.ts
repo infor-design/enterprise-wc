@@ -384,6 +384,7 @@ export const attributes = {
   TEXT_ELLIPSIS: 'text-ellipsis',
   TEXT_OFF: 'text-off',
   TEXT_ON: 'text-on',
+  THEME: 'theme',
   TIMELINE_INTERVAL: 'timeline-interval',
   TIMEOUT: 'timeout',
   TITLE: 'title',

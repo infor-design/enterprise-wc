@@ -1,0 +1,41 @@
+@use './ids-theme-nova-foundation.scss';
+
+:root {
+  // Color
+  --ids-color-primary: var(--ids-color-white);
+  --ids-color-error: var(--ids-color-status-01);
+  --ids-color-caution: var(--ids-color-status-02);
+  --ids-color-success: var(--ids-color-status-04);
+  --ids-color-info: var(--ids-color-status-05);
+
+  // Font
+  --ids-font-color:   // themeable
+  --ids-font-family:   // themeable
+  --ids-font-weight:   // themeable
+
+  // Border
+  --ids-border-width:   // themeable
+  --ids-border-radius:   // themeable
+
+  // Elevations
+  --ids-shadow-medium: 0 1px 2px hsl(240deg 3.8% 46.1% / 0.06);
+
+  // Size
+  --ids-size-xs:
+  --ids-size-sm:
+  --ids-size-md:
+  --ids-size-lg:
+  --ids-size-xlg:
+  --ids-size-xxlg:
+
+  // Focus
+  --ids-focus-ring-color:
+  --ids-focus-ring-width:
+
+  // Z Indexes
+  --ids-z-index-popup: 700;
+
+  // Badge Specifc
+  --ids-badge:
+}
+
