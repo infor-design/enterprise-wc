@@ -8,6 +8,9 @@
   - link: example.html
     type: Main Example
     description: Shows a grid
+  - link: example-cards.html
+    type: Main Example w/Cards
+    description: Shows a grid
   - link: example-fluid-max.html
     type: Main Example with fluid max-width
     description: Shows a grid

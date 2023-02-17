@@ -659,7 +659,7 @@ export default class IdsGridCell extends IdsElement {
   }
 
   private setSticky() {
-    if (this.sticky !== null) {
+    if (this.sticky === true) {
       this.classList.add('sticky');
       this.style.setProperty('--sticky-position', '0');
     }

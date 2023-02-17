@@ -420,12 +420,12 @@ $fillColor: #FFE9E9;
 $textColor: #FF391E;
 
 ::slotted(.grid-cell) {
-  color: $textColor;
+  // color: $textColor;
   font-size: 38px;
   font-family: sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
 }
 
 ::slotted(.grid-cell.fill) {

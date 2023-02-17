@@ -17,3 +17,7 @@
   top: 16px;
   align-self: start;
 }
+
+ids-card::part(card) {
+  margin-bottom: 0;
+}
