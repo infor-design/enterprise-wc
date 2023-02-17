@@ -111,7 +111,7 @@ export default class IdsDataGridFormatters {
   /** Formats number data as a integer string in the specific locale */
   integer(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
     let value: any = this.#extractValue(rowData, columnData.field);
-    const opts = columnData.formatOptions || { };
+    const opts = columnData.formatOptions || {};
     opts.style = 'integer';
 
     value = api.localeAPI?.formatNumber(value, opts) ?? value.toString();
@@ -169,6 +169,7 @@ export default class IdsDataGridFormatters {
     return `<ids-button tabindex="-1" ${this.#columnDisabled(index, value, columnData, rowData) ? ' disabled="true"' : ''}${columnData.type ? ` type="${columnData.type}"` : ' type="tertiary"'}>
       <span class="audible">${columnData.text || ' Button'}</span>
       ${columnData.icon ? `<ids-icon icon="${columnData.icon}"></ids-icon>` : ''}
+      <span class="audible">${columnData.text || ' Button'}</span>
     </ids-button>`;
   }
 

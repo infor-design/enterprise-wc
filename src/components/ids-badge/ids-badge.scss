@@ -30,10 +30,13 @@
   padding: 0 10px;
 
   &.round {
-    display: inline-block;
+    display: inline-flex;
+    height: 22px;
     padding: 0;
     text-align: center;
     width: 22px;
+    justify-content: center;
+    align-items: center;
   }
 
   &.ids-white {
@@ -60,11 +63,6 @@
     @include bg-alert-success();
     @include border-alert-success();
     @include text-white();
-  }
-
-  ::slotted(ids-icon) {
-    position: relative;
-    top: 3px;
   }
 }
 

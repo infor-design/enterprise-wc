@@ -114,8 +114,11 @@ button {
   @include py-8();
 
   &:not(.no-padding) {
-    @include px-8();
-    @include py-8();
+    // 34px / 34px
+    padding-inline-start: 7px;
+    padding-inline-end: 7px;
+    padding-top: 7px;
+    padding-bottom: 7px;
   }
 
   &:not(.square) {
