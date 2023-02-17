@@ -7,11 +7,12 @@
   --min-row-height: 0;
   --min-row-width: 1fr;
   --grid-auto-row-height: 0;
+  --sticky-position: 0;
 }
 
 $spacing-unit: 8px;
 $grid-cols: 24;
-$grid-rows: 9999;
+$grid-rows: 50;
 $grid-gap-sm: $spacing-unit;
 $grid-gap: $spacing-unit * 2;
 $grid-gap-md: $spacing-unit * 3;
@@ -114,12 +115,37 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
   grid-auto-rows: var(--grid-auto-row-height);
 }
 
-::slotted(.span-full) {
+:host(.justify-content-start) {
+  justify-content: start;
+}
+
+:host(.justify-content-center) {
+  justify-content: center;
+}
+
+:host(.justify-content-between) {
+  justify-content: space-between;
+}
+
+:host(.justify-content-around) {
+  justify-content: space-around;
+}
+
+:host(.justify-content-evenly) {
+  justify-content: space-evenly;
+}
+
+::slotted(.span-all) {
   grid-column: 1 / -1;
 }
 
 ::slotted(.row-span-all) {
   grid-row: 1 / -1;
+}
+
+::slotted(.sticky) {
+  position: sticky;
+  top: var(--sticky-position);
 }
 
 /**
@@ -133,6 +159,18 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
 
   :host(.grid) > ::slotted(.span-#{$i}) {
     grid-column: span $i / span $i;
+  }
+
+  :host(.grid) > ::slotted(.col-start-#{$i}) {
+    grid-column-start: $i;
+  }
+
+  :host(.grid) > ::slotted(.col-end-#{$i}) {
+    grid-column-end: $i;
+  }
+
+  :host(.grid) > ::slotted(.order-#{$i}) {
+    order: $i;
   }
 }
 
@@ -162,6 +200,18 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
     :host(.grid) > ::slotted(.span-xs-#{$i}) {
       grid-column: span $i / span $i;
     }
+
+    :host(.grid) > ::slotted(.col-start-xs-#{$i}) {
+      grid-column-start: $i;
+    }
+
+    :host(.grid) > ::slotted(.col-end-xs-#{$i}) {
+      grid-column-end: $i;
+    }
+
+    :host(.grid) > ::slotted(.order-xs-#{$i}) {
+      order: $i;
+    }
   }
 
   @for $i from 1 through $grid-rows {
@@ -187,6 +237,18 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
 
     :host(.grid) > ::slotted(.span-sm-#{$i}) {
       grid-column: span $i / span $i;
+    }
+
+    :host(.grid) > ::slotted(.col-start-sm-#{$i}) {
+      grid-column-start: $i;
+    }
+
+    :host(.grid) > ::slotted(.col-end-sm-#{$i}) {
+      grid-column-end: $i;
+    }
+
+    :host(.grid) > ::slotted(.order-sm-#{$i}) {
+      order: $i;
     }
   }
 
@@ -214,6 +276,18 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
     :host(.grid) > ::slotted(.span-md-#{$i}) {
       grid-column: span $i / span $i;
     }
+
+    :host(.grid) > ::slotted(.col-start-md-#{$i}) {
+      grid-column-start: $i;
+    }
+
+    :host(.grid) > ::slotted(.col-end-md-#{$i}) {
+      grid-column-end: $i;
+    }
+
+    :host(.grid) > ::slotted(.order-md-#{$i}) {
+      order: $i;
+    }
   }
 
   @for $i from 1 through $grid-rows {
@@ -239,6 +313,18 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
 
     :host(.grid) > ::slotted(.span-lg-#{$i}) {
       grid-column: span $i / span $i;
+    }
+
+    :host(.grid) > ::slotted(.col-start-lg-#{$i}) {
+      grid-column-start: $i;
+    }
+
+    :host(.grid) > ::slotted(.col-end-lg-#{$i}) {
+      grid-column-end: $i;
+    }
+
+    :host(.grid) > ::slotted(.order-lg-#{$i}) {
+      order: $i;
     }
   }
 
@@ -266,6 +352,18 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
     :host(.grid) > ::slotted(.span-xl-#{$i}) {
       grid-column: span $i / span $i;
     }
+
+    :host(.grid) > ::slotted(.col-start-xl-#{$i}) {
+      grid-column-start: $i;
+    }
+
+    :host(.grid) > ::slotted(.col-end-xl-#{$i}) {
+      grid-column-end: $i;
+    }
+
+    :host(.grid) > ::slotted(.order-xl-#{$i}) {
+      order: $i;
+    }
   }
 
   @for $i from 1 through $grid-rows {
@@ -291,6 +389,18 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
 
     :host(.grid) > ::slotted(.span-xxl-#{$i}) {
       grid-column: span $i / span $i;
+    }
+
+    :host(.grid) > ::slotted(.col-start-xxl-#{$i}) {
+      grid-column-start: $i;
+    }
+
+    :host(.grid) > ::slotted(.col-end-xxl-#{$i}) {
+      grid-column-end: $i;
+    }
+
+    :host(.grid) > ::slotted(.order-xxl-#{$i}) {
+      order: $i;
     }
   }
 

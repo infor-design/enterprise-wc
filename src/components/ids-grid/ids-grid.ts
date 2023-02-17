@@ -343,12 +343,6 @@ export default class IdsGrid extends IdsElement {
   }
 
   /**
-   * Handle The Gap Setting
-   * @returns {string} The Gap [none, sm, md, lg, xl]
-   */
-  get gap(): string | null { return this.getAttribute(attributes.GAP); }
-
-  /**
    * Set the grid gap
    * @param {string} value The Gap [none, sm, md, lg, xl]
    */
@@ -359,6 +353,30 @@ export default class IdsGrid extends IdsElement {
       this.removeAttribute(attributes.GAP);
     }
   }
+
+  /**
+   * Handle The Gap Setting
+   * @returns {string} The Gap [none, sm, md, lg, xl]
+   */
+  get gap(): string | null { return this.getAttribute(attributes.GAP); }
+
+  /**
+   * Set the grid justify
+   * @param {string} value The justify [start, end, between, around, evenly]
+   */
+  set justifyContent(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.JUSTIFY_CONTENT, value);
+    } else {
+      this.removeAttribute(attributes.JUSTIFY_CONTENT);
+    }
+  }
+
+  /**
+   * Get the grid justify setting
+   * @returns {string} The justify [start, end, between, around, evenly]
+   */
+  get justifyContent(): string | null { return this.getAttribute(attributes.JUSTIFY_CONTENT); }
 
   set flow(value: string | null) {
     if (value !== null) {
@@ -485,6 +503,7 @@ export default class IdsGrid extends IdsElement {
       attributes.COLS_XXL,
       attributes.FLOW,
       attributes.GAP,
+      attributes.JUSTIFY_CONTENT,
       attributes.MAX_COL_WIDTH,
       attributes.MIN_COL_WIDTH,
       attributes.MAX_ROW_HEIGHT,
@@ -516,6 +535,7 @@ export default class IdsGrid extends IdsElement {
     this.setAutoFill();
     this.setFlow();
     this.setRowHeight();
+    this.setJustify();
   }
 
   private setColumns() {
@@ -578,6 +598,12 @@ export default class IdsGrid extends IdsElement {
     if (this.rowHeight !== null) {
       this.classList.add('grid-auto-row-height');
       this.style.setProperty('--grid-auto-row-height', this.rowHeight);
+    }
+  }
+
+  private setJustify() {
+    if (this.justifyContent !== null) {
+      this.classList.add(`justify-content-${this.justifyContent}`);
     }
   }
 
