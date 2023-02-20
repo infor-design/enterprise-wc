@@ -5,6 +5,7 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsCalendarEventsMixin from '../../mixins/ids-calendar-events-mixin/ids-calendar-events-mixin';
 import IdsDateAttributeMixin from '../../mixins/ids-date-attribute-mixin/ids-date-attribute-mixin';
 import { CalendarEventData, CalendarEventTypeData } from './ids-calendar-event';
+import '../ids-date-picker/ids-date-picker';
 import IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
 import IdsMonthView from '../ids-month-view/ids-month-view';
 import IdsWeekView from '../ids-week-view/ids-week-view';
