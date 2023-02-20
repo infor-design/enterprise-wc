@@ -76,7 +76,6 @@ export default class IdsGrid extends IdsElement {
   /**
    * Set auto-fit attribute
    * @param {boolean | string | null} value boolean
-   * @memberof IdsGrid
    */
   set autoFit(value: string | boolean | null) {
     const isTruthy = stringToBool(value);
@@ -90,9 +89,7 @@ export default class IdsGrid extends IdsElement {
   /**
    * Get auto-fit attribute
    * @readonly
-   * @type {(string | boolean | null)}
    * @returns {boolean} Indicates whether the auto-fit is enabled
-   * @memberof IdsGrid
    */
   get autoFit(): string | boolean | null {
     return stringToBool(this.getAttribute(attributes.AUTO_FIT));
@@ -101,7 +98,6 @@ export default class IdsGrid extends IdsElement {
   /**
    * Set auto-fill attribute
    * @param {boolean | string | null} value boolean
-   * @memberof IdsGrid
    */
   set autoFill(value: string | boolean | null) {
     const isTruthy = stringToBool(value);
@@ -115,9 +111,7 @@ export default class IdsGrid extends IdsElement {
   /**
    * Get auto-fill attribute
    * @readonly
-   * @type {(string | boolean | null)}
    * @returns {boolean} Indicates whether the auto-fill is enabled
-   * @memberof IdsGrid
    */
   get autoFill(): string | boolean | null {
     return stringToBool(this.getAttribute(attributes.AUTO_FILL));
@@ -126,7 +120,6 @@ export default class IdsGrid extends IdsElement {
   /**
    * Set columns attribute
    * @param {boolean | string | null} value sets the number of columns
-   * @memberof IdsGrid
    */
   set cols(value: string | null) {
     if (value !== null) {
@@ -139,16 +132,13 @@ export default class IdsGrid extends IdsElement {
   /**
    * Get columns attribute
    * @readonly
-   * @type {(string | null)}
    * @returns {string | null} The number of columns of the grid
-   * @memberof IdsGrid
    */
   get cols(): string | null { return this.getAttribute(attributes.COLS); }
 
   /**
    * Set XS columns attribute
    * @param {boolean | string | null} value sets the number of columns at the XS breakpoint
-   * @memberof IdsGrid
    */
   set colsXs(value: string | null) {
     if (value !== null) {
@@ -161,16 +151,13 @@ export default class IdsGrid extends IdsElement {
   /**
    * Get XS columns attribute
    * @readonly
-   * @type {(string | null)}
    * @returns {string | null} The number of columns of the grid at the XS breakpoint
-   * @memberof IdsGrid
    */
   get colsXs(): string | null { return this.getAttribute(attributes.COLS_XS); }
 
   /**
    * Set SM columns attribute
    * @param {boolean | string | null} value sets the number of columns at the SM breakpoint
-   * @memberof IdsGrid
    */
   set colsSm(value: string | null) {
     if (value !== null) {
@@ -183,16 +170,13 @@ export default class IdsGrid extends IdsElement {
   /**
    * Get SM columns attribute
    * @readonly
-   * @type {(string | null)}
    * @returns {string | null} The number of columns of the grid at the SM breakpoint
-   * @memberof IdsGrid
    */
   get colsSm(): string | null { return this.getAttribute(attributes.COLS_SM); }
 
   /**
    * Set MD columns attribute
    * @param {boolean | string | null} value sets the number of columns at the MD breakpoint
-   * @memberof IdsGrid
    */
   set colsMd(value: string | null) {
     if (value !== null) {
@@ -205,16 +189,13 @@ export default class IdsGrid extends IdsElement {
   /**
    * Get MD columns attribute
    * @readonly
-   * @type {(string | null)}
    * @returns {string | null} The number of columns of the grid at the MD breakpoint
-   * @memberof IdsGrid
    */
   get colsMd(): string | null { return this.getAttribute(attributes.COLS_MD); }
 
   /**
    * Set LG columns attribute
    * @param {boolean | string | null} value sets the number of columns at the LG breakpoint
-   * @memberof IdsGrid
    */
   set colsLg(value: string | null) {
     if (value !== null) {
@@ -227,16 +208,13 @@ export default class IdsGrid extends IdsElement {
   /**
    * Get LG columns attribute
    * @readonly
-   * @type {(string | null)}
    * @returns {string | null} The number of columns of the grid at the LG breakpoint
-   * @memberof IdsGrid
    */
   get colsLg(): string | null { return this.getAttribute(attributes.COLS_LG); }
 
   /**
    * Set XL columns attribute
    * @param {boolean | string | null} value sets the number of columns at the XL breakpoint
-   * @memberof IdsGrid
    */
   set colsXl(value: string | null) {
     if (value !== null) {
@@ -249,16 +227,13 @@ export default class IdsGrid extends IdsElement {
   /**
    * Get XL columns attribute
    * @readonly
-   * @type {(string | null)}
    * @returns {string | null} The number of columns of the grid at the XL breakpoint
-   * @memberof IdsGrid
    */
   get colsXl(): string | null { return this.getAttribute(attributes.COLS_XL); }
 
   /**
    * Set XXL columns attribute
    * @param {boolean | string | null} value sets the number of columns at the XXL breakpoint
-   * @memberof IdsGrid
    */
   set colsXxl(value: string | null) {
     if (value !== null) {
@@ -271,16 +246,13 @@ export default class IdsGrid extends IdsElement {
   /**
    * Get XXL columns attribute
    * @readonly
-   * @type {(string | null)}
    * @returns {string | null} The number of columns of the grid at the XXL breakpoint
-   * @memberof IdsGrid
    */
   get colsXxl(): string | null { return this.getAttribute(attributes.COLS_XXL); }
 
   /**
    * Set the minColWidth attribute
    * @param {string | null} value Number value that sets the min-width of the grid columns
-   * @memberof IdsGrid
    */
   set minColWidth(value: string | null) {
     if (value !== null) {
@@ -293,9 +265,7 @@ export default class IdsGrid extends IdsElement {
   /**
    * Get the minColWidth attribute
    * @readonly
-   * @type {(string | null)}
    * @returns {string | null} The number value that represents the min-height of the grid columns
-   * @memberof IdsGrid
    */
   get minColWidth(): string | null {
     return this.getAttribute(attributes.MIN_COL_WIDTH);
@@ -317,9 +287,7 @@ export default class IdsGrid extends IdsElement {
   /**
    * Get the minRowHeight attribute
    * @readonly
-   * @type {(string | null)}
    * @returns {string | null} The number value that represents the min-height of the grid rows
-   * @memberof IdsGrid
    */
   get minRowHeight(): string | null {
     return this.getAttribute(attributes.MIN_ROW_HEIGHT);
@@ -341,9 +309,7 @@ export default class IdsGrid extends IdsElement {
   /**
    * Get the maxColWidth attribute
    * @readonly
-   * @type {(string | null)}
    * @returns {string | null} The number value that represents the max-width of the grid columns
-   * @memberof IdsGrid
    */
   get maxColWidth(): string | null {
     return this.getAttribute(attributes.MAX_COL_WIDTH);
@@ -352,7 +318,6 @@ export default class IdsGrid extends IdsElement {
   /**
    * Set the maxRowHeight attribute
    * @param {string | null} value Number value that sets the max-height of the grid rows
-   * @memberof IdsGrid
    */
   set maxRowHeight(value: string | null) {
     if (value !== null) {
@@ -365,9 +330,7 @@ export default class IdsGrid extends IdsElement {
   /**
    * Get the maxRowHeight attribute
    * @readonly
-   * @type {(string | null)}
    * @returns {string | null} The number value that represents the max-height of the grid rows
-   * @memberof IdsGrid
    */
   get maxRowHeight(): string | null {
     return this.getAttribute(attributes.MAX_ROW_HEIGHT);
@@ -435,6 +398,10 @@ export default class IdsGrid extends IdsElement {
     return this.state.flow;
   }
 
+  /**
+   * Set the row attribute
+   * @param { string | null } value The amount of rows in the grid
+   */
   set rows(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.ROWS, value);
@@ -443,10 +410,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the row attribute
+   * @returns { string | null } The amount of rows in the grid
+   */
   get rows(): string | null {
     return this.getAttribute(attributes.ROWS);
   }
 
+  /**
+   * Set the rowXs attribute
+   * @param { string | null } value The amount of rows at xs breakpoint in the grid
+   */
   set rowsXs(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.ROWS_XS, value);
@@ -455,10 +430,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the rowXs attribute
+   * @returns { string | null } The amount of rows at xs breakpoint in the grid
+   */
   get rowsXs(): string | null {
     return this.getAttribute(attributes.ROWS_XS);
   }
 
+  /**
+   * Set the rowSm attribute
+   * @param { string | null } value The amount of rows at sm breakpoint in the grid
+   */
   set rowsSm(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.ROWS_SM, value);
@@ -467,10 +450,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the rowSm attribute
+   * @returns { string | null } The amount of rows at sm breakpoint in the grid
+   */
   get rowsSm(): string | null {
     return this.getAttribute(attributes.ROWS_SM);
   }
 
+  /**
+   * Set the rowMd attribute
+   * @param { string | null } value The amount of rows at md breakpoint in the grid
+   */
   set rowsMd(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.ROWS_MD, value);
@@ -479,10 +470,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the rowMd attribute
+   * @returns { string | null } The amount of rows at md breakpoint in the grid
+   */
   get rowsMd(): string | null {
     return this.getAttribute(attributes.ROWS_MD);
   }
 
+  /**
+   * Set the rowLg attribute
+   * @param { string | null } value The amount of rows at lg breakpoint in the grid
+   */
   set rowsLg(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.ROWS_LG, value);
@@ -491,10 +490,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the rowLg attribute
+   * @returns { string | null } The amount of rows at lg breakpoint in the grid
+   */
   get rowsLg(): string | null {
     return this.getAttribute(attributes.ROWS_LG);
   }
 
+  /**
+   * Set the rowXl attribute
+   * @param { string | null } value The amount of rows at xl breakpoint in the grid
+   */
   set rowsXl(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.ROWS_XL, value);
@@ -503,10 +510,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the rowXl attribute
+   * @returns { string | null } The amount of rows at xl breakpoint in the grid
+   */
   get rowsXl(): string | null {
     return this.getAttribute(attributes.ROWS_XL);
   }
 
+  /**
+   * Set the rowXxl attribute
+   * @param { string | null } value The amount of rows at xxl breakpoint in the grid
+   */
   set rowsXxl(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.ROWS_XXL, value);
@@ -515,10 +530,18 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the rowXxl attribute
+   * @returns { string | null } The amount of rows at xxl breakpoint in the grid
+   */
   get rowsXxl(): string | null {
     return this.getAttribute(attributes.ROWS_XXL);
   }
 
+  /**
+   * Set the rowHeight attribute
+   * @param { string | null } value The height of the rows in the grid
+   */
   set rowHeight(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.ROW_HEIGHT, value);
@@ -527,6 +550,10 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the rowHeight attribute
+   * @returns { string | null } The height of the rows in the grid
+   */
   get rowHeight(): string | null {
     return this.getAttribute(attributes.ROW_HEIGHT);
   }
