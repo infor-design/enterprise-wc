@@ -17,6 +17,7 @@ $grid-gap-sm: $spacing-unit;
 $grid-gap: $spacing-unit * 2;
 $grid-gap-md: $spacing-unit * 3;
 $grid-gap-lg: $spacing-unit * 4;
+$grid-gap-xl: $spacing-unit * 5;
 $min-col-width: var(--min-col-width);
 $max-col-width: var(--max-col-width);
 $min-row-height: var(--min-row-height);
@@ -44,6 +45,10 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
 
 :host(.grid.grid-gap-lg) {
   grid-gap: $grid-gap-lg;
+}
+
+:host(.grid.grid-gap-xl) {
+  grid-gap: $grid-gap-xl;
 }
 
 /**
@@ -133,6 +138,10 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
 
 :host(.justify-content-evenly) {
   justify-content: space-evenly;
+}
+
+:host(.justify-content-end) {
+  justify-content: end;
 }
 
 ::slotted(.span-all) {

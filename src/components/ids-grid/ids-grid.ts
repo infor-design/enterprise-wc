@@ -4,6 +4,37 @@ import IdsElement from '../../core/ids-element';
 import styles from './ids-grid.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
+type IdsGapType = undefined | 'sm' | 'md' | 'lg' | 'xl';
+type IdsJustifyType = undefined | 'around' | 'between' | 'center' | 'end' | 'evenly' | 'start';
+type IdsFlowType = undefined | 'row' | 'column' | 'dense' | 'row-dense' | 'column-dense';
+
+const GAP_TYPES: Array<IdsGapType> = [
+  undefined,
+  'sm',
+  'md',
+  'lg',
+  'xl',
+];
+
+const JUSTIFY_TYPES: Array<IdsJustifyType> = [
+  undefined,
+  'around',
+  'between',
+  'center',
+  'end',
+  'evenly',
+  'start',
+];
+
+const FLOW_TYPES: Array<IdsFlowType> = [
+  undefined,
+  'row',
+  'column',
+  'dense',
+  'row-dense',
+  'column-dense'
+];
+
 const gridSizes = [
   { size: 'cols', className: 'grid-cols' },
   { size: 'colsXs', className: 'grid-cols-xs' },
@@ -344,50 +375,64 @@ export default class IdsGrid extends IdsElement {
 
   /**
    * Set the grid gap
-   * @param {string} value The Gap [none, sm, md, lg, xl]
+   * @param {IdsGapType | null} value The Gap [null, sm, md, lg, xl]
    */
-  set gap(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.GAP, value);
-    } else {
+  set gap(value: IdsGapType | null) {
+    if (!value || GAP_TYPES.indexOf(value) <= 0) {
       this.removeAttribute(attributes.GAP);
+      this.state.gap = GAP_TYPES[0];
+    } else {
+      this.setAttribute(attributes.GAP, value);
+      if (this.state.gap !== value) this.state.gap = value;
     }
   }
 
   /**
    * Handle The Gap Setting
-   * @returns {string} The Gap [none, sm, md, lg, xl]
+   * @returns {IdsGapType | null} The Gap [null, sm, md, lg, xl]
    */
-  get gap(): string | null { return this.getAttribute(attributes.GAP); }
+  get gap(): IdsGapType | null { return this.state.gap; }
 
   /**
    * Set the grid justify
-   * @param {string} value The justify [start, end, between, around, evenly]
+   * @param {IdsJustifyType | null} value The justify [null, start, end, between, around, evenly]
    */
-  set justifyContent(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.JUSTIFY_CONTENT, value);
-    } else {
+  set justifyContent(value: IdsJustifyType | null) {
+    if (!value || JUSTIFY_TYPES.indexOf(value) <= 0) {
       this.removeAttribute(attributes.JUSTIFY_CONTENT);
+      this.state.justifyContent = JUSTIFY_TYPES[0];
+    } else {
+      this.setAttribute(attributes.JUSTIFY_CONTENT, value);
+      if (this.state.justifyContent !== value) this.state.justifyContent = value;
     }
   }
 
   /**
    * Get the grid justify setting
-   * @returns {string} The justify [start, end, between, around, evenly]
+   * @returns {IdsJustifyType | null} The justify [null, start, end, between, around, evenly]
    */
-  get justifyContent(): string | null { return this.getAttribute(attributes.JUSTIFY_CONTENT); }
+  get justifyContent(): IdsJustifyType | null { return this.state.justifyContent; }
 
-  set flow(value: string | null) {
-    if (value !== null) {
-      this.setAttribute(attributes.FLOW, value);
-    } else {
+  /**
+   * Set the flow attribute of the grid
+   * @param { IdsFlowType | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  set flow(value: IdsFlowType | null) {
+    if (!value || FLOW_TYPES.indexOf(value) <= 0) {
       this.removeAttribute(attributes.FLOW);
+      this.state.flow = FLOW_TYPES[0];
+    } else {
+      this.setAttribute(attributes.FLOW, value);
+      if (this.state.flow !== value) this.state.flow = value;
     }
   }
 
-  get flow(): string | null {
-    return this.getAttribute(attributes.FLOW);
+  /**
+   * Get the flow attribute
+   * @returns { IdsFlowType | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  get flow(): IdsFlowType | null {
+    return this.state.flow;
   }
 
   set rows(value: string | null) {
@@ -530,12 +575,15 @@ export default class IdsGrid extends IdsElement {
     this.setRows();
     this.setMinMaxWidth();
     this.setMinMaxRowHeight();
-    this.setGap();
     this.setAutoFit();
     this.setAutoFill();
-    this.setFlow();
     this.setRowHeight();
-    this.setJustify();
+
+    requestIdleCallback(() => {
+      this.setGap();
+      this.setJustify();
+      this.setFlow();
+    });
   }
 
   private setColumns() {
@@ -571,7 +619,7 @@ export default class IdsGrid extends IdsElement {
   }
 
   private setGap() {
-    if (this.gap !== null) {
+    if (this.gap !== undefined) {
       this.classList.add(`grid-gap-${this.gap}`);
     }
   }
@@ -589,7 +637,7 @@ export default class IdsGrid extends IdsElement {
   }
 
   private setFlow() {
-    if (this.flow !== null) {
+    if (this.flow !== undefined) {
       this.classList.add(`grid-flow-${this.flow}`);
     }
   }
@@ -602,7 +650,7 @@ export default class IdsGrid extends IdsElement {
   }
 
   private setJustify() {
-    if (this.justifyContent !== null) {
+    if (this.justifyContent !== undefined) {
       this.classList.add(`justify-content-${this.justifyContent}`);
     }
   }
