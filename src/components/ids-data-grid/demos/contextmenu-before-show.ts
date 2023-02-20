@@ -1,8 +1,9 @@
 import '../ids-data-grid';
 import booksJSON from '../../../assets/data/books.json';
+import menuContentsJSON from '../../../assets/data/menu-contents.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-contextmenu');
+const dataGrid: any = document.querySelector('#data-grid-contextmenu-before-show');
 const container: any = document.querySelector('ids-container');
 
 if (dataGrid) {
@@ -12,9 +13,35 @@ if (dataGrid) {
 
     // Do an ajax request
     const url: any = booksJSON;
-    const columns = [];
+    const menuUrl: any = menuContentsJSON;
+
+    // Header contextmenu data
+    const headerMenuData = {
+      id: 'grid-header-menu',
+      contents: [{
+        id: 'actions-group',
+        items: [
+          { id: 'actions-split', value: 'actions-split', text: 'Split' },
+          { id: 'actions-sort', value: 'actions-sort', text: 'Sort' },
+          { id: 'actions-hide', value: 'actions-hide', text: 'Hide' }
+        ]
+      }],
+    };
+
+    const newMenuData = {
+      id: 'grid-new-menu',
+      contents: [{
+        id: 'actions-group',
+        items: [
+          { id: 'actions-new1', value: 'actions-new-1', text: 'Some New menu item 1' },
+          { id: 'actions-new2', value: 'actions-new-2', text: 'Some New menu item 2' },
+          { id: 'actions-new3', value: 'actions-new-3', text: 'Some New menu item 3' }
+        ]
+      }],
+    };
 
     // Set up columns
+    const columns = [];
     columns.push({
       id: 'selectionCheckbox',
       name: 'selection',
@@ -107,23 +134,27 @@ if (dataGrid) {
       field: 'convention',
       formatter: dataGrid.formatters.text
     });
-    columns.push({
-      id: 'methodSwitch',
-      name: 'Method Switch',
-      field: 'methodSwitch',
-      formatter: dataGrid.formatters.text
-    });
 
     dataGrid.columns = columns;
     const setData = async () => {
       const res = await fetch(url);
-      const data = await res.json();
-      dataGrid.data = data;
+      const menuRes = await fetch(menuUrl);
 
-      // Set veto before contextmenu show
+      const data = await res.json();
+      const menuData = await menuRes.json();
+
+      dataGrid.data = data;
+      dataGrid.menuData = menuData;
+      dataGrid.headerMenuData = headerMenuData;
+
       dataGrid.addEventListener('beforemenushow', (e: any) => {
-        console.info('before contextmenu show', e.detail);
-        // e.detail.response(false);
+        console.info('Before contextmenu show', e.detail);
+        const thisData = e.detail?.data;
+        if (thisData?.type === dataGrid.contextmenuTypes.BODY_CELL) {
+          const rowIndex = thisData.rowIndex ?? 0;
+          const newData = ((rowIndex % 2) === 0) ? newMenuData : menuData;
+          dataGrid.menuData = newData;
+        }
       });
 
       dataGrid.addEventListener('menushow', (e: any) => {

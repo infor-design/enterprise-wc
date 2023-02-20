@@ -6,9 +6,13 @@
 
 - `[Alert]` Added the ability to use any icon and set any alert color on the alerts. ([#1138](https://github.com/infor-design/enterprise-wc/issues/1138))
 - `[Badge]` Fixed uneven shape on badge icons. ([#1014](https://github.com/infor-design/enterprise-wc/issues/1014))
+- `[DataGrid]` Fixed dynamic left top alignment, removed arrow and improved api for contextmenu. ([#1110](https://github.com/infor-design/enterprise-wc/issues/1110))
+- `[DataGrid]` Improved the event support for contextmenu. ([#1113](https://github.com/infor-design/enterprise-wc/issues/1113))
+- `[DataGrid]` Fixed overflow to display all items with contextmenu. ([#1119](https://github.com/infor-design/enterprise-wc/issues/1119))
 - `[Icons]` Changed the way custom icons work so they can be used only at one time and from a file. ([#1122](https://github.com/infor-design/enterprise-wc/issues/1122))
 - `[Icons]` Clean up examples for icons. ([#509](https://github.com/infor-design/enterprise-wc/issues/509))
 - `[Locale]` Locale information files and messages are now separate from the build. They must be served as assets from the `node_modules/ids-enterprise-wc/locale-data` folder. ([#1107](https://github.com/infor-design/enterprise-wc/issues/1107))
+- `[PieChart]` Fixed tooltip arrow was not aligning the first time. ([#836](https://github.com/infor-design/enterprise-wc/issues/836))
 - `[ThemeSwitcher]` Added ability to hide the theme switcher and still use it. ([#1136](https://github.com/infor-design/enterprise-wc/issues/1136))
 - `[Trigger Field]` Fixed trigger field buttons padding. ([#1091](https://github.com/infor-design/enterprise-wc/issues/1091))
 
