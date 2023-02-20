@@ -120,7 +120,7 @@ export function next(node: any, selector: string): HTMLElement {
  * @returns {HTMLElement} the element
  */
 export function previous(node: any, selector: string): HTMLElement {
-  node = node.previousSibling;
+  node = node.previousElementSibling;
 
   while (node) {
     if (node.matches(selector)) return node;
@@ -249,4 +249,47 @@ export function getElementAtMouseLocation() {
 
   document.addEventListener('mousemove', getCurrentCoords);
   return document.elementFromPoint(...mousePos);
+}
+
+/**
+ * Query selector all that goes throw all shadowRoots
+ * @param {string} selector The query selector
+ * @param {Element} rootNode The element to check
+ * @returns {Array<Element>} true if overflowing, false otherwise
+ */
+export function querySelectorAllShadowRoot(selector: string, rootNode = document.body) {
+  const arr: Array<Element> = [];
+
+  const traverser = (node: Element) => {
+    // Decline all nodes that are not elements
+    if (node.nodeType !== Node.ELEMENT_NODE) {
+      return;
+    }
+
+    // Add the node to the array, if it matches the selector
+    if (node.matches(selector)) {
+      arr.push(node);
+    }
+
+    // Loop through the children
+    const children = node.children;
+    if (children.length) {
+      for (const child of children) {
+        traverser(child);
+      }
+    }
+
+    // Check for shadow DOM, and loop through it's children
+    const shadowRoot = node.shadowRoot;
+    if (shadowRoot) {
+      const shadowChildren = shadowRoot.children;
+      for (const shadowChild of shadowChildren) {
+        traverser(shadowChild);
+      }
+    }
+  };
+
+  traverser(rootNode);
+
+  return arr;
 }

@@ -40,9 +40,14 @@ if (dataGrid) {
         columnData,
         index,
         api
-      ) => api.formatters.tree(rowData, columnData, index, api),
-      click: (info: any) => {
-        console.info('Tree Expander Clicked', info);
+      ) => {
+        const field = columnData.field || 'id';
+        const link = `<ids-hyperlink href="#" tabindex="-1">${rowData[field]}</ids-hyperlink>`;
+        const tree = api.formatters.tree(rowData, columnData);
+        return tree.replace((rowData[field] as any).toString(), link);
+      },
+      click: (rowData: Record<string, unknown>, column: IdsDataGridColumn, event: MouseEvent) => {
+        console.info(`${(event.target as Element).nodeName}  Clicked`);
       },
       width: 220,
       frozen: 'left',

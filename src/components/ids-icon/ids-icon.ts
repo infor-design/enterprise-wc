@@ -5,55 +5,25 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { sizes } from './ids-icon-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { querySelectorAllShadowRoot } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-import Base from './ids-icon-base';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+
 import styles from './ids-icon.scss';
 
 const emptyIconPathData: any = emptyPathImport;
 const pathData: Record<string, string> = pathImport;
-const customIcons: Record<string, string> = {};
 
-/**
- * Add a custom icon
- * @param {string} name name of attribute
- * @param {string} data attribute names and values
- */
-export function addIcon(name: string, data: any[] | string) {
-  if (!name || !data) return;
-
-  if (typeof data === 'string') {
-    customIcons[name] = data;
-    return;
-  }
-
-  /**
-   * Builds SVG icon data
-   * @param {any} node Attribute names/values of an SVG element
-   * @returns {string} SVG element string
-   */
-  function buildSVG(node: any) {
-    const tagName = node.shape;
-    const children = node.contents;
-    let contents = '';
-
-    // Filter valid attributes and build attribute string
-    const refElem = document.createElement(tagName);
-    const attrs: string = Object.keys(node).reduce((prev, attr) => {
-      const attrNameVal = (attr in refElem || attr in refElem.style) ? `${attr}="${node[attr]}"` : '';
-      return prev + attrNameVal;
-    }, '');
-
-    // Recursively iterate through children nodes, if any
-    if (Array.isArray(children) && children.length) {
-      children.forEach((child: any) => { contents += buildSVG(child); });
-    }
-
-    return `<${tagName} ${attrs}>${contents}</${tagName}>`;
-  }
-
-  customIcons[name] = data.reduce((prev, curr) => (prev + buildSVG(curr)), '');
-}
+const Base = IdsLocaleMixin(
+  IdsColorVariantMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS Icon Component
@@ -73,7 +43,6 @@ export default class IdsIcon extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.#attachEventHandlers();
   }
 
   /**
@@ -94,19 +63,14 @@ export default class IdsIcon extends Base {
     ];
   }
 
-  /**
-   * Handle change events
-   */
-  #attachEventHandlers() {
-    this.offEvent('languagechange.icon-container');
-    this.onEvent('languagechange.icon-container', getClosest(this, 'ids-container'), () => {
-      if (this.isMirrored(this.icon)) {
-        this.container?.classList.add('mirrored');
-      } else {
-        this.container?.classList.remove('mirrored');
-      }
-    });
-  }
+  /** Handle Languages Changes */
+  onLanguageChange = () => {
+    if (this.isMirrored(this.icon)) {
+      this.container?.classList.add('mirrored');
+    } else {
+      this.container?.classList.remove('mirrored');
+    }
+  };
 
   /**
    * Create the Template for the contents
@@ -140,7 +104,32 @@ export default class IdsIcon extends Base {
    */
   iconData(): string {
     const icon = this.icon;
-    return emptyIconPathData[icon] || pathData[icon] || customIcons[icon] || '';
+    const data = emptyIconPathData[icon] || pathData[icon] || (IdsIcon.customIconData ? (IdsIcon.customIconData as any)[icon] : '') || '';
+    if (data === '') this.setAttribute('custom', '');
+    return data;
+  }
+
+  /** Holds the static single instance of custom icon data */
+  static customIconJsonData?: object = undefined;
+
+  /**
+   * Set the static custom icon instance
+   */
+  static set customIconData(json: object | undefined) {
+    this.customIconJsonData = json;
+    querySelectorAllShadowRoot('ids-icon[custom]').forEach((elem: any) => {
+      // eslint-disable-next-line no-self-assign
+      elem.icon = elem.icon;
+      elem.removeAttribute('custom');
+    });
+  }
+
+  /**
+   * Get the static custom icon instance
+   * @returns {object} the icon json for custom icons
+   */
+  static get customIconData(): object | undefined {
+    return this.customIconJsonData;
   }
 
   /**
@@ -238,7 +227,7 @@ export default class IdsIcon extends Base {
       'unsubscribe',
     ];
 
-    if (this.locale?.isRTL() && mirroredIcons.includes(iconName)) {
+    if (this.localeAPI?.isRTL() && mirroredIcons.includes(iconName)) {
       return true;
     }
     return false;
@@ -360,19 +349,20 @@ export default class IdsIcon extends Base {
    */
   set icon(value: string | null) {
     const svgElem = this.shadowRoot?.querySelector('svg');
-    const isPathData = pathData.hasOwnProperty(value ?? '');
-    const isEmptyPathData = emptyIconPathData.hasOwnProperty(value ?? '');
-    const isCustomPathData = customIcons.hasOwnProperty(value ?? '');
-
-    if (value && (isPathData || isEmptyPathData || isCustomPathData)) {
+    if (value) {
       this.setAttribute(attributes.ICON, value);
+    } else {
+      this.removeAttribute(attributes.ICON);
+    }
+    const iconData = this.iconData();
+
+    if (value && iconData) {
       if (svgElem) {
         svgElem.style.display = '';
         svgElem.innerHTML = this.iconData();
       }
-    } else {
-      this.removeAttribute(attributes.ICON);
-      if (svgElem) svgElem.style.display = 'none';
+    } else if (svgElem) {
+      svgElem.style.display = 'none';
     }
   }
 

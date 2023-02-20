@@ -1,8 +1,8 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsElement from '../../core/ids-element';
 
-import Base from './ids-layout-flex-item-base';
 import styles from './ids-layout-flex-item.scss';
 
 // List of flex item options
@@ -19,7 +19,7 @@ export const FLEX_ITEM_OPTIONS = {
  */
 @customElement('ids-layout-flex-item')
 @scss(styles)
-export default class IdsLayoutFlexItem extends Base {
+export default class IdsLayoutFlexItem extends IdsElement {
   constructor() {
     super();
   }

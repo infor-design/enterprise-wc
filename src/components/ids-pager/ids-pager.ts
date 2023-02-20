@@ -1,9 +1,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import Base from './ids-pager-base';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 
 import './ids-pager-button';
 import './ids-pager-dropdown';
@@ -13,6 +14,12 @@ import './ids-pager-number-list';
 import type IdsPagerDropdown from './ids-pager-dropdown';
 
 import styles from './ids-pager.scss';
+
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Pager Component
@@ -24,6 +31,10 @@ import styles from './ids-pager.scss';
 @customElement('ids-pager')
 @scss(styles)
 export default class IdsPager extends Base {
+  readonly DEFAULT_STEP = 3;
+
+  readonly DEFAULT_PAGE_SIZE = 10;
+
   constructor() {
     super();
   }
@@ -80,9 +91,8 @@ export default class IdsPager extends Base {
     if (shouldRerender) {
       if (oldValue !== newValue) {
         this.connectedCallback();
+        this.#syncChildren(name, newValue);
       }
-
-      this.#syncChildren(name, newValue);
     }
   }
 
@@ -129,7 +139,10 @@ export default class IdsPager extends Base {
 
     this.offEvent('pagenumberchange', this);
     this.onEvent('pagenumberchange', this, (event: CustomEvent) => {
-      this.pageNumber = Number(event.detail.value);
+      const val = stringToNumber(event.detail.value);
+      if (!Number.isNaN(val) && val !== this.pageNumber) {
+        this.pageNumber = Number(event.detail.value);
+      }
     });
 
     this.offEvent('pagesizechange', this);
@@ -149,6 +162,7 @@ export default class IdsPager extends Base {
       'ids-pager-input',
       'ids-pager-number-list',
       'ids-pager-button',
+      'ids-pager-dropdown',
     ].join(', ');
 
     const pagerChildren = [
@@ -185,31 +199,37 @@ export default class IdsPager extends Base {
 
   /** @param {number} value The number of items shown per page */
   set pageSize(value: number) {
-    let val = Number.parseInt(value as any);
-    if (Number.isNaN(val) || val < 1) val = 1;
+    const val = this.#validPageSize(value);
     this.setAttribute(attributes.PAGE_SIZE, String(val));
     this.#keepPageNumberInBounds();
   }
 
   /** @returns {number} The number of items shown per page */
   get pageSize(): number {
-    return Math.max(parseInt(this.getAttribute(attributes.PAGE_SIZE) ?? '') || 1, 1);
+    return this.#validPageSize(this.getAttribute(attributes.PAGE_SIZE));
+  }
+
+  /**
+   * Check given page size value, if not a number return default
+   * @private
+   * @param {number | string | null} value The value
+   * @returns {number} Given value or default
+   */
+  #validPageSize(value?: number | string | null): number {
+    const val = stringToNumber(value);
+    return !Number.isNaN(val) && val > 0 ? val : this.DEFAULT_PAGE_SIZE;
   }
 
   /** @param {number} value A 1-based index for the page number displayed */
   set pageNumber(value: number | string) {
-    let nextValue = Number.parseInt((value as any));
-
-    if (Number.isNaN(nextValue)) {
-      nextValue = 1;
-    } else if (nextValue <= 1) {
-      nextValue = 1;
-    } else {
-      const pageCount = Math.ceil(this.total / this.pageSize);
-      nextValue = Math.min(nextValue, pageCount);
+    const pageNumber = this.pageNumber;
+    const pageCount = this.pageCount;
+    let val = stringToNumber(value);
+    if (val !== pageNumber || (pageNumber < 1) || (pageCount && pageCount < pageNumber)) {
+      if (Number.isNaN(val) || val < 1) val = 1;
+      else if (pageCount) val = Math.min(val, pageCount);
+      this.setAttribute(attributes.PAGE_NUMBER, String(val));
     }
-
-    this.setAttribute(attributes.PAGE_NUMBER, String(nextValue));
   }
 
   /** @returns {number} value A 1-based-index for the page number displayed */
@@ -229,32 +249,31 @@ export default class IdsPager extends Base {
    * @param {number|string} value The number of steps
    */
   set step(value: number | string) {
-    this.setAttribute(attributes.STEP, String(value));
+    const val = stringToNumber(value);
+    if (!Number.isNaN(val)) {
+      this.setAttribute(attributes.STEP, String(val));
+      return;
+    }
+    this.removeAttribute(attributes.STEP);
   }
 
   /** @returns {number|string} value The number of steps */
   get step(): number | string {
-    return Number(this.getAttribute(attributes.STEP)) || 0;
+    const val = stringToNumber(this.getAttribute(attributes.STEP));
+    return (!Number.isNaN(val)) ? val : this.DEFAULT_STEP;
   }
 
   /** @param {number} value The number of items to track */
   set total(value) {
-    let nextValue;
-    if (Number.isNaN(Number.parseInt(value as any))) {
-      nextValue = 1;
-    } else if (Number.parseInt(value as any) <= 0) {
-      nextValue = 1;
-    } else {
-      nextValue = Number.parseInt(value as any);
-    }
-
-    this.setAttribute(attributes.TOTAL, String(nextValue));
+    let val = stringToNumber(value);
+    if (Number.isNaN(val) || val < 1) val = 1;
+    this.setAttribute(attributes.TOTAL, String(val));
     this.#keepPageNumberInBounds();
   }
 
   /** @returns {number} The number of items the pager is tracking */
   get total(): number {
-    return Math.max(parseInt(this.getAttribute(attributes.TOTAL) ?? '') || 1, 1);
+    return stringToNumber(this.getAttribute(attributes.TOTAL));
   }
 
   /** @param {number} value The number of items to track */
@@ -280,6 +299,6 @@ export default class IdsPager extends Base {
       if (d.pageSize !== this.pageSize) d.pageSize = this.pageSize;
     });
 
-    if (val !== attrVal) this.setAttribute(attributes.PAGE_NUMBER, String(val));
+    if (val !== attrVal && !Number.isNaN(attrVal)) this.setAttribute(attributes.PAGE_NUMBER, String(val));
   }
 }

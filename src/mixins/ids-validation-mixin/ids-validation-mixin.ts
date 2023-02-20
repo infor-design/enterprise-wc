@@ -570,9 +570,9 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
           options.dateFormat = dateFormat;
         }
 
-        this.message = hostCompoment.locale.translate('InvalidDate', { showBrackets: false });
+        this.message = hostCompoment.localeAPI.translate('InvalidDate', { showBrackets: false });
 
-        const parsedDate = hostCompoment.locale.parseDate(val, options);
+        const parsedDate = hostCompoment.localeAPI.parseDate(val, options);
         return !(((parsedDate === undefined) && val !== ''));
       },
       message: 'Invalid Date',
@@ -587,14 +587,14 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
 
         if (!val) return true;
 
-        const defaultFormat = hostCompoment.locale.calendar(hostCompoment.locale.locale.name).timeFormat;
+        const defaultFormat = hostCompoment.localeAPI.calendar(hostCompoment.localeAPI.locale.name).timeFormat;
         const attrFormat = hostCompoment.format;
 
         const format = attrFormat || defaultFormat;
 
-        this.message = hostCompoment.locale.translate('InvalidTime', { showBrackets: false });
+        this.message = hostCompoment.localeAPI.translate('InvalidTime', { showBrackets: false });
 
-        const parsedTime = hostCompoment.locale.parseDate(val, { dateFormat: format, strictTime: true });
+        const parsedTime = hostCompoment.localeAPI.parseDate(val, { dateFormat: format, strictTime: true });
 
         return isValidDate(parsedTime);
       },

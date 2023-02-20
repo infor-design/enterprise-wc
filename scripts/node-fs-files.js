@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const NodeFsFiles = (dirPath = './', fileType = '', fileOptions = []) => {
+const fsFiles = (dirPath = './', fileType = '', fileOptions = []) => {
   // Return Files array
   const files = fs.readdirSync(dirPath);
   // Loop through files array
@@ -13,7 +13,7 @@ const NodeFsFiles = (dirPath = './', fileType = '', fileOptions = []) => {
     const objAssign = () => fileOptions[path.join(file.split('.')[0])] = path.join(dirPath, '/', file);
     // Check if `${dirPath}/${file}` is a folder or a file
     if (fs.statSync(`${dirPath}/${file}`).isDirectory()) {
-      fileOptions = NodeFsFiles(`${dirPath}/${file}`, fileType, fileOptions);
+      fileOptions = fsFiles(`${dirPath}/${file}`, fileType, fileOptions);
     } else {
       // Check if fileType is an empty string and return all files.
       if (fileType === '') {
@@ -24,7 +24,7 @@ const NodeFsFiles = (dirPath = './', fileType = '', fileOptions = []) => {
         }
       }
       // Check for specific file type if fileType does not equal emplty string.
-      if (file.split('.')[1] === fileType) {
+      if (file.substring(file.length - fileType.length, file.length) === fileType) {
         if (Array.isArray(fileOptions)) {
           arrPush();
         } else {
@@ -36,4 +36,4 @@ const NodeFsFiles = (dirPath = './', fileType = '', fileOptions = []) => {
   return fileOptions;
 };
 
-module.exports = NodeFsFiles;
+module.exports = fsFiles;

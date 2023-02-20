@@ -2,7 +2,13 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-import Base from './ids-tabs-base';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsOrientationMixin from '../../mixins/ids-orientation-mixin/ids-orientation-mixin';
+import IdsElement from '../../core/ids-element';
+
 import IdsHeader from '../ids-header/ids-header';
 import './ids-tab';
 import './ids-tab-more';
@@ -11,6 +17,18 @@ import type IdsTab from './ids-tab';
 import type IdsTabMore from './ids-tab-more';
 
 import styles from './ids-tabs.scss';
+
+const Base = IdsOrientationMixin(
+  IdsColorVariantMixin(
+    IdsKeyboardMixin(
+      IdsThemeMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Tabs Component

@@ -3,7 +3,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
-import Base from './ids-trigger-field-base';
+import IdsInput from '../ids-input/ids-input';
 
 import './ids-trigger-button';
 
@@ -19,7 +19,7 @@ import type IdsTriggerButton from './ids-trigger-button';
  */
 @customElement('ids-trigger-field')
 @scss(styles)
-export default class IdsTriggerField extends Base {
+export default class IdsTriggerField extends IdsInput {
   /**
    * Call the constructor and then initialize
    */
@@ -46,6 +46,7 @@ export default class IdsTriggerField extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#attachTriggerButtonEvents();
+    this.#setFieldHeight();
   }
 
   /**
@@ -219,6 +220,23 @@ export default class IdsTriggerField extends Base {
     this.onEvent('click.trigger-button', this, (e: CustomEvent) => {
       const btn = (e.target as IdsTriggerButton);
       if (btn) this.trigger();
+    });
+  }
+
+  /**
+   * Set field height and compact attributes
+   * @private
+   * @returns {void}
+   */
+  #setFieldHeight(): void {
+    const setAttr = (btn: IdsTriggerButton, attr: string, val: string) => {
+      if (this.hasAttribute(attr)) btn?.setAttribute(attr, val);
+      else btn?.removeAttribute(attr);
+    };
+
+    this.buttons?.forEach((btn) => {
+      setAttr(btn, attributes.COMPACT, '');
+      setAttr(btn, attributes.FIELD_HEIGHT, this.fieldHeight);
     });
   }
 

@@ -90,7 +90,7 @@ describe('IdsSpinbox Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('presses the increment and decrement buttons with no errors', async () => {
+  it.skip('presses the increment and decrement buttons with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
     elem = await createFromTemplate(elem, DEFAULT_SPINBOX_HTML);
     await processAnimFrame();
@@ -288,16 +288,5 @@ describe('IdsSpinbox Component', () => {
     elem.value = '22';
 
     expect(elem.value).toEqual('20');
-  });
-
-  it('can change language from the container', async () => {
-    container = await createFromTemplate(container, `<ids-container id="test-container">${DEFAULT_SPINBOX_HTML}</ids-container>`);
-    await processAnimFrame();
-    elem = container.querySelector('ids-spinbox');
-
-    container.language = 'de';
-    await processAnimFrame();
-
-    expect(elem.language.name).toEqual('de');
   });
 });

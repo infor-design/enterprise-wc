@@ -71,6 +71,9 @@
   - link: editable.html
     type: Example
     description: Shows a data grid with editable cells
+  - link: editable-row-click-selection.html
+    type: Example
+    description: Shows editable data grid with row click selection
   - link: editable-inline.html
     type: Example
     description: Shows a data grid with inline editable cells
@@ -101,6 +104,9 @@
   - link: multiple-selection.html
     type: Example
     description: Shows a data grid with multiple selection
+  - link: multiple-virtual-scroll.html
+    type: Example
+    description: Shows an example with multiple data grids on a page using virtual scroll
   - link: pagination-client-side.html
     type: Example
     description: Showing a data grid with client-side pagination

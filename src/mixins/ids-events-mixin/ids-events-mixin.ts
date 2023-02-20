@@ -247,12 +247,12 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
         target.dispatchEvent(event);
         this.clearTimer();
       }, options?.delay ? (options.delay as number) : 500);
-    });
+    }, { passive: true });
 
     this.onEvent('touchend.longpress', target, (e: TouchEvent) => {
       e.preventDefault();
       this.clearTimer();
-    });
+    }, { passive: true });
 
     this.longPressOn = true;
   }

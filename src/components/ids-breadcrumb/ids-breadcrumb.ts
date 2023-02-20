@@ -1,5 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import Base from './ids-breadcrumb-base';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
+
 import styles from './ids-breadcrumb.scss';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -12,6 +16,14 @@ import '../ids-popup-menu/ids-popup-menu';
 import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
 import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import type IdsMenuGroup from '../ids-menu/ids-menu-group';
+
+const Base = IdsThemeMixin(
+  IdsColorVariantMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS Breadcrumb Component

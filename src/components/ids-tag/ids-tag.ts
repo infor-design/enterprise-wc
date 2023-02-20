@@ -1,21 +1,33 @@
-import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { attributes } from '../../core/ids-attributes';
 
-import Base from './ids-tag-base';
-
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
 import styles from './ids-tag.scss';
 
-/**
- * IDS Tag Component
- * @type {IdsTag}
- * @inherits IdsElement
- * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
- * @part tag - the tag element
- * @part icon - the icon element
- */
+const Base = IdsThemeMixin(
+  IdsLocaleMixin(
+    IdsKeyboardMixin(
+      IdsEventsMixin(
+        IdsElement
+      )
+    )
+  )
+);
+  /**
+   * IDS Tag Component
+   * @type {IdsTag}
+   * @inherits IdsElement
+   * @mixes IdsEventsMixin
+   * @mixes IdsKeyboardMixin
+   * @mixes IdsThemeMixin
+   * @part tag - the tag element
+   * @part icon - the icon element
+   */
 @customElement('ids-tag')
 @scss(styles)
 export default class IdsTag extends Base {
@@ -39,6 +51,7 @@ export default class IdsTag extends Base {
    */
   static get attributes(): Array<string> {
     return [
+      ...super.attributes,
       attributes.COLOR,
       attributes.CLICKABLE,
       attributes.DISMISSIBLE,
@@ -57,7 +70,7 @@ export default class IdsTag extends Base {
 
   /**
    * Set the tag color
-   * @param {string|null} value The color value, this can be not provided,
+   * @param {string|null} value The color to use between
    * secondary (white), error, success, danger, caution or a hex code with the #
    */
   set color(value: string | null) {

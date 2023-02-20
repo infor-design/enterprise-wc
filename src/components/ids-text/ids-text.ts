@@ -2,9 +2,13 @@ import fontSizes from 'ids-identity/dist/theme-new/tokens/web/ui.config.font-siz
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-import Base from './ids-text-base';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-text.scss';
 
@@ -19,6 +23,18 @@ const TEXT_ALIGNMENTS = ['start', 'end', 'center', 'justify'];
 
 // Statuses
 const STATUSES = ['base', 'error', 'info', 'success', 'warning'];
+
+const Base = IdsColorVariantMixin(
+  IdsLocaleMixin(
+    IdsTooltipMixin(
+      IdsThemeMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Text Component
@@ -85,7 +101,12 @@ export default class IdsText extends Base {
     classList += (this.fontWeight === 'bold' || this.fontWeight === 'lighter')
       ? ` ${this.fontWeight}` : '';
 
+    const color = this.color;
+    const style = typeof color === 'string' && color !== 'unset' && color !== ''
+      ? ` style="color: var(--ids-color-palette-${this.color})"` : '';
+
     return `<${tag}
+      ${style}
       class="${classList}"
       mode="${this.mode}"
       part="text"
@@ -105,10 +126,9 @@ export default class IdsText extends Base {
    */
   #attachEventHandlers() {
     if (this.translateText) {
-      this.offEvent('languagechange.text-container');
-      this.onEvent('languagechange.text-container', getClosest((this as any), 'ids-container'), () => {
+      this.onLanguageChange = () => {
         this.#translateAsync();
-      });
+      };
     }
   }
 
@@ -189,21 +209,18 @@ export default class IdsText extends Base {
    * @param {string | null} value  "unset" or undefined/null
    */
   set color(value: string | null) {
-    if (value === 'unset') {
+    const unsetClass = 'ids-text-color-unset';
+    this.container?.classList.remove(unsetClass);
+
+    if (typeof value === 'string' && value !== '') {
       this.setAttribute(attributes.COLOR, value);
-      if (this.container) this.container.classList.add('ids-text-color-unset');
-      return;
-    }
-    if (typeof value === 'string') {
-      this.setAttribute(attributes.COLOR, value);
-      if (this.container) {
-        this.container.classList.remove('ids-text-color-unset');
-        this.container.style.color = `var(--ids-color-palette-${value})`;
-      }
+      if (value === 'unset') {
+        this.container?.classList.add(unsetClass);
+        this.container?.style.removeProperty('color');
+      } else this.container?.style.setProperty('color', `var(--ids-color-palette-${value})`);
       return;
     }
     this.removeAttribute(attributes.COLOR);
-    if (this.container) this.container.classList.remove('ids-text-color-unset');
   }
 
   get color(): string | null {
@@ -396,11 +413,11 @@ export default class IdsText extends Base {
   async #translateAsync() {
     const translationKey = this.getAttribute('translation-key');
 
-    if (!this.locale || !translationKey) {
+    if (!this.localeAPI || !translationKey) {
       return;
     }
 
-    await this.locale.setLanguage(this.locale.language.name);
-    this.textContent = this.locale.translate(translationKey);
+    await this.localeAPI.setLanguage(this.localeAPI.language.name);
+    this.textContent = this.localeAPI.translate(translationKey);
   }
 }

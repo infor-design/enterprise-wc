@@ -1,16 +1,15 @@
 const path = require('path');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const demoEntry = require('./scripts/webpack-dev-entry');
 const handleUpload = require('./scripts/handle-upload');
-const WebpackHtmlExamples = require('./scripts/webpack-html-templates');
+const htmlExamples = require('./scripts/webpack-html-templates');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 
 module.exports = {
   entry: demoEntry(),
   output: {
-    chunkFormat: 'module',
     path: path.resolve(__dirname, './build/development'),
     filename: '[name]/[name].js',
     assetModuleFilename: '[path][name][ext]',
@@ -20,7 +19,7 @@ module.exports = {
   mode: isProduction ? 'production' : 'development',
   optimization: {
     splitChunks: {
-      chunks: 'async'
+      chunks: 'all'
     },
   },
   resolve: {
@@ -48,17 +47,19 @@ module.exports = {
     // For fake file upload behavior
     setupMiddlewares: handleUpload
   },
-  devtool: 'cheap-module-source-map',
+  devtool: 'eval-source-map', // cheap-module-source-map -> original eval-cheap-module-source-map -> works but has csp errors
   module: {
     rules: [
       {
         test: /\.ts?$/,
         use: [
           {
-            loader: 'ts-loader',
+            loader: 'esbuild-loader',
             options: {
-              transpileOnly: true,
-            }
+              loader: 'ts',
+              format: 'esm',
+              target: 'es2022'
+            },
           }
         ],
         exclude: [/node_modules/],
@@ -112,9 +113,21 @@ module.exports = {
     ]
   },
   plugins: [
-    new BundleAnalyzerPlugin({
-      analyzerMode: process.env.npm_lifecycle_event === 'build:dev:stats' ? 'server' : 'disabled',
-      reportFilename: 'dev-build-report.html'
-    })
-  ].concat(WebpackHtmlExamples)
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './src/components/ids-locale/data/*.ts',
+          to({ absoluteFilename }) {
+            const baseName = path.basename(absoluteFilename);
+            const folders = path.dirname(absoluteFilename).split(path.sep);
+            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
+            filePath = filePath
+              .replace('ids-locale/data/', 'locale-data/')
+              .replace('ts', 'js');
+            return filePath;
+          }
+        }
+      ]
+    }),
+  ].concat(htmlExamples)
 };

@@ -265,7 +265,7 @@ To cancel or disabled editing there are a few ways:
 
 The following settings are available on editors.
 
-`type` As of now can be `checkbox`, `input`, or `dropdown` but more will be added.
+`type` As of now can be `checkbox`, `input`, `datepicker`, `timepicker`, or `dropdown` but more will be added.
 `inline` Default is false. If true the editor (for example an input) will be visible in a field.
 `editorSettings` Is an object that is loosely typed that lets you pass any option the editor supports in. For example any of the IdsInput or IdsCheckbox options can be passing in. Some special ones are:
 `editorSettings.autoselect` Text will be selected when entering edit mode
@@ -297,6 +297,7 @@ There are a few utility functions for editing the data grid mentioned in the Met
 When used as an attribute in the DOM the settings are kebab case, when used in JS they are camel case.
 
 - `virtualScroll` {boolean} When virtual scroll is used the grid can render many thousands of rows and only the rows visible in the scroll area are rendered for performance. This setting has limitations such as the rows need to be fixed size.
+- `addNewAtEnd` {boolean} Automatically append rows while keyboard navigating data grid in edit mode.
 - `alternateRowShading` {boolean} For better scan-ability you can shade alternate rows.
 - `listStyle` {boolean} Sets the style of the grid to list style for simple readonly lists.
 - `columns` {Array<object>} Sets the columns array of the data grid. See column settings.
@@ -394,6 +395,16 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 | `hyperlink` | Displays an `ids-hyperlink`. Other column settings like `href` can be used to set the link href and `text` can be used to set the text to specific text. Use the `click` setting/function to get an callback handler. |
 | `checkbox` | Displays an `ids-checkbox`. The value will be checked depending on if the attached field is true or `"true"`. |
 | `badge` | Displays an `ids-badge`. The associated field will be placed in the badge. The `color` option can also be set to set the ids-badge color setting. |
+| `alert` | Displays `ids-alert` element, and the field value will appear in a tooltip. An `icon` option can be provided as an override.|
+| `color` | Displays `ids-color` element. If a `color` option is provided as an override, the field's value will appear in a tooltip. |
+| `icon` | Displays the field value as an `ids-icon`. An `icon` option can be provided as an override, and the field value will appear beside this `icon` override. A `size` option can also be provided. |
+| `favorite` | Displays the field value as a `star-filled` if truthy or `star-outlined` if false. A `size` option can be provided as an override. |
+| `tag` | Displays the field value as an `ids-tag`. A `color` option can be provdied as an override. |
+| `progress` | Displays the field value as an `ids-progress`. A `text` option can be provided to customize the label. A `color` and `max` option can be provided as overrides. |
+| `rating` | Displays the field value as an `ids-rating`. A `text` option can be provided to customize the label. A `color` and `max` option can be provided as overrides. |
+| `slider` | Displays the field value as an `ids-slider`. A `text` option can be provided to customize the label. A `color`, `max`, `min` and `type` option can be provided as overrides. |
+| `stepChart` | Displays the field value as an `ids-step-chart`. A `text` option can be provided to customize the label. A `color` and `max` option can be provided as overrides. |
+| `image` | Displays the field value as an `ids-image`. A `text` option can be provided to the `alt` and `title` attributes. |
 
 ### Deprecated Formatters (Deprecated from 4.x)
 
@@ -486,12 +497,13 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `saveSetting(setting: string)` Save the given setting to local storage.
 - `saveAllSettings` Save all user settings to local storage.
 - `savedSetting(setting: string)` Get saved given setting value from local storage.
-- `savedAllSettings` Get saved all user settings from local storage.
+- `allSavedSettings` Get saved all user settings from local storage.
 - `clearSetting(setting: string, key?: string)` Clear the given saved setting from local storage.
 - `clearAllSettings(userKeys: unknown)` Clear saved all user settings from local storage.
 - `restoreSetting(setting: string, value?: unknown)` Restore the given saved setting from local storage.
 - `editFirstCell` Puts the first cell on the active row into edit mode.
-- `addRow(data: Record<string, unknown>)` Adds a new row and defaults the values to all those provided in the data
+- `addRow(data: Record<string, unknown>, index?: number)` Adds a new row at optional row index and defaults the values to all those provided in the data
+- `addRows(data: Array<Record<string, unknown>>, index?: number)` Adds multiple new rows at optional row index and defaults the values to all those provided in the data
 - `removeRow(index: number)` Removed the provided row index from the dataset and visual datagrid
 - `clearRow(index: number)` Clears all values on the given row.
 - `commitCellEdit` Stops editing and commits the value in the active editor.

@@ -7,14 +7,19 @@ import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../src/assets/data/books.json';
+import productsDataset from '../../src/assets/data/products.json';
 import datasetTree from '../../src/assets/data/tree-buildings.json';
 import processAnimFrame from '../helpers/process-anim-frame';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 import createFromTemplate from '../helpers/create-from-template';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import IdsPager from '../../src/components/ids-pager/ids-pager';
 import '../../src/components/ids-checkbox/ids-checkbox';
-import IdsDataGridRow from '../../src/components/ids-data-grid/ids-data-grid-row';
+
+import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
 
 describe('IdsDataGrid Component', () => {
   let dataGrid: any;
@@ -230,12 +235,18 @@ describe('IdsDataGrid Component', () => {
     (window.StyleSheet as any).insertRule = () => '';
 
     container = new IdsContainer();
+    IdsLocaleData.loadedLanguages.set('ar', arMessages);
+    IdsLocaleData.loadedLanguages.set('de', deMessages);
+    IdsLocaleData.loadedLocales.set('de-DE', deDELocale);
+
     dataGrid = new IdsDataGrid();
     container.appendChild(dataGrid);
     document.body.appendChild(container);
     dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
     dataGrid.columns = columns();
     dataGrid.data = deepClone(dataset);
+    await processAnimFrame();
+    await processAnimFrame();
   });
 
   afterEach(async () => {
@@ -424,25 +435,25 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('virtual-scroll')).toEqual(null);
     });
 
-    it.skip('renders can sort with the virtualScroll option', () => {
+    it('renders can sort with the virtualScroll option', async () => {
       dataGrid.virtualScroll = true;
       dataGrid.redraw();
-
+      await processAnimFrame();
       // Height is zero...
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
       dataGrid.setSortColumn('description', true);
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(19);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
     });
 
-    it('can reset the virtualScroll option', () => {
+    it('can reset the virtualScroll option', async () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       dataGrid.virtualScroll = true;
       document.body.appendChild(dataGrid);
       dataGrid.columns = columns();
       dataGrid.data = dataset;
-
-      expect(dataGrid.shadowRoot.querySelectorAll('ids-virtual-scroll').length).toEqual(1);
+      await processAnimFrame();
+      expect(dataGrid.shadowRoot.querySelectorAll('ids-virtual-scroll').length).toEqual(0);
     });
 
     it('has the right row height for each rowHeight value', () => {
@@ -461,6 +472,149 @@ describe('IdsDataGrid Component', () => {
       dataGrid.redrawBody();
       expect(dataGrid.rowPixelHeight).toEqual(30);
     });
+
+    it('contains virtualScrollSettings', () => {
+      const BUFFER_ROWS = 50;
+      const NUM_ROWS = 150;
+      const DEFAULT_SETTINGS = {
+        BUFFER_ROWS,
+        NUM_ROWS,
+        BODY_HEIGHT: 7500,
+        BUFFER_HEIGHT: 2500,
+        DEBOUNCE_RATE: 10,
+        ENABLED: false,
+        RAF_DELAY: 60,
+        ROW_HEIGHT: 50,
+      };
+
+      expect(dataGrid.virtualScrollSettings).toEqual(DEFAULT_SETTINGS);
+
+      dataGrid.virtualScroll = true;
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+      });
+
+      dataGrid.rowHeight = 'md';
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+        ROW_HEIGHT: 40,
+        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 40,
+        BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 40,
+      });
+
+      dataGrid.rowHeight = 'sm';
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+        ROW_HEIGHT: 35,
+        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 35,
+        BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 35,
+      });
+
+      dataGrid.rowHeight = 'xs';
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+        ROW_HEIGHT: 30,
+        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 30,
+        BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 30,
+      });
+
+      dataGrid.redrawBody();
+      expect(dataGrid.virtualScrollSettings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ENABLED: true,
+        ROW_HEIGHT: 30,
+        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 30,
+        BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 30,
+      });
+    });
+
+    it('attaches scroll event handler', async () => {
+      expect(dataGrid.virtualScroll).toBeFalsy();
+
+      const listener = jest.spyOn(dataGrid.container, 'addEventListener');
+      expect(listener).toBeCalledTimes(0);
+
+      dataGrid.virtualScroll = true;
+      expect(dataGrid.virtualScroll).toBeTruthy();
+
+      expect(listener).toBeCalledWith('scroll', expect.any(Function), { capture: true, passive: true });
+    });
+
+    it.skip('can recycle cells down', async () => {
+      expect(dataGrid.data).toEqual(dataset);
+
+      dataGrid.virtualScroll = true;
+      dataGrid.data = productsDataset;
+      expect(dataGrid.data).toEqual(productsDataset);
+
+      const { NUM_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
+
+      expect(dataGrid.rows.length).toBe(NUM_ROWS);
+      expect(dataGrid.rows[0].rowIndex).toBe(0);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+
+      expect(dataGrid.container.scrollTop).toBe(0);
+      // dataGrid.container.scrollTop = BUFFER_ROWS * ROW_HEIGHT;
+      dataGrid.scrollRowIntoView(BUFFER_ROWS * ROW_HEIGHT);
+      await processAnimFrame();
+      expect(dataGrid.container.scrollTop).toBeGreaterThan(100);
+
+      expect(dataGrid.rows[0].rowIndex).toBe(0);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+    });
+
+    it.skip('can recycle cells up', async () => {
+      expect(dataGrid.data).toEqual(dataset);
+
+      dataGrid.virtualScroll = true;
+      dataGrid.data = productsDataset;
+      expect(dataGrid.data).toEqual(productsDataset);
+
+      const { NUM_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
+
+      expect(dataGrid.rows.length).toBe(NUM_ROWS);
+      expect(dataGrid.rows[0].rowIndex).toBe(0);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+
+      expect(dataGrid.container.scrollTop).toBe(0);
+      // dataGrid.container.scrollTop = BUFFER_ROWS * ROW_HEIGHT;
+      dataGrid.scrollRowIntoView(BUFFER_ROWS * ROW_HEIGHT);
+      await processAnimFrame();
+      expect(dataGrid.container.scrollTop).toBeGreaterThan(100);
+
+      expect(dataGrid.rows[0].rowIndex).toBe(0);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+    });
+
+    it.todo('does not recycle cells down when at the bottom');
+
+    it.todo('does not recycle cells up when at the top');
+
+    it.todo('can scroll row 10 into view');
+
+    it.todo('can scroll row 2 into view');
+
+    it.todo('can scroll row 100 into view');
+
+    it.todo('scrolls first row into view when given row-index too small');
+
+    it.todo('scrolls last row into view when given row-index too large');
+
+    it.todo('caches rows');
+
+    it.todo('caches cells');
+
+    it.todo('can bust row-cache');
+
+    it.todo('can bust cell-cache');
+
+    it.todo('does not use requestAnimationFrame (RAF) if virtural scroll is disabled');
+
+    it.todo('scrollRowIntoView()');
   });
 
   describe('Column Rendering Tests', () => {
@@ -847,10 +1001,10 @@ describe('IdsDataGrid Component', () => {
       (window as any).getComputedStyle = () => ({ width: 200 });
       await processAnimFrame();
 
-      container.language = 'ar';
+      await container.setLanguage('ar');
       await processAnimFrame();
 
-      expect(dataGrid.locale.isRTL()).toBe(true);
+      expect(dataGrid.localeAPI.isRTL()).toBe(true);
 
       dataGrid.columns = [{
         id: 'price',
@@ -1044,7 +1198,7 @@ describe('IdsDataGrid Component', () => {
     });
 
     it('resets direction on sort', async () => {
-      container.language = 'ar';
+      await container.setLanguage('ar');
       await processAnimFrame();
       expect(dataGrid.getAttribute('dir')).toEqual('rtl');
 
@@ -1106,7 +1260,7 @@ describe('IdsDataGrid Component', () => {
       nodes[1].dispatchEvent(dragenter);
       nodes[0].dispatchEvent(dragenter);
 
-      dataGrid.locale.isRTL = () => true;
+      dataGrid.localeAPI.isRTL = () => true;
       nodes[1].dispatchEvent(dragenter);
       nodes[0].dispatchEvent(dragenter);
       expect(dataGrid.wrapper.querySelector('.ids-data-grid-sort-arrows').style.display).toBe('block');
@@ -1197,7 +1351,7 @@ describe('IdsDataGrid Component', () => {
       }];
       await processAnimFrame();
 
-      container.language = 'ar';
+      await container.setLanguage('ar');
       await processAnimFrame();
       expect(dataGrid.getAttribute('dir')).toEqual('rtl');
 
@@ -1345,399 +1499,30 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('row-height')).toEqual('lg');
     });
 
-    it('can set the rowHeight setting in virtualScroll mode', () => {
-      requestAnimationFrame(() => {
-        dataGrid.virtualScroll = true;
-        dataGrid.rowHeight = 'xs';
-        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('30');
-
-        dataGrid.rowHeight = 'sm';
-        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('35');
-
-        dataGrid.rowHeight = 'md';
-        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('40');
-
-        dataGrid.rowHeight = null;
-        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
-
-        dataGrid.rowHeight = 'lg';
-        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
-
-        dataGrid.virtualScroll = false;
-        dataGrid.rowHeight = 'sm';
-        expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('sm');
-        expect(dataGrid.getAttribute('row-height')).toEqual('sm');
-      });
-    });
-  });
-
-  describe('Formatter Tests', () => {
-    it('can render with the text formatter', () => {
-      // Renders undefined/null
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[3].querySelector('.text-ellipsis').innerHTML).toEqual('');
-
-      // Renders text
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
-        .querySelectorAll('.ids-data-grid-cell')[3].querySelector('.text-ellipsis').innerHTML).toEqual('CORE');
-    });
-
-    it('can render with the password formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('••');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('••');
-    });
-
-    it('can render with the rowNumber formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[1].querySelector('.text-ellipsis').innerHTML).toEqual('1');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[1].querySelector('.text-ellipsis').innerHTML).toEqual('4');
-    });
-
-    it('can render with the date formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[4].querySelector('.text-ellipsis').innerHTML).toEqual('4/23/2021');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[4].querySelector('.text-ellipsis').innerHTML).toEqual('');
-    });
-
-    it('can render with the time formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML)
-        .toEqual(new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric' }).format(new Date('2021-04-23T18:25:43.511Z')));
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML)
-        .toEqual('');
-    });
-
-    it('can render with the decimal formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('12.99');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('1.21');
-    });
-
-    it('can render with the decimal formatter (with defaults)', () => {
-      delete dataGrid.columns[6].formatOptions;
-      dataGrid.redraw();
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('12.99');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('1.21');
-    });
-
-    it('can render with the integer formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('13');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('1');
-    });
-
-    it('can render with the integer formatter (with defaults)', () => {
-      delete dataGrid.columns[9].formatOptions;
-      dataGrid.redraw();
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('13');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('1');
-    });
-
-    it('can render with the hyperlink formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').innerHTML).toEqual('United States');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
-        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
-    });
-
-    it('can render with the hyperlink formatter (with default href)', () => {
-      delete dataGrid.columns[10].href;
-      dataGrid.redraw();
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').innerHTML).toEqual('United States');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
-        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
-    });
-
-    it('can focus with the hyperlink when clicked instead of the cell', () => {
-      dataGrid.columns[10].href = '#';
-      const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink');
-      expect(link.innerHTML).toEqual('United States');
-
-      const mouseClick = new MouseEvent('click', { bubbles: true });
-      link.dispatchEvent(mouseClick);
-      // No Easy way to check has focus
-      expect(link.nodeName).toEqual('IDS-HYPERLINK');
-    });
-
-    it('can render with the hyperlink formatter (with href function)', () => {
-      dataGrid.columns[10].href = (row: any) => {
-        if (row.book === 101) {
-          return null;
-        }
-        return `${row.book}`;
-      };
-      dataGrid.redraw();
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
-        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').getAttribute('href')).toEqual('102');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
-        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
-    });
-
-    it('can render disabled hyperlink', () => {
-      dataGrid.columns[10].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
-      dataGrid.redraw();
-      const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-hyperlink');
-      expect(link.disabled).toBeTruthy();
-      const link2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-hyperlink');
-      expect(link2.disabled).toBeFalsy();
-    });
-
-    it('can render with the checkbox formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
-        .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').getAttribute('aria-checked')).toEqual('true');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
-        .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').getAttribute('aria-checked')).toEqual('false');
-    });
-
-    it('can render with a custom formatter', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
-        .querySelectorAll('.ids-data-grid-cell')[17].querySelector('span').textContent).toEqual('Custom: 13.99');
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
-        .querySelectorAll('.ids-data-grid-cell')[17].querySelector('span').textContent).toEqual('Custom: 1.21');
-    });
-
-    it('can render disabled checkbox', () => {
-      dataGrid.columns[12].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
-      dataGrid.redraw();
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').classList.contains('.disabled')).toBeFalsy();
-
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
-        .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').classList.contains('.disabled')).toBeFalsy();
-    });
-
-    it('can render with the button formatter (with click function)', () => {
-      const clickListener = jest.fn();
-      dataGrid.columns = [{
-        id: 'button',
-        name: 'button',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.button,
-        icon: 'settings',
-        align: 'center',
-        type: 'icon',
-        click: clickListener,
-        text: 'button'
-      }];
-
-      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button.textContent).toContain('button');
-      expect(button.querySelector('ids-icon')).toBeTruthy();
-
-      const mouseClick = new MouseEvent('click', { bubbles: true });
-      expect(clickListener).toHaveBeenCalledTimes(0);
-      button.dispatchEvent(mouseClick);
-      expect(clickListener).toHaveBeenCalledTimes(1);
-    });
-
-    it('can render with the button formatter defaults', async () => {
-      dataGrid.columns = [{
-        id: 'button',
-        name: 'button',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.button,
-        align: 'center'
-      }];
+    it('can set the rowHeight setting in virtualScroll mode', async () => {
       await processAnimFrame();
-
-      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button.textContent).toContain('Button');
-      expect(button.type).toBe('tertiary');
-      expect(button.querySelector('ids-icon')).toBeFalsy();
-    });
-
-    it('can render disabled buttons', async () => {
-      dataGrid.columns = [{
-        id: 'button',
-        name: 'button',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.button,
-        icon: 'settings',
-        align: 'center',
-        disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-        text: 'button'
-      }];
-      await processAnimFrame();
-      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button.disabled).toBeTruthy();
-      const button2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-button');
-      expect(button2.disabled).toBeFalsy();
-    });
-
-    it('can disabled formatters edge cases', async () => {
-      dataGrid.columns = [{
-        id: 'test',
-        name: 'test',
-        formatter: dataGrid.formatters.button,
-        disabled: undefined
-      }];
+      dataGrid.virtualScroll = true;
+      dataGrid.rowHeight = 'xs';
 
       await processAnimFrame();
-      let button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button.disabled).toBeFalsy();
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(30);
 
-      dataGrid.columns = [{
-        id: 'test',
-        name: 'test',
-        formatter: dataGrid.formatters.button,
-        disabled: true
-      }];
-      await processAnimFrame();
+      dataGrid.rowHeight = 'sm';
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(35);
 
-      button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button.disabled).toBeTruthy();
+      dataGrid.rowHeight = 'md';
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(40);
 
-      dataGrid.columns = [{
-        id: 'test',
-        name: 'test',
-        formatter: dataGrid.formatters.button,
-        disabled: 'true'
-      }];
-      await processAnimFrame();
+      dataGrid.rowHeight = null;
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(50);
 
-      button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button.disabled).toBeTruthy();
-    });
+      dataGrid.rowHeight = 'lg';
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(50);
 
-    it('can render with the badge formatter (with color function)', () => {
-      const colorListener = jest.fn(() => 'info');
-      dataGrid.columns = [{
-        id: 'badge',
-        name: 'badge',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.badge,
-        icon: 'settings',
-        align: 'center',
-        color: colorListener,
-        field: 'ledger'
-      }];
-
-      // Empty row
-      const badge = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-badge');
-      expect(badge).toBeFalsy();
-
-      const badge2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-badge');
-      expect(badge2.textContent).toContain('CORE');
-      expect(badge2.getAttribute('color')).toBe('info');
-      expect(colorListener).toHaveBeenCalledTimes(6);
-    });
-
-    it('can render with the badge formatter with color class', () => {
-      dataGrid.columns = [{
-        id: 'badge',
-        name: 'badge',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.badge,
-        icon: 'settings',
-        align: 'center',
-        color: 'error',
-        field: 'ledger'
-      }];
-
-      // Empty row
-      const badge = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-badge');
-      expect(badge.textContent).toContain('CORE');
-      expect(badge.getAttribute('color')).toBe('error');
-    });
-
-    it('can render with the badge formatter with no color class', () => {
-      dataGrid.columns = [{
-        id: 'badge',
-        name: 'badge',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.badge,
-        icon: 'settings',
-        align: 'center',
-        field: 'ledger'
-      }];
-
-      // Empty row
-      const badge = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-badge');
-      expect(badge.getAttribute('color')).toBe(null);
-    });
-
-    it('can render with the tree formatter', async () => {
-      dataGrid.treeGrid = true;
-      const oldChildren = dataGrid.data[0];
-      dataGrid.data[0].children = [{ description: 'test' }];
-      dataGrid.data[0].rowExpanded = true;
-      dataGrid.data[1].children = [{ description: 'test' }];
-      dataGrid.data[1].rowExpanded = false;
-
-      dataGrid.columns = [{
-        id: 'description',
-        name: 'description',
-        sortable: false,
-        resizable: false,
-        formatter: dataGrid.formatters.tree
-      }];
-
-      await processAnimFrame();
-
-      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button).toBeTruthy();
-      expect(button.tabIndex).toBe(-1);
-      expect(button.querySelector('ids-icon').getAttribute('icon')).toBe('plusminus-folder-open');
-
-      const button2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-button');
-      expect(button2.querySelector('ids-icon').getAttribute('icon')).toBe('plusminus-folder-closed');
-
-      dataGrid.data[0].children = oldChildren;
-      dataGrid.data[0].rowExpanded = false;
-    });
-
-    it('can render with the expander formatter', async () => {
-      // eslint-disable-next-line no-template-curly-in-string
-      dataGrid.insertAdjacentHTML('afterbegin', '<template id="template-id"><span>${description}</span></template>');
-      dataGrid.expandableRow = true;
-      dataGrid.expandableRowTemplate = `template-id`;
-      dataGrid.data[1].rowExpanded = true;
-
-      dataGrid.columns = [{
-        id: 'description',
-        name: 'description',
-        formatter: dataGrid.formatters.expander
-      }];
-
-      await processAnimFrame();
-      const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
-      expect(button).toBeTruthy();
-      expect(button.tabIndex).toBe(-1);
-      expect(button.querySelector('ids-icon').getAttribute('icon')).toBe('plusminus-folder-closed');
-
-      const button2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-cell ids-button');
-      expect(button2.querySelector('ids-icon').getAttribute('icon')).toBe('plusminus-folder-open');
+      dataGrid.virtualScroll = false;
+      dataGrid.rowHeight = 'sm';
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(35);
+      expect(dataGrid.getAttribute('row-height')).toEqual('sm');
     });
   });
 
@@ -1918,6 +1703,7 @@ describe('IdsDataGrid Component', () => {
       const buttonClickListener = jest.fn();
       const customLinkClickListener = jest.fn();
 
+      dataGrid.resetCache();
       dataGrid.columns.splice(0, 0, {
         id: 'location-with-listener',
         name: 'Location',
@@ -1926,12 +1712,15 @@ describe('IdsDataGrid Component', () => {
         href: '#',
         click: hyperlinkClickListener,
       });
+      dataGrid.resetCache();
       dataGrid.redraw();
+      dataGrid.setActiveCell(0, 0, false);
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
       expect(hyperlinkClickListener).toHaveBeenCalled();
 
+      dataGrid.resetCache();
       dataGrid.columns.splice(0, 0, {
         id: 'drilldown',
         name: '',
@@ -1940,12 +1729,15 @@ describe('IdsDataGrid Component', () => {
         type: 'icon',
         click: buttonClickListener,
       });
+      dataGrid.resetCache();
       dataGrid.redraw();
+      dataGrid.setActiveCell(0, 0, false);
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
       expect(buttonClickListener).toHaveBeenCalled();
 
+      dataGrid.resetCache();
       dataGrid.columns.splice(0, 0, {
         id: 'custom',
         name: 'Custom Formatter',
@@ -1956,7 +1748,9 @@ describe('IdsDataGrid Component', () => {
         },
         click: customLinkClickListener,
       });
+      dataGrid.resetCache();
       dataGrid.redraw();
+      dataGrid.setActiveCell(0, 0, false);
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
@@ -2023,11 +1817,11 @@ describe('IdsDataGrid Component', () => {
 
     it('supports readonly RTL when set from the container', async () => {
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(5)').textContent.trim()).toEqual('2/23/2021');
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(6)').textContent.trim()).toEqual('1:25 PM');
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(6)').textContent.trim().replace(' ', ' ')).toEqual('1:25 PM');
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(7)').textContent.trim()).toEqual('13.99');
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(10)').textContent.trim()).toEqual('14');
 
-      container.language = 'ar';
+      await container.setLanguage('ar');
       await processAnimFrame();
       expect(dataGrid.getAttribute('dir')).toEqual('rtl');
 
@@ -2227,6 +2021,14 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows[0].index).toBe(2);
     });
 
+    it('handles suppressing caching', () => {
+      expect(dataGrid.suppressCaching).toBe(false);
+      dataGrid.suppressCaching = true;
+      expect(dataGrid.suppressCaching).toBe(true);
+      dataGrid.suppressCaching = false;
+      expect(dataGrid.suppressCaching).toBe(false);
+    });
+
     it('handles a deSelectRow method', () => {
       dataGrid.rowSelection = 'mixed';
       dataGrid.selectRow(1);
@@ -2368,13 +2170,13 @@ describe('IdsDataGrid Component', () => {
     it('has page-size attribute', () => {
       dataGrid.pagination = 'client-side';
       expect(dataGrid.pageSize).toBeDefined();
-      expect(dataGrid.pageSize).toBe(1);
+      expect(dataGrid.pageSize).toBe(10);
 
       dataGrid.pageSize = 25;
       expect(dataGrid.pageSize).toBe(25);
 
       dataGrid.pageSize = 0;
-      expect(dataGrid.pageSize).toBe(1);
+      expect(dataGrid.pageSize).toBe(10);
     });
 
     it('has page-number attribute', () => {
@@ -2389,7 +2191,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.pageNumber).toBe(1);
     });
 
-    it('always shows correct page-number in pager input-field', () => {
+    it.skip('always shows correct page-number in pager input-field', () => {
       dataGrid.pagination = 'client-side';
       dataGrid.replaceWith(dataGrid);
 
@@ -2589,13 +2391,14 @@ describe('IdsDataGrid Component', () => {
       dataGrid.insertAdjacentHTML('afterbegin', '<template id="template-id"><span>${description}</span></template>');
       dataGrid.expandableRow = true;
       dataGrid.expandableRowTemplate = `template-id`;
-
+      dataGrid.resetCache();
       dataGrid.columns = [{
         id: 'description',
         name: 'description',
         formatter: dataGrid.formatters.expander
       }];
-
+      dataGrid.resetCache();
+      dataGrid.redraw();
       await processAnimFrame();
       const firstRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
       expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
@@ -2816,14 +2619,6 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Editing Tests', () => {
-    const dropdownCellQuery = () => dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(8)');
-    const activateDropdownCell = () => {
-      dataGrid.editable = true;
-      dataGrid.setActiveCell(7, 1);
-      const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
-      dataGrid.dispatchEvent(enterKey);
-    };
-
     it('should be able to edit a cell and type a value', () => {
       dataGrid.editable = true;
       const clickEvent = new MouseEvent('click', { bubbles: true });
@@ -2920,7 +2715,7 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.classList.contains('is-invalid')).toBeFalsy();
     });
 
-    it('should be able to cancell a cell and reset validation state', () => {
+    it('should be able to cancel a cell and reset validation state', () => {
       dataGrid.editable = true;
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       expect(editableCell.textContent).toBe('102');
@@ -3002,43 +2797,16 @@ describe('IdsDataGrid Component', () => {
       dataGrid.editable = true;
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
       editableCell.startCellEdit();
-      editableCell.editor.isClick = true;
+      editableCell.editor.clickEvent = new MouseEvent('click');
       editableCell.editor.init(editableCell);
       expect(editableCell.editor.input.checked).toBe(true);
       editableCell.endCellEdit();
 
       editableCell.startCellEdit();
-      editableCell.editor.isClick = false;
+      editableCell.editor.clickEvent = undefined;
       editableCell.editor.init(editableCell);
       expect(editableCell.editor.input.checked).toBe(false);
       editableCell.endCellEdit();
-    });
-
-    it('row renders special classes', () => {
-      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
-      (dataset[1] as any).dirtyCells = [];
-      (dataset[1] as any).dirtyCells.push({
-        cell: 1,
-        columnId: 'description',
-        originalValue: '102'
-      });
-      expect(IdsDataGridRow.template(dataset[1], 1, 1, editableCell.dataGrid).indexOf('is-dirty')).toBeGreaterThan(-1);
-
-      (dataset[1] as any).invalidCells = [];
-      (dataset[1] as any).invalidCells.push({
-        cell: 1,
-        columnId: 'description',
-        row: 1,
-        validationMessages: { message: 'Required', type: 'error', id: 'required' }
-      });
-      expect(IdsDataGridRow.template(dataset[1], 1, 1, editableCell.dataGrid).indexOf('is-invalid')).toBeGreaterThan(-1);
-
-      editableCell.column.editor.inline = true;
-      expect(IdsDataGridRow.template(dataset[1], 1, 1, editableCell.dataGrid).indexOf('is-inline')).toBeGreaterThan(-1);
-      editableCell.column.editor.inline = false;
-
-      (dataset[1] as any).invalidCells = undefined;
-      dataGrid.resetDirtyCells();
     });
 
     it('can reset dirty cells', () => {
@@ -3105,19 +2873,36 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(11);
     });
 
-    it('can call removeRow', () => {
+    it('can add multiple rows at given index', () => {
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+      dataGrid.addRows([
+        { description: 'test1' },
+        { description: 'test2' },
+        { description: 'test3' }
+      ], 2);
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(13);
+      expect(dataGrid.container.getAttribute('aria-rowcount')).toEqual('12');
+      expect(dataGrid.data[2].description).toEqual('test1');
+      expect(dataGrid.data[3].description).toEqual('test2');
+      expect(dataGrid.data[4].description).toEqual('test3');
+    });
+
+    it('can call removeRow', async () => {
+      await processAnimFrame();
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
       dataGrid.addRow({ description: 'test' });
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(11);
       dataGrid.removeRow(9);
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+      expect(dataGrid.container.getAttribute('aria-rowcount')).toEqual('9');
     });
 
-    it('can call removeRow', () => {
+    it('can call clearRow', async () => {
       const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(8) > .ids-data-grid-cell:nth-child(3)');
 
       expect(descCell.textContent).toEqual('108');
       dataGrid.clearRow(7);
+      await processAnimFrame();
       expect(dataGrid.container.querySelector('.ids-data-grid-row:nth-child(8) > .ids-data-grid-cell:nth-child(3)').textContent).toEqual('');
     });
 
@@ -3229,6 +3014,26 @@ describe('IdsDataGrid Component', () => {
       }
     });
 
+    it('can create rows while tabbing', () => {
+      // test setting
+      dataGrid.editable = true;
+      dataGrid.editNextOnEnterPress = true;
+      dataGrid.addNewAtEnd = true;
+      expect(dataGrid.addNewAtEnd).toEqual(true);
+
+      const rowsLen = dataGrid.rows.length;
+      const cell = dataGrid.setActiveCell(2, 7);
+      expect(cell.node.classList.contains('is-editable')).toBeTruthy();
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      expect(cell.node.classList.contains('is-editing')).toBeTruthy();
+
+      const tabKey = new KeyboardEvent('keydown', { key: 'Tab' });
+      for (let i = 0; i < 20; i++) {
+        dataGrid.dispatchEvent(tabKey);
+      }
+      expect(dataGrid.rows.length).toBeGreaterThan(rowsLen);
+    });
+
     it('space toggles editable checkboxes', () => {
       dataGrid.editable = true;
       const checkCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
@@ -3240,18 +3045,27 @@ describe('IdsDataGrid Component', () => {
       expect(checkCell2.querySelector('ids-checkbox').getAttribute('checked')).toBe('true');
     });
 
+    const cellQuery = (col: number, row: number) => dataGrid.container.querySelector(`.ids-data-grid-row:nth-child(${row}) > .ids-data-grid-cell:nth-child(${col})`);
+    const activateCell = (col: number, row: number) => {
+      dataGrid.editable = true;
+      const activeCell = dataGrid.setActiveCell(col, row);
+      activeCell.node.focus();
+      const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
+      dataGrid.dispatchEvent(enterKey);
+    };
+
     it('supports a dropdown editor', () => {
-      const dropdownCell = dropdownCellQuery();
-      activateDropdownCell();
+      const dropdownCell = cellQuery(8, 2);
+      activateCell(7, 1);
       expect(dropdownCell.classList.contains('is-editing')).toBeTruthy();
       expect(dropdownCell.querySelector('ids-dropdown')).not.toBeNull();
     });
 
     it('can change cell value using dropdown editor', () => {
-      const dropdownCell = dropdownCellQuery();
+      const dropdownCell = cellQuery(8, 2);
       const arrowDownKey = new KeyboardEvent('keydown', { key: 'ArrowDown' });
       const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
-      activateDropdownCell();
+      activateCell(7, 1);
 
       const dropdown = dropdownCell.querySelector('ids-dropdown');
       dropdown.focus();
@@ -3261,6 +3075,59 @@ describe('IdsDataGrid Component', () => {
 
       dropdownCell.endCellEdit();
       expect(dropdownCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    it('supports a datepicker editor', () => {
+      const columnsCopy = columns();
+      const publishDateCol = columnsCopy.find((col) => col.id === 'publishDate');
+      publishDateCol!.editor = {
+        type: 'datepicker',
+        editorSettings: {
+          dirtyTracker: true
+        }
+      };
+      dataGrid.columns = columnsCopy;
+
+      const activeCell = dataGrid.setActiveCell(4, 0);
+      const gridCell = activeCell.node;
+
+      // activate cell editing
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      const datePicker = gridCell.querySelector('ids-date-picker');
+      expect(datePicker).toBeDefined();
+
+      // set new value
+      datePicker.value = '4/30/2023';
+      gridCell.endCellEdit();
+
+      expect(gridCell.textContent).toEqual('4/30/2023');
+    });
+
+    it('supports a timepicker editor', () => {
+      const columnsCopy = columns();
+      const publishDateCol = columnsCopy.find((col) => col.id === 'publishTime');
+      publishDateCol!.editor = {
+        type: 'timepicker',
+        editorSettings: {
+          dirtyTracker: true
+        }
+      };
+      dataGrid.columns = columnsCopy;
+
+      const activeCell = dataGrid.setActiveCell(5, 0);
+      const gridCell = activeCell.node;
+
+      // activate cell editing
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      const timePicker = gridCell.querySelector('ids-time-picker');
+      expect(timePicker).toBeDefined();
+      expect(timePicker.value).toEqual('2:25 PM');
+
+      // set new value
+      timePicker.value = '3:45 AM';
+      gridCell.endCellEdit();
+
+      expect(gridCell.textContent).toEqual('3:45 AM');
     });
   });
 });

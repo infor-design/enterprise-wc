@@ -2,7 +2,9 @@ import { customElement } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool, buildClassAttrib, removeNewLines } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-tab-more-base';
+import IdsTab from './ids-tab';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+
 import '../ids-popup-menu/ids-popup-menu';
 import '../ids-text/ids-text';
 import type IdsTabs from './ids-tabs';
@@ -18,7 +20,7 @@ const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
  * @private
  */
 @customElement('ids-tab-more')
-export default class IdsTabMore extends Base {
+export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
   constructor() {
     super();
   }
@@ -332,7 +334,7 @@ export default class IdsTabMore extends Base {
     const tabRect = tab.getBoundingClientRect();
     const moreTabRect = (this.parentElement as any)?.moreContainer?.getBoundingClientRect();
 
-    if (this.locale?.isRTL()) {
+    if (this.localeAPI?.isRTL()) {
       // Beyond left edge
       return tabRect.left < moreTabRect.right - 1;
     }

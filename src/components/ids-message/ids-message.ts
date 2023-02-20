@@ -2,7 +2,8 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import MESSAGE_STATUSES from './ids-message-attributes';
 
-import Base from './ids-message-base';
+import IdsModal from '../ids-modal/ids-modal';
+
 import '../ids-icon/ids-icon';
 
 import styles from './ids-message.scss';
@@ -18,7 +19,7 @@ import type IdsOverlay from '../ids-modal/ids-overlay';
  */
 @customElement('ids-message')
 @scss(styles)
-export default class IdsMessage extends Base {
+export default class IdsMessage extends IdsModal {
   constructor() {
     super();
 

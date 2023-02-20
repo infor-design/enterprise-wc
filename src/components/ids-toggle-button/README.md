@@ -2,7 +2,7 @@
 
 ## Description
 
-The IDS Toggle Button component is an extension of the standard IDS Button component, which provides some API around "toggling" a feature and having a "pressed" state, in addition to the IDS Button's standard features.
+The IDS Toggle Button component is an extension of the standard [IDS Button](../ids-button/README.md) component, which provides some API around "toggling" a feature and having a "pressed" state, in addition to the IDS Button's standard features.
 
 ## Use Cases
 
@@ -19,10 +19,7 @@ The IDS Toggle Button component is an extension of the standard IDS Button compo
 While it's possible to manually set the `icon` and `text` attributes of a Toggle Button the same way that a standard IDS Button would be used, the Toggle Button also contains similarly-named attributes that represent their "on" (pressed) and "off" (unpressed) visual states. Consider the following example:
 
 ```html
-<ids-toggle-button id="my-toggle" icon-on="star-filled" icon-off="star-outlined" text-off="Toggle Button (Off)" text-on="Toggle Button (On)">
-  <ids-icon icon="settings"></ids-icon>
-  <span></span>
-</ids-toggle-button>
+<ids-toggle-button id="my-toggle" icon="star-outlined" icon-on="star-filled" icon-off="star-outlined" text-off="Toggle Button (Off)" text-on="Toggle Button (On)"></ids-toggle-button>
 ```
 
 In this example, the "on" (pressed) state would be:
@@ -38,9 +35,7 @@ The "off" (unpressed) state would be:
 In the above example, the default state of the Toggle button will be "off", and the content of the `icon-off`/`text-off` properties will populate the standard `icon`/`text` button properties.  To default the button on, simply use the `pressed` attribute:
 
 ```html
-<ids-toggle-button id="my-toggle" pressed="true" icon-on="star-filled" icon-off="star-outlined" text-off="Toggle Button (Off)" text-on="Toggle Button (On)">
-  <!-- ... -->
-</ids-toggle-button>
+<ids-toggle-button id="my-toggle" pressed="true" icon="star-filled" icon-on="star-filled" icon-off="star-outlined" text-off="Toggle Button (Off)" text-on="Toggle Button (On)"></ids-toggle-button>
 ```
 
 ## States and Variations

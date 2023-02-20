@@ -4,9 +4,20 @@ import { stringToBool, stringToNumber, camelCase } from '../../utils/ids-string-
 import { HOME_PAGE_DEFAULTS, EVENTS } from './ids-home-page-attributes';
 
 import '../ids-card/ids-card';
-import Base from './ids-home-page-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-home-page.scss';
+
+const Base = IdsLocaleMixin(
+  IdsThemeMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 export interface IdsHomePageBlock {
   /** The block width */
@@ -516,7 +527,7 @@ export default class IdsHomePage extends Base {
         const box = this.cardWidth + this.#gapX;
         const totalWidth = box * this.#columns;
         const top = (this.cardHeight + this.#gapY) * available.row;
-        const left = this.locale?.isRTL()
+        const left = this.localeAPI?.isRTL()
           ? totalWidth - ((box * block.w) + (box * available.col))
           : box * available.col;
         const pos = { left, top };
@@ -548,12 +559,6 @@ export default class IdsHomePage extends Base {
    * @returns {object} This API object for chaining
    */
   #attachEventHandlers(): object {
-    // Respond to parent changing language
-    this.offEvent('languagechange.tree');
-    this.onEvent('languagechange.tree', this.closest('ids-container'), () => {
-      this.#resize();
-    });
-
     const slot = this.shadowRoot?.querySelector(`slot[name="card"]`);
     this.offEvent('slotchange', slot);
     this.onEvent('slotchange', slot, () => {
@@ -565,6 +570,11 @@ export default class IdsHomePage extends Base {
     if (this.container) this.#resizeObserver.observe(this.container);
     return this;
   }
+
+  /** Handle Languages Changes */
+  onLanguageChange = () => {
+    this.#resize();
+  };
 
   /**
    * Get the boolean value for given attribute.

@@ -1,0 +1,173 @@
+@import '../../core/ids-base';
+@import '../../mixins/sass/ids-hide-mixin';
+
+// Remove left/top transforms from animation on this component's popup
+ids-popup[visible][animated] {
+  transition: none;
+}
+
+.ids-time-picker-popup {
+  &::part(popup) {
+    @include py-0();
+  }
+
+  .popup-btn {
+    @include w-full();
+
+    align-items: center;
+    border-top: 1px solid var(--ids-color-palette-slate-30);
+
+    &::part(button) {
+      @include h-full();
+      @include p-0();
+      @include py-12();
+
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  ids-dropdown {
+    &::part(trigger-field) {
+      @include inline-flex();
+
+      min-width: 75px;
+    }
+  }
+
+  ids-list-box,
+  ids-list-box-option {
+    @include w-full();
+  }
+
+  ids-popup {
+    &::part(popup) {
+      @include m-0();
+      @include p-0();
+    }
+  }
+
+  .dropdowns {
+    @include flex();
+
+    flex-direction: row;
+    padding-inline-start: 15px;
+    padding-inline-end: 15px;
+    padding-top: 15px;
+  }
+
+  .dropdown::part(trigger-field) {
+    justify-content: center;
+  }
+
+  // Is open state
+  &.is-open {
+    ids-trigger-button::part(button) {
+      @include text-azure-60();
+    }
+
+    ids-trigger-field::part(field-container) {
+      @include border-azure-60();
+    }
+  }
+
+  .separator {
+    width: 12px;
+    display: inline-block;
+    height: 38px;
+    margin-top: 23px;
+
+    &.colons {
+      @include text-slate-60();
+
+      width: 17px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 38px;
+    }
+  }
+
+  @include breakpoint-xs-down {
+    .dropdowns {
+      flex-direction: column;
+      align-items: center;
+      width: $input-size-sm;
+    }
+
+    .separator {
+      display: none;
+    }
+  }
+
+  // Themes
+  &:not([mode]),
+  &[mode='light'] {
+    .popup-btn {
+      border-top-color: var(--ids-color-palette-slate-50);
+
+      &::part(button) {
+        @include text-azure-60();
+      }
+
+      &::part(button):hover {
+        @include text-azure-70();
+      }
+    }
+  }
+
+  &[mode='dark'] {
+    .separator.colons {
+      @include text-slate-30();
+    }
+
+    .popup-btn {
+      border-top-color: var(--ids-color-palette-slate-50);
+
+      &::part(button) {
+        @include text-azure-30();
+      }
+
+      &::part(button):hover {
+        @include text-azure-20();
+      }
+    }
+
+    ids-popup::part(popup) {
+      @include bg-slate-80();
+    }
+
+    ids-popup::part(arrow)::after,
+    ids-popup::part(arrow-bottom)::after {
+      border-bottom-color: var(--ids-color-palette-slate-80);
+    }
+  }
+
+  &[mode='contrast'] {
+    .separator.colons {
+      @include text-slate-90();
+    }
+
+    .popup-btn {
+      &::part(button) {
+        @include bg-white();
+        @include text-azure-90();
+      }
+
+      &::part(button):hover {
+        @include bg-white();
+        @include text-azure-70();
+      }
+    }
+
+    &.is-open {
+      ids-trigger-button::part(button) {
+        @include text-azure-90();
+      }
+
+      ids-trigger-field::part(field-container) {
+        @include border-azure-90();
+      }
+    }
+  }
+}

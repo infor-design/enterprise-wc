@@ -1,6 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-toolbar-more-actions-base';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
+
 import { removeNewLines, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import './ids-toolbar-section';
@@ -14,6 +17,12 @@ import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
 
 const TOOLBAR_TYPES = ['formatter'];
+
+const Base = IdsColorVariantMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Toolbar Section Component

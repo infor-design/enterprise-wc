@@ -1,4 +1,9 @@
-import Base from './ids-calendar-base';
+import IdsElement from '../../core/ids-element';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsCalendarEventsMixin from '../../mixins/ids-calendar-events-mixin/ids-calendar-events-mixin';
+import IdsDateAttributeMixin from '../../mixins/ids-date-attribute-mixin/ids-date-attribute-mixin';
 import { CalendarEventData, CalendarEventTypeData } from './ids-calendar-event';
 import IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
 import IdsMonthView from '../ids-month-view/ids-month-view';
@@ -35,6 +40,18 @@ type CalendarEventDetail = {
 };
 
 type CalendarViewTypes = 'month' | 'week' | 'day';
+
+const Base = IdsThemeMixin(
+  IdsDateAttributeMixin(
+    IdsCalendarEventsMixin(
+      IdsLocaleMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
+      )
+    )
+  )
+);
 
 /**
  * IDS Calendar Component
@@ -185,6 +202,7 @@ export default class IdsCalendar extends Base {
     this.#attachEventHandlers();
     this.#configureResizeObserver();
     this.viewPickerConnected();
+    this.onLocaleChange(this.localeAPI);
   }
 
   /**
@@ -218,8 +236,29 @@ export default class IdsCalendar extends Base {
   /**
    * @param {IdsLocale} locale the new locale object
    */
-  onLocaleChange = (locale: IdsLocale) => {
+  onLocaleChange = (locale: IdsLocale | undefined) => {
+    this.updateEventDetails(this.state.selected);
+    this.renderLegend(this.eventTypesData);
     this.#updateDatePickerPopupTrigger(locale);
+
+    const monthView = this.container?.querySelector<IdsMonthView>('ids-month-view');
+    if (monthView) {
+      monthView.locale = this.locale;
+      monthView.language = this.language.name;
+    }
+    const weekView = this.container?.querySelector<IdsWeekView>('ids-week-view');
+    if (weekView) {
+      weekView.locale = this.locale;
+      weekView.language = this.language.name;
+    }
+    this.container?.querySelectorAll('[translate-text]').forEach((textElem: Element) => {
+      (textElem as any).language = this.language.name;
+    });
+    requestAnimationFrame(() => {
+      this.querySelectorAll('ids-checkbox[data-id]').forEach((checkElem: Element) => {
+        (checkElem as any).setAttribute('language', this.language.name);
+      });
+    });
   };
 
   /**
@@ -251,11 +290,11 @@ export default class IdsCalendar extends Base {
           <ids-text font-weight="bold" overflow="ellipsis">${item.shortSubject || item.subject}</ids-text>
         </ids-accordion-header>
         <div slot="content" class="panel-content">
-          ${item.status ? `<ids-data-label label="${this.locale.translate('Status')}">${item.status}</ids-data-label><hr>` : ''}
-          <ids-data-label label="${this.locale.translate('Date')}">${item.dateRange}</ids-data-label><hr>
+          ${item.status ? `<ids-data-label label="${this.localeAPI.translate('Status')}">${item.status}</ids-data-label><hr>` : ''}
+          <ids-data-label label="${this.localeAPI.translate('Date')}">${item.dateRange}</ids-data-label><hr>
           <ids-data-label label="Event Type">${item.eventType}</ids-data-label><hr>
-          <ids-data-label label="${this.locale.translate('Duration')}">${item.duration}</ids-data-label>
-          ${item.comments ? `<hr><ids-data-label label="${this.locale.translate('Comments')}">${item.comments}</ids-data-label>` : ''}
+          <ids-data-label label="${this.localeAPI.translate('Duration')}">${item.duration}</ids-data-label>
+          ${item.comments ? `<hr><ids-data-label label="${this.localeAPI.translate('Comments')}">${item.comments}</ids-data-label>` : ''}
         </div>
       </ids-accordion-panel>
     `).join('');
@@ -384,12 +423,12 @@ export default class IdsCalendar extends Base {
     const datePicker = (id: string, labelKey: string, date: Date) => `
       <ids-date-picker
         id="${id}"
-        label="${this.locale.translate(labelKey)}"
+        label="${this.localeAPI.translate(labelKey)}"
         size="full"
         year="${date.getFullYear()}"
         month="${date.getMonth()}"
         day="${date.getDate()}"
-        value="${this.locale.formatDate(date)}"
+        value="${this.localeAPI.formatDate(date)}"
         mask>
       </ids-date-picker>
     `;
@@ -401,7 +440,7 @@ export default class IdsCalendar extends Base {
         label="&nbsp"
         size="full"
         disabled="${stringToBool(data.isAllDay)}"
-        value="${this.locale.formatHour(date.getHours() + (date.getMinutes() / 60))}">
+        value="${this.localeAPI.formatHour(date.getHours() + (date.getMinutes() / 60))}">
       </ids-time-picker>
     `;
 
@@ -414,11 +453,11 @@ export default class IdsCalendar extends Base {
           </ids-button>
         </div>
         <div id="event-form-content">
-          <ids-input size="full" id="event-subject" type="text" label="${this.locale.translate('Subject')}" value="${data.subject}"></ids-input>
-          <ids-dropdown size="full" id="event-type" label="${this.locale.translate('EventType')}" value="${data.type}">
+          <ids-input size="full" id="event-subject" type="text" label="${this.localeAPI.translate('Subject')}" value="${data.subject}"></ids-input>
+          <ids-dropdown size="full" id="event-type" label="${this.localeAPI.translate('EventType')}" value="${data.type}">
             <ids-list-box>${eventTypeOptions}</ids-list-box>
           </ids-dropdown>
-          <ids-checkbox id="event-is-all-day" label="${this.locale.translate('AllDay')}" checked="${data.isAllDay}"></ids-checkbox>
+          <ids-checkbox id="event-is-all-day" label="${this.localeAPI.translate('AllDay')}" checked="${data.isAllDay}"></ids-checkbox>
           <div class="inline-container">
             ${datePicker('event-from-date', 'From', start)}
             ${timePicker('event-from-hour', start)}
@@ -427,7 +466,7 @@ export default class IdsCalendar extends Base {
             ${datePicker('event-to-date', 'To', end)}
             ${timePicker('event-to-hour', end)}
           </div>
-          <ids-textarea size="full" id="event-comments" label="${this.locale.translate('Comments')}" autoselect="true">${data.comments || ''}</ids-textarea>
+          <ids-textarea size="full" id="event-comments" label="${this.localeAPI.translate('Comments')}" autoselect="true">${data.comments || ''}</ids-textarea>
         </div>
         <div id="event-form-actions" class="inline-container">
           <ids-button data-action="close" no-padding>
@@ -514,12 +553,6 @@ export default class IdsCalendar extends Base {
       }
     });
 
-    this.offEvent('localechange.calendar-container');
-    this.onEvent('localechange.calendar-container', this.closest('ids-container'), () => {
-      this.updateEventDetails(this.state.selected);
-      this.renderLegend(this.eventTypesData);
-    });
-
     this.onEvent('click.details-item', this.container?.querySelector('.calendar-details-pane'), (evt: any) => {
       const detailItem = evt.target.closest('.detail-item');
       if (detailItem) {
@@ -566,7 +599,7 @@ export default class IdsCalendar extends Base {
 
     this.offEvent('show.popup');
     this.onEvent('show.popup', toolbarDatepickerPopup, () => {
-      this.#updateDatePickerPopupTrigger(this.locale);
+      this.#updateDatePickerPopupTrigger(this.localeAPI);
     });
 
     // Date Picker Popup's `hide` event can cause the field to become focused
@@ -904,11 +937,11 @@ export default class IdsCalendar extends Base {
     }
 
     const datePickerPopup = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup');
-    if (datePickerPopup) {
+    if (datePickerPopup && datePickerPopup?.updateMonthYearPickerTriggerDisplay) {
       datePickerPopup.day = targetDate.getDate();
       datePickerPopup.month = targetDate.getMonth();
       datePickerPopup.year = targetDate.getFullYear();
-      datePickerPopup.updateMonthYearPickerTriggerDisplay(locale, targetDate);
+      datePickerPopup?.updateMonthYearPickerTriggerDisplay(locale, targetDate);
     }
   }
 
@@ -982,10 +1015,11 @@ export default class IdsCalendar extends Base {
    */
   formatDateRange(start: Date, end: Date): string {
     const dateTimeOpts = { dateStyle: 'long', timeStyle: 'short' };
-    const startDateStr = this.locale.formatDate(start, dateTimeOpts);
-    const endDateStr = this.locale.formatDate(end, dateTimeOpts);
+    const startDateStr = this.localeAPI.formatDate(start, dateTimeOpts);
+    const endDateStr = this.localeAPI.formatDate(end, dateTimeOpts);
 
-    return `${startDateStr} - ${endDateStr}`;
+    // eslint-disable-next-line no-irregular-whitespace
+    return `${startDateStr} - ${endDateStr}`.replace(/ /g, ' ');
   }
 
   /**
@@ -1000,8 +1034,8 @@ export default class IdsCalendar extends Base {
     // Day(s)
     if (hours >= 24) {
       const days = Math.round(hours / 24);
-      const dayStr = this.locale.translate(days === 1 ? 'Day' : 'Days');
-      return `${this.locale.parseNumber(days.toString())} ${dayStr}`;
+      const dayStr = this.localeAPI.translate(days === 1 ? 'Day' : 'Days');
+      return `${this.localeAPI.parseNumber(days.toString())} ${dayStr}`;
     }
 
     // Minute(s)
@@ -1009,13 +1043,13 @@ export default class IdsCalendar extends Base {
       const startMinutes = start.getMinutes();
       const endMinutes = end.getMinutes();
       const diffMinutes = endMinutes - startMinutes;
-      const minutesStr = this.locale.translate(diffMinutes === 1 ? 'Minute' : 'Minutes');
-      return `${this.locale.parseNumber(diffMinutes.toString())} ${minutesStr}`;
+      const minutesStr = this.localeAPI.translate(diffMinutes === 1 ? 'Minute' : 'Minutes');
+      return `${this.localeAPI.parseNumber(diffMinutes.toString())} ${minutesStr}`;
     }
 
     // Hour(s)
-    const hoursStr = this.locale.translate(hours === 1 ? 'Hour' : 'Hours');
-    return `${this.locale.parseNumber(hours.toString())} ${hoursStr}`;
+    const hoursStr = this.localeAPI.translate(hours === 1 ? 'Hour' : 'Hours');
+    return `${this.localeAPI.parseNumber(hours.toString())} ${hoursStr}`;
   }
 
   /**
@@ -1129,7 +1163,7 @@ export default class IdsCalendar extends Base {
         class="event-type-checkbox"
         checked="${item.checked}"
         data-id="${item.id}"
-        label="${item.translationKey ? this.locale.translate(item.translationKey) : item.label}"
+        label="${item.translationKey ? this.localeAPI.translate(item.translationKey) : item.label}"
         color="${item.color}07"
         disabled="${item.disabled || 'false'}">
       </ids-checkbox>
@@ -1251,7 +1285,7 @@ export default class IdsCalendar extends Base {
    * @returns {string} locale formatted month range
    */
   formatMonthRange(locale?: IdsLocale) {
-    const targetLocale = locale || this.locale;
+    const targetLocale = locale || this.localeAPI;
     if (!targetLocale) return '';
 
     const startDate = this.startDate;

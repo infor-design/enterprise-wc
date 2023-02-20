@@ -106,7 +106,7 @@ const IdsDateAttributeMixin = <T extends Constraints>(superclass: T) => class ex
       return numberVal;
     }
 
-    return this.locale?.calendar().firstDayofWeek || 0;
+    return this.localeAPI?.calendar().firstDayofWeek || 0;
   }
 
   /**
@@ -124,7 +124,7 @@ const IdsDateAttributeMixin = <T extends Constraints>(superclass: T) => class ex
    */
   get format(): string {
     const attrVal = this.getAttribute(attributes.FORMAT);
-    return !attrVal || attrVal === 'locale' ? this.locale?.calendar().dateFormat.short : attrVal;
+    return !attrVal || attrVal === 'locale' ? this.localeAPI?.calendar().dateFormat.short : attrVal;
   }
 
   /**
@@ -209,7 +209,7 @@ const IdsDateAttributeMixin = <T extends Constraints>(superclass: T) => class ex
    * @returns {string} the correctly formatted date string
    */
   getFormattedDate(date: Date | string) {
-    return this.locale.formatDate(
+    return this.localeAPI.formatDate(
       date,
       { pattern: this.format }
     );

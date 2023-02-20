@@ -92,6 +92,41 @@
     }
   }
 
+  // Time Picker Editor Borderless
+  &.color-variant-borderless {
+    ids-trigger-field::part(input) {
+      padding-inline-end: 0 !important;
+    }
+
+    &.field-height-lg {
+      ids-trigger-field::part(input) {
+        padding-inline: 14px;
+        height: 50px;
+      }
+    }
+
+    &.field-height-md {
+      ids-trigger-field::part(input) {
+        padding-inline: 10px;
+        height: 40px;
+      }
+    }
+
+    &.field-height-sm {
+      ids-trigger-field::part(input) {
+        padding-inline: 6px;
+        height: 35px;
+      }
+    }
+
+    &.field-height-xs {
+      ids-trigger-field::part(input) {
+        padding-inline: 2px;
+        height: 30px;
+      }
+    }
+  }
+
   // Themes
   &[mode='dark'] {
     .separator.colons {

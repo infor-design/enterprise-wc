@@ -99,7 +99,8 @@ if (dataGrid) {
       name: 'Location',
       field: 'location',
       formatter: dataGrid.formatters.hyperlink,
-      href: '#'
+      href: '#',
+      click: () => { console.info('Link was clicked'); }
     });
     columns.push({
       id: 'postHistory',

@@ -1,4 +1,4 @@
-# Built and Npm Folders
+# Build and Npm Folders
 node_modules/
 .git
 dist
@@ -10,6 +10,9 @@ app
 .build-report
 build
 .nyc_output
+out
+meta.json
+build-stats.json
 
 # OS Setting Files
 .DS_Store

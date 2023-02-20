@@ -2,7 +2,10 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { waitForAnimationEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-import Base from './ids-toast-message-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
@@ -20,6 +23,14 @@ import {
 } from './ids-toast-shared';
 
 import styles from './ids-toast-message.scss';
+
+const Base = IdsThemeMixin(
+  IdsKeyboardMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS Toast Message Component

@@ -1,12 +1,20 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-process-indicator-step-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-process-indicator-step.scss';
 import type IdsProcessIndicator from './ids-process-indicator';
 
 const statuses = ['cancelled', 'started', 'done'];
 const DEFAULT_LABEL = 'empty label';
+
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Process Step Component

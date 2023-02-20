@@ -1,12 +1,26 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import Base from './ids-card-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsSelectionMixin from '../../mixins/ids-selection-mixin/ids-selection-mixin';
+import IdsElement from '../../core/ids-element';
+import IdsRippleMixin from '../../mixins/ids-ripple-mixin/ids-ripple-mixin';
 
 import '../ids-checkbox/ids-checkbox';
 import styles from './ids-card.scss';
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
+
+const Base = IdsThemeMixin(
+  IdsRippleMixin(
+    IdsEventsMixin(
+      IdsSelectionMixin(
+        IdsElement
+      )
+    )
+  )
+);
 
 /**
  * IDS Card Component

@@ -1,10 +1,23 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-theme-switcher-base';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
+
+import type IdsText from '../ids-text/ids-text';
 import '../ids-menu-button/ids-menu-button';
 import styles from './ids-theme-switcher.scss';
 import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
+
+const Base = IdsLocaleMixin(
+  IdsColorVariantMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
+);
 
 /**
  * IDS Theme Switcher Component
@@ -24,7 +37,7 @@ export default class IdsThemeSwitcher extends Base {
     super.connectedCallback();
     this.popup = this.shadowRoot?.querySelector('ids-popup-menu');
     this.menuButton = this.shadowRoot?.querySelector('ids-menu-button');
-    this.menuButton?.configureMenu();
+    if (this.menuButton?.configureMenu) this.menuButton?.configureMenu();
     this.#attachEventHandlers();
   }
 
@@ -46,11 +59,26 @@ export default class IdsThemeSwitcher extends Base {
         this.mode = val;
       }
       if (val?.indexOf('-') > -1) {
-        if (this.locale) this.locale.setLocale(val);
+        if (this.locale) this.localeAPI.setLocale(val);
         (document.querySelector('ids-container') as any).setLocale(val);
       }
     });
   }
+
+  // Respond to changing locale
+  onLocaleChange = () => {
+    if (this.popup?.popup) {
+      this.popup.popup.locale = this.locale;
+      this.popup.popup.language = this.language.name;
+    }
+    if (this.menuButton) {
+      this.menuButton.locale = this.locale;
+      this.menuButton.language = this.language.name;
+    }
+    this.shadowRoot?.querySelectorAll('[translate-text]').forEach((textElem: Element) => {
+      (textElem as IdsText).language = this.language.name;
+    });
+  };
 
   /**
    * Create the Template for the contents

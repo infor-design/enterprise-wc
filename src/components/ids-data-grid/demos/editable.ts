@@ -18,8 +18,6 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   // Do an ajax request
   const url: any = booksJSON;
   const columns: IdsDataGridColumn[] = [];
-  const pageContainer: any = document.querySelector('ids-container');
-  const calendar = pageContainer.locale.calendar();
 
   // Set up columns
   columns.push({
@@ -77,11 +75,10 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     reorderable: true,
     formatter: dataGrid.formatters.date,
     editor: {
-      type: 'input',
+      type: 'datepicker',
       editorSettings: {
-        autoselect: true,
-        dirtyTracker: false,
-        mask: 'date'
+        validate: 'required',
+        dirtyTracker: true
       }
     }
   });
@@ -92,20 +89,10 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     resizable: true,
     reorderable: true,
     formatter: dataGrid.formatters.time,
-    formatOptions: {
-      locale: 'en-US',
-      dateFormat: calendar.dateFormat.hour,
-      timeStyle: 'short'
-    },
     editor: {
-      type: 'input',
+      type: 'timepicker',
       editorSettings: {
-        autoselect: true,
-        dirtyTracker: false,
-        mask: 'date',
-        maskOptions: {
-          format: calendar.dateFormat.hour
-        }
+        dirtyTracker: true
       }
     }
   });
@@ -244,8 +231,8 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
 
   // Example Buttons
   document.querySelector('#add-row')?.addEventListener('click', () => {
-    dataGrid.addRow({ description: 'New Row', ledgder: 'CORE' });
-
+    const newRow = { description: 'New Row', ledgder: 'CORE' };
+    dataGrid.addRow(newRow);
     dataGrid.setActiveCell(0, dataGrid.data.length - 1);
     dataGrid.editFirstCell();
   });

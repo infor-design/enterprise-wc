@@ -2,9 +2,14 @@
 import IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import IdsInput from '../ids-input/ids-input';
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
+import '../ids-time-picker/ids-time-picker';
+import '../ids-date-picker/ids-date-picker';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import type IdsDatePicker from '../ids-date-picker/ids-date-picker';
+import type IdsTimePicker from '../ids-time-picker/ids-time-picker';
 import type IdsDataGridCell from './ids-data-grid-cell';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 
 export interface IdsDataGridEditorOptions {
   /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
@@ -26,15 +31,15 @@ export interface IdsDataGridEditor {
   /** The type of editor (i.e. input, dropdown, checkbox ect) */
   type: string;
   /** The main editor element */
-  input?: IdsInput | IdsCheckbox | IdsDropdown;
+  input?: IdsInput | IdsCheckbox | IdsDropdown | IdsDatePicker | IdsTimePicker;
   /** The function that invokes and sets values on the input */
   init: (cell?: IdsDataGridCell) => void;
   /** The function that transforms and saved the editor */
   save: (cell?: IdsDataGridCell) => IdsDataGridSaveValue | undefined | null;
   /** The function that tears down all aspects of the editor */
   destroy: (cell?: IdsDataGridCell) => void;
-  /** Indicates click was used to edit */
-  isClick?: boolean;
+  /** MouseEvent if click was used to edit */
+  clickEvent?: MouseEvent
 }
 
 const applySettings = (elem: any, settings?: Record<string, any> | undefined) => {
@@ -93,8 +98,8 @@ export class CheckboxEditor implements IdsDataGridEditor {
   /** Holds the Editor */
   input?: IdsCheckbox;
 
-  /** Indicates if keyboard was used to init the editor */
-  isClick?: boolean;
+  /** MouseEvent if click was used to edit */
+  clickEvent?: MouseEvent;
 
   /**
    * Create an input and set the value and focus states
@@ -107,11 +112,17 @@ export class CheckboxEditor implements IdsDataGridEditor {
     // Clear cell and set value
     const value = stringToBool(cell?.querySelector('[aria-checked]')?.getAttribute('aria-checked'));
     cell!.innerHTML = '';
-    if (!this.isClick) this.input.noAnimation = true;
-    this.input.checked = this.isClick ? !value : value;
+    if (!this.clickEvent) this.input.noAnimation = true;
+    this.input.checked = this.clickEvent ? !value : value;
 
     cell?.appendChild(this.input as any);
     this.input.focus();
+    if (this.clickEvent) {
+      requestAnimationFrame(() => {
+        cell?.endCellEdit();
+        cell?.focus();
+      });
+    }
   }
 
   /* Transform the value */
@@ -139,8 +150,8 @@ export class DropdownEditor implements IdsDataGridEditor {
   /** Callback reference to handle blur event propagation */
   #stopPropagationCb = this.stopPropagation.bind(this);
 
-  /** Indicates if keyboard was used to init the editor */
-  isClick?: boolean;
+  /** MouseEvent if click was used to edit */
+  clickEvent?: MouseEvent;
 
   init(cell?: IdsDataGridCell): void {
     this.#value = cell?.querySelector('[data-value]')?.getAttribute('data-value') ?? null;
@@ -206,6 +217,184 @@ export class DropdownEditor implements IdsDataGridEditor {
   }
 }
 
+export class DatePickerEditor implements IdsDataGridEditor {
+  public type = 'datepicker';
+
+  public input?: IdsDatePicker;
+
+  clickEvent?: MouseEvent;
+
+  #value?: Date;
+
+  #displayValue = '';
+
+  init(cell?: IdsDataGridCell) {
+    this.input = this.#buildDatePicker(cell!);
+    const autoOpen = (<HTMLElement> this.clickEvent?.target)?.classList?.contains('editor-cell-icon');
+
+    // parse date string
+    this.#update(cell!, cell!.originalValue as string);
+
+    // insert datepicker component and focus
+    cell!.innerHTML = '';
+    cell!.appendChild(this.input);
+    this.input.value = this.#displayValue;
+    this.input.popup?.syncDateAttributes(this.#value ?? new Date());
+    this.input.input!.autoselect = true;
+    this.input.input?.focus();
+
+    if (autoOpen) {
+      // TODO why is rAF needed here
+      requestAnimationFrame(() => {
+        this.input?.open();
+      });
+    }
+
+    this.#attachEventListeners(cell);
+  }
+
+  #buildDatePicker(cell: IdsDataGridCell): IdsDatePicker {
+    const component = <IdsDatePicker>document.createElement('ids-date-picker');
+
+    // apply user settings
+    applySettings(component, cell?.column.editor?.editorSettings);
+
+    component.fieldHeight = String(cell?.dataGrid?.rowHeight);
+    component.labelState = 'collapsed';
+    component.colorVariant = 'borderless';
+    component.size = 'full';
+    component.mask = true;
+
+    return component;
+  }
+
+  #update(cell: IdsDataGridCell, dateString: string) {
+    const inputDate = cell?.dataGrid.localeAPI.parseDate(dateString) as Date;
+
+    if (!isValidDate(inputDate)) return;
+
+    // update orignial date value to retain hours, minutes, seconds
+    if (this.#value instanceof Date) {
+      this.#value.setFullYear(inputDate.getFullYear());
+      this.#value.setMonth(inputDate.getMonth());
+      this.#value.setDate(inputDate.getDate());
+    } else {
+      this.#value = inputDate;
+    }
+
+    this.#displayValue = cell!.dataGrid.localeAPI.formatDate(this.#value);
+  }
+
+  #stopPropagation(evt: FocusEvent): void {
+    const isOpen = this.input?.popup?.hidden === false;
+    if (isOpen) evt.stopImmediatePropagation();
+  }
+
+  #attachEventListeners(cell?: IdsDataGridCell) {
+    this.input?.onEvent('focusout', this.input, (evt) => this.#stopPropagation(evt));
+    this.input?.onEvent('outsideclick.datepicker', this.input, () => cell?.cancelCellEdit());
+  }
+
+  save(cell?: IdsDataGridCell) {
+    this.#update(cell!, this.input?.input.value);
+
+    return {
+      value: this.#value?.toISOString() ?? '',
+      dirtyCheckValue: this.#displayValue
+    };
+  }
+
+  destroy() {
+    this.input?.offEvent('focusout');
+    this.input?.offEvent('outsideclick.datepicker');
+    this.#value = undefined;
+    this.#displayValue = '';
+  }
+}
+
+export class TimePickerEditor implements IdsDataGridEditor {
+  type = 'timepicker';
+
+  input?: IdsTimePicker;
+
+  clickEvent?: MouseEvent;
+
+  #originalDate?: Date;
+
+  init(cell?: IdsDataGridCell | undefined) {
+    this.input = this.#buildTimePicker(cell!);
+    const autoOpen = (<HTMLElement> this.clickEvent?.target)?.classList?.contains('editor-cell-icon');
+
+    // parse date string
+    const dateString = cell!.originalValue as string ?? '';
+    const formatOpts = cell!.column.formatOptions;
+    const date = cell!.dataGrid.localeAPI.parseDate(dateString, formatOpts, true) as Date;
+    const isValid = isValidDate(date);
+    this.#originalDate = isValid ? date : undefined;
+    this.input.value = isValid ? cell!.dataGrid.localeAPI.formatDate(this.#originalDate, { pattern: this.input.format }) : '';
+
+    // insert time picker and focus
+    cell!.innerHTML = '';
+    cell!.appendChild(this.input);
+    this.input.input!.autoselect = true;
+    this.input.input?.focus();
+
+    if (autoOpen) this.input.open();
+
+    this.#attachEventListeners();
+  }
+
+  #buildTimePicker(cell: IdsDataGridCell): IdsTimePicker {
+    const component = <IdsTimePicker>document.createElement('ids-time-picker');
+
+    // apply user settings
+    applySettings(component, cell?.column.editor?.editorSettings);
+
+    // apply required settings
+    component.id = `${cell.column.field}-time-picker`;
+    component.fieldHeight = String(cell?.dataGrid?.rowHeight);
+    component.labelState = 'collapsed';
+    component.colorVariant = 'borderless';
+    component.size = 'full';
+    component.mask = true;
+
+    return component;
+  }
+
+  #stopPropagation(evt: FocusEvent | CustomEvent) {
+    const target = (evt instanceof FocusEvent ? evt.relatedTarget : evt.target) as HTMLElement | null;
+    const isOpen = this.input?.container?.classList.contains('is-open');
+    if (target?.tagName === 'IDS-DATA-GRID-CELL' || isOpen) {
+      evt.stopImmediatePropagation();
+    }
+  }
+
+  #attachEventListeners() {
+    this.input?.onEvent('focusout', this.input, (evt) => this.#stopPropagation(evt), { capture: true });
+    this.input?.listen(['Tab', 'Enter'], this.input, (evt: CustomEvent) => this.#stopPropagation(evt));
+  }
+
+  save() {
+    const inputValue = this.input!.value;
+    const date = isValidDate(this.#originalDate) ? new Date(this.#originalDate as Date) : new Date();
+
+    if (inputValue) {
+      date.setHours(this.input!.hours24, this.input!.minutes, this.input!.seconds);
+    }
+
+    return {
+      value: inputValue && isValidDate(date) ? date.toISOString() : undefined,
+      dirtyCheckValue: inputValue
+    };
+  }
+
+  destroy() {
+    this.input?.offEvent('focusout');
+    this.input?.detachAllListeners();
+    this.#originalDate = undefined;
+  }
+}
+
 export const editors: Array<{ type: string, editor?: IdsDataGridEditor }> = [];
 
 editors.push({
@@ -221,4 +410,14 @@ editors.push({
 editors.push({
   type: 'dropdown',
   editor: new DropdownEditor()
+});
+
+editors.push({
+  type: 'datepicker',
+  editor: new DatePickerEditor()
+});
+
+editors.push({
+  type: 'timepicker',
+  editor: new TimePickerEditor()
 });

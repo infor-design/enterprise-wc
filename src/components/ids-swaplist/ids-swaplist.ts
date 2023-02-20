@@ -4,7 +4,12 @@ import {
 } from '../../core/ids-decorators';
 
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-swaplist-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsElement from '../../core/ids-element';
+
 import IdsDataSource from '../../core/ids-data-source';
 import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-card/ids-card';
@@ -13,6 +18,16 @@ import '../ids-list-view/ids-list-view';
 import '../ids-swappable/ids-swappable';
 
 import styles from './ids-swaplist.scss';
+
+const Base = IdsThemeMixin(
+  IdsKeyboardMixin(
+    IdsLocaleMixin(
+      IdsEventsMixin(
+        IdsElement
+      )
+    )
+  )
+);
 
 const DEFAULT_COUNT = 2;
 

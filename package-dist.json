@@ -1,14 +1,19 @@
 {
   "name": "ids-enterprise-wc",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.6",
   "description": "The Web Component version of the IDS Enterprise component library",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/infor-design/enterprise-wc.git"
   },
+  "keywords": ["infor design system", "web components", "library", "user interface"],
   "bugs": {
     "url": "https://github.com/infor-design/enterprise-wc/issues"
   },
+  "type": "module",
+  "module": "./enterprise-wc.js",
+  "types": "./enterprise-wc.d.ts",
+  "main": "./enterprise-wc.js",
   "author": "Infor Design",
   "license": "Apache-2.0",
   "homepage": "https://design.infor.com"

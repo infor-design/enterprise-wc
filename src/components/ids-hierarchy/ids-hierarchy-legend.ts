@@ -1,6 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import Base from './ids-hierarchy-legend-base';
-
+import IdsElement from '../../core/ids-element';
 import styles from './ids-hierarchy-legend.scss';
 
 /**
@@ -10,7 +9,7 @@ import styles from './ids-hierarchy-legend.scss';
  */
 @customElement('ids-hierarchy-legend')
 @scss(styles)
-export default class IdsHierarchyLegend extends Base {
+export default class IdsHierarchyLegend extends IdsElement {
   constructor() {
     super();
   }

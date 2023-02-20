@@ -2,7 +2,15 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-button-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
+import IdsRippleMixin from '../../mixins/ids-ripple-mixin/ids-ripple-mixin';
+import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
+import IdsElement from '../../core/ids-element';
+
 import {
   BUTTON_TYPES,
   BUTTON_DEFAULTS,
@@ -19,6 +27,22 @@ import styles from './ids-button.scss';
 import type IdsIcon from '../ids-icon/ids-icon';
 import type IdsText from '../ids-text/ids-text';
 
+const Base = IdsTooltipMixin(
+  IdsThemeMixin(
+    IdsLocaleMixin(
+      IdsRippleMixin(
+        IdsColorVariantMixin(
+          IdsHideFocusMixin(
+            IdsEventsMixin(
+              IdsElement
+            )
+          )
+        )
+      )
+    )
+  )
+);
+
 /**
  * IDS Button Component
  * @type {IdsButton}
@@ -29,6 +53,7 @@ import type IdsText from '../ids-text/ids-text';
  * @mixes IdsRippleMixin
  * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
+ * @mixes IdsHideFocusMixin
  * @part button - the button element
  * @part icon - the icon element
  * @part text - the text element
@@ -179,7 +204,7 @@ export default class IdsButton extends Base {
 
   private setAriaText() {
     if (this.container) {
-      this.container.setAttribute(htmlAttributes.ARIA_LABEL, this.text || 'Button');
+      this.container.setAttribute(htmlAttributes.ARIA_LABEL, this.text?.trim() || 'Button');
     }
   }
 

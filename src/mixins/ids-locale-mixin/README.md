@@ -13,17 +13,13 @@ When using it access the locale with `this.locale`.
 1. If you need to respond and change things on language or locale change then you may need to add a combination of the following to handle events
 
 ```js
-// Respond to parent changing language
-this.offEvent('languagechange.component-name-container');
-this.onEvent('languagechange.component-name-container', this.closest('ids-container'), (e) => {
+onLanguageChange = (locale: IdsLocale | undefined) => {
   // Do something based on the changed language
-});
+};
 
-// Respond to parent changing locale
-this.offEvent('localechange.component-name-container');
-this.onEvent('localechange.component-name-container', this.closest('ids-container'), (e) => {
+onLocaleChange = (locale: IdsLocale | undefined) => {
   // Do something based on the changed locale
-});
+};
 ```
 
 ## Ids Locale Mixin (RTL Tips)

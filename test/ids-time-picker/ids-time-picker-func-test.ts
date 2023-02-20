@@ -2,46 +2,44 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
+import { timeNumberWithinRange } from '../helpers/time-number-within-range';
 
 import IdsTimePicker from '../../src/components/ids-time-picker/ids-time-picker';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+
+import '../../src/components/ids-time-picker/ids-time-picker-popup';
+
 import { attributes } from '../../src/core/ids-attributes';
 import { hoursTo12 } from '../../src/utils/ids-date-utils/ids-date-utils';
+import { messages as esMessages } from '../../src/components/ids-locale/data/es-messages';
+import { locale as es419Locale } from '../../src/components/ids-locale/data/es-419';
+import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 describe('IdsTimePicker Component', () => {
   let timepicker: any;
+  let container: any;
 
   beforeEach(async () => {
-    const container: any = new IdsContainer();
-    container.setLocale('en-US');
+    container = new IdsContainer();
     document.body.appendChild(container);
     const element: any = new IdsTimePicker();
     document.body.appendChild(element);
     timepicker = document.querySelector('ids-time-picker');
+
+    IdsLocaleData.loadedLanguages.set('es', esMessages);
+    IdsLocaleData.loadedLocales.set('es-419', es419Locale);
+    container.setLocale('en-US');
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
+    timepicker = null;
   });
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-time-picker').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('renders separators', () => {
-    timepicker.format = 'hh:mm:ss a';
-    timepicker.replaceWith(timepicker);
-    expect(timepicker.container.querySelectorAll('.separator')).toHaveLength(3);
-
-    timepicker.format = 'hh:mm:ss';
-    timepicker.replaceWith(timepicker);
-    expect(timepicker.container.querySelectorAll('.separator')).toHaveLength(2);
-
-    timepicker.format = 'hh:mm';
-    timepicker.replaceWith(timepicker);
-    expect(timepicker.container.querySelectorAll('.separator')).toHaveLength(1);
   });
 
   it('render via document.createElement (append late)', () => {
@@ -136,34 +134,10 @@ describe('IdsTimePicker Component', () => {
     timepicker.format = null;
 
     expect(timepicker.getAttribute(attributes.FORMAT)).toBeNull();
-    expect(timepicker.format).toEqual(timepicker.locale.calendar().timeFormat);
-
-    await (document.querySelector('ids-container') as any)?.setLocale('es-419');
+    expect(timepicker.format).toEqual(timepicker.localeAPI.calendar().timeFormat);
+    await timepicker.setLocale('es-419');
 
     expect(timepicker.format).toEqual('HH:mm');
-  });
-
-  it('renders minutes intervals', () => {
-    timepicker.setAttribute(attributes.FORMAT, 'hh:mm');
-
-    timepicker.minuteInterval = null;
-
-    // Default value
-    expect(timepicker.minuteInterval).toEqual(5);
-
-    timepicker.minuteInterval = 10;
-
-    const getOptions = (id: string): Array<number> => Array.from(timepicker.container.querySelector(id)?.options)
-      .map((item: any) => +item.textContent);
-
-    expect(timepicker.minuteInterval).toBe(10);
-    timepicker.replaceWith(timepicker);
-    expect(getOptions('#minutes')).toStrictEqual([0, 10, 20, 30, 40, 50]);
-
-    timepicker.setAttribute(attributes.MINUTE_INTERVAL, 1);
-    expect(timepicker.minuteInterval).toBe(1);
-    timepicker.replaceWith(timepicker);
-    expect(getOptions('#minutes')).toStrictEqual(Array.from({ length: 60 }).map((_, index) => index));
   });
 
   it('renders seconds', () => {
@@ -183,28 +157,6 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('10:10:00');
   });
 
-  it('renders seconds intervals', () => {
-    timepicker.setAttribute(attributes.FORMAT, 'hh:mm:ss');
-
-    timepicker.secondInterval = null;
-
-    // Default value
-    expect(timepicker.secondInterval).toEqual(5);
-
-    const getOptions = (id: string): Array<number> => Array.from(timepicker.container.querySelector(id)?.options)
-      .map((item: any) => +item.textContent);
-
-    timepicker.secondInterval = 10;
-    expect(timepicker.secondInterval).toBe(10);
-    timepicker.replaceWith(timepicker);
-    expect(getOptions('#seconds')).toStrictEqual([0, 10, 20, 30, 40, 50]);
-
-    timepicker.setAttribute(attributes.SECOND_INTERVAL, '1');
-    expect(timepicker.secondInterval).toBe(1);
-    timepicker.replaceWith(timepicker);
-    expect(getOptions('#seconds')).toStrictEqual(Array.from({ length: 60 }).map((_, index) => index));
-  });
-
   it('does not render seconds', () => {
     timepicker.autoupdate = true;
     timepicker.format = 'hh:mm';
@@ -219,30 +171,8 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('10:10');
   });
 
-  it('renders am/pm', () => {
-    timepicker.autoupdate = true;
-    timepicker.format = 'hh:mm a';
-
-    timepicker.hours = '10';
-    timepicker.minutes = '00';
-    timepicker.period = 'AM';
-
-    expect(timepicker.value).toBe('10:00 AM');
-
-    timepicker.period = 'am';
-    expect(timepicker.value).toBe('10:00 AM');
-
-    timepicker.period = 'PM';
-    expect(timepicker.value).toBe('10:00 PM');
-
-    timepicker.period = 'pm';
-    expect(timepicker.value).toBe('10:00 PM');
-
-    timepicker.period = null;
-    expect(timepicker.value).toBe('10:00 AM');
-  });
-
   it('should set 12 am/pm time', () => {
+    timepicker.useCurrentTime = false;
     timepicker.autoupdate = true;
 
     timepicker.hours = 12;
@@ -267,6 +197,7 @@ describe('IdsTimePicker Component', () => {
 
   it('should parse input value', () => {
     expect(timepicker.value).toBe('');
+    timepicker.useCurrentTime = false;
     timepicker.minuteInterval = 1;
     timepicker.secondInterval = 1;
 
@@ -315,89 +246,19 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.seconds).toBe(0);
   });
 
-  it('should handle option to limit hours', () => {
-    const getOptions = (id: string): Array<number> => Array.from(timepicker.container.querySelector(id)?.options)
-      .map((item: any) => +item.textContent);
-
-    timepicker.value = '';
-    timepicker.format = 'HH:mm:ss';
-    expect(timepicker.startHour).toBe(0);
-    expect(timepicker.endHour).toBe(24);
-
-    timepicker.startHour = 5;
-    timepicker.endHour = 15;
-
-    timepicker.replaceWith(timepicker);
-    expect(getOptions('#hours')).toEqual([5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-
-    timepicker.startHour = 0;
-    timepicker.endHour = 5;
-
-    timepicker.replaceWith(timepicker);
-    expect(getOptions('#hours')).toEqual([0, 1, 2, 3, 4, 5]);
-
-    timepicker.startHour = 12;
-    timepicker.endHour = 18;
-
-    timepicker.replaceWith(timepicker);
-    expect(getOptions('#hours')).toEqual([12, 13, 14, 15, 16, 17, 18]);
-
-    timepicker.startHour = null;
-    timepicker.endHour = null;
-    expect(timepicker.startHour).toBe(0);
-    expect(timepicker.endHour).toBe(24);
-
-    timepicker.format = 'h:mm a';
-
-    timepicker.startHour = 5;
-    timepicker.endHour = 15;
-
-    timepicker.replaceWith(timepicker);
-    expect(getOptions('#hours')).toEqual([5, 6, 7, 8, 9, 10, 11]);
-
-    timepicker.period = 'PM';
-
-    expect(getOptions('#hours')).toEqual([1, 2, 3, 12]);
-
-    timepicker.startHour = 18;
-    timepicker.endHour = 23;
-
-    timepicker.replaceWith(timepicker);
-    timepicker.period = 'PM';
-    expect(getOptions('#hours')).toEqual([6, 7, 8, 9, 10, 11]);
-
-    timepicker.startHour = 0;
-    timepicker.endHour = 11;
-    timepicker.period = 'AM';
-    expect(getOptions('#hours')).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
-
-    timepicker.startHour = 18;
-    timepicker.endHour = 24;
-    timepicker.period = 'PM';
-    timepicker.replaceWith(timepicker);
-
-    expect(getOptions('#hours')).toEqual([6, 7, 8, 9, 10, 11]);
-
-    timepicker.startHour = 0;
-    timepicker.endHour = 13;
-    timepicker.period = 'AM';
-    timepicker.replaceWith(timepicker);
-    expect(getOptions('#hours')).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
-
-    timepicker.period = 'PM';
-    expect(getOptions('#hours')).toEqual([1, 12]);
-  });
-
   it('should show current time', () => {
     timepicker.format = 'HH:mm:ss';
     timepicker.minuteInterval = 1;
     timepicker.secondInterval = 1;
     timepicker.useCurrentTime = true;
-    timepicker.value = '';
 
-    expect(timepicker.hours).toEqual(new Date().getHours());
-    expect(timepicker.minutes).toEqual(new Date().getMinutes());
-    expect(timepicker.seconds).toEqual(new Date().getSeconds());
+    timepicker.value = '';
+    let testDate = new Date();
+    let seconds = testDate.getSeconds();
+
+    expect(timepicker.hours).toEqual(testDate.getHours());
+    expect(timepicker.minutes).toEqual(testDate.getMinutes());
+    expect(timeNumberWithinRange(timepicker.seconds, seconds - 1, seconds + 1)).toBeTruthy();
 
     timepicker.value = '22:33:44';
 
@@ -407,11 +268,13 @@ describe('IdsTimePicker Component', () => {
 
     timepicker.format = 'hh:mm:ss a';
     timepicker.value = '';
+    testDate = new Date();
+    seconds = testDate.getSeconds();
 
-    expect(timepicker.hours).toEqual(hoursTo12(new Date().getHours()));
-    expect(timepicker.minutes).toEqual(new Date().getMinutes());
-    expect(timepicker.seconds).toEqual(new Date().getSeconds());
-    expect(timepicker.period).toEqual(new Date().getHours() >= 12 ? 'PM' : 'AM');
+    expect(timepicker.hours).toEqual(hoursTo12(testDate.getHours()));
+    expect(timepicker.minutes).toEqual(testDate.getMinutes());
+    expect(timeNumberWithinRange(timepicker.seconds, seconds - 1, seconds + 1)).toBeTruthy();
+    expect(timepicker.period).toEqual(testDate.getHours() >= 12 ? 'PM' : 'AM');
 
     timepicker.useCurrentTime = null;
     timepicker.value = '';
@@ -437,26 +300,26 @@ describe('IdsTimePicker Component', () => {
   });
 
   it('can show and hide popup', () => {
-    expect(timepicker.popup.visible).toBeFalsy();
+    expect(timepicker.picker.popup.visible).toBeFalsy();
 
     timepicker.open();
-    expect(timepicker.popup.visible).toBeTruthy();
+    expect(timepicker.picker.popup.visible).toBeTruthy();
 
     timepicker.close();
-    expect(timepicker.popup.visible).toBeFalsy();
+    expect(timepicker.picker.popup.visible).toBeFalsy();
   });
 
   it('with autoselect attribute, can auto show the popup', () => {
     expect(timepicker.autoselect).toBeFalsy();
     expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeFalsy();
-    expect(timepicker.popup.visible).toBeFalsy();
+    expect(timepicker.picker.popup.visible).toBeFalsy();
 
     timepicker.autoselect = true;
     expect(timepicker.autoselect).toBeTruthy();
     expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeTruthy();
 
     timepicker.input.focus();
-    expect(timepicker.popup.visible).toBeTruthy();
+    expect(timepicker.picker.popup.visible).toBeTruthy();
     timepicker.close();
 
     timepicker.autoselect = false;
@@ -464,72 +327,40 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeFalsy();
 
     timepicker.input.focus();
-    expect(timepicker.popup.visible).toBeFalsy();
-  });
-
-  it('can update the timestring value with the "Set Time" button', () => {
-    timepicker.autoupdate = false;
-    timepicker.format = 'hh:mm';
-
-    timepicker.value = '';
-    expect(timepicker.value).toBe('');
-    expect(timepicker.getAttribute('value')).toBe('');
-
-    timepicker.hours = 2;
-    timepicker.minutes = 30;
-
-    timepicker.open();
-    timepicker.container.querySelector('.popup-btn')?.click();
-    expect(timepicker.value).toBe('02:30');
-  });
-
-  it('with autoupdate attribute, can hide the "Set Time" button', () => {
-    expect(timepicker.autoupdate).toBeFalsy();
-    expect(timepicker.getAttribute(attributes.AUTOUPDATE)).toBeFalsy();
-    expect(timepicker.container.querySelector('.popup-btn')).toBeDefined();
-
-    timepicker.autoupdate = true;
-    expect(timepicker.autoupdate).toBeTruthy();
-    expect(timepicker.getAttribute(attributes.AUTOUPDATE)).toBeTruthy();
-    expect(timepicker.container.querySelector('.popup-btn')?.hidden).toBeTruthy();
-
-    timepicker.autoupdate = false;
-    expect(timepicker.autoupdate).toBe(false);
-    expect(timepicker.getAttribute(attributes.AUTOUPDATE)).toBeFalsy();
-    expect(timepicker.container.querySelector('.popup-btn')?.hidden).toBeFalsy();
+    expect(timepicker.picker.popup.visible).toBeFalsy();
   });
 
   it('can show and hide popup on clicking the trigger-button', () => {
-    expect(timepicker.popup.visible).toBeFalsy();
+    expect(timepicker.picker.popup.visible).toBeFalsy();
     const triggerButton = timepicker.container.querySelector('ids-trigger-button');
     timepicker.triggerEvent('click', triggerButton);
-    expect(timepicker.popup.visible).toBeTruthy();
+    expect(timepicker.picker.popup.visible).toBeTruthy();
 
     timepicker.triggerEvent('click', triggerButton);
-    expect(timepicker.popup.visible).toBeFalsy();
+    expect(timepicker.picker.popup.visible).toBeFalsy();
   });
 
   it('can show popup with keyboard ArrowDown', () => {
-    expect(timepicker.popup.visible).toBeFalsy();
+    expect(timepicker.picker.popup.visible).toBeFalsy();
 
     timepicker.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
-    expect(timepicker.popup.visible).toBeTruthy();
+    expect(timepicker.picker.popup.visible).toBeTruthy();
   });
 
   it('can hide popup on keyboard Escape', () => {
     timepicker.open();
-    expect(timepicker.popup.visible).toBeTruthy();
+    expect(timepicker.picker.popup.visible).toBeTruthy();
 
     timepicker.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-    expect(timepicker.popup.visible).toBeFalsy();
+    expect(timepicker.picker.popup.visible).toBeFalsy();
   });
 
   it('can hide popup on keyboard Backspace', () => {
     timepicker.open();
-    expect(timepicker.popup.visible).toBeTruthy();
+    expect(timepicker.picker.popup.visible).toBeTruthy();
 
     timepicker.dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace' }));
-    expect(timepicker.popup.visible).toBeFalsy();
+    expect(timepicker.picker.popup.visible).toBeFalsy();
   });
 
   it('should set ID', () => {
@@ -589,22 +420,18 @@ describe('IdsTimePicker Component', () => {
 
   it('will hide on outside click', () => {
     timepicker.open();
-    timepicker.onOutsideClick({ target: document.body });
-    expect(timepicker.popup.visible).toBeFalsy();
+    timepicker.picker.onOutsideClick({ target: document.body });
+    expect(timepicker.picker.popup.visible).toBeFalsy();
   });
 
   it('should handle embeddable setting', () => {
     document.querySelector('ids-container')?.insertAdjacentHTML('afterbegin', `
       <ids-time-picker id="embeddable" embeddable="true"></ids-time-picker>
     `);
-    const embeddableTimePicker: any = document.querySelector('#embeddable');
+    const embeddableTimePicker = document.querySelector<IdsTimePicker>('#embeddable')!;
 
     expect(embeddableTimePicker.input).toBeNull();
-    expect(embeddableTimePicker.popup).toBeNull();
-    expect(embeddableTimePicker.container.querySelector('.dropdowns')).not.toBeNull();
-
-    embeddableTimePicker.embeddable = false;
-    expect(embeddableTimePicker.getAttribute(attributes.EMBEDDABLE)).toBeFalsy();
+    expect(embeddableTimePicker.picker).toBeNull();
   });
 
   it('should handle tabbable setting', () => {

@@ -1,9 +1,14 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import Base from './ids-progress-bar-base';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsElement from '../../core/ids-element';
 
 import styles from './ids-progress-bar.scss';
+
+const Base = IdsEventsMixin(
+  IdsElement
+);
 
 // Defaults
 const ID = 'ids-progress-bar-id';
