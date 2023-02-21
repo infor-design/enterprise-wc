@@ -28,6 +28,13 @@ First day of the week from current date will be set if not valid date or no spec
 - `eventsData` `{Array<CalendarEventData>}` - Array of calendar event data to populate the week view
 - `eventTypesData` `{Array<CalendarEventTypeData>}` - Array of calendar event types used to categorize calendar events
 
+## Events
+
+- `beforeeventrendered` Fires for each event rendered (full day or in day) before the element is added to the DOM
+- `aftereventrendered` Fires for each event rendered (full day or in day) after the element is added to the DOM
+- `beforeweekrendered` Fires before a week view is rendered
+- `aftereweekrendered` Fires after a week view is rendered
+
 ## Features (With Code Examples)
 
 With no settings. Regular week 7 days to show. First day of the week is Sunday, last day of the week is Saturday. 7 AM - 7 PM hours.

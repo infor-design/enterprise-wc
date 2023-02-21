@@ -7,11 +7,15 @@
 - `[Alert]` Added the ability to use any icon and set any alert color on the alerts. ([#1138](https://github.com/infor-design/enterprise-wc/issues/1138))
 - `[Badge]` Fixed uneven shape on badge icons. ([#1014](https://github.com/infor-design/enterprise-wc/issues/1014))
 - `[Build]` Updated `esbuild` to fix issues with import order. ([#1140](https://github.com/infor-design/enterprise-wc/issues/1140))
+- `[Calendar]` Added a `beforeeventrendered` and `aftereventrendered` event. ([#1131](https://github.com/infor-design/enterprise-wc/issues/1131))
 - `[Icons]` Changed the way custom icons work so they can be used only at one time and from a file. ([#1122](https://github.com/infor-design/enterprise-wc/issues/1122))
 - `[Icons]` Clean up examples for icons. ([#509](https://github.com/infor-design/enterprise-wc/issues/509))
 - `[Locale]` Locale information files and messages are now separate from the build. They must be served as assets from the `node_modules/ids-enterprise-wc/locale-data` folder. ([#1107](https://github.com/infor-design/enterprise-wc/issues/1107))
+- `[Month View]` Added a `beforeeventrendered` and `aftereventrendered` event. ([#1131](https://github.com/infor-design/enterprise-wc/issues/1131))
 - `[ThemeSwitcher]` Added ability to hide the theme switcher and still use it. ([#1136](https://github.com/infor-design/enterprise-wc/issues/1136))
 - `[Trigger Field]` Fixed trigger field buttons padding. ([#1091](https://github.com/infor-design/enterprise-wc/issues/1091))
+- `[Week View]` Changed `...render` to `...rendered` in the event name to match other components. ([#1131](https://github.com/infor-design/enterprise-wc/issues/1131))
+- `[Week View]` Added a `beforeeventrendered` and `aftereventrendered` event. ([#1131](https://github.com/infor-design/enterprise-wc/issues/1131))
 
 ## 1.0.0-beta.6
 
