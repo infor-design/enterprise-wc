@@ -1207,6 +1207,7 @@ export default class IdsDataGrid extends Base {
   /* Attach Events for virtual scrolling */
   #attachVirtualScrollEvent() {
     if (!this.virtualScroll) return;
+
     const virtualScrollSettings = this.virtualScrollSettings;
     const data = this.data;
 
@@ -1233,7 +1234,7 @@ export default class IdsDataGrid extends Base {
 
   #virtualScrollEventCache: { [key: string]: number } = {};
 
-  #virtualScrollEvent(rowIndex: number, eventType?: 'top' | 'bottom') {
+  #triggerVirtualScrollEvent(rowIndex: number, eventType?: 'top' | 'bottom') {
     if (!eventType) {
       this.#virtualScrollEventCache = {}; // reset event-cache
     } else if (rowIndex !== this.#virtualScrollEventCache[eventType]) {
@@ -1242,7 +1243,7 @@ export default class IdsDataGrid extends Base {
       this.triggerEvent(`virtualscroll-${eventType}`, this, {
         bubbles: true,
         composed: true,
-        detail: { elem: this, value: rowIndex, eventType }
+        detail: { elem: this, value: rowIndex }
       });
     }
   }
@@ -1323,11 +1324,13 @@ export default class IdsDataGrid extends Base {
     bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
 
     if (reachedTheTop) {
-      this.#virtualScrollEvent(firstRowIndex, 'top');
-    } else if (reachedTheBottom) {
-      this.#virtualScrollEvent(lastRowIndex, 'bottom');
-    } else {
-      this.#virtualScrollEvent(0);
+      this.#triggerVirtualScrollEvent(firstRowIndex, 'top');
+    }
+    if (reachedTheTop) {
+      this.#triggerVirtualScrollEvent(lastRowIndex, 'bottom');
+    }
+    if (!reachedTheTop && !reachedTheTop) {
+      this.#triggerVirtualScrollEvent(0);
     }
 
     if (isInRange) {
@@ -1380,7 +1383,7 @@ export default class IdsDataGrid extends Base {
     });
   }
 
-  /* Recycle the rows duing scrolling */
+  /* Recycle the rows during scrolling */
   #recycleAllRows(topRowIndex: number) {
     const rows = this.rows;
     if (!rows.length) return;
@@ -1402,7 +1405,7 @@ export default class IdsDataGrid extends Base {
     });
   }
 
-  /* Recycle the rows duing scrolling from the top */
+  /* Recycle the rows during scrolling from the top */
   #recycleTopRowsDown(rowCount: number) {
     const rows = this.rows;
     if (!rowCount || !rows.length) return;
@@ -1433,7 +1436,7 @@ export default class IdsDataGrid extends Base {
     });
   }
 
-  /* Recycle the rows duing scrolling from the bottom */
+  /* Recycle the rows during scrolling from the bottom */
   #recycleBottomRowsUp(rowCount: number) {
     const rows = this.rows;
     if (!rowCount || !rows.length) return;

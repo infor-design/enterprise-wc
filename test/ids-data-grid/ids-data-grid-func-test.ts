@@ -544,6 +544,29 @@ describe('IdsDataGrid Component', () => {
       expect(listener).toBeCalledWith('scroll', expect.any(Function), { capture: true, passive: true });
     });
 
+    it('triggers virtualscroll-top event', async () => {
+      dataGrid.virtualScroll = true;
+      expect(dataGrid.virtualScroll).toBeTruthy();
+
+      const scrollListener = jest.fn();
+      dataGrid.addEventListener('virtualscroll-top', scrollListener);
+      dataGrid.scrollRowIntoView(dataset.length);
+      expect(scrollListener).toBeCalled();
+    });
+
+    it('triggers virtualscroll-bottom event', async () => {
+      dataGrid.virtualScroll = true;
+      expect(dataGrid.virtualScroll).toBeTruthy();
+
+      const bigData = (new Array(1000)).fill(dataset[0], 0, 1000);
+      dataGrid.data = bigData;
+
+      const scrollListener = jest.fn();
+      dataGrid.addEventListener('virtualscroll-bottom', scrollListener);
+      dataGrid.scrollRowIntoView(bigData.length);
+      expect(scrollListener).toBeCalled();
+    });
+
     it.skip('can recycle cells down', async () => {
       expect(dataGrid.data).toEqual(dataset);
 

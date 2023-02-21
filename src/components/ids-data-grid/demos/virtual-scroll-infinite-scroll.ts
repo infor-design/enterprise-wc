@@ -80,17 +80,17 @@ columns.push({
 
 dataGrid.columns = columns;
 
-const setData = async () => {
+const fetchData = async () => {
   const res = await fetch(url);
   const data = await res.json();
-  dataGrid.data = data;
+  return data;
+};
+
+const setData = async () => {
+  dataGrid.data = await fetchData();
 };
 
 setData();
-
-dataGrid.addEventListener('selectionchanged', (e: Event) => {
-  console.info(`Selection Changed`, (<CustomEvent>e).detail);
-});
 
 dataGrid.addEventListener('virtualscroll-top', async (e: Event) => {
   console.info(`Virtual Scroll reached top`, (<CustomEvent>e).detail);
@@ -98,4 +98,10 @@ dataGrid.addEventListener('virtualscroll-top', async (e: Event) => {
 
 dataGrid.addEventListener('virtualscroll-bottom', async (e: Event) => {
   console.info(`Virtual Scroll reached bottom`, (<CustomEvent>e).detail);
+  const MAX_ROW_INDEX = 2999;
+
+  if ((<CustomEvent>e).detail?.value < MAX_ROW_INDEX) {
+    const moreData = await fetchData();
+    dataGrid.moreData(moreData);
+  }
 });
