@@ -1,4 +1,4 @@
-export function newBlob(part, type) {
+export function newBlob(part: any, type: any) {
   return new Blob([part], { type });
 }
 
@@ -6,14 +6,27 @@ export function newBlob(part, type) {
  * Return the type of the input.
  * The type will be in a format valid for JSZip.utils.transformTo : string, array, uint8array, arraybuffer.
  * @param {any} input the input to identify.
- * @returns {string} the (lowercase) type of the input.
+ * @returns {'string' | 'uint8array' | 'arraybuffer' | undefined} the (lowercase) type of the input.
  */
-export function getTypeOf(input: any): 'string' | 'uint8array' {
+export function getTypeOf(input: any): any {
   if (typeof input === 'string') {
     return 'string';
   }
 
-  return 'uint8array';
+  if (Object.prototype.toString.call(input) === '[object Array]') {
+    console.error('type of array');
+    return 'array';
+  }
+
+  const supportUint8Array = typeof Uint8Array !== 'undefined';;
+  if (supportUint8Array && input instanceof Uint8Array) {
+    return 'uint8array';
+  }
+
+  const supportArrayBuffer = typeof ArrayBuffer !== 'undefined' && typeof Uint8Array !== 'undefined';
+  if (supportArrayBuffer && input instanceof ArrayBuffer) {
+    return 'arraybuffer';
+  }
 }
 
 /**
@@ -22,10 +35,10 @@ export function getTypeOf(input: any): 'string' | 'uint8array' {
  * can be optimized by the browser JIT compiler.
  */
 const arrayToStringHelper = {
-  stringifyByChunk: (array: any, type: string, chunk: number) => {
+  stringifyByChunk: (array, type, chunk) => {
     const result = [];
-    const len = array.length;
     let k = 0;
+    const len = array.length;
 
     // shortcut
     if (len <= chunk) {
@@ -34,14 +47,15 @@ const arrayToStringHelper = {
     while (k < len) {
       if (type === 'array' || type === 'nodebuffer') {
         result.push(String.fromCharCode.apply(null, array.slice(k, Math.min(k + chunk, len))));
-      } else {
+      }
+      else {
         result.push(String.fromCharCode.apply(null, array.subarray(k, Math.min(k + chunk, len))));
       }
       k += chunk;
     }
     return result.join('');
   },
-  stringifyByChar: (array: Array<any> | Uint8Array) => {
+  stringifyByChar: (array) => {
     let resultStr = '';
 
     for (let i = 0; i < array.length; i++) {
@@ -57,7 +71,7 @@ const arrayToStringHelper = {
  * @param {Array<any>} array the array to fill in (will be mutated).
  * @returns {Array<any>} the updated array.
  */
-function stringToArrayLike(str: string, array: Array<any> | Uint8Array) {
+function stringToArrayLike(str: string, array: Array<any> | Uint8Array): Array<any> | Uint8Array {
   for (let i = 0; i < str.length; ++i) {
     array[i] = str.charCodeAt(i) & 0xFF;
   }
@@ -70,14 +84,27 @@ function stringToArrayLike(str: string, array: Array<any> | Uint8Array) {
  * @returns {string} the result.
  */
 function arrayLikeToString(array: Array<any> | Uint8Array) {
+  // Performances notes :
+  // --------------------
+  // String.fromCharCode.apply(null, array) is the fastest, see
+  // see http://jsperf.com/converting-a-uint8array-to-a-string/2
+  // but the stack is limited (and we can get huge arrays !).
+  //
+  // result += String.fromCharCode(array[i]); generate too many strings !
+  //
+  // This code is inspired by http://jsperf.com/arraybuffer-to-string-apply-performance/2
+  // TODO : we now have workers that split the work. Do we still need that ?
   let chunk = 65536;
   const type = getTypeOf(array);
+  const canUseApply = true;
 
-  while (chunk > 1) {
-    try {
-      return arrayToStringHelper.stringifyByChunk(array, type, chunk);
-    } catch (e) {
-      chunk = Math.floor(chunk / 2);
+  if (canUseApply) {
+    while (chunk > 1) {
+      try {
+        return arrayToStringHelper.stringifyByChunk(array, type, chunk);
+      } catch (e) {
+        chunk = Math.floor(chunk / 2);
+      }
     }
   }
 
@@ -90,19 +117,21 @@ function arrayLikeToString(array: Array<any> | Uint8Array) {
 const transform = {
   string: {
     string: (input: string) => input,
-    uint8array: (input: any) => stringToArrayLike(input, new Uint8Array(input.length))
+    uint8array: (input: any) => stringToArrayLike(input, new Uint8Array(input.length)),
+    arraybuffer: (input: any) => (transform.string.uint8array(input) as Uint8Array).buffer
   },
   uint8array: {
     string: arrayLikeToString,
-    uint8array: (input: string) => input
+    uint8array: (input: string) => input,
+    arraybuffer: (input: any) => input.buffer,
   }
 };
 
-export function transformTo(outputType: 'string' | 'uint8array', input = '') {
+export function transformTo(outputType: 'string' | 'uint8array' | 'arraybuffer', input: string | Uint8Array = '') {
   if (!outputType) {
     return input;
   }
-  const inputType = getTypeOf(input);
+  const inputType = getTypeOf(input) as 'string' | 'uint8array';
   const result = transform[inputType][outputType](input as any);
   return result;
 }
@@ -110,10 +139,10 @@ export function transformTo(outputType: 'string' | 'uint8array', input = '') {
 /**
  * Defer the call of a function.
  * @param {any} callback the function to call asynchronously.
- * @param {Array<any>} args the arguments to give to the callback.
+ * @param {any} args the arguments to give to the callback.
  * @param {any} self object context
  */
-export function delay(callback: any, args: any[], self: any) {
+export function delay(callback: any, args: any, self: any) {
   setTimeout(() => {
     callback.apply(self || null, args || []);
   }, 0);
@@ -172,48 +201,56 @@ export function string2binary(str: string) {
 export function string2buf(str: string): Uint8Array {
   let c;
   let c2;
-  let mPos;
+  let m_pos;
   let i;
-  const strLen = str.length;
-  let bufLen = 0;
+  let str_len = str.length;
+  let buf_len = 0;
 
   // count binary size
-  for (mPos = 0; mPos < strLen; mPos++) {
-    c = str.charCodeAt(mPos);
-    if ((c & 0xfc00) === 0xd800 && (mPos + 1 < strLen)) {
-      c2 = str.charCodeAt(mPos + 1);
+  for (m_pos = 0; m_pos < str_len; m_pos++) {
+    c = str.charCodeAt(m_pos);
+    if ((c & 0xfc00) === 0xd800 && (m_pos + 1 < str_len)) {
+      c2 = str.charCodeAt(m_pos + 1);
       if ((c2 & 0xfc00) === 0xdc00) {
         c = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
-        mPos++;
+        m_pos++;
       }
     }
-    if (c < 0x80) {
-      bufLen += 1;
-    } else if (c < 0x800) {
-      bufLen += 2;
-    } else if (c < 0x10000) {
-      bufLen += 3;
-    } else {
-      bufLen += 4;
-    }
+    // eslint-disable-next-line no-nested-ternary
+    buf_len += c < 0x80 ? 1 : c < 0x800 ? 2 : c < 0x10000 ? 3 : 4;
   }
 
   // allocate buffer
-  const buf = new Uint8Array(bufLen);
+  const buf = new Uint8Array(buf_len);
 
   // convert
-  for (i = 0, mPos = 0; i < bufLen; mPos++) {
-    c = str.charCodeAt(mPos);
-    if ((c & 0xfc00) === 0xd800 && (mPos + 1 < strLen)) {
-      c2 = str.charCodeAt(mPos + 1);
+  for (i = 0, m_pos = 0; i < buf_len; m_pos++) {
+    c = str.charCodeAt(m_pos);
+    if ((c & 0xfc00) === 0xd800 && (m_pos + 1 < str_len)) {
+      c2 = str.charCodeAt(m_pos + 1);
       if ((c2 & 0xfc00) === 0xdc00) {
         c = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
-        mPos++;
+        m_pos++;
       }
     }
     if (c < 0x80) {
       /* one byte */
       buf[i++] = c;
+    } else if (c < 0x800) {
+      /* two bytes */
+      buf[i++] = 0xC0 | (c >>> 6);
+      buf[i++] = 0x80 | (c & 0x3f);
+    } else if (c < 0x10000) {
+      /* three bytes */
+      buf[i++] = 0xE0 | (c >>> 12);
+      buf[i++] = 0x80 | (c >>> 6 & 0x3f);
+      buf[i++] = 0x80 | (c & 0x3f);
+    } else {
+      /* four bytes */
+      buf[i++] = 0xf0 | (c >>> 18);
+      buf[i++] = 0x80 | (c >>> 12 & 0x3f);
+      buf[i++] = 0x80 | (c >>> 6 & 0x3f);
+      buf[i++] = 0x80 | (c & 0x3f);
     }
   }
 

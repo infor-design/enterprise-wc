@@ -1,8 +1,8 @@
-import { Crc32Probe } from './Crc32Probe';
-import { DataLengthProbe } from './DataLengthProbe';
-import { DataWorker } from './DataWorker';
-import { GenericWorker } from './GenericWorker';
-import { Utf8EncodeWorker } from './Utf8EncodeWorker';
+import { BaseWorker } from './base-worker';
+import { Crc32Probe } from './crc32-probe';
+import { DataLengthProbe } from './data-length-probe';
+import { DataWorker } from './data-worker';
+import { Utf8EncodeWorker } from './utf8-encode-worker';
 
 export class ZipObject {
   name: string;
@@ -40,41 +40,8 @@ export class ZipObject {
     };
   }
 
-  internalStream(type) {
-    var result = null, outputType = 'string';
-    try {
-      if (!type) {
-        throw new Error('No output type specified.');
-      }
-      outputType = type.toLowerCase();
-      var askUnicodeString = outputType === 'string' || outputType === 'text';
-      if (outputType === 'binarystring' || outputType === 'text') {
-        outputType = 'string';
-      }
-      result = this._decompressWorker();
-
-      var isUnicodeString = !this._dataBinary;
-
-      if (isUnicodeString && !askUnicodeString) {
-        result = result.pipe(new Utf8EncodeWorker());
-      }
-      if (!isUnicodeString && askUnicodeString) {
-        result = result.pipe(new utf8.Utf8DecodeWorker());
-      }
-    } catch (e) {
-      result = new GenericWorker('error');
-      result.error(e);
-    }
-
-    return new StreamHelper(result, outputType, '');
-  }
-
-  async(type, onUpdate) {
-    return this.internalStream(type).accumulate(onUpdate);
-  }
-
-  compressWorker(compression) {
-    let result = new DataWorker(this.data);
+  compressWorker(compression: any) {
+    let result: BaseWorker = new DataWorker(this.data);
 
     if (!this.dataBinary) {
       result = result.pipe(new Utf8EncodeWorker());
@@ -83,7 +50,7 @@ export class ZipObject {
     result = result
       .pipe(new Crc32Probe())
       .pipe(new DataLengthProbe('uncompressedSize'))
-      .pipe(new GenericWorker('STORE compression'))
+      .pipe(new BaseWorker('STORE compression'))
       .pipe(new DataLengthProbe('compressedSize'))
       .withStreamInfo('compression', compression);
 

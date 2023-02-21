@@ -6,9 +6,12 @@ import {
   string2binary,
   string2buf
 } from './ids-zip-util';
+import { StreamHelper } from './stream-helper';
+import { ZipFileWorker } from './zip-file-worker';
 import { ZipObject } from './zip-object';
 
 export type IdsZipOptions = {
+  type: any;
   mimeType: string;
   comment?: string
 };
@@ -78,20 +81,22 @@ export class IdsZip {
   root = '';
 
   // zip object
-  files: ZipObject[] = [];
+  files: Record<string, ZipObject> = {};
 
   // zip comment
   comment = '';
 
   clone() {
     const newZip = new IdsZip();
-    newZip.root = this.root;
-    newZip.files = this.files;
-    newZip.comment = this.comment;
+    for (const i in this) {
+      if (typeof this[i] !== 'function') {
+        (newZip as any)[i] = this[i];
+      }
+    }
     return newZip;
   }
 
-  file(name: string, data: any, opts: any) {
+  file(name: string, data: any, opts?: any) {
     name = this.root + name;
     fileAdd(this, name, data, opts);
     return this;
@@ -106,6 +111,7 @@ export class IdsZip {
     // Allow chaining by returning a new object with this folder as the root
     const ret = this.clone();
     ret.root = newFolder.name;
+
     return ret;
   }
 
@@ -129,15 +135,16 @@ export class IdsZip {
     const comment = opts.comment || this.comment || '';
     const worker = this.generateWorker(opts, comment);
 
-    return new StreamHelper(worker, opts.type || "string", opts.mimeType);
+    return new StreamHelper(worker, opts.type || 'string', opts.mimeType);
   }
 
-  generateWorker(options, comment) {
+  generateWorker(options: any, comment: any) {
     const zipFileWorker = new ZipFileWorker(options.streamFiles, comment, options.platform, options.encodeFileName);
     let entriesCount = 0;
 
     try {
-      for (const filename of this.files) {
+      // eslint-disable-next-line guard-for-in
+      for (const filename in this.files) {
         const file = this.files[filename];
         const relativePath = filename.slice(this.root.length, filename.length);
 
