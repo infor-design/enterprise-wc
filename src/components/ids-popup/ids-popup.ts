@@ -542,7 +542,7 @@ export default class IdsPopup extends Base {
    * @param {string | number | null} value The value
    */
   set maxHeight(value: string | number | null) {
-    let val: any = parseInt(value as string, 10);
+    let val: string | number | null = parseInt(value as string, 10);
     val = (!Number.isNaN(val) && val > -1) ? `${val}px` : null;
     if (val) {
       this.container?.classList.add('has-maxheight');
