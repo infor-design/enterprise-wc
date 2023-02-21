@@ -37,6 +37,7 @@
     "keyframes-name-pattern": null,
     "value-keyword-case": ["lower", {
       "ignoreKeywords": ["currentColor"]
-    }]
+    }],
+    "string-quotes": "single"
   }
 }
