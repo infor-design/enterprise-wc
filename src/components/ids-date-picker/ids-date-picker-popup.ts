@@ -23,7 +23,6 @@ import '../ids-time-picker/ids-time-picker';
 import '../ids-toggle-button/ids-toggle-button';
 import '../ids-toolbar/ids-toolbar';
 import '../ids-toolbar/ids-toolbar-section';
-
 // Types
 import type IdsButton from '../ids-button/ids-button';
 import type IdsExpandableArea from '../ids-expandable-area/ids-expandable-area';
@@ -31,12 +30,14 @@ import type IdsLocale from '../ids-locale/ids-locale';
 import type IdsModalButton from '../ids-modal-button/ids-modal-button';
 import type IdsMonthView from '../ids-month-view/ids-month-view';
 import type IdsMonthYearPicklist from './ids-month-year-picklist';
+
 import type {
   IdsRangeSettings,
   IdsRangeSettingsInterface,
   IdsLegendSettings,
   IdsDisableSettings
 } from '../ids-month-view/ids-month-view-common';
+
 import type { IdsDayselectedEvent } from '../ids-month-view/ids-month-view';
 import type IdsTimePicker from '../ids-time-picker/ids-time-picker';
 import type IdsToggleButton from '../ids-toggle-button/ids-toggle-button';
@@ -653,7 +654,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
   }
 
   private onPicklistCollapse() {
-    this.monthYearPicklist?.deactivatePicklist();
+    if (this.monthYearPicklist?.deactivatePicklist) this.monthYearPicklist?.deactivatePicklist();
     this.updateActionButtonStateOnShow();
   }
 
@@ -1116,7 +1117,7 @@ class IdsDatePickerPopup extends Base implements IdsPickerPopupCallbacks, IdsRan
 
     if (!this.useRange) {
       if (btnApply) {
-        btnApply.removeRipples();
+        if (btnApply.removeRipples) btnApply?.removeRipples();
         btnApply.setAttribute(attributes.HIDDEN, 'true');
         btnApply.setAttribute(attributes.DISABLED, `${hasPartialRangeSelected}`);
       }
