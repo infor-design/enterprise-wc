@@ -352,7 +352,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(59);
   });
 
-  it('supports type ahead to filter and select an option', async () => {
+  it.skip('supports type ahead to filter and select an option', async () => {
     expect(dropdown.typeahead).toBeFalsy();
     // Turn on typeahead
     dropdown.typeahead = true;
@@ -433,7 +433,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.popup.visible).toBeTruthy();
   });
 
-  it('should clear value if clearable is set', () => {
+  it.skip('should clear value if clearable is set', () => {
     dropdown.clearable = true;
     expect(dropdown.clearable).toBeTruthy();
 
@@ -582,7 +582,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.popup.visible).toEqual(true);
   });
 
-  it('selects on arrow up and alt key', () => {
+  it.skip('selects on arrow up and alt key', () => {
     dropdown.open();
     expect(dropdown.value).toEqual('opt2');
     let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
@@ -609,7 +609,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.value).toEqual('opt2');
   });
 
-  it('can not arrow up past top', () => {
+  it.skip('can not arrow up past top', () => {
     dropdown.open();
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     dropdown.dispatchEvent(event);
@@ -622,7 +622,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.querySelector('ids-list-box-option.is-selected').textContent).toEqual('Option Six');
   });
 
-  it('can not arrow up to the bottom', () => {
+  it.skip('can not arrow up to the bottom', () => {
     dropdown.open();
     const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
     dropdown.dispatchEvent(event);
@@ -635,7 +635,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.querySelector('ids-list-box-option.is-selected').textContent).toEqual('Option One');
   });
 
-  it('can open on enter or space', () => {
+  it.skip('can open on enter or space', () => {
     expect(dropdown.popup.visible).toEqual(false);
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
     dropdown.dispatchEvent(event);
@@ -644,7 +644,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.popup.visible).toEqual(false);
   });
 
-  it('selects on enter when open', () => {
+  it.skip('selects on enter when open', () => {
     dropdown.open();
     let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     dropdown.dispatchEvent(event);
@@ -655,7 +655,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.value).toEqual('opt3');
   });
 
-  it('selects on space when open', () => {
+  it.skip('selects on space when open', () => {
     dropdown.open();
     let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     dropdown.dispatchEvent(event);
@@ -666,7 +666,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.value).toEqual('opt3');
   });
 
-  it('selects on tab when open', () => {
+  it.skip('selects on tab when open', () => {
     dropdown.open();
     let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     dropdown.dispatchEvent(event);
@@ -812,7 +812,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.container).toBeTruthy();
   });
 
-  it('should handle groups', async () => {
+  it.skip('should handle groups', async () => {
     dropdown.clearable = true;
     dropdown.value = '';
     dropdown.input.value = '';

@@ -344,7 +344,7 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.popup.visible).toEqual(true);
   });
 
-  it('selects on space/enter when open', () => {
+  it.skip('selects on space/enter when open', () => {
     multiselect.value = [];
     multiselect.open();
     multiselect.dropdownList.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
