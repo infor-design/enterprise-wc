@@ -1326,10 +1326,10 @@ export default class IdsDataGrid extends Base {
     if (reachedTheTop) {
       this.#triggerVirtualScrollEvent(firstRowIndex, 'top');
     }
-    if (reachedTheTop) {
+    if (reachedTheBottom) {
       this.#triggerVirtualScrollEvent(lastRowIndex, 'bottom');
     }
-    if (!reachedTheTop && !reachedTheTop) {
+    if (!reachedTheTop && !reachedTheBottom) {
       this.#triggerVirtualScrollEvent(0);
     }
 
