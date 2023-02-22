@@ -1240,7 +1240,7 @@ export default class IdsDataGrid extends Base {
     } else if (rowIndex !== this.#virtualScrollEventCache[eventType]) {
       this.#virtualScrollEventCache[eventType] = rowIndex;
 
-      this.triggerEvent(`virtualscroll-${eventType}`, this, {
+      this.triggerEvent(`virtualscroll${eventType}`, this, {
         bubbles: true,
         composed: true,
         detail: { elem: this, value: rowIndex }

@@ -544,17 +544,17 @@ describe('IdsDataGrid Component', () => {
       expect(listener).toBeCalledWith('scroll', expect.any(Function), { capture: true, passive: true });
     });
 
-    it('triggers virtualscroll-top event', async () => {
+    it('triggers virtualscrolltop event', async () => {
       dataGrid.virtualScroll = true;
       expect(dataGrid.virtualScroll).toBeTruthy();
 
       const scrollListener = jest.fn();
-      dataGrid.addEventListener('virtualscroll-top', scrollListener);
+      dataGrid.addEventListener('virtualscrolltop', scrollListener);
       dataGrid.scrollRowIntoView(dataset.length);
       expect(scrollListener).toBeCalled();
     });
 
-    it.skip('triggers virtualscroll-bottom event', async () => {
+    it.skip('triggers virtualscrollbottom event', async () => {
       dataGrid.virtualScroll = true;
       expect(dataGrid.virtualScroll).toBeTruthy();
 
@@ -562,7 +562,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.data = bigData;
 
       const scrollListener = jest.fn();
-      dataGrid.addEventListener('virtualscroll-bottom', scrollListener);
+      dataGrid.addEventListener('virtualscrollbottom', scrollListener);
       dataGrid.scrollRowIntoView(bigData.length);
       expect(scrollListener).toBeCalled();
     });

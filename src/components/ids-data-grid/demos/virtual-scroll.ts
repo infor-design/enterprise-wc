@@ -92,10 +92,10 @@ dataGrid.addEventListener('selectionchanged', (e: Event) => {
   console.info(`Selection Changed`, (<CustomEvent>e).detail);
 });
 
-dataGrid.addEventListener('virtualscroll-top', async (e: Event) => {
+dataGrid.addEventListener('virtualscrolltop', async (e: Event) => {
   console.info(`Virtual Scroll reached top`, (<CustomEvent>e).detail);
 });
 
-dataGrid.addEventListener('virtualscroll-bottom', async (e: Event) => {
+dataGrid.addEventListener('virtualscrollbottom', async (e: Event) => {
   console.info(`Virtual Scroll reached bottom`, (<CustomEvent>e).detail);
 });
