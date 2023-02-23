@@ -58,7 +58,7 @@ const rowSpanSizes = [
 
 const Base = IdsEventsMixin(
   IdsElement
-)
+);
 
 /**
  * IDS Grid Cell Component
