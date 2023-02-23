@@ -45,6 +45,8 @@ If both start and end dates are set calendar toolbar will not be displayed.
 
 ## Events
 - `dayselected` - Fires when a day is selected
+- `beforeeventrendered` Fires for each event rendered (full day or in day) before the element is added to the DOM
+- `aftereventrendered` Fires for each event rendered (full day or in day) after the element is added to the DOM
 
 ## Methods
 - `isDisabledByDate(date: Date): boolean` - Defines if a date is in disabled settings
