@@ -102,10 +102,8 @@ export class IdsZip {
     return this;
   }
 
-  folder(arg: string) {
-    if (!arg) return;
-
-    const name = this.root + arg;
+  folder(folderName: string) {
+    const name = this.root + folderName;
     const newFolder = folderAdd(this, name);
 
     // Allow chaining by returning a new object with this folder as the root
