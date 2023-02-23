@@ -2625,10 +2625,10 @@ describe('IdsDataGrid Component', () => {
       dataGrid.addEventListener('scrollstart', scrollStartListener);
 
       dataGrid.container.scrollTop = 2000;
-      await new Promise((r) => setTimeout(r, 100));
+      // await new Promise((r) => setTimeout(r, 100));
 
       dataGrid.container.scrollTop = 0;
-      await new Promise((r) => setTimeout(r, 100));
+      // await new Promise((r) => setTimeout(r, 100));
 
       expect(scrollStartListener).toBeCalled();
     });
@@ -2641,10 +2641,10 @@ describe('IdsDataGrid Component', () => {
       dataGrid.addEventListener('scrollend', scrollEndListener);
 
       dataGrid.container.scrollTop = 2000;
-      await new Promise((r) => setTimeout(r, 100));
+      // await new Promise((r) => setTimeout(r, 100));
 
       dataGrid.container.scrollTop = 0;
-      await new Promise((r) => setTimeout(r, 100));
+      // await new Promise((r) => setTimeout(r, 100));
 
       expect(scrollEndListener).toBeCalled();
     });
