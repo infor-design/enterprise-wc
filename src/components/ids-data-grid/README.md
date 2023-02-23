@@ -487,8 +487,8 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `menushow` Fires after context menu show.
 - `menuselected` Fires after context menu item selected.
 - `settingschanged` Fires after settings are changed in some way.
-- `virtualscrolltop` Fires when virtual-scroll enabled data-grid reaches the topmost row.
-- `virtualscrollbottom` Fires when virtual-scroll enabled data-grid reaches the bottommost row.
+- `scrollstart` Fires when data-grid reaches the topmost row.
+- `scrollend` Fires when data-grid reaches the bottommost row.
 
 ## Methods
 

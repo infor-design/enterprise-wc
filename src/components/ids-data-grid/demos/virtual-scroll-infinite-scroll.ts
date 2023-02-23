@@ -83,7 +83,7 @@ dataGrid.columns = columns;
 const fetchData = async () => {
   const res = await fetch(url);
   const data = await res.json();
-  return data;
+  return data.slice(0, 100);
 };
 
 const setData = async () => {
@@ -92,13 +92,13 @@ const setData = async () => {
 
 setData();
 
-dataGrid.addEventListener('virtualscrolltop', async (e: Event) => {
-  console.info(`Virtual Scroll reached top`, (<CustomEvent>e).detail);
+dataGrid.addEventListener('scrollstart', async (e: Event) => {
+  console.info(`Virtual Scroll reached start`, (<CustomEvent>e).detail);
 });
 
-dataGrid.addEventListener('virtualscrollbottom', async (e: Event) => {
-  console.info(`Virtual Scroll reached bottom`, (<CustomEvent>e).detail);
-  const MAX_ROW_INDEX = 2999;
+dataGrid.addEventListener('scrollend', async (e: Event) => {
+  console.info(`Virtual Scroll reached end`, (<CustomEvent>e).detail);
+  const MAX_ROW_INDEX = 299;
 
   if ((<CustomEvent>e).detail?.value < MAX_ROW_INDEX) {
     const moreData = await fetchData();

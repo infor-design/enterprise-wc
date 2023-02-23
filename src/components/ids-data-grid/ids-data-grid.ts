@@ -129,7 +129,7 @@ export default class IdsDataGrid extends Base {
 
     super.connectedCallback();
     this.redrawBody();
-    this.#attachVirtualScrollEvent();
+    this.#attachScrollEvents();
   }
 
   /** Reference to datasource API */
@@ -303,7 +303,7 @@ export default class IdsDataGrid extends Base {
     this.header.setHeaderCheckbox();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
-    this.#attachVirtualScrollEvent();
+    this.#attachScrollEvents();
     this.setupTooltip();
 
     // Attach post filters setting
@@ -1039,8 +1039,12 @@ export default class IdsDataGrid extends Base {
   get columnGroups() { return this.state?.columnsGroups || null; }
 
   moreData(value: Array<Record<string, any>>) {
-    this.datasource.data = this.data.concat(value);
-    this.#attachVirtualScrollEvent();
+    if (this.virtualScroll) {
+      this.datasource.data = this.data.concat(value);
+    } else {
+      this.data = this.data.concat(value);
+    }
+    this.#attachScrollEvents();
   }
 
   /**
@@ -1204,7 +1208,43 @@ export default class IdsDataGrid extends Base {
     };
   }
 
-  /* Attach Events for virtual scrolling */
+  /* Attach Events for global scrolling */
+  #attachScrollEvents() {
+    let debounceRowIndex = 0;
+    this.offEvent('scroll.data-grid', this.container);
+    this.onEvent('scroll.data-grid', this.container, () => {
+      const virtualScrollSettings = this.virtualScrollSettings;
+      const scrollTop = this.container!.scrollTop;
+      const clientHeight = this.container!.clientHeight;
+
+      const rowIndex = Math.floor(scrollTop / virtualScrollSettings.ROW_HEIGHT);
+
+      if (rowIndex === debounceRowIndex) return;
+      debounceRowIndex = rowIndex;
+
+      const data = this.data;
+      const rows = this.rows;
+      const maxHeight = virtualScrollSettings.ROW_HEIGHT * data.length;
+
+      const reachedTheTop = rowIndex <= 0;
+      const reachedTheBottom = (scrollTop + clientHeight) >= maxHeight;
+
+      if (reachedTheTop) {
+        const firstRow: any = rows[0];
+        this.#triggerCustomScrollEvent(firstRow.rowIndex, 'start');
+      }
+      if (reachedTheBottom) {
+        const lastRow: any = rows[rows.length - 1];
+        this.#triggerCustomScrollEvent(lastRow.rowIndex, 'end');
+      }
+      if (!reachedTheTop && !reachedTheBottom) {
+        this.#triggerCustomScrollEvent(0);
+      }
+    }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
+
+    this.#attachVirtualScrollEvent();
+  }
+
   #attachVirtualScrollEvent() {
     if (!this.virtualScroll) return;
 
@@ -1232,15 +1272,15 @@ export default class IdsDataGrid extends Base {
     }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
   }
 
-  #virtualScrollEventCache: { [key: string]: number } = {};
+  #customScrollEventCache: { [key: string]: number } = {};
 
-  #triggerVirtualScrollEvent(rowIndex: number, eventType?: 'top' | 'bottom') {
+  #triggerCustomScrollEvent(rowIndex: number, eventType?: 'start' | 'end') {
     if (!eventType) {
-      this.#virtualScrollEventCache = {}; // reset event-cache
-    } else if (rowIndex !== this.#virtualScrollEventCache[eventType]) {
-      this.#virtualScrollEventCache[eventType] = rowIndex;
+      this.#customScrollEventCache = {}; // reset event-cache
+    } else if (rowIndex !== this.#customScrollEventCache[eventType]) {
+      this.#customScrollEventCache[eventType] = rowIndex;
 
-      this.triggerEvent(`virtualscroll${eventType}`, this, {
+      this.triggerEvent(`scroll${eventType}`, this, {
         bubbles: true,
         composed: true,
         detail: { elem: this, value: rowIndex }
@@ -1316,22 +1356,11 @@ export default class IdsDataGrid extends Base {
     const isAboveFirstRow = rowIndex < firstRowIndex;
     const isBelowLastRow = rowIndex > lastRowIndex;
     const isInRange = !isAboveFirstRow && !isBelowLastRow;
-    const reachedTheTop = firstRowIndex <= 0;
     const reachedTheBottom = lastRowIndex >= maxRowIndex;
 
     let bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
     bufferRowIndex = Math.max(bufferRowIndex, 0);
     bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
-
-    if (reachedTheTop) {
-      this.#triggerVirtualScrollEvent(firstRowIndex, 'top');
-    }
-    if (reachedTheBottom) {
-      this.#triggerVirtualScrollEvent(lastRowIndex, 'bottom');
-    }
-    if (!reachedTheTop && !reachedTheBottom) {
-      this.#triggerVirtualScrollEvent(0);
-    }
 
     if (isInRange) {
       // if rowIndex is in range of the currently visible rows:
