@@ -23,6 +23,11 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     width: fit-content;
   }
 
+  ids-empty-message:not([hidden]),
+  ::slotted(ids-empty-message:not([hidden])) {
+    @include block();
+  }
+
   // Outside border and Background and sizing
   @include bg-white();
   @include border-1();

@@ -19,7 +19,6 @@ import {
   resetEmptyMessageElements,
   hideEmptyMessage,
   IdsDataGridToggleEmptyMessage,
-  emptyMessageTemplate,
 } from './ids-data-grid-empty-message';
 
 // Styles
@@ -348,9 +347,7 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyTemplate() {
-    const emptyMesageTemplate = emptyMessageTemplate.apply(this);
-
-    return `${emptyMesageTemplate}<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
+    return `<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
 
   /**
