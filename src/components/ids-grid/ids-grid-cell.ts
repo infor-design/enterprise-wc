@@ -6,55 +6,13 @@ import styles from './ids-grid-cell.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsButton from '../ids-button/ids-button';
 
-const colSpanSizes = [
-  { size: 'colSpan', className: 'span' },
-  { size: 'colSpanXs', className: 'span-xs' },
-  { size: 'colSpanSm', className: 'span-sm' },
-  { size: 'colSpanMd', className: 'span-md' },
-  { size: 'colSpanLg', className: 'span-lg' },
-  { size: 'colSpanXl', className: 'span-xl' },
-  { size: 'colSpanXxl', className: 'span-xxl' }
-];
-
-const colStartSizes = [
-  { size: 'colStart', className: 'col-start' },
-  { size: 'colStartXs', className: 'col-start-xs' },
-  { size: 'colStartSm', className: 'col-start-sm' },
-  { size: 'colStartMd', className: 'col-start-md' },
-  { size: 'colStartLg', className: 'col-start-lg' },
-  { size: 'colStartXl', className: 'col-start-xl' },
-  { size: 'colStartXxl', className: 'col-start-xxl' }
-];
-
-const colEndSizes = [
-  { size: 'colEnd', className: 'col-end' },
-  { size: 'colEndXs', className: 'col-end-xs' },
-  { size: 'colEndSm', className: 'col-end-sm' },
-  { size: 'colEndMd', className: 'col-end-md' },
-  { size: 'colEndLg', className: 'col-end-lg' },
-  { size: 'colEndXl', className: 'col-end-xl' },
-  { size: 'colEndXxl', className: 'col-end-xxl' }
-];
-
-const orderSizes = [
-  { size: 'order', className: 'order' },
-  { size: 'orderXs', className: 'order-xs' },
-  { size: 'orderSm', className: 'order-sm' },
-  { size: 'orderMd', className: 'order-md' },
-  { size: 'orderLg', className: 'order-lg' },
-  { size: 'orderXl', className: 'order-xl' },
-  { size: 'orderXxl', className: 'order-xxl' }
-];
-
-const rowSpanSizes = [
-  { size: 'rowSpan', className: 'row-span' },
-  { size: 'rowSpanXs', className: 'row-span-xs' },
-  { size: 'rowSpanSm', className: 'row-span-sm' },
-  { size: 'rowSpanMd', className: 'row-span-md' },
-  { size: 'rowSpanLg', className: 'row-span-lg' },
-  { size: 'rowSpanXl', className: 'row-span-xl' },
-  { size: 'rowSpanXxl', className: 'row-span-xxl' }
-];
+import {
+  colSpanSizes,
+  colStartSizes,
+  colEndSizes,
+  orderSizes,
+  rowSpanSizes
+} from './ids-grid-common';
 
 const Base = IdsEventsMixin(
   IdsElement

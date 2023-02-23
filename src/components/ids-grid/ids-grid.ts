@@ -4,66 +4,18 @@ import IdsElement from '../../core/ids-element';
 import styles from './ids-grid.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-type IdsGapType = undefined | 'sm' | 'md' | 'lg' | 'xl';
-type IdsJustifyType = undefined | 'around' | 'between' | 'center' | 'end' | 'evenly' | 'start';
-type IdsFlowType = undefined | 'row' | 'column' | 'dense' | 'row-dense' | 'column-dense';
-
-const GAP_TYPES: Array<IdsGapType> = [
-  undefined,
-  'sm',
-  'md',
-  'lg',
-  'xl',
-];
-
-const JUSTIFY_TYPES: Array<IdsJustifyType> = [
-  undefined,
-  'around',
-  'between',
-  'center',
-  'end',
-  'evenly',
-  'start',
-];
-
-const FLOW_TYPES: Array<IdsFlowType> = [
-  undefined,
-  'row',
-  'column',
-  'dense',
-  'row-dense',
-  'column-dense'
-];
-
-const gridSizes = [
-  { size: 'cols', className: 'grid-cols' },
-  { size: 'colsXs', className: 'grid-cols-xs' },
-  { size: 'colsSm', className: 'grid-cols-sm' },
-  { size: 'colsMd', className: 'grid-cols-md' },
-  { size: 'colsLg', className: 'grid-cols-lg' },
-  { size: 'colsXl', className: 'grid-cols-xl' },
-  { size: 'colsXxl', className: 'grid-cols-xxl' }
-];
-
-const rowSizes = [
-  { size: 'rows', className: 'grid-rows' },
-  { size: 'rowsXs', className: 'grid-rows-xs' },
-  { size: 'rowsSm', className: 'grid-rows-sm' },
-  { size: 'rowsMd', className: 'grid-rows-md' },
-  { size: 'rowsLg', className: 'grid-rows-lg' },
-  { size: 'rowsXl', className: 'grid-rows-xl' },
-  { size: 'rowsXxl', className: 'grid-rows-xxl' }
-];
-
-const minMaxWidths = [
-  { setting: 'minColWidth', varName: '--min-col-width' },
-  { setting: 'maxColWidth', varName: '--max-col-width' }
-];
-
-const minMaxRowHeights = [
-  { setting: 'minRowHeight', varName: '--min-row-height' },
-  { setting: 'maxRowHeight', varName: '--max-row-height' }
-];
+import {
+  IdsJustifyType,
+  IdsGapType,
+  IdsFlowType,
+  GAP_TYPES,
+  JUSTIFY_TYPES,
+  FLOW_TYPES,
+  gridSizes,
+  rowSizes,
+  minMaxWidths,
+  minMaxRowHeights
+} from './ids-grid-common';
 
 /**
  * IDS Grid Component

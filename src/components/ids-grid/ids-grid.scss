@@ -166,7 +166,7 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
     grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
   }
 
-  :host(.grid) > ::slotted(.span-#{$i}) {
+  :host(.grid) > ::slotted(.col-span-#{$i}) {
     grid-column: span $i / span $i;
   }
 
@@ -206,7 +206,7 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.span-xs-#{$i}) {
+    :host(.grid) > ::slotted(.col-span-xs-#{$i}) {
       grid-column: span $i / span $i;
     }
 
@@ -244,7 +244,7 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.span-sm-#{$i}) {
+    :host(.grid) > ::slotted(.col-span-sm-#{$i}) {
       grid-column: span $i / span $i;
     }
 
@@ -282,7 +282,7 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.span-md-#{$i}) {
+    :host(.grid) > ::slotted(.col-span-md-#{$i}) {
       grid-column: span $i / span $i;
     }
 
@@ -320,7 +320,7 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.span-lg-#{$i}) {
+    :host(.grid) > ::slotted(.col-span-lg-#{$i}) {
       grid-column: span $i / span $i;
     }
 
@@ -358,7 +358,7 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.span-xl-#{$i}) {
+    :host(.grid) > ::slotted(.col-span-xl-#{$i}) {
       grid-column: span $i / span $i;
     }
 
@@ -396,7 +396,7 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.span-xxl-#{$i}) {
+    :host(.grid) > ::slotted(.col-span-xxl-#{$i}) {
       grid-column: span $i / span $i;
     }
 

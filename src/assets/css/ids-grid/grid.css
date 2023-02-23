@@ -21,3 +21,7 @@
 ids-card::part(card) {
   margin-bottom: 0;
 }
+
+.edit-button-container {
+  margin-bottom: 24px;
+}
