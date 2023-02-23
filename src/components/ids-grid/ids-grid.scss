@@ -437,6 +437,12 @@ $textColor: #FF391E;
   // justify-content: center;
 }
 
+::slotted(.grid-cell.editable) > ids-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 ::slotted(.grid-cell.fill) {
   background-color: $fillColor;
 }

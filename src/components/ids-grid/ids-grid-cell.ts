@@ -1,7 +1,10 @@
-import { customElement } from '../../core/ids-decorators';
+import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsElement from '../../core/ids-element';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import styles from './ids-grid-cell.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsButton from '../ids-button/ids-button';
 
 const colSpanSizes = [
   { size: 'colSpan', className: 'span' },
@@ -53,13 +56,20 @@ const rowSpanSizes = [
   { size: 'rowSpanXxl', className: 'row-span-xxl' }
 ];
 
+const Base = IdsEventsMixin(
+  IdsElement
+)
+
 /**
  * IDS Grid Cell Component
  * @type {IdsGridCell}
  * @inherits IdsElement
  */
 @customElement('ids-grid-cell')
-export default class IdsGridCell extends IdsElement {
+@scss(styles)
+export default class IdsGridCell extends Base {
+  closeButton?: IdsButton;
+
   set colEnd(value: string | null | any) {
     if (value !== null) {
       this.setAttribute(attributes.COL_END, value);
@@ -554,8 +564,21 @@ export default class IdsGridCell extends IdsElement {
     return this.getAttribute(attributes.STICKY_POSITION);
   }
 
+  set editable(value: string | null | any) {
+    const isTruthy = stringToBool(value);
+    if (isTruthy) {
+      this.setAttribute(attributes.EDITABLE, '');
+    } else {
+      this.removeAttribute(attributes.EDITABLE);
+    }
+  }
+
+  get editable(): string | null | any {
+    return stringToBool(this.getAttribute(attributes.EDITABLE));
+  }
+
   constructor() {
-    super({ noShadowRoot: true });
+    super();
   }
 
   /**
@@ -585,6 +608,7 @@ export default class IdsGridCell extends IdsElement {
       attributes.COL_START_LG,
       attributes.COL_START_XL,
       attributes.COL_START_XXL,
+      attributes.EDITABLE,
       attributes.FILL,
       attributes.HEIGHT,
       attributes.MIN_HEIGHT,
@@ -624,6 +648,12 @@ export default class IdsGridCell extends IdsElement {
     this.setOrder();
     this.setSticky();
     this.setStickyPosition();
+
+    requestIdleCallback(() => {
+      this.setCloseButton();
+    });
+
+    this.#attachEventHandlers();
   }
 
   private setColSpan() {
@@ -695,6 +725,34 @@ export default class IdsGridCell extends IdsElement {
     if (this.fill === true) {
       this.classList.add(attributes.FILL);
     }
+  }
+
+  private setCloseButton() {
+    this.closeButton = <IdsButton> document.createElement('ids-button');
+    this.closeButton.type = 'primary';
+    this.closeButton.icon = 'close';
+  }
+
+  setEditable() {
+    this.editable = true;
+    this.classList.add('editable');
+    this.appendChild(this.closeButton as any);
+  }
+
+  removeEditable() {
+    this.editable = null;
+    this.classList.remove('editable');
+    this.closeButton?.remove();
+  }
+
+  removeCell(e: any) {
+    if (e.target === this.closeButton) {
+      this.remove();
+    }
+  }
+
+  #attachEventHandlers(): void {
+    this.onEvent('click', this, (e: any) => this.removeCell(e));
   }
 
   template(): string {

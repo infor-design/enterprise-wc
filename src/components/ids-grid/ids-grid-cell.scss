@@ -1,0 +1,9 @@
+:host(.editable) {
+  position: relative;
+}
+
+::slotted(ids-button) {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}

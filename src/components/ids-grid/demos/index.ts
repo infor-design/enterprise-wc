@@ -7,6 +7,7 @@ import '../../ids-search-field/ids-search-field';
 import '../../ids-toolbar/ids-toolbar';
 import '../../ids-header/ids-header';
 import '../../ids-card/ids-card';
+import '../../ids-toggle-button/ids-toggle-button';
 
 import css from '../../../assets/css/ids-grid/grid.css';
 
