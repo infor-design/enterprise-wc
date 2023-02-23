@@ -191,11 +191,18 @@ describe('IdsWeekView Component (using properties)', () => {
   });
 
   it('can add calendar events', () => {
+    const beforeCallback = jest.fn();
+    const afterCallback = jest.fn();
+    component.addEventListener('beforeeventrendered', beforeCallback);
+    component.addEventListener('aftereventrendered', afterCallback);
+
     component.eventTypesData = EVENT_TYPES;
     component.eventsData = EVENTS_ITEMS;
 
     const expectedEventCount = EVENTS_ITEMS.length;
     expect(component.container.querySelectorAll('ids-calendar-event')?.length).toBe(expectedEventCount);
+    expect(beforeCallback).toBeCalled();
+    expect(afterCallback).toBeCalled();
   });
 });
 
