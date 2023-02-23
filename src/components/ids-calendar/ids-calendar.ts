@@ -903,6 +903,16 @@ export default class IdsCalendar extends Base {
     const viewElem = this.getView();
     const eventsData = this.#filterEventsByType(this.eventsData);
 
+    viewElem?.offEvent('beforeeventrendered');
+    viewElem?.onEvent('beforeeventrendered', viewElem, (e: Event) => {
+      this.triggerEvent('beforeeventrendered', this, { detail: (e as CustomEvent).detail });
+    });
+
+    viewElem?.offEvent('aftereventrendered');
+    viewElem?.onEvent('aftereventrendered', viewElem, (e: Event) => {
+      this.triggerEvent('aftereventrendered', this, { detail: (e as CustomEvent).detail });
+    });
+
     if (viewElem) {
       viewElem.eventsData = eventsData;
       viewElem.eventTypesData = this.eventTypesData;

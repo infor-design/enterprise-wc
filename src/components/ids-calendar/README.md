@@ -21,6 +21,8 @@ User can switch between month, week, and day views using menu button inside the 
 ## Events
 - `eventadded` - Fires when new event is added to calendar. Detail contains new event and calendar element.
 - `eventupdated` - Fires when existing event is updated. Detail contains updated event and calendar element.
+- `beforeeventrendered` Fires for each event rendered (full day or in day) before the element is added to the DOM. This event can fire frequently or more than expected as the component does re-rendering.
+- `aftereventrendered` Fires for each event rendered (full day or in day) after the element is added to the DOM. This event can fire frequently or more than expected as the component does re-rendering.
 
 ## Features (With Code Examples)
 
@@ -36,7 +38,7 @@ With `date` setting. Calendar shows month/week/day view of provided date.
 <ids-calendar date="11/11/2021"></ids-calendar>
 ```
 
-With `show-legend` setting. Calendar shows legend pane. By default, legend pane contains calendar event type checkboxes 
+With `show-legend` setting. Calendar shows legend pane. By default, legend pane contains calendar event type checkboxes
 used to filter populated calendar events by event type.
 
 ```html

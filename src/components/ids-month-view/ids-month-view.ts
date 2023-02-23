@@ -1549,7 +1549,31 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
             const customEventDateKey = `${year}${month}${day}`;
             calendarEvent.dateKey = customEventDateKey;
           }
-          dateCell.querySelector('.events-container')?.appendChild(calendarEvent as any);
+
+          const container = dateCell.querySelector('.events-container');
+          this.triggerEvent('beforeeventrendered', this, {
+            detail:
+            {
+              elem: this,
+              events: this.eventsData,
+              event: calendarEvent,
+              dateCell: calendarEvent,
+              container
+            },
+            bubbles: true
+          });
+          container?.appendChild(calendarEvent as any);
+          this.triggerEvent('aftereventrendered', this, {
+            detail:
+            {
+              elem: this,
+              events: this.eventsData,
+              event: calendarEvent,
+              dateCell: calendarEvent,
+              container
+            },
+            bubbles: true
+          });
         }
       }
     });
