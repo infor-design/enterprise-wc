@@ -459,7 +459,7 @@
       @include z-1();
 
       left: calc(100% - 25px);
-      top: 13px;
+      top: var(--ids-month-view-day-text-top, 13px);
       width: 10px;
       text-align: center;
     }

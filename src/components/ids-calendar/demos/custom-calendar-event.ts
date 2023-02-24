@@ -3,7 +3,6 @@ import styles from './custom-calendar-event.scss';
 import { customElement, scss } from '../../../core/ids-decorators';
 
 interface CustomCalendarEventTypeData extends CalendarEventTypeData {
-  noOfAttributes?: number;
   attrs?: [];
 }
 
@@ -14,7 +13,7 @@ export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
 
   eventTypesJson: CustomCalendarEventTypeData[] | any = [];
 
-  eventPillHeight = '20px'; // Default height for 1 line event pill
+  eventPillHeight = '18px'; // Default height for 1 line event pill
 
   constructor() {
     super();
@@ -29,6 +28,9 @@ export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
     if (this.container) {
       this.container.style.height = this.eventPillHeight;
     }
+
+    // overrides the day cell date text position
+    document.documentElement.style.setProperty('--ids-month-view-day-text-top', '2px');
   }
 
   template(): string {
