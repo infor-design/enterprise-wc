@@ -56,7 +56,7 @@ export default class CustomCalendarEventManager {
       if (noOfAttributes === 3) {
         this.#eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 58);
       } else if (noOfAttributes === 2) {
-        this.#eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 55);
+        this.#eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 54);
       } else if (noOfAttributes === 1) {
         this.#eventPositionMap.set(`${dateKey}_${eventOrder + 1}`, 40);
       }

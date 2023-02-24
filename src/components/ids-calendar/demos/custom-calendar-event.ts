@@ -56,7 +56,7 @@ export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
     const icon = this.eventData.icon ? `<ids-icon class='calendar-event-icon' icon='${this.eventData.icon}' height='12' width='12'></ids-icon>` : '';
     this.eventTypesJson.push(this.eventTypeData);
 
-    if (this.eventTypesJson) {
+    if (this.eventTypesJson && this.eventTypeData) {
       const eventPillsAttr = this.eventTypesJson.filter((item: any) => item.id === this.eventData?.type);
       if (eventPillsAttr.length > 0 && eventPillsAttr[0].attrs) {
         if (eventPillsAttr[0].id === 'dto' || eventPillsAttr[0].id === 'admin' || eventPillsAttr[0].id === 'sick') {
