@@ -56,7 +56,7 @@ export default class IdsText extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#attachEventHandlers();
-    if (this.color) this.container?.style.setProperty('color', `var(--ids-color-palette-${this.color})`);
+    if (this.color) this.color = this.getAttribute('color');
   }
 
   /**
