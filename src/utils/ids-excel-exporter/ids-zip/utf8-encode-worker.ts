@@ -1,7 +1,7 @@
-import { BaseWorker, Chunk } from './base-worker';
+import { ZipWorker, Chunk } from './zip-worker';
 import { string2buf } from './ids-zip-util';
 
-export class Utf8EncodeWorker extends BaseWorker {
+export class Utf8EncodeWorker extends ZipWorker {
   constructor() {
     super('utf8 encoder');
   }

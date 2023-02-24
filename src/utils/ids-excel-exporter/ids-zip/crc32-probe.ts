@@ -1,10 +1,10 @@
 import { crc32wrapper } from './crc32';
-import { BaseWorker, Chunk } from './base-worker';
+import { ZipWorker, Chunk } from './zip-worker';
 
 /**
  * A worker which calculate the crc32 of the data flowing through.
  */
-export class Crc32Probe extends BaseWorker {
+export class Crc32Probe extends ZipWorker {
   constructor() {
     super('Crc32Probe');
     this.withStreamInfo('crc32', 0);

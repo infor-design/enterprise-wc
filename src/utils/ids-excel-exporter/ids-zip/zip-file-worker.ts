@@ -2,7 +2,7 @@
 /* eslint-disable prefer-template */
 /* eslint-disable operator-linebreak */
 /* eslint-disable operator-assignment */
-import { BaseWorker, Chunk } from './base-worker';
+import { ZipWorker, Chunk } from './zip-worker';
 import { string2buf, transformTo } from './ids-zip-util';
 import signature from './signature';
 
@@ -252,7 +252,7 @@ function generateDataDescriptors(streamInfo) {
  * @param {string} platform the platform to use, "UNIX" or "DOS".
  * @param {Function} encodeFileName the function to encode file names and comments.
  */
-export class ZipFileWorker extends BaseWorker {
+export class ZipFileWorker extends ZipWorker {
   // The number of bytes written so far. This doesn't count accumulated chunks.
   bytesWritten = 0;
 
@@ -290,7 +290,7 @@ export class ZipFileWorker extends BaseWorker {
   // Should we stream the content of the files ?
   streamFiles;
 
-  sources: Array<BaseWorker> = [];
+  sources: Array<ZipWorker> = [];
 
   constructor(streamFiles: boolean, comment: string, platform: string, encodeFileName: any) {
     super('ZipFileWorker');
@@ -310,7 +310,7 @@ export class ZipFileWorker extends BaseWorker {
     } else {
       this.bytesWritten += chunk.data.length;
 
-      BaseWorker.prototype.push.call(this, {
+      ZipWorker.prototype.push.call(this, {
         data: chunk.data,
         meta: {
           currentFile: this.currentFile,
@@ -420,7 +420,7 @@ export class ZipFileWorker extends BaseWorker {
     this.previous!.resume();
   }
 
-  registerPrevious(previous: BaseWorker) {
+  registerPrevious(previous: ZipWorker) {
     this.sources.push(previous);
     const self = this;
 
@@ -440,8 +440,8 @@ export class ZipFileWorker extends BaseWorker {
     return this;
   }
 
-  resume() {
-    if (!BaseWorker.prototype.resume.call(this)) {
+  resume(): boolean {
+    if (!super.resume()) {
       return false;
     }
 
@@ -454,6 +454,8 @@ export class ZipFileWorker extends BaseWorker {
       this.end();
       return true;
     }
+
+    return true;
   }
 
   error(e: Error) {

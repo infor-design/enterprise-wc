@@ -1,7 +1,3 @@
-export function newBlob(part: any, type: any) {
-  return new Blob([part], { type });
-}
-
 /**
  * Return the type of the input.
  * The type will be in a format valid for JSZip.utils.transformTo : string, array, uint8array, arraybuffer.

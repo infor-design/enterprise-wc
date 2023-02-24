@@ -20,7 +20,7 @@ type StreamInfo = Record<string, any>;
  *
  * @param {string} name the name of the stream (mainly used for debugging purposes)
  */
-export class BaseWorker {
+export class ZipWorker {
   // the name of the worker
   name = 'default';
 
@@ -50,7 +50,7 @@ export class BaseWorker {
   };
 
   // the previous worker, if any
-  previous: BaseWorker | null = null;
+  previous: ZipWorker | null = null;
 
   constructor(name: string) {
     this.name = name || this.name;
@@ -122,7 +122,7 @@ export class BaseWorker {
    * Add a callback on an event.
    * @param {string} name the name of the event (data, end, error)
    * @param {Function} listener the function to call when the event is triggered
-   * @returns {BaseWorker} the current object for chainability
+   * @returns {ZipWorker} the current object for chainability
    */
   on(name: string, listener: ListenerCallback) {
     this.listeners[name].push(listener);
@@ -141,39 +141,11 @@ export class BaseWorker {
 
   /**
    * Chain a worker with an other.
-   * @param {BaseWorker} next the worker receiving events from the current one.
-   * @returns {BaseWorker} the next worker for chainability
+   * @param {ZipWorker} next the worker receiving events from the current one.
+   * @returns {ZipWorker} the next worker for chainability
    */
-  pipe(next: BaseWorker) {
+  pipe(next: ZipWorker) {
     return next.registerPrevious(this);
-  }
-
-  /**
-   * Same as `pipe` in the other direction.
-   * Using an API with `pipe(next)` is very easy.
-   * Implementing the API with the point of view of the next one registering
-   * a source is easier, see the ZipFileWorker.
-   * @param {BaseWorker} previous the previous worker, sending events to this one
-   * @returns {BaseWorker} the current worker for chainability
-   */
-  registerPrevious(previous: BaseWorker) {
-    // sharing the streamInfo...
-    this.streamInfo = previous.streamInfo;
-    // ... and adding our own bits
-    this.mergeStreamInfo();
-    this.previous = previous;
-
-    previous.on('data', (chunk) => {
-      this.processChunk(chunk);
-    });
-    previous.on('end', () => {
-      this.end();
-    });
-    previous.on('error', (e) => {
-      this.error(e);
-    });
-
-    return this;
   }
 
   /**
@@ -196,7 +168,7 @@ export class BaseWorker {
    * Resume a paused stream.
    * @returns {boolean} true if this call resumed the worker, false otherwise.
    */
-  resume() {
+  resume(): boolean {
     if (!this.isPaused || this.isFinished) {
       return false;
     }
@@ -228,12 +200,40 @@ export class BaseWorker {
   processChunk(chunk: Chunk) {
     this.push(chunk);
   }
+  
+  /**
+   * Same as `pipe` in the other direction.
+   * Using an API with `pipe(next)` is very easy.
+   * Implementing the API with the point of view of the next one registering
+   * a source is easier, see the ZipFileWorker.
+   * @param {ZipWorker} previous the previous worker, sending events to this one
+   * @returns {ZipWorker} the current worker for chainability
+   */
+  registerPrevious(previous: ZipWorker) {
+    // sharing the streamInfo...
+    this.streamInfo = previous.streamInfo;
+    // ... and adding our own bits
+    this.mergeStreamInfo();
+    this.previous = previous;
+
+    previous.on('data', (chunk) => {
+      this.processChunk(chunk);
+    });
+    previous.on('end', () => {
+      this.end();
+    });
+    previous.on('error', (e) => {
+      this.error(e);
+    });
+
+    return this;
+  }
 
   /**
    * Add a key/value to be added in the workers chain streamInfo once activated.
    * @param {string} key the key to use
    * @param {any} value the associated value
-   * @returns {BaseWorker} the current worker for chainability
+   * @returns {ZipWorker} the current worker for chainability
    */
   withStreamInfo(key: string, value: unknown) {
     this.extraStreamInfo[key] = value;
@@ -246,10 +246,9 @@ export class BaseWorker {
    */
   mergeStreamInfo() {
     for (const key in this.extraStreamInfo) {
-      if (!Object.prototype.hasOwnProperty.call(this.extraStreamInfo, key)) {
-        continue;
+      if (this.extraStreamInfo.hasOwnProperty(key)) {
+        this.streamInfo[key] = this.extraStreamInfo[key];
       }
-      this.streamInfo[key] = this.extraStreamInfo[key];
     }
   }
 

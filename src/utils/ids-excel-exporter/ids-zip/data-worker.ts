@@ -1,9 +1,9 @@
-import { BaseWorker } from './base-worker';
+import { ZipWorker } from './zip-worker';
 import { delay, getTypeOf } from './ids-zip-util';
 
 const DEFAULT_BLOCK_SIZE = 16 * 1024;
 
-export class DataWorker extends BaseWorker {
+export class DataWorker extends ZipWorker {
   dataIsReady = true;
 
   index = 0;
@@ -29,7 +29,7 @@ export class DataWorker extends BaseWorker {
   }
 
   resume() {
-    if (!BaseWorker.prototype.resume.call(this)) {
+    if (!ZipWorker.prototype.resume.call(this)) {
       return false;
     }
 

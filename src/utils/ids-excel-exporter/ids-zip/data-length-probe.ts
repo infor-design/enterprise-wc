@@ -1,10 +1,10 @@
-import { BaseWorker, Chunk } from './base-worker';
+import { ZipWorker, Chunk } from './zip-worker';
 
 /**
  * A worker which calculate the total length of the data flowing through.
  * @param {string} propName the name used to expose the length
  */
-export class DataLengthProbe extends BaseWorker {
+export class DataLengthProbe extends ZipWorker {
   propName;
 
   constructor(propName: string) {

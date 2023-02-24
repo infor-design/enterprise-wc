@@ -9,5 +9,6 @@ export function exportToXLSX(data: Array<Record<string, any>>, config: ExcelConf
   const xlsxExporter = new XLXExporter();
   xlsxExporter
     .exportToExcel(data, config)
+    .catch(console.error)
     .finally(() => xlsxExporter.destroy());
 }

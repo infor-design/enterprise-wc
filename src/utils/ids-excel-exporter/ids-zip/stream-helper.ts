@@ -1,110 +1,93 @@
-import { BaseWorker } from './base-worker';
+import { ZipWorker } from './zip-worker';
 import { ConvertWorker } from './convert-worker';
-import { delay, newBlob, transformTo } from './ids-zip-util';
-
-/**
- * Concatenate an array of data of the given type.
- * @param {string} type the type of the data in the given array.
- * @param {Array<any>} dataArray the array containing the data chunks to concatenate
- * @returns {String|Uint8Array|Buffer} the concatenated data
- * @throws Error if the asked type is unsupported
- */
-function concat(type: string, dataArray: Array<any>) {
-  let i;
-  let index = 0;
-  let res = null;
-  let totalLength = 0;
-
-  for (i = 0; i < dataArray.length; i++) {
-    totalLength += dataArray[i].length;
-  }
-
-  res = new Uint8Array(totalLength);
-  for (i = 0; i < dataArray.length; i++) {
-    res.set(dataArray[i], index);
-    index += dataArray[i].length;
-  }
-  return res;
-}
-
-/**
- * Listen a StreamHelper, accumulate its content and concatenate it into a
- * complete block.
- * @param {StreamHelper} helper the helper to use.
- * with one arg :
- * - the metadata linked to the update received.
- * @returns Promise the promise for the accumulation.
- */
-function accumulate(helper: StreamHelper) {
-  return new Promise((resolve, reject) => {
-    let dataArray: any[] = [];
-    const chunkType = helper.internalType;
-    const mimeType = helper.mimeType;
-
-    helper
-      .on('data', (data: any) => {
-        dataArray.push(data);
-      })
-      .on('error', (err: any) => {
-        dataArray = [];
-        reject(err);
-      })
-      .on('end', () => {
-        try {
-          const result = newBlob(transformTo('arraybuffer', concat(chunkType!, dataArray)), mimeType);
-          resolve(result);
-        } catch (e) {
-          reject(e);
-        }
-        dataArray = [];
-      })
-      .resume();
-  });
-}
+import { delay, transformTo } from './ids-zip-util';
+import { ZipFileWorker } from './zip-file-worker';
 
 /**
  * An helper to easily use workers outside of JSZip.
- * @param {BaseWorker} worker the worker to wrap
+ * @param {ZipFileWorker} worker the worker to wrap
  * @param {string} outputType the type of data expected by the use
  * @param {string} mimeType the mime type of the content, if applicable.
  */
 export class StreamHelper {
-  internalType;
+  // the type used internally
+  internalType = 'uint8array';
 
-  outputType;
+  // the type used to output results
+  outputType = 'blob';
 
   mimeType;
 
   worker;
 
-  constructor(worker: BaseWorker, outputType: string, mimeType: string) {
-    const internalType = 'uint8array';
-
+  constructor(worker: ZipFileWorker, mimeType: string) {
     try {
-      // the type used internally
-      this.internalType = internalType;
-      // the type used to output results
-      this.outputType = outputType;
       // the mime type
       this.mimeType = mimeType;
-      this.worker = worker.pipe(new ConvertWorker(internalType));
+      this.worker = worker.pipe(new ConvertWorker('uint8array'));
+
       // the last workers can be rewired without issues but we need to
       // prevent any updates on previous workers.
-
       worker.lock();
     } catch (e) {
-      this.worker = new BaseWorker('error');
+      this.worker = new ZipWorker('error');
       this.worker.error(e as any);
     }
   }
 
   /**
-   * Listen a StreamHelper, accumulate its content and concatenate it into a
-   * complete block.
+   * Accumulate its content and concatenate it into a complete block.
    * @returns Promise the promise for the accumulation.
    */
-  accumulate() {
-    return accumulate(this);
+  accumulate(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let dataArray: any[] = [];
+      const mimeType = this.mimeType;
+  
+      this
+        .on('data', (data: any) => {
+          dataArray.push(data);
+        })
+        .on('error', (err: any) => {
+          dataArray = [];
+          reject(err);
+        })
+        .on('end', () => {
+          try {
+            const dataBlock = transformTo('arraybuffer', this.concat(dataArray));
+            const result = new Blob([dataBlock], { type: mimeType });
+            resolve(result);
+          } catch (e) {
+            reject(e);
+          }
+          dataArray = [];
+        })
+        .resume(); // primary conversion start point
+    });
+  }
+
+  /**
+   * Concatenate an array of data of the given type.
+   * @param {Array<any>} dataArray the array containing the data chunks to concatenate
+   * @returns {Uint8Array} the concatenated data
+   */
+  concat(dataArray: Array<any>): Uint8Array {
+    let i;
+    let index = 0;
+    let res = null;
+    let totalLength = 0;
+
+    for (i = 0; i < dataArray.length; i++) {
+      totalLength += dataArray[i].length;
+    }
+
+    res = new Uint8Array(totalLength);
+    for (i = 0; i < dataArray.length; i++) {
+      res.set(dataArray[i], index);
+      index += dataArray[i].length;
+    }
+
+    return res;
   }
 
   /**
@@ -133,7 +116,6 @@ export class StreamHelper {
    * @returns {StreamHelper} the current helper.
    */
   resume() {
-    console.log('stream helper resume', this.worker);
     this.worker.resume();
     return this;
   }

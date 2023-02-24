@@ -1,4 +1,4 @@
-import { BaseWorker } from './base-worker';
+import { ZipWorker } from './zip-worker';
 import { Crc32Probe } from './crc32-probe';
 import { DataLengthProbe } from './data-length-probe';
 import { DataWorker } from './data-worker';
@@ -13,10 +13,6 @@ export class ZipObject {
 
   comment: string;
 
-  unixPermissions: any;
-
-  dosPermissions: any;
-
   data: any;
 
   dataBinary = false;
@@ -28,12 +24,8 @@ export class ZipObject {
     this.dir = options.dir;
     this.date = options.date;
     this.comment = options.comment;
-    this.unixPermissions = options.unixPermissions;
-    this.dosPermissions = options.dosPermissions;
-
     this.data = data;
     this.dataBinary = options.binary;
-    // keep only the compression
     this.options = {
       compression: options.compression,
       compressionOptions: options.compressionOptions
@@ -41,7 +33,7 @@ export class ZipObject {
   }
 
   compressWorker(compression: any) {
-    let result: BaseWorker = new DataWorker(this.data);
+    let result: ZipWorker = new DataWorker(this.data);
 
     if (!this.dataBinary) {
       result = result.pipe(new Utf8EncodeWorker());
@@ -50,7 +42,7 @@ export class ZipObject {
     result = result
       .pipe(new Crc32Probe())
       .pipe(new DataLengthProbe('uncompressedSize'))
-      .pipe(new BaseWorker('STORE compression'))
+      .pipe(new ZipWorker('STORE compression'))
       .pipe(new DataLengthProbe('compressedSize'))
       .withStreamInfo('compression', compression);
 
