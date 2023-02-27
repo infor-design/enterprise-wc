@@ -526,7 +526,7 @@ export default class IdsDataGridFilters {
         if (filterType === 'date' || filterType === 'time') {
           if (/string|undefined/g.test(typeof value)) value = formatterVal();
           const getValues = (rValue: any, cValue: any) => {
-            const format = c.format || column.formatOptions;
+            const format = c.format || column.formatOptions || this.root.localeAPI?.calendar().timeFormat;
             cValue = this.root.localeAPI?.parseDate(cValue, format);
             if (cValue) {
               if (filterType === 'time') {
