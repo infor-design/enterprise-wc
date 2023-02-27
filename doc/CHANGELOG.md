@@ -9,6 +9,7 @@
 - `[Build]` Updated `esbuild` to fix issues with import order. ([#1140](https://github.com/infor-design/enterprise-wc/issues/1140))
 - `[Calendar]` Added a `beforeeventrendered` and `aftereventrendered` event. ([#1131](https://github.com/infor-design/enterprise-wc/issues/1131))
 - `[DataGrid]` Fixed tooltip to show without text overflow. ([#1126](https://github.com/infor-design/enterprise-wc/issues/1126)
+- `[DataGrid/TimePicker]` IdsDataGrid now uses the IdsTimePickerPopup component inside Time-based filters. ([#1064](https://github.com/infor-design/enterprise-wc/issues/1064))
 - `[Icons]` Changed the way custom icons work so they can be used only at one time and from a file. ([#1122](https://github.com/infor-design/enterprise-wc/issues/1122))
 - `[Icons]` Clean up examples for icons. ([#509](https://github.com/infor-design/enterprise-wc/issues/509))
 - `[Locale]` Locale information files and messages are now separate from the build. They must be served as assets from the `node_modules/ids-enterprise-wc/locale-data` folder. ([#1107](https://github.com/infor-design/enterprise-wc/issues/1107))
