@@ -52,7 +52,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-tooltip')!;
           tooltipContent = `Async Text: ${text}<br/>Row: ${rowIndex}, Cell: ${columnIndex}`;
         }
         resolve(tooltipContent);
-      }, 500);
+      }, 300);
     });
   };
 
@@ -87,7 +87,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-tooltip')!;
     filterType: dataGrid.filters.integer,
     formatter: dataGrid.formatters.hyperlink,
     formatOptions: { group: '' },
-    width: 88,
+    width: 140,
     tooltip: 'This is a product Id',
     headerTooltip: 'This is the product Id header',
     filterButtonTooltip: 'This is the product Id filterButton',
@@ -174,7 +174,9 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-tooltip')!;
     resizable: true,
     reorderable: true,
     formatter: dataGrid.formatters.integer,
-    filterType: dataGrid.filters.integer
+    filterType: dataGrid.filters.integer,
+    tooltip: 'This is Unit Price',
+    headerTooltip: 'This is Unit Price header',
   });
   columns.push({
     id: 'units',

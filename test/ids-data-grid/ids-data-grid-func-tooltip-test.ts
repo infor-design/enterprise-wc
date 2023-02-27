@@ -222,6 +222,10 @@ const checkTooltip = async (elem: any, grid: any, tooltipEl: any, shouldSetWidth
   const textEllipsis = (link ? elem : elem.querySelector('.text-ellipsis'));
   expect(tooltipEl.visible).toEqual(false);
   expect(elem).toBeTruthy();
+  const showtooltipMockCallback = jest.fn(() => { });
+  const hidetooltipMockCallback = jest.fn(() => { });
+  grid.addEventListener('showtooltip', showtooltipMockCallback);
+  grid.addEventListener('showtooltip', hidetooltipMockCallback);
   const mouseover = new MouseEvent('mouseover', { bubbles: true });
   const mouseout = new MouseEvent('mouseout', { bubbles: true });
   const scroll = new MouseEvent('scroll', { bubbles: true });
@@ -237,10 +241,12 @@ const checkTooltip = async (elem: any, grid: any, tooltipEl: any, shouldSetWidth
   elem.dispatchEvent(mouseover);
   await wait(tooltipWait);
   expect(tooltipEl.visible).toEqual(true);
+  expect(showtooltipMockCallback.mock.calls.length).toBe(1);
   grid.container.dispatchEvent(scroll);
   expect(tooltipEl.visible).toEqual(false);
   grid.container.dispatchEvent(mouseout);
   expect(tooltipEl.visible).toEqual(false);
+  expect(hidetooltipMockCallback.mock.calls.length).toBe(1);
   if (shouldSetWidth) {
     Object.defineProperty(elem, 'offsetWidth', { configurable: true, value: orig.offsetWidth });
     Object.defineProperty(elem, 'scrollWidth', { configurable: true, value: orig.scrollWidth });
