@@ -24,7 +24,7 @@ export class StreamHelper {
     try {
       // the mime type
       this.mimeType = mimeType;
-      this.worker = worker.pipe(new ConvertWorker('uint8array'));
+      this.worker = worker.pipe(new ConvertWorker());
 
       // the last workers can be rewired without issues but we need to
       // prevent any updates on previous workers.
@@ -43,7 +43,7 @@ export class StreamHelper {
     return new Promise((resolve, reject) => {
       let dataArray: any[] = [];
       const mimeType = this.mimeType;
-  
+
       this
         .on('data', (data: any) => {
           dataArray.push(data);

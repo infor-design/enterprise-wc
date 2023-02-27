@@ -6,16 +6,13 @@ import { transformTo } from './ids-zip-util';
  * @param {string} destType the destination type.
  */
 export class ConvertWorker extends ZipWorker {
-  destType: 'string' | 'uint8array';
-
-  constructor(destType: 'string' | 'uint8array') {
-    super(`ConvertWorker to ${destType}`);
-    this.destType = destType;
+  constructor() {
+    super(`ConvertWorker to uint8array`);
   }
 
   processChunk(chunk: Chunk) {
     this.push({
-      data: transformTo(this.destType, chunk.data),
+      data: transformTo('uint8array', chunk.data),
       meta: chunk.meta
     });
   }

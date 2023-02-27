@@ -139,9 +139,9 @@ export function transformTo(outputType: 'string' | 'uint8array' | 'arraybuffer',
  * @param {any} self object context
  */
 export function delay(callback: any, args: any, self: any) {
-  setTimeout(() => {
+  //setTimeout(() => {
     callback.apply(self || null, args || []);
-  }, 0);
+  //}, 0);
 }
 
 /**

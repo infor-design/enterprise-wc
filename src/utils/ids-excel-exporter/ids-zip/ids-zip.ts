@@ -3,7 +3,7 @@ import {
   getTypeOf,
   parentFolder,
   string2binary,
-  string2buf
+  transformTo
 } from './ids-zip-util';
 import { StreamHelper } from './stream-helper';
 import { ZipFileWorker } from './zip-file-worker';
@@ -29,7 +29,7 @@ function fileAdd(self: any, name: string, data: any, isDir: boolean) {
   const o = {
     binary: !!isDir,
     dir: !!isDir,
-    date: new Date(),
+    date: new Date('2023-02-27T19:49:25.061Z'),
     compression: isDir ? 'STORE' : null,
     compressionOptions: null
   };
@@ -105,6 +105,7 @@ export class IdsZip {
   }
 
   generate(options: IdsZipOptions) {
+    //return this.generateInternalStream(options);
     return this.generateInternalStream(options).accumulate();
   }
 
@@ -114,7 +115,6 @@ export class IdsZip {
       type: '',
       platform: 'UNIX',
       mimeType: 'application/zip',
-      encodeFileName: string2buf,
       comment: ''
     };
     const opts = {
@@ -124,11 +124,15 @@ export class IdsZip {
     const comment = opts.comment || this.comment || '';
     const zipFileWorker = this.generateWorker(opts, comment);
 
+    const dataBuffer = zipFileWorker.processAllZipObjects();
+    const dataBlock = transformTo('arraybuffer', zipFileWorker.concat(dataBuffer));
+    const result = new Blob([dataBlock], { type: options.mimeType });
+    //return Promise.resolve(result);
     return new StreamHelper(zipFileWorker, opts.mimeType);
   }
 
   generateWorker(options: any, comment: any): ZipFileWorker {
-    const zipFileWorker = new ZipFileWorker(options.streamFiles, comment, options.platform, options.encodeFileName);
+    const zipFileWorker = new ZipFileWorker(options.streamFiles, comment, options.platform);
     let entriesCount = 0;
 
     try {
@@ -144,7 +148,7 @@ export class IdsZip {
           const date = zipObject.date;
 
           // file._compressWorker returns DataWorker
-          zipObject.compressWorker(compression)
+          const worker = zipObject.compressWorker(compression)
             .withStreamInfo('file', {
               name: relativePath,
               dir,
@@ -152,6 +156,15 @@ export class IdsZip {
               comment: ''
             })
             .pipe(zipFileWorker);
+
+          zipObject.zipMeta.file = {
+            name: relativePath,
+            dir,
+            date,
+            comment: ''
+          }
+
+          zipFileWorker.addZipObject(zipObject);
         }
       }
 

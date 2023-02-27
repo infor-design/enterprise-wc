@@ -23,6 +23,7 @@ export class XLXExporter {
     this.root!.file('_rels/.rels', RELS);
     this.root!.file('[Content_Types].xml', CONTENT_TYPES);
     xl!.file('worksheets/sheet1.xml', this.generateWorksheet(data, config.columns))
+
     return this.root!
       .generate({ type: 'blob', mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
       .then((blob) => saveAs(blob, `${config.filename || 'worksheet'}.xlsx`));
@@ -42,8 +43,6 @@ export class XLXExporter {
     const colStyles = this.generateColWidths(this.columns);
     let worksheet = WORKSHEET_TEMPLATE.replace('{sheetDataPlaceholder}', sheetData);
     worksheet = worksheet.replace('{colPlaceholder}', colStyles);
-
-    console.log(worksheet);
 
     return worksheet;
   }
