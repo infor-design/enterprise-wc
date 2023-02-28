@@ -419,6 +419,17 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.alt-row-shading').length).toEqual(0);
       expect(dataGrid.getAttribute('alternate-row-shading')).toEqual('false');
     });
+
+    it('renders additional rows when IdsDataGrid.appendData() used', () => {
+      document.body.innerHTML = '';
+      dataGrid = new IdsDataGrid();
+      document.body.appendChild(dataGrid);
+      dataGrid.columns = columns();
+      dataGrid.data = dataset;
+      expect(dataGrid.rows.length).toBe(dataset.length);
+      dataGrid.appendData(dataset);
+      expect(dataGrid.rows.length).toBe(dataset.length * 2);
+    });
   });
 
   describe('Virtual Scrolling Tests', () => {
@@ -2615,6 +2626,38 @@ describe('IdsDataGrid Component', () => {
       body.dispatchEvent(dblClickEvent);
       expect(clickCallback.mock.calls.length).toBe(1);
       expect(dblClickCallback.mock.calls.length).toBe(1);
+    });
+
+    it.skip('should fire scrollstart event', async () => {
+      const bigData = (new Array(200)).fill(dataset[0], 0, 200);
+      dataGrid.data = bigData;
+
+      const scrollStartListener = jest.fn();
+      dataGrid.addEventListener('scrollstart', scrollStartListener);
+
+      dataGrid.container.scrollTop = 2000;
+      // await new Promise((r) => setTimeout(r, 100));
+
+      dataGrid.container.scrollTop = 0;
+      // await new Promise((r) => setTimeout(r, 100));
+
+      expect(scrollStartListener).toBeCalled();
+    });
+
+    it.skip('should fire scrollend event', async () => {
+      const bigData = (new Array(200)).fill(dataset[0], 0, 200);
+      dataGrid.data = bigData;
+
+      const scrollEndListener = jest.fn();
+      dataGrid.addEventListener('scrollend', scrollEndListener);
+
+      dataGrid.container.scrollTop = 2000;
+      // await new Promise((r) => setTimeout(r, 100));
+
+      dataGrid.container.scrollTop = 0;
+      // await new Promise((r) => setTimeout(r, 100));
+
+      expect(scrollEndListener).toBeCalled();
     });
   });
 
