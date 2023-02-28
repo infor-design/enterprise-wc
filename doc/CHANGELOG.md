@@ -11,6 +11,7 @@
 - `[DataGrid]` Fixed dynamic left top alignment, removed arrow and improved api for contextmenu. ([#1110](https://github.com/infor-design/enterprise-wc/issues/1110))
 - `[DataGrid]` Improved the event support for contextmenu. ([#1113](https://github.com/infor-design/enterprise-wc/issues/1113))
 - `[DataGrid]` Fixed overflow to display all items with contextmenu. ([#1119](https://github.com/infor-design/enterprise-wc/issues/1119))
+- `[DataGrid]` Fixed tooltip to show without text overflow. ([#1126](https://github.com/infor-design/enterprise-wc/issues/1126)
 - `[Icons]` Changed the way custom icons work so they can be used only at one time and from a file. ([#1122](https://github.com/infor-design/enterprise-wc/issues/1122))
 - `[Icons]` Clean up examples for icons. ([#509](https://github.com/infor-design/enterprise-wc/issues/509))
 - `[Icons]` Changed the way custom icons work so they can be used only at one time and from a file. ([#1122](https://github.com/infor-design/enterprise-wc/issues/1122))
