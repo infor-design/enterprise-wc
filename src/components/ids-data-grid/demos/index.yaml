@@ -53,6 +53,9 @@
   - link: columns-stretch.html
     type: Example
     description: Showing a stretch column
+  - link: combo-sort.html
+    type: Example
+    description: Shows combined data type sorting
   - link: contextmenu.html
     type: Example
     description: Shows a data grid with contextmenu

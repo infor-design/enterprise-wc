@@ -11,6 +11,7 @@
 - `[Checkbox]` Fixed required indicator was not placed correctly when RTL. ([#1111](https://github.com/infor-design/enterprise-wc/issues/1111)
 - `[DataGrid]` Add events for `scrollstart` and `scrollend`. ([#1102](https://github.com/infor-design/enterprise-wc/issues/1102)) 
 - `[DataGrid]` Fixed tooltip to show without text overflow. ([#1126](https://github.com/infor-design/enterprise-wc/issues/1126)
+- `[Datagrid]` Changed the sort function to match excel. ([#6787](https://github.com/infor-design/enterprise/issues/6787))
 - `[Icons]` Changed the way custom icons work so they can be used only at one time and from a file. ([#1122](https://github.com/infor-design/enterprise-wc/issues/1122))
 - `[Icons]` Clean up examples for icons. ([#509](https://github.com/infor-design/enterprise-wc/issues/509))
 - `[Locale]` Locale information files and messages are now separate from the build. They must be served as assets from the `node_modules/ids-enterprise-wc/locale-data` folder. ([#1107](https://github.com/infor-design/enterprise-wc/issues/1107))
