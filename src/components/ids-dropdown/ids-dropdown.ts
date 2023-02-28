@@ -524,7 +524,7 @@ export default class IdsDropdown extends Base {
 
       this.dropdownList.setAttribute(attributes.TARGET, `#${targetElemId}`);
       this.dropdownList.setAttribute(attributes.TRIGGER_ELEM, `#${triggerElemId}`);
-      this.dropdownList.popup.alignTarget = this.input?.fieldContainer;
+      this.dropdownList.popup.alignTarget = this.input?.fieldContainer || null;
 
       this.dropdownList.setAttribute(attributes.TRIGGER_TYPE, 'click');
       this.dropdownList.popupOpenEventsTarget = document.body;
@@ -717,7 +717,7 @@ export default class IdsDropdown extends Base {
       this.onEvent('selected.dropdown-list', this.input.fieldContainer, (e: CustomEvent) => {
         e.stopPropagation();
         this.value = e.detail.value;
-        if (this.dropdownList.popup.visible) this.close();
+        if (this.dropdownList?.popup?.visible) this.close();
       });
     }
 
