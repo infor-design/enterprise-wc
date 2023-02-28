@@ -297,16 +297,10 @@ class IdsDataSource {
    * @returns {object} The sorted dataset
    */
   sortFunction(field: string, ascending: any) {
-    const isNumeric = (n: any) => !Number.isNaN(parseFloat(n)) && Number.isFinite(n);
     const primer = (a: any) => {
       a = (a === undefined || a === null ? '' : a);
-
       if (typeof a === 'string') {
         a = a.toUpperCase();
-
-        if (isNumeric(a)) {
-          a = parseFloat(a);
-        }
       }
       return a;
     };
@@ -317,24 +311,6 @@ class IdsDataSource {
     return (a: any, b: any) => {
       a = key(a);
       b = key(b);
-
-      // Imitate how Excel does sorting when comparing numbers with strings (numbers are always less than strings).
-      // The above primer function makes the data type numeric, which is important in imitating Excel sorting
-      // (i.e.the string '5' becomes 5 and is treated as a number in sorting).
-      // The following string values will sort in this order (ascending): 1, 2, 07, 11, 1a, 22a, 2ab, a, B, c
-      if (typeof a === 'number' && typeof b === 'string' && b !== '') {
-        return ascending * -1;
-      } else if (typeof a === 'string' && typeof b === 'number' && a !== '') { // eslint-disable-line
-        return ascending;
-      }
-
-      // Imitate how Excel sorts blank values (always at end of list for both ascending and descending).
-      // Avoids a bunch a blank values at the top of the list when trying to see sorted values.
-      if (a === '') {
-        return b === '' ? 0 : 1;
-      } else if (b === '') { // eslint-disable-line
-        return a === '' ? 0 : -1;
-      }
 
       if (typeof a !== typeof b) {
         a = a.toString().toLowerCase();
