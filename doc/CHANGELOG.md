@@ -1,4 +1,7 @@
 # What's New with Enterprise Web Components
+## 1.0.0-beta.8
+
+### 1.0.0-beta.8 Fixes
 
 ## 1.0.0-beta.7
 
@@ -9,9 +12,9 @@
 - `[Build]` Updated `esbuild` to fix issues with import order. ([#1140](https://github.com/infor-design/enterprise-wc/issues/1140))
 - `[Calendar]` Added a `beforeeventrendered` and `aftereventrendered` event. ([#1131](https://github.com/infor-design/enterprise-wc/issues/1131))
 - `[Checkbox]` Fixed required indicator was not placed correctly when RTL. ([#1111](https://github.com/infor-design/enterprise-wc/issues/1111)
-- `[DataGrid]` Fixed dynamic left top alignment, removed arrow and improved api for contextmenu. ([#1110](https://github.com/infor-design/enterprise-wc/issues/1110))
-- `[DataGrid]` Improved the event support for contextmenu. ([#1113](https://github.com/infor-design/enterprise-wc/issues/1113))
-- `[DataGrid]` Fixed overflow to display all items with contextmenu. ([#1119](https://github.com/infor-design/enterprise-wc/issues/1119))
+- `[DataGrid]` Fixed dynamic left top alignment, removed arrow and improved api for context menu. ([#1110](https://github.com/infor-design/enterprise-wc/issues/1110))
+- `[DataGrid]` Improved the event support for context menu. ([#1113](https://github.com/infor-design/enterprise-wc/issues/1113))
+- `[DataGrid]` Fixed overflow to display all items with context menu. ([#1119](https://github.com/infor-design/enterprise-wc/issues/1119))
 - `[DataGrid]` Add events for `scrollstart` and `scrollend`. ([#1102](https://github.com/infor-design/enterprise-wc/issues/1102)) 
 - `[DataGrid]` Fixed tooltip to show without text overflow. ([#1126](https://github.com/infor-design/enterprise-wc/issues/1126)
 - `[DataGrid]` Placed the empty message at the center of the component. ([#1100](https://github.com/infor-design/enterprise-wc/issues/1100))
