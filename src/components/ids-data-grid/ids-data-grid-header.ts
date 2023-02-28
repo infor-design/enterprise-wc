@@ -5,7 +5,6 @@ import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import type IdsDataGrid from './ids-data-grid';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
-import { emptyMessageTemplate } from './ids-data-grid-empty-message';
 
 @customElement('ids-data-grid-header')
 export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
@@ -289,12 +288,10 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
    * @returns {string} The template
    */
   static template(datagrid: IdsDataGrid): string {
-    const emptyMesageTemplate = emptyMessageTemplate.apply(datagrid);
     const html = `<ids-data-grid-header class="ids-data-grid-header" role="rowgroup" part="header">
       <ids-data-grid-row class="ids-data-grid-row" role="row">
         ${datagrid.visibleColumns.map((columnData: any, index: number) => `${this.headerCellTemplate(datagrid, columnData, index)}`).join('')}
       </ids-data-grid-row>
-      ${emptyMesageTemplate}
     </ids-data-grid-header>`;
     return this.columnGroupsTemplate(datagrid) + html;
   }

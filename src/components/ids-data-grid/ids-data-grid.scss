@@ -14,20 +14,6 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 }
 
 .ids-data-grid {
-  ids-empty-message,
-  ::slotted(ids-empty-message) {
-    left: 50%;
-    margin-top: 36px;
-    position: sticky;
-    transform: translateX(-50%);
-    width: fit-content;
-  }
-
-  ids-empty-message:not([hidden]),
-  ::slotted(ids-empty-message:not([hidden])) {
-    @include block();
-  }
-
   // Outside border and Background and sizing
   @include bg-white();
   @include border-1();
@@ -238,5 +224,26 @@ table.ids-data-grid {
         @include bg-white();
       }
     }
+  }
+}
+
+// Empty Message
+.ids-data-grid-wrapper.has-empty-message {
+  @include relative();
+  @include grid();
+
+  ids-empty-message:not([hidden]),
+  ::slotted(ids-empty-message:not([hidden])) {
+    @include absolute();
+    @include flex();
+
+    align-self: center;
+    justify-self: center;
+    top: 80px;
+    bottom: 20px;
+  }
+
+  .ids-data-grid {
+    min-height: 350px;
   }
 }

@@ -19,6 +19,7 @@ import {
   resetEmptyMessageElements,
   hideEmptyMessage,
   IdsDataGridToggleEmptyMessage,
+  emptyMessageTemplate
 } from './ids-data-grid-empty-message';
 
 // Styles
@@ -205,6 +206,7 @@ export default class IdsDataGrid extends Base {
 
     let cssClasses = `${this.alternateRowShading ? ' alt-row-shading' : ''}`;
     cssClasses += `${this.listStyle ? ' is-list-style' : ''}`;
+    const emptyMesageTemplate = emptyMessageTemplate.apply(this);
 
     const html = `<div class="ids-data-grid-wrapper">
         <span class="ids-data-grid-sort-arrows"></span>
@@ -212,6 +214,7 @@ export default class IdsDataGrid extends Base {
           ${IdsDataGridHeader.template(this)}
           ${this.bodyTemplate()}
         </div>
+        ${emptyMesageTemplate}
         <slot name="menu-container"></slot>
         <slot name="contextmenu"></slot>
         <slot name="header-contextmenu"></slot>
