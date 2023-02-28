@@ -227,6 +227,7 @@ export const attributes = {
   MAX_FILES: 'max-files',
   MAX_FILES_IN_PROCESS: 'max-files-in-process',
   MAX_FILE_SIZE: 'max-file-size',
+  MAX_HEIGHT: 'max-height',
   MAX_TRANSFORM_X: 'max-transform-x',
   MAX_TRANSFORM_Y: 'max-transform-y',
   MENU: 'menu',

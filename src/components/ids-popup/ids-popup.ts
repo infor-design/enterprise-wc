@@ -531,6 +531,30 @@ export default class IdsPopup extends Base {
   }
 
   /**
+   * @returns {string | null} The max height value
+   */
+  get maxHeight(): string | null {
+    return this.getAttribute(attributes.MAX_HEIGHT);
+  }
+
+  /**
+   * Set the max height value
+   * @param {string | number | null} value The value
+   */
+  set maxHeight(value: string | number | null) {
+    let val: string | number | null = parseInt(value as string, 10);
+    val = (!Number.isNaN(val) && val > -1) ? `${val}px` : null;
+    if (val) {
+      this.container?.classList.add('has-maxheight');
+      this.setAttribute(attributes.MAX_HEIGHT, val);
+    } else {
+      this.container?.classList.remove('has-maxheight');
+      this.removeAttribute(attributes.MAX_HEIGHT);
+    }
+    this.container?.style.setProperty('--ids-popup-maxheight', val);
+  }
+
+  /**
    * Helper to get opposite align edge
    * @param {string|undefined} currentEdge current align edge
    * @returns {string} opposite align edge

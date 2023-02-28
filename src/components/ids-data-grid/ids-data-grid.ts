@@ -9,7 +9,7 @@ import IdsDataSource from '../../core/ids-data-source';
 import IdsDataGridFormatters from './ids-data-grid-formatters';
 import { editors } from './ids-data-grid-editors';
 import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid-filters';
-import { IdsDataGridContextmenuArgs, setContextmenu } from './ids-data-grid-contextmenu';
+import { IdsDataGridContextmenuArgs, setContextmenu, getContextmenuElem } from './ids-data-grid-contextmenu';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
 
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
@@ -92,6 +92,19 @@ export default class IdsDataGrid extends Base {
   emptyMessageElements?: IdsDataGridEmptyMessageElements;
 
   cacheHash = Math.random().toString(32).substring(2, 10);
+
+  /**
+   * Types for contextmenu.
+   * @private
+   */
+  contextmenuTypes = {
+    BODY_CELL: 'body-cell',
+    BODY_CELL_EDITOR: 'body-cell-editor',
+    HEADER_TITLE: 'header-title',
+    HEADER_ICON: 'header-icon',
+    HEADER_FILTER: 'header-filter',
+    HEADER_FILTER_BUTTON: 'header-filter-button',
+  };
 
   constructor() {
     super();
@@ -338,11 +351,17 @@ export default class IdsDataGrid extends Base {
    * Contextmenu stuff use for info and events
    * @private
    */
-  contextMenuInfo: {
+  contextmenuInfo: {
     menu?: IdsPopupMenu,
     target?: HTMLElement,
     callbackArgs?: IdsDataGridContextmenuArgs
   } = {};
+
+  /**
+   * Track contextmenu data dynamicly changed by the user.
+   * @private
+   */
+  isDynamicContextmenu = false;
 
   /**
    * Body template markup
@@ -1142,7 +1161,12 @@ export default class IdsDataGrid extends Base {
    */
   set headerMenuData(value) {
     this.header.state.headerMenuData = value;
-    setContextmenu.apply(this);
+    if (!this.isDynamicContextmenu) {
+      const headerMenu: any = getContextmenuElem.apply(this, [true]);
+      if (headerMenu) headerMenu.data = value;
+      setContextmenu.apply(this);
+    }
+    this.isDynamicContextmenu = false;
   }
 
   get headerMenuData() { return this.header.state.headerMenuData; }
@@ -1167,7 +1191,12 @@ export default class IdsDataGrid extends Base {
    */
   set menuData(value) {
     this.state.menuData = value;
-    setContextmenu.apply(this);
+    if (!this.isDynamicContextmenu) {
+      const menu: any = getContextmenuElem.apply(this);
+      if (menu) menu.data = value;
+      setContextmenu.apply(this);
+    }
+    this.isDynamicContextmenu = false;
   }
 
   get menuData() { return this?.state?.menuData; }
