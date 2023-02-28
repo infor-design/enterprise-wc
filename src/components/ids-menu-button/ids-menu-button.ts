@@ -211,11 +211,16 @@ export default class IdsMenuButton extends IdsButton {
       return;
     }
     this.resizeMenu();
-    this.setPopupArrow();
     this.menuEl.triggerType = 'click';
     this.menuEl.target = this;
 
     this.setAttribute(htmlAttributes.ARIA_HASPOPUP, 'menu');
+
+    if (this.menuEl.popup) {
+      this.menuEl.popup.align = 'bottom, left';
+      this.menuEl.popup.y = 8;
+      this.setPopupArrow();
+    }
 
     // ====================================================================
     // Setup menu-specific event listeners, if they aren't already applied
