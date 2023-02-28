@@ -1507,7 +1507,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       const days = this.#countDays(start, end) || 1;
 
       for (let i = 0; i < days; i++) {
-        const { calendarEvent, isCustom } = this.#newCalendarEvent(customCalendarEvent);
+        const calendarEvent = this.#newCalendarEvent(customCalendarEvent);
         const eventType = this.eventTypesData?.find((et: CalendarEventTypeData) => et.id === event.type) ?? null;
         const eventOrder = baseOrder + index;
         calendarEvent.eventTypeData = eventType;
@@ -1522,6 +1522,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
         const day = start.getDate();
         const year = start.getFullYear();
         const month = start.getMonth();
+        calendarEvent.dateKey = `${year}${month}${day}`;
         const dateCell = this.container?.querySelector(`td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`);
 
         if (dateCell) {
@@ -1540,15 +1541,12 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
             calendarEvent.cssClass = extraCss;
           }
 
-          calendarEvent.setAttribute(attributes.Y_OFFSET, `${(calendarEvent.order * 16) + BASE_Y_OFFSET}px`);
-          // hide overflowing event elements
-          isOverflowing = isCustom ? (calendarEvent.order > 0) : (calendarEvent.order > MAX_EVENT_COUNT - 1);
+          const eventYOffset = this.generateYOffset(calendarEvent);
+          calendarEvent.setAttribute(attributes.Y_OFFSET, `${eventYOffset}px`);
+          // hide overflowing event
+          isOverflowing = this.isEventOverflowing(calendarEvent);
           calendarEvent.hidden = isOverflowing;
-          if (isCustom) {
-            // setting dateKey value for custom calendar event
-            const customEventDateKey = `${year}${month}${day}`;
-            calendarEvent.dateKey = customEventDateKey;
-          }
+          dateCell.querySelector('.events-container')?.appendChild(calendarEvent as any);
 
           const container = dateCell.querySelector('.events-container');
           this.triggerEvent('beforeeventrendered', this, {
@@ -1612,15 +1610,15 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    * @param {IdsCalendarEvent} customCalendarEvent optional custom event to use instead of default
    * @returns {IdsCalendarEvent} calendar event
    */
-  #newCalendarEvent(customCalendarEvent?: any): { isCustom: boolean, calendarEvent: any } {
+  #newCalendarEvent(customCalendarEvent?: any): any {
     if (customCalendarEvent?.name === 'MonthViewCalendarEventTemplate') {
       const eventTemplate = customCalendarEvent.assignedNodes()[0];
       if (eventTemplate) {
         this.#isCustom = true;
-        return { isCustom: true, calendarEvent: eventTemplate.cloneNode(true) };
+        return eventTemplate.cloneNode(true);
       }
     }
-    return { isCustom: false, calendarEvent: new IdsCalendarEvent() };
+    return new IdsCalendarEvent();
   }
 
   /**
@@ -1645,6 +1643,24 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       this.#clearRangeClasses();
       this.selectDay(year, month, day);
     }
+  }
+
+  /**
+   * Calculates the event Y_OFFSET value to set the event pill top position
+   * @param {IdsCalendarEvent} event IdsCalendarEvent
+   * @returns {number} yOffset
+   */
+  generateYOffset(event: IdsCalendarEvent): number {
+    return (event.order * 16) + BASE_Y_OFFSET;
+  }
+
+  /**
+   * Checks if the event pills exceed the MAX_EVENT_COUNT in a day cell
+   * @param {IdsCalendarEvent} event IdsCalendarEvent
+   * @returns {boolean} isEventOverflowing
+   */
+  isEventOverflowing(event: IdsCalendarEvent): boolean {
+    return event.order > MAX_EVENT_COUNT - 1;
   }
 }
 

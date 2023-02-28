@@ -129,7 +129,7 @@ export default class IdsDataGrid extends Base {
 
     super.connectedCallback();
     this.redrawBody();
-    this.#attachVirtualScrollEvent();
+    this.#attachScrollEvents();
   }
 
   /** Reference to datasource API */
@@ -305,7 +305,7 @@ export default class IdsDataGrid extends Base {
     this.header.setHeaderCheckbox();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
-    this.#attachVirtualScrollEvent();
+    this.#attachScrollEvents();
     this.setupTooltip();
 
     // Attach post filters setting
@@ -1039,6 +1039,20 @@ export default class IdsDataGrid extends Base {
   get columnGroups() { return this.state?.columnsGroups || null; }
 
   /**
+   * Use this to add more data to the datagrid's existing dataset.
+   * This will automatically render additional rows in the datagrid.
+   * @param {Array} value The array to use
+   */
+  appendData(value: Array<Record<string, any>>) {
+    if (this.virtualScroll) {
+      this.datasource.data = this.data.concat(value);
+    } else {
+      this.data = this.data.concat(value);
+    }
+    this.#attachScrollEvents();
+  }
+
+  /**
    * Set the data of the data grid
    * @param {Array} value The array to use
    */
@@ -1199,9 +1213,46 @@ export default class IdsDataGrid extends Base {
     };
   }
 
-  /* Attach Events for virtual scrolling */
+  /* Attach Events for global scrolling */
+  #attachScrollEvents() {
+    let debounceRowIndex = 0;
+    this.offEvent('scroll.data-grid', this.container);
+    this.onEvent('scroll.data-grid', this.container, () => {
+      const virtualScrollSettings = this.virtualScrollSettings;
+      const scrollTop = this.container!.scrollTop;
+      const clientHeight = this.container!.clientHeight;
+
+      const rowIndex = Math.floor(scrollTop / virtualScrollSettings.ROW_HEIGHT);
+
+      if (rowIndex === debounceRowIndex) return;
+      debounceRowIndex = rowIndex;
+
+      const data = this.data;
+      const rows = this.rows;
+      const maxHeight = virtualScrollSettings.ROW_HEIGHT * data.length;
+
+      const reachedTheTop = rowIndex <= 0;
+      const reachedTheBottom = (scrollTop + clientHeight) >= maxHeight;
+
+      if (reachedTheTop) {
+        const firstRow: any = rows[0];
+        this.#triggerCustomScrollEvent(firstRow.rowIndex, 'start');
+      }
+      if (reachedTheBottom) {
+        const lastRow: any = rows[rows.length - 1];
+        this.#triggerCustomScrollEvent(lastRow.rowIndex, 'end');
+      }
+      if (!reachedTheTop && !reachedTheBottom) {
+        this.#triggerCustomScrollEvent(0);
+      }
+    }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
+
+    this.#attachVirtualScrollEvent();
+  }
+
   #attachVirtualScrollEvent() {
     if (!this.virtualScroll) return;
+
     const virtualScrollSettings = this.virtualScrollSettings;
     const data = this.data;
 
@@ -1224,6 +1275,22 @@ export default class IdsDataGrid extends Base {
 
       this.scrollRowIntoView(rowIndex, false);
     }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
+  }
+
+  #customScrollEventCache: { [key: string]: number } = {};
+
+  #triggerCustomScrollEvent(rowIndex: number, eventType?: 'start' | 'end') {
+    if (!eventType) {
+      this.#customScrollEventCache = {}; // reset event-cache
+    } else if (rowIndex !== this.#customScrollEventCache[eventType]) {
+      this.#customScrollEventCache[eventType] = rowIndex;
+
+      this.triggerEvent(`scroll${eventType}`, this, {
+        bubbles: true,
+        composed: true,
+        detail: { elem: this, value: rowIndex }
+      });
+    }
   }
 
   /**
@@ -1301,6 +1368,8 @@ export default class IdsDataGrid extends Base {
     bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
 
     if (isInRange) {
+      // if rowIndex is in range of the currently visible rows:
+      // then we should only move rows up or down according to how big the buffer should be.
       const moveRowsDown = bufferRowIndex - firstRowIndex;
       const moveRowsUp = Math.abs(moveRowsDown);
 
@@ -1314,6 +1383,8 @@ export default class IdsDataGrid extends Base {
         return; // exit early because nothing to do.
       }
     } else if (isAboveFirstRow) {
+      // if rowIndex should appear above the currently visible rows,
+      // then we must figure out how many rows we must move up from the bottom to render the rowIndex row
       const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex);
 
       if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
@@ -1322,6 +1393,8 @@ export default class IdsDataGrid extends Base {
         this.#recycleAllRows(bufferRowIndex);
       }
     } else if (isBelowLastRow) {
+      // if rowIndex should appear below the currently visible rows,
+      // then we recycle all rows, since none of the visible rows are needed
       this.#recycleAllRows(bufferRowIndex);
     }
 
@@ -1344,7 +1417,7 @@ export default class IdsDataGrid extends Base {
     });
   }
 
-  /* Recycle the rows duing scrolling */
+  /* Recycle the rows during scrolling */
   #recycleAllRows(topRowIndex: number) {
     const rows = this.rows;
     if (!rows.length) return;
@@ -1366,7 +1439,7 @@ export default class IdsDataGrid extends Base {
     });
   }
 
-  /* Recycle the rows duing scrolling from the top */
+  /* Recycle the rows during scrolling from the top */
   #recycleTopRowsDown(rowCount: number) {
     const rows = this.rows;
     if (!rowCount || !rows.length) return;
@@ -1397,7 +1470,7 @@ export default class IdsDataGrid extends Base {
     });
   }
 
-  /* Recycle the rows duing scrolling from the bottom */
+  /* Recycle the rows during scrolling from the bottom */
   #recycleBottomRowsUp(rowCount: number) {
     const rows = this.rows;
     if (!rowCount || !rows.length) return;
