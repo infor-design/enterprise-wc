@@ -419,6 +419,17 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.alt-row-shading').length).toEqual(0);
       expect(dataGrid.getAttribute('alternate-row-shading')).toEqual('false');
     });
+
+    it('renders additional rows when IdsDataGrid.appendData() used', () => {
+      document.body.innerHTML = '';
+      dataGrid = new IdsDataGrid();
+      document.body.appendChild(dataGrid);
+      dataGrid.columns = columns();
+      dataGrid.data = dataset;
+      expect(dataGrid.rows.length).toBe(dataset.length);
+      dataGrid.appendData(dataset);
+      expect(dataGrid.rows.length).toBe(dataset.length * 2);
+    });
   });
 
   describe('Virtual Scrolling Tests', () => {

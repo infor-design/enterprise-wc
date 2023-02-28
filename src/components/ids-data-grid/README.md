@@ -504,6 +504,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `clearAllSettings(userKeys: unknown)` Clear saved all user settings from local storage.
 - `restoreSetting(setting: string, value?: unknown)` Restore the given saved setting from local storage.
 - `editFirstCell` Puts the first cell on the active row into edit mode.
+- `appendData(data: Record<string, unknown>)` Use this to add more data to the datagrid's existing dataset.  This will automatically render additional rows in the datagrid.
 - `addRow(data: Record<string, unknown>, index?: number)` Adds a new row at optional row index and defaults the values to all those provided in the data
 - `addRows(data: Array<Record<string, unknown>>, index?: number)` Adds multiple new rows at optional row index and defaults the values to all those provided in the data
 - `removeRow(index: number)` Removed the provided row index from the dataset and visual datagrid

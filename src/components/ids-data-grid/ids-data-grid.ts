@@ -1038,7 +1038,12 @@ export default class IdsDataGrid extends Base {
 
   get columnGroups() { return this.state?.columnsGroups || null; }
 
-  moreData(value: Array<Record<string, any>>) {
+  /**
+   * Use this to add more data to the datagrid's existing dataset.
+   * This will automatically render additional rows in the datagrid.
+   * @param {Array} value The array to use
+   */
+  appendData(value: Array<Record<string, any>>) {
     if (this.virtualScroll) {
       this.datasource.data = this.data.concat(value);
     } else {

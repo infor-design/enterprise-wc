@@ -103,6 +103,6 @@ dataGrid.addEventListener('scrollend', async (e: Event) => {
 
   if (endIndex < MAX_ROW_INDEX) {
     const moreData = await fetchData(endIndex + 1);
-    dataGrid.moreData(moreData);
+    dataGrid.appendData(moreData);
   }
 });
