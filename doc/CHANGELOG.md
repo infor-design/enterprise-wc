@@ -9,6 +9,7 @@
 - `[Build]` Updated `esbuild` to fix issues with import order. ([#1140](https://github.com/infor-design/enterprise-wc/issues/1140))
 - `[Calendar]` Added a `beforeeventrendered` and `aftereventrendered` event. ([#1131](https://github.com/infor-design/enterprise-wc/issues/1131))
 - `[Checkbox]` Fixed required indicator was not placed correctly when RTL. ([#1111](https://github.com/infor-design/enterprise-wc/issues/1111)
+- `[DataGrid]` Add events for `scrollstart` and `scrollend`. ([#1102](https://github.com/infor-design/enterprise-wc/issues/1102)) 
 - `[DataGrid]` Fixed tooltip to show without text overflow. ([#1126](https://github.com/infor-design/enterprise-wc/issues/1126)
 - `[Icons]` Changed the way custom icons work so they can be used only at one time and from a file. ([#1122](https://github.com/infor-design/enterprise-wc/issues/1122))
 - `[Icons]` Clean up examples for icons. ([#509](https://github.com/infor-design/enterprise-wc/issues/509))
