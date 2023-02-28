@@ -1,4 +1,7 @@
 import eventsJSON from '../../../assets/data/events.json';
+import IdsCalendar from '../ids-calendar';
+import IdsCustomCalendarEvent from './custom-calendar-event';
+import CustomCalendarEventManager from './custom-calendar-event-manager';
 
 const eventsURL: any = eventsJSON;
 
@@ -11,8 +14,16 @@ function getCalendarEvents(): Promise<any> {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const calendar: any = document.querySelector('ids-calendar');
+  const calendar: any = document.querySelector<IdsCalendar>('ids-calendar');
   const addEventMenu = document.querySelector('#add-event');
+
+  const eventManager = new CustomCalendarEventManager();
+
+  calendar?.addEventListener('beforeeventrendered', () => {
+    const view = calendar?.getView();
+    view.generateYOffset = (event: IdsCustomCalendarEvent): number => eventManager.generateYOffset(event);
+    view.isEventOverflowing = (event: IdsCustomCalendarEvent): boolean => eventManager.isEventOverflowing(event);
+  });
 
   // Set event types
   calendar.eventTypesData = [
@@ -22,7 +33,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       translationKey: 'DiscretionaryTimeOff',
       color: 'azure',
       checked: true,
-      noOfAttributes: 2,
       attrs: [
         'subject',
         'time'
@@ -34,7 +44,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       translationKey: 'AdministrativeLeave',
       color: 'amethyst',
       checked: true,
-      noOfAttributes: 2,
       attrs: [
         'subject',
         'time'
@@ -46,7 +55,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       translationKey: 'TeamEvent',
       color: 'emerald',
       checked: true,
-      noOfAttributes: 3,
       attrs: [
         'subject',
         'time',
@@ -59,7 +67,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       translationKey: 'SickTime',
       color: 'amber',
       checked: true,
-      noOfAttributes: 2,
       attrs: [
         'subject',
         'time'
@@ -72,7 +79,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       color: 'slate',
       checked: true,
       disabled: true,
-      noOfAttributes: 1,
       attrs: [
         'subject'
       ]

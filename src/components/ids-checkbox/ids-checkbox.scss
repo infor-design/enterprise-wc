@@ -56,43 +56,19 @@
     }
   }
 
-  &.hitbox[mode='contrast']:not([color]),
-  &.hitbox[mode='dark']:not([color]) {
-    input[type='checkbox'] ~ span.checkmark {
-      top: 14px;
-    }
-  }
+  &.hitbox {
+    @include py-12();
 
-  &.hitbox label {
-    align-items: baseline;
-    display: inline-flex;
-    padding: 12px 0;
+    label {
+      padding-inline-start: 42px;
 
-    &.required .label-checkbox {
-      top: 0;
-
-      &::after {
-        height: 20px;
-        position: relative;
-        right: 0;
-        top: -2px;
+      span.checkmark {
+        margin-inline-start: 14px;
       }
     }
 
-    span.checkmark {
-      margin-left: 14px;
-      margin-right: 14px;
-      position: absolute;
-      top: 14px;
-    }
-
-    .label-checkbox {
-      align-items: center;
-      display: inline-flex;
-      margin-right: 14px;
-      margin-left: 42px;
-      position: relative;
-      top: -1px;
+    .validation-message {
+      margin-inline-start: 14px;
     }
   }
 
@@ -169,7 +145,7 @@
   .validation-message {
     @include mt-4();
 
-    margin-left: -1px;
+    margin-inline-start: -1px;
   }
 
   &.has-focus {
@@ -269,11 +245,6 @@
   input[type='checkbox'] ~ .checkmark {
     left: initial;
     right: 0;
-  }
-
-  label {
-    padding-right: 24px;
-    padding-left: 0;
   }
 
   label.required .label-checkbox::after {

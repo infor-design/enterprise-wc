@@ -56,6 +56,7 @@ export default class IdsText extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#attachEventHandlers();
+    if (this.color) this.color = this.getAttribute('color');
   }
 
   /**
@@ -93,7 +94,6 @@ export default class IdsText extends Base {
     let classList = 'ids-text';
     classList += this.status ? ` ${this.statusClass()}` : '';
     classList += this.textAlign ? ` ${this.textAlignClass()}` : '';
-    classList += this.color === 'unset' ? ' ids-text-color-unset' : '';
     classList += (this.overflow === 'ellipsis') ? ' ellipsis' : '';
     classList += (this.audible) ? ' audible' : '';
     classList += (this.label) ? ' label' : '';
@@ -101,12 +101,7 @@ export default class IdsText extends Base {
     classList += (this.fontWeight === 'bold' || this.fontWeight === 'lighter')
       ? ` ${this.fontWeight}` : '';
 
-    const color = this.color;
-    const style = typeof color === 'string' && color !== 'unset' && color !== ''
-      ? ` style="color: var(--ids-color-palette-${this.color})"` : '';
-
     return `<${tag}
-      ${style}
       class="${classList}"
       mode="${this.mode}"
       part="text"
