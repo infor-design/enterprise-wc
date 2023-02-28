@@ -159,13 +159,13 @@ export default class IdsDropdownList extends Base {
       this.popup.type = 'dropdown';
       this.popup.align = 'bottom, left';
       this.popup.arrow = 'none';
-      this.popup.y = -1;
-      this.popup.x = 0;
 
       // Fix aria if the menu is closed
       if (!this.popup.visible) {
+        this.popup.y = -1;
+        this.popup.x = 0;
         this.setAriaOnMenuClose();
-      } else if (this.popup.visible) this.popup.setPosition(null, null, false, true);
+      } else if (this.popup.visible) this.popup.setPosition(0, -1, false, true);
     }
   }
 

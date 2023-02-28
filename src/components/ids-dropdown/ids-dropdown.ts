@@ -519,10 +519,13 @@ export default class IdsDropdown extends Base {
       };
 
       // Associate the Dropdown List component with this Dropdown component's trigger button
+      const targetElemId = (this.list ? this : this.input?.input)?.getAttribute('id');
       const triggerElemId = (this.list ? this : this.trigger)?.getAttribute('id');
-      const targetElemId = (this.list ? this : this.input)?.getAttribute('id');
+
       this.dropdownList.setAttribute(attributes.TARGET, `#${targetElemId}`);
       this.dropdownList.setAttribute(attributes.TRIGGER_ELEM, `#${triggerElemId}`);
+      this.dropdownList.popup.alignTarget = this.input?.fieldContainer;
+
       this.dropdownList.setAttribute(attributes.TRIGGER_TYPE, 'click');
       this.dropdownList.popupOpenEventsTarget = document.body;
 
@@ -710,10 +713,13 @@ export default class IdsDropdown extends Base {
     }
 
     this.offEvent('selected.dropdown-list');
-    this.onEvent('selected.dropdown-list', this.input, (e: CustomEvent) => {
-      e.stopPropagation();
-      this.value = e.detail.value;
-    });
+    if (this.input?.fieldContainer) {
+      this.onEvent('selected.dropdown-list', this.input.fieldContainer, (e: CustomEvent) => {
+        e.stopPropagation();
+        this.value = e.detail.value;
+        if (this.dropdownList.popup.visible) this.close();
+      });
+    }
 
     // Close the list on change, if applicable
     this.offEvent('change.list');
