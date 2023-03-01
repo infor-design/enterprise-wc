@@ -507,14 +507,8 @@ export default class IdsDropdown extends Base {
           this.labelClicked = false;
           return;
         }
-
         if (!this.disabled && !this.readonly) {
-          this.toggle();
-        }
-
-        // Stays opened when clicking to input in typeahead
-        if (this.typeahead && !this.dropdownList?.popup?.visible) {
-          this.open(true);
+          this.toggle(this.typeahead);
         }
       };
 
@@ -639,12 +633,13 @@ export default class IdsDropdown extends Base {
 
   /**
    * Toggle the dropdown list open/closed state
+   * @param {boolean} shouldSelect whether or not the input text should be selected
    * @private
    */
-  toggle(): void {
+  toggle(shouldSelect = false): void {
     if (!this.dropdownList) return;
     if (!this.dropdownList.popup?.visible) {
-      this.open();
+      this.open(shouldSelect);
     } else {
       this.close();
     }
