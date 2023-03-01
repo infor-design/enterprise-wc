@@ -550,6 +550,8 @@ export default class IdsDropdown extends Base {
       return;
     }
 
+    this.dropdownList?.closeOtherPopups();
+
     // Trigger an async callback for contents
     if (typeof this.state.beforeShow === 'function') {
       const stuff = await this.state.beforeShow();
@@ -610,18 +612,6 @@ export default class IdsDropdown extends Base {
   }
 
   get beforeShow() { return this.state.beforeShow; }
-
-  /**
-   * Inherited from the Popup Open Events Mixin.
-   * Runs when a click event is propagated to the window.
-   * @param {PointerEvent} e native pointer event
-   * @returns {void}
-   */
-  onOutsideClick(e: any): void {
-    if (!(e.composedPath()?.includes(this.dropdownList) || e.composedPath()?.includes(this.input?.fieldContainer))) {
-      this.close(true);
-    }
-  }
 
   /**
    * Close the dropdown popup
