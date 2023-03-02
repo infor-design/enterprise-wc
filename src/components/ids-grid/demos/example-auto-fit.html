@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <%= htmlWebpackPlugin.options.font %>
+  </head>
+  <body>
+    <ids-container role="main" padding="8" hidden>
+      <ids-theme-switcher mode="light"></ids-theme-switcher>
+      <div class="container">
+        <ids-grid
+          auto-fit="true"
+          min-col-width="172px"
+          max-col-width="172px"
+          flow="row-dense"
+        >
+          <ids-grid-cell fill height="176px"></ids-grid-cell>
+          <ids-grid-cell fill height="176px"></ids-grid-cell>
+          <ids-grid-cell fill height="176px"></ids-grid-cell>
+          <ids-grid-cell fill height="176px"></ids-grid-cell>
+          <ids-grid-cell fill height="176px"></ids-grid-cell>
+          <ids-grid-cell fill height="176px"></ids-grid-cell>
+          <ids-grid-cell fill height="176px"></ids-grid-cell>
+          <ids-grid-cell fill height="176px"></ids-grid-cell>
+          <ids-grid-cell col-span="all" col-span-md="2" height="368px" fill></ids-grid-cell>
+          <ids-grid-cell col-span="2" height="368px">
+            <ids-grid cols="2">
+              <ids-grid-cell height="176px" fill></ids-grid-cell>
+              <ids-grid-cell height="176px" fill></ids-grid-cell>
+              <ids-grid-cell col-span="2" fill height="176px"></ids-grid-cell>
+            </ids-grid>
+          </ids-grid-cell>
+          <ids-grid-cell col-span="2" col-span-lg="4" row-span="2" min-height="752px" fill></ids-grid-cell>
+          <ids-grid-cell col-span="2" col-span-lg="4" height="368px" fill></ids-grid-cell>
+          <ids-grid-cell col-span="2" col-span-xxl="3" height="368px" fill></ids-grid-cell>
+          <ids-grid-cell col-span="2" col-span-xxl="5" height="368px" fill></ids-grid-cell>
+          <ids-grid-cell col-span="2" col-span-lg="4" col-span-xl="6" col-span-xxl="8" height="176px" fill></ids-grid-cell>
+        </ids-grid>
+      </div>
+    </ids-container>
+  </body>
+</html>

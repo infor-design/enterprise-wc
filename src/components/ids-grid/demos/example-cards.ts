@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (e.target.pressed === true) {
       gridCells.forEach((cell: any) => {
-        cell.setEditable();
+        cell.enableEditable();
       });
     } else {
       gridCells.forEach((cell: any) => {
-        cell.removeEditable();
+        cell.disableEditable();
       });
     }
   });

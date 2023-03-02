@@ -5,16 +5,16 @@ import styles from './ids-grid.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import {
-  IdsJustifyType,
-  IdsGapType,
-  IdsFlowType,
   GAP_TYPES,
   JUSTIFY_TYPES,
   FLOW_TYPES,
   gridSizes,
   rowSizes,
   minMaxWidths,
-  minMaxRowHeights
+  minMaxRowHeights,
+  GRID_ATTRIBUTES,
+  assignClasses,
+  assignStyleProperty
 } from './ids-grid-common';
 
 /**
@@ -290,64 +290,58 @@ export default class IdsGrid extends IdsElement {
 
   /**
    * Set the grid gap
-   * @param {IdsGapType | null} value The Gap [null, sm, md, lg, xl]
+   * @param {string | null} value The Gap [null, sm, md, lg, xl]
    */
-  set gap(value: IdsGapType | null) {
-    if (!value || GAP_TYPES.indexOf(value) <= 0) {
+  set gap(value: string | null) {
+    if (!value || GAP_TYPES.indexOf(value as any) <= 0) {
       this.removeAttribute(attributes.GAP);
-      this.state.gap = GAP_TYPES[0];
     } else {
       this.setAttribute(attributes.GAP, value);
-      if (this.state.gap !== value) this.state.gap = value;
     }
   }
 
   /**
    * Handle The Gap Setting
-   * @returns {IdsGapType | null} The Gap [null, sm, md, lg, xl]
+   * @returns {string | null} The Gap [null, sm, md, lg, xl]
    */
-  get gap(): IdsGapType | null { return this.state.gap; }
+  get gap(): string | null { return this.getAttribute(attributes.GAP); }
 
   /**
    * Set the grid justify
-   * @param {IdsJustifyType | null} value The justify [null, start, end, between, around, evenly]
+   * @param {string | null} value The justify [null, start, end, between, around, evenly]
    */
-  set justifyContent(value: IdsJustifyType | null) {
-    if (!value || JUSTIFY_TYPES.indexOf(value) <= 0) {
+  set justifyContent(value: string | null) {
+    if (!value || JUSTIFY_TYPES.indexOf(value as any) <= 0) {
       this.removeAttribute(attributes.JUSTIFY_CONTENT);
-      this.state.justifyContent = JUSTIFY_TYPES[0];
     } else {
       this.setAttribute(attributes.JUSTIFY_CONTENT, value);
-      if (this.state.justifyContent !== value) this.state.justifyContent = value;
     }
   }
 
   /**
    * Get the grid justify setting
-   * @returns {IdsJustifyType | null} The justify [null, start, end, between, around, evenly]
+   * @returns {string | null} The justify [null, start, end, between, around, evenly]
    */
-  get justifyContent(): IdsJustifyType | null { return this.state.justifyContent; }
+  get justifyContent(): string | null { return this.getAttribute(attributes.JUSTIFY_CONTENT); }
 
   /**
    * Set the flow attribute of the grid
-   * @param { IdsFlowType | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   * @param { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
    */
-  set flow(value: IdsFlowType | null) {
-    if (!value || FLOW_TYPES.indexOf(value) <= 0) {
+  set flow(value: string | null) {
+    if (!value || FLOW_TYPES.indexOf(value as any) <= 0) {
       this.removeAttribute(attributes.FLOW);
-      this.state.flow = FLOW_TYPES[0];
     } else {
       this.setAttribute(attributes.FLOW, value);
-      if (this.state.flow !== value) this.state.flow = value;
     }
   }
 
   /**
    * Get the flow attribute
-   * @returns { IdsFlowType | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   * @returns { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
    */
-  get flow(): IdsFlowType | null {
-    return this.state.flow;
+  get flow(): string | null {
+    return this.getAttribute(attributes.FLOW);
   }
 
   /**
@@ -515,40 +509,15 @@ export default class IdsGrid extends IdsElement {
   }
 
   static get attributes(): any {
-    return [
-      attributes.AUTO_FIT,
-      attributes.AUTO_FILL,
-      attributes.COLS,
-      attributes.COLS_XS,
-      attributes.COLS_SM,
-      attributes.COLS_MD,
-      attributes.COLS_LG,
-      attributes.COLS_XL,
-      attributes.COLS_XXL,
-      attributes.FLOW,
-      attributes.GAP,
-      attributes.JUSTIFY_CONTENT,
-      attributes.MAX_COL_WIDTH,
-      attributes.MIN_COL_WIDTH,
-      attributes.MAX_ROW_HEIGHT,
-      attributes.MIN_ROW_HEIGHT,
-      attributes.ROW_HEIGHT,
-      attributes.ROWS,
-      attributes.ROWS_XS,
-      attributes.ROWS_SM,
-      attributes.ROWS_MD,
-      attributes.ROWS_LG,
-      attributes.ROWS_XL,
-      attributes.ROWS_XXL
-    ];
+    return GRID_ATTRIBUTES;
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.addSettings();
+    this.settings();
   }
 
-  private addSettings() {
+  private settings() {
     this.classList.add('grid');
     this.setColumns();
     this.setRows();
@@ -557,44 +526,25 @@ export default class IdsGrid extends IdsElement {
     this.setAutoFit();
     this.setAutoFill();
     this.setRowHeight();
-
-    requestIdleCallback(() => {
-      this.setGap();
-      this.setJustify();
-      this.setFlow();
-    });
+    this.setGap();
+    this.setJustify();
+    this.setFlow();
   }
 
   private setColumns() {
-    for (const { size, className } of gridSizes) {
-      if (this[size as keyof IdsGrid] !== null) {
-        this.classList.add(`${className}-${this[size as keyof IdsGrid]}`);
-      }
-    }
+    assignClasses(this, gridSizes);
   }
 
   private setRows() {
-    for (const { size, className } of rowSizes) {
-      if (this[size as keyof IdsGrid] !== null) {
-        this.classList.add(`${className}-${this[size as keyof IdsGrid]}`);
-      }
-    }
+    assignClasses(this, rowSizes);
   }
 
   private setMinMaxWidth() {
-    for (const { setting, varName } of minMaxWidths) {
-      if (this[setting as keyof IdsGrid] !== null) {
-        this.style.setProperty(varName, this[setting as keyof IdsGrid]);
-      }
-    }
+    assignStyleProperty(this, minMaxWidths);
   }
 
   private setMinMaxRowHeight() {
-    for (const { setting, varName } of minMaxRowHeights) {
-      if (this[setting as keyof IdsGrid] !== null) {
-        this.style.setProperty(varName, this[setting as keyof IdsGrid]);
-      }
-    }
+    assignStyleProperty(this, minMaxRowHeights);
   }
 
   private setGap() {

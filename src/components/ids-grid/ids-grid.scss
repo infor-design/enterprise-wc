@@ -144,7 +144,7 @@ $breakpoint-xxl: 1488px; // xxl is '1440px' in tokens?
   justify-content: end;
 }
 
-::slotted(.span-all) {
+::slotted(.col-span-all) {
   grid-column: 1 / -1;
 }
 

@@ -26,3 +26,6 @@
   - link: example-fluid-resize-16.html
     type: Workspace 16 column Fluid Example
     description: Shows a 16 column fluid workspace grid
+  - link: example-auto-fit.html
+    type: Grid example
+    description: Shows a auto-fit example
