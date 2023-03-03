@@ -189,12 +189,19 @@ describe('IdsMonthView Component (using properties)', () => {
   });
 
   it('can render calendar events', () => {
+    const beforeCallback = jest.fn();
+    const afterCallback = jest.fn();
+    component.addEventListener('beforeeventrendered', beforeCallback);
+    component.addEventListener('aftereventrendered', afterCallback);
+
     component.year = 2019;
     component.month = 9;
     component.day = 15;
     component.eventTypeData = eventTypesData;
     component.eventsData = eventsData;
     expect(component.container.querySelectorAll('ids-calendar-event').length).toBeTruthy();
+    expect(beforeCallback).toBeCalled();
+    expect(afterCallback).toBeCalled();
   });
 });
 

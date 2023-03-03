@@ -200,11 +200,6 @@ const IdsPopupInteractionsMixin = <T extends Constraints>(superclass: T) => clas
     // Based on the trigger type, bind new events
     switch (this.state.triggerType) {
       case 'click':
-      // Configure some settings for opening
-        this.popup.align = 'bottom, left';
-        this.popup.arrow = 'bottom';
-        this.popup.y = 8;
-
         // Announce Popup control with `aria-controls` on the target
         if (targetElem.id && !(targetElem instanceof Window)) {
           targetElem.setAttribute('aria-controls', `${this.id}`);

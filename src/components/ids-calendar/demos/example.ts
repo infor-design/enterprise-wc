@@ -47,3 +47,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 });
+
+const monthview = document.querySelector('ids-calendar');
+monthview?.addEventListener('beforeeventrendered', (e: Event) => {
+  console.info(`Before Event Rendered`, (e as CustomEvent).detail);
+});
+
+monthview?.addEventListener('aftereventrendered', (e: Event) => {
+  console.info(`After Event Rendered`, (e as CustomEvent).detail);
+});

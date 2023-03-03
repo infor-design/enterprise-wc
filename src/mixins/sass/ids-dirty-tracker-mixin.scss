@@ -44,11 +44,10 @@
   }
 
   &.hitbox .icon-dirty {
-    margin-inline-start: 12px;
-    top: 11px;
+    margin-inline-start: -30px;
 
     &[dir='rtl'] {
-      margin-inline-start: -6px;
+      margin-inline-start: -26px;
     }
   }
 }

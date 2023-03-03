@@ -43,6 +43,7 @@ const POPUP_PROPERTIES = [
   attributes.ANIMATION_STYLE,
   attributes.BLEED,
   attributes.HEIGHT,
+  attributes.MAX_HEIGHT,
   attributes.POSITION_STYLE,
   attributes.TYPE,
   attributes.VISIBLE,

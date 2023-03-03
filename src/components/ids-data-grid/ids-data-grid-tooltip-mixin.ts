@@ -122,12 +122,12 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
     const cellEl = findInPath(path, '[role="gridcell"]') as HTMLElement;
     const link = findInPath(path, 'ids-hyperlink');
     const textEllipsis = (link ? cellEl : cellEl.querySelector('.text-ellipsis')) as HTMLElement;
+    const rowIndex = stringToNumber(findInPath(path, '[role="row"]')?.getAttribute('data-index'));
+    const columnIndex = stringToNumber(cellEl.getAttribute('aria-colindex')) - 1;
+    const rowData = ambientGrid.data[rowIndex];
+    const columnData = ambientGrid.columns[columnIndex];
 
-    if (textEllipsis?.offsetWidth < textEllipsis?.scrollWidth) {
-      const rowIndex = stringToNumber(findInPath(path, '[role="row"]')?.getAttribute('data-index'));
-      const columnIndex = stringToNumber(cellEl.getAttribute('aria-colindex')) - 1;
-      const rowData = ambientGrid.data[rowIndex];
-      const columnData = ambientGrid.columns[columnIndex];
+    if (columnData?.tooltip || (textEllipsis?.offsetWidth < textEllipsis?.scrollWidth)) {
       const columnId = columnData.id;
       const fieldData = rowData[columnId];
       const text = (cellEl.textContent || '').trim();
@@ -185,10 +185,31 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
     const iconEl = findInPath(path, '.ids-data-grid-header-icon') as HTMLElement;
     const isHeaderIcon = !!iconEl;
 
-    if (isHeaderIcon || (titleEl?.offsetWidth < titleEl?.scrollWidth)) {
-      const isHeaderGroup = cellEl.hasAttribute('column-group-id');
+    let data;
+    let columnGroupId;
+    let columnGroupData;
+    let columnId;
+    let columnIndex;
+    let columnData;
+    let isCustomTooltip = false;
+
+    const isHeaderGroup = cellEl.hasAttribute('column-group-id');
+    if (isHeaderGroup) {
+      columnGroupId = cellEl.getAttribute('column-group-id');
+      columnGroupData = ambientGrid.columnGroupDataById(columnGroupId as string);
+      data = columnGroupData;
+    } else {
+      columnId = cellEl.getAttribute('column-id');
+      columnIndex = ambientGrid.columnIdxById(columnId as string);
+      columnData = ambientGrid.columns[columnIndex as number];
+      data = columnData;
+    }
+
+    if (isHeaderIcon) isCustomTooltip = !!data?.headerIconTooltip;
+    else isCustomTooltip = !!data?.headerTooltip;
+
+    if (isCustomTooltip || isHeaderIcon || (titleEl?.offsetWidth < titleEl?.scrollWidth)) {
       const iconText = isHeaderIcon ? iconEl.getAttribute('data-headericontooltip') : null;
-      let data: any;
 
       // The arguments to pass along callback
       let callbackArgs: any = {
@@ -200,10 +221,6 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
 
       // Set header group args
       if (isHeaderGroup) {
-        const columnGroupId = cellEl.getAttribute('column-group-id');
-        const columnGroupData = ambientGrid.columnGroupDataById(columnGroupId as string);
-        data = columnGroupData;
-
         callbackArgs = {
           ...callbackArgs,
           columnGroupId,
@@ -212,12 +229,6 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
           columnGroupIndex: ambientGrid.columnGroupIdxById(columnGroupId as string),
         };
       } else {
-        // Set header title args
-        const columnId = cellEl.getAttribute('column-id');
-        const columnIndex = ambientGrid.columnIdxById(columnId as string);
-        const columnData = ambientGrid.columns[columnIndex as number];
-        data = columnData;
-
         callbackArgs = {
           ...callbackArgs,
           columnId,
@@ -463,6 +474,9 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
       this.#tooltip.target = target;
       this.#tooltip.visible = true;
       this.#tooltip.popup.setPosition(options.x, options.y, true, true);
+      this.triggerEvent('showtooltip', this, {
+        bubbles: true, detail: { elem: this, args }
+      });
     }
   }
 
@@ -473,6 +487,7 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
    */
   #hideTooltip(): void {
     this.#tooltip?.setAttribute('visible', 'false');
+    this.triggerEvent('hidetooltip', this, { bubbles: true, detail: { elem: this } });
   }
 
   #mouseOut = false;

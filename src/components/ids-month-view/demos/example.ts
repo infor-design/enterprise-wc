@@ -30,3 +30,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   monthView.eventTypesData = await getEventTypes();
   monthView.eventsData = await getEvents();
 });
+
+const monthview = document.querySelector('ids-month-view');
+monthview?.addEventListener('beforeeventrendered', (e: Event) => {
+  console.info(`Before Event Rendered`, (e as CustomEvent).detail);
+});
+
+monthview?.addEventListener('aftereventrendered', (e: Event) => {
+  console.info(`After Event Rendered`, (e as CustomEvent).detail);
+});

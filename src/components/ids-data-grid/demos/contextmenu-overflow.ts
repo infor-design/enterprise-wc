@@ -2,7 +2,7 @@ import '../ids-data-grid';
 import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
-const dataGrid: any = document.querySelector('#data-grid-contextmenu');
+const dataGrid: any = document.querySelector('#data-grid-contextmenu-overflow');
 const container: any = document.querySelector('ids-container');
 
 if (dataGrid) {
@@ -12,9 +12,25 @@ if (dataGrid) {
 
     // Do an ajax request
     const url: any = booksJSON;
-    const columns = [];
+
+    // Genrate items for contextmenu
+    const genrateItems = (max = 1) => (
+      [...new Array(Math.abs(max))].map((v, i) => (
+        { id: `a-${i}`, value: `actions-${i}`, text: `Actions - ${i}` }
+      ))
+    );
+
+    // Contextmenu data
+    const menuData = {
+      id: 'grid-menu',
+      contents: [{
+        id: 'actions-group',
+        items: genrateItems(25)
+      }],
+    };
 
     // Set up columns
+    const columns = [];
     columns.push({
       id: 'selectionCheckbox',
       name: 'selection',
@@ -107,32 +123,15 @@ if (dataGrid) {
       field: 'convention',
       formatter: dataGrid.formatters.text
     });
-    columns.push({
-      id: 'methodSwitch',
-      name: 'Method Switch',
-      field: 'methodSwitch',
-      formatter: dataGrid.formatters.text
-    });
 
     dataGrid.columns = columns;
     const setData = async () => {
       const res = await fetch(url);
       const data = await res.json();
+
       dataGrid.data = data;
-
-      // Set veto before contextmenu show
-      dataGrid.addEventListener('beforemenushow', (e: any) => {
-        console.info('before contextmenu show', e.detail);
-        // e.detail.response(false);
-      });
-
-      dataGrid.addEventListener('menushow', (e: any) => {
-        console.info('After contextmenu show', e.detail);
-      });
-
-      dataGrid.addEventListener('menuselected', (e: any) => {
-        console.info('contextmenu item selected', e.detail);
-      });
+      dataGrid.menuData = menuData;
+      dataGrid.headerMenuData = menuData;
     };
 
     setData();
