@@ -234,6 +234,7 @@ export const attributes = {
   LIST_STYLE: 'list-style',
   LOADED: 'loaded',
   LOCALE: 'locale',
+  MARGIN: 'margin',
   MARGINS: 'margins',
   MARKER_SIZE: 'marker-size',
   MASK: 'mask',

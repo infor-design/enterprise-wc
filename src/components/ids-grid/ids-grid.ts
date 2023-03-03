@@ -8,6 +8,8 @@ import {
   GAP_TYPES,
   JUSTIFY_TYPES,
   FLOW_TYPES,
+  MARGIN_SIZES,
+  PADDING_SIZES,
   gridSizes,
   rowSizes,
   minMaxWidths,
@@ -306,6 +308,26 @@ export default class IdsGrid extends IdsElement {
    */
   get gap(): string | null { return this.getAttribute(attributes.GAP); }
 
+  set margin(value: string | null) {
+    if (!value || MARGIN_SIZES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.MARGIN);
+    } else {
+      this.setAttribute(attributes.MARGIN, value);
+    }
+  }
+
+  get margin(): string | null { return this.getAttribute(attributes.MARGIN); }
+
+  set padding(value: string | null) {
+    if (!value || PADDING_SIZES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.PADDING);
+    } else {
+      this.setAttribute(attributes.PADDING, value);
+    }
+  }
+
+  get padding(): string | null { return this.getAttribute(attributes.PADDING); }
+
   /**
    * Set the grid justify
    * @param {string | null} value The justify [null, start, end, between, around, evenly]
@@ -527,6 +549,8 @@ export default class IdsGrid extends IdsElement {
     this.setAutoFill();
     this.setRowHeight();
     this.setGap();
+    this.setMargin();
+    this.setPadding();
     this.setJustify();
     this.setFlow();
   }
@@ -548,8 +572,20 @@ export default class IdsGrid extends IdsElement {
   }
 
   private setGap() {
-    if (this.gap !== undefined) {
+    if (this.gap !== null) {
       this.classList.add(`grid-gap-${this.gap}`);
+    }
+  }
+
+  private setMargin() {
+    if (this.margin !== null) {
+      this.classList.add(`grid-margin-${this.margin}`);
+    }
+  }
+
+  private setPadding() {
+    if (this.padding !== null) {
+      this.classList.add(`grid-padding-${this.padding}`);
     }
   }
 
@@ -566,7 +602,7 @@ export default class IdsGrid extends IdsElement {
   }
 
   private setFlow() {
-    if (this.flow !== undefined) {
+    if (this.flow !== null) {
       this.classList.add(`grid-flow-${this.flow}`);
     }
   }
