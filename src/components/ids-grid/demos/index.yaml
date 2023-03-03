@@ -9,26 +9,26 @@
     type: Main Example
     description: Shows a 8/12/16 column grids
   - link: responsive.html
-    type: Main Example
-    description: Shows responsive grid examples
+    type: Responsive Example
+    description: Shows a responsive grid example
   - link: example-cards.html
-    type: Main Example w/Cards
-    description: Shows a grid
-  - link: example-fluid-max.html
-    type: Main Example with fluid max-width
-    description: Shows a grid
-  - link: example-workspace.html
-    type: Workspace Example
-    description: Shows a workspace grid
-  - link: example-workspace-2.html
-    type: Workspace Example 2
-    description: Shows a workspace grid with sticky sidebar
-  - link: example-fluid-resize.html
-    type: Workspace 12 column Fluid Example
-    description: Shows a fluid workspace grid
-  - link: example-fluid-resize-16.html
-    type: Workspace 16 column Fluid Example
-    description: Shows a 16 column fluid workspace grid
+    type: Card example
+    description: Shows a grid w/cards
+  # - link: example-fluid-max.html
+  #   type: Main Example with fluid max-width
+  #   description: Shows a grid
+  # - link: example-workspace.html
+  #   type: Workspace Example
+  #   description: Shows a workspace grid
+  # - link: example-workspace-2.html
+  #   type: Workspace Example 2
+  #   description: Shows a workspace grid with sticky sidebar
+  # - link: example-fluid-resize.html
+  #   type: Workspace 12 column Fluid Example
+  #   description: Shows a fluid workspace grid
+  # - link: example-fluid-resize-16.html
+  #   type: Workspace 16 column Fluid Example
+  #   description: Shows a 16 column fluid workspace grid
   - link: example-auto-fit.html
-    type: Grid example
+    type: Masonry Grid example
     description: Shows a auto-fit example

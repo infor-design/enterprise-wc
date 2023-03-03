@@ -283,7 +283,6 @@ export default class IdsGrid extends IdsElement {
 
   /**
    * Get the maxRowHeight attribute
-   * @readonly
    * @returns {string | null} The number value that represents the max-height of the grid rows
    */
   get maxRowHeight(): string | null {
@@ -308,6 +307,10 @@ export default class IdsGrid extends IdsElement {
    */
   get gap(): string | null { return this.getAttribute(attributes.GAP); }
 
+  /**
+   * Set the margin attribute
+   * @param {string | null} value The value of the margin attribute
+   */
   set margin(value: string | null) {
     if (!value || MARGIN_SIZES.indexOf(value as any) <= 0) {
       this.removeAttribute(attributes.MARGIN);
@@ -316,8 +319,16 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the margin attribute
+   * @returns {string | null} The number value that represents the margin of the grid
+   */
   get margin(): string | null { return this.getAttribute(attributes.MARGIN); }
 
+  /**
+   * Set the padding attribute
+   * @param {string | null} value The value of the padding attribute
+   */
   set padding(value: string | null) {
     if (!value || PADDING_SIZES.indexOf(value as any) <= 0) {
       this.removeAttribute(attributes.PADDING);
@@ -326,6 +337,10 @@ export default class IdsGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the padding attribute
+   * @returns {string | null} The number value that represents the padding of the grid
+   */
   get padding(): string | null { return this.getAttribute(attributes.PADDING); }
 
   /**

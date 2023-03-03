@@ -461,14 +461,14 @@ $max-row-height: var(--max-row-height);
   }
 }
 
-::slotted(.grid-cell) {
+// ::slotted(.grid-cell) {
   // color: $textColor;
   // font-size: 38px;
   // font-family: sans-serif;
   // display: flex;
   // align-items: center;
   // justify-content: center;
-}
+// }
 
 ::slotted(.grid-cell.editable) > ids-button {
   position: absolute;
