@@ -202,7 +202,7 @@ export const rowSpanSizes = [
   { size: 'rowSpanXxl', className: 'row-span-xxl' }
 ];
 
-export const assignClasses = (element: any, obj: any) => {
+export const addClasses = (element: any, obj: any) => {
   for (const { size, className } of obj) {
     if (element[size] !== null) {
       element.classList.add(`${className}-${element[size]}`);
@@ -210,7 +210,7 @@ export const assignClasses = (element: any, obj: any) => {
   }
 };
 
-export const assignStyleProperty = (element: any, obj: any) => {
+export const addStyleProperty = (element: any, obj: any) => {
   for (const { setting, varName } of obj) {
     if (element[setting] !== null) {
       element.style.setProperty(varName, element[setting]);

@@ -13,7 +13,7 @@ import {
   orderSizes,
   rowSpanSizes,
   GRID_CELL_ATTRIBUTES,
-  assignClasses,
+  addClasses,
 } from './ids-grid-common';
 
 const Base = IdsEventsMixin(
@@ -889,19 +889,19 @@ export default class IdsGridCell extends Base {
   }
 
   private setColSpan() {
-    assignClasses(this, colSpanSizes);
+    addClasses(this, colSpanSizes);
   }
 
   private setColStart() {
-    assignClasses(this, colStartSizes);
+    addClasses(this, colStartSizes);
   }
 
   private setColEnd() {
-    assignClasses(this, colEndSizes);
+    addClasses(this, colEndSizes);
   }
 
   private setOrder() {
-    assignClasses(this, orderSizes);
+    addClasses(this, orderSizes);
   }
 
   private setSticky() {
@@ -918,7 +918,7 @@ export default class IdsGridCell extends Base {
   }
 
   private setRowSpan() {
-    assignClasses(this, rowSpanSizes);
+    addClasses(this, rowSpanSizes);
   }
 
   private setHeight() {

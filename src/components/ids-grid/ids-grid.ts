@@ -15,8 +15,8 @@ import {
   minMaxWidths,
   minMaxRowHeights,
   GRID_ATTRIBUTES,
-  assignClasses,
-  assignStyleProperty
+  addClasses,
+  addStyleProperty
 } from './ids-grid-common';
 
 /**
@@ -571,19 +571,19 @@ export default class IdsGrid extends IdsElement {
   }
 
   private setColumns() {
-    assignClasses(this, gridSizes);
+    addClasses(this, gridSizes);
   }
 
   private setRows() {
-    assignClasses(this, rowSizes);
+    addClasses(this, rowSizes);
   }
 
   private setMinMaxWidth() {
-    assignStyleProperty(this, minMaxWidths);
+    addStyleProperty(this, minMaxWidths);
   }
 
   private setMinMaxRowHeight() {
-    assignStyleProperty(this, minMaxRowHeights);
+    addStyleProperty(this, minMaxRowHeights);
   }
 
   private setGap() {
