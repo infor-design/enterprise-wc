@@ -1,7 +1,8 @@
+@use '../../themes/ids-core-mixins' as mixins;
 @import '../../core/ids-base';
 
 .ids-header {
-  @include basic-color-transition();
+  @include mixins.basic-color-transition();
   @include bg-azure-60();
   @include text-white();
 

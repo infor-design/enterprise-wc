@@ -1,0 +1,22 @@
+@use './ids-theme-default-core.scss';
+
+:root {
+  // Body Colors
+  --ids-body-background-color: var(--ids-color-slate-10);
+
+  // Component Colors
+  --ids-component-background-color: var(--ids-color-slate-00);
+  --ids-component-darker-background-color: var(--ids-color-slate-20);
+  --ids-component-border-color: var(--ids-color-slate-40);
+  --ids-component-selected-background-color: var(--ids-color-azure-80);
+  --ids-component-selected-text-color: var(--ids-color-slate-00);
+  --ids-component-hover-color: var(--ids-color-slate-100);
+  --ids-component-disabled-text-color: var(--ids-color-slate-60);
+  --ids-component-lighter-disabled-text-color: var(--ids-color-slate-40);
+  --ids-component-text-color: var(--ids-color-slate-100);
+  --ids-component-text-color-inverse: var(--ids-color-slate-00);
+
+  // Color Overrides
+  --ids-color-warning-inverse: var(--ids-color-slate-100);
+  --ids-color-success-inverse: var(--ids-color-slate-100);
+}

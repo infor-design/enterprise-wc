@@ -34,7 +34,7 @@ A normal tag used using just the css. This is limited to normal tags only.
 A colored tag is done by adding the `color` attribute and one of the following: secondary, error, success, caution or a hex color beginning with a # character.
 
 ```html
-<ids-tag color="secondary">Secondary Tags</ids-tag>
+<ids-tag color="secondary">Secondary Tag</ids-tag>
 <ids-tag color="error">Error Tag</ids-tag>
 <ids-tag color="success">Success Tag</ids-tag>
 <ids-tag color="caution">Warning Tag</ids-tag>

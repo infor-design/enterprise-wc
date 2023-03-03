@@ -1,11 +1,10 @@
-/* Ids Tag Component */
-@import '../../core/ids-base';
+/* Ids Container Component */
+@use '../../themes/ids-core-mixins' as mixins;
 
 // Host styles are needed here for "placed" components like Popup.
 // (acts as a CSS "reset" without needing a real one)
 :host {
-  @include block();
-
+  display: block;
   contain: content;
   height: 100vh;
   width: 100vw;
@@ -16,66 +15,41 @@
 }
 
 .ids-container {
-  @include basic-color-transition();
-  @include outline-none();
-  @include p-0();
+  @include mixins.basic-color-transition();
 
+  background-color: var(--ids-body-background-color);
   box-sizing: border-box;
+  color: var(--ids-body-text-color);
   height: 100%;
+  outline: none;
   overflow: auto;
+  padding: var(--ids-spacing-none);
   scroll-behavior: smooth;
   width: 100%;
+
+  &.color-variant-alternate {
+    background-color: var(--ids-body-background-color-inverse);
+    color: var(--ids-body-text-color-inverse);
+  }
 
   &[scrollable='false'] {
     overflow: hidden;
   }
 }
 
-// Handle Themes
-.ids-container[mode='light'],
-.ids-container:not([mode]) {
-  @include bg-white();
-  @include text-slate-100();
-
-  &.color-variant-alternate {
-    @include bg-slate-70();
-    @include text-slate-10();
-  }
-}
-
-.ids-container[mode='dark'] {
-  @include bg-slate-100();
-  @include text-slate-10();
-
-  &.color-variant-alternate {
-    @include bg-black();
-    @include text-slate-10();
-  }
-}
-
-.ids-container[mode='contrast'] {
-  @include bg-white();
-  @include text-slate-100();
-
-  &.color-variant-alternate {
-    @include bg-black();
-    @include text-white();
-  }
-}
-
 // ids-app-menu pushes the container
 :host(.app-menu)::part(container) {
-  @media (min-width: $breakpoint-md) {
-    @include mx-0();
-    @include transition(
-      width $transition-length $transition-ease,
-      margin $transition-length $transition-ease);
+  @media (min-width: mixins.$breakpoint-md) {
+    margin-bottom: var(--ids-spacing-none);
+    transition: background-color var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
+    transition: width var(--ids-transition-length) var(--ids-transition-ease), margin var(--ids-transition-length) var(--ids-transition-ease);
   }
 }
 
 :host(.app-menu-is-open)::part(container) {
-  @media (min-width: $breakpoint-md) {
+  @media (min-width: mixins.$breakpoint-md) {
     margin-inline-start: 300px;
     width: calc(100% - 300px);
+    transition: width var(--ids-transition-length) var(--ids-transition-ease), margin var(--ids-transition-length) var(--ids-transition-ease);
   }
 }

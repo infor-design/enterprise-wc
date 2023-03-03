@@ -1,0 +1,34 @@
+// Breakpoints - this cant be tokens
+$breakpoint-xxl: 1440px;
+$breakpoint-xl: 1280px;
+$breakpoint-lg: 1024px;
+$breakpoint-md: 840px;
+$breakpoint-sm: 600px;
+$breakpoint-xs: 360px;
+
+$transition-length: 200ms;
+$transition-ease: cubic-bezier(0.4, 0, 0.6, 1);
+
+// Sets Text Antialiasing
+@mixin antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Basic transition that animates text and background color
+// according to the standard ease/length above
+$transition-length: var(--ids-transition-length);
+$transition-ease: var(--ids-transition-ease);
+
+@mixin basic-color-transition() {
+  transition:
+    background-color $transition-length $transition-ease,
+    color $transition-length $transition-ease;
+}
+
+// vendor prefixed transitions for regular attributes (non-vendor prefixed)
+@mixin transition($transitions-list...) {
+  @each $prefix in $prefixes {
+    #{$prefix}transition: $transitions-list;
+  }
+}

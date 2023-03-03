@@ -1,0 +1,38 @@
+@use './ids-theme-default-core.scss';
+
+:root {
+  // Primary Colors
+  --ids-color-primary: var(--ids-color-slate-60);
+  --ids-color-secondary: var(--ids-color-slate-50);
+
+  // Body Colors
+  --ids-body-background-color: var(--ids-color-slate-100);
+  --ids-body-background-color-inverse: var(--ids-color-slate-00);
+  --ids-body-text-color: var(--ids-color-slate-00);
+  --ids-body-text-color-inverse: var(--ids-color-slate-100);
+  --ids-body-heading-text-color: var(--ids-color-slate-00);
+  --ids-body-subtle-text-color: var(--ids-color-slate-20);
+  --ids-body-disabled-text-color: var(--ids-color-slate-40);
+  --ids-body-line-color: var(--ids-color-slate-60);
+
+  // Component Colors
+  --ids-component-background-color: var(--ids-color-slate-100);
+  --ids-component-darker-background-color: var(--ids-color-slate-80);
+  --ids-component-border-color: var(--ids-color-slate-60);
+  --ids-component-selected-background-color: var(--ids-color-azure-30);
+  --ids-component-selected-text-color: var(--ids-color-slate-100);
+  --ids-component-hover-color: var(--ids-color-slate-00);
+  --ids-component-disabled-text-color: var(--ids-color-slate-40);
+  --ids-component-lighter-disabled-text-color: var(--ids-color-slate-50);
+  --ids-component-text-color: var(--ids-color-slate-00);
+  --ids-component-text-color-inverse: var(--ids-color-slate-00);
+
+  // Elevations
+  --ids-shadow-medium: 0 0 3px 2px rgb(255 255 255 / 0.3);
+
+  // Focus
+  --ids-focus-ring-border-color: var(--ids-color-slate-00);
+
+  // Tag
+  --ids-tag-caution-text-color: var(--ids-color-slate-100);
+}

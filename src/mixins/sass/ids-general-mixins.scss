@@ -78,14 +78,6 @@ $animation-prefixes: -webkit-, -moz-, '';
   }
 }
 
-// Basic transition that animates text and background color
-// according to the standard ease/length above
-@mixin basic-color-transition() {
-  transition:
-    background-color $transition-length $transition-ease,
-    color $transition-length $transition-ease;
-}
-
 // 'transform'-specific vendor prefixing mixins
 // This is because we can't include the word 'transform' inside the normal vendor prefixer,
 // since it would not be prefixed properly.

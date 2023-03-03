@@ -100,7 +100,7 @@ export default class IdsThemeSwitcher extends Base {
   menuTemplate(): string {
     return `<ids-menu-group>
     <ids-menu-item>
-      <ids-text translate-text="true">Theme</ids-text>
+      <ids-text translate-text="true">Mode</ids-text>
         <ids-popup-menu>
           <ids-menu-group select="single">
             <ids-menu-item selected="true" value="light">
@@ -182,8 +182,9 @@ export default class IdsThemeSwitcher extends Base {
    */
   set mode(value: string) {
     if (value) {
-      this.setAttribute(attributes.MODE, value);
+      this.theme = `default-${value}`;
       this.triggerEvent('themechanged', this, { detail: { elem: this, mode: value } });
+      this.setAttribute(attributes.MODE, value);
       return;
     }
 
@@ -198,15 +199,15 @@ export default class IdsThemeSwitcher extends Base {
    */
   set theme(value: string) {
     if (value) {
-      this.setAttribute(attributes.MODE, value);
-      this.triggerEvent('themechanged', this, { detail: { elem: this, theme: value } });
+      this.setAttribute(attributes.THEME, value);
+      this.loadTheme(value);
       return;
     }
 
-    this.removeAttribute(attributes.MODE);
+    this.removeAttribute(attributes.THEME);
   }
 
-  get theme(): string { return this.getAttribute(attributes.MODE) || 'vibrant-dark-amber'; }
+  get theme(): string { return this.getAttribute(attributes.THEME) || 'default-light'; }
 
   /**
    * Implements callback from IdsColorVariantMixin used to

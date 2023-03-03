@@ -23,4 +23,13 @@ describe('Ids Color Percy Tests', () => {
     });
     await percySnapshot(page, 'ids-color-new-contrast');
   });
+
+  it('should not have visual regressions on color palette page', async () => {
+    const url = 'http://localhost:4444/ids-color/palette.html';
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.evaluate(() => {
+      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
+    });
+    await percySnapshot(page, 'ids-color-new-palette');
+  });
 });

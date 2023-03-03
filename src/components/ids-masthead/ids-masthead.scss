@@ -1,8 +1,9 @@
+@use '../../themes/ids-core-mixins' as mixins;
 @import '../../core/ids-base';
 
 .ids-masthead {
   @include px-16();
-  @include basic-color-transition();
+  @include mixins.basic-color-transition();
   @include bg-black();
   @include text-slate-30();
 

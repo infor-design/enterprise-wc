@@ -18,7 +18,7 @@ const Base = IdsThemeMixin(
   )
 );
 
-const SwatchSizes = ['xs', 'sm', 'mm', 'md', 'lg'] as const;
+const SwatchSizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'] as const;
 export type SwatchSizesType = typeof SwatchSizes[number];
 
 /**
@@ -52,6 +52,7 @@ export default class IdsColor extends Base {
     this.popup = shadowRoot.querySelector('ids-tooltip');
 
     if (this.hex) this.hex = this.getAttribute(attributes.HEX) as string;
+    if (this.color) this.color = this.getAttribute(attributes.COLOR) as string;
   }
 
   /** Invoked each time the custom element is removed from the DOM */
@@ -64,11 +65,14 @@ export default class IdsColor extends Base {
   static get attributes(): string[] {
     return [
       ...super.attributes,
+      attributes.COLOR,
+      attributes.CLICKABLE,
       attributes.DISABLED,
       attributes.HEX,
       attributes.MODE,
+      attributes.LABEL,
       attributes.SIZE,
-      attributes.TOOLTIP
+      attributes.TOOLTIP,
     ];
   }
 
@@ -78,9 +82,10 @@ export default class IdsColor extends Base {
    */
   template(): string {
     return `
-      <ids-tooltip>${this.tooltip} ${this.hex}</ids-tooltip>
+      ${this.tooltip ? `<ids-tooltip>${this.tooltip} ${this.hex}</ids-tooltip>` : ''}
       <div class="ids-color ${this.size} no-color" tabindex="0" part="color">
-        <ids-icon class="color-check" icon="check" size="small" part="hex"></ids-icon>
+        ${this.clickable ? `<ids-icon class="color-check" icon="check" size="small" part="hex"></ids-icon>` : ''}
+        ${this.label ? `<ids-text font-size="14" type="span" align="center">${this.label}</ids-text>` : ''}
       </div>
     `;
   }
@@ -127,11 +132,13 @@ export default class IdsColor extends Base {
   /** @param {string} value Text for this color swatch's label */
   set label(value: string) {
     this.setAttribute(attributes.LABEL, value);
+    const labelElem = this.container?.querySelector('ids-text');
+    if (labelElem) labelElem.textContent = value;
   }
 
   /** @returns {string} The label for this color swatch */
   get label(): string {
-    return this.getAttribute(attributes.LABEL) || this.hex;
+    return this.getAttribute(attributes.LABEL) || '';
   }
 
   /** @param {string} value Text for this color swatch's tooltip */
@@ -148,7 +155,7 @@ export default class IdsColor extends Base {
     return String(this.getAttribute(attributes.TOOLTIP) ?? '').trim();
   }
 
-  /** @param {SwatchSizesType} value The color swatch's size (xs, sm, mm, md, lg) */
+  /** @param {SwatchSizesType} value The color swatch's size (xs, sm, mm, md, lg, full) */
   set size(value: SwatchSizesType) {
     this.swatch?.classList.remove(...SwatchSizes);
     if (SwatchSizes.includes(value)) {
@@ -157,9 +164,37 @@ export default class IdsColor extends Base {
     }
   }
 
-  /** @returns {SwatchSizesType} The size of this color swatch (xs, sm, mm, md, lg) */
+  /** @returns {SwatchSizesType} The size of this color swatch (xs, sm, mm, md, lg, full) */
   get size(): SwatchSizesType {
     return (this.getAttribute(attributes.SIZE) as SwatchSizesType) ?? '';
+  }
+
+  /** @param {boolean} value The color can have a checkbox */
+  set clickable(value: boolean) {
+    this.setAttribute(attributes.CLICKABLE, value.toString());
+  }
+
+  /** @returns {boolean} The size of this color swatch (xs, sm, mm, md, lg) */
+  get clickable(): boolean {
+    return stringToBool(this.getAttribute(attributes.CLICKABLE) || true);
+  }
+
+  /** @param {string} value Use a css variable for the color */
+  set color(value: string) {
+    if (value) {
+      this.container?.classList.remove('no-color');
+      this.swatch?.style.setProperty('background-color', `var(${value})`);
+      this.setAttribute(attributes.COLOR, value);
+    } else {
+      this.container?.classList.add('no-color');
+      this.swatch?.style.setProperty('background-color', ``);
+      this.removeAttribute(attributes.COLOR);
+    }
+  }
+
+  /** @returns {string} Use a css variable for the color */
+  get color(): string {
+    return this.getAttribute(attributes.COLOR) || '';
   }
 
   /** Show this color swatch's tooltip */

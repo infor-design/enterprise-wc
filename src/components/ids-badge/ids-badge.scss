@@ -1,122 +1,70 @@
-@import '../../core/ids-base';
+/* Ids Badge Component */
+@use '../../themes/ids-core-mixins' as mixins;
 
 :host {
-  @include inline-flex();
-
+  display: inline-flex;
   contain: content;
   text-align: center;
 }
 
 .ids-badge {
-  @include antialiased();
-  @include bg-slate-20();
-  @include border-1();
-  @include border-slate-20();
-  @include border-solid();
-  @include font-sans();
-  @include mb-4();
-  @include mr-4();
-  @include px-8();
-  @include py-1();
-  @include rounded-lg();
-  @include text-14();
-  @include text-slate-100();
+  @include mixins.antialiased();
 
+  // Colors/Borders
+  background-color: var(--ids-badge-background-color);
+  border: 1px solid var(--ids-badge-border-color);
+  border-radius: var(--ids-badge-border-radius);
+
+  // Fonts
+  font-family: var(--ids-badge-font);
+  font-size: var(--ids-badge-font-size);
+  color: var(--ids-tag-badge-color);
+  margin-bottom: var(--ids-spacing-md);
+  margin-inline-end: var(--ids-spacing-md);
+  padding-inline: var(--ids-spacing-lg);
+
+  // Positional
   flex-direction: column;
   justify-content: space-between;
-  line-height: 22px;
-  min-height: 22px;
-  min-width: 22px;
-  padding: 0 10px;
+  padding: var(--ids-spacing-xs) var(--ids-spacing-lg);
 
   &.round {
-    display: inline-flex;
-    height: 22px;
-    padding: 0;
-    text-align: center;
-    width: 22px;
-    justify-content: center;
     align-items: center;
-  }
-
-  &.ids-white {
-    @include bg-white();
-    @include text-white();
-  }
-
-  &[color='error'] {
-    @include bg-alert-error();
-    @include border-alert-error();
-  }
-
-  &[color='warning'] {
-    @include bg-alert-warning();
-    @include border-alert-warning();
+    display: inline-flex;
+    text-align: center;
+    justify-content: center;
+    height: var(--ids-size-xs);
+    padding: var(--ids-spacing-none);
+    width: var(--ids-size-xs);
   }
 
   &[color='info'] {
-    @include bg-alert-info();
-    @include border-alert-info();
+    background-color: var(--ids-color-info);
+    border-color: var(--ids-color-info);
+    color: var(--ids-color-info-inverse);
   }
 
   &[color='success'] {
-    @include bg-alert-success();
-    @include border-alert-success();
-    @include text-white();
-  }
-}
-
-// Handle Themes
-.ids-badge[mode='dark'] {
-  &:not([color]) {
-    @include bg-slate-60();
-    @include border-slate-60();
-    @include text-white();
+    background-color: var(--ids-color-success);
+    border-color: var(--ids-color-success);
+    color: var(--ids-color-success-inverse);
   }
 
-  &.ids-white {
-    @include text-slate-100();
+  &[color='caution'] {
+    background-color: var(--ids-color-caution);
+    border-color: var(--ids-color-caution);
+    color: var(--ids-color-caution-inverse);
+  }
+
+  &[color='warning'] {
+    background-color: var(--ids-color-warning);
+    border-color: var(--ids-color-warning);
+    color: var(--ids-color-warning-inverse);
   }
 
   &[color='error'] {
-    @include text-white();
-    @include bg-alert-dark-error();
-    @include border-alert-dark-error();
-  }
-
-  &[color='alert'],
-  &[color='warning'] {
-    @include bg-alert-dark-warning();
-    @include border-alert-dark-warning();
-  }
-
-  &[color='info'] {
-    @include text-white();
-    @include bg-alert-dark-info();
-    @include border-alert-dark-info();
-  }
-}
-
-.ids-badge[mode='contrast'] {
-  &.ids-white {
-    @include text-slate-100();
-  }
-
-  &[color='error'] {
-    @include text-white();
-    @include bg-alert-contrast-error();
-    @include border-alert-contrast-error();
-  }
-
-  &[color='info'] {
-    @include text-white();
-    @include bg-alert-contrast-info();
-    @include border-alert-contrast-info();
-  }
-
-  &[color='alert'],
-  &[color='warning'] {
-    @include bg-alert-contrast-warning();
-    @include border-alert-contrast-warning();
+    background-color: var(--ids-color-error);
+    border-color: var(--ids-color-error);
+    color: var(--ids-color-error-inverse);
   }
 }

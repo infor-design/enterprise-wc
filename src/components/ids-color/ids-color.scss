@@ -52,6 +52,20 @@
   }
 }
 
+:host([clickable='false']) {
+  .ids-color {
+    cursor: default;
+  }
+}
+
+:host([size='full']) {
+  .ids-color {
+    border: 1px solid rgba(0 0 0 / 0.2);
+  }
+
+  width: 100%;
+}
+
 .ids-color {
   background-color: var(--ids-color-palette-black);
   cursor: pointer;
@@ -92,6 +106,18 @@
     height: 42px;
     min-width: 42px;
     width: 42px;
+  }
+
+  &.full {
+    height: 55px;
+    margin: 8px 0 18px;
+    width: 100%;
+  }
+
+  ids-text {
+    align-self: end;
+    position: relative;
+    top: 22px;
   }
 }
 

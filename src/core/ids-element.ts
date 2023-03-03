@@ -183,7 +183,7 @@ export default class IdsElement extends HTMLElement {
         documentElement.nonce = nonce;
       }
     }
-    return documentElement.nonce || '0a59a005';
+    return documentElement.nonce;
   }
 
   /**
@@ -197,7 +197,7 @@ export default class IdsElement extends HTMLElement {
 
     const style = document.createElement('style');
     style.textContent = (this as any).cssStyles;
-    style.setAttribute('nonce', this.nonce);
+    if (this.nonce) style.setAttribute('nonce', this.nonce);
 
     this.shadowRoot?.appendChild(style);
     this.hasStyles = true;
@@ -214,11 +214,11 @@ export default class IdsElement extends HTMLElement {
       const style = document.createElement('style');
       style.textContent = styles.replace(':host {', ':root {');
       style.id = 'ids-styles';
-      style.setAttribute('nonce', this.nonce);
+      if (this.nonce) style.setAttribute('nonce', this.nonce);
 
       doc.appendChild(style);
       win.idsStylesAdded = true;
-      this.theme = 'nova-light';
+      this.theme = 'default-light';
     }
   }
 
@@ -246,7 +246,7 @@ export default class IdsElement extends HTMLElement {
         const style = styleElem || document.createElement('style');
         style.textContent = themeStyles;
         style.id = 'ids-theme';
-        style.setAttribute('nonce', this.nonce);
+        if (this.nonce) style.setAttribute('nonce', this.nonce);
         if (!styleElem) doc.appendChild(style);
       });
   }

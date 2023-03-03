@@ -4,30 +4,27 @@ import { attributes } from '../../core/ids-attributes';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 import styles from './ids-tag.scss';
 
-const Base = IdsThemeMixin(
-  IdsLocaleMixin(
-    IdsKeyboardMixin(
-      IdsEventsMixin(
-        IdsElement
-      )
+const Base = IdsLocaleMixin(
+  IdsKeyboardMixin(
+    IdsEventsMixin(
+      IdsElement
     )
   )
 );
-  /**
-   * IDS Tag Component
-   * @type {IdsTag}
-   * @inherits IdsElement
-   * @mixes IdsEventsMixin
-   * @mixes IdsKeyboardMixin
-   * @mixes IdsThemeMixin
-   * @part tag - the tag element
-   * @part icon - the icon element
-   */
+
+/**
+ * IDS Tag Component
+ * @type {IdsTag}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
+ * @part tag - the tag element
+ * @part icon - the icon element
+ */
 @customElement('ids-tag')
 @scss(styles)
 export default class IdsTag extends Base {
@@ -55,8 +52,7 @@ export default class IdsTag extends Base {
       attributes.COLOR,
       attributes.CLICKABLE,
       attributes.DISMISSIBLE,
-      attributes.DISABLED,
-      attributes.MODE
+      attributes.DISABLED
     ];
   }
 

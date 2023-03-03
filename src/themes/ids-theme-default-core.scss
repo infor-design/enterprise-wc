@@ -1,0 +1,119 @@
+@use './ids-theme-default-colors.scss';
+
+// namespace-foundation-property-modifier-modifier-state
+// ids-button-background-color-primary-active
+:host,
+:root {
+  // Primary Colors
+  --ids-color-primary: var(--ids-color-azure-70);
+  --ids-color-secondary: var(--ids-color-azure-80);
+
+  // Body / Container Colors
+  --ids-body-background-color: var(--ids-color-slate-00);
+  --ids-body-background-color-inverse: var(--ids-color-slate-100);
+  --ids-body-text-color: var(--ids-color-slate-100);
+  --ids-body-text-color-inverse: var(--ids-color-slate-00);
+  --ids-body-heading-text-color: var(--ids-color-slate-100);
+  --ids-body-subtle-text-color: var(--ids-color-slate-80);
+  --ids-body-disabled-text-color: var(--ids-color-slate-60);
+  --ids-body-line-color: var(--ids-color-slate-30);
+
+  // Component Colors
+  --ids-component-background-color: var(--ids-color-slate-00);
+  --ids-component-darker-background-color: var(--ids-color-slate-20);
+  --ids-component-border-color: var(--ids-color-slate-40);
+  --ids-component-selected-background-color: var(--ids-color-azure-70);
+  --ids-component-selected-text-color: var(--ids-color-slate-00);
+  --ids-component-hover-color: var(--ids-color-slate-100);
+  --ids-component-disabled-text-color: var(--ids-color-slate-50);
+  --ids-component-lighter-disabled-text-color: var(--ids-color-slate-40);
+  --ids-component-text-color: var(--ids-color-slate-100);
+  --ids-component-text-color-inverse: var(--ids-color-slate-00);
+
+  // Component Sizing
+  --ids-component-border-width: 1px;
+
+  // Icon Set (Future)
+  --ids-icon-set-name: 'name-here';
+
+  // Borders radii
+  --ids-border-radius: 2px;
+  --ids-border-radius-large: 16px;
+
+  // Animations
+  --ids-transition-length: 200ms;
+  --ids-transition-ease: cubic-bezier(0.4, 0, 0.6, 1);
+
+  // Font
+  --ids-font-family: source sans pro, -apple-system, helvetica, arial;
+  --ids-font-mono: source code pro, monospace;
+  --ids-font-weight-normal: 400;
+  --ids-font-weight-bold: 700;
+
+  // Font Size
+  --ids-font-size-sm: 14px;
+  --ids-font-size-md: 16px;
+  --ids-font-size-lg: 24px;
+
+  // Elevations
+  --ids-shadow-medium: 0 0 3px 2px rgb(54 138 192 / 0.3);
+
+  // Spacing (For Padding or Margins)
+  --ids-spacing-none: 0;
+  --ids-spacing-xs: 1px;
+  --ids-spacing-sm: 2px;
+  --ids-spacing-md: 4px;
+  --ids-spacing-lg: 8px;
+  --ids-spacing-xlg: 16px;
+  --ids-spacing-xxlg: 32px;
+
+  // Sizes
+  --ids-size-xs: 22px;
+  --ids-size-sm: 26px;
+  --ids-size-md: 36px;
+  --ids-size-lg: 46px;
+  --ids-size-xlg: 56px;
+  --ids-size-xxlg: 66px;
+
+  // Focus
+  --ids-focus-ring-border-color: var(--ids-color-primary);
+  --ids-focus-ring-shadow: var(--ids-shadow-medium);
+  --ids-focus-ring-outline: 0;
+
+  // Cursors
+  --ids-cursor-actionable: pointer;
+  --ids-cursor-normal: default;
+
+  // Z Indexes
+  --ids-z-index-popup: 700;
+
+  // Component Specific Tokens
+
+  // Tag
+  --ids-tag-background-color: var(--ids-component-darker-background-color);
+  --ids-tag-border-color: var(--ids-component-darker-background-color);
+  --ids-tag-secondary-border-color: var(--ids-component-border-color);
+  --ids-tag-secondary-background-color: var(--ids-component-background-color);
+  --ids-tag-border-radius: var(--ids-border-radius-large);
+  --ids-tag-font: var(--ids-font-family);
+  --ids-tag-font-size: var(--ids-font-size-sm);
+  --ids-tag-text-color: var(--ids-component-text-color);
+  --ids-tag-text-color-inverse: var(--ids-component-text-color-inverse);
+  --ids-tag-focus-ring-border-color: var(--ids-focus-ring-border-color);
+  --ids-tag-focus-ring-shadow: var(--ids-focus-ring-shadow);
+  --ids-tag-disabled-text-color: var(--ids-component-disabled-text-color);
+  --ids-tag-secondary-disabled-text-color: var(--ids-component-lighter-disabled-text-color);
+  --ids-tag-secondary-disabled-border-color: var(--ids-component-lighter-disabled-text-color);
+
+  // Badge
+  --ids-badge-background-color: var(--ids-component-darker-background-color);
+  --ids-badge-border-radius: var(--ids-border-radius-large);
+  --ids-badge-border-color: var(--ids-component-darker-background-color);
+  --ids-badge-font: var(--ids-font-family);
+  --ids-badge-font-size: var(--ids-font-size-sm);
+  --ids-badge-text-color: var(--ids-component-text-color);
+
+  // Icon
+  --ids-icon-color: var(--ids-component-text-color);
+  --ids-icon-hover-color: var(--ids-component-hover-color);
+}

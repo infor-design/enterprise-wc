@@ -10,13 +10,70 @@
 
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Tags</ids-text>
-    </ids-layout-grid>
-    <ids-layout-grid auto="true">
-      <ids-tag>Normal Tag</ids-tag>
-    </ids-layout-grid>
+    <ids-splitter>
+      <ids-splitter-pane size="120px" save-position>
+        <ids-text font-size="12" type="h1">Theme Variables</ids-text>
+      </ids-splitter-pane>
+      <ids-splitter-pane>
+        <ids-theme-switcher mode="light"></ids-theme-switcher>
+        <ids-layout-grid cols="2" gap="xl">
+          <ids-layout-grid-cell col-span="12">
+
+            <!-- Badges -->
+            <ids-layout-grid auto="true">
+              <ids-text font-size="12" type="h2">Badges</ids-text>
+            </ids-layout-grid>
+            <ids-layout-grid auto="true">
+              <ids-layout-grid-cell>
+                <ids-badge shape="round">5</ids-badge>
+                <ids-badge color="error">1500</ids-badge>
+                <ids-badge color="warning" shape="round">10</ids-badge>
+                <ids-badge color="warning" shape="round"><ids-icon icon="pending" size="normal"></ids-icon></ids-badge>
+                <ids-badge color="success" shape="round">5</ids-badge>
+                <ids-badge color="info">25k+</ids-badge>
+            </ids-layout-grid-cell>
+            </ids-layout-grid>
+
+            <!-- Tags -->
+            <ids-layout-grid auto="true">
+              <ids-text font-size="12" type="h2">Tags</ids-text>
+            </ids-layout-grid>
+
+            <ids-layout-grid auto="true">
+              <ids-layout-grid-cell>
+                <ids-tag>Normal Tag</ids-tag>
+                <ids-tag color="secondary">Secondary Tag</ids-tag>
+                <ids-tag color="success">Success Tag</ids-tag>
+                <ids-tag color="info">Info Tag</ids-tag>
+                <ids-tag color="warning">Warning Tag</ids-tag>
+                <ids-tag color="caution">Caution Tag</ids-tag>
+                <ids-tag color="error">Error Tag</ids-tag>
+                <ids-tag clickable="true" id="ids-clickable-tag">Clickable Tag
+                  <ids-icon icon="caret-right" size="xsmall"></ids-icon>
+                </ids-tag>
+                <ids-tag disabled>
+                  <span>Disabled Tag</span>
+                  <ids-icon icon="close" size="xsmall"</ids-icon>
+                </ids-tag>
+                <ids-tag color="secondary" dismissible="true" disabled>
+                  <span>Secondary Disabled Tag</span>
+                  <ids-icon icon="close" size="xsmall"</ids-icon>
+                </ids-tag>
+                <ids-tag dismissible="true">
+                    <span>Dismissible Tag 1</span>
+                    <ids-icon icon="close" size="xsmall" id="ids-closable-btn"></ids-icon>
+                </ids-tag>
+                <ids-tag dismissible="true">
+                    <span>Dismissible Tag 2</span>
+                </ids-tag>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+      </ids-splitter-pane>
+    </ids-splitter>
   </ids-container>
 </body>
 
