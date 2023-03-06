@@ -3,6 +3,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, IdsDirection } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { exportToXLSX } from '../../utils/ids-excel-exporter/ids-excel-exporter';
 
 // Dependencies
 import IdsDataSource from '../../core/ids-data-source';
@@ -40,6 +41,7 @@ import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
 import IdsDataGridSaveSettingsMixin from './ids-data-grid-save-settings-mixin';
 import IdsDataGridTooltipMixin from './ids-data-grid-tooltip-mixin';
 import IdsDataGridCell from './ids-data-grid-cell';
+import { ExcelColumn, XLSXColumn } from '../../utils/ids-excel-exporter/ids-worksheet-templates';
 
 const Base = IdsThemeMixin(
   IdsPagerMixin(
@@ -2282,5 +2284,49 @@ export default class IdsDataGrid extends Base {
     this.container?.querySelectorAll('ids-data-grid-cell.is-dirty').forEach((elem) => {
       elem.classList.remove('is-dirty');
     });
+  }
+
+  exportToExcel(filename?: string) {
+    const columns: Array<ExcelColumn> = [];
+    const colCache: Record<string, IdsDataGridColumn> = {};
+
+    for (let i = 0; i < this.columns.length; i++) {
+      const col = this.columns[i];
+      // const isDec = col.formatter === this.formatters.decimal;
+      // const isInt = col.formatter === this.formatters.integer;
+
+      if (col.id && col.field && col.name) {
+        colCache[col.id!] = col;
+
+        columns.push({
+          field: col.field,
+          name: col.name,
+          type: 'string'
+        });
+      }
+    }
+
+    const config = {
+      filename: filename || 'data-grid',
+      columns
+    };
+
+    const temp = document.createElement('span');
+    const data = this.datasource.data.map((rowData, idx) => {
+      const formattedData: Record<string, any> = {};
+
+      Object.keys(colCache).forEach((id) => {
+        const formatter = colCache[id].formatter;
+        const value = formatter ? formatter.call(this.formatters, rowData, colCache[id], idx, this) : rowData[id];
+        temp.innerHTML = value;
+        formattedData[id] = temp.textContent;
+      });
+
+      return formattedData;
+    });
+
+    console.log(this.columns);
+
+    exportToXLSX(data, config);
   }
 }

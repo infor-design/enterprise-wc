@@ -1,6 +1,6 @@
-import { saveAs } from "../ids-file-saver/ids-file-saver";
-import { CONTENT_TYPES, ExcelColumn, ExcelConfig, RELS, STYLES_XML, WORKBOOK_XML, WORKBOOK_XML_REL, WORKSHEET_TEMPLATE, XLSXColumn } from "./ids-worksheet-templates";
-import { IdsZip } from "./ids-zip/ids-zip";
+import { saveAs } from '../ids-file-saver/ids-file-saver';
+import { CONTENT_TYPES, ExcelColumn, ExcelConfig, RELS, STYLES_XML, WORKBOOK_XML, WORKBOOK_XML_REL, WORKSHEET_TEMPLATE, XLSXColumn } from './ids-worksheet-templates';
+import { IdsZip } from './ids-zip/ids-zip';
 
 const VALID_TYPES = ['string', 'number'];
 
@@ -9,29 +9,27 @@ const CELL_PADDING = 2;
 export class XLXExporter {
   private root: IdsZip | null = null;
 
-  private columns: Record<string, XLSXColumn> = {};
+  private columns: Array<XLSXColumn> = [];
 
   constructor() {
     this.root = new IdsZip();
   }
 
-  public async exportToExcel(data: Array<Record<string, any>>, config: ExcelConfig) {
-    const xl = this.root!.folder('xl');
-    xl.file('workbook.xml', WORKBOOK_XML);
-    xl.file('_rels/workbook.xml.rels', WORKBOOK_XML_REL);
-    xl.file('styles.xml', STYLES_XML);
+  public exportToExcel(data: Array<Record<string, any>>, config: ExcelConfig) {
+    this.root!.file('xl/workbook.xml', WORKBOOK_XML);
+    this.root!.file('xl/_rels/workbook.xml.rels', WORKBOOK_XML_REL);
+    this.root!.file('xl/styles.xml', STYLES_XML);
     this.root!.file('_rels/.rels', RELS);
     this.root!.file('[Content_Types].xml', CONTENT_TYPES);
-    xl!.file('worksheets/sheet1.xml', this.generateWorksheet(data, config.columns))
+    this.root!.file('xl/worksheets/sheet1.xml', this.generateWorksheet(data, config.columns));
 
-    return this.root!
-      .generate({ type: 'blob', mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
-      .then((blob) => saveAs(blob, `${config.filename || 'worksheet'}.xlsx`));
+    const zipFile = this.root!.zip('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    saveAs(zipFile, `${config.filename || 'worksheet'}.xlsx`);
   }
 
   /**
    * Generate worksheet xml string from data
-   * @param {Record<string, any} data user data
+   * @param {Record<string, any>} data user data
    * @param {Array<ExcelColumn>} columnConfig column configuration
    * @returns {string} xlsx formatted worksheet string
    */
@@ -53,21 +51,21 @@ export class XLXExporter {
    */
   private prepareColumnConfig(columnConfig?: Array<ExcelColumn>) {
     if (!columnConfig) return;
-    this.columns = columnConfig.reduce((columns, config, idx) => {
-      columns[config.field] = {
+    this.columns = columnConfig.map((config, idx) => {
+      const xlsxCol = {
         ...config,
         refLetter: this.generateColumnLetter(idx),
         width: config.field.length + CELL_PADDING
-      }
+      };
 
-      return columns;
-    }, this.columns);
+      return xlsxCol;
+    });
   }
 
-  private generateColWidths(columns: Record<string, XLSXColumn>): string {
-    return Object.keys(columns).reduce((cols, col, idx) => {
+  private generateColWidths(columns: Array<XLSXColumn>): string {
+    return columns.reduce((cols, col, idx) => {
       const colIndex = idx + 1;
-      const colWidth = columns[col].width;
+      const colWidth = col.width;
       const colStr = `<col min="${colIndex}" max="${colIndex}" width="${colWidth}" bestFit="1" customWidth="1" />`;
       return `${cols}${colStr}`;
     }, '');
@@ -93,40 +91,38 @@ export class XLXExporter {
   }
 
   /**
-   * Create xlsx xml formatted string cell
+   * Create formatted string cell
    * @param {string} value string value
-   * @param {number} colindex column index
-   * @param {number} rowIndex row index
+   * @param {string} cellRef cell ref location
    * @returns {string} xlsx xml string cell
    */
   private formatStringCell(value: string, cellRef: string): string {
-    let cleanValue = value ?? "";
+    let cleanValue = value ?? '';
     cleanValue = String(cleanValue).trim();
 
     return `<c r="${cellRef}" t="inlineStr"><is><t>${cleanValue}</t></is></c>`;
   }
 
   /**
-   * Create xlsx xml formatted number cell
+   * Create formatted date cell
    * @param {number} value numeric value
-   * @param {number} colIndex column index
-   * @param {number} rowIndex row index
+   * @param {string} cellRef cell ref location
    * @returns {string} xlsx xml number cell
    */
   private formatNumberCell(value: number, cellRef: string): string {
-    return `<c r="${cellRef}"><v>${value}</v></c>`;
+    return `<c r="${cellRef}"><v>${value ?? 0}</v></c>`;
   }
 
   /**
-   * Create xlsx xml formatted cell by cell type
-   * @param {string} field field name
+   * Factory function to format cells of different types
+   * @param {XLSXColumn} col column
    * @param {any} value field value
-   * @param {number} colIndex column number
+   * @param {number} cellIndex column number
    * @param {number} rowIndex row number
    * @returns {string} xlsx xml formatted cell
    */
-  private formatCell(field: string, value: any, cellIndex: number, rowIndex: number): string {
-    const cellConfig = this.columns[field];
+  private formatCell(col: XLSXColumn, value: any, cellIndex: number, rowIndex: number): string {
+    const cellConfig = col;
     const cellType = VALID_TYPES.includes(cellConfig?.type) ? cellConfig.type : 'string';
     const cellRefLetter = cellConfig.refLetter || this.generateColumnLetter(cellIndex);
     const cellRef = `${cellRefLetter}${rowIndex}`;
@@ -147,18 +143,19 @@ export class XLXExporter {
    * @returns {string} xlsx xml formatted row
    */
   private formatRow(row: Record<string, any>, rowIndex: number): string {
-    let rowCells = Object.keys(this.columns).reduce((rowString, field, idx) => {
-      const cell = this.formatCell(field, row[field], idx, rowIndex);
+    const rowCells = this.columns.reduce((rowString, col, idx) => {
+      const cell = this.formatCell(col, row[col.field], idx, rowIndex);
       return `${rowString}${cell}`;
     }, '');
 
     return `<row r="${rowIndex}">${rowCells}</row>`;
   }
 
-  private generateHeaderRow(columns: Record<string, XLSXColumn>): string {
-    const headerCells = Object.keys(columns).reduce((headerStr, field) => {
-      const cellR = this.columns[field].refLetter;
-      const cell = `<c r="${cellR}1" t="inlineStr" s="1"><is><t>${field}</t></is></c>`;
+  private generateHeaderRow(columns: Array<XLSXColumn>): string {
+    const headerCells = columns.reduce((headerStr, col) => {
+      const cellR = col.refLetter;
+      const name = col.name;
+      const cell = `<c r="${cellR}1" t="inlineStr" s="1"><is><t>${name}</t></is></c>`;
       return `${headerStr}${cell}`;
     }, '');
     return `<row r="1">${headerCells}</row>`;
@@ -166,7 +163,7 @@ export class XLXExporter {
 
   /**
    * Creates xlsx formatted rows
-   * @param {Array<Record<string, any>} rows array of row data
+   * @param {Array<Record<string, any>>} rows array of row data
    * @returns {string} xml formatted rows
    */
   private generateRows(rows: Array<Record<string, any>>): string {
@@ -181,7 +178,7 @@ export class XLXExporter {
    * Clean up any references
    */
   public destroy(): void {
-    this.columns = {};
+    this.columns = [];
     this.root = null;
   }
 }

@@ -74,7 +74,7 @@ columns.push({
   id: 'units',
   name: 'Units',
   field: 'units',
-  formatter: dataGrid.formatters.text,
+  formatter: dataGrid.formatters.decimal,
   sortable: true
 });
 
@@ -90,4 +90,9 @@ setData();
 
 dataGrid.addEventListener('selectionchanged', (e: Event) => {
   console.info(`Selection Changed`, (<CustomEvent>e).detail);
+});
+
+const exportBtn = document.body.querySelector('#export-excel');
+exportBtn?.addEventListener('click', () => {
+  dataGrid.exportToExcel('products-demo');
 });

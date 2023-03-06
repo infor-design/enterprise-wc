@@ -66,22 +66,34 @@ export const STYLES_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"
       <bottom />
       <diagonal />
     </border>
+    <border>
+      <begin/>
+      <end style="medium">
+        <color indexed="64"/>
+      </end>
+      <top/>
+      <bottom style="thin">
+        <color indexed="64"/>
+      </bottom>
+      <diagonal/>
+    </border>
   </borders>
   <cellStyleXfs count="1">
     <xf borderId="0" fillId="0" fontId="0" numFmtId="0" />
   </cellStyleXfs>
   <cellXfs count="2">
     <xf borderId="0" fillId="0" fontId="0" numFmtId="0" xfId="0" />
-    <xf applyAlignment="1" applyFont="1" borderId="0" fillId="0" fontId="2" numFmtId="0" xfId="0">
+    <xf applyAlignment="1" applyFont="1" borderId="1" fillId="0" fontId="2" numFmtId="0" xfId="0">
       <alignment horizontal="center" />
     </xf>
   </cellXfs>
   <tableStyles count="0" defaultPivotStyle="PivotStyleLight16" defaultTableStyle="TableStyleMedium2" />
-</styleSheet>`
+</styleSheet>`;
 
 export interface ExcelColumn {
   field: string;
-  type: 'string' | 'number';
+  type: string;
+  name: string;
 }
 
 export interface XLSXColumn extends ExcelColumn {

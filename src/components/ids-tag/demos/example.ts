@@ -12,7 +12,6 @@ async function createExcel() {
   const url: any = productsURL;
   const res = await fetch(url);
   const data = await res.json();
-  
   const config: ExcelConfig = {
     filename: 'products',
     columns: [
@@ -24,7 +23,7 @@ async function createExcel() {
       { field: 'unitPrice', type: 'number' },
       { field: 'color', type: 'string' },
     ]
-  }
+  };
 
   exportToXLSX(data, config);
 }

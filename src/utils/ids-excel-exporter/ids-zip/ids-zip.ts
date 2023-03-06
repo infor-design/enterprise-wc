@@ -1,178 +1,352 @@
-import {
-  forceTrailingSlash,
-  getTypeOf,
-  parentFolder,
-  string2binary,
-  transformTo
-} from './ids-zip-util';
-import { StreamHelper } from './stream-helper';
-import { ZipFileWorker } from './zip-file-worker';
-import { ZipObject } from './zip-object';
+import { ZipEntry } from './ids-zip-entry';
 
-export type IdsZipOptions = {
-  type: any;
-  mimeType: string;
-  comment?: string
+const SIGNATURE = {
+  LOCAL_FILE_HEADER: 'PK\x03\x04',
+  CENTRAL_FILE_HEADER: 'PK\x01\x02',
+  CENTRAL_DIRECTORY_END: 'PK\x05\x06',
+  ZIP64_CENTRAL_DIRECTORY_LOCATOR: 'PK\x06\x07',
+  ZIP64_CENTRAL_DIRECTORY_END: 'PK\x06\x06',
+  DATA_DESCRIPTOR: 'PK\x07\x08',
 };
-
-/**
- * Add a file in the current folder.
- * @param {any} self Object context
- * @param {string} name the name of the file
- * @param {any} data the data of the file
- * @param {boolean} isDir is directory
- */
-function fileAdd(self: any, name: string, data: any, isDir: boolean) {
-  // be sure sub folders exist
-  let dataType = getTypeOf(data);
-
-  const o = {
-    binary: !!isDir,
-    dir: !!isDir,
-    date: new Date('2023-02-27T19:49:25.061Z'),
-    compression: isDir ? 'STORE' : null,
-    compressionOptions: null
-  };
-
-  name = isDir ? forceTrailingSlash(name) : name;
-
-  // create parent folders
-  const parent = parentFolder(name);
-  if (parent) folderAdd(self, parent);
-
-  // if entry is a directory
-  if (o.dir || !data || data.length === 0) {
-    data = '';
-    dataType = 'string';
-  }
-
-  const zipObjectContent = o.binary ? string2binary(data) : data;
-  const object = new ZipObject(name, zipObjectContent, o);
-  self.files[name] = object;
-}
-
-/**
- * Add a (sub) folder in the current folder.
- * @param {any} self Object context
- * @param {string} name the folder's name
- * @returns {object} the new folder.
- */
-function folderAdd(self: any, name: string) {
-  name = forceTrailingSlash(name);
-
-  // Does this folder already exist?
-  if (!self.files[name]) {
-    fileAdd(self, name, null, true);
-  }
-  return self.files[name];
-}
 
 export class IdsZip {
   // folder root
-  root = '';
+  private root = '';
 
-  // zip object
-  files: Record<string, ZipObject> = {};
+  // zip entries
+  private entries: Record<string, ZipEntry> = {};
 
-  // zip comment
-  comment = '';
+  // byte count
+  private bytesWritten = 0;
 
-  clone() {
-    const newZip = new IdsZip();
-    for (const i in this) {
-      if (typeof this[i] !== 'function') {
-        (newZip as any)[i] = this[i];
-      }
-    }
-    return newZip;
-  }
+  private dataArray: Array<Uint8Array> = [];
 
-  file(name: string, data: any) {
+  /**
+   * Add a zip entry
+   * @param {string} name file name
+   * @param {string} data string data
+   */
+  file(name: string, data: string) {
     name = this.root + name;
-    fileAdd(this, name, data, false);
-    return this;
+    this.addEntry(name, data, false);
   }
 
-  folder(folderName: string) {
-    const name = this.root + folderName;
-    const newFolder = folderAdd(this, name);
-
-    // Allow chaining by returning a new object with this folder as the root
-    const ret = this.clone();
-    ret.root = newFolder.name;
-
-    return ret;
+  /**
+   * Creates Zip file containing all entries
+   * @param {string} mimeType mime type
+   * @returns {Blob} Blob of zip file
+   */
+  zip(mimeType: string): Blob {
+    return this.createZipFile(Object.values(this.entries), mimeType);
   }
 
-  generate(options: IdsZipOptions) {
-    //return this.generateInternalStream(options);
-    return this.generateInternalStream(options).accumulate();
-  }
-
-  generateInternalStream(options: IdsZipOptions) {
-    const optDefaults = {
-      streamFiles: false,
-      type: '',
-      platform: 'UNIX',
-      mimeType: 'application/zip',
-      comment: ''
-    };
-    const opts = {
-      ...optDefaults,
-      ...options
-    };
-    const comment = opts.comment || this.comment || '';
-    const zipFileWorker = this.generateWorker(opts, comment);
-
-    const dataBuffer = zipFileWorker.processAllZipObjects();
-    const dataBlock = transformTo('arraybuffer', zipFileWorker.concat(dataBuffer));
-    const result = new Blob([dataBlock], { type: options.mimeType });
-    //return Promise.resolve(result);
-    return new StreamHelper(zipFileWorker, opts.mimeType);
-  }
-
-  generateWorker(options: any, comment: any): ZipFileWorker {
-    const zipFileWorker = new ZipFileWorker(options.streamFiles, comment, options.platform);
-    let entriesCount = 0;
-
-    try {
-      // eslint-disable-next-line guard-for-in
-      for (const filename in this.files) {
-        const zipObject = this.files[filename];
-        const relativePath = filename.slice(this.root.length, filename.length);
-
-        if (relativePath && filename.slice(0, this.root.length) === this.root) { // the file is in the current root
-          entriesCount++;
-          const compression = { magic: '\x00\x00' };
-          const dir = zipObject.dir;
-          const date = zipObject.date;
-
-          // file._compressWorker returns DataWorker
-          const worker = zipObject.compressWorker(compression)
-            .withStreamInfo('file', {
-              name: relativePath,
-              dir,
-              date,
-              comment: ''
-            })
-            .pipe(zipFileWorker);
-
-          zipObject.zipMeta.file = {
-            name: relativePath,
-            dir,
-            date,
-            comment: ''
-          }
-
-          zipFileWorker.addZipObject(zipObject);
-        }
-      }
-
-      zipFileWorker.entriesCount = entriesCount;
-    } catch (e) {
-      zipFileWorker.error(e);
+  /**
+   * Create folder zip entry
+   * @param {string} name folder name
+   * @returns {ZipEntry} folder zip entry
+   */
+  private addFolderEntry(name: string): ZipEntry {
+    if (!this.entries[name]) {
+      this.addEntry(name, null, true);
     }
 
-    return zipFileWorker;
+    return this.entries[name];
+  }
+
+  /**
+   * Creates zip entry
+   * @param {string} name file name
+   * @param {string} data content data
+   * @param {boolean} isDir true if entry is a folder
+   */
+  private addEntry(name: string, data: any, isDir: boolean): void {
+    // create parent folders
+    const parent = this.isNested(name);
+    if (parent) this.addFolderEntry(parent);
+
+    // if folder or data empty, initialize as empty Uint8Array
+    if (!!isDir || !data || data.length === 0) {
+      data = new Uint8Array();
+    }
+
+    const zipEntry = new ZipEntry(name, data, isDir);
+    this.entries[name] = zipEntry;
+  }
+
+  /**
+   * Checks if path is nested in folders
+   * @param {string} path path name
+   * @returns {string} parent folder
+   */
+  private isNested(path: string): string {
+    if (path.slice(-1) === '/') {
+      path = path.substring(0, path.length - 1);
+    }
+    const lastSlash = path.lastIndexOf('/');
+    return (lastSlash > 0) ? path.substring(0, lastSlash) : '';
+  }
+
+  /**
+   * Process all zip entries into a Blob
+   * @param {Array<ZipEntry>} entries array of zip entries
+   * @param {string} mimeType mime type
+   * @returns {Blob} Blob of zip file
+   */
+  private createZipFile(entries: Array<ZipEntry>, mimeType: string): Blob {
+    const entryDirs: any = [];
+
+    entries.forEach((entry: ZipEntry) => {
+      const entryParts = this.processEntry(entry, this.bytesWritten);
+      // write entry header
+      this.writeData(entryParts.localFileHeader);
+      // write entry content
+      this.writeData(entryParts.content);
+      // cache entry dir record for central directory section
+      entryDirs.push(entryParts.centralDirectoryFileHeader);
+    });
+
+    // write EOCD
+    this.closeZipFile(entryDirs);
+    const dataArray = this.concat(this.dataArray);
+
+    return new Blob([dataArray.buffer], { type: mimeType });
+  }
+
+  /**
+   * Procses zip file entry and break into separate records
+   * @param {ZipEntry} entry zip entry
+   * @param {number} entryOffset next starting position for entry
+   * @returns {Record<string, any>} zip entry parts
+   */
+  private processEntry(entry: ZipEntry, entryOffset: number) {
+    const content = entry.processData();
+    const headerPartial = this.generateHeaderPartial(entry);
+    const localFileHeader = this.generateLocalFileHeader(headerPartial, entry);
+    const centralDirectoryFileHeader = this.generateCentralDirectoryFileHeader(entry, headerPartial, entryOffset);
+
+    return {
+      localFileHeader,
+      centralDirectoryFileHeader,
+      content
+    };
+  }
+
+  private closeZipFile(entryDirs: any[]) {
+    const localDirSize = this.bytesWritten;
+
+    for (let i = 0; i < entryDirs.length; i++) {
+      this.writeData(entryDirs[i]);
+    }
+
+    const centralDirSize = this.bytesWritten - localDirSize;
+    const dirEnd = this.generateEndOfCentralDirectory(
+      entryDirs.length,
+      centralDirSize,
+      localDirSize
+    );
+
+    this.writeData(dirEnd);
+  }
+
+  private writeData(data: any): void {
+    if (data && data.length) {
+      this.dataArray.push(this.transform(data));
+      this.bytesWritten += data.length;
+    }
+  }
+
+  private transform(data: string | Uint8Array): Uint8Array {
+    if (data instanceof Uint8Array) return data;
+
+    const output = new Uint8Array(data.length);
+    for (let i = 0; i < data.length; ++i) {
+      // trims charCode to 8 bits
+      output[i] = data.charCodeAt(i) & 0xFF;
+    }
+
+    return output;
+  }
+
+  private concat(dataArray: Array<Uint8Array>): Uint8Array {
+    const totalLength = dataArray.reduce((total, data) => total + data.length, 0);
+    const res = new Uint8Array(totalLength);
+    let index = 0;
+
+    for (let i = 0; i < dataArray.length; i++) {
+      res.set(dataArray[i], index);
+      index += dataArray[i].length;
+    }
+
+    return res;
+  }
+
+  private generateUnixExternalFileAttr(unixPermissions: any, isDir: any) {
+    let result = unixPermissions;
+    if (!unixPermissions) {
+      // I can't use octal values in strict mode, hence the hexa.
+      //  040775 => 0x41fd
+      // 0100664 => 0x81b4
+      result = isDir ? 0x41fd : 0x81b4;
+    }
+    return (result & 0xFFFF) << 16;
+  }
+
+  /**
+   * Create partial header information shared between
+   * Local and Central Directory file header
+   * @see {@link https://docs.fileformat.com/compression/zip/#local-file-header}
+   * @see {@link https://docs.fileformat.com/compression/zip/#central-directory-file-header}
+   * @param {ZipEntry} entry zip entry
+   * @returns {string} header represented in hex strings
+   */
+  private generateHeaderPartial(entry: ZipEntry): string {
+    const compression = entry.compression;
+    const date = entry.date;
+    let modTime;
+    let modDate;
+
+    // calc last modified time
+    modTime = date.getUTCHours();
+    modTime <<= 6;
+    modTime |= date.getUTCMinutes();
+    modTime <<= 5;
+    modTime |= date.getUTCSeconds() / 2;
+
+    // calc last modified date
+    modDate = date.getUTCFullYear() - 1980;
+    modDate <<= 4;
+    modDate |= (date.getUTCMonth() + 1);
+    modDate <<= 5;
+    modDate |= date.getUTCDate();
+
+    return [
+      // Version needed to extract (minimum)
+      '\x0A\x00',
+      // General purpose bit flag
+      '\x00\x00',
+      // Compression method
+      compression,
+      // File last modification time
+      this.decToHex(modTime, 2),
+      // File last modification date
+      this.decToHex(modDate, 2),
+      // CRC-32
+      this.decToHex(entry.crc32, 4),
+      // Compressed size
+      this.decToHex(entry.compressedSize, 4),
+      // Uncompressed size
+      this.decToHex(entry.uncompressedSize, 4),
+      // File name length (n)
+      this.decToHex(entry.name.length, 2),
+      // Extra field length (m)
+      '\x00\x00'
+    ].join('');
+  }
+
+  /**
+   * Create Locale File Header string
+   * @see {@link https://docs.fileformat.com/compression/zip/#local-file-header}
+   * @param {string} header header partial
+   * @param {ZipEntry} entry zip entry
+   * @returns {string} Locale File Header string
+   */
+  private generateLocalFileHeader(header: string, entry: ZipEntry): string {
+    return SIGNATURE.LOCAL_FILE_HEADER + header + entry.name;
+  }
+
+  /**
+   * Create Central Directory File Header string
+   * @see {@link https://docs.fileformat.com/compression/zip/#central-directory-file-header}
+   * @param {ZipEntry} entry zip entry
+   * @param {string} header header partial
+   * @param {number} offset entry starting position
+   * @returns {string} Central Directory File Header string
+   */
+  private generateCentralDirectoryFileHeader(entry: ZipEntry, header: string, offset: number): string {
+    let extFileAttr = 0;
+    let versionMadeBy = 0;
+    if (entry.dir) {
+      // dos or unix, we set the dos dir flag
+      extFileAttr |= 0x00010;
+    }
+
+    versionMadeBy = 0x031E; // UNIX, version 3.0
+    extFileAttr |= this.generateUnixExternalFileAttr(false, entry.dir);
+
+    return [
+      // Central directory file header signature
+      SIGNATURE.CENTRAL_FILE_HEADER,
+      // Version made by
+      this.decToHex(versionMadeBy, 2),
+      // generateHeaderPartial
+      header,
+      // File comment length (k)
+      '\x00\x00',
+      // Disk number where file starts
+      '\x00\x00',
+      // Internal file attributes
+      '\x00\x00',
+      // External file attributes
+      this.decToHex(extFileAttr, 4),
+      // Relative offset of local file header.
+      this.decToHex(offset, 4),
+      // File name
+      entry.name,
+      // Extra field
+      '',
+      // File comment
+      ''
+    ].join('');
+  }
+
+  /**
+   * Create End of Central Directory record
+   * @see {@link https://docs.fileformat.com/compression/zip/#end-of-central-directory-record}
+   * @param {number} entriesCount number of zip entries
+   * @param {number} centralDirSize length of central directory record
+   * @param {number} offset starting position for EOCD
+   * @returns {string} End of Central Directory string
+   */
+  private generateEndOfCentralDirectory(entriesCount: number, centralDirSize: number, offset: number): string {
+    return [
+      // End of central directory signature
+      SIGNATURE.CENTRAL_DIRECTORY_END,
+      // Number of this disk
+      '\x00\x00',
+      // Disk where central directory starts
+      '\x00\x00',
+      // Number of central directory records on this disk
+      this.decToHex(entriesCount, 2),
+      // Total number of central directory records
+      this.decToHex(entriesCount, 2),
+      // Size of central directory (4 bytes)
+      this.decToHex(centralDirSize, 4),
+      // Offset of start of central directory, relative to start of archive
+      this.decToHex(offset, 4),
+      // Comment length (n)
+      '\x00\x00',
+      // Comment
+      ''
+    ].join('');
+  }
+
+  /**
+   * Convert decimal value into a padded 8 bit hex strings
+   * Returns hex string in little-endian order
+   * @param {number} dec the number to convert.
+   * @param {number} bytes the number of bytes to generate.
+   * @returns {string} the result.
+   */
+  private decToHex(dec: number, bytes: number) {
+    let hex = '';
+
+    for (let i = 0; i < bytes; i++) {
+      // get char code from first 8 bits of decimal value
+      hex += String.fromCharCode(dec & 0xFF);
+      // shift decimal by 8 bits
+      dec >>>= 8;
+    }
+
+    return hex;
   }
 }
