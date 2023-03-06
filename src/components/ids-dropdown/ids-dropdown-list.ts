@@ -108,6 +108,18 @@ export default class IdsDropdownList extends Base {
   }
 
   private attachKeyboardListeners() {
+
+  }
+
+  /**
+   * Override `addOpenEvents` from IdsPopupOpenEventsMixin to include
+   * appending of some keyboard handlers
+   */
+  addOpenEvents() {
+    super.addOpenEvents();
+
+    this.setAttribute('tabindex', '0');
+
     // Handles keyboard arrow navigation inside the list
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
       e.stopPropagation();
@@ -164,6 +176,17 @@ export default class IdsDropdownList extends Base {
         this.triggerSelectedEvent();
       });
     }
+  }
+
+  /**
+   * Override `removeOpenEvents` from IdsPopupOpenEventsMixin to include
+   * removal of some keyboard handlers
+   */
+  removeOpenEvents() {
+    super.removeOpenEvents();
+    this.setAttribute('tabindex', '-1');
+    this.unlisten(' ');
+    this.unlisten('Enter');
   }
 
   /**
@@ -350,7 +373,7 @@ export default class IdsDropdownList extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
-    const elem = this.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"], ids-list-box-option:not([value])`);
+    const elem = this.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"]`);
     if (!elem) return;
 
     this.clearSelected();

@@ -281,11 +281,13 @@ export default class IdsDropdown extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
-    const elem = this.dropdownList?.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"], ids-list-box-option:not([value])`);
+    const elem = this.dropdownList?.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"]`);
     if (!elem) return;
 
     this.clearSelected();
     this.selectOption(elem);
+    this.selectIcon(elem);
+    this.selectTooltip(elem);
     if (this.input) this.input.value = elem.textContent?.trim();
     this.state.selectedIndex = [...((elem?.parentElement as any)?.children || [])].indexOf(elem);
 
@@ -423,8 +425,6 @@ export default class IdsDropdown extends Base {
         this.dropdownList.selectOption(option);
       }
     }
-    this.selectIcon(option);
-    this.selectTooltip(option);
   }
 
   /**
@@ -433,8 +433,6 @@ export default class IdsDropdown extends Base {
    */
   deselectOption(option: HTMLElement | undefined | null) {
     this.dropdownList?.deselectOption(option);
-    this.selectIcon(option);
-    this.selectTooltip(option);
   }
 
   /**
@@ -498,16 +496,12 @@ export default class IdsDropdown extends Base {
       this.dropdownList.onOutsideClick = (e: Event) => {
         if (this.dropdownList) {
           if (!e.composedPath()?.includes(this.dropdownList)) {
-            this.close();
+            this.close(true);
           }
         }
       };
       this.dropdownList.onTriggerClick = (e: Event) => {
         e.stopPropagation();
-        if (this.labelClicked) {
-          this.labelClicked = false;
-          return;
-        }
         if (!this.disabled && !this.readonly) {
           this.toggle(this.typeahead);
         }
@@ -666,7 +660,6 @@ export default class IdsDropdown extends Base {
     this.offEvent('click.dropdown-label');
     this.onEvent('click.dropdown-label', this.labelEl, (e: MouseEvent) => {
       e.preventDefault();
-      this.labelClicked = true;
       this.input?.focus();
     });
 
