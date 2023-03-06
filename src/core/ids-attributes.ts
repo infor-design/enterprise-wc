@@ -346,6 +346,7 @@ export const attributes = {
   SHOW_TODAY: 'show-today',
   SHOW_TOOLTIP: 'show-tooltip',
   SHOW_VERTICAL_GRID_LINES: 'show-vertical-grid-lines',
+  SHOW_LOADING_INDICATOR: 'show-loading-indicator',
   SHRINK: 'shrink',
   SIZE: 'size',
   SORTABLE: 'sortable',

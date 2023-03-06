@@ -182,6 +182,7 @@ export default class IdsButton extends Base {
 
     return `<button part="button" class="${protoClasses}${type}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
       <slot></slot>
+      <slot name="loading-indicator"></slot>
     </button>`;
   }
 
