@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h2">Ids Button With Loading Indicator</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <p>
+          <ids-button type="primary" show-loading-indicator="true">
+            <span>Action</span>
+            <ids-loading-indicator slot="loading-indicator"></ids-loading-indicator>
+          </ids-button>
+        </p>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

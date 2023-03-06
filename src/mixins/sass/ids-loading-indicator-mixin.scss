@@ -1,0 +1,16 @@
+/**
+ * CSS for loading indicator mixin
+ */
+ @import '../../core/ids-base';
+
+:host(:not([show-loading-indicator='true'])) {
+  ::slotted(.loading-indicator) {
+    display: none;
+  }
+}
+
+:host([show-loading-indicator='true']) {
+  ::slotted(*:not(.loading-indicator)) {
+    visibility: hidden;
+  }
+}

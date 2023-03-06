@@ -22,6 +22,7 @@ const IdsLoadingIndicatorMixin = <T extends IdsBaseConstructor>(superclass: T) =
 
   connectedCallback(): void {
     super.connectedCallback?.();
+    this.#addClasses();
   }
 
   /**
@@ -42,6 +43,13 @@ const IdsLoadingIndicatorMixin = <T extends IdsBaseConstructor>(superclass: T) =
    * @returns {boolean} showLoadingIndicator param converted to boolean from attribute value. Defaults to false
    */
   get showLoadingIndicator() { return stringToBool(this.getAttribute(attributes.SHOW_LOADING_INDICATOR)); }
+
+  #addClasses() {
+    const slot = this.container?.querySelector<HTMLSlotElement>('slot[name="loading-indicator"]');
+    slot?.assignedNodes()?.forEach((item: any) => {
+      item.classList.add('loading-indicator');
+    });
+  }
 };
 
 export default IdsLoadingIndicatorMixin;
