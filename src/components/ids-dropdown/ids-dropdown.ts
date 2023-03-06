@@ -704,6 +704,7 @@ export default class IdsDropdown extends Base {
     if (!this.list) {
       this.onEvent('click.dropdown-input', this.input, (e: MouseEvent) => {
         if (!this.dropdownList?.visible) {
+          this.labelClicked = false;
           this.dropdownList?.onTriggerClick?.(e);
         }
       });

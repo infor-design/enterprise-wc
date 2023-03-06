@@ -194,6 +194,7 @@ class IdsMultiselect extends IdsDropdown {
         // Don't open/close popup on tag removal
         const target = (e.target as IdsTag);
         if (!target?.closest('ids-tag') && !this.dropdownList?.visible) {
+          this.labelClicked = false;
           this.dropdownList?.onTriggerClick?.(e);
         }
       });
