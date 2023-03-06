@@ -10,15 +10,16 @@ import '../ids-menu/ids-menu';
 import '../ids-menu/ids-menu-item';
 import '../ids-input/ids-input';
 import '../ids-dropdown/ids-dropdown';
+import '../ids-dropdown/ids-dropdown-list';
 import '../ids-icon/ids-icon';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-trigger-field/ids-trigger-field';
 import '../ids-date-picker/ids-date-picker-popup';
-import '../ids-time-picker/ids-time-picker';
+import '../ids-time-picker/ids-time-picker-popup';
 
+import type IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
 import type IdsMenuItem from '../ids-menu/ids-menu-item';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
-import type IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
 
 // Instance counter
 let instanceCounter = 0;
@@ -208,7 +209,10 @@ export default class IdsDataGridFilters {
 
     return `
       ${this.#filterButtonTemplate(TYPE, column)}
-      <ids-time-picker
+      ${this.#triggerFieldTemplate(TYPE, column, 'clock', 'TimePickerTriggerButton')}
+      <ids-time-picker-popup
+        attachment=".ids-data-grid-wrapper"
+        trigger-type="click"
         color-variant="${!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'}"
         data-filter-type="${TYPE}"
         size="${opt.size || 'full'}"
@@ -219,7 +223,7 @@ export default class IdsDataGridFilters {
         compact
         ${format}${placeholder}${minuteInterval}${secondInterval}
         ${autoselect}${autoupdate}${disabled}${readonly}${value}
-      ></ids-time-picker>
+      ></ids-time-picker-popup>
     `;
   }
 
@@ -523,7 +527,7 @@ export default class IdsDataGridFilters {
         if (filterType === 'date' || filterType === 'time') {
           if (/string|undefined/g.test(typeof value)) value = formatterVal();
           const getValues = (rValue: any, cValue: any) => {
-            const format = c.format || column.formatOptions;
+            const format = c.format || column.formatOptions || this.root.localeAPI?.calendar().timeFormat;
             cValue = this.root.localeAPI?.parseDate(cValue, format);
             if (cValue) {
               if (filterType === 'time') {
@@ -735,6 +739,7 @@ export default class IdsDataGridFilters {
       const input = node?.querySelector('ids-input');
       const type = input?.getAttribute('data-filter-type');
       const dropdown = node?.querySelector('ids-dropdown');
+      const dropdownList = node?.querySelector('ids-dropdown-list');
       const datePicker = node?.querySelector('ids-date-picker');
       const timePicker = node?.querySelector('ids-time-picker');
       const btn = node?.querySelector('ids-menu-button');
@@ -742,6 +747,7 @@ export default class IdsDataGridFilters {
       const triggerBtn = node?.querySelector('ids-trigger-button');
       const triggerField = node?.querySelector('ids-trigger-field');
       const datePickerPopup = node?.querySelector('ids-date-picker-popup');
+      const timePickerPopup = node?.querySelector('ids-time-picker-popup');
       let menuAttachment = '.ids-data-grid-wrapper';
 
       // Slotted filter only
@@ -758,7 +764,6 @@ export default class IdsDataGridFilters {
         if (btn && !initial.btn) initial.btn = { value: btn.menuEl?.getSelectedValues()[0] };
 
         // Slotted attributes
-        dropdown?.setAttribute('size', 'full');
         setCompulsoryAttributes(input);
         setCompulsoryAttributes(dropdown);
         setCompulsoryAttributes(datePicker);
@@ -789,26 +794,59 @@ export default class IdsDataGridFilters {
 
       btn?.setAttribute('data-filter-conditions-button', '');
 
-      // Timepicker needs a different element to use for targeting outside clicks
-      // (normally it targets the body tag, but this causes usability issues when combined with data grid)
-      if (timePicker) {
-        timePicker.popupOpenEventsTarget = timePicker.closest('.ids-data-grid');
+      const dateOrTimePopup = datePickerPopup || timePickerPopup;
+      if (dateOrTimePopup) {
+        dateOrTimePopup.appendToTargetParent();
+        dateOrTimePopup.popupOpenEventsTarget = document.body;
+        dateOrTimePopup.onOutsideClick = (e: MouseEvent) => {
+          if (!e.composedPath().includes(dateOrTimePopup)) { dateOrTimePopup.hide(); }
+        };
+        dateOrTimePopup.setAttribute(attributes.TRIGGER_TYPE, 'click');
+        dateOrTimePopup.setAttribute(attributes.TARGET, `#${triggerField.getAttribute('id')}`);
+        dateOrTimePopup.setAttribute(attributes.TRIGGER_ELEM, `#${triggerBtn.getAttribute('id')}`);
+        dateOrTimePopup.popup.setAttribute(attributes.ARROW_TARGET, `#${triggerBtn.getAttribute('id')}`);
+        dateOrTimePopup.setAttribute(attributes.ATTACHMENT, menuAttachment);
+        dateOrTimePopup.refreshTriggerEvents();
       }
 
-      // Date picker adjust range settings
+      // Date Picker - Adjust range settings
       if (datePickerPopup) {
-        datePickerPopup.appendToTargetParent();
-        datePickerPopup.popupOpenEventsTarget = datePickerPopup.closest('.ids-data-grid-wrapper');
-        datePickerPopup.setAttribute(attributes.TRIGGER_TYPE, 'click');
-        datePickerPopup.setAttribute(attributes.TARGET, `#${triggerField.getAttribute('id')}`);
-        datePickerPopup.setAttribute(attributes.TRIGGER_ELEM, `#${triggerBtn.getAttribute('id')}`);
-        datePickerPopup.popup.setAttribute(attributes.ARROW_TARGET, `#${triggerBtn.getAttribute('id')}`);
-        datePickerPopup.setAttribute(attributes.ATTACHMENT, menuAttachment);
-        datePickerPopup.refreshTriggerEvents();
-
         const rangeSettings = column.filterOptions?.rangeSettings;
         if (rangeSettings) datePickerPopup.rangeSettings = rangeSettings;
         datePickerPopup.useRange = (btn?.menuEl?.getSelectedValues()[0] === 'in-range');
+      }
+
+      // Time Picker - Adjust format
+      if (timePickerPopup) {
+        const format = this.root.localeAPI?.calendar().timeFormat;
+        triggerField.format = format;
+        timePickerPopup.format = format;
+      }
+
+      // Dropdown/List settings
+      if (dropdown && dropdownList) {
+        dropdownList.configurePopup();
+        dropdownList.setAttribute('size', 'full');
+        dropdown.input.value = (dropdownList.selected || dropdownList.listBox?.children[0])?.textContent || '';
+        dropdownList.setAttribute(attributes.ATTACHMENT, menuAttachment);
+        dropdownList.appendToTargetParent();
+        dropdownList.popupOpenEventsTarget = document.body;
+        dropdownList.setAttribute(attributes.TRIGGER_TYPE, 'custom');
+        dropdownList.setAttribute(attributes.TARGET, `#${dropdown.getAttribute('id')}`);
+        dropdownList.setAttribute(attributes.TRIGGER_ELEM, `#${dropdown.getAttribute('id')}`);
+        dropdown.onEvent('click', dropdown, () => {
+          const popup = dropdownList.popup;
+          if (popup) {
+            if (!popup.visible) dropdownList.show();
+            else dropdownList.hide();
+          }
+        });
+        dropdownList.onOutsideClick = (e: MouseEvent) => {
+          if (!e.composedPath().includes(dropdownList)) {
+            dropdownList.hide();
+          }
+        };
+        dropdownList.refreshTriggerEvents();
       }
 
       // Integer type mask
@@ -836,12 +874,19 @@ export default class IdsDataGridFilters {
    * @returns {void}
    */
   attachFilterEventHandlers() {
-    // Captures menu contents for menu button selection.
+    // Captures selected contents from menu/dropdown list items.
     this.root.offEvent(`selected.${this.#id()}`, this.root.wrapper);
     this.root.onEvent(`selected.${this.#id()}`, this.root.wrapper, (e: any) => {
       const elem = e.detail?.elem;
-      if (!elem || (elem && !(/ids-menu-item/gi.test(elem.nodeName)))) return;
-      this.#handleMenuButtonSelected(elem);
+      if (!elem) return;
+
+      if (/ids-menu-item/gi.test(elem.nodeName)) {
+        this.#handleMenuButtonSelected(elem);
+      }
+
+      if (/ids-dropdown-list/gi.test(elem.nodeName)) {
+        e.target.value = e.detail.value;
+      }
     });
 
     // Change event for input, dropdown and multiselect
@@ -855,6 +900,12 @@ export default class IdsDataGridFilters {
 
     // Capture 'dayselected' events from IdsDatePickerPopup
     this.root.onEvent(`dayselected.${this.#id()}`, this.root.wrapper, (e: any) => {
+      e.target.value = e.detail.value;
+      this.applyFilter();
+    });
+
+    // Capture 'timeselected' events from IdsTimePickerPopup
+    this.root.onEvent(`timeselected.${this.#id()}`, this.root.wrapper, (e: any) => {
       e.target.value = e.detail.value;
       this.applyFilter();
     });
@@ -1125,6 +1176,7 @@ export default class IdsDataGridFilters {
         color-variant="${!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'}"
         label="${label}"
         label-state="collapsed"
+        list="#${id}-list"
         no-margins
         compact
         data-filter-type="${type}"
@@ -1132,8 +1184,10 @@ export default class IdsDataGridFilters {
         id="${id}"
         ${value}${disabled}${readonly}
       >
-        <ids-list-box>${items}</ids-list-box>
       </ids-dropdown>
+      <ids-dropdown-list id="${id}-list">
+        <ids-list-box>${items}</ids-list-box>
+      </ids-dropdown-list>
     `;
   }
 

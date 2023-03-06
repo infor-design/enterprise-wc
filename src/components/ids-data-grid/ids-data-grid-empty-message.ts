@@ -114,6 +114,8 @@ export function showEmptyMessage(this: IdsDataGrid): void {
     vs?.setAttribute('hidden', '');
     this.container?.style.setProperty('height', '');
   }
+
+  this.wrapper?.classList.add('has-empty-message');
 }
 
 /**
@@ -128,6 +130,7 @@ export function hideEmptyMessage(this: IdsDataGrid): void {
   em?.setAttribute('hidden', '');
   emDesc?.setAttribute('hidden', '');
   vs?.removeAttribute('hidden');
+  this.wrapper?.classList.remove('has-empty-message');
 }
 
 /**

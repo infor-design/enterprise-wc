@@ -53,6 +53,9 @@
   - link: columns-stretch.html
     type: Example
     description: Showing a stretch column
+  - link: combo-sort.html
+    type: Example
+    description: Shows combined data type sorting
   - link: contextmenu.html
     type: Example
     description: Shows a data grid with contextmenu
@@ -62,6 +65,12 @@
   - link: contextmenu-thru-data.html
     type: Example
     description: Shows a data grid with contextmenu thru data
+  - link: contextmenu-before-show.html
+    type: Example
+    description: Shows a data grid with contextmenu before show event
+  - link: contextmenu-overflow.html
+    type: Example
+    description: Shows a data grid with contextmenu handle overflow items
   - link: data-nested.html
     type: Example
     description: Showing nested data is supported
@@ -152,6 +161,12 @@
   - link: virtual-scroll.html
     type: Example
     description: Shows a basic data grid with virtual scrolling
+  - link: virtual-scroll-infinite-scroll.html
+    type: Example
+    description: Shows infinite-scrolling on a data grid with virtual scrolling
+  - link: infinite-scroll.html
+    type: Example
+    description: Shows infinite-scrolling on a data grid
   - link: tooltip.html
     type: Example
     description: Shows a data grid with tooltip

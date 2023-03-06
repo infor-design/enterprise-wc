@@ -22,6 +22,7 @@ const POPUP_INTERACTION_EVENT_NAMES = [
 ];
 
 export interface PopupInteractionsCallbacks {
+  onTargetChange?(oldTarget: IdsPopupElementRef, newTarget: IdsPopupElementRef): void;
   onTriggerClick?(e: Event): void;
   onContextMenu?(e: Event): void;
   onTriggerHover?(e: Event): void;
@@ -127,12 +128,15 @@ const IdsPopupInteractionsMixin = <T extends Constraints>(superclass: T) => clas
    */
   set target(val: IdsPopupElementRef | string) {
     if (this.popup && val !== this.popup.alignTarget) {
+      const previousTarget = this.popup.alignTarget;
       this.removeTriggerEvents();
       if (typeof val === 'string') {
         val = this.parentNode?.querySelector<HTMLElement>(val) || this.parentNode as HTMLElement;
       }
       this.popup.alignTarget = val;
       this.refreshTriggerEvents();
+
+      if (typeof this.onTargetChange === 'function') this.onTargetChange(previousTarget, val);
     }
   }
 
@@ -200,11 +204,6 @@ const IdsPopupInteractionsMixin = <T extends Constraints>(superclass: T) => clas
     // Based on the trigger type, bind new events
     switch (this.state.triggerType) {
       case 'click':
-      // Configure some settings for opening
-        this.popup.align = 'bottom, left';
-        this.popup.arrow = 'bottom';
-        this.popup.y = 8;
-
         // Announce Popup control with `aria-controls` on the target
         if (targetElem.id && !(targetElem instanceof Window)) {
           targetElem.setAttribute('aria-controls', `${this.id}`);

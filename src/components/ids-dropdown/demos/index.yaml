@@ -26,6 +26,9 @@
   - link: sandbox.html
     type: Sandbox
     description: Showing various dropdown states and scenarios
+  - link: separate-list.html
+    type: Test
+    description: Showing a separate IdsDropdownList component connected to an adjacent IdsDropdown
   - link: side-by-side.html
     type: Side by Side
     description: Showing a dropdown side by side with a 4.x dropdown

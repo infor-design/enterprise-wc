@@ -5,6 +5,8 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsCalendarEventsMixin from '../../mixins/ids-calendar-events-mixin/ids-calendar-events-mixin';
 import IdsDateAttributeMixin from '../../mixins/ids-date-attribute-mixin/ids-date-attribute-mixin';
 import { CalendarEventData, CalendarEventTypeData } from './ids-calendar-event';
+import '../ids-date-picker/ids-date-picker';
+import '../ids-date-picker/ids-month-year-picklist';
 import IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
 import IdsMonthView from '../ids-month-view/ids-month-view';
 import IdsWeekView from '../ids-week-view/ids-week-view';
@@ -17,6 +19,7 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import IdsPopup from '../ids-popup/ids-popup';
+
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import {
   dateDiff,
@@ -899,6 +902,16 @@ export default class IdsCalendar extends Base {
   relayCalendarData(): void {
     const viewElem = this.getView();
     const eventsData = this.#filterEventsByType(this.eventsData);
+
+    viewElem?.offEvent('beforeeventrendered');
+    viewElem?.onEvent('beforeeventrendered', viewElem, (e: Event) => {
+      this.triggerEvent('beforeeventrendered', this, { detail: (e as CustomEvent).detail });
+    });
+
+    viewElem?.offEvent('aftereventrendered');
+    viewElem?.onEvent('aftereventrendered', viewElem, (e: Event) => {
+      this.triggerEvent('aftereventrendered', this, { detail: (e as CustomEvent).detail });
+    });
 
     if (viewElem) {
       viewElem.eventsData = eventsData;

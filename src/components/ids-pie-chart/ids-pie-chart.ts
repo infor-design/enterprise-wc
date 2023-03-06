@@ -528,11 +528,6 @@ export default class IdsPieChart extends Base {
         this.#positionTooltip(tooltip, index);
       });
     });
-
-    // TODO: Find a way to work without initial visible call
-    // Issue first time popup arrow not align position
-    const tooltipPopup = tooltip?.popup;
-    if (tooltipPopup) tooltipPopup.visible = true;
   }
 
   /**
