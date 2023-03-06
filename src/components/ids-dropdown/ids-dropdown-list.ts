@@ -64,7 +64,6 @@ export default class IdsDropdownList extends Base {
     super.connectedCallback();
     this.configurePopup();
     this.attachEventHandlers();
-    this.attachKeyboardListeners();
   }
 
   disconnectedCallback() {
@@ -107,10 +106,6 @@ export default class IdsDropdownList extends Base {
     });
   }
 
-  private attachKeyboardListeners() {
-
-  }
-
   /**
    * Override `addOpenEvents` from IdsPopupOpenEventsMixin to include
    * appending of some keyboard handlers
@@ -142,16 +137,12 @@ export default class IdsDropdownList extends Base {
         if (next.hasAttribute(attributes.GROUP_LABEL) && !next.nextElementSibling) return;
         this.deselectOption(selected);
         this.selectOption(next.hasAttribute(attributes.GROUP_LABEL) ? next.nextElementSibling : next);
-
-        next.focus();
       }
 
       if (e.key === 'ArrowUp' && prev) {
         if (prev.hasAttribute(attributes.GROUP_LABEL) && !prev.previousElementSibling) return;
         this.deselectOption(selected);
         this.selectOption(prev.hasAttribute(attributes.GROUP_LABEL) ? prev.previousElementSibling : prev);
-
-        prev.focus();
       }
     });
 
@@ -291,10 +282,6 @@ export default class IdsDropdownList extends Base {
 
     if (selected && this.value) {
       this.selectOption(selected);
-
-      if (!this.typeahead) {
-        selected.focus();
-      }
     }
   }
 
@@ -416,14 +403,17 @@ export default class IdsDropdownList extends Base {
     } else {
       targetOption = option;
     }
+    if (!targetOption) return;
 
-    targetOption?.setAttribute('aria-selected', 'true');
-    targetOption?.classList.add('is-selected');
-    targetOption?.setAttribute('tabindex', '0');
+    targetOption.setAttribute('aria-selected', 'true');
+    targetOption.classList.add('is-selected');
+    targetOption.setAttribute('tabindex', '0');
 
-    if (targetOption?.id) {
+    if (targetOption.id) {
       this.listBox?.setAttribute('aria-activedescendant', targetOption.id);
     }
+
+    targetOption.scrollIntoView({ block: 'center' });
   }
 
   /**

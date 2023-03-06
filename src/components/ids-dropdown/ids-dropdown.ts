@@ -421,9 +421,7 @@ export default class IdsDropdown extends Base {
    */
   selectOption(option: IdsListBoxOption) {
     if (this.dropdownList) {
-      if (option?.value !== this.dropdownList.value) {
-        this.dropdownList.selectOption(option);
-      }
+      this.dropdownList.selectOption(option);
     }
   }
 
@@ -535,7 +533,7 @@ export default class IdsDropdown extends Base {
    * @param {boolean} shouldSelect whether or not the input text should be selected
    */
   async open(shouldSelect = false) {
-    if (this.disabled || this.readonly) {
+    if (!this.dropdownList || this.disabled || this.readonly) {
       return;
     }
 
@@ -548,6 +546,10 @@ export default class IdsDropdown extends Base {
       if (this.typeahead) {
         this.#optionsData = stuff;
       }
+    }
+
+    if (this.value) {
+      this.dropdownList.value = this.value;
     }
 
     // Open the Dropdown List
@@ -823,8 +825,6 @@ export default class IdsDropdown extends Base {
         if (next.hasAttribute(attributes.GROUP_LABEL) && !next.nextElementSibling) return;
         this.deselectOption(selected);
         this.selectOption(next.hasAttribute(attributes.GROUP_LABEL) ? next.nextElementSibling : next);
-
-        next.focus();
       }
 
       // Handles a case when the value is cleared
@@ -836,8 +836,6 @@ export default class IdsDropdown extends Base {
         if (prev.hasAttribute(attributes.GROUP_LABEL) && !prev.previousElementSibling) return;
         this.deselectOption(selected);
         this.selectOption(prev.hasAttribute(attributes.GROUP_LABEL) ? prev.previousElementSibling : prev);
-
-        prev.focus();
       }
     });
 
