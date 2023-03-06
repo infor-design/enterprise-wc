@@ -500,6 +500,10 @@ export default class IdsDropdown extends Base {
       };
       this.dropdownList.onTriggerClick = (e: Event) => {
         e.stopPropagation();
+        if (this.labelClicked) {
+          this.labelClicked = false;
+          return;
+        }
         if (!this.disabled && !this.readonly) {
           this.toggle(this.typeahead);
         }
@@ -662,6 +666,7 @@ export default class IdsDropdown extends Base {
     this.offEvent('click.dropdown-label');
     this.onEvent('click.dropdown-label', this.labelEl, (e: MouseEvent) => {
       e.preventDefault();
+      this.labelClicked = true;
       this.input?.focus();
     });
 
