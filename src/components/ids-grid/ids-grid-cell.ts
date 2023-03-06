@@ -7,12 +7,12 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsButton from '../ids-button/ids-button';
 
 import {
+  GRID_CELL_ATTRIBUTES,
   colSpanSizes,
   colStartSizes,
   colEndSizes,
   orderSizes,
   rowSpanSizes,
-  GRID_CELL_ATTRIBUTES,
   addClasses,
 } from './ids-grid-common';
 

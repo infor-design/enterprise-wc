@@ -24,82 +24,107 @@
       <ids-header>
         <ids-toolbar>
           <ids-toolbar-section type="title">
-            <ids-text font-size="20">Workspace Title</ids-text>
+            <ids-text font-size="20">My Header</ids-text>
+            <ids-text font-size="14">With some extra information below</ids-text>
           </ids-toolbar-section>
-          <ids-toolbar-section type="button">
-            <ids-theme-switcher mode="light"></ids-theme-switcher>
+          <ids-toolbar-section align="end">
+            <ids-search-field id="header-search" clearable [attr.color-variant]="'alternate'" [attr.label-state]="'collapsed'" no-margins></ids-search-field>
           </ids-toolbar-section>
         </ids-toolbar>
       </ids-header>
 
-      <div class="hero">
+      <section class="container-wide">
         <ids-grid
-          cols="2"
-          cols-xl="4"
-          cols-xxl="8"
-          min-col-width="172px"
-          max-col-width="172px"
+          auto-fit="true"
+          min-col-width="360px"
+          max-col-width="360px"
           flow="row-dense"
+          padding="md"
         >
-          <ids-grid-cell col-span="2" height="368px" fill></ids-grid-cell>
-          <ids-grid-cell col-span="2" height="368px">
-            <ids-grid cols="2">
-              <ids-grid-cell height="176px" fill></ids-grid-cell>
-              <ids-grid-cell height="176px" fill></ids-grid-cell>
-              <ids-grid-cell col-span="2" fill height="176px"></ids-grid-cell>
-            </ids-grid>
+          <ids-grid-cell>
+            <ids-card>
+              <div slot="card-header">
+                <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget Title 1</ids-text>
+              </div>
+              <div slot="card-content">
+              </div>
+            </ids-card>
           </ids-grid-cell>
-          <ids-grid-cell col-span="2" col-span-xl="4" min-height="368px" fill></ids-grid-cell>
+          <ids-grid-cell col-span="all" col-span-md="2">
+            <ids-card>
+              <div slot="card-header">
+                <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget Title 2</ids-text>
+              </div>
+              <div slot="card-content">
+              </div>
+            </ids-card>
+          </ids-grid-cell>
+          <ids-grid-cell>
+            <ids-card>
+              <div slot="card-header">
+                <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget Title 3</ids-text>
+              </div>
+              <div slot="card-content">
+              </div>
+            </ids-card>
+          </ids-grid-cell>
+          <ids-grid-cell row-span="2">
+            <ids-card auto-fit="true">
+              <div slot="card-header">
+                <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget Title 4</ids-text>
+              </div>
+              <div slot="card-content">
+              </div>
+            </ids-card>
+          </ids-grid-cell>
+          <ids-grid-cell col-span="all" col-span-md="2">
+            <ids-card>
+              <div slot="card-header">
+                <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget Title 5</ids-text>
+              </div>
+              <div slot="card-content">
+              </div>
+            </ids-card>
+          </ids-grid-cell>
+          <ids-grid-cell>
+            <ids-card>
+              <div slot="card-header">
+                <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget Title 6</ids-text>
+              </div>
+              <div slot="card-content">
+              </div>
+            </ids-card>
+          </ids-grid-cell>
+          <ids-grid-cell>
+            <ids-card>
+              <div slot="card-header">
+                <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget Title 7</ids-text>
+              </div>
+              <div slot="card-content">
+              </div>
+            </ids-card>
+          </ids-grid-cell>
+          <ids-grid-cell>
+            <ids-card>
+              <div slot="card-header">
+                <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget Title 8</ids-text>
+              </div>
+              <div slot="card-content">
+              </div>
+            </ids-card>
+          </ids-grid-cell>
+          <ids-grid-cell>
+            <ids-card>
+              <div slot="card-header">
+                <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget Title 9</ids-text>
+              </div>
+              <div slot="card-content">
+              </div>
+            </ids-card>
+          </ids-grid-cell>
         </ids-grid>
-      </div>
+      </section>
 
-      <div class="wrapper">
-        <ids-grid
-          cols="2"
-          cols-xl="4"
-          cols-xxl="8"
-          min-col-width="172px"
-          max-col-width="172px"
-          flow="row-dense"
-        >
-          <ids-grid-cell class="sticky" col-span="2" row-span="all" fill height="752px">
-            <span>sidebar</span>
-          </ids-grid-cell>
-          <ids-grid-cell col-span="2" col-span-xxl="6">
-            <ids-grid
-              cols="2"
-              cols-xxl="6"
-              min-col-width="172px"
-              max-col-width="172px"
-              flow="row-dense"
-            >
-              <ids-grid-cell col-span="2" col-span-xxl="6" height="176px" fill></ids-grid-cell>
-              <ids-grid-cell height="176px" fill></ids-grid-cell>
-              <ids-grid-cell height="176px" fill></ids-grid-cell>
-              <ids-grid-cell height="176px" fill></ids-grid-cell>
-              <ids-grid-cell height="176px" fill></ids-grid-cell>
-              <ids-grid-cell height="176px" fill></ids-grid-cell>
-              <ids-grid-cell height="176px" fill></ids-grid-cell>
-              <ids-grid-cell col-span="2" height="368px">
-                <ids-grid cols="2">
-                  <ids-grid-cell height="176px" fill></ids-grid-cell>
-                  <ids-grid-cell height="176px" fill></ids-grid-cell>
-                  <ids-grid-cell col-span="2" fill height="176px"></ids-grid-cell>
-                </ids-grid>
-              </ids-grid-cell>
-              <ids-grid-cell col-span="2" col-span-xxl="4" row-span="2" min-height="752px" fill></ids-grid-cell>
-              <ids-grid-cell col-span="2" height="368px">
-                <ids-grid cols="2">
-                  <ids-grid-cell height="176px" fill></ids-grid-cell>
-                  <ids-grid-cell height="176px" fill></ids-grid-cell>
-                  <ids-grid-cell col-span="2" fill height="176px"></ids-grid-cell>
-                </ids-grid>
-              </ids-grid-cell>
-              <ids-grid-cell col-span="2" col-span-xxl="6" height="176px" fill></ids-grid-cell>
-            </ids-grid>
-          </ids-grid-cell>
-        </ids-grid>
-      </div>
     </ids-container>
   </body>
 </html>

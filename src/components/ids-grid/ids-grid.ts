@@ -5,6 +5,7 @@ import styles from './ids-grid.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import {
+  GRID_ATTRIBUTES,
   GAP_TYPES,
   JUSTIFY_TYPES,
   FLOW_TYPES,
@@ -14,7 +15,6 @@ import {
   rowSizes,
   minMaxWidths,
   minMaxRowHeights,
-  GRID_ATTRIBUTES,
   addClasses,
   addStyleProperty
 } from './ids-grid-common';

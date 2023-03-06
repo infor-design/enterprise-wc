@@ -14,21 +14,15 @@
   - link: example-cards.html
     type: Card example
     description: Shows a grid w/cards
-  # - link: example-fluid-max.html
-  #   type: Main Example with fluid max-width
-  #   description: Shows a grid
-  # - link: example-workspace.html
-  #   type: Workspace Example
-  #   description: Shows a workspace grid
-  # - link: example-workspace-2.html
-  #   type: Workspace Example 2
-  #   description: Shows a workspace grid with sticky sidebar
-  # - link: example-fluid-resize.html
-  #   type: Workspace 12 column Fluid Example
-  #   description: Shows a fluid workspace grid
-  # - link: example-fluid-resize-16.html
-  #   type: Workspace 16 column Fluid Example
-  #   description: Shows a 16 column fluid workspace grid
+  - link: example-workspace.html
+    type: Workspace Example
+    description: Shows a masonry style grid
+  - link: example-workspace-2.html
+    type: Workspace Example
+    description: Shows a masonry style grid
+  - link: sticky.html
+    type: Workspace Example
+    description: Shows an example with a sticky grid cell
   - link: example-auto-fit.html
     type: Masonry Grid example
     description: Shows a auto-fit example

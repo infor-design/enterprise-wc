@@ -12,6 +12,11 @@
   margin: 0 auto;
 }
 
+.container-wide {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
 .sticky {
   position: sticky;
   top: 16px;
