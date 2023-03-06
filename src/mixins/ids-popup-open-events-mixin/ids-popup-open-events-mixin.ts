@@ -78,6 +78,14 @@ const IdsPopupOpenEventsMixin = <T extends Constraints>(superclass: T) => class 
     this.hasOpenEvents = false;
     this.#currentPopupOpenEventsTarget = null;
   }
+
+  /**
+   * Closes unrelated Popup components via the established document-level event handler
+   * @returns {void}
+   */
+  closeOtherPopups() {
+    document.body.dispatchEvent(new MouseEvent('click', { bubbles: true, button: 1 }));
+  }
 };
 
 export default IdsPopupOpenEventsMixin;

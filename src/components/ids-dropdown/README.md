@@ -2,7 +2,7 @@
 
 ## Description
 
-The Dropdown allows users to select from a list. Similar to an Html Select element but with with styling. Displays one or more selectable values in a menu that is collapsed by default. A user can select an actionable value.
+The Ids Dropdown allows users to select one of many options from a list, similar to using an HTML Select Element, with additional selection and filtering features. The dropdown displays one or more selectable values in a menu that is collapsed by default. A user can select an actionable value.
 
 ## Use Cases
 
@@ -12,12 +12,14 @@ The Dropdown allows users to select from a list. Similar to an Html Select eleme
 
 ## Terminology
 
-- **List Box**: The Ux element that holds the items in the dropdown
-- **List Box Option**: The dropdown options but contained in a list box
+- **Dropdown** The UX element that lives in the page and is actionable, activating the list
+- **Dropdown List** The UX element that contains and places the list within the page
+- **List Box**: The UX element that wraps the items in the dropdown
+- **List Box Option**: UX elements representing dropdown options, contained by the List Box
 
 ## Features (With Code Examples)
 
-For a normal tag used as a web component you should set an id and a value. The value should match one of the `ids-list-box-option` in the `ids-list-box`.
+Dropdown elements should be defined with `id` and `value` attributes. The value should match one of the `value` attributes contained by one of its `ids-list-box-option` elements.  When your application renders, the referenced value will cause the corresponding `ids-list-box-option` to appear selected:
 
 ```html
 <ids-dropdown id="dropdown-2" label="Readonly Dropdown" value="opt3">
@@ -32,35 +34,35 @@ For a normal tag used as a web component you should set an id and a value. The v
 </ids-dropdown>
 ```
 
-Its also possible to show icons in the dropdown list. To do this add an `ids-icon` and `span` to each list box `ids-list-box-option`. For symmetry icons should be on all options.
+It's also possible to show icons in the dropdown list. Add an `ids-icon` and `span` to each list box `ids-list-box-option`. For symmetry, icons should be on all options.
 
 ```html
 <ids-dropdown id="dropdown-5" label="Dropdown with Icons" value="opt2">
- <ids-list-box>
+  <ids-list-box>
     <ids-list-box-option value="opt1" id="opt1">
-        <ids-icon icon="user-profile"></ids-icon>
-        <span>Option One</span>
+      <ids-icon icon="user-profile"></ids-icon>
+      <span>Option One</span>
     </ids-list-box-option>
     <ids-list-box-option value="opt2" id="opt2">
-        <ids-icon icon="project"></ids-icon>
-        <span>Option Two</span>
+      <ids-icon icon="project"></ids-icon>
+      <span>Option Two</span>
     </ids-list-box-option>
     <ids-list-box-option value="opt3" id="opt3">
-        <ids-icon icon="purchasing"></ids-icon>
-        <span>Option Three</span>
+      <ids-icon icon="purchasing"></ids-icon>
+      <span>Option Three</span>
     </ids-list-box-option>
     <ids-list-box-option value="opt4" id="opt4">
-        <ids-icon icon="quality"></ids-icon>
-        <span>Option Four</span></ids-list-box-option>
+      <ids-icon icon="quality"></ids-icon>
+      <span>Option Four</span></ids-list-box-option>
     <ids-list-box-option value="opt5" id="opt5">
-        <ids-icon icon="rocket"></ids-icon>
-        <span>Option Five</span>
+      <ids-icon icon="rocket"></ids-icon>
+      <span>Option Five</span>
     </ids-list-box-option>
     <ids-list-box-option value="opt6" id="opt6">
-        <ids-icon icon="roles"></ids-icon>
-        <span>Option Six</span>
+      <ids-icon icon="roles"></ids-icon>
+      <span>Option Six</span>
     </ids-list-box-option>
- </ids-list-box>
+  </ids-list-box>
 </ids-dropdown>
 ```
 
@@ -128,6 +130,19 @@ For groups you should add `group-label` attribute to `ids-list-box-option` to in
 </ids-dropdown>
 ```
 
+In some situations, it may be preferrable to separate the IdsDropdownList element from its in-page parent element.  This can be done using the `list` attribute, and simply referencing the dropdown list by its `id` attribute.  This might be necessary for reasons such as breaking out of CSS stacking context.  Note that in this situation, it's necessary to also manually define the event handling and [Popup Interactions](../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin.ts) that cause the IdsDropdownList to activate, making this ideal for custom IdsDropdown configurations:
+
+```html
+<ids-dropdown id="dropdown-1" list="separate-list" label="Dropdown (list is adjacent)" value="blank" dirty-tracker="true" allow-blank="true"></ids-dropdown>
+<ids-dropdown-list id="separate-list">
+  <ids-list-box>
+    <ids-list-box-option value="blank" id="blank"><span></span></ids-list-box-option>
+    <ids-list-box-option value="opt1" id="opt1-d8"><span>Option One</span></ids-list-box-option>
+    <ids-list-box-option value="opt2" id="opt2-d8"><span>Option Two</span></ids-list-box-option>
+  </ids-list-box>
+</ids-dropdown-list>
+```
+
 ## Settings
 
 - `allowBlank` {boolean} Sets whether option list should include 'blank' option
@@ -140,6 +155,7 @@ For groups you should add `group-label` attribute to `ids-list-box-option` to in
 - `language` {string} Sets the language for RTL and inner labels
 - `labelRequired` {boolean} Sets the validation required indicator on label text, it's default to `true`
 - `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
+- `list` {string} ID selector used to reference/connect to an external IdsDropdownList component (used in some scenarios like IdsDataGrid filters)
 - `maxlength` {number | string} Maximum characters allowed in textarea
 - `noMargins` {boolean} sets whether or not no-margins around the component.
 - `placeholder` {string} Sets the placeholder text

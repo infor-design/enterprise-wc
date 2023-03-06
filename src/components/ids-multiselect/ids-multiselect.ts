@@ -10,7 +10,7 @@ import '../ids-text/ids-text';
 
 import styles from './ids-multiselect.scss';
 
-import type { IdsDropdownOption, IdsDropdownOptions } from '../ids-dropdown/ids-dropdown';
+import type { IdsDropdownOption, IdsDropdownOptions } from '../ids-dropdown/ids-dropdown-common';
 import type IdsTag from '../ids-tag/ids-tag';
 import type IdsIcon from '../ids-icon/ids-icon';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
@@ -137,7 +137,7 @@ class IdsMultiselect extends IdsDropdown {
       return;
     }
     value.forEach((selectedValue: string) => {
-      const existingOption = this.querySelector(`ids-list-box-option[value="${selectedValue}"]`);
+      const existingOption = this.dropdownList?.listBox?.querySelector(`ids-list-box-option[value="${selectedValue}"]`);
       if (!existingOption) {
         matched = false;
       }
@@ -177,36 +177,27 @@ class IdsMultiselect extends IdsDropdown {
    */
   attachClickEvent() {
     this.offEvent('click.multiselect-list-box');
-    this.onEvent('click.multiselect-list-box', this.listBox, (e: any) => {
-      e.preventDefault();
-      const option = e.target.nodeName === 'IDS-LIST-BOX-OPTION'
-        || e.target.closest('ids-list-box-option')
-        ? e.target.closest('ids-list-box-option') ?? e.target
-        : null;
-      this.#optionChecked(option);
-    });
+    if (this.dropdownList) {
+      this.onEvent('click.multiselect-list-box', this.dropdownList.listBox, (e: any) => {
+        e.preventDefault();
+        const option = e.target.nodeName === 'IDS-LIST-BOX-OPTION'
+          || e.target.closest('ids-list-box-option')
+          ? e.target.closest('ids-list-box-option') ?? e.target
+          : null;
+        this.#optionChecked(option);
+      });
+    }
 
     this.offEvent('click.multiselect-input');
-    this.onEvent('click.multiselect-input', this.input?.fieldContainer, (e: any) => {
-      // Don't open/close popup on tag removal
-      if (!e.target?.closest('ids-tag')) {
-        this.toggle();
-      }
-    });
-
-    // Should not open if clicked on label
-    this.offEvent('click.multiselect-label');
-    this.onEvent('click.multiselect-label', this.labelEl, (e: MouseEvent) => {
-      e.preventDefault();
-      this.input?.focus();
-    });
-
-    this.offEvent('click.multiselect-trigger');
-    this.onEvent('click.multiselect-trigger', this.trigger, (e: MouseEvent) => {
-      e.stopPropagation();
-
-      this.toggle();
-    });
+    if (!this.list) {
+      this.onEvent('click.multiselect-input', this.input?.fieldContainer, (e: MouseEvent) => {
+        // Don't open/close popup on tag removal
+        const target = (e.target as IdsTag);
+        if (!target?.closest('ids-tag') && !this.dropdownList?.visible) {
+          this.dropdownList?.onTriggerClick?.(e);
+        }
+      });
+    }
 
     if (this.tags) {
       this.offEvent('beforetagremove.multiselect-tag');
@@ -245,13 +236,11 @@ class IdsMultiselect extends IdsDropdown {
     }
 
     this.setAttribute('aria-expanded', 'false');
-    this.listBox?.removeAttribute('tabindex');
+    this.dropdownList?.listBox?.removeAttribute('tabindex');
 
     if (this.selected) {
       this.deselectOption(this.selected);
     }
-
-    this.removeOpenEvents();
 
     if (!noFocus) {
       this.input?.focus();
@@ -353,7 +342,7 @@ class IdsMultiselect extends IdsDropdown {
    * Render dropdown list with selected options on top
    */
   #updateList() {
-    if (!this.listBox) return;
+    if (!this.dropdownList?.listBox) return;
 
     const selected = this.#optionsData.filter((item: IdsDropdownOption) => this.#selectedList.includes(item.value))
       .map((item: IdsDropdownOption) => ({
@@ -368,7 +357,7 @@ class IdsMultiselect extends IdsDropdown {
       }))
       .sort((first, second) => (first.index as number) - (second.index as number));
 
-    this.listBox.innerHTML = '';
+    this.dropdownList.listBox.innerHTML = '';
 
     const html = [...selected, ...options]
       // Exclude empty groups
@@ -379,7 +368,7 @@ class IdsMultiselect extends IdsDropdown {
       })
       .map((option: IdsDropdownOption) => this.#templatelistBoxOption(option))
       .join('');
-    this.listBox.insertAdjacentHTML('afterbegin', html);
+    this.dropdownList.listBox.insertAdjacentHTML('afterbegin', html);
   }
 
   /**

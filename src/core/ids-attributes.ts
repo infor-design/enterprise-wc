@@ -212,6 +212,7 @@ export const attributes = {
   LINEAR: 'linear',
   LINK: 'link',
   LINK_TEXT: 'link-text',
+  LIST: 'list',
   LIST_STYLE: 'list-style',
   LOADED: 'loaded',
   LOCALE: 'locale',
