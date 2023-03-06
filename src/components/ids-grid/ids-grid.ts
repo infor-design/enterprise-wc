@@ -309,7 +309,7 @@ export default class IdsGrid extends IdsElement {
 
   /**
    * Set the margin attribute
-   * @param {string | null} value The value of the margin attribute
+   * @param {string | null} value The value of the margin [null, 'sm', 'md', 'lg', 'xl']
    */
   set margin(value: string | null) {
     if (!value || MARGIN_SIZES.indexOf(value as any) <= 0) {
