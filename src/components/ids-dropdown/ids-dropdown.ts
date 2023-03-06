@@ -484,7 +484,7 @@ export default class IdsDropdown extends Base {
   }
 
   /**
-   *
+   * Configures the Dropdown component's attached IdsDropdownList/IdsPopup
    */
   configurePopup() {
     if (this.dropdownList?.popup && this.trigger) {
