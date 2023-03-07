@@ -13,97 +13,86 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 ## Attributes
 
 ### IdsLayoutGrid
-- AutoFit
-- AutoFill
-- Cols
-- ColsXs
-- ColsSm
-- ColsMd
-- ColsLg
-- ColsXl
-- ColsXxl
-- Rows
-- RowsXs
-- RowsSm
-- RowsMd
-- RowsLg
-- RowsXl
-- RowsXxl
-- RowHeight
-- MinColWidth
-- MaxColWidth
-- MinRowHeight
-- MaxRowHeight
-- Gap
-- Margin
-- Padding
-- PaddingX
-- PaddingY
-- JustifyContent
-- Flow
+- **AutoFit**: Automatically adjust the width or height of a cell, row, or column to fit its contents.
+- **AutoFill**: Automatically fill a range of cells with a pattern or sequence.
+- **Cols**: Specifies the number of columns in the grid.
+- **ColsXs**: Specifies the number of columns to use on extra small screens.
+- **ColsSm**: Specifies the number of columns to use on small screens.
+- **ColsMd**: Specifies the number of columns to use on medium screens.
+- **ColsLg**: Specifies the number of columns to use on large screens.
+- **ColsXl**: Specifies the number of columns to use on extra large screens.
+- **ColsXxl**: Specifies the number of columns to use on extra-extra large screens.
+- **Rows**: Specifies the number of rows in the grid.
+- **RowsXs**: Specifies the number of rows to use on extra small screens.
+- **RowsSm**: Specifies the number of rows to use on small screens.
+- **RowsMd**: Specifies the number of rows to use on medium screens.
+- **RowsLg**: Specifies the number of rows to use on large screens.
+- **RowsXl**: Specifies the number of rows to use on extra large screens.
+- **RowsXxl**: Specifies the number of rows to use on extra-extra large screens.
+- **RowHeight**: Specifies the height of a row in the grid.
+- **MinColWidth**: Specifies the minimum width of a column in a grid.
+- **MaxColWidth**: Specifies the maximum width of a column in a grid.
+- **MinRowHeight**: Specifies the minimum height of a row in a grid.
+- **MaxRowHeight**: Specifies the maximum height of a row in a grid.
+- **Gap**: Specifies the size of the gap between cells in a grid.
+- **Margin**: Specifies the amount of space between a grid and its outer border.
+- **Padding**: Specifies the amount of space between a grid content and its inner border.
+- **PaddingX**: Specifies the amount of horizontal space between a grid content and its inner border.
+- **PaddingY**: Specifies the amount of vertical space between a grid and its inner border.
+- **JustifyContent**: Specifies how to align the items in a grid along the main axis.
+- **Flow**: Specifies how the items in a grid should wrap or overflow when there isn't enough space.
+
 
 ### IdsLayoutGridCell
-- ColSpan
-- ColSpanXs
-- ColSpanSm
-- ColSpanMd
-- ColSpanLg
-- ColSpanXl
-- ColSpanXxl
-- ColStart
-- ColStartXs
-- ColStartSm
-- ColStartMd
-- ColStartLg
-- ColStartXl
-- ColStartXxl
-- ColEnd
-- ColEndXs
-- ColEndSm
-- ColEndMd
-- ColEndLg
-- ColEndXl
-- ColEndXxl
-- Editable
-- Fill
-- Height
-- MinHeight
-- Order
-- OrderXs
-- OrderSm
-- OrderMd
-- OrderLg
-- OrderXl
-- OrderXxl
-- RowSpan
-- RowSpanXs
-- RowSpanSm
-- RowSpanMd
-- RowSpanLg
-- RowSpanXl
-- RowSpanXxl
-- Sticky
-- StickyPosition
+- **ColSpan**: Specifies the number of columns a cell should span in a grid.
+- **ColSpanXs**: Specifies the number of columns a cell should span on extra small screens.
+- **ColSpanSm**: Specifies the number of columns a cell should span on small screens.
+- **ColSpanMd**: Specifies the number of columns a cell should span on medium screens.
+- **ColSpanLg**: Specifies the number of columns a cell should span on large screens.
+- **ColSpanXl**: Specifies the number of columns a cell should span on extra large screens.
+- **ColSpanXxl**: Specifies the number of columns a cell should span on extra-extra large screens.
+- **ColStart**: Specifies the starting column for a cell in a grid.
+- **ColStartXs**: Specifies the starting column for a cell on extra small screens.
+- **ColStartSm**: Specifies the starting column for a cell on small screens.
+- **ColStartMd**: Specifies the starting column for a cell on medium screens.
+- **ColStartLg**: Specifies the starting column for a cell on large screens.
+- **ColStartXl**: Specifies the starting column for a cell on extra large screens.
+- **ColStartXxl**: Specifies the starting column for a cell on extra-extra large screens.
+- **ColEnd**: Specifies the ending column for a cell in a grid.
+- **ColEndXs**: Specifies the ending column for a cell on extra small screens.
+- **ColEndSm**: Specifies the ending column for a cell on small screens.
+- **ColEndMd**: Specifies the ending column for a cell on medium screens.
+- **ColEndLg**: Specifies the ending column for a cell on large screens.
+- **ColEndXl**: Specifies the ending column for a cell on extra large screens.
+- **ColEndXxl**: Specifies the ending column for a cell on extra-extra large screens.
+- **Editable**: Specifies whether the content of an element can be edited by the user.
+- **Fill**: Specifies whether an element should fill the available space in its container.
+- **Height**: Specifies the height of an element.
+- **MinHeight**: Specifies the minimum height of an element.
+- **Order**: Specifies the order in which an element should appear in a container.
+- **OrderXs**: Specifies the order in which an element should appear on extra small screens.
+- **OrderSm**: Specifies the order in which an element should appear on small screens.
+- **OrderMd**: Specifies the order in which an element should appear on medium screens.
+- **OrderLg**: Specifies the order in which an element should appear on large screens.
+- **OrderXl**: Specifies the order in which an element should appear on extra large screens.
+- **OrderXxl**: Specifies the order in which an element should appear on extra-extra large screens.
+- **RowSpan**: Specifies the number of rows a cell should span in a grid.
+- **RowSpanXs**: Specifies the number of rows a cell should span on extra small screens.
+- **RowSpanSm**: Specifies the number of rows a cell should span on small screens.
+- **RowSpanMd**: Specifies the number of rows a cell should span on medium screens.
+- **RowSpanLg**: Specifies the number of rows a cell should span on large screens.
+- **RowSpanXl**: Specifies the number of rows a cell should span on extra large screens.
+- **RowSpanXxl**: Specifies the number of rows a cell should span on extra-extra large screens.
+- **Sticky**: Specifies whether an element should be "stuck" to a viewport
 
-## Terminology
+## Responsive Breakpoints
 
-- **Grid**: In our case a grid is the container that holds a grid and has the `display: grid` property set on it. We refer to this as `ids-layout-grid`.
-- **GridCell** Any direct child of a grid container, we refer to this as `ids-layout-grid-cell`.
-- **Cols** These are the vertical columns of the grid, also referred to as tracks.
-- **Rows** The horizontal tracks of the grid.
-- **MinColWidth** This sets the minimum col width in the grid.
-- **MaxColWidth** This sets the minimum col width in the grid.
-- **Breakpoints**:
-
-```html
-XXL: 1440px
-XL: 1280px
-L: 1024px
-M: 840px
-S: 600px
-XS: 360px
-```
-
+- **XS**: 360px
+- **S**: 600px
+- **MD**: 840px
+- **LG**: 1024px
+- **XL**: 1280px
+- **XXL**: 1440px
 ## Features (With Code Examples)
 
 For AutoFit layout the grid cells have a min/max value of 100px and 1fr respectively. The cells will take up as much space as is available until they reach the threshold of the MinColWidth, then they will automatically shift until they reach that threshold again. This removes the need for media queries in many cases.
