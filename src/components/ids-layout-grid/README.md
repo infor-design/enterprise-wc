@@ -12,7 +12,7 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 
 ## Attributes
 
-IdsLayoutGrid
+### IdsLayoutGrid
 - AutoFit
 - AutoFill
 - Cols
@@ -42,7 +42,7 @@ IdsLayoutGrid
 - JustifyContent
 - Flow
 
-IdsLayoutGridCell
+### IdsLayoutGridCell
 - ColSpan
 - ColSpanXs
 - ColSpanSm
