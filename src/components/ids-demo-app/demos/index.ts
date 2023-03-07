@@ -31,7 +31,6 @@ import errorPageYaml from '../../ids-error-page/demos/index.yaml';
 import expandableAreaYaml from '../../ids-expandable-area/demos/index.yaml';
 import fieldsetYaml from '../../ids-fieldset/demos/index.yaml';
 import formYaml from '../../ids-form/demos/index.yaml';
-import grid from '../../ids-grid/demos/index.yaml';
 import headerYaml from '../../ids-header/demos/index.yaml';
 import hiddenYaml from '../../ids-hidden/demos/index.yaml';
 import hierarchyYaml from '../../ids-hierarchy/demos/index.yaml';
@@ -147,7 +146,6 @@ addYaml(errorPageYaml);
 addYaml(expandableAreaYaml);
 addYaml(fieldsetYaml);
 addYaml(formYaml);
-addYaml(grid);
 addYaml(headerYaml);
 addYaml(hiddenYaml);
 addYaml(hierarchyYaml);
@@ -217,7 +215,7 @@ addYaml(weekViewYaml);
 let html = '';
 categories.forEach((category: any) => {
   html += `<ids-text type="h1" font-size="24">${category.name}</ids-text>
-  <ids-layout-grid auto="true"><ids-layout-grid-cell><ids-block-grid align="center">`;
+  <ids-layout-grid auto-fit="true" justify-content="start"><ids-layout-grid-cell><ids-block-grid align="center">`;
   category.components.forEach((component: any) => {
     html += `<ids-block-grid-item><ids-card actionable="true" height="100" href="/${component.link}" target="_self"><div slot="card-content">
     <ids-text type="h2" font-size="16" font-weight="bold" color="slate-100">${component.component}</ids-text>

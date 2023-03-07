@@ -51,6 +51,16 @@ if (dataGrid) {
       name: 'Description',
       field: 'description',
       sortable: true,
+      width: 180,
+      editor: {
+        type: 'input',
+        editorSettings: {
+          autoselect: true,
+          dirtyTracker: true,
+          validate: 'required'
+        }
+      },
+      filterType: dataGrid.filters.text,
       formatter: dataGrid.formatters.text
     });
     columns.push({
@@ -128,24 +138,6 @@ if (dataGrid) {
       field: 'methodSwitch',
       formatter: dataGrid.formatters.text
     });
-    columns.push({
-      id: 'trackDeprecationHistory',
-      name: 'Track Deprecation History',
-      field: 'trackDeprecationHistory',
-      formatter: dataGrid.formatters.dropdown
-    });
-    columns.push({
-      id: 'useForEmployee',
-      name: 'Use For Employee',
-      field: 'useForEmployee',
-      formatter: dataGrid.formatters.password
-    });
-    columns.push({
-      id: 'deprecationHistory',
-      name: 'Deprecation History',
-      field: 'deprecationHistory',
-      formatter: dataGrid.formatters.text
-    });
 
     dataGrid.columns = columns;
     const setData = async () => {
@@ -160,16 +152,7 @@ if (dataGrid) {
       dataGrid.headerMenuData = headerMenuData;
 
       dataGrid.addEventListener('beforemenushow', (e: any) => {
-        console.info('before contextmenu show', e.detail);
-        // e.detail.response(false);
-      });
-
-      dataGrid.addEventListener('menushow', (e: any) => {
-        console.info('After contextmenu show', e.detail);
-      });
-
-      dataGrid.addEventListener('menuselected', (e: any) => {
-        console.info('contextmenu item selected', e.detail);
+        console.info('Contextmenu Type:', e.detail?.data?.type);
       });
     };
 

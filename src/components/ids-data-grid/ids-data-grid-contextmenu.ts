@@ -48,12 +48,11 @@ export type IdsDataGridContextmenuSelected = HTMLElementEvent<HTMLElement[]> & {
 
 /**
  * Get context menu element
- * @private
  * @param {IdsDataGrid} this The data grid object.
  * @param {boolean} isHeader menu for header vs body.
  * @returns {IdsPopupMenu|undefined} The menu element.
  */
-function getContextmenuElem(this: IdsDataGrid, isHeader = false): IdsPopupMenu | undefined {
+export function getContextmenuElem(this: IdsDataGrid, isHeader = false): IdsPopupMenu | undefined {
   const slotName = isHeader ? 'header-contextmenu' : 'contextmenu';
   const id = isHeader ? this.headerMenuId : this.menuId;
   const data = isHeader ? this.headerMenuData : this.menuData;
@@ -77,7 +76,6 @@ function getContextmenuElem(this: IdsDataGrid, isHeader = false): IdsPopupMenu |
  * @returns {void}
  */
 function setContextmenuCompulsoryAttributes(menu?: IdsPopupMenu): void {
-  menu?.popup?.setAttribute('arrow', 'bottom');
   menu?.popup?.setAttribute('align', 'top, left');
   menu?.setAttribute('data-contextmenu-element', '');
 }
@@ -86,21 +84,47 @@ function setContextmenuCompulsoryAttributes(menu?: IdsPopupMenu): void {
  * Show contextmenu.
  * @private
  * @param {IdsDataGrid} this The data grid object.
+ * @param {HTMLElementEvent<HTMLElement[]>} e The contextmenu event.
  * @returns {void}
  */
-function showContextmenu(this: IdsDataGrid): boolean {
-  const { menu: menuEl, target, callbackArgs } = this.contextMenuInfo;
+function showContextmenu(this: IdsDataGrid, e: any): boolean {
+  const { menu: menuEl, target, callbackArgs } = this.contextmenuInfo;
   let isShow = false;
   if (menuEl && target && callbackArgs) {
     const args = { ...callbackArgs, menuEl };
+    const isHeaderMenu = callbackArgs.type === 'header';
+
+    // Trigger before menu show event
+    this.isDynamicContextmenu = true;
     if (!this.triggerVetoableEvent('beforemenushow', args)) {
+      this.isDynamicContextmenu = false;
       return isShow;
     }
-    menuEl.target = target;
-    if (callbackArgs.type === 'header') (menuEl.popup as any).y = 10;
+
+    // Adjust dynamicly changed context menu data
+    if (!this.isDynamicContextmenu) {
+      menuEl.data = isHeaderMenu ? this.headerMenuData : this.menuData;
+      menuEl.popup?.setAttribute('align', 'top, left');
+    }
+    this.isDynamicContextmenu = false;
+
+    // Adjust menu
+    menuEl.popup?.setPosition?.(e.clientX, e.clientY, false, true);
+
     menuEl.show();
     isShow = true;
-    this.triggerEvent('menushow', this, { bubbles: true, detail: args });
+
+    // Adjust overflow menu items
+    const menuHeight = menuEl.popup?.offsetHeight ?? 0;
+    const wrapperHeight = this.wrapper?.offsetHeight ?? 0;
+    if (wrapperHeight > 0 && menuHeight > wrapperHeight) {
+      menuEl.popup?.setAttribute('max-height', `${wrapperHeight}px`);
+      menuEl.popup?.place();
+    }
+
+    this.triggerEvent('menushow', this, {
+      bubbles: true, detail: { elem: this, data: args }
+    });
   }
   return isShow;
 }
@@ -114,6 +138,7 @@ function showContextmenu(this: IdsDataGrid): boolean {
  * @returns {void}
  */
 function contextmenuBodyCellArgs(this: IdsDataGrid, path: HTMLElement[], cellEl: HTMLElement): IdsDataGridContextmenuArgs {
+  const isEditing = !!(findInPath(path, '.is-editing') as HTMLElement);
   const rowIndex = stringToNumber(findInPath(path, '[role="row"]')?.getAttribute('data-index'));
   const columnIndex = stringToNumber(cellEl.getAttribute('aria-colindex')) - 1;
   const rowData = this.data[rowIndex];
@@ -123,7 +148,7 @@ function contextmenuBodyCellArgs(this: IdsDataGrid, path: HTMLElement[], cellEl:
 
   // The arguments to pass along callback
   return {
-    type: 'body-cell',
+    type: isEditing ? this.contextmenuTypes.BODY_CELL_EDITOR : this.contextmenuTypes.BODY_CELL,
     rowData,
     rowIndex,
     columnData,
@@ -138,17 +163,30 @@ function contextmenuBodyCellArgs(this: IdsDataGrid, path: HTMLElement[], cellEl:
  * Get header callback arguments.
  * @private
  * @param {IdsDataGrid} this The data grid object.
+ * @param  {HTMLElement[]} path List of path element.
  * @param  {HTMLElement} columnheader The column header element.
  * @returns {void}
  */
-function contextmenuHeaderArgs(this: IdsDataGrid, columnheader: HTMLElement): IdsDataGridContextmenuArgs {
+function contextmenuHeaderArgs(
+  this: IdsDataGrid,
+  path: HTMLElement[],
+  columnheader: HTMLElement
+): IdsDataGridContextmenuArgs {
+  const filterWrapper = findInPath(path, '.ids-data-grid-header-cell-filter-wrapper') as HTMLElement;
+  const isHeaderIcon = !!(findInPath(path, '.ids-data-grid-header-icon') as HTMLElement);
   const isHeaderGroup = columnheader.hasAttribute('column-group-id');
+
+  // Set type
+  const types = this.contextmenuTypes;
+  let type = types.HEADER_TITLE;
+  if (isHeaderIcon) type = types.HEADER_ICON;
+  else if (filterWrapper) {
+    const filterButton = findInPath(path, '[data-filter-conditions-button]') as HTMLElement;
+    type = filterButton ? types.HEADER_FILTER_BUTTON : types.HEADER_FILTER;
+  }
+
   // The arguments to pass along callback
-  let callbackArgs: IdsDataGridContextmenuArgs = {
-    type: 'header',
-    isHeaderGroup,
-    grid: this
-  };
+  let callbackArgs: IdsDataGridContextmenuArgs = { type, isHeaderGroup, grid: this };
   if (isHeaderGroup) {
     // Header (Group)
     const columnGroupId = columnheader.getAttribute('column-group-id') as string;
@@ -194,7 +232,7 @@ function handleContextmenu(
   const path = eventPath(e);
   if (menu?.visible) menu?.hide();
   if (headerMenu?.visible) headerMenu?.hide();
-  this.contextMenuInfo = {};
+  this.contextmenuInfo = {};
 
   let args: { menu?: IdsPopupMenu, target?: HTMLElement, callbackArgs?: IdsDataGridContextmenuArgs } = {};
   const columnheader = findInPath(path, '[role="columnheader"]');
@@ -204,13 +242,13 @@ function handleContextmenu(
     const callbackArgs = contextmenuBodyCellArgs.apply(this, [path, cellEl]);
     args = { menu, target: cellEl, callbackArgs };
   } else if (columnheader && headerMenu) {
-    const callbackArgs = contextmenuHeaderArgs.apply(this, [columnheader]);
+    const callbackArgs = contextmenuHeaderArgs.apply(this, [path, columnheader]);
     args = { menu: headerMenu, target: columnheader, callbackArgs };
   }
 
-  this.contextMenuInfo = { ...args };
+  this.contextmenuInfo = { ...args };
 
-  if (showContextmenu.apply(this)) e.preventDefault();
+  if (showContextmenu.apply(this, [e])) e.preventDefault();
 }
 
 /**
@@ -227,11 +265,14 @@ function handleContextmenuSelectedItem(
   menuEl?: IdsPopupMenu,
 ): void {
   if (menuEl) {
-    const args: IdsDataGridContextmenuArgs = {
-      ...this.contextMenuInfo.callbackArgs,
-      menuSelectedEvent: e,
-      menuSelectedValue: e?.detail?.value,
-      menuEl
+    const args = {
+      data: {
+        ...this.contextmenuInfo.callbackArgs,
+        menuSelectedEvent: e,
+        menuSelectedValue: e?.detail?.value,
+        menuEl
+      },
+      elem: this
     };
     this.triggerEvent('menuselected', this, { bubbles: true, detail: args });
   }
@@ -243,7 +284,7 @@ function handleContextmenuSelectedItem(
  * @returns {void}
  */
 export function setContextmenu(this: IdsDataGrid) {
-  this.contextMenuInfo = {};
+  this.contextmenuInfo = {};
   const menu: IdsPopupMenu | undefined = getContextmenuElem.apply(this);
   const headerMenu: IdsPopupMenu | undefined = getContextmenuElem.apply(this, [true]);
 

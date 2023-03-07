@@ -106,35 +106,40 @@
 }
 
 // Dropdown menu width
-:host ids-popup {
+:host ids-dropdown-list {
   max-width: $input-size-md;
 }
 
-:host([size='xs']) ids-popup {
+:host([size='xs']) ids-dropdown-list {
   max-width: $input-size-xs;
 }
 
-:host([size='sm']) ids-popup {
+:host([size='sm']) ids-dropdown-list {
   max-width: $input-size-sm;
 }
 
-:host([size='mm']) ids-popup {
+:host([size='mm']) ids-dropdown-list {
   max-width: $input-size-mm;
 }
 
-:host([size='md']) ids-popup {
+:host([size='md']) ids-dropdown-list {
   max-width: $input-size-md;
 }
 
-:host([size='lg']) ids-popup {
+:host([size='lg']) ids-dropdown-list {
   max-width: $input-size-lg;
 }
 
-:host([size='full']) ids-popup {
+:host([size='full']) ids-dropdown-list {
   max-width: $input-size-full;
 }
 
-:host ids-popup,
+:host ids-dropdown-list,
 :host([size='full']) {
   @include w-full();
+}
+
+// Change state for external dropdown list
+:host([list]:not([disabled])) {
+  cursor: pointer;
 }

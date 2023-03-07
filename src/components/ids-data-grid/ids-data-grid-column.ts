@@ -1,3 +1,4 @@
+import type IdsDataGrid from './ids-data-grid';
 import { IdsDataGridEditor } from './ids-data-grid-editors';
 
 export interface IdsDataGridColumnFormatOptions {
@@ -93,6 +94,10 @@ export interface IdsDataGridColumn {
   field?: string;
   /** The subsitute text to use (for hyperlink and some formatters) */
   text?: string;
+  /** Max value of a range */
+  max?: number;
+  /** Mininum value of a range */
+  min?: number;
   /** Allow column sorting */
   sortable?: boolean;
   /** Allow column resizing */
@@ -108,15 +113,17 @@ export interface IdsDataGridColumn {
   /** Hide a column to be shown later */
   hidden?: boolean;
   /** Column Formatter Function */
-  formatter?: (rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: any) => string;
+  formatter?: (rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid) => string;
   /** Set the column to checked or unchecked (filtering) */
   isChecked?: (value: boolean) => boolean;
   /** Enable Href / Link Columns */
   href?: string | ((rowData: Record<string, unknown>, columnData: IdsDataGridColumn) => string);
   /** Fires for clickable formatters (like button) */
-  click?: string | ((rowData: Record<string, unknown>, columnData: IdsDataGridColumn, event: MouseEvent) => void);
+  click?: (rowData: Record<string, unknown>, columnData: IdsDataGridColumn, event: MouseEvent) => void;
   /** Get the color dynamically from a function or as text */
   color?: string | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
+  /** Get the size dynamically from a function or as text */
+  size?: string | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
   /** Options to pass to the formatter */
   formatOptions?: IdsDataGridColumnFormatOptions;
   /** Column Filter to use */
@@ -204,7 +211,7 @@ export interface IdsDataGridColumn {
   cellSelectedCssPart?: string | ((rowIndex: number, cellIndex: number) => string);
   /** Setup an editor */
   editor?: {
-    type: 'input' | 'date' | 'time' | 'checkbox' | 'dropdown',
+    type: 'input' | 'date' | 'time' | 'checkbox' | 'dropdown' | 'datepicker' | 'timepicker',
     inline?: boolean,
     editor?: IdsDataGridEditor,
     editorSettings?: Record<string, unknown>

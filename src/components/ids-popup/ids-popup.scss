@@ -36,6 +36,11 @@
 .ids-popup {
   @include antialiased();
 
+  &.has-maxheight {
+    max-height: var(--ids-popup-maxheight);
+    overflow: auto;
+  }
+
   // Positions the arrow correctly
   position: relative;
 

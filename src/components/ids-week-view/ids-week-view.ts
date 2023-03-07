@@ -59,7 +59,7 @@ const Base = IdsThemeMixin(
 export default class IdsWeekView extends Base {
   dayMap: DayMapData[] = [];
 
-  vetoableEventTypes = ['beforeweekrender'];
+  vetoableEventTypes = ['beforeweekrendered'];
 
   ro: ResizeObserver | null = null;
 
@@ -192,7 +192,7 @@ export default class IdsWeekView extends Base {
       return;
     }
 
-    const canRender = this.triggerVetoableEvent('beforeweekrender');
+    const canRender = this.triggerVetoableEvent('beforeweekrendered');
 
     if (!canRender) return;
 
@@ -295,7 +295,7 @@ export default class IdsWeekView extends Base {
     this.container.insertAdjacentHTML('beforeend', weekTemplate);
 
     this.state.hasRendered = true;
-    this.triggerEvent('afterweekrender', this);
+    this.triggerEvent('afterweekrendered', this);
 
     // Create day map
     this.container.querySelectorAll('th').forEach((elem: HTMLTableCellElement) => {
@@ -569,7 +569,29 @@ export default class IdsWeekView extends Base {
       });
     }
 
+    this.triggerEvent('beforeeventrendered', this, {
+      detail:
+        {
+          elem: this,
+          events: this.eventsData,
+          event: calendarEvent,
+          dateCell: calendarEvent,
+          container: containerWrapper
+        },
+      bubbles: true
+    });
     containerWrapper?.appendChild(<any>calendarEvent);
+    this.triggerEvent('aftereventrendered', this, {
+      detail:
+      {
+        elem: this,
+        events: this.eventsData,
+        event: calendarEvent,
+        dateCell: calendarEvent,
+        container: containerWrapper
+      },
+      bubbles: true
+    });
   }
 
   /**
@@ -596,7 +618,29 @@ export default class IdsWeekView extends Base {
         });
     }
 
+    this.triggerEvent('beforeeventrendered', this, {
+      detail:
+      {
+        elem: this,
+        events: this.eventsData,
+        event: calendarEvent,
+        dateCell: calendarEvent,
+        container
+      },
+      bubbles: true
+    });
     container.appendChild(<any>calendarEvent);
+    this.triggerEvent('beforeeventrendered', this, {
+      detail:
+      {
+        elem: this,
+        events: this.eventsData,
+        event: calendarEvent,
+        dateCell: calendarEvent,
+        container
+      },
+      bubbles: true
+    });
   }
 
   /**

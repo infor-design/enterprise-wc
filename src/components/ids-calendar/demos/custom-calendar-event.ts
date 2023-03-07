@@ -3,7 +3,6 @@ import styles from './custom-calendar-event.scss';
 import { customElement, scss } from '../../../core/ids-decorators';
 
 interface CustomCalendarEventTypeData extends CalendarEventTypeData {
-  noOfAttributes?: number;
   attrs?: [];
 }
 
@@ -14,7 +13,7 @@ export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
 
   eventTypesJson: CustomCalendarEventTypeData[] | any = [];
 
-  eventPillHeight = '20px'; // Default height for 1 line event pill
+  eventPillHeight = '18px'; // Default height for 1 line event pill
 
   constructor() {
     super();
@@ -29,6 +28,9 @@ export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
     if (this.container) {
       this.container.style.height = this.eventPillHeight;
     }
+
+    // overrides the day cell date text position
+    document.documentElement.style.setProperty('--ids-month-view-day-text-top', '2px');
   }
 
   template(): string {
@@ -54,7 +56,7 @@ export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
     const icon = this.eventData.icon ? `<ids-icon class='calendar-event-icon' icon='${this.eventData.icon}' height='12' width='12'></ids-icon>` : '';
     this.eventTypesJson.push(this.eventTypeData);
 
-    if (this.eventTypesJson) {
+    if (this.eventTypesJson && this.eventTypeData) {
       const eventPillsAttr = this.eventTypesJson.filter((item: any) => item.id === this.eventData?.type);
       if (eventPillsAttr.length > 0 && eventPillsAttr[0].attrs) {
         if (eventPillsAttr[0].id === 'dto' || eventPillsAttr[0].id === 'admin' || eventPillsAttr[0].id === 'sick') {

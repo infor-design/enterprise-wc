@@ -113,24 +113,6 @@ if (dataGrid) {
       field: 'methodSwitch',
       formatter: dataGrid.formatters.text
     });
-    columns.push({
-      id: 'trackDeprecationHistory',
-      name: 'Track Deprecation History',
-      field: 'trackDeprecationHistory',
-      formatter: dataGrid.formatters.dropdown
-    });
-    columns.push({
-      id: 'useForEmployee',
-      name: 'Use For Employee',
-      field: 'useForEmployee',
-      formatter: dataGrid.formatters.password
-    });
-    columns.push({
-      id: 'deprecationHistory',
-      name: 'Deprecation History',
-      field: 'deprecationHistory',
-      formatter: dataGrid.formatters.text
-    });
 
     dataGrid.columns = columns;
     const setData = async () => {

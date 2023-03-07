@@ -1,12 +1,13 @@
 import IdsGrid from '../../src/components/ids-grid/ids-grid';
 // import IdsGridCell from '../../src/components/ids-grid/ids-grid-cell';
 
-describe('IdsLayoutGrid Component', () => {
-  let gridElem: IdsGrid;
+describe('IdsGrid Component', () => {
+  let gridElem: any;
 
   beforeEach(() => {
-    gridElem = new IdsGrid();
-    document.body.appendChild(gridElem);
+    const grid: any = new IdsGrid();
+    document.body.appendChild(grid);
+    gridElem = document.querySelector('ids-grid');
   });
 
   afterEach(() => {

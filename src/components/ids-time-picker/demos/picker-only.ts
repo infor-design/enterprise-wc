@@ -58,8 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
     demoIdsContainer.insertAdjacentHTML('beforeend', pickerHTML);
 
     const picker = document.querySelector<any>('ids-time-picker-popup')!;
-    picker.align = 'left, top';
-    picker.arrow = 'bottom';
+    if (picker.popup) {
+      picker.popup.align = 'bottom, left';
+      picker.popup.arrow = 'bottom';
+      picker.popup.x = 0;
+      picker.popup.y = 12;
+    }
 
     // Fix onOutsideClick to consider clicking on trigger buttons
     picker.onOutsideClick = (e: Event) => {
@@ -86,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (data) {
       if (picker) {
         if (picker.popup) {
-          picker.popup.align = 'left, top';
+          picker.popup.align = 'bottom, left';
           picker.popup.arrow = 'bottom';
           picker.popup.arrowTarget = `#${btnId}`;
         }
@@ -118,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (picker.popup) {
         picker.popup.arrow = 'bottom';
         picker.popup.arrowTarget = `#${btnId}`;
-        picker.popup.align = 'left, top';
+        picker.popup.align = 'bottom, left';
         if (!picker.popup.visible) {
           picker.show();
         } else if (picker.target !== currentTarget) {

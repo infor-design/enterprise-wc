@@ -19,6 +19,8 @@ export const GRID_ATTRIBUTES: string[] = [
   attributes.MAX_ROW_HEIGHT,
   attributes.MIN_ROW_HEIGHT,
   attributes.PADDING,
+  attributes.PADDING_X,
+  attributes.PADDING_Y,
   attributes.ROW_HEIGHT,
   attributes.ROWS,
   attributes.ROWS_XS,

@@ -62,6 +62,14 @@
   }
 }
 
+:host-context(ids-data-grid-cell) {
+  .ids-tag {
+    @include mb-0();
+
+    display: inline;
+  }
+}
+
 :host([disabled]) {
   ::slotted(ids-icon) {
     @include text-slate-50();

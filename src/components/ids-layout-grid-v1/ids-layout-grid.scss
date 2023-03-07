@@ -1,0 +1,372 @@
+/* Ids Layout Grid Component */
+@import '../../core/ids-base';
+
+$grid-cols-xl: 16;
+$grid-cols-lg: 12;
+$grid-cols-md: 8;
+$grid-cols-sm: 4;
+
+// Style the grid
+:host,
+.ids-layout-grid {
+  --grid-cols: 16;
+  --grid-col-span: 0;
+  --grid-col-start: 0;
+  --grid-col-end: 0;
+  --grid-rows: 0;
+  --grid-row-span: 0;
+  --grid-row-start: 0;
+  --grid-row-end: 0;
+  --grid-spacing-unit: 8px;
+  --grid-fill-color: #efeff0;
+  --grid-min-col-width: 100px;
+  --grid-max-col-width: 1fr;
+
+  @include mx-16();
+  @include my-16();
+
+  display: grid;
+  grid-auto-flow: row;
+}
+
+// Remove Margins
+:host(.ids-layout-grid-no-margins),
+.ids-layout-grid.ids-layout-grid-no-margins {
+  margin: 0;
+}
+
+// Auto Layout
+:host(.ids-layout-grid-auto),
+.ids-layout-grid.ids-layout-grid-auto {
+  grid-template-columns: repeat(auto-fit, minmax(var(--grid-min-col-width), var(--grid-max-col-width)));
+}
+
+// Grid Columns
+:host(.ids-layout-grid-cols) {
+  grid-template-columns: repeat(var(--grid-cols), minmax(var(--grid-min-col-width), var(--grid-max-col-width)));
+
+  // Tablet down go to auto layout
+  @media all and (max-width: $breakpoint-md) {
+    grid-template-columns: repeat(auto-fit, minmax(calc(var(--grid-min-col-width) * 2), 1fr));
+  }
+}
+
+// Grid Column Span
+:host(:not(.ids-layout-fluid-grid)) ::slotted(ids-layout-grid-cell),
+::slotted(.ids-layout-grid-span) {
+  grid-column: span var(--grid-col-span) / span var(--grid-col-span);
+
+  // Tablet down go to auto layout
+  @media all and (max-width: $breakpoint-md) {
+    grid-column: auto;
+  }
+}
+
+// Grid Column Start
+::slotted(.ids-layout-col-start) {
+  grid-column-start: var(--grid-col-start);
+}
+
+// Grid Column End
+::slotted(.ids-layout-grid-col-end),
+.ids-layout-grid > .ids-layout-grid-col-end {
+  grid-column-end: var(--grid-col-end);
+}
+
+// Grid Gap
+:host(.ids-layout-grid-gap-none),
+.ids-layout-grid.ids-layout-grid-gap-none {
+  grid-gap: 0;
+}
+
+:host(.ids-layout-grid-gap-sm),
+.ids-layout-grid.ids-layout-grid-gap-sm {
+  grid-gap: var(--grid-spacing-unit);
+}
+
+:host(.ids-layout-grid-gap-md),
+.ids-layout-grid.ids-layout-grid-gap-md {
+  grid-gap: calc(var(--grid-spacing-unit) * 2);
+}
+
+:host(.ids-layout-grid-gap-lg),
+.ids-layout-grid.ids-layout-grid-gap-lg {
+  grid-gap: calc(var(--grid-spacing-unit) * 3);
+}
+
+:host(.ids-layout-grid-gap-xl),
+.ids-layout-grid.ids-layout-grid-gap-xl {
+  grid-gap: calc(var(--grid-spacing-unit) * 4);
+}
+
+// Grid Rows
+:host(.ids-layout-grid-rows) {
+  grid-template-rows: repeat(var(--grid-rows), minmax(var(--grid-min-col-width), 1fr));
+}
+
+// Grid Row Span
+::slotted(.ids-layout-grid-row-span) {
+  grid-row: span var(--grid-row-span) / span var(--grid-row-span);
+}
+
+// Grid Row Start
+::slotted(.ids-layout-grid-row-start) {
+  grid-row-start: var(--grid-row-start);
+}
+
+// Grid Row End
+::slotted(.ids-layout-grid-row-end) {
+  grid-row-end: var(--grid-row-end);
+}
+
+// Add Optional Background Fill
+::slotted(.ids-background-fill),
+.ids-layout-grid > .ids-background-fill {
+  @include py-40();
+  @include px-16();
+
+  background-color: var(--grid-fill-color);
+}
+
+// Grid Flow
+:host(.ids-grid-flow-row),
+.ids-layout-grid.ids-grid-flow-row {
+  grid-auto-flow: row;
+}
+
+:host(.ids-grid-flow-col),
+.ids-layout-grid.ids-grid-flow-col {
+  grid-auto-flow: column;
+}
+
+:host(.ids-grid-flow-row-dense),
+.ids-layout-grid.ids-grid-flow-row-dense {
+  grid-auto-flow: row dense;
+}
+
+:host(.ids-grid-flow-col-dense),
+.ids-layout-grid.ids-grid-flow-col-dense {
+  grid-auto-flow: column dense;
+}
+
+// Grid - Standalone CSS Classes
+@for $i from 1 through 16 {
+  // Grid Columns
+  .ids-layout-grid.ids-layout-grid-cols-#{$i} {
+    grid-template-columns: repeat($i, minmax(calc(var(--grid-min-col-width) * 2), 1fr));
+
+    // Tablet down go to auto layout
+    @media all and (max-width: $breakpoint-md) {
+      grid-template-columns: repeat(auto-fill, minmax(calc(var(--grid-min-col-width) * 2), 1fr));
+    }
+  }
+
+  // Grid Column Span
+  .ids-layout-grid > .ids-layout-grid-col-span-#{$i} {
+    grid-column: auto / span $i;
+
+    // Tablet down go to auto layout
+    @media all and (max-width: $breakpoint-md) {
+      grid-column: auto;
+    }
+  }
+
+  // Grid Column Start
+  .ids-layout-grid > .ids-layout-grid-col-start-#{$i} {
+    grid-column-start: $i;
+  }
+
+  // Grid Column End
+  .ids-layout-grid > .ids-layout-grid-col-end-#{$i} {
+    grid-column-end: $i;
+  }
+
+  // Grid Rows
+  .ids-layout-grid.ids-layout-grid-rows-#{$i} {
+    grid-template-rows: repeat($i, minmax(var(--grid-min-col-width), 1fr));
+  }
+
+  // Grid Row Span
+  .ids-layout-grid > .ids-layout-grid-row-span-#{$i} {
+    grid-row: span $i / span $i;
+  }
+
+  // Grid Row Start
+  .ids-layout-grid > .ids-layout-grid-row-start-#{$i} {
+    grid-row-start: $i;
+  }
+
+  // Grid Row End
+  .ids-layout-grid > .ids-layout-grid-row-end-#{$i} {
+    grid-row-end: $i;
+  }
+}
+
+/**
+  12 column grid system
+*/
+:host(.ids-layout-fluid-grid),
+.ids-layout-grid.ids-layout-fluid-grid {
+  --grid-cols: 0;
+  --grid-gap: 24px;
+
+  @media (min-width: $breakpoint-xs) {
+    --grid-cols: 4;
+  }
+
+  @media (min-width: $breakpoint-sm) {
+    --grid-cols: 8;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    --grid-cols: 12;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    --grid-cols: 12;
+  }
+
+  &.ids-layout-fluid-grid-xl {
+    @media (min-width: $breakpoint-xl) {
+      --grid-cols: 16;
+    }
+  }
+
+  grid-gap: var(--grid-gap);
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+}
+
+:host(.ids-layout-fluid-grid.ids-layout-fluid-grid-xl),
+.ids-layout-fluid-grid.ids-layout-fluid-grid-xl {
+  @media (min-width: $breakpoint-xl) {
+    --grid-cols: 16;
+    --grid-gap: 24px;
+  }
+}
+
+@for $i from 1 through $grid-cols-xl {
+  :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-#{$i}),
+  .ids-layout-fluid-grid > .ids-layout-grid-col-span-#{$i} {
+    width: auto;
+    grid-column-end: span $i;
+  }
+}
+
+/**
+  Grid - XSmall and up
+*/
+@media (min-width: $breakpoint-xs) {
+  @for $i from 1 through $grid-cols-sm {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-xs-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-xs-#{$i} {
+      width: auto;
+      grid-column-end: span $i;
+    }
+  }
+
+  // Reset columns greater than sm to full width
+  @for $i from $grid-cols-sm through $grid-cols-xl {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-xs-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-xs-#{$i} {
+      width: auto;
+      grid-column-end: span $grid-cols-sm;
+    }
+  }
+}
+
+/**
+  Grid - Small and up
+*/
+@media (min-width: $breakpoint-sm) {
+  @for $i from 1 through $grid-cols-md {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-sm-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-sm-#{$i} {
+      width: auto;
+      grid-column-end: span $i;
+    }
+  }
+
+  // Reset columns greater than sm to full width
+  @for $i from $grid-cols-md through $grid-cols-xl {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-sm-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-sm-#{$i} {
+      width: auto;
+      grid-column-end: span $grid-cols-md;
+    }
+  }
+}
+
+/**
+  Grid - Medium and up
+*/
+@media (min-width: $breakpoint-md) {
+  @for $i from 1 through $grid-cols-lg {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-md-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-md-#{$i} {
+      width: auto;
+      grid-column-end: span $i;
+    }
+  }
+}
+
+/**
+  Grid - Large and up
+*/
+@media (min-width: $breakpoint-lg) {
+  @for $i from 1 through $grid-cols-lg {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-lg-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-lg-#{$i} {
+      width: auto;
+      grid-column-end: span $i;
+    }
+  }
+}
+
+/**
+  Grid - XLarge and up
+*/
+@media (min-width: $breakpoint-xl) {
+  @for $i from 1 through $grid-cols-xl {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-xl-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-xl-#{$i} {
+      width: auto;
+      grid-column-end: span $i;
+    }
+  }
+}
+
+:host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-cell-order),
+:host(.ids-layout-grid-cols) ::slotted(.ids-layout-grid-cell-order),
+:host(.ids-layout-grid-auto) ::slotted(.ids-layout-grid-cell-order) {
+  --grid-order: unset;
+
+  order: var(--grid-order);
+}
+
+:host(.ids-layout-fluid-grid.ids-layout-grid-auto-flow),
+:host(.ids-layout-grid-auto.ids-layout-grid-auto-flow),
+:host(.ids-layout-grid-cols.ids-layout-grid-auto-flow) {
+  --grid-auto-flow: unset;
+
+  grid-auto-flow: var(--grid-auto-flow);
+}
+
+:host(.ids-layout-fluid-grid.ids-layout-grid-auto-rows),
+:host(.ids-layout-grid-auto.ids-layout-grid-auto-rows),
+:host(.ids-layout-grid-cols.ids-layout-grid-auto-rows) {
+  --grid-auto-rows: unset;
+
+  grid-auto-rows: var(--grid-auto-rows);
+}
+
+:host(.ids-layout-fluid-grid.ids-layout-grid-justify-content),
+:host(.ids-layout-grid-auto.ids-layout-grid-justify-content),
+:host(.ids-layout-grid-cols.ids-layout-grid-justify-content) {
+  --grid-justify-content: unset;
+
+  justify-content: var(--grid-justify-content);
+}
+
+:host(:not(.ids-layout-fluid-grid)) ::slotted(ids-layout-grid-cell.ids-layout-grid-col-span-full) {
+  grid-column: 1 / -1;
+}

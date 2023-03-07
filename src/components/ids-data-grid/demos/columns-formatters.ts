@@ -1,19 +1,23 @@
 import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
+import type IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
+import type IdsMenuItem from '../../ids-menu/ids-menu-item';
 import { escapeHTML } from '../../../utils/ids-xss-utils/ids-xss-utils';
 import booksJSON from '../../../assets/data/books.json';
 import css from '../../../assets/css/ids-data-grid/custom-link.css';
-import { addIcon } from '../../ids-icon/ids-icon';
+import IdsIcon from '../../ids-icon/ids-icon';
 
-// Add custom icon
-addIcon('custom-cargoship', '<path transform="translate(-0.12 -4.69)" d="m17.54 12.23-1.42 1H3.1l-2-2.6h16.42ZM3.32 8.85h2.74V7H3.32Zm4.78 0h2.74V7H8.1Zm8.56 1.62V5.19h-3.4v5.21"></path>');
+// Add custom icons
+import customIconJSON from '../../ids-icon/demos/custom-icon-data.json';
 
+// Load Static Css
 const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-formatters')!;
+const rowHeightMenu = document.querySelector<IdsPopupMenu>('#row-height-menu')!;
 
 if (dataGrid) {
   (async function init() {
@@ -110,6 +114,39 @@ if (dataGrid) {
       width: 200
     });
     columns.push({
+      id: 'count-progress',
+      name: 'Progress Bar',
+      field: 'count',
+      sortable: true,
+      formatter: dataGrid.formatters.progress,
+      width: 200,
+      resizable: true,
+      color: '#4caf50',
+      text: 'Your Progess'
+    });
+    columns.push({
+      id: 'count-rating',
+      name: 'Rating',
+      field: 'count',
+      align: 'center',
+      sortable: true,
+      resizable: true,
+      formatter: dataGrid.formatters.rating,
+      width: 200,
+      color: 'azure06',
+      max: 5,
+    });
+    columns.push({
+      id: 'count-step-chart',
+      name: 'Step Chart',
+      field: 'count',
+      sortable: true,
+      formatter: dataGrid.formatters.stepChart,
+      width: 200,
+      resizable: true,
+      color: 'azure06',
+    });
+    columns.push({
       id: 'inStock',
       name: 'Checkbox',
       field: 'inStock',
@@ -119,13 +156,87 @@ if (dataGrid) {
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101
     });
     columns.push({
+      id: 'inStock-favorite',
+      name: 'Favorite',
+      field: 'inStock',
+      align: 'center',
+      sortable: true,
+      size: 'large',
+      formatter: dataGrid.formatters.favorite,
+    });
+    columns.push({
       id: 'badge',
       name: 'Badge',
       field: 'price',
+      align: 'center',
       color: 'info',
       sortable: true,
+      resizable: true,
+      width: 100,
       formatter: dataGrid.formatters.badge,
-      width: 75
+    });
+    columns.push({
+      id: 'category-tag',
+      name: 'Tag',
+      field: 'category',
+      align: 'center',
+      sortable: true,
+      resizable: true,
+      width: 200,
+      color: 'success',
+      formatter: dataGrid.formatters.tag,
+      cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
+    });
+    columns.push({
+      id: 'category-alert',
+      name: 'Alert',
+      field: 'category',
+      align: 'center',
+      sortable: true,
+      resizable: true,
+      formatter: dataGrid.formatters.alert,
+      color: 'info',
+      cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
+    });
+    columns.push({
+      id: 'color',
+      name: 'Color',
+      field: 'color',
+      align: 'center',
+      sortable: true,
+      resizable: true,
+      formatter: dataGrid.formatters.color,
+    });
+    columns.push({
+      id: 'icon',
+      name: 'Icon',
+      field: 'icon',
+      align: 'center',
+      sortable: true,
+      resizable: true,
+      formatter: dataGrid.formatters.icon,
+      color: 'success',
+    });
+    columns.push({
+      id: 'icon-text',
+      name: 'Custom Icon',
+      field: 'icon',
+      width: 200,
+      align: 'left',
+      sortable: true,
+      resizable: true,
+      formatter: dataGrid.formatters.icon,
+      icon: 'user-profile',
+    });
+    columns.push({
+      id: 'image',
+      name: 'Image',
+      field: 'image',
+      align: 'center',
+      sortable: true,
+      resizable: true,
+      text: 'Image Alt Text',
+      formatter: dataGrid.formatters.image,
     });
     columns.push({
       id: 'more',
@@ -175,7 +286,7 @@ if (dataGrid) {
       sortable: false,
       resizable: false,
       formatter: dataGrid.formatters.button,
-      icon: 'custom-cargoship',
+      icon: 'custom-cargo-ship',
       type: 'icon',
       align: 'center',
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
@@ -193,10 +304,21 @@ if (dataGrid) {
     });
 
     dataGrid.columns = columns;
+
+    // Change row height with popup menu
+    rowHeightMenu?.addEventListener('selected', (e: Event) => {
+      dataGrid.rowHeight = (e.target as IdsMenuItem).value as string;
+    });
+
     const setData = async () => {
       const res = await fetch(url);
       const data = await res.json();
       dataGrid.data = data;
+
+      const iconUrl: any = customIconJSON;
+      const iconRes = await fetch(iconUrl);
+      const customIconData = await iconRes.json();
+      IdsIcon.customIconData = customIconData;
     };
 
     setData();

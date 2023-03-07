@@ -4,6 +4,7 @@ export const attributes = {
   ACTIONABLE: 'actionable',
   ACTIVE: 'active',
   ACTION: 'action',
+  ADD_NEW_AT_END: 'add-new-at-end',
   ADVANCED: 'advanced',
   ALIGN: 'align',
   ALIGN_CONTENT: 'align-content',
@@ -231,6 +232,7 @@ export const attributes = {
   LINEAR: 'linear',
   LINK: 'link',
   LINK_TEXT: 'link-text',
+  LIST: 'list',
   LIST_STYLE: 'list-style',
   LOADED: 'loaded',
   LOCALE: 'locale',
@@ -247,6 +249,7 @@ export const attributes = {
   MAX_FILES: 'max-files',
   MAX_FILES_IN_PROCESS: 'max-files-in-process',
   MAX_FILE_SIZE: 'max-file-size',
+  MAX_HEIGHT: 'max-height',
   MAX_ROW_HEIGHT: 'max-row-height',
   MAX_TRANSFORM_X: 'max-transform-x',
   MAX_TRANSFORM_Y: 'max-transform-y',
@@ -291,6 +294,8 @@ export const attributes = {
   OVERFLOW: 'overflow',
   OVERFLOWED: 'overflowed',
   PADDING: 'padding',
+  PADDING_X: 'padding-x',
+  PADDING_Y: 'padding-y',
   PAGE_COUNT: 'page-count',
   PAGE_NUMBER: 'page-number',
   PAGE_SIZE: 'page-size',
@@ -507,7 +512,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.6';
+export const version = '1.0.0-beta.7';
 
 export enum IdsDirection {
   Up = 'up',

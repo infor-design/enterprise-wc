@@ -42,7 +42,6 @@ import './ids-image/ids-image';
 import './ids-input/ids-input';
 import './ids-layout-flex/ids-layout-flex';
 import './ids-layout-grid/ids-layout-grid';
-import './ids-grid/ids-grid';
 import './ids-line-chart/ids-line-chart';
 import './ids-list-box/ids-list-box';
 import './ids-list-builder/ids-list-builder';
