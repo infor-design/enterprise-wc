@@ -220,3 +220,19 @@ svg.linear-indicator.indeterminate .progress {
     transform: scaleX(0%) translateX(0);
   }
 }
+
+:host([size='sm']:not([linear]):not([sticky]):not([inline])) {
+  &,
+  &::part(container) {
+    width: 18px;
+    height: 18px;
+  }
+
+  &::part(overall) {
+    stroke-width: 14;
+  }
+
+  &::part(progress) {
+    stroke-width: 18;
+  }
+}

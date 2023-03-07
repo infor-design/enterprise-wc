@@ -4,13 +4,24 @@
  @import '../../core/ids-base';
 
 :host(:not([show-loading-indicator='true'])) {
-  ::slotted(.loading-indicator) {
+  ::slotted(.slot-loading-indicator),
+  ::slotted(ids-loading-indicator) {
     display: none;
   }
 }
 
 :host([show-loading-indicator='true']) {
-  ::slotted(*:not(.loading-indicator)) {
+  ::slotted(*:not(.slot-loading-indicator)),
+  ::slotted(*:not(ids-loading-indicator)) {
     visibility: hidden;
   }
+
+  ::slotted(ids-loading-indicator) {
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+}
+
+:host(ids-button) {
+
 }

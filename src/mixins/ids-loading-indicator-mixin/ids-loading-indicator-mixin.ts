@@ -47,7 +47,7 @@ const IdsLoadingIndicatorMixin = <T extends IdsBaseConstructor>(superclass: T) =
   #addClasses() {
     const slot = this.container?.querySelector<HTMLSlotElement>('slot[name="loading-indicator"]');
     slot?.assignedNodes()?.forEach((item: any) => {
-      item.classList.add('loading-indicator');
+      item.classList.add('slot-loading-indicator');
     });
   }
 };
