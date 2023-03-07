@@ -773,21 +773,7 @@ export default class IdsDropdown extends Base {
   private attachOpenEvents() {
     this.unlisten(' ');
     this.unlisten('Enter');
-    if (!this.#isMultiSelect) {
-      // Select or Open on space/enter
-      this.listen([' ', 'Enter'], this, () => {
-        if (!this.dropdownList?.popup?.visible) return;
-        if (this.openedByKeyboard) {
-          this.openedByKeyboard = false;
-          return;
-        }
-
-        const value = this.selected?.getAttribute(attributes.VALUE) || '';
-        this.value = value;
-        this.closedByKeyboard = true;
-        this.close();
-      });
-    }
+    this.attachKeyboardSelectionEvent();
 
     // Select on Tab
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
@@ -803,6 +789,28 @@ export default class IdsDropdown extends Base {
       this.value = selected?.getAttribute(attributes.VALUE) || '';
       this.close(true);
     });
+  }
+
+  /**
+   * Establish selection event for keyboard interactions.
+   * Overrides a similiar method from IdsDropdown for Multiselect-specific behavior.
+   */
+  attachKeyboardSelectionEvent() {
+    if (!this.#isMultiSelect) {
+      // Select or Open on space/enter
+      this.listen([' ', 'Enter'], this, () => {
+        if (!this.dropdownList?.popup?.visible) return;
+        if (this.openedByKeyboard) {
+          this.openedByKeyboard = false;
+          return;
+        }
+
+        const value = this.selected?.getAttribute(attributes.VALUE) || '';
+        this.value = value;
+        this.closedByKeyboard = true;
+        this.close();
+      });
+    }
   }
 
   private removeOpenEvents() {
