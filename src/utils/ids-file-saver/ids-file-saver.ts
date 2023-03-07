@@ -1,4 +1,9 @@
-export function saveAs(blob: any, name: string) {
+/**
+ * Download blob as file
+ * @param {Blob} blob data
+ * @param {string} name filename
+ */
+export function saveAs(blob: Blob, name: string) {
   const a = document.createElement('a');
   name = name || blob.name || 'download';
   a.download = name;

@@ -1,31 +1,11 @@
-import { saveAs } from '../ids-file-saver/ids-file-saver';
-import { CONTENT_TYPES, ExcelColumn, ExcelConfig, RELS, STYLES_XML, WORKBOOK_XML, WORKBOOK_XML_REL, WORKSHEET_TEMPLATE, XLSXColumn } from './ids-worksheet-templates';
-import { IdsZip } from './ids-zip/ids-zip';
+import { ExcelColumn, WORKSHEET_TEMPLATE, XLSXColumn } from './ids-worksheet-templates';
 
 const VALID_TYPES = ['string', 'number'];
 
 const CELL_PADDING = 2;
 
-export class XLXExporter {
-  private root: IdsZip | null = null;
-
+export class XLSXFormatter {
   private columns: Array<XLSXColumn> = [];
-
-  constructor() {
-    this.root = new IdsZip();
-  }
-
-  public exportToExcel(data: Array<Record<string, any>>, config: ExcelConfig) {
-    this.root!.file('xl/workbook.xml', WORKBOOK_XML);
-    this.root!.file('xl/_rels/workbook.xml.rels', WORKBOOK_XML_REL);
-    this.root!.file('xl/styles.xml', STYLES_XML);
-    this.root!.file('_rels/.rels', RELS);
-    this.root!.file('[Content_Types].xml', CONTENT_TYPES);
-    this.root!.file('xl/worksheets/sheet1.xml', this.generateWorksheet(data, config.columns));
-
-    const zipFile = this.root!.zip('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    saveAs(zipFile, `${config.filename || 'worksheet'}.xlsx`);
-  }
 
   /**
    * Generate worksheet xml string from data
@@ -33,7 +13,7 @@ export class XLXExporter {
    * @param {Array<ExcelColumn>} columnConfig column configuration
    * @returns {string} xlsx formatted worksheet string
    */
-  private generateWorksheet(data: Array<Record<string, any>>, columnConfig?: Array<ExcelColumn>): string {
+  public generateWorksheet(data: Array<Record<string, any>>, columnConfig?: Array<ExcelColumn>): string {
     this.prepareColumnConfig(columnConfig);
     const dataHeader = this.generateHeaderRow(this.columns);
     const dataBody = this.generateRows(data);
@@ -179,6 +159,5 @@ export class XLXExporter {
    */
   public destroy(): void {
     this.columns = [];
-    this.root = null;
   }
 }

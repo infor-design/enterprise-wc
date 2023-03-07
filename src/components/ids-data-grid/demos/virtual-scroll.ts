@@ -99,8 +99,3 @@ dataGrid.addEventListener('scrollstart', async (e: Event) => {
 dataGrid.addEventListener('scrollend', async (e: Event) => {
   console.info(`Virtual Scroll reached end`, (<CustomEvent>e).detail);
 });
-
-const exportBtn = document.body.querySelector('#export-excel');
-exportBtn?.addEventListener('click', () => {
-  dataGrid.exportToExcel('products-demo');
-});

@@ -99,7 +99,7 @@ export interface ExcelColumn {
 export interface XLSXColumn extends ExcelColumn {
   refLetter: string;
   width: number;
-};
+}
 
 export interface ExcelConfig {
   filename: string;
