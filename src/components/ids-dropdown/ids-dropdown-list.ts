@@ -459,7 +459,7 @@ export default class IdsDropdownList extends Base {
    * @returns {void}
    */
   configureBlank() {
-    if (this.clearableText) this.insertBlank();
+    if (this.allowBlank) this.insertBlank();
     else this.removeBlank();
   }
 

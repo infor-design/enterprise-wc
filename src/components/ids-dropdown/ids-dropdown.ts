@@ -591,9 +591,7 @@ export default class IdsDropdown extends Base {
       html += this.#templatelistBoxOption(this.#sanitizeOption(option));
     });
     listbox?.insertAdjacentHTML('afterbegin', html);
-    if (this.allowBlank) {
-      this.dropdownList?.configureBlank();
-    }
+    this.dropdownList?.configureBlank();
     const currentValue = this.getAttribute(attributes.VALUE);
     if (this.value !== currentValue) {
       this.value = currentValue;
