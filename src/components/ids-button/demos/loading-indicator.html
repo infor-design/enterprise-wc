@@ -15,12 +15,79 @@
       <ids-text font-size="12" type="h2">Ids Button With Loading Indicator</ids-text>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="4" gap="md">
+    <ids-layout-grid cols="1" gap="md">
       <ids-layout-grid-cell>
         <p>
-          <ids-button type="primary">
-            <span>Action</span>
+          <ids-text font-size="18" type="h2">Show Loading Indicator Initially</ids-text>
+        </p>
+        <p>
+          <ids-text font-size="18" type="h2">With Text</ids-text>
+        </p>
+        <p>
+          <ids-button show-loading-indicator="true" type="primary">
+            <span>Primary</span>
             <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
+          </ids-button>
+          <ids-button show-loading-indicator="true" type="secondary">
+            <span>Secondary</span>
+            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
+          </ids-button>
+          <ids-button show-loading-indicator="true" type="tertiary">
+            <span>Tertiary</span>
+            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
+          </ids-button>
+          <ids-button show-loading-indicator="true">
+            <ids-icon icon="folder"></ids-icon>
+            <span class="audible">Icon</span>
+            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
+          </ids-button>
+          <ids-button show-loading-indicator="true" type="primary-destructive">
+            <span>Primary Destructive</span>
+            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
+          </ids-button>
+          <ids-button show-loading-indicator="true" type="tertiary-destructive">
+            <span>Tertiary Destructive</span>
+            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
+          </ids-button>
+        </p>
+        <p>
+          <ids-text font-size="18" type="h2">Without Text</ids-text>
+        </p>
+        <p>
+          <ids-button show-loading-indicator="true" loading-indicator-replace-text="true" type="primary">
+            <span>Primary</span>
+            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
+          </ids-button>
+          <ids-button show-loading-indicator="true" loading-indicator-replace-text="true" type="secondary">
+            <span>Secondary</span>
+            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
+          </ids-button>
+          <ids-button show-loading-indicator="true" loading-indicator-replace-text="true" type="tertiary">
+            <ids-icon icon="folder"></ids-icon>
+            <span>Tertiary</span>
+            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
+          </ids-button>
+          <ids-button show-loading-indicator="true" loading-indicator-replace-text="true">
+            <ids-icon icon="folder"></ids-icon>
+            <span class="audible">Icon</span>
+            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
+          </ids-button>
+          <ids-button show-loading-indicator="true" loading-indicator-replace-text="true" type="primary-destructive">
+            <span>Primary Destructive</span>
+            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
+          </ids-button>
+          <ids-button show-loading-indicator="true" loading-indicator-replace-text="true" type="tertiary-destructive">
+            <span>Tertiary Destructive</span>
+            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
+          </ids-button>
+        </p>
+        <p>
+          <ids-text font-size="18" type="h2">Custom</ids-text>
+        </p>
+        <p>
+          <ids-button show-loading-indicator="true" type="primary">
+            <span>Custom</span>
+            <ids-icon icon="pending" slot="loading-indicator"></ids-icon>
           </ids-button>
         </p>
       </ids-layout-grid-cell>

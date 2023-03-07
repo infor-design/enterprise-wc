@@ -3,6 +3,7 @@
  */
  @import '../../core/ids-base';
 
+// Mutual
 :host(:not([show-loading-indicator='true'])) {
   ::slotted(.slot-loading-indicator),
   ::slotted(ids-loading-indicator) {
@@ -11,17 +12,42 @@
 }
 
 :host([show-loading-indicator='true']) {
-  ::slotted(*:not(.slot-loading-indicator)),
-  ::slotted(*:not(ids-loading-indicator)) {
-    visibility: hidden;
-  }
-
   ::slotted(ids-loading-indicator) {
-    margin-top: 1px;
-    margin-bottom: 1px;
+    @include my-1();
   }
 }
 
-:host(ids-button) {
+// Buttons
+:host(ids-button[show-loading-indicator='true'][loading-indicator-replace-text='true']) {
+  ::slotted(*:not(.slot-loading-indicator)) {
+    visibility: hidden;
+  }
+}
 
+:host(ids-button[show-loading-indicator='true']:not([loading-indicator-replace-text='true'])) {
+  ::slotted(.slot-loading-indicator) {
+    margin-inline-start: 6px;
+  }
+}
+
+:host(ids-button[show-loading-indicator='true']:not([loading-indicator-replace-text='true']):is([type='primary'], [type='secondary'], [type='primary-destructive'])) {
+  &::part(button) {
+    padding-inline-start: 18px;
+    padding-inline-end: 10px;
+  }
+
+  ::slotted(.slot-loading-indicator) {
+    margin-inline-start: 10px;
+  }
+}
+
+:host(ids-button[loading-indicator-replace-text='true']) {
+  ::slotted(.slot-loading-indicator) {
+    @include absolute();
+
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    left: 0;
+    right: 0;
+  }
 }
