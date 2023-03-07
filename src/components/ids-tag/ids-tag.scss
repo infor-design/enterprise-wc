@@ -5,14 +5,14 @@
   @include mixins.antialiased();
 
   // Colors/Borders
-  background-color: var(--ids-tag-background-color);
-  border: 1px solid var(--ids-tag-border-color);
-  border-radius: var(--ids-tag-border-radius);
+  background-color: var(--ids-component-darker-background-color);
+  border: 1px solid var(--ids-component-darker-background-color);
+  border-radius: var(--ids-border-radius-large);
 
   // Fonts
-  font-family: var(--ids-tag-font);
-  font-size: var(--ids-tag-font-size);
-  color: var(--ids-tag-text-color);
+  font-family: var(--ids-font-family);
+  font-size: var(--ids-font-size-sm);
+  color: var(--ids-component-text-color);
 
   // Layout
   display: inline-flex;
@@ -23,38 +23,38 @@
 
   // Secondary has a darker border
   &.secondary {
-    background-color: var(--ids-tag-secondary-background-color);
-    border-color: var(--ids-tag-secondary-border-color);
+    background-color: var(--ids-component-background-color);
+    border-color: var(--ids-component-border-color);
   }
 
   &.info {
-    background-color: var(--ids-color-info);
-    border-color: var(--ids-color-info);
-    color: var(--ids-color-info-inverse);
+    background-color: var(--ids-color-info-03);
+    border-color: var(--ids-color-info-03);
+    color: var(--ids-color-info-00);
   }
 
   &.success {
-    background-color: var(--ids-color-success);
-    border-color: var(--ids-color-success);
-    color: var(--ids-color-success-inverse);
+    background-color: var(--ids-color-success-03);
+    border-color: var(--ids-color-success-03);
+    color: var(--ids-color-success-00);
   }
 
   &.warning {
-    background-color: var(--ids-color-warning);
-    border-color: var(--ids-color-warning);
-    color: var(--ids-color-warning-inverse);
+    background-color: var(--ids-color-warning-03);
+    border-color: var(--ids-color-warning-03);
+    color: var(--ids-color-warning-00);
   }
 
   &.caution {
-    background-color: var(--ids-color-caution);
-    border-color: var(--ids-color-caution);
-    color: var(--ids-color-caution-inverse);
+    background-color: var(--ids-color-caution-03);
+    border-color: var(--ids-color-caution-03);
+    color: var(--ids-color-caution-00);
   }
 
   &.error {
-    background-color: var(--ids-color-error);
-    border-color: var(--ids-color-error);
-    color: var(--ids-color-error-inverse);
+    background-color: var(--ids-color-error-03);
+    border-color: var(--ids-color-error-03);
+    color: var(--ids-color-error-00);
   }
 
   // Clickable tags can be focused and clicked
@@ -63,9 +63,9 @@
 
     &:focus {
       cursor: var(--ids-cursor-actionable);
-      border-color: var(--ids-tag-focus-ring-border-color);
+      border-color: var(--ids-focus-ring-border-color);
       outline: var(--ids-focus-ring-outline);
-      box-shadow: var(--ids-tag-focus-ring-shadow);
+      box-shadow: var(--ids-focus-ring-shadow);
     }
   }
 }
@@ -86,21 +86,21 @@
 :host([disabled]) {
   ::slotted(ids-icon) {
     cursor: var(--ids-cursor-normal);
-    color: var(--ids-tag-disabled-text-color);
+    color: var(--ids-component-disabled-text-color);
   }
 
   .ids-tag {
-    background-color: var(--ids-tag-background-color);
-    border-color: var(--ids-tag-border-color);
-    color: var(--ids-tag-disabled-text-color);
+    background-color: var(--ids-component-darker-background-color);
+    border-color: var(--ids-component-darker-background-color);
+    color: var(--ids-component-disabled-text-color);
 
     &.secondary {
-      background-color: var(--ids-tag-secondary-background-color);
-      border-color: var(--ids-tag-secondary-disabled-border-color);
-      color: var(--ids-tag-secondary-disabled-text-color);
+      background-color: var(--ids-component-background-color);
+      border-color: var(--ids-component-lighter-disabled-text-color);
+      color: var(--ids-component-lighter-disabled-text-color);
 
       ::slotted(ids-icon) {
-        color: var(--ids-tag-secondary-disabled-text-color);
+        color: var(--ids-component-lighter-disabled-text-color);
       }
     }
   }
@@ -113,7 +113,7 @@
   display: inline-flex;
   padding-inline-start: var(--ids-spacing-md);
   padding-top: var(--ids-spacing-xs);
-  color: var(--ids-tag-text-color);
+  color: var(--ids-component-text-color);
 }
 
 // Adjust hover state
@@ -124,21 +124,21 @@
 // Multiselect tag
 :host(.multiselect-tag) {
   .ids-tag {
-    background-color: var(--ids-tag-secondary-background-color);
-    border-color: var(--ids-tag-secondary-border-color);
+    background-color: var(--ids-component-background-color);
+    border-color: var(--ids-component-border-color);
     margin-bottom: var(--ids-spacing-md);
   }
 }
 
 :host([disabled].multiselect-tag) {
   .ids-tag {
-    background-color: var(--ids-tag-secondary-background-color);
-    border-color: var(--ids-tag-secondary-disabled-border-color);
-    color: var(--ids-tag-secondary-disabled-text-color);
+    background-color: var(--ids-component-background-color);
+    border-color: var(--ids-component-lighter-disabled-text-color);
+    color: var(--ids-component-lighter-disabled-text-color);
     pointer-events: none;
   }
 
   ::slotted(ids-icon) {
-    color: var(--ids-tag-secondary-disabled-text-color);
+    color: var(--ids-component-lighter-disabled-text-color);
   }
 }

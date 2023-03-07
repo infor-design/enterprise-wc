@@ -22,7 +22,7 @@ describe('Ids Alert e2e Tests', () => {
   it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
-      document.body.insertAdjacentHTML('beforeend', `<ids-alert id="test" icon="alert"></ids-alert>`);
+      document.body.insertAdjacentHTML('beforeend', `<ids-alert id="test" icon="warning"></ids-alert>`);
       document.querySelector('#test')?.remove();
     });
     expect(await countObjects(page)).toEqual(numberOfObjects);
@@ -72,7 +72,7 @@ describe('Ids Alert e2e Tests', () => {
     let hasError = false;
     try {
       await page.evaluate(() => {
-        document.body.insertAdjacentHTML('beforeend', '<ids-alert id="test" icon="alert"></ids-alert>');
+        document.body.insertAdjacentHTML('beforeend', '<ids-alert id="test" icon="warning"></ids-alert>');
         const elem:any = document.querySelector('#test');
         elem.icon = 'success';
       });

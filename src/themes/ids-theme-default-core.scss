@@ -6,19 +6,19 @@
 :root {
   // Primary Colors
   --ids-color-primary: var(--ids-color-azure-70);
-  --ids-color-secondary: var(--ids-color-azure-80);
+  --ids-color-secondary: var(--ids-color-azure-60);
 
-  // Body / Container Colors
+  // Body / Container
   --ids-body-background-color: var(--ids-color-slate-00);
   --ids-body-background-color-inverse: var(--ids-color-slate-100);
   --ids-body-text-color: var(--ids-color-slate-100);
   --ids-body-text-color-inverse: var(--ids-color-slate-00);
   --ids-body-heading-text-color: var(--ids-color-slate-100);
   --ids-body-subtle-text-color: var(--ids-color-slate-80);
-  --ids-body-disabled-text-color: var(--ids-color-slate-60);
+  --ids-body-disabled-text-color: var(--ids-color-slate-40);
   --ids-body-line-color: var(--ids-color-slate-30);
 
-  // Component Colors
+  // Components
   --ids-component-background-color: var(--ids-color-slate-00);
   --ids-component-darker-background-color: var(--ids-color-slate-20);
   --ids-component-border-color: var(--ids-color-slate-40);
@@ -29,6 +29,18 @@
   --ids-component-lighter-disabled-text-color: var(--ids-color-slate-40);
   --ids-component-text-color: var(--ids-color-slate-100);
   --ids-component-text-color-inverse: var(--ids-color-slate-00);
+
+  // Headers
+  --ids-header-gradient-opaque: rgb(0 114 237 / 1);
+  --ids-header-gradient-transparent: rgb(0 114 237 / 0);
+
+  // Hyperlinks
+  --ids-hyperlink-color: var(--ids-color-primary);
+  --ids-hyperlink-hover-color: var(--ids-color-azure-70);
+  --ids-hyperlink-disabled-color: var(--ids-color-slate-40);
+
+  // Buttons
+  --ids-button-hover-color: var(--ids-color-azure-10);
 
   // Component Sizing
   --ids-component-border-width: 1px;
@@ -42,7 +54,7 @@
 
   // Animations
   --ids-transition-length: 200ms;
-  --ids-transition-ease: cubic-bezier(0.4, 0, 0.6, 1);
+  --ids-transition-ease: cubic-bezier(0.17, 0.04, 0.03, 0.94);
 
   // Font
   --ids-font-family: source sans pro, -apple-system, helvetica, arial;
@@ -51,12 +63,23 @@
   --ids-font-weight-bold: 700;
 
   // Font Size
+  --ids-font-size-xxs: 10px;
+  --ids-font-size-xs: 12px;
   --ids-font-size-sm: 14px;
   --ids-font-size-md: 16px;
-  --ids-font-size-lg: 24px;
+  --ids-font-size-lg: 20px;
+  --ids-font-size-xl: 24px;
+  --ids-font-size-xxl: 28px;
+  --ids-font-size-3xl: 32px;
+  --ids-font-size-4xl: 40px;
+  --ids-font-size-5xl: 48px;
+  --ids-font-size-6xl: 60px;
+  --ids-font-size-7xl: 72px;
+  --ids-text-transform: uppercase;
 
   // Elevations
-  --ids-shadow-medium: 0 0 3px 2px rgb(54 138 192 / 0.3);
+  --ids-shadow-md: 0 0 3px 2px rgb(54 138 192 / 0.3);
+  --ids-shadow-lg: 0 0 4px 3px rgb(54 138 192 / 0.3);
 
   // Spacing (For Padding or Margins)
   --ids-spacing-none: 0;
@@ -77,7 +100,7 @@
 
   // Focus
   --ids-focus-ring-border-color: var(--ids-color-primary);
-  --ids-focus-ring-shadow: var(--ids-shadow-medium);
+  --ids-focus-ring-shadow: var(--ids-shadow-md);
   --ids-focus-ring-outline: 0;
 
   // Cursors
@@ -85,35 +108,22 @@
   --ids-cursor-normal: default;
 
   // Z Indexes
-  --ids-z-index-popup: 700;
-
-  // Component Specific Tokens
-
-  // Tag
-  --ids-tag-background-color: var(--ids-component-darker-background-color);
-  --ids-tag-border-color: var(--ids-component-darker-background-color);
-  --ids-tag-secondary-border-color: var(--ids-component-border-color);
-  --ids-tag-secondary-background-color: var(--ids-component-background-color);
-  --ids-tag-border-radius: var(--ids-border-radius-large);
-  --ids-tag-font: var(--ids-font-family);
-  --ids-tag-font-size: var(--ids-font-size-sm);
-  --ids-tag-text-color: var(--ids-component-text-color);
-  --ids-tag-text-color-inverse: var(--ids-component-text-color-inverse);
-  --ids-tag-focus-ring-border-color: var(--ids-focus-ring-border-color);
-  --ids-tag-focus-ring-shadow: var(--ids-focus-ring-shadow);
-  --ids-tag-disabled-text-color: var(--ids-component-disabled-text-color);
-  --ids-tag-secondary-disabled-text-color: var(--ids-component-lighter-disabled-text-color);
-  --ids-tag-secondary-disabled-border-color: var(--ids-component-lighter-disabled-text-color);
-
-  // Badge
-  --ids-badge-background-color: var(--ids-component-darker-background-color);
-  --ids-badge-border-radius: var(--ids-border-radius-large);
-  --ids-badge-border-color: var(--ids-component-darker-background-color);
-  --ids-badge-font: var(--ids-font-family);
-  --ids-badge-font-size: var(--ids-font-size-sm);
-  --ids-badge-text-color: var(--ids-component-text-color);
+  --ids-z-index-toolbar: 20;
+  --ids-z-index-sidebar: 500;
+  --ids-z-index-overlay: 1000;
+  --ids-z-index-loading: 1010;
+  --ids-z-index-dialog: 1020;
+  --ids-z-index-popup: 3000;
+  --ids-z-index-tooltip: 6000;
+  --ids-z-index-draggable: 7000;
+  --ids-z-index-toast: 8000;
+  --ids-z-index-menu: 9000;
+  --ids-z-index-skiplink: 10000;
 
   // Icon
   --ids-icon-color: var(--ids-component-text-color);
   --ids-icon-hover-color: var(--ids-component-hover-color);
+
+  // Splitter
+  --ids-splitter-dragging-border-color: var(--ids-color-primary);
 }

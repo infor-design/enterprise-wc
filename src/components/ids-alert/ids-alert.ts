@@ -65,12 +65,12 @@ export default class IdsAlert extends IdsTooltipMixin(IdsThemeMixin(IdsEventsMix
    */
   template(): string {
     const cssClass = stringToBool(this.disabled) ? ' class="disabled"' : '';
-    return `<ids-icon size="${this.size}"${cssClass} icon="${this.icon}" part="icon"></ids-icon>`;
+    return `<ids-icon size="${this.size}"${cssClass} icon="${this.icon === 'warning' ? 'alert' : this.icon}" part="icon"></ids-icon>`;
   }
 
   /**
    * Set the alert color
-   * @param {string|null} value The color to use between: error, success, info, alert, amber, amethyst
+   * @param {string|null} value The color to use between: error, success, info, alert, warning amber, amethyst
    */
   set color(value: string | null) {
     if (value) {
@@ -118,7 +118,7 @@ export default class IdsAlert extends IdsTooltipMixin(IdsThemeMixin(IdsEventsMix
   set icon(value: string | null) {
     if (value) {
       this.setAttribute(attributes.ICON, value);
-      this.shadowRoot?.querySelector('ids-icon')?.setAttribute(attributes.ICON, value);
+      this.shadowRoot?.querySelector('ids-icon')?.setAttribute(attributes.ICON, value === 'warning' ? 'alert' : value);
     } else {
       this.removeAttribute(attributes.ICON);
     }

@@ -47,7 +47,7 @@ IDS step chart also has an available slot `icon` that can be used to append cont
 
 ```html
   <ids-step-chart label="2 of 7 steps completed" color="azure06" step-number="7" value="3" completed-label="5 days overdue" progress-color="ruby02">
-    <ids-icon id="alert" slot="icon" icon="alert"></ids-icon>
+    <ids-icon id="alert" slot="icon" icon="warning"></ids-icon>
   </ids-step-chart>
 ```
 
@@ -55,15 +55,15 @@ IDS step chart also has an available slot `icon` that can be used to append cont
 
   - `color` {string} Sets the color used for completed steps (must use ids provided colors).
   - completed-label: secondary label for the component
-  - label: primary label for the compenent usually formatted as "x of y steps completed
-  - progress-color: color used for flaged steps in progress (must use ids provided colors)
+  - label: primary label for the component usually formatted as "x of y steps completed
+  - progress-color: color used for flagged steps in progress (must use ids provided colors)
   - stepsInProgress: an array of steps that should be flagged as in progress
   - step-number: total number of steps in the chart
   - value: total number of steps completed or in progress
 
 ## Keyboard Guidelines
 
-This componenent does not add any new keyboard fuctionality, steps are not tabable but text is readable by screen readers.
+This component does not add any new keyboard functionality, steps are not tabbable but text is readable by screen readers.
 
 ## Designs
 
@@ -92,10 +92,10 @@ If you are converting this from the enterprise version you will no longer be usi
 The `iconType` option has been replaced with a slot called `icon` that can be injected with the desired markup like so:
 
 ```html
-<ids-alert slot="icon" icon="alert"></ids-icon>
+<ids-alert slot="icon" icon="warning"></ids-icon>
 ```
 
-The `inProgress` option has been replaced with a property on the component called `stepsInProgress`. This is setable with an array of numbers corrisponding to the number of the steps you want to display as in progress. see this example below
+The `inProgress` option has been replaced with a property on the component called `stepsInProgress`. This can be set to an array of numbers corresponding to the number of the steps you want to display as in progress. see this example below
 
 ```js
 econst element = document.querySelectorAll('ids-step-chart')[3];
@@ -105,7 +105,7 @@ element.stepsInProgress = ['3'];
 Color for `inProgress` steps is not set automatically and a color must be set using the `progress-color` attribute. to duplicate
 existing red in progress steps use `ruby02`.
 
-labeling for the step chart is handled through the `label` compnent attribute and there are no special format requriments for the label string.
+labeling for the step chart is handled through the `label` component attribute and there are no special format requirements
 
 ## Accessibility Guidelines
 

@@ -3,7 +3,7 @@
 :root {
   // Primary Colors
   --ids-color-primary: var(--ids-color-slate-60);
-  --ids-color-secondary: var(--ids-color-slate-50);
+  --ids-color-secondary: var(--ids-color-slate-70);
 
   // Body Colors
   --ids-body-background-color: var(--ids-color-slate-100);
@@ -27,12 +27,29 @@
   --ids-component-text-color: var(--ids-color-slate-00);
   --ids-component-text-color-inverse: var(--ids-color-slate-00);
 
+  // Headers
+  --ids-header-gradient-opaque: rgb(0 114 237 / 1);
+  --ids-header-gradient-transparent: rgb(0 114 237 / 0);
+
+  // Hyperlinks
+  --ids-hyperlink-color: var(--ids-color-azure-40);
+  --ids-hyperlink-hover-color: var(--ids-color-azure-60);
+  --ids-hyperlink-disabled-color: var(--ids-color-slate-50);
+
+  // Color Overrides
+  --ids-color-error-01: var(--ids-color-ruby-90);
+  --ids-color-warning-01: var(--ids-color-amber-90);
+  --ids-color-caution-00: var(--ids-color-slate-100);
+  --ids-color-caution-01: var(--ids-color-amber-90);
+  --ids-color-info-01: var(--ids-color-azure-90);
+  --ids-color-success-01: var(--ids-color-emerald-90);
+
+  // Buttons
+  --ids-button-hover-color: var(--ids-color-slate-90);
+
   // Elevations
-  --ids-shadow-medium: 0 0 3px 2px rgb(255 255 255 / 0.3);
+  --ids-shadow-medium: 0 0 3px 2px rgb(85 163 243 / 0.30);
 
   // Focus
   --ids-focus-ring-border-color: var(--ids-color-slate-00);
-
-  // Tag
-  --ids-tag-caution-text-color: var(--ids-color-slate-100);
 }

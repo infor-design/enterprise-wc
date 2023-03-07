@@ -1,8 +1,14 @@
 @use './ids-theme-default-core.scss';
 
 :root {
+  // Primary Colors
+  --ids-color-primary: var(--ids-color-azure-80);
+  --ids-color-secondary: var(--ids-color-azure-70);
+
   // Body Colors
   --ids-body-background-color: var(--ids-color-slate-10);
+  --ids-body-subtle-text-color: var(--ids-color-slate-80);
+  --ids-body-disabled-text-color: var(--ids-color-slate-40);
 
   // Component Colors
   --ids-component-background-color: var(--ids-color-slate-00);
@@ -16,7 +22,35 @@
   --ids-component-text-color: var(--ids-color-slate-100);
   --ids-component-text-color-inverse: var(--ids-color-slate-00);
 
-  // Color Overrides
-  --ids-color-warning-inverse: var(--ids-color-slate-100);
-  --ids-color-success-inverse: var(--ids-color-slate-100);
+  // Headers
+  --ids-header-gradient-opaque: rgb(0 74 153 / 1);
+  --ids-header-gradient-transparent: rgb(0 114 237 / 0);
+
+  // Hyperlinks
+  --ids-hyperlink-color: var(--ids-color-primary);
+  --ids-hyperlink-hover-color: var(--ids-color-azure-100);
+  --ids-hyperlink-disabled-color: var(--ids-color-slate-50);
+
+  // Alert Color Overrides
+  --ids-color-error-01: var(--ids-color-ruby-20);
+  --ids-color-error-02: var(--ids-color-ruby-40);
+  --ids-color-error-03: var(--ids-color-ruby-70);
+  --ids-color-warning-00: var(--ids-color-slate-100);
+  --ids-color-warning-01: var(--ids-color-amber-20);
+  --ids-color-warning-02: var(--ids-color-amber-40);
+  --ids-color-warning-03: var(--ids-color-amber-70);
+  --ids-color-caution-00: var(--ids-color-slate-100);
+  --ids-color-caution-01: var(--ids-color-amber-20);
+  --ids-color-caution-02: var(--ids-color-amber-40);
+  --ids-color-caution-03: var(--ids-color-amber-70);
+  --ids-color-success-00: var(--ids-color-slate-100);
+  --ids-color-success-01: var(--ids-color-emerald-20);
+  --ids-color-success-02: var(--ids-color-emerald-40);
+  --ids-color-success-03: var(--ids-color-emerald-70);
+  --ids-color-info-01: var(--ids-color-azure-20);
+  --ids-color-info-02: var(--ids-color-azure-40);
+  --ids-color-info-03: var(--ids-color-azure-70);
+
+  // Buttons
+  --ids-button-hover-color: var(--ids-color-slate-20);
 }

@@ -21,7 +21,7 @@ An alert is created by using the `ids-alert` html custom element. It has a `icon
 ```html
 <ids-alert icon="info"></ids-alert>
 <ids-alert icon="success"></ids-alert>
-<ids-alert icon="alert"></ids-alert>
+<ids-alert icon="warning"></ids-alert>
 ```
 
 An alert can be used in a disabled situation so comes with a disabled style
@@ -61,7 +61,7 @@ An alert can use any icon size
 - `icon` {boolean} Set the type of icon / alert to show options include  'alert' | 'success' | 'dirty' | 'error' | 'info' |'pending' | 'new' | 'in-progress' or any other icon in the icon set. For these other icons set the color property as well
 - `disabled` {boolean} Set alert to disabled
 - `tooltip` {string} Sets the string content for a tooltip, for error, success, info, alert the color of the tooltip will change
-- `color` {string} Sets the icon color between error, success, info, alert, amber, amethyst
+- `color` {string} Sets the icon color between error, success, info, warning, caution, amber, amethyst
 
 ## Themeable Parts
 

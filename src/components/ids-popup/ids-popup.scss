@@ -438,7 +438,8 @@
       }
     }
 
-    &.alert-color {
+    &.alert-color,
+    &.warning-color {
       background-color: var(--ids-color-status-warning);
 
       .arrow.bottom,

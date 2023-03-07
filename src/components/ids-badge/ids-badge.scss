@@ -11,14 +11,14 @@
   @include mixins.antialiased();
 
   // Colors/Borders
-  background-color: var(--ids-badge-background-color);
-  border: 1px solid var(--ids-badge-border-color);
-  border-radius: var(--ids-badge-border-radius);
+  background-color: var(--ids-component-darker-background-color);
+  border: 1px solid var(--ids-component-darker-background-color);
+  border-radius: var(--ids-border-radius-large);
 
   // Fonts
-  font-family: var(--ids-badge-font);
-  font-size: var(--ids-badge-font-size);
-  color: var(--ids-tag-badge-color);
+  font-family: var(--ids-font-family);
+  font-size: var(--ids-font-size-sm);
+  color: var(--ids-component-text-color);
   margin-bottom: var(--ids-spacing-md);
   margin-inline-end: var(--ids-spacing-md);
   padding-inline: var(--ids-spacing-lg);
@@ -39,32 +39,32 @@
   }
 
   &[color='info'] {
-    background-color: var(--ids-color-info);
-    border-color: var(--ids-color-info);
-    color: var(--ids-color-info-inverse);
+    background-color: var(--ids-color-info-03);
+    border-color: var(--ids-color-info-03);
+    color: var(--ids-color-info-00);
   }
 
   &[color='success'] {
-    background-color: var(--ids-color-success);
-    border-color: var(--ids-color-success);
-    color: var(--ids-color-success-inverse);
+    background-color: var(--ids-color-success-03);
+    border-color: var(--ids-color-success-03);
+    color: var(--ids-color-success-00);
   }
 
   &[color='caution'] {
-    background-color: var(--ids-color-caution);
-    border-color: var(--ids-color-caution);
-    color: var(--ids-color-caution-inverse);
+    background-color: var(--ids-color-caution-03);
+    border-color: var(--ids-color-caution-03);
+    color: var(--ids-color-caution-00);
   }
 
   &[color='warning'] {
-    background-color: var(--ids-color-warning);
-    border-color: var(--ids-color-warning);
-    color: var(--ids-color-warning-inverse);
+    background-color: var(--ids-color-caution-03);
+    border-color: var(--ids-color-caution-03);
+    color: var(--ids-color-caution-00);
   }
 
   &[color='error'] {
-    background-color: var(--ids-color-error);
-    border-color: var(--ids-color-error);
-    color: var(--ids-color-error-inverse);
+    background-color: var(--ids-color-error-03);
+    border-color: var(--ids-color-error-03);
+    color: var(--ids-color-error-00);
   }
 }

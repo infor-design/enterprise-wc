@@ -195,7 +195,7 @@ describe('IdsNotificationBanner Component', () => {
     const notificationObj: any = {
       id: 'ids-notification-banner-5',
       type: 'alert',
-      messageText: 'DTO accepted by your manager for Sept 30, 2018.',
+      messageText: 'DTO accepted by your manager for Sept 30, 2023.',
     };
     const notification: any = new IdsNotificationBanner();
     notification.add(notificationObj);
@@ -209,7 +209,7 @@ describe('IdsNotificationBanner Component', () => {
     const notificationObj2: any = {
       type: 'alert',
       parent: 'notification-container',
-      messageText: 'DTO accepted by your manager for Sept 30, 2018.',
+      messageText: 'DTO accepted by your manager for Sept 30, 2023.',
       link: 'https://infor.com',
       linkText: 'Learn More'
     };
@@ -221,7 +221,7 @@ describe('IdsNotificationBanner Component', () => {
     const notificationObj3 = {
       id: 'ids-notification-banner-5',
       type: 'alert',
-      messageText: 'DTO accepted by your manager for Sept 30, 2018.',
+      messageText: 'DTO accepted by your manager for Sept 30, 2023.',
       link: 'https://infor.com',
     };
     const notification3 = new IdsNotificationBanner();

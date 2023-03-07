@@ -3,7 +3,7 @@
 exports[`IdsDataGrid Component Formatter Tests can render with the alert formatter 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-alert icon="alert" tooltip="Demo Category"></ids-alert>
+        <ids-alert icon="warning" tooltip="Demo Category"></ids-alert>
       </span>
     "
 `;
@@ -62,7 +62,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the favorite form
           size="large"
           stars="1"
           value="1"
-          
+
           readonly
         >
         </ids-rating>
@@ -78,7 +78,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the favorite form
           size="xxl"
           stars="1"
           value="1"
-          
+
           readonly
         >
         </ids-rating>
@@ -94,7 +94,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the favorite form
           size="large"
           stars="1"
           value="0"
-          
+
           readonly
         >
         </ids-rating>
@@ -194,7 +194,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the rating format
           size="large"
           stars="5"
           value="4.6"
-          
+
           readonly
         >
         </ids-rating>
@@ -210,8 +210,8 @@ exports[`IdsDataGrid Component Formatter Tests can render with the rating format
           size="large"
           stars="5"
           value="4.6"
-          
-          
+
+
         >
         </ids-rating>
       </span>
@@ -226,7 +226,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the rating format
           size="large"
           stars="5"
           value="4.6"
-          
+
           readonly
         >
         </ids-rating>
@@ -258,7 +258,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the rating format
           size="large"
           stars="10"
           value="4.6"
-          
+
           readonly
         >
         </ids-rating>
@@ -274,7 +274,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the rating format
           size="large"
           stars="5"
           value="4.6"
-          
+
           readonly
         >
         </ids-rating>
@@ -290,7 +290,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the rating format
           size="large"
           stars="5"
           value="0"
-          
+
           readonly
         >
         </ids-rating>
@@ -307,7 +307,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         max="100"
         value="4.6"
         show-tooltip
-        
+
         readonly
       >
       </ids-slider>
@@ -323,8 +323,8 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         max="100"
         value="4.6"
         show-tooltip
-        
-        
+
+
       >
       </ids-slider>
     "
@@ -339,7 +339,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         max="100"
         value="4.6"
         show-tooltip
-        
+
         readonly
       >
       </ids-slider>
@@ -371,7 +371,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         max="5"
         value="4.6"
         show-tooltip
-        
+
         readonly
       >
       </ids-slider>
@@ -387,7 +387,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         max="100"
         value="4.6"
         show-tooltip
-        
+
         readonly
       >
       </ids-slider>
@@ -403,7 +403,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         max="100"
         value="4.6"
         show-tooltip
-        
+
         readonly
       >
       </ids-slider>
@@ -419,7 +419,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         max="100"
         value="0"
         show-tooltip
-        
+
         readonly
       >
       </ids-slider>
@@ -433,7 +433,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the stepChart for
         steps-in-progress="5"
         value="4"
         progress-color="ruby02"
-        
+
       >
       </ids-step-chart>
     "
@@ -459,7 +459,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the stepChart for
         steps-in-progress="5"
         value="4"
         progress-color="ruby02"
-        
+
       >
       </ids-step-chart>
     "
@@ -472,7 +472,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the stepChart for
         steps-in-progress="0"
         value="0"
         progress-color="ruby02"
-        
+
       >
       </ids-step-chart>
     "

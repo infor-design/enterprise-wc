@@ -1,15 +1,25 @@
 // Colors
 :root {
-  --ids-color-error: #DA1217;
-  --ids-color-error-inverse: #fff;
-  --ids-color-warning: #F98300;
-  --ids-color-warning-inverse: #fff;
-  --ids-color-caution: #FFD100;
-  --ids-color-caution-inverse: #2F2F32;
-  --ids-color-success: #2AC371;
-  --ids-color-success-inverse: #fff;
-  --ids-color-info: #0064D4;
-  --ids-color-info-inverse: #fff;
+  --ids-color-error-00: #fff;
+  --ids-color-error-01: var(--ids-color-ruby-10);
+  --ids-color-error-02: var(--ids-color-ruby-30);
+  --ids-color-error-03: #DA1217;
+  --ids-color-warning-00: #fff;
+  --ids-color-warning-01: var(--ids-color-amber-10);
+  --ids-color-warning-02: var(--ids-color-amber-30);
+  --ids-color-warning-03: #F98300;
+  --ids-color-caution-00: #2F2F32;
+  --ids-color-caution-01: var(--ids-color-amber-10);
+  --ids-color-caution-02: var(--ids-color-amber-30);
+  --ids-color-caution-03: #FFD100;
+  --ids-color-success-00: #fff;
+  --ids-color-success-01: var(--ids-color-emerald-10);
+  --ids-color-success-02: var(--ids-color-emerald-30);
+  --ids-color-success-03: #2AC371;
+  --ids-color-info-00: #fff;
+  --ids-color-info-01: var(--ids-color-azure-10);
+  --ids-color-info-02: var(--ids-color-azure-30);
+  --ids-color-info-03: #0064D4;
   --ids-color-slate-00: #fff;
   --ids-color-slate-10: #EFEFF0;
   --ids-color-slate-20: #D7D7D8;
