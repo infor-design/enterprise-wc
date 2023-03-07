@@ -37,7 +37,7 @@ $max-row-height: var(--max-row-height);
 .grid {
   display: grid;
   grid-gap: $grid-gap;
-  justify-content: center;
+  justify-content: start;
   box-sizing: border-box;
 }
 
