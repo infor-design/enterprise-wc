@@ -3,7 +3,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, IdsDirection } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { eventPath, findInPath } from '../../utils/ids-event-path-utils/ids-event-path-utils';
 
 // Dependencies
 import IdsDataSource from '../../core/ids-data-source';
@@ -733,9 +732,6 @@ export default class IdsDataGrid extends Base {
     // Enter Edit by typing
     this.offEvent('keydown.body', this);
     this.onEvent('keydown.body', this, (e: KeyboardEvent) => {
-      const path = eventPath(e as any);
-      if (!findInPath(path, '.ids-data-grid-body')) return;
-
       const isPrintableKey = e.key.length === 1;
       if (!this.activeCellEditor && isPrintableKey && e.key !== ' ') {
         this.activeCell?.node?.startCellEdit?.();
