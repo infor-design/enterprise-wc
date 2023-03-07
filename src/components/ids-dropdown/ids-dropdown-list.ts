@@ -113,8 +113,6 @@ export default class IdsDropdownList extends Base {
   addOpenEvents() {
     super.addOpenEvents();
 
-    this.setAttribute('tabindex', '0');
-
     // Handles keyboard arrow navigation inside the list
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
       e.stopPropagation();
@@ -175,7 +173,6 @@ export default class IdsDropdownList extends Base {
    */
   removeOpenEvents() {
     super.removeOpenEvents();
-    this.setAttribute('tabindex', '-1');
     this.unlisten(' ');
     this.unlisten('Enter');
   }
