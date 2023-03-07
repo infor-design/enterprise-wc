@@ -26,3 +26,6 @@
   - link: example-auto-fit.html
     type: Masonry Grid example
     description: Shows a auto-fit example
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a layout grid that works with css only

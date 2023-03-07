@@ -65,7 +65,7 @@ export default class IdsLayoutGrid extends IdsElement {
   /**
    * Get auto-fill attribute
    * @readonly
-   * @returns {boolean} Indicates whether the auto-fill is enabled
+   * @returns {string | boolean | null} Indicates whether the auto-fill is enabled
    */
   get autoFill(): string | boolean | null {
     return stringToBool(this.getAttribute(attributes.AUTO_FILL));

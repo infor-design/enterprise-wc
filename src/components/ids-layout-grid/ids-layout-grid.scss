@@ -33,195 +33,241 @@ $max-col-width: var(--max-col-width);
 $min-row-height: var(--min-row-height);
 $max-row-height: var(--max-row-height);
 
-:host(.grid) {
+:host(.grid),
+.grid {
   display: grid;
   grid-gap: $grid-gap;
   justify-content: center;
   box-sizing: border-box;
 }
 
-:host(.grid.grid-gap-sm) {
+:host(.grid.grid-gap-sm),
+.grid.grid-gap-sm {
   grid-gap: $grid-gap-sm;
 }
 
-:host(.grid.grid-gap-md) {
+:host(.grid.grid-gap-md),
+.grid.grid-gap-md {
   grid-gap: $grid-gap-md;
 }
 
-:host(.grid.grid-gap-lg) {
+:host(.grid.grid-gap-lg),
+.grid.grid-gap-lg {
   grid-gap: $grid-gap-lg;
 }
 
-:host(.grid.grid-gap-xl) {
+:host(.grid.grid-gap-xl),
+.grid.grid-gap-xl {
   grid-gap: $grid-gap-xl;
 }
 
-:host(.grid.grid-margin-sm) {
+:host(.grid.grid-margin-sm),
+.grid.grid-margin-sm {
   margin: $grid-margin-sm;
 }
 
-:host(.grid.grid-margin-md) {
+:host(.grid.grid-margin-md),
+.grid.grid-margin-md {
   margin: $grid-margin-md;
 }
 
-:host(.grid.grid-margin-lg) {
+:host(.grid.grid-margin-lg),
+.grid.grid-margin-lg {
   margin: $grid-margin-lg;
 }
 
-:host(.grid.grid-margin-xl) {
+:host(.grid.grid-margin-xl),
+.grid.grid-margin-xl {
   margin: $grid-margin-xl;
 }
 
-:host(.grid.grid-padding-sm) {
+:host(.grid.grid-padding-sm),
+.grid.grid-padding-sm {
   padding: $grid-padding-sm;
 }
 
-:host(.grid.grid-padding-md) {
+:host(.grid.grid-padding-md),
+.grid.grid-padding-md {
   padding: $grid-padding-md;
 }
 
-:host(.grid.grid-padding-lg) {
+:host(.grid.grid-padding-lg),
+.grid.grid-padding-lg {
   padding: $grid-padding-lg;
 }
 
-:host(.grid.grid-padding-xl) {
+:host(.grid.grid-padding-xl),
+.grid.grid-padding-xl {
   padding: $grid-padding-xl;
 }
 
-:host(.grid.grid-padding-x-sm) {
+:host(.grid.grid-padding-x-sm),
+.grid.grid-padding-x-sm {
   padding-inline: $grid-padding-sm;
 }
 
-:host(.grid.grid-padding-x-md) {
+:host(.grid.grid-padding-x-md),
+.grid.grid-padding-x-md {
   padding-inline: $grid-padding-md;
 }
 
-:host(.grid.grid-padding-x-lg) {
+:host(.grid.grid-padding-x-lg),
+.grid.grid-padding-x-lg {
   padding-inline: $grid-padding-lg;
 }
 
-:host(.grid.grid-padding-x-xl) {
+:host(.grid.grid-padding-x-xl),
+.grid.grid-padding-x-xl {
   padding-inline: $grid-padding-xl;
 }
 
-:host(.grid.grid-padding-y-sm) {
+:host(.grid.grid-padding-y-sm),
+.grid.grid-padding-y-sm {
   padding-block: $grid-padding-sm;
 }
 
-:host(.grid.grid-padding-y-md) {
+:host(.grid.grid-padding-y-md),
+.grid.grid-padding-y-md {
   padding-block: $grid-padding-md;
 }
 
-:host(.grid.grid-padding-y-lg) {
+:host(.grid.grid-padding-y-lg),
+.grid.grid-padding-y-lg {
   padding-block: $grid-padding-lg;
 }
 
-:host(.grid.grid-padding-y-xl) {
+:host(.grid.grid-padding-y-xl),
+.grid.grid-padding-y-xl {
   padding-block: $grid-padding-xl;
 }
 
 /**
   Grid - Auto Fit/Fill
 */
-:host(.grid-auto-fit) {
+:host(.grid-auto-fit),
+.grid-auto-fit {
   width: 100%;
   grid-template-columns: repeat(auto-fit, minmax($min-col-width, $max-col-width));
 }
 
-:host(.grid-auto-fill) {
+:host(.grid-auto-fill),
+.grid-auto-fill {
   width: 100%;
   grid-template-columns: repeat(auto-fill, minmax($min-col-width, $max-col-width));
 }
 
-:host(.grid-cols-auto)	{
+:host(.grid-cols-auto),
+.grid-cols-auto	{
   grid-auto-columns: auto;
 }
 
-:host(.grid-cols-min)	{
+:host(.grid-cols-min),
+.grid-cols-min	{
   grid-auto-columns: min-content;
 }
 
-:host(.grid-cols-max)	{
+:host(.grid-cols-max),
+.grid-cols-max	{
   grid-auto-columns: max-content;
 }
 
-:host(.grid-cols-fr)	{
+:host(.grid-cols-fr),
+.grid-cols-fr	{
   grid-auto-columns: minmax(0, 1fr);
 }
 
-:host(.grid-flow-row) {
+:host(.grid-flow-row),
+.grid-flow-row {
   grid-auto-flow: row;
 }
 
-:host(.grid-flow-col) {
+:host(.grid-flow-col),
+.grid-flow-col {
   grid-auto-flow: column;
 }
 
-:host(.grid-flow-dense) {
+:host(.grid-flow-dense),
+.grid-flow-dense {
   grid-auto-flow: dense;
 }
 
-:host(.grid-flow-row-dense) {
+:host(.grid-flow-row-dense),
+.grid-flow-row-dense {
   grid-auto-flow: row dense;
 }
 
-:host(.grid-flow-col-dense) {
+:host(.grid-flow-col-dense),
+.grid-flow-col-dense {
   grid-auto-flow: column dense;
 }
 
-:host(.auto-rows-auto) {
+:host(.auto-rows-auto),
+.auto-rows-auto {
   grid-auto-rows: auto;
 }
 
-:host(.auto-rows-min) {
+:host(.auto-rows-min),
+.auto-rows-min {
   grid-auto-rows: min-content;
 }
 
-:host(.auto-rows-max) {
+:host(.auto-rows-max),
+.auto-rows-max {
   grid-auto-rows: max-content;
 }
 
-:host(.auto-rows-fr) {
+:host(.auto-rows-fr),
+.auto-rows-fr {
   grid-auto-rows: minmax(0, 1fr);
 }
 
-:host(.grid-auto-row-height) {
+:host(.grid-auto-row-height),
+.grid-auto-row-height {
   grid-auto-rows: var(--grid-auto-row-height);
 }
 
-:host(.justify-content-start) {
+:host(.justify-content-start),
+.justify-content-start {
   justify-content: start;
 }
 
-:host(.justify-content-center) {
+:host(.justify-content-center),
+.justify-content-center {
   justify-content: center;
 }
 
-:host(.justify-content-between) {
+:host(.justify-content-between),
+.justify-content-between {
   justify-content: space-between;
 }
 
-:host(.justify-content-around) {
+:host(.justify-content-around),
+.justify-content-around {
   justify-content: space-around;
 }
 
-:host(.justify-content-evenly) {
+:host(.justify-content-evenly),
+.justify-content-evenly {
   justify-content: space-evenly;
 }
 
-:host(.justify-content-end) {
+:host(.justify-content-end),
+.justify-content-end {
   justify-content: end;
 }
 
-::slotted(.col-span-all) {
+::slotted(.col-span-all),
+.grid > .col-span-all {
   grid-column: 1 / -1;
 }
 
-::slotted(.row-span-all) {
+::slotted(.row-span-all),
+.grid > .row-span-all {
   grid-row: 1 / -1;
 }
 
-::slotted(.sticky) {
+::slotted(.sticky),
+.grid > .sticky {
   position: sticky;
   top: var(--sticky-position);
 }
@@ -230,24 +276,29 @@ $max-row-height: var(--max-row-height);
   Grid Columms - Base
 */
 @for $i from 1 through $grid-cols {
-  :host(.grid-cols-#{$i}) {
+  :host(.grid-cols-#{$i}),
+  .grid-cols-#{$i} {
     width: 100%;
     grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
   }
 
-  :host(.grid) > ::slotted(.col-span-#{$i}) {
+  :host(.grid) > ::slotted(.col-span-#{$i}),
+  .grid > .col-span-#{$i} {
     grid-column: span $i / span $i;
   }
 
-  :host(.grid) > ::slotted(.col-start-#{$i}) {
+  :host(.grid) > ::slotted(.col-start-#{$i}),
+  .grid > .col-start-#{$i} {
     grid-column-start: $i;
   }
 
-  :host(.grid) > ::slotted(.col-end-#{$i}) {
+  :host(.grid) > ::slotted(.col-end-#{$i}),
+  .grid > .col-end-#{$i} {
     grid-column-end: $i;
   }
 
-  :host(.grid) > ::slotted(.order-#{$i}) {
+  :host(.grid) > ::slotted(.order-#{$i}),
+  .grid > .order-#{$i} {
     order: $i;
   }
 }
@@ -256,11 +307,13 @@ $max-row-height: var(--max-row-height);
   Grid Rows - Base
 */
 @for $i from 1 through $grid-rows {
-  :host(.grid-rows-#{$i}) {
+  :host(.grid-rows-#{$i}),
+  .grid-rows-#{$i} {
     grid-template-rows: repeat($i, minmax(0, 1fr));
   }
 
-  :host(.grid) > ::slotted(.row-span-#{$i}) {
+  :host(.grid) > ::slotted(.row-span-#{$i}),
+  .grid > .row-span-#{$i} {
     grid-row: span $i / span $i;
   }
 }
@@ -270,34 +323,41 @@ $max-row-height: var(--max-row-height);
 */
 @media (min-width: $breakpoint-xs) {
   @for $i from 1 through $grid-cols {
-    :host(.grid-cols-xs-#{$i}) {
+    :host(.grid-cols-xs-#{$i}),
+    .grid-cols-xs-#{$i} {
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.col-span-xs-#{$i}) {
+    :host(.grid) > ::slotted(.col-span-xs-#{$i}),
+    .grid > .col-span-xs-#{$i} {
       grid-column: span $i / span $i;
     }
 
-    :host(.grid) > ::slotted(.col-start-xs-#{$i}) {
+    :host(.grid) > ::slotted(.col-start-xs-#{$i}),
+    .grid > .col-start-xs-#{$i} {
       grid-column-start: $i;
     }
 
-    :host(.grid) > ::slotted(.col-end-xs-#{$i}) {
+    :host(.grid) > ::slotted(.col-end-xs-#{$i}),
+    .grid > .col-end-xs-#{$i} {
       grid-column-end: $i;
     }
 
-    :host(.grid) > ::slotted(.order-xs-#{$i}) {
+    :host(.grid) > ::slotted(.order-xs-#{$i}),
+    .grid > .order-xs-#{$i} {
       order: $i;
     }
   }
 
   @for $i from 1 through $grid-rows {
-    :host(.grid-rows-xs-#{$i}) {
+    :host(.grid-rows-xs-#{$i}),
+    .grid-rows-xs-#{$i} {
       grid-template-rows: repeat($i, minmax(0, 1fr));
     }
 
-    :host(.grid) > ::slotted(.row-span-xs-#{$i}) {
+    :host(.grid) > ::slotted(.row-span-xs-#{$i}),
+    .grid > .row-span-xs-#{$i} {
       grid-row: span $i / span $i;
     }
   }
@@ -308,34 +368,41 @@ $max-row-height: var(--max-row-height);
 */
 @media (min-width: $breakpoint-sm) {
   @for $i from 1 through $grid-cols {
-    :host(.grid-cols-sm-#{$i}) {
+    :host(.grid-cols-sm-#{$i}),
+    .grid-cols-sm-#{$i} {
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.col-span-sm-#{$i}) {
+    :host(.grid) > ::slotted(.col-span-sm-#{$i}),
+    .grid > .col-span-sm-#{$i} {
       grid-column: span $i / span $i;
     }
 
-    :host(.grid) > ::slotted(.col-start-sm-#{$i}) {
+    :host(.grid) > ::slotted(.col-start-sm-#{$i}),
+    .grid > .col-start-sm-#{$i} {
       grid-column-start: $i;
     }
 
-    :host(.grid) > ::slotted(.col-end-sm-#{$i}) {
+    :host(.grid) > ::slotted(.col-end-sm-#{$i}),
+    .grid > .col-end-sm-#{$i} {
       grid-column-end: $i;
     }
 
-    :host(.grid) > ::slotted(.order-sm-#{$i}) {
+    :host(.grid) > ::slotted(.order-sm-#{$i}),
+    .grid > .order-sm-#{$i} {
       order: $i;
     }
   }
 
   @for $i from 1 through $grid-rows {
-    :host(.grid-rows-sm-#{$i}) {
+    :host(.grid-rows-sm-#{$i}),
+    .grid-rows-sm-#{$i} {
       grid-template-rows: repeat($i, minmax(0, 1fr));
     }
 
-    :host(.grid) > ::slotted(.row-span-sm-#{$i}) {
+    :host(.grid) > ::slotted(.row-span-sm-#{$i}),
+    .grid > .row-span-sm-#{$i} {
       grid-row: span $i / span $i;
     }
   }
@@ -346,34 +413,41 @@ $max-row-height: var(--max-row-height);
 */
 @media (min-width: $breakpoint-md) {
   @for $i from 1 through $grid-cols {
-    :host(.grid-cols-md-#{$i}) {
+    :host(.grid-cols-md-#{$i}),
+    .grid-cols-md-#{$i} {
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.col-span-md-#{$i}) {
+    :host(.grid) > ::slotted(.col-span-md-#{$i}),
+    .grid > .col-span-md-#{$i} {
       grid-column: span $i / span $i;
     }
 
-    :host(.grid) > ::slotted(.col-start-md-#{$i}) {
+    :host(.grid) > ::slotted(.col-start-md-#{$i}),
+    .grid > .col-start-md-#{$i} {
       grid-column-start: $i;
     }
 
-    :host(.grid) > ::slotted(.col-end-md-#{$i}) {
+    :host(.grid) > ::slotted(.col-end-md-#{$i}),
+    .grid > .col-end-md-#{$i} {
       grid-column-end: $i;
     }
 
-    :host(.grid) > ::slotted(.order-md-#{$i}) {
+    :host(.grid) > ::slotted(.order-md-#{$i}),
+    .grid > .order-md-#{$i} {
       order: $i;
     }
   }
 
   @for $i from 1 through $grid-rows {
-    :host(.grid-rows-md-#{$i}) {
+    :host(.grid-rows-md-#{$i}),
+    .grid-rows-md-#{$i} {
       grid-template-rows: repeat($i, minmax(0, 1fr));
     }
 
-    :host(.grid) > ::slotted(.row-span-md-#{$i}) {
+    :host(.grid) > ::slotted(.row-span-md-#{$i}),
+    .grid > .row-span-md-#{$i} {
       grid-row: span $i / span $i;
     }
   }
@@ -384,34 +458,41 @@ $max-row-height: var(--max-row-height);
 */
 @media (min-width: $breakpoint-lg) {
   @for $i from 1 through $grid-cols {
-    :host(.grid-cols-lg-#{$i}) {
+    :host(.grid-cols-lg-#{$i}),
+    .grid-cols-lg-#{$i} {
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.col-span-lg-#{$i}) {
+    :host(.grid) > ::slotted(.col-span-lg-#{$i}),
+    .grid > .col-span-lg-#{$i} {
       grid-column: span $i / span $i;
     }
 
-    :host(.grid) > ::slotted(.col-start-lg-#{$i}) {
+    :host(.grid) > ::slotted(.col-start-lg-#{$i}),
+    .grid > .col-start-lg-#{$i} {
       grid-column-start: $i;
     }
 
-    :host(.grid) > ::slotted(.col-end-lg-#{$i}) {
+    :host(.grid) > ::slotted(.col-end-lg-#{$i}),
+    .grid > .col-end-lg-#{$i} {
       grid-column-end: $i;
     }
 
-    :host(.grid) > ::slotted(.order-lg-#{$i}) {
+    :host(.grid) > ::slotted(.order-lg-#{$i}),
+    .grid > .order-lg-#{$i} {
       order: $i;
     }
   }
 
   @for $i from 1 through $grid-rows {
-    :host(.grid-rows-lg-#{$i}) {
+    :host(.grid-rows-lg-#{$i}),
+    .grid-rows-lg-#{$i} {
       grid-template-rows: repeat($i, minmax(0, 1fr));
     }
 
-    :host(.grid) > ::slotted(.row-span-lg-#{$i}) {
+    :host(.grid) > ::slotted(.row-span-lg-#{$i}),
+    .grid > .row-span-lg-#{$i} {
       grid-row: span $i / span $i;
     }
   }
@@ -422,34 +503,41 @@ $max-row-height: var(--max-row-height);
 */
 @media (min-width: $breakpoint-xl) {
   @for $i from 1 through $grid-cols {
-    :host(.grid-cols-xl-#{$i}) {
+    :host(.grid-cols-xl-#{$i}),
+    .grid-cols-xl-#{$i} {
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.col-span-xl-#{$i}) {
+    :host(.grid) > ::slotted(.col-span-xl-#{$i}),
+    .grid > .col-span-xl-#{$i} {
       grid-column: span $i / span $i;
     }
 
-    :host(.grid) > ::slotted(.col-start-xl-#{$i}) {
+    :host(.grid) > ::slotted(.col-start-xl-#{$i}),
+    .grid > .col-start-xl-#{$i} {
       grid-column-start: $i;
     }
 
-    :host(.grid) > ::slotted(.col-end-xl-#{$i}) {
+    :host(.grid) > ::slotted(.col-end-xl-#{$i}),
+    .grid > .col-end-xl-#{$i} {
       grid-column-end: $i;
     }
 
-    :host(.grid) > ::slotted(.order-xl-#{$i}) {
+    :host(.grid) > ::slotted(.order-xl-#{$i}),
+    .grid > .order-xl-#{$i} {
       order: $i;
     }
   }
 
   @for $i from 1 through $grid-rows {
-    :host(.grid-rows-xl-#{$i}) {
+    :host(.grid-rows-xl-#{$i}),
+    .grid-rows-xl-#{$i} {
       grid-template-rows: repeat($i, minmax(0, 1fr));
     }
 
-    :host(.grid) > ::slotted(.row-span-xl-#{$i}) {
+    :host(.grid) > ::slotted(.row-span-xl-#{$i}),
+    .grid > .row-span-xl-#{$i} {
       grid-row: span $i / span $i;
     }
   }
@@ -460,34 +548,41 @@ $max-row-height: var(--max-row-height);
 */
 @media (min-width: $breakpoint-xxl) {
   @for $i from 1 through $grid-cols {
-    :host(.grid-cols-xxl-#{$i}) {
+    :host(.grid-cols-xxl-#{$i}),
+    .grid-cols-xxl-#{$i} {
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.col-span-xxl-#{$i}) {
+    :host(.grid) > ::slotted(.col-span-xxl-#{$i}),
+    .grid > .col-span-xxl-#{$i} {
       grid-column: span $i / span $i;
     }
 
-    :host(.grid) > ::slotted(.col-start-xxl-#{$i}) {
+    :host(.grid) > ::slotted(.col-start-xxl-#{$i}),
+    .grid > .col-start-xxl-#{$i} {
       grid-column-start: $i;
     }
 
-    :host(.grid) > ::slotted(.col-end-xxl-#{$i}) {
+    :host(.grid) > ::slotted(.col-end-xxl-#{$i}),
+    .grid > .col-end-xxl-#{$i} {
       grid-column-end: $i;
     }
 
-    :host(.grid) > ::slotted(.order-xxl-#{$i}) {
+    :host(.grid) > ::slotted(.order-xxl-#{$i}),
+    .grid > .order-xxl-#{$i} {
       order: $i;
     }
   }
 
   @for $i from 1 through $grid-rows {
-    :host(.grid-rows-xxl-#{$i}) {
+    :host(.grid-rows-xxl-#{$i}),
+    .grid-rows-xxl-#{$i} {
       grid-template-rows: repeat($i, minmax(0, 1fr));
     }
 
-    :host(.grid) > ::slotted(.row-span-xxl-#{$i}) {
+    :host(.grid) > ::slotted(.row-span-xxl-#{$i}),
+    .grid > .row-span-xxl-#{$i} {
       grid-row: span $i / span $i;
     }
   }
@@ -502,13 +597,15 @@ $max-row-height: var(--max-row-height);
   // justify-content: center;
 // }
 
-::slotted(.grid-cell.editable) > ids-button {
+::slotted(.grid-cell.editable) > ids-button,
+.grid > .grid-cell.editable > ids-button {
   position: absolute;
   top: 0;
   right: 0;
 }
 
-::slotted(.grid-cell.fill) {
+::slotted(.grid-cell.fill),
+.grid > .grid-cell.fill {
   @include flex();
 
   justify-content: center;
@@ -516,6 +613,7 @@ $max-row-height: var(--max-row-height);
   background-color: var(--grid-fill-color);
 }
 
-::slotted(.height-auto) {
+::slotted(.height-auto),
+.grid > .height-auto {
   height: auto;
 }

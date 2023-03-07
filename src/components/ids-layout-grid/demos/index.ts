@@ -9,7 +9,7 @@ import '../../ids-header/ids-header';
 import '../../ids-card/ids-card';
 import '../../ids-toggle-button/ids-toggle-button';
 
-import css from '../../../assets/css/ids-grid/grid.css';
+import css from '../../../assets/css/ids-layout-grid/grid.css';
 
 const cssLink = `<link href="${css}" rel="stylesheet">`;
 const head = document.querySelector('head');

@@ -17,16 +17,14 @@
   margin: 0 auto;
 }
 
-.sticky {
-  position: sticky;
-  top: 16px;
-  align-self: start;
-}
-
 ids-card::part(card) {
   margin-bottom: 0;
 }
 
 .edit-button-container {
   margin-bottom: 24px;
+}
+
+.grid-cell {
+  min-height: 176px;
 }

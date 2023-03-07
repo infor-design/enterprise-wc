@@ -1,7 +1,6 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
-import countObjects from '../helpers/count-objects';
 
-describe('Ids Layout Grid e2e Tests', () => {
+describe('ids-layout-grid', () => {
   const url = 'http://localhost:4444/ids-layout-grid/example.html';
 
   beforeAll(async () => {
@@ -19,15 +18,46 @@ describe('Ids Layout Grid e2e Tests', () => {
     expect(results.violations.length).toBe(0);
   });
 
-  it.skip('should not have memory leaks', async () => {
-    const numberOfObjects = await countObjects(page);
-    await page.evaluate(() => {
-      document.body.insertAdjacentHTML('beforeend', `<ids-layout-grid id="test">
-      <ids-layout-grid-cell col-span fill="true">
-        <ids-text font-size="12">1 Col</ids-text>
-      </ids-layout-grid-cell></ids-layout-grid>`);
-      document.querySelector('#test')?.remove();
-    });
-    expect(await countObjects(page)).toEqual(numberOfObjects);
+  it('should render ids-layout-grid with child elements', async () => {
+    // find the ids-layout-grid component
+    const idsLayoutGrid = await page.$('#eight-column-grid');
+
+    // verify that the component exists
+    expect(idsLayoutGrid).toBeTruthy();
+
+    // verify the number of child elements
+    const cells = await idsLayoutGrid.$$('ids-layout-grid-cell');
+    expect(cells.length).toBe(21);
+
+    // verify the attributes of the child elements
+    const expectedAttributes = [
+      { colSpan: '1' },
+      { colSpan: '1' },
+      { colSpan: '1' },
+      { colSpan: '1' },
+      { colSpan: '1' },
+      { colSpan: '1' },
+      { colSpan: '1' },
+      { colSpan: '1' },
+      { colSpan: '2' },
+      { colSpan: '2' },
+      { colSpan: '2' },
+      { colSpan: '2' },
+      { colSpan: '4' },
+      { colSpan: '4' },
+      { colSpan: '5' },
+      { colSpan: '3' },
+      { colSpan: '6' },
+      { colSpan: '2' },
+      { colSpan: '7' },
+      { colSpan: '1' },
+      { colSpan: '8' },
+    ];
+    for (let i = 0; i < cells.length; i++) {
+      const attributes = await cells[i].evaluate((cell: any) => ({
+        colSpan: cell.getAttribute('col-span')
+      }));
+      expect(attributes).toEqual(expectedAttributes[i]);
+    }
   });
 });
