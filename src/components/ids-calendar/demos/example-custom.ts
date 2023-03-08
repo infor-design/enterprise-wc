@@ -16,11 +16,27 @@ function getCalendarEvents(): Promise<any> {
 document.addEventListener('DOMContentLoaded', async () => {
   const calendar: any = document.querySelector<IdsCalendar>('ids-calendar');
   const addEventMenu = document.querySelector('#add-event');
-
   const eventManager = new CustomCalendarEventManager();
+  const view = calendar?.getView();
+  calendar?.addEventListener('renderMonthData', () => {
+    view.dayCellRenderTemplate = function dayCellRenderTemplate(celltemplate: string,dateKey: string){
+      let icon = "";
+      if (dateKey == "20190903") {
+            icon += `<ids-icon class="icon-spacing" icon="alert-alert" height="12" width="12"></ids-icon>`;
+      }
+      let stringToSearch = `"day-container">`;
+      let index = celltemplate.lastIndexOf(stringToSearch)+stringToSearch.length;
+      celltemplate = [celltemplate.slice(0,index),
+        `<ids-text
+          aria-hidden="true"
+          id="icon-text"
+          >${icon}</ids-text>`,
+      celltemplate.slice(index)].join('');
+      return celltemplate;
+    }
+  });
 
   calendar?.addEventListener('beforeeventrendered', () => {
-    const view = calendar?.getView();
     view.generateYOffset = (event: IdsCustomCalendarEvent): number => eventManager.generateYOffset(event);
     view.isEventOverflowing = (event: IdsCustomCalendarEvent): boolean => eventManager.isEventOverflowing(event);
   });

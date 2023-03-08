@@ -913,6 +913,11 @@ export default class IdsCalendar extends Base {
       this.triggerEvent('aftereventrendered', this, { detail: (e as CustomEvent).detail });
     });
 
+    viewElem?.offEvent('renderMonthData');
+    viewElem?.onEvent('renderMonthData', viewElem, (e: Event) => {
+      this.triggerEvent('renderMonthData', this, { detail: (e as CustomEvent).detail });
+    });
+
     if (viewElem) {
       viewElem.eventsData = eventsData;
       viewElem.eventTypesData = this.eventTypesData;

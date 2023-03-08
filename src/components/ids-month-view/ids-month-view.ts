@@ -910,7 +910,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       const colorAttr: string = legend ? `data-color="${legend.color}"` : '';
       const dateKey = this.generateDateKey(new Date(year, month, day));
 
-      return `<td aria-label="${ariaLabel}" ${dataAttr} ${classAttr} ${selectedAttr} ${colorAttr}>
+      let dayCellTemplate = `<td aria-label="${ariaLabel}" ${dataAttr} ${classAttr} ${selectedAttr} ${colorAttr}>
         <span class="day-container">
           <ids-text
             aria-hidden="true"
@@ -919,9 +919,23 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
           >${dayText}</ids-text>
         </span>
         ${isCompact ? '' : `<div class="events-container" data-key="${dateKey}"></div>`}
+        ${
+          isCompact
+            ? ""
+            : `<div class="events-container" data-key="${dateKey}"></div>`
+        }
       </td>`;
+      if(typeof this.state.dayCellRenderTemplate === 'function') {
+        dayCellTemplate = this.state.dayCellRenderTemplate(dayCellTemplate, dateKey);
+      }
+        return dayCellTemplate;
     }).join('');
   }
+
+  set dayCellRenderTemplate(func) {
+    this.state.dayCellRenderTemplate = func;
+  }
+  get dayCellRenderTemplate() { return this.state.dayCellRenderTemplate; }
 
   /**
    * Add week days HTML to the table
@@ -953,9 +967,16 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    */
   #renderMonth(): void {
     const weeksCount = this.#isDisplayRange()
-      ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
-      : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.localeAPI?.isIslamic());
+    ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
+    : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.localeAPI?.isIslamic());
 
+    this.triggerEvent('renderMonthData', this, {
+      detail: {
+        elem:this
+      },
+      bubbles: true,
+      composed: true
+    });
     const rowsTemplate = Array.from({ length: weeksCount }).map((_, weekIndex) => `<tr>${this.#getCellTemplate(weekIndex)}</tr>`).join('');
 
     // Clear/add HTML
