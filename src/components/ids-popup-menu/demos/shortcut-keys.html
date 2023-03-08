@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-popup-menu id="popupmenu">
+      <ids-menu-group>
+        <ids-menu-item icon="folder">Create new folder</ids-menu-item>
+        <ids-menu-item>Previous</ids-menu-item>
+        <ids-menu-item>Next</ids-menu-item>
+        <ids-separator></ids-separator>
+        <ids-menu-item>Copy to...</ids-menu-item>
+        <ids-menu-item>Move to...</ids-menu-item>
+        <ids-menu-item icon="edit">Long-form shortcut text</ids-menu-item>
+        <ids-separator></ids-separator>
+        <ids-menu-item icon="trash">Delete folder</ids-menu-item>
+      </ids-menu-group>
+    </ids-popup-menu>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Popup Menu (with Shortcut keys)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text>Right-click anywhere in the page to activate a Popupmenu</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+
+</html>

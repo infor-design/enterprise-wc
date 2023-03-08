@@ -14,6 +14,9 @@
   - link: selected-state.html
     type: Example
     description: Showing a Popup Menu with selections
+  - link: shortcut-keys.html
+    type: Example
+    description: Showing a Popup Menu displaying shortcut key icons
   - link: trigger-immediate.html
     type: Test
     description: Showing a Popup Menu invoked on demand
