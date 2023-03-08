@@ -13,6 +13,7 @@ import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty
 import IdsElement from '../../core/ids-element';
 import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
 import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-label-state-parent-mixin';
+import IdsLoadingIndicatorMixin from '../../mixins/ids-loading-indicator-mixin/ids-loading-indicator-mixin';
 import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 
 import '../ids-trigger-field/ids-trigger-field';
@@ -38,15 +39,17 @@ const Base = IdsDropdownAttributeMixin(
   IdsThemeMixin(
     IdsDirtyTrackerMixin(
       IdsValidationInputMixin(
-        IdsLabelStateParentMixin(
-          IdsFieldHeightMixin(
-            IdsColorVariantMixin(
-              IdsTooltipMixin(
-                IdsXssMixin(
-                  IdsLocaleMixin(
-                    IdsKeyboardMixin(
-                      IdsEventsMixin(
-                        IdsElement
+        IdsLoadingIndicatorMixin(
+          IdsLabelStateParentMixin(
+            IdsFieldHeightMixin(
+              IdsColorVariantMixin(
+                IdsTooltipMixin(
+                  IdsXssMixin(
+                    IdsLocaleMixin(
+                      IdsKeyboardMixin(
+                        IdsEventsMixin(
+                          IdsElement
+                        )
                       )
                     )
                   )

@@ -1,6 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { IdsBaseConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import '../../components/ids-loading-indicator/ids-loading-indicator';
 
 /**
  * A mixin that will add loading indicator functionality to a component.
@@ -22,6 +23,7 @@ const IdsLoadingIndicatorMixin = <T extends IdsBaseConstructor>(superclass: T) =
 
   connectedCallback(): void {
     super.connectedCallback?.();
+    this.#attachLoadingIndicator();
     this.#addClasses();
   }
 
@@ -36,6 +38,8 @@ const IdsLoadingIndicatorMixin = <T extends IdsBaseConstructor>(superclass: T) =
     } else {
       this.removeAttribute(attributes.SHOW_LOADING_INDICATOR);
     }
+
+    this.#attachLoadingIndicator();
   }
 
   /**
@@ -43,6 +47,14 @@ const IdsLoadingIndicatorMixin = <T extends IdsBaseConstructor>(superclass: T) =
    * @returns {boolean} showLoadingIndicator param converted to boolean from attribute value. Defaults to false
    */
   get showLoadingIndicator() { return stringToBool(this.getAttribute(attributes.SHOW_LOADING_INDICATOR)); }
+
+  #attachLoadingIndicator() {
+    const slot = this.container?.querySelector<HTMLSlotElement>('slot[name="loading-indicator"]');
+
+    if (this.showLoadingIndicator && slot?.assignedNodes().length === 0) {
+      this.insertAdjacentHTML('beforeend', '<ids-loading-indicator slot="loading-indicator" size="sm" class="slot-loading-indicator"></ids-loading-indicator>');
+    }
+  }
 
   #addClasses() {
     const slot = this.container?.querySelector<HTMLSlotElement>('slot[name="loading-indicator"]');

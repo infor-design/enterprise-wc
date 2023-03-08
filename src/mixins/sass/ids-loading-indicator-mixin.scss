@@ -3,7 +3,7 @@
  */
  @import '../../core/ids-base';
 
-// Mutual
+// Common
 :host(:not([show-loading-indicator='true'])) {
   ::slotted(.slot-loading-indicator),
   ::slotted(ids-loading-indicator) {
@@ -49,5 +49,16 @@
     margin-inline-end: auto;
     left: 0;
     right: 0;
+  }
+}
+
+// Input, Trigger Field
+:host(:is(ids-input[show-loading-indicator='true'], ids-trigger-field[show-loading-indicator='true'])) {
+  ::slotted(.slot-loading-indicator) {
+    margin-inline-end: 10px;
+  }
+
+  ::slotted(ids-trigger-button[slot='trigger-end']) {
+    display: none;
   }
 }

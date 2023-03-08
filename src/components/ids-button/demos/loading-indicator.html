@@ -26,28 +26,22 @@
         <p>
           <ids-button show-loading-indicator="true" type="primary">
             <span>Primary</span>
-            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
           </ids-button>
           <ids-button show-loading-indicator="true" type="secondary">
             <span>Secondary</span>
-            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
           </ids-button>
           <ids-button show-loading-indicator="true" type="tertiary">
             <span>Tertiary</span>
-            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
           </ids-button>
           <ids-button show-loading-indicator="true">
             <ids-icon icon="folder"></ids-icon>
             <span class="audible">Icon</span>
-            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
           </ids-button>
           <ids-button show-loading-indicator="true" type="primary-destructive">
             <span>Primary Destructive</span>
-            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
           </ids-button>
           <ids-button show-loading-indicator="true" type="tertiary-destructive">
             <span>Tertiary Destructive</span>
-            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
           </ids-button>
         </p>
         <p>
@@ -56,29 +50,23 @@
         <p>
           <ids-button show-loading-indicator="true" loading-indicator-replace-text="true" type="primary">
             <span>Primary</span>
-            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
           </ids-button>
           <ids-button show-loading-indicator="true" loading-indicator-replace-text="true" type="secondary">
             <span>Secondary</span>
-            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
           </ids-button>
           <ids-button show-loading-indicator="true" loading-indicator-replace-text="true" type="tertiary">
             <ids-icon icon="folder"></ids-icon>
             <span>Tertiary</span>
-            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
           </ids-button>
           <ids-button show-loading-indicator="true" loading-indicator-replace-text="true">
             <ids-icon icon="folder"></ids-icon>
             <span class="audible">Icon</span>
-            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
           </ids-button>
           <ids-button show-loading-indicator="true" loading-indicator-replace-text="true" type="primary-destructive">
             <span>Primary Destructive</span>
-            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
           </ids-button>
           <ids-button show-loading-indicator="true" loading-indicator-replace-text="true" type="tertiary-destructive">
             <span>Tertiary Destructive</span>
-            <ids-loading-indicator slot="loading-indicator" size="sm"></ids-loading-indicator>
           </ids-button>
         </p>
         <p>
@@ -90,6 +78,39 @@
             <ids-icon icon="pending" slot="loading-indicator"></ids-icon>
           </ids-button>
         </p>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <p>
+          <ids-text font-size="18" type="h2">Click To Start/Stop Loading</ids-text>
+        </p>
+        <ids-button type="primary" class="btn-click-to-load">
+          <span>Action</span>
+        </ids-button>
+        <ids-button type="primary" class="btn-click-to-load" loading-indicator-replace-text="true">
+          <span>Action</span>
+        </ids-button>
+        <ids-button type="tertiary" class="btn-click-to-load">
+          <span>Action</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid cols="4" gap="md">
+      <ids-layout-grid-cell>
+        <ids-input type="text" label="Input" placeholder="Normal text Field"></ids-input>
+        <ids-button type="primary" class="btn-trigger-to-load">
+          <span>Load</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-trigger-field tabbable="false" label="Trigger Field">
+          <ids-trigger-button slot="trigger-end">
+            <ids-text audible="true">Trigger Field</ids-text>
+            <ids-icon icon="camera"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+        <ids-button type="primary" class="btn-trigger-to-load">
+          <span>Load</span>
+        </ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
