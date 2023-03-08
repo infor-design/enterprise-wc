@@ -97,6 +97,12 @@ export default class IdsDropdown extends Base {
 
   labelEl?: HTMLLabelElement | null;
 
+  /** Sets to true when a keyboard operation opens the dropdown (prevents extraneous event triggering) */
+  openedByKeyboard = false;
+
+  /** Sets to true when a keyboard operation closes the dropdown (prevents extraneous event triggering) */
+  closedByKeyboard = false;
+
   constructor() {
     super();
     this.state = { selectedIndex: 0 };
@@ -284,11 +290,15 @@ export default class IdsDropdown extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
-    const elem = this.dropdownList?.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"], ids-list-box-option:not([value])`);
+    let selector = `ids-list-box-option[value="${value}"]`;
+    if (value === ' ' || !value) selector = `ids-list-box-option:not([value])`;
+    const elem = this.dropdownList?.listBox?.querySelector<IdsListBoxOption>(selector);
     if (!elem) return;
 
     this.clearSelected();
     this.selectOption(elem);
+    this.selectIcon(elem);
+    this.selectTooltip(elem);
     if (this.input) this.input.value = elem.textContent?.trim();
     this.state.selectedIndex = [...((elem?.parentElement as any)?.children || [])].indexOf(elem);
 
@@ -422,12 +432,8 @@ export default class IdsDropdown extends Base {
    */
   selectOption(option: IdsListBoxOption) {
     if (this.dropdownList) {
-      if (option?.value !== this.dropdownList.value) {
-        this.dropdownList.selectOption(option);
-      }
+      this.dropdownList.selectOption(option);
     }
-    this.selectIcon(option);
-    this.selectTooltip(option);
   }
 
   /**
@@ -436,8 +442,6 @@ export default class IdsDropdown extends Base {
    */
   deselectOption(option: HTMLElement | undefined | null) {
     this.dropdownList?.deselectOption(option);
-    this.selectIcon(option);
-    this.selectTooltip(option);
   }
 
   /**
@@ -491,7 +495,7 @@ export default class IdsDropdown extends Base {
   }
 
   /**
-   *
+   * Configures the Dropdown component's attached IdsDropdownList/IdsPopup
    */
   configurePopup() {
     if (this.dropdownList?.popup && this.trigger) {
@@ -501,7 +505,7 @@ export default class IdsDropdown extends Base {
       this.dropdownList.onOutsideClick = (e: Event) => {
         if (this.dropdownList) {
           if (!e.composedPath()?.includes(this.dropdownList)) {
-            this.close();
+            this.close(true);
           }
         }
       };
@@ -544,7 +548,7 @@ export default class IdsDropdown extends Base {
    * @param {boolean} shouldSelect whether or not the input text should be selected
    */
   async open(shouldSelect = false) {
-    if (this.disabled || this.readonly) {
+    if (!this.dropdownList || this.disabled || this.readonly) {
       return;
     }
 
@@ -557,6 +561,10 @@ export default class IdsDropdown extends Base {
       if (this.typeahead) {
         this.#optionsData = stuff;
       }
+    }
+
+    if (this.value) {
+      this.dropdownList.value = this.value;
     }
 
     // Open the Dropdown List
@@ -594,9 +602,7 @@ export default class IdsDropdown extends Base {
       html += this.#templatelistBoxOption(this.#sanitizeOption(option));
     });
     listbox?.insertAdjacentHTML('afterbegin', html);
-    if (this.allowBlank) {
-      this.dropdownList?.configureBlank();
-    }
+    this.dropdownList?.configureBlank();
     const currentValue = this.getAttribute(attributes.VALUE);
     if (this.value !== currentValue) {
       this.value = currentValue;
@@ -691,7 +697,28 @@ export default class IdsDropdown extends Base {
       this.#addAria();
     });
 
+    this.attachKeyboardOpenEvent();
+
     return this;
+  }
+
+  /**
+   * Attach a keyboard event for Enter/Spacebar that opens the dropdown.
+   * This needs to happen separately from the other event handlers because this
+   * one is rebound every time the list is closed.
+   */
+  private attachKeyboardOpenEvent() {
+    this.listen([' ', 'Enter'], this, (e: KeyboardEvent) => {
+      if (this.closedByKeyboard) {
+        this.closedByKeyboard = false;
+        return;
+      }
+
+      this.openedByKeyboard = true;
+      if (this.dropdownList?.popup?.visible) return;
+      if (e.key === ' ' && this.typeahead) return;
+      this.open(this.typeahead);
+    });
   }
 
   /** Handle the Locale Change */
@@ -749,22 +776,9 @@ export default class IdsDropdown extends Base {
    * dropdown list is open
    */
   private attachOpenEvents() {
-    if (!this.#isMultiSelect) {
-      // Select or Open on space/enter
-      this.listen([' ', 'Enter'], this, (e: KeyboardEvent) => {
-        // Excluding space key when typing
-        if (e.key === ' ' && this.typeahead) return;
-
-        if (!this.dropdownList?.popup?.visible) {
-          this.open(this.typeahead);
-          return;
-        }
-
-        const value = this.selected?.getAttribute(attributes.VALUE) || '';
-        this.value = value;
-        this.close();
-      });
-    }
+    this.unlisten(' ');
+    this.unlisten('Enter');
+    this.attachKeyboardSelectionEvent();
 
     // Select on Tab
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
@@ -782,10 +796,35 @@ export default class IdsDropdown extends Base {
     });
   }
 
+  /**
+   * Establish selection event for keyboard interactions.
+   * Overrides a similiar method from IdsDropdown for Multiselect-specific behavior.
+   */
+  attachKeyboardSelectionEvent() {
+    if (!this.#isMultiSelect) {
+      // Select or Open on space/enter
+      this.listen([' ', 'Enter'], this, () => {
+        if (!this.dropdownList?.popup?.visible) return;
+        if (this.openedByKeyboard) {
+          this.openedByKeyboard = false;
+          return;
+        }
+
+        const value = this.selected?.getAttribute(attributes.VALUE) || '';
+        this.value = value;
+        this.closedByKeyboard = true;
+        this.close();
+      });
+    }
+  }
+
   private removeOpenEvents() {
     this.unlisten(' ');
     this.unlisten('Enter');
     this.unlisten('Tab');
+
+    this.openedByKeyboard = false;
+    this.attachKeyboardOpenEvent();
   }
 
   #attachTypeaheadEvents() {
@@ -833,8 +872,6 @@ export default class IdsDropdown extends Base {
         if (next.hasAttribute(attributes.GROUP_LABEL) && !next.nextElementSibling) return;
         this.deselectOption(selected);
         this.selectOption(next.hasAttribute(attributes.GROUP_LABEL) ? next.nextElementSibling : next);
-
-        next.focus();
       }
 
       // Handles a case when the value is cleared
@@ -846,8 +883,6 @@ export default class IdsDropdown extends Base {
         if (prev.hasAttribute(attributes.GROUP_LABEL) && !prev.previousElementSibling) return;
         this.deselectOption(selected);
         this.selectOption(prev.hasAttribute(attributes.GROUP_LABEL) ? prev.previousElementSibling : prev);
-
-        prev.focus();
       }
     });
 
