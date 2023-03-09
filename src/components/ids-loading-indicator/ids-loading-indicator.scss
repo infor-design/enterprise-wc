@@ -221,6 +221,7 @@ svg.linear-indicator.indeterminate .progress {
   }
 }
 
+// Sizes
 :host([size='xs']:not([linear]):not([sticky]):not([inline])) {
   &,
   &::part(container) {
@@ -229,10 +230,69 @@ svg.linear-indicator.indeterminate .progress {
   }
 
   &::part(overall) {
-    stroke-width: 14;
+    stroke-width: 12;
   }
 
   &::part(progress) {
-    stroke-width: 18;
+    stroke-width: 21;
+  }
+}
+
+// Slotted in other components
+:host([mode='contrast'].type-primary) {
+  &::part(overall) {
+    stroke: var(--ids-color-palette-white);
+  }
+
+  &::part(progress) {
+    stroke: var(--ids-color-palette-azure-100);
+  }
+}
+
+:host([mode='light'].type-primary-destructive) {
+  &::part(progress) {
+    stroke: var(--ids-color-palette-ruby-80);
+  }
+}
+
+:host([mode='dark'].type-primary-destructive) {
+  &::part(overall) {
+    stroke: var(--ids-color-palette-slate-90);
+  }
+}
+
+:host([mode='contrast'].type-primary-destructive) {
+  &::part(progress) {
+    stroke: var(--ids-color-palette-white);
+  }
+
+  &::part(overall) {
+    stroke: var(--ids-color-palette-ruby-100);
+  }
+}
+
+:host([mode='light'].type-tertiary-destructive) {
+  &::part(progress) {
+    stroke: var(--ids-color-palette-ruby-60);
+  }
+
+  &::part(overall) {
+    stroke: var(--ids-color-palette-ruby-20);
+  }
+}
+
+:host([mode='dark'].type-tertiary-destructive) {
+  &::part(progress) {
+    stroke: var(--ids-color-palette-white);
+  }
+
+  &::part(overall) {
+    stroke: var(--ids-color-palette-ruby-40);
+  }
+}
+
+:host([mode='contrast'].type-tertiary-destructive) {
+  &::part(progress) {
+    stroke: var(--ids-color-palette-ruby-60);
   }
 }

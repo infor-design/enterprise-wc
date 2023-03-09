@@ -24,7 +24,7 @@ const IdsLoadingIndicatorMixin = <T extends IdsBaseConstructor>(superclass: T) =
   connectedCallback(): void {
     super.connectedCallback?.();
     this.#attachLoadingIndicator();
-    this.#addClasses();
+    this.#addClass();
   }
 
   /**
@@ -56,16 +56,25 @@ const IdsLoadingIndicatorMixin = <T extends IdsBaseConstructor>(superclass: T) =
 
   #attachLoadingIndicator() {
     if (this.showLoadingIndicator && this.#getSlottedElements()?.length === 0) {
+      const type: string | null = this.getAttribute('type');
+
       this.insertAdjacentHTML(
         'beforeend',
-        '<ids-loading-indicator slot="loading-indicator" size="xs" class="slot-loading-indicator"></ids-loading-indicator>'
+        `<ids-loading-indicator
+          slot="loading-indicator"
+          size="xs"
+          class="slot-loading-indicator${type ? ` type-${type}` : ''}"
+        ></ids-loading-indicator>`
       );
     }
   }
 
-  #addClasses() {
-    this.#getSlottedElements()?.forEach((item: any) => {
-      item.classList.add('slot-loading-indicator');
+  /**
+   * Add CSS class if an element provided in the slot
+   */
+  #addClass() {
+    this.#getSlottedElements()?.forEach((item: Node) => {
+      (item as HTMLElement).classList.add('slot-loading-indicator');
     });
   }
 };
