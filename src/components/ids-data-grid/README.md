@@ -513,6 +513,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `cancelCellEdit` Stops editing and reverts the value in the active editor.
 - `resetDirtyCells` Clears all dirty cell indicators.
 - `dirtyCells` Gives a list of all currently dirty cells.
+- `exoprtToExcel(format: 'csv' | 'xlsx', filename: string, keepGridFormatting: boolean)` Export datagrid datasource to an excel file. This keeps grid formatting by default.
 
 ## Filters
 
