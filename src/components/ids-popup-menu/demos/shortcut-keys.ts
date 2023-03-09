@@ -1,7 +1,7 @@
 // Supporting components
 import '../ids-popup-menu';
 import '../../ids-popup/ids-popup';
-import json from '../../../assets/data/menu-contents.json';
+import json from '../../../assets/data/menu-shortcuts.json';
 
 document.addEventListener('DOMContentLoaded', () => {
   const popupmenuEl: any = document.querySelector('#popupmenu');
