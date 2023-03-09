@@ -3,6 +3,7 @@ import type IdsButton from '../ids-button';
 import '../../ids-loading-indicator/ids-loading-indicator';
 import '../../ids-trigger-field/ids-trigger-field';
 import '../../ids-input/ids-input';
+import '../../ids-dropdown/ids-dropdown';
 
 const clickableBtns = document.querySelectorAll<IdsButton>('.btn-click-to-load');
 const clickableTriggers: any = document.querySelectorAll<IdsButton>('.btn-trigger-to-load');
