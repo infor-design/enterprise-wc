@@ -2388,43 +2388,86 @@ export default class IdsDataGrid extends Base {
     });
   }
 
-  exportToExcel(format: 'csv' | 'xlsx', filename?: string) {
-    const columns: Array<ExcelColumn> = [];
-    const colCache: Record<string, IdsDataGridColumn> = {};
+  /**
+   * Export data grid to excel
+   * @param {string} format csv or xlsx
+   * @param {string} filename filename
+   * @param {boolean} keepGridFormatting keep grid formatting, or pass raw datasource data
+   */
+  exportToExcel(format: 'csv' | 'xlsx', filename: string, keepGridFormatting = true) {
+    const xlColumns: Record<string, ExcelColumn> = {};
+    const gridColCache: Record<string, IdsDataGridColumn> = {};
+    format = format === 'csv' || format === 'xlsx' ? format : 'xlsx';
+    keepGridFormatting = format === 'csv' ? true : keepGridFormatting;
 
-    for (let i = 0; i < this.columns.length; i++) {
-      const col = this.columns[i];
+    // create excel col config from grid column config
+    this.columns.forEach((gridCol) => {
+      if (gridCol.id && gridCol.field && gridCol.name) {
+        gridColCache[gridCol.id] = gridCol;
 
-      if (col.id && col.field && col.name) {
-        colCache[col.id!] = col;
-        columns.push({
-          field: col.field,
-          name: col.name,
-          type: 'string'
-        });
+        xlColumns[gridCol.id] = {
+          id: gridCol.id,
+          field: gridCol.field,
+          name: gridCol.name,
+          type: keepGridFormatting ? 'string' : this.determineColType(gridCol)
+        };
       }
-    }
-
-    const temp = document.createElement('span');
-    const data = this.datasource.data.map((rowData, idx) => {
-      const formattedData: Record<string, any> = {};
-
-      // format data using column formatter
-      Object.keys(colCache).forEach((id) => {
-        const formatter = colCache[id].formatter;
-        const value = formatter ? formatter.call(this.formatters, rowData, colCache[id], idx, this) : rowData[id];
-        temp.innerHTML = value;
-        formattedData[id] = temp.textContent;
-      });
-
-      return formattedData;
     });
 
-    const config = {
-      filename: filename || 'data-grid',
-      columns
-    };
+    // Get excel data from grid data source
+    const elem = document.createElement('span');
+    const xlData: Array<Record<string, any>> = !keepGridFormatting
+      ? this.datasource.data
+      : this.datasource.data.map((rowData, rowIndex) => {
+        const xlDataRow: Record<string, any> = {};
+
+        Object.keys(xlColumns).forEach((id) => {
+          const gridCol = gridColCache[id];
+          const formatter = gridCol?.formatter;
+          const isNumber = formatter === this.formatters.decimal || formatter === this.formatters.integer;
+          const rawValue = rowData[xlColumns[id].field];
+          let excelValue = rawValue;
+
+          // use grid formatted strings for non number truthy values
+          if (rawValue !== undefined && rawValue !== null && !isNumber && formatter) {
+            const formattedValue = formatter.call(this.formatters, rowData, gridCol!, rowIndex, this);
+            elem.innerHTML = formattedValue;
+            excelValue = elem.textContent?.trim();
+          }
+
+          xlDataRow[id] = excelValue;
+        });
+
+        return xlDataRow;
+      });
+
     const exporter = format === 'csv' ? exportToCSV : exportToXLSX;
-    exporter(data, config);
+    exporter(xlData, {
+      filename: filename || 'data-grid',
+      columns: Object.values(xlColumns)
+    });
+  }
+
+  /**
+   * Get excel data type from data grid column formattter
+   * @param {IdsDataGridColumn} gridCol grid column config
+   * @returns {string} matching excel type
+   */
+  private determineColType(gridCol: IdsDataGridColumn): string {
+    let type = 'string';
+
+    if (gridCol.formatter === this.formatters.integer || gridCol.formatter === this.formatters.decimal) {
+      type = 'number';
+    }
+
+    if (gridCol.formatter === this.formatters.date) {
+      type = 'date';
+    }
+
+    if (gridCol.formatter === this.formatters.time) {
+      type = 'time';
+    }
+
+    return type;
   }
 }

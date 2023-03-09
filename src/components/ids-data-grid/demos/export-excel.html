@@ -11,16 +11,18 @@
       <ids-text font-size="12" type="h1">Data Grid (Virtual Scrolling)</ids-text>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
-      <ids-layout-grid-cell>
-        <ids-button id="export-csv">
-          <ids-icon icon="spreadsheet"></ids-icon>
-          <span>Export (.csv)</span>
-        </ids-button>
-        <ids-button id="export-xlsx">
-          <ids-icon icon="spreadsheet"></ids-icon>
-          <span>Export (.xlsx)</span>
-        </ids-button>
-      </ids-layout-grid-cell>
+      <ids-toolbar padding="5">
+        <ids-toolbar-section align="end" favor>
+          <ids-button id="export-csv">
+            <ids-icon icon="spreadsheet"></ids-icon>
+            <span>Export (.csv)</span>
+          </ids-button>
+          <ids-button id="export-xlsx">
+            <ids-icon icon="spreadsheet"></ids-icon>
+            <span>Export (.xlsx)</span>
+          </ids-button>
+        </ids-toolbar-section>
+      </ids-toolbar>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>

@@ -67,14 +67,14 @@ columns.push({
   id: 'unitPrice',
   name: 'Unit Price',
   field: 'unitPrice',
-  formatter: dataGrid.formatters.text,
+  formatter: dataGrid.formatters.decimal,
   sortable: true
 });
 columns.push({
   id: 'units',
   name: 'Units',
   field: 'units',
-  formatter: dataGrid.formatters.decimal,
+  formatter: dataGrid.formatters.integer,
   sortable: true
 });
 
@@ -83,6 +83,40 @@ dataGrid.columns = columns;
 const setData = async () => {
   const res = await fetch(url);
   const data = await res.json();
+
+  // push arabic text data for testing
+  data.push({
+    id: 2000,
+    productId: '5651591818',
+    productName: 'الإنجليزية (أستراليا)',
+    inStock: false,
+    units: '68',
+    unitPrice: 5000,
+    color: `Blue`
+  });
+
+  // push chinese text data for testing
+  data.push({
+    id: 2001,
+    productId: '5651591819',
+    productName: '英语(澳大利亚)',
+    inStock: false,
+    units: '680',
+    unitPrice: 2000,
+    color: `Red`
+  });
+
+  // push special character text data for testing
+  data.push({
+    id: 2002,
+    productId: '5651591820',
+    productName: '!@#$%^*()&<>?:{}[]',
+    inStock: true,
+    units: '468',
+    unitPrice: 100,
+    color: `White`
+  });
+
   dataGrid.data = data;
 };
 

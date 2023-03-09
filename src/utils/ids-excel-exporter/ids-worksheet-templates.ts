@@ -68,7 +68,7 @@ export const STYLES_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"
     </border>
     <border>
       <begin/>
-      <end style="medium">
+      <end style="thin">
         <color indexed="64"/>
       </end>
       <top/>
@@ -81,16 +81,19 @@ export const STYLES_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"
   <cellStyleXfs count="1">
     <xf borderId="0" fillId="0" fontId="0" numFmtId="0" />
   </cellStyleXfs>
-  <cellXfs count="2">
+  <cellXfs count="4">
     <xf borderId="0" fillId="0" fontId="0" numFmtId="0" xfId="0" />
-    <xf applyAlignment="1" applyFont="1" borderId="1" fillId="0" fontId="2" numFmtId="0" xfId="0">
+    <xf applyFont="1" borderId="1" fillId="0" fontId="2" numFmtId="0" xfId="0" applyAlignment="1">
       <alignment horizontal="center" />
     </xf>
+    <xf borderId="0" fillId="0" fontId="0" numFmtId="14" xfId="0" applyNumberFormat="1" />
+    <xf borderId="0" fillId="0" fontId="0" numFmtId="18" xfId="0" applyNumberFormat="1" />
   </cellXfs>
   <tableStyles count="0" defaultPivotStyle="PivotStyleLight16" defaultTableStyle="TableStyleMedium2" />
 </styleSheet>`;
 
 export interface ExcelColumn {
+  id: string;
   field: string;
   type: string;
   name: string;

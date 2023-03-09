@@ -1,12 +1,12 @@
 import { ZipEntry } from './ids-zip-entry';
 
+// Zip entry constants used in zip part headers
 const SIGNATURE = {
   LOCAL_FILE_HEADER: 'PK\x03\x04',
   CENTRAL_FILE_HEADER: 'PK\x01\x02',
   CENTRAL_DIRECTORY_END: 'PK\x05\x06',
-  ZIP64_CENTRAL_DIRECTORY_LOCATOR: 'PK\x06\x07',
-  ZIP64_CENTRAL_DIRECTORY_END: 'PK\x06\x06',
-  DATA_DESCRIPTOR: 'PK\x07\x08',
+  DIR_FILE_ATTR: '\x10\x00\xFD\x41',
+  NON_DIR_FILE_ATTR: '\x00\x00\xB4\x81'
 };
 
 export class IdsZip {
@@ -16,9 +16,10 @@ export class IdsZip {
   // zip entries
   private entries: Record<string, ZipEntry> = {};
 
-  // byte count
+  // byte count (size)
   private bytesWritten = 0;
 
+  // collection of encoded zip file records, concatenated at the end
   private dataArray: Array<Uint8Array> = [];
 
   /**
@@ -93,7 +94,7 @@ export class IdsZip {
    * @returns {Blob} Blob of zip file
    */
   private createZipFile(entries: Array<ZipEntry>, mimeType: string): Blob {
-    const entryDirs: any = [];
+    const entryDirs: string[] = [];
 
     entries.forEach((entry: ZipEntry) => {
       const entryParts = this.processEntry(entry, this.bytesWritten);
@@ -131,7 +132,11 @@ export class IdsZip {
     };
   }
 
-  private closeZipFile(entryDirs: any[]) {
+  /**
+   * Prepares End of Central Directory record to end zip package
+   * @param {Array<string>} entryDirs dir zip entries
+   */
+  private closeZipFile(entryDirs: string[]): void {
     const localDirSize = this.bytesWritten;
 
     for (let i = 0; i < entryDirs.length; i++) {
@@ -148,6 +153,11 @@ export class IdsZip {
     this.writeData(dirEnd);
   }
 
+  /**
+   * Appends and transforms data to data array
+   * Also tracks current size of all entries
+   * @param {any} data string or Uint8Array
+   */
   private writeData(data: any): void {
     if (data && data.length) {
       this.dataArray.push(this.transform(data));
@@ -155,8 +165,13 @@ export class IdsZip {
     }
   }
 
+  /**
+   * Transforms string data into Uint8Array
+   * @param {string | Uint8Array} data data
+   * @returns {Uint8Array} encoded data
+   */
   private transform(data: string | Uint8Array): Uint8Array {
-    if (data instanceof Uint8Array) return data;
+    if (typeof data !== 'string') return data;
 
     const output = new Uint8Array(data.length);
     for (let i = 0; i < data.length; ++i) {
@@ -167,6 +182,11 @@ export class IdsZip {
     return output;
   }
 
+  /**
+   * Flattens data array collection
+   * @param {Array<Uint8Array>} dataArray data array of all zip entries
+   * @returns {Uint8Array} flattend dataArray
+   */
   private concat(dataArray: Array<Uint8Array>): Uint8Array {
     const totalLength = dataArray.reduce((total, data) => total + data.length, 0);
     const res = new Uint8Array(totalLength);
@@ -178,17 +198,6 @@ export class IdsZip {
     }
 
     return res;
-  }
-
-  private generateUnixExternalFileAttr(unixPermissions: any, isDir: any) {
-    let result = unixPermissions;
-    if (!unixPermissions) {
-      // I can't use octal values in strict mode, hence the hexa.
-      //  040775 => 0x41fd
-      // 0100664 => 0x81b4
-      result = isDir ? 0x41fd : 0x81b4;
-    }
-    return (result & 0xFFFF) << 16;
   }
 
   /**
@@ -263,21 +272,16 @@ export class IdsZip {
    * @returns {string} Central Directory File Header string
    */
   private generateCentralDirectoryFileHeader(entry: ZipEntry, header: string, offset: number): string {
-    let extFileAttr = 0;
-    let versionMadeBy = 0;
-    if (entry.dir) {
-      // dos or unix, we set the dos dir flag
-      extFileAttr |= 0x00010;
-    }
-
-    versionMadeBy = 0x031E; // UNIX, version 3.0
-    extFileAttr |= this.generateUnixExternalFileAttr(false, entry.dir);
+    // UNIX, version 3.0
+    const VERSION_MADE_BY = 0x031E;
+    // Reflects no OS permissions set for (read, write, execute), only difference is flag for directory
+    const EXT_FILE_ATTR = entry.dir ? SIGNATURE.DIR_FILE_ATTR : SIGNATURE.NON_DIR_FILE_ATTR;
 
     return [
       // Central directory file header signature
       SIGNATURE.CENTRAL_FILE_HEADER,
       // Version made by
-      this.decToHex(versionMadeBy, 2),
+      this.decToHex(VERSION_MADE_BY, 2),
       // generateHeaderPartial
       header,
       // File comment length (k)
@@ -287,7 +291,7 @@ export class IdsZip {
       // Internal file attributes
       '\x00\x00',
       // External file attributes
-      this.decToHex(extFileAttr, 4),
+      EXT_FILE_ATTR,
       // Relative offset of local file header.
       this.decToHex(offset, 4),
       // File name

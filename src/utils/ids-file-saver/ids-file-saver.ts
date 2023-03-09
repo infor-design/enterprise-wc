@@ -1,27 +1,13 @@
 /**
- * Download blob as file
- * @param {Blob} blob data
- * @param {string} name filename
+ * Helper function to download file
+ * @param {string} filename filename with extension
+ * @param {string} data Blob or href string
  */
-export function saveAs(blob: Blob, name: string) {
+export function saveAs(filename: string, data: Blob | string) {
   const a = document.createElement('a');
-  name = name || blob.name || 'download';
-  a.download = name;
   a.rel = 'noopener';
-
-  // Support blobs
-  a.href = URL.createObjectURL(blob);
-
-  setTimeout(() => {
-    URL.revokeObjectURL(a.href);
-  }, 4E4); // 40s
-
-  setTimeout(() => {
-    try {
-      a.dispatchEvent(new MouseEvent('click'));
-    } catch (e) {
-      const evt = document.createEvent('MouseEvents');
-      a.dispatchEvent(evt);
-    }
-  }, 0);
+  a.download = filename;
+  a.href = data instanceof Blob ? URL.createObjectURL(data) : data;
+  a.dispatchEvent(new MouseEvent('click'));
+  URL.revokeObjectURL(a.href);
 }
