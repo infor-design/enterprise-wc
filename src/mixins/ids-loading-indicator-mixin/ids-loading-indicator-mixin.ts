@@ -17,7 +17,8 @@ const IdsLoadingIndicatorMixin = <T extends IdsBaseConstructor>(superclass: T) =
   static get attributes() {
     return [
       ...(superclass as any).attributes,
-      attributes.SHOW_LOADING_INDICATOR
+      attributes.LOADING_INDICATOR_ONLY,
+      attributes.SHOW_LOADING_INDICATOR,
     ];
   }
 
@@ -47,6 +48,25 @@ const IdsLoadingIndicatorMixin = <T extends IdsBaseConstructor>(superclass: T) =
    * @returns {boolean} showLoadingIndicator param converted to boolean from attribute value. Defaults to false
    */
   get showLoadingIndicator() { return stringToBool(this.getAttribute(attributes.SHOW_LOADING_INDICATOR)); }
+
+  /**
+   * Set whether or not to replace text/icons with the loading indicator and place it at the center. Defaults to false
+   * @param {boolean|string|null} value loading-indicator-only attribute value
+   */
+  set loadingIndicatorOnly(value: string | boolean | null) {
+    const boolVal = stringToBool(value);
+    if (boolVal) {
+      this.setAttribute(attributes.LOADING_INDICATOR_ONLY, boolVal.toString());
+    } else {
+      this.removeAttribute(attributes.LOADING_INDICATOR_ONLY);
+    }
+  }
+
+  /**
+   * loading-indicator-only attribute
+   * @returns {boolean} loadingIndicatorOnly param converted to boolean from attribute value. Defaults to false
+   */
+  get loadingIndicatorOnly() { return stringToBool(this.getAttribute(attributes.LOADING_INDICATOR_ONLY)); }
 
   #getSlottedElements() {
     const slot = this.container?.querySelector<HTMLSlotElement>('slot[name="loading-indicator"]');

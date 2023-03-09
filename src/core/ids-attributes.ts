@@ -215,6 +215,7 @@ export const attributes = {
   LIST: 'list',
   LIST_STYLE: 'list-style',
   LOADED: 'loaded',
+  LOADING_INDICATOR_ONLY: 'loading-indicator-only',
   LOCALE: 'locale',
   MARGINS: 'margins',
   MARKER_SIZE: 'marker-size',

@@ -328,19 +328,19 @@ button {
   }
 }
 
-:host([show-loading-indicator='true'][loading-indicator-replace-text='true']) {
+:host([show-loading-indicator='true'][loading-indicator-only='true']) {
   ::slotted(*:not(.slot-loading-indicator)) {
     visibility: hidden;
   }
 }
 
-:host([show-loading-indicator='true']:not([loading-indicator-replace-text='true'])) {
+:host([show-loading-indicator='true']:not([loading-indicator-only='true'])) {
   ::slotted(.slot-loading-indicator) {
     margin-inline-start: 6px;
   }
 }
 
-:host([show-loading-indicator='true']:not([loading-indicator-replace-text='true']):is([type='primary'], [type='secondary'], [type='primary-destructive'])) {
+:host([show-loading-indicator='true']:not([loading-indicator-only='true']):is([type='primary'], [type='secondary'], [type='primary-destructive'])) {
   &::part(button) {
     padding-inline-start: 20px;
     padding-inline-end: 12px;
@@ -351,7 +351,7 @@ button {
   }
 }
 
-:host([loading-indicator-replace-text='true']) {
+:host([loading-indicator-only='true']) {
   ::slotted(.slot-loading-indicator) {
     @include absolute();
 
