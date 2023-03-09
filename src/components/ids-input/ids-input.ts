@@ -101,6 +101,7 @@ type IdsInputTemplateVariables = {
  * @mixes IdsValidationMixin
  * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
+ * @mixes IdsLoadingIndicatorMixin
  * @part container - the overall container
  * @part field-container - the container for the input
  * @part input - the input element

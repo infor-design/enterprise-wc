@@ -58,6 +58,7 @@ const Base = IdsTooltipMixin(
  * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
  * @mixes IdsHideFocusMixin
+ * @mixes IdsLoadingIndicatorMixin
  * @part button - the button element
  * @part icon - the icon element
  * @part text - the text element
