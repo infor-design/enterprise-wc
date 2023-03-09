@@ -837,13 +837,13 @@ export default class IdsDataGridFilters {
         dropdown.onEvent('click', dropdown, () => {
           const popup = dropdownList.popup;
           if (popup) {
-            if (!popup.visible) dropdownList.show();
-            else dropdownList.hide();
+            if (!popup.visible) dropdown.open();
+            else dropdown.close();
           }
         });
         dropdownList.onOutsideClick = (e: MouseEvent) => {
           if (!e.composedPath().includes(dropdownList)) {
-            dropdownList.hide();
+            dropdown.close();
           }
         };
         dropdownList.refreshTriggerEvents();
