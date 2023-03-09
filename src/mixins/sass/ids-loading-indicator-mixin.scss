@@ -1,7 +1,7 @@
 /**
  * CSS for loading indicator mixin
  */
- @import '../../core/ids-base';
+@import '../../core/ids-base';
 
 // Common
 :host(:not([show-loading-indicator='true'])) {
@@ -13,7 +13,8 @@
 
 :host([show-loading-indicator='true']) {
   ::slotted(ids-loading-indicator) {
-    @include my-1();
+    margin-top: 3px;
+    margin-bottom: 3px;
   }
 }
 
@@ -32,8 +33,8 @@
 
 :host(ids-button[show-loading-indicator='true']:not([loading-indicator-replace-text='true']):is([type='primary'], [type='secondary'], [type='primary-destructive'])) {
   &::part(button) {
-    padding-inline-start: 18px;
-    padding-inline-end: 10px;
+    padding-inline-start: 20px;
+    padding-inline-end: 12px;
   }
 
   ::slotted(.slot-loading-indicator) {
@@ -54,11 +55,27 @@
 
 // Input, Trigger Field
 :host(:is(ids-input[show-loading-indicator='true'], ids-trigger-field[show-loading-indicator='true'])) {
-  ::slotted(.slot-loading-indicator) {
-    margin-inline-end: 10px;
-  }
+  pointer-events: none;
 
   ::slotted(ids-trigger-button[slot='trigger-end']) {
     display: none;
+  }
+
+  ::slotted(.slot-loading-indicator) {
+    @include mr-12();
+    @include ml-8();
+  }
+}
+
+:host(:is(ids-input[show-loading-indicator='true'][field-height='xs'], ids-trigger-field[show-loading-indicator='true'][field-height='xs'])) {
+  ::slotted(.slot-loading-indicator) {
+    @include mx-4();
+  }
+}
+
+:host(:is(ids-input[show-loading-indicator='true'][field-height='sm'], ids-trigger-field[show-loading-indicator='true'][field-height='sm'])) {
+  ::slotted(.slot-loading-indicator) {
+    @include mr-8();
+    @include ml-4();
   }
 }
