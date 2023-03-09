@@ -276,6 +276,10 @@ export default class IdsMenu extends Base {
       if (item.selected) {
         selected = ' selected="true"';
       }
+      let shortcutKeys = '';
+      if (typeof item.shortcutKeys === 'string') {
+        shortcutKeys = ` shortcut-keys="${item.shortcutKeys}"`;
+      }
       let value = '';
       if (typeof item.value !== 'undefined' && item.value !== null && item.value !== '') {
         value = ` value="${item.value}"`;
@@ -285,7 +289,7 @@ export default class IdsMenu extends Base {
         submenu = renderSubmenu(item.submenu);
       }
 
-      return `<ids-menu-item${id}${disabled}${icon}${selected}${value}>
+      return `<ids-menu-item${id}${disabled}${icon}${selected}${shortcutKeys}${value}>
         ${text}
         ${submenu}
       </ids-menu-item>`;

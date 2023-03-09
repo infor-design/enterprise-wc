@@ -179,6 +179,7 @@
 
   // ================================================
   // Hidden state
+
   &.hidden {
     display: none;
   }
@@ -198,6 +199,12 @@
       @include px-8();
 
       grid-template-columns: 30px max-content;
+    }
+  }
+
+  &.has-shortcuts.has-icon {
+    a {
+      grid-template-columns: 30px calc(50% - 15px) calc(50% - 15px);
     }
   }
 
@@ -233,11 +240,26 @@
   }
 
   // ================================================
+  // Rules for a menu item with shortcut keys
+
+  &.has-shortcuts {
+    a {
+      grid-template-columns: 50% 50%;
+    }
+  }
+
+  // ================================================
   // Rules for a menu item with a submenu + submenu icon
 
   &.has-submenu {
     a {
       grid-template-columns: 0 calc(100% - 25px) 25px;
+    }
+  }
+
+  &.has-shortcuts.has-submenu {
+    a {
+      grid-template-columns: 50% calc(50% - 25px) 25px;
     }
   }
 
@@ -254,6 +276,13 @@
     }
   }
 
+  &.has-shortcuts.has-icon.has-checkmark,
+  &.has-shortcuts.has-icon.has-mutlt-checkmark {
+    a {
+      grid-template-columns: 30px 30px calc(50% - 30px) calc(50% - 30px);
+    }
+  }
+
   // ================================================
   // Rules for a menu item with an action-defined icon, and a submenu + submenu icon
   // Also for a menu item with a checkmark, and a submenu + submenu icon
@@ -266,6 +295,14 @@
     }
   }
 
+  &.has-icon.has-shortcuts.has-submenu,
+  &.has-checkmark.has-shortcuts.has-submenu,
+  &.has-multi-checkmark.has-shortcuts.has-submenu {
+    a {
+      grid-template-columns: 30px calc(50% - 30px) calc(50% - 25px) 25px;
+    }
+  }
+
   // ================================================
   // Rules for a menu item with a checkmark, action-defined icon, and a submenu + submenu icon
 
@@ -275,6 +312,18 @@
       grid-template-columns: 30px 30px calc(100% - 85px) 25px;
     }
   }
+
+  &.has-icon.has-checkmark.has-shortcuts.has-submenu,
+  &.has-icon.has-multi-checkmark.has-shortcuts.has-submenu {
+    a {
+      grid-template-columns: 30px 30px calc(50% - 45px) calc(50% - 40px) 25px;
+    }
+  }
+}
+
+.ids-menu-item-shortcuts {
+  pointer-events: none;
+  text-align: end;
 }
 
 // ===============================================

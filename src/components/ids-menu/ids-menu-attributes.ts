@@ -55,6 +55,7 @@ const MENU_DEFAULTS: any = {
   disabled: false,
   icon: null,
   selected: false,
+  shortcutKeys: null,
   submenu: null,
   tabIndex: 0,
   value: null,
