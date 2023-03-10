@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.8 Fixes
 
+- `[Button/Input/Dropdown]` Added posibility to show loading indicator. ([#1048](https://github.com/infor-design/enterprise-wc/issues/1048))
 - `[Datagrid/Dropdown]` Separated IdsDropdownList into its own component, re-integrated the new component into IdsDropdown, and fixed containment/cutoff issues in IdsDataGrid using the new list component. ([#1065](https://github.com/infor-design/enterprise-wc/issues/1065))
 
 ## 1.0.0-beta.7
