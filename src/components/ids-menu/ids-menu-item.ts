@@ -82,9 +82,7 @@ export default class IdsMenuItem extends Base {
     const check = this.templateCheck();
 
     // Icon
-    let icon = '';
-    if (this.state?.icon) icon = this.templateDisplayIcon(this.state.icon);
-    const iconSlot = `<span class="ids-menu-item-icon" role="presentation"><slot name="icon">${icon}</slot></span>`;
+    const iconSlot = `<span class="ids-menu-item-icon" role="presentation"><slot name="icon"></slot></span>`;
 
     // Selected
     let selectedClass = '';
@@ -479,7 +477,7 @@ export default class IdsMenuItem extends Base {
    * @returns {boolean} true if this item is able to be selected
    */
   get isSelectable(): boolean {
-    return this.group?.select !== null && !this.submenu;
+    return this.group?.select !== null;
   }
 
   /**
@@ -593,12 +591,6 @@ export default class IdsMenuItem extends Base {
       this.setAttribute(attributes.SHORTCUT_KEYS, val);
       this.appendShortcuts(val);
     }
-
-    /*
-    if (this.group && typeof this.group.updateIconAlignment === 'function') {
-      this.group.updateIconAlignment();
-    }
-    */
   }
 
   /**

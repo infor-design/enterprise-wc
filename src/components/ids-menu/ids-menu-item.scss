@@ -3,6 +3,14 @@
 @import '../../mixins/sass/ids-check-mixin';
 @import '../../mixins/sass/ids-checkbox-mixin';
 
+/**
+ * NOTE ABOUT MENU ITEM ELEMENT ORDER:
+ * Definitions for grid template size in IdsMenuItem are defined based on the below order.
+ * If changes are made to IdsMenuItem's rendering, this order must remain in place.
+ *
+ * [checkmark?] - [icon?] - text - [shortcut text?] - [submenu icon?]
+ **/
+
 :host {
   @include block();
 
@@ -192,6 +200,21 @@
   }
 
   // ================================================
+  // Rules for a menu item with shortcut keys
+
+  &.has-shortcuts {
+    a {
+      grid-template-columns: 0 50% 50%;
+    }
+
+    &:not(.has-submenu) {
+      .ids-menu-item-shortcuts {
+        margin-inline-start: 16px;
+      }
+    }
+  }
+
+  // ================================================
   // Rules for a menu item with an icon
 
   &.has-icon {
@@ -216,7 +239,7 @@
     a {
       @include pl-4();
 
-      grid-template-columns: 30px 0 max-content;
+      grid-template-columns: 30px 0 max-content 0;
 
       // When checkmarks are present, all column placements change
       .check {
@@ -239,12 +262,10 @@
     }
   }
 
-  // ================================================
-  // Rules for a menu item with shortcut keys
-
-  &.has-shortcuts {
+  &.has-shortcuts.has-checkmark,
+  &.has-shortcuts.has-multi-checkmark {
     a {
-      grid-template-columns: 50% 50%;
+      grid-template-columns: 30px 0 50% calc(50% - 30px);
     }
   }
 
@@ -255,11 +276,11 @@
     a {
       grid-template-columns: 0 calc(100% - 25px) 25px;
     }
-  }
 
-  &.has-shortcuts.has-submenu {
-    a {
-      grid-template-columns: 50% calc(50% - 25px) 25px;
+    // NOTE: Submenu items contain this element,
+    // but hide it from the grid template calculation
+    .ids-menu-item-shortcuts {
+      display: none;
     }
   }
 
@@ -287,19 +308,17 @@
   // Rules for a menu item with an action-defined icon, and a submenu + submenu icon
   // Also for a menu item with a checkmark, and a submenu + submenu icon
 
-  &.has-icon.has-submenu,
-  &.has-checkmark.has-submenu,
-  &.has-multi-checkmark.has-submenu {
+  &.has-icon.has-submenu {
     a {
       grid-template-columns: 30px calc(100% - 55px) 25px;
     }
   }
 
-  &.has-icon.has-shortcuts.has-submenu,
-  &.has-checkmark.has-shortcuts.has-submenu,
-  &.has-multi-checkmark.has-shortcuts.has-submenu {
+  // Icon slot is still present (but hidden) in this configuration
+  &.has-checkmark.has-submenu,
+  &.has-multi-checkmark.has-submenu {
     a {
-      grid-template-columns: 30px calc(50% - 30px) calc(50% - 25px) 25px;
+      grid-template-columns: 30px 0 calc(100% - 55px) 25px;
     }
   }
 
@@ -310,13 +329,6 @@
   &.has-icon.has-multi-checkmark.has-submenu {
     a {
       grid-template-columns: 30px 30px calc(100% - 85px) 25px;
-    }
-  }
-
-  &.has-icon.has-checkmark.has-shortcuts.has-submenu,
-  &.has-icon.has-multi-checkmark.has-shortcuts.has-submenu {
-    a {
-      grid-template-columns: 30px 30px calc(50% - 45px) calc(50% - 40px) 25px;
     }
   }
 }

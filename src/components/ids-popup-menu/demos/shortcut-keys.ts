@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
       items.forEach((item: IdsMenuItem) => {
         if (item.iconEl) {
           item.removeAttribute('icon');
-          debugger;
         }
       });
     } else {
