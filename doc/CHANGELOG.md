@@ -5,6 +5,7 @@
 ### 1.0.0-beta.8 Fixes
 
 - `[Datagrid/Dropdown]` Separated IdsDropdownList into its own component, re-integrated the new component into IdsDropdown, and fixed containment/cutoff issues in IdsDataGrid using the new list component. ([#1065](https://github.com/infor-design/enterprise-wc/issues/1065))
+- `[Menu/Popup Menu]` Added Shortcut Key display feature to IdsMenuItem. ([#1108](https://github.com/infor-design/enterprise-wc/issues/1108))
 
 ## 1.0.0-beta.7
 
