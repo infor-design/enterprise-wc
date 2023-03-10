@@ -91,3 +91,11 @@ setData();
 dataGrid.addEventListener('selectionchanged', (e: Event) => {
   console.info(`Selection Changed`, (<CustomEvent>e).detail);
 });
+
+dataGrid.addEventListener('scrollstart', async (e: Event) => {
+  console.info(`Virtual Scroll reached start`, (<CustomEvent>e).detail);
+});
+
+dataGrid.addEventListener('scrollend', async (e: Event) => {
+  console.info(`Virtual Scroll reached end`, (<CustomEvent>e).detail);
+});
