@@ -65,7 +65,8 @@
   // ================================================
   // Standard Rules for a menu item with no icons
   a {
-    @include px-8();
+    @include pl-12();
+    @include pr-8();
     @include py-8();
     @include text-16();
 
@@ -76,7 +77,7 @@
     text-overflow: ellispis;
     user-select: inherit;
     white-space: nowrap;
-    width: calc(100% - 16px);
+    width: calc(100% - 20px);
 
     // Disable default browser focus state.
     // (comment this out to debug the true menu focus state)
@@ -210,6 +211,7 @@
     &:not(.has-submenu) {
       .ids-menu-item-shortcuts {
         margin-inline-start: 16px;
+        margin-inline-end: 4px; // line up with submenu icons
       }
     }
   }
