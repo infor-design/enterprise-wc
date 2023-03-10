@@ -124,10 +124,10 @@ setData();
 
 const exportXLSX = document.body.querySelector('#export-xlsx');
 exportXLSX?.addEventListener('click', () => {
-  dataGrid.exportToExcel('xlsx', 'demo-xlsx');
+  dataGrid.exportToExcel('xlsx', 'DataGrid (Export)');
 });
 
 const exportCSV = document.body.querySelector('#export-csv');
 exportCSV?.addEventListener('click', () => {
-  dataGrid.exportToExcel('csv', 'demo-csv');
+  dataGrid.exportToExcel('csv', 'DataGrid (Export)');
 });
