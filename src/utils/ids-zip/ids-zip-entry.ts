@@ -1,9 +1,5 @@
-/**
- * The following functions come from pako, from pako/lib/zlib/crc32.js
- * released under the MIT license, see pako https://github.com/nodeca/pako/
- * @returns {Array<number>} crc table
- */
-function makeTable() {
+// Create table on load. Used as reference to calculate crc checksum
+const crcTable = (() => {
   let c;
   const table = [];
 
@@ -16,10 +12,7 @@ function makeTable() {
   }
 
   return table;
-}
-
-// Create table on load. Just 255 signed longs. Not a problem.
-const crcTable = makeTable();
+})();
 
 export class ZipEntry {
   // filename/dir name

@@ -5,7 +5,7 @@ const VALID_TYPES = ['string', 'number', 'date', 'time'];
 const CELL_PADDING = 2;
 
 /**
- * Class used to format data collection into Office Open XML used in xlsx files
+ * Class used to format data collection into Office Open XML format for .xlsx files
  * Link below provides a PDF (Part 1) of OOXML documentation
  * @see {@link https://www.ecma-international.org/publications-and-standards/standards/ecma-376/}
  */
