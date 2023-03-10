@@ -424,6 +424,7 @@ export default class IdsMenu extends Base {
    */
   get focusTarget() {
     if (this.lastHovered) return this.lastHovered;
+    if (this.lastNavigated) return this.lastNavigated;
 
     const highlighted = this.items.filter((item: IdsMenuItem) => item.highlighted);
     if (highlighted.length) return highlighted[highlighted.length - 1];
@@ -565,6 +566,9 @@ export default class IdsMenu extends Base {
     }
 
     this.lastNavigated = currentItem;
+    if (this.lastHovered) this.lastHovered = null;
+
+    // Focus/Highlight
     if (!currentItem.disabled && !currentItem.hidden && doFocus) {
       currentItem.focus();
       this.highlightItem(currentItem);

@@ -92,9 +92,26 @@ export default class IdsPopupMenu extends Base {
   }
 
   /**
+   * Override `renderFromData()` from the IdsMenu base to also re-apply Popup Menu event handlers
+   */
+  renderFromData() {
+    super.renderFromData();
+    this.attachEventHandlers();
+    this.attachKeyboardListeners();
+  }
+
+  /**
    * @returns {Array<string>} Popup Menu vetoable events
    */
   vetoableEventTypes: Array<string> = ['beforeshow'];
+
+  private setInitialFocus() {
+    const focusTarget = this.focusTarget;
+    if (focusTarget) {
+      focusTarget.highlight();
+      focusTarget.focus();
+    }
+  }
 
   /**
    * Sets up event handlers used in this menu.
@@ -105,6 +122,7 @@ export default class IdsPopupMenu extends Base {
 
     // Hide the menu when an item is "picked"
     // (only if `keep-open` attribute is not present)
+    this.offEvent('pick');
     this.onEvent('pick', this, (e: CustomEvent) => {
       if (this.visible) {
         const item = e.detail.elem;
@@ -115,19 +133,16 @@ export default class IdsPopupMenu extends Base {
     });
 
     // When the underlying Popup triggers its "show" event, pass the event to the Host element.
+    this.offEvent('show');
     this.onEvent('show', this.container, (e: CustomEvent) => {
       if (!this.parentMenuItem) {
         this.triggerEvent('show', this, e);
       }
-
-      const focusTarget = this.focusTarget;
-      if (focusTarget) {
-        focusTarget.highlight();
-        focusTarget.focus();
-      }
+      this.setInitialFocus();
     });
 
     // When the underlying Popup triggers its "hide" event, pass the event to the Host element.
+    this.offEvent('hide');
     this.onEvent('hide', this.container, (e: CustomEvent) => {
       if (!this.parentMenuItem) {
         this.triggerEvent('hide', this, e);
@@ -146,6 +161,7 @@ export default class IdsPopupMenu extends Base {
     super.attachKeyboardListeners();
 
     // Arrow Right on an item containing a submenu causes that submenu to open
+    this.unlisten('ArrowRight');
     this.listen(['ArrowRight'], this, (e: any) => {
       e.preventDefault();
       const thisItem = e.target.closest('ids-menu-item');
@@ -157,6 +173,7 @@ export default class IdsPopupMenu extends Base {
     // Arrow Left on a submenu item causes the submenu to close, as well as focus
     // on a parent menu item to occur.
     // NOTE: This will never occur on a top-level Popupmenu.
+    this.unlisten('ArrowLeft');
     if (this.parentMenu) {
       this.listen(['ArrowLeft'], this, (e: any) => {
         e.stopPropagation();
@@ -168,6 +185,7 @@ export default class IdsPopupMenu extends Base {
 
     // Escape closes the menu
     // (NOTE: This only applies to top-level Popupmenus)
+    this.unlisten('Escape');
     if (!this.parentMenu) {
       this.listen(['Escape'], this, (e: any) => {
         if (this.hidden) {
@@ -383,6 +401,7 @@ export default class IdsPopupMenu extends Base {
     e.stopPropagation();
     this.popup?.setPosition(e.pageX, e.pageY);
     this.showIfAble();
+    this.setInitialFocus();
   }
 
   /**
