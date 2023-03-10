@@ -2,11 +2,13 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { getElementAtMouseLocation } from '../../utils/ids-dom-utils/ids-dom-utils';
-import '../ids-popup/ids-popup';
+
 import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
 import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+
+import '../ids-popup/ids-popup';
 import IdsMenu from '../ids-menu/ids-menu';
 
 import styles from './ids-popup-menu.scss';
@@ -40,6 +42,7 @@ export default class IdsPopupMenu extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.ALIGN,
       attributes.WIDTH
     ];
   }
@@ -50,7 +53,9 @@ export default class IdsPopupMenu extends Base {
    */
   template(): string {
     const menuTemplate = super.template();
-    return `<ids-popup class="ids-popup-menu" type="menu">${menuTemplate}</ids-popup>`;
+    const alignAttr = this.align ? ` align="${this.align}"` : '';
+
+    return `<ids-popup class="ids-popup-menu" type="menu"${alignAttr}>${menuTemplate}</ids-popup>`;
   }
 
   /**
@@ -72,8 +77,7 @@ export default class IdsPopupMenu extends Base {
       this.popupDelay = 200;
       this.target = this.parentMenuItem;
       this.triggerType = 'hover';
-      this.popup?.setAttribute('align', 'right, top');
-      this.popup?.setAttribute('align-edge', 'right');
+      this.align = 'right, top';
     }
   }
 
@@ -176,6 +180,23 @@ export default class IdsPopupMenu extends Base {
         this.hideAndFocus();
       });
     }
+  }
+
+  /**
+   * Passes an `align` setting down to the internal IdsPopup
+   * @param {string} val a comma-delimited set of alignment types `direction1, direction2`
+   */
+  set align(val: string) {
+    if (typeof val !== 'string') return;
+    if (this.popup) this.popup.align = val;
+  }
+
+  /**
+   * Retrieves the `align` setting from the internal IdsPopup
+   * @returns {string} a comma-delimited set of alignment types `direction1, direction2`
+   */
+  get align() {
+    return this.popup?.align || 'top, left';
   }
 
   /**
