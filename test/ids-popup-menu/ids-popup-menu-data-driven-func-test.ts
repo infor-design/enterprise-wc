@@ -7,7 +7,9 @@ import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
 import '../../src/components/ids-popup/ids-popup';
 
 // Pull in menu contents
-import dataset from '../../src/assets/data/menu-contents.json';
+import defaultDataset from '../../src/assets/data/menu-contents.json';
+import arrayDataset from '../../src/assets/data/menu-array.json';
+import shortcutDataset from '../../src/assets/data/menu-shortcuts.json';
 
 describe('IdsPopupMenu Component', () => {
   let menu: any;
@@ -16,7 +18,7 @@ describe('IdsPopupMenu Component', () => {
     // Invoke/Append the main menu
     menu = new IdsPopupMenu();
     menu.id = 'test-menu';
-    menu.data = dataset;
+    menu.data = defaultDataset;
     document.body.appendChild(menu);
   });
 
@@ -57,28 +59,12 @@ describe('IdsPopupMenu Component', () => {
     document.body.innerHTML = '';
     menu = new IdsPopupMenu();
     menu.id = 'test-menu';
-    menu.data = [
-      {
-        type: 'group',
-        items: [
-          {
-            id: 'item-1',
-            text: 'Item One',
-            value: 1
-          },
-          {
-            id: 'item-2',
-            text: 'Item Two',
-            value: 2
-          }
-        ]
-      }
-    ];
+    menu.data = arrayDataset;
     document.body.appendChild(menu);
 
     expect(errors).not.toHaveBeenCalled();
     expect(menu.groups.length).toEqual(1);
-    expect(menu.items.length).toEqual(2);
+    expect(menu.items.length).toEqual(3);
   });
 
   it('renders with no errors when given an empty dataset', () => {
@@ -240,5 +226,18 @@ describe('IdsPopupMenu Component', () => {
     expect(errors).not.toHaveBeenCalled();
     expect(item).toBeDefined();
     expect(item.hasSubmenu).toBeFalsy();
+  });
+
+  it('propagates `shortcutKeys` property onto menu items if provided', () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    document.body.innerHTML = '';
+    menu = new IdsPopupMenu();
+    menu.data = shortcutDataset;
+    document.body.appendChild(menu);
+
+    expect(errors).not.toHaveBeenCalled();
+    expect(menu.items[0].shortcutKeys).toBe('⌘+R');
+    expect(document.querySelector('ids-menu-item')?.getAttribute('shortcut-keys')).toBe('⌘+R');
   });
 });

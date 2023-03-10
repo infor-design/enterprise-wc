@@ -348,24 +348,21 @@ export default class IdsMenu extends Base {
    * @returns {void}
    */
   set data(value: IdsMenuData) {
-    // If provided an object, search for a `contents` property and store its contents
-    if (typeof value === 'object') {
-      const objData = (value as IdsMenuObjectData);
-      if (Array.isArray(objData.contents)) {
-        this.datasource.data = objData.contents;
-        // Set the ID of this component if it's present in the object
-        if (objData.id) {
-          this.id = objData.id;
-        }
-        this.renderFromData();
-      }
-      return;
-    }
-
     // Accept the `contents` array directly if provided
     if (Array.isArray(value)) {
       this.datasource.data = (value as IdsMenuContentsData);
       this.renderFromData();
+      return;
+    }
+
+    // If provided an object, search for a `contents` property and store its contents
+    if (value && typeof value === 'object') {
+      const objData = (value as IdsMenuObjectData);
+      if (Array.isArray(objData.contents)) {
+        this.datasource.data = objData.contents;
+        if (objData.id) this.id = objData.id;
+        this.renderFromData();
+      }
       return;
     }
 
