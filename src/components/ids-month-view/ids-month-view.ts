@@ -910,7 +910,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       const colorAttr: string = legend ? `data-color="${legend.color}"` : '';
       const dateKey = this.generateDateKey(new Date(year, month, day));
 
-      let dayCellTemplate = `<td aria-label="${ariaLabel}" ${dataAttr} ${classAttr} ${selectedAttr} ${colorAttr}>
+      let cellTemplate = `<td aria-label="${ariaLabel}" ${dataAttr} ${classAttr} ${selectedAttr} ${colorAttr}>
         <span class="day-container">
           <ids-text
             aria-hidden="true"
@@ -925,10 +925,10 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
             : `<div class="events-container" data-key="${dateKey}"></div>`
         }
       </td>`;
-      if(typeof this.state.dayCellRenderTemplate === 'function') {
-        dayCellTemplate = this.state.dayCellRenderTemplate(dayCellTemplate, dateKey);
+      if(typeof this.state.onDayCellRender === 'function') {
+        cellTemplate = this.state.onDayCellRender(cellTemplate, dateKey);
       }
-        return dayCellTemplate;
+        return cellTemplate;
     }).join('');
   }
 
@@ -936,7 +936,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     this.state.dayCellRenderTemplate = func;
   }
   get dayCellRenderTemplate() { return this.state.dayCellRenderTemplate; }
-
   /**
    * Add week days HTML to the table
    */

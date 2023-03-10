@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const eventManager = new CustomCalendarEventManager();
   const view = calendar?.getView();
   calendar?.addEventListener('renderMonthData', () => {
-    view.dayCellRenderTemplate = function dayCellRenderTemplate(celltemplate: string,dateKey: string){
+    calendar.getView().onDayCellRender = (celltemplate: string, dateKey: string) => {
+      console.log(`inside callback onDayCellRender`)
       let icon = "";
       if (dateKey == "20190903") {
             icon += `<ids-icon class="icon-spacing" icon="alert-alert" height="12" width="12"></ids-icon>`;
@@ -32,6 +33,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           id="icon-text"
           >${icon}</ids-text>`,
       celltemplate.slice(index)].join('');
+      // view.state.dayCellRenderTemplate = celltemplate;
+      console.log(`exiting onDayCellRender`);
       return celltemplate;
     }
   });
