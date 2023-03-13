@@ -83,7 +83,7 @@ dataGrid.columns = columns;
 const fetchData = async (startIndex = 0) => {
   const res = await fetch(url);
   const data = await res.json();
-  return data.splice(startIndex, 100);
+  return data.splice(startIndex, 33);
 };
 
 const setData = async () => {

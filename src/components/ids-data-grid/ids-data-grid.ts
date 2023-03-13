@@ -396,7 +396,7 @@ export default class IdsDataGrid extends Base {
     this.resetCache();
 
     let innerHTML = '';
-    const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.NUM_ROWS) : this.data;
+    const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.MAX_ROWS) : this.data;
     for (let index = 0; index < data.length; index++) {
       innerHTML += IdsDataGridRow.template(data[index], index, index + 1, this);
     }
@@ -1065,10 +1065,37 @@ export default class IdsDataGrid extends Base {
   appendData(value: Array<Record<string, any>>) {
     if (this.virtualScroll) {
       this.datasource.data = this.data.concat(value);
+      this.#appendMissingRows();
     } else {
       this.data = this.data.concat(value);
     }
-    this.#attachScrollEvents();
+  }
+
+  /* Append missing rows for virtual-scrolling */
+  #appendMissingRows() {
+    if (!this.virtualScroll) return;
+
+    const data = this.data;
+    const rows = this.rows;
+    if (!data.length || !rows.length) return;
+
+    const { MAX_ROWS } = this.virtualScrollSettings;
+
+    const rowsNeeded = Math.min(data.length, MAX_ROWS) - rows.length;
+    const missingRows: any[] = [];
+
+    const lastRow: any = rows[rows.length - 1];
+    const lastRowIndex = lastRow?.rowIndex || 0;
+
+    while (missingRows.length < rowsNeeded) {
+      const rowIndex = lastRowIndex + missingRows.length;
+      const clonedRow = IdsDataGridRow.template(data[rowIndex], rowIndex, rowIndex + 1, this);
+      missingRows.push(clonedRow);
+    }
+
+    if (missingRows.length && this.body) {
+      this.body.innerHTML += missingRows.join('');
+    }
   }
 
   /**
@@ -1223,8 +1250,8 @@ export default class IdsDataGrid extends Base {
   get virtualScrollSettings() {
     const ENABLED = !!this.virtualScroll;
     const ROW_HEIGHT = this.rowPixelHeight || 50;
-    const NUM_ROWS = 150;
-    const BODY_HEIGHT = NUM_ROWS * ROW_HEIGHT;
+    const MAX_ROWS = 150;
+    const BODY_HEIGHT = MAX_ROWS * ROW_HEIGHT;
     const BUFFER_ROWS = 50;
     const BUFFER_HEIGHT = BUFFER_ROWS * ROW_HEIGHT;
     const RAF_DELAY = 60;
@@ -1233,7 +1260,7 @@ export default class IdsDataGrid extends Base {
     return {
       ENABLED,
       ROW_HEIGHT,
-      NUM_ROWS,
+      MAX_ROWS,
       BODY_HEIGHT,
       BUFFER_ROWS,
       BUFFER_HEIGHT,
@@ -1244,10 +1271,11 @@ export default class IdsDataGrid extends Base {
 
   /* Attach Events for global scrolling */
   #attachScrollEvents() {
+    const virtualScrollSettings = this.virtualScrollSettings;
+
     let debounceRowIndex = 0;
     this.offEvent('scroll.data-grid', this.container);
     this.onEvent('scroll.data-grid', this.container, () => {
-      const virtualScrollSettings = this.virtualScrollSettings;
       const scrollTop = this.container!.scrollTop;
       const clientHeight = this.container!.clientHeight;
 
@@ -1288,9 +1316,7 @@ export default class IdsDataGrid extends Base {
     const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BODY_HEIGHT;
 
     this.container?.style.setProperty('max-height', '95vh');
-    if (maxPaddingBottom >= 0) {
-      this.body?.style.setProperty('padding-bottom', `${maxPaddingBottom}px`);
-    }
+    this.body?.style.setProperty('padding-bottom', `${Math.max(maxPaddingBottom, 0)}px`);
 
     let debounceRowIndex = 0;
     this.offEvent('scroll.data-grid.virtual-scroll', this.container);
@@ -1367,21 +1393,22 @@ export default class IdsDataGrid extends Base {
    * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
    */
   scrollRowIntoView(rowIndex: number, doScroll = true) {
+    if (!this.virtualScroll) return;
     if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
 
     const data = this.data;
     const rows = this.rows;
+    if (!data.length || !rows.length) return;
+
+    const virtualScrollSettings = this.virtualScrollSettings;
 
     const maxRowIndex = data.length - 1;
     rowIndex = Math.max(rowIndex, 0);
     rowIndex = Math.min(rowIndex, maxRowIndex);
 
-    if (!rows.length) return;
-
     const container = this.container;
     const body = this.body;
 
-    const virtualScrollSettings = this.virtualScrollSettings;
     const firstRow: any = rows[0];
     const lastRow: any = rows[rows.length - 1];
     const firstRowIndex = firstRow.rowIndex;
@@ -1406,7 +1433,7 @@ export default class IdsDataGrid extends Base {
         if (!reachedTheBottom) {
           this.#recycleTopRowsDown(moveRowsDown);
         }
-      } else if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
+      } else if (moveRowsUp < virtualScrollSettings.MAX_ROWS) {
         this.#recycleBottomRowsUp(moveRowsUp);
       } else {
         return; // exit early because nothing to do.
@@ -1416,7 +1443,7 @@ export default class IdsDataGrid extends Base {
       // then we must figure out how many rows we must move up from the bottom to render the rowIndex row
       const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex);
 
-      if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
+      if (moveRowsUp < virtualScrollSettings.MAX_ROWS) {
         this.#recycleBottomRowsUp(moveRowsUp);
       } else {
         this.#recycleAllRows(bufferRowIndex);
@@ -1448,18 +1475,21 @@ export default class IdsDataGrid extends Base {
 
   /* Recycle the rows during scrolling */
   #recycleAllRows(topRowIndex: number) {
+    const data = this.data;
     const rows = this.rows;
-    if (!rows.length) return;
+    if (!data.length || !rows.length) return;
 
-    const veryLastIndex = this.data.length - 1;
+    const veryLastIndex = data.length - 1;
     topRowIndex = Math.min(topRowIndex, veryLastIndex);
     topRowIndex = Math.max(topRowIndex, 0);
+
+    const { MAX_ROWS } = this.virtualScrollSettings;
 
     // Using Array.every as an alternaive to using a for-loop with a break
     this.rows.every((row: any, idx) => {
       const nextRowIndex = topRowIndex + idx;
       if (nextRowIndex > veryLastIndex) {
-        const moveTheRestToTop = this.virtualScrollSettings.NUM_ROWS - idx;
+        const moveTheRestToTop = MAX_ROWS - idx;
         this.#recycleBottomRowsUp(moveTheRestToTop);
         return false;
       }
@@ -1490,7 +1520,7 @@ export default class IdsDataGrid extends Base {
     if (!rowsToMove.length) return;
 
     // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
-    if (rowsToMove.length >= this.virtualScrollSettings.NUM_ROWS) return;
+    if (rowsToMove.length >= this.virtualScrollSettings.MAX_ROWS) return;
 
     this.requestAnimationFrame(() => {
       // NOTE: body.append is faster than body.innerHTML

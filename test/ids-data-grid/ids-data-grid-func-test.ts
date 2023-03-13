@@ -486,10 +486,10 @@ describe('IdsDataGrid Component', () => {
 
     it('contains virtualScrollSettings', () => {
       const BUFFER_ROWS = 50;
-      const NUM_ROWS = 150;
+      const MAX_ROWS = 150;
       const DEFAULT_SETTINGS = {
         BUFFER_ROWS,
-        NUM_ROWS,
+        MAX_ROWS,
         BODY_HEIGHT: 7500,
         BUFFER_HEIGHT: 2500,
         DEBOUNCE_RATE: 10,
@@ -511,7 +511,7 @@ describe('IdsDataGrid Component', () => {
         ...DEFAULT_SETTINGS,
         ENABLED: true,
         ROW_HEIGHT: 40,
-        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 40,
+        BODY_HEIGHT: DEFAULT_SETTINGS.MAX_ROWS * 40,
         BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 40,
       });
 
@@ -520,7 +520,7 @@ describe('IdsDataGrid Component', () => {
         ...DEFAULT_SETTINGS,
         ENABLED: true,
         ROW_HEIGHT: 35,
-        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 35,
+        BODY_HEIGHT: DEFAULT_SETTINGS.MAX_ROWS * 35,
         BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 35,
       });
 
@@ -529,7 +529,7 @@ describe('IdsDataGrid Component', () => {
         ...DEFAULT_SETTINGS,
         ENABLED: true,
         ROW_HEIGHT: 30,
-        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 30,
+        BODY_HEIGHT: DEFAULT_SETTINGS.MAX_ROWS * 30,
         BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 30,
       });
 
@@ -538,7 +538,7 @@ describe('IdsDataGrid Component', () => {
         ...DEFAULT_SETTINGS,
         ENABLED: true,
         ROW_HEIGHT: 30,
-        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 30,
+        BODY_HEIGHT: DEFAULT_SETTINGS.MAX_ROWS * 30,
         BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 30,
       });
     });
@@ -562,11 +562,11 @@ describe('IdsDataGrid Component', () => {
       dataGrid.data = productsDataset;
       expect(dataGrid.data).toEqual(productsDataset);
 
-      const { NUM_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
+      const { MAX_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
 
-      expect(dataGrid.rows.length).toBe(NUM_ROWS);
+      expect(dataGrid.rows.length).toBe(MAX_ROWS);
       expect(dataGrid.rows[0].rowIndex).toBe(0);
-      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(MAX_ROWS - 1);
 
       expect(dataGrid.container.scrollTop).toBe(0);
       // dataGrid.container.scrollTop = BUFFER_ROWS * ROW_HEIGHT;
@@ -575,7 +575,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.scrollTop).toBeGreaterThan(100);
 
       expect(dataGrid.rows[0].rowIndex).toBe(0);
-      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(MAX_ROWS - 1);
     });
 
     it.skip('can recycle cells up', async () => {
@@ -585,11 +585,11 @@ describe('IdsDataGrid Component', () => {
       dataGrid.data = productsDataset;
       expect(dataGrid.data).toEqual(productsDataset);
 
-      const { NUM_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
+      const { MAX_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
 
-      expect(dataGrid.rows.length).toBe(NUM_ROWS);
+      expect(dataGrid.rows.length).toBe(MAX_ROWS);
       expect(dataGrid.rows[0].rowIndex).toBe(0);
-      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(MAX_ROWS - 1);
 
       expect(dataGrid.container.scrollTop).toBe(0);
       // dataGrid.container.scrollTop = BUFFER_ROWS * ROW_HEIGHT;
@@ -598,7 +598,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.scrollTop).toBeGreaterThan(100);
 
       expect(dataGrid.rows[0].rowIndex).toBe(0);
-      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(MAX_ROWS - 1);
     });
 
     it.todo('does not recycle cells down when at the bottom');
