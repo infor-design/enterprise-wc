@@ -7,6 +7,7 @@
 - `[Button/Input/Dropdown]` Added posibility to show loading indicator. ([#1048](https://github.com/infor-design/enterprise-wc/issues/1048))
 - `[Datagrid]` Added feature to export data grid to excel xlsx or csv file. ([#153](https://github.com/infor-design/enterprise-wc/issues/153))
 - `[Datagrid/Dropdown]` Separated IdsDropdownList into its own component, re-integrated the new component into IdsDropdown, and fixed containment/cutoff issues in IdsDataGrid using the new list component. ([#1065](https://github.com/infor-design/enterprise-wc/issues/1065))
+- `[Data Source]` Changed the default sort function to behave more like Excel, sorting separately numbers, strings, and empty space. ([#1158](https://github.com/infor-design/enterprise-wc/issues/1158))
 - `[Menu/Popup Menu]` Added Shortcut Key display feature to IdsMenuItem. ([#1108](https://github.com/infor-design/enterprise-wc/issues/1108))
 
 ## 1.0.0-beta.7
