@@ -334,6 +334,7 @@ export const attributes = {
   SELECTED: 'selected',
   SELECTION: 'selection',
   SHAPE: 'shape',
+  SHORTCUT_KEYS: 'shortcut-keys',
   SHOW_BROWSE_LINK: 'show-browse-link',
   SHOW_CANCEL: 'show-cancel',
   SHOW_CLEAR: 'show-clear',

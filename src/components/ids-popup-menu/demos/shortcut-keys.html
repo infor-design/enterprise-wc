@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-popup-menu id="popupmenu" align="left, top"></ids-popup-menu>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Popup Menu (with Shortcut keys)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto="true">
+      <ids-layout-grid-cell>
+        <ids-text type="p">Right-click anywhere in the page to activate a Popupmenu.<br />
+          Use the controls below to change menu configuration and test icon/text alignments.
+        </ids-text>
+        <p><ids-checkbox id="controls-icons" label="Enable icons" checked></ids-checkbox></p>
+        <p><ids-checkbox id="controls-selection" label="Enable single selection"></ids-checkbox></p>
+        <p><ids-checkbox id="controls-submenu" label="Enable a submenu"></ids-checkbox></p>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+
+</html>
