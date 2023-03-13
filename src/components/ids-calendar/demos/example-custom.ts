@@ -17,9 +17,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const calendar: any = document.querySelector<IdsCalendar>('ids-calendar');
   const addEventMenu = document.querySelector('#add-event');
   const eventManager = new CustomCalendarEventManager();
-  const view = calendar.getView();
+
   calendar?.addEventListener('beforerendermonth', (e: any) => {
-    console.log(`beforerendermonth`);
     calendar.getView().onDayCellRender = (celltemplate: string, dateKey: string) => {
       let icon = "";
       if (dateKey == "20190903") {
@@ -34,12 +33,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           >${icon}</ids-text>`,
       celltemplate.slice(index)].join('');
       // view.state.dayCellRenderTemplate = celltemplate;
-      console.log(`exiting onDayCellRender`);
       return celltemplate;
     }
   });
 
   calendar?.addEventListener('beforeeventrendered', () => {
+    const view = calendar.getView();
     view.generateYOffset = (event: IdsCustomCalendarEvent): number => eventManager.generateYOffset(event);
     view.isEventOverflowing = (event: IdsCustomCalendarEvent): boolean => eventManager.isEventOverflowing(event);
   });
