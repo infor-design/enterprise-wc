@@ -18,23 +18,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   const addEventMenu = document.querySelector('#add-event');
   const eventManager = new CustomCalendarEventManager();
   const view = calendar.getView();
-  calendar?.addEventListener('renderMonthData', () => {
-    view.onDayCellRender = (celltemplate: string, dateKey: string) => {
-      console.log(`inside callback onDayCellRender`)
-      // let icon = "";
-      // if (dateKey == "20190903") {
-      //       icon += `<ids-icon class="icon-spacing" icon="alert-alert" height="12" width="12"></ids-icon>`;
-      // }
-      // let stringToSearch = `"day-container">`;
-      // let index = celltemplate.lastIndexOf(stringToSearch)+stringToSearch.length;
-      // celltemplate = [celltemplate.slice(0,index),
-      //   `<ids-text
-      //     aria-hidden="true"
-      //     id="icon-text"
-      //     >${icon}</ids-text>`,
-      // celltemplate.slice(index)].join('');
-      // // view.state.dayCellRenderTemplate = celltemplate;
-      // console.log(`exiting onDayCellRender`);
+  calendar?.addEventListener('beforerendermonth', (e: any) => {
+    console.log(`beforerendermonth`);
+    calendar.getView().onDayCellRender = (celltemplate: string, dateKey: string) => {
+      let icon = "";
+      if (dateKey == "20190903") {
+            icon += `<ids-icon class="icon-spacing" icon="alert-alert" height="12" width="12"></ids-icon>`;
+      }
+      let stringToSearch = `"day-container">`;
+      let index = celltemplate.lastIndexOf(stringToSearch)+stringToSearch.length;
+      celltemplate = [celltemplate.slice(0,index),
+        `<ids-text
+          aria-hidden="true"
+          id="icon-text"
+          >${icon}</ids-text>`,
+      celltemplate.slice(index)].join('');
+      // view.state.dayCellRenderTemplate = celltemplate;
+      console.log(`exiting onDayCellRender`);
       return celltemplate;
     }
   });

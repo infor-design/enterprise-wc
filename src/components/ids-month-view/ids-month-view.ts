@@ -931,11 +931,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
         return cellTemplate;
     }).join('');
   }
-  get onDayCellRender() { return this.state.onDayCellRender; }
-
-  set onDayCellRender(func) {
-    this.state.onDayCellRender = func;
-  }
   /**
    * Add week days HTML to the table
    */
@@ -969,10 +964,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
     : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.localeAPI?.isIslamic());
 
-    this.triggerEvent('renderMonthData', this, {
-      bubbles: true,
-      composed: true
-    });
+    this.triggerEvent('beforerendermonth', this, { bubbles: true, composed: true });
     const rowsTemplate = Array.from({ length: weeksCount }).map((_, weekIndex) => `<tr>${this.#getCellTemplate(weekIndex)}</tr>`).join('');
 
     // Clear/add HTML
@@ -1660,6 +1652,14 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       this.#clearRangeClasses();
       this.selectDay(year, month, day);
     }
+  }
+
+  public get onDayCellRender() {
+    return this.state.onDayCellRender;
+  }
+
+  public set onDayCellRender(fun) {
+    this.state.onDayCellRender = fun;
   }
 
   /**
