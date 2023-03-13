@@ -338,6 +338,7 @@ export const attributes = {
   SHOW_CLEAR: 'show-clear',
   SHOW_DETAILS: 'show-details',
   SHOW_HORIZONTAL_GRID_LINES: 'show-horizontal-grid-lines',
+  SHOW_LABEL: 'show-label',
   SHOW_LEGEND: 'show-legend',
   SHOW_PICKLIST_MONTH: 'show-picklist-month',
   SHOW_PICKLIST_WEEK: 'show-picklist-week',

@@ -6,7 +6,7 @@
   @include mb-16();
 
   .hidden {
-    @include hidden();
+    display: none;
   }
 
   .droparea {
@@ -96,11 +96,11 @@
   .errorarea {
     @include border-1();
     @include border-transparent();
-    @include hidden();
     @include mt-8();
     @include p-2();
     @include rounded-default();
 
+    display: none;
     border-style: dashed;
     align-items: center;
 

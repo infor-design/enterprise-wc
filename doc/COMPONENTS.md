@@ -296,7 +296,7 @@ Now that you have a `ids-[component].scss`, which holds all scoped styles for th
 
 ```scss
 .ids-component {
-  @include antialiased();
+  @include mixins.antialiased();
   @include bg-slate-20();
   @include border-1();
   @include border-slate-20();

@@ -7,7 +7,7 @@
   // Colors/Borders
   background-color: var(--ids-component-darker-background-color);
   border: 1px solid var(--ids-component-darker-background-color);
-  border-radius: var(--ids-border-radius-large);
+  border-radius: var(--ids-border-radius-lg);
 
   // Fonts
   font-family: var(--ids-font-family);
@@ -118,7 +118,7 @@
 
 // Adjust hover state
 ::slotted(ids-icon:hover) {
-  color: var(--ids-icon-hover-color)
+  color: var(--ids-component-hover-color)
 }
 
 // Multiselect tag

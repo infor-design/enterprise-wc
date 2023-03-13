@@ -3,17 +3,19 @@
 :root {
   // Primary Colors
   --ids-color-primary: var(--ids-color-slate-60);
+  --ids-color-inverse: var(--ids-color-slate-00);
   --ids-color-secondary: var(--ids-color-slate-70);
+  --ids-color-tertiary: var(--ids-color-slate-90);
 
   // Body Colors
   --ids-body-background-color: var(--ids-color-slate-100);
-  --ids-body-background-color-inverse: var(--ids-color-slate-00);
+  --ids-body-inverse-background-color: var(--ids-color-slate-00);
   --ids-body-text-color: var(--ids-color-slate-00);
-  --ids-body-text-color-inverse: var(--ids-color-slate-100);
+  --ids-body-inverse-text-color: var(--ids-color-slate-100);
   --ids-body-heading-text-color: var(--ids-color-slate-00);
   --ids-body-subtle-text-color: var(--ids-color-slate-20);
   --ids-body-disabled-text-color: var(--ids-color-slate-40);
-  --ids-body-line-color: var(--ids-color-slate-60);
+  --ids-body-line-text-color: var(--ids-color-slate-60);
 
   // Component Colors
   --ids-component-background-color: var(--ids-color-slate-100);
@@ -25,31 +27,77 @@
   --ids-component-disabled-text-color: var(--ids-color-slate-40);
   --ids-component-lighter-disabled-text-color: var(--ids-color-slate-50);
   --ids-component-text-color: var(--ids-color-slate-00);
-  --ids-component-text-color-inverse: var(--ids-color-slate-00);
+  --ids-component-color-inverse: var(--ids-color-slate-00);
+
+  // Alert Color Overrides
+  --ids-color-error-01: var(--ids-color-ruby-890);
+  --ids-color-warning-01: var(--ids-color-amber-80);
+  --ids-color-caution-00: var(--ids-color-slate-100);
+  --ids-color-caution-01: var(--ids-color-amber-80);
+  --ids-color-info-01: var(--ids-color-azure-80);
+  --ids-color-success-01: var(--ids-color-emerald-80);
 
   // Headers
   --ids-header-gradient-opaque: rgb(0 114 237 / 1);
   --ids-header-gradient-transparent: rgb(0 114 237 / 0);
 
+  // Primary Button
+  --ids-button-primary-border-color: var(--ids-color-azure-40);
+  --ids-button-primary-background-color: var(--ids-color-azure-40);
+  --ids-button-primary-text-color: var(--ids-body-background-color);
+  --ids-button-primary-focus-border-color: var(--ids-color-azure-40);
+  --ids-button-primary-focus-shadow: 0 0 0 2px var(--ids-body-background-color), 0 0 0 3px var(--ids-color-azure-40), 0 0 4px 3px var(--ids-color-azure-40);
+  --ids-button-primary-hover-background-color: var(--ids-color-azure-30);
+  --ids-button-primary-hover-border-color: var(--ids-color-azure-30);
+  --ids-button-primary-disabled-background-color: var(--ids-color-slate-90);
+  --ids-button-primary-disabled-border-color: var(--ids-color-slate-90);
+  --ids-button-primary-disabled-text-color: var(--ids-color-slate-40);
+  --ids-button-primary-ripple-color: var(--ids-color-azure-40);
+
+  // Secondary Button
+  --ids-button-secondary-background-color: transparent;
+  --ids-button-secondary-border-width: 2px;
+  --ids-button-secondary-border-color: var(--ids-color-azure-40);
+  --ids-button-secondary-text-color: var(--ids-color-azure-40);
+  --ids-button-secondary-focus-border-color: var(--ids-color-azure-50);
+  --ids-button-secondary-focus-shadow: 0 0 0 2px var(--ids-body-background-color), 0 0 0 3px var(--ids-color-azure-50), 0 0 4px 3px var(--ids-color-azure-50);
+  --ids-button-secondary-hover-background-color: var(--ids-color-slate-90);
+  --ids-button-secondary-disabled-background-color: var(--ids-color-slate-90);
+  --ids-button-secondary-disabled-border-color: var(--ids-color-slate-40);
+  --ids-button-secondary-disabled-text-color: var(--ids-color-slate-40);
+  --ids-button-secondary-ripple-color: var(--ids-color-azure-40);
+
+  // Tertiary Buttons
+  --ids-button-tertiary-border-color: transparent;
+  --ids-button-tertiary-text-color: var(--ids-color-slate-00);
+  --ids-button-tertiary-focus-border-color: var(--ids-focus-ring-border-color);
+  --ids-button-tertiary-hover-text-color: var(--ids-color-azure-30);
+  --ids-button-tertiary-hover-background-color: var(--ids-color-tertiary);
+  --ids-button-tertiary-disabled-text-color: var(--ids-color-slate-40);
+  --ids-button-tertiary-disabled-background-color: transparent;
+  --ids-button-tertiary-ripple-color: var(--ids-color-azure-40);
+  --ids-button-destructive-hover-background-color: var(--ids-color-slate-90);
+
+  // Formatter Button
+  --ids-button-formatter-text-color: var(--ids-color-slate-10);
+  --ids-button-formatter-border-color: var(--ids-component-color-inverse);
+  --ids-button-formatter-text-color-hover: var(--ids-color-slate-00);
+  --ids-button-formatter-text-color-disabled: var(--ids-component-color-inverse);
+  --ids-button-formatter-ripple-color: var(--ids-color-primary);
+
   // Hyperlinks
-  --ids-hyperlink-color: var(--ids-color-azure-40);
-  --ids-hyperlink-hover-color: var(--ids-color-azure-60);
-  --ids-hyperlink-disabled-color: var(--ids-color-slate-50);
-
-  // Color Overrides
-  --ids-color-error-01: var(--ids-color-ruby-90);
-  --ids-color-warning-01: var(--ids-color-amber-90);
-  --ids-color-caution-00: var(--ids-color-slate-100);
-  --ids-color-caution-01: var(--ids-color-amber-90);
-  --ids-color-info-01: var(--ids-color-azure-90);
-  --ids-color-success-01: var(--ids-color-emerald-90);
-
-  // Buttons
-  --ids-button-hover-color: var(--ids-color-slate-90);
+  --ids-hyperlink-text-color: var(--ids-color-azure-40);
+  --ids-hyperlink-hover-text-color: var(--ids-color-azure-60);
+  --ids-hyperlink-disabled-text-color: var(--ids-color-slate-50);
 
   // Elevations
-  --ids-shadow-medium: 0 0 3px 2px rgb(85 163 243 / 0.30);
+  --ids-shadow-none: 0 0 3px 2px rgba(85 163 243 / 0);
+  --ids-shadow-error: 0 0 3px 2px rgb(218 18 23 / 0.30);
+  --ids-shadow-inverse: 0 0 3px 2px rgba(255 255 255 / 0.7);
+  --ids-shadow-sm: 0 0 3px 1px rgb(85 163 243 / 0.3);
+  --ids-shadow-md: 0 0 3px 2px rgb(85 163 243 / 0.3);
+  --ids-shadow-lg: 0 0 4px 3px rgb(85 163 243 / 0.3);
 
   // Focus
-  --ids-focus-ring-border-color: var(--ids-color-slate-00);
+  --ids-focus-ring-border-color: var(--ids-color-azure-50);
 }

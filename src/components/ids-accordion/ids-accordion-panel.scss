@@ -1,3 +1,4 @@
+@use '../../themes/ids-core-mixins' as mixins;
 @import '../../core/ids-base';
 
 // ============================================
@@ -145,5 +146,5 @@
 }
 
 .ids-accordion-pane-title {
-  @include audible();
+  @include mixins.audible();
 }

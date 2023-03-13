@@ -1,3 +1,4 @@
+@use '../../themes/ids-core-mixins' as mixins;
 @import '../../core/ids-base';
 
 // The main scrollable container
@@ -69,7 +70,7 @@
     }
 
     span.audible {
-      @include audible();
+      @include mixins.audible();
     }
 
     &:hover:not(.selected) {

@@ -79,13 +79,13 @@
   &.color-variant-alternate {
     .ids-breadcrumb-menu {
       &::after {
-        color: var(--ids-body-text-color-inverse);
+        color: var(--ids-body-inverse-text-color);
       }
     }
 
     // Use background colors from IdsHeader
     nav.truncate::before {
-      color: var(--ids-body-text-color-inverse);
+      color: var(--ids-body-inverse-text-color);
       background-image:
       linear-gradient(
         to right,

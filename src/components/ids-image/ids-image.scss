@@ -1,3 +1,4 @@
+@use '../../themes/ids-core-mixins' as mixins;
 @use 'sass:list';
 @import '../../core/ids-base';
 
@@ -142,7 +143,7 @@ $image-sizes: (
   }
 
   .audible {
-    @include audible();
+    @include mixins.audible();
   }
 }
 

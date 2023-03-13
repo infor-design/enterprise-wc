@@ -28,7 +28,7 @@ $split-bar-size: 21px;
       width: 100%;
 
       &:hover {
-        background-color: var(--ids-button-hover-color);
+        background-color: var(--ids-button-tertiary-hover-background-color);
       }
     }
 
@@ -53,7 +53,7 @@ $split-bar-size: 21px;
       width: 100%;
 
       &.align-start {
-        border-block-start: 1px solid var(--ids-button-hover-color);
+        border-block-start: 1px solid var(--ids-button-tertiary-hover-background-color);
       }
 
       &.align-end {
@@ -69,14 +69,14 @@ $split-bar-size: 21px;
     &[is-dragging],
     &:focus {
       outline: none;
-      background-color: var(--ids-button-hover-color);
+      background-color: var(--ids-button-tertiary-hover-background-color);
 
       &[axis='x'].align-start,
       &[axis='x'].align-end,
       &[axis='y'].align-start,
       &[axis='y'].align-end {
-        border-color: var(--ids-splitter-dragging-border-color);
-        box-shadow: var(--ids-shadow-medium);
+        border-color: var(--ids-color-primary);
+        box-shadow: var(--ids-shadow-md);
       }
     }
 

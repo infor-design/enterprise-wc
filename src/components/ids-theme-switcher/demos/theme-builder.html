@@ -9,152 +9,275 @@
 </head>
 
 <body>
-  <ids-container role="main" padding="8" hidden>
-    <ids-splitter>
-      <ids-splitter-pane size="120px" save-position>
-        <ids-text font-size="12" type="h1" align="center">Theme Variables</ids-text>
-      </ids-splitter-pane>
-      <ids-splitter-pane>
-        <ids-theme-switcher mode="light"></ids-theme-switcher>
-        <ids-layout-grid cols="2" gap="xl">
-          <ids-layout-grid-cell col-span="12">
+  <ids-container role="main" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid cols="fluid-grid" gap="xl">
+      <ids-layout-grid-cell col-span="2">
+        <ids-text font-size="12" type="h1">Colors</ids-text>
+        <br>
+        <ids-color-picker size="sm" label="Primary Color" suppress-labels value="#0066D4"></ids-color-picker>
+        <ids-color-picker size="sm" label="Background Color" suppress-labels value="#FFFFFF"></ids-color-picker>
+        <ids-color-picker size="sm" label="Text Color" suppress-labels value="#2F2F32"></ids-color-picker>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell col-span="10">
+        <!-- Alerts -->
+        <ids-layout-grid auto="true" gap="xl">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Alerts</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell><ids-alert icon="warning" tooltip="Alert"></ids-alert></ids-layout-grid-cell>
+          <ids-layout-grid-cell><ids-alert icon="error" tooltip="Error"></ids-alert></ids-layout-grid-cell>
+          <ids-layout-grid-cell><ids-alert icon="success" tooltip="Success"></ids-alert></ids-layout-grid-cell>
+          <ids-layout-grid-cell><ids-alert icon="info" tooltip="Info"></ids-alert></ids-layout-grid-cell>
+          <ids-layout-grid-cell><ids-alert icon="in-progress" tooltip="In Progress"></ids-alert></ids-layout-grid-cell>
+          <ids-layout-grid-cell><ids-alert icon="empty-circle" tooltip="Empty"></ids-alert></ids-layout-grid-cell>
+          <ids-layout-grid-cell><ids-alert icon="half-empty-circle" tooltip="Half Empty"></ids-alert></ids-layout-grid-cell>
+          <ids-layout-grid-cell><ids-alert icon="new" tooltip="New"></ids-alert></ids-layout-grid-cell>
+          <ids-layout-grid-cell><ids-alert icon="calendar" color="info" tooltip="Calendar Alert"></ids-alert></ids-layout-grid-cell>
+          <ids-layout-grid-cell><ids-alert icon="blood" color="error" tooltip="Blood Alert" size="small"></ids-alert></ids-layout-grid-cell>
+        </ids-layout-grid>
 
-            <!-- Alerts -->
-            <ids-layout-grid auto="true" gap="xl">
-              <ids-layout-grid-cell>
-                <ids-text font-size="12" type="h2">Alerts</ids-text>
-              </ids-layout-grid-cell>
-            </ids-layout-grid>
-            <ids-layout-grid auto="true">
-              <ids-layout-grid-cell><ids-alert icon="warning" tooltip="Alert"></ids-alert></ids-layout-grid-cell>
-              <ids-layout-grid-cell><ids-alert icon="error" tooltip="Error"></ids-alert></ids-layout-grid-cell>
-              <ids-layout-grid-cell><ids-alert icon="success" tooltip="Success"></ids-alert></ids-layout-grid-cell>
-              <ids-layout-grid-cell><ids-alert icon="info" tooltip="Info"></ids-alert></ids-layout-grid-cell>
-              <ids-layout-grid-cell><ids-alert icon="in-progress" tooltip="In Progress"></ids-alert></ids-layout-grid-cell>
-              <ids-layout-grid-cell><ids-alert icon="empty-circle" tooltip="Empty"></ids-alert></ids-layout-grid-cell>
-              <ids-layout-grid-cell><ids-alert icon="half-empty-circle" tooltip="Half Empty"></ids-alert></ids-layout-grid-cell>
-              <ids-layout-grid-cell><ids-alert icon="new" tooltip="New"></ids-alert></ids-layout-grid-cell>
-              <ids-layout-grid-cell><ids-alert icon="calendar" color="info" tooltip="Calendar Alert"></ids-alert></ids-layout-grid-cell>
-              <ids-layout-grid-cell><ids-alert icon="blood" color="error" tooltip="Blood Alert" size="small"></ids-alert></ids-layout-grid-cell>
-            </ids-layout-grid>
+        <!-- Badges -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Badges</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-badge shape="round">5</ids-badge>
+            <ids-badge color="error">1500</ids-badge>
+            <ids-badge color="warning" shape="round">10</ids-badge>
+            <ids-badge color="warning" shape="round"><ids-icon icon="pending" size="normal"></ids-icon></ids-badge>
+            <ids-badge color="success" shape="round">5</ids-badge>
+            <ids-badge color="info">25k+</ids-badge>
+        </ids-layout-grid-cell>
+        </ids-layout-grid>
 
-            <!-- Badges -->
-            <ids-layout-grid auto="true">
-              <ids-text font-size="12" type="h2">Badges</ids-text>
-            </ids-layout-grid>
-            <ids-layout-grid auto="true">
-              <ids-layout-grid-cell>
-                <ids-badge shape="round">5</ids-badge>
-                <ids-badge color="error">1500</ids-badge>
-                <ids-badge color="warning" shape="round">10</ids-badge>
-                <ids-badge color="warning" shape="round"><ids-icon icon="pending" size="normal"></ids-icon></ids-badge>
-                <ids-badge color="success" shape="round">5</ids-badge>
-                <ids-badge color="info">25k+</ids-badge>
-            </ids-layout-grid-cell>
-            </ids-layout-grid>
+        <!-- Breadcrumb -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Breadcrumb</ids-text>
+        </ids-layout-grid>
 
-            <!-- Breadcrumb -->
-            <ids-layout-grid auto="true">
-              <ids-text font-size="12" type="h2">Breadcrumb</ids-text>
-            </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-breadcrumb>
+            <ids-hyperlink font-size="14" text-decoration="hover" href="#">First Item</ids-hyperlink>
+            <ids-hyperlink font-size="14" text-decoration="hover" href="#">Second Item</ids-hyperlink>
+            <ids-hyperlink font-size="14" text-decoration="hover" disabled>Disabled Item</ids-hyperlink>
+            <ids-hyperlink font-size="14" text-decoration="hover">Current Item</ids-hyperlink>
+          </ids-breadcrumb>
+        </ids-layout-grid>
 
-            <ids-layout-grid auto="true">
-              <ids-breadcrumb>
-                <ids-hyperlink font-size="14" text-decoration="hover" href="#">First Item</ids-hyperlink>
-                <ids-hyperlink font-size="14" text-decoration="hover" href="#">Second Item</ids-hyperlink>
-                <ids-hyperlink font-size="14" text-decoration="hover" disabled>Disabled Item</ids-hyperlink>
-                <ids-hyperlink font-size="14" text-decoration="hover">Current Item</ids-hyperlink>
-              </ids-breadcrumb>
-            </ids-layout-grid>
+        <!-- Buttons -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Buttons</ids-text>
+        </ids-layout-grid>
 
-            <!-- Notification Banner -->
-            <ids-layout-grid auto="true">
-              <ids-text font-size="12" type="h2">Notification Banner</ids-text>
-            </ids-layout-grid>
+        <ids-layout-grid cols="4" gap="md">
+          <ids-layout-grid-cell>
+            <p>
+              <ids-text font-size="12" type="h2">Primary</ids-text>
+            </p>
+            <p>
+              <ids-button id="test-button-primary" type="primary">
+                <span>Action</span>
+              </ids-button>
+            </p>
+            <p>
+              <ids-button id="test-disabled-button-primary" type="primary" disabled>
+                <span>Action</span>
+              </ids-button>
+            </p>
+            <p>
+              <ids-button id="test-button-icon-primary" type="primary">
+                <ids-icon icon="folder"></ids-icon>
+                <span>Action</span>
+              </ids-button>
+            </p>
+          </ids-layout-grid-cell>
 
-            <ids-layout-grid auto="true">
-              <ids-layout-grid-cell>
-                <ids-notification-banner
-                  id="ids-notification-banner-0"
-                  message-text="DTO accepted by your manager for Sept 30, 2018."
-                  type="success"
-                  link="https://infor.com">
-                </ids-notification-banner>
+          <ids-layout-grid-cell>
+            <p>
+              <ids-text font-size="12" type="h2">Secondary</ids-text>
+            </p>
+            <p>
+              <ids-button id="test-button-secondary" type="secondary">
+                <span>Action</span>
+              </ids-button>
+            </p>
+            <p>
+              <ids-button id="test-disabled-button-secondary" type="secondary" disabled>
+                <span>Action</span>
+              </ids-button>
+            </p>
+            <p>
+              <ids-button id="test-button-icon-secondary" type="secondary">
+                <ids-icon icon="folder"></ids-icon>
+                <span>Action</span>
+              </ids-button>
+            </p>
+          </ids-layout-grid-cell>
 
-                <ids-notification-banner
-                  id="ids-notification-banner-1"
-                  message-text="Notification Banner with no link"
-                  type="warning">
-                </ids-notification-banner>
+          <ids-layout-grid-cell>
+            <p>
+              <ids-text font-size="12" type="h2">Tertiary</ids-text>
+            </p>
+            <p>
+              <ids-button id="test-button-tertiary" type="tertiary">
+                <ids-icon icon="folder"></ids-icon>
+                <span>Action</span>
+              </ids-button>
+            </p>
+            <p>
+              <ids-button id="test-disabled-button-tertiary" type="tertiary" disabled>
+                <ids-icon icon="folder"></ids-icon>
+                <span>Action</span>
+              </ids-button>
+            </p>
+          </ids-layout-grid-cell>
 
-                <ids-notification-banner
-                  id="ids-notification-banner-2"
-                  message-text="Notification Banner with custom link text."
-                  type="info"
-                  link="https://infor.com"
-                  link-text="Learn More">
-                </ids-notification-banner>
+          <ids-layout-grid-cell>
+            <p>
+              <ids-text font-size="12" type="h2">Icon</ids-text>
+            </p>
+            <p>
+              <ids-button id="test-button-icon">
+                <ids-icon icon="folder"></ids-icon>
+                <span class="audible">Action</span>
+              </ids-button>
+            </p>
+            <p>
+              <ids-button id="test-disabled-button-icon" disabled>
+                <ids-icon icon="folder"></ids-icon>
+                <span class="audible">Action</span>
+              </ids-button>
+            </p>
+          </ids-layout-grid-cell>
 
-                <ids-notification-banner
-                  id="ids-notification-banner-3"
-                  message-text="DTO rejected by your manager for Sept 30, 2018."
-                  type="error"
-                  link="https://infor.com">
-                </ids-notification-banner>
-              </ids-layout-gridcell>
-            </ids-layout-grid>
+          <ids-layout-grid-cell>
+            <p>
+              <ids-text font-size="12" type="h2">Destructive Primary</ids-text>
+            </p>
 
-            <!-- Hyperlink -->
-            <ids-layout-grid auto="true">
-              <ids-text font-size="12" type="h1">Hyperlink</ids-text>
-            </ids-layout-grid>
-            <ids-layout-grid auto="true">
-              <ids-layout-grid-cell>
-                <ids-hyperlink href="#" target="_blank">Normal Link</ids-hyperlink><br><br>
-                <ids-hyperlink href="#" disabled="true" target="_blank">Disabled Link</ids-hyperlink>
-              </ids-layout-grid-cell>
-            </ids-layout-grid>
+            <p>
+              <ids-button id="test-button-primary-destructive" type="primary-destructive">
+                <span>Action</span>
+              </ids-button>
+            </p>
 
-            <!-- Tags -->
-            <ids-layout-grid auto="true">
-              <ids-text font-size="12" type="h2">Tags</ids-text><br>
-            </ids-layout-grid>
+            <p>
+              <ids-button id="test-button-disabled-primary-destructive" type="primary-destructive" disabled>
+                <span>Action</span>
+              </ids-button>
+            </p>
+          </ids-layout-grid-cell>
 
-            <ids-layout-grid auto="true">
-              <ids-layout-grid-cell>
-                <ids-tag>Normal Tag</ids-tag>
-                <ids-tag color="secondary">Secondary Tag</ids-tag>
-                <ids-tag color="success">Success Tag</ids-tag>
-                <ids-tag color="info">Info Tag</ids-tag>
-                <ids-tag color="warning">Warning Tag</ids-tag>
-                <ids-tag color="caution">Caution Tag</ids-tag>
-                <ids-tag color="error">Error Tag</ids-tag>
-                <ids-tag clickable="true" id="ids-clickable-tag">Clickable Tag
-                  <ids-icon icon="caret-right" size="xsmall"></ids-icon>
-                </ids-tag>
-                <ids-tag disabled>
-                  <span>Disabled Tag</span>
-                  <ids-icon icon="close" size="xsmall"</ids-icon>
-                </ids-tag>
-                <ids-tag color="secondary" dismissible="true" disabled>
-                  <span>Secondary Disabled Tag</span>
-                  <ids-icon icon="close" size="xsmall"</ids-icon>
-                </ids-tag>
-                <ids-tag dismissible="true">
-                    <span>Dismissible Tag 1</span>
-                    <ids-icon icon="close" size="xsmall" id="ids-closable-btn"></ids-icon>
-                </ids-tag>
-                <ids-tag dismissible="true">
-                    <span>Dismissible Tag 2</span>
-                </ids-tag>
-              </ids-layout-grid-cell>
-            </ids-layout-grid>
+          <ids-layout-grid-cell>
+            <p>
+              <ids-text font-size="12" type="h2">Destructive Tertiary</ids-text>
+            </p>
 
+            <p>
+              <ids-button id="test-button-tertiary-destructive" type="tertiary-destructive">
+                <ids-icon icon="folder"></ids-icon>
+                <span>Action</span>
+              </ids-button>
+            </p>
+
+            <p>
+              <ids-button id="test-button-disabled-tertiary-destructive" type="tertiary-destructive" disabled>
+                <ids-icon icon="folder"></ids-icon>
+                <span>Action</span>
+              </ids-button>
+            </p>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-      </ids-splitter-pane>
-    </ids-splitter>
+        <!-- Notification Banner -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Notification Banner</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-notification-banner
+              id="ids-notification-banner-0"
+              message-text="DTO accepted by your manager for Sept 30, 2018."
+              type="success"
+              link="https://infor.com">
+            </ids-notification-banner>
+
+            <ids-notification-banner
+              id="ids-notification-banner-1"
+              message-text="Notification Banner with no link"
+              type="warning">
+            </ids-notification-banner>
+
+            <ids-notification-banner
+              id="ids-notification-banner-2"
+              message-text="Notification Banner with custom link text."
+              type="info"
+              link="https://infor.com"
+              link-text="Learn More">
+            </ids-notification-banner>
+
+            <ids-notification-banner
+              id="ids-notification-banner-3"
+              message-text="DTO rejected by your manager for Sept 30, 2018."
+              type="error"
+              link="https://infor.com">
+            </ids-notification-banner>
+          </ids-layout-gridcell>
+        </ids-layout-grid>
+
+        <!-- Hyperlink -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h1">Hyperlink</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-hyperlink href="#" target="_blank">Normal Link</ids-hyperlink><br><br>
+            <ids-hyperlink href="#" disabled="true" target="_blank">Disabled Link</ids-hyperlink>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Tags -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Tags</ids-text><br>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-tag>Normal Tag</ids-tag>
+            <ids-tag color="secondary">Secondary Tag</ids-tag>
+            <ids-tag color="success">Success Tag</ids-tag>
+            <ids-tag color="info">Info Tag</ids-tag>
+            <ids-tag color="warning">Warning Tag</ids-tag>
+            <ids-tag color="caution">Caution Tag</ids-tag>
+            <ids-tag color="error">Error Tag</ids-tag>
+            <ids-tag clickable="true" id="ids-clickable-tag">Clickable Tag
+              <ids-icon icon="caret-right" size="xsmall"></ids-icon>
+            </ids-tag>
+            <ids-tag disabled>
+              <span>Disabled Tag</span>
+              <ids-icon icon="close" size="xsmall"</ids-icon>
+            </ids-tag>
+            <ids-tag color="secondary" dismissible="true" disabled>
+              <span>Secondary Disabled Tag</span>
+              <ids-icon icon="close" size="xsmall"</ids-icon>
+            </ids-tag>
+            <ids-tag dismissible="true">
+                <span>Dismissible Tag 1</span>
+                <ids-icon icon="close" size="xsmall" id="ids-closable-btn"></ids-icon>
+            </ids-tag>
+            <ids-tag dismissible="true">
+                <span>Dismissible Tag 2</span>
+            </ids-tag>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
   </ids-container>
 </body>
 

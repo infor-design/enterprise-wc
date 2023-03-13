@@ -24,7 +24,7 @@
     align-items: center;
 
     &.hidden {
-      @include hidden();
+      display: none;
     }
 
     ids-dropdown[compact] ids-list-box-option {

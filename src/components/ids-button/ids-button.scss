@@ -2,10 +2,11 @@
  * Ids Button Component CSS
  * (Includes standard and icon button rules)
  */
+@use '../../themes/ids-core-mixins' as mixins;
 @import './ids-button-base';
 
 :host {
-  @include inline-flex();
+  display: inline-flex;
 
   ::slotted(span) {
     vertical-align: bottom;
@@ -22,7 +23,7 @@
   }
 
   ::slotted(span.audible) {
-    @include audible();
+    @include mixins.audible();
   }
 
   // Button elements should fill the space inside shadow root
@@ -35,11 +36,11 @@
 }
 
 :host(.hidden) {
-  @include hidden();
+  display: none;
 }
 
 :host([hidden]) {
-  @include hidden();
+  display: none;
 }
 
 // Reset button display styles internally
@@ -52,11 +53,10 @@ button {
 .ids-toggle-button,
 .ids-menu-button:not(.ids-icon-button),
 .ids-modal-button {
-  @include antialiased();
+  @include mixins.antialiased();
 
   .ids-icon {
-    @include inline-flex();
-
+    display: inline-flex;
     place-self: center;
     vertical-align: middle;
   }
@@ -70,7 +70,7 @@ button {
 
   // Technically not valid
   ::slotted(ids-icon:only-child) {
-    @include block();
+    display: block;
   }
 
   // Assign padding based on type/usage
@@ -91,16 +91,16 @@ button {
 
 .ids-menu-button.formatter-width {
   &:not(.no-padding):not(.ids-icon-button) {
-    @include px-8();
+    padding-inline-start: var(--ids-spacing-lg);
+    padding-inline-end: var(--ids-spacing-lg);
   }
 
   &:not(.formatter-width-percentage) {
     justify-content: normal;
 
     .ids-icon {
-      @include absolute();
-
-      inset-inline-end: 4px;
+      position: absolute;
+      inset-inline-end: var(--ids-spacing-md);
     }
   }
 }
@@ -110,48 +110,50 @@ button {
   @include ids-standard-button-colors();
 
   // Everything below is only for icon buttons
-  @include px-8();
-  @include py-8();
+  padding-inline-start: var(--ids-spacing-lg);
+  padding-inline-end: var(--ids-spacing-lg);
+  padding-block-start: var(--ids-spacing-lg);
+  padding-block-end: var(--ids-spacing-lg);
 
   &:not(.no-padding) {
     // 34px / 34px
-    padding-inline-start: 7px;
-    padding-inline-end: 7px;
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding-inline-start: calc(var(--ids-spacing-lg) - 1px);
+    padding-inline-end: calc(var(--ids-spacing-lg) - 1px);
+    padding-top: calc(var(--ids-spacing-lg) - 1px);
+    padding-bottom: calc(var(--ids-spacing-lg) - 1px);
   }
 
   &:not(.square) {
-    border-radius: $ids-button-rounded-size;
+    border-radius: var(--ids-border-radius-md);
   }
 
   // Fixes an issue that causes the ripple effect not to appear "round" on Safari.
   // NOTE: Needs to be applied only when not focused because it cuts off the focus state.
   &:not(:focus) {
-    mask-image: radial-gradient(var(--ids-color-palette-azure-10), var(--ids-color-palette-azure-10));
+    mask-image: radial-gradient(var(--ids-button-tertiary-ripple-color), var(--ids-button-tertiary-ripple-color));
     /* stylelint-disable property-no-vendor-prefix */
-    -webkit-mask-image: radial-gradient(var(--ids-color-palette-azure-10), var(--ids-color-palette-azure-10));
+    -webkit-mask-image: radial-gradient(var(--ids-button-tertiary-ripple-color), var(--ids-button-tertiary-ripple-color));
     /* stylelint-enable property-no-vendor-prefix */
   }
 
   .ids-icon {
-    @include block();
-    @include pl-0();
-
+    display: block;
+    padding-inline-start: var(--ids-spacing-none);
     font-size: 0;
   }
 
   span.audible {
-    @include audible();
+    @include mixins.audible();
   }
 
   .ripple-effect {
-    height: 70px;
-    width: 70px;
+    height: var(--ids-size-2xl);
+    width: var(--ids-size-2xl);
   }
 
   &.no-margins {
-    @include mx-0();
+    margin-inline-start: var(--ids-spacing-none);
+    margin-inline-end: var(--ids-spacing-none);
   }
 }
 
@@ -159,7 +161,7 @@ button {
 .ids-button,
 .ids-icon-button,
 .ids-menu-button {
-  @include ids-standard-contextual-button-colors();
+  @include ids-standard-button-shadows();
 }
 
 // Specific Modifications for Modal Buttons
@@ -167,10 +169,11 @@ button {
 .ids-modal-button:not(.ids-modal-icon-button) {
   @include ids-base-button-styles();
   @include ids-modal-button-colors();
-  @include py-12();
 
+  padding-block-start: var(--ids-spacing-xlg);
+  padding-block-end: var(--ids-spacing-xlg);
   display: block;
-  font-weight: 600;
+  font-weight: var(--ids-font-weight-semi-bold);
   justify-content: center;
   height: 100%;
   width: 100%;
@@ -182,19 +185,18 @@ button {
 
 // Adjusting hitbox for the modal close icon
 .ids-modal-icon-button {
-  @include p-8();
+  padding: var(--ids-spacing-lg);
 }
 
 // ====================================================
 // Swipe Action Buttons (Swipe action component)
 .btn-swipe-action-left,
 .btn-swipe-action-right {
-  @include bg-slate-30();
-  @include text-slate-100();
-
+  background-color: var(--ids-body-line-color);
+  color: var(--ids-component-text-color);
   border-radius: 0;
   display: block;
-  padding: 0 8px 8px;
+  padding: 0 var(--ids-spacing-lg) var(--ids-spacing-lg);
   height: 100%;
   margin: 0;
   white-space: inherit;
@@ -210,78 +212,28 @@ button {
   }
 
   &:active {
-    @include bg-slate-40();
+    background-color: var(--ids-component-hover-color);
   }
 
   &:hover {
-    @include bg-slate-40();
-
+    background-color: var(--ids-component-hover-color);
     box-shadow: none;
     border-color: transparent;
   }
 }
 
-.btn-swipe-action-right,
-.btn-swipe-action-right[mode='light'] {
-  @include bg-azure-70();
-  @include text-white();
+.btn-swipe-action-right {
+  background-color: var(--ids-color-primary);
+  color: var(--ids-body-inverse-text-color);
 
   &:hover {
-    @include bg-azure-80();
-    @include text-white();
+    background-color: var(--ids-color-secondary);
+    color: var(--ids-body-inverse-text-color);
   }
 
   &:active {
-    @include bg-azure-80();
-  }
-}
-
-.btn-swipe-action-left[mode='dark'] {
-  @include bg-slate-60();
-}
-
-.btn-swipe-action-right[mode='dark'] {
-  @include bg-azure-50();
-}
-
-.btn-swipe-action-left[mode='contrast'] {
-  @include bg-slate-30();
-}
-
-.btn-swipe-action-right[mode='contrast'] {
-  @include bg-azure-50();
-  @include text-white();
-}
-
-.ids-modal-button[mode='dark'] {
-  &:not(.ids-modal-icon-button) {
-    @include bg-transparent();
-
-    &.btn-primary {
-      color: var(--ids-color-brand-primary-lighter);
-
-      &:focus {
-        box-shadow: 0 0 3px 1px var(--ids-color-brand-primary-lighter);
-      }
-
-      &:hover {
-        color: var(--ids-color-palette-azure-30);
-      }
-    }
-
-    &.btn-secondary {
-      color: var(--ids-color-palette-slate-30);
-
-      &:hover {
-        color: var(--ids-color-palette-white);
-      }
-    }
-  }
-}
-
-.ids-modal-button[mode='contrast'] {
-  &:not(.ids-modal-icon-button) {
-    @include bg-slate-10();
+    background-color: var(--ids-color-secondary);
+    color: var(--ids-body-inverse-text-color);
   }
 }
 
@@ -296,20 +248,20 @@ button {
   ::slotted(ids-text:nth-child(2):last-child),
   ::slotted(span:nth-child(3):last-child), // shadowroot + icon + (audible text) + text
   ::slotted(ids-text:nth-child(3):last-child) {
-    @include pl-4();
+    padding-inline-start: var(--ids-spacing-md);
   }
 
   // Padding rules for standalone CSS buttons (match the rules/style above)
   .ids-icon:last-child,
   span + span,
   span:last-child {
-    @include pl-4();
+    padding-inline-start: var(--ids-spacing-md);
   }
 }
 
 // Adjustment for about close icon
 .ids-modal-button {
   ::slotted(ids-icon:not(:first-child)) { // shadowroot + text + icon
-    @include p-2();
+    padding: var(--ids-spacing-sm);
   }
 }

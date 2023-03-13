@@ -3,7 +3,7 @@
 
 .ids-toast {
   .hidden {
-    @include hidden();
+    display: none;
   }
 
   .toast-container {

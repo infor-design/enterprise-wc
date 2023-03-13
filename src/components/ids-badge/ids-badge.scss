@@ -13,7 +13,7 @@
   // Colors/Borders
   background-color: var(--ids-component-darker-background-color);
   border: 1px solid var(--ids-component-darker-background-color);
-  border-radius: var(--ids-border-radius-large);
+  border-radius: var(--ids-border-radius-lg);
 
   // Fonts
   font-family: var(--ids-font-family);
@@ -33,9 +33,9 @@
     display: inline-flex;
     text-align: center;
     justify-content: center;
-    height: var(--ids-size-xs);
+    height: var(--ids-size-xxs);
     padding: var(--ids-spacing-none);
-    width: var(--ids-size-xs);
+    width: var(--ids-size-xxs);
   }
 
   &[color='info'] {

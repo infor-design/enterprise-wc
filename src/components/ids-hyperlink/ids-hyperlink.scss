@@ -102,21 +102,21 @@
   // =========================================
   // Theme colors are applied when `color="unset"` is not set
   &:not(.ids-hyperlink-color-unset) {
-    color: var(--ids-hyperlink-color);
+    color: var(--ids-hyperlink-text-color);
 
     &:focus {
-      border: 1px solid var(--ids-hyperlink-color);
+      border: 1px solid var(--ids-hyperlink-text-color);
       box-shadow: var(--ids-focus-ring-shadow);
     }
 
     &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),
     &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled) {
-      color: var(--ids-hyperlink-hover-color);
+      color: var(--ids-hyperlink-hover-text-color);
     }
 
     &.disabled,
     &[disabled] {
-      color: var(--ids-hyperlink-disabled-color);
+      color: var(--ids-hyperlink-disabled-text-color);
     }
 
     // ===============================================
@@ -131,7 +131,7 @@
     }
 
     &.color-variant-alternate {
-      color: var(--ids-body-text-color-inverse);
+      color: var(--ids-body-inverse-text-color);
     }
   }
 }

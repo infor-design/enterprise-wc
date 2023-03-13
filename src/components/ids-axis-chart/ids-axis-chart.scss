@@ -32,7 +32,7 @@
   @include flex();
 
   &.hidden {
-    @include hidden();
+    display: none;
   }
 
   // Grid Lines

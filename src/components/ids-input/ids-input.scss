@@ -818,32 +818,32 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 /* stylelint-enable property-no-vendor-prefix */
 
 // Autocomplete dropdown menu sizes
-:host ids-popup {
+:host ids-popup[type='dropdown'] {
   @include w-full();
 
   max-width: $input-size-md;
 }
 
-:host([size='xs']) ids-popup {
+:host([size='xs']) ids-popup[type='dropdown'] {
   max-width: $input-size-xs;
 }
 
-:host([size='sm']) ids-popup {
+:host([size='sm']) ids-popup[type='dropdown'] {
   max-width: $input-size-sm;
 }
 
-:host([size='mm']) ids-popup {
+:host([size='mm']) ids-popup[type='dropdown'] {
   max-width: $input-size-mm;
 }
 
-:host([size='md']) ids-popup {
+:host([size='md']) ids-popup[type='dropdown'] {
   max-width: $input-size-md;
 }
 
-:host([size='lg']) ids-popup {
+:host([size='lg']) ids-popup[type='dropdown'] {
   max-width: $input-size-lg;
 }
 
-:host([size='full']) ids-popup {
+:host([size='full']) ids-popup[type='dropdown'] {
   max-width: $input-size-full;
 }

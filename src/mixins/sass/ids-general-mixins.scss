@@ -66,11 +66,6 @@ $animation-prefixes: -webkit-, -moz-, '';
   white-space: nowrap;
 }
 
-// Hidden
-@mixin hidden {
-  display: none;
-}
-
 // vendor prefixed transitions for regular attributes (non-vendor prefixed)
 @mixin transition($transitions-list...) {
   @each $prefix in $prefixes {

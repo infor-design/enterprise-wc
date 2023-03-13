@@ -1,4 +1,5 @@
 /* Ids Toast Container Component */
+@use '../../themes/ids-core-mixins' as mixins;
 @import '../../core/ids-base';
 
 :host(ids-toast-message) {
@@ -22,7 +23,7 @@
   outline: 0;
 
   &.audible {
-    @include audible();
+    @include mixins.audible();
   }
 
   &.effect-scale {

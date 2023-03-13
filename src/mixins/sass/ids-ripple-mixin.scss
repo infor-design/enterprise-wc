@@ -1,27 +1,25 @@
-/**
- * Ripple Mixin
- */
-.is-rippling {
-  @include relative();
+/** Ripple Mixin - Adds Ripple Classes used in various components */
+@use '../../themes/ids-core-mixins' as mixins;
 
+.is-rippling {
+  position: relative;
   overflow: hidden;
 }
 
 .ripple-effect {
-  @include absolute();
-  @include block();
-  @include opacity-0();
-  @include rounded-round();
-
-  background-color: var(--ids-color-palette-azure-70);
+  border-radius: var(--ids-border-radius-round);
+  background-color: var(--ids-color-primary);
+  position: absolute;
+  display: block;
+  opacity: 0;
   transform: scale(0);
 
   &.animating {
-    @include animation(ripple-animation 1.2s ease-out);
+    animation: ripple-animation 1.2s ease-out;
   }
 }
 
-@include keyframes(ripple-animation) {
+@include mixins.keyframes(ripple-animation) {
   from {
     opacity: 0.3;
     transform: scale(0);

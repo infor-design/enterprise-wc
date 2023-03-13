@@ -20,12 +20,11 @@ $textarea-size-default-height: 120px;
   @include text-16();
 
   .hidden {
-    @include hidden();
+    display: none;
   }
 
   .textarea-print {
-    @include hidden();
-
+    display: none;
     white-space: pre-line;
   }
 
@@ -282,7 +281,7 @@ $textarea-size-default-height: 120px;
   .ids-textarea {
     .textarea-character-counter,
     .ids-textarea-field {
-      @include hidden();
+      display: none;
     }
   }
 

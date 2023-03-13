@@ -1,4 +1,5 @@
 /* Ids Text Css */
+@use '../../themes/ids-core-mixins' as mixins;
 @import '../../core/ids-base';
 
 .ids-text {
@@ -17,7 +18,7 @@
   text-decoration: unset;
 
   &.audible {
-    @include audible();
+    @include mixins.audible();
 
     position: none;
   }
@@ -146,7 +147,7 @@
 }
 
 ::slotted(.audible) {
-  @include audible();
+  @include mixins.audible();
 }
 
 ::slotted(.filter) {

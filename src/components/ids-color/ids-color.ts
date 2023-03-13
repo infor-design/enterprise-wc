@@ -72,6 +72,7 @@ export default class IdsColor extends Base {
       attributes.MODE,
       attributes.LABEL,
       attributes.SIZE,
+      attributes.SHOW_LABEL,
       attributes.TOOLTIP,
     ];
   }
@@ -85,7 +86,7 @@ export default class IdsColor extends Base {
       ${this.tooltip ? `<ids-tooltip>${this.tooltip} ${this.hex}</ids-tooltip>` : ''}
       <div class="ids-color ${this.size} no-color" tabindex="0" part="color">
         ${this.clickable ? `<ids-icon class="color-check" icon="check" size="small" part="hex"></ids-icon>` : ''}
-        ${this.label ? `<ids-text font-size="14" type="span" align="center">${this.label}</ids-text>` : ''}
+        ${this.showLabel ? `<ids-text font-size="14" type="span" align="center">${this.label}</ids-text>` : ''}
       </div>
     `;
   }
@@ -141,6 +142,16 @@ export default class IdsColor extends Base {
     return this.getAttribute(attributes.LABEL) || '';
   }
 
+  /** @param {boolean} value show the label underneath */
+  set showLabel(value: boolean) {
+    this.setAttribute(attributes.SHOW_LABEL, value.toString());
+  }
+
+  /** @returns {boolean} The label for this color swatch */
+  get showLabel(): boolean {
+    return stringToBool(this.getAttribute(attributes.SHOW_LABEL)) || false;
+  }
+
   /** @param {string} value Text for this color swatch's tooltip */
   set tooltip(value: string) {
     this.setAttribute(attributes.TOOLTIP, value);
@@ -183,7 +194,7 @@ export default class IdsColor extends Base {
   set color(value: string) {
     if (value) {
       this.container?.classList.remove('no-color');
-      this.swatch?.style.setProperty('background-color', `var(${value})`);
+      this.swatch?.style.setProperty('background-color', value.indexOf('hsl') > -1 ? `${value}` : `var(${value})`);
       this.setAttribute(attributes.COLOR, value);
     } else {
       this.container?.classList.add('no-color');

@@ -11,7 +11,7 @@
   @include block();
 
   .hidden {
-    @include hidden();
+    display: none;
   }
 
   .container {
@@ -97,7 +97,7 @@
     .status .not-started,
     .status .completed,
     .status .errored {
-      @include hidden();
+      display: none;
     }
 
     .error-row,
@@ -134,7 +134,7 @@
       .status .in-process,
       .status .completed,
       .status .errored {
-        @include hidden();
+        display: none;
       }
 
       .progress-row {
@@ -174,7 +174,7 @@
       .status .not-started,
       .status .in-process,
       .status .errored {
-        @include hidden();
+        display: none;
       }
     }
   }
@@ -193,7 +193,7 @@
       .status .not-started,
       .status .in-process,
       .status .completed {
-        @include hidden();
+        display: none;
       }
     }
   }

@@ -15,7 +15,7 @@
  - [ ] Locale: Make sure strings are translated, and use number / date / timezone parsers as needed
  - [ ] Side By Side Example: Works in Page with 4.x version
  - [ ] Documentation: Add copious documentation in a README.MD in the folder
- - [ ] TODO: Add a TODO.md for anything needing to be done in the future you think of
+ - [ ] TODO: Add a `TODO.md` for anything needing to be done in the future you think of
  - [ ] Themes: Implement color changes for Themes
  - [ ] Types: In the `d.ts` file add types for all public settings, methods and events
  - [ ] 100% Test Coverage: Add Functional test coverage to 100% or by ignoring coverage on a non testable section
@@ -38,7 +38,7 @@ Charts and Visualizations
 
 ## Components To Convert
 
-Will get a checkbox at minimum viable product. The rest of the details are covered in a TODO.md in the individual folder after first commit
+Will get a checkbox at minimum viable product. The rest of the details are covered in a `TODO.md` in the individual folder after first commit
 
  - [x] About (ids-about)
  - [x] Accordion (ids-accordion)
@@ -46,7 +46,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Alerts (ids-alert)
  - [x] Application menu (ids-application-menu)
  - [x] Area (ids-area-chart)
- - [x] Arrange (ids-swapabble)
+ - [x] Arrange (ids-swappable)
  - [x] Autocomplete (ids-autocomplete)
  - [x] Badges (ids-badge)
  - [x] Bar (ids-bar-chart)
@@ -155,7 +155,7 @@ We have a series of gaps in this project to close in terms of functionality. Som
 
 For each component...
 
-- [ ] Make sure CHECKLIST.md is checked off
+- [ ] Make sure `CHECKLIST.md` is checked off
 - [ ] Make sure component is on kitchen sink https://main.wc.design.infor.com/ page and in an appropriate section
 - [ ] Run the each example https://main.wc.design.infor.com/<component-name>
 - [ ] Compare to examples to https://main-enterprise.demo.design.infor.com/components/<component-name> and make sure everything is covered
@@ -170,7 +170,7 @@ For each component...
 - [ ] Compare Styling to old version - QA Task?
 - [ ] Check if keyboard all works - QA Task?
 - [ ] Sort the todos in priority and classify as Major/Minor
-- [ ] Make sure the todo.md is formatted like the ids-about one (with the sections)
+- [ ] Make sure the `TODO.md` is formatted like the ids-about one (with the sections)
 - [ ] Make an issue for one or two todos
 - [ ] Make a parent issue for all todos  https://github.com/infor-design/enterprise-wc/issues/499 (estimate as the sum of all sub issues)
 - [ ] Update the Change log to be more generic and point to the README.md

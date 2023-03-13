@@ -28,8 +28,8 @@
   width: 100%;
 
   &.color-variant-alternate {
-    background-color: var(--ids-body-background-color-inverse);
-    color: var(--ids-body-text-color-inverse);
+    background-color: var(--ids-body-inverse-background-color);
+    color: var(--ids-body-inverse-text-color);
   }
 
   &[scrollable='false'] {

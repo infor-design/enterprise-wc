@@ -11,36 +11,35 @@
 :host([field-height='xs']),
 :host([field-height='sm']) {
   .ids-trigger-button.ids-icon-button {
-    @include p-0();
+    padding: var(--ids-spacing-none);
 
     &:not(.square) {
-      @include rounded-md();
+      border-radius: var(--ids-border-radius-round);
     }
   }
 }
 
 .ids-trigger-button {
-  @include bg-transparent();
-  @include flex();
-
   align-items: center;
+  background-color: transparent;
+  display: flex;
   color: currentColor;
   justify-content: center;
 
   &.ids-icon-button {
-    @include p-4();
+    padding: var(--ids-spacing-md);
   }
 
   // ===================================================
   // Inline Style: Show a border on the trigger button's inner-edge
   &.style-inline {
-    @include border-0();
-    @include p-0();
-    @include m-0();
-    @include rounded-none();
+    border: 0;
+    padding: var(--ids-spacing-none);
+    border-radius: none;
+    margin: var(--ids-spacing-none);
 
     &.ids-icon-button {
-      @include p-0();
+      padding: var(--ids-spacing-none);
     }
 
     // ===================================================
@@ -48,30 +47,30 @@
 
     &.field-height-xs,
     &.field-height-xs.compact {
-      height: $input-field-height-xs - 2px;
-      width: $input-field-height-xs - 2px;
+      height: calc(var(--ids-size-xs) - 2px);
+      width: calc(var(--ids-size-xs) - 2px);
     }
 
     &.field-height-sm {
-      height: $input-field-height-sm - 2px;
-      width: $input-field-height-sm - 2px;
+      height: calc(var(--ids-size-sm) - 2px);
+      width: calc(var(--ids-size-sm) - 2px);
     }
 
     &.field-height-md {
-      height: $input-field-height-md - 2px;
-      width: $input-field-height-md - 2px;
+      height: calc(var(--ids-size-md) - 2px);
+      width: calc(var(--ids-size-md) - 2px);
     }
 
     &.field-height-lg {
-      height: $input-field-height-lg - 2px;
-      width: $input-field-height-lg - 2px;
+      height: calc(var(--ids-size-lg) - 2px);
+      width: calc(var(--ids-size-lg) - 2px);
     }
 
     &.compact,
     &.field-height-sm.compact,
     &.field-height-md.compact,
     &.field-height-lg.compact {
-      height: $input-field-height-xs;
+      height: var(--ids-size-xs);
     }
   }
 
@@ -84,7 +83,7 @@
   }
 
   &.color-variant-alternate-formatter {
-    @include p-2();
+    padding: var(--ids-spacing-sm);
   }
 
   // ===================================================
@@ -94,11 +93,6 @@
   // that should inherit colors from its parent.
 
   &.inherit-color {
-    &:not([mode]),
-    &[mode='light'],
-    &[mode='dark'],
-    &[mode='contrast'] {
-      color: currentColor;
-    }
+    color: currentColor;
   }
 }

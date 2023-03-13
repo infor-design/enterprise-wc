@@ -1,4 +1,5 @@
 /* Ids Editor Component */
+@use '../../themes/ids-core-mixins' as mixins;
 @import '../../core/ids-base';
 @import '../../mixins/sass/ids-dirty-tracker-mixin';
 @import '../../mixins/sass/ids-validation-mixin';
@@ -7,11 +8,11 @@ $editor-container-height: 285px;
 
 .ids-editor {
   .hidden {
-    @include hidden();
+    display: none;
   }
 
   .audible {
-    @include audible();
+    @include mixins.audible();
   }
 
   .editor-label {
@@ -107,7 +108,7 @@ $editor-container-height: 285px;
     }
 
     .toolbar-container {
-      @include hidden();
+      display: none;
     }
 
     .main-container,
@@ -131,7 +132,7 @@ $editor-container-height: 285px;
     }
 
     .toolbar-container {
-      @include hidden();
+      display: none;
     }
 
     .main-container,
