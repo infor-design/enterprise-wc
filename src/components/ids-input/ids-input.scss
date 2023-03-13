@@ -847,3 +847,41 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 :host([size='full']) ids-popup[type='dropdown'] {
   max-width: $input-size-full;
 }
+
+// Loading Indicator
+:host(:not([show-loading-indicator='true'])) {
+  ::slotted(.slot-loading-indicator) {
+    display: none;
+  }
+}
+
+:host([show-loading-indicator='true']) {
+  pointer-events: none;
+
+  ::slotted(ids-loading-indicator) {
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+
+  ::slotted(ids-trigger-button[slot='trigger-end']) {
+    display: none;
+  }
+
+  ::slotted(.slot-loading-indicator) {
+    @include mr-12();
+    @include ml-8();
+  }
+}
+
+:host([show-loading-indicator='true'][field-height='xs']) {
+  ::slotted(.slot-loading-indicator) {
+    @include mx-4();
+  }
+}
+
+:host([show-loading-indicator='true'][field-height='sm']) {
+  ::slotted(.slot-loading-indicator) {
+    @include mr-8();
+    @include ml-4();
+  }
+}

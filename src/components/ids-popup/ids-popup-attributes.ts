@@ -5,6 +5,8 @@ export type IdsPopupElementRef = IdsElement | HTMLElement | SVGElement | null;
 
 const CENTER = 'center';
 
+const DEFAULT_ALIGN_EDGE = CENTER;
+
 // Locations in which a parent-positioned Popup can be located
 const ALIGNMENT_EDGES = [CENTER, 'bottom', 'top', 'left', 'right'];
 
@@ -88,6 +90,7 @@ export {
   ALIGNMENTS_EDGES_Y,
   ANIMATION_STYLES,
   ARROW_TYPES,
+  DEFAULT_ALIGN_EDGE,
   POSITION_STYLES,
   TYPES,
   POPUP_PROPERTIES,

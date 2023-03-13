@@ -89,6 +89,9 @@
   - link: expandable-row.html
     type: Example
     description: Shows a data grid with and expandable row
+  - link: export-excel.html
+    type: Example
+    description: Shows a data grid exporting to an excel file
   - link: filter-trigger-fields.html
     type: Example
     description: Showing a filter row with date, time, dropdown

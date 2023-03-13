@@ -14,6 +14,7 @@ import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsLoadingIndicatorMixin from '../../mixins/ids-loading-indicator-mixin/ids-loading-indicator-mixin';
 import IdsAutoComplete from './ids-autocomplete';
 import IdsElement from '../../core/ids-element';
 
@@ -37,18 +38,20 @@ let instanceCounter = 0;
 
 const Base = IdsTooltipMixin(
   IdsLabelStateMixin(
-    IdsAutoComplete(
-      IdsFieldHeightMixin(
-        IdsDirtyTrackerMixin(
-          IdsClearableMixin(
-            IdsColorVariantMixin(
-              IdsThemeMixin(
-                IdsMaskMixin(
-                  IdsValidationMixin(
-                    IdsLocaleMixin(
-                      IdsKeyboardMixin(
-                        IdsEventsMixin(
-                          IdsElement
+    IdsLoadingIndicatorMixin(
+      IdsAutoComplete(
+        IdsFieldHeightMixin(
+          IdsDirtyTrackerMixin(
+            IdsClearableMixin(
+              IdsColorVariantMixin(
+                IdsThemeMixin(
+                  IdsMaskMixin(
+                    IdsValidationMixin(
+                      IdsLocaleMixin(
+                        IdsKeyboardMixin(
+                          IdsEventsMixin(
+                            IdsElement
+                          )
                         )
                       )
                     )
@@ -98,6 +101,7 @@ type IdsInputTemplateVariables = {
  * @mixes IdsValidationMixin
  * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
+ * @mixes IdsLoadingIndicatorMixin
  * @part container - the overall container
  * @part field-container - the container for the input
  * @part input - the input element
@@ -214,6 +218,7 @@ export default class IdsInput extends Base {
           ></input>
         ${showHide}
         ${capsLock}
+        <slot name="loading-indicator"></slot>
       </div>
       ${this.autocomplete ? `
         <ids-popup

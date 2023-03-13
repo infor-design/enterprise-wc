@@ -8,6 +8,8 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsRippleMixin from '../../mixins/ids-ripple-mixin/ids-ripple-mixin';
 import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
+import IdsLoadingIndicatorMixin from '../../mixins/ids-loading-indicator-mixin/ids-loading-indicator-mixin';
+
 import IdsElement from '../../core/ids-element';
 
 import {
@@ -28,11 +30,13 @@ import type IdsText from '../ids-text/ids-text';
 
 const Base = IdsTooltipMixin(
   IdsLocaleMixin(
-    IdsRippleMixin(
-      IdsColorVariantMixin(
-        IdsHideFocusMixin(
-          IdsEventsMixin(
-            IdsElement
+    IdsLoadingIndicatorMixin(
+      IdsRippleMixin(
+        IdsColorVariantMixin(
+          IdsHideFocusMixin(
+            IdsEventsMixin(
+              IdsElement
+            )
           )
         )
       )
@@ -50,6 +54,7 @@ const Base = IdsTooltipMixin(
  * @mixes IdsRippleMixin
  * @mixes IdsTooltipMixin
  * @mixes IdsHideFocusMixin
+ * @mixes IdsLoadingIndicatorMixin
  * @part button - the button element
  * @part icon - the icon element
  * @part text - the text element
@@ -178,6 +183,7 @@ export default class IdsButton extends Base {
 
     return `<button part="button" class="${protoClasses}${type}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
       <slot></slot>
+      <slot name="loading-indicator"></slot>
     </button>`;
   }
 

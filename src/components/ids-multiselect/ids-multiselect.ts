@@ -37,7 +37,6 @@ class IdsMultiselect extends IdsDropdown {
   connectedCallback() {
     super.connectedCallback();
     this.resetDirtyTracker();
-    this.#attachKeyboardListeners();
     this.#setOptionsData();
     this.#populateSelected();
   }
@@ -194,6 +193,7 @@ class IdsMultiselect extends IdsDropdown {
         // Don't open/close popup on tag removal
         const target = (e.target as IdsTag);
         if (!target?.closest('ids-tag') && !this.dropdownList?.visible) {
+          this.labelClicked = false;
           this.dropdownList?.onTriggerClick?.(e);
         }
       });
@@ -208,20 +208,20 @@ class IdsMultiselect extends IdsDropdown {
   }
 
   /**
-   * Establish Internal Keyboard shortcuts
-   * @returns {object} This API object for chaining
+   * Establish selection event for keyboard interactions.
+   * Overrides a similiar method from IdsDropdown for Multiselect-specific behavior.
    */
-  #attachKeyboardListeners() {
+  attachKeyboardSelectionEvent() {
+    // Select or Open on space/enter
     this.listen([' ', 'Enter'], this, () => {
-      if (!this.popup?.visible) {
-        this.open();
+      if (!this.dropdownList?.popup?.visible) return;
+      if (this.openedByKeyboard) {
+        this.openedByKeyboard = false;
         return;
       }
 
       this.#optionChecked(this.selected);
     });
-
-    return this;
   }
 
   /**

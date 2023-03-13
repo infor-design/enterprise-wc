@@ -24,6 +24,7 @@ export const IdsDropdownCommonAttributes = [
   attributes.NO_MARGINS,
   attributes.PLACEHOLDER,
   attributes.READONLY,
+  attributes.SHOW_LOADING_INDICATOR,
   attributes.SIZE,
   attributes.TYPEAHEAD,
   attributes.VALUE
