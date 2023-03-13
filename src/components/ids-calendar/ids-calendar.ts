@@ -75,7 +75,6 @@ export default class IdsCalendar extends Base {
 
   constructor() {
     super();
-    console.log('this.state !!!!!!!', this.state);
     if (!this.state) this.state = {};
   }
 

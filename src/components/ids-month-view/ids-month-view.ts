@@ -931,11 +931,11 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
         return cellTemplate;
     }).join('');
   }
+  get onDayCellRender() { return this.state.onDayCellRender; }
 
-  set dayCellRenderTemplate(func) {
-    this.state.dayCellRenderTemplate = func;
+  set onDayCellRender(func) {
+    this.state.onDayCellRender = func;
   }
-  get dayCellRenderTemplate() { return this.state.dayCellRenderTemplate; }
   /**
    * Add week days HTML to the table
    */
@@ -970,9 +970,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.localeAPI?.isIslamic());
 
     this.triggerEvent('renderMonthData', this, {
-      detail: {
-        elem:this
-      },
       bubbles: true,
       composed: true
     });
