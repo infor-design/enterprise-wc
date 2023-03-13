@@ -27,7 +27,7 @@ export type IdsMenuContentsData = Array<IdsMenuGroupData | IdsMenuSeparatorData 
 
 export type IdsMenuGroupData = {
   id?: string;
-  items: IdsMenuContentsData;
+  items: Array<IdsMenuItemData | IdsMenuSeparatorData | IdsMenuHeaderData>;
   select?: 'none' | 'single' | 'multiple';
   type?: 'group';
 };
