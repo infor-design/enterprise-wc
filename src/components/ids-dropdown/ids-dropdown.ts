@@ -13,6 +13,7 @@ import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty
 import IdsElement from '../../core/ids-element';
 import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
 import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-label-state-parent-mixin';
+import IdsLoadingIndicatorMixin from '../../mixins/ids-loading-indicator-mixin/ids-loading-indicator-mixin';
 import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 
 import '../ids-trigger-field/ids-trigger-field';
@@ -38,15 +39,17 @@ const Base = IdsDropdownAttributeMixin(
   IdsThemeMixin(
     IdsDirtyTrackerMixin(
       IdsValidationInputMixin(
-        IdsLabelStateParentMixin(
-          IdsFieldHeightMixin(
-            IdsColorVariantMixin(
-              IdsTooltipMixin(
-                IdsXssMixin(
-                  IdsLocaleMixin(
-                    IdsKeyboardMixin(
-                      IdsEventsMixin(
-                        IdsElement
+        IdsLoadingIndicatorMixin(
+          IdsLabelStateParentMixin(
+            IdsFieldHeightMixin(
+              IdsColorVariantMixin(
+                IdsTooltipMixin(
+                  IdsXssMixin(
+                    IdsLocaleMixin(
+                      IdsKeyboardMixin(
+                        IdsEventsMixin(
+                          IdsElement
+                        )
                       )
                     )
                   )
@@ -1249,4 +1252,26 @@ export default class IdsDropdown extends Base {
   focus() {
     this.input?.focus();
   }
+
+  /**
+   * Set whether or not to show loading indicator. Disabled by default
+   * @param {boolean|string|null} value show-loading-indicator attribute value
+   */
+  set showLoadingIndicator(value: string | boolean | null) {
+    const boolVal = stringToBool(value);
+    if (boolVal) {
+      this.setAttribute(attributes.SHOW_LOADING_INDICATOR, boolVal.toString());
+      this.input?.setAttribute(attributes.SHOW_LOADING_INDICATOR, boolVal.toString());
+      this.close(true);
+    } else {
+      this.removeAttribute(attributes.SHOW_LOADING_INDICATOR);
+      this.input?.removeAttribute(attributes.SHOW_LOADING_INDICATOR);
+    }
+  }
+
+  /**
+   * show-loading-indicator attribute
+   * @returns {boolean} showLoadingIndicator param converted to boolean from attribute value. Defaults to false
+   */
+  get showLoadingIndicator() { return stringToBool(this.getAttribute(attributes.SHOW_LOADING_INDICATOR)); }
 }

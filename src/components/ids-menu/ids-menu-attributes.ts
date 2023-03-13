@@ -1,5 +1,45 @@
 import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 
+export type IdsMenuItemData = {
+  id?: string;
+  comment?: string;
+  disabled?: boolean;
+  icon?: string;
+  selected?: boolean;
+  shortcutKeys?: string;
+  submenu?: IdsMenuData;
+  text: string;
+  type: 'item';
+  value?: string | null;
+};
+
+export type IdsMenuHeaderData = {
+  for?: string;
+  text: string;
+  type: 'header';
+};
+
+export type IdsMenuSeparatorData = {
+  type: 'separator';
+};
+
+export type IdsMenuContentsData = Array<IdsMenuGroupData | IdsMenuSeparatorData | IdsMenuHeaderData>;
+
+export type IdsMenuGroupData = {
+  id?: string;
+  items: Array<IdsMenuItemData | IdsMenuSeparatorData | IdsMenuHeaderData>;
+  select?: 'none' | 'single' | 'multiple';
+  type?: 'group';
+};
+
+export type IdsMenuObjectData = {
+  id?: string;
+  contents?: IdsMenuContentsData;
+  length?: number;
+};
+
+export type IdsMenuData = IdsMenuObjectData | IdsMenuContentsData;
+
 // Menu Selection Types
 const MENU_GROUP_SELECT_TYPES = [
   'none',
@@ -7,14 +47,15 @@ const MENU_GROUP_SELECT_TYPES = [
   'multiple'
 ];
 
-// @TODO handle other menu-item sizes
-const MENU_ITEM_SIZE = 'medium';
+// Size for menu item icons
+const MENU_ITEM_ICON_SIZE = 'small';
 
 // Default Button state values
 const MENU_DEFAULTS: any = {
   disabled: false,
   icon: null,
   selected: false,
+  shortcutKeys: null,
   submenu: null,
   tabIndex: 0,
   value: null,
@@ -73,5 +114,5 @@ function isUsableItem(item: any, idsMenu: any) {
 }
 
 export {
-  MENU_GROUP_SELECT_TYPES, MENU_ITEM_SIZE, MENU_DEFAULTS, safeForAttribute, isValidGroup, isUsableItem
+  MENU_GROUP_SELECT_TYPES, MENU_ITEM_ICON_SIZE, MENU_DEFAULTS, safeForAttribute, isValidGroup, isUsableItem
 };

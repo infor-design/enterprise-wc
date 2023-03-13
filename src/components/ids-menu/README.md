@@ -132,6 +132,19 @@ This next example will cause a either a `selected` OR `deselected` event, as wel
 </ids-menu>
 ```
 
+### Shortcut keys
+
+IdsMenuItem elements can have a `shortcut-keys` attribute defined, which will pass text representing a keyboard shortcut to be displayed into the white space opposite the regular text:
+
+```html
+<ids-menu-item id="action-create" icon="folder" shortcut-keys="⌘+R">Create New Folder</ids-menu-item>
+```
+
+```js
+const menuItem = document.querySelector('ids-menu-item');
+menuItem.setAttribute('shortcut-keys', '⌘+R');
+```
+
 ## Class Hierarchy Menu Group
 
 - IdsMenuGroup
