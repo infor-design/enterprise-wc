@@ -99,6 +99,7 @@ export default class IdsTriggerField extends IdsInput {
           ${value}
           ></input>
         <slot name="trigger-end"></slot>
+        <slot name="loading-indicator"></slot>
       </div>
       ${this.autocomplete ? `
         <ids-popup

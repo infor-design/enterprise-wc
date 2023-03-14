@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import {
-  MENU_ITEM_SIZE, MENU_DEFAULTS, safeForAttribute
+  MENU_ITEM_ICON_SIZE, MENU_DEFAULTS, safeForAttribute
 } from './ids-menu-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
@@ -82,13 +82,16 @@ export default class IdsMenuItem extends Base {
     const check = this.templateCheck();
 
     // Icon
-    let icon = '';
-    if (this.state?.icon) icon = this.templateDisplayIcon(this.state.icon);
-    const iconSlot = `<span class="ids-menu-item-icon" role="presentation"><slot name="icon">${icon}</slot></span>`;
+    const iconSlot = `<span class="ids-menu-item-icon" role="presentation"><slot name="icon"></slot></span>`;
 
     // Selected
     let selectedClass = '';
     if (this.state?.selected) selectedClass = ' selected';
+
+    // Shortcut
+    const shortcutSlot = `<span class="ids-menu-item-shortcuts" part="shortcuts"><slot name="shortcuts"></slot></span>`;
+    let shortcutClass = '';
+    if (this.shortcutKeys) shortcutClass = ' has-shortcuts';
 
     // Submenu
     let submenuClass = '';
@@ -99,15 +102,16 @@ export default class IdsMenuItem extends Base {
     if (this.state?.tabIndex && !this.state?.disabled) tabindex = ` tabindex="${this.state.tabIndex}"`;
 
     // TextAlign
-    const textClass = ` text-${this.textAlign}`;
+    let textClass = '';
+    if (this.textAlign) textClass = ` text-${this.textAlign}`;
 
     // Text
     const textSlot = `<span class="ids-menu-item-text" part="text"><slot></slot></span>`;
 
     // Main
-    return `<div role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}${textClass}">
+    return `<div role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${shortcutClass}${submenuClass}${textClass}">
       <a role="menuitem" ${tabindex} ${disabledAttr}>
-        ${check}${iconSlot}${textSlot}
+        ${check}${iconSlot}${textSlot}${shortcutSlot}
       </a>
       <slot name="submenu"></slot>
     </div>`;
@@ -119,11 +123,15 @@ export default class IdsMenuItem extends Base {
 
   templateDisplayIcon(icon: string) {
     const viewbox = this.viewbox ? ` viewbox="${this.viewbox}"` : '';
-    return `<ids-icon slot="icon" icon="${icon}"${viewbox} size="${MENU_ITEM_SIZE}" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>`;
+    return `<ids-icon slot="icon" icon="${icon}"${viewbox} size="${MENU_ITEM_ICON_SIZE}" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>`;
+  }
+
+  templateShortcutKeys(shortcutText: string) {
+    return `<span slot="shortcuts" class="shortcuts">${shortcutText}</span>`;
   }
 
   templateSubmenuIcon() {
-    return `<ids-icon slot="icon" icon="dropdown" size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-submenu-icon"></ids-icon>`;
+    return `<ids-icon slot="icon" icon="dropdown" size="${MENU_ITEM_ICON_SIZE}" class="ids-icon ids-menu-item-submenu-icon"></ids-icon>`;
   }
 
   /**
@@ -138,6 +146,7 @@ export default class IdsMenuItem extends Base {
       attributes.HIGHLIGHTED,
       attributes.ICON,
       attributes.SELECTED,
+      attributes.SHORTCUT_KEYS,
       attributes.SUBMENU,
       attributes.TARGET,
       attributes.TABINDEX,
@@ -468,7 +477,7 @@ export default class IdsMenuItem extends Base {
    * @returns {boolean} true if this item is able to be selected
    */
   get isSelectable(): boolean {
-    return this.group?.select !== null && !this.submenu;
+    return this.group?.select !== null;
   }
 
   /**
@@ -567,6 +576,64 @@ export default class IdsMenuItem extends Base {
    */
   deselect() {
     this.selected = false;
+  }
+
+  /**
+   * @param {string | undefined} val representing the shortcut key text
+   */
+  set shortcutKeys(val) {
+    if (typeof val !== 'string' || !val.length) {
+      this.removeAttribute(attributes.SHORTCUT_KEYS);
+      this.state.shortcutKeys = undefined;
+      this.removeShortcuts();
+    } else {
+      this.state.shortcutKeys = val;
+      this.setAttribute(attributes.SHORTCUT_KEYS, val);
+      this.appendShortcuts(val);
+    }
+  }
+
+  /**
+   * @returns {string | undefined} defined shortcut key text
+   */
+  get shortcutKeys() {
+    return this.shortcutKeyEl?.textContent;
+  }
+
+  /**
+   * @returns {HTMLSpanElement | undefined} reference to a span containing shortcut key text, if applicable
+   */
+  get shortcutKeyEl() {
+    const span = [...this.children].find((e) => e.matches('span[slot="shortcuts"]')) as HTMLSpanElement | undefined;
+    return span;
+  }
+
+  /**
+   * Check if an icon exists, and adds the icon if it's missing
+   * @param {string} shortcutText The icon name to check
+   * @private
+   */
+  appendShortcuts(shortcutText: string) {
+    // First look specifically for an icon slot.
+    this.container?.classList.add('has-shortcuts');
+    const span = this.querySelector<HTMLSpanElement>(`span[slot="shortcuts"]`); // @TODO check for submenu icons here
+    if (span) {
+      span.textContent = shortcutText;
+    } else {
+      this.insertAdjacentHTML('afterbegin', this.templateShortcutKeys(shortcutText));
+    }
+  }
+
+  /**
+   * Check if an icon exists, and removes the icon if it's present
+   * @private
+   */
+  removeShortcuts() {
+    this.container?.classList.remove('has-shortcuts');
+    const span = this.querySelector<HTMLSpanElement>(`span[slot="shortcuts"]`); // @TODO check for submenu icons here
+    if (span) {
+      span.remove();
+    }
   }
 
   /**

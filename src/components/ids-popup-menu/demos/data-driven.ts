@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Configure the menu
   const popupEl = popupmenuEl.popup;
+  popupEl.setAttribute('align', 'left, top');
 
   // Load/set data
   const url: any = json;
@@ -15,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const res = await fetch(url);
     const data = await res.json();
     popupmenuEl.data = data;
-    popupEl.align = 'top, left';
   };
 
   setData();
