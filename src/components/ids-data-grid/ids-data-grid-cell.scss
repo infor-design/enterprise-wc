@@ -106,14 +106,22 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     }
 
     // is-borderless:hover
-    &:not(.is-inline):focus,
-    &:not(.is-inline):hover {
+    &:not(.is-inline):not(.is-invalid):focus,
+    &:not(.is-inline):not(.is-invalid):hover {
       .editor-cell-icon {
         display: flex;
       }
 
       ids-alert {
         margin-inline: calc(100% - 48px);
+      }
+    }
+
+    &.is-editable.is-invalid {
+      justify-content: space-between;
+
+      ids-alert {
+        @include mr-16();
       }
     }
   }
