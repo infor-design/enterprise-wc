@@ -1,0 +1,58 @@
+// General Dirty-Tracker icon placement
+.icon-dirty {
+  position: absolute;
+  color: var(--ids-color-caution-02);
+  top: 1px;
+
+  &[dir='rtl'] {
+    transform: rotate(90deg);
+    top: 0;
+  }
+}
+
+// Color picker
+.ids-color-picker .icon-dirty {
+  margin-inline-start: 35px;
+}
+
+.ids-color-picker.compact .icon-dirty {
+  margin-inline-start: 27px;
+}
+
+// Radio
+.ids-radio-group .icon-dirty {
+  margin-inline-start: -4px;
+  margin-block-start: 6px;
+  top: auto;
+  z-index: 1;
+}
+
+// Checkbox
+.ids-checkbox {
+  .icon-dirty {
+    margin-inline-start: -25px;
+
+    &[dir='rtl'] {
+      margin-inline-start: -20px;
+      transform: none;
+      top: -1px;
+    }
+  }
+
+  &.hitbox .icon-dirty {
+    margin-inline-start: -30px;
+
+    &[dir='rtl'] {
+      margin-inline-start: -26px;
+    }
+  }
+}
+
+.ids-textarea .icon-dirty {
+  top: 0;
+  margin-inline-start: 1px;
+
+  &[dir='rtl'] {
+    top: 1px;
+  }
+}

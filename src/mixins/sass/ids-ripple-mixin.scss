@@ -1,5 +1,5 @@
 /** Ripple Mixin - Adds Ripple Classes used in various components */
-@use '../../themes/ids-core-mixins' as mixins;
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 
 .is-rippling {
   position: relative;

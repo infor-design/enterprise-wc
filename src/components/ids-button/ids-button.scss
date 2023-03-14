@@ -2,7 +2,7 @@
  * Ids Button Component CSS
  * (Includes standard and icon button rules)
  */
-@use '../../themes/ids-core-mixins' as mixins;
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 @import './ids-button-base';
 
 :host {
@@ -224,16 +224,16 @@ button {
 
 .btn-swipe-action-right {
   background-color: var(--ids-color-primary);
-  color: var(--ids-body-inverse-text-color);
+  color: var(--ids-inverse-text-color);
 
   &:hover {
     background-color: var(--ids-color-secondary);
-    color: var(--ids-body-inverse-text-color);
+    color: var(--ids-inverse-text-color);
   }
 
   &:active {
     background-color: var(--ids-color-secondary);
-    color: var(--ids-body-inverse-text-color);
+    color: var(--ids-inverse-text-color);
   }
 }
 
@@ -305,8 +305,7 @@ button {
 
 :host([loading-indicator-only='true']) {
   ::slotted(.slot-loading-indicator) {
-    @include absolute();
-
+    position: absolute;
     margin-inline-start: auto;
     margin-inline-end: auto;
     left: 0;

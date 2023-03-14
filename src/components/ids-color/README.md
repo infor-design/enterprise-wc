@@ -31,7 +31,7 @@ A basic use case of the color picker to show a color palette item in larger size
 ```
 ## Theme Variables
 
-For a list of css variables added at the `:root` you can used [see the theme information](rc/themes/ids-theme-default-colors.scss).
+For a list of css variables added at the `:root` you can used [see the theme information](rc/themes/default/).
 
 ## Keyboard Guidelines
 

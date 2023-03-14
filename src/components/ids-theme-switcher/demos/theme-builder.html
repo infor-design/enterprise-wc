@@ -68,6 +68,22 @@
           </ids-breadcrumb>
         </ids-layout-grid>
 
+        <!-- Checkboxes -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Checkboxes</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid cols="4" gap="md">
+          <ids-layout-grid-cell>
+            <ids-checkbox label="Unchecked"></ids-checkbox>
+            <ids-checkbox label="Checked" checked="true"></ids-checkbox>
+            <ids-checkbox label="Dirty tracking" dirty-tracker="true"></ids-checkbox>
+            <ids-checkbox label="Disabled and unchecked" disabled="true"></ids-checkbox>
+            <ids-checkbox label="Disabled and checked" checked="true" disabled="true"></ids-checkbox>
+            <ids-checkbox label="Required" validate="required"></ids-checkbox>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Buttons -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Buttons</ids-text>

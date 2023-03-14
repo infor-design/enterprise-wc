@@ -1,12 +1,12 @@
 /* Ids Hyperlink Component */
-@use '../../themes/ids-core-mixins' as mixins;
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 
 .ids-hyperlink {
   @include mixins.antialiased();
 
   border: 1px solid transparent;
   border-radius: var(--ids-border-radius);
-  cursor: var(--ids-cursor-actionable);
+  cursor: var(--ids-cursor-pointer);
   display: inline-block;
   font-family: var(--ids-font-family);
   font-size: var(--ids-font-size);
@@ -17,7 +17,7 @@
 
   &.disabled,
   &[disabled] {
-    cursor: var(--ids-cursor-normal);
+    cursor: var(--ids-cursor-default);
     pointer-events: none;
     user-select: none;
   }
@@ -122,16 +122,16 @@
     // ===============================================
     // Color Variants
     &.color-variant-breadcrumb {
-      color: var(--ids-body-subtle-text-color);
+      color: var(--ids-subtle-text-color);
 
       &.disabled,
       &[disabled] {
-        color: var(--ids-body-disabled-text-color);
+        color: var(--ids-disabled-text-color);
       }
     }
 
     &.color-variant-alternate {
-      color: var(--ids-body-inverse-text-color);
+      color: var(--ids-inverse-text-color);
     }
   }
 }

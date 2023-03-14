@@ -7,7 +7,6 @@ import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty
 import IdsLabelStateMixin from '../../mixins/ids-label-state-mixin/ids-label-state-mixin';
 import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation-mixin';
 import IdsHitboxMixin from '../../mixins/ids-hitbox-mixin/ids-hitbox-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -18,11 +17,9 @@ const Base = IdsDirtyTrackerMixin(
   IdsLabelStateMixin(
     IdsValidationMixin(
       IdsHitboxMixin(
-        IdsThemeMixin(
-          IdsLocaleMixin(
-            IdsEventsMixin(
-              IdsElement
-            )
+        IdsLocaleMixin(
+          IdsEventsMixin(
+            IdsElement
           )
         )
       )
@@ -39,7 +36,6 @@ const Base = IdsDirtyTrackerMixin(
  * @mixes IdsHitboxMixin
  * @mixes IdsLabelStateMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @mixes IdsValidationMixin
  * @part label - the label element
  * @part input - the checkbox input element
@@ -72,8 +68,7 @@ export default class IdsCheckbox extends Base {
       attributes.DISABLED,
       attributes.HORIZONTAL,
       attributes.INDETERMINATE,
-      attributes.VALUE,
-      attributes.MODE
+      attributes.VALUE
     ];
   }
 
@@ -225,7 +220,7 @@ export default class IdsCheckbox extends Base {
   get checked(): boolean { return stringToBool(this.getAttribute(attributes.CHECKED)); }
 
   /**
-   *  Sets the checkbox color to one of the colors in our color palette for example emerald07
+   *  Sets the checkbox color to one of the colors in our color palette for example emerald
    * @param {boolean|string} value If true will set `color` attribute
    */
   set color(value: boolean | string | null) {

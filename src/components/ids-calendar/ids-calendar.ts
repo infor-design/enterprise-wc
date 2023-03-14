@@ -1177,7 +1177,7 @@ export default class IdsCalendar extends Base {
         checked="${item.checked}"
         data-id="${item.id}"
         label="${item.translationKey ? this.localeAPI.translate(item.translationKey) : item.label}"
-        color="${item.color}07"
+        color="${item.color}"
         disabled="${item.disabled || 'false'}">
       </ids-checkbox>
     `).join('');

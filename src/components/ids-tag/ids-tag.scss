@@ -1,5 +1,5 @@
 /* Ids Tag Component */
-@use '../../themes/ids-core-mixins' as mixins;
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 
 .ids-tag {
   @include mixins.antialiased();
@@ -59,10 +59,10 @@
 
   // Clickable tags can be focused and clicked
   &.focusable {
-    cursor: var(--ids-cursor-actionable);
+    cursor: var(--ids-cursor-pointer);
 
     &:focus {
-      cursor: var(--ids-cursor-actionable);
+      cursor: var(--ids-cursor-pointer);
       border-color: var(--ids-focus-ring-border-color);
       outline: var(--ids-focus-ring-outline);
       box-shadow: var(--ids-focus-ring-shadow);
@@ -79,13 +79,13 @@
 
 :host([dismissible]) {
   .ids-tag {
-    cursor: var(--ids-cursor-normal);
+    cursor: var(--ids-cursor-default);
   }
 }
 
 :host([disabled]) {
   ::slotted(ids-icon) {
-    cursor: var(--ids-cursor-normal);
+    cursor: var(--ids-cursor-default);
     color: var(--ids-component-disabled-text-color);
   }
 
@@ -108,7 +108,7 @@
 
 // Adjust icons in the tag
 ::slotted(ids-icon) {
-  cursor: var(--ids-cursor-actionable);
+  cursor: var(--ids-cursor-pointer);
   align-self: center;
   display: inline-flex;
   padding-inline-start: var(--ids-spacing-md);

@@ -14,10 +14,12 @@
   // Body / Container
   --ids-body-background-color: var(--ids-color-slate-00);
   --ids-body-inverse-background-color: var(--ids-color-slate-100);
-  --ids-body-text-color: var(--ids-color-slate-100); // TODO: text token for
-  --ids-body-inverse-text-color: var(--ids-color-slate-00);
-  --ids-body-subtle-text-color: var(--ids-color-slate-80);
-  --ids-body-disabled-text-color: var(--ids-color-slate-40);
+
+  // Text Color Tokens
+  --ids-text-color: var(--ids-color-slate-100);
+  --ids-inverse-text-color: var(--ids-color-slate-00);
+  --ids-subtle-text-color: var(--ids-color-slate-80);
+  --ids-disabled-text-color: var(--ids-color-slate-40);
 
   // Components
   --ids-component-background-color: var(--ids-color-slate-00);
@@ -25,15 +27,16 @@
   --ids-component-border-color: var(--ids-color-slate-40);
   --ids-component-selected-background-color: var(--ids-color-primary);
   --ids-component-selected-text-color: var(--ids-color-slate-00);
-  --ids-component-hover-color: var(--ids-color-slate-100);
+  --ids-component-hover-color: var(--ids-text-color);
   --ids-component-disabled-text-color: var(--ids-color-slate-50);
   --ids-component-lighter-disabled-text-color: var(--ids-color-slate-40);
-  --ids-component-text-color: var(--ids-color-slate-100); // TODO: text token for
+  --ids-component-text-color: var(--ids-text-color);
+  --ids-component-icon-color: var(--ids-color-slate-80);
   --ids-component-color-inverse: var(--ids-color-slate-00);
   --ids-component-border-width: 1px;
 
   // Headers
-  --ids-header-gradient-opaque: rgb(0 114 237 / 1); // Remove?
+  --ids-header-gradient-opaque: rgb(0 114 237 / 1);
   --ids-header-gradient-transparent: rgb(0 114 237 / 0);
 
   // Primary Button
@@ -75,7 +78,7 @@
   // Formatter Button
   --ids-button-formatter-text-color: var(--ids-component-darker-background-color);
   --ids-button-formatter-border-color: var(--ids-component-color-inverse);
-  --ids-button-formatter-text-color-hover: var(--ids-body-inverse-text-color);
+  --ids-button-formatter-text-color-hover: var(--ids-inverse-text-color);
   --ids-button-formatter-text-color-disabled: var(--ids-component-color-inverse);
   --ids-button-formatter-ripple-color: var(--ids-color-primary-tertiary);
 
@@ -85,7 +88,7 @@
   --ids-hyperlink-disabled-text-color: var(--ids-color-slate-40);
 
   // Icon Set (Future)
-  --ids-icon-set-name: 'name-here';
+  --ids-icon-font-name: 'name-here';
 
   // Borders radii
   --ids-border-radius: 2px;
@@ -99,7 +102,14 @@
 
   // Font includes language fonts
   --ids-font-family: source sans pro, -apple-system, helvetica, arial;
-  --ids-font-japanese: source sans pro, -apple-system, helvetica, arial; // TODO
+  --ids-font-ar: 'Mada', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-he: 'Assistant', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-hi: 'Noto Sans', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-ja: 'Noto Sans JP', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-ko: 'Noto Sans KR', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-th: 'Sarabun', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-zh-cn: 'Noto Sans SC', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-zh-tw: 'Noto Sans TC', source sans pro, -apple-system, helvetica, arial;
   --ids-font-mono: source code pro, monospace;
   --ids-font-weight-normal: 400;
   --ids-font-weight-semi-bold: 600;
@@ -153,8 +163,8 @@
   --ids-focus-ring-outline: 0;
 
   // Cursors
-  --ids-cursor-actionable: pointer; // pointer?
-  --ids-cursor-normal: default;
+  --ids-cursor-pointer: pointer;
+  --ids-cursor-default: default;
 
   // Z Indexes
   --ids-z-index-toolbar: 20;

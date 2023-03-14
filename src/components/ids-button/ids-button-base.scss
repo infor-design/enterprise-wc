@@ -1,7 +1,7 @@
 /**
  * Ids Button Sass mixins, used in Ids Button CSS to define base styles.
  */
-@use '../../themes/ids-core-mixins' as mixins;
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 @import '../../mixins/sass/ids-ripple-mixin';
 
 // Mixin for a "blank" shadow (same as the standard one with a completely transparent alpha)
@@ -72,7 +72,7 @@
   }
 
   &:not([disabled]) {
-   cursor: var(--ids-cursor-actionable);
+   cursor: var(--ids-cursor-pointer);
   }
 
   // ====================================================

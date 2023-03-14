@@ -1,5 +1,5 @@
 /* Ids Container Component */
-@use '../../themes/ids-core-mixins' as mixins;
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 
 // Host styles are needed here for "placed" components like Popup.
 // (acts as a CSS "reset" without needing a real one)
@@ -19,7 +19,7 @@
 
   background-color: var(--ids-body-background-color);
   box-sizing: border-box;
-  color: var(--ids-body-text-color);
+  color: var(--ids-text-color);
   height: 100%;
   outline: none;
   overflow: auto;
@@ -29,7 +29,7 @@
 
   &.color-variant-alternate {
     background-color: var(--ids-body-inverse-background-color);
-    color: var(--ids-body-inverse-text-color);
+    color: var(--ids-inverse-text-color);
   }
 
   &[scrollable='false'] {

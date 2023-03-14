@@ -1,0 +1,61 @@
+@use '../../themes/mixins/ids-core-mixins' as mixins;
+
+.validation-message {
+  @include mixins.antialiased();
+
+  display: flex;
+  font-family: var(--ids-font-family);
+  margin-top: var(--ids-spacing-md);
+
+  &.has-custom-icon {
+    color: var(--ids-component-icon-color);
+  }
+
+  &.disabled {
+    color: var(--ids-component-disabled-text-color);
+  }
+
+  .ids-icon {
+    margin-inline-end: var(--ids-spacing-md);
+  }
+
+  &.alert {
+    color: var(--ids-color-caution-03);
+
+    &.disabled {
+      color: var(--ids-color-caution-02);
+    }
+  }
+
+  &.warning {
+    color: var(--ids-color-warning-03);
+
+    &.disabled {
+      color: var(--ids-color-warning-02);
+    }
+  }
+
+  &.error {
+    color: var(--ids-color-error-03);
+
+    &.disabled {
+      color: var(--ids-color-error-02);
+    }
+  }
+
+  &.info {
+    color: var(--ids-color-info-03);
+
+    &.disabled {
+      color: var(--ids-color-info-02);
+    }
+  }
+
+  &.success {
+    color: var(--ids-color-success-03);
+
+    &.disabled {
+      color: var(--ids-color-success-02);
+    }
+  }
+}

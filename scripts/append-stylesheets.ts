@@ -1,4 +1,4 @@
-import cssVars from '../src/themes/ids-theme-default-light.scss';
+import cssVars from '../src/themes/default/ids-theme-default-light.scss';
 
 const style = document.createElement('style');
 style.textContent = cssVars.replace(':host {', ':root {');
