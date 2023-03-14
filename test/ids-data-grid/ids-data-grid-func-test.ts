@@ -555,6 +555,22 @@ describe('IdsDataGrid Component', () => {
       expect(listener).toBeCalledWith('scroll', expect.any(Function), { capture: true, passive: true });
     });
 
+    it('renders additional rows when IdsDataGrid.appendData() used', () => {
+      document.body.innerHTML = '';
+      dataGrid = new IdsDataGrid();
+      document.body.appendChild(dataGrid);
+      dataGrid.columns = columns();
+
+      expect(dataGrid.virtualScroll).toBeFalsy();
+      dataGrid.virtualScroll = true;
+      expect(dataGrid.virtualScroll).toBeTruthy();
+
+      dataGrid.data = dataset;
+      expect(dataGrid.rows.length).toBe(dataset.length);
+      dataGrid.appendData(dataset.concat(dataset));
+      expect(dataGrid.rows.length).toBe(dataset.length * 3);
+    });
+
     it.skip('can recycle cells down', async () => {
       expect(dataGrid.data).toEqual(dataset);
 
