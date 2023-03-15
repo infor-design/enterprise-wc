@@ -206,6 +206,7 @@
 }
 
 // Handle Disabled Text
+.ids-text-color-muted.ids-text,
 :host([disabled]) .ids-text {
   @include text-slate-30();
 
@@ -297,6 +298,7 @@
   }
 }
 
+.ids-text-color-muted.ids-text,
 :host([disabled][mode='dark']) .ids-text {
   @include text-slate-50();
 
@@ -376,6 +378,7 @@
   }
 }
 
+.ids-text-color-muted.ids-text,
 :host([disabled][mode='contrast']) .ids-text {
   @include text-slate-40();
 

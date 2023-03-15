@@ -35,7 +35,7 @@ export default class IdsSearchField extends IdsTriggerField {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate', 'app-menu'];
+  colorVariants = ['alternate', 'app-menu', 'card'];
 
   /**
    * Inherited from `IdsColorVariantMixin`. If the Color Variant on Search Fields are changed,
