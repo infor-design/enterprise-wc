@@ -509,8 +509,7 @@ export default class IdsDropdown extends Base {
           }
         }
       };
-      this.dropdownList.onTriggerClick = (e: Event) => {
-        e.stopPropagation();
+      this.dropdownList.onTriggerClick = () => {
         if (this.labelClicked) {
           this.labelClicked = false;
           return;
@@ -551,8 +550,6 @@ export default class IdsDropdown extends Base {
     if (!this.dropdownList || this.disabled || this.readonly) {
       return;
     }
-
-    this.dropdownList?.closeOtherPopups();
 
     // Trigger an async callback for contents
     if (typeof this.state.beforeShow === 'function') {
