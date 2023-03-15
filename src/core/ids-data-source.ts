@@ -375,7 +375,6 @@ class IdsDataSource {
       this.#currentFilterData = null;
       this.#resetPrevState();
       this.filtered = false;
-      // delete (this as any).filtered;
     };
 
     // Check if need to filter or reset
@@ -399,7 +398,6 @@ class IdsDataSource {
         updateCurrentData(data);
         this.#resetPrevState();
         this.filtered = true;
-        // (this as any).filtered = true;
       } else {
         resetCurrentData(); // reset, if none of filtered row found
       }

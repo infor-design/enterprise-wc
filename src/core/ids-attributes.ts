@@ -61,7 +61,6 @@ export const attributes = {
   CAPTURES_FOCUS: 'captures-focus',
   CARD_HEIGHT: 'card-height',
   CARD_WIDTH: 'card-width',
-  CAST: 'cast',
   CATEGORY_PERCENTAGE: 'category-percentage',
   CHARACTER_COUNTER: 'character-counter',
   CHAR_MAX_TEXT: 'char-max-text',
