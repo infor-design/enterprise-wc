@@ -323,7 +323,7 @@ export default class IdsDataGridRow extends IdsElement {
       ariaRowIndex += (Number(dataGrid?.pageNumber) - 1) * Number(dataGrid?.pageSize);
     }
 
-    const isHidden = row.rowHidden ? ' hidden' : '';
+    const isHidden = row?.rowHidden ? ' hidden' : '';
 
     return `
       <ids-data-grid-row
