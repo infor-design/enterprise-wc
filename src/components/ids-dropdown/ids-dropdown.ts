@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, escapeRegExp } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsDropdownAttributeMixin from './ids-dropdown-attributes-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
@@ -827,24 +827,43 @@ export default class IdsDropdown extends Base {
     this.attachKeyboardOpenEvent();
   }
 
-  #attachTypeaheadEvents() {
-    // Handle Key Typeahead
-    this.offEvent('keydownend.dropdown-typeahead');
-    this.onEvent('keydownend.dropdown-typeahead', this, (e: CustomEvent) => {
-      this.#typeAhead(e.detail.keys);
-    });
-  }
-
-  #removeTypeaheadEvents() {
-    this.offEvent('keydownend.dropdown-typeahead');
-  }
-
   /**
    * Establish Internal Keyboard shortcuts
    * @private
    * @returns {object} This API object for chaining
    */
   #attachKeyboardListeners() {
+    this.offEvent('keydownend.dropdown-typeahead');
+    this.onEvent('keydownend.dropdown-typeahead', this, (e: CustomEvent) => {
+      if (this.typeahead) {
+        this.#typeAhead(e.detail.keys);
+      } else {
+        const term: string = escapeRegExp(e.detail.keys)?.trim();
+
+        if (!term) return;
+
+        const option = this.options
+          .filter((item: IdsListBoxOption) => !item.hasAttribute(attributes.GROUP_LABEL))
+          .find((item: IdsListBoxOption) => {
+            const regex = new RegExp(`^(${term})`, 'i');
+            const label = item.textContent?.trim();
+
+            return label?.match(regex);
+          });
+
+        if (this.dropdownList?.popup?.visible && option) {
+          this.deselectOption(this.selected);
+          this.selectOption(option as IdsListBoxOption);
+
+          return;
+        }
+
+        if (option?.getAttribute(attributes.VALUE)) {
+          this.value = option.getAttribute(attributes.VALUE);
+        }
+      }
+    });
+
     // Handle up and down arrow
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
       e.stopPropagation();
@@ -1202,11 +1221,9 @@ export default class IdsDropdown extends Base {
 
     if (val) {
       this.setAttribute(attributes.TYPEAHEAD, String(val));
-      this.#attachTypeaheadEvents();
       this.#setOptionsData();
     } else {
       this.removeAttribute(attributes.TYPEAHEAD);
-      this.#removeTypeaheadEvents();
     }
 
     this.container?.classList.toggle('typeahead', val);
