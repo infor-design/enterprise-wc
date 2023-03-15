@@ -53,12 +53,8 @@ export default class IdsDataGridCell extends IdsElement {
     const rowIndex = Number(this.parentElement?.getAttribute('row-index'));
 
     const row: Record<string, any> | undefined = this.dataGrid?.data[rowIndex];
-    let template = IdsDataGridCell.template(row, column, rowIndex, this.dataGrid);
+    const template = IdsDataGridCell.template(row, column, rowIndex, this.dataGrid);
 
-    if (row.invalidCells) {
-      const message = row.invalidCells.find((info: any) => info.cell === Number(this.getAttribute('aria-colindex')) - 1);
-      if (message) template += `<ids-alert icon="error" tooltip="${message.validationMessages[0]?.message}"></ids-alert>`;
-    }
     this.innerHTML = template;
   }
 
