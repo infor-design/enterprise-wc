@@ -20,8 +20,13 @@
             <ids-list-view id="lv-search-custom" item-height="76" searchable>
               <template>
                 <ids-text font-size="16" type="h2">${subject}</ids-text>
-                <ids-text font-size="12" type="span">ID: ${id}</ids-text>
-                <ids-text font-size="12" type="span">Comments: ${comments}</ids-text>
+                <ids-text font-size="12">ID: ${id}</ids-text>
+                <ids-hidden value="${comments}" condition="false">
+                  <ids-text font-size="12">Comments: ${comments}</ids-text>
+                </ids-hidden>
+                <ids-hidden value="${comments}" condition="true">
+                  <ids-text font-size="12" color="muted">No Comments</ids-text>
+                </ids-hidden>
               </template>
             </ids-list-view>
         </div>
