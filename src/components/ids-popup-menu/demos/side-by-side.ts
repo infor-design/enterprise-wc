@@ -1,3 +1,5 @@
+import IdsPopupMenu from '../ids-popup-menu';
+
 // Add Event For Web Component Menu
 document.querySelector('ids-popup-menu#popupmenu')!.addEventListener('show', () => {
   console.info('On Show', $('input#input-menu').data('popupmenu'));
@@ -11,5 +13,5 @@ document.querySelector('ids-popup-menu#popupmenu')!.addEventListener('show', () 
 // Add Event for old component
 $('input#input-menu')!.on('beforeopen', () => {
   console.info('On Before Open');
-  document.querySelector('ids-popup-menu#popupmenu')?.setAttribute('hidden', '');
+  document.querySelector<IdsPopupMenu>('ids-popup-menu#popupmenu')?.hide();
 });
