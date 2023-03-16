@@ -31,6 +31,7 @@ import type IdsListBox from '../ids-list-box/ids-list-box';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsIcon from '../ids-icon/ids-icon';
+import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { IdsDropdownOption, IdsDropdownOptions } from './ids-dropdown-common';
@@ -835,29 +836,7 @@ export default class IdsDropdown extends Base {
       if (this.typeahead) {
         this.#typeAhead(e.detail.keys);
       } else {
-        const term: string = escapeRegExp(e.detail.keys)?.trim();
-
-        if (!term) return;
-
-        const option = this.options
-          .filter((item: IdsListBoxOption) => !item.hasAttribute(attributes.GROUP_LABEL))
-          .find((item: IdsListBoxOption) => {
-            const regex = new RegExp(`^(${term})`, 'i');
-            const label = item.textContent?.trim();
-
-            return label?.match(regex);
-          });
-
-        if (this.dropdownList?.popup?.visible && option) {
-          this.deselectOption(this.selected);
-          this.selectOption(option as IdsListBoxOption);
-
-          return;
-        }
-
-        if (option?.getAttribute(attributes.VALUE)) {
-          this.value = option.getAttribute(attributes.VALUE);
-        }
+        this.#selectMatch(e.detail.keys);
       }
     });
 
@@ -981,6 +960,44 @@ export default class IdsDropdown extends Base {
   }
 
   /**
+   * Find and select the only option by input text provided
+   * @param {string} input the text to find by
+   */
+  #selectMatch(input: string) {
+    const term: string = escapeRegExp(input)?.trim();
+
+    if (!term) return;
+
+    const option = this.options
+      .filter((item: IdsListBoxOption) => !item.hasAttribute(attributes.GROUP_LABEL))
+      .find((item: IdsListBoxOption) => {
+        const regex = new RegExp(`^(${term})`, 'i');
+        const label = this.#isMultiSelect ? item.querySelector<IdsCheckbox>('ids-checkbox')?.label : item.textContent?.trim();
+
+        return label?.match(regex);
+      });
+
+    if (this.dropdownList?.popup?.visible && option) {
+      this.deselectOption(this.selected);
+      this.selectOption(option as IdsListBoxOption);
+
+      return;
+    }
+
+    const value = option?.getAttribute(attributes.VALUE);
+
+    if (value) {
+      if (this.#isMultiSelect) {
+        const filtered: string[] = (this.value as any).filter((item: string) => item !== value);
+
+        (this.value as any) = [...filtered, value];
+      } else {
+        this.value = value;
+      }
+    }
+  }
+
+  /**
    * Helper to replace trigger button icon
    * @param {string} icon ids-icon icon value
    */
@@ -1062,12 +1079,12 @@ export default class IdsDropdown extends Base {
 
   /**
    * Find matches between the input value and the dataset
-   * @param {string | RegExp} inputValue value of the input field
+   * @param {string} inputValue value of the input field
    * @returns {IdsDropdownOptions} containing matched values
    */
-  #findMatches(inputValue: string | RegExp): IdsDropdownOptions {
+  #findMatches(inputValue: string): IdsDropdownOptions {
     return this.#optionsData.reduce((options: Array<IdsDropdownOption>, option: IdsDropdownOption, index: number) => {
-      const regex = new RegExp(inputValue, 'gi');
+      const regex = new RegExp(`(${escapeRegExp(inputValue)})`, 'gi');
 
       if (option.label?.match(regex) && !option.groupLabel) {
         const groupLabelOption = this.#getGroupLabelOption(index);

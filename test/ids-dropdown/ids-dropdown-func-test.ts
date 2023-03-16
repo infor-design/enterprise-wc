@@ -908,4 +908,29 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.placeholder).toEqual('');
     expect(dropdown.input.placeholder).toBeNull();
   });
+
+  it('should select an option and update the value by keyboard input', async () => {
+    dropdown = createFromTemplate(`<ids-dropdown id="dropdown-keyboard" label="Dropdown Keyboard">
+      <ids-list-box>
+        <ids-list-box-option value="opt1" id="opt1">A</ids-list-box-option>
+        <ids-list-box-option value="opt2" id="opt2">B</ids-list-box-option>
+        <ids-list-box-option value="opt3" id="opt3">C</ids-list-box-option>
+        <ids-list-box-option value="opt4" id="opt4">1</ids-list-box-option>
+        <ids-list-box-option value="opt5" id="opt5">2</ids-list-box-option>
+        <ids-list-box-option value="opt6" id="opt6">3</ids-list-box-option>
+      </ids-list-box>
+    </ids-dropdown>`);
+
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'C' }));
+    // Keydownend delay
+    await wait(700);
+
+    expect(dropdown.value).toEqual('opt3');
+
+    dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+    // Keydownend delay
+    await wait(700);
+
+    expect(dropdown.value).toEqual('opt4');
+  });
 });
