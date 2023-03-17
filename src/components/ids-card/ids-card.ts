@@ -288,8 +288,8 @@ export default class IdsCard extends Base {
   get autoHeight() { return this.getAttribute(attributes.AUTO_HEIGHT); }
 
   /**
-   * Set the card to auto height
-   * @param {boolean|null} value The height can be auto to contents
+   * Set the card to borderless
+   * @param {boolean|null} value If card should be borderless or not
    */
   set borderless(value) {
     const val = stringToBool(value);
