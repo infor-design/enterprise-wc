@@ -311,7 +311,11 @@ export default class IdsDataGrid extends Base {
     this.#updateRowCount();
 
     // Set contextmenu
-    setContextmenu.apply(this);
+    /*
+    this.requestAnimationFrame(() => {
+      setContextmenu.apply(this);
+    });
+    */
 
     // Show/hide empty message
     this.toggleEmptyMessage();
