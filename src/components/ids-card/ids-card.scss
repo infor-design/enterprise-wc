@@ -99,6 +99,13 @@
   }
 }
 
+:host([border-less]) {
+  .ids-card {
+    border-color: transparent;
+    box-shadow: none;
+  }
+}
+
 // Actionable Link Card Styles
 :host([actionable]) ids-hyperlink {
   height: 50px;
