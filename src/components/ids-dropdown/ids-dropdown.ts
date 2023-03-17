@@ -528,7 +528,6 @@ export default class IdsDropdown extends Base {
       this.dropdownList.setAttribute(attributes.TRIGGER_ELEM, `#${triggerElemId}`);
       this.dropdownList.popup.alignTarget = this.input?.fieldContainer || null;
 
-      this.dropdownList.setAttribute(attributes.TRIGGER_TYPE, 'click');
       this.dropdownList.popupOpenEventsTarget = document.body;
 
       // Configure inner IdsPopup
@@ -780,7 +779,7 @@ export default class IdsDropdown extends Base {
 
     // Select on Tab
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
-      if (!this.dropdownList?.popup?.visible) {
+      if (!this.dropdownList?.popup?.visible || this.#isMultiSelect) {
         return;
       }
 
