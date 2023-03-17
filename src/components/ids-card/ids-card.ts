@@ -295,9 +295,11 @@ export default class IdsCard extends Base {
     const val = stringToBool(value);
     if (stringToBool(value)) {
       this.setAttribute('border-less', String(val));
+      if (this.container) this.redraw();
       return;
     }
     this.removeAttribute('border-less');
+    if (this.container) this.redraw();
   }
 
   get borderless() { return this.getAttribute('border-less'); }
