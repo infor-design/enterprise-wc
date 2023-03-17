@@ -94,13 +94,11 @@ export default class IdsPopupMenu extends Base {
   /**
    * Override `renderFromData()` from the IdsMenu base to also re-apply Popup Menu event handlers
    */
-  /*
   renderFromData() {
     super.renderFromData();
     this.attachEventHandlers();
     this.attachKeyboardListeners();
   }
-  */
 
   /**
    * @returns {Array<string>} Popup Menu vetoable events
