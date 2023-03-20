@@ -300,7 +300,7 @@ export default class IdsCard extends Base {
     }
   }
 
-  get borderLess() { return stringToBool(this.hasAttribute(attributes.BORDER_LESS)); }
+  get borderLess() { return this.hasAttribute(attributes.BORDER_LESS); }
 
   /**
    * Set the card to be actionable button.
