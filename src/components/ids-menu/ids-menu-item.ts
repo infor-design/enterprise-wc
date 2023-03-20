@@ -526,7 +526,7 @@ export default class IdsMenuItem extends Base {
       return;
     }
 
-    if (stringToBool(this.state.selected) !== trueVal) {
+    if (this.state.selected !== trueVal) {
       if (this.isSelectable) {
         this.state.selected = trueVal;
 
