@@ -57,6 +57,7 @@ export default class IdsCard extends Base {
       attributes.ACTIONABLE,
       attributes.AUTO_FIT,
       attributes.AUTO_HEIGHT,
+      attributes.BORDER_LESS,
       attributes.HEIGHT,
       attributes.HREF,
       attributes.NO_HEADER,
@@ -291,18 +292,15 @@ export default class IdsCard extends Base {
    * Set the card to borderless
    * @param {boolean|null} value If card should be borderless or not
    */
-  set borderless(value) {
-    const val = stringToBool(value);
+  set borderLess(value) {
     if (stringToBool(value)) {
-      this.setAttribute('border-less', String(val));
-      if (this.container) this.redraw();
-      return;
+      this.setAttribute(attributes.BORDER_LESS, '');
+    } else {
+      this.removeAttribute(attributes.BORDER_LESS);
     }
-    this.removeAttribute('border-less');
-    if (this.container) this.redraw();
   }
 
-  get borderless() { return this.getAttribute('border-less'); }
+  get borderLess() { return stringToBool(this.hasAttribute(attributes.BORDER_LESS)); }
 
   /**
    * Set the card to be actionable button.
