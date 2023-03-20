@@ -91,6 +91,7 @@ export default class IdsMenu extends Base {
     // Highlight the item on click
     // If the item doesn't contain a submenu, select it.
     // If the item does have a submenu, activate it.
+    this.offEvent('click');
     this.onEvent('click', this, (e: any) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.highlightItem(thisItem);
@@ -101,6 +102,7 @@ export default class IdsMenu extends Base {
 
     // On 'mouseenter', after a specified duration, run some events,
     // including activation of submenus where applicable.
+    this.offEvent('mouseover');
     this.onEvent('mouseover', this, (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (target && target.tagName === 'IDS-MENU-ITEM') {
@@ -119,6 +121,7 @@ export default class IdsMenu extends Base {
 
     // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
     // and unhighlight the item
+    this.offEvent('mouseout');
     this.onEvent('mouseout', this, (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (target && target.tagName === 'IDS-MENU-ITEM') {
@@ -139,6 +142,7 @@ export default class IdsMenu extends Base {
    */
   attachKeyboardListeners() {
     // Arrow Up navigates focus backward
+    this.unlisten('ArrowUp');
     this.listen(['ArrowUp'], this, (e: any) => {
       e.preventDefault();
       e.stopPropagation();
@@ -146,6 +150,7 @@ export default class IdsMenu extends Base {
     });
 
     // Arrow Right navigates focus forward
+    this.unlisten('ArrowDown');
     this.listen(['ArrowDown'], this, (e: any) => {
       e.preventDefault();
       e.stopPropagation();
@@ -153,6 +158,9 @@ export default class IdsMenu extends Base {
     });
 
     // Enter/Spacebar select the menu item
+    this.unlisten('Enter');
+    this.unlisten('Spacebar');
+    this.unlisten(' ');
     this.listen(['Enter', 'Spacebar', ' '], this, (e: any) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.selectItem(thisItem);
