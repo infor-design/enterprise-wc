@@ -94,6 +94,16 @@
     }
   }
 
+  &.color-variant-card {
+    .field-container {
+      @include bg-slate-10();
+    }
+
+    .btn-clear:hover {
+      @include bg-transparent();
+    }
+  }
+
   // =============================
   // Theme Colors for color variants
 
@@ -147,6 +157,11 @@
   &[mode='dark'] {
     @include ids-search-field-alternate-colors();
     @include ids-search-field-dark-app-menu-colors();
+
+    &.color-variant-card .field-container {
+      @include bg-slate-80();
+      @include text-white();
+    }
   }
 
   // High Contrast Mode

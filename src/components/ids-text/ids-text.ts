@@ -201,17 +201,22 @@ export default class IdsText extends Base {
 
   /**
    * If set to "unset", color can be controlled by parent container
+   * If set to "muted" will apply as disabled color
    * @param {string | null} value  "unset" or undefined/null
    */
   set color(value: string | null) {
     const unsetClass = 'ids-text-color-unset';
-    this.container?.classList.remove(unsetClass);
+    const mutedClass = 'ids-text-color-muted';
+    this.container?.classList.remove(unsetClass, mutedClass);
 
     if (typeof value === 'string' && value !== '') {
       this.setAttribute(attributes.COLOR, value);
       if (value === 'unset') {
         this.container?.classList.add(unsetClass);
         this.container?.style.removeProperty('color');
+      } else if (value === 'muted') {
+        this.setAttribute(attributes.COLOR, value);
+        this.container?.classList.add(mutedClass);
       } else this.container?.style.setProperty('color', `var(--ids-color-palette-${value})`);
       return;
     }

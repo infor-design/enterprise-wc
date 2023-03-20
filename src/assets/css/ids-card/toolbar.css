@@ -1,3 +1,7 @@
 .list-container {
   height: 300px;
 }
+
+.list-container.has-pager {
+  height: 220px;
+}

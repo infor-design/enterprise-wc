@@ -166,7 +166,7 @@ Using the text status.
 - `fontSize` {string} Set the size of font to use (in pixels) we use design tokens for this in specific increments [10 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 40 | 48 | 60 | 72 ]
 - `mode` {string} Set the theme mode
 - `version` {string} Set the theme version
-- `color` {string} If set to `unset`, the CSS color will be `'unset'` allowing you to color with surrounding content.
+- `color` {string} If set to `unset`, the CSS color will be `'unset'` allowing you to color with surrounding content. If set to "muted" will apply as disabled color.
 - `color-variant` {string} can be set to "alternate" to display contrasting color for text via the [IdsColorVariantMixin](../../src/mixins/ids-color-variant/README.md)
 - `data` {boolean} Sets the css of the text to the according theme
 - `label` {boolean} Sets the css of the text to the according theme
