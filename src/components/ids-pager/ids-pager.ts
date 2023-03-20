@@ -288,6 +288,25 @@ export default class IdsPager extends Base {
     return this.getAttribute(attributes.TYPE) as 'buttons' | 'list';
   }
 
+  /**
+   * Sync to refresh, must be called with related component reference as: `this.pager?.sync?.apply(this)`
+   * @param {object} this The related component reference
+   * @returns {void}
+   */
+  sync(this: any): void {
+    const props = ['total', 'pageNumber', 'pageSize'];
+    const isValid = (v: any) => typeof v !== 'undefined' && v !== null;
+
+    props.forEach((prop) => {
+      const pager: any = this.pager;
+      const ds: any = this.datasource;
+      const isValidProps = isValid(pager?.[prop]) && isValid(ds?.[prop]);
+      if (this.initialized && isValidProps && pager[prop] !== ds[prop]) {
+        pager[prop] = ds[prop];
+      }
+    });
+  }
+
   #keepPageNumberInBounds(): void {
     const attrVal = Number.parseInt(this.getAttribute(attributes.PAGE_NUMBER) ?? '');
     let val = attrVal;

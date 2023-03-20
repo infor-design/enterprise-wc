@@ -11,6 +11,7 @@ Displays a set of related data objects and their attributes in list format.
 - Allows users to assign/remove objects. Displays when one or more rows are selected.
 - Can alert users of updates on objects.
 - Lists may be single, multiple or mixed selected
+- Lists can be filter data by using the search field
 - You can have a fixed list toolbar on top, which may contain a title and filtering/search options
 - You can have a contextual toolbar for selected items
 - Pagination is supported
@@ -129,16 +130,127 @@ List view with embellishment types.
   listView.data = products;
 ```
 
+List view using search field.
+
+```html
+<ids-list-view id="list-view-1" searchable>
+  <template>
+    <ids-text font-size="16" type="h2">${productName}</ids-text>
+    <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+    <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+  </template>
+</ids-list-view>
+```
+
+```js
+  const listView = document.querySelector('#list-view-1');
+  listView.searchableTextCallback = (item: any) => item.productName;
+  listView.data = products;
+```
+
+List view using search field thru slot.
+
+```html
+<ids-list-view id="list-view-1">
+  <ids-search-field slot="search" label="List view search field" label-state="collapsed" size="full" clearable no-margins></ids-search-field>
+  <template>
+    <ids-text font-size="16" type="h2">${productName}</ids-text>
+    <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+    <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+  </template>
+</ids-list-view>
+```
+
+```js
+  const listView = document.querySelector('#list-view-1');
+  listView.searchableTextCallback = (item: any) => item.productName;
+  listView.data = products;
+```
+
+List view using search field thru ID.
+
+```html
+  <ids-card>
+  <div slot="card-header">
+    <ids-text font-size="20" type="h2">Card Title One</ids-text>
+  </div>
+  <div slot="card-content">
+    <ids-search-field
+      placeholder="Search products"
+      label="List view search field"
+      color-variant="card"
+      label-state="collapsed"
+      id="list-view-1-search-field"
+      size="full"
+      clearable
+      no-margins
+    ></ids-search-field>
+    <div class="list-container">
+      <ids-list-view id="list-view-1" search-field-id="list-view-1-search-field">
+        <template>
+          <ids-text font-size="16" type="h2">${productName}</ids-text>
+          <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+          <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+        </template>
+      </ids-list-view>
+    </div>
+  </div>
+</ids-card>
+```
+
+```js
+  const listView = document.querySelector('#list-view-1');
+  listView.searchableTextCallback = (item: any) => item.productName;
+  listView.data = products;
+```
+
+List view using search field with custom search filter.
+
+```html
+<ids-list-view id="list-view-1" searchable>
+  <template>
+    <ids-text font-size="16" type="h2">${productName}</ids-text>
+    <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+    <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+  </template>
+</ids-list-view>
+```
+
+```js
+  const listView = document.querySelector('#list-view-1');
+
+  // Set custom search filter to match
+  listView.searchFilterCallback = (term: string) => {
+    const response = (item: any): boolean => {
+      const lcTerm = (term || '').toLowerCase();
+      const lcText = (item.comments || '').toLowerCase();
+
+      const match = lcText.indexOf(lcTerm) >= 0;
+      return !match;
+    };
+    return response;
+  };
+
+  // Set data to list
+  listView.data = products;
+```
+
 ## Settings and Attributes
 
 - `height` {number|string} sets the expected height of the viewport for virtual scrolling
 - `hideCheckboxes` {boolean} sets the checkboxes to not render if true, only apply to multiple selection
 - `itemHeight` {number|string} sets the expected height of each item
 - `label` {string} sets the aria label text
+- `searchFieldId` {string} ID of the search field element to use for the search
+- `searchFilterMode` {'contains'|'keyword'|'phrase-starts-with'|'word-starts-with'} sets the search filter mode
+- `searchTermCaseSensitive` {boolean} sets search term case sensitive
+- `searchTermMinSize` {number} sets search term min size, will trigger filtering only when its length is greater than or equals to term value.
+- `searchable` {boolean} sets searchable which allows list view to be filtered.
 - `selectable` {string} sets the selection mode of the listview: `single`, `multiple`, `mixed`
 - `sortable` {boolean} sets the items to be sortable
 - `suppressDeactivation` {boolean} sets the items to be suppress deactivation for mixed selection only
 - `suppressDeselection` {boolean} sets the items to be suppress deselection for single selection only
+- `suppressHighlight` {boolean} sets search term text to be suppress highlight when using searchable
 - `virtualScroll` {boolean} sets the list view to use virtual scrolling for a large amount of items
 
 ## Themeable Parts
@@ -146,6 +258,11 @@ List view with embellishment types.
 - `container` allows you to further style the root container element
 - `list` allows you to further style the `<ul>` elements text element
 - `listitem` allows you to further style the `<li>` elements text element
+- `search` allows you to further style the list view search slot element
+- `searchfield-container` allows you to further style the list view search-field container element
+- `searchfield-field-container` allows you to further style the list view search-field field container element
+- `searchfield-input` allows you to further style the list view search-field input element
+- `searchfield-popup` allows you to further style the list view search-field popup element
 
 ## Events
 
@@ -158,6 +275,7 @@ List view with embellishment types.
 - `beforeitemdeactivated` Fires before deactivated an item, you can return false in the response to veto
 - `itemdeactivated` Fires after deactivated an item
 - `selectionchanged` Fires after selection changed, when use with selectAll(), deselectAll() or toggleAll()
+- `filtered` Fires after search term changed have detail type: 'apply' | 'clear'
 
 ## Methods
 
@@ -176,6 +294,8 @@ List view with embellishment types.
 - `deselect(dataIndex: number): boolean` Set a list item to be deselect, in dataset
 - `selectAll(): void` Set a all list items to be selected
 - `deselectAll(): void` Set a all list items to be deselected
+- `searchFilterCallback(term: string): (((item: object) => boolean))` Set search filter callback, use for custom filter to match
+- `searchableTextCallback(item: object): string` Set searchable text callback
 
 ## States and Variations (With Code Examples)
 
