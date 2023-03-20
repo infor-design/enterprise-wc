@@ -631,12 +631,14 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       return;
     }
 
-    const currentValue = new Date(this.#value).getUTCDate();
-    const newValue = new Date(val).getUTCDate();
-    if (newValue !== currentValue) {
+    const currentValue = this.dateValue?.getUTCDate();
+    const newDate = this.getDateValue(val) as Date;
+
+    if (isValidDate(newDate) && newDate.getUTCDate() !== currentValue) {
       this.#value = val;
+      this.dateValue = newDate;
       this.setAttribute(attributes.VALUE, val);
-      this.syncDateAttributes(val);
+      this.syncDateAttributes(newDate);
     }
   }
 
@@ -855,11 +857,11 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
   private handleDaySelectedEvent(e: CustomEvent): void {
     if (!this.monthView) return;
 
-    const inputDate: Date | number[] | undefined = this.localeAPI.parseDate(this.value, { dateFormat: this.format });
+    const currentDate = this.dateValue;
 
     // Clear action
     // Deselect the selected date by clicking to the selected date
-    if (inputDate instanceof Date && isValidDate(inputDate) && inputDate.getTime() === e.detail.date.getTime()) {
+    if (currentDate instanceof Date && isValidDate(currentDate) && currentDate.getTime() === e.detail.date.getTime()) {
       this.value = '';
       if (this.monthView.selectDay) {
         this.monthView.selectDay();
@@ -923,7 +925,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
     const { month, year } = this.monthYearPicklist;
     this.year = year;
     this.month = month;
-    this.value = this.getActiveDate().toString();
+    this.value = this.getFormattedDate(this.activeDate);
   }
 
   /**
