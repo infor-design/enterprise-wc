@@ -132,7 +132,7 @@ class IdsMultiselect extends IdsDropdown {
    */
   set value(value: any) {
     let matched = true;
-    if (!value) {
+    if (!Array.isArray(value) || value.length > this.max) {
       return;
     }
     value.forEach((selectedValue: string) => {
@@ -190,18 +190,19 @@ class IdsMultiselect extends IdsDropdown {
     this.offEvent('click.multiselect-input');
     if (!this.list) {
       this.onEvent('click.multiselect-input', this.input?.fieldContainer, (e: MouseEvent) => {
+        e.stopPropagation();
         // Don't open/close popup on tag removal
         const target = (e.target as IdsTag);
-        if (!target?.closest('ids-tag') && !this.dropdownList?.visible) {
+        if (!target?.closest('ids-tag')) {
           this.labelClicked = false;
-          this.dropdownList?.onTriggerClick?.(e);
+          this.toggle(true);
         }
       });
     }
 
     if (this.tags) {
       this.offEvent('beforetagremove.multiselect-tag');
-      this.onEvent('beforetagremove.multiselect-tag', this.input, (e:any) => {
+      this.onEvent('beforetagremove.multiselect-tag', this.input?.fieldContainer, (e: CustomEvent) => {
         this.#handleTagRemove(e);
       });
     }

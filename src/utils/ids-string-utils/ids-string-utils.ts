@@ -105,3 +105,13 @@ export function isPrintable(e: KeyboardEvent | any): boolean {
   }
   return true;
 }
+
+/**
+ * Escape user input that will be treated as a literal string.
+ * This prevents incorrect RegExp matching when converting user input.
+ * @param {string} s string to process
+ * @returns {string} string after escaping
+ */
+export function escapeRegExp(s: string) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& whole matched string
+}
