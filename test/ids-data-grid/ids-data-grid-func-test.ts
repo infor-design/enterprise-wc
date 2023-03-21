@@ -2643,7 +2643,7 @@ describe('IdsDataGrid Component', () => {
       const dblClickCallback = jest.fn((e) => {
         expect(e.detail.type).toEqual(elemType);
       });
-      dataGrid.addEventListener('doubleclick', dblClickCallback);
+      dataGrid.addEventListener('dblclick', dblClickCallback);
 
       elemType = 'header-title';
       const headerTitle = dataGrid.container.querySelector('.ids-data-grid-header .ids-data-grid-header-cell');

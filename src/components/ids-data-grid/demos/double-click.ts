@@ -95,7 +95,7 @@ if (dataGrid) {
     });
 
     // Bind double click event
-    dataGrid.addEventListener('doubleclick', (e: Event) => {
+    dataGrid.addEventListener('dblclick', (e: Event) => {
       console.info(`Double Clicked`, (<CustomEvent>e).detail);
     });
 

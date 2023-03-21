@@ -517,7 +517,7 @@ export default class IdsDataGrid extends Base {
     // Add double click to the container
     this.offEvent('dblclick.container', this.container);
     this.onEvent('dblclick.container', this.container, (e: MouseEvent) => {
-      this.triggerEvent('doubleclick', this, {
+      this.triggerEvent('dblclick', this, {
         bubbles: true,
         detail: {
           ...containerArguments.apply(this, [e]),

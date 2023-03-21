@@ -471,7 +471,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `rowactivated` Fires for each row that is activated.
 - `rowdeactivated` Fires for each row that is deactivated.
 - `rowclick` Fires for each row that is clicked.
-- `doubleclick` Fires each time double clicked on body cells or header cells. Based on where it clicked details can be capture like `type: 'body-cell'|'header-title'|'header-filter'` etc.
+- `dblclick` Fires each time double clicked on body cells or header cells. Based on where it clicked details can be capture like `type: 'body-cell'|'header-title'|'header-filter'` etc.
 - `filtered` Fires after a filter action occurs, clear or apply filter condition.
 - `filteroperatorchanged` Fires once a filter operator changed.
 - `filterrowopened` Fires after the filter row is opened by the user.
