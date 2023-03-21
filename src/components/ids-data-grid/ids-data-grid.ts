@@ -10,6 +10,7 @@ import IdsDataSource from '../../core/ids-data-source';
 import IdsDataGridFormatters from './ids-data-grid-formatters';
 import { editors } from './ids-data-grid-editors';
 import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid-filters';
+import { containerArguments, containerTypes } from './ids-data-grid-container-arguments';
 import { IdsDataGridContextmenuArgs, setContextmenu, getContextmenuElem } from './ids-data-grid-contextmenu';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
 
@@ -97,16 +98,8 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Types for contextmenu.
-   * @private
    */
-  contextmenuTypes = {
-    BODY_CELL: 'body-cell',
-    BODY_CELL_EDITOR: 'body-cell-editor',
-    HEADER_TITLE: 'header-title',
-    HEADER_ICON: 'header-icon',
-    HEADER_FILTER: 'header-filter',
-    HEADER_FILTER_BUTTON: 'header-filter-button',
-  };
+  contextmenuTypes = { ...containerTypes };
 
   constructor() {
     super();
@@ -521,18 +514,14 @@ export default class IdsDataGrid extends Base {
       }
     });
 
-    // Add double click to the table body
-    this.offEvent('dblclick.body', body);
-    this.onEvent('dblclick.body', body, (e: MouseEvent) => {
-      const row = (e.target as HTMLElement)?.closest('.ids-data-grid-row');
-      const rowIndex: string | null | undefined = row?.getAttribute('data-index');
-
-      if (!rowIndex) return;
-
-      // Fires for each row that is double clicked
-      this.triggerEvent('rowdoubleclick', this, {
+    // Add double click to the container
+    this.offEvent('dblclick.container', this.container);
+    this.onEvent('dblclick.container', this.container, (e: MouseEvent) => {
+      this.triggerEvent('dblclick', this, {
+        bubbles: true,
         detail: {
-          elem: this, row, data: this.data[Number(rowIndex)]
+          ...containerArguments.apply(this, [e]),
+          originalEvent: e
         }
       });
     });
