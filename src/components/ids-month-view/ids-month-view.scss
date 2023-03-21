@@ -244,10 +244,7 @@
         overflow: hidden;
         opacity: 0.3;
         transition: 0.2s opacity ease;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
+        inset: 0;
         margin: auto;
       }
     }
@@ -428,10 +425,7 @@
 
         background-color: var(--legend-color);
         content: '';
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        inset: 0;
         opacity: 0.3;
       }
 
