@@ -137,6 +137,7 @@ export default class IdsDataGrid extends Base {
 
     super.connectedCallback();
     this.redrawBody();
+    setContextmenu.apply(this);
     this.#attachScrollEvents();
   }
 
@@ -302,9 +303,6 @@ export default class IdsDataGrid extends Base {
 
     // Set Counts/Totals
     this.#updateRowCount();
-
-    // Set contextmenu
-    setContextmenu.apply(this);
 
     // Show/hide empty message
     this.toggleEmptyMessage();

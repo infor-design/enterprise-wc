@@ -41,7 +41,7 @@ if (dataGrid) {
     };
 
     // Set up columns
-    const columns = [];
+    const columns: any[] = [];
     columns.push({
       id: 'selectionCheckbox',
       name: 'selection',
@@ -163,6 +163,9 @@ if (dataGrid) {
 
       dataGrid.addEventListener('menuselected', (e: any) => {
         console.info('contextmenu item selected', e.detail);
+
+        // simulate a column change after menuselection
+        dataGrid.columns = [...columns];
       });
     };
 

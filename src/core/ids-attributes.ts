@@ -52,6 +52,7 @@ export const attributes = {
   BG_TRANSPARENT: 'bg-transparent',
   BLEED: 'bleed',
   BOLD: 'bold',
+  BORDER_LESS: 'border-less',
   BUFFER_SIZE: 'buffer-size',
   BUTTONS: 'buttons',
   BUTTON_TEXT: 'button-text',
@@ -476,7 +477,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.7';
+export const version = '1.0.0-beta.8';
 
 export enum IdsDirection {
   Up = 'up',
