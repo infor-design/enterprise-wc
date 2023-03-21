@@ -144,6 +144,7 @@ export default class IdsDataGrid extends Base {
 
     super.connectedCallback();
     this.redrawBody();
+    setContextmenu.apply(this);
     this.#attachScrollEvents();
   }
 
@@ -260,31 +261,12 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Sync pager to refresh updated dataset
-   * @private
-   * @returns {void}
-   */
-  #syncPager(): void {
-    const props = ['total', 'pageNumber', 'pageSize'];
-    const isValid = (v: any) => typeof v !== 'undefined' && v !== null;
-
-    props.forEach((prop) => {
-      const pager: any = this.pager;
-      const ds: any = this.datasource;
-      const isValidProps = isValid(pager?.[prop]) && isValid(ds?.[prop]);
-      if (this.initialized && isValidProps && pager[prop] !== ds[prop]) {
-        pager[prop] = ds[prop];
-      }
-    });
-  }
-
-  /**
    * Sync and then redraw the body section
    * @returns {void}
    */
   redrawBody() {
     this.#redrawBodyTemplate();
-    this.#syncPager();
+    this.pager?.sync?.apply(this);
   }
 
   /**
@@ -328,9 +310,6 @@ export default class IdsDataGrid extends Base {
 
     // Set Counts/Totals
     this.#updateRowCount();
-
-    // Set contextmenu
-    setContextmenu.apply(this);
 
     // Show/hide empty message
     this.toggleEmptyMessage();
