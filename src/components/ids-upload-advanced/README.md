@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
 Set an arbitrary error message.
 
 ```html
-<ids-button id="error-btn" type="secondary">
+<ids-button id="error-btn" appearance="secondary">
   <span>Set Error</span>
 </ids-button>
 <ids-upload-advanced id="error-el"></ids-upload-advanced>
@@ -177,7 +177,7 @@ Set an arbitrary error message on each file.
 -Add file/s to upload before apply error. It can only be apply before `completed` state.
 
 ```html
-<ids-button id="error-files-btn" type="secondary">
+<ids-button id="error-files-btn" appearance="secondary">
   <span>Set Error on each file</span>
 </ids-button>
 <ids-upload-advanced id="error-files-el"></ids-upload-advanced>

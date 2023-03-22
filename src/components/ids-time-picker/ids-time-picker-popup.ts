@@ -68,7 +68,7 @@ class IdsTimePickerPopup extends Base {
     return `<ids-popup class="ids-time-picker-popup" type="menu" tabIndex="-1" align="bottom, left" arrow="bottom" part="popup" y="12" animated>
       <section slot="content">
         ${dropdownHTML}
-        <ids-modal-button class="popup-btn" hidden="${this.autoupdate}" part="btn-set" type="primary">
+        <ids-modal-button class="popup-btn" hidden="${this.autoupdate}" part="btn-set" appearance="primary">
           <ids-text translate-text="true" font-weight="bold">SetTime</ids-text>
         </ids-modal-button>
       </section>

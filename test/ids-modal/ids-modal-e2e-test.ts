@@ -49,7 +49,7 @@ describe('Ids Modal e2e Tests', () => {
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-modal id="test" aria-labelledby="my-modal-title">
         <ids-text slot="title" font-size="24" type="h2" id="my-modal-title">Active IDS Modal</ids-text>
-        <ids-modal-button slot="buttons" id="modal-close-btn" type="primary">
+        <ids-modal-button slot="buttons" id="modal-close-btn" appearance="primary">
           <span>OK</span>
         </ids-modal-button>
       </ids-modal>`);

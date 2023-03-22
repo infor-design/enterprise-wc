@@ -91,7 +91,7 @@ export default class IdsNotificationBanner extends Base {
         </div>` : ''}
 
         <div class="ids-notification-banner-button" part="button">
-          <ids-button type="tertiary">
+          <ids-button appearance="tertiary">
             <span class="audible">Close Button</span>
             <ids-icon icon="close" size="small"></ids-icon>
           </ids-button>

@@ -153,7 +153,7 @@ Be conscious of the layout of content within your buttons when they are present 
 - Change class `inforFormButton` to `btn-secondary
 
 **4.x to 5.x**
-The IDS Button component is now a WebComponent.  Instead of using classes to define a button's purpose or visual style, it's now done directly with a "appearance" attribute:
+The IDS Button component is now a WebComponent.  Instead of using classes to define a button's purpose or visual style, it's now done directly with an "appearance" attribute:
 
 ```html
 <!-- 4.x button example -->
