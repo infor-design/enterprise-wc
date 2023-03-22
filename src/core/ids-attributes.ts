@@ -52,6 +52,7 @@ export const attributes = {
   BG_TRANSPARENT: 'bg-transparent',
   BLEED: 'bleed',
   BOLD: 'bold',
+  BORDER_LESS: 'border-less',
   BUFFER_SIZE: 'buffer-size',
   BUTTONS: 'buttons',
   BUTTON_TEXT: 'button-text',
@@ -327,6 +328,11 @@ export const attributes = {
   SCROLLABLE: 'scrollable',
   SCROLL_TOP: 'scroll-top',
   SEARCH_FIELD: 'search-field',
+  SEARCH_FIELD_ID: 'search-field-id',
+  SEARCH_FILTER_MODE: 'search-filter-mode',
+  SEARCH_TERM_CASE_SENSITIVE: 'search-term-case-sensitive',
+  SEARCH_TERM_MIN_SIZE: 'search-term-min-size',
+  SEARCHABLE: 'searchable',
   SECOND_INTERVAL: 'second-interval',
   SECONDS: 'seconds',
   SELECT: 'select',
@@ -372,6 +378,7 @@ export const attributes = {
   SUPPRESS_DEACTIVATION: 'suppress-deactivation',
   SUPPRESS_DESELECTION: 'suppress-deselection',
   SUPPRESS_EMPTY_MESSAGE: 'suppress-empty-message',
+  SUPPRESS_HIGHLIGHT: 'suppress-highlight',
   SUPPRESS_LABELS: 'suppress-labels',
   SUPPRESS_ROW_CLICK_SELECTION: 'suppress-row-click-selection',
   SUPPRESS_ROW_DEACTIVATION: 'suppress-row-deactivation',
@@ -472,7 +479,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.7';
+export const version = '1.0.0-beta.8';
 
 export enum IdsDirection {
   Up = 'up',

@@ -10,6 +10,7 @@ import IdsDataSource from '../../core/ids-data-source';
 import IdsDataGridFormatters from './ids-data-grid-formatters';
 import { editors } from './ids-data-grid-editors';
 import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid-filters';
+import { containerArguments, containerTypes } from './ids-data-grid-container-arguments';
 import { IdsDataGridContextmenuArgs, setContextmenu, getContextmenuElem } from './ids-data-grid-contextmenu';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
 
@@ -97,16 +98,8 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Types for contextmenu.
-   * @private
    */
-  contextmenuTypes = {
-    BODY_CELL: 'body-cell',
-    BODY_CELL_EDITOR: 'body-cell-editor',
-    HEADER_TITLE: 'header-title',
-    HEADER_ICON: 'header-icon',
-    HEADER_FILTER: 'header-filter',
-    HEADER_FILTER_BUTTON: 'header-filter-button',
-  };
+  contextmenuTypes = { ...containerTypes };
 
   constructor() {
     super();
@@ -144,6 +137,7 @@ export default class IdsDataGrid extends Base {
 
     super.connectedCallback();
     this.redrawBody();
+    setContextmenu.apply(this);
     this.#attachScrollEvents();
   }
 
@@ -260,31 +254,12 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Sync pager to refresh updated dataset
-   * @private
-   * @returns {void}
-   */
-  #syncPager(): void {
-    const props = ['total', 'pageNumber', 'pageSize'];
-    const isValid = (v: any) => typeof v !== 'undefined' && v !== null;
-
-    props.forEach((prop) => {
-      const pager: any = this.pager;
-      const ds: any = this.datasource;
-      const isValidProps = isValid(pager?.[prop]) && isValid(ds?.[prop]);
-      if (this.initialized && isValidProps && pager[prop] !== ds[prop]) {
-        pager[prop] = ds[prop];
-      }
-    });
-  }
-
-  /**
    * Sync and then redraw the body section
    * @returns {void}
    */
   redrawBody() {
     this.#redrawBodyTemplate();
-    this.#syncPager();
+    this.pager?.sync?.apply(this);
   }
 
   /**
@@ -328,9 +303,6 @@ export default class IdsDataGrid extends Base {
 
     // Set Counts/Totals
     this.#updateRowCount();
-
-    // Set contextmenu
-    setContextmenu.apply(this);
 
     // Show/hide empty message
     this.toggleEmptyMessage();
@@ -542,18 +514,14 @@ export default class IdsDataGrid extends Base {
       }
     });
 
-    // Add double click to the table body
-    this.offEvent('dblclick.body', body);
-    this.onEvent('dblclick.body', body, (e: MouseEvent) => {
-      const row = (e.target as HTMLElement)?.closest('.ids-data-grid-row');
-      const rowIndex: string | null | undefined = row?.getAttribute('data-index');
-
-      if (!rowIndex) return;
-
-      // Fires for each row that is double clicked
-      this.triggerEvent('rowdoubleclick', this, {
+    // Add double click to the container
+    this.offEvent('dblclick.container', this.container);
+    this.onEvent('dblclick.container', this.container, (e: MouseEvent) => {
+      this.triggerEvent('dblclick', this, {
+        bubbles: true,
         detail: {
-          elem: this, row, data: this.data[Number(rowIndex)]
+          ...containerArguments.apply(this, [e]),
+          originalEvent: e
         }
       });
     });

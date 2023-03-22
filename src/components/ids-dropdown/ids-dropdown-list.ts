@@ -407,6 +407,7 @@ export default class IdsDropdownList extends Base {
     targetOption.setAttribute('aria-selected', 'true');
     targetOption.classList.add('is-selected');
     targetOption.setAttribute('tabindex', '0');
+    targetOption.focus();
 
     if (targetOption.id) {
       this.listBox?.setAttribute('aria-activedescendant', targetOption.id);

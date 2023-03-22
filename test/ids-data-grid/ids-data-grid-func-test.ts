@@ -69,7 +69,8 @@ describe('IdsDataGrid Component', () => {
       id: 'ledger',
       name: 'Ledger',
       field: 'ledger',
-      formatter: formatters.text
+      formatter: formatters.text,
+      filterType: dataGrid.filters.text
     });
     cols.push({
       id: 'publishDate',
@@ -2618,30 +2619,60 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Events Tests', () => {
-    it('should fire rowclick and rowdoubleclick events', () => {
+    it('should fire rowclick event', () => {
       const clickCallback = jest.fn((e) => {
-        expect(e.detail.row?.getAttribute('data-index')).toEqual('0');
-      });
-      const dblClickCallback = jest.fn((e) => {
         expect(e.detail.row?.getAttribute('data-index')).toEqual('0');
       });
 
       dataGrid.addEventListener('rowclick', clickCallback);
-      dataGrid.addEventListener('rowdoubleclick', dblClickCallback);
 
       const firstCellInRow = dataGrid.container.querySelector('.ids-data-grid-body .ids-data-grid-cell');
       const clickEvent = new MouseEvent('click', { bubbles: true });
-      const dblClickEvent = new MouseEvent('dblclick', { bubbles: true });
 
       firstCellInRow.dispatchEvent(clickEvent);
-      firstCellInRow.dispatchEvent(dblClickEvent);
 
       // body click edge case
       const body = dataGrid.container.querySelector('.ids-data-grid-body');
       body.dispatchEvent(clickEvent);
-      body.dispatchEvent(dblClickEvent);
       expect(clickCallback.mock.calls.length).toBe(1);
-      expect(dblClickCallback.mock.calls.length).toBe(1);
+    });
+
+    it('should fire double click event', () => {
+      let elemType = '';
+      const dblClickEvent = new MouseEvent('dblclick', { bubbles: true });
+      const dblClickCallback = jest.fn((e) => {
+        expect(e.detail.type).toEqual(elemType);
+      });
+      dataGrid.addEventListener('dblclick', dblClickCallback);
+
+      elemType = 'header-title';
+      const headerTitle = dataGrid.container.querySelector('.ids-data-grid-header .ids-data-grid-header-cell');
+      headerTitle.dispatchEvent(dblClickEvent);
+
+      elemType = 'header-icon';
+      const headerIcon = dataGrid.container.querySelector('.ids-data-grid-header .ids-data-grid-header-icon');
+      headerIcon.dispatchEvent(dblClickEvent);
+
+      elemType = 'header-filter';
+      const headerFilter = dataGrid.container.querySelector('.ids-data-grid-header .ids-data-grid-header-cell-filter-wrapper');
+      headerFilter.dispatchEvent(dblClickEvent);
+
+      elemType = 'header-filter-button';
+      const headerFilterButton = dataGrid.container.querySelector('.ids-data-grid-header .ids-data-grid-header-cell-filter-wrapper [data-filter-conditions-button]');
+      headerFilterButton.dispatchEvent(dblClickEvent);
+
+      elemType = 'body-cell';
+      const bodyCell = dataGrid.container.querySelector('.ids-data-grid-body .ids-data-grid-cell');
+      bodyCell.dispatchEvent(dblClickEvent);
+
+      elemType = 'body-cell-editor';
+      dataGrid.editable = true;
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      editableCell.startCellEdit();
+      expect(editableCell.classList.contains('is-editing')).toBeTruthy();
+      editableCell.dispatchEvent(dblClickEvent);
+
+      expect(dblClickCallback.mock.calls.length).toBe(6);
     });
 
     it.skip('should fire scrollstart event', async () => {

@@ -1,5 +1,25 @@
 @import '../../core/ids-base';
 
+:host([selectable]) {
+  .ids-list-view .ids-list-view-body {
+    div[part='list-item'],
+    li {
+      cursor: pointer;
+    }
+  }
+}
+
+:host([no-margins]) {
+  .ids-list-view .ids-list-view-body {
+    div[part='list-item'],
+    li {
+      &:first-child {
+        @include mt-0();
+      }
+    }
+  }
+}
+
 .ids-list-view {
   height: 100%;
   overflow: auto;
@@ -24,7 +44,6 @@
       border: 1px solid transparent;
       border-top-color: var(--ids-color-palette-slate-20);
       contain: content;
-      cursor: pointer;
 
       &:first-child {
         @include mt-2();
@@ -73,6 +92,15 @@
 
       &[disabled] ids-image {
         @include bg-opacity-50();
+      }
+    }
+  }
+
+  &.has-searchfield .ids-list-view-body {
+    div[part='list-item'],
+    li {
+      &:first-child {
+        @include mt-0();
       }
     }
   }

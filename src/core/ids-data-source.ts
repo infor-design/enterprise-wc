@@ -59,6 +59,12 @@ class IdsDataSource {
   #flatten = false;
 
   /**
+   * If true use a filtered data representation
+   * @private
+   */
+  #filtered = false;
+
+  /**
    * Return all the currently used data, without paging or filter
    * @returns {Array | null} All the currently used data
    */
@@ -115,6 +121,16 @@ class IdsDataSource {
   /* If true a flattened data model is used */
   set flatten(value: boolean) {
     this.#flatten = value;
+  }
+
+  /* If true data is currently filtered */
+  get filtered() {
+    return this.#filtered;
+  }
+
+  /* Set filtered value */
+  set filtered(value: boolean) {
+    this.#filtered = value;
   }
 
   /**
@@ -358,7 +374,7 @@ class IdsDataSource {
       updateCurrentData(this.#currentFilterData);
       this.#currentFilterData = null;
       this.#resetPrevState();
-      delete (this as any).filtered;
+      this.filtered = false;
     };
 
     // Check if need to filter or reset
@@ -381,7 +397,7 @@ class IdsDataSource {
         });
         updateCurrentData(data);
         this.#resetPrevState();
-        (this as any).filtered = true;
+        this.filtered = true;
       } else {
         resetCurrentData(); // reset, if none of filtered row found
       }
