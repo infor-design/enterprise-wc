@@ -10,8 +10,8 @@ import '../../src/components/ids-text/ids-text';
 import '../../src/components/ids-modal-button/ids-modal-button';
 
 const modalButtonHTML = `
-  <ids-modal-button slot="buttons" appearance="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>
-  <ids-modal-button slot="buttons" appearance="primary" id="my-message-confirm">Confirm</ids-modal-button>`;
+  <ids-modal-button slot="buttons" type="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>
+  <ids-modal-button slot="buttons" type="primary" id="my-message-confirm">Confirm</ids-modal-button>`;
 
 describe('IdsModal Component (with buttons)', () => {
   let modal: any;

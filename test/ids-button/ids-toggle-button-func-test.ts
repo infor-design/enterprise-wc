@@ -84,19 +84,19 @@ describe('IdsToggleButton Component', () => {
     expect(btn.text).toBe('Test Button (Off)');
   });
 
-  it('cannot be any other appearance but "default"', () => {
-    btn.appearance = 'primary';
+  it('cannot be any other type but "default"', () => {
+    btn.type = 'primary';
 
-    expect(btn.getAttribute('appearance')).toBe(null);
-    expect(btn.appearance).toBe('default');
-    expect(btn.state.appearance).toBe('default');
+    expect(btn.getAttribute('type')).toBe(null);
+    expect(btn.type).toBe('default');
+    expect(btn.state.type).toBe('default');
     expect(btn.button.classList.contains('primary')).toBeFalsy();
 
-    btn.setAttribute('appearance', 'secondary');
+    btn.setAttribute('type', 'secondary');
 
-    expect(btn.getAttribute('appearance')).toBe(null);
-    expect(btn.appearance).toBe('default');
-    expect(btn.state.appearance).toBe('default');
+    expect(btn.getAttribute('type')).toBe(null);
+    expect(btn.type).toBe('default');
+    expect(btn.state.type).toBe('default');
     expect(btn.button.classList.contains('secondary')).toBeFalsy();
   });
 

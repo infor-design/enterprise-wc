@@ -10,7 +10,7 @@ exports[`Ids Error Page Tests renders correctly 1`] = `
           <ids-text label="true" slot="description">
             Add Description
           </ids-text>
-          <ids-button class="action-button" slot="button" appearance="prima">
+          <ids-button class="action-button" slot="button" type="primary">
             <span>Action</span>
           </ids-button>
         </ids-empty-message>

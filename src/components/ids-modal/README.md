@@ -56,7 +56,7 @@ Other elements on the page, such as an [Ids Button](../ids-button/README.md) can
     <p>This is a simple Modal component</p>
 </ids-modal>
 
-<ids-button id="trigger-button" appearance="secondary">
+<ids-button id="trigger-button" type="secondary">
     <span>Trigger Modal</span>
     <ids-icon icon="launch"></ids-icon>
 </ids-button>
@@ -81,8 +81,8 @@ It's possible to append a Message Title to add more context, and Buttons to crea
 <ids-modal id="my-modal">
     <ids-text slot="title" font-size="24" type="h2">This is the Title</ids-text>
     <p>This is a simple Modal component</p>
-    <ids-modal-button slot="buttons" id="ok" appearance="primary">OK</ids-modal-button>
-    <ids-modal-button slot="buttons" id="cancel" appearance="secondary" cancel>Cancel</ids-modal-button>
+    <ids-modal-button slot="buttons" id="ok" type="primary">OK</ids-modal-button>
+    <ids-modal-button slot="buttons" id="cancel" type="secondary" cancel>Cancel</ids-modal-button>
 </ids-modal>
 ```
 
@@ -94,8 +94,8 @@ IdsModal can alter its display mode to take up 100% of the browser viewport's wi
 <ids-modal id="my-modal" fullsize="lg">
     <ids-text slot="title" font-size="24" type="h2">Fullsize Modal</ids-text>
     <p>This modal will transform when below the `lg` breakpoint</p>
-    <ids-modal-button slot="buttons" id="ok" appearance="primary">OK</ids-modal-button>
-    <ids-modal-button slot="buttons" id="cancel" appearance="secondary" cancel>Cancel</ids-modal-button>
+    <ids-modal-button slot="buttons" id="ok" type="primary">OK</ids-modal-button>
+    <ids-modal-button slot="buttons" id="cancel" type="secondary" cancel>Cancel</ids-modal-button>
 </ids-modal>
 ```
 

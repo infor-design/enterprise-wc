@@ -55,7 +55,7 @@ export default class IdsErrorPage extends IdsModal {
           <ids-text label="true" slot="description">
             ${this.description ?? 'Add Description'}
           </ids-text>
-          <ids-button class="action-button" slot="button" appearance="primary">
+          <ids-button class="action-button" slot="button" type="primary">
             <span>${this.buttonText ?? 'Action'}</span>
           </ids-button>
         </ids-empty-message>

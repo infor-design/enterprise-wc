@@ -17,13 +17,13 @@ To use this mixin in your component:
 Show with attribute
 
 ```html
-<ids-button appearance="primary" show-loading-indicator="true">
+<ids-button type="primary" show-loading-indicator="true">
   <span>Button</span>
 </ids-button>
 ```
 
 ```html
-<ids-button appearance="primary" show-loading-indicator="true" loading-indicator-only="true">
+<ids-button type="primary" show-loading-indicator="true" loading-indicator-only="true">
   <span>Button</span>
 </ids-button>
 ```
@@ -31,7 +31,7 @@ Show with attribute
 Show custom loading indicator with slot
 
 ```html
-<ids-button appearance="primary" show-loading-indicator="true">
+<ids-button type="primary" show-loading-indicator="true">
   <span>Button</span>
   <ids-alert slot="loading-indicator" icon="in-progress"></ids-alert>
 </ids-button>

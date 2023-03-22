@@ -22,7 +22,7 @@ describe('Ids Button e2e Tests', () => {
   it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
-      document.body.insertAdjacentHTML('beforeend', `<ids-button id="test" appearance="primary" icon="settings">My Button</ids-button>`);
+      document.body.insertAdjacentHTML('beforeend', `<ids-button id="test" type="primary" icon="settings">My Button</ids-button>`);
       document.querySelector('#test')?.remove();
     });
     expect(await countObjects(page)).toEqual(numberOfObjects);
@@ -45,7 +45,7 @@ describe('Ids Button e2e Tests', () => {
     try {
       await page.evaluate(() => {
         const elem: any = document.createElement('ids-button');
-        elem.appearance = 'primary';
+        elem.type = 'primary';
         document.body.appendChild(elem);
       });
     } catch (err) {
@@ -60,7 +60,7 @@ describe('Ids Button e2e Tests', () => {
       await page.evaluate(() => {
         const elem: any = document.createElement('ids-button');
         document.body.appendChild(elem);
-        elem.appearance = 'primary';
+        elem.type = 'primary';
       });
     } catch (err) {
       hasError = true;
@@ -74,13 +74,13 @@ describe('Ids Button e2e Tests', () => {
       await page.evaluate(() => {
         document.body.insertAdjacentHTML('beforeend', `<ids-button id="test"></ids-button>`);
         const elem: any = document.querySelector('#test');
-        elem.appearance = 'primary';
+        elem.type = 'primary';
       });
     } catch (err) {
       hasError = true;
     }
 
-    const value = await page.evaluate('document.querySelector("#test").getAttribute("appearance")');
+    const value = await page.evaluate('document.querySelector("#test").getAttribute("type")');
     await expect(value).toEqual('primary');
     await expect(hasError).toEqual(false);
   });

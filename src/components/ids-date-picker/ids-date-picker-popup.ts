@@ -147,7 +147,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
         <ids-modal-button class="popup-btn popup-btn-clear" part="btn-clear" ${this.showClear ? '' : ' hidden'}>
           <ids-text translate-text="true" font-weight="bold">Clear</ids-text>
         </ids-modal-button>
-        <ids-modal-button class="popup-btn popup-btn-apply"${this.useRange || this.expanded ? ' disabled' : ' hidden'} part="btn-apply" appearance="primary">
+        <ids-modal-button class="popup-btn popup-btn-apply"${this.useRange || this.expanded ? ' disabled' : ' hidden'} part="btn-apply" type="primary">
           <ids-text translate-text="true" font-weight="bold">Apply</ids-text>
         </ids-modal-button>
       </div>

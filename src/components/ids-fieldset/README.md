@@ -24,7 +24,7 @@ An IdsFieldset inside a form element. Best practice is to use an IdsText element
     <ids-input type="text" label="Company Type" id="type"></ids-input>
     <ids-input type="text" label="Company Address" id="company-address"></ids-input>
     <ids-checkbox label="Checked" checked="true"></ids-checkbox>
-    <ids-button appearance="primary">Submit</ids-button>
+    <ids-button type="primary">Submit</ids-button>
   </ids-fieldset>
 </form>
 ```

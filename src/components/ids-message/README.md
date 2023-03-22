@@ -33,8 +33,8 @@ Messages can have titles and buttons (just the same as [Modals](../ids-modal/REA
 <ids-message id="my-message">
     <ids-text slot="title" font-size="24" type="h2">My Message Title</ids-text>
     <p>This is my message</p>
-    <ids-modal-button slot="buttons" appearance="secondary">OK</ids-modal-button>
-    <ids-modal-button slot="buttons" appearance="primary" cancel>Cancel</ids-modal-button>
+    <ids-modal-button slot="buttons" type="secondary">OK</ids-modal-button>
+    <ids-modal-button slot="buttons" type="primary" cancel>Cancel</ids-modal-button>
 </ids-message>
 ```
 
@@ -61,11 +61,11 @@ You can also use the Modal's `target` property to activate a Message component b
 <ids-message id="my-message">
     <ids-text slot="title" font-size="24" type="h2">My Message Title</ids-text>
     <p>This is my message</p>
-    <ids-modal-button slot="buttons" appearance="secondary">OK</ids-modal-button>
-    <ids-modal-button slot="buttons" appearance="primary" cancel>Cancel</ids-modal-button>
+    <ids-modal-button slot="buttons" type="secondary">OK</ids-modal-button>
+    <ids-modal-button slot="buttons" type="primary" cancel>Cancel</ids-modal-button>
 </ids-message>
 
-<ids-button id="trigger-button" appearance="secondary">
+<ids-button id="trigger-button" type="secondary">
     <span>Show Message</span>
     <ids-icon icon="launch"></ids-icon>
 </ids-button>

@@ -2,8 +2,8 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsButton from '../ids-button/ids-button';
 
-import { BUTTON_ATTRIBUTES, BUTTON_APPEARANCE } from '../ids-button/ids-button-common';
-import type { IdsButtonAppearance } from '../ids-button/ids-button-common';
+import { BUTTON_ATTRIBUTES, BUTTON_TYPES } from '../ids-button/ids-button-common';
+import type { IdsButtonType } from '../ids-button/ids-button-common';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-icon/ids-icon';
@@ -74,19 +74,19 @@ export default class IdsToggleButton extends IdsButton {
   }
 
   /**
-   * Override setting the "appearance" on Toggle Buttons, since they can only be the default style
-   * @param {IdsButtonAppearance | null} val a valid appearance attribute
+   * Override setting the "type" on Toggle Buttons, since they can only be the default style
+   * @param {IdsButtonType | null} val a valid type
    */
-  set appearance(val: IdsButtonAppearance | null) {
-    val = BUTTON_APPEARANCE[0];
-    super.appearance = val;
+  set type(val: IdsButtonType | null) {
+    val = BUTTON_TYPES[0];
+    super.type = val;
   }
 
   /**
-   * @returns {IdsButtonAppearance} the currently set appearance attribute
+   * @returns {IdsButtonType} the currently set type
    */
-  get appearance(): IdsButtonAppearance {
-    return super.appearance;
+  get type(): IdsButtonType {
+    return super.type;
   }
 
   /**

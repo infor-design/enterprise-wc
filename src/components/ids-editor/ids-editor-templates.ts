@@ -145,7 +145,7 @@ export const errorMessageTemplate = `
   <ids-message id="errormessage-modal" status="error">
     <ids-text slot="title" font-size="24" type="h2" id="errormessage-modal-title">No Selection!</ids-text>
     <ids-text class="demo-contents" align="left">Please make some selection to complete this task.</ids-text>
-    <ids-modal-button slot="buttons" appearance="primary" id="errormessage-modal-ok">OK</ids-modal-button>
+    <ids-modal-button slot="buttons" type="primary" id="errormessage-modal-ok">OK</ids-modal-button>
   </ids-message>`;
 
 // Hyperlink modal template
@@ -163,10 +163,10 @@ export const hyperlinkModalTemplate = `
         </div>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    <ids-modal-button slot="buttons" id="{key}-modal-cancel-btn" appearance="secondary">
+    <ids-modal-button slot="buttons" id="{key}-modal-cancel-btn" type="secondary">
       <span>Cancel</span>
     </ids-modal-button>
-    <ids-modal-button slot="buttons" id="{key}-modal-apply-btn" appearance="primary">
+    <ids-modal-button slot="buttons" id="{key}-modal-apply-btn" type="primary">
       <span>Apply</span>
     </ids-modal-button>
   </ids-modal>`;
@@ -182,10 +182,10 @@ export const insertimageModalTemplate = `
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-modal-button slot="buttons" id="{key}-modal-cancel-btn" appearance="secondary">
+    <ids-modal-button slot="buttons" id="{key}-modal-cancel-btn" type="secondary">
       <span>Cancel</span>
     </ids-modal-button>
-    <ids-modal-button slot="buttons" id="{key}-modal-apply-btn" appearance="primary">
+    <ids-modal-button slot="buttons" id="{key}-modal-apply-btn" type="primary">
       <span>Apply</span>
     </ids-modal-button>
   </ids-modal>`;

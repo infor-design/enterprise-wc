@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IdsAbout Component (using properties) should render 1`] = `
-"<ids-about id="test-about-component" product-version="4.0.0" product-name="Controls" copyright-year="2022" device-specs="true" use-default-copyright="true" aria-label=" Controls 4.0.0" role="dialog" fullsize="sm" respond-down="sm"><ids-text slot="product" type="p">Controls 4.0.0</ids-text><ids-modal-button cancel="" slot="buttons" appearance="tertiary css-class="ids-icon-button ids-modal-icon-button">
+"<ids-about id="test-about-component" product-version="4.0.0" product-name="Controls" copyright-year="2022" device-specs="true" use-default-copyright="true" aria-label=" Controls 4.0.0" role="dialog" fullsize="sm" respond-down="sm"><ids-text slot="product" type="p">Controls 4.0.0</ids-text><ids-modal-button cancel="" slot="buttons" type="tertiary" css-class="ids-icon-button ids-modal-icon-button">
       <span class="audible">Close modal</span>
       <ids-icon icon="close"></ids-icon>
     </ids-modal-button><ids-text slot="device" type="p">
@@ -16,7 +16,7 @@ exports[`IdsAbout Component (using properties) should render 1`] = `
 `;
 
 exports[`IdsAbout Component (using properties) should render 2`] = `
-"<ids-about id="test-about-component" product-version="4.0.0" product-name="Controls" copyright-year="2022" device-specs="true" use-default-copyright="true" aria-label=" Controls 4.0.0" role="dialog" fullsize="sm" respond-down="sm" visible="" style="z-index: 1020;"><ids-text slot="product" type="p">Controls 4.0.0</ids-text><ids-modal-button cancel="" slot="buttons" appearance="tertiary css-class="ids-icon-button ids-modal-icon-button">
+"<ids-about id="test-about-component" product-version="4.0.0" product-name="Controls" copyright-year="2022" device-specs="true" use-default-copyright="true" aria-label=" Controls 4.0.0" role="dialog" fullsize="sm" respond-down="sm" visible="" style="z-index: 1020;"><ids-text slot="product" type="p">Controls 4.0.0</ids-text><ids-modal-button cancel="" slot="buttons" type="tertiary" css-class="ids-icon-button ids-modal-icon-button">
       <span class="audible">Close modal</span>
       <ids-icon icon="close"></ids-icon>
     </ids-modal-button><ids-text slot="device" type="p">
@@ -31,7 +31,7 @@ exports[`IdsAbout Component (using properties) should render 2`] = `
 `;
 
 exports[`IdsAbout Component (using properties) should render 3`] = `
-"<ids-about id="test-about-component" product-version="4.0.0" product-name="Controls" copyright-year="2022" device-specs="true" use-default-copyright="true" aria-label=" Controls 4.0.0" role="dialog" fullsize="sm" respond-down="sm" style="z-index: 1020;"><ids-text slot="product" type="p">Controls 4.0.0</ids-text><ids-modal-button cancel="" slot="buttons" appearance="tertiary css-class="ids-icon-button ids-modal-icon-button">
+"<ids-about id="test-about-component" product-version="4.0.0" product-name="Controls" copyright-year="2022" device-specs="true" use-default-copyright="true" aria-label=" Controls 4.0.0" role="dialog" fullsize="sm" respond-down="sm" style="z-index: 1020;"><ids-text slot="product" type="p">Controls 4.0.0</ids-text><ids-modal-button cancel="" slot="buttons" type="tertiary" css-class="ids-icon-button ids-modal-icon-button">
       <span class="audible">Close modal</span>
       <ids-icon icon="close"></ids-icon>
     </ids-modal-button><ids-text slot="device" type="p">
