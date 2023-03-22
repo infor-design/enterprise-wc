@@ -16,13 +16,15 @@ import IdsElement from '../../core/ids-element';
 import {
   BUTTON_APPEARANCE,
   BUTTON_DEFAULTS,
+  BUTTON_TYPES,
   BUTTON_ATTRIBUTES,
   ICON_ALIGN_CLASSNAMES,
   baseProtoClasses
 } from './ids-button-common';
 import type {
   IdsButtonIconAlignment,
-  IdsButtonAppearance
+  IdsButtonAppearance,
+  IdsButtonType
 } from './ids-button-common';
 
 import styles from './ids-button.scss';
@@ -553,6 +555,28 @@ export default class IdsButton extends Base {
    */
   get appearance(): IdsButtonAppearance {
     return this.state.appearance;
+  }
+
+  /**
+   * Sets the HTMLButtonElement 'type' attribute
+   */
+  set type(val: IdsButtonType) {
+    if (val && BUTTON_TYPES.includes(val)) {
+      this.setAttribute(attributes.TYPE, val);
+      this.button?.setAttribute(attributes.TYPE, val);
+      if (this.state.type !== val) this.state.type = val;
+    } else {
+      this.removeAttribute(attributes.TYPE);
+      this.button?.removeAttribute(attributes.TYPE);
+      this.state.type = BUTTON_TYPES[0];
+    }
+  }
+
+  /**
+   * @returns {IdsButtonType} Gets the HTMLButtonElement 'type' attribute
+   */
+  get type(): IdsButtonType {
+    return this.state.type;
   }
 
   /**

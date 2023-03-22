@@ -16,6 +16,13 @@ export const BUTTON_APPEARANCE: Array<IdsButtonAppearance> = [
   'swipe-action-right'
 ];
 
+export type IdsButtonType = HTMLButtonElement['type'];
+
+// HTMLButtonElement types
+export const BUTTON_TYPES: Array<string> = [
+  'button', 'submit', 'reset', 'menu'
+];
+
 // Default Button state values
 export const BUTTON_DEFAULTS: any = {
   cssClass: [],
@@ -23,7 +30,7 @@ export const BUTTON_DEFAULTS: any = {
   hidden: false,
   tabIndex: 0,
   iconAlign: undefined,
-  type: BUTTON_APPEARANCE[0]
+  appearance: BUTTON_APPEARANCE[0]
 };
 
 // Definable attributes

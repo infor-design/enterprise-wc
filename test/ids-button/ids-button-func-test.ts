@@ -345,4 +345,11 @@ describe('IdsButton Component', () => {
       defaultValue: null
     });
   });
+
+  it('can set a type attribute on its inner button', () => {
+    btn.type = 'submit';
+    expect(btn.type).toBe('submit');
+    expect(btn.getAttribute('type')).toBe('submit');
+    expect(btn.container?.getAttribute('type')).toBe('submit');
+  });
 });

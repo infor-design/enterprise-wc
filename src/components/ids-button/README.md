@@ -113,6 +113,16 @@ The attribute has the following effects:
 | 'start'    | icon to the left of text | icon to the right of text |
 | 'end'      | icon to the right of text | icon to the left of text |
 
+### Type
+
+IdsButton's type attribute simply passes through to the Shadow Root's HTMLButtonElement and defines its usage.  For example, this is how you would define a form's `submit` button:
+
+```html
+<ids-button id="my-button" type="submit">
+  <span>My Button</span>
+</ids-button>
+```
+
 ## Settings and Attributes
 
 - `appearance` {string} The visual style defining the purpose of the button
@@ -123,6 +133,7 @@ The attribute has the following effects:
 - `iconAlign` {string} Defines which side to align the Button's icon against, can be 'start' or 'end'
 - `tabIndex` {string | number} Sets the internal Button element's `tabIndex` property for controlling focus
 - `text` {string} API-level method of setting a button's text content. This will become the content of the slotted text node when set
+- `type` {string} Passes a 'type' attribute for a standard HTMLButtonElement into the IdsButton's ShadowRoot-contained button element
 - `tooltip` {string} Sets up a string based tooltip
 - `square` {boolean} whether the corners of the button as an icon-button are angled/90°
 - `width` {string} Sets width of button. Accepts percent, pixels, rem, etc.
