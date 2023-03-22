@@ -2,10 +2,10 @@ import { attributes } from '../../core/ids-attributes';
 
 export type IdsButtonIconAlignment = undefined | 'start' | 'end';
 
-export type IdsButtonType = 'default' | 'primary' | 'secondary' | 'tertiary' | 'primary-destructive' | 'tertiary-destructive' | 'swipe-action-right' | 'swipe-action-left';
+export type IdsButtonAppearance = 'default' | 'primary' | 'secondary' | 'tertiary' | 'primary-destructive' | 'tertiary-destructive' | 'swipe-action-right' | 'swipe-action-left';
 
-// Button Styles
-export const BUTTON_TYPES: Array<IdsButtonType> = [
+// Button Appearance types
+export const BUTTON_APPEARANCE: Array<IdsButtonAppearance> = [
   'default',
   'primary',
   'secondary',
@@ -23,11 +23,12 @@ export const BUTTON_DEFAULTS: any = {
   hidden: false,
   tabIndex: 0,
   iconAlign: undefined,
-  type: BUTTON_TYPES[0]
+  type: BUTTON_APPEARANCE[0]
 };
 
 // Definable attributes
 export const BUTTON_ATTRIBUTES: string[] = [
+  attributes.APPEARANCE,
   attributes.CSS_CLASS,
   attributes.DISABLED,
   attributes.HIDDEN,

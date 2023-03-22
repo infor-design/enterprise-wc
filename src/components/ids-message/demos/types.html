@@ -12,29 +12,29 @@
       <ids-text slot="title" font-size="24" type="h2" id="message-error-title">Lost connection</ids-text>
       <ids-text class="demo-contents" align="left">This application has experienced a system error due to the lack of internet access.
         Please restart the application in order to proceed.</ids-text>
-      <ids-modal-button slot="buttons" type="primary" id="message-error-restart">Restart Now</ids-modal-button>
+      <ids-modal-button slot="buttons" appearance="primary" id="message-error-restart">Restart Now</ids-modal-button>
     </ids-message>
 
     <!-- Alert Message -->
     <ids-message id="message-alert" status="alert">
       <ids-text slot="title" font-size="24" type="h2" id="message-alert-title">Application Alert</ids-text>
       <ids-text class="demo-contents" align="left">This application has experienced a security alert. Please acknowledge the alert to proceed or cancel to abort.</ids-text>
-      <ids-modal-button slot="buttons" type="secondary" id="message-alert-cancel" cancel>Cancel</ids-modal-button>
-      <ids-modal-button slot="buttons" type="primary" id="message-alert-try-again">Try Again</ids-modal-button>
+      <ids-modal-button slot="buttons" appearance="secondary" id="message-alert-cancel" cancel>Cancel</ids-modal-button>
+      <ids-modal-button slot="buttons" appearance="primary" id="message-alert-try-again">Try Again</ids-modal-button>
     </ids-message>
 
     <!-- Alert Message -->
     <ids-message id="message-success" status="success">
       <ids-text slot="title" font-size="24" type="h2" id="message-success-title">Application Success</ids-text>
       <ids-text class="demo-contents">Success! You've done the thing! Here's a <ids-hyperlink href="http://www.example.com" target="_blank">link</ids-hyperlink>.</ids-text>
-      <ids-modal-button slot="buttons" type="primary" id="message-success-done">Done</ids-modal-button>
+      <ids-modal-button slot="buttons" appearance="primary" id="message-success-done">Done</ids-modal-button>
     </ids-message>
 
     <!-- Info Message -->
     <ids-message id="message-info" status="info">
       <ids-text slot="title" font-size="24" type="h2" id="message-info-title">File Upload Complete</ids-text>
       <ids-text class="demo-contents" align="left">Your file "<em>photo.png</em>" was successfully uploaded to your personal folder, and is now <strong>public for viewing</strong>.</ids-text>
-      <ids-modal-button slot="buttons" type="primary" id="message-info-done">Done</ids-modal-button>
+      <ids-modal-button slot="buttons" appearance="primary" id="message-info-done">Done</ids-modal-button>
     </ids-message>
 
     <!-- Default (Confirmation) Message -->
@@ -42,16 +42,16 @@
       <ids-text slot="title" font-size="24" type="h2" id="message-confirmation-title">Delete this Application</ids-text>
       <ids-text class="demo-contents" align="left">You are about to delete this application permanently.<br /><br />
         Would you like to proceed?</ids-text>
-      <ids-modal-button slot="buttons" type="secondary" id="message-confirmation-cancel" cancel>Cancel</ids-modal-button>
-      <ids-modal-button slot="buttons" type="primary" id="message-confirmation-delete">Delete</ids-modal-button>
+      <ids-modal-button slot="buttons" appearance="secondary" id="message-confirmation-cancel" cancel>Cancel</ids-modal-button>
+      <ids-modal-button slot="buttons" appearance="primary" id="message-confirmation-delete">Delete</ids-modal-button>
     </ids-message>
 
     <!-- Huge Text Message -->
     <ids-message id="message-huge-text">
       <ids-text slot="title" font-size="24" type="h2" id="message-huge-text-title">Message with huge text</ids-text>
       <ids-text class="demo-contents" align="left">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?<br /><br /></ids-text>
-      <ids-modal-button slot="buttons" type="secondary" id="message-huge-text-cancel" cancel>Cancel</ids-modal-button>
-      <ids-modal-button slot="buttons" type="primary" id="message-huge-text-done">Done</ids-modal-button>
+      <ids-modal-button slot="buttons" appearance="secondary" id="message-huge-text-cancel" cancel>Cancel</ids-modal-button>
+      <ids-modal-button slot="buttons" appearance="primary" id="message-huge-text-done">Done</ids-modal-button>
     </ids-message>
 
     <!-- "No Buttons" Message -->
@@ -70,7 +70,7 @@
         <sub>are</sub>
         <sup>default allowed</sup>.
       </ids-text>
-      <ids-modal-button slot="buttons" type="primary" id="message-allow-tags-ok">Done</ids-modal-button>
+      <ids-modal-button slot="buttons" appearance="primary" id="message-allow-tags-ok">Done</ids-modal-button>
     </ids-message>
 
     <!-- "Disallow Tags" Message (has the same tags as above, but they are stripped out by the sanitizer) -->
@@ -81,7 +81,7 @@
         <em>from</em> <i>appearing</i> <ins>in</ins> <mark>this</mark> <small>message</small>. <strong>All</strong>
         <sub>are</sub> <sup>stripped</sup>.
       </ids-text>
-      <ids-modal-button slot="buttons" type="primary" id="message-disallow-tags-ok">Done</ids-modal-button>
+      <ids-modal-button slot="buttons" appearance="primary" id="message-disallow-tags-ok">Done</ids-modal-button>
     </ids-message>
 
     <!-- In-page controls for the messages are below -->
@@ -94,32 +94,32 @@
 
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-button type="secondary" id="message-error-trigger">Error Example</ids-button>
+        <ids-button appearance="secondary" id="message-error-trigger">Error Example</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
         <ids-layout-grid-cell>
-        <ids-button type="secondary" id="message-alert-trigger">Alert Example</ids-button>
+        <ids-button appearance="secondary" id="message-alert-trigger">Alert Example</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
         <ids-layout-grid-cell>
-        <ids-button type="secondary" id="message-success-trigger">Success Example</ids-button>
+        <ids-button appearance="secondary" id="message-success-trigger">Success Example</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
         <ids-layout-grid-cell>
-        <ids-button type="secondary" id="message-info-trigger">Info Example</ids-button>
+        <ids-button appearance="secondary" id="message-info-trigger">Info Example</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
         <ids-layout-grid-cell>
-        <ids-button type="secondary" id="message-confirmation-trigger">Confirmation Example</ids-button>
+        <ids-button appearance="secondary" id="message-confirmation-trigger">Confirmation Example</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
         <ids-layout-grid-cell>
-        <ids-button type="secondary" id="message-huge-text-trigger">Huge Text Example</ids-button>
+        <ids-button appearance="secondary" id="message-huge-text-trigger">Huge Text Example</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
@@ -131,12 +131,12 @@
 
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-button type="secondary" id="message-allow-tags-trigger">Allow Tags</ids-button>
+        <ids-button appearance="secondary" id="message-allow-tags-trigger">Allow Tags</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
     <ids-layout-grid auto="true">
         <ids-layout-grid-cell>
-        <ids-button type="secondary" id="message-disallow-tags-trigger">Disallow Tags</ids-button>
+        <ids-button appearance="secondary" id="message-disallow-tags-trigger">Disallow Tags</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
@@ -148,7 +148,7 @@
 
     <ids-layout-grid auto="true">
       <ids-layout-grid-cell>
-        <ids-button type="secondary" id="message-no-buttons-trigger">No Buttons</ids-button>
+        <ids-button appearance="secondary" id="message-no-buttons-trigger">No Buttons</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
