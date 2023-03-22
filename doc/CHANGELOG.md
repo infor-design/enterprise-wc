@@ -4,12 +4,13 @@
 
 ### 1.0.0-beta.9 Fixes
 
+- `[Button]` Renamed "type" attribute to "appearance", mapped a new "type" attribute that sets HTMLButtonElement's "type" attribute. ([#1062](https://github.com/infor-design/enterprise-wc/issues/1062))
+
 ## 1.0.0-beta.8
 
 ### 1.0.0-beta.8 Fixes
 
 - `[Button/Input/Dropdown]` Added ability to show loading indicator. ([#1048](https://github.com/infor-design/enterprise-wc/issues/1048))
-- `[Button]` Renamed "type" attribute to "appearance", mapped a new "type" attribute that sets HTMLButtonElement's "type" attribute. ([#1062](https://github.com/infor-design/enterprise-wc/issues/1062))
 - `[Card/Widget]` Added borderless setting for card/widget. ([#1169](https://github.com/infor-design/enterprise-wc/issues/1169))
 - `[Datagrid]` Added feature to export data grid to excel xlsx or csv file. ([#153](https://github.com/infor-design/enterprise-wc/issues/153))
 - `[DataGrid]` Added support for double click event. ([#1154](https://github.com/infor-design/enterprise-wc/issues/1154))
