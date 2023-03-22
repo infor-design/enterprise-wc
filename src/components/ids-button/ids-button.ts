@@ -14,7 +14,7 @@ import IdsLoadingIndicatorMixin from '../../mixins/ids-loading-indicator-mixin/i
 import IdsElement from '../../core/ids-element';
 
 import {
-  BUTTON_TYPES,
+  BUTTON_APPEARANCE,
   BUTTON_DEFAULTS,
   BUTTON_ATTRIBUTES,
   ICON_ALIGN_CLASSNAMES,
@@ -22,7 +22,7 @@ import {
 } from './ids-button-common';
 import type {
   IdsButtonIconAlignment,
-  IdsButtonType
+  IdsButtonAppearance
 } from './ids-button-common';
 
 import styles from './ids-button.scss';
@@ -156,7 +156,7 @@ export default class IdsButton extends Base {
     let protoClasses = '';
     let disabled = '';
     let tabIndex = 'tabindex="0"';
-    let type = '';
+    let appearance = '';
     if (this.state?.cssClass) {
       cssClass = ` ${this.state.cssClass.join(' ')}`;
     }
@@ -166,8 +166,8 @@ export default class IdsButton extends Base {
     if (this.state?.tabIndex) {
       tabIndex = `tabindex="${this.state.tabIndex}"`;
     }
-    if (this.state && this.state?.type !== 'default') {
-      type = ` btn-${this.state.type}`;
+    if (this.state && this.state?.appearance !== 'default') {
+      appearance = ` btn-${this.state.appearance}`;
     }
 
     if (this.hasAttribute(attributes.SQUARE)) {
@@ -185,7 +185,7 @@ export default class IdsButton extends Base {
     let alignCSS = '';
     if (this.state?.iconAlign) alignCSS = ` align-icon-${this.state?.iconAlign}`;
 
-    return `<button part="button" class="${protoClasses}${type}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
+    return `<button part="button" class="${protoClasses}${appearance}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
       <slot></slot>
       <slot name="loading-indicator"></slot>
     </button>`;
@@ -534,25 +534,25 @@ export default class IdsButton extends Base {
   }
 
   /**
-   * Set the button types between 'default', 'primary', 'secondary', 'tertiary', or 'destructive'
-   * @param {IdsButtonType | null} val a valid button "type"
+   * Set the button appearance between 'default', 'primary', 'secondary', 'tertiary', or 'destructive'
+   * @param {IdsButtonAppearance | null} val a valid button "appearance"
    */
-  set type(val: IdsButtonType | null) {
-    if (!val || BUTTON_TYPES.indexOf(val) <= 0) {
-      this.removeAttribute(attributes.TYPE);
-      this.state.type = BUTTON_TYPES[0];
+  set appearance(val: IdsButtonAppearance | null) {
+    if (!val || BUTTON_APPEARANCE.indexOf(val) <= 0) {
+      this.removeAttribute(attributes.APPEARANCE);
+      this.state.appearance = BUTTON_APPEARANCE[0];
     } else {
-      this.setAttribute(attributes.TYPE, val);
-      if (this.state.type !== val) this.state.type = val;
+      this.setAttribute(attributes.APPEARANCE, val);
+      if (this.state.appearance !== val) this.state.appearance = val;
     }
-    this.setTypeClass(val);
+    this.setAppearanceClass(val);
   }
 
   /**
-   * @returns {IdsButtonType} the currently set type
+   * @returns {IdsButtonAppearance} the currently set appearance
    */
-  get type(): IdsButtonType {
-    return this.state.type;
+  get appearance(): IdsButtonAppearance {
+    return this.state.appearance;
   }
 
   /**
@@ -626,22 +626,22 @@ export default class IdsButton extends Base {
   }
 
   /**
-   * Sets the correct type class on the Shadow button.
+   * Sets the correct appearance class on the ShadowRoot button.
    * @private
-   * @param {string | null} val desired type class
+   * @param {string | null} val desired appearance class
    */
-  setTypeClass(val: string | null) {
+  setAppearanceClass(val: string | null) {
     if (this.button) {
-      BUTTON_TYPES.forEach((type) => {
-        const typeClassName = `btn-${type}`;
-        if (val === type) {
-          if (type !== 'default' && !this.button?.classList.contains(typeClassName)) {
-            this.button?.classList.add(typeClassName);
+      BUTTON_APPEARANCE.forEach((app) => {
+        const appClassName = `btn-${app}`;
+        if (val === app) {
+          if (app !== 'default' && !this.button?.classList.contains(appClassName)) {
+            this.button?.classList.add(appClassName);
           }
           return;
         }
-        if (this.button?.classList.contains(typeClassName)) {
-          this.button?.classList.remove(typeClassName);
+        if (this.button?.classList.contains(appClassName)) {
+          this.button?.classList.remove(appClassName);
         }
       });
     }

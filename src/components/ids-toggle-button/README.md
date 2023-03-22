@@ -45,9 +45,9 @@ In addition to having the same states as Buttons, Toggle Buttons can also have:
 - Pressed (on)
 - Unpressed (off)
 
-### "Default" Type
+### "Default" Appearance
 
-Toggle buttons can only be displayed in the "default" button type
+Toggle buttons can only be displayed in the "default" button appearance
 
 ## Keyboard Guidelines
 
