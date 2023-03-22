@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import '../ids-text/ids-text';
@@ -12,23 +11,16 @@ import '../ids-hyperlink/ids-hyperlink';
 import styles from './ids-counts.scss';
 import type IdsText from '../ids-text/ids-text';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
-);
-
 /**
  * IDS Counts Component
  * @type {IdsCounts}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part link - the link element
  */
 @customElement('ids-counts')
 @scss(styles)
-export default class IdsCounts extends Base {
+export default class IdsCounts extends IdsEventsMixin(IdsElement) {
   constructor() {
     super();
   }
@@ -52,8 +44,7 @@ export default class IdsCounts extends Base {
     return [
       attributes.COLOR,
       attributes.COMPACT,
-      attributes.HREF,
-      attributes.MODE
+      attributes.HREF
     ];
   }
 
@@ -63,7 +54,7 @@ export default class IdsCounts extends Base {
    */
   template(): string {
     return `
-      ${this.href ? `<ids-hyperlink part="link" text-decoration="none" class="ids-counts message-text" href=${this.href} mode=${this.mode}>` : `<a class="ids-counts" mode=${this.mode}>`}
+      ${this.href ? `<ids-hyperlink part="link" text-decoration="none" class="ids-counts message-text" href=${this.href}>` : `<a class="ids-counts">`}
       <slot></slot>
       ${this.href ? `</ids-hyperlink>` : `</a>`}
     `;

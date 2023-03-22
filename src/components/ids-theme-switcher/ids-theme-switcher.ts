@@ -183,7 +183,7 @@ export default class IdsThemeSwitcher extends Base {
   set mode(value: string) {
     if (value) {
       this.theme = `default-${value}`;
-      this.triggerEvent('themechanged', this, { detail: { elem: this, mode: value } });
+      this.triggerEvent('modechanged', this, { detail: { elem: this, mode: value }, bubbles: true, composed: true });
       this.setAttribute(attributes.MODE, value);
       return;
     }
@@ -201,6 +201,7 @@ export default class IdsThemeSwitcher extends Base {
     if (value) {
       this.setAttribute(attributes.THEME, value);
       this.loadTheme(value);
+      this.triggerEvent('themechanged', this, { detail: { elem: this, mode: value }, bubbles: true, composed: true });
       return;
     }
 

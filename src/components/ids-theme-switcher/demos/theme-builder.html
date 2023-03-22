@@ -15,9 +15,9 @@
       <ids-layout-grid-cell col-span="2">
         <ids-text font-size="12" type="h1">Colors</ids-text>
         <br>
-        <ids-color-picker size="sm" label="Primary Color" suppress-labels value="#0066D4"></ids-color-picker>
-        <ids-color-picker size="sm" label="Background Color" suppress-labels value="#FFFFFF"></ids-color-picker>
-        <ids-color-picker size="sm" label="Text Color" suppress-labels value="#2F2F32"></ids-color-picker>
+        <ids-color-picker size="sm" label="Primary Color" suppress-labels value="#0066D4" id="primary-color"></ids-color-picker>
+        <ids-color-picker size="sm" label="Background Color" suppress-labels value="#FFFFFF" id="background-color"></ids-color-picker>
+        <ids-color-picker size="sm" label="Text Color" suppress-labels value="#2F2F32" id="text-color"></ids-color-picker>
       </ids-layout-grid-cell>
       <ids-layout-grid-cell col-span="10">
         <!-- Alerts -->
@@ -66,22 +66,6 @@
             <ids-hyperlink font-size="14" text-decoration="hover" disabled>Disabled Item</ids-hyperlink>
             <ids-hyperlink font-size="14" text-decoration="hover">Current Item</ids-hyperlink>
           </ids-breadcrumb>
-        </ids-layout-grid>
-
-        <!-- Checkboxes -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Checkboxes</ids-text>
-        </ids-layout-grid>
-
-        <ids-layout-grid cols="4" gap="md">
-          <ids-layout-grid-cell>
-            <ids-checkbox label="Unchecked"></ids-checkbox>
-            <ids-checkbox label="Checked" checked="true"></ids-checkbox>
-            <ids-checkbox label="Dirty tracking" dirty-tracker="true"></ids-checkbox>
-            <ids-checkbox label="Disabled and unchecked" disabled="true"></ids-checkbox>
-            <ids-checkbox label="Disabled and checked" checked="true" disabled="true"></ids-checkbox>
-            <ids-checkbox label="Required" validate="required"></ids-checkbox>
-          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Buttons -->
@@ -209,6 +193,92 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <!-- Checkboxes -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Checkboxes</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid cols="4" gap="md">
+          <ids-layout-grid-cell>
+            <ids-checkbox label="Unchecked"></ids-checkbox>
+            <ids-checkbox label="Checked" checked="true"></ids-checkbox>
+            <ids-checkbox label="Dirty tracking" dirty-tracker="true"></ids-checkbox>
+            <ids-checkbox label="Disabled and unchecked" disabled="true"></ids-checkbox>
+            <ids-checkbox label="Disabled and checked" checked="true" disabled="true"></ids-checkbox>
+            <ids-checkbox label="Required" validate="required"></ids-checkbox>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Counts -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h1">Counts</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-counts color="base" href="#">
+              <ids-text count-value>7</ids-text>
+              <ids-text count-text>Active <br /> Opportunities</ids-text>
+            </ids-counts>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-counts color="base" href="#">
+              <ids-text count-text>Open <br /> Incidents</ids-text>
+              <ids-text count-value>2</ids-text>
+            </ids-counts>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-counts color="base" href="#">
+              <ids-text count-text>Escalated <br /> Incidents</ids-text>
+              <ids-text count-value>4</ids-text>
+            </ids-counts>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-counts color="base" href="#">
+              <ids-text count-value>7</ids-text>
+              <ids-text count-text>Open <br /> Projects</ids-text>
+            </ids-counts>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-counts color="base" href="#">
+              <ids-text count-value>7</ids-text>
+              <ids-text count-text>Active <br /> Contacts</ids-text>
+            </ids-counts>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Images & Initials Banner -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h1">Images</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true" gap="lg">
+          <ids-layout-grid-cell>
+            <ids-image class="non-existant" id="e2e-fallback" src="../assets/images/non-existant.jpg" alt="image-sm non-existant" size="sm" fallback tabindex="0"></ids-image>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-image initials="mn" round tabindex="0"></ids-image>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-image initials="ab" alt="Photo of Joe" round tabindex="0"></ids-image>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-image initials="cd" alt="Photo of Joe" round user-status="available" tabindex="0"></ids-image>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-image initials="ef" alt="Photo of Joe" round user-status="away" tabindex="0"></ids-image>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-image initials="gh" alt="Photo of Joe" round user-status="busy" tabindex="0"></ids-image>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-image initials="ij" alt="Photo of Joe" round user-status="do-not-disturb" tabindex="0"></ids-image>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-image initials="lm" alt="Photo of Joe" round user-status="unknown" tabindex="0"></ids-image>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Notification Banner -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Notification Banner</ids-text>
@@ -254,6 +324,17 @@
           <ids-layout-grid-cell>
             <ids-hyperlink href="#" target="_blank">Normal Link</ids-hyperlink><br><br>
             <ids-hyperlink href="#" disabled="true" target="_blank">Disabled Link</ids-hyperlink>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Rating -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h1">Rating</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-rating value="4"></ids-rating>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 

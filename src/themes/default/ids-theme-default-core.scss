@@ -27,7 +27,7 @@
   --ids-component-border-color: var(--ids-color-slate-40);
   --ids-component-selected-background-color: var(--ids-color-primary);
   --ids-component-selected-text-color: var(--ids-color-slate-00);
-  --ids-component-hover-color: var(--ids-text-color);
+  --ids-component-hover-color: var(--ids-text-color); // rgba(0, 0, 0, .3)
   --ids-component-disabled-text-color: var(--ids-color-slate-50);
   --ids-component-lighter-disabled-text-color: var(--ids-color-slate-40);
   --ids-component-text-color: var(--ids-text-color);
@@ -161,6 +161,12 @@
   --ids-focus-ring-border-color: var(--ids-color-primary);
   --ids-focus-ring-shadow: var(--ids-shadow-md);
   --ids-focus-ring-outline: 0;
+
+  // Rating
+  --ids-rating-star-background-color: var(--ids-color-warning-04);
+
+  // Rating
+  --ids-image-initials-background-color: var(--ids-color-amethyst-50);
 
   // Cursors
   --ids-cursor-pointer: pointer;

@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import '../ids-icon/ids-icon';
@@ -11,10 +10,8 @@ import '../ids-text/ids-text';
 
 import styles from './ids-image.scss';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
+const Base = IdsEventsMixin(
+  IdsElement
 );
 
 /**
@@ -22,7 +19,6 @@ const Base = IdsThemeMixin(
  * @type {IdsImage}
  * @inherits IdsElement
  * @mixes IdsThemeMixin
- * @mixes IdsEventsMixin
  */
 @customElement('ids-image')
 @scss(styles)

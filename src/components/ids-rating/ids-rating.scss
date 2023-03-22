@@ -1,4 +1,4 @@
-@import '../../core/ids-base';
+/* Ids Rating Component */
 
 .rating {
   align-items: center;
@@ -12,45 +12,45 @@
 
 .star {
   cursor: pointer;
-  margin: 0 4px;
+  margin: 0 var(--ids-spacing-md);
 }
 
 .star[icon='star-outlined'] {
-  color: var(--ids-color-palette-graphite-50);
+  color: var(--ids-component-icon-color);
 
   &:hover {
-    color: var(--ids-color-palette-azure-60);
+    color: var(--ids-button-primary-background-color);
   }
 
   &:focus-visible {
     outline: none;
-    color: var(--ids-color-palette-azure-60);
+    color: var(--ids-focus-ring-border-color);
   }
 }
 
 .star[icon='star-filled'] {
-  color: var(--ids-color-palette-amber-60);
+  color: var(--ids-color-warning-04);
 
   &:hover {
-    color: var(--ids-color-palette-azure-60);
+    color: var(--ids-button-primary-background-color);
   }
 
   &:focus-visible {
     outline: none;
-    color: var(--ids-color-palette-azure-60);
+    color: var(--ids-focus-ring-border-color);
   }
 }
 
 .star[icon='star-half'] {
-  color: var(--ids-color-palette-amber-60);
+  color: var(--ids-color-warning-04);
 
   &:hover {
-    color: var(--ids-color-palette-azure-60);
+    color: var(--ids-focus-ring-border-color);
   }
 
   &:focus-visible {
     outline: none;
-    color: var(--ids-color-palette-azure-60);
+    color: var(--ids-focus-ring-border-color);
   }
 }
 
@@ -61,19 +61,19 @@
 
   .star[icon='star-outlined'] {
     &:hover {
-      color: var(--ids-color-palette-graphite-50);
+      color: var(--ids-component-icon-color);
     }
   }
 
   .star[icon='star-filled'] {
     &:hover {
-      color: var(--ids-color-palette-amber-60);
+      color: var(--ids-rating-star-background-color);
     }
   }
 
   .star[icon='star-half'] {
     &:hover {
-      color: var(--ids-color-palette-amber-60);
+      color: var(--ids-rating-star-background-color);
     }
   }
 }

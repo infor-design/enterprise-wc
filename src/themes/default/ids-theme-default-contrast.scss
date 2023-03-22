@@ -7,10 +7,15 @@
   --ids-color-secondary: var(--ids-color-azure-90);
   --ids-color-teriary: var(--ids-color-azure-100);
 
-  // Body Colors
+  // Body / Container
   --ids-body-background-color: var(--ids-color-slate-10);
-  --ids-subtle-text-color: var(--ids-color-slate-80);
-  --ids-disabled-text-color: var(--ids-color-slate-40);
+  --ids-body-inverse-background-color: var(--ids-color-slate-100);
+
+  // Text Color Tokens
+  --ids-text-color: var(--ids-color-slate-100);
+  --ids-inverse-text-color: var(--ids-color-slate-00);
+  --ids-subtle-text-color: var(--ids-color-slate-90);
+  --ids-disabled-text-color: var(--ids-color-slate-50);
 
   // Component Colors
   --ids-component-background-color: var(--ids-color-slate-00);
@@ -22,6 +27,7 @@
   --ids-component-disabled-text-color: var(--ids-color-slate-60);
   --ids-component-lighter-disabled-text-color: var(--ids-color-slate-40);
   --ids-component-text-color: var(--ids-color-slate-100);
+  --ids-component-icon-color: var(--ids-color-slate-100);
   --ids-component-color-inverse: var(--ids-color-slate-00);
 
   // Focus

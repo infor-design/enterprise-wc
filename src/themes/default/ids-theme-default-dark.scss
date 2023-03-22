@@ -7,15 +7,15 @@
   --ids-color-secondary: var(--ids-color-slate-70);
   --ids-color-tertiary: var(--ids-color-slate-90);
 
-  // Body Colors
+  // Body / Container
   --ids-body-background-color: var(--ids-color-slate-100);
   --ids-body-inverse-background-color: var(--ids-color-slate-00);
-  --ids-text-color: var(--ids-color-slate-00);
+
+  // Text Color Tokens
+  --ids-text-color: var(--ids-color-slate-10);
   --ids-inverse-text-color: var(--ids-color-slate-100);
-  --ids-body-heading-text-color: var(--ids-color-slate-00);
   --ids-subtle-text-color: var(--ids-color-slate-20);
   --ids-disabled-text-color: var(--ids-color-slate-40);
-  --ids-body-line-text-color: var(--ids-color-slate-60);
 
   // Component Colors
   --ids-component-background-color: var(--ids-color-slate-100);
@@ -26,16 +26,17 @@
   --ids-component-hover-color: var(--ids-color-slate-00);
   --ids-component-disabled-text-color: var(--ids-color-slate-40);
   --ids-component-lighter-disabled-text-color: var(--ids-color-slate-50);
-  --ids-component-text-color: var(--ids-color-slate-00);
-  --ids-component-color-inverse: var(--ids-color-slate-00);
+  --ids-component-text-color: var(--ids-color-slate-10);
+  --ids-component-icon-color: var(--ids-color-slate-20);
+  --ids-component-color-inverse: var(--ids-color-slate-10);
 
   // Alert Color Overrides
-  --ids-color-error-01: var(--ids-color-ruby-890);
-  --ids-color-warning-01: var(--ids-color-amber-80);
+  --ids-color-error-01: var(--ids-color-ruby-90);
+  --ids-color-warning-01: var(--ids-color-amber-90);
   --ids-color-caution-00: var(--ids-color-slate-100);
-  --ids-color-caution-01: var(--ids-color-amber-80);
-  --ids-color-info-01: var(--ids-color-azure-80);
-  --ids-color-success-01: var(--ids-color-emerald-80);
+  --ids-color-caution-01: var(--ids-color-amber-90);
+  --ids-color-info-01: var(--ids-color-azure-90);
+  --ids-color-success-01: var(--ids-color-emerald-90);
 
   // Headers
   --ids-header-gradient-opaque: rgb(0 114 237 / 1);
@@ -69,7 +70,7 @@
 
   // Tertiary Buttons
   --ids-button-tertiary-border-color: transparent;
-  --ids-button-tertiary-text-color: var(--ids-color-slate-00);
+  --ids-button-tertiary-text-color: var(--ids-color-slate-10);
   --ids-button-tertiary-focus-border-color: var(--ids-focus-ring-border-color);
   --ids-button-tertiary-hover-text-color: var(--ids-color-azure-30);
   --ids-button-tertiary-hover-background-color: var(--ids-color-tertiary);
