@@ -76,7 +76,7 @@ export default class IdsMenuButton extends IdsButton {
   set disabled(val: boolean | string) {
     super.disabled = val;
     const truthyVal = stringToBool(val);
-    this.menuEl.disabled = truthyVal;
+    if (this.menuEl) this.menuEl.disabled = truthyVal;
   }
 
   /**
