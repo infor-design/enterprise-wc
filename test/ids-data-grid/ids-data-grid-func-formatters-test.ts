@@ -438,7 +438,7 @@ describe('IdsDataGrid Component', () => {
 
       const button = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-button');
       expect(button.textContent).toContain('Button');
-      expect(button.type).toBe('tertiary');
+      expect(button.appearance).toBe('tertiary');
       expect(button.querySelector('ids-icon')).toBeFalsy();
     });
 
