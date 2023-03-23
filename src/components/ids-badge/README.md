@@ -11,9 +11,9 @@ The IDS Badge Compoment consists of a small circle containing alphanumeric or ic
 
 ## Terminology
 
-**Badge**: used to inform users of the status of an object or of an action.
-**Color**: This is the color of the badge.
-**Shape**: This is the shape of the badge. It can be round or rounded rectangle.
+- **Badge**: used to inform users of the status of an object or of an action.
+- **Color**: This is the color of the badge.
+- **Shape**: This is the shape of the badge. It can be round or rounded rectangle.
 
 ## Themeable Parts
 
