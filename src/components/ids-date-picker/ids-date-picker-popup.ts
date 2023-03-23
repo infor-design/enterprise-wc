@@ -627,19 +627,27 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
   set value(val: string | null) {
     if (!val) {
       this.#value = '';
+      this.dateValue = null;
       this.removeAttribute(attributes.VALUE);
       return;
     }
 
-    const currentValue = this.dateValue?.getUTCDate();
-    const newDate = this.getDateValue(val) as Date;
+    let newDate = this.getDateValue(val);
 
-    if (isValidDate(newDate) && newDate.getUTCDate() !== currentValue) {
-      this.#value = val;
+    if (this.useRange) {
+      const rangeSettings = this.getRangeSettings();
+      const separator = rangeSettings.separator;
+      const [start] = val.split(separator);
+      newDate = this.getDateValue(start.trim());
+    }
+
+    if (newDate && isValidDate(newDate)) {
       this.dateValue = newDate;
-      this.setAttribute(attributes.VALUE, val);
       this.syncDateAttributes(newDate);
     }
+
+    this.setAttribute(attributes.VALUE, val);
+    this.#value = val;
   }
 
   private onPicklistExpand() {

@@ -379,6 +379,7 @@ class IdsDatePicker extends Base {
     }
     this.#triggerField.locale = this.locale;
     this.#triggerField.language = this.language.name;
+    this.#triggerField.format = this.format;
     this.setDirection();
     this.#applyMask();
 
@@ -618,9 +619,27 @@ class IdsDatePicker extends Base {
    */
   #applyMask() {
     if (this.#triggerField && this.mask) {
+      const prevFormat = this.#triggerField.maskOptions.format;
+      const prevDelimeter = this.#triggerField.maskOptions.delimiter;
       this.#triggerField.mask = this.useRange ? 'rangeDate' : 'date';
       this.#triggerField.maskOptions = { format: this.format, delimiter: this.rangeSettings.separator };
-      this.#triggerField.value = this.getFormattedDate(this.dateValue ?? '');
+
+      if (this.useRange && this.value) {
+        // parse date values from range using previous format
+        const [start, end] = this.value.split(prevDelimeter || this.rangeSettings.separator).map((dateStr: string) => {
+          const parsedDate = this.localeAPI.parseDate(dateStr?.trim(), { pattern: prevFormat || this.format }) as Date;
+          return parsedDate;
+        });
+
+        // format date range in new format
+        this.#triggerField.value = [
+          this.getFormattedDate(start ?? ''),
+          this.rangeSettings.separator,
+          this.getFormattedDate(end ?? '')
+        ].join('');
+      } else {
+        this.#triggerField.value = this.getFormattedDate(this.dateValue ?? '');
+      }
     }
   }
 
