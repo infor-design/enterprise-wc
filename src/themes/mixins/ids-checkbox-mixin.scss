@@ -22,8 +22,8 @@
 
 // Checked
 @mixin checkbox-checked() {
-  background-color: var(--ids-component-selected-background-color);
-  border-color: var(--ids-component-selected-background-color);
+  background-color: var(--ids-component-primary-background-color);
+  border-color: var(--ids-component-primary-background-color);
 }
 
 @mixin checkbox-checked-after {
@@ -62,7 +62,7 @@
 
 // Disabled
 @mixin checkbox-disabled-unchecked {
-  background-color: var(--ids-component-lighter-disabled-text-color);
+  background-color: var(--ids-disabled-text-color);
   border-color: var(--ids-component-disabled-text-color);
   cursor: var(--ids-cursor-default);
 }
@@ -72,8 +72,8 @@
 }
 
 @mixin checkbox-disabled-checked($theme: light) {
-  background-color: var(--ids-component-lighter-disabled-text-color);
-  border-color: var(--ids-component-lighter-disabled-text-color);
+  background-color: var(--ids-disabled-text-color);
+  border-color: var(--ids-disabled-text-color);
 }
 
 @mixin checkbox-disabled-text {

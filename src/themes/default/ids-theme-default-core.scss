@@ -19,17 +19,18 @@
   --ids-text-color: var(--ids-color-slate-100);
   --ids-inverse-text-color: var(--ids-color-slate-00);
   --ids-subtle-text-color: var(--ids-color-slate-80);
+  --ids-label-text-color: var(--ids-color-slate-60);
   --ids-disabled-text-color: var(--ids-color-slate-40);
 
   // Components
   --ids-component-background-color: var(--ids-color-slate-00);
   --ids-component-darker-background-color: var(--ids-color-slate-20);
   --ids-component-border-color: var(--ids-color-slate-40);
+  --ids-component-darker-border-color: var(--ids-color-slate-70);
   --ids-component-selected-background-color: var(--ids-color-primary);
   --ids-component-selected-text-color: var(--ids-color-slate-00);
   --ids-component-hover-color: var(--ids-text-color); // rgba(0, 0, 0, .3)
   --ids-component-disabled-text-color: var(--ids-color-slate-50);
-  --ids-component-lighter-disabled-text-color: var(--ids-color-slate-40);
   --ids-component-text-color: var(--ids-text-color);
   --ids-component-icon-color: var(--ids-color-slate-80);
   --ids-component-color-inverse: var(--ids-color-slate-00);
@@ -92,6 +93,7 @@
 
   // Borders radii
   --ids-border-radius: 2px;
+  --ids-border-radius-sm: 4px;
   --ids-border-radius-md: 8px;
   --ids-border-radius-lg: 16px;
   --ids-border-radius-round: 50%;

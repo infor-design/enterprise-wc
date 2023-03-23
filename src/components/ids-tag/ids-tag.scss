@@ -96,11 +96,11 @@
 
     &.secondary {
       background-color: var(--ids-component-background-color);
-      border-color: var(--ids-component-lighter-disabled-text-color);
-      color: var(--ids-component-lighter-disabled-text-color);
+      border-color: var(--ids-disabled-text-color);
+      color: var(--ids-disabled-text-color);
 
       ::slotted(ids-icon) {
-        color: var(--ids-component-lighter-disabled-text-color);
+        color: var(--ids-disabled-text-color);
       }
     }
   }
@@ -133,12 +133,12 @@
 :host([disabled].multiselect-tag) {
   .ids-tag {
     background-color: var(--ids-component-background-color);
-    border-color: var(--ids-component-lighter-disabled-text-color);
-    color: var(--ids-component-lighter-disabled-text-color);
+    border-color: var(--ids-disabled-text-color);
+    color: var(--ids-disabled-text-color);
     pointer-events: none;
   }
 
   ::slotted(ids-icon) {
-    color: var(--ids-component-lighter-disabled-text-color);
+    color: var(--ids-disabled-text-color);
   }
 }

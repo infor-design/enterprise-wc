@@ -37,7 +37,7 @@ $image-sizes: (
 // theme mode
 :host .placeholder,
 .ids-image.placeholder {
-  border-color: var(--ids-component-lighter-disabled-text-color);
+  border-color: var(--ids-disabled-text-color);
 
   ids-icon {
     color: var(--ids-subtle-text-color);
