@@ -147,6 +147,9 @@ if (dataGrid) {
       const data = await res.json();
       const menuData = await menuRes.json();
 
+      // `menuData.contents` is duplicated to cause menu scrollbars in this sample
+      menuData.contents = menuData.contents.concat(menuData.contents, menuData.contents, menuData.contents);
+
       dataGrid.data = data;
       dataGrid.menuData = menuData;
       dataGrid.headerMenuData = headerMenuData;
