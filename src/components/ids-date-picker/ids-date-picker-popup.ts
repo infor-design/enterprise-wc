@@ -627,17 +627,27 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
   set value(val: string | null) {
     if (!val) {
       this.#value = '';
+      this.dateValue = null;
       this.removeAttribute(attributes.VALUE);
       return;
     }
 
-    const currentValue = new Date(this.#value).getUTCDate();
-    const newValue = new Date(val).getUTCDate();
-    if (newValue !== currentValue) {
-      this.#value = val;
-      this.setAttribute(attributes.VALUE, val);
-      this.syncDateAttributes(val);
+    let newDate = this.getDateValue(val);
+
+    if (this.useRange) {
+      const rangeSettings = this.getRangeSettings();
+      const separator = rangeSettings.separator;
+      const [start] = val.split(separator);
+      newDate = this.getDateValue(start.trim());
     }
+
+    if (newDate && isValidDate(newDate)) {
+      this.dateValue = newDate;
+      this.syncDateAttributes(newDate);
+    }
+
+    this.setAttribute(attributes.VALUE, val);
+    this.#value = val;
   }
 
   private onPicklistExpand() {
@@ -855,11 +865,11 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
   private handleDaySelectedEvent(e: CustomEvent): void {
     if (!this.monthView) return;
 
-    const inputDate: Date | number[] | undefined = this.localeAPI.parseDate(this.value, { dateFormat: this.format });
+    const currentDate = this.dateValue;
 
     // Clear action
     // Deselect the selected date by clicking to the selected date
-    if (inputDate instanceof Date && isValidDate(inputDate) && inputDate.getTime() === e.detail.date.getTime()) {
+    if (currentDate instanceof Date && isValidDate(currentDate) && currentDate.getTime() === e.detail.date.getTime()) {
       this.value = '';
       if (this.monthView.selectDay) {
         this.monthView.selectDay();
@@ -923,7 +933,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
     const { month, year } = this.monthYearPicklist;
     this.year = year;
     this.month = month;
-    this.value = this.getActiveDate().toString();
+    this.value = this.getFormattedDate(this.activeDate);
   }
 
   /**
