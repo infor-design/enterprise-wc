@@ -95,7 +95,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-multi')!;
     console.info(`Row Clicked`, (<CustomEvent>e).detail);
   });
 
-  dataGrid.addEventListener('rowdoubleclick', (e: Event) => {
-    console.info(`Row Double Clicked`, (<CustomEvent>e).detail);
+  dataGrid.addEventListener('dblclick', (e: Event) => {
+    console.info(`Double Clicked`, (<CustomEvent>e).detail);
   });
 }());

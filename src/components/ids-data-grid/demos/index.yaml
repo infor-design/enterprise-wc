@@ -77,6 +77,9 @@
   - link: disable-client-filter.html
     type: Example
     description: Shows a data grid with disable client filter
+  - link: double-click.html
+    type: Example
+    description: Showing a data grid with double click event
   - link: editable.html
     type: Example
     description: Shows a data grid with editable cells

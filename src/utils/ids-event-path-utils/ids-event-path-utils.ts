@@ -2,8 +2,8 @@
  * Extends event type with path.
  */
 export type HTMLElementEvent<T extends HTMLElement[]> = Event & {
-  path: T;
-  orignPath: T;
+  path?: T;
+  orignPath?: T;
 };
 
 /**
