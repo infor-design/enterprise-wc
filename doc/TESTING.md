@@ -83,7 +83,7 @@ We should have one visual regression image per component. When you PR a test an 
 ## Coverage
 
 - To run in coverage mode (which may take more time than just running tests alone), use the command `npm run test:coverage`
-- Open the [newly generated coverage report @ ../coverage/index.html](../coverage/index.html) in any browser
+- Open the local file `<folder>/coverage/index.html` in any browser
 - Drill in to the component in question and try and improve coverage to 100% at a minimum statements, branches, functions and lines should al be green
 - The build checks will drop if we go below 95% or the coverage decreases (working on tweaking the right values here)
 - If while inspecting the coverage report you notice a black "E" or "I", this would indicate that a connected logic branch (else or if) to the line reported is not detected as covered
