@@ -101,7 +101,7 @@ There is also an optional setting `fluid-grid-xl` which converts the grid to 16 
 For auto layout the grid cells have a min/max value of 100px and 1fr respectively. The cells will take up as much space as is available until they reach the threshold of 100px, then they will automatically shift until they reach that threshold again. This removes the need for media queries in many cases.
 
 ```html
-<ids-layout-grid auto="true">
+<ids-layout-grid auto-fit="true">
    <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
    <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
    <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
@@ -151,7 +151,7 @@ Nested Grid. An IdsLayoutGrid component can be nested inside an IdsLayoutGridCel
    <ids-layout-grid-cell row-span="2" fill="true"></ids-layout-grid-cell>
    <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
    <ids-layout-grid-cell fill="true">
-      <ids-layout-grid auto="true">
+      <ids-layout-grid auto-fit="true">
         <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
         <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
         <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
