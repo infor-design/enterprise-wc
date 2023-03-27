@@ -76,6 +76,9 @@ export default class IdsLayoutGrid extends IdsElement {
    * @param {boolean | string | null} value sets the number of columns
    */
   set cols(value: string | null) {
+    if (value !== null && value > '24') {
+      console.error('Number of columns can not exceed 24');
+    }
     if (value !== null) {
       this.setAttribute(attributes.COLS, value);
     } else {
@@ -324,6 +327,24 @@ export default class IdsLayoutGrid extends IdsElement {
    * @returns {string | null} The number value that represents the margin of the grid
    */
   get margin(): string | null { return this.getAttribute(attributes.MARGIN); }
+
+  /**
+   * Set the marginY attribute
+   * @param {string | null} value The value of the margin-y [null, 'sm', 'md', 'lg', 'xl']
+   */
+  set marginY(value: string | null) {
+    if (!value || MARGIN_SIZES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.MARGIN_Y);
+    } else {
+      this.setAttribute(attributes.MARGIN_Y, value);
+    }
+  }
+
+  /**
+   * Get the margin attribute
+   * @returns {string | null} The number value that represents the margin of the grid
+   */
+  get marginY(): string | null { return this.getAttribute(attributes.MARGIN_Y); }
 
   /**
    * Set the padding attribute
@@ -631,6 +652,10 @@ export default class IdsLayoutGrid extends IdsElement {
   private setMargin() {
     if (this.margin !== null) {
       this.classList.add(`grid-margin-${this.margin}`);
+    }
+
+    if (this.marginY !== null) {
+      this.classList.add(`grid-margin-y-${this.margin}`);
     }
   }
 

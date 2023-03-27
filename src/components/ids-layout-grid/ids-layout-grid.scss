@@ -1,18 +1,18 @@
 @import '../../core/ids-base';
 
 :host {
+  --grid-auto-row-height: 0;
+  --grid-fill-color: #efeff0;
   --min-col-width: 0;
   --max-col-width: 1fr;
   --min-row-height: 0;
   --min-row-width: 1fr;
-  --grid-auto-row-height: 0;
   --sticky-position: 0;
-  --grid-fill-color: #efeff0;
 }
 
 $spacing-unit: 8px;
-$grid-cols: 24; // Max grid cols
-$grid-rows: 50; // Max grid rows
+$grid-cols: 24;
+$grid-rows: 50;
 $grid-gap-sm: $spacing-unit;
 $grid-gap: $spacing-unit * 2;
 $grid-gap-md: $spacing-unit * 3;
@@ -79,6 +79,26 @@ $max-row-height: var(--max-row-height);
 :host(.grid.grid-margin-xl),
 .grid.grid-margin-xl {
   margin: $grid-margin-xl;
+}
+
+:host(.grid.grid-margin-sm),
+.grid.grid-margin-y-sm {
+  margin-block: $grid-margin-sm;
+}
+
+:host(.grid.grid-margin-md),
+.grid.grid-margin-y-md {
+  margin-block: $grid-margin-md;
+}
+
+:host(.grid.grid-margin-lg),
+.grid.grid-margin-y-lg {
+  margin-block: $grid-margin-lg;
+}
+
+:host(.grid.grid-margin-xl),
+.grid.grid-margin-y-xl {
+  margin-block: $grid-margin-xl;
 }
 
 :host(.grid.grid-padding-sm),

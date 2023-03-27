@@ -239,6 +239,7 @@ export const attributes = {
   LOADING_INDICATOR_ONLY: 'loading-indicator-only',
   LOCALE: 'locale',
   MARGIN: 'margin',
+  MARGIN_Y: 'margin-y',
   MARGINS: 'margins',
   MARKER_SIZE: 'marker-size',
   MASK: 'mask',

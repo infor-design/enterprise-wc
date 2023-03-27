@@ -36,6 +36,7 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 - **MaxRowHeight**: Specifies the maximum height of a row in a grid.
 - **Gap**: Specifies the size of the gap between cells in a grid.
 - **Margin**: Specifies the amount of space between a grid and its outer border.
+- **MarginY**: Specifies the amount of vertical space between a grid and its outer border.
 - **Padding**: Specifies the amount of space between a grid content and its inner border.
 - **PaddingX**: Specifies the amount of horizontal space between a grid content and its inner border.
 - **PaddingY**: Specifies the amount of vertical space between a grid and its inner border.

@@ -14,6 +14,7 @@ export const GRID_ATTRIBUTES: string[] = [
   attributes.GAP,
   attributes.JUSTIFY_CONTENT,
   attributes.MARGIN,
+  attributes.MARGIN_Y,
   attributes.MAX_COL_WIDTH,
   attributes.MIN_COL_WIDTH,
   attributes.MAX_ROW_HEIGHT,
