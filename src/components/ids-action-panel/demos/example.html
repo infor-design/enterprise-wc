@@ -8,7 +8,7 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
 
-    <ids-layout-grid auto-fit="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h1">Action Panel</ids-text>
       </ids-layout-grid-cell>
@@ -31,7 +31,7 @@
         </ids-toolbar-section>
       </ids-toolbar>
 
-      <ids-layout-grid cols="2" gap="md" min-col-width="150px">
+      <ids-layout-grid cols="2" gap="md" min-col-width="150px" padding-x="md">
         <ids-layout-grid-cell>
           <ids-dropdown id="cap-dd-company-name" label="Company Name" value="">
             <ids-list-box>
@@ -91,7 +91,7 @@
       </ids-layout-grid>
     </ids-action-panel>
 
-    <ids-layout-grid>
+    <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-column>
         <ids-button type="secondary" id="cap-trigger-btn">Open Action Panel</ids-button>
       </ids-layout-grid-column>
