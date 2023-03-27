@@ -927,13 +927,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       </td>`;
       if(typeof this.state.onDayCellRender === 'function') {
         cellTemplate = this.state.onDayCellRender(cellTemplate, dateKey);
-        document.documentElement.style.setProperty('--ids-month-view-day-selected-bg', '#F7E6BC');
-        document.documentElement.style.setProperty('--ids-month-view-day-border', '2px solid #EABA3B');
-        // document.documentElement.style.setProperty('--ids-month-view-day-selected-bg2', '#F7E6BC');
-        document.documentElement.style.setProperty('--ids-box-shadow-2', '0');
-        document.documentElement.style.setProperty('--ids-box-shadow-5', '0');
-        document.documentElement.style.setProperty('--ids-month-view-day-selected-blue', '#F7E6BC');
-        document.documentElement.style.setProperty('--ids-month-view-day-selected-hover', '#FFF9E9');
       }
         return cellTemplate;
     }).join('');
@@ -1667,24 +1660,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     }
   }
 
-  /**
-   * To render icon as per datekey.
-   * @param {Function} func
-   */
-  // public get addIconsToDayCell() {
-  //   return this.state.addIconsToDayCell;
-  // }
-  // public set addIconsToDayCell(iconKeys: any) {
-  //   // this.state.addIconsToDayCell = func;
-  //   let iconTemplate = '<ids-text>';
-  //   for (const key in iconKeys) {
-  //     if (Object.prototype.hasOwnProperty.call(iconKeys, key)) {
-  //       const element = iconKeys[key];
-  //       iconTemplate+=`<ids-icon class="icon-spacing" icon="${element.name}" height="12" width="12"></ids-icon>`
-  //     }
-  //   }
-  //   iconTemplate+=`</ids-text>`;
-  // }
   /**
    * Function that fires as the day cell is rendered.
    * @param {Function} func

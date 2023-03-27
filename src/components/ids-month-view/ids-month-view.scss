@@ -401,19 +401,15 @@
 
     &.is-selected:not(.has-legend) {
       @include bg-slate-10();
-
-      // background-color: var(--ids-month-view-day-selected-bg, var(--ids-color-palette-slate-10));
-      // border: var(--ids-month-view-day-border, 'none');
     }
 
     &.is-selected {
-      box-shadow: inset var(--ids-box-shadow-5, 0 5px 0 0) var(--ids-month-view-day-selected-blue, --ids-color-palette-azure-60);
+      box-shadow: inset 0 5px 0 0 var(--ids-color-palette-azure-60);
 
       &:not(.is-disabled):focus {
         @include border-transparent();
 
-        box-shadow: var(--ids-box-shadow-2, 0 0 2px 2px) var(--ids-month-view-day-selected-blue,rgb(54 138 192 / 0.3)), inset var(--ids-box-shadow-5, 0 5px 0 0) var(--ids-color-palette-azure-60);
-        border: var(--ids-month-view-day-border);
+        box-shadow: 0 0 2px 2px rgb(54 138 192 / 0.3), inset 0 5px 0 0 var(--ids-color-palette-azure-60);
       }
 
       &:focus {
