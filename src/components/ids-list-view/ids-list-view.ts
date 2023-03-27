@@ -15,9 +15,11 @@ import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
+import IdsListViewSearchMixin from './ids-list-view-search-mixin';
 
 import '../ids-swappable/ids-swappable';
 import '../ids-swappable/ids-swappable-item';
+import '../ids-search-field/ids-search-field';
 
 import styles from './ids-list-view.scss';
 import type IdsSwappableItem from '../ids-swappable/ids-swappable-item';
@@ -27,9 +29,11 @@ import type IdsText from '../ids-text/ids-text';
 const Base = IdsLocaleMixin(
   IdsThemeMixin(
     IdsPagerMixin(
-      IdsKeyboardMixin(
-        IdsEventsMixin(
-          IdsElement
+      IdsListViewSearchMixin(
+        IdsKeyboardMixin(
+          IdsEventsMixin(
+            IdsElement
+          )
         )
       )
     )
@@ -559,7 +563,7 @@ export default class IdsListView extends Base {
   staticScrollTemplate(): string {
     const selectable = this.selectable ? ` ${this.selectableClass()}` : '';
     return `
-      <div class="ids-list-view${selectable}">
+      <div class="ids-list-view${selectable}" mode="${this.mode}">
         <div class="ids-list-view-body" role="listbox" aria-label="${this.label}">
           ${this.sortable ? `<ids-swappable selection=${this.selectable}>` : ''}
             ${this.data?.length > 0 ? this.data.map(this.listItemTemplateFunc()).join('') : ''}
@@ -576,7 +580,7 @@ export default class IdsListView extends Base {
   virtualScrollTemplate(): string {
     const selectable = this.selectable ? ` ${this.selectableClass()}` : '';
     const html = `
-      <div class="ids-list-view${selectable}">
+      <div class="ids-list-view${selectable}" mode="${this.mode}">
         <ids-virtual-scroll
           height="${this.height}"
           item-height="${this.itemHeight}"
@@ -595,8 +599,9 @@ export default class IdsListView extends Base {
    */
   template(): string {
     return `
-    ${this.virtualScroll ? this.virtualScrollTemplate() : this.staticScrollTemplate()}
-  `;
+      ${this.searchTemplate?.()}
+      ${this.virtualScroll ? this.virtualScrollTemplate() : this.staticScrollTemplate()}
+    `;
   }
 
   /**
@@ -605,7 +610,8 @@ export default class IdsListView extends Base {
    * @returns {string} The html for this item
    */
   itemTemplate(item: any): string {
-    return injectTemplate(this.defaultTemplate, item);
+    const itm = this.searchHighlight?.(item) || item;
+    return injectTemplate(this.defaultTemplate, itm);
   }
 
   /**
@@ -768,6 +774,7 @@ export default class IdsListView extends Base {
     } else {
       this.container?.remove();
     }
+    this.searchContainer?.remove();
 
     const referenceElem: any = this.shadowRoot?.querySelector('style');
     if (referenceElem) {
@@ -800,6 +807,12 @@ export default class IdsListView extends Base {
       }
       this.#attachEventListeners();
     }
+
+    // Set searchable
+    this.setSearchable?.();
+
+    // Sync pager
+    this.pager?.sync?.apply(this);
 
     // Adjust height
     this.adjustHeight();

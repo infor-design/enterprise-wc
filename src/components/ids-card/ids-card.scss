@@ -99,6 +99,13 @@
   }
 }
 
+:host([border-less]) {
+  .ids-card {
+    border-color: transparent;
+    box-shadow: none;
+  }
+}
+
 // Actionable Link Card Styles
 :host([actionable]) ids-hyperlink {
   height: 50px;
@@ -216,7 +223,6 @@
 }
 
 .ids-card-footer {
-  @include absolute();
   @include bg-white();
   @include py-8();
   @include px-16();

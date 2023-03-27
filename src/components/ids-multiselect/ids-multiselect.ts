@@ -37,7 +37,6 @@ class IdsMultiselect extends IdsDropdown {
   connectedCallback() {
     super.connectedCallback();
     this.resetDirtyTracker();
-    this.#attachKeyboardListeners();
     this.#setOptionsData();
     this.#populateSelected();
   }
@@ -133,7 +132,7 @@ class IdsMultiselect extends IdsDropdown {
    */
   set value(value: any) {
     let matched = true;
-    if (!value) {
+    if (!Array.isArray(value) || value.length > this.max) {
       return;
     }
     value.forEach((selectedValue: string) => {
@@ -191,37 +190,39 @@ class IdsMultiselect extends IdsDropdown {
     this.offEvent('click.multiselect-input');
     if (!this.list) {
       this.onEvent('click.multiselect-input', this.input?.fieldContainer, (e: MouseEvent) => {
+        e.stopPropagation();
         // Don't open/close popup on tag removal
         const target = (e.target as IdsTag);
-        if (!target?.closest('ids-tag') && !this.dropdownList?.visible) {
-          this.dropdownList?.onTriggerClick?.(e);
+        if (!target?.closest('ids-tag')) {
+          this.labelClicked = false;
+          this.toggle(true);
         }
       });
     }
 
     if (this.tags) {
       this.offEvent('beforetagremove.multiselect-tag');
-      this.onEvent('beforetagremove.multiselect-tag', this.input, (e:any) => {
+      this.onEvent('beforetagremove.multiselect-tag', this.input?.fieldContainer, (e: CustomEvent) => {
         this.#handleTagRemove(e);
       });
     }
   }
 
   /**
-   * Establish Internal Keyboard shortcuts
-   * @returns {object} This API object for chaining
+   * Establish selection event for keyboard interactions.
+   * Overrides a similiar method from IdsDropdown for Multiselect-specific behavior.
    */
-  #attachKeyboardListeners() {
+  attachKeyboardSelectionEvent() {
+    // Select or Open on space/enter
     this.listen([' ', 'Enter'], this, () => {
-      if (!this.popup?.visible) {
-        this.open();
+      if (!this.dropdownList?.popup?.visible) return;
+      if (this.openedByKeyboard) {
+        this.openedByKeyboard = false;
         return;
       }
 
       this.#optionChecked(this.selected);
     });
-
-    return this;
   }
 
   /**

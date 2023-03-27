@@ -64,7 +64,6 @@ export default class IdsDropdownList extends Base {
     super.connectedCallback();
     this.configurePopup();
     this.attachEventHandlers();
-    this.attachKeyboardListeners();
   }
 
   disconnectedCallback() {
@@ -107,7 +106,13 @@ export default class IdsDropdownList extends Base {
     });
   }
 
-  private attachKeyboardListeners() {
+  /**
+   * Override `addOpenEvents` from IdsPopupOpenEventsMixin to include
+   * appending of some keyboard handlers
+   */
+  addOpenEvents() {
+    super.addOpenEvents();
+
     // Handles keyboard arrow navigation inside the list
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
       e.stopPropagation();
@@ -130,16 +135,12 @@ export default class IdsDropdownList extends Base {
         if (next.hasAttribute(attributes.GROUP_LABEL) && !next.nextElementSibling) return;
         this.deselectOption(selected);
         this.selectOption(next.hasAttribute(attributes.GROUP_LABEL) ? next.nextElementSibling : next);
-
-        next.focus();
       }
 
       if (e.key === 'ArrowUp' && prev) {
         if (prev.hasAttribute(attributes.GROUP_LABEL) && !prev.previousElementSibling) return;
         this.deselectOption(selected);
         this.selectOption(prev.hasAttribute(attributes.GROUP_LABEL) ? prev.previousElementSibling : prev);
-
-        prev.focus();
       }
     });
 
@@ -164,6 +165,16 @@ export default class IdsDropdownList extends Base {
         this.triggerSelectedEvent();
       });
     }
+  }
+
+  /**
+   * Override `removeOpenEvents` from IdsPopupOpenEventsMixin to include
+   * removal of some keyboard handlers
+   */
+  removeOpenEvents() {
+    super.removeOpenEvents();
+    this.unlisten(' ');
+    this.unlisten('Enter');
   }
 
   /**
@@ -268,10 +279,6 @@ export default class IdsDropdownList extends Base {
 
     if (selected && this.value) {
       this.selectOption(selected);
-
-      if (!this.typeahead) {
-        selected.focus();
-      }
     }
   }
 
@@ -350,7 +357,9 @@ export default class IdsDropdownList extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
-    const elem = this.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"], ids-list-box-option:not([value])`);
+    let selector = `ids-list-box-option[value="${value}"]`;
+    if (value === ' ' || !value) selector = `ids-list-box-option:not([value])`;
+    const elem = this.listBox?.querySelector<IdsListBoxOption>(selector);
     if (!elem) return;
 
     this.clearSelected();
@@ -393,13 +402,19 @@ export default class IdsDropdownList extends Base {
     } else {
       targetOption = option;
     }
+    if (!targetOption) return;
 
-    targetOption?.setAttribute('aria-selected', 'true');
-    targetOption?.classList.add('is-selected');
-    targetOption?.setAttribute('tabindex', '0');
+    targetOption.setAttribute('aria-selected', 'true');
+    targetOption.classList.add('is-selected');
+    targetOption.setAttribute('tabindex', '0');
+    targetOption.focus();
 
-    if (targetOption?.id) {
+    if (targetOption.id) {
       this.listBox?.setAttribute('aria-activedescendant', targetOption.id);
+    }
+
+    if (typeof targetOption.scrollIntoView === 'function') {
+      targetOption.scrollIntoView({ block: 'center' });
     }
   }
 
@@ -444,7 +459,7 @@ export default class IdsDropdownList extends Base {
    * @returns {void}
    */
   configureBlank() {
-    if (this.clearableText) this.insertBlank();
+    if (this.allowBlank) this.insertBlank();
     else this.removeBlank();
   }
 

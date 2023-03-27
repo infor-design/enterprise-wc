@@ -15,5 +15,4 @@ window.addEventListener('load', async () => {
   const listView: any = document.querySelector('ids-list-view');
   listView.pager = document.querySelector('ids-pager');
   listView.data = data;
-  listView.pageTotal = data.length;
 });

@@ -3,12 +3,14 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, IdsDirection } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { exportToCSV, exportToXLSX } from '../../utils/ids-excel-exporter/ids-excel-exporter';
 
 // Dependencies
 import IdsDataSource from '../../core/ids-data-source';
 import IdsDataGridFormatters from './ids-data-grid-formatters';
 import { editors } from './ids-data-grid-editors';
 import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid-filters';
+import { containerArguments, containerTypes } from './ids-data-grid-container-arguments';
 import { IdsDataGridContextmenuArgs, setContextmenu, getContextmenuElem } from './ids-data-grid-contextmenu';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
 
@@ -40,6 +42,7 @@ import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
 import IdsDataGridSaveSettingsMixin from './ids-data-grid-save-settings-mixin';
 import IdsDataGridTooltipMixin from './ids-data-grid-tooltip-mixin';
 import IdsDataGridCell from './ids-data-grid-cell';
+import { ExcelColumn } from '../../utils/ids-excel-exporter/ids-worksheet-templates';
 
 const Base = IdsThemeMixin(
   IdsPagerMixin(
@@ -95,16 +98,8 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Types for contextmenu.
-   * @private
    */
-  contextmenuTypes = {
-    BODY_CELL: 'body-cell',
-    BODY_CELL_EDITOR: 'body-cell-editor',
-    HEADER_TITLE: 'header-title',
-    HEADER_ICON: 'header-icon',
-    HEADER_FILTER: 'header-filter',
-    HEADER_FILTER_BUTTON: 'header-filter-button',
-  };
+  contextmenuTypes = { ...containerTypes };
 
   constructor() {
     super();
@@ -142,6 +137,7 @@ export default class IdsDataGrid extends Base {
 
     super.connectedCallback();
     this.redrawBody();
+    setContextmenu.apply(this);
     this.#attachScrollEvents();
   }
 
@@ -258,31 +254,12 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Sync pager to refresh updated dataset
-   * @private
-   * @returns {void}
-   */
-  #syncPager(): void {
-    const props = ['total', 'pageNumber', 'pageSize'];
-    const isValid = (v: any) => typeof v !== 'undefined' && v !== null;
-
-    props.forEach((prop) => {
-      const pager: any = this.pager;
-      const ds: any = this.datasource;
-      const isValidProps = isValid(pager?.[prop]) && isValid(ds?.[prop]);
-      if (this.initialized && isValidProps && pager[prop] !== ds[prop]) {
-        pager[prop] = ds[prop];
-      }
-    });
-  }
-
-  /**
    * Sync and then redraw the body section
    * @returns {void}
    */
   redrawBody() {
     this.#redrawBodyTemplate();
-    this.#syncPager();
+    this.pager?.sync?.apply(this);
   }
 
   /**
@@ -326,9 +303,6 @@ export default class IdsDataGrid extends Base {
 
     // Set Counts/Totals
     this.#updateRowCount();
-
-    // Set contextmenu
-    setContextmenu.apply(this);
 
     // Show/hide empty message
     this.toggleEmptyMessage();
@@ -396,7 +370,7 @@ export default class IdsDataGrid extends Base {
     this.resetCache();
 
     let innerHTML = '';
-    const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.NUM_ROWS) : this.data;
+    const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.MAX_ROWS) : this.data;
     for (let index = 0; index < data.length; index++) {
       innerHTML += IdsDataGridRow.template(data[index], index, index + 1, this);
     }
@@ -540,18 +514,14 @@ export default class IdsDataGrid extends Base {
       }
     });
 
-    // Add double click to the table body
-    this.offEvent('dblclick.body', body);
-    this.onEvent('dblclick.body', body, (e: MouseEvent) => {
-      const row = (e.target as HTMLElement)?.closest('.ids-data-grid-row');
-      const rowIndex: string | null | undefined = row?.getAttribute('data-index');
-
-      if (!rowIndex) return;
-
-      // Fires for each row that is double clicked
-      this.triggerEvent('rowdoubleclick', this, {
+    // Add double click to the container
+    this.offEvent('dblclick.container', this.container);
+    this.onEvent('dblclick.container', this.container, (e: MouseEvent) => {
+      this.triggerEvent('dblclick', this, {
+        bubbles: true,
         detail: {
-          elem: this, row, data: this.data[Number(rowIndex)]
+          ...containerArguments.apply(this, [e]),
+          originalEvent: e
         }
       });
     });
@@ -1065,10 +1035,37 @@ export default class IdsDataGrid extends Base {
   appendData(value: Array<Record<string, any>>) {
     if (this.virtualScroll) {
       this.datasource.data = this.data.concat(value);
+      this.#appendMissingRows();
     } else {
       this.data = this.data.concat(value);
     }
-    this.#attachScrollEvents();
+  }
+
+  /* Append missing rows for virtual-scrolling */
+  #appendMissingRows() {
+    if (!this.virtualScroll) return;
+
+    const data = this.data;
+    const rows = this.rows;
+    if (!data.length || !rows.length) return;
+
+    const { MAX_ROWS } = this.virtualScrollSettings;
+
+    const rowsNeeded = Math.min(data.length, MAX_ROWS) - rows.length;
+    const missingRows: any[] = [];
+
+    const lastRow: any = rows[rows.length - 1];
+    const lastRowIndex = lastRow?.rowIndex || 0;
+
+    while (missingRows.length < rowsNeeded) {
+      const rowIndex = lastRowIndex + missingRows.length;
+      const clonedRow = IdsDataGridRow.template(data[rowIndex], rowIndex, rowIndex + 1, this);
+      missingRows.push(clonedRow);
+    }
+
+    if (missingRows.length && this.body) {
+      this.body.innerHTML += missingRows.join('');
+    }
   }
 
   /**
@@ -1223,8 +1220,8 @@ export default class IdsDataGrid extends Base {
   get virtualScrollSettings() {
     const ENABLED = !!this.virtualScroll;
     const ROW_HEIGHT = this.rowPixelHeight || 50;
-    const NUM_ROWS = 150;
-    const BODY_HEIGHT = NUM_ROWS * ROW_HEIGHT;
+    const MAX_ROWS = 150;
+    const BODY_HEIGHT = MAX_ROWS * ROW_HEIGHT;
     const BUFFER_ROWS = 50;
     const BUFFER_HEIGHT = BUFFER_ROWS * ROW_HEIGHT;
     const RAF_DELAY = 60;
@@ -1233,7 +1230,7 @@ export default class IdsDataGrid extends Base {
     return {
       ENABLED,
       ROW_HEIGHT,
-      NUM_ROWS,
+      MAX_ROWS,
       BODY_HEIGHT,
       BUFFER_ROWS,
       BUFFER_HEIGHT,
@@ -1244,10 +1241,11 @@ export default class IdsDataGrid extends Base {
 
   /* Attach Events for global scrolling */
   #attachScrollEvents() {
+    const virtualScrollSettings = this.virtualScrollSettings;
+
     let debounceRowIndex = 0;
     this.offEvent('scroll.data-grid', this.container);
     this.onEvent('scroll.data-grid', this.container, () => {
-      const virtualScrollSettings = this.virtualScrollSettings;
       const scrollTop = this.container!.scrollTop;
       const clientHeight = this.container!.clientHeight;
 
@@ -1288,9 +1286,7 @@ export default class IdsDataGrid extends Base {
     const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BODY_HEIGHT;
 
     this.container?.style.setProperty('max-height', '95vh');
-    if (maxPaddingBottom >= 0) {
-      this.body?.style.setProperty('padding-bottom', `${maxPaddingBottom}px`);
-    }
+    this.body?.style.setProperty('padding-bottom', `${Math.max(maxPaddingBottom, 0)}px`);
 
     let debounceRowIndex = 0;
     this.offEvent('scroll.data-grid.virtual-scroll', this.container);
@@ -1367,21 +1363,22 @@ export default class IdsDataGrid extends Base {
    * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
    */
   scrollRowIntoView(rowIndex: number, doScroll = true) {
+    if (!this.virtualScroll) return;
     if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
 
     const data = this.data;
     const rows = this.rows;
+    if (!data.length || !rows.length) return;
+
+    const virtualScrollSettings = this.virtualScrollSettings;
 
     const maxRowIndex = data.length - 1;
     rowIndex = Math.max(rowIndex, 0);
     rowIndex = Math.min(rowIndex, maxRowIndex);
 
-    if (!rows.length) return;
-
     const container = this.container;
     const body = this.body;
 
-    const virtualScrollSettings = this.virtualScrollSettings;
     const firstRow: any = rows[0];
     const lastRow: any = rows[rows.length - 1];
     const firstRowIndex = firstRow.rowIndex;
@@ -1406,7 +1403,7 @@ export default class IdsDataGrid extends Base {
         if (!reachedTheBottom) {
           this.#recycleTopRowsDown(moveRowsDown);
         }
-      } else if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
+      } else if (moveRowsUp < virtualScrollSettings.MAX_ROWS) {
         this.#recycleBottomRowsUp(moveRowsUp);
       } else {
         return; // exit early because nothing to do.
@@ -1416,7 +1413,7 @@ export default class IdsDataGrid extends Base {
       // then we must figure out how many rows we must move up from the bottom to render the rowIndex row
       const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex);
 
-      if (moveRowsUp < virtualScrollSettings.NUM_ROWS) {
+      if (moveRowsUp < virtualScrollSettings.MAX_ROWS) {
         this.#recycleBottomRowsUp(moveRowsUp);
       } else {
         this.#recycleAllRows(bufferRowIndex);
@@ -1448,18 +1445,21 @@ export default class IdsDataGrid extends Base {
 
   /* Recycle the rows during scrolling */
   #recycleAllRows(topRowIndex: number) {
+    const data = this.data;
     const rows = this.rows;
-    if (!rows.length) return;
+    if (!data.length || !rows.length) return;
 
-    const veryLastIndex = this.data.length - 1;
+    const veryLastIndex = data.length - 1;
     topRowIndex = Math.min(topRowIndex, veryLastIndex);
     topRowIndex = Math.max(topRowIndex, 0);
+
+    const { MAX_ROWS } = this.virtualScrollSettings;
 
     // Using Array.every as an alternaive to using a for-loop with a break
     this.rows.every((row: any, idx) => {
       const nextRowIndex = topRowIndex + idx;
       if (nextRowIndex > veryLastIndex) {
-        const moveTheRestToTop = this.virtualScrollSettings.NUM_ROWS - idx;
+        const moveTheRestToTop = MAX_ROWS - idx;
         this.#recycleBottomRowsUp(moveTheRestToTop);
         return false;
       }
@@ -1490,7 +1490,7 @@ export default class IdsDataGrid extends Base {
     if (!rowsToMove.length) return;
 
     // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
-    if (rowsToMove.length >= this.virtualScrollSettings.NUM_ROWS) return;
+    if (rowsToMove.length >= this.virtualScrollSettings.MAX_ROWS) return;
 
     this.requestAnimationFrame(() => {
       // NOTE: body.append is faster than body.innerHTML
@@ -2384,5 +2384,88 @@ export default class IdsDataGrid extends Base {
     this.container?.querySelectorAll('ids-data-grid-cell.is-dirty').forEach((elem) => {
       elem.classList.remove('is-dirty');
     });
+  }
+
+  /**
+   * Export data grid to excel
+   * @param {string} format csv or xlsx
+   * @param {string} filename filename
+   * @param {boolean} keepGridFormatting keep grid formatting, or pass raw datasource data
+   */
+  exportToExcel(format: 'csv' | 'xlsx', filename: string, keepGridFormatting = true) {
+    const xlColumns: Record<string, ExcelColumn> = {};
+    const gridColCache: Record<string, IdsDataGridColumn> = {};
+    format = format === 'csv' || format === 'xlsx' ? format : 'xlsx';
+    keepGridFormatting = format === 'csv' ? true : keepGridFormatting;
+
+    // create excel col config from grid column config
+    this.columns.forEach((gridCol) => {
+      if (gridCol.id && gridCol.field && gridCol.name) {
+        gridColCache[gridCol.id] = gridCol;
+
+        xlColumns[gridCol.id] = {
+          id: gridCol.id,
+          field: gridCol.field,
+          name: gridCol.name,
+          type: keepGridFormatting ? 'string' : this.determineColType(gridCol)
+        };
+      }
+    });
+
+    // Get excel data from grid data source
+    const elem = document.createElement('span');
+    const xlData: Array<Record<string, any>> = !keepGridFormatting
+      ? this.datasource.data
+      : this.datasource.data.map((rowData, rowIndex) => {
+        const xlDataRow: Record<string, any> = {};
+
+        Object.keys(xlColumns).forEach((id) => {
+          const gridCol = gridColCache[id];
+          const formatter = gridCol?.formatter;
+          const isNumber = formatter === this.formatters.decimal || formatter === this.formatters.integer;
+          const rawValue = rowData[xlColumns[id].field];
+          let excelValue = rawValue;
+
+          // use grid formatted strings for non number truthy values
+          if (rawValue !== undefined && rawValue !== null && !isNumber && formatter) {
+            const formattedValue = formatter.call(this.formatters, rowData, gridCol!, rowIndex, this);
+            elem.innerHTML = formattedValue;
+            excelValue = elem.textContent?.trim();
+          }
+
+          xlDataRow[id] = excelValue;
+        });
+
+        return xlDataRow;
+      });
+
+    const exporter = format === 'csv' ? exportToCSV : exportToXLSX;
+    exporter(xlData, {
+      filename: filename || 'data-grid',
+      columns: Object.values(xlColumns)
+    });
+  }
+
+  /**
+   * Get excel data type from data grid column formattter
+   * @param {IdsDataGridColumn} gridCol grid column config
+   * @returns {string} matching excel type
+   */
+  private determineColType(gridCol: IdsDataGridColumn): string {
+    let type = 'string';
+
+    if (gridCol.formatter === this.formatters.integer || gridCol.formatter === this.formatters.decimal) {
+      type = 'number';
+    }
+
+    if (gridCol.formatter === this.formatters.date) {
+      type = 'date';
+    }
+
+    if (gridCol.formatter === this.formatters.time) {
+      type = 'time';
+    }
+
+    return type;
   }
 }

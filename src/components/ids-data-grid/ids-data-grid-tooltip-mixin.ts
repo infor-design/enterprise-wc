@@ -82,7 +82,7 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
    * @private
    * @param {MouseEvent} e The event
    */
-  async #handleTooltip(e: any) {
+  async #handleTooltip(e: MouseEvent) {
     const path = eventPath(e);
 
     // Close if previously showing
@@ -510,7 +510,7 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
       this.#mouseOut = true;
       this.#hideTooltip();
     }, 250));
-    this.onEvent('mouseover.data-grid', this.container, debounce(async (e: any) => {
+    this.onEvent('mouseover.data-grid', this.container, debounce(async (e: MouseEvent) => {
       this.#mouseOut = false;
       this.#handleTooltip(e);
     }, 250));

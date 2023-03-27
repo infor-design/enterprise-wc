@@ -59,6 +59,12 @@ class IdsDataSource {
   #flatten = false;
 
   /**
+   * If true use a filtered data representation
+   * @private
+   */
+  #filtered = false;
+
+  /**
    * Return all the currently used data, without paging or filter
    * @returns {Array | null} All the currently used data
    */
@@ -115,6 +121,16 @@ class IdsDataSource {
   /* If true a flattened data model is used */
   set flatten(value: boolean) {
     this.#flatten = value;
+  }
+
+  /* If true data is currently filtered */
+  get filtered() {
+    return this.#filtered;
+  }
+
+  /* Set filtered value */
+  set filtered(value: boolean) {
+    this.#filtered = value;
   }
 
   /**
@@ -301,6 +317,12 @@ class IdsDataSource {
       a = (a === undefined || a === null ? '' : a);
       if (typeof a === 'string') {
         a = a.toUpperCase();
+
+        // Convert number-only strings to real numbers before actual sort occurs
+        const numeric = Number(a);
+        if (a !== '' && !Number.isNaN(numeric) && Number.isFinite(numeric)) {
+          a = numeric;
+        }
       }
       return a;
     };
@@ -311,6 +333,18 @@ class IdsDataSource {
     return (a: any, b: any) => {
       a = key(a);
       b = key(b);
+
+      // Imitate how Excel sorts when comparing numbers with strings (numbers are always less than strings)
+      // The following string values will sort in this order (ascending):
+      // 1, 2, 07, 11, 1a, 22a, 2ab, a, B, c
+      if (typeof a === 'number' && typeof b === 'string' && b !== '') return ascending * -1;
+      if (typeof a === 'string' && typeof b === 'number' && a !== '') return ascending;
+
+      // an empty a always returns 1 (or 0 if equal with b)
+      if (a === '') return b === '' ? 0 : 1;
+
+      // an empty b always returns -1 (or 0 if equal with a)
+      if (b === '') return a === '' ? 0 : -1;
 
       if (typeof a !== typeof b) {
         a = a.toString().toLowerCase();
@@ -340,7 +374,7 @@ class IdsDataSource {
       updateCurrentData(this.#currentFilterData);
       this.#currentFilterData = null;
       this.#resetPrevState();
-      delete (this as any).filtered;
+      this.filtered = false;
     };
 
     // Check if need to filter or reset
@@ -363,7 +397,7 @@ class IdsDataSource {
         });
         updateCurrentData(data);
         this.#resetPrevState();
-        (this as any).filtered = true;
+        this.filtered = true;
       } else {
         resetCurrentData(); // reset, if none of filtered row found
       }

@@ -69,7 +69,8 @@ describe('IdsDataGrid Component', () => {
       id: 'ledger',
       name: 'Ledger',
       field: 'ledger',
-      formatter: formatters.text
+      formatter: formatters.text,
+      filterType: dataGrid.filters.text
     });
     cols.push({
       id: 'publishDate',
@@ -486,10 +487,10 @@ describe('IdsDataGrid Component', () => {
 
     it('contains virtualScrollSettings', () => {
       const BUFFER_ROWS = 50;
-      const NUM_ROWS = 150;
+      const MAX_ROWS = 150;
       const DEFAULT_SETTINGS = {
         BUFFER_ROWS,
-        NUM_ROWS,
+        MAX_ROWS,
         BODY_HEIGHT: 7500,
         BUFFER_HEIGHT: 2500,
         DEBOUNCE_RATE: 10,
@@ -511,7 +512,7 @@ describe('IdsDataGrid Component', () => {
         ...DEFAULT_SETTINGS,
         ENABLED: true,
         ROW_HEIGHT: 40,
-        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 40,
+        BODY_HEIGHT: DEFAULT_SETTINGS.MAX_ROWS * 40,
         BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 40,
       });
 
@@ -520,7 +521,7 @@ describe('IdsDataGrid Component', () => {
         ...DEFAULT_SETTINGS,
         ENABLED: true,
         ROW_HEIGHT: 35,
-        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 35,
+        BODY_HEIGHT: DEFAULT_SETTINGS.MAX_ROWS * 35,
         BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 35,
       });
 
@@ -529,7 +530,7 @@ describe('IdsDataGrid Component', () => {
         ...DEFAULT_SETTINGS,
         ENABLED: true,
         ROW_HEIGHT: 30,
-        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 30,
+        BODY_HEIGHT: DEFAULT_SETTINGS.MAX_ROWS * 30,
         BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 30,
       });
 
@@ -538,7 +539,7 @@ describe('IdsDataGrid Component', () => {
         ...DEFAULT_SETTINGS,
         ENABLED: true,
         ROW_HEIGHT: 30,
-        BODY_HEIGHT: DEFAULT_SETTINGS.NUM_ROWS * 30,
+        BODY_HEIGHT: DEFAULT_SETTINGS.MAX_ROWS * 30,
         BUFFER_HEIGHT: DEFAULT_SETTINGS.BUFFER_ROWS * 30,
       });
     });
@@ -555,6 +556,22 @@ describe('IdsDataGrid Component', () => {
       expect(listener).toBeCalledWith('scroll', expect.any(Function), { capture: true, passive: true });
     });
 
+    it('renders additional rows when IdsDataGrid.appendData() used', () => {
+      document.body.innerHTML = '';
+      dataGrid = new IdsDataGrid();
+      document.body.appendChild(dataGrid);
+      dataGrid.columns = columns();
+
+      expect(dataGrid.virtualScroll).toBeFalsy();
+      dataGrid.virtualScroll = true;
+      expect(dataGrid.virtualScroll).toBeTruthy();
+
+      dataGrid.data = dataset;
+      expect(dataGrid.rows.length).toBe(dataset.length);
+      dataGrid.appendData(dataset.concat(dataset));
+      expect(dataGrid.rows.length).toBe(dataset.length * 3);
+    });
+
     it.skip('can recycle cells down', async () => {
       expect(dataGrid.data).toEqual(dataset);
 
@@ -562,11 +579,11 @@ describe('IdsDataGrid Component', () => {
       dataGrid.data = productsDataset;
       expect(dataGrid.data).toEqual(productsDataset);
 
-      const { NUM_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
+      const { MAX_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
 
-      expect(dataGrid.rows.length).toBe(NUM_ROWS);
+      expect(dataGrid.rows.length).toBe(MAX_ROWS);
       expect(dataGrid.rows[0].rowIndex).toBe(0);
-      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(MAX_ROWS - 1);
 
       expect(dataGrid.container.scrollTop).toBe(0);
       // dataGrid.container.scrollTop = BUFFER_ROWS * ROW_HEIGHT;
@@ -575,7 +592,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.scrollTop).toBeGreaterThan(100);
 
       expect(dataGrid.rows[0].rowIndex).toBe(0);
-      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(MAX_ROWS - 1);
     });
 
     it.skip('can recycle cells up', async () => {
@@ -585,11 +602,11 @@ describe('IdsDataGrid Component', () => {
       dataGrid.data = productsDataset;
       expect(dataGrid.data).toEqual(productsDataset);
 
-      const { NUM_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
+      const { MAX_ROWS, BUFFER_ROWS, ROW_HEIGHT } = dataGrid.virtualScrollSettings;
 
-      expect(dataGrid.rows.length).toBe(NUM_ROWS);
+      expect(dataGrid.rows.length).toBe(MAX_ROWS);
       expect(dataGrid.rows[0].rowIndex).toBe(0);
-      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(MAX_ROWS - 1);
 
       expect(dataGrid.container.scrollTop).toBe(0);
       // dataGrid.container.scrollTop = BUFFER_ROWS * ROW_HEIGHT;
@@ -598,7 +615,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.scrollTop).toBeGreaterThan(100);
 
       expect(dataGrid.rows[0].rowIndex).toBe(0);
-      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(NUM_ROWS - 1);
+      expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(MAX_ROWS - 1);
     });
 
     it.todo('does not recycle cells down when at the bottom');
@@ -2602,30 +2619,60 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Events Tests', () => {
-    it('should fire rowclick and rowdoubleclick events', () => {
+    it('should fire rowclick event', () => {
       const clickCallback = jest.fn((e) => {
-        expect(e.detail.row?.getAttribute('data-index')).toEqual('0');
-      });
-      const dblClickCallback = jest.fn((e) => {
         expect(e.detail.row?.getAttribute('data-index')).toEqual('0');
       });
 
       dataGrid.addEventListener('rowclick', clickCallback);
-      dataGrid.addEventListener('rowdoubleclick', dblClickCallback);
 
       const firstCellInRow = dataGrid.container.querySelector('.ids-data-grid-body .ids-data-grid-cell');
       const clickEvent = new MouseEvent('click', { bubbles: true });
-      const dblClickEvent = new MouseEvent('dblclick', { bubbles: true });
 
       firstCellInRow.dispatchEvent(clickEvent);
-      firstCellInRow.dispatchEvent(dblClickEvent);
 
       // body click edge case
       const body = dataGrid.container.querySelector('.ids-data-grid-body');
       body.dispatchEvent(clickEvent);
-      body.dispatchEvent(dblClickEvent);
       expect(clickCallback.mock.calls.length).toBe(1);
-      expect(dblClickCallback.mock.calls.length).toBe(1);
+    });
+
+    it('should fire double click event', () => {
+      let elemType = '';
+      const dblClickEvent = new MouseEvent('dblclick', { bubbles: true });
+      const dblClickCallback = jest.fn((e) => {
+        expect(e.detail.type).toEqual(elemType);
+      });
+      dataGrid.addEventListener('dblclick', dblClickCallback);
+
+      elemType = 'header-title';
+      const headerTitle = dataGrid.container.querySelector('.ids-data-grid-header .ids-data-grid-header-cell');
+      headerTitle.dispatchEvent(dblClickEvent);
+
+      elemType = 'header-icon';
+      const headerIcon = dataGrid.container.querySelector('.ids-data-grid-header .ids-data-grid-header-icon');
+      headerIcon.dispatchEvent(dblClickEvent);
+
+      elemType = 'header-filter';
+      const headerFilter = dataGrid.container.querySelector('.ids-data-grid-header .ids-data-grid-header-cell-filter-wrapper');
+      headerFilter.dispatchEvent(dblClickEvent);
+
+      elemType = 'header-filter-button';
+      const headerFilterButton = dataGrid.container.querySelector('.ids-data-grid-header .ids-data-grid-header-cell-filter-wrapper [data-filter-conditions-button]');
+      headerFilterButton.dispatchEvent(dblClickEvent);
+
+      elemType = 'body-cell';
+      const bodyCell = dataGrid.container.querySelector('.ids-data-grid-body .ids-data-grid-cell');
+      bodyCell.dispatchEvent(dblClickEvent);
+
+      elemType = 'body-cell-editor';
+      dataGrid.editable = true;
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      editableCell.startCellEdit();
+      expect(editableCell.classList.contains('is-editing')).toBeTruthy();
+      editableCell.dispatchEvent(dblClickEvent);
+
+      expect(dblClickCallback.mock.calls.length).toBe(6);
     });
 
     it.skip('should fire scrollstart event', async () => {
