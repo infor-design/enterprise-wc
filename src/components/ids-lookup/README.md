@@ -29,7 +29,7 @@ If necessary you can provide your own custom modal to the lookup. When doing thi
 <ids-lookup id="custom-lookup" label="Custom Lookup">
     <ids-modal slot="lookup-modal" id="custom-lookup-modal" aria-labelledby="custom-lookup-modal-title">
     <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Custom Lookup Modal</ids-text>
-    <ids-modal-button slot="buttons" id="modal-close-btn" type="primary">
+    <ids-modal-button slot="buttons" id="modal-close-btn" appearance="primary">
         <span>Apply</span>
     </ids-modal-button>
     </ids-modal>

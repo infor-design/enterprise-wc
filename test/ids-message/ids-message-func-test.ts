@@ -17,8 +17,8 @@ const messageTitle = 'Lost Connection';
 const message = `This application has experienced a system error
   due to the lack of internet access. Please restart the application in order to proceed.`;
 const modalButtonHTML = `
-  <ids-modal-button slot="buttons" type="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>
-  <ids-modal-button slot="buttons" type="primary" id="my-message-confirm">Confirm</ids-modal-button>`;
+  <ids-modal-button slot="buttons" appearance="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>
+  <ids-modal-button slot="buttons" appearance="primary" id="my-message-confirm">Confirm</ids-modal-button>`;
 
 describe('IdsMessage Component (using properties)', () => {
   let messageEl: IdsMessage;

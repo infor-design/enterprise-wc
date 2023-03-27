@@ -26,7 +26,7 @@ The IDS Button component is a simple wrapper around a standard HTMLButtonElement
 Standalone primary buttons could be built this way:
 
 ```html
-<ids-button id="my-button" type="primary">
+<ids-button id="my-button" appearance="primary">
   <span>My Button</span>
 </ids-button>
 ```
@@ -34,7 +34,7 @@ Standalone primary buttons could be built this way:
 Add an icon to the button using the `icon` attribute:
 
 ```html
-<ids-button id="my-button" type="primary" icon="settings">
+<ids-button id="my-button" appearance="primary" icon="settings">
   <span>My Button</span>
 </ids-button>
 ```
@@ -42,14 +42,14 @@ Add an icon to the button using the `icon` attribute:
 IDS Buttons can be designed to make the icon appear by itself, without any visible text.  For accessibility reasons, descriptive text explaining the button's function should always be present.  In this scenario, the text span can have an "audible" class added, which will visually hide the text, but keep it accessible to screen readers:
 
 ```html
-<ids-button id="my-button" type="primary" icon="settings">
+<ids-button id="my-button" appearance="primary" icon="settings">
   <span class="audible">My Button</span>
 </ids-button>
 ```
 
 ### Color Variants
 
-If placing a button inside a container with a contrasting background color, sometimes the "base" styles for Ids Button types aren't adequate for passing contrast checks. To resolve this problem, the `color-variant` property can be used by way of the [IdsColorVariantMixin](../../mixins/ids-color-variant-mixin/README.md):
+If placing a button inside a container with a contrasting background color, sometimes the "base" styles for Ids Button appearances aren't adequate for passing contrast checks. To resolve this problem, the `color-variant` property can be used by way of the [IdsColorVariantMixin](../../mixins/ids-color-variant-mixin/README.md):
 
 ```html
 <!-- Generates a default (Tertiary) Button with white text and focus/hover states --->
@@ -58,12 +58,12 @@ If placing a button inside a container with a contrasting background color, some
 </ids-button>
 
 <!-- Generates a Primary Button with a slightly more bright Azure --->
-<ids-button id="my-button-2" type="primary" color-variant="alternate">
+<ids-button id="my-button-2" appearance="primary" color-variant="alternate">
   <span>My Button</span>
 </ids-button>
 
 <!-- Generates a Secondary Button with a slightly more bright Slate --->
-<ids-button id="my-button-3" type="primary" color-variant="alternate">
+<ids-button id="my-button-3" appearance="primary" color-variant="alternate">
   <span>My Button</span>
 </ids-button>
 
@@ -82,11 +82,11 @@ Standard button states include:
 - Focus
 - Active (pressed)
 - Disabled
-- Color Variant - alternate colors for each button type are available via the [IdsColorVariantMixin](../../src/mixins/ids-color-variant/README.md)
+- Color Variant - alternate colors for each button appearance are available via the [IdsColorVariantMixin](../../src/mixins/ids-color-variant/README.md)
 
-IDS button types include:
+IDS button appearances include:
 
-- `default` (not displayed as a "type" attribute when set)
+- `default` (not displayed as a "appearance" attribute when set)
 - `primary`
 - `primary-destructive`
 - `secondary`
@@ -100,7 +100,7 @@ By default, alignment of text/icons within an IDS Button will occur based on the
 The example below will result in the icon appearing after the text, even though the DOM order is the opposite:
 
 ```html
-<ids-button id="my-button" type="primary" icon="settings" icon-align="end">
+<ids-button id="my-button" appearance="primary" icon="settings" icon-align="end">
   <span>My Button</span>
 </ids-button>
 ```
@@ -113,16 +113,27 @@ The attribute has the following effects:
 | 'start'    | icon to the left of text | icon to the right of text |
 | 'end'      | icon to the right of text | icon to the left of text |
 
+### Type
+
+IdsButton's type attribute simply passes through to the Shadow Root's HTMLButtonElement and defines its usage.  For example, this is how you would define a form's `submit` button:
+
+```html
+<ids-button id="my-button" type="submit">
+  <span>My Button</span>
+</ids-button>
+```
+
 ## Settings and Attributes
 
+- `appearance` {string} The visual style defining the purpose of the button
 - `colorVariant` {'alternate' | 'alternate-formatter'} Set the variants theme styles
 - `cssClass` {Array<string> | string | null} Contains space-delimited CSS classes (or an array of CSS classes) that will be passed to the Shadow Root button
 - `disabled` {boolean} Sets the internal Button element's `disabled` property to enable/disable the button
 - `icon` {string | null} A string representing an icon to display inside the button.  This string is passed to a slotted [IdsIcon](../ids-icon/README.md) element's `icon` setting to set the desired icon type.
 - `iconAlign` {string} Defines which side to align the Button's icon against, can be 'start' or 'end'
 - `tabIndex` {string | number} Sets the internal Button element's `tabIndex` property for controlling focus
-- `text` {string} API-level method of setting a button's text content. This will become the content of the slotted text node when set.
-- `type` {string} The type/purpose of the button to display
+- `text` {string} API-level method of setting a button's text content. This will become the content of the slotted text node when set
+- `type` {string} Passes a 'type' attribute for a standard HTMLButtonElement into the IdsButton's ShadowRoot-contained button element
 - `tooltip` {string} Sets up a string based tooltip
 - `square` {boolean} whether the corners of the button as an icon-button are angled/90°
 - `width` {string} Sets width of button. Accepts percent, pixels, rem, etc.
@@ -153,7 +164,7 @@ Be conscious of the layout of content within your buttons when they are present 
 - Change class `inforFormButton` to `btn-secondary
 
 **4.x to 5.x**
-The IDS Button component is now a WebComponent.  Instead of using classes to define the type, it is done directly with a "type" attribute:
+The IDS Button component is now a WebComponent.  Instead of using classes to define a button's purpose or visual style, it's now done directly with an "appearance" attribute:
 
 ```html
 <!-- 4.x button example -->
@@ -165,12 +176,12 @@ The IDS Button component is now a WebComponent.  Instead of using classes to def
 </button>
 
 <!-- this is the same button using the WebComponent -->
-<ids-button id="my-button" type="primary" icon="settings">
+<ids-button id="my-button" appearance="primary" icon="settings">
   <span>My Button</span>
 </ids-button>
 ```
 
-- Markup has changed to a custom element `<ids-button id="my-button" type="primary"></ids-button>`
+- Markup has changed to a custom element `<ids-button id="my-button" appearance="primary"></ids-button>`
 - Can now be imported as a single JS file and used with encapsulated styles.
-- Some button properties are now attributes - "type", "text", "icon", "disabled", etc.
+- Some button properties are now attributes - "appearance", "text", "icon", "disabled", etc.
 - Some components now extend IdsButton, such as [IdsToggleButton](../ids-toggle-button/README.md) and [IdsMenuButton](../ids-menu-button/README.md)...

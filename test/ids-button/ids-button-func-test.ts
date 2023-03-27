@@ -43,7 +43,7 @@ describe('IdsButton Component', () => {
     elem.disabled = true;
     elem.icon = 'add';
     elem.text = 'test';
-    elem.state.type = 'icon';
+    elem.state.appearance = 'icon';
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
@@ -175,35 +175,35 @@ describe('IdsButton Component', () => {
     expect(btn.button?.classList.contains('four')).toBeFalsy();
   });
 
-  it('can change its type', () => {
-    btn.type = 'primary';
+  it('can change its appearance', () => {
+    btn.appearance = 'primary';
 
-    expect(btn.getAttribute('type')).toBe('primary');
-    expect(btn.type).toBe('primary');
+    expect(btn.getAttribute('appearance')).toBe('primary');
+    expect(btn.appearance).toBe('primary');
     expect(btn.button?.classList.contains('btn-primary')).toBeTruthy();
-    expect(btn.state.type).toBe('primary');
+    expect(btn.state.appearance).toBe('primary');
 
-    btn.type = 'secondary';
+    btn.appearance = 'secondary';
 
-    expect(btn.getAttribute('type')).toBe('secondary');
-    expect(btn.type).toBe('secondary');
+    expect(btn.getAttribute('appearance')).toBe('secondary');
+    expect(btn.appearance).toBe('secondary');
     expect(btn.button?.classList.contains('btn-secondary')).toBeTruthy();
-    expect(btn.state.type).toBe('secondary');
+    expect(btn.state.appearance).toBe('secondary');
 
-    btn.type = 'tertiary';
+    btn.appearance = 'tertiary';
 
-    expect(btn.getAttribute('type')).toBe('tertiary');
-    expect(btn.type).toBe('tertiary');
+    expect(btn.getAttribute('appearance')).toBe('tertiary');
+    expect(btn.appearance).toBe('tertiary');
     expect(btn.button?.classList.contains('btn-tertiary')).toBeTruthy();
-    expect(btn.state.type).toBe('tertiary');
+    expect(btn.state.appearance).toBe('tertiary');
 
     // Default buttons don't have additional styles
-    btn.type = 'default';
+    btn.appearance = 'default';
 
-    expect(btn.getAttribute('type')).toBe(null);
-    expect(btn.type).toBe('default');
+    expect(btn.getAttribute('appearance')).toBe(null);
+    expect(btn.appearance).toBe('default');
     expect(btn.button?.classList.contains('default')).toBeFalsy();
-    expect(btn.state.type).toBe('default');
+    expect(btn.state.appearance).toBe('default');
   });
 
   it('can change its text via attribute', () => {
@@ -279,7 +279,7 @@ describe('IdsButton Component', () => {
     btn.icon = 'check';
     btn.disabled = true;
     btn.tabIndex = -1;
-    btn.type = 'secondary';
+    btn.appearance = 'secondary';
     btn.cssClass = ['awesome'];
     btn.iconAlign = 'end';
 
@@ -344,5 +344,12 @@ describe('IdsButton Component', () => {
       values: ['alternate'],
       defaultValue: null
     });
+  });
+
+  it('can set a type attribute on its inner button', () => {
+    btn.type = 'submit';
+    expect(btn.type).toBe('submit');
+    expect(btn.getAttribute('type')).toBe('submit');
+    expect(btn.container?.getAttribute('type')).toBe('submit');
   });
 });

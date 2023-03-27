@@ -95,7 +95,7 @@ export default class IdsAbout extends Base {
    * Reusing ids-modal-button component with cancel attribute and extra css class to change appearance
    */
   #attachCloseButton() {
-    const element = `<ids-modal-button cancel slot="buttons" type="tertiary" css-class="ids-icon-button ids-modal-icon-button">
+    const element = `<ids-modal-button cancel slot="buttons" appearance="tertiary" css-class="ids-icon-button ids-modal-icon-button">
       <span class="audible">Close modal</span>
       <ids-icon icon="close"></ids-icon>
     </ids-modal-button>`;
