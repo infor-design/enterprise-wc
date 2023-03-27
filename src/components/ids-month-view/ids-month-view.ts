@@ -927,6 +927,13 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       </td>`;
       if(typeof this.state.onDayCellRender === 'function') {
         cellTemplate = this.state.onDayCellRender(cellTemplate, dateKey);
+        document.documentElement.style.setProperty('--ids-month-view-day-selected-bg', '#F7E6BC');
+        document.documentElement.style.setProperty('--ids-month-view-day-selected-blue', '#F7E6BC');
+        document.documentElement.style.setProperty('--ids-month-view-day-border', '2px solid #EABA3B');
+        // document.documentElement.style.setProperty('--ids-month-view-day-selected-bg2', '#F7E6BC');
+        // document.documentElement.style.setProperty('--ids-box-shadow-2', '0');
+        // document.documentElement.style.setProperty('--ids-box-shadow-5', '0');
+        document.documentElement.style.setProperty('--ids-month-view-day-selected-hover', '#FFF9E9');
       }
         return cellTemplate;
     }).join('');
@@ -961,10 +968,17 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    */
   #renderMonth(): void {
     const weeksCount = this.#isDisplayRange()
-    ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
-    : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.localeAPI?.isIslamic());
-
+      ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
+      : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.localeAPI?.isIslamic());
+      // document.documentElement.style.setProperty('--ids-box-shadow-2', '2px');
+      // document.documentElement.style.setProperty('--ids-box-shadow-5', '5px');
+    document.documentElement.style.setProperty('--ids-month-view-day-selected-bg', '#EFEFF0');
+    document.documentElement.style.setProperty('--ids-month-view-day-border', '');
+    // document.documentElement.style.setProperty('--ids-month-view-day-selected-blue', '--ids-color-palette-azure-60');
+    document.documentElement.style.setProperty('--ids-month-view-day-selected-bg2', 'rgb(54 138 192 / 0.3)');
+    document.documentElement.style.setProperty('--ids-month-view-day-selected-hover', 'rgb(240 240 240 / 0.5)');
     this.triggerEvent('beforerendermonth', this, { bubbles: true, composed: true });
+
     const rowsTemplate = Array.from({ length: weeksCount }).map((_, weekIndex) => `<tr>${this.#getCellTemplate(weekIndex)}</tr>`).join('');
 
     // Clear/add HTML
@@ -1654,12 +1668,33 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     }
   }
 
+  /**
+   * To render icon as per datekey.
+   * @param {Function} func
+   */
+  // public get addIconsToDayCell() {
+  //   return this.state.addIconsToDayCell;
+  // }
+  // public set addIconsToDayCell(iconKeys: any) {
+  //   // this.state.addIconsToDayCell = func;
+  //   let iconTemplate = '<ids-text>';
+  //   for (const key in iconKeys) {
+  //     if (Object.prototype.hasOwnProperty.call(iconKeys, key)) {
+  //       const element = iconKeys[key];
+  //       iconTemplate+=`<ids-icon class="icon-spacing" icon="${element.name}" height="12" width="12"></ids-icon>`
+  //     }
+  //   }
+  //   iconTemplate+=`</ids-text>`;
+  // }
+  /**
+   * Function that fires as the day cell is rendered.
+   * @param {Function} func
+   */
   public get onDayCellRender() {
     return this.state.onDayCellRender;
   }
-
-  public set onDayCellRender(fun) {
-    this.state.onDayCellRender = fun;
+  public set onDayCellRender(func) {
+    this.state.onDayCellRender = func;
   }
 
   /**
