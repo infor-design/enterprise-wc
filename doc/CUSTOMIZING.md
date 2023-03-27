@@ -1,7 +1,7 @@
 # Customizing IDS Web Components
 
-IDS Web Components are designed according to IDS Guidelines. The latest version includes the newest default design out of the box and should blend well in any Infor Application or Application in general. However, we provide a few ways to customize the look and behavior of
-components to assist with your applications design. This page outlines the ways you can customize the components.
+IDS Web Components are designed according to IDS Guidelines. The latest version includes the newest default design out of the box and should blend well in any Infor Application or Application in general. We also provide a lot of options for customization within each component, so check the component docs for the various settings. However, we also have a few ways to customize the look and behavior of
+components to further assist with your application's needs. This page outlines the ways you can customize the components beyond the built in look and settings.
 
 ## Slots
 
