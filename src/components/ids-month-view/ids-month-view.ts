@@ -928,11 +928,11 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       if(typeof this.state.onDayCellRender === 'function') {
         cellTemplate = this.state.onDayCellRender(cellTemplate, dateKey);
         document.documentElement.style.setProperty('--ids-month-view-day-selected-bg', '#F7E6BC');
-        document.documentElement.style.setProperty('--ids-month-view-day-selected-blue', '#F7E6BC');
         document.documentElement.style.setProperty('--ids-month-view-day-border', '2px solid #EABA3B');
         // document.documentElement.style.setProperty('--ids-month-view-day-selected-bg2', '#F7E6BC');
-        // document.documentElement.style.setProperty('--ids-box-shadow-2', '0');
-        // document.documentElement.style.setProperty('--ids-box-shadow-5', '0');
+        document.documentElement.style.setProperty('--ids-box-shadow-2', '0');
+        document.documentElement.style.setProperty('--ids-box-shadow-5', '0');
+        document.documentElement.style.setProperty('--ids-month-view-day-selected-blue', '#F7E6BC');
         document.documentElement.style.setProperty('--ids-month-view-day-selected-hover', '#FFF9E9');
       }
         return cellTemplate;
@@ -972,10 +972,9 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.localeAPI?.isIslamic());
       // document.documentElement.style.setProperty('--ids-box-shadow-2', '2px');
       // document.documentElement.style.setProperty('--ids-box-shadow-5', '5px');
-    document.documentElement.style.setProperty('--ids-month-view-day-selected-bg', '#EFEFF0');
-    document.documentElement.style.setProperty('--ids-month-view-day-border', '');
-    // document.documentElement.style.setProperty('--ids-month-view-day-selected-blue', '--ids-color-palette-azure-60');
-    document.documentElement.style.setProperty('--ids-month-view-day-selected-bg2', 'rgb(54 138 192 / 0.3)');
+    // document.documentElement.style.setProperty('--ids-month-view-day-selected-bg', '#EFEFF0');
+    // document.documentElement.style.setProperty('--ids-month-view-day-border', '');
+    // document.documentElement.style.setProperty('--ids-month-view-day-selected-bg2', 'rgb(54 138 192 / 0.3)');
     document.documentElement.style.setProperty('--ids-month-view-day-selected-hover', 'rgb(240 240 240 / 0.5)');
     this.triggerEvent('beforerendermonth', this, { bubbles: true, composed: true });
 
