@@ -125,24 +125,26 @@ export const PADDING_SIZES: Array<IdsGridPadding> = [
   'xl'
 ];
 
+export const prefix = 'ids-layout-grid';
+
 export const gridSizes = [
-  { size: 'cols', className: 'grid-cols' },
-  { size: 'colsXs', className: 'grid-cols-xs' },
-  { size: 'colsSm', className: 'grid-cols-sm' },
-  { size: 'colsMd', className: 'grid-cols-md' },
-  { size: 'colsLg', className: 'grid-cols-lg' },
-  { size: 'colsXl', className: 'grid-cols-xl' },
-  { size: 'colsXxl', className: 'grid-cols-xxl' }
+  { size: 'cols', className: `${prefix}-cols` },
+  { size: 'colsXs', className: `${prefix}-cols-xs` },
+  { size: 'colsSm', className: `${prefix}-cols-sm` },
+  { size: 'colsMd', className: `${prefix}-cols-md` },
+  { size: 'colsLg', className: `${prefix}-cols-lg` },
+  { size: 'colsXl', className: `${prefix}-cols-xl` },
+  { size: 'colsXxl', className: `${prefix}-cols-xxl` }
 ];
 
 export const rowSizes = [
-  { size: 'rows', className: 'grid-rows' },
-  { size: 'rowsXs', className: 'grid-rows-xs' },
-  { size: 'rowsSm', className: 'grid-rows-sm' },
-  { size: 'rowsMd', className: 'grid-rows-md' },
-  { size: 'rowsLg', className: 'grid-rows-lg' },
-  { size: 'rowsXl', className: 'grid-rows-xl' },
-  { size: 'rowsXxl', className: 'grid-rows-xxl' }
+  { size: 'rows', className: `${prefix}-rows` },
+  { size: 'rowsXs', className: `${prefix}-rows-xs` },
+  { size: 'rowsSm', className: `${prefix}-rows-sm` },
+  { size: 'rowsMd', className: `${prefix}-rows-md` },
+  { size: 'rowsLg', className: `${prefix}-rows-lg` },
+  { size: 'rowsXl', className: `${prefix}-rows-xl` },
+  { size: 'rowsXxl', className: `${prefix}-rows-xxl` }
 ];
 
 export const minMaxWidths = [
@@ -156,53 +158,53 @@ export const minMaxRowHeights = [
 ];
 
 export const colSpanSizes = [
-  { size: 'colSpan', className: 'col-span' },
-  { size: 'colSpanXs', className: 'col-span-xs' },
-  { size: 'colSpanSm', className: 'col-span-sm' },
-  { size: 'colSpanMd', className: 'col-span-md' },
-  { size: 'colSpanLg', className: 'col-span-lg' },
-  { size: 'colSpanXl', className: 'col-span-xl' },
-  { size: 'colSpanXxl', className: 'col-span-xxl' }
+  { size: 'colSpan', className: `${prefix}-col-span` },
+  { size: 'colSpanXs', className: `${prefix}-col-span-xs` },
+  { size: 'colSpanSm', className: `${prefix}-col-span-sm` },
+  { size: 'colSpanMd', className: `${prefix}-col-span-md` },
+  { size: 'colSpanLg', className: `${prefix}-col-span-lg` },
+  { size: 'colSpanXl', className: `${prefix}-col-span-xl` },
+  { size: 'colSpanXxl', className: `${prefix}-col-span-xxl` }
 ];
 
 export const colStartSizes = [
-  { size: 'colStart', className: 'col-start' },
-  { size: 'colStartXs', className: 'col-start-xs' },
-  { size: 'colStartSm', className: 'col-start-sm' },
-  { size: 'colStartMd', className: 'col-start-md' },
-  { size: 'colStartLg', className: 'col-start-lg' },
-  { size: 'colStartXl', className: 'col-start-xl' },
-  { size: 'colStartXxl', className: 'col-start-xxl' }
+  { size: 'colStart', className: `${prefix}-col-start` },
+  { size: 'colStartXs', className: `${prefix}-col-start-xs` },
+  { size: 'colStartSm', className: `${prefix}-col-start-sm` },
+  { size: 'colStartMd', className: `${prefix}-col-start-md` },
+  { size: 'colStartLg', className: `${prefix}-col-start-lg` },
+  { size: 'colStartXl', className: `${prefix}-col-start-xl` },
+  { size: 'colStartXxl', className: `${prefix}-col-start-xxl` }
 ];
 
 export const colEndSizes = [
-  { size: 'colEnd', className: 'col-end' },
-  { size: 'colEndXs', className: 'col-end-xs' },
-  { size: 'colEndSm', className: 'col-end-sm' },
-  { size: 'colEndMd', className: 'col-end-md' },
-  { size: 'colEndLg', className: 'col-end-lg' },
-  { size: 'colEndXl', className: 'col-end-xl' },
-  { size: 'colEndXxl', className: 'col-end-xxl' }
+  { size: 'colEnd', className: `${prefix}-col-end` },
+  { size: 'colEndXs', className: `${prefix}-col-end-xs` },
+  { size: 'colEndSm', className: `${prefix}-col-end-sm` },
+  { size: 'colEndMd', className: `${prefix}-col-end-md` },
+  { size: 'colEndLg', className: `${prefix}-col-end-lg` },
+  { size: 'colEndXl', className: `${prefix}-col-end-xl` },
+  { size: 'colEndXxl', className: `${prefix}-col-end-xxl` }
 ];
 
 export const orderSizes = [
-  { size: 'order', className: 'order' },
-  { size: 'orderXs', className: 'order-xs' },
-  { size: 'orderSm', className: 'order-sm' },
-  { size: 'orderMd', className: 'order-md' },
-  { size: 'orderLg', className: 'order-lg' },
-  { size: 'orderXl', className: 'order-xl' },
-  { size: 'orderXxl', className: 'order-xxl' }
+  { size: 'order', className: `${prefix}-order` },
+  { size: 'orderXs', className: `${prefix}-order-xs` },
+  { size: 'orderSm', className: `${prefix}-order-sm` },
+  { size: 'orderMd', className: `${prefix}-order-md` },
+  { size: 'orderLg', className: `${prefix}-order-lg` },
+  { size: 'orderXl', className: `${prefix}-order-xl` },
+  { size: 'orderXxl', className: `${prefix}-order-xxl` }
 ];
 
 export const rowSpanSizes = [
-  { size: 'rowSpan', className: 'row-span' },
-  { size: 'rowSpanXs', className: 'row-span-xs' },
-  { size: 'rowSpanSm', className: 'row-span-sm' },
-  { size: 'rowSpanMd', className: 'row-span-md' },
-  { size: 'rowSpanLg', className: 'row-span-lg' },
-  { size: 'rowSpanXl', className: 'row-span-xl' },
-  { size: 'rowSpanXxl', className: 'row-span-xxl' }
+  { size: 'rowSpan', className: `${prefix}-row-span` },
+  { size: 'rowSpanXs', className: `${prefix}-row-span-xs` },
+  { size: 'rowSpanSm', className: `${prefix}-row-span-sm` },
+  { size: 'rowSpanMd', className: `${prefix}-row-span-md` },
+  { size: 'rowSpanLg', className: `${prefix}-row-span-lg` },
+  { size: 'rowSpanXl', className: `${prefix}-row-span-xl` },
+  { size: 'rowSpanXxl', className: `${prefix}-row-span-xxl` }
 ];
 
 export const addClasses = (element: any, obj: any) => {

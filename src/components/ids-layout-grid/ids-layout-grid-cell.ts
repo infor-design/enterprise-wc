@@ -14,6 +14,7 @@ import {
   orderSizes,
   rowSpanSizes,
   addClasses,
+  prefix
 } from './ids-layout-grid-common';
 
 const Base = IdsEventsMixin(
@@ -871,7 +872,7 @@ export default class IdsLayoutGridCell extends Base {
   }
 
   private settings() {
-    this.classList.add('grid-cell');
+    this.classList.add(`${prefix}-cell`);
     this.setColSpan();
     this.setColStart();
     this.setColEnd();
@@ -906,7 +907,7 @@ export default class IdsLayoutGridCell extends Base {
 
   private setSticky() {
     if (this.sticky === true) {
-      this.classList.add('sticky');
+      this.classList.add(`${prefix}-sticky`);
       this.style.setProperty('--sticky-position', '0');
     }
   }

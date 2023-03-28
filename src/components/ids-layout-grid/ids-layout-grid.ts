@@ -16,7 +16,8 @@ import {
   minMaxWidths,
   minMaxRowHeights,
   addClasses,
-  addStyleProperty
+  addStyleProperty,
+  prefix
 } from './ids-layout-grid-common';
 
 /**
@@ -612,7 +613,7 @@ export default class IdsLayoutGrid extends IdsElement {
   }
 
   private settings() {
-    this.classList.add('grid');
+    this.classList.add(`${prefix}`);
     this.setColumns();
     this.setRows();
     this.setMinMaxWidth();
@@ -645,62 +646,62 @@ export default class IdsLayoutGrid extends IdsElement {
 
   private setGap() {
     if (this.gap !== null) {
-      this.classList.add(`grid-gap-${this.gap}`);
+      this.classList.add(`${prefix}-gap-${this.gap}`);
     }
   }
 
   private setMargin() {
     if (this.margin !== null) {
-      this.classList.add(`grid-margin-${this.margin}`);
+      this.classList.add(`${prefix}-margin-${this.margin}`);
     }
 
     if (this.marginY !== null) {
-      this.classList.add(`grid-margin-y-${this.margin}`);
+      this.classList.add(`${prefix}-margin-y-${this.margin}`);
     }
   }
 
   private setPadding() {
     if (this.padding !== null) {
-      this.classList.add(`grid-padding-${this.padding}`);
+      this.classList.add(`${prefix}-padding-${this.padding}`);
     }
 
     if (this.paddingX !== null) {
-      this.classList.add(`grid-padding-x-${this.paddingX}`);
+      this.classList.add(`${prefix}-padding-x-${this.paddingX}`);
     }
 
     if (this.paddingY !== null) {
-      this.classList.add(`grid-padding-y-${this.paddingY}`);
+      this.classList.add(`${prefix}-padding-y-${this.paddingY}`);
     }
   }
 
   private setAutoFit() {
     if (this.autoFit) {
-      this.classList.add('grid-auto-fit');
+      this.classList.add(`${prefix}-auto-fit`);
     }
   }
 
   private setAutoFill() {
     if (this.autoFill) {
-      this.classList.add('grid-auto-fill');
+      this.classList.add(`${prefix}-auto-fill`);
     }
   }
 
   private setFlow() {
     if (this.flow !== null) {
-      this.classList.add(`grid-flow-${this.flow}`);
+      this.classList.add(`${prefix}-flow-${this.flow}`);
     }
   }
 
   private setRowHeight() {
     if (this.rowHeight !== null) {
-      this.classList.add('grid-auto-row-height');
+      this.classList.add(`${prefix}-auto-row-height`);
       this.style.setProperty('--grid-auto-row-height', this.rowHeight);
     }
   }
 
   private setJustify() {
     if (this.justifyContent !== null) {
-      this.classList.add(`justify-content-${this.justifyContent}`);
+      this.classList.add(`${prefix}-justify-${this.justifyContent}`);
     }
   }
 

@@ -33,261 +33,261 @@ $max-col-width: var(--max-col-width);
 $min-row-height: var(--min-row-height);
 $max-row-height: var(--max-row-height);
 
-:host(.grid),
-.grid {
+:host(.ids-layout-grid),
+.ids-layout-grid {
   display: grid;
   grid-gap: $grid-gap;
   justify-content: start;
   box-sizing: border-box;
 }
 
-:host(.grid.grid-gap-sm),
-.grid.grid-gap-sm {
+:host(.ids-layout-grid.ids-layout-grid-gap-sm),
+.ids-layout-grid.ids-layout-grid-gap-sm {
   grid-gap: $grid-gap-sm;
 }
 
-:host(.grid.grid-gap-md),
-.grid.grid-gap-md {
+:host(.ids-layout-grid.ids-layout-grid-gap-md),
+.ids-layout-grid.ids-layout-grid-gap-md {
   grid-gap: $grid-gap-md;
 }
 
-:host(.grid.grid-gap-lg),
-.grid.grid-gap-lg {
+:host(.ids-layout-grid.ids-layout-grid-gap-lg),
+.ids-layout-grid.ids-layout-grid-gap-lg {
   grid-gap: $grid-gap-lg;
 }
 
-:host(.grid.grid-gap-xl),
-.grid.grid-gap-xl {
+:host(.ids-layout-grid.ids-layout-grid-gap-xl),
+.ids-layout-grid.ids-layout-grid-gap-xl {
   grid-gap: $grid-gap-xl;
 }
 
-:host(.grid.grid-margin-sm),
-.grid.grid-margin-sm {
+:host(.ids-layout-grid.ids-layout-grid-margin-sm),
+.ids-layout-grid.ids-layout-grid-margin-sm {
   margin: $grid-margin-sm;
 }
 
-:host(.grid.grid-margin-md),
-.grid.grid-margin-md {
+:host(.ids-layout-grid.ids-layout-grid-margin-md),
+.ids-layout-grid.ids-layout-grid-margin-md {
   margin: $grid-margin-md;
 }
 
-:host(.grid.grid-margin-lg),
-.grid.grid-margin-lg {
+:host(.ids-layout-grid.ids-layout-grid-margin-lg),
+.ids-layout-grid.ids-layout-grid-margin-lg {
   margin: $grid-margin-lg;
 }
 
-:host(.grid.grid-margin-xl),
-.grid.grid-margin-xl {
+:host(.ids-layout-grid.ids-layout-grid-margin-xl),
+.ids-layout-grid.ids-layout-grid-margin-xl {
   margin: $grid-margin-xl;
 }
 
-:host(.grid.grid-margin-sm),
-.grid.grid-margin-y-sm {
+:host(.ids-layout-grid.ids-layout-grid-margin-sm),
+.ids-layout-grid.ids-layout-grid-margin-y-sm {
   margin-block: $grid-margin-sm;
 }
 
-:host(.grid.grid-margin-md),
-.grid.grid-margin-y-md {
+:host(.ids-layout-grid.ids-layout-grid-margin-md),
+.ids-layout-grid.ids-layout-grid-margin-y-md {
   margin-block: $grid-margin-md;
 }
 
-:host(.grid.grid-margin-lg),
-.grid.grid-margin-y-lg {
+:host(.ids-layout-grid.ids-layout-grid-margin-lg),
+.ids-layout-grid.ids-layout-grid-margin-y-lg {
   margin-block: $grid-margin-lg;
 }
 
-:host(.grid.grid-margin-xl),
-.grid.grid-margin-y-xl {
+:host(.ids-layout-grid.ids-layout-grid-margin-xl),
+.ids-layout-grid.ids-layout-grid-margin-y-xl {
   margin-block: $grid-margin-xl;
 }
 
-:host(.grid.grid-padding-sm),
-.grid.grid-padding-sm {
+:host(.ids-layout-grid.ids-layout-grid-padding-sm),
+.ids-layout-grid.ids-layout-grid-padding-sm {
   padding: $grid-padding-sm;
 }
 
-:host(.grid.grid-padding-md),
-.grid.grid-padding-md {
+:host(.ids-layout-grid.ids-layout-grid-padding-md),
+.ids-layout-grid.ids-layout-grid-padding-md {
   padding: $grid-padding-md;
 }
 
-:host(.grid.grid-padding-lg),
-.grid.grid-padding-lg {
+:host(.ids-layout-grid.ids-layout-grid-padding-lg),
+.ids-layout-grid.ids-layout-grid-padding-lg {
   padding: $grid-padding-lg;
 }
 
-:host(.grid.grid-padding-xl),
-.grid.grid-padding-xl {
+:host(.ids-layout-grid.ids-layout-grid-padding-xl),
+.ids-layout-grid.ids-layout-grid-padding-xl {
   padding: $grid-padding-xl;
 }
 
-:host(.grid.grid-padding-x-sm),
-.grid.grid-padding-x-sm {
+:host(.ids-layout-grid.ids-layout-grid-padding-x-sm),
+.ids-layout-grid.ids-layout-grid-padding-x-sm {
   padding-inline: $grid-padding-sm;
 }
 
-:host(.grid.grid-padding-x-md),
-.grid.grid-padding-x-md {
+:host(.ids-layout-grid.ids-layout-grid-padding-x-md),
+.ids-layout-grid.ids-layout-grid-padding-x-md {
   padding-inline: $grid-padding-md;
 }
 
-:host(.grid.grid-padding-x-lg),
-.grid.grid-padding-x-lg {
+:host(.ids-layout-grid.ids-layout-grid-padding-x-lg),
+.ids-layout-grid.ids-layout-grid-padding-x-lg {
   padding-inline: $grid-padding-lg;
 }
 
-:host(.grid.grid-padding-x-xl),
-.grid.grid-padding-x-xl {
+:host(.ids-layout-grid.ids-layout-grid-padding-x-xl),
+.ids-layout-grid.ids-layout-grid-padding-x-xl {
   padding-inline: $grid-padding-xl;
 }
 
-:host(.grid.grid-padding-y-sm),
-.grid.grid-padding-y-sm {
+:host(.ids-layout-grid.ids-layout-grid-padding-y-sm),
+.ids-layout-grid.ids-layout-grid-padding-y-sm {
   padding-block: $grid-padding-sm;
 }
 
-:host(.grid.grid-padding-y-md),
-.grid.grid-padding-y-md {
+:host(.ids-layout-grid.ids-layout-grid-padding-y-md),
+.ids-layout-grid.ids-layout-grid-padding-y-md {
   padding-block: $grid-padding-md;
 }
 
-:host(.grid.grid-padding-y-lg),
-.grid.grid-padding-y-lg {
+:host(.ids-layout-grid.ids-layout-grid-padding-y-lg),
+.ids-layout-grid.ids-layout-grid-padding-y-lg {
   padding-block: $grid-padding-lg;
 }
 
-:host(.grid.grid-padding-y-xl),
-.grid.grid-padding-y-xl {
+:host(.ids-layout-grid.ids-layout-grid-padding-y-xl),
+.ids-layout-grid.ids-layout-grid-padding-y-xl {
   padding-block: $grid-padding-xl;
 }
 
 /**
   Grid - Auto Fit/Fill
 */
-:host(.grid-auto-fit),
-.grid-auto-fit {
+:host(.ids-layout-grid-auto-fit),
+.ids-layout-grid-auto-fit {
   width: 100%;
   grid-template-columns: repeat(auto-fit, minmax($min-col-width, $max-col-width));
 }
 
-:host(.grid-auto-fill),
-.grid-auto-fill {
+:host(.ids-layout-grid-auto-fill),
+.ids-layout-grid-auto-fill {
   width: 100%;
   grid-template-columns: repeat(auto-fill, minmax($min-col-width, $max-col-width));
 }
 
-:host(.grid-cols-auto),
-.grid-cols-auto	{
+:host(.ids-layout-grid-cols-auto),
+.ids-layout-grid-cols-auto {
   grid-auto-columns: auto;
 }
 
-:host(.grid-cols-min),
-.grid-cols-min	{
+:host(.ids-layout-grid-cols-min),
+.ids-layout-grid-cols-min	{
   grid-auto-columns: min-content;
 }
 
-:host(.grid-cols-max),
-.grid-cols-max	{
+:host(.ids-layout-grid-cols-max),
+.ids-layout-grid-cols-max {
   grid-auto-columns: max-content;
 }
 
-:host(.grid-cols-fr),
-.grid-cols-fr	{
+:host(.ids-layout-grid-cols-fr),
+.ids-layout-grid-cols-fr {
   grid-auto-columns: minmax(0, 1fr);
 }
 
-:host(.grid-flow-row),
-.grid-flow-row {
+:host(.ids-layout-grid-flow-row),
+.ids-layout-grid-flow-row {
   grid-auto-flow: row;
 }
 
-:host(.grid-flow-col),
-.grid-flow-col {
+:host(.ids-layout-grid-flow-col),
+.ids-layout-grid-flow-col {
   grid-auto-flow: column;
 }
 
-:host(.grid-flow-dense),
-.grid-flow-dense {
+:host(.ids-layout-grid-flow-dense),
+.ids-layout-grid-flow-dense {
   grid-auto-flow: dense;
 }
 
-:host(.grid-flow-row-dense),
-.grid-flow-row-dense {
+:host(.ids-layout-grid-flow-row-dense),
+.ids-layout-grid-flow-row-dense {
   grid-auto-flow: row dense;
 }
 
-:host(.grid-flow-col-dense),
-.grid-flow-col-dense {
+:host(.ids-layout-grid-flow-col-dense),
+.ids-layout-grid-flow-col-dense {
   grid-auto-flow: column dense;
 }
 
-:host(.auto-rows-auto),
-.auto-rows-auto {
+:host(.ids-layout-grid-auto-rows-auto),
+.ids-layout-grid-auto-rows-auto {
   grid-auto-rows: auto;
 }
 
-:host(.auto-rows-min),
-.auto-rows-min {
+:host(.ids-layout-grid-auto-rows-min),
+.ids-layout-grid-auto-rows-min {
   grid-auto-rows: min-content;
 }
 
-:host(.auto-rows-max),
-.auto-rows-max {
+:host(.ids-layout-grid-auto-rows-max),
+.ids-layout-grid-auto-rows-max {
   grid-auto-rows: max-content;
 }
 
-:host(.auto-rows-fr),
-.auto-rows-fr {
+:host(.ids-layout-grid-auto-rows-fr),
+.ids-layout-grid-auto-rows-fr {
   grid-auto-rows: minmax(0, 1fr);
 }
 
-:host(.grid-auto-row-height),
-.grid-auto-row-height {
+:host(.ids-layout-grid-auto-row-height),
+.ids-layout-grid-auto-row-height {
   grid-auto-rows: var(--grid-auto-row-height);
 }
 
-:host(.justify-content-start),
-.justify-content-start {
+:host(.ids-layout-grid-justify-start),
+.ids-layout-grid-justify-start {
   justify-content: start;
 }
 
-:host(.justify-content-center),
-.justify-content-center {
+:host(.ids-layout-grid-justify-center),
+.ids-layout-grid-justify-center {
   justify-content: center;
 }
 
-:host(.justify-content-between),
-.justify-content-between {
+:host(.ids-layout-grid-justify-between),
+.ids-layout-grid-justify-between {
   justify-content: space-between;
 }
 
-:host(.justify-content-around),
-.justify-content-around {
+:host(.ids-layout-grid-justify-around),
+.ids-layout-grid-justify-around {
   justify-content: space-around;
 }
 
-:host(.justify-content-evenly),
-.justify-content-evenly {
+:host(.ids-layout-grid-justify-evenly),
+.ids-layout-grid-justify-evenly {
   justify-content: space-evenly;
 }
 
-:host(.justify-content-end),
-.justify-content-end {
+:host(.ids-layout-grid-justify-end),
+.ids-layout-grid-justify-end {
   justify-content: end;
 }
 
-::slotted(.col-span-all),
-.grid > .col-span-all {
+::slotted(.ids-layout-grid-col-span-all),
+.ids-layout-grid > .ids-layout-grid-col-span-all {
   grid-column: 1 / -1;
 }
 
-::slotted(.row-span-all),
-.grid > .row-span-all {
+::slotted(.ids-layout-grid-row-span-all),
+.ids-layout-grid > .ids-layout-grid-row-span-all {
   grid-row: 1 / -1;
 }
 
-::slotted(.sticky),
-.grid > .sticky {
+::slotted(.ids-layout-grid-sticky),
+.ids-layout-grid > .ids-layout-grid-sticky {
   position: sticky;
   top: var(--sticky-position);
 }
@@ -296,29 +296,29 @@ $max-row-height: var(--max-row-height);
   Grid Columms - Base
 */
 @for $i from 1 through $grid-cols {
-  :host(.grid-cols-#{$i}),
-  .grid-cols-#{$i} {
+  :host(.ids-layout-grid-cols-#{$i}),
+  .ids-layout-grid-cols-#{$i} {
     width: 100%;
     grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
   }
 
-  :host(.grid) > ::slotted(.col-span-#{$i}),
-  .grid > .col-span-#{$i} {
+  :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-span-#{$i}),
+  .ids-layout-grid > .ids-layout-grid-col-span-#{$i} {
     grid-column: span $i / span $i;
   }
 
-  :host(.grid) > ::slotted(.col-start-#{$i}),
-  .grid > .col-start-#{$i} {
+  :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-start-#{$i}),
+  .ids-layout-grid > .ids-layout-grid-col-start-#{$i} {
     grid-column-start: $i;
   }
 
-  :host(.grid) > ::slotted(.col-end-#{$i}),
-  .grid > .col-end-#{$i} {
+  :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-end-#{$i}),
+  .ids-layout-grid > .ids-layout-grid-col-end-#{$i} {
     grid-column-end: $i;
   }
 
-  :host(.grid) > ::slotted(.order-#{$i}),
-  .grid > .order-#{$i} {
+  :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-order-#{$i}),
+  .ids-layout-grid > .ids-layout-grid-order-#{$i} {
     order: $i;
   }
 }
@@ -327,13 +327,13 @@ $max-row-height: var(--max-row-height);
   Grid Rows - Base
 */
 @for $i from 1 through $grid-rows {
-  :host(.grid-rows-#{$i}),
-  .grid-rows-#{$i} {
+  :host(.ids-layout-grid-rows-#{$i}),
+  .ids-layout-grid-rows-#{$i} {
     grid-template-rows: repeat($i, minmax(0, 1fr));
   }
 
-  :host(.grid) > ::slotted(.row-span-#{$i}),
-  .grid > .row-span-#{$i} {
+  :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-row-span-#{$i}),
+  .ids-layout-grid > .ids-layout-grid-row-span-#{$i} {
     grid-row: span $i / span $i;
   }
 }
@@ -343,41 +343,41 @@ $max-row-height: var(--max-row-height);
 */
 @media (min-width: $breakpoint-xs) {
   @for $i from 1 through $grid-cols {
-    :host(.grid-cols-xs-#{$i}),
-    .grid-cols-xs-#{$i} {
+    :host(.ids-layout-grid-cols-xs-#{$i}),
+    .ids-layout-grid-cols-xs-#{$i} {
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.col-span-xs-#{$i}),
-    .grid > .col-span-xs-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-span-xs-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-span-xs-#{$i} {
       grid-column: span $i / span $i;
     }
 
-    :host(.grid) > ::slotted(.col-start-xs-#{$i}),
-    .grid > .col-start-xs-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-start-xs-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-start-xs-#{$i} {
       grid-column-start: $i;
     }
 
-    :host(.grid) > ::slotted(.col-end-xs-#{$i}),
-    .grid > .col-end-xs-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-end-xs-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-end-xs-#{$i} {
       grid-column-end: $i;
     }
 
-    :host(.grid) > ::slotted(.order-xs-#{$i}),
-    .grid > .order-xs-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-order-xs-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-order-xs-#{$i} {
       order: $i;
     }
   }
 
   @for $i from 1 through $grid-rows {
-    :host(.grid-rows-xs-#{$i}),
-    .grid-rows-xs-#{$i} {
+    :host(.ids-layout-grid-rows-xs-#{$i}),
+    .ids-layout-grid-rows-xs-#{$i} {
       grid-template-rows: repeat($i, minmax(0, 1fr));
     }
 
-    :host(.grid) > ::slotted(.row-span-xs-#{$i}),
-    .grid > .row-span-xs-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-row-span-xs-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-row-span-xs-#{$i} {
       grid-row: span $i / span $i;
     }
   }
@@ -388,41 +388,41 @@ $max-row-height: var(--max-row-height);
 */
 @media (min-width: $breakpoint-sm) {
   @for $i from 1 through $grid-cols {
-    :host(.grid-cols-sm-#{$i}),
-    .grid-cols-sm-#{$i} {
+    :host(.ids-layout-grid-cols-sm-#{$i}),
+    .ids-layout-grid-cols-sm-#{$i} {
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.col-span-sm-#{$i}),
-    .grid > .col-span-sm-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-span-sm-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-span-sm-#{$i} {
       grid-column: span $i / span $i;
     }
 
-    :host(.grid) > ::slotted(.col-start-sm-#{$i}),
-    .grid > .col-start-sm-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-start-sm-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-start-sm-#{$i} {
       grid-column-start: $i;
     }
 
-    :host(.grid) > ::slotted(.col-end-sm-#{$i}),
-    .grid > .col-end-sm-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-end-sm-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-end-sm-#{$i} {
       grid-column-end: $i;
     }
 
-    :host(.grid) > ::slotted(.order-sm-#{$i}),
-    .grid > .order-sm-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-order-sm-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-order-sm-#{$i} {
       order: $i;
     }
   }
 
   @for $i from 1 through $grid-rows {
-    :host(.grid-rows-sm-#{$i}),
-    .grid-rows-sm-#{$i} {
+    :host(.ids-layout-grid-rows-sm-#{$i}),
+    .ids-layout-grid-rows-sm-#{$i} {
       grid-template-rows: repeat($i, minmax(0, 1fr));
     }
 
-    :host(.grid) > ::slotted(.row-span-sm-#{$i}),
-    .grid > .row-span-sm-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-row-span-sm-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-row-span-sm-#{$i} {
       grid-row: span $i / span $i;
     }
   }
@@ -433,41 +433,41 @@ $max-row-height: var(--max-row-height);
 */
 @media (min-width: $breakpoint-md) {
   @for $i from 1 through $grid-cols {
-    :host(.grid-cols-md-#{$i}),
-    .grid-cols-md-#{$i} {
+    :host(.ids-layout-grid-cols-md-#{$i}),
+    .ids-layout-grid-cols-md-#{$i} {
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.col-span-md-#{$i}),
-    .grid > .col-span-md-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-span-md-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-span-md-#{$i} {
       grid-column: span $i / span $i;
     }
 
-    :host(.grid) > ::slotted(.col-start-md-#{$i}),
-    .grid > .col-start-md-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-start-md-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-start-md-#{$i} {
       grid-column-start: $i;
     }
 
-    :host(.grid) > ::slotted(.col-end-md-#{$i}),
-    .grid > .col-end-md-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-end-md-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-end-md-#{$i} {
       grid-column-end: $i;
     }
 
-    :host(.grid) > ::slotted(.order-md-#{$i}),
-    .grid > .order-md-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-order-md-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-order-md-#{$i} {
       order: $i;
     }
   }
 
   @for $i from 1 through $grid-rows {
-    :host(.grid-rows-md-#{$i}),
-    .grid-rows-md-#{$i} {
+    :host(.ids-layout-grid-rows-md-#{$i}),
+    .ids-layout-grid-rows-md-#{$i} {
       grid-template-rows: repeat($i, minmax(0, 1fr));
     }
 
-    :host(.grid) > ::slotted(.row-span-md-#{$i}),
-    .grid > .row-span-md-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-row-span-md-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-row-span-md-#{$i} {
       grid-row: span $i / span $i;
     }
   }
@@ -478,41 +478,41 @@ $max-row-height: var(--max-row-height);
 */
 @media (min-width: $breakpoint-lg) {
   @for $i from 1 through $grid-cols {
-    :host(.grid-cols-lg-#{$i}),
-    .grid-cols-lg-#{$i} {
+    :host(.ids-layout-grid-cols-lg-#{$i}),
+    .ids-layout-grid-cols-lg-#{$i} {
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.col-span-lg-#{$i}),
-    .grid > .col-span-lg-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-span-lg-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-span-lg-#{$i} {
       grid-column: span $i / span $i;
     }
 
-    :host(.grid) > ::slotted(.col-start-lg-#{$i}),
-    .grid > .col-start-lg-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-start-lg-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-start-lg-#{$i} {
       grid-column-start: $i;
     }
 
-    :host(.grid) > ::slotted(.col-end-lg-#{$i}),
-    .grid > .col-end-lg-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-end-lg-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-end-lg-#{$i} {
       grid-column-end: $i;
     }
 
-    :host(.grid) > ::slotted(.order-lg-#{$i}),
-    .grid > .order-lg-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-order-lg-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-order-lg-#{$i} {
       order: $i;
     }
   }
 
   @for $i from 1 through $grid-rows {
-    :host(.grid-rows-lg-#{$i}),
-    .grid-rows-lg-#{$i} {
+    :host(.ids-layout-grid-rows-lg-#{$i}),
+    .ids-layout-grid-rows-lg-#{$i} {
       grid-template-rows: repeat($i, minmax(0, 1fr));
     }
 
-    :host(.grid) > ::slotted(.row-span-lg-#{$i}),
-    .grid > .row-span-lg-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-row-span-lg-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-row-span-lg-#{$i} {
       grid-row: span $i / span $i;
     }
   }
@@ -523,41 +523,41 @@ $max-row-height: var(--max-row-height);
 */
 @media (min-width: $breakpoint-xl) {
   @for $i from 1 through $grid-cols {
-    :host(.grid-cols-xl-#{$i}),
-    .grid-cols-xl-#{$i} {
+    :host(.ids-layout-grid-cols-xl-#{$i}),
+    .ids-layout-grid-cols-xl-#{$i} {
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.col-span-xl-#{$i}),
-    .grid > .col-span-xl-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-span-xl-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-span-xl-#{$i} {
       grid-column: span $i / span $i;
     }
 
-    :host(.grid) > ::slotted(.col-start-xl-#{$i}),
-    .grid > .col-start-xl-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-start-xl-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-start-xl-#{$i} {
       grid-column-start: $i;
     }
 
-    :host(.grid) > ::slotted(.col-end-xl-#{$i}),
-    .grid > .col-end-xl-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-end-xl-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-end-xl-#{$i} {
       grid-column-end: $i;
     }
 
-    :host(.grid) > ::slotted(.order-xl-#{$i}),
-    .grid > .order-xl-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-order-xl-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-order-xl-#{$i} {
       order: $i;
     }
   }
 
   @for $i from 1 through $grid-rows {
-    :host(.grid-rows-xl-#{$i}),
-    .grid-rows-xl-#{$i} {
+    :host(.ids-layout-grid-rows-xl-#{$i}),
+    .ids-layout-grid-rows-xl-#{$i} {
       grid-template-rows: repeat($i, minmax(0, 1fr));
     }
 
-    :host(.grid) > ::slotted(.row-span-xl-#{$i}),
-    .grid > .row-span-xl-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-row-span-xl-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-row-span-xl-#{$i} {
       grid-row: span $i / span $i;
     }
   }
@@ -568,47 +568,47 @@ $max-row-height: var(--max-row-height);
 */
 @media (min-width: $breakpoint-xxl) {
   @for $i from 1 through $grid-cols {
-    :host(.grid-cols-xxl-#{$i}),
-    .grid-cols-xxl-#{$i} {
+    :host(.ids-layout-grid-cols-xxl-#{$i}),
+    .ids-layout-grid-cols-xxl-#{$i} {
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
 
-    :host(.grid) > ::slotted(.col-span-xxl-#{$i}),
-    .grid > .col-span-xxl-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-span-xxl-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-span-xxl-#{$i} {
       grid-column: span $i / span $i;
     }
 
-    :host(.grid) > ::slotted(.col-start-xxl-#{$i}),
-    .grid > .col-start-xxl-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-start-xxl-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-start-xxl-#{$i} {
       grid-column-start: $i;
     }
 
-    :host(.grid) > ::slotted(.col-end-xxl-#{$i}),
-    .grid > .col-end-xxl-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-col-end-xxl-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-col-end-xxl-#{$i} {
       grid-column-end: $i;
     }
 
-    :host(.grid) > ::slotted(.order-xxl-#{$i}),
-    .grid > .order-xxl-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-order-xxl-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-order-xxl-#{$i} {
       order: $i;
     }
   }
 
   @for $i from 1 through $grid-rows {
-    :host(.grid-rows-xxl-#{$i}),
-    .grid-rows-xxl-#{$i} {
+    :host(.ids-layout-grid-rows-xxl-#{$i}),
+    .ids-layout-grid-rows-xxl-#{$i} {
       grid-template-rows: repeat($i, minmax(0, 1fr));
     }
 
-    :host(.grid) > ::slotted(.row-span-xxl-#{$i}),
-    .grid > .row-span-xxl-#{$i} {
+    :host(.ids-layout-grid) > ::slotted(.ids-layout-grid-row-span-xxl-#{$i}),
+    .ids-layout-grid > .ids-layout-grid-row-span-xxl-#{$i} {
       grid-row: span $i / span $i;
     }
   }
 }
 
-// ::slotted(.grid-cell) {
+// ::slotted(.ids-layout-grid-cell) {
   // color: $textColor;
   // font-size: 38px;
   // font-family: sans-serif;
@@ -617,15 +617,15 @@ $max-row-height: var(--max-row-height);
   // justify-content: center;
 // }
 
-::slotted(.grid-cell.editable) > ids-button,
-.grid > .grid-cell.editable > ids-button {
+::slotted(.ids-layout-grid-cell.editable) > ids-button,
+.ids-layout-grid > .ids-layout-grid-cell.editable > ids-button {
   position: absolute;
   top: 0;
   right: 0;
 }
 
-::slotted(.grid-cell.fill),
-.grid > .grid-cell.fill {
+::slotted(.ids-layout-grid-cell.fill),
+.ids-layout-grid > .ids-layout-grid-cell.fill {
   @include flex();
 
   justify-content: center;
@@ -633,7 +633,7 @@ $max-row-height: var(--max-row-height);
   background-color: var(--grid-fill-color);
 }
 
-::slotted(.height-auto),
-.grid > .height-auto {
+::slotted(.ids-layout-grid-height-auto),
+.ids-layout-grid > .ids-layout-grid-height-auto {
   height: auto;
 }
