@@ -49,8 +49,6 @@ import type IdsToggleButton from '../ids-toggle-button/ids-toggle-button';
 // Styles
 import styles from './ids-date-picker.scss';
 
-type IdsDatePickerPopupRef = IdsDatePickerPopup | null | undefined;
-
 const Base = IdsThemeMixin(
   IdsDirtyTrackerMixin(
     IdsLabelStateParentMixin(
@@ -109,7 +107,7 @@ class IdsDatePicker extends Base {
 
   isFormComponent = true;
 
-  #picker?: IdsDatePickerPopupRef;
+  #picker?: IdsDatePickerPopup;
 
   #triggerButton: any;
 
@@ -117,7 +115,7 @@ class IdsDatePicker extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.#picker = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup');
+    this.#picker = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup') || undefined;
     this.#triggerButton = this.container?.querySelector('ids-trigger-button');
     this.#triggerField = this.container?.querySelector('ids-trigger-field');
     this.#configurePicker();
@@ -294,9 +292,9 @@ class IdsDatePicker extends Base {
   }
 
   /**
-   * @returns {IdsDatePickerPopupRef} reference to the IdsPopup component
+   * @returns {IdsDatePickerPopup} reference to the IdsPopup component
    */
-  get popup(): IdsDatePickerPopupRef {
+  get popup(): IdsDatePickerPopup | undefined {
     return this.#picker;
   }
 
@@ -349,7 +347,7 @@ class IdsDatePicker extends Base {
     this.offEvent('dayselected.date-picker-popup');
     this.onEvent('dayselected.date-picker-popup', this.container, (e: IdsDayselectedEvent) => {
       this.setAttribute(attributes.VALUE, e.detail.value);
-      this.parseEventDate(e.detail.value);
+      this.parseEventDate(e.detail.date);
       this.#triggerField?.setAttribute(attributes.VALUE, e.detail.value);
     });
 
@@ -375,11 +373,13 @@ class IdsDatePicker extends Base {
   // Respond to changing locale
   onLocaleChange = () => {
     if (this.#picker) {
+      this.#picker.format = this.format;
       this.#picker.locale = this.locale;
       this.#picker.language = this.language.name;
     }
     this.#triggerField.locale = this.locale;
     this.#triggerField.language = this.language.name;
+    this.#triggerField.format = this.format;
     this.setDirection();
     this.#applyMask();
 
@@ -589,9 +589,9 @@ class IdsDatePicker extends Base {
   /**
    * Takes a date string value (presumably passed from an event) and converts
    * the value to day/month/year attributes
-   * @param {string} val stringified date
+   * @param {Date} val stringified date
    */
-  parseEventDate(val: string) {
+  parseEventDate(val: Date) {
     if (!val || typeof val !== 'string') return;
 
     const date = new Date(val);
@@ -619,9 +619,27 @@ class IdsDatePicker extends Base {
    */
   #applyMask() {
     if (this.#triggerField && this.mask) {
+      const prevFormat = this.#triggerField.maskOptions.format;
+      const prevDelimeter = this.#triggerField.maskOptions.delimiter;
       this.#triggerField.mask = this.useRange ? 'rangeDate' : 'date';
       this.#triggerField.maskOptions = { format: this.format, delimiter: this.rangeSettings.separator };
-      this.#triggerField.value = this.getFormattedDate(this.value);
+
+      if (this.useRange && this.value) {
+        // parse date values from range using previous format
+        const [start, end] = this.value.split(prevDelimeter || this.rangeSettings.separator).map((dateStr: string) => {
+          const parsedDate = this.localeAPI.parseDate(dateStr?.trim(), { pattern: prevFormat || this.format }) as Date;
+          return parsedDate;
+        });
+
+        // format date range in new format
+        this.#triggerField.value = [
+          this.getFormattedDate(start ?? ''),
+          this.rangeSettings.separator,
+          this.getFormattedDate(end ?? '')
+        ].join('');
+      } else {
+        this.#triggerField.value = this.getFormattedDate(this.dateValue ?? '');
+      }
     }
   }
 
@@ -749,6 +767,7 @@ class IdsDatePicker extends Base {
   set value(val: string | null) {
     const textEl = this.container?.querySelector<HTMLElement>('.datepicker-text');
     const dropdownEl = this.container?.querySelector<HTMLElement>('.dropdown-btn-text');
+    this.dateValue = this.getDateValue(val);
 
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, String(val));

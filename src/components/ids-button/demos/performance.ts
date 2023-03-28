@@ -5,7 +5,7 @@ const appendTestItems = () => {
   for (let index = 0; index < 1000; index++) {
     let html = '';
     html += `<ids-layout-grid-cell>
-    <ids-button id="button-${index}" type="secondary">Button ${index}</ids-button>
+    <ids-button id="button-${index}" appearance="secondary">Button ${index}</ids-button>
     </ids-layout-grid-cell>`;
     section.insertAdjacentHTML('beforeend', html);
   }

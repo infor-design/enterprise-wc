@@ -292,7 +292,7 @@ button {
   }
 }
 
-:host([show-loading-indicator='true']:not([loading-indicator-only='true']):is([type='primary'], [type='secondary'], [type='primary-destructive'])) {
+:host([show-loading-indicator='true']:not([loading-indicator-only='true']):is([appearance='primary'], [appearance='secondary'], [appearance='primary-destructive'])) {
   &::part(button) {
     padding-inline-start: 20px;
     padding-inline-end: 12px;
