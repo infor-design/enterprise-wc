@@ -7,15 +7,16 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto-fit="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Draggable</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid auto-fit="true">
-      <ids-draggable id="no-axis">
-        <div class="ids-draggable-demo-box">
-          <ids-text>no axis</ids-text>
-        </div>
-       </ids-draggable>
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-draggable id="no-axis">
+          <div class="ids-draggable-demo-box">
+            <ids-text>no axis</ids-text>
+          </div>
+        </ids-draggable>
         <ids-draggable axis="y" id="axis-y">
           <div class="ids-draggable-demo-box">
             <ids-text>axis='y'</ids-text>
@@ -45,27 +46,30 @@
             <ids-text tag="p" color="unset" font-size="10">max-transform-y: 80</ids-text>
           </div>
         </ids-draggable>
+      </ids-layout-grid-cell>
     </ids-layout-grid>
-    <ids-layout-grid auto-fit="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Draggable (Bounded by Div/Container)</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid auto-fit="true">
-      <div class="ids-draggable-demo-content">
-        <ids-draggable parent-containment id="contained">
-          <div class="ids-draggable-demo-box">
-            <ids-text>no axis</ids-text></div>
-        </ids-draggable>
-        <ids-draggable axis="y" parent-containment id="contained-y">
-          <div class="ids-draggable-demo-box">
-            <ids-text>axis='y'</ids-text>
-          </div>
-        </ids-draggable>
-        <ids-draggable axis="x" parent-containment id="contained-x">
-          <div class="ids-draggable-demo-box">
-            <ids-text>axis='x'</ids-text>
-          </div>
-        </ids-draggable>
-      </div>
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <div class="ids-draggable-demo-content">
+          <ids-draggable parent-containment id="contained">
+            <div class="ids-draggable-demo-box">
+              <ids-text>no axis</ids-text></div>
+          </ids-draggable>
+          <ids-draggable axis="y" parent-containment id="contained-y">
+            <div class="ids-draggable-demo-box">
+              <ids-text>axis='y'</ids-text>
+            </div>
+          </ids-draggable>
+          <ids-draggable axis="x" parent-containment id="contained-x">
+            <div class="ids-draggable-demo-box">
+              <ids-text>axis='x'</ids-text>
+            </div>
+          </ids-draggable>
+        </div>
+      </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
 </body>
