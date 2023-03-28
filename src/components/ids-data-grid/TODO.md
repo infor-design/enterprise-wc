@@ -8,17 +8,17 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [x] Column Sizes/Widths
 - [x] Column Reorder
 - [x] Frozen Columns
-- [ ] Place popupmenu in the root of the grid so it will not be cut off
+- [x] Place popupmenu in the root of the grid so it will not be cut off
 - [ ] Formatters left: Tag, Alerts, Image, Favorite, Card (templates), Targeted Achievement etc, Multi Button
 - [x] Fix icon and field sizes on http://localhost:4300/ids-data-grid/filter.html
 - [x] Save Settings [example](https://main-enterprise.demo.design.infor.com/components/datagrid/test-save-settings.html)
 - [x] Expandable Row [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-expandable-row.html)
 - [x] Empty Message [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-empty-message.html)
-- [ ] Export Csv and Xls [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-export-from-button.html)
+- [x] Export Csv and Xls [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-export-from-button.html)
 - [x] Grouped Headers [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-grouped-headers.html)
 - [ ] Toolbar [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-custom-toolbar.html)
 - [x] Editors / Editing / Dirty [example](https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html) including https://github.com/infor-design/enterprise/issues/6338 and a way to veto selection [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-beforeselect-veto.html)
-- [ ] Keyboard Navigation (included tabbable/not tabbable) see [standards](https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids) (actionable mode, X cell navigation, X row navigation)
+- [x] Keyboard Navigation (included tabbable/not tabbable) see [standards](https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids) (actionable mode, X cell navigation, X row navigation)
 - [x] More Accessibility see [standards](https://design.infor.com/code/ids-enterprise/latest/listview#accessibility)
 - [ ] Disabled Rows [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-disabled-rows.html) test on http://localhost:4300/ids-data-grid/columns-formatters.html with disabled checkboxes
 - [ ] Grouped Rows [example](https://main-enterprise.demo.design.infor.com/components/datagrid/example-grouping-filter.html)
@@ -50,4 +50,3 @@ Keep in sync with https://github.com/infor-design/enterprise-wc/issues/555
 - [ ] Tree Grid Lazy Loading Child Rows
 - [ ] Virtual Scroll with Frozen Columns
 - [ ] On tree grid if you de-select some child rows - should show as partial.
-- [ ] deepClone cant copy regexes (if ever needed example `mask: [/[a-zA-Z]/, /[a-zA-Z]/, /[a-zA-Z]/]`)

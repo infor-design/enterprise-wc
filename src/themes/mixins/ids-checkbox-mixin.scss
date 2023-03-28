@@ -42,8 +42,8 @@
 
 // Indeterminate
 @mixin checkbox-indeterminate() {
-  background-color: var(--ids-color-primary);
-  border-color: var(--ids-color-primary);
+  background-color: var(--ids-component-primary-background-color);
+  border-color: var(--ids-component-primary-background-color);
 }
 
 @mixin checkbox-indeterminate-after {
@@ -63,7 +63,7 @@
 // Disabled
 @mixin checkbox-disabled-unchecked {
   background-color: var(--ids-disabled-text-color);
-  border-color: var(--ids-component-disabled-text-color);
+  border-color: var(--ids-component-disabled-color);
   cursor: var(--ids-cursor-default);
 }
 
@@ -111,18 +111,6 @@ $color-vars: --ids-color-emerald-70 --ids-color-amethyst-70 --ids-color-azure-70
 
       &:focus ~ .checkmark {
         @include checkbox-colored-box-focus($color);
-      }
-    }
-
-    &[mode='dark'][color='#{$name}'] input[type='checkbox'] {
-      &:disabled:checked ~ .checkmark {
-        @include checkbox-disabled-checked(dark);
-      }
-    }
-
-    &[mode='contrast'][color='#{$name}'] input[type='checkbox'] {
-      &:disabled:checked ~ .checkmark {
-        @include checkbox-disabled-checked(contrast);
       }
     }
   }

@@ -127,7 +127,7 @@
  */
 @mixin ids-standard-button-colors() {
   display: inline-flex;
-  font-weight: var(--ids-font-weight-bold);
+  font-weight: var(--ids-font-weight-semi-bold);
   border-radius: var(--ids-border-radius-md);
 
   // ====================================================
@@ -302,7 +302,7 @@
 
     &[disabled] {
       background-color: transparent;
-      color: var(--ids-button-formatter-text-color-disabled);
+      color: var(--ids-button-formatter-disabled-text-color);
       opacity: 0.3;
     }
 
@@ -330,8 +330,8 @@
 
     &.ids-menu-button.compact {
       padding: var(--ids-spacing-md);
-      padding-inline-start: var(--ids-spacing-lg);
-      padding-inline-end: var(--ids-spacing-lg);
+      padding-inline-start: var(--ids-spacing-md);
+      padding-inline-end: var(--ids-spacing-md);
     }
   }
 }

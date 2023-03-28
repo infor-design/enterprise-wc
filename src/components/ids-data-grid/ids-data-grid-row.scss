@@ -1,17 +1,12 @@
-@import '../../core/ids-base';
-
-$cell-border-color: var(--ids-color-palette-slate-30);
-
-// Row Styles
+/* Ids Data Grid Component - Rows */
 .ids-data-grid-row {
-  @include w-full();
-
   display: grid;
   grid-template-columns: var(--ids-data-grid-column-widths); // Filled in dynamically
+  width: 100%;
 
   &.selected:not(.mixed) .ids-data-grid-cell,
   &.activated .ids-data-grid-cell {
-    background-color: rgba(85 163 243 / 0.13);
+    background-color: var(--ids-data-grid-row-selected-background-color);
   }
 
   &[hidden] {
@@ -24,157 +19,131 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   // Large by default
   &[data-row-height='md'] {
     .ids-data-grid-cell {
-      height: 40px;
+      height: var(--ids-data-grid-md-row-height);
 
       .text-ellipsis,
       ids-badge {
-        @include px-12();
+        padding-inline-start: var(--ids-data-grid-md-padding);
+        padding-inline-end: var(--ids-data-grid-md-padding);
       }
 
       ids-hyperlink {
-        @include m-12();
+        margin: var(--ids-data-grid-md-padding);
       }
     }
 
-    /* stylelint-disable-next-line max-line-length */
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
-      padding-inline-start: 12px;
-      transition: padding 0.3s ease;
+      padding-inline-start: var(--ids-data-grid-md-padding);
+      transition: padding var(--ids-transition-length) var(--ids-transition-ease);
     }
 
-    /* stylelint-disable-next-line max-line-length */
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
-      padding-inline-start: 16px;
+      padding-inline-start: var(--ids-data-grid-md-padding);
     }
   }
 
   &[data-row-height='sm'] {
     .ids-data-grid-cell {
-      height: 35px;
+      height: var(--ids-data-grid-sm-row-height);
 
       .text-ellipsis,
       ids-badge {
-        @include px-8();
+        padding-inline-start: var(--ids-data-grid-sm-padding);
+        padding-inline-end: var(--ids-data-grid-sm-padding);
       }
 
       ids-hyperlink {
-        @include m-8();
+        margin: var(--ids-data-grid-sm-padding);
       }
     }
 
-    /* stylelint-disable-next-line max-line-length */
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
-      padding-inline-start: 8px;
-      transition: padding 0.3s ease;
+      padding-inline-start: var(--ids-data-grid-sm-padding);
+      transition: padding var(--ids-transition-length) var(--ids-transition-ease);
     }
 
-    /* stylelint-disable-next-line max-line-length */
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
-      padding-inline-start: 16px;
+      padding-inline-start: var(--ids-data-grid-sm-padding);
     }
   }
 
   &[data-row-height='xs'] {
     .ids-data-grid-cell {
-      height: 30px;
+      height: var(--ids-data-grid-xs-row-height);
 
       .text-ellipsis,
       ids-badge {
-        @include px-4();
+        padding-inline-start: var(--ids-data-grid-xs-padding);
+        padding-inline-end: var(--ids-data-grid-xs-padding);
       }
 
       ids-hyperlink {
-        @include m-4();
+        margin: var(--ids-data-grid-xs-padding);
       }
     }
 
-    /* stylelint-disable-next-line max-line-length */
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
-      padding-inline-start: 4px;
-      transition: padding 0.3s ease;
+      padding-inline-start: var(--ids-data-grid-xs-padding);
+      transition: padding var(--ids-transition-length) var(--ids-transition-ease);
     }
 
-    /* stylelint-disable-next-line max-line-length */
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
-      padding-inline-start: 16px;
+      padding-inline-start: var(--ids-data-grid-xs-padding);
+    }
+  }
+
+  &[data-row-height='xxs'] {
+    .ids-data-grid-cell {
+      height: var(--ids-data-grid-xxs-row-height);
+
+      .text-ellipsis,
+      ids-badge {
+        padding-inline-start: var(--ids-data-grid-xxs-padding);
+        padding-inline-end: var(--ids-data-grid-xxs-padding);
+      }
+
+      ids-hyperlink {
+        margin: var(--ids-data-grid-xxs-padding);
+      }
+    }
+
+    .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
+      padding-inline-start: var(--ids-data-grid-xxs-padding);
+      transition: padding var(--ids-transition-length) var(--ids-transition-ease);
+    }
+
+    .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
+      padding-inline-start: var(--ids-data-grid-xxs-padding);
     }
   }
 }
 
 // Row Alternate Row Setting Feature
 .ids-data-grid.alt-row-shading ids-data-grid-row:nth-child(even) {
-  @include bg-slate-10();
+  background-color: var(--ids-data-grid-row-alternate-background-color);
 }
 
 // Expandable Row
 .ids-data-grid-expandable-row {
-  border-bottom: 1px solid $cell-border-color;
+  border-bottom: 1px solid var(--ids-data-grid-cell-border-color);
   grid-column: 1 / -1;
   padding: 8px;
 }
 
 // Standalone Css
 tr.ids-data-grid-row {
-  @include table-row();
-
-  height: 50px;
+  display: table-row;
+  height: var(--ids-data-grid-lg-row-height);
 }
 
 // Row Navigation Styles
 .ids-data-grid.row-navigation .ids-data-grid-row {
   &:focus-within {
-    box-shadow:
-      inset 0 0 0 1px var(--ids-color-palette-azure-40),
-      0 1px 0 0 var(--ids-color-palette-azure-40),
-      0 0 3px 2px rgb(54 138 192 / 0.3);
+    box-shadow: var(--ids-data-grid-row-focus-shadow);
   }
 
   .ids-data-grid-cell:focus {
     box-shadow: none;
     outline: none;
-  }
-}
-
-// Dark Theme
-.ids-data-grid[mode='dark'] {
-  // Row Alternate Row Setting Feature
-  &.alt-row-shading .ids-data-grid-body [role='row']:nth-child(even) {
-    @include bg-slate-80();
-  }
-
-  // Selection
-  .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
-  .ids-data-grid-row.activated .ids-data-grid-cell {
-    // Uses a non pallette color - no better looking ones
-    background-color: rgba(85 163 243 / 0.12);
-  }
-
-  // Row Navigation Styles (Dark)
-  &.row-navigation .ids-data-grid-row {
-    &:focus-within {
-      box-shadow:
-        inset 0 0 0 1px var(--ids-color-palette-azure-50),
-        0 1px 0 0 var(--ids-color-palette-azure-50),
-        0 0 3px 2px rgb(54 138 192 / 0.3);
-    }
-  }
-}
-
-// Contrast Theme
-.ids-data-grid[mode='contrast'] {
-  // Selection
-  .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
-  .ids-data-grid-row.activated .ids-data-grid-cell {
-    background-color: rgba(85 163 243 / 0.2);
-  }
-
-  // Row Navigation Styles (Contrast)
-  &.row-navigation .ids-data-grid-row {
-    &:focus-within {
-      box-shadow:
-        inset 0 0 0 1px var(--ids-color-palette-azure-70),
-        0 1px 0 0 var(--ids-color-palette-azure-70),
-        0 0 3px 2px rgb(54 138 192 / 0.3);
-    }
   }
 }

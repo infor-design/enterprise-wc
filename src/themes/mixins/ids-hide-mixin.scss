@@ -1,0 +1,156 @@
+@import '../../themes/mixins/ids-core-mixins';
+
+// Includes Hidden Classes and Mixins for hiding elements at breakpoints
+.hide {
+  display: none;
+}
+
+.hide-xxl-down {
+  @media all and (max-width: $breakpoint-xxl) {
+    display: none;
+  }
+}
+
+@mixin hide-xxl-down {
+  @media all and (max-width: $breakpoint-xxl) {
+    display: none;
+  }
+}
+
+.hide-xxl-up {
+  @media all and (min-width: $breakpoint-xxl) {
+    display: none;
+  }
+}
+
+@mixin hide-xxl-up {
+  @media all and (min-width: $breakpoint-xxl) {
+    display: none;
+  }
+}
+
+.hide-xl-down {
+  @media all and (max-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
+@mixin hide-xl-down {
+  @media all and (max-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
+.hide-xl-up {
+  @media all and (min-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
+@mixin hide-xl-up {
+  @media all and (min-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
+.hide-lg-down {
+  @media all and (max-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
+@mixin hide-lg-down {
+  @media all and (max-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
+.hide-lg-up {
+  @media all and (min-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
+@mixin hide-lg-up {
+  @media all and (min-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
+.hide-md-down {
+  @media all and (max-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+@mixin hide-md-down {
+  @media all and (max-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+.hide-md-up {
+  @media all and (min-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+@mixin hide-md-up {
+  @media all and (min-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+.hide-sm-down {
+  @media all and (max-width: $breakpoint-sm) {
+    display: none;
+  }
+}
+
+@mixin hide-sm-down {
+  @media all and (max-width: $breakpoint-sm) {
+    display: none;
+  }
+}
+
+.hide-sm-up {
+  @media all and (min-width: $breakpoint-sm) {
+    display: none;
+  }
+}
+
+@mixin hide-sm-up {
+  @media all and (min-width: $breakpoint-sm) {
+    display: none;
+  }
+}
+
+.hide-xs-down {
+  @media all and (max-width: $breakpoint-xs) {
+    display: none;
+  }
+}
+
+@mixin hide-xs-down {
+  @media all and (max-width: $breakpoint-xs) {
+    display: none;
+  }
+}
+
+.hide-xs-up {
+  @media all and (min-width: $breakpoint-xs) {
+    display: none;
+  }
+}
+
+@mixin hide-xs-up {
+  @media all and (min-width: $breakpoint-xs) {
+    display: none;
+  }
+}
+
+@mixin breakpoint-xs-down {
+  @media all and (max-width: $breakpoint-xs) {
+    @content;
+  }
+}

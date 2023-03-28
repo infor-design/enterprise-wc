@@ -35,7 +35,6 @@ import '../ids-virtual-scroll/ids-virtual-scroll';
 // Mixins
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
@@ -44,15 +43,13 @@ import IdsDataGridTooltipMixin from './ids-data-grid-tooltip-mixin';
 import IdsDataGridCell from './ids-data-grid-cell';
 import { ExcelColumn } from '../../utils/ids-excel-exporter/ids-worksheet-templates';
 
-const Base = IdsThemeMixin(
-  IdsPagerMixin(
-    IdsDataGridSaveSettingsMixin(
-      IdsDataGridTooltipMixin(
-        IdsKeyboardMixin(
-          IdsLocaleMixin(
-            IdsEventsMixin(
-              IdsElement
-            )
+const Base = IdsPagerMixin(
+  IdsDataGridSaveSettingsMixin(
+    IdsDataGridTooltipMixin(
+      IdsKeyboardMixin(
+        IdsLocaleMixin(
+          IdsEventsMixin(
+            IdsElement
           )
         )
       )
@@ -64,7 +61,6 @@ const Base = IdsThemeMixin(
  * IDS Data Grid Component
  * @type {IdsDataGrid}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
  * @mixes IdsPagerMixin
  * @mixes IdsDataGridTooltipMixin
  * @mixes IdsKeyboardMixin
@@ -180,7 +176,6 @@ export default class IdsDataGrid extends Base {
       attributes.LABEL,
       attributes.LIST_STYLE,
       attributes.MENU_ID,
-      attributes.MODE,
       attributes.ROW_HEIGHT,
       attributes.ROW_NAVIGATION,
       attributes.ROW_SELECTION,
@@ -219,7 +214,7 @@ export default class IdsDataGrid extends Base {
 
     const html = `<div class="ids-data-grid-wrapper">
         <span class="ids-data-grid-sort-arrows"></span>
-        <div class="ids-data-grid${cssClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}">
+        <div class="ids-data-grid${cssClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}">
           ${IdsDataGridHeader.template(this)}
           ${this.bodyTemplate()}
         </div>
@@ -2017,6 +2012,7 @@ export default class IdsDataGrid extends Base {
    */
   get rowPixelHeight(): number {
     const rowHeights: any = {
+      xxs: 25,
       xs: 30,
       sm: 35,
       md: 40,

@@ -247,6 +247,29 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <!-- Data Grid -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h1">Data Grid</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-data-grid id="data-grid-1" row-selection="multiple" label="Books" row-height="md"></ids-data-grid>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Data Label -->
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h1">Data Label</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true" gap="md">
+          <ids-data-label label="Shipping to" label-position="left">Los Angeles, California 90001 USA</ids-data-label>
+          <ids-data-label label="Shipping to">Los Angeles, California 90001 USA</ids-data-label>
+        </ids-layout-grid>
+
         <!-- Images & Initials Banner -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h1">Images</ids-text>
@@ -324,6 +347,18 @@
           <ids-layout-grid-cell>
             <ids-hyperlink href="#" target="_blank">Normal Link</ids-hyperlink><br><br>
             <ids-hyperlink href="#" disabled="true" target="_blank">Disabled Link</ids-hyperlink>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Progress Bar -->
+        <ids-layout-grid auto="true" gap="xl">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Progress Bar</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+        <ids-layout-grid cols="3">
+          <ids-layout-grid-cell>
+            <ids-progress-bar id="progress-bar" label="Percent complete" value="10"></ids-progress-bar>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 

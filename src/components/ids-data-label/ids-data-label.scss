@@ -1,5 +1,3 @@
-@import '../../core/ids-base';
-
 :host([language*='fr']) {
   .left-positioned {
     .colon {
@@ -13,18 +11,14 @@
   flex-direction: row;
 
   .label {
-    color: var(--ids-color-palette-black);
+    color: var(--ids-label-text-color);
     margin-bottom: 8px;
     padding-right: 8px;
     white-space: nowrap;
-
-    &[mode='dark'] {
-      color: var(--ids-color-palette-white);
-    }
   }
 
   .data {
-    color: var(--ids-color-palette-slate-100);
+    color: var(--ids-data-text-color);
   }
 }
 
@@ -33,19 +27,11 @@
   flex-direction: column;
 
   .label {
-    color: var(--ids-color-palette-slate-60);
+    color: var(--ids-label-text-color);
     margin-bottom: 8px;
-
-    &[mode='dark'] {
-      color: var(--ids-color-palette-slate-30);
-    }
-
-    &[mode='contrast'] {
-      color: var(--ids-color-palette-slate-90);
-    }
   }
 
   .data {
-    color: var(--ids-color-palette-slate-100);
+    color: var(--ids-data-text-color);
   }
 }
