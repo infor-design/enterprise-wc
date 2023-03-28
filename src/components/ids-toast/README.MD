@@ -21,7 +21,7 @@ Toasts are used to display confirmations of success, failure, or other statuses 
 A normal toast used as a web component.
 
 ```html
-<ids-button id="btn-toast" type="secondary">
+<ids-button id="btn-toast" appearance="secondary">
   <span>Toast Message</span>
 </ids-button>
 ```
@@ -48,7 +48,7 @@ btnToast?.addEventListener('click', () => {
 Set position of the toast container in specific place
 
 ```html
-<ids-button id="btn-toast" type="secondary">
+<ids-button id="btn-toast" appearance="secondary">
   <span>Position</span>
 </ids-button>
 ```
@@ -76,7 +76,7 @@ btnToast?.addEventListener('click', () => {
 Set user to allows drag/drop the toast container
 
 ```html
-<ids-button id="btn-toast" type="secondary">
+<ids-button id="btn-toast" appearance="secondary">
   <span>Draggable</span>
 </ids-button>
 ```
@@ -103,7 +103,7 @@ btnToast?.addEventListener('click', () => {
 Save toast container position to local storage, apply only when draggable set to true
 
 ```html
-<ids-button id="btn-toast" type="secondary">
+<ids-button id="btn-toast" appearance="secondary">
   <span>Save position</span>
 </ids-button>
 ```
@@ -135,7 +135,7 @@ btnToast?.addEventListener('click', () => {
 Clear the saved position from local storage
 
 ```html
-<ids-button id="btn-toast" type="secondary">
+<ids-button id="btn-toast" appearance="secondary">
   <span>Clear saved position</span>
 </ids-button>
 ```
@@ -154,7 +154,7 @@ btnToast?.addEventListener('click', () => {
 Clear all toast related saved position from local storage
 
 ```html
-<ids-button id="btn-toast" type="secondary">
+<ids-button id="btn-toast" appearance="secondary">
   <span>Clear (all) saved positions</span>
 </ids-button>
 ```
@@ -171,7 +171,7 @@ btnToast?.addEventListener('click', () => {
 Set to not destroy after complete all the toast messages
 
 ```html
-<ids-button id="btn-toast" type="secondary">
+<ids-button id="btn-toast" appearance="secondary">
   <span>No destroy after complete</span>
 </ids-button>
 ```
@@ -198,7 +198,7 @@ btnToast?.addEventListener('click', () => {
 Set to put links in the toast message
 
 ```html
-ids-button id="btn-toast" type="secondary">
+ids-button id="btn-toast" appearance="secondary">
   <span>Allow link</span>
 </ids-button>
 ```
@@ -225,7 +225,7 @@ btnToast?.addEventListener('click', () => {
 Set the amount of time (2 seconds), the toast should be present on-screen
 
 ```html
-<ids-button id="btn-toast" type="secondary">
+<ids-button id="btn-toast" appearance="secondary">
   <span>Timeout (2 seconds)</span>
 </ids-button>
 ```
@@ -252,7 +252,7 @@ btnToast?.addEventListener('click', () => {
 Custom text that use for close button label in the toast message
 
 ```html
-<ids-button id="btn-toast" type="secondary">
+<ids-button id="btn-toast" appearance="secondary">
   <span>Close button custom label text</span>
 </ids-button>
 ```
@@ -279,7 +279,7 @@ btnToast?.addEventListener('click', () => {
 Hide the progress bar in toast message
 
 ```html
-<ids-button id="btn-toast" type="secondary">
+<ids-button id="btn-toast" appearance="secondary">
   <span>Progress bar (hidden)</span>
 </ids-button>
 ```
@@ -306,7 +306,7 @@ btnToast?.addEventListener('click', () => {
 Let toast message to be invisible on the screen
 
 ```html
-<ids-button id="btn-toast" type="secondary">
+<ids-button id="btn-toast" appearance="secondary">
   <span>Audible only</span>
 </ids-button>
 ```
@@ -333,7 +333,7 @@ btnToast?.addEventListener('click', () => {
 Toast message by markup
 
 ```html
-<ids-button id="btn-toast" type="secondary">
+<ids-button id="btn-toast" appearance="secondary">
   <span>Toast message by markup</span>
 </ids-button>
 <ids-toast id="toast-markup" destroy-on-complete="false">

@@ -4,6 +4,8 @@
 
 ### 1.0.0-beta.9 Fixes
 
+- `[Button]` Renamed "type" attribute to "appearance", mapped a new "type" attribute that sets HTMLButtonElement's "type" attribute. ([#1062](https://github.com/infor-design/enterprise-wc/issues/1062))
+
 ## 1.0.0-beta.8
 
 ### 1.0.0-beta.8 Fixes

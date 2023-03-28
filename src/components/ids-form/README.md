@@ -27,7 +27,7 @@ A simple form web component would have an `id` and a `submit-button` property th
           <ids-input id="field-1" label="Field One"></ids-input>
           <ids-input id="field-2" label="Field Two"></ids-input>
 
-          <ids-button id="btn-submit" type="primary">
+          <ids-button id="btn-submit" appearance="primary">
             <span>Submit</span>
           </ids-button>
         </ids-layout-grid-cell>
