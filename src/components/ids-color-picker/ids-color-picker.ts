@@ -238,19 +238,9 @@ export default class IdsColorPicker extends Base {
    */
   set value(value: string) {
     super.value = value?.trim() || '';
-
     const updatedValue = super.value;
     this.#updateColorPickerValues(updatedValue);
     this.#updateColorCheck(this.#findColorSwatch(updatedValue));
-
-    // Send the change event
-    this.triggerEvent('change', this, {
-      bubbles: true,
-      detail: {
-        elem: this,
-        value: this.value
-      }
-    });
   }
 
   /**
@@ -456,8 +446,7 @@ export default class IdsColorPicker extends Base {
 
     // Respond to clicks on Color Picker swatches
     this.onEvent('click.color-picker-container', this.container, (event: MouseEvent) => {
-      const isEditable = !stringToBool(this.readonly)
-      && !stringToBool(this.disabled);
+      const isEditable = !stringToBool(this.readonly) && !stringToBool(this.disabled);
 
       if (!isEditable) {
         return;
