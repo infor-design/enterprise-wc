@@ -82,11 +82,47 @@ and if you want to display more data you could modify the template like so:
 </ids-list-builder>
 ```
 
+Show this list builder as a customized toolbar buttons
+
+```html
+  <ids-list-builder>
+    <ids-toolbar slot="toolbar" type="formatter" tabbable="true">
+      <ids-toolbar-section type="buttonset">
+        <ids-button list-builder-action="edit" tooltip="Edit" color-variant="alternate-formatter">
+          <span class="audible">Edit list item</span>
+          <ids-icon icon="edit"></ids-icon>
+        </ids-button>
+        <ids-separator vertical></ids-separator>
+        <ids-button list-builder-action="move-up" tooltip="Move Up" color-variant="alternate-formatter">
+          <span class="audible">Move up list item</span>
+          <ids-icon icon="arrow-up"></ids-icon>
+        </ids-button>
+        <ids-button list-builder-action="move-down" tooltip="Move Down" color-variant="alternate-formatter">
+          <span class="audible">Move down list item</span>
+          <ids-icon icon="arrow-down"></ids-icon>
+        </ids-button>
+      </ids-toolbar-section>
+    </ids-toolbar>
+    <template>
+      <ids-text font-size="16" type="span">${manufacturerName}</ids-text>
+    </template>
+  </ids-list-builder>
+```
+
 ## Settings (Attributes)
 
 Since this component inherits [IdsListView](../ids-list-view/README.md), it will have all of its properties. The only property that should be of concern, and overrides that of its super class, is `data`.
 
 - `data` {array} the list of items to populate the list builder with
+
+## Methods
+
+- `add()` Let insert a new list item, will deselect if selected more than one item
+- `delete()` It will remove selected list items
+- `edit()` Edit the selected list item, will edit first if selected more than one item
+- `moveUp()` Move up the selected list item, if selected more than one item will move up to the first selected and move together if selected not next to each other
+- `moveDown()` Move down the selected list item, if selected more than one item will move down to the last selected and move together if selected not next to each other
+
 
 ## Responsive Guidelines
 
