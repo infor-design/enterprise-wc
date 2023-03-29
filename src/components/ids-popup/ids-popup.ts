@@ -59,6 +59,8 @@ export default class IdsPopup extends Base {
 
   isFlipped = false;
 
+  scrollParentElem?: HTMLElement | null;
+
   constructor() {
     super();
     this.#align = CENTER;
@@ -551,7 +553,20 @@ export default class IdsPopup extends Base {
       this.container?.classList.remove('has-maxheight');
       this.removeAttribute(attributes.MAX_HEIGHT);
     }
-    this.container?.style.setProperty('--ids-popup-maxheight', val);
+    this.#setMaxHeightProp(val);
+  }
+
+  /**
+   * Defines an internal CSS variable used for defining a `max-height` attribute
+   * in the ShadowRoot of this component
+   * @param {string | number | null} val how to define the property
+   */
+  #setMaxHeightProp(val: string | number | null) {
+    const maxHeightVarName = '--ids-popup-maxheight';
+    if (this.container) {
+      if (val) this.container.style.setProperty(maxHeightVarName, `${val}`);
+      else this.container.style.removeProperty(maxHeightVarName);
+    }
   }
 
   /**
@@ -1184,7 +1199,7 @@ export default class IdsPopup extends Base {
     popupRect = this.#nudge(popupRect);
 
     // Account for absolute-positioned parents
-    popupRect = this.#removeRelativeParentDistance(this.parentNode as HTMLElement, popupRect);
+    popupRect = this.#removeRelativeParentDistance(this.parentNode as HTMLElement, popupRect, this.scrollParentElem);
 
     // Make user-defined adjustments, if applicable
     if (typeof this.onPlace === 'function') {
@@ -1305,7 +1320,7 @@ export default class IdsPopup extends Base {
     popupRect = this.#nudge(popupRect);
 
     // Account for absolute-positioned parents
-    popupRect = this.#removeRelativeParentDistance(this.parentNode as HTMLElement, popupRect);
+    popupRect = this.#removeRelativeParentDistance(this.parentNode as HTMLElement, popupRect, this.scrollParentElem);
 
     // Make user-defined adjustments, if applicable
     if (typeof this.onPlace === 'function') {
@@ -1494,11 +1509,13 @@ export default class IdsPopup extends Base {
    * by subtracting the left/top values from the closest relative-positioned parent
    * @param {HTMLElement} elem the element to measure
    * @param {DOMRect} [rect] optionally pass in an existing rect and correct it
+   * @param {HTMLElement} [containerElem] optionally pass a container element for this one to check scrolling distance
    * @returns {DOMRect} measurements adjusted for an absolutely-positioned parent
    */
-  #removeRelativeParentDistance(elem: HTMLElement, rect: DOMRect): DOMRect {
+  #removeRelativeParentDistance(elem: HTMLElement, rect: DOMRect, containerElem?: HTMLElement | null): DOMRect {
     const elemRect = getEditableRect(rect || elem.getBoundingClientRect());
     let foundRelativeParent = false;
+    let scrollAdjusted = false;
 
     const removeRelativeDistance = (parent: any) => {
       let parentStyle: CSSStyleDeclaration;
@@ -1511,25 +1528,22 @@ export default class IdsPopup extends Base {
         if (parent instanceof HTMLElement || parent instanceof SVGElement) {
           parentStyle = getComputedStyle(parent);
           parentRect = parent.getBoundingClientRect();
+          const scrollElem = containerElem || parent!;
 
           // Add scrollLeft/scrollTop of container elements
-          if (parent.scrollLeft !== 0) {
-            elemRect.left += parent.scrollLeft;
-            elemRect.right += parent.scrollLeft;
-            elemRect.x += parent.scrollLeft;
-          }
-          if (parent.scrollTop !== 0) {
-            elemRect.top += parent.scrollTop;
-            elemRect.bottom += parent.scrollTop;
-            elemRect.y += parent.scrollTop;
+          if (!scrollAdjusted) {
+            if (scrollElem.scrollLeft !== 0) {
+              elemRect.x -= (scrollElem.scrollLeft);
+              scrollAdjusted = true;
+            }
+            if (scrollElem.scrollTop !== 0) {
+              elemRect.y -= (scrollElem.scrollTop);
+              scrollAdjusted = true;
+            }
           }
 
           // Remove relative parents' coordinates from the calculation
           if (parentStyle.position === 'relative') {
-            elemRect.bottom -= parentRect.bottom;
-            elemRect.left -= parentRect.left;
-            elemRect.right -= parentRect.right;
-            elemRect.top -= parentRect.top;
             elemRect.x -= parentRect.x;
             elemRect.y -= parentRect.y;
             foundRelativeParent = true;

@@ -1,4 +1,6 @@
 import '../ids-data-grid';
+import type { IdsMenuData, IdsMenuObjectData, IdsMenuGroupData, IdsMenuItemData } from '../../ids-menu/ids-menu-attributes';
+
 import booksJSON from '../../../assets/data/books.json';
 import menuContentsJSON from '../../../assets/data/menu-contents.json';
 
@@ -16,14 +18,29 @@ if (dataGrid) {
     const menuUrl: any = menuContentsJSON;
 
     // Header contextmenu data
-    const headerMenuData = {
+    const headerMenuData: IdsMenuObjectData = {
       id: 'grid-header-menu',
       contents: [{
         id: 'actions-group',
         items: [
-          { id: 'actions-split', value: 'actions-split', text: 'Split' },
-          { id: 'actions-sort', value: 'actions-sort', text: 'Sort' },
-          { id: 'actions-hide', value: 'actions-hide', text: 'Hide' }
+          {
+            id: 'actions-split',
+            value: 'actions-split',
+            text: 'Split',
+            type: 'item'
+          },
+          {
+            id: 'actions-sort',
+            value: 'actions-sort',
+            text: 'Sort',
+            type: 'item'
+          },
+          {
+            id: 'actions-hide',
+            value: 'actions-hide',
+            text: 'Hide',
+            type: 'item'
+          }
         ]
       }],
     };
@@ -142,13 +159,63 @@ if (dataGrid) {
     dataGrid.columns = columns;
     const setData = async () => {
       const res = await fetch(url);
-      const menuRes = await fetch(menuUrl);
-
       const data = await res.json();
-      const menuData = await menuRes.json();
 
-      // `menuData.contents` is duplicated to cause menu scrollbars in this sample
-      menuData.contents = menuData.contents.concat(menuData.contents, menuData.contents, menuData.contents);
+      const menuData: IdsMenuObjectData = {
+        id: 'test-menu',
+        contents: [
+          {
+            type: 'group',
+            items: []
+          }
+        ]
+      };
+
+      const numberOfItems = 100;
+      const submenuOnEvery = 10;
+      const createMenuItem = (i: number) => {
+        const ret: IdsMenuItemData = {
+          id: `menu-item-${i}`,
+          text: `Menu Item ${i}`,
+          type: 'item'
+        };
+
+        if ((i / submenuOnEvery) % 1 === 0) {
+          ret.text = `Menu Item ${i} (with Submenu)`;
+          ret.submenu = {
+            id: `test-submenu-${i}`,
+            contents: [
+              {
+                id: `test-submenu-group-${i}`,
+                type: 'group',
+                items: [
+                  {
+                    id: `test-submenu-item-${i}-1`,
+                    type: 'item',
+                    text: `Test Submenu Item ${i}-1`
+                  },
+                  {
+                    id: `test-submenu-item-${i}-2`,
+                    type: 'item',
+                    text: `Test Submenu Item ${i}-2`
+                  },
+                  {
+                    id: `test-submenu-item-${i}-3`,
+                    type: 'item',
+                    text: `Test Submenu Item ${i}-3`
+                  }
+                ]
+              }
+            ]
+          };
+        }
+
+        return ret;
+      };
+
+      for (let i = 0; i < numberOfItems; i++) {
+        (menuData.contents![0] as IdsMenuGroupData)!.items.push(createMenuItem(i));
+      }
 
       dataGrid.data = data;
       dataGrid.menuData = menuData;

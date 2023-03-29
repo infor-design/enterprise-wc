@@ -9,6 +9,8 @@ import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 
 import '../ids-popup/ids-popup';
+import type IdsPopup from '../ids-popup/ids-popup';
+import { onPlace } from '../ids-popup/ids-popup-attributes';
 import IdsMenu from '../ids-menu/ids-menu';
 
 import styles from './ids-popup-menu.scss';
@@ -35,6 +37,9 @@ const Base = IdsPopupOpenEventsMixin(
 @customElement('ids-popup-menu')
 @scss(styles)
 export default class IdsPopupMenu extends Base {
+  /** Component's first child element (in IdsPopupMenu, this is always an IdsPopup component) */
+  container?: IdsPopup | null = null;
+
   constructor() {
     super();
   }
@@ -79,6 +84,7 @@ export default class IdsPopupMenu extends Base {
       this.triggerType = 'hover';
       this.align = 'right, top';
     }
+    this.setOnPlace(!!this.parentMenuItem);
   }
 
   /**
@@ -201,6 +207,14 @@ export default class IdsPopupMenu extends Base {
   }
 
   /**
+   * @readonly
+   * @returns {IdsPopupMenu} parent popup menu component, if this menu is a submenu
+   */
+  get parentMenu() {
+    return this.parentElement?.closest<IdsPopupMenu>('ids-popup-menu');
+  }
+
+  /**
    * Passes an `align` setting down to the internal IdsPopup
    * @param {string} val a comma-delimited set of alignment types `direction1, direction2`
    */
@@ -263,7 +277,7 @@ export default class IdsPopupMenu extends Base {
 
     // Show the popup and do placement
     this.popup?.setAttribute('visible', 'true');
-    this.popup?.place();
+    // this.popup?.place();
 
     this.addOpenEvents();
   }
@@ -460,5 +474,38 @@ export default class IdsPopupMenu extends Base {
   onTriggerHoverClick(e: MouseEvent): boolean {
     e.preventDefault();
     return this.onTriggerClick(e);
+  }
+
+  /**
+   * Sets the `onPlace` method for submenus to account for the host element's position
+   * @param {boolean} val true if the `onPlace` method should account for a parent menu's placement
+   */
+  private setOnPlace(val: boolean) {
+    if (this.popup) {
+      if (val) {
+        this.popup.scrollParentElem = this.parentMenu?.popup?.wrapper;
+        this.popup.onPlace = (popupRect: DOMRect): DOMRect => {
+          const parentPopup = this.parentMenu && this.parentMenu.popup!;
+          if (this.container && parentPopup) {
+            this.container.removeAttribute('style');
+
+            // accounts for top/bottom padding + border thickness
+            const extra = 10;
+
+            // adjusts for nested `relative` positioned offsets, and scrolled containers
+            const xAdjust = (parentPopup.offsetLeft || 0)
+              - this.container.scrollParentElem!.scrollLeft;
+            const yAdjust = (parentPopup.offsetTop || 0)
+              - this.container.scrollParentElem!.scrollTop + extra;
+
+            popupRect.x -= xAdjust;
+            popupRect.y -= yAdjust;
+          }
+          return popupRect;
+        };
+      } else {
+        this.popup.onPlace = onPlace;
+      }
+    }
   }
 }

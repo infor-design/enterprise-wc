@@ -81,6 +81,16 @@ function formatAlignAttribute(alignX: string, alignY: string, edge: string): str
   return `${edge}, ${alignY}`;
 }
 
+/**
+ * Optional callback that can be used to adjust the Popup's placement
+ * after all internal adjustments are made.
+ * @param {DOMRect} popupRect a Rect object representing the current state of the popup.
+ * @returns {object} an adjusted Rect object with "nudged" coordinates.
+ */
+function onPlace(popupRect: DOMRect): DOMRect {
+  return popupRect;
+}
+
 export {
   CENTER,
   ALIGNMENT_EDGES,
@@ -94,5 +104,6 @@ export {
   POSITION_STYLES,
   TYPES,
   POPUP_PROPERTIES,
-  formatAlignAttribute
+  formatAlignAttribute,
+  onPlace
 };
