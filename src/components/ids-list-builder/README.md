@@ -123,7 +123,6 @@ Since this component inherits [IdsListView](../ids-list-view/README.md), it will
 - `moveUp()` Move up the selected list item, if selected more than one item will move up to the first selected and move together if selected not next to each other
 - `moveDown()` Move down the selected list item, if selected more than one item will move down to the last selected and move together if selected not next to each other
 
-
 ## Responsive Guidelines
 
 - This component stretches to 100% width of its container
