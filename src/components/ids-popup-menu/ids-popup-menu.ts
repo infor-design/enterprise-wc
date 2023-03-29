@@ -514,7 +514,7 @@ export default class IdsPopupMenu extends Base {
             this.container.removeAttribute('style');
 
             // accounts for top/bottom padding + border thickness
-            const extra = this.maxHeight ? 12 : 10;
+            const extra = 10;
 
             // adjusts for nested `relative` positioned offsets, and scrolled containers
             const xAdjust = (parentPopup.offsetLeft || 0)
