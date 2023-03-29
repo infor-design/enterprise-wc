@@ -11,3 +11,6 @@
   - link: selection-multiple.html
     type: Example
     description: Showing a multiple select list builder
+  - link: custom-toolbar.html
+    type: Example
+    description: Showing a ist builder with custom toolbar
