@@ -7,6 +7,7 @@ import {
   getClosest,
   getClosestRootNode,
   getEditableRect,
+  validMaxHeight,
   waitForTransitionEnd,
 } from '../../utils/ids-dom-utils/ids-dom-utils';
 
@@ -544,8 +545,7 @@ export default class IdsPopup extends Base {
    * @param {string | number | null} value The value
    */
   set maxHeight(value: string | number | null) {
-    let val: string | number | null = parseInt(value as string, 10);
-    val = (!Number.isNaN(val) && val > -1) ? `${val}px` : null;
+    const val = validMaxHeight(value);
     if (val) {
       this.container?.classList.add('has-maxheight');
       this.setAttribute(attributes.MAX_HEIGHT, val);

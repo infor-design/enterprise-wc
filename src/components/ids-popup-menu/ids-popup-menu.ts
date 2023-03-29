@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
-import { getElementAtMouseLocation } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { getElementAtMouseLocation, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
 import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
@@ -48,6 +48,7 @@ export default class IdsPopupMenu extends Base {
     return [
       ...super.attributes,
       attributes.ALIGN,
+      attributes.MAX_HEIGHT,
       attributes.WIDTH
     ];
   }
@@ -59,8 +60,9 @@ export default class IdsPopupMenu extends Base {
   template(): string {
     const menuTemplate = super.template();
     const alignAttr = this.align ? ` align="${this.align}"` : '';
+    const maxHeightAttr = this.maxHeight ? ` max-height="${this.maxHeight}"` : '';
 
-    return `<ids-popup class="ids-popup-menu" type="menu"${alignAttr}>${menuTemplate}</ids-popup>`;
+    return `<ids-popup class="ids-popup-menu" type="menu"${alignAttr}${maxHeightAttr}>${menuTemplate}</ids-popup>`;
   }
 
   /**
@@ -341,6 +343,28 @@ export default class IdsPopupMenu extends Base {
   }
 
   /**
+   * @returns {string | null} The max height value
+   */
+  get maxHeight(): string | null {
+    return this.getAttribute(attributes.MAX_HEIGHT);
+  }
+
+  /**
+   * Set the max height value
+   * @param {string | number | null} value The value
+   */
+  set maxHeight(value: string | number | null) {
+    const val = validMaxHeight(value);
+    if (val) {
+      this.setAttribute(attributes.MAX_HEIGHT, val);
+      this.popup?.setAttribute(attributes.MAX_HEIGHT, val);
+    } else {
+      this.removeAttribute(attributes.MAX_HEIGHT);
+      this.popup?.removeAttribute(attributes.MAX_HEIGHT);
+    }
+  }
+
+  /**
    * Sets width of the Popup
    * @param {string | null} value css width value
    */
@@ -490,7 +514,7 @@ export default class IdsPopupMenu extends Base {
             this.container.removeAttribute('style');
 
             // accounts for top/bottom padding + border thickness
-            const extra = 10;
+            const extra = this.maxHeight ? 12 : 10;
 
             // adjusts for nested `relative` positioned offsets, and scrolled containers
             const xAdjust = (parentPopup.offsetLeft || 0)

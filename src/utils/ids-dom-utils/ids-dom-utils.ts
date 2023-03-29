@@ -293,3 +293,14 @@ export function querySelectorAllShadowRoot(selector: string, rootNode = document
 
   return arr;
 }
+
+/**
+ * Parses some value types and returns a valid `maxHeight` style property, if possible
+ * @param {string | number | null} value a string/number value, or null
+ * @returns {string | null} a pixel value representing a `maxHeight`, or null
+ */
+export function validMaxHeight(value: string | number | null) {
+  let val: string | number | null = parseInt(value as string, 10);
+  val = (!Number.isNaN(val) && val > -1) ? `${val}px` : null;
+  return val;
+}
