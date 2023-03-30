@@ -9,6 +9,7 @@
 - `[DataGrid]` Fixed text overflow for editable cells with data grid. ([#1175](https://github.com/infor-design/enterprise-wc/issues/1175))
 - `[Docs]` Added some documentation on ways to customize a component. ([#970](https://github.com/infor-design/enterprise-wc/issues/970))
 - `[Popup]` Unset text align coming from HTML attribute. ([#1200](https://github.com/infor-design/enterprise-wc/issues/1200))
+- `[PopupMenu]` Added scrollable behavior to `max-height`-enabled popup menus. ([#1205](https://github.com/infor-design/enterprise-wc/issues/1205))
 
 ## 1.0.0-beta.8
 
