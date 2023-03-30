@@ -65,7 +65,7 @@ describe('Ids List Builder e2e Tests', () => {
   });
 
   it('can click the toolbar buttons', async () => {
-    const btn = (opt: string) => `document.querySelector('ids-list-builder').shadowRoot.querySelector('[list-builder-action="${opt}"]')`;
+    const btn = (opt: string) => `document.querySelector('ids-list-builder').querySelector('[list-builder-action="${opt}"]')`;
 
     const editButton = await (await page.evaluateHandle(btn('edit'))).asElement();
     const addButton = await (await page.evaluateHandle(btn('add'))).asElement();
