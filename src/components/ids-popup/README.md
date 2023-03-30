@@ -94,10 +94,10 @@ await popup.place();
 
 ### Size
 
-IdsPopup size can be controlled with the `width` and `height` properties.  These are convenience properties that set CSS-friendly size values on the IdsPopup's shadow root container:
+IdsPopup size can be controlled with the `max-height`, `width` and `height` properties.  These are convenience properties that set CSS-friendly size values on the IdsPopup's shadow root container:
 
 ```html
-<ids-popup id="my-popup" width="100%" height="100%" x="10" y="10" align="top, left" alignTarget="#my-button" visible="true">
+<ids-popup id="my-popup" width="100%" height="100%" max-height="550px" x="10" y="10" align="top, left" alignTarget="#my-button" visible="true">
     <div slot="content">My Popup</div>
 </ids-popup>
 ```

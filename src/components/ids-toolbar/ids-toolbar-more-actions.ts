@@ -215,7 +215,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {Array<HTMLElement>} list of manually-defined menu items
    */
   get predefinedMenuItems(): Array<any> {
-    return [...this.querySelectorAll(`:scope > ids-menu-group:not(${MORE_ACTIONS_SELECTOR}) > ids-menu-item`)];
+    return [...this.querySelectorAll(`:scope > ids-popup-menu > ids-menu-group:not(${MORE_ACTIONS_SELECTOR}) > ids-menu-item`)];
   }
 
   /**
@@ -417,8 +417,10 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {void}
    */
   #connectOverflowedItems(): void {
+    if (!this.menu) return;
+
     // Render the "More Actions" area if it doesn't exist
-    const el = this.menu!.querySelector(MORE_ACTIONS_SELECTOR);
+    const el = this.menu.querySelector(MORE_ACTIONS_SELECTOR);
     if (!el && this.overflow) {
       this.menu!.insertAdjacentHTML('afterbegin', this.#moreActionsMenuTemplate());
     }
@@ -464,14 +466,15 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {boolean} true if there are currently visible actions in this menu
    */
   hasVisibleActions(): boolean {
-    return this.querySelectorAll('ids-popup-menu > ids-menu-group > ids-menu-item:not([hidden])').length > 0;
+    return this.predefinedMenuItems.length > 0
+      || this.querySelectorAll(`:scope > ids-popup-menu > ids-menu-group${MORE_ACTIONS_SELECTOR} > ids-menu-item:not([hidden])`).length > 0;
   }
 
   /**
    * @returns {boolean} true if there are currently enabled (read: not disabled) actions in this menu
    */
   hasEnabledActions(): boolean {
-    return this.querySelectorAll('ids-popup-menu > ids-menu-group > ids-menu-item:not([disabled])').length > 0;
+    return this.querySelectorAll(`:scope > ids-popup-menu > ids-menu-group${MORE_ACTIONS_SELECTOR} > ids-menu-item:not([disabled])`).length > 0;
   }
 
   /**

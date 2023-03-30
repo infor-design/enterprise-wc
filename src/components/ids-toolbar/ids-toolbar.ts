@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { getClosestContainerNode, getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import './ids-toolbar-section';
@@ -207,7 +207,8 @@ export default class IdsToolbar extends Base {
     // Set disabled state on all relevant subcomponents
     const setDisabledState = (elem: any) => {
       if (elem.id === 'more-actions') {
-        elem.parentElement.parentNode.host.disabled = trueVal;
+        const trueElem = getClosest(elem, 'ids-toolbar-more-actions'); // elem.parentElement.parentNode.host
+        trueElem.disabled = trueVal;
       } else {
         elem.disabled = trueVal;
       }
