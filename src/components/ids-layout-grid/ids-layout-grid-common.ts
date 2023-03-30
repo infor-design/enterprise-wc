@@ -79,8 +79,8 @@ export const GRID_CELL_ATTRIBUTES: string[] = [
 export type IdsGapType = undefined | 'sm' | 'md' | 'lg' | 'xl';
 export type IdsJustifyType = undefined | 'around' | 'between' | 'center' | 'end' | 'evenly' | 'start';
 export type IdsFlowType = undefined | 'row' | 'column' | 'dense' | 'row-dense' | 'column-dense';
-export type IdsGridMargins = undefined | 'sm' | 'md' | 'lg' | 'xl';
-export type IdsGridPadding = undefined | 'sm' | 'md' | 'lg' | 'xl';
+export type IdsGridMargins = undefined | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type IdsGridPadding = undefined | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export const GAP_TYPES: Array<IdsGapType> = [
   undefined,
@@ -111,6 +111,7 @@ export const FLOW_TYPES: Array<IdsFlowType> = [
 
 export const MARGIN_SIZES: Array<IdsGridMargins> = [
   undefined,
+  'xs',
   'sm',
   'md',
   'lg',
@@ -119,6 +120,7 @@ export const MARGIN_SIZES: Array<IdsGridMargins> = [
 
 export const PADDING_SIZES: Array<IdsGridPadding> = [
   undefined,
+  'xs',
   'sm',
   'md',
   'lg',

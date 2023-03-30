@@ -656,7 +656,7 @@ export default class IdsLayoutGrid extends IdsElement {
     }
 
     if (this.marginY !== null) {
-      this.classList.add(`${prefix}-margin-y-${this.margin}`);
+      this.classList.add(`${prefix}-margin-y-${this.marginY}`);
     }
   }
 

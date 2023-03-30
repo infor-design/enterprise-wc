@@ -18,13 +18,13 @@ $grid-gap: $spacing-unit * 2;
 $grid-gap-md: $spacing-unit * 3;
 $grid-gap-lg: $spacing-unit * 4;
 $grid-gap-xl: $spacing-unit * 5;
-$grid-margin-sm: $spacing-unit;
-$grid-margin: $spacing-unit * 2;
+$grid-margin-xs: $spacing-unit;
+$grid-margin-sm: $spacing-unit * 2;
 $grid-margin-md: $spacing-unit * 3;
 $grid-margin-lg: $spacing-unit * 4;
 $grid-margin-xl: $spacing-unit * 5;
-$grid-padding-sm: $spacing-unit;
-$grid-padding: $spacing-unit * 2;
+$grid-padding-xs: $spacing-unit;
+$grid-padding-sm: $spacing-unit * 2;
 $grid-padding-md: $spacing-unit * 3;
 $grid-padding-lg: $spacing-unit * 4;
 $grid-padding-xl: $spacing-unit * 5;
@@ -61,6 +61,11 @@ $max-row-height: var(--max-row-height);
   grid-gap: $grid-gap-xl;
 }
 
+:host(.ids-layout-grid.ids-layout-grid-margin-xs),
+.ids-layout-grid.ids-layout-grid-margin-xs {
+  margin: $grid-margin-xs;
+}
+
 :host(.ids-layout-grid.ids-layout-grid-margin-sm),
 .ids-layout-grid.ids-layout-grid-margin-sm {
   margin: $grid-margin-sm;
@@ -81,24 +86,34 @@ $max-row-height: var(--max-row-height);
   margin: $grid-margin-xl;
 }
 
-:host(.ids-layout-grid.ids-layout-grid-margin-sm),
+:host(.ids-layout-grid.ids-layout-grid-margin-y-xs),
+.ids-layout-grid.ids-layout-grid-margin-y-xs {
+  margin-block: $grid-margin-xs;
+}
+
+:host(.ids-layout-grid.ids-layout-grid-margin-y-sm),
 .ids-layout-grid.ids-layout-grid-margin-y-sm {
   margin-block: $grid-margin-sm;
 }
 
-:host(.ids-layout-grid.ids-layout-grid-margin-md),
+:host(.ids-layout-grid.ids-layout-grid-margin-y-md),
 .ids-layout-grid.ids-layout-grid-margin-y-md {
   margin-block: $grid-margin-md;
 }
 
-:host(.ids-layout-grid.ids-layout-grid-margin-lg),
+:host(.ids-layout-grid.ids-layout-grid-margin-y-lg),
 .ids-layout-grid.ids-layout-grid-margin-y-lg {
   margin-block: $grid-margin-lg;
 }
 
-:host(.ids-layout-grid.ids-layout-grid-margin-xl),
+:host(.ids-layout-grid.ids-layout-grid-margin-y-xl),
 .ids-layout-grid.ids-layout-grid-margin-y-xl {
   margin-block: $grid-margin-xl;
+}
+
+:host(.ids-layout-grid.ids-layout-grid-padding-xs),
+.ids-layout-grid.ids-layout-grid-padding-xs {
+  padding: $grid-padding-xs;
 }
 
 :host(.ids-layout-grid.ids-layout-grid-padding-sm),
@@ -121,6 +136,11 @@ $max-row-height: var(--max-row-height);
   padding: $grid-padding-xl;
 }
 
+:host(.ids-layout-grid.ids-layout-grid-padding-x-xs),
+.ids-layout-grid.ids-layout-grid-padding-x-xs {
+  padding-inline: $grid-padding-xs;
+}
+
 :host(.ids-layout-grid.ids-layout-grid-padding-x-sm),
 .ids-layout-grid.ids-layout-grid-padding-x-sm {
   padding-inline: $grid-padding-sm;
@@ -139,6 +159,11 @@ $max-row-height: var(--max-row-height);
 :host(.ids-layout-grid.ids-layout-grid-padding-x-xl),
 .ids-layout-grid.ids-layout-grid-padding-x-xl {
   padding-inline: $grid-padding-xl;
+}
+
+:host(.ids-layout-grid.ids-layout-grid-padding-y-xs),
+.ids-layout-grid.ids-layout-grid-padding-y-xs {
+  padding-block: $grid-padding-xs;
 }
 
 :host(.ids-layout-grid.ids-layout-grid-padding-y-sm),
@@ -626,10 +651,10 @@ $max-row-height: var(--max-row-height);
 
 ::slotted(.ids-layout-grid-cell.fill),
 .ids-layout-grid > .ids-layout-grid-cell.fill {
-  @include flex();
+  // @include flex();
 
-  justify-content: center;
-  align-items: center;
+  // justify-content: center;
+  // align-items: center;
   background-color: var(--grid-fill-color);
 }
 

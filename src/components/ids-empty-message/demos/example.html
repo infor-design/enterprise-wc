@@ -7,15 +7,15 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto-fit="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Empty Message Icons</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="3" gap="md" class="icon-examples">
+    <ids-layout-grid cols="1" cols-sm="2" cols-md="3" gap="md" padding-x="md" class="icon-examples">
     </ids-layout-grid>
-    <ids-layout-grid auto-fit="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Display Options</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="3" gap="md">
+    <ids-layout-grid cols="1" cols-sm="2" cols-md="3" gap="md" padding-x="md">
       <ids-layout-grid-cell>
         <ids-card auto-height="true">
           <div class="card-content" slot="card-content">
@@ -62,7 +62,7 @@
           <ids-text type="h2" font-size="20" label="true" slot="label">Security</ids-text>
           <ids-text label="true" slot="description">Description of empty message that explains why and possible contain a hyperlink.</ids-text>
         </ids-empty-message>
-    </ids-layout-grid-cell>
+      </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
 </body>
