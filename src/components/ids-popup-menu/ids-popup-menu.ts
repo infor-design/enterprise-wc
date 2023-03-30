@@ -336,8 +336,8 @@ export default class IdsPopupMenu extends Base {
   hideAndFocus(focusParent?: boolean): void {
     this.hide();
 
-    // Focus a parent menu item if possible, otherwise focus the menu target
-    const focusTarget = this.parentMenu && focusParent ? this.parentMenuItem : this.focusTarget;
+    // Focus a parent menu item if possible, otherwise focus the menu's target
+    const focusTarget = this.parentMenu && focusParent ? this.parentMenuItem : this.target;
     focusTarget?.focus();
   }
 
