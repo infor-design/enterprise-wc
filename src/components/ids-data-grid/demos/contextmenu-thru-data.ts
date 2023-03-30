@@ -1,8 +1,7 @@
 import '../ids-data-grid';
-import type { IdsMenuData, IdsMenuObjectData, IdsMenuGroupData, IdsMenuItemData } from '../../ids-menu/ids-menu-attributes';
+import type { IdsMenuObjectData, IdsMenuGroupData, IdsMenuItemData } from '../../ids-menu/ids-menu-attributes';
 
 import booksJSON from '../../../assets/data/books.json';
-import menuContentsJSON from '../../../assets/data/menu-contents.json';
 
 // Example for populating the DataGrid
 const dataGrid: any = document.querySelector('#data-grid-contextmenu-thru-data');
@@ -15,7 +14,6 @@ if (dataGrid) {
 
     // Do an ajax request
     const url: any = booksJSON;
-    const menuUrl: any = menuContentsJSON;
 
     // Header contextmenu data
     const headerMenuData: IdsMenuObjectData = {
