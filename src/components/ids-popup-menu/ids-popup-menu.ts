@@ -171,6 +171,7 @@ export default class IdsPopupMenu extends Base {
     // Arrow Right on an item containing a submenu causes that submenu to open
     this.unlisten('ArrowRight');
     this.listen(['ArrowRight'], this, (e: any) => {
+      e.stopPropagation();
       e.preventDefault();
       const thisItem = e.target.closest('ids-menu-item');
       if (thisItem.hasSubmenu) {
@@ -182,23 +183,20 @@ export default class IdsPopupMenu extends Base {
     // on a parent menu item to occur.
     // NOTE: This will never occur on a top-level Popupmenu.
     this.unlisten('ArrowLeft');
-    if (this.parentMenu) {
-      this.listen(['ArrowLeft'], this, (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.hide();
-        this.parentMenuItem?.focus();
-      });
-    }
+    this.listen(['ArrowLeft'], this, (e: any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (this.parentMenu) {
+        this.hideAndFocus(true);
+      }
+    });
 
     // Escape closes the menu
     // (NOTE: This only applies to top-level Popupmenus)
     this.unlisten('Escape');
     if (!this.parentMenu) {
       this.listen(['Escape'], this, (e: any) => {
-        if (this.hidden) {
-          return;
-        }
+        if (this.hidden) return;
         e.preventDefault();
         e.stopPropagation();
 
@@ -279,7 +277,6 @@ export default class IdsPopupMenu extends Base {
 
     // Show the popup and do placement
     this.popup?.setAttribute('visible', 'true');
-    // this.popup?.place();
 
     this.addOpenEvents();
   }
@@ -333,13 +330,15 @@ export default class IdsPopupMenu extends Base {
 
   /**
    * Hides the popup menu and focuses a target element, if applicable
+   * @param {boolean} [focusParent] true if focus should be placed on a parent menu item
    * @returns {void}
    */
-  hideAndFocus(): void {
+  hideAndFocus(focusParent?: boolean): void {
     this.hide();
-    if (this.target) {
-      this.target.focus();
-    }
+
+    // Focus a parent menu item if possible, otherwise focus the menu target
+    const focusTarget = this.parentMenu && focusParent ? this.parentMenuItem : this.focusTarget;
+    focusTarget?.focus();
   }
 
   /**

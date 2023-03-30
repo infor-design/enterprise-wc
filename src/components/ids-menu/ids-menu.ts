@@ -149,7 +149,7 @@ export default class IdsMenu extends Base {
       this.navigate(-1, true);
     });
 
-    // Arrow Right navigates focus forward
+    // Arrow Down navigates focus forward
     this.unlisten('ArrowDown');
     this.listen(['ArrowDown'], this, (e: any) => {
       e.preventDefault();
