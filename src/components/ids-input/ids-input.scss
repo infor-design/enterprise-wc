@@ -104,7 +104,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   @include mb-8();
 
   align-items: baseline;
-  display: flex;
+  display: inline-flex;
 
   // Ability to center label from parent element
   justify-content: inherit;
