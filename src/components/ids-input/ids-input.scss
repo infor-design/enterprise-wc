@@ -165,14 +165,19 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 }
 
+:host {
+  display: block;
+}
+
 :host([size='full']) {
   @include w-full();
 }
 
 .ids-input {
   @include relative();
-  @include block();
   @include mb-16();
+
+  display: inline-block;
 
   // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
@@ -187,10 +192,10 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     border-collapse: separate;
     border-radius: 2px;
     color: inherit;
+    display: flex;
     resize: none;
     text-align: left;
-    display: flex;
-    max-width: $input-size-default;
+    // max-width: $input-size-default;
   }
 
   &:focus-within,
@@ -291,27 +296,31 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   // input sizes: [xs, sm, mm, md, lg, full]
   // Subtracting 2 takes into account that the width includes the `.field-container` border on both sides.
   &.xs .field-container {
-    max-width: $border-input-size-xs;
+    width: $border-input-size-xs;
   }
 
   &.sm .field-container {
-    max-width: $border-input-size-sm;
+    width: $border-input-size-sm;
   }
 
   &.mm .field-container {
-    max-width: $border-input-size-mm;
+    width: $border-input-size-mm;
   }
 
   &.md .field-container {
-    max-width: $border-input-size-md;
+    width: $border-input-size-md;
   }
 
   &.lg .field-container {
-    max-width: $border-input-size-lg;
+    width: $border-input-size-lg;
   }
 
-  &.full .field-container {
-    max-width: $input-size-full;
+  &.full {
+    display: block;
+
+    .field-container {
+      width: $input-size-full;
+    }
   }
 
   // input field-heights: [xs, sm, md, lg]
