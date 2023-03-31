@@ -2,23 +2,21 @@ import colorPalette from 'ids-identity/dist/theme-new/tokens/web/ui.config.color
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import styles from './ids-color-picker.scss';
 import IdsColor from '../ids-color/ids-color';
-import '../ids-popup/ids-popup';
-import '../ids-trigger-field/ids-trigger-field';
-import '../ids-trigger-field/ids-trigger-button';
-import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
-import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
-import type IdsPopup from '../ids-popup/ids-popup';
 import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
-import styles from './ids-color-picker.scss';
 import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-label-state-parent-mixin';
 import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
 import IdsClearableMixin from '../../mixins/ids-clearable-mixin/ids-clearable-mixin';
 import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsPopup from '../ids-popup/ids-popup';
+import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
+import '../ids-trigger-field/ids-trigger-field';
+import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 
 const Base = IdsPopupOpenEventsMixin(
   IdsClearableMixin(
@@ -51,6 +49,8 @@ export default class IdsColorPicker extends Base {
 
   triggerBtn?: IdsTriggerButton | null;
 
+  textInput?: IdsTriggerField | null;
+
   isFormComponent = true;
 
   initialized = false;
@@ -64,7 +64,8 @@ export default class IdsColorPicker extends Base {
     super.connectedCallback();
     if (!this.swatches.length) this.append(...this.defaultSwatches);
     if (this.clearable) this.appendClearableButton();
-    this.colorInput = this.container?.querySelector('.color-input');
+    this.textInput = this.container?.querySelector('ids-trigger-field');
+    this.colorInput = this.container?.querySelector('.advanced-color-picker');
     this.colorPreview = this.container?.querySelector('.color-preview');
     this.triggerBtn = this.container?.querySelector('ids-trigger-button');
 
@@ -86,11 +87,10 @@ export default class IdsColorPicker extends Base {
       ...super.attributes,
       attributes.ADVANCED,
       attributes.CHECKED,
-      attributes.CLEARABLE,
       attributes.COMPACT,
       attributes.DISABLED,
-      attributes.DIRTY_TRACKER,
       attributes.LABEL,
+      attributes.PLACEHOLDER,
       attributes.SUPPRESS_LABELS,
       attributes.READONLY,
       attributes.TABBABLE,
@@ -117,7 +117,7 @@ export default class IdsColorPicker extends Base {
 
     return `<div class="ids-color-picker">
       ${advancedPopup}
-      <ids-trigger-field id="color-picker-trigger-field" label="${this.label}" ${readonly} ${disabled} ${dirtyTracker}>
+      <ids-trigger-field label="${this.label}" ${readonly} ${disabled} ${dirtyTracker}>
         <ids-color ${disabled} size="${swatchSize}" tabindex="-1" class="color-preview" slot="trigger-start"></ids-color>
         <ids-trigger-button slot="trigger-end" class="color-picker-trigger-btn" tabindex="-1">
           <ids-text audible="true" translate-text="true"></ids-text>
@@ -148,7 +148,7 @@ export default class IdsColorPicker extends Base {
    */
   get colorPickerAdvancedHtml(): string {
     if (!this.advanced) return '';
-    return `<input class="advanced-color-input" tabindex="-1" type="color"/>`;
+    return `<input class="advanced-color-picker" tabindex="-1" type="color"/>`;
   }
 
   /**
@@ -161,20 +161,12 @@ export default class IdsColorPicker extends Base {
 
   /**
    * Default color swatches for this color-picker if no children provided
-   * @returns {IdsColor[]} available colors within this picker
+   * @returns {Array<IdsColor>} available colors within this picker
    */
-  get defaultSwatches(): IdsColor[] {
+  get defaultSwatches(): Array<IdsColor> {
     const COLOR_PALETTE_CSS_VAR_REGEX = /^--ids-color-palette-(([^0-9]+)-([0-9]+))$/;
 
-    return [
-      ...Object.values(colorPalette.ruby),
-      ...Object.values(colorPalette.amber),
-      ...Object.values(colorPalette.emerald),
-      ...Object.values(colorPalette.azure),
-      ...Object.values(colorPalette.turquoise),
-      ...Object.values(colorPalette.amethyst),
-      ...Object.values(colorPalette.slate)
-    ].map((cssVar) => {
+    const createColor = ((cssVar: string) => {
       const color = new IdsColor();
       const [cssVarName, label, colorCategory, colorCode] = cssVar.match(COLOR_PALETTE_CSS_VAR_REGEX) || [];
       color.label = label;
@@ -183,6 +175,18 @@ export default class IdsColorPicker extends Base {
       color.classList.add((Number(colorCode) < 40) ? 'light' : 'dark');
       return color;
     });
+
+    const paletteGroups = [
+      ...Object.values(colorPalette.ruby),
+      ...Object.values(colorPalette.amber),
+      ...Object.values(colorPalette.emerald),
+      ...Object.values(colorPalette.azure),
+      ...Object.values(colorPalette.turquoise),
+      ...Object.values(colorPalette.amethyst),
+      ...Object.values(colorPalette.slate),
+    ].map(createColor);
+
+    return paletteGroups;
   }
 
   /**
@@ -190,8 +194,14 @@ export default class IdsColorPicker extends Base {
    * @param {string} value - string value from the value attribute
    */
   set value(value: string | null) {
-    value = value?.trim() || '';
-    this.setAttribute(attributes.VALUE, value);
+    value = value?.trim() ?? '';
+
+    if (value) {
+      this.setAttribute(attributes.VALUE, value);
+    } else {
+      this.removeAttribute(attributes.VALUE);
+    }
+
     this.#updateColorPickerValues(value);
     this.#updateSelectedSwatch(this.#findColorSwatch(value));
   }
@@ -200,17 +210,31 @@ export default class IdsColorPicker extends Base {
    * Gets the value attribute
    * @returns {string} - string value from the value attribute
    */
-  get value(): string | null {
-    return this.getAttribute(attributes.VALUE);
+  get value(): string {
+    return this.getAttribute(attributes.VALUE) ?? '';
+  }
+
+  set placeholder(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.PLACEHOLDER, value);
+      this.textInput?.setAttribute(attributes.PLACEHOLDER, value);
+    } else {
+      this.removeAttribute(attributes.PLACEHOLDER);
+      this.textInput?.removeAttribute(attributes.PLACEHOLDER);
+    }
+  }
+
+  get placeholder(): string {
+    return this.getAttribute(attributes.PLACEHOLDER) ?? '';
   }
 
   set size(val: string | null) {
     if (val) {
       this.setAttribute(attributes.SIZE, val);
-      this.input?.setAttribute(attributes.SIZE, val);
+      this.textInput?.setAttribute(attributes.SIZE, val);
     } else {
       this.removeAttribute(attributes.SIZE);
-      this.input?.removeAttribute(attributes.SIZE);
+      this.textInput?.removeAttribute(attributes.SIZE);
     }
   }
 
@@ -221,10 +245,10 @@ export default class IdsColorPicker extends Base {
   set validate(val: string | null) {
     if (val) {
       this.setAttribute(attributes.VALIDATE, val);
-      this.input?.setAttribute(attributes.VALIDATE, val);
+      this.textInput?.setAttribute(attributes.VALIDATE, val);
     } else {
       this.removeAttribute(attributes.VALIDATE);
-      this.input?.removeAttribute(attributes.VALIDATE);
+      this.textInput?.removeAttribute(attributes.VALIDATE);
     }
   }
 
@@ -235,10 +259,10 @@ export default class IdsColorPicker extends Base {
   set tabbable(value: boolean | string | null) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.TABBABLE, '');
-      this.input?.setAttribute(attributes.TABBABLE, '');
+      this.textInput?.setAttribute(attributes.TABBABLE, '');
     } else {
       this.removeAttribute(attributes.TABBABLE);
-      this.input?.removeAttribute(attributes.TABBABLE);
+      this.textInput?.removeAttribute(attributes.TABBABLE);
     }
   }
 
@@ -249,19 +273,15 @@ export default class IdsColorPicker extends Base {
   set tooltip(value: string | null) {
     if (value) {
       this.setAttribute(attributes.TOOLTIP, value);
-      this.input?.setAttribute(attributes.TOOLTIP, value);
+      this.textInput?.setAttribute(attributes.TOOLTIP, value);
     } else {
       this.removeAttribute(attributes.TOOLTIP);
-      this.input?.removeAttribute(attributes.TOOLTIP);
+      this.textInput?.removeAttribute(attributes.TOOLTIP);
     }
   }
 
   get tooltip(): string | null {
     return this.getAttribute(attributes.TOOLTIP);
-  }
-
-  get input() {
-    return this.container?.querySelector<IdsTriggerField>('ids-trigger-field');
   }
 
   /**
@@ -273,16 +293,17 @@ export default class IdsColorPicker extends Base {
 
     if (stringToBool(value)) {
       this.setAttribute(attributes.ADVANCED, 'true');
-      this.colorInput = this.container?.querySelector('.advanced-color-input');
+      if (!this.colorInput) this.container?.insertAdjacentHTML('afterbegin', this.colorPickerAdvancedHtml);
+      this.colorInput = this.container?.querySelector('.advanced-color-picker');
       this.#attachColorInputEventHandlers();
       this.#updateColorPickerValues(this.value);
-      if (this.input) this.input.mask = pattern;
+      if (this.textInput) this.textInput.mask = pattern;
     } else {
       this.removeAttribute(attributes.ADVANCED);
       this.#detachColorInputEventHandlers();
       this.container?.querySelector('.advanced-color-picker')?.remove();
       this.colorInput = null;
-      this.input?.removeAttribute(attributes.MASK);
+      if (this.textInput) this.textInput.mask = undefined;
     }
   }
 
@@ -301,12 +322,12 @@ export default class IdsColorPicker extends Base {
   set disabled(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.DISABLED, '');
-      this.input?.setAttribute(attributes.DISABLED, '');
+      this.textInput?.setAttribute(attributes.DISABLED, '');
       this.triggerBtn?.setAttribute(attributes.DISABLED, '');
       this.triggerBtn?.setAttribute(attributes.TABBABLE, 'false');
     } else {
       this.removeAttribute(attributes.DISABLED);
-      this.input?.removeAttribute(attributes.DISABLED);
+      this.textInput?.removeAttribute(attributes.DISABLED);
       this.triggerBtn?.removeAttribute(attributes.DISABLED);
       this.triggerBtn?.setAttribute(attributes.TABBABLE, String(this.tabbable));
     }
@@ -327,11 +348,11 @@ export default class IdsColorPicker extends Base {
   set readonly(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.READONLY, '');
-      this.input?.setAttribute(attributes.READONLY, '');
+      this.textInput?.setAttribute(attributes.READONLY, '');
       this.triggerBtn?.setAttribute(attributes.DISABLED, '');
     } else {
       this.removeAttribute(attributes.READONLY);
-      this.input?.removeAttribute(attributes.READONLY);
+      this.textInput?.removeAttribute(attributes.READONLY);
       this.triggerBtn?.removeAttribute(attributes.DISABLED);
     }
   }
@@ -343,28 +364,6 @@ export default class IdsColorPicker extends Base {
   get readonly(): boolean {
     return stringToBool(this.getAttribute(attributes.READONLY));
   }
-
-  /**
-   * Sets the readonly attribute
-   * @param {boolean | string} value - string value from the readonly attribute
-   */
-  // set dirtyTracker(value: boolean | string) {
-  //   if (stringToBool(value)) {
-  //     this.setAttribute(attributes.DIRTY_TRACKER, '');
-  //     this.input?.setAttribute(attributes.DIRTY_TRACKER, '');
-  //   } else {
-  //     this.removeAttribute(attributes.DIRTY_TRACKER);
-  //     this.input?.removeAttribute(attributes.DIRTY_TRACKER);
-  //   }
-  // }
-
-  // /**
-  //  * Gets the readonly attribute
-  //  * @returns {boolean} - value string from the readonly attribute
-  //  */
-  // get dirtyTracker(): boolean {
-  //   return stringToBool(this.getAttribute(attributes.DIRTY_TRACKER));
-  // }
 
   /**
    * Show color-hex values instead of labels
@@ -417,10 +416,10 @@ export default class IdsColorPicker extends Base {
   set compact(value: boolean | string | null) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.COMPACT, '');
-      this.input?.setAttribute(attributes.COMPACT, '');
+      this.textInput?.setAttribute(attributes.COMPACT, '');
     } else {
       this.removeAttribute(attributes.COMPACT);
-      this.input?.removeAttribute(attributes.COMPACT);
+      this.textInput?.removeAttribute(attributes.COMPACT);
     }
   }
 
@@ -447,10 +446,12 @@ export default class IdsColorPicker extends Base {
       return;
     }
 
-    this.popup.align = 'bottom, left';
+    const rtl = this.localeAPI.isRTL();
+
+    this.popup.align = `bottom, ${rtl ? 'right' : 'left'}`;
     this.popup.arrow = 'bottom';
     this.popup.arrowTarget = this.triggerBtn as IdsPopupElementRef;
-    this.popup.alignTarget = this.input as IdsPopupElementRef;
+    this.popup.alignTarget = this.textInput as IdsPopupElementRef;
     this.popup.visible = true;
     this.popup.y = 12;
     this.popup.show();
@@ -472,7 +473,7 @@ export default class IdsColorPicker extends Base {
     this.#detachEventHandlers();
 
     // handle IdsTriggerField change events
-    this.input?.onEvent('change', this.input, (evt: CustomEvent) => {
+    this.textInput?.onEvent('change', this.textInput, (evt: CustomEvent) => {
       evt.stopPropagation();
 
       this.#updateColor(evt.detail.value);
@@ -488,16 +489,18 @@ export default class IdsColorPicker extends Base {
     });
 
     // Handle idsTriggerField input events
-    this.input?.onEvent('input', this.input, (evt: CustomEvent) => {
-      console.log('internal input event');
+    this.textInput?.onEvent('input', this.textInput, (evt: CustomEvent) => {
       evt.stopPropagation();
+
+      const target = evt.target as HTMLInputElement;
+      this.#updateColorPreview(target.value);
 
       // Popagate ids trigger field input event
       this.triggerEvent('input', this, {
         bubbles: true,
         detail: {
           elem: this,
-          value: evt.target?.value
+          value: target?.value
         }
       });
     });
@@ -521,10 +524,12 @@ export default class IdsColorPicker extends Base {
       }
     });
 
+    // If enabled, attach advanced color picker handlers
     if (this.advanced) {
       this.#attachColorInputEventHandlers();
     }
 
+    // Open color picker on ArrowDown events
     this.onEvent('keydown.color-picker', this, (e: any) => {
       if (e.target.name === 'id-color-picker') {
         e.preventDefault();
@@ -587,23 +592,21 @@ export default class IdsColorPicker extends Base {
     });
   }
 
+  /**
+   * Update color preview swatch
+   * @param {string} hex hex
+   */
   #updateColorPreview(hex: string) {
     this.colorPreview?.setAttribute(attributes.HEX, hex);
   }
 
   /** Handle events */
   #detachEventHandlers(): void {
-    // Respond to clicks on Color Picker swatches
     this.offEvent('click.color-picker-container', this.container);
-
-    // Respond to change events from the text-field input
-    this.offEvent('input.color-picker-text', this.input);
-
+    this.offEvent('change.color-picer-text', this.textInput);
+    this.offEvent('input.color-picker-text', this.textInput);
     this.offEvent('keydown.color-picker', this);
-
-    // Respond to Keyup events on swatches and buttons
     this.onEvent('keydown.color-picker-popup', this.popup);
-
     this.#detachColorInputEventHandlers();
   }
 
@@ -621,8 +624,10 @@ export default class IdsColorPicker extends Base {
     });
   }
 
+  /** Detach events */
   #detachColorInputEventHandlers(): void {
     this.offEvent('change.color-picker-input', this.colorInput);
+    this.offEvent('input.color-picker-input', this.colorInput);
   }
 
   /** Configure disabled/labels/tooltips attributes on IdsColor swatches */
@@ -722,6 +727,7 @@ export default class IdsColorPicker extends Base {
    */
   #updateSelectedSwatch(colorSwatch?: IdsColor): void {
     const checkedColor = this.querySelector('[checked]');
+
     if (checkedColor) {
       checkedColor.removeAttribute(attributes.CHECKED);
     }
@@ -752,10 +758,19 @@ export default class IdsColorPicker extends Base {
 
   /**
    * Push field-height/compact to the container element and swatch
+   * @param {string} fieldHeight Field Height
    */
   onFieldHeightChange(fieldHeight: string) {
-    this.input?.setAttribute(attributes.FIELD_HEIGHT, fieldHeight);
+    this.textInput?.setAttribute(attributes.FIELD_HEIGHT, fieldHeight);
     this.colorPreview?.setAttribute(attributes.SIZE, this.#fieldSwatchSize());
+  }
+
+  /**
+   * Handles dirty tracker settings changes
+   * @param {boolean} enabled boolean
+   */
+  onDirtyTrackerChange(enabled: boolean): void {
+    this.textInput?.setAttribute(attributes.DIRTY_TRACKER, String(enabled));
   }
 
   /**
@@ -768,7 +783,7 @@ export default class IdsColorPicker extends Base {
     const colorSwatch = this.#findColorSwatch(value);
     const targetColorValue = colorSwatch?.hex || value;
 
-    this.colorPreview.hex = targetColorValue ?? '';
+    this.#updateColorPreview(targetColorValue ?? '');
 
     // Updating input type="color" value only when advanced setting
     // and when it meets the format "#rrggbb" after masked input
@@ -776,11 +791,11 @@ export default class IdsColorPicker extends Base {
       this.colorInput.value = targetColorValue?.length !== 7 ? '#ffffff' : targetColorValue;
     }
 
-    if (targetColorValue && this.input) {
+    if (targetColorValue && this.textInput) {
       const v = (!this.suppressLabels && colorSwatch?.label) || colorSwatch?.hex || targetColorValue;
-      this.input.value = v;
-    } else if (this.input) {
-      this.input.value = '';
+      this.textInput.value = v;
+    } else if (this.textInput) {
+      this.textInput.value = '';
     }
   }
 }
