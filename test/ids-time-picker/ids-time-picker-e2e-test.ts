@@ -1,21 +1,6 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-/*
-const getDropdowns = async (): Promise<any> => {
-  const dropdowns: Promise<any> = await page.$eval(
-    '#e2e-timepicker-required',
-    (el: any) => ({
-      hours: el?.picker.container.querySelector('ids-dropdown#hours'),
-      minutes: el?.picker.container.querySelector('ids-dropdown#minutes'),
-      seconds: el?.picker.container.querySelector('ids-dropdown#seconds'),
-      period: el?.picker.container.querySelector('ids-dropdown#period')
-    })
-  );
-  return dropdowns;
-};
-*/
-
 const getDropdownLabels = async (): Promise<any> => {
   const labels: Promise<any> = await page.$eval(
     '#e2e-timepicker-required',
@@ -128,22 +113,6 @@ describe('Ids Time Picker e2e Tests', () => {
         component.open();
       }
     });
-
-    /*
-    const getDropdowns = async (): Promise<any> => {
-      const dropdowns: Promise<any> = await page.$eval(
-        '#e2e-timepicker-required',
-        (el: any) => ({
-          hours: el?.picker.container.querySelector('ids-dropdown#hours')?.label,
-          minutes: el?.picker.container.querySelector('ids-dropdown#minutes')?.label,
-          seconds: el?.picker.container.querySelector('ids-dropdown#seconds')?.label,
-          period: el?.picker.container.querySelector('ids-dropdown#period')?.label
-        })
-      );
-
-      return dropdowns;
-    };
-    */
 
     // h:mm a
     let thisDropdowns = (await getDropdownLabels() as any);
