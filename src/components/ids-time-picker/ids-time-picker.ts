@@ -333,13 +333,26 @@ export default class IdsTimePicker extends Base {
     return this;
   }
 
-  /** Translate Labels on Language Change */
-  onLanguageChange = () => {
-    if (!this.hasAttribute(attributes.FORMAT)) {
-      this.setAttribute(attributes.FORMAT, this.localeAPI?.calendar().timeFormat);
+  /**
+   * Respond to changing locale
+   */
+  onLocaleChange = () => {
+    if (this.picker) {
+      this.picker.format = this.format;
+      this.picker.locale = this.locale;
+    }
+    if (this.input) {
+      this.input.format = this.format;
+      this.input.locale = this.locale;
     }
     this.picker?.renderDropdowns();
-    this.#setTimeValidation();
+  };
+
+  /**
+   * Respond to changing language
+   */
+  onLanguageChange = () => {
+    this.picker?.renderDropdowns();
   };
 
   /**
