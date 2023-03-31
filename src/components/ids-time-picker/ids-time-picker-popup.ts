@@ -157,7 +157,6 @@ class IdsTimePickerPopup extends Base {
     if (this.#value !== newValue) {
       this.#value = newValue;
       if (this.#value !== null) this.setAttribute(attributes.VALUE, newValue);
-      // if (this.autoupdate) this.triggerSelectedEvent();
     }
   }
 
