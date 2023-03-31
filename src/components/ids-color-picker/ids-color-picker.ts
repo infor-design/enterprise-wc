@@ -17,6 +17,7 @@ import IdsPopup from '../ids-popup/ids-popup';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import '../ids-trigger-field/ids-trigger-field';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import { IdsLabelStateMode } from '../../mixins/ids-label-state-mixin/ids-label-state-common';
 
 const Base = IdsPopupOpenEventsMixin(
   IdsClearableMixin(
@@ -767,10 +768,30 @@ export default class IdsColorPicker extends Base {
 
   /**
    * Handles dirty tracker settings changes
-   * @param {boolean} enabled boolean
+   * @param {boolean} enabled enabled
    */
   onDirtyTrackerChange(enabled: boolean): void {
     this.textInput?.setAttribute(attributes.DIRTY_TRACKER, String(enabled));
+  }
+
+  /**
+   * Handles label setting changes
+   * @param {boolean} label label
+   */
+  onLabelChange(label: string) {
+    this.textInput?.setAttribute(attributes.LABEL, label);
+  }
+
+  /**
+   * Handles label state setting changes
+   * @param {IdsLabelStateMode} variantName name
+   */
+  onLabelStateChange(variantName: IdsLabelStateMode): void {
+    if (variantName) {
+      this.textInput?.setAttribute(attributes.LABEL_STATE, variantName);
+    } else {
+      this.textInput?.removeAttribute(attributes.LABEL_STATE);
+    }
   }
 
   /**
