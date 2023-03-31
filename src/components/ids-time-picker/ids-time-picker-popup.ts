@@ -3,7 +3,11 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 import { hoursTo12, hoursTo24 } from '../../utils/ids-date-utils/ids-date-utils'; // , isValidDate
 
-import Base from './ids-time-picker-popup-base';
+import IdsDateAttributeMixin from '../../mixins/ids-date-attribute-mixin/ids-date-attribute-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsPickerPopup from '../ids-picker-popup/ids-picker-popup';
+
 import { IdsTimePickerCommonAttributes, IdsTimePickerMixinAttributes, range } from './ids-time-picker-common';
 
 import styles from './ids-time-picker-popup.scss';
@@ -16,6 +20,14 @@ import type IdsModalButton from '../ids-modal-button/ids-modal-button';
 import type IdsDropdown from '../ids-dropdown/ids-dropdown';
 
 type IdsTimePickerPopupButton = IdsButton | IdsModalButton;
+
+const Base = IdsDateAttributeMixin(
+  IdsLocaleMixin(
+    IdsKeyboardMixin(
+      IdsPickerPopup
+    )
+  )
+);
 
 /**
  * IDS Time Picker Popup Component
