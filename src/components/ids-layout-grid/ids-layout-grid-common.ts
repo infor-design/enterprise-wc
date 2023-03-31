@@ -58,6 +58,7 @@ export const GRID_CELL_ATTRIBUTES: string[] = [
   attributes.FILL,
   attributes.HEIGHT,
   attributes.MIN_HEIGHT,
+  attributes.PADDING,
   attributes.ORDER,
   attributes.ORDER_XS,
   attributes.ORDER_SM,
@@ -118,7 +119,7 @@ export const MARGIN_SIZES: Array<IdsGridMargins> = [
   'xl'
 ];
 
-export const PADDING_SIZES: Array<IdsGridPadding> = [
+export const PADDING_SIZES: Array<IdsGridPadding | any> = [
   undefined,
   'xs',
   'sm',

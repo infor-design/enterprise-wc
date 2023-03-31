@@ -7,19 +7,29 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsButton from '../ids-button/ids-button';
 
 import {
-  GRID_CELL_ATTRIBUTES,
+  addClasses,
   colSpanSizes,
   colStartSizes,
   colEndSizes,
+  GRID_CELL_ATTRIBUTES,
   orderSizes,
-  rowSpanSizes,
-  addClasses,
-  prefix
+  PADDING_SIZES,
+  prefix,
+  rowSpanSizes
 } from './ids-layout-grid-common';
 
 const Base = IdsEventsMixin(
   IdsElement
 );
+
+type PaddingSizes = {
+  base: string,
+  xs: string,
+  sm: string,
+  md: string,
+  lg: string,
+  xl: string
+};
 
 /**
  * IDS Layout Grid Cell Component
@@ -513,6 +523,24 @@ export default class IdsLayoutGridCell extends Base {
   }
 
   /**
+   * Set the padding attribute
+   * @param {string | null} value The value of the padding attribute
+   */
+  set padding(value: string | null) {
+    if (!value || PADDING_SIZES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.PADDING);
+    } else {
+      this.setAttribute(attributes.PADDING, value);
+    }
+  }
+
+  /**
+   * Get the padding attribute
+   * @returns {string | null} The number value that represents the padding of the grid
+   */
+  get padding(): PaddingSizes | any { return this.getAttribute(attributes.PADDING); }
+
+  /**
    * Set the order attribute
    * @param {string | null} value The value of the order attribute
    */
@@ -880,6 +908,7 @@ export default class IdsLayoutGridCell extends Base {
     this.setFill();
     this.setHeight();
     this.setMinHeight();
+    this.setPadding();
     this.setOrder();
     this.setSticky();
     this.setStickyPosition();
@@ -931,6 +960,12 @@ export default class IdsLayoutGridCell extends Base {
   private setMinHeight() {
     if (this.minHeight !== null) {
       this.style.setProperty(attributes.MIN_HEIGHT, this.minHeight);
+    }
+  }
+
+  private setPadding() {
+    if (this.padding !== null) {
+      this.classList.add(`${prefix}-padding-${this.padding}`);
     }
   }
 

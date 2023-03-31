@@ -77,9 +77,9 @@ export default class IdsLayoutGrid extends IdsElement {
    * @param {boolean | string | null} value sets the number of columns
    */
   set cols(value: string | null) {
-    if (value !== null && value > '24') {
-      console.error('Number of columns can not exceed 24');
-    }
+    // if (value !== null && value > '24') {
+    //   console.error('Number of columns can not exceed 24');
+    // }
     if (value !== null) {
       this.setAttribute(attributes.COLS, value);
     } else {

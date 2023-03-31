@@ -15,14 +15,14 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 ### IdsLayoutGrid
 - **AutoFit**: Automatically adjust the width or height of a cell, row, or column to fit its contents.
 - **AutoFill**: Automatically fill a range of cells with a pattern or sequence.
-- **Cols**: Specifies the number of columns in the grid.
+- **Cols**: Specifies the number of columns by default in the grid.
 - **ColsXs**: Specifies the number of columns to use on extra small screens.
 - **ColsSm**: Specifies the number of columns to use on small screens.
 - **ColsMd**: Specifies the number of columns to use on medium screens.
 - **ColsLg**: Specifies the number of columns to use on large screens.
 - **ColsXl**: Specifies the number of columns to use on extra large screens.
 - **ColsXxl**: Specifies the number of columns to use on extra-extra large screens.
-- **Rows**: Specifies the number of rows in the grid.
+- **Rows**: Specifies the number of rows by default in the grid.
 - **RowsXs**: Specifies the number of rows to use on extra small screens.
 - **RowsSm**: Specifies the number of rows to use on small screens.
 - **RowsMd**: Specifies the number of rows to use on medium screens.
@@ -45,21 +45,21 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 
 
 ### IdsLayoutGridCell
-- **ColSpan**: Specifies the number of columns a cell should span in a grid.
+- **ColSpan**: Specifies the number of columns a cell should span by default in a grid.
 - **ColSpanXs**: Specifies the number of columns a cell should span on extra small screens.
 - **ColSpanSm**: Specifies the number of columns a cell should span on small screens.
 - **ColSpanMd**: Specifies the number of columns a cell should span on medium screens.
 - **ColSpanLg**: Specifies the number of columns a cell should span on large screens.
 - **ColSpanXl**: Specifies the number of columns a cell should span on extra large screens.
 - **ColSpanXxl**: Specifies the number of columns a cell should span on extra-extra large screens.
-- **ColStart**: Specifies the starting column for a cell in a grid.
+- **ColStart**: Specifies the starting column for a cell by default in a grid.
 - **ColStartXs**: Specifies the starting column for a cell on extra small screens.
 - **ColStartSm**: Specifies the starting column for a cell on small screens.
 - **ColStartMd**: Specifies the starting column for a cell on medium screens.
 - **ColStartLg**: Specifies the starting column for a cell on large screens.
 - **ColStartXl**: Specifies the starting column for a cell on extra large screens.
 - **ColStartXxl**: Specifies the starting column for a cell on extra-extra large screens.
-- **ColEnd**: Specifies the ending column for a cell in a grid.
+- **ColEnd**: Specifies the ending column for a cell by default in a grid.
 - **ColEndXs**: Specifies the ending column for a cell on extra small screens.
 - **ColEndSm**: Specifies the ending column for a cell on small screens.
 - **ColEndMd**: Specifies the ending column for a cell on medium screens.
@@ -70,14 +70,14 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 - **Fill**: Specifies whether an element should fill the available space in its container.
 - **Height**: Specifies the height of an element.
 - **MinHeight**: Specifies the minimum height of an element.
-- **Order**: Specifies the order in which an element should appear in a container.
+- **Order**: Specifies the order in which an element should appear by default in a container.
 - **OrderXs**: Specifies the order in which an element should appear on extra small screens.
 - **OrderSm**: Specifies the order in which an element should appear on small screens.
 - **OrderMd**: Specifies the order in which an element should appear on medium screens.
 - **OrderLg**: Specifies the order in which an element should appear on large screens.
 - **OrderXl**: Specifies the order in which an element should appear on extra large screens.
 - **OrderXxl**: Specifies the order in which an element should appear on extra-extra large screens.
-- **RowSpan**: Specifies the number of rows a cell should span in a grid.
+- **RowSpan**: Specifies the number of rows a cell should span by default in a grid.
 - **RowSpanXs**: Specifies the number of rows a cell should span on extra small screens.
 - **RowSpanSm**: Specifies the number of rows a cell should span on small screens.
 - **RowSpanMd**: Specifies the number of rows a cell should span on medium screens.
@@ -94,7 +94,25 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 - **LG**: 1024px
 - **XL**: 1280px
 - **XXL**: 1440px
+
+**Example Usage**
 ## Features (With Code Examples)
+
+This `<ids-layout-grid>` element has four attributes (cols, cols-lg, cols-xl, and cols-xxl) that are used to define the number of columns in the grid layout at different breakpoint sizes. The cols attribute sets the number of columns in the grid layout by default. The cols-lg attribute sets the number of columns in the grid layout at the lg breakpoint size (large devices/screen sizes). The cols-xl attribute sets the number of columns in the grid layout at the xl breakpoint size (extra-large devices/screen sizes). Finally, the cols-xxl attribute sets the number of columns in the grid layout at the xxl breakpoint size (extra-extra-large devices/screen sizes). Overall, this code is defining a grid layout that will display two columns by default and adjust the number of columns displayed at different breakpoint sizes for different device types.
+
+```html
+<ids-layout-grid cols="2" cols-lg="4" cols-xl="6" cols-xxl="8">
+```
+
+--
+
+This <ids-layout-grid-cell> element is used to define a cell within a grid layout. It has two attributes (col-span and col-span-lg) that define the number of columns a cell should span at different breakpoint sizes. The col-span attribute sets the number of columns that the cell should span by default. The col-span-lg attribute sets the number of columns that the cell should span at the lg breakpoint size (large devices) and its value is set to 4. Overall, this code is defining a cell within a grid layout that will span two columns by default and adjust the number of columns it spans at the lg breakpoint size.
+
+```html
+<ids-layout-grid-cell col-span="2" col-span-lg="4">
+```
+
+--
 
 For AutoFit layout the grid cells have a min/max value of 100px and 1fr respectively. The cells will take up as much space as is available until they reach the threshold of the MinColWidth, then they will automatically shift until they reach that threshold again. This removes the need for media queries in many cases.
 
@@ -130,6 +148,8 @@ An Ids Layout Grid with a custom number of columns or rows. The example below sh
 </ids-layout-grid>
 ```
 
+--
+
 Examples of grid with responsive col-spans
 
 ```html
@@ -144,6 +164,8 @@ Examples of grid with responsive col-spans
   </ids-layout-grid-cell>
 </ids-layout-grid>
 ```
+
+--
 
 Nested Grid. An IdsLayoutGrid component can be nested inside an IdsLayoutGridCell.
 
@@ -175,6 +197,7 @@ Standalone CSS Example
 </div>
 ```
 
+--
 ## Keyboard Guidelines
 
 A layout grid is not on its own keyboard focusable and has no keyboard interaction.
