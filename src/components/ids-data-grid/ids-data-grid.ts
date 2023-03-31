@@ -1065,6 +1065,7 @@ export default class IdsDataGrid extends Base {
 
     if (missingRows.length && this.body) {
       this.body.innerHTML += missingRows.join('');
+      this.#attachVirtualScrollEvent();
     }
   }
 
@@ -1246,8 +1247,9 @@ export default class IdsDataGrid extends Base {
     let debounceRowIndex = 0;
     this.offEvent('scroll.data-grid', this.container);
     this.onEvent('scroll.data-grid', this.container, () => {
-      const scrollTop = this.container!.scrollTop;
-      const clientHeight = this.container!.clientHeight;
+      const container = this.container!;
+      const scrollTop = container.scrollTop;
+      const clientHeight = container.clientHeight;
 
       const rowIndex = Math.floor(scrollTop / virtualScrollSettings.ROW_HEIGHT);
 
@@ -1255,19 +1257,17 @@ export default class IdsDataGrid extends Base {
       debounceRowIndex = rowIndex;
 
       const data = this.data;
-      const rows = this.rows;
       const maxHeight = virtualScrollSettings.ROW_HEIGHT * data.length;
 
       const reachedTheTop = rowIndex <= 0;
       const reachedTheBottom = (scrollTop + clientHeight) >= maxHeight;
 
       if (reachedTheTop) {
-        const firstRow: any = rows[0];
-        this.#triggerCustomScrollEvent(firstRow.rowIndex, 'start');
+        this.#triggerCustomScrollEvent(0, 'start');
       }
       if (reachedTheBottom) {
-        const lastRow: any = rows[rows.length - 1];
-        this.#triggerCustomScrollEvent(lastRow.rowIndex, 'end');
+        const lastRowIndex = data.length - 1;
+        this.#triggerCustomScrollEvent(lastRowIndex, 'end');
       }
       if (!reachedTheTop && !reachedTheBottom) {
         this.#triggerCustomScrollEvent(0);
