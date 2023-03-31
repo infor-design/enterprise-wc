@@ -98,23 +98,21 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 **Example Usage**
 ## Features (With Code Examples)
 
-This `<ids-layout-grid>` element has four attributes (cols, cols-lg, cols-xl, and cols-xxl) that are used to define the number of columns in the grid layout at different breakpoint sizes. The cols attribute sets the number of columns in the grid layout by default. The cols-lg attribute sets the number of columns in the grid layout at the lg breakpoint size (large devices/screen sizes). The cols-xl attribute sets the number of columns in the grid layout at the xl breakpoint size (extra-large devices/screen sizes). Finally, the cols-xxl attribute sets the number of columns in the grid layout at the xxl breakpoint size (extra-extra-large devices/screen sizes). Overall, this code is defining a grid layout that will display two columns by default and adjust the number of columns displayed at different breakpoint sizes for different device types.
-
 ```html
 <ids-layout-grid cols="2" cols-lg="4" cols-xl="6" cols-xxl="8">
 ```
 
---
+This `<ids-layout-grid>` element has four attributes (cols, cols-lg, cols-xl, and cols-xxl) that are used to define the number of columns in the grid layout at different breakpoint sizes. The `cols` attribute sets the number of columns in the grid layout by default. The `cols-lg` attribute sets the number of columns in the grid layout at the lg breakpoint size (large devices/screen sizes). The `cols-xl` attribute sets the number of columns in the grid layout at the xl breakpoint size (extra-large devices/screen sizes). Finally, the `cols-xxl` attribute sets the number of columns in the grid layout at the xxl breakpoint size (extra-extra-large devices/screen sizes). Overall, this code is defining a grid layout that will display two columns by default and adjust the number of columns displayed at different breakpoint sizes for different device types.
 
-This <ids-layout-grid-cell> element is used to define a cell within a grid layout. It has two attributes (col-span and col-span-lg) that define the number of columns a cell should span at different breakpoint sizes. The col-span attribute sets the number of columns that the cell should span by default. The col-span-lg attribute sets the number of columns that the cell should span at the lg breakpoint size (large devices) and its value is set to 4. Overall, this code is defining a cell within a grid layout that will span two columns by default and adjust the number of columns it spans at the lg breakpoint size.
+---
 
 ```html
 <ids-layout-grid-cell col-span="2" col-span-lg="4">
 ```
 
---
+This `<ids-layout-grid-cell>` element is used to define a cell within a grid layout. It has two attributes (`col-span` and `col-span-lg`) that define the number of columns a cell should span at different breakpoint sizes. The `col-span` attribute sets the number of columns that the cell should span by default. The `col-span-lg` attribute sets the number of columns that the cell should span at the lg breakpoint size (large devices) and its value is set to 4. Overall, this code is defining a cell within a grid layout that will span two columns by default and adjust the number of columns it spans at the lg breakpoint size.
 
-For AutoFit layout the grid cells have a min/max value of 100px and 1fr respectively. The cells will take up as much space as is available until they reach the threshold of the MinColWidth, then they will automatically shift until they reach that threshold again. This removes the need for media queries in many cases.
+---
 
 ```html
 <ids-layout-grid
@@ -133,7 +131,9 @@ For AutoFit layout the grid cells have a min/max value of 100px and 1fr respecti
 </ids-layout-grid>
 ```
 
-An Ids Layout Grid with a custom number of columns or rows. The example below shows a 4 column grid where the first cell spans 3 columns and the 3rd cell spans 2 rows.
+For AutoFit layout the grid cells have a min/max value of 100px and 1fr respectively. The cells will take up as much space as is available until they reach the threshold of the MinColWidth, then they will automatically shift until they reach that threshold again. This removes the need for media queries in many cases.
+
+---
 
 ```html
 <ids-layout-grid cols="4">
@@ -148,7 +148,9 @@ An Ids Layout Grid with a custom number of columns or rows. The example below sh
 </ids-layout-grid>
 ```
 
---
+An Ids Layout Grid with a custom number of columns or rows. The example below shows a 4 column grid where the first cell spans 3 columns and the 3rd cell spans 2 rows.
+
+---
 
 Examples of grid with responsive col-spans
 
