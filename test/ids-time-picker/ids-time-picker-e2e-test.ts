@@ -1,6 +1,34 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
+/*
+const getDropdowns = async (): Promise<any> => {
+  const dropdowns: Promise<any> = await page.$eval(
+    '#e2e-timepicker-required',
+    (el: any) => ({
+      hours: el?.picker.container.querySelector('ids-dropdown#hours'),
+      minutes: el?.picker.container.querySelector('ids-dropdown#minutes'),
+      seconds: el?.picker.container.querySelector('ids-dropdown#seconds'),
+      period: el?.picker.container.querySelector('ids-dropdown#period')
+    })
+  );
+  return dropdowns;
+};
+*/
+
+const getDropdownLabels = async (): Promise<any> => {
+  const labels: Promise<any> = await page.$eval(
+    '#e2e-timepicker-required',
+    (el: any) => ({
+      hours: el?.picker.container.querySelector('ids-dropdown#hours')?.label,
+      minutes: el?.picker.container.querySelector('ids-dropdown#minutes')?.label,
+      seconds: el?.picker.container.querySelector('ids-dropdown#seconds')?.label,
+      period: el?.picker.container.querySelector('ids-dropdown#period')?.label
+    })
+  );
+  return labels;
+};
+
 describe('Ids Time Picker e2e Tests', () => {
   const url = 'http://localhost:4444/ids-time-picker/example.html';
   const axeUrl = 'http://localhost:4444/ids-time-picker/open.html';
@@ -101,6 +129,7 @@ describe('Ids Time Picker e2e Tests', () => {
       }
     });
 
+    /*
     const getDropdowns = async (): Promise<any> => {
       const dropdowns: Promise<any> = await page.$eval(
         '#e2e-timepicker-required',
@@ -114,9 +143,10 @@ describe('Ids Time Picker e2e Tests', () => {
 
       return dropdowns;
     };
+    */
 
     // h:mm a
-    let thisDropdowns = (await getDropdowns() as any);
+    let thisDropdowns = (await getDropdownLabels() as any);
     expect(thisDropdowns.hours).toBeDefined();
     expect(thisDropdowns.minutes).toBeDefined();
     expect(thisDropdowns.seconds).not.toBeDefined();
@@ -132,7 +162,7 @@ describe('Ids Time Picker e2e Tests', () => {
     });
 
     // 'HH:mm'
-    thisDropdowns = await getDropdowns() as any;
+    thisDropdowns = await getDropdownLabels() as any;
     expect(thisDropdowns.hours).toBeDefined();
     expect(thisDropdowns.minutes).toBeDefined();
     expect(thisDropdowns.seconds).not.toBeDefined();
@@ -143,7 +173,7 @@ describe('Ids Time Picker e2e Tests', () => {
       el?.setAttribute('format', 'hh:mm:ss a');
     });
 
-    thisDropdowns = await getDropdowns() as any;
+    thisDropdowns = await getDropdownLabels() as any;
     expect(thisDropdowns.hours).toBeDefined();
     expect(thisDropdowns.minutes).toBeDefined();
     expect(thisDropdowns.seconds).toBeDefined();
@@ -161,5 +191,30 @@ describe('Ids Time Picker e2e Tests', () => {
     });
 
     expect(await countObjects(page)).toEqual(numberOfObjects);
+  });
+
+  it('can select a time from the time picker dropdowns', async () => {
+    // Open the timepicker popup
+    await page.$eval('#e2e-timepicker-required', (el: any) => {
+      el.format = 'h:mm a';
+      if (!el.picker) {
+        throw new Error('cannot find IdsTimePickerPopup');
+      }
+
+      // Show picker popup and set values
+      el.picker.show();
+      el.picker.hours = '12';
+      el.picker.minutes = '00';
+      el.picker.period = 'pm';
+      el.picker.value = '12:00 pm';
+
+      // Trigger event and hide
+      el.picker.triggerSelectedEvent();
+      el.picker.hide();
+    });
+
+    // Check input for correct value
+    const inputValue = await page.$eval('#e2e-timepicker-required', (el: any) => el.input.value);
+    expect(inputValue).toBe('12:00 PM');
   });
 });

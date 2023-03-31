@@ -371,7 +371,7 @@ class IdsTimePickerPopup extends Base {
    * @param {CustomEvent} [e] optional event handler to pass arguments
    * @returns {void}
    */
-  private triggerSelectedEvent(e?: CustomEvent): void {
+  triggerSelectedEvent(e?: CustomEvent): void {
     if (this.isRendering) return;
 
     let args: any;

@@ -298,7 +298,7 @@ export default class IdsTimePicker extends Base {
     });
 
     this.offEvent('timeselected');
-    this.onEvent('timeselected', this.input, () => {
+    this.onEvent('timeselected', this.container, () => {
       this.#setTimeOnField();
     });
 
