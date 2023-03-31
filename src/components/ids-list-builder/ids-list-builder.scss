@@ -6,51 +6,10 @@
   border-radius: 2px;
   border: 1px solid var(--ids-color-palette-slate-40);
 
-  ids-toolbar-section .separator {
-    height: 24px;
-    margin: 6px 11px 0 7px;
-    background-color: var(--ids-color-palette-slate-80);
-    width: 1px;
-  }
-
-  .header {
-    background-color: var(--ids-color-palette-slate-50);
-
-    ids-icon {
-      color: white;
-    }
-  }
-
   // Editing State
   .ids-list-view-body div[part='list-item'].is-editing > ids-text,
   .ids-list-view-body .list-item-content.is-editing > ids-text {
     display: none;
-  }
-
-  // Dark theme
-  &[mode='dark'] {
-    .header {
-      background-color: var(--ids-color-palette-slate-20);
-
-      ids-icon {
-        color: var(--ids-color-palette-slate-70);
-      }
-    }
-  }
-
-  // High Contrast theme
-  &[mode='contrast'] {
-    .header {
-      background-color: var(--ids-color-palette-slate-90);
-
-      ids-icon {
-        color: var(--ids-color-palette-slate-20);
-      }
-    }
-
-    .ids-list-view {
-      background-color: var(--ids-color-palette-white);
-    }
   }
 
   .ids-list-view {

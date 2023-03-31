@@ -45,7 +45,6 @@ export default class IdsSwappableItem extends Base {
     if (!this.hasAttribute(attributes.DRAG_MODE)) {
       this.setAttribute(attributes.DRAG_MODE, 'select');
     }
-    this.setAttribute(attributes.DRAGGABLE, this.dragMode === 'select' ? 'false' : 'true');
     this.attachEventListeners();
     this.#addCssClasses();
   }
@@ -211,6 +210,7 @@ export default class IdsSwappableItem extends Base {
       (elem as HTMLElement).focus();
     });
     this.removeAttribute(attributes.OVER);
+    this.triggerEvent('afterdragend', this, { bubbles: true, detail: { elem: this } });
   }
 
   /**

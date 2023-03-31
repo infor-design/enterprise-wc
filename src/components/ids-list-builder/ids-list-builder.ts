@@ -6,6 +6,9 @@ import IdsListView from '../ids-list-view/ids-list-view';
 import styles from './ids-list-builder.scss';
 import IdsSwappableItem from '../ids-swappable/ids-swappable-item';
 
+import type IdsToolbar from '../ids-toolbar/ids-toolbar';
+import type IdsSwappable from '../ids-swappable/ids-swappable';
+
 /**
  * IDS ListBuilder Component
  * @type {IdsListBuilder}
@@ -33,8 +36,20 @@ export default class IdsListBuilder extends IdsListView {
    */
   placeholder: any;
 
+  /**
+   * List of actions can be performed
+   */
+  actions = {
+    ADD: 'add',
+    EDIT: 'edit',
+    DELETE: 'delete',
+    MOVE_UP: 'move-up',
+    MOVE_DOWN: 'move-down',
+  };
+
   connectedCallback() {
     this.sortable = true;
+    this.#initToolbar();
     super.connectedCallback();
     this.#attachEventListeners();
   }
@@ -56,37 +71,79 @@ export default class IdsListBuilder extends IdsListView {
   template(): string {
     return `
       <div class="ids-list-builder">
-          <div class="header">
-            <ids-toolbar tabbable="true">
-              <ids-toolbar-section type="buttonset">
-                <ids-button id="button-add" color-variant="alternate">
-                  <span class="audible">Add List Item</span>
-                  <ids-icon icon="add"></ids-icon>
-                </ids-button>
-                <div class="separator"></div>
-                <ids-button id="button-up" color-variant="alternate">
-                  <span class="audible">Move Up List Item</span>
-                  <ids-icon icon="arrow-up"></ids-icon>
-                </ids-button>
-                <ids-button id="button-down" color-variant="alternate">
-                  <span class="audible">Move Down List Item</span>
-                  <ids-icon icon="arrow-down"></ids-icon>
-                </ids-button>
-                <div class="separator"></div>
-                <ids-button id="button-edit" color-variant="alternate">
-                  <span class="audible">Edit List Item</span>
-                  <ids-icon icon="edit"></ids-icon>
-                </ids-button>
-                <ids-button id="button-delete" color-variant="alternate">
-                  <span class="audible">Delete Down List Item</span>
-                  <ids-icon icon="delete"></ids-icon>
-                </ids-button>
-              </ids-toolbar-section>
-            </ids-toolbar>
-          </div>
-          ${super.template()}
+        <div class="toolbar-container" part="toolbar-container">
+          <slot name="toolbar"></slot>
+        </div>
+        ${super.template()}
       </div>
     `;
+  }
+
+  /**
+   * Get toolbar template
+   * @returns {string} The template
+   */
+  toolbarTemplate(): string {
+    const a = this.actions;
+    return `
+      <ids-toolbar slot="toolbar" type="formatter" tabbable="true">
+        <ids-toolbar-section type="buttonset">
+          ${this.buttonTemplate({ action: a.ADD, icon: 'add', text: 'Add New' })}
+          <ids-separator vertical></ids-separator>
+          ${this.buttonTemplate({ action: a.MOVE_UP, icon: 'arrow-up', text: 'Move Up' })}
+          ${this.buttonTemplate({ action: a.MOVE_DOWN, icon: 'arrow-down', text: 'Move Down' })}
+          <ids-separator vertical></ids-separator>
+          ${this.buttonTemplate({ action: a.EDIT, icon: 'edit', text: 'Edit' })}
+          ${this.buttonTemplate({ action: a.DELETE, icon: 'delete', text: 'Delete' })}
+        </ids-toolbar-section>
+      </ids-toolbar>
+    `;
+  }
+
+  /**
+   * Get toolbar button template
+   * @param {object} [options] The button options
+   * @param {string} [options.action] The button action
+   * @param {string} [options.icon] The button icon
+   * @param {string} [options.text] The button text
+   * @returns {string} The template
+   */
+  buttonTemplate(options: { action: string, icon: string, text: string }): string {
+    const { action, icon, text } = options;
+    return `
+      <ids-button list-builder-action="${action}" tooltip="${text}" color-variant="alternate-formatter">
+        <span class="audible">${text}</span>
+        <ids-icon icon="${icon}"></ids-icon>
+      </ids-button>
+    `;
+  }
+
+  /**
+   * Init the toolbar
+   * @private
+   * @returns {void}
+   */
+  #initToolbar(): void {
+    const slot = this.querySelector('[slot="toolbar"]');
+    if (!slot) {
+      this.insertAdjacentHTML('afterbegin', this.toolbarTemplate());
+    }
+  }
+
+  /**
+   * Get the parent element
+   * @returns {IdsToolbar|null} the parent element
+   */
+  get parentEl(): IdsSwappable | null | undefined {
+    return this.shadowRoot?.querySelector('ids-swappable');
+  }
+
+  /**
+   * Get the toolbar element
+   * @returns {IdsToolbar|null} the toolbar element
+   */
+  get toolbar(): IdsToolbar | null {
+    return this.querySelector('ids-toolbar');
   }
 
   /**
@@ -260,108 +317,199 @@ export default class IdsListBuilder extends IdsListView {
   }
 
   /**
+   * Add new item
+   * @returns {void}
+   */
+  add(): void {
+    // Deselect more than one selection, if selectable multiple or mixed type
+    if (this.selectable && this.selectable !== 'single') {
+      const items = [...(this.allSelectedLi || [])];
+      if (items.length > 1) {
+        items.shift(); // Keep selected first in list
+        items.forEach((item: any) => this.toggleSelectedAttribute(item, false));
+      }
+    }
+    this.#unfocusAnySelectedLiEditor();
+    let newSwappableItem;
+
+    if (!this.data.length) {
+      // if list is empty, add new item data to the source data
+      const newItemData: { [key: string]: any } = {};
+      this.dataKeys.forEach((key: string) => {
+        newItemData[key] = 'New Value';
+      });
+      this.shadowRoot?.querySelector('.ids-list-builder')?.remove();
+      this.data = [newItemData];
+      this.redraw?.();
+      newSwappableItem = this.shadowRoot?.querySelector<IdsSwappableItem>('ids-swappable-item');
+    } else {
+      const selectionNull = !this.selectedLi;
+      // if an item is selected, create a node under it, otherwise create a node above the first item
+
+      let targetDraggableItem = selectionNull ? this.shadowRoot?.querySelector<IdsSwappableItem>('ids-swappable-item') : this.selectedLi;
+      if (!targetDraggableItem) {
+        targetDraggableItem = new IdsSwappableItem();
+      }
+      newSwappableItem = targetDraggableItem.cloneNode(true) as HTMLElement;
+
+      const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
+      if (targetDraggableItem.parentNode) {
+        targetDraggableItem.parentNode.insertBefore(newSwappableItem, insertionLocation);
+        targetDraggableItem.removeAttribute('selected');
+      }
+    }
+
+    newSwappableItem?.setAttribute('selected', '');
+    const listItem = newSwappableItem?.querySelector('div[part="list-item"]');
+
+    const listItemText = listItem?.querySelector('ids-text');
+    if (listItemText) listItemText.innerHTML = 'New Value';
+    // remove any selected attribute on li that may have propogated from the clone
+    if (listItem?.getAttribute('selected')) listItem.removeAttribute('selected');
+    this.resetIndices();
+
+    const newEntry = true;
+    this.#insertSelectedLiWithEditor(newEntry);
+    this.focusLi(newSwappableItem);
+    this.#attachClickListenersForLi(newSwappableItem);
+    this.#attachKeyboardListenersForLi(newSwappableItem);
+
+    this.triggerEvent('itemAdd', this, { detail: this.getListItemData(newSwappableItem) });
+  }
+
+  /**
+   * Delete selected
+   * @returns {void}
+   */
+  delete(): void {
+    this.#removeAllSelectedLi();
+  }
+
+  /**
+   * Edit selected item
+   * @returns {void}
+   */
+  edit(): void {
+    this.#insertSelectedLiWithEditor();
+  }
+
+  /**
+   * Move up selected
+   * @returns {void}
+   */
+  moveUp(): void {
+    if (this.selectedLi) {
+      this.#unfocusAnySelectedLiEditor();
+      let isMoved = false;
+
+      const items = [...(this.allSelectedLi || [])];
+      const prev = this.selectedLi?.previousElementSibling;
+
+      // Multiple selection
+      if (items.length > 1) {
+        if (prev) {
+          isMoved = true;
+          prev.before(...items);
+        } else {
+          const shouldMove = items.some((item, i) => (String(i + 1) !== item.getAttribute('aria-posinset')));
+          if (shouldMove) {
+            isMoved = true;
+            this.parentEl?.prepend(...items);
+          }
+        }
+      } else if (prev) {
+        // Single selection
+        isMoved = true;
+        this.swap(this.selectedLi, prev);
+      }
+
+      if (isMoved) {
+        this.resetIndices();
+        this.updateDataFromDOM();
+        this.triggerEvent('itemMoveUp', this, { detail: { dataSet: this.data } });
+      }
+    }
+  }
+
+  /**
+   * Move down selected
+   * @returns {void}
+   */
+  moveDown(): void {
+    if (this.selectedLi) {
+      this.#unfocusAnySelectedLiEditor();
+      let isMoved = false;
+
+      const items = [...(this.allSelectedLi || [])];
+      const len = items.length;
+      let next = this.selectedLi?.nextElementSibling;
+
+      // Multiple selection
+      if (len > 1) {
+        next = items[len - 1]?.nextElementSibling;
+        if (next) {
+          isMoved = true;
+          next.after(...items);
+        } else {
+          const size = Number.parseInt(items[0].getAttribute('aria-setsize') as string, 10);
+          const shouldMove = items.some((item, i) => (
+            String((size - (len - 1)) + i) !== item.getAttribute('aria-posinset')
+          ));
+          if (shouldMove) {
+            isMoved = true;
+            this.parentEl?.append(...items);
+          }
+        }
+      } else if (next) {
+        // Single selection
+        isMoved = true;
+        this.swap(next, this.selectedLi);
+      }
+
+      if (isMoved) {
+        this.resetIndices();
+        this.updateDataFromDOM();
+        this.triggerEvent('itemMoveDown', this, { detail: { dataSet: this.data } });
+      }
+    }
+  }
+
+  /**
+   * Handle given action.
+   * @private
+   * @param {string} action The action
+   * @returns {void}
+   */
+  #handleAction(action: string): void {
+    const a = this.actions;
+    switch (action) {
+      case a.ADD: this.add(); break;
+      case a.DELETE: this.delete(); break;
+      case a.EDIT: this.edit(); break;
+      case a.MOVE_DOWN: this.moveDown(); break;
+      case a.MOVE_UP: this.moveUp(); break;
+      default: break;
+    }
+  }
+
+  /**
    * Attaches functionality for toolbar button interaction
    * @private
    * @returns {void}
    */
   #attachClickListeners(): void {
-    // Add button
-    this.onEvent('click', this.shadowRoot?.querySelector('#button-add'), () => {
-      this.#unfocusAnySelectedLiEditor();
-      let newSwappableItem;
-
-      if (!this.data.length) {
-        // if list is empty, add new item data to the source data
-        const newItemData: { [key: string]: any } = {};
-        this.dataKeys.forEach((key: string) => {
-          newItemData[key] = 'New Value';
-        });
-        this.shadowRoot?.querySelector('.ids-list-builder')?.remove();
-        this.data = [newItemData];
-        newSwappableItem = this.shadowRoot?.querySelector<IdsSwappableItem>('ids-swappable-item');
-      } else {
-        const selectionNull = !this.selectedLi;
-        // if an item is selected, create a node under it, otherwise create a node above the first item
-
-        let targetDraggableItem = selectionNull ? this.shadowRoot?.querySelector<IdsSwappableItem>('ids-swappable-item') : this.selectedLi;
-        if (!targetDraggableItem) {
-          targetDraggableItem = new IdsSwappableItem();
-        }
-        newSwappableItem = targetDraggableItem.cloneNode(true) as HTMLElement;
-
-        const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
-        if (targetDraggableItem.parentNode) {
-          targetDraggableItem.parentNode.insertBefore(newSwappableItem, insertionLocation);
-          targetDraggableItem.removeAttribute('selected');
-        }
-      }
-
-      newSwappableItem?.setAttribute('selected', '');
-      const listItem = newSwappableItem?.querySelector('div[part="list-item"]');
-
-      const listItemText = listItem?.querySelector('ids-text');
-      if (listItemText) listItemText.innerHTML = 'New Value';
-      // remove any selected attribute on li that may have propogated from the clone
-      if (listItem?.getAttribute('selected')) listItem.removeAttribute('selected');
-      this.resetIndices();
-
-      const newEntry = true;
-      this.#insertSelectedLiWithEditor(newEntry);
-      this.focusLi(newSwappableItem);
-      this.#attachClickListenersForLi(newSwappableItem);
-      this.#attachKeyboardListenersForLi(newSwappableItem);
-
-      this.triggerEvent('itemAdd', this, {
-        detail: this.getListItemData(newSwappableItem)
-      });
+    // Attach toolbar events
+    this.onEvent('selected.list-builder-toolbar', this.toolbar, (e: CustomEvent) => {
+      e.stopImmediatePropagation();
+      const action = e.detail?.elem?.getAttribute('list-builder-action');
+      this.#handleAction(action);
     });
 
-    // Up button
-    this.onEvent('click', this.shadowRoot?.querySelector('#button-up'), () => {
-      if (this.selectedLi) {
-        this.#unfocusAnySelectedLiEditor();
-
-        const prev = this.selectedLi?.previousElementSibling;
-        if (prev) {
-          this.swap(this.selectedLi, prev);
-        }
-        this.updateDataFromDOM();
-
-        this.triggerEvent('itemMoveUp', this, {
-          detail: {
-            dataSet: this.data
-          }
-        });
-      }
-    });
-
-    // Down button
-    this.onEvent('click', this.shadowRoot?.querySelector('#button-down'), () => {
-      if (this.selectedLi) {
-        this.#unfocusAnySelectedLiEditor();
-
-        const next = this.selectedLi?.nextElementSibling;
-        if (next) {
-          this.swap(next, this.selectedLi);
-        }
-        this.updateDataFromDOM();
-
-        this.triggerEvent('itemMoveDown', this, {
-          detail: {
-            dataSet: this.data
-          }
-        });
-      }
-    });
-
-    // Edit button
-    this.onEvent('click', this.shadowRoot?.querySelector('#button-edit'), () => {
-      this.#insertSelectedLiWithEditor();
-    });
-
-    // Delete button
-    this.onEvent('click', this.shadowRoot?.querySelector('#button-delete'), () => {
-      this.#removeAllSelectedLi();
+    // After drag end
+    this.offEvent('afterdragend.listbuilder', this.container);
+    this.onEvent('afterdragend.listbuilder', this.container, (e) => {
+      const editableItem = e.detail?.elem?.querySelector('.is-editing');
+      if (editableItem) this.#selectedLiEditor?.focus();
     });
 
     this.getAllSwappableItems()?.forEach((li: any) => {

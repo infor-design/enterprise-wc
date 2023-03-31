@@ -65,15 +65,12 @@ describe('Ids List Builder e2e Tests', () => {
   });
 
   it('can click the toolbar buttons', async () => {
-    const jsPathToolbarButtonEdit = `document.querySelector("ids-list-builder").shadowRoot.querySelector("#button-edit")`;
-    const jsPathToolbarButtonAdd = `document.querySelector("ids-list-builder").shadowRoot.querySelector("#button-add")`;
-    const jsPathToolbarButtonUp = `document.querySelector("ids-list-builder").shadowRoot.querySelector("#button-up")`;
-    const jsPathToolbarButtonDown = `document.querySelector("ids-list-builder").shadowRoot.querySelector("#button-down")`;
+    const btn = (opt: string) => `document.querySelector('ids-list-builder').querySelector('[list-builder-action="${opt}"]')`;
 
-    const editButton = await (await page.evaluateHandle(jsPathToolbarButtonEdit)).asElement();
-    const addButton = await (await page.evaluateHandle(jsPathToolbarButtonAdd)).asElement();
-    const upButton = await (await page.evaluateHandle(jsPathToolbarButtonUp)).asElement();
-    const downButton = await (await page.evaluateHandle(jsPathToolbarButtonDown)).asElement();
+    const editButton = await (await page.evaluateHandle(btn('edit'))).asElement();
+    const addButton = await (await page.evaluateHandle(btn('add'))).asElement();
+    const upButton = await (await page.evaluateHandle(btn('move-up'))).asElement();
+    const downButton = await (await page.evaluateHandle(btn('move-down'))).asElement();
 
     await addButton.click();
     await addButton.click();
@@ -110,7 +107,7 @@ describe('Ids List Builder e2e Tests', () => {
 
   it.skip('should update inner text on edit keyup', async () => {
     const firstItemSelector = createListItemSelector(1);
-    const editButtonSelector = 'pierce/#button-edit';
+    const editButtonSelector = 'pierce/[list-builder-action="edit"]';
 
     // click first list item, wait for selected state
     await page.click(firstItemSelector);
