@@ -834,10 +834,11 @@ export default class IdsTimePicker extends Base {
   set size(value: string) {
     if (value) {
       this.setAttribute(attributes.SIZE, value);
+      this.container?.classList.add(value);
     } else {
       this.removeAttribute(attributes.SIZE);
+      this.container?.classList.remove(value);
     }
-
     this.input?.setAttribute(attributes.SIZE, this.size);
   }
 

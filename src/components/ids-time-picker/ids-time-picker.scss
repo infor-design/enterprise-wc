@@ -1,7 +1,13 @@
 @import '../../core/ids-base';
 @import '../../mixins/sass/ids-hide-mixin';
 
+:host {
+  display: block;
+}
+
 .ids-time-picker {
+  display: inline-block;
+
   .popup-btn {
     @include w-full();
 
@@ -90,6 +96,11 @@
     .separator {
       display: none;
     }
+  }
+
+  // "Full" size timepickers are display: block
+  &.full {
+    display: block;
   }
 
   // Time Picker Editor Borderless
