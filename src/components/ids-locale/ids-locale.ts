@@ -1022,7 +1022,7 @@ class IdsLocale {
             dateObj.a = 'PM';
 
             if (dateObj.h) {
-              if (dateObj.h < 12) {
+              if (Number(dateObj.h) < 12) {
                 dateObj.h = parseInt(dateObj.h as string, 10) + 12;
               }
             }

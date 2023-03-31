@@ -6,6 +6,8 @@
 
 - `[Button]` Renamed "type" attribute to "appearance", mapped a new "type" attribute that sets HTMLButtonElement's "type" attribute. ([#1062](https://github.com/infor-design/enterprise-wc/issues/1062))
 - `[ColorPicker]` Fix change event firing multiple times. ([#1181](https://github.com/infor-design/enterprise-wc/issues/1181))
+- `[Docs]` Added some documentation on ways to customize a component. ([#970](https://github.com/infor-design/enterprise-wc/issues/970))
+- `[Popup]` Unset text align coming from HTML attribute. ([#1200](https://github.com/infor-design/enterprise-wc/issues/1200))
 
 ## 1.0.0-beta.8
 
@@ -21,6 +23,7 @@
 - `[Datagrid]` Fixed broken validation styling in editable cells. ([#1171](https://github.com/infor-design/enterprise-wc/issues/1171))
 - `[DatePicker]` Fixed broken date parsing in different locales. ([#1114](https://github.com/infor-design/enterprise-wc/issues/1114))
 - `[Dropdown]` Added functionality to select an option by keyboard input. ([#1144](https://github.com/infor-design/enterprise-wc/issues/1144))
+- `[ListBuilder]` Fixed drag to first row, drag multi select items, toolbar styles, added support to drag while in edit mode, and added support to custom toolbar. ([#926](https://github.com/infor-design/enterprise-wc/issues/926))
 - `[ListView]` Added support for search to filter list. ([#763](https://github.com/infor-design/enterprise-wc/issues/763)
 - `[Menu/Popup Menu]` Added Shortcut Key display feature to IdsMenuItem. ([#1108](https://github.com/infor-design/enterprise-wc/issues/1108))
 
