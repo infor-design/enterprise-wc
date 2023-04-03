@@ -227,12 +227,12 @@ button {
   color: var(--ids-inverse-text-color);
 
   &:hover {
-    background-color: var(--ids-color-secondary);
+    background-color: var(--ids-color-primary-70);
     color: var(--ids-inverse-text-color);
   }
 
   &:active {
-    background-color: var(--ids-color-secondary);
+    background-color: var(--ids-color-primary-70);
     color: var(--ids-inverse-text-color);
   }
 }

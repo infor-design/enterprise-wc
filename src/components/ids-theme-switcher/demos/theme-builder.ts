@@ -11,6 +11,10 @@ import '../../ids-progress-bar/ids-progress-bar';
 import type IdsDataGrid from '../../ids-data-grid/ids-data-grid';
 import '../../ids-data-grid/ids-data-grid';
 import '../../ids-data-label/ids-data-label';
+import '../../ids-pager/ids-pager';
+import '../../ids-scrollable/ids-scrollable';
+import '../../ids-scrollable/ids-sticky';
+import '../../ids-toggle-button/ids-toggle-button';
 
 // Init Some components that need JS
 import type { IdsDataGridColumn } from '../../ids-data-grid/ids-data-grid-column';
@@ -203,4 +207,14 @@ document.addEventListener('themechanged', () => {
   backgroundColor.value = style.getPropertyValue('--ids-body-background-color');
   textColor.value = style.getPropertyValue('--ids-text-color');
   document.querySelector('#ids-theme-builder')?.remove();
+});
+
+// Implement Toggle BUtton
+document.addEventListener('DOMContentLoaded', () => {
+  // Add an event listener to test clickable links
+  document.querySelectorAll('ids-toggle-button').forEach((idsButton) => {
+    idsButton.addEventListener('click', (e: any) => {
+      e.target.toggle();
+    });
+  });
 });

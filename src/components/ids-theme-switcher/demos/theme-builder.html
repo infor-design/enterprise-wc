@@ -19,6 +19,7 @@
         <ids-color-picker size="sm" label="Background Color" suppress-labels value="#FFFFFF" id="background-color"></ids-color-picker>
         <ids-color-picker size="sm" label="Text Color" suppress-labels value="#2F2F32" id="text-color"></ids-color-picker>
       </ids-layout-grid-cell>
+
       <ids-layout-grid-cell col-span="10">
         <!-- Alerts -->
         <ids-layout-grid auto="true" gap="xl">
@@ -351,6 +352,23 @@
         </ids-layout-grid>
 
         <!-- Progress Bar -->
+        <ids-layout-grid cols="3" gap="md">
+          <ids-text font-size="12" type="h1">Pager</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid cols="3" gap="md">
+          <ids-layout-grid-cell>
+            <ids-pager page-number="1" page-size="20" total="200" id="ids-pager-example">
+              <ids-pager-button first></ids-pager-button>
+              <ids-pager-button previous></ids-pager-button>
+              <ids-pager-input></ids-pager-input>
+              <ids-pager-button next></ids-pager-button>
+              <ids-pager-button last></ids-pager-button>
+            </ids-pager>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Progress Bar -->
         <ids-layout-grid auto="true" gap="xl">
           <ids-layout-grid-cell>
             <ids-text font-size="12" type="h2">Progress Bar</ids-text>
@@ -408,6 +426,20 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <!-- Toggle Button -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h1">Toggle Button</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid cols="4" gap="md">
+          <ids-layout-grid-cell>
+            <ids-toggle-button
+              id="test-toggle-button"
+              icon-on="star-filled"
+              icon-off="star-outlined"
+              text-off="Toggle Button (Off)"
+              text-on="Toggle Button (On)"></ids-toggle-button>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

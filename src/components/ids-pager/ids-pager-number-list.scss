@@ -1,5 +1,4 @@
-@import '../../core/ids-base';
-
+/* Ids Pager Number List Component */
 :host(ids-pager-number-list) {
   box-sizing: border-box;
   flex-basis: 0;
@@ -18,19 +17,18 @@ ids-button::part(button) {
 }
 
 ids-button:not([selected]):not([disabled])::part(button) {
-  @include text-azure-60();
+  color:  var(--ids-component-primary-background-color);
 }
 
 ids-button[selected]::part(button) {
-  @include font-bold();
+  font-weight: var(--ids-font-weight-semi-bold);
 }
 
 ids-button:not([selected]):hover {
-  @include border-none();
-  @include border-b-1();
-  @include border-azure-60();
+  border: none;
+  border-bottom: 1px solid var(--ids-focus-ring-border-color);
 }
 
 .divider {
-  @include inline-flex();
+  display: inline-flex;
 }

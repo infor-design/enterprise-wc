@@ -5,7 +5,7 @@
   @include mixins.antialiased();
 
   border: 1px solid transparent;
-  border-radius: var(--ids-border-radius);
+  border-radius: var(--ids-border-radius-xs);
   cursor: var(--ids-cursor-pointer);
   display: inline-block;
   font-family: var(--ids-font-family);

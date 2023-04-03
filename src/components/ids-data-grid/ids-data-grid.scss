@@ -15,7 +15,7 @@
   // Outside border and Background and sizing
   background-color: var(--ids-data-grid-background-color);
   border: 1px solid var(--ids-data-grid-cell-border-color);
-  border-radius: var(--ids-border-radius);
+  border-radius: var(--ids-border-radius-xs);
   border-collapse: collapse;
   contain: content;
   overflow: auto;

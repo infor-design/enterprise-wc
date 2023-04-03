@@ -127,7 +127,7 @@
  */
 @mixin ids-standard-button-colors() {
   display: inline-flex;
-  font-weight: var(--ids-font-weight-semi-bold);
+  font-weight: var(--ids-button-tertiary-font-weight);
   border-radius: var(--ids-border-radius-md);
 
   // ====================================================
@@ -382,8 +382,8 @@
       &:not(.hide-focus).is-active,
       &:not(.hide-focus):focus {
         @include outset-button-shadow(
-          var(--ids-color-secondary),
-          var(--ids-color-inverse)
+          var(--ids-color-primary-70),
+          var(--ids-color-primary-00)
         );
       }
     }
@@ -416,7 +416,7 @@
   // Primary Button
   &.btn-primary {
     background-color: var(--ids-color-primary);
-    color: var(--ids-color-inverse);
+    color: var(--ids-color-primary-00);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -442,7 +442,7 @@
   &.btn-secondary,
   &.btn-tertiary {
     background-color: var(--ids-color-primary);
-    color: var(--ids-color-secondary);
+    color: var(--ids-color-primary-70);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -459,7 +459,7 @@
     }
 
     .ripple-effect {
-      background-color: var(--ids-color-secondary);
+      background-color: var(--ids-color-primary-70);
     }
   }
 }

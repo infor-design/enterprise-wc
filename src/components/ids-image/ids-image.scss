@@ -126,7 +126,7 @@ $image-sizes: (
   &::after {
     position: absolute;
     border-radius: var(--ids-border-radius-round);
-    background-color: var(--ids-color-inverse);
+    background-color: var(--ids-color-primary-00);
     content: '';
     width: 16px;
     height: 16px;
@@ -142,7 +142,7 @@ $image-sizes: (
 .user-status-wrapper .user-status {
   svg {
     border-radius: var(--ids-border-radius-round);
-    background-color: var(--ids-color-inverse);
+    background-color: var(--ids-color-primary-00);
   }
 
   position: unset;
