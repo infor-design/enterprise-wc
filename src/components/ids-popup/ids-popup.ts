@@ -547,13 +547,13 @@ export default class IdsPopup extends Base {
   set maxHeight(value: string | number | null) {
     const val = validMaxHeight(value);
     if (val) {
-      this.container?.classList.add('has-maxheight');
+      // this.container?.classList.add('has-maxheight');
       this.setAttribute(attributes.MAX_HEIGHT, val);
     } else {
-      this.container?.classList.remove('has-maxheight');
+      // this.container?.classList.remove('has-maxheight');
       this.removeAttribute(attributes.MAX_HEIGHT);
     }
-    this.#setMaxHeightProp(val);
+    this.#updateMaxHeightProp(val);
   }
 
   /**
@@ -561,11 +561,38 @@ export default class IdsPopup extends Base {
    * in the ShadowRoot of this component
    * @param {string | number | null} val how to define the property
    */
-  #setMaxHeightProp(val: string | number | null) {
+  #updateMaxHeightProp(val?: string | number | null) {
+    const containerElem = (this.containingElem as HTMLElement);
     const maxHeightVarName = '--ids-popup-maxheight';
+    let targetHeightConstraint = document.body.offsetHeight;
+    let targetValue = validMaxHeight(val || this.maxHeight);
+
+    if (containerElem) {
+      targetHeightConstraint = containerElem.offsetHeight;
+    } else if (window) {
+      targetHeightConstraint = window.innerHeight;
+      targetValue = `${targetHeightConstraint}px`;
+    }
+
+    if (targetValue) {
+      if (targetHeightConstraint < parseInt(targetValue)) {
+        targetValue = `${targetHeightConstraint}px`;
+      }
+    } else {
+      const currentPopupHeight = parseInt(window.getComputedStyle(this.wrapper!).height);
+      if (targetHeightConstraint <= currentPopupHeight) {
+        targetValue = `${targetHeightConstraint}px`;
+      }
+    }
+
     if (this.container) {
-      if (val) this.container.style.setProperty(maxHeightVarName, `${val}`);
-      else this.container.style.removeProperty(maxHeightVarName);
+      if (targetValue) {
+        this.container.style.setProperty(maxHeightVarName, `${targetValue}`);
+        this.container?.classList.add('has-maxheight');
+      } else {
+        this.container?.classList.remove('has-maxheight');
+        this.container.style.removeProperty(maxHeightVarName);
+      }
     }
   }
 
@@ -1150,6 +1177,8 @@ export default class IdsPopup extends Base {
   place(): void {
     // NOTE: position-style="viewport" is driven by CSS only
     if (this.visible && this.positionStyle !== 'viewport') {
+      this.#updateMaxHeightProp();
+
       const { alignTarget } = this;
       if (!alignTarget) {
         this.#placeAtCoords();
