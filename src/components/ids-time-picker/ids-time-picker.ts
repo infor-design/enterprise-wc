@@ -592,7 +592,7 @@ export default class IdsTimePicker extends Base {
       if (this.picker.popup) {
         this.picker.popup.align = `bottom, ${this.localeAPI.isRTL() || ['md', 'lg', 'full'].includes(this.size) ? 'right' : 'left'}`;
         this.picker.popup.arrow = 'bottom';
-        this.picker.popup.y = 16;
+        // this.picker.popup.y = 16;
       }
     }
 

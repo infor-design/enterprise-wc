@@ -77,7 +77,7 @@ class IdsTimePickerPopup extends Base {
       return `<div class="ids-time-picker-popup embedded" part="container">${dropdownHTML}</div>`;
     }
 
-    return `<ids-popup class="ids-time-picker-popup" type="menu" tabIndex="-1" align="bottom, left" arrow="bottom" part="popup" y="12" animated>
+    return `<ids-popup class="ids-time-picker-popup" type="menu" tabIndex="-1" align="bottom, left" arrow="bottom" part="popup" animated>
       <section slot="content">
         ${dropdownHTML}
         <ids-modal-button class="popup-btn" hidden="${this.autoupdate}" part="btn-set" appearance="primary">

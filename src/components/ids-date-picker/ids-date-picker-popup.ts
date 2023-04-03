@@ -112,7 +112,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
    * @returns {string} The template
    */
   template(): string {
-    return `<ids-popup class="ids-date-picker-popup" type="menu" align="bottom, left" arrow="bottom" tabIndex="-1" y="12" animated>
+    return `<ids-popup class="ids-date-picker-popup" type="menu" align="bottom, left" arrow="bottom" tabIndex="-1" y="0" animated>
       <slot slot="content" name="toolbar">
         ${this.toolbarTemplate()}
       </slot>
