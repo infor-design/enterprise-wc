@@ -101,10 +101,10 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   @include antialiased();
   @include font-sans();
   @include text-slate-60();
+  @include block();
   @include mb-8();
 
   align-items: baseline;
-  display: block;
 
   // Ability to center label from parent element
   justify-content: inherit;
@@ -120,7 +120,6 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     &::after {
       @include relative();
       @include font-sans();
-      @include mx-2();
       @include text-20();
       @include text-alert-error();
 
@@ -136,6 +135,11 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     &.empty::after {
       content: '';
     }
+  }
+
+  ids-text::part(text),
+  .ids-text {
+    display: inline;
   }
 }
 
