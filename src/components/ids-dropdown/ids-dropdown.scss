@@ -2,8 +2,13 @@
 @import '../../mixins/sass/ids-validation-mixin';
 @import '../../core/ids-base';
 
+:host {
+  display: block;
+}
+
 // Most Styles are in list-box, popup and trigger field
 .ids-dropdown {
+  display: inline-block;
   position: relative;
 }
 
@@ -143,3 +148,11 @@
 :host([list]:not([disabled])) {
   cursor: pointer;
 }
+
+// Override trigger field display type
+/*
+ids-trigger-field,
+.ids-dropdown .ids-trigger-field {
+  display: inline-block;
+}
+*/
