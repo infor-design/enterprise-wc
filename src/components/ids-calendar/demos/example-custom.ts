@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const eventManager = new CustomCalendarEventManager();
 
   calendar?.addEventListener('beforeeventrendered', () => {
-    const view = calendar.getView();
+    const view = calendar?.getView();
     view.generateYOffset = (event: IdsCustomCalendarEvent): number => eventManager.generateYOffset(event);
     view.isEventOverflowing = (event: IdsCustomCalendarEvent): boolean => eventManager.isEventOverflowing(event);
   });

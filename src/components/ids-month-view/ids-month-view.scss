@@ -391,7 +391,7 @@
 
     &:not(.is-selected):not(.has-legend):hover,
     &:not(.is-selected):not(.has-legend):active {
-      background-color:  var(--ids-month-view-day-selected-hover);
+      background-color:  rgb(240 240 240 / 0.5);
     }
 
     &.is-disabled {
