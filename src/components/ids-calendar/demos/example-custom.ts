@@ -16,7 +16,7 @@ function getCalendarEvents(): Promise<any> {
 document.addEventListener('DOMContentLoaded', async () => {
   const calendar: any = document.querySelector<IdsCalendar>('ids-calendar');
   const addEventMenu = document.querySelector('#add-event');
-  
+
   const eventManager = new CustomCalendarEventManager();
 
   calendar?.addEventListener('beforeeventrendered', () => {
