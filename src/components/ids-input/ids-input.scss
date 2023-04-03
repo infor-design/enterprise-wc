@@ -104,7 +104,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   @include mb-8();
 
   align-items: baseline;
-  display: inline-flex;
+  display: block;
 
   // Ability to center label from parent element
   justify-content: inherit;
@@ -178,7 +178,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   @include mb-16();
 
   display: inline-block;
-  max-width: 100%;
+  max-width: $input-size-default;
 
   // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
