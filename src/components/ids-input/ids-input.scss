@@ -5,7 +5,7 @@
 @import '../../mixins/sass/ids-validation-mixin';
 
 // Set default
-$input-size-default: $input-size-md;
+$input-size-default: 100%;
 $input-field-height-default: $input-field-height-md;
 $input-compact-height: $input-field-height-xs + 2;
 
@@ -178,6 +178,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   @include mb-16();
 
   display: inline-block;
+  max-width: 100%;
 
   // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
@@ -195,7 +196,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     display: flex;
     resize: none;
     text-align: left;
-    // max-width: $input-size-default;
+    max-width: $input-size-default;
   }
 
   &:focus-within,
