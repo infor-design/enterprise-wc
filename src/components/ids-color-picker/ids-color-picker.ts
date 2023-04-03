@@ -598,7 +598,7 @@ export default class IdsColorPicker extends Base {
    * @param {string} hex hex
    */
   #updateColorPreview(hex: string) {
-    this.colorPreview?.setAttribute(attributes.HEX, hex);
+    this.colorPreview?.setAttribute(attributes.HEX, this.#findColorSwatch(hex)?.hex || hex || '');
   }
 
   /** Handle events */
