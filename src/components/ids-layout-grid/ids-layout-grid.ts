@@ -11,12 +11,6 @@ import {
   FLOW_TYPES,
   MARGIN_SIZES,
   PADDING_SIZES,
-  gridSizes,
-  rowSizes,
-  minMaxWidths,
-  minMaxRowHeights,
-  addClasses,
-  addStyleProperty,
   prefix
 } from './ids-layout-grid-common';
 
@@ -77,9 +71,6 @@ export default class IdsLayoutGrid extends IdsElement {
    * @param {boolean | string | null} value sets the number of columns
    */
   set cols(value: string | null) {
-    // if (value !== null && value > '24') {
-    //   console.error('Number of columns can not exceed 24');
-    // }
     if (value !== null) {
       this.setAttribute(attributes.COLS, value);
     } else {
@@ -215,8 +206,10 @@ export default class IdsLayoutGrid extends IdsElement {
   set minColWidth(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.MIN_COL_WIDTH, value);
+      this.style.setProperty('--min-col-width', value);
     } else {
       this.removeAttribute(attributes.MIN_COL_WIDTH);
+      this.style.removeProperty('--min-col-width');
     }
   }
 
@@ -237,8 +230,10 @@ export default class IdsLayoutGrid extends IdsElement {
   set minRowHeight(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.MIN_ROW_HEIGHT, value);
+      this.style.setProperty('--min-row-height', value);
     } else {
       this.removeAttribute(attributes.MIN_ROW_HEIGHT);
+      this.style.removeProperty('--min-row-height');
     }
   }
 
@@ -259,8 +254,10 @@ export default class IdsLayoutGrid extends IdsElement {
   set maxColWidth(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.MAX_COL_WIDTH, value);
+      this.style.setProperty('--max-col-width', value);
     } else {
       this.removeAttribute(attributes.MAX_COL_WIDTH);
+      this.style.removeProperty('--max-col-width');
     }
   }
 
@@ -280,8 +277,10 @@ export default class IdsLayoutGrid extends IdsElement {
   set maxRowHeight(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.MAX_ROW_HEIGHT, value);
+      this.style.setProperty('--max-row-height', value);
     } else {
       this.removeAttribute(attributes.MAX_ROW_HEIGHT);
+      this.style.removeProperty('--max-row-height');
     }
   }
 
@@ -586,8 +585,12 @@ export default class IdsLayoutGrid extends IdsElement {
   set rowHeight(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.ROW_HEIGHT, value);
+      this.classList.add(`${prefix}-auto-row-height`);
+      this.style.setProperty('--grid-auto-row-height', value);
     } else {
       this.removeAttribute(attributes.ROW_HEIGHT);
+      this.classList.remove(`${prefix}-auto-row-height`);
+      this.style.removeProperty('--grid-auto-row-height');
     }
   }
 
@@ -609,100 +612,11 @@ export default class IdsLayoutGrid extends IdsElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.settings();
+    this.initialSettings();
   }
 
-  private settings() {
+  private initialSettings() {
     this.classList.add(`${prefix}`);
-    this.setColumns();
-    this.setRows();
-    this.setMinMaxWidth();
-    this.setMinMaxRowHeight();
-    this.setAutoFit();
-    this.setAutoFill();
-    this.setRowHeight();
-    this.setGap();
-    this.setMargin();
-    this.setPadding();
-    this.setJustify();
-    this.setFlow();
-  }
-
-  private setColumns() {
-    addClasses(this, gridSizes);
-  }
-
-  private setRows() {
-    addClasses(this, rowSizes);
-  }
-
-  private setMinMaxWidth() {
-    addStyleProperty(this, minMaxWidths);
-  }
-
-  private setMinMaxRowHeight() {
-    addStyleProperty(this, minMaxRowHeights);
-  }
-
-  private setGap() {
-    if (this.gap !== null) {
-      this.classList.add(`${prefix}-gap-${this.gap}`);
-    }
-  }
-
-  private setMargin() {
-    if (this.margin !== null) {
-      this.classList.add(`${prefix}-margin-${this.margin}`);
-    }
-
-    if (this.marginY !== null) {
-      this.classList.add(`${prefix}-margin-y-${this.marginY}`);
-    }
-  }
-
-  private setPadding() {
-    if (this.padding !== null) {
-      this.classList.add(`${prefix}-padding-${this.padding}`);
-    }
-
-    if (this.paddingX !== null) {
-      this.classList.add(`${prefix}-padding-x-${this.paddingX}`);
-    }
-
-    if (this.paddingY !== null) {
-      this.classList.add(`${prefix}-padding-y-${this.paddingY}`);
-    }
-  }
-
-  private setAutoFit() {
-    if (this.autoFit) {
-      this.classList.add(`${prefix}-auto-fit`);
-    }
-  }
-
-  private setAutoFill() {
-    if (this.autoFill) {
-      this.classList.add(`${prefix}-auto-fill`);
-    }
-  }
-
-  private setFlow() {
-    if (this.flow !== null) {
-      this.classList.add(`${prefix}-flow-${this.flow}`);
-    }
-  }
-
-  private setRowHeight() {
-    if (this.rowHeight !== null) {
-      this.classList.add(`${prefix}-auto-row-height`);
-      this.style.setProperty('--grid-auto-row-height', this.rowHeight);
-    }
-  }
-
-  private setJustify() {
-    if (this.justifyContent !== null) {
-      this.classList.add(`${prefix}-justify-${this.justifyContent}`);
-    }
   }
 
   template(): string {

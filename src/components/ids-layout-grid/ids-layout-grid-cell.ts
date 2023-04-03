@@ -7,15 +7,9 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsButton from '../ids-button/ids-button';
 
 import {
-  addClasses,
-  colSpanSizes,
-  colStartSizes,
-  colEndSizes,
   GRID_CELL_ATTRIBUTES,
-  orderSizes,
   PADDING_SIZES,
   prefix,
-  rowSpanSizes
 } from './ids-layout-grid-common';
 
 const Base = IdsEventsMixin(
@@ -489,8 +483,10 @@ export default class IdsLayoutGridCell extends Base {
   set height(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.HEIGHT, value);
+      this.style.setProperty(attributes.HEIGHT, value);
     } else {
       this.removeAttribute(attributes.HEIGHT);
+      this.style.removeProperty(attributes.HEIGHT);
     }
   }
 
@@ -509,8 +505,10 @@ export default class IdsLayoutGridCell extends Base {
   set minHeight(value: string | null | any) {
     if (value !== null) {
       this.setAttribute(attributes.MIN_HEIGHT, value);
+      this.style.setProperty(attributes.MIN_HEIGHT, value);
     } else {
       this.removeAttribute(attributes.MIN_HEIGHT);
+      this.style.removeProperty(attributes.MIN_HEIGHT);
     }
   }
 
@@ -828,8 +826,12 @@ export default class IdsLayoutGridCell extends Base {
     const isTruthy = stringToBool(value);
     if (isTruthy) {
       this.setAttribute(attributes.STICKY, '');
+      this.classList.add(`${prefix}-sticky`);
+      this.style.setProperty('--sticky-position', '0');
     } else {
       this.removeAttribute(attributes.STICKY);
+      this.classList.remove(`${prefix}-sticky`);
+      this.style.removeProperty('--sticky-position');
     }
   }
 
@@ -848,8 +850,10 @@ export default class IdsLayoutGridCell extends Base {
   set stickyPosition(value: string | null | any) {
     if (value !== null) {
       this.setAttribute(attributes.STICKY_POSITION, value);
+      this.style.setProperty('--sticky-position', value);
     } else {
       this.removeAttribute(attributes.STICKY_POSITION);
+      this.style.removeProperty('--sticky-position');
     }
   }
 
@@ -896,83 +900,15 @@ export default class IdsLayoutGridCell extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.settings();
+    this.initialSettings();
   }
 
-  private settings() {
+  private initialSettings() {
     this.classList.add(`${prefix}-cell`);
-    this.setColSpan();
-    this.setColStart();
-    this.setColEnd();
-    this.setRowSpan();
-    this.setFill();
-    this.setHeight();
-    this.setMinHeight();
-    this.setPadding();
-    this.setOrder();
-    this.setSticky();
-    this.setStickyPosition();
     requestIdleCallback(() => {
       this.setCloseButton();
     });
     this.#attachEventHandlers();
-  }
-
-  private setColSpan() {
-    addClasses(this, colSpanSizes);
-  }
-
-  private setColStart() {
-    addClasses(this, colStartSizes);
-  }
-
-  private setColEnd() {
-    addClasses(this, colEndSizes);
-  }
-
-  private setOrder() {
-    addClasses(this, orderSizes);
-  }
-
-  private setSticky() {
-    if (this.sticky === true) {
-      this.classList.add(`${prefix}-sticky`);
-      this.style.setProperty('--sticky-position', '0');
-    }
-  }
-
-  private setStickyPosition() {
-    if (this.stickyPosition !== null) {
-      this.style.setProperty('--sticky-position', this.stickyPosition);
-    }
-  }
-
-  private setRowSpan() {
-    addClasses(this, rowSpanSizes);
-  }
-
-  private setHeight() {
-    if (this.height !== null) {
-      this.style.setProperty(attributes.HEIGHT, this.height);
-    }
-  }
-
-  private setMinHeight() {
-    if (this.minHeight !== null) {
-      this.style.setProperty(attributes.MIN_HEIGHT, this.minHeight);
-    }
-  }
-
-  private setPadding() {
-    if (this.padding !== null) {
-      this.classList.add(`${prefix}-padding-${this.padding}`);
-    }
-  }
-
-  private setFill() {
-    if (this.fill === true) {
-      this.classList.add(attributes.FILL);
-    }
   }
 
   private setCloseButton() {

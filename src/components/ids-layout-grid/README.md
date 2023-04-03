@@ -131,7 +131,7 @@ This `<ids-layout-grid-cell>` element is used to define a cell within a grid lay
 </ids-layout-grid>
 ```
 
-For AutoFit layout the grid cells have a min/max value of 100px and 1fr respectively. The cells will take up as much space as is available until they reach the threshold of the MinColWidth, then they will automatically shift until they reach that threshold again. This removes the need for media queries in many cases.
+For AutoFit layout the grid cells in this example have a min/max value of 100px and 1fr respectively. The cells will take up as much space as is available until they reach the threshold of the MinColWidth, then they will automatically shift until they reach that threshold again. This removes the need for media queries in many cases.
 
 ---
 
@@ -193,9 +193,9 @@ Nested Grid. An IdsLayoutGrid component can be nested inside an IdsLayoutGridCel
 Standalone CSS Example
 
 ```html
-<div class="grid grid-cols-3">
-  <div class="grid-cell col-span-2 fill"><ids-text font-size="12">A</ids-text></div>
-  <div class="grid-cell fill"><ids-text font-size="12">B</ids-text></div>
+<div class="ids-layout-grid ids-layout-grid-cols-3">
+  <div class="ids-layout-grid-cell ids-layout-grid-col-span-2 fill"><ids-text font-size="12">A</ids-text></div>
+  <div class="ids-layout-grid-cell fill"><ids-text font-size="12">B</ids-text></div>
 </div>
 ```
 

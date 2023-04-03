@@ -1,5 +1,7 @@
 import '../ids-layout-grid';
 import '../ids-layout-grid-cell';
+import '../../ids-layout-flex/ids-layout-flex';
+import '../../ids-layout-flex/ids-layout-flex-item';
 
 // Supporting components
 import '../../ids-masthead/ids-masthead';
