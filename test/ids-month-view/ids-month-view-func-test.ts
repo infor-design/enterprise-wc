@@ -487,7 +487,7 @@ describe('IdsMonthView Component (compact and datepicker)', () => {
     expect(isDatePicker).toBeTruthy();
   });
 
-  it('supports async onDayCellRender', () => {
+  it('supports async onDayRender', () => {
     const getDayCellTemplate = () => `<td><span class="day-container">
     <ids-text
       aria-hidden="true"
@@ -496,14 +496,14 @@ describe('IdsMonthView Component (compact and datepicker)', () => {
     >20190909</ids-text>
   </span></td>`;
 
-    expect(component.onDayCellRender).toBeFalsy();
-    component.onDayCellRender = function onDayCellRender() {
+    expect(component.onDayRender).toBeFalsy();
+    component.onDayRender = function onDayRender() {
       return getDayCellTemplate();
     };
-    expect(component.onDayCellRender).toBeTruthy();
+    expect(component.onDayRender).toBeTruthy();
   });
 
-  it('fires onDayCellRender', () => {
+  it('fires onDayRender', () => {
     component.addEventListener('beforerendermonth', (e: CustomEvent) => {
       e.detail.response(false);
     });

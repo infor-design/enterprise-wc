@@ -920,17 +920,18 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
         </span>
         ${isCompact ? '' : `<div class="events-container" data-key="${dateKey}"></div>`}
         ${
-          isCompact
-            ? ""
-            : `<div class="events-container" data-key="${dateKey}"></div>`
-        }
+  isCompact
+    ? ''
+    : `<div class="events-container" data-key="${dateKey}"></div>`
+}
       </td>`;
-      if(typeof this.state.onDayCellRender === 'function') {
-        cellTemplate = this.state.onDayCellRender(cellTemplate, dateKey);
+      if (typeof this.state.onDayRender === 'function') {
+        cellTemplate = this.state.onDayRender(cellTemplate, dateKey);
       }
-        return cellTemplate;
+      return cellTemplate;
     }).join('');
   }
+
   /**
    * Add week days HTML to the table
    */
@@ -1658,11 +1659,12 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    * Function that fires as the day cell is rendered.
    * @param {Function} func
    */
-  public get onDayCellRender() {
-    return this.state.onDayCellRender;
+  public get onDayRender() {
+    return this.state.onDayRender;
   }
-  public set onDayCellRender(func) {
-    this.state.onDayCellRender = func;
+
+  public set onDayRender(func) {
+    this.state.onDayRender = func;
   }
 
   /**
