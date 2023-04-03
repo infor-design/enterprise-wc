@@ -4,6 +4,7 @@
 :host {
   display: block;
   z-index: 3000;
+  text-align: unset;
 }
 
 :host([position-style='absolute']) {

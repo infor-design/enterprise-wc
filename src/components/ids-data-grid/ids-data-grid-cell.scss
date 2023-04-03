@@ -32,15 +32,12 @@
     margin: var(--ids-spacing-xxl);
   }
 
-  // Text ellipsis
   .text-ellipsis {
-    align-content: center;
-    align-items: center;
-    display: inline-flex;
+    display: inline-block;
+    vertical-align: middle;
     padding-inline-start: var(--ids-spacing-xxl);
     padding-inline-end: var(--ids-spacing-xxl);
-    flex-flow: row nowrap;
-    height: inherit;
+    height: auto;
     overflow: hidden;
     text-overflow: ellipsis;
   }
