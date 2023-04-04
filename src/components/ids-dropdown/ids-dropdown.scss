@@ -4,12 +4,32 @@
 
 :host {
   display: block;
+
+  .ids-dropdown {
+    display: inline-block;
+    max-width: 100%;
+  }
 }
 
 // Most Styles are in list-box, popup and trigger field
 .ids-dropdown {
-  display: inline-block;
+  display: block;
   position: relative;
+
+  ids-trigger-field {
+    &[size='full'] {
+      display: block;
+    }
+  }
+
+  &.full {
+    display: block;
+
+    ids-trigger-field,
+    .ids-trigger-field {
+      display: block;
+    }
+  }
 }
 
 // Icon Placement
