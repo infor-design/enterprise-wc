@@ -59,22 +59,22 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.advanced).toBe(true);
     expect(colorpicker.hasAttribute('advanced')).toBe(true);
     expect(colorpicker.getAttribute('advanced')).toBe('true');
-    expect(colorpicker.mask).toBeDefined();
+    expect(colorpicker.textInput.mask).toBeDefined();
     expect(colorpicker.container.querySelectorAll('.advanced-color-picker').length).toEqual(1);
-    expect(colorpicker.container.querySelector('.color-input')?.value).toEqual('#941e1e');
+    expect(colorpicker.container.querySelector('.advanced-color-picker')?.value).toEqual('#941e1e');
 
     colorpicker.advanced = false;
     expect(colorpicker.hasAttribute('advanced')).toBe(false);
     expect(colorpicker.getAttribute('advanced')).toBeFalsy();
     expect(colorpicker.container.querySelector('.advanced-color-picker')).toBeNull();
     expect(colorpicker.colorInput).toBeNull();
-    expect(colorpicker.mask).not.toBeDefined();
+    expect(colorpicker.textInput.mask).not.toBeDefined();
 
     colorpicker.value = '#000000';
     colorpicker.advanced = true;
     expect(colorpicker.container.querySelectorAll('.advanced-color-picker').length).toEqual(1);
-    expect(colorpicker.container.querySelector('.color-input')?.value).toEqual('#000000');
-    expect(colorpicker.mask).toBeDefined();
+    expect(colorpicker.container.querySelector('.advanced-color-picker')?.value).toEqual('#000000');
+    expect(colorpicker.textInput.mask).toBeDefined();
   });
 
   it('has a default value of blank', () => {
@@ -88,7 +88,7 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.getAttribute('value')).toEqual('#000000');
     colorpicker.value = '';
     expect(colorpicker.value).toEqual('');
-    expect(colorpicker.getAttribute('value')).toEqual('');
+    expect(colorpicker.getAttribute('value')).toBeNull();
   });
 
   it('has a disabled attribute', () => {
@@ -102,7 +102,7 @@ describe('Ids Color Picker Component', () => {
 
     colorpicker.disabled = true;
     expect(colorpicker.disabled).toEqual(true);
-    expect(colorpicker.getAttribute('disabled')).toEqual('true');
+    expect(colorpicker.getAttribute('disabled')).toEqual('');
   });
 
   it('has a clearable attribute', () => {
@@ -127,7 +127,7 @@ describe('Ids Color Picker Component', () => {
 
     colorpicker.readonly = true;
     expect(colorpicker.readonly).toEqual(true);
-    expect(colorpicker.getAttribute('readonly')).toEqual('true');
+    expect(colorpicker.getAttribute('readonly')).toEqual('');
   });
 
   it('has a label attribute', () => {
