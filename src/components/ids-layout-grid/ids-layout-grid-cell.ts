@@ -7,6 +7,7 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsButton from '../ids-button/ids-button';
 
 import {
+  ALIGN_TYPES,
   GRID_CELL_ATTRIBUTES,
   PADDING_SIZES,
   prefix,
@@ -34,6 +35,24 @@ type PaddingSizes = {
 @scss(styles)
 export default class IdsLayoutGridCell extends Base {
   closeButton?: IdsButton;
+
+  /**
+   * Set the grid-cell align-content
+   * @param {string | null} value The align-content [null, start, end, between, around, evenly]
+   */
+  set alignContent(value: string | null) {
+    if (!value || ALIGN_TYPES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.ALIGN_CONTENT);
+    } else {
+      this.setAttribute(attributes.ALIGN_CONTENT, value);
+    }
+  }
+
+  /**
+   * Get the grid align-content setting
+   * @returns {string | null} The align-content [null, start, end, between, around, evenly]
+   */
+  get alignContent(): string | null { return this.getAttribute(attributes.ALIGN_CONTENT); }
 
   /**
    * Set col-end attribute
@@ -456,6 +475,27 @@ export default class IdsLayoutGridCell extends Base {
   }
 
   /**
+   * Set the editable attribute
+   * @param {string | null} value The value of the editable attribute
+   */
+  set editable(value: string | null | any) {
+    const isTruthy = stringToBool(value);
+    if (isTruthy) {
+      this.setAttribute(attributes.EDITABLE, '');
+    } else {
+      this.removeAttribute(attributes.EDITABLE);
+    }
+  }
+
+  /**
+   * Get the editable attribute
+   * @returns {string | null} The value of the editable attribute
+   */
+  get editable(): string | null | any {
+    return stringToBool(this.getAttribute(attributes.EDITABLE));
+  }
+
+  /**
    * Set the value of the fill attribute
    * @param {string | null} value The boolean value of the fill attribute.
    */
@@ -499,6 +539,24 @@ export default class IdsLayoutGridCell extends Base {
   }
 
   /**
+   * Set the grid cell justify-content
+   * @param {string | null} value The justify-content [null, start, end, between, around, evenly]
+   */
+  set justifyContent(value: string | null) {
+    if (!value || ALIGN_TYPES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.JUSTIFY_CONTENT);
+    } else {
+      this.setAttribute(attributes.JUSTIFY_CONTENT, value);
+    }
+  }
+
+  /**
+   * Get the grid justify setting
+   * @returns {string | null} The justify [null, start, end, between, around, evenly]
+   */
+  get justifyContent(): string | null { return this.getAttribute(attributes.JUSTIFY_CONTENT); }
+
+  /**
    * Set a minHeight attribute
    * @param {string | null} value The value of the minHeight attribute
    */
@@ -519,24 +577,6 @@ export default class IdsLayoutGridCell extends Base {
   get minHeight(): string | null | any {
     return this.getAttribute(attributes.MIN_HEIGHT);
   }
-
-  /**
-   * Set the padding attribute
-   * @param {string | null} value The value of the padding attribute
-   */
-  set padding(value: string | null) {
-    if (!value || PADDING_SIZES.indexOf(value as any) <= 0) {
-      this.removeAttribute(attributes.PADDING);
-    } else {
-      this.setAttribute(attributes.PADDING, value);
-    }
-  }
-
-  /**
-   * Get the padding attribute
-   * @returns {string | null} The number value that represents the padding of the grid
-   */
-  get padding(): PaddingSizes | any { return this.getAttribute(attributes.PADDING); }
 
   /**
    * Set the order attribute
@@ -677,6 +717,24 @@ export default class IdsLayoutGridCell extends Base {
   get orderXxl(): string | null | any {
     return this.getAttribute(attributes.ORDER_XXL);
   }
+
+  /**
+   * Set the padding attribute
+   * @param {string | null} value The value of the padding attribute
+   */
+  set padding(value: string | null) {
+    if (!value || PADDING_SIZES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.PADDING);
+    } else {
+      this.setAttribute(attributes.PADDING, value);
+    }
+  }
+
+  /**
+   * Get the padding attribute
+   * @returns {string | null} The number value that represents the padding of the grid
+   */
+  get padding(): PaddingSizes | any { return this.getAttribute(attributes.PADDING); }
 
   /**
    * Set the row-span attribute
@@ -863,27 +921,6 @@ export default class IdsLayoutGridCell extends Base {
    */
   get stickyPosition(): string | null | any {
     return this.getAttribute(attributes.STICKY_POSITION);
-  }
-
-  /**
-   * Set the editable attribute
-   * @param {string | null} value The value of the editable attribute
-   */
-  set editable(value: string | null | any) {
-    const isTruthy = stringToBool(value);
-    if (isTruthy) {
-      this.setAttribute(attributes.EDITABLE, '');
-    } else {
-      this.removeAttribute(attributes.EDITABLE);
-    }
-  }
-
-  /**
-   * Get the editable attribute
-   * @returns {string | null} The value of the editable attribute
-   */
-  get editable(): string | null | any {
-    return stringToBool(this.getAttribute(attributes.EDITABLE));
   }
 
   constructor() {

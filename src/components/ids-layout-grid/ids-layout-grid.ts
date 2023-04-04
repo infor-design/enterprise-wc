@@ -5,9 +5,9 @@ import styles from './ids-layout-grid.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import {
+  ALIGN_TYPES,
   GRID_ATTRIBUTES,
   GAP_TYPES,
-  JUSTIFY_TYPES,
   FLOW_TYPES,
   MARGIN_SIZES,
   PADDING_SIZES,
@@ -22,6 +22,24 @@ import {
 @customElement('ids-layout-grid')
 @scss(styles)
 export default class IdsLayoutGrid extends IdsElement {
+  /**
+   * Set the grid align-content
+   * @param {string | null} value The align-content [null, start, end, between, around, evenly]
+   */
+  set alignContent(value: string | null) {
+    if (!value || ALIGN_TYPES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.ALIGN_CONTENT);
+    } else {
+      this.setAttribute(attributes.ALIGN_CONTENT, value);
+    }
+  }
+
+  /**
+   * Get the grid align-content setting
+   * @returns {string | null} The align-content [null, start, end, between, around, evenly]
+   */
+  get alignContent(): string | null { return this.getAttribute(attributes.ALIGN_CONTENT); }
+
   /**
    * Set auto-fit attribute
    * @param {boolean | string | null} value boolean
@@ -405,7 +423,7 @@ export default class IdsLayoutGrid extends IdsElement {
    * @param {string | null} value The justify [null, start, end, between, around, evenly]
    */
   set justifyContent(value: string | null) {
-    if (!value || JUSTIFY_TYPES.indexOf(value as any) <= 0) {
+    if (!value || ALIGN_TYPES.indexOf(value as any) <= 0) {
       this.removeAttribute(attributes.JUSTIFY_CONTENT);
     } else {
       this.setAttribute(attributes.JUSTIFY_CONTENT, value);

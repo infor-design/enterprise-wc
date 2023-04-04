@@ -1,3 +1,8 @@
+:host,
+.ids-layout-grid-cell {
+  display: grid;
+}
+
 :host(.editable),
 .editable {
   position: relative;

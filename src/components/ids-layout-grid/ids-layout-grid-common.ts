@@ -3,6 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 export const prefix = 'ids-layout-grid';
 
 export const GRID_ATTRIBUTES: string[] = [
+  attributes.ALIGN_CONTENT,
   attributes.AUTO_FIT,
   attributes.AUTO_FILL,
   attributes.COLS,
@@ -35,6 +36,7 @@ export const GRID_ATTRIBUTES: string[] = [
 ];
 
 export const GRID_CELL_ATTRIBUTES: string[] = [
+  attributes.ALIGN_CONTENT,
   attributes.COL_END,
   attributes.COL_END_XS,
   attributes.COL_END_SM,
@@ -59,6 +61,7 @@ export const GRID_CELL_ATTRIBUTES: string[] = [
   attributes.EDITABLE,
   attributes.FILL,
   attributes.HEIGHT,
+  attributes.JUSTIFY_CONTENT,
   attributes.MIN_HEIGHT,
   attributes.PADDING,
   attributes.ORDER,
@@ -93,7 +96,7 @@ export const GAP_TYPES: Array<IdsGapType> = [
   'xl',
 ];
 
-export const JUSTIFY_TYPES: Array<IdsJustifyType> = [
+export const ALIGN_TYPES: Array<IdsJustifyType> = [
   undefined,
   'space-around',
   'space-between',

@@ -287,11 +287,18 @@ $max-row-height: var(--max-row-height);
 /**
   Justify content
 */
-$justify-content-list: start center space-between space-around space-evenly end;
-@each $justify-content in $justify-content-list {
-  :host([justify-content='#{$justify-content}']),
-  .#{$prefix}-justify-#{$justify-content} {
-    justify-content: $justify-content;
+$align-content-list: start center space-between space-around space-evenly end;
+@each $align-content in $align-content-list {
+  :host([justify-content='#{$align-content}']),
+  ::slotted([justify-content='#{$align-content}']),
+  .#{$prefix}-justify-#{$align-content} {
+    justify-content: $align-content;
+  }
+
+  :host([align-content='#{$align-content}']),
+  ::slotted([align-content='#{$align-content}']),
+  .#{$prefix}-align-#{$align-content} {
+    align-content: $align-content;
   }
 }
 
