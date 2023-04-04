@@ -94,7 +94,7 @@
   --ids-spacing-xxl: 16px;
   --ids-spacing-3xl: 28px;
 
-  // Sizes (Heights)
+  // Sizes (Heights) - TODO
   --ids-size-xxs: 22px;
   --ids-size-xs: 28px;
   --ids-size-sm: 30px;
@@ -297,6 +297,7 @@
 
   // Progress Bar
   --ids-progress-bar-border-color: var(--ids-color-slate-70);
+  --ids-progress-bar-background-color: var(--ids-color-primary);
 
   // Rating
   --ids-rating-star-background-color: var(--ids-color-warning-40);
@@ -330,4 +331,10 @@
   --ids-tag-icon-hover-color: var(--ids-color-slate-90);
   --ids-tag-secondary-background-color: var(--ids-input-background-color);
   --ids-tag-secondary-border-color: var(--ids-input-border-color);
+
+  // Toast
+  --ids-toast-background-color: var(--ids-color-slate-00);
+  --ids-toast-border-color: var(--ids-color-slate-30); // TODO: popup token?
+  --ids-toast-text-color: var(--ids-color-slate-100);
+  --ids-toast-progress-background-color: var(--ids-progress-bar-background-color);
 }

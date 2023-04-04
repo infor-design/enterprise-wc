@@ -15,6 +15,7 @@ import '../../ids-pager/ids-pager';
 import '../../ids-scrollable/ids-scrollable';
 import '../../ids-scrollable/ids-sticky';
 import '../../ids-toggle-button/ids-toggle-button';
+import '../../ids-toast/ids-toast';
 
 // Init Some components that need JS
 import type { IdsDataGridColumn } from '../../ids-data-grid/ids-data-grid-column';
@@ -209,12 +210,33 @@ document.addEventListener('themechanged', () => {
   document.querySelector('#ids-theme-builder')?.remove();
 });
 
-// Implement Toggle BUtton
+// Implement Toggle Button
 document.addEventListener('DOMContentLoaded', () => {
   // Add an event listener to test clickable links
   document.querySelectorAll('ids-toggle-button').forEach((idsButton) => {
     idsButton.addEventListener('click', (e: any) => {
       e.target.toggle();
+    });
+  });
+});
+
+// Implement Toast Click
+document.addEventListener('DOMContentLoaded', () => {
+  const idsContainer = document.querySelector('ids-container');
+  const btnToastDemo = document.querySelector('#btn-toast-demo');
+
+  // Show toast message
+  btnToastDemo?.addEventListener('click', () => {
+    const toastId = 'test-demo-toast';
+    let toast: any = document.querySelector(`#${toastId}`);
+    if (!toast) {
+      toast = document.createElement('ids-toast');
+      toast.setAttribute('id', toastId);
+      idsContainer?.appendChild(toast);
+    }
+    toast.show({
+      title: 'Application Offline',
+      message: 'This is a Toast message.'
     });
   });
 });

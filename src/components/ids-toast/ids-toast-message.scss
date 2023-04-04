@@ -1,25 +1,22 @@
 /* Ids Toast Container Component */
 @use '../../themes/mixins/ids-core-mixins' as mixins;
-@import '../../core/ids-base';
 
 :host(ids-toast-message) {
   --toast-message-duration: 6000ms;
 
-  @include block();
+  display: block;
 }
 
 .ids-toast-message {
-  @include antialiased();
-  @include bg-white();
-  @include box-border();
-  @include border-1();
-  @include border-slate-30();
-  @include border-solid();
-  @include font-sans();
-  @include rounded-default();
-  @include text-16();
-  @include text-slate-100();
+  @include mixins.antialiased();
 
+  background-color: var(--ids-toast-background-color);
+  box-sizing: border-box;
+  border: 1px solid var(--ids-toast-border-color);
+  border-radius: var(--ids-border-radius-xs);
+  color: var(--ids-toast-text-color);
+  font-family: var(--ids-font-family);
+  font-size: var(--ids-font-size-md);
   outline: 0;
 
   &.audible {
@@ -27,39 +24,38 @@
   }
 
   &.effect-scale {
-    @include animation(animScale 0.25s);
+    animation: animScale 0.25s;
   }
 
   &.effect-scale-hide {
-    @include animation(animScaleOut 0.25s);
+    animation: animScaleOut 0.25s;
   }
 
   .main-container {
-    @include flex();
+    display: flex;
 
     .content-container {
-      @include mb-12();
-      @include mt-16();
-      @include pb-1();
-
+      margin-block-end: var(--ids-spacing-xlg);
+      margin-block-start: var(--ids-spacing-xxl);
+      margin-inline-start: var(--ids-spacing-xlg);
+      padding-block-end: var(--ids-spacing-xs);
       flex-grow: 1;
-      margin-inline-start: 12px;
     }
 
     .close-button-container {
       flex-grow: 0;
-      margin: 1px;
+      margin: var(--ids-spacing-xs);
     }
   }
 
   .title {
-    @include block();
-    @include font-bold();
+    display: block;
+    font-weight: var(--ids-font-weight-semi-bold);
   }
 
   .message {
-    @include block();
-    @include mt-8();
+    display: block;
+    margin-block-start: var(--ids-spacing-lg);
   }
 
   .close-button::part(button) {
@@ -67,8 +63,7 @@
   }
 
   .progress-bar {
-    @include bg-azure-60();
-
+    background-color: var(--ids-toast-progress-background-color);
     height: 3px;
     overflow: hidden;
     width: 0;
@@ -88,48 +83,36 @@
       height: 0;
     }
   }
-
-  &[mode='dark'] {
-    @include bg-slate-70();
-    @include border-slate-50();
-    @include text-white();
-  }
-
-  &[mode='contrast'] {
-    .progress-bar {
-      @include bg-azure-90();
-    }
-  }
 }
 
 // "Appear" Animation
-@include keyframes(animScale) {
+@keyframes animScale {
   0% {
-    @include transform(translate3d(0, 40px, 0) scale3d(0.1, 0.6, 1));
-    @include bg-opacity-0();
+    transform: translate3d(0, 40px, 0) scale3d(0.1, 0.6, 1);
+    opacity: 0;
   }
 
   100% {
-    @include transform(translate3d(0, 0, 0) scale3d(1, 1, 1));
-    @include bg-opacity-100();
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+    opacity: 1;
   }
 }
 
 // "Disappear" Animation
-@include keyframes(animScaleOut) {
+@keyframes animScaleOut {
   0% {
-    @include transform(translate3d(0, 0, 0) scale3d(1, 1, 1));
-    @include bg-opacity-100();
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+    opacity: 1;
   }
 
   100% {
-    @include transform(translate3d(0, 40px, 0) scale3d(0.1, 0.6, 1));
-    @include bg-opacity-0();
+    transform: translate3d(0, 40px, 0) scale3d(0.1, 0.6, 1);
+    opacity: 0;
   }
 }
 
 // Progress bar countdown animation
-@include keyframes(progressBarUpdate) {
+@keyframes  progressBarUpdate {
   0% {
     width: 100%;
   }

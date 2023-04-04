@@ -19,7 +19,7 @@
   }
 }
 
-@include mixins.keyframes(ripple-animation) {
+@keyframes ripple-animation {
   from {
     opacity: 0.3;
     transform: scale(0);

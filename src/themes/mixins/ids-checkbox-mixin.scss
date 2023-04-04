@@ -126,7 +126,7 @@ $color-vars: --ids-color-emerald-70 --ids-color-amethyst-70 --ids-color-azure-70
 }
 
 // Animations
-@include mixins.keyframes(check) {
+@keyframes check {
   0% {
     height: 0;
     left: 0;
@@ -149,7 +149,7 @@ $color-vars: --ids-color-emerald-70 --ids-color-amethyst-70 --ids-color-azure-70
   }
 }
 
-@include mixins.keyframes(checkindeterminate) {
+@keyframes checkindeterminate {
   0% {
     width: 0;
   }

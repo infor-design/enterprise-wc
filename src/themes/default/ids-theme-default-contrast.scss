@@ -162,6 +162,7 @@
 
   // Progress Bar
   --ids-progress-bar-border-color: var(--ids-color-slate-60);
+  --ids-progress-bar-background-color: var(--ids-color-primary-80);
 
   // Swipe Action
   --ids-swipe-action-button-active-background-color: var(--ids-color-slate-90);
@@ -192,4 +193,7 @@
   --ids-tag-icon-hover-color: var(--ids-color-slate-90);
   --ids-tag-secondary-background-color: var(--ids-input-background-color);
   --ids-tag-secondary-border-color: var(--ids-input-border-color);
+
+  // Toast
+  --ids-toast-progress-background-color: var(--ids-progress-bar-background-color);
 }

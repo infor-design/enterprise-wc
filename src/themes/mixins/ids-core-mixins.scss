@@ -41,12 +41,3 @@ $transition-ease: var(--ids-transition-ease);
   position: absolute;
   width: 1px;
 }
-
-// Builds out vendor-prefixed keyframe definitions
-@mixin keyframes($animation-name) {
-  @keyframes #{$animation-name} { @content; }
-
-  @keyframes #{$animation-name} { @content; }
-
-  @keyframes #{$animation-name} { @content; }
-}
