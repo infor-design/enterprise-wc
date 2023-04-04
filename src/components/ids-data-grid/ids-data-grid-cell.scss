@@ -72,7 +72,7 @@
 
   &.is-editable {
     &.is-inline {
-      box-shadow: inset 0 0 0 4px var(--ids-component-background-color), inset 0 0 0 5px var(--ids-component-border-color);
+      box-shadow: inset 0 0 0 4px var(--ids-input-background-color), inset 0 0 0 5px var(--ids-input-border-color);
 
       ids-icon.editor-cell-icon {
         visibility: visible;
@@ -233,13 +233,13 @@
   }
 
   .is-editable.is-inline {
-    box-shadow: inset 0 0 0 2px var(--ids-component-background-color), inset 0 0 0 3px var(--ids-component-border-color);
+    box-shadow: inset 0 0 0 2px var(--ids-input-background-color), inset 0 0 0 3px var(--ids-input-border-color);
   }
 }
 
 [data-row-height='sm'] {
   .is-editable.is-inline {
-    box-shadow: inset 0 0 0 3px var(--ids-component-background-color), inset 0 0 0 4px var(--ids-component-border-color);
+    box-shadow: inset 0 0 0 3px var(--ids-input-background-color), inset 0 0 0 4px var(--ids-input-border-color);
   }
 
   .ids-data-grid-cell.is-dirty.is-inline::before {

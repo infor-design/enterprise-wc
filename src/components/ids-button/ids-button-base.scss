@@ -157,16 +157,16 @@
   // ====================================================
   // Tertiary Destructive Button
   &.btn-tertiary-destructive {
-    color: var(--ids-color-error-03);
+    color: var(--ids-color-error);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      border-color: var(--ids-color-error-04);
+      border-color: var(--ids-color-error-70);
     }
 
     &:hover {
       background-color: var(--ids-button-destructive-hover-background-color);
-      color: var(--ids-color-error-04);
+      color: var(--ids-color-error-70);
     }
 
     &[disabled] {
@@ -175,7 +175,7 @@
     }
 
     .ripple-effect {
-      background-color: var(--ids-color-error-03);
+      background-color: var(--ids-color-error);
     }
   }
 
@@ -212,18 +212,18 @@
   // Primary Destructive Button
 
   &.btn-primary-destructive {
-    background-color: var(--ids-color-error-03);
-    border-color: var(--ids-color-error-03);
+    background-color: var(--ids-color-error);
+    border-color: var(--ids-color-error);
     color: var(--ids-color-error-00);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      border-color: var(--ids-color-error-03);
+      border-color: var(--ids-color-error);
     }
 
     &:hover {
-      background-color: var(--ids-color-error-04);
-      border-color: var(--ids-color-error-04);
+      background-color: var(--ids-color-error-70);
+      border-color: var(--ids-color-error-70);
     }
 
     &[disabled] {
@@ -278,7 +278,7 @@
 
     &.btn-tertiary-destructive {
       &:hover {
-        background-color: var(--ids-color-error-02);
+        background-color: var(--ids-color-error-30);
       }
     }
   }
@@ -396,7 +396,7 @@
     &:not(.hide-focus):focus {
       @include outset-button-shadow(
         var(--ids-body-background-color),
-        var(--ids-color-error-03)
+        var(--ids-color-error)
       );
     }
   }

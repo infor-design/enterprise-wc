@@ -3,7 +3,7 @@
 
 .ids-upload-advanced {
   @include block();
-  @include mb-16();
+  margin-bottom: 16px;
 
   .hidden {
     display: none;

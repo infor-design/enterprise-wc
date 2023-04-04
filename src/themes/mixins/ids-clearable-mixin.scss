@@ -1,0 +1,50 @@
+/**
+ * Css for clearable mixin
+ */
+.ids-input,
+.ids-textarea {
+  .ids-input-field,
+  .ids-textarea-field {
+    .btn-clear {
+      outline: 0;
+
+      &.is-empty {
+        display: none;
+      }
+
+      [slot='icon'] {
+        margin-inline-start: 0;
+        color: inherit;
+      }
+    }
+  }
+
+  &.has-clearable {
+    .btn-clear {
+      margin-inline-end: 4px;
+
+      &.is-empty {
+        display: initial;
+        visibility: hidden;
+        pointer-events: none;
+      }
+    }
+  }
+}
+
+.ids-trigger-field {
+  .ids-input-field {
+    &.has-clearable {
+      padding-inline-end: 55px;
+
+      ~ .btn-clear {
+        margin-top: 0;
+        right: -8px;
+      }
+    }
+  }
+}
+
+.btn-clear[part='clearable-button'] [slot='icon'] {
+  padding: 2px;
+}

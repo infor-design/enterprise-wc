@@ -2,7 +2,7 @@
 @import '../../themes/mixins/ids-switch-mixin';
 
 .ids-switch {
-  margin-block-end: var(--ids-component-margin-bottom);
+  margin-block-end: var(--ids-input-margin-bottom);
 
   label {
     cursor: var(--ids-cursor-pointer);

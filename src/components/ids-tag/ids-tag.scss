@@ -5,14 +5,14 @@
   @include mixins.antialiased();
 
   // Colors/Borders
-  background-color: var(--ids-component-darker-background-color);
-  border: 1px solid var(--ids-component-darker-background-color);
-  border-radius: var(--ids-border-radius-lg);
+  background-color: var(--ids-tag-background-color);
+  border: 1px solid var(--ids-tag-border-color);
+  border-radius: var(--ids-tag-border-radius);
 
   // Fonts
   font-family: var(--ids-font-family);
-  font-size: var(--ids-font-size-sm);
-  color: var(--ids-component-text-color);
+  font-size: var(--ids-tag-font-size);
+  color: var(--ids-tag-text-color);
 
   // Layout
   display: inline-flex;
@@ -23,37 +23,37 @@
 
   // Secondary has a darker border
   &.secondary {
-    background-color: var(--ids-component-background-color);
-    border-color: var(--ids-component-border-color);
+    background-color: var(--ids-tag-secondary-background-color);
+    border-color: var(--ids-tag-secondary-border-color);
   }
 
   &.info {
-    background-color: var(--ids-color-info-03);
-    border-color: var(--ids-color-info-03);
+    background-color: var(--ids-color-info);
+    border-color: var(--ids-color-info);
     color: var(--ids-color-info-00);
   }
 
   &.success {
-    background-color: var(--ids-color-success-03);
-    border-color: var(--ids-color-success-03);
+    background-color: var(--ids-color-success);
+    border-color: var(--ids-color-success);
     color: var(--ids-color-success-00);
   }
 
   &.warning {
-    background-color: var(--ids-color-warning-03);
-    border-color: var(--ids-color-warning-03);
+    background-color: var(--ids-color-warning);
+    border-color: var(--ids-color-warning);
     color: var(--ids-color-warning-00);
   }
 
   &.caution {
-    background-color: var(--ids-color-caution-03);
-    border-color: var(--ids-color-caution-03);
+    background-color: var(--ids-color-caution);
+    border-color: var(--ids-color-caution);
     color: var(--ids-color-caution-00);
   }
 
   &.error {
-    background-color: var(--ids-color-error-03);
-    border-color: var(--ids-color-error-03);
+    background-color: var(--ids-color-error);
+    border-color: var(--ids-color-error);
     color: var(--ids-color-error-00);
   }
 
@@ -86,16 +86,16 @@
 :host([disabled]) {
   ::slotted(ids-icon) {
     cursor: var(--ids-cursor-default);
-    color: var(--ids-component-disabled-color);
+    color: var(--ids-input-disabled-color);
   }
 
   .ids-tag {
-    background-color: var(--ids-component-darker-background-color);
-    border-color: var(--ids-component-darker-background-color);
-    color: var(--ids-component-disabled-color);
+    background-color: var(--ids-input-readonly-background-color);
+    border-color: var(--ids-input-readonly-background-color);
+    color: var(--ids-input-disabled-color);
 
     &.secondary {
-      background-color: var(--ids-component-background-color);
+      background-color: var(--ids-input-background-color);
       border-color: var(--ids-disabled-text-color);
       color: var(--ids-disabled-text-color);
 
@@ -113,26 +113,26 @@
   display: inline-flex;
   padding-inline-start: var(--ids-spacing-md);
   padding-top: var(--ids-spacing-xs);
-  color: var(--ids-component-text-color);
+  color: var(--ids-input-text-color);
 }
 
 // Adjust hover state
 ::slotted(ids-icon:hover) {
-  color: var(--ids-component-hover-color)
+  color: var(--ids-tag-icon-hover-color);
 }
 
 // Multiselect tag
 :host(.multiselect-tag) {
   .ids-tag {
-    background-color: var(--ids-component-background-color);
-    border-color: var(--ids-component-border-color);
+    background-color: var(--ids-input-background-color);
+    border-color: var(--ids-input-border-color);
     margin-bottom: var(--ids-spacing-md);
   }
 }
 
 :host([disabled].multiselect-tag) {
   .ids-tag {
-    background-color: var(--ids-component-background-color);
+    background-color: var(--ids-input-background-color);
     border-color: var(--ids-disabled-text-color);
     color: var(--ids-disabled-text-color);
     pointer-events: none;

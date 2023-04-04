@@ -16,7 +16,7 @@
 }
 
 .star[icon='star-outlined'] {
-  color: var(--ids-component-icon-color);
+  color: var(--ids-icon-color);
 
   &:hover {
     color: var(--ids-button-primary-background-color);
@@ -29,7 +29,7 @@
 }
 
 .star[icon='star-filled'] {
-  color: var(--ids-color-warning-04);
+  color: var(--ids-color-warning-40);
 
   &:hover {
     color: var(--ids-button-primary-background-color);
@@ -42,7 +42,7 @@
 }
 
 .star[icon='star-half'] {
-  color: var(--ids-color-warning-04);
+  color: var(--ids-color-warning-40);
 
   &:hover {
     color: var(--ids-focus-ring-border-color);
@@ -61,7 +61,7 @@
 
   .star[icon='star-outlined'] {
     &:hover {
-      color: var(--ids-component-icon-color);
+      color: var(--ids-icon-color);
     }
   }
 

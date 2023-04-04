@@ -63,5 +63,5 @@ We are in the process of adding full css theming via a comprehensive series of (
 ...
 --ids-text-color: var(--ids-color-slate-100);
 ...
---ids-component-background-color: var(--ids-color-slate-00);
+--ids-input-background-color: var(--ids-color-slate-00);
 ```

@@ -1,0 +1,19 @@
+// When a label is just "hidden" it still takes up physical space to remain
+// in alignment with other input fields in a form that may have visible labels.
+// This simulates standard label text size while empty with a non-breaking space
+.label-state-hidden {
+  .ids-label-text {
+    &.empty {
+      &::before {
+        content: '\00a0';
+      }
+    }
+  }
+}
+
+// When a label is "collapsed" simply don't display it
+.label-state-collapsed {
+  .ids-label-text {
+    display: none;
+  }
+}

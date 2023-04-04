@@ -193,7 +193,7 @@ button {
 .btn-swipe-action-left,
 .btn-swipe-action-right {
   background-color: var(--ids-body-line-color);
-  color: var(--ids-component-text-color);
+  color: var(--ids-input-text-color);
   border-radius: 0;
   display: block;
   padding: 0 var(--ids-spacing-lg) var(--ids-spacing-lg);
@@ -212,11 +212,11 @@ button {
   }
 
   &:active {
-    background-color: var(--ids-component-hover-color);
+    background-color: var(--ids-swipe-action-button-active-background-color);
   }
 
   &:hover {
-    background-color: var(--ids-component-hover-color);
+    background-color: var(--ids-swipe-action-button-hover-background-color);
     box-shadow: none;
     border-color: transparent;
   }

@@ -1,20 +1,20 @@
-/* Ids Text Css */
+/* Ids Text Component */
 @use '../../themes/mixins/ids-core-mixins' as mixins;
-@import '../../core/ids-base';
 
 .ids-text {
-  @include antialiased();
-  @include font-sans();
-  @include font-normal();
-  @include block();
-  @include m-0();
+  @include mixins.antialiased();
+
+  font-family: var(--ids-font-family);
+  font-weight: var(--ids-font-weight-normal);
+  display: block;
+  margin: 0;
 
   // Default color is inherited from IdsContainer,
   // or from a wrapper element style
   color: currentColor;
 
   // Other defaults
-  font-size: 16px;
+  font-size: var(--ids-font-size-md);
   text-decoration: unset;
 
   &.audible {
@@ -24,27 +24,31 @@
   }
 
   &.error {
-    @include text-alert-error();
+    color: var(--ids-error-text-color);
   }
 
   &.label {
-    @include text-slate-60();
+    color: var(--ids-label-text-color);
 
     &.color-variant-alternate {
-      @include text-white();
+      color: var(--ids-inverse-text-color);
     }
   }
 
   &.ellipsis {
-    @include ellipsis();
+    text-overflow: ellipsis;
   }
 
   &.bold {
-    font-weight: 600;
+    font-weight: var(--ids-font-weight-bold);
+  }
+
+  &.semi-bold {
+    font-weight: var(--ids-font-weight-semi-bold);
   }
 
   &.lighter {
-    font-weight: 300;
+    font-weight: var(--ids-font-weight-lighter);
   }
 
   &.text-align {
@@ -70,52 +74,51 @@
   &.status-info::before,
   &.status-success::before,
   &.status-warning::before {
-    @include inline-flex();
-    @include mr-8();
-    @include rounded-round();
-
+    display: inline-flex;
+    margin-inline-end: var(--ids-input-margin-bottom);
+    border-radius: var(--ids-border-radius-round);
     content: '';
     height: 8px;
     width: 8px;
   }
 
   &.status-base {
-    @include text-slate-60();
+    color: var(--ids-label-text-color);
 
     &::before {
-      @include bg-slate-60();
+      background-color: var(--ids-label-text-color);
     }
   }
 
   &.status-error {
-    @include text-alert-error();
+    color: var(--ids-error-text-color);
 
     &::before {
-      @include bg-alert-error();
+      background-color: var(--ids-error-text-color);
     }
   }
 
   &.status-info {
-    @include text-alert-info();
+    color: var(--ids-info-text-color);
 
     &::before {
-      @include bg-alert-info();
+      background-color: var(--ids-info-text-color);
     }
   }
 
   &.status-success {
-    @include text-alert-success();
+    color: var(--ids-success-text-color);
 
     &::before {
-      @include bg-alert-success();
+      background-color: var((--ids-success-text-color));
     }
   }
 
   &.status-warning {
-    @include text-alert-warning();
+    color: var(--ids-success-text-color);
 
     &::before {
-      @include bg-alert-warning();
+      background-color: var(--ids-warning-text-color);
     }
   }
 }
@@ -132,7 +135,7 @@
 }
 
 .ids-text-color-unset {
-  color: unset !important;
+  color: unset;
 }
 
 // Alert Colored Text
@@ -151,72 +154,72 @@
 }
 
 ::slotted(.filter) {
-  font-weight: 700;
+  font-weight: var(--ids-font-weight-bold);
 }
 
 /* Ids Typography System */
 .ids-text-10 {
-  @include text-10();
-  @include text-uppercase();
+  font-size: var(--ids-font-size-xxs);
+  text-transform: uppercase;
 }
 
 .ids-text-12 {
-  @include text-12();
-  @include text-uppercase();
+  font-size: var(--ids-font-size-xs);
+  text-transform: uppercase;
 }
 
 .ids-text-14 {
-  @include text-14();
+  font-size: var(--ids-font-size-sm);
 }
 
 .ids-text-16 {
-  @include text-16();
+  font-size: var(--ids-font-size-md);
 }
 
 .ids-text-20 {
-  @include text-20();
+  font-size: var(--ids-font-size-lg);
 }
 
 .ids-text-24 {
-  @include text-24();
+  font-size: var(--ids-font-size-xl);
 }
 
 .ids-text-28 {
-  @include text-28();
+  font-size: var(--ids-font-size-xxl);
 }
 
 .ids-text-32 {
-  @include text-32();
+  font-size: var(--ids-font-size-3xl);
 }
 
 .ids-text-40 {
-  @include text-40();
+  font-size: var(--ids-font-size-4xl);
 }
 
 .ids-text-48 {
-  @include text-48();
+  font-size: var(--ids-font-size-5xl);
 }
 
 .ids-text-60 {
-  @include text-60();
+  font-size: var(--ids-font-size-6xl);
 }
 
 .ids-text-72 {
-  @include text-72();
-  @include mb-0();
+  font-size: var(--ids-font-size-7xl);
+  margin-block-end: 0;
 }
 
 // Handle Disabled Text
 .ids-text-color-muted.ids-text,
 :host([disabled]) .ids-text {
-  @include text-slate-30();
+  color: var(--ids-disabled-text-color);
 
   &.label {
-    @include text-slate-30();
+    color: var(--ids-disabled-text-color);
   }
 
   &.color-variant-alternate.label {
-    @include text-slate-80();
+    color: var(--ids-subtle-text-color);
   }
 
   &.status-base,
@@ -224,14 +227,14 @@
   &.status-info,
   &.status-success,
   &.status-warning {
-    @include text-slate-30();
+    color: var(--ids-disabled-text-color);
   }
 
   &.status-error::before,
   &.status-info::before,
   &.status-success::before,
   &.status-warning::before {
-    @include bg-slate-30();
+    background-color: var(--ids-disabled-text-color);
   }
 }
 
@@ -239,165 +242,4 @@
   position: relative;
   line-height: 1;
   height: unset;
-}
-
-// ========================================================
-// Theme Styles
-
-// Dark (New)
-.ids-text[mode='dark'] {
-  &.label {
-    @include text-slate-30();
-  }
-
-  &.data {
-    @include text-white();
-  }
-
-  &.legend {
-    @include text-slate-20();
-  }
-
-  &.status-base {
-    @include text-slate-20();
-
-    &::before {
-      @include bg-slate-20();
-    }
-  }
-
-  &.status-error {
-    @include text-alert-dark-error();
-
-    &::before {
-      @include bg-alert-dark-error();
-    }
-  }
-
-  &.status-info {
-    @include text-alert-dark-info();
-
-    &::before {
-      @include bg-alert-dark-info();
-    }
-  }
-
-  &.status-success {
-    @include text-alert-dark-success();
-
-    &::before {
-      @include bg-alert-dark-success();
-    }
-  }
-
-  &.status-warning {
-    @include text-alert-dark-warning();
-
-    &::before {
-      @include bg-alert-dark-warning();
-    }
-  }
-}
-
-.ids-text-color-muted.ids-text,
-:host([disabled][mode='dark']) .ids-text {
-  @include text-slate-50();
-
-  &.label {
-    @include text-slate-50();
-  }
-
-  &.legend {
-    @include text-slate-40();
-  }
-
-  &.status-base,
-  &.status-error,
-  &.status-info,
-  &.status-success,
-  &.status-warning {
-    @include text-slate-50();
-  }
-
-  &.status-error::before,
-  &.status-info::before,
-  &.status-success::before,
-  &.status-warning::before {
-    @include bg-slate-50();
-  }
-}
-
-// Contrast (New)
-
-.ids-text[mode='contrast'] {
-  &.label {
-    @include text-slate-90();
-  }
-
-  &.data {
-    @include text-black();
-  }
-
-  &.status-base {
-    @include text-slate-90();
-
-    &::before {
-      @include bg-slate-90();
-    }
-  }
-
-  &.status-error {
-    @include text-alert-contrast-error();
-
-    &::before {
-      @include bg-alert-contrast-error();
-    }
-  }
-
-  &.status-info {
-    @include text-alert-contrast-info();
-
-    &::before {
-      @include bg-alert-contrast-info();
-    }
-  }
-
-  &.status-success {
-    @include text-alert-contrast-success();
-
-    &::before {
-      @include bg-alert-contrast-success();
-    }
-  }
-
-  &.status-warning {
-    @include text-alert-contrast-warning();
-
-    &::before {
-      @include bg-alert-contrast-warning();
-    }
-  }
-}
-
-.ids-text-color-muted.ids-text,
-:host([disabled][mode='contrast']) .ids-text {
-  @include text-slate-40();
-
-  &.label {
-    @include text-slate-40();
-  }
-
-  &.status-error,
-  &.status-info,
-  &.status-success,
-  &.status-warning {
-    @include text-slate-40();
-  }
-
-  &.status-error::before,
-  &.status-info::before,
-  &.status-success::before,
-  &.status-warning::before {
-    @include bg-slate-40();
-  }
 }

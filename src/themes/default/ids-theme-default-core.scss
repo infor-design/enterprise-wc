@@ -4,105 +4,56 @@
 // ids-button-primary-disabled-background-color
 :host,
 :root {
-  // Primary Colors
+  // Primary Color
   --ids-color-primary: var(--ids-color-primary-60);
 
-  // Body / Container
+  // Body Colors
   --ids-body-background-color: var(--ids-color-slate-00);
   --ids-body-inverse-background-color: var(--ids-color-slate-100);
 
-  // Text Color Tokens
+  // Text Colors
   --ids-text-color: var(--ids-color-slate-100);
+  --ids-label-text-color: var(--ids-color-slate-60);
   --ids-inverse-text-color: var(--ids-color-slate-00);
   --ids-subtle-text-color: var(--ids-color-slate-80);
-  --ids-label-text-color: var(--ids-color-slate-60);
   --ids-data-text-color: var(--ids-color-slate-100);
   --ids-disabled-text-color: var(--ids-color-slate-40);
+  --ids-error-text-color: var(--ids-color-error-60);
+  --ids-info-text-color: var(--ids-color-info-70);
+  --ids-success-text-color: var(--ids-color-success-50);
+  --ids-warning-text-color: var(--ids-color-warning-50);
 
-  // Components - TODO Rename to input
-  --ids-component-background-color: var(--ids-color-slate-00);
-  --ids-component-primary-background-color: var(--ids-color-primary);
-  --ids-component-darker-background-color: var(--ids-color-slate-20);
-  --ids-component-border-color: var(--ids-color-slate-40);
-  --ids-component-darker-border-color: var(--ids-color-slate-70);
-  --ids-component-selected-background-color: var(--ids-color-primary);
-  --ids-component-selected-text-color: var(--ids-color-slate-00);
-  --ids-component-hover-color: var(--ids-text-color); // rgba(0, 0, 0, .3)
-  --ids-component-disabled-color: var(--ids-color-slate-50);
-  --ids-component-text-color: var(--ids-text-color);
-  --ids-component-icon-color: var(--ids-color-slate-80);
-  --ids-component-color-inverse: var(--ids-color-slate-00);
-  --ids-component-border-width: 1px;
-  --ids-component-margin-bottom: 8px;
+  // Animations
+  --ids-transition-length: 200ms;
+  --ids-transition-ease: cubic-bezier(0.17, 0.04, 0.03, 0.94);
 
-  // Headers
-  --ids-header-gradient-opaque: rgb(0 114 237 / 1);
-  --ids-header-gradient-transparent: rgb(0 114 237 / 0);
-
-  // Primary Button
-  --ids-button-primary-border-color: var(--ids-color-primary);
-  --ids-button-primary-background-color: var(--ids-color-primary);
-  --ids-button-primary-text-color: var(--ids-color-primary-00);
-  --ids-button-primary-focus-border-color: var(--ids-focus-ring-border-color);
-  --ids-button-primary-focus-shadow: 0 0 0 2px var(--ids-color-primary-00), 0 0 0 3px var(--ids-color-primary-70), 0 0 4px 3px var(--ids-color-primary-70);
-  --ids-button-primary-hover-background-color: var(--ids-color-primary-80);
-  --ids-button-primary-hover-border-color: var(--ids-color-primary-70);
-  --ids-button-primary-disabled-background-color: var(--ids-color-slate-20);
-  --ids-button-primary-disabled-border-color: var(--ids-color-slate-20);
-  --ids-button-primary-disabled-text-color: var(--ids-color-slate-40);
-  --ids-button-primary-ripple-color: var(--ids-color-primary-00);
-
-  // Secondary Button
-  --ids-button-secondary-background-color: transparent;
-  --ids-button-secondary-border-width: 2px;
-  --ids-button-secondary-border-color: var(--ids-color-primary);
-  --ids-button-secondary-text-color: var(--ids-color-primary);
-  --ids-button-secondary-focus-border-color: var(--ids-color-primary);
-  --ids-button-secondary-focus-shadow: 0 0 0 2px var(--ids-color-slate-00), 0 0 0 3px var(--ids-color-primary), 0 0 4px 3px var(--ids-color-primary);
-  --ids-button-secondary-hover-background-color: var(--ids-button-tertiary-hover-background-color);
-  --ids-button-secondary-disabled-background-color: transparent;
-  --ids-button-secondary-disabled-border-color: var(--ids-color-slate-20);
-  --ids-button-secondary-disabled-text-color: var(--ids-color-slate-30);
-  --ids-button-secondary-ripple-color: var(--ids-color-primary);
-
-  // Tertiary Buttons
-  --ids-button-tertiary-border-color: transparent;
-  --ids-button-tertiary-text-color: var(--ids-color-slate-60);
-  --ids-button-tertiary-focus-border-color: var(--ids-focus-ring-border-color);
-  --ids-button-tertiary-hover-text-color: var(--ids-color-primary-70);
-  --ids-button-tertiary-hover-background-color: var(--ids-color-primary-10);
-  --ids-button-tertiary-disabled-text-color: var(--ids-color-slate-30);
-  --ids-button-tertiary-font-weight: var(--ids-font-weight-semi-bold);
-  --ids-button-tertiary-disabled-background-color: transparent;
-  --ids-button-destructive-hover-background-color: var(--ids-color-error-01);
-
-  // Formatter Button
-  --ids-button-formatter-text-color: var(--ids-component-darker-background-color);
-  --ids-button-formatter-border-color: var(--ids-component-color-inverse);
-  --ids-button-formatter-text-color-hover: var(--ids-inverse-text-color);
-  --ids-button-formatter-disabled-text-color: var(--ids-component-color-inverse);
-  --ids-button-formatter-ripple-color: var(--ids-color-primary-tertiary);
-
-  // Hyperlinks
-  --ids-hyperlink-text-color: var(--ids-color-primary);
-  --ids-hyperlink-hover-text-color: var(--ids-color-primary-70);
-  --ids-hyperlink-disabled-text-color: var(--ids-color-slate-40);
-
-  // Icon Set (Future)
-  --ids-icon-font-name: 'name-here';
-
-  // Borders radii
+  // Border radii
   --ids-border-radius-xs: 2px;
   --ids-border-radius-sm: 4px;
   --ids-border-radius-md: 8px;
   --ids-border-radius-lg: 16px;
   --ids-border-radius-round: 50%;
 
-  // Animations
-  --ids-transition-length: 200ms;
-  --ids-transition-ease: cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  // Cursors
+  --ids-cursor-pointer: pointer;
+  --ids-cursor-default: default;
+  --ids-cursor-resize: col-resize;
+  --ids-cursor-move: move;
 
-  // Font includes language fonts
+  // Elevations (Box Shadows)
+  --ids-shadow-none: 0 0 3px 2px rgba(54 138 192 / 0);
+  --ids-shadow-error: 0 0 3px 2px rgb(218 18 23 / 0.30);
+  --ids-shadow-inverse: 0 0 3px 2px rgba(255 255 255 / 0.7);
+  --ids-shadow-sm: 0 0 3px 1px rgb(54 138 192 / 0.3);
+  --ids-shadow-md: 0 0 3px 2px rgb(54 138 192 / 0.3);
+  --ids-shadow-lg: 0 0 4px 3px rgb(54 138 192 / 0.3);
+
+  // Focus Styles
+  --ids-focus-ring-border-color: var(--ids-color-primary);
+  --ids-focus-ring-shadow: var(--ids-shadow-md);
+  --ids-focus-ring-outline: 0;
+
+  // Fonts
   --ids-font-family: source sans pro, -apple-system, helvetica, arial;
   --ids-font-ar: 'Mada', source sans pro, -apple-system, helvetica, arial;
   --ids-font-he: 'Assistant', source sans pro, -apple-system, helvetica, arial;
@@ -113,11 +64,12 @@
   --ids-font-zh-cn: 'Noto Sans SC', source sans pro, -apple-system, helvetica, arial;
   --ids-font-zh-tw: 'Noto Sans TC', source sans pro, -apple-system, helvetica, arial;
   --ids-font-mono: source code pro, monospace;
+  --ids-font-weight-lighter: 300;
   --ids-font-weight-normal: 400;
   --ids-font-weight-semi-bold: 600;
   --ids-font-weight-bold: 700;
 
-  // Font Size
+  // Font Sizes
   --ids-font-size-xxs: 10px;
   --ids-font-size-xs: 12px;
   --ids-font-size-sm: 14px;
@@ -132,15 +84,7 @@
   --ids-font-size-7xl: 72px;
   --ids-text-transform: uppercase;
 
-  // Elevations
-  --ids-shadow-none: 0 0 3px 2px rgba(54 138 192 / 0);
-  --ids-shadow-error: 0 0 3px 2px rgb(218 18 23 / 0.30);
-  --ids-shadow-inverse: 0 0 3px 2px rgba(255 255 255 / 0.7);
-  --ids-shadow-sm: 0 0 3px 1px rgb(54 138 192 / 0.3);
-  --ids-shadow-md: 0 0 3px 2px rgb(54 138 192 / 0.3);
-  --ids-shadow-lg: 0 0 4px 3px rgb(54 138 192 / 0.3);
-
-  // Spacing (For Padding or Margins)
+  // Spacing (For padding or margins)
   --ids-spacing-none: 0;
   --ids-spacing-xs: 1px;
   --ids-spacing-sm: 2px;
@@ -159,17 +103,6 @@
   --ids-size-xxl: 56px;
   --ids-size-2xl: 66px;
 
-  // Focus
-  --ids-focus-ring-border-color: var(--ids-color-primary);
-  --ids-focus-ring-shadow: var(--ids-shadow-md);
-  --ids-focus-ring-outline: 0;
-
-  // Cursors
-  --ids-cursor-pointer: pointer;
-  --ids-cursor-default: default;
-  --ids-cursor-resize: col-resize;
-  --ids-cursor-move: move;
-
   // Z Indexes
   --ids-z-index-toolbar: 20;
   --ids-z-index-sidebar: 500;
@@ -183,10 +116,53 @@
   --ids-z-index-menu: 9000;
   --ids-z-index-skiplink: 10000;
 
-  // Dirty Indicator
-  --ids-dirty-indicator-background-color: var(--ids-color-palette-amber-30);
+  /// --- Component Tokens ---- ///
 
-  // Data Grid
+  // Button (Primary)
+  --ids-button-primary-border-color: var(--ids-color-primary);
+  --ids-button-primary-background-color: var(--ids-color-primary);
+  --ids-button-primary-text-color: var(--ids-color-primary-00);
+  --ids-button-primary-focus-border-color: var(--ids-focus-ring-border-color);
+  --ids-button-primary-focus-shadow: 0 0 0 2px var(--ids-color-primary-00), 0 0 0 3px var(--ids-color-primary-70), 0 0 4px 3px var(--ids-color-primary-70);
+  --ids-button-primary-hover-background-color: var(--ids-color-primary-80);
+  --ids-button-primary-hover-border-color: var(--ids-color-primary-70);
+  --ids-button-primary-disabled-background-color: var(--ids-color-slate-20);
+  --ids-button-primary-disabled-border-color: var(--ids-color-slate-20);
+  --ids-button-primary-disabled-text-color: var(--ids-color-slate-40);
+  --ids-button-primary-ripple-color: var(--ids-color-primary-00);
+
+  // Button (Secondary)
+  --ids-button-secondary-background-color: transparent;
+  --ids-button-secondary-border-width: 2px;
+  --ids-button-secondary-border-color: var(--ids-color-primary);
+  --ids-button-secondary-text-color: var(--ids-color-primary);
+  --ids-button-secondary-focus-border-color: var(--ids-color-primary);
+  --ids-button-secondary-focus-shadow: 0 0 0 2px var(--ids-color-slate-00), 0 0 0 3px var(--ids-color-primary), 0 0 4px 3px var(--ids-color-primary);
+  --ids-button-secondary-hover-background-color: var(--ids-button-tertiary-hover-background-color);
+  --ids-button-secondary-disabled-background-color: transparent;
+  --ids-button-secondary-disabled-border-color: var(--ids-color-slate-20);
+  --ids-button-secondary-disabled-text-color: var(--ids-color-slate-30);
+  --ids-button-secondary-ripple-color: var(--ids-color-primary);
+
+  // Button (Tertiary)
+  --ids-button-tertiary-border-color: transparent;
+  --ids-button-tertiary-text-color: var(--ids-color-slate-60);
+  --ids-button-tertiary-focus-border-color: var(--ids-focus-ring-border-color);
+  --ids-button-tertiary-hover-text-color: var(--ids-color-primary-70);
+  --ids-button-tertiary-hover-background-color: var(--ids-color-primary-10);
+  --ids-button-tertiary-disabled-text-color: var(--ids-color-slate-30);
+  --ids-button-tertiary-font-weight: var(--ids-font-weight-semi-bold);
+  --ids-button-tertiary-disabled-background-color: transparent;
+  --ids-button-destructive-hover-background-color: var(--ids-color-error-10);
+
+  // Button (Formatter)
+  --ids-button-formatter-text-color: var(--ids-input-readonly-background-color);
+  --ids-button-formatter-border-color: var(--ids-color-slate-00);
+  --ids-button-formatter-text-color-hover: var(--ids-inverse-text-color);
+  --ids-button-formatter-disabled-text-color: var(--ids-color-slate-00);
+  --ids-button-formatter-ripple-color: var(--ids-color-primary-tertiary);
+
+  // Data Grid (Common)
   --ids-data-grid-background-color: var(--ids-color-slate-00);
   --ids-data-grid-min-height: 350px;
 
@@ -194,7 +170,7 @@
   --ids-data-grid-cell-background-color: var(--ids-color-slate-00);
   --ids-data-grid-cell-readonly-background-color: rgba(0 0 0 / 0.04);
   --ids-data-grid-cell-border-color: var(--ids-color-slate-30);
-  --ids-data-grid-cell-checkbox-border-color: var(--ids-component-border-color);
+  --ids-data-grid-cell-checkbox-border-color: var(--ids-input-border-color);
   --ids-data-grid-cell-text-color: var(--ids-color-slate-100);
   --ids-data-grid-cell-disabled-text-color: var(--ids-color-slate-30);
   --ids-data-grid-cell-invalid-background-color: rgba(232 79 79 / 0.1);
@@ -219,6 +195,19 @@
   --ids-data-grid-header-unsorted-icon-color: var(--ids-color-slate-50);
   --ids-data-grid-header-sorted-icon-color: var(--ids-color-slate-00);
 
+  // Data Grid (Filter)
+  --ids-data-grid-filter-input-background-color: transparent;
+  --ids-data-grid-filter-input-border-color: var(--ids-color-slate-30);
+  --ids-data-grid-filter-input-text-color: var(--ids-color-slate-00);
+  --ids-data-grid-filter-input-hover-color: var(--ids-color-slate-20);
+  --ids-data-grid-filter-input-focus-color:  var(--ids-color-azure-50);
+  --ids-data-grid-filter-input-disabled-border-color: var(--ids-color-slate-50);
+  --ids-data-grid-filter-input-disabled-text-color: var(--ids-color-slate-40);
+  --ids-data-grid-filter-input-readonly-background-color: transparent;
+  --ids-data-grid-filter-input-readonly-border-color: var(--ids-color-slate-30);
+  --ids-data-grid-filter-input-readonly-text-color: var(--ids-color-slate-00);
+  --ids-data-grid-filter-input-placeholder-text-color: var(--ids-color-slate-40);
+
   // Data Grid (Rows)
   --ids-data-grid-xxs-row-height: 25px;
   --ids-data-grid-xxs-padding: 4px;
@@ -234,16 +223,88 @@
   --ids-data-grid-row-alternate-background-color: var(--ids-color-slate-10);
   --ids-data-grid-row-focus-shadow: inset 0 0 0 1px var(--ids-color-palette-azure-40), 0 1px 0 0 var(--ids-color-palette-azure-40), 0 0 3px 2px rgb(54 138 192 / 0.3);
 
-  // Rating
-  --ids-rating-star-background-color: var(--ids-color-warning-04);
+  // Dirty Indicator
+  --ids-dirty-indicator-background-color: var(--ids-color-palette-amber-30);
+
+  // Headers
+  --ids-header-gradient-opaque: rgb(0 114 237 / 1);
+  --ids-header-gradient-transparent: rgb(0 114 237 / 0);
+
+  // Hyperlinks
+  --ids-hyperlink-text-color: var(--ids-color-primary);
+  --ids-hyperlink-hover-text-color: var(--ids-color-primary-70);
+  --ids-hyperlink-disabled-text-color: var(--ids-color-slate-40);
+
+  // Icons
+  --ids-icon-font-name: 'name-here'; // Future
+  --ids-icon-color: var(--ids-color-slate-80);
 
   // Image
   --ids-image-initials-background-color: var(--ids-color-amethyst-50);
 
+  // Input Sizes
+  --ids-input-width-xs: 75px;
+  --ids-input-width-sm: 150px;
+  --ids-input-width-mm: 225px;
+  --ids-input-width-md: 300px;
+  --ids-input-width-lg: 400px;
+  --ids-input-width-full: 100%;
+  --ids-input-height-xs: 28px;
+  --ids-input-height-sm: 30px;
+  --ids-input-height-md: 38px;
+  --ids-input-height-lg: 48px;
+
+  // Input Styles
+  --ids-input-margin-bottom: 8px;
+  --ids-input-label-font-size: var(--ids-font-size-sm);
+  --ids-input-font-size: var(--ids-font-size-md);
+  --ids-input-font-size-sm: var(--ids-font-size-md);
+  --ids-input-background-color: var(--ids-color-slate-00);
+  --ids-input-border-color: var(--ids-color-slate-40);
+  --ids-input-text-color: var(--ids-data-text-color);
+  --ids-input-label-text-color: var(--ids-label-text-color);
+  --ids-input-readonly-border-color: var(--ids-color-slate-40);
+  --ids-input-readonly-text-color: var(--ids-data-text-color);
+  --ids-input-readonly-background-color: var(--ids-color-slate-20);
+  --ids-input-disabled-color: var(--ids-disabled-text-color);
+  --ids-input-disabled-border-color: var(--ids-disabled-text-color);
+  --ids-input-hover-border-color: var(--ids-color-slate-90);
+  --ids-input-focus-border-color: var(--ids-focus-ring-border-color);
+  --ids-input-header-text-color: var(--ids-color-slate-00);
+  --ids-input-header-background-color: rgba(71 71 76 / 0.3);
+  --ids-input-header-border-color: rgba(62 62 66 / 0.7);
+  --ids-input-app-menu-text-color: var(--ids-color-slate-00);
+  --ids-input-alert-border-color: var(--ids-color-warning-80);
+  --ids-input-alert-text-color: var(--ids-color-warning-80);
+  --ids-input-alert-focus-shadow: var(--ids-color-warning-shadow);
+  --ids-input-alert-disabled-border-color: var(--ids-color-warning-30);
+  --ids-input-alert-disabled-text-color: var(--ids-color-warning-30);
+  --ids-input-error-border-color: var(--ids-color-error-60);
+  --ids-input-error-text-color: var(--ids-color-error-60);
+  --ids-input-error-focus-shadow: var(--ids-color-error-shadow);
+  --ids-input-error-disabled-border-color: var(--ids-color-error-30);
+  --ids-input-error-disabled-text-color: var(--ids-color-error-30);
+  --ids-input-info-border-color: var(--ids-color-info-70);
+  --ids-input-info-text-color: var(--ids-color-info-70);
+  --ids-input-info-focus-shadow: var( --ids-color-info-shadow);
+  --ids-input-info-disabled-border-color: var(--ids-color-info-30);
+  --ids-input-info-disabled-text-color: var(--ids-color-info-30);
+  --ids-input-success-border-color: var(--ids-color-success-80);
+  --ids-input-success-text-color: var(--ids-color-success-80);
+  --ids-input-success-focus-shadow: var( --ids-color-success-shadow);
+  --ids-input-success-disabled-border-color: var(--ids-color-success-30);
+  --ids-input-success-disabled-text-color: var(--ids-color-success-30);
+
+  // Progress Bar
+  --ids-progress-bar-border-color: var(--ids-color-slate-70);
+
+  // Rating
+  --ids-rating-star-background-color: var(--ids-color-warning-40);
+
   // Switch
   --ids-switch-pole-off-background-color: var(--ids-color-slate-40);
-  --ids-switch-toggle-off-background-color: var(--ids-component-background-color);
-  --ids-switch-toggle-off-border-color: var(--ids-component-border-color);
+  --ids-switch-toggle-off-background-color: var(--ids-input-background-color);
+  --ids-switch-toggle-off-border-color: var(--ids-input-border-color);
   --ids-switch-pole-on-background-color: var(--ids-color-primary-30);
   --ids-switch-toggle-on-background-color: var(--ids-color-primary);
   --ids-switch-toggle-on-border-color: var(--ids-color-primary);
@@ -255,4 +316,18 @@
   --ids-switch-toggle-on-disabled-border-color: var(--ids-color-primary-30);
   --ids-switch-toggle-hover-background-color: var(--ids-color-slate-30);
   --ids-switch-toggle-focus-shadow: 0 0 0 3px var(--ids-color-primary-20), 0 0 0 4px var(--ids-color-primary), 0 0 4px 6px var(--ids-color-slate-20);
+
+  // Swipe Action
+  --ids-swipe-action-button-active-background-color: var(--ids-color-slate-90);
+  --ids-swipe-action-button-hover-background-color: var(--ids-color-slate-90);
+
+  // Tag
+  --ids-tag-background-color: var(--ids-input-readonly-background-color);
+  --ids-tag-border-color: var(--ids-input-readonly-background-color);
+  --ids-tag-border-radius: var(--ids-border-radius-lg);
+  --ids-tag-text-color: var(--ids-input-text-color);
+  --ids-tag-font-size: var(--ids-font-size-sm);
+  --ids-tag-icon-hover-color: var(--ids-color-slate-90);
+  --ids-tag-secondary-background-color: var(--ids-input-background-color);
+  --ids-tag-secondary-border-color: var(--ids-input-border-color);
 }

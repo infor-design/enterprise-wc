@@ -51,25 +51,25 @@ ids-button::part(button):hover {
 
 .ids-notification-banner[type='success'],
 .ids-notification-banner.success {
-  background-color: var(--ids-color-success-01);
+  background-color: var(--ids-color-success-10);
 }
 
 .ids-notification-banner[type='caution'],
 .ids-notification-banner.caution {
-  background-color: var(--ids-color-caution-01);
+  background-color: var(--ids-color-caution-10);
 }
 
 .ids-notification-banner[type='warning'],
 .ids-notification-banner.warning {
-  background-color: var(--ids-color-warning-01);
+  background-color: var(--ids-color-warning-10);
 }
 
 .ids-notification-banner[type='info'],
 .ids-notification-banner.info {
-  background-color: var(--ids-color-info-01);
+  background-color: var(--ids-color-info-10);
 }
 
 .ids-notification-banner[type='error'],
 .ids-notification-banner.error {
-  background-color: var(--ids-color-error-01);
+  background-color: var(--ids-color-error-10);
 }

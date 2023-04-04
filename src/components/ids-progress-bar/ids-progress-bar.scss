@@ -3,7 +3,7 @@
 
 // Mixin progress bar fill area
 @mixin progress-bar-fill {
-  background-color: var(--ids-component-primary-background-color);
+  background-color: var(--ids-color-primary);
   border-radius: var(--ids-border-radius-sm);
   transition: width var(--ids-transition-length) var(--ids-transition-ease);
 }
@@ -28,7 +28,7 @@
   .progress-bar {
     background-color: transparent;
     border-radius: var(--ids-border-radius-sm);
-    border: 1px solid var(--ids-component-darker-border-color);
+    border: 1px solid var(--ids-progress-bar-border-color);
     height: 8px;
     margin: var(--ids-spacing-xxl) 0;
     width: 100%;

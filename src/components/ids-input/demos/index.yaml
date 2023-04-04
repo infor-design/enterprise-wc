@@ -23,9 +23,6 @@
   - link: label-state.html
     type: Test
     description: Showing an example with hidden labels
-  - link: one.html
-    type: Test
-    description: Showing an single input
   - link: layout-size.html
     type: Example
     description: Showing inputs in different layout

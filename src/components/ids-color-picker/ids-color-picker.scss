@@ -1,14 +1,13 @@
 @import '../ids-input/ids-input';
 
 .ids-color-picker {
-  @include mb-16();
-
+  margin-bottom: 16px;
   display: block;
   position: relative;
-  max-width: $input-size-sm;
+  max-width: var(--ids-input-width-sm);
 
   input {
-    @include ellipsis();
+    text-overflow: ellipsis;
   }
 
   &.xs {
@@ -38,7 +37,7 @@
   }
 
   &.full {
-    max-width: $input-size-full;
+    max-width: var(--ids-input-width-full);
   }
 }
 
@@ -47,12 +46,11 @@ ids-input::part(container) {
 }
 
 .color-picker-trigger-btn {
-  @include mr-4();
+  margin-inline-end: 4px;
 
   &::part(button) {
-    @include ml-1();
-    @include mr-1();
-
+    margin-inline-start: 1px;
+    margin-inline-end: 1px;
     position: relative;
     z-index: 2;
   }
@@ -94,8 +92,6 @@ ids-input::part(container) {
     // Regarding the accessibility, opacity: 0 is the only property which makes the
     // element accessible in the tab order, and the element's content can be read by screen readers.
     opacity: 0;
-
-    // visibility: hidden;
   }
 }
 

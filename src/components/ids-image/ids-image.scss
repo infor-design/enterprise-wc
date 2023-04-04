@@ -106,16 +106,16 @@ $image-sizes: (
 
   // icon colors
   &.available {
-    color: var(--ids-color-success-03);
+    color: var(--ids-color-success);
   }
 
   &.busy,
   &.do-not-disturb {
-    color: var(--ids-color-error-03);
+    color: var(--ids-color-error);
   }
 
   &.away {
-    color: var(--ids-color-warning-03);
+    color: var(--ids-color-warning);
   }
 
   &.unknown {

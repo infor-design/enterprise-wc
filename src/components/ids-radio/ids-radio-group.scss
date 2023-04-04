@@ -5,7 +5,7 @@
 
 :host {
   @include block();
-  @include mb-16();
+  margin-bottom: 16px;
 }
 
 .ids-radio-group {

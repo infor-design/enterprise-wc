@@ -1,108 +1,101 @@
-@import '../../core/ids-base';
-@import '../../mixins/sass/ids-clearable-mixin';
-@import '../../mixins/sass/ids-dirty-tracker-mixin';
-@import '../../mixins/sass/ids-label-state-mixin';
-@import '../../mixins/sass/ids-validation-mixin';
-
-// Set default
-$input-size-default: $input-size-md;
-$input-field-height-default: $input-field-height-md;
-$input-compact-height: $input-field-height-xs + 2;
+@use '../../themes/mixins/ids-core-mixins' as mixins;
+@import '../../themes/mixins/ids-clearable-mixin';
+@import '../../themes/mixins/ids-dirty-tracker-mixin';
+@import '../../themes/mixins/ids-label-state-mixin';
+@import '../../themes/mixins/ids-validation-mixin';
 
 // These input field sizes come from the design tokens and are adjusted
 // here to account for 1px border size on top/bottom or left/right in some calculations.
-$border-input-size-xs: $input-size-xs - 2;
-$border-input-size-sm: $input-size-sm - 2;
-$border-input-size-md: $input-size-md - 2;
-$border-input-size-mm: $input-size-mm - 2;
-$border-input-size-lg: $input-size-lg - 2;
-$border-input-field-height-compact: $input-compact-height - 2;
-$border-input-field-height-xs: $input-field-height-xs - 2;
-$border-input-field-height-sm: $input-field-height-sm - 2;
-$border-input-field-height-md: $input-field-height-md - 2;
-$border-input-field-height-lg: $input-field-height-lg - 2;
+$border-input-size-xs: calc(var(--ids-input-width-xs) - 2px);
+$border-input-size-sm: calc(var(--ids-input-width-sm) - 2px);
+$border-input-size-md: calc(var(--ids-input-width-md) - 2px);
+$border-input-size-mm: calc(var(--ids-input-width-mm) - 2px);
+$border-input-size-lg: calc(var(--ids-input-width-lg) - 2px);
+$border-input-field-height-xs: calc(var(--ids-input-height-xs) - 2px);
+$border-input-field-height-sm: calc(var(--ids-input-height-sm) - 2px);
+$border-input-field-height-md: calc(var(--ids-input-height-md) - 2px);
+$border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
 
 // Mixin for message styles: [alert, error, info, success]
 @mixin ids-input-message-styles {
   .alert,
-  .alert:hover {
-    @include border-alert-warning();
-    @include text-alert-warning();
+  .alert:hover,
+  .warning,
+  .warning:hover  {
+    border-color: var(--ids-input-alert-border-color);
+    color: var(--ids-input-alert-text-color);
 
     &:focus-within,
     &.is-active {
-      @include border-alert-warning();
-
-      box-shadow: rgba(249 131 0 / 0.3) 0 0 3px 2px;
+      border-color: var(--ids-input-alert-border-color);
+      box-shadow: var(--ids-input-alert-focus-shadow) 0 0 3px 2px;
     }
 
     &[disabled] {
-      @include border-amber-30();
-      @include text-amber-30();
+      border-color: var(--ids-input-alert-disabled-border-color);
+      color: var(--ids-input-alert-disabled-text-color);
     }
   }
 
   .error,
   .error:hover {
-    @include border-alert-error();
-    @include text-alert-error();
+    border-color: var(--ids-input-error-border-color);
+    color: var(--ids-input-error-text-color);
 
     &:focus-within,
     &.is-active {
-      @include border-alert-error();
-      @include shadow-error();
+      border-color: var(--ids-input-error-border-color);
+      box-shadow: var(--ids-input-error-focus-shadow) 0 0 3px 2px;
     }
 
     &[disabled] {
-      @include border-ruby-30();
-      @include text-ruby-30();
+      border-color: var(--ids-input-error-disabled-border-color);
+      color: var(--ids-input-error-disabled-border-color);
     }
   }
 
   .info,
   .info:hover {
-    @include border-alert-info();
-    @include text-alert-info();
+    border-color: var(--ids-input-info-border-color);
+    color: var(--ids-input-info-text-color);
 
     &:focus-within,
     &.is-active {
-      @include border-alert-info();
-
-      box-shadow: rgba(0 102 212 / 0.3) 0 0 3px 2px;
+      border-color: var(--ids-input-info-border-color);
+      box-shadow: var(--ids-input-info-focus-shadow)  0 0 3px 2px;
     }
 
     &[disabled] {
-      @include border-azure-30();
-      @include text-azure-30();
+      border-color: var( --ids-input-info-disabled-border-color);
+      color: var(--ids-input-info-disabled-text-color);
     }
   }
 
   .success,
   .success:hover {
-    @include border-alert-success();
-    @include text-alert-success();
+    border-color: var(--ids-input-success-border-color);
+    color: var(--ids-input-success-text-color);
 
     &:focus-within,
     &.is-active {
-      @include border-alert-success();
-
-      box-shadow: rgba(42 195 113 / 0.3) 0 0 3px 2px;
+      border-color: var(--ids-input-success-border-color);
+      box-shadow: var(--ids-input-success-focus-shadow) 0 0 3px 2px;
     }
 
     &[disabled] {
-      @include border-emerald-30();
-      @include text-emerald-30();
+      border-color: var(--ids-input-success-disabled-border-color);
+      color: var(--ids-input-success-disabled-text-color);
     }
   }
 }
 
 /* in case of external label in compound component */
 .ids-label-text {
-  @include antialiased();
-  @include font-sans();
-  @include text-slate-60();
-  @include mb-8();
+  @include mixins.antialiased();
 
+  font-family: var(--ids-font-family);
+  color: var(--ids-input-label-text-color);
+  margin-block-end: var(--ids-input-margin-bottom);
   align-items: baseline;
   display: flex;
 
@@ -118,12 +111,12 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 
   &.required {
     &::after {
-      @include relative();
-      @include font-sans();
-      @include mx-2();
-      @include text-20();
-      @include text-alert-error();
-
+      position: relative;
+      font-family: var(--ids-font-family);
+      margin-inline-start: var(--ids-spacing-sm);
+      margin-inline-end: var(--ids-spacing-sm);
+      font-size: var(--ids-font-size-lg);
+      color: var(--ids-color-error);
       content: '*';
       margin-top: -10px;
       top: 1px;
@@ -141,48 +134,47 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 
 .disabled {
   .ids-label-text {
-    @include text-slate-30();
+    color: var(--ids-disabled-text-color);
 
     &.required::after {
-      @include text-ruby-30();
+      color: var(--ids-color-error-30);
     }
   }
 }
 
 @mixin input-extra-small-height($h: $border-input-field-height-xs) {
-  @include mb-12();
+  margin-block-end: var(--ids-font-size-xs);
 
   .ids-label-text {
-    @include text-14();
+    font-size: var(--ids-input-label-font-size);
   }
 
   .ids-input-field {
-    @include px-4();
-    @include py-0();
-    @include text-14();
-
+    padding-inline-start: var(--ids-spacing-md);
+    padding-inline-end: var(--ids-spacing-md);
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: var(--ids-input-font-size-sm);
     height: $h;
   }
 }
 
 :host([size='full']) {
-  @include w-full();
+  width: 100%;
 }
 
 .ids-input {
-  @include relative();
-  @include block();
-  @include mb-16();
+  position: relative;
+  display: block;
+  margin-block-end: var(--ids-spacing-xxl);
 
   // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
-    @include css3(transition, border $transition-length $transition-ease);
-    @include m-0();
-    @include p-0();
-    @include relative();
-    @include border-1();
-    @include border-solid();
-
+    transition: border var(--ids-transition-length) var(--ids-transition-ease);
+    margin: var(--ids-spacing-none);
+    padding: var(--ids-spacing-none);
+    position: relative;
+    border: 1px solid;
     align-items: center;
     border-collapse: separate;
     border-radius: 2px;
@@ -190,7 +182,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     resize: none;
     text-align: left;
     display: flex;
-    max-width: $input-size-default;
+    max-width: var(--ids-input-width-md);
   }
 
   &:focus-within,
@@ -203,24 +195,27 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 
   .ids-icon.starting-icon {
-    @include ml-8();
+    margin-inline-start: var(--ids-spacing-lg);
   }
 
   .ids-icon.ending-icon {
-    @include mr-8();
+    margin-inline-end: var(--ids-spacing-lg);
   }
 
   // Applied to the shadow root's HTMLInputElement
   .ids-input-field {
-    @include antialiased();
-    @include bg-transparent();
-    @include box-border();
-    @include border-none();
-    @include font-sans();
-    @include py-4();
-    @include px-8();
-    @include text-16();
-    @include w-full();
+    @include mixins.antialiased();
+
+    box-sizing: border-box;
+    background-color: transparent;
+    border: none;
+    font-family: var(--ids-font-family);
+    padding-block-start: var(--ids-spacing-md);
+    padding-block-end: var(--ids-spacing-md);
+    padding-inline-start: var(--ids-spacing-lg);
+    padding-inline-end: var(--ids-spacing-lg);
+    font-size: var(--ids-input-font-size);
+    width: 100%;
 
     &:focus-visible {
       outline: none;
@@ -234,7 +229,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     text-align: left;
 
     &.text-ellipsis {
-      @include ellipsis();
+      text-overflow: ellipsis;
     }
 
     // input text-align: [start, center, end]
@@ -253,8 +248,8 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 
   // Validation Messages are appended beneath the `.field-container`
   .validation-message {
-    @include mt-4();
-    @include mb-0();
+    margin-block-start: var(--ids-spacing-md);
+    margin-bottom: 0;
   }
 
   // If `no-margins` is used:
@@ -265,23 +260,22 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     margin: 0;
 
     .field-container {
-      @include mb-0();
+      margin-bottom: 0;
     }
 
     .ids-input-field {
-      @include m-0();
+      margin: 0;
     }
 
     // Reverse the margins on `ids-input[no-margins]` fields to have the bottom margin on top
     .validation-message {
-      @include mb-0();
-      @include mt-4();
+      margin-bottom: 0;
+      margin-block-start: var(--ids-spacing-md);
     }
 
     .ids-label-text {
       &.empty {
-        @include m-0();
-
+        margin: 0;
         visibility: hidden;
         height: 0;
       }
@@ -311,7 +305,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 
   &.full .field-container {
-    max-width: $input-size-full;
+    max-width: var(--ids-input-width-full);
   }
 
   // input field-heights: [xs, sm, md, lg]
@@ -343,7 +337,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 
   // input compact
   &.compact {
-    @include input-extra-small-height($border-input-field-height-compact);
+    @include input-extra-small-height($border-input-field-height-xs);
 
     &.no-margin-bottom {
       margin-bottom: 0;
@@ -351,7 +345,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       .field-container,
       .ids-input-field {
         margin-bottom: 0;
-        height: $border-input-field-height-compact;
+        height: $border-input-field-height-xs;
       }
     }
   }
@@ -364,7 +358,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     border-radius: 0;
 
     input {
-      font-size: 16px !important;
+      font-size: var(--ids-font-size-md);
     }
 
     .icon-dirty {
@@ -376,28 +370,28 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     }
 
     .field-container {
-      background-color: transparent !important;
-      border-color: transparent !important;
+      background-color: transparent;
+      border-color: transparent;
     }
 
     &:focus-within .field-container {
-      box-shadow: none !important;
+      box-shadow: none;
     }
 
     &.ids-input.field-height-lg .ids-input-field {
-      padding-inline: 14px;
+      padding-inline: calc(var(--ids-spacing-xxl) - 2);
     }
 
     &.ids-input.field-height-md .ids-input-field {
-      padding-inline: 10px;
+      padding-inline: calc(var(--ids-spacing-xlg) - 2);
     }
 
     &.ids-input.field-height-sm .ids-input-field {
-      padding-inline: 6px;
+      padding-inline: calc(var(--ids-spacing-lg) - 2);
     }
 
     &.ids-input.field-height-xs .ids-input-field {
-      padding-inline: 2px;
+      padding-inline: var(--ids-spacing-sm);
     }
   }
 
@@ -406,7 +400,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     margin: 1px;
 
     input {
-      font-size: 16px;
+      font-size: var(--ids-font-size-md);
     }
 
     &.ids-input.field-height-lg .ids-input-field {
@@ -443,28 +437,33 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 }
 
-// =======================================================
-// Handle Themes
+.caps-lock-indicator {
+  padding-inline-start: 8px;
+  padding-inline-end: 8px;
+}
 
-.ids-input[mode='light'],
-.ids-input:not([mode]) {
+// =======================================================
+// Color Styles
+/* stylelint-disable-next-line no-duplicate-selectors */
+.ids-input {
+  /* stylelint-disable-next-line no-duplicate-selectors */
   .field-container {
-    @include bg-white();
-    @include border-slate-40();
-    @include text-black();
+    background-color: var(--ids-input-background-color);
+    border-color: var(--ids-input-border-color);
+    color: var(--ids-input-text-color);
   }
 
   &.readonly {
     .field-container,
     &.hover .field-container,
     &.focus-within .field-container {
-      @include border-slate-40();
-      @include text-black();
+      border-color: var(--ids-input-readonly-border-color);
+      color: var(--ids-input-readonly-text-color);
 
       &.error,
       &.error:hover {
-        @include border-alert-error();
-        @include text-alert-error();
+        border-color: var(--ids-color-error);
+        color: var(--ids-color-error);
       }
     }
 
@@ -472,7 +471,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
       .field-container,
       &.hover .field-container,
       &.focus-within .field-container {
-        @include bg-slate-20();
+        background-color: var(--ids-input-readonly-background-color);
       }
     }
   }
@@ -481,11 +480,11 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     .field-container,
     &:hover .field-container,
     &:focus-within .field-container {
-      @include border-slate-30();
-      @include text-slate-30();
+      border-color: var(--ids-input-disabled-border-color);
+      color: var(--ids-input-disabled-color);
 
       // Safari input text color
-      -webkit-text-fill-color: var(--ids-color-palette-slate-30);
+      -webkit-text-fill-color: var(--ids-input-disabled-color);
     }
   }
 
@@ -493,359 +492,143 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     .field-container,
     &.readonly .field-container,
     &.disabled .field-container {
-      @include bg-transparent();
+      background-color: transparent;
     }
 
     &:focus-within {
       .field-container {
-        @include bg-transparent();
+        background-color: transparent;
       }
     }
   }
 
   &:hover {
     .field-container {
-      @include border-slate-90();
+      border-color: var(--ids-input-hover-border-color);
     }
 
     // Include error styles
     @include ids-input-message-styles();
   }
 
+  /* stylelint-disable-next-line no-duplicate-selectors */
   &:focus-within,
   &.readonly:focus-within,
   &.is-active {
     .field-container {
-      @include border-azure-60();
-      @include shadow();
+      border-color: var(--ids-input-focus-border-color);
+      box-shadow: var(--ids-focus-ring-shadow);
     }
   }
 
   // Include error styles
   @include ids-input-message-styles();
 
-  // Alternate Color Variant (used in IdsHeader)
+  // Alternate Color Variant (used in IdsHeader - Search)
   &.color-variant-alternate {
     .field-container {
-      @include border-transparent();
-      @include text-white();
-
-      background-color: rgba(71 71 76 / 0.3);
-      border-bottom: 1px solid rgba(62 62 66 / 0.7);
+      border-color: transparent;
+      color: var(--ids-input-header-text-color);
+      background-color: var(--ids-input-header-background-color);
+      border-bottom: 1px solid var(--ids-input-header-border-color);
     }
 
     .ids-input-field::placeholder {
-      color: rgba(255 255 255 / 0.7);
+      color: var(--ids-input-header-border-color);
     }
   }
 
   // Alternate-formatter Color Variant (used in IdsDataGrid filter)
   &.color-variant-alternate-formatter {
     .field-container {
-      @include bg-transparent();
-      @include border-slate-30();
-      @include text-white();
+      background-color: var(--ids-data-grid-filter-input-background-color);
+      border-color: var(--ids-data-grid-filter-input-border-color);
+      color: var(--ids-data-grid-filter-input-text-color);
     }
 
     &:hover .field-container {
-      @include border-slate-20();
+      border-color: var(--ids-data-grid-filter-input-hover-color);
     }
 
     &:focus-within {
       .field-container,
       &:hover .field-container {
-        @include border-azure-50();
+        border-color: var(--ids-data-grid-filter-input-focus-color);
       }
 
       .ids-input-field {
-        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
+        box-shadow: 0 0 3px 1px var(--ids-focus-ring-shadow);
       }
     }
 
     &.disabled .field-container,
     &.disabled:hover .field-container {
-      @include border-slate-50();
-      @include text-slate-40();
+      border-color: var(--ids-data-grid-filter-input-disabled-border-color);
+      color: var(--ids-data-grid-filter-input-disabled-text-color);
     }
 
     &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
-      @include bg-transparent();
-      @include border-slate-30();
-      @include text-white();
+      background-color: var(--ids-data-grid-filter-input-readonly-background-color);
+      border-color: var(--ids-data-grid-filter-input-readonly-border-color);
+      color: var(--ids-data-grid-filter-input-readonly-text-color);
     }
 
     .ids-input-field::placeholder {
-      @include text-slate-40();
-    }
-  }
-}
-
-.ids-input[mode='dark'] {
-  .field-container {
-    @include bg-transparent();
-    @include border-slate-40();
-    @include text-white();
-  }
-
-  &.disabled {
-    .field-container {
-      @include border-slate-60();
-      @include text-slate-60();
-
-      // Safari input text color
-      -webkit-text-fill-color: var(--ids-color-palette-slate-60);
+      color: var(--ids-data-grid-filter-input-placeholder-text-color);
     }
   }
 
-  &.readonly {
-    .field-container {
-      @include border-slate-40();
-      @include text-slate-10();
-    }
-
-    &:not(.readonly-background):not(.bg-transparent) {
-      .field-container,
-      &.hover .field-container,
-      &.focus-within .field-container {
-        @include bg-slate-70();
-      }
-    }
-  }
-
-  &.bg-transparent {
-    .field-container {
-      @include bg-transparent();
-    }
-  }
-
-  &:focus-within,
-  &.is-active {
-    .field-container {
-      @include border-azure-60();
-    }
-  }
-
-  // Include error styles
-  @include ids-input-message-styles();
-
+  // App Menu
   &.color-variant-alternate,
   &.color-variant-app-menu {
     .field-container {
-      @include text-white();
+      color: var(--ids-input-app-menu-text-color);
     }
   }
-
-  // Alternate Color Variant (used in IdsHeader)
-  &.color-variant-alternate {
-    .field-container {
-      @include border-transparent();
-
-      background-color: rgba(71 71 76 / 0.3);
-      border-bottom: 1px solid rgba(62 62 66 / 0.7);
-    }
-
-    .ids-input-field::placeholder {
-      color: rgba(255 255 255 / 0.7);
-    }
-  }
-
-  // Alternate-formatter Color Variant (used in IdsDataGrid filter)
-  &.color-variant-alternate-formatter {
-    .field-container {
-      @include bg-transparent();
-      @include border-slate-50();
-      @include text-slate-100();
-    }
-
-    &:hover .field-container {
-      @include border-slate-70();
-    }
-
-    &:focus-within {
-      .field-container,
-      &:hover .field-container {
-        @include border-azure-50();
-      }
-
-      .ids-input-field {
-        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-50);
-      }
-    }
-
-    &.disabled .field-container,
-    &.disabled:hover .field-container {
-      @include border-slate-60();
-      @include text-slate-50();
-    }
-
-    &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
-      @include text-slate-30();
-    }
-
-    .ids-input-field::placeholder {
-      @include text-slate-40();
-    }
-  }
-}
-
-.ids-input[mode='contrast'] {
-  .field-container {
-    @include bg-white();
-    @include border-slate-40();
-    @include text-black();
-  }
-
-  &.disabled {
-    .field-container {
-      @include border-slate-30();
-      @include text-slate-30();
-
-      // Safari input text color
-      -webkit-text-fill-color: var(--ids-color-palette-slate-30);
-    }
-  }
-
-  &.readonly {
-    .field-container {
-      @include border-slate-40();
-      @include text-slate-100();
-    }
-
-    &:not(.readonly-background):not(.bg-transparent) {
-      .field-container,
-      &.hover .field-container,
-      &.focus-within .field-container {
-        @include bg-slate-20();
-      }
-    }
-  }
-
-  &.bg-transparent {
-    .field-container {
-      @include bg-transparent();
-    }
-  }
-
-  &:focus-within,
-  &.is-active {
-    .field-container {
-      @include border-azure-90();
-    }
-  }
-
-  // Include error styles
-  @include ids-input-message-styles();
-
-  &.color-variant-alternate,
-  &.color-variant-app-menu {
-    .field-container {
-      @include text-white();
-    }
-  }
-
-  // Alternate Color Variant (used in IdsHeader)
-  &.color-variant-alternate {
-    .field-container {
-      @include border-transparent();
-
-      background-color: rgba(71 71 76 / 0.3);
-      border-bottom: 1px solid rgba(62 62 66 / 0.7);
-    }
-
-    .ids-input-field::placeholder {
-      color: rgba(255 255 255 / 0.7);
-    }
-  }
-
-  // Alternate-formatter Color Variant (used in IdsDataGrid filter)
-  &.color-variant-alternate-formatter {
-    .field-container {
-      @include bg-transparent();
-      @include border-slate-30();
-      @include text-white();
-    }
-
-    &:hover .field-container {
-      @include border-slate-20();
-    }
-
-    &:focus-within {
-      .field-container,
-      &:hover .field-container {
-        @include border-azure-50();
-      }
-
-      .ids-input-field {
-        box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
-      }
-    }
-
-    &.disabled .field-container,
-    &.disabled:hover .field-container {
-      @include border-slate-50();
-      @include text-slate-40();
-    }
-
-    &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
-      @include text-slate-80();
-    }
-
-    .ids-input-field::placeholder {
-      @include text-slate-40();
-    }
-  }
-}
-
-.caps-lock-indicator {
-  @include px-8();
 }
 
 .highlight {
   font-weight: var(--ids-number-font-weight-bold);
 }
 
-/* stylelint-disable property-no-vendor-prefix */
 .ids-input-field[type='number']::-webkit-inner-spin-button,
 .ids-input-field[type='number']::-webkit-outer-spin-button {
   appearance: none;
-  -webkit-appearance: none;
 }
 
 // Remove Safari caps lock icon
 .ids-input-field::-webkit-caps-lock-indicator {
   visibility: hidden;
 }
-/* stylelint-enable property-no-vendor-prefix */
 
 // Autocomplete dropdown menu sizes
 :host ids-popup[type='dropdown'] {
-  @include w-full();
-
-  max-width: $input-size-md;
+  width: 100%;
+  max-width: var(--ids-input-width-md);
 }
 
 :host([size='xs']) ids-popup[type='dropdown'] {
-  max-width: $input-size-xs;
+  max-width: var(--ids-input-width-xs);
 }
 
 :host([size='sm']) ids-popup[type='dropdown'] {
-  max-width: $input-size-sm;
+  max-width: var(--ids-input-width-sm);
 }
 
 :host([size='mm']) ids-popup[type='dropdown'] {
-  max-width: $input-size-mm;
+  max-width: var(--ids-input-width-mm);
 }
 
 :host([size='md']) ids-popup[type='dropdown'] {
-  max-width: $input-size-md;
+  max-width: var(--ids-input-width-md);
 }
 
 :host([size='lg']) ids-popup[type='dropdown'] {
-  max-width: $input-size-lg;
+  max-width: var(--ids-input-width-lg);
 }
 
 :host([size='full']) ids-popup[type='dropdown'] {
-  max-width: $input-size-full;
+  max-width: var(--ids-input-width-full);
 }
 
 // Loading Indicator
@@ -868,20 +651,21 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 
   ::slotted(.slot-loading-indicator) {
-    @include mr-12();
-    @include ml-8();
+    margin-inline-end: 12px;
+    margin-inline-start: 8px;
   }
 }
 
 :host([show-loading-indicator='true'][field-height='xs']) {
   ::slotted(.slot-loading-indicator) {
-    @include mx-4();
+    margin-inline-start: 4px;
+    margin-inline-end: 4px;
   }
 }
 
 :host([show-loading-indicator='true'][field-height='sm']) {
   ::slotted(.slot-loading-indicator) {
-    @include mr-8();
-    @include ml-4();
+    margin-inline-end: 8px;
+    margin-inline-start: 4px;
   }
 }

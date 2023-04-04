@@ -8,11 +8,11 @@
   margin-top: var(--ids-spacing-md);
 
   &.has-custom-icon {
-    color: var(--ids-component-icon-color);
+    color: var(--ids-icon-color);
   }
 
   &.disabled {
-    color: var(--ids-component-disabled-color);
+    color: var(--ids-input-disabled-color);
   }
 
   .ids-icon {
@@ -20,42 +20,42 @@
   }
 
   &.alert {
-    color: var(--ids-color-caution-03);
+    color: var(--ids-color-caution);
 
     &.disabled {
-      color: var(--ids-color-caution-02);
+      color: var(--ids-color-caution-30);
     }
   }
 
   &.warning {
-    color: var(--ids-color-warning-03);
+    color: var(--ids-color-warning);
 
     &.disabled {
-      color: var(--ids-color-warning-02);
+      color: var(--ids-color-warning-30);
     }
   }
 
   &.error {
-    color: var(--ids-color-error-03);
+    color: var(--ids-color-error);
 
     &.disabled {
-      color: var(--ids-color-error-02);
+      color: var(--ids-color-error-30);
     }
   }
 
   &.info {
-    color: var(--ids-color-info-03);
+    color: var(--ids-color-info);
 
     &.disabled {
-      color: var(--ids-color-info-02);
+      color: var(--ids-color-info-30);
     }
   }
 
   &.success {
-    color: var(--ids-color-success-03);
+    color: var(--ids-color-success);
 
     &.disabled {
-      color: var(--ids-color-success-02);
+      color: var(--ids-color-success-30);
     }
   }
 }

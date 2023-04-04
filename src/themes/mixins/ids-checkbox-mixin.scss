@@ -8,7 +8,7 @@
 @mixin checkbox-unchecked() {
   position: absolute;
   border: 1px solid;
-  border-color: var(--ids-component-border-color);
+  border-color: var(--ids-input-border-color);
   border-radius: var(--ids-border-radius-xs);
   height: 14px;
   width: 14px;
@@ -17,13 +17,13 @@
 }
 
 @mixin checkbox-unchecked-error {
-  border-color: var(--ids-color-error-03);
+  border-color: var(--ids-color-error);
 }
 
 // Checked
 @mixin checkbox-checked() {
-  background-color: var(--ids-component-primary-background-color);
-  border-color: var(--ids-component-primary-background-color);
+  background-color: var(--ids-color-primary);
+  border-color: var(--ids-color-primary);
 }
 
 @mixin checkbox-checked-after {
@@ -42,8 +42,8 @@
 
 // Indeterminate
 @mixin checkbox-indeterminate() {
-  background-color: var(--ids-component-primary-background-color);
-  border-color: var(--ids-component-primary-background-color);
+  background-color: var(--ids-color-primary);
+  border-color: var(--ids-color-primary);
 }
 
 @mixin checkbox-indeterminate-after {
@@ -63,12 +63,12 @@
 // Disabled
 @mixin checkbox-disabled-unchecked {
   background-color: var(--ids-disabled-text-color);
-  border-color: var(--ids-component-disabled-color);
+  border-color: var(--ids-input-disabled-color);
   cursor: var(--ids-cursor-default);
 }
 
 @mixin checkbox-disabled-unchecked-error {
-  border-color: var( --ids-color-error-02);
+  border-color: var( --ids-color-error-30);
 }
 
 @mixin checkbox-disabled-checked($theme: light) {
