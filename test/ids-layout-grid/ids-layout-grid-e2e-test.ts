@@ -18,12 +18,14 @@ describe('ids-layout-grid', () => {
     expect(results.violations.length).toBe(0);
   });
 
-  it('should render ids-layout-grid with child elements', async () => {
+  it('should render 8 column ids-layout-grid with child elements', async () => {
     // find the ids-layout-grid component
     const idsLayoutGrid = await page.$('#eight-column-grid');
 
     // verify that the component exists
     expect(idsLayoutGrid).toBeTruthy();
+    const cols = await idsLayoutGrid.evaluate((grid: any) => grid.getAttribute('cols'));
+    expect(cols).toEqual('8');
 
     // verify the number of child elements
     const cells = await idsLayoutGrid.$$('ids-layout-grid-cell');
