@@ -57,15 +57,13 @@ ids-input::part(container) {
   min-width: 265px;
 }
 
-  .advanced-color-picker {
-    position: absolute;
-    bottom: 0;
+.advanced-color-picker {
+  position: absolute;
+  bottom: 0;
 
-    // The visibility: hidden style behaves like a combination of opacity: 0 and pointer-events: none.
-    // Regarding the accessibility, opacity: 0 is the only property which makes the
-    // element accessible in the tab order, and the element's content can be read by screen readers.
-    visibility: hidden;
-    opacity: 0;
-  }
+  // The visibility: hidden style behaves like a combination of opacity: 0 and pointer-events: none.
+  // Regarding the accessibility, opacity: 0 is the only property which makes the
+  // element accessible in the tab order, and the element's content can be read by screen readers.
+  visibility: hidden;
+  opacity: 0;
 }
-

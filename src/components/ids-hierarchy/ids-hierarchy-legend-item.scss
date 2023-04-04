@@ -9,17 +9,17 @@
   @include relative();
 
   align-items: center;
-  margin-inline-end: calc(var(--ids-number-spacing-base) * 4);
-  margin-block-end: var(--ids-number-spacing-base);
+  margin-inline-end: calc(var(--ids-spacing-lg) * 4);
+  margin-block-end: var(--ids-spacing-lg);
 
   &::before {
     @include block();
     @include rounded-round();
 
     content: ' ';
-    height: calc(var(--ids-number-spacing-base) * 2);
-    width: calc(var(--ids-number-spacing-base) * 2);
-    margin-inline-end: var(--ids-number-spacing-base);
+    height: calc(var(--ids-spacing-lg) * 2);
+    width: calc(var(--ids-spacing-lg) * 2);
+    margin-inline-end: var(--ids-spacing-lg);
     background-color: var(--background);
   }
 }

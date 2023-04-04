@@ -11,7 +11,7 @@
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 100%);
-  padding-block: var(--ids-number-spacing-base);
+  padding-block: var(--ids-spacing-lg);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   box-shadow: 0 0 8px rgb(0 0 0 / 0.2);
@@ -30,8 +30,8 @@
 }
 
 ids-button {
-  width: calc(100% - calc(var(--ids-number-spacing-base) * 3));
-  margin-block-start: var(--ids-number-spacing-base);
+  width: calc(100% - calc(var(--ids-spacing-lg) * 3));
+  margin-block-start: var(--ids-spacing-lg);
 
   span {
     display: block;

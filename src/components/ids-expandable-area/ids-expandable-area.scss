@@ -3,10 +3,10 @@
 .ids-expandable-area {
   border-bottom: 1px solid var(--ids-color-palette-slate-30);
   contain: content;
-  padding: calc(var(--ids-number-spacing-base) * 3) 0;
+  padding: calc(var(--ids-spacing-lg) * 3) 0;
 
   .expandable-pane-content {
-    margin-top: calc(var(--ids-number-spacing-base) * 2);
+    margin-top: calc(var(--ids-spacing-lg) * 2);
   }
 }
 
@@ -18,7 +18,7 @@
 
 :host([type='partial']) {
   .ids-expandable-area-visible-pane .expandable-pane-content {
-    margin-top: calc(var(--ids-number-spacing-base) * 3);
+    margin-top: calc(var(--ids-spacing-lg) * 3);
   }
 
   .ids-expandable-area-pane .expandable-pane-content {
