@@ -168,11 +168,3 @@
 :host([list]:not([disabled])) {
   cursor: pointer;
 }
-
-// Override trigger field display type
-/*
-ids-trigger-field,
-.ids-dropdown .ids-trigger-field {
-  display: inline-block;
-}
-*/

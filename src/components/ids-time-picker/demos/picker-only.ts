@@ -61,10 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (picker.popup) {
       picker.popup.align = 'bottom, left';
       picker.popup.arrow = 'bottom';
-      /*
-      picker.popup.x = 0;
-      picker.popup.y = 12;
-      */
     }
 
     // Fix onOutsideClick to consider clicking on trigger buttons
