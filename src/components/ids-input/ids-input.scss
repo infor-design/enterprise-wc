@@ -171,6 +171,11 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 
 :host {
   display: block;
+  max-width: 100%;
+
+  .ids-input {
+    display: inline-block;
+  }
 }
 
 :host([size='full']) {
@@ -181,7 +186,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   @include relative();
   @include mb-16();
 
-  display: inline-block;
+  display: block;
   max-width: $input-size-default;
 
   // Applied to the wrapper element that wraps the input and other interactable elements
