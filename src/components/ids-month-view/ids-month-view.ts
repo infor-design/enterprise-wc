@@ -919,11 +919,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
           >${dayText}</ids-text>
         </span>
         ${isCompact ? '' : `<div class="events-container" data-key="${dateKey}"></div>`}
-        ${
-  isCompact
-    ? ''
-    : `<div class="events-container" data-key="${dateKey}"></div>`
-}
       </td>`;
       if (typeof this.state.onDayRender === 'function') {
         cellTemplate = this.state.onDayRender(cellTemplate, dateKey);
