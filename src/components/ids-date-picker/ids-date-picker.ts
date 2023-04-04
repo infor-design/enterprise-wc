@@ -876,9 +876,11 @@ class IdsDatePicker extends Base {
     if (val) {
       this.setAttribute(attributes.SIZE, val);
       this.#triggerField?.setAttribute(attributes.SIZE, val);
+      if (val === 'full') this.container?.classList.add('full');
     } else {
       this.removeAttribute(attributes.SIZE);
       this.#triggerField?.setAttribute(attributes.SIZE, 'sm');
+      this.container?.classList.remove('full');
     }
   }
 
