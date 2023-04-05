@@ -46,7 +46,7 @@ ids-input::part(container) {
   display: grid;
   grid-template-columns: repeat(10, 20px);
   overflow: visible;
-  padding: var(--ids-number-spacing-base);
+  padding: var(--ids-spacing-lg);
   align-items: center;
   align-content: center;
   justify-content: center;
