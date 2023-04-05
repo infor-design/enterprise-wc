@@ -7,8 +7,8 @@
 // Unchecked
 @mixin radio-unchecked {
   position: absolute;
-  border: 1px solid var(--ids-input-border-color);
-  border-radius: var(--ids-border-radius-round);
+  border: 1px solid var(--ids-radio-unchecked-border-color);
+  border-radius: var(--ids-radio-border-radius);
   height: 14px;
   left: 0;
   top: 3px;
@@ -18,9 +18,9 @@
 
 @mixin radio-unchecked-after {
   position: absolute;
-  background-color: var(--ids-input-background-color);
-  border: 1px solid var(--ids-input-background-color);
-  border-radius: var(--ids-border-radius-round);
+  background-color: var(--ids-radio-unchecked-background-color);
+  border: 1px solid var(--ids-radio-unchecked-background-color);
+  border-radius: var(--ids-radio-border-radius);
   content: '';
   height: 0;
   left: 6px;
@@ -39,8 +39,8 @@
 
 // Checked
 @mixin radio-checked {
-  background-color: var(--ids-color-primary);
-  border-color: var(--ids-color-primary);
+  background-color: var(--ids-radio-checked-background-color);
+  border-color: var(--ids-radio-checked-border-color);
 }
 
 @mixin radio-checked-after {
@@ -53,22 +53,22 @@
 
 // Disabled
 @mixin radio-disabled-unchecked {
-  border-color: var(--ids-input-disabled-color);
+  border-color: var(--ids-radio-unchecked-disabled-border-color);
   cursor: var(--ids-cursor-default);
   box-shadow: none;
 }
 
 @mixin radio-disabled-unchecked-error-circle {
-  border-color: var(--ids-color-error-30);
+  border-color: var(--ids-radio-unchecked-disabled-border-color);
 }
 
 @mixin radio-disabled-unchecked-error-label-text {
-  color: var(--ids-color-error-30);
+  color: var(--ids-radio-unchecked-disabled-border-color);
 }
 
 @mixin radio-disabled-checked() {
-  background-color: var(--ids-input-disabled-color);
-  border-color: var(--ids-input-disabled-color);
+  background-color: var(--ids-radio-checked-disabled-background-color);
+  border-color: var(--ids-radio-checked-disabled-border-color);
 }
 
 @mixin radio-disabled-text {

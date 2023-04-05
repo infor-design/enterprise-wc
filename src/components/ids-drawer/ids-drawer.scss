@@ -18,10 +18,7 @@
 :host {
   display: block;
   position: fixed;
-
-  @include transition(
-    box-shadow $transition-length $transition-ease,
-    transform $transition-length $transition-ease);
+  transition: box-shadow var( --ids-transition-length) var(--ids-transition-ease), transform var( --ids-transition-length) var(--ids-transition-ease);
 }
 
 // =================================================

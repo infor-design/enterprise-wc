@@ -1,7 +1,7 @@
 /* Ids Menu Item Component */
 @import './ids-menu-base';
-@import '../../mixins/sass/ids-check-mixin';
-@import '../../mixins/sass/ids-checkbox-mixin';
+@import '../../themes/mixins/ids-check-mixin';
+@import '../../themes/mixins/ids-checkbox-mixin';
 
 /**
  * NOTE ABOUT MENU ITEM ELEMENT ORDER:
@@ -376,7 +376,7 @@
 
   &.selected {
     span.check {
-      @include checkbox-checked(light);
+      @include checkbox-checked();
 
       &::after { //stylelint-disable
         @include checkbox-checked-after();
@@ -387,7 +387,7 @@
   &.disabled {
     &.selected {
       span.check {
-        @include checkbox-disabled-checked(light);
+        @include checkbox-disabled-checked();
       }
     }
   }

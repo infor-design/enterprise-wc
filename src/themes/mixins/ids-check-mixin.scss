@@ -1,23 +1,21 @@
 /**
  * Single Checkmark Mixin
  */
-@import '../../core/ids-base';
 
 // Use this on an element that serves as a checkmark container
 @mixin check-base() {
-  @include relative();
+  position: relative;
 }
 
 // Use this on that same element's `::after` pseudo-element
 @mixin check-icon() {
-  @include absolute();
-  @include border-solid();
-  @include css3(transform, rotate(45deg));
-
+  position: absolute;
+  border: 1px solid;
+  transform: rotate(45deg);
   border-color:
-    var(--ids-color-brand-primary-base)
-    var(--ids-color-brand-primary-base)
-    var(--ids-color-brand-primary-base)
+    var(--ids-color-primary)
+    var(--ids-color-primary)
+    var(--ids-color-primary)
     transparent;
   border-width: 0 2px 2px 0;
   content: ' ';
@@ -29,8 +27,8 @@
 // for situations where this checkmark can appear to be "disabled"
 @mixin check-icon-disabled() {
   border-color:
-    var(--ids-color-palette-slate-30)
-    var(--ids-color-palette-slate-30)
-    var(--ids-color-palette-slate-30)
+    var(--ids-disabled-text-color)
+    var(--ids-disabled-text-color)
+    var(--ids-disabled-text-color)
     transparent;
 }

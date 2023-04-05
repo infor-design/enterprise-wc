@@ -67,11 +67,11 @@
       }
 
       &[disabled] {
-        @include cursor-default();
-        @include no-select();
         @include text-slate-30();
 
+        cursor: var(--ids-cursor-default);
         pointer-events: none;
+        user-select: none;
 
         &:focus {
           @include border-transparent();

@@ -3,5 +3,9 @@
   "editor.tabSize": 2,
   "files.eol": "\n",
   "editor.formatOnSave": false,
-  "editor.formatOnPaste": false
+  "editor.formatOnPaste": false,
+  "cssVariables.lookupFiles": [
+    "src/themes/default/ids-theme-default-core.scss",
+    "src/themes/default/ids-theme-default-colors.scss"
+  ]
 }

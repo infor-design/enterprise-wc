@@ -1,7 +1,7 @@
 @import '../../core/ids-base';
-@import '../../mixins/sass/ids-clearable-mixin';
-@import '../../mixins/sass/ids-dirty-tracker-mixin';
-@import '../../mixins/sass/ids-validation-mixin';
+@import '../../themes/mixins/ids-clearable-mixin';
+@import '../../themes/mixins/ids-dirty-tracker-mixin';
+@import '../../themes/mixins/ids-validation-mixin';
 
 // Field Sizes
 $textarea-size-sm: 150px;
@@ -131,7 +131,7 @@ $textarea-size-default-height: 120px;
     }
 
     &.text-ellipsis {
-      @include ellipsis();
+      text-overflow: ellipsis;
     }
 
     &.has-triggerfield {
@@ -253,9 +253,9 @@ $textarea-size-default-height: 120px;
       @include font-sans();
       @include mx-2();
       @include text-20();
-      @include text-alert-error();
 
       content: '*';
+      color: var(--ids-required-background-color);
       margin-top: -10px;
       top: 1px;
     }
@@ -340,7 +340,7 @@ $textarea-size-default-height: 120px;
       @include text-slate-30();
 
       &.required::after {
-        @include text-ruby-30();
+        color: var(--ids-required-disabled-background-color);
       }
     }
   }

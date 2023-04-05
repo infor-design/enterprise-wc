@@ -1,8 +1,8 @@
 /* Ids Editor Component */
 @use '../../themes/mixins/ids-core-mixins' as mixins;
 @import '../../core/ids-base';
-@import '../../mixins/sass/ids-dirty-tracker-mixin';
-@import '../../mixins/sass/ids-validation-mixin';
+@import '../../themes/mixins/ids-dirty-tracker-mixin';
+@import '../../themes/mixins/ids-validation-mixin';
 
 $editor-container-height: 285px;
 
@@ -27,9 +27,9 @@ $editor-container-height: 285px;
         @include font-sans();
         @include mx-2();
         @include text-20();
-        @include text-alert-error();
 
         content: '*';
+        color: var(--ids-required-background-color);
         margin-top: -10px;
         top: 1px;
       }
@@ -128,7 +128,7 @@ $editor-container-height: 285px;
 
   &[disabled] {
     .editor-label.required::after {
-      @include text-ruby-30();
+      color: var(--ids-required-disabled-background-color);
     }
 
     .toolbar-container {
@@ -173,10 +173,10 @@ $editor-container-height: 285px;
   }
 
   .editor-container {
-    @include css3(user-select, text);
     @include p-16();
 
     height: $editor-container-height;
+    user-select: text;
 
     a {
       @include text-azure-60();

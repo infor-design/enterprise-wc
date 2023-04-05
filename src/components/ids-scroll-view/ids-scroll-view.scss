@@ -37,11 +37,9 @@
 
   // The circle buttons and states
   a {
-    @include focus-border-off();
-    @include cursor-pointer();
-    @include relative();
-    @include cursor-pointer();
-
+    border: 1px solid transparent;
+    cursor: var(--ids-cursor-pointer);
+    position: relative;
     display: inline-block;
     height: 44px;
     outline: none;
@@ -80,9 +78,9 @@
     }
 
     &:focus {
-      @include focus-border-on();
-
-      outline: none;
+      border: 1px solid var( --ids-focus-ring-border-color);
+      box-shadow: var(--ids-focus-ring-shadow);
+      outline: var(--ids-focus-ring-outline);
     }
   }
 }

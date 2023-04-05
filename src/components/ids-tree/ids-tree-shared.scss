@@ -2,14 +2,24 @@
 @import '../../core/ids-base';
 
 // Keyframes for the "plusminus" icon animation
-@include keyframes(keyframes-rotate-forward) {
-  0% { @include rotate(-90); }
-  100% { @include rotate(0); }
+@keyframes keyframes-rotate-forward {
+  0% {
+    transform: rotate(-90deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
-@include keyframes(keyframes-rotate-backward) {
-  0% { @include rotate(45); }
-  100% { @include rotate(0); }
+@keyframes keyframes-rotate-backward {
+  0% {
+    transform: rotate(45deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 // Adjust badge rules for tree node

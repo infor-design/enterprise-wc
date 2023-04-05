@@ -1,34 +1,31 @@
-@import '../../core/ids-base';
-@import '../../mixins/sass/ids-radio-mixin';
+@import '../../themes/mixins/ids-radio-mixin';
 
 .ids-radio {
-  @include my-8();
-  @include outline-none();
+  outline: none;
+  margin-block-start: 8px;
+  margin-block-end: 8px;
 
   label {
-    @include cursor-pointer();
-    @include no-select();
-    @include pl-24();
-    @include relative();
-
+    cursor: var(--ids-cursor-pointer);
+    position: relative;
+    padding-inline-start: 24px;
     display: inline-block;
+    user-select: none;
   }
 
   &.disabled label {
-    @include cursor-default();
+    cursor: var(--ids-cursor-default);
   }
 
   &.horizontal {
-    @include mr-12();
-
     display: inline-block;
+    margin-inline-end: 12px;
   }
 
   input[type='radio'] {
-    @include absolute();
-    @include cursor-pointer();
-    @include opacity-0();
-
+    position: absolute;
+    cursor: var(--ids-cursor-pointer);
+    opacity: 0;
     height: 0;
     width: 0;
 
@@ -64,7 +61,7 @@
       ~ .circle {
         @include radio-disabled-unchecked();
 
-        box-shadow: none !important;
+        box-shadow: none;
       }
 
       ~ .label-text {
@@ -92,87 +89,6 @@
 
   // Colored
   @include radio-colored();
-}
-
-// Handle Themes
-.ids-radio[mode='dark']:not([color]) {
-  input[type='radio'] ~ .circle {
-    @include border-slate-20();
-  }
-
-  input[type='radio']:checked ~ .circle {
-    @include border-azure-60();
-  }
-
-  &:focus input[type='radio'] ~ .circle,
-  input[type='radio']:focus ~ .circle {
-    box-shadow:
-      0 0 0 1px var(--ids-color-palette-slate-10),
-      0 0 0 2px var(--ids-color-palette-azure-60),
-      0 0 4px 5px rgba(54 138 192 / 0.3);
-  }
-
-  input[type='radio']:disabled {
-    ~ .circle {
-      @include border-slate-60();
-    }
-  }
-
-  input[type='radio']:disabled:checked ~ .circle {
-    @include border-slate-60();
-    @include bg-slate-60();
-
-    &::after {
-      @include border-slate-90();
-      @include bg-slate-90();
-    }
-  }
-}
-
-.ids-radio[mode='dark'][color] {
-  &:focus input[type='radio'] ~ .circle,
-  input[type='radio']:focus ~ .circle {
-    box-shadow:
-      0 0 0 1px var(--ids-color-palette-slate-10),
-      0 0 0 2px var(--ids-color-palette-azure-60),
-      0 0 4px 5px rgba(54 138 192 / 0.3);
-  }
-}
-
-.ids-radio[mode='contrast']:not([color]) {
-  input[type='radio'] ~ .circle {
-    @include bg-white();
-    @include border-slate-90();
-  }
-
-  input[type='radio']:checked ~ .circle {
-    @include bg-azure-90();
-    @include border-azure-90();
-  }
-
-  &:focus input[type='radio'] ~ .circle,
-  input[type='radio']:focus ~ .circle {
-    box-shadow:
-      0 0 0 1px var(--ids-color-palette-slate-10),
-      0 0 0 2px var(--ids-color-palette-azure-90),
-      0 0 4px 5px rgba(54 138 192 / 0.3);
-  }
-
-  input[type='radio']:disabled {
-    ~ .circle {
-      @include border-slate-40();
-    }
-  }
-
-  input[type='radio']:disabled:checked ~ .circle {
-    @include border-slate-40();
-    @include bg-slate-40();
-
-    &::after {
-      @include border-white();
-      @include bg-white();
-    }
-  }
 }
 
 // Negate some rules for RTL

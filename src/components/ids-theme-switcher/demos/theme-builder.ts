@@ -16,6 +16,7 @@ import '../../ids-scrollable/ids-scrollable';
 import '../../ids-scrollable/ids-sticky';
 import '../../ids-toggle-button/ids-toggle-button';
 import '../../ids-toast/ids-toast';
+import '../../ids-step-chart/ids-step-chart';
 
 // Init Some components that need JS
 import type { IdsDataGridColumn } from '../../ids-data-grid/ids-data-grid-column';

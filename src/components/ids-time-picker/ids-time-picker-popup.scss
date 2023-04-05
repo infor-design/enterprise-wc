@@ -1,5 +1,5 @@
 @import '../../core/ids-base';
-@import '../../mixins/sass/ids-hide-mixin';
+@import '../../themes/mixins/ids-hide-mixin';
 
 // Remove left/top transforms from animation on this component's popup
 ids-popup[visible][animated] {

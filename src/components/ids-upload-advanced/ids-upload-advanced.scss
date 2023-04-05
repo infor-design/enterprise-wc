@@ -3,6 +3,7 @@
 
 .ids-upload-advanced {
   @include block();
+
   margin-bottom: 16px;
 
   .hidden {
@@ -32,10 +33,10 @@
     .droparea-label {
       @include antialiased();
       @include block();
-      @include no-select();
       @include text-slate-100();
 
       text-align: center;
+      user-select: none;
     }
 
     .hyperlink {
@@ -129,11 +130,12 @@
 
       span {
         @include antialiased();
-        @include ellipsis();
         @include font-sans();
         @include font-normal();
         @include block();
         @include m-0();
+
+        text-overflow: ellipsis;
       }
     }
 

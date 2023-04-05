@@ -14,18 +14,17 @@
     @include p-4();
     @include rounded-default();
     @include text-slate-60();
-    @include transition(background-color 500ms cubic-bezier(0.17, 0.04, 0.03, 0.94),
-    opacity 500ms cubic-bezier(0.17, 0.04, 0.03, 0.94));
 
     align-items: baseline;
+    transition: background-color var(--ids-transition-length) var(--ids-transition-ease), opacity var(--ids-transition-length) var(--ids-transition-ease);
 
     .icon,
     .toggle-icon {
       @include pt-1();
-      @include transition(fill 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94));
 
       flex: 0 0 auto;
       margin-inline-end: 8px;
+      transition: fill var(--ids-transition-length) var(--ids-transition-ease);
       place-self: flex-start;
     }
 
@@ -44,13 +43,9 @@
     }
 
     .text {
-      @include transition(
-        border 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94),
-        color 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94)
-      );
-
       flex-grow: 1;
       margin-inline-end: 2px;
+      transition: border var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
     }
 
     &:hover,

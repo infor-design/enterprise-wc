@@ -116,7 +116,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
       margin-inline-start: var(--ids-spacing-sm);
       margin-inline-end: var(--ids-spacing-sm);
       font-size: var(--ids-font-size-lg);
-      color: var(--ids-color-error);
+      color: var(--ids-required-background-color);
       content: '*';
       margin-top: -10px;
       top: 1px;
@@ -137,7 +137,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
     color: var(--ids-disabled-text-color);
 
     &.required::after {
-      color: var(--ids-color-error-30);
+      color: var(--ids-required-disabled-background-color);
     }
   }
 }

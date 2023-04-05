@@ -1,20 +1,20 @@
 /* Ids Notification Banner Component */
 .ids-notification-banner {
   display: flex;
-  padding-inline-start: var(--ids-spacing-lg);
+  padding-inline-start: var(--ids-notification-padding);
   align-items: center;
-  height: var(--ids-size-lg);
+  height: var(--ids-notification-banner-height);
 }
 
 ids-alert,
 .ids-alert {
   display: flex;
-  margin-inline-end: var(--ids-spacing-lg);
+  margin-inline: var(--ids-notification-banner-padding);
 }
 
 ids-text::part(text),
 .ids-text {
-  color: var(--ids-subtle-text-color);
+  color: var(--ids-notification-banner-text-color);
 }
 
 ids-hyperlink::part(link),
@@ -24,13 +24,13 @@ ids-hyperlink::part(link),
   white-space: nowrap;
   position: relative;
   top: 2px;
-  margin: 0 var(--ids-spacing-lg);
+  margin: 0 var(--ids-notification-banner-padding);
 }
 
 .ids-notification-banner-button {
   display: flex;
   margin-inline-start: auto;
-  margin-inline-end: var(--ids-spacing-sm);
+  margin-inline-end: var(--ids-notification-banner-button-padding);
 
   ids-button
   .ids-icon-button {
@@ -40,7 +40,7 @@ ids-hyperlink::part(link),
 }
 
 ids-button::part(button):hover {
-  background-color: rgb(0 0 0 / .1);
+  background-color: var(--ids-notification-banner-button-hover-background-color);
 }
 
 .ids-notification-banner-message {
@@ -51,25 +51,25 @@ ids-button::part(button):hover {
 
 .ids-notification-banner[type='success'],
 .ids-notification-banner.success {
-  background-color: var(--ids-color-success-10);
+  background-color: var(--ids-notification-banner-success-background-color);
 }
 
 .ids-notification-banner[type='caution'],
 .ids-notification-banner.caution {
-  background-color: var(--ids-color-caution-10);
+  background-color: var(--ids-notification-banner-caution-background-color);
 }
 
 .ids-notification-banner[type='warning'],
 .ids-notification-banner.warning {
-  background-color: var(--ids-color-warning-10);
+  background-color: var(--ids-notification-banner-warning-background-color);
 }
 
 .ids-notification-banner[type='info'],
 .ids-notification-banner.info {
-  background-color: var(--ids-color-info-10);
+  background-color: var(--ids-notification-banner-info-background-color);
 }
 
 .ids-notification-banner[type='error'],
 .ids-notification-banner.error {
-  background-color: var(--ids-color-error-10);
+  background-color: var(--ids-notification-banner-error-background-color);
 }

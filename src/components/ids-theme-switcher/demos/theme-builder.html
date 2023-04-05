@@ -391,6 +391,20 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <!-- Step Chart -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Step Chart</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid cols="2" gap="md">
+          <ids-layout-grid-cell>
+            <ids-step-chart class="chart" label="7 of 7 steps completed" color="emerald06" step-number="7" value="7" progress-color="ruby02">
+              <ids-alert slot="icon" icon="success"></ids-icon>
+            </ids-step-chart>
+            <ids-step-chart class="chart" label="2 of 7 steps completed" color="azure06" step-number="7" value="2">
+            </ids-step-chart>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Tags -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Tags</ids-text><br>
@@ -441,7 +455,7 @@
 
         <!-- Toggle Button -->
         <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Toggle Button</ids-text>
+          <ids-text font-size="12" type="h2">Toggle Button</ids-text>
         </ids-layout-grid>
         <ids-layout-grid cols="4" gap="md">
           <ids-layout-grid-cell>
@@ -453,6 +467,7 @@
               text-on="Toggle Button (On)"></ids-toggle-button>
           </ids-layout-grid-cell>
         </ids-layout-grid>
+
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

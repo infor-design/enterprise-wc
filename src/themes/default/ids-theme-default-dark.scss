@@ -154,6 +154,17 @@
   --ids-progress-bar-border-color: var(--ids-color-slate-40);
   --ids-progress-bar-background-color: var(--ids-color-palette-azure-60);
 
+  // Radio
+  --ids-radio-checked-background-color: var(--ids-color-palette-azure-60);
+  --ids-radio-checked-border-color:  var(--ids-color-palette-slate-00);
+
+  // Required
+  --ids-required-background-color: var(--ids-color-error-60);
+
+  // Step Chart
+  --ids-step-chart-step-background-color: var(--ids-color-slate-70);
+  --ids-step-chart-step-completed-background-color: var(--ids-color-palette-azure-60);
+
   // Swipe Action
   --ids-swipe-action-button-active-background-color: var(--ids-input-hover-border-color);
   --ids-swipe-action-button-hover-background-color: var(--ids-input-hover-border-color);

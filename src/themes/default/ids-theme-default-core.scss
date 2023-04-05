@@ -162,6 +162,10 @@
   --ids-button-formatter-disabled-text-color: var(--ids-color-slate-00);
   --ids-button-formatter-ripple-color: var(--ids-color-primary-tertiary);
 
+  // Charts
+  --ids-chart-legend-text-size: var(--ids-font-size-sm);
+  --ids-chart-legend-text-color: var(--ids-label-text-color);
+
   // Data Grid (Common)
   --ids-data-grid-background-color: var(--ids-color-slate-00);
   --ids-data-grid-min-height: 350px;
@@ -295,12 +299,46 @@
   --ids-input-success-disabled-border-color: var(--ids-color-success-30);
   --ids-input-success-disabled-text-color: var(--ids-color-success-30);
 
+  // Notification Banner
+  --ids-notification-banner-height: var(--ids-size-lg);
+  --ids-notification-banner-padding: var(--ids-spacing-lg);
+  --ids-notification-banner-text-color: var(--ids-subtle-text-color);
+  --ids-notification-banner-button-padding: var(--ids-spacing-sm);
+  --ids-notification-banner-button-hover-background-color: rgb(0 0 0 / .1);
+  --ids-notification-banner-success-background-color: var(--ids-color-success-10);
+  --ids-notification-banner-warning-background-color: var(--ids-color-warning-10);
+  --ids-notification-banner-warning-caution-color: var(--ids-color-caution-10);
+  --ids-notification-banner-info-background-color: var(--ids-color-info-10);
+  --ids-notification-banner-error-background-color: var(--ids-color-error-10);
+
   // Progress Bar
   --ids-progress-bar-border-color: var(--ids-color-slate-70);
   --ids-progress-bar-background-color: var(--ids-color-primary);
 
+  // Radio
+  --ids-radio-unchecked-background-color: var(--ids-input-background-color);
+  --ids-radio-unchecked-border-color: var(--ids-input-border-color);
+  --ids-radio-checked-background-color: var(--ids-color-primary);
+  --ids-radio-checked-border-color:  var(--ids-color-primary);
+  --ids-radio-border-radius: var(--ids-border-radius-round);
+  --ids-radio-unchecked-disabled-background-color: var(--ids-input-background-color);
+  --ids-radio-unchecked-disabled-border-color: var(--ids-input-disabled-color);
+  --ids-radio-checked-disabled-background-color: var(--ids-input-disabled-color);
+  --ids-radio-checked-disabled-border-color: var(--ids-input-disabled-color);
+
   // Rating
   --ids-rating-star-background-color: var(--ids-color-warning-40);
+
+  // Required
+  --ids-required-background-color: var(--ids-color-error);
+  --ids-required-disabled-background-color: var(--ids-color-error-30);
+
+  // Step Chart
+  --ids-step-chart-margin: var(--ids-spacing-xxl);
+  --ids-step-chart-inner-margin: var(--ids-spacing-md);
+  --ids-step-chart-height: 14px;
+  --ids-step-chart-step-background-color: var(--ids-color-slate-20);
+  --ids-step-chart-step-completed-background-color: var(--ids-color-primary);
 
   // Switch
   --ids-switch-pole-off-background-color: var(--ids-color-slate-40);
