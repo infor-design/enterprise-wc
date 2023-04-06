@@ -4,7 +4,7 @@
 .ids-counts {
   @include core.antialiased();
 
-  color: var(--ids-subtle-text-color);
+  color: var(--ids-counts-text-color);
   contain: content;
   font-family: var(--ids-font-family);
   text-align: center;
@@ -14,7 +14,7 @@
   }
 
   &[href] {
-    color: var(--ids-hyperlink-text-color);
+    color: var(--ids-counts-hyperlink-text-color);
   }
 
   &[color] {
@@ -23,11 +23,11 @@
 }
 
 .ids-counts div[count-value] {
-  font-size: var(--ids-font-size-md);
+  font-size: var(--ids-counts-value-font-size);
 }
 
 .ids-counts div[count-text] {
-  font-size: var(--ids-font-size-5xl);
+  font-size: var(--ids-counts-count-font-size);
 }
 
 a:focus {

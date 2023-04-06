@@ -69,7 +69,10 @@
   --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-50);
 
   // Card
-  --ids-card-group-action-border-color: var(--ids-color-slate-30);
+  --ids-card-background-color: var(--ids-color-slate-00);
+  --ids-card-border-color: var(--ids-color-slate-60);
+  --ids-card-divider-border-color: var(--ids-color-slate-30);
+  --ids-card-shadow: 0 0 8px rgba(0 0 0 / 0.1);
 
   // Button (Primary)
   --ids-button-primary-border-color: var(--ids-color-primary);

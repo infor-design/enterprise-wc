@@ -1,36 +1,31 @@
-@import '../../core/ids-base';
+/* Ids Card Component */
 @import '../../themes/mixins/ids-ripple-mixin';
 
 .ids-card {
-  @include bg-white();
-  @include border-1();
-  @include border-slate-30();
-  @include border-solid();
-  @include rounded-md();
-  @include mb-20();
-
-  box-shadow: rgba(0 0 0 / 0.1) 0 0 8px;
+  background-color: var(--ids-card-background-color);
+  border: 1px solid var(--ids-card-border-color);
+  border-radius: var(--ids-card-border-radius);
+  box-shadow: var(--ids-card-shadow);
+  margin-block-end: var(--ids-card-margin-bottom);
   height: 360px;
 
   .ids-card-content {
-    @include w-full();
-
-    height: 310px;
+    height: var(--ids-card-height);
     overflow: auto;
+    width: 100%;
 
     &.overflow-hidden {
       overflow: hidden;
     }
 
     &.has-checkbox {
-      padding-left: 50px;
+      padding-inline-start: 50px;
     }
   }
 
   &-checkbox {
-    @include absolute();
-    @include flex();
-
+    position: absolute;
+    display: flex;
     top: 0;
     left: 0;
     bottom: 0;
@@ -40,12 +35,12 @@
   }
 
   &.is-selectable {
-    @include cursor-pointer();
+    cursor: var(--ids-cursor-pointer);
   }
 
   &.is-selected {
-    background-color: var(--ids-color-palette-azure-10);
-    outline: 2px solid #0072ed;
+    background-color: var(--ids-card-selected-background-color);
+    outline: 2px solid var(--ids-card-selected-border-color);
     outline-offset: -1px;
   }
 
@@ -57,10 +52,9 @@
 // Adjust the width/height to parent fit
 :host([auto-fit]) {
   .ids-card {
-    @include box-border();
-    @include h-full();
-    @include m-0();
-
+    box-sizing: border-box;
+    height: 100%;
+    margin: 0;
     display: flex;
     flex-direction: column;
     min-height: auto;
@@ -99,7 +93,7 @@
   }
 }
 
-:host([border-less]) {
+:host([borderless]) {
   .ids-card {
     border-color: transparent;
     box-shadow: none;
@@ -111,20 +105,19 @@
   height: 50px;
 
   &::part(link) {
-    @include box-border();
-    @include flex();
-    @include m-0();
-    @include p-0();
-    @include text-slate-60();
-    @include w-full();
-
+    box-sizing: border-box;
     border: none;
+    color: var(--ids-card-text-color);
+    display: flex;
+    margin: 0;
+    padding: 0;
     text-align: center;
     text-decoration: none;
+    width: 100%;
     white-space: normal;
 
     &:hover {
-      @include text-black();
+      color: var(--ids-card-hover-text-color);
     }
   }
 }
@@ -161,52 +154,8 @@
     height: 50px;
 
     &:focus {
-      @include border-1();
-      @include border-slate-30();
-      @include border-solid();
-
-      box-shadow:
-        0 0 0 2px var(--ids-color-palette-white),
-        0 0 0 3px var(--ids-color-brand-primary-base),
-        0 0 4px 3px var(--ids-color-brand-primary-base);
-    }
-  }
-
-  // Dark Theme
-  ids-hyperlink[mode='dark']::part(link):focus,
-  ids-button[mode='dark']::part(button):focus {
-    @include border-slate-70();
-
-    box-shadow:
-      0 0 0 2px var(--ids-color-palette-slate-90),
-      0 0 0 3px var(--ids-color-palette-azure-60),
-      0 0 4px 2px rgba(141 201 230 / 0.3);
-  }
-
-  ids-hyperlink[mode='dark']::part(link) {
-    @include text-slate-20();
-
-    &:hover {
-      @include text-white();
-    }
-  }
-
-  // Contrast Theme
-  ids-hyperlink[mode='contrast']::part(link):focus,
-  ids-button[mode='contrast']::part(button):focus {
-    @include border-slate-60();
-
-    box-shadow:
-      0 0 0 2px var(--ids-color-palette-slate-10),
-      0 0 0 3px var(--ids-color-palette-azure-90),
-      0 0 4px 2px rgba(41 41 41 / 0.3);
-  }
-
-  ids-hyperlink[mode='contrast']::part(link) {
-    @include text-slate-100();
-
-    &:hover {
-      @include text-black();
+      border: 1px solid var(--ids-card-border-color);
+      box-shadow: var(--ids-shadow-lg);
     }
   }
 }
@@ -217,23 +166,19 @@
 }
 
 .ids-card-header {
-  @include py-12();
-  @include px-16();
-  @include border-slate-30();
+  padding: var(--ids-card-header-padding);
 }
 
 .ids-card-footer {
-  @include bg-white();
-  @include py-8();
-  @include px-16();
-
+  background-color: var(--ids-card-background-color);
+  padding: 6px 0 0;
   display: none;
   bottom: 0;
   border-top: 1px solid var(--ids-color-palette-slate-20);
-  width: calc(100% - 32px);
+  width: 100%;
 
   &.no-padding {
-    @include py-0();
+    padding: 0;
   }
 }
 
@@ -286,33 +231,5 @@
 
   ids-button::part(button) {
     height: inherit;
-  }
-}
-
-// Handle Themes
-.ids-card[mode='dark'] {
-  @include bg-slate-90();
-  @include border-slate-70();
-
-  box-shadow: 0 0 8px rgba(0 0 0 / 0.7);
-
-  .ids-card-header {
-    @include border-slate-70();
-  }
-
-  .ids-card-footer {
-    @include bg-slate-90();
-    @include border-slate-70();
-  }
-}
-
-.ids-card[mode='contrast'] {
-  @include bg-white();
-  @include border-slate-60();
-
-  box-shadow: 0 0 8px rgba(0 0 0 / 0.1);
-
-  .ids-card-footer {
-    @include border-slate-60();
   }
 }

@@ -8,6 +8,9 @@
   - link: example.html
     type: Main Example
     description: Shows two side by side cards
+  - link: actionable.html
+    type: Example
+    description: Shows a card that is clickable
   - link: auto-height.html
     type: Example
     description: Shows a card that sizes to its content

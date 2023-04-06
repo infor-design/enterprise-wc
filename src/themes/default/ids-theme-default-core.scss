@@ -187,11 +187,28 @@
 
   // Card
   --ids-card-toolbar-padding: var(--ids-spacing-xxl);
-  --ids-card-group-action-border-color: var(--ids-color-slate-20);
+  --ids-card-border-radius: var(--ids-border-radius-md);
+  --ids-card-margin-bottom: var(--ids-spacing-xxl);
+  --ids-card-height: 360px;
+  --ids-card-header-padding: 12px 16px;
+  --ids-card-background-color: var(--ids-color-slate-00);
+  --ids-card-border-color: var(--ids-color-slate-30);
+  --ids-card-divider-border-color: var(--ids-color-slate-20);
+  --ids-card-shadow: rgba(0 0 0 / 0.1) 0 0 8px;
+  --ids-card-selected-background-color: var(--ids-color-primary-10);
+  --ids-card-selected-border-color: var(--ids-color-primary);
+  --ids-card-text-color: var(--ids-label-text-color);
+  --ids-card-hover-text-color: var(--ids-data-text-color);
 
   // Charts
   --ids-chart-legend-text-size: var(--ids-font-size-sm);
   --ids-chart-legend-text-color: var(--ids-label-text-color);
+
+  // Counts
+  --ids-counts-text-color: var(--ids-subtle-text-color);
+  --ids-counts-hyperlink-text-color: var(--ids-hyperlink-text-color);
+  --ids-counts-value-font-size: var(--ids-font-size-md);
+  --ids-counts-count-font-size: var(--ids-font-size-5xl);
 
   // Data Grid (Common)
   --ids-data-grid-background-color: var(--ids-color-slate-00);

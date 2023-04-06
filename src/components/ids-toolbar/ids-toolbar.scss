@@ -16,7 +16,7 @@
 }
 
 :host([group-action]) {
-  border-top: 1px solid var(--ids-card-group-action-border-color);
+  border-top: 1px solid var(--ids-card-divider-border-color);
 }
 
 :host([group-action]) .ids-toolbar {
