@@ -68,7 +68,6 @@ const COLLAPSED = 'collapsed';
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @part splitter - the splitter container element
  * @part split-bar - the split bar element
  * @part split-bar-icon - the split bar icon element

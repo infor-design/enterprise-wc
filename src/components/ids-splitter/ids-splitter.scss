@@ -1,5 +1,5 @@
 /* Ids Splitter Component */
-$split-bar-size: 21px;
+$split-bar-size: var(--ids-splitter-bar-width);
 
 .ids-splitter {
   display: flex;
@@ -19,16 +19,16 @@ $split-bar-size: 21px;
     position: absolute;
 
     .split-bar {
-      align-items: center;
-      justify-content: center;
-      transition: background-color var(--ids-transition-length) var(--ids-transition-ease);
       display: flex;
       position: relative;
       height: 100%;
       width: 100%;
+      align-items: center;
+      justify-content: center;
+      transition: background-color var(--ids-transition-length) var(--ids-transition-ease);
 
       &:hover {
-        background-color: var(--ids-button-tertiary-hover-background-color);
+        background-color: var(--ids-splitter-bar-hover-background-color);
       }
     }
 
@@ -38,11 +38,11 @@ $split-bar-size: 21px;
       top: 0;
 
       &.align-start {
-        border-inline-start: 1px solid var(--ids-body-line-color);
+        border-inline-start: 1px solid var(--ids-splitter-bar-border-color);
       }
 
       &.align-end {
-        border-inline-end: 1px solid var(--ids-body-line-color);
+        border-inline-end: 1px solid var(--ids-splitter-bar-border-color);
         margin-inline-start: -$split-bar-size;
       }
     }
@@ -53,11 +53,11 @@ $split-bar-size: 21px;
       width: 100%;
 
       &.align-start {
-        border-block-start: 1px solid var(--ids-button-tertiary-hover-background-color);
+        border-block-start: 1px solid var(--ids-splitter-bar-border-color);
       }
 
       &.align-end {
-        border-block-end: 1px solid var(--ids-body-line-color);
+        border-block-end: 1px solid var(--ids-splitter-bar-border-color);
         margin-block-start: -$split-bar-size;
       }
 
@@ -69,14 +69,14 @@ $split-bar-size: 21px;
     &[is-dragging],
     &:focus {
       outline: none;
-      background-color: var(--ids-button-tertiary-hover-background-color);
+      background-color: var(--ids-splitter-bar-hover-background-color);
 
       &[axis='x'].align-start,
       &[axis='x'].align-end,
       &[axis='y'].align-start,
       &[axis='y'].align-end {
-        border-color: var(--ids-color-primary);
-        box-shadow: var(--ids-shadow-md);
+        border-color: var(--ids-splitter-bar-dragging-border-color);
+        box-shadow: var(--ids-splitter-bar-dragging-box-shadow);
       }
     }
 
