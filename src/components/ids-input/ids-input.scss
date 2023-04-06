@@ -171,7 +171,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 
 :host {
   display: block;
-  max-width: 100%;
+  max-width: calc($input-size-default - 2px);
 
   .ids-input {
     display: inline-block;
