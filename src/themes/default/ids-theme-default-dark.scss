@@ -200,4 +200,10 @@
   --ids-toast-border-color: var(--ids-color-slate-50);
   --ids-toast-text-color: var(--ids-color-slate-00);
   --ids-toast-progress-background-color: var(--ids-progress-bar-background-color);
+
+    // Drawer
+    --ids-drawer-primary-background-color: var(--ids-color-slate-100);
+    --ids-drawer-primary-text-color: var(--ids-color-slate-10);
+    --ids-drawer-secondary-background-color: var(--ids-color-slate-90); // TODO: Check design, changed Black to Slate-90
+    --ids-drawer-secondary-text-color: var(--ids-color-slate-10);
 }

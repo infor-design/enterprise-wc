@@ -99,8 +99,7 @@
   }
 
   &.no-margins {
-    margin-inline-start: var(--ids-spacing-none);
-    margin-inline-end: var(--ids-spacing-none);
+    margin-inline: var(--ids-spacing-none);
   }
 
   // Account for 2px borders on secondary buttons
@@ -113,13 +112,11 @@
  * Provides standardized padding rules for certain button types
  */
 @mixin ids-standard-button-padding() {
-  padding-inline-start: var(--ids-spacing-3xl);
-  padding-inline-end: var(--ids-spacing-3xl);
+  padding-inline: var(--ids-spacing-4xl);
 }
 
 @mixin ids-inline-button-padding() {
-  padding-inline-start: var(--ids-spacing-xlg);
-  padding-inline-end: var(--ids-spacing-xlg);
+  padding-inline: var(--ids-spacing-xlg);
 }
 
 /**
@@ -330,8 +327,7 @@
 
     &.ids-menu-button.compact {
       padding: var(--ids-spacing-md);
-      padding-inline-start: var(--ids-spacing-md);
-      padding-inline-end: var(--ids-spacing-md);
+      padding-inline: var(--ids-spacing-md);
     }
   }
 }
