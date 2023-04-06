@@ -55,6 +55,17 @@ const POPUP_PROPERTIES = [
 ];
 
 /**
+ * Defines XY Switch results
+ */
+export type IdsPopupXYSwitchResult = {
+  oppositeEdge: string,
+  shouldSwitchXY: boolean,
+  targetEdge: string,
+  x: number,
+  y: number
+};
+
+/**
  * Formats the text value of the `align` attribute.
  * @private
  * @param {string} alignX matches a value from the ALIGNMENTS_X array
