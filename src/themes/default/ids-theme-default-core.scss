@@ -27,7 +27,7 @@
   --ids-transition-length: 200ms;
   --ids-transition-ease: cubic-bezier(0.17, 0.04, 0.03, 0.94);
 
-  // Border radii
+  // Border radius
   --ids-border-radius-xs: 2px;
   --ids-border-radius-sm: 4px;
   --ids-border-radius-md: 8px;
@@ -92,7 +92,8 @@
   --ids-spacing-lg: 8px;
   --ids-spacing-xlg: 12px;
   --ids-spacing-xxl: 16px;
-  --ids-spacing-3xl: 28px;
+  --ids-spacing-3xl: 24px;
+  --ids-spacing-4xl: 28px;
 
   // Sizes (Heights) - TODO
   --ids-size-xxs: 22px;
@@ -255,6 +256,14 @@
 
   // Dirty Indicator
   --ids-dirty-indicator-background-color: var(--ids-color-palette-amber-30);
+
+  // Drawer
+  --ids-drawer-primary-background-color: var(--ids-color-slate-00);
+  --ids-drawer-primary-text-color: var(--ids-color-slate-100);
+  --ids-drawer-primary-box-shadow: 0 0 8px rgba(0 0 0 / 0.2);
+  --ids-drawer-secondary-background-color: var(--ids-color-slate-100);
+  --ids-drawer-secondary-text-color: var(--ids-color-slate-00);
+  --ids-drawer-secondary-box-shadow: 0 0 20px 1px rgba(0 0 0 / 0.75);
 
   // Headers
   --ids-header-gradient-opaque: rgb(0 114 237 / 1);
