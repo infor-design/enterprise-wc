@@ -14,6 +14,7 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
 import IdsElement from '../../core/ids-element';
 
+import { onPickerPopupXYSwitch } from '../ids-picker-popup/ids-picker-popup-common';
 import { IdsTimePickerCommonAttributes, IdsTimePickerMixinAttributes, range } from './ids-time-picker-common';
 
 import '../ids-dropdown/ids-dropdown';
@@ -241,6 +242,7 @@ export default class IdsTimePicker extends Base {
         if (picker.popup) {
           picker.popup.x = 0;
           picker.popup.setAttribute(attributes.ARROW_TARGET, `#${btnId}`);
+          picker.popup.onXYSwitch = onPickerPopupXYSwitch;
         }
 
         picker.onOutsideClick = (e: any) => {

@@ -14,7 +14,7 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
 import IdsElement from '../../core/ids-element';
 
-import type { IdsPopupXYSwitchResult } from '../ids-popup/ids-popup-attributes';
+import { onPickerPopupXYSwitch } from '../ids-picker-popup/ids-picker-popup-common';
 
 import {
   buildClassAttrib,
@@ -342,12 +342,7 @@ class IdsDatePicker extends Base {
 
         // Detect switch of X/Y values due to alignment settings,
         // and account for extra width needed to be displayed outside of IdsDatePicker fields
-        this.#picker.popup.onXYSwitch = (results: IdsPopupXYSwitchResult) => {
-          if (results.shouldSwitchXY) {
-            if (['bottom', 'top'].includes(results.targetEdge)) results.x = 12;
-          }
-          return results;
-        };
+        this.#picker.popup.onXYSwitch = onPickerPopupXYSwitch;
       }
 
       this.#picker.refreshTriggerEvents();

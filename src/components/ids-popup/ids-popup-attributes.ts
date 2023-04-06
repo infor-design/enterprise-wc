@@ -58,6 +58,7 @@ const POPUP_PROPERTIES = [
  * Defines XY Switch results
  */
 export type IdsPopupXYSwitchResult = {
+  flip: boolean,
   oppositeEdge: string,
   shouldSwitchXY: boolean,
   targetEdge: string,

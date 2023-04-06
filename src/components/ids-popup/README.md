@@ -213,8 +213,9 @@ The `popupRect` argument provides access to the editable [`DOMRect`](https://dev
 When using `alignTarget` and offsets, occasionally it may be necessary for a 'top' or 'bottom'-aligned IdsPopup to switch axes and become aligned 'right' or 'left', for the purposes of remaining inside a container area.  After this occurs, an `onXYSwitch` callback is fired with an object containing several parameters.  You can modify this object and return it to provide additional changes to the placement algorithm:
 
 - `x/y`: number values that will be used for offsets
+- `flip`: boolean true if a flip occurs at all
+- `shouldSwitchXY`: boolean true if the flip that occured also swiched the x/y axes
 - `targetEdge`: the original target edge
-- `shouldSwitchXY`: boolean true if the flip that occured also swiched the x/y axes.
 - `oppositeEdge`: the edge that will be used in the case of a normal, same-axis flip
 
 For example, this occurs when [`IdsDatePicker`]('../ids-date-picker/README.md')'s popup flips to align on the X axis, which requires more space away from its target.

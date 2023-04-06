@@ -1211,6 +1211,7 @@ export default class IdsPopup extends Base {
     const shouldSwitchXY = this.alignEdge !== this.#targetAlignEdge
       && this.#getOppositeEdge(this.alignEdge) !== this.#targetAlignEdge;
     let switchResult = {
+      flip: this.alignEdge !== this.#targetAlignEdge && !shouldSwitchXY,
       oppositeEdge,
       shouldSwitchXY,
       targetEdge: this.#alignEdge,
