@@ -65,9 +65,9 @@
   // Type Styles
 
   &.type-action-sheet {
-    background-color: var(--ids-drawer-primary-background-color);
-    box-shadow: var(--ids-drawer-primary-box-shadow);
-    color: var(--ids-drawer-primary-text-color);
+    background-color: var(--ids-drawer-action-sheet-background-color);
+    box-shadow: var(--ids-drawer-action-sheet-box-shadow);
+    color: var(--ids-drawer-action-sheet-text-color);
     padding: var(--ids-spacing-xlg);
 
     // temporary
@@ -82,8 +82,8 @@
   }
 
   &.type-app-menu {
-    background-color: var(--ids-drawer-secondary-background-color);
-    color: var(--ids-drawer-secondary-text-color);
+    background-color: var(--ids-drawer-app-menu-background-color);
+    color: var(--ids-drawer-app-menu-text-color);
 
     // temporary
     min-width: 300px;
@@ -93,7 +93,7 @@
     }
 
     &.visible {
-      box-shadow: var(--ids-drawer-secondary-box-shadow);
+      box-shadow: var(--ids-drawer-app-menu-box-shadow);
 
       @media (min-width: $breakpoint-md) {
         box-shadow: none;

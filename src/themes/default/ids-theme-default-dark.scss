@@ -132,10 +132,10 @@
   --ids-dirty-indicator-background-color: var(--ids-color-palette-amber-40);
 
   // Drawer
-  --ids-drawer-primary-background-color: var(--ids-color-slate-100);
-  --ids-drawer-primary-text-color: var(--ids-color-slate-10);
-  --ids-drawer-secondary-background-color: var(--ids-color-slate-90); // TODO: Check design, changed Black to Slate-90
-  --ids-drawer-secondary-text-color: var(--ids-color-slate-10);
+  --ids-drawer-action-sheet-background-color: var(--ids-color-slate-90); // TODO: Check design, changed Black to Slate-90
+  --ids-drawer-action-sheet-text-color: var(--ids-color-slate-10);
+  --ids-drawer-app-menu-background-color: var(--ids-color-slate-90); // TODO: Check design, changed Black to Slate-90
+  --ids-drawer-app-menu-text-color: var(--ids-color-slate-10);
 
   // Headers
   --ids-header-gradient-opaque: rgb(0 114 237 / 1);
