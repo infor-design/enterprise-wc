@@ -6,10 +6,10 @@
   &.success,
   [color='success'],
   [icon='success'] {
-    color: var(--ids-color-success);
+    color: var(--ids-alert-success-color);
 
     &.disabled {
-      color: var(--ids-color-success-30);
+      color: var(--ids-alert-success-disabled-color);
     }
   }
 
@@ -19,20 +19,20 @@
   &.warning,
   [color='warning'],
   [icon='warning'] {
-    color: var(--ids-color-warning);
+    color: var(--ids-alert-warning-color);
 
     &.disabled {
-      color: var(--ids-color-warning-30);
+      color: var(--ids-alert-warning-disabled-color);
     }
   }
 
   &.caution,
   [color='caution'],
   [icon='caution'] {
-    color: var(--ids-color-caution);
+    color: var(--ids-alert-caution-color);
 
     &.disabled {
-      color: var(--ids-color-caution-30);
+      color: var(--ids-alert-caution-disabled-color);
     }
   }
 
@@ -40,40 +40,40 @@
   &.info,
   [color='info'],
   [icon='info'] {
-    color: var(--ids-color-info);
+    color: var(--ids-alert-info-color);
 
     &.disabled {
-      color: var(--ids-color-info-30);
+      color: var(--ids-alert-info-disabled-color);
     }
   }
 
   &.error,
   [color='error'],
   [icon='error'] {
-    color: var(--ids-color-error);
+    color: var(--ids-alert-error-color);
 
     &.disabled {
-      color: var(--ids-color-error-30);
+      color: var(--ids-alert-error-color);
     }
   }
 
   &.new,
   [color='new'],
   [icon='new'] {
-    color: var(--ids-color-amber-70);
+    color: var(--ids-alert-new-color);
 
     &.disabled {
-      color: var(--ids-color-amber-30);
+      color: var(--ids-alert-new-disabled-color);
     }
   }
 
   &.in-progress,
   [color='amethyst'],
   [icon='in-progress'] {
-    color: var(--ids-color-amethyst-70);
+    color: var(--ids-alert-in-progress-color);
 
     &.disabled {
-      color: var(--ids-color-amethyst-30);
+      color: var(--ids-alert-in-progress-disabled-color);
     }
   }
 
@@ -81,6 +81,10 @@
   &.half-empty-circle,
   [icon='empty-circle'],
   [icon='half-empty-circle'] {
-    color: var(--ids-subtle-text-color);
+    color: var(--ids-alert-empty-color);
+
+    &.disabled {
+      color: var(--ids-alert-empty-disabled-color);
+    }
   }
 }

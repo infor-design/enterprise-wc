@@ -30,11 +30,11 @@
     @include antialiased();
     @include border-1();
     @include border-solid();
-    @include rounded-default();
     @include mt-0();
     @include mb-28();
     @include px-16();
 
+    border-radius: var(--ids-border-radius-xs);
     padding-top: 15px;
     padding-bottom: 15px;
     max-height: 199px;

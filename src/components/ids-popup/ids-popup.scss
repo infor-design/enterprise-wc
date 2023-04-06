@@ -257,13 +257,13 @@
     @include border-solid();
     @include font-sans();
     @include py-4();
-    @include rounded-default();
 
     // New Light Regular Colors
     @include bg-white();
     @include text-slate-80();
 
     border-color: var(--ids-color-palette-slate-30);
+    border-radius: var(--ids-border-radius-xs);
     box-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
 
     .arrow.bottom {
@@ -313,11 +313,11 @@
     @include font-sans();
     @include p-12();
     @include shadow();
-    @include rounded-default();
     @include text-14();
     @include text-white();
 
     border-color: var(--ids-color-border-darker);
+    border-radius: var(--ids-border-radius-xs);
 
     .arrow.bottom,
     .arrow.bottom::after {
@@ -347,12 +347,12 @@
     @include font-sans();
     @include py-4();
     @include px-8();
-    @include rounded-default();
     @include text-16();
     @include text-white();
     @include z-6000();
 
-    display: inline-block;
+     border-radius: var(--ids-border-radius-xs);
+     display: inline-block;
 
     .arrow.bottom,
     .arrow.bottom::after {
@@ -506,10 +506,10 @@
     @include border-solid();
     @include font-sans();
     @include p-0();
-    @include rounded-default();
     @include shadow();
 
     border-color: var(--ids-color-palette-slate-30);
+    border-radius: var(--ids-border-radius-xs);
     box-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
   }
 

@@ -64,6 +64,12 @@
   --ids-shadow-lg: 0 0 4px 3px rgb(0 114 237 / 0.3);
 
   /// --- Component Tokens ---- ///
+  // Alerts
+  --ids-alert-in-progress-color: var(--ids-color-amethyst-90);
+  --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-50);
+
+  // Card
+  --ids-card-group-action-border-color: var(--ids-color-slate-30);
 
   // Button (Primary)
   --ids-button-primary-border-color: var(--ids-color-primary);
@@ -164,6 +170,11 @@
   --ids-progress-bar-border-color: var(--ids-color-slate-60);
   --ids-progress-bar-background-color: var(--ids-color-primary-80);
 
+  // Radio
+  --ids-radio-checked-background-color: var(--ids-color-primary);
+  --ids-radio-checked-border-color:  var(--ids-color-primary);
+  --ids-radio-checked-inner-background-color:  var(--ids-color-slate-00);
+
   // Step Chart
   --ids-step-chart-step-background-color: var(--ids-color-slate-30);
   --ids-step-chart-step-completed-background-color: var(--ids-color-primary);
@@ -200,4 +211,7 @@
 
   // Toast
   --ids-toast-progress-background-color: var(--ids-progress-bar-background-color);
+
+  // Toolbar
+  --ids-toolbar-formatter-background-color: var(--ids-color-slate-70);
 }

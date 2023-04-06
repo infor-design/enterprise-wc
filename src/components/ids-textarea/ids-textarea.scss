@@ -88,13 +88,12 @@ $textarea-size-default-height: 120px;
     @include font-sans();
     @include mb-4();
     @include p-12();
-    @include rounded-default();
     @include text-16();
     @include w-full();
 
     appearance: none;
     border-collapse: separate;
-    border-radius: 2px;
+    border-radius: var(--ids-border-radius-xs);
     display: inline-block;
     min-height: $textarea-size-default-height;
     resize: none;

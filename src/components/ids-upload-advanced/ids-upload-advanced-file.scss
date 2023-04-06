@@ -19,9 +19,9 @@
     @include border-slate-50();
     @include mt-8();
     @include p-2();
-    @include rounded-default();
 
     border-style: dashed;
+    border-radius: var(--ids-border-radius-xs);
 
     .file-row {
       @include flex();

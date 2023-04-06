@@ -14,7 +14,7 @@
   --ids-inverse-text-color: var(--ids-color-slate-100);
   --ids-subtle-text-color: var(--ids-color-slate-20);
   --ids-data-text-color: var(--ids-color-slate-00);
-  --ids-disabled-text-color: var(--ids-color-slate-60);
+  --ids-disabled-text-color: var(--ids-color-slate-40);
   --ids-error-text-color: var(--ids-color-error-50);
   --ids-info-text-color: var(--ids-color-info-60);
   --ids-success-text-color: var(--ids-color-success-50);
@@ -40,6 +40,12 @@
   --ids-focus-ring-border-color: var(--ids-color-primary-50);
 
   /// --- Component Tokens ---- ///
+  // Alerts
+  --ids-alert-in-progress-color: var(--ids-color-amethyst-30);
+  --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-70);
+
+  // Card
+  --ids-card-group-action-border-color: var(--ids-color-slate-70);
 
   // Button (Primary)
   --ids-button-primary-border-color: var(--ids-color-primary-40);
@@ -136,6 +142,7 @@
 
   // Icons
   --ids-icon-color: var(--ids-color-slate-20);
+  --ids-icon-color-disabled:  var(--ids-disabled-text-color);
 
   // Input Styles
   --ids-input-background-color: var(--ids-color-slate-100);
@@ -146,7 +153,7 @@
   --ids-input-readonly-text-color: var(--ids-data-text-color);
   --ids-input-readonly-background-color: var(--ids-color-slate-70);
   --ids-input-disabled-color: var(--ids-color-slate-60);
-  --ids-input-disabled-border-color: var(--ids-disabled-text-color);
+  --ids-input-disabled-border-color:var(--ids-color-slate-40);
   --ids-input-hover-border-color: var(--ids-color-slate-10);
   --ids-input-focus-border-color: var(--ids-focus-ring-border-color);
 
@@ -156,7 +163,8 @@
 
   // Radio
   --ids-radio-checked-background-color: var(--ids-color-palette-azure-60);
-  --ids-radio-checked-border-color:  var(--ids-color-palette-slate-00);
+  --ids-radio-checked-border-color:  var(--ids-color-palette-azure-60);
+  --ids-radio-checked-inner-background-color:  var(--ids-color-slate-00);
 
   // Required
   --ids-required-background-color: var(--ids-color-error-60);
@@ -200,4 +208,7 @@
   --ids-toast-border-color: var(--ids-color-slate-50);
   --ids-toast-text-color: var(--ids-color-slate-00);
   --ids-toast-progress-background-color: var(--ids-progress-bar-background-color);
+
+  // Toolbar
+  --ids-toolbar-formatter-background-color: var(--ids-color-slate-20);
 }

@@ -14,12 +14,12 @@
     @include border-1();
     @include flex();
     @include relative();
-    @include rounded-default();
     @include bg-slate-10();
     @include border-slate-50();
     @include text-slate-50();
 
     align-items: center;
+    border-radius: var(--ids-border-radius-xs);
     border-style: dashed;
     flex-direction: column;
     justify-content: center;
@@ -99,9 +99,9 @@
     @include border-transparent();
     @include mt-8();
     @include p-2();
-    @include rounded-default();
 
     display: none;
+    border-radius: var(--ids-border-radius-xs);
     border-style: dashed;
     align-items: center;
 

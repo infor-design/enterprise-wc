@@ -12,10 +12,10 @@
     @include cursor-pointer();
     @include inline-flex();
     @include p-4();
-    @include rounded-default();
     @include text-slate-60();
 
     align-items: baseline;
+    border-radius: var(--ids-border-radius-xs);
     transition: background-color var(--ids-transition-length) var(--ids-transition-ease), opacity var(--ids-transition-length) var(--ids-transition-ease);
 
     .icon,

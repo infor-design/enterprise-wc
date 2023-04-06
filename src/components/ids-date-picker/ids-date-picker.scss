@@ -186,11 +186,11 @@
 .ids-date-picker.is-dropdown {
   // Button
   .dropdown-btn::part(button) {
-    @include rounded-default();
     @include text-slate-100();
     @include p-4();
 
     border: none;
+    border-radius: var(--ids-border-radius-xs);
 
     &:focus {
       box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-60), 0 0 4px 3px rgb(54 138 192 / 0.3);

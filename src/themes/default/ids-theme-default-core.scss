@@ -117,6 +117,23 @@
   --ids-z-index-skiplink: 10000;
 
   /// --- Component Tokens ---- ///
+  // Alerts
+  --ids-alert-success-color: var(--ids-color-success);
+  --ids-alert-success-disabled-color: var(--ids-color-success-30);
+  --ids-alert-warning-color: var(--ids-color-warning);
+  --ids-alert-warning-disabled-color: var(--ids-color-warning-30);
+  --ids-alert-caution-color: var(--ids-color-caution);
+  --ids-alert-caution-disabled-color: var(--ids-color-caution-30);
+  --ids-alert-info-color: var(--ids-color-info);
+  --ids-alert-info-disabled-color: var(--ids-color-info-30);
+  --ids-alert-error-color: var(--ids-color-error);
+  --ids-alert-error-disabled-color: var(--ids-color-error-30);
+  --ids-alert-new-color: var(--ids-color-amber-70);
+  --ids-alert-new-disabled-color: var(--ids-color-amber-30);
+  --ids-alert-in-progress-color: var(--ids-color-amethyst-70);
+  --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-30);
+  --ids-alert-empty-color: var(--ids-icon-color);
+  --ids-alert-empty-disabled-color: var(--ids-icon-color-disabled);
 
   // Button (Primary)
   --ids-button-primary-border-color: var(--ids-color-primary);
@@ -161,6 +178,15 @@
   --ids-button-formatter-text-color-hover: var(--ids-inverse-text-color);
   --ids-button-formatter-disabled-text-color: var(--ids-color-slate-00);
   --ids-button-formatter-ripple-color: var(--ids-color-primary-tertiary);
+
+  // Breadcrumb
+  --ids-breadcrumb-text-color: var(--ids-subtle-text-color);
+  --ids-breadcrumb-disabled-text-color: var(--ids-disabled-text-color);
+  --ids-breadcrumb-alternate-text-color: var(--ids-inverse-text-color);
+
+  // Card
+  --ids-card-toolbar-padding: var(--ids-spacing-xxl);
+  --ids-card-group-action-border-color: var(--ids-color-slate-20);
 
   // Charts
   --ids-chart-legend-text-size: var(--ids-font-size-sm);
@@ -235,6 +261,11 @@
   --ids-header-gradient-transparent: rgb(0 114 237 / 0);
 
   // Hyperlinks
+  --ids-hyperlink-border-radius: var(--ids-border-radius-xs);
+  --ids-hyperlink-cursor: var(--ids-cursor-pointer);
+  --ids-hyperlink-font-size: var(--ids-font-size);
+  --ids-hyperlink-padding: var(--ids-spacing-md);
+  --ids-hyperlink-font-weight: var(--ids-font-weight-normal);
   --ids-hyperlink-text-color: var(--ids-color-primary);
   --ids-hyperlink-hover-text-color: var(--ids-color-primary-70);
   --ids-hyperlink-disabled-text-color: var(--ids-color-slate-40);
@@ -242,6 +273,7 @@
   // Icons
   --ids-icon-font-name: 'name-here'; // Future
   --ids-icon-color: var(--ids-color-slate-80);
+  --ids-icon-color-disabled: var(--ids-disabled-text-color);
 
   // Image
   --ids-image-initials-background-color: var(--ids-color-amethyst-50);
@@ -320,6 +352,7 @@
   --ids-radio-unchecked-border-color: var(--ids-input-border-color);
   --ids-radio-checked-background-color: var(--ids-color-primary);
   --ids-radio-checked-border-color:  var(--ids-color-primary);
+  --ids-radio-checked-inner-background-color:  var(--ids-color-slate-00);
   --ids-radio-border-radius: var(--ids-border-radius-round);
   --ids-radio-unchecked-disabled-background-color: var(--ids-input-background-color);
   --ids-radio-unchecked-disabled-border-color: var(--ids-input-disabled-color);
@@ -375,4 +408,13 @@
   --ids-toast-border-color: var(--ids-color-slate-30); // TODO: popup token?
   --ids-toast-text-color: var(--ids-color-slate-100);
   --ids-toast-progress-background-color: var(--ids-progress-bar-background-color);
+
+  // Toolbar
+  --ids-toolbar-formatter-background-color: var(--ids-color-slate-80);
+
+  // Wizard
+  --ids-wizard-step-width: 14px;
+  --ids-wizard-step-color: var(--ids-color-primary);
+  --ids-wizard-unvisited-step-color: var(--ids-color-slate-60);
+  --ids-wizard-step-inner-border-color: var(--ids-color-slate-00);
 }

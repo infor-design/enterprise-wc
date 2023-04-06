@@ -5,15 +5,15 @@
   @include mixins.antialiased();
 
   border: 1px solid transparent;
-  border-radius: var(--ids-border-radius-xs);
-  cursor: var(--ids-cursor-pointer);
+  border-radius: var(--ids-hyperlink-border-radius);
+  cursor: var(--ids-hyperlink-cursorr);
   display: inline-block;
   font-family: var(--ids-font-family);
-  font-size: var(--ids-font-size);
-  font-weight: var(--ids-font-weight-normal);
-  padding: var(--ids-spacing-md);
+  font-size: var(--ids-hyperlink-font-size);
+  font-weight: var(--ids-hyperlink-font-weight);
+  padding: var(--ids-hyperlink-padding);
   position: relative;
-  margin: calc(var(--ids-spacing-md) * -1);
+  margin: calc(var(--ids-hyperlink-padding) * -1);
 
   &.disabled,
   &[disabled] {
@@ -122,16 +122,16 @@
     // ===============================================
     // Color Variants
     &.color-variant-breadcrumb {
-      color: var(--ids-subtle-text-color);
+      color: var(--ids-breadcrumb-text-color);
 
       &.disabled,
       &[disabled] {
-        color: var(--ids-disabled-text-color);
+        color: var(--ids-breadcrumb-disabled-text-color);
       }
     }
 
     &.color-variant-alternate {
-      color: var(--ids-inverse-text-color);
+      color: var(--ids-breadcrumb-alternate-text-color);
     }
   }
 }

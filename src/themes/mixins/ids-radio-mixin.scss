@@ -44,6 +44,8 @@
 }
 
 @mixin radio-checked-after {
+  background-color: var(--ids-radio-checked-inner-background-color);
+  border-color: var(--ids-radio-checked-inner-background-color);
   border-width: 2px;
   height: 4px;
   left: 3px;

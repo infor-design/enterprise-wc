@@ -1,7 +1,7 @@
-@import '../../core/ids-base';
+/* Ids Toolbar More Actions Component */
 
 :host {
-  @include inline-flex();
+  display: inline-flex;
 }
 
 ::slotted(ids-separator) {
@@ -10,8 +10,7 @@
 }
 
 .ids-toolbar-more-actions {
-  @include p-4();
-
+  padding: var(--ids-toolbar-more-actions-padding);
   white-space: nowrap;
   width: auto;
 }
