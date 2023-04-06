@@ -54,6 +54,8 @@ const POPUP_PROPERTIES = [
   attributes.Y
 ];
 
+const POPUP_MAXHEIGHT_PROPNAME = '--ids-popup-maxheight';
+
 /**
  * Formats the text value of the `align` attribute.
  * @private
@@ -103,6 +105,7 @@ export {
   DEFAULT_ALIGN_EDGE,
   POSITION_STYLES,
   TYPES,
+  POPUP_MAXHEIGHT_PROPNAME,
   POPUP_PROPERTIES,
   formatAlignAttribute,
   onPlace

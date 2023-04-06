@@ -535,7 +535,8 @@
   }
 
   // 'has-maxheight' setting
-  &.has-maxheight {
+  // (Does not apply to Modals, which contain scrolling differently)
+  &:not(.position-viewport).has-maxheight {
     .content-wrapper {
       height: var(--ids-popup-maxheight);
       overflow: auto;

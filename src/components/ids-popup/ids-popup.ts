@@ -29,6 +29,7 @@ import {
   ARROW_TYPES,
   POSITION_STYLES,
   TYPES,
+  POPUP_MAXHEIGHT_PROPNAME,
   POPUP_PROPERTIES,
   formatAlignAttribute
 } from './ids-popup-attributes';
@@ -547,10 +548,8 @@ export default class IdsPopup extends Base {
   set maxHeight(value: string | number | null) {
     const val = validMaxHeight(value);
     if (val) {
-      // this.container?.classList.add('has-maxheight');
       this.setAttribute(attributes.MAX_HEIGHT, val);
     } else {
-      // this.container?.classList.remove('has-maxheight');
       this.removeAttribute(attributes.MAX_HEIGHT);
     }
     this.#updateMaxHeightProp(val);
@@ -562,8 +561,13 @@ export default class IdsPopup extends Base {
    * @param {string | number | null} val how to define the property
    */
   #updateMaxHeightProp(val?: string | number | null) {
+    if (this.positionStyle === 'viewport') {
+      this.wrapper?.setAttribute(attributes.TABINDEX, '0');
+      this.container?.style.setProperty(POPUP_MAXHEIGHT_PROPNAME, 'auto');
+      return;
+    }
+
     const containerElem = (this.containingElem as HTMLElement);
-    const maxHeightVarName = '--ids-popup-maxheight';
     let targetHeightConstraint = document.body.offsetHeight;
     let targetValue = validMaxHeight(val || this.maxHeight);
 
@@ -586,12 +590,13 @@ export default class IdsPopup extends Base {
     }
 
     if (this.container) {
+      if (this.wrapper) this.wrapper.setAttribute(attributes.TABINDEX, '0');
       if (targetValue) {
-        this.container.style.setProperty(maxHeightVarName, `${targetValue}`);
-        this.container?.classList.add('has-maxheight');
+        this.container.style.setProperty(POPUP_MAXHEIGHT_PROPNAME, `${targetValue}`);
+        this.container.classList.add('has-maxheight');
       } else {
-        this.container?.classList.remove('has-maxheight');
-        this.container.style.removeProperty(maxHeightVarName);
+        this.container.classList.remove('has-maxheight');
+        this.container.style.removeProperty(POPUP_MAXHEIGHT_PROPNAME);
       }
     }
   }
