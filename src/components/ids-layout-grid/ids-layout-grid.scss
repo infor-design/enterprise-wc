@@ -42,6 +42,11 @@ $max-row-height: var(--max-row-height);
   box-sizing: border-box;
 }
 
+:host([gap='none']),
+.#{$prefix}.#{$prefix}-gap-none {
+  grid-gap: 0;
+}
+
 :host([gap='sm']),
 .#{$prefix}.#{$prefix}-gap-sm {
   grid-gap: $grid-gap-sm;
@@ -290,14 +295,22 @@ $max-row-height: var(--max-row-height);
 $align-content-list: start center space-between space-around space-evenly end;
 @each $align-content in $align-content-list {
   :host([justify-content='#{$align-content}']),
-  ::slotted([justify-content='#{$align-content}']),
   .#{$prefix}-justify-#{$align-content} {
     justify-content: $align-content;
   }
 
   :host([align-content='#{$align-content}']),
-  ::slotted([align-content='#{$align-content}']),
   .#{$prefix}-align-#{$align-content} {
+    align-content: $align-content;
+  }
+
+  ::slotted([justify-content='#{$align-content}']) {
+    display: grid;
+    justify-content: $align-content;
+  }
+
+  ::slotted([align-content='#{$align-content}']) {
+    display: grid;
     align-content: $align-content;
   }
 }

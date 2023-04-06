@@ -82,7 +82,7 @@ export const GRID_CELL_ATTRIBUTES: string[] = [
   attributes.STICKY_POSITION
 ];
 
-export type IdsGapType = undefined | 'sm' | 'md' | 'lg' | 'xl';
+export type IdsGapType = undefined | 'none' | 'sm' | 'md' | 'lg' | 'xl';
 export type IdsJustifyType = undefined | 'space-around' | 'space-between' | 'center' | 'end' | 'space-evenly' | 'start';
 export type IdsFlowType = undefined | 'row' | 'column' | 'dense' | 'row-dense' | 'column-dense';
 export type IdsGridMargins = undefined | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -90,6 +90,7 @@ export type IdsGridPadding = undefined | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export const GAP_TYPES: Array<IdsGapType> = [
   undefined,
+  'none',
   'sm',
   'md',
   'lg',

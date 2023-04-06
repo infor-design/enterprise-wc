@@ -4,7 +4,7 @@ import '../../ids-button/ids-button';
 const times: any = [];
 
 const appendTestItems = () => {
-  const section: any = document.querySelector('ids-layout-grid[cols="4"]');
+  const section: any = document.querySelector('#tooltip-container');
   for (let j = 0; j < 9; j++) {
     const t0 = performance.now();
     section.innerHTML = '';

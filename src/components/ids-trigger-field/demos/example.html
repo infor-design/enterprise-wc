@@ -7,20 +7,21 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-grid
+    <ids-layout-grid
       auto-fit="true"
-      justify-content="start"
+      padding="md"
     >
       <ids-grid-cell>
         <ids-text font-size="12" type="h1">Trigger Field</ids-text>
       </ids-grid-cell>
-    </ids-grid>
+    </ids-layout-grid>
 
-    <ids-grid
-      cols="3"
-      justify-content="start"
+    <ids-layout-grid
+      cols="1"
+      cols-md="3"
+      padding-x="md"
     >
-      <ids-grid-cell>
+      <ids-layout-grid-cell>
         <ids-trigger-field id="trigger-field-1" size="sm" tabbable="false" label="Date Field">
           <ids-trigger-button slot="trigger-end">
             <ids-text audible="true">Date Field trigger</ids-text>
@@ -34,9 +35,9 @@
             <ids-icon icon="camera"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-      </ids-grid-cell>
+      </ids-layout-grid-cell>
 
-      <ids-grid-cell>
+      <ids-layout-grid-cell>
         <ids-trigger-field id="trigger-field-2" label="Timepicker" size="md" type="text">
           <ids-trigger-button slot="trigger-end">
             <ids-text audible="true">Timepicker trigger</ids-text>
@@ -54,9 +55,9 @@
             <ids-icon icon="caret-down"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-      </ids-grid-cell>
+      </ids-layout-grid-cell>
 
-      <ids-grid-cell>
+      <ids-layout-grid-cell>
         <ids-trigger-field id="trigger-field-3" label="Photos" placeholder="Enter Album Name" validate="required">
           <ids-trigger-button slot="trigger-end">
             <ids-text audible="true">Select Image</ids-text>
@@ -70,9 +71,9 @@
             <ids-icon icon="rename"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-      </ids-grid-cell>
+      </ids-layout-grid-cell>
 
-      <ids-grid-cell>
+      <ids-layout-grid-cell>
         <ids-trigger-field
           id="trigger-field-7"
           placeholder="Type an input..."
@@ -86,8 +87,8 @@
             <ids-icon icon="camera"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-      </ids-grid-cell>
-    </ids-grid>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
 
   </ids-container>
 </body>

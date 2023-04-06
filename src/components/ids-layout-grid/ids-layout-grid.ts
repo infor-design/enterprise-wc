@@ -312,7 +312,7 @@ export default class IdsLayoutGrid extends IdsElement {
 
   /**
    * Set the grid gap
-   * @param {string | null} value The Gap [null, sm, md, lg, xl]
+   * @param {string | null} value The Gap [undefined, none, sm, md, lg, xl]
    */
   set gap(value: string | null) {
     if (!value || GAP_TYPES.indexOf(value as any) <= 0) {

@@ -7,13 +7,13 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid cols="3" gap="md">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h1">Ids Textarea</ids-text>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="3" gap="md">
+    <ids-layout-grid cols="2" cols-md="3" padding-x="md">
       <ids-layout-grid-cell>
         <ids-textarea label="Basic"></ids-textarea>
       </ids-layout-grid-cell>
@@ -58,7 +58,7 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="3" gap="md">
+    <ids-layout-grid cols="2" cols-md="3" padding-x="md">
       <ids-layout-grid-cell>
         <ids-textarea label="Max Length" maxlength="90">12345</ids-textarea>
         <ids-textarea label="Max Length (Custom Text)" maxlength="90" char-max-text="This text cannot exceed {0} characters." char-remaining-text="You can type {0} more characters.">Line One</ids-textarea>

@@ -8,9 +8,9 @@
   <ids-container role="main" padding="8" hidden>
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Wizard</ids-text>
+      <ids-text>Clickable (implicitly/default)</ids-text>
     </ids-layout-grid>
-    <ids-text>Clickable (implicitly/default)</ids-text>
-    <ids-layout-grid cols="4">
+    <ids-layout-grid cols="2" cols-md="4" padding-x="md">
       <ids-layout-grid-cell col-span="2" id="ex-ids-wizard-default">
         <ids-wizard step-number="4">
           <ids-wizard-step>Step One</ids-wizard-step>
@@ -23,10 +23,10 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid auto-fit="true" id="ex-ids-wizard-steps-clickable">
+    <ids-layout-grid auto-fit="true" padding="md" id="ex-ids-wizard-steps-clickable">
       <ids-text>All steps clickable via steps</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="4">
+    <ids-layout-grid cols="4" padding-x="md">
       <ids-layout-grid-cell col-span="4">
         <ids-wizard step-number="3" clickable="false">
           <ids-wizard-step clickable>Step One</ids-wizard-step>
@@ -37,10 +37,10 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid auto-fit="true" id="ex-ids-wizard-no-clickable-attribs">
+    <ids-layout-grid auto-fit="true" padding="md" id="ex-ids-wizard-no-clickable-attribs">
       <ids-text>Steps 4/5 unclickable via clickable=false on children</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="3">
+    <ids-layout-grid cols="2" cols-md="3" padding-x="md">
       <ids-layout-grid-cell col-span="2">
         <ids-wizard step-number="1">
           <ids-wizard-step>Step One (1)</ids-wizard-step>
@@ -52,10 +52,10 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid auto-fit="true" id="ex-ids-wizard-partial-clickable">
+    <ids-layout-grid auto-fit="true" padding="md" id="ex-ids-wizard-partial-clickable">
       <ids-text>Partially clickable (1) with parent non-clickable</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="5">
+    <ids-layout-grid cols="2" cols-md="5" padding-x="md">
       <ids-layout-grid-cell col-span="2">
         <ids-wizard step-number="3">
           <ids-wizard-step clickable="true">Step One</ids-wizard-step>
@@ -65,10 +65,10 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid auto-fit="true" id="ids-wizard-steps-partial-nonclickable">
+    <ids-layout-grid auto-fit="true" padding="md" id="ids-wizard-steps-partial-nonclickable">
       <ids-text>Partially clickable (1 - 3) with steps non-clickable</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="2">
+    <ids-layout-grid cols="2" padding-x="md">
       <ids-layout-grid-cell col-span="2">
         <ids-wizard step-number="2">
           <ids-wizard-step>Step One</ids-wizard-step>
