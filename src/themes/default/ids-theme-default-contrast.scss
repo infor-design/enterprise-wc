@@ -68,6 +68,20 @@
   --ids-alert-in-progress-color: var(--ids-color-amethyst-90);
   --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-50);
 
+  // Badge
+  --ids-badge-error-background-color: var(--ids-color-error-80);
+  --ids-badge-error-border-color: var(--ids-color-error-80);
+  --ids-badge-error-color: var(--ids-color-error-00);
+  --ids-badge-info-background-color: var(--ids-color-info-80);
+  --ids-badge-info-border-color: var(--ids-color-info-80);
+  --ids-badge-info-color: var(--ids-color-info-00);
+  --ids-badge-success-background-color: var(--ids-color-success-80);
+  --ids-badge-success-border-color: var(--ids-color-success-80);
+  --ids-badge-success-color: var(--ids-color-slate-00);
+  --ids-badge-warning-background-color: var(--ids-color-warning-100);
+  --ids-badge-warning-border-color: var(--ids-color-warning-100);
+  --ids-badge-warning-color: var(--ids-color-slate-00);
+
   // Card
   --ids-card-background-color: var(--ids-color-slate-00);
   --ids-card-border-color: var(--ids-color-slate-60);

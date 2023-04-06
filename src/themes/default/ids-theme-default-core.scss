@@ -135,6 +135,32 @@
   --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-30);
   --ids-alert-empty-color: var(--ids-icon-color);
   --ids-alert-empty-disabled-color: var(--ids-icon-color-disabled);
+  
+  // Badge
+  --ids-badge-background-color: var(--ids-input-readonly-background-color);
+  --ids-badge-border-color: var(--ids-input-readonly-background-color);
+  --ids-badge-border-radius: var(--ids-border-radius-lg);
+  --ids-badge-caution-background-color: var(--ids-color-caution);
+  --ids-badge-caution-border-color: var(--ids-color-caution);
+  --ids-badge-caution-color: var(--ids-color-caution-00);
+  --ids-badge-error-background-color: var(--ids-color-error);
+  --ids-badge-error-border-color: var(--ids-color-error);
+  --ids-badge-error-color: var(--ids-color-error-00);
+  --ids-badge-info-background-color: var(--ids-color-info);
+  --ids-badge-info-border-color: var(--ids-color-info);
+  --ids-badge-info-color: var(--ids-color-info-00);
+  --ids-badge-line-height: var(--ids-size-xxs);
+  --ids-badge-margin-bottom: var(--ids-spacing-md);
+  --ids-badge-margin-inline-end: var(--ids-spacing-md);
+  --ids-badge-min-width: var(--ids-size-xxs);
+  --ids-badge-padding-inline: 10px;
+  --ids-badge-success-background-color: var(--ids-color-success-80);
+  --ids-badge-success-border-color: var(--ids-color-success-80);
+  --ids-badge-success-color: var(--ids-color-success-00);
+  --ids-badge-warning-background-color: var(--ids-color-warning-80);
+  --ids-badge-warning-border-color: var(--ids-color-warning-80);
+  --ids-badge-warning-color: var(--ids-color-warning-00);
+  
 
   // Button (Primary)
   --ids-button-primary-border-color: var(--ids-color-primary);
@@ -391,6 +417,15 @@
   // Required
   --ids-required-background-color: var(--ids-color-error);
   --ids-required-disabled-background-color: var(--ids-color-error-30);
+
+  // Splitter
+  --ids-splitter-bar-background-color: var(--ids-button-tertiary-hover-background-color);
+  --ids-splitter-bar-border-color: var(--ids-color-slate-30);
+  --ids-splitter-bar-dragging-background-color: var(--ids-color-slate-20);
+  --ids-splitter-bar-dragging-border-color: var(--ids-color-primary);
+  --ids-splitter-bar-dragging-box-shadow: var(--ids-shadow-md);
+  --ids-splitter-bar-hover-background-color: var(--ids-color-slate-20);
+  --ids-splitter-bar-width: var(--ids-size-xxs);
 
   // Step Chart
   --ids-step-chart-margin: var(--ids-spacing-xxl);
