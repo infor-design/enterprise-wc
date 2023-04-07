@@ -312,7 +312,7 @@ describe('IdsMultiselect Component', () => {
     IdsLocaleData.loadedLanguages.set('de', deMessages);
     await container.setLanguage('de');
     await processAnimFrame();
-    expect(multiselect.getAttribute('aria-description')).toEqual('Drücken Sie zum Auswählen die Nach-unten-Taste');
+    expect(multiselect.getAttribute('aria-label')).toEqual('Drücken Sie zum Auswählen die Nach-unten-Taste');
   });
 
   it('opens on arrow down', () => {
