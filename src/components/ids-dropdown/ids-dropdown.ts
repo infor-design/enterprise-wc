@@ -267,7 +267,7 @@ export default class IdsDropdown extends Base {
       'aria-expanded': 'false',
       'aria-autocomplete': 'list',
       'aria-haspopup': 'listbox',
-      'aria-label': this.localeAPI?.translate('PressDown'),
+      'aria-description': this.localeAPI?.translate('PressDown'),
       'aria-controls': targetListboxId
     };
 
