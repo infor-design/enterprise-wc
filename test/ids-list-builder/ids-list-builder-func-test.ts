@@ -55,7 +55,9 @@ const sampleData = [
 const sampleData1 = [
   { manufacturerName: 'name1' },
   { manufacturerName: 'name2' },
-  { manufacturerName: 'name3' }
+  { manufacturerName: 'name3' },
+  { manufacturerName: 'name4' },
+  { manufacturerName: 'name5' }
 ];
 
 const HTMLSnippets = {
@@ -130,32 +132,38 @@ describe('IdsListBuilder Component', () => {
   it('renders correctly', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
     expect(idsListBuilder.outerHTML).toMatchSnapshot();
-    expect(idsListBuilder.shadowRoot.querySelector('#button-add')).toBeTruthy();
+    expect(idsListBuilder.querySelector('[list-builder-action="add"]')).toBeTruthy();
   });
 
   it('injects template correctly and sets data correctly', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
-    idsListBuilder.data = sampleData;
+    idsListBuilder.data = [...sampleData];
+    expect(idsListBuilder.parentEl).toBeTruthy();
   });
 
   it('renders the header', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
-    expect(idsListBuilder.shadowRoot.querySelector('#button-add')).toBeTruthy();
+    expect(idsListBuilder.toolbar).toBeTruthy();
+    expect(idsListBuilder.querySelector('[list-builder-action="add"]')).toBeTruthy();
   });
 
   it('add new list item to non-empty list', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
-    idsListBuilder.data = sampleData1;
-    const clickEvent = new MouseEvent('click');
+    idsListBuilder.data = [...sampleData1];
 
-    // click add button
-    const addBtnElem = idsListBuilder.shadowRoot.querySelector('#button-add');
-    addBtnElem.dispatchEvent(clickEvent);
+    let listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length);
 
-    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    // Select 2nd item
+    listItems[1].click();
+
+    // Click add button
+    idsListBuilder.querySelector('[list-builder-action="add"]').click();
+
+    listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length + 1);
 
-    const itemInputElem = listItems[0].querySelector('ids-input');
+    const itemInputElem = listItems[2].querySelector('ids-input');
     expect(itemInputElem).toBeTruthy();
     expect(itemInputElem.value).toEqual('New Value');
   });
@@ -163,11 +171,9 @@ describe('IdsListBuilder Component', () => {
   it('add new list item to empty-list', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [];
-    const clickEvent = new MouseEvent('click');
 
     // click add button
-    const addBtnElem = idsListBuilder.shadowRoot.querySelector('#button-add');
-    addBtnElem.dispatchEvent(clickEvent);
+    idsListBuilder.querySelector('[list-builder-action="add"]').click();
 
     const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(1);
@@ -177,91 +183,92 @@ describe('IdsListBuilder Component', () => {
     expect(itemInputElem.value).toEqual('New Value');
   });
 
-  it('edit new list item', async () => {
+  it('edit list item', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
-    idsListBuilder.data = sampleData1;
-    const clickEvent = new MouseEvent('click');
+    idsListBuilder.data = [...sampleData1];
 
-    // click edit button
-    const editBtnElem = idsListBuilder.shadowRoot.querySelector('#button-edit');
     const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length);
 
-    // select first item and edit
-    listItems[0].dispatchEvent(clickEvent);
-    editBtnElem.dispatchEvent(clickEvent);
+    // Select 2nd item
+    listItems[1].click();
+    expect(listItems[1].querySelector('ids-input')).toBeFalsy();
 
-    // check editor element and value
-    const itemInputElem = listItems[0].querySelector('ids-input');
-    expect(itemInputElem).toBeTruthy();
-    expect(itemInputElem.value).toEqual(sampleData1[0].manufacturerName);
+    // Edit selected list item
+    idsListBuilder.querySelector('[list-builder-action="edit"]').click();
+    expect(listItems[1].querySelector('ids-input')).toBeTruthy();
+    expect(listItems[1].querySelector('ids-input').value).toEqual(sampleData1[1].manufacturerName);
   });
 
-  it('remove list item', async () => {
+  it('delete list item', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
-    idsListBuilder.data = sampleData1;
-    const clickEvent = new MouseEvent('click');
+    idsListBuilder.data = [...sampleData1];
 
-    const removeBtnElem = idsListBuilder.shadowRoot.querySelector('#button-delete');
     let listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length);
 
-    // click remove button without selection
-    removeBtnElem.dispatchEvent(clickEvent);
+    // Clicked delete button without any selection
+    idsListBuilder.querySelector('[list-builder-action="delete"]').click();
     expect(listItems.length).toEqual(sampleData1.length);
 
-    // remove first list item
-    listItems[0].dispatchEvent(clickEvent);
-    removeBtnElem.dispatchEvent(clickEvent);
+    // Select 2nd item
+    listItems[1].click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
+
+    // Delete selected list item
+    idsListBuilder.querySelector('[list-builder-action="delete"]').click();
 
     listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length - 1);
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[2].manufacturerName);
   });
 
   it('move up list item', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
-    idsListBuilder.data = sampleData1;
-    const clickEvent = new MouseEvent('click');
+    idsListBuilder.data = [...sampleData1];
 
-    const moveUpBtnElem = idsListBuilder.shadowRoot.querySelector('#button-up');
     const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length);
 
-    // click move up button without selection
-    moveUpBtnElem.dispatchEvent(clickEvent);
-    expect(idsListBuilder.data[0].manufacturerName).toBe('name1');
+    // Select 2nd item
+    listItems[1].click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
 
-    // click second list item
-    listItems[1].dispatchEvent(clickEvent);
-    moveUpBtnElem.dispatchEvent(clickEvent);
-
+    // Move up selected list item
+    idsListBuilder.querySelector('[list-builder-action="move-up"]').click();
     expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[1].manufacturerName);
     expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
   });
 
   it('move down list item', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
-    idsListBuilder.data = sampleData1;
-    const clickEvent = new MouseEvent('click');
+    idsListBuilder.data = [...sampleData1];
 
-    const moveDownBtnElem = idsListBuilder.shadowRoot.querySelector('#button-down');
     const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(sampleData1.length);
 
-    // click move up button without selection
-    moveDownBtnElem.dispatchEvent(clickEvent);
-    expect(idsListBuilder.data[0].manufacturerName).toBe('name1');
+    // Select 2nd item
+    listItems[1].click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
 
-    // click first list item
-    listItems[0].dispatchEvent(clickEvent);
-    moveDownBtnElem.dispatchEvent(clickEvent);
-
-    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[1].manufacturerName);
-    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    // Move down selected list item
+    idsListBuilder.querySelector('[list-builder-action="move-down"]').click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[1].manufacturerName);
   });
 
   it('keyboard support for select/toggle/arrow up/arrow down/delete', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
-    idsListBuilder.data = sampleData1;
+    idsListBuilder.data = [...sampleData1];
     const clickEvent = new MouseEvent('click');
 
     const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
@@ -307,17 +314,15 @@ describe('IdsListBuilder Component', () => {
     }
 
     listItems[0].dispatchEvent(createKeyboardEvent('Delete'));
-    expect(idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]')).toHaveLength(2);
+    expect(idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]')).toHaveLength(4);
   });
 
   it('update list item editor value', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [];
-    const clickEvent = new MouseEvent('click');
 
     // click add button
-    const addBtnElem = idsListBuilder.shadowRoot.querySelector('#button-add');
-    addBtnElem.dispatchEvent(clickEvent);
+    idsListBuilder.querySelector('[list-builder-action="add"]').click();
 
     const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
     expect(listItems.length).toEqual(1);
@@ -332,9 +337,278 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.data[0].manufacturerName).toEqual('test value');
   });
 
-  // TODO: Errors are thrown when the button is clicked for no items
-  it.skip('can add items with the button when empty', async () => {
+  it('delete multiple selection list items', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
-    idsListBuilder.shadowRoot.querySelector('#button-add').click();
+    idsListBuilder.selectable = 'multiple';
+    idsListBuilder.data = [...sampleData1];
+
+    let listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length);
+
+    // Clicked delete button without any selection
+    idsListBuilder.querySelector('[list-builder-action="delete"]').click();
+    expect(listItems.length).toEqual(sampleData1.length);
+
+    // Select 2nd and 3rd items
+    listItems[1].click();
+    listItems[2].click();
+    idsListBuilder.querySelector('[list-builder-action="edit"]').click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
+
+    // Delete selected list item
+    idsListBuilder.delete();
+
+    listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length - 2);
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[4].manufacturerName);
+  });
+
+  it('should deselect other selection before add new list items', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
+    idsListBuilder.selectable = 'multiple';
+    idsListBuilder.data = [...sampleData1];
+
+    let listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length);
+
+    // Select 2nd and 3rd items
+    listItems[1].click();
+    listItems[2].click();
+    expect(listItems.length).toEqual(sampleData1.length);
+
+    // Add new list and deselect other selection before add
+    idsListBuilder.querySelector('[list-builder-action="add"]').click();
+
+    listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length + 1);
+  });
+
+  it('move up list item with multiple selection', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
+    idsListBuilder.selectable = 'multiple';
+    idsListBuilder.data = [...sampleData1];
+
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length);
+
+    // Select 2nd and 3rd items
+    listItems[1].click();
+    listItems[3].click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
+
+    // Move up selected list item
+    idsListBuilder.querySelector('[list-builder-action="move-up"]').click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
+
+    // Should not change any, if top of the list
+    idsListBuilder.querySelector('[list-builder-action="move-up"]').click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
+  });
+
+  it('move up list item to first with multiple selection', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
+    idsListBuilder.selectable = 'multiple';
+    idsListBuilder.data = [...sampleData1];
+
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length);
+
+    // Select 1st and 3rd items
+    listItems[0].click();
+    listItems[3].click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
+
+    // Move up selected list item
+    idsListBuilder.querySelector('[list-builder-action="move-up"]').click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
+  });
+
+  it('move down list item with multiple selection', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
+    idsListBuilder.selectable = 'multiple';
+    idsListBuilder.data = [...sampleData1];
+
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length);
+
+    // Select 2nd and 3rd items
+    listItems[1].click();
+    listItems[3].click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
+
+    // Move down selected list item
+    idsListBuilder.querySelector('[list-builder-action="move-down"]').click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[4].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[3].manufacturerName);
+
+    // Should not change any, if top of the list
+    idsListBuilder.querySelector('[list-builder-action="move-down"]').click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[4].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[3].manufacturerName);
+  });
+
+  it('move down list item to last with multiple selection', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
+    idsListBuilder.selectable = 'multiple';
+    idsListBuilder.data = [...sampleData1];
+
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length);
+
+    // Select 2nd and last items
+    listItems[1].click();
+    listItems[4].click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
+
+    // Move down selected list item
+    idsListBuilder.querySelector('[list-builder-action="move-down"]').click();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
+  });
+
+  it('can add items with the button when empty', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
+    idsListBuilder.querySelector('[list-builder-action="add"]').click();
+
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(1);
+  });
+
+  it('let api should add new list item', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
+    idsListBuilder.data = [...sampleData1];
+
+    let listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length);
+
+    idsListBuilder.add();
+
+    listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length + 1);
+  });
+
+  it('let api should delete selected list item', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
+    idsListBuilder.data = [...sampleData1];
+
+    let listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length);
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
+
+    // Select and delete 2nd item
+    listItems[1].click();
+    idsListBuilder.delete();
+
+    listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length - 1);
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[4].manufacturerName);
+  });
+
+  it('let api should edit selected list item', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
+    idsListBuilder.data = [...sampleData1];
+
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length);
+
+    // Select and edit 2nd item
+    listItems[1].click();
+    idsListBuilder.edit();
+    expect(listItems[1].querySelector('ids-input')).toBeTruthy();
+    expect(listItems[1].querySelector('ids-input').value).toEqual(sampleData1[1].manufacturerName);
+  });
+
+  it('let api should move down selected list item', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
+    idsListBuilder.data = [...sampleData1];
+
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length);
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
+
+    // Select and move down 2nd list items
+    listItems[1].click();
+    idsListBuilder.moveDown();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
+  });
+
+  it('let api should move up selected list item', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
+    idsListBuilder.data = [...sampleData1];
+
+    const listItems = idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]');
+    expect(listItems.length).toEqual(sampleData1.length);
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
+
+    // Select and move up 2nd list items
+    listItems[1].click();
+    idsListBuilder.moveUp();
+    expect(idsListBuilder.data[0].manufacturerName).toBe(sampleData1[1].manufacturerName);
+    expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[0].manufacturerName);
+    expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
+    expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[3].manufacturerName);
+    expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
   });
 });

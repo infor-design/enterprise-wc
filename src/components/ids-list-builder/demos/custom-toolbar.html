@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">List Builder - Custom Toolbar</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="2">
+      <ids-layout-grid-cell>
+        <ids-list-builder height="310px" selectable="single" id="list-builder-custom-toolbar">
+          <ids-toolbar slot="toolbar" type="formatter" tabbable="true">
+            <ids-toolbar-section type="buttonset">
+              <ids-button list-builder-action="edit" tooltip="Edit" color-variant="alternate-formatter">
+                <span class="audible">Edit list item</span>
+                <ids-icon icon="edit"></ids-icon>
+              </ids-button>
+              <ids-separator vertical></ids-separator>
+              <ids-button list-builder-action="move-up" tooltip="Move Up" color-variant="alternate-formatter">
+                <span class="audible">Move up list item</span>
+                <ids-icon icon="arrow-up"></ids-icon>
+              </ids-button>
+              <ids-button list-builder-action="move-down" tooltip="Move Down" color-variant="alternate-formatter">
+                <span class="audible">Move down list item</span>
+                <ids-icon icon="arrow-down"></ids-icon>
+              </ids-button>
+            </ids-toolbar-section>
+          </ids-toolbar>
+          <template>
+            <ids-text font-size="16" type="span">${manufacturerName}</ids-text>
+          </template>
+        </ids-list-builder>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
