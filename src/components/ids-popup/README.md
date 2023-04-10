@@ -208,6 +208,18 @@ popup.onPlace = (popupRect) => {
 
 The `popupRect` argument provides access to the editable [`DOMRect`](https://developer.mozilla.org/en-US/docs/Web/API/DOMRect) object that the IdsPopup uses to place itself.  The callback returns the DOMRect with modified values.
 
+#### onXYSwitch callback
+
+When using `alignTarget` and offsets, occasionally it may be necessary for a 'top' or 'bottom'-aligned IdsPopup to switch axes and become aligned 'right' or 'left', for the purposes of remaining inside a container area.  After this occurs, an `onXYSwitch` callback is fired with an object containing several parameters.  You can modify this object and return it to provide additional changes to the placement algorithm:
+
+- `x/y`: number values that will be used for offsets
+- `flip`: boolean true if a flip occurs at all
+- `shouldSwitchXY`: boolean true if the flip that occured also swiched the x/y axes
+- `targetEdge`: the original target edge
+- `oppositeEdge`: the edge that will be used in the case of a normal, same-axis flip
+
+For example, this occurs when [`IdsDatePicker`]('../ids-date-picker/README.md')'s popup flips to align on the X axis, which requires more space away from its target.
+
 ## Usage Tips
 
 - When making a Popup that is placed in reference to an adjacent element, it must be placed AFTER it in the DOM. Placing it BEFORE the adjacent element can cause its placement to be incorrect on its first render.

@@ -36,6 +36,7 @@ describe('Ids Toolbar Percy Tests', () => {
     await page.waitForSelector('ids-toolbar-more-actions');
     await page.click('ids-toolbar-more-actions');
     await page.waitForFunction(`document.querySelector('ids-toolbar-more-actions').hasAttribute('visible')`);
+    await page.waitForTimeout(200);
     await percySnapshot(page, 'ids-toolbar-overflow');
   });
 });
