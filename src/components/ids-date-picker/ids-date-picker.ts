@@ -14,6 +14,8 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
 import IdsElement from '../../core/ids-element';
 
+import { onPickerPopupXYSwitch } from '../ids-picker-popup/ids-picker-popup-common';
+
 import {
   buildClassAttrib,
   stringToBool,
@@ -204,6 +206,16 @@ class IdsDatePicker extends Base {
   }
 
   /**
+   * Optional callback that can be used to adjust the Popup's placement
+   * after all internal adjustments are made.
+   * @param {DOMRect} popupRect a Rect object representing the current state of the popup.
+   * @returns {object} an adjusted Rect object with "nudged" coordinates.
+   */
+  onPlace(popupRect: DOMRect): DOMRect {
+    return popupRect;
+  }
+
+  /**
    * Inner template contents
    * @returns {string} The template
    */
@@ -319,8 +331,19 @@ class IdsDatePicker extends Base {
       this.#picker.setAttribute(attributes.TRIGGER_ELEM, `#${this.#triggerButton.getAttribute('id')}`);
 
       // Configure inner IdsPopup
-      this.#picker.popup?.setAttribute(attributes.ARROW_TARGET, `#${this.#triggerButton.getAttribute('id')}`);
-      if (this.localeAPI && this.localeAPI.isRTL) this.#picker.popup?.setAttribute(attributes.ALIGN, `bottom, ${this.localeAPI.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
+      if (this.#picker.popup) {
+        this.#picker.popup.setAttribute(attributes.ARROW_TARGET, `#${this.#triggerButton.getAttribute('id')}`);
+
+        // In some cases switch alignment for RTL purposes
+        if (this.localeAPI && this.localeAPI.isRTL) {
+          const rtlAdjustedAlignValue = `${this.localeAPI.isRTL() || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`;
+          this.#picker.popup.setAttribute(attributes.ALIGN, `bottom, ${rtlAdjustedAlignValue}`);
+        }
+
+        // Detect switch of X/Y values due to alignment settings,
+        // and account for extra width needed to be displayed outside of IdsDatePicker fields
+        this.#picker.popup.onXYSwitch = onPickerPopupXYSwitch;
+      }
 
       this.#picker.refreshTriggerEvents();
 
@@ -876,9 +899,11 @@ class IdsDatePicker extends Base {
     if (val) {
       this.setAttribute(attributes.SIZE, val);
       this.#triggerField?.setAttribute(attributes.SIZE, val);
+      if (val === 'full') this.container?.classList.add('full');
     } else {
       this.removeAttribute(attributes.SIZE);
       this.#triggerField?.setAttribute(attributes.SIZE, 'sm');
+      this.container?.classList.remove('full');
     }
   }
 

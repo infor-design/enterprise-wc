@@ -805,6 +805,7 @@ export default class IdsDataGridFilters {
         dateOrTimePopup.setAttribute(attributes.TARGET, `#${triggerField.getAttribute('id')}`);
         dateOrTimePopup.setAttribute(attributes.TRIGGER_ELEM, `#${triggerBtn.getAttribute('id')}`);
         dateOrTimePopup.popup.setAttribute(attributes.ARROW_TARGET, `#${triggerBtn.getAttribute('id')}`);
+        dateOrTimePopup.popup.y = 16;
         dateOrTimePopup.setAttribute(attributes.ATTACHMENT, menuAttachment);
         dateOrTimePopup.refreshTriggerEvents();
       }
