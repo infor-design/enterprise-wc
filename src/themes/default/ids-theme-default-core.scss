@@ -383,6 +383,30 @@
   --ids-input-success-disabled-border-color: var(--ids-color-success-30);
   --ids-input-success-disabled-text-color: var(--ids-color-success-30);
 
+  // Month View
+  --ids-month-view-background-color: var(--ids-color-slate-00);
+  --ids-month-view-border-color: var(--ids-color-slate-20);
+  --ids-month-view-day-alternate-text-color: var(--ids-color-slate-40);
+  --ids-month-view-day-hover-background-color: rgb(240 240 240 / 0.5);
+  --ids-month-view-day-selected-background-color: var(--ids-color-slate-10);
+  --ids-month-view-day-selected-accent-box-shadow-color: var(--ids-color-primary);
+  --ids-month-view-disabled-background-color: var(--ids-color-slate-20);
+  --ids-month-view-legend-text-color: var(--ids-month-view-text-color);
+  --ids-month-view-text-color: var(--ids-color-slate-80);
+  --ids-month-view-weekday-text-color: var(--ids-month-view-text-color);
+
+  // Month View (Compact)
+  --ids-month-view-compact-alternate-text-color: var(--ids-color-slate-40);
+  --ids-month-view-compact-day-hover-background-color: var(--ids-month-view-border-color);
+  --ids-month-view-compact-day-hover-text-color: var(--ids-month-view-text-color);
+  --ids-month-view-compact-day-selected-background-color: var(--ids-color-primary);
+  --ids-month-view-compact-day-selected-hover-text-color: var(--ids-color-slate-00);
+  --ids-month-view-compact-range-background-color: var(--ids-month-view-border-color);
+  --ids-month-view-compact-range-selected-background-color: var(--ids-color-primary);
+  --ids-month-view-compact-range-selected-text-color: var(--ids-color-slate-00);
+  --ids-month-view-compact-today-border-color: var(--ids-color-slate-30);
+  --ids-month-view-compact-weekday-text-color: var(--ids-month-view-text-color);
+
   // Notification Banner
   --ids-notification-banner-height: var(--ids-size-lg);
   --ids-notification-banner-padding: var(--ids-spacing-lg);
@@ -403,7 +427,7 @@
   --ids-radio-unchecked-background-color: var(--ids-input-background-color);
   --ids-radio-unchecked-border-color: var(--ids-input-border-color);
   --ids-radio-checked-background-color: var(--ids-color-primary);
-  --ids-radio-checked-border-color:  var(--ids-color-primary);
+  --ids-radio-checked-border-color: var(--ids-color-primary);
   --ids-radio-checked-inner-background-color:  var(--ids-color-slate-00);
   --ids-radio-border-radius: var(--ids-border-radius-round);
   --ids-radio-unchecked-disabled-background-color: var(--ids-input-background-color);
@@ -412,7 +436,12 @@
   --ids-radio-checked-disabled-border-color: var(--ids-input-disabled-color);
 
   // Rating
-  --ids-rating-star-background-color: var(--ids-color-warning-40);
+  --ids-rating-star-color: var(--ids-color-amber-60);
+  --ids-rating-star-empty-color: var(--ids-icon-color);
+  --ids-rating-star-hover-color: var(--ids-button-primary-background-color);
+  --ids-rating-star-focus-color: var(--ids-button-primary-background-color);
+  --ids-rating-star-margin-inline: var(--ids-spacing-md);
+
 
   // Required
   --ids-required-background-color: var(--ids-color-error);

@@ -183,6 +183,24 @@
   --ids-input-hover-border-color: var(--ids-color-slate-10);
   --ids-input-focus-border-color: var(--ids-focus-ring-border-color);
 
+  // Month View
+  --ids-month-view-background-color: var(--ids-color-slate-80);
+  --ids-month-view-border-color: var(--ids-color-slate-70);
+  --ids-month-view-disabled-background-color: var(--ids-color-slate-100);
+  --ids-month-view-text-color: var(--ids-color-slate-30);
+  --ids-month-view-weekday-text-color: var(--ids-month-view-text-color);
+  --ids-month-view-day-alternate-text-color: var(--ids-color-slate-50);
+  --ids-month-view-day-hover-background-color: rgb(49 50 54 / 0.2);
+  --ids-month-view-day-selected-background-color: var(--ids-color-slate-70);
+  --ids-month-view-day-selected-accent-box-shadow-color: var(--ids-color-azure-60);
+
+  // Month View (Compact)
+  --ids-month-view-compact-day-selected-background-color: var(--ids-color-azure-60);
+  --ids-month-view-compact-weekday-text-color: var(--ids-month-view-text-color);
+  --ids-month-view-compact-alternate-text-color: var(--ids-color-slate-50);
+  --ids-month-view-compact-day-hover-text-color: var(--ids-color-slate-00);
+  --ids-month-view-compact-range-selected-background-color: var(--ids-color-azure-60);
+
   // Progress Bar
   --ids-progress-bar-border-color: var(--ids-color-slate-40);
   --ids-progress-bar-background-color: var(--ids-color-palette-azure-60);

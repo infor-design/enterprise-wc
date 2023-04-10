@@ -186,6 +186,12 @@
   // Icons
   --ids-icon-color: var(--ids-color-slate-100);
 
+  // Month View
+  --ids-month-view-border-color: var(--ids-color-slate-30);
+  --ids-month-view-day-hover-background-color: rgba(74, 74, 74, 0.1);
+  --ids-month-view-day-selected-background-color: var(--ids-color-slate-10);
+  --ids-month-view-disabled-background-color: var(--ids-color-slate-20);
+
   // Progress Bar
   --ids-progress-bar-border-color: var(--ids-color-slate-60);
   --ids-progress-bar-background-color: var(--ids-color-primary-80);
