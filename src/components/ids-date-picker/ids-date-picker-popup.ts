@@ -112,7 +112,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
    * @returns {string} The template
    */
   template(): string {
-    return `<ids-popup class="ids-date-picker-popup" type="menu" align="bottom, left" arrow="bottom" tabIndex="-1" y="12" animated>
+    return `<ids-popup class="ids-date-picker-popup" type="menu" align="bottom, left" arrow="bottom" tabIndex="-1" animated>
       <slot slot="content" name="toolbar">
         ${this.toolbarTemplate()}
       </slot>
@@ -147,7 +147,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
         <ids-modal-button class="popup-btn popup-btn-clear" part="btn-clear" ${this.showClear ? '' : ' hidden'}>
           <ids-text translate-text="true" font-weight="bold">Clear</ids-text>
         </ids-modal-button>
-        <ids-modal-button class="popup-btn popup-btn-apply"${this.useRange || this.expanded ? ' disabled' : ' hidden'} part="btn-apply" type="primary">
+        <ids-modal-button class="popup-btn popup-btn-apply"${this.useRange || this.expanded ? ' disabled' : ' hidden'} part="btn-apply" appearance="primary">
           <ids-text translate-text="true" font-weight="bold">Apply</ids-text>
         </ids-modal-button>
       </div>

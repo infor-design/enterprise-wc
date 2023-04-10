@@ -34,3 +34,9 @@ ids-input::part(field-container) {
 ids-text {
   @include mx-4();
 }
+
+// Remove automatic width on "xs"-sized pager inputs
+ids-input[size='xs']::part(field-container),
+.ids-input.xs .field-container {
+  width: auto;
+}

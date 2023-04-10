@@ -17,10 +17,10 @@ The IdsModalButton Component is an extension of the regular [IdsButton Component
 Modal Buttons extend regular buttons and are constructed with similar markup.
 
 ```html
-<ids-modal-button id="button-ok" type="primary">
+<ids-modal-button id="button-ok" appearance="primary">
     <ids-text>OK</ids-text>
 </ids-modal-button>
-<ids-modal-button id="button-ok" type="secondary" cancel>
+<ids-modal-button id="button-ok" appearance="secondary" cancel>
     <ids-text>Cancel</ids-text>
 </ids-modal-button>
 ```

@@ -1,7 +1,36 @@
 @import '../../core/ids-base';
 @import '../../mixins/sass/ids-hide-mixin';
 
+:host {
+  display: block;
+}
+
 .ids-time-picker {
+  display: inline-block;
+  max-width: 100%;
+
+  // Fixes input doesn't stretch to lg size and up
+  ids-trigger-field,
+  .ids-trigger-field {
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  ids-trigger-field {
+    &[size='full'] {
+      display: block;
+    }
+  }
+
+  &.full {
+    display: block;
+
+    ids-trigger-field,
+    .ids-trigger-field {
+      display: block;
+    }
+  }
+
   .popup-btn {
     @include w-full();
 

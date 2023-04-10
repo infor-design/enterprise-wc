@@ -10,10 +10,10 @@
     <ids-modal id="parent-modal" aria-labelledby="parent-modal-title">
       <ids-text slot="title" font-size="24" type="h2" id="parent-modal-title">Parent Modal</ids-text>
       <ids-text>This is the Parent IDS Modal</ids-text><br>
-      <ids-modal-button slot="buttons" id="parent-modal-close-btn" type="secondary" cancel>
+      <ids-modal-button slot="buttons" id="parent-modal-close-btn" appearance="secondary" cancel>
         <span>Close</span>
       </ids-modal-button>
-      <ids-modal-button slot="buttons" id="nested-modal-trigger-btn" type="primary">
+      <ids-modal-button slot="buttons" id="nested-modal-trigger-btn" appearance="primary">
         <span>Open Another</span>
       </ids-modal-button>
     </ids-modal>
@@ -21,7 +21,7 @@
     <ids-modal id="nested-modal" aria-labelledby="nested-modal-title">
       <ids-text slot="title" font-size="24" type="h2" id="nested-modal-title">Nested Modal</ids-text>
       <ids-text>This is the Nested IDS Modal</ids-text><br>
-      <ids-modal-button slot="buttons" id="nested-modal-close-btn" type="secondary" cancel>
+      <ids-modal-button slot="buttons" id="nested-modal-close-btn" appearance="secondary" cancel>
         <span>Close</span>
       </ids-modal-button>
     </ids-modal>
@@ -31,7 +31,7 @@
     </ids-layout-grid>
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
-        <ids-button id="parent-modal-trigger-btn" type="secondary">
+        <ids-button id="parent-modal-trigger-btn" appearance="secondary">
           <span>Trigger a Modal</span>
         </ids-button>
       </ids-layout-grid-cell>

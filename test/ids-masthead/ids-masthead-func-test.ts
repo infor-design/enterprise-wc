@@ -113,7 +113,7 @@ describe('IdsMasthead Component', () => {
     buttons.forEach((button) => {
       expect(button.colorVariant).toBe('alternate');
       expect(button.square).toBe(true);
-      expect(button.type).toBe('default');
+      expect(button.appearance).toBe('default');
     });
   });
 

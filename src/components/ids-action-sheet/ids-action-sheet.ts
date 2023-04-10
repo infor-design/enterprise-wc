@@ -69,7 +69,7 @@ export default class IdsActionSheet extends Base {
         <ids-overlay opacity=".5"></ids-overlay>
         <div class="ids-action-sheet-inner">
           <slot></slot>
-          <ids-button type="secondary" part="cancel-btn">
+          <ids-button appearance="secondary" part="cancel-btn">
             <span>${this.cancelBtnText}</span>
           </ids-button>
         </div>

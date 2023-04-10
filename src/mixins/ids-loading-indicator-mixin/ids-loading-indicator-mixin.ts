@@ -76,7 +76,7 @@ const IdsLoadingIndicatorMixin = <T extends IdsBaseConstructor>(superclass: T) =
 
   #attachLoadingIndicator() {
     if (this.showLoadingIndicator && this.#getSlottedElements()?.length === 0) {
-      const type: string | null = this.getAttribute('type');
+      const type: string | null = this.getAttribute(attributes.APPEARANCE);
 
       this.insertAdjacentHTML(
         'beforeend',
