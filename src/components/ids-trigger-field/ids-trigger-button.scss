@@ -35,7 +35,7 @@
   &.style-inline {
     border: 0;
     padding: var(--ids-spacing-none);
-    border-radius: none;
+    border-radius: var(--ids-spacing-none);
     margin: var(--ids-spacing-none);
 
     &.ids-icon-button {

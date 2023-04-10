@@ -39,6 +39,7 @@
   --ids-cursor-default: default;
   --ids-cursor-resize: col-resize;
   --ids-cursor-move: move;
+  --ids-cursor-text: text;
 
   // Elevations (Box Shadows)
   --ids-shadow-none: 0 0 3px 2px rgba(54 138 192 / 0);
@@ -104,6 +105,14 @@
   --ids-size-xxl: 56px;
   --ids-size-2xl: 66px;
 
+  // Line Height
+  --ids-line-height-none: 0;
+  --ids-line-height-xs: 1;
+  --ids-line-height-sm: 1.25;
+  --ids-line-height-md: 1.5;
+  --ids-line-height-lg: 2;
+  --ids-line-height-normal: normal;
+
   // Z Indexes
   --ids-z-index-toolbar: 20;
   --ids-z-index-sidebar: 500;
@@ -135,7 +144,7 @@
   --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-30);
   --ids-alert-empty-color: var(--ids-icon-color);
   --ids-alert-empty-disabled-color: var(--ids-icon-color-disabled);
-  
+
   // Badge
   --ids-badge-background-color: var(--ids-input-readonly-background-color);
   --ids-badge-border-color: var(--ids-input-readonly-background-color);
@@ -160,7 +169,6 @@
   --ids-badge-warning-background-color: var(--ids-color-warning-80);
   --ids-badge-warning-border-color: var(--ids-color-warning-80);
   --ids-badge-warning-color: var(--ids-color-warning-00);
-  
 
   // Button (Primary)
   --ids-button-primary-border-color: var(--ids-color-primary);
@@ -203,7 +211,7 @@
   --ids-button-formatter-text-color: var(--ids-input-readonly-background-color);
   --ids-button-formatter-border-color: var(--ids-color-slate-00);
   --ids-button-formatter-text-color-hover: var(--ids-inverse-text-color);
-  --ids-button-formatter-disabled-text-color: var(--ids-color-slate-00);
+  --ids-button-formatter-disabled-text-color: var(--ids-color-slate-40);
   --ids-button-formatter-ripple-color: var(--ids-color-primary-tertiary);
 
   // Breadcrumb
@@ -277,7 +285,7 @@
   --ids-data-grid-filter-input-focus-color:  var(--ids-color-azure-50);
   --ids-data-grid-filter-input-disabled-border-color: var(--ids-color-slate-50);
   --ids-data-grid-filter-input-disabled-text-color: var(--ids-color-slate-40);
-  --ids-data-grid-filter-input-readonly-background-color: transparent;
+  --ids-data-grid-filter-input-readonly-background-color: var(--ids-color-slate-60);
   --ids-data-grid-filter-input-readonly-border-color: var(--ids-color-slate-30);
   --ids-data-grid-filter-input-readonly-text-color: var(--ids-color-slate-00);
   --ids-data-grid-filter-input-placeholder-text-color: var(--ids-color-slate-40);
@@ -307,6 +315,77 @@
   --ids-drawer-app-menu-background-color: var(--ids-color-slate-100);
   --ids-drawer-app-menu-text-color: var(--ids-color-slate-00);
   --ids-drawer-app-menu-box-shadow: 0 0 20px 1px rgba(0 0 0 / 0.75);
+
+  // Editor
+  --ids-editor-font-family: var(--ids-font-family);
+  --ids-editor-font-size: var(--ids-font-size-md);
+  --ids-editor-background-color: var(--ids-color-slate-00);
+  --ids-editor-border-color: var(--ids-color-slate-40);
+  --ids-editor-border-radius: var(--ids-border-radius-xs);
+  --ids-editor-border-style: solid;
+  --ids-editor-border-width: var(--ids-spacing-xs);
+  --ids-editor-outline: var(--ids-spacing-none);
+  --ids-editor-line-height: var(--ids-line-height-md);
+  --ids-editor-padding: var(--ids-spacing-xxl);
+  --ids-editor-hover-border-color: var(--ids-color-slate-90);
+  --ids-editor-focus-border-color: var(--ids-focus-ring-border-color);
+  --ids-editor-focus-border-outline: var(--ids-focus-ring-outline);
+  --ids-editor-focus-border-box-shadow: var(--ids-focus-ring-shadow);
+  --ids-editor-error-border-color: var(--ids-color-error);
+  --ids-editor-error-text-color: var(--ids-color-error);
+  --ids-editor-error-border-box-shadow: var(--ids-shadow-error);
+  --ids-editor-readonly-background-color: var(--ids-color-slate-20);
+  --ids-editor-readonly-border-color: var(--ids-editor-border-color);
+  --ids-editor-readonly-text-color: var(--ids-data-text-color);
+  --ids-editor-readonly-cursor: var(--ids-cursor-text);
+  --ids-editor-readonly-source-line-numbers-background-color: var(--ids-color-slate-10);
+  --ids-editor-disabled-border-color: var(--ids-disabled-text-color);
+  --ids-editor-disabled-cursor: var(--ids-cursor-default);
+  --ids-editor-disabled-text-color: var(--ids-disabled-text-color);
+  --ids-editor-link-padding: var(--ids-spacing-md);
+  --ids-editor-link-text-color: var(--ids-color-primary);
+  --ids-editor-link-hover-text-color: var(--ids-color-primary-70);
+  --ids-editor-link-focus-border-color: var(--ids-color-primary);
+  --ids-editor-link-focus-border-radius: var(--ids-border-radius-xs);
+  --ids-editor-link-focus-border-style: solid;
+  --ids-editor-link-focus-border-width: var(--ids-spacing-xs);
+  --ids-editor-link-focus-outline: var(--ids-focus-ring-outline);
+  --ids-editor-link-focus-box-shadow: var(--ids-focus-ring-shadow);
+  --ids-editor-blockquote-border-inline-start: var(--ids-spacing-sm) solid var(--ids-color-slate-40);
+  --ids-editor-blockquote-margin-inline-start: var(--ids-spacing-md);
+  --ids-editor-blockquote-margin-inline-end: var(--ids-spacing-none);
+  --ids-editor-blockquote-padding-inline-start: var(--ids-spacing-xlg);
+  --ids-editor-source-padding: var(--ids-spacing-none);
+  --ids-editor-source-margin: var(--ids-spacing-none);
+  --ids-editor-source-line-numbers-margin: var(--ids-spacing-none);
+  --ids-editor-source-line-numbers-padding-block-start: var(--ids-spacing-xxl);
+  --ids-editor-source-line-numbers-padding-inline: var(--ids-spacing-xlg);
+  --ids-editor-source-line-numbers-line-height: var(--ids-line-height-md);
+  --ids-editor-source-line-numbers-font-weight: var(--ids-font-weight-bold);
+  --ids-editor-source-line-numbers-background-color: var(--ids-color-slate-10);
+  --ids-editor-source-line-numbers-text-color: var(--ids-color-slate-50);
+  --ids-editor-source-textarea-background-color: transparent;
+  --ids-editor-source-textarea-text-color: var(--ids-data-text-color);
+  --ids-editor-source-textarea-border: none;
+  --ids-editor-source-textarea-padding-block-start: var(--ids-spacing-xxl);
+  --ids-editor-source-textarea-padding-inline: var(--ids-spacing-xxl);
+  --ids-editor-source-textarea-line-height: var(--ids-line-height-md);
+  --ids-editor-source-textarea-outline: var(--ids-spacing-none);
+
+  // Empty Message
+  --ids-empty-message-icon-color: var(--ids-color-primary);
+  --ids-empty-message-icon-fill: transparent;
+  --ids-empty-message-icon-margin: var(--ids-spacing-xxl);
+  --ids-empty-message-icon-height: 80px;
+  --ids-empty-message-icon-width: 80px;
+  --ids-empty-message-label-padding: var(--ids-spacing-xxl) var(--ids-spacing-lg);
+  --ids-empty-message-label-font-size: var(--ids-font-size-lg);
+  --ids-empty-message-description-padding: var(--ids-spacing-none) var(--ids-spacing-xxl) var(--ids-spacing-xxl);
+  --ids-empty-message-description-text-align: center;
+  --ids-empty-message-button-margin-block-end: var(--ids-spacing-4xl);
+
+  // Expandable Area
+  --ids-expandable-area-border-bottom: 1px solid var(--ids-color-slate-30);
 
   // Headers
   --ids-header-gradient-opaque: rgb(0 114 237 / 1);

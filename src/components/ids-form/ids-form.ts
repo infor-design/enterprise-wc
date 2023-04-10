@@ -18,7 +18,6 @@ const Base = IdsFieldHeightMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
  * @part form - the form element
  */
 @customElement('ids-form')
