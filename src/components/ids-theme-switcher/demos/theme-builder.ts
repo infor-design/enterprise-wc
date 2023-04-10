@@ -11,6 +11,7 @@ import '../../ids-progress-bar/ids-progress-bar';
 import type IdsDataGrid from '../../ids-data-grid/ids-data-grid';
 import '../../ids-data-grid/ids-data-grid';
 import '../../ids-data-label/ids-data-label';
+import '../../ids-month-view/ids-month-view';
 import '../../ids-pager/ids-pager';
 import '../../ids-scrollable/ids-scrollable';
 import '../../ids-scrollable/ids-sticky';
