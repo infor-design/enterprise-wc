@@ -14,7 +14,7 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
-import type { IdsPopupElementRef } from './ids-popup-attributes';
+import type { IdsPopupElementRef, IdsPopupXYSwitchResult } from './ids-popup-attributes';
 
 import {
   CENTER,
@@ -1208,11 +1208,24 @@ export default class IdsPopup extends Base {
 
     this.#targetAlignEdge = this.#getPlacementEdge(popupRect);
 
+    const oppositeEdge = this.#getOppositeEdge(this.alignEdge);
     const shouldSwitchXY = this.alignEdge !== this.#targetAlignEdge
       && this.#getOppositeEdge(this.alignEdge) !== this.#targetAlignEdge;
+    let switchResult = {
+      flip: this.alignEdge !== this.#targetAlignEdge && !shouldSwitchXY,
+      oppositeEdge,
+      shouldSwitchXY,
+      targetEdge: this.#alignEdge,
+      x: shouldSwitchXY ? this.y : this.x,
+      y: shouldSwitchXY ? this.x : this.y
+    };
 
-    let x = shouldSwitchXY ? this.y : this.x;
-    let y = shouldSwitchXY ? this.x : this.y;
+    if (typeof this.onXYSwitch === 'function') {
+      switchResult = this.onXYSwitch(switchResult);
+    }
+
+    let x = switchResult.x;
+    let y = switchResult.y;
 
     const targetRect = this.alignTarget.getBoundingClientRect();
     const alignEdge = this.#targetAlignEdge || this.alignEdge;
@@ -1330,6 +1343,17 @@ export default class IdsPopup extends Base {
    */
   onPlace(popupRect: DOMRect): DOMRect {
     return popupRect;
+  }
+
+  /**
+   * Optional callback that can be used to further adjust the Popup's x/y offsets
+   * if a flip or other modification is made to the alignment edge
+   * when being placed in alignment mode.
+   * @param {IdsPopupXYSwitchResult} result contains settings related to the x/y adjustment.
+   * @returns {IdsPopupXYSwitchResult} provides further modifications.
+   */
+  onXYSwitch(result: IdsPopupXYSwitchResult) {
+    return result;
   }
 
   /**

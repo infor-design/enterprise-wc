@@ -34,3 +34,9 @@ ids-text {
   margin-inline-start: 4px;
   margin-inline-end: 4px;
 }
+
+// Remove automatic width on "xs"-sized pager inputs
+ids-input[size='xs']::part(field-container),
+.ids-input.xs .field-container {
+  width: auto;
+}

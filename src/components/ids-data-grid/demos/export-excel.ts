@@ -122,12 +122,12 @@ const setData = async () => {
 
 setData();
 
-const exportXLSX = document.body.querySelector('#export-xlsx');
-exportXLSX?.addEventListener('click', () => {
-  dataGrid.exportToExcel('xlsx', 'DataGrid (Export)');
-});
-
-const exportCSV = document.body.querySelector('#export-csv');
-exportCSV?.addEventListener('click', () => {
-  dataGrid.exportToExcel('csv', 'DataGrid (Export)');
-});
+const exportMenu = document.querySelector('#export-excel');
+exportMenu?.addEventListener('selected', ((evt: CustomEvent) => {
+  const format = evt.detail.value;
+  if (format === 'csv') {
+    dataGrid.exportToExcel('csv', 'DataGrid (Export)');
+  } else {
+    dataGrid.exportToExcel('xlsx', 'DataGrid (Export)');
+  }
+}) as EventListener);
