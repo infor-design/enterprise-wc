@@ -43,7 +43,6 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 - **JustifyContent**: Specifies how to align the items in a grid along the main axis. If not assigned defaults to `start`.
 - **Flow**: Specifies how the items in a grid should wrap or overflow when there isn't enough space.
 
-
 ### IdsLayoutGridCell
 - **ColSpan**: Specifies the number of columns a cell should span by default in a grid.
 - **ColSpanXs**: Specifies the number of columns a cell should span on extra small screens.
@@ -102,7 +101,9 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 <ids-layout-grid cols="2" cols-lg="4" cols-xl="6" cols-xxl="8">
 ```
 
-This `<ids-layout-grid>` element has four attributes (cols, cols-lg, cols-xl, and cols-xxl) that are used to define the number of columns in the grid layout at different breakpoint sizes. The `cols` attribute sets the number of columns in the grid layout by default. The `cols-lg` attribute sets the number of columns in the grid layout at the lg breakpoint size (large devices/screen sizes). The `cols-xl` attribute sets the number of columns in the grid layout at the xl breakpoint size (extra-large devices/screen sizes). Finally, the `cols-xxl` attribute sets the number of columns in the grid layout at the xxl breakpoint size (extra-extra-large devices/screen sizes). Overall, this code is defining a grid layout that will display two columns by default and adjust the number of columns displayed at different breakpoint sizes for different device types.
+This `<ids-layout-grid>` element has four attributes (cols, cols-lg, cols-xl, and cols-xxl) that are used to define the number of columns in the grid layout at different breakpoint sizes. The `cols` attribute sets the number of columns in the grid layout by default. The `cols-lg` attribute sets the number of columns in the grid layout at the lg breakpoint size (large devices/screen sizes). The `cols-xl` attribute sets the number of columns in the grid layout at the xl breakpoint size (extra-large devices/screen sizes).
+
+Finally, the `cols-xxl` attribute sets the number of columns in the grid layout at the xxl breakpoint size (extra-extra-large devices/screen sizes). Overall, this code is defining a grid layout that will display two columns by default and adjust the number of columns displayed at different breakpoint sizes for different device types.
 
 ---
 
