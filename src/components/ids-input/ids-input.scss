@@ -166,7 +166,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
 
 :host {
   display: block;
-  max-width: calc(var(--ids-input-width-md) - 2px);
+  max-width: calc(var(--ids-input-width-full) - 2px);
 
   .ids-input {
     display: inline-block;
@@ -181,7 +181,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
   position: relative;
   display: block;
   margin-block-end: var(--ids-spacing-xxl);
-  max-width: var(--ids-input-width-md);
+  max-width: var(--ids-input-width-full);
 
   // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
@@ -197,7 +197,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
     display: flex;
     resize: none;
     text-align: left;
-    max-width: var(--ids-input-width-md);
+    max-width: var(--ids-input-width-full);
   }
 
   &:focus-within,
