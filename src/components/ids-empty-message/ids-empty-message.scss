@@ -1,4 +1,4 @@
-@import '../../core/ids-base';
+@import '../../themes/mixins/ids-core-mixins';
 
 .ids-empty-message {
   display: flex;
@@ -7,28 +7,28 @@
   align-items: center;
 
   .button {
-    margin-bottom: 32px;
+    margin-block-end: var(--ids-empty-message-button-margin-block-end);
   }
 
   .icon {
-    margin: 16px;
-    height: 80px;
-    width: 80px;
-    fill: transparent;
-    color: var(--ids-color-brand-primary-base);
+    fill: var(--ids-empty-message-icon-fill);
+    color: var(--ids-empty-message-icon-color);
+    margin: var(--ids-empty-message-icon-margin);
+    height: var(--ids-empty-message-icon-height);
+    width: var(--ids-empty-message-icon-width);
   }
 
   .label {
-    padding: 16px 10px;
+    padding: var(--ids-empty-message-label-padding);
 
     ::slotted(span) {
-      font-size: 20px;
+      font-size: var(--ids-empty-message-label-font-size);
     }
   }
 
   .description {
-    padding: 0 16px 16px;
-    text-align: center;
+    padding: var(--ids-empty-message-description-padding);
+    text-align: var(--ids-empty-message-description-text-align);
   }
 
   @media all and (max-width: $breakpoint-sm) {

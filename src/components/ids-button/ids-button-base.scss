@@ -310,11 +310,15 @@
 
   // Used on Editor and List Builder "darker" toolbars
   &.color-variant-alternate-formatter {
-    opacity: 0.8;
+    opacity: 1;
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
       border-color: var(--ids-focus-ring-border-color);
+    }
+
+    &[disabled] {
+      opacity: 1;
     }
 
     &:hover {

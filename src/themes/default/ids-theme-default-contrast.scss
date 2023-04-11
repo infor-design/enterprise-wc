@@ -103,7 +103,7 @@
   --ids-button-primary-disabled-background-color: var(--ids-color-slate-20);
   --ids-button-primary-disabled-border-color: var(--ids-color-slate-20);
   --ids-button-primary-disabled-text-color: var(--ids-color-slate-40);
-  --ids-button-primary-ripple-color: var(--ids-color-primary);
+  --ids-button-primary-ripple-color: var(--ids-color-primary-00);
 
   // Button (Secondary)
   --ids-button-secondary-background-color: transparent;
@@ -167,6 +167,9 @@
   --ids-data-grid-header-unsorted-icon-color: var(--ids-color-slate-40);
   --ids-data-grid-header-sorted-icon-color: var(--ids-color-slate-00);
 
+    // Data Grid (Filter)
+    --ids-data-grid-filter-input-readonly-background-color: var(--ids-color-slate-50);
+
   // Data Grid (Rows)
   --ids-data-grid-row-selected-background-color: rgba(85 163 243 / 0.2);
   --ids-data-grid-row-alternate-background-color: var(--ids-color-slate-10);
@@ -182,6 +185,32 @@
   --ids-dropdown-background-color: var(--ids-popup-background-color);
   --ids-dropdown-border-color: var(--ids-focus-ring-border-color);
   --ids-dropdown-attached-border-color: var(--ids-color-slate-50);
+
+  // Editor
+  --ids-editor-background-color: var(--ids-color-slate-00);
+  --ids-editor-border-color: var(--ids-color-slate-40);
+  --ids-editor-hover-border-color: var(--ids-color-slate-90);
+  --ids-editor-focus-border-color: var(--ids-focus-ring-border-color);
+  --ids-editor-focus-border-box-shadow: var(--ids-focus-ring-shadow);
+  --ids-editor-error-border-color: var(--ids-color-error);
+  --ids-editor-error-text-color: var(--ids-color-error);
+  --ids-editor-error-border-box-shadow: var(--ids-shadow-error);
+  --ids-editor-readonly-background-color: var(--ids-color-slate-20);
+  --ids-editor-readonly-border-color: var(--ids-color-slate-40);
+  --ids-editor-readonly-source-line-numbers-background-color: var(--ids-color-slate-10);
+  --ids-editor-disabled-border-color: var(--ids-disabled-text-color);
+  --ids-editor-disabled-text-color: var(--ids-color-slate-50);
+  --ids-editor-link-text-color: var(--ids-color-primary);
+  --ids-editor-link-hover-text-color: var(--ids-color-primary-100);
+  --ids-editor-link-focus-border-color: var(--ids-color-primary);
+  --ids-editor-link-focus-box-shadow: var(--ids-focus-ring-shadow);
+  --ids-editor-source-line-numbers-background-color: var(--ids-color-slate-20);
+  --ids-editor-source-line-numbers-text-color: var(--ids-color-slate-70);
+  --ids-editor-source-textarea-background-color: transparent;
+  --ids-editor-source-textarea-text-color: var(--ids-data-text-color);
+
+  // Expandable Area
+  --ids-expandable-area-border-bottom: 1px solid var(--ids-color-slate-60);
 
   // Headers
   --ids-header-gradient-opaque: rgb(0 74 153 / 1);
@@ -209,6 +238,12 @@
 
   // Popup Menu
   --ids-popup-menu-text-color: var(--ids-color-slate-90);
+
+  // Month View
+  --ids-month-view-border-color: var(--ids-color-slate-30);
+  --ids-month-view-day-hover-background-color: rgba(74 74 74 / 0.1);
+  --ids-month-view-day-selected-background-color: var(--ids-color-slate-10);
+  --ids-month-view-disabled-background-color: var(--ids-color-slate-20);
 
   // Progress Bar
   --ids-progress-bar-border-color: var(--ids-color-slate-60);

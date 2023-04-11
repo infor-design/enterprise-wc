@@ -1,7 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsLabelStateMixin from '../../mixins/ids-label-state-mixin/ids-label-state-mixin';
 import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
@@ -98,14 +97,12 @@ export interface IdsEditorModals {
 // Instance counter
 let instanceCounter = 0;
 
-const Base = IdsThemeMixin(
-  IdsValidationMixin(
-    IdsLabelStateMixin(
-      IdsDirtyTrackerMixin(
-        IdsLocaleMixin(
-          IdsEventsMixin(
-            IdsElement
-          )
+const Base = IdsValidationMixin(
+  IdsLabelStateMixin(
+    IdsDirtyTrackerMixin(
+      IdsLocaleMixin(
+        IdsEventsMixin(
+          IdsElement
         )
       )
     )
@@ -120,7 +117,6 @@ const Base = IdsThemeMixin(
  * @mixes IdsEventsMixin
  * @mixes IdsLabelStateMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @mixes IdsValidationMixin
  * @part editor - the editor element
  * @part editor-label - the editor label element
