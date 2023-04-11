@@ -78,7 +78,8 @@
   .labels {
     @include text-14();
     @include antialiased();
-    @include font-sans();
+
+    font-family: var(--ids-font-family);
 
     text {
       fill: var(--ids-color-palette-slate-60);

@@ -247,7 +247,7 @@
   }
 
   &:focus {
-    @include outline-none();
+    outline: 0;
   }
 
   // In-page Accordions

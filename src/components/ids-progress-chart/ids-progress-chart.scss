@@ -2,11 +2,11 @@
 
 .ids-progress-chart {
   @include antialiased();
-  @include font-sans();
 
   contain: content;
   display: flex;
   flex-direction: column;
+  font-family: var(--ids-font-family);
   margin: 0 0 8px;
 
   .labels {

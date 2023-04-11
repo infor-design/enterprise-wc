@@ -56,10 +56,10 @@ ids-button {
   &::after,
   &::before {
     @include bg-slate-60();
-    @include absolute();
 
     display: inline-block;
     content: '';
+    position: absolute;
     top: 8px;
     left: 9px;
   }

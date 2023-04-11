@@ -19,7 +19,7 @@
 
 // Used to make the focus "border" on non-solid buttons (modal buttons, etc)
 @mixin modal-button-shadow() {
-  box-shadow: var(--ids-shadow-sm); // primary color (shadowy-part)
+  box-shadow: var(--ids-modal-button-focus-shadow); // primary color (shadowy-part)
 }
 
 @mixin alternate-button-shadow() {
@@ -411,8 +411,8 @@
   // ====================================================
   // Primary Button
   &.btn-primary {
-    background-color: var(--ids-color-primary);
-    color: var(--ids-color-primary-00);
+    background-color: var(--ids-modal-background-color);
+    color: var(--ids-modal-button-color);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -420,7 +420,7 @@
     }
 
     &:hover {
-      color: var(--ids-color-primary-darker);
+      color: var(--ids-modal-button-hover-color);
     }
 
     &[disabled] {
@@ -428,7 +428,7 @@
     }
 
     .ripple-effect {
-      background-color: var(--ids-color-primary);
+      background-color: var(--ids-modal-button-color);
     }
   }
 
@@ -437,7 +437,7 @@
 
   &.btn-secondary,
   &.btn-tertiary {
-    background-color: var(--ids-color-primary);
+    background-color: var(--ids-modal-background-color);
     color: var(--ids-color-primary-70);
 
     &:not(.hide-focus).is-active,

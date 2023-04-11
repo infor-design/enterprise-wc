@@ -1,9 +1,9 @@
 /* Ids Popup Component */
-@import './ids-popup-base';
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 
 :host {
   display: block;
-  z-index: 3000;
+  z-index: var(--ids-z-index-popup);
   text-align: unset;
 }
 
@@ -30,12 +30,12 @@
 // Visible, animated host elements receive left/top animations
 :host([visible][animated]) {
   transition:
-    left $popup-transition-length $popup-transition-ease,
-    top $popup-transition-length $popup-transition-ease;
+    left var(--ids-transition-length) var(--ids-transition-linear),
+    top var(--ids-transition-length) var(--ids-transition-linear);
 }
 
 .ids-popup {
-  @include antialiased();
+  @include mixins.antialiased();
 
   &.has-maxheight {
     max-height: var(--ids-popup-maxheight);
@@ -53,7 +53,7 @@
 
   // Arrow definition
   .arrow {
-    border-width: 8px;
+    border-width: var(--ids-popup-arrow-size);
     display: none;
     position: absolute;
 
@@ -61,8 +61,7 @@
     &.left,
     &.right,
     &.top {
-      @include border-solid();
-
+      border-style: solid;
       border-color: transparent;
       display: block;
       height: 0;
@@ -70,10 +69,9 @@
     }
 
     &::after {
-      @include border-solid();
-
+      border-style: solid;
       border-color: transparent;
-      border-width: 8px;
+      border-width: var(--ids-popup-arrow-size);
       content: '';
       display: block;
       position: relative;
@@ -82,12 +80,12 @@
     // Bottom Alignment
     &.bottom {
       border-top-width: 0;
-      left: calc(50% - 8px);
-      top: -8px;
+      left: calc(50% - var(--ids-popup-arrow-size));
+      top: calc(var(--ids-popup-arrow-size) * -1);
 
       &::after {
         border-top-width: 0;
-        left: -8px;
+        left: calc(var(--ids-popup-arrow-size) * -1);
         top: 1px;
       }
     }
@@ -95,39 +93,39 @@
     // Left Alignment
     &.left {
       border-right-width: 0;
-      right: -8px;
-      top: calc(50% - 8px);
+      right: calc(var(--ids-popup-arrow-size) * -1);
+      top: calc(50% - var(--ids-popup-arrow-size));
 
       &::after {
         border-right-width: 0;
-        left: -9px;
-        top: -8px;
+        left: calc(var(--ids-popup-arrow-size) * -1);
+        top: calc(var(--ids-popup-arrow-size) * -1);
       }
     }
 
     // Right Alignment
     &.right {
       border-left-width: 0;
-      left: -8px;
-      top: calc(50% - 8px);
+      left: calc(var(--ids-popup-arrow-size) * -1);
+      top: calc(50% - var(--ids-popup-arrow-size));
 
       &::after {
         border-left-width: 0;
         left: 1px;
-        top: -8px;
+        top: calc(var(--ids-popup-arrow-size) * -1);
       }
     }
 
     // Top Alignment
     &.top {
       border-bottom-width: 0;
-      bottom: -8px;
-      left: calc(50% - 8px);
+      bottom: calc(var(--ids-popup-arrow-size) * -1);
+      left: calc(50% - var(--ids-popup-arrow-size));
 
       &::after {
         border-bottom-width: 0;
-        left: -8px;
-        top: -9px;
+        left: calc(var(--ids-popup-arrow-size) * -1);
+        top: calc(var(--ids-popup-arrow-size) * -1);
       }
     }
   }
@@ -135,60 +133,54 @@
   // Animates X/Y movement, fade in/out of the popup.
   &.animated {
     transition:
-      opacity $popup-transition-length $popup-transition-ease,
-      transform $popup-transition-length $popup-transition-ease;
+      opacity var(--ids-transition-length) var(--ids-transition-linear),
+      transform var(--ids-transition-length) var(--ids-transition-linear);
 
     &.open {
       transition:
-        opacity $popup-transition-length $popup-transition-ease,
-        height $popup-transition-length $popup-transition-ease,
-        width $popup-transition-length $popup-transition-ease,
-        transform $popup-transition-length $popup-transition-ease;
+        opacity var(--ids-transition-length) var(--ids-transition-linear),
+        height var(--ids-transition-length) var(--ids-transition-linear),
+        width var(--ids-transition-length) var(--ids-transition-linear),
+        transform var(--ids-transition-length) var(--ids-transition-linear);
     }
   }
 
   // Animation Style: default | 'fade'
   &.animation-fade {
-    @include opacity-0();
+    opacity: 0;
 
     &.open {
-      @include opacity-100();
+      opacity: 1;
     }
   }
 
   // Animation Style: 'scale-in' (Standard Modal)
   &.animation-scale-in {
-    @include opacity-0();
-
+    opacity: 0;
     transform-style: preserve-3d;
     transform: perspective(1000px) translate3d(0, 0, -500px);
 
     &.open {
-      @include opacity-100();
-
+      opacity: 1;
       transform: perspective(1000px) translate3d(0, 0, 0);
     }
   }
 
   // Animation Style: 'slide-from-bottom' (Action Panel)
   &.animation-slide-from-bottom {
-    @include opacity-0();
-
+    opacity: 0;
     transform-style: preserve-3d;
     transform: perspective(1000px) translate3d(100%, 0, 0);
 
     &.open {
-      @include opacity-100();
-
+      opacity: 1;
       transform: perspective(1000px) translate3d(0, 0, 0);
     }
   }
 
   // Position style: viewport (uses transforms)
   &.position-viewport {
-    @include absolute();
-
-    // Position
+    position: absolute;
     left: 50%;
     top: 50%;
     transform-origin: left top;
@@ -234,129 +226,112 @@
   // style: "none" (temporary)
   // maybe makes sense to be "custom"?
   &.none {
-    @include bg-white();
-    @include border-1();
-    @include border-solid();
-    @include border-slate-100();
-    @include p-12();
+    background-color: var(--ids-popup-background-color);
+    border: 1px solid var(--ids-popup-border-color);
+    padding: 1px solid var(--ids-popup-padding);
   }
 
   // style: "custom"
   // provides bare-minimum styles needed to create a popup, allowing external customizations
   &.custom {
-    @include bg-white();
-    @include border-1();
-    @include border-solid();
-
-    border-color: transparent;
+    background-color: var(--ids-popup-background-color);
+    border: 1px solid transparent;
   }
 
   // style: "menu"
   &.menu {
-    @include border-1();
-    @include border-solid();
-    @include font-sans();
-    @include py-4();
+    background-color: var(--ids-popup-menu-background-color);
+    border: 1px solid var(--ids-popup-menu-border-color);
+    font-family: var(--ids-font-family);
+    padding-block: var(--ids-popup-menu-padding);
+    color: var(--ids-popup-menu-text-color);
 
     // New Light Regular Colors
-    @include bg-white();
-    @include text-slate-80();
-
-    border-color: var(--ids-color-palette-slate-30);
-    border-radius: var(--ids-border-radius-xs);
-    box-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
+    border-radius: var(--ids-popup-menu-border-radius);
+    box-shadow: var(--ids-popup-menu-shadow);
 
     .arrow.bottom {
-      border-bottom-color: var(--ids-color-palette-slate-30);
+      border-bottom-color: var(--ids-popup-menu-border-color);
     }
 
     .arrow.bottom::after {
-      border-bottom-color: var(--ids-color-palette-white);
+      border-bottom-color: var(--ids-popup-menu-background-color);
     }
 
     .arrow.left {
-      border-left-color: var(--ids-color-palette-slate-30);
+      border-left-color: var(--ids-popup-menu-border-color);
     }
 
     .arrow.left::after {
-      border-left-color: var(--ids-color-palette-white);
+      border-left-color: var(--ids-popup-menu-background-color);
     }
 
     .arrow.right {
-      border-right-color: var(--ids-color-palette-slate-30);
+      border-right-color: var(--ids-popup-menu-border-color);
     }
 
     .arrow.right::after {
-      border-right-color: var(--ids-color-palette-white);
+      border-right-color: var(--ids-popup-menu-background-color);
     }
 
     .arrow.top {
-      border-top-color: var(--ids-color-palette-slate-30);
+      border-top-color: var(--ids-popup-menu-border-color);
     }
 
     .arrow.top::after {
-      border-top-color: var(--ids-color-palette-white);
-    }
-
-    // New Light Alternate Colors
-    &.color-variant-alternate {
-      @include bg-slate-70();
-      @include text-white();
+      border-top-color: var(--ids-popup-menu-background-color);
     }
   }
 
   // style: "menu-alt"
   &.menu-alt {
-    @include bg-slate-100();
-    @include border-1();
-    @include border-solid();
-    @include font-sans();
-    @include p-12();
-    @include shadow();
-    @include text-14();
-    @include text-white();
-
-    border-color: var(--ids-color-border-darker);
+    background-color: var(--ids-popup-menu-inverse-background-color);
+    border: 1px solid var(--ids-popup-menu-inverse-border-color);
+    padding-block: var(--ids-popup-menu-padding);
+    box-shadow: var(--ids-popup-menu-inverse-shadow);
+    font-size: var(--ids-popup-menu-font-size);
+    color: var(--ids-popup-menu-inverse-text-color);
+    border-color: var(--ids-popup-menu-inverse-border-color);
     border-radius: var(--ids-border-radius-xs);
+    font-family: var(--ids-font-family);
 
     .arrow.bottom,
     .arrow.bottom::after {
-      border-bottom-color: var(--ids-color-border-darker);
+      border-bottom-color: var(--ids-popup-menu-inverse-border-color);
     }
 
     .arrow.left,
     .arrow.left::after {
-      border-left-color: var(--ids-color-border-darker);
+      border-left-color: var(--ids-popup-menu-inverse-border-color);
     }
 
     .arrow.right,
     .arrow.right::after {
-      border-right-color: var(--ids-color-border-darker);
+      border-right-color: var(--ids-popup-menu-inverse-border-color);
     }
 
     .arrow.top,
     .arrow.top::after {
-      border-top-color: var(--ids-color-border-darker);
+      border-top-color: var(--ids-popup-menu-inverse-border-color);
     }
   }
 
   // style: "tooltip"
   &.tooltip {
-    @include bg-slate-80();
-    @include cursor-pointer();
-    @include font-sans();
-    @include py-4();
-    @include px-8();
-    @include text-16();
-    @include text-white();
-    @include z-6000();
-
-     border-radius: var(--ids-border-radius-xs);
-     display: inline-block;
+    background-color: var(--ids-tooltip-background-color);
+    border-radius: var(--ids-tooltip-border-radius);
+    box-shadow: var(--ids-tooltip-shadow);
+    cursor: var(--ids-cursor-pointer);
+    color: var(--ids-tooltip-text-color);
+    display: inline-block;
+    font-size: var(--ids-tooltip-font-size);
+    padding: var(--ids-tooltip-padding);
+    font-family: var(--ids-font-family);
+    z-index: var(--ids-z-index-tooltip);
 
     .arrow.bottom,
     .arrow.bottom::after {
-      border-bottom-color: var(--ids-color-palette-slate-80);
+      border-bottom-color: var(--ids-tooltip-background-color);
     }
 
     .arrow.bottom {
@@ -365,7 +340,7 @@
 
     .arrow.left,
     .arrow.left::after {
-      border-left-color: var(--ids-color-palette-slate-80);
+      border-left-color: var(--ids-tooltip-background-color);
     }
 
     .arrow.left {
@@ -374,7 +349,7 @@
 
     .arrow.right,
     .arrow.right::after {
-      border-right-color: var(--ids-color-palette-slate-80);
+      border-right-color: var(--ids-tooltip-background-color);
     }
 
     .arrow.right {
@@ -383,7 +358,7 @@
 
     .arrow.top,
     .arrow.top::after {
-      border-top-color: var(--ids-color-palette-slate-80);
+      border-top-color: var(--ids-tooltip-background-color);
     }
 
     .arrow.top {
@@ -392,291 +367,163 @@
 
     // Used for alerts
     &.error-color {
-      background-color: var(--ids-color-status-danger);
+      background-color: var(--ids-tooltip-error-background-color);
 
       .arrow.bottom,
       .arrow.bottom::after {
-        border-bottom-color: var(--ids-color-status-danger);
+        border-bottom-color: var(--ids-tooltip-error-background-color);
       }
 
       .arrow.left,
       .arrow.left::after {
-        border-left-color: var(--ids-color-status-danger);
+        border-left-color: var(--ids-tooltip-error-background-color);
       }
 
       .arrow.right,
       .arrow.right::after {
-        border-right-color: var(--ids-color-status-danger);
+        border-right-color: var(--ids-tooltip-error-background-color);
       }
 
       .arrow.top,
       .arrow.top::after {
-        border-top-color: var(--ids-color-status-danger);
+        border-top-color: var(--ids-tooltip-error-background-color);
       }
     }
 
     &.info-color {
-      background-color: var(--ids-color-status-base);
+      background-color: var(--ids-tooltip-info-background-color);
 
       .arrow.bottom,
       .arrow.bottom::after {
-        border-bottom-color: var(--ids-color-status-base);
+        border-bottom-color: var(--ids-tooltip-info-background-color);
       }
 
       .arrow.left,
       .arrow.left::after {
-        border-left-color: var(--ids-color-status-base);
+        border-left-color: var(--ids-tooltip-info-background-color);
       }
 
       .arrow.right,
       .arrow.right::after {
-        border-right-color: var(--ids-color-status-base);
+        border-right-color: var(--ids-tooltip-info-background-color);
       }
 
       .arrow.top,
       .arrow.top::after {
-        border-top-color: var(--ids-color-status-base);
+        border-top-color: var(--ids-tooltip-info-background-color);
       }
     }
 
     &.alert-color,
     &.warning-color {
-      background-color: var(--ids-color-status-warning);
+      background-color: var(--ids-tooltip-warning-background-color);
 
       .arrow.bottom,
       .arrow.bottom::after {
-        border-bottom-color: var(--ids-color-status-warning);
+        border-bottom-color: var(--ids-tooltip-warning-background-color);
       }
 
       .arrow.left,
       .arrow.left::after {
-        border-left-color: var(--ids-color-status-warning);
+        border-left-color: var(--ids-tooltip-warning-background-color);
       }
 
       .arrow.right,
       .arrow.right::after {
-        border-right-color: var(--ids-color-status-warning);
+        border-right-color: var(--ids-tooltip-warning-background-color);
       }
 
       .arrow.top,
       .arrow.top::after {
-        border-top-color: var(--ids-color-status-warning);
+        border-top-color: var(--ids-tooltip-warning-background-color);
       }
     }
 
     &.success-color {
-      background-color: var(--ids-color-status-success);
+      background-color: var(--ids-tooltip-success-background-color);
 
       .arrow.bottom,
       .arrow.bottom::after {
-        border-bottom-color: var(--ids-color-status-success);
+        border-bottom-color: var(--ids-tooltip-success-background-color);
       }
 
       .arrow.left,
       .arrow.left::after {
-        border-left-color: var(--ids-color-status-success);
+        border-left-color: var(--ids-tooltip-success-background-color);
       }
 
       .arrow.right,
       .arrow.right::after {
-        border-right-color: var(--ids-color-status-success);
+        border-right-color: var(--ids-tooltip-success-background-color);
       }
 
       .arrow.top,
       .arrow.top::after {
-        border-top-color: var(--ids-color-status-success);
+        border-top-color: var(--ids-tooltip-success-background-color);
       }
     }
   }
 
   // style: "tooltip-alt"
   &.tooltip-alt {
-    @include bg-white();
-    @include font-sans();
-    @include p-12();
-    @include rounded-md();
-    @include text-12();
-    @include text-black();
+    background-color: var(--ids-tooltip-inverse-background-color);
+    padding: var(--ids-tooltip-padding);
+    border-radius: var(--ids-tooltip-border-radius);
+    font-size: var(--ids-tooltip-font-size);
+    color: var(--ids-tooltip-inverse-text-color);
+    font-family: var(--ids-font-family);
   }
 
   // style: "modal"
   &.modal {
-    @include bg-white();
-    @include border-1();
-    @include border-solid();
-    @include font-sans();
-    @include p-0();
-    @include shadow();
-
-    border-color: var(--ids-color-palette-slate-30);
-    border-radius: var(--ids-border-radius-xs);
-    box-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
+    background-color: var(--ids-modal-background-color);
+    border: 1px solid var(--ids-modal-border-color);
+    padding: var(--ids-modal-padding);
+    border-radius: var(--ids-modal-border-radius);
+    box-shadow: var(--ids-modal-shadow);
+    font-family: var(--ids-font-family);
+    color: var(--ids-modal-text-color);
   }
 
   // style: "dropdown"
   &.dropdown {
-    @include antialiased();
-    @include bg-white();
-    @include border-azure-60();
-    @include border-1();
-    @include border-solid();
-    @include outline-none();
+    @include mixins.antialiased();
 
-    box-shadow:
-      -3px 3px 3px 0 rgb(54 138 192 / 0.3),
-      0 2px 3px 0 rgb(54 138 192 / 0.3),
-      3px 3px 3px 0 rgb(54 138 192 / 0.3);
-    border-radius: 0 0 2px 2px;
-    border-top-color: var(--ids-color-palette-slate-30);
+    background-color: var(--ids-dropdown-background-color);
+    border-color: 1px solid var(--ids-dropdown-border-color);
+    box-shadow: var(--ids-dropdown-box-shadow);
+    border-radius: var(--ids-dropdown-border-radius);
+    outline: none;
+    border-top-color: var(--ids-dropdown-attached-border-color);
 
     &.flipped {
-      border-radius: 2px 2px 0 0;
-      border-bottom-color: var(--ids-color-palette-slate-30);
-      border-top-color: var(--ids-color-palette-slate-60);
-      box-shadow:
-        0 -1px 2px 0 rgb(54 138 192 / 0.3),
-        2px 0 3px 0 rgb(54 138 192 / 0.3),
-        -2px -2px 3px 0 rgb(54 138 192 / 0.3);
+      border-radius: var(--ids-dropdown-flipped-border-radius);
+      border-bottom-color: var(--ids-dropdown-attached-border-color);
+      border-top-color: var(--ids-dropdown-border-color);
+      box-shadow: var(--ids-dropdown-flipped-shadow);
     }
   }
 }
 
 .content-wrapper {
-  @include static();
-
+  position: static;
   height: 100%;
   width: 100%;
-}
-
-// =====================================================
-// Handle Themes
-
-// Dark Theme
-.ids-popup.dropdown[mode='dark'] {
-  @include bg-slate-70();
-  @include border-azure-60();
-
-  box-shadow:
-    -2px 1px 2px 0 rgb(54 138 192 / 0.3),
-    0 1px 2px 0 rgb(54 138 192 / 0.3),
-    2px 2px 2px 0 rgb(54 138 192 / 0.3);
-  border-top-color: var(--ids-color-palette-slate-50);
-
-  &.flipped {
-    border-bottom-color: var(--ids-color-palette-slate-50);
-    border-top-color: var(--ids-color-palette-azure-60);
-    box-shadow:
-      0 -1px 2px 0 rgb(54 138 192 / 0.3),
-      2px 0 3px 0 rgb(54 138 192 / 0.3),
-      -2px -2px 3px 0 rgb(54 138 192 / 0.3);
-  }
-}
-
-.ids-popup.modal[mode='dark'] {
-  @include bg-slate-70();
-  @include border-slate-50();
-  @include text-white();
-
-  box-shadow: 0 2px 5px rgb(239 239 240 / 0.2);
-}
-
-.ids-popup.menu[mode='dark'] {
-  @include bg-slate-70();
-  @include border-slate-50();
-  @include text-white();
-
-  box-shadow: 0 2px 5px rgb(239 239 240 / 0.2);
-
-  .arrow.bottom {
-    border-bottom-color: var(--ids-color-palette-slate-50);
-
-    &::after {
-      border-bottom-color: var(--ids-color-palette-slate-70);
-    }
-  }
-}
-
-.ids-popup.tooltip[mode='dark'] {
-  @include bg-white();
-  @include text-slate-100();
-
-  box-shadow: 0 2px 5px rgb(239 239 240 / 0.4);
-
-  .arrow.top {
-    border-top-color: var(--ids-color-palette-white);
-
-    &::after {
-      border-top-color: var(--ids-color-palette-white);
-    }
-  }
-
-  .arrow.bottom {
-    border-bottom-color: var(--ids-color-palette-white);
-
-    &::after {
-      border-bottom-color: var(--ids-color-palette-white);
-    }
-  }
-
-  .arrow.left {
-    border-left-color: var(--ids-color-palette-white);
-
-    &::after {
-      border-left-color: var(--ids-color-palette-white);
-    }
-  }
-
-  .arrow.right {
-    border-right-color: var(--ids-color-palette-white);
-
-    &::after {
-      border-right-color: var(--ids-color-palette-white);
-    }
-  }
-}
-
-// Contrast Theme
-.ids-popup.dropdown[mode='contrast'] {
-  @include bg-white();
-  @include border-azure-90();
-
-  border-top-color: var(--ids-color-palette-slate-50);
-
-  &.flipped {
-    border-bottom-color: var(--ids-color-palette-slate-50);
-    border-top-color: var(--ids-color-palette-azure-90);
-  }
-}
-
-.ids-popup.modal[mode='contrast'] {
-  @include bg-slate-10();
-  @include border-slate-60();
-
-  box-shadow: 0 2px 5px rgb(239 239 240 / 0.2);
-}
-
-.ids-popup.menu[mode='contrast'] {
-  @include bg-white();
-  @include border-slate-60();
-
-  box-shadow: 0 2px 5px rgb(239 239 240 / 0.2);
-
-  .arrow.bottom {
-    border-bottom-color: var(--ids-color-palette-slate-60);
-
-    &::after {
-      border-bottom-color: var(--ids-color-palette-white);
-    }
-  }
 }
 
 // RTL Fixes
 :host([dir='rtl']) {
   .arrow.bottom::after {
-    left: 8px;
+    left: var(--ids-popup-arrow-size);
+  }
+
+  .arrow.top::after {
+    left: unset;
+    right: calc(var(--ids-popup-arrow-size) * -1);
   }
 
   .ids-popup.tooltip .arrow.top::after {
-    left: 7px;
+    left: calc(var(--ids-popup-arrow-size) * -1);
   }
 }
+

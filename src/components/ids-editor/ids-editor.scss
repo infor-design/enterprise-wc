@@ -24,12 +24,12 @@ $editor-container-height: 285px;
     &.required {
       &::after {
         @include relative();
-        @include font-sans();
         @include mx-2();
         @include text-20();
 
         content: '*';
         color: var(--ids-required-background-color);
+        font-family: var(--ids-font-family);
         margin-top: -10px;
         top: 1px;
       }
@@ -70,8 +70,9 @@ $editor-container-height: 285px;
 
     &:focus-within {
       @include border-azure-60();
-      @include outline-none();
       @include shadow();
+
+      outline: 0;
     }
 
     &.error,
@@ -160,11 +161,11 @@ $editor-container-height: 285px;
   .source-container,
   .editor-container {
     @include antialiased();
-    @include font-sans();
-    @include outline-none();
     @include leading-normal();
     @include text-16();
 
+    font-family: var(--ids-font-family);
+    outline: 0;
     overflow: auto;
   }
 
@@ -191,9 +192,10 @@ $editor-container-height: 285px;
         @include border-1();
         @include border-azure-60();
         @include border-solid();
-        @include outline-none();
         @include rounded-default();
         @include shadow();
+
+        outline: 0;
       }
     }
 
@@ -233,13 +235,13 @@ $editor-container-height: 285px;
       @include antialiased();
       @include bg-slate-10();
       @include font-bold();
-      @include font-sans();
       @include leading-normal();
       @include m-0();
       @include px-12();
       @include pt-16();
       @include text-slate-50();
 
+      font-family: var(--ids-font-family);
       list-style: none;
       text-align: end;
     }
@@ -247,16 +249,16 @@ $editor-container-height: 285px;
     .source-textarea {
       @include antialiased();
       @include bg-transparent();
-      @include font-sans();
       @include text-16();
       @include px-16();
       @include pt-16();
-      @include outline-none();
       @include leading-normal();
       @include h-full();
       @include w-full();
 
       border: none;
+      font-family: var(--ids-font-family);
+      outline: 0;
       overflow: hidden;
       resize: none;
     }

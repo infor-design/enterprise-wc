@@ -10,7 +10,7 @@ import IdsElement from '../../core/ids-element';
 
 import styles from './ids-text.scss';
 
-const fontWeightClasses = ['bold', 'lighter'] as const;
+const fontWeightClasses = ['bold', 'semi-bold', 'lighter'] as const;
 type FontWeightClasses = typeof fontWeightClasses[number];
 
 // These types will have a CSS style class appended to them
@@ -164,7 +164,7 @@ export default class IdsText extends Base {
    * Adjust font weight; can be either "bold" or "lighter"
    * @param {string | null} value (if bold)
    */
-  set fontWeight(value: 'lighter' | 'bold' | null) {
+  set fontWeight(value: 'lighter' | 'bold' | 'semi-bold' | null) {
     this.container?.classList.remove(...fontWeightClasses);
 
     if (value && fontWeightClasses.includes(value)) {

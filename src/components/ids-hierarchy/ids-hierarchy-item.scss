@@ -24,8 +24,8 @@
 
   &::before {
     @include block();
-    @include absolute();
 
+    position: absolute;
     border-bottom: 1.34px solid var(--ids-color-palette-slate-30);
     border-left: 1.34px solid var(--ids-color-palette-slate-30);
     content: '';

@@ -92,8 +92,7 @@
   }
 
   &-checkbox {
-    @include absolute();
-
+    position: absolute;
     top: 20px;
     right: 20px;
     visibility: hidden;

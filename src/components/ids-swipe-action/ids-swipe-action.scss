@@ -32,9 +32,9 @@
 // Snaps into view
 .ids-swipe-element {
   @include antialiased();
-  @include font-sans();
   @include p-16();
 
+  font-family: var(--ids-font-family);
   scroll-snap-align: start;
   scroll-snap-stop: always;
   min-width: 100%;

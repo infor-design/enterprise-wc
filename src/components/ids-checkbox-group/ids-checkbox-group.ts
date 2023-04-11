@@ -1,28 +1,20 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-checkbox-group.scss';
-
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
-);
 
 /**
  * IDS Checkbox Group Component
  * @type {IdsCheckboxGroup}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part checkbox-group - the checkbox-group element
  */
 @customElement('ids-checkbox-group')
 @scss(styles)
-export default class IdsCheckboxGroup extends Base {
+export default class IdsCheckboxGroup extends IdsEventsMixin(IdsElement) {
   constructor() {
     super();
   }

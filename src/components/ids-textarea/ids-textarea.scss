@@ -15,9 +15,10 @@ $textarea-size-default-height: 120px;
 
 .ids-textarea {
   @include block();
-  @include font-sans();
   @include mb-20();
   @include text-16();
+
+  font-family: var(--ids-font-family);
 
   .hidden {
     display: none;
@@ -85,13 +86,13 @@ $textarea-size-default-height: 120px;
     @include box-border();
     @include border-1();
     @include border-solid();
-    @include font-sans();
     @include mb-4();
     @include p-12();
     @include text-16();
     @include w-full();
 
     appearance: none;
+    font-family: var(--ids-font-family);
     border-collapse: separate;
     border-radius: var(--ids-border-radius-xs);
     display: inline-block;
@@ -219,9 +220,9 @@ $textarea-size-default-height: 120px;
     }
 
     ~ .btn-clear {
-      @include absolute();
       @include mt-4();
 
+      position: absolute;
       right: 0;
     }
   }
@@ -233,10 +234,10 @@ $textarea-size-default-height: 120px;
 
 .ids-label-text {
   @include antialiased();
-  @include font-sans();
   @include mb-8();
 
   align-items: baseline;
+  font-family: var(--ids-font-family);
   display: flex;
 
   // Simulate standard label text size while empty with a non-breaking space
@@ -249,12 +250,12 @@ $textarea-size-default-height: 120px;
   &.required {
     &::after {
       @include relative();
-      @include font-sans();
       @include mx-2();
       @include text-20();
 
       content: '*';
       color: var(--ids-required-background-color);
+      font-family: var(--ids-font-family);
       margin-top: -10px;
       top: 1px;
     }

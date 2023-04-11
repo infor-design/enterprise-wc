@@ -48,11 +48,10 @@
     }
 
     .file-input {
-      @include absolute();
-
       height: 0.1px;
       opacity: 0;
       overflow: hidden;
+      position: absolute;
       width: 0.1px;
       z-index: -1;
 
@@ -130,11 +129,11 @@
 
       span {
         @include antialiased();
-        @include font-sans();
         @include font-normal();
         @include block();
         @include m-0();
 
+        font-family: var(--ids-font-family);
         text-overflow: ellipsis;
       }
     }

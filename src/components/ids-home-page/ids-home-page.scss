@@ -5,12 +5,11 @@
   @include relative();
 
   .cards {
-    @include absolute();
-
+    position: absolute;
     left: 50%;
   }
 
   ::slotted(ids-card) {
-    @include absolute();
+    position: absolute;
   }
 }

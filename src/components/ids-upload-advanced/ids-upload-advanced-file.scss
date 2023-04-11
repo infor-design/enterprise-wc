@@ -40,11 +40,11 @@
 
       .file-name span {
         @include antialiased();
-        @include font-sans();
         @include font-normal();
         @include block();
         @include m-0();
 
+        font-family: var(--ids-font-family);
         text-overflow: ellipsis;
       }
 
@@ -60,11 +60,11 @@
 
       .progress-text {
         @include antialiased();
-        @include font-sans();
         @include font-normal();
         @include block();
         @include m-0();
 
+        font-family: var(--ids-font-family);
         min-width: 48px;
         text-overflow: ellipsis;
       }

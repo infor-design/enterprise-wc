@@ -29,9 +29,9 @@
 
   + .picklist-section {
     &::before {
-      @include absolute();
       @include bg-slate-30();
 
+      position: absolute;
       content: ' ';
       width: 1px;
       left: 0;

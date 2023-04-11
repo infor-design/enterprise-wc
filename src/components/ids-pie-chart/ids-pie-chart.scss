@@ -11,7 +11,6 @@
   }
 
   .dot {
-    @include absolute();
     @include border-transparent();
     @include border-solid();
     @include rounded-round();
@@ -19,6 +18,7 @@
 
     display: inline-block;
     border-width: var(--ids-pie-chart-tooltip-dot-size, 0);
+    position: absolute;
     height: 0;
   }
 }
@@ -68,8 +68,8 @@
 
 .donut-text {
   @include antialiased();
-  @include font-sans();
 
+  font-family: var(--ids-font-family);
   font-size: 10px;
   fill: var(--ids-color-palette-slate-60);
   text-anchor: middle;

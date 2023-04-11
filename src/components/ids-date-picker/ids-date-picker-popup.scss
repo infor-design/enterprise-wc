@@ -88,12 +88,12 @@ ids-expandable-area[expanded='false'] {
 }
 
 ids-expandable-area::part(container) {
-  @include absolute();
   @include m-0();
   @include p-0();
   @include h-full();
   @include w-full();
 
+  position: absolute;
   z-index: 3;
   border: none;
   left: 0;

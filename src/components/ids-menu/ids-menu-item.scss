@@ -42,10 +42,9 @@
 }
 
 .ids-menu-item {
-  @include font-sans();
-
   align-items: center;
   cursor: pointer;
+  font-family: var(--ids-font-family);
   list-style: none;
   min-width: 110px; // needed to provide base sizing for menus
   position: static;
@@ -82,7 +81,7 @@
     // Disable default browser focus state.
     // (comment this out to debug the true menu focus state)
     &:focus {
-      @include outline-none();
+      outline: 0;
     }
 
     > * {

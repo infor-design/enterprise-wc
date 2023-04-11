@@ -10,11 +10,11 @@ text {
   @include antialiased();
   @include block();
   @include font-normal();
-  @include font-sans();
   @include m-0();
   @include text-16();
 
   color: currentColor;
+  font-family: var(--ids-font-family);
 }
 
 svg {

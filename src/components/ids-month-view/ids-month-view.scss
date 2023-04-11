@@ -234,11 +234,11 @@
     &.has-legend .day-container {
       &::after {
         @include rounded-round();
-        @include absolute();
 
         content: '';
         background-color: var(--legend-color);
         display: inline-block;
+        position: absolute;
         width: 35px;
         height: 35px;
         overflow: hidden;
@@ -256,11 +256,11 @@
       @include relative();
 
       &::before {
-        @include absolute();
         @include w-full();
         @include z-1();
 
         content: '';
+        position: absolute;
         display: inline-block;
         height: 35px;
         top: 0;
@@ -420,11 +420,11 @@
 
     &.has-legend {
       &::after {
-        @include absolute();
         @include w-full();
 
         background-color: var(--legend-color);
         content: '';
+        position: absolute;
         inset: 0;
         opacity: 0.3;
       }
@@ -448,10 +448,10 @@
     }
 
     .day-text {
-      @include absolute();
       @include cursor-pointer();
       @include z-1();
 
+      position: absolute;
       left: calc(100% - 25px);
       top: var(--ids-month-view-day-text-top, 13px);
       width: 10px;

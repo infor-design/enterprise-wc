@@ -64,6 +64,10 @@
   --ids-shadow-lg: 0 0 4px 3px rgb(0 114 237 / 0.3);
 
   /// --- Component Tokens ---- ///
+  // Action Panel
+  --ids-action-panel-header-background-color:  var(--ids-color-slate-10);
+  --ids-action-panel-header-border-color:  var(--ids-color-slate-50);
+
   // Alerts
   --ids-alert-in-progress-color: var(--ids-color-amethyst-90);
   --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-50);
@@ -129,7 +133,7 @@
   --ids-button-formatter-text-color: var(--ids-color-slate-10);
   --ids-button-formatter-border-color: var(--ids-color-slate-00);
   --ids-button-formatter-text-color-hover: var(--ids-color-slate-00);
-  --ids-button-formatter-disabled-text-color: var(-ids-color-slate-00);
+  --ids-button-formatter-disabled-text-color: var(--ids-color-slate-00);
   --ids-button-formatter-ripple-color: var(--ids-color-primary);
 
   // Data Grid
@@ -174,6 +178,11 @@
   // Drawer
   --ids-drawer-app-menu-text-color: var(--ids-color-slate-10);
 
+  // Dropdown
+  --ids-dropdown-background-color: var(--ids-popup-background-color);
+  --ids-dropdown-border-color: var(--ids-focus-ring-border-color);
+  --ids-dropdown-attached-border-color: var(--ids-color-slate-50);
+
   // Headers
   --ids-header-gradient-opaque: rgb(0 74 153 / 1);
   --ids-header-gradient-transparent: rgb(0 114 237 / 0);
@@ -185,6 +194,21 @@
 
   // Icons
   --ids-icon-color: var(--ids-color-slate-100);
+
+  // Modal
+  --ids-modal-border-color: var(--ids-popup-color-60);
+  --ids-modal-shadow: 0 2px 5px rgb(239 239 240 / 0.2);
+  --ids-modal-footer-border-color: var(--ids-color-slate-50);
+  --ids-modal-button-color: var(--ids-color-primary);
+  --ids-modal-button-hover-color: var(--ids-color-primary-90);
+  --ids-modal-button-focus-shadow: 0 0 3px 1px var(--ids-color-primary);
+
+  // Popup
+  --ids-popup-border-color: var(--ids-color-slate-60);
+  --ids-popup-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
+
+  // Popup Menu
+  --ids-popup-menu-text-color: var(--ids-color-slate-90);
 
   // Progress Bar
   --ids-progress-bar-border-color: var(--ids-color-slate-60);

@@ -6,8 +6,8 @@
   @include cursor-pointer();
   @include block();
   @include text-slate-100();
-  @include font-sans();
 
+  font-family: var(--ids-font-family);
   font-size: 16px;
   line-height: 36px;
   outline: none;

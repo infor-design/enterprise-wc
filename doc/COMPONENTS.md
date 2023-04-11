@@ -297,18 +297,9 @@ Now that you have a `ids-[component].scss`, which holds all scoped styles for th
 ```scss
 .ids-component {
   @include mixins.antialiased();
-  @include bg-slate-20();
-  @include border-1();
-  @include border-slate-20();
-  @include border-solid();
-  @include font-sans();
+
+  font-family: var(--ids-font-family);
 }
-```
-
-- If you need any colors or any properties from the design repo tokens you should import base on the first line
-
-```scss
-@import '../../core/ids-base';
 ```
 
 - Use tools like css flex and css grid to do layouts. In addition when checking RTL try and do it in a way with css that does not require additional css when the page is RTL. The best approach is to try and make your css work either direction before resorting to resets. One simple one is to put the same margin or padding or other positional css on both sides. One useful technique is to use css grid / flex with `end` or `flex-end`. This automatically works in RTL mode without trying to negate anything.

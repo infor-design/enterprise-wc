@@ -83,8 +83,8 @@
 
 // Focus
 @mixin checkbox-focus {
-  border-color: var(--ids-color-primary);
-  box-shadow: var(--ids-shadow-md);
+  border-color: var(--ids-input-focus-border-color);
+  box-shadow: var(--ids-focus-ring-shadow);
 }
 
 // Colored

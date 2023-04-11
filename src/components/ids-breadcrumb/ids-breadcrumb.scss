@@ -17,9 +17,9 @@
     &::after {
       @include mixins.antialiased();
 
-      color: var(--ids-subtle-text-color);
+      color: var(--ids-breadcrumb-text-color);
       content: '\002F';
-      font-weight: var(--ids-font-weight-normal);
+      font-weight: var(--ids-breadcrumb-font-weight);
       padding-right: var(--ids-spacing-md);
       padding-left: var(--ids-spacing-none);
       text-decoration: none;
@@ -67,25 +67,25 @@
   &.color-variant-breadcrumb {
     .ids-breadcrumb-menu {
       &::after {
-        color: var(--ids-subtle-text-color);
+        color: var(--ids-breadcrumb-text-color);
       }
     }
 
     nav.truncate::before {
-      color: var(--ids-subtle-text-color);
+      color: var(--ids-breadcrumb-text-color);
     }
   }
 
   &.color-variant-alternate {
     .ids-breadcrumb-menu {
       &::after {
-        color: var(--ids-inverse-text-color);
+        color: var(--ids-breadcrumb-inverse-text-color);
       }
     }
 
     // Use background colors from IdsHeader
     nav.truncate::before {
-      color: var(--ids-inverse-text-color);
+      color: var(--ids-breadcrumb-inverse-text-color);
       background-image:
       linear-gradient(
         to right,
@@ -98,13 +98,13 @@
 
 a.ids-hyperlink,
 span.ids-breadcrumb-divider {
-  font-size: var(--ids-font-size-sm);
+  font-size: var(--ids-breadcrumb-font-size);
   font-family: var(--ids-font-family);
-  color: var(--ids-subtle-text-color);
+  color: var(--ids-breadcrumb-text-color);
   margin-inline-end: 0;
 
   &:not(.ids-hyperlink-color-unset):not([mode]) {
-    color: var(--ids-subtle-text-color);
+    color: var(--ids-breadcrumb-text-color);
   }
 }
 
@@ -118,7 +118,7 @@ span.ids-breadcrumb-divider {
 span.ids-breadcrumb-divider:not(:first-child)::before {
   @include mixins.antialiased();
 
-  font-size: var(--ids-font-size-sm);
+  font-size: var(--ids-breadcrumb-font-size);
   font-family: var(--ids-font-family);
   color: inherit;
   content: '\002F';
