@@ -8,19 +8,25 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto-fit="true" padding="md">
-      <ids-text font-size="12" type="h1">Data Grid (Virtual Scrolling)</ids-text>
+      <ids-text font-size="12" type="h1">Data Grid (Excel Export)</ids-text>
     </ids-layout-grid>
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-toolbar padding="5">
         <ids-toolbar-section align="end" favor>
-          <ids-button id="export-csv">
-            <ids-icon icon="spreadsheet"></ids-icon>
-            <span>Export (.csv)</span>
-          </ids-button>
-          <ids-button id="export-xlsx">
-            <ids-icon icon="spreadsheet"></ids-icon>
-            <span>Export (.xlsx)</span>
-          </ids-button>
+          <ids-menu-button menu="export-excel" dropdown-icon>
+            <ids-icon icon="export-spreadsheet"></ids-icon>
+            <ids-text>Export</ids-text>
+          </ids-menu-button>
+          <ids-popup-menu id="export-excel" trigger="click">
+            <ids-menu-group>
+              <ids-menu-item value="csv">
+                <ids-text>CSV</ids-text>
+              </ids-menu-item>
+              <ids-menu-item value="xlsx">
+                <ids-text>XLSX</ids-text>
+              </ids-menu-item>
+            </ids-menu-group>
+          </ids-popup-menu>
         </ids-toolbar-section>
       </ids-toolbar>
     </ids-layout-grid>
