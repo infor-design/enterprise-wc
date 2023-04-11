@@ -95,6 +95,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
 
   font-family: var(--ids-font-family);
   color: var(--ids-input-label-text-color);
+  display: flex;
   margin-block-end: var(--ids-input-margin-bottom);
   align-items: baseline;
 
