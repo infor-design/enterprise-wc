@@ -37,11 +37,6 @@
 .ids-popup {
   @include mixins.antialiased();
 
-  &.has-maxheight {
-    max-height: var(--ids-popup-maxheight);
-    overflow: auto;
-  }
-
   // Positions the arrow correctly
   position: relative;
 
@@ -501,6 +496,15 @@
       border-bottom-color: var(--ids-dropdown-attached-border-color);
       border-top-color: var(--ids-dropdown-border-color);
       box-shadow: var(--ids-dropdown-flipped-shadow);
+    }
+  }
+
+  // 'has-maxheight' setting
+  // (Does not apply to Modals, which contain scrolling differently)
+  &:not(.position-viewport).has-maxheight {
+    .content-wrapper {
+      height: var(--ids-popup-maxheight);
+      overflow: auto;
     }
   }
 }
