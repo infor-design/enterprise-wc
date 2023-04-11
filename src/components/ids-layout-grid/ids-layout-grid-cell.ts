@@ -17,15 +17,6 @@ const Base = IdsEventsMixin(
   IdsElement
 );
 
-type PaddingSizes = {
-  base: string,
-  xs: string,
-  sm: string,
-  md: string,
-  lg: string,
-  xl: string
-};
-
 /**
  * IDS Layout Grid Cell Component
  * @type {IdsLayoutGridCell}
@@ -734,7 +725,7 @@ export default class IdsLayoutGridCell extends Base {
    * Get the padding attribute
    * @returns {string | null} The number value that represents the padding of the grid
    */
-  get padding(): PaddingSizes | any { return this.getAttribute(attributes.PADDING); }
+  get padding(): string | any { return this.getAttribute(attributes.PADDING); }
 
   /**
    * Set the row-span attribute
@@ -950,7 +941,8 @@ export default class IdsLayoutGridCell extends Base {
 
   private setCloseButton() {
     this.closeButton = <IdsButton> document.createElement('ids-button');
-    this.closeButton.type = 'primary';
+    this.closeButton.type = 'button';
+    this.closeButton.appearance = 'primary-destructive';
     this.closeButton.icon = 'close';
     this.closeButton.classList.add('close-btn');
   }
