@@ -212,7 +212,7 @@ $max-row-height: var(--max-row-height);
   grid-template-columns: repeat(auto-fill, minmax($min-col-width, $max-col-width));
 }
 
-/** 
+/**
   TODO: Add settings for grid-auto-columns
 */
 :host(.#{$prefix}-cols-auto),
@@ -234,7 +234,6 @@ $max-row-height: var(--max-row-height);
 .#{$prefix}-cols-fr {
   grid-auto-columns: minmax(0, 1fr);
 }
-// -- End grid-auto-columns
 
 :host([flow='row']),
 .#{$prefix}-flow-row {
@@ -261,7 +260,7 @@ $max-row-height: var(--max-row-height);
   grid-auto-flow: column dense;
 }
 
-/** 
+/**
   TODO: Add settings for grid-auto-rows
 */
 :host(.#{$prefix}-auto-rows-auto),
@@ -293,6 +292,7 @@ $max-row-height: var(--max-row-height);
   Justify content
 */
 $align-content-list: start center space-between space-around space-evenly end;
+
 @each $align-content in $align-content-list {
   :host([justify-content='#{$align-content}']),
   .#{$prefix}-justify-#{$align-content} {
