@@ -165,7 +165,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
 
 :host {
   display: block;
-  max-width: calc($input-size-default - 2px);
+  max-width: calc(var(--ids-input-width-md) - 2px);
 
   .ids-input {
     display: inline-block;
@@ -180,7 +180,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
   position: relative;
   display: block;
   margin-block-end: var(--ids-spacing-xxl);
-  max-width: $input-size-default;
+  max-width: var(--ids-input-width-md);
 
   // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
