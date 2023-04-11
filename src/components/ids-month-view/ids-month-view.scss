@@ -189,7 +189,7 @@
         .day-container {
           border-color: var(--ids-month-view-compact-day-selected-background-color);
           z-index: 2;
-          box-shadow: 0 0 2px 0px var(--ids-month-view-compact-day-selected-background-color);
+          box-shadow: 0 0 2px 0 var(--ids-month-view-compact-day-selected-background-color);
         }
       }
     }
@@ -217,7 +217,6 @@
         content: '';
         background-color: var(--legend-color);
         display: inline-block;
-        position: absolute;
         width: 35px;
         height: 35px;
         overflow: hidden;
@@ -239,7 +238,6 @@
         width: 100%;
         z-index: 1;
         content: '';
-        position: absolute;
         display: inline-block;
         height: 35px;
         top: 0;
@@ -311,7 +309,7 @@
 
   .btn-previous,
   .btn-next {
-    padding-inline-start: 0px;
+    padding-inline-start: 0;
     margin: 3px;
 
     &::part(button) {
@@ -330,7 +328,7 @@
 // Full size view
 .ids-month-view.is-fullsize {
   border-style: solid;
-  border-width: 1px 1px 0 1px;
+  border-width: 1px 1px 0;
   border-color: var(--ids-month-view-border-color);
 
   .weekday-text {
@@ -343,7 +341,7 @@
 
   td {
     border-style: solid;
-    border-width: 0 1px 1px 1px;
+    border-width: 0 1px 1px;
     position: relative;
     transition: 0.1s background-color ease-out;
 
@@ -392,7 +390,6 @@
         width: 100%;
         background-color: var(--legend-color);
         content: '';
-        position: absolute;
         inset: 0;
         opacity: 0.3;
       }
