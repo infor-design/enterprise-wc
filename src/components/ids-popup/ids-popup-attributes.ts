@@ -54,6 +54,8 @@ const POPUP_PROPERTIES = [
   attributes.Y
 ];
 
+const POPUP_MAXHEIGHT_PROPNAME = '--ids-popup-maxheight';
+
 /**
  * Defines XY Switch results
  */
@@ -93,6 +95,16 @@ function formatAlignAttribute(alignX: string, alignY: string, edge: string): str
   return `${edge}, ${alignY}`;
 }
 
+/**
+ * Optional callback that can be used to adjust the Popup's placement
+ * after all internal adjustments are made.
+ * @param {DOMRect} popupRect a Rect object representing the current state of the popup.
+ * @returns {object} an adjusted Rect object with "nudged" coordinates.
+ */
+function onPlace(popupRect: DOMRect): DOMRect {
+  return popupRect;
+}
+
 export {
   CENTER,
   ALIGNMENT_EDGES,
@@ -105,6 +117,8 @@ export {
   DEFAULT_ALIGN_EDGE,
   POSITION_STYLES,
   TYPES,
+  POPUP_MAXHEIGHT_PROPNAME,
   POPUP_PROPERTIES,
-  formatAlignAttribute
+  formatAlignAttribute,
+  onPlace
 };

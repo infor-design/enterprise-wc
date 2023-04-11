@@ -11,6 +11,7 @@ import '../ids-menu-button/ids-menu-button';
 import '../ids-popup-menu/ids-popup-menu';
 
 import styles from './ids-toolbar-more-actions.scss';
+import type IdsMenuGroup from '../ids-menu/ids-menu-group';
 import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
 import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 
@@ -46,6 +47,10 @@ export default class IdsToolbarMoreActions extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
+
+    if (!this.menu || !this.button) {
+      this.#renderActionsComponents();
+    }
     this.#refresh();
     this.#attachEventHandlers();
     this.button?.configureMenu?.();
@@ -67,23 +72,31 @@ export default class IdsToolbarMoreActions extends Base {
   }
 
   template() {
+    return `<div class="ids-toolbar-section ids-toolbar-more-actions more">
+      <slot></slot>
+    </div>`;
+  }
+
+  colorVariants = ['alternate-formatter'];
+
+  #renderActionsComponents() {
     const menuButtonId = 'more-actions';
     const menuId = 'more-actions-menu';
     const disabled = this.disabled ? ' disabled' : '';
     const icon = this.getAttribute('icon') || 'more';
 
-    return `<div class="ids-toolbar-section ids-toolbar-more-actions more">
-      <ids-menu-button id="${menuButtonId}" menu="${menuId}"${disabled}>
+    this.insertAdjacentHTML('afterbegin', `<ids-menu-button id="${menuButtonId}" menu="${menuId}"${disabled}>
         <ids-icon icon="${icon}"></ids-icon>
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
-      <ids-popup-menu id="${menuId}" target="#${menuButtonId}" trigger-type="click">
-        <slot></slot>
-      </ids-popup-menu>
-    </div>`;
-  }
+      <ids-popup-menu id="${menuId}" target="#${menuButtonId}" trigger-type="click"></ids-popup-menu>`);
 
-  colorVariants = ['alternate-formatter'];
+    // Previously, it was possible to define IdsMenuGroups as child elements
+    // of the IdsToolbarMoreActions component. For compatability, these groups
+    // are moved into the new menu:
+    const groups = this.querySelectorAll<IdsMenuGroup>(':scope > ids-menu-group');
+    groups?.forEach((groupEl) => this.menu?.append(groupEl));
+  }
 
   /**
    * @private
@@ -186,7 +199,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {HTMLElement} the inner menu button
    */
   get button(): IdsMenuButton | undefined | null {
-    return this.shadowRoot?.querySelector<IdsMenuButton>('ids-menu-button');
+    return this.querySelector<IdsMenuButton>('ids-menu-button');
   }
 
   /**
@@ -194,7 +207,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {HTMLElement} the inner popup menu
    */
   get menu(): IdsPopupMenu | null {
-    return this.shadowRoot?.querySelector<IdsPopupMenu>('ids-popup-menu') || null;
+    return this.querySelector<IdsPopupMenu>('ids-popup-menu') || null;
   }
 
   /**
@@ -202,7 +215,7 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {Array<HTMLElement>} list of manually-defined menu items
    */
   get predefinedMenuItems(): Array<any> {
-    return [...this.querySelectorAll(`:scope > ids-menu-group:not(${MORE_ACTIONS_SELECTOR}) > ids-menu-item`)];
+    return [...this.querySelectorAll(`:scope > ids-popup-menu > ids-menu-group:not(${MORE_ACTIONS_SELECTOR}) > ids-menu-item`)];
   }
 
   /**
@@ -404,10 +417,12 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {void}
    */
   #connectOverflowedItems(): void {
+    if (!this.menu) return;
+
     // Render the "More Actions" area if it doesn't exist
-    const el = this.querySelector(MORE_ACTIONS_SELECTOR);
+    const el = this.menu.querySelector(MORE_ACTIONS_SELECTOR);
     if (!el && this.overflow) {
-      this.insertAdjacentHTML('afterbegin', this.#moreActionsMenuTemplate());
+      this.menu!.insertAdjacentHTML('afterbegin', this.#moreActionsMenuTemplate());
     }
     if (el && !this.overflow) {
       el.remove();
@@ -440,21 +455,26 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {void}
    */
   focus(): void {
-    this.button?.focus();
+    if (!this.visible) {
+      this.button?.focus();
+    } else {
+      this.menu?.focusTarget?.focus();
+    }
   }
 
   /**
    * @returns {boolean} true if there are currently visible actions in this menu
    */
   hasVisibleActions(): boolean {
-    return this.querySelectorAll(':scope > ids-menu-group > ids-menu-item:not([hidden])').length > 0;
+    return this.predefinedMenuItems.length > 0
+      || this.querySelectorAll(`:scope > ids-popup-menu > ids-menu-group${MORE_ACTIONS_SELECTOR} > ids-menu-item:not([hidden])`).length > 0;
   }
 
   /**
    * @returns {boolean} true if there are currently enabled (read: not disabled) actions in this menu
    */
   hasEnabledActions(): boolean {
-    return this.querySelectorAll(':scope > ids-menu-group > ids-menu-item:not([disabled])').length > 0;
+    return this.querySelectorAll(`:scope > ids-popup-menu > ids-menu-group${MORE_ACTIONS_SELECTOR} > ids-menu-item:not([disabled])`).length > 0;
   }
 
   /**

@@ -20,6 +20,3 @@
   - link: side-by-side.html
     type: Side-by-Side
     description: Showing a Popup Menu side by side with 4.x
-  - link: standalone-css.html
-    type: Standalone CSS
-    description: Showing Popup Menu that works with css only
