@@ -121,6 +121,14 @@ menu.data = {
 document.body.appendChild(menu);
 ```
 
+### Size
+
+IdsPopupMenu accepts `max-height` and `width` properties, which it passes directly into its inner [IdsPopup](../ids-popup/README.md#size) component for sizing:
+
+```html
+<ids-popup-menu id="popupmenu" max-height="550px" width="400px"></ids-popupmenu>
+```
+
 ## Converting from Previous Versions (Breaking Changes)
 
 **3.x to 4.x**

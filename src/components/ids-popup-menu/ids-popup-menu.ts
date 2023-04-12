@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
-import { getElementAtMouseLocation } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { getElementAtMouseLocation, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
 import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
@@ -9,6 +9,8 @@ import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 
 import '../ids-popup/ids-popup';
+import type IdsPopup from '../ids-popup/ids-popup';
+import { onPlace } from '../ids-popup/ids-popup-attributes';
 import IdsMenu from '../ids-menu/ids-menu';
 
 import styles from './ids-popup-menu.scss';
@@ -35,6 +37,9 @@ const Base = IdsPopupOpenEventsMixin(
 @customElement('ids-popup-menu')
 @scss(styles)
 export default class IdsPopupMenu extends Base {
+  /** Component's first child element (in IdsPopupMenu, this is always an IdsPopup component) */
+  container?: IdsPopup | null = null;
+
   constructor() {
     super();
   }
@@ -43,6 +48,7 @@ export default class IdsPopupMenu extends Base {
     return [
       ...super.attributes,
       attributes.ALIGN,
+      attributes.MAX_HEIGHT,
       attributes.WIDTH
     ];
   }
@@ -54,8 +60,9 @@ export default class IdsPopupMenu extends Base {
   template(): string {
     const menuTemplate = super.template();
     const alignAttr = this.align ? ` align="${this.align}"` : '';
+    const maxHeightAttr = this.maxHeight ? ` max-height="${this.maxHeight}"` : '';
 
-    return `<ids-popup class="ids-popup-menu" type="menu"${alignAttr}>${menuTemplate}</ids-popup>`;
+    return `<ids-popup class="ids-popup-menu" type="menu"${alignAttr}${maxHeightAttr}>${menuTemplate}</ids-popup>`;
   }
 
   /**
@@ -79,6 +86,7 @@ export default class IdsPopupMenu extends Base {
       this.triggerType = 'hover';
       this.align = 'right, top';
     }
+    this.setOnPlace(!!this.parentMenuItem);
   }
 
   /**
@@ -163,6 +171,7 @@ export default class IdsPopupMenu extends Base {
     // Arrow Right on an item containing a submenu causes that submenu to open
     this.unlisten('ArrowRight');
     this.listen(['ArrowRight'], this, (e: any) => {
+      e.stopPropagation();
       e.preventDefault();
       const thisItem = e.target.closest('ids-menu-item');
       if (thisItem.hasSubmenu) {
@@ -174,23 +183,20 @@ export default class IdsPopupMenu extends Base {
     // on a parent menu item to occur.
     // NOTE: This will never occur on a top-level Popupmenu.
     this.unlisten('ArrowLeft');
-    if (this.parentMenu) {
-      this.listen(['ArrowLeft'], this, (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.hide();
-        this.parentMenuItem?.focus();
-      });
-    }
+    this.listen(['ArrowLeft'], this, (e: any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (this.parentMenu) {
+        this.hideAndFocus(true);
+      }
+    });
 
     // Escape closes the menu
     // (NOTE: This only applies to top-level Popupmenus)
     this.unlisten('Escape');
     if (!this.parentMenu) {
       this.listen(['Escape'], this, (e: any) => {
-        if (this.hidden) {
-          return;
-        }
+        if (this.hidden) return;
         e.preventDefault();
         e.stopPropagation();
 
@@ -198,6 +204,14 @@ export default class IdsPopupMenu extends Base {
         this.hideAndFocus();
       });
     }
+  }
+
+  /**
+   * @readonly
+   * @returns {IdsPopupMenu} parent popup menu component, if this menu is a submenu
+   */
+  get parentMenu() {
+    return this.parentElement?.closest<IdsPopupMenu>('ids-popup-menu');
   }
 
   /**
@@ -263,7 +277,6 @@ export default class IdsPopupMenu extends Base {
 
     // Show the popup and do placement
     this.popup?.setAttribute('visible', 'true');
-    this.popup?.place();
 
     this.addOpenEvents();
   }
@@ -317,12 +330,36 @@ export default class IdsPopupMenu extends Base {
 
   /**
    * Hides the popup menu and focuses a target element, if applicable
+   * @param {boolean} [focusParent] true if focus should be placed on a parent menu item
    * @returns {void}
    */
-  hideAndFocus(): void {
+  hideAndFocus(focusParent?: boolean): void {
     this.hide();
-    if (this.target) {
-      this.target.focus();
+
+    // Focus a parent menu item if possible, otherwise focus the menu's target
+    const focusTarget = this.parentMenu && focusParent ? this.parentMenuItem : this.target;
+    focusTarget?.focus();
+  }
+
+  /**
+   * @returns {string | null} The max height value
+   */
+  get maxHeight(): string | null {
+    return this.getAttribute(attributes.MAX_HEIGHT);
+  }
+
+  /**
+   * Set the max height value
+   * @param {string | number | null} value The value
+   */
+  set maxHeight(value: string | number | null) {
+    const val = validMaxHeight(value);
+    if (val) {
+      this.setAttribute(attributes.MAX_HEIGHT, val);
+      this.popup?.setAttribute(attributes.MAX_HEIGHT, val);
+    } else {
+      this.removeAttribute(attributes.MAX_HEIGHT);
+      this.popup?.removeAttribute(attributes.MAX_HEIGHT);
     }
   }
 
@@ -460,5 +497,38 @@ export default class IdsPopupMenu extends Base {
   onTriggerHoverClick(e: MouseEvent): boolean {
     e.preventDefault();
     return this.onTriggerClick(e);
+  }
+
+  /**
+   * Sets the `onPlace` method for submenus to account for the host element's position
+   * @param {boolean} val true if the `onPlace` method should account for a parent menu's placement
+   */
+  private setOnPlace(val: boolean) {
+    if (this.popup) {
+      if (val) {
+        this.popup.scrollParentElem = this.parentMenu?.popup?.wrapper;
+        this.popup.onPlace = (popupRect: DOMRect): DOMRect => {
+          const parentPopup = this.parentMenu && this.parentMenu.popup!;
+          if (this.container && parentPopup) {
+            this.container.removeAttribute('style');
+
+            // accounts for top/bottom padding + border thickness
+            const extra = 10;
+
+            // adjusts for nested `relative` positioned offsets, and scrolled containers
+            const xAdjust = (parentPopup.offsetLeft || 0)
+              - this.container.scrollParentElem!.scrollLeft;
+            const yAdjust = (parentPopup.offsetTop || 0)
+              - this.container.scrollParentElem!.scrollTop + extra;
+
+            popupRect.x -= xAdjust;
+            popupRect.y -= yAdjust;
+          }
+          return popupRect;
+        };
+      } else {
+        this.popup.onPlace = onPlace;
+      }
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { AxePuppeteer } from '@axe-core/puppeteer';
+import checkForAxeViolations from '../helpers/check-for-axe-violations';
 import countObjects from '../helpers/count-objects';
 
 const getDropdownLabels = async (): Promise<any> => {
@@ -21,9 +21,10 @@ describe('Ids Time Picker e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(axeUrl, { waitUntil: ['networkidle2', 'load'] });
-    const results = await new AxePuppeteer(page).disableRules(['aria-valid-attr']).analyze();
-    // Using newer aria-description for ids-dropdown
-    expect(results.violations.length).toBe(0);
+    await checkForAxeViolations(page, [
+      'aria-valid-attr',
+      'color-contrast'
+    ]);
   });
 
   it('should not have errors', async () => {

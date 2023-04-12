@@ -149,7 +149,7 @@ export default class IdsMenu extends Base {
       this.navigate(-1, true);
     });
 
-    // Arrow Right navigates focus forward
+    // Arrow Down navigates focus forward
     this.unlisten('ArrowDown');
     this.listen(['ArrowDown'], this, (e: any) => {
       e.preventDefault();
@@ -456,7 +456,7 @@ export default class IdsMenu extends Base {
    * @returns {IdsMenu} parent menu component, if this menu is a submenu
    */
   get parentMenu() {
-    return this.parentElement?.closest('ids-menu, ids-popup-menu');
+    return this.parentElement?.closest<IdsMenu>('ids-menu');
   }
 
   /**
