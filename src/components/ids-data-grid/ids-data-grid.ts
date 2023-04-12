@@ -1363,19 +1363,22 @@ export default class IdsDataGrid extends Base {
    * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
    */
   scrollRowIntoView(rowIndex: number, doScroll = true) {
-    if (!this.virtualScroll) return;
     if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
 
     const data = this.data;
     const rows = this.rows;
     if (!data.length || !rows.length) return;
 
-    const virtualScrollSettings = this.virtualScrollSettings;
-
     const maxRowIndex = data.length - 1;
     rowIndex = Math.max(rowIndex, 0);
     rowIndex = Math.min(rowIndex, maxRowIndex);
 
+    if (!this.virtualScroll) {
+      this.rowByIndex(rowIndex)?.scrollIntoView();
+      return;
+    }
+
+    const virtualScrollSettings = this.virtualScrollSettings;
     const container = this.container;
     const body = this.body;
 
