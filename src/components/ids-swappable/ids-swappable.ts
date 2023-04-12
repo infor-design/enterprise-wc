@@ -5,7 +5,6 @@ import {
 
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsSelectionMixin from '../../mixins/ids-selection-mixin/ids-selection-mixin';
@@ -14,13 +13,11 @@ import IdsElement from '../../core/ids-element';
 import styles from './ids-swappable.scss';
 import IdsSwappableItem from './ids-swappable-item';
 
-const Base = IdsThemeMixin(
-  IdsKeyboardMixin(
-    IdsLocaleMixin(
-      IdsEventsMixin(
-        IdsSelectionMixin(
-          IdsElement
-        )
+const Base = IdsKeyboardMixin(
+  IdsLocaleMixin(
+    IdsEventsMixin(
+      IdsSelectionMixin(
+        IdsElement
       )
     )
   )
@@ -31,7 +28,6 @@ const Base = IdsThemeMixin(
  * @type {IdsSwappable}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-swappable')
 @scss(styles)

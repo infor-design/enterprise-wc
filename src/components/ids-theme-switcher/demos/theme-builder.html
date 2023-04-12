@@ -303,6 +303,19 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <!-- List Builder -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">List Builder</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid  cols="2">
+          <ids-list-builder height="310px" selectable="single" id="list-builder-tb">
+            <template>
+              <ids-text font-size="16" type="span">${manufacturerName}</ids-text>
+            </template>
+          </ids-list-builder>
+        </ids-layout-grid>
+
         <!-- Notification Banner -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Notification Banner</ids-text>
@@ -406,6 +419,39 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <!-- Slider -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Slider</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h3">Single Slider: </ids-text>
+            <ids-slider type="single" show-tooltip label="Single-thumb"></ids-slider>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h3">Range Slider: </ids-text>
+            <ids-slider type="range" show-tooltip label="Multi-thumb minimum" label-secondary="Multi-thumb maximum"></ids-slider>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h3">Step Slider: </ids-text>
+            <ids-slider type="step" step-number="11" show-tooltip label="Single-thumb with steps"></ids-slider>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h3">Vertical Sliders: </ids-text>
+            <ids-slider type="single" vertical color="red" show-tooltip label="Colorful single-thumb"></ids-slider>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-slider type="range" vertical color="green" show-tooltip label="Colorful multi-thumb minimum" label-secondary="Colorful multi-thumb maximum"></ids-slider>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-slider class="survey" type="step" vertical step-number="6" color="" label="Status"></ids-slider>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Step Chart -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Step Chart</ids-text>
@@ -417,6 +463,36 @@
             </ids-step-chart>
             <ids-step-chart class="chart" label="2 of 7 steps completed" color="azure06" step-number="7" value="2">
             </ids-step-chart>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Swappable -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Swappable</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid  cols="2">
+          <ids-layout-grid-cell col-span="1">
+            <ids-swappable id="swappable-tb" selection="multiple">
+              <ids-swappable-item class="p-8">
+                <ids-text font-size="16" type="p">Swappable Item 1</ids-text>
+              </ids-swappable-item>
+              <ids-swappable-item class="p-8">
+                <ids-text font-size="16" type="p">Swappable Item 2</ids-text>
+              </ids-swappable-item>
+              <ids-swappable-item class="p-8">
+                <ids-text font-size="16" type="p">Swappable Item 3</ids-text>
+              </ids-swappable-item>
+              <ids-swappable-item class="p-8">
+                <ids-text font-size="16" type="p">Swappable Item 4</ids-text>
+              </ids-swappable-item>
+              <ids-swappable-item class="p-8">
+                <ids-text font-size="16" type="p">Swappable Item 5</ids-text>
+              </ids-swappable-item>
+              <ids-swappable-item class="p-8">
+                <ids-text font-size="16" type="p">Swappable Item 6</ids-text>
+              </ids-swappable-item>
+            </ids-swappable>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 

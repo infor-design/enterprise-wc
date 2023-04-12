@@ -1,11 +1,9 @@
-@import '../../core/ids-base';
-
 :host {
   display: inherit;
-  border: 1px dashed transparent;
+  border: var(--ids-swappable-active-border);
   height: 100%;
 }
 
 :host([active]) {
-  border-color: var(--ids-color-palette-slate-80);
+  border-color: var(--ids-swappable-active-border-color);
 }

@@ -279,6 +279,27 @@
   // Required
   --ids-required-background-color: var(--ids-color-error-60);
 
+    // Slider
+    --ids-slider-tick-background-color: var(--ids-color-azure-60);
+    --ids-slider-thumb-background-color: var(--ids-color-azure-60);
+    --ids-slider-thumb-shadow-border-color: var(--ids-color-azure-60);
+    --ids-slider-track-background-color: var(--ids-color-slate-70);
+    --ids-slider-track-progress-background-color: var(--ids-color-azure-60);
+    --ids-slider-tooltip-background-color: var(--ids-color-slate-00);
+    --ids-slider-tooltip-text-color: var(--ids-color-slate-100);
+    --ids-slider-disabled-color: var(--ids-color-slate-20);
+    --ids-slider-disabled-tick-background-color: var(--ids-color-slate-40);
+    --ids-slider-disabled-thumb-background-color: var(--ids-color-slate-40);
+    --ids-slider-disabled-track-background-color: var(--ids-color-slate-50);
+    --ids-slider-disabled-track-progress-background-color: var(--ids-color-slate-40);
+    --ids-slider-readonly-color: var(--ids-color-slate-20);
+    --ids-slider-readonly-tick-background-color: var(--ids-color-slate-40);
+    --ids-slider-readonly-thumb-background-color: var(--ids-color-slate-40);
+    --ids-slider-readonly-thumb-shadow-background-color: rgba(151 151 155 / 0.1);
+    --ids-slider-readonly-thumb-shadow-border-color:  var(--ids-color-slate-40);
+    --ids-slider-readonly-track-background-color: var(--ids-color-slate-70);
+    --ids-slider-readonly-track-progress-background-color: var(--ids-color-slate-40);
+
   // Splitter
   --ids-splitter-bar-dragging-background-color: var(--ids-color-slate-70);
   --ids-splitter-bar-hover-background-color: var(--ids-color-slate-70);
@@ -286,6 +307,10 @@
   // Step Chart
   --ids-step-chart-step-background-color: var(--ids-color-slate-70);
   --ids-step-chart-step-completed-background-color: var(--ids-color-palette-azure-60);
+
+  // Swappable
+  --ids-swappable-item-hover-background-color: var(--ids-color-slate-60);
+  --ids-swappable-item-selected-background-color: var(--ids-color-azure-60);
 
   // Swipe Action
   --ids-swipe-action-button-active-background-color: var(--ids-input-hover-border-color);

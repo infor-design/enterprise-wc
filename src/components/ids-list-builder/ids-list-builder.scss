@@ -1,10 +1,8 @@
-@import '../../core/ids-base';
-
 .ids-list-builder {
   display: flex;
   flex-direction: column;
-  border-radius: 2px;
-  border: 1px solid var(--ids-color-palette-slate-40);
+  border: var(--ids-list-builder-border);
+  border-radius: var(--ids-list-builder-border-radius);
 
   // Editing State
   .ids-list-view-body div[part='list-item'].is-editing > ids-text,
@@ -18,11 +16,10 @@
 
     ids-input {
       &::part(input) {
-        @include border-0();
-
-        background-color: transparent;
-        height: 20px;
-        padding: 0;
+        background-color: var(--ids-list-builder-list-view-input-background-color);
+        border-width: var(--ids-list-builder-list-view-input-border-width);
+        height: var(--ids-list-builder-list-view-input-height);
+        padding: var(--ids-list-builder-list-view-input-padding);
       }
 
       &::part(field-container) {
@@ -31,25 +28,23 @@
     }
 
     div[part='list-item'] {
-      @include list-none();
-      @include py-12();
-      @include px-20();
-
-      border: 1px solid transparent;
+      border: var(--ids-list-builder-list-view-item-border);
+      padding: var(--ids-list-builder-list-view-item-padding);
+      min-height: var(--ids-list-builder-list-view-item-min-height);
+      height: var(--ids-list-builder-list-view-item-height);
+      list-style-type: none;
       box-sizing: border-box;
       cursor: pointer;
       position: relative;
-      min-height: 44px;
       width: 100%;
-      height: 48px;
 
       &:hover span::after {
         position: absolute;
         left: 0;
         transform: translate(100%, -8%);
-        font-size: 24px;
-        content: '\205e';
-        cursor: move;
+        font-size: var(--ids-list-builder-list-view-item-drag-handle-font-size);
+        content: var(--ids-list-builder-list-view-item-drag-handle-content);
+        cursor: var(--ids-list-builder-list-view-item-drag-handle-cursor);
       }
 
       ids-text::part(text) {
@@ -58,8 +53,8 @@
       }
 
       &.placeholder {
-        background-color: var(--ids-color-palette-azure-10);
-        opacity: 0.6;
+        background-color: var(--ids-list-builder-list-view-item-placeholder-background-color);
+        opacity: var(--ids-list-builder-list-view-item-placeholder-opacity);
       }
     }
   }

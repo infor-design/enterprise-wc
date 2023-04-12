@@ -17,11 +17,16 @@ import '../../ids-scrollable/ids-scrollable';
 import '../../ids-scrollable/ids-sticky';
 import '../../ids-toggle-button/ids-toggle-button';
 import '../../ids-toast/ids-toast';
+import '../../ids-slider/ids-slider';
+import '../../ids-swappable/ids-swappable';
+import '../../ids-swappable/ids-swappable-item';
+import '../../ids-list-builder/ids-list-builder';
 import '../../ids-step-chart/ids-step-chart';
 
 // Init Some components that need JS
 import type { IdsDataGridColumn } from '../../ids-data-grid/ids-data-grid-column';
 import booksJSON from '../../../assets/data/books.json';
+import bikesJSON from '../../../assets/data/bikes.json';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-1')!;
@@ -242,3 +247,65 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+// =================================================================
+// Slider
+// =================================================================
+const labels = [{
+  value: 0,
+  text: 'very bad',
+  color: 'var(--ids-color-ruby-100)'
+}, {
+  value: 20,
+  text: 'poor',
+  color: 'var(--ids-color-ruby-80)'
+}, {
+  value: 40,
+  text: 'average',
+  color: 'var(--ids-color-amber-80)'
+}, {
+  value: 60,
+  text: 'good',
+  color: 'var(--ids-color-amber-40)'
+}, {
+  value: 80,
+  text: 'very good',
+  color: 'var(--ids-color-emerald-60)'
+}, {
+  value: 100,
+  text: 'excellent',
+  color: 'var(--ids-color-emerald-90)'
+}];
+
+const getClosestLabelSettings = (targetValue: number) => labels.find((el) => targetValue <= el.value);
+
+document.addEventListener('DOMContentLoaded', () => {
+  const survey = (document as any).querySelector('.survey');
+  if (survey) {
+    // Set label text
+    survey.labels = labels.map((el) => el.text);
+
+    // Adjust slider track/tick color when value changes
+    const fixSliderColorOnChange = (e: CustomEvent) => {
+      const sliderValue = e.detail.value;
+      const targetLabelSettings = getClosestLabelSettings(sliderValue);
+      survey.color = targetLabelSettings?.color;
+    };
+    survey.color = getClosestLabelSettings(survey.value)?.color;
+    survey.onEvent('ids-slider-drag', survey, fixSliderColorOnChange);
+    survey.onEvent('change', survey, fixSliderColorOnChange);
+  }
+});
+
+// =================================================================
+// List Builder
+// =================================================================
+const listBuilderEl: any = document.querySelector('#list-builder-tb');
+if (listBuilderEl) {
+  const setData = async () => {
+    const res = await fetch((bikesJSON as any));
+    const data = await res.json();
+    listBuilderEl.data = data;
+  };
+  setData();
+}
