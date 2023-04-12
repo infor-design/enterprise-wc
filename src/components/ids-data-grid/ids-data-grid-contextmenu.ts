@@ -103,6 +103,9 @@ function showContextmenu(this: IdsDataGrid, e: MouseEvent): boolean {
       menuEl.popup?.place();
     }
 
+    // Set focus on correct menu item
+    menuEl.focusTarget.focus();
+
     this.triggerEvent('menushow', this, {
       bubbles: true, detail: { elem: this, data: args }
     });

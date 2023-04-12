@@ -1,13 +1,41 @@
 @import '../../core/ids-base';
 
+:host {
+  display: block;
+}
+
 :host([size='full']) {
   @include w-full();
+
+  ::part(container) {
+    display: block;
+  }
 }
 
 .ids-date-picker {
+  display: inline-block;
+  max-width: 100%;
+
   // Fixes input doesn't stretch to lg size and up
-  ids-input {
+  ids-trigger-field,
+  .ids-trigger-field {
+    display: inline-block;
     max-width: 100%;
+  }
+
+  ids-trigger-field {
+    &[size='full'] {
+      display: block;
+    }
+  }
+
+  &.full {
+    display: block;
+
+    ids-trigger-field,
+    .ids-trigger-field {
+      display: block;
+    }
   }
 
   // Is calendar toolbar

@@ -7,6 +7,7 @@ import {
   getClosest,
   getClosestRootNode,
   getEditableRect,
+  validMaxHeight,
   waitForTransitionEnd,
 } from '../../utils/ids-dom-utils/ids-dom-utils';
 
@@ -15,7 +16,7 @@ import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
-import type { IdsPopupElementRef } from './ids-popup-attributes';
+import type { IdsPopupElementRef, IdsPopupXYSwitchResult } from './ids-popup-attributes';
 
 import {
   CENTER,
@@ -28,6 +29,7 @@ import {
   ARROW_TYPES,
   POSITION_STYLES,
   TYPES,
+  POPUP_MAXHEIGHT_PROPNAME,
   POPUP_PROPERTIES,
   formatAlignAttribute
 } from './ids-popup-attributes';
@@ -58,6 +60,8 @@ export default class IdsPopup extends Base {
   shouldUpdate = false;
 
   isFlipped = false;
+
+  scrollParentElem?: HTMLElement | null;
 
   constructor() {
     super();
@@ -542,16 +546,59 @@ export default class IdsPopup extends Base {
    * @param {string | number | null} value The value
    */
   set maxHeight(value: string | number | null) {
-    let val: string | number | null = parseInt(value as string, 10);
-    val = (!Number.isNaN(val) && val > -1) ? `${val}px` : null;
+    const val = validMaxHeight(value);
     if (val) {
-      this.container?.classList.add('has-maxheight');
       this.setAttribute(attributes.MAX_HEIGHT, val);
     } else {
-      this.container?.classList.remove('has-maxheight');
       this.removeAttribute(attributes.MAX_HEIGHT);
     }
-    this.container?.style.setProperty('--ids-popup-maxheight', val);
+    this.#updateMaxHeightProp(val);
+  }
+
+  /**
+   * Defines an internal CSS variable used for defining a `max-height` attribute
+   * in the ShadowRoot of this component
+   * @param {string | number | null} val how to define the property
+   */
+  #updateMaxHeightProp(val?: string | number | null) {
+    if (this.positionStyle === 'viewport') {
+      this.wrapper?.setAttribute(attributes.TABINDEX, '0');
+      this.container?.style.setProperty(POPUP_MAXHEIGHT_PROPNAME, 'auto');
+      return;
+    }
+
+    const containerElem = (this.containingElem as HTMLElement);
+    let targetHeightConstraint = document.body.offsetHeight;
+    let targetValue = validMaxHeight(val || this.maxHeight);
+
+    if (containerElem) {
+      targetHeightConstraint = containerElem.offsetHeight;
+    } else if (window) {
+      targetHeightConstraint = window.innerHeight;
+      targetValue = `${targetHeightConstraint}px`;
+    }
+
+    if (targetValue) {
+      if (targetHeightConstraint < parseInt(targetValue)) {
+        targetValue = `${targetHeightConstraint}px`;
+      }
+    } else {
+      const currentPopupHeight = parseInt(window.getComputedStyle(this.wrapper!).height);
+      if (targetHeightConstraint <= currentPopupHeight) {
+        targetValue = `${targetHeightConstraint}px`;
+      }
+    }
+
+    if (this.container) {
+      if (this.wrapper) this.wrapper.setAttribute(attributes.TABINDEX, '0');
+      if (targetValue) {
+        this.container.style.setProperty(POPUP_MAXHEIGHT_PROPNAME, `${targetValue}`);
+        this.container.classList.add('has-maxheight');
+      } else {
+        this.container.classList.remove('has-maxheight');
+        this.container.style.removeProperty(POPUP_MAXHEIGHT_PROPNAME);
+      }
+    }
   }
 
   /**
@@ -1135,6 +1182,8 @@ export default class IdsPopup extends Base {
   place(): void {
     // NOTE: position-style="viewport" is driven by CSS only
     if (this.visible && this.positionStyle !== 'viewport') {
+      this.#updateMaxHeightProp();
+
       const { alignTarget } = this;
       if (!alignTarget) {
         this.#placeAtCoords();
@@ -1184,7 +1233,7 @@ export default class IdsPopup extends Base {
     popupRect = this.#nudge(popupRect);
 
     // Account for absolute-positioned parents
-    popupRect = this.#removeRelativeParentDistance(this.parentNode as HTMLElement, popupRect);
+    popupRect = this.#removeRelativeParentDistance(this.parentNode as HTMLElement, popupRect, this.scrollParentElem);
 
     // Make user-defined adjustments, if applicable
     if (typeof this.onPlace === 'function') {
@@ -1207,11 +1256,24 @@ export default class IdsPopup extends Base {
 
     this.#targetAlignEdge = this.#getPlacementEdge(popupRect);
 
+    const oppositeEdge = this.#getOppositeEdge(this.alignEdge);
     const shouldSwitchXY = this.alignEdge !== this.#targetAlignEdge
       && this.#getOppositeEdge(this.alignEdge) !== this.#targetAlignEdge;
+    let switchResult = {
+      flip: this.alignEdge !== this.#targetAlignEdge && !shouldSwitchXY,
+      oppositeEdge,
+      shouldSwitchXY,
+      targetEdge: this.#alignEdge,
+      x: shouldSwitchXY ? this.y : this.x,
+      y: shouldSwitchXY ? this.x : this.y
+    };
 
-    let x = shouldSwitchXY ? this.y : this.x;
-    let y = shouldSwitchXY ? this.x : this.y;
+    if (typeof this.onXYSwitch === 'function') {
+      switchResult = this.onXYSwitch(switchResult);
+    }
+
+    let x = switchResult.x;
+    let y = switchResult.y;
 
     const targetRect = this.alignTarget.getBoundingClientRect();
     const alignEdge = this.#targetAlignEdge || this.alignEdge;
@@ -1305,7 +1367,7 @@ export default class IdsPopup extends Base {
     popupRect = this.#nudge(popupRect);
 
     // Account for absolute-positioned parents
-    popupRect = this.#removeRelativeParentDistance(this.parentNode as HTMLElement, popupRect);
+    popupRect = this.#removeRelativeParentDistance(this.parentNode as HTMLElement, popupRect, this.scrollParentElem);
 
     // Make user-defined adjustments, if applicable
     if (typeof this.onPlace === 'function') {
@@ -1329,6 +1391,17 @@ export default class IdsPopup extends Base {
    */
   onPlace(popupRect: DOMRect): DOMRect {
     return popupRect;
+  }
+
+  /**
+   * Optional callback that can be used to further adjust the Popup's x/y offsets
+   * if a flip or other modification is made to the alignment edge
+   * when being placed in alignment mode.
+   * @param {IdsPopupXYSwitchResult} result contains settings related to the x/y adjustment.
+   * @returns {IdsPopupXYSwitchResult} provides further modifications.
+   */
+  onXYSwitch(result: IdsPopupXYSwitchResult) {
+    return result;
   }
 
   /**
@@ -1494,11 +1567,13 @@ export default class IdsPopup extends Base {
    * by subtracting the left/top values from the closest relative-positioned parent
    * @param {HTMLElement} elem the element to measure
    * @param {DOMRect} [rect] optionally pass in an existing rect and correct it
+   * @param {HTMLElement} [containerElem] optionally pass a container element for this one to check scrolling distance
    * @returns {DOMRect} measurements adjusted for an absolutely-positioned parent
    */
-  #removeRelativeParentDistance(elem: HTMLElement, rect: DOMRect): DOMRect {
+  #removeRelativeParentDistance(elem: HTMLElement, rect: DOMRect, containerElem?: HTMLElement | null): DOMRect {
     const elemRect = getEditableRect(rect || elem.getBoundingClientRect());
     let foundRelativeParent = false;
+    let scrollAdjusted = false;
 
     const removeRelativeDistance = (parent: any) => {
       let parentStyle: CSSStyleDeclaration;
@@ -1511,25 +1586,22 @@ export default class IdsPopup extends Base {
         if (parent instanceof HTMLElement || parent instanceof SVGElement) {
           parentStyle = getComputedStyle(parent);
           parentRect = parent.getBoundingClientRect();
+          const scrollElem = containerElem || parent!;
 
           // Add scrollLeft/scrollTop of container elements
-          if (parent.scrollLeft !== 0) {
-            elemRect.left += parent.scrollLeft;
-            elemRect.right += parent.scrollLeft;
-            elemRect.x += parent.scrollLeft;
-          }
-          if (parent.scrollTop !== 0) {
-            elemRect.top += parent.scrollTop;
-            elemRect.bottom += parent.scrollTop;
-            elemRect.y += parent.scrollTop;
+          if (!scrollAdjusted) {
+            if (scrollElem.scrollLeft !== 0) {
+              elemRect.x -= (scrollElem.scrollLeft);
+              scrollAdjusted = true;
+            }
+            if (scrollElem.scrollTop !== 0) {
+              elemRect.y -= (scrollElem.scrollTop);
+              scrollAdjusted = true;
+            }
           }
 
           // Remove relative parents' coordinates from the calculation
           if (parentStyle.position === 'relative') {
-            elemRect.bottom -= parentRect.bottom;
-            elemRect.left -= parentRect.left;
-            elemRect.right -= parentRect.right;
-            elemRect.top -= parentRect.top;
             elemRect.x -= parentRect.x;
             elemRect.y -= parentRect.y;
             foundRelativeParent = true;
