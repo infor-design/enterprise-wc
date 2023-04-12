@@ -148,18 +148,17 @@
   --ids-data-grid-header-unsorted-icon-color: var(--ids-color-slate-40);
   --ids-data-grid-header-sorted-icon-color: var(--ids-color-slate-100);
 
-    // Data Grid (Filter)
-    --ids-data-grid-filter-input-border-color: var(--ids-color-slate-60);
-    --ids-data-grid-filter-input-text-color: var(--ids-color-slate-90);
-    --ids-data-grid-filter-input-hover-color: var(--ids-color-slate-100);
-    --ids-data-grid-filter-input-focus-color:  var(--ids-color-azure-50);
-    --ids-data-grid-filter-input-disabled-border-color: var(--ids-color-slate-40);
-    --ids-data-grid-filter-input-disabled-text-color: var(--ids-color-slate-40);
-    --ids-data-grid-filter-input-readonly-background-color: var(--ids-color-slate-30);
-    --ids-data-grid-filter-input-readonly-border-color: var(--ids-color-slate-40);
-    --ids-data-grid-filter-input-readonly-text-color: var(--ids-color-slate-90);
-    --ids-data-grid-filter-input-placeholder-text-color: var(--ids-color-slate-40);
-
+  // Data Grid (Filter)
+  --ids-data-grid-filter-input-border-color: var(--ids-color-slate-60);
+  --ids-data-grid-filter-input-text-color: var(--ids-color-slate-90);
+  --ids-data-grid-filter-input-hover-color: var(--ids-color-slate-100);
+  --ids-data-grid-filter-input-focus-color:  var(--ids-color-azure-50);
+  --ids-data-grid-filter-input-disabled-border-color: var(--ids-color-slate-40);
+  --ids-data-grid-filter-input-disabled-text-color: var(--ids-color-slate-40);
+  --ids-data-grid-filter-input-readonly-background-color: var(--ids-color-slate-30);
+  --ids-data-grid-filter-input-readonly-border-color: var(--ids-color-slate-40);
+  --ids-data-grid-filter-input-readonly-text-color: var(--ids-color-slate-90);
+  --ids-data-grid-filter-input-placeholder-text-color: var(--ids-color-slate-40);
 
   // Data Grid (Rows)
   --ids-data-grid-row-selected-background-color: rgba(85 163 243 / 0.12);
@@ -332,6 +331,24 @@
   --ids-switch-toggle-hover-background-color: var(--ids-color-slate-30);
   --ids-switch-toggle-focus-shadow: 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 0 4px var(--ids-color-palette-azure-60);
 
+  // Tab
+  --ids-tab-content-text-color: var(--ids-text-color);
+  --ids-tab-hover-text-color: var(--ids-color-slate-00);
+  --ids-tab-hover-background-color: var(--ids-color-slate-60);
+  --ids-tab-focus-background-color: var(--ids-body-background-color);
+  --ids-tab-selected-text-color: var(--ids-color-azure-40);
+  --ids-tab-disabled-text-color: var(--ids-color-slate-60);
+
+  // Tab (Module Variant)
+  --ids-tab-module-background-color:  var(--ids-color-slate-70);
+  --ids-tab-module-border-right-color: var(--ids-color-azure-100);
+  --ids-tab-module-text-color: var(--ids-color-azure-10);
+  --ids-tab-module-hover-background-color:  var(--ids-color-slate-100);
+  --ids-tab-module-hover-text-color: var(--ids-color-slate-00);
+  --ids-tab-module-selected-background-color:  var(--ids-color-slate-60);
+  --ids-tab-module-disabled-background-color: var(--ids-color-slate-50);
+  --ids-tab-module-disabled-text-color: var(--ids-color-slate-30);
+
   // Tag
   --ids-tag-background-color: var(--ids-input-readonly-background-color);
   --ids-tag-border-color: var(--ids-input-readonly-background-color);
@@ -355,6 +372,10 @@
 
   // Toolbar
   --ids-toolbar-formatter-background-color: var(--ids-color-slate-20);
+
+  // Week View
+  --ids-week-view-border-color: var(--ids-color-slate-70);
+  --ids-week-view-row-odd-border-color: var(--ids-color-slate-80);
 
   // Wizard
   --ids-wizard-step-color: var(--ids-color-primary-40);

@@ -15,6 +15,8 @@ import '../../ids-month-view/ids-month-view';
 import '../../ids-pager/ids-pager';
 import '../../ids-scrollable/ids-scrollable';
 import '../../ids-scrollable/ids-sticky';
+import '../../ids-tabs/ids-tabs';
+import '../../ids-tabs/ids-tabs-context';
 import '../../ids-toggle-button/ids-toggle-button';
 import '../../ids-toast/ids-toast';
 import '../../ids-slider/ids-slider';
@@ -22,6 +24,7 @@ import '../../ids-swappable/ids-swappable';
 import '../../ids-swappable/ids-swappable-item';
 import '../../ids-list-builder/ids-list-builder';
 import '../../ids-step-chart/ids-step-chart';
+import '../../ids-week-view/ids-week-view';
 
 // Init Some components that need JS
 import type { IdsDataGridColumn } from '../../ids-data-grid/ids-data-grid-column';

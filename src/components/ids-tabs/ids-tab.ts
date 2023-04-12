@@ -5,7 +5,6 @@ import { stringToBool, buildClassAttrib } from '../../utils/ids-string-utils/ids
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsOrientationMixin from '../../mixins/ids-orientation-mixin/ids-orientation-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -18,11 +17,9 @@ type IdsTabOnActionCallback = (isSelected: boolean) => void;
 
 const Base = IdsColorVariantMixin(
   IdsOrientationMixin(
-    IdsThemeMixin(
-      IdsHideFocusMixin(
-        IdsEventsMixin(
-          IdsElement
-        )
+    IdsHideFocusMixin(
+      IdsEventsMixin(
+        IdsElement
       )
     )
   )
@@ -34,7 +31,6 @@ const Base = IdsColorVariantMixin(
  * @inherits IdsElement
  * @mixes IdsColorVariantMixin
  * @mixes IdsOrientationMixin
- * @mixes IdsThemeMixin
  * @mixes IdsHideFocusMixin
  * @mixes IdsEventsMixin
  * @part container - the tab container itself

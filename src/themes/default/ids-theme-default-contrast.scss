@@ -299,6 +299,11 @@
   --ids-switch-toggle-hover-background-color: var(--ids-color-slate-30);
   --ids-switch-toggle-focus-shadow: 0 0 0 3px var(--ids-color-primary-20), 0 0 0 4px var(--ids-color-primary-60), 0 0 4px 6px var(--ids-color-slate-20);
 
+  // Tab
+  --ids-tab-focus-hide-border-color: var(--ids-color-primary);
+  --ids-tab-module-background-color: var(--ids-color-azure-80);
+  --ids-tab-module-selected-background-color: var(--ids-color-azure-60);
+
   // Tag
   --ids-tag-background-color: var(--ids-input-readonly-background-color);
   --ids-tag-border-color: var(--ids-input-readonly-background-color);
@@ -314,6 +319,12 @@
 
   // Toolbar
   --ids-toolbar-formatter-background-color: var(--ids-color-slate-70);
+
+  // Week View
+  --ids-week-view-background-color: var(--ids-color-slate-00);
+  --ids-week-view-border-color: var(--ids-color-slate-30);
+  --ids-week-view-header-background-color: var(--ids-color-slate-00);
+  --ids-week-view-row-odd-border-color: var(--ids-color-slate-20);
 
   // Wizard
   --ids-wizard-step-color: var(--ids-color-primary);
