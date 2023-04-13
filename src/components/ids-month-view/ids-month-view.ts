@@ -966,7 +966,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
       : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.localeAPI?.isIslamic());
     this.triggerEvent('beforerendermonth', this, { bubbles: true, composed: true });
-    document.documentElement.style.setProperty('--ids-month-view-day-selected-hover', 'rgb(240 240 240 / 0.5)');
 
     const rowsTemplate = Array.from({ length: weeksCount }).map((_, weekIndex) => `<tr>${this.#getCellTemplate(weekIndex)}</tr>`).join('');
 
