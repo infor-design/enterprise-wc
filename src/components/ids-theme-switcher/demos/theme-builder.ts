@@ -3,46 +3,56 @@ import '../../ids-badge/ids-badge';
 import '../../ids-breadcrumb/ids-breadcrumb';
 import '../../ids-color-picker/ids-color-picker';
 import '../../ids-counts/ids-counts';
-import type IdsDataGrid from '../../ids-data-grid/ids-data-grid';
-import type { IdsDataGridColumn } from '../../ids-data-grid/ids-data-grid-column';
-import booksJSON from '../../../assets/data/books.json';
 import '../../ids-data-grid/ids-data-grid';
 import '../../ids-data-label/ids-data-label';
 import '../../ids-editor/ids-editor';
 import '../../ids-empty-message/ids-empty-message';
 import '../../ids-expandable-area/ids-expandable-area';
 import '../../ids-fieldset/ids-fieldset';
+import '../../ids-hierarchy/ids-hierarchy';
+import '../../ids-hierarchy/ids-hierarchy-item';
+import '../../ids-hierarchy/ids-hierarchy-legend';
+import '../../ids-hierarchy/ids-hierarchy-legend-item';
 import '../../ids-image/ids-image';
-import bikesJSON from '../../../assets/data/bikes.json';
 import '../../ids-list-builder/ids-list-builder';
-import '../../ids-modal/ids-modal';
+import '../../ids-masthead/ids-masthead';
 import '../../ids-menu/ids-menu';
 import '../../ids-menu-button/ids-menu-button';
+import '../../ids-modal/ids-modal';
 import '../../ids-month-view/ids-month-view';
 import '../../ids-notification-banner/ids-notification-banner';
 import '../../ids-pager/ids-pager';
 import '../../ids-popup/ids-popup';
-import css from '../../../assets/css/ids-popup/index.css';
 import '../../ids-progress-bar/ids-progress-bar';
 import '../../ids-rating/ids-rating';
-import '../../ids-search-field/ids-search-field';
 import '../../ids-scrollable/ids-scrollable';
 import '../../ids-scrollable/ids-sticky';
-import '../../ids-tabs/ids-tabs';
-import '../../ids-tabs/ids-tabs-context';
+import '../../ids-search-field/ids-search-field';
 import '../../ids-skip-link/ids-skip-link';
+import '../../ids-slider/ids-slider';
 import '../../ids-spinbox/ids-spinbox';
 import '../../ids-splitter/ids-splitter';
-import '../../ids-tag/ids-tag';
-import '../../ids-toast/ids-toast';
-import '../../ids-tooltip/ids-tooltip';
-import '../../ids-toggle-button/ids-toggle-button';
-import '../../ids-trigger-field/ids-trigger-field';
-import '../../ids-slider/ids-slider';
 import '../../ids-step-chart/ids-step-chart';
 import '../../ids-swappable/ids-swappable';
 import '../../ids-swappable/ids-swappable-item';
+import '../../ids-tabs/ids-tabs';
+import '../../ids-tabs/ids-tabs-context';
+import '../../ids-tag/ids-tag';
+import '../../ids-toast/ids-toast';
+import '../../ids-toggle-button/ids-toggle-button';
+import '../../ids-tooltip/ids-tooltip';
+import '../../ids-trigger-field/ids-trigger-field';
 import '../../ids-week-view/ids-week-view';
+
+// Assets
+import bikesJSON from '../../../assets/data/bikes.json';
+import booksJSON from '../../../assets/data/books.json';
+import css from '../../../assets/css/ids-popup/index.css';
+import headshot from '../../../assets/images/headshot-1.jpg';
+
+// Types
+import type IdsDataGrid from '../../ids-data-grid/ids-data-grid';
+import type { IdsDataGridColumn } from '../../ids-data-grid/ids-data-grid-column';
 
 // Implement Action Panel
 const actionPanelTriggerBtn: any = document.querySelector('#cap-trigger-btn');
@@ -374,3 +384,9 @@ if (listBuilderEl) {
   };
   setData();
 }
+
+// =================================================================
+// Hierarchy
+// =================================================================
+const headshotImg: any = window.document.getElementById('headshot');
+headshotImg.src = headshot;

@@ -283,7 +283,7 @@
   // These appear in places with dark background like app menu and masthead, generally default/tertiary buttons
   &.color-variant-alternate,
   &.color-variant-alternate-formatter {
-    color: var(--ids-button-formatter-text-color);
+    color: var(--ids-button-alternate-text-color);
     opacity: 0.8;
 
     &:not(.hide-focus).is-active,
@@ -293,7 +293,7 @@
     }
 
     &:hover {
-      color: var(--ids-button-formatter-text-color-hover);
+      color: var(--ids-button-alternate-text-color-hover);
       opacity: 1;
     }
 
@@ -310,6 +310,7 @@
 
   // Used on Editor and List Builder "darker" toolbars
   &.color-variant-alternate-formatter {
+    color: var(--ids-button-alternate-formatter-text-color);
     opacity: 1;
 
     &:not(.hide-focus).is-active,
@@ -323,6 +324,7 @@
 
     &:hover {
       background-color: transparent;
+      color: var(--ids-button-alternate-formatter-text-color-hover);
     }
 
     .ripple-effect {

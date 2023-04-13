@@ -130,9 +130,9 @@
   --ids-button-destructive-hover-background-color: var(--ids-color-error-10);
 
   // Button (Formatter)
-  --ids-button-formatter-text-color: var(--ids-color-slate-10);
+  --ids-button-alternate-formatter-text-color: var(--ids-color-slate-10);
   --ids-button-formatter-border-color: var(--ids-color-slate-00);
-  --ids-button-formatter-text-color-hover: var(--ids-color-slate-00);
+  --ids-button-alternate-formatter-text-color-hover: var(--ids-color-slate-00);
   --ids-button-formatter-disabled-text-color: var(--ids-color-slate-00);
   --ids-button-formatter-ripple-color: var(--ids-color-primary);
 
@@ -223,6 +223,10 @@
 
   // Icons
   --ids-icon-color: var(--ids-color-slate-100);
+
+  // Masthead
+  --ids-masthead-background-color: var(--ids-color-slate-80);
+  --ids-masthead-text-color: var(--ids-color-slate-30);
 
   // Modal
   --ids-modal-border-color: var(--ids-popup-color-60);

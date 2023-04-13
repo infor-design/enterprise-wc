@@ -386,7 +386,7 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <!-- Editor -->
+        <!-- Empty Message -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Empty Message</ids-text>
         </ids-layout-grid>
@@ -451,6 +451,116 @@
               <ids-input type="text" label="User Address" id="user-address"></ids-input>
             </ids-fieldset>
           </form>
+        </ids-layout-grid>
+
+        <!-- Hierarchy -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Hierarchy</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+
+            <ids-hierarchy-legend>
+              <ids-hierarchy-legend-item
+                text="Full Time"
+                color="azure-80"
+              ></ids-hierarchy-legend-item>
+              <ids-hierarchy-legend-item
+                text="Part Time"
+                color="turquoise-20"
+              ></ids-hierarchy-legend-item>
+              <ids-hierarchy-legend-item
+                text="Contractor"
+                color="amethyst-60"
+              ></ids-hierarchy-legend-item>
+              <ids-hierarchy-legend-item
+                text="Open Position"
+                color="slate-60"
+              ></ids-hierarchy-legend-item>
+            </ids-hierarchy-legend>
+
+            <ids-hierarchy>
+              <ids-hierarchy-item id="item-1" root-item expanded color="azure-80">
+                <img id="headshot" alt="item-1" slot="avatar" />
+                <ids-text slot="heading">Tony Cleveland</ids-text>
+                <ids-text slot="subheading">Director</ids-text>
+                <ids-text slot="micro">FT</ids-text>
+                <div slot="menu">
+                  <ids-menu-button part="icon-menu" menu="item-menu-id-one" id="item-menu-btn-id-one">
+                    <span class="audible">Popup Menu Button</span>
+                    <ids-icon icon="more"></ids-icon>
+                  </ids-menu-button>
+                  <ids-popup-menu id="item-menu-id-one" target="#item-menu-btn-id-one" trigger-type="click">
+                    <ids-menu-group>
+                      <ids-menu-item value="1">Option One</ids-menu-item>
+                      <ids-menu-item value="2">Option Two</ids-menu-item>
+                      <ids-menu-item value="3">Option Three</ids-menu-item>
+                    </ids-menu-group>
+                  </ids-popup-menu>
+                </div>
+
+                <ids-hierarchy-item id="item-2" color="turquoise-20">
+                  <ids-text slot="heading">Julie Dawes</ids-text>
+                  <ids-text slot="subheading">Records Clerk</ids-text>
+                  <ids-text slot="micro">PT</ids-text>
+                  <div slot="menu">
+                    <ids-menu-button part="icon-menu" menu="item-menu-id-two" id="item-menu-btn-id-two">
+                      <span class="audible">Popup Menu Button</span>
+                      <ids-icon icon="more"></ids-icon>
+                    </ids-menu-button>
+                    <ids-popup-menu id="item-menu-id-two" target="#item-menu-btn-id-two" trigger-type="click">
+                      <ids-menu-group>
+                        <ids-menu-item value="1">Option One</ids-menu-item>
+                        <ids-menu-item value="2">Option Two</ids-menu-item>
+                        <ids-menu-item value="3">Option Three</ids-menu-item>
+                        <ids-menu-item>More Options
+                          <ids-popup-menu>
+                            <ids-menu-group>
+                              <ids-menu-item value="4">Option Four</ids-menu-item>
+                              <ids-menu-item value="5">Option Five</ids-menu-item>
+                              <ids-menu-item value="6">Option Six</ids-menu-item>
+                            </ids-menu-group>
+                          </ids-popup-menu>
+                        </ids-menu-item>
+                      </ids-menu-group>
+                    </ids-popup-menu>
+                  </div>
+                </ids-hierarchy-item>
+                <ids-hierarchy-item id="item-3" color="amethyst-60">
+                  <ids-text slot="heading">Kaylee Edwards</ids-text>
+                  <ids-text slot="subheading">Records Manager</ids-text>
+                  <ids-text slot="micro">C</ids-text>
+                  <div slot="menu">
+                    <ids-menu-button part="icon-menu" menu="item-menu-id-three" id="item-menu-btn-id-three">
+                      <span class="audible">Popup Menu Button</span>
+                      <ids-icon icon="more"></ids-icon>
+                    </ids-menu-button>
+                    <ids-popup-menu id="item-menu-id-three" target="#item-menu-btn-id-three" trigger-type="click">
+                      <ids-menu-group>
+                        <ids-menu-item value="1">Option One</ids-menu-item>
+                        <ids-menu-item value="2">Option Two</ids-menu-item>
+                        <ids-menu-item value="3">Option Three</ids-menu-item>
+                      </ids-menu-group>
+                    </ids-popup-menu>
+                  </div>
+
+                  <ids-hierarchy-item id="item-4" color="slate-60">
+                    <ids-text slot="heading">Julie Dawes</ids-text>
+                    <ids-text slot="subheading">Records Clerk</ids-text>
+                    <ids-text slot="micro">OP</ids-text>
+
+                    <ids-hierarchy-item id="item-5" color="amethyst-60">
+                      <ids-text slot="heading">Tony Cleveland</ids-text>
+                      <ids-text slot="subheading">Director</ids-text>
+                      <ids-text slot="micro">C</ids-text>
+                    </ids-hierarchy-item>
+                  </ids-hierarchy-item>
+                </ids-hierarchy-item>
+              </ids-hierarchy-item>
+            </ids-hierarchy>
+
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Hyperlink -->
@@ -544,6 +654,30 @@
               link="https://infor.com">
             </ids-notification-banner>
           </ids-layout-gridcell>
+        </ids-layout-grid>
+
+        <!-- Masthead -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Masthead</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-masthead title="Infor Application" icon="logo" role="navigation">
+              <section title="start" slot="start">
+                <ids-button icon="grid"><span class="audible">Grid Button</span></ids-button>
+              </section>
+              <section title="center" slot="center">
+                <ids-button icon="home"><span>Home</span></ids-button>
+                <ids-button icon="star-outlined"><span>Star</span></ids-button>
+                <ids-button icon="info"><span>Info</span></ids-button>
+              </section>
+              <section title="end" slot="end">
+                <ids-button icon="user"><span class="audible">User Button</span></ids-button>
+                <ids-button icon="mingle-share"><span class="audible">Mingle Button</span></ids-button>
+                <ids-button icon="bookmark-outlined"><span class="audible">Bookmark Button</span></ids-button>
+              </section>
+            </ids-masthead>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Menu -->

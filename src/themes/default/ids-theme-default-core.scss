@@ -225,10 +225,14 @@
   --ids-button-tertiary-disabled-background-color: transparent;
   --ids-button-destructive-hover-background-color: var(--ids-color-error-10);
 
+  // Button (Alternate)
+  --ids-button-alternate-text-color: var(--ids-color-slate-10);
+  --ids-button-alternate-text-color-hover: var(--ids-color-slate-00);
+
   // Button (Formatter)
-  --ids-button-formatter-text-color: var(--ids-input-readonly-background-color);
+  --ids-button-alternate-formatter-text-color: var(--ids-input-readonly-background-color);
   --ids-button-formatter-border-color: var(--ids-color-slate-00);
-  --ids-button-formatter-text-color-hover: var(--ids-inverse-text-color);
+  --ids-button-alternate-formatter-text-color-hover: var(--ids-inverse-text-color);
   --ids-button-formatter-disabled-text-color: var(--ids-color-slate-40);
   --ids-button-formatter-ripple-color: var(--ids-color-primary-tertiary);
 
@@ -417,6 +421,19 @@
   // Expandable Area
   --ids-expandable-area-border-bottom: 1px solid var(--ids-color-slate-30);
 
+  // Hierarchy
+  --ids-hierarchy-legend-item-before-background-color: var(--ids-color-slate-20);
+  --ids-hierarchy-item-leaf-border-color: var(--ids-color-slate-30);
+  --ids-hierarchy-item-leaf-box-shadow: 0 0 8px rgba(0 0 0 / 0.1);
+  --ids-hierarchy-item-leaf-border-radius: var(--ids-border-radius-xs);
+  --ids-hierarchy-item-leaf-before-border-color: var(--ids-color-slate-30);
+  --ids-hierarchy-item-leaf-inside-background-color: var(--ids-color-slate-00);
+  --ids-hierarchy-item-leaf-inside-border-left: 5px solid var(--ids-color-slate-80);
+  --ids-hierarchy-item-leaf-inside-box-shadow: none;
+  --ids-hierarchy-item-avatar-border: var(--ids-spacing-sm) solid var(--ids-color-slate-80);
+  --ids-hierarchy-item-focus-box-shadow: none;
+  --ids-hierarchy-item-selected-leaf-box-shadow: 0 0 0 5px rgba(54 138 192 / 0.3);
+
   // Headers
   --ids-header-gradient-opaque: rgb(0 114 237 / 1);
   --ids-header-gradient-transparent: rgb(0 114 237 / 0);
@@ -508,6 +525,15 @@
   --ids-list-builder-list-view-item-drag-handle-font-size: var(--ids-font-size-xl);
   --ids-list-builder-list-view-item-placeholder-background-color: var(--ids-color-azure-10);
   --ids-list-builder-list-view-item-placeholder-opacity: 0.6;
+
+  // Masthead
+  --ids-masthead-background-color: var(--ids-color-slate-100); // black -> slate-100
+  --ids-masthead-text-color: var(--ids-color-slate-30);
+  --ids-masthead-padding-inline: var(--ids-spacing-xxl);
+  --ids-masthead-min-height: 40px;
+  --ids-masthead-logo-icon-padding-inline: var(--ids-spacing-lg);
+  --ids-masthead-logo-icon-top: var(--ids-spacing-xs);
+  --ids-masthead-title-margin-inline: var(--ids-spacing-lg);
 
   // Menu
   --ids-menu-header-font-weight: var(--ids-font-weight-semi-bold);

@@ -1,8 +1,5 @@
-@import '../../core/ids-base';
-
 .legend {
-  @include flex();
-
+  display: flex;
   justify-content: center;
   flex-flow: wrap;
   margin-block: calc(var(--ids-spacing-lg) * 6);
