@@ -922,6 +922,12 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       </td>`;
       if (typeof this.state.onDayRender === 'function') {
         cellTemplate = this.state.onDayRender(cellTemplate, dateKey);
+        document.documentElement.style.setProperty('--ids-month-view-day-selected-bg', '#F7E6BC');
+        document.documentElement.style.setProperty('--ids-month-view-day-border', '2px solid #EABA3B');
+        document.documentElement.style.setProperty('--ids-box-shadow-2', '0');
+        document.documentElement.style.setProperty('--ids-box-shadow-5', '0');
+        document.documentElement.style.setProperty('--ids-month-view-day-selected-blue', '#F7E6BC');
+        document.documentElement.style.setProperty('--ids-month-view-day-selected-hover', '#FFF9E9');
       }
       return cellTemplate;
     }).join('');
@@ -960,6 +966,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
       : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.localeAPI?.isIslamic());
     this.triggerEvent('beforerendermonth', this, { bubbles: true, composed: true });
+    document.documentElement.style.setProperty('--ids-month-view-day-selected-hover', 'rgb(240 240 240 / 0.5)');
 
     const rowsTemplate = Array.from({ length: weeksCount }).map((_, weekIndex) => `<tr>${this.#getCellTemplate(weekIndex)}</tr>`).join('');
 
@@ -1653,6 +1660,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
   /**
    * Function that fires as the day cell is rendered.
    * @param {Function} func
+   * @returns {}
    */
   public get onDayRender() {
     return this.state.onDayRender;
