@@ -1,26 +1,38 @@
-@import '../../core/ids-base';
-
-// Semi-transparent colors (temporary until we move these to design tokens)
-// See infor-design/design-system#490
-$ids-slider-thumb-color-light: rgba(0 114 237 / 0.1);
-$ids-slider-thumb-readonly-shadow-color-light: rgba(119 119 124 / 0.1);
-$ids-slider-thumb-color-dark: rgba(0 114 237 / 0.1);
-$ids-slider-thumb-readonly-shadow-color-dark: rgba(151 151 155 / 0.1);
-$ids-slider-thumb-color-contrast: rgba(0 74 153 / 0.1);
-$ids-slider-thumb-readonly-shadow-color-contrast: rgba(71 71 76 / 0.1);
-$ids-slider-thumb-hover-shadow-light: rgba(0 0 0 / 0.4);
-$ids-slider-thumb-hover-shadow-dark: rgba(255 255 255 / 0.4);
-$ids-slider-thumb-hover-shadow-contrast: rgba(0 0 0 / 0.4);
+@import '../../themes/mixins/ids-core-mixins';
 
 :host {
   position: relative;
-
-  @include w-full();
+  width: 100%;
 }
 
 .ids-slider {
   display: flex;
   justify-content: center;
+
+  .tick {
+    background-color: var( --ids-slider-tick-background-color);
+  }
+
+  .thumb-shadow {
+    background-color: var(--ids-slider-thumb-shadow-background-color);
+    border-color: var(--ids-slider-thumb-shadow-border-color);
+  }
+
+  .thumb {
+    background-color: var(--ids-slider-thumb-background-color);
+
+    &:hover {
+      box-shadow: var(--ids-slider-thumb-hover-box-shadow);
+    }
+  }
+
+  .track {
+    background-color: var(--ids-slider-track-background-color);
+  }
+
+  .track-progress {
+    background-color: var(--ids-slider-track-progress-background-color);
+  }
 
   // horizontal slider rules only
   &:not(.vertical) {
@@ -65,31 +77,67 @@ $ids-slider-thumb-hover-shadow-contrast: rgba(0 0 0 / 0.4);
 
   // Disabled cursor rules
   &.disabled {
+    color: var(--ids-slider-disabled-color);
+
     .label {
       cursor: default;
     }
 
+    .tick {
+      background-color: var(--ids-slider-disabled-tick-background-color);
+    }
+
+    .thumb-shadow {
+      display: none;
+    }
+
     .thumb {
+      background-color: var(--ids-slider-disabled-thumb-background-color);
       cursor: default;
     }
 
     .track-area {
       cursor: default;
     }
+
+    .track {
+      background-color: var(--ids-slider-disabled-track-background-color);
+    }
+
+    .track-progress {
+      background-color: var(--ids-slider-disabled-track-progress-background-color);
+    }
   }
 
   // Readonly cursor rules
   &.readonly {
+    color: var(--ids-slider-readonly-color);
+
     .label {
       cursor: default;
     }
 
+    .tick {
+      background-color: var(--ids-slider-readonly-tick-background-color);
+    }
+
     .thumb {
+      background-color: var(--ids-slider-readonly-thumb-background-color);
       cursor: pointer;
     }
 
     .thumb-shadow {
+      background-color: var(--ids-slider-readonly-thumb-shadow-background-color);
+      border-color: var(--ids-slider-readonly-thumb-shadow-border-color);
       cursor: pointer;
+    }
+
+    .track {
+      background-color: var(--ids-slider-readonly-track-background-color);
+    }
+
+    .track-progress {
+      background-color: var(--ids-slider-readonly-track-progress-background-color);
     }
 
     .track-area {
@@ -99,9 +147,6 @@ $ids-slider-thumb-hover-shadow-contrast: rgba(0 0 0 / 0.4);
 }
 
 .slider {
-  --tick-size: 8px;
-  --thumb-size: 16px;
-
   display: inline-flex;
   position: relative;
   width: 92%; // horizontal
@@ -128,9 +173,9 @@ $ids-slider-thumb-hover-shadow-contrast: rgba(0 0 0 / 0.4);
 
   .tick {
     display: flex;
-    width: var(--tick-size);
-    height: var(--tick-size);
-    border-radius: 50%;
+    width: var(--ids-slider-tick-size);
+    height: var(--ids-slider-tick-size);
+    border-radius: var(--ids-border-radius-round);
     z-index: 40;
     justify-content: center;
   }
@@ -152,15 +197,17 @@ $ids-slider-thumb-hover-shadow-contrast: rgba(0 0 0 / 0.4);
   }
 
   .tooltip {
+    background-color: var(--ids-slider-tooltip-background-color);
+    color: var(--ids-slider-tooltip-text-color);
     display: flex;
     justify-content: center;
     position: absolute;
     width: auto;
-    padding: 1px;
+    padding: var(--ids-spacing-xs);
     height: auto;
     text-align: center;
     margin: auto;
-    border-radius: 2px;
+    border-radius: var(--ids-border-radius-xs);
     vertical-align: middle;
     line-height: 30px;
     max-width: 300px;
@@ -185,7 +232,7 @@ $ids-slider-thumb-hover-shadow-contrast: rgba(0 0 0 / 0.4);
       margin-top: 1px; // horizontal
       left: 14px; // horizontal
       border-left: 6px solid transparent; // horizontal
-      border-top: 6px solid transparent; // horizontal
+      border-top: 6px solid var(--ids-slider-tooltip-background-color); // horizontal
       border-right: 6px solid transparent; // horizontal
 
       &.vertical {
@@ -193,7 +240,7 @@ $ids-slider-thumb-hover-shadow-contrast: rgba(0 0 0 / 0.4);
         bottom: unset;
         margin-top: unset;
         border-top: 6px solid transparent;
-        border-right: 6px solid transparent;
+        border-right: 6px solid var(--ids-slider-tooltip-background-color);
         border-bottom: 6px solid transparent;
         right: 100%;
         transform: translate(0, 10px);
@@ -211,8 +258,8 @@ $ids-slider-thumb-hover-shadow-contrast: rgba(0 0 0 / 0.4);
   }
 
   .thumb {
-    width: var(--thumb-size);
-    height: var(--thumb-size);
+    width: var(--ids-slider-thumb-size);
+    height: var(--ids-slider-thumb-size);
     border-radius: 50%;
     z-index: 50 !important;
   }
@@ -222,7 +269,7 @@ $ids-slider-thumb-hover-shadow-contrast: rgba(0 0 0 / 0.4);
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    border-width: 1px;
+    border-width: var(--ids-spacing-xs);
     border-style: solid;
     transition: transform $transition-length $transition-ease;
     transform: scale(0);
@@ -234,10 +281,10 @@ $ids-slider-thumb-hover-shadow-contrast: rgba(0 0 0 / 0.4);
 
   .track-area {
     width: 100%; // horizontal
-    height: 24px; // horizontal
+    height: var(--ids-spacing-4xl); // horizontal
     &.vertical {
       height: 100%; // vert
-      width: 24px; // vert
+      width: var(--ids-spacing-4xl); // vert
     }
 
     background-color: transparent;
@@ -253,17 +300,17 @@ $ids-slider-thumb-hover-shadow-contrast: rgba(0 0 0 / 0.4);
     display: flex;
     align-items: center; // horizontal
     justify-content: flex-start; // horizontal
-    height: 4px; // horizontal
-    width: calc(100% - (var(--thumb-size) / 2)); // horizontal
+    height: var(--ids-spacing-md); // horizontal
+    width: calc(100% - (var(--ids-slider-thumb-size) / 2)); // horizontal
     &.vertical {
       justify-content: center; // vertical
-      width: 4px; // vert
-      height: calc(100% - (var(--thumb-size) / 2)); // vert
+      width: var(--ids-spacing-md); // vert
+      height: calc(100% - (var(--ids-slider-thumb-size) / 2)); // vert
     }
 
     position: absolute;
     z-index: 30;
-    border-radius: 2px;
+    border-radius: var(--ids-border-radius-xs);
 
     .track-progress {
       height: inherit;
@@ -277,280 +324,6 @@ $ids-slider-thumb-hover-shadow-contrast: rgba(0 0 0 / 0.4);
         width: 100%; // vert
         bottom: 0%; // vert
       }
-    }
-  }
-}
-
-// =======================================
-// Themes
-
-.ids-slider[mode='light'],
-.ids-slider:not([mode]) {
-  .tick {
-    background-color: var(--ids-color-brand-primary-base);
-  }
-
-  .thumb-shadow {
-    background-color: $ids-slider-thumb-color-light;
-    border-color: var(--ids-color-brand-primary-base);
-  }
-
-  .thumb {
-    background-color: var(--ids-color-brand-primary-base);
-  }
-
-  .track {
-    background-color: var(--ids-color-palette-slate-40);
-  }
-
-  .track-progress {
-    background-color: var(--ids-color-brand-primary-base);
-  }
-
-  .tooltip {
-    background-color: var(--ids-color-palette-slate-80);
-    color: var(--ids-color-palette-white);
-
-    .pin {
-      border-top-color: var(--ids-color-palette-slate-80);
-
-      &.vertical {
-        border-top-color: transparent;
-        border-right-color: var(--ids-color-palette-slate-80);
-      }
-    }
-  }
-
-  &:not(.disabled) {
-    .thumb:hover {
-      box-shadow: 0 2px 5px $ids-slider-thumb-hover-shadow-light;
-    }
-  }
-
-  &.disabled {
-    color: var(--ids-color-palette-slate-30);
-
-    .tick {
-      background-color: var(--ids-color-palette-slate-30);
-    }
-
-    .thumb-shadow {
-      display: none;
-    }
-
-    .thumb {
-      background-color: var(--ids-color-palette-slate-30);
-    }
-
-    .track {
-      background-color: var(--ids-color-palette-slate-20);
-    }
-
-    .track-progress {
-      background-color: var(--ids-color-palette-slate-30);
-    }
-  }
-
-  &.readonly {
-    color: var(--ids-color-palette-slate-30);
-
-    .tick {
-      background-color: var(--ids-color-palette-slate-50);
-    }
-
-    .thumb-shadow {
-      border-color: var(--ids-color-palette-slate-50);
-      background-color: $ids-slider-thumb-readonly-shadow-color-light;
-    }
-
-    .thumb {
-      background-color: var(--ids-color-palette-slate-50);
-    }
-
-    .track {
-      background-color: var(--ids-color-palette-slate-40);
-    }
-
-    .track-progress {
-      background-color: var(--ids-color-palette-slate-50);
-    }
-  }
-}
-
-.ids-slider[mode='dark'] {
-  .tick {
-    background-color: var(--ids-color-brand-primary-base);
-  }
-
-  .thumb-shadow {
-    background-color: $ids-slider-thumb-color-dark;
-    border-color: var(--ids-color-brand-primary-base);
-  }
-
-  .thumb {
-    background-color: var(--ids-color-brand-primary-base);
-  }
-
-  .track {
-    background-color: var(--ids-color-palette-slate-70);
-  }
-
-  .track-progress {
-    background-color: var(--ids-color-brand-primary-base);
-  }
-
-  .tooltip {
-    background-color: var(--ids-color-palette-white);
-    color: var(--ids-color-palette-slate-100);
-
-    .pin {
-      border-top-color: var(--ids-color-palette-white);
-
-      &.vertical {
-        border-top-color: transparent;
-        border-right-color: var(--ids-color-palette-white);
-      }
-    }
-  }
-
-  &:not(.disabled) {
-    .thumb:hover {
-      box-shadow: 0 2px 5px $ids-slider-thumb-hover-shadow-dark;
-    }
-  }
-
-  &.disabled {
-    color: var(--ids-color-palette-slate-20);
-
-    .tick {
-      background-color: var(--ids-color-palette-slate-40);
-    }
-
-    .thumb {
-      background-color: var(--ids-color-palette-slate-40);
-    }
-
-    .track {
-      background-color: var(--ids-color-palette-slate-50);
-    }
-
-    .track-progress {
-      background-color: var(--ids-color-palette-slate-40);
-    }
-  }
-
-  &.readonly {
-    color: var(--ids-color-palette-slate-20);
-
-    .tick {
-      background-color: var(--ids-color-palette-slate-40);
-    }
-
-    .thumb-shadow {
-      border-color: var(--ids-color-palette-slate-40);
-      background-color: $ids-slider-thumb-readonly-shadow-color-dark;
-    }
-
-    .thumb {
-      background-color: var(--ids-color-palette-slate-40);
-    }
-
-    .track {
-      background-color: var(--ids-color-palette-slate-70);
-    }
-
-    .track-progress {
-      background-color: var(--ids-color-palette-slate-40);
-    }
-  }
-}
-
-.ids-slider[mode='contrast'] {
-  .tick {
-    background-color: var(--ids-color-palette-azure-90);
-  }
-
-  .thumb-shadow {
-    background-color: $ids-slider-thumb-color-contrast;
-    border-color: var(--ids-color-palette-azure-90);
-  }
-
-  .thumb {
-    background-color: var(--ids-color-palette-azure-90);
-  }
-
-  .track {
-    background-color: var(--ids-color-palette-slate-60);
-  }
-
-  .track-progress {
-    background-color: var(--ids-color-palette-azure-90);
-  }
-
-  .tooltip {
-    background-color: var(--ids-color-palette-slate-80);
-    color: var(--ids-color-palette-white);
-
-    .pin {
-      border-top-color: var(--ids-color-palette-slate-80);
-
-      &.vertical {
-        border-top-color: transparent;
-        border-right-color: var(--ids-color-palette-slate-80);
-      }
-    }
-  }
-
-  &:not(.disabled) {
-    .thumb:hover {
-      box-shadow: 0 2px 5px $ids-slider-thumb-hover-shadow-contrast;
-    }
-  }
-
-  // Disabled
-  &.disabled {
-    color: var(--ids-color-palette-slate-40);
-
-    .tick {
-      background-color: var(--ids-color-palette-slate-60);
-    }
-
-    .thumb {
-      background-color: var(--ids-color-palette-slate-60);
-    }
-
-    .track {
-      background-color: var(--ids-color-palette-slate-50);
-    }
-
-    .track-progress {
-      background-color: var(--ids-color-palette-slate-60);
-    }
-  }
-
-  // Readonly
-  &.readonly {
-    color: var(--ids-color-palette-slate-40);
-
-    .tick {
-      background-color: var(--ids-color-palette-slate-80);
-    }
-
-    .thumb-shadow {
-      border-color: var(--ids-color-palette-slate-80);
-      background-color: $ids-slider-thumb-readonly-shadow-color-contrast;
-    }
-
-    .thumb {
-      background-color: var(--ids-color-palette-slate-80);
-    }
-
-    .track {
-      background-color: var(--ids-color-palette-slate-60);
-    }
-
-    .track-progress {
-      background-color: var(--ids-color-palette-slate-80);
     }
   }
 }

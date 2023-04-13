@@ -14,7 +14,6 @@ import type IdsSwappable from '../ids-swappable/ids-swappable';
  * @type {IdsListBuilder}
  * @inherits IdsListView
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part container - the container element
  */
 @customElement('ids-list-builder')

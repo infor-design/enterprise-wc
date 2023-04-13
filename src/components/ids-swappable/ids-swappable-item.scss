@@ -1,25 +1,22 @@
-@import '../../core/ids-base';
-
 :host {
-  font-family: sans-serif;
+  font-family: var(--ids-swappable-item-font-family);
+  border: var(--ids-swappable-item-border);
+  cursor: var(--ids-swappable-item-cursor);
   display: block;
-  border: 1px dashed transparent;
-  cursor: pointer;
   transition: height 0.4s ease, padding 0.4s ease;
 }
 
 :host(:hover) {
-  @include relative();
-
-  background-color: var(--ids-color-palette-azure-10);
+  background-color: var(--ids-swappable-item-hover-background-color);
+  position: relative;
 
   &::before {
     position: absolute;
     left: 0;
     top: 50%;
     transform: translate(5px, -47%);
-    font-size: 24px;
-    content: '⁞';
+    font-size: var(--ids-swappable-item-hover-before-font-size);
+    content: var(--ids-swappable-item-hover-before-content);
   }
 }
 
@@ -32,50 +29,40 @@
 }
 
 :host(:focus) {
-  border: 1px solid var(--ids-color-palette-azure-40);
-  box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
-  outline: none;
+  border: var(--ids-swappable-item-focus-border);
+  box-shadow: var(--ids-swappable-item-focus-box-shadow);
+  outline: var(--ids-swappable-item-focus-outline);
 }
 
 :host([selected]) {
-  cursor: move;
+  cursor: var(--ids-swappable-item-selected-cursor);
 }
 
 :host([dragging]) {
-  opacity: 0.4;
+  opacity: var(--ids-swappable-item-dragging-opacity);
 }
 
 :host([dragging]:not(.slotted-ids-tab)),
 :host([selected]:not(.slotted-ids-tab)) {
-  background-color: var(--ids-color-brand-primary-base);
-  color: var(--ids-color-palette-white);
+  background-color: var(--ids-swappable-item-selected-background-color);
+  color: var(--ids-swappable-item-selected-text-color);
 }
 
 :host([over]) {
-  border: 1px dashed var(--ids-color-palette-slate-80);
+  border: var(--ids-swappable-item-over-border);
 }
 
 :host(.p-8) {
-  @include p-8();
-
-  padding-left: 16px;
+  padding-block: var(--ids-spacing-lg);
+  padding-inline-end: var(--ids-spacing-lg);
+  padding-inline-start: var(--ids-spacing-xxl);
 }
 
 :host(.is-hidden) {
-  height: 0;
-  padding: 0;
+  height: var(--ids-spacing-none);
+  padding: var(--ids-spacing-none);
   border: none;
   overflow: hidden;
-}
-
-// Handle Themes
-:host([mode='dark']:hover) {
-  background-color: var(--ids-color-palette-slate-60);
-}
-
-:host([mode='dark'][selected]:not(.slotted-ids-tab)),
-:host([mode='dark'][dragging]:not(.slotted-ids-tab)) {
-  background-color: var(--ids-color-brand-primary-base);
 }
 
 // Fixes slotted IdsTabs to appear flush with their containers
@@ -87,5 +74,5 @@
 }
 
 :host(.slotted-ids-tab:not(.orientation-vertical)) {
-  margin-inline-start: 3px;
+  margin-inline-start: var(--ids-spacing-md);
 }

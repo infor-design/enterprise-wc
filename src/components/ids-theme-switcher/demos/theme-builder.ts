@@ -13,6 +13,8 @@ import '../../ids-empty-message/ids-empty-message';
 import '../../ids-expandable-area/ids-expandable-area';
 import '../../ids-fieldset/ids-fieldset';
 import '../../ids-image/ids-image';
+import bikesJSON from '../../../assets/data/bikes.json';
+import '../../ids-list-builder/ids-list-builder';
 import '../../ids-modal/ids-modal';
 import '../../ids-menu/ids-menu';
 import '../../ids-menu-button/ids-menu-button';
@@ -26,6 +28,8 @@ import '../../ids-rating/ids-rating';
 import '../../ids-search-field/ids-search-field';
 import '../../ids-scrollable/ids-scrollable';
 import '../../ids-scrollable/ids-sticky';
+import '../../ids-tabs/ids-tabs';
+import '../../ids-tabs/ids-tabs-context';
 import '../../ids-skip-link/ids-skip-link';
 import '../../ids-spinbox/ids-spinbox';
 import '../../ids-splitter/ids-splitter';
@@ -34,7 +38,11 @@ import '../../ids-toast/ids-toast';
 import '../../ids-tooltip/ids-tooltip';
 import '../../ids-toggle-button/ids-toggle-button';
 import '../../ids-trigger-field/ids-trigger-field';
+import '../../ids-slider/ids-slider';
 import '../../ids-step-chart/ids-step-chart';
+import '../../ids-swappable/ids-swappable';
+import '../../ids-swappable/ids-swappable-item';
+import '../../ids-week-view/ids-week-view';
 
 // Implement Action Panel
 const actionPanelTriggerBtn: any = document.querySelector('#cap-trigger-btn');
@@ -303,4 +311,66 @@ const cssLink = `<link href="${css}" rel="stylesheet">`;
 const head = document.querySelector('head');
 if (head) {
   head.insertAdjacentHTML('afterbegin', cssLink);
+}
+
+// =================================================================
+// Slider
+// =================================================================
+const labels = [{
+  value: 0,
+  text: 'very bad',
+  color: 'var(--ids-color-ruby-100)'
+}, {
+  value: 20,
+  text: 'poor',
+  color: 'var(--ids-color-ruby-80)'
+}, {
+  value: 40,
+  text: 'average',
+  color: 'var(--ids-color-amber-80)'
+}, {
+  value: 60,
+  text: 'good',
+  color: 'var(--ids-color-amber-40)'
+}, {
+  value: 80,
+  text: 'very good',
+  color: 'var(--ids-color-emerald-60)'
+}, {
+  value: 100,
+  text: 'excellent',
+  color: 'var(--ids-color-emerald-90)'
+}];
+
+const getClosestLabelSettings = (targetValue: number) => labels.find((el) => targetValue <= el.value);
+
+document.addEventListener('DOMContentLoaded', () => {
+  const survey = (document as any).querySelector('.survey');
+  if (survey) {
+    // Set label text
+    survey.labels = labels.map((el) => el.text);
+
+    // Adjust slider track/tick color when value changes
+    const fixSliderColorOnChange = (e: CustomEvent) => {
+      const sliderValue = e.detail.value;
+      const targetLabelSettings = getClosestLabelSettings(sliderValue);
+      survey.color = targetLabelSettings?.color;
+    };
+    survey.color = getClosestLabelSettings(survey.value)?.color;
+    survey.onEvent('ids-slider-drag', survey, fixSliderColorOnChange);
+    survey.onEvent('change', survey, fixSliderColorOnChange);
+  }
+});
+
+// =================================================================
+// List Builder
+// =================================================================
+const listBuilderEl: any = document.querySelector('#list-builder-tb');
+if (listBuilderEl) {
+  const setData = async () => {
+    const res = await fetch((bikesJSON as any));
+    const data = await res.json();
+    listBuilderEl.data = data;
+  };
+  setData();
 }
