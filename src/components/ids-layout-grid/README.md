@@ -117,7 +117,7 @@ This `<ids-layout-grid-cell>` element is used to define a cell within a grid lay
 
 ```html
 <ids-layout-grid
-    auto-fit="true"
+    auto-fit
     min-col-width="100px"
     max-col-width="1fr"
 >

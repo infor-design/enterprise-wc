@@ -6,32 +6,14 @@
   </head>
   <body>
     <ids-container role="main" padding="0" hidden>
-      <ids-masthead title="Infor Application" icon="logo" role="navigation">
-        <section title="start" slot="start">
-          <ids-button icon="grid"><span class="audible">Grid Button</span></ids-button>
-        </section>
-        <section title="center" slot="center">
-          <ids-button icon="home"><span>Home</span></ids-button>
-          <ids-button icon="star-outlined"><span>Star</span></ids-button>
-          <ids-button icon="info"><span>Info</span></ids-button>
-        </section>
-        <section title="end" slot="end">
-          <ids-button icon="user"><span class="audible">User Button</span></ids-button>
-          <ids-button icon="mingle-share"><span class="audible">Mingle Button</span></ids-button>
-          <ids-button icon="bookmark-outlined"><span class="audible">Bookmark Button</span></ids-button>
-        </section>
-      </ids-masthead>
-      <ids-header>
-        <ids-toolbar>
-          <ids-toolbar-section type="title">
-            <ids-text font-size="20">My Header</ids-text>
-            <ids-text font-size="14">With some extra information below</ids-text>
-          </ids-toolbar-section>
-          <ids-toolbar-section align="end">
-            <ids-search-field id="header-search" clearable [attr.color-variant]="'alternate'" [attr.label-state]="'collapsed'" no-margins></ids-search-field>
-          </ids-toolbar-section>
-        </ids-toolbar>
-      </ids-header>
+      <ids-layout-grid
+        auto-fit="true"
+        padding="md"
+      >
+        <ids-layout-grid-cell>
+          <ids-text font-size="12" type="h1">Example Workspace 2</ids-text>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
 
       <section class="container-wide">
         <ids-layout-grid
