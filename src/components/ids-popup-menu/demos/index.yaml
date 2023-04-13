@@ -11,6 +11,9 @@
   - link: data-driven.html
     type: Example
     description: Showing a Popup Menu fed with a dataset
+  - link: scrolling.html
+    type: Example
+    description: Showing a Popup Menu with fixed-height and scrolling behavior
   - link: selected-state.html
     type: Example
     description: Showing a Popup Menu with selections

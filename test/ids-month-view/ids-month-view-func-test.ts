@@ -486,4 +486,26 @@ describe('IdsMonthView Component (compact and datepicker)', () => {
     expect(isCompact).toBeTruthy();
     expect(isDatePicker).toBeTruthy();
   });
+
+  it('supports async onDayRender', () => {
+    const getDayCellTemplate = () => `<td><span class="day-container">
+    <ids-text
+      aria-hidden="true"
+      class="day-text"
+      font-size="14"
+    >20190909</ids-text>
+  </span></td>`;
+
+    expect(component.onDayRender).toBeFalsy();
+    component.onDayRender = function onDayRender() {
+      return getDayCellTemplate();
+    };
+    expect(component.onDayRender).toBeTruthy();
+  });
+
+  it('fires onDayRender', () => {
+    component.addEventListener('beforerendermonth', (e: CustomEvent) => {
+      e.detail.response(false);
+    });
+  });
 });

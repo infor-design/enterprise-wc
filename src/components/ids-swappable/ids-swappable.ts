@@ -81,15 +81,22 @@ export default class IdsSwappable extends Base {
   }
 
   /**
-   * Handle functionality for the dragstart event
+   * Holds the current start `y` position for drag element
    */
-  #dzDragStart() {
+  #startY: null | number = null;
+
+  /**
+   * Handle functionality for the dragstart event
+   *  @param {any} event drag event
+   */
+  #dzDragStart(event: any) {
+    this.#startY = event.clientY;
     if (this.selectedItems.length <= 1) {
       return;
     }
     this.selectedItems.forEach((el: any) => {
-      el.originalText = el.innerText;
-      el.innerHTML = `<ids-text>${this.selectedItems.length} Items Selected</ids-text>`;
+      el.originalHtml = el.innerHTML;
+      el.innerHTML = el.innerHTML.replace(el.innerText, `${this.selectedItems.length} Items Selected`);
     });
   }
 
@@ -112,17 +119,26 @@ export default class IdsSwappable extends Base {
    */
   getDragAfterElement = (container: any, y: number) => {
     const draggableElms = [...container.querySelectorAll('ids-swappable-item:not([dragging])')];
+    const lastIndex = draggableElms.length - 1;
 
-    return draggableElms.reduce((closest, child) => {
-      const rect = child.getBoundingClientRect();
+    return draggableElms.reduce((closest, child, i) => {
+      if (this.#startY === null) return closest;
 
-      // (rect.top + rect.height/2) returns the y of the container's child element's middle point
-      const offset = y - (rect.top + rect.height / 2);
+      // Bounding rectangle
+      const { top, bottom, height } = child.getBoundingClientRect();
 
-      // if the dragging element is immediately above the child's middle point
+      // Set extra edge pad value for 1st and last child
+      const pad = { val: 0, calc: Math.ceil(height / 4) };
+      if (i === 0 && this.#startY > bottom) pad.val = pad.calc;
+      if (i === lastIndex && this.#startY < top) pad.val = (pad.calc * -1);
+
+      // Find the element to use
+      const mid = top + (height / 2);
+      const offset = y - (mid + pad.val);
       if (offset < 0 && offset > closest.offset) {
         return { offset, element: child };
       }
+
       return closest;
     }, { offset: Number.NEGATIVE_INFINITY }).element;
   };
@@ -150,6 +166,7 @@ export default class IdsSwappable extends Base {
     }
 
     this.removeAttribute(attributes.ACTIVE);
+    this.#startY = null;
   }
 
   /**
@@ -209,9 +226,7 @@ export default class IdsSwappable extends Base {
    * @param {any} el all selected elements
    */
   #resetDraggingItems(el: any) {
-    if (el.originalText) {
-      el.innerHTML = `<ids-text>${el.originalText}</ids-text>`;
-    }
+    if (el.originalHtml) el.innerHTML = el.originalHtml;
 
     el.removeAttribute('dragging');
     el.removeAttribute('aria-grabbed');
@@ -220,12 +235,22 @@ export default class IdsSwappable extends Base {
   }
 
   /**
+   * Handle functionality for the dragend event
+   */
+  #dzDragEnd() {
+    this.draggingElements.forEach((draggingEl: HTMLElement) => {
+      this.#resetDraggingItems(draggingEl);
+    });
+    this.removeAttribute(attributes.ACTIVE);
+  }
+
+  /**
    * Attach all event listeners
    * @memberof IdsSwappable
    */
   attachEventListeners() {
-    this.offEvent('dragstart', this, () => this.#dzDragStart());
-    this.onEvent('dragstart', this, () => this.#dzDragStart());
+    this.offEvent('dragstart', this, (e: any) => this.#dzDragStart(e));
+    this.onEvent('dragstart', this, (e: any) => this.#dzDragStart(e));
 
     this.offEvent('drag', this, (e: any) => this.#dzDrag(e));
     this.onEvent('drag', this, (e: any) => this.#dzDrag(e));
@@ -238,5 +263,8 @@ export default class IdsSwappable extends Base {
 
     this.offEvent('dragleave', this, () => this.#dzDragLeave());
     this.onEvent('dragleave', this, () => this.#dzDragLeave());
+
+    this.offEvent('dragend', this, () => this.#dzDragEnd());
+    this.onEvent('dragend', this, () => this.#dzDragEnd());
   }
 }

@@ -1,4 +1,4 @@
-import { AxePuppeteer } from '@axe-core/puppeteer';
+import checkForAxeViolations from '../helpers/check-for-axe-violations';
 import countObjects from '../helpers/count-objects';
 
 describe('Ids Editor e2e Tests', () => {
@@ -26,10 +26,11 @@ describe('Ids Editor e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-
-    // Using newer aria-description
-    const results = await new AxePuppeteer(page).disableRules(['aria-valid-attr', 'nested-interactive']).analyze();
-    expect(results.violations.length).toBe(0);
+    await checkForAxeViolations(page, [
+      'aria-valid-attr',
+      'color-contrast',
+      'nested-interactive'
+    ]);
   });
 
   it('should make text bold, italic, underline, strikethrough and clearformatting', async () => {

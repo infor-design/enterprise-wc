@@ -34,7 +34,7 @@
 
 // Resets position rules for nested menus
 ::slotted(ids-popup-menu) {
-  position: relative;
+  position: static;
 }
 
 :host([hidden]) {

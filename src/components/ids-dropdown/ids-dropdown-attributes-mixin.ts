@@ -102,8 +102,13 @@ const IdsDropdownAttributeMixin = <T extends Constraints>(superclass: T) => clas
    * @param {string} value The value
    */
   set size(value: string) {
-    if (value) this.setAttribute(attributes.SIZE, value);
-    else this.removeAttribute(attributes.SIZE);
+    if (value) {
+      this.setAttribute(attributes.SIZE, value);
+      if (value === 'full') this.container?.classList.add('full');
+    } else {
+      this.removeAttribute(attributes.SIZE);
+      this.container?.classList.remove('full');
+    }
 
     if (typeof this.onSizeChange === 'function') this.onSizeChange(value);
   }

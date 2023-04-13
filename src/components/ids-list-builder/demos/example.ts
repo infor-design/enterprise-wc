@@ -5,10 +5,14 @@ const listBuilder1: any = document.querySelector('#list-builder-1');
 
 const addEventListeners = (element: any) => {
   const eventList = [
-    'itemClick', 'itemSelect',
-    'itemAdd', 'itemDelete',
-    'itemMoveUp', 'itemMoveDown',
-    'listDataChange', 'itemChange',
+    'itemClick',
+    'itemSelect',
+    'itemAdd',
+    'itemDelete',
+    'itemMoveUp',
+    'itemMoveDown',
+    'listDataChange',
+    'itemChange',
   ];
 
   eventList.forEach((eventName: string) => {

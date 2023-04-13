@@ -41,6 +41,10 @@
   cursor: move;
 }
 
+:host([dragging]) {
+  opacity: 0.4;
+}
+
 :host([dragging]:not(.slotted-ids-tab)),
 :host([selected]:not(.slotted-ids-tab)) {
   background-color: var(--ids-color-brand-primary-base);

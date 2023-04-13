@@ -1,123 +1,40 @@
 @import '../ids-input/ids-input';
 
 .ids-color-picker {
-  @include mb-16();
-
   display: block;
   position: relative;
-  max-width: $input-size-sm;
 
-  input {
-    @include ellipsis();
+  .color-preview {
+    margin-inline-start: 0;
   }
 
-  &.xs {
-    max-width: $border-input-size-xs;
-
-    input {
-      margin: 0;
-      padding: 0;
-      visibility: hidden;
-    }
+  ids-trigger-field::part(dirty-tracker-icon) {
+    margin-inline-start: 35px;
   }
 
-  &.sm {
-    max-width: $border-input-size-sm;
+  .color-popup {
+    display: grid;
+    grid-template-columns: repeat(10, 20px);
+    overflow: visible;
+    padding: var(--ids-number-spacing-base);
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    column-gap: 8px;
+    row-gap: 4px;
+    width: auto;
   }
 
-  &.mm {
-    max-width: $border-input-size-mm;
-  }
-
-  &.md {
-    max-width: $border-input-size-md;
-  }
-
-  &.lg {
-    max-width: $border-input-size-lg;
-  }
-
-  &.full {
-    max-width: $input-size-full;
-  }
-}
-
-ids-input::part(container) {
-  margin-bottom: 0;
-}
-
-.color-picker-trigger-btn {
-  @include mr-4();
-
-  &::part(button) {
-    @include ml-1();
-    @include mr-1();
-
-    position: relative;
-    z-index: 2;
-  }
-}
-
-.ids-color-picker:focus-within ids-input::part(input) {
-  box-shadow: none;
-}
-
-.color-popup {
-  display: grid;
-  grid-template-columns: repeat(10, 20px);
-  overflow: visible;
-  padding: var(--ids-number-spacing-base);
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  justify-items: center;
-  column-gap: 8px;
-  row-gap: 4px;
-  width: auto;
-}
-
-.advanced-color-picker {
-  position: unset;
-  bottom: 0;
-  right: 0;
-
-  .color-input {
-    height: 100%;
+  .advanced-color-picker {
     position: absolute;
-    right: 0;
-    top: 0;
-    width: 30px;
-    z-index: -10;
-
+    bottom: 0;
+  
     // The visibility: hidden style behaves like a combination of opacity: 0 and pointer-events: none.
     // Regarding the accessibility, opacity: 0 is the only property which makes the
     // element accessible in the tab order, and the element's content can be read by screen readers.
+    visibility: hidden;
     opacity: 0;
-
-    // visibility: hidden;
   }
 }
 
-.color-input-value {
-  display: flex;
-}
-
-.color-container {
-  border: 1px solid;
-  border-color: var(--ids-color-palette-slate-40);
-  background-color: var(--ids-color-palette-white);
-  height: 250px;
-  overflow: scroll;
-  width: 360px;
-  position: absolute;
-  top: 80px;
-  left: 45px;
-  border-radius: 2px;
-  padding: 3px;
-}
-
-.colorpicker-icon {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}

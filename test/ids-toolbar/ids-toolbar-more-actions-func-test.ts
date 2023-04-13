@@ -134,8 +134,7 @@ describe('IdsToolbarMoreActions Component', () => {
 
   it('focuses the inner button component when told to focus', () => {
     sectionMore.focus();
-
-    expect(sectionMore.shadowRoot.activeElement.isEqualNode(sectionMore.button));
+    expect(document.activeElement!.isEqualNode(sectionMore.button));
   });
 
   // Tests code path in `ids-menu` that searches a slot for groups instead of using `querySelector`
