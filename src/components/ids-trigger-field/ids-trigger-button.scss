@@ -14,7 +14,7 @@
     padding: var(--ids-spacing-none);
 
     &:not(.square) {
-      border-radius: var(--ids-border-radius-round);
+      border-radius: var(--ids-trigger-field-button-border-radius);
     }
   }
 }
@@ -28,6 +28,10 @@
 
   &.ids-icon-button {
     padding: var(--ids-spacing-md);
+
+    &[disabled] {
+      color: var(--ids-trigger-field-disabled-text-color);
+    }
   }
 
   // ===================================================
@@ -35,11 +39,15 @@
   &.style-inline {
     border: 0;
     padding: var(--ids-spacing-none);
-    border-radius: var(--ids-spacing-none);
+    border-radius: var(--ids-trigger-field-button-border-radius);
     margin: var(--ids-spacing-none);
 
     &.ids-icon-button {
       padding: var(--ids-spacing-none);
+    }
+
+    &.square {
+      border-radius: 0;
     }
 
     // ===================================================
@@ -47,30 +55,30 @@
 
     &.field-height-xs,
     &.field-height-xs.compact {
-      height: calc(var(--ids-size-xs) - 2px);
-      width: calc(var(--ids-size-xs) - 2px);
+      height: calc(var(--ids-input-height-xs) - 2px);
+      width: calc(var(--ids-input-height-xs) - 2px);
     }
 
     &.field-height-sm {
-      height: calc(var(--ids-size-sm) - 2px);
-      width: calc(var(--ids-size-sm) - 2px);
+      height: calc(var(--ids-input-height-sm) - 2px);
+      width: calc(var(--ids-input-height-sm) - 2px);
     }
 
     &.field-height-md {
-      height: calc(var(--ids-size-md) - 2px);
-      width: calc(var(--ids-size-md) - 2px);
+      height: calc(var(--ids-input-height-md) - 2px);
+      width: calc(var(--ids-input-height-md) - 2px);
     }
 
     &.field-height-lg {
-      height: calc(var(--ids-size-lg) - 2px);
-      width: calc(var(--ids-size-lg) - 2px);
+      height: calc(var(--ids-input-height-lg) - 2px);
+      width: calc(var(--ids-input-height-lg) - 2px);
     }
 
     &.compact,
     &.field-height-sm.compact,
     &.field-height-md.compact,
     &.field-height-lg.compact {
-      height: var(--ids-size-xs);
+      height: var(--ids-input-height-xs);
     }
   }
 

@@ -88,7 +88,6 @@ export default class IdsSwipeAction extends Base {
    */
   static get attributes() {
     return [
-      attributes.MODE,
       attributes.SWIPE_TYPE
     ];
   }

@@ -92,6 +92,7 @@ export default class IdsSpinbox extends IdsTriggerField {
         id="${this.id}-decrement-btn"
         inline
         no-padding
+        square
         slot="trigger-start"
         tabbable="false"
         part="button"> - </ids-trigger-button>`);
@@ -103,6 +104,7 @@ export default class IdsSpinbox extends IdsTriggerField {
         id="${this.id}-increment-btn"
         inline
         no-padding
+        square
         slot="trigger-end"
         tabbable="false"
         part="button"> + </ids-trigger-button>`);

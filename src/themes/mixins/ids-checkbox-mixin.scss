@@ -63,7 +63,7 @@
 // Disabled
 @mixin checkbox-disabled-unchecked {
   background-color: var(--ids-disabled-text-color);
-  border-color: var(--ids-input-disabled-color);
+  border-color: var(--ids-input-disabled-text-color);
   cursor: var(--ids-cursor-default);
 }
 

@@ -5,7 +5,7 @@
 }
 
 .ids-message-status {
-  padding-inline: var(--ids-message-padding);
+  padding-inline-end: 8px;
   color: var(--ids-message-text-color);
 
   &.error {

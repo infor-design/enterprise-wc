@@ -10,6 +10,7 @@
 
 <body>
   <ids-container role="main" hidden>
+    <ids-skip-link href="#main-content">Skip to Main Content</ids-skip-link>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid cols="fluid-grid" gap="xl">
       <ids-layout-grid-cell col-span="2">
@@ -21,6 +22,97 @@
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell col-span="10">
+
+        <!-- Action Panel -->
+        <ids-layout-grid auto="true" id="main-content">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h1">Action Panel</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-action-panel id="cap-company-info" fullsize="lg">
+          <ids-toolbar slot="toolbar">
+            <ids-toolbar-section type="title">
+              <ids-text font-size="20" type="h2">Company Information</ids-text>
+            </ids-toolbar-section>
+
+            <ids-toolbar-section type="buttonset" align="end">
+              <ids-button id="btn-save" icon="save" no-padding>
+                <ids-text font-weight="semi-bold">Save</ids-text>
+              </ids-button>
+              <ids-separator vertical="true"></ids-separator>
+              <ids-button id="btn-close" icon="close" no-padding>
+                <ids-text font-weight="semi-bold">Close</ids-text>
+              </ids-button>
+            </ids-toolbar-section>
+          </ids-toolbar>
+
+          <ids-layout-grid cols="2" gap="md" min-col-width="150px">
+            <ids-layout-grid-cell>
+              <ids-dropdown id="cap-dd-company-name" label="Company Name" value="">
+                <ids-list-box>
+                  <ids-list-box-option value="" selected>None</ids-list-box-option>
+                  <ids-list-box-option value="jawbone">Jawbone, Inc.</ids-list-box-option>
+                  <ids-list-box-option value="infor">Infor</ids-list-box-option>
+                </ids-list-box>
+              </ids-dropdown>
+
+              <ids-dropdown id="cap-dd-purchase-form" label="Purchase Form" value="3567">
+                <ids-list-box>
+                  <ids-list-box-option value="">None</ids-list-box-option>
+                  <ids-list-box-option value="3567" selected>3567</ids-list-box-option>
+                  <ids-list-box-option value="3568">3568</ids-list-box-option>
+                  <ids-list-box-option value="3569">3569</ids-list-box-option>
+                </ids-list-box>
+              </ids-dropdown>
+
+              <ids-dropdown id="cap-dd-template" label="Template" value="1">
+                <ids-list-box>
+                  <ids-list-box-option value="">None</ids-list-box-option>
+                  <ids-list-box-option value="1" selected>Template #1</ids-list-box-option>
+                  <ids-list-box-option value="2">3568</ids-list-box-option>
+                </ids-list-box>
+              </ids-dropdown>
+
+              <ids-textarea id="cap-textarea-notes" label="Notes"></ids-textarea>
+            </ids-layout-grid-cell>
+            <ids-layout-grid-cell>
+              <ids-dropdown id="cap-dd-ship-terms" label="Ship Terms" value="">
+                <ids-list-box>
+                  <ids-list-box-option value="" selected>None</ids-list-box-option>
+                  <ids-list-box-option value="default">Default</ids-list-box-option>
+                  <ids-list-box-option value="alternate">Alternate</ids-list-box-option>
+                </ids-list-box>
+              </ids-dropdown>
+
+              <ids-dropdown id="cap-dd-ship-via" label="Ship via" value="">
+                <ids-list-box>
+                  <ids-list-box-option value="" selected>None</ids-list-box-option>
+                  <ids-list-box-option value="default">USPS</ids-list-box-option>
+                  <ids-list-box-option value="alternate">Other</ids-list-box-option>
+                </ids-list-box>
+              </ids-dropdown>
+
+              <ids-dropdown id="cap-dd-issue-method" label="Issue Method" value="email">
+                <ids-list-box>
+                  <ids-list-box-option value="">None</ids-list-box-option>
+                  <ids-list-box-option value="phone">Telephone</ids-list-box-option>
+                  <ids-list-box-option value="email" selected>Email</ids-list-box-option>
+                  <ids-list-box-option value="sms">SMS Message</ids-list-box-option>
+                </ids-list-box>
+              </ids-dropdown>
+
+              <ids-checkbox id="cap-check-freight" label="Freight" checked></ids-checkbox>
+            </ids-layout-grid-cell>
+          </ids-layout-grid>
+        </ids-action-panel>
+
+        <ids-layout-grid>
+          <ids-layout-grid-column>
+            <ids-button appearance="secondary" id="cap-trigger-btn">Open Action Panel</ids-button>
+          </ids-layout-grid-column>
+        </ids-layout-grid>
+
         <!-- Alerts -->
         <ids-layout-grid auto="true" gap="xl">
           <ids-layout-grid-cell>
@@ -212,7 +304,7 @@
 
         <!-- Counts -->
         <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Counts</ids-text>
+          <ids-text font-size="12" type="h2">Counts</ids-text>
         </ids-layout-grid>
 
         <ids-layout-grid auto="true">
@@ -250,7 +342,7 @@
 
         <!-- Data Grid -->
         <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Data Grid</ids-text>
+          <ids-text font-size="12" type="h2">Data Grid</ids-text>
         </ids-layout-grid>
 
         <ids-layout-grid auto="true">
@@ -262,7 +354,7 @@
         <!-- Data Label -->
         <ids-layout-grid auto="true">
           <ids-layout-grid-cell>
-            <ids-text font-size="12" type="h1">Data Label</ids-text>
+            <ids-text font-size="12" type="h2">Data Label</ids-text>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
@@ -271,9 +363,110 @@
           <ids-data-label label="Shipping to">Los Angeles, California 90001 USA</ids-data-label>
         </ids-layout-grid>
 
+        <!-- Editor -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Editor</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+
+            <ids-editor id="editor-demo" label="Ids Editor">
+              <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
+                reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
+                rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
+                synergistic synergies.</p>
+              <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+                extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
+                Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
+                infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets leverage
+                morph.</p>
+            </ids-editor>
+
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Editor -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Empty Message</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true" cols="3" gap="md">
+          <ids-layout-grid-cell>
+            <ids-layout-grid-cell>
+              <ids-card class="test-card">
+                <div slot="card-header">
+                  <ids-text font-size="20" type="h3" overflow="ellipsis" tooltip="true">empty-generic-new</ids-text>
+                </div>
+                <div class="card-content" slot="card-content">
+                  <ids-empty-message icon="empty-generic-new">
+                    <ids-text type="h2" font-size="20" label="true" slot="label">Alert Label</ids-text>
+                    <ids-text label="true" slot="description">Description of empty message that explains why.</ids-text>
+                    <ids-button class="action-button" slot="button" appearance="primary">Action</ids-button>
+                  </ids-empty-message>
+                </div>
+              </ids-card>
+            </ids-layout-grid-cell>
+
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Expandable Area -->
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Expandable Area</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-expandable-area type="partial">
+              <ids-text slot="header">Customer Information</ids-text>
+              <ids-layout-grid slot="visible-pane-content" cols="3" gap="md" no-margins="true">
+                <ids-layout-grid-cell>
+                  <ids-input size="full" type="text" label="Customer Name" name="customer-name" placeholder="Normal text Field"></ids-input>
+                </ids-layout-grid-cell>
+                <ids-layout-grid-cell>
+                  <ids-input size="full" type="text" label="Location" name="location" placeholder="Normal text Field"></ids-input>
+                </ids-layout-grid-cell>
+              </ids-layout-grid>
+              <ids-layout-grid slot="pane" cols="3" gap="md" no-margins="true">
+                <ids-input size="full" type="text" label="More Customer Details" name="more-customer-details" placeholder="Normal text Field"></ids-input>
+              </ids-layout-grid>
+              <ids-hyperlink slot="expander-default" hitbox="true">Show More</ids-hyperlink>
+              <ids-hyperlink slot="expander-expanded" hitbox="true">Show Less</ids-hyperlink>
+            </ids-expandable-area>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Fieldset -->
+        <ids-layout-grid>
+          <ids-text font-size="12" type="h2">Fieldset</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <form>
+            <ids-fieldset>
+              <legend><ids-text font-size="20" type="h2" id="user-info">User Information</ids-text></legend>
+              <ids-input type="text" label="User Name" id="user-name"></ids-input>
+              <ids-input type="text" label="User Address" id="user-address"></ids-input>
+            </ids-fieldset>
+          </form>
+        </ids-layout-grid>
+
+        <!-- Hyperlink -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Hyperlink</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-hyperlink href="#" target="_blank">Normal Link</ids-hyperlink><br><br>
+            <ids-hyperlink href="#" disabled="true" target="_blank">Disabled Link</ids-hyperlink>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Images & Initials Banner -->
         <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Images</ids-text>
+          <ids-text font-size="12" type="h2">Images</ids-text>
         </ids-layout-grid>
 
         <ids-layout-grid auto="true" gap="lg">
@@ -340,20 +533,112 @@
           </ids-layout-gridcell>
         </ids-layout-grid>
 
-        <!-- Hyperlink -->
+        <!-- Menu -->
         <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Hyperlink</ids-text>
+          <ids-text font-size="12" type="h1">Menu</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid cols="5">
+          <ids-layout-grid-cell>
+            <ids-menu id="complex-menu">
+              <ids-menu-group id="main-settings">
+                <ids-menu-item icon="mail" value="mail">Mail</ids-menu-item>
+                <ids-menu-item icon="filter" value="filter">Filter</ids-menu-item>
+                <ids-menu-item icon="settings" value="settings">Settings</ids-menu-item>
+              </ids-menu-group>
+              <ids-separator></ids-separator>
+              <ids-menu-header id="additional-actions-header">Additional Actions</ids-menu-header>
+              <ids-menu-group id="more-settings" aria-describedby="additional-actions-header">
+                <ids-menu-item value="more-actions">
+                  More Actions
+                </ids-menu-item>
+                <ids-menu-item icon="user" value="even-more-actions">
+                  Even More Actions
+                </ids-menu-item>
+                <ids-menu-item id="no-select" value="no-select">This one can't be selected (Check the console)</ids-menu-item>
+              </ids-menu-group>
+              <ids-separator></ids-separator>
+              <ids-menu-group id="other-settings">
+                <ids-menu-item icon="more" value="other-items">Other Items</ids-menu-item>
+              </ids-menu-group>
+            </ids-menu>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Menu Button -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h1">Menu Button</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid cols="4" gap="md">
+          <ids-layout-grid-cell>
+              <ids-menu-button id="menu-button" icon="settings" appearance="tertiary" menu="my-menu" dropdown-icon>
+                <span>Settings</span>
+              </ids-menu-button>
+              <ids-popup-menu id="my-menu" target="menu-button" trigger-type="click">
+                <ids-menu-group>
+                  <ids-menu-item>Personalize Columns...</ids-menu-item>
+                </ids-menu-group>
+                <ids-separator></ids-separator>
+                <ids-menu-group select="single" id="sizes">
+                  <ids-menu-header>Row Height</ids-menu-header>
+                  <ids-menu-item disabled="true" value="extra-small">Extra Small</ids-menu-item>
+                  <ids-menu-item value="small">Small</ids-menu-item>
+                  <ids-menu-item value="medium">Medium</ids-menu-item>
+                  <ids-menu-item value="large" selected="true">Large</ids-menu-item>
+                </ids-menu-group>
+                <ids-separator></ids-separator>
+                <ids-menu-group select="multiple" keep-open="true">
+                  <ids-menu-header>Filtering Options</ids-menu-header>
+                  <ids-menu-item selected="true">Show Filter Row</ids-menu-item>
+                  <ids-menu-item value="run-filter">Run Filter</ids-menu-item>
+                  <ids-menu-item value="clear-filter">Clear Filter</ids-menu-item>
+                </ids-menu-group>
+              </ids-popup-menu>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Modal -->
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Message</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-button appearance="secondary" id="message-example-error-trigger">Trigger an Error Message</ids-button>
+            <ids-message id="message-example-error" status="error">
+              <ids-text slot="title" font-size="24" type="h2" id="my-message-title">Lost connection</ids-text>
+              <ids-text id="my-message-contents" align="left">This application has experienced a system error.</ids-text>
+              <ids-modal-button slot="buttons" appearance="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>
+              <ids-modal-button slot="buttons" appearance="primary" id="my-message-confirm">Restart</ids-modal-button>
+            </ids-message>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Modal -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Modal</ids-text>
         </ids-layout-grid>
         <ids-layout-grid auto="true">
           <ids-layout-grid-cell>
-            <ids-hyperlink href="#" target="_blank">Normal Link</ids-hyperlink><br><br>
-            <ids-hyperlink href="#" disabled="true" target="_blank">Disabled Link</ids-hyperlink>
+            <ids-modal id="my-modal" aria-labelledby="my-modal-title">
+              <ids-text slot="title" font-size="24" type="h2" id="my-modal-title">Active IDS Modal</ids-text>
+              <ids-modal-button slot="buttons" id="modal-close-btn" appearance="primary">
+                <span>OK</span>
+              </ids-modal-button>
+              <ids-text align="left">This is an active IDS Modal component</ids-text>
+            </ids-modal>
+
+            <ids-button id="modal-trigger-btn" appearance="secondary">
+              <span>Trigger a Modal</span>
+            </ids-button>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Month View -->
         <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Month View</ids-text>
+          <ids-text font-size="12" type="h2">Month View</ids-text>
         </ids-layout-grid>
         <ids-layout-grid auto="true">
           <ids-layout-grid-cell>
@@ -367,8 +652,28 @@
         </ids-layout-grid>
 
         <!-- Progress Bar -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Popup</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-button id="popup-trigger-btn" appearance="secondary">
+              <span>Trigger a Popup</span>
+            </ids-button>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-popup x="15" y="0" align-target="#popup-trigger-btn" align="right" animated="true" type="menu" id="popup-1">
+          <div slot="content">
+            <div class="demo-popup">
+              <ids-text font-size="12" type="span"> Popup Content</ids-text>
+            </div>
+          </div>
+        </ids-popup>
+
+        <!-- Progress Bar -->
         <ids-layout-grid cols="3" gap="md">
-          <ids-text font-size="12" type="h1">Pager</ids-text>
+          <ids-text font-size="12" type="h2">Pager</ids-text>
         </ids-layout-grid>
 
         <ids-layout-grid cols="3" gap="md">
@@ -397,12 +702,33 @@
 
         <!-- Rating -->
         <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Rating</ids-text>
+          <ids-text font-size="12" type="h2">Rating</ids-text>
         </ids-layout-grid>
 
         <ids-layout-grid auto="true">
           <ids-layout-grid-cell>
             <ids-rating value="4"></ids-rating>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Search Field -->
+        <ids-layout-grid>
+          <ids-text font-size="12" type="h2">Search Field</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid cols="3">
+          <ids-layout-grid-cell>
+            <ids-search-field clearable label="Search Field" placeholder="Search for..."></ids-search-field>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!--Spinbox -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Spinbox</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid cols="4" gap="md">
+          <ids-layout-grid-cell>
+            <ids-spinbox value="0" label="Spinbox"></ids-spinbox>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
@@ -457,7 +783,7 @@
 
         <!-- Toast -->
         <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Toast</ids-text>
+          <ids-text font-size="12" type="h2">Toast</ids-text>
         </ids-layout-grid>
 
         <ids-layout-grid auto="true">
@@ -480,6 +806,33 @@
               icon-off="star-outlined"
               text-off="Toggle Button (Off)"
               text-on="Toggle Button (On)"></ids-toggle-button>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Tooltip -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h1">Tooltip</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-button id="button-1" appearance="secondary">Hover to show a Tooltip</ids-button>
+            <ids-tooltip target="#button-1" id="tooltip-example" data-automation-id="tooltip-example">Additional Information</ids-tooltip>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Trigger Field -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Trigger Field</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid cols="3" gap="md">
+          <ids-layout-grid-cell>
+            <ids-trigger-field disabled id="trigger-field-4" size="md" label="Disabled Trigger Field" value="Enter Album Name">
+              <ids-trigger-button slot="trigger-end" disabled>
+                <ids-text audible="true">Select Image</ids-text>
+                <ids-icon icon="camera"></ids-icon>
+              </ids-trigger-button>
+            </ids-trigger-field>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 

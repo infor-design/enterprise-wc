@@ -3,57 +3,38 @@
 // Applies to search fields in the app menu, which are
 // typically on top of black or dark color background
 @mixin ids-app-menu-search-field-shadow() {
-  box-shadow: 0 0 3px 2px rgba(255 255 255 / 0.4);
-}
-
-@mixin ids-search-field-alternate-colors() {
-  &.color-variant-alternate {
-    .field-container {
-      background-color: rgba(71 71 76 / 0.3);
-      border-bottom-color: rgba(62 62 66 / 0.7);
-    }
-
-    ids-icon {
-      color: rgba(255 255 255 / 0.7);
-
-      // stylelint-disable-next-line
-      &:hover {
-        color: rgba(255 255 255 / 1);
-      }
-    }
-  }
+  box-shadow: var(--ids-searchfield-app-menu-focus-shadow);
 }
 
 // Applies to both `dark` and `contrast` theme modes
 @mixin ids-search-field-dark-app-menu-colors() {
   &.color-variant-app-menu {
-    @include text-slate-20();
+    color: var(--ids-searchfield-app-menu-text-color);
 
     .field-container {
-      @include bg-slate-100();
-      @include text-slate-20();
+      background-color: var(--ids-searchfield-app-menu-background-color);
+      color: var(--ids-searchfield-app-menu-text-color);
     }
 
     .ids-input-field {
-      @include text-slate-20();
+      color: var(--ids-searchfield-app-menu-text-color);
     }
 
     .btn-clear {
-      @include text-slate-40();
+      color: var(--ids-searchfield-app-menu-icon-color);
     }
 
     .btn-clear:hover {
-      @include text-white();
+      color: var(--ids-searchfield-app-menu-icon-hover-color);
     }
 
     ids-icon::part(search-icon) {
-      @include text-slate-20();
+      color: var(--ids-searchfield-app-menu-text-color);
     }
 
     &:focus-within {
-      // stylelint-disable-next-line
       ids-icon::part(search-icon) {
-        @include text-white();
+        color: var(--ids-searchfield-app-menu-icon-hover-color);
       }
     }
 
@@ -72,7 +53,7 @@
 
 .ids-search-field {
   ids-icon.search-icon {
-    @include ml-8();
+    margin-inline-start: var(--ids-searchfield-app-menu-search-icon-margin);
   }
 
   // =============================
@@ -80,93 +61,71 @@
 
   &.color-variant-alternate {
     .field-container {
-      @include border-none();
+      border-style: none;
+      border-bottom: 1px solid var(--ids-searchfield-alternate-border-bottom-color);
+      background-color: var(--ids-searchfield-alternate-background-color);
+   }
 
-      border-bottom-style: solid;
-      border-bottom-width: 1px;
-    }
-  }
+    ids-icon {
+      color: var(--ids-searchfield-alternate-icon-color);
 
-  &.color-variant-app-menu {
-    .field-container {
-      @include border-none();
-      @include rounded-md();
+      // stylelint-disable-next-line
+      &:hover {
+        color: var(--ids-searchfield-alternate-icon-hover-color);
+      }
     }
   }
 
   &.color-variant-card {
     .field-container {
-      @include bg-slate-10();
+      background: var(--ids-searchfield-card-background-color);
+      color: var(--ids-searchfield-card-text-color);
     }
 
     .btn-clear:hover {
-      @include bg-transparent();
+      background-color: transparent;
     }
   }
 
-  // =============================
-  // Theme Colors for color variants
+  &.color-variant-app-menu {
+    color: var(--ids-searchfield-app-menu-text-color);
 
-  // Light Mode
-  &[mode='light'],
-  &:not([mode]) {
-    @include ids-search-field-alternate-colors();
+    .field-container {
+      border-style: none;
+      border-radius: var(--ids-searchfield-app-menu-border-radius);
+      background-color: var(--ids-searchfield-app-menu-background-color);
+      color: var(--ids-searchfield-app-menu-text-color);
+    }
 
-    &.color-variant-app-menu {
-      @include text-slate-20();
+    .ids-input-field {
+      color: var(--ids-searchfield-app-menu-text-color);
+    }
 
-      .field-container {
-        @include bg-black();
-        @include text-slate-20();
-      }
+    .btn-clear {
+      color: var(--ids-searchfield-app-menu-icon-color);
+    }
 
-      .ids-input-field {
-        @include text-slate-20();
-      }
+    .btn-clear:hover {
+      color: var(--ids-searchfield-app-menu-icon-hover-color);
+    }
 
-      .btn-clear {
-        @include text-slate-40();
-      }
+    ids-icon::part(search-icon) {
+      color: var(--ids-searchfield-app-menu-text-color);
+    }
 
-      .btn-clear:hover {
-        @include text-white();
-      }
-
+    &:focus-within {
+      // stylelint-disable-next-line
       ids-icon::part(search-icon) {
-        @include text-slate-20();
-      }
-
-      &:focus-within {
-        // stylelint-disable-next-line
-        ids-icon::part(search-icon) {
-          @include text-white();
-        }
-      }
-
-      &:focus-within,
-      &.readonly:focus-within {
-        // stylelint-disable-next-line
-        .field-container {
-          @include ids-app-menu-search-field-shadow();
-        }
+        color: var(--ids-searchfield-app-menu-icon-hover-color);
       }
     }
-  }
 
-  // Dark Mode
-  &[mode='dark'] {
-    @include ids-search-field-alternate-colors();
-    @include ids-search-field-dark-app-menu-colors();
-
-    &.color-variant-card .field-container {
-      @include bg-slate-80();
-      @include text-white();
+    &:focus-within,
+    &.readonly:focus-within {
+      // stylelint-disable-next-line
+      .field-container {
+        @include ids-app-menu-search-field-shadow();
+      }
     }
-  }
-
-  // High Contrast Mode
-  &[mode='contrast'] {
-    @include ids-search-field-alternate-colors();
-    @include ids-search-field-dark-app-menu-colors();
   }
 }

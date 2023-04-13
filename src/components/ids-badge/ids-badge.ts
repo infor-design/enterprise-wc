@@ -36,7 +36,6 @@ export default class IdsBadge extends Base {
   static get attributes(): string[] {
     return [
       attributes.COLOR,
-      attributes.MODE,
       attributes.SHAPE
     ];
   }

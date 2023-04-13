@@ -1,29 +1,52 @@
-import '../../ids-splitter/ids-splitter';
+import '../../ids-action-panel/ids-action-panel';
 import '../../ids-badge/ids-badge';
-import '../../ids-tag/ids-tag';
-import '../../ids-notification-banner/ids-notification-banner';
 import '../../ids-breadcrumb/ids-breadcrumb';
 import '../../ids-color-picker/ids-color-picker';
 import '../../ids-counts/ids-counts';
-import '../../ids-rating/ids-rating';
-import '../../ids-image/ids-image';
-import '../../ids-progress-bar/ids-progress-bar';
 import type IdsDataGrid from '../../ids-data-grid/ids-data-grid';
-import '../../ids-data-grid/ids-data-grid';
-import '../../ids-data-label/ids-data-label';
-import '../../ids-month-view/ids-month-view';
-import '../../ids-pager/ids-pager';
-import '../../ids-scrollable/ids-scrollable';
-import '../../ids-scrollable/ids-sticky';
-import '../../ids-toggle-button/ids-toggle-button';
-import '../../ids-toast/ids-toast';
-import '../../ids-step-chart/ids-step-chart';
-
-// Init Some components that need JS
 import type { IdsDataGridColumn } from '../../ids-data-grid/ids-data-grid-column';
 import booksJSON from '../../../assets/data/books.json';
+import '../../ids-data-grid/ids-data-grid';
+import '../../ids-data-label/ids-data-label';
+import '../../ids-editor/ids-editor';
+import '../../ids-empty-message/ids-empty-message';
+import '../../ids-expandable-area/ids-expandable-area';
+import '../../ids-fieldset/ids-fieldset';
+import '../../ids-image/ids-image';
+import '../../ids-modal/ids-modal';
+import '../../ids-menu/ids-menu';
+import '../../ids-menu-button/ids-menu-button';
+import '../../ids-month-view/ids-month-view';
+import '../../ids-notification-banner/ids-notification-banner';
+import '../../ids-pager/ids-pager';
+import '../../ids-popup/ids-popup';
+import css from '../../../assets/css/ids-popup/index.css';
+import '../../ids-progress-bar/ids-progress-bar';
+import '../../ids-rating/ids-rating';
+import '../../ids-search-field/ids-search-field';
+import '../../ids-scrollable/ids-scrollable';
+import '../../ids-scrollable/ids-sticky';
+import '../../ids-skip-link/ids-skip-link';
+import '../../ids-spinbox/ids-spinbox';
+import '../../ids-splitter/ids-splitter';
+import '../../ids-tag/ids-tag';
+import '../../ids-toast/ids-toast';
+import '../../ids-tooltip/ids-tooltip';
+import '../../ids-toggle-button/ids-toggle-button';
+import '../../ids-trigger-field/ids-trigger-field';
+import '../../ids-step-chart/ids-step-chart';
 
-// Example for populating the DataGrid
+// Implement Action Panel
+const actionPanelTriggerBtn: any = document.querySelector('#cap-trigger-btn');
+const cap: any = document.querySelector('ids-action-panel');
+
+cap.target = actionPanelTriggerBtn;
+cap.triggerType = 'click';
+cap.onButtonClick = () => {
+  cap.hide();
+};
+
+// Datagrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-1')!;
 
 if (dataGrid) {
@@ -242,3 +265,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+// Implement Modal
+const triggerId = '#modal-trigger-btn';
+const triggerBtn: any = document.querySelector(triggerId);
+const modal: any = document.querySelector('ids-modal');
+
+modal.target = triggerBtn;
+modal.triggerType = 'click';
+modal.onButtonClick = () => {
+  modal.hide();
+};
+
+// Implement Message
+const messageTriggerBtn: any = document.querySelector('#message-example-error-trigger');
+const message: any = document.querySelector('#message-example-error');
+
+message.target = messageTriggerBtn;
+message.triggerType = 'click';
+messageTriggerBtn.onButtonClick = (buttonEl: any) => {
+  const response = buttonEl.cancel ? 'cancelled' : 'confirmed';
+  console.info(`IdsMessage was ${response}`);
+  message.hide();
+};
+
+// Implement Popup
+const popupTriggerBtn = document.querySelector('#popup-trigger-btn');
+const popup: any = document.querySelector('#popup-1');
+popup.arrow = 'right';
+
+// Toggle the Popup
+popupTriggerBtn?.addEventListener('click', () => {
+  popup.visible = !popup.visible;
+});
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+const head = document.querySelector('head');
+if (head) {
+  head.insertAdjacentHTML('afterbegin', cssLink);
+}

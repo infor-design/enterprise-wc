@@ -1,9 +1,8 @@
 @import '../../core/ids-base';
 
 :host {
-  @include inline-flex();
-  @include self-center();
-
+  display: inline-flex;
+  align-self: center;
   contain: content;
   place-self: center;
   position: relative;
@@ -22,6 +21,10 @@
 }
 
 :host([icon='more']) svg {
+  height: 19px;
+}
+
+:host([icon='verticle-ellipsis']) svg {
   height: 19px;
 }
 

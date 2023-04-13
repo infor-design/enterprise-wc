@@ -86,13 +86,13 @@
 :host([disabled]) {
   ::slotted(ids-icon) {
     cursor: var(--ids-cursor-default);
-    color: var(--ids-input-disabled-color);
+    color: var(--ids-input-disabled-text-color);
   }
 
   .ids-tag {
     background-color: var(--ids-input-readonly-background-color);
     border-color: var(--ids-input-readonly-background-color);
-    color: var(--ids-input-disabled-color);
+    color: var(--ids-input-disabled-text-color);
 
     &.secondary {
       background-color: var(--ids-input-background-color);

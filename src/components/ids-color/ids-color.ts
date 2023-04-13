@@ -69,7 +69,6 @@ export default class IdsColor extends Base {
       attributes.CLICKABLE,
       attributes.DISABLED,
       attributes.HEX,
-      attributes.MODE,
       attributes.LABEL,
       attributes.SIZE,
       attributes.SHOW_LABEL,

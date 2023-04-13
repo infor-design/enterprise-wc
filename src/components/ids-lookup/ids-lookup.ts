@@ -4,7 +4,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
@@ -33,10 +32,8 @@ const Base = IdsDirtyTrackerMixin(
         IdsValidationInputMixin(
           IdsFieldHeightMixin(
             IdsTooltipMixin(
-              IdsThemeMixin(
-                IdsEventsMixin(
-                  IdsElement
-                )
+              IdsEventsMixin(
+                IdsElement
               )
             )
           )
@@ -54,7 +51,6 @@ const Base = IdsDirtyTrackerMixin(
  * @mixes IdsKeyboardMixin
  * @mixes IdsLabelStateParentMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
  * @part trigger-field - the trigger container
  * @part input - the input element
@@ -144,7 +140,6 @@ export default class IdsLookup extends Base {
       attributes.CLEARABLE,
       attributes.DISABLED,
       attributes.FIELD,
-      attributes.MODE,
       attributes.READONLY,
       attributes.SIZE,
       attributes.TABBABLE,

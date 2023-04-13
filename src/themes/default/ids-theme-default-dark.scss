@@ -14,7 +14,7 @@
   --ids-inverse-text-color: var(--ids-color-slate-100);
   --ids-subtle-text-color: var(--ids-color-slate-20);
   --ids-data-text-color: var(--ids-color-slate-00);
-  --ids-disabled-text-color: var(--ids-color-slate-40);
+  --ids-disabled-text-color: var(--ids-color-slate-50);
   --ids-error-text-color: var(--ids-color-error-50);
   --ids-info-text-color: var(--ids-color-info-60);
   --ids-success-text-color: var(--ids-color-success-50);
@@ -164,10 +164,10 @@
   // Data Grid (Rows)
   --ids-data-grid-row-selected-background-color: rgba(85 163 243 / 0.12);
   --ids-data-grid-row-alternate-background-color: var(--ids-color-slate-80);
-  --ids-data-grid-row-focus-shadow: inset 0 0 0 1px var(--ids-color-palette-azure-50), 0 1px 0 0 var(--ids-color-palette-azure-50), 0 0 3px 2px rgb(54 138 192 / 0.3);
+  --ids-data-grid-row-focus-shadow: inset 0 0 0 1px var(--ids-color-azure-50), 0 1px 0 0 var(--ids-color-azure-50), 0 0 3px 2px rgb(54 138 192 / 0.3);
 
   // Dirty Indicator
-  --ids-dirty-indicator-background-color: var(--ids-color-palette-amber-40);
+  --ids-dirty-indicator-background-color: var(--ids-color-amber-40);
 
   // Drawer
   --ids-drawer-action-sheet-background-color: var(--ids-color-slate-90); // TODO: Check design, changed Black to Slate-90
@@ -202,6 +202,9 @@
   // Expandable Area
   --ids-expandable-area-border-bottom: 1px solid var(--ids-color-slate-50);
 
+  // Empty Message
+  --ids-empty-message-icon-color: var(--ids-color-slate-70);
+
   // Headers
   --ids-header-gradient-opaque: rgb(0 114 237 / 1);
   --ids-header-gradient-transparent: rgb(0 114 237 / 0);
@@ -223,8 +226,8 @@
   --ids-input-readonly-border-color: var(--ids-color-slate-40);
   --ids-input-readonly-text-color: var(--ids-data-text-color);
   --ids-input-readonly-background-color: var(--ids-color-slate-70);
-  --ids-input-disabled-color: var(--ids-color-slate-60);
-  --ids-input-disabled-border-color:var(--ids-color-slate-40);
+  --ids-input-disabled-text-color: var(--ids-disabled-text-color);
+  --ids-input-disabled-border-color: var(--ids-disabled-text-color);
   --ids-input-hover-border-color: var(--ids-color-slate-10);
   --ids-input-focus-border-color: var(--ids-focus-ring-border-color);
 
@@ -236,6 +239,13 @@
   --ids-modal-button-color: var(--ids-color-azure-40);
   --ids-modal-button-hover-color: var(--ids-color-azure-30);
   --ids-modal-button-focus-shadow: 0 0 3px 1px var(--ids-color-azure-30);
+
+  // Menu
+  --ids-menu-header-text-color: var(--ids-color-slate-00);
+  --ids-menu-item-disabled-text-color: var(--ids-color-slate-50);
+  --ids-menu-item-highlight-color: var(--ids-color-slate-80);
+  --ids-menu-item-text-color: var(--ids-color-slate-00);
+  --ids-menu-check-color: var(--ids-color-azure-60);
 
   // Popup
   --ids-popup-background-color: var(--ids-color-slate-70);
@@ -269,15 +279,19 @@
 
   // Progress Bar
   --ids-progress-bar-border-color: var(--ids-color-slate-40);
-  --ids-progress-bar-background-color: var(--ids-color-palette-azure-60);
+  --ids-progress-bar-background-color: var(--ids-color-azure-60);
 
   // Radio
-  --ids-radio-checked-background-color: var(--ids-color-palette-azure-60);
-  --ids-radio-checked-border-color:  var(--ids-color-palette-azure-60);
+  --ids-radio-checked-background-color: var(--ids-color-azure-60);
+  --ids-radio-checked-border-color:  var(--ids-color-azure-60);
   --ids-radio-checked-inner-background-color:  var(--ids-color-slate-00);
 
   // Required
   --ids-required-background-color: var(--ids-color-error-60);
+
+  // Search Field
+  --ids-searchfield-card-text-color: var(--ids-color-slate-00);
+  --ids-searchfield-card-background-color: var(--ids-color-slate-80);
 
   // Splitter
   --ids-splitter-bar-dragging-background-color: var(--ids-color-slate-70);
@@ -285,7 +299,7 @@
 
   // Step Chart
   --ids-step-chart-step-background-color: var(--ids-color-slate-70);
-  --ids-step-chart-step-completed-background-color: var(--ids-color-palette-azure-60);
+  --ids-step-chart-step-completed-background-color: var(--ids-color-azure-60);
 
   // Swipe Action
   --ids-swipe-action-button-active-background-color: var(--ids-input-hover-border-color);
@@ -305,7 +319,7 @@
   --ids-switch-toggle-on-disabled-background-color: var(--ids-color-primary-30);
   --ids-switch-toggle-on-disabled-border-color: var(--ids-color-primary-30);
   --ids-switch-toggle-hover-background-color: var(--ids-color-slate-30);
-  --ids-switch-toggle-focus-shadow: 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 0 4px var(--ids-color-palette-azure-60);
+  --ids-switch-toggle-focus-shadow: 0 0 0 3px var(--ids-color-azure-90), 0 0 0 4px var(--ids-color-azure-60);
 
   // Tag
   --ids-tag-background-color: var(--ids-input-readonly-background-color);

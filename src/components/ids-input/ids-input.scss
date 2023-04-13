@@ -207,6 +207,11 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
       outline: none;
       outline-color: transparent;
     }
+
+    .field-container {
+      border-color: var(--ids-input-focus-border-color);
+      box-shadow: var(--ids-focus-ring-shadow);
+    }
   }
 
   .ids-icon.starting-icon {
@@ -500,10 +505,10 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
     &:hover .field-container,
     &:focus-within .field-container {
       border-color: var(--ids-input-disabled-border-color);
-      color: var(--ids-input-disabled-color);
+      color: var(--ids-input-disabled-text-color);
 
       // Safari input text color
-      -webkit-text-fill-color: var(--ids-input-disabled-color);
+      -webkit-text-fill-color: var(--ids-input-disabled-text-color);
     }
   }
 
@@ -521,23 +526,13 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
     }
   }
 
-  &:hover {
+  &:hover:not(.readonly) {
     .field-container {
       border-color: var(--ids-input-hover-border-color);
     }
 
     // Include error styles
     @include ids-input-message-styles();
-  }
-
-  /* stylelint-disable-next-line no-duplicate-selectors */
-  &:focus-within,
-  &.readonly:focus-within,
-  &.is-active {
-    .field-container {
-      border-color: var(--ids-input-focus-border-color);
-      box-shadow: var(--ids-focus-ring-shadow);
-    }
   }
 
   // Include error styles

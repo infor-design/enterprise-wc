@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="card-content" slot="card-content">
         <ids-empty-message icon="${emptyIcons[i][0]}">
           <ids-text type="h2" font-size="20" label="true" slot="label">Alert Label</ids-text>
-          <ids-text label="true" slot="description">Description of empty message that explains why and possible contain a hyperlink.</ids-text>
+          <ids-text label="true" slot="description">Description of empty message that explains why.</ids-text>
           <ids-button class="action-button" slot="button" appearance="primary">Action</ids-button>
         </ids-empty-message>
       </div>

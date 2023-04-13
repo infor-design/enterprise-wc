@@ -17,7 +17,7 @@
   --ids-inverse-text-color: var(--ids-color-slate-00);
   --ids-subtle-text-color: var(--ids-color-slate-80);
   --ids-data-text-color: var(--ids-color-slate-100);
-  --ids-disabled-text-color: var(--ids-color-slate-40);
+  --ids-disabled-text-color: var(--ids-color-slate-30);
   --ids-error-text-color: var(--ids-color-error-60);
   --ids-info-text-color: var(--ids-color-info-70);
   --ids-success-text-color: var(--ids-color-success-50);
@@ -125,7 +125,7 @@
   --ids-z-index-draggable: 7000;
   --ids-z-index-toast: 8000;
   --ids-z-index-menu: 9000;
-  --ids-z-index-skiplink: 10000;
+  --ids-z-index-skip-link: 10000;
 
   /// --- Component Tokens ---- ///
   // About
@@ -402,7 +402,7 @@
   --ids-editor-source-textarea-outline: var(--ids-spacing-none);
 
   // Empty Message
-  --ids-empty-message-icon-color: var(--ids-color-primary);
+  --ids-empty-message-icon-color: var(--ids-color-slate-60);
   --ids-empty-message-icon-fill: transparent;
   --ids-empty-message-icon-margin: var(--ids-spacing-xxl);
   --ids-empty-message-icon-height: 80px;
@@ -462,7 +462,7 @@
   --ids-input-readonly-border-color: var(--ids-color-slate-40);
   --ids-input-readonly-text-color: var(--ids-data-text-color);
   --ids-input-readonly-background-color: var(--ids-color-slate-20);
-  --ids-input-disabled-color: var(--ids-disabled-text-color);
+  --ids-input-disabled-text-color: var(--ids-disabled-text-color);
   --ids-input-disabled-border-color: var(--ids-disabled-text-color);
   --ids-input-hover-border-color: var(--ids-color-slate-90);
   --ids-input-focus-border-color: var(--ids-focus-ring-border-color);
@@ -491,9 +491,25 @@
   --ids-input-success-disabled-border-color: var(--ids-color-success-30);
   --ids-input-success-disabled-text-color: var(--ids-color-success-30);
 
+  // Menu
+  --ids-menu-header-font-weight: var(--ids-font-weight-semi-bold);
+  --ids-menu-header-margin: var(--ids-spacing-md);
+  --ids-menu-header-padding: var(--ids-spacing-md);
+  --ids-menu-header-font-size: var(--ids-font-size-xs);
+  --ids-menu-header-text-color: var(--ids-color-slate-70);
+  --ids-menu-header-icon-padding: 38px;
+  --ids-menu-item-min-width: 110px;
+  --ids-menu-item-font-size: var(--ids-font-size-md);
+  --ids-menu-item-padding-inline-start: 12px;
+  --ids-menu-item-padding: 8px 8px 8px var(--ids-menu-item-padding-inline-start);
+  --ids-menu-item-disabled-text-color: var(--ids-color-slate-30);
+  --ids-menu-item-highlight-color: var(--ids-color-slate-20);
+  --ids-menu-item-text-color: var(--ids-color-slate-100);
+  --ids-menu-check-color: var(--ids-color-primary);
+  --ids-menu-check-disabled-color: var(--ids-disabled-text-color);
+
   // Message
   --ids-message-content-width: 400px
-  --ids-message-padding: 8px;
   --ids-message-text-color: var(--ids-text-color);
   --ids-message-error-icon-color: var(--ids-color-error);
   --ids-message-warning-icon-color: var(--ids-color-warning);
@@ -585,9 +601,9 @@
   --ids-radio-checked-inner-background-color:  var(--ids-color-slate-00);
   --ids-radio-border-radius: var(--ids-border-radius-round);
   --ids-radio-unchecked-disabled-background-color: var(--ids-input-background-color);
-  --ids-radio-unchecked-disabled-border-color: var(--ids-input-disabled-color);
-  --ids-radio-checked-disabled-background-color: var(--ids-input-disabled-color);
-  --ids-radio-checked-disabled-border-color: var(--ids-input-disabled-color);
+  --ids-radio-unchecked-disabled-border-color: var(--ids-input-disabled-text-color);
+  --ids-radio-checked-disabled-background-color: var(--ids-input-disabled-text-color);
+  --ids-radio-checked-disabled-border-color: var(--ids-input-disabled-text-color);
 
   // Rating
   --ids-rating-star-color: var(--ids-color-amber-60);
@@ -596,10 +612,42 @@
   --ids-rating-star-focus-color: var(--ids-button-primary-background-color);
   --ids-rating-star-margin-inline: var(--ids-spacing-md);
 
-
   // Required
   --ids-required-background-color: var(--ids-color-error);
   --ids-required-disabled-background-color: var(--ids-color-error-30);
+
+  // Search Field
+  --ids-searchfield-app-menu-focus-shadow: 0 0 3px 2px rgba(255 255 255 / 0.4);
+  --ids-searchfield-app-menu-text-color: var(--ids-color-slate-20);
+  --ids-searchfield-app-menu-background-color: var(--ids-color-slate-100);
+  --ids-searchfield-app-menu-icon-color: var(--ids-color-slate-40);
+  --ids-searchfield-app-menu-icon-hover-color: var(--ids-color-slate-90);
+  --ids-searchfield-app-menu-search-icon-margin: 8px;
+  --ids-searchfield-app-menu-border-radius: var(--ids-border-radius-sm);
+  --ids-searchfield-alternate-background-color: rgba(71 71 76 / 0.3);
+  --ids-searchfield-alternate-border-bottom-color: rgba(62 62 66 / 0.7);
+  --ids-searchfield-alternate-icon-color: rgba(255 255 255 / 0.7);
+  --ids-searchfield-alternate-icon-hover-color: rgba(255 255 255 / 1);
+  --ids-searchfield-card-text-color: var(--ids-text-color);
+  --ids-searchfield-card-background-color: var(--ids-color-slate-10);
+
+  // Skip link
+  --ids-skip-link-background-color: var(--ids-popup-background-color);
+  --ids-skip-link-border-color: var(--ids-popup-border-color);
+  --ids-skip-link-margin: var(--ids-spacing-xxl);
+  --ids-skip-link-font-size: var(--ids-font-size-md);
+  --ids-skip-link-border-radius: 0 0 var(--ids-border-radius-xs) var(--ids-border-radius-xs);
+  --ids-skip-link-shadow: 0 0 4px 1px rgba(0 0 0 / 0.3);
+
+  // Spinbox
+  --ids-spinbox-background-color: var(--ids-trigger-field-background-color);
+  --ids-spinbox-readonly-background-color: var(--ids-trigger-field-readonly-background-color);
+  --ids-spinbox-readonly-text-color: var(--ids-trigger-field-readonly-text-color);
+  --ids-spinbox-focus-border-color: var(--ids-trigger-field-focus-border-color)
+  --ids-spinbox-focus-shadow: var(--ids-trigger-field-focus-shadow);
+  --ids-spinbox-readonly-border-color: var(--ids-input-readonly-border-color);
+  --ids-spinbox-disabled-text-color: var(--ids-trigger-field-disabled-text-color);
+  --ids-spinbox-disabled-border-color: var(--ids-trigger-field-disabled-border-color);
 
   // Splitter
   --ids-splitter-bar-background-color: var(--ids-button-tertiary-hover-background-color);
@@ -669,6 +717,18 @@
   --ids-tooltip-success-background-color: var(--ids-color-success);
   --ids-tooltip-inverse-background-color: var(--ids-color-slate-00);
   --ids-tooltip-inverse-text-color: var(--ids-color-slate-100);
+
+  // Trigger Field
+  --ids-trigger-field-button-border-radius: var(--ids-border-radius-md);
+  --ids-trigger-field-button-margin: 4px;
+  --ids-trigger-field-background-color: var(--ids-input-background-color);
+  --ids-trigger-field-readonly-background-color: var(--ids-input-readonly-background-color);
+  --ids-trigger-field-readonly-border-color: var(--ids-input-readonly-border-color);
+  --ids-trigger-field-readonly-text-color: var(--ids-input-readonly-text-color);
+  --ids-trigger-field-focus-border-color: var(--ids-input-focus-border-color)
+  --ids-trigger-field-focus-shadow: var(--ids-input-info-focus-shadow);
+  --ids-trigger-field-disabled-text-color: var(--ids-input-disabled-text-color);
+  --ids-trigger-field-disabled-border-color: var(--ids-input-disabled-border-color);
 
   // Wizard
   --ids-wizard-step-width: 14px;

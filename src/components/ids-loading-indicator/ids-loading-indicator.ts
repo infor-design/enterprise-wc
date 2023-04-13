@@ -52,7 +52,6 @@ export default class IdsLoadingIndicator extends Base {
   static get attributes(): Array<string> {
     return [
       attributes.LINEAR,
-      attributes.MODE,
       attributes.PERCENTAGE_VISIBLE,
       attributes.PROGRESS,
       attributes.STICKY,

@@ -28,7 +28,7 @@
   --ids-input-readonly-border-color: var(--ids-color-slate-40);
   --ids-input-readonly-text-color: var(--ids-color-slate-100);
   --ids-input-readonly-background-color: var(--ids-color-slate-20);
-  --ids-input-disabled-color: var(--ids-disabled-text-color);
+  --ids-input-disabled-text-color: var(--ids-disabled-text-color);
   --ids-input-disabled-border-color: var(--ids-disabled-text-color);
   --ids-input-hover-border-color: var(--ids-color-slate-90);
   --ids-input-focus-border-color: var(--ids-focus-ring-border-color);
@@ -66,7 +66,7 @@
   /// --- Component Tokens ---- ///
   // Action Panel
   --ids-action-panel-header-background-color:  var(--ids-color-slate-10);
-  --ids-action-panel-header-border-color:  var(--ids-color-slate-50);
+  --ids-action-panel-header-border-color:  var(--ids-color-slate-40);
 
   // Alerts
   --ids-alert-in-progress-color: var(--ids-color-amethyst-90);
@@ -238,6 +238,13 @@
 
   // Popup Menu
   --ids-popup-menu-text-color: var(--ids-color-slate-90);
+
+  // Menu
+  --ids-menu-header-text-color: var(--ids-color-slate-100);
+  --ids-menu-item-disabled-text-color: var(--ids-color-slate-50);
+  --ids-menu-item-highlight-color: var(--ids-color-slate-20);
+  --ids-menu-item-text-color: var(--ids-color-slate-100);
+  --ids-menu-item-check-color: var(--ids-color-azure-80);
 
   // Month View
   --ids-month-view-border-color: var(--ids-color-slate-30);

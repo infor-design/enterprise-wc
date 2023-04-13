@@ -1,4 +1,3 @@
-@import '../../core/ids-base';
 @import '../ids-input/ids-input';
 
 // Ability to center label
@@ -12,21 +11,18 @@
 
 .ids-trigger-field-slot-trigger-start,
 ::slotted(*[slot='trigger-start']:first-of-type:not([inline]):not([compact]):not([field-height='xs'])) {
-  @include ml-4();
+  margin-inline-start: var(--ids-trigger-field-button-margin);
 }
 
 .ids-trigger-field-slot-trigger-end,
 ::slotted(*[slot='trigger-end']:last-of-type:not([inline]):not([compact]):not([field-height='xs'])) {
-  @include mr-4();
+  margin-inline-end: var(--ids-trigger-field-button-margin);
 }
 
-.ids-input[mode='light'].color-variant-alternate-formatter,
-.ids-input:not([mode]).color-variant-alternate-formatter,
-.ids-input[mode='dark'].color-variant-alternate-formatter,
-.ids-input[mode='contrast'].color-variant-alternate-formatter {
+.ids-input.color-variant-alternate-formatter {
   &:focus-within {
     .field-container {
-      box-shadow: 0 0 3px 1px var(--ids-color-palette-azure-60);
+      box-shadow: var(--ids-trigger-field-focus-shadow);
     }
 
     .ids-input-field {
