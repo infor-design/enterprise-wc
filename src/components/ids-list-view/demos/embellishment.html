@@ -51,7 +51,12 @@
                         </ids-layout-flex-item>
                       </ids-hidden>
                     </ids-layout-flex>
-                    <ids-hyperlink href="https://www.example.com/${productId}" target="_blank">${productId}</ids-hyperlink>
+                    <ids-hidden value="${disabled}" condition="false">
+                      <ids-hyperlink href="https://www.example.com/${productId}" target="_blank" disabled>${productId}</ids-hyperlink>
+                    </ids-hidden>
+                    <ids-hidden value="${disabled}" condition="true">
+                      <ids-hyperlink href="https://www.example.com/${productId}" target="_blank">${productId}</ids-hyperlink>
+                    </ids-hidden>
                     <ids-text font-size="12" type="span">Count: ${units}</ids-text>
                     <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
                     <ids-text font-size="12" type="span" text-align="end">$ ${totalPrice}</ids-text>

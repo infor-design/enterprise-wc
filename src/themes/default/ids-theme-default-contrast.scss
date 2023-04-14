@@ -227,6 +227,13 @@
   // Icons
   --ids-icon-color: var(--ids-color-slate-100);
 
+  // List View
+  --ids-list-view-item-border-top-color: var(--ids-color-slate-60);
+  --ids-list-view-item-focus-border-color: var(--ids-color-azure-70);
+  --ids-list-view-item-focus-box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
+  --ids-list-view-item-disabled-focus-border-top-color: var(--ids-color-slate-60);
+  --ids-list-view-selectable-item-selected-background-color: var(--ids-color-azure-20);
+
   // Masthead
   --ids-masthead-background-color: var(--ids-color-slate-80);
   --ids-masthead-text-color: var(--ids-color-slate-30);

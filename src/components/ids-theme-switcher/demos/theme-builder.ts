@@ -17,6 +17,7 @@ import '../../ids-hierarchy/ids-hierarchy-legend';
 import '../../ids-hierarchy/ids-hierarchy-legend-item';
 import '../../ids-image/ids-image';
 import '../../ids-list-builder/ids-list-builder';
+import '../../ids-list-view/ids-list-view';
 import '../../ids-masthead/ids-masthead';
 import '../../ids-menu/ids-menu';
 import '../../ids-menu-button/ids-menu-button';
@@ -49,8 +50,9 @@ import '../../ids-week-view/ids-week-view';
 // Assets
 import bikesJSON from '../../../assets/data/bikes.json';
 import booksJSON from '../../../assets/data/books.json';
-import css from '../../../assets/css/ids-popup/index.css';
 import eventsJSON from '../../../assets/data/events.json';
+import cssPopup from '../../../assets/css/ids-popup/index.css';
+import cssListView from '../../../assets/css/ids-list-view/index.css';
 import eventTypesJSON from '../../../assets/data/event-types.json';
 import headshot from '../../../assets/images/headshot-1.jpg';
 
@@ -321,10 +323,10 @@ popupTriggerBtn?.addEventListener('click', () => {
   popup.visible = !popup.visible;
 });
 
-const cssLink = `<link href="${css}" rel="stylesheet">`;
+const cssPopupLink = `<link href="${cssPopup}" rel="stylesheet">`;
 const head = document.querySelector('head');
 if (head) {
-  head.insertAdjacentHTML('afterbegin', cssLink);
+  head.insertAdjacentHTML('afterbegin', cssPopupLink);
 }
 
 // =================================================================
@@ -444,6 +446,22 @@ if (listBuilderEl) {
     const res = await fetch((bikesJSON as any));
     const data = await res.json();
     listBuilderEl.data = data;
+  };
+  setData();
+}
+
+// =================================================================
+// List View
+// =================================================================
+const cssListViewLink = `<link href="${cssListView}" rel="stylesheet">`;
+head?.insertAdjacentHTML('afterbegin', cssListViewLink);
+
+const listViewEl: any = document.querySelector('#list-view-tb');
+if (listViewEl) {
+  const setData = async () => {
+    const res = await fetch((eventsJSON as any));
+    const data = await res.json();
+    listViewEl.data = data;
   };
   setData();
 }

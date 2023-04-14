@@ -654,6 +654,25 @@
           </ids-list-builder>
         </ids-layout-grid>
 
+        <!-- List View -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">List View</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid  cols="2">
+          <ids-layout-grid-cell>
+            <div class="parent-container">
+              <ids-list-view selectable="multiple" item-height="76" id="list-view-tb">
+                <template>
+                  <ids-text font-size="16" type="h2">${subject}</ids-text>
+                  <ids-text font-size="12" type="span">ID: ${id}</ids-text>
+                  <ids-text font-size="12" type="span">Comments: ${comments}</ids-text>
+                </template>
+              </ids-list-view>
+            </div>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Notification Banner -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Notification Banner</ids-text>

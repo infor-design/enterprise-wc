@@ -7,10 +7,10 @@
   border-radius: var(--ids-card-border-radius);
   box-shadow: var(--ids-card-shadow);
   margin-block-end: var(--ids-card-margin-bottom);
-  height: 360px;
+  height: var(--ids-card-height);
 
   .ids-card-content {
-    height: var(--ids-card-height);
+    height: var(--ids-card-content-height);
     overflow: auto;
     width: 100%;
 
