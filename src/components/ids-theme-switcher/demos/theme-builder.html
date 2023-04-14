@@ -286,6 +286,16 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <!-- Calendar -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h1">Calendar View</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell auto="true">
+            <ids-calendar date="10/22/2019" show-today view-picker></ids-calendar>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Checkboxes -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Checkboxes</ids-text>
@@ -361,6 +371,31 @@
         <ids-layout-grid auto="true" gap="md">
           <ids-data-label label="Shipping to" label-position="left">Los Angeles, California 90001 USA</ids-data-label>
           <ids-data-label label="Shipping to">Los Angeles, California 90001 USA</ids-data-label>
+        </ids-layout-grid>
+
+        <!-- Date Picker -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h1">Date Picker</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-date-picker id="e2e-datepicker-value" label="Date Field" value="3/4/2016" tabbable="false" mask></ids-date-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-date-picker id="e2e-datepicker-required" label="Date Field (required)" placeholder="true" format="yyyy-MM-dd" validate="required date" validation-events="blur" show-today="false" first-day-of-week="1" mask></ids-date-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-date-picker id="e2e-datepicker-disabled" label="Date Field (disabled)" value="10/31/2014" disabled></ids-date-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-date-picker id="e2e-datepicker-dirty-tracker" label="Date Field (dirty-tracker)" dirty-tracker="true" value="3/4/2016" mask></ids-date-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-date-picker id="e2e-datepicker-readonly" label="Date Field (readonly)" value="2021-10-18" format="yyyy-MM-dd" readonly size="sm"></ids-date-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-date-picker id="e2e-datepicker-legend" label="Date Field (legend)" value="12/15/2021" size="sm" mask></ids-date-picker>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Editor -->
@@ -783,21 +818,6 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <!-- Month View -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Month View</ids-text>
-        </ids-layout-grid>
-        <ids-layout-grid auto="true">
-          <ids-layout-grid-cell>
-            <ids-month-view
-              show-today="true"
-              month="10"
-              year="2021"
-              day="15"
-            ></ids-month-view>
-          </ids-layout-grid-cell>
-        </ids-layout-grid>
-
         <!-- Progress Bar -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Popup</ids-text>
@@ -1092,20 +1112,6 @@
               </ids-trigger-button>
             </ids-trigger-field>
           </ids-layout-grid-cell>
-        </ids-layout-grid>
-
-        <!-- Week View -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Week View</ids-text>
-        </ids-layout-grid>
-        <ids-layout-grid auto="true">
-          <ids-week-view
-            first-day-of-week="1"
-            show-today="true"
-            start-date="10/23/2019"
-            end-date="11/01/2019"
-            show-timeline="false"
-          ></ids-week-view>
         </ids-layout-grid>
       </ids-layout-grid-cell>
     </ids-layout-grid>

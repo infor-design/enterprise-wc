@@ -86,6 +86,9 @@
   --ids-badge-warning-border-color: var(--ids-color-warning-100);
   --ids-badge-warning-color: var(--ids-color-slate-00);
 
+  // Calendar
+  --ids-calendar-toolbar-container-border-color: var(--ids-color-slate-30);
+
   // Card
   --ids-card-background-color: var(--ids-color-slate-00);
   --ids-card-border-color: var(--ids-color-slate-60);
@@ -265,26 +268,26 @@
   --ids-radio-checked-border-color:  var(--ids-color-primary);
   --ids-radio-checked-inner-background-color:  var(--ids-color-slate-00);
 
-    // Slider
-    --ids-slider-tick-background-color: var(--ids-color-azure-60);
-    --ids-slider-thumb-background-color: var(--ids-color-azure-60);
-    --ids-slider-thumb-shadow-background-color: rgba(0 74 153 / 0.1);
-    --ids-slider-thumb-shadow-border-color: var(--ids-color-azure-60);
-    --ids-slider-track-background-color: var(--ids-color-slate-60);
-    --ids-slider-track-progress-background-color: var(--ids-color-azure-60);
-    --ids-slider-tooltip-background-color: var(--ids-color-slate-90);
-    --ids-slider-disabled-color: var(--ids-color-slate-40);
-    --ids-slider-disabled-tick-background-color: var(--ids-color-slate-60);
-    --ids-slider-disabled-thumb-background-color: var(--ids-color-slate-60);
-    --ids-slider-disabled-track-background-color: var(--ids-color-slate-50);
-    --ids-slider-disabled-track-progress-background-color: var(--ids-color-slate-60);
-    --ids-slider-readonly-color: var(--ids-color-slate-40);
-    --ids-slider-readonly-tick-background-color: var(--ids-color-slate-80);
-    --ids-slider-readonly-thumb-background-color: var(--ids-color-slate-80);
-    --ids-slider-readonly-thumb-shadow-background-color: rgba(71 71 76 / 0.1);
-    --ids-slider-readonly-thumb-shadow-border-color:  var(--ids-color-slate-80);
-    --ids-slider-readonly-track-background-color: var(--ids-color-slate-60);
-    --ids-slider-readonly-track-progress-background-color: var(--ids-color-slate-80);
+  // Slider
+  --ids-slider-tick-background-color: var(--ids-color-azure-60);
+  --ids-slider-thumb-background-color: var(--ids-color-azure-60);
+  --ids-slider-thumb-shadow-background-color: rgba(0 74 153 / 0.1);
+  --ids-slider-thumb-shadow-border-color: var(--ids-color-azure-60);
+  --ids-slider-track-background-color: var(--ids-color-slate-60);
+  --ids-slider-track-progress-background-color: var(--ids-color-azure-60);
+  --ids-slider-tooltip-background-color: var(--ids-color-slate-90);
+  --ids-slider-disabled-color: var(--ids-color-slate-40);
+  --ids-slider-disabled-tick-background-color: var(--ids-color-slate-60);
+  --ids-slider-disabled-thumb-background-color: var(--ids-color-slate-60);
+  --ids-slider-disabled-track-background-color: var(--ids-color-slate-50);
+  --ids-slider-disabled-track-progress-background-color: var(--ids-color-slate-60);
+  --ids-slider-readonly-color: var(--ids-color-slate-40);
+  --ids-slider-readonly-tick-background-color: var(--ids-color-slate-80);
+  --ids-slider-readonly-thumb-background-color: var(--ids-color-slate-80);
+  --ids-slider-readonly-thumb-shadow-background-color: rgba(71 71 76 / 0.1);
+  --ids-slider-readonly-thumb-shadow-border-color:  var(--ids-color-slate-80);
+  --ids-slider-readonly-track-background-color: var(--ids-color-slate-60);
+  --ids-slider-readonly-track-progress-background-color: var(--ids-color-slate-80);
 
   // Step Chart
   --ids-step-chart-step-background-color: var(--ids-color-slate-30);

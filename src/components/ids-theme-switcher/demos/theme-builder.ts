@@ -1,10 +1,12 @@
 import '../../ids-action-panel/ids-action-panel';
 import '../../ids-badge/ids-badge';
 import '../../ids-breadcrumb/ids-breadcrumb';
+import '../../ids-calendar/ids-calendar';
 import '../../ids-color-picker/ids-color-picker';
 import '../../ids-counts/ids-counts';
 import '../../ids-data-grid/ids-data-grid';
 import '../../ids-data-label/ids-data-label';
+import '../../ids-date-picker/ids-date-picker';
 import '../../ids-editor/ids-editor';
 import '../../ids-empty-message/ids-empty-message';
 import '../../ids-expandable-area/ids-expandable-area';
@@ -48,6 +50,8 @@ import '../../ids-week-view/ids-week-view';
 import bikesJSON from '../../../assets/data/bikes.json';
 import booksJSON from '../../../assets/data/books.json';
 import css from '../../../assets/css/ids-popup/index.css';
+import eventsJSON from '../../../assets/data/events.json';
+import eventTypesJSON from '../../../assets/data/event-types.json';
 import headshot from '../../../assets/images/headshot-1.jpg';
 
 // Types
@@ -322,6 +326,65 @@ const head = document.querySelector('head');
 if (head) {
   head.insertAdjacentHTML('afterbegin', cssLink);
 }
+
+// =================================================================
+// Calendar
+// =================================================================
+const eventsURL: any = eventsJSON;
+const eventTypesURL: any = eventTypesJSON;
+
+/**
+ * Fetch events.json
+ * @returns {Promise} events.json content
+ */
+function getCalendarEvents(): Promise<any> {
+  return fetch(eventsURL).then((res) => res.json());
+}
+
+/**
+ * Fetch event-types.json
+ * @returns {Promise} event-types.json content
+ */
+function getEventTypes(): Promise<any> {
+  return fetch(eventTypesURL).then((res) => res.json());
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const calendar: any = document.querySelector('ids-calendar');
+
+  // Set event types
+  calendar.eventTypesData = await getEventTypes();
+  calendar.eventsData = await getCalendarEvents();
+});
+
+// =================================================================
+// Date Picker
+// =================================================================
+document.addEventListener('DOMContentLoaded', async () => {
+  const datePickerLegend: any = document.querySelector('#e2e-datepicker-legend');
+
+  if (datePickerLegend) {
+    datePickerLegend.legend = [
+      {
+        name: 'Public Holiday',
+        color: 'emerald-60',
+        dates: ['12/31/2021', '12/24/2021', '1/1/2022'],
+      },
+      { name: 'Weekends', color: 'amber-60', dayOfWeek: [0, 6] },
+      {
+        name: 'Other',
+        color: 'ruby-30',
+        dates: ['1/8/2022', '1/9/2022', '1/23/2022'],
+      },
+      {
+        name: 'Half Days',
+        color: 'amethyst-60',
+        dates: ['1/21/2022', '1/22/2022'],
+      },
+      { name: 'Full Days', color: 'azure-30', dates: ['1/24/2022', '1/25/2022'] },
+    ];
+  }
+});
 
 // =================================================================
 // Slider

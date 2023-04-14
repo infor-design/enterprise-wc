@@ -109,6 +109,10 @@
   --ids-button-formatter-disabled-text-color: var(--ids-color-slate-50);
   --ids-button-formatter-ripple-color: var(--ids-color-primary);
 
+  // Calendar
+  --ids-calendar-toolbar-container-background-color: var(--ids-color-slate-80);
+  --ids-calendar-toolbar-container-border-color: var(--ids-color-slate-70);
+
   // Card
   --ids-card-background-color: var(--ids-color-slate-90);
   --ids-card-border-color: var(--ids-color-slate-70);
@@ -164,6 +168,12 @@
   --ids-data-grid-row-selected-background-color: rgba(85 163 243 / 0.12);
   --ids-data-grid-row-alternate-background-color: var(--ids-color-slate-80);
   --ids-data-grid-row-focus-shadow: inset 0 0 0 1px var(--ids-color-azure-50), 0 1px 0 0 var(--ids-color-azure-50), 0 0 3px 2px rgb(54 138 192 / 0.3);
+
+  // Date Picker
+  --ids-date-picker-picklist-background-color: var(--ids-color-slate-70);
+  --ids-date-picker-picklist-item-focus-border-color: var(--ids-color-primary-40);
+  --ids-date-picker-picklist-item-selected-background-color: var(--ids-color-primary-40);
+  --ids-date-picker-popup-button-today-text-color: var(--ids-color-primary-40);
 
   // Dirty Indicator
   --ids-dirty-indicator-background-color: var(--ids-color-amber-40);

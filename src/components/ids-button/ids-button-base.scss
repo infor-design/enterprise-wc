@@ -103,7 +103,7 @@
   }
 
   // Account for 2px borders on secondary buttons
-  &:not(.btn-secondary) {
+  &:not(.btn-secondary):not(.no-margins) {
     margin: var(--ids-spacing-xs);
   }
 }

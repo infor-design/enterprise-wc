@@ -244,6 +244,10 @@
   --ids-breadcrumb-current-font-weight:
   --ids-breadcrumb-font-size: var(--ids-font-size-sm);
 
+  // Calendar
+  --ids-calendar-toolbar-container-background-color: var(--ids-color-slate-00);
+  --ids-calendar-toolbar-container-border-color: var(--ids-color-slate-20);
+
   // Card
   --ids-card-toolbar-padding: var(--ids-spacing-xxl);
   --ids-card-border-radius: var(--ids-border-radius-md);
@@ -329,6 +333,25 @@
   --ids-data-grid-row-selected-background-color: rgba(85 163 243 / 0.10);
   --ids-data-grid-row-alternate-background-color: var(--ids-color-slate-10);
   --ids-data-grid-row-focus-shadow: inset 0 0 0 1px var(--ids-color-palette-azure-40), 0 1px 0 0 var(--ids-color-palette-azure-40), 0 0 3px 2px rgb(54 138 192 / 0.3);
+
+  // Date Picker
+  --ids-date-picker-open-trigger-button-text-color: var(--ids-color-primary)
+  --ids-date-picker-open-trigger-input-border-color: var(--ids-color-primary);
+  --ids-date-picker-dropdown-button-text-color: var(--ids-color-slate-100);
+  --ids-date-picker-dropdown-focus-box-shadow-color: var(--ids-shadow-md);
+  --ids-date-picker-picklist-background-color: var(--ids-color-slate-00);
+  --ids-date-picker-picklist-item-text-color: var(--ids-subtle-text-color);
+  --ids-date-picker-picklist-item-focus-border-color: var(--ids-focus-ring-border-color);
+  --ids-date-picker-picklist-item-focus-box-shadow: var(--ids-focus-ring-shadow);
+  --ids-date-picker-picklist-item-selected-text-color: var(--ids-color-slate-00);
+  --ids-date-picker-picklist-item-selected-background-color: var(--ids-color-primary);
+  --ids-date-picker-popup-button-apply-text-color: var(--ids-color-azure-70);
+  --ids-date-picker-popup-button-apply-disabled-text-color: var(--ids-color-azure-30);
+  --ids-date-picker-popup-button-border-color: var(--ids-color-slate-30);
+  --ids-date-picker-popup-footer-border-color: var(--ids-date-picker-popup-button-border-color);
+  --ids-date-picker-popup-button-text-color: var(--ids-color-slate-60);
+  --ids-date-picker-popup-button-hover-text-color: var(--ids-color-slate-100);
+  --ids-date-picker-popup-button-today-text-color: var(--ids-color-primary);
 
   // Dirty Indicator
   --ids-dirty-indicator-background-color: var(--ids-color-palette-amber-30);
