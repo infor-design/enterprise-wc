@@ -28,7 +28,6 @@ const Base = IdsKeyboardMixin(
  * @mixes IdsKeyboardMixin
  * @mixes IdsSelectionMixin
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @inherits IdsElement
  */
 @customElement('ids-block-grid-item')

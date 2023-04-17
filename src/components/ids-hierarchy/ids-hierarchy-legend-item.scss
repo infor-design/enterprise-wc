@@ -5,10 +5,10 @@
 }
 
 .ids-hierarchy-legend-item {
-  @include flex();
   @include relative();
 
   align-items: center;
+  display: flex;
   margin-inline-end: calc(var(--ids-spacing-lg) * 4);
   margin-block-end: var(--ids-spacing-lg);
 

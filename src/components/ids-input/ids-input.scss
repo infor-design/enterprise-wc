@@ -28,7 +28,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
     &:focus-within,
     &.is-active {
       border-color: var(--ids-input-alert-border-color);
-      box-shadow: var(--ids-input-alert-focus-shadow) 0 0 3px 2px;
+      box-shadow: var(--ids-input-alert-focus-box-shadow) 0 0 3px 2px;
     }
 
     &[disabled] {
@@ -45,7 +45,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
     &:focus-within,
     &.is-active {
       border-color: var(--ids-input-error-border-color);
-      box-shadow: var(--ids-input-error-focus-shadow) 0 0 3px 2px;
+      box-shadow: var(--ids-input-error-focus-box-shadow) 0 0 3px 2px;
     }
 
     &[disabled] {
@@ -62,7 +62,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
     &:focus-within,
     &.is-active {
       border-color: var(--ids-input-info-border-color);
-      box-shadow: var(--ids-input-info-focus-shadow)  0 0 3px 2px;
+      box-shadow: var(--ids-input-info-focus-box-shadow)  0 0 3px 2px;
     }
 
     &[disabled] {
@@ -79,7 +79,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
     &:focus-within,
     &.is-active {
       border-color: var(--ids-input-success-border-color);
-      box-shadow: var(--ids-input-success-focus-shadow) 0 0 3px 2px;
+      box-shadow: var(--ids-input-success-focus-box-shadow) 0 0 3px 2px;
     }
 
     &[disabled] {
@@ -210,7 +210,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
 
     .field-container {
       border-color: var(--ids-input-focus-border-color);
-      box-shadow: var(--ids-focus-ring-shadow);
+      box-shadow: var(--ids-focus-box-shadow);
     }
   }
 
@@ -526,7 +526,8 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
     }
   }
 
-  &:hover:not(.readonly) {
+  &:hover:not(.readonly):not(.disabled),
+  &:hover.readonly.readonly-background {
     .field-container {
       border-color: var(--ids-input-hover-border-color);
     }
@@ -571,7 +572,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
       }
 
       .ids-input-field {
-        box-shadow: 0 0 3px 1px var(--ids-focus-ring-shadow);
+        box-shadow: 0 0 3px 1px var(--ids-focus-box-shadow);
       }
     }
 
@@ -602,7 +603,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
 }
 
 .highlight {
-  font-weight: var(--ids-number-font-weight-bold);
+  font-weight: var(--ids-font-weight-bold);
 }
 
 .ids-input-field[type='number']::-webkit-inner-spin-button,

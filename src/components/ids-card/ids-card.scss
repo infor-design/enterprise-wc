@@ -5,7 +5,7 @@
   background-color: var(--ids-card-background-color);
   border: 1px solid var(--ids-card-border-color);
   border-radius: var(--ids-card-border-radius);
-  box-shadow: var(--ids-card-shadow);
+  box-shadow: var(--ids-card-box-shadow);
   margin-block-end: var(--ids-card-margin-bottom);
   height: 360px;
 
@@ -155,7 +155,7 @@
 
     &:focus {
       border: 1px solid var(--ids-card-border-color);
-      box-shadow: var(--ids-shadow-lg);
+      box-shadow: var(--ids-box-shadow-lg);
     }
   }
 }

@@ -82,8 +82,7 @@ export default class IdsUploadAdvanced extends Base {
       attributes.METHOD,
       attributes.PARAM_NAME,
       attributes.SHOW_BROWSE_LINK,
-      attributes.URL,
-      attributes.MODE
+      attributes.URL
     ];
   }
 

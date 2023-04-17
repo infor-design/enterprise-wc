@@ -36,7 +36,6 @@ const Base = IdsColorVariantMixin(
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @part accordion - the accordion root element
  */
 @customElement('ids-accordion')
@@ -67,8 +66,7 @@ export default class IdsAccordion extends Base {
     return [
       ...super.attributes,
       attributes.ALLOW_ONE_PANE,
-      attributes.DISABLED,
-      attributes.MODE
+      attributes.DISABLED
     ];
   }
 

@@ -41,7 +41,7 @@
 
     &:focus {
       border-color: var(--ids-about-focus-border-color);
-      box-shadow: var(--ids-about-focus-shadow);
+      box-shadow: var(--ids-about-focus-box-shadow);
       outline: 0;
       outline-color: transparent;
     }

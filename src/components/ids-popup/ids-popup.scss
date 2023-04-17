@@ -243,7 +243,7 @@
 
     // New Light Regular Colors
     border-radius: var(--ids-popup-menu-border-radius);
-    box-shadow: var(--ids-popup-menu-shadow);
+    box-shadow: var(--ids-popup-menu-box-shadow);
 
     .arrow.bottom {
       border-bottom-color: var(--ids-popup-menu-border-color);
@@ -283,7 +283,7 @@
     background-color: var(--ids-popup-menu-inverse-background-color);
     border: 1px solid var(--ids-popup-menu-inverse-border-color);
     padding-block: var(--ids-popup-menu-padding);
-    box-shadow: var(--ids-popup-menu-inverse-shadow);
+    box-shadow: var(--ids-popup-menu-inverse-box-shadow);
     font-size: var(--ids-popup-menu-font-size);
     color: var(--ids-popup-menu-inverse-text-color);
     border-color: var(--ids-popup-menu-inverse-border-color);
@@ -315,7 +315,7 @@
   &.tooltip {
     background-color: var(--ids-tooltip-background-color);
     border-radius: var(--ids-tooltip-border-radius);
-    box-shadow: var(--ids-tooltip-shadow);
+    box-shadow: var(--ids-tooltip-box-shadow);
     cursor: var(--ids-cursor-pointer);
     color: var(--ids-tooltip-text-color);
     display: inline-block;
@@ -475,7 +475,7 @@
     border: 1px solid var(--ids-modal-border-color);
     padding: var(--ids-modal-padding);
     border-radius: var(--ids-modal-border-radius);
-    box-shadow: var(--ids-modal-shadow);
+    box-shadow: var(--ids-modal-box-shadow);
     font-family: var(--ids-font-family);
     color: var(--ids-modal-text-color);
   }
@@ -485,7 +485,7 @@
     @include mixins.antialiased();
 
     background-color: var(--ids-dropdown-background-color);
-    border-color: 1px solid var(--ids-dropdown-border-color);
+    border: 1px solid var(--ids-dropdown-border-color);
     box-shadow: var(--ids-dropdown-box-shadow);
     border-radius: var(--ids-dropdown-border-radius);
     outline: none;
@@ -495,7 +495,7 @@
       border-radius: var(--ids-dropdown-flipped-border-radius);
       border-bottom-color: var(--ids-dropdown-attached-border-color);
       border-top-color: var(--ids-dropdown-border-color);
-      box-shadow: var(--ids-dropdown-flipped-shadow);
+      box-shadow: var(--ids-dropdown-flipped-box-shadow);
     }
   }
 

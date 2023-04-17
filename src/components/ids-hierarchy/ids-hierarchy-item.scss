@@ -1,9 +1,8 @@
 @import '../../core/ids-base';
 
 .ids-hierarchy-item {
-  @include flex();
-
   align-items: center;
+  display: flex;
   justify-content: center;
   flex-direction: column;
   padding-inline-start: calc(var(--ids-spacing-lg) * 12);
@@ -38,10 +37,10 @@
 }
 
 .leaf-inside {
-  @include flex();
   @include relative();
 
   align-items: center;
+  display: flex;
   background-color: white;
   padding: var(--ids-spacing-lg) calc(var(--ids-spacing-lg) * 2);
   border-left: 5px solid var(--ids-color-palette-slate-80);

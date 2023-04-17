@@ -89,7 +89,6 @@ $textarea-size-default-height: 120px;
     @include mb-4();
     @include p-12();
     @include text-16();
-    @include w-full();
 
     appearance: none;
     font-family: var(--ids-font-family);
@@ -99,6 +98,7 @@ $textarea-size-default-height: 120px;
     min-height: $textarea-size-default-height;
     resize: none;
     text-align: left;
+    width: 100%;
 
     &:focus {
       @include shadow();

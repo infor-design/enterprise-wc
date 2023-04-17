@@ -29,25 +29,25 @@ $image-sizes: (
 :host(:focus),
 :host(:focus-visible) {
   .ids-image {
-    border-color: var(--ids-focus-ring-border-color);
-    box-shadow: var(--ids-shadow-lg);
+    border-color: var(--ids-image-focus-border-color);
+    box-shadow: var(--ids-image-focus-box-shadow);
   }
 }
 
-// theme mode
+// normal
 :host .placeholder,
 .ids-image.placeholder {
-  border-color: var(--ids-disabled-text-color);
+  border-color: var(--ids-image-border-color);
 
   ids-icon {
-    color: var(--ids-subtle-text-color);
+    color: var(--ids-image-text-color);
   }
 }
 
 // round attribute
 :host([round='true']) .ids-image,
 .ids-image.round {
-  border-radius: var(--ids-border-radius-round);
+  border-radius: var(--ids-image-initials-border-radius);
   min-width: 50px;
   max-width: 50px;
   width: 50px;
@@ -75,7 +75,7 @@ $image-sizes: (
   &.placeholder {
     align-items: center;
     display: inline-flex;
-    background-color: var(--ids-body-background-color);
+    background-color: var(--ids-image-placeholder-background-color);
     justify-content: center;
     min-width: 50px;
     min-height: 50px;
@@ -106,27 +106,39 @@ $image-sizes: (
 
   // icon colors
   &.available {
-    color: var(--ids-color-success);
+    color: var(--ids-image-status-available-background-color);
   }
 
   &.busy,
   &.do-not-disturb {
-    color: var(--ids-color-error);
+    color: var(--ids-image-status-busy-background-color);
   }
 
   &.away {
-    color: var(--ids-color-warning);
+    color: var(--ids-image-status-away-background-color);
   }
 
   &.unknown {
-    color: var(--ids-disabled-text-color);
+    color: var(--ids-image-status-unknown-background-color);
   }
 
-  // background for svg
+  // Draw a border and ring around the background color
+  &::before {
+    position: absolute;
+    border-radius: var(--ids-border-radius-round);
+    background-color: var(--ids-color-slate-00);
+    content: '';
+    width: 12px;
+    height: 12px;
+    left: 3px;
+    top: 3px;
+    z-index: 1;
+  }
+
   &::after {
     position: absolute;
     border-radius: var(--ids-border-radius-round);
-    background-color: var(--ids-color-primary-00);
+    background-color: var(--ids-body-background-color);
     content: '';
     width: 16px;
     height: 16px;
@@ -142,7 +154,7 @@ $image-sizes: (
 .user-status-wrapper .user-status {
   svg {
     border-radius: var(--ids-border-radius-round);
-    background-color: var(--ids-color-primary-00);
+    background-color: var(--ids-body-background-color);
   }
 
   position: unset;

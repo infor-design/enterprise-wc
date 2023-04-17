@@ -1,37 +1,36 @@
 /* Ids Dropdown Component */
 @import '../../themes/mixins/ids-validation-mixin';
-@import '../../core/ids-base';
 
 // Dropdown menu width
 :host ids-popup {
-  max-width: $input-size-md;
+  max-width: var(--ids-input-width-md);
 }
 
 :host([size='xs']) ids-popup {
-  max-width: $input-size-xs;
+  max-width: var(--ids-input-width-xs);
 }
 
 :host([size='sm']) ids-popup {
-  max-width: $input-size-sm;
+  max-width: var(--ids-input-width-sm);
 }
 
 :host([size='mm']) ids-popup {
-  max-width: $input-size-mm;
+  max-width: var(--ids-input-width-mm);
 }
 
 :host([size='md']) ids-popup {
-  max-width: $input-size-md;
+  max-width: var(--ids-input-width-md);
 }
 
 :host([size='lg']) ids-popup {
-  max-width: $input-size-lg;
+  max-width: var(--ids-input-width-lg);
 }
 
 :host([size='full']) ids-popup {
-  max-width: $input-size-full;
+  max-width: var(--ids-input-width-full);
 }
 
 :host ids-popup,
 :host([size='full']) {
-  @include w-full();
+  width: 100%;
 }

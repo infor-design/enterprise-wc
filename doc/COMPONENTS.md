@@ -61,7 +61,6 @@ import styles from './ids-[component-name].scss';
  * @type {[IdsComponent]}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part container - the container element
  */
 @customElement('ids-[component]')
@@ -153,7 +152,6 @@ import styles from './ids-[component-name].scss';
  * @type {[IdsComponent]}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part container - the container element
  */
 ```

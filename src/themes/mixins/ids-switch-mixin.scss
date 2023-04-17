@@ -78,13 +78,13 @@
 
 // Focus
 @mixin switch-focus-after {
-  @include switch-focus-shadow();
+  @include switch-focus-box-shadow();
 }
 
 // Helper ===========================================
 // Box Shadow
-@mixin switch-focus-shadow {
-  box-shadow: var(--ids-switch-toggle-focus-shadow);
+@mixin switch-focus-box-shadow {
+  box-shadow: var(--ids-switch-toggle-focus-box-shadow);
 }
 
 @mixin switch-hover-shadow {

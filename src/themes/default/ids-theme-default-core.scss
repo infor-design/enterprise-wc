@@ -43,17 +43,17 @@
   --ids-cursor-text: text;
 
   // Elevations (Box Shadows)
-  --ids-shadow-none: 0 0 3px 2px rgba(54 138 192 / 0);
-  --ids-shadow-error: 0 0 3px 2px rgb(218 18 23 / 0.30);
-  --ids-shadow-inverse: 0 0 3px 2px rgba(255 255 255 / 0.7);
-  --ids-shadow-sm: 0 0 3px 1px rgb(54 138 192 / 0.3);
-  --ids-shadow-md: 0 0 3px 2px rgb(54 138 192 / 0.3);
-  --ids-shadow-lg: 0 0 4px 3px rgb(54 138 192 / 0.3);
+  --ids-box-shadow-none: 0 0 3px 2px rgba(54 138 192 / 0);
+  --ids-box-shadow-error: 0 0 3px 2px rgb(218 18 23 / 0.30);
+  --ids-box-shadow-inverse: 0 0 3px 2px rgba(255 255 255 / 0.7);
+  --ids-box-shadow-sm: 0 0 3px 1px rgb(54 138 192 / 0.3);
+  --ids-box-shadow-md: 0 0 3px 2px rgb(54 138 192 / 0.3);
+  --ids-box-shadow-lg: 0 0 4px 3px rgb(54 138 192 / 0.3);
 
   // Focus Styles
-  --ids-focus-ring-border-color: var(--ids-color-primary);
-  --ids-focus-ring-shadow: var(--ids-shadow-md);
-  --ids-focus-ring-outline: 0;
+  --ids-focus-border-color: var(--ids-color-primary);
+  --ids-focus-box-shadow: var(--ids-box-shadow-md);
+  --ids-focus-outline: 0;
 
   // Fonts
   --ids-font-family: source sans pro, -apple-system, helvetica, arial;
@@ -136,14 +136,14 @@
   --ids-about-padding: 16px;
   --ids-about-hover-border-color: var(--ids-input-hover-border-color);
   --ids-about-focus-border-color: var(--ids-input-focus-border-color);
-  --ids-about-focus-shadow: var(--ids-focus-ring-shadow);
+  --ids-about-focus-box-shadow: var(--ids-focus-box-shadow);
 
   // Action Panel
   --ids-action-panel-header-height: 50px;
   --ids-action-panel-header-padding: 8px;
-  --ids-action-panel-header-background-color:  var(--ids-color-slate-10);
-  --ids-action-panel-header-border-color:  var(--ids-color-slate-20);
-  --ids-action-panel-content-background-color:  var(--ids-color-slate-00);
+  --ids-action-panel-header-background-color: var(--ids-color-slate-10);
+  --ids-action-panel-header-border-color: var(--ids-color-slate-20);
+  --ids-action-panel-content-background-color: var(--ids-color-slate-00);
 
   // Alerts
   --ids-alert-success-color: var(--ids-color-success);
@@ -192,8 +192,8 @@
   --ids-button-primary-border-color: var(--ids-color-primary);
   --ids-button-primary-background-color: var(--ids-color-primary);
   --ids-button-primary-text-color: var(--ids-color-primary-00);
-  --ids-button-primary-focus-border-color: var(--ids-focus-ring-border-color);
-  --ids-button-primary-focus-shadow: 0 0 0 2px var(--ids-color-primary-00), 0 0 0 3px var(--ids-color-primary-70), 0 0 4px 3px var(--ids-color-primary-70);
+  --ids-button-primary-focus-border-color: var(--ids-focus-border-color);
+  --ids-button-primary-focus-box-shadow: 0 0 0 2px var(--ids-color-primary-00), 0 0 0 3px var(--ids-color-primary-70), 0 0 4px 3px var(--ids-color-primary-70);
   --ids-button-primary-hover-background-color: var(--ids-color-primary-80);
   --ids-button-primary-hover-border-color: var(--ids-color-primary-70);
   --ids-button-primary-disabled-background-color: var(--ids-color-slate-20);
@@ -207,7 +207,7 @@
   --ids-button-secondary-border-color: var(--ids-color-primary);
   --ids-button-secondary-text-color: var(--ids-color-primary);
   --ids-button-secondary-focus-border-color: var(--ids-color-primary);
-  --ids-button-secondary-focus-shadow: 0 0 0 2px var(--ids-color-slate-00), 0 0 0 3px var(--ids-color-primary), 0 0 4px 3px var(--ids-color-primary);
+  --ids-button-secondary-focus-box-shadow: 0 0 0 2px var(--ids-color-slate-00), 0 0 0 3px var(--ids-color-primary), 0 0 4px 3px var(--ids-color-primary);
   --ids-button-secondary-hover-background-color: var(--ids-button-tertiary-hover-background-color);
   --ids-button-secondary-disabled-background-color: transparent;
   --ids-button-secondary-disabled-border-color: var(--ids-color-slate-20);
@@ -217,7 +217,7 @@
   // Button (Tertiary)
   --ids-button-tertiary-border-color: transparent;
   --ids-button-tertiary-text-color: var(--ids-color-slate-60);
-  --ids-button-tertiary-focus-border-color: var(--ids-focus-ring-border-color);
+  --ids-button-tertiary-focus-border-color: var(--ids-focus-border-color);
   --ids-button-tertiary-hover-text-color: var(--ids-color-primary-70);
   --ids-button-tertiary-hover-background-color: var(--ids-color-primary-10);
   --ids-button-tertiary-disabled-text-color: var(--ids-color-slate-30);
@@ -249,7 +249,7 @@
   --ids-card-background-color: var(--ids-color-slate-00);
   --ids-card-border-color: var(--ids-color-slate-30);
   --ids-card-divider-border-color: var(--ids-color-slate-20);
-  --ids-card-shadow: rgba(0 0 0 / 0.1) 0 0 8px;
+  --ids-card-box-shadow: rgba(0 0 0 / 0.1) 0 0 8px;
   --ids-card-selected-background-color: var(--ids-color-primary-10);
   --ids-card-selected-border-color: var(--ids-color-primary);
   --ids-card-text-color: var(--ids-label-text-color);
@@ -303,7 +303,7 @@
   --ids-data-grid-filter-input-border-color: var(--ids-color-slate-30);
   --ids-data-grid-filter-input-text-color: var(--ids-color-slate-00);
   --ids-data-grid-filter-input-hover-color: var(--ids-color-slate-20);
-  --ids-data-grid-filter-input-focus-color:  var(--ids-color-azure-50);
+  --ids-data-grid-filter-input-focus-color: var(--ids-color-azure-50);
   --ids-data-grid-filter-input-disabled-border-color: var(--ids-color-slate-50);
   --ids-data-grid-filter-input-disabled-text-color: var(--ids-color-slate-40);
   --ids-data-grid-filter-input-readonly-background-color: var(--ids-color-slate-60);
@@ -324,7 +324,7 @@
   --ids-data-grid-lg-padding: 5px;
   --ids-data-grid-row-selected-background-color: rgba(85 163 243 / 0.10);
   --ids-data-grid-row-alternate-background-color: var(--ids-color-slate-10);
-  --ids-data-grid-row-focus-shadow: inset 0 0 0 1px var(--ids-color-palette-azure-40), 0 1px 0 0 var(--ids-color-palette-azure-40), 0 0 3px 2px rgb(54 138 192 / 0.3);
+  --ids-data-grid-row-focus-box-shadow: inset 0 0 0 1px var(--ids-color-palette-azure-40), 0 1px 0 0 var(--ids-color-palette-azure-40), 0 0 3px 2px rgb(54 138 192 / 0.3);
 
   // Dirty Indicator
   --ids-dirty-indicator-background-color: var(--ids-color-palette-amber-30);
@@ -339,12 +339,25 @@
 
   // Dropdown
   --ids-dropdown-background-color: var(--ids-popup-background-color);
-  --ids-dropdown-border-color: var(--ids-focus-ring-border-color);
+  --ids-dropdown-border-color: var(--ids-focus-border-color);
   --ids-dropdown-attached-border-color: var(--ids-color-slate-30);
-  --ids-dropdown-shadow: -3px 3px 3px 0 rgb(54 138 192 / 0.3), 0 2px 3px 0 rgb(54 138 192 / 0.3), 3px 3px 3px 0 rgb(54 138 192 / 0.3);
+  --ids-dropdown-box-shadow: -3px 3px 3px 0 rgb(54 138 192 / 0.3), 0 2px 3px 0 rgb(54 138 192 / 0.3), 3px 3px 3px 0 rgb(54 138 192 / 0.3);
   --ids-dropdown-border-radius: 0 0 var(--ids-border-radius-xs) var(--ids-border-radius-xs);
   --ids-dropdown-flipped-border-radius: var(--ids-border-radius-xs) var(--ids-border-radius-xs) 0 0;
-  --ids-dropdown-flipped-shadow: 0 -1px 2px 0 rgb(54 138 192 / 0.3), 2px 0 3px 0 rgb(54 138 192 / 0.3), -2px -2px 3px 0 rgb(54 138 192 / 0.3);
+  --ids-dropdown-flipped-box-shadow: 0 -1px 2px 0 rgb(54 138 192 / 0.3), 2px 0 3px 0 rgb(54 138 192 / 0.3), -2px -2px 3px 0 rgb(54 138 192 / 0.3);
+  --ids-dropdown-icon-color: var(--ids-color-slate-100);
+  --ids-dropdown-typeahead-background-color: var(--ids-color-slate-10);
+  --ids-dropdown-text-indent: 8px;
+  --ids-dropdown-separator-border-color: var(--ids-color-slate-10);
+  --ids-dropdown-separator-padding: 4px;
+  --ids-dropdown-text-color: var(--ids-color-slate-100);
+  --ids-dropdown-selected-text-color: var(--ids-color-slate-00);
+  --ids-dropdown-selected-background-color: var(--ids-color-primary-60);
+  --ids-dropdown-hover-background-color: var(--ids-color-slate-20);
+  --ids-dropdown-group-text-color: var(--ids-color-slate-80);
+  --ids-dropdown-group-border-color: var(--ids-color-slate-30);
+  --ids-dropdown-group-padding: 4px;
+  --ids-dropdown-font-size: var(--ids-font-size-sm);
 
   // Editor
   --ids-editor-font-family: var(--ids-font-family);
@@ -358,12 +371,12 @@
   --ids-editor-line-height: var(--ids-line-height-md);
   --ids-editor-padding: var(--ids-spacing-xxl);
   --ids-editor-hover-border-color: var(--ids-color-slate-90);
-  --ids-editor-focus-border-color: var(--ids-focus-ring-border-color);
-  --ids-editor-focus-border-outline: var(--ids-focus-ring-outline);
-  --ids-editor-focus-border-box-shadow: var(--ids-focus-ring-shadow);
+  --ids-editor-focus-border-color: var(--ids-focus-border-color);
+  --ids-editor-focus-border-outline: var(--ids-focus-outline);
+  --ids-editor-focus-border-box-shadow: var(--ids-focus-box-shadow);
   --ids-editor-error-border-color: var(--ids-color-error);
   --ids-editor-error-text-color: var(--ids-color-error);
-  --ids-editor-error-border-box-shadow: var(--ids-shadow-error);
+  --ids-editor-error-border-box-shadow: var(--ids-box-shadow-error);
   --ids-editor-readonly-background-color: var(--ids-color-slate-20);
   --ids-editor-readonly-border-color: var(--ids-editor-border-color);
   --ids-editor-readonly-text-color: var(--ids-data-text-color);
@@ -379,8 +392,8 @@
   --ids-editor-link-focus-border-radius: var(--ids-border-radius-xs);
   --ids-editor-link-focus-border-style: solid;
   --ids-editor-link-focus-border-width: var(--ids-spacing-xs);
-  --ids-editor-link-focus-outline: var(--ids-focus-ring-outline);
-  --ids-editor-link-focus-box-shadow: var(--ids-focus-ring-shadow);
+  --ids-editor-link-focus-outline: var(--ids-focus-outline);
+  --ids-editor-link-focus-box-shadow: var(--ids-focus-box-shadow);
   --ids-editor-blockquote-border-inline-start: var(--ids-spacing-sm) solid var(--ids-color-slate-40);
   --ids-editor-blockquote-margin-inline-start: var(--ids-spacing-md);
   --ids-editor-blockquote-margin-inline-end: var(--ids-spacing-none);
@@ -435,9 +448,21 @@
   --ids-icon-font-name: 'name-here'; // Future
   --ids-icon-color: var(--ids-color-slate-80);
   --ids-icon-color-disabled: var(--ids-disabled-text-color);
+  --ids-icon-empty-icon-color: var(--ids-color-primary);
+  --ids-icon-empty-new-icon-color: var(--ids-color-slate-60)
 
   // Image
+  --ids-image-focus-border-color: var(--ids-focus-border-color);
+  --ids-image-focus-box-shadow: var(--ids-box-shadow-lg);
+  --ids-image-border-color: var(--ids-disabled-text-color);
+  --ids-image-text-color: var(--ids-subtle-text-color);
+  --ids-image-initials-border-radius: var(--ids-border-radius-round);
   --ids-image-initials-background-color: var(--ids-color-amethyst-50);
+  --ids-image-placeholder-background-color: var(--ids-body-background-color);
+  --ids-image-status-available-background-color: var(--ids-color-success);
+  --ids-image-status-busy-background-color: var(--ids-color-error);
+  --ids-image-status-away-background-color: var(--ids-color-warning);
+  --ids-image-status-unknown-background-color: var(--ids-disabled-text-color);
 
   // Input Sizes
   --ids-input-width-xs: 75px;
@@ -466,29 +491,29 @@
   --ids-input-disabled-text-color: var(--ids-disabled-text-color);
   --ids-input-disabled-border-color: var(--ids-disabled-text-color);
   --ids-input-hover-border-color: var(--ids-color-slate-90);
-  --ids-input-focus-border-color: var(--ids-focus-ring-border-color);
+  --ids-input-focus-border-color: var(--ids-focus-border-color);
   --ids-input-header-text-color: var(--ids-color-slate-00);
   --ids-input-header-background-color: rgba(71 71 76 / 0.3);
   --ids-input-header-border-color: rgba(62 62 66 / 0.7);
   --ids-input-app-menu-text-color: var(--ids-color-slate-00);
   --ids-input-alert-border-color: var(--ids-color-warning-80);
   --ids-input-alert-text-color: var(--ids-color-warning-80);
-  --ids-input-alert-focus-shadow: var(--ids-color-warning-shadow);
+  --ids-input-alert-focus-box-shadow: var(--ids-color-warning-shadow);
   --ids-input-alert-disabled-border-color: var(--ids-color-warning-30);
   --ids-input-alert-disabled-text-color: var(--ids-color-warning-30);
   --ids-input-error-border-color: var(--ids-color-error-60);
   --ids-input-error-text-color: var(--ids-color-error-60);
-  --ids-input-error-focus-shadow: var(--ids-color-error-shadow);
+  --ids-input-error-focus-box-shadow: var(--ids-color-error-shadow);
   --ids-input-error-disabled-border-color: var(--ids-color-error-30);
   --ids-input-error-disabled-text-color: var(--ids-color-error-30);
   --ids-input-info-border-color: var(--ids-color-info-70);
   --ids-input-info-text-color: var(--ids-color-info-70);
-  --ids-input-info-focus-shadow: var( --ids-color-info-shadow);
+  --ids-input-info-focus-box-shadow: var( --ids-color-info-shadow);
   --ids-input-info-disabled-border-color: var(--ids-color-info-30);
   --ids-input-info-disabled-text-color: var(--ids-color-info-30);
   --ids-input-success-border-color: var(--ids-color-success-80);
   --ids-input-success-text-color: var(--ids-color-success-80);
-  --ids-input-success-focus-shadow: var( --ids-color-success-shadow);
+  --ids-input-success-focus-box-shadow: var( --ids-color-success-shadow);
   --ids-input-success-disabled-border-color: var(--ids-color-success-30);
   --ids-input-success-disabled-text-color: var(--ids-color-success-30);
 
@@ -538,7 +563,7 @@
   // Modal
   --ids-modal-background-color: var(--ids-popup-background-color);
   --ids-modal-border-color: var(--ids-popup-border-color);
-  --ids-modal-shadow: var(--ids-popup-menu-shadow);
+  --ids-modal-box-shadow: var(--ids-popup-menu-box-shadow);
   --ids-modal-text-color: var(--ids-text-color);
   --ids-modal-border-radius: var(--ids-border-radius-xs);
   --ids-modal-padding: 0;
@@ -549,7 +574,7 @@
   --ids-modal-title-font-size: var(--ids-font-size-xxl);
   --ids-modal-button-color: var(--ids-color-primary);
   --ids-modal-button-hover-color: var(--ids-color-primary-80);
-  --ids-modal-button-focus-shadow: 0 0 3px 1px var(--ids-color-primary);
+  --ids-modal-button-focus-box-shadow: 0 0 3px 1px var(--ids-color-primary);
 
   // Month View
   --ids-month-view-background-color: var(--ids-color-slate-00);
@@ -575,6 +600,14 @@
   --ids-month-view-compact-today-border-color: var(--ids-color-slate-30);
   --ids-month-view-compact-weekday-text-color: var(--ids-month-view-text-color);
 
+  // Notification Badge
+  --ids-notification-badge-size: 6px;
+  --ids-notification-badge-border-radius: var(--ids-border-radius-sm);
+  --ids-notification-badge-error-background-color: var(--ids-color-error);
+  --ids-notification-badge-info-background-color: var(--ids-color-info);
+  --ids-notification-badge-success-background-color: var(--ids-color-success);
+  --ids-notification-badge-warning-background-color: var(--ids-color-warning);
+
   // Notification Banner
   --ids-notification-banner-height: var(--ids-size-lg);
   --ids-notification-banner-padding: var(--ids-spacing-lg);
@@ -592,7 +625,7 @@
   --ids-popup-background-color: var(--ids-color-slate-00);
   --ids-popup-border-color: var(--ids-color-slate-30);
   --ids-popup-padding: var(--ids-spacing-xlg);
-  --ids-popup-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
+  --ids-popup-box-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
 
   // Popup Menu
   --ids-popup-menu-background-color: var(--ids-popup-background-color);
@@ -601,10 +634,10 @@
   --ids-popup-menu-text-color: var(--ids-color-slate-80);
   --ids-popup-menu-font-size: var(--ids-font-size-sm);
   --ids-popup-menu-border-radius: var(--ids-border-radius-xs);
-  --ids-popup-menu-shadow: var(--ids-popup-shadow);
+  --ids-popup-menu-box-shadow: var(--ids-popup-box-shadow);
   --ids-popup-menu-inverse-background-color: var(--ids-color-slate-100);
   --ids-popup-menu-inverse-border-color: var(--ids-color-slate-10);
-  --ids-popup-menu-inverse-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
+  --ids-popup-menu-inverse-box-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
   --ids-popup-menu-inverse-text-color: var(--ids-color-slate-00);
 
   // Progress Bar
@@ -616,7 +649,7 @@
   --ids-radio-unchecked-border-color: var(--ids-input-border-color);
   --ids-radio-checked-background-color: var(--ids-color-primary);
   --ids-radio-checked-border-color: var(--ids-color-primary);
-  --ids-radio-checked-inner-background-color:  var(--ids-color-slate-00);
+  --ids-radio-checked-inner-background-color: var(--ids-color-slate-00);
   --ids-radio-border-radius: var(--ids-border-radius-round);
   --ids-radio-unchecked-disabled-background-color: var(--ids-input-background-color);
   --ids-radio-unchecked-disabled-border-color: var(--ids-input-disabled-text-color);
@@ -634,8 +667,19 @@
   --ids-required-background-color: var(--ids-color-error);
   --ids-required-disabled-background-color: var(--ids-color-error-30);
 
+  // Scroll View
+  --ids-scroll-view-button-size: 14px;
+  --ids-scroll-view-button-hitbox-size: 44px;
+  --ids-scroll-view-button-border-radius: var(--ids-border-radius-round);
+  --ids-scroll-view-button-border-color: var(--ids-color-slate-70);
+  --ids-scroll-view-button-selected-border-color: var(--ids-color-primary);
+  --ids-scroll-view-button-selected-background-color: var(--ids-color-primary);
+  --ids-scroll-view-button-hover-border-color: var(--ids-color-slate-100);
+  --ids-scroll-view-button-focus-border-color: var(--ids-focus-border-color);
+  --ids-scroll-view-button-focus-box-shadow: var(--ids-focus-box-shadow);
+
   // Search Field
-  --ids-searchfield-app-menu-focus-shadow: 0 0 3px 2px rgba(255 255 255 / 0.4);
+  --ids-searchfield-app-menu-focus-box-shadow: 0 0 3px 2px rgba(255 255 255 / 0.4);
   --ids-searchfield-app-menu-text-color: var(--ids-color-slate-20);
   --ids-searchfield-app-menu-background-color: var(--ids-color-slate-100);
   --ids-searchfield-app-menu-icon-color: var(--ids-color-slate-40);
@@ -662,7 +706,7 @@
   --ids-spinbox-readonly-background-color: var(--ids-trigger-field-readonly-background-color);
   --ids-spinbox-readonly-text-color: var(--ids-trigger-field-readonly-text-color);
   --ids-spinbox-focus-border-color: var(--ids-trigger-field-focus-border-color)
-  --ids-spinbox-focus-shadow: var(--ids-trigger-field-focus-shadow);
+  --ids-spinbox-focus-box-shadow: var(--ids-trigger-field-focus-box-shadow);
   --ids-spinbox-readonly-border-color: var(--ids-input-readonly-border-color);
   --ids-spinbox-disabled-text-color: var(--ids-trigger-field-disabled-text-color);
   --ids-spinbox-disabled-border-color: var(--ids-trigger-field-disabled-border-color);
@@ -688,7 +732,7 @@
   --ids-slider-readonly-tick-background-color: var(--ids-color-slate-50);
   --ids-slider-readonly-thumb-background-color: var(--ids-color-slate-50);
   --ids-slider-readonly-thumb-shadow-background-color: rgba(119 119 124 / 0.1);
-  --ids-slider-readonly-thumb-shadow-border-color:  var(--ids-color-slate-50);
+  --ids-slider-readonly-thumb-shadow-border-color: var(--ids-color-slate-50);
   --ids-slider-readonly-track-background-color: var(--ids-color-slate-40);
   --ids-slider-readonly-track-progress-background-color: var(--ids-color-slate-50);
 
@@ -697,7 +741,7 @@
   --ids-splitter-bar-border-color: var(--ids-color-slate-30);
   --ids-splitter-bar-dragging-background-color: var(--ids-color-slate-20);
   --ids-splitter-bar-dragging-border-color: var(--ids-color-primary);
-  --ids-splitter-bar-dragging-box-shadow: var(--ids-shadow-md);
+  --ids-splitter-bar-dragging-box-shadow: var(--ids-box-shadow-md);
   --ids-splitter-bar-hover-background-color: var(--ids-color-slate-20);
   --ids-splitter-bar-width: var(--ids-size-xxs);
 
@@ -740,7 +784,7 @@
   --ids-switch-toggle-on-disabled-background-color: var(--ids-color-primary-30);
   --ids-switch-toggle-on-disabled-border-color: var(--ids-color-primary-30);
   --ids-switch-toggle-hover-background-color: var(--ids-color-slate-30);
-  --ids-switch-toggle-focus-shadow: 0 0 0 3px var(--ids-color-primary-20), 0 0 0 4px var(--ids-color-primary), 0 0 4px 6px var(--ids-color-slate-20);
+  --ids-switch-toggle-focus-box-shadow: 0 0 0 3px var(--ids-color-primary-20), 0 0 0 4px var(--ids-color-primary), 0 0 4px 6px var(--ids-color-slate-20);
 
   // Swipe Action
   --ids-swipe-action-button-active-background-color: var(--ids-color-slate-90);
@@ -771,14 +815,14 @@
   --ids-tab-altenrate-horizontal-background-color: var(--ids-color-slate-00);
 
   // Tab (Module Variant)
-  --ids-tab-module-background-color:  var(--ids-color-azure-70);
+  --ids-tab-module-background-color: var(--ids-color-azure-70);
   --ids-tab-module-border-right-color: var(--ids-color-azure-100);
   --ids-tab-module-text-color: var(--ids-color-azure-10);
-  --ids-tab-module-hover-background-color:  var(--ids-color-azure-100);
+  --ids-tab-module-hover-background-color: var(--ids-color-azure-100);
   --ids-tab-module-hover-text-color: var(--ids-color-slate-00);
-  --ids-tab-module-selected-background-color:  var(--ids-color-primary);
+  --ids-tab-module-selected-background-color: var(--ids-color-primary);
   --ids-tab-module-selected-text-color: var(--ids-color-slate-00);
-  --ids-tab-module-disabled-background-color:  var(--ids-color-azure-50);
+  --ids-tab-module-disabled-background-color: var(--ids-color-azure-50);
   --ids-tab-module-disabled-text-color: var(--ids-color-azure-20);
 
   // Tag
@@ -806,7 +850,7 @@
   --ids-tooltip-border-radius: var(--ids-border-radius-xs);
   --ids-tooltip-text-color: var(--ids-color-slate-00);
   --ids-tooltip-font-size: var(--ids-font-size-md);
-  --ids-tooltip-shadow: var(--ids-popup-shadow);
+  --ids-tooltip-box-shadow: var(--ids-popup-box-shadow);
   --ids-tooltip-error-background-color: var(--ids-color-error);
   --ids-tooltip-info-background-color: var(--ids-color-info);
   --ids-tooltip-warning-background-color: var(--ids-color-warning);
@@ -822,7 +866,7 @@
   --ids-trigger-field-readonly-border-color: var(--ids-input-readonly-border-color);
   --ids-trigger-field-readonly-text-color: var(--ids-input-readonly-text-color);
   --ids-trigger-field-focus-border-color: var(--ids-input-focus-border-color)
-  --ids-trigger-field-focus-shadow: var(--ids-input-info-focus-shadow);
+  --ids-trigger-field-focus-box-shadow: var(--ids-input-info-focus-box-shadow);
   --ids-trigger-field-disabled-text-color: var(--ids-input-disabled-text-color);
   --ids-trigger-field-disabled-border-color: var(--ids-input-disabled-border-color);
 

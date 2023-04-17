@@ -24,9 +24,8 @@
     border-radius: var(--ids-border-radius-xs);
 
     .file-row {
-      @include flex();
-
       align-items: center;
+      display: flex;
 
       .status {
         @include flex-item-stable();
@@ -108,10 +107,10 @@
     }
 
     .progress-row {
-      @include flex();
       @include px-28();
 
       align-items: center;
+      display: flex;
       min-height: 28px;
 
       .progress-bar,

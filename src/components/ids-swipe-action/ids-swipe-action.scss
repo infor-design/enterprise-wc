@@ -2,8 +2,7 @@
 @import '../../core/ids-base';
 
 .ids-swipe-container {
-  @include flex();
-
+  display: flex;
   overflow-x: scroll;
   scroll-snap-type: x proximity;
   scroll-behavior: smooth;

@@ -31,7 +31,7 @@
 }
 
 a:focus {
-  border: 1px solid var(--ids-focus-ring-border-color);
-  box-shadow: var(--ids-shadow-lg);
+  border: 1px solid var(--ids-focus-border-color);
+  box-shadow: var(--ids-box-shadow-lg);
   outline: none;
 }

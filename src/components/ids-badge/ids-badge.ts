@@ -14,7 +14,6 @@ const Base = IdsEventsMixin(
  * @type {IdsBadge}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part badge - the badge element
  */
 @customElement('ids-badge')

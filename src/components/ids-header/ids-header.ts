@@ -45,8 +45,7 @@ export default class IdsHeader extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.COLOR,
-      attributes.MODE
+      attributes.COLOR
     ];
   }
 

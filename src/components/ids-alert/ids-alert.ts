@@ -4,7 +4,6 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { sizes } from '../ids-icon/ids-icon-attributes';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 
 import IdsElement from '../../core/ids-element';
@@ -17,12 +16,11 @@ import styles from './ids-alert.scss';
  * @type {IdsAlert}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part icon - the icon element
  */
 @customElement('ids-alert')
 @scss(styles)
-export default class IdsAlert extends IdsTooltipMixin(IdsThemeMixin(IdsEventsMixin(IdsElement))) {
+export default class IdsAlert extends IdsTooltipMixin(IdsEventsMixin(IdsElement)) {
   constructor() {
     super();
   }

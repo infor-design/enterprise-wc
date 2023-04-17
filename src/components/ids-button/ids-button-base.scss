@@ -6,7 +6,7 @@
 
 // Mixin for a "blank" shadow (same as the standard one with a completely transparent alpha)
 @mixin blank-shadow() {
-  box-shadow: var(--ids-shadow-none);
+  box-shadow: var(--ids-box-shadow-none);
 }
 
 // Used to make the focus "border" appear to be separated from the button (primary/secondary types).
@@ -19,11 +19,11 @@
 
 // Used to make the focus "border" on non-solid buttons (modal buttons, etc)
 @mixin modal-button-shadow() {
-  box-shadow: var(--ids-modal-button-focus-shadow); // primary color (shadowy-part)
+  box-shadow: var(--ids-modal-button-focus-box-shadow); // primary color (shadowy-part)
 }
 
 @mixin alternate-button-shadow() {
-  box-shadow: var(--ids-shadow-inverse);
+  box-shadow: var(--ids-box-shadow-inverse);
 }
 
 // Used to include a basic set of button styles within each individual button prototype.
@@ -314,7 +314,7 @@
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      border-color: var(--ids-focus-ring-border-color);
+      border-color: var(--ids-focus-border-color);
     }
 
     &[disabled] {
@@ -345,20 +345,20 @@
     // Default/Tertiary Default/Light Mode
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      box-shadow: var(--ids-shadow-md);
+      box-shadow: var(--ids-box-shadow-md);
     }
 
     &.color-variant-alternate {
       &:not(.hide-focus).is-active,
       &:not(.hide-focus):focus {
-        box-shadow: var(--ids-shadow-inverse);
+        box-shadow: var(--ids-box-shadow-inverse);
       }
     }
 
     &.color-variant-alternate-formatter {
       &:not(.hide-focus).is-active,
       &:not(.hide-focus):focus {
-        box-shadow: var(--ids-shadow-md);
+        box-shadow: var(--ids-box-shadow-md);
       }
     }
   }
@@ -366,7 +366,7 @@
   &.btn-tertiary-destructive {
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      box-shadow: var(--ids-shadow-error);
+      box-shadow: var(--ids-box-shadow-error);
     }
   }
 
@@ -375,7 +375,7 @@
     // Primary Default/Light Mode
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      box-shadow: var(--ids-button-primary-focus-shadow);
+      box-shadow: var(--ids-button-primary-focus-box-shadow);
     }
 
     &.color-variant-alternate {
@@ -406,7 +406,7 @@
     // Secondary Default/Light Mode
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      box-shadow: var(--ids-button-secondary-focus-shadow);
+      box-shadow: var(--ids-button-secondary-focus-box-shadow);
     }
   }
 }

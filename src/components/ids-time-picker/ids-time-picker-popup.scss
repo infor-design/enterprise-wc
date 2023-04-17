@@ -12,10 +12,9 @@ ids-popup[visible][animated] {
   }
 
   .popup-btn {
-    @include w-full();
-
     align-items: center;
     border-top: 1px solid var(--ids-color-palette-slate-30);
+    width: 100%;
 
     &::part(button) {
       @include h-full();
@@ -37,7 +36,7 @@ ids-popup[visible][animated] {
 
   ids-list-box,
   ids-list-box-option {
-    @include w-full();
+    width: 100%;
   }
 
   ids-popup {
@@ -48,8 +47,7 @@ ids-popup[visible][animated] {
   }
 
   .dropdowns {
-    @include flex();
-
+    display: flex;
     flex-direction: row;
     padding-inline-start: 15px;
     padding-inline-end: 15px;
@@ -92,7 +90,7 @@ ids-popup[visible][animated] {
     .dropdowns {
       flex-direction: column;
       align-items: center;
-      width: $input-size-sm;
+      width: var(--ids-input-width-sm);
     }
 
     .separator {

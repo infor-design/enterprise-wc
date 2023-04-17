@@ -5,7 +5,7 @@
 }
 
 :host([size='full']) {
-  @include w-full();
+  width: 100%;
 
   ::part(container) {
     display: block;
@@ -40,7 +40,6 @@
 
   // Is calendar toolbar
   &.is-calendar-toolbar {
-    @include flex();
     @include border-solid();
     @include border-1();
     @include border-transparent();
@@ -48,6 +47,7 @@
     @include ml-4();
 
     align-items: center;
+    display: flex;
     outline: none;
     outline-color: transparent;
 
@@ -106,7 +106,7 @@
 
   // Popup related
   ids-month-view {
-    @include w-full();
+    width: 100%;
   }
 
   &:not(.has-time) ids-month-view::part(table-container) {
@@ -130,18 +130,18 @@
   }
 
   .popup-footer {
-    @include flex();
+    display: flex;
   }
 
   .popup-btn {
-    @include w-full();
+    width: 100%;
   }
 
   .popup-btn::part(button) {
-    @include flex();
     @include py-12();
     @include rounded-none();
 
+    display: flex;
     justify-content: center;
 
     &:not(:focus) {
@@ -271,13 +271,13 @@
   ids-expandable-area::part(container) {
     @include m-0();
     @include p-0();
-    @include w-full();
 
     position: absolute;
     z-index: 3;
     border: none;
     top: 43px;
     left: 0;
+    width: 100%;
   }
 
   ids-expandable-area::part(header) {
@@ -298,7 +298,7 @@
 
   // Picklist
   .picklist {
-    @include flex();
+    display: flex;
 
     &::after {
       @include bg-slate-30();
@@ -327,10 +327,9 @@
   }
 
   .picklist-list {
-    @include flex();
-
     list-style: none;
     align-items: center;
+    display: flex;
     flex-direction: column;
     justify-content: space-around;
     padding: 0;
@@ -340,20 +339,20 @@
   }
 
   .picklist-item {
-    @include flex();
     @include cursor-pointer();
     @include border-1();
     @include border-solid();
     @include border-transparent();
     @include text-slate-80();
     @include py-1();
-    @include w-full();
     @include box-border();
 
+    display: flex;
     user-select: none;
     height: 12.5%;
     align-items: center;
     justify-content: center;
+    width: 100%;
 
     ids-text {
       line-height: 0;
@@ -425,7 +424,7 @@
 }
 
 :host([is-calendar-toolbar='true']) {
-  @include flex();
+  display: flex;
 }
 
 // Text direction

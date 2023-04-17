@@ -7,9 +7,10 @@
 
 // Picklist
 .picklist {
-  @include flex();
   @include h-full();
   @include relative();
+
+  display: flex;
 }
 
 :not(.is-expanded) .picklist-section::before {
@@ -45,10 +46,9 @@
 }
 
 .picklist-list {
-  @include flex();
-
   list-style: none;
   align-items: center;
+  display: flex;
   flex-direction: column;
   justify-content: space-around;
   padding: 0;
@@ -58,21 +58,21 @@
 }
 
 .picklist-item {
-  @include flex();
   @include cursor-pointer();
   @include border-1();
   @include border-solid();
   @include border-transparent();
   @include text-slate-80();
   @include py-1();
-  @include w-full();
   @include box-border();
 
   user-select: none;
+  display: flex;
   height: 12.5%;
   align-items: center;
   justify-content: center;
   contain: content;
+  width: 100%;
 
   ids-text {
     line-height: 0;

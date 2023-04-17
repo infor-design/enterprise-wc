@@ -3,7 +3,7 @@
 // Applies to search fields in the app menu, which are
 // typically on top of black or dark color background
 @mixin ids-app-menu-search-field-shadow() {
-  box-shadow: var(--ids-searchfield-app-menu-focus-shadow);
+  box-shadow: var(--ids-searchfield-app-menu-focus-box-shadow);
 }
 
 // Applies to both `dark` and `contrast` theme modes

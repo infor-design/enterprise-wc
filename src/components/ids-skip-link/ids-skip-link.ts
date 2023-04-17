@@ -30,8 +30,7 @@ export default class IdsSkiplink extends IdsEventsMixin(IdsElement) {
    */
   static get attributes(): Array<string> {
     return [
-      attributes.HREF,
-      attributes.MODE
+      attributes.HREF
     ];
   }
 

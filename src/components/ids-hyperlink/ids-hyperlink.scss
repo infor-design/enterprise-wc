@@ -106,7 +106,7 @@
 
     &:focus {
       border: 1px solid var(--ids-hyperlink-text-color);
-      box-shadow: var(--ids-focus-ring-shadow);
+      box-shadow: var(--ids-focus-box-shadow);
     }
 
     &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),

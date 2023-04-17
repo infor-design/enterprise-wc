@@ -24,7 +24,6 @@ const Base = IdsThemeMixin(
  * @type {IdsActionSheet}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-action-sheet')
 @scss(styles)

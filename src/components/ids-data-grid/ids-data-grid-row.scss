@@ -139,7 +139,7 @@ tr.ids-data-grid-row {
 // Row Navigation Styles
 .ids-data-grid.row-navigation .ids-data-grid-row {
   &:focus-within {
-    box-shadow: var(--ids-data-grid-row-focus-shadow);
+    box-shadow: var(--ids-data-grid-row-focus-box-shadow);
   }
 
   .ids-data-grid-cell:focus {

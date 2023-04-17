@@ -1,8 +1,7 @@
 @import '../../core/ids-base';
 
 .ids-swaplist {
-  @include flex();
-
+  display: flex;
   box-shadow: rgba(0 0 0 / 0.1) 3px 0 8px;
   flex-direction: row;
 }
@@ -46,10 +45,10 @@ ids-button {
   height: 34px;
 
   &::part(button) {
-    @include flex();
     @include p-0();
 
     align-items: center;
+    display: flex;
     justify-content: center;
   }
 

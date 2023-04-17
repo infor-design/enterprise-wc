@@ -88,7 +88,6 @@ const Base = IdsThemeMixin(
  * @mixes IdsLabelStateParentMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsMonthViewAttributeMixin
- * @mixes IdsThemeMixin
  * @part container - the container of the component
  * @part trigger-field - the trigger container
  * @part trigger-button - the trigger button

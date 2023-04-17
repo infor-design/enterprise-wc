@@ -26,7 +26,7 @@ ids-button[selected]::part(button) {
 
 ids-button:not([selected]):hover {
   border: none;
-  border-bottom: 1px solid var(--ids-focus-ring-border-color);
+  border-bottom: 1px solid var(--ids-focus-border-color);
 }
 
 .divider {

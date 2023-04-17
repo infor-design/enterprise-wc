@@ -36,7 +36,6 @@ const Base = IdsColorVariantMixin(
  * @inherits IdsElement
  * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part header - the accordion header root element
  * @part icon - the accordion header icon element
  */

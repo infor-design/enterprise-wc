@@ -63,9 +63,9 @@
 
     &:focus {
       cursor: var(--ids-cursor-pointer);
-      border-color: var(--ids-focus-ring-border-color);
-      outline: var(--ids-focus-ring-outline);
-      box-shadow: var(--ids-focus-ring-shadow);
+      border-color: var(--ids-focus-border-color);
+      outline: var(--ids-focus-outline);
+      box-shadow: var(--ids-focus-box-shadow);
     }
   }
 }

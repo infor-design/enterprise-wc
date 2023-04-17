@@ -1,18 +1,13 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
-
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-scroll-view.scss';
 
-const Base = IdsThemeMixin(
-  IdsKeyboardMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+const Base = IdsKeyboardMixin(
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -21,7 +16,6 @@ const Base = IdsThemeMixin(
  * @type {IdsScrollView}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
  * @part container - the parent container element
  * @part scroll-view - the scrolling container
@@ -40,8 +34,7 @@ export default class IdsScrollView extends Base {
 
   static get attributes() {
     return [
-      ...super.attributes,
-      attributes.MODE
+      ...super.attributes
     ];
   }
 

@@ -27,7 +27,6 @@ const Base = IdsColorVariantMixin(
  * @type {IdsAccordionPanel}
  * @inherits IdsElement
  * @mixes IdsColorVariantMixin
- * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
@@ -61,8 +60,7 @@ export default class IdsAccordionPanel extends Base {
     return [
       ...super.attributes,
       attributes.DISABLED,
-      attributes.EXPANDED,
-      attributes.MODE
+      attributes.EXPANDED
     ];
   }
 

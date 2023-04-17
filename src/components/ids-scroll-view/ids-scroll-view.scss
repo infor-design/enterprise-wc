@@ -1,10 +1,9 @@
+/* Ids Scroll view Component */
 @use '../../themes/mixins/ids-core-mixins' as mixins;
-@import '../../core/ids-base';
 
 // The main scrollable container
 .ids-scroll-view {
-  @include flex();
-
+  display: flex;
   outline: none;
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
@@ -12,15 +11,14 @@
 
   // The items that are adding as slot items
   ::slotted([slot='scroll-view-item']) {
-    @include w-full();
-
     // Remove this if we want items to stretch
     flex-shrink: 0;
     scroll-snap-align: start;
+    width: 100%;
 
     > * {
-      @include block();
-      @include m-0();
+      display: block;
+      margin: 0;
     }
   }
 }
@@ -41,30 +39,27 @@
     cursor: var(--ids-cursor-pointer);
     position: relative;
     display: inline-block;
-    height: 44px;
+    height: var(--ids-scroll-view-button-hitbox-size);
     outline: none;
-    width: 44px;
+    width: var(--ids-scroll-view-button-hitbox-size);
 
     &::after {
-      @include border-slate-70();
-      @include border-1();
-      @include border-solid();
-      @include rounded-round();
-
+      border: 1px solid var(--ids-scroll-view-button-border-color);
+      border-radius: var(--ids-scroll-view-button-border-radius);
       content: '';
-      height: 14px;
+      height: var(--ids-scroll-view-button-size);
       outline: none;
       opacity: 0.8;
       position: absolute;
       transition: border-color 0.2s ease 0s;
-      width: 14px;
+      width: var(--ids-scroll-view-button-size);
       left: calc(50% - 8px);
       top: calc(50% - 8px);
     }
 
     &.selected::after {
-      @include border-azure-60();
-      @include bg-azure-60();
+      border-color: var(--ids-scroll-view-button-selected-border-color);
+      background-color: var(--ids-scroll-view-button-selected-background-color);
     }
 
     span.audible {
@@ -73,41 +68,14 @@
 
     &:hover:not(.selected) {
       &::after {
-        @include border-slate-100();
+        border-color: var(--ids-scroll-view-button-hover-border-color);
       }
     }
 
     &:focus {
-      border: 1px solid var( --ids-focus-ring-border-color);
-      box-shadow: var(--ids-focus-ring-shadow);
-      outline: var(--ids-focus-ring-outline);
-    }
-  }
-}
-
-// Add Theme support
-.ids-scroll-view[mode='dark'] {
-  + .ids-scroll-view-controls {
-    a::after {
-      @include border-slate-40();
-    }
-
-    a.selected::after {
-      @include border-azure-60();
-      @include bg-azure-60();
-    }
-  }
-}
-
-.ids-scroll-view[mode='contrast'] {
-  + .ids-scroll-view-controls {
-    a::after {
-      @include border-slate-60();
-    }
-
-    a.selected::after {
-      @include border-azure-90();
-      @include bg-azure-90();
+      border: 1px solid var(--ids-scroll-view-button-focus-border-color);
+      box-shadow: var(--ids-scroll-view-button-focus-box-shadow);
+      outline: 0;
     }
   }
 }

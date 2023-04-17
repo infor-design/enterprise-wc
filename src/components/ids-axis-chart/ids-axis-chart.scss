@@ -29,7 +29,8 @@
 
 .ids-axis-chart {
   @include border-slate-10();
-  @include flex();
+
+  display: flex;
 
   &.hidden {
     display: none;

@@ -145,8 +145,8 @@
 
   &.has-focus {
     input[type='checkbox'] ~ .checkmark {
-      border-color: var(--ids-focus-ring-border-color);
-      box-shadow: var(--ids-shadow-lg);
+      border-color: var(--ids-focus-border-color);
+      box-shadow: var(--ids-box-shadow-lg);
     }
   }
 }

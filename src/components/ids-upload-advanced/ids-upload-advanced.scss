@@ -12,13 +12,13 @@
 
   .droparea {
     @include border-1();
-    @include flex();
     @include relative();
     @include bg-slate-10();
     @include border-slate-50();
     @include text-slate-50();
 
     align-items: center;
+    display: flex;
     border-radius: var(--ids-border-radius-xs);
     border-style: dashed;
     flex-direction: column;
@@ -106,7 +106,8 @@
 
     &.has-error {
       @include border-ruby-60();
-      @include flex();
+
+      display: flex;
     }
 
     .status {

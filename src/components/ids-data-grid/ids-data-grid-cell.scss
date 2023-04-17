@@ -65,8 +65,8 @@
   // Focus State
   &:focus,
   &.is-editing:not(.is-inline):focus-within {
-    box-shadow: var(--ids-shadow-md);
-    outline: 1px solid var(--ids-focus-ring-border-color);
+    box-shadow: var(--ids-box-shadow-md);
+    outline: 1px solid var(--ids-focus-border-color);
     outline-offset: -1px;
   }
 

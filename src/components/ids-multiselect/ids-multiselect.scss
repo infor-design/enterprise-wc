@@ -7,10 +7,11 @@
 
 ids-trigger-field {
   ids-tag {
-    @include flex();
     @include self-center();
     @include mt-4();
     @include ml-4();
+
+    display: flex;
 
     &[disabled]::part(tag) {
       @include cursor-default();
@@ -22,8 +23,7 @@ ids-trigger-field {
   .has-value {
     ids-trigger-field {
       &::part(content-area) {
-        @include flex();
-
+        display: flex;
         width: calc(100% - 34px);
         flex-wrap: wrap;
       }
