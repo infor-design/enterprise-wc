@@ -25,8 +25,7 @@ describe('Ids Color Percy Tests', () => {
   });
 
   it('should not have visual regressions on color palette page', async () => {
-    const url = 'http://localhost:4444/ids-color/palette.html';
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.goto('http://localhost:4444/ids-color/palette.html', { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
     });
