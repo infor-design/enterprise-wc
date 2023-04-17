@@ -22,6 +22,70 @@
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell col-span="10">
+        <!-- Accordion -->
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h1">Accordion</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-accordion>
+              <ids-accordion-panel>
+                <ids-accordion-header slot="header">
+                  <ids-text font-size="16">Warehouse Location</ids-text>
+                </ids-accordion-header>
+                <ids-text slot="content">
+                  Remix, optimize, "B2B, iterate?" Best-of-breed efficient beta-test; social cutting-edge: rich magnetic tagclouds
+                  front-end infomediaries viral authentic incentivize sexy extensible functionalities incentivize. Generate killer
+                  authentic grow vertical blogospheres, functionalities ecologies harness, "tag solutions synergies exploit data-driven B2C open-source e-markets optimize create, enhance convergence create." Out-of-the-box strategize best-of-breed back-end, deploy design markets metrics. Content web services enhance leading-edge Cluetrain, deliverables dot-com scalable. User-centric morph, back-end, synthesize mesh, frictionless, exploit next-generation tag portals, e-commerce channels; integrate; recontextualize distributed revolutionize innovative eyeballs.
+                </ids-text>
+              </ids-accordion-panel>
+              <ids-accordion-panel>
+                <ids-accordion-header slot="header">
+                  <ids-text font-size="16">Sort By</ids-text>
+                </ids-accordion-header>
+                <ids-text slot="content">
+                  Remix, optimize, "B2B, iterate?" Best-of-breed efficient beta-test; social cutting-edge: rich magnetic tagclouds
+                  front-end infomediaries viral authentic incentivize sexy extensible functionalities incentivize. Generate killer
+                  authentic grow vertical blogospheres, functionalities ecologies harness, "tag solutions synergies exploit
+                  data-driven B2C open-source e-markets optimize create, enhance convergence create." Out-of-the-box strategize
+                  best-of-breed back-end, deploy design markets metrics. Content web services enhance leading-edge Cluetrain,
+                  deliverables dot-com scalable. User-centric morph, back-end, synthesize mesh, frictionless, exploit next-generation
+                  tag portals, e-commerce channels; integrate; recontextualize distributed revolutionize innovative eyeballs.
+                </ids-text>
+              </ids-accordion-panel>
+              <ids-accordion-panel>
+                <ids-accordion-header slot="header">
+                  <ids-text font-size="16">Brand Name</ids-text>
+                </ids-accordion-header>
+                <ids-text slot="content">
+                  Remix, optimize, "B2B, iterate?" Best-of-breed efficient beta-test; social cutting-edge: rich magnetic tagclouds
+                  front-end infomediaries viral authentic incentivize sexy extensible functionalities incentivize. Generate killer
+                  authentic grow vertical blogospheres, functionalities ecologies harness, "tag solutions synergies exploit
+                  data-driven B2C open-source e-markets optimize create, enhance convergence create." Out-of-the-box strategize
+                  best-of-breed back-end, deploy design markets metrics. Content web services enhance leading-edge Cluetrain,
+                  deliverables dot-com scalable. User-centric morph, back-end, synthesize mesh, frictionless, exploit next-generation
+                  tag portals, e-commerce channels; integrate; recontextualize distributed revolutionize innovative eyeballs.
+                </ids-text>
+              </ids-accordion-panel>
+              <ids-accordion-panel>
+                <ids-accordion-header slot="header">
+                  <ids-text font-size="16">Material</ids-text>
+                </ids-accordion-header>
+                <ids-text slot="content">
+                  Remix, optimize, "B2B, iterate?" Best-of-breed efficient beta-test; social cutting-edge: rich magnetic tagclouds
+                  front-end infomediaries viral authentic incentivize sexy extensible functionalities incentivize. Generate killer
+                  authentic grow vertical blogospheres, functionalities ecologies harness, "tag solutions synergies exploit
+                  data-driven B2C open-source e-markets optimize create, enhance convergence create." Out-of-the-box strategize
+                  best-of-breed back-end, deploy design markets metrics. Content web services enhance leading-edge Cluetrain,
+                  deliverables dot-com scalable. User-centric morph, back-end, synthesize mesh, frictionless, exploit next-generation
+                  tag portals, e-commerce channels; integrate; recontextualize distributed revolutionize innovative eyeballs.
+                </ids-text>
+              </ids-accordion-panel>
+            </ids-accordion>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
 
         <!-- Action Panel -->
         <ids-layout-grid auto="true" id="main-content">
@@ -309,6 +373,36 @@
             <ids-checkbox label="Disabled and unchecked" disabled="true"></ids-checkbox>
             <ids-checkbox label="Disabled and checked" checked="true" disabled="true"></ids-checkbox>
             <ids-checkbox label="Required" validate="required"></ids-checkbox>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Color Picker -->
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Color Picker</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-color-picker label="Default Color Picker"></ids-color-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-color-picker label="Custom Colors" value="#F4ACB7">
+              <ids-color hex="#D8E2DC"></ids-color>
+              <ids-color hex="#FFE5D9"></ids-color>
+              <ids-color hex="#FFCAD4"></ids-color>
+              <ids-color hex="#F4ACB7"></ids-color>
+              <ids-color hex="#9D8189"></ids-color>
+            </ids-color-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-color-picker label="Disabled Color Picker" value="#941E1E" disabled></ids-color-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-color-picker label="Dirty Tracker" value="#E66467" dirty-tracker></ids-color-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-color-picker label="Advanced Picker" value="#E66467" advanced="true"></ids-color-picker>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 

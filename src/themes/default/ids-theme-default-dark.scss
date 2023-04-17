@@ -40,6 +40,26 @@
   --ids-focus-border-color: var(--ids-color-primary-50);
 
   /// --- Component Tokens ---- ///
+  // Accordion
+  --ids-accordion-header-border-bottom-color: var(--ids-color-slate-70);
+  --ids-accordion-header-disabled-icon-color: var(--ids-color-slate-50);
+  --ids-accordion-header-disabled-text-color: var(--ids-color-slate-50);
+  --ids-accordion-header-focus-border-color: var(--ids-color-azure-60);
+  --ids-accordion-header-focus-box-shadow: rgb(141 201 230 / 0.3);
+  --ids-accordion-header-icon-color: var(--ids-color-slate-10());
+  --ids-accordion-header-text-color: var(--ids-color-slate-00);
+
+  // Accordion (App Menu)
+  --ids-accordion-header-app-menu-disabled-background-color: var(--ids-color-slate-20);
+  --ids-accordion-header-app-menu-disabled-border-color: var(--ids-color-slate-20);
+  --ids-accordion-header-app-menu-disabled-text-color: var(--ids-color-slate-70);
+  --ids-accordion-header-app-menu-filter-background-color: var(--ids-color-slate-100);
+  --ids-accordion-header-app-menu-filter-match-text-color: var(--ids-color-slate-40);
+  --ids-accordion-header-app-menu-focus-border-color: var(--ids-color-azure-40);
+  --ids-accordion-header-app-menu-hover-background-color: var(--ids-color-slate-100);
+  --ids-accordion-header-app-menu-hover-border-color: var(--ids-color-slate-100);
+  --ids-accordion-panel-app-menu-background-color: var(--ids-color-slate-90);
+
   // Action Panel
   --ids-action-panel-header-background-color: var(--ids-color-slate-80);
   --ids-action-panel-header-border-color: var(--ids-color-slate-90);

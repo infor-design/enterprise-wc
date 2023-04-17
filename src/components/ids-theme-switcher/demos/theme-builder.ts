@@ -1,4 +1,5 @@
 import '../../ids-action-panel/ids-action-panel';
+import '../../ids-accordion/ids-accordion';
 import '../../ids-badge/ids-badge';
 import '../../ids-breadcrumb/ids-breadcrumb';
 import '../../ids-calendar/ids-calendar';

@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
@@ -17,12 +16,10 @@ import type IdsAccordionHeader from './ids-accordion-header';
 import type IdsAccordionPanel from './ids-accordion-panel';
 
 const Base = IdsColorVariantMixin(
-  IdsThemeMixin(
-    IdsKeyboardMixin(
-      IdsLocaleMixin(
-        IdsEventsMixin(
-          IdsElement
-        )
+  IdsKeyboardMixin(
+    IdsLocaleMixin(
+      IdsEventsMixin(
+        IdsElement
       )
     )
   )

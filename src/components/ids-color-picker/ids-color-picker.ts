@@ -454,7 +454,6 @@ export default class IdsColorPicker extends Base {
     this.popup.arrowTarget = this.triggerBtn as IdsPopupElementRef;
     this.popup.alignTarget = this.textInput as IdsPopupElementRef;
     this.popup.visible = true;
-    this.popup.y = 12;
     this.popup.show();
     this.addOpenEvents();
     this.#configureSwatches();
