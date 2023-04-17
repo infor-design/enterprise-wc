@@ -1,6 +1,7 @@
 import '../../ids-action-panel/ids-action-panel';
 import '../../ids-accordion/ids-accordion';
 import '../../ids-badge/ids-badge';
+import '../../ids-block-grid/ids-block-grid';
 import '../../ids-breadcrumb/ids-breadcrumb';
 import '../../ids-calendar/ids-calendar';
 import '../../ids-color-picker/ids-color-picker';
@@ -56,6 +57,7 @@ import cssPopup from '../../../assets/css/ids-popup/index.css';
 import cssListView from '../../../assets/css/ids-list-view/index.css';
 import eventTypesJSON from '../../../assets/data/event-types.json';
 import headshot from '../../../assets/images/headshot-1.jpg';
+import placeHolderImg200x200 from '../../../assets/images/placeholder-200x200.png';
 
 // Types
 import type IdsDataGrid from '../../ids-data-grid/ids-data-grid';
@@ -466,6 +468,13 @@ if (listViewEl) {
   };
   setData();
 }
+
+// =================================================================
+// Block Grid
+// =================================================================
+document.querySelectorAll('ids-block-grid img').forEach((img: any) => {
+  img.src = placeHolderImg200x200;
+});
 
 // =================================================================
 // Hierarchy

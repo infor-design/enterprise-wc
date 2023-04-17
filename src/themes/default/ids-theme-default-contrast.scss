@@ -101,6 +101,11 @@
   --ids-badge-warning-border-color: var(--ids-color-warning-100);
   --ids-badge-warning-color: var(--ids-color-slate-00);
 
+  // Block Grid
+  --ids-block-grid-item-selectable-container-hover-background-color: var(--ids-color-slate-00);
+  --ids-block-grid-item-selectable-container-focus-outline: var(--ids-spacing-xs) solid var(--ids-color-azure-90);
+  --ids-block-grid-item-selected-outline: var(--ids-spacing-sm) solid var(--ids-color-azure-90);
+
   // Calendar
   --ids-calendar-toolbar-container-border-color: var(--ids-color-slate-30);
 

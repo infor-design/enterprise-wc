@@ -199,7 +199,7 @@ export default class IdsCheckbox extends Base {
     const val = stringToBool(value);
     const checkmark = this.shadowRoot?.querySelector<HTMLInputElement>('.checkmark');
 
-    if (this.checked === val) return;
+    if (this.checked === val && this.input?.checked === val) return;
 
     if (val) {
       this.setAttribute(attributes.CHECKED, String(val));

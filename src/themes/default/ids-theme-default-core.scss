@@ -212,6 +212,30 @@
   --ids-badge-warning-border-color: var(--ids-color-warning-80);
   --ids-badge-warning-color: var(--ids-color-warning-00);
 
+  // Block Grid
+  --ids-block-grid-item-img-margin-block-end: 10px;
+  --ids-block-grid-item-padding: 10px 15px;
+  --ids-block-grid-item-width: 200px;
+  --ids-block-grid-item-selectable-width: auto;
+  --ids-block-grid-item-selectable-max-width: 300px;
+  --ids-block-grid-item-selectable-container-border-radius: 3px;
+  --ids-block-grid-item-selectable-container-img-border-radius: var(--ids-border-radius-round);
+  --ids-block-grid-item-selectable-container-hover-background-color: var(--ids-color-azure-10);
+  --ids-block-grid-item-selectable-container-focus-outline: var(--ids-spacing-xs) solid var(--ids-color-azure-60);
+  --ids-block-grid-item-selectable-container-focus-box-shadow: var(--ids-shadow-lg);
+  --ids-block-grid-item-selectable-container-padding: var(--ids-spacing-4xl) 36px;
+  --ids-block-grid-item-selectable-multiple-block-width: 100%;
+  --ids-block-grid-item-selectable-multiple-block-container-padding: var(--ids-spacing-4xl) var(--ids-spacing-4xl) var(--ids-spacing-4xl) 45px;
+  --ids-block-grid-item-selectable-multiple-block-checkbox-top: calc(50% - 10px);
+  --ids-block-grid-item-selectable-multiple-block-checkbox-left: 30px;
+  --ids-block-grid-item-selectable-multiple-block-checkbox-right: unset;
+  --ids-block-grid-item-selected-border-radius: 3px;
+  --ids-block-grid-item-selected-background-color: transparent;
+  --ids-block-grid-item-selected-outline: 2px solid var(--ids-color-azure-60);
+  --ids-block-grid-item-pre-selected-background-color: rgba(230 241 253 / 0.7);
+  --ids-block-grid-item-checkbox-top: 20px;
+  --ids-block-grid-item-checkbox-right: 20px;
+
   // Button (Primary)
   --ids-button-primary-border-color: var(--ids-color-primary);
   --ids-button-primary-background-color: var(--ids-color-primary);
