@@ -2,7 +2,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -11,10 +10,8 @@ import IdsButton from '../ids-button/ids-button';
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 
 const Base = IdsColorVariantMixin(
-  IdsThemeMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -35,7 +32,6 @@ export interface IdsHierarchyItemInfo {
  * @inherits IdsElement
  * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-hierarchy-item')
 @scss(styles)

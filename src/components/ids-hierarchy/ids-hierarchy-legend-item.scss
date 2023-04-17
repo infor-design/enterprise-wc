@@ -1,22 +1,18 @@
-@import '../../core/ids-base';
-
 :host {
-  --background: var(--ids-color-palette-slate-20);
+  --background: var(--ids-hierarchy-legend-item-before-background-color);
 }
 
 .ids-hierarchy-legend-item {
-  @include relative();
-
-  align-items: center;
   display: flex;
+  align-items: center;
   margin-inline-end: calc(var(--ids-spacing-lg) * 4);
   margin-block-end: var(--ids-spacing-lg);
+  position: relative;
 
   &::before {
-    @include block();
-    @include rounded-round();
-
+    border-radius: var(--ids-border-radius-round);
     content: ' ';
+    display: block;
     height: calc(var(--ids-spacing-lg) * 2);
     width: calc(var(--ids-spacing-lg) * 2);
     margin-inline-end: var(--ids-spacing-lg);

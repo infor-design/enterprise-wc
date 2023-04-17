@@ -103,11 +103,15 @@
   --ids-button-destructive-hover-background-color: var(--ids-color-slate-90);
 
   // Button (Formatter)
-  --ids-button-formatter-text-color: var(--ids-color-slate-80);
+  --ids-button-alternate-formatter-text-color: var(--ids-color-slate-80);
   --ids-button-formatter-border-color: var(--ids-color-slate-70);
-  --ids-button-formatter-text-color-hover: var(--ids-color-slate-100);
+  --ids-button-alternate-formatter-text-color-hover: var(--ids-color-slate-100);
   --ids-button-formatter-disabled-text-color: var(--ids-color-slate-50);
   --ids-button-formatter-ripple-color: var(--ids-color-primary);
+
+  // Calendar
+  --ids-calendar-toolbar-container-background-color: var(--ids-color-slate-80);
+  --ids-calendar-toolbar-container-border-color: var(--ids-color-slate-70);
 
   // Card
   --ids-card-background-color: var(--ids-color-slate-90);
@@ -165,6 +169,12 @@
   --ids-data-grid-row-alternate-background-color: var(--ids-color-slate-80);
   --ids-data-grid-row-focus-box-shadow: inset 0 0 0 1px var(--ids-color-azure-50), 0 1px 0 0 var(--ids-color-azure-50), 0 0 3px 2px rgb(54 138 192 / 0.3);
 
+  // Date Picker
+  --ids-date-picker-picklist-background-color: var(--ids-color-slate-70);
+  --ids-date-picker-picklist-item-focus-border-color: var(--ids-color-primary-40);
+  --ids-date-picker-picklist-item-selected-background-color: var(--ids-color-primary-40);
+  --ids-date-picker-popup-button-today-text-color: var(--ids-color-primary-40);
+
   // Dirty Indicator
   --ids-dirty-indicator-background-color: var(--ids-color-amber-40);
 
@@ -214,6 +224,12 @@
   --ids-header-gradient-opaque: rgb(0 114 237 / 1);
   --ids-header-gradient-transparent: rgb(0 114 237 / 0);
 
+  // Hierarchy
+  --ids-hierarchy-item-leaf-border-color: var(--ids-color-slate-70);
+  --ids-hierarchy-item-leaf-inside-background-color: var(--ids-color-slate-100);
+  --ids-hierarchy-item-leaf-inside-box-shadow: 0 0 8px rgb(0 0 0 / 0.7);
+  --ids-hierarchy-item-selected-leaf-box-shadow: 0 0 0 5px rgba(141 201 230 / 0.3);
+
   // Hyperlinks
   --ids-hyperlink-text-color: var(--ids-color-primary-40);
   --ids-hyperlink-hover-text-color: var(--ids-color-primary-60);
@@ -235,6 +251,23 @@
   --ids-input-disabled-border-color: var(--ids-disabled-text-color);
   --ids-input-hover-border-color: var(--ids-color-slate-10);
   --ids-input-focus-border-color: var(--ids-focus-border-color);
+
+    // List View
+    --ids-list-view-item-background-color: var(--ids-color-slate-90);
+    --ids-list-view-item-border-top-color: var(--ids-color-slate-70);
+    --ids-list-view-item-focus-border-color: var(--ids-color-azure-70);
+    --ids-list-view-item-focus-box-shadow: none;
+    --ids-list-view-item-disabled-text-color: var(--ids-color-slate-50);
+    --ids-list-view-item-disabled-focus-border-top-color: var(--ids-color-slate-70);
+    --ids-list-view-item-disabled-badge-background-color: var(--ids-color-slate-70);
+    --ids-list-view-item-disabled-badge-border-color: var(--ids-color-slate-80);
+    --ids-list-view-item-disabled-badge-text-color: var(--ids-color-slate-40);
+    --ids-list-view-item-disabled-link-text-color: var(--ids-color-slate-40);
+    --ids-list-view-selectable-item-selected-background-color: var(--ids-color-azure-100);
+
+  // Masthead
+  --ids-masthead-background-color: var(--ids-color-slate-80);
+  --ids-masthead-text-color: var(--ids-color-slate-10);
 
   // Modal
   --ids-modal-background-color: var(--ids-popup-background-color);

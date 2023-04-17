@@ -86,6 +86,9 @@
   --ids-badge-warning-border-color: var(--ids-color-warning-100);
   --ids-badge-warning-color: var(--ids-color-slate-00);
 
+  // Calendar
+  --ids-calendar-toolbar-container-border-color: var(--ids-color-slate-30);
+
   // Card
   --ids-card-background-color: var(--ids-color-slate-00);
   --ids-card-border-color: var(--ids-color-slate-60);
@@ -130,9 +133,9 @@
   --ids-button-destructive-hover-background-color: var(--ids-color-error-10);
 
   // Button (Formatter)
-  --ids-button-formatter-text-color: var(--ids-color-slate-10);
+  --ids-button-alternate-formatter-text-color: var(--ids-color-slate-10);
   --ids-button-formatter-border-color: var(--ids-color-slate-00);
-  --ids-button-formatter-text-color-hover: var(--ids-color-slate-00);
+  --ids-button-alternate-formatter-text-color-hover: var(--ids-color-slate-00);
   --ids-button-formatter-disabled-text-color: var(--ids-color-slate-00);
   --ids-button-formatter-ripple-color: var(--ids-color-primary);
 
@@ -228,6 +231,17 @@
   // Icons
   --ids-icon-color: var(--ids-color-slate-100);
 
+  // List View
+  --ids-list-view-item-border-top-color: var(--ids-color-slate-60);
+  --ids-list-view-item-focus-border-color: var(--ids-color-azure-70);
+  --ids-list-view-item-focus-box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
+  --ids-list-view-item-disabled-focus-border-top-color: var(--ids-color-slate-60);
+  --ids-list-view-selectable-item-selected-background-color: var(--ids-color-azure-20);
+
+  // Masthead
+  --ids-masthead-background-color: var(--ids-color-slate-80);
+  --ids-masthead-text-color: var(--ids-color-slate-30);
+
   // Modal
   --ids-modal-border-color: var(--ids-popup-color-60);
   --ids-modal-box-shadow: 0 2px 5px rgb(239 239 240 / 0.2);
@@ -287,7 +301,7 @@
   --ids-slider-readonly-tick-background-color: var(--ids-color-slate-80);
   --ids-slider-readonly-thumb-background-color: var(--ids-color-slate-80);
   --ids-slider-readonly-thumb-shadow-background-color: rgba(71 71 76 / 0.1);
-  --ids-slider-readonly-thumb-shadow-border-color: var(--ids-color-slate-80);
+  --ids-slider-readonly-thumb-shadow-border-color:  var(--ids-color-slate-80);
   --ids-slider-readonly-track-background-color: var(--ids-color-slate-60);
   --ids-slider-readonly-track-progress-background-color: var(--ids-color-slate-80);
 

@@ -2,7 +2,6 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsHeader from '../ids-header/ids-header';
 
 import '../ids-toolbar/ids-toolbar';
@@ -13,11 +12,9 @@ import type IdsToolbarMoreActions from '../ids-toolbar/ids-toolbar-more-actions'
 import type IdsButton from '../ids-button/ids-button';
 import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
 
-const Base = IdsThemeMixin(
-  IdsKeyboardMixin(
-    IdsEventsMixin(
-      IdsHeader
-    )
+const Base = IdsKeyboardMixin(
+  IdsEventsMixin(
+    IdsHeader
   )
 );
 
@@ -40,7 +37,6 @@ export type MastheadBreakpoints = {
  * @inherits IdsHeader
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-masthead')
 @scss(styles)

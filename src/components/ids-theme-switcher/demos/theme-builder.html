@@ -286,6 +286,16 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <!-- Calendar -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h1">Calendar View</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell auto="true">
+            <ids-calendar date="10/22/2019" show-today view-picker></ids-calendar>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Checkboxes -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Checkboxes</ids-text>
@@ -363,6 +373,31 @@
           <ids-data-label label="Shipping to">Los Angeles, California 90001 USA</ids-data-label>
         </ids-layout-grid>
 
+        <!-- Date Picker -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h1">Date Picker</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-date-picker id="e2e-datepicker-value" label="Date Field" value="3/4/2016" tabbable="false" mask></ids-date-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-date-picker id="e2e-datepicker-required" label="Date Field (required)" placeholder="true" format="yyyy-MM-dd" validate="required date" validation-events="blur" show-today="false" first-day-of-week="1" mask></ids-date-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-date-picker id="e2e-datepicker-disabled" label="Date Field (disabled)" value="10/31/2014" disabled></ids-date-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-date-picker id="e2e-datepicker-dirty-tracker" label="Date Field (dirty-tracker)" dirty-tracker="true" value="3/4/2016" mask></ids-date-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-date-picker id="e2e-datepicker-readonly" label="Date Field (readonly)" value="2021-10-18" format="yyyy-MM-dd" readonly size="sm"></ids-date-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-date-picker id="e2e-datepicker-legend" label="Date Field (legend)" value="12/15/2021" size="sm" mask></ids-date-picker>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Editor -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Editor</ids-text>
@@ -386,7 +421,7 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <!-- Editor -->
+        <!-- Empty Message -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Empty Message</ids-text>
         </ids-layout-grid>
@@ -453,6 +488,116 @@
           </form>
         </ids-layout-grid>
 
+        <!-- Hierarchy -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Hierarchy</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+
+            <ids-hierarchy-legend>
+              <ids-hierarchy-legend-item
+                text="Full Time"
+                color="azure-80"
+              ></ids-hierarchy-legend-item>
+              <ids-hierarchy-legend-item
+                text="Part Time"
+                color="turquoise-20"
+              ></ids-hierarchy-legend-item>
+              <ids-hierarchy-legend-item
+                text="Contractor"
+                color="amethyst-60"
+              ></ids-hierarchy-legend-item>
+              <ids-hierarchy-legend-item
+                text="Open Position"
+                color="slate-60"
+              ></ids-hierarchy-legend-item>
+            </ids-hierarchy-legend>
+
+            <ids-hierarchy>
+              <ids-hierarchy-item id="item-1" root-item expanded color="azure-80">
+                <img id="headshot" alt="item-1" slot="avatar" />
+                <ids-text slot="heading">Tony Cleveland</ids-text>
+                <ids-text slot="subheading">Director</ids-text>
+                <ids-text slot="micro">FT</ids-text>
+                <div slot="menu">
+                  <ids-menu-button part="icon-menu" menu="item-menu-id-one" id="item-menu-btn-id-one">
+                    <span class="audible">Popup Menu Button</span>
+                    <ids-icon icon="more"></ids-icon>
+                  </ids-menu-button>
+                  <ids-popup-menu id="item-menu-id-one" target="#item-menu-btn-id-one" trigger-type="click">
+                    <ids-menu-group>
+                      <ids-menu-item value="1">Option One</ids-menu-item>
+                      <ids-menu-item value="2">Option Two</ids-menu-item>
+                      <ids-menu-item value="3">Option Three</ids-menu-item>
+                    </ids-menu-group>
+                  </ids-popup-menu>
+                </div>
+
+                <ids-hierarchy-item id="item-2" color="turquoise-20">
+                  <ids-text slot="heading">Julie Dawes</ids-text>
+                  <ids-text slot="subheading">Records Clerk</ids-text>
+                  <ids-text slot="micro">PT</ids-text>
+                  <div slot="menu">
+                    <ids-menu-button part="icon-menu" menu="item-menu-id-two" id="item-menu-btn-id-two">
+                      <span class="audible">Popup Menu Button</span>
+                      <ids-icon icon="more"></ids-icon>
+                    </ids-menu-button>
+                    <ids-popup-menu id="item-menu-id-two" target="#item-menu-btn-id-two" trigger-type="click">
+                      <ids-menu-group>
+                        <ids-menu-item value="1">Option One</ids-menu-item>
+                        <ids-menu-item value="2">Option Two</ids-menu-item>
+                        <ids-menu-item value="3">Option Three</ids-menu-item>
+                        <ids-menu-item>More Options
+                          <ids-popup-menu>
+                            <ids-menu-group>
+                              <ids-menu-item value="4">Option Four</ids-menu-item>
+                              <ids-menu-item value="5">Option Five</ids-menu-item>
+                              <ids-menu-item value="6">Option Six</ids-menu-item>
+                            </ids-menu-group>
+                          </ids-popup-menu>
+                        </ids-menu-item>
+                      </ids-menu-group>
+                    </ids-popup-menu>
+                  </div>
+                </ids-hierarchy-item>
+                <ids-hierarchy-item id="item-3" color="amethyst-60">
+                  <ids-text slot="heading">Kaylee Edwards</ids-text>
+                  <ids-text slot="subheading">Records Manager</ids-text>
+                  <ids-text slot="micro">C</ids-text>
+                  <div slot="menu">
+                    <ids-menu-button part="icon-menu" menu="item-menu-id-three" id="item-menu-btn-id-three">
+                      <span class="audible">Popup Menu Button</span>
+                      <ids-icon icon="more"></ids-icon>
+                    </ids-menu-button>
+                    <ids-popup-menu id="item-menu-id-three" target="#item-menu-btn-id-three" trigger-type="click">
+                      <ids-menu-group>
+                        <ids-menu-item value="1">Option One</ids-menu-item>
+                        <ids-menu-item value="2">Option Two</ids-menu-item>
+                        <ids-menu-item value="3">Option Three</ids-menu-item>
+                      </ids-menu-group>
+                    </ids-popup-menu>
+                  </div>
+
+                  <ids-hierarchy-item id="item-4" color="slate-60">
+                    <ids-text slot="heading">Julie Dawes</ids-text>
+                    <ids-text slot="subheading">Records Clerk</ids-text>
+                    <ids-text slot="micro">OP</ids-text>
+
+                    <ids-hierarchy-item id="item-5" color="amethyst-60">
+                      <ids-text slot="heading">Tony Cleveland</ids-text>
+                      <ids-text slot="subheading">Director</ids-text>
+                      <ids-text slot="micro">C</ids-text>
+                    </ids-hierarchy-item>
+                  </ids-hierarchy-item>
+                </ids-hierarchy-item>
+              </ids-hierarchy-item>
+            </ids-hierarchy>
+
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Hyperlink -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Hyperlink</ids-text>
@@ -509,6 +654,25 @@
           </ids-list-builder>
         </ids-layout-grid>
 
+        <!-- List View -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">List View</ids-text>
+        </ids-layout-grid>
+
+        <ids-layout-grid  cols="2">
+          <ids-layout-grid-cell>
+            <div class="parent-container">
+              <ids-list-view selectable="multiple" item-height="76" id="list-view-tb">
+                <template>
+                  <ids-text font-size="16" type="h2">${subject}</ids-text>
+                  <ids-text font-size="12" type="span">ID: ${id}</ids-text>
+                  <ids-text font-size="12" type="span">Comments: ${comments}</ids-text>
+                </template>
+              </ids-list-view>
+            </div>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Notification Banner -->
         <ids-layout-grid auto="true">
           <ids-text font-size="12" type="h2">Notification Banner</ids-text>
@@ -544,6 +708,30 @@
               link="https://infor.com">
             </ids-notification-banner>
           </ids-layout-gridcell>
+        </ids-layout-grid>
+
+        <!-- Masthead -->
+        <ids-layout-grid auto="true">
+          <ids-text font-size="12" type="h2">Masthead</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-masthead title="Infor Application" icon="logo" role="navigation">
+              <section title="start" slot="start">
+                <ids-button icon="grid"><span class="audible">Grid Button</span></ids-button>
+              </section>
+              <section title="center" slot="center">
+                <ids-button icon="home"><span>Home</span></ids-button>
+                <ids-button icon="star-outlined"><span>Star</span></ids-button>
+                <ids-button icon="info"><span>Info</span></ids-button>
+              </section>
+              <section title="end" slot="end">
+                <ids-button icon="user"><span class="audible">User Button</span></ids-button>
+                <ids-button icon="mingle-share"><span class="audible">Mingle Button</span></ids-button>
+                <ids-button icon="bookmark-outlined"><span class="audible">Bookmark Button</span></ids-button>
+              </section>
+            </ids-masthead>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Menu -->
@@ -646,21 +834,6 @@
             <ids-button id="modal-trigger-btn" appearance="secondary">
               <span>Trigger a Modal</span>
             </ids-button>
-          </ids-layout-grid-cell>
-        </ids-layout-grid>
-
-        <!-- Month View -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Month View</ids-text>
-        </ids-layout-grid>
-        <ids-layout-grid auto="true">
-          <ids-layout-grid-cell>
-            <ids-month-view
-              show-today="true"
-              month="10"
-              year="2021"
-              day="15"
-            ></ids-month-view>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
@@ -958,20 +1131,6 @@
               </ids-trigger-button>
             </ids-trigger-field>
           </ids-layout-grid-cell>
-        </ids-layout-grid>
-
-        <!-- Week View -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Week View</ids-text>
-        </ids-layout-grid>
-        <ids-layout-grid auto="true">
-          <ids-week-view
-            first-day-of-week="1"
-            show-today="true"
-            start-date="10/23/2019"
-            end-date="11/01/2019"
-            show-timeline="false"
-          ></ids-week-view>
         </ids-layout-grid>
       </ids-layout-grid-cell>
     </ids-layout-grid>

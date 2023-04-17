@@ -1,8 +1,6 @@
 /* Ids Home page Component */
-@import '../../core/ids-base';
-
 .ids-home-page {
-  @include relative();
+  position: relative;
 
   .cards {
     position: absolute;

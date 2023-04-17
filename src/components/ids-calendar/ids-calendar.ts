@@ -1,10 +1,10 @@
 import IdsElement from '../../core/ids-element';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsCalendarEventsMixin from '../../mixins/ids-calendar-events-mixin/ids-calendar-events-mixin';
 import IdsDateAttributeMixin from '../../mixins/ids-date-attribute-mixin/ids-date-attribute-mixin';
 import { CalendarEventData, CalendarEventTypeData } from './ids-calendar-event';
+import '../ids-accordion/ids-accordion';
 import '../ids-date-picker/ids-date-picker';
 import '../ids-date-picker/ids-month-year-picklist';
 import IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
@@ -44,13 +44,11 @@ type CalendarEventDetail = {
 
 type CalendarViewTypes = 'month' | 'week' | 'day';
 
-const Base = IdsThemeMixin(
-  IdsDateAttributeMixin(
-    IdsCalendarEventsMixin(
-      IdsLocaleMixin(
-        IdsEventsMixin(
-          IdsElement
-        )
+const Base = IdsDateAttributeMixin(
+  IdsCalendarEventsMixin(
+    IdsLocaleMixin(
+      IdsEventsMixin(
+        IdsElement
       )
     )
   )
@@ -60,7 +58,6 @@ const Base = IdsThemeMixin(
  * IDS Calendar Component
  * @type {IdsCalendar}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
  * @mixes IdsCalendarEventsMixin
  */
@@ -451,9 +448,7 @@ export default class IdsCalendar extends Base {
       <form id="event-form" data-id="${data.id}" slot="content">
         <div id="event-form-header" class="inline-container" color="${eventType?.color || 'azure'}">
           <ids-text font-size="16" font-weight="bold">${eventType?.label || ''}</ids-text>
-          <ids-button data-action="close">
-            <ids-icon icon="close"></ids-icon>
-          </ids-button>
+          <ids-icon icon="close" data-action="close" aria-label="Close" role="button"></ids-icon>
         </div>
         <div id="event-form-content">
           <ids-input size="full" id="event-subject" type="text" label="${this.localeAPI.translate('Subject')}" value="${data.subject}"></ids-input>
@@ -472,10 +467,10 @@ export default class IdsCalendar extends Base {
           <ids-textarea size="full" id="event-comments" label="${this.localeAPI.translate('Comments')}" autoselect="true">${data.comments || ''}</ids-textarea>
         </div>
         <div id="event-form-actions" class="inline-container">
-          <ids-button data-action="close" no-padding>
+          <ids-button data-action="close" no-padding no-margins>
             <ids-text font-weight="bold" translate-text="true">Cancel</ids-text>
           </ids-button>
-          <ids-button data-action="submit" no-padding>
+          <ids-button data-action="submit" no-padding no-margins>
             <ids-text font-weight="bold" translate-text="true">Submit</ids-text>
           </ids-button>
         </div>
@@ -699,10 +694,9 @@ export default class IdsCalendar extends Base {
 
     this.offEvent('click.calendar-event-form', popup);
     this.onEvent('click.calendar-event-form', popup, (evt: any) => {
-      if (evt.target && evt.target.tagName === 'IDS-BUTTON') {
+      if (evt.target && evt.target.hasAttribute('data-action')) {
         evt.stopPropagation();
         const action = evt.target.getAttribute('data-action');
-        if (!action) return;
 
         if (action === 'close') {
           this.#removePopup();

@@ -225,10 +225,14 @@
   --ids-button-tertiary-disabled-background-color: transparent;
   --ids-button-destructive-hover-background-color: var(--ids-color-error-10);
 
+  // Button (Alternate)
+  --ids-button-alternate-text-color: var(--ids-color-slate-10);
+  --ids-button-alternate-text-color-hover: var(--ids-color-slate-00);
+
   // Button (Formatter)
-  --ids-button-formatter-text-color: var(--ids-input-readonly-background-color);
+  --ids-button-alternate-formatter-text-color: var(--ids-input-readonly-background-color);
   --ids-button-formatter-border-color: var(--ids-color-slate-00);
-  --ids-button-formatter-text-color-hover: var(--ids-inverse-text-color);
+  --ids-button-alternate-formatter-text-color-hover: var(--ids-inverse-text-color);
   --ids-button-formatter-disabled-text-color: var(--ids-color-slate-40);
   --ids-button-formatter-ripple-color: var(--ids-color-primary-tertiary);
 
@@ -240,11 +244,16 @@
   --ids-breadcrumb-current-font-weight:
   --ids-breadcrumb-font-size: var(--ids-font-size-sm);
 
+  // Calendar
+  --ids-calendar-toolbar-container-background-color: var(--ids-color-slate-00);
+  --ids-calendar-toolbar-container-border-color: var(--ids-color-slate-20);
+
   // Card
   --ids-card-toolbar-padding: var(--ids-spacing-xxl);
   --ids-card-border-radius: var(--ids-border-radius-md);
   --ids-card-margin-bottom: var(--ids-spacing-xxl);
   --ids-card-height: 360px;
+  --ids-card-content-height: 310px;
   --ids-card-header-padding: 12px 16px;
   --ids-card-background-color: var(--ids-color-slate-00);
   --ids-card-border-color: var(--ids-color-slate-30);
@@ -325,6 +334,25 @@
   --ids-data-grid-row-selected-background-color: rgba(85 163 243 / 0.10);
   --ids-data-grid-row-alternate-background-color: var(--ids-color-slate-10);
   --ids-data-grid-row-focus-box-shadow: inset 0 0 0 1px var(--ids-color-palette-azure-40), 0 1px 0 0 var(--ids-color-palette-azure-40), 0 0 3px 2px rgb(54 138 192 / 0.3);
+
+  // Date Picker
+  --ids-date-picker-open-trigger-button-text-color: var(--ids-color-primary)
+  --ids-date-picker-open-trigger-input-border-color: var(--ids-color-primary);
+  --ids-date-picker-dropdown-button-text-color: var(--ids-color-slate-100);
+  --ids-date-picker-dropdown-focus-box-shadow-color: var(--ids-shadow-md);
+  --ids-date-picker-picklist-background-color: var(--ids-color-slate-00);
+  --ids-date-picker-picklist-item-text-color: var(--ids-subtle-text-color);
+  --ids-date-picker-picklist-item-focus-border-color: var(--ids-focus-ring-border-color);
+  --ids-date-picker-picklist-item-focus-box-shadow: var(--ids-focus-ring-shadow);
+  --ids-date-picker-picklist-item-selected-text-color: var(--ids-color-slate-00);
+  --ids-date-picker-picklist-item-selected-background-color: var(--ids-color-primary);
+  --ids-date-picker-popup-button-apply-text-color: var(--ids-color-azure-70);
+  --ids-date-picker-popup-button-apply-disabled-text-color: var(--ids-color-azure-30);
+  --ids-date-picker-popup-button-border-color: var(--ids-color-slate-30);
+  --ids-date-picker-popup-footer-border-color: var(--ids-date-picker-popup-button-border-color);
+  --ids-date-picker-popup-button-text-color: var(--ids-color-slate-60);
+  --ids-date-picker-popup-button-hover-text-color: var(--ids-color-slate-100);
+  --ids-date-picker-popup-button-today-text-color: var(--ids-color-primary);
 
   // Dirty Indicator
   --ids-dirty-indicator-background-color: var(--ids-color-palette-amber-30);
@@ -430,6 +458,19 @@
   // Expandable Area
   --ids-expandable-area-border-bottom: 1px solid var(--ids-color-slate-30);
 
+  // Hierarchy
+  --ids-hierarchy-legend-item-before-background-color: var(--ids-color-slate-20);
+  --ids-hierarchy-item-leaf-border-color: var(--ids-color-slate-30);
+  --ids-hierarchy-item-leaf-box-shadow: 0 0 8px rgba(0 0 0 / 0.1);
+  --ids-hierarchy-item-leaf-border-radius: var(--ids-border-radius-xs);
+  --ids-hierarchy-item-leaf-before-border-color: var(--ids-color-slate-30);
+  --ids-hierarchy-item-leaf-inside-background-color: var(--ids-color-slate-00);
+  --ids-hierarchy-item-leaf-inside-border-left: 5px solid var(--ids-color-slate-80);
+  --ids-hierarchy-item-leaf-inside-box-shadow: none;
+  --ids-hierarchy-item-avatar-border: var(--ids-spacing-sm) solid var(--ids-color-slate-80);
+  --ids-hierarchy-item-focus-box-shadow: none;
+  --ids-hierarchy-item-selected-leaf-box-shadow: 0 0 0 5px rgba(54 138 192 / 0.3);
+
   // Headers
   --ids-header-gradient-opaque: rgb(0 114 237 / 1);
   --ids-header-gradient-transparent: rgb(0 114 237 / 0);
@@ -533,6 +574,35 @@
   --ids-list-builder-list-view-item-drag-handle-font-size: var(--ids-font-size-xl);
   --ids-list-builder-list-view-item-placeholder-background-color: var(--ids-color-azure-10);
   --ids-list-builder-list-view-item-placeholder-opacity: 0.6;
+
+  // List View
+  --ids-list-view-focus-border-color: var(--ids-color-azure-40);
+  --ids-list-view-item-background-color: var(--ids-color-slate-00);
+  --ids-list-view-item-border: var(--ids-spacing-xs) solid transparent;
+  --ids-list-view-item-border-top-color: var(--ids-color-slate-20);
+  --ids-list-view-item-padding: var(--ids-spacing-xlg) var(--ids-spacing-3xl);
+  --ids-list-view-item-focus-border-color: var(--ids-color-azure-40);
+  --ids-list-view-item-focus-box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
+  --ids-list-view-item-focus-outline: none;
+  --ids-list-view-item-disabled-text-color: var(--ids-color-slate-30);
+  --ids-list-view-item-disabled-focus-border-color: transparent;
+  --ids-list-view-item-disabled-focus-border-top-color: var(--ids-color-slate-20);
+  --ids-list-view-item-disabled-focus-box-shadow: none;
+  --ids-list-view-item-disabled-badge-background-color: var(--ids-color-slate-30);
+  --ids-list-view-item-disabled-badge-border-color: var(--ids-color-slate-30);
+  --ids-list-view-item-disabled-badge-text-color: var(--ids-color-slate-00);
+  --ids-list-view-item-disabled-link-text-color: var(--ids-color-slate-30);
+  --ids-list-view-item-disabled-image-opacity: 0.5;
+  --ids-list-view-selectable-item-selected-background-color: var(--ids-color-azure-10);
+
+  // Masthead
+  --ids-masthead-background-color: var(--ids-color-slate-100); // black -> slate-100
+  --ids-masthead-text-color: var(--ids-color-slate-30);
+  --ids-masthead-padding-inline: var(--ids-spacing-xxl);
+  --ids-masthead-min-height: 40px;
+  --ids-masthead-logo-icon-padding-inline: var(--ids-spacing-lg);
+  --ids-masthead-logo-icon-top: var(--ids-spacing-xs);
+  --ids-masthead-title-margin-inline: var(--ids-spacing-lg);
 
   // Menu
   --ids-menu-header-font-weight: var(--ids-font-weight-semi-bold);

@@ -38,69 +38,14 @@
     }
   }
 
-  // Is calendar toolbar
-  &.is-calendar-toolbar {
-    @include border-solid();
-    @include border-1();
-    @include border-transparent();
-    @include pl-8();
-    @include ml-4();
-
-    align-items: center;
-    display: flex;
-    outline: none;
-    outline-color: transparent;
-
-    .datepicker-text {
-      @include leading-none();
-      @include mr-2();
-    }
-
-    .datepicker-icon {
-      @include mb-2();
-    }
-
-    &:focus {
-      @include border-azure-60();
-
-      box-shadow: 0 0 4px 3px rgba(54 138 192 / 0.3);
-    }
-
-    &[mode='dark'] {
-      &:focus {
-        @include border-azure-60();
-
-        box-shadow: 0 0 4px 2px rgba(141 201 230 / 0.3);
-      }
-    }
-
-    &[mode='contrast'] {
-      &:focus {
-        @include border-azure-90();
-
-        box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
-      }
-    }
-  }
-
   // Is open state
   &.is-open:not(.is-dropdown) {
     ids-trigger-button::part(button) {
-      @include text-azure-60();
+      color: var(--ids-date-picker-open-trigger-button-text-color);
     }
 
     ids-trigger-field::part(field-container) {
-      @include border-azure-60();
-    }
-  }
-
-  &[mode='contrast'].is-open:not(.is-dropdown) {
-    ids-trigger-button::part(button) {
-      @include text-azure-90();
-    }
-
-    ids-trigger-field::part(field-container) {
-      @include border-azure-90();
+      border-color: var(--ids-date-picker-open-trigger-input-border-color);
     }
   }
 
@@ -118,17 +63,6 @@
     padding-bottom: 0;
   }
 
-  &[mode='dark'] {
-    ids-popup::part(popup) {
-      @include bg-slate-80();
-    }
-
-    ids-popup::part(arrow)::after,
-    ids-popup::part(arrow-bottom)::after {
-      border-bottom-color: var(--ids-color-palette-slate-80);
-    }
-  }
-
   .popup-footer {
     display: flex;
   }
@@ -138,70 +72,35 @@
   }
 
   .popup-btn::part(button) {
-    @include py-12();
-    @include rounded-none();
-
     display: flex;
+    padding-block: var(--ids-spacing-xlg);
+    border-radius: 0;
     justify-content: center;
 
     &:not(:focus) {
-      @include border-1();
-      @include border-transparent();
-
-      border-top-color: var(--ids-color-palette-slate-30);
+      border: 1px solid transparent;
+      border-top-color: var(--ids-date-picker-popup-button-border-color);
     }
   }
 
-  &[mode='dark'] .popup-btn::part(button):not(:focus) {
-    border-top-color: var(--ids-color-palette-slate-50);
-  }
-
   .popup-btn:not(.popup-btn-apply)::part(button) {
-    @include text-slate-60();
+    color: var(--ids-date-picker-popup-button-text-color);
 
     &:hover {
-      @include text-slate-100();
+      color: var(--ids-date-picker-popup-button-hover-text-color);
     }
   }
 
   .popup-btn:not([hidden]):not(:last-child):not(:focus)::part(button) {
-    border-right-color: var(--ids-color-palette-slate-30);
-  }
-
-  &[mode='dark'] .popup-btn:not(.popup-btn-apply)::part(button) {
-    @include text-slate-30();
-
-    &:hover {
-      @include text-white();
-    }
-  }
-
-  &[mode='dark'] .popup-btn:not([hidden]):not(:last-child):not(:focus)::part(button) {
-    border-right-color: var(--ids-color-palette-slate-50);
-  }
-
-  &[mode='contrast'] .popup-btn:not(.popup-btn-apply)::part(button) {
-    @include text-slate-80();
-
-    &:hover {
-      @include text-slate-50();
-    }
+    border-inline-end-color: var(--ids-date-picker-popup-button-border-color);
   }
 
   .popup-btn-apply:not([disabled])::part(button) {
-    @include text-azure-70();
+    color: var(--ids-date-picker-popup-button-apply-text-color);
   }
 
   .popup-btn-apply[disabled]::part(button) {
-    @include text-azure-30();
-  }
-
-  &[mode='dark'] .popup-btn-apply:not([disabled])::part(button) {
-    @include text-azure-60();
-  }
-
-  &[mode='contrast'] .popup-btn-apply:not([disabled])::part(button) {
-    @include text-azure-90();
+    color: var(--ids-date-picker-popup-button-apply-disabled-text-color);
   }
 
   ids-time-picker {
@@ -214,14 +113,13 @@
 .ids-date-picker.is-dropdown {
   // Button
   .dropdown-btn::part(button) {
-    @include text-slate-100();
-    @include p-4();
-
+    color: var(--ids-date-picker-dropdown-button-text-color);
+    padding: 4px;
     border: none;
     border-radius: var(--ids-border-radius-xs);
 
     &:focus {
-      box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-60), 0 0 4px 3px rgb(54 138 192 / 0.3);
+      box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-date-picker-dropdown-focus-box-shadow-color), 0 0 4px 3px rgb(54 138 192 / 0.3);
     }
   }
 
@@ -231,7 +129,7 @@
   }
 
   .dropdown-btn-icon {
-    @include mt-2();
+    margin-top: 2px;
   }
 
   &.is-expanded {
@@ -244,40 +142,16 @@
     }
   }
 
-  &[mode='dark']:not(.is-expanded) .dropdown-btn::part(button) {
-    @include text-white();
-
-    &:focus {
-      box-shadow:
-        0 0 0 2px transparent,
-        0 0 0 1px var(--ids-color-palette-azure-60),
-        0 0 4px 2px rgb(141 201 230 / 0.3);
-    }
-  }
-
-  &[mode='contrast']:not(.is-expanded) .dropdown-btn::part(button) {
-    @include text-black();
-
-    &:focus {
-      box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-90), 0 0 4px 2px rgb(41 41 41 / 0.3);
-    }
-  }
-
-  &[mode='contrast'].is-expanded .dropdown-btn::part(button) {
-    @include text-azure-90();
-  }
-
   // Expandable area
   ids-expandable-area::part(container) {
-    @include m-0();
-    @include p-0();
-
+    margin: 0;
+    padding: 0;
+    width: 100%;
     position: absolute;
     z-index: 3;
     border: none;
     top: 43px;
     left: 0;
-    width: 100%;
   }
 
   ids-expandable-area::part(header) {
@@ -298,7 +172,7 @@
 
   // Picklist
   .picklist {
-    display: flex;
+    @include flex();
 
     &::after {
       @include bg-slate-30();
@@ -327,9 +201,10 @@
   }
 
   .picklist-list {
+    @include flex();
+
     list-style: none;
     align-items: center;
-    display: flex;
     flex-direction: column;
     justify-content: space-around;
     padding: 0;
@@ -339,20 +214,20 @@
   }
 
   .picklist-item {
+    @include flex();
     @include cursor-pointer();
     @include border-1();
     @include border-solid();
     @include border-transparent();
     @include text-slate-80();
     @include py-1();
+    @include w-full();
     @include box-border();
 
-    display: flex;
     user-select: none;
     height: 12.5%;
     align-items: center;
     justify-content: center;
-    width: 100%;
 
     ids-text {
       line-height: 0;
@@ -424,7 +299,7 @@
 }
 
 :host([is-calendar-toolbar='true']) {
-  display: flex;
+  @include flex();
 }
 
 // Text direction
@@ -432,13 +307,6 @@
   .ids-date-picker {
     .popup-btn + .popup-btn::part(button):not(:focus) {
       border-left-color: transparent;
-      border-right-color: var(--ids-color-palette-slate-30);
-    }
-
-    &[mode='dark'] .popup-btn + .popup-btn::part(button) {
-      &:not(:focus) {
-        border-right-color: var(--ids-color-palette-slate-50);
-      }
     }
   }
 }
