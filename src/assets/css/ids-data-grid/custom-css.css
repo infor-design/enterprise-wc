@@ -61,3 +61,8 @@ ids-data-grid::part(amethyst-tooltip-arrow-top)::after {
 ids-data-grid::part(amethyst-tooltip-popup) {
   background-color: #591da8;
 }
+
+
+.test-style {
+  height: 400px;
+}
