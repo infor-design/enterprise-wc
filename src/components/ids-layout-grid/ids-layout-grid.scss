@@ -355,11 +355,6 @@ $align-content-list: start center space-between space-around space-evenly end;
   .#{$prefix} > .#{$prefix}-col-end-#{$i} {
     grid-column-end: $i;
   }
-
-  :host(.#{$prefix}) > ::slotted([order='#{$i}']),
-  .#{$prefix} > .#{$prefix}-order-#{$i} {
-    order: $i;
-  }
 }
 
 /**
@@ -374,6 +369,16 @@ $align-content-list: start center space-between space-around space-evenly end;
   :host(.#{$prefix}) > ::slotted([row-span='#{$i}']),
   .#{$prefix} > .#{$prefix}-row-span-#{$i} {
     grid-row: span $i / span $i;
+  }
+
+  :host(.#{$prefix}) > ::slotted([order='#{$i}']),
+  .#{$prefix} > .#{$prefix}-order-#{$i} {
+    order: $i;
+  }
+
+  :host(.#{$prefix}) > ::slotted([order='-1']),
+  .#{$prefix} > .#{$prefix}-order--1 {
+    order: -1;
   }
 }
 
@@ -402,11 +407,6 @@ $align-content-list: start center space-between space-around space-evenly end;
     .#{$prefix} > .#{$prefix}-col-end-xs-#{$i} {
       grid-column-end: $i;
     }
-
-    :host(.#{$prefix}) > ::slotted([order-xs='#{$i}']),
-    .#{$prefix} > .#{$prefix}-order-xs-#{$i} {
-      order: $i;
-    }
   }
 
   @for $i from 1 through $grid-rows {
@@ -418,6 +418,16 @@ $align-content-list: start center space-between space-around space-evenly end;
     :host(.#{$prefix}) > ::slotted([row-span-xs='#{$i}']),
     .#{$prefix} > .#{$prefix}-row-span-xs-#{$i} {
       grid-row: span $i / span $i;
+    }
+
+    :host(.#{$prefix}) > ::slotted([order-xs='#{$i}']),
+    .#{$prefix} > .#{$prefix}-order-xs-#{$i} {
+      order: $i;
+    }
+
+    :host(.#{$prefix}) > ::slotted([order-xs='-1']),
+    .#{$prefix} > .#{$prefix}-order-xs--1 {
+      order: -1;
     }
   }
 }
@@ -447,11 +457,6 @@ $align-content-list: start center space-between space-around space-evenly end;
     .#{$prefix} > .#{$prefix}-col-end-sm-#{$i} {
       grid-column-end: $i;
     }
-
-    :host(.#{$prefix}) > ::slotted([order-sm='#{$i}']),
-    .#{$prefix} > .#{$prefix}-order-sm-#{$i} {
-      order: $i;
-    }
   }
 
   @for $i from 1 through $grid-rows {
@@ -463,6 +468,17 @@ $align-content-list: start center space-between space-around space-evenly end;
     :host(.#{$prefix}) > ::slotted([row-span-sm='#{$i}']),
     .#{$prefix} > .#{$prefix}-row-span-sm-#{$i} {
       grid-row: span $i / span $i;
+    }
+
+
+    :host(.#{$prefix}) > ::slotted([order-sm='#{$i}']),
+    .#{$prefix} > .#{$prefix}-order-sm-#{$i} {
+      order: $i;
+    }
+
+    :host(.#{$prefix}) > ::slotted([order-sm='-1']),
+    .#{$prefix} > .#{$prefix}-order-sm--1 {
+      order: -1;
     }
   }
 }
@@ -492,11 +508,6 @@ $align-content-list: start center space-between space-around space-evenly end;
     .#{$prefix} > .#{$prefix}-col-end-md-#{$i} {
       grid-column-end: $i;
     }
-
-    :host(.#{$prefix}) > ::slotted([order-md='#{$i}']),
-    .#{$prefix} > .#{$prefix}-order-md-#{$i} {
-      order: $i;
-    }
   }
 
   @for $i from 1 through $grid-rows {
@@ -508,6 +519,16 @@ $align-content-list: start center space-between space-around space-evenly end;
     :host(.#{$prefix}) > ::slotted([row-span-md='#{$i}']),
     .#{$prefix} > .#{$prefix}-row-span-md-#{$i} {
       grid-row: span $i / span $i;
+    }
+
+    :host(.#{$prefix}) > ::slotted([order-md='#{$i}']),
+    .#{$prefix} > .#{$prefix}-order-md-#{$i} {
+      order: $i;
+    }
+
+    :host(.#{$prefix}) > ::slotted([order-md='-1']),
+    .#{$prefix} > .#{$prefix}-order-md--1 {
+      order: -1;
     }
   }
 }
@@ -537,11 +558,6 @@ $align-content-list: start center space-between space-around space-evenly end;
     .#{$prefix} > .#{$prefix}-col-end-lg-#{$i} {
       grid-column-end: $i;
     }
-
-    :host(.#{$prefix}) > ::slotted([order-lg='#{$i}']),
-    .#{$prefix} > .#{$prefix}-order-lg-#{$i} {
-      order: $i;
-    }
   }
 
   @for $i from 1 through $grid-rows {
@@ -553,6 +569,16 @@ $align-content-list: start center space-between space-around space-evenly end;
     :host(.#{$prefix}) > ::slotted([row-span-lg='#{$i}']),
     .#{$prefix} > .#{$prefix}-row-span-lg-#{$i} {
       grid-row: span $i / span $i;
+    }
+
+    :host(.#{$prefix}) > ::slotted([order-lg='#{$i}']),
+    .#{$prefix} > .#{$prefix}-order-lg-#{$i} {
+      order: $i;
+    }
+
+    :host(.#{$prefix}) > ::slotted([order-lg='-1']),
+    .#{$prefix} > .#{$prefix}-order-lg--1 {
+      order: -1;
     }
   }
 }
@@ -582,11 +608,6 @@ $align-content-list: start center space-between space-around space-evenly end;
     .#{$prefix} > .#{$prefix}-col-end-xl-#{$i} {
       grid-column-end: $i;
     }
-
-    :host(.#{$prefix}) > ::slotted([order-xl='#{$i}']),
-    .#{$prefix} > .#{$prefix}-order-xl-#{$i} {
-      order: $i;
-    }
   }
 
   @for $i from 1 through $grid-rows {
@@ -598,6 +619,16 @@ $align-content-list: start center space-between space-around space-evenly end;
     :host(.#{$prefix}) > ::slotted([row-span-xl='#{$i}']),
     .#{$prefix} > .#{$prefix}-row-span-xl-#{$i} {
       grid-row: span $i / span $i;
+    }
+
+    :host(.#{$prefix}) > ::slotted([order-xl='#{$i}']),
+    .#{$prefix} > .#{$prefix}-order-xl-#{$i} {
+      order: $i;
+    }
+
+    :host(.#{$prefix}) > ::slotted([order-xl='-1']),
+    .#{$prefix} > .#{$prefix}-order-xl--1 {
+      order: -1;
     }
   }
 }
@@ -627,11 +658,6 @@ $align-content-list: start center space-between space-around space-evenly end;
     .#{$prefix} > .#{$prefix}-col-end-xxl-#{$i} {
       grid-column-end: $i;
     }
-
-    :host(.#{$prefix}) > ::slotted([order-xxl='#{$i}']),
-    .#{$prefix} > .#{$prefix}-order-xxl-#{$i} {
-      order: $i;
-    }
   }
 
   @for $i from 1 through $grid-rows {
@@ -643,6 +669,16 @@ $align-content-list: start center space-between space-around space-evenly end;
     :host(.#{$prefix}) > ::slotted([row-span-xxl='#{$i}']),
     .#{$prefix} > .#{$prefix}-row-span-xxl-#{$i} {
       grid-row: span $i / span $i;
+    }
+
+    :host(.#{$prefix}) > ::slotted([order-xxl='#{$i}']),
+    .#{$prefix} > .#{$prefix}-order-xxl-#{$i} {
+      order: $i;
+    }
+
+    :host(.#{$prefix}) > ::slotted([order-xxl='-1']),
+    .#{$prefix} > .#{$prefix}-order-xxl--1 {
+      order: -1;
     }
   }
 }
