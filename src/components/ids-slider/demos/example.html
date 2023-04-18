@@ -7,11 +7,11 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Slider</ids-text>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="3" gap="xl">
+    <ids-layout-grid cols="2" cols-md="3" gap="xl" padding-x="md">
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h1">Single Slider: </ids-text>
         <ids-slider type="single" show-tooltip label="Single-thumb"></ids-slider>
@@ -26,7 +26,7 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="3" gap="xl">
+    <ids-layout-grid cols="2" cols-md="3" gap="xl" padding-x="md">
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h1">Vertical Sliders: </ids-text>
         <ids-slider type="single" vertical color="red" show-tooltip label="Colorful single-thumb"></ids-slider>

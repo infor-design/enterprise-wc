@@ -9,22 +9,22 @@
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Web Component Hyperlink</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
         <ids-hyperlink href="http://www.example.com" target="_blank">Normal Hyperlink</ids-hyperlink>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-   <ids-layout-grid auto="true">
+   <ids-layout-grid auto-fit="true" padding-x="md" padding-y="sm">
       <ids-layout-grid-cell>
         <ids-hyperlink href="http://www.example.com" disabled="true" target="_blank">Disabled Hyperlink</ids-hyperlink>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">4.x Hyperlink</ids-text>
     </ids-layout-grid>
     <div class="svg hidden">
@@ -35,7 +35,7 @@
         </svg>
       </div>
     </div>
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
         <a class="hyperlink hide-focus" href="#">Normal Hyperlink</a><p>&nbsp;</p>
         <a class="hyperlink hide-focus" disabled tabindex="-1" href="#">Disabled Hyperlink</a><p>&nbsp;</p>

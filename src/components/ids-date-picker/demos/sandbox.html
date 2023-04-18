@@ -7,12 +7,12 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Date Picker</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="4" gap="md">
+    <ids-layout-grid cols="1" cols-xs="2" cols-md="4" gap="md" padding-x="md">
       <ids-layout-grid-cell>
-        <ids-date-picker label="Abbreviated Month Year" format="MMM yyyy" placeholder="true" ></ids-date-picker>
+        <ids-date-picker label="Abbreviated Month Year" format="MMM yyyy" placeholder="true"></ids-date-picker>
         <ids-date-picker label="Wide Month Day" format="MMMM d" placeholder="true"></ids-date-picker>
         <ids-date-picker label="Year" format="yyyy" placeholder="true"></ids-date-picker>
         <ids-date-picker label="Wide Month Year" format="MMMM yyyy" placeholder="true"></ids-date-picker>

@@ -36,7 +36,7 @@
   font-family: var(--ids-font-family);
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  min-width: 100%;
+  min-width: calc(100% - 32px);
 }
 
 // Actions and element should be 100% wide

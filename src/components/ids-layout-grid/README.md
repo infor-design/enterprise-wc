@@ -10,201 +10,204 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 - Use to layout complex forms
 - Use to layout a list of IdsCards
 
-## Terminology
+## Attributes
 
-- **Grid**: In our case a grid is the container that holds a grid and has the `display: grid` property set on it. We refer to this as `ids-layout-grid`.
-- **GridCell** Any direct child of a grid container, we refer to this as `ids-layout-grid-cell`.
-- **Cols** These are the vertical columns of the grid, also referred to as tracks.
-- **Rows** The horizontal tracks of the grid.
-- **MinColWidth** This sets the minimum col width in the grid.
+### IdsLayoutGrid
+- **AutoFit**: Automatically adjust the width or height of a cell, row, or column to fit its contents.
+- **AutoFill**: Automatically fill a range of cells with a pattern or sequence.
+- **Cols**: Specifies the number of columns by default in the grid.
+- **ColsXs**: Specifies the number of columns to use on extra small screens.
+- **ColsSm**: Specifies the number of columns to use on small screens.
+- **ColsMd**: Specifies the number of columns to use on medium screens.
+- **ColsLg**: Specifies the number of columns to use on large screens.
+- **ColsXl**: Specifies the number of columns to use on extra large screens.
+- **ColsXxl**: Specifies the number of columns to use on extra-extra large screens.
+- **Rows**: Specifies the number of rows by default in the grid.
+- **RowsXs**: Specifies the number of rows to use on extra small screens.
+- **RowsSm**: Specifies the number of rows to use on small screens.
+- **RowsMd**: Specifies the number of rows to use on medium screens.
+- **RowsLg**: Specifies the number of rows to use on large screens.
+- **RowsXl**: Specifies the number of rows to use on extra large screens.
+- **RowsXxl**: Specifies the number of rows to use on extra-extra large screens.
+- **RowHeight**: Specifies the height of a row in the grid.
+- **MinColWidth**: Specifies the minimum width of a column in a grid.
+- **MaxColWidth**: Specifies the maximum width of a column in a grid.
+- **MinRowHeight**: Specifies the minimum height of a row in a grid.
+- **MaxRowHeight**: Specifies the maximum height of a row in a grid.
+- **Gap**: Specifies the size of the gap between cells in a grid. If not assigned defaults to `md`.
+- **Margin**: Specifies the amount of space between a grid and its outer border.
+- **MarginY**: Specifies the amount of vertical space between a grid and its outer border.
+- **Padding**: Specifies the amount of space between a grid content and its inner border.
+- **PaddingX**: Specifies the amount of horizontal space between a grid content and its inner border.
+- **PaddingY**: Specifies the amount of vertical space between a grid and its inner border.
+- **JustifyContent**: Specifies how to align the items in a grid along the main axis. If not assigned defaults to `start`.
+- **Flow**: Specifies how the items in a grid should wrap or overflow when there isn't enough space.
 
+### IdsLayoutGridCell
+- **ColSpan**: Specifies the number of columns a cell should span by default in a grid.
+- **ColSpanXs**: Specifies the number of columns a cell should span on extra small screens.
+- **ColSpanSm**: Specifies the number of columns a cell should span on small screens.
+- **ColSpanMd**: Specifies the number of columns a cell should span on medium screens.
+- **ColSpanLg**: Specifies the number of columns a cell should span on large screens.
+- **ColSpanXl**: Specifies the number of columns a cell should span on extra large screens.
+- **ColSpanXxl**: Specifies the number of columns a cell should span on extra-extra large screens.
+- **ColStart**: Specifies the starting column for a cell by default in a grid.
+- **ColStartXs**: Specifies the starting column for a cell on extra small screens.
+- **ColStartSm**: Specifies the starting column for a cell on small screens.
+- **ColStartMd**: Specifies the starting column for a cell on medium screens.
+- **ColStartLg**: Specifies the starting column for a cell on large screens.
+- **ColStartXl**: Specifies the starting column for a cell on extra large screens.
+- **ColStartXxl**: Specifies the starting column for a cell on extra-extra large screens.
+- **ColEnd**: Specifies the ending column for a cell by default in a grid.
+- **ColEndXs**: Specifies the ending column for a cell on extra small screens.
+- **ColEndSm**: Specifies the ending column for a cell on small screens.
+- **ColEndMd**: Specifies the ending column for a cell on medium screens.
+- **ColEndLg**: Specifies the ending column for a cell on large screens.
+- **ColEndXl**: Specifies the ending column for a cell on extra large screens.
+- **ColEndXxl**: Specifies the ending column for a cell on extra-extra large screens.
+- **Editable**: Specifies whether the content of an element can be edited by the user.
+- **Fill**: Specifies whether an element should fill the available space in its container.
+- **Height**: Specifies the height of an element.
+- **MinHeight**: Specifies the minimum height of an element.
+- **Order**: Specifies the order in which an element should appear by default in a container.
+- **OrderXs**: Specifies the order in which an element should appear on extra small screens.
+- **OrderSm**: Specifies the order in which an element should appear on small screens.
+- **OrderMd**: Specifies the order in which an element should appear on medium screens.
+- **OrderLg**: Specifies the order in which an element should appear on large screens.
+- **OrderXl**: Specifies the order in which an element should appear on extra large screens.
+- **OrderXxl**: Specifies the order in which an element should appear on extra-extra large screens.
+- **RowSpan**: Specifies the number of rows a cell should span by default in a grid.
+- **RowSpanXs**: Specifies the number of rows a cell should span on extra small screens.
+- **RowSpanSm**: Specifies the number of rows a cell should span on small screens.
+- **RowSpanMd**: Specifies the number of rows a cell should span on medium screens.
+- **RowSpanLg**: Specifies the number of rows a cell should span on large screens.
+- **RowSpanXl**: Specifies the number of rows a cell should span on extra large screens.
+- **RowSpanXxl**: Specifies the number of rows a cell should span on extra-extra large screens.
+- **Sticky**: Specifies whether an element should be "stuck" to a viewport
+
+## Responsive Breakpoints
+
+- **XS**: 360px
+- **S**: 600px
+- **MD**: 840px
+- **LG**: 1024px
+- **XL**: 1280px
+- **XXL**: 1440px
+
+**Example Usage**
 ## Features (With Code Examples)
 
-By default the layout grid is a fluid 12 column responsive grid. Which automatically adheres to the following settings:
-
 ```html
-XXL: 1440px — 12 columns, 24px gutter, 24px margin
-XL: 1280px — 12 columns, 24px gutter, 24px margin
-L: 1024px — 12 columns, 16px gutter, 16px margin
-M: 840px — 8 columns, 16px gutter, 16px margin
-S: 600px — 4 columns, 16px gutter, 16px margin
-XS: 360px — 4 columns, 16px gutter, 16px margin
+<ids-layout-grid cols="2" cols-lg="4" cols-xl="6" cols-xxl="8">
 ```
 
+This `<ids-layout-grid>` element has four attributes (cols, cols-lg, cols-xl, and cols-xxl) that are used to define the number of columns in the grid layout at different breakpoint sizes. The `cols` attribute sets the number of columns in the grid layout by default. The `cols-lg` attribute sets the number of columns in the grid layout at the lg breakpoint size (large devices/screen sizes). The `cols-xl` attribute sets the number of columns in the grid layout at the xl breakpoint size (extra-large devices/screen sizes).
+
+Finally, the `cols-xxl` attribute sets the number of columns in the grid layout at the xxl breakpoint size (extra-extra-large devices/screen sizes). Overall, this code is defining a grid layout that will display two columns by default and adjust the number of columns displayed at different breakpoint sizes for different device types.
+
+---
+
 ```html
-<ids-layout-grid>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
+<ids-layout-grid-cell col-span="2" col-span-lg="4">
+```
+
+This `<ids-layout-grid-cell>` element is used to define a cell within a grid layout. It has two attributes (`col-span` and `col-span-lg`) that define the number of columns a cell should span at different breakpoint sizes. The `col-span` attribute sets the number of columns that the cell should span by default. The `col-span-lg` attribute sets the number of columns that the cell should span at the lg breakpoint size (large devices) and its value is set to 4. Overall, this code is defining a cell within a grid layout that will span two columns by default and adjust the number of columns it spans at the lg breakpoint size.
+
+---
+
+```html
+<ids-layout-grid
+    auto-fit
+    min-col-width="100px"
+    max-col-width="1fr"
+>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
 </ids-layout-grid>
 ```
 
-Examples of grid with breakpoints
+For AutoFit layout the grid cells in this example have a min/max value of 100px and 1fr respectively. The cells will take up as much space as is available until they reach the threshold of the MinColWidth, then they will automatically shift until they reach that threshold again. This removes the need for media queries in many cases.
+
+---
 
 ```html
-<ids-layout-grid>
-  <ids-layout-grid-cell col-span="12" col-span-sm="6" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="12" col-span-sm="6" col-span-md="4" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-</ids-layout-grid>
-```
-
-There is also an optional setting `fluid-grid-xl` which converts the grid to 16 columns at XL and greater breakpoints.
-
-```html
-<ids-layout-grid cols="fluid-grid-xl">
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-</ids-layout-grid>
-```
-
-For auto layout the grid cells have a min/max value of 100px and 1fr respectively. The cells will take up as much space as is available until they reach the threshold of 100px, then they will automatically shift until they reach that threshold again. This removes the need for media queries in many cases.
-
-```html
-<ids-layout-grid auto="true">
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
+<ids-layout-grid cols="4">
+   <ids-layout-grid-cell col-span="3" fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell row-span="2" fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
 </ids-layout-grid>
 ```
 
 An Ids Layout Grid with a custom number of columns or rows. The example below shows a 4 column grid where the first cell spans 3 columns and the 3rd cell spans 2 rows.
 
+---
+
+Examples of grid with responsive col-spans
+
 ```html
-<ids-layout-grid cols="4">
-   <ids-layout-grid-cell col-span="3" fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell row-span="2" fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
+<ids-layout-grid
+    cols="12"
+>
+  <ids-layout-grid-cell col-span="12" col-span-sm="6" fill>
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="12" col-span-sm="6" col-span-md="4" fill>
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
 </ids-layout-grid>
 ```
 
-You can pass an optional attribute `minColWidth` to override the default min value of the grid
-
-```html
-<ids-layout-grid auto="true" minColWidth="200px">
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-</ids-layout-grid>
+--
 
 Nested Grid. An IdsLayoutGrid component can be nested inside an IdsLayoutGridCell.
 
 ```html
 <ids-layout-grid cols="4">
-   <ids-layout-grid-cell col-span="3" fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell row-span="2" fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true">
-      <ids-layout-grid auto="true">
-        <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-        <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-        <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
+   <ids-layout-grid-cell col-span="3" fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell row-span="2" fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill>
+      <ids-layout-grid auto>
+        <ids-layout-grid-cell fill></ids-layout-grid-cell>
+        <ids-layout-grid-cell fill></ids-layout-grid-cell>
+        <ids-layout-grid-cell fill></ids-layout-grid-cell>
       </ids-layout-grid>
    </ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill></ids-layout-grid-cell>
 </ids-layout-grid>
 ```
 
 Standalone CSS Example
 
 ```html
-<div class="ids-layout-grid ids-layout-cols ids-layout-grid-gap-md" style="--grid-cols: 3;">
-  <div class="ids-layout-grid-cell ids-layout-col-span ids-background-fill" style="--grid-col-span: 2;"><ids-text font-size="12">A</ids-text></div>
-  <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">B</ids-text></div>
+<div class="ids-layout-grid ids-layout-grid-cols-3">
+  <div class="ids-layout-grid-cell ids-layout-grid-col-span-2 fill"><ids-text font-size="12">A</ids-text></div>
+  <div class="ids-layout-grid-cell fill"><ids-text font-size="12">B</ids-text></div>
 </div>
 ```
 
-## States and Variations
-
-IdsLayoutGrid
-- Auto
-- Fixed
-- Cols
-- Rows
-- MinColWidth
-
-IdsLayoutGridCell
-- Fill
-- ColSpan
-- ColSpanXs
-- ColSpanSm
-- ColSpanMd
-- ColSpanLg
-- ColSpanXl
-- ColSpanXxl
-- ColStart
-- ColEnd
-- RowSpan
-- RowStart
-- RowEnd
-- Justify - Float the element to the right using justify-self
-
+--
 ## Keyboard Guidelines
 
 A layout grid is not on its own keyboard focusable and has no keyboard interaction.
 
 ## Responsive Guidelines
 
-- A Layout Grid set to auto will flow automatically with the screen size.
-- As of now, Layout GrIds with column and row settings will flow as normal until the medium breakpoint (840px). Then they will switch to auto-fit and
+- A Layout Grid set to auto-fit or auto-fill will flow automatically with the screen size.
 
 ## Converting from Previous Versions (Breaking Changes)
 

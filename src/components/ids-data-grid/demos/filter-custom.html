@@ -8,11 +8,11 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
 
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Data Grid (Custom Filter)</ids-text>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="1">
+    <ids-layout-grid cols="1" padding-x="md">
       <ids-layout-grid-cell>
         <ids-input type="text" id="filter-input" label="Color Filter"></ids-input>
         <ids-button appearance="secondary" id="set-filter-btn">Set Color Filter</ids-button>
@@ -20,7 +20,7 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
         <ids-data-grid
           id="data-grid-filter-custom"

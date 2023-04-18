@@ -9,10 +9,14 @@
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Web Component Counts</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="5" gap="md">
+    <ids-layout-grid
+      auto-fit="true" 
+      min-col-width="150px" 
+      padding-x="md"
+    >
       <ids-layout-grid-cell>
         <ids-counts color="base" href="#">
           <ids-text count-value>7</ids-text>
@@ -45,7 +49,7 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">4.x Counts</ids-text>
     </ids-layout-grid>
     <div class="row l-center">

@@ -1,0 +1,30 @@
+.hero {
+  background-color: #003876;
+  padding: 16px;
+}
+
+.wrapper {
+  margin: 16px 0;
+}
+
+.container {
+  max-width: 1488px;
+  margin: 0 auto;
+}
+
+.container-wide {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+ids-card::part(card) {
+  margin-bottom: 0;
+}
+
+.edit-button-container {
+  margin-bottom: 24px;
+}
+
+.ids-layout-grid-cell.height-176 {
+  height: 176px;
+}
