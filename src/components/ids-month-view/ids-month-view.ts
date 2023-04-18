@@ -922,12 +922,6 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       </td>`;
       if (typeof this.state.onDayRender === 'function') {
         cellTemplate = this.state.onDayRender(cellTemplate, dateKey);
-        document.documentElement.style.setProperty('--ids-month-view-day-selected-bg', '#F7E6BC');
-        document.documentElement.style.setProperty('--ids-month-view-day-border', '2px solid #EABA3B');
-        document.documentElement.style.setProperty('--ids-box-shadow-2', '0');
-        document.documentElement.style.setProperty('--ids-box-shadow-5', '0');
-        document.documentElement.style.setProperty('--ids-month-view-day-selected-blue', '#F7E6BC');
-        document.documentElement.style.setProperty('--ids-month-view-day-selected-hover', '#FFF9E9');
       }
       return cellTemplate;
     }).join('');

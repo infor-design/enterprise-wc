@@ -405,12 +405,12 @@
     }
 
     &.is-selected {
-      box-shadow: inset var(--ids-box-shadow-5, 0 5px 0 0) var(--ids-month-view-day-selected-blue, --ids-color-palette-azure-60);
+      box-shadow: inset var(--ids-month-view-box-shadow-5, 0 5px 0 0) var(--ids-month-view-day-selected-blue, --ids-color-palette-azure-60);
 
       &:not(.is-disabled):focus {
         @include border-transparent();
 
-        box-shadow: var(--ids-box-shadow-2, 0 0 2px 2px) var(--ids-month-view-day-selected-blue,rgb(54 138 192 / 0.3)), inset var(--ids-box-shadow-5, 0 5px 0 0) var(--ids-color-palette-azure-60);
+        box-shadow: var(--ids-month-view-box-shadow-2, 0 0 2px 2px) var(--ids-month-view-day-selected-blue,rgb(54 138 192 / 0.3)), inset var(--ids-month-view-box-shadow-5, 0 5px 0 0) var(--ids-color-palette-azure-60);
         border: var(--ids-month-view-day-border);
       }
 
