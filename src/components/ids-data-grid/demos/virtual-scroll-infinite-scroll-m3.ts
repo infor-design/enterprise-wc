@@ -101,12 +101,7 @@ const setData = async () => {
 
 setData();
 
-dataGrid.addEventListener('scrollstart', async (e: Event) => {
-  console.info(`Virtual Scroll reached start`, (<CustomEvent>e).detail);
-});
-
 dataGrid.addEventListener('scrollend', async (e: Event) => {
-  console.info(`Virtual Scroll reached end`, (<CustomEvent>e).detail);
   const endIndex = (<CustomEvent>e).detail?.value || 0;
 
   const moreData = await fetchData(endIndex + 1);
