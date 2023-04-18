@@ -1222,7 +1222,7 @@ export default class IdsDataGrid extends Base {
     const ROW_HEIGHT = this.rowPixelHeight || 50;
     const MAX_ROWS = 150;
     const BODY_HEIGHT = MAX_ROWS * ROW_HEIGHT;
-    const BUFFER_ROWS = 50;
+    const BUFFER_ROWS = 52;
     const BUFFER_HEIGHT = BUFFER_ROWS * ROW_HEIGHT;
     const RAF_DELAY = 60;
     const DEBOUNCE_RATE = 10;
@@ -1349,7 +1349,6 @@ export default class IdsDataGrid extends Base {
    * However, this method is also used in the "onscroll" event-handler...
    * ...within that "onscroll" event-handler, we want doScroll=false,
    * ...and let the browser handle moving/panning the window without interference.
-   *
    * @param {number} rowIndex - which row to scroll into view.
    * @param {boolean} doScroll - set to "true" to have the browser perform the scroll action
    * @see IdsDataGrid.#attachVirtualScrollEvent()
