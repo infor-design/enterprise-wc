@@ -78,7 +78,7 @@
   --ids-accordion-header-app-menu-filter-background-color: var(--ids-color-slate-100);
   --ids-accordion-header-app-menu-filter-match-text-color: var(--ids-color-slate-40);
   --ids-accordion-header-app-menu-focus-border-color: var(--ids-color-azure-40);
-  
+
   // Action Panel
   --ids-action-panel-header-background-color: var(--ids-color-slate-10);
   --ids-action-panel-header-border-color: var(--ids-color-slate-40);
@@ -119,6 +119,13 @@
   --ids-card-border-color: var(--ids-color-slate-60);
   --ids-card-divider-border-color: var(--ids-color-slate-30);
   --ids-card-box-shadow: 0 0 8px rgba(0 0 0 / 0.1);
+
+  // Charts - Axis chart
+  --ids-chart-axis-grid-stroke: var(--ids-color-slate-80);
+  --ids-chart-axis-last-line-stroke: var(--ids-color-slate-100);
+
+  // Charts - Pie chart
+  --ids-chart-pie-donut-text-fill: var(--ids-label-text-color);
 
   // Button (Primary)
   --ids-button-primary-border-color: var(--ids-color-primary);

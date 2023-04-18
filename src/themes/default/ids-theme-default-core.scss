@@ -340,6 +340,45 @@
   --ids-chart-legend-text-size: var(--ids-font-size-sm);
   --ids-chart-legend-text-color: var(--ids-label-text-color);
 
+  // Charts - Quantitive Color Progression
+  --ids-chart-color-1: var(--ids-color-azure-80);
+  --ids-chart-color-2: var(--ids-color-turquoise-40);
+  --ids-chart-color-3: var(--ids-color-amethyst-60);
+  --ids-chart-color-4: var(--ids-color-slate-40);
+  --ids-chart-color-5: var(--ids-color-slate-40);
+  --ids-chart-color-6: var(--ids-color-amber-30);
+  --ids-chart-color-7: var(--ids-color-amber-70);
+  --ids-chart-color-8: var(--ids-color-emerald-80);
+  --ids-chart-color-9: var(--ids-color-azure-30);
+  --ids-chart-color-10: var(--ids-color-ruby-80);
+  --ids-chart-color-11: var(--ids-color-slate-20);
+  --ids-chart-color-12: var(--ids-color-turquoise-60);
+  --ids-chart-color-13: var(--ids-color-amber-90);
+  --ids-chart-color-14: var(--ids-color-amethyst-30);
+  --ids-chart-color-15: var(--ids-color-azure-60);
+  --ids-chart-color-16: var(--ids-color-ruby-30);
+  --ids-chart-color-17: var(--ids-color-amethyst-80);
+  --ids-chart-color-18: var(--ids-color-emerald-30);
+  --ids-chart-color-19: var(--ids-color-turquoise-80);
+  --ids-chart-color-20: var(--ids-color-slate-60);
+  --ids-chart-color-21: var(--ids-color-ruby-40);
+
+  // Charts - Axis chart
+  --ids-chart-axis-border-color: var(--ids-color-slate-10);
+  --ids-chart-axis-grid-stroke: var(--ids-color-slate-20);
+  --ids-chart-axis-first-line-stroke: var(--ids-color-slate-70);
+  --ids-chart-axis-last-line-stroke: var(--ids-color-slate-70);
+  --ids-chart-axis-label-font-family: var(--ids-font-family);
+  --ids-chart-axis-label-font-size: var(--ids-font-size-sm);
+  --ids-chart-axis-label-text-fill: var(--ids-label-text-color);
+  --ids-chart-axis-label-axis-text-font-weight: var(--ids-font-weight-bold);
+  --ids-chart-axis-focus-group-outline: 2px dashed var(--ids-color-azure-60);
+
+  // Charts - Pie chart
+  --ids-chart-pie-donut-text-font-family: var(--ids-font-family);
+  --ids-chart-pie-donut-text-font-size: var(--ids-font-size-xxs);
+  --ids-chart-pie-donut-text-fill: var(--ids-label-text-color);
+
   // Counts
   --ids-counts-text-color: var(--ids-subtle-text-color);
   --ids-counts-hyperlink-text-color: var(--ids-hyperlink-text-color);

@@ -1,6 +1,8 @@
 import '../../ids-action-panel/ids-action-panel';
 import '../../ids-accordion/ids-accordion';
+import '../../ids-area-chart/ids-area-chart';
 import '../../ids-badge/ids-badge';
+import '../../ids-bar-chart/ids-bar-chart';
 import '../../ids-block-grid/ids-block-grid';
 import '../../ids-breadcrumb/ids-breadcrumb';
 import '../../ids-calendar/ids-calendar';
@@ -18,6 +20,7 @@ import '../../ids-hierarchy/ids-hierarchy-item';
 import '../../ids-hierarchy/ids-hierarchy-legend';
 import '../../ids-hierarchy/ids-hierarchy-legend-item';
 import '../../ids-image/ids-image';
+import '../../ids-line-chart/ids-line-chart';
 import '../../ids-list-builder/ids-list-builder';
 import '../../ids-list-view/ids-list-view';
 import '../../ids-masthead/ids-masthead';
@@ -27,6 +30,7 @@ import '../../ids-modal/ids-modal';
 import '../../ids-month-view/ids-month-view';
 import '../../ids-notification-banner/ids-notification-banner';
 import '../../ids-pager/ids-pager';
+import '../../ids-pie-chart/ids-pie-chart';
 import '../../ids-popup/ids-popup';
 import '../../ids-progress-bar/ids-progress-bar';
 import '../../ids-rating/ids-rating';
@@ -54,6 +58,7 @@ import '../../ids-week-view/ids-week-view';
 // Assets
 import bikesJSON from '../../../assets/data/bikes.json';
 import booksJSON from '../../../assets/data/books.json';
+import componentsJSON from '../../../assets/data/components.json';
 import eventsJSON from '../../../assets/data/events.json';
 import cssPopup from '../../../assets/css/ids-popup/index.css';
 import cssListView from '../../../assets/css/ids-list-view/index.css';
@@ -483,3 +488,68 @@ document.querySelectorAll('ids-block-grid img').forEach((img: any) => {
 // =================================================================
 const headshotImg: any = window.document.getElementById('headshot');
 headshotImg.src = headshot;
+
+// =================================================================
+// Area Chart
+// =================================================================
+const areaChartEl: any = document.querySelector('#area-chart-tb');
+if (areaChartEl) {
+  const setData = async () => {
+    const res = await fetch((componentsJSON as any));
+    const data = await res.json();
+    areaChartEl.data = data;
+  };
+  setData();
+}
+
+// =================================================================
+// Bar Chart
+// =================================================================
+const barChartEl: any = document.querySelector('#bar-chart-grouped-tb');
+if (barChartEl) {
+  const setData = async () => {
+    const res = await fetch((componentsJSON as any));
+    const data = await res.json();
+    barChartEl.data = data;
+  };
+  setData();
+}
+
+// =================================================================
+// Pie Chart
+// =================================================================
+const pieChartEl: any = document.querySelector('#pie-chart-tb');
+if (pieChartEl) {
+  const setData = async () => {
+    const res = await fetch((componentsJSON as any));
+    const data = await res.json();
+    pieChartEl.data = data;
+  };
+  setData();
+}
+
+// =================================================================
+// Donut Chart
+// =================================================================
+const donutChartEl: any = document.querySelector('#donut-chart-tb');
+if (donutChartEl) {
+  const setData = async () => {
+    const res = await fetch((componentsJSON as any));
+    const data = await res.json();
+    donutChartEl.data = data;
+  };
+  setData();
+}
+
+// =================================================================
+// Line Chart
+// =================================================================
+const lineChartEl: any = document.querySelector('#line-chart-tb');
+if (lineChartEl) {
+  const setData = async () => {
+    const res = await fetch((componentsJSON as any));
+    const data = await res.json();
+    lineChartEl.data = data;
+  };
+  setData();
+}

@@ -196,6 +196,18 @@
           <ids-layout-grid-cell><ids-alert icon="blood" color="error" tooltip="Blood Alert" size="small"></ids-alert></ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <!-- Area Chart -->
+        <ids-layout-grid auto-fit="true" padding="sm" gap="xl">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Area Chart</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-area-chart title="An area chart" width="800" height="500" id="area-chart-tb"></ids-area-chart>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Badges -->
         <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
@@ -210,6 +222,18 @@
             <ids-badge color="warning" shape="round"><ids-icon icon="pending" size="normal"></ids-icon></ids-badge>
             <ids-badge color="success" shape="round">5</ids-badge>
             <ids-badge color="info">25k+</ids-badge>
+        </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Bar Chart -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Bar Chart (Grouped)</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-bar-chart title="An bar chart" width="800" height="500" id="bar-chart-grouped-tb" show-vertical-grid-lines></ids-bar-chart>
         </ids-layout-grid-cell>
         </ids-layout-grid>
 
@@ -816,6 +840,19 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <!-- Line Chart -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Line Chart</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid cols="2">
+          <ids-layout-grid-cell>
+            <ids-line-chart title="A line chart" width="800" height="500" id="line-chart-tb" show-vertical-grid-lines></ids-line-chart>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- List Builder -->
         <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
@@ -1025,6 +1062,21 @@
             <ids-button id="modal-trigger-btn" appearance="secondary">
               <span>Trigger a Modal</span>
             </ids-button>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Pie Chart -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Pie Chart</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-pie-chart title="A pie chart" id="pie-chart-tb"></ids-pie-chart>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-pie-chart title="A donut chart" donut="true" donut-text="Donut Chart" id="donut-chart-tb"></ids-pie-chart>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 

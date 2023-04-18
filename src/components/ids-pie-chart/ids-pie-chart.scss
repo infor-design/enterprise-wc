@@ -1,5 +1,4 @@
 /* Ids Pie Chart Component */
-@import '../../core/ids-base';
 @import '../../themes/mixins/ids-chart-legend-mixin';
 
 .ids-chart-container {
@@ -11,22 +10,20 @@
   }
 
   .dot {
-    @include border-transparent();
-    @include border-solid();
-    @include rounded-round();
-    @include w-0();
-
+    border-color: transparent;
+    border-style: solid;
+    border-radius: 50%;
     display: inline-block;
     border-width: var(--ids-pie-chart-tooltip-dot-size, 0);
     position: absolute;
     height: 0;
+    width: 0;
   }
 }
 
 // Responsive Pie
 .ids-pie-chart {
-  @include mb-12();
-
+  margin-block-end: var(--ids-spacing-xlg);
   height: 100%;
   width: 100%;
 
@@ -67,11 +64,9 @@
 }
 
 .donut-text {
-  @include antialiased();
-
-  font-family: var(--ids-font-family);
-  font-size: 10px;
-  fill: var(--ids-color-palette-slate-60);
+  font-family: var(--ids-chart-pie-donut-text-font-family);
+  font-size: var(--ids-chart-pie-donut-text-font-size);
+  fill: var(--ids-chart-pie-donut-text-fill);
   text-anchor: middle;
 }
 
@@ -89,13 +84,4 @@
 // Center Legend
 .chart-legend {
   justify-content: center;
-}
-
-// Themes
-[mode='dark'] .donut-text {
-  fill: var(--ids-color-palette-slate-10);
-}
-
-[mode='contrast'] .donut-text {
-  fill: var(--ids-color-palette-slate-100);
 }

@@ -17,7 +17,7 @@
 
 .ids-chart-container.selectable {
   .ids-axis-chart .bars .bar {
-    cursor: pointer;
+    cursor: var(--ids-cursor-pointer);
 
     &[selected] {
       opacity: 1;

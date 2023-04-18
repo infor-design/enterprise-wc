@@ -143,6 +143,13 @@
   --ids-card-box-shadow: 0 0 8px rgba(0 0 0 / 0.7);
   --ids-card-selected-background-color: rgba(85 163 243 / 0.12);
 
+  // Charts - Axis chart
+  --ids-chart-axis-grid-stroke: var(--ids-color-slate-40);
+  --ids-chart-axis-last-line-stroke: var(--ids-color-slate-30);
+
+  // Charts - Pie chart
+  --ids-chart-pie-donut-text-fill: var(--ids-color-slate-30);
+
   // Data Grid
   --ids-data-grid-background-color: var(--ids-color-slate-100);
 
