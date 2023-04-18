@@ -4,7 +4,7 @@ import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-infinite-scroll')!;
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-1')!;
 
 // Do an ajax request
 const url: any = productsJSON;

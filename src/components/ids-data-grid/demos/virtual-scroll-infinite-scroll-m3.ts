@@ -8,7 +8,7 @@ const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
 // Example for populating the DataGrid
-const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-virtual-scroll')!;
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-1')!;
 
 // Do an ajax request
 const url: any = productsJSON;
