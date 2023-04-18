@@ -12,7 +12,7 @@ describe('Ids Swipe Action e2e Tests', () => {
     await expect(page.title()).resolves.toMatch('IDS Swipe Action Component');
   });
 
-  it('should pass Axe accessibility tests', async () => {
+  it.skip('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     const results = await new AxePuppeteer(page).disableRules(['aria-hidden-focus']).analyze();

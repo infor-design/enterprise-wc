@@ -7,16 +7,25 @@
  examples:
   - link: example.html
     type: Main Example
-    description: Shows a layout grid
-  - link: side-by-side.html
-    type: Side by Side
-    description: Showing a layout grid side by side with a 4.x grid
-  - link: sandbox.html
-    type: Sandbox
-    description: Showing nesting and anchoring
-  - link: homepages-example.html
-    type: Masonry
-    description: Showing masonry style layout
+    description: Shows a 8/12/16 column grids
+  - link: responsive.html
+    type: Responsive Example
+    description: Shows a responsive grid example
+  - link: example-cards.html
+    type: Card example
+    description: Shows a grid w/cards
+  - link: example-workspace.html
+    type: Workspace Example
+    description: Shows a masonry style grid
+  - link: example-workspace-2.html
+    type: Workspace Example
+    description: Shows a masonry style grid
+  - link: sticky.html
+    type: Workspace Example
+    description: Shows an example with a sticky grid cell
+  - link: example-auto-fit.html
+    type: Masonry Grid example
+    description: Shows a auto-fit example
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a layout grid that works with css only

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <%= htmlWebpackPlugin.options.font %>
+  </head>
+  <body>
+    <ids-container role="main" padding="8" hidden>
+      <ids-theme-switcher mode="light"></ids-theme-switcher>
+      <ids-layout-grid
+        auto-fit="true"
+        padding="md"
+      >
+        <ids-layout-grid-cell>
+          <ids-text font-size="12" type="h1">Responsive Columns</ids-text>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+
+      <ids-layout-grid
+        id="responsive-grid"
+        cols="12"
+        padding-x="md"
+        justify-content="center"
+      >
+        <ids-layout-grid-cell col-span="12" col-span-sm="6" col-span-lg="4" fill height="176px">
+          <ids-text font-size="12"></ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="12" col-span-sm="6" col-span-lg="4" fill height="176px">
+          <ids-text font-size="12"></ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="12" col-span-sm="6" col-span-lg="4" fill height="176px">
+          <ids-text font-size="12"></ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="12" col-span-sm="6" fill height="176px">
+          <ids-text font-size="12"></ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="12" col-span-sm="6" fill height="176px">
+          <ids-text font-size="12"></ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="12" col-span-sm="6" col-span-lg="3" fill height="176px">
+          <ids-text font-size="12"></ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="12" col-span-sm="6" col-span-lg="9" fill height="176px">
+          <ids-text font-size="12"></ids-text>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+    </ids-container>
+  </body>
+</html>

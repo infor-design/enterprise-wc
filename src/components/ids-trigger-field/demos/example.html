@@ -7,11 +7,20 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto="true">
-      <ids-text font-size="12" type="h1">Trigger Field</ids-text>
+    <ids-layout-grid
+      auto-fit="true"
+      padding="md"
+    >
+      <ids-grid-cell>
+        <ids-text font-size="12" type="h1">Trigger Field</ids-text>
+      </ids-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="3" gap="md">
+    <ids-layout-grid
+      cols="1"
+      cols-md="3"
+      padding-x="md"
+    >
       <ids-layout-grid-cell>
         <ids-trigger-field id="trigger-field-1" size="sm" tabbable="false" label="Date Field">
           <ids-trigger-button slot="trigger-end">

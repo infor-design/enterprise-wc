@@ -168,13 +168,13 @@ Here is a code example for an expandable row
     expandable-row-template="expandable-row-tmpl"
     label="Books">
     <template id="expandable-row-tmpl">
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding-x="md">
         <ids-text font-size="16" type="span">${convention}</ids-text>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding-x="md">
         <ids-text font-size="14" type="span">${price} USD</ids-text>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding-x="md">
         <ids-text font-size="14" type="span">Lorem Ipsum is simply sample text of the printing and typesetting industry. Lorem Ipsum has been the industry standard sample text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only...</ids-text>
         </ids-layout-grid>
     </template>
