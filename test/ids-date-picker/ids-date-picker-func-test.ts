@@ -838,5 +838,32 @@ describe('IdsDatePicker Component Tests', () => {
         selectWeek: true
       });
     });
+
+    it('should parse dates in yyyy-MM-dd format', () => {
+      component.format = 'yyyy-MM-dd';
+      const parseDate = component.getDateValue('1990-04-21');
+      expect(parseDate instanceof Date).toBeTruthy();
+      expect(parseDate.getMonth()).toEqual(3);
+      expect(parseDate.getFullYear()).toEqual(1990);
+      expect(parseDate.getDate()).toEqual(21);
+    });
+
+    it('should parse dates in dd.MM.yyyy format (German)', () => {
+      component.format = 'dd.MM.yyyy';
+      const parseDate = component.getDateValue('21.04.1990');
+      expect(parseDate instanceof Date).toBeTruthy();
+      expect(parseDate.getMonth()).toEqual(3);
+      expect(parseDate.getFullYear()).toEqual(1990);
+      expect(parseDate.getDate()).toEqual(21);
+    });
+
+    it('should parse dates in dd/MM/yyyy format (Hebrew)', () => {
+      component.format = 'dd/MM/yyyy';
+      const parseDate = component.getDateValue('21/04/1990');
+      expect(parseDate instanceof Date).toBeTruthy();
+      expect(parseDate.getMonth()).toEqual(3);
+      expect(parseDate.getFullYear()).toEqual(1990);
+      expect(parseDate.getDate()).toEqual(21);
+    });
   });
 });

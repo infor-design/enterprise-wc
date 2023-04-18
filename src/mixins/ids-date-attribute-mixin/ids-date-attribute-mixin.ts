@@ -32,6 +32,8 @@ const isValidYear = (numberVal: number) => !Number.isNaN(numberVal) && numberVal
  * @returns {any} The extended object
  */
 const IdsDateAttributeMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  dateValue: Date | null = null;
+
   constructor(...args: any[]) {
     super(...args);
   }
@@ -203,6 +205,10 @@ const IdsDateAttributeMixin = <T extends Constraints>(superclass: T) => class ex
     if (typeof this.onYearChange === 'function') this.onYearChange(numberVal, validates);
   }
 
+  get date(): Date | null {
+    return this.dateValue;
+  }
+
   /**
    * Takes a string containing a date and formats it per the provided locale and date format
    * @param {string} date the desired date string to format
@@ -213,6 +219,23 @@ const IdsDateAttributeMixin = <T extends Constraints>(superclass: T) => class ex
       date,
       { pattern: this.format }
     );
+  }
+
+  /**
+   * Takes a date string and returns Date object if valid
+   * @param {string | Date} date Date string
+   * @returns {Date | null} Date
+   */
+  getDateValue(date: Date | string | null): Date | null {
+    if (date instanceof Date && !Number.isNaN(date.getTime())) {
+      return date;
+    }
+
+    if (typeof date === 'string') {
+      return this.getDateValue(this.localeAPI.parseDate(date, { pattern: this.format }) as Date);
+    }
+
+    return null;
   }
 };
 

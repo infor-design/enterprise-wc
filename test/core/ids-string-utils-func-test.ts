@@ -6,7 +6,8 @@ import {
   stringToBool,
   stringToNumber,
   injectTemplate,
-  isPrintable
+  isPrintable,
+  escapeRegExp
 } from '../../src/utils/ids-string-utils/ids-string-utils';
 
 describe('IdsStringUtils Tests', () => {
@@ -54,5 +55,13 @@ describe('IdsStringUtils Tests', () => {
     expect(isPrintable({ keyCode: 90, key: 'z' })).toEqual(true);
     expect(isPrintable({ key: 'F1', keyCode: 112 })).toEqual(false);
     expect(isPrintable({ key: 'F12', keyCode: 123 })).toEqual(false);
+  });
+
+  it('should escape RegExp special characters', () => {
+    expect(escapeRegExp('+')).toEqual('\\+');
+    expect(escapeRegExp('*')).toEqual('\\*');
+    expect(escapeRegExp('|')).toEqual('\\|');
+    expect(escapeRegExp('^')).toEqual('\\^');
+    expect(escapeRegExp('?')).toEqual('\\?');
   });
 });

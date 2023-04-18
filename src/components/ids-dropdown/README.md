@@ -172,6 +172,7 @@ In some situations, it may be preferrable to separate the IdsDropdownList elemen
 - `typeahead` {true | false} - Enable/disable typeahead functionality
 - `clearable` {true | false} - Whether or not the value can be cleared with Backspace/Delete
 - `clearable-text` {string} - Sets the blank option custom text. The text will not be added to the input when the option is selected
+- `show-loading-indicator` {boolean} - Whether or not to show loading indicator (replaces trigger button). Defaults to false.
 
 ## Events
 

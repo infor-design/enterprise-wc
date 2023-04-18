@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto="true">
+      <ids-text font-size="12" type="h1">List View - Search</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="2" gap="xl">
+      <ids-layout-grid-cell col-span="1">
+        <div class="parent-container">
+            <ids-list-view id="lv-search" item-height="76" searchable>
+              <template>
+                <ids-text font-size="16" type="h2">${subject}</ids-text>
+                <ids-text font-size="12">ID: ${id}</ids-text>
+                <ids-hidden value="${comments}" condition="false">
+                  <ids-text font-size="12">Comments: ${comments}</ids-text>
+                </ids-hidden>
+                <ids-hidden value="${comments}" condition="true">
+                  <ids-text font-size="12" color="muted">No Comments</ids-text>
+                </ids-hidden>
+              </template>
+            </ids-list-view>
+        </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

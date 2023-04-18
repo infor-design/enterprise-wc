@@ -4,6 +4,7 @@
 :host {
   display: block;
   z-index: 3000;
+  text-align: unset;
 }
 
 :host([position-style='absolute']) {
@@ -35,11 +36,6 @@
 
 .ids-popup {
   @include antialiased();
-
-  &.has-maxheight {
-    max-height: var(--ids-popup-maxheight);
-    overflow: auto;
-  }
 
   // Positions the arrow correctly
   position: relative;
@@ -535,6 +531,15 @@
         0 -1px 2px 0 rgb(54 138 192 / 0.3),
         2px 0 3px 0 rgb(54 138 192 / 0.3),
         -2px -2px 3px 0 rgb(54 138 192 / 0.3);
+    }
+  }
+
+  // 'has-maxheight' setting
+  // (Does not apply to Modals, which contain scrolling differently)
+  &:not(.position-viewport).has-maxheight {
+    .content-wrapper {
+      height: var(--ids-popup-maxheight);
+      overflow: auto;
     }
   }
 }

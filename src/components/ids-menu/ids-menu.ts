@@ -1,7 +1,12 @@
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { isValidGroup, isUsableItem } from './ids-menu-attributes';
+import {
+  isValidGroup,
+  isUsableItem,
+  IdsMenuContentsData,
+  IdsMenuObjectData
+} from './ids-menu-attributes';
 
 import IdsDataSource from '../../core/ids-data-source';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
@@ -16,6 +21,8 @@ import '../ids-separator/ids-separator';
 
 import styles from './ids-menu.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+import type { IdsMenuData } from './ids-menu-attributes';
 import type IdsMenuItem from './ids-menu-item';
 import type IdsMenuHeader from './ids-menu-header';
 
@@ -84,6 +91,7 @@ export default class IdsMenu extends Base {
     // Highlight the item on click
     // If the item doesn't contain a submenu, select it.
     // If the item does have a submenu, activate it.
+    this.offEvent('click');
     this.onEvent('click', this, (e: any) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.highlightItem(thisItem);
@@ -94,6 +102,7 @@ export default class IdsMenu extends Base {
 
     // On 'mouseenter', after a specified duration, run some events,
     // including activation of submenus where applicable.
+    this.offEvent('mouseover');
     this.onEvent('mouseover', this, (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (target && target.tagName === 'IDS-MENU-ITEM') {
@@ -112,6 +121,7 @@ export default class IdsMenu extends Base {
 
     // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
     // and unhighlight the item
+    this.offEvent('mouseout');
     this.onEvent('mouseout', this, (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (target && target.tagName === 'IDS-MENU-ITEM') {
@@ -132,13 +142,15 @@ export default class IdsMenu extends Base {
    */
   attachKeyboardListeners() {
     // Arrow Up navigates focus backward
+    this.unlisten('ArrowUp');
     this.listen(['ArrowUp'], this, (e: any) => {
       e.preventDefault();
       e.stopPropagation();
       this.navigate(-1, true);
     });
 
-    // Arrow Right navigates focus forward
+    // Arrow Down navigates focus forward
+    this.unlisten('ArrowDown');
     this.listen(['ArrowDown'], this, (e: any) => {
       e.preventDefault();
       e.stopPropagation();
@@ -146,6 +158,9 @@ export default class IdsMenu extends Base {
     });
 
     // Enter/Spacebar select the menu item
+    this.unlisten('Enter');
+    this.unlisten('Spacebar');
+    this.unlisten(' ');
     this.listen(['Enter', 'Spacebar', ' '], this, (e: any) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.selectItem(thisItem);
@@ -269,6 +284,10 @@ export default class IdsMenu extends Base {
       if (item.selected) {
         selected = ' selected="true"';
       }
+      let shortcutKeys = '';
+      if (typeof item.shortcutKeys === 'string') {
+        shortcutKeys = ` shortcut-keys="${item.shortcutKeys}"`;
+      }
       let value = '';
       if (typeof item.value !== 'undefined' && item.value !== null && item.value !== '') {
         value = ` value="${item.value}"`;
@@ -278,7 +297,7 @@ export default class IdsMenu extends Base {
         submenu = renderSubmenu(item.submenu);
       }
 
-      return `<ids-menu-item${id}${disabled}${icon}${selected}${value}>
+      return `<ids-menu-item${id}${disabled}${icon}${selected}${shortcutKeys}${value}>
         ${text}
         ${submenu}
       </ids-menu-item>`;
@@ -332,27 +351,26 @@ export default class IdsMenu extends Base {
   }
 
   /**
-   * Set the data array of the data grid
-   * @param {Array<any>|object} value The array to use
+   * Set the data array of the menu
+   * @param {IdsMenuData} value The array to use
    * @returns {void}
    */
-  set data(value: any) {
-    if (value) {
-      // If provided an object, search for a `contents` property and store that
-      if (typeof value === 'object' && Array.isArray(value.contents)) {
-        this.datasource.data = value.contents;
-        // Set the ID of this component if it's present in the object
-        if (value?.id) {
-          this.id = value.id;
-        }
-      } else if (Array.isArray(value)) {
-        this.datasource.data = value;
-      } else {
-        // accept no other non-empty types
-        return;
-      }
-
+  set data(value: IdsMenuData) {
+    // Accept the `contents` array directly if provided
+    if (Array.isArray(value)) {
+      this.datasource.data = (value as IdsMenuContentsData);
       this.renderFromData();
+      return;
+    }
+
+    // If provided an object, search for a `contents` property and store its contents
+    if (value && typeof value === 'object') {
+      const objData = (value as IdsMenuObjectData);
+      if (Array.isArray(objData.contents)) {
+        this.datasource.data = objData.contents;
+        if (objData.id) this.id = objData.id;
+        this.renderFromData();
+      }
       return;
     }
 
@@ -360,7 +378,7 @@ export default class IdsMenu extends Base {
   }
 
   /**
-   * @returns {Array<any>|object} containing the dataset
+   * @returns {IdsMenuData} containing the dataset
    */
   get data() {
     return this?.datasource?.data || [];
@@ -414,6 +432,7 @@ export default class IdsMenu extends Base {
    */
   get focusTarget() {
     if (this.lastHovered) return this.lastHovered;
+    if (this.lastNavigated) return this.lastNavigated;
 
     const highlighted = this.items.filter((item: IdsMenuItem) => item.highlighted);
     if (highlighted.length) return highlighted[highlighted.length - 1];
@@ -437,7 +456,7 @@ export default class IdsMenu extends Base {
    * @returns {IdsMenu} parent menu component, if this menu is a submenu
    */
   get parentMenu() {
-    return this.parentElement?.closest('ids-menu, ids-popup-menu');
+    return this.parentElement?.closest<IdsMenu>('ids-menu');
   }
 
   /**
@@ -555,6 +574,9 @@ export default class IdsMenu extends Base {
     }
 
     this.lastNavigated = currentItem;
+    if (this.lastHovered) this.lastHovered = null;
+
+    // Focus/Highlight
     if (!currentItem.disabled && !currentItem.hidden && doFocus) {
       currentItem.focus();
       this.highlightItem(currentItem);

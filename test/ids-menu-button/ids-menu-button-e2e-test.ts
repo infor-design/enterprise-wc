@@ -22,7 +22,7 @@ describe('Ids Menu Button e2e Tests', () => {
   it.skip('should not have memory leaks', async () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
-      document.body.insertAdjacentHTML('beforeend', `<ids-menu-button id="test" icon="settings" type="tertiary" menu="my-menu" dropdown-icon>
+      document.body.insertAdjacentHTML('beforeend', `<ids-menu-button id="test" icon="settings" appearance="tertiary menu="my-menu" dropdown-icon>
         <span>Settings</span>
       </ids-menu-button>`);
       document.querySelector('#test')?.remove();

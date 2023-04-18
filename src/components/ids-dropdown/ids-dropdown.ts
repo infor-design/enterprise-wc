@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, escapeRegExp } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsDropdownAttributeMixin from './ids-dropdown-attributes-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
@@ -13,6 +13,7 @@ import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty
 import IdsElement from '../../core/ids-element';
 import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
 import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-label-state-parent-mixin';
+import IdsLoadingIndicatorMixin from '../../mixins/ids-loading-indicator-mixin/ids-loading-indicator-mixin';
 import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 
 import '../ids-trigger-field/ids-trigger-field';
@@ -30,6 +31,7 @@ import type IdsListBox from '../ids-list-box/ids-list-box';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsIcon from '../ids-icon/ids-icon';
+import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { IdsDropdownOption, IdsDropdownOptions } from './ids-dropdown-common';
@@ -38,15 +40,17 @@ const Base = IdsDropdownAttributeMixin(
   IdsThemeMixin(
     IdsDirtyTrackerMixin(
       IdsValidationInputMixin(
-        IdsLabelStateParentMixin(
-          IdsFieldHeightMixin(
-            IdsColorVariantMixin(
-              IdsTooltipMixin(
-                IdsXssMixin(
-                  IdsLocaleMixin(
-                    IdsKeyboardMixin(
-                      IdsEventsMixin(
-                        IdsElement
+        IdsLoadingIndicatorMixin(
+          IdsLabelStateParentMixin(
+            IdsFieldHeightMixin(
+              IdsColorVariantMixin(
+                IdsTooltipMixin(
+                  IdsXssMixin(
+                    IdsLocaleMixin(
+                      IdsKeyboardMixin(
+                        IdsEventsMixin(
+                          IdsElement
+                        )
                       )
                     )
                   )
@@ -93,6 +97,12 @@ export default class IdsDropdown extends Base {
   labelClicked: boolean;
 
   labelEl?: HTMLLabelElement | null;
+
+  /** Sets to true when a keyboard operation opens the dropdown (prevents extraneous event triggering) */
+  openedByKeyboard = false;
+
+  /** Sets to true when a keyboard operation closes the dropdown (prevents extraneous event triggering) */
+  closedByKeyboard = false;
 
   constructor() {
     super();
@@ -281,11 +291,15 @@ export default class IdsDropdown extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
-    const elem = this.dropdownList?.listBox?.querySelector<IdsListBoxOption>(`ids-list-box-option[value="${value}"], ids-list-box-option:not([value])`);
+    let selector = `ids-list-box-option[value="${value}"]`;
+    if (value === ' ' || !value) selector = `ids-list-box-option:not([value])`;
+    const elem = this.dropdownList?.listBox?.querySelector<IdsListBoxOption>(selector);
     if (!elem) return;
 
     this.clearSelected();
     this.selectOption(elem);
+    this.selectIcon(elem);
+    this.selectTooltip(elem);
     if (this.input) this.input.value = elem.textContent?.trim();
     this.state.selectedIndex = [...((elem?.parentElement as any)?.children || [])].indexOf(elem);
 
@@ -419,12 +433,8 @@ export default class IdsDropdown extends Base {
    */
   selectOption(option: IdsListBoxOption) {
     if (this.dropdownList) {
-      if (option?.value !== this.dropdownList.value) {
-        this.dropdownList.selectOption(option);
-      }
+      this.dropdownList.selectOption(option);
     }
-    this.selectIcon(option);
-    this.selectTooltip(option);
   }
 
   /**
@@ -433,8 +443,6 @@ export default class IdsDropdown extends Base {
    */
   deselectOption(option: HTMLElement | undefined | null) {
     this.dropdownList?.deselectOption(option);
-    this.selectIcon(option);
-    this.selectTooltip(option);
   }
 
   /**
@@ -488,7 +496,7 @@ export default class IdsDropdown extends Base {
   }
 
   /**
-   *
+   * Configures the Dropdown component's attached IdsDropdownList/IdsPopup
    */
   configurePopup() {
     if (this.dropdownList?.popup && this.trigger) {
@@ -498,12 +506,11 @@ export default class IdsDropdown extends Base {
       this.dropdownList.onOutsideClick = (e: Event) => {
         if (this.dropdownList) {
           if (!e.composedPath()?.includes(this.dropdownList)) {
-            this.close();
+            this.close(true);
           }
         }
       };
-      this.dropdownList.onTriggerClick = (e: Event) => {
-        e.stopPropagation();
+      this.dropdownList.onTriggerClick = () => {
         if (this.labelClicked) {
           this.labelClicked = false;
           return;
@@ -521,7 +528,6 @@ export default class IdsDropdown extends Base {
       this.dropdownList.setAttribute(attributes.TRIGGER_ELEM, `#${triggerElemId}`);
       this.dropdownList.popup.alignTarget = this.input?.fieldContainer || null;
 
-      this.dropdownList.setAttribute(attributes.TRIGGER_TYPE, 'click');
       this.dropdownList.popupOpenEventsTarget = document.body;
 
       // Configure inner IdsPopup
@@ -541,11 +547,9 @@ export default class IdsDropdown extends Base {
    * @param {boolean} shouldSelect whether or not the input text should be selected
    */
   async open(shouldSelect = false) {
-    if (this.disabled || this.readonly) {
+    if (!this.dropdownList || this.disabled || this.readonly) {
       return;
     }
-
-    this.dropdownList?.closeOtherPopups();
 
     // Trigger an async callback for contents
     if (typeof this.state.beforeShow === 'function') {
@@ -554,6 +558,10 @@ export default class IdsDropdown extends Base {
       if (this.typeahead) {
         this.#optionsData = stuff;
       }
+    }
+
+    if (this.value) {
+      this.dropdownList.value = this.value;
     }
 
     // Open the Dropdown List
@@ -591,9 +599,7 @@ export default class IdsDropdown extends Base {
       html += this.#templatelistBoxOption(this.#sanitizeOption(option));
     });
     listbox?.insertAdjacentHTML('afterbegin', html);
-    if (this.allowBlank) {
-      this.dropdownList?.configureBlank();
-    }
+    this.dropdownList?.configureBlank();
     const currentValue = this.getAttribute(attributes.VALUE);
     if (this.value !== currentValue) {
       this.value = currentValue;
@@ -688,7 +694,28 @@ export default class IdsDropdown extends Base {
       this.#addAria();
     });
 
+    this.attachKeyboardOpenEvent();
+
     return this;
+  }
+
+  /**
+   * Attach a keyboard event for Enter/Spacebar that opens the dropdown.
+   * This needs to happen separately from the other event handlers because this
+   * one is rebound every time the list is closed.
+   */
+  private attachKeyboardOpenEvent() {
+    this.listen([' ', 'Enter'], this, (e: KeyboardEvent) => {
+      if (this.closedByKeyboard) {
+        this.closedByKeyboard = false;
+        return;
+      }
+
+      this.openedByKeyboard = true;
+      if (this.dropdownList?.popup?.visible) return;
+      if (e.key === ' ' && this.typeahead) return;
+      this.open(this.typeahead);
+    });
   }
 
   /** Handle the Locale Change */
@@ -746,26 +773,13 @@ export default class IdsDropdown extends Base {
    * dropdown list is open
    */
   private attachOpenEvents() {
-    if (!this.#isMultiSelect) {
-      // Select or Open on space/enter
-      this.listen([' ', 'Enter'], this, (e: KeyboardEvent) => {
-        // Excluding space key when typing
-        if (e.key === ' ' && this.typeahead) return;
-
-        if (!this.dropdownList?.popup?.visible) {
-          this.open(this.typeahead);
-          return;
-        }
-
-        const value = this.selected?.getAttribute(attributes.VALUE) || '';
-        this.value = value;
-        this.close();
-      });
-    }
+    this.unlisten(' ');
+    this.unlisten('Enter');
+    this.attachKeyboardSelectionEvent();
 
     // Select on Tab
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
-      if (!this.dropdownList?.popup?.visible) {
+      if (!this.dropdownList?.popup?.visible || this.#isMultiSelect) {
         return;
       }
 
@@ -779,22 +793,35 @@ export default class IdsDropdown extends Base {
     });
   }
 
+  /**
+   * Establish selection event for keyboard interactions.
+   * Overrides a similiar method from IdsDropdown for Multiselect-specific behavior.
+   */
+  attachKeyboardSelectionEvent() {
+    if (!this.#isMultiSelect) {
+      // Select or Open on space/enter
+      this.listen([' ', 'Enter'], this, () => {
+        if (!this.dropdownList?.popup?.visible) return;
+        if (this.openedByKeyboard) {
+          this.openedByKeyboard = false;
+          return;
+        }
+
+        const value = this.selected?.getAttribute(attributes.VALUE) || '';
+        this.value = value;
+        this.closedByKeyboard = true;
+        this.close();
+      });
+    }
+  }
+
   private removeOpenEvents() {
     this.unlisten(' ');
     this.unlisten('Enter');
     this.unlisten('Tab');
-  }
 
-  #attachTypeaheadEvents() {
-    // Handle Key Typeahead
-    this.offEvent('keydownend.dropdown-typeahead');
-    this.onEvent('keydownend.dropdown-typeahead', this, (e: CustomEvent) => {
-      this.#typeAhead(e.detail.keys);
-    });
-  }
-
-  #removeTypeaheadEvents() {
-    this.offEvent('keydownend.dropdown-typeahead');
+    this.openedByKeyboard = false;
+    this.attachKeyboardOpenEvent();
   }
 
   /**
@@ -803,6 +830,15 @@ export default class IdsDropdown extends Base {
    * @returns {object} This API object for chaining
    */
   #attachKeyboardListeners() {
+    this.offEvent('keydownend.dropdown-typeahead');
+    this.onEvent('keydownend.dropdown-typeahead', this, (e: CustomEvent) => {
+      if (this.typeahead) {
+        this.#typeAhead(e.detail.keys);
+      } else {
+        this.#selectMatch(e.detail.keys);
+      }
+    });
+
     // Handle up and down arrow
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
       e.stopPropagation();
@@ -830,8 +866,6 @@ export default class IdsDropdown extends Base {
         if (next.hasAttribute(attributes.GROUP_LABEL) && !next.nextElementSibling) return;
         this.deselectOption(selected);
         this.selectOption(next.hasAttribute(attributes.GROUP_LABEL) ? next.nextElementSibling : next);
-
-        next.focus();
       }
 
       // Handles a case when the value is cleared
@@ -843,8 +877,6 @@ export default class IdsDropdown extends Base {
         if (prev.hasAttribute(attributes.GROUP_LABEL) && !prev.previousElementSibling) return;
         this.deselectOption(selected);
         this.selectOption(prev.hasAttribute(attributes.GROUP_LABEL) ? prev.previousElementSibling : prev);
-
-        prev.focus();
       }
     });
 
@@ -924,6 +956,44 @@ export default class IdsDropdown extends Base {
 
     // Remove selected input icon when start typing
     this.input?.querySelector('.icon-container')?.remove();
+  }
+
+  /**
+   * Find and select the only option by input text provided
+   * @param {string} input the text to find by
+   */
+  #selectMatch(input: string) {
+    const term: string = escapeRegExp(input)?.trim();
+
+    if (!term) return;
+
+    const option = this.options
+      .filter((item: IdsListBoxOption) => !item.hasAttribute(attributes.GROUP_LABEL))
+      .find((item: IdsListBoxOption) => {
+        const regex = new RegExp(`^(${term})`, 'i');
+        const label = this.#isMultiSelect ? item.querySelector<IdsCheckbox>('ids-checkbox')?.label : item.textContent?.trim();
+
+        return label?.match(regex);
+      });
+
+    if (this.dropdownList?.popup?.visible && option) {
+      this.deselectOption(this.selected);
+      this.selectOption(option as IdsListBoxOption);
+
+      return;
+    }
+
+    const value = option?.getAttribute(attributes.VALUE);
+
+    if (value) {
+      if (this.#isMultiSelect) {
+        const filtered: string[] = (this.value as any).filter((item: string) => item !== value);
+
+        (this.value as any) = [...filtered, value];
+      } else {
+        this.value = value;
+      }
+    }
   }
 
   /**
@@ -1008,12 +1078,12 @@ export default class IdsDropdown extends Base {
 
   /**
    * Find matches between the input value and the dataset
-   * @param {string | RegExp} inputValue value of the input field
+   * @param {string} inputValue value of the input field
    * @returns {IdsDropdownOptions} containing matched values
    */
-  #findMatches(inputValue: string | RegExp): IdsDropdownOptions {
+  #findMatches(inputValue: string): IdsDropdownOptions {
     return this.#optionsData.reduce((options: Array<IdsDropdownOption>, option: IdsDropdownOption, index: number) => {
-      const regex = new RegExp(inputValue, 'gi');
+      const regex = new RegExp(`(${escapeRegExp(inputValue)})`, 'gi');
 
       if (option.label?.match(regex) && !option.groupLabel) {
         const groupLabelOption = this.#getGroupLabelOption(index);
@@ -1164,11 +1234,9 @@ export default class IdsDropdown extends Base {
 
     if (val) {
       this.setAttribute(attributes.TYPEAHEAD, String(val));
-      this.#attachTypeaheadEvents();
       this.#setOptionsData();
     } else {
       this.removeAttribute(attributes.TYPEAHEAD);
-      this.#removeTypeaheadEvents();
     }
 
     this.container?.classList.toggle('typeahead', val);
@@ -1214,4 +1282,26 @@ export default class IdsDropdown extends Base {
   focus() {
     this.input?.focus();
   }
+
+  /**
+   * Set whether or not to show loading indicator. Disabled by default
+   * @param {boolean|string|null} value show-loading-indicator attribute value
+   */
+  set showLoadingIndicator(value: string | boolean | null) {
+    const boolVal = stringToBool(value);
+    if (boolVal) {
+      this.setAttribute(attributes.SHOW_LOADING_INDICATOR, boolVal.toString());
+      this.input?.setAttribute(attributes.SHOW_LOADING_INDICATOR, boolVal.toString());
+      this.close(true);
+    } else {
+      this.removeAttribute(attributes.SHOW_LOADING_INDICATOR);
+      this.input?.removeAttribute(attributes.SHOW_LOADING_INDICATOR);
+    }
+  }
+
+  /**
+   * show-loading-indicator attribute
+   * @returns {boolean} showLoadingIndicator param converted to boolean from attribute value. Defaults to false
+   */
+  get showLoadingIndicator() { return stringToBool(this.getAttribute(attributes.SHOW_LOADING_INDICATOR)); }
 }

@@ -805,6 +805,7 @@ export default class IdsDataGridFilters {
         dateOrTimePopup.setAttribute(attributes.TARGET, `#${triggerField.getAttribute('id')}`);
         dateOrTimePopup.setAttribute(attributes.TRIGGER_ELEM, `#${triggerBtn.getAttribute('id')}`);
         dateOrTimePopup.popup.setAttribute(attributes.ARROW_TARGET, `#${triggerBtn.getAttribute('id')}`);
+        dateOrTimePopup.popup.y = 16;
         dateOrTimePopup.setAttribute(attributes.ATTACHMENT, menuAttachment);
         dateOrTimePopup.refreshTriggerEvents();
       }
@@ -837,13 +838,13 @@ export default class IdsDataGridFilters {
         dropdown.onEvent('click', dropdown, () => {
           const popup = dropdownList.popup;
           if (popup) {
-            if (!popup.visible) dropdownList.show();
-            else dropdownList.hide();
+            if (!popup.visible) dropdown.open();
+            else dropdown.close();
           }
         });
         dropdownList.onOutsideClick = (e: MouseEvent) => {
           if (!e.composedPath().includes(dropdownList)) {
-            dropdownList.hide();
+            dropdown.close();
           }
         };
         dropdownList.refreshTriggerEvents();

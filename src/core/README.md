@@ -41,5 +41,5 @@ Adds a wrapper for components that need data arrays as a setting to render (list
 
 1. Clone the array so the original is not modified
 1. Flatten and unflatten data
-1. Sort
+1. Sort (by default uses an Excel-like sort - numbers -> strings -> empty)
 1. Filter

@@ -35,6 +35,21 @@
   - link: embellishment.html
     type: Example
     description: Showing a list view using embellishment types
+  - link: search.html
+    type: Example
+    description: Showing a list view using search field
+  - link: search-thru-id.html
+    type: Example
+    description: Showing a list view using search field thru id
+  - link: search-thru-slot.html
+    type: Example
+    description: Showing a list view using search field thru the slot
+  - link: search-custom-filter.html
+    type: Example
+    description: Showing a list view using custom search filter
+  - link: text-headings.html
+    type: Example
+    description: Showing a list view using text headings
   - link: data-changing.html
     type: Example
     description: Showing a list view changing data

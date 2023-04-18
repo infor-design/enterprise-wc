@@ -166,7 +166,7 @@ export default class IdsDataGridFormatters {
   button(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
     // Type / disabled / icon / text
-    return `<ids-button tabindex="-1" ${this.#columnDisabled(index, value, columnData, rowData) ? ' disabled="true"' : ''}${columnData.type ? ` type="${columnData.type}"` : ' type="tertiary"'}>
+    return `<ids-button tabindex="-1" ${this.#columnDisabled(index, value, columnData, rowData) ? ' disabled="true"' : ''}${columnData.type ? ` type="${columnData.type}"` : ' appearance="tertiary"'}>
       <span class="audible">${columnData.text || ' Button'}</span>
       ${columnData.icon ? `<ids-icon icon="${columnData.icon}"></ids-icon>` : ''}
       <span class="audible">${columnData.text || ' Button'}</span>

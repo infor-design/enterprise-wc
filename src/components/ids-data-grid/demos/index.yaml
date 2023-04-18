@@ -77,6 +77,9 @@
   - link: disable-client-filter.html
     type: Example
     description: Shows a data grid with disable client filter
+  - link: double-click.html
+    type: Example
+    description: Showing a data grid with double click event
   - link: editable.html
     type: Example
     description: Shows a data grid with editable cells
@@ -89,6 +92,9 @@
   - link: expandable-row.html
     type: Example
     description: Shows a data grid with and expandable row
+  - link: export-excel.html
+    type: Example
+    description: Shows a data grid exporting to an excel file
   - link: filter-trigger-fields.html
     type: Example
     description: Showing a filter row with date, time, dropdown

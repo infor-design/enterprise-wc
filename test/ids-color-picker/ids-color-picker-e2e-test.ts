@@ -46,7 +46,7 @@ describe('Ids Color Picker e2e Tests', () => {
     let isVisible = await page.evaluate(`document.querySelector("#color-picker-e2e-test").popup.visible`);
     expect(isVisible).toEqual(false);
 
-    const input = await page.evaluateHandle('document.querySelector("#color-picker-e2e-test")');
+    const input = await page.evaluateHandle('document.querySelector("#color-picker-e2e-test").textInput');
     await input.focus();
     await page.keyboard.press('ArrowDown');
 

@@ -5,7 +5,7 @@
 @import '../../mixins/sass/ids-validation-mixin';
 
 // Set default
-$input-size-default: $input-size-md;
+$input-size-default: 100%;
 $input-field-height-default: $input-field-height-md;
 $input-compact-height: $input-field-height-xs + 2;
 
@@ -101,10 +101,10 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   @include antialiased();
   @include font-sans();
   @include text-slate-60();
+  @include block();
   @include mb-8();
 
   align-items: baseline;
-  display: flex;
 
   // Ability to center label from parent element
   justify-content: inherit;
@@ -120,7 +120,6 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     &::after {
       @include relative();
       @include font-sans();
-      @include mx-2();
       @include text-20();
       @include text-alert-error();
 
@@ -136,6 +135,11 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     &.empty::after {
       content: '';
     }
+  }
+
+  ids-text::part(text),
+  .ids-text {
+    display: inline;
   }
 }
 
@@ -165,14 +169,25 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 }
 
+:host {
+  display: block;
+  max-width: calc($input-size-default - 2px);
+
+  .ids-input {
+    display: inline-block;
+  }
+}
+
 :host([size='full']) {
   @include w-full();
 }
 
 .ids-input {
   @include relative();
-  @include block();
   @include mb-16();
+
+  display: block;
+  max-width: $input-size-default;
 
   // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
@@ -187,9 +202,9 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
     border-collapse: separate;
     border-radius: 2px;
     color: inherit;
+    display: flex;
     resize: none;
     text-align: left;
-    display: flex;
     max-width: $input-size-default;
   }
 
@@ -291,27 +306,31 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   // input sizes: [xs, sm, mm, md, lg, full]
   // Subtracting 2 takes into account that the width includes the `.field-container` border on both sides.
   &.xs .field-container {
-    max-width: $border-input-size-xs;
+    width: $border-input-size-xs;
   }
 
   &.sm .field-container {
-    max-width: $border-input-size-sm;
+    width: $border-input-size-sm;
   }
 
   &.mm .field-container {
-    max-width: $border-input-size-mm;
+    width: $border-input-size-mm;
   }
 
   &.md .field-container {
-    max-width: $border-input-size-md;
+    width: $border-input-size-md;
   }
 
   &.lg .field-container {
-    max-width: $border-input-size-lg;
+    width: $border-input-size-lg;
   }
 
-  &.full .field-container {
-    max-width: $input-size-full;
+  &.full {
+    display: block;
+
+    .field-container {
+      width: $input-size-full;
+    }
   }
 
   // input field-heights: [xs, sm, md, lg]
@@ -846,4 +865,42 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 
 :host([size='full']) ids-popup {
   max-width: $input-size-full;
+}
+
+// Loading Indicator
+:host(:not([show-loading-indicator='true'])) {
+  ::slotted(.slot-loading-indicator) {
+    display: none;
+  }
+}
+
+:host([show-loading-indicator='true']) {
+  pointer-events: none;
+
+  ::slotted(ids-loading-indicator) {
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+
+  ::slotted(ids-trigger-button[slot='trigger-end']) {
+    display: none;
+  }
+
+  ::slotted(.slot-loading-indicator) {
+    @include mr-12();
+    @include ml-8();
+  }
+}
+
+:host([show-loading-indicator='true'][field-height='xs']) {
+  ::slotted(.slot-loading-indicator) {
+    @include mx-4();
+  }
+}
+
+:host([show-loading-indicator='true'][field-height='sm']) {
+  ::slotted(.slot-loading-indicator) {
+    @include mr-8();
+    @include ml-4();
+  }
 }

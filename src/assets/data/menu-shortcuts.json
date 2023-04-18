@@ -1,0 +1,54 @@
+{
+  "id": "popup-menu-shortcuts",
+  "comment": "This dataset demonstrates how to create a Popup Menu with shortcut keys",
+  "contents": [
+    {
+      "id": "shortcuts-group",
+      "select": "none",
+      "items": [
+        {
+          "id": "action-create",
+          "icon": "folder",
+          "shortcutKeys": "⌘+R",
+          "text": "Create new folder"
+        },
+        {
+          "id": "action-previous",
+          "shortcutKeys": "⌘+⇧+←",
+          "text": "Previous"
+        },
+        {
+          "id": "action-next",
+          "shortcutKeys": "⌘+⇧+→",
+          "text": "Next"
+        },
+        {
+          "type": "separator"
+        },
+        {
+          "id": "action-copy-to",
+          "text": "Copy to..."
+        },
+        {
+          "id": "action-move-to",
+          "text": "Move to..."
+        },
+        {
+          "id": "action-long-form",
+          "icon": "edit",
+          "shortcutKeys": "Cmd+Shift+R",
+          "text": "Long form shortcut text"
+        },
+        {
+          "type": "separator"
+        },
+        {
+          "id": "action-delete",
+          "icon": "delete",
+          "shortcutKeys": "⌘+⌥+⇧",
+          "text": "Delete folder"
+        }
+      ]
+    }
+  ]
+}

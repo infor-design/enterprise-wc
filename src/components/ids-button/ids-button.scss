@@ -313,3 +313,51 @@ button {
     @include p-2();
   }
 }
+
+// Loading Indicator
+:host(:not([show-loading-indicator='true'])) {
+  ::slotted(.slot-loading-indicator) {
+    display: none;
+  }
+}
+
+:host([show-loading-indicator='true']) {
+  ::slotted(ids-loading-indicator) {
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+}
+
+:host([show-loading-indicator='true'][loading-indicator-only='true']) {
+  ::slotted(*:not(.slot-loading-indicator)) {
+    visibility: hidden;
+  }
+}
+
+:host([show-loading-indicator='true']:not([loading-indicator-only='true'])) {
+  ::slotted(.slot-loading-indicator) {
+    margin-inline-start: 6px;
+  }
+}
+
+:host([show-loading-indicator='true']:not([loading-indicator-only='true']):is([appearance='primary'], [appearance='secondary'], [appearance='primary-destructive'])) {
+  &::part(button) {
+    padding-inline-start: 20px;
+    padding-inline-end: 12px;
+  }
+
+  ::slotted(.slot-loading-indicator) {
+    margin-inline-start: 10px;
+  }
+}
+
+:host([loading-indicator-only='true']) {
+  ::slotted(.slot-loading-indicator) {
+    @include absolute();
+
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    left: 0;
+    right: 0;
+  }
+}
