@@ -12,7 +12,7 @@
   <ids-container role="main" hidden>
     <ids-skip-link href="#main-content">Skip to Main Content</ids-skip-link>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid cols="fluid-grid" gap="xl">
+    <ids-layout-grid cols="12" padding-x="xl" justify-content="center">
       <ids-layout-grid-cell col-span="2">
         <ids-text font-size="12" type="h1">Colors</ids-text>
         <br>
@@ -23,12 +23,12 @@
 
       <ids-layout-grid-cell col-span="10">
         <!-- Accordion -->
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-text font-size="12" type="h1">Accordion</ids-text>
           </ids-layout-grid-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-accordion>
               <ids-accordion-panel>
@@ -88,7 +88,7 @@
         </ids-layout-grid>
 
         <!-- Action Panel -->
-        <ids-layout-grid auto="true" id="main-content">
+        <ids-layout-grid auto-fit="true" padding="sm" id="main-content">
           <ids-layout-grid-cell>
             <ids-text font-size="12" type="h1">Action Panel</ids-text>
           </ids-layout-grid-cell>
@@ -171,19 +171,19 @@
           </ids-layout-grid>
         </ids-action-panel>
 
-        <ids-layout-grid>
-          <ids-layout-grid-column>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
             <ids-button appearance="secondary" id="cap-trigger-btn">Open Action Panel</ids-button>
-          </ids-layout-grid-column>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Alerts -->
-        <ids-layout-grid auto="true" gap="xl">
+        <ids-layout-grid auto-fit="true" padding="sm" gap="xl">
           <ids-layout-grid-cell>
             <ids-text font-size="12" type="h2">Alerts</ids-text>
           </ids-layout-grid-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell><ids-alert icon="warning" tooltip="Alert"></ids-alert></ids-layout-grid-cell>
           <ids-layout-grid-cell><ids-alert icon="error" tooltip="Error"></ids-alert></ids-layout-grid-cell>
           <ids-layout-grid-cell><ids-alert icon="success" tooltip="Success"></ids-alert></ids-layout-grid-cell>
@@ -197,10 +197,12 @@
         </ids-layout-grid>
 
         <!-- Badges -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Badges</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Badges</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-badge shape="round">5</ids-badge>
             <ids-badge color="error">1500</ids-badge>
@@ -212,11 +214,13 @@
         </ids-layout-grid>
 
         <!-- Block Grid -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Block Grid</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Block Grid</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-block-grid selection="multiple" align="center">
               <ids-block-grid-item>
@@ -259,22 +263,28 @@
         </ids-layout-grid>
 
         <!-- Breadcrumb -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Breadcrumb</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Breadcrumb</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
-          <ids-breadcrumb>
-            <ids-hyperlink font-size="14" text-decoration="hover" href="#">First Item</ids-hyperlink>
-            <ids-hyperlink font-size="14" text-decoration="hover" href="#">Second Item</ids-hyperlink>
-            <ids-hyperlink font-size="14" text-decoration="hover" disabled>Disabled Item</ids-hyperlink>
-            <ids-hyperlink font-size="14" text-decoration="hover">Current Item</ids-hyperlink>
-          </ids-breadcrumb>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-breadcrumb>
+              <ids-hyperlink font-size="14" text-decoration="hover" href="#">First Item</ids-hyperlink>
+              <ids-hyperlink font-size="14" text-decoration="hover" href="#">Second Item</ids-hyperlink>
+              <ids-hyperlink font-size="14" text-decoration="hover" disabled>Disabled Item</ids-hyperlink>
+              <ids-hyperlink font-size="14" text-decoration="hover">Current Item</ids-hyperlink>
+            </ids-breadcrumb>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Buttons -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Buttons</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Buttons</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <ids-layout-grid cols="4" gap="md">
@@ -398,18 +408,22 @@
         </ids-layout-grid>
 
         <!-- Calendar -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Calendar View</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h1">Calendar View</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
-          <ids-layout-grid-cell auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
             <ids-calendar date="10/22/2019" show-today view-picker></ids-calendar>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Checkboxes -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Checkboxes</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Checkboxes</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <ids-layout-grid cols="4" gap="md">
@@ -424,12 +438,12 @@
         </ids-layout-grid>
 
         <!-- Color Picker -->
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-text font-size="12" type="h2">Color Picker</ids-text>
           </ids-layout-grid-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-color-picker label="Default Color Picker"></ids-color-picker>
           </ids-layout-grid-cell>
@@ -454,11 +468,13 @@
         </ids-layout-grid>
 
         <!-- Counts -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Counts</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Counts</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-counts color="base" href="#">
               <ids-text count-value>7</ids-text>
@@ -492,33 +508,39 @@
         </ids-layout-grid>
 
         <!-- Data Grid -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Data Grid</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Data Grid</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-data-grid id="data-grid-1" row-selection="multiple" label="Books" row-height="md"></ids-data-grid>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Data Label -->
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-text font-size="12" type="h2">Data Label</ids-text>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true" gap="md">
-          <ids-data-label label="Shipping to" label-position="left">Los Angeles, California 90001 USA</ids-data-label>
-          <ids-data-label label="Shipping to">Los Angeles, California 90001 USA</ids-data-label>
+        <ids-layout-grid auto-fit="true" padding="sm" gap="md">
+          <ids-layout-grid-cell>
+            <ids-data-label label="Shipping to" label-position="left">Los Angeles, California 90001 USA</ids-data-label>
+            <ids-data-label label="Shipping to">Los Angeles, California 90001 USA</ids-data-label>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Date Picker -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Date Picker</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h1">Date Picker</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-date-picker id="e2e-datepicker-value" label="Date Field" value="3/4/2016" tabbable="false" mask></ids-date-picker>
           </ids-layout-grid-cell>
@@ -540,13 +562,14 @@
         </ids-layout-grid>
 
         <!-- Editor -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Editor</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Editor</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
-
             <ids-editor id="editor-demo" label="Ids Editor">
               <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
                 reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
@@ -563,11 +586,13 @@
         </ids-layout-grid>
 
         <!-- Empty Message -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Empty Message</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Empty Message</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true" cols="3" gap="md">
+        <ids-layout-grid auto-fit="true" padding="sm" cols="3" gap="md">
           <ids-layout-grid-cell>
             <ids-layout-grid-cell>
               <ids-card class="test-card">
@@ -588,13 +613,13 @@
         </ids-layout-grid>
 
         <!-- Expandable Area -->
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-text font-size="12" type="h2">Expandable Area</ids-text>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-expandable-area type="partial">
               <ids-text slot="header">Customer Information</ids-text>
@@ -616,27 +641,32 @@
         </ids-layout-grid>
 
         <!-- Fieldset -->
-        <ids-layout-grid>
-          <ids-text font-size="12" type="h2">Fieldset</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Fieldset</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
-          <form>
-            <ids-fieldset>
-              <legend><ids-text font-size="20" type="h2" id="user-info">User Information</ids-text></legend>
-              <ids-input type="text" label="User Name" id="user-name"></ids-input>
-              <ids-input type="text" label="User Address" id="user-address"></ids-input>
-            </ids-fieldset>
-          </form>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <form>
+              <ids-fieldset>
+                <legend><ids-text font-size="20" type="h2" id="user-info">User Information</ids-text></legend>
+                <ids-input type="text" label="User Name" id="user-name"></ids-input>
+                <ids-input type="text" label="User Address" id="user-address"></ids-input>
+              </ids-fieldset>
+            </form>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Hierarchy -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Hierarchy</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Hierarchy</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
-
             <ids-hierarchy-legend>
               <ids-hierarchy-legend-item
                 text="Full Time"
@@ -740,10 +770,12 @@
         </ids-layout-grid>
 
         <!-- Hyperlink -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Hyperlink</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Hyperlink</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-hyperlink href="#" target="_blank">Normal Link</ids-hyperlink><br><br>
             <ids-hyperlink href="#" disabled="true" target="_blank">Disabled Link</ids-hyperlink>
@@ -751,11 +783,13 @@
         </ids-layout-grid>
 
         <!-- Images & Initials Banner -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Images</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Images</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true" gap="lg">
+        <ids-layout-grid auto-fit="true" padding="sm" gap="lg">
           <ids-layout-grid-cell>
             <ids-image class="non-existant" id="e2e-fallback" src="../assets/images/non-existant.jpg" alt="image-sm non-existant" size="sm" fallback tabindex="0"></ids-image>
           </ids-layout-grid-cell>
@@ -783,21 +817,27 @@
         </ids-layout-grid>
 
         <!-- List Builder -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">List Builder</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">List Builder</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid  cols="2">
-          <ids-list-builder height="310px" selectable="single" id="list-builder-tb">
-            <template>
-              <ids-text font-size="16" type="span">${manufacturerName}</ids-text>
-            </template>
-          </ids-list-builder>
+        <ids-layout-grid cols="2">
+          <ids-layout-grid-cell>
+            <ids-list-builder height="310px" selectable="single" id="list-builder-tb">
+              <template>
+                <ids-text font-size="16" type="span">${manufacturerName}</ids-text>
+              </template>
+            </ids-list-builder>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- List View -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">List View</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">List View</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <ids-layout-grid  cols="2">
@@ -815,11 +855,13 @@
         </ids-layout-grid>
 
         <!-- Notification Banner -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Notification Banner</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Notification Banner</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-notification-banner
               id="ids-notification-banner-0"
@@ -852,10 +894,12 @@
         </ids-layout-grid>
 
         <!-- Masthead -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Masthead</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Masthead</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-masthead title="Infor Application" icon="logo" role="navigation">
               <section title="start" slot="start">
@@ -876,8 +920,10 @@
         </ids-layout-grid>
 
         <!-- Menu -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Menu</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h1">Menu</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <ids-layout-grid cols="5">
@@ -908,8 +954,10 @@
         </ids-layout-grid>
 
         <!-- Menu Button -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Menu Button</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h1">Menu Button</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
         <ids-layout-grid cols="4" gap="md">
           <ids-layout-grid-cell>
@@ -940,13 +988,13 @@
         </ids-layout-grid>
 
         <!-- Modal -->
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-text font-size="12" type="h2">Message</ids-text>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-button appearance="secondary" id="message-example-error-trigger">Trigger an Error Message</ids-button>
             <ids-message id="message-example-error" status="error">
@@ -959,10 +1007,12 @@
         </ids-layout-grid>
 
         <!-- Modal -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Modal</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Modal</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-modal id="my-modal" aria-labelledby="my-modal-title">
               <ids-text slot="title" font-size="24" type="h2" id="my-modal-title">Active IDS Modal</ids-text>
@@ -979,10 +1029,12 @@
         </ids-layout-grid>
 
         <!-- Progress Bar -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Popup</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Popup</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-button id="popup-trigger-btn" appearance="secondary">
               <span>Trigger a Popup</span>
@@ -1000,7 +1052,9 @@
 
         <!-- Progress Bar -->
         <ids-layout-grid cols="3" gap="md">
-          <ids-text font-size="12" type="h2">Pager</ids-text>
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Pager</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <ids-layout-grid cols="3" gap="md">
@@ -1016,7 +1070,7 @@
         </ids-layout-grid>
 
         <!-- Progress Bar -->
-        <ids-layout-grid auto="true" gap="xl">
+        <ids-layout-grid auto-fit="true" padding="sm" gap="xl">
           <ids-layout-grid-cell>
             <ids-text font-size="12" type="h2">Progress Bar</ids-text>
           </ids-layout-grid-cell>
@@ -1028,19 +1082,23 @@
         </ids-layout-grid>
 
         <!-- Rating -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Rating</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Rating</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-rating value="4"></ids-rating>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Search Field -->
-        <ids-layout-grid>
-          <ids-text font-size="12" type="h2">Search Field</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Search Field</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <ids-layout-grid cols="3">
@@ -1050,8 +1108,10 @@
         </ids-layout-grid>
 
         <!--Spinbox -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Spinbox</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Spinbox</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
         <ids-layout-grid cols="4" gap="md">
           <ids-layout-grid-cell>
@@ -1060,11 +1120,13 @@
         </ids-layout-grid>
 
         <!-- Slider -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Slider</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Slider</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-text font-size="12" type="h3">Single Slider: </ids-text>
             <ids-slider type="single" show-tooltip label="Single-thumb"></ids-slider>
@@ -1079,7 +1141,7 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-text font-size="12" type="h3">Vertical Sliders: </ids-text>
             <ids-slider type="single" vertical color="red" show-tooltip label="Colorful single-thumb"></ids-slider>
@@ -1093,8 +1155,10 @@
         </ids-layout-grid>
 
         <!-- Step Chart -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Step Chart</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Step Chart</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
         <ids-layout-grid cols="2" gap="md">
           <ids-layout-grid-cell>
@@ -1107,11 +1171,13 @@
         </ids-layout-grid>
 
         <!-- Swappable -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Swappable</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Swappable</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid  cols="2">
+        <ids-layout-grid cols="2">
           <ids-layout-grid-cell col-span="1">
             <ids-swappable id="swappable-tb" selection="multiple">
               <ids-swappable-item class="p-8">
@@ -1137,11 +1203,13 @@
         </ids-layout-grid>
 
         <!-- Tags -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Tags</ids-text><br>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Tags</ids-text><br>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-tag>Normal Tag</ids-tag>
             <ids-tag color="secondary">Secondary Tag</ids-tag>
@@ -1172,11 +1240,13 @@
         </ids-layout-grid>
 
         <!-- Tabs -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Tabs</ids-text><br>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Tabs</ids-text><br>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-tabs-context>
               <ids-tabs>
@@ -1187,13 +1257,13 @@
               </ids-tabs>
               <div class="ids-tabs-content">
                 <ids-tab-content value="contracts">
-                  <ids-layout-grid auto="true">
+                  <ids-layout-grid auto-fit="true" padding="sm">
                     <ids-text font-size="16" type="p">Facilitate cultivate monetize, seize e-services peer-to-peer content integrateAJAX-enabled user-centric strategize. Mindshare; repurpose integrate global addelivery leading-edge frictionless, harness real-time plug-and-play standards-compliant 24/7 enterprise strategize robust infomediaries: functionalities back-end. Killer disintermediate web-enabled ubiquitous empower relationships, solutions, metrics architectures.</ids-text>
                   </ids-layout-grid>
                 </ids-tab-content>
                 <ids-tab-content value="opportunities">
                   <div class="tab-content">
-                    <ids-layout-grid auto="true">
+                    <ids-layout-grid auto-fit="true" padding="sm">
                       <ids-text font-size="16" type="p">
                         Bricks-and-clicks? Evolve ubiquitous matrix B2B 24/365 vertical 24/365 platforms standards-compliant global leverage dynamic 24/365 intuitive ROI seamless rss-capable. Cutting-edge grow morph web services leverage; ROI, unleash reinvent innovative podcasts citizen-media networking.
                       </ids-text>
@@ -1201,14 +1271,14 @@
                   </div>
                 </ids-tab-content>
                 <ids-tab-content value="attachments">
-                  <ids-layout-grid auto="true">
+                  <ids-layout-grid auto-fit="true" padding="sm">
                     <ids-text font-size="16" type="p">
                       Frictionless webservices, killer open-source innovate, best-of-breed, whiteboard interactive back-end optimize capture dynamic front-end. Initiatives ubiquitous 24/7 enhance channels B2B drive frictionless web-readiness generate recontextualize widgets applications. Sexy sticky matrix, user-centred, rich user-centric: peer-to-peer podcasting networking addelivery optimize streamline integrated proactive: granular morph.
                     </ids-text>
                   </ids-layout-grid>
                 </ids-tab-content>
                 <ids-tab-content value="notes">
-                  <ids-layout-grid auto="true">
+                  <ids-layout-grid auto-fit="true" padding="sm">
                     <ids-text font-size="16" type="p">
                       Evolve ubiquitous matrix B2B 24/365 vertical 24/365 platforms standards-compliant global leverage dynamic 24/365 intuitive ROI seamless rss-capable. Cutting-edge grow morph web services leverage; ROI, unleash reinvent innovative podcasts citizen-media networking.
                     </ids-text>
@@ -1220,11 +1290,13 @@
         </ids-layout-grid>
 
         <!-- Toast -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Toast</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Toast</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-button id="btn-toast-demo" appearance="secondary">
               <span>Toast Message</span>
@@ -1233,8 +1305,10 @@
         </ids-layout-grid>
 
         <!-- Toggle Button -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Toggle Button</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Toggle Button</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
         <ids-layout-grid cols="4" gap="md">
           <ids-layout-grid-cell>
@@ -1248,10 +1322,12 @@
         </ids-layout-grid>
 
         <!-- Tooltip -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h1">Tooltip</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h1">Tooltip</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-button id="button-1" appearance="secondary">Hover to show a Tooltip</ids-button>
             <ids-tooltip target="#button-1" id="tooltip-example" data-automation-id="tooltip-example">Additional Information</ids-tooltip>
@@ -1259,11 +1335,13 @@
         </ids-layout-grid>
 
         <!-- Trigger Field -->
-        <ids-layout-grid auto="true">
-          <ids-text font-size="12" type="h2">Trigger Field</ids-text>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Trigger Field</ids-text>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid cols="3" gap="md">
+        <ids-layout-grid auto-fit="true" cols="3" gap="md">
           <ids-layout-grid-cell>
             <ids-trigger-field disabled id="trigger-field-4" size="md" label="Disabled Trigger Field" value="Enter Album Name">
               <ids-trigger-button slot="trigger-end" disabled>
@@ -1275,12 +1353,12 @@
         </ids-layout-grid>
 
         <!-- Upload -->
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-gridc-cell>
             <ids-text font-size="12" type="h2">Upload</ids-text>
           </ids-layout-gridc-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-upload label="Single File"></ids-upload>
           </ids-layout-grid-cell>
@@ -1293,12 +1371,12 @@
         </ids-layout-grid>
 
         <!-- Upload Advanced -->
-        <ids-layout-grid auto="true">
-          <ids-layout-gridc-cell>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
             <ids-text font-size="12" type="h2">Upload Advanced</ids-text>
-          </ids-layout-gridc-cell>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
-        <ids-layout-grid auto="true" gap="lg">
+        <ids-layout-grid auto-fit="true" padding="sm" gap="lg">
           <ids-layout-grid-cell>
             <ids-text>Basic</ids-text>
             <ids-upload-advanced id="elem-upload-advanced-basic" url="http://localhost:4300/upload"></ids-upload-advanced>

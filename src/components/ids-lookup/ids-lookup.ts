@@ -181,7 +181,7 @@ export default class IdsLookup extends Base {
     <slot name="lookup-modal">
       <ids-modal id="lookup-modal" aria-labelledby="lookup-modal-title" part="modal">
         <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">${this.title}</ids-text>
-        <ids-layout-grid class="data-grid-container" auto="true" gap="md" no-margins="true" min-col-width="600px">
+        <ids-layout-grid class="data-grid-container" auto-fit="true" gap="md" no-margins="true" min-col-width="600px">
           <ids-layout-grid-cell>
             <ids-data-grid id="lookup-data-grid" label="${this.label}" part="data-grid">
             </ids-data-grid>
