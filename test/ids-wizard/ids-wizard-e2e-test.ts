@@ -56,6 +56,7 @@ describe('Ids Wizard e2e Tests', () => {
       width: 375,
       height: 1080
     });
+
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
     let size = await page.evaluate('document.querySelector("ids-wizard").shadowRoot.querySelector(".step-label").style.maxWidth');
     expect(Number(size.replace('px', ''))).toBeLessThan(80);
