@@ -8,10 +8,10 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
 
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Spinbox</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="4" gap="md">
+    <ids-layout-grid cols="2" cols-md="4" gap="md" padding-x="md">
       <ids-layout-grid-cell>
         <ids-spinbox value="0" label="Basic Spinbox"></ids-spinbox>
         <ids-spinbox value="0" min="-25" max="25" step="5" label="w/ Dirty Tracking" placeholder="Dirty" dirty-tracker="true">

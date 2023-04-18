@@ -8,11 +8,11 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
 
-    <ids-layout-grid cols="3" gap="md">
+    <ids-layout-grid cols="3" gap="md" padding="md">
       <ids-text font-size="12" type="h1">Ids Pager</ids-text>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="2" gap="md">
+    <ids-layout-grid cols="2" gap="md" padding-x="md">
       <ids-pager page-size="20" page-number="10" total="200">
         <ids-pager-button first></ids-pager-button>
         <ids-pager-button previous></ids-pager-button>
@@ -22,7 +22,7 @@
       </ids-pager>
     </ids-layout-grid>
 
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-pager page-size="20" page-number="10" total="300">
         <div slot="start"><ids-text font-size="12">Left Content</ids-text></div>
         <div>
@@ -36,7 +36,7 @@
       </ids-pager>
     </ids-layout-grid>
 
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-pager page-size="50" page-number="2" total="150">
         <ids-pager-button previous></ids-pager-button>
         <ids-pager-number-list></ids-pager-number-list>

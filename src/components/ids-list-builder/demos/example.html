@@ -7,11 +7,11 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit padding="md">
       <ids-text font-size="12" type="h1">List Builder (single selection)</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="2">
-      <ids-layout-grid-cell>
+    <ids-layout-grid cols="1" cols-md="2" padding-x="md">
+      <ids-layout-grid-cell col-span="1">
         <ids-list-builder height="310px" selectable="single" id="list-builder-1">
           <template>
             <ids-text font-size="16" type="span">${manufacturerName}</ids-text>

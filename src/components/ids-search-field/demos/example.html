@@ -8,11 +8,11 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
 
-    <ids-layout-grid>
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Search Field</ids-text>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="3" gap="xl">
+    <ids-layout-grid cols="3" gap="xl" padding-x="md">
       <ids-layout-grid-cell>
         <ids-search-field clearable dirty-tracker label="Products" value="Anti-virus Software" validate="required"></ids-search-field>
         <ids-search-field clearable readonly label="Read-only Search Bar" value="Cellphone"></ids-search-field>
@@ -30,7 +30,7 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
         <ids-search-field
           id="search-field-autocomplete"
@@ -42,7 +42,7 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="1">
+    <ids-layout-grid cols="1" padding="md">
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h1">Inside a Header:</ids-text>
         <ids-header>
