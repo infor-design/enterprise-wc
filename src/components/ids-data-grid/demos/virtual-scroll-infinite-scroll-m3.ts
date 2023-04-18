@@ -2,9 +2,13 @@ import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import productsJSON from '../../../assets/data/products.json';
+import css from '../../../assets/css/ids-data-grid/custom-css.css';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
 // Example for populating the DataGrid
-const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-infinite-scroll')!;
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-virtual-scroll')!;
 
 // Do an ajax request
 const url: any = productsJSON;
@@ -83,6 +87,7 @@ dataGrid.columns = columns;
 const fetchData = async (startIndex = 0) => {
   const res = await fetch(url);
   const data = await res.json();
+
   const MAX_ROW_COUNT = 300;
   if (startIndex > MAX_ROW_COUNT) return [];
 
@@ -97,12 +102,13 @@ const setData = async () => {
 setData();
 
 dataGrid.addEventListener('scrollstart', async (e: Event) => {
-  console.info(`Infinite Scroll reached start`, (<CustomEvent>e).detail);
+  console.info(`Virtual Scroll reached start`, (<CustomEvent>e).detail);
 });
 
 dataGrid.addEventListener('scrollend', async (e: Event) => {
-  console.info(`Infinite Scroll reached end`, (<CustomEvent>e).detail);
+  console.info(`Virtual Scroll reached end`, (<CustomEvent>e).detail);
   const endIndex = (<CustomEvent>e).detail?.value || 0;
+
   const moreData = await fetchData(endIndex + 1);
   if (moreData.length) dataGrid.appendData(moreData);
 });

@@ -1277,6 +1277,7 @@ export default class IdsDataGrid extends Base {
     this.#attachVirtualScrollEvent();
   }
 
+  /* Attach Events for virtual scrolling */
   #attachVirtualScrollEvent() {
     if (!this.virtualScroll) return;
 
@@ -1304,6 +1305,7 @@ export default class IdsDataGrid extends Base {
 
   #customScrollEventCache: { [key: string]: number } = {};
 
+  /* Trigger API scroll event */
   #triggerCustomScrollEvent(rowIndex: number, eventType?: 'start' | 'end') {
     if (!eventType) {
       this.#customScrollEventCache = {}; // reset event-cache
@@ -1363,7 +1365,6 @@ export default class IdsDataGrid extends Base {
    * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
    */
   scrollRowIntoView(rowIndex: number, doScroll = true) {
-    if (!this.virtualScroll) return;
     if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
 
     const data = this.data;
@@ -1375,6 +1376,11 @@ export default class IdsDataGrid extends Base {
     const maxRowIndex = data.length - 1;
     rowIndex = Math.max(rowIndex, 0);
     rowIndex = Math.min(rowIndex, maxRowIndex);
+
+    if (!this.virtualScroll) {
+      this.rowByIndex(rowIndex)?.scrollIntoView();
+      return;
+    }
 
     const container = this.container;
     const body = this.body;
@@ -1424,23 +1430,21 @@ export default class IdsDataGrid extends Base {
       this.#recycleAllRows(bufferRowIndex);
     }
 
-    this.requestAnimationFrame(() => {
-      // NOTE: repaint of padding is more performant than margin
-      const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BODY_HEIGHT;
+    // NOTE: repaint of padding is more performant than margin
+    const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BODY_HEIGHT;
 
-      const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
-      const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
+    const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
+    const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
 
-      if (!reachedTheBottom) {
-        body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
-      }
+    if (!reachedTheBottom) {
+      body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+    }
 
-      body?.style.setProperty('padding-bottom', `${Math.max(bodyPaddingBottom, 0)}px`);
+    body?.style.setProperty('padding-bottom', `${Math.max(bodyPaddingBottom, 0)}px`);
 
-      if (doScroll) {
-        container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
-      }
-    });
+    if (doScroll) {
+      container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+    }
   }
 
   /* Recycle the rows during scrolling */

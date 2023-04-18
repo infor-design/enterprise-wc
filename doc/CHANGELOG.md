@@ -7,6 +7,7 @@
 - `[Button]` Renamed "type" attribute to "appearance", mapped a new "type" attribute that sets HTMLButtonElement's "type" attribute. ([#1062](https://github.com/infor-design/enterprise-wc/issues/1062))
 - `[ColorPicker]` Fix change event firing multiple times. ([#1181](https://github.com/infor-design/enterprise-wc/issues/1181))
 - `[DataGrid]` Fixed text overflow for editable cells with data grid. ([#1175](https://github.com/infor-design/enterprise-wc/issues/1175))
+- `[DataGrid]` Fix `IdsDataGrid.ScrollRowIntoView()` so that it finds correct row after infinite-scrolling. ([#1198](https://github.com/infor-design/enterprise-wc/issues/1198))
 - `[Docs]` Added some documentation on ways to customize a component. ([#970](https://github.com/infor-design/enterprise-wc/issues/970))
 - `[Input/TriggerField]` Web component now displays as `inline`, similar to HTMLInputElement. ([#1157](https://github.com/infor-design/enterprise-wc/issues/1157))
 - `[Popup]` Unset text align coming from HTML attribute. ([#1200](https://github.com/infor-design/enterprise-wc/issues/1200))
