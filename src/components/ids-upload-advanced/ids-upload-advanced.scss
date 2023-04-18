@@ -1,22 +1,20 @@
 /* Ids Upload Advanced */
-@import '../../core/ids-base';
+@use '../../themes/mixins/ids-core-mixins.scss' as mixins;
 
 .ids-upload-advanced {
-  @include block();
-
-  margin-bottom: 16px;
+  display: block;
+  margin-bottom: var(--ids-spacing-xxl);
 
   .hidden {
     display: none;
   }
 
   .droparea {
-    @include border-1();
-    @include relative();
-    @include bg-slate-10();
-    @include border-slate-50();
-    @include text-slate-50();
-
+    color: var(--ids-upload-advanced-text-color);
+    background-color: var(--ids-upload-advanced-background-color);
+    border-width: 1px;
+    border-color: var(--ids-upload-advanced-border-color);
+    position: relative;
     align-items: center;
     display: flex;
     border-radius: var(--ids-border-radius-xs);
@@ -27,14 +25,14 @@
     padding: 0 20px;
 
     .icon {
-      @include mb-4();
+      margin-bottom: 4px;
     }
 
     .droparea-label {
-      @include antialiased();
-      @include block();
-      @include text-slate-100();
+      @include mixins.antialiased();
 
+      color: var(--ids-upload-advanced-label-text-color);
+      display: block;
       text-align: center;
       user-select: none;
     }
@@ -56,20 +54,20 @@
       z-index: -1;
 
       &:focus ~ .droparea-label .hyperlink::part(link) {
-        border: 1px solid var(--ids-color-palette-azure-60);
-        box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
+        border: 1px solid var(--ids-upload-advanced-hyperlink-focus-border-color);
+        box-shadow: var(--ids-upload-advanced-hyperlink-focus-box-shadow);
       }
     }
 
     &:hover {
-      @include bg-slate-20();
-      @include border-slate-60();
-      @include text-slate-100();
+      background-color: var(--ids-upload-advanced-hover-background-color);
+      border-color: var(--ids-upload-advanced-hover-border-color);
+      color: var(--ids-upload-advanced-hover-text-color);
     }
 
     &.dragenter {
-      @include bg-azure-10();
-      @include border-azure-60();
+      background-color: var(--ids-upload-advanced-dragenter-background-color);
+      border-color: var(--ids-upload-advanced-dragenter-border-color);
     }
   }
 
@@ -85,7 +83,7 @@
 
     ~.filesarea .ids-upload-advanced-file:first-of-type .container,
     ~.filesarea ids-upload-advanced-file:first-of-type::part(container) {
-      @include mt-0();
+      margin-top: 0;
     }
 
     .ids-toolbar-section.align-end {
@@ -94,20 +92,17 @@
   }
 
   .errorarea {
-    @include border-1();
-    @include border-transparent();
-    @include mt-8();
-    @include p-2();
-
+    border: 1px solid transparent;
+    margin-top: var(--ids-spacing-lg);
+    padding: var(--ids-spacing-sm);
     display: none;
     border-radius: var(--ids-border-radius-xs);
     border-style: dashed;
     align-items: center;
 
     &.has-error {
-      @include border-ruby-60();
-
       display: flex;
+      border-color: var(--ids-upload-advanced-errorarea-border-color);
     }
 
     .status {
@@ -116,32 +111,30 @@
 
       .ids-alert,
       ids-alert {
-        @include block();
-        @include p-8();
-        @include pb-4();
-        @include m-0();
+        display: block;
+        padding: var(--ids-spacing-lg);
+        padding-bottom: var(--ids-spacing-md);
+        margin: 0;
       }
     }
 
     .error-row {
-      @include min-w-0();
-
+      min-width: 0;
       flex-grow: 1;
 
       span {
-        @include antialiased();
-        @include font-normal();
-        @include block();
-        @include m-0();
+        @include mixins.antialiased();
 
+        display: block;
+        font-weight: var(--ids-font-weight-normal);
+        margin: 0;
         font-family: var(--ids-font-family);
         text-overflow: ellipsis;
       }
     }
 
     .btn-close {
-      @include mx-2();
-
+      padding-inline: var(--ids-spacing-sm);
       flex-grow: 0;
       flex-shrink: 0;
     }
@@ -163,94 +156,19 @@
     .droparea,
     .droparea.dragenter,
     .droparea:hover {
-      @include bg-slate-10();
-      @include border-slate-30();
-      @include text-slate-30();
+      background-color: var(--ids-upload-advanced-disabled-background-color);
+      border-color: var(--ids-upload-advanced-disabled-border-color);
+      color: var(--ids-upload-advanced-disabled-text-color);
 
       .droparea-label {
-        @include cursor-default();
-        @include text-slate-30();
+        cursor: default;
+        color: var(--ids-upload-advanced-disabled-text-color);
       }
     }
 
     .errorarea.has-error {
-      @include border-ruby-30();
-      @include text-slate-30();
-    }
-  }
-}
-
-// Handle Themes
-.ids-upload-advanced[mode='dark'] {
-  .droparea {
-    @include bg-slate-70();
-    @include border-slate-50();
-    @include text-slate-20();
-
-    &:hover {
-      @include bg-slate-60();
-      @include border-slate-40();
-    }
-
-    &.dragenter {
-      @include bg-slate-80();
-      @include border-azure-60();
-    }
-
-    .droparea-label {
-      @include text-slate-30();
-    }
-
-    .file-input:focus ~ .droparea-label .hyperlink::part(link) {
-      border: 1px solid var(--ids-color-palette-azure-60);
-      box-shadow: 0 0 4px 2px rgb(141 201 230 / 0.1);
-    }
-  }
-
-  &.disabled .droparea {
-    @include text-slate-50();
-
-    &:hover,
-    &.dragenter {
-      @include bg-slate-70();
-      @include border-slate-50();
-    }
-
-    .droparea-label {
-      @include text-slate-50();
-    }
-  }
-}
-
-.ids-upload-advanced[mode='contrast'] {
-  .droparea {
-    @include bg-white();
-    @include border-slate-50();
-    @include text-slate-50();
-
-    &:hover {
-      @include bg-slate-10();
-      @include border-slate-50();
-    }
-
-    &.dragenter {
-      @include bg-azure-10();
-      @include border-azure-60();
-    }
-  }
-
-  &.disabled .droparea {
-    @include text-slate-40();
-    @include border-slate-30();
-
-    &:hover,
-    &.dragenter {
-      @include bg-white();
-      @include border-slate-30();
-    }
-
-    .droparea-label {
-      @include text-slate-40();
+      border-color: var(--ids-upload-advanced-errorarea-disabled-border-color);
+      color: var(--ids-upload-advanced-errorarea-disabled-text-color);
     }
   }
 }

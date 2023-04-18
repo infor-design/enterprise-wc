@@ -1273,6 +1273,46 @@
             </ids-trigger-field>
           </ids-layout-grid-cell>
         </ids-layout-grid>
+
+        <!-- Upload -->
+        <ids-layout-grid auto="true">
+          <ids-layout-gridc-cell>
+            <ids-text font-size="12" type="h2">Upload</ids-text>
+          </ids-layout-gridc-cell>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true">
+          <ids-layout-grid-cell>
+            <ids-upload label="Single File"></ids-upload>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-upload id="ids-upload-multiple" label="Multiple Files" multiple="true"></ids-upload>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-upload id="ids-upload-disabled" label="Disabled" disabled="true" value="Readme.txt"></ids-upload>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Upload Advanced -->
+        <ids-layout-grid auto="true">
+          <ids-layout-gridc-cell>
+            <ids-text font-size="12" type="h2">Upload Advanced</ids-text>
+          </ids-layout-gridc-cell>
+        </ids-layout-grid>
+        <ids-layout-grid auto="true" gap="lg">
+          <ids-layout-grid-cell>
+            <ids-text>Basic</ids-text>
+            <ids-upload-advanced id="elem-upload-advanced-basic" url="http://localhost:4300/upload"></ids-upload-advanced>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-text>Disabled</ids-text>
+            <ids-upload-advanced id="elem-upload-advanced-disabled" disabled="true" url="http://localhost:4300/upload"></ids-upload-advanced>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-text>Images &amp; PDF Only, Max (5) files</ids-text>
+            <ids-upload-advanced id="elem-upload-advanced-limit" accept="image/*, .pdf" max-files="5" url="http://localhost:4300/upload"></ids-upload-advanced>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

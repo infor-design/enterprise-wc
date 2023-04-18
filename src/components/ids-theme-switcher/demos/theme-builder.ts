@@ -47,6 +47,8 @@ import '../../ids-toast/ids-toast';
 import '../../ids-toggle-button/ids-toggle-button';
 import '../../ids-tooltip/ids-tooltip';
 import '../../ids-trigger-field/ids-trigger-field';
+import '../../ids-upload/ids-upload';
+import '../../ids-upload-advanced/ids-upload-advanced';
 import '../../ids-week-view/ids-week-view';
 
 // Assets

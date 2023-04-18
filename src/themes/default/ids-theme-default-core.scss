@@ -296,6 +296,30 @@
   --ids-calendar-toolbar-container-background-color: var(--ids-color-slate-00);
   --ids-calendar-toolbar-container-border-color: var(--ids-color-slate-20);
 
+  // Calendar Event
+  --ids-calendar-event-azure-background-color: var(--ids-color-azure-20);
+  --ids-calendar-event-azure-border-color: var(--ids-color-azure-70);
+  --ids-calendar-event-amber-background-color: var(--ids-color-amber-30);
+  --ids-calendar-event-amber-border-color: var(--ids-color-amber-70);
+  --ids-calendar-event-amethyst-background-color: var(--ids-color-amethyst-30);
+  --ids-calendar-event-amethyst-border-color: var(--ids-color-amethyst-70);
+  --ids-calendar-event-background-color: var(--ids-color-azure-20);
+  --ids-calendar-event-border-color: var(--ids-color-amber-70);
+  --ids-calendar-event-emerald-background-color: var(--ids-color-emerald-30);
+  --ids-calendar-event-emerald-border-color: var(--ids-color-emerald-70);
+  --ids-calendar-event-focus-border-color: var(--ids-color-azure-60);
+  --ids-calendar-event-icon-alert-color: var(--ids-color-amber-60);
+  --ids-calendar-event-icon-clock-color: var(--ids-color-amber-60);
+  --ids-calendar-event-icon-pending-color: var(--ids-color-amber-60);
+  --ids-calendar-event-icon-success-color: var(--ids-color-emerald-60);
+  --ids-calendar-event-ruby-background-color: var(--ids-color-ruby-30);
+  --ids-calendar-event-ruby-border-color: var(--ids-color-ruby-70);
+  --ids-calendar-event-turquoise-background-color: var(--ids-color-turquoise-30);
+  --ids-calendar-event-turquoise-border-color: var(--ids-color-turquoise-70);
+  --ids-calendar-event-slate-background-color: var(--ids-color-slate-30);
+  --ids-calendar-event-slate-border-color: var(--ids-color-slate-70);
+  --ids-calendar-event-text-color: var(--ids-color-slate-100);
+
   // Card
   --ids-card-toolbar-padding: var(--ids-spacing-xxl);
   --ids-card-border-radius: var(--ids-border-radius-md);
@@ -987,6 +1011,39 @@
   --ids-trigger-field-focus-box-shadow: var(--ids-input-info-focus-box-shadow);
   --ids-trigger-field-disabled-text-color: var(--ids-input-disabled-text-color);
   --ids-trigger-field-disabled-border-color: var(--ids-input-disabled-border-color);
+
+  // Upload
+  --ids-upload-font-size: var(--ids-font-size-xl);
+
+  // Upload Advanced
+  --ids-upload-advanced-background-color: var(--ids-color-slate-10);
+  --ids-upload-advanced-border-color: var(--ids-color-slate-50);
+  --ids-upload-advanced-disabled-background-color: var(--ids-color-slate-10);
+  --ids-upload-advanced-disabled-border-color: var(--ids-color-slate-30);
+  --ids-upload-advanced-disabled-text-color: var(--ids-disabled-text-color);
+  --ids-upload-advanced-dragenter-background-color: var(--ids-color-azure-10);
+  --ids-upload-advanced-dragenter-border-color: var(--ids-color-primary);
+  --ids-upload-advanced-errorarea-border-color: var(--ids-color-error-60);
+  --ids-upload-advanced-errorarea-disabled-border-color: var(--ids-color-error-30);
+  --ids-upload-advanced-errorarea-disabled-text-color: var(--ids-color-error-30);
+  --ids-upload-advanced-hover-background-color: var(--ids-color-slate-20);
+  --ids-upload-advanced-hover-border-color: var(--ids-color-slate-60);
+  --ids-upload-advanced-hover-text-color: var(--ids-text-color);
+  --ids-upload-advanced-hyperlink-focus-border-color: var(--ids-color-primary);
+  --ids-upload-advanced-hyperlink-focus-box-shadow: var(--ids-box-shadow-lg);
+  --ids-upload-advanced-label-text-color: var(--ids-text-color);
+  --ids-upload-advanced-text-color: var(--ids-color-slate-50);
+
+  // Upload Advanced File
+  --ids-upload-advanced-file-border-color: var(--ids-color-slate-50);
+  --ids-upload-advanced-file-completed-border-color: var(--ids-color-emerald-80);
+  --ids-upload-advanced-file-completed-text-color: var(--ids-color-emerald-80);
+  --ids-upload-advanced-file-disabled-border-color: var(--ids-color-slate-30);
+  --ids-upload-advanced-file-disabled-completed-border-color: var(--ids-color-emerald-30);
+  --ids-upload-advanced-file-disabled-completed-text-color: var(--ids-color-emerald-30);
+  --ids-upload-advanced-file-disabled-error-border-color: var(--ids-color-ruby-30);
+  --ids-upload-advanced-file-disabled-text-color: var(--ids-color-slate-30);
+  --ids-upload-advanced-file-error-border-color: var(--ids-color-ruby-60);
 
   // Week View
   --ids-week-view-background-color: var(--ids-body-background-color);

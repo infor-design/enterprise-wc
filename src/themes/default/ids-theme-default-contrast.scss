@@ -109,6 +109,11 @@
   // Calendar
   --ids-calendar-toolbar-container-border-color: var(--ids-color-slate-30);
 
+  // Calendar Event
+  --ids-calendar-event-azure-border-color: var(--ids-color-azure-100);
+  --ids-calendar-event-border-color: var(--ids-color-amber-100);
+  --ids-calendar-event-focus-border-color: var(--ids-color-azure-100);
+
   // Card
   --ids-card-background-color: var(--ids-color-slate-00);
   --ids-card-border-color: var(--ids-color-slate-60);
@@ -369,6 +374,12 @@
 
   // Toolbar
   --ids-toolbar-formatter-background-color: var(--ids-color-slate-70);
+
+  // Upload Advanced
+  --ids-upload-advanced-background-color: var(--ids-color-slate-00);
+  --ids-upload-advanced-hover-background-color: var(--ids-color-slate-20);
+  --ids-upload-advanced-hover-border-color: var(--ids-color-slate-50);
+  --ids-upload-advanced-hover-text-color: var(--ids-color-slate-40);
 
   // Week View
   --ids-week-view-background-color: var(--ids-color-slate-00);

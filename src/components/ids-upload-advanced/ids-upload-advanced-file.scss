@@ -1,5 +1,5 @@
 /* Ids Upload Advanced File */
-@import '../../core/ids-base';
+@use '../../themes/mixins/ids-core-mixins.scss' as mixins;
 
 // Flex item will not grow or shrink
 @mixin flex-item-stable() {
@@ -8,18 +8,16 @@
 }
 
 .ids-upload-advanced-file {
-  @include block();
+  display: block;
 
   .hidden {
     display: none;
   }
 
   .container {
-    @include border-1();
-    @include border-slate-50();
-    @include mt-8();
-    @include p-2();
-
+    margin-top: var(--ids-spacing-lg);
+    padding: var(--ids-spacing-sm);
+    border: 1px solid var(--ids-upload-advanced-file-border-color);
     border-style: dashed;
     border-radius: var(--ids-border-radius-xs);
 
@@ -32,17 +30,15 @@
       }
 
       .file-name {
-        @include min-w-0();
-
+        min-width: 0;
         flex-grow: 1;
       }
 
       .file-name span {
-        @include antialiased();
-        @include font-normal();
-        @include block();
-        @include m-0();
-
+        @include mixins.antialiased();
+        display: block;
+        font-weight: var(--ids-font-weight-normal);
+        margin: var(--ids-spacing-none);
         font-family: var(--ids-font-family);
         text-overflow: ellipsis;
       }
@@ -52,17 +48,18 @@
       }
 
       .size {
-        @include block();
-        @include ml-12();
         @include flex-item-stable();
+
+        display: block;
+        margin-inline-start: var(--ids-spacing-xlg);
       }
 
       .progress-text {
-        @include antialiased();
-        @include font-normal();
-        @include block();
-        @include m-0();
+        @include mixins.antialiased();
 
+        font-weight: var(--ids-font-weight-normal);
+        display: block;
+        margin: var(--ids-spacing-none);
         font-family: var(--ids-font-family);
         min-width: 48px;
         text-overflow: ellipsis;
@@ -79,17 +76,18 @@
       }
 
       .btn-close {
-        @include mx-2();
         @include flex-item-stable();
+
+        padding-inline: var(--ids-spacing-sm);
       }
     }
 
     .status .ids-alert,
     .status ids-alert {
-      @include block();
-      @include p-8();
-      @include pb-4();
-      @include m-0();
+      display: block;
+      padding: var(--ids-spacing-lg);
+      padding-bottom: var(--ids-spacing-md);
+      margin: var(--ids-spacing-none);
     }
 
     .error-row,
@@ -102,21 +100,19 @@
 
     .error-row,
     .progress-row {
-      @include px-12();
-      @include pb-4();
+      padding-inline: var(--ids-spacing-xlg);
+      padding-bottom: var(--ids-spacing-md);
     }
 
     .progress-row {
-      @include px-28();
-
+      padding-inline: var(--ids-spacing-5xl);
       align-items: center;
       display: flex;
       min-height: 28px;
 
       .progress-bar,
       .ids-progress-bar {
-        @include pr-4();
-
+        padding-inline-end: var(--ids-spacing-md);
         flex-grow: 1;
         flex-shrink: 0;
       }
@@ -127,7 +123,7 @@
     .container {
       .btn-start,
       .status .not-started {
-        @include block();
+        display: block;
       }
 
       .error-row,
@@ -138,17 +134,16 @@
       }
 
       .progress-row {
-        @include pl-28();
-        @include pr-2();
+        padding-inline-start: var(--ids-spacing-5xl);
+        padding-inline-end: var(--ids-spacing-sm);
       }
 
       .progress-row .progress-bar {
-        @include pr-2();
+        padding-inline-end: var(--ids-spacing-sm);
       }
 
       .progress-row .btn-start {
-        @include relative();
-
+        position: relative;
         flex-grow: 0;
         flex-shrink: 0;
         top: 2px;
@@ -158,14 +153,14 @@
 
   &.completed {
     .container {
-      @include border-emerald-80();
+      border-color: var(--ids-upload-advanced-file-completed-border-color);
 
       .status .completed {
-        @include block();
+        display: block;
       }
 
       .file-name {
-        @include text-emerald-80();
+        color: var(--ids-upload-advanced-file-completed-text-color);
       }
 
       .error-row,
@@ -181,11 +176,11 @@
 
   &.errored {
     .container {
-      @include border-ruby-60();
+      border-color: var(--ids-upload-advanced-file-error-border-color);
 
       .error-row,
       .status .errored {
-        @include block();
+        display: block;
       }
 
       .progress-row,
@@ -199,29 +194,27 @@
   }
 
   &.disabled {
-    @include text-slate-30();
-
+    color: var(--ids-upload-advanced-file-disabled-text-color);
     user-select: none;
 
     .container {
-      @include border-slate-30();
-
+      border-color: var(--ids-upload-advanced-file-disabled-border-color);
       user-select: none;
     }
 
     &.completed {
       .container {
-        @include border-emerald-30();
+        border-color: var(--ids-upload-advanced-file-disabled-completed-border-color);
       }
 
       .container .file-name {
-        @include text-emerald-30();
+        color: var(--ids-upload-advanced-file-disabled-completed-text-color);
       }
     }
 
     &.errored {
       .container {
-        @include border-ruby-30();
+        border-color: var(--ids-upload-advanced-file-disabled-error-border-color);
       }
     }
   }
