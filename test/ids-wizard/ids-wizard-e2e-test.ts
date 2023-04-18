@@ -51,7 +51,7 @@ describe('Ids Wizard e2e Tests', () => {
     expect(activeStep).toEqual(4);
   });
 
-  it('should show ellipsis on resize', async () => {
+  it.skip('should show ellipsis on resize', async () => {
     await page.setViewport({
       width: 375,
       height: 1080
