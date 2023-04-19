@@ -293,10 +293,6 @@ export default class IdsTimePicker extends Base {
       if (!currentId) return;
 
       this.setAttribute(currentId, e.detail.value);
-
-      if (this.autoupdate) {
-        this.#setTimeOnField();
-      }
     });
 
     this.offEvent('timeselected');
@@ -347,6 +343,7 @@ export default class IdsTimePicker extends Base {
       this.input.format = this.format;
       this.input.locale = this.locale;
     }
+    this.#applyMask();
     this.picker?.renderDropdowns();
   };
 
