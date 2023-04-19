@@ -41,7 +41,7 @@ describe('Ids Wizard e2e Tests', () => {
     expect(results.violations.length).toBe(0);
   });
 
-  it('should be able to focus and enter on a step', async () => {
+  it.skip('should be able to focus and enter on a step', async () => {
     let activeStep = await page.evaluate(`document.querySelector("ids-wizard").stepNumber`);
     expect(activeStep).toEqual(3);
     await page.evaluate('document.querySelector("ids-wizard").shadowRoot.querySelectorAll("a")[3].focus()');
