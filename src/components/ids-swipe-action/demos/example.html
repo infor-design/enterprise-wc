@@ -7,21 +7,21 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Swipe Action (Reveal / One Action)</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="2" gap="none">
+    <ids-layout-grid cols="1" cols-md="2" gap="none" padding-x="md">
       <ids-layout-grid-cell>
         <ids-card auto-height="true" no-header="true">
           <div slot="card-content">
             <ids-swipe-action>
               <div slot="contents">
-                <ids-layout-grid cols="2" no-margins="true">
+                <ids-layout-grid cols="1" cols-md="2" gap="none">
                   <ids-layout-grid-cell>
                     <ids-text font-size="16">Tuesday, 23nd September</ids-text>
                     <ids-text font-size="14">8:10AM-2:20PM</ids-text>
                   </ids-layout-grid-cell>
-                  <ids-layout-grid-cell justify="end">
+                  <ids-layout-grid-cell justify-content="end">
                     <ids-menu-button id="actions-reveal-one" menu="actions-reveal-one-menu">
                       <ids-icon icon="more" vertical="true"></ids-icon>
                       <span class="audible">Actions</span>
@@ -46,10 +46,10 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Swipe Action (Reveal / Two Actions)</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="2" gap="none">
+    <ids-layout-grid cols="1" cols-md="2" gap="none" padding-x="md">
       <ids-layout-grid-cell>
         <ids-card auto-height="true" no-header="true">
           <div slot="card-content">
@@ -59,12 +59,12 @@
                 <span>Left Action</span>
               </ids-button>
               <div slot="contents">
-                <ids-layout-grid cols="2" no-margins="true">
+                <ids-layout-grid cols="1" cols-md="2" gap="none">
                   <ids-layout-grid-cell>
                     <ids-text font-size="16">Tuesday, 23nd September</ids-text>
                     <ids-text font-size="14">8:10AM-2:20PM</ids-text>
                   </ids-layout-grid-cell>
-                  <ids-layout-grid-cell justify="end">
+                  <ids-layout-grid-cell justify-content="end">
                     <ids-menu-button id="actions-reveal-two" menu="actions-reveal-two-menu">
                       <ids-icon icon="more" vertical="true"></ids-icon>
                       <span class="audible">Actions</span>
@@ -89,10 +89,10 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Swipe Action (Continuous)</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="2" gap="none">
+    <ids-layout-grid cols="1" cols-md="2" gap="none" padding-x="md">
       <ids-layout-grid-cell>
         <ids-card auto-height="true" no-header="true">
           <div slot="card-content">
@@ -102,12 +102,12 @@
                 <span>Left Action</span>
               </ids-button>
               <div slot="contents">
-                <ids-layout-grid cols="2" no-margins="true">
+                <ids-layout-grid cols="1" cols-md="2" gap="none">
                   <ids-layout-grid-cell>
                     <ids-text font-size="16">Tuesday, 22nd September</ids-text>
                     <ids-text font-size="14">8:40AM-2:00PM</ids-text>
                   </ids-layout-grid-cell>
-                  <ids-layout-grid-cell justify="end">
+                  <ids-layout-grid-cell justify-content="end">
                     <ids-menu-button id="actions-continuous" menu="actions-continuous-menu">
                       <ids-icon icon="more" vertical="true"></ids-icon>
                       <span class="audible">Actions</span>
@@ -132,7 +132,7 @@
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" id="output"></ids-text>
     </ids-layout-grid>
   </ids-container>

@@ -7,19 +7,21 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Ids Form</ids-text>
     </ids-layout-grid>
 
-    <ids-layout-grid-cell>
-      <ids-button id="btn-toggle-compact" appearance="tertiary">
-        <ids-icon icon="settings"></ids-icon>
-        <span>Toggle Compact</span>
-      </ids-button>
-    </ids-layout-grid-cell>
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-button id="btn-toggle-compact" appearance="tertiary">
+          <ids-icon icon="settings"></ids-icon>
+          <span>Toggle Compact</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
 
     <ids-form submit-button="btn-submit" id="sample-form">
-      <ids-layout-grid cols="2" gap="md">
+      <ids-layout-grid cols="1" cols-md="2" padding="md">
         <ids-layout-grid-cell>
           <ids-dropdown id="company-name" label="Company Name" value="" dirty-tracker validate="required" size="md" allow-blank="true">
             <ids-list-box>
