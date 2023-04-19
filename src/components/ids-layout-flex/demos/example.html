@@ -7,14 +7,14 @@
   <body>
     <ids-container role="main" padding="8" hidden>
       <ids-theme-switcher mode="light"></ids-theme-switcher>
-      <ids-layout-grid auto="true" gap="md">
+      <ids-layout-grid auto-fit="true" gap="md" padding="md">
         <ids-text font-size="12" type="h1">Layout Flex</ids-text>
       </ids-layout-grid>
 
       <div class="demo-ids-layout-flex">
 
-        <ids-layout-grid cols="2">
-          <ids-layout-grid-cell col-span="1" class="fill">
+        <ids-layout-grid cols="2" padding-x="md">
+          <ids-layout-grid-cell fill="true">
             <ids-layout-flex gap="8">
               <ids-layout-flex-item>
                 <div class="box"></div>
@@ -29,10 +29,10 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true" gap="md">
+        <ids-layout-grid auto-fit="true" gap="md" padding="md">
           <ids-text font-size="12" type="h2">justify-content (center)</ids-text>
         </ids-layout-grid>
-        <ids-layout-grid cols="2">
+        <ids-layout-grid cols="2" padding-x="md">
           <ids-layout-grid-cell col-span="1" class="fill">
             <ids-layout-flex gap="8" justify-content="center">
               <ids-layout-flex-item>
@@ -48,10 +48,10 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true" gap="md">
+        <ids-layout-grid auto-fit="true" gap="md" padding="md">
           <ids-text font-size="12" type="h2">justify-content (flex-end)</ids-text>
         </ids-layout-grid>
-        <ids-layout-grid cols="2">
+        <ids-layout-grid cols="2" padding-x="md">
           <ids-layout-grid-cell col-span="1" class="fill">
             <ids-layout-flex gap="8" justify-content="flex-end">
               <ids-layout-flex-item>
@@ -67,10 +67,10 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true" gap="md">
+        <ids-layout-grid auto-fit="true" gap="md" padding="md">
           <ids-text font-size="12" type="h2">justify-content (space-between)</ids-text>
         </ids-layout-grid>
-        <ids-layout-grid cols="2">
+        <ids-layout-grid cols="2" padding-x="md">
           <ids-layout-grid-cell col-span="1" class="fill">
             <ids-layout-flex gap="8" justify-content="space-between">
               <ids-layout-flex-item>
@@ -86,10 +86,10 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true" gap="md">
+        <ids-layout-grid auto-fit="true" gap="md" padding="md">
           <ids-text font-size="12" type="h2">justify-content (space-around)</ids-text>
         </ids-layout-grid>
-        <ids-layout-grid cols="2">
+        <ids-layout-grid cols="2" padding-x="md">
           <ids-layout-grid-cell col-span="1" class="fill">
             <ids-layout-flex gap="8" justify-content="space-around">
               <ids-layout-flex-item>
@@ -105,10 +105,10 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true" gap="md">
+        <ids-layout-grid auto-fit="true" gap="md" padding="md">
           <ids-text font-size="12" type="h2">justify-content (space-evenly)</ids-text>
         </ids-layout-grid>
-        <ids-layout-grid cols="2">
+        <ids-layout-grid cols="2" padding-x="md">
           <ids-layout-grid-cell col-span="1" class="fill">
             <ids-layout-flex gap="8" justify-content="space-evenly">
               <ids-layout-flex-item>
@@ -124,10 +124,10 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true" gap="md">
+        <ids-layout-grid auto-fit="true" gap="md" padding="md">
           <ids-text font-size="12" type="h2">grow / shrink (items)</ids-text>
         </ids-layout-grid>
-        <ids-layout-grid cols="2">
+        <ids-layout-grid cols="2" padding-x="md">
           <ids-layout-grid-cell col-span="1" class="fill">
             <ids-layout-flex gap="8">
               <ids-layout-flex-item grow="0" shrink="0">
@@ -143,10 +143,10 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid auto="true" gap="md">
+        <ids-layout-grid auto-fit="true" gap="md" padding="md">
           <ids-text font-size="12" type="h2">direction (column)</ids-text>
         </ids-layout-grid>
-        <ids-layout-grid cols="2">
+        <ids-layout-grid cols="2" padding-x="md">
           <ids-layout-grid-cell col-span="1" class="fill">
             <ids-layout-flex gap="8" direction="column">
               <ids-layout-flex-item>
