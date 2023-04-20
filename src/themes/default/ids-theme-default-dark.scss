@@ -462,6 +462,19 @@
   // Toolbar
   --ids-toolbar-formatter-background-color: var(--ids-color-slate-20);
 
+  // Tre Node
+  --ids-tree-node-disabled-text-color: var(--ids-color-slate-50);
+  --ids-tree-node-focus-border-color: var(--ids-color-azure-60);
+  --ids-tree-node-hover-text-color: var(--ids-color-slate-00);
+  --ids-tree-node-selected-background-color: var(--ids-color-slate-60);
+  --ids-tree-node-selected-text-color: var(--ids-color-slate-00);
+  --ids-tree-node-text-color: var(--ids-color-slate-30);
+
+  // Treemap
+  --ids-treemap-stroke-color: var(--ids-color-slate-90);
+  --ids-treemap-title-background-color: var(--ids-color-slate-30);
+  --ids-treemap-title-text-color: var(--ids-color-slate-100);
+
   // Upload Advanced
   --ids-upload-advanced-background-color: var(--ids-color-slate-70);
   --ids-upload-advanced-disabled-background-color: var(--ids-color-slate-70);

@@ -50,6 +50,8 @@ import '../../ids-tag/ids-tag';
 import '../../ids-toast/ids-toast';
 import '../../ids-toggle-button/ids-toggle-button';
 import '../../ids-tooltip/ids-tooltip';
+import '../../ids-tree/ids-tree';
+import '../../ids-treemap/ids-treemap';
 import '../../ids-trigger-field/ids-trigger-field';
 import '../../ids-upload/ids-upload';
 import '../../ids-upload-advanced/ids-upload-advanced';
@@ -65,6 +67,7 @@ import cssListView from '../../../assets/css/ids-list-view/index.css';
 import eventTypesJSON from '../../../assets/data/event-types.json';
 import headshot from '../../../assets/images/headshot-1.jpg';
 import placeHolderImg200x200 from '../../../assets/images/placeholder-200x200.png';
+import treeBasicJSON from '../../../assets/data/tree-basic.json';
 
 // Types
 import type IdsDataGrid from '../../ids-data-grid/ids-data-grid';
@@ -445,6 +448,84 @@ document.addEventListener('DOMContentLoaded', () => {
     survey.onEvent('ids-slider-drag', survey, fixSliderColorOnChange);
     survey.onEvent('change', survey, fixSliderColorOnChange);
   }
+});
+
+// =================================================================
+// Treemap
+// =================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const treeDemo: any = document.querySelector('#tree-demo');
+
+  if (treeDemo) {
+    (async function init() {
+      // Do an ajax request
+      const res = await fetch(treeBasicJSON as any);
+      const data: any = await res.json();
+      treeDemo.data = data;
+
+      // On selected
+      treeDemo.addEventListener('selected', (e: any) => {
+        console.info('selected:', e?.detail);
+      });
+    }());
+  }
+});
+
+// =================================================================
+// Treemap
+// =================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const treeMapEl = document.querySelector<any>('ids-treemap');
+
+  if (!treeMapEl) return;
+
+  treeMapEl.data = treeMapEl.treeMap({
+    data: [
+      {
+        value: 28,
+        color: '#003876',
+        text: 'JSON',
+        label: '28%'
+      },
+      {
+        value: 18,
+        color: '#004A99',
+        text: 'PDF',
+        label: '18%'
+      },
+      {
+        value: 8,
+        color: '#0054B1',
+        text: 'BOD',
+        label: '8%'
+      },
+      {
+        value: 8,
+        color: '#0066D4',
+        text: 'TXT',
+        label: '8%'
+      },
+      {
+        value: 17,
+        color: '#0072ED',
+        text: 'CSV',
+        label: '17%'
+      },
+      {
+        value: 7,
+        color: '#1C86EF',
+        text: 'Assets',
+        label: '7%'
+      },
+      {
+        value: 14,
+        color: '#55A3F3',
+        text: 'Others',
+        label: '14%'
+      },
+    ],
+    height: 300
+  });
 });
 
 // =================================================================

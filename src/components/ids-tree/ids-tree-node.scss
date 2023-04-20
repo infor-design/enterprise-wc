@@ -2,26 +2,22 @@
 @import './ids-tree-shared';
 
 .ids-tree-node {
-  @include list-none();
-  @include mb-1();
+  list-style-type: none;
+  margin-bottom: var(--ids-spacing-xs);
 
   .node-container {
-    @include border-1();
-    @include border-solid();
-    @include border-transparent();
-    @include cursor-pointer();
-    @include inline-flex();
-    @include p-4();
-    @include text-slate-60();
-
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: inline-flex;
+    padding: var(--ids-spacing-md);
+    color: var(--ids-tree-node-text-color);
     align-items: baseline;
     border-radius: var(--ids-border-radius-xs);
     transition: background-color var(--ids-transition-length) var(--ids-transition-ease), opacity var(--ids-transition-length) var(--ids-transition-ease);
 
     .icon,
     .toggle-icon {
-      @include pt-1();
-
+      padding-top: var(--ids-spacing-xs);
       flex: 0 0 auto;
       margin-inline-end: 8px;
       transition: fill var(--ids-transition-length) var(--ids-transition-ease);
@@ -43,6 +39,7 @@
     }
 
     .text {
+      border-bottom: 1px solid transparent;
       flex-grow: 1;
       margin-inline-end: 2px;
       transition: border var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
@@ -50,20 +47,22 @@
 
     &:hover,
     &:active {
-      @include text-slate-100();
+      color: var(--ids-tree-node-hover-text-color);
+
+      .text {
+        border-color: var(--ids-tree-node-hover-text-border-color);
+      }
     }
 
     &:focus {
-      @include border-azure-60();
-
-      box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
+      border-color: var(--ids-tree-node-focus-border-color);
+      box-shadow: var(--ids-tree-node-focus-box-shadow);
       outline: none;
     }
   }
 
   .group-nodes {
-    @include list-none();
-
+    list-style-type: none;
     overflow: hidden;
     margin-block-start: 1px;
     margin-block-end: 1px;
@@ -73,27 +72,26 @@
 
   &[selected] {
     .node-container {
-      @include bg-slate-20();
-      @include text-slate-100();
+      background-color: var(--ids-tree-node-selected-background-color);
+      color: var(--ids-tree-node-selected-text-color);
     }
   }
 
   &[disabled] {
     .node-container {
-      @include text-slate-40();
-      @include cursor-default();
-
+      color: var(--ids-tree-node-disabled-text-color);
+      cursor: default;
       pointer-events: none;
       user-select: none;
 
       &:hover,
       &:active {
-        @include text-slate-40();
+        color: var(--ids-tree-node-disabled-text-color);
       }
 
       &:focus {
-        @include border-transparent();
-        @include shadow-none();
+        border-color: transparent;
+        box-shadow: none;
       }
     }
   }
@@ -102,88 +100,10 @@
     max-height: 0;
     visibility: hidden;
   }
-
-  &[mode='dark'] {
-    .node-container {
-      @include text-slate-30();
-
-      &:hover,
-      &:active {
-        @include text-white();
-      }
-
-      &:focus {
-        @include border-azure-60();
-
-        box-shadow: 0 0 4px 2px rgb(141 201 230 / 0.3);
-      }
-    }
-
-    &[selected] {
-      .node-container {
-        @include bg-slate-60();
-        @include text-white();
-      }
-    }
-
-    &[disabled] {
-      .node-container,
-      .node-container:hover,
-      .node-container:active,
-      .node-container:focus {
-        @include border-transparent();
-        @include text-slate-50();
-      }
-    }
-  }
-
-  &[mode='contrast'] {
-    .node-container {
-      @include text-slate-90();
-
-      .text {
-        @include border-b-1();
-        @include border-transparent();
-      }
-
-      &:hover,
-      &:active {
-        @include text-black();
-      }
-
-      &:hover .text,
-      &:active .text {
-        @include border-black();
-      }
-
-      &:focus {
-        @include border-azure-90();
-
-        box-shadow: 0 0 4px 2px rgb(41  41 41 / 0.3);
-      }
-    }
-
-    &[selected] {
-      .node-container {
-        @include bg-slate-30();
-        @include text-black();
-      }
-    }
-
-    &[disabled] {
-      .node-container,
-      .node-container:hover,
-      .node-container:active,
-      .node-container:focus {
-        @include border-transparent();
-        @include text-slate-50();
-      }
-    }
-  }
 }
 
 ids-checkbox::part(root) {
-  @include mb-0;
+  margin-bottom: var(--ids-spacing-none);
 }
 
 @include tree-node-badge();

@@ -1039,6 +1039,21 @@
   --ids-tooltip-inverse-background-color: var(--ids-color-slate-00);
   --ids-tooltip-inverse-text-color: var(--ids-color-slate-100);
 
+  // Tree Node
+  --ids-tree-node-disabled-text-color: var(--ids-color-slate-40);
+  --ids-tree-node-focus-border-color: var(--ids-color-primary);
+  --ids-tree-node-focus-box-shadow: var(--ids-box-shadow-lg);
+  --ids-tree-node-hover-text-border-color: transparent;
+  --ids-tree-node-hover-text-color: var(--ids-color-slate-100);
+  --ids-tree-node-selected-background-color: var(--ids-color-slate-20);
+  --ids-tree-node-selected-text-color: var(--ids-color-slate-100);
+  --ids-tree-node-text-color: var(--ids-color-slate-60);
+
+  // Treemap
+  --ids-treemap-stroke-color: var(--ids-color-slate-00);
+  --ids-treemap-title-background-color: var(--ids-color-slate-60);
+  --ids-treemap-title-text-color: var(--ids-color-slate-00);
+
   // Trigger Field
   --ids-trigger-field-button-border-radius: var(--ids-border-radius-md);
   --ids-trigger-field-button-margin: 4px;

@@ -1,5 +1,5 @@
 /* Ids Text Css */
-@import '../../core/ids-base';
+@use '../../themes/mixins/ids-core-mixins.scss' as mixins;
 
 :host {
   display: block;
@@ -7,47 +7,23 @@
 }
 
 text {
-  @include antialiased();
-  @include block();
-  @include font-normal();
-  @include m-0();
-  @include text-16();
+  @include mixins.antialiased();
 
+  display: block;
+  font-weight: var(--ids-font-weight-normal);
+  margin: var(--ids-spacing-none);
+  font-size: var(--ids-font-size-md);
   color: currentColor;
   font-family: var(--ids-font-family);
 }
 
 svg {
-  stroke: var(--ids-color-palette-white);
+  stroke: var(--ids-treemap-stroke-color);
 }
 
 .treemap-title {
-  @include bg-slate-60();
-  @include p-8();
-  @include text-white();
-
+  background-color: var(--ids-treemap-title-background-color);
+  padding: var(--ids-spacing-lg);
+  color: var(--ids-treemap-title-text-color);
   text-align: center;
-}
-
-// Handle Themes
-:host([mode='dark']) {
-  .treemap-title {
-    @include bg-slate-30();
-    @include text-slate-100();
-  }
-
-  svg {
-    stroke: var(--ids-color-palette-slate-90);
-  }
-}
-
-:host([mode='contrast']) {
-  .treemap-title {
-    @include bg-slate-80();
-    @include text-white();
-  }
-
-  svg {
-    stroke: var(--ids-color-palette-slate-10);
-  }
 }
