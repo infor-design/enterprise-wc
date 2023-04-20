@@ -33,6 +33,7 @@ import '../../ids-pager/ids-pager';
 import '../../ids-pie-chart/ids-pie-chart';
 import '../../ids-popup/ids-popup';
 import '../../ids-progress-bar/ids-progress-bar';
+import '../../ids-progress-chart/ids-progress-chart';
 import '../../ids-rating/ids-rating';
 import '../../ids-scrollable/ids-scrollable';
 import '../../ids-scrollable/ids-sticky';

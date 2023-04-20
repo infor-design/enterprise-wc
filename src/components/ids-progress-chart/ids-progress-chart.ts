@@ -1,7 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-progress-chart.scss';
@@ -13,10 +12,8 @@ const DEFAULT_PROGRESS = 0;
 const DEFAULT_TOTAL = 100;
 const DEFAULT_SIZE = 'normal';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
+const Base = IdsEventsMixin(
+  IdsElement
 );
 
 /**
@@ -24,7 +21,6 @@ const Base = IdsThemeMixin(
  * @type {IdsProgressChart}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-progress-chart')
 @scss(styles)

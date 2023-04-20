@@ -36,11 +36,14 @@
   --ids-border-radius-round: 50%;
 
   // Cursors
-  --ids-cursor-pointer: pointer;
   --ids-cursor-default: default;
-  --ids-cursor-resize: col-resize;
+  --ids-cursor-grabbing: grabbing;
   --ids-cursor-move: move;
   --ids-cursor-text: text;
+  --ids-cursor-pointer: pointer;
+  --ids-cursor-resize: col-resize;
+  --ids-cursor-resize-x: ew-resize;
+  --ids-cursor-resize-y: ns-resize;
 
   // Elevations (Box Shadows)
   --ids-box-shadow-none: 0 0 3px 2px rgba(54 138 192 / 0);
@@ -379,6 +382,30 @@
   --ids-chart-pie-donut-text-font-size: var(--ids-font-size-xxs);
   --ids-chart-pie-donut-text-fill: var(--ids-label-text-color);
 
+  // Checkbox
+  --ids-checkbox-unchecked-border-color: var(--ids-input-border-color);
+  --ids-checkbox-unchecked-border: 1px solid var(--ids-checkbox-unchecked-border-color);
+  --ids-checkbox-unchecked-border-radius: var(--ids-border-radius-xs);
+  --ids-checkbox-unchecked-error-border-color: var(--ids-color-error);
+  --ids-checkbox-checked-background-color: var(--ids-color-primary);
+  --ids-checkbox-checked-border-color: var(--ids-color-primary);
+  --ids-checkbox-checked-after-border-color: var(--ids-color-slate-00);
+  --ids-checkbox-checked-after-border-width: 0 2px 2px 0;
+  --ids-checkbox-indeterminate-background-color: var(--ids-color-primary);
+  --ids-checkbox-indeterminate-border-color: var(--ids-color-primary);
+  --ids-checkbox-indeterminate-after-border-color: var(--ids-color-slate-00);
+  --ids-checkbox-indeterminate-after-border-width: 0 0 2px;
+  --ids-checkbox-disabled-unchecked-background-color: var(--ids-disabled-text-color);
+  --ids-checkbox-disabled-unchecked-border-color: var(--ids-input-disabled-text-color);
+  --ids-checkbox-disabled-checked-background-color: var(--ids-disabled-text-color);
+  --ids-checkbox-disabled-checked-border-color: var(--ids-input-disabled-text-color);
+  --ids-checkbox-disabled-text-color: var(--ids-disabled-text-color);
+  --ids-checkbox-focus-border-color: var(--ids-input-focus-border-color);
+  --ids-checkbox-focus-box-shadow: var(--ids-focus-box-shadow);
+  --ids-checkbox-has-focus-border-color: var(--ids-focus-border-color);
+  --ids-checkbox-has-focus-box-shadow: var(--ids-box-shadow-lg);
+  --ids-checkbox-multiselect-checkbox-background-color: var(--ids-body-background-color);
+
   // Counts
   --ids-counts-text-color: var(--ids-subtle-text-color);
   --ids-counts-hyperlink-text-color: var(--ids-hyperlink-text-color);
@@ -505,8 +532,8 @@
   --ids-editor-border-color: var(--ids-color-slate-40);
   --ids-editor-border-radius: var(--ids-border-radius-xs);
   --ids-editor-border-style: solid;
-  --ids-editor-border-width: var(--ids-spacing-xs);
-  --ids-editor-outline: var(--ids-spacing-none);
+  --ids-editor-border-width: 1px;
+  --ids-editor-outline: 0;
   --ids-editor-line-height: var(--ids-line-height-md);
   --ids-editor-padding: var(--ids-spacing-xxl);
   --ids-editor-hover-border-color: var(--ids-color-slate-90);
@@ -530,10 +557,10 @@
   --ids-editor-link-focus-border-color: var(--ids-color-primary);
   --ids-editor-link-focus-border-radius: var(--ids-border-radius-xs);
   --ids-editor-link-focus-border-style: solid;
-  --ids-editor-link-focus-border-width: var(--ids-spacing-xs);
+  --ids-editor-link-focus-border-width: 1px;
   --ids-editor-link-focus-outline: var(--ids-focus-outline);
   --ids-editor-link-focus-box-shadow: var(--ids-focus-box-shadow);
-  --ids-editor-blockquote-border-inline-start: var(--ids-spacing-sm) solid var(--ids-color-slate-40);
+  --ids-editor-blockquote-border-inline-start: 2px solid var(--ids-color-slate-40);
   --ids-editor-blockquote-margin-inline-start: var(--ids-spacing-md);
   --ids-editor-blockquote-margin-inline-end: var(--ids-spacing-none);
   --ids-editor-blockquote-padding-inline-start: var(--ids-spacing-xlg);
@@ -578,7 +605,7 @@
   --ids-hierarchy-item-leaf-inside-background-color: var(--ids-color-slate-00);
   --ids-hierarchy-item-leaf-inside-border-left: 5px solid var(--ids-color-slate-80);
   --ids-hierarchy-item-leaf-inside-box-shadow: none;
-  --ids-hierarchy-item-avatar-border: var(--ids-spacing-sm) solid var(--ids-color-slate-80);
+  --ids-hierarchy-item-avatar-border: 2px solid var(--ids-color-slate-80);
   --ids-hierarchy-item-focus-box-shadow: none;
   --ids-hierarchy-item-selected-leaf-box-shadow: 0 0 0 5px rgba(54 138 192 / 0.3);
 
@@ -670,13 +697,13 @@
   --ids-input-success-disabled-text-color: var(--ids-color-success-30);
 
   // List Builder
-  --ids-list-builder-border: var(--ids-spacing-xs) solid var(--ids-color-slate-40);
+  --ids-list-builder-border: 1px solid var(--ids-color-slate-40);
   --ids-list-builder-border-radius: var(--ids-border-radius-xs);
   --ids-list-builder-list-view-input-background-color: transparent;
-  --ids-list-builder-list-view-input-border-width: var(--ids-spacing-none);
+  --ids-list-builder-list-view-input-border-width: 0;
   --ids-list-builder-list-view-input-height: var(--ids-size-xxs);
   --ids-list-builder-list-view-input-padding: var(--ids-spacing-none);
-  --ids-list-builder-list-view-item-border: var(--ids-spacing-xs) solid transparent;
+  --ids-list-builder-list-view-item-border: 1px solid transparent;
   --ids-list-builder-list-view-item-padding: var(--ids-spacing-xlg) var(--ids-spacing-3xl);
   --ids-list-builder-list-view-item-height: var(--ids-size-lg);
   --ids-list-builder-list-view-item-min-height: var(--ids-size-md); // 44px -> 38px
@@ -689,7 +716,7 @@
   // List View
   --ids-list-view-focus-border-color: var(--ids-color-azure-40);
   --ids-list-view-item-background-color: var(--ids-color-slate-00);
-  --ids-list-view-item-border: var(--ids-spacing-xs) solid transparent;
+  --ids-list-view-item-border: 1px solid transparent;
   --ids-list-view-item-border-top-color: var(--ids-color-slate-20);
   --ids-list-view-item-padding: var(--ids-spacing-xlg) var(--ids-spacing-3xl);
   --ids-list-view-item-focus-border-color: var(--ids-color-azure-40);
@@ -822,8 +849,32 @@
   --ids-popup-menu-inverse-text-color: var(--ids-color-slate-00);
 
   // Progress Bar
+  --ids-progress-bar-disabled-text-color: var(--ids-disabled-text-color);
+  --ids-progress-bar-disabled-background-color: var(--ids-disabled-text-color);
   --ids-progress-bar-border-color: var(--ids-color-slate-70);
-  --ids-progress-bar-background-color: var(--ids-color-primary);
+  --ids-progress-bar-border: 1px solid var(--ids-progress-bar-border-color);
+  --ids-progress-bar-border-radius: var(--ids-border-radius-sm);
+  --ids-progress-bar-background-color: transparent;
+  --ids-progress-bar-height: var(--ids-spacing-lg);
+  --ids-progress-bar-margin: var(--ids-spacing-xxl) var(--ids-spacing-none);
+  --ids-progress-bar-fill-background-color: var(--ids-color-primary);
+  --ids-progress-bar-label-text-color: var(--ids-label-text-color);
+  --ids-progress-bar-label-audible-margin: var(--ids-spacing-sm) var(--ids-spacing-none);
+  --ids-progress-bar-grid-cell-margin: var(--ids-spacing-xxl);
+
+  // Progress Chart
+  --ids-progress-chart-font-family: var(--ids-font-family);
+  --ids-progress-chart-margin: var(--ids-spacing-none) var(--ids-spacing-none) var(--ids-spacing-lg);
+  --ids-progress-chart-labels-font-size: var(--ids-font-size-md);
+  --ids-progress-chart-labels-margin-bottom: var(--ids-spacing-lg);
+  --ids-progress-chart-labels-text-color: var(--ids-color-slate-60);
+  --ids-progress-chart-labels-main-margin: var(--ids-spacing-none) var(--ids-spacing-md) var(--ids-spacing-none) var(--ids-spacing-none);
+  --ids-progress-chart-labels-progress-margin: var(--ids-spacing-none) var(--ids-spacing-md);
+  --ids-progress-chart-bar-border-radius: var(--ids-border-radius-xs);
+  --ids-progress-chart-bar-min-height: 28px;
+  --ids-progress-chart-bar-min-width: 66px;
+  --ids-progress-chart-bar-total-background-color: var(--ids-color-slate-30);
+  --ids-progress-chart-bar-progress-background-color: var(--ids-color-slate-60);
 
   // Radio
   --ids-radio-unchecked-background-color: var(--ids-input-background-color);
@@ -934,22 +985,22 @@
   --ids-step-chart-step-completed-background-color: var(--ids-color-primary);
 
   // Swappable
-  --ids-swappable-border: var(--ids-spacing-xs) dashed transparent;
+  --ids-swappable-border: 1px dashed transparent;
   --ids-swappable-active-border-color: var(--ids-color-slate-80);
-  --ids-swappable-item-border: var(--ids-spacing-xs) dashed transparent;
+  --ids-swappable-item-border: 1px dashed transparent;
   --ids-swappable-item-font-family: var(--ids-font-family);
   --ids-swappable-item-cursor: var(--ids-cursor-pointer);
   --ids-swappable-item-hover-background-color: var(--ids-color-azure-10);
   --ids-swappable-item-hover-before-content: '\205e';
   --ids-swappable-item-hover-before-font-size: var(--ids-font-size-xl);
-  --ids-swappable-item-focus-border: var(--ids-spacing-xs) solid var(--ids-color-azure-40);
+  --ids-swappable-item-focus-border: 1px solid var(--ids-color-azure-40);
   --ids-swappable-item-focus-box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
   --ids-swappable-item-focus-outline: none;
   --ids-swappable-item-dragging-opacity: 0.4;
   --ids-swappable-item-selected-cursor: var(--ids-cursor-move);
   --ids-swappable-item-selected-background-color: var(--ids-color-primary);
   --ids-swappable-item-selected-text-color: var(--ids-color-slate-00);
-  --ids-swappable-item-over-border: var(--ids-spacing-xs) dashed var(--ids-color-slate-80);
+  --ids-swappable-item-over-border: 1px dashed var(--ids-color-slate-80);
 
   // Switch
   --ids-switch-pole-off-background-color: var(--ids-color-slate-40);
@@ -1020,7 +1071,7 @@
   --ids-toast-background-color: var(--ids-popup-background-color);
   --ids-toast-border-color: var(--ids-popup-border-color);
   --ids-toast-text-color: var(--ids-color-slate-100);
-  --ids-toast-progress-background-color: var(--ids-progress-bar-background-color);
+  --ids-toast-progress-background-color: var(--ids-progress-bar-fill-background-color);
 
   // Toolbar
   --ids-toolbar-formatter-background-color: var(--ids-color-slate-80);
