@@ -1383,6 +1383,24 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <!-- Time Picker -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Time Picker</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-time-picker label="Time Picker - default" placeholder="Default"></ids-time-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-time-picker label="Time Picker - required" validate="required time" format="h:mm a" placeholder="Start time" mask="true"></ids-time-picker>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-time-picker label="Time Picker - disabled" disabled value="12:30 PM"></ids-time-picker>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Toast -->
         <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>

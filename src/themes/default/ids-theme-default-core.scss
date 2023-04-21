@@ -1067,6 +1067,15 @@
   --ids-tag-secondary-background-color: var(--ids-input-background-color);
   --ids-tag-secondary-border-color: var(--ids-input-border-color);
 
+  // Time Picker
+  --ids-time-picker-open-input-button-color: var(--ids-color-primary);
+  --ids-time-picker-open-input-border-color: var(--ids-color-primary);
+  --ids-time-picker-popup-background-color: var(--ids-color-slate-00);
+  --ids-time-picker-popup-button-border-color: var(--ids-color-slate-30);
+  --ids-time-picker-popup-button-hover-text-color: var(--ids-color-azure-70);
+  --ids-time-picker-popup-button-text-color: var(--ids-color-azure-60);
+  --ids-time-picker-popup-colons-text-color: var(--ids-color-slate-50);
+
   // Toast
   --ids-toast-background-color: var(--ids-popup-background-color);
   --ids-toast-border-color: var(--ids-popup-border-color);

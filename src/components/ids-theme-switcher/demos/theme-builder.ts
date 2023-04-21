@@ -48,6 +48,7 @@ import '../../ids-swappable/ids-swappable-item';
 import '../../ids-tabs/ids-tabs';
 import '../../ids-tabs/ids-tabs-context';
 import '../../ids-tag/ids-tag';
+import '../../ids-time-picker/ids-time-picker';
 import '../../ids-toast/ids-toast';
 import '../../ids-toggle-button/ids-toggle-button';
 import '../../ids-tooltip/ids-tooltip';
