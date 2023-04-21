@@ -58,21 +58,15 @@
 
   // =============================
   // Default Styles for color variants (Applicable to all themes)
-
   &.color-variant-alternate {
     .field-container {
       border-style: none;
-      border-bottom: 1px solid var(--ids-searchfield-alternate-border-bottom-color);
-      background-color: var(--ids-searchfield-alternate-background-color);
+      background-color: var(--ids-searchfield-header-background-color);
+      color: var(--ids-searchfield-header-text-color);
    }
 
     ids-icon {
-      color: var(--ids-searchfield-alternate-icon-color);
-
-      // stylelint-disable-next-line
-      &:hover {
-        color: var(--ids-searchfield-alternate-icon-hover-color);
-      }
+      color: var(--ids-searchfield-header-icon-color);
     }
   }
 

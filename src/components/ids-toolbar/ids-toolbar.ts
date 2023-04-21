@@ -15,7 +15,6 @@ import styles from './ids-toolbar.scss';
 import type IdsToolbarMoreActions from './ids-toolbar-more-actions';
 
 const FORMATTER_VARIANT = 'alternate-formatter';
-
 const TOOLBAR_TYPES = ['formatter'];
 
 const Base = IdsKeyboardMixin(

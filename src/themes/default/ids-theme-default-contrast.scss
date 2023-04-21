@@ -2,7 +2,8 @@
 
 :root {
   // Primary Color
-  --ids-color-primary: var(--ids-color-primary-80);
+  --ids-color-primary: var(--ids-color-primary-90);
+  --ids-color-primary-text-color: var(--ids-color-slate-00);
 
   // Body Colors
   --ids-body-background-color: var(--ids-color-slate-10);
@@ -58,7 +59,7 @@
 
   // Elevations
   --ids-box-shadow-none: 0 0 3px 2px rgba(0 114 237 / 0);
-  --ids-box-shadow-inverse: 0 0 3px 2px rgba(255 255 255 / 0.7);
+  --ids-box-shadow-inverse: 0 0 3px 1px rgba(255 255 255 / 0.3);
   --ids-box-shadow-sm: 0 0 3px 1px rgb(0 114 237 / 0.3);
   --ids-box-shadow-md: 0 0 3px 2px rgb(0 114 237 / 0.30);
   --ids-box-shadow-lg: 0 0 4px 3px rgb(0 114 237 / 0.3);
@@ -168,7 +169,6 @@
   --ids-button-alternate-formatter-text-color: var(--ids-color-slate-10);
   --ids-button-formatter-border-color: var(--ids-color-slate-00);
   --ids-button-alternate-formatter-text-color-hover: var(--ids-color-slate-00);
-  --ids-button-formatter-disabled-text-color: var(--ids-color-slate-00);
   --ids-button-formatter-ripple-color: var(--ids-color-primary);
 
   // Data Grid
@@ -252,6 +252,7 @@
   --ids-expandable-area-border-bottom: 1px solid var(--ids-color-slate-60);
 
   // Headers
+  --ids-header-background-color: var(--ids-color-primary);
   --ids-header-gradient-opaque: rgb(0 74 153 / 1);
   --ids-header-gradient-transparent: rgb(0 114 237 / 0);
 

@@ -267,18 +267,26 @@
   // Light Mode Alternate
 
   // Don't apply these rules to "alternate-formatter"-style buttons
-  // These appear in app menu
+  // These appear in header
   &.color-variant-alternate {
     &:hover {
-      background-color: rgba(255 255 255 / 0.15);
+      background-color: rgba(0 0 0 / 0.3);
     }
 
-    &.btn-tertiary-destructive {
+    &.ids-trigger-button {
       &:hover {
-        background-color: var(--ids-color-error-30);
+        background-color: var(--ids-searchfield-header-icon-hover-color);
       }
     }
   }
+
+    // These appear in app menu
+    &.color-variant-app-menu {
+      &:hover {
+        background-color: rgba(255 255 255 / 0.15);
+      }
+    }
+
 
   // These appear in places with dark background like app menu and masthead, generally default/tertiary buttons
   &.color-variant-alternate,
@@ -299,8 +307,7 @@
 
     &[disabled] {
       background-color: transparent;
-      color: var(--ids-button-formatter-disabled-text-color);
-      opacity: 0.3;
+      opacity: var(--ids-button-formatter-disabled-opacity);
     }
 
     .ripple-effect {

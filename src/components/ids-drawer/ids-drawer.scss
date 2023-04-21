@@ -86,7 +86,8 @@
     color: var(--ids-drawer-app-menu-text-color);
 
     // temporary
-    min-width: 300px;
+    min-width: var(--ids-drawer-width);
+    width: var(--ids-drawer-width);
 
     ::slotted(ids-text) {
       color: inherit;

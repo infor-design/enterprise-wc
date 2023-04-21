@@ -15,8 +15,6 @@
 }
 
 .ids-container {
-  @include mixins.basic-color-transition();
-
   background-color: var(--ids-body-background-color);
   box-sizing: border-box;
   color: var(--ids-text-color);
@@ -25,6 +23,7 @@
   overflow: auto;
   padding: var(--ids-spacing-none);
   scroll-behavior: smooth;
+  transition: background-color var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
   width: 100%;
 
   &.color-variant-alternate {

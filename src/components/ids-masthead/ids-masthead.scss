@@ -1,8 +1,5 @@
-@use '../../themes/mixins/ids-core-mixins' as mixins;
-
+/* Ids Masthead Component */
 .ids-masthead {
-  @include mixins.basic-color-transition();
-
   background-color: var(--ids-masthead-background-color);
   color: var(--ids-masthead-text-color);
   display: flex;
@@ -11,6 +8,7 @@
   justify-content: center;
   padding-inline: var(--ids-masthead-padding-inline);
   min-height: var(--ids-masthead-min-height);
+  transition: background-color var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
 
   #logo.icon-logo {
     padding-inline: var(--ids-masthead-logo-icon-padding-inline);

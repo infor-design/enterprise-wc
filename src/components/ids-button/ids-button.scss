@@ -91,8 +91,8 @@ button {
 
 .ids-menu-button.formatter-width {
   &:not(.no-padding):not(.ids-icon-button) {
-    padding-inline-start: var(--ids-spacing-lg);
-    padding-inline-end: var(--ids-spacing-lg);
+    padding-inline-start: calc(var(--ids-spacing-lg) - 1px);
+    padding-inline-end:calc(var(--ids-spacing-lg) - 1px);
   }
 
   &:not(.formatter-width-percentage) {
@@ -110,10 +110,10 @@ button {
   @include ids-standard-button-colors();
 
   // Everything below is only for icon buttons
-  padding-inline-start: var(--ids-spacing-lg);
-  padding-inline-end: var(--ids-spacing-lg);
-  padding-block-start: var(--ids-spacing-lg);
-  padding-block-end: var(--ids-spacing-lg);
+  padding-inline-start: calc(var(--ids-spacing-lg) - 1px);
+  padding-inline-end: calc(var(--ids-spacing-lg) - 1px);
+  padding-block-start: calc(var(--ids-spacing-lg) - 1px);
+  padding-block-end: calc(var(--ids-spacing-lg) - 1px);
 
   &:not(.no-padding) {
     // 34px / 34px

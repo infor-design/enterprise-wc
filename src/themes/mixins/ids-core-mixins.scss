@@ -12,16 +12,8 @@ $breakpoint-xs: 360px;
   -moz-osx-font-smoothing: grayscale;
 }
 
-// Basic transition that animates text and background color
-// according to the standard ease/length above
 $transition-length: var(--ids-transition-length);
 $transition-ease: var(--ids-transition-ease);
-
-@mixin basic-color-transition() {
-  transition:
-    background-color $transition-length $transition-ease,
-    color $transition-length $transition-ease;
-}
 
 // vendor prefixed transitions for regular attributes (non-vendor prefixed)
 @mixin transition($transitions-list...) {

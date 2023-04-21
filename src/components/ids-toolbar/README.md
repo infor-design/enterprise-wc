@@ -98,7 +98,7 @@ Toolbar sections can be configured with different "types" that can determine the
 </ids-toolbar-section>
 ```
 
-For compatibility with 4.x components Toolbars, the IDS Toolbar also supports `title` and `buttonset` section types that act similarly.  The styling is less rigid than in previous iterations, so to make a buttonset section "right"-aligned, it's necessary to add the `align="end"` attribute:
+For compatibility with 4.x components Toolbars, the IDS Toolbar also supports `title` and `buttonset` section types that act similarly.  The styling is less rigid than in previous iterations, so to make a `buttonset` section "right"-aligned, it's necessary to add the `align="end"` attribute:
 
 ```html
 <ids-toolbar-section type="title">
