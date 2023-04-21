@@ -347,8 +347,17 @@
   --ids-month-view-compact-range-selected-background-color: var(--ids-color-azure-60);
 
   // Progress Bar
+  --ids-progress-bar-disabled-text-color: var(--ids-disabled-text-color);
+  --ids-progress-bar-disabled-background-color: var(--ids-color-slate-70);
   --ids-progress-bar-border-color: var(--ids-color-slate-40);
-  --ids-progress-bar-background-color: var(--ids-color-azure-60);
+  --ids-progress-bar-border: 1px solid var(--ids-progress-bar-border-color);
+  --ids-progress-bar-fill-background-color: var(--ids-color-primary);
+  --ids-progress-bar-label-text-color: var(--ids-label-text-color);
+
+  // Progress Chart
+  --ids-progress-chart-labels-text-color: var(--ids-color-slate-30);
+  --ids-progress-chart-bar-total-background-color: var(--ids-color-slate-50);
+  --ids-progress-chart-bar-progress-background-color: var(--ids-color-azure-60);
 
   // Radio
   --ids-radio-checked-background-color: var(--ids-color-azure-60);
@@ -452,11 +461,18 @@
   --ids-tag-secondary-background-color: var(--ids-input-background-color);
   --ids-tag-secondary-border-color: var(--ids-input-border-color);
 
+  // Time Picker
+  --ids-time-picker-popup-background-color: var(--ids-color-slate-80);
+  --ids-time-picker-popup-colons-text-color: var(--ids-color-slate-30);
+  --ids-time-picker-popup-button-border-color: var(--ids-color-slate-50);
+  --ids-time-picker-popup-button-hover-text-color: var(--ids-color-azure-20);
+  --ids-time-picker-popup-button-text-color: var(--ids-color-azure-30);
+
   // Toast
   --ids-toast-background-color: var(--ids-color-slate-70);
   --ids-toast-border-color: var(--ids-color-slate-50);
   --ids-toast-text-color: var(--ids-color-slate-00);
-  --ids-toast-progress-background-color: var(--ids-progress-bar-background-color);
+  --ids-toast-progress-background-color: var(--ids-progress-bar-fill-background-color);
 
   // Tooltip
   --ids-tooltip-background-color: var(--ids-color-slate-00);

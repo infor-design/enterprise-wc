@@ -1,28 +1,23 @@
-@import '../../core/ids-base';
-
 .ids-progress-chart {
-  @include antialiased();
-
   contain: content;
   display: flex;
   flex-direction: column;
-  font-family: var(--ids-font-family);
-  margin: 0 0 8px;
+  font-family: var(--ids-progress-chart-font-family);
+  margin: var(--ids-progress-chart-margin);
 
   .labels {
-    @include text-graphite-50();
-
-    font-size: 16px;
     display: inline-flex;
     flex-direction: row;
-    position: relative;
-    margin-bottom: 8px;
-    width: 100%;
     align-items: flex-end;
+    color: var(--ids-progress-chart-labels-text-color);
+    font-size: var(--ids-progress-chart-labels-font-size);
+    margin-bottom: var(--ids-progress-chart-labels-margin-bottom);
+    position: relative;
+    width: 100%;
 
     .label-main {
       display: inline-flex;
-      margin: 0 4px 0 0;
+      margin: var(--ids-progress-chart-labels-main-margin);
 
       &::part(text) {
         color: currentColor;
@@ -33,7 +28,7 @@
 
     .label-progress {
       display: inline-flex;
-      margin: 0 4px;
+      margin: var(--ids-progress-chart-labels-progress-margin);
 
       &::part(text) {
         color: currentColor;
@@ -63,13 +58,14 @@
   }
 
   .bar {
-    border-radius: 2px;
-    min-height: 28px;
-    min-width: 66px;
+    border-radius: var(--ids-progress-chart-bar-border-radius);
+    min-height: var(--ids-progress-chart-bar-min-height);
+    min-width: var(--ids-progress-chart-bar-min-width);
     display: flex;
     position: relative;
 
     .bar-total {
+      background-color: var(--ids-progress-chart-bar-total-background-color);
       border-radius: inherit;
       display: flex;
       top: 0;
@@ -79,63 +75,12 @@
     }
 
     .bar-progress {
+      background-color: var(--ids-progress-chart-bar-progress-background-color);
       border-radius: inherit;
       display: flex;
       top: 0;
       left: 0;
       height: inherit;
-    }
-  }
-}
-
-.ids-progress-chart,
-.ids-progress-chart:not([mode]) {
-  &[mode='light'],
-  &:not([mode]) {
-    .bar {
-      .bar-total {
-        @include bg-slate-30();
-      }
-
-      .bar-progress {
-        @include bg-slate-60();
-      }
-    }
-
-    .labels {
-      @include text-slate-60();
-    }
-  }
-
-  &[mode='dark'] {
-    .bar {
-      .bar-total {
-        @include bg-slate-50();
-      }
-
-      .bar-progress {
-        @include bg-azure-60();
-      }
-    }
-
-    .labels {
-      @include text-slate-30();
-    }
-  }
-
-  &[mode='contrast'] {
-    .bar {
-      .bar-total {
-        @include bg-slate-40();
-      }
-
-      .bar-progress {
-        @include bg-azure-90();
-      }
-    }
-
-    .labels {
-      @include text-slate-90();
     }
   }
 }

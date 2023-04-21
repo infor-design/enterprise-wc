@@ -124,7 +124,7 @@
       }
 
       &:checked ~ .checkmark {
-        @include checkbox.checkbox-disabled-checked(light);
+        @include checkbox.checkbox-disabled-checked();
       }
     }
   }
@@ -145,8 +145,8 @@
 
   &.has-focus {
     input[type='checkbox'] ~ .checkmark {
-      border-color: var(--ids-focus-border-color);
-      box-shadow: var(--ids-box-shadow-lg);
+      border-color: var(--ids-checkbox-has-focus-border-color);
+      box-shadow: var(--ids-checkbox-has-focus-box-shadow);
     }
   }
 }
@@ -172,7 +172,7 @@
 // Multiselect checkbox
 :host(.multiselect-checkbox) {
   input[type='checkbox']:not(:checked):not(:disabled) ~ .checkmark {
-    background-color: var(--ids-body-background-color);
+    background-color: var(--ids-checkbox-multiselect-checkbox-background-color);
   }
 
   .ids-checkbox label {
