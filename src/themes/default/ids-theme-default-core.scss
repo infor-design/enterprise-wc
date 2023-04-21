@@ -273,8 +273,8 @@
   --ids-button-tertiary-hover-text-color: var(--ids-color-primary-70);
   --ids-button-tertiary-hover-background-color: var(--ids-color-primary-10);
   --ids-button-tertiary-disabled-text-color: var(--ids-color-slate-30);
+  --ids-button-tertiary-readonly-text-color: var(--ids-color-slate-60);
   --ids-button-tertiary-font-weight: var(--ids-font-weight-semi-bold);
-  --ids-button-tertiary-disabled-background-color: transparent;
   --ids-button-destructive-hover-background-color: var(--ids-color-error-10);
 
   // Button (Alternate)
@@ -701,6 +701,10 @@
   --ids-input-success-focus-box-shadow: var( --ids-color-success-shadow);
   --ids-input-success-disabled-border-color: var(--ids-color-success-30);
   --ids-input-success-disabled-text-color: var(--ids-color-success-30);
+
+  // Layout Grid
+  --ids-layout-grid-fill-background-color: var(--ids-color-slate-10);
+  --ids-layout-grid-fill-text-color: var(--ids-text-color);
 
   // List Builder
   --ids-list-builder-border: 1px solid var(--ids-color-slate-40);
@@ -1131,6 +1135,7 @@
   --ids-trigger-field-focus-box-shadow: var(--ids-input-info-focus-box-shadow);
   --ids-trigger-field-disabled-text-color: var(--ids-input-disabled-text-color);
   --ids-trigger-field-disabled-border-color: var(--ids-input-disabled-border-color);
+  --ids-trigger-field-icon-color: var(--ids-color-slate-60);
 
   // Upload
   --ids-upload-font-size: var(--ids-font-size-xl);

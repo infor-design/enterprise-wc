@@ -40,6 +40,7 @@ export default class IdsTriggerButton extends IdsFieldHeightMixin(IdsButton) {
   connectedCallback() {
     super.connectedCallback();
     this.inline = stringToBool(this.getAttribute(attributes.INLINE));
+    this.readonly = stringToBool(this.getAttribute(attributes.READONLY));
   }
 
   /**
@@ -81,10 +82,16 @@ export default class IdsTriggerButton extends IdsFieldHeightMixin(IdsButton) {
     const button = this.shadowRoot?.querySelector('button');
     if (isReadonly) {
       this.setAttribute(attributes.READONLY, '');
-      if (button) button.tabIndex = -1;
+      if (button) {
+        button.tabIndex = -1;
+        button.setAttribute('readonly', '');
+      }
       return;
     }
-    if (button) button.tabIndex = this.tabbable ? 0 : -1;
+    if (button) {
+      button.tabIndex = this.tabbable ? 0 : -1;
+      button.removeAttribute('readonly');
+    }
     this.removeAttribute(attributes.READONLY);
   }
 

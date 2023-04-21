@@ -264,6 +264,10 @@
   // Icons
   --ids-icon-color: var(--ids-color-slate-100);
 
+  // Layout Grid
+  --ids-layout-grid-fill-background-color: var(--ids-color-slate-00);
+  --ids-layout-grid-fill-text-color: var(--ids-text-color);
+
   // List View
   --ids-list-view-item-border-top-color: var(--ids-color-slate-60);
   --ids-list-view-item-focus-border-color: var(--ids-color-azure-70);
@@ -392,6 +396,9 @@
 
   // Toolbar
   --ids-toolbar-formatter-background-color: var(--ids-color-slate-70);
+
+  // Trigger Field
+  --ids-trigger-field-icon-color: var(--ids-color-slate-80);
 
   // Tree Node
   --ids-tree-node-disabled-text-color: var(--ids-color-slate-50);

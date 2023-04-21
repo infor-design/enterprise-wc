@@ -273,7 +273,7 @@
       background-color: rgba(0 0 0 / 0.3);
     }
 
-    &.ids-trigger-button {
+    &.ids-trigger-button:not([readonly]) {
       &:hover {
         background-color: var(--ids-searchfield-header-icon-hover-color);
       }

@@ -128,7 +128,7 @@ const IdsRippleMixin = <T extends Constraints>(superclass: T) => class IdsRipple
    * @returns {void}
    */
   async createRipple(x: number | undefined, y: number | undefined) {
-    if (this.noRipple || (this as any).disabled) return;
+    if (this.noRipple || (this as any).disabled || (this as any).readonly) return;
 
     this.removeRipples();
     const rippleTarget = this.rippleTarget;

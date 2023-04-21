@@ -23,7 +23,7 @@
   align-items: center;
   background-color: transparent;
   display: flex;
-  color: currentColor;
+  color: var(--ids-trigger-field-icon-color);
   justify-content: center;
 
   &.ids-icon-button {
@@ -31,6 +31,14 @@
 
     &[disabled] {
       color: var(--ids-trigger-field-disabled-text-color);
+    }
+
+    &[readonly] {
+      &:hover {
+        color: var(--ids-trigger-field-icon-color);
+        cursor: var(--ids-cursor-default);
+        background-color: transparent;
+      }
     }
   }
 

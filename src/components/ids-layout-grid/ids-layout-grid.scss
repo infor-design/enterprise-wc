@@ -1,8 +1,10 @@
-@import '../../core/ids-base';
+/* Ids Layout Grid */
+@import '../../themes/mixins/ids-core-mixins';
 
 :host {
   --grid-auto-row-height: 0;
-  --grid-fill-color: #efeff0;
+  --grid-fill-color: var(--ids-layout-grid-fill-background-color);
+  --grid-text-color: var(--ids-layout-grid-fill-text-color);
   --min-col-width: 0;
   --max-col-width: 1fr;
   --min-row-height: 0;
@@ -197,9 +199,7 @@ $max-row-height: var(--max-row-height);
   padding-block: $grid-padding-xl;
 }
 
-/**
-  Grid - Auto Fit/Fill
-*/
+/* Grid - Auto Fit/Fill */
 :host([auto-fit]),
 .#{$prefix}-auto-fit {
   width: 100%;
@@ -212,9 +212,7 @@ $max-row-height: var(--max-row-height);
   grid-template-columns: repeat(auto-fill, minmax($min-col-width, $max-col-width));
 }
 
-/**
-  TODO: Add settings for grid-auto-columns
-*/
+/* TODO - Add settings for grid-auto-columns */
 :host(.#{$prefix}-cols-auto),
 .#{$prefix}-cols-auto {
   grid-auto-columns: auto;
@@ -260,9 +258,7 @@ $max-row-height: var(--max-row-height);
   grid-auto-flow: column dense;
 }
 
-/**
-  TODO: Add settings for grid-auto-rows
-*/
+/* TODO - Add settings for grid-auto-rows */
 :host(.#{$prefix}-auto-rows-auto),
 .#{$prefix}-auto-rows-auto {
   grid-auto-rows: auto;
@@ -288,9 +284,7 @@ $max-row-height: var(--max-row-height);
   grid-auto-rows: var(--grid-auto-row-height);
 }
 
-/**
-  Justify content
-*/
+/* Justify content */
 $align-content-list: start center space-between space-around space-evenly end;
 
 @each $align-content in $align-content-list {
@@ -331,9 +325,7 @@ $align-content-list: start center space-between space-around space-evenly end;
   top: var(--sticky-position);
 }
 
-/**
-  Grid Columms - Base
-*/
+/* Grid Columms - Base */
 @for $i from 1 through $grid-cols {
   :host([cols='#{$i}']),
   .#{$prefix}-cols-#{$i} {
@@ -357,9 +349,7 @@ $align-content-list: start center space-between space-around space-evenly end;
   }
 }
 
-/**
-  Grid Rows - Base
-*/
+/* Grid Rows - Base */
 @for $i from 1 through $grid-rows {
   :host([rows='#{$i}']),
   .#{$prefix}-rows-#{$i} {
@@ -382,9 +372,7 @@ $align-content-list: start center space-between space-around space-evenly end;
   }
 }
 
-/**
-  Grid Columms and Rows - XSmall and up
-*/
+/* Grid Columms and Rows - XSmall and up */
 @media (min-width: $breakpoint-xs) {
   @for $i from 1 through $grid-cols {
     :host([cols-xs='#{$i}']),
@@ -432,9 +420,7 @@ $align-content-list: start center space-between space-around space-evenly end;
   }
 }
 
-/**
-  Grid Columms and Rows - Small and up
-*/
+/* Grid Columms and Rows - Small and up */
 @media (min-width: $breakpoint-sm) {
   @for $i from 1 through $grid-cols {
     :host([cols-sm='#{$i}']),
@@ -483,9 +469,7 @@ $align-content-list: start center space-between space-around space-evenly end;
   }
 }
 
-/**
-  Grid Columms and Rows - Medium and up
-*/
+/* Grid Columms and Rows - Medium and up */
 @media (min-width: $breakpoint-md) {
   @for $i from 1 through $grid-cols {
     :host([cols-md='#{$i}']),
@@ -533,9 +517,7 @@ $align-content-list: start center space-between space-around space-evenly end;
   }
 }
 
-/**
-  Grid Columms and Rows - Large and up
-*/
+/* Grid Columms and Rows - Large and up */
 @media (min-width: $breakpoint-lg) {
   @for $i from 1 through $grid-cols {
     :host([cols-lg='#{$i}']),
@@ -583,9 +565,7 @@ $align-content-list: start center space-between space-around space-evenly end;
   }
 }
 
-/**
-  Grid Columms and Rows - XLarge and up
-*/
+/* Grid Columms and Rows - XLarge and up */
 @media (min-width: $breakpoint-xl) {
   @for $i from 1 through $grid-cols {
     :host([cols-xl='#{$i}']),
@@ -633,9 +613,7 @@ $align-content-list: start center space-between space-around space-evenly end;
   }
 }
 
-/**
-  Grid Columms and Rows - XxLarge and up
-*/
+/* Grid Columms and Rows - XxLarge and up */
 @media (min-width: $breakpoint-xxl) {
   @for $i from 1 through $grid-cols {
     :host([cols-xxl='#{$i}']),
@@ -693,6 +671,7 @@ $align-content-list: start center space-between space-around space-evenly end;
 ::slotted([fill]),
 .#{$prefix} > .#{$prefix}-cell.fill {
   background-color: var(--grid-fill-color);
+  color: var(--grid-text-color);
 }
 
 ::slotted([height='auto']),
