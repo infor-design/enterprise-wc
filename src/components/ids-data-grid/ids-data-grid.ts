@@ -1399,6 +1399,12 @@ export default class IdsDataGrid extends Base {
     bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
 
     if (isInRange) {
+      if (doScroll) {
+        this.offEvent('scroll.data-grid.virtual-scroll', this.container);
+        this.rowByIndex(rowIndex)?.scrollIntoView();
+        this.#attachVirtualScrollEvent();
+        return;
+      }
       // if rowIndex is in range of the currently visible rows:
       // then we should only move rows up or down according to how big the buffer should be.
       const moveRowsDown = bufferRowIndex - firstRowIndex;
@@ -1753,11 +1759,14 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Get the row HTMLElement
-   * @param {number} index the zero based index
+   * @param {number} rowIndex the zero based index
    * @returns {HTMLElement} Row HTMLElement
    */
-  rowByIndex(index: number): IdsDataGridRow | undefined | null {
-    return this.shadowRoot?.querySelector<IdsDataGridRow>(`.ids-data-grid-body ids-data-grid-row[row-index="${index}"]`);
+  rowByIndex(rowIndex: number): IdsDataGridRow | undefined | null {
+    const maxRowIndex = this.data.length - 1;
+    rowIndex = Math.max(rowIndex, 0);
+    rowIndex = Math.min(rowIndex, maxRowIndex);
+    return this.shadowRoot?.querySelector<IdsDataGridRow>(`.ids-data-grid-body ids-data-grid-row[row-index="${rowIndex}"]`);
   }
 
   activeCellEditor?: IdsDataGridCell;

@@ -84,15 +84,19 @@ columns.push({
 
 dataGrid.columns = columns;
 
+const MAX_RESULTS_COUNT = 300;
+let data: any = null;
 const fetchData = async (startIndex = 0) => {
-  const res = await fetch(url);
-  const data = await res.json();
+  if (data === null) {
+    const res = await fetch(url);
+    const results = await res.json();
+    data = results.slice(0, MAX_RESULTS_COUNT);
+  }
 
-  const MAX_ROW_COUNT = 300;
-  if (startIndex > MAX_ROW_COUNT) return [];
+  if (startIndex > MAX_RESULTS_COUNT) return [];
 
-  const numRowsNeeded = Math.max((MAX_ROW_COUNT - startIndex), 0);
-  return data.splice(startIndex, Math.min(numRowsNeeded, 33));
+  const numRowsNeeded = Math.max((MAX_RESULTS_COUNT - startIndex), 0);
+  return data.splice(0, Math.min(numRowsNeeded, 33));
 };
 
 const setData = async () => {
