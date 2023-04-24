@@ -715,7 +715,7 @@ export default class IdsColorPicker extends Base {
   #updateColor(value: string | null): void {
     if (value) {
       const colorSwatch = this.#findColorSwatch(value);
-      this.value = colorSwatch?.label || value;
+      this.value = colorSwatch?.hex || value;
     } else {
       this.value = '';
     }

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid cols="12" padding-x="xl" justify-content="center">
+      <ids-layout-grid-cell col-span="2">
+        <ids-text font-size="12" type="h1">Colors</ids-text>
+        <br>
+        <ids-color-picker size="sm" label="Primary Color" suppress-labels value="#0066D4" id="primary-color"></ids-color-picker>
+        <ids-color-picker size="sm" label="Background Color" suppress-labels value="#FFFFFF" id="background-color"></ids-color-picker>
+        <ids-color-picker size="sm" label="Text Color" suppress-labels value="#2F2F32" id="text-color"></ids-color-picker>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell col-span="10">
+        <!-- Header -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Header</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-header>
+              <ids-toolbar>
+                <ids-toolbar-section type="button">
+                  <ids-button icon="menu" role="button">
+                    <span slot="text" class="audible">Application Menu Trigger</span>
+                  </ids-button>
+                </ids-toolbar-section>
+                <ids-toolbar-section type="title">
+                  <ids-text font-size="20">My Header</ids-text>
+                  <ids-text font-size="14">With some extra information below</ids-text>
+                </ids-toolbar-section>
+                <ids-toolbar-section align="end">
+                  <ids-search-field id="header-search" clearable color-variant="alternate" label-state="collapsed" no-margins></ids-search-field>
+                </ids-toolbar-section>
+                <ids-toolbar-section type="button">
+                  <ids-theme-switcher mode="light"></ids-theme-switcher>
+                </ids-toolbar-section>
+              </ids-toolbar>
+            </ids-header>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Buttons -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Buttons</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid cols="4" gap="md" padding="sm">
+          <ids-layout-grid-cell>
+            <p>
+              <ids-text font-size="12" type="h2">Primary</ids-text>
+            </p>
+            <p>
+              <ids-button id="test-button-primary" appearance="primary">
+                <span>Action</span>
+              </ids-button>
+            </p>
+            <p>
+              <ids-button id="test-disabled-button-primary" appearance="primary" disabled>
+                <span>Action</span>
+              </ids-button>
+            </p>
+            <p>
+              <ids-button id="test-button-icon-primary" appearance="primary">
+                <ids-icon icon="folder"></ids-icon>
+                <span>Action</span>
+              </ids-button>
+            </p>
+          </ids-layout-grid-cell>
+
+          <ids-layout-grid-cell>
+            <p>
+              <ids-text font-size="12" type="h2">Secondary</ids-text>
+            </p>
+            <p>
+              <ids-button id="test-button-secondary" appearance="secondary">
+                <span>Action</span>
+              </ids-button>
+            </p>
+            <p>
+              <ids-button id="test-disabled-button-secondary" appearance="secondary" disabled>
+                <span>Action</span>
+              </ids-button>
+            </p>
+            <p>
+              <ids-button id="test-button-icon-secondary" appearance="secondary">
+                <ids-icon icon="folder"></ids-icon>
+                <span>Action</span>
+              </ids-button>
+            </p>
+          </ids-layout-grid-cell>
+
+          <ids-layout-grid-cell>
+            <p>
+              <ids-text font-size="12" type="h2">Tertiary</ids-text>
+            </p>
+            <p>
+              <ids-button id="test-button-tertiary" appearance="tertiary">
+                <ids-icon icon="folder"></ids-icon>
+                <span>Action</span>
+              </ids-button>
+            </p>
+            <p>
+              <ids-button id="test-disabled-button-tertiary" appearance="tertiary" disabled>
+                <ids-icon icon="folder"></ids-icon>
+                <span>Action</span>
+              </ids-button>
+            </p>
+          </ids-layout-grid-cell>
+
+          <ids-layout-grid-cell>
+            <p>
+              <ids-text font-size="12" type="h2">Icon</ids-text>
+            </p>
+            <p>
+              <ids-button id="test-button-icon">
+                <ids-icon icon="folder"></ids-icon>
+                <span class="audible">Action</span>
+              </ids-button>
+            </p>
+            <p>
+              <ids-button id="test-disabled-button-icon" disabled>
+                <ids-icon icon="folder"></ids-icon>
+                <span class="audible">Action</span>
+              </ids-button>
+            </p>
+          </ids-layout-grid-cell>
+
+          <ids-layout-grid-cell>
+            <p>
+              <ids-text font-size="12" type="h2">Destructive Primary</ids-text>
+            </p>
+
+            <p>
+              <ids-button id="test-button-primary-destructive" appearance="primary-destructive">
+                <span>Action</span>
+              </ids-button>
+            </p>
+
+            <p>
+              <ids-button id="test-button-disabled-primary-destructive" appearance="primary-destructive" disabled>
+                <span>Action</span>
+              </ids-button>
+            </p>
+          </ids-layout-grid-cell>
+
+          <ids-layout-grid-cell>
+            <p>
+              <ids-text font-size="12" type="h2">Destructive Tertiary</ids-text>
+            </p>
+
+            <p>
+              <ids-button id="test-button-tertiary-destructive" appearance="tertiary-destructive">
+                <ids-icon icon="folder"></ids-icon>
+                <span>Action</span>
+              </ids-button>
+            </p>
+
+            <p>
+              <ids-button id="test-button-disabled-tertiary-destructive" appearance="tertiary-destructive" disabled>
+                <ids-icon icon="folder"></ids-icon>
+                <span>Action</span>
+              </ids-button>
+            </p>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Checkboxes -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Checkboxes</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid cols="4" gap="md" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-checkbox label="Option 1"></ids-checkbox>
+            <ids-checkbox label="Option 2" checked="true"></ids-checkbox>
+            <ids-checkbox label="Option 3" checked="true"></ids-checkbox>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Dropdown -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Dropdown</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto-fit="true" padding="sm" gap="md">
+          <ids-layout-grid-cell>
+            <ids-dropdown id="dropdown-1" label="Normal Dropdown with Dirty Tracker" value="ca" dirty-tracker="true">
+              <ids-list-box>
+                <ids-list-box-option id="ca" value="ca">California</ids-list-box-option>
+                <ids-list-box-option id="hi" value="hi">Hawaii</ids-list-box-option>
+                <ids-list-box-option id="id" value="id">Idaho</ids-list-box-option>
+                <ids-list-box-option id="il" value="il">Illinois</ids-list-box-option>
+                <ids-list-box-option id="in" value="in">Indiana</ids-list-box-option>
+                <ids-list-box-option id="ia" value="ia">Iowa</ids-list-box-option>
+                <ids-list-box-option id="ks" value="ks">Kansas</ids-list-box-option>
+                <ids-list-box-option id="ky" value="ky">Kentucky</ids-list-box-option>
+                <ids-list-box-option id="la" value="la">Louisiana</ids-list-box-option>
+                <ids-list-box-option id="me" value="me">Maine</ids-list-box-option>
+                <ids-list-box-option id="md" value="md">Maryland</ids-list-box-option>
+                <ids-list-box-option id="ma" value="ma">Massachusetts</ids-list-box-option>
+                <ids-list-box-option id="mi" value="mi">Michigan</ids-list-box-option>
+                <ids-list-box-option id="mn" value="mn">Minnesota</ids-list-box-option>
+                <ids-list-box-option id="ms" value="ms">Mississippi</ids-list-box-option>
+                <ids-list-box-option id="mo" value="mo">Missouri</ids-list-box-option>
+                <ids-list-box-option id="mt" value="mt">Montana</ids-list-box-option>
+                <ids-list-box-option id="ne" value="ne">Nebraska</ids-list-box-option>
+                <ids-list-box-option id="nv" value="nv">Nevada</ids-list-box-option>
+                <ids-list-box-option id="nh" value="nh">New Hampshire</ids-list-box-option>
+                <ids-list-box-option id="nj" value="nj">New Jersey</ids-list-box-option>
+                <ids-list-box-option id="nm" value="nm">New Mexico</ids-list-box-option>
+                <ids-list-box-option id="ny" value="ny">New York</ids-list-box-option>
+                <ids-list-box-option id="nc" value="nc">North Carolina</ids-list-box-option>
+                <ids-list-box-option id="nd" value="nd">North Dakota</ids-list-box-option>
+                <ids-list-box-option id="oh" value="oh">Ohio</ids-list-box-option>
+                <ids-list-box-option id="ok" value="ok">Oklahoma</ids-list-box-option>
+                <ids-list-box-option id="or" value="or">Oregon</ids-list-box-option>
+                <ids-list-box-option id="pa" value="pa">Pennsylvania</ids-list-box-option>
+                <ids-list-box-option id="ri" value="ri">Rhode Island</ids-list-box-option>
+                <ids-list-box-option id="sc" value="sc">South Carolina</ids-list-box-option>
+                <ids-list-box-option id="sd" value="sd">South Dakota</ids-list-box-option>
+                <ids-list-box-option id="tn" value="tn">Tennessee</ids-list-box-option>
+                <ids-list-box-option id="tx" value="tx">Texas</ids-list-box-option>
+                <ids-list-box-option id="ut" value="ut">Utah</ids-list-box-option>
+                <ids-list-box-option id="vt" value="vt">Vermont</ids-list-box-option>
+                <ids-list-box-option id="va" value="va">Virginia</ids-list-box-option>
+                <ids-list-box-option id="wa" value="wa">Washington</ids-list-box-option>
+                <ids-list-box-option id="wv" value="wv">West Virginia</ids-list-box-option>
+                <ids-list-box-option id="wi" value="wi">Wisconsin</ids-list-box-option>
+                <ids-list-box-option id="wy" value="wy">Wyoming</ids-list-box-option>
+              </ids-list-box>
+            </ids-dropdown>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Hyperlink -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Hyperlink</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-hyperlink href="#" target="_blank">Normal Link</ids-hyperlink><br><br>
+            <ids-hyperlink href="#" disabled="true" target="_blank">Disabled Link</ids-hyperlink>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- List View -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">List View</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid cols="2" padding="sm">
+          <ids-layout-grid-cell>
+            <div class="parent-container">
+              <ids-list-view selectable="multiple" item-height="76" id="list-view-tb">
+                <template>
+                  <ids-text font-size="16" type="h2">${subject}</ids-text>
+                  <ids-text font-size="12" type="span">ID: ${id}</ids-text>
+                  <ids-text font-size="12" type="span">Comments: ${comments}</ids-text>
+                </template>
+              </ids-list-view>
+            </div>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Menu Button -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h1">Menu Button</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+        <ids-layout-grid cols="4" gap="md" padding="sm">
+          <ids-layout-grid-cell>
+              <ids-menu-button id="menu-button" icon="settings" appearance="tertiary" menu="my-menu" dropdown-icon>
+                <span>Settings</span>
+              </ids-menu-button>
+              <ids-popup-menu id="my-menu" target="menu-button" trigger-type="click">
+                <ids-menu-group>
+                  <ids-menu-item>Personalize Columns...</ids-menu-item>
+                </ids-menu-group>
+                <ids-separator></ids-separator>
+                <ids-menu-group select="single" id="sizes">
+                  <ids-menu-header>Row Height</ids-menu-header>
+                  <ids-menu-item disabled="true" value="extra-small">Extra Small</ids-menu-item>
+                  <ids-menu-item value="small">Small</ids-menu-item>
+                  <ids-menu-item value="medium">Medium</ids-menu-item>
+                  <ids-menu-item value="large" selected="true">Large</ids-menu-item>
+                </ids-menu-group>
+                <ids-separator></ids-separator>
+                <ids-menu-group select="multiple" keep-open="true">
+                  <ids-menu-header>Filtering Options</ids-menu-header>
+                  <ids-menu-item selected="true">Show Filter Row</ids-menu-item>
+                  <ids-menu-item value="run-filter">Run Filter</ids-menu-item>
+                  <ids-menu-item value="clear-filter">Clear Filter</ids-menu-item>
+                </ids-menu-group>
+              </ids-popup-menu>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Message -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Message</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-button appearance="secondary" id="message-example-error-trigger">Trigger an Error Message</ids-button>
+            <ids-message id="message-example-error" status="error">
+              <ids-text slot="title" font-size="24" type="h2" id="my-message-title">Lost connection</ids-text>
+              <ids-text id="my-message-contents" align="left">This application has experienced a system error.</ids-text>
+              <ids-modal-button slot="buttons" appearance="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>
+              <ids-modal-button slot="buttons" appearance="primary" id="my-message-confirm">Restart</ids-modal-button>
+            </ids-message>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Progress Bar -->
+        <ids-layout-grid auto-fit="true" padding="sm" gap="xl">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Progress Bar</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+        <ids-layout-grid cols="3" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-progress-bar id="progress-bar" label="Percent complete" value="10"></ids-progress-bar>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Search Field -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Search Field</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid cols="3" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-search-field clearable label="Search Field" placeholder="Search for..."></ids-search-field>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Slider -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Slider</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h3">Slider</ids-text>
+            <ids-slider type="single" show-tooltip label="Single-thumb"></ids-slider>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Tabs -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Tabs</ids-text><br>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-tabs-context>
+              <ids-tabs>
+                <ids-tab value="contracts">Contracts</ids-tab>
+                <ids-tab value="opportunities">Opportunities</ids-tab>
+                <ids-tab value="attachments" disabled>Attachments</ids-tab>
+                <ids-tab value="notes">Notes</ids-tab>
+              </ids-tabs>
+              <div class="ids-tabs-content">
+                <ids-tab-content value="contracts">
+                  <ids-layout-grid auto-fit="true" padding="sm">
+                    <ids-text font-size="16" type="p">Facilitate cultivate monetize, seize e-services peer-to-peer content integrateAJAX-enabled user-centric strategize. Mindshare; repurpose integrate global addelivery leading-edge frictionless, harness real-time plug-and-play standards-compliant 24/7 enterprise strategize robust infomediaries: functionalities back-end. Killer disintermediate web-enabled ubiquitous empower relationships, solutions, metrics architectures.</ids-text>
+                  </ids-layout-grid>
+                </ids-tab-content>
+                <ids-tab-content value="opportunities">
+                  <div class="tab-content">
+                    <ids-layout-grid auto-fit="true" padding="sm">
+                      <ids-text font-size="16" type="p">
+                        Bricks-and-clicks? Evolve ubiquitous matrix B2B 24/365 vertical 24/365 platforms standards-compliant global leverage dynamic 24/365 intuitive ROI seamless rss-capable. Cutting-edge grow morph web services leverage; ROI, unleash reinvent innovative podcasts citizen-media networking.
+                      </ids-text>
+                    </ids-layout-grid>
+                  </div>
+                </ids-tab-content>
+                <ids-tab-content value="attachments">
+                  <ids-layout-grid auto-fit="true" padding="sm">
+                    <ids-text font-size="16" type="p">
+                      Frictionless webservices, killer open-source innovate, best-of-breed, whiteboard interactive back-end optimize capture dynamic front-end. Initiatives ubiquitous 24/7 enhance channels B2B drive frictionless web-readiness generate recontextualize widgets applications. Sexy sticky matrix, user-centred, rich user-centric: peer-to-peer podcasting networking addelivery optimize streamline integrated proactive: granular morph.
+                    </ids-text>
+                  </ids-layout-grid>
+                </ids-tab-content>
+                <ids-tab-content value="notes">
+                  <ids-layout-grid auto-fit="true" padding="sm">
+                    <ids-text font-size="16" type="p">
+                      Evolve ubiquitous matrix B2B 24/365 vertical 24/365 platforms standards-compliant global leverage dynamic 24/365 intuitive ROI seamless rss-capable. Cutting-edge grow morph web services leverage; ROI, unleash reinvent innovative podcasts citizen-media networking.
+                    </ids-text>
+                  </ids-layout-grid>
+                </ids-tab-content>
+              </div>
+            </ids-tabs-context>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+
+</html>

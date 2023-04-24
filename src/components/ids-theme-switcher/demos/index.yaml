@@ -14,5 +14,9 @@
   - link: theme-builder.html
     type: Example
     description: Showing a theme builder example
+  - link: theme-builder-minimal.html
+    type: Example
+    description: Showing a theme builder example with just what changes
+
 
 
