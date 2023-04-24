@@ -2,7 +2,7 @@ import '../../ids-color-picker/ids-color-picker';
 import '../../ids-date-picker/ids-date-picker';
 import '../../ids-dropdown/ids-dropdown';
 import '../../ids-header/ids-header';
-import '../../ids-list-view/ids-list-view';
+import '../../ids-hyperlink/ids-hyperlink';
 import '../../ids-menu-button/ids-menu-button';
 import '../../ids-progress-bar/ids-progress-bar';
 import '../../ids-search-field/ids-search-field';
@@ -60,18 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
-
-// Implement Message
-const messageTriggerBtn: any = document.querySelector('#message-example-error-trigger');
-const message: any = document.querySelector('#message-example-error');
-
-message.target = messageTriggerBtn;
-message.triggerType = 'click';
-messageTriggerBtn.onButtonClick = (buttonEl: any) => {
-  const response = buttonEl.cancel ? 'cancelled' : 'confirmed';
-  console.info(`IdsMessage was ${response}`);
-  message.hide();
-};
 
 // =================================================================
 // Slider

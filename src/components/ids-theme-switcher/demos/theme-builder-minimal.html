@@ -139,44 +139,6 @@
               </ids-button>
             </p>
           </ids-layout-grid-cell>
-
-          <ids-layout-grid-cell>
-            <p>
-              <ids-text font-size="12" type="h2">Destructive Primary</ids-text>
-            </p>
-
-            <p>
-              <ids-button id="test-button-primary-destructive" appearance="primary-destructive">
-                <span>Action</span>
-              </ids-button>
-            </p>
-
-            <p>
-              <ids-button id="test-button-disabled-primary-destructive" appearance="primary-destructive" disabled>
-                <span>Action</span>
-              </ids-button>
-            </p>
-          </ids-layout-grid-cell>
-
-          <ids-layout-grid-cell>
-            <p>
-              <ids-text font-size="12" type="h2">Destructive Tertiary</ids-text>
-            </p>
-
-            <p>
-              <ids-button id="test-button-tertiary-destructive" appearance="tertiary-destructive">
-                <ids-icon icon="folder"></ids-icon>
-                <span>Action</span>
-              </ids-button>
-            </p>
-
-            <p>
-              <ids-button id="test-button-disabled-tertiary-destructive" appearance="tertiary-destructive" disabled>
-                <ids-icon icon="folder"></ids-icon>
-                <span>Action</span>
-              </ids-button>
-            </p>
-          </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Checkboxes -->
@@ -264,27 +226,6 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <!-- List View -->
-        <ids-layout-grid auto-fit="true" padding="sm">
-          <ids-layout-grid-cell>
-            <ids-text font-size="12" type="h2">List View</ids-text>
-          </ids-layout-grid-cell>
-        </ids-layout-grid>
-
-        <ids-layout-grid cols="2" padding="sm">
-          <ids-layout-grid-cell>
-            <div class="parent-container">
-              <ids-list-view selectable="multiple" item-height="76" id="list-view-tb">
-                <template>
-                  <ids-text font-size="16" type="h2">${subject}</ids-text>
-                  <ids-text font-size="12" type="span">ID: ${id}</ids-text>
-                  <ids-text font-size="12" type="span">Comments: ${comments}</ids-text>
-                </template>
-              </ids-list-view>
-            </div>
-          </ids-layout-grid-cell>
-        </ids-layout-grid>
-
         <!-- Menu Button -->
         <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
@@ -316,25 +257,6 @@
                   <ids-menu-item value="clear-filter">Clear Filter</ids-menu-item>
                 </ids-menu-group>
               </ids-popup-menu>
-          </ids-layout-grid-cell>
-        </ids-layout-grid>
-
-        <!-- Message -->
-        <ids-layout-grid auto-fit="true" padding="sm">
-          <ids-layout-grid-cell>
-            <ids-text font-size="12" type="h2">Message</ids-text>
-          </ids-layout-grid-cell>
-        </ids-layout-grid>
-
-        <ids-layout-grid auto-fit="true" padding="sm">
-          <ids-layout-grid-cell>
-            <ids-button appearance="secondary" id="message-example-error-trigger">Trigger an Error Message</ids-button>
-            <ids-message id="message-example-error" status="error">
-              <ids-text slot="title" font-size="24" type="h2" id="my-message-title">Lost connection</ids-text>
-              <ids-text id="my-message-contents" align="left">This application has experienced a system error.</ids-text>
-              <ids-modal-button slot="buttons" appearance="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>
-              <ids-modal-button slot="buttons" appearance="primary" id="my-message-confirm">Restart</ids-modal-button>
-            </ids-message>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
