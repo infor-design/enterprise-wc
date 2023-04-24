@@ -47,6 +47,7 @@ export default class IdsTriggerField extends IdsInput {
     super.connectedCallback();
     this.#attachTriggerButtonEvents();
     this.#setFieldHeight();
+    this.readonly = stringToBool(this.getAttribute('readonly'));
   }
 
   /**
@@ -177,7 +178,7 @@ export default class IdsTriggerField extends IdsInput {
   set readonly(r: boolean | string) {
     super.readonly = r;
 
-    if (stringToBool(r)) {
+    if (stringToBool(r) && !this.readonlyBackground) {
       this.buttons.forEach((btn) => {
         btn.setAttribute(attributes.READONLY, '');
         btn.removeAttribute(attributes.DISABLED);
