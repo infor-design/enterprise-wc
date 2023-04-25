@@ -4,15 +4,12 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getPercentageTextHtml, getInnerIndicatorHtml } from './ids-loading-indicator-attributes';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-loading-indicator.scss';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
+const Base = IdsEventsMixin(
+  IdsElement
 );
 
 /**
@@ -20,7 +17,6 @@ const Base = IdsThemeMixin(
  * @type {IdsLoadingIndicator}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part container - the loader svg container element
  * @part progress - the percentage complete or active part of indeterminate section
  * @part overall - the "overall" area, which includes percentage and what 100% would cover on

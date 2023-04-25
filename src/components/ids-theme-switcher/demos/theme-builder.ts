@@ -25,6 +25,7 @@ import '../../ids-image/ids-image';
 import '../../ids-line-chart/ids-line-chart';
 import '../../ids-list-builder/ids-list-builder';
 import '../../ids-list-view/ids-list-view';
+import '../../ids-loading-indicator/ids-loading-indicator';
 import '../../ids-masthead/ids-masthead';
 import '../../ids-menu/ids-menu';
 import '../../ids-menu-button/ids-menu-button';
@@ -36,6 +37,7 @@ import '../../ids-pie-chart/ids-pie-chart';
 import '../../ids-popup/ids-popup';
 import '../../ids-progress-bar/ids-progress-bar';
 import '../../ids-progress-chart/ids-progress-chart';
+import '../../ids-process-indicator/ids-process-indicator';
 import '../../ids-rating/ids-rating';
 import '../../ids-scrollable/ids-scrollable';
 import '../../ids-scrollable/ids-sticky';
@@ -45,6 +47,7 @@ import '../../ids-slider/ids-slider';
 import '../../ids-spinbox/ids-spinbox';
 import '../../ids-splitter/ids-splitter';
 import '../../ids-step-chart/ids-step-chart';
+import '../../ids-swaplist/ids-swaplist';
 import '../../ids-swappable/ids-swappable';
 import '../../ids-swappable/ids-swappable-item';
 import '../../ids-swipe-action/ids-swipe-action';
@@ -67,11 +70,12 @@ import '../../ids-week-view/ids-week-view';
 import bikesJSON from '../../../assets/data/bikes.json';
 import booksJSON from '../../../assets/data/books.json';
 import componentsJSON from '../../../assets/data/components.json';
-import eventsJSON from '../../../assets/data/events.json';
 import cssPopup from '../../../assets/css/ids-popup/index.css';
 import cssListView from '../../../assets/css/ids-list-view/index.css';
+import eventsJSON from '../../../assets/data/events.json';
 import eventTypesJSON from '../../../assets/data/event-types.json';
 import headshot from '../../../assets/images/headshot-1.jpg';
+import periodsJSON from '../../../assets/data/periods.json';
 import placeHolderImg200x200 from '../../../assets/images/placeholder-200x200.png';
 import treeBasicJSON from '../../../assets/data/tree-basic.json';
 
@@ -637,6 +641,29 @@ if (lineChartEl) {
     const res = await fetch((componentsJSON as any));
     const data = await res.json();
     lineChartEl.data = data;
+  };
+  setData();
+}
+
+// =================================================================
+// Loading Indicator
+// =================================================================
+document.querySelectorAll('.loading-indicator-tb[progress]').forEach((el: any) => {
+  const spinbox = el.nextElementSibling;
+  spinbox?.addEventListener('change', (e:Event) => {
+    el.progress = (e.target as any).value;
+  });
+});
+
+// =================================================================
+// Swaplist
+// =================================================================
+const swaplistEl: any = document.querySelector('#swaplist-tb');
+if (swaplistEl) {
+  const setData = async () => {
+    const res = await fetch((periodsJSON as any));
+    const data = await res.json();
+    swaplistEl.data = data;
   };
   setData();
 }

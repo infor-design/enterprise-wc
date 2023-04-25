@@ -1,8 +1,6 @@
-@import '../../core/ids-base';
-
 .ids-swaplist {
+  box-shadow: var(--ids-swaplist-box-shadow);
   display: flex;
-  box-shadow: rgba(0 0 0 / 0.1) 3px 0 8px;
   flex-direction: row;
 }
 
@@ -11,10 +9,10 @@
 }
 
 ids-swappable-item {
-  @include p-8();
-  @include pl-20();
-  @include relative();
-  @include mb-1();
+  padding: var(--ids-swaplist-item-padding);
+  padding-inline-start: var(--ids-swaplist-item-padding-inline-start);
+  position: relative;
+  margin-block-end: var(--ids-swaplist-item-margin-block-end);
 
   &.is-hidden {
     height: 0;
@@ -22,82 +20,80 @@ ids-swappable-item {
     border: none;
     overflow: hidden;
   }
-
-  &:hover::before {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translate(5px, -47%);
-    font-size: 24px;
-    content: '⁞';
-  }
 }
 
 ids-swappable-item[over] {
-  border: 1px dashed var(--ids-color-palette-slate-80);
+  border: var(--ids-swaplist-item-over-border);
 }
 
 ids-button {
-  @include relative();
-  @include p-0();
-
-  width: 36px;
-  height: 34px;
+  position: relative;
+  padding: var(--ids-swaplist-toolbar-button-padding);
+  height: var(--ids-swaplist-toolbar-button-height);
+  width: var(--ids-swaplist-toolbar-button-width);
 
   &::part(button) {
-    @include p-0();
-
+    padding: var(--ids-swaplist-toolbar-button-padding);;
     align-items: center;
     display: flex;
     justify-content: center;
+
+    &:hover {
+      background-color: var(--ids-swaplist-toolbar-button-hover-background-color);
+    }
   }
 
   &::after,
   &::before {
-    @include bg-slate-60();
-
+    background-color: var(--ids-swaplist-toolbar-button-text-color);
     display: inline-block;
     content: '';
     position: absolute;
     top: 8px;
     left: 9px;
+    z-index: 1;
   }
 
   &::after {
     box-shadow:
-      0 6px 0 var(--ids-color-palette-slate-60),
-      0 12px 0 var(--ids-color-palette-slate-60),
-      16px 0 0 var(--ids-color-palette-slate-60),
-      16px 6px 0 var(--ids-color-palette-slate-60),
-      16px 12px 0 var(--ids-color-palette-slate-60);
+      0 6px 0 var(--ids-swaplist-toolbar-button-text-color),
+      0 12px 0 var(--ids-swaplist-toolbar-button-text-color),
+      16px 0 0 var(--ids-swaplist-toolbar-button-text-color),
+      16px 6px 0 var(--ids-swaplist-toolbar-button-text-color),
+      16px 12px 0 var(--ids-swaplist-toolbar-button-text-color);
     height: 5px;
     width: 2px;
   }
 
   &::before {
     box-shadow:
-      13px 0 0 var(--ids-color-palette-slate-60),
-      0 16px 0 var(--ids-color-palette-slate-60),
-      13px 16px 0 var(--ids-color-palette-slate-60);
+      13px 0 0 var(--ids-swaplist-toolbar-button-text-color),
+      0 16px 0 var(--ids-swaplist-toolbar-button-text-color),
+      13px 16px 0 var(--ids-swaplist-toolbar-button-text-color);
     height: 2px;
     width: 5px;
   }
 
   &:hover {
+    &::after,
     &::before {
-      box-shadow:
-        13px 0 0 var(--ids-color-palette-slate-100),
-        0 16px 0 var(--ids-color-palette-slate-100),
-        13px 16px 0 var(--ids-color-palette-slate-100);
+      background-color: var(--ids-swaplist-toolbar-button-hover-text-color);
     }
 
     &::after {
       box-shadow:
-        0 6px 0 var(--ids-color-palette-slate-100),
-        0 12px 0 var(--ids-color-palette-slate-100),
-        16px 0 0 var(--ids-color-palette-slate-100),
-        16px 6px 0 var(--ids-color-palette-slate-100),
-        16px 12px 0 var(--ids-color-palette-slate-100);
+        0 6px 0 var(--ids-swaplist-toolbar-button-hover-text-color),
+        0 12px 0 var(--ids-swaplist-toolbar-button-hover-text-color),
+        16px 0 0 var(--ids-swaplist-toolbar-button-hover-text-color),
+        16px 6px 0 var(--ids-swaplist-toolbar-button-hover-text-color),
+        16px 12px 0 var(--ids-swaplist-toolbar-button-hover-text-color);
+    }
+
+    &::before {
+      box-shadow:
+        13px 0 0 var(--ids-swaplist-toolbar-button-hover-text-color),
+        0 16px 0 var(--ids-swaplist-toolbar-button-hover-text-color),
+        13px 16px 0 var(--ids-swaplist-toolbar-button-hover-text-color);
     }
   }
 }
@@ -106,41 +102,37 @@ ids-card {
   flex: 1;
 
   &::part(card) {
-    @include mb-0();
+    margin-block-end: var(--ids-swaplist-card-margin-block-end);
   }
 
   &::part(header) {
-    border-bottom: 1px solid var(--ids-color-palette-slate-30);
+    border-block-end: var(--ids-swaplist-card-header-border-block-end);
   }
 
-  div[slot='card-content'] {
-    height: calc(100% - 11px);
+  &::part(content) {
+    height: var(--ids-swaplist-card-content-height);
   }
 
   &.card {
     &::part(card) {
-      @include rounded-none();
-
-      border-left: 1px solid var(--ids-color-palette-slate-30);
-      border-right: none;
-      box-shadow: none;
+      border-radius: var(--ids-swaplist-card-border-radius);
+      border-inline-start-width: var(--ids-swaplist-card-border-inline-start-width);
+      box-shadow: var(--ids-swaplist-card-box-shadow);
     }
-  }
 
-  &.card-0 {
-    &::part(card) {
-      @include rounded-l-md();
-
-      border-left: 1px solid var(--ids-color-palette-slate-30);
-      border-right: none;
+    &:first-child {
+      &::part(card) {
+        border-inline-start-width: var(--ids-swaplist-card-first-child-border-inline-start-width);
+        border-start-start-radius: var(--ids-swaplist-border-radius);
+        border-end-start-radius: var(--ids-swaplist-border-radius);
+      }
     }
-  }
 
-  &.card-last {
-    &::part(card) {
-      @include rounded-r-md();
-
-      border: 1px solid var(--ids-color-palette-slate-30);
+    &:last-child {
+      &::part(card) {
+        border-start-end-radius: var(--ids-swaplist-border-radius);
+        border-end-end-radius: var(--ids-swaplist-border-radius);
+      }
     }
   }
 }

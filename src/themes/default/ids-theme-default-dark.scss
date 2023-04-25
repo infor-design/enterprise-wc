@@ -299,6 +299,14 @@
   --ids-list-view-item-disabled-link-text-color: var(--ids-color-slate-40);
   --ids-list-view-selectable-item-selected-background-color: var(--ids-color-azure-100);
 
+  // Loading Indicator
+  --ids-loading-indicator-overall-color: var(--ids-color-slate-80);
+  --ids-loading-indicator-primary-progress-stroke: var(--ids-color-slate-80);
+  --ids-loading-indicator-primary-overall-stroke: var(--ids-color-slate-50);
+  --ids-loading-indicator-primary-destructive-overall-stroke: var(--ids-color-ruby-20);
+  --ids-loading-indicator-tertiary-destructive-progress-stroke: var(--ids-color-ruby-70);
+  --ids-loading-indicator-tertiary-destructive-overall-stroke: var(--ids-color-ruby-30);
+
   // Masthead
   --ids-masthead-background-color: var(--ids-color-slate-80);
   --ids-masthead-text-color: var(--ids-color-slate-10);
@@ -362,6 +370,13 @@
   --ids-progress-chart-bar-total-background-color: var(--ids-color-slate-50);
   --ids-progress-chart-bar-progress-background-color: var(--ids-color-azure-60);
 
+  // Process Indicator
+  --ids-process-indicator-primary-color: var(--ids-color-azure-70);
+  --ids-process-indicator-active-color: var(--ids-color-azure-70);
+  --ids-process-indicator-cancelled-step-background-color: var(--ids-color-ruby-50);
+  --ids-process-indicator-cancelled-step-icon-color: var(--ids-color-slate-00);
+
+
   // Radio
   --ids-radio-checked-background-color: var(--ids-color-azure-60);
   --ids-radio-checked-border-color: var(--ids-color-azure-60);
@@ -415,6 +430,9 @@
   // Swappable
   --ids-swappable-item-hover-background-color: var(--ids-color-slate-60);
   --ids-swappable-item-selected-background-color: var(--ids-color-azure-60);
+
+  // Swaplist
+  --ids-swaplist-toolbar-button-hover-background-color: var(--ids-color-slate-70);
 
   // Swipe Action
   --ids-swipe-action-left-background-color: var(--ids-color-slate-60);

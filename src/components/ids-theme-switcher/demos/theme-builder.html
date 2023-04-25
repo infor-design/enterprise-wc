@@ -937,6 +937,42 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <!-- Loading Indicator -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Loading Indicator</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-loading-indicator class="loading-indicator-tb"></ids-loading-indicator>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-loading-indicator progress="30" class="loading-indicator-tb"></ids-loading-indicator>
+            <ids-spinbox step="6" value="30" min="0" max="100" label="Progress Value" label-hidden></ids-spinbox>
+        </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-loading-indicator progress="72" percentage-visible class="loading-indicator-tb"></ids-loading-indicator>
+            <ids-spinbox step="8" value="72" min="0" max="100" label="Progress Value" label-hidden></ids-spinbox>
+        </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-loading-indicator linear class="loading-indicator-tb"></ids-loading-indicator>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-loading-indicator linear progress="20" class="loading-indicator-tb"></ids-loading-indicator>
+            <ids-spinbox step="5" value="20" min="0" max="100" label="Progress Value" label-hidden></ids-spinbox>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-loading-indicator linear progress="35" percentage-visible class="loading-indicator-tb"></ids-loading-indicator>
+            <ids-spinbox step="7" value="35" min="0" max="100" label="Progress Value" label-hidden></ids-spinbox>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell></ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Notification Banner -->
         <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
@@ -1216,6 +1252,114 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <!-- Process Indicator -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Process Indicator</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-process-indicator>
+              <ids-process-indicator-step label="Process Started" status="done">
+                <ids-text slot="detail">Unreleased</ids-text>
+                <div slot="detail">
+                  <ids-alert icon="success" size="small"></ids-alert>
+                  <ids-hyperlink href="#">
+                    <span>Winnie Holmes</span>
+                  </ids-hyperlink>
+                </div>
+                <ids-text slot="detail" font-size="14">January 2, 2021 06:42 AM</ids-text>
+              </ids-process-indicator-step>
+              <ids-process-indicator-step label="1st Level" status="done">
+                <ids-text slot="detail">Unreleased</ids-text>
+                <div slot="detail">
+                  <ids-alert icon="success" size="small"></ids-alert>
+                  <ids-hyperlink href="#">
+                    <span>Hogne Thor</span>
+                  </ids-hyperlink>
+                </div>
+                <div slot="detail">
+                  <ids-alert icon="empty-circle" size="small"></ids-alert>
+                  <ids-hyperlink href="#">
+                    <span>Merideth Cantor III</span>
+                  </ids-hyperlink>
+                </div>
+                <ids-text slot="detail" font-size="14">January 12, 2021 06:42 AM</ids-text>
+              </ids-process-indicator-step>
+              <ids-process-indicator-step label="2nd Level" status="done">
+                <ids-text slot="detail">Unreleased</ids-text>
+                <div slot="detail">
+                  <ids-alert icon="success" size="small"></ids-alert>
+                  <ids-hyperlink href="#">
+                    <span>Melissa Nash</span>
+                  </ids-hyperlink>
+                </div>
+                <ids-text slot="detail" font-size="14">January 22, 2021 02:42 AM</ids-text>
+              </ids-process-indicator-step>
+              <ids-process-indicator-step label="3rd Level - Multiple Approvers" status="started">
+                <ids-text slot="detail">Unreleased</ids-text>
+                <div slot="detail">
+                  <ids-alert icon="success" size="small"></ids-alert>
+                  <ids-hyperlink href="#">
+                    <span>Garret Rounds</span>
+                  </ids-hyperlink>
+                </div>
+                <div slot="detail">
+                  <ids-alert icon="empty-circle" size="small"></ids-alert>
+                  <ids-hyperlink href="#">
+                    <span>Evelyn Lewis</span>
+                  </ids-hyperlink>
+                </div>
+                <ids-text slot="detail" font-size="14">Feb 2, 2021 21:12 AM</ids-text>
+              </ids-process-indicator-step>
+              <ids-process-indicator-step label="4th Level" status="cancelled">
+                <ids-text slot="detail">Status</ids-text>
+                <div slot="detail">
+                  <ids-alert icon="rejected-outline" size="small"></ids-alert>
+                  <ids-hyperlink href="#">
+                    <span>John Jones</span>
+                  </ids-hyperlink>
+                </div>
+                <div slot="detail">
+                  <ids-alert icon="empty-circle" size="small"></ids-alert>
+                  <ids-hyperlink href="#">
+                    <span>James Martin</span>
+                  </ids-hyperlink>
+                </div>
+                <ids-text slot="detail" font-size="14">Feb 12, 2021 14:12 AM</ids-text>
+              </ids-process-indicator-step>
+              <ids-process-indicator-step label="5th Level">
+                <ids-text slot="detail">Status</ids-text>
+                <ids-hyperlink  slot="detail" href="#">
+                  <span>James Martin</span>
+                </ids-hyperlink>
+                <ids-hyperlink slot="detail" href="#">
+                  <span>Michelle Ono</span>
+                </ids-hyperlink>
+                <ids-hyperlink slot="detail" href="#">
+                  <span>Franklin Marpalla</span>
+                </ids-hyperlink>
+                <ids-text slot="detail" font-size="14">Feb 22, 2021 21:42 AM</ids-text>
+              </ids-process-indicator-step>
+              <ids-process-indicator-step label="Final Level">
+                <ids-text slot="detail">Status</ids-text>
+                <ids-hyperlink slot="detail" href="#">
+                  <span>Fred Walsh</span>
+                </ids-hyperlink slot="detail">
+                <ids-hyperlink slot="detail" href="#">
+                  <span>Eddie Clark</span>
+                </ids-hyperlink>
+                <ids-hyperlink slot="detail" href="#">
+                  <span>Rena Roberson</span>
+                </ids-hyperlink>
+                <ids-text slot="detail" font-size="14">Mar 2, 2021 01:42 AM</ids-text>
+              </ids-process-indicator-step>
+            </ids-process-indicator>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
         <!-- Rating -->
         <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
@@ -1334,6 +1478,25 @@
                 <ids-text font-size="16" type="p">Swappable Item 6</ids-text>
               </ids-swappable-item>
             </ids-swappable>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <!-- Swaplist -->
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-text font-size="12" type="h2">Swaplist</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-layout-grid-cell>
+            <ids-swaplist id="swaplist-tb" count="3">
+              <template>
+                <ids-swappable-item>
+                  <ids-text>${city}</ids-text>
+                </ids-swappable-item>
+              </template>
+            </ids-swaplist>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
@@ -1540,11 +1703,11 @@
             </ids-tag>
             <ids-tag disabled>
               <span>Disabled Tag</span>
-              <ids-icon icon="close" size="xsmall"</ids-icon>
+              <ids-icon icon="close" size="xsmall"></ids-icon>
             </ids-tag>
             <ids-tag color="secondary" dismissible="true" disabled>
               <span>Secondary Disabled Tag</span>
-              <ids-icon icon="close" size="xsmall"</ids-icon>
+              <ids-icon icon="close" size="xsmall"></ids-icon>
             </ids-tag>
             <ids-tag dismissible="true">
                 <span>Dismissible Tag 1</span>

@@ -142,6 +142,8 @@ export default class IdsIcon extends Base {
       'add-grid-record',
       'add-grid-row',
       'attach',
+      'arrow-left',
+      'arrow-right',
       'bullet-list',
       'bullet-steps',
       'caret-left',
