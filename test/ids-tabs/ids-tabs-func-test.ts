@@ -69,7 +69,6 @@ describe('IdsTabs Tests', () => {
    * scans through to find all ids-tab elements in an
    * ids-tabs instance and verifies all "selected"
    * attribs make sense based on value of tabs/values
-   *
    * @returns {boolean} whether or not there were issues
    */
   function areTabSelectionAttribsValid() {

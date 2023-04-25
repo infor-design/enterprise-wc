@@ -5,7 +5,6 @@ import { camelCase, stringToBool } from '../../src/utils/ids-string-utils/ids-st
  * should be able to be toggled and predictable with respect to it's
  * attribute as well as properties in every permutation while
  * getting coverage for setters/getters.
- *
  * @param {object} param0 params
  * @param {HTMLElement} param0.elem Element to test
  * @param {string} param0.attribute string-attribute-namespace

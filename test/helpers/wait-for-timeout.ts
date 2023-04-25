@@ -22,7 +22,6 @@ function areJestFakeTimersEnabled() {
  * usage:
  * await waitFor(() => <string>selector)
  * await waitFor(() => expect(condition).[jestExpr e.g. "toNotEqual"/"toEqual"/etc]())
- *
  * @param {Function} selectorOrAssertionCb method which returns a CSS selector to check for
  * the presence of, or an assertion for jest
  * @param {object} options document these options

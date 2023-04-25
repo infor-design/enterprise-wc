@@ -364,7 +364,8 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
   /**
    * Get tooltip content to display.
    * @private
-   * @param  {object} opt The options.
+   * @param {object} opt The options.
+   * @returns {void}
    */
   async #tooltipContent(opt: any) {
     const { data, callbackArgs } = opt;
@@ -393,7 +394,8 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
   /**
    * Get tooltip settings.
    * @private
-   * @param  {object} opt The options.
+   * @param {object} opt The options.
+   * @returns {void}
    */
   async #tooltipOptions(opt: any) {
     const { data, callbackArgs, defaultOptions } = opt;
