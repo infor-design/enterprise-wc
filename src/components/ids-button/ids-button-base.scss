@@ -148,7 +148,7 @@
   }
 
   .ripple-effect {
-    background-color: var(--ids-color-brand-primary-base);
+    background-color: var(--ids-button-tertiary-ripple-color);
   }
 
   // ====================================================
@@ -311,7 +311,7 @@
     }
 
     .ripple-effect {
-      background-color: var(--ids-color-palette-white);
+      background-color: var(--ids-button-alternate-ripple-color);
     }
   }
 

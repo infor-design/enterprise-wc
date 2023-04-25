@@ -54,7 +54,6 @@ An alert can use any icon size
   - IdsElement
 - Mixins
   IdsEventsMixin
-  IdsThemeMixin
 
 ## Settings (Attributes)
 

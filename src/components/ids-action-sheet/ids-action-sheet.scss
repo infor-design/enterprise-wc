@@ -1,22 +1,21 @@
-@import '../../core/ids-base';
-
+/* Ids Action Sheet */
 .ids-action-sheet-inner {
-  @include fixed();
-  @include rounded-lg();
-
-  flex-direction: column;
   align-items: center;
+  background-color: var(--ids-action-sheet-background-color);
+  border-color: var(--ids-action-sheet-border-color);
   display: flex;
+  position: fixed;
+  border-radius: var(--ids-action-sheet-border-radius);
+  flex-direction: column;
   width: 100%;
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 100%);
-  padding-block: var(--ids-spacing-lg);
+  padding-block: var(--ids-action-sheet-padding);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  box-shadow: 0 0 8px rgb(0 0 0 / 0.2);
-  background-color: var(--ids-color-palette-white);
-  transition: transform $transition-length $transition-ease;
+  box-shadow: var(--ids-action-sheet-box-shadow);
+  transition: transform var(--ids-transition-length) var(--ids-transition-ease);
 }
 
 :host([visible='true']) {
@@ -37,20 +36,5 @@ ids-button {
     display: block;
     width: 100%;
     text-align: center;
-  }
-}
-
-// Handle Themes
-:host([mode='dark']) {
-  .ids-action-sheet-inner {
-    background-color: var(--ids-color-palette-slate-70);
-    border-color: var(--ids-color-palette-slate-50);
-  }
-}
-
-:host([mode='contrast']) {
-  .ids-action-sheet-inner {
-    background-color: var(--ids-color-palette-white);
-    border-color: var(--ids-color-palette-slate-60);
   }
 }

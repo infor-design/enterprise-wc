@@ -588,7 +588,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
         color = data.color;
       }
       if (!color && data.color && data.color.substr(0, 1) !== '#') {
-        color = `var(--ids-color-palette-${data.color})`;
+        color = `var(--ids-color-${data.color})`;
       }
       if (!color) {
         color = `var(${this.colors[index]})`;

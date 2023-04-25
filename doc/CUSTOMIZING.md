@@ -56,12 +56,14 @@ Another possibility is to reuse some of the "sub-functionality" of our component
 
 ## Theming
 
-We are in the process of adding full css theming via a comprehensive series of (css variables)[https://github.com/infor-design/enterprise-wc/issues/1118]. This work is in progress and expected to be completed before initial go live on version 1.0. You would be able to customize css variables at any level using css inheritance. For example:
+We are in the process of adding full css theming via a comprehensive series of css variables also known as design tokens. You would are able to customize css variables at any level using css inheritance. Append a style sheet in the page at a level below where the built in style sheets are appended, they are appended right after the `<title>` element. See `src/themes/default/ids-theme-default-core.scss` for a full list or look at the component css.
+
+For example:
 
 ```css
 --ids-color-primary: var(--ids-color-azure-70);
-...
 --ids-text-color: var(--ids-color-slate-100);
-...
 --ids-input-background-color: var(--ids-color-slate-00);
 ```
+
+Using this technique one can customize everything from a simple primary color change to an entire new theme for a customer or future themes.

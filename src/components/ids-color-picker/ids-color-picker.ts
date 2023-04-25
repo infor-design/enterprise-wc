@@ -1,4 +1,3 @@
-import colorPalette from 'ids-identity/dist/theme-new/tokens/web/ui.config.color-palette';
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -165,7 +164,7 @@ export default class IdsColorPicker extends Base {
    * @returns {Array<IdsColor>} available colors within this picker
    */
   get defaultSwatches(): Array<IdsColor> {
-    const COLOR_PALETTE_CSS_VAR_REGEX = /^--ids-color-palette-(([^0-9]+)-([0-9]+))$/;
+    const COLOR_PALETTE_CSS_VAR_REGEX = /^--ids-color-(([^0-9]+)-([0-9]+))$/;
 
     const createColor = ((cssVar: string) => {
       const color = new IdsColor();
@@ -178,13 +177,13 @@ export default class IdsColorPicker extends Base {
     });
 
     const paletteGroups = [
-      ...Object.values(colorPalette.ruby),
-      ...Object.values(colorPalette.amber),
-      ...Object.values(colorPalette.emerald),
-      ...Object.values(colorPalette.azure),
-      ...Object.values(colorPalette.turquoise),
-      ...Object.values(colorPalette.amethyst),
-      ...Object.values(colorPalette.slate),
+      ...Object.values(['--ids-color-ruby-10', '--ids-color-ruby-20', '--ids-color-ruby-30', '--ids-color-ruby-40', '--ids-color-ruby-50', '--ids-color-ruby-60', '--ids-color-ruby-70', '--ids-color-ruby-80', '--ids-color-ruby-90', '--ids-color-ruby-100']),
+      ...Object.values(['--ids-color-amber-10', '--ids-color-amber-20', '--ids-color-amber-30', '--ids-color-amber-40', '--ids-color-amber-50', '--ids-color-amber-60', '--ids-color-amber-70', '--ids-color-amber-80', '--ids-color-amber-90', '--ids-color-amber-100']),
+      ...Object.values(['--ids-color-emerald-10', '--ids-color-emerald-20', '--ids-color-emerald-30', '--ids-color-emerald-40', '--ids-color-emerald-50', '--ids-color-emerald-60', '--ids-color-emerald-70', '--ids-color-emerald-80', '--ids-color-emerald-90', '--ids-color-emerald-100']),
+      ...Object.values(['--ids-color-azure-10', '--ids-color-azure-20', '--ids-color-azure-30', '--ids-color-azure-40', '--ids-color-azure-50', '--ids-color-azure-60', '--ids-color-azure-70', '--ids-color-azure-80', '--ids-color-azure-90', '--ids-color-azure-100']),
+      ...Object.values(['--ids-color-turquoise-10', '--ids-color-turquoise-20', '--ids-color-turquoise-30', '--ids-color-turquoise-40', '--ids-color-turquoise-50', '--ids-color-turquoise-60', '--ids-color-turquoise-70', '--ids-color-turquoise-80', '--ids-color-turquoise-90', '--ids-color-turquoise-100']),
+      ...Object.values(['--ids-color-amethyst-10', '--ids-color-amethyst-20', '--ids-color-amethyst-30', '--ids-color-amethyst-40', '--ids-color-amethyst-50', '--ids-color-amethyst-60', '--ids-color-amethyst-70', '--ids-color-amethyst-80', '--ids-color-amethyst-90', '--ids-color-amethyst-100']),
+      ...Object.values(['--ids-color-slate-10', '--ids-color-slate-20', '--ids-color-slate-30', '--ids-color-slate-40', '--ids-color-slate-50', '--ids-color-slate-60', '--ids-color-slate-70', '--ids-color-slate-80', '--ids-color-slate-90', '--ids-color-slate-100']),
     ].map(createColor);
 
     return paletteGroups;

@@ -285,7 +285,7 @@ export default class IdsPieChart extends Base {
         color = slice.color;
       }
       if (!color && slice.color && slice.color.substr(0, 1) !== '#') {
-        color = `var(--ids-color-palette-${slice.color})`;
+        color = `var(--ids-color-${slice.color})`;
       }
       if (!color) {
         color = `var(${this.colors[index]})`;

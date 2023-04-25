@@ -665,11 +665,6 @@ describe('IdsInput Component', () => {
     expect(input.container.classList.contains('field-height-xs')).toBeFalsy();
   });
 
-  it('supports setting mode', () => {
-    input.mode = 'dark';
-    expect(input.container.getAttribute('mode')).toEqual('dark');
-  });
-
   it('supports setting cursor', () => {
     input.cursor = 'pointer';
     expect(input.shadowRoot.querySelector('input').style.cursor).toEqual('pointer');

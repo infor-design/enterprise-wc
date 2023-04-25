@@ -36,6 +36,7 @@
 
       .file-name span {
         @include mixins.antialiased();
+
         display: block;
         font-weight: var(--ids-font-weight-normal);
         margin: var(--ids-spacing-none);
@@ -66,7 +67,7 @@
       }
 
       .percent {
-        color: var(--ids-color-palette-azure-60);
+        color: var(--ids-color-primary-60);
         font-weight: bold;
       }
 

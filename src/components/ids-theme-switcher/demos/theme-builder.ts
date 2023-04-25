@@ -39,8 +39,6 @@ import '../../ids-progress-bar/ids-progress-bar';
 import '../../ids-progress-chart/ids-progress-chart';
 import '../../ids-process-indicator/ids-process-indicator';
 import '../../ids-rating/ids-rating';
-import '../../ids-scrollable/ids-scrollable';
-import '../../ids-scrollable/ids-sticky';
 import '../../ids-search-field/ids-search-field';
 import '../../ids-skip-link/ids-skip-link';
 import '../../ids-slider/ids-slider';

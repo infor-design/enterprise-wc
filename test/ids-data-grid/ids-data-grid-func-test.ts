@@ -1816,11 +1816,6 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Theme/Style Tests', () => {
-    it('supports setting mode', () => {
-      dataGrid.mode = 'dark';
-      expect(dataGrid.container.getAttribute('mode')).toEqual('dark');
-    });
-
     it('renders with listStyle option', () => {
       dataGrid.listStyle = true;
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').classList.contains('is-list-style')).toBeTruthy();

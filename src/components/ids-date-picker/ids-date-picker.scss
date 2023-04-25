@@ -1,5 +1,4 @@
-@import '../../core/ids-base';
-
+/* Ids Date Picker Component */
 :host {
   display: block;
 }
@@ -134,7 +133,7 @@
 
   &.is-expanded {
     .dropdown-btn::part(button) {
-      @include text-azure-60();
+      color: var(--ids-button-tertiary-hover-text-color);
     }
 
     .dropdown-btn-icon {
@@ -159,24 +158,19 @@
   }
 
   ids-expandable-area::part(pane) {
-    @include bg-white();
+    background-color: var(--ids-body-background-color);
   }
 
   ids-expandable-area::part(pane-content) {
-    @include mt-0();
-  }
-
-  &[mode='dark'] ids-expandable-area::part(pane) {
-    @include bg-slate-80();
+    margin-top: 0;
   }
 
   // Picklist
   .picklist {
-    @include flex();
+    display: flex;
 
     &::after {
-      @include bg-slate-30();
-
+      background-color: var(--ids-date-picker-picklist-separator-background-color);
       position: absolute;
       content: ' ';
       width: 1px;
@@ -190,19 +184,17 @@
   }
 
   &:not(.is-expanded) .picklist::after {
-    @include bg-transparent();
+    background-color: transparent;
   }
 
   .picklist-section {
-    @include h-full();
-
+    height: 100%;
     width: 50%;
     flex: 0 0 50%;
   }
 
   .picklist-list {
-    @include flex();
-
+    display: flex;
     list-style: none;
     align-items: center;
     flex-direction: column;
@@ -214,28 +206,26 @@
   }
 
   .picklist-item {
-    @include flex();
-    @include cursor-pointer();
-    @include border-1();
-    @include border-solid();
-    @include border-transparent();
-    @include text-slate-80();
-    @include py-1();
-    @include w-full();
-    @include box-border();
-
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    display: flex;
+    cursor: var(--ids-cursor-pointer);
+    color: var(--ids-date-picker-picklist-item-text-color);
+    padding-top: 1px;
+    padding-bottom: 1px;
     user-select: none;
     height: 12.5%;
     align-items: center;
     justify-content: center;
+    width: 100%;
 
     ids-text {
       line-height: 0;
     }
 
     &.is-selected {
-      @include text-white();
-      @include bg-azure-60();
+      color: var(--ids-date-picker-picklist-item-selected-text-color);
+      background-color: var(--ids-date-picker-picklist-item-selected-background-color);
 
       ids-text::part(text) {
         font-weight: 600;
@@ -243,63 +233,24 @@
     }
 
     &:focus {
-      @include border-azure-60();
-
-      box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
+      border-color: var(--ids-date-picker-picklist-item-focus-border-color);
+      box-shadow: var(--ids-date-picker-picklist-item-focus-box-shadow);
       outline: none;
     }
 
     &.is-year-nav,
     &.is-month-nav {
-      @include z-1();
+      z-index: 1;
     }
 
     &.is-month-nav {
       width: calc(100% + 1px);
     }
   }
-
-  &[mode='dark'] {
-    .picklist::after {
-      @include bg-slate-50();
-    }
-
-    .picklist-item {
-      &:not(.is-selected) {
-        @include text-slate-30();
-      }
-
-      &.is-selected:focus {
-        box-shadow: 0 0 4px 2px rgb(141 201 230 / 0.3);
-      }
-    }
-  }
-
-  &[mode='contrast'] {
-    .picklist::after {
-      @include bg-slate-30();
-    }
-
-    .picklist-item {
-      &:not(.is-selected) {
-        @include text-black();
-      }
-
-      &.is-selected {
-        @include bg-azure-90();
-      }
-
-      &.is-selected:focus {
-        @include border-azure-100();
-
-        box-shadow: 0 0 4px 2px rgb(41 41 41 / 0.3);
-      }
-    }
-  }
 }
 
 :host([is-calendar-toolbar='true']) {
-  @include flex();
+  display: flex;
 }
 
 // Text direction

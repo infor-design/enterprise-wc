@@ -174,6 +174,13 @@
   --ids-action-panel-header-border-color: var(--ids-color-slate-20);
   --ids-action-panel-content-background-color: var(--ids-color-slate-00);
 
+  // Action Sheet
+  --ids-action-sheet-border-radius: var(--ids-border-radius-lg);
+  --ids-action-sheet-padding: var(--ids-spacing-lg);
+  --ids-action-sheet-box-shadow: 0 0 8px rgb(0 0 0 / 0.2);
+  --ids-action-sheet-background-color: var(--ids-color-slate-00);
+  --ids-action-sheet-border-color: transparent;
+
   // Alerts
   --ids-alert-success-color: var(--ids-color-success);
   --ids-alert-success-disabled-color: var(--ids-color-success-30);
@@ -265,7 +272,7 @@
   --ids-button-secondary-disabled-background-color: transparent;
   --ids-button-secondary-disabled-border-color: var(--ids-color-slate-20);
   --ids-button-secondary-disabled-text-color: var(--ids-color-slate-30);
-  --ids-button-secondary-ripple-color: var(--ids-color-primary);
+  --ids-button-secondary-ripple-color: var(--ids-color-primary-30);
 
   // Button (Tertiary)
   --ids-button-tertiary-border-color: transparent;
@@ -276,11 +283,15 @@
   --ids-button-tertiary-disabled-text-color: var(--ids-color-slate-30);
   --ids-button-tertiary-readonly-text-color: var(--ids-color-slate-60);
   --ids-button-tertiary-font-weight: var(--ids-font-weight-semi-bold);
+  --ids-button-tertiary-ripple-color: var(--ids-color-primary-30);
+
+  // Button (Destructive)
   --ids-button-destructive-hover-background-color: var(--ids-color-error-10);
 
   // Button (Alternate)
   --ids-button-alternate-text-color: var(--ids-color-slate-10);
   --ids-button-alternate-text-color-hover: var(--ids-color-slate-00);
+  --ids-button-alternate-ripple-color: var(--ids-color-primary-00);
 
   // Button (Formatter)
   --ids-button-alternate-formatter-text-color: var(--ids-input-readonly-background-color);
@@ -473,7 +484,7 @@
   --ids-data-grid-lg-padding: 5px;
   --ids-data-grid-row-selected-background-color: rgba(85 163 243 / 0.10);
   --ids-data-grid-row-alternate-background-color: var(--ids-color-slate-10);
-  --ids-data-grid-row-focus-box-shadow: inset 0 0 0 1px var(--ids-color-palette-azure-40), 0 1px 0 0 var(--ids-color-palette-azure-40), 0 0 3px 2px rgb(54 138 192 / 0.3);
+  --ids-data-grid-row-focus-box-shadow: inset 0 0 0 1px var(--ids-color-primary-40), 0 1px 0 0 var(--ids-color-primary-40), 0 0 3px 2px rgb(54 138 192 / 0.3);
 
   // Date Picker
   --ids-date-picker-open-trigger-button-text-color: var(--ids-color-primary)
@@ -486,6 +497,7 @@
   --ids-date-picker-picklist-item-focus-box-shadow: var(--ids-focus-ring-shadow);
   --ids-date-picker-picklist-item-selected-text-color: var(--ids-color-slate-00);
   --ids-date-picker-picklist-item-selected-background-color: var(--ids-color-primary);
+  --ids-date-picker-picklist-separator-background-color: var(--ids-color-slate-30);
   --ids-date-picker-popup-button-apply-text-color: var(--ids-color-azure-70);
   --ids-date-picker-popup-button-apply-disabled-text-color: var(--ids-color-azure-30);
   --ids-date-picker-popup-button-border-color: var(--ids-color-slate-30);
@@ -495,7 +507,7 @@
   --ids-date-picker-popup-button-today-text-color: var(--ids-color-primary);
 
   // Dirty Indicator
-  --ids-dirty-indicator-background-color: var(--ids-color-palette-amber-30);
+  --ids-dirty-indicator-background-color: var(--ids-color-amber-30);
 
   // Drawer
   --ids-drawer-action-sheet-background-color: var(--ids-color-slate-00);
@@ -830,6 +842,9 @@
   --ids-month-view-compact-today-border-color: var(--ids-color-slate-30);
   --ids-month-view-compact-weekday-text-color: var(--ids-month-view-text-color);
 
+  // Multiselect
+  --ids-multiselect-font-size: var(--ids-font-size-sm);
+
   // Notification Badge
   --ids-notification-badge-size: 6px;
   --ids-notification-badge-border-radius: var(--ids-border-radius-sm);
@@ -968,6 +983,13 @@
   --ids-searchfield-card-text-color: var(--ids-text-color);
   --ids-searchfield-card-background-color: var(--ids-color-slate-10);
 
+  // Separator
+  --ids-separator-background-color: var(--ids-color-slate-40);
+  --ids-separator-alternate-background-color: var(--ids-color-slate-40);
+  --ids-separator-height: 24px;
+  --ids-separator-width: 1px;
+  --ids-separator-margin: 4px;
+
   // Skip link
   --ids-skip-link-background-color: var(--ids-popup-background-color);
   --ids-skip-link-border-color: var(--ids-popup-border-color);
@@ -1099,6 +1121,7 @@
   // Tab
   --ids-tab-content-text-color: var(--ids-text-color);
   --ids-tab-text-color: var(--ids-subtle-text-color);
+  --ids-tab-divider-background-color: var(--ids-color-slate-30);
   --ids-tab-hover-background-color: var(--ids-color-azure-10);
   --ids-tab-hover-text-color: var(--ids-color-primary);
   --ids-tab-focus-border-color: var(--ids-color-primary);
@@ -1158,7 +1181,7 @@
   --ids-textarea-error-disabled-border-color: var(--ids-color-error-30);
   --ids-textarea-error-disabled-text-color: var(--ids-color-error-30);
   --ids-textarea-error-focus-border-color: var(--ids-color-error-60);
-  --ids-textarea-error-focus-box-shadow: 0 0 3px 2px rgba(218, 18, 23, 0.3);
+  --ids-textarea-error-focus-box-shadow: 0 0 3px 2px rgba(218 18 23 / 0.3);
   --ids-textarea-error-text-color: var(--ids-color-error-80);
   --ids-textarea-focus-border-color: var(--ids-color-azure-60);
   --ids-textarea-focus-box-shadow: var(--ids-box-shadow-md);

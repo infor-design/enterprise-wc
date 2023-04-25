@@ -31,7 +31,6 @@ const Base = IdsLocaleMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @part menu-item - the menu item element
  * @part text - the text element
  * @part icon - the icon element

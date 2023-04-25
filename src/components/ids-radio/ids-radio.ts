@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import '../ids-text/ids-text';
@@ -12,10 +11,8 @@ import './ids-radio-group';
 import styles from './ids-radio.scss';
 
 const Base = IdsLocaleMixin(
-  IdsThemeMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -24,7 +21,6 @@ const Base = IdsLocaleMixin(
  * @type {IdsRadio}
  * @inherits IdsElement
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
  * @part radio - the actual radio input element
  * @part circle - the visible circle element

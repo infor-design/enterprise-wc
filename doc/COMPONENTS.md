@@ -6,9 +6,9 @@
 
 We have generated a list of [Articles](./ARTICLES.md) about web components and other web component libraries for reference. You probably should learn about concepts like: [ShadowRoot](https://developer.mozilla.org/en-US/docs/Web/data/ShadowRoot), [Encapsulation/Scoped Css](https://developers.google.com/web/fundamentals/web-components/shadowdom), [Constructed Style Sheets](https://developers.google.com/web/updates/2019/02/constructable-stylesheets), [Sass](https://sass-lang.com/), [Web Component lifecycles](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements#using_the_lifecycle_callbacks) and styling in web components.
 
-In general, the Ids WebComponents Library is striving to adhere to the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki), within reason.
+In general, the Ids WebComponents Library strived to adhere to the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki), within reason.
 
-Good components to look at that are done already are are IdsTag, IdsAlerts and IdsHyperlink as references.
+Good reference components to look at that are done already are are IdsTag, IdsAlerts and IdsHyperlink as references.
 
 ### Understand some of our concepts
 
@@ -28,14 +28,14 @@ The mixin pattern - as the name suggests - is a pattern of mixing together an ob
 
 The type of things that you should make mixins are shared functionality that could be used across more than one component. Sometimes we don't know this right away so its possible to refactor some functionality to use that pattern and a certain point.
 
-Current mixins are documented here `src/mixins/README.md`. Some commonly used ones include IdsEventsMix, IdsKeyBoardMixin and IdsThemeMixin.
+Current mixins are documented here `src/mixins/README.md`. Some commonly used ones include are IdsEventsMix, IdsKeyBoardMixin.
 
 ### Scaffold the component source code
 
-- [ ] Create a folder `/src/ids-[component]`, which will contain all your new component source code.
-- [ ] Add an `ids-[component].js`, which is the WebComponent interaction code.
-- [ ] Note that `ids-[component].d.ts` will be generated automatically by the TypeScript compiler.
-- [ ] Add an `ids-[component].scss`, which holds all scoped styles for this WebComponent.
+- [ ] Create a folder `/src/ids-component-name`, which will contain all your new component source code.
+- [ ] Add an `ids-component-name.js`, which is the WebComponent interaction code.
+- [ ] Note that `ids-component-name.d.ts` will be generated automatically by the TypeScript compiler.
+- [ ] Add an `ids-component-name.scss`, which holds all scoped styles for this WebComponent.
 - [ ] Add a `README.md` for documentation, specification, etc.
 - [ ] Add a `index.js` that imports whats needed (and only whats needed) to use the component.
 
@@ -50,20 +50,22 @@ Create an example basic component, for example this code would make a new custom
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 
-// Import a Base File with all mixins and the main extends from element
-import Base from './../ids-[component-name].base';
+// Import the mixins if only a few can move this down to the class definition
+const Base = IdsEventsMixin(
+    IdsElement
+    );
 
 // Import Sass to be encapsulated in the component shadowRoot
 import styles from './ids-[component-name].scss';
 
 /**
- * IDS [Component] Component
+ * IDS Component Name Component
  * @type {[IdsComponent]}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @part container - the container element
  */
-@customElement('ids-[component]')
+@customElement('ids-component-name')
 @scss(styles)
 class [IdsComponent] extends Base {
   constructor() {
@@ -93,7 +95,7 @@ class [IdsComponent] extends Base {
    * @returns {string} The template
    */
   template() {
-    return '<div class="ids-[component]" class="${this.settingName}" part="container"><slot></slot></div>';
+    return '<div class="ids-component-name" class="${this.settingName}" part="container"><slot></slot></div>';
   }
 
   /**
@@ -124,7 +126,7 @@ class [IdsComponent] extends Base {
   get settingName(): string { return this.getAttribute(attributes.DISMISSIBLE); }
 }
 
-export default Ids[Component];
+export default IdsComponentName;
 ```
 
 Each of the steps and code sections are explained here.
@@ -134,10 +136,9 @@ Each of the steps and code sections are explained here.
 ```js
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-
 ```
 
-- If this new code is an IDS UI Web Component (not a special class or utility ect), ensure that it imports `src/ids-base/ids-element.js` extends a Base element that is established in a `ids-[component-name]-base.js` file
+- If this new code is a UI Web Component (not a special class or utility ect), ensure that it imports `src/ids-base/ids-element.js` extends a Base element that is established in a `ids-[component-name]-base.js` file
 - Ensure that your styles are imported from `ids-[component-name].scss` and added to the component via the `@scss` decorator, this will be added into the components shadowRoot by IdsElement.
 
 ```js
@@ -148,8 +149,8 @@ import styles from './ids-[component-name].scss';
 
 ```js
 /**
- * IDS [Component] Component
- * @type {[IdsComponent]}
+ * IDS Component Name
+ * @type {IdsComponentName}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @part container - the container element
@@ -159,10 +160,10 @@ import styles from './ids-[component-name].scss';
 - Add the `customElement` directive, this will ensure that when `ids-[component-name]` is used in the document that this is the code that will execute for it. See [MDN Docs on custom elements](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) for more information.
 
 ```js
-@customElement('ids-[component]')
+@customElement('ids-component-name')
 ```
 
-- Review the mixins that are available in the `src/ids-mixins/README.md` folder for any reusable parts then include them in the `ids-component-base.js` file. Some commonly used ones include IdsEventsMix if you need event handlers, and IdsThemeMixin if your component is visual with colors and needs themes and IdsKeyBoardMixin if your component responds to keyboard inputs.
+- Review the mixins that are available in the `src/ids-mixins/README.md` folder for any reusable parts then import them and mix them into the class constructor as Base. Some commonly used ones include IdsEventsMix if you need event handlers, and IdsKeyBoardMixin if your component responds to keyboard inputs.
 
 ```js
 class [IdsComponent] extends Base {
@@ -204,10 +205,8 @@ connectedCallback() {
 - Create a template method that returns a template string which will be the internal markup of the component. You can inject any settings into the string. Some elements should have `part` attributes, these are potential elements an outside developer might want to style and it gives them some access to otherwise encapsulated styles to override. For more info see the [shadow parts spec](https://drafts.csswg.org/css-shadow-parts-1/#part-attr). Its important to reflect all the settings in the template for the initial render.
 
 ```js
-
-```js
 template() {
-  return '<div class="ids-[component]" class="${this.settingName}" part="container"><slot></slot></div>';
+  return '<div class="ids-component-name" class="${this.settingName}" part="container"><slot></slot></div>';
 }
 ```
 
@@ -220,7 +219,7 @@ template() {
 }
 ```
 
-- Add a getter/setter for each properties. One point is that you should always do the attributes in two ways:
+- Add a getter/setter for each properties. You should always consider the attributes in two ways:
   - read in the template for initial render
   - in the setter to adjust for setting later
 
@@ -247,14 +246,14 @@ get settingName(): string { return this.getAttribute(attributes.DISMISSIBLE); }
 - Export the component (usually as default)
 
 ```js
-export default Ids[Component];
+export default IdsComponentName;
 ```
 
 ### Add a new app example for the new component
 
 Note that when first adding new HTML files or renaming, a restart on the webpack compiler will be needed for it to be visitable.
 
-- [ ] Create a folder at `app/ids-[component]`, which will hold the markup for the demos
+- [ ] Create a folder at `app/ids-component-name`, which will hold the markup for the demos
 - [ ] Add an `example.html`, which contains the basic example template for your component. In the markup make a H1 tag and wrap your component in the layout grid. For example:
 
 ```html
@@ -263,19 +262,19 @@ Note that when first adding new HTML files or renaming, a restart on the webpack
 </ids-layout-grid>
 <ids-layout-grid>
   <ids-layout-grid-cell>
-   <ids-component>
+   <ids-component-name>
       Dom Contents
-    </ids-component>
+    </ids-component-name>
   </ids-layout-grid-cell>
 </ids-layout-grid>
 ```
 
-- [ ] Add an `index.html`, which is the main example `app/ids-[component]`. See other files for the general html structure.
+- [ ] Add an `index.html`, which is the main example `app/ids-component-name`. See other files for the general html structure.
 - [ ] Add an `index.js` for loading and building the component, this should just contain what is needed for the component itself to run. This is also going to be used to create the usable component in the final build.
 - [ ] In the root `index.js`, import the WebComponent's source file that you've created using a relative path, where the root component is the default export along with any sub components beyond that.
 
 ```js
-import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/components/ids-[component]';
+import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/components/ids-component-name';
 ```
 
 - [ ] Add an `example.js` for any demo code in the example.html (if needed)
@@ -286,11 +285,10 @@ The Entry and HTMLWebPack element are now auto added and picked up on script loa
 
 ### Code the Sass/JS
 
-Now that you have a `ids-[component].scss`, which holds all scoped styles for the WebComponent. You can begin to style it. There are several concepts to know and several selectors to learn about.
+Now that you have a `ids-component-name.scss`, which holds all scoped styles for the WebComponent. You can begin to style it. There are several concepts to know and several selectors to learn about.
 
-- Currently we use [constructed style sheets](https://developers.google.com/web/updates/2019/02/constructable-stylesheets) on chrome where its supported and on safari and firefox the style sheet is appended a `style` tag.
 - The web component base will take the first child of the shadowRoot template and label it a container. In the web component you can access it with `this.container` but also this should get the root styles. For example if the component is called `component` it should get a class `ids-component`. This will make it easier to create the standalone css examples. These are examples that have a minimal amount of usable css and markup for the component  that could be used from the style sheet alone. Think about what you can expose thats useful.
-- We use a `Mixin Style` for properties that come from our design repo's tokens. For a complete list see [the file in node_modules](../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins.scss). Any of these should be used over standard css for consistency and to follow our standards. For example:
+- We use a series of design tokens that comes from the themes folder. See the `ids-theme-default-core.scss` file for a list of all of them.
 
 ```scss
 .ids-component {
@@ -300,7 +298,8 @@ Now that you have a `ids-[component].scss`, which holds all scoped styles for th
 }
 ```
 
-- Use tools like css flex and css grid to do layouts. In addition when checking RTL try and do it in a way with css that does not require additional css when the page is RTL. The best approach is to try and make your css work either direction before resorting to resets. One simple one is to put the same margin or padding or other positional css on both sides. One useful technique is to use css grid / flex with `end` or `flex-end`. This automatically works in RTL mode without trying to negate anything.
+- Try to make tokens for all the visual aspects of the component. Use design side tokens for the right side.
+- Use tools like css flex and css grid to do layouts. In addition when checking RTL try and do it in a way with css that does not require additional css when the page is RTL. The best approach is to try and make your css work either direction before resorting to resets. One simple one is to put the same margin or padding or other positional css on both sides. One useful technique is to use css grid / flex with `end` or `flex-end`. This automatically works in RTL mode without trying to negate anything. Also use `margin-inline-start` `margin-inline-end` `margin-block-start` `margin-block-end` `padding-inline-start` `padding-inline-end` `padding-block-start` `padding-block-end` so it works on RTL better.
 
 ```scss
 // On Parent
@@ -320,7 +319,7 @@ justify-content: flex-end;
 
 ### Code the Docs/README.md
 
-For a component you should have a readme with several sections. See tag/hyperlink ect for some examples. In looking for docs try to review and improve the previous docs. We want to combine the previous docs from the [design site product section](https://design.infor.com/product) and [design site components  readme](https://github.com/infor-design/enterprise/blob/main/src/components/circlepager/readme.md)  review whats there for the previous component and leverage the copy. The key is to be concise yet detailed at the same time.
+For a component you should have a readme with several sections. See tag/hyperlink ect for some examples. In looking for docs try to review and improve the previous docs. We want to combine the previous docs from the [design site product section](https://design.infor.com/product) and [design site components readme](https://github.com/infor-design/enterprise/blob/main/src/components/circlepager/readme.md) review whats there for the previous component and leverage the copy. The key is to be concise yet detailed at the same time.
 
 The following sections are the most important:
 
@@ -330,11 +329,11 @@ Add a brief description of what the component is, what it can do and its main fe
 
 #### Use Cases
 
-Add a list of typical uses for the component and possibly some "do not use" situations.
+Add a list of typical uses for the component and possibly some "do not use" cases.
 
 #### Terminology
 
-Add a list of any terms surrounding the component you should define for the reader or any other similar names for the component.
+Add a list of any terms surrounding the component you should define for the reader or any other similar names used within the component concepts.
 
 #### Features (With Code Examples)
 
@@ -358,7 +357,7 @@ Add anything of consideration for mobile devices.
 
 #### Designs
 
-Add a link to the [design doc](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)
+Add a link to the [design doc](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771&t=Hn2ppFMeWdP3xPLC-0)
 
 #### Converting from Previous Versions
 
@@ -366,7 +365,11 @@ Add detailed but concise info on converting from previous version.
 
 #### Accessibility Guidelines
 
-Add detailed info on accessibility both from the point of view of how the component works with it and anything the developers should know. Only public methods, events and settings should be mentioned, no need to add anything else. Familiarize yourself with [every day types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html).
+Add detailed info on accessibility both from the point of view of how the component works with it and anything the developers should know.
+
+#### Methods / Events / Settings
+
+Only public methods, events and settings should be mentioned, no need to add anything else. Familiarize yourself with [every day types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html).
 
 Example of a setting with an enum note that we try to use single line comments with the first letter capitalized:
 ```js
@@ -395,10 +398,6 @@ on(event: 'beforetagremove', listener: (detail: IdsTagEventVetoable) => void): t
 #### Regional Considerations
 
 Add info on what behaviors or considerations the developer needs to know regarding when running in different languages.
-
-### Code the Types
-
-We include type `d.ts` files for typescript users so that they can get the typings for events, settings and public methods. These three things should be added to the types. Review the current examples
 
 ### Code the Tests
 

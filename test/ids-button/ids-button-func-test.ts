@@ -332,11 +332,6 @@ describe('IdsButton Component', () => {
     expect(btn.iconEl?.nodeName).toEqual('IDS-ICON');
   });
 
-  it('supports setting mode', () => {
-    btn.mode = 'dark';
-    expect(btn.container?.getAttribute('mode')).toEqual('dark');
-  });
-
   it('supports setting color variants', async () => {
     await expectEnumAttributeBehavior({
       elem: btn,

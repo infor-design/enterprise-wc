@@ -121,7 +121,7 @@ export default class IdsProgressChart extends Base {
     const includesAlert = this.color?.includes('error') || this.color?.includes('caution') || this.color?.includes('warning');
 
     if (includesAlert || this.color?.includes('base') || this.color?.includes('success')) {
-      prop = `var(--ids-color-status-${this.color === 'error' ? 'danger' : this.color})`;
+      prop = `var(--ids-color-${this.color === 'error' ? 'danger' : this.color})`;
 
       // only color the icons and progress labels if it's error, caution, or warning
       if (includesAlert) {
@@ -132,7 +132,7 @@ export default class IdsProgressChart extends Base {
         icon?.style.setProperty('color', prop);
       }
     } else if (this.color?.substring(0, 1) !== '#') {
-      prop = `var(--ids-color-palette-${this.color})`;
+      prop = `var(--ids-color-${this.color})`;
     }
 
     const bar = this.container?.querySelector<HTMLElement>('.bar-progress');

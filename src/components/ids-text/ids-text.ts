@@ -226,7 +226,7 @@ export default class IdsText extends Base {
       } else if (value === 'muted') {
         this.setAttribute(attributes.COLOR, value);
         this.container?.classList.add(mutedClass);
-      } else this.container?.style.setProperty('color', `var(--ids-color-palette-${value})`);
+      } else this.container?.style.setProperty('color', `var(--ids-color-${value})`);
       return;
     }
     this.removeAttribute(attributes.COLOR);

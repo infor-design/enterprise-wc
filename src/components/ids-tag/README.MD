@@ -53,7 +53,6 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 - Mixins
   IdsEventsMixin
   IdsKeyboardMixin
-  IdsThemeMixin
 
 ## Settings (Attributes)
 

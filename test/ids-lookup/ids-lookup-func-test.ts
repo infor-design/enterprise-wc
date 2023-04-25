@@ -454,11 +454,6 @@ describe('IdsLookup Component', () => {
     expect((document.querySelector('#custom-lookup-modal') as any).visible).toBeTruthy();
   });
 
-  it('supports setting mode', () => {
-    lookup.mode = 'dark';
-    expect(lookup.container.getAttribute('mode')).toEqual('dark');
-  });
-
   it('supports setting autocomplete', () => {
     lookup.autocomplete = true;
     expect(lookup.hasAttribute('autocomplete')).toBeTruthy();

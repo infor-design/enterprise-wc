@@ -193,7 +193,7 @@ export default class IdsHierarchyItem extends Base {
   #setColor() {
     let color = this.color;
     if (this.color?.substring(0, 1) !== '#') {
-      color = `var(--ids-color-palette-${this.color})`;
+      color = `var(--ids-color-${this.color})`;
     }
 
     const item = this.container?.querySelector<HTMLElement>('.leaf-inside');

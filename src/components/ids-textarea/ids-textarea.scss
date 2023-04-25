@@ -81,6 +81,7 @@ $textarea-size-default-height: 120px;
 
   .ids-textarea-field {
     @include mixins.antialiased();
+
     background-color: var(--ids-textarea-background-color);
     border: 1px solid;
     border-color: var(--ids-textarea-border-color);

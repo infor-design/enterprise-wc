@@ -84,6 +84,10 @@
   --ids-action-panel-header-background-color: var(--ids-color-slate-10);
   --ids-action-panel-header-border-color: var(--ids-color-slate-40);
 
+  // Action Sheet
+  --ids-action-sheet-background-color: var(--ids-color-slate-00);
+  --ids-action-sheet-border-color: var(--ids-color-slate-60);
+
   // Alerts
   --ids-alert-in-progress-color: var(--ids-color-amethyst-90);
   --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-50);
@@ -208,10 +212,10 @@
   // Data Grid (Rows)
   --ids-data-grid-row-selected-background-color: rgba(85 163 243 / 0.2);
   --ids-data-grid-row-alternate-background-color: var(--ids-color-slate-10);
-  --ids-data-grid-row-focus-box-shadow:  inset 0 0 0 1px var(--ids-color-palette-azure-70), 0 1px 0 0 var(--ids-color-palette-azure-70), 0 0 3px 2px rgb(54 138 192 / 0.3);
+  --ids-data-grid-row-focus-box-shadow:  inset 0 0 0 1px var(--ids-color-primary-70), 0 1px 0 0 var(--ids-color-primary-70), 0 0 3px 2px rgb(54 138 192 / 0.3);
 
   // Dirty Indicator
-  --ids-dirty-indicator-background-color: var(--ids-color-palette-amber-50);
+  --ids-dirty-indicator-background-color: var(--ids-color-amber-50);
 
   // Drawer
   --ids-drawer-app-menu-text-color: var(--ids-color-slate-10);
@@ -329,6 +333,10 @@
   --ids-radio-checked-background-color: var(--ids-color-primary);
   --ids-radio-checked-border-color: var(--ids-color-primary);
   --ids-radio-checked-inner-background-color: var(--ids-color-slate-00);
+
+  // Separator
+  --ids-separator-background-color: var(--ids-color-slate-100);
+  --ids-separator-alternate-background-color: var(--ids-color-slate-00);
 
   // Scroll View
   --ids-scroll-view-button-border-color: var(--ids-color-slate-60);

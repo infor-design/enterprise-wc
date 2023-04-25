@@ -51,21 +51,24 @@
 // Module Tabs
 
 .ids-tabs-container.color-variant-module {
-  border-bottom: 1px solid var(--ids-color-azure-100);
+  border-bottom: 1px solid var(--ids-color-primary-100);
 
   &.has-more-actions {
     .ids-tabs-list-more {
-      border-left: 1px solid var(--ids-color-palette-azure-100);
+      border-left: 1px solid var(--ids-color-primary-100);
     }
   }
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors */
 .ids-tabs-container.color-variant-module {
-  border-bottom: 1px solid var(--ids-color-azure-100);
+  border-bottom: 1px solid var(--ids-color-primary-100);
 
+  /* stylelint-disable-next-line no-duplicate-selectors */
   &.has-more-actions {
+    /* stylelint-disable-next-line no-duplicate-selectors */
     .ids-tabs-list-more {
-      border-left: 1px solid var(--ids-color-palette-azure-100); // token
+      border-left: 1px solid var(--ids-color-primary-100); // token
     }
   }
 }

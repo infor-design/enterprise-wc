@@ -69,7 +69,7 @@ export default class IdsCounts extends IdsEventsMixin(IdsElement) {
     if (this.href) this.container?.setAttribute('color', '');
 
     if (value) {
-      const color = value[0] === '#' ? value : `var(--ids-color-status-${value})`;
+      const color = value[0] === '#' ? value : `var(--ids-color-${value})`;
       this.container?.style.setProperty('color', color);
       this.setAttribute(attributes.COLOR, value);
     } else {

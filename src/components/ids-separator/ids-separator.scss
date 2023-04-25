@@ -1,6 +1,4 @@
 /* Ids Separator Component */
-@import '../../core/ids-base';
-
 :host {
   display: block;
 }
@@ -11,45 +9,28 @@
 }
 
 .ids-separator {
-  @include block();
-
-  background-color: var(--ids-color-brand-secondary-lighter);
+  background-color: var(--ids-separator-background-color);
+  display: block;
   list-style: none;
 
   &:not(.vertical) {
-    @include my-4();
-
-    height: 1px;
+    margin-block-start: var(--ids-separator-margin);
+    margin-block-end: var(--ids-separator-margin);
+    height: var(--ids-separator-width);
   }
 
   &.vertical {
-    @include mx-4();
-
-    width: 1px;
-    height: 24px;
+    margin-inline-start: var(--ids-separator-margin);
+    margin-inline-end: var(--ids-separator-margin);
+    width: var(--ids-separator-width);
+    height: var(--ids-separator-height);
   }
 
   &.color-variant-alternate-formatter {
     &.vertical {
       align-self: center;
+      background-color: var(--ids-separator-alternate-background-color);
       height: 16px;
     }
-  }
-}
-
-// Handle Themes
-.ids-separator[mode='dark'] {
-  @include bg-slate-50();
-
-  &.color-variant-alternate-formatter {
-    background-color: var(--ids-color-palette-slate-70);
-  }
-}
-
-.ids-separator[mode='contrast'] {
-  @include text-slate-100();
-
-  &.color-variant-alternate-formatter {
-    background-color: var(--ids-color-palette-white);
   }
 }

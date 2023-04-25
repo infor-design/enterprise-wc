@@ -34,7 +34,7 @@ The `ids-date-picker` is a web component to support date entry
 - `expanded` `{true|false}` - When the date picker is month/year picker it specifies whether or not the picker is expanded
 - `legend` - Set array of legend items:
   - `name` `{string}` - The name of the legend (required)
-  - `color` `{string}` - The color of the legend, either hex or IDS variable excluding `--ids-color-palette-` part i.e. `emerald-60` (required)
+  - `color` `{string}` - The color of the legend, either hex or IDS variable excluding `--ids-color-` part i.e. `emerald-60` (required)
   - `dates` `{Array}` - Array of dates (either dates or dayOfWeek is required)
   - `dayOfWeek` `{Array}` - Array of days of week where 0 is Sunday (either dates or dayOfWeek is required)
 - `use-range` `{true|false}` - Whether or not the component should be a range picker. If set without settings default settings will apply.

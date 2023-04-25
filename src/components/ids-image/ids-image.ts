@@ -18,7 +18,7 @@ const Base = IdsEventsMixin(
  * IDS Image Component
  * @type {IdsImage}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-image')
 @scss(styles)

@@ -1,8 +1,6 @@
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
-import styles from './ids-element.scss';
 
 export type IdsBaseConstructor = new (...args: any[]) => IdsElement;
-
 export type IdsConstructor<T> = new (...args: any[]) => T & IdsElement;
 
 /**
@@ -210,13 +208,6 @@ export default class IdsElement extends HTMLElement {
   #appendHostCss() {
     const win = (window as any);
     if (!win.idsStylesAdded) {
-      const doc = (document.head as any);
-      const style = document.createElement('style');
-      style.textContent = styles.replace(':host {', ':root {');
-      style.id = 'ids-styles';
-      if (this.nonce) style.setAttribute('nonce', this.nonce);
-
-      doc.appendChild(style);
       win.idsStylesAdded = true;
       this.theme = 'default-light';
     }
@@ -241,13 +232,13 @@ export default class IdsElement extends HTMLElement {
       .then(async (data) => {
         const themeStyles = await data.text();
 
-        const doc = (document.head as any);
+        const head = (document.head as any);
         const styleElem = document.querySelector('#ids-theme');
         const style = styleElem || document.createElement('style');
         style.textContent = themeStyles;
         style.id = 'ids-theme';
         if (this.nonce) style.setAttribute('nonce', this.nonce);
-        if (!styleElem) doc.appendChild(style);
+        if (!styleElem) head.insertBefore(style, (head.querySelector('title') as HTMLElement).nextElementSibling);
       });
   }
 }

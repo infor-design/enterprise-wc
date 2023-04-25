@@ -66,6 +66,10 @@
   --ids-action-panel-header-border-color: var(--ids-color-slate-90);
   --ids-action-panel-content-background-color: var(--ids-color-slate-100);
 
+  // Action Sheet
+  --ids-action-sheet-background-color: var(--ids-color-slate-70);
+  --ids-action-sheet-border-color: var(--ids-color-slate-50);
+
   // Alerts
   --ids-alert-in-progress-color: var(--ids-color-amethyst-30);
   --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-70);
@@ -203,6 +207,7 @@
   --ids-date-picker-picklist-item-focus-border-color: var(--ids-color-primary-40);
   --ids-date-picker-picklist-item-selected-background-color: var(--ids-color-primary-40);
   --ids-date-picker-popup-button-today-text-color: var(--ids-color-primary-40);
+  --ids-date-picker-picklist-separator-background-color: var(--ids-color-slate-50);
 
   // Dirty Indicator
   --ids-dirty-indicator-background-color: var(--ids-color-amber-40);
@@ -397,6 +402,10 @@
   --ids-searchfield-header-background-color: var(--ids-color-slate-100);
   --ids-searchfield-header-text-color: var(--ids-text-color);
   --ids-searchfield-header-icon-color: var(--ids-color-slate-10);
+
+  // Separator
+  --ids-separator-background-color: var(--ids-color-slate-50);
+  --ids-separator-alternate-background-color: var(--ids-color-slate-70);
 
   // Slider
   --ids-slider-tick-background-color: var(--ids-color-azure-60);

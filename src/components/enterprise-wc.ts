@@ -65,8 +65,6 @@ import './ids-progress-bar/ids-progress-bar';
 import './ids-progress-chart/ids-progress-chart';
 import './ids-radio/ids-radio';
 import './ids-rating/ids-rating';
-import './ids-scrollable/ids-scrollable';
-import './ids-scrollable/ids-sticky';
 import './ids-scroll-view/ids-scroll-view';
 import './ids-search-field/ids-search-field';
 import './ids-skip-link/ids-skip-link';

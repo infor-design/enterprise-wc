@@ -35,7 +35,6 @@ const Base = IdsOrientationMixin(
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsOrientationMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-tabs')
 @scss(styles)

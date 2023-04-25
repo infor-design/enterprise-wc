@@ -29,7 +29,6 @@ const Base = IdsKeyboardMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-toolbar')
 @scss(styles)

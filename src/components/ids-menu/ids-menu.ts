@@ -10,7 +10,6 @@ import {
 
 import IdsDataSource from '../../core/ids-data-source';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 
@@ -27,10 +26,8 @@ import type IdsMenuItem from './ids-menu-item';
 import type IdsMenuHeader from './ids-menu-header';
 
 const Base = IdsKeyboardMixin(
-  IdsThemeMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+  IdsEventsMixin(
+    IdsElement
   )
 );
 

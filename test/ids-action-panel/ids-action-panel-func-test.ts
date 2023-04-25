@@ -109,11 +109,6 @@ describe('IdsActionPanel Component', () => {
     expect(cap.visible).toBeTruthy();
   });
 
-  it('supports setting mode', () => {
-    cap.mode = 'dark';
-    expect(cap.container?.getAttribute('mode')).toEqual('dark');
-  });
-
   it('should be able to set attributes before append', async () => {
     const elem: any = new IdsActionPanel();
     elem.id = 'test';

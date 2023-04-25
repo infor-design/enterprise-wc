@@ -33,9 +33,9 @@ describe('IdsColorUtils', () => {
       'success'
     ];
     statuses.forEach((status) => {
-      expect(convertStatusToIDSColor(status)).toBe(`var(--ids-color-status-${status})`);
+      expect(convertStatusToIDSColor(status)).toBe(`var(--ids-color-${status})`);
     });
-    expect(convertStatusToIDSColor('error')).toBe(`var(--ids-color-status-danger)`);
+    expect(convertStatusToIDSColor('error')).toBe(`var(--ids-color-danger)`);
 
     // Pass over unexpected values
     expect(convertStatusToIDSColor('unexpected')).toBe('unexpected');

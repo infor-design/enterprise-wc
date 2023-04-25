@@ -26,7 +26,6 @@ const Base = IdsKeyboardMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
  * @part container - the notification banner element
  * @part message - the message inside the container element
  * @part link - the link inside the container element

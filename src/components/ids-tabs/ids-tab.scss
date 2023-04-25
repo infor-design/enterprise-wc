@@ -120,7 +120,7 @@ $ids-tab-vertical-height: 42px;
   &:not(.hide-focus):focus-visible,
   &:not(.hide-focus):focus,
   &:not(.hide-focus):focus-within {
-    box-shadow: 0 0 3px 2px rgba(54, 138, 192, 0.3);
+    box-shadow: 0 0 3px 2px rgba(54 138 192 / 0.3);
     border-style: solid;
     outline: none;
   }
@@ -317,7 +317,6 @@ $ids-tab-vertical-height: 42px;
     &:focus {
       border-color: var(--ids-tab-focus-border-color);
       background-color: var(--ids-tab-focus-background-color);
-      border-color: var(--ids-tab-selected-text-color);
     }
 
     &.disabled {
@@ -405,6 +404,7 @@ $ids-tab-vertical-height: 42px;
   // =================================================
   // Light Mode / Module Tabs Color Variant
 
+  /* stylelint-disable-next-line no-duplicate-selectors */
   &.color-variant-module {
     background-color: var(--ids-tab-module-background-color);
     color: var(--ids-tab-module-text-color);

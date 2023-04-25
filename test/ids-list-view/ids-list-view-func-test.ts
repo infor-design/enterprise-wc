@@ -124,11 +124,6 @@ describe('IdsListView Component', () => {
     expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(0);
   });
 
-  it('supports setting mode', () => {
-    listView.mode = 'dark';
-    expect(listView.container?.getAttribute('mode')).toEqual('dark');
-  });
-
   it('supports setting height', () => {
     listView.height = '600px';
     expect(listView.getAttribute('height')).toEqual('600px');

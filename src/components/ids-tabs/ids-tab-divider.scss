@@ -1,13 +1,11 @@
-@import '../../core/ids-base';
 
 .ids-tab-divider {
-  @include ml-20();
-  @include mr-12();
-  @include bg-graphite-30();
-
+  background-color: var(--ids-tab-divider-background-color);
   display: block;
   height: calc(100% - 16px);
   position: relative;
+  margin-inline-start: 20px;
+  margin-inline-end: 12px;
   top: 8px;
   width: 1px;
 }

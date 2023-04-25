@@ -230,7 +230,7 @@ describe('IdsAxisChart Component', () => {
 
   it('can get colors and color range', async () => {
     expect(axisChart.colors.length).toEqual(20);
-    expect(axisChart.color(2)).toEqual('var(--ids-color-palette-amethyst-60)');
+    expect(axisChart.color(2)).toEqual('var(--ids-color-amethyst-60)');
   });
 
   it('renders when changing format/locale', async () => {
@@ -353,7 +353,7 @@ describe('IdsAxisChart Component', () => {
         name: 'Feb',
         value: 300
       }],
-      color: 'var(--ids-color-palette-azure-20)',
+      color: 'var(--ids-color-azure-20)',
       name: 'Series 2'
     }];
     axisChart.redraw();

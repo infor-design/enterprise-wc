@@ -74,11 +74,6 @@ describe('IdsContainer Component', () => {
     expect(container.getAttribute('scrollable')).toEqual('true');
   });
 
-  it('supports setting mode', () => {
-    container.mode = 'dark';
-    expect(container.container?.getAttribute('mode')).toEqual('dark');
-  });
-
   it('supports setting language', async () => {
     await container.setLanguage('ar');
     expect(container.getAttribute('language')).toEqual('ar');

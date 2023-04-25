@@ -18,7 +18,6 @@ const DEFAULT_PLACEHOLDER = 'Type to search';
  * @type {IdsSearchField}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsColorVariantMixin
  */

@@ -15,7 +15,6 @@ const DEFAULT_ICON = 'empty-error-loading';
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-error-page')
 @scss(styles)

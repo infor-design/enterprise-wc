@@ -1,20 +1,19 @@
-@import '../../core/ids-base';
+/* Ids Multi Select Component */
 @import '../ids-dropdown/ids-dropdown';
 
 .ids-checkbox {
-  @include mb-0();
+  margin-bottom: 0;
 }
 
 ids-trigger-field {
   ids-tag {
-    @include self-center();
-    @include mt-4();
-    @include ml-4();
-
+    align-self: center;
     display: flex;
+    margin-top: 40px;
+    margin-inline-start: 4px;
 
     &[disabled]::part(tag) {
-      @include cursor-default();
+      cursor: var(--ids-cursor-default);
     }
   }
 }
@@ -29,8 +28,7 @@ ids-trigger-field {
       }
 
       &::part(input) {
-        @include p-0();
-
+        padding: 0;
         flex: 1;
       }
 
@@ -38,15 +36,15 @@ ids-trigger-field {
         max-width: 100%;
 
         &::part(text) {
-          @include pl-8();
+          padding-inline-start: 8px;
         }
       }
 
       &[compact],
       &[field-height='xs'] {
         ids-text::part(text) {
-          @include pl-4();
-          @include text-14();
+          padding-inline-start: 4px;
+          font-size: var(--ids-multiselect-font-size);
         }
       }
     }
@@ -57,7 +55,7 @@ ids-trigger-field {
   .has-value {
     ids-trigger-field {
       &::part(field-container) {
-        @include cursor-pointer();
+        cursor: var(--ids-cursor-pointer);
       }
     }
   }

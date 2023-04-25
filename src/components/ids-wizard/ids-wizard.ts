@@ -235,7 +235,7 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
   }
 
   /**
-   * Binds associated callbacks and cleans--ids-color-palette-black
+   * Binds associated callbacks
    * old handlers when template refreshes
    */
   rendered() {

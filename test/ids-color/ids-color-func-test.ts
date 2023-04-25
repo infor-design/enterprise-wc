@@ -141,7 +141,7 @@ describe('Ids Color Component', () => {
     // const styles = getComputedStyle(color, ':hover');
     // const outlineHoverRules = [...color.shadowRoot.styleSheets[0].cssRules][1];
     // expect(outlineHoverRules.style.boxShadow).toEqual('rgba(0, 114, 237, 0.3) 0px 0px 3px 2px');
-    // expect(outlineHoverRules.style.outline).toEqual('1px solid var(--ids-color-palette-azure-60)');
+    // expect(outlineHoverRules.style.outline).toEqual('1px solid var(--ids-color-azure-60)');
     // color.shadowRoot.styleSheets
 
     // expect(styles.getPropertyValue('box-shadow')).toEqual('0 0 3px 2px #0072ED4d');
