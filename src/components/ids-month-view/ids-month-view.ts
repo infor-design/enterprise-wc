@@ -1652,7 +1652,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
 
   /**
    * Function that fires as the day cell is rendered.
-   * @param {Function} func
+   * @returns {void}
    */
   public get onDayRender() {
     return this.state.onDayRender;

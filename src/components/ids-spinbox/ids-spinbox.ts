@@ -488,7 +488,6 @@ export default class IdsSpinbox extends IdsTriggerField {
   /**
    * represents the direction a user is holding for
    * the spinbox; works to enable long press intervals
-   *
    * @type {'up'|'down'|undefined}
    */
   #stepDirection: any;
