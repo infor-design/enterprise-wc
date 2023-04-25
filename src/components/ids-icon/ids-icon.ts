@@ -141,6 +141,8 @@ export default class IdsIcon extends Base {
     const mirroredIcons = [
       'add-grid-record',
       'add-grid-row',
+      'arrow-left',
+      'arrow-right',
       'attach',
       'bullet-list',
       'bullet-steps',
