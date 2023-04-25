@@ -352,8 +352,9 @@
   --ids-step-chart-step-completed-background-color: var(--ids-color-primary);
 
   // Swipe Action
-  --ids-swipe-action-button-active-background-color: var(--ids-color-slate-90);
-  --ids-swipe-action-button-hover-background-color: var(--ids-color-slate-90);
+  --ids-swipe-action-right-active-background-color: var(--ids-color-azure-90);
+  --ids-swipe-action-right-background-color: var(--ids-color-azure-70);
+  --ids-swipe-action-right-hover-background-color: var(--ids-color-azure-90);
 
   // Switch
   --ids-switch-pole-off-background-color: var(--ids-color-slate-80);
@@ -385,6 +386,9 @@
   --ids-tag-icon-hover-color: var(--ids-color-slate-90);
   --ids-tag-secondary-background-color: var(--ids-input-background-color);
   --ids-tag-secondary-border-color: var(--ids-input-border-color);
+
+  // Textarea
+  --ids-textarea-focus-border-color: var(--ids-color-azure-90);
 
   // Time Picker
   --ids-time-picker-popup-button-border-color: var(--ids-color-slate-60);

@@ -1,4 +1,4 @@
-@import '../../core/ids-base';
+@use '../../themes/mixins/ids-core-mixins.scss' as mixins;
 @import '../../themes/mixins/ids-clearable-mixin';
 @import '../../themes/mixins/ids-dirty-tracker-mixin';
 @import '../../themes/mixins/ids-validation-mixin';
@@ -14,10 +14,9 @@ $textarea-size-default: $textarea-size-md;
 $textarea-size-default-height: 120px;
 
 .ids-textarea {
-  @include block();
-  @include mb-20();
-  @include text-16();
-
+  display: block;
+  margin-bottom: var(--ids-spacing-3xl);
+  font-size: var(--ids-font-size-md);
   font-family: var(--ids-font-family);
 
   .hidden {
@@ -35,15 +34,14 @@ $textarea-size-default-height: 120px;
     width: $textarea-size-default;
 
     &.almost-empty {
-      @include text-alert-error();
+      color: var(--ids-textarea-character-counter-warning-text-color);
     }
   }
 
   .field-container {
-    @include m-0();
-    @include p-0();
-    @include relative();
-
+    margin: var(--ids-spacing-none);
+    padding: var(--ids-spacing-none);
+    position: relative;
     display: flex;
     max-width: $textarea-size-default;
 
@@ -82,14 +80,15 @@ $textarea-size-default-height: 120px;
   }
 
   .ids-textarea-field {
-    @include antialiased();
-    @include box-border();
-    @include border-1();
-    @include border-solid();
-    @include mb-4();
-    @include p-12();
-    @include text-16();
-
+    @include mixins.antialiased();
+    background-color: var(--ids-textarea-background-color);
+    border: 1px solid;
+    border-color: var(--ids-textarea-border-color);
+    color: var(--ids-textarea-text-color);
+    box-sizing: border-box;
+    margin-bottom: var(--ids-spacing-md);
+    padding: var(--ids-spacing-xlg);
+    font-size: var(--ids-font-size-md);
     appearance: none;
     font-family: var(--ids-font-family);
     border-collapse: separate;
@@ -100,9 +99,25 @@ $textarea-size-default-height: 120px;
     text-align: left;
     width: 100%;
 
-    &:focus {
-      @include shadow();
+    &[readonly] {
+      background-color: var(--ids-textarea-readonly-background-color);
+      border-color: var(--ids-textarea-readonly-border-color);
+      color: var(--ids-textarea-readonly-text-color);
+    }
 
+    &[disabled] {
+      background-color: var(--ids-textarea-disabled-background-color);
+      border-color: var(--ids-textarea-disabled-border-color);
+      color: var(--ids-textarea-disabled-text-color);
+    }
+
+    &:not([disabled]):not([readonly]):not(:focus):hover {
+      border-color: var(--ids-textarea-hover-border-color);
+    }
+
+    &:focus {
+      border-color: var(--ids-textarea-focus-border-color);
+      box-shadow: var(--ids-textarea-focus-box-shadow);
       outline: none;
       outline-color: transparent;
     }
@@ -123,10 +138,10 @@ $textarea-size-default-height: 120px;
     }
 
     &.bg-transparent {
-      @include bg-transparent();
+      background-color: transparent;
 
       &:focus {
-        @include border-azure-60();
+        border-color: var(--ids-textarea-focus-border-color);
       }
     }
 
@@ -134,9 +149,6 @@ $textarea-size-default-height: 120px;
       text-overflow: ellipsis;
     }
 
-    &.has-triggerfield {
-      @include pr-32();
-    }
 
     // textarea text-align: [left, center, right]
     &.left {
@@ -154,88 +166,103 @@ $textarea-size-default-height: 120px;
     // textarea message: [alert, error, info, success]
     &.alert,
     &.alert:hover {
-      @include border-alert-warning();
-      @include text-alert-warning();
+      border-color: var(--ids-textarea-alert-border-color);
+      color: var(--ids-textarea-alert-text-color);
 
       &:focus {
-        @include border-alert-warning();
-
-        box-shadow: rgba(249 131 0 / 0.3) 0 0 3px 2px;
+        border-color: var(--ids-textarea-alert-focus-border-color);
+        box-shadow: var(--ids-textarea-alert-focus-box-shadow);
       }
 
       &[disabled] {
-        @include border-amber-30();
-        @include text-amber-30();
+        border-color: var(--ids-textarea-alert-disabled-border-color);
+        color: var(--ids-textarea-alert-disabled-text-color);
       }
     }
 
     &.error,
     &.error:hover {
-      @include border-alert-error();
-      @include text-alert-error();
+      border-color: var(--ids-textarea-error-border-color);
+      color: var(--ids-textarea-error-text-color);
 
       &:focus {
-        @include border-alert-error();
-        @include shadow-error();
+        border-color: var(--ids-textarea-error-focus-border-color);
+        box-shadow: var(--ids-textarea-error-focus-box-shadow);
       }
 
       &[disabled] {
-        @include border-ruby-30();
-        @include text-ruby-30();
+        border-color: var(--ids-textarea-error-disabled-border-color);
+        color: var(--ids-textarea-error-disabled-text-color);
       }
     }
 
     &.info,
     &.info:hover {
-      @include border-alert-info();
-      @include text-alert-info();
+      border-color: var(--ids-textarea-info-border-color);
+      color: var(--ids-textarea-info-text-color);
 
       &:focus {
-        @include border-alert-info();
-
+        border-color: var(--ids-textarea-info-focus-border-color);
         box-shadow: rgba(0 102 212 / 0.3) 0 0 3px 2px;
       }
 
       &[disabled] {
-        @include border-azure-30();
-        @include text-azure-30();
+        border-color: var(--ids-textarea-info-disabled-border-color);
+        color: var(--ids-textarea-info-disabled-text-color);
       }
     }
 
     &.success,
     &.success:hover {
-      @include border-alert-success();
-      @include text-alert-success();
+      border-color: var(--ids-textarea-success-border-color);
+      color: var(--ids-textarea-success-text-color);
 
       &:focus {
-        @include border-alert-success();
-
-        box-shadow: rgba(42 195 113 / 0.3) 0 0 3px 2px;
+        border-color: var(--ids-textarea-success-focus-border-color);
+        box-shadow: var(--ids-textarea-success-focus-box-shadow);
       }
 
       &[disabled] {
-        @include border-emerald-30();
-        @include text-emerald-30();
+        border-color: var(--ids-textarea-success-disabled-border-color);
+        color: var(--ids-textarea-success-disabled-text-color);
       }
     }
 
     ~ .btn-clear {
-      @include mt-4();
-
+      margin-top: var(--ids-spacing-md);
       position: absolute;
       right: 0;
     }
   }
 
+  // Error Styles
+  .error {
+    .ids-textarea-field {
+      border-color: var(--ids-textarea-error-border-color);
+    }
+  }
+
+
   .validation-message {
-    @include mt-4();
+    margin-top: var(--ids-spacing-md);
+  }
+
+  &.disabled {
+    .label-text {
+      color: var(--ids-textarea-label-disabled-text-color);
+
+      &.required::after {
+        color: var(--ids-textarea-label-disabled-text-color);
+      }
+    }
   }
 }
 
 .ids-label-text {
-  @include antialiased();
-  @include mb-8();
+  @include mixins.antialiased();
 
+  color: var(--ids-textarea-label-text-color);
+  margin-bottom: var(--ids-spacing-lg);
   align-items: baseline;
   font-family: var(--ids-font-family);
   display: flex;
@@ -249,10 +276,9 @@ $textarea-size-default-height: 120px;
 
   &.required {
     &::after {
-      @include relative();
-      @include mx-2();
-      @include text-20();
-
+      position: relative;
+      padding-inline: var(--ids-spacing-sm);
+      font-size: var(--ids-font-size-lg);
       content: '*';
       color: var(--ids-required-background-color);
       font-family: var(--ids-font-family);
@@ -269,8 +295,7 @@ $textarea-size-default-height: 120px;
 
 .label-state-collapsed {
   .ids-label-text.empty {
-    @include m-0();
-
+    margin: var(--ids-spacing-none);
     visibility: hidden;
     height: 0;
   }
@@ -286,118 +311,8 @@ $textarea-size-default-height: 120px;
   }
 
   .textarea-print {
-    display: inline-block !important;
+    display: inline-block;
     height: auto;
     width: auto;
-  }
-}
-
-// Error Styles
-.error {
-  .ids-textarea-field {
-    border-color: var(--ids-color-palette-ruby-60) !important;
-  }
-}
-
-// Handle Themes
-.ids-textarea[mode='light'],
-.ids-textarea:not([mode]) {
-  .ids-textarea-field {
-    @include bg-white();
-    @include border-slate-40();
-    @include text-black();
-
-    &[readonly] {
-      @include bg-slate-20();
-      @include border-slate-40();
-      @include text-black();
-    }
-
-    &:hover {
-      @include border-slate-90();
-    }
-
-    &:focus {
-      @include border-azure-60();
-    }
-
-    &[disabled] {
-      @include border-slate-30();
-      @include text-slate-30();
-    }
-
-    &.error {
-      @include border-alert-warning();
-    }
-  }
-
-  .label-text {
-    @include text-slate-60();
-  }
-
-  &.disabled {
-    .label-text {
-      @include text-slate-30();
-
-      &.required::after {
-        color: var(--ids-required-disabled-background-color);
-      }
-    }
-  }
-}
-
-.ids-textarea[mode='dark'] {
-  .ids-textarea-field {
-    @include bg-transparent();
-    @include border-slate-40();
-    @include text-white();
-
-    &[disabled] {
-      @include bg-transparent();
-      @include border-slate-60();
-      @include text-slate-60();
-    }
-
-    &[readonly] {
-      @include bg-slate-70();
-      @include border-slate-40();
-      @include text-slate-10();
-    }
-
-    &:focus {
-      @include border-azure-60();
-    }
-
-    &.error {
-      @include border-alert-warning();
-    }
-  }
-}
-
-.ids-textarea[mode='contrast'] {
-  .ids-textarea-field {
-    @include bg-white();
-    @include border-slate-40();
-    @include text-black();
-
-    &[disabled] {
-      @include bg-white();
-      @include border-slate-30();
-      @include text-slate-30();
-    }
-
-    &[readonly] {
-      @include bg-slate-20();
-      @include border-slate-40();
-      @include text-slate-100();
-    }
-
-    &:focus {
-      @include border-azure-90();
-    }
-
-    &.error {
-      @include border-alert-warning();
-    }
   }
 }

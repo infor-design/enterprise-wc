@@ -192,9 +192,6 @@ button {
 // Swipe Action Buttons (Swipe action component)
 .btn-swipe-action-left,
 .btn-swipe-action-right {
-  background-color: var(--ids-body-line-color);
-  color: var(--ids-input-text-color);
-  border-radius: 0;
   display: block;
   padding: 0 var(--ids-spacing-lg) var(--ids-spacing-lg);
   height: 100%;
@@ -206,34 +203,50 @@ button {
     display: block;
   }
 
+  &:hover,
   &:focus {
-    box-shadow: none;
-    border-color: transparent;
-  }
-
-  &:active {
-    background-color: var(--ids-swipe-action-button-active-background-color);
-  }
-
-  &:hover {
-    background-color: var(--ids-swipe-action-button-hover-background-color);
     box-shadow: none;
     border-color: transparent;
   }
 }
 
-.btn-swipe-action-right {
-  background-color: var(--ids-color-primary);
-  color: var(--ids-inverse-text-color);
+// override button margin for swipe action buttons
+.ids-button:not(.no-margins).btn-swipe-action-left,
+.ids-button:not(.no-margins).btn-swipe-action-right {
+  margin: 0;
+}
 
-  &:hover {
-    background-color: var(--ids-color-primary-70);
-    color: var(--ids-inverse-text-color);
-  }
+.btn-swipe-action-left {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  background-color: var(--ids-swipe-action-left-background-color);
+  color: var(--ids-swipe-action-left-text-color);
 
   &:active {
-    background-color: var(--ids-color-primary-70);
-    color: var(--ids-inverse-text-color);
+    background-color: var(--ids-swipe-action-left-active-background-color);
+    color: var(--ids-swipe-action-left-active-text-color)
+  }
+
+  &:hover {
+    background-color: var(--ids-swipe-action-left-hover-background-color);
+    color: var(--ids-swipe-action-left-hover-text-color)
+  }
+}
+
+.btn-swipe-action-right {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  background-color: var(--ids-swipe-action-right-background-color);
+  color: var(--ids-swipe-action-right-text-color);
+
+  &:active {
+    background-color: var(--ids-swipe-action-right-active-background-color);
+    color: var(--ids-swipe-action-right-active-text-color)
+  }
+
+  &:hover {
+    background-color: var(--ids-swipe-action-right-hover-background-color);
+    color: var(--ids-swipe-action-right-hover-text-color)
   }
 }
 

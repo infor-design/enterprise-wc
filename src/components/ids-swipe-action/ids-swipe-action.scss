@@ -1,5 +1,5 @@
 /* Ids Swipe Container Css */
-@import '../../core/ids-base';
+@use '../../themes/mixins/ids-core-mixins.scss' as mixins;
 
 .ids-swipe-container {
   display: flex;
@@ -7,6 +7,7 @@
   scroll-snap-type: x proximity;
   scroll-behavior: smooth;
   margin-left: -1px;
+  border-radius: var(--ids-card-border-radius);
 
   &.continuous {
     scroll-snap-type: x proximity;
@@ -30,9 +31,9 @@
 
 // Snaps into view
 .ids-swipe-element {
-  @include antialiased();
-  @include p-16();
+  @include mixins.antialiased();
 
+  padding: var(--ids-spacing-xxl);
   font-family: var(--ids-font-family);
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -49,15 +50,11 @@
 
 // Style the action buttons
 .ids-swipe-action-left {
-  @include bg-slate-30();
-
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
 
 .ids-swipe-action-right {
-  @include bg-azure-60();
-
   justify-content: flex-end;
   scroll-snap-align: start;
   scroll-snap-stop: always;

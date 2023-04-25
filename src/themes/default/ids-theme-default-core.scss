@@ -1012,6 +1012,20 @@
   --ids-swappable-item-selected-text-color: var(--ids-color-slate-00);
   --ids-swappable-item-over-border: 1px dashed var(--ids-color-slate-80);
 
+  // Swipe Action
+  --ids-swipe-action-left-active-background-color: var(--ids-color-slate-40);
+  --ids-swipe-action-left-active-text-color: var(--ids-color-slate-70);
+  --ids-swipe-action-left-background-color: var(--ids-color-slate-30);
+  --ids-swipe-action-left-hover-background-color: var(--ids-color-slate-40);
+  --ids-swipe-action-left-hover-text-color: var(--ids-color-slate-70);
+  --ids-swipe-action-left-text-color: var(--ids-color-slate-60);
+  --ids-swipe-action-right-active-background-color: var(--ids-color-azure-70);
+  --ids-swipe-action-right-active-text-color: var(--ids-color-slate-00);
+  --ids-swipe-action-right-background-color: var(--ids-color-azure-60);
+  --ids-swipe-action-right-hover-background-color: var(--ids-color-azure-70);
+  --ids-swipe-action-right-hover-text-color: var(--ids-color-slate-00);
+  --ids-swipe-action-right-text-color: var(--ids-color-slate-00);
+
   // Switch
   --ids-switch-pole-off-background-color: var(--ids-color-slate-40);
   --ids-switch-toggle-off-background-color: var(--ids-input-background-color);
@@ -1027,10 +1041,6 @@
   --ids-switch-toggle-on-disabled-border-color: var(--ids-color-primary-30);
   --ids-switch-toggle-hover-background-color: var(--ids-color-slate-30);
   --ids-switch-toggle-focus-box-shadow: 0 0 0 3px var(--ids-color-primary-20), 0 0 0 4px var(--ids-color-primary), 0 0 4px 6px var(--ids-color-slate-20);
-
-  // Swipe Action
-  --ids-swipe-action-button-active-background-color: var(--ids-color-slate-90);
-  --ids-swipe-action-button-hover-background-color: var(--ids-color-slate-90);
 
   // Tab
   --ids-tab-content-text-color: var(--ids-text-color);
@@ -1076,6 +1086,47 @@
   --ids-tag-icon-hover-color: var(--ids-color-slate-90);
   --ids-tag-secondary-background-color: var(--ids-input-background-color);
   --ids-tag-secondary-border-color: var(--ids-input-border-color);
+
+  // Textarea
+  --ids-textarea-alert-border-color: var(--ids-color-warning-50);
+  --ids-textarea-alert-disabled-border-color: var(--ids-color-warning-30);
+  --ids-textarea-alert-disabled-text-color: var(--ids-color-warning-30);
+  --ids-textarea-alert-focus-border-color: var(--ids-color-warning-80);
+  --ids-textarea-alert-focus-box-shadow: 0 0 3px 2px rgba(249 131 0 / 0.3);
+  --ids-textarea-alert-text-color: var(--ids-color-warning-80);
+  --ids-textarea-background-color: var(--ids-color-slate-00);
+  --ids-textarea-border-color: var(--ids-color-slate-40);
+  --ids-textarea-character-counter-warning-text-color: var(--ids-color-error-60);
+  --ids-textarea-disabled-background-color: var(--ids-color-slate-00);
+  --ids-textarea-disabled-border-color: var(--ids-color-slate-30);
+  --ids-textarea-disabled-text-color: var(--ids-color-slate-30);
+  --ids-textarea-error-border-color: var(--ids-color-error-50);
+  --ids-textarea-error-disabled-border-color: var(--ids-color-error-30);
+  --ids-textarea-error-disabled-text-color: var(--ids-color-error-30);
+  --ids-textarea-error-focus-border-color: var(--ids-color-error-60);
+  --ids-textarea-error-focus-box-shadow: 0 0 3px 2px rgba(218, 18, 23, 0.3);
+  --ids-textarea-error-text-color: var(--ids-color-error-80);
+  --ids-textarea-focus-border-color: var(--ids-color-azure-60);
+  --ids-textarea-focus-box-shadow: var(--ids-box-shadow-md);
+  --ids-textarea-hover-border-color: var(--ids-color-slate-90);
+  --ids-textarea-info-border-color: var(--ids-color-info-70);
+  --ids-textarea-info-disabled-border-color: var(--ids-color-info-30);
+  --ids-textarea-info-disabled-text-color: var(--ids-color-info-30);
+  --ids-textarea-info-focus-border-color: var(--ids-color-info-70);
+  --ids-textarea-info-focus-box-shadow: 0 0 3px 2px rgba(0 102 212 / 0.3);
+  --ids-textarea-info-text-color: var(--ids-color-info-70);
+  --ids-textarea-label-disabled-text-color: var(--ids-color-slate-30);
+  --ids-textarea-label-text-color: var(--ids-color-slate-60);
+  --ids-textarea-readonly-background-color: var(--ids-color-slate-20);
+  --ids-textarea-readonly-border-color: var(--ids-color-slate-40);
+  --ids-textarea-readonly-text-color: var(--ids-color-slate-100);
+  --ids-textarea-success-border-color: var(--ids-color-success-80);
+  --ids-textarea-success-disabled-border-color: var(--ids-color-success-30);
+  --ids-textarea-success-disabled-text-color: var(--ids-color-success-30);
+  --ids-textarea-success-focus-border-color: var(--ids-color-success-80);
+  --ids-textarea-success-focus-box-shadow: 0 0 3px 2px rgba(42 195 113 / 0.3);
+  --ids-textarea-success-text-color: var(--ids-color-success-80);
+  --ids-textarea-text-color: var(--ids-color-slate-100);
 
   // Time Picker
   --ids-time-picker-open-input-button-color: var(--ids-color-primary);
