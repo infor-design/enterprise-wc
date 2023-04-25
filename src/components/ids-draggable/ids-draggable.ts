@@ -331,7 +331,6 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
   /**
    * update the transform with respect to containment
    * and min/max transform bounds
-   *
    * @param {number} mouseDeltaX mouse delta x
    * @param {number} mouseDeltaY mouse delta y
    * @returns {Array} [transformX, transformY]
@@ -394,7 +393,6 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
    * called on mouse move; transforms element for
    * transition offset and updates cursor overlay
    * element as necessary
-   *
    * @param {*} e mousemove event
    */
   onMouseMove: any = (e: any) => {
@@ -485,7 +483,6 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
   /**
    * Get the "cursor" property of cursor element
    * placed in front of drag
-   *
    * @returns {string} cursor property
    */
   #getCursorStyle(): string {
@@ -507,7 +504,6 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
   /**
    * First measurable parent's rectangle
    * when a drag is initiated
-   *
    * @type {{ x: number, y: number }}
    */
   #parentRect: any;
@@ -515,7 +511,6 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
   /**
    * The point where we start dragging on the mouse
    * to delta from for current tracking.
-   *
    * @type {{ x: number, y: number }}
    */
   #dragStartMousePoint: any;
@@ -524,7 +519,6 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
    * The transform translation point applied at
    * the time of a dragstart in order to calculate
    * delta during drag
-   *
    * @type {{ x: number, y: number }}
    */
   #dragStartOffset: any;
@@ -540,7 +534,6 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
   /**
    * Rectangle bounds that transform is limited to if drag
    * is bounded by parent
-   *
    * @type {{ top: number, bottom: number, left: number, right: number }}
    */
   #xformBounds: any;
@@ -555,7 +548,6 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
 
   /**
    * Update parent rectangle stored in this.#parentRect
-   *
    * @param {*} path path passed by mouse/drag event
    * to traverse through shadow and lightDOM
    * @private

@@ -289,10 +289,6 @@ export default class IdsTimePicker extends Base {
       if (!currentId) return;
 
       this.setAttribute(currentId, e.detail.value);
-
-      if (this.autoupdate) {
-        this.#setTimeOnField();
-      }
     });
 
     this.offEvent('timeselected');
@@ -331,21 +327,36 @@ export default class IdsTimePicker extends Base {
     return this;
   }
 
-  /** Translate Labels on Language Change */
-  onLanguageChange = () => {
-    if (!this.hasAttribute(attributes.FORMAT)) {
-      this.setAttribute(attributes.FORMAT, this.localeAPI?.calendar().timeFormat);
+  /**
+   * Respond to changing locale
+   */
+  onLocaleChange = () => {
+    if (this.picker) {
+      this.picker.format = this.format;
+      this.picker.locale = this.locale;
     }
+    if (this.input) {
+      this.input.format = this.format;
+      this.input.locale = this.locale;
+    }
+    this.#applyMask();
     this.picker?.renderDropdowns();
-    this.#setTimeValidation();
+  };
+
+  /**
+   * Respond to changing language
+   */
+  onLanguageChange = () => {
+    this.picker?.renderDropdowns();
   };
 
   /**
    * Parse input date and populate dropdowns
    */
   #parseInputValue(): void {
+    const value = this.input?.value || this.value;
     const inputDate = this.localeAPI?.parseDate(
-      this.input?.value || this.value,
+      value,
       { dateFormat: this.format }
     ) as Date;
     const hours24 = inputDate?.getHours();
@@ -355,31 +366,31 @@ export default class IdsTimePicker extends Base {
     const period = inputDate && this.localeAPI?.calendar()?.dayPeriods[hours24 >= 12 ? 1 : 0];
 
     if (this.#is24Hours() && hours24 !== this.hours) {
-      this.hours = hours24;
+      this.hours = hours24 >= 0 ? hours24 : null;
     }
 
     if (this.#is12Hours() && hours12 !== this.hours) {
-      this.hours = hours12;
+      this.hours = hours12 >= 0 ? hours12 : null;
     }
 
     if (minutes !== this.minutes) {
-      this.minutes = minutes;
+      this.minutes = minutes >= 0 ? minutes : null;
     }
 
     if (seconds !== this.seconds) {
-      this.seconds = seconds;
+      this.seconds = seconds >= 0 ? seconds : null;
     }
 
-    if (this.#hasPeriod()) {
+    if (this.#hasPeriod() && period !== this.period) {
       this.period = period;
     }
   }
 
   /**
-   * @returns {boolean} returns true if the timepicker format includes the am/pm period (" a")
+   * @returns {boolean} returns true if the timepicker format includes a day period ("a")
    */
   #hasPeriod(): boolean {
-    return this.#is12Hours() && this.format.toLowerCase().includes(' a');
+    return this.#is12Hours() && (this.format.toLowerCase().indexOf(' a') > -1 || this.format.toLowerCase().indexOf('a') === 0);
   }
 
   /**

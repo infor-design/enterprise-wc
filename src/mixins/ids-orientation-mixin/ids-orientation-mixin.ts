@@ -80,7 +80,6 @@ const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class exte
   /**
    * Refreshes the component's orientation state, driven by
    * a CSS class on the WebComponent's `container` element
-   *
    * @param {string} oldVariantName the orientation variant name to "remove" from the style
    * @param {string} newVariantName the orientation variant name to "add" to the style
    * @returns {void}

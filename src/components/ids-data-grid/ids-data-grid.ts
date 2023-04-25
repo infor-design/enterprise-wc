@@ -1342,7 +1342,6 @@ export default class IdsDataGrid extends Base {
    * However, this method is also used in the "onscroll" event-handler...
    * ...within that "onscroll" event-handler, we want doScroll=false,
    * ...and let the browser handle moving/panning the window without interference.
-   *
    * @param {number} rowIndex - which row to scroll into view.
    * @param {boolean} doScroll - set to "true" to have the browser perform the scroll action
    * @see IdsDataGrid.#attachVirtualScrollEvent()

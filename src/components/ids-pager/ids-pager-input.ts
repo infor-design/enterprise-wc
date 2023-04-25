@@ -21,7 +21,6 @@ const Base = IdsKeyboardMixin(
 
 /**
  * IDS PagerInput Component
- *
  * @type {IdsPagerInput}
  * @mixes IdsKeyboardMixin
  * @inherits IdsElement

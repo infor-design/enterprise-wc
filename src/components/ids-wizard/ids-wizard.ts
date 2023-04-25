@@ -272,7 +272,6 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
   /**
    * retrieves a step marker element within
    * a wizard's shadow DOM
-   *
    * @param {*} wizardEl source Wizard
    * @param {*} stepNumber step number
    * @returns {HTMLElement} the step element

@@ -240,10 +240,10 @@ class IdsTimePickerPopup extends Base {
   }
 
   /**
-   * @returns {boolean} returns true if the timepicker format includes the am/pm period (" a")
+   * @returns {boolean} returns true if the timepicker format includes a day period ("a")
    */
   #hasPeriod(): boolean {
-    return this.#is12Hours() && this.format.toLowerCase().includes(' a');
+    return this.#is12Hours() && (this.format.toLowerCase().indexOf(' a') > -1 || this.format.toLowerCase().indexOf('a') === 0);
   }
 
   /**
