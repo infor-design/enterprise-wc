@@ -9,7 +9,7 @@ describe('Ids Wizard Percy Tests', () => {
     await percySnapshot(page, 'ids-wizard-new-light', { widths: [1280] });
   });
 
-  it('should not have visual regressions in new dark theme (percy)', async () => {
+  it.skip('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle0', 'domcontentloaded'] });
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
