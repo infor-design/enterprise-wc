@@ -289,9 +289,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   show(): void {
-    if (this.popup?.visible) {
-      this.hide();
-    }
+    if (this.popup?.visible) return;
 
     // Trigger a veto-able `beforeshow` event.
     if (!this.triggerVetoableEvent('beforeshow')) {
@@ -467,6 +465,7 @@ export default class IdsPopupMenu extends Base {
   onContextMenu(e: MouseEvent): void {
     e.preventDefault();
     e.stopPropagation();
+    this.hide();
     this.popup?.setPosition(e.pageX, e.pageY);
     this.showIfAble();
     this.setInitialFocus();
