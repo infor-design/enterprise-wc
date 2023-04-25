@@ -359,7 +359,6 @@ export default class IdsTimePicker extends Base {
    */
   #parseInputValue(): void {
     const value = this.input?.value || this.value;
-    if (!value) return;
     const inputDate = this.localeAPI?.parseDate(
       value,
       { dateFormat: this.format }
@@ -371,19 +370,19 @@ export default class IdsTimePicker extends Base {
     const period = inputDate && this.localeAPI?.calendar()?.dayPeriods[hours24 >= 12 ? 1 : 0];
 
     if (this.#is24Hours() && hours24 !== this.hours) {
-      this.hours = hours24;
+      this.hours = hours24 >= 0 ? hours24 : null;
     }
 
     if (this.#is12Hours() && hours12 !== this.hours) {
-      this.hours = hours12;
+      this.hours = hours12 >= 0 ? hours12 : null;
     }
 
     if (minutes !== this.minutes) {
-      this.minutes = minutes;
+      this.minutes = minutes >= 0 ? minutes : null;
     }
 
     if (seconds !== this.seconds) {
-      this.seconds = seconds;
+      this.seconds = seconds >= 0 ? seconds : null;
     }
 
     if (this.#hasPeriod() && period !== this.period) {
