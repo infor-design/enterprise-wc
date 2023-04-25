@@ -144,6 +144,8 @@ export default class IdsIcon extends Base {
       'arrow-left',
       'arrow-right',
       'attach',
+      'arrow-left',
+      'arrow-right',
       'bullet-list',
       'bullet-steps',
       'caret-left',

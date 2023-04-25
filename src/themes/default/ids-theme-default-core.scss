@@ -30,6 +30,7 @@
   --ids-transition-linear: cubic-bezier(0.4, 0, 0.6, 1);
 
   // Border radius
+  --ids-border-radius-none: 0;
   --ids-border-radius-xs: 2px;
   --ids-border-radius-sm: 4px;
   --ids-border-radius-md: 8px;
@@ -743,6 +744,17 @@
   --ids-list-view-item-disabled-image-opacity: 0.5;
   --ids-list-view-selectable-item-selected-background-color: var(--ids-color-azure-10);
 
+  // Loading Indicator
+  --ids-loading-indicator-progress-color: var(--ids-color-primary);
+  --ids-loading-indicator-overall-color: var(--ids-color-primary-20);
+  --ids-loading-indicator-text-color: var(--ids-label-text-color);
+  --ids-loading-indicator-primary-progress-stroke: var(--ids-color-primary-90);
+  --ids-loading-indicator-primary-overall-stroke: var(--ids-loading-indicator-overall-color);
+  --ids-loading-indicator-primary-destructive-progress-stroke: var(--ids-color-ruby-80);
+  --ids-loading-indicator-primary-destructive-overall-stroke: var(--ids-color-ruby-20);
+  --ids-loading-indicator-tertiary-destructive-progress-stroke: var(--ids-color-ruby-60);
+  --ids-loading-indicator-tertiary-destructive-overall-stroke: var(--ids-color-ruby-30);
+
   // Masthead
   --ids-masthead-background-color: var(--ids-color-slate-100); // black -> slate-100
   --ids-masthead-text-color: var(--ids-color-slate-30);
@@ -886,6 +898,27 @@
   --ids-progress-chart-bar-total-background-color: var(--ids-color-slate-30);
   --ids-progress-chart-bar-progress-background-color: var(--ids-color-slate-60);
 
+  // Process Indicator
+  --ids-process-indicator-label-text-color: var(--ids-label-text-color);
+  --ids-process-indicator-xs-step-margin-top: 40px;
+  --ids-process-indicator-margin: var(--ids-spacing-none) var(--ids-spacing-md) var(--ids-spacing-none) var(--ids-spacing-none);
+  --ids-process-indicator-text-margin: var(--ids-spacing-none) var(--ids-spacing-md) var(--ids-spacing-md) var(--ids-spacing-none);
+  --ids-process-indicator-bg-color: var(--ids-body-background-color);
+  --ids-process-indicator-primary-color: var(--ids-color-primary);
+  --ids-process-indicator-active-color: var(--ids-color-primary);
+  --ids-process-indicator-base-color: var(--ids-color-slate-30);
+  --ids-process-indicator-line-transform: translate(0, 36px);
+  --ids-process-indicator-line-height: 2px;
+  --ids-process-indicator-line-background-color: var(--ids-process-indicator-base-color);
+  --ids-process-indicator-step-transform: translate(0, -75%);
+  --ids-process-indicator-step-height: 11px;
+  --ids-process-indicator-step-width: 11px;
+  --ids-process-indicator-step-border-radius: var(--ids-border-radius-round);
+  --ids-process-indicator-cancelled-step-background-color: var(--ids-color-ruby-60);
+  --ids-process-indicator-cancelled-step-icon-color: var(--ids-process-indicator-bg-color);
+  --ids-process-indicator-done-border: 2px solid var(--ids-process-indicator-primary-color);
+  --ids-process-indicator-started-border: 2px solid var(--ids-process-indicator-active-color);
+
   // Radio
   --ids-radio-unchecked-background-color: var(--ids-input-background-color);
   --ids-radio-unchecked-border-color: var(--ids-input-border-color);
@@ -1011,6 +1044,27 @@
   --ids-swappable-item-selected-background-color: var(--ids-color-primary);
   --ids-swappable-item-selected-text-color: var(--ids-color-slate-00);
   --ids-swappable-item-over-border: 1px dashed var(--ids-color-slate-80);
+
+  // Swaplist
+  --ids-swaplist-border-radius: var(--ids-card-border-radius);
+  --ids-swaplist-box-shadow: var(--ids-card-box-shadow);
+  --ids-swaplist-card-margin-block-end: var(--ids-spacing-none);
+  --ids-swaplist-card-header-border-block-end: 1px solid var(--ids-card-border-color);
+  --ids-swaplist-card-content-height: calc(var(--ids-card-content-height) - 11px);
+  --ids-swaplist-card-border-radius: var(--ids-border-radius-none);
+  --ids-swaplist-card-border-inline-start-width: 0;
+  --ids-swaplist-card-box-shadow: none;
+  --ids-swaplist-card-first-child-border-inline-start-width: 1px;
+  --ids-swaplist-toolbar-button-hover-background-color: var(--ids-button-tertiary-hover-background-color);
+  --ids-swaplist-toolbar-button-text-color: var(--ids-button-tertiary-text-color);
+  --ids-swaplist-toolbar-button-hover-text-color: var(--ids-button-tertiary-hover-text-color);
+  --ids-swaplist-toolbar-button-padding: var(--ids-spacing-none);
+  --ids-swaplist-toolbar-button-height: 34px;
+  --ids-swaplist-toolbar-button-width: 36px;
+  --ids-swaplist-item-padding: var(--ids-spacing-lg);
+  --ids-swaplist-item-padding-inline-start: var(--ids-spacing-3xl);
+  --ids-swaplist-item-margin-block-end: var(--ids-spacing-xs);
+  --ids-swaplist-item-over-border: 1px dashed var(--ids-label-text-color);
 
   // Swipe Action
   --ids-swipe-action-left-active-background-color: var(--ids-color-slate-40);

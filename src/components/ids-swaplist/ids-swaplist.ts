@@ -5,7 +5,6 @@ import {
 
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
@@ -19,12 +18,10 @@ import '../ids-swappable/ids-swappable';
 
 import styles from './ids-swaplist.scss';
 
-const Base = IdsThemeMixin(
-  IdsKeyboardMixin(
-    IdsLocaleMixin(
-      IdsEventsMixin(
-        IdsElement
-      )
+const Base = IdsKeyboardMixin(
+  IdsLocaleMixin(
+    IdsEventsMixin(
+      IdsElement
     )
   )
 );
@@ -36,7 +33,6 @@ const DEFAULT_COUNT = 2;
  * @type {IdsSwapList}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-swaplist')
 @scss(styles)
