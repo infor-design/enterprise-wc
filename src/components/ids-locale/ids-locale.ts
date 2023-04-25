@@ -487,7 +487,7 @@ class IdsLocale {
       if (showDayPeriods && calendar) {
         result = result.replace(' a', ` ${hours >= 12 ? calendar.dayPeriods[1] : calendar.dayPeriods[0]}`);
         if (pattern.indexOf('a') === 0) {
-          result = result.replace(' a', ` ${hours >= 12 ? calendar.dayPeriods[1] : calendar.dayPeriods[0]}`);
+          result = result.replace('a', ` ${hours >= 12 ? calendar.dayPeriods[1] : calendar.dayPeriods[0]}`);
         }
       }
 
@@ -760,7 +760,7 @@ class IdsLocale {
     dateString = dateString.replace(' de ', ' ');
 
     // Fix ah
-    dateFormat = dateFormat.replace('/ah/', '/a/h/');
+    dateFormat = dateFormat.replace('ah', 'a/h');
     dateString = dateString.replace('午', '午/');
 
     // Remove commas
