@@ -311,7 +311,6 @@ export default class IdsWizard extends Base {
    * again; also allows us to easily run
    * calculations to use unique-but-meaningful
    * links
-   *
    * @private
    */
   updateHrefURIs() {
@@ -340,7 +339,6 @@ export default class IdsWizard extends Base {
   /**
    * retrieves a step marker element within
    * a wizard's shadow DOM
-   *
    * @param {*} wizardEl source Wizard
    * @param {*} stepNumber step number
    * @returns {HTMLElement} the step element

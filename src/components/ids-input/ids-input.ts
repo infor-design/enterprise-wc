@@ -893,7 +893,6 @@ export default class IdsInput extends Base {
   /**
    * set the id of the input, which will also determine the
    * input id for labels at #${id}-input
-   *
    * @param {string} value id
    */
   set #id(value: string) {
