@@ -260,7 +260,9 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   show(): void {
-    if (this.popup?.visible) return;
+    if (this.popup?.visible) {
+      this.hide();
+    }
 
     // Trigger a veto-able `beforeshow` event.
     if (!this.triggerVetoableEvent('beforeshow')) {
