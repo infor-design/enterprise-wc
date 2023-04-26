@@ -26,6 +26,7 @@ import {
 
 // Styles
 import styles from './ids-data-grid.scss';
+import styles2 from './ids-data-grid.module.scss';
 
 // Sub Components
 import IdsDataGridHeader from './ids-data-grid-header';
@@ -103,6 +104,8 @@ export default class IdsDataGrid extends Base {
 
   constructor() {
     super();
+
+    console.log('xyzxyzxyzxyzxyz', styles2);
 
     this.initialized = false;
     this.state = {

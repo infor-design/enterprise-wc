@@ -1,0 +1,248 @@
+@import '../../core/ids-base';
+@import './ids-data-grid-filters';
+@import './ids-data-grid-header';
+@import './ids-data-grid-row';
+@import './ids-data-grid-cell';
+@import '../../components/ids-popup-menu/ids-popup-menu';
+@import '../../mixins/sass/ids-checkbox-mixin';
+@import '../../mixins/sass/ids-radio-mixin';
+
+$cell-border-color: var(--ids-color-palette-slate-30);
+
+:host {
+  --ids-data-grid-column-widths: repeat(1, minmax(110px, 1fr));
+}
+
+.ids-data-grid {
+  // Outside border and Background and sizing
+  @include bg-white();
+  @include border-1();
+  @include border-solid();
+  @include rounded-default();
+  @include w-full();
+
+  border-collapse: collapse;
+  border-color: $cell-border-color;
+  contain: content;
+  overflow: auto;
+
+  // Needed so sticky header works in safari
+  display: inline-grid;
+  align-content: flex-start;
+
+  // Font Info
+  @include antialiased();
+  @include font-sans();
+  @include text-16();
+
+  // Selection Checkbox
+  .ids-data-grid-checkbox-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .ids-data-grid-checkbox {
+    @include checkbox-unchecked();
+
+    &.editable {
+      @include cursor-pointer();
+    }
+
+    position: relative;
+    left: 0;
+    top: 0;
+
+    &.disabled {
+      @include checkbox-disabled-unchecked();
+    }
+
+    &.checked {
+      @include checkbox-checked();
+
+      &::after {
+        @include checkbox-checked-after();
+
+        animation: none;
+      }
+
+      &.disabled {
+        @include checkbox-disabled-checked(light);
+      }
+    }
+
+    &.indeterminate {
+      @include checkbox-indeterminate();
+
+      &::after {
+        @include checkbox-indeterminate-after();
+
+        animation: none;
+      }
+    }
+  }
+
+  // Selection Radio
+  .ids-data-grid-radio-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .ids-data-grid-radio {
+    @include radio-unchecked();
+    @include cursor-pointer();
+
+    position: relative;
+    left: 0;
+    top: 0;
+
+    &::after {
+      @include radio-unchecked-after();
+    }
+
+    &.disabled {
+      @include radio-disabled-unchecked();
+    }
+
+    &.checked {
+      @include radio-checked();
+
+      &::after {
+        @include radio-checked-after();
+      }
+
+      &.disabled {
+        @include radio-disabled-checked();
+      }
+    }
+  }
+
+  // Tree Grid
+  .ids-data-grid-cell .ids-data-grid-tree-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    ids-button + .text-ellipsis {
+      padding-inline-start: 0;
+    }
+
+    ids-button {
+      padding-inline: 4px;
+    }
+
+    .text-ellipsis {
+      // No Ellipsis on tree columns, let links be focusable
+      overflow: initial;
+      padding-inline-start: 40px;
+
+      ids-hyperlink {
+        margin-inline-start: 0;
+      }
+    }
+  }
+
+  // Dynamically added indents
+  @for $i from 2 through 8 {
+    [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container .text-ellipsis {
+      padding-inline-start: #{(($i - 2) * 27) + 64px};
+    }
+    [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container ids-button {
+      padding-inline-start: #{(($i - 2) * 27) + 55px};
+    }
+    [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container ids-button + .text-ellipsis {
+      padding-inline-start: 0;
+    }
+  }
+
+  // List Style Feature
+  &.is-list-style {
+    border-width: 0;
+  }
+}
+
+// Used for Frozen Columns
+.ids-data-grid-body {
+  min-width: fit-content;
+}
+
+// Standalone Css Borders
+table.ids-data-grid {
+  display: table;
+  outline: 1px solid var(--ids-color-palette-slate-30);
+  outline-offset: -1px;
+}
+
+// Dark Theme
+.ids-data-grid[mode='dark'] {
+  @include bg-slate-100();
+  @include border-slate-60();
+
+  .ids-data-grid-radio {
+    @include border-slate-20();
+
+    &.disabled {
+      @include border-slate-60();
+    }
+
+    &.checked.disabled {
+      @include border-slate-60();
+      @include bg-slate-60();
+
+      &::after {
+        @include border-slate-100();
+        @include bg-slate-100();
+      }
+    }
+  }
+}
+
+// Contrast Theme
+.ids-data-grid[mode='contrast'] {
+  @include bg-white();
+
+  .ids-data-grid-radio {
+    @include bg-white();
+    @include border-slate-90();
+
+    &.disabled {
+      @include border-slate-60();
+    }
+
+    &.checked {
+      @include bg-azure-90();
+      @include border-azure-90();
+    }
+
+    &.checked.disabled {
+      @include bg-slate-40();
+      @include border-slate-40();
+
+      &::after {
+        @include bg-white();
+      }
+    }
+  }
+}
+
+// Empty Message
+.ids-data-grid-wrapper.has-empty-message {
+  @include relative();
+  @include grid();
+
+  ids-empty-message:not([hidden]),
+  ::slotted(ids-empty-message:not([hidden])) {
+    @include absolute();
+    @include flex();
+
+    align-self: center;
+    justify-self: center;
+    top: 80px;
+    bottom: 20px;
+  }
+
+  .ids-data-grid {
+    min-height: 350px;
+  }
+}

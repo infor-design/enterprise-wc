@@ -23,7 +23,7 @@ module.exports = {
     },
   },
   resolve: {
-    extensions: ['.js', '.ts'],
+    extensions: ['.js', '.ts', '.scss'],
     modules: ['node_modules']
   },
   infrastructureLogging: {
@@ -70,10 +70,34 @@ module.exports = {
         type: 'asset/resource',
       },
       {
+        test: /\.module\.scss$/,
+        exclude: [
+          /node_modules/,
+          // path.resolve(__dirname, 'src')
+        ],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              sourceMap: true,
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            }
+          }
+        ]
+      },
+      {
         test: /\.scss$/,
         exclude: [
           /node_modules/,
-          path.resolve(__dirname, 'build')
+          path.resolve(__dirname, 'build'),
+          /\.module.(s(a|c)ss)$/,
         ],
         use: [
           'sass-to-string',
@@ -91,7 +115,8 @@ module.exports = {
         test: /\.scss$/,
         exclude: [
           /node_modules/,
-          path.resolve(__dirname, 'src')
+          path.resolve(__dirname, 'src'),
+          /\.module.(s(a|c)ss)$/,
         ],
         use: [
           {
