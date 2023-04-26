@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target.pressed === true) {
       gridCells.forEach((cell: any) => {
         cell.enableEditable();
-        console.log(cell);
       });
     } else {
       gridCells.forEach((cell: any) => {
