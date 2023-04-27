@@ -19,6 +19,7 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import IdsPopup from '../ids-popup/ids-popup';
+import '../ids-accordion/ids-accordion';
 
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import {
