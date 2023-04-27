@@ -473,8 +473,10 @@ export default class IdsLayoutGridCell extends Base {
     const isTruthy = stringToBool(value);
     if (isTruthy) {
       this.setAttribute(attributes.EDITABLE, '');
+      this.enableEditable();
     } else {
       this.removeAttribute(attributes.EDITABLE);
+      this.disableEditable();
     }
   }
 
@@ -933,28 +935,26 @@ export default class IdsLayoutGridCell extends Base {
 
   private initialSettings() {
     this.classList.add(`${prefix}-cell`);
-    requestIdleCallback(() => {
-      this.setCloseButton();
-    });
     this.#attachEventHandlers();
   }
 
-  private setCloseButton() {
-    this.closeButton = <IdsButton> document.createElement('ids-button');
-    this.closeButton.type = 'button';
-    this.closeButton.appearance = 'primary-destructive';
-    this.closeButton.icon = 'close';
-    this.closeButton.classList.add('close-btn');
+  private setupCloseButton() {
+    if (this.closeButton) {
+      this.closeButton.type = 'button';
+      this.closeButton.appearance = 'primary-destructive';
+      this.closeButton.icon = 'close';
+      this.closeButton.classList.add('close-btn');
+    }
   }
 
   enableEditable() {
-    this.editable = true;
+    this.closeButton = <IdsButton> document.createElement('ids-button');
     this.classList.add('editable');
     this.appendChild(this.closeButton as any);
+    this.setupCloseButton();
   }
 
   disableEditable() {
-    this.editable = null;
     this.classList.remove('editable');
     this.closeButton?.remove();
   }
