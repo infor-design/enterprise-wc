@@ -1,6 +1,7 @@
 /**
  * Count the objects looking for memory leaks.
  * @param {any} page any the puppeteer page
+ * @returns {any} numberOfObjects page handler
  */
 const countObjects = async (page: any) => {
   const prototypeHandle = await page.evaluateHandle(() => Object.prototype);

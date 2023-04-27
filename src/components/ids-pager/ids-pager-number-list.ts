@@ -20,7 +20,6 @@ const Base = IdsKeyboardMixin(
 
 /**
  * IDS PagerNumberList Component
- *
  * @type {IdsPagerNumberList}
  * @inherits IdsElement
  * @part number selectable number among the list

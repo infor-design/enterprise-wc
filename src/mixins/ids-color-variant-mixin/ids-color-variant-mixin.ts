@@ -78,7 +78,6 @@ const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class ext
   /**
    * Refreshes the component's color variant state, driven by
    * a CSS class on the WebComponent's `container` element
-   *
    * @param {string} oldVariantName the variant name to "remove" from the style
    * @param {string} newVariantName the variant name to "add" to the style
    * @returns {void}

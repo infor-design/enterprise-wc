@@ -436,6 +436,7 @@ export default class IdsPopupMenu extends Base {
   onContextMenu(e: MouseEvent): void {
     e.preventDefault();
     e.stopPropagation();
+    this.hide();
     this.popup?.setPosition(e.pageX, e.pageY);
     this.showIfAble();
     this.setInitialFocus();

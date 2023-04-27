@@ -6,7 +6,6 @@ const RANDOM_VALUE = 'rando_val_23';
  * Runs assertions on a test that a standard element attribute
  * can be one of a specific set of values while getting
  * coverage % for setters/getters.
- *
  * @param {object} param0 params
  * @param {HTMLElement} param0.elem Element to test
  * @param {string} param0.attribute the attribute namespace to check e.g. "parent-containment"
