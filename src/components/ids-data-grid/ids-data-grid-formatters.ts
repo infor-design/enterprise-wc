@@ -50,10 +50,9 @@ export default class IdsDataGridFormatters {
     return typeof disabled === 'function' ? disabled(row, value, col, item) : isTrue(disabled);
   }
 
-  /** Used to get the color via the function  or text */
+  /** Used to get the color via the function or text */
   #color(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): string | undefined {
     const color = col.color;
-
     return typeof color === 'function' ? color(row, value, col, item) : color;
   }
 

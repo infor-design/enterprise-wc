@@ -1222,7 +1222,7 @@ export default class IdsDataGrid extends Base {
     const ROW_HEIGHT = this.rowPixelHeight || 50;
     const MAX_ROWS = 150;
     const BODY_HEIGHT = MAX_ROWS * ROW_HEIGHT;
-    const BUFFER_ROWS = 50;
+    const BUFFER_ROWS = 52;
     const BUFFER_HEIGHT = BUFFER_ROWS * ROW_HEIGHT;
     const RAF_DELAY = 60;
     const DEBOUNCE_RATE = 10;
@@ -1277,6 +1277,7 @@ export default class IdsDataGrid extends Base {
     this.#attachVirtualScrollEvent();
   }
 
+  /* Attach Events for virtual scrolling */
   #attachVirtualScrollEvent() {
     if (!this.virtualScroll) return;
 
@@ -1304,6 +1305,7 @@ export default class IdsDataGrid extends Base {
 
   #customScrollEventCache: { [key: string]: number } = {};
 
+  /* Trigger API scroll event */
   #triggerCustomScrollEvent(rowIndex: number, eventType?: 'start' | 'end') {
     if (!eventType) {
       this.#customScrollEventCache = {}; // reset event-cache
@@ -1362,7 +1364,6 @@ export default class IdsDataGrid extends Base {
    * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
    */
   scrollRowIntoView(rowIndex: number, doScroll = true) {
-    if (!this.virtualScroll) return;
     if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
 
     const data = this.data;
@@ -1374,6 +1375,11 @@ export default class IdsDataGrid extends Base {
     const maxRowIndex = data.length - 1;
     rowIndex = Math.max(rowIndex, 0);
     rowIndex = Math.min(rowIndex, maxRowIndex);
+
+    if (!this.virtualScroll) {
+      this.rowByIndex(rowIndex)?.scrollIntoView();
+      return;
+    }
 
     const container = this.container;
     const body = this.body;
@@ -1393,6 +1399,12 @@ export default class IdsDataGrid extends Base {
     bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
 
     if (isInRange) {
+      if (doScroll) {
+        this.offEvent('scroll.data-grid.virtual-scroll', this.container);
+        this.rowByIndex(rowIndex)?.scrollIntoView();
+        this.#attachVirtualScrollEvent();
+        return;
+      }
       // if rowIndex is in range of the currently visible rows:
       // then we should only move rows up or down according to how big the buffer should be.
       const moveRowsDown = bufferRowIndex - firstRowIndex;
@@ -1423,23 +1435,21 @@ export default class IdsDataGrid extends Base {
       this.#recycleAllRows(bufferRowIndex);
     }
 
-    this.requestAnimationFrame(() => {
-      // NOTE: repaint of padding is more performant than margin
-      const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BODY_HEIGHT;
+    // NOTE: repaint of padding is more performant than margin
+    const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BODY_HEIGHT;
 
-      const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
-      const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
+    const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
+    const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
 
-      if (!reachedTheBottom) {
-        body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
-      }
+    if (!reachedTheBottom) {
+      body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+    }
 
-      body?.style.setProperty('padding-bottom', `${Math.max(bodyPaddingBottom, 0)}px`);
+    body?.style.setProperty('padding-bottom', `${Math.max(bodyPaddingBottom, 0)}px`);
 
-      if (doScroll) {
-        container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
-      }
-    });
+    if (doScroll) {
+      container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+    }
   }
 
   /* Recycle the rows during scrolling */
@@ -1749,11 +1759,14 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Get the row HTMLElement
-   * @param {number} index the zero based index
+   * @param {number} rowIndex the zero based index
    * @returns {HTMLElement} Row HTMLElement
    */
-  rowByIndex(index: number): IdsDataGridRow | undefined | null {
-    return this.shadowRoot?.querySelector<IdsDataGridRow>(`.ids-data-grid-body ids-data-grid-row[row-index="${index}"]`);
+  rowByIndex(rowIndex: number): IdsDataGridRow | undefined | null {
+    const maxRowIndex = this.data.length - 1;
+    rowIndex = Math.max(rowIndex, 0);
+    rowIndex = Math.min(rowIndex, maxRowIndex);
+    return this.shadowRoot?.querySelector<IdsDataGridRow>(`.ids-data-grid-body ids-data-grid-row[row-index="${rowIndex}"]`);
   }
 
   activeCellEditor?: IdsDataGridCell;

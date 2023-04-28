@@ -39,7 +39,6 @@ columns.push({
   field: 'itemNumber',
   sortable: true,
   resizable: true,
-  // formatter: dataGrid.formatters.hyperlink,
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text,
   filterConditions: []
@@ -123,7 +122,7 @@ columns.push({
   align: 'center',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.color,
+  formatter: dataGrid.formatters.text,
 });
 columns.push({
   id: 'icon',
@@ -134,15 +133,6 @@ columns.push({
   resizable: true,
   formatter: dataGrid.formatters.icon,
   color: 'success',
-});
-columns.push({
-  id: 'icon-text',
-  name: 'Icon + Text',
-  field: 'icon',
-  sortable: true,
-  resizable: true,
-  formatter: dataGrid.formatters.icon,
-  icon: 'user-profile',
 });
 columns.push({
   id: 'qtyOnHand',
