@@ -1398,13 +1398,14 @@ export default class IdsDataGrid extends Base {
     bufferRowIndex = Math.max(bufferRowIndex, 0);
     bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
 
+    if (isInRange && doScroll) {
+      this.offEvent('scroll.data-grid.virtual-scroll', this.container);
+      this.rowByIndex(rowIndex)?.scrollIntoView();
+      this.#attachVirtualScrollEvent();
+      return;
+    }
+
     if (isInRange) {
-      if (doScroll) {
-        this.offEvent('scroll.data-grid.virtual-scroll', this.container);
-        this.rowByIndex(rowIndex)?.scrollIntoView();
-        this.#attachVirtualScrollEvent();
-        return;
-      }
       // if rowIndex is in range of the currently visible rows:
       // then we should only move rows up or down according to how big the buffer should be.
       const moveRowsDown = bufferRowIndex - firstRowIndex;
