@@ -8,12 +8,16 @@ import { CalendarEventData, CalendarEventTypeData } from './ids-calendar-event';
 import '../ids-date-picker/ids-date-picker';
 import '../ids-date-picker/ids-month-year-picklist';
 import IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
-/* eslint-disable */ import IdsMonthView from '../ids-month-view/ids-month-view';
-/* eslint-disable */ import '../ids-month-view/ids-month-view';
-/* eslint-disable */ import IdsWeekView from '../ids-week-view/ids-week-view';
-/* eslint-disable */ import '../ids-week-view/ids-week-view';
-/* eslint-disable */ import IdsCheckbox from '../ids-checkbox/ids-checkbox';
-/* eslint-disable */ import '../ids-checkbox/ids-checkbox';
+// eslint-disable-next-line import/no-duplicates
+import '../ids-month-view/ids-month-view';
+// eslint-disable-next-line import/no-duplicates
+import IdsMonthView from '../ids-month-view/ids-month-view';
+// eslint-disable-next-line import/no-duplicates
+import '../ids-week-view/ids-week-view';
+// eslint-disable-next-line import/no-duplicates
+import IdsWeekView from '../ids-week-view/ids-week-view';
+import '../ids-checkbox/ids-checkbox';
+import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import '../ids-toolbar/ids-toolbar';
 import '../ids-data-label/ids-data-label';
 import IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';

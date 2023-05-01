@@ -7,6 +7,7 @@ import IdsSelectionMixin from '../../mixins/ids-selection-mixin/ids-selection-mi
 import IdsElement from '../../core/ids-element';
 import IdsRippleMixin from '../../mixins/ids-ripple-mixin/ids-ripple-mixin';
 
+import '../ids-hyperlink/ids-hyperlink';
 import '../ids-checkbox/ids-checkbox';
 import styles from './ids-card.scss';
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';

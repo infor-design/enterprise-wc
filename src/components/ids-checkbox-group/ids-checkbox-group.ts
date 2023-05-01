@@ -3,6 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
+import '../ids-checkbox/ids-checkbox';
 
 import styles from './ids-checkbox-group.scss';
 
