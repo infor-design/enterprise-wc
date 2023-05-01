@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Scroll View - Sandbox</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell>
+        <ids-layout-flex gap="8">
+          <ids-layout-flex-item>
+            <ids-checkbox id="cb-loop" label="Loop"></ids-checkbox>
+          </ids-layout-flex-item>
+          <ids-layout-flex-item>
+            <ids-checkbox id="cb-loop-reverse" label="Loop Reverse"></ids-checkbox>
+          </ids-layout-flex-item>
+          <ids-layout-flex-item>
+            <ids-checkbox id="cb-auto" label="Auto Play"></ids-checkbox>
+          </ids-layout-flex-item>
+        </ids-layout-flex>
+        <ids-layout-flex gap="8">
+          <ids-layout-flex-item>
+            <ids-checkbox id="cb-suppress-controls" label="Suppress Controls"></ids-checkbox>
+          </ids-layout-flex-item>
+          <ids-layout-flex-item>
+            <ids-checkbox id="cb-show-tooltip" label="Show Tooltip (circle buttons)"></ids-checkbox>
+          </ids-layout-flex-item>
+        </ids-layout-flex>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell>
+        <ids-layout-flex gap="8">
+          <ids-layout-flex-item>
+            <ids-button id="btn-first" appearance="secondary">
+              <span>First</span>
+            </ids-button>
+          </ids-layout-flex-item>
+          <ids-layout-flex-item>
+            <ids-button id="btn-previous" appearance="secondary">
+              <span>Previous</span>
+            </ids-button>
+          </ids-layout-flex-item>
+          <ids-layout-flex-item>
+            <ids-button id="btn-next" appearance="secondary">
+              <span>Next</span>
+            </ids-button>
+          </ids-layout-flex-item>
+          <ids-layout-flex-item>
+            <ids-button id="btn-last" appearance="secondary">
+              <span>Last</span>
+            </ids-button>
+          </ids-layout-flex-item>
+        </ids-layout-flex>
+        <br/>
+        <ids-layout-flex gap="8">
+          <ids-layout-flex-item>
+            <ids-button id="btn-toggle" appearance="secondary">
+              <span>Toggle Play/Stop</span>
+            </ids-button>
+          </ids-layout-flex-item>
+        </ids-layout-flex>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" cols-md="4" padding-x="md">
+      <ids-layout-grid-cell col-span="1">
+        <ids-scroll-view id="scroll-view-api-demo">
+          <img class="camera-1" slot="scroll-view-item" alt="Slide 1"/>
+          <img class="camera-2" slot="scroll-view-item" alt="Slide 2"/>
+          <img class="camera-3" slot="scroll-view-item" alt="Slide 3"/>
+          <img class="camera-4" slot="scroll-view-item" alt="Slide 4"/>
+          <img class="camera-5" slot="scroll-view-item" alt="Slide 5"/>
+          <img class="camera-6" slot="scroll-view-item" alt="Slide 6"/>
+        </ids-scroll-view>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+  </ids-container>
+</body>
+</html>

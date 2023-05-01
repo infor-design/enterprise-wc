@@ -14,6 +14,7 @@
 - `[Popup]` Unset text align coming from HTML attribute. ([#1200](https://github.com/infor-design/enterprise-wc/issues/1200))
 - `[PopupMenu]` Added scrollable behavior to `max-height`-enabled popup menus. ([#1205](https://github.com/infor-design/enterprise-wc/issues/1205))
 - `[PopupMenu]` Fixed IdsPopupMenu doesn't move to the clicked location on right click. ([#1222](https://github.com/infor-design/enterprise-wc/issues/1222))
+- `[ScrollView]` Fixed to remove hash links for navigation. ([#904](https://github.com/infor-design/enterprise-wc/issues/904))
 - `[TimePicker]` Fixed formatting when day period goes first in the time format. ([#1189](https://github.com/infor-design/enterprise-wc/issues/1189))
 
 ## 1.0.0-beta.8
