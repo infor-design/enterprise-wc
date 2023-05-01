@@ -31,11 +31,6 @@
   }
 }
 
-// Remove the scrollbar / we dont want it visible
-.ids-scroll-view::-webkit-scrollbar {
-  display: none;
-}
-
 // The pager controls (circle container)
 .ids-scroll-view-controls {
   display: flex;
