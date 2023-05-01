@@ -2,6 +2,10 @@ import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import productsJSON from '../../../assets/data/products.json';
+import css from '../../../assets/css/ids-data-grid/custom-css.css';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-1')!;

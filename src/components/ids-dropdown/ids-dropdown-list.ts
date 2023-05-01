@@ -152,6 +152,7 @@ export default class IdsDropdownList extends Base {
     if (!this.isMultiSelect) {
       // Select or Open on space/enter
       this.listen([' ', 'Enter'], this, (e: KeyboardEvent) => {
+        e.stopPropagation();
         // Excluding space key when typing
         if (e.key === ' ' && this.typeahead) return;
 
