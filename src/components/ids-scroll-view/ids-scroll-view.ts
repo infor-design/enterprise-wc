@@ -46,10 +46,7 @@ export default class IdsScrollView extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.AUTO_PLAY,
-      attributes.DELAY,
       attributes.LOOP,
-      attributes.LOOP_REVERSE,
       attributes.SHOW_TOOLTIP,
       attributes.SUPPRESS_CONTROLS
     ];
@@ -62,11 +59,9 @@ export default class IdsScrollView extends Base {
     super.connectedCallback();
     this.#renderCircleButtons();
     this.#attachEventHandlers();
-    this.#initAutoPlay();
   }
 
   disconnectedCallback() {
-    this.stop();
     super.disconnectedCallback();
   }
 
@@ -111,24 +106,6 @@ export default class IdsScrollView extends Base {
   #isClickOrKey = false;
 
   /**
-   * State of playing for auto play mode
-   * @private
-   */
-  #playing = false;
-
-  /**
-   * State of reverse for auto play mode
-   * @private
-   */
-  #reverse = false;
-
-  /**
-   * Raf id interval for auto play mode
-   * @private
-   */
-  #slideRafId = -1;
-
-  /**
    * Get the list of circle buttons
    * @returns {IdsButton[]} The list of circle buttons
    */
@@ -145,38 +122,6 @@ export default class IdsScrollView extends Base {
   }
 
   /**
-   * Set auto play the slides
-   * @param {boolean} value The value
-   */
-  set autoPlay(value: boolean) {
-    const val = stringToBool(value);
-    if (val === this.autoPlay) return;
-    if (val) this.setAttribute(attributes.AUTO_PLAY, '');
-    else this.removeAttribute(attributes.AUTO_PLAY);
-    this.#setAutoPlay();
-  }
-
-  get autoPlay(): boolean {
-    return this.hasAttribute(attributes.AUTO_PLAY);
-  }
-
-  /**
-   * Set the delay (milliseconds) for auto play mode
-   * @param {string | number} value The value
-   */
-  set delay(value: string | number) {
-    const val = parseInt(value as string, 10);
-    if (!Number.isNaN(val)) {
-      this.setAttribute(attributes.DELAY, String(val));
-    } else this.removeAttribute(attributes.DELAY);
-  }
-
-  get delay(): number {
-    const val = this.getAttribute(attributes.DELAY);
-    return val !== null ? parseInt(val, 10) : 3000;
-  }
-
-  /**
    * Set the loop, true will loop back after next/previous reached to end
    * @param {boolean} value The value
    */
@@ -185,27 +130,10 @@ export default class IdsScrollView extends Base {
     if (val === this.loop) return;
     if (val) this.setAttribute(attributes.LOOP, '');
     else this.removeAttribute(attributes.LOOP);
-    this.#setAutoPlay();
   }
 
   get loop(): boolean {
     return this.hasAttribute(attributes.LOOP);
-  }
-
-  /**
-   * Set the loop reverse, true will loop reverse back after next/previous reached to end
-   * @param {boolean} value The value
-   */
-  set loopReverse(value: boolean) {
-    const val = stringToBool(value);
-    if (val === this.loopReverse) return;
-    if (val) this.setAttribute(attributes.LOOP_REVERSE, '');
-    else this.removeAttribute(attributes.LOOP_REVERSE);
-    this.#setAutoPlay();
-  }
-
-  get loopReverse(): boolean {
-    return this.hasAttribute(attributes.LOOP_REVERSE);
   }
 
   /**
@@ -245,89 +173,6 @@ export default class IdsScrollView extends Base {
   }
 
   /**
-   * Initialize auto play
-   * @returns {void}
-   */
-  #initAutoPlay(): void {
-    this.#slideRaf(() => this.#setAutoPlay(), false, false);
-  }
-
-  /**
-   * Set auto play slides
-   * @returns {void}
-   */
-  #setAutoPlay(): void {
-    if (this.autoPlay) this.play();
-    else this.stop();
-  }
-
-  /**
-   * Iterate through list of slides
-   * @param {Function} callback The callback function
-   * @param {boolean} isStartImmediately True will start immediately
-   * @param {boolean} isOnce True will run only once
-   * @returns {void}
-   */
-  #slideRaf(callback: () => void, isStartImmediately = true, isOnce = false): void {
-    cancelAnimationFrame(this.#slideRafId); // Clear any previous loop
-    const timestamp = () => new Date().getTime();
-
-    let start = timestamp();
-    const repeatOften = () => {
-      this.#slideRafId = requestAnimationFrame(repeatOften);
-      const current = timestamp();
-      const diff = current - start;
-      if (diff >= this.delay) {
-        start = timestamp();
-        callback();
-        if (isOnce) cancelAnimationFrame(this.#slideRafId);
-      }
-    };
-    if (isStartImmediately) callback();
-    this.#slideRafId = requestAnimationFrame(repeatOften); // loop slides
-  }
-
-  /**
-   * Stops the iteration of slides
-   * @private
-   * @returns {void}
-   */
-  #stopSlideRaf(): void {
-    cancelAnimationFrame(this.#slideRafId);
-  }
-
-  /**
-   * Play slides for auto play mode
-   * @returns {void}
-   */
-  play(): void {
-    if (!this.autoPlay) return this.stop();
-    this.#playing = true;
-    this.#slideRaf(() => {
-      if (this.loopReverse) this.#nextAndLoopReverse();
-      else this.next();
-    });
-  }
-
-  /**
-   * Stop slides for auto play mode
-   * @returns {void}
-   */
-  stop(): void {
-    this.#playing = false;
-    this.#stopSlideRaf();
-  }
-
-  /**
-   * Toggle play/stop for auto play mode
-   * @returns {void}
-   */
-  toggle(): void {
-    if (this.#playing) this.stop();
-    else this.play();
-  }
-
-  /**
    * Move to first slide
    * @returns {void}
    */
@@ -348,7 +193,7 @@ export default class IdsScrollView extends Base {
     if (!this.triggerVetoableEvent('beforeprevious', args)) return;
 
     if (num <= 0) {
-      if (!this.loop) return this.stop();
+      if (!this.loop) return;
       num = this.circleButtons.length - 1;
     } else num--;
 
@@ -365,7 +210,7 @@ export default class IdsScrollView extends Base {
     if (!this.triggerVetoableEvent('beforenext', args)) return;
 
     if (num >= (this.circleButtons.length - 1)) {
-      if (!this.loop) return this.stop();
+      if (!this.loop) return;
       num = 0;
     } else num++;
 
@@ -432,28 +277,6 @@ export default class IdsScrollView extends Base {
           detail: { elem: this, activeNumber: this.#activeNumber, left }
         });
       }
-    }
-  }
-
-  /**
-   * Move to next slide as reverse for auto play mode
-   * @private
-   * @returns {void}
-   */
-  #nextAndLoopReverse(): void {
-    const num = this.#activeNumber;
-
-    if (this.#reverse) {
-      if (num <= 0) {
-        this.#reverse = false;
-        this.next();
-      } else this.previous();
-    } else {
-      const len = this.circleButtons.length - 1;
-      if (num >= len) {
-        this.#reverse = true;
-        this.previous();
-      } else this.next();
     }
   }
 

@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import { attributes } from '../../src/core/ids-attributes';
-import wait from '../helpers/wait';
 import IdsScrollView from '../../src/components/ids-scroll-view/ids-scroll-view';
 import IntersectionObserver from '../helpers/intersection-observer-mock';
 
@@ -48,29 +47,6 @@ describe('IdsScrollView Component', () => {
     expect(scrollView.shadowRoot.innerHTML).toMatchSnapshot();
   });
 
-  it('should sets auto play', () => {
-    expect(scrollView.getAttribute(attributes.AUTO_PLAY)).toEqual(null);
-    expect(scrollView.autoPlay).toEqual(false);
-    scrollView.autoPlay = true;
-    expect(scrollView.getAttribute(attributes.AUTO_PLAY)).toEqual('');
-    expect(scrollView.autoPlay).toEqual(true);
-    scrollView.autoPlay = false;
-    expect(scrollView.getAttribute(attributes.AUTO_PLAY)).toEqual(null);
-    expect(scrollView.autoPlay).toEqual(false);
-  });
-
-  it('should sets delay', () => {
-    const defaultVal = 3000;
-    expect(scrollView.getAttribute(attributes.DELAY)).toEqual(null);
-    expect(scrollView.delay).toEqual(defaultVal);
-    scrollView.delay = 2000;
-    expect(scrollView.getAttribute(attributes.DELAY)).toEqual('2000');
-    expect(scrollView.delay).toEqual(2000);
-    scrollView.delay = 'test';
-    expect(scrollView.getAttribute(attributes.DELAY)).toEqual(null);
-    expect(scrollView.delay).toEqual(defaultVal);
-  });
-
   it('should sets loop', () => {
     expect(scrollView.getAttribute(attributes.LOOP)).toEqual(null);
     expect(scrollView.loop).toEqual(false);
@@ -80,17 +56,6 @@ describe('IdsScrollView Component', () => {
     scrollView.loop = false;
     expect(scrollView.getAttribute(attributes.LOOP)).toEqual(null);
     expect(scrollView.loop).toEqual(false);
-  });
-
-  it('should sets loop reverse', () => {
-    expect(scrollView.getAttribute(attributes.LOOP_REVERSE)).toEqual(null);
-    expect(scrollView.loopReverse).toEqual(false);
-    scrollView.loopReverse = true;
-    expect(scrollView.getAttribute(attributes.LOOP_REVERSE)).toEqual('');
-    expect(scrollView.loopReverse).toEqual(true);
-    scrollView.loopReverse = false;
-    expect(scrollView.getAttribute(attributes.LOOP_REVERSE)).toEqual(null);
-    expect(scrollView.loopReverse).toEqual(false);
   });
 
   it('should sets show tooltip', () => {
@@ -116,53 +81,26 @@ describe('IdsScrollView Component', () => {
   });
 
   it('should call control api', async () => {
-    const delay = 10;
-    scrollView.delay = delay;
-
-    const slideWait = async (num: number) => {
-      await wait((delay * num) + 1);
-    };
-
-    const slideExpect = async (currentNum: number, waitNum: number, expectNum: number) => {
-      await slideWait(currentNum + waitNum);
+    const slideExpect = async (expectNum: number) => {
       const selEl = scrollView.controls.querySelector('.selected');
       expect(selEl.getAttribute('data-slide-number')).toEqual(`${expectNum}`);
     };
-
-    scrollView.autoPlay = true;
-    await slideExpect(0, 2, 2);
-
-    scrollView.stop();
-    await slideExpect(2, 2, 2);
-
-    scrollView.play();
-    await slideExpect(2, 3, 5);
-
-    scrollView.toggle();
-    await slideExpect(5, 3, 5);
-
-    scrollView.first();
-    await slideExpect(5, 1, 0);
+    await slideExpect(0);
 
     scrollView.next();
-    await slideExpect(0, 1, 1);
+    await slideExpect(1);
 
     scrollView.previous();
-    await slideExpect(1, 1, 0);
+    await slideExpect(0);
 
     scrollView.last();
-    await slideExpect(0, 1, 5);
+    await slideExpect(5);
+
+    scrollView.first();
+    await slideExpect(0);
 
     scrollView.slideTo(2);
-    await slideExpect(5, 1, 2);
-
-    scrollView.loopReverse = true;
-    scrollView.toggle();
-    await slideExpect(2, 2, 3);
-
-    scrollView.autoPlay = false;
-    scrollView.play();
-    await slideExpect(2, 2, 3);
+    await slideExpect(2);
   });
 
   it('can click the circle buttons', () => {

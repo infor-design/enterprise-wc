@@ -25,16 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     qs('#btn-previous')?.addEventListener('click', () => demoEl.previous());
     qs('#btn-next')?.addEventListener('click', () => demoEl.next());
     qs('#btn-last')?.addEventListener('click', () => demoEl.last());
-    qs('#btn-toggle')?.addEventListener('click', () => demoEl.toggle());
 
-    qs('#cb-auto')?.addEventListener('change', (e: any) => {
-      demoEl.autoPlay = e?.detail?.checked;
-    });
     qs('#cb-loop')?.addEventListener('change', (e: any) => {
       demoEl.loop = e?.detail?.checked;
-    });
-    qs('#cb-loop-reverse')?.addEventListener('change', (e: any) => {
-      demoEl.loopReverse = e?.detail?.checked;
     });
     qs('#cb-suppress-controls')?.addEventListener('change', (e: any) => {
       demoEl.suppressControls = e?.detail?.checked;
