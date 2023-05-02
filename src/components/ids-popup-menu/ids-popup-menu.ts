@@ -97,11 +97,7 @@ export default class IdsPopupMenu extends Base {
     if (this.hasOpenEvents) {
       this.hide();
     }
-    // Clean up any Mutation observers
-    if (this.#mo) {
-      this.#mo.disconnect();
-      this.#mo = undefined;
-    }
+    this.#removeMutationObservers();
   }
 
   /**
@@ -283,6 +279,18 @@ export default class IdsPopupMenu extends Base {
     this.popup.visible = false;
     this.hideSubmenus();
     this.removeOpenEvents();
+    this.#removeMutationObservers();
+  }
+
+  /**
+   * Clean up any Mutation observers
+   * @returns {void}
+   */
+  #removeMutationObservers() {
+    if (this.#mo) {
+      this.#mo.disconnect();
+      this.#mo = undefined;
+    }
   }
 
   /**
