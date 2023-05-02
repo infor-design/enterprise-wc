@@ -408,8 +408,7 @@ export default class IdsScrollView extends Base {
       val = container.scrollLeft / container.offsetWidth;
       if (this.localeAPI?.isRTL()) val *= -1;
     }
-
-    return val;
+    return (typeof val === 'number' && !Number.isNaN(val)) ? Math.trunc(val) : undefined;
   }
 
   /**
