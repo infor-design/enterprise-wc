@@ -16,10 +16,7 @@ The scroll view component allows swipe and scroll in between a number of slides/
 
 ## Settings and Attributes
 
-- `auto-play` {boolean} sets auto play the slides
-- `delay` {number} sets the delay (milliseconds) for auto play mode
 - `loop` {boolean} sets the loop, true will loop back after next/previous reached to end
-- `loop-reverse` {boolean} sets the loop reverse, true will loop reverse back after next/previous reached to end
 - `show-tooltip` {boolean} sets the tooltip for circle buttons
 - `suppress-controls` {boolean} sets suppress controls for circle buttons
 
@@ -41,9 +38,6 @@ The scroll view component allows swipe and scroll in between a number of slides/
 
 ## Methods
 
-- `play(): void` Start play slides for auto play mode
-- `stop(): void` Stop playing slides for auto play mode
-- `toggle(): void` Toggle play/stop slides for auto play mode
 - `first(): void` Move to first slide
 - `previous(): void` Move to previous slide
 - `next(): void` Move to next slide
