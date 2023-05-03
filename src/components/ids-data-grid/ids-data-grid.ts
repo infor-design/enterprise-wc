@@ -184,6 +184,7 @@ export default class IdsDataGrid extends Base {
       attributes.ROW_HEIGHT,
       attributes.ROW_NAVIGATION,
       attributes.ROW_SELECTION,
+      attributes.ROW_START,
       attributes.SUPPRESS_CACHING,
       attributes.SUPPRESS_EMPTY_MESSAGE,
       attributes.SUPPRESS_ROW_CLICK_SELECTION,
@@ -313,12 +314,15 @@ export default class IdsDataGrid extends Base {
 
   /** Do some things after redraw */
   afterRedraw() {
-    requestAnimationFrame(() => {
+    const rowStart = this.rowStart || 0;
+
+    setTimeout(() => {
+      this.scrollRowIntoView(rowStart);
       requestAnimationFrame(() => {
         // Set Focus
-        this.setActiveCell(0, 0, true);
+        this.setActiveCell(0, rowStart || 0, true);
       });
-    });
+    }, 100);
   }
 
   /**
@@ -374,6 +378,30 @@ export default class IdsDataGrid extends Base {
     for (let index = 0; index < data.length; index++) {
       innerHTML += IdsDataGridRow.template(data[index], index, index + 1, this);
     }
+    return innerHTML;
+  }
+
+  /**
+   * Body inner template markup
+   * @private
+   * @returns {string} The template
+   */
+  bodyInnerTemplate2() {
+    this.resetCache();
+
+    const MAX_ROWS = this.virtualScrollSettings.MAX_ROWS;
+    const rowStart = this.rowStart;
+    // const rowEnd = Math.min(rowStart + MAX_ROWS, this.data.length);
+    const data = this.virtualScroll ? this.data.slice(rowStart).slice(0, MAX_ROWS) : this.data;
+    console.log('bodyInnertTemplate', data);
+
+    let innerHTML = '';
+    for (let index = 0; index < data.length; index++) {
+    // for (let index = rowStart; index < rowEnd; index++) {
+      const currentIndex = rowStart + index;
+      innerHTML += IdsDataGridRow.template(data[index], currentIndex, currentIndex + 1, this);
+    }
+    console.log('innerHTML', innerHTML);
     return innerHTML;
   }
 
@@ -1568,6 +1596,20 @@ export default class IdsDataGrid extends Base {
   }
 
   get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'lg'; }
+
+  /**
+   * Set the row index. If set, the datagrid's data set will initially load here.
+   * @param {number} rowIndex The row-index at which to start showing data.
+   */
+  set rowStart(rowIndex: number) {
+    this.setAttribute(attributes.ROW_START, String(rowIndex || 0));
+  }
+
+  /**
+   * Get the start-row index
+   * @returns {number} The start-row index
+   */
+  get rowStart(): number { return Number(this.getAttribute(attributes.ROW_START)) || 0; }
 
   /**
    * Sets keyboard navigation to rows
