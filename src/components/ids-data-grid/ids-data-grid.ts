@@ -382,30 +382,6 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Body inner template markup
-   * @private
-   * @returns {string} The template
-   */
-  bodyInnerTemplate2() {
-    this.resetCache();
-
-    const MAX_ROWS = this.virtualScrollSettings.MAX_ROWS;
-    const rowStart = this.rowStart;
-    // const rowEnd = Math.min(rowStart + MAX_ROWS, this.data.length);
-    const data = this.virtualScroll ? this.data.slice(rowStart).slice(0, MAX_ROWS) : this.data;
-    console.log('bodyInnertTemplate', data);
-
-    let innerHTML = '';
-    for (let index = 0; index < data.length; index++) {
-    // for (let index = rowStart; index < rowEnd; index++) {
-      const currentIndex = rowStart + index;
-      innerHTML += IdsDataGridRow.template(data[index], currentIndex, currentIndex + 1, this);
-    }
-    console.log('innerHTML', innerHTML);
-    return innerHTML;
-  }
-
-  /**
    * Check if row is selected.
    * @param {number} index The row index
    * @returns {boolean} True, if row is selected
