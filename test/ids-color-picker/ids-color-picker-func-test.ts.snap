@@ -364,61 +364,61 @@ exports[`Ids Color Picker Component When Popup is Open renders visible popup cor
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-slate-10)"
+    hex="var(--ids-color-neutral-10)"
     label="slate-10"
     tooltip="slate-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-slate-20)"
+    hex="var(--ids-color-neutral-20)"
     label="slate-20"
     tooltip="slate-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-slate-30)"
+    hex="var(--ids-color-neutral-30)"
     label="slate-30"
     tooltip="slate-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-40)"
+    hex="var(--ids-color-neutral-40)"
     label="slate-40"
     tooltip="slate-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-50)"
+    hex="var(--ids-color-neutral-50)"
     label="slate-50"
     tooltip="slate-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-60)"
+    hex="var(--ids-color-neutral-60)"
     label="slate-60"
     tooltip="slate-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-70)"
+    hex="var(--ids-color-neutral-70)"
     label="slate-70"
     tooltip="slate-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-80)"
+    hex="var(--ids-color-neutral-80)"
     label="slate-80"
     tooltip="slate-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-90)"
+    hex="var(--ids-color-neutral-90)"
     label="slate-90"
     tooltip="slate-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-100)"
+    hex="var(--ids-color-neutral-100)"
     label="slate-100"
     tooltip="slate-100"
   />
@@ -849,70 +849,70 @@ exports[`Ids Color Picker Component renders invisible popup correctly 1`] = `
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-slate-10)"
+    hex="var(--ids-color-neutral-10)"
     label="slate-10"
     tabindex="-1"
     tooltip="slate-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-slate-20)"
+    hex="var(--ids-color-neutral-20)"
     label="slate-20"
     tabindex="-1"
     tooltip="slate-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-slate-30)"
+    hex="var(--ids-color-neutral-30)"
     label="slate-30"
     tabindex="-1"
     tooltip="slate-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-40)"
+    hex="var(--ids-color-neutral-40)"
     label="slate-40"
     tabindex="-1"
     tooltip="slate-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-50)"
+    hex="var(--ids-color-neutral-50)"
     label="slate-50"
     tabindex="-1"
     tooltip="slate-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-60)"
+    hex="var(--ids-color-neutral-60)"
     label="slate-60"
     tabindex="-1"
     tooltip="slate-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-70)"
+    hex="var(--ids-color-neutral-70)"
     label="slate-70"
     tabindex="-1"
     tooltip="slate-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-80)"
+    hex="var(--ids-color-neutral-80)"
     label="slate-80"
     tabindex="-1"
     tooltip="slate-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-90)"
+    hex="var(--ids-color-neutral-90)"
     label="slate-90"
     tabindex="-1"
     tooltip="slate-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-slate-100)"
+    hex="var(--ids-color-neutral-100)"
     label="slate-100"
     tabindex="-1"
     tooltip="slate-100"

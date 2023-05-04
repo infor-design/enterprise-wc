@@ -451,7 +451,7 @@
   &.btn-secondary,
   &.btn-tertiary {
     background-color: var(--ids-modal-background-color);
-    color: var(--ids-color-slate-80);
+    color: var(--ids-color-neutral-80);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -459,7 +459,7 @@
     }
 
     &:hover {
-      color: var(--ids-color-slate-100);
+      color: var(--ids-color-neutral-100);
     }
 
     &[disabled] {

@@ -27,6 +27,20 @@
         <ids-color-picker size="sm" label="Primary Color" suppress-labels value="#0066D4" id="primary-color"></ids-color-picker>
         <ids-color-picker size="sm" label="Background Color" suppress-labels value="#FFFFFF" id="background-color"></ids-color-picker>
         <ids-color-picker size="sm" label="Text Color" suppress-labels value="#2F2F32" id="text-color"></ids-color-picker>
+
+        <ids-text font-size="12" type="span" label="true">Color Progression</ids-text>
+        <ids-layout-grid-cell justify-content="center">
+          <ids-color size="sm" id="color-10" hex="#E6F1FD" clickable="false"></ids-color>
+          <ids-color size="sm" id="color-20" hex="#BEDCFA" clickable="false"></ids-color>
+          <ids-color size="sm" id="color-30" hex="#8ABFF7" clickable="false"></ids-color>
+          <ids-color size="sm" id="color-40" hex="#55A3F3" clickable="false"></ids-color>
+          <ids-color size="sm" id="color-50" hex="#1C86EF" clickable="false"></ids-color><br>
+          <ids-color size="sm" id="color-60" hex="#0072ED" clickable="false"></ids-color>
+          <ids-color size="sm" id="color-70" hex="#0066D4" clickable="false"></ids-color>
+          <ids-color size="sm" id="color-80" hex="#0054B1" clickable="false"></ids-color>
+          <ids-color size="sm" id="color-90" hex="#004A99" clickable="false"></ids-color>
+          <ids-color size="sm" id="color-100" hex="#003876" clickable="false"></ids-color>
+        </ids-layout-grid-cell>
       </ids-layout-grid-cell>
 
       <ids-layout-grid-cell col-span="10">
@@ -290,7 +304,7 @@
 
         <ids-layout-grid cols="3" padding="sm">
           <ids-layout-grid-cell>
-            <ids-search-field clearable label="Search Field" placeholder="Search for..."></ids-search-field>
+            <ids-search-field clearable label="Search..." placeholder="Search for..."></ids-search-field>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
@@ -303,8 +317,7 @@
 
         <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
-            <ids-text font-size="12" type="h3">Slider</ids-text>
-            <ids-slider type="single" show-tooltip label="Single-thumb"></ids-slider>
+            <ids-slider type="single" show-tooltip label="Single-thumb" value="40"></ids-slider>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 

@@ -53,6 +53,8 @@ export default class IdsColorPicker extends Base {
 
   isFormComponent = true;
 
+  useDefaultSwatches = true;
+
   initialized = false;
 
   constructor() {
@@ -62,7 +64,10 @@ export default class IdsColorPicker extends Base {
   /** Invoked each time the custom element is added to the DOM */
   connectedCallback() {
     super.connectedCallback();
-    if (!this.swatches.length) this.append(...this.defaultSwatches);
+    if (!this.swatches.length) {
+      this.useDefaultSwatches = true;
+      this.append(...this.defaultSwatches);
+    }
     if (this.clearable) this.appendClearableButton();
     this.textInput = this.container?.querySelector('ids-trigger-field');
     this.colorInput = this.container?.querySelector('.advanced-color-picker');
@@ -183,7 +188,7 @@ export default class IdsColorPicker extends Base {
       ...Object.values(['--ids-color-azure-10', '--ids-color-azure-20', '--ids-color-azure-30', '--ids-color-azure-40', '--ids-color-azure-50', '--ids-color-azure-60', '--ids-color-azure-70', '--ids-color-azure-80', '--ids-color-azure-90', '--ids-color-azure-100']),
       ...Object.values(['--ids-color-turquoise-10', '--ids-color-turquoise-20', '--ids-color-turquoise-30', '--ids-color-turquoise-40', '--ids-color-turquoise-50', '--ids-color-turquoise-60', '--ids-color-turquoise-70', '--ids-color-turquoise-80', '--ids-color-turquoise-90', '--ids-color-turquoise-100']),
       ...Object.values(['--ids-color-amethyst-10', '--ids-color-amethyst-20', '--ids-color-amethyst-30', '--ids-color-amethyst-40', '--ids-color-amethyst-50', '--ids-color-amethyst-60', '--ids-color-amethyst-70', '--ids-color-amethyst-80', '--ids-color-amethyst-90', '--ids-color-amethyst-100']),
-      ...Object.values(['--ids-color-slate-10', '--ids-color-slate-20', '--ids-color-slate-30', '--ids-color-slate-40', '--ids-color-slate-50', '--ids-color-slate-60', '--ids-color-slate-70', '--ids-color-slate-80', '--ids-color-slate-90', '--ids-color-slate-100']),
+      ...Object.values(['--ids-color-neutral-10', '--ids-color-neutral-20', '--ids-color-neutral-30', '--ids-color-neutral-40', '--ids-color-neutral-50', '--ids-color-neutral-60', '--ids-color-neutral-70', '--ids-color-neutral-80', '--ids-color-neutral-90', '--ids-color-neutral-100']),
     ].map(createColor);
 
     return paletteGroups;
@@ -444,6 +449,15 @@ export default class IdsColorPicker extends Base {
   open(): void {
     if (this.advanced || this.disabled || this.readonly || !this.popup) {
       return;
+    }
+
+    // Refresh Swatches
+    if (this.useDefaultSwatches) {
+      const swatches = this.swatches;
+      for (let i = 0; i < swatches.length; i++) {
+        swatches[i].remove();
+      }
+      this.append(...this.defaultSwatches);
     }
 
     const rtl = this.localeAPI.isRTL();

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable no-mixed-operators */
 /**
- * Converts the provided hex to an RGB(A?) value
- * @private
+ * Converts the provided hex to a rgba value
  * @param {string} hex to set.
- * @param {number} opacity to check.
+ * @param {number} opacity to use
  * @returns {string} converted rgba
  */
 export function hexToRgba(hex: string, opacity?: number) {
@@ -17,13 +18,30 @@ export function hexToRgba(hex: string, opacity?: number) {
     c = `0x${c.join('')}`;
 
     if (opacity) {
-      // eslint-disable-next-line
       return `rgba(${[(c >> 16) & 255, (c >> 8) & 255, c & 255].join(' ')} / ${opacity})`;
     }
 
     return `rgb(${[(c >> 16) & 255, (c >> 8) & 255, c & 255].join(' ')})`;
   }
   return '';
+}
+
+/**
+ * Converts the provided rgba to a hex value
+ * @param {string} rgba to set
+ * @param {boolean} forceRemoveAlpha remove alpha
+ * @returns {string} converted hex
+ */
+export function rgbaToHex(rgba: string, forceRemoveAlpha = false) {
+  rgba = rgba.replace(' / ', ',').replaceAll(' ', ',');
+  return `#${rgba.replace(/^rgba?\(|\s+|\)$/g, '') // Get's rgba / rgb string values
+    .split(',') // splits them at ","
+    .filter((string, index) => !forceRemoveAlpha || index !== 3)
+    .map((string) => parseFloat(string)) // Converts them to numbers
+    .map((number, index) => (index === 3 ? Math.round(number * 255) : number)) // Converts alpha to 255 number
+    .map((number) => number.toString(16)) // Converts numbers to hex
+    .map((string) => (string.length === 1 ? `0${string}` : string)) // Adds 0 when length of one number is 1
+    .join('')}`; // Puts the array to togehter to a string
 }
 
 /**
@@ -60,13 +78,54 @@ export function builtinToRgba(colorName: string, opacity?: number) {
  *  If omitted, causes the return value to be RGB.
  * @returns {string} RGB(A?) value of the original color
  */
-export function convertColorToRgba(colorName: string, opacity?: number) {
+export function colorNameToRgba(colorName: string, opacity?: number) {
   if (colorName.substring(0, 1) === '#') {
     return hexToRgba(colorName, opacity);
   }
-  // @TODO add HexA (four-digit hex) check
-  // @TODO add HSL(A) check
   return builtinToRgba(colorName, opacity);
+}
+
+/**
+ * Darken a color by a magnitude
+ * @param {string} hexColor the starting color
+ * @param {number} magnitude level to use for example 10, 20, 30
+ * @returns {string} the darker color
+ */
+function darkenColor(hexColor: string, magnitude: number) {
+  hexColor = hexColor.replace(`#`, ``);
+  const decimalColor = parseInt(hexColor, 16);
+  let r = (decimalColor >> 16) + magnitude;
+  r > 255 && (r = 255);
+  r < 0 && (r = 0);
+  let g = (decimalColor & 0x0000ff) + magnitude;
+  g > 255 && (g = 255);
+  g < 0 && (g = 0);
+  let b = ((decimalColor >> 8) & 0x00ff) + magnitude;
+  b > 255 && (b = 255);
+  b < 0 && (b = 0);
+  return `#${(g | (b << 8) | (r << 16)).toString(16)}`;
+}
+
+/**
+ * Lighten a color by a magnitude
+ * @param {string} hexColor the starting color
+ * @param {number} percent level to use for example .10, .20, .30
+ * @returns {string} the lighter color
+ */
+function lightenColor(hexColor: string, percent: number) {
+  const rgba = hexToRgba(hexColor, percent);
+  return rgbaToHex(rgba);
+}
+
+/**
+ * Shade a color up or down given a hex color
+ * @param {string} hexColor hex color to use
+ * @param {number} magnitude the percent as a number or negative
+ * @returns {string} the new hex
+ */
+export function adjustColor(hexColor: string, magnitude: number) {
+  if (magnitude < 0) return darkenColor(hexColor, magnitude * 100);
+  return lightenColor(hexColor, magnitude);
 }
 
 /**
@@ -75,7 +134,7 @@ export function convertColorToRgba(colorName: string, opacity?: number) {
  * @param {string} statusName the status keyword provided
  * @returns {string} containing the CSS variable name, or the original status if it cannot be corrected
  */
-export function convertStatusToIDSColor(statusName: string) {
+export function statusToIDSColor(statusName: string) {
   let cssVariable;
   const statuses = [
     'base',

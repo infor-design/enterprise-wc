@@ -139,9 +139,9 @@
 
 ids-swappable-item {
   border: 1px solid transparent;
-  border-bottom-color: var(--ids-color-slate-20);
+  border-bottom-color: var(--ids-color-neutral-20);
 }
 
 ids-swappable-item[over] {
-  border: 1px dashed var(--ids-color-slate-80);
+  border: 1px dashed var(--ids-color-neutral-80);
 }

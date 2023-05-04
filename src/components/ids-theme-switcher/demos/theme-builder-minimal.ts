@@ -1,4 +1,5 @@
 import '../../ids-color-picker/ids-color-picker';
+import { adjustColor } from '../../../utils/ids-color-utils/ids-color-utils';
 import '../../ids-date-picker/ids-date-picker';
 import '../../ids-dropdown/ids-dropdown';
 import '../../ids-header/ids-header';
@@ -11,19 +12,35 @@ import '../../ids-tabs/ids-tabs';
 import '../../ids-tabs/ids-tabs-context';
 import '../../ids-tag/ids-tag';
 
-// Assets
-import eventsJSON from '../../../assets/data/events.json';
-import cssListView from '../../../assets/css/ids-list-view/index.css';
-
 // Handle Theme Picker Changes
 const primaryColor = (document as any).querySelector('#primary-color');
 const backgroundColor = (document as any).querySelector('#background-color');
 const textColor = (document as any).querySelector('#text-color');
 const appendStyleSheet = () => {
+  const primary10 = adjustColor(primaryColor.value, 0.1);
+  const primary20 = adjustColor(primaryColor.value, 0.3);
+  const primary40 = adjustColor(primaryColor.value, 0.45);
+  const primary30 = adjustColor(primaryColor.value, 0.55);
+  const primary50 = adjustColor(primaryColor.value, 0.70);
+  const primary60 = primaryColor.value;
+  const primary70 = adjustColor(primaryColor.value, -0.20);
+  const primary80 = adjustColor(primaryColor.value, -0.30);
+  const primary90 = adjustColor(primaryColor.value, -0.45);
+  const primary100 = adjustColor(primaryColor.value, -0.60);
+
   const themeStyles = `:root, :host {
     --ids-color-primary: ${primaryColor.value};
+    --ids-color-primary-10: ${primary10};
+    --ids-color-primary-20: ${primary20};
+    --ids-color-primary-30: ${primary30};
+    --ids-color-primary-40: ${primary40};
+    --ids-color-primary-50: ${primary50};
+    --ids-color-primary-60: ${primaryColor.value};
+    --ids-color-primary-70: ${primary70};
+    --ids-color-primary-80: ${primary80};
+    --ids-color-primary-90: ${primary90};
+    --ids-color-primary-100: ${primary100};
     --ids-body-background-color: ${backgroundColor.value};
-    --ids-text-color: ${textColor.value};
   }`;
 
   const doc = (document.head as any);
@@ -33,6 +50,17 @@ const appendStyleSheet = () => {
   style.id = 'ids-theme-builder';
   style.setAttribute('nonce', primaryColor.nonce);
   if (!styleElem) doc.appendChild(style);
+
+  document.querySelector('#color-10')?.setAttribute('hex', primary10);
+  document.querySelector('#color-20')?.setAttribute('hex', primary20);
+  document.querySelector('#color-30')?.setAttribute('hex', primary30);
+  document.querySelector('#color-40')?.setAttribute('hex', primary40);
+  document.querySelector('#color-50')?.setAttribute('hex', primary50);
+  document.querySelector('#color-60')?.setAttribute('hex', primary60);
+  document.querySelector('#color-70')?.setAttribute('hex', primary70);
+  document.querySelector('#color-80')?.setAttribute('hex', primary80);
+  document.querySelector('#color-90')?.setAttribute('hex', primary90);
+  document.querySelector('#color-100')?.setAttribute('hex', primary100);
 };
 
 // Update Styles
@@ -42,86 +70,21 @@ document.querySelectorAll('ids-color-picker').forEach((picker) => {
   });
 });
 
-// Switch Values on Theme Change
-document.addEventListener('themechanged', () => {
-  const style = getComputedStyle(document.body);
-  primaryColor.value = style.getPropertyValue('--ids-color-primary');
-  backgroundColor.value = style.getPropertyValue('--ids-body-background-color');
-  textColor.value = style.getPropertyValue('--ids-text-color');
-  document.querySelector('#ids-theme-builder')?.remove();
-});
-
 // Implement Toggle Button
-document.addEventListener('DOMContentLoaded', () => {
+window.onload = () => {
   // Add an event listener to test clickable links
   document.querySelectorAll('ids-toggle-button').forEach((idsButton) => {
     idsButton.addEventListener('click', (e: any) => {
       e.target.toggle();
     });
   });
-});
 
-// =================================================================
-// Slider
-// =================================================================
-const labels = [{
-  value: 0,
-  text: 'very bad',
-  color: 'var(--ids-color-ruby-100)'
-}, {
-  value: 20,
-  text: 'poor',
-  color: 'var(--ids-color-ruby-80)'
-}, {
-  value: 40,
-  text: 'average',
-  color: 'var(--ids-color-amber-80)'
-}, {
-  value: 60,
-  text: 'good',
-  color: 'var(--ids-color-amber-40)'
-}, {
-  value: 80,
-  text: 'very good',
-  color: 'var(--ids-color-emerald-60)'
-}, {
-  value: 100,
-  text: 'excellent',
-  color: 'var(--ids-color-emerald-90)'
-}];
-
-const getClosestLabelSettings = (targetValue: number) => labels.find((el) => targetValue <= el.value);
-
-document.addEventListener('DOMContentLoaded', () => {
-  const survey = (document as any).querySelector('.survey');
-  if (survey) {
-    // Set label text
-    survey.labels = labels.map((el) => el.text);
-
-    // Adjust slider track/tick color when value changes
-    const fixSliderColorOnChange = (e: CustomEvent) => {
-      const sliderValue = e.detail.value;
-      const targetLabelSettings = getClosestLabelSettings(sliderValue);
-      survey.color = targetLabelSettings?.color;
-    };
-    survey.color = getClosestLabelSettings(survey.value)?.color;
-    survey.onEvent('ids-slider-drag', survey, fixSliderColorOnChange);
-    survey.onEvent('change', survey, fixSliderColorOnChange);
-  }
-});
-
-// =================================================================
-// List View
-// =================================================================
-const cssListViewLink = `<link href="${cssListView}" rel="stylesheet">`;
-document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssListViewLink);
-
-const listViewEl: any = document.querySelector('#list-view-tb');
-if (listViewEl) {
-  const setData = async () => {
-    const res = await fetch((eventsJSON as any));
-    const data = await res.json();
-    listViewEl.data = data;
-  };
-  setData();
-}
+  // Switch Values on Theme Change
+  document.addEventListener('themechanged', () => {
+    const style = getComputedStyle(document.body);
+    primaryColor.value = style.getPropertyValue('--ids-color-primary');
+    backgroundColor.value = style.getPropertyValue('--ids-body-background-color');
+    textColor.value = style.getPropertyValue('--ids-text-color');
+    document.querySelector('#ids-theme-builder')?.remove();
+  });
+};

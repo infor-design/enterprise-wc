@@ -88,7 +88,7 @@ $image-sizes: (
     min-width: 50px;
     min-height: 50px;
     background-color: var(--ids-image-initials-background-color);
-    color: var(--ids-color-slate-00);
+    color: var(--ids-color-neutral-00);
     text-transform: uppercase;
   }
 
@@ -126,7 +126,7 @@ $image-sizes: (
   &::before {
     position: absolute;
     border-radius: var(--ids-border-radius-round);
-    background-color: var(--ids-color-slate-00);
+    background-color: var(--ids-color-neutral-00);
     content: '';
     width: 12px;
     height: 12px;

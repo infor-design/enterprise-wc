@@ -56,14 +56,25 @@ Another possibility is to reuse some of the "sub-functionality" of our component
 
 ## Theming
 
-We are in the process of adding full css theming via a comprehensive series of css variables also known as design tokens. You would are able to customize css variables at any level using css inheritance. Append a style sheet in the page at a level below where the built in style sheets are appended, they are appended right after the `<title>` element. See `src/themes/default/ids-theme-default-core.scss` for a full list or look at the component css.
+Each of the components has a considerable number of customizable css variables you can customize to various degrees to accomplish themes or small overrides. The default theme is called `default` and it is injected the first time you add a custom web component to the page. If you add a style sheet after the title element in the head it will take precedence. See `src/themes/default/ids-theme-default-core.scss` for a full list of css variables or look at the component css.
 
-For example:
+As an example for customizing the header color, and text colors you could do something like:
 
 ```css
 --ids-color-primary: var(--ids-color-azure-70);
---ids-text-color: var(--ids-color-slate-100);
---ids-input-background-color: var(--ids-color-slate-00);
+--ids-text-color: var(--ids-color-neutral-100);
+--ids-input-background-color: var(--ids-color-neutral-00);
+--ids-input-border-color: var(--ids-color-neutral-100);
 ```
 
-Using this technique one can customize everything from a simple primary color change to an entire new theme for a customer or future themes.
+Using this technique one can customize everything from a simple primary color change to an entire new theme for a customer or future themes. We may not have got every component fully them-able the first go so make a request to add any further tokens to the components.
+
+Built in themes can be set on the `ids-theme-switcher` component by setting the theme property for example `theme="default-light"` or `theme="default-dark"`. The `mode` property will also work (sets it `default-dark`). A theme is constructed of three parts: Visual Identity -> Modes -> Personalization Color. The whole thing is considered a `theme` you can change any of the parts at these levels.
+
+To set just a personalization color you just have to change the primary color variable.
+
+```css
+--ids-color-primary: #800;
+```
+
+To create a full theme take all the variables in `src/themes/default/ids-theme-default-core.scss` and change the ones you need to create the theme. You only need to include the one you changed. For a non customer theme (Infor based) its recommended you always you the current palette colors as per `ids-color/demos/palette.html`. But note that you can change the entire palette if desired although this is current work in progress due to the need for further refinement.
