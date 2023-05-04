@@ -8,3 +8,6 @@
   - link: example.html
     type: Main Example
     description: Shows a basic scroll view
+  - link: sandbox.html
+    type: Example
+    description: Showing various scroll view states

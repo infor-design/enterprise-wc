@@ -50,9 +50,16 @@ export default class IdsAccordion extends Base {
     this.#handleKeys();
 
     this.#assignDepthDependentStyles();
-    this.#contentObserver.observe((this as any), {
+    this.#contentObserver?.observe((this as any), {
       childList: true
     });
+  }
+
+  disconnectedCallback(): void {
+    if (this.#contentObserver) {
+      this.#contentObserver.disconnect();
+      this.#contentObserver = undefined;
+    }
   }
 
   /**
@@ -94,7 +101,7 @@ export default class IdsAccordion extends Base {
   /**
    * Observes changes in the accordion tree
    */
-  #contentObserver = new MutationObserver((mutations) => {
+  #contentObserver: MutationObserver | undefined = new MutationObserver((mutations) => {
     for (const m of mutations) {
       if (m.type === 'childList') {
         this.#assignDepthDependentStyles();

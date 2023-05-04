@@ -1,31 +1,34 @@
-/* Ids Scroll view Component */
-@use '../../themes/mixins/ids-core-mixins' as mixins;
+@import '../../core/ids-base';
 
 // The main scrollable container
 .ids-scroll-view {
-  display: flex;
+  @include flex();
+
   outline: none;
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
+  -ms-overflow-style: none; // IE and Edge
+  scrollbar-width: none; // Firefox
+
+  // Hide scrollbar for Chrome, Safari and Opera
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   // The items that are adding as slot items
   ::slotted([slot='scroll-view-item']) {
+    @include w-full();
+
     // Remove this if we want items to stretch
     flex-shrink: 0;
     scroll-snap-align: start;
-    width: 100%;
 
     > * {
-      display: block;
-      margin: 0;
+      @include block();
+      @include m-0();
     }
   }
-}
-
-// Remove the scrollbar / we dont want it visible
-.ids-scroll-view::-webkit-scrollbar {
-  display: none;
 }
 
 // The pager controls (circle container)
@@ -33,49 +36,65 @@
   display: flex;
   justify-content: center;
 
+  &.suppress-controls {
+    display: none;
+  }
+
   // The circle buttons and states
-  a {
-    border: 1px solid transparent;
-    cursor: var(--ids-cursor-pointer);
-    position: relative;
-    display: inline-block;
-    height: var(--ids-scroll-view-button-hitbox-size);
-    outline: none;
-    width: var(--ids-scroll-view-button-hitbox-size);
-
-    &::after {
-      border: 1px solid var(--ids-scroll-view-button-border-color);
-      border-radius: var(--ids-scroll-view-button-border-radius);
-      content: '';
-      height: var(--ids-scroll-view-button-size);
-      outline: none;
-      opacity: 0.8;
-      position: absolute;
-      transition: border-color 0.2s ease 0s;
-      width: var(--ids-scroll-view-button-size);
-      left: calc(50% - 8px);
-      top: calc(50% - 8px);
+  .circle-button {
+    [icon] {
+      color: var(--ids-color-palette-slate-70);
     }
 
-    &.selected::after {
-      border-color: var(--ids-scroll-view-button-selected-border-color);
-      background-color: var(--ids-scroll-view-button-selected-background-color);
-    }
+    &.selected {
+      [icon] {
+        color: var(--ids-color-brand-primary-base);
 
-    span.audible {
-      @include mixins.audible();
-    }
-
-    &:hover:not(.selected) {
-      &::after {
-        border-color: var(--ids-scroll-view-button-hover-border-color);
+        &::part(svg) {
+          fill: var(--ids-color-brand-primary-base);
+        }
       }
     }
+  }
+}
 
-    &:focus {
-      border: 1px solid var(--ids-scroll-view-button-focus-border-color);
-      box-shadow: var(--ids-scroll-view-button-focus-box-shadow);
-      outline: 0;
+// Add Theme support
+.ids-scroll-view[mode='dark'] {
+  + .ids-scroll-view-controls {
+    .circle-button {
+      [icon] {
+        color: var(--ids-color-palette-slate-40);
+      }
+
+      &.selected {
+        [icon] {
+          color: var(--ids-color-brand-primary-base);
+        }
+
+        [icon]::part(svg) {
+          fill: var(--ids-color-brand-primary-base);
+        }
+      }
+    }
+  }
+}
+
+.ids-scroll-view[mode='contrast'] {
+  + .ids-scroll-view-controls {
+    .circle-button {
+      [icon] {
+        color: var(--ids-color-palette-slate-70);
+      }
+
+      &.selected {
+        [icon] {
+          color: var(--ids-color-palette-azure-80);
+        }
+
+        [icon]::part(svg) {
+          fill: var(--ids-color-palette-azure-80);
+        }
+      }
     }
   }
 }

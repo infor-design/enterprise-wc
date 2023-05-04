@@ -97,6 +97,7 @@ export default class IdsPopupMenu extends Base {
     if (this.hasOpenEvents) {
       this.hide();
     }
+    this.#removeMutationObservers();
   }
 
   /**
@@ -143,6 +144,7 @@ export default class IdsPopupMenu extends Base {
     // When the underlying Popup triggers its "show" event, pass the event to the Host element.
     this.offEvent('show');
     this.onEvent('show', this.container, (e: CustomEvent) => {
+      this.hideOtherMenus();
       if (!this.parentMenuItem) {
         this.triggerEvent('show', this, e);
       }
@@ -155,11 +157,34 @@ export default class IdsPopupMenu extends Base {
       if (!this.parentMenuItem) {
         this.triggerEvent('hide', this, e);
       }
+      this.#mo?.disconnect();
     });
 
     // Set up all the events specifically-related to the "trigger" type
     this.refreshTriggerEvents();
   }
+
+  /** Hide any older (enterprise) menus */
+  hideOtherMenus() {
+    const openMenu = (document.querySelector('.popupmenu.is-open') as HTMLElement);
+    openMenu?.classList.remove('is-open');
+    const openMenuElem = (document.querySelector('[data-popupmenu].is-open') as HTMLElement);
+    openMenuElem?.classList.remove('is-open');
+
+    // Use the is-open class to close it
+    this.#mo = new MutationObserver((mutations) => {
+      mutations.forEach((mutationRecord) => {
+        const target = (mutationRecord.target as HTMLElement);
+        if (target?.className === 'is-open') {
+          this.hide();
+        }
+      });
+    });
+    const body = document.querySelector('body');
+    if (body) this.#mo.observe(document.querySelector('body') as Node, { attributes: true, subtree: true });
+  }
+
+  #mo: MutationObserver | undefined = undefined;
 
   /**
    * Sets up the connection to the global keyboard handler
@@ -254,6 +279,18 @@ export default class IdsPopupMenu extends Base {
     this.popup.visible = false;
     this.hideSubmenus();
     this.removeOpenEvents();
+    this.#removeMutationObservers();
+  }
+
+  /**
+   * Clean up any Mutation observers
+   * @returns {void}
+   */
+  #removeMutationObservers() {
+    if (this.#mo) {
+      this.#mo.disconnect();
+      this.#mo = undefined;
+    }
   }
 
   /**
