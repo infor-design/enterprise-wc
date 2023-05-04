@@ -25,8 +25,8 @@ const appendStyleSheet = () => {
   const primary60 = primaryColor.value;
   const primary70 = adjustColor(primaryColor.value, -0.20);
   const primary80 = adjustColor(primaryColor.value, -0.30);
-  const primary90 = adjustColor(primaryColor.value, -0.45);
-  const primary100 = adjustColor(primaryColor.value, -0.60);
+  const primary90 = adjustColor(primaryColor.value, -0.40);
+  const primary100 = adjustColor(primaryColor.value, -0.55);
 
   const themeStyles = `:root, :host {
     --ids-color-primary: ${primaryColor.value};
@@ -41,6 +41,7 @@ const appendStyleSheet = () => {
     --ids-color-primary-90: ${primary90};
     --ids-color-primary-100: ${primary100};
     --ids-body-background-color: ${backgroundColor.value};
+    --ids-text-color: ${textColor.value};
   }`;
 
   const doc = (document.head as any);

@@ -6,6 +6,7 @@ import '../../ids-bar-chart/ids-bar-chart';
 import '../../ids-block-grid/ids-block-grid';
 import '../../ids-breadcrumb/ids-breadcrumb';
 import '../../ids-calendar/ids-calendar';
+import { adjustColor } from '../../../utils/ids-color-utils/ids-color-utils';
 import '../../ids-color-picker/ids-color-picker';
 import '../../ids-counts/ids-counts';
 import '../../ids-data-grid/ids-data-grid';
@@ -249,8 +250,29 @@ const primaryColor = (document as any).querySelector('#primary-color');
 const backgroundColor = (document as any).querySelector('#background-color');
 const textColor = (document as any).querySelector('#text-color');
 const appendStyleSheet = () => {
+  const primary10 = adjustColor(primaryColor.value, 0.1);
+  const primary20 = adjustColor(primaryColor.value, 0.3);
+  const primary40 = adjustColor(primaryColor.value, 0.45);
+  const primary30 = adjustColor(primaryColor.value, 0.55);
+  const primary50 = adjustColor(primaryColor.value, 0.70);
+  const primary60 = primaryColor.value;
+  const primary70 = adjustColor(primaryColor.value, -0.20);
+  const primary80 = adjustColor(primaryColor.value, -0.30);
+  const primary90 = adjustColor(primaryColor.value, -0.40);
+  const primary100 = adjustColor(primaryColor.value, -0.55);
+
   const themeStyles = `:root, :host {
     --ids-color-primary: ${primaryColor.value};
+    --ids-color-primary-10: ${primary10};
+    --ids-color-primary-20: ${primary20};
+    --ids-color-primary-30: ${primary30};
+    --ids-color-primary-40: ${primary40};
+    --ids-color-primary-50: ${primary50};
+    --ids-color-primary-60: ${primaryColor.value};
+    --ids-color-primary-70: ${primary70};
+    --ids-color-primary-80: ${primary80};
+    --ids-color-primary-90: ${primary90};
+    --ids-color-primary-100: ${primary100};
     --ids-body-background-color: ${backgroundColor.value};
     --ids-text-color: ${textColor.value};
   }`;
@@ -262,6 +284,17 @@ const appendStyleSheet = () => {
   style.id = 'ids-theme-builder';
   style.setAttribute('nonce', primaryColor.nonce);
   if (!styleElem) doc.appendChild(style);
+
+  document.querySelector('#color-10')?.setAttribute('hex', primary10);
+  document.querySelector('#color-20')?.setAttribute('hex', primary20);
+  document.querySelector('#color-30')?.setAttribute('hex', primary30);
+  document.querySelector('#color-40')?.setAttribute('hex', primary40);
+  document.querySelector('#color-50')?.setAttribute('hex', primary50);
+  document.querySelector('#color-60')?.setAttribute('hex', primary60);
+  document.querySelector('#color-70')?.setAttribute('hex', primary70);
+  document.querySelector('#color-80')?.setAttribute('hex', primary80);
+  document.querySelector('#color-90')?.setAttribute('hex', primary90);
+  document.querySelector('#color-100')?.setAttribute('hex', primary100);
 };
 
 // Update Styles

@@ -103,7 +103,11 @@ function darkenColor(hexColor: string, magnitude: number) {
   let b = ((decimalColor >> 8) & 0x00ff) + magnitude;
   b > 255 && (b = 255);
   b < 0 && (b = 0);
-  return `#${(g | (b << 8) | (r << 16)).toString(16)}`;
+
+  let newHex = (g | (b << 8) | (r << 16)).toString(16);
+  if (newHex.length === 5) newHex = `0${newHex}`;
+  if (newHex.length === 4) newHex = `0${newHex}`;
+  return `#${newHex}`;
 }
 
 /**

@@ -403,15 +403,15 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
     }
 
     &.ids-input.field-height-lg .ids-input-field {
-      padding-inline: calc(var(--ids-spacing-xxl) - 2);
+      padding-inline: calc(var(--ids-spacing-xxl) - 2px);
     }
 
     &.ids-input.field-height-md .ids-input-field {
-      padding-inline: calc(var(--ids-spacing-xlg) - 2);
+      padding-inline: calc(var(--ids-spacing-xlg) - 2px);
     }
 
     &.ids-input.field-height-sm .ids-input-field {
-      padding-inline: calc(var(--ids-spacing-lg) - 2);
+      padding-inline: calc(var(--ids-spacing-lg) - 2px);
     }
 
     &.ids-input.field-height-xs .ids-input-field {
@@ -526,7 +526,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
     }
   }
 
-  &:hover:not(.readonly):not(.disabled),
+  &:hover:not(.readonly):not(.disabled):not(.color-variant-borderless),
   &:hover.readonly.readonly-background {
     .field-container {
       border-color: var(--ids-input-hover-border-color);
