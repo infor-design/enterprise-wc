@@ -958,15 +958,8 @@
   --ids-required-disabled-background-color: var(--ids-color-error-30);
 
   // Scroll View
-  --ids-scroll-view-button-size: 14px;
-  --ids-scroll-view-button-hitbox-size: 44px;
-  --ids-scroll-view-button-border-radius: var(--ids-border-radius-round);
-  --ids-scroll-view-button-border-color: var(--ids-color-neutral-70);
-  --ids-scroll-view-button-selected-border-color: var(--ids-color-primary);
-  --ids-scroll-view-button-selected-background-color: var(--ids-color-primary);
-  --ids-scroll-view-button-hover-border-color: var(--ids-color-neutral-100);
-  --ids-scroll-view-button-focus-border-color: var(--ids-focus-border-color);
-  --ids-scroll-view-button-focus-box-shadow: var(--ids-focus-box-shadow);
+  --ids-scroll-view-button-icon-color: var(--ids-color-neutral-70);
+  --ids-scroll-view-button-selected-icon-color: var(--ids-color-primary);
 
   // Search Field
   --ids-searchfield-app-menu-focus-box-shadow: 0 0 3px 2px rgba(255 255 255 / 0.4);
