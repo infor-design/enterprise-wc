@@ -190,6 +190,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
 
     if ((this as IdsInputInterface).input) {
       checkRules((this as IdsInputInterface).input);
+      this.#setValidationMessagesCountAttr();
     }
   }
 
@@ -279,6 +280,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
     } else {
       addMessage(message);
     }
+    this.#setValidationMessagesCountAttr();
   }
 
   /**
@@ -296,6 +298,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
     } else {
       removeMessage(message);
     }
+    this.#setValidationMessagesCountAttr();
   }
 
   /**
@@ -429,6 +432,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       }
       this.removeMessage(messageSettings);
     });
+    this.#setValidationMessagesCountAttr();
   }
 
   /**
@@ -448,7 +452,20 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       const args = { id, type, message, icon }; // eslint-disable-line
       this.removeMessage(args);
       this.addMessage(args);
+      this.#setValidationMessagesCountAttr();
     }
+  }
+
+  /**
+   * Set validation messages count attribute
+   * @private
+   * @returns {void}
+   */
+  #setValidationMessagesCountAttr() {
+    const count = this.validationMessagesCount;
+    const attr = 'validation-message-count';
+    if (count > 0) this.setAttribute(attr, String(count));
+    else this.removeAttribute(attr);
   }
 
   /**
@@ -715,6 +732,14 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       });
     });
     return msgs;
+  }
+
+  /**
+   * Get validation messages count
+   * @returns {number} The current messages count
+   */
+  get validationMessagesCount(): number {
+    return this.shadowRoot?.querySelectorAll('.validation-message')?.length || 0;
   }
 };
 

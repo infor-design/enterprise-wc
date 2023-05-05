@@ -226,6 +226,7 @@ export const attributes = {
   LABEL_SECONDARY: 'label-secondary',
   LABEL_STATE: 'label-state',
   LABEL_TOTAL: 'label-total',
+  LABEL_WRAP: 'label-wrap',
   LANGUAGE: 'language',
   LAST: 'last',
   LAZY_LOAD: 'lazy-load',
