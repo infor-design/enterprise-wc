@@ -139,7 +139,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
 
 .disabled {
   .ids-label-text {
-    color: var(--ids-disabled-text-color);
+    color: var(--ids-text-color-disabled);
 
     &.required::after {
       color: var(--ids-required-disabled-background-color);

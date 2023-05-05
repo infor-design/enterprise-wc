@@ -27,8 +27,8 @@
   width: 100%;
 
   &.color-variant-alternate {
-    background-color: var(--ids-body-inverse-background-color);
-    color: var(--ids-inverse-text-color);
+    background-color: var(--ids-body-text-on-background-color);
+    color: var(--ids-color-on-text);
   }
 
   &[scrollable='false'] {

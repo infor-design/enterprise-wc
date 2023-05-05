@@ -29,7 +29,7 @@
     @include mixins.antialiased();
 
     border: 1px solid var(--ids-about-border-color);
-    padding: var(--ids-about-padding);
+    padding: var(--ids-about-content-padding);
     margin-block-start: 0;
     margin-block-end: 24px;
     border-radius: var(--ids-border-radius-xs);

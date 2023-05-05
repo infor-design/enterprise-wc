@@ -1,28 +1,29 @@
 @use './ids-theme-default-colors.scss';
 
-// namespace-object-name-modifier/state-modifier2/state2-cssproperty
+// namespace-element-concept-property-variant-state
+// type-group-object-concept-modifier
 // ids-button-primary-disabled-background-color
 :host,
 :root {
   // Primary Color
   --ids-color-primary: var(--ids-color-primary-60);
-  --ids-color-primary-text-color: var(--ids-color-neutral-00);
+  --ids-color-text-on-primary: var(--ids-color-neutral-00);
 
   // Body Colors
   --ids-body-background-color: var(--ids-color-neutral-00);
-  --ids-body-inverse-background-color: var(--ids-color-neutral-100);
+  --ids-body-text-on-background-color: var(--ids-color-neutral-100);
 
   // Text Colors
   --ids-text-color: var(--ids-color-neutral-100);
-  --ids-inverse-text-color: var(--ids-color-neutral-00);
-  --ids-subtle-text-color: var(--ids-color-neutral-80);
-  --ids-label-text-color: var(--ids-color-neutral-60);
-  --ids-data-text-color: var(--ids-color-neutral-100);
-  --ids-disabled-text-color: var(--ids-color-neutral-30);
-  --ids-error-text-color: var(--ids-color-error-60);
-  --ids-info-text-color: var(--ids-color-info-70);
-  --ids-success-text-color: var(--ids-color-success-50);
-  --ids-warning-text-color: var(--ids-color-warning-50);
+  --ids-color-on-text: var(--ids-color-neutral-00);
+  --ids-text-color-subtle: var(--ids-color-neutral-80);
+  --ids-text-color-label: var(--ids-color-neutral-60);
+  --ids-text-color-data: var(--ids-color-neutral-100);
+  --ids-text-color-disabled: var(--ids-color-neutral-30);
+  --ids-text-color-error: var(--ids-color-error-60);
+  --ids-text-color-info: var(--ids-color-info-70);
+  --ids-text-color-success: var(--ids-color-success-50);
+  --ids-text-color-warning: var(--ids-color-warning-50);
 
   // Animations
   --ids-transition-length: 200ms;
@@ -62,15 +63,15 @@
 
   // Fonts
   --ids-font-family: source sans pro, -apple-system, helvetica, arial;
-  --ids-font-ar: 'Mada', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-he: 'Assistant', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-hi: 'Noto Sans', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-ja: 'Noto Sans JP', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-ko: 'Noto Sans KR', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-th: 'Sarabun', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-zh-cn: 'Noto Sans SC', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-zh-tw: 'Noto Sans TC', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-mono: source code pro, monospace;
+  --ids-font-family-ar: 'Mada', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-family-he: 'Assistant', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-family-hi: 'Noto Sans', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-family-ja: 'Noto Sans JP', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-family-ko: 'Noto Sans KR', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-family-th: 'Sarabun', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-family-zh-cn: 'Noto Sans SC', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-family-zh-tw: 'Noto Sans TC', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-family-mono: source code pro, monospace;
   --ids-font-weight-lighter: 300;
   --ids-font-weight-normal: 400;
   --ids-font-weight-semi-bold: 600;
@@ -89,6 +90,8 @@
   --ids-font-size-5xl: 48px;
   --ids-font-size-6xl: 60px;
   --ids-font-size-7xl: 72px;
+
+  // Text Transforms
   --ids-text-transform: uppercase;
 
   // Spacing (For padding or margins)
@@ -114,11 +117,11 @@
 
   // Line Height
   --ids-line-height-none: 0;
+  --ids-line-height-normal: normal;
   --ids-line-height-xs: 1;
   --ids-line-height-sm: 1.25;
   --ids-line-height-md: 1.5;
   --ids-line-height-lg: 2;
-  --ids-line-height-normal: normal;
 
   // Z Indexes
   --ids-z-index-toolbar: 20;
@@ -138,34 +141,19 @@
   --ids-about-max-width: 560px;
   --ids-about-min-width: 300px;
   --ids-about-border-color: var(--ids-popup-border-color);
-  --ids-about-padding: 16px;
+  --ids-about-content-padding: 16px;
   --ids-about-hover-border-color: var(--ids-input-hover-border-color);
   --ids-about-focus-border-color: var(--ids-input-focus-border-color);
   --ids-about-focus-box-shadow: var(--ids-focus-box-shadow);
 
   // Accordion
   --ids-accordion-header-border-bottom-color: var(--ids-color-neutral-20);
-  --ids-accordion-header-icon-color: var(--ids-color-neutral-10());
+  --ids-accordion-header-icon-color: var(--ids-color-neutral-10);
   --ids-accordion-header-focus-border-color: var(--ids-color-primary);
-  --ids-accordion-header-focus-box-shadow: rgb(54 138 192 / 0.3);
-  --ids-accordion-header-disabled-icon-color: var(--ids-disabled-text-color);
-  --ids-accordion-header-disabled-text-color: var(--ids-disabled-text-color);
+  --ids-accordion-header-focus-box-shadow: var(--ids-box-shadow-md);
+  --ids-accordion-header-disabled-icon-color: var(--ids-text-color-disabled);
+  --ids-accordion-header-disabled-text-color: var(--ids-text-color-disabled);
   --ids-accordion-header-text-color: var(--ids-text-color);
-
-  // Accordion (App Menu)
-  --ids-accordion-header-app-menu-disabled-background-color: var(--ids-color-neutral-100);
-  --ids-accordion-header-app-menu-disabled-border-color: var(--ids-color-neutral-100);
-  --ids-accordion-header-app-menu-disabled-text-color: var(--ids-color-neutral-40);
-  --ids-accordion-header-app-menu-filter-background-color: var(--ids-color-neutral-00);
-  --ids-accordion-header-app-menu-filter-match-text-color: var(--ids-color-neutral-60);
-  --ids-accordion-header-app-menu-filter-text-color: var(--ids-text-color);
-  --ids-accordion-header-app-menu-focus-text-color: var(--ids-color-neutral-00);
-  --ids-accordion-header-app-menu-focus-border-color: var(--ids-color-primary-70);
-  --ids-accordion-header-app-menu-hover-background-color: var(--ids-color-neutral-90);
-  --ids-accordion-header-app-menu-hover-border-color: var(--ids-color-neutral-90);
-  --ids-accordion-header-app-menu-selected-text-color: var(--ids-color-neutral-00);
-  --ids-accordion-header-app-menu-text-color: var(--ids-color-neutral-20);
-  --ids-accordion-panel-app-menu-background-color: var(--ids-color-neutral-100);
 
   // Action Panel
   --ids-action-panel-header-height: 50px;
@@ -198,6 +186,21 @@
   --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-30);
   --ids-alert-empty-color: var(--ids-icon-color);
   --ids-alert-empty-disabled-color: var(--ids-icon-color-disabled);
+
+  // App Menu
+  --ids-app-menu-accordion-header-disabled-background-color: var(--ids-color-neutral-100);
+  --ids-app-menu-accordion-header-disabled-border-color: var(--ids-color-neutral-100);
+  --ids-app-menu-accordion-header-disabled-text-color: var(--ids-color-neutral-40);
+  --ids-app-menu-accordion-header-filter-background-color: var(--ids-color-neutral-00);
+  --ids-app-menu-accordion-header-filter-match-text-color: var(--ids-color-neutral-60);
+  --ids-app-menu-accordion-header-filter-text-color: var(--ids-text-color);
+  --ids-app-menu-accordion-header-focus-text-color: var(--ids-color-neutral-00);
+  --ids-app-menu-accordion-header-focus-border-color: var(--ids-color-primary-70);
+  --ids-app-menu-accordion-header-hover-background-color: var(--ids-color-neutral-90);
+  --ids-app-menu-accordion-header-hover-border-color: var(--ids-color-neutral-90);
+  --ids-app-menu-accordion-header-selected-text-color: var(--ids-color-neutral-00);
+  --ids-app-menu-accordion-header-text-color: var(--ids-color-neutral-20);
+  --ids-app-menu-accordion-panel-background-color: var(--ids-color-neutral-100);
 
   // Badge
   --ids-badge-background-color: var(--ids-input-readonly-background-color);
@@ -251,15 +254,15 @@
   // Button (Primary)
   --ids-button-primary-border-color: var(--ids-color-primary);
   --ids-button-primary-background-color: var(--ids-color-primary);
-  --ids-button-primary-text-color: var(--ids-color-primary-00);
+  --ids-button-primary-text-color: var(--ids-color-text-on-primary);
   --ids-button-primary-focus-border-color: var(--ids-focus-border-color);
-  --ids-button-primary-focus-box-shadow: 0 0 0 2px var(--ids-color-primary-00), 0 0 0 3px var(--ids-color-primary-70), 0 0 4px 3px var(--ids-color-primary-70);
+  --ids-button-primary-focus-box-shadow: 0 0 0 2px var(--ids-color-text-on-primary), 0 0 0 3px var(--ids-color-primary-70), 0 0 4px 3px var(--ids-color-primary-70);
   --ids-button-primary-hover-background-color: var(--ids-color-primary-80);
   --ids-button-primary-hover-border-color: var(--ids-color-primary-70);
   --ids-button-primary-disabled-background-color: var(--ids-color-neutral-20);
   --ids-button-primary-disabled-border-color: var(--ids-color-neutral-20);
   --ids-button-primary-disabled-text-color: var(--ids-color-neutral-40);
-  --ids-button-primary-ripple-color: var(--ids-color-primary-00);
+  --ids-button-primary-ripple-color: var(--ids-color-text-on-primary);
 
   // Button (Secondary)
   --ids-button-secondary-background-color: transparent;
@@ -291,29 +294,28 @@
   // Button (Alternate)
   --ids-button-alternate-text-color: var(--ids-color-neutral-10);
   --ids-button-alternate-text-color-hover: var(--ids-color-neutral-00);
-  --ids-button-alternate-ripple-color: var(--ids-color-primary-00);
+  --ids-button-alternate-ripple-color: var(--ids-color-text-on-primary);
 
   // Button (Formatter)
-  --ids-button-alternate-formatter-text-color: var(--ids-input-readonly-background-color);
   --ids-button-formatter-border-color: var(--ids-color-neutral-00);
   --ids-button-formatter-disabled-opacity: 0.4;
-  --ids-button-alternate-formatter-text-color-hover: var(--ids-inverse-text-color);
   --ids-button-formatter-ripple-color: var(--ids-color-primary-tertiary);
+--ids-button-alternate-formatter-text-color-hover: var(--ids-color-on-text);
+  --ids-button-alternate-formatter-text-color: var(--ids-input-readonly-background-color);
 
   // Breadcrumb
-  --ids-breadcrumb-text-color: var(--ids-subtle-text-color);
-  --ids-breadcrumb-disabled-text-color: var(--ids-disabled-text-color);
-  --ids-breadcrumb-inverse-text-color: var(--ids-inverse-text-color);
+  --ids-breadcrumb-text-color: var(--ids-text-color-subtle);
+  --ids-breadcrumb-disabled-text-color: var(--ids-text-color-disabled);
+  --ids-breadcrumb-inverse-text-color: var(--ids-color-on-text);
   --ids-breadcrumb-font-weight: var(--ids-font-weight-normal);
-  --ids-breadcrumb-current-font-weight:
   --ids-breadcrumb-font-size: var(--ids-font-size-sm);
 
-  // Calendar
+  // Calendar (Toolbar)
   --ids-calendar-toolbar-container-background-color: var(--ids-color-neutral-00);
   --ids-calendar-toolbar-container-border-color: var(--ids-color-neutral-20);
 
-  // Calendar Event
-  --ids-calendar-event-azure-background-color: var(--ids-color-azure-20); // chart colors?
+  // Calendar (Events)
+  --ids-calendar-event-azure-background-color: var(--ids-color-azure-20);
   --ids-calendar-event-azure-border-color: var(--ids-color-azure-70);
   --ids-calendar-event-amber-background-color: var(--ids-color-amber-30);
   --ids-calendar-event-amber-border-color: var(--ids-color-amber-70);
@@ -349,35 +351,34 @@
   --ids-card-box-shadow: rgba(0 0 0 / 0.1) 0 0 8px;
   --ids-card-selected-background-color: var(--ids-color-primary-10);
   --ids-card-selected-border-color: var(--ids-color-primary);
-  --ids-card-text-color: var(--ids-label-text-color);
-  --ids-card-hover-text-color: var(--ids-data-text-color);
+  --ids-card-text-color: var(--ids-text-color-label);
+  --ids-card-hover-text-color: var(--ids-text-color-data);
 
   // Charts
   --ids-chart-legend-text-size: var(--ids-font-size-sm);
-  --ids-chart-legend-text-color: var(--ids-label-text-color);
+  --ids-chart-legend-text-color: var(--ids-text-color-label);
 
   // Charts - Quantitive Color Progression
   --ids-chart-color-1: var(--ids-color-azure-80);
   --ids-chart-color-2: var(--ids-color-turquoise-40);
   --ids-chart-color-3: var(--ids-color-amethyst-60);
   --ids-chart-color-4: var(--ids-color-neutral-40);
-  --ids-chart-color-5: var(--ids-color-neutral-40);
-  --ids-chart-color-6: var(--ids-color-amber-30);
-  --ids-chart-color-7: var(--ids-color-amber-70);
-  --ids-chart-color-8: var(--ids-color-emerald-80);
-  --ids-chart-color-9: var(--ids-color-azure-30);
-  --ids-chart-color-10: var(--ids-color-ruby-80);
-  --ids-chart-color-11: var(--ids-color-neutral-20);
-  --ids-chart-color-12: var(--ids-color-turquoise-60);
-  --ids-chart-color-13: var(--ids-color-amber-90);
-  --ids-chart-color-14: var(--ids-color-amethyst-30);
-  --ids-chart-color-15: var(--ids-color-azure-60);
-  --ids-chart-color-16: var(--ids-color-ruby-30);
-  --ids-chart-color-17: var(--ids-color-amethyst-80);
-  --ids-chart-color-18: var(--ids-color-emerald-30);
-  --ids-chart-color-19: var(--ids-color-turquoise-80);
-  --ids-chart-color-20: var(--ids-color-neutral-60);
-  --ids-chart-color-21: var(--ids-color-ruby-40);
+  --ids-chart-color-5: var(--ids-color-amber-30);
+  --ids-chart-color-6: var(--ids-color-amber-70);
+  --ids-chart-color-7: var(--ids-color-emerald-80);
+  --ids-chart-color-8: var(--ids-color-azure-30);
+  --ids-chart-color-9: var(--ids-color-ruby-80);
+  --ids-chart-color-10: var(--ids-color-neutral-20);
+  --ids-chart-color-11: var(--ids-color-turquoise-60);
+  --ids-chart-color-12: var(--ids-color-amber-90);
+  --ids-chart-color-13: var(--ids-color-amethyst-30);
+  --ids-chart-color-14: var(--ids-color-azure-60);
+  --ids-chart-color-15: var(--ids-color-ruby-30);
+  --ids-chart-color-16: var(--ids-color-amethyst-80);
+  --ids-chart-color-17: var(--ids-color-emerald-30);
+  --ids-chart-color-18: var(--ids-color-turquoise-80);
+  --ids-chart-color-19: var(--ids-color-neutral-60);
+  --ids-chart-color-20: var(--ids-color-ruby-40);
 
   // Charts - Axis chart
   --ids-chart-axis-border-color: var(--ids-color-neutral-10);
@@ -386,14 +387,14 @@
   --ids-chart-axis-last-line-stroke: var(--ids-color-neutral-70);
   --ids-chart-axis-label-font-family: var(--ids-font-family);
   --ids-chart-axis-label-font-size: var(--ids-font-size-sm);
-  --ids-chart-axis-label-text-fill: var(--ids-label-text-color);
+  --ids-chart-axis-label-text-fill: var(--ids-text-color-label);
   --ids-chart-axis-label-axis-text-font-weight: var(--ids-font-weight-bold);
   --ids-chart-axis-focus-group-outline: 2px dashed var(--ids-color-azure-60);
 
   // Charts - Pie chart
   --ids-chart-pie-donut-text-font-family: var(--ids-font-family);
   --ids-chart-pie-donut-text-font-size: var(--ids-font-size-xxs);
-  --ids-chart-pie-donut-text-fill: var(--ids-label-text-color);
+  --ids-chart-pie-donut-text-fill: var(--ids-text-color-label);
 
   // Checkbox
   --ids-checkbox-unchecked-border-color: var(--ids-input-border-color);
@@ -408,11 +409,11 @@
   --ids-checkbox-indeterminate-border-color: var(--ids-color-primary);
   --ids-checkbox-indeterminate-after-border-color: var(--ids-color-neutral-00);
   --ids-checkbox-indeterminate-after-border-width: 0 0 2px;
-  --ids-checkbox-disabled-unchecked-background-color: var(--ids-disabled-text-color);
+  --ids-checkbox-disabled-unchecked-background-color: var(--ids-text-color-disabled);
   --ids-checkbox-disabled-unchecked-border-color: var(--ids-input-disabled-text-color);
-  --ids-checkbox-disabled-checked-background-color: var(--ids-disabled-text-color);
+  --ids-checkbox-disabled-checked-background-color: var(--ids-text-color-disabled);
   --ids-checkbox-disabled-checked-border-color: var(--ids-input-disabled-text-color);
-  --ids-checkbox-disabled-text-color: var(--ids-disabled-text-color);
+  --ids-checkbox-disabled-text-color: var(--ids-text-color-disabled);
   --ids-checkbox-focus-border-color: var(--ids-input-focus-border-color);
   --ids-checkbox-focus-box-shadow: var(--ids-focus-box-shadow);
   --ids-checkbox-has-focus-border-color: var(--ids-focus-border-color);
@@ -420,7 +421,7 @@
   --ids-checkbox-multiselect-checkbox-background-color: var(--ids-body-background-color);
 
   // Counts
-  --ids-counts-text-color: var(--ids-subtle-text-color);
+  --ids-counts-text-color: var(--ids-text-color-subtle);
   --ids-counts-hyperlink-text-color: var(--ids-hyperlink-text-color);
   --ids-counts-value-font-size: var(--ids-font-size-md);
   --ids-counts-count-font-size: var(--ids-font-size-5xl);
@@ -492,7 +493,7 @@
   --ids-date-picker-dropdown-button-text-color: var(--ids-color-neutral-100);
   --ids-date-picker-dropdown-focus-box-shadow-color: var(--ids-shadow-md);
   --ids-date-picker-picklist-background-color: var(--ids-color-neutral-00);
-  --ids-date-picker-picklist-item-text-color: var(--ids-subtle-text-color);
+  --ids-date-picker-picklist-item-text-color: var(--ids-text-color-subtle);
   --ids-date-picker-picklist-item-focus-border-color: var(--ids-focus-ring-border-color);
   --ids-date-picker-picklist-item-focus-box-shadow: var(--ids-focus-ring-shadow);
   --ids-date-picker-picklist-item-selected-text-color: var(--ids-color-neutral-00);
@@ -560,12 +561,12 @@
   --ids-editor-error-border-box-shadow: var(--ids-box-shadow-error);
   --ids-editor-readonly-background-color: var(--ids-color-neutral-20);
   --ids-editor-readonly-border-color: var(--ids-editor-border-color);
-  --ids-editor-readonly-text-color: var(--ids-data-text-color);
+  --ids-editor-readonly-text-color: var(--ids-text-color-data);
   --ids-editor-readonly-cursor: var(--ids-cursor-text);
   --ids-editor-readonly-source-line-numbers-background-color: var(--ids-color-neutral-10);
-  --ids-editor-disabled-border-color: var(--ids-disabled-text-color);
+  --ids-editor-disabled-border-color: var(--ids-text-color-disabled);
   --ids-editor-disabled-cursor: var(--ids-cursor-default);
-  --ids-editor-disabled-text-color: var(--ids-disabled-text-color);
+  --ids-editor-disabled-text-color: var(--ids-text-color-disabled);
   --ids-editor-link-padding: var(--ids-spacing-md);
   --ids-editor-link-text-color: var(--ids-color-primary);
   --ids-editor-link-hover-text-color: var(--ids-color-primary-70);
@@ -589,7 +590,7 @@
   --ids-editor-source-line-numbers-background-color: var(--ids-color-neutral-10);
   --ids-editor-source-line-numbers-text-color: var(--ids-color-neutral-50);
   --ids-editor-source-textarea-background-color: transparent;
-  --ids-editor-source-textarea-text-color: var(--ids-data-text-color);
+  --ids-editor-source-textarea-text-color: var(--ids-text-color-data);
   --ids-editor-source-textarea-border: none;
   --ids-editor-source-textarea-padding-block-start: var(--ids-spacing-xxl);
   --ids-editor-source-textarea-padding-inline: var(--ids-spacing-xxl);
@@ -626,7 +627,7 @@
 
   // Headers
   --ids-header-background-color: var(--ids-color-primary);
-  --ids-header-text-color: var(--ids-color-primary-text-color);
+  --ids-header-text-color: var(--ids-color-text-on-primary);
   --ids-header-padding: 8px;
   --ids-header-gradient-opaque: rgb(0 114 237 / 1);
   --ids-header-gradient-transparent: rgb(0 114 237 / 0);
@@ -644,22 +645,22 @@
   // Icons
   --ids-icon-font-name: 'name-here'; // Future
   --ids-icon-color: var(--ids-color-neutral-80);
-  --ids-icon-color-disabled: var(--ids-disabled-text-color);
+  --ids-icon-color-disabled: var(--ids-text-color-disabled);
   --ids-icon-empty-icon-color: var(--ids-color-primary);
   --ids-icon-empty-new-icon-color: var(--ids-color-neutral-60)
 
   // Image
   --ids-image-focus-border-color: var(--ids-focus-border-color);
   --ids-image-focus-box-shadow: var(--ids-box-shadow-lg);
-  --ids-image-border-color: var(--ids-disabled-text-color);
-  --ids-image-text-color: var(--ids-subtle-text-color);
+  --ids-image-border-color: var(--ids-text-color-disabled);
+  --ids-image-text-color: var(--ids-text-color-subtle);
   --ids-image-initials-border-radius: var(--ids-border-radius-round);
   --ids-image-initials-background-color: var(--ids-color-amethyst-50);
   --ids-image-placeholder-background-color: var(--ids-body-background-color);
   --ids-image-status-available-background-color: var(--ids-color-success);
   --ids-image-status-busy-background-color: var(--ids-color-error);
   --ids-image-status-away-background-color: var(--ids-color-warning);
-  --ids-image-status-unknown-background-color: var(--ids-disabled-text-color);
+  --ids-image-status-unknown-background-color: var(--ids-text-color-disabled);
 
   // Input Sizes
   --ids-input-width-xs: 75px;
@@ -680,18 +681,18 @@
   --ids-input-font-size-sm: var(--ids-font-size-md);
   --ids-input-background-color: var(--ids-color-neutral-00);
   --ids-input-border-color: var(--ids-color-neutral-40);
-  --ids-input-text-color: var(--ids-data-text-color);
-  --ids-input-label-text-color: var(--ids-label-text-color);
+  --ids-input-text-color: var(--ids-text-color-data);
+  --ids-input-label-text-color: var(--ids-text-color-label);
   --ids-input-readonly-border-color: var(--ids-color-neutral-40);
-  --ids-input-readonly-text-color: var(--ids-data-text-color);
+  --ids-input-readonly-text-color: var(--ids-text-color-data);
   --ids-input-readonly-background-color: var(--ids-color-neutral-20);
-  --ids-input-disabled-text-color: var(--ids-disabled-text-color);
-  --ids-input-disabled-border-color: var(--ids-disabled-text-color);
+  --ids-input-disabled-text-color: var(--ids-text-color-disabled);
+  --ids-input-disabled-border-color: var(--ids-text-color-disabled);
   --ids-input-hover-border-color: var(--ids-color-neutral-90);
   --ids-input-focus-border-color: var(--ids-focus-border-color);
   --ids-input-header-text-color: var(--ids-color-neutral-00);
   --ids-input-header-placeholder-text-color: rgba(255 255 255 / 0.7);
-  --ids-input-header-background-color: var(--ids-color-primary-text-color);
+  --ids-input-header-background-color: var(--ids-color-text-on-primary);
   --ids-input-header-border-color: rgba(62 62 66 / 0.7);
   --ids-input-app-menu-text-color: var(--ids-color-neutral-00);
   --ids-input-alert-border-color: var(--ids-color-warning-80);
@@ -759,7 +760,7 @@
   // Loading Indicator
   --ids-loading-indicator-progress-color: var(--ids-color-primary);
   --ids-loading-indicator-overall-color: var(--ids-color-primary-20);
-  --ids-loading-indicator-text-color: var(--ids-label-text-color);
+  --ids-loading-indicator-text-color: var(--ids-text-color-label);
   --ids-loading-indicator-primary-progress-stroke: var(--ids-color-primary-90);
   --ids-loading-indicator-primary-overall-stroke: var(--ids-loading-indicator-overall-color);
   --ids-loading-indicator-primary-destructive-progress-stroke: var(--ids-color-ruby-80);
@@ -791,7 +792,7 @@
   --ids-menu-item-highlight-color: var(--ids-color-neutral-20);
   --ids-menu-item-text-color: var(--ids-color-neutral-100);
   --ids-menu-check-color: var(--ids-color-primary);
-  --ids-menu-check-disabled-color: var(--ids-disabled-text-color);
+  --ids-menu-check-disabled-color: var(--ids-text-color-disabled);
 
   // Message
   --ids-message-content-width: 400px
@@ -856,7 +857,7 @@
   // Notification Banner
   --ids-notification-banner-height: var(--ids-size-lg);
   --ids-notification-banner-padding: var(--ids-spacing-lg);
-  --ids-notification-banner-text-color: var(--ids-subtle-text-color);
+  --ids-notification-banner-text-color: var(--ids-text-color-subtle);
   --ids-notification-banner-button-padding: var(--ids-spacing-sm);
   --ids-notification-banner-button-hover-background-color: rgb(0 0 0 / .1);
   --ids-notification-banner-success-background-color: var(--ids-color-success-10);
@@ -886,8 +887,8 @@
   --ids-popup-menu-inverse-text-color: var(--ids-color-neutral-00);
 
   // Progress Bar
-  --ids-progress-bar-disabled-text-color: var(--ids-disabled-text-color);
-  --ids-progress-bar-disabled-background-color: var(--ids-disabled-text-color);
+  --ids-progress-bar-disabled-text-color: var(--ids-text-color-disabled);
+  --ids-progress-bar-disabled-background-color: var(--ids-text-color-disabled);
   --ids-progress-bar-border-color: var(--ids-color-neutral-70);
   --ids-progress-bar-border: 1px solid var(--ids-progress-bar-border-color);
   --ids-progress-bar-border-radius: var(--ids-border-radius-sm);
@@ -895,7 +896,7 @@
   --ids-progress-bar-height: var(--ids-spacing-lg);
   --ids-progress-bar-margin: var(--ids-spacing-xxl) var(--ids-spacing-none);
   --ids-progress-bar-fill-background-color: var(--ids-color-primary);
-  --ids-progress-bar-label-text-color: var(--ids-label-text-color);
+  --ids-progress-bar-label-text-color: var(--ids-text-color-label);
   --ids-progress-bar-label-audible-margin: var(--ids-spacing-sm) var(--ids-spacing-none);
   --ids-progress-bar-grid-cell-margin: var(--ids-spacing-xxl);
 
@@ -914,7 +915,7 @@
   --ids-progress-chart-bar-progress-background-color: var(--ids-color-neutral-60);
 
   // Process Indicator
-  --ids-process-indicator-label-text-color: var(--ids-label-text-color);
+  --ids-process-indicator-label-text-color: var(--ids-text-color-label);
   --ids-process-indicator-xs-step-margin-top: 40px;
   --ids-process-indicator-margin: var(--ids-spacing-none) var(--ids-spacing-md) var(--ids-spacing-none) var(--ids-spacing-none);
   --ids-process-indicator-text-margin: var(--ids-spacing-none) var(--ids-spacing-md) var(--ids-spacing-md) var(--ids-spacing-none);
@@ -969,7 +970,7 @@
   --ids-searchfield-app-menu-icon-hover-color: var(--ids-color-neutral-90);
   --ids-searchfield-app-menu-search-icon-margin: 8px;
   --ids-searchfield-app-menu-border-radius: var(--ids-border-radius-sm);
-  --ids-searchfield-header-background-color: var(--ids-color-primary-text-color);
+  --ids-searchfield-header-background-color: var(--ids-color-text-on-primary);
   --ids-searchfield-header-text-color: var(--ids-text-color);
   --ids-searchfield-header-icon-color: var(--ids-color-neutral-80);
   --ids-searchfield-header-icon-hover-color: var(--ids-button-tertiary-hover-background-color);
@@ -1079,7 +1080,7 @@
   --ids-swaplist-item-padding: var(--ids-spacing-lg);
   --ids-swaplist-item-padding-inline-start: var(--ids-spacing-3xl);
   --ids-swaplist-item-margin-block-end: var(--ids-spacing-xs);
-  --ids-swaplist-item-over-border: 1px dashed var(--ids-label-text-color);
+  --ids-swaplist-item-over-border: 1px dashed var(--ids-text-color-label);
 
   // Swipe Action
   --ids-swipe-action-left-active-background-color: var(--ids-color-neutral-40);
@@ -1113,7 +1114,7 @@
 
   // Tab
   --ids-tab-content-text-color: var(--ids-text-color);
-  --ids-tab-text-color: var(--ids-subtle-text-color);
+  --ids-tab-text-color: var(--ids-text-color-subtle);
   --ids-tab-divider-background-color: var(--ids-color-neutral-30);
   --ids-tab-hover-background-color: var(--ids-color-azure-10);
   --ids-tab-hover-text-color: var(--ids-color-primary);
@@ -1266,7 +1267,7 @@
   --ids-upload-advanced-border-color: var(--ids-color-neutral-50);
   --ids-upload-advanced-disabled-background-color: var(--ids-color-neutral-10);
   --ids-upload-advanced-disabled-border-color: var(--ids-color-neutral-30);
-  --ids-upload-advanced-disabled-text-color: var(--ids-disabled-text-color);
+  --ids-upload-advanced-disabled-text-color: var(--ids-text-color-disabled);
   --ids-upload-advanced-dragenter-background-color: var(--ids-color-azure-10);
   --ids-upload-advanced-dragenter-border-color: var(--ids-color-primary);
   --ids-upload-advanced-errorarea-border-color: var(--ids-color-error-60);

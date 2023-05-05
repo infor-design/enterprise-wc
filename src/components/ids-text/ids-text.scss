@@ -24,14 +24,14 @@
   }
 
   &.error {
-    color: var(--ids-error-text-color);
+    color: var(--ids-text-color-error);
   }
 
   &.label {
-    color: var(--ids-label-text-color);
+    color: var(--ids-text-color-label);
 
     &.color-variant-alternate {
-      color: var(--ids-inverse-text-color);
+      color: var(--ids-color-on-text);
     }
   }
 
@@ -85,42 +85,42 @@
   }
 
   &.status-base {
-    color: var(--ids-label-text-color);
+    color: var(--ids-text-color-label);
 
     &::before {
-      background-color: var(--ids-label-text-color);
+      background-color: var(--ids-text-color-label);
     }
   }
 
   &.status-error {
-    color: var(--ids-error-text-color);
+    color: var(--ids-text-color-error);
 
     &::before {
-      background-color: var(--ids-error-text-color);
+      background-color: var(--ids-text-color-error);
     }
   }
 
   &.status-info {
-    color: var(--ids-info-text-color);
+    color: var(--ids-text-color-info);
 
     &::before {
-      background-color: var(--ids-info-text-color);
+      background-color: var(--ids-text-color-info);
     }
   }
 
   &.status-success {
-    color: var(--ids-success-text-color);
+    color: var(--ids-text-color-success);
 
     &::before {
-      background-color: var((--ids-success-text-color));
+      background-color: var((--ids-text-color-success));
     }
   }
 
   &.status-warning {
-    color: var(--ids-success-text-color);
+    color: var(--ids-text-color-success);
 
     &::before {
-      background-color: var(--ids-warning-text-color);
+      background-color: var(--ids-text-color-warning);
     }
   }
 }
@@ -214,14 +214,14 @@
 // Handle Disabled Text
 .ids-text-color-muted.ids-text,
 :host([disabled]) .ids-text {
-  color: var(--ids-disabled-text-color);
+  color: var(--ids-text-color-disabled);
 
   &.label {
-    color: var(--ids-disabled-text-color);
+    color: var(--ids-text-color-disabled);
   }
 
   &.color-variant-alternate.label {
-    color: var(--ids-subtle-text-color);
+    color: var(--ids-text-color-subtle);
   }
 
   &.status-base,
@@ -229,14 +229,14 @@
   &.status-info,
   &.status-success,
   &.status-warning {
-    color: var(--ids-disabled-text-color);
+    color: var(--ids-text-color-disabled);
   }
 
   &.status-error::before,
   &.status-info::before,
   &.status-success::before,
   &.status-warning::before {
-    background-color: var(--ids-disabled-text-color);
+    background-color: var(--ids-text-color-disabled);
   }
 }
 

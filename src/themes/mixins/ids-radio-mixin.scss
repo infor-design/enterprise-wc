@@ -75,7 +75,7 @@
 
 @mixin radio-disabled-text {
   cursor: var(--ids-cursor-default);
-  color: var(--ids-disabled-text-color);
+  color: var(--ids-text-color-disabled);
 }
 
 // Focus

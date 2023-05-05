@@ -96,11 +96,11 @@
 
     &.secondary {
       background-color: var(--ids-input-background-color);
-      border-color: var(--ids-disabled-text-color);
-      color: var(--ids-disabled-text-color);
+      border-color: var(--ids-text-color-disabled);
+      color: var(--ids-text-color-disabled);
 
       ::slotted(ids-icon) {
-        color: var(--ids-disabled-text-color);
+        color: var(--ids-text-color-disabled);
       }
     }
   }
@@ -133,12 +133,12 @@
 :host([disabled].multiselect-tag) {
   .ids-tag {
     background-color: var(--ids-input-background-color);
-    border-color: var(--ids-disabled-text-color);
-    color: var(--ids-disabled-text-color);
+    border-color: var(--ids-text-color-disabled);
+    color: var(--ids-text-color-disabled);
     pointer-events: none;
   }
 
   ::slotted(ids-icon) {
-    color: var(--ids-disabled-text-color);
+    color: var(--ids-text-color-disabled);
   }
 }

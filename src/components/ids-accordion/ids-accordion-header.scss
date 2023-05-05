@@ -11,7 +11,7 @@
 @mixin accordion-header-focus-colors() {
   &:focus {
     border-color: var(--ids-accordion-header-focus-border-color);
-    box-shadow: 0 0 4px 2px var(--ids-accordion-header-focus-box-shadow);
+    box-shadow: var(--ids-accordion-header-focus-box-shadow);
   }
 }
 
@@ -40,36 +40,36 @@
   }
 
   // Light Mode Styles
-  color: var(--ids-accordion-header-app-menu-text-color);
+  color: var(--ids-app-menu-accordion-header-text-color);
 
   &:hover {
-    background-color: var(--ids-accordion-header-app-menu-hover-background-color);
-    border-color: var(--ids-accordion-header-app-menu-hover-border-color);
+    background-color: var(--ids-app-menu-accordion-header-hover-background-color);
+    border-color: var(--ids-app-menu-accordion-header-hover-border-color);
   }
 
   &:focus {
-    color: var(--ids-accordion-header-app-menu-focus-text-color);
-    border-color: var(--ids-accordion-header-app-menu-focus-border-color);
+    color: var(--ids-app-menu-accordion-header-focus-text-color);
+    border-color: var(--ids-app-menu-accordion-header-focus-border-color);
   }
 
   &.selected {
-    color: var(--ids-accordion-header-app-menu-selected-text-color);
+    color: var(--ids-app-menu-accordion-header-selected-text-color);
   }
 
   &[disabled] {
-    color: var(--ids-accordion-header-app-menu-disabled-text-color);
-    background-color: (--ids-accordion-header-app-menu-disabled-background-color);
-    border-color: var(--ids-accordion-header-app-menu-disabled-border-color);
+    color: var(--ids-app-menu-accordion-header-disabled-text-color);
+    background-color: (--ids-app-menu-accordion-header-disabled-background-color);
+    border-color: var(--ids-app-menu-accordion-header-disabled-border-color);
   }
 
   .filter {
-    background-color: var(--ids-accordion-header-app-menu-filter-background-color);
-    color: var(--ids-accordion-header-app-menu-filter-text-color);
+    background-color: var(--ids-app-menu-accordion-header-filter-background-color);
+    color: var(--ids-app-menu-accordion-header-filter-text-color);
     font-weight: bold;
   }
 
   &.hidden-by-filter.child-filter-match {
-    color: var(--ids-accordion-header-app-menu-filter-match-text-color);
+    color: var(--ids-app-menu-accordion-header-filter-match-text-color);
   }
 }
 
