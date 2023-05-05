@@ -151,6 +151,7 @@ module.exports = {
   // A list of paths to modules that run some code to configure
   // or set up the testing framework before each test
   setupFilesAfterEnv: [
+    '<rootDir>/test/helpers/fetch-mock.ts'
   ],
 
   // Change the name convention of the snapshot to be next to the test

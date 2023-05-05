@@ -365,62 +365,62 @@ exports[`Ids Color Picker Component When Popup is Open renders visible popup cor
   <ids-color
     class="light outlined"
     hex="var(--ids-color-neutral-10)"
-    label="slate-10"
-    tooltip="slate-10"
+    label="neutral-10"
+    tooltip="neutral-10"
   />
   <ids-color
     class="light outlined"
     hex="var(--ids-color-neutral-20)"
-    label="slate-20"
-    tooltip="slate-20"
+    label="neutral-20"
+    tooltip="neutral-20"
   />
   <ids-color
     class="light outlined"
     hex="var(--ids-color-neutral-30)"
-    label="slate-30"
-    tooltip="slate-30"
+    label="neutral-30"
+    tooltip="neutral-30"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-40)"
-    label="slate-40"
-    tooltip="slate-40"
+    label="neutral-40"
+    tooltip="neutral-40"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-50)"
-    label="slate-50"
-    tooltip="slate-50"
+    label="neutral-50"
+    tooltip="neutral-50"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-60)"
-    label="slate-60"
-    tooltip="slate-60"
+    label="neutral-60"
+    tooltip="neutral-60"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-70)"
-    label="slate-70"
-    tooltip="slate-70"
+    label="neutral-70"
+    tooltip="neutral-70"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-80)"
-    label="slate-80"
-    tooltip="slate-80"
+    label="neutral-80"
+    tooltip="neutral-80"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-90)"
-    label="slate-90"
-    tooltip="slate-90"
+    label="neutral-90"
+    tooltip="neutral-90"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-100)"
-    label="slate-100"
-    tooltip="slate-100"
+    label="neutral-100"
+    tooltip="neutral-100"
   />
 </ids-color-picker>
 `;
@@ -850,72 +850,72 @@ exports[`Ids Color Picker Component renders invisible popup correctly 1`] = `
   <ids-color
     class="light outlined"
     hex="var(--ids-color-neutral-10)"
-    label="slate-10"
+    label="neutral-10"
     tabindex="-1"
-    tooltip="slate-10"
+    tooltip="neutral-10"
   />
   <ids-color
     class="light outlined"
     hex="var(--ids-color-neutral-20)"
-    label="slate-20"
+    label="neutral-20"
     tabindex="-1"
-    tooltip="slate-20"
+    tooltip="neutral-20"
   />
   <ids-color
     class="light outlined"
     hex="var(--ids-color-neutral-30)"
-    label="slate-30"
+    label="neutral-30"
     tabindex="-1"
-    tooltip="slate-30"
+    tooltip="neutral-30"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-40)"
-    label="slate-40"
+    label="neutral-40"
     tabindex="-1"
-    tooltip="slate-40"
+    tooltip="neutral-40"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-50)"
-    label="slate-50"
+    label="neutral-50"
     tabindex="-1"
-    tooltip="slate-50"
+    tooltip="neutral-50"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-60)"
-    label="slate-60"
+    label="neutral-60"
     tabindex="-1"
-    tooltip="slate-60"
+    tooltip="neutral-60"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-70)"
-    label="slate-70"
+    label="neutral-70"
     tabindex="-1"
-    tooltip="slate-70"
+    tooltip="neutral-70"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-80)"
-    label="slate-80"
+    label="neutral-80"
     tabindex="-1"
-    tooltip="slate-80"
+    tooltip="neutral-80"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-90)"
-    label="slate-90"
+    label="neutral-90"
     tabindex="-1"
-    tooltip="slate-90"
+    tooltip="neutral-90"
   />
   <ids-color
     class="dark outlined"
     hex="var(--ids-color-neutral-100)"
-    label="slate-100"
+    label="neutral-100"
     tabindex="-1"
-    tooltip="slate-100"
+    tooltip="neutral-100"
   />
 </ids-color-picker>
 `;

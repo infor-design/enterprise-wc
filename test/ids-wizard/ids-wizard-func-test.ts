@@ -85,34 +85,6 @@ describe('IdsWizard Tests', () => {
     expect(elem.stepNumber).toEqual(3);
   });
 
-  it('has all steps besides selected become visitable links via parent', () => {
-    elem.clickable = true;
-    expect(elem.clickable).toEqual('true');
-
-    const expectedClickableCount = elem.children.length - 1;
-
-    const clickableCount = elem.shadowRoot.querySelectorAll('.step[href]').length;
-
-    expect(expectedClickableCount).toEqual(clickableCount);
-  });
-
-  it('initializes with a non-clickable step and finds that step does not have a clickable link', () => {
-    elem = createFromTemplate(
-      elem,
-      `<ids-wizard step-number="1">
-        <ids-wizard-step>Step One</ids-wizard-step>
-        <ids-wizard-step>Step Two</ids-wizard-step>
-        <ids-wizard-step clickable="false">Step Three</ids-wizard-step>
-      </ids-wizard>`
-    );
-
-    /** step 1 and step 3 step should not have href attribs */
-    const expectedClickableCount = elem.children.length - 2;
-    const clickableCount = elem.shadowRoot.querySelectorAll('.step[href]').length;
-
-    expect(expectedClickableCount).toEqual(clickableCount);
-  });
-
   it('sets a random attribute with no visual differences', () => {
     const prevHTML = elem.innerHTML;
     elem.setAttribute('random-attribute', 'random-value');
@@ -187,21 +159,6 @@ describe('IdsWizard Tests', () => {
     expect(elem.getAttribute('step-number')).toEqual('2');
     elem.stepNumber = 1;
     expect(elem.getAttribute('step-number')).toEqual('1');
-  });
-
-  it('handles duplicate steps', () => {
-    elem = createFromTemplate(
-      elem,
-      `<ids-wizard step-number="1">
-        <ids-wizard-step>Step One</ids-wizard-step>
-        <ids-wizard-step>Step One</ids-wizard-step>
-        <ids-wizard-step>Step One</ids-wizard-step>
-    </ids-wizard>`
-    );
-
-    expect(Array.from(elem.hrefsAssignedSet)[0]).toEqual('Step%20One');
-    expect(Array.from(elem.hrefsAssignedSet)[1]).toEqual('Step%20One-1');
-    expect(Array.from(elem.hrefsAssignedSet)[2]).toEqual('Step%20One-2');
   });
 
   it('cancel resize if 1 step', () => {

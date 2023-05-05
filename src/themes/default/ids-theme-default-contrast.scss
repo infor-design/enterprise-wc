@@ -91,6 +91,10 @@
   --ids-alert-in-progress-color: var(--ids-color-amethyst-90);
   --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-50);
 
+  // Charts - Axis chart
+  --ids-axis-chart-grid-stroke: var(--ids-color-neutral-80);
+  --ids-axis-chart-last-line-stroke: var(--ids-color-neutral-100);
+
   // Badge
   --ids-badge-error-background-color: var(--ids-color-error-80);
   --ids-badge-error-border-color: var(--ids-color-error-80);
@@ -123,13 +127,6 @@
   --ids-card-border-color: var(--ids-color-neutral-60);
   --ids-card-divider-border-color: var(--ids-color-neutral-30);
   --ids-card-box-shadow: 0 0 8px rgba(0 0 0 / 0.1);
-
-  // Charts - Axis chart
-  --ids-chart-axis-grid-stroke: var(--ids-color-neutral-80);
-  --ids-chart-axis-last-line-stroke: var(--ids-color-neutral-100);
-
-  // Charts - Pie chart
-  --ids-chart-pie-donut-text-fill: var(--ids-text-color-label);
 
   // Button (Primary)
   --ids-button-primary-border-color: var(--ids-color-primary);
@@ -282,10 +279,10 @@
   --ids-loading-indicator-overall-color: var(--ids-color-neutral-20);
   --ids-loading-indicator-primary-progress-stroke: var(--ids-color-azure-100);
   --ids-loading-indicator-primary-overall-stroke: var(--ids-color-neutral-00);
-  --ids-loading-indicator-primary-destructive-progress-stroke: var(--ids-color-ruby-10);
-  --ids-loading-indicator-primary-destructive-overall-stroke: var(--ids-color-ruby-50);
-  --ids-loading-indicator-tertiary-destructive-progress-stroke: var(--ids-color-ruby-60);
-  --ids-loading-indicator-tertiary-destructive-overall-stroke: var(--ids-color-ruby-20);
+  --ids-loading-indicator-primary-destructive-progress-stroke: var(--ids-color-error-10);
+  --ids-loading-indicator-primary-destructive-overall-stroke: var(--ids-color-error-50);
+  --ids-loading-indicator-tertiary-destructive-progress-stroke: var(--ids-color-error-60);
+  --ids-loading-indicator-tertiary-destructive-overall-stroke: var(--ids-color-error-20);
 
   // Masthead
   --ids-masthead-background-color: var(--ids-color-neutral-80);
@@ -318,6 +315,9 @@
   --ids-month-view-day-hover-background-color: rgba(74 74 74 / 0.1);
   --ids-month-view-day-selected-background-color: var(--ids-color-neutral-10);
   --ids-month-view-disabled-background-color: var(--ids-color-neutral-20);
+
+  // Charts - Pie chart
+  --ids-pie-chart-text-fill: var(--ids-text-color-label);
 
   // Progress Bar
   --ids-progress-bar-border-color: var(--ids-color-neutral-60);
@@ -401,6 +401,8 @@
   --ids-tag-icon-hover-color: var(--ids-color-neutral-90);
   --ids-tag-secondary-background-color: var(--ids-input-background-color);
   --ids-tag-secondary-border-color: var(--ids-input-border-color);
+  --ids-tag-disabled-text-color: var(--ids-color-neutral-60);
+  --ids-tag-secondary-disabled-text-color: var(--ids-color-neutral-50);
 
   // Textarea
   --ids-textarea-focus-border-color: var(--ids-color-azure-90);

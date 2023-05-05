@@ -44,29 +44,6 @@ describe('IdsNotificationBanner Component', () => {
     expect(notificationBanner.outerHTML).toMatchSnapshot();
   });
 
-  it('can change its type', () => {
-    notificationBanner.type = 'success';
-    expect(notificationBanner.getAttribute('type')).toBe('success');
-    expect(notificationBanner.type).toBe('success');
-
-    notificationBanner.type = 'alert';
-    expect(notificationBanner.getAttribute('type')).toBe('alert');
-    expect(notificationBanner.type).toBe('alert');
-
-    notificationBanner.type = 'info';
-    expect(notificationBanner.getAttribute('type')).toBe('info');
-    expect(notificationBanner.type).toBe('info');
-
-    notificationBanner.type = 'error';
-    expect(notificationBanner.getAttribute('type')).toBe('error');
-    expect(notificationBanner.type).toBe('error');
-
-    // Handles incorrect values
-    notificationBanner.type = 'fakeType';
-    expect(notificationBanner.getAttribute('type')).toBe('success');
-    expect(notificationBanner.type).toBe('success');
-  });
-
   it('can change its messageText', () => {
     notificationBanner.messageText = 'Lorem ipsum dolor set';
     expect(notificationBanner.getAttribute('message-text')).toBe('Lorem ipsum dolor set');

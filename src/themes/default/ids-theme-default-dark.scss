@@ -22,7 +22,7 @@
   --ids-text-color-warning: var(--ids-color-warning-50);
 
   // Alert Colors
-  --ids-color-error-10: var(--ids-color-ruby-90);
+  --ids-color-error-10: var(--ids-color-error-90);
   --ids-color-warning-10: var(--ids-color-amber-90);
   --ids-color-caution-00: var(--ids-color-neutral-100);
   --ids-color-caution-10: var(--ids-color-amber-90);
@@ -146,11 +146,8 @@
   --ids-card-selected-background-color: rgba(85 163 243 / 0.12);
 
   // Charts - Axis chart
-  --ids-chart-axis-grid-stroke: var(--ids-color-neutral-40);
-  --ids-chart-axis-last-line-stroke: var(--ids-color-neutral-30);
-
-  // Charts - Pie chart
-  --ids-chart-pie-donut-text-fill: var(--ids-color-neutral-30);
+  --ids-axis-chart-grid-stroke: var(--ids-color-neutral-40);
+  --ids-axis-chart-last-line-stroke: var(--ids-color-neutral-30);
 
   // Data Grid
   --ids-data-grid-background-color: var(--ids-color-neutral-100);
@@ -307,9 +304,9 @@
   --ids-loading-indicator-overall-color: var(--ids-color-neutral-80);
   --ids-loading-indicator-primary-progress-stroke: var(--ids-color-neutral-80);
   --ids-loading-indicator-primary-overall-stroke: var(--ids-color-neutral-50);
-  --ids-loading-indicator-primary-destructive-overall-stroke: var(--ids-color-ruby-20);
-  --ids-loading-indicator-tertiary-destructive-progress-stroke: var(--ids-color-ruby-70);
-  --ids-loading-indicator-tertiary-destructive-overall-stroke: var(--ids-color-ruby-30);
+  --ids-loading-indicator-primary-destructive-overall-stroke: var(--ids-color-error-20);
+  --ids-loading-indicator-tertiary-destructive-progress-stroke: var(--ids-color-error-70);
+  --ids-loading-indicator-tertiary-destructive-overall-stroke: var(--ids-color-error-30);
 
   // Masthead
   --ids-masthead-background-color: var(--ids-color-neutral-80);
@@ -361,6 +358,9 @@
   --ids-month-view-compact-day-hover-text-color: var(--ids-color-neutral-00);
   --ids-month-view-compact-range-selected-background-color: var(--ids-color-azure-60);
 
+  // Charts - Pie chart
+  --ids-pie-chart-text-fill: var(--ids-color-neutral-30);
+
   // Progress Bar
   --ids-progress-bar-disabled-text-color: var(--ids-text-color-disabled);
   --ids-progress-bar-disabled-background-color: var(--ids-color-neutral-70);
@@ -377,9 +377,8 @@
   // Process Indicator
   --ids-process-indicator-primary-color: var(--ids-color-azure-70);
   --ids-process-indicator-active-color: var(--ids-color-azure-70);
-  --ids-process-indicator-cancelled-step-background-color: var(--ids-color-ruby-50);
+  --ids-process-indicator-cancelled-step-background-color: var(--ids-color-error-50);
   --ids-process-indicator-cancelled-step-icon-color: var(--ids-color-neutral-00);
-
 
   // Radio
   --ids-radio-checked-background-color: var(--ids-color-azure-60);
@@ -489,6 +488,8 @@
   --ids-tag-icon-hover-color: var(--ids-input-hover-border-color);
   --ids-tag-secondary-background-color: var(--ids-input-background-color);
   --ids-tag-secondary-border-color: var(--ids-input-border-color);
+  --ids-tag-disabled-text-color: var(--ids-color-neutral-40);
+  --ids-tag-secondary-disabled-text-color: var(--ids-color-neutral-50);
 
   // Textarea
   --ids-textarea-background-color: transparent;

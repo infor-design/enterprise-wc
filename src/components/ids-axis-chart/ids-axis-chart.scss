@@ -3,7 +3,7 @@
 
 .ids-axis-chart {
   display: flex;
-  border-color: var(--ids-chart-axis-border-color);
+  border-color: var(--ids-axis-chart-border-color);
 
   &.hidden {
     display: none;
@@ -12,13 +12,13 @@
   // Grid Lines
   .grid {
     shape-rendering: crispedges;
-    stroke: var(--ids-chart-axis-grid-stroke);
+    stroke: var(--ids-axis-chart-grid-stroke);
     stroke-width: 1;
     stroke-dasharray: 2 2;
 
     // Make bottom line more solid
     &.horizontal-lines line:last-child {
-      stroke: var(--ids-chart-axis-last-line-stroke);
+      stroke: var(--ids-axis-chart-last-line-stroke);
       stroke-dasharray: none;
     }
 
@@ -35,7 +35,7 @@
       }
 
       &.vertical-lines line:first-child {
-        stroke: var(--ids-chart-axis-first-line-stroke);
+        stroke: var(--ids-axis-chart-first-line-stroke);
         stroke-dasharray: none;
       }
     }
@@ -44,17 +44,17 @@
   // Focusable Groups
   g[tabindex='0'] {
     &:focus {
-      outline: var(--ids-chart-axis-focus-group-outline);
+      outline: var(--ids-axis-chart-focus-group-outline);
     }
   }
 
   // Label Styles
   .labels {
-    font-family: var(--ids-chart-axis-label-font-family);
-    font-size: var(--ids-chart-axis-label-font-size);
+    font-family: var(--ids-axis-chart-label-font-family);
+    font-size: var(--ids-axis-chart-label-font-size);
 
     text {
-      fill: var(--ids-chart-axis-label-text-fill);
+      fill: var(--ids-axis-chart-label-text-fill);
     }
 
     &.x-labels {
@@ -66,7 +66,7 @@
     }
 
     &.axis-labels text {
-      font-weight: var(--ids-chart-axis-label-axis-text-font-weight);
+      font-weight: var(--ids-axis-chart-label-axis-text-font-weight);
       text-anchor: middle;
     }
   }

@@ -380,22 +380,6 @@
   --ids-chart-color-19: var(--ids-color-neutral-60);
   --ids-chart-color-20: var(--ids-color-ruby-40);
 
-  // Charts - Axis chart
-  --ids-chart-axis-border-color: var(--ids-color-neutral-10);
-  --ids-chart-axis-grid-stroke: var(--ids-color-neutral-20);
-  --ids-chart-axis-first-line-stroke: var(--ids-color-neutral-70);
-  --ids-chart-axis-last-line-stroke: var(--ids-color-neutral-70);
-  --ids-chart-axis-label-font-family: var(--ids-font-family);
-  --ids-chart-axis-label-font-size: var(--ids-font-size-sm);
-  --ids-chart-axis-label-text-fill: var(--ids-text-color-label);
-  --ids-chart-axis-label-axis-text-font-weight: var(--ids-font-weight-bold);
-  --ids-chart-axis-focus-group-outline: 2px dashed var(--ids-color-azure-60);
-
-  // Charts - Pie chart
-  --ids-chart-pie-donut-text-font-family: var(--ids-font-family);
-  --ids-chart-pie-donut-text-font-size: var(--ids-font-size-xxs);
-  --ids-chart-pie-donut-text-fill: var(--ids-text-color-label);
-
   // Checkbox
   --ids-checkbox-unchecked-border-color: var(--ids-input-border-color);
   --ids-checkbox-unchecked-border: 1px solid var(--ids-checkbox-unchecked-border-color);
@@ -823,7 +807,7 @@
   --ids-month-view-background-color: var(--ids-color-neutral-00);
   --ids-month-view-border-color: var(--ids-color-neutral-20);
   --ids-month-view-day-alternate-text-color: var(--ids-color-neutral-40);
-  --ids-month-view-day-hover-background-color: rgb(240 240 240 / 0.5);
+  --ids-month-view-day-hover-background-color: #f9f9f9;
   --ids-month-view-day-selected-background-color: var(--ids-color-neutral-10);
   --ids-month-view-day-selected-accent-box-shadow-color: var(--ids-color-primary);
   --ids-month-view-disabled-background-color: var(--ids-color-neutral-20);
@@ -865,6 +849,11 @@
   --ids-notification-banner-warning-caution-color: var(--ids-color-caution-10);
   --ids-notification-banner-info-background-color: var(--ids-color-info-10);
   --ids-notification-banner-error-background-color: var(--ids-color-error-10);
+
+  // Pie chart
+  --ids-pie-chart-text-font-family: var(--ids-font-family);
+  --ids-pie-chart-text-font-size: var(--ids-font-size-xxs);
+  --ids-pie-chart-text-fill: var(--ids-text-color-label);
 
   // Popup
   --ids-popup-arrow-size: 8px;
@@ -1157,6 +1146,8 @@
   --ids-tag-icon-hover-color: var(--ids-color-neutral-90);
   --ids-tag-secondary-background-color: var(--ids-input-background-color);
   --ids-tag-secondary-border-color: var(--ids-input-border-color);
+  --ids-tag-disabled-text-color: var(--ids-color-neutral-50);
+  --ids-tag-secondary-disabled-text-color: var(--ids-color-neutral-40);
 
   // Textarea
   --ids-textarea-alert-border-color: var(--ids-color-warning-50);

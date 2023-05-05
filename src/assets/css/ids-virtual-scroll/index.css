@@ -8,7 +8,7 @@ html {
 }
 
 .ids-data-grid .ids-data-grid-container .ids-data-grid-row {
-  grid-template-columns: 125px 1fr !important;
+  grid-template-columns: 125px 1fr;
   padding: 0;
   display: grid;
   height: 50px;
@@ -33,12 +33,12 @@ html {
 }
 
 .ids-data-grid .ids-data-grid-header .ids-data-grid-row {
-  grid-template-columns: 125px 1fr !important;
+  grid-template-columns: 125px 1fr;
 }
 
 /* Styles from data-grid.css */
 .ids-data-grid {
-  background-color: var(--ids-color-white);
+  background-color: var(--ids-color-neutral-00);
   border-width: 1px;
   border-style: solid;
   border-radius: 2px;
@@ -88,7 +88,7 @@ html {
   padding-bottom: 8px;
   font-weight: 700;
   font-size: 14px;
-  color: var(--ids-color-white);
+  color: var(--ids-color-neutral-00);
   overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;

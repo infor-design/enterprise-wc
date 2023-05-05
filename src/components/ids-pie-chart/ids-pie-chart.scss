@@ -64,9 +64,9 @@
 }
 
 .donut-text {
-  font-family: var(--ids-chart-pie-donut-text-font-family);
-  font-size: var(--ids-chart-pie-donut-text-font-size);
-  fill: var(--ids-chart-pie-donut-text-fill);
+  font-family: var(--ids-pie-chart-text-font-family);
+  font-size: var(--ids-pie-chart-text-font-size);
+  fill: var(--ids-pie-chart-text-fill);
   text-anchor: middle;
 }
 

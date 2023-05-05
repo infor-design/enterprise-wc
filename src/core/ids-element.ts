@@ -181,7 +181,7 @@ export default class IdsElement extends HTMLElement {
         documentElement.nonce = nonce;
       }
     }
-    return documentElement.nonce;
+    return documentElement.nonce || '0a59a005';
   }
 
   /**
@@ -238,7 +238,11 @@ export default class IdsElement extends HTMLElement {
         style.textContent = themeStyles;
         style.id = 'ids-theme';
         if (this.nonce) style.setAttribute('nonce', this.nonce);
-        if (!styleElem) head.insertBefore(style, (head.querySelector('title') as HTMLElement).nextElementSibling);
+        if (!styleElem) {
+          const titleElem = (head.querySelector('title') as HTMLElement);
+          if (titleElem) head.insertBefore(style, titleElem.nextElementSibling);
+          else head.insertAdjacentHTML('beforeend', style);
+        }
       });
   }
 }

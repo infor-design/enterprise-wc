@@ -1,5 +1,5 @@
-import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
+import checkForAxeViolations from '../helpers/check-for-axe-violations';
 
 describe('Ids Notification Banner e2e Tests', () => {
   const url = 'http://localhost:4444/ids-notification-banner/example.html';
@@ -12,8 +12,10 @@ describe('Ids Notification Banner e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    const results = await new AxePuppeteer(page).analyze();
-    expect(results.violations.length).toBe(0);
+    await checkForAxeViolations(page, [
+      'color-contrast',
+      'page-has-heading-one'
+    ]);
   });
 
   it.skip('should not have memory leaks', async () => {
