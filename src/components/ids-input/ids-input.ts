@@ -21,6 +21,7 @@ import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
 import '../ids-trigger-field/ids-trigger-button';
 import {
+  LABEL_WRAPS,
   TYPES,
   SIZES,
   TEXT_ALIGN,
@@ -65,6 +66,9 @@ const Base = IdsTooltipMixin(
 
 // Setting defaults text-align
 type IdsInputAlignment = 'start' | 'center' | 'end';
+
+// Setting defaults label wrap
+type IdsInputLabelWrap = 'ellipsis' | 'wrap' | 'ellipsis-no-stretch' | 'wrap-no-stretch';
 
 /**
  * IdsInput defines its template in a way that can be overridden by other
@@ -144,6 +148,7 @@ export default class IdsInput extends Base {
       attributes.DISABLED,
       attributes.FORMAT,
       attributes.ID,
+      attributes.LABEL_WRAP,
       attributes.NO_MARGINS,
       attributes.PADDING,
       attributes.PASSWORD_VISIBLE,
@@ -804,6 +809,22 @@ export default class IdsInput extends Base {
 
   #setReadonlyBackground() {
     this.container?.classList.toggle(attributes.READONLY_BACKGROUND, this.readonlyBackground);
+  }
+
+  /**
+   * Set the label wrap setting of input
+   * @param {IdsInputLabelWrap} value ['ellipsis', 'wrap', 'no-stretch-ellipsis', 'no-stretch-wrap']
+   */
+  set labelWrap(value: IdsInputLabelWrap) {
+    if (!value || LABEL_WRAPS.indexOf(value as any) < 0) {
+      this.removeAttribute(attributes.LABEL_WRAP);
+    } else {
+      this.setAttribute(attributes.LABEL_WRAP, value);
+    }
+  }
+
+  get labelWrap(): IdsInputLabelWrap {
+    return (this.getAttribute(attributes.LABEL_WRAP) as IdsInputLabelWrap) || 'wrap';
   }
 
   /**

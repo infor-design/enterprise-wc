@@ -284,6 +284,24 @@ $max-row-height: var(--max-row-height);
   grid-auto-rows: var(--grid-auto-row-height);
 }
 
+/** Align items */
+$align-items-list: start end center stretch;
+
+@each $align-items in $align-items-list {
+  :host([align-items='#{$align-items}']) {
+    align-items: $align-items;
+  }
+}
+
+/** Align items */
+$align-items-list: start end center stretch;
+
+@each $align-items in $align-items-list {
+  :host([align-items='#{$align-items}']) {
+    align-items: $align-items;
+  }
+}
+
 /* Justify content */
 $align-content-list: start center space-between space-around space-evenly end;
 

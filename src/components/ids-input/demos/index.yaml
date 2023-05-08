@@ -23,6 +23,9 @@
   - link: label-state.html
     type: Test
     description: Showing an example with hidden labels
+  - link: label-wrap.html
+    type: Example
+    description: Showing inputs in different label wrap styles
   - link: layout-size.html
     type: Example
     description: Showing inputs in different layout
