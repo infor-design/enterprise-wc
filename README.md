@@ -1,15 +1,11 @@
-# Infor Design Systems's Web Component Beta Library
+# Infor Design System Web Components Beta Library
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![npm version](https://badge.fury.io/js/ids-enterprise.svg)](https://badge.fury.io/js/ids-enterprise-wc)
 [![Build Check](https://github.com/infor-design/enterprise-wc/actions/workflows/ci.yml/badge.svg)](https://github.com/infor-design/enterprise-wc/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/infor-design/enterprise-wc/badge.svg?branch=main)](https://coveralls.io/github/infor-design/enterprise-wc)
 
-Infor Design System's Enterprise web component library is a framework independent UI library consisting of CSS and JS that provides Infor product development teams, partners, and customers the tools to create user experiences that are approachable, focused, relevant and perceptive.
-
-These tools are currently in beta testing and slated for release in beginning of 2023.
-
-For guidelines on when and where to use the components see the [design.infor.com](http://design.infor.com).
+Infor Design System Enterprise Web Components Library is a framework independent UI library consisting of CSS and JS that provides Infor product development teams, partners, and customers the tools to create user experiences that are approachable, focused, relevant, and perceptive.
 
 ## Key Features
 

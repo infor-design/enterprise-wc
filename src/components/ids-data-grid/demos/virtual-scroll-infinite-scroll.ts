@@ -4,7 +4,7 @@ import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
-const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-virtual-scroll')!;
+const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-1')!;
 
 // Do an ajax request
 const url: any = productsJSON;
@@ -80,10 +80,19 @@ columns.push({
 
 dataGrid.columns = columns;
 
+const MAX_RESULTS_COUNT = 300;
+let data: any = null;
 const fetchData = async (startIndex = 0) => {
-  const res = await fetch(url);
-  const data = await res.json();
-  return data.splice(startIndex, 33);
+  if (data === null) {
+    const res = await fetch(url);
+    const results = await res.json();
+    data = results.slice(0, MAX_RESULTS_COUNT);
+  }
+
+  if (startIndex > MAX_RESULTS_COUNT) return [];
+
+  const numRowsNeeded = Math.max((MAX_RESULTS_COUNT - startIndex), 0);
+  return data.splice(0, Math.min(numRowsNeeded, 33));
 };
 
 const setData = async () => {
@@ -92,17 +101,9 @@ const setData = async () => {
 
 setData();
 
-dataGrid.addEventListener('scrollstart', async (e: Event) => {
-  console.info(`Virtual Scroll reached start`, (<CustomEvent>e).detail);
-});
-
 dataGrid.addEventListener('scrollend', async (e: Event) => {
-  console.info(`Virtual Scroll reached end`, (<CustomEvent>e).detail);
   const endIndex = (<CustomEvent>e).detail?.value || 0;
-  const MAX_ROW_INDEX = 299;
 
-  if (endIndex < MAX_ROW_INDEX) {
-    const moreData = await fetchData(endIndex + 1);
-    dataGrid.appendData(moreData);
-  }
+  const moreData = await fetchData(endIndex + 1);
+  if (moreData.length) dataGrid.appendData(moreData);
 });

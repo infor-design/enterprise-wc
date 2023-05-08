@@ -5,6 +5,7 @@ import styles from './ids-layout-grid.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import {
+  ALIGN_ITEMS,
   ALIGN_TYPES,
   GRID_ATTRIBUTES,
   GAP_TYPES,
@@ -39,6 +40,24 @@ export default class IdsLayoutGrid extends IdsElement {
    * @returns {string | null} The align-content [null, start, end, between, around, evenly]
    */
   get alignContent(): string | null { return this.getAttribute(attributes.ALIGN_CONTENT); }
+
+  /**
+   * Set the grid align-items
+   * @param {string | null} value The align-items [null, start, end, center, stretch]
+   */
+  set alignItems(value: string | null) {
+    if (!value || ALIGN_ITEMS.indexOf(value as any) < 0) {
+      this.removeAttribute(attributes.ALIGN_ITEMS);
+    } else {
+      this.setAttribute(attributes.ALIGN_ITEMS, value);
+    }
+  }
+
+  /**
+   * Get the grid align-items setting
+   * @returns {string | null} The align-items [null, start, end, center, stretch]
+   */
+  get alignItems(): string | null { return this.getAttribute(attributes.ALIGN_ITEMS); }
 
   /**
    * Set auto-fit attribute

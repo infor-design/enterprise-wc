@@ -305,7 +305,7 @@ export default class IdsWizard extends Base {
   }
 
   /**
-   * updates hrefURIs at select points
+   * Updates hrefURIs at select points
    * so we don't need to recalculate
    * when setting clickable or step number
    * again; also allows us to easily run

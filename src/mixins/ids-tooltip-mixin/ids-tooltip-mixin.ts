@@ -35,11 +35,9 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
    * @private
    */
   handleTooltipEvents() {
-    if (!this.tooltip) {
-      return;
-    }
-
     this.offEvent('hoverend.tooltipmixin');
+    if (!this.tooltip) return;
+
     this.onEvent('hoverend.tooltipmixin', this, () => {
       this.showTooltip();
     });

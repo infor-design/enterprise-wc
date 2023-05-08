@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsGrid from '../../src/components/ids-layout-grid/ids-layout-grid';
-// import IdsGridCell from '../../src/components/ids-grid/ids-grid-cell';
+import { ALIGN_ITEMS } from '../../src/components/ids-layout-grid/ids-layout-grid-common';
 
 describe('IdsLayoutGrid Component', () => {
   let gridElem: any;
@@ -299,5 +299,20 @@ describe('IdsLayoutGrid Component', () => {
   it('should remove padding attribute when value is not one of the allowed values', () => {
     gridElem.padding = 'invalid-value';
     expect(gridElem.getAttribute('padding')).toBeNull();
+  });
+
+  it('should set grid align items', () => {
+    const attrName = 'align-items';
+    const defaultVal = null;
+    const check = (applyVal: string, checkVal: string | null) => {
+      gridElem.alignItems = applyVal;
+      expect(gridElem.alignItems).toEqual(checkVal);
+      expect(gridElem.getAttribute(attrName)).toEqual(checkVal);
+    };
+
+    expect(gridElem.alignItems).toEqual(defaultVal);
+    expect(gridElem.getAttribute(attrName)).toEqual(defaultVal);
+    ALIGN_ITEMS.forEach((val) => check(val, val));
+    check('test', defaultVal);
   });
 });

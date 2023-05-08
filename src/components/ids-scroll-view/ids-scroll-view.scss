@@ -8,6 +8,13 @@
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
+  -ms-overflow-style: none; // IE and Edge
+  scrollbar-width: none; // Firefox
+
+  // Hide scrollbar for Chrome, Safari and Opera
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   // The items that are adding as slot items
   ::slotted([slot='scroll-view-item']) {
@@ -24,64 +31,29 @@
   }
 }
 
-// Remove the scrollbar / we dont want it visible
-.ids-scroll-view::-webkit-scrollbar {
-  display: none;
-}
-
 // The pager controls (circle container)
 .ids-scroll-view-controls {
   display: flex;
   justify-content: center;
 
+  &.suppress-controls {
+    display: none;
+  }
+
   // The circle buttons and states
-  a {
-    @include focus-border-off();
-    @include cursor-pointer();
-    @include relative();
-    @include cursor-pointer();
-
-    display: inline-block;
-    height: 44px;
-    outline: none;
-    width: 44px;
-
-    &::after {
-      @include border-slate-70();
-      @include border-1();
-      @include border-solid();
-      @include rounded-round();
-
-      content: '';
-      height: 14px;
-      outline: none;
-      opacity: 0.8;
-      position: absolute;
-      transition: border-color 0.2s ease 0s;
-      width: 14px;
-      left: calc(50% - 8px);
-      top: calc(50% - 8px);
+  .circle-button {
+    [icon] {
+      color: var(--ids-color-palette-slate-70);
     }
 
-    &.selected::after {
-      @include border-azure-60();
-      @include bg-azure-60();
-    }
+    &.selected {
+      [icon] {
+        color: var(--ids-color-brand-primary-base);
 
-    span.audible {
-      @include audible();
-    }
-
-    &:hover:not(.selected) {
-      &::after {
-        @include border-slate-100();
+        &::part(svg) {
+          fill: var(--ids-color-brand-primary-base);
+        }
       }
-    }
-
-    &:focus {
-      @include focus-border-on();
-
-      outline: none;
     }
   }
 }
@@ -89,26 +61,40 @@
 // Add Theme support
 .ids-scroll-view[mode='dark'] {
   + .ids-scroll-view-controls {
-    a::after {
-      @include border-slate-40();
-    }
+    .circle-button {
+      [icon] {
+        color: var(--ids-color-palette-slate-40);
+      }
 
-    a.selected::after {
-      @include border-azure-60();
-      @include bg-azure-60();
+      &.selected {
+        [icon] {
+          color: var(--ids-color-brand-primary-base);
+        }
+
+        [icon]::part(svg) {
+          fill: var(--ids-color-brand-primary-base);
+        }
+      }
     }
   }
 }
 
 .ids-scroll-view[mode='contrast'] {
   + .ids-scroll-view-controls {
-    a::after {
-      @include border-slate-60();
-    }
+    .circle-button {
+      [icon] {
+        color: var(--ids-color-palette-slate-70);
+      }
 
-    a.selected::after {
-      @include border-azure-90();
-      @include bg-azure-90();
+      &.selected {
+        [icon] {
+          color: var(--ids-color-palette-azure-80);
+        }
+
+        [icon]::part(svg) {
+          fill: var(--ids-color-palette-azure-80);
+        }
+      }
     }
   }
 }

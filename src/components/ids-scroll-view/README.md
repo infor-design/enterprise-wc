@@ -14,6 +14,37 @@ The scroll view component allows swipe and scroll in between a number of slides/
 - **Circle Pager**: The older 4.x name for his component
 - **Carousel**: Another name for this sort of component with slides and buttons
 
+## Settings and Attributes
+
+- `loop` {boolean} sets the loop, true will loop back after next/previous reached to end
+- `show-tooltip` {boolean} sets the tooltip for circle buttons
+- `suppress-controls` {boolean} sets suppress controls for circle buttons
+
+## Themeable Parts
+
+- `container` allows you to further style the parent container element
+- `scroll-view` allows you to further style the scrolling container
+- `controls` allows you to further style the control button area
+- `scroll-view-button` allows you to further style the individual circle buttons in the carousel
+
+## Events
+
+- `beforefirst` Fires before move to first slide, you can return false in the response to veto
+- `beforeprevious` Fires before move to previous slide, you can return false in the response to veto
+- `beforenext` Fires before move to next slide, you can return false in the response to veto
+- `beforelast` Fires before move to last slide, you can return false in the response to veto
+- `beforeslideto` Fires before move to given slide, you can return false in the response to veto
+- `scrolled` Fires after each slide move
+
+## Methods
+
+- `first(): void` Move to first slide
+- `previous(): void` Move to previous slide
+- `next(): void` Move to next slide
+- `last(): void` Move to last slide
+- `slideTo(slideNumber: number): void` Slide to given slide number
+- `currentSlideNumber(): number | undefined` Get the current slide number
+
 ## Features (With Code Examples)
 
 A scrollview with images. You just need to add each element to the scroll view. Each of the immediate children should get `slot="scroll-view-item"`. If using images the `alt` tag is very important for accessibility. As a tip you can add "Slide N" or similar text to the alt tag as it helps screen reader users for context.
@@ -28,17 +59,6 @@ A scrollview with images. You just need to add each element to the scroll view. 
     <img slot="scroll-view-item" src="../assets/images/camera-6.png" alt="Slide 6, Sony E-mount Camera, Front"/>
 </ids-scroll-view>
 ```
-
-## Settings and Attributes
-
-None
-
-## Themeable Parts
-
-- `container` allows you to further style the parent container element
-- `scroll-view` allows you to further style the scrolling container
-- `controls` allows you to further style the control button area
-- `button` allows you to further style the individual circle buttons in the carousel
 
 ## States and Variations
 

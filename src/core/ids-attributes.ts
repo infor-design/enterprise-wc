@@ -226,6 +226,7 @@ export const attributes = {
   LABEL_SECONDARY: 'label-secondary',
   LABEL_STATE: 'label-state',
   LABEL_TOTAL: 'label-total',
+  LABEL_WRAP: 'label-wrap',
   LANGUAGE: 'language',
   LAST: 'last',
   LAZY_LOAD: 'lazy-load',
@@ -238,6 +239,7 @@ export const attributes = {
   LOADED: 'loaded',
   LOADING_INDICATOR_ONLY: 'loading-indicator-only',
   LOCALE: 'locale',
+  LOOP: 'loop',
   MARGIN: 'margin',
   MARGIN_Y: 'margin-y',
   MARGINS: 'margins',
@@ -420,6 +422,7 @@ export const attributes = {
   SUBMENU: 'submenu',
   SUBMIT_BUTTON: 'submit-button',
   SUPPRESS_CACHING: 'suppress-caching',
+  SUPPRESS_CONTROLS: 'suppress-controls',
   SUPPRESS_DEACTIVATION: 'suppress-deactivation',
   SUPPRESS_DESELECTION: 'suppress-deselection',
   SUPPRESS_EMPTY_MESSAGE: 'suppress-empty-message',
@@ -523,7 +526,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.8';
+export const version = '1.0.0-beta.9';
 
 export enum IdsDirection {
   Up = 'up',
