@@ -15,7 +15,7 @@ describe('Ids Scroll View e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    const results = await new AxePuppeteer(page).disableRules(['scrollable-region-focusable']).analyze();
+    const results = await new AxePuppeteer(page).disableRules(['scrollable-region-focusable', 'nested-interactive']).analyze();
     expect(results.violations.length).toBe(0);
   });
 

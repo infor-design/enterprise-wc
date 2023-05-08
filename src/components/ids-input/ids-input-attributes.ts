@@ -45,9 +45,12 @@ const TEXT_ALIGN = {
   end: 'end'
 };
 
+const LABEL_WRAPS = ['ellipsis', 'wrap', 'ellipsis-no-stretch', 'wrap-no-stretch'];
+
 const instanceCounter = 0;
 
 export {
+  LABEL_WRAPS,
   TYPES,
   TypeKeys,
   TypeValues,

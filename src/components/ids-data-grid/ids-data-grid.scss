@@ -25,7 +25,6 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   border-color: $cell-border-color;
   contain: content;
   overflow: auto;
-  scroll-behavior: smooth;
 
   // Needed so sticky header works in safari
   display: inline-grid;

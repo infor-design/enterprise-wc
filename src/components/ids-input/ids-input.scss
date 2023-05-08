@@ -96,6 +96,60 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
   }
 }
 
+// Mixin for label wrap ellipsis
+@mixin ids-input-label-wrap-ellipsis {
+  .ids-label-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &.required {
+      padding-inline-end: 8px;
+
+      &::after {
+        display: block;
+        margin-top: unset;
+        margin-inline-start: 100%;
+        top: -8px;
+      }
+    }
+  }
+}
+
+/* stylelint-disable */
+// Function to calculate width subtract pad
+@function ids-input-size-with-pad($width, $pad: 8px) {
+  @return calc($width - $pad);
+}
+/* stylelint-enable */
+
+// Mixin for label wrap no-stretch
+@mixin ids-input-label-wrap-no-stretch {
+  .xs .ids-label-text {
+    max-width: $border-input-size-xs;
+  }
+
+  .sm .ids-label-text {
+    max-width: ids-input-size-with-pad($border-input-size-sm);
+  }
+
+  .mm .ids-label-text {
+    max-width: ids-input-size-with-pad($border-input-size-mm);
+  }
+
+  .md .ids-label-text {
+    max-width: ids-input-size-with-pad($border-input-size-md);
+  }
+
+  .lg .ids-label-text {
+    max-width: ids-input-size-with-pad($border-input-size-lg);
+  }
+
+  .full .ids-label-text {
+    max-width: ids-input-size-with-pad($input-size-full);
+  }
+}
+
 /* in case of external label in compound component */
 .ids-label-text {
   @include antialiased();
@@ -180,6 +234,19 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 
 :host([size='full']) {
   @include w-full();
+}
+
+:host([label-wrap='ellipsis']) {
+  @include ids-input-label-wrap-ellipsis();
+}
+
+:host([label-wrap='ellipsis-no-stretch']) {
+  @include ids-input-label-wrap-ellipsis();
+  @include ids-input-label-wrap-no-stretch();
+}
+
+:host([label-wrap='wrap-no-stretch']) {
+  @include ids-input-label-wrap-no-stretch();
 }
 
 .ids-input {

@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsInput from '../../src/components/ids-input/ids-input';
+import { LABEL_WRAPS } from '../../src/components/ids-input/ids-input-attributes';
 import processAnimFrame from '../helpers/process-anim-frame';
 import IdsDataSource from '../../src/core/ids-data-source';
 import dataset from '../../src/assets/data/states.json';
@@ -573,6 +574,21 @@ describe('IdsInput Component', () => {
     input.input.dispatchEvent(new Event('change', { bubbles: true }));
 
     expect(callCount).toEqual(1);
+  });
+
+  it('should set label wrap', () => {
+    const attrName = 'label-wrap';
+    const defaultVal = 'wrap';
+    const check = (applyVal: string, propVal: string | null, attrVal: string | null) => {
+      input.labelWrap = applyVal;
+      expect(input.labelWrap).toEqual(propVal);
+      expect(input.getAttribute(attrName)).toEqual(attrVal);
+    };
+
+    expect(input.labelWrap).toEqual(defaultVal);
+    expect(input.getAttribute(attrName)).toEqual(null);
+    LABEL_WRAPS.forEach((val) => check(val, val, val));
+    check('test', defaultVal, null);
   });
 
   it('should not set wrong size', () => {
