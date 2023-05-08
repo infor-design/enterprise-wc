@@ -15,6 +15,7 @@ $border-input-field-height-xs: calc(var(--ids-input-height-xs) - 2px);
 $border-input-field-height-sm: calc(var(--ids-input-height-sm) - 2px);
 $border-input-field-height-md: calc(var(--ids-input-height-md) - 2px);
 $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
+$input-size-full: 100%;
 
 // Mixin for message styles: [alert, error, info, success]
 @mixin ids-input-message-styles {
