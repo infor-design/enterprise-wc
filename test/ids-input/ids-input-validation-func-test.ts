@@ -29,6 +29,7 @@ describe('IdsInput Component', () => {
     expect(elem.validate).toEqual('required');
     expect(elem.labelEl.classList).toContain('required');
     expect(elem.shadowRoot.querySelector('.validation-message')).toBeFalsy();
+    expect(elem.validationMessagesCount).toEqual(0);
     elem.checkValidation();
 
     const msgEl = elem.shadowRoot.querySelector('.validation-message');
@@ -37,12 +38,14 @@ describe('IdsInput Component', () => {
     expect(msgEl).toBeTruthy();
     expect(msgEl.getAttribute('validation-id')).toEqual('required');
     expect(msgEl.getAttribute('id')).toEqual('ids-input-0-input-error');
+    expect(elem.validationMessagesCount).toEqual(1);
 
     elem.input.value = 'test';
     elem.checkValidation();
     expect(elem.shadowRoot.querySelector('.validation-message')).toBeFalsy();
     expect(elem.getAttribute('aria-invalid')).toEqual(null);
     expect(elem.getAttribute('aria-describedby')).toEqual(null);
+    expect(elem.validationMessagesCount).toEqual(0);
   });
 
   it('should add/remove required error on disabled', () => {
@@ -123,9 +126,11 @@ describe('IdsInput Component', () => {
     await processAnimFrame();
 
     expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(1);
+    expect(elem.validationMessagesCount).toEqual(1);
     elem.removeValidationMessage({ id: 'icon-custom-manually' });
 
     expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(0);
+    expect(elem.validationMessagesCount).toEqual(0);
   });
 
   it('should skip if it already has an error', () => {

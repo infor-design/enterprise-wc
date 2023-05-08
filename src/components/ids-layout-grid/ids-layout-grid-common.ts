@@ -4,6 +4,7 @@ export const prefix = 'ids-layout-grid';
 
 export const GRID_ATTRIBUTES: string[] = [
   attributes.ALIGN_CONTENT,
+  attributes.ALIGN_ITEMS,
   attributes.AUTO_FIT,
   attributes.AUTO_FILL,
   attributes.COLS,
@@ -85,6 +86,7 @@ export const GRID_CELL_ATTRIBUTES: string[] = [
 export type IdsGapType = undefined | 'none' | 'sm' | 'md' | 'lg' | 'xl';
 export type IdsJustifyType = undefined | 'space-around' | 'space-between' | 'center' | 'end' | 'space-evenly' | 'start';
 export type IdsFlowType = undefined | 'row' | 'column' | 'dense' | 'row-dense' | 'column-dense';
+export type IdsGridAlignItems = 'start' | 'end' | 'center' | 'stretch';
 export type IdsGridMargins = undefined | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type IdsGridPadding = undefined | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -95,6 +97,13 @@ export const GAP_TYPES: Array<IdsGapType> = [
   'md',
   'lg',
   'xl',
+];
+
+export const ALIGN_ITEMS: Array<IdsGridAlignItems> = [
+  'start',
+  'end',
+  'center',
+  'stretch',
 ];
 
 export const ALIGN_TYPES: Array<IdsJustifyType> = [
