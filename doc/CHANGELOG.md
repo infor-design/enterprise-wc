@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.10
+
+### 1.0.0-beta.10 Fixes
+
+- `[Themes]` Added theme support and css variables for all components. These can be used for customizing components and creating themes. See ([CUSTOMIZING.md](../doc/CUSTOMIZING.md)) for details. Note that with the `<ids-theme-switcher>` its now better to use the full theme name `<ids-theme-switcher theme="default-light">`. ([#1118](https://github.com/infor-design/enterprise-wc/issues/1118))
+
 ## 1.0.0-beta.9
 
 ### 1.0.0-beta.9 Fixes
@@ -35,7 +41,6 @@
 - `[ListBuilder]` Fixed drag to first row, drag multi select items, toolbar styles, added support to drag while in edit mode, and added support to custom toolbar. ([#926](https://github.com/infor-design/enterprise-wc/issues/926))
 - `[ListView]` Added support for search to filter list. ([#763](https://github.com/infor-design/enterprise-wc/issues/763)
 - `[Menu/Popup Menu]` Added Shortcut Key display feature to IdsMenuItem. ([#1108](https://github.com/infor-design/enterprise-wc/issues/1108))
-- `[Themes]` Added theme support and css variables for all components. These can be used for customizing components and creating themes. See ([CUSTOMIZING.md](../doc/CUSTOMIZING.md)) for details. Note that with the `<ids-theme-switcher>` its now better to use the full theme name `<ids-theme-switcher theme="default-light">`.   ([#1118](https://github.com/infor-design/enterprise-wc/issues/1118))
 
 ## 1.0.0-beta.7
 
