@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.10
+
+### 1.0.0-beta.10 Fixes
+
+- `[DateUtils]` Fix `weekNumber()` returning 0 value for all weeks. ([#1243](https://github.com/infor-design/enterprise-wc/issues/1243))
+
 ## 1.0.0-beta.9
 
 ### 1.0.0-beta.9 Fixes
@@ -8,7 +14,6 @@
 - `[ColorPicker]` Fix change event firing multiple times. ([#1181](https://github.com/infor-design/enterprise-wc/issues/1181))
 - `[DataGrid]` Fixed text overflow for editable cells with data grid. ([#1175](https://github.com/infor-design/enterprise-wc/issues/1175))
 - `[DataGrid]` Fix `IdsDataGrid.ScrollRowIntoView()` so that it finds correct row after infinite-scrolling. ([#1198](https://github.com/infor-design/enterprise-wc/issues/1198))
-- `[DateUtils]` Fix `weekNumber()` returning 0 value for all weeks. ([#1243](https://github.com/infor-design/enterprise-wc/issues/1243))
 - `[Docs]` Added some documentation on ways to customize a component. ([#970](https://github.com/infor-design/enterprise-wc/issues/970))
 - `[Dropdown]` Fixed unable to close the popup if selecting with the keyboard. ([#1236](https://github.com/infor-design/enterprise-wc/issues/1236))
 - `[Input/TriggerField]` Web component now displays as `inline`, similar to HTMLInputElement. ([#1157](https://github.com/infor-design/enterprise-wc/issues/1157))
