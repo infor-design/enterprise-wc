@@ -271,7 +271,7 @@ export default class IdsBreadcrumb extends Base {
    * @returns {HTMLElement} the current breadcrumb
    */
   get current(): HTMLElement | null {
-    return this.querySelector('[font-weight="bold"]');
+    return this.querySelector('[font-weight="semi-bold"]');
   }
 
   /**

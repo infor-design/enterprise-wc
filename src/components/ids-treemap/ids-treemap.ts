@@ -213,7 +213,7 @@ export default class IdsTreeMap extends Base {
    */
   templateTitle(): string {
     return `
-      <ids-text type="span" font-weight="bold" part="title">
+      <ids-text type="span" font-weight="semi-bold" part="title">
         ${typeof this.title === 'string' ? this.title : 'Add Treemap Title'}
       </ids-text>`;
   }

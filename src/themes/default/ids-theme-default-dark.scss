@@ -73,6 +73,11 @@
   --ids-alert-in-progress-color: var(--ids-color-amethyst-30);
   --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-70);
 
+  // Axis Chart
+  --ids-axis-chart-grid-stroke: var(--ids-color-neutral-40);
+  --ids-axis-chart-last-line-stroke: var(--ids-color-neutral-30);
+  --ids-axis-chart-label-text-fill: var(--ids-color-neutral-10);
+
   // Badge
   --ids-badge-background-color: var(--ids-color-neutral-60);
   --ids-badge-border-color: var(--ids-color-neutral-60);
@@ -145,9 +150,8 @@
   --ids-card-box-shadow: 0 0 8px rgba(0 0 0 / 0.7);
   --ids-card-selected-background-color: rgba(85 163 243 / 0.12);
 
-  // Charts - Axis chart
-  --ids-axis-chart-grid-stroke: var(--ids-color-neutral-40);
-  --ids-axis-chart-last-line-stroke: var(--ids-color-neutral-30);
+  // Charts
+  --ids-chart-legend-text-color: var(--ids-text-color);
 
   // Data Grid
   --ids-data-grid-background-color: var(--ids-color-neutral-100);
@@ -162,7 +166,7 @@
   --ids-data-grid-cell-invalid-background-color: rgba(232 79 79 / 0.1);
 
   // Data Grid (List)
-  --ids-data-grid-list-cell-border-color: var(--ids-color-neutral-20);
+  --ids-data-grid-list-cell-border-color: var(--ids-color-neutral-60);
   --ids-data-grid-list-header-border-color: var(--ids-color-neutral-80);
   --ids-data-grid-list-header-background-color: var(--ids-color-neutral-80);
   --ids-data-grid-list-header-text-color: var(--ids-color-neutral-30);
@@ -248,7 +252,8 @@
   --ids-expandable-area-border-bottom: 1px solid var(--ids-color-neutral-50);
 
   // Empty Message
-  --ids-empty-message-icon-color: var(--ids-color-neutral-70);
+  --ids-empty-message-icon-color: var(--ids-color-neutral-20);
+  --ids-empty-message-icon-fill: transparent;
 
   // Headers
   --ids-header-background-color: var(--ids-color-primary);
@@ -358,7 +363,7 @@
   --ids-month-view-compact-day-hover-text-color: var(--ids-color-neutral-00);
   --ids-month-view-compact-range-selected-background-color: var(--ids-color-azure-60);
 
-  // Charts - Pie chart
+  // Pie chart
   --ids-pie-chart-text-fill: var(--ids-color-neutral-30);
 
   // Progress Bar

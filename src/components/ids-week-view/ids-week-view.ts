@@ -223,12 +223,12 @@ export default class IdsWeekView extends Base {
             <ids-text
               class="week-view-header-day-of-week${emphasis ? '' : ' is-emphasis'}"
               font-size="${getTextFontSize(!emphasis)}"
-              ${isToday ? 'font-weight="bold"' : ''}
+              ${isToday ? 'font-weight="semi-bold"' : ''}
             >${emphasis ? weekday : dayNumeric}</ids-text>
             <ids-text
               class="week-view-header-day-of-week${emphasis ? ' is-emphasis' : ''}"
               font-size="${getTextFontSize(emphasis)}"
-              ${isToday ? 'font-weight="bold"' : ''}
+              ${isToday ? 'font-weight="semi-bold"' : ''}
             >${emphasis ? dayNumeric : weekday}</ids-text>
           </div>
           <div class="week-view-all-day-wrapper"></div>

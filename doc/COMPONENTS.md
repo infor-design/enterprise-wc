@@ -459,28 +459,28 @@ Add a test that adds a [jest snapshot](https://jestjs.io/docs/snapshot-testing) 
 Then for each setting add a test that sets all settings via the JS api.
 
 ```js
-  it('renders danger from the api', () => {
-    tag.color = 'danger';
-    expect(tag.getAttribute('color')).toEqual('danger');
-    expect(tag.color).toEqual('danger');
+  it('renders error from the api', () => {
+    tag.color = 'error';
+    expect(tag.getAttribute('color')).toEqual('error');
+    expect(tag.color).toEqual('error');
   });
 ```
 
 Sets each setting from the settings and responds to the update accordingly.
 
 ```js
-  it('renders danger from the api', () => {
-    tag.getAttribute('color', 'danger');
-    expect(tag.getAttribute('color')).toEqual('danger');
-    expect(tag.color).toEqual('danger');
+  it('renders error from the api', () => {
+    tag.getAttribute('color', 'error');
+    expect(tag.getAttribute('color')).toEqual('error');
+    expect(tag.color).toEqual('error');
   });
 ```
 
 Can reset each setting to the default.
 
 ```js
-it('renders danger from the api', () => {
-  tag.color = 'danger';
+it('renders error from the api', () => {
+  tag.color = 'error';
   tag.color = '';
   expect(tag.getAttribute('color')).toEqual('default');
   expect(tag.color).toEqual('default');

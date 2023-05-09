@@ -1,4 +1,5 @@
 /* Ids Axis Chart Component */
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 @import '../../themes/mixins/ids-chart-legend-mixin';
 
 .ids-axis-chart {
@@ -50,6 +51,8 @@
 
   // Label Styles
   .labels {
+    @include mixins.antialiased();
+
     font-family: var(--ids-axis-chart-label-font-family);
     font-size: var(--ids-axis-chart-label-font-size);
 
@@ -66,6 +69,8 @@
     }
 
     &.axis-labels text {
+      @include mixins.antialiased();
+
       font-weight: var(--ids-axis-chart-label-axis-text-font-weight);
       text-anchor: middle;
     }

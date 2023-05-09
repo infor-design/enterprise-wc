@@ -63,7 +63,7 @@ export default class IdsCounts extends IdsEventsMixin(IdsElement) {
   /**
    * Set the color of the counts
    * @param {string} value The color value. This can be omitted.
-   * base (blue), caution, danger, success, warning, or a hex code with the "#"
+   * base (blue), caution, error, success, warning, or a hex code with the "#"
    */
   set color(value: string | null) {
     if (this.href) this.container?.setAttribute('color', '');

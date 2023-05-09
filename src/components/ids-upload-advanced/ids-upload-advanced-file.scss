@@ -52,7 +52,7 @@
         @include flex-item-stable();
 
         display: block;
-        margin-inline-start: var(--ids-spacing-xlg);
+        margin-inline-start: var(--ids-spacing-xl);
       }
 
       .progress-text {
@@ -101,7 +101,7 @@
 
     .error-row,
     .progress-row {
-      padding-inline: var(--ids-spacing-xlg);
+      padding-inline: var(--ids-spacing-xl);
       padding-bottom: var(--ids-spacing-md);
     }
 

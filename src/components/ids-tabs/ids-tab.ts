@@ -89,7 +89,7 @@ export default class IdsTab extends Base {
       this.orientation,
       this.count
     );
-    const selectedAttr = this.selected ? ' font-weight="bold"' : '';
+    const selectedAttr = this.selected ? ' font-weight="semi-bold"' : '';
 
     let innerContent = '<slot></slot>';
     if (!hasIcon && !hasCount) {

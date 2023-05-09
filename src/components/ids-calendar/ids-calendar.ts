@@ -287,7 +287,7 @@ export default class IdsCalendar extends Base {
     const panels = data.map((item: CalendarEventDetail, idx: number) => `
       <ids-accordion-panel expanded="${idx === 0}">
         <ids-accordion-header color="${item.color}" slot="header">
-          <ids-text font-weight="bold" overflow="ellipsis">${item.shortSubject || item.subject}</ids-text>
+          <ids-text font-weight="semi-bold" overflow="ellipsis">${item.shortSubject || item.subject}</ids-text>
         </ids-accordion-header>
         <div slot="content" class="panel-content">
           ${item.status ? `<ids-data-label label="${this.localeAPI.translate('Status')}">${item.status}</ids-data-label><hr>` : ''}
@@ -311,7 +311,7 @@ export default class IdsCalendar extends Base {
     const listItems = data.map((item: CalendarEventDetail) => `
       <li color="${item.color}" class="detail-item" tabindex="0" data-id="${item.id}">
         <div class="calendar-detail-content">
-          <ids-text font-size="18" font-weight="bold">${item.subject}</ids-text>
+          <ids-text font-size="18" font-weight="semi-bold">${item.subject}</ids-text>
           <ids-text font-size="14">${item.dateRange}</ids-text>
           <ids-text font-size="14">${item.comments || ''}${item.status ? ` | ${item.status}` : ''}</ids-text>
         </div>
@@ -328,7 +328,7 @@ export default class IdsCalendar extends Base {
    */
   #todayBtnTemplate() {
     return this.showToday ? `<ids-button css-class="no-padding" class="btn-today">
-      <ids-text class="btn-today-text" font-size="16" translate-text="true" font-weight="bold">Today</ids-text>
+      <ids-text class="btn-today-text" font-size="16" translate-text="true" font-weight="semi-bold">Today</ids-text>
     </ids-button>` : '';
   }
 
@@ -447,7 +447,7 @@ export default class IdsCalendar extends Base {
     return `
       <form id="event-form" data-id="${data.id}" slot="content">
         <div id="event-form-header" class="inline-container" color="${eventType?.color || 'azure'}">
-          <ids-text font-size="16" font-weight="bold">${eventType?.label || ''}</ids-text>
+          <ids-text font-size="16" font-weight="semi-bold">${eventType?.label || ''}</ids-text>
           <ids-icon icon="close" data-action="close" aria-label="Close" role="button"></ids-icon>
         </div>
         <div id="event-form-content">
@@ -468,10 +468,10 @@ export default class IdsCalendar extends Base {
         </div>
         <div id="event-form-actions" class="inline-container">
           <ids-button data-action="close" no-padding no-margins>
-            <ids-text font-weight="bold" translate-text="true">Cancel</ids-text>
+            <ids-text font-weight="semi-bold" translate-text="true">Cancel</ids-text>
           </ids-button>
           <ids-button data-action="submit" no-padding no-margins>
-            <ids-text font-weight="bold" translate-text="true">Submit</ids-text>
+            <ids-text font-weight="semi-bold" translate-text="true">Submit</ids-text>
           </ids-button>
         </div>
       </form>

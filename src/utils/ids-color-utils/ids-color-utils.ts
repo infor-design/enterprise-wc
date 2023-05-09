@@ -148,7 +148,7 @@ export function statusToIDSColor(statusName: string) {
     'success'
   ];
   if (statuses.includes(statusName)) {
-    cssVariable = `var(--ids-color-${statusName === 'error' ? 'danger' : statusName})`;
+    cssVariable = `var(--ids-color-${statusName})`;
   }
   return cssVariable || statusName;
 }

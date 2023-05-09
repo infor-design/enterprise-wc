@@ -161,8 +161,8 @@ button {
   @include ids-base-button-styles();
   @include ids-modal-button-colors();
 
-  padding-block-start: var(--ids-spacing-xlg);
-  padding-block-end: var(--ids-spacing-xlg);
+  padding-block-start: var(--ids-spacing-xl);
+  padding-block-end: var(--ids-spacing-xl);
   display: block;
   font-weight: var(--ids-font-weight-semi-bold);
   justify-content: center;

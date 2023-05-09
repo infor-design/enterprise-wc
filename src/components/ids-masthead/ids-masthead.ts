@@ -160,7 +160,7 @@ export default class IdsMasthead extends Base {
       <ids-toolbar class="ids-masthead" tabbable="true">
         <ids-toolbar-section id="start" align="start" type="fluid">
           <span id="logo-wrapper">${this.logo()}</span>
-          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="bold">${this.title}</ids-text>
+          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="semi-bold">${this.title}</ids-text>
           <slot name="start"></slot>
         </ids-toolbar-section>
 

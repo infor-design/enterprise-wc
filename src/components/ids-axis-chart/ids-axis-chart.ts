@@ -330,6 +330,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
 
     this.#calculate();
     (this as any).afterCalculateCallback?.();
+    this.#addColorVariables();
     if (this.svg) this.svg.innerHTML = this.#axisTemplate();
     if (this.legend) this.legend.innerHTML = this.legendTemplate();
 
@@ -568,6 +569,43 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       this.sectionHeights.push({ top, height: this.sectionHeight });
       top += this.sectionHeight;
     }
+  }
+
+  /**
+   * Add colors in a style sheet to the root so the variables can be used
+   * @private
+   */
+  #addColorVariables(): void {
+    let colorSheet = '';
+    if (!this.shadowRoot?.styleSheets) {
+      return;
+    }
+
+    this.data?.forEach((group: IdsChartData, index: number) => {
+      const data = (group as any);
+      let color = data.patternColor;
+      if (!color && data.color && data.color.substr(0, 1) === '#') {
+        color = data.color;
+      }
+      if (!color && data.color && data.color.substr(0, 1) !== '#' && data.color.substr(0, 11) !== '--ids-color') {
+        color = `var(--ids-color-${data.color})`;
+      }
+      if (!color && data.color && data.color.substr(0, 1) !== '#' && data.color.substr(0, 11) === '--ids-color') {
+        color = `var(${data.color})`;
+      }
+      if (!color) {
+        color = `var(${this.colors[index]})`;
+      }
+      colorSheet += `--ids-chart-color-${index + 1}: ${color} !important;`;
+    });
+
+    const styleSheet = this.shadowRoot.styleSheets[0];
+    if (styleSheet.cssRules && (styleSheet.cssRules[0] as any).selectorText === ':host') {
+      styleSheet.deleteRule(0);
+    }
+    styleSheet.insertRule(`:host {
+      ${colorSheet}
+    }`);
   }
 
   /**

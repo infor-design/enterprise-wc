@@ -68,7 +68,7 @@ export default class IdsProcessIndicator extends Base {
       <span class="step-container">
         <div class="xs-header">
           <ids-text>Current: </ids-text>
-          <ids-text class="label" font-weight="bold"></ids-text>
+          <ids-text class="label" font-weight="semi-bold"></ids-text>
         </div>
         <slot></slot>
       </span>

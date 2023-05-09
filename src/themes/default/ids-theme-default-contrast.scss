@@ -91,9 +91,10 @@
   --ids-alert-in-progress-color: var(--ids-color-amethyst-90);
   --ids-alert-in-progress-disabled-color: var(--ids-color-amethyst-50);
 
-  // Charts - Axis chart
-  --ids-axis-chart-grid-stroke: var(--ids-color-neutral-80);
-  --ids-axis-chart-last-line-stroke: var(--ids-color-neutral-100);
+  // Axis Chart
+  --ids-axis-chart-grid-stroke: var(--ids-color-neutral-30);
+  --ids-axis-chart-last-line-stroke: var(--ids-color-neutral-80);
+  --ids-axis-chart-label-text-fill: var(--ids-color-neutral-70);
 
   // Badge
   --ids-badge-error-background-color: var(--ids-color-error-80);
@@ -170,6 +171,9 @@
   --ids-button-formatter-border-color: var(--ids-color-neutral-00);
   --ids-button-alternate-formatter-text-color-hover: var(--ids-color-neutral-00);
   --ids-button-formatter-ripple-color: var(--ids-color-primary);
+
+  // Charts
+  --ids-chart-legend-text-color: var(--ids-text-color);
 
   // Data Grid
   --ids-data-grid-background-color: var(--ids-color-neutral-00);

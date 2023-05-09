@@ -67,7 +67,7 @@ describe('IdsCounts Component', () => {
     expect(count.container?.getAttribute('color')).toEqual('');
 
     count.href = '#';
-    count.color = 'danger';
+    count.color = 'error';
     expect(count.container?.getAttribute('color')).toEqual('');
   });
 

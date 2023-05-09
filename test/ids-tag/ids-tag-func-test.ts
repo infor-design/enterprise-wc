@@ -53,10 +53,10 @@ describe('IdsTag Component', () => {
     expect(tag.color).toEqual('error');
   });
 
-  it('renders danger from the api', () => {
-    tag.color = 'danger';
-    expect(tag.getAttribute('color')).toEqual('danger');
-    expect(tag.color).toEqual('danger');
+  it('renders error color from the api', () => {
+    tag.color = 'error';
+    expect(tag.getAttribute('color')).toEqual('error');
+    expect(tag.color).toEqual('error');
   });
 
   it('renders specific hex color', () => {

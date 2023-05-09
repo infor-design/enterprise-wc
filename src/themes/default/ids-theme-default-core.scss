@@ -100,7 +100,7 @@
   --ids-spacing-sm: 2px;
   --ids-spacing-md: 4px;
   --ids-spacing-lg: 8px;
-  --ids-spacing-xlg: 12px;
+  --ids-spacing-xl: 12px;
   --ids-spacing-xxl: 16px;
   --ids-spacing-3xl: 20px;
   --ids-spacing-4xl: 24px;
@@ -201,6 +201,17 @@
   --ids-app-menu-accordion-header-selected-text-color: var(--ids-color-neutral-00);
   --ids-app-menu-accordion-header-text-color: var(--ids-color-neutral-20);
   --ids-app-menu-accordion-panel-background-color: var(--ids-color-neutral-100);
+
+  // Axis Chart
+  --ids-axis-chart-border-color: var(--ids-color-neutral-10);
+  --ids-axis-chart-grid-stroke: var(--ids-color-neutral-20);
+  --ids-axis-chart-first-line-stroke: var(--ids-color-neutral-70);
+  --ids-axis-chart-last-line-stroke: var(--ids-color-neutral-70);
+  --ids-axis-chart-label-font-family: var(--ids-font-family);
+  --ids-axis-chart-label-font-size: var(--ids-font-size-sm);
+  --ids-axis-chart-label-text-fill: var(--ids-color-neutral-60);
+  --ids-axis-chart-label-axis-text-font-weight: var(--ids-font-weight-bold);
+  --ids-axis-chart-focus-group-outline: 2px dashed var(--ids-color-azure-60);
 
   // Badge
   --ids-badge-background-color: var(--ids-input-readonly-background-color);
@@ -358,27 +369,27 @@
   --ids-chart-legend-text-size: var(--ids-font-size-sm);
   --ids-chart-legend-text-color: var(--ids-text-color-label);
 
-  // Charts - Quantitive Color Progression
-  --ids-chart-color-1: var(--ids-color-azure-80);
-  --ids-chart-color-2: var(--ids-color-turquoise-40);
-  --ids-chart-color-3: var(--ids-color-amethyst-60);
-  --ids-chart-color-4: var(--ids-color-neutral-40);
-  --ids-chart-color-5: var(--ids-color-amber-30);
-  --ids-chart-color-6: var(--ids-color-amber-70);
-  --ids-chart-color-7: var(--ids-color-emerald-80);
-  --ids-chart-color-8: var(--ids-color-azure-30);
-  --ids-chart-color-9: var(--ids-color-ruby-80);
-  --ids-chart-color-10: var(--ids-color-neutral-20);
-  --ids-chart-color-11: var(--ids-color-turquoise-60);
-  --ids-chart-color-12: var(--ids-color-amber-90);
-  --ids-chart-color-13: var(--ids-color-amethyst-30);
-  --ids-chart-color-14: var(--ids-color-azure-60);
-  --ids-chart-color-15: var(--ids-color-ruby-30);
-  --ids-chart-color-16: var(--ids-color-amethyst-80);
-  --ids-chart-color-17: var(--ids-color-emerald-30);
-  --ids-chart-color-18: var(--ids-color-turquoise-80);
-  --ids-chart-color-19: var(--ids-color-neutral-60);
-  --ids-chart-color-20: var(--ids-color-ruby-40);
+  // Charts - Qualitive Color Progression
+  --ids-chart-qualitive-color-1: var(--ids-color-azure-80);
+  --ids-chart-qualitive-color-2: var(--ids-color-turquoise-40);
+  --ids-chart-qualitive-color-3: var(--ids-color-amethyst-60);
+  --ids-chart-qualitive-color-4: var(--ids-color-neutral-40);
+  --ids-chart-qualitive-color-5: var(--ids-color-amber-30);
+  --ids-chart-qualitive-color-6: var(--ids-color-amber-70);
+  --ids-chart-qualitive-color-7: var(--ids-color-emerald-80);
+  --ids-chart-qualitive-color-8: var(--ids-color-azure-30);
+  --ids-chart-qualitive-color-9: var(--ids-color-ruby-80);
+  --ids-chart-qualitive-color-10: var(--ids-color-neutral-20);
+  --ids-chart-qualitive-color-11: var(--ids-color-turquoise-60);
+  --ids-chart-qualitive-color-12: var(--ids-color-amber-90);
+  --ids-chart-qualitive-color-13: var(--ids-color-amethyst-30);
+  --ids-chart-qualitive-color-14: var(--ids-color-azure-60);
+  --ids-chart-qualitive-color-15: var(--ids-color-ruby-30);
+  --ids-chart-qualitive-color-16: var(--ids-color-amethyst-80);
+  --ids-chart-qualitive-color-17: var(--ids-color-emerald-30);
+  --ids-chart-qualitive-color-18: var(--ids-color-turquoise-80);
+  --ids-chart-qualitive-color-19: var(--ids-color-neutral-60);
+  --ids-chart-qualitive-color-20: var(--ids-color-ruby-40);
 
   // Checkbox
   --ids-checkbox-unchecked-border-color: var(--ids-input-border-color);
@@ -563,12 +574,12 @@
   --ids-editor-blockquote-border-inline-start: 2px solid var(--ids-color-neutral-40);
   --ids-editor-blockquote-margin-inline-start: var(--ids-spacing-md);
   --ids-editor-blockquote-margin-inline-end: var(--ids-spacing-none);
-  --ids-editor-blockquote-padding-inline-start: var(--ids-spacing-xlg);
+  --ids-editor-blockquote-padding-inline-start: var(--ids-spacing-xl);
   --ids-editor-source-padding: var(--ids-spacing-none);
   --ids-editor-source-margin: var(--ids-spacing-none);
   --ids-editor-source-line-numbers-margin: var(--ids-spacing-none);
   --ids-editor-source-line-numbers-padding-block-start: var(--ids-spacing-xxl);
-  --ids-editor-source-line-numbers-padding-inline: var(--ids-spacing-xlg);
+  --ids-editor-source-line-numbers-padding-inline: var(--ids-spacing-xl);
   --ids-editor-source-line-numbers-line-height: var(--ids-line-height-md);
   --ids-editor-source-line-numbers-font-weight: var(--ids-font-weight-bold);
   --ids-editor-source-line-numbers-background-color: var(--ids-color-neutral-10);
@@ -584,10 +595,10 @@
   // Empty Message
   --ids-empty-message-icon-color: var(--ids-color-neutral-60);
   --ids-empty-message-icon-fill: transparent;
-  --ids-empty-message-icon-margin: var(--ids-spacing-xxl);
+  --ids-empty-message-icon-margin: var(--ids-spacing-xl);
   --ids-empty-message-icon-height: 80px;
   --ids-empty-message-icon-width: 80px;
-  --ids-empty-message-label-padding: var(--ids-spacing-xxl) var(--ids-spacing-lg);
+  --ids-empty-message-label-padding: var(--ids-spacing-xl) var(--ids-spacing-lg);
   --ids-empty-message-label-font-size: var(--ids-font-size-lg);
   --ids-empty-message-description-padding: var(--ids-spacing-none) var(--ids-spacing-xxl) var(--ids-spacing-xxl);
   --ids-empty-message-description-text-align: center;
@@ -712,7 +723,7 @@
   --ids-list-builder-list-view-input-height: var(--ids-size-xxs);
   --ids-list-builder-list-view-input-padding: var(--ids-spacing-none);
   --ids-list-builder-list-view-item-border: 1px solid transparent;
-  --ids-list-builder-list-view-item-padding: var(--ids-spacing-xlg) var(--ids-spacing-3xl);
+  --ids-list-builder-list-view-item-padding: var(--ids-spacing-xl) var(--ids-spacing-3xl);
   --ids-list-builder-list-view-item-height: var(--ids-size-lg);
   --ids-list-builder-list-view-item-min-height: var(--ids-size-md); // 44px -> 38px
   --ids-list-builder-list-view-item-drag-handle-content: '\205e';
@@ -726,7 +737,7 @@
   --ids-list-view-item-background-color: var(--ids-color-neutral-00);
   --ids-list-view-item-border: 1px solid transparent;
   --ids-list-view-item-border-top-color: var(--ids-color-neutral-20);
-  --ids-list-view-item-padding: var(--ids-spacing-xlg) var(--ids-spacing-3xl);
+  --ids-list-view-item-padding: var(--ids-spacing-xl) var(--ids-spacing-3xl);
   --ids-list-view-item-focus-border-color: var(--ids-color-azure-40);
   --ids-list-view-item-focus-box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
   --ids-list-view-item-focus-outline: none;
@@ -779,7 +790,6 @@
   --ids-menu-check-disabled-color: var(--ids-text-color-disabled);
 
   // Message
-  --ids-message-content-width: 400px
   --ids-message-text-color: var(--ids-text-color);
   --ids-message-error-icon-color: var(--ids-color-error);
   --ids-message-warning-icon-color: var(--ids-color-warning);
@@ -859,7 +869,7 @@
   --ids-popup-arrow-size: 8px;
   --ids-popup-background-color: var(--ids-color-neutral-00);
   --ids-popup-border-color: var(--ids-color-neutral-30);
-  --ids-popup-padding: var(--ids-spacing-xlg);
+  --ids-popup-padding: var(--ids-spacing-xl);
   --ids-popup-box-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
 
   // Popup Menu
@@ -954,7 +964,7 @@
   // Search Field
   --ids-searchfield-app-menu-focus-box-shadow: 0 0 3px 2px rgba(255 255 255 / 0.4);
   --ids-searchfield-app-menu-text-color: var(--ids-color-neutral-20);
-  --ids-searchfield-app-menu-background-color: var(--ids-color-neutral-100);
+  --ids-searchfield-app-menu-background-color: #000;
   --ids-searchfield-app-menu-icon-color: var(--ids-color-neutral-40);
   --ids-searchfield-app-menu-icon-hover-color: var(--ids-color-neutral-90);
   --ids-searchfield-app-menu-search-icon-margin: 8px;

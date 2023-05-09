@@ -45,7 +45,7 @@ export default class IdsErrorPage extends IdsModal {
           <ids-text
             type="h2"
             font-size="24"
-            font-weight="bold"
+            font-weight="semi-bold"
             label="true"
             slot="label"
           >
