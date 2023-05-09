@@ -144,6 +144,7 @@ export default class IdsPieChart extends Base {
 
     this.#calculate();
     this.#setSliceAngles();
+    this.#addColorVariables();
     if (this.legend) this.legend.innerHTML = this.legendTemplate();
     if (this.svg) this.svg.innerHTML = this.chartTemplate();
     this.#attachTooltipEvents();
@@ -265,6 +266,40 @@ export default class IdsPieChart extends Base {
 
   get legendFormatter(): any {
     return this.state.legendFormatter;
+  }
+
+  #addColorVariables(): void {
+    let colorSheet = '';
+    if (!this.shadowRoot?.styleSheets) {
+      return;
+    }
+    const data = this.data[0].data;
+    data?.forEach((group: IdsPieChartData, index: number) => {
+      const slice = (group as any);
+      let color = slice.patternColor;
+      if (!color && slice.color && slice.color.substr(0, 1) === '#') {
+        color = slice.color;
+      }
+      if (!color && slice.color && slice.color.substr(0, 1) !== '#' && slice.color.substr(0, 11) !== '--ids-color') {
+        color = `var(--ids-color-${slice.color})`;
+      }
+      if (!color && slice.color && slice.color.substr(0, 1) !== '#' && slice.color.substr(0, 11) === '--ids-color') {
+        color = `var(${slice.color})`;
+      }
+      if (!color) {
+        color = `var(${this.colors[index]})`;
+      }
+      colorSheet += `--ids-chart-color-${index + 1}: ${color} !important;`;
+    });
+
+    const styleSheet = this.shadowRoot.styleSheets[0];
+
+    if (styleSheet.cssRules && (styleSheet.cssRules[0] as any).selectorText === ':host') {
+      styleSheet.deleteRule(0);
+    }
+    styleSheet.insertRule(`:host {
+      ${colorSheet}
+    }`);
   }
 
   /**
