@@ -26,6 +26,9 @@
   - link: one.html
     type: Test
     description: Showing an single input
+  - link: label-wrap.html
+    type: Example
+    description: Showing inputs in different label wrap styles
   - link: layout-size.html
     type: Example
     description: Showing inputs in different layout

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid cols="1" gap="md" padding="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Label - Wrap (Default)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="2" gap="md" padding-x="md" align-items="end">
+      <ids-layout-grid-cell>
+        <ids-input size="full"
+          label="Input with a much longer label that will overflow and it probably needs to be longer than this its just extremely long. Way too long it just keeps going."></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input size="full" label="Input with shorter label"></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="2" gap="md" padding-x="md" align-items="end">
+      <ids-layout-grid-cell>
+        <ids-input size="full" label-wrap="wrap" label="Input with shorter label"></ids-input>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-input size="full" label-wrap="wrap"
+          label="Input with a much longer label that will overflow and it probably needs to be longer than this its just extremely long. Way too long it just keeps going."></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" gap="md" padding="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Label - Wrap - No Stretch</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid cols="2" gap="md" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-input label-wrap="wrap-no-stretch"
+          label="Input with a much longer label that will overflow and it probably needs to be longer than this its just extremely long. Way too long it just keeps going."></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" gap="md" padding="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Label - Ellipsis</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid cols="2" gap="md" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-input label-wrap="ellipsis" label="Input with a much longer label that will overflow and it probably needs to be longer than this its just extremely long. Way too long it just keeps going."></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" gap="md" padding="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Label - Ellipsis - No Stretch</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid cols="2" gap="md" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-input label-wrap="ellipsis-no-stretch" label="Input with a much longer label that will overflow and it probably needs to be longer than this its just extremely long. Way too long it just keeps going."></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+  </ids-container>
+</body>
+</html>

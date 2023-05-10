@@ -336,20 +336,21 @@ export function weekNumberToDate(year: number, week: number, startsOn = 0): Date
  */
 export function weekNumber(date: Date, startsOn = 0) {
   // Set range end
-  const weekDayIndex: number = (date.getDay() + 7 - startsOn) % 7;
+  const rangeEndDate = new Date(date.getTime());
+  const weekDayIndex: number = (rangeEndDate.getDay() + 7 - startsOn) % 7;
 
-  date.setDate(date.getDate() - weekDayIndex + 3);
+  rangeEndDate.setDate(rangeEndDate.getDate() - weekDayIndex + 3);
 
-  const rangeEnd: number = date.getTime();
+  const rangeEnd: number = rangeEndDate.getTime();
 
   // Set range start
-  date.setMonth(0, 1);
+  const rangeStartDate = new Date(date.getFullYear(), 0, 1);
 
-  if (date.getDay() !== 4) {
-    date.setMonth(0, 1 + ((4 - date.getDay() + 7) % 7));
+  if (rangeStartDate.getDay() !== 4) {
+    rangeStartDate.setMonth(0, 1 + ((4 - rangeStartDate.getDay() + 7) % 7));
   }
 
-  const rangeStart: number = date.getTime();
+  const rangeStart: number = rangeStartDate.getTime();
   const msInWeek = 604800000;
 
   // Number of weeks in range

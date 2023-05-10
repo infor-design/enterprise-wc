@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.10
+
+### 1.0.0-beta.10 Fixes
+
+- `[DateUtils]` Fix `weekNumber()` returning 0 value for all weeks. ([#1243](https://github.com/infor-design/enterprise-wc/issues/1243))
+
 ## 1.0.0-beta.9
 
 ### 1.0.0-beta.9 Fixes
@@ -9,10 +15,15 @@
 - `[DataGrid]` Fixed text overflow for editable cells with data grid. ([#1175](https://github.com/infor-design/enterprise-wc/issues/1175))
 - `[DataGrid]` Fix `IdsDataGrid.ScrollRowIntoView()` so that it finds correct row after infinite-scrolling. ([#1198](https://github.com/infor-design/enterprise-wc/issues/1198))
 - `[Docs]` Added some documentation on ways to customize a component. ([#970](https://github.com/infor-design/enterprise-wc/issues/970))
+- `[Dropdown]` Fixed unable to close the popup if selecting with the keyboard. ([#1236](https://github.com/infor-design/enterprise-wc/issues/1236))
+- `[Input]` Added support for label wrap. ([#1223](https://github.com/infor-design/enterprise-wc/issues/1223))
 - `[Input/TriggerField]` Web component now displays as `inline`, similar to HTMLInputElement. ([#1157](https://github.com/infor-design/enterprise-wc/issues/1157))
+- `[LayoutGrid]` Added support for align items. ([#1223](https://github.com/infor-design/enterprise-wc/issues/1223))
 - `[Popup]` Unset text align coming from HTML attribute. ([#1200](https://github.com/infor-design/enterprise-wc/issues/1200))
 - `[PopupMenu]` Added scrollable behavior to `max-height`-enabled popup menus. ([#1205](https://github.com/infor-design/enterprise-wc/issues/1205))
+- `[PopupMenu]` Added code to hide enterprise context menus when web context menus open and vise versa. ([#1179](https://github.com/infor-design/enterprise-wc/issues/1179))
 - `[PopupMenu]` Fixed IdsPopupMenu doesn't move to the clicked location on right click. ([#1222](https://github.com/infor-design/enterprise-wc/issues/1222))
+- `[ScrollView]` Fixed to remove hash links for navigation. ([#904](https://github.com/infor-design/enterprise-wc/issues/904))
 - `[TimePicker]` Fixed formatting when day period goes first in the time format. ([#1189](https://github.com/infor-design/enterprise-wc/issues/1189))
 
 ## 1.0.0-beta.8
