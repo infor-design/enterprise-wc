@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.10
+
+### 1.0.0-beta.10 Fixes
+
+- `[DateUtils]` Fix `weekNumber()` returning 0 value for all weeks. ([#1243](https://github.com/infor-design/enterprise-wc/issues/1243))
+
 ## 1.0.0-beta.9
 
 ### 1.0.0-beta.9 Fixes
