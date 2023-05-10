@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -15,12 +14,11 @@ import '../ids-checkbox/ids-checkbox';
 import styles from './ids-tree-node.scss';
 import type IdsTree from './ids-tree';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-const Base = IdsThemeMixin(
-  IdsLocaleMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+const Base = IdsLocaleMixin(
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -29,7 +27,6 @@ const Base = IdsThemeMixin(
  * @type {IdsTreeNode}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
  * @part group-node - the group node element
  * @part node - the node element
@@ -92,7 +89,7 @@ export default class IdsTreeNode extends Base {
    */
   template() {
     // Set the closest tree element
-    this.tree = this.tree || this.closestElement('ids-tree');
+    this.tree = this.tree || getClosest(this, 'ids-tree');
 
     // Set the type is group or node
     const isNodeEl = (el: HTMLElement) => /^ids-tree-node$/i.test(el.nodeName);
@@ -153,26 +150,6 @@ export default class IdsTreeNode extends Base {
           <ids-text class="text" part="text" ${this.isMultiSelect ? 'hidden' : ''}><slot></slot></ids-text>
         </span>
       </li>`;
-  }
-
-  /**
-   * Get the closest element for given selector.
-   * @private
-   * @param {string} selector The selector string
-   * @param {HTMLElement} base The base element
-   * @returns {HTMLElement|null} the closest found element
-   */
-  closestElement(selector: string, base = this) {
-    const closestFrom: any = (el: any) => {
-      if (!el || el === document || el === window) {
-        return null;
-      }
-      if (el.assignedSlot) {
-        el = el.assignedSlot;
-      }
-      return el.closest(selector) || closestFrom(el.getRootNode().host);
-    };
-    return closestFrom(base);
   }
 
   /**

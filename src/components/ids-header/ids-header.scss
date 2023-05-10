@@ -1,35 +1,14 @@
-@import '../../core/ids-base';
-
+/* Ids Header Component */
 .ids-header {
-  @include basic-color-transition();
-  @include bg-azure-60();
-  @include text-white();
-
+  background-color: var(--ids-header-background-color);
+  color: var(--ids-header-text-color);
   display: flex;
   flex-direction: column;
+  transition: background-color var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
   width: 100%;
-
-  // New Version: Light Mode
-  &[mode='light'],
-  &:not([mode]) {
-    @include bg-azure-60();
-    @include text-white();
-  }
-
-  // New Version: Dark Mode
-  &[mode='dark'] {
-    @include bg-azure-60();
-    @include text-white();
-  }
-
-  // New Version: Contrast Mode
-  &[mode='contrast'] {
-    @include bg-azure-90();
-    @include text-white();
-  }
 }
 
 ::slotted(ids-toolbar),
 .ids-toolbar {
-  @include p-8();
+  padding: var(--ids-header-padding);
 }

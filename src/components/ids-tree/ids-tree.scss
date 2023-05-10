@@ -2,10 +2,10 @@
 @import './ids-tree-shared';
 
 .ids-tree {
-  @include list-none();
-  @include mb-1();
   @include tree-node-badge();
 
+  list-style-type: none;
+  margin-bottom: var(--ids-spacing-xs);
   margin-block-start: 0;
   margin-block-end: 0;
   padding-inline-start: 0;

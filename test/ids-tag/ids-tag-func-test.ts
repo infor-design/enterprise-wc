@@ -53,10 +53,10 @@ describe('IdsTag Component', () => {
     expect(tag.color).toEqual('error');
   });
 
-  it('renders danger from the api', () => {
-    tag.color = 'danger';
-    expect(tag.getAttribute('color')).toEqual('danger');
-    expect(tag.color).toEqual('danger');
+  it('renders error color from the api', () => {
+    tag.color = 'error';
+    expect(tag.getAttribute('color')).toEqual('error');
+    expect(tag.color).toEqual('error');
   });
 
   it('renders specific hex color', () => {
@@ -65,7 +65,7 @@ describe('IdsTag Component', () => {
     expect(tag.color).toEqual('#800000');
   });
 
-  it('renders an extra border on secondary tags', () => {
+  it('renders an extra border on secondary tag', () => {
     tag.color = 'secondary';
     expect(tag.getAttribute('color')).toEqual('secondary');
     expect(tag.color).toEqual('secondary');
@@ -196,11 +196,6 @@ describe('IdsTag Component', () => {
     expect(tag.getAttribute('clickable')).toEqual(null);
     expect(tag.clickable).toBeFalsy();
     expect(tag.container?.classList.contains('focusable')).toEqual(false);
-  });
-
-  it('supports setting mode', () => {
-    tag.mode = 'dark';
-    expect(tag.container?.getAttribute('mode')).toEqual('dark');
   });
 
   it('should be able to set attributes before append', () => {

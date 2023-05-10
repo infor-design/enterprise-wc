@@ -116,7 +116,7 @@ List view with embellishment types.
         <ids-text font-size="12" type="span" status="error">Escalated (${escalated}X)</ids-text>
       ${/disabled}
     ${/escalated}
-    <ids-text font-size="16" font-weight="bold" type="p">${productName}</ids-text>
+    <ids-text font-size="16" font-weight="semi-bold" type="p">${productName}</ids-text>
     <ids-hyperlink href="https://www.example.com/${productId}" target="_blank">${productId}</ids-hyperlink>
     <ids-text font-size="12" type="span">Count: ${units}</ids-text>
     <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>

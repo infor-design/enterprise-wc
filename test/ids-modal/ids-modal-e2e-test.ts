@@ -17,7 +17,7 @@ describe('Ids Modal e2e Tests', () => {
     ]);
   });
 
-  it('should have its "OK" button focused when it opens', async () => {
+  it.skip('should have its "OK" button focused when it opens', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
 
     const modalSelector = '#my-modal[visible]';

@@ -1,78 +1,79 @@
-@import '../../core/ids-base';
-
+/* Ids Alert Component */
 :host,
 .ids-alert {
   contain: content;
 
   &.success,
-  &.success-solid,
   [color='success'],
-  [icon='success'],
-  [icon='success-solid'] {
-    @include text-alert-success();
+  [icon='success'] {
+    color: var(--ids-alert-success-color);
 
     &.disabled {
-      color: var(--ids-color-palette-emerald-30);
+      color: var(--ids-alert-success-disabled-color);
     }
   }
 
   &.alert,
-  &.alert-solid,
   [color='alert'],
   [icon='alert'],
-  [icon='alert-solid'] {
-    @include text-alert-warning();
+  &.warning,
+  [color='warning'],
+  [icon='warning'] {
+    color: var(--ids-alert-warning-color);
 
     &.disabled {
-      color: var(--ids-color-palette-amber-30);
+      color: var(--ids-alert-warning-disabled-color);
     }
   }
 
-  &.info,
-  &.info-solid,
-  [color='info'],
-  [icon='info'],
-  [icon='info-solid'] {
-    @include text-alert-info();
+  &.caution,
+  [color='caution'],
+  [icon='caution'] {
+    color: var(--ids-alert-caution-color);
 
     &.disabled {
-      color: var(--ids-color-palette-azure-30);
+      color: var(--ids-alert-caution-disabled-color);
+    }
+  }
+
+
+  &.info,
+  [color='info'],
+  [icon='info'] {
+    color: var(--ids-alert-info-color);
+
+    &.disabled {
+      color: var(--ids-alert-info-disabled-color);
     }
   }
 
   &.error,
-  &.error-solid,
   [color='error'],
-  [icon='error'],
-  [icon='error-solid'] {
-    @include text-alert-error();
+  [icon='error'] {
+    color: var(--ids-alert-error-color);
 
     &.disabled {
-      color: var(--ids-color-palette-ruby-30);
+      color: var(--ids-alert-error-color);
     }
   }
 
   &.new,
-  &.new-solid,
-  [color='amber'],
-  [icon='new'],
-  [icon='new-solid'] {
-    color: var(--ids-color-palette-amber-70);
+  [color='new'],
+  [icon='new'] {
+    color: var(--ids-alert-new-color);
 
     &.disabled {
-      color: var(--ids-color-palette-amber-30);
+      color: var(--ids-alert-new-disabled-color);
     }
   }
 
   &.in-progress,
-  &.in-progress-solid,
   [color='amethyst'],
-  [icon='in-progress'],
-  [icon='in-progress-solid'] {
-    color: var(--ids-color-palette-amethyst-70);
+  [icon='in-progress'] {
+    color: var(--ids-alert-in-progress-color);
 
     &.disabled {
-      color: var(--ids-color-palette-amethyst-30);
+      color: var(--ids-alert-in-progress-disabled-color);
     }
   }
 
@@ -80,22 +81,10 @@
   &.half-empty-circle,
   [icon='empty-circle'],
   [icon='half-empty-circle'] {
-    color: var(--ids-color-palette-slate-80);
-  }
-
-  &.empty-circle.dark,
-  &.half-empty-circle.dark,
-  [mode='dark'][icon='empty-circle'],
-  [mode='dark'][icon='half-empty-circle'] {
-    color: var(--ids-color-palette-classic-slate-30);
-  }
-
-  &.empty-circle.classic.dark,
-  &.half-empty-circle.classic.dark {
-    color: var(--ids-color-palette-classic-slate-30);
+    color: var(--ids-alert-empty-color);
 
     &.disabled {
-      color: var(--ids-color-palette-slate-30);
+      color: var(--ids-alert-empty-disabled-color);
     }
   }
 }

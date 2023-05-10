@@ -1,43 +1,29 @@
-@import '../../core/ids-base';
-
-$header-border-color: var(--ids-color-palette-slate-30);
-$header-bg-color: var(--ids-color-palette-slate-80);
-
-// Header Styles
+/* Ids Data Grid Component - Header */
 .ids-data-grid-header {
-  @include sticky();
-
+  position: sticky;
   top: 0;
-  z-index: 4; // Higher than the frozen columns
+  z-index: 4; // Higher than frozen columns
 }
 
-// Negates the padding
+// Header Checkbox
 .ids-data-grid-header-text .ids-data-grid-checkbox-container {
   width: 20px;
 
   .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
-    @include bg-white();
-    @include border-white();
+    background-color: var(--ids-data-grid-header-checkbox-background-color);
+    border-color: var(--ids-data-grid-header-checkbox-border-color);
   }
 }
 
 // Grouped Headers
 .ids-data-grid-column-groups {
-  @include border-0();
-  @include border-b-1();
-  @include border-solid();
-
-  border-color: $header-border-color;
+  border-block-end: 1px solid var(--ids-data-grid-header-border-color);
 }
 
 // Header Cell Area
 .ids-data-grid-header-cell {
-  @include border-0();
-  @include border-l-1();
-  @include border-solid();
-
-  background-color: $header-bg-color;
-  border-color: $header-border-color;
+  border-inline-start: 1px solid var(--ids-data-grid-header-border-color);
+  background-color: var(--ids-data-grid-header-background-color);
   min-height: 35px;
   position: relative;
 
@@ -59,7 +45,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   // Resizing Cells
   .resizer {
-    cursor: col-resize;
+    cursor: var(--ids-cursor-resize);
     display: inline;
     height: 100%;
     position: absolute;
@@ -76,31 +62,31 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   // Reorderable Cells
   .reorderer {
-    cursor: move;
+    cursor: var(--ids-cursor-move);
     display: inline;
-    height: 33px;
+    height: 34px;
     opacity: 0;
     position: absolute;
-    inset-inline-start: 7px;
+    inset-inline-start: var(--ids-spacing-lg);
     top: 0;
     width: 4px;
 
     ids-icon {
       position: absolute;
-      color: var(--ids-color-palette-white);
-      inset-inline-start: -8px;
+      color: var(--ids-data-grid-header-icon-color);
+      inset-inline-start: calc(-1 * var(--ids-spacing-lg));
       text-align: center;
       top: calc(50% - 9px);
     }
   }
 
   &.align-right .reorderer {
-    inset-inline-end: 7px;
+    inset-inline-end: 8px;
     inset-inline-start: initial;
   }
 
   &.dragging {
-    background-color: $header-bg-color !important;
+    background-color: var(--ids-data-grid-header-background-color) !important; // this important is needed for drag styles to work
     display: block;
     width: 110px;
 
@@ -110,7 +96,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 
   &.active-drag-column {
-    background-color: var(--ids-color-palette-slate-40);
+    background-color: var(--ids-data-grid-header-drag-placeholder-background-color);
   }
 
   &:hover .reorderer {
@@ -119,14 +105,14 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   // Reorderable Cells
   &.frozen {
-    background-color: $header-bg-color;
+    background-color: var(--ids-data-grid-header-background-color);
     position: sticky;
     z-index: 3;
   }
 
   // Change borders for frozen column scrolling
   &.frozen-last {
-    border-inline-end-width: 1px;
+    border-inline-end: 1px solid var(--ids-data-grid-header-border-color);
 
     + .ids-data-grid-header-cell {
       border-inline-start-width: 0;
@@ -157,17 +143,18 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 }
 
 .ids-data-grid-header-cell-content {
-  @include flex();
+  display: flex;
 }
 
 .ids-data-grid-header-text {
-  @include block();
-  @include py-8();
-  @include font-bold();
-  @include text-14();
-  @include text-white();
-  @include px-16();
-
+  display: block;
+  padding-block-start: var(--ids-spacing-lg);
+  padding-block-end: var(--ids-spacing-lg);
+  font-weight: var(--ids-font-weight-semi-bold);
+  font-size: var(--ids-font-size-sm);
+  color: var(--ids-data-grid-header-text-color);
+  padding-inline-start: var(--ids-spacing-xxl);
+  padding-inline-end: var(--ids-spacing-xxl);
   overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;
@@ -176,17 +163,15 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 }
 
 .ids-data-grid-header-icon {
-  @include text-white();
-  @include ml-4();
-  @include mt-4();
-
   align-self: center;
+  color: var(--ids-data-grid-header-text-color);
+  margin-inline-start: var(--ids-spacing-md);
+  margin-block-start: var(--ids-spacing-md);
 }
 
 // Header sort styles
 .sort-indicator {
-  @include relative();
-
+  position: relative;
   overflow: hidden;
   height: 32px;
   margin-inline-start: 2px;
@@ -196,20 +181,18 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 // Sort Hover states
 .is-sortable {
   .sort-indicator ids-icon {
-    color: var(--ids-color-palette-slate-50);
+    color: var(--ids-data-grid-header-unsorted-icon-color);
     opacity: 0;
-    transition: opacity 0.3s cubic-bezier(0.17, 0.04, 0.03, 0.94) 0s;
+    transition: opacity 0.3s var(--ids-transition-ease) 0s;
 
     &:first-child {
-      @include relative();
-
+      position: relative;
       top: 4px;
       transform: rotate(180deg);
     }
 
     &:last-child {
-      @include relative();
-
+      position: relative;
       top: -9px;
     }
   }
@@ -224,20 +207,21 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 }
 
 .has-selectioncheckbox .ids-data-grid-header-text {
-  @include px-0();
+  padding-inline-start: 0;
+  padding-inline-end: 0;
 }
 
 .is-sortable,
 .has-headericon {
   .ids-data-grid-header-text {
-    @include pr-0();
+    padding-inline-end: 0;
   }
 }
 
 // Ascending sort
 [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon {
   &:first-child {
-    color: var(--ids-color-palette-white);
+    color: var(--ids-data-grid-header-sorted-icon-color);
     opacity: 1;
   }
 
@@ -253,7 +237,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 
   &:last-child {
-    color: var(--ids-color-palette-white);
+    color: var(--ids-data-grid-header-sorted-icon-color);
     opacity: 1;
   }
 }
@@ -279,12 +263,12 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 
   &::before {
-    border-top: 5px solid $header-bg-color;
+    border-top: 5px solid var(--ids-data-grid-header-background-color);
     top: -6px;
   }
 
   &::after {
-    border-bottom: 5px solid $header-bg-color;
+    border-bottom: 5px solid var(--ids-data-grid-header-background-color);
     bottom: -9px;
   }
 }
@@ -295,40 +279,37 @@ tr.ids-data-grid-header {
 }
 
 th.ids-data-grid-header-cell {
-  @include table-cell();
+  display: table-cell;
 }
 
 // List Style Feature
 .ids-data-grid.is-list-style {
   // Change Header Color
   .ids-data-grid-header-cell {
-    @include bg-slate-10();
-    @include border-slate-10();
+    background-color: var(--ids-data-grid-list-header-background-color);
+    border-color: var(--ids-data-grid-list-header-border-color);
   }
 
   .ids-data-grid-header-text {
-    @include text-slate-100();
+    color: var(--ids-data-grid-list-header-text-color);
   }
 
   // Change Sort Icon Colors
   .is-sortable {
     ids-icon {
-      @include text-slate-50();
+      color: var(--ids-data-grid-header-unsorted-icon-color);
     }
   }
 
-  [aria-sort='descending'] .is-sortable ids-icon:last-child {
-    @include text-slate-20();
-  }
-
-  [aria-sort='ascending'] .is-sortable ids-icon:first-child {
-    @include text-slate-20();
+  [aria-sort='descending'] .is-sortable ids-icon:last-child,
+  [aria-sort='ascending'] .is-sortable ids-icon:first-child  {
+    color: var(--ids-data-grid-list-header-unsorted-icon-color)
   }
 
   // Change Header Checkbox
   .ids-data-grid-header-text .ids-data-grid-checkbox-container {
     .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
-      @include border-slate-70();
+      border-color: var(--ids-data-grid-list-header-checkbox-background-color);
     }
   }
 }
@@ -336,156 +317,6 @@ th.ids-data-grid-header-cell {
 // Used for Frozen Columns
 .ids-data-grid-body {
   min-width: fit-content;
-}
-
-// Dark Theme
-.ids-data-grid[mode='dark'] {
-  .ids-data-grid-header-cell {
-    @include bg-slate-20();
-    @include border-slate-80();
-
-    .reorderer ids-icon {
-      color: var(--ids-color-palette-slate-100);
-    }
-
-    &.dragging {
-      background-color: var(--ids-color-palette-slate-20) !important;
-    }
-
-    &.active-drag-column {
-      background-color: var(--ids-color-palette-slate-10);
-    }
-  }
-
-  .ids-data-grid-header-text {
-    @include text-slate-100();
-  }
-
-  .is-sortable .sort-indicator ids-icon {
-    @include text-slate-40();
-  }
-
-  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-    @include text-slate-100();
-  }
-
-  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-    @include text-slate-100();
-  }
-
-  // List Style Feature
-  &.is-list-style {
-    // Change Header Color
-    .ids-data-grid-header-cell {
-      @include bg-slate-80();
-      @include border-slate-80();
-    }
-
-    .ids-data-grid-header-text {
-      @include text-slate-30();
-    }
-
-    // Change Sort Icon
-    .is-sortable .sort-indicator ids-icon {
-      @include text-slate-40();
-    }
-
-    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-      @include text-slate-20();
-    }
-
-    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-      @include text-slate-20();
-    }
-
-    // Change Header Checkbox
-    .ids-data-grid-header-text .ids-data-grid-checkbox-container {
-      .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
-        @include border-slate-40();
-      }
-    }
-  }
-
-  .ids-data-grid-header-text .ids-data-grid-checkbox-container {
-    .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
-      @include bg-transparent();
-      @include border-slate-100();
-    }
-  }
-}
-
-:host([mode='dark']) {
-  .ids-data-grid-sort-arrows {
-    &::before {
-      border-top: 5px solid var(--ids-color-palette-slate-20);
-    }
-
-    &::after {
-      border-bottom: 5px solid var(--ids-color-palette-slate-20);
-    }
-  }
-}
-
-// Contrast Theme
-.ids-data-grid[mode='contrast'] {
-  .ids-data-grid-header-cell {
-    @include bg-slate-70();
-    @include border-slate-40();
-
-    .reorderer ids-icon {
-      color: var(--ids-color-palette-slate-10);
-    }
-
-    &.dragging {
-      background-color: var(--ids-color-palette-slate-70) !important;
-    }
-
-    &.active-drag-column {
-      background-color: var(--ids-color-palette-slate-50);
-    }
-  }
-
-  .ids-data-grid-header-text {
-    @include text-white();
-  }
-
-  .is-sortable .sort-indicator ids-icon {
-    @include text-slate-40();
-  }
-
-  [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-    @include text-white();
-  }
-
-  [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-    @include text-white();
-  }
-
-  // List Style Feature
-  &.is-list-style {
-    // Change Header Color
-    .ids-data-grid-header-cell {
-      @include bg-slate-30();
-      @include border-slate-30();
-    }
-
-    .ids-data-grid-header-text {
-      @include text-slate-100();
-    }
-
-    // Change Sort Icon
-    .is-sortable .sort-indicator ids-icon {
-      @include text-slate-60();
-    }
-
-    [aria-sort='descending'] .is-sortable .sort-indicator ids-icon:last-child {
-      @include text-slate-30();
-    }
-
-    [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon:first-child {
-      @include text-slate-30();
-    }
-  }
 }
 
 // Handle RTL

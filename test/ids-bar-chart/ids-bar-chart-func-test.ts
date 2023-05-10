@@ -55,7 +55,7 @@ describe('IdsBarChart Component', () => {
         name: 'Feb',
         value: 300
       }],
-      color: 'var(--ids-color-palette-azure-20)',
+      color: 'var(--ids-color-azure-20)',
       name: 'Series 2'
     }];
     barChart.redraw();
@@ -112,7 +112,7 @@ describe('IdsBarChart Component', () => {
 
     expect(barChart.container.parentNode.querySelectorAll('.swatch svg')[1].querySelector('rect').getAttribute('fill')).toEqual('url(#exes)');
     expect(barChart.shadowRoot.querySelectorAll('.color-2')[0].getAttribute('fill')).toEqual('url(#exes)');
-    expect(barChart.color(1)).toEqual('var(--ids-color-palette-turquoise-40)');
+    expect(barChart.color(1)).toEqual('var(--ids-chart-qualitive-color-2)');
   });
 
   it('can set barPercentage', () => {

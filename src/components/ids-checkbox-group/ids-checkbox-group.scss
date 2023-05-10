@@ -1,8 +1,7 @@
-@import '../../core/ids-base';
-
+/* Ids Checkbox Group */
 .ids-checkbox-group {
   ids-text {
-    @include block();
-    @include mb-12();
+    display: block;
+    margin-block-end: var(--ids-spacing-xl);
   }
 }

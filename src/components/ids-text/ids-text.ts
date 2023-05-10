@@ -1,4 +1,3 @@
-import fontSizes from 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes';
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -6,13 +5,12 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-text.scss';
 
-const fontWeightClasses = ['bold', 'lighter'] as const;
+const fontWeightClasses = ['bold', 'semi-bold', 'lighter'] as const;
 type FontWeightClasses = typeof fontWeightClasses[number];
 
 // These types will have a CSS style class appended to them
@@ -24,13 +22,26 @@ const TEXT_ALIGNMENTS = ['start', 'end', 'center', 'justify'];
 // Statuses
 const STATUSES = ['base', 'error', 'info', 'success', 'warning'];
 
+const fontSizes: Array<object> = [
+  { 10: '10px' },
+  { 12: '12px' },
+  { 14: '14px' },
+  { 16: '16px' },
+  { 20: '20px' },
+  { 24: '24px' },
+  { 28: '28px' },
+  { 32: '32px' },
+  { 40: '40px' },
+  { 48: '48px' },
+  { 60: '60px' },
+  { 72: '72px' }
+];
+
 const Base = IdsColorVariantMixin(
   IdsLocaleMixin(
     IdsTooltipMixin(
-      IdsThemeMixin(
-        IdsEventsMixin(
-          IdsElement
-        )
+      IdsEventsMixin(
+        IdsElement
       )
     )
   )
@@ -40,10 +51,10 @@ const Base = IdsColorVariantMixin(
  * IDS Text Component
  * @type {IdsText}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
- * @mixes IdsEventsMixin
- * @mixes IdsTooltipMixin
+ * @mixes IdsColorVariantMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsTooltipMixin
+ * @mixes IdsEventsMixin
  * @part text - the text element
  */
 @customElement('ids-text')
@@ -75,7 +86,6 @@ export default class IdsText extends Base {
       attributes.FONT_SIZE,
       attributes.FONT_WEIGHT,
       attributes.LABEL,
-      attributes.MODE,
       attributes.OVERFLOW,
       attributes.STATUS,
       attributes.TEXT_ALIGN,
@@ -103,7 +113,6 @@ export default class IdsText extends Base {
 
     return `<${tag}
       class="${classList}"
-      mode="${this.mode}"
       part="text"
     ><slot></slot>
     </${tag}>`;
@@ -140,7 +149,7 @@ export default class IdsText extends Base {
     }
 
     if (this.container) {
-      fontSizes?.forEach((size: string) => {
+      fontSizes?.forEach((size) => {
         this.container?.classList.remove(`ids-text-${Object.keys(size)}`);
       });
       if (value) {
@@ -155,7 +164,7 @@ export default class IdsText extends Base {
    * Adjust font weight; can be either "bold" or "lighter"
    * @param {string | null} value (if bold)
    */
-  set fontWeight(value: 'lighter' | 'bold' | null) {
+  set fontWeight(value: 'lighter' | 'bold' | 'semi-bold' | null) {
     this.container?.classList.remove(...fontWeightClasses);
 
     if (value && fontWeightClasses.includes(value)) {
@@ -217,7 +226,7 @@ export default class IdsText extends Base {
       } else if (value === 'muted') {
         this.setAttribute(attributes.COLOR, value);
         this.container?.classList.add(mutedClass);
-      } else this.container?.style.setProperty('color', `var(--ids-color-palette-${value})`);
+      } else this.container?.style.setProperty('color', `var(--ids-color-${value})`);
       return;
     }
     this.removeAttribute(attributes.COLOR);

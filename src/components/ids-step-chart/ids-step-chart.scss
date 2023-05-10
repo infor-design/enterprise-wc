@@ -1,22 +1,20 @@
+/* Ids Step Chart Component */
 @use 'sass:list';
-@import '../../mixins/sass/ids-colorpalette-variables';
-@import '../../core/ids-base';
+@import '../../themes/mixins/ids-colorpalette-variables';
 
 :host {
-  @include w-full();
+  width: 100%;
 }
 
 .ids-step-chart {
-  @include m-16;
-
   contain: content;
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
+  margin: var(--ids-step-chart-margin);
 
   .step-label-container {
-    @include mb-4;
-
+    margin-block-end: var(--ids-step-chart-inner-margin);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -27,11 +25,11 @@
       flex-direction: row;
 
       .completed-label {
-        margin-right: 4px;
+        margin-inline-end: var(--ids-step-chart-inner-margin);
       }
 
       .icon {
-        @include ml-4;
+        margin-inline-start: var(--ids-step-chart-inner-margin);
       }
     }
   }
@@ -42,11 +40,10 @@
     flex: 1 1 auto;
 
     .step {
-      @include m-1;
+      margin: calc(var(--ids-step-chart-inner-margin) - 3px);
 
       @each $name in $color-names {
         $i: list.index($color-names, $name);
-        /* stylelint-disable-next-line custom-property-pattern */
         $color: var(#{list.nth($color-vars, $i)});
 
         &[color='#{$name}'] {
@@ -54,9 +51,18 @@
         }
       }
 
-      height: 13px;
+      height: var(--ids-step-chart-height);
+      box-sizing: content-box;
       border: 1px;
       flex: 1 1 auto;
+
+      &.untouched {
+        background-color: var(--ids-step-chart-step-background-color);
+      }
+
+      &.completed {
+        background-color: var(--ids-step-chart-step-completed-background-color);
+      }
     }
   }
 }

@@ -4,7 +4,7 @@
 }
 
 :host(ids-draggable:not([handle])) {
-  cursor: move;
+  cursor: var(--ids-cursor-move);
   touch-action: none;
 }
 
@@ -13,13 +13,13 @@
 }
 
 :host(ids-draggable[axis='x']:not([disabled])) {
-  cursor: ew-resize;
+  cursor: var(--ids-cursor-resize-x);
 }
 
 :host(ids-draggable[axis='y']:not([disabled])) {
-  cursor: ns-resize;
+  cursor: var(--ids-cursor-resize-y);
 }
 
 ids-draggable[is-dragging]:not([handle]) {
-  cursor: grabbing;
+  cursor: var(--ids-cursor-grabbing);
 }

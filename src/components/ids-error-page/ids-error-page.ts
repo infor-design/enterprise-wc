@@ -15,7 +15,6 @@ const DEFAULT_ICON = 'empty-error-loading';
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-error-page')
 @scss(styles)
@@ -46,7 +45,7 @@ export default class IdsErrorPage extends IdsModal {
           <ids-text
             type="h2"
             font-size="24"
-            font-weight="bold"
+            font-weight="semi-bold"
             label="true"
             slot="label"
           >

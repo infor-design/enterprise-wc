@@ -10,7 +10,7 @@ exports[`IdsMasthead Component renders and updates logo 1`] = `
           <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       </span>
-          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="bold">title</ids-text>
+          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="semi-bold">title</ids-text>
           <slot name="start"></slot>
         </ids-toolbar-section>
 
@@ -39,7 +39,7 @@ exports[`IdsMasthead Component renders and updates logo 2`] = `
           <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       </span>
-          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="bold">title</ids-text>
+          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="semi-bold">title</ids-text>
           <slot name="start"></slot>
         </ids-toolbar-section>
 
@@ -68,7 +68,7 @@ exports[`IdsMasthead Component renders and updates title 1`] = `
           <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       </span>
-          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="bold">Infor Application</ids-text>
+          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="semi-bold">Infor Application</ids-text>
           <slot name="start"></slot>
         </ids-toolbar-section>
 
@@ -97,7 +97,7 @@ exports[`IdsMasthead Component renders any icon 1`] = `
           <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       </span>
-          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="bold">title</ids-text>
+          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="semi-bold">title</ids-text>
           <slot name="start"></slot>
         </ids-toolbar-section>
 
@@ -126,7 +126,7 @@ exports[`IdsMasthead Component renders any icon 2`] = `
           <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       </span>
-          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="bold">title</ids-text>
+          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="semi-bold">title</ids-text>
           <slot name="start"></slot>
         </ids-toolbar-section>
 

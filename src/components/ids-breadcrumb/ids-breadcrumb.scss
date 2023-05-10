@@ -1,23 +1,8 @@
 /* Ids Breadcrumb Component */
-@import '../../core/ids-base';
-
-// RGB triplet values that represent Ids Palette Colors
-// @TODO maybe move these to the design system?
-$header-gradient-opaque-new-light: rgb(0 114 237 / 1);
-$header-gradient-transparent-new-light: rgb(0 114 237 / 0);
-$header-gradient-opaque-new-dark: rgb(0 114 237 / 1);
-$header-gradient-transparent-new-dark: rgb(0 114 237 / 0);
-$header-gradient-opaque-new-contrast: rgb(0 74 153 / 1);
-$header-gradient-transparent-new-contrast: rgb(0 74 153 / 0);
-$header-gradient-opaque-classic-light: rgb(0 102 212 / 1);
-$header-gradient-transparent-classic-light: rgb(0 102 212 / 0);
-$header-gradient-opaque-classic-dark: rgb(54 54 54 / 1);
-$header-gradient-transparent-classic-dark: rgb(54 54 54 / 0);
-$header-gradient-opaque-classic-contrast: rgb(0 74 153 / 1);
-$header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 
 .ids-breadcrumb {
-  @include antialiased();
+  @include mixins.antialiased();
 
   align-items: center;
   display: flex;
@@ -30,13 +15,13 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
     position: relative;
 
     &::after {
-      @include antialiased();
-      @include text-slate-60();
+      @include mixins.antialiased();
 
+      color: var(--ids-breadcrumb-text-color);
       content: '\002F';
-      font-weight: normal;
-      padding-right: 4px;
-      padding-left: 0;
+      font-weight: var(--ids-breadcrumb-font-weight);
+      padding-right: var(--ids-spacing-md);
+      padding-left: var(--ids-spacing-none);
       text-decoration: none;
       display: inline-block;
       vertical-align: top;
@@ -56,42 +41,24 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
   }
 
   nav {
-    @include p-8();
+    padding: var(--ids-spacing-lg);
 
     &.truncate {
       &::before {
         transition:
-          width $transition-length $transition-ease,
-          background $transition-length $transition-ease;
+          width var(--ids-transition-length) var(--ids-transition-ease),
+          background var(--ids-transition-length) var(--ids-transition-ease);
         background-color: transparent;
+        background-image: linear-gradient(to right, var(--ids-body-background-color), rgba(255 255 255 / 0));
         content: '';
         height: 100%;
         left: 0;
         pointer-events: none;
         position: absolute;
         top: 0;
-        z-index: 20;
-        width: 32px;
+        z-index: var(--ids-z-index-toolbar);
+        width: var(--ids-size-md);
       }
-    }
-  }
-
-  &[mode='light'],
-  &:not([mode]) {
-    nav.truncate::before {
-      background-image: linear-gradient(to right, var(--ids-color-palette-white), $transparent-white);
-    }
-  }
-
-  &[mode='dark'] {
-    nav.truncate::before {
-      background-image: linear-gradient(to right, var(--ids-color-palette-slate-90), $transparent-white);
-    }
-  }
-
-  &[mode='contrast'] {
-    nav.truncate::before {
-      background-image: linear-gradient(to right, var(--ids-color-palette-slate-10), $transparent-white);
     }
   }
 
@@ -100,70 +67,44 @@ $header-gradient-transparent-classic-contrast: rgb(0 74 153 / 0);
   &.color-variant-breadcrumb {
     .ids-breadcrumb-menu {
       &::after {
-        @include text-slate-60();
+        color: var(--ids-breadcrumb-text-color);
       }
     }
 
     nav.truncate::before {
-      @include text-slate-60();
+      color: var(--ids-breadcrumb-text-color);
     }
   }
 
   &.color-variant-alternate {
     .ids-breadcrumb-menu {
       &::after {
-        @include text-white();
+        color: var(--ids-breadcrumb-inverse-text-color);
       }
-    }
-
-    nav.truncate::before {
-      @include text-white();
     }
 
     // Use background colors from IdsHeader
-    &[mode='light'],
-    &:not([mode]) {
-      nav.truncate::before {
-        background-image:
-          linear-gradient(
-            to right,
-            $header-gradient-opaque-new-light,
-            $header-gradient-transparent-new-light
-          );
-      }
+    nav.truncate::before {
+      color: var(--ids-breadcrumb-inverse-text-color);
+      background-image:
+      linear-gradient(
+        to right,
+        var(--ids-header-gradient-opaque),
+        var(--ids-header-gradient-transparent)
+      );
     }
-
-    &[mode='dark'] {
-      nav.truncate::before {
-        background-image:
-          linear-gradient(
-            to right,
-            $header-gradient-opaque-new-dark,
-            $header-gradient-transparent-new-dark
-          );
-      }
-    }
-
-    &[mode='contrast'] {
-      nav.truncate::before {
-        background-image:
-          linear-gradient(
-            to right,
-            $header-gradient-opaque-new-contrast,
-            $header-gradient-transparent-new-contrast
-          );
-      }
-    }
-  }
+ }
 }
 
 a.ids-hyperlink,
 span.ids-breadcrumb-divider {
-  @include text-14();
-  @include text-slate-60();
+  font-size: var(--ids-breadcrumb-font-size);
+  font-family: var(--ids-font-family);
+  color: var(--ids-breadcrumb-text-color);
+  margin-inline-end: 0;
 
   &:not(.ids-hyperlink-color-unset):not([mode]) {
-    @include text-slate-60();
+    color: var(--ids-breadcrumb-text-color);
   }
 }
 
@@ -175,17 +116,20 @@ span.ids-breadcrumb-divider {
 // Create the / between breadcrumbs
 ::slotted(*:not(:first-child))::before,
 span.ids-breadcrumb-divider:not(:first-child)::before {
-  @include antialiased();
+  @include mixins.antialiased();
 
+  font-size: var(--ids-breadcrumb-font-size);
+  font-family: var(--ids-font-family);
   color: inherit;
   content: '\002F';
   font-weight: normal;
-  padding: 0 6px;
+  padding: var(--ids-spacing-xs) var(--ids-spacing-lg) ;
   text-decoration: none;
   display: inline-block;
-  vertical-align: middle;
+  margin-inline-start: -3px;
+  vertical-align: top;
 }
 
 .hidden {
-  display: none !important;
+  display: none;
 }

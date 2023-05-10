@@ -1,10 +1,8 @@
-import { customElement, scss } from '../../core/ids-decorators';
+import { customElement } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { Breakpoints, isWidthBelow, isWidthAbove } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsElement from '../../core/ids-element';
-
-import styles from './ids-hidden.scss';
 
 /**
  * IDS Hidden Component
@@ -12,7 +10,6 @@ import styles from './ids-hidden.scss';
  * @inherits IdsElement
  */
 @customElement('ids-hidden')
-@scss(styles)
 export default class IdsHidden extends IdsElement {
   constructor() {
     super();

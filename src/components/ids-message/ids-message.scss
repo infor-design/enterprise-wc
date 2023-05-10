@@ -5,32 +5,27 @@
 }
 
 .ids-message-status {
-  @include pr-8();
-
-  color: var(--ids-color-palette-black);
-
-  &.default {
-    color: var(--ids-color-brand-secondary-base);
-  }
+  padding-inline-end: 8px;
+  color: var(--ids-message-text-color);
 
   &.error {
-    color: var(--ids-color-palette-ruby-50);
+    color: var(--ids-message-error-icon-color);
   }
 
   &.warning {
-    color: var(--ids-color-status-warning);
+    color: var(--ids-message-warning-icon-color);
   }
 
   &.alert {
-    color: var(--ids-color-status-warning);
+    color: var(--ids-message-alert-icon-color);
   }
 
   &.success {
-    color: var(--ids-color-palette-emerald-60);
+    color: var(--ids-message-success-icon-color);
   }
 
   &.info {
-    color: var(--ids-color-brand-primary-base);
+    color: var(--ids-message-info-icon-color);
   }
 }
 

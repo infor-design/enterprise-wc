@@ -1,24 +1,12 @@
 /**
- * Ids Button Base CSS
- * Use these mixins inside Ids Button CSS classes to define their base styles.
+ * Ids Button Sass mixins, used in Ids Button CSS to define base styles.
  */
-@import '../../core/ids-base';
-@import '../../mixins/sass/ids-ripple-mixin';
-
-$ids-button-rounded-size: 8px;
+@use '../../themes/mixins/ids-core-mixins' as mixins;
+@import '../../themes/mixins/ids-ripple-mixin';
 
 // Mixin for a "blank" shadow (same as the standard one with a completely transparent alpha)
 @mixin blank-shadow() {
-  box-shadow: 0 0 3px 2px rgba(54 138 192 / 0);
-}
-
-@mixin shadow-error-alternate() {
-  box-shadow: 0 0 3px 2px rgba(239 131 133 / 0.3);
-}
-
-// Used to make simple focus borders on tertiary/default button styles
-@mixin simple-shadow($base-color) {
-  box-shadow: 0 0 3px 2px $base-color;
+  box-shadow: var(--ids-box-shadow-none);
 }
 
 // Used to make the focus "border" appear to be separated from the button (primary/secondary types).
@@ -31,25 +19,23 @@ $ids-button-rounded-size: 8px;
 
 // Used to make the focus "border" on non-solid buttons (modal buttons, etc)
 @mixin modal-button-shadow() {
-  box-shadow: 0 0 3px 1px var(--ids-color-brand-primary-base) // primary color (shadowy-part)
+  box-shadow: var(--ids-modal-button-focus-box-shadow); // primary color (shadowy-part)
 }
 
 @mixin alternate-button-shadow() {
-  box-shadow: 0 0 3px 2px rgba(255 255 255 / 0.7);
+  box-shadow: var(--ids-box-shadow-inverse);
 }
 
 // Used to include a basic set of button styles within each individual button prototype.
 @mixin ids-base-button-styles() {
   @include blank-shadow();
-  @include border-1();
-  @include border-solid();
-  @include font-normal();
-  @include font-sans();
-  @include text-16();
 
+  font-weight: var(--ids-font-weight-normal);
+  font-family: var(--ids-font-family);
+  font-size: var(--ids-font-size-md);
   overflow: hidden;
-  padding-bottom: 6px;
-  padding-top: 6px;
+  padding-bottom: calc(var(--ids-spacing-lg) - 2px);
+  padding-top: calc(var(--ids-spacing-lg) - 2px);
   position: relative;
 
   &,
@@ -66,18 +52,17 @@ $ids-button-rounded-size: 8px;
   // ====================================================
   // Base Button styles (default/tertiary)
 
-  @include bg-transparent();
-  @include border-transparent();
-
+  border: 1px solid transparent;
+  background-color: transparent;
   color: currentColor;
 
   // Animate BG/Text/Border color changes on all styles
   transition:
-    background-color $transition-length $transition-ease,
-    border-color $transition-length $transition-ease,
-    box-shadow $transition-length $transition-ease,
-    color $transition-length $transition-ease,
-    opacity $transition-length $transition-ease;
+    background-color var(--ids-transition-length) var(--ids-transition-ease),
+    border-color var(--ids-transition-length) var(--ids-transition-ease),
+    box-shadow var(--ids-transition-length) var(--ids-transition-ease),
+    color var(--ids-transition-length) var(--ids-transition-ease),
+    opacity var(--ids-transition-length) var(--ids-transition-ease);
   white-space: nowrap;
 
   &:focus {
@@ -87,7 +72,7 @@ $ids-button-rounded-size: 8px;
   }
 
   &:not([disabled]) {
-    @include cursor-pointer();
+   cursor: var(--ids-cursor-pointer);
   }
 
   // ====================================================
@@ -96,7 +81,7 @@ $ids-button-rounded-size: 8px;
     vertical-align: bottom;
 
     &.audible {
-      @include audible();
+      @include mixins.audible();
     }
   }
 
@@ -109,17 +94,17 @@ $ids-button-rounded-size: 8px;
 
   &.align-icon-end {
     ::slotted(ids-icon) {
-      @include pl-4;
+      padding-inline-start: var(--ids-spacing-md);
     }
   }
 
   &.no-margins {
-    @include mx-0();
+    margin-inline: var(--ids-spacing-none);
   }
 
   // Account for 2px borders on secondary buttons
-  &:not(.btn-secondary) {
-    @include m-1();
+  &:not(.btn-secondary):not(.no-margins) {
+    margin: var(--ids-spacing-xs);
   }
 }
 
@@ -127,928 +112,235 @@ $ids-button-rounded-size: 8px;
  * Provides standardized padding rules for certain button types
  */
 @mixin ids-standard-button-padding() {
-  @include px-28();
+  padding-inline: var(--ids-spacing-5xl);
 }
 
 @mixin ids-inline-button-padding() {
-  @include px-12();
+  padding-inline: var(--ids-spacing-xl);
 }
 
 /**
  * Provides the standard color rules for all regular buttons
  */
 @mixin ids-standard-button-colors() {
-  @include inline-flex();
-  @include font-bold();
+  display: inline-flex;
+  font-weight: var(--ids-button-tertiary-font-weight);
+  border-radius: var(--ids-border-radius-md);
 
-  border-radius: $ids-button-rounded-size;
+  // ====================================================
+  // Default/Tertiary Button
+  border-color: var(--ids-button-tertiary-border-color);
+  color: var(--ids-button-tertiary-text-color);
 
-  &[mode='light'],
-  &:not([mode]) {
-    // ====================================================
-    // Default/Tertiary Button
+  &:not(.hide-focus).is-active,
+  &:not(.hide-focus):focus {
+    border-color: var(--ids-button-tertiary-focus-border-color);
+  }
 
-    @include border-transparent();
-    @include text-slate-60();
+  &:hover {
+    color: var(--ids-button-tertiary-hover-text-color);
+    background-color: var(--ids-button-tertiary-hover-background-color);
+  }
+
+  &[disabled] {
+    color: var(--ids-button-tertiary-disabled-text-color);
+    background-color: var(--ids-button-tertiary-disabled-background-color);
+  }
+
+  .ripple-effect {
+    background-color: var(--ids-button-tertiary-ripple-color);
+  }
+
+  // ====================================================
+  // Tertiary Destructive Button
+  &.btn-tertiary-destructive {
+    color: var(--ids-color-error);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      @include border-azure-50();
+      border-color: var(--ids-color-error-70);
     }
 
     &:hover {
-      @include text-azure-70();
-      @include bg-azure-10();
+      background-color: var(--ids-button-destructive-hover-background-color);
+      color: var(--ids-color-error-70);
     }
 
     &[disabled] {
-      @include text-slate-30();
-      @include bg-transparent();
+      color: var(--ids-button-tertiary-disabled-text-color);
+      background-color: transparent;
     }
 
     .ripple-effect {
-      background-color: var(--ids-color-brand-primary-base);
-    }
-
-    // ====================================================
-    // Tertiary Destructive Button
-
-    &.btn-tertiary-destructive {
-      @include text-alert-error();
-
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        @include border-ruby-70();
-      }
-
-      &:hover {
-        @include bg-ruby-10();
-        @include text-ruby-80();
-      }
-
-      &[disabled] {
-        @include text-ruby-30();
-        @include bg-transparent();
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-status-danger);
-      }
-    }
-
-    // ====================================================
-    // Primary Button
-
-    &.btn-primary {
-      background-color: var(--ids-color-brand-primary-base);
-      border-color: var(--ids-color-brand-primary-base);
-      color: var(--ids-color-brand-primary-contrast);
-
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        border-color: var(--ids-color-brand-primary-base);
-      }
-
-      &:hover {
-        @include bg-azure-80();
-        @include border-azure-80();
-      }
-
-      &[disabled] {
-        @include bg-slate-20();
-        @include border-slate-20();
-        @include text-slate-40();
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-brand-primary-contrast);
-      }
-    }
-
-    // ====================================================
-    // Primary Destructive Button
-
-    &.btn-primary-destructive {
-      @include bg-alert-error();
-      @include border-alert-error();
-      @include text-white();
-
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        @include border-alert-error();
-      }
-
-      &:hover {
-        @include bg-ruby-70();
-        @include border-ruby-70();
-      }
-
-      &[disabled] {
-        @include bg-slate-20();
-        @include border-slate-20();
-        @include text-slate-40();
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-brand-primary-contrast);
-      }
-    }
-
-    // ====================================================
-    // Secondary Button
-
-    &.btn-secondary {
-      @include bg-transparent();
-      @include border-2();
-      @include border-azure-70();
-      @include text-azure-70();
-
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        @include border-azure-70();
-      }
-
-      &:hover {
-        @include bg-slate-40();
-        @include bg-azure-10();
-      }
-
-      &[disabled] {
-        @include bg-transparent();
-        @include border-slate-20();
-        @include text-slate-30();
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-brand-primary-base);
-      }
-    }
-
-    // ====================================================
-    // Light Mode Alternate
-
-    // Don't apply these rules to "alternate-formatter"-style buttons
-    &.color-variant-alternate {
-      &:hover {
-        @include bg-azure-90();
-      }
-
-      &.btn-tertiary-destructive {
-        &:hover {
-          @include bg-ruby-30();
-        }
-      }
-
-      &[mode='dark'] {
-        &:hover {
-          @include bg-slate-90();
-        }
-
-        &.btn-tertiary-destructive {
-          &:hover {
-            @include bg-ruby-30();
-          }
-        }
-      }
-
-      &[mode='contrast'] {
-        &:hover {
-          @include bg-slate-90();
-        }
-
-        &.btn-tertiary-destructive {
-          &:hover {
-            @include bg-ruby-30();
-          }
-        }
-      }
-    }
-
-    &.color-variant-alternate,
-    &.color-variant-alternate-formatter {
-      @include text-slate-10();
-
-      opacity: 0.7;
-
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        @include border-white();
-
-        opacity: 1;
-      }
-
-      &:hover {
-        @include text-white();
-
-        opacity: 1;
-      }
-
-      &[disabled] {
-        @include bg-transparent();
-        @include text-white();
-
-        opacity: 0.3;
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-palette-white);
-      }
-
-      // ====================================================
-      // Light Mode Alternate Tertiary Destructive
-
-      &.btn-tertiary-destructive {
-        @include text-ruby-50();
-
-        opacity: 1;
-
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include border-ruby-30();
-        }
-
-        &:hover {
-          @include text-ruby-90();
-        }
-
-        &[disabled] {
-          @include text-ruby-30();
-          @include bg-transparent();
-
-          opacity: 0.7;
-        }
-
-        .ripple-effect {
-          background-color: var(--ids-color-status-danger);
-        }
-      }
-
-      // ====================================================
-      // Light Mode Alternate Primary
-
-      &.btn-primary {
-        @include text-slate-10();
-
-        background-color: var(--ids-color-palette-azure-40);
-        border-color: var(--ids-color-palette-azure-40);
-        color: var(--ids-color-brand-primary-contrast);
-        opacity: 1;
-
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include border-azure-40();
-        }
-
-        &:hover {
-          @include bg-azure-30();
-          @include text-white();
-        }
-
-        &[disabled] {
-          @include bg-azure-30();
-          @include border-azure-30();
-          @include text-white();
-
-          opacity: 0.7;
-        }
-
-        .ripple-effect {
-          background-color: var(--ids-color-brand-primary-contrast);
-        }
-      }
-
-      // ====================================================
-      // Light Mode Alternate Primary Destructive
-
-      &.btn-primary-destructive {
-        @include bg-ruby-70();
-        @include border-ruby-70();
-        @include text-white();
-
-        opacity: 1;
-
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include border-ruby-70();
-        }
-
-        &:hover {
-          @include bg-ruby-80();
-          @include border-ruby-80();
-        }
-
-        &[disabled] {
-          @include bg-slate-40();
-          @include border-slate-40();
-          @include text-slate-20();
-        }
-
-        .ripple-effect {
-          background-color: var(--ids-color-brand-primary-contrast);
-        }
-      }
-
-      // ====================================================
-      // Light Mode Alternate Secondary
-
-      &.btn-secondary {
-        @include border-2();
-        @include border-azure-40();
-        @include bg-transparent();
-        @include text-azure-40();
-
-        opacity: 1;
-
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include border-azure-40();
-        }
-
-        &:hover {
-          @include bg-azure-90();
-          @include border-azure-30();
-          @include text-white();
-        }
-
-        &[disabled] {
-          @include bg-slate-90();
-          @include border-slate-20();
-          @include text-slate-20();
-
-          opacity: 0.7;
-        }
-
-        .ripple-effect {
-          background-color: var(--ids-color-brand-primary-contrast);
-        }
-      }
-    }
-
-    &.color-variant-alternate-formatter {
-      opacity: 0.8;
-
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        border-color: var(--ids-color-palette-azure-50);
-      }
-
-      &:hover {
-        @include bg-transparent();
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-palette-azure-40);
-      }
-
-      &.ids-menu-button.compact {
-        @include p-4();
-        @include pl-8();
-      }
+      background-color: var(--ids-color-error);
     }
   }
 
   // ====================================================
-  // Dark Mode
+  // Primary Button
 
-  &[mode='dark'] {
-    @include text-white();
+  &.btn-primary {
+    background-color: var(--ids-button-primary-background-color);
+    border-color: var(--ids-button-primary-border-color);
+    color: var(--ids-button-primary-text-color);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      @include border-azure-50();
+      border-color: var(--ids-button-primary-focus-border-color);
     }
 
     &:hover {
-      @include text-azure-30();
-      @include bg-slate-90();
+      background-color: var(--ids-button-primary-hover-background-color);
+      border-color: var(--ids-button-primary-hover-border-color);
     }
 
     &[disabled] {
-      @include bg-transparent();
-      @include text-slate-40();
+      background-color: var(--ids-button-primary-disabled-background-color);
+      border-color: var(--ids-button-primary-disabled-border-color);
+      color: var(--ids-button-primary-disabled-text-color);
     }
 
     .ripple-effect {
-      background-color: var(--ids-color-palette-azure-40);
-    }
-
-    // ====================================================
-    // Dark Mode Tertiary Destructive Button
-
-    &.btn-tertiary-destructive {
-      @include text-ruby-40();
-
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        @include border-ruby-40();
-      }
-
-      &:hover {
-        @include text-ruby-80();
-      }
-
-      &[disabled] {
-        @include text-ruby-30();
-        @include bg-transparent();
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-status-danger);
-      }
-    }
-
-    // ====================================================
-    // Dark Mode Primary Button
-
-    &.btn-primary {
-      @include bg-azure-40();
-      @include border-azure-40();
-
-      color: var(--ids-color-palette-white);
-
-      &:hover {
-        @include bg-azure-30();
-        @include border-azure-30();
-      }
-
-      &[disabled] {
-        @include bg-slate-90();
-        @include border-slate-90();
-        @include text-slate-40();
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-brand-primary-contrast);
-      }
-    }
-
-    // ====================================================
-    // Dark Mode Primary Destructive Button
-
-    &.btn-primary-destructive {
-      @include bg-ruby-40();
-      @include border-ruby-40();
-      @include text-slate-90();
-
-      &:hover {
-        @include bg-ruby-30();
-        @include border-ruby-30();
-      }
-
-      &[disabled] {
-        @include bg-slate-90();
-        @include border-slate-90();
-        @include text-slate-40();
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-brand-primary-contrast);
-      }
-    }
-
-    // ====================================================
-    // Dark Mode Secondary Button
-
-    &.btn-secondary {
-      @include border-azure-50();
-      @include border-2();
-      @include bg-transparent();
-      @include text-azure-50();
-
-      &:hover {
-        @include border-azure-30();
-        @include text-azure-30();
-        @include bg-slate-90();
-      }
-
-      &[disabled] {
-        @include bg-slate-90();
-        @include border-slate-40();
-        @include text-slate-40();
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-brand-primary-contrast);
-      }
-    }
-
-    // ====================================================
-    // Dark Mode Alternate
-
-    &.color-variant-alternate {
-      @include text-white();
-
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        @include border-white();
-      }
-
-      &:hover {
-        @include bg-azure-90();
-      }
-
-      &[disabled] {
-        @include bg-transparent();
-        @include text-slate-40();
-      }
-
-      // ====================================================
-      // Dark Mode Alternate Tertiary Destructive Button
-
-      &.btn-tertiary-destructive {
-        @include text-ruby-40();
-
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include border-ruby-50();
-        }
-
-        &:hover {
-          @include bg-ruby-50();
-          @include text-ruby-100();
-        }
-
-        &[disabled] {
-          @include text-ruby-30();
-          @include bg-transparent();
-
-          opacity: 0.7;
-        }
-
-        .ripple-effect {
-          background-color: var(--ids-color-status-danger);
-        }
-      }
-
-      // ====================================================
-      // Dark Mode Primary Alternate
-
-      &.btn-primary {
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include border-azure-40();
-        }
-
-        &:hover {
-          @include bg-azure-30();
-          @include border-azure-30();
-        }
-
-        &[disabled] {
-          @include bg-slate-90();
-          @include border-slate-90();
-        }
-      }
-
-      // ====================================================
-      // Dark Mode Primary Alternate Destructive Button
-
-      &.btn-primary-destructive {
-        @include bg-ruby-40();
-        @include border-ruby-40();
-        @include text-slate-90();
-
-        &:hover {
-          @include bg-ruby-30();
-          @include border-ruby-30();
-        }
-
-        &[disabled] {
-          @include bg-slate-90();
-          @include border-slate-90();
-          @include text-slate-40();
-        }
-
-        .ripple-effect {
-          background-color: var(--ids-color-brand-primary-contrast);
-        }
-      }
-
-      // ====================================================
-      // Dark Mode Secondary Alternate
-
-      &.btn-secondary {
-        @include bg-transparent();
-        @include border-2();
-        @include border-azure-60();
-        @include text-azure-60();
-
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include border-azure-60();
-        }
-
-        &:hover {
-          @include bg-azure-90();
-          @include border-azure-30();
-          @include text-azure-30();
-        }
-
-        &[disabled] {
-          @include bg-slate-90();
-          @include border-graphite-40();
-          @include text-graphite-40();
-        }
-      }
-    }
-
-    // ====================================================
-    // Dark Mode Alternate Formatter
-
-    &.color-variant-alternate-formatter {
-      @include text-slate-70();
-
-      &:hover {
-        @include bg-transparent();
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-palette-azure-40);
-      }
+      background-color: var(--ids-button-primary-ripple-color);
     }
   }
 
   // ====================================================
-  // High-Contrast Mode
+  // Primary Destructive Button
 
-  &[mode='contrast'] {
-    @include text-slate-80();
+  &.btn-primary-destructive {
+    background-color: var(--ids-color-error);
+    border-color: var(--ids-color-error);
+    color: var(--ids-color-error-00);
 
-    &.is-active,
-    &:focus {
-      @include border-azure-80();
+    &:not(.hide-focus).is-active,
+    &:not(.hide-focus):focus {
+      border-color: var(--ids-color-error);
     }
 
     &:hover {
-      @include bg-azure-10();
-      @include text-azure-80();
+      background-color: var(--ids-color-error-70);
+      border-color: var(--ids-color-error-70);
     }
 
     &[disabled] {
-      @include bg-transparent();
-      @include text-slate-40();
+      background-color: var( --ids-button-primary-disabled-background-color);
+      border-color: var(--ids-button-primary-disabled-border-color);
+      color: var(--ids-button-primary-disabled-text-color);
     }
 
-    // ====================================================
-    // High-Contrast Mode Tertiary Destructive Button
+    .ripple-effect {
+      background-color: var(--ids-color-error-00);
+    }
+  }
 
-    &.btn-tertiary-destructive {
-      @include text-ruby-60();
+  // ====================================================
+  // Secondary Button
 
-      &.is-active,
-      &:focus {
-        @include border-ruby-60();
-      }
+  &.btn-secondary {
+    background-color: var(--ids-button-secondary-background-color);
+    border-width: var(--ids-button-secondary-border-width);
+    border-color: var(--ids-button-secondary-border-color);
+    color: var(--ids-button-secondary-text-color);
 
+    &:not(.hide-focus).is-active,
+    &:not(.hide-focus):focus {
+      border-color: var(--ids-button-secondary-focus-border-color);
+    }
+
+    &:hover {
+      background-color: var(--ids-button-secondary-hover-background-color);
+    }
+
+    &[disabled] {
+      background-color: var(--ids-button-secondary-disabled-background-color);
+      border-color: var(--ids-button-secondary-disabled-border-color);
+      color: var(--ids-button-secondary-disabled-text-color);
+    }
+
+    .ripple-effect {
+      background-color: var(--ids-button-secondary-ripple-color);
+    }
+  }
+
+  // ====================================================
+  // Light Mode Alternate
+
+  // Don't apply these rules to "alternate-formatter"-style buttons
+  // These appear in header
+  &.color-variant-alternate {
+    &:hover {
+      background-color: rgba(0 0 0 / 0.3);
+    }
+
+    &.ids-trigger-button:not([readonly]) {
       &:hover {
-        @include bg-ruby-10();
-        @include text-ruby-80();
-      }
-
-      &[disabled] {
-        @include text-ruby-30();
-        @include bg-transparent();
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-status-danger);
+        background-color: var(--ids-searchfield-header-icon-hover-color);
       }
     }
+  }
 
-    // ====================================================
-    // High-Contrast Mode Primary Button
-
-    &.btn-primary {
-      @include bg-azure-80();
-      @include text-white();
-
-      &.is-active,
-      &:focus {
-        @include border-azure-80();
-      }
-
+    // These appear in app menu
+    &.color-variant-app-menu {
       &:hover {
-        @include bg-azure-90();
-      }
-
-      &[disabled] {
-        @include bg-slate-20();
-        @include text-slate-40();
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-brand-primary-contrast);
+        background-color: rgba(255 255 255 / 0.15);
       }
     }
 
-    // ====================================================
-    // High-Contrast Mode Primary Destructive Button
 
-    &.btn-primary-destructive {
-      @include bg-ruby-60();
-      @include border-ruby-60();
-      @include text-white();
+  // These appear in places with dark background like app menu and masthead, generally default/tertiary buttons
+  &.color-variant-alternate,
+  &.color-variant-alternate-formatter {
+    color: var(--ids-button-alternate-text-color);
+    opacity: 0.8;
 
-      &.is-active,
-      &:focus {
-        @include border-ruby-60();
-      }
-
-      &:hover {
-        @include bg-ruby-70();
-        @include border-ruby-70();
-      }
-
-      &[disabled] {
-        @include bg-slate-20();
-        @include border-slate-20();
-        @include text-slate-40();
-      }
-
-      .ripple-effect {
-        background-color: var(--ids-color-brand-primary-contrast);
-      }
-    }
-
-    // ====================================================
-    // High-Contrast Mode Secondary Button
-
-    &.btn-secondary {
-      @include border-2();
-      @include bg-transparent();
-      @include border-azure-80();
-      @include text-azure-80();
-
-      &.is-active,
-      &:focus {
-        @include border-azure-80();
-      }
-
-      &:hover {
-        @include bg-azure-10();
-        @include border-azure-90();
-        @include text-azure-90();
-      }
-
-      &[disabled] {
-        @include bg-slate-10();
-        @include border-slate-50();
-        @include text-slate-50();
-      }
-    }
-
-    // ====================================================
-    // High-Contrast Mode Alternate
-
-    &.color-variant-alternate {
-      @include text-slate-10();
-
+    &:not(.hide-focus).is-active,
+    &:not(.hide-focus):focus {
+      border-color: var(--ids-button-formatter-border-color);
       opacity: 1;
-
-      &.is-active,
-      &:focus {
-        @include border-white();
-      }
-
-      &:hover {
-        @include bg-azure-90();
-        @include text-white();
-      }
-
-      &[disabled] {
-        @include bg-transparent();
-        @include text-slate-40();
-      }
-
-      // ====================================================
-      // High-Contrast Mode Alternate Tertiary Destructive Button
-
-      &.btn-tertiary-destructive {
-        @include text-ruby-60();
-
-        &.is-active,
-        &:focus {
-          @include border-ruby-60();
-        }
-
-        &:hover {
-          @include bg-ruby-30();
-          @include text-ruby-80();
-        }
-
-        &[disabled] {
-          @include text-ruby-30();
-          @include bg-transparent();
-        }
-
-        .ripple-effect {
-          background-color: var(--ids-color-status-danger);
-        }
-      }
-
-      // ====================================================
-      // High-Contrast Mode Alternate Primary
-
-      &.btn-primary {
-        @include bg-azure-60();
-        @include border-azure-60();
-        @include text-white();
-
-        &.is-active,
-        &:focus {
-          @include border-azure-60();
-        }
-
-        &:hover {
-          @include bg-azure-50();
-          @include text-white();
-        }
-
-        &[disabled] {
-          @include bg-slate-70();
-          @include border-slate-70();
-
-          opacity: 0.7;
-        }
-      }
-
-      // ====================================================
-      // High-Contrast Mode Alternate Primary Destructive Button
-
-      &.btn-primary-destructive {
-        @include bg-ruby-60();
-        @include border-ruby-60();
-        @include text-white();
-
-        &.is-active,
-        &:focus {
-          @include border-ruby-60();
-        }
-
-        &:hover {
-          @include bg-ruby-70();
-          @include border-ruby-70();
-        }
-
-        &[disabled] {
-          @include bg-slate-20();
-          @include border-slate-20();
-          @include text-slate-40();
-        }
-
-        .ripple-effect {
-          background-color: var(--ids-color-brand-primary-contrast);
-        }
-      }
-
-      // ====================================================
-      // High-Contrast Mode Alternate Secondary
-
-      &.btn-secondary {
-        @include border-2();
-        @include border-azure-60();
-        @include bg-transparent();
-        @include text-azure-60();
-
-        &.is-active,
-        &:focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-black),
-            var(--ids-color-palette-azure-60)
-          );
-        }
-
-        &:hover {
-          @include border-azure-30();
-          @include text-azure-30();
-          @include bg-azure-90();
-        }
-
-        &[disabled] {
-          @include bg-slate-90();
-          @include border-graphite-40();
-          @include text-graphite-30();
-
-          opacity: 0.7;
-        }
-      }
     }
 
-    &.color-variant-alternate-formatter {
-      @include text-white();
+    &:hover {
+      color: var(--ids-button-alternate-text-color-hover);
+      opacity: 1;
+    }
 
-      &.is-active,
-      &:focus {
-        border-color: var(--ids-color-palette-azure-40);
-      }
+    &[disabled] {
+      background-color: transparent;
+      opacity: var(--ids-button-formatter-disabled-opacity);
+    }
 
-      &:hover {
-        @include bg-transparent();
-      }
+    .ripple-effect {
+      background-color: var(--ids-button-alternate-ripple-color);
+    }
+  }
 
-      .ripple-effect {
-        background-color: var(--ids-color-palette-azure-40);
-      }
+  // Used on Editor and List Builder "darker" toolbars
+  &.color-variant-alternate-formatter {
+    color: var(--ids-button-alternate-formatter-text-color);
+    opacity: 1;
+
+    &:not(.hide-focus).is-active,
+    &:not(.hide-focus):focus {
+      border-color: var(--ids-focus-border-color);
+    }
+
+    &[disabled] {
+      opacity: 1;
+    }
+
+    &:hover {
+      background-color: transparent;
+      color: var(--ids-button-alternate-formatter-text-color-hover);
+    }
+
+    .ripple-effect {
+      background-color: var(--ids-color-primary-light);
+    }
+
+    &.ids-menu-button.compact {
+      padding: var(--ids-spacing-md);
+      padding-inline: var(--ids-spacing-md);
     }
   }
 }
@@ -1056,192 +348,52 @@ $ids-button-rounded-size: 8px;
 /**
  * Provides the standard color rules for buttons that need box shadow
  */
-@mixin ids-standard-contextual-button-colors() {
+@mixin ids-standard-button-shadows() {
   &:not(.btn-primary):not(.btn-secondary):not(.btn-primary-destructive):not(.btn-tertiary-destructive) {
     // ====================================================
     // Default/Tertiary Default/Light Mode
-    &[mode='light'],
-    &:not([mode]) {
+    &:not(.hide-focus).is-active,
+    &:not(.hide-focus):focus {
+      box-shadow: var(--ids-box-shadow-md);
+    }
+
+    &.color-variant-alternate {
       &:not(.hide-focus).is-active,
       &:not(.hide-focus):focus {
-        @include simple-shadow(rgba(0 114 237 / 0.3)); // Azure06
-      }
-
-      &.color-variant-alternate {
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include simple-shadow(rgba(255 255 255 / 0.7));
-        }
-      }
-
-      &.color-variant-alternate-formatter {
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include simple-shadow(simple-shadow(rgba(0 114 237 / 0.3))); // Azure06
-        }
+        box-shadow: var(--ids-box-shadow-inverse);
       }
     }
 
-    &[mode='dark'] {
+    &.color-variant-alternate-formatter {
       &:not(.hide-focus).is-active,
       &:not(.hide-focus):focus {
-        @include simple-shadow(rgba(85 163 243 / 0.3)); // Azure04
-      }
-
-      &.color-variant-alternate {
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include simple-shadow(rgba(255 255 255 / 0.7));
-        }
-      }
-
-      &.color-variant-alternate-formatter {
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include shadow();
-        }
-      }
-    }
-
-    &[mode='contrast'] {
-      &.is-active,
-      &:focus {
-        @include simple-shadow(rgba(0 114 237 / 0.3)); // Azure06
-      }
-
-      &.color-variant-alternate {
-        &.is-active,
-        &:focus {
-          @include simple-shadow(rgba(255 255 255 / 0.7));
-        }
-      }
-
-      &.color-variant-alternate-formatter {
-        &.is-active,
-        &:focus {
-          @include simple-shadow(simple-shadow(rgba(28 134 239 / 0.3))); // Azure05
-        }
+        box-shadow: var(--ids-box-shadow-md);
       }
     }
   }
 
   &.btn-tertiary-destructive {
-    // ====================================================
-    // Tertiary Destructive Default/Light Mode
-    &[mode='light'],
-    &:not([mode]) {
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        @include shadow-error();
-      }
-
-      &.color-variant-alternate,
-      &.color-variant-alternate-formatter {
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include simple-shadow(rgba(237 148 149 / 0.3)); // Ruby03
-        }
-      }
-    }
-
-    &[mode='dark'] {
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        @include simple-shadow(rgba(237 148 149 / 0.3)); // Ruby03
-      }
-
-      &.color-variant-alternate,
-      &.color-variant-alternate-formatter {
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include simple-shadow(rgba(237 148 149 / 0.3)); // Ruby03
-        }
-      }
-    }
-
-    &[mode='contrast'] {
-      &.is-active,
-      &:focus {
-        @include shadow-error();
-      }
-
-      &.color-variant-alternate,
-      &.color-variant-alternate-formatter {
-        &.is-active,
-        &:focus {
-          @include simple-shadow(rgba(237 148 149 / 0.3)); // Ruby03
-        }
-      }
+    &:not(.hide-focus).is-active,
+    &:not(.hide-focus):focus {
+      box-shadow: var(--ids-box-shadow-error);
     }
   }
 
   &.btn-primary {
     // ====================================================
     // Primary Default/Light Mode
-    &[mode='light'],
-    &:not([mode]) {
+    &:not(.hide-focus).is-active,
+    &:not(.hide-focus):focus {
+      box-shadow: var(--ids-button-primary-focus-box-shadow);
+    }
+
+    &.color-variant-alternate {
       &:not(.hide-focus).is-active,
       &:not(.hide-focus):focus {
         @include outset-button-shadow(
-          var(--ids-color-palette-white),
-          var(--ids-color-palette-azure-60)
+          var(--ids-color-primary-70),
+          var(--ids-color-text-on-primary)
         );
-      }
-
-      &.color-variant-alternate {
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-slate-70),
-            var(--ids-color-palette-white)
-          );
-        }
-      }
-    }
-
-    // ====================================================
-    // Primary Dark Mode
-
-    &[mode='dark'] {
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-slate-100),
-          var(--ids-color-palette-azure-40)
-        );
-      }
-
-      &.color-variant-alternate {
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-black),
-            var(--ids-color-palette-white)
-          );
-        }
-      }
-    }
-
-    // ====================================================
-    // Primary High-Contrast Mode
-
-    &[mode='contrast'] {
-      &.is-active,
-      &:focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-white),
-          var(--ids-color-palette-azure-80)
-        );
-      }
-
-      &.color-variant-alternate {
-        &.is-active,
-        &:focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-black),
-            var(--ids-color-palette-white)
-          );
-        }
       }
     }
   }
@@ -1249,139 +401,21 @@ $ids-button-rounded-size: 8px;
   &.btn-primary-destructive {
     // ====================================================
     // Primary Destructive Default/Light Mode
-    &[mode='light'],
-    &:not([mode]) {
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-white),
-          var(--ids-color-palette-ruby-60)
-        );
-      }
-
-      &.color-variant-alternate {
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-slate-70),
-            var(--ids-color-palette-ruby-30)
-          );
-        }
-      }
-    }
-
-    // ====================================================
-    // Primary Destructive Dark Mode
-    &[mode='dark'] {
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-slate-100),
-          var(--ids-color-palette-ruby-40)
-        );
-      }
-
-      &.color-variant-alternate {
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-slate-100),
-            var(--ids-color-palette-ruby-40)
-          );
-        }
-      }
-    }
-
-    // ====================================================
-    // Primary Destructive High-Contrast Mode
-    &[mode='contrast'] {
-      &.is-active,
-      &:focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-white),
-          var(--ids-color-palette-ruby-60)
-        );
-      }
-
-      &.color-variant-alternate {
-        &.is-active,
-        &:focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-black),
-            var(--ids-color-palette-ruby-60)
-          );
-        }
-      }
+    &:not(.hide-focus).is-active,
+    &:not(.hide-focus):focus {
+      @include outset-button-shadow(
+        var(--ids-body-background-color),
+        var(--ids-color-error)
+      );
     }
   }
 
   &.btn-secondary {
     // ====================================================
     // Secondary Default/Light Mode
-    &[mode='light'],
-    &:not([mode]) {
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-slate-10),
-          var(--ids-color-palette-azure-60)
-        );
-      }
-
-      &.color-variant-alternate {
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-slate-70),
-            var(--ids-color-palette-white)
-          );
-        }
-      }
-    }
-
-    // ====================================================
-    // Secondary Dark Mode
-    &[mode='dark'] {
-      &:not(.hide-focus).is-active,
-      &:not(.hide-focus):focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-slate-100),
-          var(--ids-color-palette-azure-40)
-        );
-      }
-
-      &.color-variant-alternate {
-        &:not(.hide-focus).is-active,
-        &:not(.hide-focus):focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-black),
-            var(--ids-color-palette-white)
-          );
-        }
-      }
-    }
-
-    // ====================================================
-    // Secondary High-Contrast Mode
-
-    &[mode='contrast'] {
-      &.is-active,
-      &:focus {
-        @include outset-button-shadow(
-          var(--ids-color-palette-white),
-          var(--ids-color-palette-azure-80)
-        );
-      }
-
-      &.color-variant-alternate {
-        &.is-active,
-        &:focus {
-          @include outset-button-shadow(
-            var(--ids-color-palette-black),
-            var(--ids-color-palette-white)
-          );
-        }
-      }
+    &:not(.hide-focus).is-active,
+    &:not(.hide-focus):focus {
+      box-shadow: var(--ids-button-secondary-focus-box-shadow);
     }
   }
 }
@@ -1389,10 +423,9 @@ $ids-button-rounded-size: 8px;
 @mixin ids-modal-button-colors() {
   // ====================================================
   // Primary Button
-
   &.btn-primary {
-    background-color: var(--ids-color-brand-primary-contrast);
-    color: var(--ids-color-brand-primary-base);
+    background-color: var(--ids-modal-background-color);
+    color: var(--ids-modal-button-color);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -1400,7 +433,7 @@ $ids-button-rounded-size: 8px;
     }
 
     &:hover {
-      color: var(--ids-color-palette-azure-80);
+      color: var(--ids-modal-button-hover-color);
     }
 
     &[disabled] {
@@ -1408,7 +441,7 @@ $ids-button-rounded-size: 8px;
     }
 
     .ripple-effect {
-      background-color: var(--ids-color-brand-primary-base);
+      background-color: var(--ids-modal-button-color);
     }
   }
 
@@ -1417,10 +450,8 @@ $ids-button-rounded-size: 8px;
 
   &.btn-secondary,
   &.btn-tertiary {
-    @include bg-slate-30();
-
-    background-color: var(--ids-color-brand-primary-contrast);
-    color: var(--ids-color-brand-secondary-contrast);
+    background-color: var(--ids-modal-background-color);
+    color: var(--ids-color-neutral-80);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -1428,16 +459,16 @@ $ids-button-rounded-size: 8px;
     }
 
     &:hover {
-      color: var(--ids-color-palette-slate-100);
+      color: var(--ids-color-neutral-100);
     }
 
     &[disabled] {
-      @include bg-slate-20();
-      @include border-slate-20();
+      background-color: var(--ids-button-secondary-disabled-border-color);
+      border-color: var(--ids-button-secondary-disabled-border-color);
     }
 
     .ripple-effect {
-      background-color: var(--ids-color-brand-secondary-lighter);
+      background-color: var(--ids-color-primary-70);
     }
   }
 }

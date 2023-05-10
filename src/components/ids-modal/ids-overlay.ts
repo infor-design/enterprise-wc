@@ -4,27 +4,19 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { transitionToPromise } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-overlay.scss';
-
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
-);
 
 /**
  * IDS Overlay Component
  * @type {IdsOverlay}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-overlay')
 @scss(styles)
-export default class IdsOverlay extends Base {
+export default class IdsOverlay extends IdsEventsMixin(IdsElement) {
   constructor() {
     super();
 

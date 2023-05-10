@@ -1,15 +1,8 @@
 :host(ids-tab-content[active]) {
   display: block;
+  color: var(--ids-tab-content-text-color);
 }
 
 :host(ids-tab-content:not([active])) {
   display: none;
-}
-
-:host(ids-tab-content[mode='dark'][active]) {
-  color: white;
-}
-
-:host(ids-tab-content[mode='contrast'][active]) {
-  color: black;
 }

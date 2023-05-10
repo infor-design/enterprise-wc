@@ -62,7 +62,7 @@ const htmlExamples = htmlTemplates.map((template) => {
       favicon: './src/assets/images/favicon.ico',
       scriptLoading: 'module',
       meta: metaTags,
-      font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&amp;amp;display=swap" rel="stylesheet">'
+      font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&amp;amp;display=swap" rel="stylesheet">'
     });
   }
 
@@ -81,7 +81,7 @@ const htmlExamples = htmlTemplates.map((template) => {
     favicon: './src/assets/images/favicon.ico',
     scriptLoading: 'module',
     meta: metaTags,
-    font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&amp;amp;display=swap" rel="stylesheet">'
+    font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&amp;amp;display=swap" rel="stylesheet">'
   });
 });
 

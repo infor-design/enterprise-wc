@@ -1,4 +1,3 @@
-import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
 describe('Ids Wizard e2e Tests', () => {

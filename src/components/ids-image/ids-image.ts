@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import '../ids-icon/ids-icon';
@@ -11,17 +10,14 @@ import '../ids-text/ids-text';
 
 import styles from './ids-image.scss';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
+const Base = IdsEventsMixin(
+  IdsElement
 );
 
 /**
  * IDS Image Component
  * @type {IdsImage}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
  */
 @customElement('ids-image')
@@ -61,7 +57,7 @@ export default class IdsImage extends Base {
   template() {
     // Initially has initials attribute
     if (this.initials) {
-      return `<div class="ids-image initials"><ids-text font-size="24" font-weight="bold">${this.initials}</ids-text></div>`;
+      return `<div class="ids-image initials"><ids-text font-size="24" font-weight="semi-bold">${this.initials}</ids-text></div>`;
     }
 
     // Initially has placeholder attribute or no src attribute provided
@@ -371,7 +367,7 @@ export default class IdsImage extends Base {
   #getInitialsEl(initials: string) {
     const element = document.createElement('div');
     element.classList.add('ids-image', 'initials');
-    element.innerHTML = `<ids-text font-size="24" font-weight="bold">${initials}</ids-text>`;
+    element.innerHTML = `<ids-text font-size="24" font-weight="semi-bold">${initials}</ids-text>`;
 
     return element;
   }

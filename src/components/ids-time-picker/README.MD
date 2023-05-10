@@ -148,8 +148,7 @@ It's also possible to control the intervals of minutes and seconds available for
 - Mixins
     - IdsEventsMixin
     - IdsKeyboardMixin
-    - IdsPopupOpenEventsMixin,
-    - IdsThemeMixin
+    - IdsPopupOpenEventsMixin
     - IdsLocaleMixin
 
 ## Keyboard Guidelines

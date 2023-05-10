@@ -1,37 +1,38 @@
-.chart-legend {
-  @include flex();
-  @include pl-8();
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 
+.chart-legend {
+  display: flex;
+  padding-inline-start: 8px;
   flex-direction: row;
   margin-top: -4px;
   justify-content: flex-start;
   width: inherit;
 
   a {
-    @include flex();
-    @include antialiased();
-    @include font-sans();
-    @include text-14();
-    @include text-slate-60();
-    @include px-8();
-    @include py-2();
+    @include mixins.antialiased();
 
     align-items: center;
     border: 1px solid transparent;
+    display: flex;
+    font-family: var(--ids-font-family);
+    font-size: var(--ids-chart-legend-text-size);
+    color: var(--ids-chart-legend-text-color);
+    padding-inline-start: 8px;
+    padding-inline-end: 8px;
+    padding-block-start: 2px;
+    padding-block-end: 2px;
     text-decoration: none;
 
     &:focus {
-      @include outline-none();
-      @include border-azure-60();
-
-      box-shadow: 0 0 4px 3px rgba(54 138 192 / 0.3);
+      outline: none;
+      border-color: var(--ids-focus-border-color);
+      box-shadow: var(--ids-focus-box-shadow);
     }
   }
 
   .swatch {
-    @include inline-flex();
-    @include mr-8();
-
+    display: inline-flex;
+    margin-inline-end: 8px;
     height: 12px;
     width: 12px;
 
@@ -49,8 +50,7 @@
   flex-direction: column;
 
   &.legend-top {
-    @include mb-8();
-
+    margin-block-end: 8px;
     flex-direction: column-reverse;
 
     .chart-legend {
@@ -69,8 +69,7 @@
       justify-content: center;
 
       a {
-        @include mb-8();
-
+        margin-block-end: 8px;
         width: max-content;
       }
     }
@@ -78,13 +77,5 @@
 
   &.legend-left {
     flex-direction: row-reverse;
-  }
-}
-
-// Handle Themes
-:host([mode='dark']) {
-  // Text Color
-  .chart-legend a {
-    @include text-slate-10();
   }
 }

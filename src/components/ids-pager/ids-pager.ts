@@ -2,7 +2,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 
@@ -15,22 +14,16 @@ import type IdsPagerDropdown from './ids-pager-dropdown';
 
 import styles from './ids-pager.scss';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
-);
-
 /**
  * IDS Pager Component
  * @type {IdsPager}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
+ * @mixes IdsEventsMixin
  * @part container the overall ids-pager container
  */
 @customElement('ids-pager')
 @scss(styles)
-export default class IdsPager extends Base {
+export default class IdsPager extends IdsEventsMixin(IdsElement) {
   readonly DEFAULT_STEP = 3;
 
   readonly DEFAULT_PAGE_SIZE = 10;
@@ -60,7 +53,6 @@ export default class IdsPager extends Base {
   static get attributes(): Array<string> {
     return [
       attributes.DISABLED,
-      attributes.MODE,
       attributes.STEP,
       attributes.TOTAL, // has to be in this order
       attributes.TYPE,

@@ -2,28 +2,20 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { htmlAttributes } from '../../core/ids-attributes';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-menu-header.scss';
-
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
-);
 
 /**
  * IDS Menu Header Component
  * @type {IdsMenuHeader}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part header - the menu header element
  */
 @customElement('ids-menu-header')
 @scss(styles)
-export default class IdsMenuHeader extends Base {
+export default class IdsMenuHeader extends IdsEventsMixin(IdsElement) {
   constructor() {
     super();
   }

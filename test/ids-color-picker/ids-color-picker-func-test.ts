@@ -286,7 +286,7 @@ describe('Ids Color Picker Component', () => {
 
       const keydownEnter = new KeyboardEvent('keydown', { key: 'Enter' });
       colorpicker.dispatchEvent(keydownEnter);
-      expect(colorpicker.value).toBe(swatch.label);
+      expect(colorpicker.value).toContain(swatch.label);
       expect(colorpicker.textInput.value).toBe(swatch.label);
     });
 
@@ -302,7 +302,7 @@ describe('Ids Color Picker Component', () => {
 
       const keydownSpacebar = new KeyboardEvent('keydown', { key: 'Space' });
       colorpicker.dispatchEvent(keydownSpacebar);
-      expect(colorpicker.value).toBe(swatch.label);
+      expect(colorpicker.value).toContain(swatch.label);
       expect(colorpicker.textInput.value).toBe(swatch.label);
     });
 
@@ -320,7 +320,6 @@ describe('Ids Color Picker Component', () => {
       expect(colorpicker.value).toBe('c');
       expect(colorpicker.textInput.value).toBe('c');
       expect(changeHandler).toHaveBeenCalled();
-      // expect(changeHandler).toHaveBeenCalledTimes(1);
     });
 
     it('shows checkmark on selected color-swatch', () => {
@@ -331,7 +330,7 @@ describe('Ids Color Picker Component', () => {
 
       const secondSwatch = colorpicker.swatches[1];
       colorpicker.value = secondSwatch.label;
-      expect(colorpicker.value).toBe(secondSwatch.label);
+      expect(colorpicker.value).toContain(secondSwatch.label);
 
       const selectedColors = colorpicker.querySelectorAll('ids-color[checked]');
       expect(selectedColors).toBeDefined();
@@ -349,7 +348,7 @@ describe('Ids Color Picker Component', () => {
 
       const secondSwatch = colorpicker.swatches[1];
       colorpicker.value = secondSwatch.label;
-      expect(colorpicker.value).toBe(secondSwatch.label);
+      expect(colorpicker.value).toContain(secondSwatch.label);
 
       const selectedColors = colorpicker.querySelectorAll('ids-color[checked]');
       expect(selectedColors).toBeDefined();

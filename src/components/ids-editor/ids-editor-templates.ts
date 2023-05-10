@@ -152,7 +152,7 @@ export const errorMessageTemplate = `
 export const hyperlinkModalTemplate = `
   <ids-modal id="{key}-modal">
     <ids-text slot="title" font-size="24" type="h2" id="{key}-modal-title">Insert Anchor</ids-text>
-    <ids-layout-grid class="data-grid-container" auto="true" gap="md" no-margins="true" min-col-width="300px">
+    <ids-layout-grid class="data-grid-container" auto-fit="true" gap="md" no-margins="true" min-col-width="300px">
       <ids-layout-grid-cell>
         <ids-input id="{key}-modal-input-url" label="Url" value="{url}" validate="required"></ids-input>
         {clickableElemHtml}
@@ -175,7 +175,7 @@ export const hyperlinkModalTemplate = `
 export const insertimageModalTemplate = `
   <ids-modal id="{key}-modal">
     <ids-text slot="title" font-size="24" type="h2" id="{key}-modal-title">Insert Image</ids-text>
-    <ids-layout-grid class="data-grid-container" auto="true" gap="md" no-margins="true" min-col-width="300px">
+    <ids-layout-grid class="data-grid-container" auto-fit="true" gap="md" no-margins="true" min-col-width="300px">
       <ids-layout-grid-cell>
         <ids-input id="{key}-modal-input-src" label="Url" value="{url}" validate="required"></ids-input>
         <ids-input id="{key}-modal-input-alt" label="Alt text" value="{alt}"></ids-input>

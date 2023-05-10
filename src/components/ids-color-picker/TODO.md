@@ -22,4 +22,3 @@
 - [ ] Click the swatch to select / option for the "advanced" picker
 - [ ] Add side by side example
 - [x] Add keyboard/jest tests
-- [x] Default color list should load from our theme palette `node_modules/ids-identity/dist/theme-new/tokens/web/ui.config.color-palette.js`

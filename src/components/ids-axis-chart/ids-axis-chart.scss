@@ -1,50 +1,25 @@
-/* Ids Line Chart Component */
-@import '../../core/ids-base';
-@import '../../mixins/sass/ids-chart-legend-mixin';
-
-// Quantitive Color Progression
-:root {
-  --ids-chart-color-1: var(--ids-color-palette-azure-80);
-  --ids-chart-color-2: var(--ids-color-palette-turquoise-40);
-  --ids-chart-color-3: var(--ids-color-palette-amethyst-60);
-  --ids-chart-color-4: var(--ids-color-palette-slate-40);
-  --ids-chart-color-5: var(--ids-color-palette-slate-40);
-  --ids-chart-color-6: var(--ids-color-palette-amber-30);
-  --ids-chart-color-7: var(--ids-color-palette-amber-70);
-  --ids-chart-color-8: var(--ids-color-palette-emerald-80);
-  --ids-chart-color-9: var(--ids-color-palette-azure-30);
-  --ids-chart-color-10: var(--ids-color-palette-ruby-80);
-  --ids-chart-color-11: var(--ids-color-palette-slate-20);
-  --ids-chart-color-12: var(--ids-color-palette-turquoise-60);
-  --ids-chart-color-13: var(--ids-color-palette-amber-90);
-  --ids-chart-color-14: var(--ids-color-palette-amethyst-30);
-  --ids-chart-color-15: var(--ids-color-palette-azure-60);
-  --ids-chart-color-16: var(--ids-color-palette-ruby-30);
-  --ids-chart-color-17: var(--ids-color-palette-amethyst-80);
-  --ids-chart-color-18: var(--ids-color-palette-emerald-30);
-  --ids-chart-color-19: var(--ids-color-palette-turquoise-80);
-  --ids-chart-color-20: var(--ids-color-palette-slate-60);
-  --ids-chart-color-21: var(--ids-color-palette-ruby-40);
-}
+/* Ids Axis Chart Component */
+@use '../../themes/mixins/ids-core-mixins' as mixins;
+@import '../../themes/mixins/ids-chart-legend-mixin';
 
 .ids-axis-chart {
-  @include border-slate-10();
-  @include flex();
+  display: flex;
+  border-color: var(--ids-axis-chart-border-color);
 
   &.hidden {
-    @include hidden();
+    display: none;
   }
 
   // Grid Lines
   .grid {
     shape-rendering: crispedges;
-    stroke: var(--ids-color-palette-slate-20);
+    stroke: var(--ids-axis-chart-grid-stroke);
     stroke-width: 1;
     stroke-dasharray: 2 2;
 
     // Make bottom line more solid
     &.horizontal-lines line:last-child {
-      stroke: var(--ids-color-palette-slate-70);
+      stroke: var(--ids-axis-chart-last-line-stroke);
       stroke-dasharray: none;
     }
 
@@ -61,7 +36,7 @@
       }
 
       &.vertical-lines line:first-child {
-        stroke: var(--ids-color-palette-slate-70);
+        stroke: var(--ids-axis-chart-first-line-stroke);
         stroke-dasharray: none;
       }
     }
@@ -70,18 +45,19 @@
   // Focusable Groups
   g[tabindex='0'] {
     &:focus {
-      outline: 2px dashed var(--ids-color-palette-azure-60);
+      outline: var(--ids-axis-chart-focus-group-outline);
     }
   }
 
   // Label Styles
   .labels {
-    @include text-14();
-    @include antialiased();
-    @include font-sans();
+    @include mixins.antialiased();
+
+    font-family: var(--ids-axis-chart-label-font-family);
+    font-size: var(--ids-axis-chart-label-font-size);
 
     text {
-      fill: var(--ids-color-palette-slate-60);
+      fill: var(--ids-axis-chart-label-text-fill);
     }
 
     &.x-labels {
@@ -93,8 +69,9 @@
     }
 
     &.axis-labels text {
-      @include font-bold();
+      @include mixins.antialiased();
 
+      font-weight: var(--ids-axis-chart-label-axis-text-font-weight);
       text-anchor: middle;
     }
   }
@@ -127,62 +104,24 @@ ids-empty-message:not([hidden]),
 
 // Stacked tooltips
 .tooltip-center {
-  @include my-4();
-
+  margin-block: var(--ids-spacing-md);
   text-align: center;
 }
 
 .tooltip.chart-legend {
-  @include mb-8();
-
   flex-direction: column;
+  margin-block-end: var(--ids-spacing-lg);
   padding: 0;
 
   .swatch {
-    @include mx-4();
-
+    margin-inline: var(--ids-spacing-md);
     padding: 0;
   }
 }
 
 .tooltip-row span {
-  padding-inline-start: 2px;
-  padding-inline-end: 4px;
-}
-
-// Handle Themes
-.ids-axis-chart[mode='dark'],
-.ids-chart-container[mode='dark'] {
-  // Line Colors
-  .grid {
-    stroke: var(--ids-color-palette-slate-40);
-
-    &.horizontal-lines line:last-child {
-      stroke: var(--ids-color-palette-slate-30);
-    }
-  }
-
-  // Axis Text
-  .labels text {
-    fill: var(--ids-color-palette-slate-10);
-  }
-}
-
-.ids-axis-chart[mode='contrast'],
-.ids-chart-container[mode='contrast'] {
-  // Line Colors
-  .grid {
-    stroke: var(--ids-color-palette-slate-80);
-
-    &.horizontal-lines line:last-child {
-      stroke: var(--ids-color-palette-slate-100);
-    }
-  }
-
-  // Axis Text
-  .labels text {
-    fill: var(--ids-color-palette-slate-100);
-  }
+  padding-inline-start: var(--ids-spacing-sm);
+  padding-inline-end: var(--ids-spacing-md);
 }
 
 // Move Stuff for RTL

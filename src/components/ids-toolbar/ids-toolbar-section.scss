@@ -1,3 +1,4 @@
+/* Ids Toolbar Section Component */
 @import './ids-toolbar-common';
 
 :host {
@@ -6,12 +7,11 @@
 
 ids-toolbar-section + ids-toolbar-section[type='title'],
 ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
-  padding-left: 10px;
+  padding-inline-start: 10px;
 }
 
 .ids-toolbar-section {
-  @include p-4();
-
+  padding: 4px;
   white-space: nowrap;
   width: auto;
 
@@ -19,7 +19,7 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   // Controls animated hide/show of slotted, overflowed toolbar items
 
   ::slotted(*) {
-    transition: opacity $transition-length $transition-ease;
+    transition: opacity var(--ids-transition-length) var(--ids-transition-ease);
     opacity: 1;
   }
 
@@ -33,12 +33,12 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
 
   // Buttonsets have top padding (accounts for button focus states)
   &.buttonset {
-    @include flex();
+    display: flex;
 
     // In buttonset areas, automatically add padding between buttons
     ::slotted(ids-button:not(:first-child)),
     ::slotted(ids-menu-button:not(:first-child)) {
-      @include pl-4();
+      padding-inline-start: 4px;
     }
 
     ::slotted(ids-separator[vertical]) {
@@ -54,21 +54,22 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   // Contains rows of buttons
   &.title,
   &.buttonset {
-    @include px-8();
+    padding-inline-start: 8px;
+    padding-inline-end: 8px;
   }
 
   // Intended for use by developers that need "custom" sections that stretch to fit.
   // The default functionality is NOT to stretch.
   &.fluid {
-    @include flex();
-
+    display: flex;
     flex-grow: 1;
     align-items: center;
   }
 
   // Contains Searchfields
   &.search {
-    @include px-12();
+    padding-inline-start: 12px;
+    padding-inline-end: 12px;
   }
 
   // "Inactive" sections retain their dimensions (width/height) but their contents

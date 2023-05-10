@@ -13,7 +13,6 @@ import IdsChartLegendMixin from '../../mixins/ids-chart-legend-mixin/ids-chart-l
 import IdsChartSelectionMixin from '../../mixins/ids-chart-selection-mixin/ids-chart-selection-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import IdsDataSource from '../../core/ids-data-source';
@@ -52,11 +51,9 @@ type PercentData = {
 
 const Base = IdsChartLegendMixin(
   IdsChartSelectionMixin(
-    IdsThemeMixin(
-      IdsLocaleMixin(
-        IdsEventsMixin(
-          IdsElement
-        )
+    IdsLocaleMixin(
+      IdsEventsMixin(
+        IdsElement
       )
     )
   )
@@ -70,7 +67,6 @@ const Base = IdsChartLegendMixin(
  * @mixes IdsChartSelectionMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part container - the outside container element
  * @part chart - the svg outer element
  */
@@ -147,8 +143,8 @@ export default class IdsPieChart extends Base {
     }
 
     this.#calculate();
-    this.#addColorVariables();
     this.#setSliceAngles();
+    this.#addColorVariables();
     if (this.legend) this.legend.innerHTML = this.legendTemplate();
     if (this.svg) this.svg.innerHTML = this.chartTemplate();
     this.#attachTooltipEvents();
@@ -272,10 +268,6 @@ export default class IdsPieChart extends Base {
     return this.state.legendFormatter;
   }
 
-  /**
-   * Add colors in a style sheet to the root so the css variables can be used
-   * @private
-   */
   #addColorVariables(): void {
     let colorSheet = '';
     if (!this.shadowRoot?.styleSheets) {
@@ -288,8 +280,11 @@ export default class IdsPieChart extends Base {
       if (!color && slice.color && slice.color.substr(0, 1) === '#') {
         color = slice.color;
       }
-      if (!color && slice.color && slice.color.substr(0, 1) !== '#') {
-        color = `var(--ids-color-palette-${slice.color})`;
+      if (!color && slice.color && slice.color.substr(0, 1) !== '#' && slice.color.substr(0, 11) !== '--ids-color') {
+        color = `var(--ids-color-${slice.color})`;
+      }
+      if (!color && slice.color && slice.color.substr(0, 1) !== '#' && slice.color.substr(0, 11) === '--ids-color') {
+        color = `var(${slice.color})`;
       }
       if (!color) {
         color = `var(${this.colors[index]})`;

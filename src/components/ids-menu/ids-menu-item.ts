@@ -6,7 +6,6 @@ import {
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -21,10 +20,8 @@ import type IdsMenuGroup from './ids-menu-group';
 import type IdsIcon from '../ids-icon/ids-icon';
 
 const Base = IdsLocaleMixin(
-  IdsThemeMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -34,7 +31,6 @@ const Base = IdsLocaleMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @part menu-item - the menu item element
  * @part text - the text element
  * @part icon - the icon element

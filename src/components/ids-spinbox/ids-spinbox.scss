@@ -1,19 +1,7 @@
 @import '../ids-trigger-field/ids-trigger-field';
 
 :host(ids-spinbox) {
-  --readonly-background: var(--ids-color-palette-slate-20);
-  --readonly-color: var(--ids-color-palette-black);
-
   width: fit-content;
-}
-
-:host(ids-spinbox[mode='dark']) {
-  --readonly-background: var(--ids-color-palette-slate-70);
-  --readonly-color: var(--ids-color-palette-slate-20);
-}
-
-:host(ids-spinbox[mode='contrast']) {
-  --readonly-background: var(--ids-color-palette-slate-20);
 }
 
 :host(ids-spinbox:focus-within) {
@@ -22,59 +10,54 @@
 }
 
 .ids-spinbox:focus-within > .ids-spinbox-content {
-  @include border-azure-60();
-  @include shadow();
-
-  border-width: 1;
+  border: 1px solid var(--ids-spinbox-focus-border-color);
+  box-shadow: var(--ids-spinbox-focus-box-shadow);
   outline: none;
 }
 
 :host(ids-spinbox[disabled]) {
-  @include border-slate-30();
-
+  border-color: var(--ids-trigger-field-readonly-border-color);
   pointer-events: none;
 }
 
 .ids-spinbox.readonly {
   ids-button::part(button) {
-    background-color: var(--readonly-background);
-    color: var(--readonly-color);
+    background-color: var(--ids-spinbox-readonly-background-color);
+    color: var(--ids-spinbox-readonly-text-color);
   }
 }
 
-[mode='contrast'] ids-button::part(button) {
-  @include bg-white();
+ids-button::part(button) {
+  background-color: var(--ids-spinbox-background-color);
 }
 
 .ids-spinbox.disabled {
-  @include text-slate-30();
-
+  color: var(--ids-spinbox-disabled-text-color);
   pointer-events: none;
 
   ids-input::part(input) {
-    @include border-slate-30();
-    @include text-slate-30();
-
+    border-color: var(--ids-spinbox-disabled-border-color);
+    color: var(--ids-spinbox-disabled-text-color);
     pointer-events: none;
   }
 
   ids-button::part(button) {
-    @include text-slate-20();
+    color: var(--ids-spinbox-disabled-text-color);
   }
 }
 
 .ids-spinbox:focus-within .ids-spinbox-content ids-button:not([disabled]):not([readonly])::part(button) {
-  border-color: var(--ids-color-palette-azure-60);
+  border-color: var(--ids-spinbox-focus-border-color);
   border-width: 1px;
   box-shadow: none;
 }
 
 ::slotted(*[slot='trigger-start']:first-of-type) {
-  @include ml-0();
+  margin-inline-start: 1px;
 }
 
 ::slotted(*[slot='trigger-end']:last-of-type) {
-  @include mr-0();
+  margin-inline-end: 0;
 }
 
 .ids-spinbox {
@@ -87,7 +70,7 @@
   }
 
   .label {
-    @include my-8();
+    margin-block: var(--ids-input-margin-bottom);
   }
 
   .ids-spinbox-content {
@@ -99,7 +82,7 @@
     margin-bottom: 4px;
 
     &:focus-within ids-input:not(.error)::part(input) {
-      border-color: var(--ids-color-palette-azure-60) !important;
+      border-color: var(--ids-spinbox-focus-border-color);
       border-width: 1px;
       box-shadow: none;
     }

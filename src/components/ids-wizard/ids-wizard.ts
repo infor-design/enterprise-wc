@@ -1,40 +1,27 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import '../ids-text/ids-text';
 
 import styles from './ids-wizard.scss';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
-);
-
 /**
  * IDS Wizard Component
  * @type {IdsWizard}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
  * @part wizard - the overall wizard container
  * @part step - a step on the wizard
  * @part path-segment - the line between a step and another
  */
 @customElement('ids-wizard')
 @scss(styles)
-export default class IdsWizard extends Base {
+export default class IdsWizard extends IdsEventsMixin(IdsElement) {
   constructor() {
     super();
   }
-
-  /**
-   * maps objects to href sets;
-   * this lets us know that we shouldn't re-use
-   * a link with a similar label when constructing them
-   */
-  hrefsAssignedSet = new Set();
 
   /**
    * whether to update callbacks after
@@ -42,16 +29,10 @@ export default class IdsWizard extends Base {
    */
   shouldUpdateCallbacks = true;
 
-  /**
-   * stored to prevent re-calling encodeURI(label)
-   */
-  hrefURIs = [];
-
   stepObserver = new MutationObserver((mutations) => {
     for (const { type } of mutations) {
       if (type === 'childList') {
         this.shouldUpdateCallbacks = true;
-        this.updateHrefURIs();
         this.render(true);
       }
     }
@@ -77,7 +58,7 @@ export default class IdsWizard extends Base {
       }
     }
 
-    window.requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       const stepRects = this.resizeStepLabelRects(this);
       for (let i = 0; i < stepRects.length; i++) {
         const { width } = stepRects[i];
@@ -141,8 +122,6 @@ export default class IdsWizard extends Base {
       const isVisitedStep = i <= stepIndex;
       const isClickable = this.isStepClickable(i + 1);
       const label = stepEl.textContent;
-      const hrefUrl = this.hrefURIs?.[i];
-
       let stepClassName = 'step';
       stepClassName += isCurrentStep ? ' current' : '';
       stepClassName += isVisitedStep ? ' visited' : '';
@@ -170,16 +149,12 @@ export default class IdsWizard extends Base {
       </div>`
       );
 
-      let anchorAttribsHtml = `name="#${label}" title="${label}"`;
-      anchorAttribsHtml += (!isClickable || isCurrentStep) ? '' : ` href="#${hrefUrl}"`;
-
       stepsHtml += (
         `<a
         class="${stepClassName}"
         part="step"
         step-number="${i + 1}"
         tabindex="${isClickable ? '0' : '-1'}"'
-        ${anchorAttribsHtml}
       >
         <div class="step-marker">
           <svg viewBox="0 0 24 24">
@@ -248,16 +223,6 @@ export default class IdsWizard extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.updateHrefURIs();
-    if (window.location.hash.length) {
-      const uriHash:never | string = window.location.hash.substr(1);
-      const stepNumber = this.hrefURIs.indexOf(<never>uriHash) + 1;
-
-      if (stepNumber) {
-        this.stepNumber = stepNumber;
-      }
-    }
-
     this.stepObserver.disconnect();
 
     // set up observer for monitoring if a child element changed
@@ -266,14 +231,14 @@ export default class IdsWizard extends Base {
       attributes: true,
       subtree: true
     });
-    this.#afterConnectedCallback();
+    this.rendered();
   }
 
   /**
-   * Binds associated callbacks and cleans
+   * Binds associated callbacks
    * old handlers when template refreshes
    */
-  #afterConnectedCallback() {
+  rendered() {
     if (!this.shouldUpdateCallbacks) {
       return;
     }
@@ -302,38 +267,6 @@ export default class IdsWizard extends Base {
     if (this.container) this.resizeObserver.observe(this.container);
 
     this.shouldUpdateCallbacks = false;
-  }
-
-  /**
-   * Updates hrefURIs at select points
-   * so we don't need to recalculate
-   * when setting clickable or step number
-   * again; also allows us to easily run
-   * calculations to use unique-but-meaningful
-   * links
-   * @private
-   */
-  updateHrefURIs() {
-    this.hrefURIs = <string | number | any>[...this.children].map((el, i) => {
-      let uriHash = encodeURI(el.textContent ?? '');
-      let collisionCount;
-
-      // if an href was already used, and it isn't
-      // used by this component's children,
-      // then increase the number in href hash
-
-      while (
-        (this.hrefURIs?.[i] !== uriHash)
-        && this.hrefsAssignedSet.has?.(uriHash)
-      ) {
-        collisionCount = collisionCount ? (collisionCount + 1) : 1;
-        uriHash = `${encodeURI(el.textContent ?? '')}-${collisionCount}`;
-      }
-
-      this.hrefsAssignedSet.add(uriHash);
-
-      return uriHash;
-    });
   }
 
   /**
@@ -438,7 +371,7 @@ export default class IdsWizard extends Base {
     rects[n] = r2;
 
     // recursive case
-    if (n < rects.length - 1) {
+    if (n < rects.length - 1 && totalWidth) {
       rects = this.resizeStepLabelRects(w, n + 1, rects, totalWidth);
     }
 

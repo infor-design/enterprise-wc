@@ -18,7 +18,7 @@ import type IdsSearchField from '../../src/components/ids-search-field/ids-searc
 const createAppMenu = async (appMenu: any) => {
   appMenu = await createFromTemplate(appMenu, `<ids-app-menu id="app-menu">
    <img slot="avatar" src="/assets/avatar-placeholder.jpg" alt="Picture of Richard Fairbanks" />
-   <ids-text slot="username" font-size="24" font-weight="bold">Richard Fairbanks</ids-text>
+   <ids-text slot="username" font-size="24" font-weight="semi-bold">Richard Fairbanks</ids-text>
    <ids-search-field id="search" slot="search" label=""></ids-search-field>
    <ids-accordion>
      <ids-accordion-panel id="p1">

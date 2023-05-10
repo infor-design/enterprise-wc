@@ -55,16 +55,6 @@ if (dataGrid) {
       cellSelectedCssPart: 'custom-cell-selected-1'
     });
     columns.push({
-      id: 'rowNumber',
-      name: '#',
-      formatter: dataGrid.formatters.rowNumber,
-      sortable: false,
-      readonly: true,
-      width: 65,
-      cssPart: 'none',
-      cellSelectedCssPart: 'none'
-    });
-    columns.push({
       id: 'id',
       name: 'Id',
       field: 'id',

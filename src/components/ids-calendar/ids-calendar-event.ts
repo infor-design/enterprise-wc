@@ -1,7 +1,6 @@
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import styles from './ids-calendar-event.scss';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -30,11 +29,9 @@ export type CalendarEventTypeData = {
   disabled?: boolean
 };
 
-const Base = IdsThemeMixin(
-  IdsLocaleMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+const Base = IdsLocaleMixin(
+  IdsEventsMixin(
+    IdsElement
   )
 );
 

@@ -116,14 +116,14 @@ describe('IdsIcon Component', () => {
   it('can be updated with notification badges', () => {
     elem.icon = 'server';
     elem.badgePosition = 'bottom-right';
-    elem.badgeColor = 'danger';
+    elem.badgeColor = 'error';
     expect(elem.getAttribute('badge-position')).toBe('bottom-right');
-    expect(elem.getAttribute('badge-color')).toBe('danger');
+    expect(elem.getAttribute('badge-color')).toBe('error');
   });
 
   it('can be reset after setting notification badges', () => {
     elem.icon = 'server';
-    elem.badgeColor = 'danger';
+    elem.badgeColor = 'error';
     elem.badgePosition = 'bottom-right';
     elem.badgeColor = null;
     elem.badgePosition = null;

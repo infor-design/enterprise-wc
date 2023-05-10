@@ -69,7 +69,6 @@ Masthead with `nav` elements as slots:
 - Mixins
   - IdsEventsMixin
   - IdsKeyboardMixin
-  - IdsThemeMixin
 
 ## Settings
 

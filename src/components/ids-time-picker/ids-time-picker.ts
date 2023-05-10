@@ -9,7 +9,6 @@ import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-lab
 import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
 import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
 import IdsElement from '../../core/ids-element';
@@ -28,17 +27,15 @@ import type IdsPopup from '../ids-popup/ids-popup';
 import styles from './ids-time-picker.scss';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
-const Base = IdsThemeMixin(
-  IdsLabelStateParentMixin(
-    IdsDirtyTrackerMixin(
-      IdsFieldHeightMixin(
-        IdsColorVariantMixin(
-          IdsValidationInputMixin(
-            IdsLocaleMixin(
-              IdsKeyboardMixin(
-                IdsEventsMixin(
-                  IdsElement
-                )
+const Base = IdsLabelStateParentMixin(
+  IdsDirtyTrackerMixin(
+    IdsFieldHeightMixin(
+      IdsColorVariantMixin(
+        IdsValidationInputMixin(
+          IdsLocaleMixin(
+            IdsKeyboardMixin(
+              IdsEventsMixin(
+                IdsElement
               )
             )
           )
@@ -58,7 +55,6 @@ const Base = IdsThemeMixin(
  * @mixes IdsLabelStateMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsPopupOpenEventsMixin
- * @mixes IdsThemeMixin
  * @part container - the container of the component
  * @part trigger-button - the trigger button
  * @part icon - the icon in the trigger button

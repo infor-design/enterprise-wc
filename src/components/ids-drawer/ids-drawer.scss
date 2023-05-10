@@ -1,16 +1,4 @@
-@import '../../core/ids-base';
-
-@mixin action-sheet-box-shadow() {
-  box-shadow: 0 0 8px rgba(0 0 0 / 0.2);
-}
-
-@mixin app-menu-off-shadow() {
-  box-shadow: 0 0 0 1px rgba(0 0 0 / 0);
-}
-
-@mixin app-menu-on-shadow() {
-  box-shadow: 0 0 20px 1px rgba(0 0 0 / 0.75);
-}
+@import '../../themes/mixins/ids-core-mixins';
 
 // =================================================
 // Base Drawer Styles
@@ -18,10 +6,7 @@
 :host {
   display: block;
   position: fixed;
-
-  @include transition(
-    box-shadow $transition-length $transition-ease,
-    transform $transition-length $transition-ease);
+  transition: box-shadow var( --ids-transition-length) var(--ids-transition-ease), transform var( --ids-transition-length) var(--ids-transition-ease);
 }
 
 // =================================================
@@ -80,8 +65,10 @@
   // Type Styles
 
   &.type-action-sheet {
-    @include p-12();
-    @include action-sheet-box-shadow();
+    background-color: var(--ids-drawer-action-sheet-background-color);
+    box-shadow: var(--ids-drawer-action-sheet-box-shadow);
+    color: var(--ids-drawer-action-sheet-text-color);
+    padding: var(--ids-spacing-xl);
 
     // temporary
     margin: 0 auto;
@@ -95,64 +82,22 @@
   }
 
   &.type-app-menu {
+    background-color: var(--ids-drawer-app-menu-background-color);
+    color: var(--ids-drawer-app-menu-text-color);
+
     // temporary
-    min-width: 300px;
+    min-width: var(--ids-drawer-width);
+    width: var(--ids-drawer-width);
 
     ::slotted(ids-text) {
       color: inherit;
     }
 
     &.visible {
-      @include app-menu-on-shadow();
-    }
-  }
-
-  // Themes
-  &[mode='light'],
-  &:not([mode]) {
-    &.type-action-sheet {
-      @include bg-white();
-      @include text-slate-100();
-    }
-
-    &.type-app-menu {
-      @include bg-slate-100();
-      @include text-white();
+      box-shadow: var(--ids-drawer-app-menu-box-shadow);
 
       @media (min-width: $breakpoint-md) {
-        @include app-menu-off-shadow();
-      }
-    }
-  }
-
-  &[mode='dark'] {
-    &.type-action-sheet {
-      @include bg-black();
-      @include text-slate-10();
-    }
-
-    &.type-app-menu {
-      @include bg-black();
-      @include text-slate-10();
-
-      @media (min-width: $breakpoint-md) {
-        @include app-menu-off-shadow();
-      }
-    }
-  }
-
-  &[mode='contrast'] {
-    &.type-action-sheet {
-      @include bg-white();
-      @include text-slate-100();
-    }
-
-    &.type-app-menu {
-      @include bg-black();
-      @include text-slate-10();
-
-      @media (min-width: $breakpoint-md) {
-        @include app-menu-off-shadow();
+        box-shadow: none;
       }
     }
   }

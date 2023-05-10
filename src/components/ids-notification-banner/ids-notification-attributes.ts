@@ -3,8 +3,11 @@ const TYPES: any = {
   success: {
     type: 'success'
   },
-  alert: {
-    type: 'alert'
+  warning: {
+    type: 'warning'
+  },
+  caution: {
+    type: 'caution'
   },
   info: {
     type: 'info',

@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
@@ -17,12 +16,10 @@ import type IdsAccordionHeader from './ids-accordion-header';
 import type IdsAccordionPanel from './ids-accordion-panel';
 
 const Base = IdsColorVariantMixin(
-  IdsThemeMixin(
-    IdsKeyboardMixin(
-      IdsLocaleMixin(
-        IdsEventsMixin(
-          IdsElement
-        )
+  IdsKeyboardMixin(
+    IdsLocaleMixin(
+      IdsEventsMixin(
+        IdsElement
       )
     )
   )
@@ -36,7 +33,6 @@ const Base = IdsColorVariantMixin(
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @part accordion - the accordion root element
  */
 @customElement('ids-accordion')
@@ -74,8 +70,7 @@ export default class IdsAccordion extends Base {
     return [
       ...super.attributes,
       attributes.ALLOW_ONE_PANE,
-      attributes.DISABLED,
-      attributes.MODE
+      attributes.DISABLED
     ];
   }
 
