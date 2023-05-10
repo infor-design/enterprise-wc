@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.10 Fixes
 
+- `[DateUtils]` Fix `weekNumber()` returning 0 value for all weeks. ([#1243](https://github.com/infor-design/enterprise-wc/issues/1243))
 - `[Themes]` Added theme support and css variables for all components. These can be used for customizing components and creating themes. See ([CUSTOMIZING.md](../doc/CUSTOMIZING.md)) for details. Note that with the `<ids-theme-switcher>` its now better to use the full theme name `<ids-theme-switcher theme="default-light">`. ([#1118](https://github.com/infor-design/enterprise-wc/issues/1118))
 
 ## 1.0.0-beta.9
