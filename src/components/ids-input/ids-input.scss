@@ -669,6 +669,15 @@ $input-size-full: 100%;
       color: var(--ids-input-app-menu-text-color);
     }
   }
+
+  // List Builder
+  &.color-variant-list-builder {
+    .field-container {
+      background-color: transparent;
+      color: var(--ids-list-builder-input-text-color);
+      border: 0;
+    }
+  }
 }
 
 .highlight {

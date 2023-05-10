@@ -94,6 +94,10 @@
     .thumb {
       background-color: var(--ids-slider-disabled-thumb-background-color);
       cursor: default;
+
+      &:hover {
+        box-shadow: none;
+      }
     }
 
     .track-area {

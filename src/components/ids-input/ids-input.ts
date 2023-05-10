@@ -132,7 +132,7 @@ export default class IdsInput extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate', 'alternate-formatter', 'borderless', 'in-cell'];
+  colorVariants = ['alternate', 'alternate-formatter', 'borderless', 'in-cell', 'list-builder'];
 
   /**
    * @returns {Array<string>} IdsInput component observable attributes

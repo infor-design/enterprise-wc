@@ -718,19 +718,20 @@
   // List Builder
   --ids-list-builder-border: 1px solid var(--ids-color-neutral-40);
   --ids-list-builder-border-radius: var(--ids-border-radius-xs);
-  --ids-list-builder-list-view-input-background-color: transparent;
-  --ids-list-builder-list-view-input-border-width: 0;
-  --ids-list-builder-list-view-input-height: var(--ids-size-xxs);
-  --ids-list-builder-list-view-input-padding: var(--ids-spacing-none);
-  --ids-list-builder-list-view-item-border: 1px solid transparent;
-  --ids-list-builder-list-view-item-padding: var(--ids-spacing-xl) var(--ids-spacing-3xl);
-  --ids-list-builder-list-view-item-height: var(--ids-size-lg);
-  --ids-list-builder-list-view-item-min-height: var(--ids-size-md); // 44px -> 38px
-  --ids-list-builder-list-view-item-drag-handle-content: '\205e';
-  --ids-list-builder-list-view-item-drag-handle-cursor: move;
-  --ids-list-builder-list-view-item-drag-handle-font-size: var(--ids-font-size-xl);
-  --ids-list-builder-list-view-item-placeholder-background-color: var(--ids-color-azure-10);
-  --ids-list-builder-list-view-item-placeholder-opacity: 0.6;
+  --ids-list-builder-input-background-color: rgba(71 71 76 / 0.3);
+  --ids-list-builder-input-border-width: 0;
+  --ids-list-builder-input-height: var(--ids-size-xxs);
+  --ids-list-builder-input-text-color: var(--ids-color-neutral-00);
+  --ids-list-builder-input-padding: var(--ids-spacing-none);
+  --ids-list-builder-item-border: 1px solid transparent;
+  --ids-list-builder-item-padding: var(--ids-spacing-xl) var(--ids-spacing-3xl);
+  --ids-list-builder-item-height: var(--ids-size-lg);
+  --ids-list-builder-item-min-height: var(--ids-size-md); // 44px -> 38px
+  --ids-list-builder-item-drag-handle-content: '\205e';
+  --ids-list-builder-item-drag-handle-cursor: move;
+  --ids-list-builder-item-drag-handle-font-size: var(--ids-font-size-xl);
+  --ids-list-builder-item-placeholder-background-color: var(--ids-color-azure-10);
+  --ids-list-builder-item-placeholder-opacity: 0.6;
 
   // List View
   --ids-list-view-focus-border-color: var(--ids-color-azure-40);
