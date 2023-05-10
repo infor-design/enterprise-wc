@@ -256,7 +256,7 @@ export default class IdsListBuilder extends IdsListView {
         i.value = newEntry ? 'New Value' : listItem?.querySelector('ids-text')?.innerHTML;
         i.autoselect = 'true';
         i.noMargins = 'true';
-        i.colorVariant = 'alternate';
+        i.colorVariant = 'list-builder';
         i.focus();
 
         // update inner text on keyup
