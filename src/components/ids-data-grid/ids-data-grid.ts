@@ -1381,7 +1381,7 @@ export default class IdsDataGrid extends Base {
     rowIndex = Math.min(rowIndex, maxRowIndex);
 
     if (!this.virtualScroll) {
-      this.rowByIndex(rowIndex)?.scrollIntoView();
+      this.rowByIndex(rowIndex)?.scrollIntoView?.();
       return;
     }
 
@@ -1404,7 +1404,7 @@ export default class IdsDataGrid extends Base {
 
     if (isInRange && doScroll) {
       this.offEvent('scroll.data-grid.virtual-scroll', this.container);
-      this.rowByIndex(rowIndex)?.scrollIntoView();
+      this.rowByIndex(rowIndex)?.scrollIntoView?.();
       this.#attachVirtualScrollEvent();
       return;
     }
