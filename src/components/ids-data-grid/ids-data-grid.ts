@@ -2,6 +2,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, IdsDirection } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { exportToCSV, exportToXLSX } from '../../utils/ids-excel-exporter/ids-excel-exporter';
 
@@ -316,7 +317,7 @@ export default class IdsDataGrid extends Base {
   afterRedraw() {
     const rowStart = this.rowStart || 0;
 
-    setTimeout(() => {
+    requestAnimationTimeout(() => {
       this.scrollRowIntoView(rowStart);
       requestAnimationFrame(() => {
         // Set Focus
