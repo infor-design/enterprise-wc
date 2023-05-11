@@ -52,7 +52,7 @@
     "@axe-core/puppeteer": "^4.7.0",
     "@babel/eslint-parser": "^7.21.8",
     "@babel/preset-env": "^7.21.5",
-    "@percy/cli": "1.24.0",
+    "@percy/cli": "1.18.0",
     "@percy/puppeteer": "2.0.2",
     "@types/jest": "29.5.1",
     "@types/jest-axe": "3.5.5",
