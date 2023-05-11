@@ -317,13 +317,16 @@ export default class IdsDataGrid extends Base {
   afterRedraw() {
     const rowStart = this.rowStart || 0;
 
-    requestAnimationTimeout(() => {
-      this.scrollRowIntoView(rowStart);
+    if (!rowStart) {
       requestAnimationFrame(() => {
         // Set Focus
-        this.setActiveCell(0, rowStart || 0, true);
+        this.setActiveCell(0, 0, true);
       });
-    }, 100);
+    } else {
+      requestAnimationTimeout(() => {
+        this.scrollRowIntoView(rowStart);
+      }, 100);
+    }
   }
 
   /**
