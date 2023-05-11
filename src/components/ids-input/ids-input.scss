@@ -630,7 +630,7 @@ $input-size-full: 100%;
       color: var(--ids-data-grid-filter-input-text-color);
     }
 
-    &:hover .field-container {
+    &.ids-input:hover:not(.readonly):not(.disabled):not(.color-variant-borderless):hover .field-container {
       border-color: var(--ids-data-grid-filter-input-hover-color);
     }
 

@@ -4,6 +4,7 @@ import { attributes, IdsDirection } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { exportToCSV, exportToXLSX } from '../../utils/ids-excel-exporter/ids-excel-exporter';
+import { eventPath, findInPath } from '../../utils/ids-event-path-utils/ids-event-path-utils';
 
 // Dependencies
 import IdsDataSource from '../../core/ids-data-source';
@@ -538,6 +539,7 @@ export default class IdsDataGrid extends Base {
    * @param {number} toIndex The new column index
    */
   moveColumn(fromIndex: number, toIndex: number) {
+    if (fromIndex === -1 || toIndex === -1) return;
     const correctFromIndex = this.columnIdxById(this.visibleColumns[fromIndex].id);
     const correctToIndex = this.columnIdxById(this.visibleColumns[toIndex].id);
 
@@ -582,8 +584,10 @@ export default class IdsDataGrid extends Base {
   #attachKeyboardListeners() {
     // Handle arrow navigation
     this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e: KeyboardEvent) => {
-      if (!this.activeCell?.node) return;
+      const inFilter = findInPath(eventPath(e), '.ids-data-grid-header-cell-filter-wrapper');
       const key = e.key;
+      if (inFilter && (key === 'ArrowRight' || key === 'ArrowLeft')) return;
+      if (!this.activeCell?.node) return;
       const cellNode = this.activeCell.node;
       const cellNumber = Number(this.activeCell?.cell);
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
