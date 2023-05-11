@@ -325,11 +325,15 @@ export default class IdsDataGrid extends Base {
     } else {
       requestAnimationTimeout(() => {
         if (this.container) {
-          const containerTopPosition = this.container.getBoundingClientRect().top;
-          const headerHeight = this.header?.getBoundingClientRect?.().height ?? 0;
           let scrollTopPixels = rowStart * this.virtualScrollSettings.ROW_HEIGHT;
-          scrollTopPixels = this.rowByIndex(rowStart)?.getBoundingClientRect?.()?.y ?? scrollTopPixels;
-          this.container.scrollTop = scrollTopPixels - containerTopPosition - headerHeight;
+          if (!this.virtualScrollSettings.ENABLED) {
+            const containerTopPosition = this.container.getBoundingClientRect().top;
+            const headerHeight = this.header?.getBoundingClientRect?.().height ?? 0;
+            scrollTopPixels = this.rowByIndex(rowStart)?.getBoundingClientRect?.()?.y ?? scrollTopPixels;
+            scrollTopPixels = scrollTopPixels - containerTopPosition - headerHeight;
+          }
+
+          this.container.scrollTop = scrollTopPixels;
         }
       }, 150);
     }
