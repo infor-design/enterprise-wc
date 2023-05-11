@@ -324,7 +324,9 @@ export default class IdsDataGrid extends Base {
       });
     } else {
       requestAnimationTimeout(() => {
-        this.scrollRowIntoView(rowStart);
+        if (this.container) {
+          this.container.scrollTop = rowStart * this.virtualScrollSettings.ROW_HEIGHT;
+        }
       }, 100);
     }
   }
