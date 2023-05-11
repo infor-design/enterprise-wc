@@ -4,6 +4,9 @@
   "files.eol": "\n",
   "editor.formatOnSave": false,
   "editor.formatOnPaste": false,
+  "html.customData": [
+    "vscode-custom-data.json"
+  ],
   "cssVariables.lookupFiles": [
     "src/themes/default/ids-theme-default-core.scss",
     "src/themes/default/ids-theme-default-colors.scss"
