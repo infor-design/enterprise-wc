@@ -20,7 +20,6 @@ const Base = IdsEventsMixin(
  * @type {IdsExpandableArea}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
  * @part container - the main container element
  * @part header - the header element
  * @part pane - the expandable pane element

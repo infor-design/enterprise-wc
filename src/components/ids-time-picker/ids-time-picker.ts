@@ -49,12 +49,13 @@ const Base = IdsLabelStateParentMixin(
  * IDS TimePicker Component
  * @type {IdsTimePicker}
  * @inherits IdsElement
- * @mixes IdsDirtyTrackerMixin
- * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
- * @mixes IdsLabelStateMixin
+ * @mixes IdsLabelStateParentMixin
+ * @mixes IdsFieldHeightMixin
+ * @mixes IdsColorVariantMixin
+ * @mixes IdsValidationInputMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsPopupOpenEventsMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsEventsMixin
  * @part container - the container of the component
  * @part trigger-button - the trigger button
  * @part icon - the icon in the trigger button

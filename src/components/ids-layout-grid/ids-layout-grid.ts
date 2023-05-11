@@ -262,7 +262,6 @@ export default class IdsLayoutGrid extends IdsElement {
   /**
    * Set the minRowHeight attribute
    * @param {string | null} value Number value that sets the height of the grid rows
-   * @memberof IdsGrid
    */
   set minRowHeight(value: string | null) {
     if (value !== null) {
@@ -286,7 +285,6 @@ export default class IdsLayoutGrid extends IdsElement {
   /**
    * Set the maxColWidth attribute
    * @param {string | null} value Number value that sets the max-width of the grid columns
-   * @memberof IdsGrid
    */
   set maxColWidth(value: string | null) {
     if (value !== null) {

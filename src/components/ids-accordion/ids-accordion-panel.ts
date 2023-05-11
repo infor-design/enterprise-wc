@@ -25,7 +25,6 @@ const Base = IdsColorVariantMixin(
  * @inherits IdsElement
  * @mixes IdsColorVariantMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
  */
 @customElement('ids-accordion-panel')

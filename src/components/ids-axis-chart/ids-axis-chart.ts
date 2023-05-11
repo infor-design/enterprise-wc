@@ -96,6 +96,7 @@ const Base = IdsChartLegendMixin(
  * @type {IdsAxisChart}
  * @inherits IdsElement
  * @mixes IdsChartSelectionMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
  * @part container - the outside container element
  * @part chart - the svg outer element

@@ -16,7 +16,7 @@ const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
  * @type {IdsTabMore}
  * @inherits IdsElement
  * @part container - the tab container itself
- * @mixes IdsEventsMixin
+ * @mixes IdsLocaleMixin
  * @private
  */
 @customElement('ids-tab-more')

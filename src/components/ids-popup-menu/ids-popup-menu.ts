@@ -29,10 +29,10 @@ const Base = IdsPopupOpenEventsMixin(
  * IDS Popup Menu Component
  * @type {IdsPopupMenu}
  * @inherits IdsMenu
- * @mixes IdsEventsMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsPopupInteractionsMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsAttachmentMixin
  */
 @customElement('ids-popup-menu')
 @scss(styles)
