@@ -325,9 +325,13 @@ export default class IdsDataGrid extends Base {
     } else {
       requestAnimationTimeout(() => {
         if (this.container) {
-          this.container.scrollTop = rowStart * this.virtualScrollSettings.ROW_HEIGHT;
+          const containerTopPosition = this.container.getBoundingClientRect().top;
+          const headerHeight = this.header?.getBoundingClientRect?.().height ?? 0;
+          let scrollTopPixels = rowStart * this.virtualScrollSettings.ROW_HEIGHT;
+          scrollTopPixels = this.rowByIndex(rowStart)?.getBoundingClientRect?.()?.y ?? scrollTopPixels;
+          this.container.scrollTop = scrollTopPixels - containerTopPosition - headerHeight;
         }
-      }, 100);
+      }, 150);
     }
   }
 
