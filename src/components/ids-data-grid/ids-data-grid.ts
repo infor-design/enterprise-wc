@@ -2,6 +2,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, IdsDirection } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { exportToCSV, exportToXLSX } from '../../utils/ids-excel-exporter/ids-excel-exporter';
 
@@ -179,6 +180,7 @@ export default class IdsDataGrid extends Base {
       attributes.ROW_HEIGHT,
       attributes.ROW_NAVIGATION,
       attributes.ROW_SELECTION,
+      attributes.ROW_START,
       attributes.SUPPRESS_CACHING,
       attributes.SUPPRESS_EMPTY_MESSAGE,
       attributes.SUPPRESS_ROW_CLICK_SELECTION,
@@ -308,12 +310,28 @@ export default class IdsDataGrid extends Base {
 
   /** Do some things after redraw */
   afterRedraw() {
-    requestAnimationFrame(() => {
+    const rowStart = this.rowStart || 0;
+
+    if (!rowStart) {
       requestAnimationFrame(() => {
         // Set Focus
         this.setActiveCell(0, 0, true);
       });
-    });
+    } else {
+      requestAnimationTimeout(() => {
+        if (this.container) {
+          let scrollTopPixels = rowStart * this.virtualScrollSettings.ROW_HEIGHT;
+          if (!this.virtualScrollSettings.ENABLED) {
+            const containerTopPosition = this.container.getBoundingClientRect().top;
+            scrollTopPixels = this.rowByIndex(rowStart)?.getBoundingClientRect?.()?.y ?? scrollTopPixels;
+            scrollTopPixels -= containerTopPosition;
+          }
+
+          const headerHeight = this.header?.getBoundingClientRect?.().height ?? 0;
+          this.container.scrollTop = scrollTopPixels - headerHeight;
+        }
+      }, 150);
+    }
   }
 
   /**
@@ -1372,7 +1390,7 @@ export default class IdsDataGrid extends Base {
     rowIndex = Math.min(rowIndex, maxRowIndex);
 
     if (!this.virtualScroll) {
-      this.rowByIndex(rowIndex)?.scrollIntoView();
+      this.rowByIndex(rowIndex)?.scrollIntoView?.();
       return;
     }
 
@@ -1393,13 +1411,14 @@ export default class IdsDataGrid extends Base {
     bufferRowIndex = Math.max(bufferRowIndex, 0);
     bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
 
+    if (isInRange && doScroll) {
+      this.offEvent('scroll.data-grid.virtual-scroll', this.container);
+      this.rowByIndex(rowIndex)?.scrollIntoView?.();
+      this.#attachVirtualScrollEvent();
+      return;
+    }
+
     if (isInRange) {
-      if (doScroll) {
-        this.offEvent('scroll.data-grid.virtual-scroll', this.container);
-        this.rowByIndex(rowIndex)?.scrollIntoView();
-        this.#attachVirtualScrollEvent();
-        return;
-      }
       // if rowIndex is in range of the currently visible rows:
       // then we should only move rows up or down according to how big the buffer should be.
       const moveRowsDown = bufferRowIndex - firstRowIndex;
@@ -1562,6 +1581,20 @@ export default class IdsDataGrid extends Base {
   }
 
   get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'lg'; }
+
+  /**
+   * Set the row index. If set, the datagrid's data set will initially load here.
+   * @param {number} rowIndex The row-index at which to start showing data.
+   */
+  set rowStart(rowIndex: number) {
+    this.setAttribute(attributes.ROW_START, String(rowIndex || 0));
+  }
+
+  /**
+   * Get the start-row index
+   * @returns {number} The start-row index
+   */
+  get rowStart(): number { return Number(this.getAttribute(attributes.ROW_START)) || 0; }
 
   /**
    * Sets keyboard navigation to rows
