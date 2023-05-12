@@ -176,6 +176,12 @@
   - link: virtual-scroll-infinite-scroll-m3.html
     type: Example
     description: Shows infinite-scrolling on a data grid with virtual scrolling
+  - link: virtual-scroll-row-start.html
+    type: Example
+    description: Shows a virtual-scroll enabled data grid with row-start attribute
+  - link: row-start.html
+    type: Example
+    description: Shows a data grid with row-start attribute
   - link: tooltip.html
     type: Example
     description: Shows a data grid with tooltip
