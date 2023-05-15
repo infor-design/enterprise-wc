@@ -20,8 +20,8 @@ const Base = IdsLocaleMixin(
  * IDS Radio Component
  * @type {IdsRadio}
  * @inherits IdsElement
- * @mixes IdsKeyboardMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsEventsMixin
  * @part radio - the actual radio input element
  * @part circle - the visible circle element
  * @part label - the label text element

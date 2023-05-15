@@ -65,16 +65,17 @@ const Base = IdsDropdownAttributeMixin(
  * IDS Dropdown Component
  * @type {IdsDropdown}
  * @inherits IdsElement
- * @mixes IdsColorVariantMixin
+ * @mixes IdsDropdownAttributeMixin
  * @mixes IdsDirtyTrackerMixin
- * @mixes IdsEventsMixin
+ * @mixes IdsValidationInputMixin
+ * @mixes IdsLoadingIndicatorMixin
  * @mixes IdsFieldHeightMixin
- * @mixes IdsKeyboardMixin
- * @mixes IdsLabelStateParentMixin
- * @mixes IdsLocaleMixin
- * @mixes IdsPopupOpenEventsMixin
+ * @mixes IdsColorVariantMixin
  * @mixes IdsTooltipMixin
- * @mixes IdsValidationMixin
+ * @mixes IdsXssMixin
+ * @mixes IdsLocaleMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsEventsMixin
  * @part dropdown - the tag element
  */
 @customElement('ids-dropdown')
