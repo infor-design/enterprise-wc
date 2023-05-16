@@ -42,60 +42,6 @@ ids-button {
       background-color: var(--ids-swaplist-toolbar-button-hover-background-color);
     }
   }
-
-  &::after,
-  &::before {
-    background-color: var(--ids-swaplist-toolbar-button-text-color);
-    display: inline-block;
-    content: '';
-    position: absolute;
-    top: 8px;
-    left: 9px;
-    z-index: 1;
-  }
-
-  &::after {
-    box-shadow:
-      0 6px 0 var(--ids-swaplist-toolbar-button-text-color),
-      0 12px 0 var(--ids-swaplist-toolbar-button-text-color),
-      16px 0 0 var(--ids-swaplist-toolbar-button-text-color),
-      16px 6px 0 var(--ids-swaplist-toolbar-button-text-color),
-      16px 12px 0 var(--ids-swaplist-toolbar-button-text-color);
-    height: 5px;
-    width: 2px;
-  }
-
-  &::before {
-    box-shadow:
-      13px 0 0 var(--ids-swaplist-toolbar-button-text-color),
-      0 16px 0 var(--ids-swaplist-toolbar-button-text-color),
-      13px 16px 0 var(--ids-swaplist-toolbar-button-text-color);
-    height: 2px;
-    width: 5px;
-  }
-
-  &:hover {
-    &::after,
-    &::before {
-      background-color: var(--ids-swaplist-toolbar-button-hover-text-color);
-    }
-
-    &::after {
-      box-shadow:
-        0 6px 0 var(--ids-swaplist-toolbar-button-hover-text-color),
-        0 12px 0 var(--ids-swaplist-toolbar-button-hover-text-color),
-        16px 0 0 var(--ids-swaplist-toolbar-button-hover-text-color),
-        16px 6px 0 var(--ids-swaplist-toolbar-button-hover-text-color),
-        16px 12px 0 var(--ids-swaplist-toolbar-button-hover-text-color);
-    }
-
-    &::before {
-      box-shadow:
-        13px 0 0 var(--ids-swaplist-toolbar-button-hover-text-color),
-        0 16px 0 var(--ids-swaplist-toolbar-button-hover-text-color),
-        13px 16px 0 var(--ids-swaplist-toolbar-button-hover-text-color);
-    }
-  }
 }
 
 ids-card {
