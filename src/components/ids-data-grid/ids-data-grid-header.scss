@@ -148,13 +148,10 @@
 
 .ids-data-grid-header-text {
   display: block;
-  padding-block-start: var(--ids-spacing-lg);
-  padding-block-end: var(--ids-spacing-lg);
+  padding: var(--ids-data-grid-header-lg-padding);
   font-weight: var(--ids-font-weight-semi-bold);
-  font-size: var(--ids-font-size-sm);
+  font-size: var(--ids-data-grid-font-size-sm);
   color: var(--ids-data-grid-header-text-color);
-  padding-inline-start: var(--ids-spacing-xxl);
-  padding-inline-end: var(--ids-spacing-xxl);
   overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;
@@ -317,6 +314,33 @@ th.ids-data-grid-header-cell {
 // Used for Frozen Columns
 .ids-data-grid-body {
   min-width: fit-content;
+}
+
+// Adjust for Row Heights (large is default)
+.ids-data-grid {
+  &[data-row-height='md'] {
+    .ids-data-grid-header-text {
+      padding: var(--ids-data-grid-header-md-padding);
+    }
+  }
+
+  &[data-row-height='sm'] {
+    .ids-data-grid-header-text {
+      padding: var(--ids-data-grid-header-sm-padding);
+    }
+  }
+
+  &[data-row-height='xs'] {
+    .ids-data-grid-header-text {
+      padding: var(--ids-data-grid-header-xs-padding);
+    }
+  }
+
+  &[data-row-height='xxs'] {
+    .ids-data-grid-header-text {
+      padding: var(--ids-data-grid-header-xxs-padding);
+    }
+  }
 }
 
 // Handle RTL

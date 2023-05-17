@@ -424,6 +424,8 @@
   // Data Grid (Common)
   --ids-data-grid-background-color: var(--ids-color-neutral-00);
   --ids-data-grid-min-height: 350px;
+  --ids-data-grid-font-size: var(--ids-font-size-md);
+  --ids-data-grid-font-size-sm: var(--ids-font-size-sm);
 
   // Data Grid (Cells)
   --ids-data-grid-cell-background-color: var(--ids-color-neutral-00);
@@ -453,6 +455,11 @@
   --ids-data-grid-header-text-color: var(--ids-color-neutral-00);
   --ids-data-grid-header-unsorted-icon-color: var(--ids-color-neutral-50);
   --ids-data-grid-header-sorted-icon-color: var(--ids-color-neutral-00);
+  --ids-data-grid-header-lg-padding: 8px var(--ids-data-grid-lg-padding);
+  --ids-data-grid-header-md-padding: 8px var(--ids-data-grid-md-padding);
+  --ids-data-grid-header-sm-padding: 8px 5px;
+  --ids-data-grid-header-xs-padding: 8px 5px;
+  --ids-data-grid-header-xxs-padding: 8px 5px;
 
   // Data Grid (Filter)
   --ids-data-grid-filter-input-background-color: transparent;
@@ -469,15 +476,15 @@
 
   // Data Grid (Rows)
   --ids-data-grid-xxs-row-height: 25px;
-  --ids-data-grid-xxs-padding: 4px;
+  --ids-data-grid-xxs-padding: var(--ids-spacing-md);
   --ids-data-grid-xs-row-height: 30px;
-  --ids-data-grid-xs-padding: 4px;
+  --ids-data-grid-xs-padding: var(--ids-spacing-md);
   --ids-data-grid-sm-row-height: 35px;
-  --ids-data-grid-sm-padding: 8px;
+  --ids-data-grid-sm-padding: var(--ids-spacing-lg);
   --ids-data-grid-md-row-height: 40px;
-  --ids-data-grid-md-padding: 12px;
+  --ids-data-grid-md-padding: var(--ids-spacing-xl);
   --ids-data-grid-lg-row-height: 50px;
-  --ids-data-grid-lg-padding: 5px;
+  --ids-data-grid-lg-padding: var(--ids-spacing-xxl);
   --ids-data-grid-row-selected-background-color: rgba(85 163 243 / 0.10);
   --ids-data-grid-row-alternate-background-color: var(--ids-color-neutral-10);
   --ids-data-grid-row-focus-box-shadow: inset 0 0 0 1px var(--ids-color-primary-40), 0 1px 0 0 var(--ids-color-primary-40), 0 0 3px 2px rgb(54 138 192 / 0.3);

@@ -398,8 +398,8 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 | `alert` | Displays `ids-alert` element, and the field value will appear in a tooltip. An `icon` option can be provided as an override.|
 | `color` | Displays `ids-color` element. If a `color` option is provided as an override, the field's value will appear in a tooltip. |
 | `icon` | Displays the field value as an `ids-icon`. An `icon` option can be provided as an override, and the field value will appear beside this `icon` override. A `size` option can also be provided. |
-| `favorite` | Displays the field value as a `star-filled` if truthy or `star-outlined` if false. A `size` option can be provided as an override. |
-| `tag` | Displays the field value as an `ids-tag`. A `color` option can be provdied as an override. |
+| `favorite` | Displays the field value as a `star-filled` if true or `star-outlined` if false. A `size` option can be provided as an override. |
+| `tag` | Displays the field value as an `ids-tag`. A `color` option can be provided as an override. |
 | `progress` | Displays the field value as an `ids-progress`. A `text` option can be provided to customize the label. A `color` and `max` option can be provided as overrides. |
 | `rating` | Displays the field value as an `ids-rating`. A `text` option can be provided to customize the label. A `color` and `max` option can be provided as overrides. |
 | `slider` | Displays the field value as an `ids-slider`. A `text` option can be provided to customize the label. A `color`, `max`, `min` and `type` option can be provided as overrides. |
