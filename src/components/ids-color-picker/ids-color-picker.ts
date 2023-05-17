@@ -1,4 +1,3 @@
-import colorPalette from 'ids-identity/dist/theme-new/tokens/web/ui.config.color-palette';
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -54,6 +53,8 @@ export default class IdsColorPicker extends Base {
 
   isFormComponent = true;
 
+  useDefaultSwatches = true;
+
   initialized = false;
 
   constructor() {
@@ -63,7 +64,10 @@ export default class IdsColorPicker extends Base {
   /** Invoked each time the custom element is added to the DOM */
   connectedCallback() {
     super.connectedCallback();
-    if (!this.swatches.length) this.append(...this.defaultSwatches);
+    if (!this.swatches.length) {
+      this.useDefaultSwatches = true;
+      this.append(...this.defaultSwatches);
+    }
     if (this.clearable) this.appendClearableButton();
     this.textInput = this.container?.querySelector('ids-trigger-field');
     this.colorInput = this.container?.querySelector('.advanced-color-picker');
@@ -165,7 +169,7 @@ export default class IdsColorPicker extends Base {
    * @returns {Array<IdsColor>} available colors within this picker
    */
   get defaultSwatches(): Array<IdsColor> {
-    const COLOR_PALETTE_CSS_VAR_REGEX = /^--ids-color-palette-(([^0-9]+)-([0-9]+))$/;
+    const COLOR_PALETTE_CSS_VAR_REGEX = /^--ids-color-(([^0-9]+)-([0-9]+))$/;
 
     const createColor = ((cssVar: string) => {
       const color = new IdsColor();
@@ -178,13 +182,13 @@ export default class IdsColorPicker extends Base {
     });
 
     const paletteGroups = [
-      ...Object.values(colorPalette.ruby),
-      ...Object.values(colorPalette.amber),
-      ...Object.values(colorPalette.emerald),
-      ...Object.values(colorPalette.azure),
-      ...Object.values(colorPalette.turquoise),
-      ...Object.values(colorPalette.amethyst),
-      ...Object.values(colorPalette.slate),
+      ...Object.values(['--ids-color-ruby-10', '--ids-color-ruby-20', '--ids-color-ruby-30', '--ids-color-ruby-40', '--ids-color-ruby-50', '--ids-color-ruby-60', '--ids-color-ruby-70', '--ids-color-ruby-80', '--ids-color-ruby-90', '--ids-color-ruby-100']),
+      ...Object.values(['--ids-color-amber-10', '--ids-color-amber-20', '--ids-color-amber-30', '--ids-color-amber-40', '--ids-color-amber-50', '--ids-color-amber-60', '--ids-color-amber-70', '--ids-color-amber-80', '--ids-color-amber-90', '--ids-color-amber-100']),
+      ...Object.values(['--ids-color-emerald-10', '--ids-color-emerald-20', '--ids-color-emerald-30', '--ids-color-emerald-40', '--ids-color-emerald-50', '--ids-color-emerald-60', '--ids-color-emerald-70', '--ids-color-emerald-80', '--ids-color-emerald-90', '--ids-color-emerald-100']),
+      ...Object.values(['--ids-color-azure-10', '--ids-color-azure-20', '--ids-color-azure-30', '--ids-color-azure-40', '--ids-color-azure-50', '--ids-color-azure-60', '--ids-color-azure-70', '--ids-color-azure-80', '--ids-color-azure-90', '--ids-color-azure-100']),
+      ...Object.values(['--ids-color-turquoise-10', '--ids-color-turquoise-20', '--ids-color-turquoise-30', '--ids-color-turquoise-40', '--ids-color-turquoise-50', '--ids-color-turquoise-60', '--ids-color-turquoise-70', '--ids-color-turquoise-80', '--ids-color-turquoise-90', '--ids-color-turquoise-100']),
+      ...Object.values(['--ids-color-amethyst-10', '--ids-color-amethyst-20', '--ids-color-amethyst-30', '--ids-color-amethyst-40', '--ids-color-amethyst-50', '--ids-color-amethyst-60', '--ids-color-amethyst-70', '--ids-color-amethyst-80', '--ids-color-amethyst-90', '--ids-color-amethyst-100']),
+      ...Object.values(['--ids-color-neutral-10', '--ids-color-neutral-20', '--ids-color-neutral-30', '--ids-color-neutral-40', '--ids-color-neutral-50', '--ids-color-neutral-60', '--ids-color-neutral-70', '--ids-color-neutral-80', '--ids-color-neutral-90', '--ids-color-neutral-100']),
     ].map(createColor);
 
     return paletteGroups;
@@ -447,6 +451,15 @@ export default class IdsColorPicker extends Base {
       return;
     }
 
+    // Refresh Swatches
+    if (this.useDefaultSwatches) {
+      const swatches = this.swatches;
+      for (let i = 0; i < swatches.length; i++) {
+        swatches[i].remove();
+      }
+      this.append(...this.defaultSwatches);
+    }
+
     const rtl = this.localeAPI.isRTL();
 
     this.popup.align = `bottom, ${rtl ? 'right' : 'left'}`;
@@ -454,7 +467,6 @@ export default class IdsColorPicker extends Base {
     this.popup.arrowTarget = this.triggerBtn as IdsPopupElementRef;
     this.popup.alignTarget = this.textInput as IdsPopupElementRef;
     this.popup.visible = true;
-    this.popup.y = 12;
     this.popup.show();
     this.addOpenEvents();
     this.#configureSwatches();
@@ -716,7 +728,7 @@ export default class IdsColorPicker extends Base {
   #updateColor(value: string | null): void {
     if (value) {
       const colorSwatch = this.#findColorSwatch(value);
-      this.value = colorSwatch?.label || value;
+      this.value = colorSwatch?.hex || value;
     } else {
       this.value = '';
     }

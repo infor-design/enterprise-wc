@@ -127,18 +127,15 @@ In the example below, the "My Benefits", "Dependents and Beneficiaries", "Life E
   IdsEventsMixin
   IdsKeyboardMixin
   IdsLocaleMixin
-  IdsThemeMixin
 - IdsAccordionHeader
   - IdsElement
 - Mixins
   IdsColorVariantMixin
   IdsEventsMixin
-  IdsThemeMixin
 - IdsAccordionPanel
   - IdsElement
 - Mixins
   IdsColorVariantMixin
-  IdsThemeMixin
   IdsKeyboardMixin
   IdsLocaleMixin
   IdsEventsMixin

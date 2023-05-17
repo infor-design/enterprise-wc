@@ -1,29 +1,28 @@
-@import '../../core/ids-base';
-@import '../../mixins/sass/ids-radio-mixin';
-@import '../../mixins/sass/ids-dirty-tracker-mixin';
-@import '../../mixins/sass/ids-validation-mixin';
+@import '../../themes/mixins/ids-radio-mixin';
+@import '../../themes/mixins/ids-dirty-tracker-mixin';
+@import '../../themes/mixins/ids-validation-mixin';
 
 :host {
-  @include block();
-  @include mb-16();
+  display: block;
+  margin-bottom: 16px;
 }
 
 .ids-radio-group {
-  @include border-0();
-  @include m-0();
-  @include p-0();
-  @include relative();
-
+  border: 0;
   display: inline-block;
+  position: relative;
+  border-width: 0;
+  margin: 0;
+  padding: 0;
 
   .group-label-text {
     &.required::after {
-      @include absolute();
-      @include font-sans();
-      @include mx-2();
-      @include text-20();
-      @include text-alert-error();
-
+      position: absolute;
+      font-family: var(--ids-font-family);
+      margin-inline-start: 2px;
+      margin-inline-end: 2px;
+      font-size: var(--ids-font-size-lg);
+      color: var(--ids-required-background-color);
       content: '*';
       right: -13px;
       top: -2px;
@@ -35,9 +34,8 @@
   }
 
   &.horizontal {
-    @include mr-12();
-
     display: inline-block;
+    margin-inline-end: 12px;
   }
 
   &.disabled {
@@ -45,7 +43,7 @@
       @include radio-disabled-text();
 
       &.required::after {
-        @include text-ruby-30();
+        color: var(--ids-required-disabled-background-color);
       }
     }
   }

@@ -1,33 +1,30 @@
-@import '../../core/ids-base';
+@import '../../themes/mixins/ids-core-mixins';
 
 .ids-hierarchy-item {
-  @include flex();
-
   align-items: center;
+  display: flex;
   justify-content: center;
   flex-direction: column;
-  padding-inline-start: calc(var(--ids-number-spacing-base) * 12);
+  padding-inline-start: calc(var(--ids-spacing-lg) * 12);
 
   @media all and (max-width: $breakpoint-sm) {
-    padding-inline-start: 0;
+    padding-inline-start: var(--ids-spacing-none);
   }
 }
 
 .leaf {
-  @include relative();
-
-  border: 1px solid var(--ids-color-palette-slate-30);
-  margin-block-end: calc(var(--ids-number-spacing-base) * 4);
+  border: var(--ids-spacing-xs) solid var(--ids-hierarchy-item-leaf-border-color);
+  margin-block-end: calc(var(--ids-spacing-lg) * 4);
+  box-shadow: var(--ids-hierarchy-item-leaf-box-shadow);
+  border-radius: var(--ids-hierarchy-item-leaf-border-radius);
+  position: relative;
   width: 315px;
-  box-shadow: 0 0 8px rgba(0 0 0 / 0.1);
-  border-radius: 2px;
 
   &::before {
-    @include block();
-    @include absolute();
-
-    border-bottom: 1.34px solid var(--ids-color-palette-slate-30);
-    border-left: 1.34px solid var(--ids-color-palette-slate-30);
+    display: block;
+    position: absolute;
+    border-bottom: 1.34px solid var(--ids-hierarchy-item-leaf-before-border-color);
+    border-left: 1.34px solid var(--ids-hierarchy-item-leaf-before-border-color);
     content: '';
     height: 110px;
     left: -30px;
@@ -38,25 +35,24 @@
 }
 
 .leaf-inside {
-  @include flex();
-  @include relative();
-
   align-items: center;
-  background-color: white;
-  padding: var(--ids-number-spacing-base) calc(var(--ids-number-spacing-base) * 2);
-  border-left: 5px solid var(--ids-color-palette-slate-80);
+  background-color: var(--ids-hierarchy-item-leaf-inside-background-color);
+  border-left: var(--ids-hierarchy-item-leaf-inside-border-left);
+  box-shadow: var(--ids-hierarchy-item-leaf-inside-box-shadow);
+  padding: var(--ids-spacing-lg) calc(var(--ids-spacing-lg) * 2);
+  position: relative;
+  display: flex;
   z-index: 1;
 }
 
 .avatar {
-  @include block();
-
   flex-shrink: 0;
+  display: block;
   height: 55px;
   width: 55px;
-  border: 2px solid var(--ids-color-palette-slate-80);
+  border: var(--ids-hierarchy-item-avatar-border);
   border-radius: 100%;
-  margin-inline-end: calc(var(--ids-number-spacing-base) * 2);
+  margin-inline-end: calc(var(--ids-spacing-lg) * 2);
   overflow: hidden;
 
   ::slotted(img) {
@@ -72,7 +68,7 @@
   }
 
   .ids-hierarchy-item {
-    padding-inline-start: 0;
+    padding-inline-start: var(--ids-spacing-none);
   }
 }
 
@@ -80,9 +76,8 @@
   .leaf {
     &::before {
       @media all and (max-width: $breakpoint-sm) {
-        @include block();
-
         border-left: none;
+        display: block;
       }
     }
   }
@@ -92,19 +87,12 @@
   outline: none;
   border: none;
   border-color: transparent;
-  box-shadow: none;
+  box-shadow: var(--ids-hierarchy-item-focus-box-shadow);
 }
 
 :host([selected]) {
   .leaf {
-    box-shadow: 0 0 0 5px rgba(54 138 192 / 0.3);
-  }
-
-  // Handle themes - Selected
-  .ids-hierarchy-item[mode='dark'] {
-    .leaf {
-      box-shadow: 0 0 0 5px rgba(141 201 230 / 0.3);
-    }
+    box-shadow: var(--ids-hierarchy-item-selected-leaf-box-shadow);
   }
 }
 
@@ -114,10 +102,10 @@ div[part='actions'] {
 }
 
 ids-button[part='icon-menu'] {
-  margin-right: 5px;
+  margin-right: var(--ids-spacing-md);
 
   .ids-icon-button {
-    padding: 4px;
+    padding: var(--ids-spacing-md);
   }
 }
 
@@ -126,7 +114,7 @@ ids-button[part='icon-btn'] {
   cursor: pointer;
 
   .ids-icon-button {
-    padding: 4px;
+    padding: var(--ids-spacing-md);
   }
 }
 
@@ -140,7 +128,7 @@ ids-button[part='icon-btn'] {
 
 .has-nested-items {
   ids-button[part='icon-btn'] {
-    @include block();
+    display: block;
   }
 }
 
@@ -149,28 +137,10 @@ ids-button[part='icon-btn'] {
 }
 
 :host([expanded]) .sub-level {
-  @include block();
-}
-
-// Handle Themes
-.ids-hierarchy-item[mode='contrast'] {
-  .leaf-inside {
-    background-color: var(--ids-color-palette-white);
-  }
-}
-
-.ids-hierarchy-item[mode='dark'] {
-  .leaf {
-    border-color: var(--ids-color-palette-slate-70);
-  }
-
-  .leaf-inside {
-    background-color: var(--ids-color-palette-slate-100);
-    box-shadow: 0 0 8px rgb(0 0 0 / 0.7);
-  }
+  display: block;
 }
 
 // For ids-popup-menu to calculate its position correctly
 ::slotted([slot='menu']) {
-  @include relative();
+  position: relative;
 }

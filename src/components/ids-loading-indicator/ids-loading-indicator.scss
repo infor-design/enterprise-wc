@@ -1,23 +1,4 @@
-/* Ids Loader */
-@import '../../core/ids-base';
-
-:host(ids-loading-indicator) {
-  --progress-color: var(--ids-color-palette-azure-80);
-  --overall-color: var(--ids-color-palette-azure-10);
-  --text-color: var(--ids-color-palette-slate-60);
-}
-
-:host(ids-loading-indicator[mode='dark']) {
-  --progress-color: var(--ids-color-palette-azure-10);
-  --overall-color: var(--ids-color-palette-azure-80);
-  --text-color: var(--ids-color-palette-white);
-}
-
-:host(ids-loading-indicator[mode='contrast']) {
-  --progress-color: var(--ids-color-palette-azure-80);
-  --overall-color: var(--ids-color-palette-slate-60);
-  --text-color: var(--ids-color-palette-slate-60);
-}
+/* Ids Loading Indicator */
 
 :host(ids-loading-indicator:not([linear]):not([sticky])) {
   position: relative;
@@ -57,9 +38,8 @@
 }
 
 .progress {
-  @include z-1();
-
   transition: stroke-dashoffset 0.275s ease-in, transform 0.275s ease-in;
+  z-index: 1;
 }
 
 .progress-percentage {
@@ -69,7 +49,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: var(--text-color);
+  color: var(--ids-loading-indicator-text-color);
 }
 
 .progress-percentage.linear {
@@ -94,12 +74,12 @@ svg.linear-indicator {
   }
 
   .progress {
-    fill: var(--progress-color);
+    fill: var(--ids-loading-indicator-progress-color);
     transform: #{'scaleX(calc(var(--progress) * 1%))'};
   }
 
   .overall {
-    fill: var(--overall-color);
+    fill: var(--ids-loading-indicator-overall-color);
   }
 }
 
@@ -118,12 +98,12 @@ svg.circular-indicator {
   }
 
   .overall {
-    stroke: var(--overall-color);
+    stroke: var(--ids-loading-indicator-overall-color);
   }
 
   .progress {
     stroke-dasharray: 283;
-    stroke: var(--progress-color);
+    stroke: var(--ids-loading-indicator-progress-color);
   }
 }
 
@@ -239,60 +219,32 @@ svg.linear-indicator.indeterminate .progress {
 }
 
 // Slotted in other components
-:host([mode='contrast'].type-primary) {
+:host(.type-primary) {
   &::part(overall) {
-    stroke: var(--ids-color-palette-white);
+    stroke: var(--ids-loading-indicator-primary-overall-stroke);
   }
 
   &::part(progress) {
-    stroke: var(--ids-color-palette-azure-100);
+    stroke: var(--ids-loading-indicator-primary-progress-stroke);
   }
 }
 
-:host([mode='light'].type-primary-destructive) {
+:host(.type-primary-destructive) {
   &::part(progress) {
-    stroke: var(--ids-color-palette-ruby-80);
-  }
-}
-
-:host([mode='dark'].type-primary-destructive) {
-  &::part(overall) {
-    stroke: var(--ids-color-palette-slate-90);
-  }
-}
-
-:host([mode='contrast'].type-primary-destructive) {
-  &::part(progress) {
-    stroke: var(--ids-color-palette-white);
+    stroke: var(--ids-loading-indicator-primary-destructive-progress-stroke);
   }
 
   &::part(overall) {
-    stroke: var(--ids-color-palette-ruby-100);
+    stroke: var(--ids-loading-indicator-primary-destructive-overall-stroke);
   }
 }
 
-:host([mode='light'].type-tertiary-destructive) {
+:host(.type-tertiary-destructive) {
   &::part(progress) {
-    stroke: var(--ids-color-palette-ruby-60);
+    stroke: var(--ids-loading-indicator-tertiary-destructive-progress-stroke);
   }
 
   &::part(overall) {
-    stroke: var(--ids-color-palette-ruby-20);
-  }
-}
-
-:host([mode='dark'].type-tertiary-destructive) {
-  &::part(progress) {
-    stroke: var(--ids-color-palette-white);
-  }
-
-  &::part(overall) {
-    stroke: var(--ids-color-palette-ruby-40);
-  }
-}
-
-:host([mode='contrast'].type-tertiary-destructive) {
-  &::part(progress) {
-    stroke: var(--ids-color-palette-ruby-60);
+    stroke: var(--ids-loading-indicator-tertiary-destructive-overall-stroke);
   }
 }

@@ -1,29 +1,25 @@
-/* Styling for Dropdown List Options */
-@import '../../core/ids-base';
-
+/* Ids Dropdown List Component */
 // These input field sizes come from the design tokens and are adjusted
 // here to account for 1px border size on top/bottom or left/right in some calculations.
-$border-input-size-xs: $input-size-xs - 2;
-$border-input-size-sm: $input-size-sm - 2;
-$border-input-size-md: $input-size-md - 2;
-$border-input-size-mm: $input-size-mm - 2;
-$border-input-size-lg: $input-size-lg - 2;
-$border-input-field-height-compact: $input-field-height-xs - 2;
-$border-input-field-height-xs: $input-field-height-xs - 2;
-$border-input-field-height-sm: $input-field-height-sm - 2;
-$border-input-field-height-md: $input-field-height-md - 2;
-$border-input-field-height-lg: $input-field-height-lg - 2;
+$border-input-size-xs: calc(var(--ids-input-width-xs) - 2px);
+$border-input-size-sm: calc(var(--ids-input-width-sm) - 2px);
+$border-input-size-md: calc(var(--ids-input-width-md) - 2px);
+$border-input-size-mm: calc(var(--ids-input-width-mm) - 2px);
+$border-input-size-lg: calc(var(--ids-input-width-lg) - 2px);
+$border-input-field-height-xs: calc(var(--ids-input-height-xs) - 2px);
+$border-input-field-height-sm: calc(var(--ids-input-height-sm) - 2px);
+$border-input-field-height-md: calc(var(--ids-input-height-md) - 2px);
+$border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
 
 :host {
-  @include w-full();
-
   display: block;
   overflow-x: hidden;
   overflow-y: auto;
-  max-height: 300px;
+  max-height: var(--ids-input-width-md);
   scroll-behavior: smooth;
-  min-width: $input-size-xs - 2;
-  max-width: 298px;
+  min-width: $border-input-size-xs;
+  max-width: $border-input-size-md;
+  width: var(--ids-input-width-full);
 }
 
 // Width Sizes
@@ -65,7 +61,7 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 :host([size='full']) {
   &,
   ::slotted(ids-list-box-option) {
-    max-width: $input-size-full;
+    max-width: var(--ids-input-width-full);
   }
 }
 
@@ -73,10 +69,9 @@ $border-input-field-height-lg: $input-field-height-lg - 2;
 :host([compact]),
 :host([field-height='xs']) {
   ::slotted(ids-list-box-option) {
-    @include text-14();
-
-    min-height: $border-input-field-height-compact;
-    line-height: $border-input-field-height-compact;
+    font-size: var(--ids-dropdown-font-size);
+    min-height: $border-input-field-height-xs;
+    line-height: $border-input-field-height-xs;
   }
 }
 

@@ -1,13 +1,15 @@
 # Ids Notification Banner
 
 ## Description
-The Ids Notification Banner allows developers to display a message and optionally a link to more information to the user. A user can dismiss banner or click through the provided link.
+
+The Ids Notification Banner allows developers to display a message and optionally a link to more information to the user. A user can dismiss banner or click through the provided link. It sits the top of a page or a widget.
 
 ## Use Cases
+
 There are 4 different types of notification banners. Each type has a unique background color and icon.
 
 - success
-- alert
+- warning
 - info
 - error
 
@@ -18,10 +20,9 @@ A success notification banner with link.
 ```html
 <ids-notification-banner
   id="ids-notification-banner-0"
-  message-text="DTO rejected by your manager for Sept 30, 2018."
+  message-text="DTO rejected by your manager for Sept 30, 2023."
   type="success"
-  link="https://infor.com"
->
+  link="https://infor.com">
 </ids-notification-banner>
 ```
 
@@ -30,11 +31,10 @@ An info notification banner with custom link text
 ```html
 <ids-notification-banner
   id="ids-notification-banner-0"
-  message-text="DTO rejected by your manager for Sept 30, 2018."
+  message-text="DTO rejected by your manager for Sept 30, 2023."
   type="info"
   link="https://infor.com"
-  link-text="Learn More"
->
+  link-text="Learn More">
 </ids-notification-banner>
 ```
 
@@ -43,9 +43,8 @@ An error notification banner with no link
 ```html
 <ids-notification-banner
   id="ids-notification-banner-0"
-  message-text="DTO rejected by your manager for Sept 30, 2018."
-  type="error"
->
+  message-text="DTO rejected by your manager for Sept 30, 2023."
+  type="error">
 </ids-notification-banner>
 ```
 
@@ -56,8 +55,8 @@ const notificationBanner = new IdsNotificationBanner();
 notificationBanner.add({
   id: 'ids-notification-banner-1',
   parent: 'notification-container',
-  type: 'alert',
-  messageText: 'DTO accepted by your manager for Sept 30, 2018.',
+  type: 'warning',
+  messageText: 'DTO accepted by your manager for Sept 30, 2023.',
   link: 'https://infor.com',
   linkText: 'Learn More'
 });
@@ -68,18 +67,21 @@ notificationBanner.add({
 ```
 
 ## Settings and Attributes
-- `type` `{string}` can be 1 of 4 types (success, alert, info, error)
+
+- `type` `{string}` can be 1 of 4 types (success, warning, info, error)
 - `message-text` `{string}` text shown inside the banner
 - `link` `{string | null}` url for the call to action in the banner
 - `link-text` `{string | null}` custom text for the call to action (if `null` will display "Click to view")
 
 ## Themeable Parts
-- [] `bgColor` Allows you to further style the background
-- [] `closeBtn` Allows you to further style the close button
-- [] `messageText` Allows you to further style the message text
-- [] `linkText` Allows you to further style the link text
+
+- `bgColor` Allows you to further style the background
+- `closeBtn` Allows you to further style the close button
+- `messageText` Allows you to further style the message text
+- `linkText` Allows you to further style the link text
 
 ## Keyboard Guidelines
+
 - TAB should move off of the component to the next focusable element on page.
 - SHIFT + TAB should move to previous focusable element on the page.
 

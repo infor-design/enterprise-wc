@@ -1,40 +1,69 @@
 @import '../ids-input/ids-input';
 
 .ids-color-picker {
+  margin-bottom: 16px;
   display: block;
   position: relative;
+  max-width: var(--ids-input-width-sm);
 
   .color-preview {
     margin-inline-start: 0;
+  }
+
+  input {
+    text-overflow: ellipsis;
   }
 
   ids-trigger-field::part(dirty-tracker-icon) {
     margin-inline-start: 35px;
   }
 
-  .color-popup {
-    display: grid;
-    grid-template-columns: repeat(10, 20px);
-    overflow: visible;
-    padding: var(--ids-number-spacing-base);
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    justify-items: center;
-    column-gap: 8px;
-    row-gap: 4px;
-    width: auto;
-  }
-
-  .advanced-color-picker {
-    position: absolute;
-    bottom: 0;
-  
-    // The visibility: hidden style behaves like a combination of opacity: 0 and pointer-events: none.
-    // Regarding the accessibility, opacity: 0 is the only property which makes the
-    // element accessible in the tab order, and the element's content can be read by screen readers.
-    visibility: hidden;
-    opacity: 0;
+  &.full {
+    max-width: var(--ids-input-width-full);
   }
 }
 
+ids-input::part(container) {
+  margin-bottom: 0;
+}
+
+.color-picker-trigger-btn {
+  margin-inline-end: 4px;
+
+  &::part(button) {
+    margin-inline-start: 1px;
+    margin-inline-end: 1px;
+    position: relative;
+    z-index: 2;
+  }
+}
+
+.ids-color-picker:focus-within ids-input::part(input) {
+  box-shadow: none;
+}
+
+.color-popup {
+  display: grid;
+  grid-template-columns: repeat(10, 20px);
+  overflow: visible;
+  padding: var(--ids-spacing-lg);
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  column-gap: 8px;
+  row-gap: 4px;
+  width: auto;
+  min-width: 265px;
+}
+
+.advanced-color-picker {
+  position: absolute;
+  bottom: var(--ids-spacing-xxl);
+
+  // The visibility: hidden style behaves like a combination of opacity: 0 and pointer-events: none.
+  // Regarding the accessibility, opacity: 0 is the only property which makes the
+  // element accessible in the tab order, and the element's content can be read by screen readers.
+  visibility: hidden;
+  opacity: 0;
+}

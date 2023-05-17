@@ -4,7 +4,6 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { applyContentAlignmentClass } from './ids-accordion-common';
 
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -23,10 +22,8 @@ const ICON_MINUS = 'plusminus-folder-closed';
 const ICON_PLUS = 'plusminus-folder-open';
 
 const Base = IdsColorVariantMixin(
-  IdsThemeMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -36,7 +33,6 @@ const Base = IdsColorVariantMixin(
  * @inherits IdsElement
  * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part header - the accordion header root element
  * @part icon - the accordion header icon element
  */

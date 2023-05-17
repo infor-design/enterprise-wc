@@ -140,10 +140,4 @@ describe('IdsLoadingIndicator Component', () => {
 
     expectFlagAttributeBehavior({ elem, attribute: 'percentage-visible' });
   });
-
-  it('supports setting mode', async () => {
-    elem = await createElemViaTemplate('<ids-loading-indicator></ids-loading-indicator>');
-    elem.mode = 'dark';
-    expect(elem.getAttribute('mode')).toEqual('dark');
-  });
 });

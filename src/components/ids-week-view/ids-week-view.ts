@@ -2,7 +2,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 import IdsCalendarEventsMixin from '../../mixins/ids-calendar-events-mixin/ids-calendar-events-mixin';
@@ -33,13 +32,11 @@ interface DayMapData {
   elem: HTMLTableCellElement;
 }
 
-const Base = IdsThemeMixin(
-  IdsDateAttributeMixin(
-    IdsCalendarEventsMixin(
-      IdsLocaleMixin(
-        IdsEventsMixin(
-          IdsElement
-        )
+const Base = IdsDateAttributeMixin(
+  IdsCalendarEventsMixin(
+    IdsLocaleMixin(
+      IdsEventsMixin(
+        IdsElement
       )
     )
   )
@@ -51,7 +48,6 @@ const Base = IdsThemeMixin(
  * @inherits IdsElement
  * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @mixes IdsCalendarEventsMixin
  */
 @customElement('ids-week-view')
@@ -117,11 +113,13 @@ export default class IdsWeekView extends Base {
   #attachEventHandlers() {
     // Set the height from the top
     this.ro = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.contentRect.width > 0) {
-          this.#attachOffsetTop();
+      requestAnimationFrame(() => {
+        for (const entry of entries) {
+          if (entry.contentRect.width > 0) {
+            this.#attachOffsetTop();
+          }
         }
-      }
+      });
     });
     this.ro.observe(this.container as HTMLElement);
     return this;
@@ -225,12 +223,12 @@ export default class IdsWeekView extends Base {
             <ids-text
               class="week-view-header-day-of-week${emphasis ? '' : ' is-emphasis'}"
               font-size="${getTextFontSize(!emphasis)}"
-              ${isToday ? 'font-weight="bold"' : ''}
+              ${isToday ? 'font-weight="semi-bold"' : ''}
             >${emphasis ? weekday : dayNumeric}</ids-text>
             <ids-text
               class="week-view-header-day-of-week${emphasis ? ' is-emphasis' : ''}"
               font-size="${getTextFontSize(emphasis)}"
-              ${isToday ? 'font-weight="bold"' : ''}
+              ${isToday ? 'font-weight="semi-bold"' : ''}
             >${emphasis ? dayNumeric : weekday}</ids-text>
           </div>
           <div class="week-view-all-day-wrapper"></div>
@@ -630,7 +628,7 @@ export default class IdsWeekView extends Base {
       bubbles: true
     });
     container.appendChild(<any>calendarEvent);
-    this.triggerEvent('beforeeventrendered', this, {
+    this.triggerEvent('aftereventrendered', this, {
       detail:
       {
         elem: this,

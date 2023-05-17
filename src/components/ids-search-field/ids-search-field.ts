@@ -17,10 +17,6 @@ const DEFAULT_PLACEHOLDER = 'Type to search';
  * IDS Search Field Component
  * @type {IdsSearchField}
  * @inherits IdsElement
- * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
- * @mixes IdsKeyboardMixin
- * @mixes IdsColorVariantMixin
  */
 @customElement('ids-search-field')
 @scss(styles)

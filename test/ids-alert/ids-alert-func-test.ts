@@ -93,11 +93,6 @@ describe('IdsAlert Component', () => {
     expect(icon?.classList).not.toContain('disabled');
   });
 
-  it('supports setting mode', () => {
-    el.mode = 'dark';
-    expect(el.container?.getAttribute('mode')).toEqual('dark');
-  });
-
   it('supports setting size', () => {
     expect(el.size).toEqual('normal');
     el.size = 'small';

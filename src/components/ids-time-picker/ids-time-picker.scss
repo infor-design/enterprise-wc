@@ -1,5 +1,4 @@
-@import '../../core/ids-base';
-@import '../../mixins/sass/ids-hide-mixin';
+@import '../../themes/mixins/ids-hide-mixin';
 
 :host {
   display: block;
@@ -31,46 +30,27 @@
     }
   }
 
-  .popup-btn {
-    @include w-full();
-
-    align-items: center;
-    border-top: 1px solid var(--ids-color-palette-slate-30);
-
-    &::part(button) {
-      @include h-full();
-      @include p-0();
-      @include text-azure-70();
-      @include py-12();
-
-      align-items: center;
-      justify-content: center;
-    }
-  }
-
   ids-dropdown {
     &::part(trigger-field) {
-      @include inline-flex();
-
+      display: inline-flex;
       min-width: 75px;
     }
   }
 
   ids-list-box,
   ids-list-box-option {
-    @include w-full();
+    width: 100%;
   }
 
   ids-popup {
     &::part(popup) {
-      @include m-0();
-      @include p-0();
+      margin: var(--ids-spacing-none);
+      padding: var(--ids-spacing-none);
     }
   }
 
   .dropdowns {
-    @include flex();
-
+    display: flex;
     flex-direction: row;
     padding-inline-start: 15px;
     padding-inline-end: 15px;
@@ -84,28 +64,11 @@
   // Is open state
   &.is-open {
     ids-trigger-button::part(button) {
-      @include text-azure-60();
+      color: var(--ids-time-picker-open-input-button-color);
     }
 
     ids-trigger-field::part(field-container) {
-      @include border-azure-60();
-    }
-  }
-
-  .separator {
-    width: 12px;
-    display: inline-block;
-    height: 38px;
-    margin-top: 23px;
-
-    &.colons {
-      @include text-slate-60();
-
-      width: 17px;
-      text-align: center;
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 38px;
+      border-color: var(--ids-time-picker-open-input-border-color);
     }
   }
 
@@ -113,7 +76,7 @@
     .dropdowns {
       flex-direction: column;
       align-items: center;
-      width: $input-size-sm;
+      width: var(--ids-input-width-xs);
     }
 
     .separator {
@@ -152,52 +115,6 @@
       ids-trigger-field::part(input) {
         padding-inline: 2px;
         height: 30px;
-      }
-    }
-  }
-
-  // Themes
-  &[mode='dark'] {
-    .separator.colons {
-      @include text-slate-30();
-    }
-
-    .popup-btn {
-      border-top-color: var(--ids-color-palette-slate-50);
-
-      &::part(button) {
-        @include text-azure-60();
-      }
-    }
-
-    ids-popup::part(popup) {
-      @include bg-slate-80();
-    }
-
-    ids-popup::part(arrow)::after,
-    ids-popup::part(arrow-bottom)::after {
-      border-bottom-color: var(--ids-color-palette-slate-80);
-    }
-  }
-
-  &[mode='contrast'] {
-    .separator.colons {
-      @include text-slate-90();
-    }
-
-    .popup-btn {
-      &::part(button) {
-        @include text-azure-90();
-      }
-    }
-
-    &.is-open {
-      ids-trigger-button::part(button) {
-        @include text-azure-90();
-      }
-
-      ids-trigger-field::part(field-container) {
-        @include border-azure-90();
       }
     }
   }

@@ -1,6 +1,5 @@
 /* Ids Dropdown Component */
-@import '../../mixins/sass/ids-validation-mixin';
-@import '../../core/ids-base';
+@import '../../themes/mixins/ids-validation-mixin';
 
 :host {
   display: block;
@@ -9,6 +8,10 @@
     display: inline-block;
     max-width: 100%;
   }
+}
+
+ids-trigger-field[readonly-background]:not([disabled])::part(input) {
+  cursor: var(--ids-cursor-pointer);
 }
 
 // Most Styles are in list-box, popup and trigger field
@@ -34,36 +37,25 @@
 
 // Icon Placement
 .icon-container {
-  @include text-slate-100();
-
-  margin: 0 0 0 8px;
+  color: var(--ids-dropdown-icon-color);
+  margin: 0 0 0 var(--ids-dropdown-text-indent);
   position: relative;
   top: 2px;
 }
 
 :host([mode='light']) {
   .typeahead.is-open ids-trigger-field::part(field-container) {
-    @include bg-slate-10();
-  }
-}
-
-:host([mode='dark']) {
-  .icon-container {
-    color: var(--ids-color-palette-slate-10);
-  }
-
-  .typeahead.is-open ids-trigger-field::part(field-container) {
-    @include bg-slate-80();
+    background-color: var(--ids-dropdown-typeahead-background-color);
   }
 }
 
 :host([dir='rtl']) .icon-container {
-  margin: 0 8px 0 0;
+  margin: 0 var(--ids-dropdown-text-indent) 0 0;
 }
 
 ::slotted(.sub-group) {
-  border-top: 1px solid #b7b7ba;
-  padding-top: 4px;
+  border-top: 1px solid var(--ids-dropdown-separator-border-color);
+  padding-top: var(--ids-dropdown-separator-padding);
 }
 
 // Dropdown Editor
@@ -87,11 +79,6 @@
 
   ids-trigger-field::part(field-container) {
     box-shadow: none !important;
-  }
-
-  ids-popup[mode='contrast']::part(popup) {
-    box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
-    outline: 1px solid var(--ids-color-palette-azure-80);
   }
 
   &.field-height-lg {
@@ -132,39 +119,39 @@
 
 // Dropdown menu width
 :host ids-dropdown-list {
-  max-width: $input-size-md;
+  max-width: var(--ids-input-width-md);
 }
 
 :host([size='xs']) ids-dropdown-list {
-  max-width: $input-size-xs;
+  max-width: var(--ids-input-width-xs);
 }
 
 :host([size='sm']) ids-dropdown-list {
-  max-width: $input-size-sm;
+  max-width: var(--ids-input-width-sm);
 }
 
 :host([size='mm']) ids-dropdown-list {
-  max-width: $input-size-mm;
+  max-width: var(--ids-input-width-mm);
 }
 
 :host([size='md']) ids-dropdown-list {
-  max-width: $input-size-md;
+  max-width: var(--ids-input-width-md);
 }
 
 :host([size='lg']) ids-dropdown-list {
-  max-width: $input-size-lg;
+  max-width: var(--ids-input-width-lg);
 }
 
 :host([size='full']) ids-dropdown-list {
-  max-width: $input-size-full;
+  max-width: var(--ids-input-width-full);
 }
 
 :host ids-dropdown-list,
 :host([size='full']) {
-  @include w-full();
+  width: var(--ids-input-width-full);
 }
 
 // Change state for external dropdown list
 :host([list]:not([disabled])) {
-  cursor: pointer;
+  cursor: var(--ids-cursor-pointer);
 }

@@ -1,33 +1,29 @@
-@import '../../core/ids-base';
-
+/* Ids Masthead Component */
 .ids-masthead {
-  @include px-16();
-  @include basic-color-transition();
-  @include bg-black();
-  @include text-slate-30();
-
+  background-color: var(--ids-masthead-background-color);
+  color: var(--ids-masthead-text-color);
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
+  padding-inline: var(--ids-masthead-padding-inline);
+  min-height: var(--ids-masthead-min-height);
+  transition: background-color var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
 
   #logo.icon-logo {
-    @include px-8();
-
+    padding-inline: var(--ids-masthead-logo-icon-padding-inline);
     position: relative;
-    top: 1px;
+    top: var(--ids-masthead-logo-icon-top);
 
     &::part(button) {
-      @include m-0();
-      @include p-0();
-
+      margin: var(--ids-spacing-none);
+      padding: var(--ids-spacing-none);
       opacity: 1;
     }
   }
 
   #title {
-    @include mx-8();
+    margin-inline: var(--ids-masthead-title-margin-inline);
   }
 
   #more {
@@ -38,24 +34,5 @@
 
   ::slotted([slot='more']) {
     display: none;
-  }
-
-  // New Version: Light Mode
-  &[mode='light'],
-  &:not([mode]) {
-    @include bg-black();
-    @include text-slate-30();
-  }
-
-  // New Version: Dark Mode
-  &[mode='dark'] {
-    @include bg-slate-80();
-    @include text-slate-10();
-  }
-
-  // New Version: Contrast Mode
-  &[mode='contrast'] {
-    @include bg-slate-80();
-    @include text-slate-30();
   }
 }

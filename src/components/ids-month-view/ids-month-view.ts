@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsDateAttributeMixin from '../../mixins/ids-date-attribute-mixin/ids-date-attribute-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsCalendarEventsMixin from '../../mixins/ids-calendar-events-mixin/ids-calendar-events-mixin';
 import IdsElement from '../../core/ids-element';
@@ -73,11 +72,9 @@ export type IdsDayselectedEvent = CustomEventInit & {
 const Base = IdsMonthViewAttributeMixin(
   IdsDateAttributeMixin(
     IdsCalendarEventsMixin(
-      IdsThemeMixin(
-        IdsLocaleMixin(
-          IdsEventsMixin(
-            IdsElement
-          )
+      IdsLocaleMixin(
+        IdsEventsMixin(
+          IdsElement
         )
       )
     )
@@ -90,7 +87,6 @@ const Base = IdsMonthViewAttributeMixin(
  * @inherits IdsElement
  * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @mixes IdsCalendarEventsMixin
  * @part container - the container of the component
  * @part table-container - the container of the calendar table
@@ -1103,7 +1099,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
         const isHex = color?.includes('#');
 
         if (color) {
-          el.style = `--legend-color: ${isHex ? color : `var(--ids-color-palette-${color})`}`;
+          el.style = `--legend-color: ${isHex ? color : `var(--ids-color-${color})`}`;
         }
       });
   }
@@ -1652,7 +1648,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
 
   /**
    * Function that fires as the day cell is rendered.
-   * @returns {void}
+   * @returns {Function} the function to call
    */
   public get onDayRender() {
     return this.state.onDayRender;

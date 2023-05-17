@@ -2,7 +2,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -16,11 +15,9 @@ import { stringToBool, camelCase } from '../../utils/ids-string-utils/ids-string
 
 import styles from './ids-tree.scss';
 
-const Base = IdsThemeMixin(
-  IdsLocaleMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+const Base = IdsLocaleMixin(
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -29,7 +26,6 @@ const Base = IdsThemeMixin(
  * @type {IdsTree}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
  * @part tree - the tree element
  */

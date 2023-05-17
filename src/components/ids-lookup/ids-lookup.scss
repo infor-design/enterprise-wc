@@ -1,10 +1,8 @@
 /* Ids Lookup Component */
-@import '../../core/ids-base';
-
 .data-grid-container {
   overflow: auto;
 }
 
 ids-trigger-field::part(clearable-button) {
-  @include mr-0();
+  margin-inline-end: -4px;
 }

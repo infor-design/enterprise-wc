@@ -2,16 +2,13 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-list-box-option.scss';
 
 const Base = IdsTooltipMixin(
-  IdsThemeMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -20,7 +17,6 @@ const Base = IdsTooltipMixin(
  * @type {IdsListBoxOption}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
  * @part option - the option element
  */

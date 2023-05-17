@@ -2,28 +2,20 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import '../ids-hyperlink/ids-hyperlink';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-skip-link.scss';
-
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
-);
 
 /**
  * IDS IdsSkipLink Component
  * @type {IdsSkiplink}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
  * @part link - the link element
  */
 @customElement('ids-skip-link')
 @scss(styles)
-export default class IdsSkiplink extends Base {
+export default class IdsSkiplink extends IdsEventsMixin(IdsElement) {
   constructor() {
     super();
   }
@@ -38,8 +30,7 @@ export default class IdsSkiplink extends Base {
    */
   static get attributes(): Array<string> {
     return [
-      attributes.HREF,
-      attributes.MODE
+      attributes.HREF
     ];
   }
 

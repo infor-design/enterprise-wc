@@ -150,6 +150,7 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     const dragArrows = this.dataGrid?.wrapper?.querySelector<HTMLElement>('.ids-data-grid-sort-arrows');
     let dragger: HTMLElement;
     let startIndex = 0;
+    let dragInitiated = false;
 
     // Style the Dragger
     this.offEvent('dragstart.resize', this);
@@ -159,6 +160,7 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
         return;
       }
 
+      dragInitiated = true;
       target.parentNode.classList.add('active-drag-column');
       dragger = target.parentNode.cloneNode(true);
       dragger.classList.add('dragging');
@@ -177,6 +179,13 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     // Show the arrows
     this.offEvent('dragenter.resize', this);
     this.onEvent('dragenter.resize', this, (e: DragEvent) => {
+      if (!dragInitiated) {
+        // Accept Dropped Text
+        if ((e.target as HTMLElement)?.getAttribute('color-variant') === 'alternate-formatter') {
+          (e.target as any).style.backgroundColor = 'var(--ids-data-grid-filter-input-drop-background-color)';
+        }
+        return;
+      }
       const cell = (e.target as any).closest('.ids-data-grid-header-cell');
       if (cell.classList.contains('active-drag-column')) return;
 
@@ -195,8 +204,16 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     // Use a normal cursor (not drag and drop)
     this.offEvent('dragover.resize', this);
     this.onEvent('dragover.resize', this, (e: DragEvent) => {
+      if (!dragInitiated) return;
       e.dataTransfer!.dropEffect = 'move';
       e.preventDefault();
+    });
+
+    this.offEvent('dragleave.resize', this);
+    this.onEvent('dragleave.resize', this, (e: DragEvent) => {
+      if (!dragInitiated && (e.target as HTMLElement)?.getAttribute('color-variant') === 'alternate-formatter') {
+        (e.target as any).style.backgroundColor = '';
+      }
     });
 
     const removeDragger = (e: DragEvent) => {
@@ -209,11 +226,25 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     // Set everything temp element back to normal
     this.offEvent('dragend.resize', this);
     this.onEvent('dragend.resize', this, (e: DragEvent) => {
+      if (!dragInitiated) {
+        if ((e.target as HTMLElement)?.getAttribute('color-variant') === 'alternate-formatter') {
+          (e.target as any).style.backgroundColor = '';
+        }
+        return;
+      }
+      dragInitiated = false;
       removeDragger(e);
     });
 
     this.offEvent('drop.resize', this);
     this.onEvent('drop.resize', this, (e: DragEvent) => {
+      if (!dragInitiated) {
+        if ((e.target as HTMLElement)?.getAttribute('color-variant') === 'alternate-formatter') {
+          (e.target as any).style.backgroundColor = '';
+        }
+        return;
+      }
+      dragInitiated = false;
       const cell = (e.target as any).closest('.ids-data-grid-header-cell');
       this.dataGrid?.moveColumn(startIndex - 1, cell.getAttribute('aria-colindex') - 1);
       removeDragger(e);

@@ -10,16 +10,13 @@ import '../ids-button/ids-button';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-notification-banner.scss';
 
-const Base = IdsThemeMixin(
-  IdsKeyboardMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+const Base = IdsKeyboardMixin(
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -29,7 +26,6 @@ const Base = IdsThemeMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
  * @part container - the notification banner element
  * @part message - the message inside the container element
  * @part link - the link inside the container element
@@ -81,7 +77,7 @@ export default class IdsNotificationBanner extends Base {
 
     return `
       <div class="ids-notification-banner" part="container" type="${type}">
-        <ids-alert icon="${alertIcon}"></ids-alert>
+        <ids-alert icon="${alertIcon === 'warning' ? 'alert' : alertIcon}"></ids-alert>
         <div class="ids-notification-banner-message" part="message">
           <ids-text overflow="ellipsis">${this.messageText !== null ? this.messageText : 'Enter Message Text.'}</ids-text>
         </div>

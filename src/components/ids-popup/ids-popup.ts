@@ -12,7 +12,6 @@ import {
 } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -37,10 +36,8 @@ import {
 import styles from './ids-popup.scss';
 
 const Base = IdsLocaleMixin(
-  IdsThemeMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -50,7 +47,6 @@ const Base = IdsLocaleMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @part popup - the popup outer element
  * @part arrow - the arrow element
  */
@@ -223,6 +219,11 @@ export default class IdsPopup extends Base {
     if (containerNode) {
       this.#ro?.observe(containerNode);
     }
+
+    this.onLocaleChange = () => {
+      if (this.localeAPI.isRTL()) this.setAttribute('dir', 'rtl');
+      else this.removeAttribute('dir');
+    };
   }
 
   /**

@@ -6,29 +6,21 @@ import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-step-chart.scss';
-
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
-);
 
 /**
  * IDS Step Chart Component
  * @type {IdsStepChart}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part icon - slot for completed message icons
  */
 
 @customElement('ids-step-chart')
 @scss(styles)
-export default class IdsStepChart extends Base {
+export default class IdsStepChart extends IdsEventsMixin(IdsElement) {
   internalStepsInProgress: number[] = [];
 
   constructor() {
@@ -199,7 +191,6 @@ export default class IdsStepChart extends Base {
         color = `${this.color}`;
         classes += ` complete`;
       } else {
-        color = `slate02`;
         classes += ` untouched`;
       }
 
@@ -238,7 +229,6 @@ export default class IdsStepChart extends Base {
         element.setAttribute(`color`, `${this.color}`);
         element.classList.add(`step`, `complete`);
       } else {
-        element.setAttribute(`color`, `slate02`);
         element.classList.add(`step`, `untouched`);
       }
     });

@@ -57,21 +57,6 @@ describe('IdsBreadcrumb Component', () => {
     expect(breadcrumb.delete()).toEqual(null);
   });
 
-  it('can have a callback set for activation', () => {
-    breadcrumb.add(new IdsHyperlink());
-    breadcrumb.add(new IdsHyperlink());
-    const cb = jest.fn((targetBreadcrumb, currentBreadcrumb) => {
-      expect(targetBreadcrumb).toBeDefined();
-      expect(currentBreadcrumb).toBeDefined();
-    });
-    breadcrumb.onBreadcrumbActivate = cb;
-
-    const clickEvent = new MouseEvent('click', { bubbles: true });
-    breadcrumb.children[0].dispatchEvent(clickEvent);
-
-    expect(cb.mock.calls.length).toBe(1);
-  });
-
   it('can be truncated', () => {
     breadcrumb.insertAdjacentHTML('afterbegin', `
        <ids-hyperlink id="breadcrumb-1">First Breadcrumb</ids-hyperlink>

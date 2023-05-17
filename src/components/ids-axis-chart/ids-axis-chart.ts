@@ -10,7 +10,6 @@ import IdsChartLegendMixin from '../../mixins/ids-chart-legend-mixin/ids-chart-l
 import IdsChartSelectionMixin, { ChartSelectionHandler } from '../../mixins/ids-chart-selection-mixin/ids-chart-selection-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 import IdsDataSource from '../../core/ids-data-source';
 import '../ids-tooltip/ids-tooltip';
@@ -84,11 +83,9 @@ export type SectionHeight = {
 
 const Base = IdsChartLegendMixin(
   IdsChartSelectionMixin(
-    IdsThemeMixin(
-      IdsLocaleMixin(
-        IdsEventsMixin(
-          IdsElement
-        )
+    IdsLocaleMixin(
+      IdsEventsMixin(
+        IdsElement
       )
     )
   )
@@ -99,6 +96,7 @@ const Base = IdsChartLegendMixin(
  * @type {IdsAxisChart}
  * @inherits IdsElement
  * @mixes IdsChartSelectionMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
  * @part container - the outside container element
  * @part chart - the svg outer element
@@ -590,8 +588,11 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       if (!color && data.color && data.color.substr(0, 1) === '#') {
         color = data.color;
       }
-      if (!color && data.color && data.color.substr(0, 1) !== '#') {
-        color = `var(--ids-color-palette-${data.color})`;
+      if (!color && data.color && data.color.substr(0, 1) !== '#' && data.color.substr(0, 11) !== '--ids-color') {
+        color = `var(--ids-color-${data.color})`;
+      }
+      if (!color && data.color && data.color.substr(0, 1) !== '#' && data.color.substr(0, 11) === '--ids-color') {
+        color = `var(${data.color})`;
       }
       if (!color) {
         color = `var(${this.colors[index]})`;

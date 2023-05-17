@@ -1,3 +1,4 @@
+/* Ids Pager Component */
 :host(ids-pager),
 .ids-pager {
   // Alignment and Display
@@ -36,4 +37,8 @@
       text-align: right;
     }
   }
+}
+
+.ids-pager-dropdown {
+  --ids-button-tertiary-font-weight: var(--ids-font-weight-normal);
 }

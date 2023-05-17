@@ -10,6 +10,11 @@ some contextual element such as a form.
 - Use when the content on your page is mapped into multiple categories and does not only fit into one hierarchical category.
 - Use when you want users to contribute data to your website and let them organize their content themselves.
 
+## Dos and Don'ts
+
+- Overcrowd your content with tags, so people can see the items clearly.
+- Don't use too many tags in order to use them clearly to capture what its tagging.
+
 ## Terminology
 
 - **Tag**: A UI embellishments for classification
@@ -34,7 +39,7 @@ A normal tag used using just the css. This is limited to normal tags only.
 A colored tag is done by adding the `color` attribute and one of the following: secondary, error, success, caution or a hex color beginning with a # character.
 
 ```html
-<ids-tag color="secondary">Secondary Tags</ids-tag>
+<ids-tag color="secondary">Secondary Tag</ids-tag>
 <ids-tag color="error">Error Tag</ids-tag>
 <ids-tag color="success">Success Tag</ids-tag>
 <ids-tag color="caution">Warning Tag</ids-tag>
@@ -48,7 +53,6 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 - Mixins
   IdsEventsMixin
   IdsKeyboardMixin
-  IdsThemeMixin
 
 ## Settings (Attributes)
 

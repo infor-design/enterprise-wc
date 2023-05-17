@@ -1,0 +1,97 @@
+/**
+ * Switch Mixins.
+ */
+
+// Off
+@mixin switch-off {
+  position: absolute;
+  background-color: var(--ids-switch-pole-off-background-color);
+  border-radius: 4px;
+  display: inline-block;
+  height: 4px;
+  left: 0;
+  top: 10px;
+  width: 31px;
+}
+
+@mixin switch-off-after {
+  position: absolute;
+  background-color: var(--ids-switch-toggle-off-background-color);
+  border: 1px solid var(--ids-switch-toggle-off-border-color);
+  border-radius: var(--ids-border-radius-round);
+  content: '';
+  height: 14px;
+  left: 0;
+  top: -7px;
+  width: 14px;
+
+  @include switch-transition();
+}
+
+// On
+@mixin switch-on {
+  background-color: var(--ids-switch-pole-on-background-color);
+
+  @include switch-transition();
+}
+
+@mixin switch-on-after {
+  background-color: var(--ids-switch-toggle-on-background-color);
+  border-color: var(--ids-switch-toggle-on-border-color);
+  left: 15px;
+
+  @include switch-transition();
+}
+
+// Disabled
+@mixin switch-disabled-off {
+  background-color: var(--ids-switch-pole-off-disabled-background-color);
+  border-color: var(--ids-switch-pole-off-disabled-border-color);
+  cursor: var(--ids-cursor-default);
+}
+
+@mixin switch-disabled-off-after {
+  background-color: var(--ids-switch-toggle-off-disabled-background-color);
+  border-color: var(--ids-switch-toggle-off-disabled-border-color);
+  box-shadow: none;
+}
+
+@mixin switch-disabled-on {
+  background-color: var(--ids-switch-pole-on-disabled-background-color);
+  border-color: var(--ids-switch-pole-on-disabled-border-color);
+}
+
+@mixin switch-disabled-on-after {
+  border-color: var(--ids-switch-toggle-on-disabled-border-color);
+  background-color: var(--ids-switch-toggle-on-disabled-background-color);
+}
+
+@mixin switch-disabled-text {
+  cursor: var(--ids-cursor-default);
+  color: var(--ids-text-color-disabled);
+}
+
+// Hover
+@mixin switch-hover-after {
+  @include switch-hover-shadow();
+}
+
+// Focus
+@mixin switch-focus-after {
+  @include switch-focus-box-shadow();
+}
+
+// Helper ===========================================
+// Box Shadow
+@mixin switch-focus-box-shadow {
+  box-shadow: var(--ids-switch-toggle-focus-box-shadow);
+}
+
+@mixin switch-hover-shadow {
+  box-shadow: 0 2px 5px var(--ids-switch-toggle-hover-background-color);
+}
+
+// Transition
+@mixin switch-transition {
+  transition: all var(--ids-transition-length) var(--ids-transition-ease);
+}

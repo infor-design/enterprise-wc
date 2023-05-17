@@ -1,5 +1,5 @@
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 @use 'sass:list';
-@import '../../core/ids-base';
 
 $image-sizes: (
   'sm': (60px, 60px),
@@ -26,71 +26,28 @@ $image-sizes: (
   outline: none;
 }
 
-:host([mode='light']:focus),
-:host([mode='light']:focus-visible),
-:host(:not([mode]):focus),
-:host(:not([mode]):focus-visible) {
+:host(:focus),
+:host(:focus-visible) {
   .ids-image {
-    @include border-azure-60();
-
-    box-shadow: 0 0 4px 3px rgba(54 138 192 / 0.3);
+    border-color: var(--ids-image-focus-border-color);
+    box-shadow: var(--ids-image-focus-box-shadow);
   }
 }
 
-:host([mode='dark']:focus),
-:host([mode='dark']:focus-visible) {
-  .ids-image {
-    @include border-azure-60();
-
-    box-shadow: 0 0 4px 2px rgba(141 201 230 / 0.3);
-  }
-}
-
-:host([mode='contrast']:focus),
-:host([mode='contrast']:focus-visible) {
-  .ids-image {
-    @include border-azure-90();
-
-    box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
-  }
-}
-
-// theme mode
-:host([mode='light']) .placeholder,
-:host(:not([mode])) .placeholder,
+// normal
+:host .placeholder,
 .ids-image.placeholder {
-  @include border-slate-20();
+  border-color: var(--ids-image-border-color);
 
   ids-icon {
-    @include text-slate-80();
-  }
-}
-
-:host([mode='dark']) {
-  .placeholder {
-    @include border-slate-40();
-
-    ids-icon {
-      @include text-slate-40();
-    }
-  }
-}
-
-:host([mode='contrast']) {
-  .placeholder {
-    @include border-slate-40();
-
-    ids-icon {
-      @include text-slate-90();
-    }
+    color: var(--ids-image-text-color);
   }
 }
 
 // round attribute
 :host([round='true']) .ids-image,
 .ids-image.round {
-  @include rounded-round();
-
+  border-radius: var(--ids-image-initials-border-radius);
   min-width: 50px;
   max-width: 50px;
   width: 50px;
@@ -100,30 +57,25 @@ $image-sizes: (
 // user-status attribute
 :host([user-status]),
 .user-status-wrapper {
-  @include relative();
+  position: relative;
 }
 
 .ids-image {
-  @include box-border();
-  @include border-solid();
-  @include border-1();
-  @include border-transparent(); // to prevent jump on focus
-
+  box-sizing: border-box;
+  border: 1px solid transparent;
   max-width: 100%;
   height: auto;
 
   // img only related
   &:not(.placeholder):not(.initials) {
-    @include block();
-
+    display: block;
     object-fit: cover;
   }
 
   &.placeholder {
-    @include inline-flex();
-    @include bg-white();
-
     align-items: center;
+    display: inline-flex;
+    background-color: var(--ids-image-placeholder-background-color);
     justify-content: center;
     min-width: 50px;
     min-height: 50px;
@@ -135,20 +87,18 @@ $image-sizes: (
     justify-content: center;
     min-width: 50px;
     min-height: 50px;
-
-    @include bg-amethyst-50();
-    @include text-white();
-    @include text-uppercase();
+    background-color: var(--ids-image-initials-background-color);
+    color: var(--ids-color-neutral-00);
+    text-transform: uppercase;
   }
 
   .audible {
-    @include audible();
+    @include mixins.audible();
   }
 }
 
 .user-status {
-  @include absolute();
-
+  position: absolute;
   width: 18px;
   height: 18px;
   right: -1px;
@@ -156,28 +106,39 @@ $image-sizes: (
 
   // icon colors
   &.available {
-    @include text-alert-success();
+    color: var(--ids-image-status-available-background-color);
   }
 
   &.busy,
   &.do-not-disturb {
-    @include text-alert-error();
+    color: var(--ids-image-status-busy-background-color);
   }
 
   &.away {
-    @include text-alert-warning();
+    color: var(--ids-image-status-away-background-color);
   }
 
   &.unknown {
-    color: var(--ids-color-palette-slate-30);
+    color: var(--ids-image-status-unknown-background-color);
   }
 
-  // background for svg
-  &::after {
-    @include absolute();
-    @include rounded-round();
-    @include bg-white();
+  // Draw a border and ring around the background color
+  &::before {
+    position: absolute;
+    border-radius: var(--ids-border-radius-round);
+    background-color: var(--ids-color-neutral-00);
+    content: '';
+    width: 12px;
+    height: 12px;
+    left: 3px;
+    top: 3px;
+    z-index: 1;
+  }
 
+  &::after {
+    position: absolute;
+    border-radius: var(--ids-border-radius-round);
+    background-color: var(--ids-body-background-color);
     content: '';
     width: 16px;
     height: 16px;
@@ -186,14 +147,14 @@ $image-sizes: (
   }
 
   ids-icon {
-    @include z-1();
+    z-index: 1;
   }
 }
 
 .user-status-wrapper .user-status {
   svg {
-    @include bg-white();
-    @include rounded-round();
+    border-radius: var(--ids-border-radius-round);
+    background-color: var(--ids-body-background-color);
   }
 
   position: unset;

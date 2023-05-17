@@ -1,27 +1,24 @@
-@import '../../core/ids-base';
-@import '../../mixins/sass/ids-checkbox-mixin';
-@import '../../mixins/sass/ids-dirty-tracker-mixin';
-@import '../../mixins/sass/ids-validation-mixin';
+@use '../../themes/mixins/ids-checkbox-mixin' as checkbox;
+@use '../../themes/mixins/ids-dirty-tracker-mixin' as dirty;
+@use '../../themes/mixins/ids-validation-mixin' as valid;
 
 :host(.justify-center) .ids-checkbox .checkmark,
-:host(.justify-center) .ids-checkbox[mode='dark']:not([color]) input[type='checkbox'] ~ .checkmark,
-:host(.justify-center) .ids-checkbox[mode='contrast']:not([color]) input[type='checkbox'] ~ .checkmark {
+:host(.justify-center) .ids-checkbox:not([color]) input[type='checkbox'] ~ .checkmark {
   top: calc(50% - 8px);
 }
 
 :host([no-margin]) .ids-checkbox {
-  @include m-0();
+  margin: var(--ids-spacing-none);
 }
 
 .ids-checkbox {
-  @include mb-8();
+  margin-bottom: var(--ids-spacing-lg);
 
   label {
-    @include cursor-pointer();
-    @include no-select();
-    @include pl-24();
-    @include relative();
-
+    cursor: var(--ids-cursor-pointer);
+    user-select: none;
+    padding-inline-start: 24px;
+    position: relative;
     display: inline-block;
 
     &.empty::before {
@@ -29,12 +26,12 @@
     }
 
     &.required .label-checkbox::after {
-      @include absolute();
-      @include font-sans();
-      @include mx-2();
-      @include text-20();
-      @include text-alert-error();
-
+      position: absolute;
+      font-family: var(--ids-font-family);
+      margin-inline-start: var(--ids-spacing-sm);
+      margin-inline-end: var(--ids-spacing-sm);
+      font-size: var(--ids-font-size-lg);
+      color: var(--ids-required-background-color);
       content: '*';
       right: -13px;
       top: -2px;
@@ -49,15 +46,16 @@
   }
 
   &.disabled label {
-    @include cursor-default();
+    cursor: var(--ids-cursor-default);
 
     &.required .label-checkbox::after {
-      @include text-ruby-30();
+     color: var(--ids-required-disabled-background-color);
     }
   }
 
   &.hitbox {
-    @include py-12();
+    padding-top: var(--ids-spacing-xl);
+    padding-bottom: var(--ids-spacing-xl);
 
     label {
       padding-inline-start: 42px;
@@ -73,62 +71,60 @@
   }
 
   &.horizontal {
-    @include mr-12();
-
+    margin-inline-end: var(--ids-spacing-xl);
     display: inline-block;
   }
 
   input[type='checkbox'] {
-    @include absolute();
-    @include cursor-pointer();
-    @include opacity-0();
-
+    position: absolute;
+    cursor: var(--ids-cursor-pointer);
+    opacity: 0;
     height: 0;
     width: 0;
 
     ~ .checkmark {
-      @include checkbox-unchecked();
+      @include checkbox.checkbox-unchecked();
     }
 
     &.error ~ .checkmark {
-      @include checkbox-unchecked-error();
+      @include checkbox.checkbox-unchecked-error();
     }
 
     &:checked ~ .checkmark {
-      @include checkbox-checked();
+      @include checkbox.checkbox-checked();
 
       &::after {
-        @include checkbox-checked-after();
+        @include checkbox.checkbox-checked-after();
       }
     }
 
     &.indeterminate ~ .checkmark {
-      @include checkbox-indeterminate();
+      @include checkbox.checkbox-indeterminate();
 
       &::after {
-        @include checkbox-indeterminate-after();
+        @include checkbox.checkbox-indeterminate-after();
       }
     }
 
     &:focus ~ .checkmark {
-      @include checkbox-focus();
+      @include checkbox.checkbox-focus();
     }
 
     &:disabled {
       ~ .checkmark {
-        @include checkbox-disabled-unchecked();
+        @include checkbox.checkbox-disabled-unchecked();
       }
 
       ~ .label-checkbox {
-        @include checkbox-disabled-text();
+        @include checkbox.checkbox-disabled-text();
       }
 
       &.error ~ .checkmark {
-        @include checkbox-disabled-unchecked-error();
+        @include checkbox.checkbox-disabled-unchecked-error();
       }
 
       &:checked ~ .checkmark {
-        @include checkbox-disabled-checked(light);
+        @include checkbox.checkbox-disabled-checked();
       }
     }
   }
@@ -140,104 +136,24 @@
   }
 
   // Colored Checkboxes
-  @include checkbox-colored();
+  @include checkbox.checkbox-colored();
 
   .validation-message {
-    @include mt-4();
-
+    margin-top: var(--ids-spacing-md);
     margin-inline-start: -1px;
   }
 
   &.has-focus {
     input[type='checkbox'] ~ .checkmark {
-      border-color: var(--ids-color-palette-azure-60);
-      box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
+      border-color: var(--ids-checkbox-has-focus-border-color);
+      box-shadow: var(--ids-checkbox-has-focus-box-shadow);
     }
   }
 }
 
 :host-context(form) {
-  @include mb-8();
-  @include flex();
-}
-
-// Handle Themes
-.ids-checkbox[mode='dark'] {
-  input[type='checkbox']:disabled ~ .checkmark {
-    @include checkbox-disabled-checked(dark);
-  }
-}
-
-.ids-checkbox[mode='dark']:not([color]) {
-  input[type='checkbox'] ~ .checkmark {
-    @include checkbox-unchecked(dark);
-  }
-
-  input[type='checkbox']:checked ~ .checkmark {
-    @include checkbox-checked(dark);
-  }
-
-  input[type='checkbox']:disabled ~ .checkmark {
-    @include checkbox-disabled-checked(dark);
-  }
-
-  input[type='checkbox'].indeterminate ~ .checkmark {
-    @include checkbox-indeterminate(dark);
-  }
-}
-
-.ids-checkbox[mode='contrast'] {
-  input[type='checkbox']:disabled ~ .checkmark {
-    @include checkbox-disabled-checked(contrast);
-  }
-
-  &.has-focus {
-    input[type='checkbox'] ~ .checkmark {
-      border-color: var(--ids-color-palette-azure-90);
-    }
-  }
-}
-
-.ids-checkbox[mode='contrast']:not([color]) {
-  input[type='checkbox'] ~ .checkmark {
-    @include checkbox-unchecked(contrast);
-  }
-
-  input[type='checkbox']:checked ~ .checkmark {
-    @include checkbox-checked(contrast);
-  }
-
-  input[type='checkbox']:disabled ~ .checkmark {
-    @include checkbox-disabled-checked(contrast);
-  }
-
-  input[type='checkbox'].indeterminate ~ .checkmark {
-    @include checkbox-indeterminate(contrast);
-  }
-}
-
-.ids-checkbox[mode='dark'][version='contrast'] {
-  input[type='checkbox']:disabled ~ .checkmark {
-    @include checkbox-disabled-checked(classicContrast);
-  }
-}
-
-.ids-checkbox[mode='dark'][version='contrast']:not([color]) {
-  input[type='checkbox'] ~ .checkmark {
-    @include checkbox-unchecked(classicContrast);
-  }
-
-  input[type='checkbox']:checked ~ .checkmark {
-    @include checkbox-checked(classicContrast);
-  }
-
-  input[type='checkbox']:disabled ~ .checkmark {
-    @include checkbox-disabled-checked(classicContrast);
-  }
-
-  input[type='checkbox'].indeterminate ~ .checkmark {
-    @include checkbox-indeterminate(classicContrast);
-  }
+  margin-top: var(--ids-spacing-lg);
+  display: flex;
 }
 
 // Negate some rules for RTL
@@ -256,24 +172,10 @@
 // Multiselect checkbox
 :host(.multiselect-checkbox) {
   input[type='checkbox']:not(:checked):not(:disabled) ~ .checkmark {
-    @include bg-white();
-  }
-
-  .ids-checkbox[mode='dark'] input[type='checkbox']:not(:checked):not(:disabled) ~ .checkmark {
-    @include bg-transparent();
-  }
-
-  .ids-checkbox[mode='dark'] input[type='checkbox']:checked ~ .checkmark {
-    @include bg-slate-60();
-
-    border-color: var(--ids-color-palette-slate-60);
-  }
-
-  .ids-checkbox[mode='dark']:hover input[type='checkbox']:checked ~ .checkmark {
-    border-color: var(--ids-color-palette-slate-40);
+    background-color: var(--ids-checkbox-multiselect-checkbox-background-color);
   }
 
   .ids-checkbox label {
-    @include pl-16();
+    padding-inline-start: var(--ids-spacing-xxl);
   }
 }

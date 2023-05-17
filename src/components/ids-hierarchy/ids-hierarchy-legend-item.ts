@@ -89,7 +89,7 @@ export default class IdsHierarchyLegendItem extends Base {
   #setColor() {
     let color = this.color;
     if (this.color?.substring(0, 1) !== '#') {
-      color = `var(--ids-color-palette-${this.color})`;
+      color = `var(--ids-color-${this.color})`;
     }
 
     this.container?.style.setProperty('--background', color);

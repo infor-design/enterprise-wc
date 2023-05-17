@@ -63,6 +63,7 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
     this.#cursorEl.style.width = `${CURSOR_EL_SIZE}px`;
     this.#cursorEl.style.height = `${CURSOR_EL_SIZE}px`;
     this.#cursorEl.style.cursor = this.#getCursorStyle();
+    this.setAttribute('aria-valuenow', '0');
   }
 
   disconnectedCallback(): void {
@@ -384,6 +385,7 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
       `translate(${translateX}px, ${translateY}px)`
     );
 
+    this.setAttribute('aria-valuenow', (this.axis === 'x' ? translateX : translateY).toString());
     return [translateX, translateY];
   };
 

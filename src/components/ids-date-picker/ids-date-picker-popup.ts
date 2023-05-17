@@ -142,13 +142,13 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
         class="popup-footer"
         part="footer">
         <ids-modal-button class="popup-btn popup-btn-cancel" cancel ${this.showCancel ? '' : ' hidden'}>
-          <ids-text translate-text="true" font-weight="bold" part="btn-cancel">Cancel</ids-text>
+          <ids-text translate-text="true" font-weight="semi-bold" part="btn-cancel">Cancel</ids-text>
         </ids-modal-button>
         <ids-modal-button class="popup-btn popup-btn-clear" part="btn-clear" ${this.showClear ? '' : ' hidden'}>
-          <ids-text translate-text="true" font-weight="bold">Clear</ids-text>
+          <ids-text translate-text="true" font-weight="semi-bold">Clear</ids-text>
         </ids-modal-button>
         <ids-modal-button class="popup-btn popup-btn-apply"${this.useRange || this.expanded ? ' disabled' : ' hidden'} part="btn-apply" appearance="primary">
-          <ids-text translate-text="true" font-weight="bold">Apply</ids-text>
+          <ids-text translate-text="true" font-weight="semi-bold">Apply</ids-text>
         </ids-modal-button>
       </div>
     </ids-popup>`;
@@ -187,7 +187,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
         class="btn-today-text"
         font-size="16"
         translate-text="true"
-        font-weight="bold"
+        font-weight="semi-bold"
       >Today</ids-text>
     </ids-button>` : '';
 

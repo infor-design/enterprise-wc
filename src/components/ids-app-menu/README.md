@@ -101,7 +101,7 @@ App Menus reserve two slots for specific user information:
 <ids-app-menu id="app-menu">
   <!-- Avatar/Username Area -->
   <img slot="avatar" src="../assets/images/avatar-placeholder.jpg" alt="Picture of Richard Fairbanks" />
-  <ids-text slot="username" font-size="24" font-weight="bold">Richard Fairbanks</ids-text>
+  <ids-text slot="username" font-size="24" font-weight="semi-bold">Richard Fairbanks</ids-text>
 </ids-app-menu>
 ```
 

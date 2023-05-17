@@ -26,7 +26,6 @@ type IdsLineChartSelectedBy = {
  * IDS Line Chart Component
  * @type {IdsLineChart}
  * @inherits IdsElement
- * @mixes IdsEventsMixin
  * @part svg - the outside svg element
  * @part marker - the dots/markers in the chart
  * @part line - the lines in the chart

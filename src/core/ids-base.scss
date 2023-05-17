@@ -1,8 +1,7 @@
 /* Sass scss styles. Keep Base very small */
 @import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins';
-@import '../mixins/sass/ids-general-mixins';
 
-/* Global variables (might want these to become tokens) */
+/* Global variables */
 $breakpoint-xxl: 1440px;
 $breakpoint-xl: 1280px;
 $breakpoint-lg: 1024px;
@@ -12,21 +11,3 @@ $breakpoint-xs: 360px;
 
 $transition-length: 200ms;
 $transition-ease: cubic-bezier(0.4, 0, 0.6, 1);
-
-// Field Sizes
-$input-size-xs: 75px;
-$input-size-sm: 150px;
-$input-size-mm: 225px;
-$input-size-md: 300px;
-$input-size-lg: 400px;
-$input-size-full: 100%;
-
-// Field Heights
-$input-field-height-xs: 28px;
-$input-field-height-sm: 30px;
-$input-field-height-md: 38px;
-$input-field-height-lg: 48px;
-
-// Sometimes we need to "fade" white into transparency, so we need a
-// completely-transparent "white" color to use as one end of a gradient.
-$transparent-white: rgba(255 255 255 / 0);

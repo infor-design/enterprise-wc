@@ -1,13 +1,11 @@
-@import '../../core/ids-base';
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 @import './ids-data-grid-filters';
 @import './ids-data-grid-header';
 @import './ids-data-grid-row';
 @import './ids-data-grid-cell';
 @import '../../components/ids-popup-menu/ids-popup-menu';
-@import '../../mixins/sass/ids-checkbox-mixin';
-@import '../../mixins/sass/ids-radio-mixin';
-
-$cell-border-color: var(--ids-color-palette-slate-30);
+@import '../../themes/mixins/ids-checkbox-mixin';
+@import '../../themes/mixins/ids-radio-mixin';
 
 :host {
   --ids-data-grid-column-widths: repeat(1, minmax(110px, 1fr));
@@ -15,28 +13,27 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
 .ids-data-grid {
   // Outside border and Background and sizing
-  @include bg-white();
-  @include border-1();
-  @include border-solid();
-  @include rounded-default();
-  @include w-full();
-
+  background-color: var(--ids-data-grid-background-color);
+  border: 1px solid var(--ids-data-grid-cell-border-color);
+  border-radius: var(--ids-border-radius-xs);
   border-collapse: collapse;
-  border-color: $cell-border-color;
   contain: content;
   overflow: auto;
+  width: 100%;
 
   // Needed so sticky header works in safari
   display: inline-grid;
   align-content: flex-start;
 
   // Font Info
-  @include antialiased();
-  @include font-sans();
-  @include text-16();
+  @include mixins.antialiased();
+
+  font-family: var(--ids-font-family);
+  font-size: var(--ids-font-size-md);
 
   // Selection Checkbox
   .ids-data-grid-checkbox-container {
+    cursor: var(--ids-cursor-pointer);
     display: flex;
     justify-content: center;
     width: 100%;
@@ -46,9 +43,10 @@ $cell-border-color: var(--ids-color-palette-slate-30);
     @include checkbox-unchecked();
 
     &.editable {
-      @include cursor-pointer();
+      cursor: var(--ids-cursor-pointer);
     }
 
+    border-color: var(--ids-data-grid-cell-checkbox-border-color);
     position: relative;
     left: 0;
     top: 0;
@@ -67,7 +65,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
       }
 
       &.disabled {
-        @include checkbox-disabled-checked(light);
+        @include checkbox-disabled-checked();
       }
     }
 
@@ -91,8 +89,8 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
   .ids-data-grid-radio {
     @include radio-unchecked();
-    @include cursor-pointer();
 
+    cursor: var(--ids-cursor-pointer);
     position: relative;
     left: 0;
     top: 0;
@@ -170,72 +168,19 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 // Standalone Css Borders
 table.ids-data-grid {
   display: table;
-  outline: 1px solid var(--ids-color-palette-slate-30);
+  outline: 1px solid var(--ids-data-grid-cell-border-color);
   outline-offset: -1px;
-}
-
-// Dark Theme
-.ids-data-grid[mode='dark'] {
-  @include bg-slate-100();
-  @include border-slate-60();
-
-  .ids-data-grid-radio {
-    @include border-slate-20();
-
-    &.disabled {
-      @include border-slate-60();
-    }
-
-    &.checked.disabled {
-      @include border-slate-60();
-      @include bg-slate-60();
-
-      &::after {
-        @include border-slate-100();
-        @include bg-slate-100();
-      }
-    }
-  }
-}
-
-// Contrast Theme
-.ids-data-grid[mode='contrast'] {
-  @include bg-white();
-
-  .ids-data-grid-radio {
-    @include bg-white();
-    @include border-slate-90();
-
-    &.disabled {
-      @include border-slate-60();
-    }
-
-    &.checked {
-      @include bg-azure-90();
-      @include border-azure-90();
-    }
-
-    &.checked.disabled {
-      @include bg-slate-40();
-      @include border-slate-40();
-
-      &::after {
-        @include bg-white();
-      }
-    }
-  }
 }
 
 // Empty Message
 .ids-data-grid-wrapper.has-empty-message {
-  @include relative();
-  @include grid();
+  position: relative;
+  display: grid;
 
   ids-empty-message:not([hidden]),
   ::slotted(ids-empty-message:not([hidden])) {
-    @include absolute();
-    @include flex();
-
+    position: absolute;
+    display: flex;
     align-self: center;
     justify-self: center;
     top: 80px;
@@ -243,6 +188,6 @@ table.ids-data-grid {
   }
 
   .ids-data-grid {
-    min-height: 350px;
+    min-height: var(--ids-data-grid-min-height);
   }
 }

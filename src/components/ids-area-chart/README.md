@@ -97,18 +97,18 @@ To achieve this it is recommended to use the `color` setting and pick one of the
 [{
    "data": [],
    "name": "Component A",
-   "color": "var(--ids-color-palette-azure-60)
+   "color": "var(--ids-color-azure-60)
  }, {
    "data": [],
    "name": "Component B",
    "shortName": "Comp B",
    "abbreviatedName": "B",
-   "color": "var(--ids-color-palette-azure-40)"
+   "color": "var(--ids-color-azure-40)"
  }, {
    "data": [{
    ],
    "name": "Component C",
-   "color": "var(--ids-color-palette-azure-20)"
+   "color": "var(--ids-color-azure-20)"
  }]
 ```
 
@@ -121,7 +121,6 @@ To achieve this it is recommended to use the `color` setting and pick one of the
 - Mixins
   IdsEventsMixin
   IdsLocaleMixin
-  IdsThemeMixin
 
 ## Data Settings
 

@@ -20,8 +20,6 @@ import type IdsText from '../ids-text/ids-text';
  * IDS Multiselect Component
  * @type {IdsMultiselect}
  * @inherits IdsDropdown
- * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part container - the container element
  */
 @customElement('ids-multiselect')

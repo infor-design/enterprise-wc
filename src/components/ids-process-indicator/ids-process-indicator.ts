@@ -1,6 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import './ids-process-indicator-step';
@@ -9,17 +8,14 @@ import '../ids-alert/ids-alert';
 import styles from './ids-process-indicator.scss';
 import type IdsProcessStep from './ids-process-indicator-step';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
+const Base = IdsEventsMixin(
+  IdsElement
 );
 
 /**
  * IDS Process Indicator Component
  * @type {IdsProcessIndicator}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
  */
 @customElement('ids-process-indicator')
 @scss(styles)
@@ -72,7 +68,7 @@ export default class IdsProcessIndicator extends Base {
       <span class="step-container">
         <div class="xs-header">
           <ids-text>Current: </ids-text>
-          <ids-text class="label" font-weight="bold"></ids-text>
+          <ids-text class="label" font-weight="semi-bold"></ids-text>
         </div>
         <slot></slot>
       </span>

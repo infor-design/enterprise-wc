@@ -1299,6 +1299,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.wrapper.querySelector('.ids-data-grid-sort-arrows').style.display).toBe('none');
 
       const drop = new MouseEvent('drop', { bubbles: true });
+      dataGrid.dragInitiated = true;
       nodes[1].dispatchEvent(drop);
 
       // Overall success
@@ -1336,6 +1337,7 @@ describe('IdsDataGrid Component', () => {
       // Fake a Drag
       const dragstart = new MouseEvent('dragstart', { bubbles: true });
       nodes[2].dispatchEvent(dragstart);
+      dataGrid.dragInitiated = true;
 
       // simulate dragging
       const dragenter = new MouseEvent('dragenter', { bubbles: true });
@@ -1346,13 +1348,14 @@ describe('IdsDataGrid Component', () => {
       const dragend = new MouseEvent('dragend', { bubbles: true });
       nodes[0].dispatchEvent(dragend);
 
+      dataGrid.dragInitiated = true;
       const drop = new MouseEvent('drop', { bubbles: true });
       nodes[0].dispatchEvent(drop);
 
       // Overall success
-      expect(cols[0].id).toBe('other');
-      expect(cols[1].id).toBe('price');
-      expect(cols[2].id).toBe('bookCurrency');
+      expect(cols[0].id).toBe('price');
+      expect(cols[1].id).toBe('bookCurrency');
+      expect(cols[2].id).toBe('other');
     });
 
     it('supports dragging when right to left', async () => {
@@ -1403,9 +1406,9 @@ describe('IdsDataGrid Component', () => {
       nodes[0].dispatchEvent(drop);
 
       // Overall success
-      expect(cols[0].id).toBe('other');
-      expect(cols[1].id).toBe('price');
-      expect(cols[2].id).toBe('bookCurrency');
+      expect(cols[0].id).toBe('price');
+      expect(cols[1].id).toBe('bookCurrency');
+      expect(cols[2].id).toBe('other');
     });
 
     it('supports stopping reorder on non-reorderable', async () => {
@@ -1816,11 +1819,6 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Theme/Style Tests', () => {
-    it('supports setting mode', () => {
-      dataGrid.mode = 'dark';
-      expect(dataGrid.container.getAttribute('mode')).toEqual('dark');
-    });
-
     it('renders with listStyle option', () => {
       dataGrid.listStyle = true;
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').classList.contains('is-list-style')).toBeTruthy();

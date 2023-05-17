@@ -11,7 +11,6 @@ import '../ids-virtual-scroll/ids-virtual-scroll';
 import '../ids-checkbox/ids-checkbox';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
@@ -27,13 +26,11 @@ import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 import type IdsText from '../ids-text/ids-text';
 
 const Base = IdsLocaleMixin(
-  IdsThemeMixin(
-    IdsPagerMixin(
-      IdsListViewSearchMixin(
-        IdsKeyboardMixin(
-          IdsEventsMixin(
-            IdsElement
-          )
+  IdsPagerMixin(
+    IdsListViewSearchMixin(
+      IdsKeyboardMixin(
+        IdsEventsMixin(
+          IdsElement
         )
       )
     )
@@ -79,7 +76,6 @@ const LIST_VIEW_DEFAULTS = {
  * IDS List View Component
  * @type {IdsListView}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsEventsMixin
  * @part list-item - the li list element
@@ -563,7 +559,7 @@ export default class IdsListView extends Base {
   staticScrollTemplate(): string {
     const selectable = this.selectable ? ` ${this.selectableClass()}` : '';
     return `
-      <div class="ids-list-view${selectable}" mode="${this.mode}">
+      <div class="ids-list-view${selectable}">
         <div class="ids-list-view-body" role="listbox" aria-label="${this.label}">
           ${this.sortable ? `<ids-swappable selection=${this.selectable}>` : ''}
             ${this.data?.length > 0 ? this.data.map(this.listItemTemplateFunc()).join('') : ''}
@@ -580,7 +576,7 @@ export default class IdsListView extends Base {
   virtualScrollTemplate(): string {
     const selectable = this.selectable ? ` ${this.selectableClass()}` : '';
     const html = `
-      <div class="ids-list-view${selectable}" mode="${this.mode}">
+      <div class="ids-list-view${selectable}">
         <ids-virtual-scroll
           height="${this.height}"
           item-height="${this.itemHeight}"

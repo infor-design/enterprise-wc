@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -19,11 +18,9 @@ import '../ids-button/ids-button';
 
 const shared = IdsUploadAdvancedShared;
 
-const Base = IdsThemeMixin(
-  IdsLocaleMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+const Base = IdsLocaleMixin(
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -32,7 +29,6 @@ const Base = IdsThemeMixin(
  * @type {IdsUploadAdvanced}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part container - the main container element
  * @part label - the label element
  * @part link - the hyperlink element
@@ -82,8 +78,7 @@ export default class IdsUploadAdvanced extends Base {
       attributes.METHOD,
       attributes.PARAM_NAME,
       attributes.SHOW_BROWSE_LINK,
-      attributes.URL,
-      attributes.MODE
+      attributes.URL
     ];
   }
 

@@ -1,5 +1,3 @@
-@import '../../core/ids-base';
-
 // :host(ids-tabs),
 .ids-tabs-container {
   --tab-width: 100%;
@@ -43,66 +41,34 @@
 // Horizontal Tabs
 
 .ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) {
-  @include mt-8;
+  margin-top: 8px;
 }
 
 .ids-tabs-container:not(.orientation-vertical):not([class*='color-variant-']) {
-  @include border-b-1;
-  @include border-slate-30;
-}
-
-.ids-tabs-container[mode='dark']:not(.orientation-vertical):not([class*='color-variant-']) {
-  @include border-b-1;
-  @include border-slate-70;
-}
-
-.ids-tabs-container[mode='contrast']:not(.orientation-vertical):not([class*='color-variant-']) {
-  @include border-b-1;
-  @include border-slate-100;
+  border-bottom: 1px solid var(--ids-color-neutral-30);
 }
 
 // Module Tabs
 
-.ids-tabs-container.color-variant-module:not([mode]) {
-  @include border-b-1;
-  @include border-azure-100;
+.ids-tabs-container.color-variant-module {
+  border-bottom: 1px solid var(--ids-color-primary-100);
 
   &.has-more-actions {
     .ids-tabs-list-more {
-      border-left: 1px solid var(--ids-color-palette-azure-100);
+      border-left: 1px solid var(--ids-color-primary-100);
     }
   }
 }
 
-.ids-tabs-container.color-variant-module[mode='light'] {
-  @include border-b-1;
-  @include border-azure-100;
+/* stylelint-disable-next-line no-duplicate-selectors */
+.ids-tabs-container.color-variant-module {
+  border-bottom: 1px solid var(--ids-color-primary-100);
 
+  /* stylelint-disable-next-line no-duplicate-selectors */
   &.has-more-actions {
+    /* stylelint-disable-next-line no-duplicate-selectors */
     .ids-tabs-list-more {
-      border-left: 1px solid var(--ids-color-palette-azure-100);
-    }
-  }
-}
-
-.ids-tabs-container.color-variant-module[mode='dark'] {
-  @include border-b-1;
-  @include border-slate-100;
-
-  &.has-more-actions {
-    .ids-tabs-list-more {
-      border-left: 1px solid var(--ids-color-palette-slate-100);
-    }
-  }
-}
-
-.ids-tabs-container.color-variant-module[mode='contrast'] {
-  @include border-b-1;
-  @include border-azure-100;
-
-  &.has-more-actions {
-    .ids-tabs-list-more {
-      border-left: 1px solid var(--ids-color-palette-slate-100);
+      border-left: 1px solid var(--ids-color-primary-100); // token
     }
   }
 }

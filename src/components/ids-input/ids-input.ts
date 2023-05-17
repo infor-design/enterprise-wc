@@ -12,7 +12,6 @@ import IdsLabelStateMixin from '../../mixins/ids-label-state-mixin/ids-label-sta
 import IdsMaskMixin from '../../mixins/ids-mask-mixin/ids-mask-mixin';
 import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLoadingIndicatorMixin from '../../mixins/ids-loading-indicator-mixin/ids-loading-indicator-mixin';
 import IdsAutoComplete from './ids-autocomplete';
@@ -45,14 +44,12 @@ const Base = IdsTooltipMixin(
           IdsDirtyTrackerMixin(
             IdsClearableMixin(
               IdsColorVariantMixin(
-                IdsThemeMixin(
-                  IdsMaskMixin(
-                    IdsValidationMixin(
-                      IdsLocaleMixin(
-                        IdsKeyboardMixin(
-                          IdsEventsMixin(
-                            IdsElement
-                          )
+                IdsMaskMixin(
+                  IdsValidationMixin(
+                    IdsLocaleMixin(
+                      IdsKeyboardMixin(
+                        IdsEventsMixin(
+                          IdsElement
                         )
                       )
                     )
@@ -103,7 +100,6 @@ type IdsInputTemplateVariables = {
  * @mixes IdsLabelStateMixin
  * @mixes IdsMaskMixin
  * @mixes IdsValidationMixin
- * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
  * @mixes IdsLoadingIndicatorMixin
  * @part container - the overall container
@@ -136,7 +132,7 @@ export default class IdsInput extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate', 'alternate-formatter', 'borderless', 'in-cell'];
+  colorVariants = ['alternate', 'alternate-formatter', 'borderless', 'in-cell', 'list-builder'];
 
   /**
    * @returns {Array<string>} IdsInput component observable attributes

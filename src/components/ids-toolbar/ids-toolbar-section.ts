@@ -3,7 +3,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 
 import styles from './ids-toolbar-section.scss';
 
@@ -82,22 +81,15 @@ function setCssClassFromGroup(targetClass: string, targetElem: HTMLElement, grou
   });
 }
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
-);
-
 /**
  * IDS Toolbar Section Component
  * @type {IdsToolbarSection}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-toolbar-section')
 @scss(styles)
-export default class IdsToolbarSection extends Base {
+export default class IdsToolbarSection extends IdsEventsMixin(IdsElement) {
   constructor() {
     super();
   }

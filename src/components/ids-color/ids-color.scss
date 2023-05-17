@@ -1,5 +1,4 @@
-@import '../../core/ids-base';
-
+/* Ids Color Component */
 :host {
   overflow: visible;
   display: inline-flex;
@@ -9,7 +8,7 @@
 
   & .ids-color {
     background-color: transparent;
-    border: 1px solid transparent;
+    border: 1px solid rgba(0 0 0 / 0.2);
     border-radius: 2px;
   }
 
@@ -30,7 +29,7 @@
     }
 
     .color-check {
-      opacity: 0 !important;
+      opacity: 0;
       visibility: hidden;
     }
   }
@@ -41,7 +40,7 @@
 :host(.outlined:focus-visible),
 :host(.outlined:focus-within) {
   box-shadow: 0 0 3px 2px #0072ed4d;
-  outline: 1px solid var(--ids-color-palette-azure-60);
+  outline: 1px solid var(--ids-focus-border-color);
 }
 
 :host([disabled]) {
@@ -52,8 +51,22 @@
   }
 }
 
+:host([clickable='false']) {
+  .ids-color {
+    cursor: default;
+  }
+}
+
+:host([size='full']) {
+  .ids-color {
+    border: 1px solid rgba(0 0 0 / 0.2);
+  }
+
+  width: 100%;
+}
+
 .ids-color {
-  background-color: var(--ids-color-palette-black);
+  background-color: var(--ids-color-neutral-100);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -93,16 +106,28 @@
     min-width: 42px;
     width: 42px;
   }
+
+  &.full {
+    height: 55px;
+    margin: 8px 0 18px;
+    width: 100%;
+  }
+
+  ids-text {
+    align-self: end;
+    position: relative;
+    top: 22px;
+  }
 }
 
 .color-check {
-  color: var(--ids-color-palette-white);
+  color: var(--ids-color-neutral-00);
   opacity: 0;
 }
 
 :host(.light) {
   .color-check {
-    color: var(--ids-color-palette-black);
+    color: var(--ids-color-neutral-100);
   }
 }
 

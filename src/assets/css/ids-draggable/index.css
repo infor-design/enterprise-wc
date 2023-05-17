@@ -13,19 +13,19 @@ ids-draggable {
 }
 
 ids-draggable:nth-of-type(1) {
-  border: 1px dashed var(--ids-color-palette-ruby-40);
+  border: 1px dashed var(--ids-color-ruby-40);
 }
 
 ids-draggable:nth-of-type(2) {
-  border: 1px dashed var(--ids-color-palette-emerald-40);
+  border: 1px dashed var(--ids-color-emerald-40);
 }
 
 ids-draggable:nth-of-type(3) {
-  border: 1px dashed var(--ids-color-palette-azure-40);
+  border: 1px dashed var(--ids-color-azure-40);
 }
 
 ids-draggable:nth-of-type(4) {
-  border: 1px dashed var(--ids-color-palette-amethyst-40);
+  border: 1px dashed var(--ids-color-amethyst-40);
 }
 
 .draggable-limit-markers {
@@ -34,17 +34,17 @@ ids-draggable:nth-of-type(4) {
   top: 50%;
   width: 500px;
   transform: translateY(-50%);
-  color: var(--ids-color-palette-amethyst-90);
+  color: var(--ids-color-amethyst-90);
 }
 
 ids-draggable:nth-of-type(5) {
-  border: 1px dashed var(--ids-color-palette-amber-40);
+  border: 1px dashed var(--ids-color-amber-40);
 }
 
 .ids-draggable-handle-example {
   display: flex;
   flex-direction: row;
-  border: 1px dashed var(--ids-color-palette-ruby-40);
+  border: 1px dashed var(--ids-color-ruby-40);
   align-items: center;
   justify-content: center;
 }

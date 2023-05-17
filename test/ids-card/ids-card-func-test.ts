@@ -86,11 +86,6 @@ describe('IdsCard Component', () => {
     expect(card.container.querySelector('.ids-card-content').classList.contains('overflow-hidden')).toBeTruthy();
   });
 
-  it('supports setting mode', () => {
-    card.mode = 'dark';
-    expect(card.container.getAttribute('mode')).toEqual('dark');
-  });
-
   it('support card selection single', () => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
     card.selection = 'single';

@@ -1,21 +1,17 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-fieldset.scss';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
+const Base = IdsEventsMixin(
+  IdsElement
 );
 
 /**
  * IDS Fieldset Component
  * @type {IdsFieldset}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
  * @part fieldset - the fieldset element
  */

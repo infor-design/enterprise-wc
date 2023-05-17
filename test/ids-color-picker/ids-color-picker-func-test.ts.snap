@@ -4,423 +4,423 @@ exports[`Ids Color Picker Component When Popup is Open renders visible popup cor
 <ids-color-picker>
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-ruby-10)"
+    hex="var(--ids-color-ruby-10)"
     label="ruby-10"
     tooltip="ruby-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-ruby-20)"
+    hex="var(--ids-color-ruby-20)"
     label="ruby-20"
     tooltip="ruby-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-ruby-30)"
+    hex="var(--ids-color-ruby-30)"
     label="ruby-30"
     tooltip="ruby-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-40)"
+    hex="var(--ids-color-ruby-40)"
     label="ruby-40"
     tooltip="ruby-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-50)"
+    hex="var(--ids-color-ruby-50)"
     label="ruby-50"
     tooltip="ruby-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-60)"
+    hex="var(--ids-color-ruby-60)"
     label="ruby-60"
     tooltip="ruby-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-70)"
+    hex="var(--ids-color-ruby-70)"
     label="ruby-70"
     tooltip="ruby-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-80)"
+    hex="var(--ids-color-ruby-80)"
     label="ruby-80"
     tooltip="ruby-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-90)"
+    hex="var(--ids-color-ruby-90)"
     label="ruby-90"
     tooltip="ruby-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-100)"
+    hex="var(--ids-color-ruby-100)"
     label="ruby-100"
     tooltip="ruby-100"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-amber-10)"
+    hex="var(--ids-color-amber-10)"
     label="amber-10"
     tooltip="amber-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-amber-20)"
+    hex="var(--ids-color-amber-20)"
     label="amber-20"
     tooltip="amber-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-amber-30)"
+    hex="var(--ids-color-amber-30)"
     label="amber-30"
     tooltip="amber-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-40)"
+    hex="var(--ids-color-amber-40)"
     label="amber-40"
     tooltip="amber-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-50)"
+    hex="var(--ids-color-amber-50)"
     label="amber-50"
     tooltip="amber-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-60)"
+    hex="var(--ids-color-amber-60)"
     label="amber-60"
     tooltip="amber-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-70)"
+    hex="var(--ids-color-amber-70)"
     label="amber-70"
     tooltip="amber-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-80)"
+    hex="var(--ids-color-amber-80)"
     label="amber-80"
     tooltip="amber-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-90)"
+    hex="var(--ids-color-amber-90)"
     label="amber-90"
     tooltip="amber-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-100)"
+    hex="var(--ids-color-amber-100)"
     label="amber-100"
     tooltip="amber-100"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-emerald-10)"
+    hex="var(--ids-color-emerald-10)"
     label="emerald-10"
     tooltip="emerald-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-emerald-20)"
+    hex="var(--ids-color-emerald-20)"
     label="emerald-20"
     tooltip="emerald-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-emerald-30)"
+    hex="var(--ids-color-emerald-30)"
     label="emerald-30"
     tooltip="emerald-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-40)"
+    hex="var(--ids-color-emerald-40)"
     label="emerald-40"
     tooltip="emerald-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-50)"
+    hex="var(--ids-color-emerald-50)"
     label="emerald-50"
     tooltip="emerald-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-60)"
+    hex="var(--ids-color-emerald-60)"
     label="emerald-60"
     tooltip="emerald-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-70)"
+    hex="var(--ids-color-emerald-70)"
     label="emerald-70"
     tooltip="emerald-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-80)"
+    hex="var(--ids-color-emerald-80)"
     label="emerald-80"
     tooltip="emerald-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-90)"
+    hex="var(--ids-color-emerald-90)"
     label="emerald-90"
     tooltip="emerald-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-100)"
+    hex="var(--ids-color-emerald-100)"
     label="emerald-100"
     tooltip="emerald-100"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-azure-10)"
+    hex="var(--ids-color-azure-10)"
     label="azure-10"
     tooltip="azure-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-azure-20)"
+    hex="var(--ids-color-azure-20)"
     label="azure-20"
     tooltip="azure-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-azure-30)"
+    hex="var(--ids-color-azure-30)"
     label="azure-30"
     tooltip="azure-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-40)"
+    hex="var(--ids-color-azure-40)"
     label="azure-40"
     tooltip="azure-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-50)"
+    hex="var(--ids-color-azure-50)"
     label="azure-50"
     tooltip="azure-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-60)"
+    hex="var(--ids-color-azure-60)"
     label="azure-60"
     tooltip="azure-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-70)"
+    hex="var(--ids-color-azure-70)"
     label="azure-70"
     tooltip="azure-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-80)"
+    hex="var(--ids-color-azure-80)"
     label="azure-80"
     tooltip="azure-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-90)"
+    hex="var(--ids-color-azure-90)"
     label="azure-90"
     tooltip="azure-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-100)"
+    hex="var(--ids-color-azure-100)"
     label="azure-100"
     tooltip="azure-100"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-turquoise-10)"
+    hex="var(--ids-color-turquoise-10)"
     label="turquoise-10"
     tooltip="turquoise-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-turquoise-20)"
+    hex="var(--ids-color-turquoise-20)"
     label="turquoise-20"
     tooltip="turquoise-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-turquoise-30)"
+    hex="var(--ids-color-turquoise-30)"
     label="turquoise-30"
     tooltip="turquoise-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-40)"
+    hex="var(--ids-color-turquoise-40)"
     label="turquoise-40"
     tooltip="turquoise-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-50)"
+    hex="var(--ids-color-turquoise-50)"
     label="turquoise-50"
     tooltip="turquoise-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-60)"
+    hex="var(--ids-color-turquoise-60)"
     label="turquoise-60"
     tooltip="turquoise-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-70)"
+    hex="var(--ids-color-turquoise-70)"
     label="turquoise-70"
     tooltip="turquoise-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-80)"
+    hex="var(--ids-color-turquoise-80)"
     label="turquoise-80"
     tooltip="turquoise-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-90)"
+    hex="var(--ids-color-turquoise-90)"
     label="turquoise-90"
     tooltip="turquoise-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-100)"
+    hex="var(--ids-color-turquoise-100)"
     label="turquoise-100"
     tooltip="turquoise-100"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-amethyst-10)"
+    hex="var(--ids-color-amethyst-10)"
     label="amethyst-10"
     tooltip="amethyst-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-amethyst-20)"
+    hex="var(--ids-color-amethyst-20)"
     label="amethyst-20"
     tooltip="amethyst-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-amethyst-30)"
+    hex="var(--ids-color-amethyst-30)"
     label="amethyst-30"
     tooltip="amethyst-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-40)"
+    hex="var(--ids-color-amethyst-40)"
     label="amethyst-40"
     tooltip="amethyst-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-50)"
+    hex="var(--ids-color-amethyst-50)"
     label="amethyst-50"
     tooltip="amethyst-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-60)"
+    hex="var(--ids-color-amethyst-60)"
     label="amethyst-60"
     tooltip="amethyst-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-70)"
+    hex="var(--ids-color-amethyst-70)"
     label="amethyst-70"
     tooltip="amethyst-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-80)"
+    hex="var(--ids-color-amethyst-80)"
     label="amethyst-80"
     tooltip="amethyst-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-90)"
+    hex="var(--ids-color-amethyst-90)"
     label="amethyst-90"
     tooltip="amethyst-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-100)"
+    hex="var(--ids-color-amethyst-100)"
     label="amethyst-100"
     tooltip="amethyst-100"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-slate-10)"
-    label="slate-10"
-    tooltip="slate-10"
+    hex="var(--ids-color-neutral-10)"
+    label="neutral-10"
+    tooltip="neutral-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-slate-20)"
-    label="slate-20"
-    tooltip="slate-20"
+    hex="var(--ids-color-neutral-20)"
+    label="neutral-20"
+    tooltip="neutral-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-slate-30)"
-    label="slate-30"
-    tooltip="slate-30"
+    hex="var(--ids-color-neutral-30)"
+    label="neutral-30"
+    tooltip="neutral-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-40)"
-    label="slate-40"
-    tooltip="slate-40"
+    hex="var(--ids-color-neutral-40)"
+    label="neutral-40"
+    tooltip="neutral-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-50)"
-    label="slate-50"
-    tooltip="slate-50"
+    hex="var(--ids-color-neutral-50)"
+    label="neutral-50"
+    tooltip="neutral-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-60)"
-    label="slate-60"
-    tooltip="slate-60"
+    hex="var(--ids-color-neutral-60)"
+    label="neutral-60"
+    tooltip="neutral-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-70)"
-    label="slate-70"
-    tooltip="slate-70"
+    hex="var(--ids-color-neutral-70)"
+    label="neutral-70"
+    tooltip="neutral-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-80)"
-    label="slate-80"
-    tooltip="slate-80"
+    hex="var(--ids-color-neutral-80)"
+    label="neutral-80"
+    tooltip="neutral-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-90)"
-    label="slate-90"
-    tooltip="slate-90"
+    hex="var(--ids-color-neutral-90)"
+    label="neutral-90"
+    tooltip="neutral-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-100)"
-    label="slate-100"
-    tooltip="slate-100"
+    hex="var(--ids-color-neutral-100)"
+    label="neutral-100"
+    tooltip="neutral-100"
   />
 </ids-color-picker>
 `;
@@ -429,493 +429,493 @@ exports[`Ids Color Picker Component renders invisible popup correctly 1`] = `
 <ids-color-picker>
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-ruby-10)"
+    hex="var(--ids-color-ruby-10)"
     label="ruby-10"
     tabindex="-1"
     tooltip="ruby-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-ruby-20)"
+    hex="var(--ids-color-ruby-20)"
     label="ruby-20"
     tabindex="-1"
     tooltip="ruby-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-ruby-30)"
+    hex="var(--ids-color-ruby-30)"
     label="ruby-30"
     tabindex="-1"
     tooltip="ruby-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-40)"
+    hex="var(--ids-color-ruby-40)"
     label="ruby-40"
     tabindex="-1"
     tooltip="ruby-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-50)"
+    hex="var(--ids-color-ruby-50)"
     label="ruby-50"
     tabindex="-1"
     tooltip="ruby-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-60)"
+    hex="var(--ids-color-ruby-60)"
     label="ruby-60"
     tabindex="-1"
     tooltip="ruby-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-70)"
+    hex="var(--ids-color-ruby-70)"
     label="ruby-70"
     tabindex="-1"
     tooltip="ruby-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-80)"
+    hex="var(--ids-color-ruby-80)"
     label="ruby-80"
     tabindex="-1"
     tooltip="ruby-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-90)"
+    hex="var(--ids-color-ruby-90)"
     label="ruby-90"
     tabindex="-1"
     tooltip="ruby-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-ruby-100)"
+    hex="var(--ids-color-ruby-100)"
     label="ruby-100"
     tabindex="-1"
     tooltip="ruby-100"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-amber-10)"
+    hex="var(--ids-color-amber-10)"
     label="amber-10"
     tabindex="-1"
     tooltip="amber-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-amber-20)"
+    hex="var(--ids-color-amber-20)"
     label="amber-20"
     tabindex="-1"
     tooltip="amber-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-amber-30)"
+    hex="var(--ids-color-amber-30)"
     label="amber-30"
     tabindex="-1"
     tooltip="amber-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-40)"
+    hex="var(--ids-color-amber-40)"
     label="amber-40"
     tabindex="-1"
     tooltip="amber-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-50)"
+    hex="var(--ids-color-amber-50)"
     label="amber-50"
     tabindex="-1"
     tooltip="amber-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-60)"
+    hex="var(--ids-color-amber-60)"
     label="amber-60"
     tabindex="-1"
     tooltip="amber-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-70)"
+    hex="var(--ids-color-amber-70)"
     label="amber-70"
     tabindex="-1"
     tooltip="amber-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-80)"
+    hex="var(--ids-color-amber-80)"
     label="amber-80"
     tabindex="-1"
     tooltip="amber-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-90)"
+    hex="var(--ids-color-amber-90)"
     label="amber-90"
     tabindex="-1"
     tooltip="amber-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amber-100)"
+    hex="var(--ids-color-amber-100)"
     label="amber-100"
     tabindex="-1"
     tooltip="amber-100"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-emerald-10)"
+    hex="var(--ids-color-emerald-10)"
     label="emerald-10"
     tabindex="-1"
     tooltip="emerald-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-emerald-20)"
+    hex="var(--ids-color-emerald-20)"
     label="emerald-20"
     tabindex="-1"
     tooltip="emerald-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-emerald-30)"
+    hex="var(--ids-color-emerald-30)"
     label="emerald-30"
     tabindex="-1"
     tooltip="emerald-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-40)"
+    hex="var(--ids-color-emerald-40)"
     label="emerald-40"
     tabindex="-1"
     tooltip="emerald-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-50)"
+    hex="var(--ids-color-emerald-50)"
     label="emerald-50"
     tabindex="-1"
     tooltip="emerald-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-60)"
+    hex="var(--ids-color-emerald-60)"
     label="emerald-60"
     tabindex="-1"
     tooltip="emerald-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-70)"
+    hex="var(--ids-color-emerald-70)"
     label="emerald-70"
     tabindex="-1"
     tooltip="emerald-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-80)"
+    hex="var(--ids-color-emerald-80)"
     label="emerald-80"
     tabindex="-1"
     tooltip="emerald-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-90)"
+    hex="var(--ids-color-emerald-90)"
     label="emerald-90"
     tabindex="-1"
     tooltip="emerald-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-emerald-100)"
+    hex="var(--ids-color-emerald-100)"
     label="emerald-100"
     tabindex="-1"
     tooltip="emerald-100"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-azure-10)"
+    hex="var(--ids-color-azure-10)"
     label="azure-10"
     tabindex="-1"
     tooltip="azure-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-azure-20)"
+    hex="var(--ids-color-azure-20)"
     label="azure-20"
     tabindex="-1"
     tooltip="azure-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-azure-30)"
+    hex="var(--ids-color-azure-30)"
     label="azure-30"
     tabindex="-1"
     tooltip="azure-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-40)"
+    hex="var(--ids-color-azure-40)"
     label="azure-40"
     tabindex="-1"
     tooltip="azure-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-50)"
+    hex="var(--ids-color-azure-50)"
     label="azure-50"
     tabindex="-1"
     tooltip="azure-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-60)"
+    hex="var(--ids-color-azure-60)"
     label="azure-60"
     tabindex="-1"
     tooltip="azure-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-70)"
+    hex="var(--ids-color-azure-70)"
     label="azure-70"
     tabindex="-1"
     tooltip="azure-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-80)"
+    hex="var(--ids-color-azure-80)"
     label="azure-80"
     tabindex="-1"
     tooltip="azure-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-90)"
+    hex="var(--ids-color-azure-90)"
     label="azure-90"
     tabindex="-1"
     tooltip="azure-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-azure-100)"
+    hex="var(--ids-color-azure-100)"
     label="azure-100"
     tabindex="-1"
     tooltip="azure-100"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-turquoise-10)"
+    hex="var(--ids-color-turquoise-10)"
     label="turquoise-10"
     tabindex="-1"
     tooltip="turquoise-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-turquoise-20)"
+    hex="var(--ids-color-turquoise-20)"
     label="turquoise-20"
     tabindex="-1"
     tooltip="turquoise-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-turquoise-30)"
+    hex="var(--ids-color-turquoise-30)"
     label="turquoise-30"
     tabindex="-1"
     tooltip="turquoise-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-40)"
+    hex="var(--ids-color-turquoise-40)"
     label="turquoise-40"
     tabindex="-1"
     tooltip="turquoise-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-50)"
+    hex="var(--ids-color-turquoise-50)"
     label="turquoise-50"
     tabindex="-1"
     tooltip="turquoise-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-60)"
+    hex="var(--ids-color-turquoise-60)"
     label="turquoise-60"
     tabindex="-1"
     tooltip="turquoise-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-70)"
+    hex="var(--ids-color-turquoise-70)"
     label="turquoise-70"
     tabindex="-1"
     tooltip="turquoise-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-80)"
+    hex="var(--ids-color-turquoise-80)"
     label="turquoise-80"
     tabindex="-1"
     tooltip="turquoise-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-90)"
+    hex="var(--ids-color-turquoise-90)"
     label="turquoise-90"
     tabindex="-1"
     tooltip="turquoise-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-turquoise-100)"
+    hex="var(--ids-color-turquoise-100)"
     label="turquoise-100"
     tabindex="-1"
     tooltip="turquoise-100"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-amethyst-10)"
+    hex="var(--ids-color-amethyst-10)"
     label="amethyst-10"
     tabindex="-1"
     tooltip="amethyst-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-amethyst-20)"
+    hex="var(--ids-color-amethyst-20)"
     label="amethyst-20"
     tabindex="-1"
     tooltip="amethyst-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-amethyst-30)"
+    hex="var(--ids-color-amethyst-30)"
     label="amethyst-30"
     tabindex="-1"
     tooltip="amethyst-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-40)"
+    hex="var(--ids-color-amethyst-40)"
     label="amethyst-40"
     tabindex="-1"
     tooltip="amethyst-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-50)"
+    hex="var(--ids-color-amethyst-50)"
     label="amethyst-50"
     tabindex="-1"
     tooltip="amethyst-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-60)"
+    hex="var(--ids-color-amethyst-60)"
     label="amethyst-60"
     tabindex="-1"
     tooltip="amethyst-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-70)"
+    hex="var(--ids-color-amethyst-70)"
     label="amethyst-70"
     tabindex="-1"
     tooltip="amethyst-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-80)"
+    hex="var(--ids-color-amethyst-80)"
     label="amethyst-80"
     tabindex="-1"
     tooltip="amethyst-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-90)"
+    hex="var(--ids-color-amethyst-90)"
     label="amethyst-90"
     tabindex="-1"
     tooltip="amethyst-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-amethyst-100)"
+    hex="var(--ids-color-amethyst-100)"
     label="amethyst-100"
     tabindex="-1"
     tooltip="amethyst-100"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-slate-10)"
-    label="slate-10"
+    hex="var(--ids-color-neutral-10)"
+    label="neutral-10"
     tabindex="-1"
-    tooltip="slate-10"
+    tooltip="neutral-10"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-slate-20)"
-    label="slate-20"
+    hex="var(--ids-color-neutral-20)"
+    label="neutral-20"
     tabindex="-1"
-    tooltip="slate-20"
+    tooltip="neutral-20"
   />
   <ids-color
     class="light outlined"
-    hex="var(--ids-color-palette-slate-30)"
-    label="slate-30"
+    hex="var(--ids-color-neutral-30)"
+    label="neutral-30"
     tabindex="-1"
-    tooltip="slate-30"
+    tooltip="neutral-30"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-40)"
-    label="slate-40"
+    hex="var(--ids-color-neutral-40)"
+    label="neutral-40"
     tabindex="-1"
-    tooltip="slate-40"
+    tooltip="neutral-40"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-50)"
-    label="slate-50"
+    hex="var(--ids-color-neutral-50)"
+    label="neutral-50"
     tabindex="-1"
-    tooltip="slate-50"
+    tooltip="neutral-50"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-60)"
-    label="slate-60"
+    hex="var(--ids-color-neutral-60)"
+    label="neutral-60"
     tabindex="-1"
-    tooltip="slate-60"
+    tooltip="neutral-60"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-70)"
-    label="slate-70"
+    hex="var(--ids-color-neutral-70)"
+    label="neutral-70"
     tabindex="-1"
-    tooltip="slate-70"
+    tooltip="neutral-70"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-80)"
-    label="slate-80"
+    hex="var(--ids-color-neutral-80)"
+    label="neutral-80"
     tabindex="-1"
-    tooltip="slate-80"
+    tooltip="neutral-80"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-90)"
-    label="slate-90"
+    hex="var(--ids-color-neutral-90)"
+    label="neutral-90"
     tabindex="-1"
-    tooltip="slate-90"
+    tooltip="neutral-90"
   />
   <ids-color
     class="dark outlined"
-    hex="var(--ids-color-palette-slate-100)"
-    label="slate-100"
+    hex="var(--ids-color-neutral-100)"
+    label="neutral-100"
     tabindex="-1"
-    tooltip="slate-100"
+    tooltip="neutral-100"
   />
 </ids-color-picker>
 `;

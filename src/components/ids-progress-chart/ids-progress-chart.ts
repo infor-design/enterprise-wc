@@ -1,7 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-progress-chart.scss';
@@ -13,10 +12,8 @@ const DEFAULT_PROGRESS = 0;
 const DEFAULT_TOTAL = 100;
 const DEFAULT_SIZE = 'normal';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
+const Base = IdsEventsMixin(
+  IdsElement
 );
 
 /**
@@ -24,7 +21,6 @@ const Base = IdsThemeMixin(
  * @type {IdsProgressChart}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-progress-chart')
 @scss(styles)
@@ -125,7 +121,7 @@ export default class IdsProgressChart extends Base {
     const includesAlert = this.color?.includes('error') || this.color?.includes('caution') || this.color?.includes('warning');
 
     if (includesAlert || this.color?.includes('base') || this.color?.includes('success')) {
-      prop = `var(--ids-color-status-${this.color === 'error' ? 'danger' : this.color})`;
+      prop = `var(--ids-color-${this.color})`;
 
       // only color the icons and progress labels if it's error, caution, or warning
       if (includesAlert) {
@@ -136,7 +132,7 @@ export default class IdsProgressChart extends Base {
         icon?.style.setProperty('color', prop);
       }
     } else if (this.color?.substring(0, 1) !== '#') {
-      prop = `var(--ids-color-palette-${this.color})`;
+      prop = `var(--ids-color-${this.color})`;
     }
 
     const bar = this.container?.querySelector<HTMLElement>('.bar-progress');

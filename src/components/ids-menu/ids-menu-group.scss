@@ -2,7 +2,7 @@
 @import './ids-menu-base';
 
 :host {
-  @include block();
+  display: block;
 }
 
 .ids-menu-group {

@@ -1,43 +1,37 @@
 /* Ids Progress Bar */
-@import '../../core/ids-base';
-
 // Mixin progress bar fill area
 @mixin progress-bar-fill {
-  @include transition(width 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94));
-  @include bg-azure-60();
-  @include rounded-md();
+  background-color: var(--ids-progress-bar-fill-background-color);
+  border-radius: var(--ids-progress-bar-border-radius);
+  transition: width var(--ids-transition-length) var(--ids-transition-ease);
 }
 
 :host-context(ids-data-grid-cell) {
-  @include m-16;
+  margin: var(--ids-progress-bar-grid-cell-margin);
 }
 
 :host {
-  @include w-full();
+  width: 100%;
 }
 
 .ids-progress-bar {
   contain: content;
 
   .progress-label {
-    @include antialiased();
-    @include text-slate-60();
+    color: var(--ids-progress-bar-label-text-color);
   }
 
   .progress-bar {
-    @include bg-transparent();
-    @include rounded-md();
-    @include border-1();
-    @include border-solid();
-    @include border-slate-70();
-    @include my-20();
-    @include w-full();
-
-    height: 8px;
+    background-color: var(--ids-progress-bar-background-color);
+    border-radius: var(--ids-progress-bar-border-radius);
+    border: var(--ids-progress-bar-border);
+    height: var(--ids-progress-bar-height);
+    margin: var(--ids-progress-bar-margin);
+    width: 100%;
 
     &::-webkit-progress-bar {
-      @include bg-transparent();
-      @include rounded-md();
+      background-color: var(--ids-progress-bar-background-color);
+      border-radius: var(--ids-progress-bar-border-radius);
     }
 
     &::-webkit-progress-value {
@@ -51,20 +45,21 @@
 
   &.label-audible {
     .progress-bar {
-      @include my-2();
+      margin: var(--ids-progress-bar-label-audible-margin);
     }
   }
 
   &.disabled {
     .progress-label {
-      @include text-slate-30();
+      color: var(--ids-progress-bar-disabled-text-color);
     }
 
     .progress-bar {
-      @include border-slate-30();
+      border-color: var(--ids-progress-bar-disabled-background-color);
 
       &::-webkit-progress-value {
-        @include bg-slate-20();
+        background-color: var(--ids-progress-bar-disabled-background-color);
+        border-color: var(--ids-progress-bar-disabled-background-color);
       }
     }
   }

@@ -17,7 +17,7 @@ get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS) 
 1. You may need to include the validation css and make adjustments
 
 ```scss
-@import '../../mixins/sass/ids-validation-mixin';
+@import '../../themes/mixins/ids-validation-mixin';
 
 .validation-message {
   margin-top: - 10px;

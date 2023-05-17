@@ -1,8 +1,6 @@
-@import '../../core/ids-base';
-
 // Date Picker Popup padding reset
 ids-popup::part(popup) {
-  @include py-0();
+  padding-block: 0;
 }
 
 // Remove left/top transforms from animation on this component's popup
@@ -11,11 +9,11 @@ ids-popup[visible][animated] {
 }
 
 .ids-date-picker-popup .ids-popup.menu {
-  @include py-0();
+  padding-block: 0;
 }
 
 ids-month-view {
-  @include w-full();
+  width: 100%;
 }
 
 #month-year-view-trigger {
@@ -30,44 +28,22 @@ ids-month-view {
   }
 
   ids-popup::part(popup) {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  &[mode='dark'] {
-    ids-popup::part(popup) {
-      @include bg-slate-80();
-    }
-
-    ids-popup::part(arrow)::after {
-      border-bottom-color: var(--ids-color-palette-slate-80);
-    }
+    padding-block: 0;
   }
 
   .popup-footer {
-    @include flex();
-
-    border-top: 1px solid var(--ids-color-palette-slate-30);
+    border-top: 1px solid var(--ids-date-picker-popup-footer-border-color);
+    display: flex;
 
     ids-modal-button:not([hidden]) + ids-modal-button,
     .ids-modal-button:not([hidden]) + .ids-modal-button {
-      @include border-l-1();
-
-      border-left-color: var(--ids-color-palette-slate-30);
-    }
-  }
-
-  &[mode='dark'] .popup-footer {
-    border-top-color: var(--ids-color-palette-slate-50);
-
-    ids-modal-button:not([hidden]) + ids-modal-button:not(:focus),
-    .ids-modal-button:not([hidden]) + .ids-modal-button:not(:focus) {
-      border-left-color: var(--ids-color-palette-slate-50);
+      border-left: 1px solid;
+      border-left-color: var(--ids-date-picker-popup-footer-border-color);
     }
   }
 
   .popup-btn {
-    @include w-full();
+    width: 100%;
   }
 }
 
@@ -88,15 +64,14 @@ ids-expandable-area[expanded='false'] {
 }
 
 ids-expandable-area::part(container) {
-  @include absolute();
-  @include m-0();
-  @include p-0();
-  @include h-full();
-  @include w-full();
-
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  position: absolute;
   z-index: 3;
   border: none;
   left: 0;
+  width: 100%;
 }
 
 ids-expandable-area::part(header) {
@@ -104,7 +79,7 @@ ids-expandable-area::part(header) {
 }
 
 ids-expandable-area::part(pane) {
-  @include bg-white();
+  background-color: var(--ids-date-picker-picklist-background-color);
 }
 
 ids-expandable-area::part(footer) {
@@ -112,12 +87,8 @@ ids-expandable-area::part(footer) {
 }
 
 ids-expandable-area::part(pane-content) {
-  @include mt-0();
-  @include h-full();
-}
-
-[mode='dark'] ids-expandable-area::part(pane) {
-  @include bg-slate-80();
+  margin-top: 0;
+  height: 100%;
 }
 
 // =====================================
@@ -135,26 +106,22 @@ ids-time-picker {
   margin-right: -7px;
 
   &::part(button) {
-    @include px-4();
-    @include py-2();
-
+    padding: 2px 4px;
     margin: 3px;
   }
 }
 
 .btn-today-text {
-  @include text-azure-60();
+  color: var(--ids-date-picker-popup-button-today-text-color);
 }
 
 .btn-previous,
 .btn-next {
-  @include pl-0();
-
+  padding-inline-start: 0;
   margin: 3px;
 
   &::part(button) {
-    @include p-0();
-
+    padding: 0;
     width: 44px;
     height: 44px;
   }

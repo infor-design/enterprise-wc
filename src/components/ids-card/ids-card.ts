@@ -2,7 +2,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsSelectionMixin from '../../mixins/ids-selection-mixin/ids-selection-mixin';
 import IdsElement from '../../core/ids-element';
 import IdsRippleMixin from '../../mixins/ids-ripple-mixin/ids-ripple-mixin';
@@ -12,12 +11,10 @@ import styles from './ids-card.scss';
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
-const Base = IdsThemeMixin(
-  IdsRippleMixin(
-    IdsEventsMixin(
-      IdsSelectionMixin(
-        IdsElement
-      )
+const Base = IdsRippleMixin(
+  IdsEventsMixin(
+    IdsSelectionMixin(
+      IdsElement
     )
   )
 );
@@ -27,7 +24,7 @@ const Base = IdsThemeMixin(
  * @type {IdsCard}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
+ * @mixes IdsSelectionMixin
  * @mixes IdsRippleMixin
  * @part card - the card element
  * @part header - the header element
@@ -57,7 +54,7 @@ export default class IdsCard extends Base {
       attributes.ACTIONABLE,
       attributes.AUTO_FIT,
       attributes.AUTO_HEIGHT,
-      attributes.BORDER_LESS,
+      attributes.BORDERLESS,
       attributes.HEIGHT,
       attributes.HREF,
       attributes.NO_HEADER,
@@ -292,15 +289,15 @@ export default class IdsCard extends Base {
    * Set the card to borderless
    * @param {boolean|null} value If card should be borderless or not
    */
-  set borderLess(value) {
+  set borderless(value) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.BORDER_LESS, '');
+      this.setAttribute(attributes.BORDERLESS, '');
     } else {
-      this.removeAttribute(attributes.BORDER_LESS);
+      this.removeAttribute(attributes.BORDERLESS);
     }
   }
 
-  get borderLess() { return this.hasAttribute(attributes.BORDER_LESS); }
+  get borderless() { return this.hasAttribute(attributes.BORDERLESS); }
 
   /**
    * Set the card to be actionable button.

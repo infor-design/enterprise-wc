@@ -47,7 +47,7 @@ Setting the optional "Compact" attribute to "true" decreases the font size of th
 </ids-counts>
 ```
 
-The counts component also supports an optional "Color" attribute. The options for color are base (blue), caution, danger, success, warning, or a hex code with the "#"
+The counts component also supports an optional "Color" attribute. The options for color are base (blue), caution, error, success, warning, or a hex code with the "#"
 
 ```html
 <ids-counts href="#" color="base">

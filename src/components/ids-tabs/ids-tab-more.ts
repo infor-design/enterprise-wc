@@ -16,7 +16,7 @@ const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
  * @type {IdsTabMore}
  * @inherits IdsElement
  * @part container - the tab container itself
- * @mixes IdsEventsMixin
+ * @mixes IdsLocaleMixin
  * @private
  */
 @customElement('ids-tab-more')
@@ -51,7 +51,7 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
       this.selected,
       this.orientation
     );
-    const selectedAttr = this.selected ? ' font-weight="bold"' : '';
+    const selectedAttr = this.selected ? ' font-weight="semi-bold"' : '';
 
     return `<div id="tab-more" ${cssClassAttr} tabindex="-1" part="container">
       <span class="tab-more-text">
