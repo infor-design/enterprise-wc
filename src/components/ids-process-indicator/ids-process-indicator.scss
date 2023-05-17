@@ -1,4 +1,4 @@
-@import '../../core/ids-base';
+@import '../../themes/mixins/ids-core-mixins';
 
 :host {
   @media (min-width: $breakpoint-xs) {
@@ -7,7 +7,7 @@
       position: absolute;
 
       .label {
-        margin-left: 5px;
+        margin-left: var(--ids-spacing-md);
       }
     }
   }

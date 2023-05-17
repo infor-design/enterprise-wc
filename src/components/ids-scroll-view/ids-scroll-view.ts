@@ -5,7 +5,6 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import '../ids-button/ids-button';
@@ -13,12 +12,10 @@ import type IdsButton from '../ids-button/ids-button';
 
 import styles from './ids-scroll-view.scss';
 
-const Base = IdsThemeMixin(
-  IdsKeyboardMixin(
-    IdsLocaleMixin(
-      IdsEventsMixin(
-        IdsElement
-      )
+const Base = IdsKeyboardMixin(
+  IdsLocaleMixin(
+    IdsEventsMixin(
+      IdsElement
     )
   )
 );
@@ -29,7 +26,6 @@ const Base = IdsThemeMixin(
  * @inherits IdsElement
  * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
  * @part container - the parent container element
  * @part scroll-view - the scrolling container

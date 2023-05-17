@@ -7,7 +7,6 @@ import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin
 import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
 import IdsElement from '../../core/ids-element';
@@ -37,20 +36,18 @@ import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils
 import { IdsDropdownOption, IdsDropdownOptions } from './ids-dropdown-common';
 
 const Base = IdsDropdownAttributeMixin(
-  IdsThemeMixin(
-    IdsDirtyTrackerMixin(
-      IdsValidationInputMixin(
-        IdsLoadingIndicatorMixin(
-          IdsLabelStateParentMixin(
-            IdsFieldHeightMixin(
-              IdsColorVariantMixin(
-                IdsTooltipMixin(
-                  IdsXssMixin(
-                    IdsLocaleMixin(
-                      IdsKeyboardMixin(
-                        IdsEventsMixin(
-                          IdsElement
-                        )
+  IdsDirtyTrackerMixin(
+    IdsValidationInputMixin(
+      IdsLoadingIndicatorMixin(
+        IdsLabelStateParentMixin(
+          IdsFieldHeightMixin(
+            IdsColorVariantMixin(
+              IdsTooltipMixin(
+                IdsXssMixin(
+                  IdsLocaleMixin(
+                    IdsKeyboardMixin(
+                      IdsEventsMixin(
+                        IdsElement
                       )
                     )
                   )
@@ -68,17 +65,17 @@ const Base = IdsDropdownAttributeMixin(
  * IDS Dropdown Component
  * @type {IdsDropdown}
  * @inherits IdsElement
- * @mixes IdsColorVariantMixin
+ * @mixes IdsDropdownAttributeMixin
  * @mixes IdsDirtyTrackerMixin
- * @mixes IdsEventsMixin
+ * @mixes IdsValidationInputMixin
+ * @mixes IdsLoadingIndicatorMixin
  * @mixes IdsFieldHeightMixin
- * @mixes IdsKeyboardMixin
- * @mixes IdsLabelStateParentMixin
- * @mixes IdsLocaleMixin
- * @mixes IdsPopupOpenEventsMixin
- * @mixes IdsThemeMixin
+ * @mixes IdsColorVariantMixin
  * @mixes IdsTooltipMixin
- * @mixes IdsValidationMixin
+ * @mixes IdsXssMixin
+ * @mixes IdsLocaleMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsEventsMixin
  * @part dropdown - the tag element
  */
 @customElement('ids-dropdown')
@@ -130,6 +127,8 @@ export default class IdsDropdown extends Base {
     this.resetDirtyTracker();
     this.container?.classList.toggle('typeahead', this.typeahead);
     this.listBox?.setAttribute(attributes.SIZE, this.size);
+    if (this.getAttribute('disabled')) this.disabled = stringToBool(this.getAttribute('disabled'));
+    if (this.getAttribute('readonly')) this.readonly = stringToBool(this.getAttribute('readonly'));
   }
 
   /**
@@ -214,7 +213,7 @@ export default class IdsDropdown extends Base {
         ${!this.typeahead && !this.disabled ? ' readonly="true"' : ''}
         ${this.disabled ? ' disabled="true"' : ''}
         ${this.readonly ? '' : ' readonly-background'}
-        cursor="pointer"
+        ${!this.readonly && !this.disabled ? '' : ' cursor="pointer"'}
         size="${this.size}"
         label="${this.label}"
         placeholder="${this.placeholder}"
@@ -372,7 +371,7 @@ export default class IdsDropdown extends Base {
       this.removeAttribute(attributes.DISABLED);
       if (this.input) {
         this.input.disabled = false;
-        this.input.cursor = 'initial';
+        this.input.cursor = 'text';
         this.input.readonlyBackground = false;
       }
       this.setAttribute(attributes.READONLY, 'true');

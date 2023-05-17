@@ -1,12 +1,10 @@
 /* Ids Fieldset CSS */
-@import '../../core/ids-base';
-
 fieldset {
-  border: 0;
+  border: var(--ids-spacing-none);
   contain: content;
 }
 
 fieldset > ::slotted(legend),
 fieldset > legend {
-  @include pb-20();
+  padding-block-end: var(--ids-spacing-xxl);
 }

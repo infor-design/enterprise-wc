@@ -1,5 +1,7 @@
 import css from '../../../assets/css/ids-loading-indicator/index.css';
 
+import '../../ids-card/ids-card';
+
 const cssLink = `<link href="${css}" rel="stylesheet">`;
 document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 

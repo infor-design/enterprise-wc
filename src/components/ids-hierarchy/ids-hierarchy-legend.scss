@@ -1,9 +1,7 @@
-@import '../../core/ids-base';
-
+/* Ids Hierarchy Legend Component */
 .legend {
-  @include flex();
-
+  display: flex;
   justify-content: center;
   flex-flow: wrap;
-  margin-block: calc(var(--ids-number-spacing-base) * 6);
+  margin-block: calc(var(--ids-spacing-lg) * 6);
 }

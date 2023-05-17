@@ -1,65 +1,23 @@
 @import '../ids-modal/ids-modal';
 
-$cap-header-height: 50px;
-
 .ids-modal-header {
-  @include border-1();
-  @include border-solid();
-  @include border-transparent();
-  @include p-0();
-
-  height: $cap-header-height;
+  background-color: var(--ids-action-panel-header-background-color);
+  border-bottom: 1px solid var(--ids-action-panel-header-border-color);
+  padding: 0;
+  height: var(--ids-action-panel-header-height)
 }
 
 .ids-modal-content {
-  @include px-0();
-
-  height: calc(100% - $cap-header-height);
+  padding-inline: 0;
+  height: calc(100% - var(--ids-action-panel-header-height));
+  background-color: var(--ids-action-panel-content-background-color);
 }
 
 .ids-modal-footer {
-  @include mt-0();
+  margin-top: 0;
 }
 
 ::slotted(ids-toolbar) {
-  @include pl-8();
-
+  padding-inline: var(--ids-action-panel-header-padding) 0;
   height: 100%;
-}
-
-:host([dir='rtl']) {
-  ::slotted(ids-toolbar) {
-    @include pr-8();
-
-    padding-left: auto;
-  }
-}
-
-// Handle Themes (some is in popup)
-:host(:not([mode])) {
-  .ids-modal-header {
-    background-color: var(--ids-color-palette-slate-10);
-    border-bottom-color: var(--ids-color-palette-slate-20);
-  }
-}
-
-:host([mode='light']) {
-  .ids-modal-header {
-    background-color: var(--ids-color-palette-slate-10);
-    border-bottom-color: var(--ids-color-palette-slate-20);
-  }
-}
-
-:host([mode='dark']) {
-  .ids-modal-header {
-    background-color: var(--ids-color-palette-slate-80);
-    border-bottom-color: var(--ids-color-palette-slate-90);
-  }
-}
-
-:host([mode='contrast']) {
-  .ids-modal-header {
-    background-color: var(--ids-color-palette-slate-10);
-    border-bottom-color: var(--ids-color-palette-slate-50);
-  }
 }

@@ -4,18 +4,15 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-container.scss';
 
-const Base = IdsThemeMixin(
-  IdsLocaleMixin(
-    IdsColorVariantMixin(
-      IdsEventsMixin(
-        IdsElement
-      )
+const Base = IdsLocaleMixin(
+  IdsColorVariantMixin(
+    IdsEventsMixin(
+      IdsElement
     )
   )
 );
@@ -24,7 +21,6 @@ const Base = IdsThemeMixin(
  * IDS Container Component
  * @type {IdsContainer}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
  * @mixes IdsLocaleMixin
  * @part container - the entire container element
@@ -74,8 +70,7 @@ export default class IdsContainer extends Base {
       attributes.LOCALE,
       attributes.PADDING,
       attributes.RESET,
-      attributes.SCROLLABLE,
-      attributes.MODE
+      attributes.SCROLLABLE
     ];
   }
 

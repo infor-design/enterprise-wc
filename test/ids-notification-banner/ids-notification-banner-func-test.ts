@@ -44,29 +44,6 @@ describe('IdsNotificationBanner Component', () => {
     expect(notificationBanner.outerHTML).toMatchSnapshot();
   });
 
-  it('can change its type', () => {
-    notificationBanner.type = 'success';
-    expect(notificationBanner.getAttribute('type')).toBe('success');
-    expect(notificationBanner.type).toBe('success');
-
-    notificationBanner.type = 'alert';
-    expect(notificationBanner.getAttribute('type')).toBe('alert');
-    expect(notificationBanner.type).toBe('alert');
-
-    notificationBanner.type = 'info';
-    expect(notificationBanner.getAttribute('type')).toBe('info');
-    expect(notificationBanner.type).toBe('info');
-
-    notificationBanner.type = 'error';
-    expect(notificationBanner.getAttribute('type')).toBe('error');
-    expect(notificationBanner.type).toBe('error');
-
-    // Handles incorrect values
-    notificationBanner.type = 'fakeType';
-    expect(notificationBanner.getAttribute('type')).toBe('success');
-    expect(notificationBanner.type).toBe('success');
-  });
-
   it('can change its messageText', () => {
     notificationBanner.messageText = 'Lorem ipsum dolor set';
     expect(notificationBanner.getAttribute('message-text')).toBe('Lorem ipsum dolor set');
@@ -195,7 +172,7 @@ describe('IdsNotificationBanner Component', () => {
     const notificationObj: any = {
       id: 'ids-notification-banner-5',
       type: 'alert',
-      messageText: 'DTO accepted by your manager for Sept 30, 2018.',
+      messageText: 'DTO accepted by your manager for Sept 30, 2023.',
     };
     const notification: any = new IdsNotificationBanner();
     notification.add(notificationObj);
@@ -209,7 +186,7 @@ describe('IdsNotificationBanner Component', () => {
     const notificationObj2: any = {
       type: 'alert',
       parent: 'notification-container',
-      messageText: 'DTO accepted by your manager for Sept 30, 2018.',
+      messageText: 'DTO accepted by your manager for Sept 30, 2023.',
       link: 'https://infor.com',
       linkText: 'Learn More'
     };
@@ -221,7 +198,7 @@ describe('IdsNotificationBanner Component', () => {
     const notificationObj3 = {
       id: 'ids-notification-banner-5',
       type: 'alert',
-      messageText: 'DTO accepted by your manager for Sept 30, 2018.',
+      messageText: 'DTO accepted by your manager for Sept 30, 2023.',
       link: 'https://infor.com',
     };
     const notification3 = new IdsNotificationBanner();

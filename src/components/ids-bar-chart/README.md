@@ -77,7 +77,6 @@ To make a stacked bar chart use `stacked="true"` and provide the appropriately f
 - Mixins
   IdsEventsMixin
   IdsLocaleMixin
-  IdsThemeMixin
 
 ## Data Settings
 

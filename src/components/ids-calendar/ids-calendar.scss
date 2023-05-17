@@ -1,47 +1,33 @@
-@import '../../core/ids-base';
+@import '../../themes/mixins/ids-core-mixins';
 
 // Mixin for palettes
 @mixin palette-colors($prefix, $property, $suffix:null) {
   #{$prefix}[color='azure']#{$suffix} {
-    #{$property}: var(--ids-color-palette-azure-60);
+    #{$property}: var(--ids-color-azure-60);
   }
 
   #{$prefix}[color='amber']#{$suffix} {
-    #{$property}: var(--ids-color-palette-amber-60);
+    #{$property}: var(--ids-color-amber-60);
   }
 
   #{$prefix}[color='amethyst']#{$suffix} {
-    #{$property}: var(--ids-color-palette-amethyst-60);
+    #{$property}: var(--ids-color-amethyst-60);
   }
 
   #{$prefix}[color='emerald']#{$suffix} {
-    #{$property}: var(--ids-color-palette-emerald-60);
+    #{$property}: var(--ids-color-emerald-60);
   }
 
   #{$prefix}[color='ruby']#{$suffix} {
-    #{$property}: var(--ids-color-palette-ruby-60);
+    #{$property}: var(--ids-color-ruby-60);
   }
 
   #{$prefix}[color='turquoise']#{$suffix} {
-    #{$property}: var(--ids-color-palette-turquoise-60);
+    #{$property}: var(--ids-color-turquoise-60);
   }
 
   #{$prefix}[color='slate']#{$suffix} {
-    #{$property}: var(--ids-color-palette-slate-60);
-  }
-}
-
-// Dark mode
-.ids-calendar[mode='dark'] {
-  .detail-item {
-    border-color: var(--ids-color-palette-slate-70);
-  }
-}
-
-// Contrast Mode
-.ids-calendar[mode='contrast'] {
-  .detail-item {
-    border-color: var(--ids-color-palette-slate-60);
+    #{$property}: var(--ids-color-neutral-60);
   }
 }
 
@@ -68,13 +54,11 @@
 }
 
 .calendar-toolbar-pane {
-  @include border-1();
-  @include border-solid();
-  @include border-slate-20();
-  @include bg-white();
-
   display: block;
-  border-bottom: 0;
+  border-width: 1px 1px 0;
+  border-style: solid;
+  background-color: var(--ids-calendar-toolbar-container-background-color);
+  border-color: var(--ids-calendar-toolbar-container-border-color);
   left: 0;
   top: 0;
   z-index: 4;
@@ -86,15 +70,11 @@ ids-toolbar-section::part(container),
   align-items: center;
 }
 
-.calendar-view-pane {
-  flex-grow: 1;
-}
-
 .calendar-details-pane {
   @include palette-colors('ids-accordion-header', background-color, '::part(header)');
 
   ids-accordion-header::part(header) {
-    @include text-slate-10();
+    color: var(--ids-color-neutral-00);
   }
 
   ids-accordion-header ids-text::part(text) {
@@ -124,7 +104,7 @@ ids-accordion-panel::part(content) {
 }
 
 .btn-today-text {
-  @include text-azure-60();
+  color: var(--ids-color-azure-60); // token
 }
 
 .calendar-events-list {
@@ -134,8 +114,9 @@ ids-accordion-panel::part(content) {
   padding: 0;
 
   .detail-item {
+    background-color: var(--ids-calendar-toolbar-container-background-color);
     border-style: solid;
-    border-color: var(--ids-color-palette-slate-20);
+    border-color: var(--ids-calendar-toolbar-container-border-color);
     border-width: 1px;
     border-inline-start-width: 4px;
     cursor: pointer;
@@ -146,8 +127,7 @@ ids-accordion-panel::part(content) {
     padding: 15px;
 
     &:focus {
-      @include border-azure-60();
-
+      border-color: var(--ids-color-primary);
       outline: none;
     }
   }
@@ -210,13 +190,20 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
 
 #event-form-header {
   align-items: center;
-  color: var(--ids-color-palette-slate-10);
+  color: var(--ids-color-neutral-10);
   height: 40px;
   padding-inline-start: 16px;
   padding-inline-end: 8px;
 
-  ids-button::part(button) {
-    color: var(--ids-color-palette-slate-10);
+  ids-icon[data-action='close'] {
+    color: var(--ids-color-neutral-10);
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0 0 0 / .1)
+    }
   }
 }
 
@@ -252,10 +239,11 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
 #event-form-actions {
   ids-button {
     flex-grow: 1;
-    border: 1px solid var(--ids-color-palette-slate-40);
+    border: 1px solid var(--ids-color-neutral-40);
     border-bottom-width: 0;
 
     &::part(button) {
+      border-radius: 0;
       padding-top: 13px;
       padding-bottom: 13px;
     }
@@ -267,14 +255,13 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
 
   ids-button[data-action='submit'] {
     border-inline-end-width: 0;
-    border-inline-start-width: 0;
     margin-inline-start: -1px;
 
     &::part(button) {
-      color: var(--ids-color-palette-azure-70);
+      color: var(--ids-color-azure-70);
 
       &:hover {
-        color: var(--ids-color-palette-azure-80);
+        color: var(--ids-color-azure-80);
       }
     }
   }

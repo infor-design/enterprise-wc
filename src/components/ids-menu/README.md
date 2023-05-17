@@ -39,7 +39,7 @@ A simple menu with three items can be created by creating a `ids-menu` with a si
 </ids-menu>
 ```
 
-A menu can have a toggleable menu item that is indicated with a check that toggles when you turn it on and off. In this example selecting `Two` will mark it checked and unchecked
+A menu can have a toggle-able menu item that is indicated with a check that toggles when you turn it on and off. In this example selecting `Two` will mark it checked and unchecked
 
 ```html
 <ids-menu id="simple-menu">
@@ -152,7 +152,6 @@ menuItem.setAttribute('shortcut-keys', '⌘+R');
 - Mixins
   IdsEventsMixin
   IdsLocaleMixin
-  IdsThemeMixin
 
 ## Class Hierarchy Menu Header
 
@@ -161,7 +160,6 @@ menuItem.setAttribute('shortcut-keys', '⌘+R');
 - Mixins
   IdsEventsMixin
   IdsLocaleMixin
-  IdsThemeMixin
 
 ## Class Hierarchy Menu Item
 
@@ -170,7 +168,6 @@ menuItem.setAttribute('shortcut-keys', '⌘+R');
 - Mixins
   IdsEventsMixin
   IdsLocaleMixin
-  IdsThemeMixin
 
 ## Converting from Previous Versions (Breaking Changes)
 

@@ -1,15 +1,12 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-badge.scss';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
+const Base = IdsEventsMixin(
+  IdsElement
 );
 
 /**
@@ -17,7 +14,6 @@ const Base = IdsThemeMixin(
  * @type {IdsBadge}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part badge - the badge element
  */
 @customElement('ids-badge')
@@ -39,7 +35,6 @@ export default class IdsBadge extends Base {
   static get attributes(): string[] {
     return [
       attributes.COLOR,
-      attributes.MODE,
       attributes.SHAPE
     ];
   }

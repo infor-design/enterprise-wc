@@ -8,7 +8,7 @@ html {
 }
 
 .ids-data-grid .ids-data-grid-container .ids-data-grid-row {
-  grid-template-columns: 125px 1fr !important;
+  grid-template-columns: 125px 1fr;
   padding: 0;
   display: grid;
   height: 50px;
@@ -33,18 +33,18 @@ html {
 }
 
 .ids-data-grid .ids-data-grid-header .ids-data-grid-row {
-  grid-template-columns: 125px 1fr !important;
+  grid-template-columns: 125px 1fr;
 }
 
 /* Styles from data-grid.css */
 .ids-data-grid {
-  background-color: var(--ids-color-palette-white);
+  background-color: var(--ids-color-neutral-00);
   border-width: 1px;
   border-style: solid;
   border-radius: 2px;
   width: 100%;
   border-collapse: collapse;
-  border-color: var(--ids-color-palette-slate-30);
+  border-color: var(--ids-color-neutral-30);
   contain: content;
   overflow: auto;
   scroll-behavior: smooth;
@@ -75,8 +75,8 @@ html {
   border-left: 1px solid;
   border-style: solid;
   display: flex;
-  background-color: var(--ids-color-palette-slate-80);
-  border-color: var(--ids-color-palette-slate-30);
+  background-color: var(--ids-color-neutral-80);
+  border-color: var(--ids-color-neutral-30);
   min-height: 35px;
 }
 
@@ -88,7 +88,7 @@ html {
   padding-bottom: 8px;
   font-weight: 700;
   font-size: 14px;
-  color: var(--ids-color-palette-white);
+  color: var(--ids-color-neutral-00);
   overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;
@@ -120,9 +120,9 @@ html {
   border-top: 1px solid;
   border-style: solid;
   display: inline-flex;
-  color: var(--ids-color-palette-slate-100);
+  color: var(--ids-color-neutral-100);
   align-items: center;
-  border-color: var(--ids-color-palette-slate-30);
+  border-color: var(--ids-color-neutral-30);
   overflow: hidden;
   white-space: nowrap;
 }

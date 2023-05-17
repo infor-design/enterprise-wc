@@ -58,7 +58,7 @@ describe('IdsPieChart Component', () => {
       }, {
         name: 'Item C',
         value: 200,
-        color: 'var(--ids-color-palette-azure-20)',
+        color: 'var(--ids-color-azure-20)',
       }]
     }];
     await processAnimFrame();
@@ -67,7 +67,7 @@ describe('IdsPieChart Component', () => {
 
     // Note: This doesnt test this really well since jest doesnt support stylesheets - see also the percy test
     expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
-    expect(pieChart.color(0)).toEqual('var(--ids-color-palette-azure-80)');
+    expect(pieChart.color(0)).toEqual('var(--ids-chart-qualitive-color-1)');
 
     expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
     expect(pieChart.color(1)).toEqual('var(color-2)');

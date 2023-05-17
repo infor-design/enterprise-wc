@@ -1,265 +1,144 @@
 /* Ids Tag Component */
-@import '../../core/ids-base';
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 
 .ids-tag {
-  @include antialiased();
-  @include bg-slate-20();
-  @include border-1();
-  @include border-slate-20();
-  @include border-solid();
-  @include font-sans();
-  @include inline-flex();
-  @include mb-4();
-  @include mr-4();
-  @include px-8();
-  @include pb-1();
-  @include rounded-lg();
-  @include text-14();
-  @include text-slate-100();
+  @include mixins.antialiased();
 
+  // Colors/Borders
+  background-color: var(--ids-tag-background-color);
+  border: 1px solid var(--ids-tag-border-color);
+  border-radius: var(--ids-tag-border-radius);
+
+  // Fonts
+  font-family: var(--ids-font-family);
+  font-size: var(--ids-tag-font-size);
+  color: var(--ids-tag-text-color);
+
+  // Layout
+  display: inline-flex;
+  margin-inline-end: var(--ids-spacing-md);
+  padding-inline:  var(--ids-spacing-lg);
+  padding-bottom:  var(--ids-spacing-sm);
   contain: content;
 
   // Secondary has a darker border
   &.secondary {
-    @include border-slate-30();
-    @include bg-white();
+    background-color: var(--ids-tag-secondary-background-color);
+    border-color: var(--ids-tag-secondary-border-color);
   }
 
   &.info {
-    @include bg-alert-info();
-    @include border-alert-info();
-    @include text-white();
+    background-color: var(--ids-color-info);
+    border-color: var(--ids-color-info);
+    color: var(--ids-color-info-00);
   }
 
   &.success {
-    @include bg-alert-success();
-    @include border-alert-success();
-    @include text-white();
+    background-color: var(--ids-color-success);
+    border-color: var(--ids-color-success);
+    color: var(--ids-color-success-00);
   }
 
   &.warning {
-    @include bg-alert-warning();
-    @include border-alert-warning();
-    @include text-white();
+    background-color: var(--ids-color-warning);
+    border-color: var(--ids-color-warning);
+    color: var(--ids-color-warning-00);
+  }
+
+  &.caution {
+    background-color: var(--ids-color-caution);
+    border-color: var(--ids-color-caution);
+    color: var(--ids-color-caution-00);
   }
 
   &.error {
-    @include bg-alert-error();
-    @include border-alert-error();
-    @include text-white();
+    background-color: var(--ids-color-error);
+    border-color: var(--ids-color-error);
+    color: var(--ids-color-error-00);
   }
 
   // Clickable tags can be focused and clicked
   &.focusable {
-    @include cursor-pointer();
+    cursor: var(--ids-cursor-pointer);
 
     &:focus {
-      @include cursor-pointer();
-      @include border-azure-60();
-      @include outline-none();
-      @include shadow();
+      cursor: var(--ids-cursor-pointer);
+      border-color: var(--ids-focus-border-color);
+      outline: var(--ids-focus-outline);
+      box-shadow: var(--ids-focus-box-shadow);
     }
   }
 }
 
 :host-context(ids-data-grid-cell) {
   .ids-tag {
-    @include mb-0();
-
     display: inline;
+    margin-bottom: var(--ids-spacing-none);
+  }
+}
+
+:host([dismissible]) {
+  .ids-tag {
+    cursor: var(--ids-cursor-default);
   }
 }
 
 :host([disabled]) {
   ::slotted(ids-icon) {
-    @include text-slate-50();
+    cursor: var(--ids-cursor-default);
+    color: var(--ids-tag-disabled-text-color);
   }
 
   .ids-tag {
-    @include text-slate-50();
-  }
+    background-color: var(--ids-input-readonly-background-color);
+    border-color: var(--ids-input-readonly-background-color);
+    color: var(--ids-tag-disabled-text-color);
 
-  .ids-tag.info {
-    @include bg-azure-30();
-    @include border-emerald-30();
-    @include text-white();
-  }
+    &.secondary {
+      background-color: var(--ids-input-background-color);
+      border-color: var(--ids-text-color-disabled);
+      color: var(--ids-tag-secondary-disabled-text-color);
 
-  .ids-tag.success {
-    @include bg-emerald-30();
-    @include border-emerald-30();
-    @include text-white();
-  }
-
-  .ids-tag.warning {
-    @include bg-amber-30();
-    @include border-amber-30();
-    @include text-white();
-  }
-
-  .ids-tag.error {
-    @include bg-ruby-30();
-    @include border-ruby-30();
-    @include text-white();
+      ::slotted(ids-icon) {
+        color: var(--ids-tag-secondary-disabled-text-color);
+      }
+    }
   }
 }
 
 // Adjust icons in the tag
 ::slotted(ids-icon) {
-  @include cursor-pointer();
-  @include self-center();
-  @include inline-flex();
-  @include pl-4();
-  @include pt-1();
-  @include text-slate-100();
+  cursor: var(--ids-cursor-pointer);
+  align-self: center;
+  display: inline-flex;
+  padding-inline-start: var(--ids-spacing-md);
+  padding-top: var(--ids-spacing-xs);
+  color: var(--ids-input-text-color);
 }
 
 // Adjust hover state
 ::slotted(ids-icon:hover) {
-  @include text-slate-60();
-}
-
-// Handle white coloring
-.ids-white ::slotted(ids-icon) {
-  @include text-slate-20();
-}
-
-// Adjust hover state
-.ids-white ::slotted(ids-icon:hover) {
-  @include text-white();
-}
-
-// Handle Themes
-.ids-tag[mode='dark'] {
-  @include bg-slate-60();
-  @include border-slate-60();
-  @include text-white();
-
-  &.secondary {
-    @include border-slate-60();
-    @include bg-black();
-  }
-
-  &.info {
-    @include bg-alert-dark-info();
-    @include border-alert-dark-info();
-    @include text-white();
-  }
-
-  &.success {
-    @include bg-alert-dark-success();
-    @include border-alert-dark-success();
-    @include text-slate-100();
-  }
-
-  &.warning {
-    @include bg-alert-dark-warning();
-    @include border-alert-dark-warning();
-    @include text-slate-100();
-  }
-
-  &.error {
-    @include bg-alert-dark-error();
-    @include border-alert-dark-error();
-    @include text-white();
-  }
-}
-
-.ids-tag[mode='dark'] ::slotted(ids-icon) {
-  @include text-slate-10();
-}
-
-.ids-tag[mode='dark'] ::slotted(ids-icon:hover) {
-  @include text-white();
-}
-
-.ids-tag[mode='contrast'] {
-  @include bg-slate-20();
-  @include border-slate-20();
-  @include text-slate-100();
-
-  &.secondary {
-    @include border-slate-100();
-    @include bg-transparent();
-  }
-
-  &.info {
-    @include bg-alert-contrast-info();
-    @include border-alert-contrast-info();
-    @include text-white();
-  }
-
-  &.success {
-    @include bg-alert-contrast-success();
-    @include border-alert-contrast-success();
-    @include text-white();
-  }
-
-  &.warning {
-    @include bg-alert-contrast-warning();
-    @include border-alert-contrast-warning();
-    @include text-white();
-  }
-
-  &.error {
-    @include bg-alert-contrast-error();
-    @include border-alert-contrast-error();
-    @include text-white();
-  }
-}
-
-.ids-tag[mode='contrast'] ::slotted(ids-icon) {
-  @include text-slate-100();
-}
-
-.ids-tag[mode='contrast'] ::slotted(ids-icon:hover) {
-  @include text-black();
+  color: var(--ids-tag-icon-hover-color);
 }
 
 // Multiselect tag
 :host(.multiselect-tag) {
   .ids-tag {
-    @include border-slate-30();
-    @include bg-white();
-    @include text-slate-100();
-  }
-
-  .ids-tag[mode='dark'] {
-    @include bg-slate-70();
-    @include border-slate-50();
-    @include text-white();
-  }
-
-  .ids-tag[mode='contrast'] {
-    @include bg-white();
-    @include text-black();
-    @include border-slate-60();
-  }
-
-  .ids-tag[mode='dark'] ::slotted(ids-icon),
-  .ids-tag[mode='contrast'] ::slotted(ids-icon) {
-    color: inherit;
+    background-color: var(--ids-input-background-color);
+    border-color: var(--ids-input-border-color);
+    margin-bottom: var(--ids-spacing-md);
   }
 }
 
 :host([disabled].multiselect-tag) {
   .ids-tag {
-    @include border-transparent();
-    @include bg-slate-20();
-    @include text-slate-50();
-
+    background-color: var(--ids-input-background-color);
+    border-color: var(--ids-text-color-disabled);
+    color: var(--ids-text-color-disabled);
     pointer-events: none;
   }
 
-  .ids-tag[mode='dark'] {
-    @include border-transparent();
-    @include text-slate-50();
-    @include bg-graphite-20();
-  }
-
-  .ids-tag[mode='contrast'] {
-    @include bg-graphite-20();
-    @include border-slate-60();
-    @include text-slate-50();
+  ::slotted(ids-icon) {
+    color: var(--ids-text-color-disabled);
   }
 }

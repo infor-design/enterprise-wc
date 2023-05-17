@@ -9,7 +9,6 @@ import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -24,17 +23,15 @@ import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 // Input id
 const ID = 'ids-upload-id';
 
-const Base = IdsThemeMixin(
-  IdsLabelStateParentMixin(
-    IdsDirtyTrackerMixin(
-      IdsLocaleMixin(
-        IdsFieldHeightMixin(
-          IdsValidationInputMixin(
-            IdsColorVariantMixin(
-              IdsTooltipMixin(
-                IdsEventsMixin(
-                  IdsElement
-                )
+const Base = IdsLabelStateParentMixin(
+  IdsDirtyTrackerMixin(
+    IdsLocaleMixin(
+      IdsFieldHeightMixin(
+        IdsValidationInputMixin(
+          IdsColorVariantMixin(
+            IdsTooltipMixin(
+              IdsEventsMixin(
+                IdsElement
               )
             )
           )
@@ -54,7 +51,6 @@ const Base = IdsThemeMixin(
  * @mixes IdsFieldHeightMixin
  * @mixes IdsLabelStateParentMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
  * @part container - the main container element
  * @part label - the label element

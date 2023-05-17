@@ -1,35 +1,30 @@
-@import '../../core/ids-base';
-
+/* Ids Data Grid Component - Filter */
 .ids-data-grid {
   ::slotted([slot^='filter-']) {
-    @include flex();
-    @include relative();
-
     align-items: center;
+    display: flex;
   }
 
   .ids-data-grid-header-cell-content.vertical-align-center {
-    @include relative();
-
-    top: calc(50% - 16px);
+    position: relative;
+    top: calc(50% - var(--ids-spacing-xxl));
   }
 
   .ids-data-grid-header-cell-filter-wrapper {
-    @include flex();
-    @include pb-8();
-    @include pl-8();
-    @include pr-8();
-    @include relative();
-
     align-items: center;
+    display: flex;
+    position: relative;
+    padding-inline-start: var(--ids-spacing-lg);
+    padding-inline-end: var(--ids-spacing-lg);
+    padding-block-end: var(--ids-spacing-lg);
 
     &.hidden {
-      @include hidden();
+      display: none;
     }
 
     ids-dropdown[compact] ids-list-box-option {
       font-size: unset;
-      min-height: 28px;
+      min-height: var(--ids-size-xs);
     }
   }
 }

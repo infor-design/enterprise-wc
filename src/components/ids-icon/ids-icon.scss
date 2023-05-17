@@ -1,9 +1,7 @@
-@import '../../core/ids-base';
-
+/* Ids Icon Component */
 :host {
-  @include inline-flex();
-  @include self-center();
-
+  display: inline-flex;
+  align-self: center;
   contain: content;
   place-self: center;
   position: relative;
@@ -21,7 +19,8 @@
   transform: scaleX(-1);
 }
 
-:host([icon='more']) svg {
+:host([icon='more']) svg,
+:host([icon='vertical-ellipsis']) svg  {
   height: 19px;
 }
 
@@ -29,32 +28,37 @@
   width: 17px;
 }
 
-.notification-badge {
-  @include bg-alert-error();
+:host([icon^='empty-']) {
+  color: var(--ids-icon-empty-icon-color);
+}
 
-  border-radius: 4px;
-  height: 6px;
-  width: 6px;
+:host([icon^='empty-'][icon$='-new']) {
+  color: var(--ids-icon-empty-new-icon-color);
+}
+
+.notification-badge {
+  background-color: var(--ids-notification-badge-error-background-color);
+  border-radius: var(--ids-notification-badge-border-radius);
+  height: var(--ids-notification-badge-size);
+  width: var(--ids-notification-badge-size);
   position: absolute;
 
-  /**
-  * color notification badge
-  */
+  // Color notification badges
   &.info,
   &.base {
-    @include bg-alert-info();
+    background-color: var(--ids-notification-badge-info-background-color);
   }
 
   &.error {
-    @include bg-alert-error();
+    background-color: var(--ids-notification-badge-error-background-color);
   }
 
   &.success {
-    @include bg-alert-success();
+    background-color: var(--ids-notification-badge-success-background-color);
   }
 
   &.warning {
-    @include bg-alert-warning();
+    background-color: var(--ids-notification-badge-warning-background-color);
   }
 
   /**

@@ -1,5 +1,4 @@
-/* Ids Virtual Scroller Css */
-@import '../../core/ids-base';
+/* Ids Virtual Scroll Component */
 
 :host {
   display: flex;
@@ -12,14 +11,12 @@
 }
 
 .ids-virtual-scroll {
-  @include w-full();
-
   display: grid;
   grid-auto-flow: column;
+  width: 100%;
 
   &:focus {
-    @include outline-none();
-
+    outline: 0;
     justify-self: end;
   }
 }

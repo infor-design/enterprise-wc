@@ -4,18 +4,15 @@ import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import '../ids-input/ids-input';
 
 import styles from './ids-header.scss';
 
-const Base = IdsThemeMixin(
-  IdsKeyboardMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+const Base = IdsKeyboardMixin(
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -25,7 +22,6 @@ const Base = IdsThemeMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-header')
 @scss(styles)
@@ -45,8 +41,7 @@ export default class IdsHeader extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.COLOR,
-      attributes.MODE
+      attributes.COLOR
     ];
   }
 

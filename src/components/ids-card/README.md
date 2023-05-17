@@ -10,6 +10,10 @@ A card is a UI design pattern that groups related information in a flexible-size
 - Cards allow for flexible layout, and can be used in smaller and larger sizes.
 - Cards contain various forms of content and actions. Elements like input texts, images, charts, can be displayed inside a card.
 
+## Dos and Don'ts
+
+- Don't use a card on a popup like a modal or a contextual action panel. The popup itself should be able to stand alone.
+
 ## Terminology
 
 - **Card**: UI design pattern that groups related information that resembles a card

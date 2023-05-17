@@ -1,7 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 import { stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
@@ -12,23 +11,16 @@ import './ids-pager-number-list';
 import styles from './ids-pager.scss';
 import type IdsPager from './ids-pager';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
-);
-
 /**
  * IDS Pager Component
  * @type {IdsPagerDropdown}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part container the overall ids-pager-dropdown container
  */
 @customElement('ids-pager-dropdown')
 @scss(styles)
-export default class IdsPagerDropdown extends Base {
+export default class IdsPagerDropdown extends IdsEventsMixin(IdsElement) {
   rootNode: any;
 
   readonly DEFAULT_PAGE_SIZE = 10;
@@ -63,7 +55,6 @@ export default class IdsPagerDropdown extends Base {
     return [
       attributes.DISABLED,
       attributes.LABEL,
-      attributes.MODE,
       attributes.TOTAL, // has to be in this order
       attributes.PAGE_SIZE,
       attributes.PAGE_NUMBER,
@@ -166,7 +157,6 @@ export default class IdsPagerDropdown extends Base {
     const shouldRerender = [
       attributes.DISABLED,
       attributes.LABEL,
-      attributes.MODE,
       attributes.TOTAL,
       attributes.PAGE_SIZE,
       attributes.PAGE_NUMBER

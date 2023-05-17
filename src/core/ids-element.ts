@@ -1,8 +1,6 @@
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
-import styles from './ids-element.scss';
 
 export type IdsBaseConstructor = new (...args: any[]) => IdsElement;
-
 export type IdsConstructor<T> = new (...args: any[]) => T & IdsElement;
 
 /**
@@ -197,7 +195,7 @@ export default class IdsElement extends HTMLElement {
 
     const style = document.createElement('style');
     style.textContent = (this as any).cssStyles;
-    style.setAttribute('nonce', this.nonce);
+    if (this.nonce) style.setAttribute('nonce', this.nonce);
 
     this.shadowRoot?.appendChild(style);
     this.hasStyles = true;
@@ -210,15 +208,41 @@ export default class IdsElement extends HTMLElement {
   #appendHostCss() {
     const win = (window as any);
     if (!win.idsStylesAdded) {
-      const doc = (document.head as any);
-      const style = document.createElement('style');
-      // TODO This can work without a replace
-      style.textContent = styles.replace(':host {', ':root {');
-      style.id = 'ids-styles';
-      style.setAttribute('nonce', this.nonce);
-
-      doc.appendChild(style);
       win.idsStylesAdded = true;
+      this.theme = 'default-light';
     }
+  }
+
+  /**
+   * Append theme css
+   * @param {string} theme name of the theme
+   * @private
+   */
+  set theme(theme: string) {
+    this.loadTheme(theme);
+    document.body.querySelector('ids-theme-switcher')?.setAttribute('theme', theme);
+  }
+
+  /**
+   * Get the theme and load it
+   * @param {string} theme name of the theme
+   */
+  async loadTheme(theme: string) {
+    await fetch(`../themes/ids-theme-${theme}.css`)
+      .then(async (data) => {
+        const themeStyles = await data.text();
+
+        const head = (document.head as any);
+        const styleElem = document.querySelector('#ids-theme');
+        const style = styleElem || document.createElement('style');
+        style.textContent = themeStyles;
+        style.id = 'ids-theme';
+        if (this.nonce) style.setAttribute('nonce', this.nonce);
+        if (!styleElem) {
+          const titleElem = (head.querySelector('title') as HTMLElement);
+          if (titleElem) head.insertBefore(style, titleElem.nextElementSibling);
+          else head.insertAdjacentHTML('beforeend', style);
+        }
+      });
   }
 }

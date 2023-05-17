@@ -95,11 +95,6 @@ describe('IdsHyperlink Component', () => {
     expect(elem.shadowRoot.querySelector('a').getAttribute('tabindex')).toEqual(null);
   });
 
-  it('supports setting mode', () => {
-    elem.mode = 'dark';
-    expect(elem.container.getAttribute('mode')).toEqual('dark');
-  });
-
   it('unsets the color', () => {
     elem.color = 'unset';
     expect(elem.getAttribute('color')).toEqual('unset');

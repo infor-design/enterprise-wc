@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import '../ids-text/ids-text';
@@ -12,23 +11,16 @@ import '../ids-hyperlink/ids-hyperlink';
 import styles from './ids-counts.scss';
 import type IdsText from '../ids-text/ids-text';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
-);
-
 /**
  * IDS Counts Component
  * @type {IdsCounts}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part link - the link element
  */
 @customElement('ids-counts')
 @scss(styles)
-export default class IdsCounts extends Base {
+export default class IdsCounts extends IdsEventsMixin(IdsElement) {
   constructor() {
     super();
   }
@@ -52,8 +44,7 @@ export default class IdsCounts extends Base {
     return [
       attributes.COLOR,
       attributes.COMPACT,
-      attributes.HREF,
-      attributes.MODE
+      attributes.HREF
     ];
   }
 
@@ -63,7 +54,7 @@ export default class IdsCounts extends Base {
    */
   template(): string {
     return `
-      ${this.href ? `<ids-hyperlink part="link" text-decoration="none" class="ids-counts message-text" href=${this.href} mode=${this.mode}>` : `<a class="ids-counts" mode=${this.mode}>`}
+      ${this.href ? `<ids-hyperlink part="link" text-decoration="none" class="ids-counts message-text" href=${this.href}>` : `<a class="ids-counts">`}
       <slot></slot>
       ${this.href ? `</ids-hyperlink>` : `</a>`}
     `;
@@ -72,13 +63,13 @@ export default class IdsCounts extends Base {
   /**
    * Set the color of the counts
    * @param {string} value The color value. This can be omitted.
-   * base (blue), caution, danger, success, warning, or a hex code with the "#"
+   * base (blue), caution, error, success, warning, or a hex code with the "#"
    */
   set color(value: string | null) {
     if (this.href) this.container?.setAttribute('color', '');
 
     if (value) {
-      const color = value[0] === '#' ? value : `var(--ids-color-status-${value})`;
+      const color = value[0] === '#' ? value : `var(--ids-color-${value})`;
       this.container?.style.setProperty('color', color);
       this.setAttribute(attributes.COLOR, value);
     } else {

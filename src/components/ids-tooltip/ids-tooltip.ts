@@ -2,17 +2,17 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-tooltip.scss';
 import type IdsPopup from '../ids-popup/ids-popup';
 import '../ids-popup/ids-popup';
 
-const Base = IdsThemeMixin(
-  IdsKeyboardMixin(
+const Base = IdsKeyboardMixin(
+  IdsLocaleMixin(
     IdsEventsMixin(
       IdsElement
     )
@@ -25,7 +25,6 @@ const Base = IdsThemeMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
  * @part tooltip - the tooltip container
  */
 @customElement('ids-tooltip')
@@ -59,7 +58,6 @@ export default class IdsTooltip extends Base {
       attributes.DELAY,
       attributes.KEEP_OPEN,
       attributes.PLACEMENT,
-      attributes.MODE,
       attributes.TARGET,
       attributes.TRIGGER,
       attributes.VISIBLE

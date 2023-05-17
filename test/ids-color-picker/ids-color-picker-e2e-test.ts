@@ -39,7 +39,7 @@ describe('Ids Color Picker e2e Tests', () => {
       (document.querySelector('#color-picker-e2e-test > ids-color[hex]') as any).click();
     }, elem);
     value = await page.evaluate((el: any) => el.value, elem);
-    expect(value).toEqual('ruby-10');
+    expect(value).toEqual('var(--ids-color-ruby-10)');
   });
 
   it('should open when pressing the down arrow', async () => {

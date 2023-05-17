@@ -42,11 +42,11 @@ describe('IdsActionPanel Component', () => {
 
       <ids-toolbar-section type="buttonset" align="end">
         <ids-button id="btn-save" icon="save" no-padding>
-          <ids-text font-weight="bold">Save</ids-text>
+          <ids-text font-weight="semi-bold">Save</ids-text>
         </ids-button>
         <ids-separator vertical="true"></ids-separator>
         <ids-button id="btn-close" icon="close" no-padding>
-          <ids-text font-weight="bold">Close</ids-text>
+          <ids-text font-weight="semi-bold">Close</ids-text>
         </ids-button>
       </ids-toolbar-section>
     </ids-toolbar>`);
@@ -107,11 +107,6 @@ describe('IdsActionPanel Component', () => {
     await wait(110);
 
     expect(cap.visible).toBeTruthy();
-  });
-
-  it('supports setting mode', () => {
-    cap.mode = 'dark';
-    expect(cap.container?.getAttribute('mode')).toEqual('dark');
   });
 
   it('should be able to set attributes before append', async () => {

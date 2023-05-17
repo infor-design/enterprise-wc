@@ -7,16 +7,16 @@ exports[`IdsMultiselect Component renders correctly 1`] = `
         <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="" checked="true"></ids-checkbox>
       </ids-list-box-option>
       <ids-list-box-option class="multiselect-option multiselect-border" id="opt3" value="opt3" role="option" tabindex="-1">
-        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="" checked="false"></ids-checkbox>
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label=""></ids-checkbox>
       </ids-list-box-option>
       <ids-list-box-option class="multiselect-option" id="opt4" value="opt4" role="option" tabindex="-1">
-        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="" checked="false"></ids-checkbox>
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label=""></ids-checkbox>
       </ids-list-box-option>
       <ids-list-box-option class="multiselect-option" id="opt5" value="opt5" role="option" tabindex="-1">
-        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="" checked="false"></ids-checkbox>
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label=""></ids-checkbox>
       </ids-list-box-option>
       <ids-list-box-option class="multiselect-option" id="opt6" value="opt6" role="option" tabindex="-1">
-        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="" checked="false"></ids-checkbox>
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label=""></ids-checkbox>
       </ids-list-box-option></ids-list-box>
       </ids-multiselect>"
 `;

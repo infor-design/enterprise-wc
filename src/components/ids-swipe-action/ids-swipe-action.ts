@@ -2,7 +2,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-swipe-action.scss';
@@ -10,10 +9,8 @@ import styles from './ids-swipe-action.scss';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 import IdsButton from '../ids-button/ids-button';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
+const Base = IdsEventsMixin(
+  IdsElement
 );
 
 /**
@@ -21,7 +18,6 @@ const Base = IdsThemeMixin(
  * @type {IdsSwipeAction}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part container - the contents
  * @part action-left - the left action
  * @part action-right - the right  action
@@ -88,7 +84,6 @@ export default class IdsSwipeAction extends Base {
    */
   static get attributes() {
     return [
-      attributes.MODE,
       attributes.SWIPE_TYPE
     ];
   }

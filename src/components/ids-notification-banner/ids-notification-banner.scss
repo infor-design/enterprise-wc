@@ -1,52 +1,46 @@
-@import '../../core/ids-base';
-
+/* Ids Notification Banner Component */
 .ids-notification-banner {
-  @include flex();
-  @include pl-8();
-
+  display: flex;
+  padding-inline-start: var(--ids-notification-padding);
   align-items: center;
-  height: 44px;
+  height: var(--ids-notification-banner-height);
 }
 
 ids-alert,
 .ids-alert {
-  @include flex();
-  @include mr-8();
+  display: flex;
+  margin-inline: var(--ids-notification-banner-padding);
 }
 
 ids-text::part(text),
 .ids-text {
-  color: var(--ids-color-palette-slate-80);
+  color: var(--ids-notification-banner-text-color);
 }
 
 ids-hyperlink::part(link),
 .ids-notification-banner-link a {
-  font-weight: 300;
-  color: var(--ids-color-palette-slate-80);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 1;
-  padding: 0;
-  margin: 0 8px;
+  position: relative;
+  top: 2px;
+  margin: 0 var(--ids-notification-banner-padding);
 }
 
 .ids-notification-banner-button {
-  height: 100%;
+  display: flex;
   margin-inline-start: auto;
+  margin-inline-end: var(--ids-notification-banner-button-padding);
 
-  ids-button,
-  .ids-icon-button {
-    height: 100%;
-    width: 44px;
-  }
-
+  ids-button
   .ids-icon-button {
     justify-content: center;
-    height: 100%;
-    width: 100%;
     align-items: center;
   }
+}
+
+ids-button::part(button):hover {
+  background-color: var(--ids-notification-banner-button-hover-background-color);
 }
 
 .ids-notification-banner-message {
@@ -55,116 +49,27 @@ ids-hyperlink::part(link),
   white-space: nowrap;
 }
 
-.ids-notification-banner[mode='light'],
-.ids-notification-banner:not([mode]) {
-  &[type='success'],
-  &[type='alert'],
-  &[type='info'],
-  &[type='error'],
-  &.success,
-  &.alert,
-  &.info,
-  &.error {
-    ids-text::part(text),
-    .ids-text {
-      color: var(--ids-color-palette-slate-80);
-    }
-
-    ids-hyperlink::part(link),
-    .ids-hyperlink {
-      color: var(--ids-color-palette-slate-80);
-    }
-  }
-}
-
-.ids-notification-banner[mode='contrast'] {
-  &[type='success'],
-  &[type='alert'],
-  &[type='info'],
-  &[type='error'],
-  &.success,
-  &.alert,
-  &.info,
-  &.error {
-    ids-text::part(text),
-    .ids-text {
-      color: var(--ids-color-palette-slate-90);
-    }
-
-    ids-hyperlink::part(link),
-    .ids-hyperlink {
-      color: var(--ids-color-palette-slate-90);
-    }
-  }
-}
-
-.ids-notification-banner[mode='dark'] {
-  &[type='success'],
-  &[type='alert'],
-  &[type='info'],
-  &[type='error'],
-  &.success,
-  &.alert,
-  &.info,
-  &.error {
-    ids-text::part(text) {
-      color: var(--ids-color-palette-slate-10);
-    }
-
-    ids-hyperlink::part(link) {
-      color: var(--ids-color-palette-slate-10);
-    }
-  }
-}
-
 .ids-notification-banner[type='success'],
 .ids-notification-banner.success {
-  &[mode='light'],
-  &:not([mode]),
-  &[mode='contrast'] {
-    @include bg-emerald-10();
-  }
-
-  &[mode='dark'] {
-    @include bg-emerald-100();
-  }
+  background-color: var(--ids-notification-banner-success-background-color);
 }
 
-.ids-notification-banner[type='alert'],
-.ids-notification-banner.alert {
-  &[mode='light'],
-  &:not([mode]),
-  &[mode='contrast'] {
-    @include bg-amber-10();
-  }
+.ids-notification-banner[type='caution'],
+.ids-notification-banner.caution {
+  background-color: var(--ids-notification-banner-caution-background-color);
+}
 
-  &[mode='dark'] {
-    @include bg-amber-100();
-  }
+.ids-notification-banner[type='warning'],
+.ids-notification-banner.warning {
+  background-color: var(--ids-notification-banner-warning-background-color);
 }
 
 .ids-notification-banner[type='info'],
 .ids-notification-banner.info {
-  &[mode='light'],
-  &:not([mode]),
-  &[mode='contrast'] {
-    @include bg-azure-10();
-  }
-
-  &[mode='dark'] {
-    @include bg-azure-100();
-  }
+  background-color: var(--ids-notification-banner-info-background-color);
 }
 
 .ids-notification-banner[type='error'],
 .ids-notification-banner.error {
-  &[mode='light'],
-  &:not([mode]),
-  &[mode='contrast'] {
-    @include bg-ruby-10();
-  }
-
-  &[mode='dark'] {
-    @include bg-ruby-100();
-  }
+  background-color: var(--ids-notification-banner-error-background-color);
 }

@@ -1,7 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-process-indicator-step.scss';
@@ -10,10 +9,8 @@ import type IdsProcessIndicator from './ids-process-indicator';
 const statuses = ['cancelled', 'started', 'done'];
 const DEFAULT_LABEL = 'empty label';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
+const Base = IdsEventsMixin(
+  IdsElement
 );
 
 /**
@@ -21,7 +18,6 @@ const Base = IdsThemeMixin(
  * @type {IdsProcessStep}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part label
  */
 @customElement('ids-process-indicator-step')
@@ -49,7 +45,7 @@ export default class IdsProcessStep extends Base {
           line?.setAttribute('hidden', '');
         } else if (this.status === 'started' || this.status === 'done') {
           // render the line, conditionally color it based on status
-          line?.style.setProperty('background-color', 'var(--ids-color-palette-azure-70)');
+          line?.style.setProperty('background-color', 'var(--ids-process-indicator-primary-color)');
         }
       }
 

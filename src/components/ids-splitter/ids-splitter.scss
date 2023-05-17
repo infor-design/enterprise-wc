@@ -1,13 +1,11 @@
 /* Ids Splitter Component */
-@import '../../core/ids-base';
-
-$split-bar-size: 21px;
+$split-bar-size: var(--ids-splitter-bar-width);
 
 .ids-splitter {
-  @include flex();
-  @include relative();
-  @include h-full();
-  @include w-full();
+  display: flex;
+  position: relative;
+  height: 100%;
+  width: 100%;
 
   &.axis-x {
     flex-direction: row;
@@ -18,51 +16,48 @@ $split-bar-size: 21px;
   }
 
   .ids-splitter-split-bar {
-    @include absolute();
+    position: absolute;
 
     .split-bar {
-      @include transition(background-color 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94));
-      @include relative();
-      @include flex();
-      @include h-full();
-      @include w-full();
-
+      display: flex;
+      position: relative;
+      height: 100%;
+      width: 100%;
       align-items: center;
       justify-content: center;
+      transition: background-color var(--ids-transition-length) var(--ids-transition-ease);
 
       &:hover {
-        background-color: var(--ids-color-palette-slate-20);
+        background-color: var(--ids-splitter-bar-hover-background-color);
       }
     }
 
     &[axis='x'] {
-      @include h-full();
-
+      height: 100%;
       width: $split-bar-size;
       top: 0;
 
       &.align-start {
-        border-inline-start: 1px solid var(--ids-color-palette-slate-30);
+        border-inline-start: 1px solid var(--ids-splitter-bar-border-color);
       }
 
       &.align-end {
-        border-inline-end: 1px solid var(--ids-color-palette-slate-30);
+        border-inline-end: 1px solid var(--ids-splitter-bar-border-color);
         margin-inline-start: -$split-bar-size;
       }
     }
 
     &[axis='y'] {
-      @include w-full();
-
       height: $split-bar-size;
       left: 0;
+      width: 100%;
 
       &.align-start {
-        border-block-start: 1px solid var(--ids-color-palette-slate-30);
+        border-block-start: 1px solid var(--ids-splitter-bar-border-color);
       }
 
       &.align-end {
-        border-block-end: 1px solid var(--ids-color-palette-slate-30);
+        border-block-end: 1px solid var(--ids-splitter-bar-border-color);
         margin-block-start: -$split-bar-size;
       }
 
@@ -73,53 +68,20 @@ $split-bar-size: 21px;
 
     &[is-dragging],
     &:focus {
-      @include outline-none();
-
-      background-color: var(--ids-color-palette-slate-20);
+      outline: none;
+      background-color: var(--ids-splitter-bar-hover-background-color);
 
       &[axis='x'].align-start,
       &[axis='x'].align-end,
       &[axis='y'].align-start,
       &[axis='y'].align-end {
-        @include border-azure-70();
-        @include shadow();
+        border-color: var(--ids-splitter-bar-dragging-border-color);
+        box-shadow: var(--ids-splitter-bar-dragging-box-shadow);
       }
     }
 
     &[disabled] {
       display: none;
-    }
-  }
-
-  // new dark
-  &[mode='dark'] {
-    .ids-splitter-split-bar {
-      border-color: var(--ids-color-palette-slate-70);
-
-      .split-bar:hover {
-        background-color: var(--ids-color-palette-slate-70);
-      }
-
-      &[is-dragging] .split-bar,
-      &:focus .split-bar {
-        background-color: var(--ids-color-palette-slate-70);
-      }
-    }
-  }
-
-  // new contrast
-  &[mode='contrast'] {
-    .ids-splitter-split-bar {
-      border-color: var(--ids-color-palette-slate-40);
-
-      .split-bar:hover {
-        background-color: var(--ids-color-palette-slate-20);
-      }
-
-      &[is-dragging] .split-bar,
-      &:focus .split-bar {
-        background-color: var(--ids-color-palette-slate-20);
-      }
     }
   }
 }

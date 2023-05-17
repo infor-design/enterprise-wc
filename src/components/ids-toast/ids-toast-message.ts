@@ -4,7 +4,6 @@ import { waitForAnimationEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import '../ids-icon/ids-icon';
@@ -24,11 +23,9 @@ import {
 
 import styles from './ids-toast-message.scss';
 
-const Base = IdsThemeMixin(
-  IdsKeyboardMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+const Base = IdsKeyboardMixin(
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -38,7 +35,6 @@ const Base = IdsThemeMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
  * @part toast - the toast element
  * @part title - the toast title element
  * @part message - the toast message element

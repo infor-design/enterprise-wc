@@ -35,7 +35,6 @@ const POPOVER_OPTIONS = {
   }],
   closebutton: true,
   content: $('#popover-contents'),
-  extraClass: 'alternate',
   placement: 'right',
   popover: true,
   offset: {

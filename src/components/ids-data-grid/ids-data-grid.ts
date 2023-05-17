@@ -2,8 +2,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, IdsDirection } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { exportToCSV, exportToXLSX } from '../../utils/ids-excel-exporter/ids-excel-exporter';
+import { eventPath, findInPath } from '../../utils/ids-event-path-utils/ids-event-path-utils';
 
 // Dependencies
 import IdsDataSource from '../../core/ids-data-source';
@@ -35,7 +37,6 @@ import '../ids-virtual-scroll/ids-virtual-scroll';
 // Mixins
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
@@ -44,15 +45,13 @@ import IdsDataGridTooltipMixin from './ids-data-grid-tooltip-mixin';
 import IdsDataGridCell from './ids-data-grid-cell';
 import { ExcelColumn } from '../../utils/ids-excel-exporter/ids-worksheet-templates';
 
-const Base = IdsThemeMixin(
-  IdsPagerMixin(
-    IdsDataGridSaveSettingsMixin(
-      IdsDataGridTooltipMixin(
-        IdsKeyboardMixin(
-          IdsLocaleMixin(
-            IdsEventsMixin(
-              IdsElement
-            )
+const Base = IdsPagerMixin(
+  IdsDataGridSaveSettingsMixin(
+    IdsDataGridTooltipMixin(
+      IdsKeyboardMixin(
+        IdsLocaleMixin(
+          IdsEventsMixin(
+            IdsElement
           )
         )
       )
@@ -64,7 +63,6 @@ const Base = IdsThemeMixin(
  * IDS Data Grid Component
  * @type {IdsDataGrid}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
  * @mixes IdsPagerMixin
  * @mixes IdsDataGridTooltipMixin
  * @mixes IdsKeyboardMixin
@@ -180,10 +178,10 @@ export default class IdsDataGrid extends Base {
       attributes.LABEL,
       attributes.LIST_STYLE,
       attributes.MENU_ID,
-      attributes.MODE,
       attributes.ROW_HEIGHT,
       attributes.ROW_NAVIGATION,
       attributes.ROW_SELECTION,
+      attributes.ROW_START,
       attributes.SUPPRESS_CACHING,
       attributes.SUPPRESS_EMPTY_MESSAGE,
       attributes.SUPPRESS_ROW_CLICK_SELECTION,
@@ -219,7 +217,7 @@ export default class IdsDataGrid extends Base {
 
     const html = `<div class="ids-data-grid-wrapper">
         <span class="ids-data-grid-sort-arrows"></span>
-        <div class="ids-data-grid${cssClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}">
+        <div class="ids-data-grid${cssClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}">
           ${IdsDataGridHeader.template(this)}
           ${this.bodyTemplate()}
         </div>
@@ -313,12 +311,28 @@ export default class IdsDataGrid extends Base {
 
   /** Do some things after redraw */
   afterRedraw() {
-    requestAnimationFrame(() => {
+    const rowStart = this.rowStart || 0;
+
+    if (!rowStart) {
       requestAnimationFrame(() => {
         // Set Focus
         this.setActiveCell(0, 0, true);
       });
-    });
+    } else {
+      requestAnimationTimeout(() => {
+        if (this.container) {
+          let scrollTopPixels = rowStart * this.virtualScrollSettings.ROW_HEIGHT;
+          if (!this.virtualScrollSettings.ENABLED) {
+            const containerTopPosition = this.container.getBoundingClientRect().top;
+            scrollTopPixels = this.rowByIndex(rowStart)?.getBoundingClientRect?.()?.y ?? scrollTopPixels;
+            scrollTopPixels -= containerTopPosition;
+          }
+
+          const headerHeight = this.header?.getBoundingClientRect?.().height ?? 0;
+          this.container.scrollTop = scrollTopPixels - headerHeight;
+        }
+      }, 150);
+    }
   }
 
   /**
@@ -543,6 +557,7 @@ export default class IdsDataGrid extends Base {
    * @param {number} toIndex The new column index
    */
   moveColumn(fromIndex: number, toIndex: number) {
+    if (fromIndex === -1 || toIndex === -1) return;
     const correctFromIndex = this.columnIdxById(this.visibleColumns[fromIndex].id);
     const correctToIndex = this.columnIdxById(this.visibleColumns[toIndex].id);
 
@@ -587,8 +602,10 @@ export default class IdsDataGrid extends Base {
   #attachKeyboardListeners() {
     // Handle arrow navigation
     this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e: KeyboardEvent) => {
-      if (!this.activeCell?.node) return;
+      const inFilter = findInPath(eventPath(e), '.ids-data-grid-header-cell-filter-wrapper');
       const key = e.key;
+      if (inFilter && (key === 'ArrowRight' || key === 'ArrowLeft')) return;
+      if (!this.activeCell?.node) return;
       const cellNode = this.activeCell.node;
       const cellNumber = Number(this.activeCell?.cell);
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
@@ -1377,7 +1394,7 @@ export default class IdsDataGrid extends Base {
     rowIndex = Math.min(rowIndex, maxRowIndex);
 
     if (!this.virtualScroll) {
-      this.rowByIndex(rowIndex)?.scrollIntoView();
+      this.rowByIndex(rowIndex)?.scrollIntoView?.();
       return;
     }
 
@@ -1398,13 +1415,14 @@ export default class IdsDataGrid extends Base {
     bufferRowIndex = Math.max(bufferRowIndex, 0);
     bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
 
+    if (isInRange && doScroll) {
+      this.offEvent('scroll.data-grid.virtual-scroll', this.container);
+      this.rowByIndex(rowIndex)?.scrollIntoView?.();
+      this.#attachVirtualScrollEvent();
+      return;
+    }
+
     if (isInRange) {
-      if (doScroll) {
-        this.offEvent('scroll.data-grid.virtual-scroll', this.container);
-        this.rowByIndex(rowIndex)?.scrollIntoView();
-        this.#attachVirtualScrollEvent();
-        return;
-      }
       // if rowIndex is in range of the currently visible rows:
       // then we should only move rows up or down according to how big the buffer should be.
       const moveRowsDown = bufferRowIndex - firstRowIndex;
@@ -1567,6 +1585,20 @@ export default class IdsDataGrid extends Base {
   }
 
   get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'lg'; }
+
+  /**
+   * Set the row index. If set, the datagrid's data set will initially load here.
+   * @param {number} rowIndex The row-index at which to start showing data.
+   */
+  set rowStart(rowIndex: number) {
+    this.setAttribute(attributes.ROW_START, String(rowIndex || 0));
+  }
+
+  /**
+   * Get the start-row index
+   * @returns {number} The start-row index
+   */
+  get rowStart(): number { return Number(this.getAttribute(attributes.ROW_START)) || 0; }
 
   /**
    * Sets keyboard navigation to rows
@@ -2029,6 +2061,7 @@ export default class IdsDataGrid extends Base {
    */
   get rowPixelHeight(): number {
     const rowHeights: any = {
+      xxs: 25,
       xs: 30,
       sm: 35,
       md: 40,

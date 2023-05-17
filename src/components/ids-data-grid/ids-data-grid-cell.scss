@@ -1,19 +1,12 @@
-@import '../../core/ids-base';
-
-$cell-border-color: var(--ids-color-palette-slate-30);
-
-// Cell Styles
+/* Ids Data Grid Component - Cells */
 .ids-data-grid-cell {
-  // Border and Background
-  @include border-0();
-  @include border-l-1();
-  @include border-b-1();
-  @include border-solid();
-  @include inline-flex();
-  @include text-slate-100();
-
+  // Border and Background and Sizing
   align-items: center;
-  border-color: $cell-border-color;
+  border-inline-start: 1px solid;
+  border-block-end: 1px solid;
+  border-color: var(--ids-data-grid-cell-border-color);
+  display: inline-flex;
+  color: var(--ids-data-grid-cell-text-color);
   height: 50px;
   overflow: hidden;
   position: relative;
@@ -26,23 +19,24 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
   // Reset badge margin to center it vertically
   ids-badge::part(badge) {
-    @include mb-0();
-    @include mr-0();
+    margin-block-end: var(--ids-spacing-none);
+    margin-inline-end: var(--ids-spacing-none);
   }
 
   ids-badge {
-    @include px-16();
+    padding-inline-start: var(--ids-spacing-xxl);
+    padding-inline-end: var(--ids-spacing-xxl);
   }
 
   ids-hyperlink {
-    @include m-16();
+    margin: var(--ids-spacing-xxl);
   }
 
   .text-ellipsis {
-    @include align-middle();
-    @include px-16();
-
     display: inline-block;
+    vertical-align: middle;
+    padding-inline-start: var(--ids-spacing-xxl);
+    padding-inline-end: var(--ids-spacing-xxl);
     height: auto;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -50,8 +44,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
   // Text Alignment
   &.align-center > *:first-child {
-    @include inline-flex();
-
+    display: inline-flex;
     margin: 0 auto;
   }
 
@@ -62,25 +55,24 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
   // Readonly and disabled Cells
   &.is-readonly {
-    background-color: rgba(0 0 0 / 0.07);
+    background-color: var(--ids-data-grid-cell-readonly-background-color);
   }
 
   &.is-disabled {
-    color: var(--ids-color-palette-slate-30);
+    color: var(--ids-data-grid-cell-disabled-text-color);
   }
 
   // Focus State
   &:focus,
   &.is-editing:not(.is-inline):focus-within {
-    @include shadow();
-
-    outline: 1px solid var(--ids-color-palette-azure-60);
+    box-shadow: var(--ids-box-shadow-md);
+    outline: 1px solid var(--ids-focus-border-color);
     outline-offset: -1px;
   }
 
   &.is-editable {
     &.is-inline {
-      box-shadow: inset 0 0 0 4px white, inset 0 0 0 5px var(--ids-color-palette-slate-40);
+      box-shadow: inset 0 0 0 4px var(--ids-input-background-color), inset 0 0 0 5px var(--ids-input-border-color);
 
       ids-icon.editor-cell-icon {
         visibility: visible;
@@ -118,7 +110,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
       justify-content: space-between;
 
       ids-alert {
-        @include mr-16();
+        margin-inline-end: var(--ids-spacing-lg);
       }
     }
   }
@@ -142,7 +134,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   // Dropdown Editable Cell
   &.is-editable.is-dropdown {
     .dropdown-cell-value {
-      @include w-full();
+      width: 100%;
     }
   }
 
@@ -173,15 +165,14 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
   // Frozen Cells
   &.frozen {
-    @include bg-white();
-
+    background-color: var(--ids-data-grid-cell-background-color);
     position: sticky;
     z-index: 3;
   }
 
   // Change borders for scrolling
   &.frozen-last {
-    border-inline-end-width: 1px;
+    border-inline-end: 1px solid var(--ids-data-grid-cell-border-color);
 
     + .ids-data-grid-cell {
       border-inline-start-width: 0;
@@ -206,7 +197,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   }
 
   &.is-dirty::before {
-    border-color: var(--ids-color-palette-amber-30) transparent transparent var(--ids-color-palette-amber-30);
+    border-color: var(--ids-dirty-indicator-background-color) transparent transparent var(--ids-dirty-indicator-background-color);
     border-style: solid;
     border-width: 5px;
     content: '';
@@ -223,7 +214,7 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   }
 
   &.is-invalid {
-    background-color: rgba(232 79 79 / 0.1);
+    background-color: var(--ids-data-grid-cell-invalid-background-color);
   }
 
   ids-alert {
@@ -242,13 +233,13 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   }
 
   .is-editable.is-inline {
-    box-shadow: inset 0 0 0 2px white, inset 0 0 0 3px var(--ids-color-palette-slate-40);
+    box-shadow: inset 0 0 0 2px var(--ids-input-background-color), inset 0 0 0 3px var(--ids-input-border-color);
   }
 }
 
 [data-row-height='sm'] {
   .is-editable.is-inline {
-    box-shadow: inset 0 0 0 3px white, inset 0 0 0 4px var(--ids-color-palette-slate-40);
+    box-shadow: inset 0 0 0 3px var(--ids-input-background-color), inset 0 0 0 4px var(--ids-input-border-color);
   }
 
   .ids-data-grid-cell.is-dirty.is-inline::before {
@@ -262,14 +253,14 @@ $cell-border-color: var(--ids-color-palette-slate-30);
   // Change Cell Borders/BG
   .ids-data-grid-cell {
     border-inline-start-width: 0;
-    border-bottom: 1px solid var(--ids-color-palette-slate-20);
+    border-bottom: 1px solid var(--ids-data-grid-list-cell-border-color);
 
     &.is-readonly {
-      background-color: rgba(0 0 0 / 0.07);
+      background-color: var(--ids-data-grid-cell-readonly-background-color)
     }
 
     &.is-disabled {
-      color: var(--ids-color-palette-slate-30);
+      color: var(--ids-data-grid-cell-disabled-text-color);
     }
   }
 
@@ -280,120 +271,9 @@ $cell-border-color: var(--ids-color-palette-slate-30);
 
 // Standalone Css
 td.ids-data-grid-cell {
-  @include table-cell();
-  @include px-16();
-}
-
-// Dark Theme
-.ids-data-grid[mode='dark'] {
-  .ids-data-grid-cell {
-    @include border-slate-60();
-    @include text-white();
-
-    &.is-readonly {
-      background-color: rgba(119 119 124 / 0.18);
-    }
-
-    &.is-disabled {
-      color: var(--ids-color-palette-slate-50);
-    }
-
-    &.frozen {
-      @include bg-slate-100();
-    }
-
-    &.is-invalid {
-      background-color: rgba(232 79 79 / 0.1);
-    }
-
-    &.is-dirty::before {
-      border-color: var(--ids-color-palette-amber-40) transparent transparent var(--ids-color-palette-amber-40);
-    }
-
-    .ids-data-grid-checkbox {
-      @include border-slate-40();
-
-      &.disabled {
-        @include bg-slate-50();
-        @include border-slate-50();
-      }
-    }
-
-    .ids-data-grid-checkbox.checked {
-      @include border-azure-60();
-
-      &.disabled {
-        @include bg-slate-50();
-        @include border-slate-50();
-      }
-    }
-
-    &.is-editable.is-inline {
-      box-shadow: inset 0 0 0 4px var(--ids-color-palette-slate-100), inset 0 0 0 5px var(--ids-color-palette-slate-40);
-    }
-  }
-}
-
-// Contrast Theme
-.ids-data-grid[mode='contrast'] {
-  .ids-data-grid-cell {
-    @include border-slate-50();
-    @include text-slate-100();
-
-    &.is-readonly {
-      background-color: rgba(0 0 0 / 0.09);
-    }
-
-    &.is-disabled {
-      color: var(--ids-color-palette-slate-40);
-    }
-
-    &.is-invalid {
-      background-color: rgba(232 79 79 / 0.1);
-    }
-
-    &.is-dirty::before {
-      border-color: var(--ids-color-palette-amber-40) transparent transparent var(--ids-color-palette-amber-40);
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
-      outline: 1px solid var(--ids-color-palette-azure-80);
-    }
-
-    .ids-data-grid-checkbox {
-      @include border-slate-90();
-
-      &.disabled {
-        @include bg-slate-60();
-        @include border-slate-60();
-      }
-    }
-
-    .ids-data-grid-checkbox.checked {
-      @include border-azure-90();
-
-      &.disabled {
-        @include bg-slate-60();
-        @include border-slate-60();
-      }
-    }
-
-    &.is-editing:not(.is-inline):focus-within {
-      box-shadow: 0 0 0 1px var(--ids-color-palette-azure-80);
-      outline: 1px solid var(--ids-color-palette-azure-80);
-    }
-  }
-
-  // List Style Feature
-  &.is-list-style {
-    // Change Cell Borders/BG
-    .ids-data-grid-cell {
-      &.is-readonly {
-        background-color: rgba(0 0 0 / 0.09);
-      }
-    }
-  }
+  display: table-cell;
+  padding-inline-start: var(--ids-spacing-xxl);
+  padding-inline-end: var(--ids-spacing-xxl);
 }
 
 // Handle RTL
@@ -411,14 +291,7 @@ td.ids-data-grid-cell {
     }
 
     &.is-dirty::before {
-      border-color: var(--ids-color-palette-amber-30)  var(--ids-color-palette-amber-30) transparent  transparent;
-    }
-  }
-
-  .ids-data-grid[mode='contrast'] {
-    ids-data-grid-cell &.is-dirty::before {
-      /* stylelint-disable-next-line max-line-length */
-      border-color: var(--ids-color-palette-amber-50)  var(--ids-color-palette-amber-50) transparent  transparent !important;
+      border-color: var(--ids-dirty-indicator-background-color)  var(--ids-dirty-indicator-background-color) transparent  transparent;
     }
   }
 }

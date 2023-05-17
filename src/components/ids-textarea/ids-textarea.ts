@@ -8,7 +8,6 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsClearableMixin from '../../mixins/ids-clearable-mixin/ids-clearable-mixin';
 import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
 import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import '../ids-icon/ids-icon';
@@ -17,15 +16,13 @@ import '../ids-trigger-field/ids-trigger-field';
 
 import styles from './ids-textarea.scss';
 
-const Base = IdsThemeMixin(
-  IdsDirtyTrackerMixin(
-    IdsLocaleMixin(
-      IdsLabelStateMixin(
-        IdsValidationMixin(
-          IdsClearableMixin(
-            IdsEventsMixin(
-              IdsElement
-            )
+const Base = IdsDirtyTrackerMixin(
+  IdsLocaleMixin(
+    IdsLabelStateMixin(
+      IdsValidationMixin(
+        IdsClearableMixin(
+          IdsEventsMixin(
+            IdsElement
           )
         )
       )
@@ -66,7 +63,6 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsLabelStateMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @mixes IdsValidationMixin
  * @part textarea - the textarea element
  * @part label - the label element

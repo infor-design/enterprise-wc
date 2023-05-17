@@ -1,10 +1,8 @@
-@import '../ids-popup/ids-popup-base';
 
 @mixin modal-host-rules() {
   :host {
-    @include block();
-    @include absolute();
-
+    display: block;
+    position: absolute;
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -26,6 +24,6 @@
   }
 
   .ids-modal-header + .ids-modal-content {
-    @include pt-0();
+    padding-block-start: 0;
   }
 }

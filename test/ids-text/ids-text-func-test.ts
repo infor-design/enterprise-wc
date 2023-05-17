@@ -80,10 +80,10 @@ describe('IdsText Component', () => {
 
     document.body.innerHTML = '';
     const templateElem = document.createElement('template');
-    templateElem.innerHTML = '<ids-text font-weight="bold">I am bold</ids-text>';
+    templateElem.innerHTML = '<ids-text font-weight="semi-bold">I am bold</ids-text>';
     elem = templateElem.content.childNodes[0];
     document.body.appendChild(elem);
-    expect(elem.fontWeight).toEqual('bold');
+    expect(elem.fontWeight).toEqual('semi-bold');
   });
 
   it('renders overflow setting', () => {

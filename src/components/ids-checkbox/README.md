@@ -74,7 +74,7 @@ Set validation `required` to Checkbox without label required indicator:
 Add an Colored checked:
 
 ```html
-<ids-checkbox checked="true" color="emerald07" label="Emerald 07"></ids-checkbox>
+<ids-checkbox checked="true" color="emerald" label="Emerald"></ids-checkbox>
 <ids-checkbox checked="true" color="caution" label="Caution"></ids-checkbox>
 ```
 

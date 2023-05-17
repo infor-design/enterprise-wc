@@ -31,11 +31,11 @@ One main difference between the Modal and CAP is the `toolbar` slot, which will 
 
         <ids-toolbar-section type="buttonset" align="end">
             <ids-button id="btn-save" icon="save" no-padding>
-                <ids-text font-weight="bold">Save</ids-text>
+                <ids-text font-weight="semi-bold">Save</ids-text>
             </ids-button>
             <ids-separator vertical="true"></ids-separator>
             <ids-button id="btn-close" icon="close" no-padding>
-                <ids-text font-weight="bold">Close</ids-text>
+                <ids-text font-weight="semi-bold">Close</ids-text>
             </ids-button>
         </ids-toolbar-section>
     </ids-toolbar>

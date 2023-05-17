@@ -1,60 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IdsThemeSwitcher Component renders correctly 1`] = `
-"<ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu" icon="more" mode="light" aria-controls="ids-theme-menu" aria-haspopup="menu"><ids-icon icon="more" class="ids-icon"></ids-icon>
+"<ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu" icon="more" aria-controls="ids-theme-menu" aria-haspopup="menu"><ids-icon icon="more" class="ids-icon"></ids-icon>
       <span class="audible">Theme Switcher</span>
     </ids-menu-button>
-    <ids-popup-menu id="ids-theme-menu" target="#ids-theme-switcher" trigger-type="click" mode="light" role="none" hidden="">
+    <ids-popup-menu id="ids-theme-menu" target="#ids-theme-switcher" trigger-type="click" role="none" hidden="">
       <ids-menu-group role="group" aria-label="Menu group containing 2 item(s)">
-    <ids-menu-item mode="light">
+    <ids-menu-item>
       <ids-text translate-text="true">Mode</ids-text>
-        <ids-popup-menu slot="submenu" aria-expanded="false" mode="light" role="none" hidden="">
+        <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
           <ids-menu-group select="single" role="group" aria-label="Menu group containing 3 item(s)">
-            <ids-menu-item selected="" value="light" mode="light">
+            <ids-menu-item selected="" value="light">
               <ids-text translate-text="true">Light</ids-text>
               </ids-menu-item>
-            <ids-menu-item value="dark" mode="light">
+            <ids-menu-item value="dark">
               <ids-text translate-text="true">Dark</ids-text>
             </ids-menu-item>
-            <ids-menu-item value="contrast" mode="light">
+            <ids-menu-item value="contrast">
               <ids-text translate-text="true">Contrast</ids-text>
             </ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
       </ids-menu-item>
-      <ids-menu-item mode="light">
+      <ids-menu-item>
         <ids-text translate-text="true">Locale</ids-text>
-        <ids-popup-menu slot="submenu" aria-expanded="false" mode="light" role="none" hidden="">
+        <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
           <ids-menu-group select="single" id="locale-menu" role="group" aria-label="Menu group containing 8 item(s)">
-            <ids-menu-item selected="" value="en-US" mode="light">
+            <ids-menu-item selected="" value="en-US">
               <ids-text translate-text="true">English</ids-text>
               <ids-text>(en-US)</ids-text>
             </ids-menu-item>
-            <ids-menu-item value="de-DE" mode="light">
+            <ids-menu-item value="de-DE">
               <ids-text translate-text="true">German</ids-text>
               <ids-text>(de-DE)</ids-text>
             </ids-menu-item>
-            <ids-menu-item value="uk-UA" mode="light">
+            <ids-menu-item value="uk-UA">
               <ids-text translate-text="true">Ukrainian</ids-text>
               <ids-text>(uk-UA)</ids-text>
             </ids-menu-item>
-            <ids-menu-item value="bg-BG" mode="light">
+            <ids-menu-item value="bg-BG">
               <ids-text translate-text="true">Bulgarian</ids-text>
               <ids-text>(bg-BG)</ids-text>
             </ids-menu-item>
-            <ids-menu-item value="he-IL" mode="light">
+            <ids-menu-item value="he-IL">
               <ids-text translate-text="true">Hebrew</ids-text>
               <ids-text>(he-IL)</ids-text>
             </ids-menu-item>
-            <ids-menu-item value="ar-EG" mode="light">
+            <ids-menu-item value="ar-EG">
               <ids-text translate-text="true">Arabic</ids-text>
               <ids-text>(ar-EG)</ids-text>
             </ids-menu-item>
-            <ids-menu-item value="th-TH" mode="light">
+            <ids-menu-item value="th-TH">
               <ids-text translate-text="true">Thai</ids-text>
               <ids-text>(th-TH)</ids-text>
             </ids-menu-item>
-            <ids-menu-item value="zh-Hans" mode="light">
+            <ids-menu-item value="zh-Hans">
               <ids-text translate-text="true">Chinese</ids-text>
               <ids-text>(zh-Hans)</ids-text>
             </ids-menu-item>

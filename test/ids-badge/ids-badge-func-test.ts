@@ -97,11 +97,6 @@ describe('IdsBadge Component', () => {
     expect(badge.shape).toEqual('normal');
   });
 
-  it('supports setting mode', () => {
-    badge.mode = 'dark';
-    expect(badge.container.getAttribute('mode')).toEqual('dark');
-  });
-
   it('should be able to set attributes before append', async () => {
     const elem: any = new IdsBadge();
     elem.color = 'error';

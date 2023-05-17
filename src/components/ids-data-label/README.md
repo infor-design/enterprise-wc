@@ -22,7 +22,8 @@ Shows a data label with one top label and one with a left label.
 - IdsDataLabel
   - IdsElement
 - Mixins
-  IdsThemeMixin
+  IdsEventsMixin
+  IdsLocaleMixin
 
 ## Settings (Attributes)
 

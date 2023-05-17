@@ -8,3 +8,6 @@
   - link: example.html
     type: Main Example
     description: Shows a color swatch
+  - link: palette.html
+    type: Example
+    description: Shows all the colors in the color palette

@@ -162,7 +162,12 @@ export default class IdsThemeSwitcher extends Base {
    * @returns {Array} The attributes in an array
    */
   static get attributes(): Array<any> {
-    return [...super.attributes, attributes.LANGUAGE, attributes.MODE];
+    return [
+      ...super.attributes,
+      attributes.LANGUAGE,
+      attributes.MODE,
+      attributes.THEME
+    ];
   }
 
   /**
@@ -177,15 +182,33 @@ export default class IdsThemeSwitcher extends Base {
    */
   set mode(value: string) {
     if (value) {
-      this.setAttribute('mode', value);
-      this.triggerEvent('themechanged', this, { detail: { elem: this, mode: value } });
+      this.theme = `default-${value}`;
+      this.triggerEvent('modechanged', this, { detail: { elem: this, mode: value }, bubbles: true, composed: true });
+      this.setAttribute(attributes.MODE, value);
       return;
     }
 
-    this.removeAttribute('mode');
+    this.removeAttribute(attributes.MODE);
   }
 
-  get mode(): string { return this.getAttribute('mode') || 'light'; }
+  get mode(): string { return this.getAttribute(attributes.MODE) || 'light'; }
+
+  /**
+   * Set the theme
+   * @param {string} value The mode value for example: light, dark, or high-contrast
+   */
+  set theme(value: string) {
+    if (value) {
+      this.setAttribute(attributes.THEME, value);
+      this.loadTheme(value);
+      this.triggerEvent('themechanged', this, { detail: { elem: this, mode: value }, bubbles: true, composed: true });
+      return;
+    }
+
+    this.removeAttribute(attributes.THEME);
+  }
+
+  get theme(): string { return this.getAttribute(attributes.THEME) || 'default-light'; }
 
   /**
    * Implements callback from IdsColorVariantMixin used to

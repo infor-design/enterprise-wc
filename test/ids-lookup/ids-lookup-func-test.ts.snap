@@ -13,7 +13,7 @@ exports[`IdsLookup Component renders correctly 2`] = `
     <slot name="lookup-modal">
       <ids-modal id="lookup-modal" aria-labelledby="lookup-modal-title" part="modal" message-title="Normal Lookup" aria-label="Normal Lookup" role="dialog" fullsize="sm" respond-down="sm">
         <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Normal Lookup</ids-text>
-        <ids-layout-grid class="data-grid-container" auto="true" gap="md" no-margins="true" min-col-width="600px">
+        <ids-layout-grid class="data-grid-container" auto-fit="true" gap="md" no-margins="true" min-col-width="600px">
           <ids-layout-grid-cell>
             <ids-data-grid id="lookup-data-grid" label="Normal Lookup" part="data-grid" list-style="true">
             </ids-data-grid>

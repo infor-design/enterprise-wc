@@ -8,7 +8,6 @@ import IdsFocusCaptureMixin from '../../mixins/ids-focus-capture-mixin/ids-focus
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin';
 import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -33,10 +32,8 @@ const Base = IdsXssMixin(
       IdsKeyboardMixin(
         IdsPopupInteractionsMixin(
           IdsPopupOpenEventsMixin(
-            IdsThemeMixin(
-              IdsEventsMixin(
-                IdsElement
-              )
+            IdsEventsMixin(
+              IdsElement
             )
           )
         )
@@ -54,7 +51,6 @@ const Base = IdsXssMixin(
  * @mixes IdsKeyboardMixin
  * @mixes IdsPopupInteractionsMixin
  * @mixes IdsPopupOpenEventsMixin
- * @mixes IdsThemeMixin
  * @mixes IdsXssMixin
  * @part popup - the popup outer element
  * @part overlay - the inner overlay element

@@ -2,7 +2,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -14,10 +13,8 @@ import '../ids-draggable/ids-draggable';
 import styles from './ids-splitter.scss';
 
 const Base = IdsLocaleMixin(
-  IdsThemeMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -71,7 +68,6 @@ const COLLAPSED = 'collapsed';
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @part splitter - the splitter container element
  * @part split-bar - the split bar element
  * @part split-bar-icon - the split bar icon element

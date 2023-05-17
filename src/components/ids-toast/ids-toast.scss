@@ -1,36 +1,33 @@
 /* Ids Toast Component */
-@import '../../core/ids-base';
-
 .ids-toast {
   .hidden {
-    @include hidden();
+    display: none;
   }
 
   .toast-container {
-    @include fixed();
-    @include z-8000();
-
     display: inline-block;
+    position: fixed;
     max-width: 60%;
+    z-index: var(--ids-z-index-toast);
 
     &.bottom-end {
-      @include bottom-8();
-      @include right-8();
+      bottom: 8px;
+      right: 8px;
     }
 
     &.bottom-start {
-      @include bottom-8();
-      @include left-8();
+      bottom: 8px;
+      left: 8px;
     }
 
     &.top-end {
-      @include right-8();
-      @include top-8();
+      top: 8px;
+      right: 8px;
     }
 
     &.top-start {
-      @include left-8();
-      @include top-8();
+      top: 8px;
+      left: 8px;
     }
   }
 }
@@ -38,27 +35,23 @@
 :host([dir='rtl']) {
   .toast-container {
     &.bottom-end {
-      @include left-8();
-
+      left: 8px;
       right: unset;
     }
 
     &.bottom-start {
-      @include right-8();
-
       left: unset;
+      right: 8px;
     }
 
     &.top-end {
-      @include left-8();
-
+      left: 8px;
       right: unset;
     }
 
     &.top-start {
-      @include right-8();
-
       left: unset;
+      right: 8px;
     }
   }
 }

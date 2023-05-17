@@ -1,15 +1,11 @@
-@import '../../core/ids-base';
-
 // General Dirty-Tracker icon placement
 .icon-dirty {
-  @include absolute();
-  @include text-amber-30();
-
-  top: -1px;
+  position: absolute;
+  color: var(--ids-color-caution-30);
+  top: 1px;
 
   &[dir='rtl'] {
-    @include transform(rotate(90deg));
-
+    transform: rotate(90deg);
     top: 0;
   }
 }
@@ -25,8 +21,8 @@
 
 // Radio
 .ids-radio-group .icon-dirty {
-  margin-inline-start: -4px;
-  margin-block-start: 6px;
+  margin-inline-start: -1px;
+  margin-block-start: 9px;
   top: auto;
   z-index: 1;
 }
@@ -34,7 +30,7 @@
 // Checkbox
 .ids-checkbox {
   .icon-dirty {
-    margin-inline-start: -26px;
+    margin-inline-start: -25px;
 
     &[dir='rtl'] {
       margin-inline-start: -20px;
@@ -58,11 +54,5 @@
 
   &[dir='rtl'] {
     top: 1px;
-  }
-}
-
-[mode='contrast'] {
-  .icon-dirty {
-    @include text-amber-50();
   }
 }

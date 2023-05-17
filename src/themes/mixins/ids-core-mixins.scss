@@ -1,0 +1,35 @@
+// Breakpoints - this cant be tokens
+$breakpoint-xxl: 1440px;
+$breakpoint-xl: 1280px;
+$breakpoint-lg: 1024px;
+$breakpoint-md: 840px;
+$breakpoint-sm: 600px;
+$breakpoint-xs: 360px;
+
+// Sets Text Antialiasing
+@mixin antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+$transition-length: var(--ids-transition-length);
+$transition-ease: var(--ids-transition-ease);
+
+// vendor prefixed transitions for regular attributes (non-vendor prefixed)
+@mixin transition($transitions-list...) {
+  @each $prefix in $prefixes {
+    #{$prefix}transition: $transitions-list;
+  }
+}
+
+// make the text invisible visually but readable by screen readers
+@mixin audible() {
+  clip: rect(0, 0, 0, 0);
+  height: 0;
+  line-height: 0;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}

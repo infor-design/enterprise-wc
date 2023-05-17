@@ -4,7 +4,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
 import '../ids-icon/ids-icon';
@@ -12,10 +11,8 @@ import '../ids-text/ids-text';
 
 import styles from './ids-empty-message.scss';
 
-const Base = IdsThemeMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
+const Base = IdsEventsMixin(
+  IdsElement
 );
 
 /**
@@ -23,7 +20,6 @@ const Base = IdsThemeMixin(
  * @type {IdsEmptyMessage}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
  * @part container - the container element
  */
 @customElement('ids-empty-message')

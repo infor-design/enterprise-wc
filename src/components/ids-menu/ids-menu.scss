@@ -2,11 +2,10 @@
 @import './ids-menu-base';
 
 :host {
-  @include block();
-
+  display: block;
   contain: content;
 }
 
 .ids-menu {
-  @include block();
+  display: block;
 }

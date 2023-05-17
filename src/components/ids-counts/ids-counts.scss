@@ -1,12 +1,12 @@
 /* Ids Counts Component */
-@import '../../core/ids-base';
+@use '../../themes/mixins/ids-core-mixins' as core;
 
 .ids-counts {
-  @include font-sans();
-  @include antialiased();
-  @include text-slate-80();
+  @include core.antialiased();
 
+  color: var(--ids-counts-text-color);
   contain: content;
+  font-family: var(--ids-font-family);
   text-align: center;
 
   &::part(link) {
@@ -14,7 +14,7 @@
   }
 
   &[href] {
-    @include text-azure-60();
+    color: var(--ids-counts-hyperlink-text-color);
   }
 
   &[color] {
@@ -23,24 +23,15 @@
 }
 
 .ids-counts div[count-value] {
-  @include text-16();
+  font-size: var(--ids-counts-value-font-size);
 }
 
 .ids-counts div[count-text] {
-  @include text-48();
+  font-size: var(--ids-counts-count-font-size);
 }
 
 a:focus {
-  border: 1px solid var(--ids-color-palette-azure-60);
-  box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
+  border: 1px solid var(--ids-focus-border-color);
+  box-shadow: var(--ids-box-shadow-lg);
   outline: none;
-}
-
-// Handle Themes
-.ids-counts[mode='dark']:not([color]) {
-  @include text-slate-10();
-}
-
-.ids-counts[mode='contrast']:not([color]) {
-  @include text-slate-100();
 }

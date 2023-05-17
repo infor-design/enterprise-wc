@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -29,12 +28,10 @@ import '../ids-draggable/ids-draggable';
 
 import styles from './ids-toast.scss';
 
-const Base = IdsThemeMixin(
-  IdsLocaleMixin(
-    IdsKeyboardMixin(
-      IdsEventsMixin(
-        IdsElement
-      )
+const Base = IdsLocaleMixin(
+  IdsKeyboardMixin(
+    IdsEventsMixin(
+      IdsElement
     )
   )
 );
@@ -43,10 +40,9 @@ const Base = IdsThemeMixin(
  * IDS Toast Component
  * @type {IdsToast}
  * @inherits IdsElement
- * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsEventsMixin
  * @part toast - the toast element
  */
 @customElement('ids-toast')
@@ -294,7 +290,8 @@ export default class IdsToast extends Base {
     addAttribute(toastEl, attributes.AUDIBLE);
     addAttribute(toastEl, attributes.PROGRESS_BAR);
     addAttribute(toastEl, attributes.TIMEOUT);
-    if (this.localeAPI?.isRTL()) {
+
+    if (document.body?.querySelector('ids-container')?.getAttribute('dir') === 'rtl') {
       this.setAttribute('dir', 'rtl');
       toastEl.setAttribute('dir', 'rtl');
     }
