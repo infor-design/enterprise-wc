@@ -8,10 +8,18 @@ import '../ids-accordion/ids-accordion';
 import '../ids-date-picker/ids-date-picker';
 import '../ids-date-picker/ids-month-year-picklist';
 import IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
+// eslint-disable-next-line import/no-duplicates
+import '../ids-month-view/ids-month-view';
+// eslint-disable-next-line import/no-duplicates
 import IdsMonthView from '../ids-month-view/ids-month-view';
+// eslint-disable-next-line import/no-duplicates
+import '../ids-week-view/ids-week-view';
+// eslint-disable-next-line import/no-duplicates
 import IdsWeekView from '../ids-week-view/ids-week-view';
-import IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import '../ids-checkbox/ids-checkbox';
+import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import '../ids-toolbar/ids-toolbar';
+import '../ids-data-label/ids-data-label';
 import IdsToolbarSection from '../ids-toolbar/ids-toolbar-section';
 import styles from './ids-calendar.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
