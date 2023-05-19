@@ -15,9 +15,18 @@ if (autocomplete) {
 
 const categories = ['Images', 'Documents', 'Audio', 'Video'];
 
-document.querySelectorAll('#categories, #categories-button, #categories-short')
+const categorySelectors = [
+  '#categories',
+  '#categories-button',
+  '#categories-short',
+  'ids-search-field[multiple]',
+];
+
+document.querySelectorAll(categorySelectors.join(', '))
   .forEach((element: any) => {
     element.categories = categories;
   });
 
-document.querySelector('#categories-button')?.addEventListener('search', console.log);
+const logSearchDetails = ({ detail }: any) => console.log(detail);
+document.querySelector('#categories-button')?.addEventListener('search', logSearchDetails);
+document.querySelector('#categories-button-multiple')?.addEventListener('search', logSearchDetails);

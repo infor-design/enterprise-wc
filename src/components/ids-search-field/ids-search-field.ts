@@ -160,6 +160,18 @@ export default class IdsSearchField extends IdsTriggerField {
     return this.getAttribute(attributes.ACTION) ?? '';
   }
 
+  set multiple(value: boolean) {
+    if (value) {
+      this.setAttribute(attributes.MULTIPLE, '');
+    } else {
+      this.removeAttribute(attributes.MULTIPLE);
+    }
+  }
+
+  get multiple(): boolean {
+    return this.hasAttribute(attributes.MULTIPLE);
+  }
+
   template(): string {
     this.templateHostAttributes();
     const {
@@ -244,7 +256,7 @@ export default class IdsSearchField extends IdsTriggerField {
         ${menuButtonText}
       </ids-menu-button>
       <ids-popup-menu id="category-menu" target="menu-button" trigger-type="click" align="bottom, right">
-        <ids-menu-group select="multiple" keep-open="true">
+        <ids-menu-group select="${this.multiple ? 'multiple' : 'single'}" keep-open="true">
           ${this.categories.map((category, idx) => `<ids-menu-item value="${idx}">${category}</ids-menu-item>`).join('')}
         </ids-menu-group>
       </ids-popup-menu>
