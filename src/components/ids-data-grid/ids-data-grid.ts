@@ -600,131 +600,133 @@ export default class IdsDataGrid extends Base {
    * @returns {object} This API object for chaining
    */
   #attachKeyboardListeners() {
-    // Handle arrow navigation
-    this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e: KeyboardEvent) => {
-      const inFilter = findInPath(eventPath(e), '.ids-data-grid-header-cell-filter-wrapper');
-      const key = e.key;
-      if (inFilter && (key === 'ArrowRight' || key === 'ArrowLeft')) return;
-      if (!this.activeCell?.node) return;
-      const cellNode = this.activeCell.node;
-      const cellNumber = Number(this.activeCell?.cell);
-      const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
-      const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
-      const nextRow = Number(next(cellNode.parentElement, `:not([hidden])`)?.getAttribute('row-index'));
-      const prevRow = Number(previous(cellNode.parentElement, `:not([hidden])`)?.getAttribute('row-index'));
-      const rowIndex = key === 'ArrowDown' ? nextRow : prevRow;
-
-      const movingHorizontal = key === 'ArrowLeft' || key === 'ArrowRight';
-      const reachedHorizontalBounds = cellNumber < 0 || cellNumber >= this.visibleColumns.length;
-      if (movingHorizontal && reachedHorizontalBounds) return;
-
-      const movingVertical = key === 'ArrowDown' || key === 'ArrowUp';
-      const reachedVerticalBounds = nextRow >= this.data.length || prevRow < 0;
-      if (movingVertical && reachedVerticalBounds) return;
-
-      if (this.activeCellEditor) cellNode.endCellEdit();
-
-      const activateCellNumber = cellNumber + cellDiff;
-      const activateRowIndex = rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex;
-      this.setActiveCell(activateCellNumber, activateRowIndex);
-
-      if (this.rowSelection === 'mixed' && this.rowNavigation) {
-        (cellNode.parentElement as IdsDataGridRow).toggleRowActivation();
-      }
-      e.preventDefault();
-      e.stopPropagation();
-    });
-
-    // Handle Selection and Expand
-    this.listen([' '], this, (e: Event) => {
-      if (this.activeCellEditor) return;
-      if (!this.activeCell?.node) return;
-      const button = this.activeCell.node.querySelector('ids-button');
-      if (button) {
-        button.click();
-        e.preventDefault();
-        return;
-      }
-
-      const child = this.activeCell.node.children[0];
-      const isCheckbox = child?.classList.contains('ids-data-grid-checkbox-container')
-        && !child?.classList.contains('is-selection-checkbox');
-      if (isCheckbox) {
-        this.activeCell.node.click();
-        e.preventDefault();
-        return;
-      }
-      const row = this.rowByIndex(this.activeCell.row)!;
-      row.toggleSelection();
-      e.preventDefault();
-    });
-
-    // Follow links with keyboard and start editing
-    this.listen(['Enter'], this, (e: KeyboardEvent) => {
-      if (!this.activeCell?.node || findInPath(eventPath(e), '.ids-data-grid-header-cell-filter-wrapper')) return;
-
-      const cellNode = this.activeCell.node;
-      const hyperlink = cellNode.querySelector('ids-hyperlink');
-      const button = cellNode.querySelector('ids-button');
-      const customLink = cellNode.querySelector('a');
-
-      if (hyperlink && !hyperlink.container.matches(':focus') && !hyperlink.hasAttribute('disabled')) {
-        hyperlink.container.click();
-        hyperlink.container.focus();
-      }
-
-      if (button && !button.hasAttribute('disabled')) {
-        button.click();
-      }
-
-      customLink?.click();
-
-      if (customLink) {
-        cellNode.focus();
-      }
-      this.#handleEditMode(e, cellNode);
-    });
-
-    // Commit Edit
-    this.listen(['F2'], this, () => {
-      const cellNode = this.activeCell.node;
-      if (this.activeCellEditor) {
-        cellNode.endCellEdit();
-        cellNode.focus();
-      }
-    });
-
-    // Cancel Edit
-    this.listen(['Escape'], this, () => {
-      const cellNode = this.activeCell.node;
-      if (this.activeCellEditor) {
-        cellNode.cancelCellEdit();
-        cellNode.focus();
-      }
-    });
-
-    // Edit Next
-    this.listen(['Tab'], this, (e: KeyboardEvent) => {
-      if (this.activeCellEditor) {
-        if (e.shiftKey) this.#editAdjacentCell(IdsDirection.Previous);
-        else this.#editAdjacentCell(IdsDirection.Next);
-
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        e.preventDefault();
-        return false;
-      }
-      return true;
-    });
-
-    // Enter Edit by typing
-    this.offEvent('keydown.body', this);
-    this.onEvent('keydown.body', this, (e: KeyboardEvent) => {
+    this.offEvent('keydown.body', this.body);
+    this.onEvent('keydown.body', this.body, (e: KeyboardEvent): boolean | void => {
+      // Enter Edit by typing
       const isPrintableKey = e.key.length === 1;
       if (!this.activeCellEditor && isPrintableKey && e.key !== ' ') {
         this.activeCell?.node?.startCellEdit?.();
+        return;
+      }
+
+      // Handle arrow navigation
+      if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+        const inFilter = findInPath(eventPath(e), '.ids-data-grid-header-cell-filter-wrapper');
+        const key = e.key;
+        if (inFilter && (key === 'ArrowRight' || key === 'ArrowLeft')) return;
+        if (!this.activeCell?.node) return;
+        const cellNode = this.activeCell.node;
+        const cellNumber = Number(this.activeCell?.cell);
+        const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
+        const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
+        const nextRow = Number(next(cellNode.parentElement, `:not([hidden])`)?.getAttribute('row-index'));
+        const prevRow = Number(previous(cellNode.parentElement, `:not([hidden])`)?.getAttribute('row-index'));
+        const rowIndex = key === 'ArrowDown' ? nextRow : prevRow;
+
+        const movingHorizontal = key === 'ArrowLeft' || key === 'ArrowRight';
+        const reachedHorizontalBounds = cellNumber < 0 || cellNumber >= this.visibleColumns.length;
+        if (movingHorizontal && reachedHorizontalBounds) return;
+
+        const movingVertical = key === 'ArrowDown' || key === 'ArrowUp';
+        const reachedVerticalBounds = nextRow >= this.data.length || prevRow < 0;
+        if (movingVertical && reachedVerticalBounds) return;
+
+        if (this.activeCellEditor) cellNode.endCellEdit();
+
+        const activateCellNumber = cellNumber + cellDiff;
+        const activateRowIndex = rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex;
+        this.setActiveCell(activateCellNumber, activateRowIndex);
+
+        if (this.rowSelection === 'mixed' && this.rowNavigation) {
+          (cellNode.parentElement as IdsDataGridRow).toggleRowActivation();
+        }
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      // Handle Selection and Expand
+      if (e.key === ' ') {
+        if (this.activeCellEditor) return;
+        if (!this.activeCell?.node) return;
+        const button = this.activeCell.node.querySelector('ids-button');
+        if (button) {
+          button.click();
+          e.preventDefault();
+          return;
+        }
+
+        const child = this.activeCell.node.children[0];
+        const isCheckbox = child?.classList.contains('ids-data-grid-checkbox-container')
+          && !child?.classList.contains('is-selection-checkbox');
+        if (isCheckbox) {
+          this.activeCell.node.click();
+          e.preventDefault();
+          return;
+        }
+        const row = this.rowByIndex(this.activeCell.row)!;
+        row.toggleSelection();
+        e.preventDefault();
+      }
+
+      // Follow links with keyboard and start editing
+      if (e.key === 'Enter') {
+        if (!this.activeCell?.node) return;
+
+        const cellNode = this.activeCell.node;
+        const hyperlink = cellNode.querySelector('ids-hyperlink');
+        const button = cellNode.querySelector('ids-button');
+        const customLink = cellNode.querySelector('a');
+
+        if (hyperlink && !hyperlink.container.matches(':focus') && !hyperlink.hasAttribute('disabled')) {
+          hyperlink.container.click();
+          hyperlink.container.focus();
+        }
+
+        if (button && !button.hasAttribute('disabled')) {
+          button.click();
+        }
+
+        customLink?.click();
+
+        if (customLink) {
+          cellNode.focus();
+        }
+        this.#handleEditMode(e, cellNode);
+      }
+
+      // Commit Edit
+      if (e.key === 'F2') {
+        const cellNode = this.activeCell.node;
+        if (this.activeCellEditor) {
+          cellNode.endCellEdit();
+          cellNode.focus();
+        }
+      }
+
+      // Cancel Edit
+      if (e.key === 'Escape') {
+        const cellNode = this.activeCell.node;
+        if (this.activeCellEditor) {
+          cellNode.cancelCellEdit();
+          cellNode.focus();
+        }
+      }
+
+      // Edit Next
+      if (e.key === 'Tab') {
+        if (this.activeCellEditor) {
+          if (e.shiftKey) this.#editAdjacentCell(IdsDirection.Previous);
+          else this.#editAdjacentCell(IdsDirection.Next);
+
+          e.stopImmediatePropagation();
+          e.stopPropagation();
+          e.preventDefault();
+          return false;
+        }
+        return true;
       }
     });
+
     return this;
   }
 
