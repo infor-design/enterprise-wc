@@ -12,3 +12,12 @@ if (autocomplete) {
 
   setData();
 }
+
+const categories = ['Images', 'Documents', 'Audio', 'Video'];
+
+document.querySelectorAll('#categories, #categories-button, #categories-short')
+  .forEach((element: any) => {
+    element.categories = categories;
+  });
+
+document.querySelector('#categories-button')?.addEventListener('search', console.log);

@@ -9,7 +9,7 @@
     <ids-theme-switcher mode="light"></ids-theme-switcher>
 
     <ids-layout-grid auto-fit="true" padding="md">
-      <ids-text font-size="12" type="h1">Search Field</ids-text>
+      <ids-text font-size="12" type="h1">Search Field - Default</ids-text>
     </ids-layout-grid>
 
     <ids-layout-grid cols="3" gap="xl" padding-x="md">
@@ -39,6 +39,25 @@
           autocomplete
           search-field="label"
         ></ids-search-field>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Search Field - Categories</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="3" gap="xl" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-search-field id="categories" clearable category="Files" label="Categories" placeholder="Type a search term" value=""></ids-search-field>
+      </ids-layout-grid-cell>
+    
+      <ids-layout-grid-cell>
+        <ids-search-field id="categories-button" clearable category="Files" label="Categories and Button" placeholder="Search" value="" action="Go"></ids-search-field>
+      </ids-layout-grid-cell>
+    
+      <ids-layout-grid-cell>
+        <ids-search-field id="categories-short" clearable label="Categories Short" value=""></ids-search-field>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 

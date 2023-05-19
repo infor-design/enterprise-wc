@@ -56,6 +56,31 @@
     margin-inline-start: var(--ids-searchfield-app-menu-search-icon-margin);
   }
 
+  .fieldset {
+    display: inline-flex;
+    flex-direction: row;
+  }
+
+  #category-action-button::part(button) {
+    padding: var(--ids-spacing-lg);
+    margin-inline-start: var(--ids-searchfield-app-menu-search-icon-margin);
+  }
+
+  ids-menu-button::part(button) {
+    border: 0;
+    // padding: 0 12px;
+    padding: 0;
+    margin: 0;
+    margin-inline-start: var(--ids-spacing-lg);
+
+    &,
+    &:active,
+    &:hover {
+      background: transparent;
+      background-color: transparent;
+    }
+  }
+
   // =============================
   // Default Styles for color variants (Applicable to all themes)
   &.color-variant-alternate {

@@ -2,11 +2,16 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
+// import IdsPickerPopup from '../ids-picker-popup/ids-picker-popup';
+// import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 
+// import '../ids-picker-popup/ids-picker-popup';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-input/ids-input';
 import '../ids-icon/ids-icon';
+import '../ids-menu-button/ids-menu-button';
+import '../ids-popup-menu/ids-popup-menu';
 
 import styles from './ids-search-field.scss';
 
@@ -56,6 +61,7 @@ export default class IdsSearchField extends IdsTriggerField {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.CATEGORY,
     ];
   }
 
@@ -72,6 +78,88 @@ export default class IdsSearchField extends IdsTriggerField {
     }
   }
 
+  get selectedCategories(): string[] {
+    const categories = this.categories;
+    const selectedValues = this.#categoriesPopup?.getSelectedValues?.() ?? [];
+    const selectedCategories = selectedValues.map((categoryKey: number) => categories[categoryKey]);
+    return selectedCategories;
+  }
+
+  #updateMenuButton() {
+    const category = this.category;
+    const menuButton = this.#categoriesMenuButton;
+    if (!category || !menuButton) return;
+
+    const selectedValues = this.#categoriesPopup?.getSelectedValues?.() ?? [];
+    // const selectedCategories = this.selectedCategories;
+
+    if (selectedValues.length === 1) {
+      const categoryKey = selectedValues[0];
+      menuButton.text = this.categories[categoryKey];
+    } else if (selectedValues.length > 1) {
+      menuButton.text = `${selectedValues.length} [Selected]`;
+    } else {
+      menuButton.text = category;
+    }
+  }
+
+  get #categoriesPopup(): any {
+    return this.shadowRoot?.querySelector('ids-popup-menu');
+  }
+
+  get #categoriesMenuButton(): any {
+    return this.shadowRoot?.querySelector('ids-menu-button');
+  }
+
+  get #categoriesActionButton(): any {
+    return this.shadowRoot?.querySelector('ids-button#category-action-button');
+  }
+
+  #categories: string[] = [];
+
+  get categories(): string[] { return this.#categories; }
+
+  set categories(value: string[]) { this.#categories = value; }
+
+  set category(value: string) {
+    if (value) {
+      this.setAttribute(attributes.CATEGORY, value);
+    } else {
+      this.removeAttribute(attributes.CATEGORY);
+    }
+  }
+
+  get category(): string {
+    return this.getAttribute(attributes.CATEGORY) ?? '';
+    // const category = this.getAttribute(attributes.CATEGORY) ?? '';
+    // if (!category) return ``;
+
+    // const selectedValues = this.#categoriesPopup?.getSelectedValues?.() ?? [];
+
+    // if (selectedValues.length === 1) {
+    //   const categoryKey = selectedValues[0];
+    //   return this.categories[categoryKey];
+    // }
+
+    // if (selectedValues.length > 1) {
+    //   return `${selectedValues.length} [Selected]`;
+    // }
+
+    // return category;
+  }
+
+  set action(value: string) {
+    if (value) {
+      this.setAttribute(attributes.ACTION, value);
+    } else {
+      this.removeAttribute(attributes.ACTION);
+    }
+  }
+
+  get action(): string {
+    return this.getAttribute(attributes.ACTION) ?? '';
+  }
+
   template(): string {
     this.templateHostAttributes();
     const {
@@ -85,23 +173,29 @@ export default class IdsSearchField extends IdsTriggerField {
       value
     } = this.templateVariables();
 
+    const searchIcon = `<ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>`;
+
     return `<div id="ids-search-field" class="ids-search-field ids-trigger-field ${containerClass}" part="container">
       ${labelHtml}
-      <div class="field-container" part="field-container">
-        <ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>
-        <slot name="trigger-start"></slot>
-        <input
-          part="input"
-          id="${this.id}-input"
-          ${type}${inputClass}${placeholder}${inputState}
-          ${ariaLabel}
-          ${value}
-          ></input>
-        <slot name="trigger-end"></slot>
+      <div class="fieldset">
+        <div class="field-container" part="field-container">
+          ${this.categories.length ? '' : searchIcon}
+          <slot name="trigger-start"></slot>
+          ${this.templateCategories()}
+          <input
+            part="input"
+            id="${this.id}-input"
+            ${type}${inputClass}${placeholder}${inputState}
+            ${ariaLabel}
+            ${value}
+            ></input>
+          <slot name="trigger-end"></slot>
+        </div>
+        ${this.templateCategoriesButton()}
       </div>
       ${this.autocomplete ? `
         <ids-popup
-          type="dropdown"
+          type="menu"
           align="bottom, left"
           align-target="#${this.id}-input"
           part="popup"
@@ -109,6 +203,52 @@ export default class IdsSearchField extends IdsTriggerField {
           <ids-list-box slot="content"></ids-list-box>
         </ids-popup>` : ''}
     </div>`;
+  }
+
+  templateCategoriesButton(): string {
+    if (!this.action) return ``;
+
+    return `
+      <ids-button id="category-action-button" appearance="secondary">
+        <span>${this.action}</span>
+      </ids-button>
+    `;
+  }
+
+  // templateCategoriesShort(): string {
+  //   if (!this.categories.length) return ``;
+  //   if (this.category) return ``;
+
+  //   return `
+  //     <ids-menu-button id="menu-button" appearance="tertiary" menu="category-menu" icon="search" dropdown-icon>
+  //       <span class="audible">Icon Only Button</span>
+  //     </ids-menu-button>
+  //     <ids-popup-menu id="category-menu" target="menu-button" trigger-type="click" align="bottom, right">
+  //       <ids-menu-group select="multiple" keep-open="true">
+  //         ${this.categories.map((category, idx) => `<ids-menu-item value="${idx}">${category}</ids-menu-item>`).join('')}
+  //       </ids-menu-group>
+  //     </ids-popup-menu>
+  //   `;
+  // }
+
+  templateCategories(): string {
+    if (!this.categories.length) return ``;
+    // if (!this.category) return this.templateCategoriesShort();
+
+    const menuButtonText = this.category
+      ? `<span>${this.category}</span>`
+      : `<span class="audible">Icon Only Button</span>`;
+
+    return `
+      <ids-menu-button id="menu-button" appearance="tertiary" menu="category-menu" icon="search" dropdown-icon>
+        ${menuButtonText}
+      </ids-menu-button>
+      <ids-popup-menu id="category-menu" target="menu-button" trigger-type="click" align="bottom, right">
+        <ids-menu-group select="multiple" keep-open="true">
+          ${this.categories.map((category, idx) => `<ids-menu-item value="${idx}">${category}</ids-menu-item>`).join('')}
+        </ids-menu-group>
+      </ids-popup-menu>
+    `;
   }
 
   /**
@@ -173,6 +313,23 @@ export default class IdsSearchField extends IdsTriggerField {
 
     this.onEvent('change', this.input, handleSearchEvent);
     this.onEvent('input', this.input, handleSearchEvent);
+
+    this.onEvent('selected', this.#categoriesPopup, () => this.#updateMenuButton());
+    this.onEvent('deselected', this.#categoriesPopup, () => this.#updateMenuButton());
+
+    this.onEvent('click', this.#categoriesActionButton, () => {
+      this.triggerEvent('search', this, {
+        detail: {
+          elem: this,
+          categories: this.categories,
+          categoriesSelected: this.selectedCategories,
+          value: this.value,
+        },
+        bubbles: true,
+        cancelable: false,
+        composed: false
+      });
+    });
   }
 
   /**
