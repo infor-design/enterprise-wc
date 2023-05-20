@@ -78,100 +78,6 @@ export default class IdsSearchField extends IdsTriggerField {
     }
   }
 
-  get selectedCategories(): string[] {
-    const categories = this.categories;
-    const selectedValues = this.#categoriesPopup?.getSelectedValues?.() ?? [];
-    const selectedCategories = selectedValues.map((categoryKey: number) => categories[categoryKey]);
-    return selectedCategories;
-  }
-
-  #updateMenuButton() {
-    const category = this.category;
-    const menuButton = this.#categoriesMenuButton;
-    if (!category || !menuButton) return;
-
-    const selectedValues = this.#categoriesPopup?.getSelectedValues?.() ?? [];
-    // const selectedCategories = this.selectedCategories;
-
-    if (selectedValues.length === 1) {
-      const categoryKey = selectedValues[0];
-      menuButton.text = this.categories[categoryKey];
-    } else if (selectedValues.length > 1) {
-      menuButton.text = `${selectedValues.length} [Selected]`;
-    } else {
-      menuButton.text = category;
-    }
-  }
-
-  get #categoriesPopup(): any {
-    return this.shadowRoot?.querySelector('ids-popup-menu');
-  }
-
-  get #categoriesMenuButton(): any {
-    return this.shadowRoot?.querySelector('ids-menu-button');
-  }
-
-  get #categoriesActionButton(): any {
-    return this.shadowRoot?.querySelector('ids-button#category-action-button');
-  }
-
-  #categories: string[] = [];
-
-  get categories(): string[] { return this.#categories; }
-
-  set categories(value: string[]) { this.#categories = value; }
-
-  set category(value: string) {
-    if (value) {
-      this.setAttribute(attributes.CATEGORY, value);
-    } else {
-      this.removeAttribute(attributes.CATEGORY);
-    }
-  }
-
-  get category(): string {
-    return this.getAttribute(attributes.CATEGORY) ?? '';
-    // const category = this.getAttribute(attributes.CATEGORY) ?? '';
-    // if (!category) return ``;
-
-    // const selectedValues = this.#categoriesPopup?.getSelectedValues?.() ?? [];
-
-    // if (selectedValues.length === 1) {
-    //   const categoryKey = selectedValues[0];
-    //   return this.categories[categoryKey];
-    // }
-
-    // if (selectedValues.length > 1) {
-    //   return `${selectedValues.length} [Selected]`;
-    // }
-
-    // return category;
-  }
-
-  set action(value: string) {
-    if (value) {
-      this.setAttribute(attributes.ACTION, value);
-    } else {
-      this.removeAttribute(attributes.ACTION);
-    }
-  }
-
-  get action(): string {
-    return this.getAttribute(attributes.ACTION) ?? '';
-  }
-
-  set multiple(value: boolean) {
-    if (value) {
-      this.setAttribute(attributes.MULTIPLE, '');
-    } else {
-      this.removeAttribute(attributes.MULTIPLE);
-    }
-  }
-
-  get multiple(): boolean {
-    return this.hasAttribute(attributes.MULTIPLE);
-  }
-
   template(): string {
     this.templateHostAttributes();
     const {
@@ -227,25 +133,8 @@ export default class IdsSearchField extends IdsTriggerField {
     `;
   }
 
-  // templateCategoriesShort(): string {
-  //   if (!this.categories.length) return ``;
-  //   if (this.category) return ``;
-
-  //   return `
-  //     <ids-menu-button id="menu-button" appearance="tertiary" menu="category-menu" icon="search" dropdown-icon>
-  //       <span class="audible">Icon Only Button</span>
-  //     </ids-menu-button>
-  //     <ids-popup-menu id="category-menu" target="menu-button" trigger-type="click" align="bottom, right">
-  //       <ids-menu-group select="multiple" keep-open="true">
-  //         ${this.categories.map((category, idx) => `<ids-menu-item value="${idx}">${category}</ids-menu-item>`).join('')}
-  //       </ids-menu-group>
-  //     </ids-popup-menu>
-  //   `;
-  // }
-
   templateCategories(): string {
     if (!this.categories.length) return ``;
-    // if (!this.category) return this.templateCategoriesShort();
 
     const menuButtonText = this.category
       ? `<span>${this.category}</span>`
@@ -261,6 +150,85 @@ export default class IdsSearchField extends IdsTriggerField {
         </ids-menu-group>
       </ids-popup-menu>
     `;
+  }
+
+  get selectedCategories(): string[] {
+    const categories = this.categories;
+    const selectedValues = this.#categoriesPopup?.getSelectedValues?.() ?? [];
+    const selectedCategories = selectedValues.map((categoryKey: number) => categories[categoryKey]);
+    return selectedCategories;
+  }
+
+  #updateMenuButton() {
+    const category = this.category;
+    const menuButton = this.#categoriesMenuButton;
+    if (!category || !menuButton) return;
+
+    const selectedValues = this.#categoriesPopup?.getSelectedValues?.() ?? [];
+    // const selectedCategories = this.selectedCategories;
+
+    if (selectedValues.length === 1) {
+      const categoryKey = selectedValues[0];
+      menuButton.text = this.categories[categoryKey];
+    } else if (selectedValues.length > 1) {
+      menuButton.text = `${selectedValues.length} [Selected]`;
+    } else {
+      menuButton.text = category;
+    }
+  }
+
+  get #categoriesPopup(): any {
+    return this.shadowRoot?.querySelector('ids-popup-menu');
+  }
+
+  get #categoriesMenuButton(): any {
+    return this.shadowRoot?.querySelector('ids-menu-button');
+  }
+
+  get #categoriesActionButton(): any {
+    return this.shadowRoot?.querySelector('ids-button#category-action-button');
+  }
+
+  #categories: string[] = [];
+
+  get categories(): string[] { return this.#categories; }
+
+  set categories(value: string[]) { this.#categories = value; }
+
+  set category(value: string) {
+    if (value) {
+      this.setAttribute(attributes.CATEGORY, value);
+    } else {
+      this.removeAttribute(attributes.CATEGORY);
+    }
+  }
+
+  get category(): string {
+    return this.getAttribute(attributes.CATEGORY) ?? '';
+  }
+
+  set action(value: string) {
+    if (value) {
+      this.setAttribute(attributes.ACTION, value);
+    } else {
+      this.removeAttribute(attributes.ACTION);
+    }
+  }
+
+  get action(): string {
+    return this.getAttribute(attributes.ACTION) ?? '';
+  }
+
+  set multiple(value: boolean) {
+    if (value) {
+      this.setAttribute(attributes.MULTIPLE, '');
+    } else {
+      this.removeAttribute(attributes.MULTIPLE);
+    }
+  }
+
+  get multiple(): boolean {
+    return this.hasAttribute(attributes.MULTIPLE);
   }
 
   /**
