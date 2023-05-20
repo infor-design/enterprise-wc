@@ -164,14 +164,12 @@ export default class IdsSearchField extends IdsTriggerField {
     const menuButton = this.#categoriesMenuButton;
     if (!category || !menuButton) return;
 
-    const selectedValues = this.#categoriesPopup?.getSelectedValues?.() ?? [];
-    // const selectedCategories = this.selectedCategories;
+    const selectedCategories = this.selectedCategories;
 
-    if (selectedValues.length === 1) {
-      const categoryKey = selectedValues[0];
-      menuButton.text = this.categories[categoryKey];
-    } else if (selectedValues.length > 1) {
-      menuButton.text = `${selectedValues.length} [Selected]`;
+    if (selectedCategories.length === 1) {
+      menuButton.text = selectedCategories[0];
+    } else if (selectedCategories.length > 1) {
+      menuButton.text = `${selectedCategories.length} [Selected]`;
     } else {
       menuButton.text = category;
     }
