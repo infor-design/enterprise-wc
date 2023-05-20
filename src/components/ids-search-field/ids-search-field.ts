@@ -2,11 +2,8 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
-// import IdsPickerPopup from '../ids-picker-popup/ids-picker-popup';
-// import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 
-// import '../ids-picker-popup/ids-picker-popup';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-input/ids-input';
 import '../ids-icon/ids-icon';
