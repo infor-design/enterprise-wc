@@ -1567,43 +1567,43 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activeCell.row).toEqual(0);
       expect(dataGrid.activeCell.cell).toEqual(0);
       const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
 
       expect(dataGrid.activeCell.row).toEqual(0);
       expect(dataGrid.activeCell.cell).toEqual(1);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(2);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(3);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(4);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(5);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(6);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(7);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(8);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(9);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(10);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(11);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(12);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(13);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(14);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(15);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(16);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(17);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(17);
     });
 
@@ -1612,15 +1612,15 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activeCell.cell).toEqual(0);
 
       let event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
 
       expect(dataGrid.activeCell.row).toEqual(0);
       expect(dataGrid.activeCell.cell).toEqual(1);
 
       event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(0);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(0);
     });
 
@@ -1629,24 +1629,24 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activeCell.cell).toEqual(0);
 
       const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
 
       expect(dataGrid.activeCell.row).toEqual(1);
       expect(dataGrid.activeCell.cell).toEqual(0);
 
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.row).toEqual(2);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.row).toEqual(3);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.row).toEqual(4);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.row).toEqual(5);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.row).toEqual(6);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.row).toEqual(7);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.row).toEqual(8);
     });
 
@@ -1673,7 +1673,7 @@ describe('IdsDataGrid Component', () => {
       // dipatch arrow down event
       const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
       dataGrid.rowNavigation = true;
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
 
       // expect second row to be focused
       const rowElem = dataGrid.rowByIndex(dataGrid.activeCell.row);
@@ -1688,7 +1688,7 @@ describe('IdsDataGrid Component', () => {
 
       const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
       dataGrid.rowNavigation = true;
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
 
       const rowElem = dataGrid.rowByIndex(dataGrid.activeCell.row);
       expect(rowElem.getAttribute('aria-rowindex')).toEqual('2');
@@ -1714,18 +1714,18 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activeCell.row).toEqual(0);
 
       let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
 
       expect(dataGrid.activeCell.row).toEqual(1);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.row).toEqual(2);
 
       event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.row).toEqual(1);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.row).toEqual(0);
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.row).toEqual(0);
     });
 
@@ -1747,7 +1747,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.redraw();
       dataGrid.setActiveCell(0, 0, false);
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
-      dataGrid.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
       expect(hyperlinkClickListener).toHaveBeenCalled();
 
@@ -1764,7 +1764,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.redraw();
       dataGrid.setActiveCell(0, 0, false);
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
-      dataGrid.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
       expect(buttonClickListener).toHaveBeenCalled();
 
@@ -1783,7 +1783,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.redraw();
       dataGrid.setActiveCell(0, 0, false);
       dataGrid.container.querySelector('ids-data-grid-cell').focus();
-      dataGrid.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
       expect(customLinkClickListener).toHaveBeenCalled();
     });
@@ -1800,7 +1800,7 @@ describe('IdsDataGrid Component', () => {
 
       dataGrid.addEventListener('activecellchanged', mockCallback);
       const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
 
       expect(mockCallback.mock.calls.length).toBe(1);
     });
@@ -2022,7 +2022,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.activeCell.node.focus();
 
       const event = new KeyboardEvent('keydown', { key: ' ' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(dataGrid.selectedRows.length).toBe(1);
     });
 
@@ -2068,7 +2068,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.rowSelection = 'mixed';
       dataGrid.setActiveCell(0, 0);
       const event2 = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
-      dataGrid.body.dispatchEvent(event2);
+      dataGrid.dispatchEvent(event2);
 
       dataGrid.deSelectRow(1);
       expect(dataGrid.activatedRow.index).toBe(0);
@@ -2584,10 +2584,10 @@ describe('IdsDataGrid Component', () => {
 
       dataGrid.setActiveCell(0, 0, true);
       const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
 
       const event2 = new KeyboardEvent('keydown', { key: ' ' });
-      dataGrid.body.dispatchEvent(event2);
+      dataGrid.dispatchEvent(event2);
       expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
     });
 
@@ -3009,13 +3009,13 @@ describe('IdsDataGrid Component', () => {
       dataGrid.setActiveCell(2, 1);
       expect(descCell.classList.contains('is-editable')).toBeTruthy();
       const event = new KeyboardEvent('keydown', { key: 'Enter' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       const event2 = new KeyboardEvent('keydown', { key: ' ' }); // Ignored
-      dataGrid.body.dispatchEvent(event2);
-      dataGrid.body.dispatchEvent(event2);
+      dataGrid.dispatchEvent(event2);
+      dataGrid.dispatchEvent(event2);
       expect(descCell.classList.contains('is-editing')).toBeTruthy();
       const event3 = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
-      dataGrid.body.dispatchEvent(event3);
+      dataGrid.dispatchEvent(event3);
       expect(descCell.classList.contains('is-editing')).toBeFalsy();
     });
 
@@ -3049,7 +3049,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.setActiveCell(2, 1);
       expect(descCell.classList.contains('is-editable')).toBeTruthy();
       const event = new KeyboardEvent('keydown', { key: 'a' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(descCell.classList.contains('is-editing')).toBeTruthy();
     });
 
@@ -3060,44 +3060,44 @@ describe('IdsDataGrid Component', () => {
       dataGrid.setActiveCell(2, 1);
       expect(descCell.classList.contains('is-editable')).toBeTruthy();
       const event = new KeyboardEvent('keydown', { key: 'Enter' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(descCell.classList.contains('is-editing')).toBeTruthy();
       const event2 = new KeyboardEvent('keydown', { key: 'a' });
-      dataGrid.body.dispatchEvent(event2);
+      dataGrid.dispatchEvent(event2);
 
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(descCell.classList.contains('is-editing')).toBeFalsy();
     });
 
     it('can continue to enter edit mode with tabbing', () => {
       dataGrid.editable = true;
       const tabKey = new KeyboardEvent('keydown', { key: 'Tab' });
-      dataGrid.body.dispatchEvent(tabKey); // Does nothing
+      dataGrid.dispatchEvent(tabKey); // Does nothing
 
       const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       dataGrid.setActiveCell(2, 1);
       expect(descCell.classList.contains('is-editable')).toBeTruthy();
       const event = new KeyboardEvent('keydown', { key: 'a' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       expect(descCell.classList.contains('is-editing')).toBeTruthy();
       for (let index = 0; index < 300; index++) {
-        dataGrid.body.dispatchEvent(tabKey);
+        dataGrid.dispatchEvent(tabKey);
         expect(dataGrid.container.querySelectorAll('.is-editing').length).toBe(1);
       }
 
       const shiftTabKey = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true });
       for (let index = 0; index < 300; index++) {
-        dataGrid.body.dispatchEvent(shiftTabKey);
+        dataGrid.dispatchEvent(shiftTabKey);
         expect(dataGrid.container.querySelectorAll('.is-editing').length).toBe(1);
       }
 
       for (let index = 0; index < 300; index++) {
-        dataGrid.body.dispatchEvent(tabKey);
+        dataGrid.dispatchEvent(tabKey);
         expect(dataGrid.container.querySelectorAll('.is-editing').length).toBe(1);
       }
 
       for (let index = 0; index < 300; index++) {
-        dataGrid.body.dispatchEvent(shiftTabKey);
+        dataGrid.dispatchEvent(shiftTabKey);
         expect(dataGrid.container.querySelectorAll('.is-editing').length).toBe(1);
       }
     });
@@ -3112,12 +3112,12 @@ describe('IdsDataGrid Component', () => {
       const rowsLen = dataGrid.rows.length;
       const cell = dataGrid.setActiveCell(2, 7);
       expect(cell.node.classList.contains('is-editable')).toBeTruthy();
-      dataGrid.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
       expect(cell.node.classList.contains('is-editing')).toBeTruthy();
 
       const tabKey = new KeyboardEvent('keydown', { key: 'Tab' });
       for (let i = 0; i < 20; i++) {
-        dataGrid.body.dispatchEvent(tabKey);
+        dataGrid.dispatchEvent(tabKey);
       }
       expect(dataGrid.rows.length).toBeGreaterThan(rowsLen);
     });
@@ -3128,7 +3128,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.setActiveCell(11, 1);
       expect(checkCell.querySelector('[aria-checked]').getAttribute('aria-checked')).toBe('false');
       const event = new KeyboardEvent('keydown', { key: ' ' });
-      dataGrid.body.dispatchEvent(event);
+      dataGrid.dispatchEvent(event);
       const checkCell2 = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
       expect(checkCell2.querySelector('ids-checkbox').getAttribute('checked')).toBe('true');
     });
@@ -3139,7 +3139,7 @@ describe('IdsDataGrid Component', () => {
       const activeCell = dataGrid.setActiveCell(col, row);
       activeCell.node.focus();
       const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
-      dataGrid.body.dispatchEvent(enterKey);
+      dataGrid.dispatchEvent(enterKey);
     };
 
     it('supports a dropdown editor', () => {
@@ -3180,7 +3180,7 @@ describe('IdsDataGrid Component', () => {
       const gridCell = activeCell.node;
 
       // activate cell editing
-      dataGrid.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
       const datePicker = gridCell.querySelector('ids-date-picker');
       expect(datePicker).toBeDefined();
 
@@ -3206,7 +3206,7 @@ describe('IdsDataGrid Component', () => {
       const gridCell = activeCell.node;
 
       // activate cell editing
-      dataGrid.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
       const timePicker = gridCell.querySelector('ids-time-picker');
       expect(timePicker).toBeDefined();
       expect(timePicker.value).toEqual('2:25 PM');
