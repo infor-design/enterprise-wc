@@ -24,12 +24,16 @@
 .ids-data-grid-header-cell {
   border-inline-start: 1px solid var(--ids-data-grid-header-border-color);
   background-color: var(--ids-data-grid-header-background-color);
-  min-height: 35px;
+  min-height: 28px;
   position: relative;
 
   // Hide first border
   &:first-child {
     border-inline-start-width: 0;
+  }
+
+  &:hover {
+    background-color: var(--ids-data-grid-header-hover-background-color);
   }
 
   &.align-center .ids-data-grid-header-cell-content,
@@ -53,11 +57,6 @@
     top: 0;
     width: 6px;
     z-index: 2;
-  }
-
-  &:last-child .resizer {
-    // Prevents un needed scrollbar
-    margin-inline-start: calc(100% - 6px);
   }
 
   // Reorderable Cells
@@ -85,18 +84,26 @@
     inset-inline-start: initial;
   }
 
-  &.dragging {
-    background-color: var(--ids-data-grid-header-background-color) !important; // this important is needed for drag styles to work
-    display: block;
-    width: 110px;
+  &:last-child .resizer {
+    margin-inline-start: calc(100% - 6px); // Prevents un needed scrollbar
+  }
 
-    .reorderer {
-      opacity: 1;
-    }
+  &.dragging {
+    background-color: var(--ids-data-grid-header-drag-background-color) !important; // this important is needed for drag styles to work
+    border-inline-start: 0;
+    display: block;
+    left: -1000px;
+    position: absolute;
+    top: 0;
+    width: 110px;
   }
 
   &.active-drag-column {
     background-color: var(--ids-data-grid-header-drag-placeholder-background-color);
+
+    .sort-indicator {
+      opacity: 0;
+    }
   }
 
   &:hover .reorderer {
@@ -171,7 +178,7 @@
   position: relative;
   overflow: hidden;
   height: 32px;
-  margin-inline-start: 2px;
+  margin-inline-start: 5px;
   width: 18px;
 }
 
@@ -244,7 +251,6 @@
   display: none;
   height: 34px;
   position: absolute;
-  left: 25px;
   z-index: 1;
 
   &::before,
@@ -254,7 +260,7 @@
     content: '';
     display: inline-block;
     height: 0;
-    left: -6px;
+    left: -5px;
     position: absolute;
     width: 0;
   }
@@ -322,11 +328,31 @@ th.ids-data-grid-header-cell {
     .ids-data-grid-header-text {
       padding: var(--ids-data-grid-header-md-padding);
     }
+
+    .reorderer ids-icon {
+      inset-inline-start: -11px;
+    }
+
+    .sort-indicator {
+      margin-inline-start: -6px;
+    }
   }
 
   &[data-row-height='sm'] {
     .ids-data-grid-header-text {
       padding: var(--ids-data-grid-header-sm-padding);
+    }
+
+    .reorderer {
+      display: none;
+    }
+
+    .sort-indicator {
+      margin-inline-start: -2px;
+    }
+
+    .align-right .sort-indicator {
+      margin-inline-start: -4px;
     }
   }
 
@@ -334,11 +360,52 @@ th.ids-data-grid-header-cell {
     .ids-data-grid-header-text {
       padding: var(--ids-data-grid-header-xs-padding);
     }
+
+    .reorderer {
+      display: none;
+    }
+
+    .sort-indicator {
+      margin-inline-start: -2px;
+      margin-block-start: -2px;
+    }
+
+    .ids-data-grid-checkbox-container {
+      padding-top: 2px;
+    }
   }
 
   &[data-row-height='xxs'] {
     .ids-data-grid-header-text {
       padding: var(--ids-data-grid-header-xxs-padding);
+    }
+
+    .reorderer {
+      display: none;
+    }
+
+    .sort-indicator {
+      margin-inline-start: 0;
+      margin-block-start: -3px;
+    }
+
+    .align-right .sort-indicator {
+      margin-inline-start: 0;
+    }
+
+    .ids-data-grid-checkbox-container {
+      padding-top: 1px;
+    }
+
+    // Filter Adjustments
+    ids-input {
+      --ids-input-height-xs: 24px;
+    }
+
+    .ids-data-grid-header-cell-filter-wrapper {
+      padding-inline-start: calc(var(--ids-data-grid-xxs-padding) + 1px);
+      padding-inline-end: calc(var(--ids-data-grid-xxs-padding) + 1px);
+      padding-block-end: calc(var(--ids-data-grid-xxs-padding) + 2px);
     }
   }
 }

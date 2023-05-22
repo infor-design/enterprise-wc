@@ -36,15 +36,6 @@ if (dataGrid) {
       align: 'center'
     });
     columns.push({
-      id: 'selectionRadio',
-      name: 'selection',
-      sortable: false,
-      resizable: false,
-      formatter: dataGrid.formatters.selectionRadio,
-      disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-      align: 'center'
-    });
-    columns.push({
       id: 'rowNumber',
       name: '#',
       formatter: dataGrid.formatters.rowNumber,
@@ -120,7 +111,7 @@ if (dataGrid) {
       width: 100
     });
     columns.push({
-      id: 'price',
+      id: 'price1',
       name: 'Decimal',
       field: 'price',
       align: 'right',
@@ -132,7 +123,7 @@ if (dataGrid) {
       width: 100
     });
     columns.push({
-      id: 'price',
+      id: 'price2',
       name: 'Integer',
       field: 'price',
       align: 'right',
