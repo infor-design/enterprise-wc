@@ -27,6 +27,6 @@ document.querySelectorAll(categorySelectors.join(', '))
     element.categories = categories;
   });
 
-const logSearchDetails = ({ detail }: any) => console.log(detail);
+const logSearchDetails = ({ detail }: any) => console.info(detail);
 document.querySelector('#categories-button')?.addEventListener('search', logSearchDetails);
 document.querySelector('#categories-button-multiple')?.addEventListener('search', logSearchDetails);
