@@ -528,7 +528,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.9';
+export const version = '1.0.0-beta.10';
 
 export enum IdsDirection {
   Up = 'up',
