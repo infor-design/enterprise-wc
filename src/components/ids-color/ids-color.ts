@@ -4,7 +4,7 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsElement from '../../core/ids-element';
-
+import '../ids-text/ids-text';
 import styles from './ids-color.scss';
 import IdsTooltip from '../ids-tooltip/ids-tooltip';
 import IdsIcon from '../ids-icon/ids-icon';
