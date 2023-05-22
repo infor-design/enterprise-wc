@@ -1,4 +1,4 @@
-import pageSnapshot from '../helpers/page-snapshot';
+import percySnapshot from '@percy/puppeteer';
 
 /**
  * Wraps percy snap shot in a custom function
