@@ -96,7 +96,7 @@ export default class IdsSearchField extends IdsTriggerField {
         <div class="field-container" part="field-container">
           ${this.categories.length ? '' : searchIcon}
           <slot name="trigger-start"></slot>
-          ${this.templateCategories()}
+          ${this.templateCategoriesMenu()}
           <input
             part="input"
             id="${this.id}-input"
@@ -130,12 +130,12 @@ export default class IdsSearchField extends IdsTriggerField {
     `;
   }
 
-  templateCategories(): string {
+  templateCategoriesMenu(): string {
     if (!this.categories.length) return ``;
 
     const menuButtonText = this.category
       ? `<span>${this.category}</span>`
-      : `<span class="audible">Icon Only Button</span>`;
+      : `<span class="audible">Select Search Category</span>`;
 
     return `
       <ids-menu-button id="menu-button" appearance="tertiary" menu="category-menu" icon="search" dropdown-icon>
@@ -149,14 +149,7 @@ export default class IdsSearchField extends IdsTriggerField {
     `;
   }
 
-  get selectedCategories(): string[] {
-    const categories = this.categories;
-    const selectedValues = this.#categoriesPopup?.getSelectedValues?.() ?? [];
-    const selectedCategories = selectedValues.map((categoryKey: number) => categories[categoryKey]);
-    return selectedCategories;
-  }
-
-  #updateMenuButton() {
+  #updateCategoriesMenuButton() {
     const category = this.category;
     const menuButton = this.#categoriesMenuButton;
     if (!category || !menuButton) return;
@@ -166,7 +159,7 @@ export default class IdsSearchField extends IdsTriggerField {
     if (selectedCategories.length === 1) {
       menuButton.text = selectedCategories[0];
     } else if (selectedCategories.length > 1) {
-      menuButton.text = `${selectedCategories.length} [Selected]`;
+      menuButton.text = `${selectedCategories.length} ${this.localeAPI?.translate?.('Selected')}`;
     } else {
       menuButton.text = category;
     }
@@ -200,6 +193,13 @@ export default class IdsSearchField extends IdsTriggerField {
 
   get category(): string {
     return this.getAttribute(attributes.CATEGORY) ?? '';
+  }
+
+  get selectedCategories(): string[] {
+    const categories = this.categories;
+    const selectedValues = this.#categoriesPopup?.getSelectedValues?.() ?? [];
+    const selectedCategories = selectedValues.map((categoryKey: number) => categories[categoryKey]);
+    return selectedCategories;
   }
 
   set action(value: string) {
@@ -282,28 +282,30 @@ export default class IdsSearchField extends IdsTriggerField {
    * Adds Search Field specific event handlers
    */
   #attachEventHandlers() {
-    const handleSearchEvent = (e: any) => {
-      this.search(e.target.value);
+    const handleSearchEvent = (keyword: string) => {
+      this.search(keyword);
+      this.#triggerCategoriesEvent('search');
     };
 
-    this.onEvent('change', this.input, handleSearchEvent);
-    this.onEvent('input', this.input, handleSearchEvent);
+    this.offEvent('change', this.input);
+    this.onEvent('change', this.input, (e: any) => handleSearchEvent(e.target?.value));
 
-    this.onEvent('selected', this.#categoriesPopup, () => this.#updateMenuButton());
-    this.onEvent('deselected', this.#categoriesPopup, () => this.#updateMenuButton());
+    this.offEvent('input', this.input);
+    this.onEvent('input', this.input, (e: any) => handleSearchEvent(e.target?.value));
 
-    this.onEvent('click', this.#categoriesActionButton, () => {
-      this.triggerEvent('search', this, {
-        detail: {
-          elem: this,
-          categories: this.categories,
-          categoriesSelected: this.selectedCategories,
-          value: this.value,
-        },
-        bubbles: true,
-        cancelable: false,
-        composed: false
-      });
+    this.offEvent('click', this.#categoriesActionButton);
+    this.onEvent('click', this.#categoriesActionButton, () => handleSearchEvent(this.value));
+
+    this.offEvent('selected', this.#categoriesPopup);
+    this.onEvent('selected', this.#categoriesPopup, () => {
+      this.#updateCategoriesMenuButton();
+      this.#triggerCategoriesEvent('selected');
+    });
+
+    this.offEvent('deselected', this.#categoriesPopup);
+    this.onEvent('deselected', this.#categoriesPopup, () => {
+      this.#updateCategoriesMenuButton();
+      this.#triggerCategoriesEvent('deselected');
     });
   }
 
@@ -326,6 +328,24 @@ export default class IdsSearchField extends IdsTriggerField {
         default:
           break;
       }
+    });
+  }
+
+  /**
+   * Helper to trigger CustomEvent for various event-types
+   * @param {'search' | 'deselected' | 'selected'} eventType - the type of event to trigger
+   */
+  #triggerCategoriesEvent(eventType: 'search' | 'deselected' | 'selected') {
+    this.triggerEvent(eventType, this, {
+      detail: {
+        elem: this,
+        categories: this.categories,
+        categoriesSelected: this.selectedCategories,
+        value: this.value,
+      },
+      bubbles: true,
+      cancelable: false,
+      composed: false
     });
   }
 }
