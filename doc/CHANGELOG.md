@@ -1,4 +1,9 @@
 # What's New with Enterprise Web Components
+## 1.0.0-beta.11
+
+### 1.0.0-beta.10 Fixes
+
+- `[Build]` Fixed missing theme css files in the build and improved build logic. ([#294](https://github.com/infor-design/enterprise-wc/issues/294))
 
 ## 1.0.0-beta.10
 

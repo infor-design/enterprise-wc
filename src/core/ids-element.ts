@@ -228,21 +228,18 @@ export default class IdsElement extends HTMLElement {
    * @param {string} theme name of the theme
    */
   async loadTheme(theme: string) {
-    await fetch(`../themes/ids-theme-${theme}.css`)
-      .then(async (data) => {
-        const themeStyles = await data.text();
-
-        const head = (document.head as any);
-        const styleElem = document.querySelector('#ids-theme');
-        const style = styleElem || document.createElement('style');
-        style.textContent = themeStyles;
-        style.id = 'ids-theme';
-        if (this.nonce) style.setAttribute('nonce', this.nonce);
-        if (!styleElem) {
-          const titleElem = (head.querySelector('title') as HTMLElement);
-          if (titleElem) head.insertBefore(style, titleElem.nextElementSibling);
-          else head.insertAdjacentHTML('beforeend', style);
-        }
-      });
+    const response = await fetch(`../themes/ids-theme-${theme}.css`);
+    const themeStyles = await response.text();
+    const head = (document.head as any);
+    const styleElem = document.querySelector('#ids-theme');
+    const style = styleElem || document.createElement('style');
+    style.textContent = themeStyles;
+    style.id = 'ids-theme';
+    if (this.nonce) style.setAttribute('nonce', this.nonce);
+    if (!styleElem) {
+      const titleElem = (head.querySelector('title') as HTMLElement);
+      if (titleElem) head.insertBefore(style, titleElem.nextElementSibling);
+      else head.insertAdjacentHTML('beforeend', style);
+    }
   }
 }
