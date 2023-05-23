@@ -602,7 +602,7 @@ export default class IdsDataGrid extends Base {
    */
   #attachKeyboardListeners() {
     // Handle arrow navigation
-    this.listen(['ArrowLeftx', 'ArrowRightx', 'ArrowUpx', 'ArrowDownx'], this, (e: KeyboardEvent) => {
+    this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e: KeyboardEvent) => {
       const inFilter = findInPath(eventPath(e), '.ids-data-grid-header-cell-filter-wrapper');
       const key = e.key;
 
