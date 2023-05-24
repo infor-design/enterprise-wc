@@ -223,12 +223,16 @@ export default class IdsElement extends HTMLElement {
     document.body.querySelector('ids-theme-switcher')?.setAttribute('theme', theme);
   }
 
+  lastTheme = '';
+
   /**
    * Get the theme and load it
    * @param {string} theme name of the theme
    */
   async loadTheme(theme: string) {
-    const response = await fetch(`../themes/ids-theme-${theme}.css`);
+    if (this.lastTheme === theme) return;
+    this.lastTheme = theme;
+    const response = await fetch(`../themes/ids-theme-${theme}.css`, { cache: 'reload' });
     const themeStyles = await response.text();
     const head = (document.head as any);
     const styleElem = document.querySelector('#ids-theme');
