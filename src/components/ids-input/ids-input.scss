@@ -762,3 +762,7 @@ $input-size-full: 100%;
     margin-inline-start: 4px;
   }
 }
+
+::slotted(.audible) {
+  @include mixins.audible();
+}

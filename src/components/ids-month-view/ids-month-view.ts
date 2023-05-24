@@ -520,6 +520,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
         this.rangeSettings.start = now.getTime();
         this.rangeSettings.end = now.getTime();
       }
+      this.focus();
     }
 
     if (type === 'next-week') {
@@ -929,12 +930,15 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
   #renderWeekDays(): void {
     const weekDayKeys = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const weekDays = weekDayKeys.map((item) => this.localeAPI?.translate(`${this.compact ? 'DayNarrow' : 'DayAbbreviated'}${item}`));
+    const weekDaysWide = weekDayKeys.map((item) => this.localeAPI?.translate(`DayWide${item}`));
 
     const weekDaysTemplate = weekDays.map((el: any, index: number) => {
-      const weekday = weekDays[(index + this.firstDayOfWeek) % WEEK_LENGTH];
+      const idx = (index + this.firstDayOfWeek) % WEEK_LENGTH;
+      const weekday = weekDays[idx];
+      const weekdaywide = weekDaysWide[idx];
 
       return `
-        <th>
+        <th scope="col" abbr="${weekdaywide}">
           <ids-text
             class="weekday-text"
             font-size="14"
@@ -1124,7 +1128,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       if (!isDisabled) {
         this.#makeAllDeselected();
         this.#makeSelected(selectedDay);
-        selectedDay.focus();
+        setTimeout(() => selectedDay.focus(), 10);
       }
     }
   }
