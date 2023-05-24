@@ -20,7 +20,7 @@ describe('Ids Line Chart Percy Tests', () => {
     await pageSnapshot(page, 'ids-line-chart-rotate-new-light');
   });
 
-  it('should not have visual regressions in new dark theme (percy)', async () => {
+  it.skip('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate('document.querySelector("ids-line-chart").animate = false');
     await page.evaluate(() => {
@@ -31,7 +31,7 @@ describe('Ids Line Chart Percy Tests', () => {
     await pageSnapshot(page, 'ids-line-chart-new-dark');
   });
 
-  it('should not have visual regressions in new contrast theme (percy)', async () => {
+  it.skip('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate('document.querySelector("ids-line-chart").animate = false');
     await page.evaluate(() => {

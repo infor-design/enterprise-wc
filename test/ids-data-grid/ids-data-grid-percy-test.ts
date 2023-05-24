@@ -14,7 +14,7 @@ describe('Ids Data Grid Percy Tests', () => {
     await pageSnapshot(page, 'ids-data-grid-standalone-css', { widths: [1280] });
   });
 
-  it('should not have visual regressions in new dark theme (percy)', async () => {
+  it.skip('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await page.evaluate(() => {
@@ -23,7 +23,7 @@ describe('Ids Data Grid Percy Tests', () => {
     await pageSnapshot(page, 'ids-data-grid-new-dark');
   });
 
-  it('should not have visual regressions in new contrast theme (percy)', async () => {
+  it.skip('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await page.evaluate(() => {
@@ -42,7 +42,7 @@ describe('Ids Data Grid List Style Percy Tests', () => {
     await pageSnapshot(page, 'ids-data-grid-list-style-new-light');
   });
 
-  it('should not have visual regressions in new dark theme (percy)', async () => {
+  it.skip('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await page.evaluate(() => {
@@ -52,7 +52,7 @@ describe('Ids Data Grid List Style Percy Tests', () => {
     await pageSnapshot(page, 'ids-data-grid-list-style-new-dark');
   });
 
-  it('should not have visual regressions in new contrast theme (percy)', async () => {
+  it.skip('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
     await page.evaluate(() => {

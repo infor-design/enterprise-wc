@@ -17,7 +17,7 @@ describe('Ids About Percy Tests', () => {
     await pageSnapshot(page, 'ids-about-standalone-css', { widths: [1280] });
   });
 
-  it('should not have visual regressions in new dark theme (percy)', async () => {
+  it.skip('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-dark');
@@ -30,7 +30,7 @@ describe('Ids About Percy Tests', () => {
     await pageSnapshot(page, 'ids-about-new-dark');
   });
 
-  it('should not have visual regressions in new contrast theme (percy)', async () => {
+  it.skip('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-contrast');

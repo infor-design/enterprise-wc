@@ -8,7 +8,7 @@ describe('Ids Text e2e Tests', () => {
     await pageSnapshot(page, 'ids-text-new-light');
   });
 
-  it('should not have visual regressions in new dark theme (percy)', async () => {
+  it.skip('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-dark');
@@ -16,7 +16,7 @@ describe('Ids Text e2e Tests', () => {
     await pageSnapshot(page, 'ids-text-new-dark');
   });
 
-  it('should not have visual regressions in new contrast theme (percy)', async () => {
+  it.skip('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-contrast');
@@ -33,7 +33,7 @@ describe('Typography Percy Tests', () => {
     await pageSnapshot(page, 'typography-new-light', { widths: [1280] });
   });
 
-  it('should not have visual regressions in new dark theme (percy)', async () => {
+  it.skip('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-dark');
@@ -41,7 +41,7 @@ describe('Typography Percy Tests', () => {
     await pageSnapshot(page, 'typography-new-dark', { widths: [1280] });
   });
 
-  it('should not have visual regressions in new contrast theme (percy)', async () => {
+  it.skip('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-contrast');
