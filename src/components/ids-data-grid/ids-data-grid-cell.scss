@@ -83,7 +83,7 @@
 
   &.is-editable {
     &.is-inline {
-      box-shadow: inset 0 0 0 4px var(--ids-input-background-color), inset 0 0 0 5px var(--ids-input-border-color);
+      box-shadow: inset 0 0 0 4px var(--ids-data-grid-cell-background-color), inset 0 0 0 5px var(--ids-input-border-color);
 
       ids-icon.editor-cell-icon {
         --ids-trigger-field-button-margin: 0;
@@ -264,6 +264,11 @@
     --ids-input-font-size-sm: var(--ids-data-grid-font-size-sm);
   }
 
+  // Adjust non inline editor
+  .ids-data-grid-cell.is-editable .editor-cell-icon {
+    margin-inline-end: 2px;
+  }
+
   // Adjust dropdown editor
   .ids-data-grid-cell.is-editable.is-inline ids-icon.editor-cell-icon {
     margin-inline-end: 4px;
@@ -307,6 +312,11 @@
     --ids-input-font-size-sm: var(--ids-data-grid-font-size-sm);
   }
 
+  // Adjust non inline editor
+  .ids-data-grid-cell.is-editable .editor-cell-icon {
+    margin-inline-end: 2px;
+  }
+
   // Adjust dropdown editor
   .ids-data-grid-cell.is-editable.is-inline ids-icon.editor-cell-icon {
     margin-inline-end: 4px;
@@ -335,6 +345,11 @@
 
   ids-button {
     --ids-button-icon-padding: 4px;
+  }
+
+  // Adjust non inline editor
+  .ids-data-grid-cell.is-editable .editor-cell-icon {
+    margin-inline-end: 6px;
   }
 
   // Adjust dropdown editor

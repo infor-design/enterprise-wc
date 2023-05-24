@@ -469,7 +469,7 @@ $input-size-full: 100%;
 
     .field-container {
       background-color: transparent;
-      border-color: transparent;
+      border-color: transparent !important;
     }
 
     &:focus-within .field-container {
