@@ -7,6 +7,7 @@
 - `[DataGrid]` Added rowStart setting to data grid. ([#1199](https://github.com/infor-design/enterprise-wc/issues/1199))
 - `[DataGrid]` Fixed an error where dragging something onto the data grid header filter inputs would give an error. ([#1276](https://github.com/infor-design/enterprise-wc/issues/1276))
 - `[DataGrid]` Fixed an error where dragging something onto the data grid header filter would show the arrows as if a column was dragged and allow dropping text and arrow keys to work. ([#1242](https://github.com/infor-design/enterprise-wc/issues/1242))
+- `[DatePicker]` Improved accessibility (A11Y) calendar was not properly accessible through screen reader. ([#1031](https://github.com/infor-design/enterprise-wc/issues/1031))
 - `[DateUtils]` Fixed a `weekNumber()` bug that returned 0 value for all weeks. ([#1243](https://github.com/infor-design/enterprise-wc/issues/1243))
 - `[Icons]` Added new icons. ([#7510](https://github.com/infor-design/enterprise/issues/7510)
 - `[Locale]` Added new translations. ([#7512](https://github.com/infor-design/enterprise/issues/7512)
