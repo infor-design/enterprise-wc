@@ -149,7 +149,7 @@ export default class IdsSearchField extends IdsTriggerField {
     `;
   }
 
-  #updateCategoriesMenuButton() {
+  #updateCategoriesMenu() {
     const category = this.category;
     const menuButton = this.#categoriesMenuButton;
     if (!category || !menuButton) return;
@@ -162,6 +162,15 @@ export default class IdsSearchField extends IdsTriggerField {
       menuButton.text = `${selectedCategories.length} ${this.localeAPI?.translate?.('Selected')}`;
     } else {
       menuButton.text = category;
+    }
+
+    const popup = this.#categoriesPopup?.popup;
+    const popupWidth = parseInt(popup?.style?.getProperty?.('min-width') ?? 155);
+    const popupMinWidth = this.#categoriesMenuButton?.getBoundingClientRect().width ?? popupWidth;
+    popup?.style?.setProperty?.('min-width', `${Math.max(popupMinWidth, popupWidth)}px`);
+
+    if (!this.multiple) {
+      this.#categoriesPopup?.hide?.();
     }
   }
 
@@ -298,13 +307,13 @@ export default class IdsSearchField extends IdsTriggerField {
 
     this.offEvent('selected', this.#categoriesPopup);
     this.onEvent('selected', this.#categoriesPopup, () => {
-      this.#updateCategoriesMenuButton();
+      this.#updateCategoriesMenu();
       this.#triggerCategoriesEvent('selected');
     });
 
     this.offEvent('deselected', this.#categoriesPopup);
     this.onEvent('deselected', this.#categoriesPopup, () => {
-      this.#updateCategoriesMenuButton();
+      this.#updateCategoriesMenu();
       this.#triggerCategoriesEvent('deselected');
     });
   }
