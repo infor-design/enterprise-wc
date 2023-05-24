@@ -48,7 +48,7 @@ const toastCategoryDetails = (eventType: string, { detail }: any) => {
 
 document.querySelectorAll(categorySelectors)
   .forEach((element: any) => {
-    element.addEventListener('action', (e: any) => toastCategoryDetails('action', e));
+    element.addEventListener('search', (e: any) => toastCategoryDetails('search', e));
     element.addEventListener('selected', (e: any) => toastCategoryDetails('selected', e));
     element.addEventListener('deselected', (e: any) => toastCategoryDetails('deselected', e));
 

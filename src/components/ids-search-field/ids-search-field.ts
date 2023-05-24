@@ -291,21 +291,20 @@ export default class IdsSearchField extends IdsTriggerField {
    * Adds Search Field specific event handlers
    */
   #attachEventHandlers() {
-    const handleSearchEvent = (keyword: string) => {
-      this.search(keyword);
-      this.#triggerCategoriesEvent('search');
+    const handleSearchEvent = (e: any) => {
+      this.search(e.target?.value);
     };
 
     this.offEvent('change', this.input);
-    this.onEvent('change', this.input, (e: any) => handleSearchEvent(e.target?.value));
+    this.onEvent('change', this.input, handleSearchEvent);
 
     this.offEvent('input', this.input);
-    this.onEvent('input', this.input, (e: any) => handleSearchEvent(e.target?.value));
+    this.onEvent('input', this.input, handleSearchEvent);
 
     this.offEvent('click', this.#categoriesActionButton);
     this.onEvent('click', this.#categoriesActionButton, () => {
       this.search(this.value);
-      this.#triggerCategoriesEvent('action');
+      this.#triggerCategoriesEvent('search');
     });
 
     this.offEvent('selected', this.#categoriesPopup);
@@ -335,6 +334,7 @@ export default class IdsSearchField extends IdsTriggerField {
         case 'Enter':
           if (shouldSearchOnReturn) {
             this.onSearch(this.input?.value);
+            this.#triggerCategoriesEvent('search');
           }
           break;
         default:
@@ -345,9 +345,9 @@ export default class IdsSearchField extends IdsTriggerField {
 
   /**
    * Helper to trigger CustomEvent for various event-types
-   * @param {'action' | 'search' | 'deselected' | 'selected'} eventType - the type of event to trigger
+   * @param {'input' | 'search' | 'deselected' | 'selected'} eventType - the type of event to trigger
    */
-  #triggerCategoriesEvent(eventType: 'action' | 'search' | 'deselected' | 'selected') {
+  #triggerCategoriesEvent(eventType: 'input' | 'search' | 'deselected' | 'selected') {
     this.triggerEvent(eventType, this, {
       detail: {
         elem: this,
