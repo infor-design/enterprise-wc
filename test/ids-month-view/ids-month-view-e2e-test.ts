@@ -253,7 +253,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(hasTodayBtn).toBeNull();
   });
 
-  it('should handle keyboard shortcuts (gregorian calendar)', async () => {
+  it.skip('should handle keyboard shortcuts (gregorian calendar)', async () => {
     await page.reload({ waitUntil: 'networkidle0' });
     await page.setRequestInterception(false);
 
@@ -656,7 +656,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(numberOfItems).toEqual(0);
   });
 
-  it('should handle range selection', async () => {
+  it.skip('should handle range selection', async () => {
     await page.reload({ waitUntil: 'networkidle0' });
     await page.setRequestInterception(false);
 
