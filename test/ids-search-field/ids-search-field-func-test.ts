@@ -219,19 +219,35 @@ describe('IdsSearchField Component', () => {
     expect(s.container.querySelector('ids-menu-button').textContent).toMatch('Select Search Category');
   });
 
-  it('triggers "search" event when action-button clicked', async () => {
+  it('triggers "search" event when input-value changed', async () => {
     s = await createFromTemplate(s, HTMLSnippets.CATEGORY_SEARCH_TERM);
     s.categories = CATEGORIES;
 
     const searchEventListener = jest.fn((evt) => {
       expect(evt.detail.categories).toBe(CATEGORIES);
       expect(evt.detail.categoriesSelected).toMatchObject([]);
-      expect(evt.detail.value).toBe('keyword here');
+      expect(evt.detail.value).toBe('new keyword here');
     });
 
     s.addEventListener('search', searchEventListener);
-    await s.container.querySelector('#category-action-button').click();
+
+    s.value = 'new keyword here';
     expect(searchEventListener).toBeCalledTimes(1);
+  });
+
+  it('triggers "action" event when action-button clicked', async () => {
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_SEARCH_TERM);
+    s.categories = CATEGORIES;
+
+    const actionEventListener = jest.fn((evt) => {
+      expect(evt.detail.categories).toBe(CATEGORIES);
+      expect(evt.detail.categoriesSelected).toMatchObject([]);
+      expect(evt.detail.value).toBe('keyword here');
+    });
+
+    s.addEventListener('action', actionEventListener);
+    await s.container.querySelector('#category-action-button').click();
+    expect(actionEventListener).toBeCalledTimes(1);
   });
 
   it('triggers "selected/deselcted" event when category-menu clicked', async () => {

@@ -303,7 +303,10 @@ export default class IdsSearchField extends IdsTriggerField {
     this.onEvent('input', this.input, (e: any) => handleSearchEvent(e.target?.value));
 
     this.offEvent('click', this.#categoriesActionButton);
-    this.onEvent('click', this.#categoriesActionButton, () => handleSearchEvent(this.value));
+    this.onEvent('click', this.#categoriesActionButton, () => {
+      this.search(this.value);
+      this.#triggerCategoriesEvent('action');
+    });
 
     this.offEvent('selected', this.#categoriesPopup);
     this.onEvent('selected', this.#categoriesPopup, () => {
@@ -342,9 +345,9 @@ export default class IdsSearchField extends IdsTriggerField {
 
   /**
    * Helper to trigger CustomEvent for various event-types
-   * @param {'search' | 'deselected' | 'selected'} eventType - the type of event to trigger
+   * @param {'action' | 'search' | 'deselected' | 'selected'} eventType - the type of event to trigger
    */
-  #triggerCategoriesEvent(eventType: 'search' | 'deselected' | 'selected') {
+  #triggerCategoriesEvent(eventType: 'action' | 'search' | 'deselected' | 'selected') {
     this.triggerEvent(eventType, this, {
       detail: {
         elem: this,

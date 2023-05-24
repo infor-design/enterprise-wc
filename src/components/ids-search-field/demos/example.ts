@@ -20,14 +20,14 @@ const categorySelectors = [
   'ids-search-field[category]',
   'ids-search-field[multiple]',
   '#categories-short',
-];
+].join(', ');
 
-document.querySelectorAll(categorySelectors.join(', '))
+document.querySelectorAll(categorySelectors)
   .forEach((element: any) => {
     element.categories = categories;
   });
 
-const toastSearchDetails = (eventType: string, { detail }: any) => {
+const toastCategoryDetails = (eventType: string, { detail }: any) => {
   console.info(detail);
 
   const idsContainer = document.querySelector('ids-container');
@@ -46,9 +46,12 @@ const toastSearchDetails = (eventType: string, { detail }: any) => {
   });
 };
 
-document.querySelectorAll('ids-search-field[action]')
+document.querySelectorAll(categorySelectors)
   .forEach((element: any) => {
-    element.addEventListener('search', (e: any) => toastSearchDetails('search', e));
-    element.addEventListener('selected', (e: any) => toastSearchDetails('selected', e));
-    element.addEventListener('deselected', (e: any) => toastSearchDetails('deselected', e));
+    element.addEventListener('action', (e: any) => toastCategoryDetails('action', e));
+    element.addEventListener('selected', (e: any) => toastCategoryDetails('selected', e));
+    element.addEventListener('deselected', (e: any) => toastCategoryDetails('deselected', e));
+
+    element.addEventListener('change', (e: any) => console.info('change event', e));
+    element.addEventListener('input', (e: any) => console.info('input event', e));
   });
