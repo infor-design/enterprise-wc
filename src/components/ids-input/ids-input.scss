@@ -400,6 +400,12 @@ $input-size-full: 100%;
     }
   }
 
+  @media (max-width: mixins.$breakpoint-xs) {
+    .field-container {
+      max-width: $border-input-size-mm;
+    }
+  }
+
   // input field-heights: [xs, sm, md, lg]
   // Subtracting 2 takes into account that the width includes the `.field-container` border on both sides.
   &.field-height-xs {
