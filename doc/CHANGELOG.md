@@ -1,10 +1,14 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.12
+
+### 1.0.0-beta.12 Fixes
+
+- `[SearchField]` Added categories to search-field. ([#700](https://github.com/infor-design/enterprise-wc/issues/700))
 ## 1.0.0-beta.10
 
 ### 1.0.0-beta.10 Fixes
 
-- `[SearchField]` Added categories to search-field. ([#700](https://github.com/infor-design/enterprise-wc/issues/700))
 - `[DataGrid]` Added rowStart setting to data grid. ([#1199](https://github.com/infor-design/enterprise-wc/issues/1199))
 - `[DataGrid]` Fixed an error where dragging something onto the data grid header filter inputs would give an error. ([#1276](https://github.com/infor-design/enterprise-wc/issues/1276))
 - `[DataGrid]` Fixed an error where dragging something onto the data grid header filter would show the arrows as if a column was dragged and allow dropping text and arrow keys to work. ([#1242](https://github.com/infor-design/enterprise-wc/issues/1242))
