@@ -1380,6 +1380,12 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate('00000000')).toEqual('');
     });
 
+    it('should be able to format 2  digit years', async () => {
+      expect(locale.formatDate(new Date(2039, 6, 21), { pattern: 'dd/MM/yy' })).toEqual('21/07/39');
+      expect(locale.formatDate(new Date(1940, 6, 21), { pattern: 'dd/MM/yy' })).toEqual('21/07/40');
+      expect(locale.formatDate(new Date(2023, 11, 21), { pattern: 'dd/MM/yy' })).toEqual('21/12/23');
+    });
+
     it('should format a year and month locale', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatDate(new Date(2000, 10, 8, 13, 40), { month: 'long', day: 'numeric' })).toEqual('November 8');

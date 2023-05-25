@@ -45,6 +45,16 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter-triggers
     formatter: dataGrid.formatters.date
   });
   columns.push({
+    id: 'publishDate2',
+    name: 'Two Digit Year',
+    field: 'publishDate',
+    width: 180,
+    filterType: dataGrid.filters.date,
+    formatter: dataGrid.formatters.date,
+    filterOptions: { format: 'dd/MM/yy' },
+    formatOptions: { year: '2-digit', month: 'numeric', day: 'numeric' }
+  });
+  columns.push({
     id: 'publishTime',
     name: 'Pub. Time',
     field: 'publishDate',

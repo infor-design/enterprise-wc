@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.12
+
+### 1.0.0-beta.12 Fixes
+
+- `[DataGrid]` Added support and example for filtering two digit years. ([#1247](https://github.com/infor-design/enterprise-wc/issues/1247))
+
 ## 1.0.0-beta.10
 
 ### 1.0.0-beta.10 Fixes
