@@ -1,8 +1,8 @@
 # What's New with Enterprise Web Components
 
-## 1.0.0-beta.11
+## 1.0.0-beta.12
 
-### 1.0.0-beta.11 Fixes
+### 1.0.0-beta.12 Fixes
 
 - `[DataGrid]` Added `xxs` row height for edge cases where you need a really crowded UI. ([#1199](https://github.com/infor-design/enterprise-wc/issues/1072))
 
