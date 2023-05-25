@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.12
+
+### 1.0.0-beta.12 Fixes
+
+- `[DataGrid]` Added calculation for left and right offset when dragging columns. ([#1241](https://github.com/infor-design/enterprise-wc/issues/1241))
+
 ## 1.0.0-beta.10
 
 ### 1.0.0-beta.10 Fixes

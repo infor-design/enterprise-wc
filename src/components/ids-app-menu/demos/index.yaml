@@ -11,6 +11,3 @@
   - link: example-footer.html
     type: Example
     description: Shows a basic app menu with the old footer design
-  - link: sandbox.html
-    type: Sandbox
-    description: Shows miscellaneous app menu features

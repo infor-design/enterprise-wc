@@ -193,8 +193,10 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
       const curIndex = cell.getAttribute('aria-colindex');
       const cellLeft = rect.left + (startIndex < curIndex ? rect.width + 1 : 1);
       const cellRight = rect.left + (startIndex < curIndex ? 1 : rect.width + 1);
+      const offsetLeft = (this.offsetParent?.getBoundingClientRect().left || 0)
+          - ((this.offsetParent as any).offsetLeft || 0);
 
-      dragArrows?.style.setProperty('left', `${this.dataGrid?.localeAPI.isRTL() ? cellRight : cellLeft}px`);
+      dragArrows?.style.setProperty('left', `${this.dataGrid?.localeAPI.isRTL() ? cellRight - offsetLeft : cellLeft - offsetLeft}px`);
       dragArrows?.style.setProperty('height', `${rect.height}px`);
       dragArrows?.style.setProperty('display', 'block');
 
