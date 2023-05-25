@@ -1303,7 +1303,6 @@ export default class IdsDataGrid extends Base {
 
     const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BODY_HEIGHT;
 
-    this.container?.style.setProperty('max-height', '95vh');
     this.body?.style.setProperty('padding-bottom', `${Math.max(maxPaddingBottom, 0)}px`);
 
     let debounceRowIndex = 0;
@@ -1398,8 +1397,9 @@ export default class IdsDataGrid extends Base {
       return;
     }
 
-    const container = this.container;
-    const body = this.body;
+    const container = this.container!;
+    const header = this.header!;
+    const body = this.body!;
 
     const firstRow: any = rows[0];
     const lastRow: any = rows[rows.length - 1];
@@ -1418,6 +1418,15 @@ export default class IdsDataGrid extends Base {
     if (isInRange && doScroll) {
       this.offEvent('scroll.data-grid.virtual-scroll', this.container);
       this.rowByIndex(rowIndex)?.scrollIntoView?.();
+      const headerHeight = header.clientHeight;
+      const scrollHeight = container.scrollHeight;
+      const containerHeight = container.clientHeight;
+      const scrollTop = container.scrollTop;
+      const isScrollBottom = (scrollTop + containerHeight) >= scrollHeight;
+
+      // compensate for sticky header header height
+      if (!isScrollBottom) container.scrollTop -= headerHeight;
+
       this.#attachVirtualScrollEvent();
       return;
     }
