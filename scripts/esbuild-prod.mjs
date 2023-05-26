@@ -46,7 +46,7 @@ const result = await esbuild
         transform(source, dir, filePath) {
           // Make the css file for standalone css
           const rootDir = path.basename(path.dirname(dir));
-          if (rootDir === 'componentsXXXXXX') {
+          if (rootDir === 'components') {
             const noHost = source.replace(':host {', ':root {');
             const comp = path.basename(path.dirname(filePath));
             const file = `${outDir}${path.sep}components${path.sep}${comp}${path.sep}${comp}.css`;
