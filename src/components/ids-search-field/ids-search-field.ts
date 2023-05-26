@@ -188,13 +188,22 @@ export default class IdsSearchField extends IdsTriggerField {
 
   #categories: string[] = [];
 
+  /**
+   * @returns {string[]} returns an array of all the categories that appear in the category dropdown
+   */
   get categories(): string[] { return this.#categories; }
 
+  /**
+   * @param {string[]} value = sets a list of categories that should appear in the category dropdown
+   */
   set categories(value: string[]) {
     this.#categories = value;
     this.#rerender();
   }
 
+  /**
+   * @param {string} value - sets the initial text that appears in the categories dropdown menu
+   */
   set category(value: string) {
     if (value) {
       this.setAttribute(attributes.CATEGORY, value);
@@ -204,10 +213,16 @@ export default class IdsSearchField extends IdsTriggerField {
     this.#rerender();
   }
 
+  /**
+   * @returns {string} - gets the initial text that appears in the categories dropdown menu
+   */
   get category(): string {
     return this.getAttribute(attributes.CATEGORY) ?? '';
   }
 
+  /**
+   * @returns {string[]} returns an array of the currently selected categories
+   */
   get selectedCategories(): string[] {
     const categories = this.categories;
     const selectedValues = this.#categoriesPopup?.getSelectedValues?.() ?? [];
@@ -215,6 +230,9 @@ export default class IdsSearchField extends IdsTriggerField {
     return selectedCategories;
   }
 
+  /**
+   * @param {string} value - sets title on the search field action-button
+   */
   set action(value: string) {
     if (value) {
       this.setAttribute(attributes.ACTION, value);
@@ -224,10 +242,16 @@ export default class IdsSearchField extends IdsTriggerField {
     this.#rerender();
   }
 
+  /**
+   * @returns {string} - gets the title that appears on the search field action-button
+   */
   get action(): string {
     return this.getAttribute(attributes.ACTION) ?? '';
   }
 
+  /**
+   * @param {boolean} value - allows multiple categories to be selected
+   */
   set multiple(value: boolean) {
     if (value) {
       this.setAttribute(attributes.MULTIPLE, '');
@@ -236,6 +260,9 @@ export default class IdsSearchField extends IdsTriggerField {
     }
   }
 
+  /**
+   * @returns {boolean} determines whether multiple categories to be selected or not
+   */
   get multiple(): boolean {
     return this.hasAttribute(attributes.MULTIPLE);
   }
