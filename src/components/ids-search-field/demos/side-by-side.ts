@@ -1,7 +1,3 @@
-import '../../ids-toast/ids-toast';
-import '../../ids-layout-grid/ids-layout-grid';
-import '../../ids-layout-flex/ids-layout-flex';
-import '../../ids-layout-flex/ids-layout-flex-item';
 import statesJSON from '../../../assets/data/states.json';
 
 const url: any = statesJSON;
