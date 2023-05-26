@@ -190,7 +190,10 @@ export default class IdsSearchField extends IdsTriggerField {
 
   get categories(): string[] { return this.#categories; }
 
-  set categories(value: string[]) { this.#categories = value; }
+  set categories(value: string[]) {
+    this.#categories = value;
+    this.#rerender();
+  }
 
   set category(value: string) {
     if (value) {
@@ -217,6 +220,7 @@ export default class IdsSearchField extends IdsTriggerField {
     } else {
       this.removeAttribute(attributes.ACTION);
     }
+    this.#rerender();
   }
 
   get action(): string {
@@ -324,6 +328,7 @@ export default class IdsSearchField extends IdsTriggerField {
    * Listen for enter key to perform search function
    */
   #attachKeyboardListener() {
+    this.offEvent('keydown', this.input);
     this.onEvent('keydown', this.input, (event: any) => {
       const shouldSearchOnReturn = !event?.path?.length || !event.path[0].classList || !event.path[0].classList.contains('ids-icon-button');
       if (['Enter'].indexOf(event.code) > -1 && shouldSearchOnReturn) {
@@ -359,5 +364,12 @@ export default class IdsSearchField extends IdsTriggerField {
       cancelable: false,
       composed: false
     });
+  }
+
+  #rerender() {
+    if (this.container) {
+      this.container.innerHTML = this.template();
+      this.connectedCallback();
+    }
   }
 }
