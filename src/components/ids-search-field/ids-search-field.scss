@@ -96,6 +96,7 @@
 :host(:focus-visible) {
   ids-menu-button {
     border-color: var(--ids-input-focus-border-color);
+
     &::part(button) {
       color: var(--ids-button-tertiary-hover-text-color);
     }

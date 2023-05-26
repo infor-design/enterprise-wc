@@ -74,7 +74,6 @@ Search field with short version Categories dropdown menu (category attribute not
 document.querySelector('#categories-short')?.categories = ['Images', 'Documents', 'Audio', 'Video'];
 ```
 
-
 ## Responsive Guidelines
 
 - Because this component is simply an `ids-input` wrapped inside an `ids-trigger-field`, it will depend on the styling of those two components
