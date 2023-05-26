@@ -201,6 +201,7 @@ export default class IdsSearchField extends IdsTriggerField {
     } else {
       this.removeAttribute(attributes.CATEGORY);
     }
+    this.#rerender();
   }
 
   get category(): string {
