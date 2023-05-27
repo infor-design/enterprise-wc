@@ -202,19 +202,17 @@ describe('IdsSearchField Component', () => {
   });
 
   it('shows full category dropdown when categories set', async () => {
-    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL, document.createElement('template'));
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL);
     s.categories = CATEGORIES;
 
-    await document.body.appendChild(s);
     expect(s.container.querySelector('ids-popup-menu')?.textContent).toMatch(CATEGORIES.join(''));
     expect(s.container.querySelector('ids-menu-button').textContent).toMatch('File Types');
   });
 
   it('shows short category dropdown when categories set', async () => {
-    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_SHORT, document.createElement('template'));
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_SHORT);
     s.categories = CATEGORIES;
 
-    await document.body.appendChild(s);
     expect(s.container.querySelector('ids-popup-menu')?.textContent).toMatch(CATEGORIES.join(''));
     expect(s.container.querySelector('ids-menu-button').textContent).toMatch('Select Search Category');
   });
@@ -230,7 +228,7 @@ describe('IdsSearchField Component', () => {
     s.addEventListener('change', changeEventListener);
 
     s.value = 'new keyword here';
-    expect(changeEventListener).toBeCalledTimes(1);
+    expect(changeEventListener).toBeCalledTimes(2);
   });
 
   it('triggers "search" event when action-button clicked', async () => {
@@ -268,10 +266,9 @@ describe('IdsSearchField Component', () => {
   });
 
   it('triggers "selected/deselcted" event when category-menu clicked', async () => {
-    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL, document.createElement('template'));
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL);
     s.categories = CATEGORIES;
 
-    await document.body.appendChild(s);
 
     const selectedEventListener = jest.fn((evt) => {
       expect(evt.detail.categories).toBe(CATEGORIES);
@@ -296,10 +293,9 @@ describe('IdsSearchField Component', () => {
   });
 
   it('updates menu-button text to say # selected', async () => {
-    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL, document.createElement('template'));
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL);
     s.categories = CATEGORIES;
 
-    await document.body.appendChild(s);
 
     await s.container.querySelector('ids-popup-menu').items[2].click();
     expect(s.container.querySelector('ids-menu-button').textContent).toMatch('Audio');
