@@ -269,7 +269,6 @@ describe('IdsSearchField Component', () => {
     s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL);
     s.categories = CATEGORIES;
 
-
     const selectedEventListener = jest.fn((evt) => {
       expect(evt.detail.categories).toBe(CATEGORIES);
       expect(evt.detail.categoriesSelected).toMatchObject(['Images']);
@@ -295,7 +294,6 @@ describe('IdsSearchField Component', () => {
   it('updates menu-button text to say # selected', async () => {
     s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL);
     s.categories = CATEGORIES;
-
 
     await s.container.querySelector('ids-popup-menu').items[2].click();
     expect(s.container.querySelector('ids-menu-button').textContent).toMatch('Audio');
