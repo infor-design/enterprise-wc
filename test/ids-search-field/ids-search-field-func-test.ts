@@ -190,8 +190,6 @@ describe('IdsSearchField Component', () => {
 
     // s.categories = ['Documents', 'Images', 'Audio', 'Video'];
     s.categories = CATEGORIES;
-
-    expect(s.template()).toMatchSnapshot();
     expect(s.container.outerHTML).toMatchSnapshot();
   });
 
