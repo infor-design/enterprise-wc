@@ -6,6 +6,12 @@
 
 - `[DataGrid]` Added calculation for left and right offset when dragging columns. ([#1241](https://github.com/infor-design/enterprise-wc/issues/1241))
 
+## 1.0.0-beta.11
+
+### 1.0.0-beta.11 Fixes
+
+- `[Build]` Fixed missing theme css files in the build and improved build logic. ([#294](https://github.com/infor-design/enterprise-wc/issues/294))
+
 ## 1.0.0-beta.10
 
 ### 1.0.0-beta.10 Fixes

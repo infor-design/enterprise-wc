@@ -22,6 +22,7 @@ fs.rmSync(outDir, { recursive: true, force: true });
 
 let components = fsFiles('./src/', 'ts');
 components = components.filter((item) => (!item.includes('demo') && !item.includes('-base') && !item.includes('ids-locale/data')));
+const themes = fsFiles('./src/', 'scss').filter((item) => (item.includes('themes/default')));
 
 const cssFiles = [];
 
@@ -30,7 +31,7 @@ const cssFiles = [];
 // npx esbuild src/components/ids-tag/ids-tag.ts src/components/ids-alert/ids-alert.ts --bundle --splitting --outdir=out --format=esm
 const result = await esbuild
   .build({
-    entryPoints: components,
+    entryPoints: [...components, ...themes],
     outdir: outDir,
     bundle: true,
     splitting: true,
@@ -52,6 +53,14 @@ const result = await esbuild
             cssFiles.push({ file, source: noHost });
             fs.mkdirSync(path.dirname(file), { recursive: true }, () => {});
             fs.writeFileSync(file, noHost, () => {});
+          }
+
+          if (rootDir === 'themes') {
+            const comp = path.basename(filePath);
+            const folder = `${outDir}${path.sep}themes${path.sep}`;
+            const file = `${folder}${comp.replace('.scss', '.css')}`;
+            fs.mkdirSync(folder, { recursive: true }, () => { });
+            fs.writeFileSync(file, source.split('/*# sourceMappingURL')[0], () => { });
           }
           return source;
         }
@@ -76,7 +85,8 @@ types = types.filter((item) => (!item.includes('demo')
     && !item.includes('ids-locale/data/')
     && !item.includes('ids-locale/info/')
     && !item.includes('ids-locale-global')
-    && !item.includes('cultures')));
+    && !item.includes('cultures')
+    && !item.includes('themes/ids-theme')));
 
 types.forEach((type) => {
   fs.copyFileSync(type, type.replace('build/types/src', outDir));
@@ -99,6 +109,8 @@ if (mode === 'production') {
     })
     .catch(() => process.exit(1));
 }
+
+fs.rmSync(`${outDir}/themes/default`, { recursive: true, force: true });
 
 // Create Stats File
 // Can view this file at https://esbuild.github.io/analyze/
