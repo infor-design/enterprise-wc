@@ -661,7 +661,7 @@ export default class IdsDataGrid extends Base {
 
     // Follow links with keyboard and start editing
     this.listen(['Enter'], this, (e: KeyboardEvent) => {
-      if (!this.activeCell?.node) return;
+      if (!this.activeCell?.node || findInPath(eventPath(e), '.ids-data-grid-header-cell')) return;
       const cellNode = this.activeCell.node;
       const hyperlink = cellNode.querySelector('ids-hyperlink');
       const button = cellNode.querySelector('ids-button');

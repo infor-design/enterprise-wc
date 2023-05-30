@@ -195,7 +195,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       <ids-toolbar-section favor>
         <ids-toggle-button id="month-year-view-trigger" icon-off="dropdown" icon-on="dropdown" icon="dropdown" icon-align="end" no-padding class="dropdown-btn">
           <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
-          <ids-text class="dropdown-btn-text" font-size="20">${this.formatMonthText()}</ids-text>
+          <ids-text class="dropdown-btn-text" font-size="20" aria-live="polite">${this.formatMonthText()}</ids-text>
           <ids-icon icon="dropdown" class="dropdown-btn-icon"></ids-icon>
         </ids-toggle-button>
       </ids-toolbar-section>
