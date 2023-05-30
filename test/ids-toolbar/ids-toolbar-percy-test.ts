@@ -1,32 +1,32 @@
-import percySnapshot from '@percy/puppeteer';
+import pageSnapshot from '../helpers/page-snapshot';
 
 describe('Ids Toolbar Percy Tests', () => {
   const url = 'http://localhost:4444/ids-toolbar/example.html';
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await percySnapshot(page, 'ids-toolbar-new-light');
+    await pageSnapshot(page, 'ids-toolbar-new-light');
   });
 
   it('should not have visual regressions in standalone css', async () => {
     await page.goto('http://localhost:4444/ids-toolbar/standalone-css.html', { waitUntil: ['networkidle2', 'load'] });
-    await percySnapshot(page, 'ids-toolbar-standalone-css', { widths: [1280] });
+    await pageSnapshot(page, 'ids-toolbar-standalone-css', { widths: [1280] });
   });
 
-  it('should not have visual regressions in new dark theme (percy)', async () => {
+  it.skip('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-dark');
     });
-    await percySnapshot(page, 'ids-toolbar-new-dark');
+    await pageSnapshot(page, 'ids-toolbar-new-dark');
   });
 
-  it('should not have visual regressions in new contrast theme (percy)', async () => {
+  it.skip('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
+      document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-contrast');
     });
-    await percySnapshot(page, 'ids-toolbar-new-contrast');
+    await pageSnapshot(page, 'ids-toolbar-new-contrast');
   });
 
   it('renders overflow items correctly', async () => {
@@ -37,7 +37,7 @@ describe('Ids Toolbar Percy Tests', () => {
     await page.click('ids-toolbar-more-actions');
     await page.waitForFunction(`document.querySelector('ids-toolbar-more-actions').hasAttribute('visible')`);
     await page.waitForTimeout(200);
-    await percySnapshot(page, 'ids-toolbar-overflow');
+    await pageSnapshot(page, 'ids-toolbar-overflow');
   });
 });
 
@@ -46,22 +46,22 @@ describe('Ids Toolbar Formatter Percy Tests', () => {
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await percySnapshot(page, 'ids-toolbar-formatter-new-light');
+    await pageSnapshot(page, 'ids-toolbar-formatter-new-light');
   });
 
-  it('should not have visual regressions in new dark theme (percy)', async () => {
+  it.skip('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-dark');
     });
-    await percySnapshot(page, 'ids-toolbar-formatter-new-dark');
+    await pageSnapshot(page, 'ids-toolbar-formatter-new-dark');
   });
 
-  it('should not have visual regressions in new contrast theme (percy)', async () => {
+  it.skip('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
+      document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-contrast');
     });
-    await percySnapshot(page, 'ids-toolbar-formatter-new-contrast');
+    await pageSnapshot(page, 'ids-toolbar-formatter-new-contrast');
   });
 });

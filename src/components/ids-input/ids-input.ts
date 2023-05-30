@@ -286,9 +286,11 @@ export default class IdsInput extends Base {
       ${attrs.disabled}
       ${attrs.required}
     >
+      <slot name="label-pre"></slot>
       <ids-text part="label" label ${attrs.disabled} color-unset>
         ${this.label}
       </ids-text>
+      <slot name="label-post"></slot>
     </label>`;
 
     const value = this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : '';

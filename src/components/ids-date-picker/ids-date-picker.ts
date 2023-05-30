@@ -221,6 +221,7 @@ class IdsDatePicker extends Base {
     const labelState = this.labelState ? ` label-state="${this.labelState}"` : '';
     const compact = this.compact ? ' compact' : '';
     const noMargins = this.noMargins ? ' no-margins' : '';
+    const strPressDown = this.#translate('PressDown') || 'Press Down arrow to select';
     const classAttr = buildClassAttrib(
       'ids-date-picker',
       this.isCalendarToolbar && 'is-calendar-toolbar',
@@ -262,6 +263,7 @@ class IdsDatePicker extends Base {
             ${this.dirtyTracker ? `dirty-tracker="${this.dirtyTracker}"` : ''}
             ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
           >
+            <span slot="label-post" class="audible">, ${strPressDown}</span>
             <ids-trigger-button
               id="triggerBtn-${this.id ? this.id : ''}"
               slot="trigger-end" part="trigger-button">
@@ -721,6 +723,15 @@ class IdsDatePicker extends Base {
    */
   #hasTime(): boolean {
     return this.format?.includes('h') || this.format?.includes('m') || this.format?.includes('s');
+  }
+
+  /**
+   * Get translate text for given key from current locale
+   * @param {string} value The key
+   * @returns {string} The translate text
+   */
+  #translate(value: string): string {
+    return this.localeAPI?.translate?.(value);
   }
 
   /**
