@@ -87,3 +87,9 @@ $units: 0 1 2 4 8 12 16 20 24 28 32 36 40;
     column-gap: #{$gap-y}px;
   }
 }
+
+// Full Height
+:host([fill]) {
+  height: 100%;
+  width: 100%;
+}

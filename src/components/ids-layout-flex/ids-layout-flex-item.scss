@@ -29,3 +29,12 @@ $flex-shrink-list: 0 1;
     flex-shrink: $flex-shrink;
   }
 }
+
+// Overflow
+$overflow-list: auto hidden visible scroll;
+
+@each $overflow in $overflow-list {
+  :host([overflow='#{$overflow}']) {
+    overflow: $overflow;
+  }
+}

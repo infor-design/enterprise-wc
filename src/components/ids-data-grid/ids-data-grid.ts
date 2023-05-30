@@ -1236,7 +1236,7 @@ export default class IdsDataGrid extends Base {
    */
   get virtualScrollSettings() {
     const ENABLED = !!this.virtualScroll;
-    const ROW_HEIGHT = this.rowPixelHeight || 50;
+    const ROW_HEIGHT = (this.rowPixelHeight || 50) + 1;
     const MAX_ROWS = 150;
     const BODY_HEIGHT = MAX_ROWS * ROW_HEIGHT;
     const BUFFER_ROWS = 52;
@@ -1424,10 +1424,15 @@ export default class IdsDataGrid extends Base {
       const scrollTop = container.scrollTop;
       const isScrollBottom = (scrollTop + containerHeight) >= scrollHeight;
 
-      // compensate for sticky header header height
+      // offset for sticky header height
       if (!isScrollBottom) container.scrollTop -= headerHeight;
 
-      this.#attachVirtualScrollEvent();
+      this.scrollRowIntoView(rowIndex, false);
+
+      // raf used because 'scroll.data-grid.virtual-scroll' fires too soon
+      window.requestAnimationFrame(() => {
+        this.#attachVirtualScrollEvent();
+      });
       return;
     }
 
