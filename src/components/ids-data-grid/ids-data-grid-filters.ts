@@ -167,19 +167,19 @@ export default class IdsDataGridFilters {
     if (!this.#initial[column.id].datePicker) this.#initial[column.id].datePicker = { value };
     value = value ? ` value="${value}"` : '';
 
-    return `
-      ${this.#filterButtonTemplate(TYPE, column)}
-      ${this.#triggerFieldTemplate(TYPE, column, 'calendar', 'DatePickerTriggerButton')}
-      <ids-date-picker-popup
-        attachment=".ids-data-grid-wrapper"
-        data-filter-type="${TYPE}"
-        trigger-type="click"
-        id="popup-${id}"
-        no-margins
-        compact="true"
-        ${format}${showToday}${firstDayOfWeek}${value}${disabled}
-      ></ids-date-picker-popup>
-    `;
+    const filterButton = `${this.#filterButtonTemplate(TYPE, column)}`;
+    const trigger = `${this.#triggerFieldTemplate(TYPE, column, 'calendar', 'DatePickerTriggerButton')}`;
+    const popup = `<ids-date-picker-popup
+      attachment=".ids-data-grid-wrapper"
+      data-filter-type="${TYPE}"
+      trigger-type="click"
+      id="popup-${id}"
+      no-margins
+      compact="true"
+      ${format}${showToday}${firstDayOfWeek}${value}${disabled}></ids-date-picker-popup>`;
+
+    if (column.align === 'right') return `${trigger}${filterButton}${popup}`;
+    return `${filterButton}${trigger}${popup}`;
   }
 
   /**
@@ -207,10 +207,9 @@ export default class IdsDataGridFilters {
     if (!this.#initial[column.id].timePicker) this.#initial[column.id].timePicker = { value };
     value = value ? ` value="${value}"` : '';
 
-    return `
-      ${this.#filterButtonTemplate(TYPE, column)}
-      ${this.#triggerFieldTemplate(TYPE, column, 'clock', 'TimePickerTriggerButton')}
-      <ids-time-picker-popup
+    const filterButton = `${this.#filterButtonTemplate(TYPE, column)}`;
+    const trigger = `${this.#triggerFieldTemplate(TYPE, column, 'clock', 'TimePickerTriggerButton')}`;
+    const popup = `<ids-time-picker-popup
         attachment=".ids-data-grid-wrapper"
         trigger-type="click"
         color-variant="${!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'}"
@@ -223,8 +222,10 @@ export default class IdsDataGridFilters {
         compact
         ${format}${placeholder}${minuteInterval}${secondInterval}
         ${autoselect}${autoupdate}${disabled}${readonly}${value}
-      ></ids-time-picker-popup>
-    `;
+      ></ids-time-picker-popup>`;
+
+    if (column?.align === 'right') return `${trigger}${filterButton}${popup}`;
+    return `${filterButton}${trigger}${popup}`;
   }
 
   /**
@@ -992,10 +993,12 @@ export default class IdsDataGridFilters {
    * @returns {string} The resulting template
    */
   #btnAndInputTemplate(type: string, column: IdsDataGridColumn) {
-    return `
-      ${this.#filterButtonTemplate(type, column)}
-      ${this.#inputTemplate(type, column)}
-    `;
+    const input = `${this.#inputTemplate(type, column)}`;
+    const button = `${this.#filterButtonTemplate(type, column)}`;
+    if (column.align === 'right') {
+      return `${input}${button}`;
+    }
+    return `${button}${input}`;
   }
 
   /**
@@ -1080,6 +1083,7 @@ export default class IdsDataGridFilters {
       label="${label}"
       label-state="collapsed"
       id="${id}"
+      text-align="${column.align === 'right' ? 'end' : 'start'}"
       no-margins
       compact
       ${placeholder}${disabled}${readonly}${value}>
