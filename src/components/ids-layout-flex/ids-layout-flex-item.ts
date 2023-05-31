@@ -86,6 +86,10 @@ export default class IdsLayoutFlexItem extends IdsElement {
 
   get shrink() { return this.getAttribute(attributes.SHRINK); }
 
+  /**
+   * Set overflow value on flex item
+   * @param {string} val overflow value
+   */
   set overflow(val: string | null) {
     if (val && FLEX_ITEM_OPTIONS.overflow.includes(val)) {
       this.setAttribute(attributes.OVERFLOW, val);

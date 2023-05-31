@@ -1427,12 +1427,7 @@ export default class IdsDataGrid extends Base {
       // offset for sticky header height
       if (!isScrollBottom) container.scrollTop -= headerHeight;
 
-      this.scrollRowIntoView(rowIndex, false);
-
-      // raf used because 'scroll.data-grid.virtual-scroll' fires too soon
-      window.requestAnimationFrame(() => {
-        this.#attachVirtualScrollEvent();
-      });
+      this.#attachVirtualScrollEvent();
       return;
     }
 

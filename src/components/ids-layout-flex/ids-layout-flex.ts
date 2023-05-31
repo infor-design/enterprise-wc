@@ -185,18 +185,18 @@ export default class IdsLayoutFlex extends IdsElement {
   get wrap() { return this.getAttribute(attributes.WRAP); }
 
   /**
-   * Set flex container to fill available space
+   * Set flex container to 100% height
    * @param {boolean} val value
    */
-  set fill(val: boolean | null) {
+  set fullHeight(val: boolean | string | null) {
     if (stringToBool(val)) {
-      this.setAttribute(attributes.FILL, '');
+      this.setAttribute(attributes.FULL_HEIGHT, '');
     } else {
-      this.removeAttribute(attributes.FILL);
+      this.removeAttribute(attributes.FULL_HEIGHT);
     }
   }
 
-  get fill(): boolean {
-    return stringToBool(this.getAttribute(attributes.FILL));
+  get fullHeight(): boolean {
+    return this.hasAttribute(attributes.FULL_HEIGHT);
   }
 }
