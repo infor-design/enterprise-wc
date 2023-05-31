@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.12
+
+### 1.0.0-beta.12 Fixes
+
+- `[SearchField]` Added categories to search-field. ([#700](https://github.com/infor-design/enterprise-wc/issues/700))
+
 ## 1.0.0-beta.11
 
 ### 1.0.0-beta.11 Fixes
