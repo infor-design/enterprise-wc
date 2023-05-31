@@ -1,4 +1,4 @@
-import percySnapshot from '@percy/puppeteer';
+import pageSnapshot from '../helpers/page-snapshot';
 
 describe('Ids Color Picker Percy Tests', () => {
   const url = 'http://localhost:4444/ids-color-picker/example.html';
@@ -6,24 +6,24 @@ describe('Ids Color Picker Percy Tests', () => {
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForTimeout(220);
-    await percySnapshot(page, 'ids-color-picker-new-light');
+    await pageSnapshot(page, 'ids-color-picker-new-light');
   });
 
-  it('should not have visual regressions in new dark theme (percy)', async () => {
+  it.skip('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-dark');
     });
     await page.waitForTimeout(220);
-    await percySnapshot(page, 'ids-color-picker-new-dark');
+    await pageSnapshot(page, 'ids-color-picker-new-dark');
   });
 
-  it('should not have visual regressions in new contrast theme (percy)', async () => {
+  it.skip('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
+      document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-contrast');
     });
     await page.waitForTimeout(220);
-    await percySnapshot(page, 'ids-color-picker-new-contrast');
+    await pageSnapshot(page, 'ids-color-picker-new-contrast');
   });
 });

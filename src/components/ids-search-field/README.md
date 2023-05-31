@@ -15,6 +15,18 @@ A specific composition of existing components [Trigger Field](../ids-trigger-fie
 - `placeholder` { string } text hint to show when input is empty
 - `disabled` { boolean } disallow editing input and tabbing interaction
 - `readonly` { boolean } disallow editing input
+- `categories` { string[] } an array of text that dictates what appears in the categories dropdown
+- `category` { string } sets the initial text that appears in the categories dropdown menu
+- `selectedCategories` { string[] } returns an array of currently selected categories
+- `action` { string } if set, an action button will appear on the search field, and this button fires the "search" event
+- `multiple` { boolean } if true, this will allow multiple categories to be selected in the category menu
+
+## Events
+- `search` - Fires when the category action-button is clicked or when the `Enter` key is pressed.
+- `selected` - Fires after a Category is selected.
+- `deselected` - Fires after a Category is deselected.
+- `change` - Fires when the search field's input field is changed
+- `input` - Fires when typing in the search field's input field
 
 ## Features (With Code Samples)
 
@@ -36,6 +48,30 @@ Disabled state
 Read-only state
 ```html
     <ids-search-field readonly label="Pokemon" value="Lapras"></ids-search-field>
+```
+
+Search field with Categories
+```html
+  <ids-search-field label="Categories" category="Files" clearable></ids-search-field>
+```
+```js
+document.querySelector('ids-search-field[category]')?.categories = ['Images', 'Documents', 'Audio', 'Video'];
+```
+
+Search field with Categories that specifies that multiple can be selected
+```html
+  <ids-search-field label="Categories - Multiple" category="Files" multiple></ids-search-field>
+```
+```js
+document.querySelector('ids-search-field[multiple]')?.categories = ['Images', 'Documents', 'Audio', 'Video'];
+```
+
+Search field with short version Categories dropdown menu (category attribute not set)
+```html
+  <ids-search-field label="Categories - Short"  id="categories-short"></ids-search-field>
+```
+```js
+document.querySelector('#categories-short')?.categories = ['Images', 'Documents', 'Audio', 'Video'];
 ```
 
 ## Responsive Guidelines

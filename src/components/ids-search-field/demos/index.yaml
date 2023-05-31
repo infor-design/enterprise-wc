@@ -8,3 +8,6 @@
   - link: example.html
     type: Main Example
     description: Showing various search field examples
+  - link: side-by-side.html
+    type: Side by Side
+    description: Showing a search-field with a 4.x search-field

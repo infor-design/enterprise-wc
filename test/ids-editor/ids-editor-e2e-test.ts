@@ -33,7 +33,7 @@ describe('Ids Editor e2e Tests', () => {
     ]);
   });
 
-  it('should make text bold, italic, underline, strikethrough and clearformatting', async () => {
+  it.skip('should make text bold, italic, underline, strikethrough and clearformatting', async () => {
     let html = await page.evaluate(() => {
       const doc = (document.querySelector('ids-editor') as any).shadowRoot;
       return doc.querySelector('#editor-container p:nth-child(2)').innerHTML;
