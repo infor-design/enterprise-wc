@@ -223,26 +223,27 @@ export default class IdsElement extends HTMLElement {
     document.body.querySelector('ids-theme-switcher')?.setAttribute('theme', theme);
   }
 
+  lastTheme = '';
+
   /**
    * Get the theme and load it
    * @param {string} theme name of the theme
    */
   async loadTheme(theme: string) {
-    await fetch(`../themes/ids-theme-${theme}.css`)
-      .then(async (data) => {
-        const themeStyles = await data.text();
-
-        const head = (document.head as any);
-        const styleElem = document.querySelector('#ids-theme');
-        const style = styleElem || document.createElement('style');
-        style.textContent = themeStyles;
-        style.id = 'ids-theme';
-        if (this.nonce) style.setAttribute('nonce', this.nonce);
-        if (!styleElem) {
-          const titleElem = (head.querySelector('title') as HTMLElement);
-          if (titleElem) head.insertBefore(style, titleElem.nextElementSibling);
-          else head.insertAdjacentHTML('beforeend', style);
-        }
-      });
+    if (this.lastTheme === theme) return;
+    this.lastTheme = theme;
+    const response = await fetch(`../themes/ids-theme-${theme}.css`, { cache: 'reload' });
+    const themeStyles = await response.text();
+    const head = (document.head as any);
+    const styleElem = document.querySelector('#ids-theme');
+    const style = styleElem || document.createElement('style');
+    style.textContent = themeStyles;
+    style.id = 'ids-theme';
+    if (this.nonce) style.setAttribute('nonce', this.nonce);
+    if (!styleElem) {
+      const titleElem = (head.querySelector('title') as HTMLElement);
+      if (titleElem) head.insertBefore(style, titleElem.nextElementSibling);
+      else head.insertAdjacentHTML('beforeend', style);
+    }
   }
 }

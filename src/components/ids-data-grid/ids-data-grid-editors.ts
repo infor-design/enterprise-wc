@@ -64,7 +64,7 @@ export class InputEditor implements IdsDataGridEditor {
     this.input = <IdsInput> document.createElement('ids-input');
     this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
     this.input.size = isInline ? 'full' : '';
-    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight);
+    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
     this.input.labelState = 'collapsed';
 
     // Clear cell and set value
@@ -175,7 +175,7 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input.size = 'full';
     this.input.labelState = 'collapsed';
     this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
-    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight);
+    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
     this.input.container?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
     this.#attchEventListeners();
     this.input.open();
@@ -259,7 +259,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
     // apply user settings
     applySettings(component, cell?.column.editor?.editorSettings);
 
-    component.fieldHeight = String(cell?.dataGrid?.rowHeight);
+    component.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
     component.labelState = 'collapsed';
     component.colorVariant = 'borderless';
     component.size = 'full';
@@ -352,7 +352,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
 
     // apply required settings
     component.id = `${cell.column.field}-time-picker`;
-    component.fieldHeight = String(cell?.dataGrid?.rowHeight);
+    component.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
     component.labelState = 'collapsed';
     component.colorVariant = 'borderless';
     component.size = 'full';

@@ -88,7 +88,7 @@ export default class IdsDataGrid extends Base {
 
   currentColumns?: IdsDataGridColumn[];
 
-  sortColumn?: Record<string, any>;
+  sortColumn?: { id: string, ascending: boolean };
 
   emptyMessageElements?: IdsDataGridEmptyMessageElements;
 
@@ -591,6 +591,7 @@ export default class IdsDataGrid extends Base {
     resetEmptyMessageElements.apply(this);
     this.redraw();
     this.triggerEvent('columnmoved', this, { detail: { elem: this, fromIndex: correctFromIndex, toIndex: correctToIndex } });
+    if (this.sortColumn) this.header.setSortState(this.sortColumn.id, this.sortColumn.ascending);
     this.saveSettings?.();
   }
 
@@ -604,6 +605,7 @@ export default class IdsDataGrid extends Base {
     this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e: KeyboardEvent) => {
       const inFilter = findInPath(eventPath(e), '.ids-data-grid-header-cell-filter-wrapper');
       const key = e.key;
+
       if (inFilter && (key === 'ArrowRight' || key === 'ArrowLeft')) return;
       if (!this.activeCell?.node) return;
       const cellNode = this.activeCell.node;
