@@ -1082,6 +1082,7 @@ export default class IdsDataGridFilters {
       size="${opt.size || 'full'}"
       label="${label}"
       label-state="collapsed"
+      ${this.root.rowHeight === 'xxs' || this.root.rowHeight === 'xxs' ? `field-height="xs"` : ''}
       id="${id}"
       text-align="${column.align === 'right' ? 'end' : 'start'}"
       no-margins

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Toolbar</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+
+        <ids-toolbar id="my-toolbar">
+          <ids-toolbar-section>
+            <ids-button icon="home" role="button">
+              <span class="audible">Go Home</span>
+            </ids-button>
+          </ids-toolbar-section>
+          <ids-toolbar-section type="title" favor>
+            <ids-text font-size="20">My Toolbar</ids-text>
+          </ids-toolbar-section>
+          <ids-toolbar-section type="buttonset" align="end">
+            <ids-layout-flex justify-content="center" gap="8">
+              <ids-icon icon="in-progress" font-size="12"></ids-icon>
+              <ids-text text-align="center">Debit is not available.</ids-text>
+              <ids-hyperlink href="#">Manage</ids-hyperlink>
+            </ids-layout-flex>
+          </ids-toolbar-section>
+        </ids-toolbar>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

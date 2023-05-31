@@ -70,6 +70,7 @@
   &[data-row-height='xs'] {
     .ids-data-grid-cell {
       height: var(--ids-data-grid-xs-row-height);
+      font-size: var(--ids-data-grid-font-size-sm);
 
       .text-ellipsis,
       ids-badge {
@@ -95,6 +96,7 @@
   &[data-row-height='xxs'] {
     .ids-data-grid-cell {
       height: var(--ids-data-grid-xxs-row-height);
+      font-size: var(--ids-data-grid-font-size-sm);
 
       .text-ellipsis,
       ids-badge {

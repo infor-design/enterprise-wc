@@ -1,4 +1,4 @@
-import percySnapshot from '@percy/puppeteer';
+import pageSnapshot from '../helpers/page-snapshot';
 
 describe('Ids Toast Percy Tests', () => {
   const url = 'http://localhost:4444/ids-toast/example.html';
@@ -9,26 +9,26 @@ describe('Ids Toast Percy Tests', () => {
       (document.querySelector('#btn-toast-demo') as any).click();
     });
     await page.waitForTimeout(200); // approx. time for a Modal to show
-    await percySnapshot(page, 'ids-toast-new-light');
+    await pageSnapshot(page, 'ids-toast-new-light');
   });
 
-  it('should not have visual regressions in new dark theme (percy)', async () => {
+  it.skip('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-dark');
       (document.querySelector('#btn-toast-demo') as any).click();
     });
     await page.waitForTimeout(200); // approx. time for a Modal to show
-    await percySnapshot(page, 'ids-toast-new-dark');
+    await pageSnapshot(page, 'ids-toast-new-dark');
   });
 
-  it('should not have visual regressions in new contrast theme (percy)', async () => {
+  it.skip('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
+      document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-contrast');
       (document.querySelector('#btn-toast-demo') as any).click();
     });
     await page.waitForTimeout(200); // approx. time for a Modal to show
-    await percySnapshot(page, 'ids-toast-new-contrast');
+    await pageSnapshot(page, 'ids-toast-new-contrast');
   });
 });

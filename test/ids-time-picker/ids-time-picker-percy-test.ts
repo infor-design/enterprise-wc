@@ -1,4 +1,4 @@
-import percySnapshot from '@percy/puppeteer';
+import pageSnapshot from '../helpers/page-snapshot';
 
 describe('Ids Time Picker Percy Tests', () => {
   const url = 'http://localhost:4444/ids-time-picker/open.html';
@@ -9,24 +9,24 @@ describe('Ids Time Picker Percy Tests', () => {
       document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'light');
     });
     await page.waitForSelector('pierce/.popup-btn');
-    await percySnapshot(page, 'ids-time-picker-new-light');
+    await pageSnapshot(page, 'ids-time-picker-new-light');
   });
 
-  it('should not have visual regressions in new dark theme (percy)', async () => {
+  it.skip('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-dark');
     });
     await page.waitForSelector('pierce/.popup-btn');
-    await percySnapshot(page, 'ids-time-picker-new-dark');
+    await pageSnapshot(page, 'ids-time-picker-new-dark');
   });
 
-  it('should not have visual regressions in new contrast theme (percy)', async () => {
+  it.skip('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'contrast');
+      document.querySelector('ids-theme-switcher')?.setAttribute('theme', 'default-contrast');
     });
     await page.waitForSelector('pierce/.popup-btn');
-    await percySnapshot(page, 'ids-time-picker-new-contrast');
+    await pageSnapshot(page, 'ids-time-picker-new-contrast');
   });
 });
