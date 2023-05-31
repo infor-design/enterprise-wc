@@ -120,7 +120,7 @@ Sets the horizontal alignment of the content inside a block element, setting can
 
 ### Text status
 
-Text can be display the status state in a page. It will show bullet character along text. Text and bullet both are display in varius colors based on type of status, available options are as:
+Text can be display the status state in a page. It will show bullet character along text. Text and bullet both are display in various colors based on type of status, available options are as:
 
 - **Base**: Show the base status, normal color for bullet and text.
 - **Error**: Show the error status, error color for built and text.

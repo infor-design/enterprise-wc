@@ -105,7 +105,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the favorite form
 exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-icon icon="closed-folder" size="large" ></ids-icon>
+        <ids-icon icon="closed-folder" size="large" ></ids-icon><span></span>
       </span>
     "
 `;
@@ -115,7 +115,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the icon formatte
 exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with color-override 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-icon icon="closed-folder" size="large" badge-color="#FF00FF" badge-position="top-left"></ids-icon>
+        <ids-icon icon="closed-folder" size="large" badge-color="#FF00FF" badge-position="top-left"></ids-icon><span></span>
       </span>
     "
 `;
@@ -123,7 +123,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the icon formatte
 exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with icon-override 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-icon icon="confirm" size="large" ></ids-icon>icon-closed-folder
+        <ids-icon icon="confirm" size="large" ></ids-icon><span>icon-closed-folder</span>
       </span>
     "
 `;
@@ -131,7 +131,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the icon formatte
 exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with icon-override without value 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-icon icon="confirm" size="large" ></ids-icon>
+        <ids-icon icon="confirm" size="large" ></ids-icon><span></span>
       </span>
     "
 `;
@@ -139,7 +139,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the icon formatte
 exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with invalid size-override 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-icon icon="closed-folder" size="large" ></ids-icon>
+        <ids-icon icon="closed-folder" size="large" ></ids-icon><span></span>
       </span>
     "
 `;
@@ -147,7 +147,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the icon formatte
 exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with size-override 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-icon icon="closed-folder" size="small" ></ids-icon>
+        <ids-icon icon="closed-folder" size="small" ></ids-icon><span></span>
       </span>
     "
 `;
@@ -478,20 +478,8 @@ exports[`IdsDataGrid Component Formatter Tests can render with the stepChart for
     "
 `;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the tag formatter 1`] = `
-"
-      <span class="text-ellipsis">
-        <ids-tag color="">Demo Category</ids-tag>
-      </span>
-    "
-`;
+exports[`IdsDataGrid Component Formatter Tests can render with the tag formatter 1`] = `"<ids-tag color="">Demo Category</ids-tag>"`;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the tag formatter with color-override 1`] = `
-"
-      <span class="text-ellipsis">
-        <ids-tag color="success">Demo Category</ids-tag>
-      </span>
-    "
-`;
+exports[`IdsDataGrid Component Formatter Tests can render with the tag formatter with color-override 1`] = `"<ids-tag color="success">Demo Category</ids-tag>"`;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the tag formatter without value 1`] = `""`;

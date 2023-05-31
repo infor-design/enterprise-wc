@@ -25,7 +25,10 @@
     description: Showing the formamter style toolbar
   - link: overflowed.html
     type: Example
-    description: Showing a toolbar without overflow
+    description: Showing a toolbar with overflow
+  - link: hyperlink.html
+    type: Example
+    description: Showing a hyperlink
   - link: side-by-side.html
     type: Side by Side
     description: Showing a toolbar side by side working with 4.x
