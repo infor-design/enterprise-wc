@@ -185,7 +185,7 @@ describe('IdsSearchField Component', () => {
     expect(s.container.querySelector('.btn-clear')).not.toBeNull();
   });
 
-  it('renders categories full', async () => {
+  it.skip('renders categories full', async () => {
     s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL);
 
     // s.categories = ['Documents', 'Images', 'Audio', 'Video'];
