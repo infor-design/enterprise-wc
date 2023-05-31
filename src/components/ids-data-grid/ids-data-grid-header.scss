@@ -43,8 +43,13 @@
 
   &.align-right .ids-data-grid-header-cell-content,
   &.align-right .ids-data-grid-header-cell-filter-wrapper {
-    direction: rtl;
-    justify-content: flex-start;
+    justify-content: flex-end;
+  }
+
+  &.align-right .ids-data-grid-header-cell-filter-wrapper {
+    ids-menu-button {
+      margin-inline-start: 2px;
+    }
   }
 
   // Resizing Cells
