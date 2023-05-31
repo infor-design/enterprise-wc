@@ -598,7 +598,7 @@ We use [percy](https://percy.io/) for visual regression tests. Its a simplified 
 A percy tests sets the theme and takes a screen shot. Note the file name  and theme convention in the `percySnapshot` command and looks like this:
 
 ```js
-it('should not have visual regressions in new dark theme (percy)', async () => {
+it.skip('should not have visual regressions in new dark theme (percy)', async () => {
   await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   await page.evaluate(() => {
     document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');

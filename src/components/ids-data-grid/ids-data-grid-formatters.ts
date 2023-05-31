@@ -269,7 +269,7 @@ export default class IdsDataGridFormatters {
 
     return `
       <span class="text-ellipsis">
-        <ids-icon icon="${icon}" size="${size}" ${badgeColor}></ids-icon>${text}
+        <ids-icon icon="${icon}" size="${size}" ${badgeColor}></ids-icon><span>${text}</span>
       </span>
     `;
   }
@@ -298,11 +298,7 @@ export default class IdsDataGridFormatters {
     if (!value) return '';
     const color = this.#color(index, value, columnData, rowData);
 
-    return `
-      <span class="text-ellipsis">
-        <ids-tag color="${color || ''}">${value}</ids-tag>
-      </span>
-    `;
+    return `<ids-tag color="${color || ''}">${value}</ids-tag>`;
   }
 
   /*

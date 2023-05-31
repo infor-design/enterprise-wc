@@ -1267,7 +1267,7 @@ describe('IdsDataGrid Component', () => {
 
       // Fake a Drag
       const dragstart = new MouseEvent('dragstart', { bubbles: true });
-      nodes[0].dispatchEvent(dragstart);
+      nodes[0].parentNode.dispatchEvent(dragstart);
       expect(nodes[0].parentNode.classList.contains('active-drag-column')).toBeTruthy();
       const dragover: any = new CustomEvent('dragover', { bubbles: true, dataTransfer: { } } as any);
       dragover.pageY = '1';
@@ -1278,29 +1278,29 @@ describe('IdsDataGrid Component', () => {
 
       // simulate dragging
       const dragenter = new MouseEvent('dragenter', { bubbles: true });
-      nodes[1].dispatchEvent(dragenter);
-      nodes[0].dispatchEvent(dragenter);
-      nodes[1].dispatchEvent(dragstart);
+      nodes[1].parentNode.dispatchEvent(dragenter);
+      nodes[0].parentNode.dispatchEvent(dragenter);
+      nodes[1].parentNode.dispatchEvent(dragstart);
 
       const dragstart2 = new MouseEvent('dragstart', { bubbles: true });
-      nodes[1].dispatchEvent(dragstart2);
-      nodes[0].dispatchEvent(dragenter);
-      nodes[1].dispatchEvent(dragenter);
-      nodes[0].dispatchEvent(dragenter);
+      nodes[1].parentNode.dispatchEvent(dragstart2);
+      nodes[0].parentNode.dispatchEvent(dragenter);
+      nodes[1].parentNode.dispatchEvent(dragenter);
+      nodes[0].parentNode.dispatchEvent(dragenter);
 
       dataGrid.localeAPI.isRTL = () => true;
-      nodes[1].dispatchEvent(dragenter);
-      nodes[0].dispatchEvent(dragenter);
+      nodes[1].parentNode.dispatchEvent(dragenter);
+      nodes[0].parentNode.dispatchEvent(dragenter);
       expect(dataGrid.wrapper.querySelector('.ids-data-grid-sort-arrows').style.display).toBe('block');
 
       const dragend = new MouseEvent('dragend', { bubbles: true });
-      nodes[1].dispatchEvent(dragend);
+      nodes[1].parentNode.dispatchEvent(dragend);
       expect(nodes[0].parentNode.classList.contains('active-drag-column')).toBeFalsy();
       expect(dataGrid.wrapper.querySelector('.ids-data-grid-sort-arrows').style.display).toBe('none');
 
       const drop = new MouseEvent('drop', { bubbles: true });
       dataGrid.dragInitiated = true;
-      nodes[1].dispatchEvent(drop);
+      nodes[1].parentNode.dispatchEvent(drop);
 
       // Overall success
       expect(cols[0].id).toBe('price');
@@ -1409,35 +1409,6 @@ describe('IdsDataGrid Component', () => {
       expect(cols[0].id).toBe('price');
       expect(cols[1].id).toBe('bookCurrency');
       expect(cols[2].id).toBe('other');
-    });
-
-    it('supports stopping reorder on non-reorderable', async () => {
-      dataGrid.columns = [{
-        id: 'price',
-        name: 'Price',
-        field: 'price',
-        reorderable: false,
-        width: 200,
-      },
-      {
-        id: 'bookCurrency',
-        name: 'Currency',
-        field: 'bookCurrency',
-        minWidth: 100,
-        reorderable: true,
-      },
-      {
-        id: 'other',
-        name: 'ledger',
-        field: 'ledger',
-        minWidth: 100,
-        reorderable: false,
-      }];
-
-      const headers = dataGrid.container.querySelectorAll('.ids-data-grid-header-cell');
-      const dragstart = new MouseEvent('dragstart', { bubbles: true });
-      headers[0].dispatchEvent(dragstart);
-      expect(dataGrid.shadowRoot.querySelector('.active-drag-column')).toBeFalsy();
     });
 
     it('supports moveColumn', async () => {

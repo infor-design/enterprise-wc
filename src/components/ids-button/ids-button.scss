@@ -110,17 +110,17 @@ button {
   @include ids-standard-button-colors();
 
   // Everything below is only for icon buttons
-  padding-inline-start: calc(var(--ids-spacing-lg) - 1px);
-  padding-inline-end: calc(var(--ids-spacing-lg) - 1px);
-  padding-block-start: calc(var(--ids-spacing-lg) - 1px);
-  padding-block-end: calc(var(--ids-spacing-lg) - 1px);
+  padding-inline-start: var(--ids-button-icon-padding);
+  padding-inline-end: var(--ids-button-icon-padding);
+  padding-block-start: var(--ids-button-icon-padding);
+  padding-block-end: var(--ids-button-icon-padding);
 
   &:not(.no-padding) {
     // 34px / 34px
-    padding-inline-start: calc(var(--ids-spacing-lg) - 1px);
-    padding-inline-end: calc(var(--ids-spacing-lg) - 1px);
-    padding-top: calc(var(--ids-spacing-lg) - 1px);
-    padding-bottom: calc(var(--ids-spacing-lg) - 1px);
+    padding-inline-start: var(--ids-button-icon-padding);
+    padding-inline-end:var(--ids-button-icon-padding);
+    padding-top: var(--ids-button-icon-padding);
+    padding-bottom: var(--ids-button-icon-padding);
   }
 
   &:not(.square) {

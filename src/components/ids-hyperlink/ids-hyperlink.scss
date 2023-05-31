@@ -11,9 +11,10 @@
   font-family: var(--ids-font-family);
   font-size: var(--ids-hyperlink-font-size);
   font-weight: var(--ids-hyperlink-font-weight);
-  padding: var(--ids-hyperlink-padding);
+  padding: 2px 4px;
   position: relative;
-  margin: calc(var(--ids-hyperlink-padding) * -1);
+  margin-block-start: -3px;
+  margin-inline-start: -4px;
 
   &.disabled,
   &[disabled] {
