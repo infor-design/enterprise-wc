@@ -9,28 +9,32 @@
     <ids-theme-switcher mode="light"></ids-theme-switcher>
 
     <ids-layout-grid auto-fit="true" padding="md">
-      <ids-text font-size="12" type="h1">Search Field</ids-text>
+      <ids-text font-size="12" type="h1">Search Field - Default</ids-text>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="3" gap="xl" padding-x="md">
+    <ids-layout-grid cols="1" gap="xl" padding-x="md">
       <ids-layout-grid-cell>
-        <ids-search-field clearable dirty-tracker label="Products" value="Anti-virus Software" validate="required"></ids-search-field>
-        <ids-search-field clearable readonly label="Read-only Search Bar" value="Cellphone"></ids-search-field>
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
-        <ids-search-field clearable label="Search Field with Hidden Label" label-state="hidden" placeholder="Custom placeholder text"></ids-search-field>
-        <form>
-          <ids-search-field label="Search Wrapped in a Form tag" value="Cellphone" clearable></ids-search-field>
-        </form>
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
-        <ids-search-field disabled label="Disabled Search Bar" value="Anti-virus Software"></ids-search-field>
-        <ids-search-field clearable color-variant="alternate" label="Alternate Color Search Bar" value="Cellphone">
-        </ids-search-field>
+        <ids-layout-flex direction="row" justify-content="space-between" wrap="wrap" align-items="flex-start" cols="3" gap="xl" padding-x="md">
+          <ids-layout-flex-item>
+            <ids-search-field clearable dirty-tracker label="Products" value="Anti-virus Software" validate="required"></ids-search-field>
+            <ids-search-field clearable readonly label="Read-only Search Bar" value="Cellphone"></ids-search-field>
+          </ids-layout-flex-item>
+          <ids-layout-flex-item>
+            <ids-search-field clearable label="Search Field with Hidden Label" label-state="hidden" placeholder="Custom placeholder text"></ids-search-field>
+            <form>
+              <ids-search-field label="Search Wrapped in a Form tag" value="Cellphone" clearable></ids-search-field>
+            </form>
+          </ids-layout-flex-item>
+          <ids-layout-flex-item>
+            <ids-search-field disabled label="Disabled Search Bar" value="Anti-virus Software"></ids-search-field>
+            <ids-search-field clearable color-variant="alternate" label="Alternate Color Search Bar" value="Cellphone">
+            </ids-search-field>
+          </ids-layout-flex-item>
+        </ids-layout-flex>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid auto-fit="true" padding-x="md">
+    <ids-layout-grid cols="1" gap="xl" padding-x="md">
       <ids-layout-grid-cell>
         <ids-search-field
           id="search-field-autocomplete"
@@ -39,6 +43,32 @@
           autocomplete
           search-field="label"
         ></ids-search-field>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Search Field - Categories</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" gap="xl" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-layout-flex direction="row" justify-content="space-between" wrap="wrap" align-items="flex-start" cols="3" gap="xl" padding-x="md">
+          <ids-layout-flex-item>
+            <ids-search-field id="categories" clearable category="Files" label="Categories" placeholder="Type a search term" value=""></ids-search-field>
+            <ids-search-field id="categories-multiple" multiple clearable category="Files" label="Categories (multiple)" placeholder="Type a search term" value=""></ids-search-field>
+          </ids-layout-flex-item>
+
+          <ids-layout-flex-item>
+            <ids-search-field id="categories-button" clearable category="Files" label="Categories and Button" placeholder="Search" value="" action="Go"></ids-search-field>
+            <ids-search-field id="categories-button-multiple" multiple clearable category="Files" label="Categories and Button (multiple)" placeholder="Search" value="" action="Go"></ids-search-field>
+          </ids-layout-flex-item>
+
+          <ids-layout-flex-item>
+            <ids-search-field id="categories-short" clearable label="Categories Short" value=""></ids-search-field>
+            <ids-search-field id="categories-short-multiple" multiple clearable label="Categories Short (multiple)" value="" action="Go"></ids-search-field>
+          </ids-layout-flex-item>
+        </ids-layout-flex>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 

@@ -1,3 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`IdsSearchField Component renders categories full 1`] = `
+"<div id="ids-search-field" class="ids-search-field ids-trigger-field ids-input md field-height-md" part="container"><div id="ids-search-field" class="ids-search-field ids-trigger-field ids-input md" part="container">
+      <label class="ids-label-text" for="ids-input-20-input" part="label">
+      <ids-text part="label" label="true" color-unset="">
+        Categories
+      </ids-text>
+    </label>
+      <div class="fieldset">
+        <div class="field-container" part="field-container">
+          
+          <slot name="trigger-start"></slot>
+          
+      <ids-menu-button id="menu-button" appearance="tertiary" menu="category-menu" icon="search" dropdown-icon="dropdown"><ids-icon icon="search" class="ids-icon"></ids-icon>
+        <span>File Types</span>
+      </ids-menu-button>
+      <ids-popup-menu id="category-menu" target="menu-button" trigger-type="click" align="bottom, right" role="none" hidden="">
+        <ids-menu-group select="multiple" keep-open="true" role="group" aria-label="Menu group containing 4 item(s)">
+          <ids-menu-item value="0">Documents</ids-menu-item><ids-menu-item value="1">Images</ids-menu-item><ids-menu-item value="2">Audio</ids-menu-item><ids-menu-item value="3">Video</ids-menu-item>
+        </ids-menu-group>
+      </ids-popup-menu>
+    
+          <input part="input" id="ids-input-20-input" type="text" class="ids-input-field start readonly-background" placeholder="Type to search" value="Search term">
+          <slot name="trigger-end"></slot>
+        </div>
+        
+      <ids-button id="category-action-button" appearance="secondary">
+        <span>Go</span>
+      </ids-button>
+    
+      </div>
+      
+    </div></div>"
+`;
+
 exports[`IdsSearchField Component renders correctly 1`] = `"<ids-search-field placeholder="Please type a Pokemon" label="Test Search Field Label" value="Eevee"></ids-search-field>"`;

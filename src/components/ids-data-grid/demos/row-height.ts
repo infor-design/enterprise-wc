@@ -36,15 +36,6 @@ if (dataGrid) {
       align: 'center'
     });
     columns.push({
-      id: 'selectionRadio',
-      name: 'selection',
-      sortable: false,
-      resizable: false,
-      formatter: dataGrid.formatters.selectionRadio,
-      disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
-      align: 'center'
-    });
-    columns.push({
       id: 'rowNumber',
       name: '#',
       formatter: dataGrid.formatters.rowNumber,
@@ -73,12 +64,16 @@ if (dataGrid) {
       name: 'Text',
       field: 'description',
       sortable: true,
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.text
     });
     columns.push({
       id: 'location',
       name: 'Hyperlink',
       field: 'location',
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.hyperlink,
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
       click: (info: any) => {
@@ -91,6 +86,8 @@ if (dataGrid) {
       name: 'Password',
       field: 'ledger',
       sortable: true,
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.password
     });
     columns.push({
@@ -98,6 +95,8 @@ if (dataGrid) {
       name: 'Date',
       field: 'publishDate',
       sortable: true,
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.date,
       width: 100
     });
@@ -106,25 +105,31 @@ if (dataGrid) {
       name: 'Time',
       field: 'publishDate',
       sortable: true,
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.time,
       width: 100
     });
     columns.push({
-      id: 'price',
+      id: 'price1',
       name: 'Decimal',
       field: 'price',
       align: 'right',
       sortable: true,
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.decimal,
       formatOptions: { locale: 'en-US' },
       width: 100
     });
     columns.push({
-      id: 'price',
+      id: 'price2',
       name: 'Integer',
       field: 'price',
       align: 'right',
       sortable: true,
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.integer,
       formatOptions: { locale: 'en-US' },
       width: 100
@@ -134,7 +139,9 @@ if (dataGrid) {
       name: 'Checkbox',
       field: 'inStock',
       align: 'center',
-      sortable: false,
+      sortable: true,
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.checkbox,
       disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
       width: 50
@@ -145,6 +152,8 @@ if (dataGrid) {
       field: 'price',
       color: 'info',
       sortable: true,
+      resizable: true,
+      reorderable: true,
       formatter: dataGrid.formatters.badge,
     });
     columns.push({

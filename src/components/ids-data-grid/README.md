@@ -302,7 +302,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `listStyle` {boolean} Sets the style of the grid to list style for simple readonly lists.
 - `columns` {Array<object>} Sets the columns array of the data grid. See column settings.
 - `columnGroups` {Array<object>} Allows you to group columns together in logical sets. See section below for details.
-- `rowHeight` {string | `'xs'` | `'sm'` | `'md'` | `'lg'`} Sets the height of each row
+- `rowHeight` {string | `'xxs'` | `'xs'` | `'sm'` | `'md'` | `'lg'`} Sets the height and padding of each row. In smaller row heights the font is lowered.
 - `data` {Array<object>} Sets the data to show in the data grid. This can be a JSON Array.
 - `disableClientFilter` {boolean} Disables the filter logic client side in situations you want to filter server side.
 - `filterable` {boolean} Turns on or off the filter functionality.
@@ -326,7 +326,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `saveColumns` {boolean} If set columns will be saved to local storage.
 - `saveFilter` {boolean} If set filter will be saved to local storage.
 - `savePageSize` {boolean} If set the page size on the pager will be saved to local storage.
-- `saveRowHeight` {boolean} If set row height will be saved to local storage.
+- `saveRowHeight` {boolean} If set the row height will be saved to local storage.
 - `saveSortOrder` {boolean} If set column sort order will be saved to local storage.
 - `saveUserSettings` {boolean} If set all settings will be saved to local storage.
 - `emptyMessageDescription` {string} Set empty message description text.
@@ -398,8 +398,8 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 | `alert` | Displays `ids-alert` element, and the field value will appear in a tooltip. An `icon` option can be provided as an override.|
 | `color` | Displays `ids-color` element. If a `color` option is provided as an override, the field's value will appear in a tooltip. |
 | `icon` | Displays the field value as an `ids-icon`. An `icon` option can be provided as an override, and the field value will appear beside this `icon` override. A `size` option can also be provided. |
-| `favorite` | Displays the field value as a `star-filled` if truthy or `star-outlined` if false. A `size` option can be provided as an override. |
-| `tag` | Displays the field value as an `ids-tag`. A `color` option can be provdied as an override. |
+| `favorite` | Displays the field value as a `star-filled` if true or `star-outlined` if false. A `size` option can be provided as an override. |
+| `tag` | Displays the field value as an `ids-tag`. A `color` option can be provided as an override. |
 | `progress` | Displays the field value as an `ids-progress`. A `text` option can be provided to customize the label. A `color` and `max` option can be provided as overrides. |
 | `rating` | Displays the field value as an `ids-rating`. A `text` option can be provided to customize the label. A `color` and `max` option can be provided as overrides. |
 | `slider` | Displays the field value as an `ids-slider`. A `text` option can be provided to customize the label. A `color`, `max`, `min` and `type` option can be provided as overrides. |
@@ -1259,6 +1259,22 @@ dataGrid.emptyMessageIcon = 'empty-error-loading-new';
 dataGrid.emptyMessageLabel = 'No Data';
 dataGrid.emptyMessageDescription = 'There is no data available.';
 ```
+
+## Row Height
+
+As mentioned in the settings section you can change the row height by setting the rowHeight option.
+
+```html
+     <ids-data-grid id="data-grid-row-height" row-height="md"></ids-data-grid>
+```
+
+Its worth mentioning the characteristics and usage for each one.
+
+Large (`row-height="lg"`) - Row Height is 50. The default row height, header is 16px and body cells are 16px. 16px padding on cells and header. You should use this most of the time if there is plenty of room on the UI and to avoid the UI looking crowded.
+Medium (`row-height="md"`) - Row Height is 40. Header is 16px and body cells are 16px. 12px padding on cells and header. If you need to see a few more rows but still want to avoid a crowded UI, this is the next best option.
+Small (`row-height="sm"`) - Row Height is 35. Header is 16px and body cells are 16px. 8px padding on cells and header. This is the smallest option that is recommended for readability and spacing.
+Extra Small (`row-height="xs"`) - Row Height is 30. Header is 14px and body cells are 14px. 8px padding on cells and header. If you need a very compressed data grid with a lot of data you can use this option. But there is a trade off of bad readability and spacing.
+Extra Extra Small (`row-height="xxs"`) - Row Height is 25. Header is 14px and body cells are 14px. 2px padding on cells and header. Avoid this option as it is very crowded but it is included for edge cases.
 
 ## States and Variations
 

@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import createFromTemplate from '../helpers/create-from-template';
+import '../helpers/resize-observer-mock';
 import '../../src/components/ids-search-field/ids-search-field';
 
 const HTMLSnippets = {
@@ -13,8 +14,28 @@ const HTMLSnippets = {
   ),
   READONLY_SEARCH_FIELD: (
     `<ids-search-field readonly label="Pokemon" value="Lapras"></ids-search-field>`
-  )
+  ),
+  CATEGORY_FULL: (
+    `<ids-search-field label="Categories" category="File Types" value="Search term" action="Go" multiple></ids-search-field>`
+  ),
+  CATEGORY: (
+    `<ids-search-field label="Categories" value=""></ids-search-field>`
+  ),
+  CATEGORY_SHORT: (
+    `<ids-search-field label="Categories Short"></ids-search-field>`
+  ),
+  CATEGORY_MULTIPLE: (
+    `<ids-search-field label="Categories (multiple)" multiple></ids-search-field>`
+  ),
+  CATEGORY_BUTTON: (
+    `<ids-search-field label="Categories + Button" value="" action="Go"></ids-search-field>`
+  ),
+  CATEGORY_SEARCH_TERM: (
+    `<ids-search-field label="Categories + Button" value="keyword here" action="Go"></ids-search-field>`
+  ),
 };
+
+const CATEGORIES = ['Documents', 'Images', 'Audio', 'Video'];
 
 describe('IdsSearchField Component', () => {
   let s: any;
@@ -162,5 +183,123 @@ describe('IdsSearchField Component', () => {
     expect(s.container.querySelector('.btn-clear')).toBeNull();
     s.clearableForced = true;
     expect(s.container.querySelector('.btn-clear')).not.toBeNull();
+  });
+
+  it.skip('renders categories full', async () => {
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL);
+
+    // s.categories = ['Documents', 'Images', 'Audio', 'Video'];
+    s.categories = CATEGORIES;
+    expect(s.container.outerHTML).toMatchSnapshot();
+  });
+
+  it('shows action button when action prop set', async () => {
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_BUTTON);
+    s.categories = CATEGORIES;
+    expect(s.container.querySelector('#category-action-button')).not.toBeNull();
+  });
+
+  it('shows full category dropdown when categories set', async () => {
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL);
+    s.categories = CATEGORIES;
+
+    expect(s.container.querySelector('ids-popup-menu')?.textContent).toMatch(CATEGORIES.join(''));
+    expect(s.container.querySelector('ids-menu-button').textContent).toMatch('File Types');
+  });
+
+  it('shows short category dropdown when categories set', async () => {
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_SHORT);
+    s.categories = CATEGORIES;
+
+    expect(s.container.querySelector('ids-popup-menu')?.textContent).toMatch(CATEGORIES.join(''));
+    expect(s.container.querySelector('ids-menu-button').textContent).toMatch('Select Search Category');
+  });
+
+  it('triggers "change" event when input-value changed', async () => {
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_SEARCH_TERM);
+    s.categories = CATEGORIES;
+
+    const changeEventListener = jest.fn((evt) => {
+      expect(evt.detail.value).toBe('new keyword here');
+    });
+
+    s.addEventListener('change', changeEventListener);
+
+    s.value = 'new keyword here';
+    expect(changeEventListener).toBeCalledTimes(2);
+  });
+
+  it('triggers "search" event when action-button clicked', async () => {
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_SEARCH_TERM);
+    s.categories = CATEGORIES;
+
+    const searchEventListener = jest.fn((evt) => {
+      expect(evt.detail.categories).toBe(CATEGORIES);
+      expect(evt.detail.categoriesSelected).toMatchObject([]);
+      expect(evt.detail.value).toBe('keyword here');
+    });
+
+    s.addEventListener('search', searchEventListener);
+    await s.container.querySelector('#category-action-button').click();
+    expect(searchEventListener).toBeCalledTimes(1);
+  });
+
+  it('triggers "search" event when Enter key pressed', async () => {
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_SEARCH_TERM);
+    s.categories = CATEGORIES;
+
+    const searchEventListener = jest.fn((evt) => {
+      expect(evt.detail.categories).toBe(CATEGORIES);
+      expect(evt.detail.categoriesSelected).toMatchObject([]);
+      expect(evt.detail.value).toBe('keyword here');
+    });
+
+    s.addEventListener('search', searchEventListener);
+
+    s.input.dispatchEvent(
+      createKeyboardEvent('Enter')
+    );
+
+    expect(searchEventListener).toBeCalledTimes(1);
+  });
+
+  it('triggers "selected/deselcted" event when category-menu clicked', async () => {
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL);
+    s.categories = CATEGORIES;
+
+    const selectedEventListener = jest.fn((evt) => {
+      expect(evt.detail.categories).toBe(CATEGORIES);
+      expect(evt.detail.categoriesSelected).toMatchObject(['Images']);
+      expect(evt.detail.value).toBe('Search term');
+    });
+
+    const deselectedEventListener = jest.fn((evt) => {
+      expect(evt.detail.categories).toBe(CATEGORIES);
+      expect(evt.detail.categoriesSelected).toMatchObject([]);
+      expect(evt.detail.value).toBe('Search term');
+    });
+
+    s.addEventListener('selected', selectedEventListener);
+    s.addEventListener('deselected', deselectedEventListener);
+
+    await s.container.querySelector('ids-popup-menu').items[1].click();
+    expect(selectedEventListener).toBeCalledTimes(1);
+
+    await s.container.querySelector('ids-popup-menu').items[1].click();
+    expect(deselectedEventListener).toBeCalledTimes(1);
+  });
+
+  it('updates menu-button text to say # selected', async () => {
+    s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL);
+    s.categories = CATEGORIES;
+
+    await s.container.querySelector('ids-popup-menu').items[2].click();
+    expect(s.container.querySelector('ids-menu-button').textContent).toMatch('Audio');
+
+    await s.container.querySelector('ids-popup-menu').items[3].click();
+    expect(s.container.querySelector('ids-menu-button').textContent).toMatch('2 Selected');
+
+    await s.container.querySelector('ids-popup-menu').items[2].click();
+    expect(s.container.querySelector('ids-menu-button').textContent).toMatch('Video');
   });
 });

@@ -5,6 +5,9 @@
 ### 1.0.0-beta.12 Fixes
 
 - `[DataGrid]` Added support and example for filtering two digit years. ([#1247](https://github.com/infor-design/enterprise-wc/issues/1247))
+- `[DataGrid]` Fixed RTL order / typing in RTL in filter mode with text align right. ([#1302](https://github.com/infor-design/enterprise-wc/issues/1302))
+- `[DataGrid]` Added `xxs` row height for edge cases where you need a really crowded UI. ([#1199](https://github.com/infor-design/enterprise-wc/issues/1072))
+- `[SearchField]` Added categories to search-field. ([#700](https://github.com/infor-design/enterprise-wc/issues/700))
 
 ## 1.0.0-beta.11
 
