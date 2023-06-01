@@ -999,41 +999,36 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(mockCallback).toHaveBeenCalled();
   });
 
-  it.skip('fires filtered event one time when dayselected event on datepicker', () => {
+  it('fires filtered event one time when dayselected event on datepicker', () => {
     const mockCallback = jest.fn();
 
     dataGrid.disableClientFilter = true;
     dataGrid.addEventListener('filtered', mockCallback);
-    // dataGrid.container.querySelector('ids-input[data-filter-type="text"]').value = '';
-    // dataGrid.applyFilter();
 
     const event = new CustomEvent('dayselected', {
       bubbles: true,
       detail: { value: '6/4/2024' },
     });
 
-    // const datepicker = dataGrid.container.querySelector('ids-input[data-filter-type="text"]')
-    // datepicker.dispatchEvent(event);
-    dataGrid.wrapper.dispatchEvent(event);
+    const datepicker = dataGrid.container.querySelector('#field-ids-data-grid-filter-publishDate-1-date');
+    datepicker.dispatchEvent(event);
 
     expect(mockCallback).toHaveBeenCalledTimes(1);
   });
 
-  it.skip('fires filtered event one time when dayselected event on timepicker', () => {
+  it('fires filtered event one time when dayselected event on timepicker', () => {
     const mockCallback = jest.fn();
 
     dataGrid.disableClientFilter = true;
     dataGrid.addEventListener('filtered', mockCallback);
-    // dataGrid.container.querySelector('ids-input[data-filter-type="text"]').value = '';
-    // dataGrid.applyFilter();
 
     const event = new CustomEvent('dayselected', {
       bubbles: true,
       detail: { value: '6/4/2024' },
     });
 
-    // const timepicker = dataGrid.container.querySelector('ids-input[data-filter-type="text"]')
-    // timepicker.dispatchEvent(event);
+    const timepicker = dataGrid.container.querySelector('#field-ids-data-grid-filter-publishTime-1-time');
+    timepicker.dispatchEvent(event);
     dataGrid.wrapper.dispatchEvent(event);
 
     expect(mockCallback).toHaveBeenCalledTimes(1);
