@@ -614,13 +614,19 @@ $input-size-full: 100%;
   }
 
   &:hover:not(.readonly):not(.disabled):not(.color-variant-borderless),
-  &:hover.readonly.readonly-background {
+  &:hover.readonly.readonly-background:not(.color-variant-alternate-formatter) {
     .field-container {
       border-color: var(--ids-input-hover-border-color);
     }
 
     // Include error styles
     @include ids-input-message-styles();
+  }
+
+  &:hover:not(.disabled).readonly.readonly-background.color-variant-alternate-formatter {
+    .field-container {
+      border-color: var(--ids-data-grid-filter-input-hover-color);
+    }
   }
 
   // Include error styles

@@ -454,6 +454,7 @@ class IdsLocale {
         .replace('d', day)
         // Years
         .replace('yyyy', year)
+        .replace('yy', year.toString().substring(4, 2))
         .replace('y', year);
 
       // Time
@@ -526,7 +527,7 @@ class IdsLocale {
     // eslint-disable-next-line @typescript-eslint/no-shadow
     let formattedDate = this.dateFormatter.formatToParts(sourceDate).map(({ type, value }) => {
       switch (type) {
-        case 'year': return `${this.twoToFourDigitYear(value)}`;
+        case 'year': return usedOptions?.year === '2-digit' ? value : `${this.twoToFourDigitYear(value)}`;
         default: return value;
       }
     }).join('');
