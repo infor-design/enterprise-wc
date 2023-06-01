@@ -902,14 +902,16 @@ export default class IdsDataGridFilters {
 
     // Capture 'dayselected' events from IdsDatePickerPopup
     this.root.onEvent(`dayselected.${this.#id()}`, this.root.wrapper, (e: any) => {
+      // this will trigger the above change event which also calls applyFilter().
       e.target.value = e.detail.value;
-      this.applyFilter();
+      // this.applyFilter(); // not needed, see above comment
     });
 
     // Capture 'timeselected' events from IdsTimePickerPopup
     this.root.onEvent(`timeselected.${this.#id()}`, this.root.wrapper, (e: any) => {
+      // this will trigger the above change event which also calls applyFilter().
       e.target.value = e.detail.value;
-      this.applyFilter();
+      // this.applyFilter(); // not needed, see above comment
     });
 
     // Change event for ids-date-picker and ids-time-picker
