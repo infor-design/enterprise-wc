@@ -25,11 +25,6 @@
 // from occuring inside the "invisible" Popup
 :host(:not([visible])) {
   pointer-events: none;
-  display: none;
-}
-
-:host([visible]) {
-  display: initial;
 }
 
 // Visible, animated host elements receive left/top animations
