@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import '../ids-color/ids-color';
 import '../ids-icon/ids-icon';
@@ -43,6 +44,7 @@ export default class IdsStepChart extends IdsEventsMixin(IdsElement) {
       ...super.attributes,
       attributes.COLOR,
       attributes.COMPLETED_LABEL,
+      attributes.DISABLED,
       attributes.LABEL,
       attributes.PROGRESS_COLOR,
       attributes.STEP_NUMBER,
@@ -85,6 +87,19 @@ export default class IdsStepChart extends IdsEventsMixin(IdsElement) {
       const labelElem = this.container?.querySelector('.completed-label');
       if (labelElem) labelElem.innerHTML = `${value}`;
     }
+  }
+
+  /**
+   * Sets the disabled state
+   * @param {boolean | string} value The value
+   */
+  set disabled(value: boolean | string) {
+    if (stringToBool(value)) this.setAttribute(attributes.DISABLED, '');
+    else this.removeAttribute(attributes.DISABLED);
+  }
+
+  get disabled(): boolean {
+    return this.hasAttribute(attributes.DISABLED);
   }
 
   /**

@@ -215,6 +215,22 @@
   }
 }
 
+.header-expander {
+  display: none;
+  max-height: 18px;
+  cursor: var(--ids-cursor-pointer);
+  color: var(--ids-data-grid-header-expander-color);
+  margin-inline-start: var(--ids-spacing-xl);
+
+  &:hover {
+    color: var(--ids-data-grid-header-expander-active-color);
+  }
+}
+
+:host([show-header-expander]) .header-expander {
+  display: unset;
+}
+
 .has-selectioncheckbox .ids-data-grid-header-text {
   padding-inline-start: 0;
   padding-inline-end: 0;

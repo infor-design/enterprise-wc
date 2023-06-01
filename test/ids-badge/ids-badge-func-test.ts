@@ -116,4 +116,15 @@ describe('IdsBadge Component', () => {
     expect(elem.container.classList.contains('round')).toBeTruthy();
     expect(elem.container.getAttribute('color')).toEqual('error');
   });
+
+  it('should be able to set disabled', async () => {
+    expect(badge.getAttribute('disabled')).toEqual(null);
+    expect(badge.disabled).toEqual(false);
+    badge.disabled = true;
+    expect(badge.getAttribute('disabled')).toEqual('');
+    expect(badge.disabled).toEqual(true);
+    badge.disabled = false;
+    expect(badge.getAttribute('disabled')).toEqual(null);
+    expect(badge.disabled).toEqual(false);
+  });
 });

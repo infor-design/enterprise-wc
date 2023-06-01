@@ -7,6 +7,14 @@
   text-align: center;
 }
 
+:host([disabled]) {
+  .ids-badge {
+    background-color: var(--ids-badge-disabled-background-color);
+    border-color: var(--ids-badge-disabled-border-color);
+    color: var(--ids-badge-disabled-text-color);
+  }
+}
+
 .ids-badge {
   @include mixins.antialiased();
 

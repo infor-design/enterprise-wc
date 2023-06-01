@@ -59,11 +59,13 @@ Audible span can de configure by adding `<ids-text audible="true"></ids-text>` i
 ## Settings and Attributes
 
 - `color` {string} Sets the color of the badge e.g. `alert`, `error`, or `info`.
+- `disabled` {boolean} Sets the disabled state.
 - `shape` {string} `normal` is the default value of the shape, you can also change it to `round`.
 
 ## States and Variations
 
 - Color
+- Disabled
 - Shape
 
 ## Keyboard Guidelines

@@ -3,7 +3,7 @@
 exports[`IdsDataGrid Component Formatter Tests can render with the alert formatter 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-alert icon="alert" tooltip="Demo Category"></ids-alert>
+        <ids-alert icon="alert"tooltip="Demo Category"></ids-alert>
       </span>
     "
 `;
@@ -11,7 +11,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the alert formatt
 exports[`IdsDataGrid Component Formatter Tests can render with the alert formatter with icon 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-alert icon="confirm" tooltip="Demo Category"></ids-alert>
+        <ids-alert icon="confirm"tooltip="Demo Category"></ids-alert>
       </span>
     "
 `;
@@ -19,7 +19,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the alert formatt
 exports[`IdsDataGrid Component Formatter Tests can render with the alert formatter without tooltip 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-alert icon="confirm" ></ids-alert>
+        <ids-alert icon="confirm"></ids-alert>
       </span>
     "
 `;
@@ -41,7 +41,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the color formatt
 exports[`IdsDataGrid Component Formatter Tests can render with the color formatter with color-override 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-color hex="#FF0000" ></ids-color>
+        <ids-color hex="#FF0000"></ids-color>
       </span>
     "
 `;
@@ -49,7 +49,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the color formatt
 exports[`IdsDataGrid Component Formatter Tests can render with the color formatter without tooltip 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-color hex="#FF0000" ></ids-color>
+        <ids-color hex="#FF0000"></ids-color>
       </span>
     "
 `;
@@ -64,6 +64,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the favorite form
           value="1"
           
           readonly
+          
         >
         </ids-rating>
       </span>
@@ -80,6 +81,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the favorite form
           value="1"
           
           readonly
+          
         >
         </ids-rating>
       </span>
@@ -96,6 +98,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the favorite form
           value="0"
           
           readonly
+          
         >
         </ids-rating>
       </span>
@@ -105,7 +108,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the favorite form
 exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-icon icon="closed-folder" size="large" ></ids-icon><span></span>
+        <ids-icon icon="closed-folder" size="large"></ids-icon><span></span>
       </span>
     "
 `;
@@ -123,7 +126,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the icon formatte
 exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with icon-override 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-icon icon="confirm" size="large" ></ids-icon><span>icon-closed-folder</span>
+        <ids-icon icon="confirm" size="large"></ids-icon><span>icon-closed-folder</span>
       </span>
     "
 `;
@@ -131,7 +134,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the icon formatte
 exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with icon-override without value 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-icon icon="confirm" size="large" ></ids-icon><span></span>
+        <ids-icon icon="confirm" size="large"></ids-icon><span></span>
       </span>
     "
 `;
@@ -139,7 +142,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the icon formatte
 exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with invalid size-override 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-icon icon="closed-folder" size="large" ></ids-icon><span></span>
+        <ids-icon icon="closed-folder" size="large"></ids-icon><span></span>
       </span>
     "
 `;
@@ -147,12 +150,12 @@ exports[`IdsDataGrid Component Formatter Tests can render with the icon formatte
 exports[`IdsDataGrid Component Formatter Tests can render with the icon formatter with size-override 1`] = `
 "
       <span class="text-ellipsis">
-        <ids-icon icon="closed-folder" size="small" ></ids-icon><span></span>
+        <ids-icon icon="closed-folder" size="small"></ids-icon><span></span>
       </span>
     "
 `;
 
-exports[`IdsDataGrid Component Formatter Tests can render with the image formatter 1`] = `"<ids-image src="https://placekitten.com/200/100" ></ids-image>"`;
+exports[`IdsDataGrid Component Formatter Tests can render with the image formatter 1`] = `"<ids-image src="https://placekitten.com/200/100"></ids-image>"`;
 
 exports[`IdsDataGrid Component Formatter Tests can render with the image formatter with alt/title text 1`] = `"<ids-image src="https://placekitten.com/200/100" alt="Image Alt/Title Text" title="Image Alt/Title Text"></ids-image>"`;
 
@@ -196,6 +199,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the rating format
           value="4.6"
           
           readonly
+          
         >
         </ids-rating>
       </span>
@@ -210,6 +214,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the rating format
           size="large"
           stars="5"
           value="4.6"
+          
           
           
         >
@@ -228,6 +233,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the rating format
           value="4.6"
           
           readonly
+          
         >
         </ids-rating>
       </span>
@@ -244,6 +250,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the rating format
           value="4.6"
           color="orange"
           readonly
+          
         >
         </ids-rating>
       </span>
@@ -260,6 +267,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the rating format
           value="4.6"
           
           readonly
+          
         >
         </ids-rating>
       </span>
@@ -276,6 +284,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the rating format
           value="4.6"
           
           readonly
+          
         >
         </ids-rating>
       </span>
@@ -292,6 +301,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the rating format
           value="0"
           
           readonly
+          
         >
         </ids-rating>
       </span>
@@ -309,6 +319,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         show-tooltip
         
         readonly
+        
       >
       </ids-slider>
     "
@@ -323,6 +334,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         max="100"
         value="4.6"
         show-tooltip
+        
         
         
       >
@@ -341,6 +353,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         show-tooltip
         
         readonly
+        
       >
       </ids-slider>
     "
@@ -357,6 +370,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         show-tooltip
         color="azure06"
         readonly
+        
       >
       </ids-slider>
     "
@@ -373,6 +387,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         show-tooltip
         
         readonly
+        
       >
       </ids-slider>
     "
@@ -389,6 +404,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         show-tooltip
         
         readonly
+        
       >
       </ids-slider>
     "
@@ -405,6 +421,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         show-tooltip
         
         readonly
+        
       >
       </ids-slider>
     "
@@ -421,6 +438,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the slider format
         show-tooltip
         
         readonly
+        
       >
       </ids-slider>
     "
@@ -433,6 +451,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the stepChart for
         steps-in-progress="5"
         value="4"
         progress-color="ruby02"
+        
         
       >
       </ids-step-chart>
@@ -447,6 +466,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the stepChart for
         value="4"
         progress-color="ruby02"
         color="azure06"
+        
       >
       </ids-step-chart>
     "
@@ -460,6 +480,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the stepChart for
         value="4"
         progress-color="ruby02"
         
+        
       >
       </ids-step-chart>
     "
@@ -472,6 +493,7 @@ exports[`IdsDataGrid Component Formatter Tests can render with the stepChart for
         steps-in-progress="0"
         value="0"
         progress-color="ruby02"
+        
         
       >
       </ids-step-chart>

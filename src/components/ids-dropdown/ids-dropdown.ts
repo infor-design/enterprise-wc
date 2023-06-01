@@ -203,6 +203,7 @@ export default class IdsDropdown extends Base {
     const compact = this.compact ? ' compact' : '';
     const noMargins = this.noMargins ? ' no-margins' : '';
     const builtInDropdown = !this.list ? this.templateDropdownList() : '';
+    const cssParts = 'container: triggerfield-container, field-container: triggerfield-field-container, content-area: triggerfield-content-area, input: triggerfield-input, popup: triggerfield-popup';
 
     this.hasIcons = this.querySelector('ids-list-box-option ids-icon') !== null;
 
@@ -218,6 +219,7 @@ export default class IdsDropdown extends Base {
         label="${this.label}"
         placeholder="${this.placeholder}"
         part="trigger-field"
+        exportparts="${cssParts}"
         ${colorVariant}${fieldHeight}${compact}${noMargins}${labelState}
         ${this.validate ? ` validate="${this.validate}"` : ''}
         ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}

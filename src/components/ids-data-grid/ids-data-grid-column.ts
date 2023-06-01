@@ -216,4 +216,6 @@ export interface IdsDataGridColumn {
     editor?: IdsDataGridEditor,
     editorSettings?: Record<string, unknown>
   }
+  /** If a true will set the text to uppercase */
+  uppercase?: boolean | 'true' | ((type: 'body-cell' | 'header-cell', col: IdsDataGridColumn, index?: number, value?: any, item?: Record<string, any>) => boolean);
 }

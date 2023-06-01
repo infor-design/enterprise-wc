@@ -393,6 +393,7 @@ export const attributes = {
   SHOW_CANCEL: 'show-cancel',
   SHOW_CLEAR: 'show-clear',
   SHOW_DETAILS: 'show-details',
+  SHOW_HEADER_EXPANDER: 'show-header-expander',
   SHOW_HORIZONTAL_GRID_LINES: 'show-horizontal-grid-lines',
   SHOW_LABEL: 'show-label',
   SHOW_LEGEND: 'show-legend',

@@ -1,7 +1,7 @@
 import { customElement } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { nextUntil } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
+import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsElement from '../../core/ids-element';
 import type IdsDataGrid from './ids-data-grid';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
@@ -22,6 +22,7 @@ export default class IdsDataGridRow extends IdsElement {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.DISABLED,
       attributes.ROW_INDEX,
     ];
   }
@@ -54,6 +55,22 @@ export default class IdsDataGridRow extends IdsElement {
   get dimensions() {
     return this.getBoundingClientRect();
   }
+
+  /**
+   * Set the row disabled state.
+   * @param {number} value the value
+   */
+  set disabled(value: boolean) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.DISABLED, '');
+      this.setAttribute('aria-disabled', 'true');
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+      this.removeAttribute('aria-disabled');
+    }
+  }
+
+  get disabled(): boolean { return this.hasAttribute(attributes.DISABLED); }
 
   /**
    * Set the row index. This index will be used to popuplate data from ids-data-grid.
@@ -164,8 +181,9 @@ export default class IdsDataGridRow extends IdsElement {
 
   /**
    * Toggle Expand/Collpase on the row element
+   * @param {boolean} noTrigger If true, will not trigger event
    */
-  toggleExpandCollapse() {
+  toggleExpandCollapse(noTrigger = false) {
     const isExpanded = this.getAttribute('aria-expanded') === 'true';
 
     // Handle Expand/Collapse for an expandedable row
@@ -199,13 +217,15 @@ export default class IdsDataGridRow extends IdsElement {
     }
 
     // Emit an Event
-    const visibleRowIndex = Number(this.getAttribute('data-index'));
-
-    this.dataGrid?.triggerEvent(`row${isExpanded ? 'collapsed' : 'expanded'}`, this.dataGrid, {
-      detail: {
-        elem: this, row: visibleRowIndex, data: this.dataGrid?.data[visibleRowIndex]
-      }
-    });
+    if (!noTrigger) {
+      const visibleRowIndex = Number(this.getAttribute('data-index'));
+      this.dataGrid?.triggerEvent(`row${isExpanded ? 'collapsed' : 'expanded'}`, this.dataGrid, {
+        bubbles: true,
+        detail: {
+          elem: this, row: visibleRowIndex, data: this.dataGrid?.data[visibleRowIndex]
+        }
+      });
+    }
   }
 
   /**
@@ -325,6 +345,19 @@ export default class IdsDataGridRow extends IdsElement {
 
     const isHidden = row?.rowHidden ? ' hidden' : '';
 
+    // Set disabled state thru key found in the dataset
+    const isRowDisabled = (): boolean => {
+      const isTrue = (v: any) => (typeof v !== 'undefined' && v !== null && ((typeof v === 'boolean' && v === true) || (typeof v === 'string' && v.toLowerCase() === 'true')));
+      const disabled = row.disabled;
+      return isTrue(typeof disabled === 'function' ? disabled(index, row) : disabled);
+    };
+    const canRowDisabled = isRowDisabled();
+    const disabled = canRowDisabled ? ' disabled aria-disabled="true"' : '';
+
+    // Add and remove after to cache a temp disabled key,
+    // so no need to run multiple times when rendering columns to check row disabled state
+    if (row && canRowDisabled) row.idstempcanrowdisabled = canRowDisabled;
+
     return `
       <ids-data-grid-row
         row-index="${index}"
@@ -335,6 +368,7 @@ export default class IdsDataGridRow extends IdsElement {
         ${isHidden}
         class="ids-data-grid-row${rowClasses}"
         ${treeAttrs}
+        ${disabled}
       >
       </ids-data-grid-row>
     `;
@@ -374,11 +408,16 @@ export default class IdsDataGridRow extends IdsElement {
       return false;
     };
 
-    const isDisabled = (column: IdsDataGridColumn, content: string): boolean => {
+    const isColumnDisabled = (column: IdsDataGridColumn, content: string): boolean => {
       if (!column?.disabled) return false;
       if (typeof column?.disabled === 'function') return column?.disabled(index, content, column, row);
       if (typeof column?.disabled === 'boolean') return column?.disabled;
       return false;
+    };
+
+    const isUppercase = (column: IdsDataGridColumn, content: string): boolean => {
+      if (typeof column?.uppercase === 'function') return column.uppercase('body-cell', column, index, content, row);
+      return (column?.uppercase === 'true' || column?.uppercase === true);
     };
 
     let expandableRowHtml = '';
@@ -391,13 +430,15 @@ export default class IdsDataGridRow extends IdsElement {
     const cellsHtml = dataGrid?.visibleColumns.map((column: IdsDataGridColumn, j: number) => {
       const content = IdsDataGridCell.template(row, column, ariaRowIndex, dataGrid);
       const hasReadonlyClass = isReadonly(column, content);
-      const hasDisabledClass = isDisabled(column, content);
+      const hasDisabledClass = this.disabled || isColumnDisabled(column, content);
+      const hasUppercaseClass = isUppercase(column, content);
       const editorType = column.editor?.type;
 
       let cssClasses = 'ids-data-grid-cell';
       cssClasses += `${editorType ? ` is-${editorType}` : ''}`;
       cssClasses += `${hasReadonlyClass ? ' is-readonly' : ''}`;
       cssClasses += `${hasDisabledClass ? ' is-disabled' : ''}`;
+      cssClasses += `${hasUppercaseClass ? ' is-uppercase' : ''}`;
       cssClasses += `${isDirtyCell(row, column, j) ? ' is-dirty' : ''}`;
       cssClasses += `${isInvalidCell(row, column, j) ? ' is-invalid' : ''}`;
       cssClasses += `${column?.align ? ` align-${column?.align}` : ''}`;
@@ -405,6 +446,10 @@ export default class IdsDataGridRow extends IdsElement {
       cssClasses += `${column?.editor && !hasReadonlyClass && !hasDisabledClass ? ` is-editable${column?.editor?.inline ? ' is-inline' : ''}` : ''}`;
       return `<ids-data-grid-cell role="gridcell" part="${cssPart(column, index, j)}" class="${cssClasses}" aria-colindex="${j + 1}">${content}</ids-data-grid-cell>`;
     }).join('');
+
+    // Remove temp disabled key
+    if (row?.idstempcanrowdisabled) delete row.idstempcanrowdisabled;
+
     return `${cellsHtml}${expandableRowHtml}`;
   }
 }

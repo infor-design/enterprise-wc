@@ -5,6 +5,7 @@
 ### 1.0.0-beta.12 Fixes
 
 - `[DataGrid]` Fixed RTL order / typing in RTL in filter mode with text align right. ([#1302](https://github.com/infor-design/enterprise-wc/issues/1302))
+- `[DataGrid]` Add support for uppercase, disabled rows, collapse/expand all and redrawn event. ([#1244](https://github.com/infor-design/enterprise-wc/issues/1244))
 - `[DataGrid]` Added `xxs` row height for edge cases where you need a really crowded UI. ([#1199](https://github.com/infor-design/enterprise-wc/issues/1072))
 - `[SearchField]` Added categories to search-field. ([#700](https://github.com/infor-design/enterprise-wc/issues/700))
 

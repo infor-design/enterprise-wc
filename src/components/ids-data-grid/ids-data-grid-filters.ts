@@ -1174,6 +1174,12 @@ export default class IdsDataGridFilters {
     }
     if (!sel) sel = operators[0];
     const value = (sel?.value || sel?.value === '') ? ` value="${sel.value}"` : '';
+    const isUppercase = (): boolean => {
+      if (typeof column?.uppercase === 'function') return column.uppercase('header-cell', column);
+      return (column?.uppercase === 'true' || column?.uppercase === true);
+    };
+    const uppercaseClass = isUppercase() ? ' uppercase' : '';
+
     this.#initial[column.id] = this.#initial[column.id] || {};
     if (!this.#initial[column.id].dropdown) this.#initial[column.id].dropdown = { ...sel };
 
@@ -1192,7 +1198,7 @@ export default class IdsDataGridFilters {
       >
       </ids-dropdown>
       <ids-dropdown-list id="${id}-list">
-        <ids-list-box>${items}</ids-list-box>
+        <ids-list-box${uppercaseClass}>${items}</ids-list-box>
       </ids-dropdown-list>
     `;
   }

@@ -84,3 +84,26 @@
     left: 0;
   }
 }
+
+:host([disabled]) {
+  .notification-badge {
+    background-color: var(--ids-alert-error-disabled-color);
+
+    &.info,
+    &.base {
+      background-color: var(--ids-alert-info-disabled-color);
+    }
+
+    &.error {
+      background-color: var(--ids-alert-error-disabled-color);
+    }
+
+    &.success {
+      background-color: var(--ids-alert-success-disabled-color);
+    }
+
+    &.warning {
+      background-color: var(--ids-alert-warning-disabled-color);
+    }
+  }
+}

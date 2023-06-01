@@ -182,6 +182,7 @@ export default class IdsDataGrid extends Base {
       attributes.ROW_NAVIGATION,
       attributes.ROW_SELECTION,
       attributes.ROW_START,
+      attributes.SHOW_HEADER_EXPANDER,
       attributes.SUPPRESS_CACHING,
       attributes.SUPPRESS_EMPTY_MESSAGE,
       attributes.SUPPRESS_ROW_CLICK_SELECTION,
@@ -231,6 +232,44 @@ export default class IdsDataGrid extends Base {
       </div>`;
 
     return html;
+  }
+
+  /**
+   * Collapse all expandable or tree rows.
+   * @returns {void}
+   */
+  collapseAll() {
+    this.toggleAll(true);
+  }
+
+  /**
+   * Expand all expandable or tree rows.
+   * @returns {void}
+   */
+  expandAll() {
+    this.toggleAll(false);
+  }
+
+  /**
+   * Toggle collapse/expand all expandable or tree rows.
+   * @param {boolean | string} opt false: will expand all, true: will collapse all
+   * @returns {void}
+   */
+  toggleAll(opt: boolean | string = false) {
+    const rows: any[] = [];
+    opt = String(stringToBool(opt));
+    this.rows
+      .filter((r: any) => r?.getAttribute('aria-expanded') === opt)
+      .forEach((r: any) => {
+        const row = Number(r.getAttribute('data-index'));
+        rows.push({ row, data: this.data[row] });
+        r?.toggleExpandCollapse?.(true);
+      });
+
+    this.triggerEvent(`row${opt === 'true' ? 'collapsed' : 'expanded'}`, this, {
+      bubbles: true,
+      detail: { elem: this, rows }
+    });
   }
 
   /**
@@ -313,10 +352,17 @@ export default class IdsDataGrid extends Base {
   afterRedraw() {
     const rowStart = this.rowStart || 0;
 
+    // Handle ready state
+    const handleReady = () => {
+      this.header?.setIsHeaderExpanderCollapsed?.();
+      this.triggerEvent('redrawn', this, { bubbles: true, detail: { elem: this } });
+    };
+
     if (!rowStart) {
       requestAnimationFrame(() => {
         // Set Focus
         this.setActiveCell(0, 0, true);
+        handleReady();
       });
     } else {
       requestAnimationTimeout(() => {
@@ -330,6 +376,7 @@ export default class IdsDataGrid extends Base {
 
           const headerHeight = this.header?.getBoundingClientRect?.().height ?? 0;
           this.container.scrollTop = scrollTopPixels - headerHeight;
+          handleReady();
         }
       }, 150);
     }
@@ -467,6 +514,8 @@ export default class IdsDataGrid extends Base {
 
       const cellNum = Number(cell.getAttribute('aria-colindex')) - 1;
       const row = <IdsDataGridRow>cell.parentNode;
+      if (row.disabled) return;
+
       const rowNum = row.rowIndex;
 
       const isHyperlink = e.target?.nodeName === 'IDS-HYPERLINK' || e.target?.nodeName === 'A';
@@ -641,6 +690,10 @@ export default class IdsDataGrid extends Base {
     this.listen([' '], this, (e: Event) => {
       if (this.activeCellEditor) return;
       if (!this.activeCell?.node) return;
+
+      const row = this.rowByIndex(this.activeCell.row)!;
+      if (row.disabled) return;
+
       const button = this.activeCell.node.querySelector('ids-button');
       if (button) {
         button.click();
@@ -656,7 +709,6 @@ export default class IdsDataGrid extends Base {
         e.preventDefault();
         return;
       }
-      const row = this.rowByIndex(this.activeCell.row)!;
       row.toggleSelection();
       e.preventDefault();
     });
@@ -664,6 +716,10 @@ export default class IdsDataGrid extends Base {
     // Follow links with keyboard and start editing
     this.listen(['Enter'], this, (e: KeyboardEvent) => {
       if (!this.activeCell?.node || findInPath(eventPath(e), '.ids-data-grid-header-cell')) return;
+
+      const row = this.rowByIndex(this.activeCell.row)!;
+      if (row.disabled) return;
+
       const cellNode = this.activeCell.node;
       const hyperlink = cellNode.querySelector('ids-hyperlink');
       const button = cellNode.querySelector('ids-button');
@@ -1000,6 +1056,19 @@ export default class IdsDataGrid extends Base {
   columnDataByHeaderElem(elem: HTMLElement) {
     const columnId = elem?.getAttribute('column-id');
     return this.columnDataById(columnId || '');
+  }
+
+  /**
+   * Set to show header expander icon for expandable and tree rows
+   * @param {boolean|string} value The value
+   */
+  set showHeaderExpander(value) {
+    if (stringToBool(value)) this.setAttribute(attributes.SHOW_HEADER_EXPANDER, '');
+    else this.removeAttribute(attributes.SHOW_HEADER_EXPANDER);
+  }
+
+  get showHeaderExpander() {
+    return this.hasAttribute(attributes.SHOW_HEADER_EXPANDER);
   }
 
   /**
@@ -2239,8 +2308,7 @@ export default class IdsDataGrid extends Base {
    * @param {boolean|string} value The value
    */
   set treeGrid(value) {
-    value = stringToBool(value);
-    if (value) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.TREE_GRID, value.toString());
     } else {
       this.removeAttribute(attributes.TREE_GRID);
@@ -2248,7 +2316,7 @@ export default class IdsDataGrid extends Base {
   }
 
   get treeGrid() {
-    return stringToBool(this.getAttribute(attributes.TREE_GRID)) || false;
+    return this.hasAttribute(attributes.TREE_GRID);
   }
 
   /**

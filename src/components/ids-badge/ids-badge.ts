@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -35,6 +36,7 @@ export default class IdsBadge extends Base {
   static get attributes(): string[] {
     return [
       attributes.COLOR,
+      attributes.DISABLED,
       attributes.SHAPE
     ];
   }
@@ -98,5 +100,18 @@ export default class IdsBadge extends Base {
         this.container.style.position = '';
       }
     }
+  }
+
+  /**
+   * Sets the disabled state
+   * @param {boolean | string} value The value
+   */
+  set disabled(value: boolean | string) {
+    if (stringToBool(value)) this.setAttribute(attributes.DISABLED, '');
+    else this.removeAttribute(attributes.DISABLED);
+  }
+
+  get disabled(): boolean {
+    return this.hasAttribute(attributes.DISABLED);
   }
 }

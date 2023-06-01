@@ -101,4 +101,15 @@ describe('IdsRating Component', () => {
     rating.container?.dispatchEvent(keyEvent);
     expect(rating.value).toEqual(5);
   });
+
+  it('should be able to set disabled', async () => {
+    expect(rating.getAttribute('disabled')).toEqual(null);
+    expect(rating.disabled).toEqual(false);
+    rating.disabled = true;
+    expect(rating.getAttribute('disabled')).toEqual('');
+    expect(rating.disabled).toEqual(true);
+    rating.disabled = false;
+    expect(rating.getAttribute('disabled')).toEqual(null);
+    expect(rating.disabled).toEqual(false);
+  });
 });
