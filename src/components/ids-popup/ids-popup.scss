@@ -25,11 +25,6 @@
 // from occuring inside the "invisible" Popup
 :host(:not([visible])) {
   pointer-events: none;
-  display: none;
-}
-
-:host([visible]) {
-  display: initial;
 }
 
 // Visible, animated host elements receive left/top animations
@@ -119,7 +114,7 @@
     // Top Alignment
     &.top {
       border-bottom-width: 0;
-      bottom: calc(var(--ids-popup-arrow-size) * -1);
+      bottom: calc((var(--ids-popup-arrow-size) * -1) + 1px);
       left: calc(50% - var(--ids-popup-arrow-size));
 
       &::after {
