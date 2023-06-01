@@ -1360,8 +1360,6 @@ export default class IdsDataGrid extends Base {
     }
   }
 
-  #rowTarget?: number;
-
   /**
    * We always want to set doScroll=true when scrollRowIntoView() is called manually in code...
    * ...so when the "public" uses it they would simply do scrollRowIntoView(x).
