@@ -258,6 +258,9 @@ export default class IdsDataGrid extends Base {
   toggleAll(opt: boolean | string = false) {
     const rows: any[] = [];
     opt = String(stringToBool(opt));
+    const iconEl: any = this.container?.querySelector('.header-expander');
+    if (iconEl) iconEl.icon = `plusminus-folder-${opt === 'true' ? 'closed' : 'open'}`;
+
     this.rows
       .filter((r: any) => r?.getAttribute('aria-expanded') === opt)
       .forEach((r: any) => {
