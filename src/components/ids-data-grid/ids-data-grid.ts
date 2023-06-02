@@ -355,7 +355,7 @@ export default class IdsDataGrid extends Base {
     // Handle ready state
     const handleReady = () => {
       this.header?.setIsHeaderExpanderCollapsed?.();
-      this.triggerEvent('redrawn', this, { bubbles: true, detail: { elem: this } });
+      this.triggerEvent('afterrendered', this, { bubbles: true, detail: { elem: this } });
     };
 
     if (!rowStart) {

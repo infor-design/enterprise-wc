@@ -370,7 +370,6 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`filterButtonTooltipCssPart` | {string} | Allows you to sets the filter button tooltip css part.
 |`cellSelectedCssPart` | {string} | Allows customization of a selected cell's background color.
 |`editor` | {object} | Adds an editor to the column if editable is set on the grid. See editing section for more details.
-|`uppercase` | {boolean} | Allows you to set the text as uppercase.
 
 ## Column Settings (Specific)
 
@@ -379,6 +378,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`href` | {string|Function} | Used to create the href for hyperlink formatters. This can be a string or a function that can work dynamically. It can also replace `{{value}}` with the current value. |
 |`text` | {string} | Used to create the txt value for hyperlink formatters if a hard coded link text is needed. |
 |`disabled` | {boolean|Function} | Sets the cell contents to disabled, can also use a callback to determine this dynamically. Only checkboxes, radios, buttons and link columns can be disabled at this time. Selection columns require disabled rows in order to not be clickable/selectable. |
+|`uppercase` | {boolean} | Allows you to set the text as uppercase. |
 
 ## Formatters
 
@@ -491,7 +491,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `settingschanged` Fires after settings are changed in some way.
 - `scrollstart` Fires when data-grid reaches the topmost row.
 - `scrollend` Fires when data-grid reaches the bottommost row.
-- `redrawn` Fires after redraw the data grid.
+- `afterrendered` Fires after rendered the data grid.
 
 ## Methods
 

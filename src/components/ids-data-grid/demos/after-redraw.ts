@@ -7,9 +7,9 @@ import booksJSON from '../../../assets/data/books.json';
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-after-redraw')!;
 
 if (dataGrid) {
-  // Attach after redraw event
-  dataGrid.addEventListener('redrawn', (e: Event) => {
-    console.info(`Redrawn`, (<CustomEvent>e).detail);
+  // Attach after rendered event
+  dataGrid.addEventListener('afterrendered', (e: Event) => {
+    console.info(`After Rendered`, (<CustomEvent>e).detail);
   });
 
   // Initialize the dataGrid

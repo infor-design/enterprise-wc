@@ -348,12 +348,12 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.uniqueId).toEqual(null);
     });
 
-    it('fires redrawn event after redraw the data grid', async () => {
+    it('fires after rendered event after redraw the data grid', async () => {
       document.body.innerHTML = '';
       const mockCallback = jest.fn(() => {});
       container = new IdsContainer();
       dataGrid = new IdsDataGrid();
-      dataGrid.addEventListener('redrawn', mockCallback);
+      dataGrid.addEventListener('afterrendered', mockCallback);
       container.appendChild(dataGrid);
       document.body.appendChild(container);
       dataGrid.columns = columns();
