@@ -1361,6 +1361,22 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Internal handling of scrolling to row
+   * @param {number} rowIndex row index
+   */
+  #scrollTo(rowIndex: number): void {
+    this.rowByIndex(rowIndex)?.scrollIntoView?.();
+    const headerHeight = this.header.clientHeight;
+    const scrollHeight = this.container!.scrollHeight;
+    const containerHeight = this.container!.clientHeight;
+    const scrollTop = this.container!.scrollTop;
+    const isScrollBottom = (scrollTop + containerHeight) >= scrollHeight;
+
+    // offset for sticky header height
+    if (!isScrollBottom) this.container!.scrollTop -= headerHeight;
+  }
+
+  /**
    * We always want to set doScroll=true when scrollRowIntoView() is called manually in code...
    * ...so when the "public" uses it they would simply do scrollRowIntoView(x).
    *
@@ -1395,12 +1411,11 @@ export default class IdsDataGrid extends Base {
     rowIndex = Math.min(rowIndex, maxRowIndex);
 
     if (!this.virtualScroll) {
-      this.rowByIndex(rowIndex)?.scrollIntoView?.();
+      this.#scrollTo(rowIndex);
       return;
     }
 
     const container = this.container!;
-    const header = this.header!;
     const body = this.body!;
 
     const firstRow: any = rows[0];
@@ -1419,16 +1434,7 @@ export default class IdsDataGrid extends Base {
 
     if (isInRange && doScroll) {
       this.offEvent('scroll.data-grid.virtual-scroll', this.container);
-      this.rowByIndex(rowIndex)?.scrollIntoView?.();
-      const headerHeight = header.clientHeight;
-      const scrollHeight = container.scrollHeight;
-      const containerHeight = container.clientHeight;
-      const scrollTop = container.scrollTop;
-      const isScrollBottom = (scrollTop + containerHeight) >= scrollHeight;
-
-      // offset for sticky header height
-      if (!isScrollBottom) container.scrollTop -= headerHeight;
-
+      this.#scrollTo(rowIndex);
       this.#attachVirtualScrollEvent();
       return;
     }
