@@ -1016,13 +1016,13 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(mockCallback).toHaveBeenCalledTimes(1);
   });
 
-  it('fires filtered event one time when dayselected event on timepicker', () => {
+  it('fires filtered event one time when timeselected event on timepicker', () => {
     const mockCallback = jest.fn();
 
     dataGrid.disableClientFilter = true;
     dataGrid.addEventListener('filtered', mockCallback);
 
-    const event = new CustomEvent('dayselected', {
+    const event = new CustomEvent('timeselected', {
       bubbles: true,
       detail: { value: '6/4/2024' },
     });
