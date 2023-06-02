@@ -516,7 +516,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `cancelCellEdit` Stops editing and reverts the value in the active editor.
 - `resetDirtyCells` Clears all dirty cell indicators.
 - `dirtyCells` Gives a list of all currently dirty cells.
-- `exoprtToExcel(format: 'csv' | 'xlsx', filename: string, keepGridFormatting: boolean)` Export datagrid datasource to an excel file. This keeps grid formatting by default.
+- `exportToExcel(format: 'csv' | 'xlsx', filename: string, keepGridFormatting: boolean)` Export datagrid datasource to an excel file. This keeps grid formatting by default.
 - `collapseAll()` Collapse all expandable or tree rows.
 - `expandAll()` Expand all expandable or tree rows.
 - `toggleAll(opt: boolean)` Toggle collapse/expand all expandable or tree rows. `opt false`: will expand all, `opt: true`: will collapse all
