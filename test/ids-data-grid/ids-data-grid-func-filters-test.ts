@@ -1010,7 +1010,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
       detail: { value: '6/4/2024' },
     });
 
-    const datepicker = dataGrid.container.querySelector('#field-ids-data-grid-filter-publishDate-1-date');
+    const datepicker = dataGrid.container.querySelector('ids-trigger-field[data-filter-type="date"]');
     datepicker.dispatchEvent(event);
 
     expect(mockCallback).toHaveBeenCalledTimes(1);
@@ -1027,7 +1027,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
       detail: { value: '6/4/2024' },
     });
 
-    const timepicker = dataGrid.container.querySelector('#field-ids-data-grid-filter-publishTime-1-time');
+    const timepicker = dataGrid.container.querySelector('ids-trigger-field[data-filter-type="time"]');
     timepicker.dispatchEvent(event);
     dataGrid.wrapper.dispatchEvent(event);
 
