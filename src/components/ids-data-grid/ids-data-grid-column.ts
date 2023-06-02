@@ -12,6 +12,12 @@ export interface IdsDataGridColumnFormatOptions {
   timeStyle?: string
   /** Date format to use for parsing ect */
   dateFormat?: string
+  /** year pattern for Intl.DateTimeFormat */
+  year?: string;
+  /** month pattern for Intl.DateTimeFormat */
+  month?: string;
+  /** day pattern for Intl.DateTimeFormat */
+  day?: string;
 }
 
 export interface IdsDataGridColumnGroup {

@@ -194,6 +194,10 @@ The formatDate function accepts a date object and formatting options including a
   `numeric` (e.g., 2)
   `2-digit` (e.g., 02)
 
+### Two Digit Year
+
+Two digit years like `dd/MM/yy` should be avoided entirely because it can be confusing to understand if the date is in the 1900 or 2000s and only 200 years can be used. But it will work in some cases for legacy applications. Note that any year over 40 is considered in the 1900s and any year under 39 is considered in the 2000s. For example: `21/07/39 = 21/07/2039` and `21/07/40 = 21/07/1940`.
+
 #### Converting from Previous Versions (formatDate)
 
 If coming from 4.x versions we mapped some rules out for converting to the new version

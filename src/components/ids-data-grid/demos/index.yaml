@@ -13,49 +13,52 @@
     description: Showing a data grid with after redraw event
   - link: alternate-row-shading.html
     type: Example
-    description: Showing alternate row shading
+    description: Shows alternate row shading
+  - link: app-menu-offset.html
+    type: Example
+    description: Shows datagrid with app menu
   - link: auto-fit-bottom.html
     type: Example
-    description: Showing a data grid that sizes to the bottom of the page
+    description: Shows a data grid that sizes to the bottom of the page
   - link: auto-fit.html
     type: Example
-    description: Showing a data grid that sizes to the size of the parent container
+    description: Shows a data grid that sizes to the size of the parent container
   - link: columns-auto.html
     type: Example
-    description: Showing auto column widths
+    description: Shows auto column widths
   - link: columns-alignment.html
     type: Example
-    description: Showing column and header alignment
+    description: Shows column and header alignment
   - link: columns-custom-css.html
     type: Example
-    description: Showing initialy hidden columns
+    description: Shows initialy hidden columns
   - link: columns-fixed.html
     type: Example
-    description: Showing fixed column widths
+    description: Shows fixed column widths
   - link: columns-formatters.html
     type: Example
-    description: Showing every formatter
+    description: Shows every formatter
   - link: columns-frozen.html
     type: Example
-    description: Showing frozen columns
+    description: Shows frozen columns
   - link: columns-groups.html
     type: Example
-    description: Showing column groups (grouped headers)
+    description: Shows column groups (grouped headers)
   - link: columns-hidden.html
     type: Example
-    description: Showing how to add custom styles to cells
+    description: Shows how to add custom styles to cells
   - link: columns-percent.html
     type: Example
-    description: Showing percent column widths
+    description: Shows percent column widths
   - link: columns-reorderable.html
     type: Example
-    description: Showing reorderable (movable) columns
+    description: Shows reorderable (movable) columns
   - link: columns-resize.html
     type: Example
-    description: Showing resizing columns
+    description: Shows resizing columns
   - link: columns-stretch.html
     type: Example
-    description: Showing a stretch column
+    description: Shows a stretch column
   - link: columns-click-callback.html
     type: Example
     description: Shows a data grid with columns click callback
@@ -88,7 +91,7 @@
     description: Shows a data grid with disable client filter
   - link: double-click.html
     type: Example
-    description: Showing a data grid with double click event
+    description: Shows a data grid with double click event
   - link: editable.html
     type: Example
     description: Shows a data grid with editable cells
@@ -106,13 +109,13 @@
     description: Shows a data grid exporting to an excel file
   - link: filter-trigger-fields.html
     type: Example
-    description: Showing a filter row with date, time, dropdown
+    description: Shows a filter row with date, time, dropdown
   - link: filter-custom.html
     type: Example
-    description: Showing a filter row with custom filter inputs
+    description: Shows a filter row with custom filter inputs
   - link: filter.html
     type: Example
-    description: Showing a filter row
+    description: Shows a filter row
   - link: infinite-scroll.html
     type: Example
     description: Shows infinite-scrolling on a data grid
@@ -136,22 +139,22 @@
     description: Shows an example with multiple data grids on a page using virtual scroll
   - link: pagination-client-side.html
     type: Example
-    description: Showing a data grid with client-side pagination
+    description: Shows a data grid with client-side pagination
   - link: pagination-server-side.html
     type: Example
-    description: Showing a data grid with server-side pagination
+    description: Shows a data grid with server-side pagination
   - link: pagination-standalone.html
     type: Example
-    description: Showing a data grid with standalone pagination
+    description: Shows a data grid with standalone pagination
   - link: row-height.html
     type: Example
     description: Shows a data grid with different row height sizes
   - link: row-navigation.html
     type: Example
-    description: Showing a data grid with row navigation
+    description: Shows a data grid with row navigation
   - link: side-by-side.html
     type: Side by Side
-    description: Showing a data grid next to a 4.x data grid
+    description: Shows a data grid next to a 4.x data grid
   - link: single-selection.html
     type: Example
     description: Shows a data grid with single selection
