@@ -8,6 +8,7 @@
 - `[DataGrid]` Added calculation for left and right offset when dragging columns. ([#1241](https://github.com/infor-design/enterprise-wc/issues/1241))
 - `[DataGrid]` Fixed RTL order / typing in RTL in filter mode with text align right. ([#1302](https://github.com/infor-design/enterprise-wc/issues/1302))
 - `[DataGrid]` Added `xxs` row height for edge cases where you need a really crowded UI. ([#1199](https://github.com/infor-design/enterprise-wc/issues/1072))
+- `[DataGrid]` Fixed `scrollRowIntoView()` row alignment. ([#1275](https://github.com/infor-design/enterprise-wc/issues/1275))
 - `[SearchField]` Added categories to search-field. ([#700](https://github.com/infor-design/enterprise-wc/issues/700))
 
 ## 1.0.0-beta.11

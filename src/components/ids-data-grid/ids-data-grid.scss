@@ -17,6 +17,7 @@
   border: 1px solid var(--ids-data-grid-cell-border-color);
   border-radius: var(--ids-border-radius-xs);
   border-collapse: collapse;
+  box-sizing: border-box;
   contain: content;
   overflow: auto;
   width: 100%;

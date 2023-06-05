@@ -172,6 +172,7 @@ export const attributes = {
   FONT_WEIGHT: 'font-weight',
   FORMAT: 'format',
   FORMATTER_WIDTH: 'formatter-width',
+  FULL_HEIGHT: 'full-height',
   FULLSIZE: 'fullsize',
   GAP: 'gap',
   GAP_X: 'gap-x',

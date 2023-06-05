@@ -321,7 +321,7 @@ export default class IdsDataGrid extends Base {
     } else {
       requestAnimationTimeout(() => {
         if (this.container) {
-          let scrollTopPixels = rowStart * this.virtualScrollSettings.ROW_HEIGHT;
+          let scrollTopPixels = rowStart * (this.virtualScrollSettings.ROW_HEIGHT + 1);
           if (!this.virtualScrollSettings.ENABLED) {
             const containerTopPosition = this.container.getBoundingClientRect().top;
             scrollTopPixels = this.rowByIndex(rowStart)?.getBoundingClientRect?.()?.y ?? scrollTopPixels;
@@ -1267,15 +1267,15 @@ export default class IdsDataGrid extends Base {
     this.onEvent('scroll.data-grid', this.container, () => {
       const scrollTop = this.container!.scrollTop;
       const clientHeight = this.container!.clientHeight;
-
-      const rowIndex = Math.floor(scrollTop / virtualScrollSettings.ROW_HEIGHT);
+      const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
+      const rowIndex = Math.floor(scrollTop / virtualRowHeight);
 
       if (rowIndex === debounceRowIndex) return;
       debounceRowIndex = rowIndex;
 
       const data = this.data;
       const rows = this.rows;
-      const maxHeight = virtualScrollSettings.ROW_HEIGHT * data.length;
+      const maxHeight = virtualRowHeight * data.length;
 
       const reachedTheTop = rowIndex <= 0;
       const reachedTheBottom = (scrollTop + clientHeight) >= maxHeight;
@@ -1302,10 +1302,9 @@ export default class IdsDataGrid extends Base {
 
     const virtualScrollSettings = this.virtualScrollSettings;
     const data = this.data;
+    const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
+    const maxPaddingBottom = (data.length * virtualRowHeight) - virtualScrollSettings.BODY_HEIGHT;
 
-    const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BODY_HEIGHT;
-
-    this.container?.style.setProperty('max-height', '95vh');
     this.body?.style.setProperty('padding-bottom', `${Math.max(maxPaddingBottom, 0)}px`);
 
     let debounceRowIndex = 0;
@@ -1313,7 +1312,7 @@ export default class IdsDataGrid extends Base {
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
 
-      const rowIndex = Math.floor(this.container!.scrollTop / virtualScrollSettings.ROW_HEIGHT);
+      const rowIndex = Math.floor(this.container!.scrollTop / virtualRowHeight);
 
       if (rowIndex === debounceRowIndex) return;
       debounceRowIndex = rowIndex;
@@ -1362,6 +1361,22 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Internal handling of scrolling to row
+   * @param {number} rowIndex row index
+   */
+  #scrollTo(rowIndex: number): void {
+    this.rowByIndex(rowIndex)?.scrollIntoView?.();
+    const headerHeight = this.header.clientHeight;
+    const scrollHeight = this.container!.scrollHeight;
+    const containerHeight = this.container!.clientHeight;
+    const scrollTop = this.container!.scrollTop;
+    const isScrollBottom = (scrollTop + containerHeight) >= scrollHeight;
+
+    // offset for sticky header height
+    if (!isScrollBottom) this.container!.scrollTop -= headerHeight;
+  }
+
+  /**
    * We always want to set doScroll=true when scrollRowIntoView() is called manually in code...
    * ...so when the "public" uses it they would simply do scrollRowIntoView(x).
    *
@@ -1396,12 +1411,12 @@ export default class IdsDataGrid extends Base {
     rowIndex = Math.min(rowIndex, maxRowIndex);
 
     if (!this.virtualScroll) {
-      this.rowByIndex(rowIndex)?.scrollIntoView?.();
+      this.#scrollTo(rowIndex);
       return;
     }
 
-    const container = this.container;
-    const body = this.body;
+    const container = this.container!;
+    const body = this.body!;
 
     const firstRow: any = rows[0];
     const lastRow: any = rows[rows.length - 1];
@@ -1419,7 +1434,7 @@ export default class IdsDataGrid extends Base {
 
     if (isInRange && doScroll) {
       this.offEvent('scroll.data-grid.virtual-scroll', this.container);
-      this.rowByIndex(rowIndex)?.scrollIntoView?.();
+      this.#scrollTo(rowIndex);
       this.#attachVirtualScrollEvent();
       return;
     }
@@ -1456,9 +1471,9 @@ export default class IdsDataGrid extends Base {
     }
 
     // NOTE: repaint of padding is more performant than margin
-    const maxPaddingBottom = (data.length * virtualScrollSettings.ROW_HEIGHT) - virtualScrollSettings.BODY_HEIGHT;
-
-    const bodyTranslateY = bufferRowIndex * virtualScrollSettings.ROW_HEIGHT;
+    const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
+    const maxPaddingBottom = (data.length * virtualRowHeight) - virtualScrollSettings.BODY_HEIGHT;
+    const bodyTranslateY = bufferRowIndex * virtualRowHeight;
     const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
 
     if (!reachedTheBottom) {
@@ -1468,7 +1483,7 @@ export default class IdsDataGrid extends Base {
     body?.style.setProperty('padding-bottom', `${Math.max(bodyPaddingBottom, 0)}px`);
 
     if (doScroll) {
-      container!.scrollTop = rowIndex * virtualScrollSettings.ROW_HEIGHT;
+      container!.scrollTop = rowIndex * virtualRowHeight;
     }
   }
 

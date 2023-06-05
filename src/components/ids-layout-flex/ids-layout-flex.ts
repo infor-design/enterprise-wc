@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsElement from '../../core/ids-element';
 
@@ -38,6 +38,7 @@ export default class IdsLayoutFlex extends IdsElement {
       attributes.ALIGN_ITEMS,
       attributes.DIRECTION,
       attributes.DISPLAY,
+      attributes.FILL,
       attributes.GAP,
       attributes.GAP_X,
       attributes.GAP_Y,
@@ -182,4 +183,20 @@ export default class IdsLayoutFlex extends IdsElement {
   }
 
   get wrap() { return this.getAttribute(attributes.WRAP); }
+
+  /**
+   * Set flex container to 100% height
+   * @param {boolean} val value
+   */
+  set fullHeight(val: boolean | string | null) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.FULL_HEIGHT, '');
+    } else {
+      this.removeAttribute(attributes.FULL_HEIGHT);
+    }
+  }
+
+  get fullHeight(): boolean {
+    return this.hasAttribute(attributes.FULL_HEIGHT);
+  }
 }

@@ -9,6 +9,7 @@ import styles from './ids-layout-flex-item.scss';
 export const FLEX_ITEM_OPTIONS = {
   alignSelf: ['auto', 'baseline', 'center', 'stretch', 'flex-start', 'flex-end'],
   grow: [0, 1],
+  overflow: ['auto', 'hidden', 'visible', 'scroll'],
   shrink: [0, 1]
 };
 
@@ -84,4 +85,20 @@ export default class IdsLayoutFlexItem extends IdsElement {
   }
 
   get shrink() { return this.getAttribute(attributes.SHRINK); }
+
+  /**
+   * Set overflow value on flex item
+   * @param {string} val overflow value
+   */
+  set overflow(val: string | null) {
+    if (val && FLEX_ITEM_OPTIONS.overflow.includes(val)) {
+      this.setAttribute(attributes.OVERFLOW, val);
+    } else {
+      this.removeAttribute(attributes.OVERFLOW);
+    }
+  }
+
+  get overflow(): string | null {
+    return this.getAttribute(attributes.OVERFLOW);
+  }
 }

@@ -131,6 +131,22 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexEl.getAttribute('wrap')).toEqual(null);
   });
 
+  it('should set full height', () => {
+    expect(flexEl.fullHeight).toEqual(false);
+    expect(flexEl.getAttribute('full-height')).toEqual(null);
+    flexEl.fullHeight = '';
+    expect(flexEl.fullHeight).toEqual(true);
+    expect(flexEl.getAttribute('full-height')).toEqual('');
+  });
+
+  it('should set overflow on flex item', () => {
+    expect(flexItemEl.overflow).toEqual(null);
+    flexItemEl.overflow = 'hidden';
+    expect(flexItemEl.overflow).toEqual('hidden');
+    flexItemEl.overflow = 'test';
+    expect(flexItemEl.overflow).toEqual(null);
+  });
+
   it('should sets align-self with item', () => {
     expect(flexItemEl.alignSelf).toEqual(null);
     expect(flexItemEl.getAttribute('align-self')).toEqual(null);
