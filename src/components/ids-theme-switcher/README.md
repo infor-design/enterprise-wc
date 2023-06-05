@@ -41,8 +41,8 @@ Add an ids-theme-switcher to the page near the top and set the version and mode 
 
 ## Settings and Attributes
 
-- `version` {string} Turns on the functionality to make the tag clickable like a link
 - `mode` {string} Turns on the functionality to add an (x) button to clear remove the tag
+- `selfManaged` {boolean} If added no links will attempt to be fetch via the fetch api. The expectation is you will manage the style sheet themes manually.
 
 ## Converting from Previous Versions
 

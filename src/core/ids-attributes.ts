@@ -409,6 +409,7 @@ export const attributes = {
   SORTABLE: 'sortable',
   SOURCE_FORMATTER: 'source-formatter',
   SQUARE: 'square',
+  SELF_MANAGED: 'self-managed',
   SRC: 'src',
   STACKED: 'stacked',
   STARS: 'stars',

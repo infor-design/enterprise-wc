@@ -243,6 +243,9 @@ export default class IdsElement extends HTMLElement {
       return;
     }
 
+    const isSelfManaged = document.querySelector('ids-theme-switcher[self-managed]');
+    if (isSelfManaged) return;
+
     // Handle auto themes
     const response = await fetch(`../themes/ids-theme-${theme}.css`, { cache: 'reload' });
     const themeStyles = await response.text();

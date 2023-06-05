@@ -11,6 +11,9 @@
   - link: hidden.html
     type: Example
     description: Showing a switcher that is hidden but still functional
+  - link: self-managed.html
+    type: Example
+    description: Showing ignoreing fetch attempts
   - link: use-link.html
     type: Example
     description: Showing using a link for the css files
