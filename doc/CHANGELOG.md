@@ -11,6 +11,7 @@
 - `[DataGrid]` Added `xxs` row height for edge cases where you need a really crowded UI. ([#1199](https://github.com/infor-design/enterprise-wc/issues/1072))
 - `[DataGrid]` Fixed `scrollRowIntoView()` row alignment. ([#1275](https://github.com/infor-design/enterprise-wc/issues/1275))
 - `[SearchField]` Added categories to search-field. ([#700](https://github.com/infor-design/enterprise-wc/issues/700))
+- `[Themes]` Added the possibility to set the theme as a css file in link for more dynamic configuration. ([#1301](https://github.com/infor-design/enterprise-wc/issues/1301))
 
 ## 1.0.0-beta.11
 

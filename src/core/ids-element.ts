@@ -230,8 +230,23 @@ export default class IdsElement extends HTMLElement {
    * @param {string} theme name of the theme
    */
   async loadTheme(theme: string) {
+    // Reduce http requests
     if (this.lastTheme === theme) return;
     this.lastTheme = theme;
+
+    // Handle setting theme via links
+    const themeLink = document.querySelector('link[href*="ids-theme"]');
+    if (themeLink) {
+      const href = themeLink.getAttribute('href');
+      const filename = href?.replace(/^.*[\\/]/, '') || '';
+      themeLink.setAttribute('href', href?.replace(filename, `ids-theme-${theme}.css`) || '');
+      return;
+    }
+
+    const isSelfManaged = document.querySelector('ids-theme-switcher[self-managed]');
+    if (isSelfManaged) return;
+
+    // Handle auto themes
     const response = await fetch(`../themes/ids-theme-${theme}.css`, { cache: 'reload' });
     const themeStyles = await response.text();
     const head = (document.head as any);
