@@ -347,6 +347,22 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('unique-id')).toEqual(null);
       expect(dataGrid.uniqueId).toEqual(null);
     });
+
+    it('fires after rendered event after redraw the data grid', async () => {
+      document.body.innerHTML = '';
+      const mockCallback = jest.fn(() => {});
+      container = new IdsContainer();
+      dataGrid = new IdsDataGrid();
+      dataGrid.addEventListener('afterrendered', mockCallback);
+      container.appendChild(dataGrid);
+      document.body.appendChild(container);
+      dataGrid.columns = columns();
+      dataGrid.data = deepClone(dataset);
+      await processAnimFrame();
+      await processAnimFrame();
+
+      expect(mockCallback.mock.calls.length).toBe(1);
+    });
   });
 
   describe('Row Rendering Tests', () => {
@@ -369,6 +385,33 @@ describe('IdsDataGrid Component', () => {
       const row2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2];
       expect(row1.getAttribute('hidden')).toBeFalsy();
       expect(row2.getAttribute('hidden')).toBe('');
+    });
+
+    it('render disabled rows', async () => {
+      const newData = deepClone(dataset);
+      newData[1].disabled = true;
+      dataGrid.data = newData;
+
+      dataGrid.columns = [{
+        id: 'description',
+        name: 'description',
+        field: 'description'
+      }];
+
+      await processAnimFrame();
+      const rowSel = '.ids-data-grid-body .ids-data-grid-row';
+      const rows = dataGrid.shadowRoot.querySelectorAll(rowSel);
+      expect(rows.length).toEqual(9);
+      expect(dataGrid.shadowRoot.querySelectorAll(`${rowSel}[disabled]`).length).toEqual(1);
+
+      const disabledRow = rows[1];
+      expect(disabledRow.getAttribute('row-index')).toEqual('1');
+      expect(disabledRow.getAttribute('disabled')).toEqual('');
+      expect(disabledRow.getAttribute('aria-disabled')).toEqual('true');
+
+      disabledRow.querySelectorAll('[role="gridcell"]').forEach((row: any) => {
+        expect(row.classList.contains('is-disabled')).toBeTruthy();
+      });
     });
 
     it('skips re-rerender if no data', () => {
@@ -943,6 +986,18 @@ describe('IdsDataGrid Component', () => {
         width: '50%'
       }];
       expect(dataGrid.container.style.getPropertyValue('--ids-data-grid-column-widths')).toEqual('minmax(130px, 2fr) minmax(50%, 1fr) ');
+    });
+
+    it('supports setting uppercase', () => {
+      dataGrid.columns = [{
+        id: 'description',
+        name: 'Description',
+        field: 'description',
+        uppercase: true,
+        formatter: formatters.text
+      }];
+      const cell = dataGrid.container.querySelector('.ids-data-grid-body .ids-data-grid-cell');
+      expect(cell.classList.contains('is-uppercase')).toBeTruthy();
     });
 
     it('supports column groups', () => {
@@ -2467,6 +2522,48 @@ describe('IdsDataGrid Component', () => {
 
       const rows = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row');
       expect(rows.length).toBe(23);
+    });
+
+    it('should be able to set show header expander', async () => {
+      expect(dataGrid.getAttribute('show-header-expander')).toEqual(null);
+      expect(dataGrid.showHeaderExpander).toEqual(false);
+      dataGrid.showHeaderExpander = true;
+      expect(dataGrid.getAttribute('show-header-expander')).toEqual('');
+      expect(dataGrid.showHeaderExpander).toEqual(true);
+      dataGrid.showHeaderExpander = false;
+      expect(dataGrid.getAttribute('show-header-expander')).toEqual(null);
+      expect(dataGrid.showHeaderExpander).toEqual(false);
+    });
+
+    it('can expand/collapse all tree rows', async () => {
+      dataGrid.treeGrid = true;
+      dataGrid.columns = deepClone(treeColumns);
+      dataGrid.data = deepClone(datasetTree);
+      dataGrid.rowSelection = 'multiple';
+      dataGrid.showHeaderExpander = true;
+
+      const all = () => dataGrid.rows.filter((r: any) => r?.hasAttribute('aria-expanded')) || [];
+      const collapsedRows = () => all().filter((r: any) => r?.getAttribute('aria-expanded') === 'false');
+
+      expect(all().length).toBe(7);
+      expect(collapsedRows().length).toBe(1);
+
+      dataGrid.collapseAll();
+      expect(all().length).toBe(7);
+      expect(collapsedRows().length).toBe(7);
+
+      const firstRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
+      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
+      const expandButton = firstRow.querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
+      const mouseClick = new MouseEvent('click', { bubbles: true });
+      expandButton.dispatchEvent(mouseClick);
+      expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
+      expect(all().length).toBe(7);
+      expect(collapsedRows().length).toBe(6);
+
+      dataGrid.expandAll();
+      expect(all().length).toBe(7);
+      expect(collapsedRows().length).toBe(0);
     });
 
     it('can expand/collapse tree', async () => {

@@ -60,6 +60,12 @@ $image-sizes: (
   position: relative;
 }
 
+:host([disabled]) {
+  .ids-image {
+    opacity: 0.5;
+  }
+}
+
 .ids-image {
   box-sizing: border-box;
   border: 1px solid transparent;

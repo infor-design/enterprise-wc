@@ -6,6 +6,16 @@
   width: 100%;
 }
 
+:host([disabled]) {
+  .ids-step-chart {
+    .step-chart-container {
+      .step {
+        background-color: var(--ids-step-chart-step-disabled-color);
+      }
+    }
+  }
+}
+
 .ids-step-chart {
   contain: content;
   display: flex;

@@ -32,7 +32,7 @@ export default class IdsRating extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.ratingArr = [...this.container?.children ?? []];
-    if (!this.readonly) {
+    if (!(this.readonly || this.disabled)) {
       this.#attachEventHandlers();
     } else {
       this.#updateHalfStar(this.ratingArr);
@@ -61,6 +61,7 @@ export default class IdsRating extends Base {
       ...super.attributes,
       attributes.CLICKABLE,
       attributes.COMPACT,
+      attributes.DISABLED,
       attributes.READONLY,
       attributes.SIZE,
       attributes.STARS,
@@ -90,7 +91,7 @@ export default class IdsRating extends Base {
       this.setAttribute('value', val.toString());
     }
 
-    if (val && isReadonly) {
+    if (val && (isReadonly || this.disabled)) {
       this.ratingArr.forEach((element) => {
         element.setAttribute('icon', 'star-outlined');
         element.classList.remove('active');
@@ -116,6 +117,22 @@ export default class IdsRating extends Base {
 
   get stars(): string | number | any {
     return this.getAttribute('stars') || 5;
+  }
+
+  /**
+   * Sets the disabled state
+   * @param {boolean | string} value The value
+   */
+  set disabled(value: boolean | string) {
+    if (stringToBool(value)) {
+      this.offEvent('click', this.container);
+      this.#updateHalfStar(this.ratingArr);
+      this.setAttribute(attributes.DISABLED, '');
+    } else this.removeAttribute(attributes.DISABLED);
+  }
+
+  get disabled(): boolean {
+    return this.hasAttribute(attributes.DISABLED);
   }
 
   /**
@@ -171,6 +188,7 @@ export default class IdsRating extends Base {
    * @param {any} event event target
    */
   updateStars(event: any) {
+    if (this.disabled) return;
     const activeElements = this.ratingArr.filter((item) => item.classList.contains('active'));
     let attrName = 'star-filled';
     let action = 'add';

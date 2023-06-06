@@ -643,7 +643,7 @@ describe('IdsDataGrid Component', () => {
         color: 'info',
       };
 
-      expect(formatters.alert(rowData, columnData)).toMatchSnapshot();
+      expect(formatters.alert(rowData, columnData, 0)).toMatchSnapshot();
     });
 
     it('can render with the alert formatter with icon', () => {
@@ -657,7 +657,7 @@ describe('IdsDataGrid Component', () => {
         icon: 'confirm',
       };
 
-      expect(formatters.alert(rowData, columnData)).toMatchSnapshot();
+      expect(formatters.alert(rowData, columnData, 0)).toMatchSnapshot();
     });
 
     it('can render with the alert formatter without tooltip', () => {
@@ -670,7 +670,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.alert,
       };
 
-      expect(formatters.alert({ ...rowData, category: null }, columnData)).toMatchSnapshot();
+      expect(formatters.alert({ ...rowData, category: null }, columnData, 0)).toMatchSnapshot();
     });
 
     it('can render with the color formatter', () => {
@@ -877,7 +877,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.progress,
       };
 
-      expect(formatters.progress(rowData, columnData)).toMatchSnapshot();
+      expect(formatters.progress(rowData, columnData, 0)).toMatchSnapshot();
     });
 
     it('can render with the progress formatter with max-override', () => {
@@ -889,7 +889,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.progress,
       };
 
-      expect(formatters.progress(rowData, columnData)).toMatchSnapshot();
+      expect(formatters.progress(rowData, columnData, 0)).toMatchSnapshot();
     });
 
     it('can render with the progress formatter with text/label override', () => {
@@ -901,7 +901,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.progress,
       };
 
-      expect(formatters.progress(rowData, columnData)).toMatchSnapshot();
+      expect(formatters.progress(rowData, columnData, 0)).toMatchSnapshot();
     });
 
     it('can render with the progress formatter without value', () => {
@@ -912,7 +912,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.progress,
       };
 
-      expect(formatters.progress({ rowData, count: null }, columnData)).toMatchSnapshot();
+      expect(formatters.progress({ rowData, count: null }, columnData, 0)).toMatchSnapshot();
     });
 
     it('can render with the rating formatter', () => {
@@ -1145,7 +1145,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.image,
       };
 
-      expect(formatters.image(rowData, columnData)).toMatchSnapshot();
+      expect(formatters.image(rowData, columnData, 0)).toMatchSnapshot();
     });
 
     it('can render with the image formatter with alt/title text', () => {
@@ -1157,7 +1157,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.image,
       };
 
-      expect(formatters.image(rowData, columnData)).toMatchSnapshot();
+      expect(formatters.image(rowData, columnData, 0)).toMatchSnapshot();
     });
 
     it('can render with the image formatter without value', () => {
@@ -1168,7 +1168,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.image,
       };
 
-      expect(formatters.image({ rowData, image: null }, columnData)).toMatchSnapshot();
+      expect(formatters.image({ rowData, image: null }, columnData, 0)).toMatchSnapshot();
     });
 
     it('can render with the card formatter', () => {

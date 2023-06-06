@@ -655,8 +655,12 @@ $input-size-full: 100%;
       color: var(--ids-data-grid-filter-input-text-color);
     }
 
-    &.ids-input:hover:not(.readonly):not(.readonly):not(.disabled):not(.color-variant-borderless):hover .field-container {
-      border-color: var(--ids-data-grid-filter-input-hover-color);
+    &:hover.readonly.readonly-background,
+    &:hover:not(.readonly):not(.disabled):not(.color-variant-borderless),
+    &.ids-input:hover:not(.readonly):not(.disabled):not(.color-variant-borderless):hover {
+      .field-container {
+        border-color: var(--ids-data-grid-filter-input-hover-color);
+      }
     }
 
     &:focus-within {

@@ -8,12 +8,15 @@
   - link: example.html
     type: Main Example
     description: Shows a basic data grid with formatters
-  - link: app-menu-offset.html
+  - link: after-redraw.html
     type: Example
-    description: Shows datagrid with app menu
+    description: Showing a data grid with after redraw event
   - link: alternate-row-shading.html
     type: Example
     description: Shows alternate row shading
+  - link: app-menu-offset.html
+    type: Example
+    description: Shows datagrid with app menu
   - link: auto-fit-bottom.html
     type: Example
     description: Shows a data grid that sizes to the bottom of the page
@@ -79,7 +82,10 @@
     description: Shows a data grid with contextmenu handle overflow items
   - link: data-nested.html
     type: Example
-    description: Shows nested data is supported
+    description: Showing nested data is supported
+  - link: disabled-rows.html
+    type: Example
+    description: Shows a data grid with disabled rows
   - link: disable-client-filter.html
     type: Example
     description: Shows a data grid with disable client filter
@@ -173,6 +179,9 @@
   - link: tree-grid-virtual-scroll.html
     type: Example
     description: Shows a tree with virtual scrolling
+  - link: tree-grid-expand-collapse.html
+    type: Example
+    description: Shows a tree with expand and collapse rows
   - link: virtual-scroll.html
     type: Example
     description: Shows a basic data grid with virtual scrolling
@@ -197,6 +206,9 @@
   - link: save-settings-manual.html
     type: Example
     description: Shows a data grid to save manualy user settings
+  - link: uppercase.html
+    type: Example
+    description: Shows a data grid with uppercase text
   - link: empty-message.html
     type: Example
     description: Shows a data grid with empty message
