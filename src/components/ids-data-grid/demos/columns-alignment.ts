@@ -58,6 +58,7 @@ if (dataGrid) {
       name: 'Right (Header)',
       field: 'price',
       formatter: dataGrid.formatters.decimal,
+      filterType: dataGrid.filters.date,
       formatOptions: { locale: 'en-US' },
       sortable: true,
       headerAlign: 'right'
