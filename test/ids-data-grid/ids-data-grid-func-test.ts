@@ -652,7 +652,6 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(MAX_ROWS - 1);
 
       expect(dataGrid.container.scrollTop).toBe(0);
-      // dataGrid.container.scrollTop = BUFFER_ROWS * ROW_HEIGHT;
       dataGrid.scrollRowIntoView(BUFFER_ROWS * ROW_HEIGHT);
       await processAnimFrame();
       expect(dataGrid.container.scrollTop).toBeGreaterThan(100);
