@@ -11,6 +11,7 @@
 - `[DataGrid]` Add support for uppercase, disabled rows, collapse/expand all and afterrendered event. ([#1244](https://github.com/infor-design/enterprise-wc/issues/1244))
 - `[DataGrid]` Added `xxs` row height for edge cases where you need a really crowded UI. ([#1199](https://github.com/infor-design/enterprise-wc/issues/1072))
 - `[DataGrid]` Fixed `scrollRowIntoView()` row alignment. ([#1275](https://github.com/infor-design/enterprise-wc/issues/1275))
+- `[DatePicker]` Added `showWeekNumbers()` setting and feature. ([#1296](https://github.com/infor-design/enterprise-wc/issues/1296))
 - `[SearchField]` Added categories to search-field. ([#700](https://github.com/infor-design/enterprise-wc/issues/700))
 - `[Themes]` Added the possibility to set the theme as a css file in link for more dynamic configuration. ([#1301](https://github.com/infor-design/enterprise-wc/issues/1301))
 
