@@ -1308,15 +1308,15 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
   }
 
   set showWeekNumbers(val: boolean | null) {
-    if (stringToBool(val) && this.isDatePicker) {
-      this.setAttribute('show-week-numbers', '');
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.SHOW_WEEK_NUMBERS, '');
     } else {
-      this.removeAttribute('show-week-numbers');
+      this.removeAttribute(attributes.SHOW_WEEK_NUMBERS);
     }
   }
 
   get showWeekNumbers(): boolean {
-    return stringToBool(this.getAttribute('show-week-numbers'));
+    return stringToBool(this.getAttribute(attributes.SHOW_WEEK_NUMBERS));
   }
 
   /**
