@@ -379,6 +379,11 @@ export default class IdsDataGrid extends Base {
 
           const headerHeight = this.header?.getBoundingClientRect?.().height ?? 0;
           this.container.scrollTop = scrollTopPixels - headerHeight;
+          this.scrollRowIntoView(rowStart);
+          requestAnimationTimeout(() => {
+            this.#attachVirtualScrollEvent();
+            this.scrollRowIntoView(this.rowStart);
+          }, 150);
           handleReady();
         }
       }, 150);
@@ -1507,7 +1512,7 @@ export default class IdsDataGrid extends Base {
     if (isInRange && doScroll) {
       this.offEvent('scroll.data-grid.virtual-scroll', this.container);
       this.#scrollTo(rowIndex);
-      this.#attachVirtualScrollEvent();
+      if (this.rowStart === 0) this.#attachVirtualScrollEvent();
       return;
     }
 

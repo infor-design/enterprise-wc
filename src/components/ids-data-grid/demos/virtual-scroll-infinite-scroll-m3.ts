@@ -101,11 +101,13 @@ const fetchData = async (startIndex = 0) => {
 };
 
 const setData = async () => {
-  // dataGrid.rowStart = 120;
+  dataGrid.rowStart = 120;
   dataGrid.data = await fetchData();
-  dataGrid.scrollRowIntoView(120, true);
-  dataGrid.selectRow(120);
 };
+
+dataGrid.addEventListener('afterrendered', async () => {
+  dataGrid.selectRow(120);
+});
 
 setData();
 
