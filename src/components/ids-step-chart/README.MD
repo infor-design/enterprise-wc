@@ -54,6 +54,7 @@ IDS step chart also has an available slot `icon` that can be used to append cont
 ## Settings and Attributes
 
   - `color` {string} Sets the color used for completed steps (must use ids provided colors).
+  - `disabled` {boolean} Sets the disabled state.
   - completed-label: secondary label for the component
   - label: primary label for the component usually formatted as "x of y steps completed
   - progress-color: color used for flagged steps in progress (must use ids provided colors)

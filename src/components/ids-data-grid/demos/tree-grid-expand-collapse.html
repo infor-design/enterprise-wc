@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Tree Grid - Expand/Collapse Rows</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell col-span="12" col-span-sm="6" col-span-lg="4">
+        <ids-button id="btn-expand-all" appearance="secondary">
+          <span>Expand All</span>
+        </ids-button>
+        <ids-button id="btn-collapse-all" appearance="secondary">
+          <span>Collapse All</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-toolbar padding="5">
+          <ids-toolbar-section align="end" favor>
+            <ids-menu-button id="menu-button" menu="row-height-menu">
+              <ids-icon icon="more"></ids-icon>
+              <span class="audible">Settings Menu Button</span>
+            </ids-menu-button>
+            <ids-popup-menu id="row-height-menu" target="menu-button" trigger-type="click">
+              <ids-menu-group select="single">
+                <ids-menu-header><ids-text font-weight="semi-bold">Row Height</ids-text></ids-menu-header>
+                <ids-menu-item value="xxs">Extra Extra Small</ids-menu-item>
+                <ids-menu-item value="xs">Extra Small</ids-menu-item>
+                <ids-menu-item value="sm">Small</ids-menu-item>
+                <ids-menu-item value="md">Medium</ids-menu-item>
+                <ids-menu-item value="lg" selected="true">Large</ids-menu-item>
+              </ids-menu-group>
+            </ids-popup-menu>
+          </ids-toolbar-section>
+        </ids-toolbar>
+        <ids-data-grid id="tree-grid-expand-collapse" row-selection="multiple" suppress-row-click-selection="true" label="Buildings" row-height="md" tree-grid="true" group-selects-children="true" show-header-expander></ids-data-grid>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+  </ids-container>
+</body>
+</html>

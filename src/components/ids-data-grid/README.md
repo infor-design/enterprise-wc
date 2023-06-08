@@ -321,6 +321,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `expandableRow` {boolean} Indicates expandable rows will be used in the data grid.  See the expandable row section for more details.
 - `expandableRowTemplate` {string} Should point to the row `template` element for expandable rows.
 - `treeGrid` {boolean} Indicates a tree grid will be used  in the data grid. See the tree grid section for more details.
+- `showHeaderExpander` {boolean} Set to show header expander icon for expandable and tree rows.
 - `groupSelectsChildren` {boolean} If a tree grid has multiple selection, setting this will select all children when a parent is selected.
 - `saveActivePage` {boolean} If set the active page on the pager will be saved to local storage.
 - `saveColumns` {boolean} If set columns will be saved to local storage.
@@ -377,6 +378,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`href` | {string|Function} | Used to create the href for hyperlink formatters. This can be a string or a function that can work dynamically. It can also replace `{{value}}` with the current value. |
 |`text` | {string} | Used to create the txt value for hyperlink formatters if a hard coded link text is needed. |
 |`disabled` | {boolean|Function} | Sets the cell contents to disabled, can also use a callback to determine this dynamically. Only checkboxes, radios, buttons and link columns can be disabled at this time. Selection columns require disabled rows in order to not be clickable/selectable. |
+|`uppercase` | {boolean} | Allows you to set the text as uppercase. |
 
 ## Formatters
 
@@ -489,6 +491,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `settingschanged` Fires after settings are changed in some way.
 - `scrollstart` Fires when data-grid reaches the topmost row.
 - `scrollend` Fires when data-grid reaches the bottommost row.
+- `afterrendered` Fires after rendered the data grid.
 
 ## Methods
 
@@ -513,7 +516,10 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `cancelCellEdit` Stops editing and reverts the value in the active editor.
 - `resetDirtyCells` Clears all dirty cell indicators.
 - `dirtyCells` Gives a list of all currently dirty cells.
-- `exoprtToExcel(format: 'csv' | 'xlsx', filename: string, keepGridFormatting: boolean)` Export datagrid datasource to an excel file. This keeps grid formatting by default.
+- `exportToExcel(format: 'csv' | 'xlsx', filename: string, keepGridFormatting: boolean)` Export datagrid datasource to an excel file. This keeps grid formatting by default.
+- `collapseAll()` Collapse all expandable or tree rows.
+- `expandAll()` Expand all expandable or tree rows.
+- `toggleAll(opt: boolean)` Toggle collapse/expand all expandable or tree rows. `opt false`: will expand all, `opt: true`: will collapse all
 
 ## Filters
 

@@ -95,3 +95,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
     line-height: $border-input-field-height-lg;
   }
 }
+
+:host([uppercase]) ::slotted(ids-list-box-option) {
+  text-transform: uppercase;
+}

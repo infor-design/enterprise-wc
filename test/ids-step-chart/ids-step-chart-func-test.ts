@@ -95,4 +95,15 @@ describe('Ids Step Chart Tests', () => {
     expect(elem.getAttribute('step-number')).toBe('10');
     expect(elem.shadowRoot.querySelectorAll('.step').length).toBe(10);
   });
+
+  it('should be able to set disabled', async () => {
+    expect(elem.getAttribute('disabled')).toEqual(null);
+    expect(elem.disabled).toEqual(false);
+    elem.disabled = true;
+    expect(elem.getAttribute('disabled')).toEqual('');
+    expect(elem.disabled).toEqual(true);
+    elem.disabled = false;
+    expect(elem.getAttribute('disabled')).toEqual(null);
+    expect(elem.disabled).toEqual(false);
+  });
 });

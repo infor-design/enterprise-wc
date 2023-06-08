@@ -998,4 +998,39 @@ describe('IdsDataGrid Component Filter Tests', () => {
 
     expect(mockCallback).toHaveBeenCalled();
   });
+
+  it('fires filtered event one time when dayselected event on datepicker', () => {
+    const mockCallback = jest.fn();
+
+    dataGrid.disableClientFilter = true;
+    dataGrid.addEventListener('filtered', mockCallback);
+
+    const event = new CustomEvent('dayselected', {
+      bubbles: true,
+      detail: { value: '6/4/2024' },
+    });
+
+    const datepicker = dataGrid.container.querySelector('ids-trigger-field[data-filter-type="date"]');
+    datepicker.dispatchEvent(event);
+
+    expect(mockCallback).toHaveBeenCalledTimes(1);
+  });
+
+  it('fires filtered event one time when timeselected event on timepicker', () => {
+    const mockCallback = jest.fn();
+
+    dataGrid.disableClientFilter = true;
+    dataGrid.addEventListener('filtered', mockCallback);
+
+    const event = new CustomEvent('timeselected', {
+      bubbles: true,
+      detail: { value: '6/4/2024' },
+    });
+
+    const timepicker = dataGrid.container.querySelector('ids-trigger-field[data-filter-type="time"]');
+    timepicker.dispatchEvent(event);
+    dataGrid.wrapper.dispatchEvent(event);
+
+    expect(mockCallback).toHaveBeenCalledTimes(1);
+  });
 });

@@ -42,6 +42,7 @@ A rating rating with 4.5/5 which is also readonly. If using half stars the ratin
 - `size` {number} Sets the rating size attribute. `size="large"` Valid values are 'small' | 'medium' | 'large'
 - `mode` {string} Sets the theme mode
 - `version` {string} Sets the theme version
+- `disabled` {boolean} Sets the disabled state
 
 ## Converting from Previous Versions (Breaking Changes)
 

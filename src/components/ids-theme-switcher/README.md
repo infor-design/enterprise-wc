@@ -4,6 +4,20 @@
 
 We include a theme switcher component that can be visual or non visual. If visual it comes with a menu button to allow you to pick theme. If non visible you can set its properties and all other components in the page will change theme to the set theme.
 
+You can include the initial theme one of two ways.
+
+1. Let the components manage the styles in head manually
+2. If you need to serve the css files in a different way you can include the theme manually as a link. Then the theme switcher will replace the file name section when you use it. Or you could full manage this yourself (replacing the theme file changes theme). For example:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/my-place/themes/ids-theme-default-light.css">
+</head>
+<body>
+```
+
 ## Use Cases
 
 - When you want to use a common look across applications with a theme
@@ -27,8 +41,8 @@ Add an ids-theme-switcher to the page near the top and set the version and mode 
 
 ## Settings and Attributes
 
-- `version` {string} Turns on the functionality to make the tag clickable like a link
 - `mode` {string} Turns on the functionality to add an (x) button to clear remove the tag
+- `selfManaged` {boolean} If added no links will attempt to be fetch via the fetch api. The expectation is you will manage the style sheet themes manually.
 
 ## Converting from Previous Versions
 

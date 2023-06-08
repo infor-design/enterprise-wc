@@ -50,6 +50,11 @@ export default class IdsDataGridFormatters {
     return typeof disabled === 'function' ? disabled(row, value, col, item) : isTrue(disabled);
   }
 
+  /** Used to check if the row or column should show as disabled */
+  #isDisabled(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): boolean {
+    return item?.idstempcanrowdisabled || this.#columnDisabled(row, value, col, item);
+  }
+
   /** Used to get the color via the function or text */
   #color(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): string | undefined {
     const color = col.color;
@@ -124,7 +129,8 @@ export default class IdsDataGridFormatters {
       return '';
     }
     let colHref: any = columnData.href || '#';
-    const isDisabled = this.#columnDisabled(index, value, columnData, rowData);
+    const isDisabled = this.#isDisabled(index, value, columnData, rowData);
+    const disabled = isDisabled ? ' disabled="true"' : '';
 
     // Support for dynamic links based on content
     if (columnData.href && typeof columnData.href === 'function') {
@@ -136,18 +142,19 @@ export default class IdsDataGridFormatters {
     } else {
       colHref = colHref.replace('{{value}}', value);
     }
-    return `<ids-hyperlink href="${colHref}" tabindex="-1" ${isDisabled ? ' disabled="true"' : ''}>${value}</ids-hyperlink>`;
+    return `<ids-hyperlink href="${colHref}" tabindex="-1"${disabled}>${value}</ids-hyperlink>`;
   }
 
   /** Shows a selection checkbox column */
   selectionCheckbox(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    const isDisabled = this.#columnDisabled(index, '', columnData, rowData);
+    const isDisabled = this.#isDisabled(index, '', columnData, rowData);
+
     return `<span class="ids-data-grid-checkbox-container is-selection-checkbox"><span role="checkbox" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-checkbox${rowData?.rowSelected ? ' checked' : ''}${isDisabled ? ' disabled' : ''}"></span></span>`;
   }
 
   /** Shows a checkbox column */
   checkbox(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    const isDisabled = this.#columnDisabled(index, '', columnData, rowData);
+    const isDisabled = this.#isDisabled(index, '', columnData, rowData);
     const dataValue = this.#extractValue(rowData, columnData.field);
     let value = stringToBool(dataValue);
     value = dataValue === 'No' ? false : dataValue;
@@ -157,15 +164,19 @@ export default class IdsDataGridFormatters {
 
   /** Shows a selection radio column */
   selectionRadio(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
-    const isDisabled = this.#columnDisabled(index, '', columnData, rowData);
-    return `<span class="ids-data-grid-radio-container"><span role="radio" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-radio${rowData?.rowSelected ? ' checked' : ''}${isDisabled ? ' disabled' : ''}"></span></span>`;
+    const isDisabled = this.#isDisabled(index, '', columnData, rowData);
+    const disabled = isDisabled ? ' disabled' : '';
+    return `<span class="ids-data-grid-radio-container"><span role="radio" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-data-grid-radio${rowData?.rowSelected ? ' checked' : ''}${disabled}"></span></span>`;
   }
 
   /** Shows an ids-button */
   button(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
+    const isDisabled = this.#isDisabled(index, value, columnData, rowData);
+    const disabled = isDisabled ? ' disabled' : '';
+
     // Type / disabled / icon / text
-    return `<ids-button tabindex="-1" ${this.#columnDisabled(index, value, columnData, rowData) ? ' disabled="true"' : ''}${columnData.type ? ` type="${columnData.type}"` : ' appearance="tertiary"'}>
+    return `<ids-button tabindex="-1"${disabled}${columnData.type ? ` type="${columnData.type}"` : ' appearance="tertiary"'}>
       <span class="audible">${columnData.text || ' Button'}</span>
       ${columnData.icon ? `<ids-icon icon="${columnData.icon}"></ids-icon>` : ''}
       <span class="audible">${columnData.text || ' Button'}</span>
@@ -177,8 +188,10 @@ export default class IdsDataGridFormatters {
     const value: any = this.#extractValue(rowData, columnData.field);
     if (!value) return '';
     const color = this.#color(index, value, columnData, rowData);
+    const isDisabled = this.#isDisabled(index, value, columnData, rowData);
+    const disabled = isDisabled ? ' disabled' : '';
 
-    return `<ids-badge color="${color || ''}">${value}</ids-badge>`;
+    return `<ids-badge color="${color || ''}"${disabled}>${value}</ids-badge>`;
   }
 
   /** Shows an Tree */
@@ -221,16 +234,18 @@ export default class IdsDataGridFormatters {
   }
 
   /* Shows ids-alert, and the field value will appear in a tooltip. An `icon` option can be provided as an override. */
-  alert(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
+  alert(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
     if (!value && !columnData.icon) return '';
 
     const icon = columnData.icon ?? 'alert';
     const tooltip = value ? `tooltip="${value}"` : '';
+    const isDisabled = this.#isDisabled(index, value, columnData, rowData);
+    const disabled = isDisabled ? ' disabled' : '';
 
     return `
       <span class="text-ellipsis">
-        <ids-alert icon="${icon}" ${tooltip}></ids-alert>
+        <ids-alert icon="${icon}"${tooltip}${disabled}></ids-alert>
       </span>
     `;
   }
@@ -238,16 +253,19 @@ export default class IdsDataGridFormatters {
   /* Shows ids-color. If a `color` option is provided, the field's value will appear in a tooltip. */
   color(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
-    if (!columnData.color && !value) return '<span class="text-ellipsis"><ids-color></ids-color></span>';
+    const isDisabled = this.#isDisabled(index, value, columnData, rowData);
+    const disabled = isDisabled ? ' disabled' : '';
+
+    if (!columnData.color && !value) return `<span class="text-ellipsis"><ids-color${disabled}></ids-color></span>`;
 
     const color = this.#color(index, value, columnData, rowData);
 
     const hex = color || value || '#C2A1F1';
-    const tooltip = !color && value ? `tooltip="${value}"` : '';
+    const tooltip = !color && value ? ` tooltip="${value}"` : '';
 
     return `
       <span class="text-ellipsis">
-        <ids-color hex="${hex}" ${tooltip}></ids-color>
+        <ids-color hex="${hex}"${tooltip}${disabled}></ids-color>
       </span>
     `;
   }
@@ -258,7 +276,7 @@ export default class IdsDataGridFormatters {
     if (!value && !columnData.icon) return '';
 
     const color = this.#color(index, value, columnData, rowData) || '';
-    const badgeColor = color ? `badge-color="${color}" badge-position="top-left"` : '';
+    const badgeColor = color ? ` badge-color="${color}" badge-position="top-left"` : '';
 
     const sizes = ['small', 'medium', 'large', 'xl', 'xxl'];
     let size = this.#size(index, value, columnData, rowData) || '';
@@ -266,10 +284,12 @@ export default class IdsDataGridFormatters {
 
     const icon = String(columnData.icon || value).replace('icon-', '');
     const text = (columnData.icon && typeof value === typeof '') ? value : '';
+    const isDisabled = this.#isDisabled(index, value, columnData, rowData);
+    const disabled = isDisabled ? ' disabled' : '';
 
     return `
       <span class="text-ellipsis">
-        <ids-icon icon="${icon}" size="${size}" ${badgeColor}></ids-icon><span>${text}</span>
+        <ids-icon icon="${icon}" size="${size}"${badgeColor}${disabled}></ids-icon><span>${text}</span>
       </span>
     `;
   }
@@ -297,15 +317,17 @@ export default class IdsDataGridFormatters {
     const value: any = this.#extractValue(rowData, columnData.field);
     if (!value) return '';
     const color = this.#color(index, value, columnData, rowData);
+    const isDisabled = this.#isDisabled(index, value, columnData, rowData);
+    const disabled = isDisabled ? ' disabled' : '';
 
-    return `<ids-tag color="${color || ''}">${value}</ids-tag>`;
+    return `<ids-tag color="${color || ''}"${disabled}>${value}</ids-tag>`;
   }
 
   /*
     Shows the field value as an `ids-progress`. A `text` option can be provided to customize the label.
     A `color` and `max` option can be provided as overrides.
   */
-  progress(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
+  progress(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
     // const color = this.#color(index, value, columnData, rowData);
 
@@ -316,11 +338,14 @@ export default class IdsDataGridFormatters {
       max = parseInt(`1`.padEnd(digitCount + 1, '0'));
     }
 
+    const isDisabled = this.#isDisabled(index, val, columnData, rowData);
+    const disabled = isDisabled ? ' disabled' : '';
+
     // TODO: Fix label and label-audible attribute
     const label = `label="${columnData?.text || `${val} of ${max}`}" label-audible`;
 
     return `
-      <ids-progress-bar ${label} max="${max}" value="${val}" readonly>
+      <ids-progress-bar ${label} max="${max}"${disabled} value="${val}" readonly>
       </ids-progress-bar>
     `;
   }
@@ -350,6 +375,7 @@ export default class IdsDataGridFormatters {
 
     const label = columnData.text ?? `${val} of ${max} stars`;
     const readonly = this.#readonly(index, value, columnData, rowData) ?? true;
+    const isDisabled = this.#isDisabled(index, val, columnData, rowData);
 
     return `
       <span class="text-ellipsis">
@@ -360,6 +386,7 @@ export default class IdsDataGridFormatters {
           value="${val}"
           ${color ? `color="${color}"` : ''}
           ${readonly ? 'readonly' : ''}
+          ${isDisabled ? 'disabled' : ''}
         >
         </ids-rating>
       </span>
@@ -389,6 +416,7 @@ export default class IdsDataGridFormatters {
     const type = columnData.type ?? 'single';
     const label = columnData.text ?? `${val} of ${max} stars`;
     const readonly = this.#readonly(index, value, columnData, rowData) ?? true;
+    const isDisabled = this.#isDisabled(index, val, columnData, rowData);
 
     return `
       <ids-slider
@@ -400,6 +428,7 @@ export default class IdsDataGridFormatters {
         show-tooltip
         ${color ? `color="${color}"` : ''}
         ${readonly ? 'readonly' : ''}
+        ${isDisabled ? 'disabled' : ''}
       >
       </ids-slider>
     `;
@@ -429,6 +458,7 @@ export default class IdsDataGridFormatters {
     const completedSteps = Math.floor(val);
     const stepsInProgress = Math.ceil(val);
     const showStepsInProgress = completedSteps !== stepsInProgress;
+    const isDisabled = this.#isDisabled(index, val, columnData, rowData);
 
     return `
       <ids-step-chart
@@ -437,19 +467,22 @@ export default class IdsDataGridFormatters {
         value="${Math.floor(val)}"
         progress-color="ruby02"
         ${color ? `color="${color}"` : ''}
+        ${isDisabled ? 'disabled' : ''}
       >
       </ids-step-chart>
     `;
   }
 
   /* Shows the field value as an `ids-image`. A `text` option can be provided to the `alt` and `title` attributes. */
-  image(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
+  image(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = this.#extractValue(rowData, columnData.field);
     if (!value) return '';
 
-    const metadata = columnData.text ? `alt="${columnData.text}" title="${columnData.text}"` : '';
+    const metadata = columnData.text ? ` alt="${columnData.text}" title="${columnData.text}"` : '';
+    const isDisabled = this.#isDisabled(index, value, columnData, rowData);
+    const disabled = isDisabled ? ' disabled' : '';
 
-    return `<ids-image src="${value}" ${metadata}></ids-image>`;
+    return `<ids-image src="${value}"${metadata}${disabled}></ids-image>`;
   }
 
   card(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {

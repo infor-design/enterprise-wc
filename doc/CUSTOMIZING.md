@@ -78,3 +78,17 @@ To set just a personalization color you just have to change the primary color va
 ```
 
 To create a full theme take all the variables in `src/themes/default/ids-theme-default-core.scss` and change the ones you need to create the theme. You only need to include the one you changed. For a non customer theme (Infor based) its recommended you always you the current palette colors as per `ids-color/demos/palette.html`. But note that you can change the entire palette if desired although this is current work in progress due to the need for further refinement.
+
+You can include the initial theme one of two ways.
+
+1. Let the components manage the styles in head manually
+2. If you need to serve the css files in a different way you can include the theme manually as a link. Then the theme switcher will replace the file name section when you use it. Or you could full manage this yourself (replacing the theme file changes theme). For example:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/my-place/themes/ids-theme-default-light.css">
+</head>
+<body>
+```

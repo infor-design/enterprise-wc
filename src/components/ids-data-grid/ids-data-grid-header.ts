@@ -12,6 +12,11 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
 
   headerCheckbox?: HTMLElement;
 
+  /**
+   * Tracks the state of the header expander
+   */
+  isHeaderExpanderCollapsed = false;
+
   constructor() {
     super({ noShadowRoot: true });
     this.state = {
@@ -54,6 +59,16 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
       // Dont sort on resize
       if (this.dataGrid?.isResizing) {
         this.dataGrid.isResizing = false;
+        return;
+      }
+
+      // Expander collapse/expand all expandable or tree rows
+      if (e.target?.classList?.contains('header-expander')) {
+        if (!this.dataGrid?.showHeaderExpander) return;
+
+        if (this.isHeaderExpanderCollapsed) this.dataGrid.expandAll();
+        else this.dataGrid.collapseAll();
+        this.isHeaderExpanderCollapsed = !this.isHeaderExpanderCollapsed;
         return;
       }
 
@@ -252,6 +267,16 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
   }
 
   /**
+   * Set header expander state
+   */
+  setIsHeaderExpanderCollapsed() {
+    if (!this.dataGrid?.showHeaderExpander) return;
+    const all = this.dataGrid?.rows?.filter((r: any) => r?.hasAttribute('aria-expanded')) || [];
+    const collapsedRows = all.filter((r: any) => r?.getAttribute('aria-expanded') === 'false');
+    if (all.length && all.length === collapsedRows.length) this.isHeaderExpanderCollapsed = true;
+  }
+
+  /**
    * Set the header checkbox state
    * @private
    */
@@ -354,8 +379,12 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
       </span>
     `;
 
+    const expanderTemplate = `<ids-icon class="header-expander" icon="plusminus-folder-closed"></ids-icon>`;
+
     const resizerTemplate = `<span class="resizer"></span>`;
     const reorderTemplate = `<div class="reorderer"><ids-icon icon="drag" size="medium"></ids-icon></div>`;
+
+    const expander = /^(expander|tree)$/g.test(column.formatter?.name || '') ? expanderTemplate : '';
 
     const selectionCheckbox = column.id !== 'selectionRadio' && column.id === 'selectionCheckbox';
     const colName = escapeHTML(column.name);
@@ -372,6 +401,7 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
 
     // Content row cell template
     const headerContentWrapperTemplate = `<span class="${cssClasses}">
+        ${expander}
         <span class="ids-data-grid-header-text">
           ${headerContentTemplate}
         </span>
@@ -390,10 +420,16 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     const lastFrozen = dataGrid?.leftFrozenColumns.length;
     const frozen = column?.frozen ? ` frozen frozen-${column?.frozen}${index + 1 === lastFrozen ? ' frozen-last' : ''}` : '';
 
+    const isUppercase = (): boolean => {
+      if (typeof column?.uppercase === 'function') return column.uppercase('header-cell', column, index);
+      return (column?.uppercase === 'true' || column?.uppercase === true);
+    };
+    const uppercaseClass = isUppercase() ? ' is-uppercase' : '';
+
     // Header cell template
     const html = `
       <span
-        class="ids-data-grid-header-cell${align}${frozen}"
+        class="ids-data-grid-header-cell${uppercaseClass}${align}${frozen}"
         ${column.reorderable ? 'draggable="true"' : ''}
         part="header-cell"
         aria-colindex="${index + 1}"

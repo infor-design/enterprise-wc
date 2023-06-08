@@ -236,6 +236,9 @@
   --ids-badge-warning-background-color: var(--ids-color-warning-80);
   --ids-badge-warning-border-color: var(--ids-color-warning-80);
   --ids-badge-warning-color: var(--ids-color-warning-00);
+  --ids-badge-disabled-background-color: var(--ids-input-readonly-background-color);
+  --ids-badge-disabled-border-color: var(--ids-input-readonly-background-color);
+  --ids-badge-disabled-text-color: var(--ids-tag-disabled-text-color);
 
   // Block Grid
   --ids-block-grid-item-img-margin-block-end: 10px;
@@ -462,6 +465,8 @@
   --ids-data-grid-header-sm-padding: 8px var(--ids-data-grid-sm-padding);
   --ids-data-grid-header-xs-padding: 6px var(--ids-data-grid-xs-padding);
   --ids-data-grid-header-xxs-padding: 5px 2px;
+  --ids-data-grid-header-expander-color: var(--ids-color-neutral-20);
+  --ids-data-grid-header-expander-active-color:  var(--ids-color-neutral-00);
 
   // Data Grid (Filter)
   --ids-data-grid-filter-input-background-color: transparent;
@@ -961,6 +966,7 @@
   --ids-rating-star-empty-color: var(--ids-icon-color);
   --ids-rating-star-hover-color: var(--ids-button-primary-background-color);
   --ids-rating-star-focus-color: var(--ids-button-primary-background-color);
+  --ids-rating-star-disabled-color: var(--ids-text-color-disabled);
   --ids-rating-star-margin-inline: var(--ids-spacing-md);
 
   // Required
@@ -1051,6 +1057,8 @@
   --ids-step-chart-height: 14px;
   --ids-step-chart-step-background-color: var(--ids-color-neutral-20);
   --ids-step-chart-step-completed-background-color: var(--ids-color-primary);
+  --ids-step-chart-step-disabled-color: var(--ids-text-color-disabled);
+
 
   // Swappable
   --ids-swappable-border: 1px dashed transparent;

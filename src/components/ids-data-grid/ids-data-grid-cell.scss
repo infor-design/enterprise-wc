@@ -71,6 +71,14 @@
 
   &.is-disabled {
     color: var(--ids-data-grid-cell-disabled-text-color);
+
+    .editor-cell-icon {
+      display: none;
+    }
+  }
+
+  &.is-uppercase {
+    text-transform: uppercase;
   }
 
   // Focus State
@@ -174,6 +182,17 @@
 
     &.is-dirty::before {
       margin-inline: 6px;
+    }
+  }
+
+  // Editing Uppercase
+  &.is-editing.is-uppercase {
+    text-transform: uppercase;
+
+    ids-list-box-option,
+    ids-dropdown::part(triggerfield-input),
+    ids-input::part(input) {
+      text-transform: uppercase;
     }
   }
 

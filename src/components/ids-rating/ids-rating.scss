@@ -61,3 +61,14 @@
     pointer-events: none;
   }
 }
+
+:host([disabled]) {
+  .star {
+    cursor: default;
+    pointer-events: none;
+
+    &[icon] {
+      color: var(--ids-rating-star-disabled-color);
+    }
+  }
+}

@@ -27,4 +27,14 @@
       min-height: var(--ids-size-xs);
     }
   }
+
+  .ids-data-grid-header-cell.is-uppercase {
+    .ids-data-grid-header-cell-filter-wrapper {
+      ids-list-box-option,
+      ids-dropdown::part(triggerfield-input),
+      ids-input::part(input) {
+        text-transform: uppercase;
+      }
+    }
+  }
 }

@@ -10,6 +10,7 @@ import '../ids-menu-button/ids-menu-button';
 import styles from './ids-theme-switcher.scss';
 import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 const Base = IdsLocaleMixin(
   IdsColorVariantMixin(
@@ -37,7 +38,7 @@ export default class IdsThemeSwitcher extends Base {
     super.connectedCallback();
     this.popup = this.shadowRoot?.querySelector('ids-popup-menu');
     this.menuButton = this.shadowRoot?.querySelector('ids-menu-button');
-    if (this.menuButton?.configureMenu) this.menuButton?.configureMenu();
+    this.menuButton?.configureMenu?.();
     this.#attachEventHandlers();
   }
 
@@ -166,6 +167,7 @@ export default class IdsThemeSwitcher extends Base {
       ...super.attributes,
       attributes.LANGUAGE,
       attributes.MODE,
+      attributes.SELF_MANAGED,
       attributes.THEME
     ];
   }
@@ -192,6 +194,21 @@ export default class IdsThemeSwitcher extends Base {
   }
 
   get mode(): string { return this.getAttribute(attributes.MODE) || 'light'; }
+
+  /**
+   * If true the themes are self managed by eh developer (no fetches will be attempted)
+   * @param {boolean} value Set to true to include the themes manually
+   */
+  set selfManaged(value: boolean) {
+    if (value) {
+      this.setAttribute(attributes.SELF_MANAGED, String(value));
+      return;
+    }
+
+    this.removeAttribute(attributes.SELF_MANAGED);
+  }
+
+  get selfManaged(): boolean { return stringToBool(this.getAttribute(attributes.SELF_MANAGED)) || false; }
 
   /**
    * Set the theme
