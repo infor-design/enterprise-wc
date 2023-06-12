@@ -15,6 +15,7 @@ import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid
 import { containerArguments, containerTypes } from './ids-data-grid-container-arguments';
 import { IdsDataGridContextmenuArgs, setContextmenu, getContextmenuElem } from './ids-data-grid-contextmenu';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
+import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import {
@@ -82,6 +83,8 @@ export default class IdsDataGrid extends Base {
 
   isResizing = false;
 
+  virtualScrollContainer?: IdsVirtualScroll | null;
+
   activeCell: Record<string, any> = {};
 
   autoFitSet = false;
@@ -136,7 +139,6 @@ export default class IdsDataGrid extends Base {
     super.connectedCallback();
     this.redrawBody();
     setContextmenu.apply(this);
-    this.#attachScrollEvents();
   }
 
   /** Reference to datasource API */
@@ -315,6 +317,11 @@ export default class IdsDataGrid extends Base {
     if (this.body) this.body.innerHTML = this.bodyInnerTemplate();
     this.#resetLastSelectedRow();
     this.header?.setHeaderCheckbox();
+
+    if (this.virtualScrollContainer) {
+      this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
+      this.virtualScrollContainer.data = this.data;
+    }
   }
 
   /**
@@ -331,11 +338,26 @@ export default class IdsDataGrid extends Base {
     if (this.container) this.container.innerHTML = header + body;
     this.#setColumnWidths();
 
+    // Setup virtual scrolling
+    if (this.virtualScroll && this.data?.length > 0) {
+      this.virtualScrollContainer = this.shadowRoot?.querySelector<IdsVirtualScroll>('ids-virtual-scroll');
+      if (this.virtualScrollContainer) {
+        this.virtualScrollContainer.scrollTarget = this.container;
+
+        this.virtualScrollContainer.itemTemplate = (
+          row: any,
+          index: number,
+          ariaRowIndex: number
+        ) => IdsDataGridRow.template(row, index, ariaRowIndex, this);
+        this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
+        this.virtualScrollContainer.data = this.data;
+      }
+    }
+
     this.#applyAutoFit();
     this.header.setHeaderCheckbox();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
-    this.#attachScrollEvents();
     this.setupTooltip();
 
     // Attach post filters setting
@@ -381,7 +403,6 @@ export default class IdsDataGrid extends Base {
           this.container.scrollTop = scrollTopPixels - headerHeight;
           this.scrollRowIntoView(rowStart);
           requestAnimationTimeout(() => {
-            this.#attachVirtualScrollEvent();
             this.scrollRowIntoView(this.rowStart);
           }, 150);
           handleReady();
@@ -412,6 +433,9 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyTemplate() {
+    if (this.virtualScroll) {
+      return `<ids-virtual-scroll><div class="ids-data-grid-body" part="contents" role="rowgroup"></div></ids-virtual-scroll>`;
+    }
     return `<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
 
@@ -1135,7 +1159,6 @@ export default class IdsDataGrid extends Base {
     } else {
       this.data = this.data.concat(value);
     }
-    this.virtualScrollMaxRowsInDOM = this.data.length;
   }
 
   /* Append missing rows for virtual-scrolling */
@@ -1317,7 +1340,7 @@ export default class IdsDataGrid extends Base {
   get virtualScrollSettings() {
     const ENABLED = !!this.virtualScroll;
     const ROW_HEIGHT = this.rowPixelHeight || 50;
-    const MAX_ROWS_IN_DOM = this.virtualScrollMaxRowsInDOM;
+    const MAX_ROWS_IN_DOM = 150;
     const BODY_HEIGHT = MAX_ROWS_IN_DOM * ROW_HEIGHT;
     const BUFFER_ROWS = 52;
     const BUFFER_HEIGHT = BUFFER_ROWS * ROW_HEIGHT;
@@ -1334,88 +1357,6 @@ export default class IdsDataGrid extends Base {
       RAF_DELAY,
       DEBOUNCE_RATE,
     };
-  }
-
-  virtualScrollMaxRowsInDOM = 300;
-
-  /* Attach Events for global scrolling */
-  #attachScrollEvents() {
-    const virtualScrollSettings = this.virtualScrollSettings;
-
-    let debounceRowIndex = 0;
-    this.offEvent('scroll.data-grid', this.container);
-    this.onEvent('scroll.data-grid', this.container, () => {
-      const scrollTop = this.container!.scrollTop;
-      const clientHeight = this.container!.clientHeight;
-      const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
-      const rowIndex = Math.floor(scrollTop / virtualRowHeight);
-
-      if (rowIndex === debounceRowIndex) return;
-      debounceRowIndex = rowIndex;
-
-      const data = this.data;
-      const rows = this.rows;
-      const maxHeight = virtualRowHeight * data.length;
-
-      const reachedTheTop = rowIndex <= 0;
-      const reachedTheBottom = (scrollTop + clientHeight) >= maxHeight;
-
-      if (reachedTheTop) {
-        const firstRow: any = rows[0];
-        this.#triggerCustomScrollEvent(firstRow.rowIndex, 'start');
-      }
-      if (reachedTheBottom) {
-        const lastRow: any = rows[rows.length - 1];
-        this.#triggerCustomScrollEvent(lastRow.rowIndex, 'end');
-      }
-      if (!reachedTheTop && !reachedTheBottom) {
-        this.#triggerCustomScrollEvent(0);
-      }
-    }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
-
-    this.#attachVirtualScrollEvent();
-  }
-
-  /* Attach Events for virtual scrolling */
-  #attachVirtualScrollEvent() {
-    if (!this.virtualScroll) return;
-
-    const virtualScrollSettings = this.virtualScrollSettings;
-    const data = this.data;
-    const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
-    const maxPaddingBottom = (data.length * virtualRowHeight) - virtualScrollSettings.BODY_HEIGHT;
-
-    this.body?.style.setProperty('padding-bottom', `${Math.max(maxPaddingBottom, 0)}px`);
-
-    let debounceRowIndex = 0;
-    this.offEvent('scroll.data-grid.virtual-scroll', this.container);
-    this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
-      evt.stopImmediatePropagation();
-
-      const rowIndex = Math.floor(this.container!.scrollTop / virtualRowHeight);
-
-      if (rowIndex === debounceRowIndex) return;
-      debounceRowIndex = rowIndex;
-
-      this.scrollRowIntoView(rowIndex, false);
-    }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
-  }
-
-  #customScrollEventCache: { [key: string]: number } = {};
-
-  /* Trigger API scroll event */
-  #triggerCustomScrollEvent(rowIndex: number, eventType?: 'start' | 'end') {
-    if (!eventType) {
-      this.#customScrollEventCache = {}; // reset event-cache
-    } else if (rowIndex !== this.#customScrollEventCache[eventType]) {
-      this.#customScrollEventCache[eventType] = rowIndex;
-
-      this.triggerEvent(`scroll${eventType}`, this, {
-        bubbles: true,
-        composed: true,
-        detail: { elem: this, value: rowIndex }
-      });
-    }
   }
 
   /**
@@ -1515,7 +1456,9 @@ export default class IdsDataGrid extends Base {
     if (isInRange && doScroll) {
       this.offEvent('scroll.data-grid.virtual-scroll', this.container);
       this.#scrollTo(rowIndex);
-      if (this.rowStart === 0) this.#attachVirtualScrollEvent();
+      if (this.rowStart === 0) {
+        console.log('TODO'); // TODO
+      }
       return;
     }
 
@@ -2206,22 +2149,6 @@ export default class IdsDataGrid extends Base {
       this.wrapper?.style.setProperty('height', '100%');
       this.autoFitSet = true;
     }
-  }
-
-  /**
-   * Suppress row row and cell caching
-   * @param {boolean|string|null} value false to not cache
-   */
-  set suppressCaching(value) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.SUPPRESS_CACHING, String(value));
-      return;
-    }
-    this.removeAttribute(attributes.SUPPRESS_CACHING);
-  }
-
-  get suppressCaching(): boolean {
-    return stringToBool(this.getAttribute(attributes.SUPPRESS_CACHING)) || false;
   }
 
   /**

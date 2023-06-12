@@ -2072,14 +2072,6 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows[0].index).toBe(2);
     });
 
-    it('handles suppressing caching', () => {
-      expect(dataGrid.suppressCaching).toBe(false);
-      dataGrid.suppressCaching = true;
-      expect(dataGrid.suppressCaching).toBe(true);
-      dataGrid.suppressCaching = false;
-      expect(dataGrid.suppressCaching).toBe(false);
-    });
-
     it('handles a deSelectRow method', () => {
       dataGrid.rowSelection = 'mixed';
       dataGrid.selectRow(1);
