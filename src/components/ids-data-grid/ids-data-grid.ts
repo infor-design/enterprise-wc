@@ -439,7 +439,7 @@ export default class IdsDataGrid extends Base {
     this.resetCache();
 
     let innerHTML = '';
-    const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.MAX_ROWS) : this.data;
+    const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.MAX_ROWS_IN_DOM) : this.data;
     for (let index = 0; index < data.length; index++) {
       innerHTML += IdsDataGridRow.template(data[index], index, index + 1, this);
     }
@@ -1135,6 +1135,7 @@ export default class IdsDataGrid extends Base {
     } else {
       this.data = this.data.concat(value);
     }
+    this.virtualScrollMaxRowsInDOM = this.data.length;
   }
 
   /* Append missing rows for virtual-scrolling */
@@ -1145,9 +1146,9 @@ export default class IdsDataGrid extends Base {
     const rows = this.rows;
     if (!data.length || !rows.length) return;
 
-    const { MAX_ROWS } = this.virtualScrollSettings;
+    const { MAX_ROWS_IN_DOM } = this.virtualScrollSettings;
 
-    const rowsNeeded = Math.min(data.length, MAX_ROWS) - rows.length;
+    const rowsNeeded = Math.min(data.length, MAX_ROWS_IN_DOM) - rows.length;
     const missingRows: any[] = [];
 
     const lastRow: any = rows[rows.length - 1];
@@ -1316,8 +1317,8 @@ export default class IdsDataGrid extends Base {
   get virtualScrollSettings() {
     const ENABLED = !!this.virtualScroll;
     const ROW_HEIGHT = this.rowPixelHeight || 50;
-    const MAX_ROWS = 150;
-    const BODY_HEIGHT = MAX_ROWS * ROW_HEIGHT;
+    const MAX_ROWS_IN_DOM = this.virtualScrollMaxRowsInDOM;
+    const BODY_HEIGHT = MAX_ROWS_IN_DOM * ROW_HEIGHT;
     const BUFFER_ROWS = 52;
     const BUFFER_HEIGHT = BUFFER_ROWS * ROW_HEIGHT;
     const RAF_DELAY = 60;
@@ -1326,7 +1327,7 @@ export default class IdsDataGrid extends Base {
     return {
       ENABLED,
       ROW_HEIGHT,
-      MAX_ROWS,
+      MAX_ROWS_IN_DOM,
       BODY_HEIGHT,
       BUFFER_ROWS,
       BUFFER_HEIGHT,
@@ -1334,6 +1335,8 @@ export default class IdsDataGrid extends Base {
       DEBOUNCE_RATE,
     };
   }
+
+  virtualScrollMaxRowsInDOM = 300;
 
   /* Attach Events for global scrolling */
   #attachScrollEvents() {
@@ -1526,7 +1529,7 @@ export default class IdsDataGrid extends Base {
         if (!reachedTheBottom) {
           this.#recycleTopRowsDown(moveRowsDown);
         }
-      } else if (moveRowsUp < virtualScrollSettings.MAX_ROWS) {
+      } else if (moveRowsUp < virtualScrollSettings.MAX_ROWS_IN_DOM) {
         this.#recycleBottomRowsUp(moveRowsUp);
       } else {
         return; // exit early because nothing to do.
@@ -1536,7 +1539,7 @@ export default class IdsDataGrid extends Base {
       // then we must figure out how many rows we must move up from the bottom to render the rowIndex row
       const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex);
 
-      if (moveRowsUp < virtualScrollSettings.MAX_ROWS) {
+      if (moveRowsUp < virtualScrollSettings.MAX_ROWS_IN_DOM) {
         this.#recycleBottomRowsUp(moveRowsUp);
       } else {
         this.#recycleAllRows(bufferRowIndex);
@@ -1574,13 +1577,13 @@ export default class IdsDataGrid extends Base {
     topRowIndex = Math.min(topRowIndex, veryLastIndex);
     topRowIndex = Math.max(topRowIndex, 0);
 
-    const { MAX_ROWS } = this.virtualScrollSettings;
+    const { MAX_ROWS_IN_DOM } = this.virtualScrollSettings;
 
     // Using Array.every as an alternaive to using a for-loop with a break
     this.rows.every((row: any, idx) => {
       const nextRowIndex = topRowIndex + idx;
       if (nextRowIndex > veryLastIndex) {
-        const moveTheRestToTop = MAX_ROWS - idx;
+        const moveTheRestToTop = MAX_ROWS_IN_DOM - idx;
         this.#recycleBottomRowsUp(moveTheRestToTop);
         return false;
       }
@@ -1611,7 +1614,7 @@ export default class IdsDataGrid extends Base {
     if (!rowsToMove.length) return;
 
     // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
-    if (rowsToMove.length >= this.virtualScrollSettings.MAX_ROWS) return;
+    if (rowsToMove.length >= this.virtualScrollSettings.MAX_ROWS_IN_DOM) return;
 
     this.requestAnimationFrame(() => {
       // NOTE: body.append is faster than body.innerHTML
