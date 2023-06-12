@@ -1154,8 +1154,8 @@ export default class IdsDataGrid extends Base {
     const lastRow: any = rows[rows.length - 1];
     const lastRowIndex = lastRow?.rowIndex || 0;
 
-    while (missingRows.length <= rowsNeeded) {
-      const rowIndex = lastRowIndex + missingRows.length;
+    while (missingRows.length < rowsNeeded) {
+      const rowIndex = lastRowIndex + missingRows.length + 1;
       const clonedRow = IdsDataGridRow.template(data[rowIndex], rowIndex, rowIndex + 1, this);
       missingRows.push(clonedRow);
     }
