@@ -1135,7 +1135,7 @@ export default class IdsDataGrid extends Base {
     } else {
       this.data = this.data.concat(value);
     }
-    this.virtualScrollMaxRowsInDOM = this.data.length;
+    // (TEST CHANGE) this.virtualScrollMaxRowsInDOM = this.data.length;
   }
 
   /* Append missing rows for virtual-scrolling */
