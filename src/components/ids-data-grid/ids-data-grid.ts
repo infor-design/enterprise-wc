@@ -2173,7 +2173,7 @@ export default class IdsDataGrid extends Base {
    * @param {boolean|string|null} value The auto fit
    */
   set autoFit(value) {
-    if (stringToBool(value) || value === 'bottom') {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.AUTO_FIT, String(value));
       return;
     }
@@ -2181,11 +2181,7 @@ export default class IdsDataGrid extends Base {
   }
 
   get autoFit(): boolean | string | null {
-    const attr = this.getAttribute(attributes.AUTO_FIT);
-    if (attr === 'bottom') {
-      return attr;
-    }
-    return stringToBool(attr);
+    return stringToBool(this.getAttribute(attributes.AUTO_FIT));
   }
 
   /**
@@ -2195,11 +2191,6 @@ export default class IdsDataGrid extends Base {
   #applyAutoFit() {
     if (this.autoFitSet) {
       return;
-    }
-    if (this.autoFit === 'bottom') {
-      const spaceFromTop = this.getBoundingClientRect().y;
-      this.container?.style.setProperty('height', `calc(100vh - ${spaceFromTop + 24}px)`);
-      this.autoFitSet = true;
     }
     if (this.autoFit === true) {
       this.container?.style.setProperty('height', '100%');
