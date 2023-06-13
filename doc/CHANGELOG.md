@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.12 Fixes
 
+- `[About]` Changed the icon to a non logo icon. ([#1331](https://github.com/infor-design/enterprise-wc/issues/1331))
 - `[DataGrid]` Suppress extraneous `filtered` events when date-filter or time-filter used. ([#1248](https://github.com/infor-design/enterprise-wc/issues/1248))
 - `[DataGrid]` Added support and example for filtering two digit years. ([#1247](https://github.com/infor-design/enterprise-wc/issues/1247))
 - `[DataGrid]` Added calculation for left and right offset when dragging columns. ([#1241](https://github.com/infor-design/enterprise-wc/issues/1241))
