@@ -323,6 +323,15 @@
     padding-top: 27px;
     max-width: 300px;
   }
+
+  .week-num-cell {
+    border-inline-end: 1px solid var(--ids-month-view-border-color);
+
+    ids-text {
+      color: var(--ids-month-view-week-number-text-color);
+      cursor: default;
+    }
+  }
 }
 
 // Full size view
