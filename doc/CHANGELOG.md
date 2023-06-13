@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.12 Fixes
 
+- `[About]` Changed the icon to a non logo icon. ([#1331](https://github.com/infor-design/enterprise-wc/issues/1331))
 - `[DataGrid]` Suppress extraneous `filtered` events when date-filter or time-filter used. ([#1248](https://github.com/infor-design/enterprise-wc/issues/1248))
 - `[DataGrid]` Added support and example for filtering two digit years. ([#1247](https://github.com/infor-design/enterprise-wc/issues/1247))
 - `[DataGrid]` Added calculation for left and right offset when dragging columns. ([#1241](https://github.com/infor-design/enterprise-wc/issues/1241))
@@ -87,7 +88,7 @@
 - `[DataGrid]` Fixed dynamic left top alignment, removed arrow and improved api for context menu. ([#1110](https://github.com/infor-design/enterprise-wc/issues/1110))
 - `[DataGrid]` Improved the event support for context menu. ([#1113](https://github.com/infor-design/enterprise-wc/issues/1113))
 - `[DataGrid]` Fixed overflow to display all items with context menu. ([#1119](https://github.com/infor-design/enterprise-wc/issues/1119))
-- `[DataGrid]` Add events for `scrollstart` and `scrollend`. ([#1102](https://github.com/infor-design/enterprise-wc/issues/1102)) 
+- `[DataGrid]` Add events for `scrollstart` and `scrollend`. ([#1102](https://github.com/infor-design/enterprise-wc/issues/1102))
 - `[DataGrid]` Fixed tooltip to show without text overflow. ([#1126](https://github.com/infor-design/enterprise-wc/issues/1126)
 - `[DataGrid]` Placed the empty message at the center of the component. ([#1100](https://github.com/infor-design/enterprise-wc/issues/1100))
 - `[DataGrid/TimePicker]` IdsDataGrid now uses the IdsTimePickerPopup component inside Time-based filters. ([#1064](https://github.com/infor-design/enterprise-wc/issues/1064))
