@@ -128,6 +128,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
         <ids-month-view
           compact="true"
           is-date-picker="true"
+          show-week-numbers="${this.showWeekNumbers}"
           show-today=${this.showToday}
           first-day-of-week="${this.firstDayOfWeek}"
           year="${this.year}"
@@ -1161,6 +1162,18 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
     } else {
       this.monthView?.focus();
     }
+  }
+
+  set showWeekNumbers(val: boolean | null) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.SHOW_WEEK_NUMBERS, '');
+    } else {
+      this.removeAttribute(attributes.SHOW_WEEK_NUMBERS);
+    }
+  }
+
+  get showWeekNumbers(): boolean {
+    return stringToBool(this.getAttribute(attributes.SHOW_WEEK_NUMBERS));
   }
 }
 

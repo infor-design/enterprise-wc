@@ -22,7 +22,8 @@ import {
   umalquraToGregorian,
   weeksInMonth,
   weeksInRange,
-  removeDateRange
+  removeDateRange,
+  weekNumber
 } from '../../utils/ids-date-utils/ids-date-utils';
 import {
   stringToBool,
@@ -152,6 +153,13 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     // Day select event
     this.offEvent('click.month-view-dayselect');
     this.onEvent('click.month-view-dayselect', this.container?.querySelector('tbody'), (e: MouseEvent) => {
+      // ignore clicks from week number column
+      if ((e.target as HTMLElement)?.classList.contains('week-num-text')) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        return;
+      }
+
       this.#daySelectClick((e.target as HTMLElement).closest('td'));
     });
 
@@ -869,10 +877,11 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       ? (this.endDate as Date)
       : lastDayOfMonthDate(this.year, this.month, this.day, this.localeAPI?.isIslamic());
     const rangeStartsOn = firstDayOfWeekDate(firstDayOfRange, this.firstDayOfWeek);
+    const firstDayOfWeek = addDate(rangeStartsOn, (weekIndex * WEEK_LENGTH), 'days');
     const now: Date = new Date();
     const isCompact = this.compact;
 
-    return Array.from({ length: WEEK_LENGTH }).map((_, index) => {
+    const dayCells = Array.from({ length: WEEK_LENGTH }).map((_, index) => {
       const date: Date = addDate(rangeStartsOn, (weekIndex * WEEK_LENGTH) + index, 'days');
       const monthFormat: string | undefined = this.#monthInDayFormat(date, rangeStartsOn);
       const dayText: string = this.localeAPI?.formatDate(date, {
@@ -922,6 +931,14 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       }
       return cellTemplate;
     }).join('');
+
+    // Week number cell if enabled
+    const weekNumCell = `<td scope="col" class="week-num-cell">
+      <ids-text class="week-num-text" font-size="14">${weekNumber(firstDayOfWeek)}</ids-text>
+    </td>`;
+    const weekNumCellTemplate = this.showWeekNumbers ? weekNumCell : '';
+
+    return `${weekNumCellTemplate}${dayCells}`;
   }
 
   /**
@@ -932,7 +949,13 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     const weekDays = weekDayKeys.map((item) => this.localeAPI?.translate(`${this.compact ? 'DayNarrow' : 'DayAbbreviated'}${item}`));
     const weekDaysWide = weekDayKeys.map((item) => this.localeAPI?.translate(`DayWide${item}`));
 
-    const weekDaysTemplate = weekDays.map((el: any, index: number) => {
+    // Week number header if enabled
+    const weekNumHeader = `<th scope="col" class="week-num-cell">
+      <ids-text class="week-num-text" font-size="14">W#</ids-text>
+    </th>`;
+    let weekDaysTemplate = this.showWeekNumbers ? weekNumHeader : '';
+
+    weekDaysTemplate += weekDays.map((el: any, index: number) => {
       const idx = (index + this.firstDayOfWeek) % WEEK_LENGTH;
       const weekday = weekDays[idx];
       const weekdaywide = weekDaysWide[idx];
@@ -1282,6 +1305,18 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
       // Render related views
       this.#renderWeekDays();
     }
+  }
+
+  set showWeekNumbers(val: boolean | null) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.SHOW_WEEK_NUMBERS, '');
+    } else {
+      this.removeAttribute(attributes.SHOW_WEEK_NUMBERS);
+    }
+  }
+
+  get showWeekNumbers(): boolean {
+    return stringToBool(this.getAttribute(attributes.SHOW_WEEK_NUMBERS));
   }
 
   /**

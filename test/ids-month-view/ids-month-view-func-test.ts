@@ -479,6 +479,12 @@ describe('IdsMonthView Component (compact and datepicker)', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('should have setting for showWeekNumbers', () => {
+    expect(component.showWeekNumbers).toEqual(false);
+    component.showWeekNumbers = true;
+    expect(component.showWeekNumbers).toEqual(true);
+  });
+
   it('should have compact/datepicker css class initially', () => {
     const isCompact = component.container.classList.contains('is-compact');
     const isDatePicker = component.container.classList.contains('is-date-picker');

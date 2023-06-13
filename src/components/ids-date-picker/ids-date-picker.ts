@@ -276,7 +276,8 @@ class IdsDatePicker extends Base {
           <ids-date-picker-popup
             id="popup-${this.id ? this.id : ''}"
             expanded="${this.expanded}"
-            show-today=${this.showToday}
+            show-today="${this.showToday}"
+            show-week-numbers="${this.showWeekNumbers}"
             first-day-of-week="${this.firstDayOfWeek}"
             year="${this.year}"
             month="${this.month}"
@@ -1390,6 +1391,18 @@ class IdsDatePicker extends Base {
     }
 
     if (this.#picker) this.#picker.useCurrentTime = boolVal;
+  }
+
+  set showWeekNumbers(val: boolean | null) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.SHOW_WEEK_NUMBERS, '');
+    } else {
+      this.removeAttribute(attributes.SHOW_WEEK_NUMBERS);
+    }
+  }
+
+  get showWeekNumbers(): boolean {
+    return stringToBool(this.getAttribute(attributes.SHOW_WEEK_NUMBERS));
   }
 }
 
