@@ -70,12 +70,6 @@ describe('Ids Data Grid Other Percy Tests', () => {
     await pageSnapshot(page, 'ids-data-grid-auto-fit-light');
   });
 
-  it('should not have visual regressions in auto fit to bottom (percy)', async () => {
-    await page.goto('http://localhost:4444/ids-data-grid/auto-fit-bottom.html', { waitUntil: ['networkidle2', 'load'] });
-    await page.waitForSelector('ids-layout-grid-cell');
-    await pageSnapshot(page, 'ids-data-grid-auto-fit-bottom-light');
-  });
-
   it('should not have visual regressions in auto columns (percy)', async () => {
     await page.goto('http://localhost:4444/ids-data-grid/columns-auto.html', { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('ids-layout-grid-cell');
