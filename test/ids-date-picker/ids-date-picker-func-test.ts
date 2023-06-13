@@ -241,6 +241,12 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.legend).toEqual(legend);
     });
 
+    it('should have setting for showWeekNumbers', () => {
+      expect(component.showWeekNumbers).toEqual(false);
+      component.showWeekNumbers = true;
+      expect(component.showWeekNumbers).toEqual(true);
+    });
+
     it('should set/unset useRange property', () => {
       expect(component.useRange).toBeFalsy();
 
