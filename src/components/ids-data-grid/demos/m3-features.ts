@@ -2,6 +2,7 @@ import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import productInfo from '../../../assets/data/product-info.json';
+import '../../ids-layout-flex/ids-layout-flex';
 
 // Custom Datagrid Cell Colors are defined in this file:
 import css from '../../../assets/css/ids-data-grid/custom-css.css';

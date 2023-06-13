@@ -5,16 +5,19 @@
   <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
-  <ids-container role="main" padding="8" hidden>
-    <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto-fit="true" padding="md">
-      <ids-text font-size="12" type="h1">Data Grid (Frozen Columns)</ids-text>
-    </ids-layout-grid>
-    <ids-layout-grid auto-fit="true" padding-x="md">
-      <ids-layout-grid-cell>
-        <ids-data-grid id="data-grid-frozen" auto-fit="bottom" label="Products" row-selection="multiple"></ids-data-grid>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
+  <ids-container role="main" padding="16" hidden>
+    <ids-layout-flex direction="column" gap="8" full-height>
+      <ids-layout-flex-item>
+        <ids-theme-switcher mode="light"></ids-theme-switcher>
+      </ids-layout-flex-item>
+      <ids-layout-flex-item>
+        <ids-text font-size="12" type="h1">Data Grid (Virtual Scroll row-start)</ids-text>
+      </ids-layout-flex-item>
+      <ids-layout-flex-item grow="1" overflow="hidden">
+        <ids-data-grid id="data-grid-frozen" auto-fit="true" label="Products" row-selection="multiple">
+        </ids-data-grid>
+      </ids-layout-flex-item>
+    </ids-layout-flex>
   </ids-container>
 </body>
 </html>
