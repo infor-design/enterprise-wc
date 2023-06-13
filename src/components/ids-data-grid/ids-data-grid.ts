@@ -1135,7 +1135,6 @@ export default class IdsDataGrid extends Base {
     } else {
       this.data = this.data.concat(value);
     }
-    // (TEST CHANGE) this.virtualScrollMaxRowsInDOM = this.data.length;
   }
 
   /* Append missing rows for virtual-scrolling */
@@ -1515,7 +1514,6 @@ export default class IdsDataGrid extends Base {
     if (isInRange && doScroll) {
       this.offEvent('scroll.data-grid.virtual-scroll', this.container);
       this.#scrollTo(rowIndex);
-      // (TEST CHANGE) if (this.rowStart === 0) this.#attachVirtualScrollEvent();
       this.#attachVirtualScrollEvent();
       return;
     }
@@ -1538,14 +1536,7 @@ export default class IdsDataGrid extends Base {
     } else if (isAboveFirstRow) {
       // if rowIndex should appear above the currently visible rows,
       // then we must figure out how many rows we must move up from the bottom to render the rowIndex row
-      // (TEST CHANGE) const moveRowsUp = Math.abs(bufferRowIndex - firstRowIndex);
-
       this.#recycleAllRows(bufferRowIndex);
-      // (TEST CHANGE) if (moveRowsUp < virtualScrollSettings.MAX_ROWS_IN_DOM) {
-      //   this.#recycleBottomRowsUp(moveRowsUp);
-      // } else {
-      //   this.#recycleAllRows(bufferRowIndex);
-      // }
     } else if (isBelowLastRow) {
       // if rowIndex should appear below the currently visible rows,
       // then we recycle all rows, since none of the visible rows are needed

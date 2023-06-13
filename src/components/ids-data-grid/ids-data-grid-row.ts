@@ -111,10 +111,6 @@ export default class IdsDataGridRow extends IdsElement {
     IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
     this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
     this.#setAttributes();
-    // (TEST CHANGE) this.dataGrid.requestAnimationFrame(() => {
-    // this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
-    // this.#setAttributes();
-    //});
   }
 
   /** Set row attributes and classes */
