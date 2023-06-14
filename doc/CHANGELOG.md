@@ -4,6 +4,8 @@
 
 ### 1.0.0-beta.13 Fixes
 
+- `[Button]` Fixed a bug on static width buttons. ([#1334](https://github.com/infor-design/enterprise-wc/issues/1334))
+
 ## 1.0.0-beta.12
 
 ### 1.0.0-beta.12 Fixes
