@@ -96,12 +96,18 @@ const fetchData = async (startIndex = 0) => {
   if (startIndex > MAX_RESULTS_COUNT) return [];
 
   const numRowsNeeded = Math.max((MAX_RESULTS_COUNT - startIndex), 0);
-  return data.splice(0, Math.min(numRowsNeeded, 33));
+  const dataSet = data.splice(0, Math.min(numRowsNeeded, 156));
+  return dataSet;
 };
 
 const setData = async () => {
+  dataGrid.rowStart = 120;
   dataGrid.data = await fetchData();
 };
+
+dataGrid.addEventListener('afterrendered', async () => {
+  dataGrid.selectRow(120);
+});
 
 setData();
 

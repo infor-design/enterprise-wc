@@ -2,6 +2,7 @@ import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import productsJSON from '../../../assets/data/products.json';
+import '../../ids-layout-flex/ids-layout-flex';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-virtual-scroll')!;

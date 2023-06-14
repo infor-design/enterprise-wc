@@ -1,5 +1,6 @@
 import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
+import '../../ids-layout-flex/ids-layout-flex';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import productsJSON from '../../../assets/data/products.json';
 
@@ -106,4 +107,5 @@ dataGrid.addEventListener('scrollend', async (e: Event) => {
 
   const moreData = await fetchData(endIndex + 1);
   if (moreData.length) dataGrid.appendData(moreData);
+  console.info(`${moreData.length} more rows added`);
 });
