@@ -8,7 +8,7 @@
 - Make and push a tag with `git tag 1.0.0-beta.12 && git push origin --tags`
 - Run command `npm run publish:dry-run` to test first if you wish
 - Run command `npm run publish:npm` or `publish:debug` (we may want to publish debuggable code for a period of time of stability)
-- Install GitHub cli so you get the [`gh`](https://cli.github.com/manual/gh_release_create) command with `brew install gh`
+- If not installed, install GitHub cli so you get the [`gh`](https://cli.github.com/manual/gh_release_create) command with `brew install gh`
 - Run command `gh release create 1.0.0-beta.12 --title "1.0.0-beta.12" --notes-file "doc/CHANGELOG.md"`
 - Go to [`the releases page`](https://github.com/infor-design/enterprise-wc/releases) and edit the changelog contents if needed and make a pre-release if needed
 - Update the change log and add a new section
