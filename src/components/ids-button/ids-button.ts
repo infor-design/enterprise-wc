@@ -88,6 +88,7 @@ export default class IdsButton extends Base {
     super.connectedCallback();
     this.#setInitialState();
     this.shouldUpdate = true;
+    if (this.getAttribute('width')) this.width = this.getAttribute('width');
   }
 
   #setInitialState() {
