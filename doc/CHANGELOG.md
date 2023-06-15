@@ -4,6 +4,8 @@
 
 ### 1.0.0-beta.13 Fixes
 
+- `[Tooltip]` Changed the tooltip heights to match. ([#7509](https://github.com/infor-design/enterprise/issues/7509))
+
 ## 1.0.0-beta.12
 
 ### 1.0.0-beta.12 Fixes
