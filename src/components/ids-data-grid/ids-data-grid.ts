@@ -1345,7 +1345,7 @@ export default class IdsDataGrid extends Base {
     this.offEvent('scroll.data-grid', this.container);
     this.onEvent('scroll.data-grid', this.container, () => {
       const scrollTop = this.container!.scrollTop;
-      const clientHeight = this.container!.clientHeight;
+      const containerHeight = this.container!.getBoundingClientRect().height;
       const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
       const rowIndex = Math.floor(scrollTop / virtualRowHeight);
 
@@ -1359,7 +1359,7 @@ export default class IdsDataGrid extends Base {
         : virtualRowHeight * data.length;
 
       const reachedTheTop = rowIndex <= 0;
-      const reachedTheBottom = (scrollTop + clientHeight) >= maxHeight;
+      const reachedTheBottom = (scrollTop + containerHeight) >= maxHeight;
 
       if (reachedTheTop) {
         const firstRow: any = rows[0];
@@ -1449,7 +1449,7 @@ export default class IdsDataGrid extends Base {
     this.rowByIndex(rowIndex)?.scrollIntoView?.();
     const headerHeight = this.header.clientHeight;
     const scrollHeight = this.container!.scrollHeight;
-    const containerHeight = this.container!.clientHeight;
+    const containerHeight = this.container!.getBoundingClientRect().height;
     const scrollTop = this.container!.scrollTop;
     const isScrollBottom = (scrollTop + containerHeight) >= scrollHeight;
 
