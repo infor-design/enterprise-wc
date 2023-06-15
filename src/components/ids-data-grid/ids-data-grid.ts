@@ -1354,7 +1354,9 @@ export default class IdsDataGrid extends Base {
 
       const data = this.data;
       const rows = this.rows;
-      const maxHeight = virtualRowHeight * data.length;
+      const maxHeight = this.treeGrid
+        ? this.data.filter((row) => !row.rowHidden).length * virtualRowHeight
+        : virtualRowHeight * data.length;
 
       const reachedTheTop = rowIndex <= 0;
       const reachedTheBottom = (scrollTop + clientHeight) >= maxHeight;

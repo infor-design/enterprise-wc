@@ -151,9 +151,11 @@ export default class IdsDataGridRow extends IdsElement {
 
     // Handle Hidden
     if (this.dataGrid.data[row]?.rowHidden) {
+      this.hidden = true;
       this.classList.add('hidden');
     }
     if (!this.dataGrid.data[row]?.rowHidden && this.classList.contains('hidden')) {
+      this.hidden = false;
       this.classList.remove('hidden');
     }
   }
