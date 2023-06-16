@@ -1,0 +1,10 @@
+---
+ component: Module Nav
+ link: ids-module-nav
+ description: Top-level Module Navigation
+ category: Navigation and Interaction
+ keywords: module-nav, app, nav, sections
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows a basic Module Nav component setup

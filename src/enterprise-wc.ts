@@ -53,6 +53,7 @@ import './components/ids-menu/ids-menu';
 import './components/ids-menu-button/ids-menu-button';
 import './components/ids-message/ids-message';
 import './components/ids-modal/ids-modal';
+import './components/ids-module-nav/ids-module-nav';
 import './components/ids-month-view/ids-month-view';
 import './components/ids-multiselect/ids-multiselect';
 import './components/ids-notification-banner/ids-notification-banner';
