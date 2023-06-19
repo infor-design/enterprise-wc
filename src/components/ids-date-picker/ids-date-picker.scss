@@ -133,7 +133,7 @@
 
   &.is-expanded {
     .dropdown-btn::part(button) {
-      color: var(--ids-button-tertiary-hover-text-color);
+      color: var(--ids-button-tertiary-color-text-hover);
     }
 
     .dropdown-btn-icon {

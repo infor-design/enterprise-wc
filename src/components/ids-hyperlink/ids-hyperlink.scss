@@ -123,16 +123,16 @@
     // ===============================================
     // Color Variants
     &.color-variant-breadcrumb {
-      color: var(--ids-breadcrumb-text-color);
+      color: var(--ids-breadcrumb-color-text-default);
 
       &.disabled,
       &[disabled] {
-        color: var(--ids-breadcrumb-disabled-text-color);
+        color: var(--ids-breadcrumb-color-text-disabled);
       }
     }
 
     &.color-variant-alternate {
-      color: var(--ids-breadcrumb-inverse-text-color);
+      color: var(--ids-breadcrumb-color-text-emphasis);
     }
   }
 }

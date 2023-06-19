@@ -111,17 +111,17 @@
   --ids-badge-color-warning: var(--ids-color-neutral-00);
 
   // Block Grid
-  --ids-block-grid-item-selectable-container-hover-background-color: var(--ids-color-neutral-00);
-  --ids-block-grid-item-selectable-container-focus-outline: var(--ids-space-10) solid var(--ids-color-azure-90);
-  --ids-block-grid-item-selected-outline: var(--ids-space-20) solid var(--ids-color-azure-90);
+  --ids-block-grid-item-color-background-selectable-hover: var(--ids-color-neutral-00);
+  --ids-block-grid-item-selectable-container-focus: var(--ids-space-10) solid var(--ids-color-azure-90);
+  --ids-block-grid-item-outline-selected: var(--ids-space-20) solid var(--ids-color-azure-90);
 
   // Calendar
-  --ids-calendar-toolbar-container-border-color: var(--ids-color-neutral-30);
+  --ids-calendar-toolbar-color-border: var(--ids-color-neutral-30);
 
   // Calendar Event
-  --ids-calendar-event-azure-border-color: var(--ids-color-azure-100);
-  --ids-calendar-event-border-color: var(--ids-color-amber-100);
-  --ids-calendar-event-focus-border-color: var(--ids-color-azure-100);
+  --ids-calendar-event-color-border-accent-azuret-azure: var(--ids-color-azure-100);
+  --ids-calendar-event-color-border-default: var(--ids-color-amber-100);
+  --ids-calendar-event-color-border-focus: var(--ids-color-azure-100);
 
   // Card
   --ids-card-background-color: var(--ids-color-neutral-00);
@@ -130,47 +130,46 @@
   --ids-card-box-shadow: 0 0 8px rgba(0 0 0 / 0.1);
 
   // Button (Primary)
-  --ids-button-primary-border-color: var(--ids-color-primary);
-  --ids-button-primary-background-color: var(--ids-color-primary);
-  --ids-button-primary-text-color: var(--ids-color-text-on-primary);
-  --ids-button-primary-focus-border-color: var(--ids-color-border-focus);
-  --ids-button-primary-focus-box-shadow: 0 0 0 2px var(--ids-color-neutral-10), 0 0 0 3px var(--ids-color-primary-90), 0 0 4px 3px var(--ids-color-primary-90);
-  --ids-button-primary-hover-background-color: var(--ids-color-primary-90);
-  --ids-button-primary-hover-border-color: var(--ids-color-primary-70);
-  --ids-button-primary-disabled-background-color: var(--ids-color-neutral-20);
-  --ids-button-primary-disabled-border-color: var(--ids-color-neutral-20);
-  --ids-button-primary-disabled-text-color: var(--ids-color-neutral-40);
-  --ids-button-primary-ripple-color: var(--ids-color-text-on-primary);
+  --ids-button-primary-color-border-default: var(--ids-color-primary);
+  --ids-button-primary-color-background-default: var(--ids-color-primary);
+  --ids-button-primary-color-text-default: var(--ids-color-text-on-primary);
+  --ids-button-primary-color-border-focus: var(--ids-color-border-focus);
+  --ids-button-primary-shadow-focus: 0 0 0 2px var(--ids-color-neutral-10), 0 0 0 3px var(--ids-color-primary-90), 0 0 4px 3px var(--ids-color-primary-90);
+  --ids-button-primary-color-background-hover: var(--ids-color-primary-90);
+  --ids-button-primary-color-border-hover: var(--ids-color-primary-70);
+  --ids-button-primary-color-background-disabled: var(--ids-color-neutral-20);
+  --ids-button-primary-color-border-disabled: var(--ids-color-neutral-20);
+  --ids-button-primary-color-text-disabled: var(--ids-color-neutral-40);
+  --ids-button-primary-color-background-pressed: var(--ids-color-text-on-primary);
 
   // Button (Secondary)
-  --ids-button-secondary-background-color: transparent;
+  --ids-button-secondary-color-background-default: transparent;
   --ids-button-secondary-border-width: 2px;
-  --ids-button-secondary-border-color: var(--ids-color-primary);
-  --ids-button-secondary-text-color: var(--ids-color-primary);
-  --ids-button-secondary-focus-border-color: var(--ids-color-border-focus);
-  --ids-button-secondary-focus-box-shadow: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary), 0 0 4px 3px var(--ids-color-primary);
-  --ids-button-secondary-hover-background-color: var(--ids-color-primary-20);
-  --ids-button-secondary-disabled-background-color: var(--ids-color-neutral-10);
-  --ids-button-secondary-disabled-border-color: var(--ids-color-neutral-50);
-  --ids-button-secondary-disabled-text-color: var(--ids-color-neutral-50);
-  --ids-button-secondary-ripple-color: var(--ids-color-primary);
+  --ids-button-secondary-color-border-default: var(--ids-color-primary);
+  --ids-button-secondary-color-text-default: var(--ids-color-primary);
+  --ids-button-secondary-color-border-focus: var(--ids-color-border-focus);
+  --ids-button-secondary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary), 0 0 4px 3px var(--ids-color-primary);
+  --ids-button-secondary-color-background-hover: var(--ids-color-primary-20);
+  --ids-button-secondary-color-background-disabled: var(--ids-color-neutral-10);
+  --ids-button-secondary-color-border-disabled: var(--ids-color-neutral-50);
+  --ids-button-secondary-color-text-disabled: var(--ids-color-neutral-50);
+  --ids-button-secondary-color-background-pressed: var(--ids-color-primary);
 
   // Button (Tertiary)
-  --ids-button-tertiary-border-color: transparent;
-  --ids-button-tertiary-text-color: var(--ids-color-neutral-80);
-  --ids-button-tertiary-focus-border-color: var(--ids-color-border-focus);
-  --ids-button-tertiary-hover-text-color: var(--ids-color-neutral-80);
-  --ids-button-tertiary-hover-background-color: var(--ids-color-primary-20);
-  --ids-button-tertiary-disabled-text-color: var(--ids-color-neutral-40);
+  --ids-button-tertiary-color-border-default: transparent;
+  --ids-button-tertiary-color-text-default: var(--ids-color-neutral-80);
+  --ids-button-tertiary-color-border-focus: var(--ids-color-border-focus);
+  --ids-button-tertiary-color-text-hover: var(--ids-color-neutral-80);
+  --ids-button-tertiary-color-background-hover: var(--ids-color-primary-20);
+  --ids-button-tertiary-color-text-disabled: var(--ids-color-neutral-40);
   --ids-button-tertiary-disabled-background-color: transparent;
-  --ids-button-tertiary-ripple-color: var(--ids-color-primary-40);
-  --ids-button-destructive-hover-background-color: var(--ids-color-error-10);
+  --ids-button-tertiary-color-background-pressed: var(--ids-color-primary-40);
+  --ids-button-destructive-color-background-hover: var(--ids-color-error-10);
 
   // Button (Formatter)
-  --ids-button-alternate-formatter-text-color: var(--ids-color-neutral-10);
-  --ids-button-formatter-border-color: var(--ids-color-neutral-00);
-  --ids-button-alternate-formatter-text-color-hover: var(--ids-color-neutral-00);
-  --ids-button-formatter-ripple-color: var(--ids-color-primary);
+  --ids-button-formatter-color-text-default: var(--ids-color-neutral-10);
+  --ids-button-formatter-color-border: var(--ids-color-neutral-00);
+  --ids-button-formatter-color-text-hover: var(--ids-color-neutral-00);
 
   // Charts
   --ids-chart-legend-text-color: var(--ids-color-text);
