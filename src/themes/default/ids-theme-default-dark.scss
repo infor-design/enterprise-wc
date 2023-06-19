@@ -142,14 +142,14 @@
   --ids-calendar-toolbar-color-border: var(--ids-color-neutral-70);
 
   // Card
-  --ids-card-background-color: var(--ids-color-neutral-90);
-  --ids-card-border-color: var(--ids-color-neutral-70);
-  --ids-card-divider-border-color: var(--ids-color-neutral-80);
-  --ids-card-box-shadow: 0 0 8px rgba(0 0 0 / 0.7);
-  --ids-card-selected-background-color: rgba(85 163 243 / 0.12);
+  --ids-card-color-background: var(--ids-color-neutral-90);
+  --ids-card-color-border: var(--ids-color-neutral-70);
+  --ids-card-divider-color-border: var(--ids-color-neutral-80);
+  --ids-card-shadow: 0 0 8px rgba(0 0 0 / 0.7);
+  --ids-card-color-background-selected: rgba(85 163 243 / 0.12);
 
   // Charts
-  --ids-chart-legend-text-color: var(--ids-color-text);
+  --ids-chart-legend-color-text: var(--ids-color-text);
 
   // Data Grid
   --ids-data-grid-background-color: var(--ids-color-neutral-100);

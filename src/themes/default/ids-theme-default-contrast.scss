@@ -124,10 +124,10 @@
   --ids-calendar-event-color-border-focus: var(--ids-color-azure-100);
 
   // Card
-  --ids-card-background-color: var(--ids-color-neutral-00);
-  --ids-card-border-color: var(--ids-color-neutral-60);
-  --ids-card-divider-border-color: var(--ids-color-neutral-30);
-  --ids-card-box-shadow: 0 0 8px rgba(0 0 0 / 0.1);
+  --ids-card-color-background: var(--ids-color-neutral-00);
+  --ids-card-color-border: var(--ids-color-neutral-60);
+  --ids-card-divider-color-border: var(--ids-color-neutral-30);
+  --ids-card-shadow: 0 0 8px rgba(0 0 0 / 0.1);
 
   // Button (Primary)
   --ids-button-primary-color-border-default: var(--ids-color-primary);
@@ -172,7 +172,7 @@
   --ids-button-formatter-color-text-hover: var(--ids-color-neutral-00);
 
   // Charts
-  --ids-chart-legend-text-color: var(--ids-color-text);
+  --ids-chart-legend-color-text: var(--ids-color-text);
 
   // Data Grid
   --ids-data-grid-background-color: var(--ids-color-neutral-00);
