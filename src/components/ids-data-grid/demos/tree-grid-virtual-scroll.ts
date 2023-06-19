@@ -89,11 +89,15 @@ dataGrid.columns = columns;
 const setData = async () => {
   const res = await fetch(url);
   const data = await res.json();
-  dataGrid.data = data;
+  dataGrid.data = data.splice(0, 120);
 };
 
 setData();
 
 dataGrid.addEventListener('selectionchanged', (e: Event) => {
   console.info(`Selection Changed`, (<CustomEvent>e).detail);
+});
+
+dataGrid.addEventListener('scrollend', (e: Event) => {
+  console.info(`scrollend`, (<CustomEvent>e).detail);
 });
