@@ -100,7 +100,7 @@ button {
 
     .ids-icon {
       position: absolute;
-      inset-inline-end: var(--ids-spacing-md);
+      inset-inline-end: var(--ids-space-30);
     }
   }
 }
@@ -124,12 +124,12 @@ button {
   }
 
   &:not(.square) {
-    border-radius: var(--ids-border-radius-md);
+    border-radius: var(--ids-border-radius-03);
   }
 
   .ids-icon {
     display: block;
-    padding-inline-start: var(--ids-spacing-none);
+    padding-inline-start: var(--ids-space-none);
     font-size: 0;
   }
 
@@ -138,13 +138,13 @@ button {
   }
 
   .ripple-effect {
-    height: var(--ids-size-2xl);
-    width: var(--ids-size-2xl);
+    height: var(--ids-size-70);
+    width: var(--ids-size-70);
   }
 
   &.no-margins {
-    margin-inline-start: var(--ids-spacing-none);
-    margin-inline-end: var(--ids-spacing-none);
+    margin-inline-start: var(--ids-space-none);
+    margin-inline-end: var(--ids-space-none);
   }
 }
 
@@ -161,10 +161,10 @@ button {
   @include ids-base-button-styles();
   @include ids-modal-button-colors();
 
-  padding-block-start: var(--ids-spacing-xl);
-  padding-block-end: var(--ids-spacing-xl);
+  padding-block-start: var(--ids-space-50);
+  padding-block-end: var(--ids-space-50);
   display: block;
-  font-weight: var(--ids-font-weight-semi-bold);
+  font-weight: var(--ids-font-weight-semibold);
   justify-content: center;
   height: 100%;
   width: 100%;
@@ -266,7 +266,7 @@ button {
 // Adjustment for about close icon
 .ids-modal-button {
   ::slotted(ids-icon:not(:first-child)) { // shadowroot + text + icon
-    padding: var(--ids-spacing-sm);
+    padding: var(--ids-space-20);
   }
 }
 

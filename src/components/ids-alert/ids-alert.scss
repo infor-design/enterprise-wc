@@ -6,10 +6,10 @@
   &.success,
   [color='success'],
   [icon='success'] {
-    color: var(--ids-alert-success-color);
+    color: var(--ids-alert-color-success-default);
 
     &.disabled {
-      color: var(--ids-alert-success-disabled-color);
+      color: var(--ids-alert-color-success-disabled);
     }
   }
 
@@ -19,20 +19,20 @@
   &.warning,
   [color='warning'],
   [icon='warning'] {
-    color: var(--ids-alert-warning-color);
+    color: var(--ids-alert-color-warning-default);
 
     &.disabled {
-      color: var(--ids-alert-warning-disabled-color);
+      color: var(--ids-alert-color-warning-disabled);
     }
   }
 
   &.caution,
   [color='caution'],
   [icon='caution'] {
-    color: var(--ids-alert-caution-color);
+    color: var(--ids-alert-color-caution-default);
 
     &.disabled {
-      color: var(--ids-alert-caution-disabled-color);
+      color: var(--ids-alert-color-caution-disabled);
     }
   }
 
@@ -40,51 +40,40 @@
   &.info,
   [color='info'],
   [icon='info'] {
-    color: var(--ids-alert-info-color);
+    color: var(--ids-alert-color-info-default);
 
     &.disabled {
-      color: var(--ids-alert-info-disabled-color);
+      color: var(--ids-alert-color-info-disabled);
     }
   }
 
   &.error,
   [color='error'],
   [icon='error'] {
-    color: var(--ids-alert-error-color);
+    color: var(--ids-alert-color-error-default);
 
     &.disabled {
-      color: var(--ids-alert-error-color);
+      color: var(--ids-alert-color-error-default);
     }
   }
 
   &.new,
   [color='new'],
   [icon='new'] {
-    color: var(--ids-alert-new-color);
+    color: var(--ids-alert-color-new-default);
 
     &.disabled {
-      color: var(--ids-alert-new-disabled-color);
+      color: var(--ids-alert-color-new-disabled);
     }
   }
 
   &.in-progress,
   [color='amethyst'],
   [icon='in-progress'] {
-    color: var(--ids-alert-in-progress-color);
+    color: var(--ids-alert-color-progress-default);
 
     &.disabled {
-      color: var(--ids-alert-in-progress-disabled-color);
-    }
-  }
-
-  &.empty-circle,
-  &.half-empty-circle,
-  [icon='empty-circle'],
-  [icon='half-empty-circle'] {
-    color: var(--ids-alert-empty-color);
-
-    &.disabled {
-      color: var(--ids-alert-empty-disabled-color);
+      color: var(--ids-alert-color-progress-disabled);
     }
   }
 }

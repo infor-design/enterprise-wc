@@ -15,7 +15,7 @@
   // Outside border and Background and sizing
   background-color: var(--ids-data-grid-background-color);
   border: 1px solid var(--ids-data-grid-cell-border-color);
-  border-radius: var(--ids-border-radius-xs);
+  border-radius: var(--ids-border-radius-01);
   border-collapse: collapse;
   box-sizing: border-box;
   contain: content;
@@ -29,8 +29,8 @@
   // Font Info
   @include mixins.antialiased();
 
-  font-family: var(--ids-font-family);
-  font-size: var(--ids-font-size-md);
+  font-family: var(--ids-font-family-default);
+  font-size: var(--ids-font-size-40);
 
   // Selection Checkbox
   .ids-data-grid-checkbox-container {

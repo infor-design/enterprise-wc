@@ -81,6 +81,6 @@
 // Media queries setup
 @media screen and (min-width: $breakpoint-sm) {
   ::slotted([slot='title']) {
-    font-size: var(--ids-font-size-xl);
+    font-size: var(--ids-font-size-60);
   }
 }

@@ -34,7 +34,7 @@
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
       padding-inline-start: var(--ids-data-grid-md-padding);
-      transition: padding var(--ids-transition-length) var(--ids-transition-ease);
+      transition: padding var(--ids-motion-duration) var(--ids-motion-ease);
     }
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
@@ -59,7 +59,7 @@
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
       padding-inline-start: var(--ids-data-grid-sm-padding);
-      transition: padding var(--ids-transition-length) var(--ids-transition-ease);
+      transition: padding var(--ids-motion-duration) var(--ids-motion-ease);
     }
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
@@ -85,7 +85,7 @@
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
       padding-inline-start: var(--ids-data-grid-xs-padding);
-      transition: padding var(--ids-transition-length) var(--ids-transition-ease);
+      transition: padding var(--ids-motion-duration) var(--ids-motion-ease);
     }
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
@@ -111,7 +111,7 @@
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
       padding-inline-start: var(--ids-data-grid-xxs-padding);
-      transition: padding var(--ids-transition-length) var(--ids-transition-ease);
+      transition: padding var(--ids-motion-duration) var(--ids-motion-ease);
     }
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {

@@ -3,7 +3,7 @@
 
 .ids-upload-advanced {
   display: block;
-  margin-bottom: var(--ids-spacing-xxl);
+  margin-bottom: var(--ids-space-60);
 
   .hidden {
     display: none;
@@ -17,7 +17,7 @@
     position: relative;
     align-items: center;
     display: flex;
-    border-radius: var(--ids-border-radius-xs);
+    border-radius: var(--ids-border-radius-01);
     border-style: dashed;
     flex-direction: column;
     justify-content: center;
@@ -94,9 +94,9 @@
   .errorarea {
     border: 1px solid transparent;
     margin-top: var(--ids-spacing-lg);
-    padding: var(--ids-spacing-sm);
+    padding: var(--ids-space-20);
     display: none;
-    border-radius: var(--ids-border-radius-xs);
+    border-radius: var(--ids-border-radius-01);
     border-style: dashed;
     align-items: center;
 
@@ -113,7 +113,7 @@
       ids-alert {
         display: block;
         padding: var(--ids-spacing-lg);
-        padding-bottom: var(--ids-spacing-md);
+        padding-bottom: var(--ids-space-30);
         margin: 0;
       }
     }
@@ -128,13 +128,13 @@
         display: block;
         font-weight: var(--ids-font-weight-normal);
         margin: 0;
-        font-family: var(--ids-font-family);
+        font-family: var(--ids-font-family-default);
         text-overflow: ellipsis;
       }
     }
 
     .btn-close {
-      padding-inline: var(--ids-spacing-sm);
+      padding-inline: var(--ids-space-20);
       flex-grow: 0;
       flex-shrink: 0;
     }

@@ -6,7 +6,7 @@
 
   color: var(--ids-counts-text-color);
   contain: content;
-  font-family: var(--ids-font-family);
+  font-family: var(--ids-font-family-default);
   text-align: center;
 
   &::part(link) {
@@ -31,7 +31,7 @@
 }
 
 a:focus {
-  border: 1px solid var(--ids-focus-border-color);
-  box-shadow: var(--ids-box-shadow-lg);
+  border: 1px solid var(--ids-color-border-focus);
+  box-shadow: var(--ids-shadow-30);
   outline: none;
 }

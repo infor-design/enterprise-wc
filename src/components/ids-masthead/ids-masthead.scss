@@ -8,7 +8,7 @@
   justify-content: center;
   padding-inline: var(--ids-masthead-padding-inline);
   min-height: var(--ids-masthead-min-height);
-  transition: background-color var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
+  transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
 
   #logo.icon-logo {
     padding-inline: var(--ids-masthead-logo-icon-padding-inline);
@@ -16,8 +16,8 @@
     top: var(--ids-masthead-logo-icon-top);
 
     &::part(button) {
-      margin: var(--ids-spacing-none);
-      padding: var(--ids-spacing-none);
+      margin: var(--ids-space-none);
+      padding: var(--ids-space-none);
       opacity: 1;
     }
   }

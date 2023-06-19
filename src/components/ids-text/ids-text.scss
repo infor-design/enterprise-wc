@@ -8,7 +8,7 @@
 .ids-text {
   @include mixins.antialiased();
 
-  font-family: var(--ids-font-family);
+  font-family: var(--ids-font-family-default);
   font-weight: var(--ids-font-weight-normal);
   display: block;
   margin: 0;
@@ -18,7 +18,7 @@
   color: currentColor;
 
   // Other defaults
-  font-size: var(--ids-font-size-md);
+  font-size: var(--ids-font-size-40);
   text-decoration: unset;
 
   &.audible {
@@ -28,14 +28,14 @@
   }
 
   &.error {
-    color: var(--ids-text-color-error);
+    color: var(--ids-color-text-error);
   }
 
   &.label {
-    color: var(--ids-text-color-label);
+    color: var(--ids-color-text-label);
 
     &.color-variant-alternate {
-      color: var(--ids-color-on-text);
+      color: var(--ids-color-text-inverse);
     }
   }
 
@@ -50,11 +50,11 @@
   }
 
   &.semi-bold {
-    font-weight: var(--ids-font-weight-semi-bold);
+    font-weight: var(--ids-font-weight-semibold);
   }
 
   &.lighter {
-    font-weight: var(--ids-font-weight-lighter);
+    font-weight: var(--ids-font-weight-light);
   }
 
   &.text-align {
@@ -82,49 +82,49 @@
   &.status-warning::before {
     display: inline-flex;
     margin-inline-end: var(--ids-input-margin-bottom);
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-circle);
     content: '';
     height: 8px;
     width: 8px;
   }
 
   &.status-base {
-    color: var(--ids-text-color-label);
+    color: var(--ids-color-text-label);
 
     &::before {
-      background-color: var(--ids-text-color-label);
+      background-color: var(--ids-color-text-label);
     }
   }
 
   &.status-error {
-    color: var(--ids-text-color-error);
+    color: var(--ids-color-text-error);
 
     &::before {
-      background-color: var(--ids-text-color-error);
+      background-color: var(--ids-color-text-error);
     }
   }
 
   &.status-info {
-    color: var(--ids-text-color-info);
+    color: var(--ids-color-text-info);
 
     &::before {
-      background-color: var(--ids-text-color-info);
+      background-color: var(--ids-color-text-info);
     }
   }
 
   &.status-success {
-    color: var(--ids-text-color-success);
+    color: var(--ids-color-text-success);
 
     &::before {
-      background-color: var((--ids-text-color-success));
+      background-color: var((--ids-color-text-success));
     }
   }
 
   &.status-warning {
-    color: var(--ids-text-color-success);
+    color: var(--ids-color-text-success);
 
     &::before {
-      background-color: var(--ids-text-color-warning);
+      background-color: var(--ids-color-text-warning);
     }
   }
 }
@@ -165,67 +165,67 @@
 
 /* Ids Typography System */
 .ids-text-10 {
-  font-size: var(--ids-font-size-xxs);
+  font-size: var(--ids-font-size-10);
   text-transform: uppercase;
 }
 
 .ids-text-12 {
-  font-size: var(--ids-font-size-xs);
+  font-size: var(--ids-font-size-20);
   text-transform: uppercase;
 }
 
 .ids-text-14 {
-  font-size: var(--ids-font-size-sm);
+  font-size: var(--ids-font-size-30);
 }
 
 .ids-text-16 {
-  font-size: var(--ids-font-size-md);
+  font-size: var(--ids-font-size-40);
 }
 
 .ids-text-20 {
-  font-size: var(--ids-font-size-lg);
+  font-size: var(--ids-font-size-50);
 }
 
 .ids-text-24 {
-  font-size: var(--ids-font-size-xl);
+  font-size: var(--ids-font-size-60);
 }
 
 .ids-text-28 {
-  font-size: var(--ids-font-size-xxl);
+  font-size: var(--ids-font-size-70);
 }
 
 .ids-text-32 {
-  font-size: var(--ids-font-size-3xl);
+  font-size: var(--ids-font-size-80);
 }
 
 .ids-text-40 {
-  font-size: var(--ids-font-size-4xl);
+  font-size: var(--ids-font-size-90);
 }
 
 .ids-text-48 {
-  font-size: var(--ids-font-size-5xl);
+  font-size: var(--ids-font-size-100);
 }
 
 .ids-text-60 {
-  font-size: var(--ids-font-size-6xl);
+  font-size: var(--ids-font-size-110);
 }
 
 .ids-text-72 {
-  font-size: var(--ids-font-size-7xl);
+  font-size: var(--ids-font-size-120);
   margin-block-end: 0;
 }
 
 // Handle Disabled Text
 .ids-text-color-muted.ids-text,
 :host([disabled]) .ids-text {
-  color: var(--ids-text-color-disabled);
+  color: var(--ids-color-text-disabled);
 
   &.label {
-    color: var(--ids-text-color-disabled);
+    color: var(--ids-color-text-disabled);
   }
 
   &.color-variant-alternate.label {
-    color: var(--ids-text-color-subtle);
+    color: var(--ids-color-text-subtle);
   }
 
   &.status-base,
@@ -233,14 +233,14 @@
   &.status-info,
   &.status-success,
   &.status-warning {
-    color: var(--ids-text-color-disabled);
+    color: var(--ids-color-text-disabled);
   }
 
   &.status-error::before,
   &.status-info::before,
   &.status-success::before,
   &.status-warning::before {
-    background-color: var(--ids-text-color-disabled);
+    background-color: var(--ids-color-text-disabled);
   }
 }
 

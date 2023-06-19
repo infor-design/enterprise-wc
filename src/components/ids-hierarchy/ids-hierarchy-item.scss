@@ -8,12 +8,12 @@
   padding-inline-start: calc(var(--ids-spacing-lg) * 12);
 
   @media all and (max-width: $breakpoint-sm) {
-    padding-inline-start: var(--ids-spacing-none);
+    padding-inline-start: var(--ids-space-none);
   }
 }
 
 .leaf {
-  border: var(--ids-spacing-xs) solid var(--ids-hierarchy-item-leaf-border-color);
+  border: var(--ids-space-10) solid var(--ids-hierarchy-item-leaf-border-color);
   margin-block-end: calc(var(--ids-spacing-lg) * 4);
   box-shadow: var(--ids-hierarchy-item-leaf-box-shadow);
   border-radius: var(--ids-hierarchy-item-leaf-border-radius);
@@ -68,7 +68,7 @@
   }
 
   .ids-hierarchy-item {
-    padding-inline-start: var(--ids-spacing-none);
+    padding-inline-start: var(--ids-space-none);
   }
 }
 
@@ -102,10 +102,10 @@ div[part='actions'] {
 }
 
 ids-button[part='icon-menu'] {
-  margin-right: var(--ids-spacing-md);
+  margin-right: var(--ids-space-30);
 
   .ids-icon-button {
-    padding: var(--ids-spacing-md);
+    padding: var(--ids-space-30);
   }
 }
 
@@ -114,7 +114,7 @@ ids-button[part='icon-btn'] {
   cursor: pointer;
 
   .ids-icon-button {
-    padding: var(--ids-spacing-md);
+    padding: var(--ids-space-30);
   }
 }
 

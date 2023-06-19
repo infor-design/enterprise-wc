@@ -161,7 +161,7 @@
 .ids-data-grid-header-text {
   display: block;
   padding: var(--ids-data-grid-header-lg-padding);
-  font-weight: var(--ids-font-weight-semi-bold);
+  font-weight: var(--ids-font-weight-semibold);
   font-size: var(--ids-data-grid-font-size-sm);
   color: var(--ids-data-grid-header-text-color);
   overflow: hidden;
@@ -174,8 +174,8 @@
 .ids-data-grid-header-icon {
   align-self: center;
   color: var(--ids-data-grid-header-text-color);
-  margin-inline-start: var(--ids-spacing-md);
-  margin-block-start: var(--ids-spacing-md);
+  margin-inline-start: var(--ids-space-30);
+  margin-block-start: var(--ids-space-30);
 }
 
 // Header sort styles
@@ -192,7 +192,7 @@
   .sort-indicator ids-icon {
     color: var(--ids-data-grid-header-unsorted-icon-color);
     opacity: 0;
-    transition: opacity 0.3s var(--ids-transition-ease) 0s;
+    transition: opacity 0.3s var(--ids-motion-ease) 0s;
 
     &:first-child {
       position: relative;
@@ -220,7 +220,7 @@
   max-height: 18px;
   cursor: var(--ids-cursor-pointer);
   color: var(--ids-data-grid-header-expander-color);
-  margin-inline-start: var(--ids-spacing-xl);
+  margin-inline-start: var(--ids-space-50);
 
   &:hover {
     color: var(--ids-data-grid-header-expander-active-color);

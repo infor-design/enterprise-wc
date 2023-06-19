@@ -10,7 +10,7 @@
 
   &[disabled] {
     ::slotted(.ids-text) {
-      color: var(--ids-text-color-disabled);
+      color: var(--ids-color-text-disabled);
     }
   }
 }
@@ -34,7 +34,7 @@
   width: 100%;
 
   &.disabled {
-    color: var(--ids-text-color-disabled);
+    color: var(--ids-color-text-disabled);
 
     .ids-text {
       color: inherit;

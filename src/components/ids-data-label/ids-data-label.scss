@@ -11,14 +11,14 @@
   flex-direction: row;
 
   .label {
-    color: var(--ids-text-color-label);
+    color: var(--ids-color-text-label);
     margin-bottom: 8px;
     padding-right: 8px;
     white-space: nowrap;
   }
 
   .data {
-    color: var(--ids-text-color-data);
+    color: var(--ids-color-text-data);
   }
 }
 
@@ -27,11 +27,11 @@
   flex-direction: column;
 
   .label {
-    color: var(--ids-text-color-label);
+    color: var(--ids-color-text-label);
     margin-bottom: 8px;
   }
 
   .data {
-    color: var(--ids-text-color-data);
+    color: var(--ids-color-text-data);
   }
 }

@@ -3,7 +3,7 @@
   color: var(--ids-dropdown-text-color);
   cursor: var(--ids-cursor-pointer);
   display: block;
-  font-family: var(--ids-font-family);
+  font-family: var(--ids-font-family-default);
   font-size: 16px;
   line-height: 36px;
   outline: none;
@@ -63,7 +63,7 @@
 :host([group-label]) {
   cursor: var(--ids-cursor-default);
   color: var(--ids-dropdown-group-text-color);
-  font-weight: var(--ids-font-weight-semi-bold);
+  font-weight: var(--ids-font-weight-semibold);
 }
 
 :host([group-label]:not(:first-child)),

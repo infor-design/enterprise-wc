@@ -4,7 +4,7 @@
   color: var(--ids-header-text-color);
   display: flex;
   flex-direction: column;
-  transition: background-color var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
+  transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
   width: 100%;
 }
 

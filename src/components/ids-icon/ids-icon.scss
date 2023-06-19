@@ -87,23 +87,23 @@
 
 :host([disabled]) {
   .notification-badge {
-    background-color: var(--ids-alert-error-disabled-color);
+    background-color: var(--ids-alert-color-error-disabled);
 
     &.info,
     &.base {
-      background-color: var(--ids-alert-info-disabled-color);
+      background-color: var(--ids-alert-color-info-disabled);
     }
 
     &.error {
-      background-color: var(--ids-alert-error-disabled-color);
+      background-color: var(--ids-alert-color-error-disabled);
     }
 
     &.success {
-      background-color: var(--ids-alert-success-disabled-color);
+      background-color: var(--ids-alert-color-success-disabled);
     }
 
     &.warning {
-      background-color: var(--ids-alert-warning-disabled-color);
+      background-color: var(--ids-alert-color-warning-disabled);
     }
   }
 }

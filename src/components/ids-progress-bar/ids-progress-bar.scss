@@ -3,7 +3,7 @@
 @mixin progress-bar-fill {
   background-color: var(--ids-progress-bar-fill-background-color);
   border-radius: var(--ids-progress-bar-border-radius);
-  transition: width var(--ids-transition-length) var(--ids-transition-ease);
+  transition: width var(--ids-motion-duration) var(--ids-motion-ease);
 }
 
 :host-context(ids-data-grid-cell) {

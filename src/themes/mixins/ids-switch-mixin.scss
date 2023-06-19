@@ -18,7 +18,7 @@
   position: absolute;
   background-color: var(--ids-switch-toggle-off-background-color);
   border: 1px solid var(--ids-switch-toggle-off-border-color);
-  border-radius: var(--ids-border-radius-round);
+  border-radius: var(--ids-border-radius-circle);
   content: '';
   height: 14px;
   left: 0;
@@ -68,7 +68,7 @@
 
 @mixin switch-disabled-text {
   cursor: var(--ids-cursor-default);
-  color: var(--ids-text-color-disabled);
+  color: var(--ids-color-text-disabled);
 }
 
 // Hover
@@ -93,5 +93,5 @@
 
 // Transition
 @mixin switch-transition {
-  transition: all var(--ids-transition-length) var(--ids-transition-ease);
+  transition: all var(--ids-motion-duration) var(--ids-motion-ease);
 }

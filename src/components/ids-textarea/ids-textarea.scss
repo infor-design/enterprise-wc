@@ -15,9 +15,9 @@ $textarea-size-default-height: 120px;
 
 .ids-textarea {
   display: block;
-  margin-bottom: var(--ids-spacing-3xl);
-  font-size: var(--ids-font-size-md);
-  font-family: var(--ids-font-family);
+  margin-bottom: var(--ids-space-70);
+  font-size: var(--ids-font-size-40);
+  font-family: var(--ids-font-family-default);
 
   .hidden {
     display: none;
@@ -39,8 +39,8 @@ $textarea-size-default-height: 120px;
   }
 
   .field-container {
-    margin: var(--ids-spacing-none);
-    padding: var(--ids-spacing-none);
+    margin: var(--ids-space-none);
+    padding: var(--ids-space-none);
     position: relative;
     display: flex;
     max-width: $textarea-size-default;
@@ -87,13 +87,13 @@ $textarea-size-default-height: 120px;
     border-color: var(--ids-textarea-border-color);
     color: var(--ids-textarea-text-color);
     box-sizing: border-box;
-    margin-bottom: var(--ids-spacing-md);
-    padding: var(--ids-spacing-xl);
-    font-size: var(--ids-font-size-md);
+    margin-bottom: var(--ids-space-30);
+    padding: var(--ids-space-50);
+    font-size: var(--ids-font-size-40);
     appearance: none;
-    font-family: var(--ids-font-family);
+    font-family: var(--ids-font-family-default);
     border-collapse: separate;
-    border-radius: var(--ids-border-radius-xs);
+    border-radius: var(--ids-border-radius-01);
     display: inline-block;
     min-height: $textarea-size-default-height;
     resize: none;
@@ -230,7 +230,7 @@ $textarea-size-default-height: 120px;
     }
 
     ~ .btn-clear {
-      margin-top: var(--ids-spacing-md);
+      margin-top: var(--ids-space-30);
       position: absolute;
       right: 0;
     }
@@ -245,7 +245,7 @@ $textarea-size-default-height: 120px;
 
 
   .validation-message {
-    margin-top: var(--ids-spacing-md);
+    margin-top: var(--ids-space-30);
   }
 
   &.disabled {
@@ -265,7 +265,7 @@ $textarea-size-default-height: 120px;
   color: var(--ids-textarea-label-text-color);
   margin-bottom: var(--ids-spacing-lg);
   align-items: baseline;
-  font-family: var(--ids-font-family);
+  font-family: var(--ids-font-family-default);
   display: flex;
 
   // Simulate standard label text size while empty with a non-breaking space
@@ -278,11 +278,11 @@ $textarea-size-default-height: 120px;
   &.required {
     &::after {
       position: relative;
-      padding-inline: var(--ids-spacing-sm);
-      font-size: var(--ids-font-size-lg);
+      padding-inline: var(--ids-space-20);
+      font-size: var(--ids-font-size-50);
       content: '*';
       color: var(--ids-required-background-color);
-      font-family: var(--ids-font-family);
+      font-family: var(--ids-font-family-default);
       margin-top: -10px;
       top: 1px;
     }
@@ -296,7 +296,7 @@ $textarea-size-default-height: 120px;
 
 .label-state-collapsed {
   .ids-label-text.empty {
-    margin: var(--ids-spacing-none);
+    margin: var(--ids-space-none);
     visibility: hidden;
     height: 0;
   }

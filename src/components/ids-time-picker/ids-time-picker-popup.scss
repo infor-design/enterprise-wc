@@ -8,7 +8,7 @@ ids-popup[visible][animated] {
 
 .ids-time-picker-popup {
   &::part(popup) {
-    padding-block: var(--ids-spacing-none);
+    padding-block: var(--ids-space-none);
     background-color: var(--ids-time-picker-popup-background-color);
   }
 
@@ -20,8 +20,8 @@ ids-popup[visible][animated] {
     &::part(button) {
       height: 100%;
       color: var(--ids-time-picker-popup-button-text-color);
-      padding: var(--ids-spacing-none);
-      padding-block: var(--ids-spacing-xl);
+      padding: var(--ids-space-none);
+      padding-block: var(--ids-space-50);
       align-items: center;
       justify-content: center;
     }
@@ -45,8 +45,8 @@ ids-popup[visible][animated] {
 
   ids-popup {
     &::part(popup) {
-      margin: var(--ids-spacing-none);
-      padding: var(--ids-spacing-none);
+      margin: var(--ids-space-none);
+      padding: var(--ids-space-none);
     }
   }
 

@@ -53,7 +53,7 @@
 
 :host {
   ids-menu-button {
-    transition: border var(--ids-transition-length) var(--ids-transition-ease);
+    transition: border var(--ids-motion-duration) var(--ids-motion-ease);
     border: 0;
     border-inline: 0;
     border-inline-end: 1px solid var(--ids-input-border-color);

@@ -24,8 +24,8 @@ $editor-container-height: 285px;
         content: '*';
         color: var(--ids-required-background-color);
         font-family: var(--ids-editor-font-family);
-        font-size: var(--ids-font-size-lg);
-        margin-inline: var(--ids-spacing-sm);
+        font-size: var(--ids-font-size-50);
+        margin-inline: var(--ids-space-20);
         margin-top: -10px;
         position: relative;
         top: 1px;
@@ -51,7 +51,7 @@ $editor-container-height: 285px;
 
   &.label-state-collapsed {
     .editor-label {
-      margin-block-end: var(--ids-spacing-none);
+      margin-block-end: var(--ids-space-none);
 
       &.required::after {
         content: '';
@@ -90,8 +90,8 @@ $editor-container-height: 285px;
   }
 
   .toolbar-container {
-    border-top-left-radius: var(--ids-spacing-xs);
-    border-top-right-radius: var(--ids-spacing-xs);
+    border-top-left-radius: var(--ids-space-10);
+    border-top-right-radius: var(--ids-space-10);
   }
 
   // Causes overflow to occur on Formatter Toolbar

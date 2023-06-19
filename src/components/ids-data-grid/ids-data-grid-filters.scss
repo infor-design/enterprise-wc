@@ -7,7 +7,7 @@
 
   .ids-data-grid-header-cell-content.vertical-align-center {
     position: relative;
-    top: calc(50% - var(--ids-spacing-xxl));
+    top: calc(50% - var(--ids-space-60));
   }
 
   .ids-data-grid-header-cell-filter-wrapper {
@@ -24,7 +24,7 @@
 
     ids-dropdown[compact] ids-list-box-option {
       font-size: unset;
-      min-height: var(--ids-size-xs);
+      min-height: var(--ids-size-20);
     }
   }
 

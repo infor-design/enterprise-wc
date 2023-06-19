@@ -19,24 +19,24 @@
 
   // Reset badge margin to center it vertically
   ids-badge::part(badge) {
-    margin-block-end: var(--ids-spacing-none);
-    margin-inline-end: var(--ids-spacing-none);
+    margin-block-end: var(--ids-space-none);
+    margin-inline-end: var(--ids-space-none);
   }
 
   ids-badge {
-    padding-inline-start: var(--ids-spacing-xxl);
-    padding-inline-end: var(--ids-spacing-xxl);
+    padding-inline-start: var(--ids-space-60);
+    padding-inline-end: var(--ids-space-60);
   }
 
   ids-hyperlink {
-    margin: var(--ids-spacing-xxl);
+    margin: var(--ids-space-60);
   }
 
   .text-ellipsis {
     display: inline-block;
     vertical-align: middle;
-    padding-inline-start: var(--ids-spacing-xxl);
-    padding-inline-end: var(--ids-spacing-xxl);
+    padding-inline-start: var(--ids-space-60);
+    padding-inline-end: var(--ids-space-60);
     height: auto;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -84,8 +84,8 @@
   // Focus State
   &:focus,
   &.is-editing:not(.is-inline):focus-within {
-    box-shadow: var(--ids-box-shadow-md);
-    outline: 1px solid var(--ids-focus-border-color);
+    box-shadow: var(--ids-shadow-20);
+    outline: 1px solid var(--ids-color-border-focus);
     outline-offset: -1px;
   }
 
@@ -274,12 +274,12 @@
   }
 
   ids-badge {
-    --ids-badge-line-height: calc(var(--ids-data-grid-xxs-row-height) - 8px);
+    --ids-badge-font-line-height: calc(var(--ids-data-grid-xxs-row-height) - 8px);
   }
 
   ids-input,
   ids-trigger-field {
-    --ids-spacing-sm: 0;
+    --ids-space-20: 0;
     --ids-input-font-size-sm: var(--ids-data-grid-font-size-sm);
   }
 
@@ -324,7 +324,7 @@
   }
 
   ids-badge {
-    --ids-badge-line-height: calc(var(--ids-data-grid-xs-row-height) - 12px);
+    --ids-badge-font-line-height: calc(var(--ids-data-grid-xs-row-height) - 12px);
   }
 
   ids-input {
@@ -418,8 +418,8 @@
 // Standalone Css
 td.ids-data-grid-cell {
   display: table-cell;
-  padding-inline-start: var(--ids-spacing-xxl);
-  padding-inline-end: var(--ids-spacing-xxl);
+  padding-inline-start: var(--ids-space-60);
+  padding-inline-end: var(--ids-space-60);
 }
 
 // Handle RTL

@@ -6,7 +6,7 @@
 :host {
   display: block;
   position: fixed;
-  transition: box-shadow var( --ids-transition-length) var(--ids-transition-ease), transform var( --ids-transition-length) var(--ids-transition-ease);
+  transition: box-shadow var( --ids-motion-duration) var(--ids-motion-ease), transform var( --ids-motion-duration) var(--ids-motion-ease);
 }
 
 // =================================================
@@ -68,7 +68,7 @@
     background-color: var(--ids-drawer-action-sheet-background-color);
     box-shadow: var(--ids-drawer-action-sheet-box-shadow);
     color: var(--ids-drawer-action-sheet-text-color);
-    padding: var(--ids-spacing-xl);
+    padding: var(--ids-space-50);
 
     // temporary
     margin: 0 auto;

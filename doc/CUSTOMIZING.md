@@ -62,7 +62,7 @@ As an example for customizing the header color, and text colors you could do som
 
 ```css
 --ids-color-primary: var(--ids-color-azure-70);
---ids-text-color: var(--ids-color-neutral-100);
+--ids-color-text: var(--ids-color-neutral-100);
 --ids-input-background-color: var(--ids-color-neutral-00);
 --ids-input-border-color: var(--ids-color-neutral-100);
 ```

@@ -20,8 +20,8 @@
       color: var(--ids-breadcrumb-text-color);
       content: '\002F';
       font-weight: var(--ids-breadcrumb-font-weight);
-      padding-right: var(--ids-spacing-md);
-      padding-left: var(--ids-spacing-none);
+      padding-right: var(--ids-space-30);
+      padding-left: var(--ids-space-none);
       text-decoration: none;
       display: inline-block;
       vertical-align: top;
@@ -46,18 +46,18 @@
     &.truncate {
       &::before {
         transition:
-          width var(--ids-transition-length) var(--ids-transition-ease),
-          background var(--ids-transition-length) var(--ids-transition-ease);
+          width var(--ids-motion-duration) var(--ids-motion-ease),
+          background var(--ids-motion-duration) var(--ids-motion-ease);
         background-color: transparent;
-        background-image: linear-gradient(to right, var(--ids-body-background-color), rgba(255 255 255 / 0));
+        background-image: linear-gradient(to right, var(--ids-color-background-default), rgba(255 255 255 / 0));
         content: '';
         height: 100%;
         left: 0;
         pointer-events: none;
         position: absolute;
         top: 0;
-        z-index: var(--ids-z-index-toolbar);
-        width: var(--ids-size-md);
+        z-index: var(--ids-z-index-10);
+        width: var(--ids-size-40);
       }
     }
   }
@@ -99,7 +99,7 @@
 a.ids-hyperlink,
 span.ids-breadcrumb-divider {
   font-size: var(--ids-breadcrumb-font-size);
-  font-family: var(--ids-font-family);
+  font-family: var(--ids-font-family-default);
   color: var(--ids-breadcrumb-text-color);
   margin-inline-end: 0;
 
@@ -119,11 +119,11 @@ span.ids-breadcrumb-divider:not(:first-child)::before {
   @include mixins.antialiased();
 
   font-size: var(--ids-breadcrumb-font-size);
-  font-family: var(--ids-font-family);
+  font-family: var(--ids-font-family-default);
   color: inherit;
   content: '\002F';
   font-weight: normal;
-  padding: var(--ids-spacing-xs) var(--ids-spacing-lg) ;
+  padding: var(--ids-space-10) var(--ids-spacing-lg) ;
   text-decoration: none;
   display: inline-block;
   margin-inline-start: -3px;

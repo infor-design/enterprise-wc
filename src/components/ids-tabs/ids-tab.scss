@@ -185,7 +185,7 @@ $ids-tab-vertical-height: 42px;
 
     // Round borders on regular horizontal tabs
     &:not(.color-variant-module) {
-      border-radius: var(--ids-border-radius-xs);
+      border-radius: var(--ids-border-radius-01);
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
 

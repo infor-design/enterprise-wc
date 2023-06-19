@@ -6,7 +6,7 @@
 
 // Mixin for a "blank" shadow (same as the standard one with a completely transparent alpha)
 @mixin blank-shadow() {
-  box-shadow: var(--ids-box-shadow-none);
+  box-shadow: var(--ids-shadow-none);
 }
 
 // Used to make the focus "border" appear to be separated from the button (primary/secondary types).
@@ -31,8 +31,8 @@
   @include blank-shadow();
 
   font-weight: var(--ids-font-weight-normal);
-  font-family: var(--ids-font-family);
-  font-size: var(--ids-font-size-md);
+  font-family: var(--ids-font-family-default);
+  font-size: var(--ids-font-size-40);
   overflow: hidden;
   padding-bottom: calc(var(--ids-spacing-lg) - 2px);
   padding-top: calc(var(--ids-spacing-lg) - 2px);
@@ -58,11 +58,11 @@
 
   // Animate BG/Text/Border color changes on all styles
   transition:
-    background-color var(--ids-transition-length) var(--ids-transition-ease),
-    border-color var(--ids-transition-length) var(--ids-transition-ease),
-    box-shadow var(--ids-transition-length) var(--ids-transition-ease),
-    color var(--ids-transition-length) var(--ids-transition-ease),
-    opacity var(--ids-transition-length) var(--ids-transition-ease);
+    background-color var(--ids-motion-duration) var(--ids-motion-ease),
+    border-color var(--ids-motion-duration) var(--ids-motion-ease),
+    box-shadow var(--ids-motion-duration) var(--ids-motion-ease),
+    color var(--ids-motion-duration) var(--ids-motion-ease),
+    opacity var(--ids-motion-duration) var(--ids-motion-ease);
   white-space: nowrap;
 
   &:focus {
@@ -94,17 +94,17 @@
 
   &.align-icon-end {
     ::slotted(ids-icon) {
-      padding-inline-start: var(--ids-spacing-md);
+      padding-inline-start: var(--ids-space-30);
     }
   }
 
   &.no-margins {
-    margin-inline: var(--ids-spacing-none);
+    margin-inline: var(--ids-space-none);
   }
 
   // Account for 2px borders on secondary buttons
   &:not(.btn-secondary):not(.no-margins) {
-    margin: var(--ids-spacing-xs);
+    margin: var(--ids-space-10);
   }
 }
 
@@ -112,11 +112,11 @@
  * Provides standardized padding rules for certain button types
  */
 @mixin ids-standard-button-padding() {
-  padding-inline: var(--ids-spacing-5xl);
+  padding-inline: var(--ids-space-90);
 }
 
 @mixin ids-inline-button-padding() {
-  padding-inline: var(--ids-spacing-xl);
+  padding-inline: var(--ids-space-50);
 }
 
 /**
@@ -125,7 +125,7 @@
 @mixin ids-standard-button-colors() {
   display: inline-flex;
   font-weight: var(--ids-button-tertiary-font-weight);
-  border-radius: var(--ids-border-radius-md);
+  border-radius: var(--ids-border-radius-03);
 
   // ====================================================
   // Default/Tertiary Button
@@ -154,7 +154,7 @@
   // ====================================================
   // Tertiary Destructive Button
   &.btn-tertiary-destructive {
-    color: var(--ids-color-error);
+    color: var(--ids-color-error-default);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -172,7 +172,7 @@
     }
 
     .ripple-effect {
-      background-color: var(--ids-color-error);
+      background-color: var(--ids-color-error-default);
     }
   }
 
@@ -209,13 +209,13 @@
   // Primary Destructive Button
 
   &.btn-primary-destructive {
-    background-color: var(--ids-color-error);
-    border-color: var(--ids-color-error);
-    color: var(--ids-color-error-00);
+    background-color: var(--ids-color-error-default);
+    border-color: var(--ids-color-error-default);
+    color: var(--ids-color-text-on-error);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      border-color: var(--ids-color-error);
+      border-color: var(--ids-color-error-default);
     }
 
     &:hover {
@@ -230,7 +230,7 @@
     }
 
     .ripple-effect {
-      background-color: var(--ids-color-error-00);
+      background-color: var(--ids-color-text-on-error);
     }
   }
 
@@ -322,7 +322,7 @@
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      border-color: var(--ids-focus-border-color);
+      border-color: var(--ids-color-border-focus);
     }
 
     &[disabled] {
@@ -339,8 +339,8 @@
     }
 
     &.ids-menu-button.compact {
-      padding: var(--ids-spacing-md);
-      padding-inline: var(--ids-spacing-md);
+      padding: var(--ids-space-30);
+      padding-inline: var(--ids-space-30);
     }
   }
 }
@@ -354,7 +354,7 @@
     // Default/Tertiary Default/Light Mode
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      box-shadow: var(--ids-box-shadow-md);
+      box-shadow: var(--ids-shadow-20);
     }
 
     &.color-variant-alternate {
@@ -367,7 +367,7 @@
     &.color-variant-alternate-formatter {
       &:not(.hide-focus).is-active,
       &:not(.hide-focus):focus {
-        box-shadow: var(--ids-box-shadow-md);
+        box-shadow: var(--ids-shadow-20);
       }
     }
   }
@@ -375,7 +375,7 @@
   &.btn-tertiary-destructive {
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      box-shadow: var(--ids-box-shadow-error);
+      box-shadow: var(--ids-shadow-error);
     }
   }
 
@@ -404,8 +404,8 @@
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
       @include outset-button-shadow(
-        var(--ids-body-background-color),
-        var(--ids-color-error)
+        var(--ids-color-background-default),
+        var(--ids-color-error-default)
       );
     }
   }

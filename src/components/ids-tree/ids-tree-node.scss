@@ -3,24 +3,24 @@
 
 .ids-tree-node {
   list-style-type: none;
-  margin-bottom: var(--ids-spacing-xs);
+  margin-bottom: var(--ids-space-10);
 
   .node-container {
     border: 1px solid transparent;
     cursor: pointer;
     display: inline-flex;
-    padding: var(--ids-spacing-md);
+    padding: var(--ids-space-30);
     color: var(--ids-tree-node-text-color);
     align-items: baseline;
-    border-radius: var(--ids-border-radius-xs);
-    transition: background-color var(--ids-transition-length) var(--ids-transition-ease), opacity var(--ids-transition-length) var(--ids-transition-ease);
+    border-radius: var(--ids-border-radius-01);
+    transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), opacity var(--ids-motion-duration) var(--ids-motion-ease);
 
     .icon,
     .toggle-icon {
-      padding-top: var(--ids-spacing-xs);
+      padding-top: var(--ids-space-10);
       flex: 0 0 auto;
       margin-inline-end: 8px;
-      transition: fill var(--ids-transition-length) var(--ids-transition-ease);
+      transition: fill var(--ids-motion-duration) var(--ids-motion-ease);
       place-self: flex-start;
     }
 
@@ -42,7 +42,7 @@
       border-bottom: 1px solid transparent;
       flex-grow: 1;
       margin-inline-end: 2px;
-      transition: border var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
+      transition: border var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
     }
 
     &:hover,
@@ -103,7 +103,7 @@
 }
 
 ids-checkbox::part(root) {
-  margin-bottom: var(--ids-spacing-none);
+  margin-bottom: var(--ids-space-none);
 }
 
 @include tree-node-badge();

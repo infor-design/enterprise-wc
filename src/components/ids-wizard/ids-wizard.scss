@@ -25,8 +25,8 @@
 
   .step.clickable:focus .step-label {
     border: 1px solid var(--ids-wizard-step-color);
-    border-radius: var(--ids-border-radius-xs);
-    box-shadow: var(--ids-focus-box-shadow);
+    border-radius: var(--ids-border-radius-01);
+    box-shadow: var(--ids-shadow-focus);
     outline: none;
     outline-color: transparent;
   }
@@ -147,7 +147,7 @@
   }
 
   .step.current .step-label {
-    font-weight: var(--ids-font-weight-semi-bold);
+    font-weight: var(--ids-font-weight-semibold);
   }
 
   .step:not(.visited) {

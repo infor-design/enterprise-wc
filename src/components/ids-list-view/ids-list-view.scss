@@ -12,7 +12,7 @@
     div[part='list-item'],
     li {
       &:first-child {
-        margin-block-start: var(--ids-spacing-none);
+        margin-block-start: var(--ids-space-none);
       }
     }
   }
@@ -42,7 +42,7 @@
       padding: var(--ids-list-view-item-padding);
 
       &:first-child {
-        margin-block-start: var(--ids-spacing-sm);
+        margin-block-start: var(--ids-space-20);
       }
 
       &:focus {
@@ -61,7 +61,7 @@
         cursor: inherit;
 
         &:first-child {
-          margin-block-start: var(--ids-spacing-none);
+          margin-block-start: var(--ids-space-none);
         }
       }
 
@@ -98,7 +98,7 @@
     div[part='list-item'],
     li {
       &:first-child {
-        margin-block-start: var(--ids-spacing-none);
+        margin-block-start: var(--ids-space-none);
       }
     }
   }
@@ -123,11 +123,11 @@
       align-items: center;
 
       .list-item-checkbox {
-        padding-inline-end: var(--ids-spacing-3xl);
+        padding-inline-end: var(--ids-space-70);
         flex-grow: 0;
         flex-shrink: 0;
-        max-height: var(--ids-spacing-xxl);
-        max-width: var(--ids-spacing-xxl);
+        max-height: var(--ids-space-60);
+        max-width: var(--ids-space-60);
       }
 
       .list-item-checkbox[disabled]::part(checkmark) {

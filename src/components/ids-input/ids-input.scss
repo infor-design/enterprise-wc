@@ -148,7 +148,7 @@ $input-size-full: 100%;
 .ids-label-text {
   @include mixins.antialiased();
 
-  font-family: var(--ids-font-family);
+  font-family: var(--ids-font-family-default);
   color: var(--ids-input-label-text-color);
   display: flex;
   margin-block-end: var(--ids-input-margin-bottom);
@@ -167,10 +167,10 @@ $input-size-full: 100%;
   &.required {
     &::after {
       position: relative;
-      font-family: var(--ids-font-family);
-      margin-inline-start: var(--ids-spacing-sm);
-      margin-inline-end: var(--ids-spacing-sm);
-      font-size: var(--ids-font-size-lg);
+      font-family: var(--ids-font-family-default);
+      margin-inline-start: var(--ids-space-20);
+      margin-inline-end: var(--ids-space-20);
+      font-size: var(--ids-font-size-50);
       color: var(--ids-required-background-color);
       content: '*';
       margin-top: -10px;
@@ -194,7 +194,7 @@ $input-size-full: 100%;
 
 .disabled {
   .ids-label-text {
-    color: var(--ids-text-color-disabled);
+    color: var(--ids-color-text-disabled);
 
     &.required::after {
       color: var(--ids-required-disabled-background-color);
@@ -203,15 +203,15 @@ $input-size-full: 100%;
 }
 
 @mixin input-extra-small-height($h: $border-input-field-height-xs) {
-  margin-block-end: var(--ids-font-size-xs);
+  margin-block-end: var(--ids-font-size-20);
 
   .ids-label-text {
     font-size: var(--ids-input-label-font-size);
   }
 
   .ids-input-field {
-    padding-inline-start: var(--ids-spacing-md);
-    padding-inline-end: var(--ids-spacing-md);
+    padding-inline-start: var(--ids-space-30);
+    padding-inline-end: var(--ids-space-30);
     padding-top: 0;
     padding-bottom: 0;
     font-size: var(--ids-input-font-size-sm);
@@ -248,14 +248,14 @@ $input-size-full: 100%;
 .ids-input {
   position: relative;
   display: block;
-  margin-block-end: var(--ids-spacing-xxl);
+  margin-block-end: var(--ids-space-60);
   max-width: var(--ids-input-width-full);
 
   // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
-    transition: border var(--ids-transition-length) var(--ids-transition-ease);
-    margin: var(--ids-spacing-none);
-    padding: var(--ids-spacing-none);
+    transition: border var(--ids-motion-duration) var(--ids-motion-ease);
+    margin: var(--ids-space-none);
+    padding: var(--ids-space-none);
     position: relative;
     border: 1px solid;
     align-items: center;
@@ -278,7 +278,7 @@ $input-size-full: 100%;
 
     .field-container {
       border-color: var(--ids-input-focus-border-color) !important;
-      box-shadow: var(--ids-focus-box-shadow);
+      box-shadow: var(--ids-shadow-focus);
     }
   }
 
@@ -297,9 +297,9 @@ $input-size-full: 100%;
     box-sizing: border-box;
     background-color: transparent;
     border: none;
-    font-family: var(--ids-font-family);
-    padding-block-start: var(--ids-spacing-md);
-    padding-block-end: var(--ids-spacing-md);
+    font-family: var(--ids-font-family-default);
+    padding-block-start: var(--ids-space-30);
+    padding-block-end: var(--ids-space-30);
     padding-inline-start: var(--ids-spacing-lg);
     padding-inline-end: var(--ids-spacing-lg);
     font-size: var(--ids-input-font-size);
@@ -336,7 +336,7 @@ $input-size-full: 100%;
 
   // Validation Messages are appended beneath the `.field-container`
   .validation-message {
-    margin-block-start: var(--ids-spacing-md);
+    margin-block-start: var(--ids-space-30);
     margin-bottom: 0;
   }
 
@@ -362,7 +362,7 @@ $input-size-full: 100%;
     // Reverse the margins on `ids-input[no-margins]` fields to have the bottom margin on top
     .validation-message {
       margin-bottom: 0;
-      margin-block-start: var(--ids-spacing-md);
+      margin-block-start: var(--ids-space-30);
     }
 
     .ids-label-text {
@@ -462,7 +462,7 @@ $input-size-full: 100%;
     border-radius: 0;
 
     input {
-      font-size: var(--ids-font-size-md);
+      font-size: var(--ids-font-size-40);
     }
 
     .icon-dirty {
@@ -483,11 +483,11 @@ $input-size-full: 100%;
     }
 
     &.ids-input.field-height-lg .ids-input-field {
-      padding-inline: calc(var(--ids-spacing-xxl) - 2px);
+      padding-inline: calc(var(--ids-space-60) - 2px);
     }
 
     &.ids-input.field-height-md .ids-input-field {
-      padding-inline: calc(var(--ids-spacing-xl) - 2px);
+      padding-inline: calc(var(--ids-space-50) - 2px);
     }
 
     &.ids-input.field-height-sm .ids-input-field {
@@ -496,12 +496,12 @@ $input-size-full: 100%;
 
     &.ids-input.field-height-xs .ids-input-field {
       font-size: var(--ids-data-grid-font-size-sm);
-      padding-inline: var(--ids-spacing-sm);
+      padding-inline: var(--ids-space-20);
     }
 
     &.ids-input.field-height-xxs .ids-input-field {
       font-size: var(--ids-data-grid-font-size-sm);
-      padding-inline: var(--ids-spacing-xs);
+      padding-inline: var(--ids-space-10);
     }
   }
 
@@ -510,7 +510,7 @@ $input-size-full: 100%;
     margin: 1px;
 
     input {
-      font-size: var(--ids-font-size-md);
+      font-size: var(--ids-font-size-40);
     }
 
     &.ids-input.field-height-lg .ids-input-field {
@@ -573,8 +573,8 @@ $input-size-full: 100%;
 
       &.error,
       &.error:hover {
-        border-color: var(--ids-color-error);
-        color: var(--ids-color-error);
+        border-color: var(--ids-color-error-default);
+        color: var(--ids-color-error-default);
       }
     }
 
@@ -670,7 +670,7 @@ $input-size-full: 100%;
       }
 
       .ids-input-field {
-        box-shadow: 0 0 3px 1px var(--ids-focus-box-shadow);
+        box-shadow: 0 0 3px 1px var(--ids-shadow-focus);
       }
     }
 

@@ -25,7 +25,7 @@ $split-bar-size: var(--ids-splitter-bar-width);
       width: 100%;
       align-items: center;
       justify-content: center;
-      transition: background-color var(--ids-transition-length) var(--ids-transition-ease);
+      transition: background-color var(--ids-motion-duration) var(--ids-motion-ease);
 
       &:hover {
         background-color: var(--ids-splitter-bar-hover-background-color);
