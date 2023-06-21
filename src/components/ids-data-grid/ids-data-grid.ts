@@ -558,6 +558,7 @@ export default class IdsDataGrid extends Base {
       // Handle Expand/Collapse Clicking
       if (isClickable && isExpandButton) {
         row.toggleExpandCollapse();
+        this.#updateContainerMaxHeight();
         return;
       }
 
@@ -1135,6 +1136,8 @@ export default class IdsDataGrid extends Base {
     } else {
       this.data = this.data.concat(value);
     }
+
+    this.#updateContainerMaxHeight();
   }
 
   /* Append missing rows for virtual-scrolling */
@@ -1175,10 +1178,11 @@ export default class IdsDataGrid extends Base {
       this.datasource.data = value;
       this.initialized = true;
       this.redraw();
-      return;
+    } else {
+      this.datasource.data = [];
     }
 
-    this.datasource.data = [];
+    this.#updateContainerMaxHeight();
   }
 
   get data(): Array<Record<string, any>> { return this?.datasource?.data; }
@@ -1341,23 +1345,17 @@ export default class IdsDataGrid extends Base {
   #attachScrollEvents() {
     const virtualScrollSettings = this.virtualScrollSettings;
 
-    let debounceRowIndex = 0;
     this.offEvent('scroll.data-grid', this.container);
     this.onEvent('scroll.data-grid', this.container, () => {
       const scrollTop = this.container!.scrollTop;
-      const clientHeight = this.container!.clientHeight;
+      const containerHeight = this.container!.clientHeight;
       const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
       const rowIndex = Math.floor(scrollTop / virtualRowHeight);
-
-      if (rowIndex === debounceRowIndex) return;
-      debounceRowIndex = rowIndex;
-
-      const data = this.data;
       const rows = this.rows;
-      const maxHeight = virtualRowHeight * data.length;
+      const maxHeight = this.#containerMaxHeight;
 
       const reachedTheTop = rowIndex <= 0;
-      const reachedTheBottom = (scrollTop + clientHeight) >= maxHeight;
+      const reachedTheBottom = (scrollTop + containerHeight) >= maxHeight;
 
       if (reachedTheTop) {
         const firstRow: any = rows[0];
@@ -1375,14 +1373,26 @@ export default class IdsDataGrid extends Base {
     this.#attachVirtualScrollEvent();
   }
 
+  /** Virtual Container Height */
+  #containerMaxHeight = 0;
+
+  #updateContainerMaxHeight() {
+    const virtualScrollSettings = this.virtualScrollSettings;
+    const headerHeight = this.header.clientHeight;
+    const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
+    this.#containerMaxHeight = this.treeGrid
+      ? (this.data.filter((row) => !row.rowHidden).length * virtualRowHeight) + headerHeight
+      : virtualRowHeight * this.data.length;
+  }
+
   /* Attach Events for virtual scrolling */
   #attachVirtualScrollEvent() {
     if (!this.virtualScroll) return;
 
     const virtualScrollSettings = this.virtualScrollSettings;
-    const data = this.data;
     const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
-    const maxPaddingBottom = (data.length * virtualRowHeight) - virtualScrollSettings.BODY_HEIGHT;
+    const maxHeight = this.#containerMaxHeight;
+    const maxPaddingBottom = maxHeight - virtualScrollSettings.BODY_HEIGHT;
 
     this.body?.style.setProperty('padding-bottom', `${Math.max(maxPaddingBottom, 0)}px`);
 
@@ -1545,7 +1555,8 @@ export default class IdsDataGrid extends Base {
 
     // NOTE: repaint of padding is more performant than margin
     const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
-    const maxPaddingBottom = (data.length * virtualRowHeight) - virtualScrollSettings.BODY_HEIGHT;
+    const maxHeight = this.#containerMaxHeight;
+    const maxPaddingBottom = maxHeight - virtualScrollSettings.BODY_HEIGHT;
     const bodyTranslateY = bufferRowIndex * virtualRowHeight;
     const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
 
@@ -1672,6 +1683,7 @@ export default class IdsDataGrid extends Base {
       this.shadowRoot?.querySelector('.ids-data-grid')?.setAttribute('data-row-height', 'lg');
     }
     this.saveSettings?.();
+    this.#updateContainerMaxHeight();
   }
 
   get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'lg'; }
@@ -1942,6 +1954,7 @@ export default class IdsDataGrid extends Base {
     this.datasource.data = this.datasource.originalData;
     this.redrawBody();
     this.#updateRowCount();
+    this.#updateContainerMaxHeight();
   }
 
   /**

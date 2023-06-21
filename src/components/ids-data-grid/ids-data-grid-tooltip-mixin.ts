@@ -516,9 +516,9 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
       this.#mouseOut = false;
       this.#handleTooltip(e);
     }, 250));
-    this.onEvent('scroll.data-grid', this.container, () => {
+    this.onEvent('scroll.data-grid.tooltip-scroll', this.container, () => {
       this.#hideTooltip();
-      this.offEvent('scroll.data-grid', this.container);
+      this.offEvent('scroll.data-grid.tooltip-scroll', this.container);
     }, { capture: true, passive: true });
   }
 
@@ -530,7 +530,7 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
   #detachTooltip(): void {
     this.offEvent('mouseover.data-grid', this.container);
     this.offEvent('mouseout.data-grid', this.container);
-    this.offEvent('scroll.data-grid', this.container);
+    this.offEvent('scroll.data-grid.tooltip-scroll', this.container);
     this.#tooltip?.remove();
     this.#tooltip = undefined;
   }
