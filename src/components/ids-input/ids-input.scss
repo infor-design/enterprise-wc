@@ -6,15 +6,15 @@
 
 // These input field sizes come from the design tokens and are adjusted
 // here to account for 1px border size on top/bottom or left/right in some calculations.
-$border-input-size-xs: calc(var(--ids-input-width-xs) - 2px);
-$border-input-size-sm: calc(var(--ids-input-width-sm) - 2px);
-$border-input-size-md: calc(var(--ids-input-width-md) - 2px);
-$border-input-size-mm: calc(var(--ids-input-width-mm) - 2px);
-$border-input-size-lg: calc(var(--ids-input-width-lg) - 2px);
-$border-input-field-height-xs: calc(var(--ids-input-height-xs) - 2px);
-$border-input-field-height-sm: calc(var(--ids-input-height-sm) - 2px);
-$border-input-field-height-md: calc(var(--ids-input-height-md) - 2px);
-$border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
+$border-input-size-xs: calc(var(--ids-input-width-10) - 2px);
+$border-input-size-sm: calc(var(--ids-input-width-20) - 2px);
+$border-input-size-md: calc(var(--ids-input-width-40) - 2px);
+$border-input-size-mm: calc(var(--ids-input-width-30) - 2px);
+$border-input-size-lg: calc(var(--ids-input-width-50) - 2px);
+$border-input-field-height-xs: calc(var(--ids-input-height-10) - 2px);
+$border-input-field-height-sm: calc(var(--ids-input-height-20) - 2px);
+$border-input-field-height-md: calc(var(--ids-input-height-30) - 2px);
+$border-input-field-height-lg: calc(var(--ids-input-height-40) - 2px);
 $input-size-full: 100%;
 
 // Mixin for message styles: [alert, error, info, success]
@@ -23,69 +23,69 @@ $input-size-full: 100%;
   .alert:hover,
   .warning,
   .warning:hover  {
-    border-color: var(--ids-input-alert-border-color);
-    color: var(--ids-input-alert-text-color);
+    border-color: var(--ids-input-color-border-alert-default);
+    color: var(--ids-input-color-text-alert-default);
 
     &:focus-within,
     &.is-active {
-      border-color: var(--ids-input-alert-border-color);
-      box-shadow: var(--ids-input-alert-focus-box-shadow) 0 0 3px 2px;
+      border-color: var(--ids-input-color-border-alert-default);
+      box-shadow: var(--ids-input-shadow-alert-focus) 0 0 3px 2px;
     }
 
     &[disabled] {
-      border-color: var(--ids-input-alert-disabled-border-color);
-      color: var(--ids-input-alert-disabled-text-color);
+      border-color: var(--ids-input-color-border-alert-disabled);
+      color: var(--ids-input-color-text-alert-disabled);
     }
   }
 
   .error,
   .error:hover {
-    border-color: var(--ids-input-error-border-color);
-    color: var(--ids-input-error-text-color);
+    border-color: var(--ids-input-color-border-error-default);
+    color: var(--ids-input-error-color-text-error-default);
 
     &:focus-within,
     &.is-active {
-      border-color: var(--ids-input-error-border-color);
-      box-shadow: var(--ids-input-error-focus-box-shadow) 0 0 3px 2px;
+      border-color: var(--ids-input-color-border-error-default);
+      box-shadow: var(--ids-input-color-shadow-error-focus) 0 0 3px 2px;
     }
 
     &[disabled] {
-      border-color: var(--ids-input-error-disabled-border-color);
-      color: var(--ids-input-error-disabled-border-color);
+      border-color: var(--ids-input-color-border-error-disabled);
+      color: var(--ids-input-color-border-error-disabled);
     }
   }
 
   .info,
   .info:hover {
-    border-color: var(--ids-input-info-border-color);
-    color: var(--ids-input-info-text-color);
+    border-color: var(--ids-input-color-border-info-default);
+    color: var(--ids-input-color-text-info-default);
 
     &:focus-within,
     &.is-active {
-      border-color: var(--ids-input-info-border-color);
-      box-shadow: var(--ids-input-info-focus-box-shadow)  0 0 3px 2px;
+      border-color: var(--ids-input-color-border-info-default);
+      box-shadow: var(--ids-input-shadow-info-focus)  0 0 3px 2px;
     }
 
     &[disabled] {
-      border-color: var( --ids-input-info-disabled-border-color);
-      color: var(--ids-input-info-disabled-text-color);
+      border-color: var( --ids-input-color-border-info-disabled);
+      color: var(--ids-input-color-text-info-disabled);
     }
   }
 
   .success,
   .success:hover {
-    border-color: var(--ids-input-success-border-color);
-    color: var(--ids-input-success-text-color);
+    border-color: var(--ids-input-color-border-success-default);
+    color: var(--ids-input-color-text-success-default);
 
     &:focus-within,
     &.is-active {
-      border-color: var(--ids-input-success-border-color);
-      box-shadow: var(--ids-input-success-focus-box-shadow) 0 0 3px 2px;
+      border-color: var(--ids-input-color-border-success-default);
+      box-shadow: var(--ids-input-shadow-success-focus) 0 0 3px 2px;
     }
 
     &[disabled] {
-      border-color: var(--ids-input-success-disabled-border-color);
-      color: var(--ids-input-success-disabled-text-color);
+      border-color: var(--ids-input-color-border-success-disabled);
+      color: var(--ids-input-color-text-success-disabled);
     }
   }
 }
@@ -149,7 +149,7 @@ $input-size-full: 100%;
   @include mixins.antialiased();
 
   font-family: var(--ids-font-family-default);
-  color: var(--ids-input-label-text-color);
+  color: var(--ids-input-label-color-text-default);
   display: flex;
   margin-block-end: var(--ids-input-margin-bottom);
   align-items: baseline;
@@ -171,7 +171,7 @@ $input-size-full: 100%;
       margin-inline-start: var(--ids-space-20);
       margin-inline-end: var(--ids-space-20);
       font-size: var(--ids-font-size-50);
-      color: var(--ids-required-background-color);
+      color: var(--ids-input-required-indicator-color-text-default);
       content: '*';
       margin-top: -10px;
       top: 1px;
@@ -197,7 +197,7 @@ $input-size-full: 100%;
     color: var(--ids-color-text-disabled);
 
     &.required::after {
-      color: var(--ids-required-disabled-background-color);
+      color: var(--ids-input-required-indicator-color-text-disabled);
     }
   }
 }
@@ -277,17 +277,17 @@ $input-size-full: 100%;
     }
 
     .field-container {
-      border-color: var(--ids-input-focus-border-color) !important;
+      border-color: var(--ids-input-color-border-focus) !important;
       box-shadow: var(--ids-shadow-focus);
     }
   }
 
   .ids-icon.starting-icon {
-    margin-inline-start: var(--ids-spacing-lg);
+    margin-inline-start: var(--ids-space-40);
   }
 
   .ids-icon.ending-icon {
-    margin-inline-end: var(--ids-spacing-lg);
+    margin-inline-end: var(--ids-space-40);
   }
 
   // Applied to the shadow root's HTMLInputElement
@@ -300,8 +300,8 @@ $input-size-full: 100%;
     font-family: var(--ids-font-family-default);
     padding-block-start: var(--ids-space-30);
     padding-block-end: var(--ids-space-30);
-    padding-inline-start: var(--ids-spacing-lg);
-    padding-inline-end: var(--ids-spacing-lg);
+    padding-inline-start: var(--ids-space-40);
+    padding-inline-end: var(--ids-space-40);
     font-size: var(--ids-input-font-size);
     width: 100%;
 
@@ -456,7 +456,7 @@ $input-size-full: 100%;
 
   // Flush/Invisible Variant (used in IdsDataGrid cell editing)
   &.color-variant-borderless {
-    --ids-input-focus-border-color: transparent;
+    --ids-input-color-border-focus: transparent;
 
     margin: 1px;
     border-radius: 0;
@@ -491,7 +491,7 @@ $input-size-full: 100%;
     }
 
     &.ids-input.field-height-sm .ids-input-field {
-      padding-inline: calc(var(--ids-spacing-lg) - 2px);
+      padding-inline: calc(var(--ids-space-40) - 2px);
     }
 
     &.ids-input.field-height-xs .ids-input-field {
@@ -559,17 +559,17 @@ $input-size-full: 100%;
 .ids-input {
   /* stylelint-disable-next-line no-duplicate-selectors */
   .field-container {
-    background-color: var(--ids-input-background-color);
-    border-color: var(--ids-input-border-color);
-    color: var(--ids-input-text-color);
+    background-color: var(--ids-input-color-background-default);
+    border-color: var(--ids-input-color-border-default);
+    color: var(--ids-input-color-text);
   }
 
   &.readonly {
     .field-container,
     &.hover .field-container,
     &.focus-within .field-container {
-      border-color: var(--ids-input-readonly-border-color);
-      color: var(--ids-input-readonly-text-color);
+      border-color: var(--ids-input-color-border-readonly);
+      color: var(--ids-input-color-text-readonly);
 
       &.error,
       &.error:hover {
@@ -582,7 +582,7 @@ $input-size-full: 100%;
       .field-container,
       &.hover .field-container,
       &.focus-within .field-container {
-        background-color: var(--ids-input-readonly-background-color);
+        background-color: var(--ids-input-color-background-readonly);
       }
     }
   }
@@ -591,11 +591,11 @@ $input-size-full: 100%;
     .field-container,
     &:hover .field-container,
     &:focus-within .field-container {
-      border-color: var(--ids-input-disabled-border-color);
-      color: var(--ids-input-disabled-text-color);
+      border-color: var(--ids-input-color-border-disabled);
+      color: var(--ids-input-color-text-disabled);
 
       // Safari input text color
-      -webkit-text-fill-color: var(--ids-input-disabled-text-color);
+      -webkit-text-fill-color: var(--ids-input-color-text-disabled);
     }
   }
 
@@ -616,7 +616,7 @@ $input-size-full: 100%;
   &:hover:not(.readonly):not(.disabled):not(.color-variant-borderless),
   &:hover.readonly.readonly-background:not(.color-variant-alternate-formatter) {
     .field-container {
-      border-color: var(--ids-input-hover-border-color);
+      border-color: var(--ids-input-color-border-hover);
     }
 
     // Include error styles
@@ -625,7 +625,7 @@ $input-size-full: 100%;
 
   &:hover:not(.disabled).readonly.readonly-background.color-variant-alternate-formatter {
     .field-container {
-      border-color: var(--ids-data-grid-filter-input-hover-color);
+      border-color: var(--ids-data-grid-filter-input-color-background-hover);
     }
   }
 
@@ -636,37 +636,37 @@ $input-size-full: 100%;
   &.color-variant-alternate {
     .field-container {
       border-color: transparent;
-      color: var(--ids-input-header-text-color);
-      background-color: var(--ids-input-header-background-color);
-      border-bottom: 1px solid var(--ids-input-header-border-color);
+      color: var(--ids-input-header-color-text-default);
+      background-color: var(--ids-input-header-color-background);
+      border-bottom: 1px solid var(--ids-input-header-color-border);
       box-shadow: none;
     }
 
     .ids-input-field::placeholder {
-      color: var(--ids-input-header-placeholder-text-color);
+      color: var(--ids-input-header-color-text-placeholder);
     }
   }
 
   // Alternate-formatter Color Variant (used in IdsDataGrid filter)
   &.color-variant-alternate-formatter {
     .field-container {
-      background-color: var(--ids-data-grid-filter-input-background-color);
-      border-color: var(--ids-data-grid-filter-input-border-color);
-      color: var(--ids-data-grid-filter-input-text-color);
+      background-color: var(--ids-data-grid-filter-input-color-background);
+      border-color: var(--ids-data-grid-filter-input-color-border-default);
+      color: var(--ids-data-grid-filter-input-color-text-default);
     }
 
     &:hover.readonly.readonly-background,
     &:hover:not(.readonly):not(.disabled):not(.color-variant-borderless),
     &.ids-input:hover:not(.readonly):not(.disabled):not(.color-variant-borderless):hover {
       .field-container {
-        border-color: var(--ids-data-grid-filter-input-hover-color);
+        border-color: var(--ids-data-grid-filter-input-color-background-hover);
       }
     }
 
     &:focus-within {
       .field-container,
       &:hover .field-container {
-        border-color: var(--ids-data-grid-filter-input-focus-color);
+        border-color: var(--ids-data-grid-filter-input-color-border-focus);
       }
 
       .ids-input-field {
@@ -676,18 +676,18 @@ $input-size-full: 100%;
 
     &.disabled .field-container,
     &.disabled:hover .field-container {
-      border-color: var(--ids-data-grid-filter-input-disabled-border-color);
-      color: var(--ids-data-grid-filter-input-disabled-text-color);
+      border-color: var(--ids-data-grid-filter-input-color-border-disabled);
+      color: var(--ids-data-grid-filter-input-color-text-disabled);
     }
 
     &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
-      background-color: var(--ids-data-grid-filter-input-readonly-background-color);
-      border-color: var(--ids-data-grid-filter-input-readonly-border-color);
-      color: var(--ids-data-grid-filter-input-readonly-text-color);
+      background-color: var(--ids-data-grid-filter-input-color-background-readonly);
+      border-color: var(--ids-data-grid-filter-input-color-border-readonly);
+      color: var(--ids-data-grid-filter-input-color-text-readonly);
     }
 
     .ids-input-field::placeholder {
-      color: var(--ids-data-grid-filter-input-placeholder-text-color);
+      color: var(--ids-data-grid-filter-input-color-text-placeholder);
     }
   }
 
@@ -695,7 +695,7 @@ $input-size-full: 100%;
   &.color-variant-alternate,
   &.color-variant-app-menu {
     .field-container {
-      color: var(--ids-input-app-menu-text-color);
+      color: var(--ids-input-color-text-default);
     }
   }
 
@@ -726,27 +726,27 @@ $input-size-full: 100%;
 // Autocomplete dropdown menu sizes
 :host ids-popup[type='dropdown'] {
   width: 100%;
-  max-width: var(--ids-input-width-md);
+  max-width: var(--ids-input-width-40);
 }
 
 :host([size='xs']) ids-popup[type='dropdown'] {
-  max-width: var(--ids-input-width-xs);
+  max-width: var(--ids-input-width-10);
 }
 
 :host([size='sm']) ids-popup[type='dropdown'] {
-  max-width: var(--ids-input-width-sm);
+  max-width: var(--ids-input-width-20);
 }
 
 :host([size='mm']) ids-popup[type='dropdown'] {
-  max-width: var(--ids-input-width-mm);
+  max-width: var(--ids-input-width-30);
 }
 
 :host([size='md']) ids-popup[type='dropdown'] {
-  max-width: var(--ids-input-width-md);
+  max-width: var(--ids-input-width-40);
 }
 
 :host([size='lg']) ids-popup[type='dropdown'] {
-  max-width: var(--ids-input-width-lg);
+  max-width: var(--ids-input-width-50);
 }
 
 :host([size='full']) ids-popup[type='dropdown'] {

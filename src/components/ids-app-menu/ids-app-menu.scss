@@ -25,12 +25,12 @@
 }
 
 .ids-app-menu-search {
-  padding: var(--ids-spacing-lg);
+  padding: var(--ids-space-40);
 }
 
 // Add some padding and sizing on Avatar Icons
 ::slotted(ids-icon[slot='avatar']) {
-  padding: var(--ids-spacing-lg);
+  padding: var(--ids-space-40);
 }
 
 ::slotted(img[slot='avatar']) {
@@ -40,13 +40,13 @@
 }
 
 ::slotted(ids-toolbar) {
-  padding-inline: var(--ids-spacing-lg);
-  margin-block-end: var(--ids-spacing-lg);
+  padding-inline: var(--ids-space-40);
+  margin-block-end: var(--ids-space-40);
 }
 
 .ids-app-menu-branding {
   // Specific Infor Logo sizing (@TODO: maybe make this its own component)
   ::slotted(ids-icon[icon='logo']) {
-    padding: var(--ids-spacing-lg);
+    padding: var(--ids-space-40);
   }
 }

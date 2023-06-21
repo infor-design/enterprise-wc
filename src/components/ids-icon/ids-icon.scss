@@ -29,15 +29,15 @@
 }
 
 :host([icon^='empty-']) {
-  color: var(--ids-icon-empty-icon-color);
+  color: var(--ids-icon-empty-color);
 }
 
 :host([icon^='empty-'][icon$='-new']) {
-  color: var(--ids-icon-empty-new-icon-color);
+  color: var(--ids-icon-empty-new-color);
 }
 
 .notification-badge {
-  background-color: var(--ids-notification-badge-error-background-color);
+  background-color: var(--ids-notification-badge-error-color-background);
   border-radius: var(--ids-notification-badge-border-radius);
   height: var(--ids-notification-badge-size);
   width: var(--ids-notification-badge-size);
@@ -46,19 +46,19 @@
   // Color notification badges
   &.info,
   &.base {
-    background-color: var(--ids-notification-badge-info-background-color);
+    background-color: var(--ids-notification-badge-info-color-background);
   }
 
   &.error {
-    background-color: var(--ids-notification-badge-error-background-color);
+    background-color: var(--ids-notification-badge-error-color-background);
   }
 
   &.success {
-    background-color: var(--ids-notification-badge-success-background-color);
+    background-color: var(--ids-notification-badge-success-color-background);
   }
 
   &.warning {
-    background-color: var(--ids-notification-badge-warning-background-color);
+    background-color: var(--ids-notification-badge-warning-color-background);
   }
 
   /**

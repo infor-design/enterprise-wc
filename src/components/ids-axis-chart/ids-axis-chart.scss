@@ -109,7 +109,7 @@ ids-empty-message:not([hidden]),
 
 .tooltip.chart-legend {
   flex-direction: column;
-  margin-block-end: var(--ids-spacing-lg);
+  margin-block-end: var(--ids-space-40);
   padding: 0;
 
   .swatch {

@@ -10,7 +10,7 @@
     cursor: pointer;
     display: inline-flex;
     padding: var(--ids-space-30);
-    color: var(--ids-tree-node-text-color);
+    color: var(--ids-tree-node-color-text-default);
     align-items: baseline;
     border-radius: var(--ids-border-radius-01);
     transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), opacity var(--ids-motion-duration) var(--ids-motion-ease);
@@ -47,16 +47,16 @@
 
     &:hover,
     &:active {
-      color: var(--ids-tree-node-hover-text-color);
+      color: var(--ids-tree-node-color-text-hover);
 
       .text {
-        border-color: var(--ids-tree-node-hover-text-border-color);
+        border-color: var(--ids-tree-node-color-border-hover);
       }
     }
 
     &:focus {
-      border-color: var(--ids-tree-node-focus-border-color);
-      box-shadow: var(--ids-tree-node-focus-box-shadow);
+      border-color: var(--ids-tree-node-color-border-focus);
+      box-shadow: var(--ids-tree-node-shadow-focus);
       outline: none;
     }
   }
@@ -72,21 +72,21 @@
 
   &[selected] {
     .node-container {
-      background-color: var(--ids-tree-node-selected-background-color);
-      color: var(--ids-tree-node-selected-text-color);
+      background-color: var(--ids-tree-node-color-background-selected);
+      color: var(--ids-tree-node-color-text-selected);
     }
   }
 
   &[disabled] {
     .node-container {
-      color: var(--ids-tree-node-disabled-text-color);
+      color: var(--ids-tree-node-color-text-disabled);
       cursor: default;
       pointer-events: none;
       user-select: none;
 
       &:hover,
       &:active {
-        color: var(--ids-tree-node-disabled-text-color);
+        color: var(--ids-tree-node-color-text-disabled);
       }
 
       &:focus {

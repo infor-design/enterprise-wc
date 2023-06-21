@@ -8,11 +8,11 @@
   margin-top: var(--ids-space-30);
 
   &.has-custom-icon {
-    color: var(--ids-icon-color);
+    color: var(--ids-icon-color-default);
   }
 
   &.disabled {
-    color: var(--ids-input-disabled-text-color);
+    color: var(--ids-input-color-text-disabled);
   }
 
   .ids-icon {

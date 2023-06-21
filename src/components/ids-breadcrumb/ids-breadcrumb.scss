@@ -41,7 +41,7 @@
   }
 
   nav {
-    padding: var(--ids-spacing-lg);
+    padding: var(--ids-space-40);
 
     &.truncate {
       &::before {
@@ -89,8 +89,8 @@
       background-image:
       linear-gradient(
         to right,
-        var(--ids-header-gradient-opaque),
-        var(--ids-header-gradient-transparent)
+        var(--ids-header-gradient-opacity-none),
+        var(--ids-header-gradient-opacity-full)
       );
     }
  }
@@ -123,7 +123,7 @@ span.ids-breadcrumb-divider:not(:first-child)::before {
   color: inherit;
   content: '\002F';
   font-weight: normal;
-  padding: var(--ids-space-10) var(--ids-spacing-lg) ;
+  padding: var(--ids-space-10) var(--ids-space-40) ;
   text-decoration: none;
   display: inline-block;
   margin-inline-start: -3px;

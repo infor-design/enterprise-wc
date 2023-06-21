@@ -6,7 +6,7 @@
 
   &.selected:not(.mixed) .ids-data-grid-cell,
   &.activated .ids-data-grid-cell {
-    background-color: var(--ids-data-grid-row-selected-background-color);
+    background-color: var(--ids-data-grid-row-color-background-selected);
   }
 
   &[hidden] {
@@ -19,115 +19,115 @@
   // Large by default
   &[data-row-height='md'] {
     .ids-data-grid-cell {
-      height: var(--ids-data-grid-md-row-height);
+      height: var(--ids-data-grid-row-height-md);
 
       .text-ellipsis,
       ids-badge {
-        padding-inline-start: var(--ids-data-grid-md-padding);
-        padding-inline-end: var(--ids-data-grid-md-padding);
+        padding-inline-start: var(--ids-data-grid-padding-md);
+        padding-inline-end: var(--ids-data-grid-padding-md);
       }
 
       ids-hyperlink {
-        margin: var(--ids-data-grid-md-padding);
+        margin: var(--ids-data-grid-padding-md);
       }
     }
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
-      padding-inline-start: var(--ids-data-grid-md-padding);
+      padding-inline-start: var(--ids-data-grid-padding-md);
       transition: padding var(--ids-motion-duration) var(--ids-motion-ease);
     }
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
-      padding-inline-start: var(--ids-data-grid-md-padding);
+      padding-inline-start: var(--ids-data-grid-padding-md);
     }
   }
 
   &[data-row-height='sm'] {
     .ids-data-grid-cell {
-      height: var(--ids-data-grid-sm-row-height);
+      height: var(--ids-data-grid-row-height-sm);
 
       .text-ellipsis,
       ids-badge {
-        padding-inline-start: var(--ids-data-grid-sm-padding);
-        padding-inline-end: var(--ids-data-grid-sm-padding);
+        padding-inline-start: var(--ids-data-grid-padding-sm);
+        padding-inline-end: var(--ids-data-grid-padding-sm);
       }
 
       ids-hyperlink {
-        margin: var(--ids-data-grid-sm-padding);
+        margin: var(--ids-data-grid-padding-sm);
       }
     }
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
-      padding-inline-start: var(--ids-data-grid-sm-padding);
+      padding-inline-start: var(--ids-data-grid-padding-sm);
       transition: padding var(--ids-motion-duration) var(--ids-motion-ease);
     }
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
-      padding-inline-start: var(--ids-data-grid-sm-padding);
+      padding-inline-start: var(--ids-data-grid-padding-sm);
     }
   }
 
   &[data-row-height='xs'] {
     .ids-data-grid-cell {
-      height: var(--ids-data-grid-xs-row-height);
+      height: var(--ids-data-grid-row-height-xs);
       font-size: var(--ids-data-grid-font-size-sm);
 
       .text-ellipsis,
       ids-badge {
-        padding-inline-start: var(--ids-data-grid-xs-padding);
-        padding-inline-end: var(--ids-data-grid-xs-padding);
+        padding-inline-start: var(--ids-data-grid-padding-xs);
+        padding-inline-end: var(--ids-data-grid-padding-xs);
       }
 
       ids-hyperlink {
-        margin: var(--ids-data-grid-xs-padding);
+        margin: var(--ids-data-grid-padding-xs);
       }
     }
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
-      padding-inline-start: var(--ids-data-grid-xs-padding);
+      padding-inline-start: var(--ids-data-grid-padding-xs);
       transition: padding var(--ids-motion-duration) var(--ids-motion-ease);
     }
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
-      padding-inline-start: var(--ids-data-grid-xs-padding);
+      padding-inline-start: var(--ids-data-grid-padding-xs);
     }
   }
 
   &[data-row-height='xxs'] {
     .ids-data-grid-cell {
-      height: var(--ids-data-grid-xxs-row-height);
+      height: var(--ids-data-grid-row-height-xxs);
       font-size: var(--ids-data-grid-font-size-sm);
 
       .text-ellipsis,
       ids-badge {
-        padding-inline-start: var(--ids-data-grid-xxs-padding);
-        padding-inline-end: var(--ids-data-grid-xxs-padding);
+        padding-inline-start: var(--ids-data-grid-padding-xxs);
+        padding-inline-end: var(--ids-data-grid-padding-xxs);
       }
 
       ids-hyperlink {
-        margin: var(--ids-data-grid-xxs-padding);
+        margin: var(--ids-data-grid-padding-xxs);
       }
     }
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
-      padding-inline-start: var(--ids-data-grid-xxs-padding);
+      padding-inline-start: var(--ids-data-grid-padding-xxs);
       transition: padding var(--ids-motion-duration) var(--ids-motion-ease);
     }
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell:hover .ids-data-grid-header-cell-content:not(.vertical-align-center).is-reorderable .ids-data-grid-header-text {
-      padding-inline-start: var(--ids-data-grid-xxs-padding);
+      padding-inline-start: var(--ids-data-grid-padding-xxs);
     }
   }
 }
 
 // Row Alternate Row Setting Feature
 .ids-data-grid.alt-row-shading ids-data-grid-row:nth-child(even) {
-  background-color: var(--ids-data-grid-row-alternate-background-color);
+  background-color: var(--ids-data-grid-row-alternating-color-background);
 }
 
 // Expandable Row
 .ids-data-grid-expandable-row {
-  border-bottom: 1px solid var(--ids-data-grid-cell-border-color);
+  border-bottom: 1px solid var(--ids-data-grid-cell-color-border);
   grid-column: 1 / -1;
   padding: 8px;
 }
@@ -135,13 +135,13 @@
 // Standalone Css
 tr.ids-data-grid-row {
   display: table-row;
-  height: var(--ids-data-grid-lg-row-height);
+  height: var(--ids-data-grid-row-height-lg);
 }
 
 // Row Navigation Styles
 .ids-data-grid.row-navigation .ids-data-grid-row {
   &:focus-within {
-    box-shadow: var(--ids-data-grid-row-focus-box-shadow);
+    box-shadow: var(--ids-data-grid-row-shadow-focus);
   }
 
   .ids-data-grid-cell:focus {

@@ -10,11 +10,11 @@
 .ids-toast-message {
   @include mixins.antialiased();
 
-  background-color: var(--ids-toast-background-color);
+  background-color: var(--ids-toast-color-background);
   box-sizing: border-box;
-  border: 1px solid var(--ids-toast-border-color);
+  border: 1px solid var(--ids-toast-color-border);
   border-radius: var(--ids-border-radius-01);
-  color: var(--ids-toast-text-color);
+  color: var(--ids-toast-color-text);
   font-family: var(--ids-font-family-default);
   font-size: var(--ids-font-size-40);
   outline: 0;
@@ -55,7 +55,7 @@
 
   .message {
     display: block;
-    margin-block-start: var(--ids-spacing-lg);
+    margin-block-start: var(--ids-space-40);
   }
 
   .close-button::part(button) {
@@ -63,7 +63,7 @@
   }
 
   .progress-bar {
-    background-color: var(--ids-toast-progress-background-color);
+    background-color: var(--ids-toast-progress-color-background);
     height: 3px;
     overflow: hidden;
     width: 0;

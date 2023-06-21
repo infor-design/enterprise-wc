@@ -18,12 +18,12 @@ text {
 }
 
 svg {
-  stroke: var(--ids-treemap-stroke-color);
+  stroke: var(--ids-tree-treemap-color-border);
 }
 
 .treemap-title {
-  background-color: var(--ids-treemap-title-background-color);
-  padding: var(--ids-spacing-lg);
-  color: var(--ids-treemap-title-text-color);
+  background-color: var(--ids-tree-treemap-title-color-background);
+  padding: var(--ids-space-40);
+  color: var(--ids-tree-treemap-title-color-text);
   text-align: center;
 }

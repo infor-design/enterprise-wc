@@ -13,8 +13,8 @@
 
 .ids-data-grid {
   // Outside border and Background and sizing
-  background-color: var(--ids-data-grid-background-color);
-  border: 1px solid var(--ids-data-grid-cell-border-color);
+  background-color: var(--ids-data-grid-color-background);
+  border: 1px solid var(--ids-data-grid-cell-color-border);
   border-radius: var(--ids-border-radius-01);
   border-collapse: collapse;
   box-sizing: border-box;
@@ -47,7 +47,7 @@
       cursor: var(--ids-cursor-pointer);
     }
 
-    border-color: var(--ids-data-grid-cell-checkbox-border-color);
+    border-color: var(--ids-data-grid-cell-checkbox-color-border);
     position: relative;
     left: 0;
     top: 0;
@@ -169,7 +169,7 @@
 // Standalone Css Borders
 table.ids-data-grid {
   display: table;
-  outline: 1px solid var(--ids-data-grid-cell-border-color);
+  outline: 1px solid var(--ids-data-grid-cell-color-border);
   outline-offset: -1px;
 }
 
@@ -189,6 +189,6 @@ table.ids-data-grid {
   }
 
   .ids-data-grid {
-    min-height: var(--ids-data-grid-min-height);
+    min-height: var(--ids-data-grid-height-min);
   }
 }

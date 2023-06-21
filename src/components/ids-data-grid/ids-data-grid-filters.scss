@@ -14,9 +14,9 @@
     align-items: center;
     display: flex;
     position: relative;
-    padding-inline-start: var(--ids-spacing-lg);
-    padding-inline-end: var(--ids-spacing-lg);
-    padding-block-end: var(--ids-spacing-lg);
+    padding-inline-start: var(--ids-space-40);
+    padding-inline-end: var(--ids-space-40);
+    padding-block-end: var(--ids-space-40);
 
     &.hidden {
       display: none;

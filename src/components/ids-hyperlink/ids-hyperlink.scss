@@ -103,21 +103,21 @@
   // =========================================
   // Theme colors are applied when `color="unset"` is not set
   &:not(.ids-hyperlink-color-unset) {
-    color: var(--ids-hyperlink-text-color);
+    color: var(--ids-hyperlink-color-text-default);
 
     &:focus {
-      border: 1px solid var(--ids-hyperlink-text-color);
+      border: 1px solid var(--ids-hyperlink-color-text-default);
       box-shadow: var(--ids-shadow-focus);
     }
 
     &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),
     &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled) {
-      color: var(--ids-hyperlink-hover-text-color);
+      color: var(--ids-hyperlink-color-text-hover);
     }
 
     &.disabled,
     &[disabled] {
-      color: var(--ids-hyperlink-disabled-text-color);
+      color: var(--ids-hyperlink-color-text-disabled);
     }
 
     // ===============================================

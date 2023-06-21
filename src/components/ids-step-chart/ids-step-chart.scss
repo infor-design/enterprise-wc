@@ -67,11 +67,11 @@
       flex: 1 1 auto;
 
       &.untouched {
-        background-color: var(--ids-step-chart-step-background-color);
+        background-color: var(--ids-step-chart-color-background-default);
       }
 
       &.completed {
-        background-color: var(--ids-step-chart-step-completed-background-color);
+        background-color: var(--ids-step-chart-color-background-complete);
       }
     }
   }

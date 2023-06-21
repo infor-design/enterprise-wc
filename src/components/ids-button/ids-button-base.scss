@@ -19,7 +19,7 @@
 
 // Used to make the focus "border" on non-solid buttons (modal buttons, etc)
 @mixin modal-button-shadow() {
-  box-shadow: var(--ids-modal-button-focus-box-shadow); // primary color (shadowy-part)
+  box-shadow: var(--ids-modal-shadow-focus); // primary color (shadowy-part)
 }
 
 @mixin alternate-button-shadow() {
@@ -34,8 +34,8 @@
   font-family: var(--ids-font-family-default);
   font-size: var(--ids-font-size-40);
   overflow: hidden;
-  padding-bottom: calc(var(--ids-spacing-lg) - 2px);
-  padding-top: calc(var(--ids-spacing-lg) - 2px);
+  padding-bottom: calc(var(--ids-space-40) - 2px);
+  padding-top: calc(var(--ids-space-40) - 2px);
   position: relative;
 
   &,
@@ -275,7 +275,7 @@
 
     &.ids-trigger-button:not([readonly]) {
       &:hover {
-        background-color: var(--ids-searchfield-header-icon-hover-color);
+        background-color: var(--ids-search-field-header-color-icon-hover);
       }
     }
   }
@@ -420,12 +420,12 @@
   }
 }
 
-@mixin ids-modal-button-colors() {
+@mixin ids-modal-button-color-defaults() {
   // ====================================================
   // Primary Button
   &.btn-primary {
-    background-color: var(--ids-modal-background-color);
-    color: var(--ids-modal-button-color);
+    background-color: var(--ids-modal-color-background);
+    color: var(--ids-modal-button-color-default);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -433,7 +433,7 @@
     }
 
     &:hover {
-      color: var(--ids-modal-button-hover-color);
+      color: var(--ids-modal-button-color-hover);
     }
 
     &[disabled] {
@@ -441,7 +441,7 @@
     }
 
     .ripple-effect {
-      background-color: var(--ids-modal-button-color);
+      background-color: var(--ids-modal-button-color-default);
     }
   }
 
@@ -450,7 +450,7 @@
 
   &.btn-secondary,
   &.btn-tertiary {
-    background-color: var(--ids-modal-background-color);
+    background-color: var(--ids-modal-color-background);
     color: var(--ids-color-neutral-80);
 
     &:not(.hide-focus).is-active,

@@ -4,6 +4,8 @@
 
 ### 1.0.0-beta.13 Fixes
 
+- `[Themes]` Renamed some tokens to match agreed standards. ([#1332](https://github.com/infor-design/enterprise-wc/issues/1332))
+
 ## 1.0.0-beta.12
 
 ### 1.0.0-beta.12 Fixes

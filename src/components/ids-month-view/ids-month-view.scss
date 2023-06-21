@@ -4,7 +4,7 @@
 
 .ids-month-view {
   display: flex;
-  background-color: var(--ids-month-view-background-color);
+  background-color: var(--ids-calendar-month-view-color-background-default);
   width: 100%;
   box-sizing: border-box;
   flex-direction: column;
@@ -12,7 +12,7 @@
   max-width: inherit;
 
   .month-view-container {
-    background-color: var(--ids-month-view-background-color);
+    background-color: var(--ids-calendar-month-view-color-background-default);
     flex-shrink: 0;
   }
 
@@ -68,7 +68,7 @@
 
   .month-view-legend-text {
     position: relative;
-    color: var(--ids-month-view-legend-text-color);
+    color: var(--ids-calendar-month-view-legend-color-text);
     padding: 0 10px 0 8px;
     top: -2px;
   }
@@ -108,7 +108,7 @@
   }
 
   .weekday-text {
-    color: var(--ids-month-view-compact-weekday-text-color);
+    color: var(--ids-calendar-month-view-weekday-color-text-compact);
   }
 
   td {
@@ -134,13 +134,13 @@
       z-index: 2;
       border-radius: 50%;
       margin: 2px;
-      color: var(--ids-month-view-text-color);
+      color: var(--ids-calendar-month-view-color-text-default);
       white-space: nowrap;
       transition: 0.2s background-color ease;
     }
 
     &.alternate .day-text {
-      color: var(--ids-month-view-compact-alternate-text-color);
+      color: var(--ids-calendar-month-view-color-text-compact);
     }
 
     &.is-disabled .day-text {
@@ -160,14 +160,14 @@
 
     &:hover {
       .day-text {
-        color: var(--ids-month-view-compact-day-hover-text-color);
+        color: var(--ids-calendar-month-view-weekday-color-text-compact-hover);
       }
     }
 
     &.is-selected {
       .day-text {
-        color: var(--ids-month-view-compact-day-selected-hover-text-color);
-        background-color: var(--ids-month-view-compact-day-selected-background-color);
+        color: var(--ids-calendar-month-view-weekday-color-text-compact-selected-hover);
+        background-color: var(--ids-calendar-month-view-day-color-background-compact-selected);
       }
 
       &:focus {
@@ -187,20 +187,20 @@
         }
 
         .day-container {
-          border-color: var(--ids-month-view-compact-day-selected-background-color);
+          border-color: var(--ids-calendar-month-view-day-color-background-compact-selected);
           z-index: 2;
-          box-shadow: 0 0 2px 0 var(--ids-month-view-compact-day-selected-background-color);
+          box-shadow: 0 0 2px 0 var(--ids-calendar-month-view-day-color-background-compact-selected);
         }
       }
     }
 
     &.is-today:not(.is-selected) .day-text::part(text) {
-      border: 1px solid var(--ids-month-view-compact-today-border-color);
+      border: 1px solid var(--ids-calendar-month-view-today-color-border-compact);
     }
 
     &:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):hover .day-text,
     &:not(.is-disabled):not(.is-selected):not(.has-legend):not(.range-selection):active .day-text {
-      background-color: var(--ids-month-view-compact-day-hover-background-color);
+      background-color: var(--ids-calendar-month-view-day-color-background-compact-hover);
     }
 
     // Legend in compact mode
@@ -258,16 +258,16 @@
     &:not(.is-disabled.not-included).range-next .day-text,
     &:not(.is-disabled.not-included).range-next:not(:first-of-type)::before,
     &.range-prev:not(:last-of-type)::before {
-      background-color: var(--ids-month-view-compact-range-background-color);
+      background-color: var(--ids-calendar-month-view-range-color-background-compact);
     }
 
     &.range-selection:not(:first-of-type)::before,
     &:not(.is-disabled.not-included).range-selection .day-text {
-      background-color: var(--ids-month-view-compact-range-selected-background-color);
+      background-color: var(--ids-calendar-month-view-range-color-background-compact-selected);
     }
 
     &.range-selection:not(.alternate):not(.is-disabled.not-included) .day-text {
-      color: var(--ids-month-view-compact-range-selected-text-color);
+      color: var(--ids-calendar-month-view-range-color-text-compact-selected);
     }
 
     &.range-selection:not(:first-of-type)::before,
@@ -325,7 +325,7 @@
   }
 
   .week-num-cell {
-    border-inline-end: 1px solid var(--ids-month-view-border-color);
+    border-inline-end: 1px solid var(--ids-calendar-month-view-color-border);
 
     ids-text {
       color: var(--ids-month-view-week-number-text-color);
@@ -338,14 +338,14 @@
 .ids-month-view.is-fullsize {
   border-style: solid;
   border-width: 1px 1px 0;
-  border-color: var(--ids-month-view-border-color);
+  border-color: var(--ids-calendar-month-view-color-border);
 
   .weekday-text {
-    color: var(--ids-month-view-weekday-text-color);
+    color: var(--ids-calendar-month-view-weekday-color-text);
   }
 
   .day-text {
-    color: var(--ids-month-view-text-color);
+    color: var(--ids-calendar-month-view-color-text-default);
   }
 
   td {
@@ -369,20 +369,20 @@
 
     &:not(.is-selected):not(.has-legend):hover,
     &:not(.is-selected):not(.has-legend):active {
-      background-color: var(--ids-month-view-day-hover-background-color);
+      background-color: var(--ids-calendar-month-view-color-background-hover);
     }
 
     &.is-disabled {
       opacity: 0.5;
-      background-color: var(--ids-month-view-disabled-background-color);
+      background-color: var(--ids-calendar-month-view-color-background-disabled);
     }
 
     &.is-selected:not(.has-legend) {
-      background-color: var(--ids-month-view-day-selected-background-color);
+      background-color: var(--ids-calendar-month-view-color-background-selected);
     }
 
     &.is-selected {
-      box-shadow: inset 0 5px 0 0 var(--ids-month-view-day-selected-accent-box-shadow-color);
+      box-shadow: inset 0 5px 0 0 var(--ids-calendar-month-view-color-selected);
 
       &:focus {
         outline: none;
@@ -413,7 +413,7 @@
     }
 
     &.alternate .day-text {
-      color: var(--ids-month-view-day-alternate-text-color);
+      color: var(--ids-calendar-month-view-color-text-alternate);
     }
 
     .day-text {
@@ -442,12 +442,12 @@
   td {
     padding: 0;
     border-bottom: 1px solid;
-    border-color: var(--ids-month-view-border-color);
+    border-color: var(--ids-calendar-month-view-color-border);
   }
 
   // Legend in full size mode
   &.has-legend .month-view-container {
-    border-bottom: 1px solid var(--ids-month-view-border-color);
+    border-bottom: 1px solid var(--ids-calendar-month-view-color-border);
   }
 }
 
