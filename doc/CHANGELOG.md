@@ -9,6 +9,7 @@
 - `[Tooltip]` Changed the tooltip heights to match. ([#7509](https://github.com/infor-design/enterprise/issues/7509))
 - `[Themes]` Renamed some tokens to match agreed standards. ([#1332](https://github.com/infor-design/enterprise-wc/issues/1332))
 - `[Themes]` Added theme switcher to side-by-side examples and ability to switch 4.x themes in the `ids-theme-switcher `component. ([#939](https://github.com/infor-design/enterprise-wc/issues/939))
+
 ## 1.0.0-beta.12
 
 ### 1.0.0-beta.12 Fixes
