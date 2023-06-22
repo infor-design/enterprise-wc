@@ -6,6 +6,7 @@
 
 - `[Button]` Fixed a bug on static width buttons. ([#1334](https://github.com/infor-design/enterprise-wc/issues/1334))
 - `[DataGrid]` Fixed scrollend event firing. ([#1305](https://github.com/infor-design/enterprise-wc/issues/1305))
+- `[DataGrid]` Fixed keeping virtual scroll selected/deselected states. ([#1329](https://github.com/infor-design/enterprise-wc/issues/1329))
 - `[Tooltip]` Changed the tooltip heights to match. ([#7509](https://github.com/infor-design/enterprise/issues/7509))
 
 ## 1.0.0-beta.12
