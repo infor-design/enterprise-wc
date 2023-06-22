@@ -40,8 +40,8 @@
   }
 
   &.warning {
-    background-color: var(--ids-color-warning);
-    border-color: var(--ids-color-warning);
+    background-color: var(--ids-color-warning-default);
+    border-color: var(--ids-color-warning-default);
     color: var(--ids-color-text-on-warning);
   }
 
