@@ -1840,6 +1840,8 @@ export default class IdsDataGrid extends Base {
    * @param {boolean} isClear do not keep current data
    */
   updateDataset(row: number, data: Record<string, unknown>, isClear?: boolean) {
+    if (!this.data[row]) return;
+
     // Update the current data
     if (isClear) this.data[row] = data;
     else this.data[row] = { ...this.data[row], ...data };
@@ -1979,6 +1981,8 @@ export default class IdsDataGrid extends Base {
    * @param {boolean} triggerEvent fire an event with the selected row
    */
   selectRow(index: number, triggerEvent = true) {
+    this.updateDataset(index, { rowSelected: true });
+
     const row = this.rowByIndex(index);
     if (!row) return;
 
@@ -1999,7 +2003,6 @@ export default class IdsDataGrid extends Base {
 
     row.selected = true;
 
-    this.updateDataset(Number(row?.getAttribute('data-index')), { rowSelected: true });
     if ((this.rowSelection === 'single' || this.rowSelection === 'multiple') && row) row.updateCells(index);
 
     if (triggerEvent) {
@@ -2020,6 +2023,8 @@ export default class IdsDataGrid extends Base {
    * @param {boolean} triggerEvent fire an event with the deselected row
    */
   deSelectRow(index: number, triggerEvent = true) {
+    this.updateDataset(index, { rowSelected: false });
+
     const row = this.rowByIndex(index);
     if (!row) return;
 
@@ -2040,8 +2045,6 @@ export default class IdsDataGrid extends Base {
       radio?.classList.remove('checked');
       radio?.setAttribute('aria-checked', 'false');
     }
-
-    this.updateDataset(row.rowIndex, { rowSelected: undefined });
 
     if (triggerEvent) {
       this.triggerEvent('rowdeselected', this, {
