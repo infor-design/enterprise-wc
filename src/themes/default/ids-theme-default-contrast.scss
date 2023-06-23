@@ -6,7 +6,7 @@
   --ids-color-text-on-primary: var(--ids-color-neutral-00);
 
   // Body Colors
-  --ids-color-background-default: rgba(239 239 240 / 0.5);
+  --ids-color-background-default: var(--ids-color-neutral-10);
   --ids-color-text-default: var(--ids-color-neutral-100);
 
   // Text Colors
@@ -430,7 +430,7 @@
   --ids-tree-node-shadow-focus: 0 0 4px 2px rgb(41  41 41 / 0.3);
   --ids-tree-node-color-border-hover: var(--ids-color-neutral-100);
   --ids-tree-node-color-text-hover: var(--ids-color-neutral-100);
-  --ids-tree-node-color-background-selected: var(--ids-color-neutral-30);
+  --ids-tree-node-color-background-selected: var(--ids-color-neutral-20);
   --ids-tree-node-color-text-selected: var(--ids-color-neutral-100);
   --ids-tree-node-color-text-default: var(--ids-color-neutral-90);
 
