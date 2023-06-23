@@ -1,0 +1,24 @@
+@import '../../core/ids-base';
+
+.ids-module-nav-content {
+
+  // =====================================================
+  // Display Mode: Collapsed
+
+  &.show-detail {
+    margin-inline-start: calc(var(--ids-module-nav-submenu-size) * -1);
+  }
+
+  // =====================================================
+  // Display Mode: Expanded
+
+  // use `.offset-content` to make the content area
+  // stay out from underneath the Module Nav bar
+  &:not(.offset-content) {
+    margin-inline-start: calc(var(--ids-module-nav-expanded-size) - var(--ids-module-nav-collapsed-size) * -1);
+  }
+
+  &.show-detail {
+    margin-inline-start: calc(var(--ids-module-nav-submenu-size) * -2);
+  }
+}

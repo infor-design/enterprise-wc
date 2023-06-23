@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 import IdsDrawer from '../ids-drawer/ids-drawer';
 
 import '../ids-accordion/ids-accordion';
@@ -10,6 +11,7 @@ import '../ids-toolbar/ids-toolbar';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import styles from './ids-module-nav.scss';
+
 import type IdsAccordion from '../ids-accordion/ids-accordion';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
@@ -18,8 +20,10 @@ import type IdsContainer from '../ids-container/ids-container';
 const CONTAINER_CLASS = 'module-nav';
 const CONTAINER_OPEN_CLASS = 'module-nav-is-open';
 
-const Base = IdsKeyboardMixin(
-  IdsDrawer
+const Base = IdsModuleNavDisplayModeMixin(
+  IdsKeyboardMixin(
+    IdsDrawer
+  )
 );
 
 /**
@@ -54,37 +58,44 @@ export default class IdsModuleNav extends Base {
     this.#clearContainer();
   }
 
+  /**
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes as an array
+   */
   static get attributes() {
-    return [...super.attributes];
+    return [
+      ...super.attributes
+    ];
   }
 
   // Slots:
-  // - Avatar
-  // - Roles (Accordion)
-  // - Header Nav (Toolbar)
-  // - Searchfield
-  // - Content (Accordion)
-  // - Footer Nav (Toolbar)
+  // - Role Switcher (IdsModuleNavSwitcher)
+  // - Search (IdsSearchField)
+  // - Main (IdsAccordionSection)
+  // - Footer (IdsAccordionSection)
+  // - Settings (IdsModuleNavSettings)
+  // - Detail (any)
   template() {
     return `<div class="ids-drawer ids-module-nav type-module-nav">
-      <div class="ids-app-menu-user">
-        <slot name="avatar"></slot>
-        <slot name="username"></slot>
+      <div class="ids-module-nav-bar">
+        <div class="ids-module-nav-switcher-wrapper">
+          <slot name="role-switcher"></slot>
+        </div>
+        <div class="ids-module-nav-search-wrapper">
+          <slot name="search"></slot>
+        </div>
+        <div class="ids-module-nav-main">
+          <slot></slot>
+        </div>
+        <div class="ids-module-nav-footer">
+          <slot name="footer"></slot>
+        </div>
+        <div class="ids-module-nav-settings-wrapper">
+          <slot name="settings"></slot>
+        </div>
       </div>
-      <div class="ids-app-menu-header">
-        <slot name="header"></slot>
-      </div>
-      <div class="ids-app-menu-search">
-        <slot name="search"></slot>
-      </div>
-      <div class="ids-app-menu-content">
-        <slot></slot>
-      </div>
-      <div class="ids-app-menu-footer">
-        <slot name="footer"></slot>
-      </div>
-      <div class="ids-app-menu-branding">
-        <slot name="icon"></slot>
+      <div class="ids-module-nav-detail">
+        <slot name="detail"></slot>
       </div>
     </div>`;
   }
@@ -117,17 +128,17 @@ export default class IdsModuleNav extends Base {
 
   #attachEventHandlers() {
     this.#detachEventHandlers();
-    this.onEvent('show.app-menu-show', this, () => {
+    this.onEvent('show.module-nav-show', this, () => {
       this.#container?.classList.add(CONTAINER_OPEN_CLASS);
     });
-    this.onEvent('hide.app-menu-hide', this, () => {
+    this.onEvent('hide.module-nav-hide', this, () => {
       this.#container?.classList.remove(CONTAINER_OPEN_CLASS);
     });
   }
 
   #detachEventHandlers() {
-    this.offEvent('show.app-menu-show');
-    this.offEvent('hide.app-menu-hide');
+    this.offEvent('show.module-nav-show');
+    this.offEvent('hide.module-nav-hide');
   }
 
   /**

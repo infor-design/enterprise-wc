@@ -6,50 +6,18 @@
 </head>
 <body>
   <ids-container role="main" padding="0" hidden>
-
-    <ids-header>
-      <ids-toolbar>
-        <ids-toolbar-section type="button">
-          <ids-button id="app-menu-trigger" icon="menu">
-            <span class="audible">Open App Menu</span>
-          </ids-button>
-        </ids-toolbar-section>
-        <ids-toolbar-section type="title">
-          <ids-text font-size="20" type="h1">Module Nav Example</ids-text>
-        </ids-toolbar-section>
-        <ids-toolbar-section align="end" type="button">
-          <ids-theme-switcher mode="light"></ids-theme-switcher>
-        </ids-toolbar-section>
-      </ids-toolbar>
-    </ids-header>
-
     <ids-module-nav id="module-nav">
-      <!-- Avatar/Username Area -->
-      <img slot="avatar" id="avatar" alt="Picture of Richard Fairbanks" />
-      <ids-text slot="username" font-size="24" font-weight="semi-bold">Richard Fairbanks</ids-text>
+      <ids-module-nav-switcher
+        slot="role-switcher"></ids-module-nav-switcher>
 
-      <!-- Header Toolbar -->
-      <ids-toolbar slot="header">
-        <ids-toolbar-section align="center-even" type="fluid">
-          <ids-button id="header-btn-download" icon="download">
-            <ids-text audible>Download</ids-text>
-          </ids-button>
-          <ids-button id="header-btn-print" icon="print">
-            <ids-text audible>Print</ids-text>
-          </ids-button>
-          <ids-button id="header-btn-purchasing" icon="purchasing">
-            <ids-text audible>Purchasing</ids-text>
-          </ids-button>
-          <ids-button id="header-btn-notification" icon="notification">
-            <ids-text audible>Notification</ids-text>
-          </ids-button>
-          <ids-button id="header-btn-inventory" icon="inventory">
-            <ids-text audible>Inventory</ids-text>
-          </ids-button>
-        </ids-toolbar-section>
-      </ids-toolbar>
-
-      <ids-search-field id="search" clearable color-variant="app-menu" label="Application Menu Search" label-state="collapsed" no-margins slot="search"></ids-search-field>
+      <ids-search-field
+        id="search"
+        clearable
+        color-variant="module-nav"
+        label="Module Nav Search"
+        label-state="collapsed"
+        no-margins
+        slot="search"></ids-search-field>
 
       <!-- Main Content (Accordion Navigation) -->
       <ids-accordion>
@@ -134,8 +102,31 @@
           </ids-accordion-header>
         </ids-accordion-panel>
       </ids-accordion>
+
+      <ids-module-nav-settings
+        slot="settings"></ids-module-nav-settings>
     </ids-module-nav>
 
+    <ids-module-nav-content offset-content>
+      <ids-header>
+        <ids-toolbar>
+          <ids-toolbar-section type="button">
+            <ids-button id="module-nav-trigger" icon="menu">
+              <span class="audible">Open Module Nav</span>
+            </ids-button>
+          </ids-toolbar-section>
+          <ids-toolbar-section type="title">
+            <ids-text font-size="20" type="h1">Module Nav Example</ids-text>
+          </ids-toolbar-section>
+          <ids-toolbar-section align="end" type="button">
+            <ids-theme-switcher mode="light"></ids-theme-switcher>
+          </ids-toolbar-section>
+        </ids-toolbar>
+      </ids-header>
+      <ids-layout-grid auto-fit="true" padding="md">
+        <ids-text font-size="12" type="h1">IDS Module Nav</ids-text>
+      </ids-layout-grid>
+    </ids-module-nav-content>
   </ids-container>
 </body>
 </html>

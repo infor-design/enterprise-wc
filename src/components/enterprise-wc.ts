@@ -54,6 +54,8 @@ import './ids-menu-button/ids-menu-button';
 import './ids-message/ids-message';
 import './ids-modal/ids-modal';
 import './ids-month-view/ids-month-view';
+import './ids-module-nav/ids-module-nav';
+import './ids-module-nav/ids-module-nav-content';
 import './ids-multiselect/ids-multiselect';
 import './ids-notification-banner/ids-notification-banner';
 import './ids-pager/ids-pager';
