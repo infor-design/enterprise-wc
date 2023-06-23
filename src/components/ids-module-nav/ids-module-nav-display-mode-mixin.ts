@@ -2,11 +2,17 @@ import { attributes } from '../../core/ids-attributes';
 import { DISPLAY_MODE_TYPES } from './ids-module-nav-common';
 
 import type { IdsModuleNavDisplayMode } from './ids-module-nav-common';
-import type { IdsBaseConstructor } from '../../core/ids-element';
+import type { IdsConstructor } from '../../core/ids-element';
 
 import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
-const IdsModuleNavDisplayModeMixin = <T extends IdsBaseConstructor>(superclass: T) => class extends superclass {
+export interface DisplayModeHandler {
+  onDisplayModeChange?(currentValue: string, newValue: string): void;
+}
+
+type Constraints = IdsConstructor<DisplayModeHandler>;
+
+const IdsModuleNavDisplayModeMixin = <T extends Constraints>(superclass: T) => class extends superclass {
   constructor(...args: any[]) {
     super(...args);
   }
@@ -65,7 +71,11 @@ const IdsModuleNavDisplayModeMixin = <T extends IdsBaseConstructor>(superclass: 
   #setDisplayMode(currentValue: string | false, newValue: string | false) {
     if (this.container) {
       if (currentValue) this.container?.classList.remove(`display-mode-${currentValue}`);
-      if (newValue) this.container?.classList.remove(`display-mode-${newValue}`);
+      if (newValue) this.container?.classList.add(`display-mode-${newValue}`);
+    }
+    // Fire optional callback
+    if (typeof this.onDisplayModeChange === 'function') {
+      this.onDisplayModeChange(currentValue, newValue);
     }
   }
 };

@@ -19,10 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   appMenuTriggerBtn.addEventListener('click', () => {
-    debugger;
     menuState = menuState === 'collapsed' ? 'expanded' : 'collapsed';
     moduleNavDrawer.displayMode = menuState;
-    debugger;
   });
 
   // =============================

@@ -16,6 +16,7 @@ import type IdsAccordion from '../ids-accordion/ids-accordion';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
 import type IdsContainer from '../ids-container/ids-container';
+import type IdsModuleNavContent from './ids-module-nav-content';
 
 const CONTAINER_CLASS = 'module-nav';
 const CONTAINER_OPEN_CLASS = 'module-nav-is-open';
@@ -102,6 +103,18 @@ export default class IdsModuleNav extends Base {
 
   /**
    * @readonly
+   * @returns {IdsModuleNavContent | undefined} reference to the content pane
+   */
+  get content() {
+    const nextEl = this.nextElementSibling;
+    if (nextEl?.tagName === 'IDS-MODULE-NAV-CONTENT') {
+      return (nextEl as IdsModuleNavContent);
+    }
+    return undefined;
+  }
+
+  /**
+   * @readonly
    * @returns {IdsAccordion} reference to an optionally-slotted IdsAccordion element
    */
   get accordion(): IdsAccordion | null {
@@ -183,6 +196,17 @@ export default class IdsModuleNav extends Base {
     if (window.innerWidth < 840) {
       this.hide();
     }
+  }
+
+  /**
+   * Inherited from Module Nav Display Mode Mixin.
+   * @param {string | false} currentValue current display mode value being changed
+   * @param {string | false} newValue new display mode value to be set
+   * @returns {void}
+   */
+  onDisplayModeChange(currentValue: string | false, newValue: string | false): void {
+    this.visible = (newValue !== false);
+    if (this.content) this.content.displayMode = this.displayMode;
   }
 
   /**
