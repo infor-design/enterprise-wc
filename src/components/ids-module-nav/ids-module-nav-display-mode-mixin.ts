@@ -7,7 +7,7 @@ import type { IdsConstructor } from '../../core/ids-element';
 import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 export interface DisplayModeHandler {
-  onDisplayModeChange?(currentValue: string, newValue: string): void;
+  onDisplayModeChange?(currentValue: string | false, newValue: string | false): void;
 }
 
 type Constraints = IdsConstructor<DisplayModeHandler>;

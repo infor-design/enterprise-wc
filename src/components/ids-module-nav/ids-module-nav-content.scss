@@ -6,13 +6,24 @@
 .ids-module-nav-content {
   display: block;
   height: 100%;
+  width: 100%;
+
+  transition: margin var(--ids-transition-length) var(--ids-transition-ease),
+    transform var(--ids-transition-length) var(--ids-transition-ease),
+    width var(--ids-transition-length) var(--ids-transition-ease);
 
   // =====================================================
   // Display Mode: Collapsed
 
   &.display-mode-collapsed {
+    &:not(.show-detail) {
+      margin-inline-start: var(--ids-module-nav-collapsed-size);
+      width: calc(100% - var(--ids-module-nav-collapsed-size));
+    }
+
     &.show-detail {
-      margin-inline-start: calc(var(--ids-module-nav-submenu-size) * -1);
+      margin-inline-start: calc((var(--ids-module-nav-submenu-size) + var(--ids-module-nav-collapsed-size)));
+      width: calc(100% - (var(--ids-module-nav-submenu-size) + var(--ids-module-nav-collapsed-size)));
     }
   }
 
@@ -23,11 +34,23 @@
     // use `.offset-content` to make the content area
     // stay out from underneath the Module Nav bar
     &:not(.offset-content) {
-      margin-inline-start: calc(var(--ids-module-nav-expanded-size) - var(--ids-module-nav-collapsed-size) * -1);
+      margin-inline-start: var(--ids-module-nav-collapsed-size);
+      width: calc(100% - var(--ids-module-nav-collapsed-size));
+    }
+
+    &.offset-content {
+      margin-inline-start: var(--ids-module-nav-expanded-size);
+      width: calc(100% - var(--ids-module-nav-expanded-size));
     }
 
     &.show-detail {
-      margin-inline-start: calc(var(--ids-module-nav-submenu-size) * -2);
+      margin-inline-start: calc(var(--ids-module-nav-submenu-size) + var(--ids-module-nav-collapsed-size));
+      width: calc(100% - (var(--ids-module-nav-submenu-size) + var(--ids-module-nav-collapsed-size)));
+
+      &.offset-content {
+        margin-inline-start: calc(var(--ids-module-nav-submenu-size) + var(--ids-module-nav-expanded-size) + var(--ids-module-nav-collapsed-size));
+        width: calc(100% - (var(--ids-module-nav-submenu-size) + var(--ids-module-nav-expanded-size) + var(--ids-module-nav-collapsed-size)));
+      }
     }
   }
 }
@@ -37,28 +60,7 @@
 
 :host {
   display: contents;
-}
-
-ids-module-nav:not([display-mode]) {
-  + ids-module-nav-content {
-    width: 100%;
-  }
-}
-
-ids-module-nav[display-mode='collapsed'] {
-  + ids-module-nav-content {
-    width: calc(100% - var(--ids-module-nav-collapsed-size));
-  }
-}
-
-ids-module-nav[display-mode='expanded'] {
-  + ids-module-nav-content {
-    &:not([offset-content]) {
-      width: calc(100% - var(--ids-module-nav-collapsed-size));
-    }
-
-    &[offset-content] {
-      width: calc(100% - var(--ids-module-nav-collapsed-size) - var(--ids-module-nav-expanded-size));
-    }
-  }
+  transition: margin var(--ids-transition-length) var(--ids-transition-ease),
+    transform var(--ids-transition-length) var(--ids-transition-ease),
+    width var(--ids-transition-length) var(--ids-transition-ease);
 }

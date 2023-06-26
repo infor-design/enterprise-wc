@@ -7,126 +7,141 @@
 <body>
   <ids-container role="main" padding="0" hidden>
     <ids-module-nav id="module-nav">
-      <ids-module-nav-switcher
-        slot="role-switcher"></ids-module-nav-switcher>
+      <ids-module-nav-bar>
+        <ids-module-nav-switcher
+          slot="role-switcher"></ids-module-nav-switcher>
 
-      <ids-search-field
-        id="search"
-        clearable
-        color-variant="module-nav"
-        label="Module Nav Search"
-        label-state="collapsed"
-        no-margins
-        slot="search"></ids-search-field>
+        <ids-search-field
+          id="search"
+          clearable
+          color-variant="module-nav"
+          label="Module Nav Search"
+          label-state="collapsed"
+          no-margins
+          slot="search"></ids-search-field>
 
-      <!-- Main Content (Accordion Navigation) -->
-      <ids-accordion>
-        <ids-accordion-panel>
-          <ids-accordion-header slot="header" icon="user">
-            <ids-text font-size="16">Employee</ids-text>
-          </ids-accordion-header>
-          <ids-accordion-panel slot="content">
-            <ids-accordion-header slot="header">
-              <ids-text font-size="14">My Profile</ids-text>
-            </ids-accordion-header>
-          </ids-accordion-panel>
-          <ids-accordion-panel slot="content">
-            <ids-accordion-header slot="header">
-              <ids-text font-size="14">Talent Profile</ids-text>
-            </ids-accordion-header>
-          </ids-accordion-panel>
-          <ids-accordion-panel slot="content">
-            <ids-accordion-header slot="header">
-              <ids-text font-size="14">View Compensation</ids-text>
-            </ids-accordion-header>
-          </ids-accordion-panel>
-          <ids-accordion-panel slot="content">
-            <ids-accordion-header slot="header">
-              <ids-text font-size="14">RAVE</ids-text>
-            </ids-accordion-header>
-          </ids-accordion-panel>
-          <ids-accordion-panel slot="content">
-            <ids-accordion-header slot="header">
-              <ids-text font-size="14">Request Time Off</ids-text>
-            </ids-accordion-header>
-          </ids-accordion-panel>
-          <ids-accordion-panel slot="content">
-            <ids-accordion-header slot="header">
-              <ids-text font-size="14">Benefits</ids-text>
+        <!-- Main Content (Accordion Navigation) -->
+        <ids-accordion>
+          <ids-accordion-panel>
+            <ids-accordion-header slot="header" icon="user">
+              <ids-text font-size="16">Employee</ids-text>
             </ids-accordion-header>
             <ids-accordion-panel slot="content">
               <ids-accordion-header slot="header">
-                <ids-text font-size="14">My Benefits</ids-text>
+                <ids-text font-size="14">My Profile</ids-text>
               </ids-accordion-header>
             </ids-accordion-panel>
             <ids-accordion-panel slot="content">
               <ids-accordion-header slot="header">
-                <ids-text font-size="14">Dependents and Beneficiaries</ids-text>
+                <ids-text font-size="14">Talent Profile</ids-text>
               </ids-accordion-header>
             </ids-accordion-panel>
             <ids-accordion-panel slot="content">
               <ids-accordion-header slot="header">
-                <ids-text font-size="14">Life Events</ids-text>
+                <ids-text font-size="14">View Compensation</ids-text>
               </ids-accordion-header>
             </ids-accordion-panel>
             <ids-accordion-panel slot="content">
               <ids-accordion-header slot="header">
-                <ids-text font-size="14">Benefits Information</ids-text>
+                <ids-text font-size="14">RAVE</ids-text>
+              </ids-accordion-header>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header">
+                <ids-text font-size="14">Request Time Off</ids-text>
+              </ids-accordion-header>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header">
+                <ids-text font-size="14">Benefits</ids-text>
+              </ids-accordion-header>
+              <ids-accordion-panel slot="content">
+                <ids-accordion-header slot="header">
+                  <ids-text font-size="14">My Benefits</ids-text>
+                </ids-accordion-header>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-accordion-header slot="header">
+                  <ids-text font-size="14">Dependents and Beneficiaries</ids-text>
+                </ids-accordion-header>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-accordion-header slot="header">
+                  <ids-text font-size="14">Life Events</ids-text>
+                </ids-accordion-header>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-accordion-header slot="header">
+                  <ids-text font-size="14">Benefits Information</ids-text>
+                </ids-accordion-header>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header">
+                <ids-text font-size="14">My Rewards</ids-text>
+              </ids-accordion-header>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header">
+                <ids-text font-size="14">Find a Coworker</ids-text>
+              </ids-accordion-header>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header">
+                <ids-text font-size="14">My Growth</ids-text>
               </ids-accordion-header>
             </ids-accordion-panel>
           </ids-accordion-panel>
-          <ids-accordion-panel slot="content">
-            <ids-accordion-header slot="header">
-              <ids-text font-size="14">My Rewards</ids-text>
+          <ids-accordion-panel>
+            <ids-accordion-header slot="header" icon="distribution">
+              <ids-text font-size="16">Manager</ids-text>
             </ids-accordion-header>
           </ids-accordion-panel>
-          <ids-accordion-panel slot="content">
-            <ids-accordion-header slot="header">
-              <ids-text font-size="14">Find a Coworker</ids-text>
+          <ids-accordion-panel>
+            <ids-accordion-header slot="header" icon="roles">
+              <ids-text font-size="16">Recruiter</ids-text>
             </ids-accordion-header>
           </ids-accordion-panel>
-          <ids-accordion-panel slot="content">
-            <ids-accordion-header slot="header">
-              <ids-text font-size="14">My Growth</ids-text>
-            </ids-accordion-header>
-          </ids-accordion-panel>
-        </ids-accordion-panel>
-        <ids-accordion-panel>
-          <ids-accordion-header slot="header" icon="distribution">
-            <ids-text font-size="16">Manager</ids-text>
-          </ids-accordion-header>
-        </ids-accordion-panel>
-        <ids-accordion-panel>
-          <ids-accordion-header slot="header" icon="roles">
-            <ids-text font-size="16">Recruiter</ids-text>
-          </ids-accordion-header>
-        </ids-accordion-panel>
-      </ids-accordion>
+        </ids-accordion>
 
-      <ids-module-nav-settings
-        slot="settings"></ids-module-nav-settings>
+        <ids-module-nav-settings
+          slot="settings"></ids-module-nav-settings>
+      </ids-module-nav-bar>
+
+      <ids-module-nav-content offset-content>
+        <!-- Page Header -->
+        <ids-header>
+          <ids-toolbar>
+            <ids-toolbar-section type="button">
+              <ids-button id="module-nav-trigger" icon="menu">
+                <span class="audible">Open Module Nav</span>
+              </ids-button>
+            </ids-toolbar-section>
+            <ids-toolbar-section type="title">
+              <ids-text font-size="20" type="h1">Module Nav Example</ids-text>
+            </ids-toolbar-section>
+            <ids-toolbar-section align="end" type="button">
+              <ids-theme-switcher mode="light"></ids-theme-switcher>
+            </ids-toolbar-section>
+          </ids-toolbar>
+        </ids-header>
+
+        <!-- Page Body -->
+        <ids-layout-grid auto-fit="true" padding="md">
+          <ids-text font-size="12" type="h1">IDS Module Nav</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto-fit="true" padding-x="md">
+          <ids-dropdown id="dd-display-mode-setting" label="Display Mode" value="collapsed" dirty-tracker="true">
+            <ids-list-box>
+              <ids-list-box-option id="dd-display-mode-false" value="">Hidden (false)</ids-list-box-option>
+              <ids-list-box-option id="dd-display-mode-collapsed" value="collapsed">Collapsed</ids-list-box-option>
+              <ids-list-box-option id="dd-display-mode-expanded" value="expanded">Expanded</ids-list-box-option>
+            </ids-list-box>
+          </ids-dropdown>
+        </ids-layout-grid>
+
+      </ids-module-nav-content>
     </ids-module-nav>
-
-    <ids-module-nav-content offset-content>
-      <ids-header>
-        <ids-toolbar>
-          <ids-toolbar-section type="button">
-            <ids-button id="module-nav-trigger" icon="menu">
-              <span class="audible">Open Module Nav</span>
-            </ids-button>
-          </ids-toolbar-section>
-          <ids-toolbar-section type="title">
-            <ids-text font-size="20" type="h1">Module Nav Example</ids-text>
-          </ids-toolbar-section>
-          <ids-toolbar-section align="end" type="button">
-            <ids-theme-switcher mode="light"></ids-theme-switcher>
-          </ids-toolbar-section>
-        </ids-toolbar>
-      </ids-header>
-      <ids-layout-grid auto-fit="true" padding="md">
-        <ids-text font-size="12" type="h1">IDS Module Nav</ids-text>
-      </ids-layout-grid>
-    </ids-module-nav-content>
   </ids-container>
 </body>
 </html>

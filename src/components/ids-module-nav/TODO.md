@@ -2,6 +2,9 @@
 
 ## General
 
+- [ ] Change component names:
+  - what's currently "Module Nav" -> change to "Module Nav Bar"
+  - make a new container element -> this becomes "Module Nav"
 - [x] Component scaffolding
 - [ ] Bring over types from NG
 - [ ] Flesh out example page
@@ -14,7 +17,7 @@
 
 ## IdsModuleNav API
 
-- [ ] Make sure all slots work
+- [ ] Make sure all named slots work
 
 ## IdsModuleNavContent API
 
@@ -29,7 +32,10 @@
 
 - [ ] Add Accordion Sections
 - [ ] Add Module Nav Color Variant
+- [ ] Make Module Nav Item into a real component and extend IdsAccordionHeader (?)
+- [ ] Add Tooltips
 
 ## IdsDropdown API
 
 - [ ] Add Module Nav Color Variant
+- [ ] Add custom icon settng
