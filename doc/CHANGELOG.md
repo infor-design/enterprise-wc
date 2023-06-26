@@ -6,6 +6,7 @@
 
 - `[Button]` Fixed a bug on static width buttons. ([#1334](https://github.com/infor-design/enterprise-wc/issues/1334))
 - `[DataGrid]` Fixed scrollend event firing. ([#1305](https://github.com/infor-design/enterprise-wc/issues/1305))
+- `[DataGrid]` Add ability to refresh row/cell after updating dataset. ([#1303](https://github.com/infor-design/enterprise-wc/issues/1303))
 - `[Tooltip]` Changed the tooltip heights to match. ([#7509](https://github.com/infor-design/enterprise/issues/7509))
 
 ## 1.0.0-beta.12
