@@ -144,6 +144,7 @@ class IdsDataSource {
     const newData: Array<Record<string, any>> = [];
     const addRows = (subData: Record<string, any>, length: number, depth: number, parentElement: string) => {
       subData.map((row: Record<string, any>, index: number) => {
+        row.parentElement = '';
         row.ariaLevel = depth;
         row.ariaSetSize = length;
         row.ariaPosinset = index + 1;
