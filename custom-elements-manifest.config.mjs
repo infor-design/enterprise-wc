@@ -1,9 +1,20 @@
-import { generateCustomData } from 'cem-plugin-vs-code-custom-data-generator';
+// eslint-disable-next-line import/extensions
+import { generateCustomData } from './scripts/cem-plugin-vscode.mjs';
 
 export default {
   globs: ['src/components/**/*.ts'],
-  exclude: ['src/components/enterprise-wc.ts', 'src/components/**/demos/*.ts', 'src/components/ids-demo-app/*.ts'],
+  dependencies: false,
+  exclude: [
+    'scripts/*.*',
+    'src/components/enterprise-wc.ts',
+    'src/components/**/demos/*.ts',
+    'src/components/ids-demo-app/*.ts',
+    'src/components/ids-locale/**/*.ts'
+  ],
   plugins: [
-    generateCustomData()
-  ]
+    generateCustomData({
+      descriptionSrc: 'summary',
+      cssFileName: null
+    }),
+  ],
 };

@@ -9,6 +9,6 @@
     "src/themes/default/ids-theme-default-colors.scss"
   ],
   "html.customData": [
-    "custom-elements.json"
+    "vscode.html-custom-data.json"
   ]
 }

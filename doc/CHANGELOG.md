@@ -4,8 +4,9 @@
 
 ### 1.0.0-beta.13 Fixes
 
+- `[Build]` Added custom-elements schema data and visual code schema data for intellisense. ([#1010](https://github.com/infor-design/enterprise-wc/issues/1010))
 - `[Button]` Fixed a bug on static width buttons. ([#1334](https://github.com/infor-design/enterprise-wc/issues/1334))
-- `[DataGrid]` Fixed scrollend event firing. ([#1305](https://github.com/infor-design/enterprise-wc/issues/1305))
+- `[DataGrid]` Fixed `scrollend` event firing. ([#1305](https://github.com/infor-design/enterprise-wc/issues/1305))
 - `[Tooltip]` Changed the tooltip heights to match. ([#7509](https://github.com/infor-design/enterprise/issues/7509))
 
 ## 1.0.0-beta.12
