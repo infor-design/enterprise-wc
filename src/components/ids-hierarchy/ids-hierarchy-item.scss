@@ -5,26 +5,26 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding-inline-start: calc(var(--ids-spacing-lg) * 12);
+  padding-inline-start: calc(var(--ids-space-40) * 12);
 
   @media all and (max-width: $breakpoint-sm) {
-    padding-inline-start: var(--ids-spacing-none);
+    padding-inline-start: var(--ids-space-none);
   }
 }
 
 .leaf {
-  border: var(--ids-spacing-xs) solid var(--ids-hierarchy-item-leaf-border-color);
-  margin-block-end: calc(var(--ids-spacing-lg) * 4);
-  box-shadow: var(--ids-hierarchy-item-leaf-box-shadow);
-  border-radius: var(--ids-hierarchy-item-leaf-border-radius);
+  border: var(--ids-space-10) solid var(--ids-hierarchy-item-leaf-color-border);
+  margin-block-end: calc(var(--ids-space-40) * 4);
+  box-shadow: var(--ids-hierarchy-item-leaf-shadow);
+  border-radius: var(--ids-hierarchy-item-border-radius);
   position: relative;
   width: 315px;
 
   &::before {
     display: block;
     position: absolute;
-    border-bottom: 1.34px solid var(--ids-hierarchy-item-leaf-before-border-color);
-    border-left: 1.34px solid var(--ids-hierarchy-item-leaf-before-border-color);
+    border-bottom: 1.34px solid var(--ids-hierarchy-item-leaf-before-color-border);
+    border-left: 1.34px solid var(--ids-hierarchy-item-leaf-before-color-border);
     content: '';
     height: 110px;
     left: -30px;
@@ -36,10 +36,10 @@
 
 .leaf-inside {
   align-items: center;
-  background-color: var(--ids-hierarchy-item-leaf-inside-background-color);
+  background-color: var(--ids-hierarchy-item-color-background);
   border-left: var(--ids-hierarchy-item-leaf-inside-border-left);
-  box-shadow: var(--ids-hierarchy-item-leaf-inside-box-shadow);
-  padding: var(--ids-spacing-lg) calc(var(--ids-spacing-lg) * 2);
+  box-shadow: var(--ids-hierarchy-item-leaf-inside-shadow);
+  padding: var(--ids-space-40) calc(var(--ids-space-40) * 2);
   position: relative;
   display: flex;
   z-index: 1;
@@ -50,9 +50,9 @@
   display: block;
   height: 55px;
   width: 55px;
-  border: var(--ids-hierarchy-item-avatar-border);
+  border: var(--ids-hierarchy-item-border-default);
   border-radius: 100%;
-  margin-inline-end: calc(var(--ids-spacing-lg) * 2);
+  margin-inline-end: calc(var(--ids-space-40) * 2);
   overflow: hidden;
 
   ::slotted(img) {
@@ -68,7 +68,7 @@
   }
 
   .ids-hierarchy-item {
-    padding-inline-start: var(--ids-spacing-none);
+    padding-inline-start: var(--ids-space-none);
   }
 }
 
@@ -87,12 +87,12 @@
   outline: none;
   border: none;
   border-color: transparent;
-  box-shadow: var(--ids-hierarchy-item-focus-box-shadow);
+  box-shadow: var(--ids-hierarchy-item-shadow-focus);
 }
 
 :host([selected]) {
   .leaf {
-    box-shadow: var(--ids-hierarchy-item-selected-leaf-box-shadow);
+    box-shadow: var(--ids-hierarchy-item-selected-leaf-shadow);
   }
 }
 
@@ -102,10 +102,10 @@ div[part='actions'] {
 }
 
 ids-button[part='icon-menu'] {
-  margin-right: var(--ids-spacing-md);
+  margin-right: var(--ids-space-30);
 
   .ids-icon-button {
-    padding: var(--ids-spacing-md);
+    padding: var(--ids-space-30);
   }
 }
 
@@ -114,7 +114,7 @@ ids-button[part='icon-btn'] {
   cursor: pointer;
 
   .ids-icon-button {
-    padding: var(--ids-spacing-md);
+    padding: var(--ids-space-30);
   }
 }
 

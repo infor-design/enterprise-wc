@@ -10,44 +10,44 @@
 }
 
 .ids-spinbox:focus-within > .ids-spinbox-content {
-  border: 1px solid var(--ids-spinbox-focus-border-color);
-  box-shadow: var(--ids-spinbox-focus-box-shadow);
+  border: 1px solid var(--ids-spinbox-color-border-focus);
+  box-shadow: var(--ids-spinbox-shadow-focus);
   outline: none;
 }
 
 :host(ids-spinbox[disabled]) {
-  border-color: var(--ids-trigger-field-readonly-border-color);
+  border-color: var(--ids-trigger-field-color-border-readonly);
   pointer-events: none;
 }
 
 .ids-spinbox.readonly {
   ids-button::part(button) {
-    background-color: var(--ids-spinbox-readonly-background-color);
-    color: var(--ids-spinbox-readonly-text-color);
+    background-color: var(--ids-spinbox-color-background-readonly);
+    color: var(--ids-spinbox-color-text-readonly);
   }
 }
 
 ids-button::part(button) {
-  background-color: var(--ids-spinbox-background-color);
+  background-color: var(--ids-spinbox-color-background-default);
 }
 
 .ids-spinbox.disabled {
-  color: var(--ids-spinbox-disabled-text-color);
+  color: var(--ids-spinbox-color-text-disabled);
   pointer-events: none;
 
   ids-input::part(input) {
-    border-color: var(--ids-spinbox-disabled-border-color);
-    color: var(--ids-spinbox-disabled-text-color);
+    border-color: var(--ids-spinbox-color-border-disabled);
+    color: var(--ids-spinbox-color-text-disabled);
     pointer-events: none;
   }
 
   ids-button::part(button) {
-    color: var(--ids-spinbox-disabled-text-color);
+    color: var(--ids-spinbox-color-text-disabled);
   }
 }
 
 .ids-spinbox:focus-within .ids-spinbox-content ids-button:not([disabled]):not([readonly])::part(button) {
-  border-color: var(--ids-spinbox-focus-border-color);
+  border-color: var(--ids-spinbox-color-border-focus);
   border-width: 1px;
   box-shadow: none;
 }
@@ -82,7 +82,7 @@ ids-button::part(button) {
     margin-bottom: 4px;
 
     &:focus-within ids-input:not(.error)::part(input) {
-      border-color: var(--ids-spinbox-focus-border-color);
+      border-color: var(--ids-spinbox-color-border-focus);
       border-width: 1px;
       box-shadow: none;
     }

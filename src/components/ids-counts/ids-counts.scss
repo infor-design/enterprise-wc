@@ -4,9 +4,9 @@
 .ids-counts {
   @include core.antialiased();
 
-  color: var(--ids-counts-text-color);
+  color: var(--ids-counts-color-text);
   contain: content;
-  font-family: var(--ids-font-family);
+  font-family: var(--ids-font-family-default);
   text-align: center;
 
   &::part(link) {
@@ -14,7 +14,7 @@
   }
 
   &[href] {
-    color: var(--ids-counts-hyperlink-text-color);
+    color: var(--ids-counts-links-color-text);
   }
 
   &[color] {
@@ -23,15 +23,15 @@
 }
 
 .ids-counts div[count-value] {
-  font-size: var(--ids-counts-value-font-size);
+  font-size: var(--ids-counts-label-font-size);
 }
 
 .ids-counts div[count-text] {
-  font-size: var(--ids-counts-count-font-size);
+  font-size: var(--ids-counts-value-font-size);
 }
 
 a:focus {
-  border: 1px solid var(--ids-focus-border-color);
-  box-shadow: var(--ids-box-shadow-lg);
+  border: 1px solid var(--ids-color-border-focus);
+  box-shadow: var(--ids-shadow-30);
   outline: none;
 }

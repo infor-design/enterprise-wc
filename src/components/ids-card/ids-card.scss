@@ -2,10 +2,10 @@
 @import '../../themes/mixins/ids-ripple-mixin';
 
 .ids-card {
-  background-color: var(--ids-card-background-color);
-  border: 1px solid var(--ids-card-border-color);
+  background-color: var(--ids-card-color-background);
+  border: 1px solid var(--ids-card-color-border);
   border-radius: var(--ids-card-border-radius);
-  box-shadow: var(--ids-card-box-shadow);
+  box-shadow: var(--ids-card-shadow);
   margin-block-end: var(--ids-card-margin-bottom);
   height: var(--ids-card-height);
 
@@ -39,8 +39,8 @@
   }
 
   &.is-selected {
-    background-color: var(--ids-card-selected-background-color);
-    outline: 2px solid var(--ids-card-selected-border-color);
+    background-color: var(--ids-card-color-background-selected);
+    outline: 2px solid var(--ids-card-color-border-selected);
     outline-offset: -1px;
   }
 
@@ -107,7 +107,7 @@
   &::part(link) {
     box-sizing: border-box;
     border: none;
-    color: var(--ids-card-text-color);
+    color: var(--ids-card-color-text-default);
     display: flex;
     margin: 0;
     padding: 0;
@@ -117,7 +117,7 @@
     white-space: normal;
 
     &:hover {
-      color: var(--ids-card-hover-text-color);
+      color: var(--ids-card-color-text-hover);
     }
   }
 }
@@ -154,8 +154,8 @@
     height: 50px;
 
     &:focus {
-      border: 1px solid var(--ids-card-border-color);
-      box-shadow: var(--ids-box-shadow-lg);
+      border: 1px solid var(--ids-card-color-border);
+      box-shadow: var(--ids-shadow-30);
     }
   }
 }
@@ -170,11 +170,11 @@
 }
 
 .ids-card-footer {
-  background-color: var(--ids-card-background-color);
+  background-color: var(--ids-card-color-background);
   padding: 6px 0 0;
   display: none;
   bottom: 0;
-  border-top: 1px solid var(--ids-card-divider-border-color);
+  border-top: 1px solid var(--ids-card-divider-color-border);
   width: 100%;
 
   &.no-padding {

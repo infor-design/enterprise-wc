@@ -1,10 +1,10 @@
 /* Ids Header Component */
 .ids-header {
-  background-color: var(--ids-header-background-color);
-  color: var(--ids-header-text-color);
+  background-color: var(--ids-header-color-background);
+  color: var(--ids-header-color-text);
   display: flex;
   flex-direction: column;
-  transition: background-color var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
+  transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
   width: 100%;
 }
 

@@ -40,11 +40,11 @@
   // Is open state
   &.is-open:not(.is-dropdown) {
     ids-trigger-button::part(button) {
-      color: var(--ids-date-picker-open-trigger-button-text-color);
+      color: var(--ids-date-picker-open-trigger-button-color-text);
     }
 
     ids-trigger-field::part(field-container) {
-      border-color: var(--ids-date-picker-open-trigger-input-border-color);
+      border-color: var(--ids-date-picker-color-border);
     }
   }
 
@@ -72,34 +72,34 @@
 
   .popup-btn::part(button) {
     display: flex;
-    padding-block: var(--ids-spacing-xl);
+    padding-block: var(--ids-space-50);
     border-radius: 0;
     justify-content: center;
 
     &:not(:focus) {
       border: 1px solid transparent;
-      border-top-color: var(--ids-date-picker-popup-button-border-color);
+      border-top-color: var(--ids-date-picker-popup-button-color-border);
     }
   }
 
   .popup-btn:not(.popup-btn-apply)::part(button) {
-    color: var(--ids-date-picker-popup-button-text-color);
+    color: var(--ids-date-picker-popup-button-color-text-default);
 
     &:hover {
-      color: var(--ids-date-picker-popup-button-hover-text-color);
+      color: var(--ids-date-picker-popup-button-color-text-hover);
     }
   }
 
   .popup-btn:not([hidden]):not(:last-child):not(:focus)::part(button) {
-    border-inline-end-color: var(--ids-date-picker-popup-button-border-color);
+    border-inline-end-color: var(--ids-date-picker-popup-button-color-border);
   }
 
   .popup-btn-apply:not([disabled])::part(button) {
-    color: var(--ids-date-picker-popup-button-apply-text-color);
+    color: var(--ids-date-picker-popup-button-primary-color-text);
   }
 
   .popup-btn-apply[disabled]::part(button) {
-    color: var(--ids-date-picker-popup-button-apply-disabled-text-color);
+    color: var(--ids-date-picker-popup-button-primary-color-text-disabled);
   }
 
   ids-time-picker {
@@ -112,13 +112,13 @@
 .ids-date-picker.is-dropdown {
   // Button
   .dropdown-btn::part(button) {
-    color: var(--ids-date-picker-dropdown-button-text-color);
+    color: var(--ids-date-picker-dropdown-button-color-text);
     padding: 4px;
     border: none;
-    border-radius: var(--ids-border-radius-xs);
+    border-radius: var(--ids-border-radius-01);
 
     &:focus {
-      box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-date-picker-dropdown-focus-box-shadow-color), 0 0 4px 3px rgb(54 138 192 / 0.3);
+      box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-date-picker-dropdown-color-focus), 0 0 4px 3px rgb(54 138 192 / 0.3);
     }
   }
 
@@ -133,7 +133,7 @@
 
   &.is-expanded {
     .dropdown-btn::part(button) {
-      color: var(--ids-button-tertiary-hover-text-color);
+      color: var(--ids-button-tertiary-color-text-hover);
     }
 
     .dropdown-btn-icon {
@@ -158,7 +158,7 @@
   }
 
   ids-expandable-area::part(pane) {
-    background-color: var(--ids-body-background-color);
+    background-color: var(--ids-color-background-default);
   }
 
   ids-expandable-area::part(pane-content) {
@@ -170,7 +170,7 @@
     display: flex;
 
     &::after {
-      background-color: var(--ids-date-picker-picklist-separator-background-color);
+      background-color: var(--ids-date-picker-picklist-separator-color-background);
       position: absolute;
       content: ' ';
       width: 1px;
@@ -210,7 +210,7 @@
     box-sizing: border-box;
     display: flex;
     cursor: var(--ids-cursor-pointer);
-    color: var(--ids-date-picker-picklist-item-text-color);
+    color: var(--ids-date-picker-picklist-item-color-text-default);
     padding-top: 1px;
     padding-bottom: 1px;
     user-select: none;
@@ -224,8 +224,8 @@
     }
 
     &.is-selected {
-      color: var(--ids-date-picker-picklist-item-selected-text-color);
-      background-color: var(--ids-date-picker-picklist-item-selected-background-color);
+      color: var(--ids-date-picker-picklist-item-color-text-selected);
+      background-color: var(--ids-date-picker-picklist-item-color-background-selected);
 
       ids-text::part(text) {
         font-weight: 600;
@@ -233,8 +233,8 @@
     }
 
     &:focus {
-      border-color: var(--ids-date-picker-picklist-item-focus-border-color);
-      box-shadow: var(--ids-date-picker-picklist-item-focus-box-shadow);
+      border-color: var(--ids-date-picker-item-color-border-focus);
+      box-shadow: var(--ids-date-picker-item-shadow-focus);
       outline: none;
     }
 

@@ -7,8 +7,8 @@
 // Unchecked
 @mixin checkbox-unchecked() {
   position: absolute;
-  border: var(--ids-checkbox-unchecked-border);
-  border-radius: var(--ids-checkbox-unchecked-border-radius);
+  border: var(--ids-checkbox-border);
+  border-radius: var(--ids-checkbox-border-radius);
   height: 14px;
   width: 14px;
   left: 0;
@@ -16,20 +16,20 @@
 }
 
 @mixin checkbox-unchecked-error {
-  border-color: var(--ids-checkbox-unchecked-error-border-color);
+  border-color: var(--ids-checkbox-color-border-error);
 }
 
 // Checked
 @mixin checkbox-checked() {
-  background-color: var(--ids-checkbox-checked-background-color);
-  border-color: var(--ids-checkbox-checked-border-color);
+  background-color: var(--ids-checkbox-color-background-selected);
+  border-color: var(--ids-checkbox-color-border-selected);
 }
 
 @mixin checkbox-checked-after {
   position: absolute;
   display: block;
-  border: var(--ids-font-size-xs) solid var(--ids-checkbox-checked-after-border-color);
-  border-width: var(--ids-checkbox-checked-after-border-width);
+  border: var(--ids-font-size-20) solid var(--ids-checkbox-color-border-selected-after);
+  border-width: var(--ids-checkbox-border-width-selected-after);
   animation: check 0.15s;
   transform: rotate(45deg);
   content: '';
@@ -41,16 +41,16 @@
 
 // Indeterminate
 @mixin checkbox-indeterminate() {
-  background-color: var(--ids-checkbox-indeterminate-background-color);
-  border-color: var(--ids-checkbox-indeterminate-border-color);
+  background-color: var(--ids-checkbox-color-background-indeterminate);
+  border-color: var(--ids-checkbox-color-border-indeterminate);
 }
 
 @mixin checkbox-indeterminate-after {
   position: absolute;
   animation: checkindeterminate 0.15s;
   display: block;
-  border: 1px solid var(--ids-checkbox-indeterminate-after-border-color);
-  border-width: var(--ids-checkbox-indeterminate-after-border-width);
+  border: 1px solid var(--ids-checkbox-color-border-indeterminate-after);
+  border-width: var(--ids-checkbox-border-width-indeterminate);
   content: '';
   height: 6px;
   left: 2px;
@@ -61,8 +61,8 @@
 
 // Disabled
 @mixin checkbox-disabled-unchecked {
-  background-color: var(--ids-checkbox-disabled-unchecked-background-color);
-  border-color: var(--ids-checkbox-disabled-unchecked-border-color);
+  background-color: var(--ids-checkbox-color-background-disabled);
+  border-color: var(--ids-checkbox-color-border-disabled);
   cursor: var(--ids-cursor-default);
 }
 
@@ -71,18 +71,18 @@
 }
 
 @mixin checkbox-disabled-checked() {
-  background-color: var(--ids-checkbox-disabled-checked-background-color);
-  border-color: var(--ids-checkbox-disabled-checked-border-color);
+  background-color: var(--ids-checkbox-color-background-selected-disabled);
+  border-color: var(--ids-checkbox-color-border-selected-disabled);
 }
 
 @mixin checkbox-disabled-text {
   cursor: var(--ids-cursor-default);
-  color: var(--ids-checkbox-disabled-text-color);
+  color: var(--ids-checkbox-color-text-disabled);
 }
 
 // Focus
 @mixin checkbox-focus {
-  border-color: var(--ids-checkbox-focus-border-color);
+  border-color: var(--ids-checkbox-color-border-focus);
   box-shadow: var(--ids-checkbox-focus-box-shadow);
 }
 

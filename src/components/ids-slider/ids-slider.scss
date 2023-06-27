@@ -10,28 +10,28 @@
   justify-content: center;
 
   .tick {
-    background-color: var( --ids-slider-tick-background-color);
+    background-color: var( --ids-slider-tick-color-background-default);
   }
 
   .thumb-shadow {
-    background-color: var(--ids-slider-thumb-shadow-background-color);
-    border-color: var(--ids-slider-thumb-shadow-border-color);
+    background-color: var(--ids-slider-thumb-color-shadow-default);
+    border-color: var(--ids-slider-thumb-color-border-default);
   }
 
   .thumb {
-    background-color: var(--ids-slider-thumb-background-color);
+    background-color: var(--ids-slider-thumb-color-background-default);
 
     &:hover {
-      box-shadow: var(--ids-slider-thumb-hover-box-shadow);
+      box-shadow: var(--ids-slider-thumb-shadow-hover);
     }
   }
 
   .track {
-    background-color: var(--ids-slider-track-background-color);
+    background-color: var(--ids-slider-track-color-background-default);
   }
 
   .track-progress {
-    background-color: var(--ids-slider-track-progress-background-color);
+    background-color: var(--ids-slider-track-color-background-progress);
   }
 
   // horizontal slider rules only
@@ -77,14 +77,14 @@
 
   // Disabled cursor rules
   &.disabled {
-    color: var(--ids-slider-disabled-color);
+    color: var(--ids-slider-color-disabled);
 
     .label {
       cursor: default;
     }
 
     .tick {
-      background-color: var(--ids-slider-disabled-tick-background-color);
+      background-color: var(--ids-slider-tick-color-background-disabled);
     }
 
     .thumb-shadow {
@@ -92,7 +92,7 @@
     }
 
     .thumb {
-      background-color: var(--ids-slider-disabled-thumb-background-color);
+      background-color: var(--ids-slider-thumb-color-background-disabled);
       cursor: default;
 
       &:hover {
@@ -105,43 +105,43 @@
     }
 
     .track {
-      background-color: var(--ids-slider-disabled-track-background-color);
+      background-color: var(--ids-slider-track-color-background-disabled);
     }
 
     .track-progress {
-      background-color: var(--ids-slider-disabled-track-progress-background-color);
+      background-color: var(--ids-slider-track-color-background-progress-disabled);
     }
   }
 
   // Readonly cursor rules
   &.readonly {
-    color: var(--ids-slider-readonly-color);
+    color: var(--ids-slider-color-readonly);
 
     .label {
       cursor: default;
     }
 
     .tick {
-      background-color: var(--ids-slider-readonly-tick-background-color);
+      background-color: var(--ids-slider-tick-color-background-readonly);
     }
 
     .thumb {
-      background-color: var(--ids-slider-readonly-thumb-background-color);
+      background-color: var(--ids-slider-thumb-color-background-readonly);
       cursor: pointer;
     }
 
     .thumb-shadow {
-      background-color: var(--ids-slider-readonly-thumb-shadow-background-color);
-      border-color: var(--ids-slider-readonly-thumb-shadow-border-color);
+      background-color: var(--ids-slider-thumb-color-shadow-readonly);
+      border-color: var(--ids-slider-thumb-color-border-readonly);
       cursor: pointer;
     }
 
     .track {
-      background-color: var(--ids-slider-readonly-track-background-color);
+      background-color: var(--ids-slider-track-color-background-readonly);
     }
 
     .track-progress {
-      background-color: var(--ids-slider-readonly-track-progress-background-color);
+      background-color: var(--ids-slider-track-progress-color-background-readonly);
     }
 
     .track-area {
@@ -179,7 +179,7 @@
     display: flex;
     width: var(--ids-slider-tick-size);
     height: var(--ids-slider-tick-size);
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-circle);
     z-index: 40;
     justify-content: center;
   }
@@ -201,17 +201,17 @@
   }
 
   .tooltip {
-    background-color: var(--ids-slider-tooltip-background-color);
-    color: var(--ids-slider-tooltip-text-color);
+    background-color: var(--ids-slider-tooltip-color-background);
+    color: var(--ids-slider-tooltip-color-text);
     display: flex;
     justify-content: center;
     position: absolute;
     width: auto;
-    padding: var(--ids-spacing-xs);
+    padding: var(--ids-space-10);
     height: auto;
     text-align: center;
     margin: auto;
-    border-radius: var(--ids-border-radius-xs);
+    border-radius: var(--ids-border-radius-01);
     vertical-align: middle;
     line-height: 30px;
     max-width: 300px;
@@ -236,7 +236,7 @@
       margin-top: 1px; // horizontal
       left: 14px; // horizontal
       border-left: 6px solid transparent; // horizontal
-      border-top: 6px solid var(--ids-slider-tooltip-background-color); // horizontal
+      border-top: 6px solid var(--ids-slider-tooltip-color-background); // horizontal
       border-right: 6px solid transparent; // horizontal
 
       &.vertical {
@@ -244,7 +244,7 @@
         bottom: unset;
         margin-top: unset;
         border-top: 6px solid transparent;
-        border-right: 6px solid var(--ids-slider-tooltip-background-color);
+        border-right: 6px solid var(--ids-slider-tooltip-color-background);
         border-bottom: 6px solid transparent;
         right: 100%;
         transform: translate(0, 10px);
@@ -273,7 +273,7 @@
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    border-width: var(--ids-spacing-xs);
+    border-width: var(--ids-space-10);
     border-style: solid;
     transition: transform $transition-length $transition-ease;
     transform: scale(0);
@@ -285,10 +285,10 @@
 
   .track-area {
     width: 100%; // horizontal
-    height: var(--ids-spacing-4xl); // horizontal
+    height: var(--ids-space-80); // horizontal
     &.vertical {
       height: 100%; // vert
-      width: var(--ids-spacing-4xl); // vert
+      width: var(--ids-space-80); // vert
     }
 
     background-color: transparent;
@@ -304,17 +304,17 @@
     display: flex;
     align-items: center; // horizontal
     justify-content: flex-start; // horizontal
-    height: var(--ids-spacing-md); // horizontal
+    height: var(--ids-space-30); // horizontal
     width: calc(100% - (var(--ids-slider-thumb-size) / 2)); // horizontal
     &.vertical {
       justify-content: center; // vertical
-      width: var(--ids-spacing-md); // vert
+      width: var(--ids-space-30); // vert
       height: calc(100% - (var(--ids-slider-thumb-size) / 2)); // vert
     }
 
     position: absolute;
     z-index: 30;
-    border-radius: var(--ids-border-radius-xs);
+    border-radius: var(--ids-border-radius-01);
 
     .track-progress {
       height: inherit;

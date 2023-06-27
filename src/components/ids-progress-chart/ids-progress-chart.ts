@@ -121,7 +121,7 @@ export default class IdsProgressChart extends Base {
     const includesAlert = this.color?.includes('error') || this.color?.includes('caution') || this.color?.includes('warning');
 
     if (includesAlert || this.color?.includes('base') || this.color?.includes('success')) {
-      prop = `var(--ids-color-${this.color})`;
+      prop = `var(--ids-color-${this.color === 'base' ? 'primary' : `${this.color}-default`})`;
 
       // only color the icons and progress labels if it's error, caution, or warning
       if (includesAlert) {

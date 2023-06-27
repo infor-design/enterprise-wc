@@ -3,21 +3,21 @@
 
 .ids-upload-advanced {
   display: block;
-  margin-bottom: var(--ids-spacing-xxl);
+  margin-bottom: var(--ids-space-60);
 
   .hidden {
     display: none;
   }
 
   .droparea {
-    color: var(--ids-upload-advanced-text-color);
-    background-color: var(--ids-upload-advanced-background-color);
+    color: var(--ids-upload-advanced-color-text-default);
+    background-color: var(--ids-upload-advanced-color-background-default);
     border-width: 1px;
-    border-color: var(--ids-upload-advanced-border-color);
+    border-color: var(--ids-upload-advanced-color-border-default);
     position: relative;
     align-items: center;
     display: flex;
-    border-radius: var(--ids-border-radius-xs);
+    border-radius: var(--ids-border-radius-01);
     border-style: dashed;
     flex-direction: column;
     justify-content: center;
@@ -31,7 +31,7 @@
     .droparea-label {
       @include mixins.antialiased();
 
-      color: var(--ids-upload-advanced-label-text-color);
+      color: var(--ids-upload-advanced-label-color-text);
       display: block;
       text-align: center;
       user-select: none;
@@ -54,20 +54,20 @@
       z-index: -1;
 
       &:focus ~ .droparea-label .hyperlink::part(link) {
-        border: 1px solid var(--ids-upload-advanced-hyperlink-focus-border-color);
-        box-shadow: var(--ids-upload-advanced-hyperlink-focus-box-shadow);
+        border: 1px solid var(--ids-upload-advanced-color-border-focus);
+        box-shadow: var(--ids-upload-advanced-link-shadow-focus);
       }
     }
 
     &:hover {
-      background-color: var(--ids-upload-advanced-hover-background-color);
-      border-color: var(--ids-upload-advanced-hover-border-color);
-      color: var(--ids-upload-advanced-hover-text-color);
+      background-color: var(--ids-upload-advanced-color-background-hover);
+      border-color: var(--ids-upload-advanced-color-border-hover);
+      color: var(--ids-upload-advanced-color-text-hover);
     }
 
     &.dragenter {
-      background-color: var(--ids-upload-advanced-dragenter-background-color);
-      border-color: var(--ids-upload-advanced-dragenter-border-color);
+      background-color: var(--ids-upload-advanced-color-background-drag-enter);
+      border-color: var(--ids-upload-advanced-color-border-drag-enter);
     }
   }
 
@@ -93,16 +93,16 @@
 
   .errorarea {
     border: 1px solid transparent;
-    margin-top: var(--ids-spacing-lg);
-    padding: var(--ids-spacing-sm);
+    margin-top: var(--ids-space-40);
+    padding: var(--ids-space-20);
     display: none;
-    border-radius: var(--ids-border-radius-xs);
+    border-radius: var(--ids-border-radius-01);
     border-style: dashed;
     align-items: center;
 
     &.has-error {
       display: flex;
-      border-color: var(--ids-upload-advanced-errorarea-border-color);
+      border-color: var(--ids-upload-advanced-error-area-color-border-error);
     }
 
     .status {
@@ -112,8 +112,8 @@
       .ids-alert,
       ids-alert {
         display: block;
-        padding: var(--ids-spacing-lg);
-        padding-bottom: var(--ids-spacing-md);
+        padding: var(--ids-space-40);
+        padding-bottom: var(--ids-space-30);
         margin: 0;
       }
     }
@@ -128,13 +128,13 @@
         display: block;
         font-weight: var(--ids-font-weight-normal);
         margin: 0;
-        font-family: var(--ids-font-family);
+        font-family: var(--ids-font-family-default);
         text-overflow: ellipsis;
       }
     }
 
     .btn-close {
-      padding-inline: var(--ids-spacing-sm);
+      padding-inline: var(--ids-space-20);
       flex-grow: 0;
       flex-shrink: 0;
     }
@@ -156,19 +156,19 @@
     .droparea,
     .droparea.dragenter,
     .droparea:hover {
-      background-color: var(--ids-upload-advanced-disabled-background-color);
-      border-color: var(--ids-upload-advanced-disabled-border-color);
-      color: var(--ids-upload-advanced-disabled-text-color);
+      background-color: var(--ids-upload-advanced-color-background-disabled);
+      border-color: var(--ids-upload-advanced-color-border-disabled);
+      color: var(--ids-upload-advanced-color-text-disabled);
 
       .droparea-label {
         cursor: default;
-        color: var(--ids-upload-advanced-disabled-text-color);
+        color: var(--ids-upload-advanced-color-text-disabled);
       }
     }
 
     .errorarea.has-error {
-      border-color: var(--ids-upload-advanced-errorarea-disabled-border-color);
-      color: var(--ids-upload-advanced-errorarea-disabled-text-color);
+      border-color: var(--ids-upload-advanced-area-color-border-error-disabled);
+      color: var(--ids-upload-advanced-color-text-error-disabled);
     }
   }
 }

@@ -2,10 +2,10 @@
 @import '../ids-hyperlink/ids-hyperlink';
 
 .ids-skip-link {
-  background-color: var(--ids-skip-link-background-color);
+  background-color: var(--ids-skip-link-color-background);
   border: 1px solid var(--ids-skip-link-border-color);
   margin: var(--ids-skip-link-margin);
-  z-index: var(--ids-z-index-skip-link);
+  z-index: var(--ids-z-index-110);
   font-size: var(--ids-skip-link-font-size);
   border-radius: var(--ids-skip-link-border-radius);
   box-shadow: var(--ids-skip-link-shadow);

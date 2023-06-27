@@ -190,7 +190,9 @@ export default class IdsColor extends Base {
   set color(value: string) {
     if (value) {
       this.container?.classList.remove('no-color');
-      this.swatch?.style.setProperty('background-color', value.indexOf('hsl') > -1 ? `${value}` : `var(${value})`);
+      const addDefault = ['--ids-color-error', '--ids-color-warning', '--ids-color-caution', '--ids-color-success', '--ids-color-info'].includes(value);
+
+      this.swatch?.style.setProperty('background-color', value.indexOf('hsl') > -1 ? `${value}` : `var(${value}${addDefault ? '-default' : ''})`);
       this.setAttribute(attributes.COLOR, value);
     } else {
       this.container?.classList.add('no-color');
