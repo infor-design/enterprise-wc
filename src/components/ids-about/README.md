@@ -2,7 +2,7 @@
 
 Provides information about an application / product with copyright and browser information.
 
-The IDS About Component builds on top of the [Modal]('../ids-modal/README.md')
+The IDS About Component builds on top of the [Modal](../ids-modal/README.md)
 
 ## Use Cases
 

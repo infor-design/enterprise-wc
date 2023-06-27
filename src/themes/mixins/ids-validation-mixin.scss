@@ -4,23 +4,23 @@
   @include mixins.antialiased();
 
   display: flex;
-  font-family: var(--ids-font-family);
-  margin-top: var(--ids-spacing-md);
+  font-family: var(--ids-font-family-default);
+  margin-top: var(--ids-space-30);
 
   &.has-custom-icon {
-    color: var(--ids-icon-color);
+    color: var(--ids-icon-color-default);
   }
 
   &.disabled {
-    color: var(--ids-input-disabled-text-color);
+    color: var(--ids-input-color-text-disabled);
   }
 
   .ids-icon {
-    margin-inline-end: var(--ids-spacing-md);
+    margin-inline-end: var(--ids-space-30);
   }
 
   &.alert {
-    color: var(--ids-color-caution);
+    color: var(--ids-color-caution-default);
 
     &.disabled {
       color: var(--ids-color-caution-30);
@@ -28,7 +28,7 @@
   }
 
   &.warning {
-    color: var(--ids-color-warning);
+    color: var(--ids-color-warning-default);
 
     &.disabled {
       color: var(--ids-color-warning-30);
@@ -36,7 +36,7 @@
   }
 
   &.error {
-    color: var(--ids-color-error);
+    color: var(--ids-color-error-default);
 
     &.disabled {
       color: var(--ids-color-error-30);
@@ -44,7 +44,7 @@
   }
 
   &.info {
-    color: var(--ids-color-info);
+    color: var(--ids-color-info-default);
 
     &.disabled {
       color: var(--ids-color-info-30);
@@ -52,7 +52,7 @@
   }
 
   &.success {
-    color: var(--ids-color-success);
+    color: var(--ids-color-success-default);
 
     &.disabled {
       color: var(--ids-color-success-30);

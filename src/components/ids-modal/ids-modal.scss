@@ -46,7 +46,7 @@
 
 .ids-modal-footer {
   margin: var(--ids-modal-footer-margin);
-  border-top: 1px solid var(--ids-modal-footer-border-color);
+  border-top: 1px solid var(--ids-modal-footer-color-border);
 
   &[hidden] {
     border-top: none;
@@ -71,16 +71,16 @@
 // between buttons inside the Modal Footer
 
 ::slotted([slot='buttons']:not(:first-of-type)) {
-  border-left: 1px solid var(--ids-modal-footer-border-color);
+  border-left: 1px solid var(--ids-modal-footer-color-border);
 }
 
 .ids-modal-button:not(.ids-modal-icon-button):not(:first-of-type) {
-  border-left: 1px solid var(--ids-modal-footer-border-color);
+  border-left: 1px solid var(--ids-modal-footer-color-border);
 }
 
 // Media queries setup
 @media screen and (min-width: $breakpoint-sm) {
   ::slotted([slot='title']) {
-    font-size: var(--ids-font-size-xl);
+    font-size: var(--ids-font-size-60);
   }
 }

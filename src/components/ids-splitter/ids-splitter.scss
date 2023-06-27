@@ -25,10 +25,10 @@ $split-bar-size: var(--ids-splitter-bar-width);
       width: 100%;
       align-items: center;
       justify-content: center;
-      transition: background-color var(--ids-transition-length) var(--ids-transition-ease);
+      transition: background-color var(--ids-motion-duration) var(--ids-motion-ease);
 
       &:hover {
-        background-color: var(--ids-splitter-bar-hover-background-color);
+        background-color: var(--ids-splitter-bar-color-background-hover);
       }
     }
 
@@ -69,14 +69,14 @@ $split-bar-size: var(--ids-splitter-bar-width);
     &[is-dragging],
     &:focus {
       outline: none;
-      background-color: var(--ids-splitter-bar-hover-background-color);
+      background-color: var(--ids-splitter-bar-color-background-hover);
 
       &[axis='x'].align-start,
       &[axis='x'].align-end,
       &[axis='y'].align-start,
       &[axis='y'].align-end {
-        border-color: var(--ids-splitter-bar-dragging-border-color);
-        box-shadow: var(--ids-splitter-bar-dragging-box-shadow);
+        border-color: var(--ids-splitter-bar-color-border-dragging);
+        box-shadow: var(--ids-splitter-bar-shadow-dragging);
       }
     }
 

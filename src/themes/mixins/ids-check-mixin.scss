@@ -13,9 +13,9 @@
   border: 1px solid;
   transform: rotate(45deg);
   border-color:
-    var(--ids-menu-check-color)
-    var(--ids-menu-check-color)
-    var(--ids-menu-check-color)
+    var(--ids-menu-check-color-default)
+    var(--ids-menu-check-color-default)
+    var(--ids-menu-check-color-default)
     transparent;
   border-width: 0 2px 2px 0;
   content: ' ';
@@ -27,8 +27,8 @@
 // for situations where this checkmark can appear to be "disabled"
 @mixin check-icon-disabled() {
   border-color:
-    var(--ids-menu-check-disabled-color)
-    var(--ids-menu-check-disabled-color)
-    var(--ids-menu-check-disabled-color)
+    var(--ids-menu-check-color-disabled)
+    var(--ids-menu-check-color-disabled)
+    var(--ids-menu-check-color-disabled)
     transparent;
 }

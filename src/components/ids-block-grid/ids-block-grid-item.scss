@@ -1,6 +1,6 @@
 ::slotted(img) {
   contain: content;
-  margin-bottom: var(--ids-block-grid-item-img-margin-block-end);
+  margin-bottom: var(--ids-block-grid-margin);
 }
 
 :host {
@@ -12,7 +12,7 @@
 :host([selection='mixed']),
 :host([selection='multiple']) {
   width: var(--ids-block-grid-item-selectable-width);
-  max-width: var(--ids-block-grid-item-selectable-max-width);
+  max-width: var(--ids-block-grid-item-width-max);
   box-sizing: border-box;
 
   .ids-block-grid-item {
@@ -24,7 +24,7 @@
 
 // For text multiple selection
 :host([selection='multiple'][type='block']) {
-  width: var(--ids-block-grid-item-selectable-multiple-block-width);
+  width: var(--ids-block-grid-item-selectable-multiple-width);
 
   ::slotted(ids-text) {
     text-align: left;
@@ -32,12 +32,12 @@
 
   .ids-block-grid-item {
     &-container {
-      padding: var(--ids-block-grid-item-selectable-multiple-block-container-padding);
+      padding: var(--ids-block-grid-item-selectable-container-multiple-padding);
     }
 
     &-checkbox {
-      top: var(--ids-block-grid-item-selectable-multiple-block-checkbox-top);
-      left: var(--ids-block-grid-item-selectable-multiple-block-checkbox-left);
+      top: var(--ids-block-grid-item-selectable-size-multiple-block-checkbox-top);
+      left: var(--ids-block-grid-item-selectable-size-multiple-block-checkbox-left);
       right: var(--ids-block-grid-item-selectable-multiple-block-checkbox-right);
     }
   }
@@ -50,28 +50,28 @@
     }
 
     &.is-selectable {
-      border-radius: var(--ids-block-grid-item-selectable-container-border-radius);
+      border-radius: var(--ids-block-grid-item-border-radius);
       cursor: var(--ids-cursor-pointer);
 
       ::slotted(img) {
-        border-radius: var(--ids-block-grid-item-selectable-container-img-border-radius);
+        border-radius: var(--ids-block-grid-item-selectable-border-radius-container);
       }
 
       &:hover {
-        background-color: var(--ids-block-grid-item-selectable-container-hover-background-color);
+        background-color: var(--ids-block-grid-item-color-background-selectable-hover);
         cursor: var(--ids-cursor-pointer);
       }
 
       &:focus {
-        outline: var(--ids-block-grid-item-selectable-container-focus-outline);
-        box-shadow: var(--ids-block-grid-item-selectable-container-focus-box-shadow);
+        outline: var(--ids-block-grid-item-selectable-container-focus);
+        box-shadow: var(--ids-block-grid-item-shadow-selectable-container-focus);
       }
     }
 
     &.is-selected:not(:focus) {
-      border-radius: var(--ids-block-grid-item-selected-border-radius);
-      background-color: var(--ids-block-grid-item-selected-background-color);
-      outline: var(--ids-block-grid-item-selected-outline);
+      border-radius: var(--ids-block-grid-item-border-radius-selected);
+      background-color: var(--ids-block-grid-item-color-background-selected);
+      outline: var(--ids-block-grid-item-outline-selected);
     }
 
     &.is-selected,
@@ -83,15 +83,15 @@
     }
 
     &.pre-selected {
-      background-color: var(--ids-block-grid-item-pre-selected-background-color);
+      background-color: var(--ids-block-grid-item-pre-color-background-selected);
       cursor: var(--ids-cursor-pointer);
     }
   }
 
   &-checkbox {
     position: absolute;
-    top: var(--ids-block-grid-item-checkbox-top);
-    right: var(--ids-block-grid-item-checkbox-right);
+    top: var(--ids-block-grid-checkbox-top-size);
+    right: var(--ids-block-grid-checkbox-right-size);
     visibility: hidden;
   }
 }

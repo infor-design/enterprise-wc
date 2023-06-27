@@ -235,6 +235,7 @@ export default class IdsElement extends HTMLElement {
     this.lastTheme = theme;
 
     // Handle setting theme via links
+    document.querySelector('ids-container')?.setAttribute('hidden', '');
     const themeLink = document.querySelector('link[href*="ids-theme"]');
     if (themeLink) {
       const href = themeLink.getAttribute('href');
@@ -260,5 +261,25 @@ export default class IdsElement extends HTMLElement {
       if (titleElem) head.insertBefore(style, titleElem.nextElementSibling);
       else head.insertAdjacentHTML('beforeend', style);
     }
+    this.loadLegacyTheme(theme);
+    document.querySelector('ids-container')?.setAttribute('animated', '');
+    setTimeout(() => {
+      document.querySelector('ids-container')?.removeAttribute('hidden');
+    }, 150);
+  }
+
+  /**
+   * Switch the theme in 4.x components
+   * @param {string} value The theme value for example: default-light
+   */
+  loadLegacyTheme(value: string): void {
+    let styleSheet: any = document.querySelector('#stylesheet');
+    if (!styleSheet) styleSheet = document.querySelector('#sohoxi-stylesheet');
+    if (!styleSheet) return;
+
+    const href = styleSheet?.getAttribute('href');
+    const mappedTheme = value.replace('default', 'theme-new');
+    if (!href) return;
+    styleSheet?.setAttribute('href', href.replace('theme-new-light', mappedTheme).replace('theme-new-dark', mappedTheme).replace('theme-new-contrast', mappedTheme));
   }
 }

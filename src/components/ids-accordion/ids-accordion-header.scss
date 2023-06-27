@@ -5,21 +5,21 @@
 
 @mixin accordion-header-standard-colors() {
   border-color: transparent;
-  border-bottom-color: var(--ids-accordion-header-border-bottom-color);
+  border-bottom-color: var(--ids-accordion-header-color-border-bottom);
 }
 
 @mixin accordion-header-focus-colors() {
   &:focus {
-    border-color: var(--ids-accordion-header-focus-border-color);
-    box-shadow: var(--ids-accordion-header-focus-box-shadow);
+    border-color: var(--ids-accordion-header-color-border-focus);
+    box-shadow: var(--ids-accordion-header-shadow-focus);
   }
 }
 
 @mixin accordion-header-disabled-colors() {
-  color: var(--ids-accordion-header-disabled-text-color);
+  color: var(--ids-accordion-header-color-text-disabled);
 
   ids-icon {
-    color: var(--ids-accordion-header-disabled-icon-color);
+    color: var(--ids-accordion-header-color-border-disabled);
   }
 }
 
@@ -40,36 +40,36 @@
   }
 
   // Light Mode Styles
-  color: var(--ids-app-menu-accordion-header-text-color);
+  color: var(--ids-app-menu-accordion-header-color-text-default);
 
   &:hover {
-    background-color: var(--ids-app-menu-accordion-header-hover-background-color);
-    border-color: var(--ids-app-menu-accordion-header-hover-border-color);
+    background-color: var(--ids-app-menu-header-color-background-hover);
+    border-color: var(--ids-app-menu-header-color-border-hover);
   }
 
   &:focus {
-    color: var(--ids-app-menu-accordion-header-focus-text-color);
-    border-color: var(--ids-app-menu-accordion-header-focus-border-color);
+    color: var(--ids-app-menu-accordion-header-color-text-focus);
+    border-color: var(--ids-app-menu-accordion-header-color-border-focus);
   }
 
   &.selected {
-    color: var(--ids-app-menu-accordion-header-selected-text-color);
+    color: var(--ids-app-menu-accordion-header-color-text-selected);
   }
 
   &[disabled] {
-    color: var(--ids-app-menu-accordion-header-disabled-text-color);
-    background-color: (--ids-app-menu-accordion-header-disabled-background-color);
-    border-color: var(--ids-app-menu-accordion-header-disabled-border-color);
+    color: var(--ids-app-menu-accordion-header-color-text-disabled);
+    background-color: (--ids-app-menu-accordion-header-color-background-disabled);
+    border-color: var(--ids-app-menu-accordion-header-color-border-disabled);
   }
 
   .filter {
-    background-color: var(--ids-app-menu-accordion-header-filter-background-color);
-    color: var(--ids-app-menu-accordion-header-filter-text-color);
+    background-color: var(--ids-app-menu-accordion-header-color-background-default);
+    color: var(--ids-app-menu-accordion-header-filter-color-text);
     font-weight: bold;
   }
 
   &.hidden-by-filter.child-filter-match {
-    color: var(--ids-app-menu-accordion-header-filter-match-text-color);
+    color: var(--ids-app-menu-accordion-header-filter-match-color-text);
   }
 }
 

@@ -14,9 +14,9 @@
     align-items: center;
     border: 1px solid transparent;
     display: flex;
-    font-family: var(--ids-font-family);
-    font-size: var(--ids-chart-legend-text-size);
-    color: var(--ids-chart-legend-text-color);
+    font-family: var(--ids-font-family-default);
+    font-size: var(--ids-chart-legend-font-size);
+    color: var(--ids-chart-legend-color-text);
     padding-inline-start: 8px;
     padding-inline-end: 8px;
     padding-block-start: 2px;
@@ -25,8 +25,8 @@
 
     &:focus {
       outline: none;
-      border-color: var(--ids-focus-border-color);
-      box-shadow: var(--ids-focus-box-shadow);
+      border-color: var(--ids-color-border-focus);
+      box-shadow: var(--ids-shadow-focus);
     }
   }
 

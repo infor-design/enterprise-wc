@@ -1,6 +1,6 @@
 ids-block-grid-item {
   img {
-    margin-block-end: var(--ids-block-grid-item-img-margin-block-end);
+    margin-block-end: var(--ids-block-grid-margin);
   }
 }
 
@@ -10,7 +10,7 @@ ids-block-grid-item {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: var(--ids-spacing-none);
+  margin: var(--ids-space-none);
   text-align: center;
 }
 

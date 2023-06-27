@@ -1,6 +1,6 @@
 :host(ids-tab-content[active]) {
   display: block;
-  color: var(--ids-tab-content-text-color);
+  color: var(--ids-tab-content-color-text);
 }
 
 :host(ids-tab-content:not([active])) {

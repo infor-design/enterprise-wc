@@ -9,7 +9,7 @@
 }
 
 .ids-separator {
-  background-color: var(--ids-separator-background-color);
+  background-color: var(--ids-separator-color-background);
   display: block;
   list-style: none;
 
@@ -29,7 +29,7 @@
   &.color-variant-alternate-formatter {
     &.vertical {
       align-self: center;
-      background-color: var(--ids-separator-alternate-background-color);
+      background-color: var(--ids-separator-alternate-color-background);
       height: 16px;
     }
   }

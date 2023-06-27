@@ -10,13 +10,13 @@
 .ids-toast-message {
   @include mixins.antialiased();
 
-  background-color: var(--ids-toast-background-color);
+  background-color: var(--ids-toast-color-background);
   box-sizing: border-box;
-  border: 1px solid var(--ids-toast-border-color);
-  border-radius: var(--ids-border-radius-xs);
-  color: var(--ids-toast-text-color);
-  font-family: var(--ids-font-family);
-  font-size: var(--ids-font-size-md);
+  border: 1px solid var(--ids-toast-color-border);
+  border-radius: var(--ids-border-radius-01);
+  color: var(--ids-toast-color-text);
+  font-family: var(--ids-font-family-default);
+  font-size: var(--ids-font-size-40);
   outline: 0;
 
   &.audible {
@@ -35,27 +35,27 @@
     display: flex;
 
     .content-container {
-      margin-block-end: var(--ids-spacing-xl);
-      margin-block-start: var(--ids-spacing-xxl);
-      margin-inline-start: var(--ids-spacing-xl);
-      padding-block-end: var(--ids-spacing-xs);
+      margin-block-end: var(--ids-space-50);
+      margin-block-start: var(--ids-space-60);
+      margin-inline-start: var(--ids-space-50);
+      padding-block-end: var(--ids-space-10);
       flex-grow: 1;
     }
 
     .close-button-container {
       flex-grow: 0;
-      margin: var(--ids-spacing-xs);
+      margin: var(--ids-space-10);
     }
   }
 
   .title {
     display: block;
-    font-weight: var(--ids-font-weight-semi-bold);
+    font-weight: var(--ids-font-weight-semibold);
   }
 
   .message {
     display: block;
-    margin-block-start: var(--ids-spacing-lg);
+    margin-block-start: var(--ids-space-40);
   }
 
   .close-button::part(button) {
@@ -63,7 +63,7 @@
   }
 
   .progress-bar {
-    background-color: var(--ids-toast-progress-background-color);
+    background-color: var(--ids-toast-progress-color-background);
     height: 3px;
     overflow: hidden;
     width: 0;

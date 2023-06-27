@@ -4,7 +4,6 @@
 
 .ids-axis-chart {
   display: flex;
-  border-color: var(--ids-axis-chart-border-color);
 
   &.hidden {
     display: none;
@@ -13,13 +12,13 @@
   // Grid Lines
   .grid {
     shape-rendering: crispedges;
-    stroke: var(--ids-axis-chart-grid-stroke);
+    stroke: var(--ids-axis-chart-grid-color);
     stroke-width: 1;
     stroke-dasharray: 2 2;
 
     // Make bottom line more solid
     &.horizontal-lines line:last-child {
-      stroke: var(--ids-axis-chart-last-line-stroke);
+      stroke: var(--ids-axis-chart-last-line-color-border);
       stroke-dasharray: none;
     }
 
@@ -36,7 +35,7 @@
       }
 
       &.vertical-lines line:first-child {
-        stroke: var(--ids-axis-chart-first-line-stroke);
+        stroke: var(--ids-axis-chart-first-line-color);
         stroke-dasharray: none;
       }
     }
@@ -45,7 +44,7 @@
   // Focusable Groups
   g[tabindex='0'] {
     &:focus {
-      outline: var(--ids-axis-chart-focus-group-outline);
+      outline: var(--ids-axis-chart-outline-focus);
     }
   }
 
@@ -53,11 +52,11 @@
   .labels {
     @include mixins.antialiased();
 
-    font-family: var(--ids-axis-chart-label-font-family);
-    font-size: var(--ids-axis-chart-label-font-size);
+    font-family: var(--ids-axis-chart-font-family);
+    font-size: var(--ids-axis-chart-font-size);
 
     text {
-      fill: var(--ids-axis-chart-label-text-fill);
+      fill: var(--ids-axis-chart-color-text);
     }
 
     &.x-labels {
@@ -71,7 +70,7 @@
     &.axis-labels text {
       @include mixins.antialiased();
 
-      font-weight: var(--ids-axis-chart-label-axis-text-font-weight);
+      font-weight: var(--ids-axis-chart-font-weight);
       text-anchor: middle;
     }
   }
@@ -104,24 +103,24 @@ ids-empty-message:not([hidden]),
 
 // Stacked tooltips
 .tooltip-center {
-  margin-block: var(--ids-spacing-md);
+  margin-block: var(--ids-space-30);
   text-align: center;
 }
 
 .tooltip.chart-legend {
   flex-direction: column;
-  margin-block-end: var(--ids-spacing-lg);
+  margin-block-end: var(--ids-space-40);
   padding: 0;
 
   .swatch {
-    margin-inline: var(--ids-spacing-md);
+    margin-inline: var(--ids-space-30);
     padding: 0;
   }
 }
 
 .tooltip-row span {
-  padding-inline-start: var(--ids-spacing-sm);
-  padding-inline-end: var(--ids-spacing-md);
+  padding-inline-start: var(--ids-space-20);
+  padding-inline-end: var(--ids-space-30);
 }
 
 // Move Stuff for RTL

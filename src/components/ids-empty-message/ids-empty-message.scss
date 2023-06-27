@@ -12,7 +12,7 @@
   }
 
   .icon {
-    fill: var(--ids-empty-message-icon-fill);
+    fill: var(--ids-empty-message-color-icon-fill);
     color: var(--ids-empty-message-icon-color);
     margin: var(--ids-empty-message-icon-margin);
     height: var(--ids-empty-message-icon-height);
@@ -29,7 +29,7 @@
 
   .description {
     padding: var(--ids-empty-message-description-padding);
-    text-align: var(--ids-empty-message-description-text-align);
+    text-align: var(--ids-empty-message-description-font-align);
   }
 
   @media all and (max-width: $breakpoint-sm) {

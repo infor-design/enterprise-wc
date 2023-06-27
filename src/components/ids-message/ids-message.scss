@@ -6,26 +6,22 @@
 
 .ids-message-status {
   padding-inline-end: 8px;
-  color: var(--ids-message-text-color);
+  color: var(--ids-message-color-text);
 
   &.error {
-    color: var(--ids-message-error-icon-color);
+    color: var(--ids-message-color-icon-error);
   }
 
   &.warning {
-    color: var(--ids-message-warning-icon-color);
-  }
-
-  &.alert {
-    color: var(--ids-message-alert-icon-color);
+    color: var(--ids-message-color-icon-warning);
   }
 
   &.success {
-    color: var(--ids-message-success-icon-color);
+    color: var(--ids-message-color-icon-success);
   }
 
   &.info {
-    color: var(--ids-message-info-icon-color);
+    color: var(--ids-message-color-icon-info);
   }
 }
 
