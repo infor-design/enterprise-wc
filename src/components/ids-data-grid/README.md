@@ -520,6 +520,8 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `collapseAll()` Collapse all expandable or tree rows.
 - `expandAll()` Expand all expandable or tree rows.
 - `toggleAll(opt: boolean)` Toggle collapse/expand all expandable or tree rows. `opt false`: will expand all, `opt: true`: will collapse all
+- `updateDataset(row: number, data: Record<string, unknonw>, isClear?: boolean)` Updates datasource for row
+- `updateDatasetAndRefresh(row: number, data: Record<string, unknonw>, isClear?: boolean)` Updates datasource for row and refreshes row/cells UI.
 
 ## Filters
 
