@@ -9,15 +9,15 @@
     display: inline-flex;
     flex-direction: row;
     align-items: flex-end;
-    color: var(--ids-progress-chart-labels-text-color);
-    font-size: var(--ids-progress-chart-labels-font-size);
-    margin-bottom: var(--ids-progress-chart-labels-margin-bottom);
+    color: var(--ids-progress-chart-label-color-text);
+    font-size: var(--ids-progress-chart-label-font-size);
+    margin-bottom: var(--ids-progress-chart-label-margin-bottom);
     position: relative;
     width: 100%;
 
     .label-main {
       display: inline-flex;
-      margin: var(--ids-progress-chart-labels-main-margin);
+      margin: var(--ids-progress-chart-label-main-margin);
 
       &::part(text) {
         color: currentColor;
@@ -28,7 +28,7 @@
 
     .label-progress {
       display: inline-flex;
-      margin: var(--ids-progress-chart-labels-progress-margin);
+      margin: var(--ids-progress-chart-label-progress-margin);
 
       &::part(text) {
         color: currentColor;
@@ -59,13 +59,13 @@
 
   .bar {
     border-radius: var(--ids-progress-chart-bar-border-radius);
-    min-height: var(--ids-progress-chart-bar-min-height);
-    min-width: var(--ids-progress-chart-bar-min-width);
+    min-height: var(--ids-progress-chart-height-min);
+    min-width: var(--ids-progress-chart-bar-width-min);
     display: flex;
     position: relative;
 
     .bar-total {
-      background-color: var(--ids-progress-chart-bar-total-background-color);
+      background-color: var(--ids-progress-chart-total-color-background);
       border-radius: inherit;
       display: flex;
       top: 0;
@@ -75,7 +75,7 @@
     }
 
     .bar-progress {
-      background-color: var(--ids-progress-chart-bar-progress-background-color);
+      background-color: var(--ids-progress-chart-bar-progress-color-background);
       border-radius: inherit;
       display: flex;
       top: 0;

@@ -17,16 +17,16 @@ ids-button::part(button) {
 }
 
 ids-button:not([selected]):not([disabled])::part(button) {
-  color:  var(--ids-hyperlink-text-color);
+  color:  var(--ids-hyperlink-color-text-default);
 }
 
 ids-button[selected]::part(button) {
-  font-weight: var(--ids-font-weight-semi-bold);
+  font-weight: var(--ids-font-weight-semibold);
 }
 
 ids-button:not([selected]):hover {
   border: none;
-  border-bottom: 1px solid var(--ids-focus-border-color);
+  border-bottom: 1px solid var(--ids-color-border-focus);
 }
 
 .divider {

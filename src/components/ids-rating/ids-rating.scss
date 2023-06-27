@@ -16,42 +16,42 @@
 }
 
 .star[icon='star-outlined'] {
-  color: var(--ids-rating-star-empty-color);
+  color: var(--ids-rating-star-color-default);
 
   &:hover {
-    color: var(--ids-rating-star-hover-color);
+    color: var(--ids-rating-star-color-hover);
   }
 
   &:focus-visible {
     outline: none;
-    color: var(--ids-rating-star-focus-color);
+    color: var(--ids-rating-star-color-focus);
   }
 }
 
 .star[icon='star-filled'] {
-  color: var(--ids-rating-star-color);
+  color: var(--ids-rating-star-color-selected);
 
   &:hover {
-    color: var(--ids-rating-star-hover-color);
+    color: var(--ids-rating-star-color-hover);
   }
 
   &:focus-visible {
     outline: none;
-    color: var(--ids-rating-star-focus-color);
+    color: var(--ids-rating-star-color-focus);
     color: black;
   }
 }
 
 .star[icon='star-half'] {
-  color: var(--ids-rating-star-color);
+  color: var(--ids-rating-star-color-selected);
 
   &:hover {
-    color: var(--ids-rating-star-hover-color);
+    color: var(--ids-rating-star-color-hover);
   }
 
   &:focus-visible {
     outline: none;
-    color: var(--ids-rating-star-focus-color);
+    color: var(--ids-rating-star-color-focus);
   }
 }
 

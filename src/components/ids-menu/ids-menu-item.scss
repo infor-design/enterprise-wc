@@ -42,11 +42,11 @@
 
 .ids-menu-item {
   align-items: center;
-  color: var(--ids-menu-item-text-color);
+  color: var(--ids-menu-item-color-text-default);
   cursor: pointer;
-  font-family: var(--ids-font-family);
+  font-family: var(--ids-font-family-default);
   list-style: none;
-  min-width: var(--ids-menu-item-min-width); // needed to provide base sizing for menus
+  min-width: var(--ids-menu-item-width-min); // needed to provide base sizing for menus
   position: static;
   transition: background-color 50ms cubic-bezier(0.4, 0, 0.6, 1);
   user-select: none;
@@ -135,7 +135,7 @@
       align-items: center;
 
       .ids-menu-item-text {
-        margin-inline-start: var(--ids-spacing-lg);
+        margin-inline-start: var(--ids-space-40);
       }
     }
   }
@@ -164,7 +164,7 @@
   // ================================================
   // Disabled state
   &.disabled {
-    color: var(--ids-menu-item-disabled-text-color);
+    color: var(--ids-menu-item-color-text-disabled);
 
     // Disable all mouse interactions
     cursor: default;
@@ -177,7 +177,7 @@
 
     ids-icon,
     .ids-icon {
-      fill: var(--ids-menu-item-disabled-text-color);
+      fill: var(--ids-menu-item-color-text-disabled);
     }
   }
 

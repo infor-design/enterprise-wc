@@ -67,7 +67,7 @@ describe('IdsPieChart Component', () => {
 
     // Note: This doesnt test this really well since jest doesnt support stylesheets - see also the percy test
     expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch')[0].classList.contains('color-1')).toBeTruthy();
-    expect(pieChart.color(0)).toEqual('var(--ids-chart-qualitive-color-1)');
+    expect(pieChart.color(0)).toEqual('var(--ids-chart-color-accent-01)');
 
     expect(pieChart.svgContainer.parentNode.querySelectorAll('.swatch')[1].classList.contains('color-2')).toBeTruthy();
     expect(pieChart.color(1)).toEqual('var(color-2)');

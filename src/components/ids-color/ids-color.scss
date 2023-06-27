@@ -19,7 +19,7 @@
 
     &::before {
       transform: rotate(-45deg);
-      border-top: 2px solid #da1217;
+      border-top: 2px solid var(--ids-color-error-default);
       content: '';
       left: 0;
       right: 0;
@@ -40,7 +40,7 @@
 :host(.outlined:focus-visible),
 :host(.outlined:focus-within) {
   box-shadow: 0 0 3px 2px #0072ed4d;
-  outline: 1px solid var(--ids-focus-border-color);
+  outline: 1px solid var(--ids-color-border-focus);
 }
 
 :host([disabled]) {

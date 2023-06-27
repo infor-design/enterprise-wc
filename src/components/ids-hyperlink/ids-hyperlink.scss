@@ -8,7 +8,7 @@
   border-radius: var(--ids-hyperlink-border-radius);
   cursor: var(--ids-hyperlink-cursor);
   display: inline-block;
-  font-family: var(--ids-font-family);
+  font-family: var(--ids-font-family-default);
   font-size: var(--ids-hyperlink-font-size);
   font-weight: var(--ids-hyperlink-font-weight);
   padding: 2px 4px;
@@ -34,7 +34,7 @@
   &.hitbox::after {
     content: '';
     display: block;
-    height: var(--ids-size-md);
+    height: var(--ids-size-40);
     top: 50%;
     left: 0;
     position: absolute;
@@ -44,95 +44,95 @@
 
   /* Ids Typography System */
   &.ids-text-10 {
-    font-size: var(--ids-font-size-xxs);
-    text-transform: var(--ids-text-transform);
+    font-size: var(--ids-font-size-10);
+    text-transform: var(--ids-font-uppercase);
   }
 
   &.ids-text-12,
   &.ids-text-xs {
-    font-size: var(--ids-font-size-xs);
-    text-transform: var(--ids-text-transform);
+    font-size: var(--ids-font-size-20);
+    text-transform: var(--ids-font-uppercase);
   }
 
   &.ids-text-14,
   &.ids-text-sm {
-    font-size: var(--ids-font-size-sm);
+    font-size: var(--ids-font-size-30);
   }
 
   &.ids-text-16,
   &.ids-text,
   &.ids-text-base {
-    font-size: var(--ids-font-size-md);
+    font-size: var(--ids-font-size-40);
   }
 
   &.ids-text-20 {
-    font-size: var(--ids-font-size-lg);
+    font-size: var(--ids-font-size-50);
   }
 
   &.ids-text-24,
   &.ids-text-lg {
-    font-size: var(--ids-font-size-xxl);
+    font-size: var(--ids-font-size-70);
   }
 
   &.ids-text-28 {
-    font-size: var(--ids-font-size-xxl);
+    font-size: var(--ids-font-size-70);
   }
 
   &.ids-text-32,
   &.ids-text-xl {
-   font-size: var(--ids-font-size-3xl);
+   font-size: var(--ids-font-size-80);
   }
 
   &.ids-text-40 {
-    font-size: var(--ids-font-size-4xl);
+    font-size: var(--ids-font-size-90);
   }
 
   &.ids-text-48 {
-    font-size: var(--ids-font-size-5xl);
+    font-size: var(--ids-font-size-100);
   }
 
   &.ids-text-60 {
-    font-size: var(--ids-font-size-6xl);
+    font-size: var(--ids-font-size-110);
   }
 
   &.ids-text-72 {
-    font-size: var(--ids-font-size-7xl);
+    font-size: var(--ids-font-size-120);
     margin-bottom: 0;
   }
 
   // =========================================
   // Theme colors are applied when `color="unset"` is not set
   &:not(.ids-hyperlink-color-unset) {
-    color: var(--ids-hyperlink-text-color);
+    color: var(--ids-hyperlink-color-text-default);
 
     &:focus {
-      border: 1px solid var(--ids-hyperlink-text-color);
-      box-shadow: var(--ids-focus-box-shadow);
+      border: 1px solid var(--ids-hyperlink-color-text-default);
+      box-shadow: var(--ids-shadow-focus);
     }
 
     &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),
     &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled) {
-      color: var(--ids-hyperlink-hover-text-color);
+      color: var(--ids-hyperlink-color-text-hover);
     }
 
     &.disabled,
     &[disabled] {
-      color: var(--ids-hyperlink-disabled-text-color);
+      color: var(--ids-hyperlink-color-text-disabled);
     }
 
     // ===============================================
     // Color Variants
     &.color-variant-breadcrumb {
-      color: var(--ids-breadcrumb-text-color);
+      color: var(--ids-breadcrumb-color-text-default);
 
       &.disabled,
       &[disabled] {
-        color: var(--ids-breadcrumb-disabled-text-color);
+        color: var(--ids-breadcrumb-color-text-disabled);
       }
     }
 
     &.color-variant-alternate {
-      color: var(--ids-breadcrumb-inverse-text-color);
+      color: var(--ids-breadcrumb-color-text-emphasis);
     }
   }
 }

@@ -1,21 +1,21 @@
 :host {
-  --background: var(--ids-hierarchy-legend-item-before-background-color);
+  --background: var(--ids-hierarchy-legend-color-background-default);
 }
 
 .ids-hierarchy-legend-item {
   display: flex;
   align-items: center;
-  margin-inline-end: calc(var(--ids-spacing-lg) * 4);
-  margin-block-end: var(--ids-spacing-lg);
+  margin-inline-end: calc(var(--ids-space-40) * 4);
+  margin-block-end: var(--ids-space-40);
   position: relative;
 
   &::before {
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-circle);
     content: ' ';
     display: block;
-    height: calc(var(--ids-spacing-lg) * 2);
-    width: calc(var(--ids-spacing-lg) * 2);
-    margin-inline-end: var(--ids-spacing-lg);
+    height: calc(var(--ids-space-40) * 2);
+    width: calc(var(--ids-space-40) * 2);
+    margin-inline-end: var(--ids-space-40);
     background-color: var(--background);
   }
 }

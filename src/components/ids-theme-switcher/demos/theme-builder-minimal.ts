@@ -40,8 +40,8 @@ const appendStyleSheet = () => {
     --ids-color-primary-80: ${primary80};
     --ids-color-primary-90: ${primary90};
     --ids-color-primary-100: ${primary100};
-    --ids-body-background-color: ${backgroundColor.value};
-    --ids-text-color: ${textColor.value};
+    --ids-color-background-default: ${backgroundColor.value};
+    --ids-color-text: ${textColor.value};
   }`;
 
   const doc = (document.head as any);
@@ -84,7 +84,7 @@ window.onload = () => {
   document.addEventListener('themechanged', () => {
     const style = getComputedStyle(document.body);
     primaryColor.value = style.getPropertyValue('--ids-color-primary');
-    backgroundColor.value = style.getPropertyValue('--ids-body-background-color');
+    backgroundColor.value = style.getPropertyValue('--ids-color-background-default');
     textColor.value = style.getPropertyValue('--ids-text-color');
     document.querySelector('#ids-theme-builder')?.remove();
   });

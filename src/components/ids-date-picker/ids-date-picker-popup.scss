@@ -32,13 +32,13 @@ ids-month-view {
   }
 
   .popup-footer {
-    border-top: 1px solid var(--ids-date-picker-popup-footer-border-color);
+    border-top: 1px solid var(--ids-date-picker-popup-footer-color-border);
     display: flex;
 
     ids-modal-button:not([hidden]) + ids-modal-button,
     .ids-modal-button:not([hidden]) + .ids-modal-button {
       border-left: 1px solid;
-      border-left-color: var(--ids-date-picker-popup-footer-border-color);
+      border-left-color: var(--ids-date-picker-popup-footer-color-border);
     }
   }
 
@@ -79,7 +79,7 @@ ids-expandable-area::part(header) {
 }
 
 ids-expandable-area::part(pane) {
-  background-color: var(--ids-date-picker-picklist-background-color);
+  background-color: var(--ids-date-picker-color-background);
 }
 
 ids-expandable-area::part(footer) {
@@ -112,7 +112,7 @@ ids-time-picker {
 }
 
 .btn-today-text {
-  color: var(--ids-date-picker-popup-button-today-text-color);
+  color: var(--ids-date-picker-popup-button-today-color-text);
 }
 
 .btn-previous,

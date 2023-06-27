@@ -35,10 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const messageErrorTriggerBtn = document.querySelector('#message-error-trigger');
   setupMessage(messageErrorEl, messageErrorTriggerBtn);
 
-  // Alert Message
-  const messageAlertEl = document.querySelector('#message-alert');
-  const messageAlertTriggerBtn = document.querySelector('#message-alert-trigger');
-  setupMessage(messageAlertEl, messageAlertTriggerBtn);
+  // Warning Message
+  const messageWarningEl = document.querySelector('#message-warning');
+  const messageWarningTriggerBtn = document.querySelector('#message-warning-trigger');
+  setupMessage(messageWarningEl, messageWarningTriggerBtn);
 
   // Success Message
   const messageSuccessEl = document.querySelector('#message-success');

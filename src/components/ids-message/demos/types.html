@@ -15,15 +15,15 @@
       <ids-modal-button slot="buttons" appearance="primary" id="message-error-restart">Restart Now</ids-modal-button>
     </ids-message>
 
-    <!-- Alert Message -->
-    <ids-message id="message-alert" status="alert">
-      <ids-text slot="title" font-size="24" type="h2" id="message-alert-title">Application Alert</ids-text>
-      <ids-text class="demo-contents" align="left">This application has experienced a security alert. Please acknowledge the alert to proceed or cancel to abort.</ids-text>
-      <ids-modal-button slot="buttons" appearance="secondary" id="message-alert-cancel" cancel>Cancel</ids-modal-button>
-      <ids-modal-button slot="buttons" appearance="primary" id="message-alert-try-again">Try Again</ids-modal-button>
+    <!-- Warning Message -->
+    <ids-message id="message-warning" status="warning">
+      <ids-text slot="title" font-size="24" type="h2" id="message-warning-title">Application Warning</ids-text>
+      <ids-text class="demo-contents" align="left">This application has experienced a security warning. Please acknowledge the warning to proceed or cancel to abort.</ids-text>
+      <ids-modal-button slot="buttons" appearance="secondary" id="message-warning-cancel" cancel>Cancel</ids-modal-button>
+      <ids-modal-button slot="buttons" appearance="primary" id="message-warning-try-again">Try Again</ids-modal-button>
     </ids-message>
 
-    <!-- Alert Message -->
+    <!-- Success Message -->
     <ids-message id="message-success" status="success">
       <ids-text slot="title" font-size="24" type="h2" id="message-success-title">Application Success</ids-text>
       <ids-text class="demo-contents">Success! You've done the thing! Here's a <ids-hyperlink href="http://www.example.com" target="_blank">link</ids-hyperlink>.</ids-text>
@@ -99,7 +99,7 @@
     </ids-layout-grid>
     <ids-layout-grid auto-fit="true" padding="md">
         <ids-layout-grid-cell>
-        <ids-button appearance="secondary" id="message-alert-trigger">Alert Example</ids-button>
+        <ids-button appearance="secondary" id="message-warning-trigger">Warning Example</ids-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
     <ids-layout-grid auto-fit="true" padding="md">

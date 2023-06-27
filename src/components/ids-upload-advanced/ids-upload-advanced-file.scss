@@ -15,11 +15,11 @@
   }
 
   .container {
-    margin-top: var(--ids-spacing-lg);
-    padding: var(--ids-spacing-sm);
-    border: 1px solid var(--ids-upload-advanced-file-border-color);
+    margin-top: var(--ids-space-40);
+    padding: var(--ids-space-20);
+    border: 1px solid var(--ids-upload-advanced-file-color-border-default);
     border-style: dashed;
-    border-radius: var(--ids-border-radius-xs);
+    border-radius: var(--ids-border-radius-01);
 
     .file-row {
       align-items: center;
@@ -39,8 +39,8 @@
 
         display: block;
         font-weight: var(--ids-font-weight-normal);
-        margin: var(--ids-spacing-none);
-        font-family: var(--ids-font-family);
+        margin: var(--ids-space-none);
+        font-family: var(--ids-font-family-default);
         text-overflow: ellipsis;
       }
 
@@ -52,7 +52,7 @@
         @include flex-item-stable();
 
         display: block;
-        margin-inline-start: var(--ids-spacing-xl);
+        margin-inline-start: var(--ids-space-50);
       }
 
       .progress-text {
@@ -60,8 +60,8 @@
 
         font-weight: var(--ids-font-weight-normal);
         display: block;
-        margin: var(--ids-spacing-none);
-        font-family: var(--ids-font-family);
+        margin: var(--ids-space-none);
+        font-family: var(--ids-font-family-default);
         min-width: 48px;
         text-overflow: ellipsis;
       }
@@ -79,16 +79,16 @@
       .btn-close {
         @include flex-item-stable();
 
-        padding-inline: var(--ids-spacing-sm);
+        padding-inline: var(--ids-space-20);
       }
     }
 
     .status .ids-alert,
     .status ids-alert {
       display: block;
-      padding: var(--ids-spacing-lg);
-      padding-bottom: var(--ids-spacing-md);
-      margin: var(--ids-spacing-none);
+      padding: var(--ids-space-40);
+      padding-bottom: var(--ids-space-30);
+      margin: var(--ids-space-none);
     }
 
     .error-row,
@@ -101,19 +101,19 @@
 
     .error-row,
     .progress-row {
-      padding-inline: var(--ids-spacing-xl);
-      padding-bottom: var(--ids-spacing-md);
+      padding-inline: var(--ids-space-50);
+      padding-bottom: var(--ids-space-30);
     }
 
     .progress-row {
-      padding-inline: var(--ids-spacing-5xl);
+      padding-inline: var(--ids-space-90);
       align-items: center;
       display: flex;
       min-height: 28px;
 
       .progress-bar,
       .ids-progress-bar {
-        padding-inline-end: var(--ids-spacing-md);
+        padding-inline-end: var(--ids-space-30);
         flex-grow: 1;
         flex-shrink: 0;
       }
@@ -135,12 +135,12 @@
       }
 
       .progress-row {
-        padding-inline-start: var(--ids-spacing-5xl);
-        padding-inline-end: var(--ids-spacing-sm);
+        padding-inline-start: var(--ids-space-90);
+        padding-inline-end: var(--ids-space-20);
       }
 
       .progress-row .progress-bar {
-        padding-inline-end: var(--ids-spacing-sm);
+        padding-inline-end: var(--ids-space-20);
       }
 
       .progress-row .btn-start {
@@ -154,14 +154,14 @@
 
   &.completed {
     .container {
-      border-color: var(--ids-upload-advanced-file-completed-border-color);
+      border-color: var(--ids-upload-advanced-color-border-complete-default);
 
       .status .completed {
         display: block;
       }
 
       .file-name {
-        color: var(--ids-upload-advanced-file-completed-text-color);
+        color: var(--ids-upload-advanced-file-color-text-complete);
       }
 
       .error-row,
@@ -177,7 +177,7 @@
 
   &.errored {
     .container {
-      border-color: var(--ids-upload-advanced-file-error-border-color);
+      border-color: var(--ids-upload-advanced-color-border-error-default);
 
       .error-row,
       .status .errored {
@@ -195,27 +195,27 @@
   }
 
   &.disabled {
-    color: var(--ids-upload-advanced-file-disabled-text-color);
+    color: var(--ids-upload-advanced-color-text-disabled);
     user-select: none;
 
     .container {
-      border-color: var(--ids-upload-advanced-file-disabled-border-color);
+      border-color: var(--ids-upload-advanced-file-color-border-disabled);
       user-select: none;
     }
 
     &.completed {
       .container {
-        border-color: var(--ids-upload-advanced-file-disabled-completed-border-color);
+        border-color: var(--ids-upload-advanced-color-border-complete-disabled);
       }
 
       .container .file-name {
-        color: var(--ids-upload-advanced-file-disabled-completed-text-color);
+        color: var(--ids-upload-advanced-color-text-complete-disabled);
       }
     }
 
     &.errored {
       .container {
-        border-color: var(--ids-upload-advanced-file-disabled-error-border-color);
+        border-color: var(--ids-upload-advanced-file-color-border-error-disabled);
       }
     }
   }

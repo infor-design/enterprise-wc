@@ -1,21 +1,21 @@
 /* Ids Dropdown List Component */
 // These input field sizes come from the design tokens and are adjusted
 // here to account for 1px border size on top/bottom or left/right in some calculations.
-$border-input-size-xs: calc(var(--ids-input-width-xs) - 2px);
-$border-input-size-sm: calc(var(--ids-input-width-sm) - 2px);
-$border-input-size-md: calc(var(--ids-input-width-md) - 2px);
-$border-input-size-mm: calc(var(--ids-input-width-mm) - 2px);
-$border-input-size-lg: calc(var(--ids-input-width-lg) - 2px);
-$border-input-field-height-xs: calc(var(--ids-input-height-xs) - 2px);
-$border-input-field-height-sm: calc(var(--ids-input-height-sm) - 2px);
-$border-input-field-height-md: calc(var(--ids-input-height-md) - 2px);
-$border-input-field-height-lg: calc(var(--ids-input-height-lg) - 2px);
+$border-input-size-xs: calc(var(--ids-input-width-10) - 2px);
+$border-input-size-sm: calc(var(--ids-input-width-20) - 2px);
+$border-input-size-md: calc(var(--ids-input-width-40) - 2px);
+$border-input-size-mm: calc(var(--ids-input-width-30) - 2px);
+$border-input-size-lg: calc(var(--ids-input-width-50) - 2px);
+$border-input-field-height-xs: calc(var(--ids-input-height-10) - 2px);
+$border-input-field-height-sm: calc(var(--ids-input-height-20) - 2px);
+$border-input-field-height-md: calc(var(--ids-input-height-30) - 2px);
+$border-input-field-height-lg: calc(var(--ids-input-height-40) - 2px);
 
 :host {
   display: block;
   overflow-x: hidden;
   overflow-y: auto;
-  max-height: var(--ids-input-width-md);
+  max-height: var(--ids-input-width-40);
   scroll-behavior: smooth;
   min-width: $border-input-size-xs;
   max-width: $border-input-size-md;
