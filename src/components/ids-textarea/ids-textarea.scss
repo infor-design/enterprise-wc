@@ -15,9 +15,9 @@ $textarea-size-default-height: 120px;
 
 .ids-textarea {
   display: block;
-  margin-bottom: var(--ids-spacing-3xl);
-  font-size: var(--ids-font-size-md);
-  font-family: var(--ids-font-family);
+  margin-bottom: var(--ids-space-70);
+  font-size: var(--ids-font-size-40);
+  font-family: var(--ids-font-family-default);
 
   .hidden {
     display: none;
@@ -34,13 +34,13 @@ $textarea-size-default-height: 120px;
     width: $textarea-size-default;
 
     &.almost-empty {
-      color: var(--ids-textarea-character-counter-warning-text-color);
+      color: var(--ids-textarea-character-count-color-text-warning);
     }
   }
 
   .field-container {
-    margin: var(--ids-spacing-none);
-    padding: var(--ids-spacing-none);
+    margin: var(--ids-space-none);
+    padding: var(--ids-space-none);
     position: relative;
     display: flex;
     max-width: $textarea-size-default;
@@ -82,18 +82,18 @@ $textarea-size-default-height: 120px;
   .ids-textarea-field {
     @include mixins.antialiased();
 
-    background-color: var(--ids-textarea-background-color);
+    background-color: var(--ids-textarea-color-background-default);
     border: 1px solid;
-    border-color: var(--ids-textarea-border-color);
-    color: var(--ids-textarea-text-color);
+    border-color: var(--ids-textarea-color-border-default);
+    color: var(--ids-textarea-color-text-default);
     box-sizing: border-box;
-    margin-bottom: var(--ids-spacing-md);
-    padding: var(--ids-spacing-xl);
-    font-size: var(--ids-font-size-md);
+    margin-bottom: var(--ids-space-30);
+    padding: var(--ids-space-50);
+    font-size: var(--ids-font-size-40);
     appearance: none;
-    font-family: var(--ids-font-family);
+    font-family: var(--ids-font-family-default);
     border-collapse: separate;
-    border-radius: var(--ids-border-radius-xs);
+    border-radius: var(--ids-border-radius-01);
     display: inline-block;
     min-height: $textarea-size-default-height;
     resize: none;
@@ -101,24 +101,24 @@ $textarea-size-default-height: 120px;
     width: 100%;
 
     &[readonly] {
-      background-color: var(--ids-textarea-readonly-background-color);
-      border-color: var(--ids-textarea-readonly-border-color);
-      color: var(--ids-textarea-readonly-text-color);
+      background-color: var(--ids-textarea-color-background-readonly);
+      border-color: var(--ids-textarea-color-border-readonly);
+      color: var(--ids-textarea-color-text-readonly);
     }
 
     &[disabled] {
-      background-color: var(--ids-textarea-disabled-background-color);
-      border-color: var(--ids-textarea-disabled-border-color);
-      color: var(--ids-textarea-disabled-text-color);
+      background-color: var(--ids-textarea-color-background-disabled);
+      border-color: var(--ids-textarea-color-border-disabled);
+      color: var(--ids-textarea-color-text-disabled);
     }
 
     &:not([disabled]):not([readonly]):not(:focus):hover {
-      border-color: var(--ids-textarea-hover-border-color);
+      border-color: var(--ids-textarea-color-border-hover);
     }
 
     &:focus {
-      border-color: var(--ids-textarea-focus-border-color);
-      box-shadow: var(--ids-textarea-focus-box-shadow);
+      border-color: var(--ids-textarea-color-border-focus);
+      box-shadow: var(--ids-textarea-shadow-focus);
       outline: none;
       outline-color: transparent;
     }
@@ -142,7 +142,7 @@ $textarea-size-default-height: 120px;
       background-color: transparent;
 
       &:focus {
-        border-color: var(--ids-textarea-focus-border-color);
+        border-color: var(--ids-textarea-color-border-focus);
       }
     }
 
@@ -167,70 +167,70 @@ $textarea-size-default-height: 120px;
     // textarea message: [alert, error, info, success]
     &.alert,
     &.alert:hover {
-      border-color: var(--ids-textarea-alert-border-color);
-      color: var(--ids-textarea-alert-text-color);
+      border-color: var(--ids-textarea-alert-color-border-default);
+      color: var(--ids-textarea-alert-color-text-default);
 
       &:focus {
-        border-color: var(--ids-textarea-alert-focus-border-color);
-        box-shadow: var(--ids-textarea-alert-focus-box-shadow);
+        border-color: var(--ids-textarea-alert-color-border-alert-focus);
+        box-shadow: var(--ids-textarea-shadow-alert-focus);
       }
 
       &[disabled] {
-        border-color: var(--ids-textarea-alert-disabled-border-color);
-        color: var(--ids-textarea-alert-disabled-text-color);
+        border-color: var(--ids-textarea-alert-color-border-disabled);
+        color: var(--ids-textarea-alert-color-text-disabled);
       }
     }
 
     &.error,
     &.error:hover {
-      border-color: var(--ids-textarea-error-border-color);
-      color: var(--ids-textarea-error-text-color);
+      border-color: var(--ids-textarea-color-border-error-default);
+      color: var(--ids-textarea-color-text-error);
 
       &:focus {
-        border-color: var(--ids-textarea-error-focus-border-color);
-        box-shadow: var(--ids-textarea-error-focus-box-shadow);
+        border-color: var(--ids-textarea-color-border-error-focus);
+        box-shadow: var(--ids-textarea-shadow-error-focus);
       }
 
       &[disabled] {
-        border-color: var(--ids-textarea-error-disabled-border-color);
-        color: var(--ids-textarea-error-disabled-text-color);
+        border-color: var(--ids-textarea-color-border-error-disabled);
+        color: var(--ids-textarea-color-text-error-disabled);
       }
     }
 
     &.info,
     &.info:hover {
-      border-color: var(--ids-textarea-info-border-color);
-      color: var(--ids-textarea-info-text-color);
+      border-color: var(--ids-textarea-color-border-info-default);
+      color: var(--ids-textarea-color-text-info-default);
 
       &:focus {
-        border-color: var(--ids-textarea-info-focus-border-color);
+        border-color: var(--ids-textarea-color-border-info-focus);
         box-shadow: rgba(0 102 212 / 0.3) 0 0 3px 2px;
       }
 
       &[disabled] {
-        border-color: var(--ids-textarea-info-disabled-border-color);
-        color: var(--ids-textarea-info-disabled-text-color);
+        border-color: var(--ids-textarea-color-border-info-disabled);
+        color: var(--ids-textarea-color-text-info-disabled);
       }
     }
 
     &.success,
     &.success:hover {
-      border-color: var(--ids-textarea-success-border-color);
-      color: var(--ids-textarea-success-text-color);
+      border-color: var(--ids-textarea-color-border-success-default);
+      color: var(--ids-textarea-color-text-success-default);
 
       &:focus {
-        border-color: var(--ids-textarea-success-focus-border-color);
-        box-shadow: var(--ids-textarea-success-focus-box-shadow);
+        border-color: var(--ids-textarea-color-border-success-focus);
+        box-shadow: var(--ids-textarea-shadow-success-focus);
       }
 
       &[disabled] {
-        border-color: var(--ids-textarea-success-disabled-border-color);
-        color: var(--ids-textarea-success-disabled-text-color);
+        border-color: var(--ids-textarea-color-border-success-disabled);
+        color: var(--ids-textarea-color-text-success-disabled);
       }
     }
 
     ~ .btn-clear {
-      margin-top: var(--ids-spacing-md);
+      margin-top: var(--ids-space-30);
       position: absolute;
       right: 0;
     }
@@ -239,21 +239,21 @@ $textarea-size-default-height: 120px;
   // Error Styles
   .error {
     .ids-textarea-field {
-      border-color: var(--ids-textarea-error-border-color);
+      border-color: var(--ids-textarea-color-border-error-default);
     }
   }
 
 
   .validation-message {
-    margin-top: var(--ids-spacing-md);
+    margin-top: var(--ids-space-30);
   }
 
   &.disabled {
     .label-text {
-      color: var(--ids-textarea-label-disabled-text-color);
+      color: var(--ids-textarea-label-color-text-disabled);
 
       &.required::after {
-        color: var(--ids-textarea-label-disabled-text-color);
+        color: var(--ids-textarea-label-color-text-disabled);
       }
     }
   }
@@ -262,10 +262,10 @@ $textarea-size-default-height: 120px;
 .ids-label-text {
   @include mixins.antialiased();
 
-  color: var(--ids-textarea-label-text-color);
-  margin-bottom: var(--ids-spacing-lg);
+  color: var(--ids-textarea-label-color-text-default);
+  margin-bottom: var(--ids-space-40);
   align-items: baseline;
-  font-family: var(--ids-font-family);
+  font-family: var(--ids-font-family-default);
   display: flex;
 
   // Simulate standard label text size while empty with a non-breaking space
@@ -278,11 +278,11 @@ $textarea-size-default-height: 120px;
   &.required {
     &::after {
       position: relative;
-      padding-inline: var(--ids-spacing-sm);
-      font-size: var(--ids-font-size-lg);
+      padding-inline: var(--ids-space-20);
+      font-size: var(--ids-font-size-50);
       content: '*';
-      color: var(--ids-required-background-color);
-      font-family: var(--ids-font-family);
+      color: var(--ids-input-required-indicator-color-text-default);
+      font-family: var(--ids-font-family-default);
       margin-top: -10px;
       top: 1px;
     }
@@ -296,7 +296,7 @@ $textarea-size-default-height: 120px;
 
 .label-state-collapsed {
   .ids-label-text.empty {
-    margin: var(--ids-spacing-none);
+    margin: var(--ids-space-none);
     visibility: hidden;
     height: 0;
   }

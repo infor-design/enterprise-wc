@@ -4,7 +4,7 @@
 // Top-level App Menu Accordion Panel Styles
 @mixin accordion-panel-app-menu-colors() {
   margin-bottom: 4px;
-  background-color: var(--ids-app-menu-accordion-panel-background-color);
+  background-color: var(--ids-app-menu-accordion-panel-color-background);
   transition:
     background-color $transition-length $transition-ease,
     height $transition-length $transition-ease,

@@ -44,8 +44,8 @@
 
   ids-popup {
     &::part(popup) {
-      margin: var(--ids-spacing-none);
-      padding: var(--ids-spacing-none);
+      margin: var(--ids-space-none);
+      padding: var(--ids-space-none);
     }
   }
 
@@ -64,11 +64,11 @@
   // Is open state
   &.is-open {
     ids-trigger-button::part(button) {
-      color: var(--ids-time-picker-open-input-button-color);
+      color: var(--ids-time-picker-button-color-background-expanded);
     }
 
     ids-trigger-field::part(field-container) {
-      border-color: var(--ids-time-picker-open-input-border-color);
+      border-color: var(--ids-time-picker-input-color-border-expanded);
     }
   }
 
@@ -76,7 +76,7 @@
     .dropdowns {
       flex-direction: column;
       align-items: center;
-      width: var(--ids-input-width-xs);
+      width: var(--ids-input-width-10);
     }
 
     .separator {

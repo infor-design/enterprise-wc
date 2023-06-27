@@ -3,8 +3,8 @@
 
 :host {
   --grid-auto-row-height: 0;
-  --grid-fill-color: var(--ids-layout-grid-fill-background-color);
-  --grid-text-color: var(--ids-layout-grid-fill-text-color);
+  --grid-fill-color: var(--ids-layout-grid-color-background);
+  --grid-text-color: var(--ids-layout-grid-color-text);
   --min-col-width: 0;
   --max-col-width: 1fr;
   --min-row-height: 0;

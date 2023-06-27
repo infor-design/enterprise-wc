@@ -3,38 +3,38 @@
 // Applies to search fields in the app menu, which are
 // typically on top of black or dark color background
 @mixin ids-app-menu-search-field-shadow() {
-  box-shadow: var(--ids-searchfield-app-menu-focus-box-shadow);
+  box-shadow: var(--ids-search-field-app-menu-shadow-focus);
 }
 
 // Applies to both `dark` and `contrast` theme modes
 @mixin ids-search-field-dark-app-menu-colors() {
   &.color-variant-app-menu {
-    color: var(--ids-searchfield-app-menu-text-color);
+    color: var(--ids-search-field-app-menu-color-text);
 
     .field-container {
-      background-color: var(--ids-searchfield-app-menu-background-color);
-      color: var(--ids-searchfield-app-menu-text-color);
+      background-color: var(--ids-search-field-app-menu-color-background);
+      color: var(--ids-search-field-app-menu-color-text);
     }
 
     .ids-input-field {
-      color: var(--ids-searchfield-app-menu-text-color);
+      color: var(--ids-search-field-app-menu-color-text);
     }
 
     .btn-clear {
-      color: var(--ids-searchfield-app-menu-icon-color);
+      color: var(--ids-search-field-app-menu-color-icon-default);
     }
 
     .btn-clear:hover {
-      color: var(--ids-searchfield-app-menu-icon-hover-color);
+      color: var(--ids-search-field-app-menu-color-icon-hover);
     }
 
     ids-icon::part(search-icon) {
-      color: var(--ids-searchfield-app-menu-text-color);
+      color: var(--ids-search-field-app-menu-color-text);
     }
 
     &:focus-within {
       ids-icon::part(search-icon) {
-        color: var(--ids-searchfield-app-menu-icon-hover-color);
+        color: var(--ids-search-field-app-menu-color-icon-hover);
       }
     }
 
@@ -53,10 +53,10 @@
 
 :host {
   ids-menu-button {
-    transition: border var(--ids-transition-length) var(--ids-transition-ease);
+    transition: border var(--ids-motion-duration) var(--ids-motion-ease);
     border: 0;
     border-inline: 0;
-    border-inline-end: 1px solid var(--ids-input-border-color);
+    border-inline-end: 1px solid var(--ids-input-color-border-default);
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -80,7 +80,7 @@
       margin-inline: 0;
       padding: 0;
       padding-inline: 0;
-      padding-inline: var(--ids-searchfield-app-menu-search-icon-margin);
+      padding-inline: var(--ids-search-field-icon-margin);
 
       &,
       &:active,
@@ -95,10 +95,10 @@
 :host(:focus-within),
 :host(:focus-visible) {
   ids-menu-button {
-    border-color: var(--ids-input-focus-border-color);
+    border-color: var(--ids-input-color-border-focus);
 
     &::part(button) {
-      color: var(--ids-button-tertiary-hover-text-color);
+      color: var(--ids-button-tertiary-color-text-hover);
     }
   }
 }
@@ -106,13 +106,13 @@
 :host(:active),
 :host(:hover) {
   ids-menu-button {
-    border-color: var(--ids-input-hover-border-color);
+    border-color: var(--ids-input-color-border-hover);
   }
 }
 
 .ids-search-field {
   ids-icon.search-icon {
-    margin-inline-start: var(--ids-searchfield-app-menu-search-icon-margin);
+    margin-inline-start: var(--ids-search-field-icon-margin);
   }
 
   .fieldset {
@@ -121,8 +121,8 @@
   }
 
   #category-action-button::part(button) {
-    padding: var(--ids-spacing-lg);
-    margin-inline-start: var(--ids-searchfield-app-menu-search-icon-margin);
+    padding: var(--ids-space-40);
+    margin-inline-start: var(--ids-search-field-icon-margin);
   }
 
   // =============================
@@ -130,19 +130,19 @@
   &.color-variant-alternate {
     .field-container {
       border-style: none;
-      background-color: var(--ids-searchfield-header-background-color);
-      color: var(--ids-searchfield-header-text-color);
+      background-color: var(--ids-search-field-header-color-background);
+      color: var(--ids-search-field-header-color-text);
    }
 
     ids-icon {
-      color: var(--ids-searchfield-header-icon-color);
+      color: var(--ids-search-field-header-color-icon-default);
     }
   }
 
   &.color-variant-card {
     .field-container {
-      background: var(--ids-searchfield-card-background-color);
-      color: var(--ids-searchfield-card-text-color);
+      background: var(--ids-search-field-card-color-background);
+      color: var(--ids-search-field-card-color-text);
     }
 
     .btn-clear:hover {
@@ -151,35 +151,35 @@
   }
 
   &.color-variant-app-menu {
-    color: var(--ids-searchfield-app-menu-text-color);
+    color: var(--ids-search-field-app-menu-color-text);
 
     .field-container {
       border-style: none;
-      border-radius: var(--ids-searchfield-app-menu-border-radius);
-      background-color: var(--ids-searchfield-app-menu-background-color);
-      color: var(--ids-searchfield-app-menu-text-color);
+      border-radius: var(--ids-search-field-border-radius);
+      background-color: var(--ids-search-field-app-menu-color-background);
+      color: var(--ids-search-field-app-menu-color-text);
     }
 
     .ids-input-field {
-      color: var(--ids-searchfield-app-menu-text-color);
+      color: var(--ids-search-field-app-menu-color-text);
     }
 
     .btn-clear {
-      color: var(--ids-searchfield-app-menu-icon-color);
+      color: var(--ids-search-field-app-menu-color-icon-default);
     }
 
     .btn-clear:hover {
-      color: var(--ids-searchfield-app-menu-icon-hover-color);
+      color: var(--ids-search-field-app-menu-color-icon-hover);
     }
 
     ids-icon::part(search-icon) {
-      color: var(--ids-searchfield-app-menu-text-color);
+      color: var(--ids-search-field-app-menu-color-text);
     }
 
     &:focus-within {
       // stylelint-disable-next-line
       ids-icon::part(search-icon) {
-        color: var(--ids-searchfield-app-menu-icon-hover-color);
+        color: var(--ids-search-field-app-menu-color-icon-hover);
       }
     }
 

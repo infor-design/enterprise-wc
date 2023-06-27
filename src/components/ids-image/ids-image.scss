@@ -29,18 +29,18 @@ $image-sizes: (
 :host(:focus),
 :host(:focus-visible) {
   .ids-image {
-    border-color: var(--ids-image-focus-border-color);
-    box-shadow: var(--ids-image-focus-box-shadow);
+    border-color: var(--ids-image-color-border-focus);
+    box-shadow: var(--ids-image-shadow-focus);
   }
 }
 
 // normal
 :host .placeholder,
 .ids-image.placeholder {
-  border-color: var(--ids-image-border-color);
+  border-color: var(--ids-image-color-border-default);
 
   ids-icon {
-    color: var(--ids-image-text-color);
+    color: var(--ids-image-color-text);
   }
 }
 
@@ -81,7 +81,7 @@ $image-sizes: (
   &.placeholder {
     align-items: center;
     display: inline-flex;
-    background-color: var(--ids-image-placeholder-background-color);
+    background-color: var(--ids-image-placeholder-color-background);
     justify-content: center;
     min-width: 50px;
     min-height: 50px;
@@ -93,7 +93,7 @@ $image-sizes: (
     justify-content: center;
     min-width: 50px;
     min-height: 50px;
-    background-color: var(--ids-image-initials-background-color);
+    background-color: var(--ids-image-initials-color-background);
     color: var(--ids-color-neutral-00);
     text-transform: uppercase;
   }
@@ -112,26 +112,26 @@ $image-sizes: (
 
   // icon colors
   &.available {
-    color: var(--ids-image-status-available-background-color);
+    color: var(--ids-image-status-available-color-background);
   }
 
   &.busy,
   &.do-not-disturb {
-    color: var(--ids-image-status-busy-background-color);
+    color: var(--ids-image-status-busy-color-background);
   }
 
   &.away {
-    color: var(--ids-image-status-away-background-color);
+    color: var(--ids-image-status-away-color-background);
   }
 
   &.unknown {
-    color: var(--ids-image-status-unknown-background-color);
+    color: var(--ids-image-status-unknown-color-background);
   }
 
   // Draw a border and ring around the background color
   &::before {
     position: absolute;
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-circle);
     background-color: var(--ids-color-neutral-00);
     content: '';
     width: 12px;
@@ -143,8 +143,8 @@ $image-sizes: (
 
   &::after {
     position: absolute;
-    border-radius: var(--ids-border-radius-round);
-    background-color: var(--ids-body-background-color);
+    border-radius: var(--ids-border-radius-circle);
+    background-color: var(--ids-color-background-default);
     content: '';
     width: 16px;
     height: 16px;
@@ -159,8 +159,8 @@ $image-sizes: (
 
 .user-status-wrapper .user-status {
   svg {
-    border-radius: var(--ids-border-radius-round);
-    background-color: var(--ids-body-background-color);
+    border-radius: var(--ids-border-radius-circle);
+    background-color: var(--ids-color-background-default);
   }
 
   position: unset;

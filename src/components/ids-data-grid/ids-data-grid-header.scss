@@ -10,20 +10,20 @@
   width: 20px;
 
   .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
-    background-color: var(--ids-data-grid-header-checkbox-background-color);
-    border-color: var(--ids-data-grid-header-checkbox-border-color);
+    background-color: var(--ids-data-grid-header-checkbox-color-background);
+    border-color: var(--ids-data-grid-header-checkbox-color-border);
   }
 }
 
 // Grouped Headers
 .ids-data-grid-column-groups {
-  border-block-end: 1px solid var(--ids-data-grid-header-border-color);
+  border-block-end: 1px solid var(--ids-data-grid-header-color-border);
 }
 
 // Header Cell Area
 .ids-data-grid-header-cell {
-  border-inline-start: 1px solid var(--ids-data-grid-header-border-color);
-  background-color: var(--ids-data-grid-header-background-color);
+  border-inline-start: 1px solid var(--ids-data-grid-header-color-border);
+  background-color: var(--ids-data-grid-header-color-background-default);
   min-height: 28px;
   position: relative;
 
@@ -71,14 +71,14 @@
     height: 34px;
     opacity: 0;
     position: absolute;
-    inset-inline-start: var(--ids-spacing-lg);
+    inset-inline-start: var(--ids-space-40);
     top: 0;
     width: 4px;
 
     ids-icon {
       position: absolute;
-      color: var(--ids-data-grid-header-icon-color);
-      inset-inline-start: calc(-1 * var(--ids-spacing-lg));
+      color: var(--ids-data-grid-header-color-icon);
+      inset-inline-start: calc(-1 * var(--ids-space-40));
       text-align: center;
       top: calc(50% - 9px);
     }
@@ -104,7 +104,7 @@
   }
 
   &.active-drag-column {
-    background-color: var(--ids-data-grid-header-drag-placeholder-background-color);
+    background-color: var(--ids-data-grid-header-color-background-placeholder-dragging);
 
     .sort-indicator {
       opacity: 0;
@@ -117,14 +117,14 @@
 
   // Reorderable Cells
   &.frozen {
-    background-color: var(--ids-data-grid-header-background-color);
+    background-color: var(--ids-data-grid-header-color-background-default);
     position: sticky;
     z-index: 3;
   }
 
   // Change borders for frozen column scrolling
   &.frozen-last {
-    border-inline-end: 1px solid var(--ids-data-grid-header-border-color);
+    border-inline-end: 1px solid var(--ids-data-grid-header-color-border);
 
     + .ids-data-grid-header-cell {
       border-inline-start-width: 0;
@@ -161,9 +161,9 @@
 .ids-data-grid-header-text {
   display: block;
   padding: var(--ids-data-grid-header-lg-padding);
-  font-weight: var(--ids-font-weight-semi-bold);
+  font-weight: var(--ids-font-weight-semibold);
   font-size: var(--ids-data-grid-font-size-sm);
-  color: var(--ids-data-grid-header-text-color);
+  color: var(--ids-data-grid-header-color-text);
   overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;
@@ -173,9 +173,9 @@
 
 .ids-data-grid-header-icon {
   align-self: center;
-  color: var(--ids-data-grid-header-text-color);
-  margin-inline-start: var(--ids-spacing-md);
-  margin-block-start: var(--ids-spacing-md);
+  color: var(--ids-data-grid-header-color-text);
+  margin-inline-start: var(--ids-space-30);
+  margin-block-start: var(--ids-space-30);
 }
 
 // Header sort styles
@@ -190,9 +190,9 @@
 // Sort Hover states
 .is-sortable {
   .sort-indicator ids-icon {
-    color: var(--ids-data-grid-header-unsorted-icon-color);
+    color: var(--ids-data-grid-header-color-icon-unsorted);
     opacity: 0;
-    transition: opacity 0.3s var(--ids-transition-ease) 0s;
+    transition: opacity 0.3s var(--ids-motion-ease) 0s;
 
     &:first-child {
       position: relative;
@@ -220,7 +220,7 @@
   max-height: 18px;
   cursor: var(--ids-cursor-pointer);
   color: var(--ids-data-grid-header-expander-color);
-  margin-inline-start: var(--ids-spacing-xl);
+  margin-inline-start: var(--ids-space-50);
 
   &:hover {
     color: var(--ids-data-grid-header-expander-active-color);
@@ -246,7 +246,7 @@
 // Ascending sort
 [aria-sort='ascending'] .is-sortable .sort-indicator ids-icon {
   &:first-child {
-    color: var(--ids-data-grid-header-sorted-icon-color);
+    color: var(--ids-data-grid-header-color-icon-sorted);
     opacity: 1;
   }
 
@@ -262,7 +262,7 @@
   }
 
   &:last-child {
-    color: var(--ids-data-grid-header-sorted-icon-color);
+    color: var(--ids-data-grid-header-color-icon-sorted);
     opacity: 1;
   }
 }
@@ -287,12 +287,12 @@
   }
 
   &::before {
-    border-top: 5px solid var(--ids-data-grid-header-background-color);
+    border-top: 5px solid var(--ids-data-grid-header-color-background-default);
     top: -6px;
   }
 
   &::after {
-    border-bottom: 5px solid var(--ids-data-grid-header-background-color);
+    border-bottom: 5px solid var(--ids-data-grid-header-color-background-default);
     bottom: -9px;
   }
 }
@@ -310,30 +310,30 @@ th.ids-data-grid-header-cell {
 .ids-data-grid.is-list-style {
   // Change Header Color
   .ids-data-grid-header-cell {
-    background-color: var(--ids-data-grid-list-header-background-color);
-    border-color: var(--ids-data-grid-list-header-border-color);
+    background-color: var(--ids-data-grid-list-header-color-background);
+    border-color: var(--ids-data-grid-list-header-color-border);
   }
 
   .ids-data-grid-header-text {
-    color: var(--ids-data-grid-list-header-text-color);
+    color: var(--ids-data-grid-list-header-color-text);
   }
 
   // Change Sort Icon Colors
   .is-sortable {
     ids-icon {
-      color: var(--ids-data-grid-header-unsorted-icon-color);
+      color: var(--ids-data-grid-header-color-icon-unsorted);
     }
   }
 
   [aria-sort='descending'] .is-sortable ids-icon:last-child,
   [aria-sort='ascending'] .is-sortable ids-icon:first-child  {
-    color: var(--ids-data-grid-list-header-unsorted-icon-color)
+    color: var(--ids-data-grid-list-header-color-icon-unsorted)
   }
 
   // Change Header Checkbox
   .ids-data-grid-header-text .ids-data-grid-checkbox-container {
     .ids-data-grid-checkbox:not(.checked):not(.indeterminate) {
-      border-color: var(--ids-data-grid-list-header-checkbox-background-color);
+      border-color: var(--ids-data-grid-list-header-checkbox-color-background);
     }
   }
 }
@@ -420,13 +420,13 @@ th.ids-data-grid-header-cell {
 
     // Filter Adjustments
     ids-input {
-      --ids-input-height-xs: 24px;
+      --ids-input-height-10: 24px;
     }
 
     .ids-data-grid-header-cell-filter-wrapper {
-      padding-inline-start: calc(var(--ids-data-grid-xxs-padding) + 1px);
-      padding-inline-end: calc(var(--ids-data-grid-xxs-padding) + 1px);
-      padding-block-end: calc(var(--ids-data-grid-xxs-padding) + 2px);
+      padding-inline-start: calc(var(--ids-data-grid-padding-xxs) + 1px);
+      padding-inline-end: calc(var(--ids-data-grid-padding-xxs) + 1px);
+      padding-block-end: calc(var(--ids-data-grid-padding-xxs) + 2px);
     }
   }
 }

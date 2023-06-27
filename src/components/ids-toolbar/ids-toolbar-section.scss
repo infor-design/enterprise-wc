@@ -19,7 +19,7 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   // Controls animated hide/show of slotted, overflowed toolbar items
 
   ::slotted(*) {
-    transition: opacity var(--ids-transition-length) var(--ids-transition-ease);
+    transition: opacity var(--ids-motion-duration) var(--ids-motion-ease);
     opacity: 1;
   }
 

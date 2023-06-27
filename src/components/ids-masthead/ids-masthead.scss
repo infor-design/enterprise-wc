@@ -1,23 +1,23 @@
 /* Ids Masthead Component */
 .ids-masthead {
-  background-color: var(--ids-masthead-background-color);
-  color: var(--ids-masthead-text-color);
+  background-color: var(--ids-masthead-color-background);
+  color: var(--ids-masthead-color-text);
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   padding-inline: var(--ids-masthead-padding-inline);
-  min-height: var(--ids-masthead-min-height);
-  transition: background-color var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
+  min-height: var(--ids-masthead-height-min);
+  transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
 
   #logo.icon-logo {
-    padding-inline: var(--ids-masthead-logo-icon-padding-inline);
+    padding-inline: var(--ids-masthead-logo-padding-icon-inline);
     position: relative;
-    top: var(--ids-masthead-logo-icon-top);
+    top: var(--ids-masthead-logo-top-space-icon);
 
     &::part(button) {
-      margin: var(--ids-spacing-none);
-      padding: var(--ids-spacing-none);
+      margin: var(--ids-space-none);
+      padding: var(--ids-space-none);
       opacity: 1;
     }
   }

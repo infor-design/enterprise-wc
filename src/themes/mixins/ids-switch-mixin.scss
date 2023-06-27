@@ -5,7 +5,7 @@
 // Off
 @mixin switch-off {
   position: absolute;
-  background-color: var(--ids-switch-pole-off-background-color);
+  background-color: var(--ids-switch-pole-color-background-default);
   border-radius: 4px;
   display: inline-block;
   height: 4px;
@@ -16,9 +16,9 @@
 
 @mixin switch-off-after {
   position: absolute;
-  background-color: var(--ids-switch-toggle-off-background-color);
-  border: 1px solid var(--ids-switch-toggle-off-border-color);
-  border-radius: var(--ids-border-radius-round);
+  background-color: var(--ids-switch-toggle-color-background-default);
+  border: 1px solid var(--ids-switch-toggle-color-border-default);
+  border-radius: var(--ids-border-radius-circle);
   content: '';
   height: 14px;
   left: 0;
@@ -30,14 +30,14 @@
 
 // On
 @mixin switch-on {
-  background-color: var(--ids-switch-pole-on-background-color);
+  background-color: var(--ids-switch-pole-color-background-selected);
 
   @include switch-transition();
 }
 
 @mixin switch-on-after {
-  background-color: var(--ids-switch-toggle-on-background-color);
-  border-color: var(--ids-switch-toggle-on-border-color);
+  background-color: var(--ids-switch-toggle-color-background-selected);
+  border-color: var(--ids-switch-toggle-color-border-selected);
   left: 15px;
 
   @include switch-transition();
@@ -45,30 +45,30 @@
 
 // Disabled
 @mixin switch-disabled-off {
-  background-color: var(--ids-switch-pole-off-disabled-background-color);
+  background-color: var(--ids-switch-pole-color-background-disabled);
   border-color: var(--ids-switch-pole-off-disabled-border-color);
   cursor: var(--ids-cursor-default);
 }
 
 @mixin switch-disabled-off-after {
-  background-color: var(--ids-switch-toggle-off-disabled-background-color);
-  border-color: var(--ids-switch-toggle-off-disabled-border-color);
+  background-color: var(--ids-switch-toggle-color-background-disabled);
+  border-color: var(--ids-switch-toggle-color-border-disabled);
   box-shadow: none;
 }
 
 @mixin switch-disabled-on {
-  background-color: var(--ids-switch-pole-on-disabled-background-color);
+  background-color: var(--ids-switch-pole-color-background-selected-disabled);
   border-color: var(--ids-switch-pole-on-disabled-border-color);
 }
 
 @mixin switch-disabled-on-after {
-  border-color: var(--ids-switch-toggle-on-disabled-border-color);
-  background-color: var(--ids-switch-toggle-on-disabled-background-color);
+  border-color: var(--ids-switch-toggle-color-border-selected-disabled);
+  background-color: var(--ids-switch-toggle-color-background-selected-disabled);
 }
 
 @mixin switch-disabled-text {
   cursor: var(--ids-cursor-default);
-  color: var(--ids-text-color-disabled);
+  color: var(--ids-color-text-disabled);
 }
 
 // Hover
@@ -84,14 +84,14 @@
 // Helper ===========================================
 // Box Shadow
 @mixin switch-focus-box-shadow {
-  box-shadow: var(--ids-switch-toggle-focus-box-shadow);
+  box-shadow: var(--ids-switch-toggle-shadow-focus);
 }
 
 @mixin switch-hover-shadow {
-  box-shadow: 0 2px 5px var(--ids-switch-toggle-hover-background-color);
+  box-shadow: 0 2px 5px var(--ids-switch-toggle-color-background-hover);
 }
 
 // Transition
 @mixin switch-transition {
-  transition: all var(--ids-transition-length) var(--ids-transition-ease);
+  transition: all var(--ids-motion-duration) var(--ids-motion-ease);
 }

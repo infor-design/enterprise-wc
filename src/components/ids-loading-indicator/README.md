@@ -65,7 +65,7 @@ the indicator to stick to the top of the innermost parent IdsElement and span it
 ## Themeable Parts
 - `container` - the loader (svg) container element
 - `progress` - the percentage complete or active part of the indeterminate area
-- `overall` - the overall area which would span what the indicator would at 100% and always on the indicator.
+- `circle` - the circle area which would span what the indicator would at 100% and always on the indicator.
 - `percentage-text` the percentage text shown (when `percentage-visible` flag is set)
 
 ## Keyboard Guidelines

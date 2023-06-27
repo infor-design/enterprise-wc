@@ -8,26 +8,26 @@ ids-popup[visible][animated] {
 
 .ids-time-picker-popup {
   &::part(popup) {
-    padding-block: var(--ids-spacing-none);
-    background-color: var(--ids-time-picker-popup-background-color);
+    padding-block: var(--ids-space-none);
+    background-color: var(--ids-time-picker-popup-color-background);
   }
 
   .popup-btn {
     align-items: center;
-    border-top: 1px solid var(--ids-time-picker-popup-button-border-color);
+    border-top: 1px solid var(--ids-time-picker-popup-button-color-border);
     width: 100%;
 
     &::part(button) {
       height: 100%;
-      color: var(--ids-time-picker-popup-button-text-color);
-      padding: var(--ids-spacing-none);
-      padding-block: var(--ids-spacing-xl);
+      color: var(--ids-time-picker-popup-button-color-text-default);
+      padding: var(--ids-space-none);
+      padding-block: var(--ids-space-50);
       align-items: center;
       justify-content: center;
     }
 
     &::part(button):hover {
-      color: var(--ids-time-picker-popup-button-hover-text-color);
+      color: var(--ids-time-picker-popup-button-color-text-hover);
     }
   }
 
@@ -45,8 +45,8 @@ ids-popup[visible][animated] {
 
   ids-popup {
     &::part(popup) {
-      margin: var(--ids-spacing-none);
-      padding: var(--ids-spacing-none);
+      margin: var(--ids-space-none);
+      padding: var(--ids-space-none);
     }
   }
 
@@ -69,7 +69,7 @@ ids-popup[visible][animated] {
     margin-top: 23px;
 
     &.colons {
-      color: var(--ids-time-picker-popup-colons-text-color);
+      color: var(--ids-time-picker-popup-colons-color-text);
       width: 17px;
       text-align: center;
       font-size: 16px;
@@ -82,7 +82,7 @@ ids-popup[visible][animated] {
     .dropdowns {
       flex-direction: column;
       align-items: center;
-      width: var(--ids-input-width-sm);
+      width: var(--ids-input-width-20);
     }
 
     .separator {

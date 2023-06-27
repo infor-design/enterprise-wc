@@ -24,9 +24,9 @@
   }
 
   .step.clickable:focus .step-label {
-    border: 1px solid var(--ids-wizard-step-color);
-    border-radius: var(--ids-border-radius-xs);
-    box-shadow: var(--ids-focus-box-shadow);
+    border: 1px solid var(--ids-wizard-step-color-default);
+    border-radius: var(--ids-border-radius-01);
+    box-shadow: var(--ids-shadow-focus);
     outline: none;
     outline-color: transparent;
   }
@@ -60,11 +60,11 @@
   }
 
   .step:not(.visited) .step-label {
-    color: var(--ids-wizard-unvisited-step-color);
+    color: var(--ids-wizard-step-color-unvisited);
   }
 
   .step.visited .step-label {
-    color: var(--ids-wizard-step-color);
+    color: var(--ids-wizard-step-color-default);
   }
 
   .step:not(.clickable) .step-label {
@@ -102,7 +102,7 @@
     .step-marker > svg:nth-child(1) {
       width: var(--ids-wizard-step-width);
       height: var(--ids-wizard-step-width);
-      fill: var(--ids-wizard-step-color);
+      fill: var(--ids-wizard-step-color-default);
       stroke: none;
       z-index: 2;
     }
@@ -110,8 +110,8 @@
     .step-marker > svg:nth-child(2) {
       width: calc(var(--ids-wizard-step-width) + 5px);
       height: calc(var(--ids-wizard-step-width) + 5px);
-      fill: var(--ids-wizard-step-inner-border-color);
-      stroke: var(--ids-wizard-step-color);
+      fill: var(--ids-wizard-step-inner-border-color-border);
+      stroke: var(--ids-wizard-step-color-default);
       stroke-width: 1px;
       z-index: 1;
     }
@@ -124,7 +124,7 @@
   }
 
   .path-segment::before {
-    background-color: var(--ids-wizard-unvisited-step-color);
+    background-color: var(--ids-wizard-step-color-unvisited);
     position: absolute;
     left: 0;
     top: 50%;
@@ -135,7 +135,7 @@
   }
 
   .path-segment.visited::before {
-    background-color: var(--ids-wizard-step-color);
+    background-color: var(--ids-wizard-step-color-default);
   }
 
   .path-segment.from-prev {
@@ -147,13 +147,13 @@
   }
 
   .step.current .step-label {
-    font-weight: var(--ids-font-weight-semi-bold);
+    font-weight: var(--ids-font-weight-semibold);
   }
 
   .step:not(.visited) {
     svg:first-child circle {
       fill: transparent;
-      stroke: var(--ids-wizard-unvisited-step-color);
+      stroke: var(--ids-wizard-step-color-unvisited);
       stroke-width: 3px;
     }
   }

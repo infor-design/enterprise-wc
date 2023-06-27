@@ -7,8 +7,8 @@
 
 .ids-about {
   .ids-modal-container {
-    max-width: var(--ids-about-max-width);
-    min-width: var(--ids-about-min-width);
+    max-width: var(--ids-about-width-max);
+    min-width: var(--ids-about-width-min);
   }
 
   .ids-modal-header {
@@ -28,11 +28,11 @@
   .ids-modal-content {
     @include mixins.antialiased();
 
-    border: 1px solid var(--ids-about-border-color);
+    border: 1px solid var(--ids-about-color-border-default);
     padding: var(--ids-about-content-padding);
     margin-block-start: 0;
     margin-block-end: 24px;
-    border-radius: var(--ids-border-radius-xs);
+    border-radius: var(--ids-border-radius-01);
     max-height: 199px;
     outline: 0;
     overflow: auto;
@@ -40,14 +40,14 @@
     scroll-behavior: smooth;
 
     &:focus {
-      border-color: var(--ids-about-focus-border-color);
-      box-shadow: var(--ids-about-focus-box-shadow);
+      border-color: var(--ids-about-color-border-focus);
+      box-shadow: var(--ids-about-shadow-focus);
       outline: 0;
       outline-color: transparent;
     }
 
     &:hover {
-      border-color: var(--ids-about-hover-border-color);
+      border-color: var(--ids-about-color-border-hover);
     }
   }
 }

@@ -4,7 +4,7 @@
 .ids-axis-chart {
   // Extend the dot area for hover events
   .markers circle {
-    stroke-width: var(--ids-spacing-lg);
+    stroke-width: var(--ids-space-40);
     stroke: transparent;
   }
 
@@ -20,7 +20,7 @@
   // Line Styles
   .marker-lines {
     fill: none;
-    stroke-width: var(--ids-spacing-sm);
+    stroke-width: var(--ids-space-20);
 
     @for $i from 1 through 21 {
       .data-line.color-#{$i} {

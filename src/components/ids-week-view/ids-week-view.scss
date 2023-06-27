@@ -7,9 +7,9 @@ $hour-row-height: var(--ids-week-view-row-height);
 
 .ids-week-view {
   display: flex;
-  background-color: var(--ids-week-view-background-color);
-  color: var(--ids-week-view-text-color);
-  border: 1px solid var(--ids-week-view-border-color);
+  background-color: var(--ids-week-view-color-background);
+  color: var(--ids-week-view-color-text);
+  border: 1px solid var(--ids-week-view-color-border);
   flex-direction: column;
   overflow: hidden;
 
@@ -45,7 +45,7 @@ $hour-row-height: var(--ids-week-view-row-height);
     .week-view-all-day-wrapper {
       position: relative;
       box-sizing: border-box;
-      border-color: var(--ids-week-view-border-color);
+      border-color: var(--ids-week-view-color-border);
       height: 44px;
       text-transform: unset;
       border-top-width: 1px;
@@ -75,7 +75,7 @@ $hour-row-height: var(--ids-week-view-row-height);
     th,
     td {
       border-bottom: 1px solid;
-      border-color: var(--ids-week-view-border-color);
+      border-color: var(--ids-week-view-color-border);
       padding: 0;
       height: $hour-row-height;
     }
@@ -94,7 +94,7 @@ $hour-row-height: var(--ids-week-view-row-height);
 
     // Alternate row style
     tr:nth-child(odd) td {
-      border-bottom: 1px solid var(--ids-week-view-row-odd-border-color);
+      border-bottom: 1px solid var(--ids-week-view-row-odd-color-border);
     }
 
     th:not(:last-child),
@@ -111,11 +111,11 @@ $hour-row-height: var(--ids-week-view-row-height);
 
   // Header Section Container with All Day events
   .week-view-container {
-    background-color: var(--ids-week-view-background-color);
+    background-color: var(--ids-week-view-color-background);
     overflow: auto;
 
     th {
-      background-color: var(--ids-week-view-header-background-color);
+      background-color: var(--ids-week-view-header-color-background);
       position: sticky;
       top: 0;
       z-index: 3;

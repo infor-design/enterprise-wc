@@ -11,7 +11,7 @@
 :host([field-height='xs']),
 :host([field-height='sm']) {
   .ids-trigger-button.ids-icon-button {
-    padding: var(--ids-spacing-none);
+    padding: var(--ids-space-none);
 
     &:not(.square) {
       border-radius: var(--ids-trigger-field-button-border-radius);
@@ -27,10 +27,10 @@
   justify-content: center;
 
   &.ids-icon-button {
-    padding: var(--ids-spacing-md);
+    padding: var(--ids-space-30);
 
     &[disabled] {
-      color: var(--ids-trigger-field-disabled-text-color);
+      color: var(--ids-trigger-field-color-text-disabled);
     }
 
     &[readonly] {
@@ -46,12 +46,12 @@
   // Inline Style: Show a border on the trigger button's inner-edge
   &.style-inline {
     border: 0;
-    padding: var(--ids-spacing-none);
+    padding: var(--ids-space-none);
     border-radius: var(--ids-trigger-field-button-border-radius);
-    margin: var(--ids-spacing-none);
+    margin: var(--ids-space-none);
 
     &.ids-icon-button {
-      padding: var(--ids-spacing-none);
+      padding: var(--ids-space-none);
     }
 
     &.square {
@@ -63,30 +63,30 @@
 
     &.field-height-xs,
     &.field-height-xs.compact {
-      height: calc(var(--ids-input-height-xs) - 2px);
-      width: calc(var(--ids-input-height-xs) - 2px);
+      height: calc(var(--ids-input-height-10) - 2px);
+      width: calc(var(--ids-input-height-10) - 2px);
     }
 
     &.field-height-sm {
-      height: calc(var(--ids-input-height-sm) - 2px);
-      width: calc(var(--ids-input-height-sm) - 2px);
+      height: calc(var(--ids-input-height-20) - 2px);
+      width: calc(var(--ids-input-height-20) - 2px);
     }
 
     &.field-height-md {
-      height: calc(var(--ids-input-height-md) - 2px);
-      width: calc(var(--ids-input-height-md) - 2px);
+      height: calc(var(--ids-input-height-30) - 2px);
+      width: calc(var(--ids-input-height-30) - 2px);
     }
 
     &.field-height-lg {
-      height: calc(var(--ids-input-height-lg) - 2px);
-      width: calc(var(--ids-input-height-lg) - 2px);
+      height: calc(var(--ids-input-height-40) - 2px);
+      width: calc(var(--ids-input-height-40) - 2px);
     }
 
     &.compact,
     &.field-height-sm.compact,
     &.field-height-md.compact,
     &.field-height-lg.compact {
-      height: var(--ids-input-height-xs);
+      height: var(--ids-input-height-10);
     }
   }
 
@@ -99,7 +99,7 @@
   }
 
   &.color-variant-alternate-formatter {
-    padding: var(--ids-spacing-sm);
+    padding: var(--ids-space-20);
   }
 
   // ===================================================

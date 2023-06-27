@@ -1,8 +1,8 @@
 @import '../ids-modal/ids-modal';
 
 .ids-modal-header {
-  background-color: var(--ids-action-panel-header-background-color);
-  border-bottom: 1px solid var(--ids-action-panel-header-border-color);
+  background-color: var(--ids-action-panel-header-color-background);
+  border-bottom: 1px solid var(--ids-action-panel-header-color-border);
   padding: 0;
   height: var(--ids-action-panel-header-height)
 }

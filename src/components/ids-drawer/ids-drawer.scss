@@ -6,7 +6,7 @@
 :host {
   display: block;
   position: fixed;
-  transition: box-shadow var( --ids-transition-length) var(--ids-transition-ease), transform var( --ids-transition-length) var(--ids-transition-ease);
+  transition: box-shadow var( --ids-motion-duration) var(--ids-motion-ease), transform var( --ids-motion-duration) var(--ids-motion-ease);
 }
 
 // =================================================
@@ -65,10 +65,10 @@
   // Type Styles
 
   &.type-action-sheet {
-    background-color: var(--ids-drawer-action-sheet-background-color);
-    box-shadow: var(--ids-drawer-action-sheet-box-shadow);
-    color: var(--ids-drawer-action-sheet-text-color);
-    padding: var(--ids-spacing-xl);
+    background-color: var(--ids-drawer-action-sheet-color-background);
+    box-shadow: var(--ids-drawer-action-sheet-shadow);
+    color: var(--ids-drawer-action-sheet-color-text);
+    padding: var(--ids-space-50);
 
     // temporary
     margin: 0 auto;
@@ -82,8 +82,8 @@
   }
 
   &.type-app-menu {
-    background-color: var(--ids-drawer-app-menu-background-color);
-    color: var(--ids-drawer-app-menu-text-color);
+    background-color: var(--ids-drawer-app-menu-color-background);
+    color: var(--ids-drawer-app-menu-color-text);
 
     // temporary
     min-width: var(--ids-drawer-width);
@@ -94,7 +94,7 @@
     }
 
     &.visible {
-      box-shadow: var(--ids-drawer-app-menu-box-shadow);
+      box-shadow: var(--ids-drawer-app-menu-shadow);
 
       @media (min-width: $breakpoint-md) {
         box-shadow: none;

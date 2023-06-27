@@ -17,15 +17,15 @@ $editor-container-height: 285px;
   .editor-label {
     display: flex;
     align-items: baseline;
-    margin-block-end: var(--ids-spacing-lg);
+    margin-block-end: var(--ids-space-40);
 
     &.required {
       &::after {
         content: '*';
-        color: var(--ids-required-background-color);
+        color: var(--ids-input-required-indicator-color-text-default);
         font-family: var(--ids-editor-font-family);
-        font-size: var(--ids-font-size-lg);
-        margin-inline: var(--ids-spacing-sm);
+        font-size: var(--ids-font-size-50);
+        margin-inline: var(--ids-space-20);
         margin-top: -10px;
         position: relative;
         top: 1px;
@@ -41,7 +41,7 @@ $editor-container-height: 285px;
   // Simulate standard label text size while empty with a non-breaking space
   &.label-state-hidden {
     .editor-label {
-      margin-block-end: var(--ids-spacing-lg);
+      margin-block-end: var(--ids-space-40);
 
       &::before {
         content: '\00a0';
@@ -51,7 +51,7 @@ $editor-container-height: 285px;
 
   &.label-state-collapsed {
     .editor-label {
-      margin-block-end: var(--ids-spacing-none);
+      margin-block-end: var(--ids-space-none);
 
       &.required::after {
         content: '';
@@ -60,38 +60,38 @@ $editor-container-height: 285px;
   }
 
   .main-container {
-    border-color: var(--ids-editor-border-color);
-    border-radius: var(--ids-editor-border-radius);
-    border-style: var(--ids-editor-border-style);
-    border-width: var(--ids-editor-border-width);
+    border-color: var(--ids-editor-color-border-default);
+    border-radius: var(--ids-editor-border-radius-default);
+    border-style: var(--ids-editor-border-style-default);
+    border-width: var(--ids-editor-border-width-default);
 
     &:focus-within {
-      border-color: var(--ids-editor-focus-border-color);
-      outline: var(--ids-editor-focus-border-outline);
+      border-color: var(--ids-editor-color-border-focus);
+      outline: var(--ids-editor-outline-focus);
       box-shadow: var(--ids-editor-focus-border-shadow);
     }
 
     &:hover,
     &:active {
-      border-color: var(--ids-editor-hover-border-color);
+      border-color: var(--ids-editor-color-border-hover);
     }
 
     &.error,
     &.error:hover,
     &.error:active {
-      border-color: var(--ids-editor-error-border-color);
-      color: var(--ids-editor-error-text-color);
+      border-color: var(--ids-editor-color-border-error);
+      color: var(--ids-editor-color-text-error);
 
       &:focus-within {
-        border-color: var(--ids-editor-error-border-color);
+        border-color: var(--ids-editor-color-border-error);
         box-shadow: var(--ids-editor-error-border-shadow);
       }
     }
   }
 
   .toolbar-container {
-    border-top-left-radius: var(--ids-spacing-xs);
-    border-top-right-radius: var(--ids-spacing-xs);
+    border-top-left-radius: var(--ids-space-10);
+    border-top-right-radius: var(--ids-space-10);
   }
 
   // Causes overflow to occur on Formatter Toolbar
@@ -115,13 +115,13 @@ $editor-container-height: 285px;
     }
 
     .main-container {
-      border-color: var(--ids-editor-readonly-border-color);
-      color: var(--ids-editor-readonly-text-color);
+      border-color: var(--ids-editor-color-border-readonly);
+      color: var(--ids-editor-color-text-readonly);
     }
 
     .editor-container,
     .source-container {
-      background-color: var(--ids-editor-readonly-background-color);
+      background-color: var(--ids-editor-color-background-readonly);
 
       a {
         pointer-events: none;
@@ -129,13 +129,13 @@ $editor-container-height: 285px;
     }
 
     .source-wrapper .line-numbers {
-      background-color: var(--ids-editor-readonly-source-line-numbers-background-color);
+      background-color: var(--ids-editor-source-color-background-readonly);
     }
   }
 
   &[disabled] {
     .editor-label.required::after {
-      color: var(--ids-required-disabled-background-color);
+      color: var(--ids-input-required-indicator-color-text-disabled);
     }
 
     .toolbar-container {
@@ -144,20 +144,20 @@ $editor-container-height: 285px;
 
     .main-container,
     .main-container * {
-      border-color: var(--ids-editor-disabled-border-color);
-      color: var(--ids-editor-disabled-text-color);
-      cursor: var(--ids-editor-disabled-cursor);
+      border-color: var(--ids-editor-color-border-disabled);
+      color: var(--ids-editor-color-text-disabled);
+      cursor: var(--ids-editor-cursor-disabled);
       pointer-events: none;
       user-select: none;
 
       &:hover,
       &:active {
-        color: var(--ids-editor-disabled-text-color);
+        color: var(--ids-editor-color-text-disabled);
       }
 
       &:focus,
       &:focus-within {
-        border-color: var(--ids-editor-disabled-border-color);
+        border-color: var(--ids-editor-color-border-disabled);
         box-shadow: none;
       }
     }
@@ -168,7 +168,7 @@ $editor-container-height: 285px;
     background-color: var(--ids-editor-background-color);
     font-family: var(--ids-editor-font-family);
     outline: var(--ids-editor-outline);
-    line-height: var(--ids-editor-line-height);
+    line-height: var(--ids-editor-font-line-height);
     font-size: var(--ids-editor-font-size);
     overflow: auto;
   }
@@ -183,21 +183,21 @@ $editor-container-height: 285px;
     user-select: text;
 
     a {
-      color: var(--ids-editor-link-text-color);
+      color: var(--ids-editor-link-color-text-link);
       padding: var(--ids-editor-link-padding);
 
       &:hover,
       &:active {
-        color: var(--ids-editor-link-hover-text-color);
+        color: var(--ids-editor-link-color-text-hover);
       }
 
       &:focus {
-        border-color: var(--ids-editor-link-focus-border-color);
-        border-radius: var(--ids-editor-link-focus-border-radius);
-        border-style: var(--ids-editor-link-focus-border-style);
-        border-width: var(--ids-editor-link-focus-border-width);
-        outline: var(--ids-editor-link-focus-outline);
-        box-shadow: var(--ids-editor-link-focus-box-shadow);
+        border-color: var(--ids-editor-link-color-border-focus);
+        border-radius: var(--ids-editor-link-border-radius-focus);
+        border-style: var(--ids-editor-link-border-style-focus);
+        border-width: var(--ids-editor-link-border-width-focus);
+        outline: var(--ids-editor-link-outline-focus);
+        box-shadow: var(--ids-editor-shadow-focus);
       }
     }
 
@@ -232,27 +232,27 @@ $editor-container-height: 285px;
     margin: var(--ids-editor-source-margin);
 
     .line-numbers {
-      background-color: var(--ids-editor-source-line-numbers-background-color);
-      color: var(--ids-editor-source-line-numbers-text-color);
+      background-color: var(--ids-editor-source-color-background-default);
+      color: var(--ids-editor-source-line-color-text);
       font-family: var(--ids-editor-font-family);
-      font-weight: var(--ids-editor-source-line-numbers-font-weight);
-      margin: var(--ids-editor-source-line-numbers-margin);
-      padding-block-start: var(--ids-editor-source-line-numbers-padding-block-start);
-      padding-inline: var(--ids-editor-source-line-numbers-padding-inline);
-      line-height: var(--ids-editor-source-line-numbers-line-height);
+      font-weight: var(--ids-editor-source-line-font-weight);
+      margin: var(--ids-editor-source-line-margin);
+      padding-block-start: var(--ids-editor-source-line-padding-block-start);
+      padding-inline: var(--ids-editor-source-line-padding-inline);
+      line-height: var(--ids-editor-source-font-line-height);
       list-style: none;
       text-align: end;
     }
 
     .source-textarea {
-      background-color: var(--ids-editor-source-textarea-background-color);
-      color: var(--ids-editor-source-textarea-text-color);
-      border: var(--ids-editor-source-textarea-border);
+      background-color: var(--ids-editor-textarea-color-background);
+      color: var(--ids-editor-source-color-text);
+      border: var(--ids-editor-source-border);
       font-family: var(--ids-editor-font-family);
       font-size: var(--ids-editor-font-size);
-      line-height: var(--ids-editor-source-textarea-line-height);
-      padding-block-start: var(--ids-editor-source-textarea-padding-block-start);
-      padding-inline: var(--ids-editor-source-textarea-padding-inline);
+      line-height: var(--ids-editor-source-textarea-font-line-height);
+      padding-block-start: var(--ids-editor-source-padding-block-start);
+      padding-inline: var(--ids-editor-source-padding-inline);
       outline: var(--ids-editor-source-textarea-outline);
       overflow: hidden;
       resize: none;
