@@ -19,7 +19,7 @@ const Base = IdsEventsMixin(
  * @mixes IdsEventsMixin
  * @part container - the loader svg container element
  * @part progress - the percentage complete or active part of indeterminate section
- * @part overall - the "overall" area, which includes percentage and what 100% would cover on
+ * @part circle - the "circle" area, which includes percentage and what 100% would cover on
  * indeterminate
  * @part percentage-text - the percentage text shown (when flag is set)
  */

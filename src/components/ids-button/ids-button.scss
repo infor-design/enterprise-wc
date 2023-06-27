@@ -91,8 +91,8 @@ button {
 
 .ids-menu-button.formatter-width {
   &:not(.no-padding):not(.ids-icon-button) {
-    padding-inline-start: calc(var(--ids-spacing-lg) - 1px);
-    padding-inline-end:calc(var(--ids-spacing-lg) - 1px);
+    padding-inline-start: calc(var(--ids-space-40) - 1px);
+    padding-inline-end:calc(var(--ids-space-40) - 1px);
   }
 
   &:not(.formatter-width-percentage) {
@@ -100,7 +100,7 @@ button {
 
     .ids-icon {
       position: absolute;
-      inset-inline-end: var(--ids-spacing-md);
+      inset-inline-end: var(--ids-space-30);
     }
   }
 }
@@ -124,12 +124,12 @@ button {
   }
 
   &:not(.square) {
-    border-radius: var(--ids-border-radius-md);
+    border-radius: var(--ids-border-radius-03);
   }
 
   .ids-icon {
     display: block;
-    padding-inline-start: var(--ids-spacing-none);
+    padding-inline-start: var(--ids-space-none);
     font-size: 0;
   }
 
@@ -138,13 +138,13 @@ button {
   }
 
   .ripple-effect {
-    height: var(--ids-size-2xl);
-    width: var(--ids-size-2xl);
+    height: var(--ids-size-70);
+    width: var(--ids-size-70);
   }
 
   &.no-margins {
-    margin-inline-start: var(--ids-spacing-none);
-    margin-inline-end: var(--ids-spacing-none);
+    margin-inline-start: var(--ids-space-none);
+    margin-inline-end: var(--ids-space-none);
   }
 }
 
@@ -159,12 +159,12 @@ button {
 // Do not apply styles to modal close icon button, appearance as icon is required
 .ids-modal-button:not(.ids-modal-icon-button) {
   @include ids-base-button-styles();
-  @include ids-modal-button-colors();
+  @include ids-modal-button-color-defaults();
 
-  padding-block-start: var(--ids-spacing-xl);
-  padding-block-end: var(--ids-spacing-xl);
+  padding-block-start: var(--ids-space-50);
+  padding-block-end: var(--ids-space-50);
   display: block;
-  font-weight: var(--ids-font-weight-semi-bold);
+  font-weight: var(--ids-font-weight-semibold);
   justify-content: center;
   height: 100%;
   width: 100%;
@@ -176,7 +176,7 @@ button {
 
 // Adjusting hitbox for the modal close icon
 .ids-modal-icon-button {
-  padding: var(--ids-spacing-lg);
+  padding: var(--ids-space-40);
 }
 
 // ====================================================
@@ -184,7 +184,7 @@ button {
 .btn-swipe-action-left,
 .btn-swipe-action-right {
   display: block;
-  padding: 0 var(--ids-spacing-lg) var(--ids-spacing-lg);
+  padding: 0 var(--ids-space-40) var(--ids-space-40);
   height: 100%;
   margin: 0;
   white-space: inherit;
@@ -210,34 +210,34 @@ button {
 .btn-swipe-action-left {
   border-start-end-radius: 0;
   border-end-end-radius: 0;
-  background-color: var(--ids-swipe-action-left-background-color);
-  color: var(--ids-swipe-action-left-text-color);
+  background-color: var(--ids-swipe-action-color-background-left);
+  color: var(--ids-swipe-action-color-text-left);
 
   &:active {
-    background-color: var(--ids-swipe-action-left-active-background-color);
-    color: var(--ids-swipe-action-left-active-text-color)
+    background-color: var(--ids-swipe-action-color-background-left-active);
+    color: var(--ids-swipe-action-color-text-left-active)
   }
 
   &:hover {
-    background-color: var(--ids-swipe-action-left-hover-background-color);
-    color: var(--ids-swipe-action-left-hover-text-color)
+    background-color: var(--ids-swipe-action-color-background-left-hover);
+    color: var(--ids-swipe-action-color-text-left-hover)
   }
 }
 
 .btn-swipe-action-right {
   border-start-start-radius: 0;
   border-end-start-radius: 0;
-  background-color: var(--ids-swipe-action-right-background-color);
-  color: var(--ids-swipe-action-right-text-color);
+  background-color: var(--ids-swipe-action-color-background-right);
+  color: var(--ids-swipe-action-color-text-right);
 
   &:active {
-    background-color: var(--ids-swipe-action-right-active-background-color);
-    color: var(--ids-swipe-action-right-active-text-color)
+    background-color: var(--ids-swipe-action-color-background-right-active);
+    color: var(--ids-swipe-action-color-text-right-active)
   }
 
   &:hover {
-    background-color: var(--ids-swipe-action-right-hover-background-color);
-    color: var(--ids-swipe-action-right-hover-text-color)
+    background-color: var(--ids-swipe-action-color-background-right-hover);
+    color: var(--ids-swipe-action-color-text-right-hover)
   }
 }
 
@@ -266,7 +266,7 @@ button {
 // Adjustment for about close icon
 .ids-modal-button {
   ::slotted(ids-icon:not(:first-child)) { // shadowroot + text + icon
-    padding: var(--ids-spacing-sm);
+    padding: var(--ids-space-20);
   }
 }
 

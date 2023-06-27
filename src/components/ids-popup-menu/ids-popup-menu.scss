@@ -7,6 +7,6 @@
 .ids-popup-menu {
   &:not([hidden]) {
     display: block;
-    z-index: var(--ids-z-index-popup);
+    z-index: var(--ids-z-index-60);
   }
 }

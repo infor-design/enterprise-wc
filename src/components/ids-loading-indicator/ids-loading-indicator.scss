@@ -49,7 +49,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: var(--ids-loading-indicator-text-color);
+  color: var(--ids-loading-indicator-color-text);
 }
 
 .progress-percentage.linear {
@@ -78,8 +78,8 @@ svg.linear-indicator {
     transform: #{'scaleX(calc(var(--progress) * 1%))'};
   }
 
-  .overall {
-    fill: var(--ids-loading-indicator-overall-color);
+  .circle {
+    fill: var(--ids-loading-indicator-circle-color);
   }
 }
 
@@ -97,8 +97,8 @@ svg.circular-indicator {
     transform-origin: 50% 50%;
   }
 
-  .overall {
-    stroke: var(--ids-loading-indicator-overall-color);
+  .circle {
+    stroke: var(--ids-loading-indicator-circle-color);
   }
 
   .progress {
@@ -209,7 +209,7 @@ svg.linear-indicator.indeterminate .progress {
     height: 14px;
   }
 
-  &::part(overall) {
+  &::part(circle) {
     stroke-width: 12;
   }
 
@@ -220,31 +220,31 @@ svg.linear-indicator.indeterminate .progress {
 
 // Slotted in other components
 :host(.type-primary) {
-  &::part(overall) {
-    stroke: var(--ids-loading-indicator-primary-overall-stroke);
+  &::part(circle) {
+    stroke: var(--ids-loading-indicator-primary-circle-stroke);
   }
 
   &::part(progress) {
-    stroke: var(--ids-loading-indicator-primary-progress-stroke);
+    stroke: var(--ids-loading-indicator-primary-progress-color-border);
   }
 }
 
 :host(.type-primary-destructive) {
   &::part(progress) {
-    stroke: var(--ids-loading-indicator-primary-destructive-progress-stroke);
+    stroke: var(--ids-loading-indicator-primary-destructive-progress-color-border);
   }
 
-  &::part(overall) {
-    stroke: var(--ids-loading-indicator-primary-destructive-overall-stroke);
+  &::part(circle) {
+    stroke: var(--ids-loading-indicator-primary-destructive-circle-stroke);
   }
 }
 
 :host(.type-tertiary-destructive) {
   &::part(progress) {
-    stroke: var(--ids-loading-indicator-tertiary-destructive-progress-stroke);
+    stroke: var(--ids-loading-indicator-destructive-progress-color-border);
   }
 
-  &::part(overall) {
-    stroke: var(--ids-loading-indicator-tertiary-destructive-overall-stroke);
+  &::part(circle) {
+    stroke: var(--ids-loading-indicator-tertiary-destructive-circle-stroke);
   }
 }

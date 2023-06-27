@@ -14,7 +14,7 @@ ids-alert,
 
 ids-text::part(text),
 .ids-text {
-  color: var(--ids-notification-banner-text-color);
+  color: var(--ids-notification-banner-color-text);
 }
 
 ids-hyperlink::part(link),
@@ -40,7 +40,7 @@ ids-hyperlink::part(link),
 }
 
 ids-button::part(button):hover {
-  background-color: var(--ids-notification-banner-button-hover-background-color);
+  background-color: var(--ids-notification-banner-button-color-background-hover);
 }
 
 .ids-notification-banner-message {
@@ -51,7 +51,7 @@ ids-button::part(button):hover {
 
 .ids-notification-banner[type='success'],
 .ids-notification-banner.success {
-  background-color: var(--ids-notification-banner-success-background-color);
+  background-color: var(--ids-notification-banner-success-color-background);
 }
 
 .ids-notification-banner[type='caution'],
@@ -61,15 +61,15 @@ ids-button::part(button):hover {
 
 .ids-notification-banner[type='warning'],
 .ids-notification-banner.warning {
-  background-color: var(--ids-notification-banner-warning-background-color);
+  background-color: var(--ids-notification-banner-warning-color-background);
 }
 
 .ids-notification-banner[type='info'],
 .ids-notification-banner.info {
-  background-color: var(--ids-notification-banner-info-background-color);
+  background-color: var(--ids-notification-banner-info-color-background);
 }
 
 .ids-notification-banner[type='error'],
 .ids-notification-banner.error {
-  background-color: var(--ids-notification-banner-error-background-color);
+  background-color: var(--ids-notification-banner-error-color-background);
 }

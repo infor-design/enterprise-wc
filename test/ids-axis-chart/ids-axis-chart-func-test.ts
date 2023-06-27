@@ -230,7 +230,7 @@ describe('IdsAxisChart Component', () => {
 
   it('can get colors and color range', async () => {
     expect(axisChart.colors.length).toEqual(20);
-    expect(axisChart.color(2)).toEqual('var(--ids-chart-qualitive-color-3)');
+    expect(axisChart.color(2)).toEqual('var(--ids-chart-color-accent-03)');
   });
 
   it('renders when changing format/locale', async () => {

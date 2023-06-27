@@ -22,7 +22,7 @@
 .ids-input.color-variant-alternate-formatter {
   &:focus-within {
     .field-container {
-      box-shadow: var(--ids-trigger-field-focus-box-shadow);
+      box-shadow: var(--ids-trigger-field-shadow-focus);
     }
 
     .ids-input-field {

@@ -4,11 +4,12 @@
   <title><%= htmlWebpackPlugin.options.title %></title>
   <%= htmlWebpackPlugin.options.font %>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://unpkg.com/ids-enterprise@4.80.3/dist/js/sohoxi.js"></script>
-  <link href="https://unpkg.com/ids-enterprise@4.80.3/dist/css/theme-new-light.css" rel="stylesheet"/>
+  <script src="https://unpkg.com/ids-enterprise@4.84.1/dist/js/sohoxi.js"></script>
+  <link id="stylesheet" href="https://unpkg.com/ids-enterprise@4.84.1/dist/css/theme-new-light.css" rel="stylesheet"/>
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Web Component Upload</ids-text>
     </ids-layout-grid>

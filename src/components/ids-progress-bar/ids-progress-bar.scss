@@ -1,9 +1,9 @@
 /* Ids Progress Bar */
 // Mixin progress bar fill area
 @mixin progress-bar-fill {
-  background-color: var(--ids-progress-bar-fill-background-color);
+  background-color: var(--ids-progress-bar-fill-color-background);
   border-radius: var(--ids-progress-bar-border-radius);
-  transition: width var(--ids-transition-length) var(--ids-transition-ease);
+  transition: width var(--ids-motion-duration) var(--ids-motion-ease);
 }
 
 :host-context(ids-data-grid-cell) {
@@ -18,11 +18,11 @@
   contain: content;
 
   .progress-label {
-    color: var(--ids-progress-bar-label-text-color);
+    color: var(--ids-progress-bar-label-color-text);
   }
 
   .progress-bar {
-    background-color: var(--ids-progress-bar-background-color);
+    background-color: var(--ids-progress-bar-color-background-default);
     border-radius: var(--ids-progress-bar-border-radius);
     border: var(--ids-progress-bar-border);
     height: var(--ids-progress-bar-height);
@@ -30,7 +30,7 @@
     width: 100%;
 
     &::-webkit-progress-bar {
-      background-color: var(--ids-progress-bar-background-color);
+      background-color: var(--ids-progress-bar-color-background-default);
       border-radius: var(--ids-progress-bar-border-radius);
     }
 
@@ -51,15 +51,15 @@
 
   &.disabled {
     .progress-label {
-      color: var(--ids-progress-bar-disabled-text-color);
+      color: var(--ids-progress-bar-color-text-disabled);
     }
 
     .progress-bar {
-      border-color: var(--ids-progress-bar-disabled-background-color);
+      border-color: var(--ids-progress-bar-color-background-disabled);
 
       &::-webkit-progress-value {
-        background-color: var(--ids-progress-bar-disabled-background-color);
-        border-color: var(--ids-progress-bar-disabled-background-color);
+        background-color: var(--ids-progress-bar-color-background-disabled);
+        border-color: var(--ids-progress-bar-color-background-disabled);
       }
     }
   }

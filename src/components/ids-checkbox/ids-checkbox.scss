@@ -8,11 +8,11 @@
 }
 
 :host([no-margin]) .ids-checkbox {
-  margin: var(--ids-spacing-none);
+  margin: var(--ids-space-none);
 }
 
 .ids-checkbox {
-  margin-bottom: var(--ids-spacing-lg);
+  margin-bottom: var(--ids-space-40);
 
   label {
     cursor: var(--ids-cursor-pointer);
@@ -27,11 +27,11 @@
 
     &.required .label-checkbox::after {
       position: absolute;
-      font-family: var(--ids-font-family);
-      margin-inline-start: var(--ids-spacing-sm);
-      margin-inline-end: var(--ids-spacing-sm);
-      font-size: var(--ids-font-size-lg);
-      color: var(--ids-required-background-color);
+      font-family: var(--ids-font-family-default);
+      margin-inline-start: var(--ids-space-20);
+      margin-inline-end: var(--ids-space-20);
+      font-size: var(--ids-font-size-50);
+      color: var(--ids-input-required-indicator-color-text-default);
       content: '*';
       right: -13px;
       top: -2px;
@@ -49,13 +49,13 @@
     cursor: var(--ids-cursor-default);
 
     &.required .label-checkbox::after {
-     color: var(--ids-required-disabled-background-color);
+     color: var(--ids-input-required-indicator-color-text-disabled);
     }
   }
 
   &.hitbox {
-    padding-top: var(--ids-spacing-xl);
-    padding-bottom: var(--ids-spacing-xl);
+    padding-top: var(--ids-space-50);
+    padding-bottom: var(--ids-space-50);
 
     label {
       padding-inline-start: 42px;
@@ -71,7 +71,7 @@
   }
 
   &.horizontal {
-    margin-inline-end: var(--ids-spacing-xl);
+    margin-inline-end: var(--ids-space-50);
     display: inline-block;
   }
 
@@ -139,20 +139,20 @@
   @include checkbox.checkbox-colored();
 
   .validation-message {
-    margin-top: var(--ids-spacing-md);
+    margin-top: var(--ids-space-30);
     margin-inline-start: -1px;
   }
 
   &.has-focus {
     input[type='checkbox'] ~ .checkmark {
-      border-color: var(--ids-checkbox-has-focus-border-color);
-      box-shadow: var(--ids-checkbox-has-focus-box-shadow);
+      border-color: var(--ids-checkbox-focus-border-color);
+      box-shadow: var(--ids-checkbox-focus-box-shadow);
     }
   }
 }
 
 :host-context(form) {
-  margin-top: var(--ids-spacing-lg);
+  margin-top: var(--ids-space-40);
   display: flex;
 }
 
@@ -172,10 +172,10 @@
 // Multiselect checkbox
 :host(.multiselect-checkbox) {
   input[type='checkbox']:not(:checked):not(:disabled) ~ .checkmark {
-    background-color: var(--ids-checkbox-multiselect-checkbox-background-color);
+    background-color: var(--ids-checkbox-color-background-multiselect);
   }
 
   .ids-checkbox label {
-    padding-inline-start: var(--ids-spacing-xxl);
+    padding-inline-start: var(--ids-space-60);
   }
 }

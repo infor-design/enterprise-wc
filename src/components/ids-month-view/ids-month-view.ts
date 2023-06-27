@@ -933,7 +933,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     }).join('');
 
     // Week number cell if enabled
-    const weekNumCell = `<td scope="col" class="week-num-cell">
+    const weekNumCell = `<td class="week-num-cell">
       <ids-text class="week-num-text" font-size="14">${weekNumber(firstDayOfWeek)}</ids-text>
     </td>`;
     const weekNumCellTemplate = this.showWeekNumbers ? weekNumCell : '';

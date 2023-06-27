@@ -1,5 +1,5 @@
 .ids-swaplist {
-  box-shadow: var(--ids-swaplist-box-shadow);
+  box-shadow: var(--ids-swaplist-shadow);
   display: flex;
   flex-direction: row;
 }
@@ -29,8 +29,8 @@ ids-swappable-item[over] {
 ids-button {
   position: relative;
   padding: var(--ids-swaplist-toolbar-button-padding);
-  height: var(--ids-swaplist-toolbar-button-height);
-  width: var(--ids-swaplist-toolbar-button-width);
+  height: var(--ids-swaplist-button-height);
+  width: var(--ids-swaplist-button-width);
 
   &::part(button) {
     padding: var(--ids-swaplist-toolbar-button-padding);;
@@ -39,7 +39,7 @@ ids-button {
     justify-content: center;
 
     &:hover {
-      background-color: var(--ids-swaplist-toolbar-button-hover-background-color);
+      background-color: var(--ids-swaplist-button-color-background-hover);
     }
   }
 }
@@ -52,23 +52,23 @@ ids-card {
   }
 
   &::part(header) {
-    border-block-end: var(--ids-swaplist-card-header-border-block-end);
+    border-block-end: var(--ids-swaplist-border);
   }
 
   &::part(content) {
-    height: var(--ids-swaplist-card-content-height);
+    height: var(--ids-swaplist-card-content-height-min);
   }
 
   &.card {
     &::part(card) {
       border-radius: var(--ids-swaplist-card-border-radius);
-      border-inline-start-width: var(--ids-swaplist-card-border-inline-start-width);
-      box-shadow: var(--ids-swaplist-card-box-shadow);
+      border-inline-start-width: var(--ids-swaplist-inline-start-border-width);
+      box-shadow: var(--ids-swaplist-card-shadow);
     }
 
     &:first-child {
       &::part(card) {
-        border-inline-start-width: var(--ids-swaplist-card-first-child-border-inline-start-width);
+        border-inline-start-width: var(--ids-swaplist-first-child-inline-start-border-width);
         border-start-start-radius: var(--ids-swaplist-border-radius);
         border-end-start-radius: var(--ids-swaplist-border-radius);
       }

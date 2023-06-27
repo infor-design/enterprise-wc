@@ -5,56 +5,56 @@
   @include mixins.antialiased();
 
   // Colors/Borders
-  background-color: var(--ids-tag-background-color);
-  border: 1px solid var(--ids-tag-border-color);
+  background-color: var(--ids-tag-color-background-default);
+  border: 1px solid var(--ids-tag-color-border);
   border-radius: var(--ids-tag-border-radius);
 
   // Fonts
-  font-family: var(--ids-font-family);
-  font-size: var(--ids-tag-font-size);
-  color: var(--ids-tag-text-color);
+  font-family: var(--ids-font-family-default);
+  font-size: var(--ids-tag-font-size-default);
+  color: var(--ids-tag-color-text-default);
 
   // Layout
   display: inline-flex;
-  margin-inline-end: var(--ids-spacing-md);
-  padding-inline:  var(--ids-spacing-lg);
-  padding-bottom:  var(--ids-spacing-sm);
+  margin-inline-end: var(--ids-space-30);
+  padding-inline:  var(--ids-space-40);
+  padding-bottom:  var(--ids-space-20);
   contain: content;
 
   // Secondary has a darker border
   &.secondary {
-    background-color: var(--ids-tag-secondary-background-color);
-    border-color: var(--ids-tag-secondary-border-color);
+    background-color: var(--ids-tag-secondary-color-background);
+    border-color: var(--ids-tag-secondary-color-border);
   }
 
   &.info {
-    background-color: var(--ids-color-info);
-    border-color: var(--ids-color-info);
-    color: var(--ids-color-info-00);
+    background-color: var(--ids-color-info-default);
+    border-color: var(--ids-color-info-default);
+    color: var(--ids-color-text-on-info);
   }
 
   &.success {
-    background-color: var(--ids-color-success);
-    border-color: var(--ids-color-success);
-    color: var(--ids-color-success-00);
+    background-color: var(--ids-color-success-default);
+    border-color: var(--ids-color-success-default);
+    color: var(--ids-color-text-on-success);
   }
 
   &.warning {
-    background-color: var(--ids-color-warning);
-    border-color: var(--ids-color-warning);
-    color: var(--ids-color-warning-00);
+    background-color: var(--ids-color-warning-default);
+    border-color: var(--ids-color-warning-default);
+    color: var(--ids-color-text-on-warning);
   }
 
   &.caution {
-    background-color: var(--ids-color-caution);
-    border-color: var(--ids-color-caution);
-    color: var(--ids-color-caution-00);
+    background-color: var(--ids-color-caution-default);
+    border-color: var(--ids-color-caution-default);
+    color: var(--ids-color-text-on-caution);
   }
 
   &.error {
-    background-color: var(--ids-color-error);
-    border-color: var(--ids-color-error);
-    color: var(--ids-color-error-00);
+    background-color: var(--ids-color-error-default);
+    border-color: var(--ids-color-error-default);
+    color: var(--ids-color-text-on-error);
   }
 
   // Clickable tags can be focused and clicked
@@ -63,9 +63,9 @@
 
     &:focus {
       cursor: var(--ids-cursor-pointer);
-      border-color: var(--ids-focus-border-color);
-      outline: var(--ids-focus-outline);
-      box-shadow: var(--ids-focus-box-shadow);
+      border-color: var(--ids-color-border-focus);
+      outline: var(--ids-outline-none);
+      box-shadow: var(--ids-shadow-focus);
     }
   }
 }
@@ -73,7 +73,7 @@
 :host-context(ids-data-grid-cell) {
   .ids-tag {
     display: inline;
-    margin-bottom: var(--ids-spacing-none);
+    margin-bottom: var(--ids-space-none);
   }
 }
 
@@ -86,21 +86,21 @@
 :host([disabled]) {
   ::slotted(ids-icon) {
     cursor: var(--ids-cursor-default);
-    color: var(--ids-tag-disabled-text-color);
+    color: var(--ids-tag-color-text-disabled);
   }
 
   .ids-tag {
-    background-color: var(--ids-input-readonly-background-color);
-    border-color: var(--ids-input-readonly-background-color);
-    color: var(--ids-tag-disabled-text-color);
+    background-color: var(--ids-input-color-background-readonly);
+    border-color: var(--ids-input-color-background-readonly);
+    color: var(--ids-tag-color-text-disabled);
 
     &.secondary {
-      background-color: var(--ids-input-background-color);
-      border-color: var(--ids-text-color-disabled);
-      color: var(--ids-tag-secondary-disabled-text-color);
+      background-color: var(--ids-input-color-background-default);
+      border-color: var(--ids-color-text-disabled);
+      color: var(--ids-tag-secondary-color-text-disabled);
 
       ::slotted(ids-icon) {
-        color: var(--ids-tag-secondary-disabled-text-color);
+        color: var(--ids-tag-secondary-color-text-disabled);
       }
     }
   }
@@ -111,34 +111,34 @@
   cursor: var(--ids-cursor-pointer);
   align-self: center;
   display: inline-flex;
-  padding-inline-start: var(--ids-spacing-md);
-  padding-top: var(--ids-spacing-xs);
-  color: var(--ids-input-text-color);
+  padding-inline-start: var(--ids-space-30);
+  padding-top: var(--ids-space-10);
+  color: var(--ids-input-color-text);
 }
 
 // Adjust hover state
 ::slotted(ids-icon:hover) {
-  color: var(--ids-tag-icon-hover-color);
+  color: var(--ids-tag-color-icon-hover);
 }
 
 // Multiselect tag
 :host(.multiselect-tag) {
   .ids-tag {
-    background-color: var(--ids-input-background-color);
-    border-color: var(--ids-input-border-color);
-    margin-bottom: var(--ids-spacing-md);
+    background-color: var(--ids-input-color-background-default);
+    border-color: var(--ids-input-color-border-default);
+    margin-bottom: var(--ids-space-30);
   }
 }
 
 :host([disabled].multiselect-tag) {
   .ids-tag {
-    background-color: var(--ids-input-background-color);
-    border-color: var(--ids-text-color-disabled);
-    color: var(--ids-text-color-disabled);
+    background-color: var(--ids-input-color-background-default);
+    border-color: var(--ids-color-text-disabled);
+    color: var(--ids-color-text-disabled);
     pointer-events: none;
   }
 
   ::slotted(ids-icon) {
-    color: var(--ids-text-color-disabled);
+    color: var(--ids-color-text-disabled);
   }
 }

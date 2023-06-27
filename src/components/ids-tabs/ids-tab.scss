@@ -63,7 +63,7 @@ $ids-tab-vertical-height: 42px;
 // None
 :host(ids-tab[color-variant='module']:not(:last-child)),
 .ids-tabs-container.color-variant-module .ids-tab:not(:last-child) {
-  border-right: 1px solid var(--ids-tab-module-border-right-color);
+  border-right: 1px solid var(--ids-tab-module-color-border-right);
 }
 
 // Spacing rules for Module Tabs
@@ -185,7 +185,7 @@ $ids-tab-vertical-height: 42px;
 
     // Round borders on regular horizontal tabs
     &:not(.color-variant-module) {
-      border-radius: var(--ids-border-radius-xs);
+      border-radius: var(--ids-border-radius-01);
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
 
@@ -301,26 +301,26 @@ $ids-tab-vertical-height: 42px;
   // Light Mode / Default Color Variant
 
   &:not([class*='color-variant-']) {
-    color: var(--ids-tab-text-color);
+    color: var(--ids-tab-color-text-default);
 
     &:hover {
-      color: var(--ids-tab-hover-text-color);
-      background-color: var(--ids-tab-hover-background-color);
+      color: var(--ids-tab-color-text-hover);
+      background-color: var(--ids-tab-color-background-hover);
     }
 
     &.selected {
-      color: var(--ids-tab-selected-text-color);
+      color: var(--ids-tab-color-text-selected);
     }
 
     &:focus-within,
     &:focus-visible,
     &:focus {
-      border-color: var(--ids-tab-focus-border-color);
-      background-color: var(--ids-tab-focus-background-color);
+      border-color: var(--ids-tab-color-border-focus);
+      background-color: var(--ids-tab-color-background-focus);
     }
 
     &.disabled {
-      color: var(--ids-tab-disabled-text-color);
+      color: var(--ids-tab-color-text-disabled);
     }
 
     // Horizontal Tab Styles
@@ -328,14 +328,14 @@ $ids-tab-vertical-height: 42px;
       &:hover {
         &::after,
         & .selection-underline {
-          background-color: var(--ids-tab-hover-text-color);
+          background-color: var(--ids-tab-color-text-hover);
         }
       }
 
       &.selected {
         &::after,
         & .selection-underline {
-          background-color: var(--ids-tab-selected-text-color);
+          background-color: var(--ids-tab-color-text-selected);
         }
       }
     }
@@ -344,14 +344,14 @@ $ids-tab-vertical-height: 42px;
     &.orientation-vertical {
       &.selected {
         border-style: none;
-        background-color: var(--ids-tab-vertical-selected-background-color);
-        color: var(--ids-tab-vertical-selected-text-color);
+        background-color: var(--ids-tab-vertical-color-background-selected);
+        color: var(--ids-tab-vertical-color-text-selected);
 
         &:not(.hide-focus):focus {
           border-style: none;
 
           &::before {
-            border-color: var(--ids-tab-vertical-selected-border-color);
+            border-color: var(--ids-tab-vertical-color-border-selected);
           }
         }
       }
@@ -362,31 +362,31 @@ $ids-tab-vertical-height: 42px;
   // Light Mode / Alternate Color Variant
 
   &.color-variant-alternate {
-    color: var(--ids-tab-alternate-text-color);
+    color: var(--ids-tab-alternate-color-text-default);
 
     &:hover {
-      color: var(--ids-tab-alternate-hover-text-color);
+      color: var(--ids-tab-alternate-color-text-hover);
 
       &::after {
-        background-color: var(--ids-tab-alternate-hover-background-color);
+        background-color: var(--ids-tab-alternate-color-background-hover);
       }
     }
 
     &:not(.hide-focus):focus-visible,
     &:not(.hide-focus):focus,
     &:not(.hide-focus):focus-within {
-      border-color: var(--ids-tab-alternate-focus-border-color);
+      border-color: var(--ids-tab-alternate-color-border-focus);
     }
 
     &.selected {
-      color: var(--ids-tab-alternate-selected-text-color);
+      color: var(--ids-tab-alternate-color-text-selected);
     }
 
     &.disabled {
-      color: var(--ids-tab-alternate-disabled-text-color);
+      color: var(--ids-tab-alternate-color-text-disabled);
 
       &.selected {
-        color: var(--ids-tab-alternate-disabled-text-color);
+        color: var(--ids-tab-alternate-color-text-disabled);
       }
     }
 
@@ -395,7 +395,7 @@ $ids-tab-vertical-height: 42px;
       &.selected {
         &::after,
         & .selection-underline {
-          background-color: var(--ids-tab-altenrate-horizontal-background-color);
+          background-color: var(--ids-tab-alternate-horizontal-color-background);
         }
       }
     }
@@ -406,23 +406,23 @@ $ids-tab-vertical-height: 42px;
 
   /* stylelint-disable-next-line no-duplicate-selectors */
   &.color-variant-module {
-    background-color: var(--ids-tab-module-background-color);
-    color: var(--ids-tab-module-text-color);
+    background-color: var(--ids-tab-module-color-background-default);
+    color: var(--ids-tab-module-color-text-default);
 
     &:hover {
-      color: var(--ids-tab-module-hover-text-color);
-      background-color: var(--ids-tab-module-hover-background-color);
+      color: var(--ids-tab-module-color-text-hover);
+      background-color: var(--ids-tab-module-color-background-hover);
       border-color: transparent;
     }
 
     &.selected {
-      background-color: var(--ids-tab-module-selected-background-color);
-      color: var(--ids-tab-module-selected-text-color);
+      background-color: var(--ids-tab-module-color-background-selected);
+      color: var(--ids-tab-module-color-text-selected);
     }
 
     &.disabled {
-      background-color: var(--ids-tab-module-disabled-background-color);
-      color: var(--ids-tab-module-disabled-text-color);
+      background-color: var(--ids-tab-module-color-background-disabled);
+      color: var(--ids-tab-module-color-text-disabled);
     }
   }
 }

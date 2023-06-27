@@ -3,27 +3,27 @@
 
 // Dropdown menu width
 :host ids-popup {
-  max-width: var(--ids-input-width-md);
+  max-width: var(--ids-input-width-40);
 }
 
 :host([size='xs']) ids-popup {
-  max-width: var(--ids-input-width-xs);
+  max-width: var(--ids-input-width-10);
 }
 
 :host([size='sm']) ids-popup {
-  max-width: var(--ids-input-width-sm);
+  max-width: var(--ids-input-width-20);
 }
 
 :host([size='mm']) ids-popup {
-  max-width: var(--ids-input-width-mm);
+  max-width: var(--ids-input-width-30);
 }
 
 :host([size='md']) ids-popup {
-  max-width: var(--ids-input-width-md);
+  max-width: var(--ids-input-width-40);
 }
 
 :host([size='lg']) ids-popup {
-  max-width: var(--ids-input-width-lg);
+  max-width: var(--ids-input-width-50);
 }
 
 :host([size='full']) ids-popup {

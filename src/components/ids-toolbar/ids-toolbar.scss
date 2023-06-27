@@ -10,13 +10,13 @@
 
   &[disabled] {
     ::slotted(.ids-text) {
-      color: var(--ids-text-color-disabled);
+      color: var(--ids-color-text-disabled);
     }
   }
 }
 
 :host([group-action]) {
-  border-top: 1px solid var(--ids-card-divider-border-color);
+  border-top: 1px solid var(--ids-card-divider-color-border);
 }
 
 :host([group-action]) .ids-toolbar {
@@ -34,7 +34,7 @@
   width: 100%;
 
   &.disabled {
-    color: var(--ids-text-color-disabled);
+    color: var(--ids-color-text-disabled);
 
     .ids-text {
       color: inherit;
@@ -42,6 +42,6 @@
   }
 
   &.type-formatter {
-    background-color: var(--ids-toolbar-formatter-background-color);
+    background-color: var(--ids-toolbar-formatter-color-background);
   }
 }

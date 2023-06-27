@@ -57,7 +57,7 @@
   display: flex;
   cursor: pointer;
   border: 1px solid transparent;
-  color: var(--ids-date-picker-picklist-item-text-color);
+  color: var(--ids-date-picker-picklist-item-color-text-default);
   padding-block: 1px;
   box-sizing: border-box;
   user-select: none;
@@ -72,8 +72,8 @@
   }
 
   &.is-selected {
-    color: var(--ids-date-picker-picklist-item-selected-text-color);
-    background-color: var(--ids-date-picker-picklist-item-selected-background-color);
+    color: var(--ids-date-picker-picklist-item-color-text-selected);
+    background-color: var(--ids-date-picker-picklist-item-color-background-selected);
 
     ids-text::part(text) {
       font-weight: 600;
@@ -81,8 +81,8 @@
   }
 
   &:focus {
-    border-color: var(--ids-date-picker-picklist-item-focus-border-color);
-    box-shadow: var(--ids-date-picker-picklist-item-focus-box-shadow);
+    border-color: var(--ids-date-picker-item-color-border-focus);
+    box-shadow: var(--ids-date-picker-item-shadow-focus);
     outline: none;
   }
 

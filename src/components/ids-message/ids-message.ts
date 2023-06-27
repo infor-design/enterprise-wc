@@ -161,7 +161,7 @@ export default class IdsMessage extends IdsModal {
   #refreshStatus(val: string): void {
     const header = this.container?.querySelector('.ids-modal-header');
     let icon = header?.querySelector<IdsIcon>('ids-icon');
-
+    val = val === 'warning' ? 'alert' : val;
     if (val && val !== MESSAGE_STATUSES[0]) {
       if (!icon) {
         header?.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${val}" class="ids-icon ids-message-status"></ids-icon>`);
@@ -186,6 +186,8 @@ export default class IdsMessage extends IdsModal {
   #setIconColor(iconEl: Element, thisStatus: string): void {
     const iconElClassList = iconEl.classList;
     MESSAGE_STATUSES.forEach((status) => {
+      thisStatus = thisStatus === 'alert' ? 'warning' : thisStatus;
+      status = status === 'alert' ? 'warning' : status;
       if (thisStatus !== 'none' && thisStatus === status) {
         iconElClassList.add(status);
       } else {

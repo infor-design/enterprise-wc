@@ -45,7 +45,7 @@ export default class IdsProcessStep extends Base {
           line?.setAttribute('hidden', '');
         } else if (this.status === 'started' || this.status === 'done') {
           // render the line, conditionally color it based on status
-          line?.style.setProperty('background-color', 'var(--ids-process-indicator-primary-color)');
+          line?.style.setProperty('background-color', 'var(--ids-process-indicator-color-primary)');
         }
       }
 

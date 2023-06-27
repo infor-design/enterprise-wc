@@ -12,8 +12,8 @@ $breakpoint-xs: 360px;
   -moz-osx-font-smoothing: grayscale;
 }
 
-$transition-length: var(--ids-transition-length);
-$transition-ease: var(--ids-transition-ease);
+$transition-length: var(--ids-motion-duration);
+$transition-ease: var(--ids-motion-ease);
 
 // vendor prefixed transitions for regular attributes (non-vendor prefixed)
 @mixin transition($transitions-list...) {

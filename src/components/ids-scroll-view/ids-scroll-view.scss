@@ -42,15 +42,15 @@
   // The circle buttons and states
   .circle-button {
     [icon] {
-      color: var(--ids-scroll-view-button-icon-color);
+      color: var(--ids-scroll-view-color-icon-default);
     }
 
     &.selected {
       [icon] {
-        color: var(--ids-scroll-view-button-selected-icon-color);
+        color: var(--ids-scroll-view-color-icon-selected);
 
         &::part(svg) {
-          fill: var(--ids-scroll-view-button-selected-icon-color);
+          fill: var(--ids-scroll-view-color-icon-selected);
         }
       }
     }

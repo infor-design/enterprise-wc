@@ -14,21 +14,34 @@
   display: none;
 }
 
+:host(:not([hidden])) {
+  display: block;
+}
+
+:host([animated][hidden]) {
+  animation: fadeOut var(--ids-motion-duration) var(--ids-motion-ease) forwards;
+}
+
+:host([animated]:not([hidden])) {
+  display: block;
+  animation: fadeIn var(--ids-motion-duration) var(--ids-motion-ease) forwards;
+}
+
 .ids-container {
-  background-color: var(--ids-body-background-color);
+  background-color: var(--ids-color-background-default);
   box-sizing: border-box;
-  color: var(--ids-text-color);
+  color: var(--ids-color-text);
   height: 100%;
   outline: none;
   overflow: auto;
-  padding: var(--ids-spacing-none);
+  padding: var(--ids-space-none);
   scroll-behavior: smooth;
-  transition: background-color var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
+  transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
   width: 100%;
 
   &.color-variant-alternate {
-    background-color: var(--ids-body-text-on-background-color);
-    color: var(--ids-color-on-text);
+    background-color: var(--ids-color-text-default);
+    color: var(--ids-color-text-inverse);
   }
 
   &[scrollable='false'] {
@@ -39,9 +52,9 @@
 // ids-app-menu pushes the container
 :host(.app-menu)::part(container) {
   @media (min-width: mixins.$breakpoint-md) {
-    margin-bottom: var(--ids-spacing-none);
-    transition: background-color var(--ids-transition-length) var(--ids-transition-ease), color var(--ids-transition-length) var(--ids-transition-ease);
-    transition: width var(--ids-transition-length) var(--ids-transition-ease), margin var(--ids-transition-length) var(--ids-transition-ease);
+    margin-bottom: var(--ids-space-none);
+    transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
+    transition: width var(--ids-motion-duration) var(--ids-motion-ease), margin var(--ids-motion-duration) var(--ids-motion-ease);
   }
 }
 
@@ -49,6 +62,39 @@
   @media (min-width: mixins.$breakpoint-md) {
     margin-inline-start: 300px;
     width: calc(100% - 300px);
-    transition: width var(--ids-transition-length) var(--ids-transition-ease), margin var(--ids-transition-length) var(--ids-transition-ease);
+    transition: width var(--ids-motion-duration) var(--ids-motion-ease), margin var(--ids-motion-duration) var(--ids-motion-ease);
+  }
+}
+
+// Animation
+@keyframes fadeIn {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+
+  1% {
+    display: block;
+  }
+
+  100% {
+    display: block;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    display: block;
+    opacity: 1;
+  }
+
+  99% {
+    display: block;
+  }
+
+  100% {
+    display: none;
+    opacity: 0;
   }
 }
