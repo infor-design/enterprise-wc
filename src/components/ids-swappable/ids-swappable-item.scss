@@ -1,13 +1,13 @@
 :host {
   font-family: var(--ids-swappable-item-font-family);
-  border: var(--ids-swappable-item-border);
-  cursor: var(--ids-swappable-item-cursor);
+  border: var(--ids-swappable-item-border-default);
+  cursor: var(--ids-swappable-item-cursor-default);
   display: block;
   transition: height 0.4s ease, padding 0.4s ease;
 }
 
 :host(:hover) {
-  background-color: var(--ids-swappable-item-hover-background-color);
+  background-color: var(--ids-swappable-item-color-background-hover);
   position: relative;
 
   &::before {
@@ -15,8 +15,8 @@
     left: 0;
     top: 50%;
     transform: translate(5px, -47%);
-    font-size: var(--ids-swappable-item-hover-before-font-size);
-    content: var(--ids-swappable-item-hover-before-content);
+    font-size: var(--ids-swappable-item-font-size-hover);
+    content: var(--ids-swappable-item-content-hover);
   }
 }
 
@@ -29,23 +29,23 @@
 }
 
 :host(:focus) {
-  border: var(--ids-swappable-item-focus-border);
-  box-shadow: var(--ids-swappable-item-focus-box-shadow);
-  outline: var(--ids-swappable-item-focus-outline);
+  border: var(--ids-swappable-item-border-focus);
+  box-shadow: var(--ids-swappable-item-shadow-focus);
+  outline: var(--ids-swappable-item-outline-focus);
 }
 
 :host([selected]) {
-  cursor: var(--ids-swappable-item-selected-cursor);
+  cursor: var(--ids-swappable-item-cursor-selected);
 }
 
 :host([dragging]) {
-  opacity: var(--ids-swappable-item-dragging-opacity);
+  opacity: var(--ids-swappable-item-opacity-dragging);
 }
 
 :host([dragging]:not(.slotted-ids-tab)),
 :host([selected]:not(.slotted-ids-tab)) {
-  background-color: var(--ids-swappable-item-selected-background-color);
-  color: var(--ids-swappable-item-selected-text-color);
+  background-color: var(--ids-swappable-item-color-background-selected);
+  color: var(--ids-swappable-item-color-text-selected);
 }
 
 :host([over]) {
@@ -53,14 +53,14 @@
 }
 
 :host(.p-8) {
-  padding-block: var(--ids-spacing-lg);
-  padding-inline-end: var(--ids-spacing-lg);
-  padding-inline-start: var(--ids-spacing-xxl);
+  padding-block: var(--ids-space-40);
+  padding-inline-end: var(--ids-space-40);
+  padding-inline-start: var(--ids-space-60);
 }
 
 :host(.is-hidden) {
-  height: var(--ids-spacing-none);
-  padding: var(--ids-spacing-none);
+  height: var(--ids-space-none);
+  padding: var(--ids-space-none);
   border: none;
   overflow: hidden;
 }
@@ -74,5 +74,5 @@
 }
 
 :host(.slotted-ids-tab:not(.orientation-vertical)) {
-  margin-inline-start: var(--ids-spacing-md);
+  margin-inline-start: var(--ids-space-30);
 }

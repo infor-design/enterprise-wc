@@ -1,9 +1,9 @@
 /* Ids List Box Component */
 :host {
-  color: var(--ids-dropdown-text-color);
+  color: var(--ids-dropdown-color-text-default);
   cursor: var(--ids-cursor-pointer);
   display: block;
-  font-family: var(--ids-font-family);
+  font-family: var(--ids-font-family-default);
   font-size: 16px;
   line-height: 36px;
   outline: none;
@@ -11,7 +11,7 @@
   padding: 0;
   text-indent: 8px;
   user-select: none;
-  min-width: calc(var(--ids-input-width-xs) - 2px);
+  min-width: calc(var(--ids-input-width-10) - 2px);
   max-width: 298px;
   text-transform: capitalize;
   text-overflow: ellipsis;
@@ -24,13 +24,13 @@
 
   ::slotted(ids-icon) {
     margin: 0;
-    margin-inline-start: var(--ids-dropdown-text-indent);
+    margin-inline-start: var(--ids-dropdown-space-text);
   }
 }
 
 :host(.is-selected:not(.multiselect-option)) {
-  background-color: var(--ids-dropdown-selected-background-color);
-  color: var(--ids-dropdown-selected-text-color);
+  background-color: var(--ids-dropdown-color-background-selected);
+  color: var(--ids-dropdown-color-text-selected);
 }
 
 :host(:hover:not(.is-selected):not([group-label]):not(.multiselect-option)),
@@ -38,17 +38,17 @@
 :host(.multiselect-option:focus),
 :host(.multiselect-option.is-selected),
 :host(.multiselect-option:hover) {
-  background-color: var(--ids-dropdown-hover-background-color);
+  background-color: var(--ids-dropdown-color-background-hover);
 }
 
 // Style Icons when in the list
 ::slotted(ids-icon) {
   vertical-align: middle;
-  margin: 0 var(--ids-dropdown-text-indent) 2px 0;
+  margin: 0 var(--ids-dropdown-space-text) 2px 0;
 }
 
 ::slotted(ids-icon[dir='rtl']) {
-  margin: 0 0 2px var(--ids-dropdown-text-indent);
+  margin: 0 0 2px var(--ids-dropdown-space-text);
 }
 
 ::slotted(ids-check-box) {
@@ -62,12 +62,12 @@
 // Group labels
 :host([group-label]) {
   cursor: var(--ids-cursor-default);
-  color: var(--ids-dropdown-group-text-color);
-  font-weight: var(--ids-font-weight-semi-bold);
+  color: var(--ids-dropdown-group-color-text);
+  font-weight: var(--ids-font-weight-semibold);
 }
 
 :host([group-label]:not(:first-child)),
 :host(.multiselect-border) {
-  border-top: 1px solid var(--ids-dropdown-group-border-color);
+  border-top: 1px solid var(--ids-dropdown-group-color-border);
   margin-top: var(--ids-dropdown-group-padding);
 }

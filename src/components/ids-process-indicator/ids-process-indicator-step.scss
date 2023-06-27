@@ -17,7 +17,7 @@
 
   // slotted text details
   ::slotted(ids-text) {
-    color: var(--ids-process-indicator-label-text-color);
+    color: var(--ids-process-indicator-color-text);
   }
 
   @media (min-width: $breakpoint-xs) {
@@ -30,7 +30,7 @@
     }
 
     .step {
-      margin-top: var(--ids-process-indicator-xs-step-margin-top);
+      margin-top: var(--ids-process-indicator-step-margin-top);
     }
   }
 
@@ -57,7 +57,7 @@
 .ids-process-indicator-step {
   ids-text {
     &::part(text) {
-      color: var(--ids-process-indicator-label-text-color);
+      color: var(--ids-process-indicator-color-text);
       margin: var(--ids-process-indicator-text-margin);
     }
 
@@ -70,9 +70,9 @@
   .line {
     position: absolute;
     transform: var(--ids-process-indicator-line-transform);
-    height: var(--ids-process-indicator-line-height);
+    height: var(--ids-process-indicator-font-line-height);
     width: 100%;
-    background-color: var(--ids-process-indicator-line-background-color);
+    background-color: var(--ids-process-indicator-line-color-background);
   }
 
   .step {
@@ -80,16 +80,16 @@
     transform: var(--ids-process-indicator-step-transform);
     height: var(--ids-process-indicator-step-height);
     width: var(--ids-process-indicator-step-width);
-    border-radius: var(--ids-process-indicator-step-border-radius);
-    background-color: var(--ids-process-indicator-bg-color);
-    border: 2px solid var(--ids-process-indicator-base-color);
+    border-radius: var(--ids-process-indicator-border-radius-step);
+    background-color: var(--ids-process-indicator-color-background);
+    border: 2px solid var(--ids-process-indicator-color);
   }
 }
 
 // step styling based on status
 :host([status='cancelled']) {
   .step {
-    background-color: var(--ids-process-indicator-cancelled-step-background-color);
+    background-color: var(--ids-process-indicator-canceled-step-color-background);
     width: 18px;
     height: 18px;
     border: 0;
@@ -98,21 +98,21 @@
     ids-icon {
       display: flex;
       justify-content: center;
-      color: var(--ids-process-indicator-cancelled-step-icon-color);
+      color: var(--ids-process-indicator-canceled-step-color-icon);
     }
   }
 }
 
 :host([status='done']) {
   .step {
-    border: var(--ids-process-indicator-done-border);
-    background-color: var(--ids-process-indicator-primary-color);
+    border: var(--ids-process-indicator-border-done);
+    background-color: var(--ids-process-indicator-color-primary);
   }
 }
 
 :host([status='started']) {
   .step {
-    border: var(--ids-process-indicator-started-border);
-    background-color: var(--ids-process-indicator-bg-color);
+    border: var(--ids-process-indicator-border-started);
+    background-color: var(--ids-process-indicator-color-background);
   }
 }

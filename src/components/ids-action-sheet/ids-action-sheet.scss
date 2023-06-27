@@ -1,8 +1,8 @@
 /* Ids Action Sheet */
 .ids-action-sheet-inner {
   align-items: center;
-  background-color: var(--ids-action-sheet-background-color);
-  border-color: var(--ids-action-sheet-border-color);
+  background-color: var(--ids-action-sheet-color-background);
+  border-color: var(--ids-action-sheet-color-border);
   display: flex;
   position: fixed;
   border-radius: var(--ids-action-sheet-border-radius);
@@ -14,8 +14,8 @@
   padding-block: var(--ids-action-sheet-padding);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  box-shadow: var(--ids-action-sheet-box-shadow);
-  transition: transform var(--ids-transition-length) var(--ids-transition-ease);
+  box-shadow: var(--ids-action-sheet-shadow);
+  transition: transform var(--ids-motion-duration) var(--ids-motion-ease);
 }
 
 :host([visible='true']) {
@@ -29,8 +29,8 @@
 }
 
 ids-button {
-  width: calc(100% - calc(var(--ids-spacing-lg) * 3));
-  margin-block-start: var(--ids-spacing-lg);
+  width: calc(100% - calc(var(--ids-space-40) * 3));
+  margin-block-start: var(--ids-space-40);
 
   span {
     display: block;

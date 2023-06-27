@@ -23,7 +23,7 @@
 
 // Responsive Pie
 .ids-pie-chart {
-  margin-block-end: var(--ids-spacing-xl);
+  margin-block-end: var(--ids-space-50);
   height: 100%;
   width: 100%;
 
@@ -64,9 +64,9 @@
 }
 
 .donut-text {
-  font-family: var(--ids-pie-chart-text-font-family);
-  font-size: var(--ids-pie-chart-text-font-size);
-  fill: var(--ids-pie-chart-text-fill);
+  font-family: var(--ids-chart-pie-font-family);
+  font-size: var(--ids-chart-pie-font-size);
+  fill: var(--ids-chart-pie-color-text);
   text-anchor: middle;
 }
 

@@ -18,11 +18,11 @@
   .group-label-text {
     &.required::after {
       position: absolute;
-      font-family: var(--ids-font-family);
+      font-family: var(--ids-font-family-default);
       margin-inline-start: 2px;
       margin-inline-end: 2px;
-      font-size: var(--ids-font-size-lg);
-      color: var(--ids-required-background-color);
+      font-size: var(--ids-font-size-50);
+      color: var(--ids-input-required-indicator-color-text-default);
       content: '*';
       right: -13px;
       top: -2px;
@@ -43,7 +43,7 @@
       @include radio-disabled-text();
 
       &.required::after {
-        color: var(--ids-required-disabled-background-color);
+        color: var(--ids-input-required-indicator-color-text-disabled);
       }
     }
   }

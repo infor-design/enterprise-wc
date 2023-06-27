@@ -57,8 +57,8 @@
   display: block;
   border-width: 1px 1px 0;
   border-style: solid;
-  background-color: var(--ids-calendar-toolbar-container-background-color);
-  border-color: var(--ids-calendar-toolbar-container-border-color);
+  background-color: var(--ids-calendar-toolbar-color-background);
+  border-color: var(--ids-calendar-toolbar-color-border);
   left: 0;
   top: 0;
   z-index: 4;
@@ -114,9 +114,9 @@ ids-accordion-panel::part(content) {
   padding: 0;
 
   .detail-item {
-    background-color: var(--ids-calendar-toolbar-container-background-color);
+    background-color: var(--ids-calendar-toolbar-color-background);
     border-style: solid;
-    border-color: var(--ids-calendar-toolbar-container-border-color);
+    border-color: var(--ids-calendar-toolbar-color-border);
     border-width: 1px;
     border-inline-start-width: 4px;
     cursor: pointer;

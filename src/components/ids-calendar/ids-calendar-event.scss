@@ -4,64 +4,64 @@
     border-inline-start-color: $color;
 
     &:focus {
-      border-inline-start-color: var(--ids-calendar-event-focus-border-color);
+      border-inline-start-color: var(--ids-calendar-event-color-border-focus);
     }
   }
 
   &:focus {
-    box-shadow: var(--ids-box-shadow-md);
-    border-color: var(--ids-calendar-event-focus-border-color);
+    box-shadow: var(--ids-shadow-20);
+    border-color: var(--ids-calendar-event-color-border-focus);
     outline: none;
   }
 }
 
 // Calendar Event Type Themes
 .ids-calendar-event:not([color]) {
-  @include event-border-accent(var(--ids-calendar-event-border-color));
+  @include event-border-accent(var(--ids-calendar-event-color-border-default));
 
-  background-color: var(--ids-calendar-event-background-color);
+  background-color: var(--ids-calendar-event-color-background);
 }
 
 .ids-calendar-event[color='azure'] {
-  @include event-border-accent(var(--ids-calendar-event-azure-border-color));
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-azuret-azure));
 
-  background-color: var(--ids-calendar-event-azure-background-color);
+  background-color: var(--ids-calendar-event-color-background-accent-azure);
 }
 
 .ids-calendar-event[color='amber'] {
-  @include event-border-accent(var(--ids-calendar-event-amber-border-color));
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-amber));
 
-  background-color: var(--ids-calendar-event-amber-background-color);
+  background-color: var(--ids-calendar-event-color-background-accent-amber);
 }
 
 .ids-calendar-event[color='amethyst'] {
-  @include event-border-accent(var(--ids-calendar-event-amethyst-border-color));
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-amethyst));
 
-  background-color: var(--ids-calendar-event-amethyst-background-color);
+  background-color: var(--ids-calendar-event-color-background-accent-amethyst);
 }
 
 .ids-calendar-event[color='emerald'] {
-  @include event-border-accent(var(--ids-calendar-event-emerald-border-color));
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-emerald));
 
-  background-color: var(--ids-calendar-event-emerald-background-color);
+  background-color: var(--ids-calendar-event-color-background-accent-emerald);
 }
 
 .ids-calendar-event[color='ruby'] {
-  @include event-border-accent(var(--ids-calendar-event-ruby-border-color));
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-ruby));
 
-  background-color: var(--ids-calendar-event-ruby-background-color);
+  background-color: var(--ids-calendar-event-color-background-accent-ruby);
 }
 
 .ids-calendar-event[color='turquoise'] {
-  @include event-border-accent(var(--ids-calendar-event-turquoise-border-color));
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-turqoise));
 
-  background-color: var(--ids-calendar-event-turquoise-background-color);
+  background-color: var(--ids-calendar-event-color-background-accent-turqoise);
 }
 
 .ids-calendar-event[color='slate'] {
-  @include event-border-accent(var(--ids-calendar-event-slate-border-color));
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-slate));
 
-  background-color: var(--ids-calendar-event-slate-background-color);
+  background-color: var(--ids-calendar-event-color-background-accent-slate);
 }
 
 .ids-calendar-event {
@@ -69,10 +69,10 @@
   box-sizing: border-box;
   width: 100%;
   z-index: 1;
-  background: var(--ids-calendar-event-background-color);
+  background: var(--ids-calendar-event-color-background);
   border: 1px solid transparent;
   border-radius: 3px;
-  color: var(--ids-calendar-event-text-color);
+  color: var(--ids-calendar-event-color-text);
   height: 20px;
   overflow: hidden;
   text-decoration: none;
@@ -94,19 +94,19 @@
     vertical-align: bottom;
 
     &[icon='success-alert'] {
-      color: var(--ids-calendar-event-icon-success-color);
+      color: var(--ids-calendar-event-color-icon-success);
     }
 
     &[icon='alert-alert'] {
-      color: var(--ids-calendar-event-icon-alert-color);
+      color: var(--ids-calendar-event-color-icon-alert);
     }
 
     &[icon='clock'] {
-      color: var(--ids-calendar-event-icon-clock-color);
+      color: var(--ids-calendar-event-color-icon-clock);
     }
 
     &[icon='pending'] {
-      color: var(--ids-calendar-event-icon-pending-color);
+      color: var(--ids-calendar-event-color-icon-pending);
     }
   }
 

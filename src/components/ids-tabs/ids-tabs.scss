@@ -45,7 +45,7 @@
 }
 
 .ids-tabs-container:not(.orientation-vertical):not([class*='color-variant-']) {
-  border-bottom: 1px solid var(--ids-color-neutral-30);
+  border-bottom: 1px solid var(--ids-tab-color-border-bottom);
 }
 
 // Module Tabs

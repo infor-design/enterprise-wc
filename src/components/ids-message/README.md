@@ -10,7 +10,7 @@ The IdsMessage Component provides a quick interface for displaying an applicatio
 
 ## Terminology
 
-**Status** Indicates whether the message is normal (default), error, alert, success, or informative
+**Status** Indicates whether the message is normal (default), error, warning, success, or informative
 
 ## Attributes and Properties
 

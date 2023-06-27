@@ -16,8 +16,8 @@
 
     ids-input {
       &::part(input) {
-        background-color: var(--ids-list-builder-input-background-color);
-        border-width: var(--ids-list-builder-input-border-width);
+        background-color: var(--ids-list-builder-color-background);
+        border-width: var(--ids-list-builder-border-width);
         height: var(--ids-list-builder-input-height);
         padding: var(--ids-list-builder-input-padding);
       }
@@ -30,7 +30,7 @@
     div[part='list-item'] {
       border: var(--ids-list-builder-item-border);
       padding: var(--ids-list-builder-item-padding);
-      min-height: var(--ids-list-builder-item-min-height);
+      min-height: var(--ids-list-builder-item-height-min);
       height: var(--ids-list-builder-item-height);
       list-style-type: none;
       box-sizing: border-box;
@@ -42,9 +42,9 @@
         position: absolute;
         left: 0;
         transform: translate(100%, -8%);
-        font-size: var(--ids-list-builder-item-drag-handle-font-size);
-        content: var(--ids-list-builder-item-drag-handle-content);
-        cursor: var(--ids-list-builder-item-drag-handle-cursor);
+        font-size: var(--ids-list-builder-item-font-size-drag);
+        content: var(--ids-list-builder-drag-content);
+        cursor: var(--ids-list-builder-item-cursor-drag);
       }
 
       ids-text::part(text) {
@@ -53,7 +53,7 @@
       }
 
       &.placeholder {
-        background-color: var(--ids-list-builder-item-placeholder-background-color);
+        background-color: var(--ids-list-builder-item-color-background-placeholder);
         opacity: var(--ids-list-builder-item-placeholder-opacity);
       }
     }

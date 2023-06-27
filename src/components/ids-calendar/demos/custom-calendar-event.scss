@@ -10,7 +10,7 @@
 
   &:focus {
     border-color: var(--ids-color-azure-60);
-    box-shadow: var(--ids-focus-box-shadow);
+    box-shadow: var(--ids-shadow-focus);
     outline: none;
   }
 }
