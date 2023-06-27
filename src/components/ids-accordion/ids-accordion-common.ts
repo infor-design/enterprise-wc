@@ -1,5 +1,9 @@
 export const ALIGNMENT_TYPES = ['has-icon'];
 
+export type IdsAccordionTextDisplay = ['default', 'tooltip', 'hidden'];
+
+export const DISPLAY_TEXT_TYPES = ['default', 'tooltip', 'hidden'];
+
 export const applyContentAlignmentClass = (
   cl: { contains: (arg0: string) => any; remove: (arg0: string) => void; add: (arg0: string) => void; },
   thisAlignment: string | null
@@ -21,3 +25,9 @@ export const applyContentAlignmentClass = (
 export const refreshRTLStyle = (cl: DOMTokenList, val: boolean): void => {
   cl[val ? 'add' : 'remove']('rtl');
 };
+
+/**
+ * @param {string} val incoming text display type
+ * @returns {boolean} true if the text display is valid
+ */
+export const isValidTextDisplay = (val: string) => DISPLAY_TEXT_TYPES.includes(val);

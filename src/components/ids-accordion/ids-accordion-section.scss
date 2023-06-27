@@ -1,0 +1,15 @@
+/* Ids Accordion Section Component */
+
+:host {
+  display: block;
+}
+
+:host([pinned]) {
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-grow: 1;
+}
+
+.ids-accordion-section {
+  display: block;
+}

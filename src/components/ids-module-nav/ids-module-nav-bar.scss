@@ -38,6 +38,12 @@
     }
   }
 
+  &:not(.display-mode-expanded) {
+    .accordion-header .ids-text {
+      @include audible();
+    }
+  }
+
   // =====================================================
   // Display Mode: Collapsed/Expanded
 
@@ -49,8 +55,9 @@
 
     &:not(.show-detail) {
       .ids-module-nav-bar-detail {
-        pointer-events: none;
-        width: 0;
+        display: none;
+        // pointer-events: none;
+        // width: 0;
       }
     }
 

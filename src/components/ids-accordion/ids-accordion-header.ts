@@ -10,6 +10,7 @@ import IdsElement from '../../core/ids-element';
 import styles from './ids-accordion-header.scss';
 import type IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
+import IdsAccordionTextDisplayMixin from './ids-accordion-text-display-mixin';
 
 // Expander Types
 const EXPANDER_TYPES = ['caret', 'plus-minus'];
@@ -21,9 +22,11 @@ const DEFAULT_ICON_OFF = 'caret-down';
 const ICON_MINUS = 'plusminus-folder-closed';
 const ICON_PLUS = 'plusminus-folder-open';
 
-const Base = IdsColorVariantMixin(
-  IdsEventsMixin(
-    IdsElement
+const Base = IdsAccordionTextDisplayMixin(
+  IdsColorVariantMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
   )
 );
 
@@ -61,14 +64,15 @@ export default class IdsAccordionHeader extends Base {
       attributes.EXPANDER_TYPE,
       attributes.HIDDEN_BY_FILTER,
       attributes.ICON,
-      attributes.SELECTED
+      attributes.SELECTED,
+      attributes.TEXT_DISPLAY
     ];
   }
 
   /**
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['app-menu', 'sub-app-menu'];
+  colorVariants = ['app-menu', 'sub-app-menu', 'module-nav'];
 
   /**
    * Inner template contents
@@ -92,6 +96,14 @@ export default class IdsAccordionHeader extends Base {
     return `
       <ids-icon class="ids-accordion-expander-icon" icon=${DEFAULT_ICON_OFF} part="expander-icon"></ids-icon>
     `;
+  }
+
+  /**
+   * @readonly
+   * @returns {IdsText | null} this Accordion Header's text node
+   */
+  get textNode(): IdsText | null {
+    return this.querySelector<IdsText>('ids-text, span');
   }
 
   /**
@@ -198,11 +210,14 @@ export default class IdsAccordionHeader extends Base {
    * @param {string} val the icon definition to apply
    */
   #refreshIconDisplay(val: string | any[] | null) {
-    const iconDef = typeof val === 'string' && val.length ? val : null;
+    const iconDef = typeof val === 'string' && val.length ? val : '';
     const iconElem = this.container?.querySelector<IdsIcon>('.ids-accordion-display-icon');
 
     if (iconElem) {
       iconElem.icon = iconDef;
+      this.container?.classList[iconDef.length ? 'add' : 'remove']('has-icon');
+    } else {
+      this.container?.classList.remove('has-icon');
     }
   }
 
@@ -241,7 +256,7 @@ export default class IdsAccordionHeader extends Base {
   #refreshSelected(isSelected: any) {
     this.container?.classList[isSelected ? 'add' : 'remove']('selected');
 
-    const textNode = this.querySelector<IdsText>('ids-text, span');
+    const textNode = this.textNode;
     if (textNode && this.colorVariant === 'app-menu') {
       textNode.fontWeight = isSelected ? 'bold' : null;
     }
@@ -371,5 +386,12 @@ export default class IdsAccordionHeader extends Base {
       this.removeAttribute(attributes.DISABLED);
       this.container?.classList.remove(attributes.DISABLED);
     }
+  }
+
+  onTextDisplayChange(val: string) {
+    console.info(`text display change from header: "${this.textContent?.trim() || ''}"`, val);
+    if (this.textNode) this.textNode.audible = val !== 'default';
+
+    // @TODO toggle tooltip
   }
 }

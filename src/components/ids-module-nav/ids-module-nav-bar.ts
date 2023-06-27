@@ -16,6 +16,7 @@ import type IdsAccordion from '../ids-accordion/ids-accordion';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
 import type IdsModuleNavContent from './ids-module-nav-content';
+import IdsText from '../ids-text/ids-text';
 
 const CONTAINER_OPEN_CLASS = 'module-nav-is-open';
 
@@ -47,6 +48,8 @@ export default class IdsModuleNavBar extends Base {
     if (this.visible && !this.displayMode) this.displayMode = 'collapsed';
 
     this.#connectSearchField();
+    this.#connectAccordion();
+
     this.#refreshVariants();
     this.#attachEventHandlers();
   }
@@ -126,7 +129,7 @@ export default class IdsModuleNavBar extends Base {
    * @returns {IdsAccordion} reference to an optionally-slotted IdsAccordion element
    */
   get accordion(): IdsAccordion | null {
-    return this.querySelector<IdsAccordion>(`ids-accordion:not([slot])`);
+    return this.querySelector<IdsAccordion>(`ids-accordion`);
   }
 
   /**
@@ -173,11 +176,12 @@ export default class IdsModuleNavBar extends Base {
   }
 
   /**
-   * Attaches a slotted IdsSearchField component to the app menu
+   * Attaches a slotted IdsSearchField component to the Module Nav
    */
   #connectSearchField() {
     const searchfield = this.querySelector<IdsSearchField>('ids-search-field[slot="search"]');
     if (searchfield) {
+      searchfield.colorVariant = 'module-nav';
       searchfield.onSearch = (value: string) => {
         if (value !== '') {
           return this.filterAccordion(value);
@@ -188,6 +192,21 @@ export default class IdsModuleNavBar extends Base {
       };
       this.offEvent('cleared.search');
       this.onEvent('cleared.search', searchfield, () => this.clearFilterAccordion());
+    }
+  }
+
+  #getTargetTextDisplay() {
+    return this.displayMode !== 'expanded' ? 'tooltip' : 'default';
+  }
+
+  /**
+   * Attaches a slotted IdsAccordion component to the Module Nav
+   */
+  #connectAccordion() {
+    const accordion = this.accordion;
+    if (accordion) {
+      accordion.colorVariant = 'module-nav';
+      accordion.textDisplay = this.#getTargetTextDisplay();
     }
   }
 
@@ -212,6 +231,7 @@ export default class IdsModuleNavBar extends Base {
   onDisplayModeChange(currentValue: string | false, newValue: string | false): void {
     this.visible = (newValue !== false);
     if (this.content) this.content.displayMode = this.displayMode;
+    if (this.accordion) this.accordion.textDisplay = this.#getTargetTextDisplay();
   }
 
   /**

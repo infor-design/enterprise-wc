@@ -63,7 +63,7 @@ export default class IdsAccordionPanel extends Base {
   /**
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants: any = ['app-menu', 'sub-app-menu'];
+  colorVariants: any = ['app-menu', 'sub-app-menu', 'module-nav'];
 
   /**
    * Create a unique title for each accordion pane

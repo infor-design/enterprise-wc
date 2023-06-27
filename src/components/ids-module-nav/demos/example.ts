@@ -1,6 +1,10 @@
 import '../../ids-accordion/ids-accordion';
+import '../../ids-accordion/ids-accordion-section';
+import '../../ids-accordion/ids-accordion-header';
+import '../../ids-accordion/ids-accordion-panel';
 import '../../ids-dropdown/ids-dropdown';
 import '../../ids-header/ids-header';
+import '../../ids-icon/ids-icon';
 import '../../ids-search-field/ids-search-field';
 import '../../ids-toolbar/ids-toolbar';
 import '../../ids-toolbar/ids-toolbar-section';

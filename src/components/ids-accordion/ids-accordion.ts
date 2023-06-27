@@ -7,19 +7,28 @@ import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
+import IdsAccordionTextDisplayMixin from './ids-accordion-text-display-mixin';
 
 import './ids-accordion-header';
 import './ids-accordion-panel';
 import styles from './ids-accordion.scss';
 
+import type IdsAccordionSection from './ids-accordion-section';
 import type IdsAccordionHeader from './ids-accordion-header';
 import type IdsAccordionPanel from './ids-accordion-panel';
+import {
+  IdsAccordionTextDisplay,
+  isValidTextDisplay,
+  DISPLAY_TEXT_TYPES
+} from './ids-accordion-common';
 
-const Base = IdsColorVariantMixin(
-  IdsKeyboardMixin(
-    IdsLocaleMixin(
-      IdsEventsMixin(
-        IdsElement
+const Base = IdsAccordionTextDisplayMixin(
+  IdsColorVariantMixin(
+    IdsKeyboardMixin(
+      IdsLocaleMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
       )
     )
   )
@@ -77,7 +86,7 @@ export default class IdsAccordion extends Base {
   /**
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['app-menu'];
+  colorVariants = ['app-menu', 'module-nav'];
 
   /**
    * When the accordion's color variant is set, push this change through to the child elements
@@ -108,6 +117,14 @@ export default class IdsAccordion extends Base {
       }
     }
   });
+
+  /**
+   * @readonly
+   * @returns {Array<IdsAccordionSection>} all accordion sections in a flattened array
+   */
+  get sections(): Array<IdsAccordionSection> {
+    return [...this.querySelectorAll<IdsAccordionSection>('ids-accordion-section')];
+  }
 
   /**
    * @readonly
@@ -183,6 +200,16 @@ export default class IdsAccordion extends Base {
 
     this.panels.forEach((panel) => {
       panel.disabled = disabled;
+    });
+  }
+
+  /**
+   * Inherited from IdsAccordionTextDisplayMixin
+   * @param {string} val text display type
+   */
+  onTextDisplayChange(val: string) {
+    this.headers.forEach((header) => {
+      header.textDisplay = val;
     });
   }
 
