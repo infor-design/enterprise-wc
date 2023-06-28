@@ -1991,6 +1991,14 @@ export default class IdsDataGrid extends Base {
    */
   selectRow(index: number, triggerEvent = true) {
     const row = this.rowByIndex(index);
+
+    // If virtual scroll and row not in DOM, just save state in data
+    if (this.virtualScroll && !row && this.data[index]) {
+      if (this.rowSelection === 'single') this.deSelectAllRows();
+      this.updateDataset(index, { rowSelected: true });
+      return;
+    }
+
     if (!row) return;
 
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
@@ -2006,12 +2014,12 @@ export default class IdsDataGrid extends Base {
       radio?.setAttribute('aria-checked', 'true');
     }
 
-    if (!row) return;
-
+    this.updateDataset(index, { rowSelected: true });
     row.selected = true;
 
-    this.updateDataset(Number(row?.getAttribute('data-index')), { rowSelected: true });
-    if ((this.rowSelection === 'single' || this.rowSelection === 'multiple') && row) row.updateCells(index);
+    if ((this.rowSelection === 'single' || this.rowSelection === 'multiple') && row) {
+      row.updateCells(index);
+    }
 
     if (triggerEvent) {
       this.triggerEvent('rowselected', this, {
@@ -2032,6 +2040,13 @@ export default class IdsDataGrid extends Base {
    */
   deSelectRow(index: number, triggerEvent = true) {
     const row = this.rowByIndex(index);
+
+    // If virtual scroll and row not in DOM, just save state in data
+    if (this.virtualScroll && !row && this.data[index]) {
+      this.updateDataset(index, { rowSelected: false });
+      return;
+    }
+
     if (!row) return;
 
     if (this.rowSelection === 'mixed') {
@@ -2052,7 +2067,7 @@ export default class IdsDataGrid extends Base {
       radio?.setAttribute('aria-checked', 'false');
     }
 
-    this.updateDataset(row.rowIndex, { rowSelected: undefined });
+    this.updateDataset(index, { rowSelected: false });
 
     if (triggerEvent) {
       this.triggerEvent('rowdeselected', this, {

@@ -9,7 +9,7 @@ Infor Design System Enterprise Web Components Library is a framework independent
 
 ## Key Features
 
-- Multiple themes, including a WCAG 2.0 AAA compatible high-contrast theme
+- Three themes, including a WCAG 2.0 AAA compatible high-contrast theme and ability to theme anything
 - Responsive components, patterns and layouts
 - Touch-friendly interactions
 - SVG-based iconography for high DPI screens and scaling
@@ -24,8 +24,9 @@ Infor Design System Enterprise Web Components Library is a framework independent
 - Fully Namespaced with an `ids-` namespace
 - We Follow the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki)
 - Includes types for typescript users
-- Every component has the CSS and DOM Encapsulated
-- 100+ Components convert
+- Every component has the CSS and DOM Encapsulation
+- 100+ Components
+- Includes Visual Code and [standard schemas](https://github.com/webcomponents/custom-elements-manifest)
 
 ## Browser Support
 
@@ -60,6 +61,26 @@ npm run start
 
 - For each component see the `.md` file in the relevant [component folder](https://github.com/infor-design/enterprise-wc/tree/main/src)
 - See the [Change Log](doc/CHANGELOG.md) for info on breaking changes as well more info in each individual component
+- See the [Examples in popular frameworks](https://github.com/infor-design/enterprise-wc-examples) for examples and notes on using these in several frameworks
+
+## Usage for Code Hinting
+
+The npm package ships with a file called `vscode.html-custom-data.json`. The file describes the custom elements and their settings for use in Visual Studio Code to provide “IntelliSense”. To enable it, you just need to tell VS Code where the file is.
+
+1. As per above, install with `npm install --save ids-enterprise-wc@latest`
+1. Create a folder called `.vscode` at the root of your project
+1. Create a file inside that folder called `settings.json`
+1. Add the following setting to the file.
+
+```json
+{
+  "html.customData": ["./node_modules/ids-enterprise-wc/vscode.html-custom-data.json"]
+}
+```
+
+You may need to restart VS Code for the changes to take affect.
+
+Most popular editors support custom code completion with different configurations. Please [submit a feature request and/or pull request](https://github.com/infor-design/enterprise-wc/issues/new/choose) if you want to add your editor.
 
 ## Contributing
 
