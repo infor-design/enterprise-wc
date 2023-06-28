@@ -1868,6 +1868,17 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Update the dataset and refresh
+   * @param {number} row the parent row that was clicked
+   * @param {Record<string, unknown>} data the data to apply to the row
+   * @param {boolean} isClear do not keep current data
+   */
+  updateDatasetAndRefresh(row: number, data: Record<string, unknown>, isClear?: boolean) {
+    this.updateDataset(row, data, isClear);
+    this.rowByIndex(row)?.refreshRow();
+  }
+
+  /**
    * Find the parent id based on the cached props
    * @param {Array<Record<string, any>>} data the parent row that was clicked
    * @param {string} parentIds the string "1 2" of indexes
