@@ -783,6 +783,11 @@ export default class IdsDataGrid extends Base {
       return true;
     });
 
+    this.offEvent('keydown.body', this.header);
+    this.onEvent('keydown.body', this.header, () => {
+      this.activeCell = {};
+    });
+
     // Enter Edit by typing
     this.offEvent('keydown.body', this);
     this.onEvent('keydown.body', this, (e: KeyboardEvent) => {
