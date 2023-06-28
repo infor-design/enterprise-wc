@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.13 Fixes
 
+- `[Build]` Added custom-elements schema data and visual code schema data for intellisense. ([#1010](https://github.com/infor-design/enterprise-wc/issues/1010))
 - `[Button]` Fixed a bug on static width buttons. ([#1334](https://github.com/infor-design/enterprise-wc/issues/1334))
 - `[Button]` Updated slate colors from the design team. ([#7624](https://github.com/infor-design/enterprise/issues/7624))
 - `[Colors]` Added new slate color palette with lower range colors. Some elements are updated. ([#7624](https://github.com/infor-design/enterprise/issues/7624))
