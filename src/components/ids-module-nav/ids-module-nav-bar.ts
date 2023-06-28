@@ -164,11 +164,20 @@ export default class IdsModuleNavBar extends Base {
         if (this.displayMode) this.displayMode = false;
       }
     });
+
+    // Listen for accordion panes attempting to expand
+    // and stop them while in Module Nav Collapsed Mode
+    this.onEvent('beforeexpand.accordion', this, (e) => {
+      const canExpand = this.displayMode === 'expanded';
+      console.info('beforeexpand cancelled?', canExpand);
+      return e.detail.response(canExpand);
+    });
   }
 
   #detachEventHandlers() {
     this.offEvent('show.module-nav-show');
     this.offEvent('hide.module-nav-hide');
+    this.offEvent('beforeexpand.accordion');
   }
 
   #clearContainer() {
