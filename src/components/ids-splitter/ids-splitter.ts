@@ -87,7 +87,6 @@ export default class IdsSplitter extends Base {
   static get attributes(): Array<string> {
     return [
       ...super.attributes,
-      attributes.ALIGN,
       attributes.AXIS,
       attributes.DISABLED,
       attributes.LABEL,
@@ -102,7 +101,7 @@ export default class IdsSplitter extends Base {
    * @returns {string} The template
    */
   template(): string {
-    const cssClass = ` class="ids-splitter axis-${this.axis}`;
+    const cssClass = ` class="ids-splitter axis-${this.axis}"`;
     const disabled = this.disabled ? ' disabled' : '';
     return `
       <div part="splitter" role="presentation"${cssClass}${disabled}>
@@ -702,6 +701,7 @@ export default class IdsSplitter extends Base {
     this.#panes.forEach((pane, i) => {
       if (i > 0) {
         const splitBar = this.container?.querySelector(`#${this.#splitId(i)}`);
+
         const zIdx = i - 1;
         const start: any = {
           pane: this.#panes[zIdx],
@@ -740,7 +740,9 @@ export default class IdsSplitter extends Base {
    */
   #positionSplitBars(): object {
     const s = { min: 0, mid: 0, max: 0 };
-    const { minTransform, maxTransform, translate, useRTL } = this.#prop; // eslint-disable-line
+    const {
+      minTransform, maxTransform, translate, useRTL
+    } = this.#prop;
     const single = this.#maxSizes.length === 1;
 
     this.#panes.forEach((pane, i) => {
