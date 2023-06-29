@@ -223,7 +223,7 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
         y: this.axis !== 'x' ? dragOffset.y : 0
       };
 
-      this.triggerEvent('ids-dragstart', this, {
+      this.triggerEvent('dragstart', this, {
         detail: {
           mouseX: e.x,
           mouseY: e.y,
@@ -417,6 +417,8 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
 
       eventDetail.mouseX = e.x;
       eventDetail.mouseY = e.y;
+      eventDetail.clientX = e.clientX;
+      eventDetail.clientY = e.clientY;
       eventDetail.dragDeltaX = dragDeltaX;
       eventDetail.dragDeltaY = dragDeltaY;
       eventDetail.translateX = translateX;
@@ -430,14 +432,14 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
 
     eventDetail.originalEvent = e;
 
-    this.triggerEvent('ids-drag', this, { detail: eventDetail });
+    this.triggerEvent('drag', this, { detail: eventDetail });
   };
 
   onMouseUp: any = (e: any) => {
     if (this.isDragging) {
       this.isDragging = false;
       const translatePoint = getElTranslatePoint(this);
-      this.triggerEvent('ids-dragend', this, {
+      this.triggerEvent('dragend', this, {
         detail: {
           mouseX: e.x,
           mouseY: e.y,

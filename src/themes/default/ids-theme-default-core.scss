@@ -1030,11 +1030,15 @@
   --ids-slider-track-progress-color-background-readonly: var(--ids-color-neutral-50);
 
   // Splitter
-  --ids-splitter-bar-border-color: var(--ids-color-neutral-30);
-  --ids-splitter-bar-color-border-dragging: var(--ids-color-primary);
-  --ids-splitter-bar-shadow-dragging: var(--ids-shadow-20);
-  --ids-splitter-bar-color-background-hover: var(--ids-color-neutral-20);
-  --ids-splitter-bar-width: var(--ids-size-10);
+  --ids-splitter-bar-color-border: var(--ids-color-neutral-30);
+  --ids-splitter-bar-color-border-hover: var(--ids-color-neutral-30);
+  --ids-splitter-bar-color-border-dragging: var(--ids-color-azure-30);
+  --ids-splitter-bar-buffer-width: 8px;
+  --ids-splitter-bar-width: 1px;
+  --ids-splitter-handle-border-radius: var(--ids-border-radius-02);
+  --ids-splitter-handle-height: 32px;
+  --ids-splitter-handle-width: 6px;
+  --ids-splitter-handle-color-background-hover: var(--ids-color-azure-60);
 
   // Step Chart
   --ids-step-chart-margin: var(--ids-space-60);
@@ -1043,7 +1047,6 @@
   --ids-step-chart-color-background-default: var(--ids-color-neutral-20);
   --ids-step-chart-color-background-complete: var(--ids-color-primary);
   --ids-step-chart-step-disabled-color: var(--ids-color-text-disabled);
-
 
   // Swappable
   --ids-swappable-border: 1px dashed transparent;

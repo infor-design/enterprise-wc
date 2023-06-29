@@ -26,6 +26,7 @@ $grid-margin-sm: $spacing-unit * 2;
 $grid-margin-md: $spacing-unit * 3;
 $grid-margin-lg: $spacing-unit * 4;
 $grid-margin-xl: $spacing-unit * 5;
+$grid-padding-xxs: calc($spacing-unit / 2);
 $grid-padding-xs: $spacing-unit;
 $grid-padding-sm: $spacing-unit * 2;
 $grid-padding-md: $spacing-unit * 3;
@@ -177,6 +178,11 @@ $max-row-height: var(--max-row-height);
 :host([padding-y='xs']),
 .#{$prefix}.#{$prefix}-padding-y-xs {
   padding-block: $grid-padding-xs;
+}
+
+:host([padding-y='xxs']),
+.#{$prefix}.#{$prefix}-padding-y-xxs {
+  padding-block: $grid-padding-xxs;
 }
 
 :host([padding-y='sm']),

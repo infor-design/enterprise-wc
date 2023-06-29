@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="0" hidden>
+    <ids-splitter>
+      <ids-splitter-pane size="25%">
+        <ids-list-view item-height="76" selectable="single">
+          <template>
+            <ids-text font-size="16" type="h2" font-weight="semi-bold">${name}</ids-text>
+            <ids-layout-grid cols="1" padding-y="xxs">
+              <ids-layout-grid-cell>
+                <ids-text font-size="16" type="span">${type}</ids-text>
+                <ids-text font-size="14" type="span">${location}</ids-text>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+          </template>
+        </ids-list-view>
+      </ids-splitter-pane>
+      <ids-splitter-pane>
+        <ids-layout-grid cols="1" padding="xs">
+          <ids-layout-grid-cell>
+            <ids-layout-flex justify-content="flex-end">
+              <ids-layout-flex-item>
+                <ids-theme-switcher mode="light"></ids-theme-switcher>
+               </ids-layout-flex-item>
+            </ids-layout-flex>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+      </ids-splitter-pane>
+    </ids-splitter>
+  </ids-container>
+</body>
+</html>

@@ -430,7 +430,10 @@
   --ids-slider-track-progress-color-background-readonly: var(--ids-color-neutral-40);
 
   // Splitter
-  --ids-splitter-bar-color-background-hover: var(--ids-color-neutral-70);
+  --ids-splitter-bar-color-border: var(--ids-color-neutral-70);
+  --ids-splitter-bar-color-border-hover: var(--ids-color-neutral-70);
+  --ids-splitter-bar-color-border-dragging: var(--ids-color-azure-30);
+  --ids-splitter-handle-color-background-hover: var(--ids-color-azure-60);
 
   // Step Chart
   --ids-step-chart-color-background-default: var(--ids-color-neutral-70);

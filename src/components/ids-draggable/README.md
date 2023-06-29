@@ -82,7 +82,7 @@ A draggable component which is draggable only by a specific handle on the tab (n
 
 ## Accessibility
 
-- Wherever possible, it would be worth adding some visual indicator that content is dragged (this can be done using the `is-dragging` attribute or listening on `ids-dragstart` and `ids-dragend` callbacks).
+- Wherever possible, it would be worth adding some visual indicator that content is dragged (this can be done using the `is-dragging` attribute or listening on `dragstart` and `dragend` events).
 - if you have text that should be readable, where a minimum width or height is needed, or if it affects presentation, but sure to set reasonable `{min|max}-xform-{x|y}` attributes to restrict the amount of offset on a draggable.
 - It is good to keep in mind that draggable content may present issues for people with visual impairments, and so things such as scrollability and typical keyboard
 navigation should all function as normal in the case where a user is browsing content that may have resize handles or other draggability aspects.
@@ -99,7 +99,7 @@ navigation should all function as normal in the case where a user is browsing co
 - The Draggable can be contained to the first measurable parent's rectangle bounds by adding the
 flag `parent-container`.
 - A handle within the draggable content can be set by using the attribute `handle` as a query selector e.g. `handle=".custom-handle-class"`.
-- Draggable events to listen for are now `ids-dragstart`, `ids-drag`, and `ids-dragend`.
+- Draggable events to listen for are now `dragstart`, `drag`, and `dragend`.
 - Can now be imported as a single JS file and used with encapsulated styles
 - `ids-draggable` replaces `drag`
 - `ids-swapabble` replaces `arrange`
