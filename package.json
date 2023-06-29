@@ -11,6 +11,7 @@
     "doc": "doc",
     "example": "demos"
   },
+  "customElements": "custom-elements.json",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/infor-design/enterprise-wc.git"
@@ -19,12 +20,13 @@
     "url": "https://github.com/infor-design/enterprise-wc/issues"
   },
   "scripts": {
-    "build:dist": "npx rimraf build/dist/development && npx tsc && node scripts/esbuild-prod.mjs",
-    "build:dist:prod": "npx rimraf build/dist/production && npx tsc && node scripts/esbuild-prod.mjs --mode production",
-    "build": "npx rimraf build/dist/development && node --max-old-space-size=8192 node_modules/webpack/bin/webpack --config ./webpack.config.dev.js",
+    "build:dist": "npx rimraf build/dist/development && npm run build:schemas && npx tsc && node scripts/esbuild-prod.mjs",
+    "build:dist:prod": "npx rimraf build/dist/production && npm run build:schemas && npx tsc && node scripts/esbuild-prod.mjs --mode production",
+    "build": "npx rimraf build/dist/development && npm run build:schemas && node --max-old-space-size=8192 node_modules/webpack/bin/webpack --config ./webpack.config.dev.js",
     "build:coverage": "npx rimraf build/dist/development && node --max-old-space-size=8192 node_modules/webpack/bin/webpack --config ./webpack.config.dev.js --env coverage",
     "build:demos:prod": "webpack --config ./webpack.config.dev.js --mode production",
     "build:demos:verbose": "npx webpack --config ./webpack.config.dev.js --progress profile",
+    "build:schemas": "npx cem analyze",
     "build:stats": "npx rimraf build/dist/production && npx webpack --config ./webpack.config.dist.js --mode production",
     "copy-static:dev": "cp -f package-dist.json build/dist/development/package.json && cp -f README.md build/dist/development && cp -f LICENSE build/dist/development",
     "copy-static:prod": "cp -f package-dist.json build/dist/production/package.json && cp -f README.md build/dist/production && cp -f LICENSE build/dist/production",
@@ -52,6 +54,7 @@
     "@axe-core/puppeteer": "^4.7.1",
     "@babel/eslint-parser": "^7.21.8",
     "@babel/preset-env": "^7.21.5",
+    "@custom-elements-manifest/analyzer": "^0.8.3",
     "@percy/cli": "1.18.0",
     "@percy/puppeteer": "2.0.2",
     "@types/jest": "29.5.1",
@@ -60,6 +63,7 @@
     "@types/puppeteer": "^5.4.7",
     "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@typescript-eslint/parser": "^5.59.7",
+    "cem-plugin-vs-code-custom-data-generator": "^1.4.1",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.4",
     "esbuild": "^0.17.19",
