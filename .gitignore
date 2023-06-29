@@ -27,3 +27,5 @@ report.*.json
 apidocs
 docs
 docs.zip
+custom-elements.json
+vscode.html-custom-data.json
