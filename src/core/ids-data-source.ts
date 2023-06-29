@@ -179,11 +179,24 @@ class IdsDataSource {
   #unFlattenData(data: Record<string, any>) {
     if (!this.#flatten) return data;
 
+    const dataMap: Record<string, any> = {};
+    data.forEach((row: any) => {
+      dataMap[row?.id] = row;
+    });
+
     const newData = data.filter((row: Record<string, any>) => {
       delete row.ariaSetSize;
       delete row.ariaPosinset;
       const level = row.ariaLevel;
       delete row.ariaLevel;
+
+      dataMap[row.id] = row;
+
+      row.children?.forEach((child: any, idx: number) => {
+        // Persist child states
+        row.children[idx] = dataMap[child?.id];
+      });
+
       return level === 1;
     });
 
