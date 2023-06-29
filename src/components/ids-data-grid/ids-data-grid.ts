@@ -119,10 +119,10 @@ export default class IdsDataGrid extends Base {
   }
 
   /* Returns all the row elements in an array */
-  get rows() {
+  get rows(): IdsDataGridRow[] {
     // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
     if (!this.container) return [];
-    return [...this.container.querySelectorAll<HTMLElement>('.ids-data-grid-body ids-data-grid-row')];
+    return [...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row')];
   }
 
   /* Returns the outside wrapper element */
@@ -1510,12 +1510,12 @@ export default class IdsDataGrid extends Base {
     const firstRow: any = rows[0];
     const lastRow: any = rows[rows.length - 1];
     const firstRowIndex = firstRow.rowIndex;
-    const lastRowIndex = lastRow.rowIndex;
+    let lastRowIndex = lastRow.rowIndex;
 
     const isAboveFirstRow = rowIndex < firstRowIndex;
     const isBelowLastRow = rowIndex > lastRowIndex;
     const isInRange = !isAboveFirstRow && !isBelowLastRow;
-    const reachedTheBottom = lastRowIndex >= maxRowIndex;
+    let reachedTheBottom = lastRowIndex >= maxRowIndex;
 
     let bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
     bufferRowIndex = Math.max(bufferRowIndex, 0);
@@ -1560,11 +1560,14 @@ export default class IdsDataGrid extends Base {
     const bodyTranslateY = bufferRowIndex * virtualRowHeight;
     const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
 
+    lastRowIndex = this.rows.at(-1)?.rowIndex;
+    reachedTheBottom = lastRowIndex >= maxRowIndex;
+
     if (!reachedTheBottom) {
-      body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+      body.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
     }
 
-    body?.style.setProperty('padding-bottom', `${Math.max(bodyPaddingBottom, 0)}px`);
+    body.style.setProperty('padding-bottom', `${Math.max(bodyPaddingBottom, 0)}px`);
 
     if (doScroll) {
       container!.scrollTop = rowIndex * virtualRowHeight;
@@ -1602,13 +1605,13 @@ export default class IdsDataGrid extends Base {
     if (!rowCount || !rows.length) return;
     const data = this.data;
 
-    const bottomRow: any = rows[rows.length - 1];
+    const bottomRow = rows[rows.length - 1];
     const bottomRowIndex = bottomRow.rowIndex;
     const staleRows = rows.slice(0, rowCount);
-    const rowsToMove: any[] = [];
+    const rowsToMove: IdsDataGridRow[] = [];
 
     // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-    staleRows.every((row: any, idx) => {
+    staleRows.every((row: IdsDataGridRow, idx) => {
       const nextIndex = bottomRowIndex + (idx + 1);
       if (nextIndex >= data.length) return false;
       row.rowIndex = nextIndex;
@@ -1632,10 +1635,10 @@ export default class IdsDataGrid extends Base {
     const rows = this.rows;
     if (!rowCount || !rows.length) return;
 
-    const topRow: any = rows[0];
+    const topRow = rows[0];
     const topRowIndex = topRow.rowIndex;
     const staleRows = rows.slice((-1 * rowCount));
-    const rowsToMove: any[] = [];
+    const rowsToMove: IdsDataGridRow[] = [];
 
     // NOTE: Using Array.every as an alternaive to using a for-loop with a break
     staleRows.every((row: any, idx) => {
