@@ -229,6 +229,8 @@ export default class IdsCalendar extends Base {
    */
   #configureResizeObserver() {
     this.#resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => this.#onResize(entries));
+    let parentContainer = getClosest(this, 'ids-container');
+    if (!parentContainer) parentContainer = getClosest(this, 'body');
     this.#resizeObserver.observe(getClosest(this, 'ids-container'));
   }
 
