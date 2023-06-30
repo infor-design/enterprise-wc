@@ -1184,6 +1184,11 @@ export default class IdsSplitter extends Base {
     return this;
   }
 
+  /** Handle Languages Changes */
+  onLanguageChange = () => {
+    this.#resize();
+  };
+
   /**
    * Destroy added elements and unbind events.
    * @returns {object} This API object for chaining
