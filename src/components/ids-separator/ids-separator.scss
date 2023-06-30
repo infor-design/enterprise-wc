@@ -33,4 +33,9 @@
       height: 16px;
     }
   }
+
+  &.color-variant-module-nav {
+    margin-inline: var(--ids-module-nav-separator-expanded-edge-distance);
+    background-color: var(--ids-module-nav-separator-color);
+  }
 }

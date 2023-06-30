@@ -16,11 +16,6 @@ import styles from './ids-accordion.scss';
 import type IdsAccordionSection from './ids-accordion-section';
 import type IdsAccordionHeader from './ids-accordion-header';
 import type IdsAccordionPanel from './ids-accordion-panel';
-import {
-  IdsAccordionTextDisplay,
-  isValidTextDisplay,
-  DISPLAY_TEXT_TYPES
-} from './ids-accordion-common';
 
 const Base = IdsAccordionTextDisplayMixin(
   IdsColorVariantMixin(
@@ -58,7 +53,7 @@ export default class IdsAccordion extends Base {
     this.#handleEvents();
     this.#handleKeys();
 
-    this.#assignDepthDependentStyles();
+    this.#assignDepthDependentStyles(this, 0, true, true, true, true);
     this.#contentObserver?.observe((this as any), {
       childList: true
     });
@@ -231,7 +226,18 @@ export default class IdsAccordion extends Base {
     doDisplayIconType = true,
     doRTL = true
   ) {
-    this.header = element.querySelector(':scope > ids-accordion-header');
+    // If dealing with Accordion Sections,
+    // loop this method through an array of sections instead
+    const hasSection = element.querySelector(':scope > ids-accordion-section');
+    if (hasSection) {
+      [...element.querySelectorAll(':scope > ids-accordion-section')].forEach((section) => {
+        this.#assignDepthDependentStyles(section, depth, doColorVariant, doExpanderType, doDisplayIconType, doRTL);
+      });
+      return;
+    }
+
+    this.header = element.querySelector(':scope > ids-accordion-header, ids-module-nav-item');
+    const hasChildPanels = element.querySelector(':scope > ids-accordion-panel');
     const subLevelDepth = depth > 1;
 
     if (depth > 0) {
@@ -255,7 +261,7 @@ export default class IdsAccordion extends Base {
 
         // Assign Expander Type
         // (Use Plus/Minus-style expander on any nested panels)
-        if (doExpanderType) {
+        if (hasChildPanels && doExpanderType) {
           const expanderType = subLevelDepth ? 'plus-minus' : 'caret';
           this.header.expanderType = expanderType;
         }
@@ -459,5 +465,17 @@ export default class IdsAccordion extends Base {
         node.contentAlignment = status ? 'has-icon' : null;
       }
     });
+  }
+
+  /**
+   * Collapses all child accordion panels at once
+   * @returns {void}
+   */
+  collapseAll() {
+    if (this.panels.length) {
+      this.panels.forEach((panel) => {
+        panel.expanded = false;
+      });
+    }
   }
 }

@@ -63,7 +63,12 @@ export default class IdsAccordionPanel extends Base {
   /**
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants: any = ['app-menu', 'sub-app-menu', 'module-nav'];
+  colorVariants = [
+    'app-menu',
+    'sub-app-menu',
+    'module-nav',
+    'sub-module-nav'
+  ];
 
   vetoableEventTypes = ['beforeexpand', 'beforecollapse'];
 
@@ -114,7 +119,10 @@ export default class IdsAccordionPanel extends Base {
    * @param {*} thisAlignment the alignment rule to set
    */
   #refreshContentAlignment(thisAlignment = null) {
-    if (this.container) applyContentAlignmentClass(this.container?.classList, thisAlignment);
+    if (this.container) {
+      applyContentAlignmentClass(this.container?.classList, thisAlignment);
+      this.container.classList[this.hasParentPanel ? 'add' : 'remove']('is-child-panel');
+    }
   }
 
   /**

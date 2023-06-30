@@ -24,6 +24,22 @@
 }
 
 // ============================================
+// Module Nav App Menu Accordion Panel Styles
+
+@mixin accordion-panel-module-nav-rules() {
+  .ids-accordion-pane-content {
+    padding-inline: 0;
+  }
+
+  &.nested {
+    .ids-accordion-pane-content {
+      padding-inline-start: 16px;
+      padding-inline-end: 0;
+    }
+  }
+}
+
+// ============================================
 // Controls the size of nested accordions
 
 @mixin accordion-pane-standard-size() {
@@ -83,6 +99,12 @@
 
   &.color-variant-module-nav {
     @include accordion-pane-standard-size();
+    @include accordion-panel-module-nav-rules();
+  }
+
+  &.color-variant-sub-module-nav {
+    @include accordion-pane-standard-size();
+    @include accordion-panel-module-nav-rules();
   }
 
   // ============================================

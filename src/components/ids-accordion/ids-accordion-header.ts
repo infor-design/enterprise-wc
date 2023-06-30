@@ -36,8 +36,9 @@ const Base = IdsAccordionTextDisplayMixin(
  * @inherits IdsElement
  * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
- * @part header - the accordion header root element
- * @part icon - the accordion header icon element
+ * @part expander - this accoridon header's expander button element
+ * @part header - the accordion header's root element
+ * @part icon - the accordion header's icon element
  */
 @customElement('ids-accordion-header')
 @scss(styles)
@@ -72,7 +73,12 @@ export default class IdsAccordionHeader extends Base {
   /**
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['app-menu', 'sub-app-menu', 'module-nav'];
+  colorVariants = [
+    'app-menu',
+    'sub-app-menu',
+    'module-nav',
+    'sub-module-nav'
+  ];
 
   /**
    * Inner template contents

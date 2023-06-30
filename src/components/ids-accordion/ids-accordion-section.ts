@@ -3,10 +3,12 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsElement from '../../core/ids-element';
+import IdsAccordionPanel from './ids-accordion-panel';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 
 import styles from './ids-accordion-section.scss';
 
-const Base = IdsElement;
+const Base = IdsColorVariantMixin(IdsElement);
 
 const setBooleanAttr = (name: string, el: IdsElement, value: boolean | string) => {
   const isTruthy = stringToBool(value);
@@ -56,6 +58,16 @@ export default class IdsAccordionSection extends Base {
   template() {
     return `<div class="ids-accordion-section"><slot></slot></div>`;
   }
+
+  /**
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = [
+    'app-menu',
+    'sub-app-menu',
+    'module-nav',
+    'sub-module-nav'
+  ];
 
   /**
    * @returns {boolean} true if the section is currenly disabled
@@ -115,5 +127,17 @@ export default class IdsAccordionSection extends Base {
    */
   set shrink(value) {
     setBooleanAttr(attributes.SHRINK, this, value);
+  }
+
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   */
+  onColorVariantRefresh() {
+    const panels = this.querySelectorAll<IdsAccordionPanel>(':scope > ids-accordion-panel');
+    if (panels && panels.length) {
+      [...panels].forEach((panel: IdsAccordionPanel) => {
+        panel.colorVariant = this.colorVariant;
+      });
+    }
   }
 }

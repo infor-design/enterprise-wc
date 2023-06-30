@@ -1,0 +1,92 @@
+@import '../ids-accordion/ids-accordion-header';
+
+// ================================================
+// Styles specific to Module Nav Accordions
+
+@mixin accordion-header-module-nav-colors() {
+  border-color: transparent;
+  border-radius: var(--ids-module-nav-common-border-radius);
+  border-style: solid;
+  border-width: 1px;
+  color: var(--ids-module-nav-item-text-color);
+
+  &:hover {
+    background-color: var(--ids-module-nav-item-hover-bg-color);
+    color: var(--ids-module-nav-item-hover-text-color);
+  }
+
+  &:active {
+    background-color: var(--module-nav-item-selected-bg-color);
+    color: var(--ids-module-nav-item-selected-text-color);
+  }
+
+  &:focus:not(.hide-focus) {
+    border-color: var(--ids-module-nav-item-selected-text-color);
+  }
+
+  &.selected {
+    background-color: var(--ids-module-nav-item-selected-bg-color);
+    color: var(--ids-module-nav-item-selected-text-color);
+  }
+
+  &[disabled] {
+    // @TODO disabled colors
+    color: var(--ids-module-nav-item-text-color);
+  }
+
+  .filter {
+    // @TODO filter colors? (need designs)
+    color: var(--ids-module-nav-item-text-color);
+  }
+
+  &.hidden-by-filter.child-filter-match {
+    // @TODO filter colors? (need designs)
+    color: var(--ids-module-nav-item-text-color);
+  }
+
+  // ================================================
+  // Display Mode: Collapsed
+
+  &.display-mode-collapsed {
+    .ids-accordion-display-icon {
+      margin-inline: 0;
+      padding: 0;
+      justify-self: center;
+      align-self: center;
+    }
+
+    .ids-accordion-expander-icon {
+      display: none;
+    }
+
+    &::slotted(ids-text) {
+      @include audible;
+    }
+  }
+
+  // ================================================
+  // Display Mode: Expanded
+
+  &.display-mode-expanded {
+
+  }
+}
+
+// ================================================
+// Module Nav Item Component
+
+.ids-module-nav-item {
+  &.color-variant-module-nav {
+    @include accordion-header-module-nav-colors();
+
+    padding: 8px;
+    margin: 8px;
+  }
+
+  &.color-variant-sub-module-nav {
+    @include accordion-header-module-nav-colors();
+
+    padding: 8px;
+    margin: 8px;
+  }
+}

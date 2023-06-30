@@ -6,7 +6,7 @@ import IdsDrawer from '../ids-drawer/ids-drawer';
 import '../ids-accordion/ids-accordion';
 import '../ids-button/ids-button';
 import '../ids-icon/ids-icon';
-import '../ids-text/ids-text';
+import '../ids-separator/ids-separator';
 import '../ids-toolbar/ids-toolbar';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
@@ -16,7 +16,7 @@ import type IdsAccordion from '../ids-accordion/ids-accordion';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
 import type IdsModuleNavContent from './ids-module-nav-content';
-import IdsText from '../ids-text/ids-text';
+import type IdsModuleNavItem from './ids-module-nav-item';
 
 const CONTAINER_OPEN_CLASS = 'module-nav-is-open';
 
@@ -86,9 +86,11 @@ export default class IdsModuleNavBar extends Base {
         <div class="ids-module-nav-search-wrapper">
           <slot name="search"></slot>
         </div>
+        <ids-separator color-variant="module-nav"></ids-separator>
         <div class="ids-module-nav-main">
           <slot></slot>
         </div>
+        <ids-separator color-variant="module-nav"></ids-separator>
         <div class="ids-module-nav-footer">
           <slot name="footer"></slot>
         </div>
@@ -130,6 +132,14 @@ export default class IdsModuleNavBar extends Base {
    */
   get accordion(): IdsAccordion | null {
     return this.querySelector<IdsAccordion>(`ids-accordion`);
+  }
+
+  /**
+   * @readonly
+   * @returns {Array<IdsModuleNavItem>} list of all IdsModuleNavItem components
+   */
+  get items(): Array<IdsModuleNavItem> {
+    return [...this.querySelectorAll<IdsModuleNavItem>('ids-module-nav-item')];
   }
 
   /**
@@ -240,7 +250,13 @@ export default class IdsModuleNavBar extends Base {
   onDisplayModeChange(currentValue: string | false, newValue: string | false): void {
     this.visible = (newValue !== false);
     if (this.content) this.content.displayMode = this.displayMode;
-    if (this.accordion) this.accordion.textDisplay = this.#getTargetTextDisplay();
+    if (this.accordion) {
+      this.accordion.textDisplay = this.#getTargetTextDisplay();
+      if (newValue !== 'expanded') this.accordion.collapseAll();
+      this.items?.forEach((item) => {
+        if (item.textNode) item.displayMode = this.displayMode;
+      });
+    }
   }
 
   /**
@@ -305,7 +321,7 @@ export default class IdsModuleNavBar extends Base {
    * @private
    */
   clearFilterAccordion() {
-    const filteredHeaders: any = [...this.accordion?.querySelectorAll('ids-accordion-header[hidden-by-filter]') ?? []];
+    const filteredHeaders: any = [...this.accordion?.querySelectorAll('[hidden-by-filter]') ?? []];
     filteredHeaders.map((header: any) => {
       header.hiddenByFilter = false;
       return header;
