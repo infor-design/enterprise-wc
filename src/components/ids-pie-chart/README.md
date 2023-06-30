@@ -33,8 +33,6 @@ Hovering a chart slice with show a tooltip with the slice's value. This data is 
 An pie chart is defined with the custom element. By default it will size to the parent element but a width and height can also be set.
 
 ```html
-
-```html
 <ids-pie-chart title="A pie chart showing component usage" id="index-example" suppress-tooltips="true"></ids-pie-chart>
 ```
 
