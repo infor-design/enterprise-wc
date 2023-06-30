@@ -1184,7 +1184,7 @@ export default class IdsSplitter extends Base {
     return this;
   }
 
-  /** Handle Languages Changes */
+  /** Handle Languages Changes - for switching between RTL to LTR */
   onLanguageChange = () => {
     this.#resize();
   };
