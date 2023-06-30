@@ -1560,6 +1560,7 @@ export default class IdsDataGrid extends Base {
     const bodyTranslateY = bufferRowIndex * virtualRowHeight;
     const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
 
+    // refetch rows because lastRowIndex could have been updated after row recycling
     lastRowIndex = this.rows.at(-1)?.rowIndex;
     reachedTheBottom = lastRowIndex >= maxRowIndex;
 
