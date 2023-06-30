@@ -6,6 +6,7 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 import IdsSplitterLocalStorage from './ids-splitter-local-storage';
 import IdsSplitterPane from './ids-splitter-pane';
 import '../ids-draggable/ids-draggable';
@@ -388,7 +389,7 @@ export default class IdsSplitter extends Base {
    */
   #resize(): void {
     this.#setProp();
-    window.requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       this.#setContainer();
       this.#positionSplitBars();
       this.#setInitialCollapsed();
@@ -1174,13 +1175,14 @@ export default class IdsSplitter extends Base {
     this.onEvent('mousemove.splitter', this.container, (e: MouseEvent) => {
       this.#moveDragHandle(e);
     });
+    this.onEvent('themechanged.splitter', document, () => {
+      this.#resizeObserver.disconnect();
+      requestAnimationTimeout(() => {
+        if (this.container) this.#resizeObserver.observe(this.container);
+      }, 350);
+    });
     return this;
   }
-
-  /** Handle Languages Changes */
-  onLanguageChange = () => {
-    this.#resize();
-  };
 
   /**
    * Destroy added elements and unbind events.
