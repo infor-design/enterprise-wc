@@ -3284,5 +3284,16 @@ describe('IdsDataGrid Component', () => {
 
       expect(gridCell.textContent).toEqual('3:45 AM');
     });
+
+    it('supports updating data set and refreshing row', () => {
+      const rowIndex = 0;
+      const rowElem = dataGrid.rowByIndex(0);
+      dataGrid.updateDatasetAndRefresh(rowIndex, { bookCurrency: 'eur' });
+
+      // check that data is updated
+      expect(dataGrid.data[rowIndex].bookCurrency).toEqual('eur');
+      // check that UI is updated with new data
+      expect(rowElem.querySelector('[aria-colindex="8"]')?.textContent.trim()).toEqual('EUR');
+    });
   });
 });

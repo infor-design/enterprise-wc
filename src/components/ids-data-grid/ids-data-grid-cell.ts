@@ -349,4 +349,25 @@ export default class IdsDataGridCell extends IdsElement {
 
     return IdsDataGridCell.cellCache[cacheKey];
   }
+
+  /**
+   * Clears cell cache
+   */
+  clearCache() {
+    const cacheHash = this.dataGrid.cacheHash;
+    const rowIndex = Number(this.parentElement?.getAttribute('row-index'));
+    const row = this.dataGrid.data[rowIndex] as any;
+    const selected = row.rowSelected ? 'select' : 'deselect';
+    const cacheKey = `${cacheHash}:${this.column.id}:${rowIndex}:${selected}`;
+
+    delete IdsDataGridCell.cellCache[cacheKey];
+  }
+
+  /**
+   * Refreshes the cell
+   */
+  refreshCell() {
+    this.clearCache();
+    this.renderCell();
+  }
 }

@@ -113,6 +113,14 @@ export default class IdsDataGridRow extends IdsElement {
     this.#setAttributes();
   }
 
+  /**
+   * Refreshes the row's cells
+   */
+  refreshRow(): void {
+    this.querySelectorAll<IdsDataGridCell>(':scope > ids-data-grid-cell').forEach((cell) => cell.refreshCell());
+    this.#setAttributes();
+  }
+
   /** Set row attributes and classes */
   #setAttributes() {
     const row = this.rowIndex;

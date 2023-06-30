@@ -7,5 +7,8 @@
   "cssVariables.lookupFiles": [
     "src/themes/default/ids-theme-default-core.scss",
     "src/themes/default/ids-theme-default-colors.scss"
+  ],
+  "html.customData": [
+    "vscode.html-custom-data.json"
   ]
 }

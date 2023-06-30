@@ -96,6 +96,10 @@ types.forEach((type) => {
 fs.copyFileSync('./LICENSE', `${outDir}/LICENSE`);
 fs.copyFileSync('./README.md', `${outDir}/README.md`);
 
+// Copy Schemas
+fs.copyFileSync('./custom-elements.json', `${outDir}/custom-elements.json`);
+fs.copyFileSync('./vscode.html-custom-data.json', `${outDir}/vscode.html-custom-data.json`);
+
 // Minify locale data
 if (mode === 'production') {
   fs.rmSync(`${outDir}/locale-data`, { recursive: true, force: true });

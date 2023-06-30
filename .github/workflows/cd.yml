@@ -78,4 +78,4 @@ jobs:
        echo "Deploying ${branch_name//./_}"
        aws s3 cp build/development/ "s3://wc-demos/${branch_name//./_}" --recursive
        aws configure set preview.cloudfront true
-       aws cloudfront create-invalidation --distribution-id E2Q51X0UO412XH --paths /${branch_name//./_} || true
+       aws cloudfront create-invalidation --distribution-id E2Q51X0UO412XH --paths /${branch_name//./_}/* || true

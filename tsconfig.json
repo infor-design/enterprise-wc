@@ -30,6 +30,7 @@
   ],
   "exclude": [
     "src/**/*.d.ts",
+    "scripts/*.mjs",
     "node_modules",
     "node_modules/@types/node/globals.d.ts",
     "node_modules/typescript/lib/lib.dom.d.ts",
