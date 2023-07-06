@@ -153,9 +153,9 @@
   background-color: var(--ids-module-nav-bg-color);
   color: var(--ids-module-nav-text-color);
   height: 100%;
-  transition: margin var(--ids-transition-length) var(--ids-transition-ease),
-    transform var(--ids-transition-length) var(--ids-transition-ease),
-    width var(--ids-transition-length) var(--ids-transition-ease);
+  transition: margin var(--ids-motion-duration) var(--ids-motion-ease),
+    transform var(--ids-motion-duration) var(--ids-motion-ease),
+    width var(--ids-motion-duration) var(--ids-motion-ease);
 }
 
 .ids-module-nav-bar-detail {

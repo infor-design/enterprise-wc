@@ -7,8 +7,8 @@
   display: block;
   position: fixed;
   transition:
-    box-shadow var(--ids-motion-length) var(--ids-motion-ease),
-    transform var( --ids-motion-length) var(--ids-motion-ease);
+    box-shadow var(--ids-motion-duration) var(--ids-motion-ease),
+    transform var(--ids-motion-duration) var(--ids-motion-ease);
 }
 
 // =================================================
