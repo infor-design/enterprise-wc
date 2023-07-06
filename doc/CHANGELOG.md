@@ -13,6 +13,7 @@
 - `[DataGrid]` Fixed keeping virtual scroll selected/deselected states. ([#1329](https://github.com/infor-design/enterprise-wc/issues/1329))
 - `[DataGrid]` Fixed `scrollend` event firing. ([#1305](https://github.com/infor-design/enterprise-wc/issues/1305))
 - `[DataGrid]` Prevent header filter activating editor cell. ([#1320](https://github.com/infor-design/enterprise-wc/issues/1320))
+- `[DataGrid]` Add ability to multi select with shift key. ([#1330](https://github.com/infor-design/enterprise-wc/issues/1330))
 - `[Tooltip]` Changed the tooltip heights to match. ([#7509](https://github.com/infor-design/enterprise/issues/7509))
 - `[Themes]` Added theme switcher to side-by-side examples and ability to switch 4.x themes in the `ids-theme-switcher `component. ([#939](https://github.com/infor-design/enterprise-wc/issues/939))
 
