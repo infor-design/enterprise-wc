@@ -191,4 +191,11 @@
       }
     }
   }
+
+  // Ignore the fieldset element on Module Nav searchfields
+  &.color-variant-module-nav {
+    .fieldset {
+      display: contents;
+    }
+  }
 }

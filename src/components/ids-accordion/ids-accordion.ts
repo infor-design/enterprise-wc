@@ -237,7 +237,7 @@ export default class IdsAccordion extends Base {
     }
 
     this.header = element.querySelector(':scope > ids-accordion-header, ids-module-nav-item');
-    const hasChildPanels = element.querySelector(':scope > ids-accordion-panel');
+    const hasChildPanels = element.children.length > 1 || false;
     const subLevelDepth = depth > 1;
 
     if (depth > 0) {
