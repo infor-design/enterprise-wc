@@ -1311,7 +1311,7 @@ export default class IdsSlider extends Base {
     };
 
     // Listen for drag event on draggable thumb
-    this.onEvent('ids-drag', obj.thumbDraggable, (e: { detail: { mouseX: any; mouseY: any; }; }) => {
+    this.onEvent('drag', obj.thumbDraggable, (e: { detail: { mouseX: any; mouseY: any; }; }) => {
       if (this.type !== 'step') this.#updateTooltipDisplay(false);
 
       const [x, y] = [e.detail.mouseX, e.detail.mouseY];
@@ -1334,13 +1334,13 @@ export default class IdsSlider extends Base {
       });
     });
 
-    this.onEvent('ids-dragstart', obj.thumbDraggable, () => {
+    this.onEvent('dragstart', obj.thumbDraggable, () => {
       this.#toggleAnimations(false);
       this.#updateThumbShadow(true, obj.primaryOrSecondary);
       this.#updateThumbShadow(true, obj.primaryOrSecondary === 'secondary' ? 'primary' : 'secondary');
     });
 
-    this.onEvent('ids-dragend', obj.thumbDraggable, (e: CustomEvent) => {
+    this.onEvent('dragend', obj.thumbDraggable, (e: CustomEvent) => {
       this.#toggleAnimations(true);
       obj.thumbDraggable?.focus();
       // to ensure that after dragging, the value is updated only after dragging has ended..

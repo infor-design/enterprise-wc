@@ -16,7 +16,7 @@
   --ids-color-text: var(--ids-color-neutral-100);
   --ids-color-text-inverse: var(--ids-color-neutral-00);
   --ids-color-text-subtle: var(--ids-color-neutral-80);
-  --ids-color-text-label: var(--ids-color-neutral-70);
+  --ids-color-text-label: var(--ids-color-neutral-60);
   --ids-color-text-data: var(--ids-color-neutral-100);
   --ids-color-text-disabled: var(--ids-color-neutral-30);
   --ids-color-text-error: var(--ids-color-error-60);
@@ -288,7 +288,7 @@
 
   // Button (Tertiary)
   --ids-button-tertiary-color-border-default: transparent;
-  --ids-button-tertiary-color-text-default: var(--ids-color-neutral-70);
+  --ids-button-tertiary-color-text-default: var(--ids-color-neutral-60);
   --ids-button-tertiary-color-border-focus: var(--ids-color-border-focus);
   --ids-button-tertiary-color-text-hover: var(--ids-color-primary-70);
   --ids-button-tertiary-color-background-hover: var(--ids-color-primary-10);
@@ -434,10 +434,10 @@
   // Data Grid (List)
   --ids-data-grid-list-cell-color-border: var(--ids-color-neutral-20);
   --ids-data-grid-list-header-color-border: var(--ids-color-neutral-10);
-  --ids-data-grid-list-header-color-background: var(--ids-color-neutral-20);
+  --ids-data-grid-list-header-color-background: var(--ids-color-neutral-10);
   --ids-data-grid-list-header-color-text: var(--ids-color-neutral-100);
-  --ids-data-grid-list-header-color-icon-unsorted: var(--ids-color-neutral-40);
-  --ids-data-grid-list-header-color-icon-sorted: var(--ids-color-neutral-10);
+  --ids-data-grid-list-header-color-icon-unsorted: var(--ids-color-neutral-20);
+  --ids-data-grid-list-header-color-icon-sorted: var(--ids-color-neutral-00);
   --ids-data-grid-list-header-checkbox-color-background: var(--ids-color-neutral-70);
 
   // Data Grid (Header)
@@ -450,8 +450,8 @@
   --ids-data-grid-header-drag-background-color: var(--ids-color-neutral-100);
   --ids-data-grid-header-color-background-placeholder-dragging: var(--ids-color-neutral-50);
   --ids-data-grid-header-color-text: var(--ids-color-neutral-00);
-  --ids-data-grid-header-color-icon-unsorted: var(--ids-color-neutral-60);
-  --ids-data-grid-header-color-icon-sorted: var(--ids-color-neutral-10);
+  --ids-data-grid-header-color-icon-unsorted: var(--ids-color-neutral-50);
+  --ids-data-grid-header-color-icon-sorted: var(--ids-color-neutral-00);
   --ids-data-grid-header-lg-padding: 8px var(--ids-data-grid-padding-lg);
   --ids-data-grid-header-md-padding: 8px var(--ids-data-grid-padding-md);
   --ids-data-grid-header-sm-padding: 8px var(--ids-data-grid-padding-sm);
@@ -1030,11 +1030,15 @@
   --ids-slider-track-progress-color-background-readonly: var(--ids-color-neutral-50);
 
   // Splitter
-  --ids-splitter-bar-border-color: var(--ids-color-neutral-30);
-  --ids-splitter-bar-color-border-dragging: var(--ids-color-primary);
-  --ids-splitter-bar-shadow-dragging: var(--ids-shadow-20);
-  --ids-splitter-bar-color-background-hover: var(--ids-color-neutral-20);
-  --ids-splitter-bar-width: var(--ids-size-10);
+  --ids-splitter-bar-color-border: var(--ids-color-neutral-30);
+  --ids-splitter-bar-color-border-hover: var(--ids-color-neutral-30);
+  --ids-splitter-bar-color-border-dragging: var(--ids-color-azure-30);
+  --ids-splitter-bar-buffer-width: 8px;
+  --ids-splitter-bar-width: 1px;
+  --ids-splitter-handle-border-radius: var(--ids-border-radius-02);
+  --ids-splitter-handle-height: 32px;
+  --ids-splitter-handle-width: 6px;
+  --ids-splitter-handle-color-background-hover: var(--ids-color-azure-60);
 
   // Step Chart
   --ids-step-chart-margin: var(--ids-space-60);
@@ -1043,7 +1047,6 @@
   --ids-step-chart-color-background-default: var(--ids-color-neutral-20);
   --ids-step-chart-color-background-complete: var(--ids-color-primary);
   --ids-step-chart-step-disabled-color: var(--ids-color-text-disabled);
-
 
   // Swappable
   --ids-swappable-border: 1px dashed transparent;
@@ -1239,11 +1242,11 @@
   --ids-tree-node-color-text-hover: var(--ids-color-neutral-100);
   --ids-tree-node-color-background-selected: var(--ids-color-neutral-20);
   --ids-tree-node-color-text-selected: var(--ids-color-neutral-100);
-  --ids-tree-node-color-text-default: var(--ids-color-neutral-70);
+  --ids-tree-node-color-text-default: var(--ids-color-neutral-60);
 
   // Treemap
   --ids-tree-treemap-color-border: var(--ids-color-neutral-00);
-  --ids-tree-treemap-title-color-background: var(--ids-color-neutral-70);
+  --ids-tree-treemap-title-color-background: var(--ids-color-neutral-60);
   --ids-tree-treemap-title-color-text: var(--ids-color-neutral-00);
 
   // Trigger Field

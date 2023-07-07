@@ -8,6 +8,9 @@
   - link: example.html
     type: Main Example
     description: Shows some basic examples of splitters
+  - link: list-detail.html
+    type: Example
+    description: Shows splitting a list view on the left
   - link: sandbox.html
     type: Sandbox
     description: Shows additional splitter tests

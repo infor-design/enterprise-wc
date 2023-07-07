@@ -1,6 +1,4 @@
 /* Ids Splitter Component */
-$split-bar-size: var(--ids-splitter-bar-width);
-
 .ids-splitter {
   display: flex;
   position: relative;
@@ -15,68 +13,104 @@ $split-bar-size: var(--ids-splitter-bar-width);
     flex-direction: column;
   }
 
-  .ids-splitter-split-bar {
+  .splitter-drag-handle {
+    background-color: var(--ids-splitter-handle-color-background-hover);
+    border-radius: var(--ids-splitter-handle-border-radius);
+    display: block;
+    height: var(--ids-splitter-handle-height);
+    opacity: 0;
+    position: absolute;
+    margin-inline-start: -3px;
+    width: var(--ids-splitter-handle-width);
+    z-index: 1;
+  }
+
+  .splitter-dragger {
     position: absolute;
 
     .split-bar {
+      border-inline-start: 1px solid var(--ids-splitter-bar-color-border);
       display: flex;
       position: relative;
       height: 100%;
       width: 100%;
       align-items: center;
       justify-content: center;
-      transition: background-color var(--ids-motion-duration) var(--ids-motion-ease);
 
       &:hover {
-        background-color: var(--ids-splitter-bar-color-background-hover);
+        border-inline-start: 2px solid var(--ids-splitter-bar-color-border-hover);
+
+        .splitter-drag-handle  {
+          opacity: 1;
+        }
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        margin-inline-start: -4px;
+        width: var(--ids-splitter-bar-buffer-width);
       }
     }
 
     &[axis='x'] {
       height: 100%;
-      width: $split-bar-size;
       top: 0;
 
-      &.align-start {
-        border-inline-start: 1px solid var(--ids-splitter-bar-border-color);
-      }
-
-      &.align-end {
-        border-inline-end: 1px solid var(--ids-splitter-bar-border-color);
-        margin-inline-start: -$split-bar-size;
+      .split-bar {
+        width: var(--ids-splitter-bar-width);
       }
     }
 
     &[axis='y'] {
-      height: $split-bar-size;
       left: 0;
       width: 100%;
 
-      &.align-start {
-        border-block-start: 1px solid var(--ids-splitter-bar-border-color);
+      .split-bar {
+        border-block-start: 1px solid var(--ids-splitter-bar-color-border);
+        border-inline-start: 0;
+        height: var(--ids-splitter-bar-width);
+
+        &::before {
+          height: var(--ids-splitter-bar-buffer-width);
+          margin-inline-start: 0;
+          margin-block-start: -2px;
+          width: 100%;
+          z-index: -1;
+        }
+
+        &:hover {
+          border-block-start: 2px solid var(--ids-splitter-bar-color-border-hover);
+        }
       }
 
-      &.align-end {
-        border-block-end: 1px solid var(--ids-splitter-bar-border-color);
-        margin-block-start: -$split-bar-size;
+      &[is-dragging],
+      &:focus {
+        .split-bar {
+          border-inline-start: 0;
+          border-block-start: 2px solid var(--ids-splitter-bar-color-border-dragging);
+        }
       }
 
-      ids-icon {
-        transform: rotate(-90deg);
+      .splitter-drag-handle {
+        margin-block-start: -4px;
+        margin-inline-start: 0;
+        height: var(--ids-splitter-handle-width);
+        width: var(--ids-splitter-handle-height);
       }
     }
 
     &[is-dragging],
     &:focus {
       outline: none;
-      background-color: var(--ids-splitter-bar-color-background-hover);
 
-      &[axis='x'].align-start,
-      &[axis='x'].align-end,
-      &[axis='y'].align-start,
-      &[axis='y'].align-end {
-        border-color: var(--ids-splitter-bar-color-border-dragging);
-        box-shadow: var(--ids-splitter-bar-shadow-dragging);
+      .split-bar {
+        border-inline-start: 2px solid var(--ids-splitter-bar-color-border-dragging);
+      }
+
+      .splitter-drag-handle  {
+        opacity: 1;
       }
     }
 

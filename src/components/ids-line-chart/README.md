@@ -30,7 +30,7 @@ For more information on line charts check out the article [Line Charts Made Simp
 A line chart is defined with a custom element with a width and height.
 
 ```html
-<ids-axis-chart title="A line chart showing component usage" width="800" height="500"></ids-axis-chart>
+<ids-line-chart title="A line chart showing component usage" width="800" height="500"></ids-line-chart>
 ```
 
 Datasets can be added to the line chart by passing in an array of objects. Each object must have a `data` and object with `name` and `values` from the data points. Also a name should be given for each data object which will be used as the legend text. The `shortName` is used to show the short name of the legend text and the `abbrName` is used to show an even shorter name of the legend text in responsive situations.
@@ -103,7 +103,7 @@ The following data attributes can be used on the data passed to a chart.
 - `data` {object} A data group with one or more `name` and `value` pairs.
 - `shortName` {string} The short name of the legend text.
 - `abbrName` {string} A very short name of the legend text (one or two characters).
-- `color` {string} The color of this axis group. This can be either a hex value for example `#FF0000` or a color name like `red` or an ids variable like `var(--ids-color-azure-20)`.
+- `color` {string} The color of this line group. This can be either a hex value for example `#FF0000` or a color name like `red` or an ids variable like `var(--ids-color-azure-20)`.
 
 ## Settings
 
