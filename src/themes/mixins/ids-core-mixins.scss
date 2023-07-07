@@ -33,3 +33,8 @@ $transition-ease: var(--ids-motion-ease);
   position: absolute;
   width: 1px;
 }
+
+// Calculate size including borders (not excluding)
+@mixin border-box {
+  box-sizing: border-box;
+}

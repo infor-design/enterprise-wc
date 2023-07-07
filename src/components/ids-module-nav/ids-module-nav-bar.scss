@@ -1,6 +1,9 @@
+@import '../../themes/mixins/ids-core-mixins.scss';
 @import '../ids-drawer/ids-drawer';
 
 :host {
+  @include border-box();
+
   display: block;
   transition: none;
 }
@@ -9,6 +12,8 @@
 //================================================== //
 
 .ids-module-nav-bar {
+  @include border-box();
+
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -148,6 +153,8 @@
 }
 
 .ids-module-nav-bar-main {
+  @include border-box();
+
   display: flex;
   flex-direction: column;
   background-color: var(--ids-module-nav-bg-color);
@@ -159,6 +166,8 @@
 }
 
 .ids-module-nav-bar-detail {
+  @include border-box();
+
   background-color: var(--ids-module-nav-detail-bg-color);
   border-inline-end: 1px solid var(--ids-module-nav-border-color);
   height: 100%;

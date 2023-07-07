@@ -1,4 +1,9 @@
+@import '../../themes/mixins/ids-core-mixins.scss';
 @import '../ids-accordion/ids-accordion-header';
+
+:host {
+  @include border-box();
+}
 
 // ================================================
 // Styles specific to Module Nav Accordions
@@ -48,8 +53,12 @@
   // Display Mode: Collapsed
 
   &.display-mode-collapsed {
+    height: var(--ids-module-nav-item-collapsed-size);
+    width: var(--ids-module-nav-item-collapsed-size);
+    margin: var(--ids-module-nav-item-collapsed-general-spacing-size) auto;
+
     .ids-accordion-display-icon {
-      margin-inline: 0;
+      margin-inline: 6px;
       padding: 0;
       justify-self: center;
       align-self: center;
@@ -68,26 +77,48 @@
   // Display Mode: Expanded
 
   &.display-mode-expanded {
+    &.color-variant-module-nav {
+      padding: 8px;
+      margin: 8px;
+    }
 
+    &.color-variant-sub-module-nav {
+      padding: 8px;
+      margin: 8px;
+    }
   }
+}
+
+@mixin single-line-ellipsis-text() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 // ================================================
 // Module Nav Item Component
 
 .ids-module-nav-item {
+  @include border-box();
+
+  transition: margin var(--ids-motion-duration) var(ids-motion-ease),
+    height var(--ids-motion-duration) var(ids-motion-ease),
+    width var(--ids-motion-duration) var(ids-motion-ease);
+
   &.color-variant-module-nav {
     @include accordion-header-module-nav-colors();
-
-    padding: 8px;
-    margin: 8px;
   }
 
   &.color-variant-sub-module-nav {
     @include accordion-header-module-nav-colors();
+  }
 
-    padding: 8px;
-    margin: 8px;
+  ::slotted(ids-text) {
+    @include single-line-ellipsis-text();
+  }
+
+  .ids-text {
+    @include single-line-ellipsis-text();
   }
 
   .ids-accordion-expander-icon {

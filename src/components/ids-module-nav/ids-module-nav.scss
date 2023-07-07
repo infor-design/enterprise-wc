@@ -1,3 +1,4 @@
+@import '../../themes/mixins/ids-core-mixins.scss';
 @import '../../core/ids-base';
 
 // Module Nav Component
@@ -8,6 +9,8 @@
 }
 
 .ids-module-nav {
+  @include border-box();
+
   display: flex;
   flex-direction: row;
   height: 100%;

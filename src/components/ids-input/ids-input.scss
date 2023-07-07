@@ -565,6 +565,14 @@ $input-size-full: 100%;
       color: inherit;
       padding-inline-start: var(--ids-module-nav-search-input-text-y-offset);
       padding-inline-end: 10px;
+
+      &::placeholder {
+        color: var(--ids-module-nav-search-input-placeholder-text-color);
+      }
+
+      &:active {
+        color: var(--ids-module-nav-search-input-text-color);
+      }
     }
 
     &:not([class*="field-height-"]) {
@@ -572,6 +580,19 @@ $input-size-full: 100%;
 
       input {
         height: var(--ids-module-nav-search-input-height);
+      }
+    }
+
+    &:hover:not(.readonly):not(.disabled) {
+      .field-container {
+        background-color: var(--ids-module-nav-item-hover-bg-color);
+      }
+    }
+
+    &:focus-within {
+      .field-container {
+        background-color: var(--ids-module-nav-input-bg-color);
+        border-color: var(--ids-module-nav-item-selected-text-color);
       }
     }
   }
