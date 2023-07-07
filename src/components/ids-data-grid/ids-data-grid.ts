@@ -1864,11 +1864,13 @@ export default class IdsDataGrid extends Base {
       }
 
       // Update the child element
-      const parentRow = this.#findParentRow(this.datasource.originalData, this.data[row].parentElement);
-      parentRow.children[this.data[row].ariaPosinset - 1] = {
-        ...parentRow.children[this.data[row].ariaPosinset - 1],
-        ...data
-      };
+      const parentRow = this.#findParentRow(this.datasource.originalData, this.data[row].parentElement ?? '');
+      if (parentRow) {
+        parentRow.children[this.data[row].ariaPosinset - 1] = {
+          ...parentRow.children[this.data[row].ariaPosinset - 1],
+          ...data
+        };
+      }
       return;
     }
     // Non tree - update original data
