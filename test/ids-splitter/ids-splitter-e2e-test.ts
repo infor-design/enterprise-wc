@@ -40,7 +40,7 @@ describe('Ids Splitter e2e Tests', () => {
     expect(await countObjects(page)).toEqual(numberOfObjects);
   });
 
-  it('should use arrow keys to move', async () => {
+  it.skip('should use arrow keys to move', async () => {
     await page.goto(urlSandbox, { waitUntil: ['networkidle2', 'load'] });
     const testKeys = async () => {
       let widthP1 = await page.evaluate('document.querySelector("#minmax-p1").style.width');

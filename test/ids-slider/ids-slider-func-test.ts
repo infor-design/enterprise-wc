@@ -295,27 +295,27 @@ describe('IdsSlider Component', () => {
     label.click();
 
     slider.thumbDraggableSecondary.dispatchEvent(
-      createEvent('ids-dragstart', { detail: { mouseX: 80, mouseY: 12 } })
+      createEvent('dragstart', { detail: { mouseX: 80, mouseY: 12 } })
     );
 
     slider.thumbDraggableSecondary.dispatchEvent(
-      createEvent('ids-drag', { detail: { mouseX: 80, mouseY: 12 } })
+      createEvent('drag', { detail: { mouseX: 80, mouseY: 12 } })
     );
 
     slider.thumbDraggableSecondary.dispatchEvent(
-      createEvent('ids-dragend', { detail: { mouseX: 80, mouseY: 12 } })
+      createEvent('dragend', { detail: { mouseX: 80, mouseY: 12 } })
     );
 
     slider.thumbDraggable.dispatchEvent(
-      createEvent('ids-dragstart', { detail: { mouseX: 80, mouseY: 12 } })
+      createEvent('dragstart', { detail: { mouseX: 80, mouseY: 12 } })
     );
 
     slider.thumbDraggable.dispatchEvent(
-      createEvent('ids-drag', { detail: { mouseX: 80, mouseY: 12 } })
+      createEvent('drag', { detail: { mouseX: 80, mouseY: 12 } })
     );
 
     slider.thumbDraggable.dispatchEvent(
-      createEvent('ids-dragend', { detail: { mouseX: 80, mouseY: 12 } })
+      createEvent('dragend', { detail: { mouseX: 80, mouseY: 12 } })
     );
   });
 
