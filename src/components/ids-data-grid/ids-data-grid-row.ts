@@ -295,6 +295,10 @@ export default class IdsDataGridRow extends IdsElement {
     }
   }
 
+  get selected(): boolean {
+    return this.classList.contains('selected');
+  }
+
   /**
    * Updates some attributes/classes on a single row's cells
    * @private

@@ -462,12 +462,26 @@ export default class IdsDataGrid extends Base {
   #lastSelectedRow: number | null = null;
 
   /**
+   * Keep reference to last shifted row
+   * @private
+   */
+  #lastShiftedRow: number | null = null;
+
+  /**
    * Reset flag for last selected row
    * @private
    * @returns {void}
    */
   #resetLastSelectedRow(): void {
     this.#lastSelectedRow = null;
+  }
+
+  /**
+   * Reset reference to last shifted row
+   * @private
+   */
+  #resetLastShiftedRow(): void {
+    this.#lastShiftedRow = null;
   }
 
   /**
@@ -525,6 +539,8 @@ export default class IdsDataGrid extends Base {
       if (row.disabled) return;
 
       const rowNum = row.rowIndex;
+
+      if (!e.shiftKey) this.#resetLastShiftedRow();
 
       const isHyperlink = e.target?.nodeName === 'IDS-HYPERLINK' || e.target?.nodeName === 'A';
       const isButton = e.target?.nodeName === 'IDS-BUTTON';
@@ -664,8 +680,10 @@ export default class IdsDataGrid extends Base {
       const inFilter = findInPath(eventPath(e), '.ids-data-grid-header-cell-filter-wrapper');
       const key = e.key;
 
+      if (!e.shiftKey) this.#resetLastShiftedRow();
       if (inFilter && (key === 'ArrowRight' || key === 'ArrowLeft')) return;
       if (!this.activeCell?.node) return;
+
       const cellNode = this.activeCell.node;
       const cellNumber = Number(this.activeCell?.cell);
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
@@ -687,6 +705,24 @@ export default class IdsDataGrid extends Base {
       const activateCellNumber = cellNumber + cellDiff;
       const activateRowIndex = rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex;
       this.setActiveCell(activateCellNumber, activateRowIndex);
+
+      // Handle row selection
+      if ((this.rowSelection === 'mixed' || this.rowSelection === 'multiple') && movingVertical && e.shiftKey) {
+        const previousActiveRow = Number(cellNode.parentElement.getAttribute('row-index'));
+        this.#lastShiftedRow ??= previousActiveRow;
+        const shiftSelectFrom = Math.min(activateRowIndex, this.#lastShiftedRow);
+        const shiftSelectTo = Math.max(activateRowIndex, this.#lastShiftedRow);
+
+        if (Number.isNaN(shiftSelectFrom) || Number.isNaN(shiftSelectTo)) return;
+
+        if (previousActiveRow < shiftSelectFrom || previousActiveRow > shiftSelectTo) {
+          this.deSelectRow(previousActiveRow);
+        }
+
+        for (let i = shiftSelectFrom; i <= shiftSelectTo; i++) {
+          this.selectRow(i);
+        }
+      }
 
       if (this.rowSelection === 'mixed' && this.rowNavigation) {
         (cellNode.parentElement as IdsDataGridRow).toggleRowActivation();
@@ -2010,7 +2046,7 @@ export default class IdsDataGrid extends Base {
       return;
     }
 
-    if (!row) return;
+    if (!row || row.selected) return;
 
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
       const checkbox = row?.querySelector('.is-selection-checkbox .ids-data-grid-checkbox');
