@@ -27,6 +27,7 @@ export default class IdsModuleNavItem extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+    this.toggleExpanderIcon(this.panel && this.panel.isExpandable);
     this.#refreshTextNode();
   }
 

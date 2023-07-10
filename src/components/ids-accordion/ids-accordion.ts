@@ -236,7 +236,7 @@ export default class IdsAccordion extends Base {
       return;
     }
 
-    this.header = element.querySelector(':scope > ids-accordion-header, ids-module-nav-item');
+    this.header = element.querySelector(':scope > ids-accordion-header, :scope > ids-module-nav-item');
     const hasChildPanels = element.children.length > 1 || false;
     const subLevelDepth = depth > 1;
 
@@ -323,7 +323,7 @@ export default class IdsAccordion extends Base {
    */
   #deselectOtherHeaders(target: HTMLElement) {
     this.headers.forEach((header: any) => {
-      if (header.selected && !target.isEqualNode(header)) {
+      if (header.selected && target !== header) {
         header.selected = false;
       }
     });
@@ -428,7 +428,7 @@ export default class IdsAccordion extends Base {
 
     // If the previous element is a header, no more panels are present.
     // Navigation should be pushed one panel level up;
-    if (prev?.tagName === 'IDS-ACCORDION-HEADER') {
+    if (prev && ['IDS-ACCORDION-HEADER', 'IDS-MODULE-NAV-ITEM'].includes(prev.tagName)) {
       prev = prev.parentElement as IdsAccordionPanel;
     }
 
