@@ -49,6 +49,33 @@ The template shows the use of a string substitution to access the data element. 
   listView.data = products;
 ```
 
+List view using `<ids-list-view-item />` child components.
+
+```html
+<ids-list-view selectable="mixed" sortable>
+  <ids-list-view-item>
+    <ids-text font-size="16" type="h2">First Column</ids-text>
+    <ids-text font-size="12" type="span">ID: 1</ids-text>
+    <ids-text font-size="12" type="span">Comments: One</ids-text>
+  </ids-list-view-item>
+  <ids-list-view-item active>
+    <ids-text font-size="16" type="h2">Second Column</ids-text>
+    <ids-text font-size="12" type="span">ID: 2</ids-text>
+    <ids-text font-size="12" type="span">Comments: Two</ids-text>
+  </ids-list-view-item>
+  <ids-list-view-item disabled>
+    <ids-text font-size="16" type="h2">Third Column</ids-text>
+    <ids-text font-size="12" type="span">ID: 3</ids-text>
+    <ids-text font-size="12" type="span">Comments: Three</ids-text>
+  </ids-list-view-item>
+  <ids-list-view-item selected>
+    <ids-text font-size="16" type="h2">Third Column</ids-text>
+    <ids-text font-size="12" type="span">ID: 3</ids-text>
+    <ids-text font-size="12" type="span">Comments: Three</ids-text>
+  </ids-list-view-item>
+</ids-list-view>
+```
+
 List view with pagination and mixed selectable type.
 
 ```html
