@@ -20,6 +20,7 @@
 - `[Tooltip]` Changed the tooltip heights to match. ([#7509](https://github.com/infor-design/enterprise/issues/7509))
 - `[Themes]` Added theme switcher to side-by-side examples and ability to switch 4.x themes in the `ids-theme-switcher `component. ([#939](https://github.com/infor-design/enterprise-wc/issues/939))
 - `[DataGrid]` Fixed a bug in the filter header where text selection in the inputs would cause accidental dragging. ([#1321](https://github.com/infor-design/enterprise-wc/issues/1321))
+- `[ListView]` Added support for `ids-list-view-item` child component. ([#1042](https://github.com/infor-design/enterprise-wc/issues/1042))
 
 ## 1.0.0-beta.12
 
