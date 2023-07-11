@@ -20,6 +20,9 @@
   - link: list-view-items-sortable.html
     type: Example
     description: Showing a list view with the sortable functionality
+  - link: list-view-items-search.html
+    type: Example
+    description: Showing a list view with the search functionality
   - link: selectable-single.html
     type: Example
     description: Showing a list view with the single selection functionality

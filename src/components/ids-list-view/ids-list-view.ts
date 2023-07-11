@@ -329,6 +329,15 @@ export default class IdsListView extends Base {
   }
 
   #attachEventListeners() {
+    const childSlot = this.#childSlot();
+    this.offEvent('slotchange.listview', childSlot);
+    this.onEvent('slotchange.listview', childSlot, () => {
+      const kids = this.#childElements();
+      if (String(kids[0]?.tagName).toLowerCase() === 'ids-list-view-item') {
+        this.redraw();
+      }
+    });
+
     // Fire click
     this.offEvent('click.listview', this.container);
     this.onEvent('click.listview', this.container, (e: any) => {
@@ -623,11 +632,9 @@ export default class IdsListView extends Base {
    * @returns {string} The html for this item
    */
   itemTemplate(item: any): string {
-    const itm = this.searchHighlight?.(item) || item;
-
     return item?.innerHTML
       ? `<slot name="${item?.getAttribute?.('slot')}"></slot>`
-      : injectTemplate(this.defaultTemplate, itm);
+      : injectTemplate(this.defaultTemplate, this.searchHighlight?.(item) ?? item);
   }
 
   /**
