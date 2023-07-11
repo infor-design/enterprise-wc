@@ -414,9 +414,10 @@ export default class IdsListView extends Base {
   /**
    * Set the focus for given list item.
    * @param {any} li The list item.
+   * @param {boolean} noFocus do not actually focus
    * @returns {void}
    */
-  focusLi(li?: HTMLElement | null): void {
+  focusLi(li?: HTMLElement | null, noFocus = false): void {
     if (li) {
       const prevFocus = this.getFocusedLi();
       // remove tabindex from previous focus
@@ -431,7 +432,7 @@ export default class IdsListView extends Base {
 
       // init new focus
       li.setAttribute('tabindex', '0'); // this clears after every render
-      li.focus();
+      if (!noFocus) li.focus();
     }
   }
 
@@ -1203,7 +1204,7 @@ export default class IdsListView extends Base {
     this.data[index].itemActivated = true;
     this.#triggerEvent('itemactivated', { ...args() });
 
-    this.focusLi(item);
+    this.focusLi(item, true);
     return true;
   }
 

@@ -6,6 +6,7 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 import IdsSplitterLocalStorage from './ids-splitter-local-storage';
 import IdsSplitterPane from './ids-splitter-pane';
 import '../ids-draggable/ids-draggable';
@@ -42,9 +43,6 @@ const SPLITTER_DEFAULTS = {
   savePosition: false,
   uniqueId: null
 };
-
-// Align to be used only
-const ALIGN = ['start', 'end'];
 
 // Axis to be used only
 const AXIS = ['x', 'y'];
@@ -90,7 +88,6 @@ export default class IdsSplitter extends Base {
   static get attributes(): Array<string> {
     return [
       ...super.attributes,
-      attributes.ALIGN,
       attributes.AXIS,
       attributes.DISABLED,
       attributes.LABEL,
@@ -105,7 +102,7 @@ export default class IdsSplitter extends Base {
    * @returns {string} The template
    */
   template(): string {
-    const cssClass = ` class="ids-splitter axis-${this.axis} align-${this.align}"`;
+    const cssClass = ` class="ids-splitter axis-${this.axis}"`;
     const disabled = this.disabled ? ' disabled' : '';
     return `
       <div part="splitter" role="presentation"${cssClass}${disabled}>
@@ -392,7 +389,7 @@ export default class IdsSplitter extends Base {
    */
   #resize(): void {
     this.#setProp();
-    window.requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       this.#setContainer();
       this.#positionSplitBars();
       this.#setInitialCollapsed();
@@ -431,7 +428,7 @@ export default class IdsSplitter extends Base {
         useRTL: this.localeAPI?.isRTL()
       };
     }
-    this.#prop = { ...prop, barPixel: 22, barPercentage: this.#toPercentage(22) };
+    this.#prop = { ...prop, barPixel: 0, barPercentage: this.#toPercentage(0) };
     return this;
   }
 
@@ -636,7 +633,7 @@ export default class IdsSplitter extends Base {
    * @returns {object} This API object for chaining.
    */
   #addSplitBars(): object {
-    const cssClass = ` class="ids-splitter-split-bar align-${this.align}"`;
+    const cssClass = ` class="splitter-dragger"`;
     const disabled = this.disabled ? ' disabled aria-disabled="true"' : '';
     this.#panes.forEach((pane, i) => {
       if (i > 0) {
@@ -646,13 +643,53 @@ export default class IdsSplitter extends Base {
             aria-orientation="${this.#prop.orientation}"
             role="separator" aria-label="${this.label}" tabindex="0"${cssClass}${disabled}>
             <div class="split-bar" part="split-bar" role="presentation">
-              <ids-icon icon="drag" size="large" part="split-bar-icon"></ids-icon>
+              <div class="splitter-drag-handle"></div>
             </div>
           <ids-draggable>`;
         this.container?.appendChild(template.content.cloneNode(true));
       }
     });
     return this;
+  }
+
+  /**
+   * Adjust the position of the handle
+   * @private
+   * @param {CustomEvent} e the event from the handler
+   */
+  #moveDragHandle(e: MouseEvent) {
+    const dragHandles = this.shadowRoot?.querySelectorAll<HTMLDivElement>('.splitter-drag-handle');
+    dragHandles?.forEach((dragHandle: HTMLDivElement) => {
+      const rect = this.container?.getBoundingClientRect() || {
+        left: 0, top: 0, width: 0, height: 0
+      };
+      if (!dragHandle) return;
+
+      const size = 32;
+      const pad = size / 2;
+      let start;
+      let end;
+      let position;
+
+      // Vertical
+      if (this.axis === 'y') {
+        const clientX = e.clientX;
+        start = clientX - rect.left - pad;
+        if (start < pad) start = 0;
+        end = rect.width - size;
+        position = start > end ? end : start;
+        dragHandle.style.left = `${position}px`;
+        return;
+      }
+
+      // Horizontal
+      const clientY = e.clientY;
+      start = clientY - rect.top - pad;
+      if (start < pad) start = 0;
+      end = rect.height - size;
+      position = start > end ? end : start;
+      dragHandle.style.top = `${position}px`;
+    });
   }
 
   /**
@@ -665,6 +702,7 @@ export default class IdsSplitter extends Base {
     this.#panes.forEach((pane, i) => {
       if (i > 0) {
         const splitBar = this.container?.querySelector(`#${this.#splitId(i)}`);
+
         const zIdx = i - 1;
         const start: any = {
           pane: this.#panes[zIdx],
@@ -703,9 +741,11 @@ export default class IdsSplitter extends Base {
    */
   #positionSplitBars(): object {
     const s = { min: 0, mid: 0, max: 0 };
-    const { minTransform, maxTransform, translate, useRTL } = this.#prop; // eslint-disable-line
-    const last = this.#panes.length - 1;
+    const {
+      minTransform, maxTransform, translate, useRTL
+    } = this.#prop;
     const single = this.#maxSizes.length === 1;
+
     this.#panes.forEach((pane, i) => {
       const size = this.#toPixel(this.#sizes[i]);
       s.min = s.mid;
@@ -713,17 +753,10 @@ export default class IdsSplitter extends Base {
       s.max += size;
       if (i > 0) {
         let extra: any = {};
-        if (this.align === 'start') {
-          extra = {
-            min: i > 1 ? this.#prop.barPixel : 0,
-            max: this.#prop.barPixel
-          };
-        } else {
-          extra = {
-            min: ((i === 1) && (this.#minSizes[0] > this.#prop.barPercentage)) ? 0 : this.#prop.barPixel,
-            max: i < last ? this.#prop.barPixel : 0
-          };
-        }
+        extra = {
+          min: i > 1 ? this.#prop.barPixel : 0,
+          max: this.#prop.barPixel
+        };
         const pair = this.#pairs[i - 1];
         const sb = pair.splitBar;
         const minTransVal = s.min + this.#toPixel(this.#minSizes[pair.start.idx]) + extra.min;
@@ -774,7 +807,7 @@ export default class IdsSplitter extends Base {
   #setCollapsedAttribute(pair: any): object {
     const { start, initial } = pair;
     window.requestAnimationFrame(() => {
-      const bar = start.idx === 0 && this.align === 'start' ? 0 : this.#prop.barPercentage;
+      const bar = start.idx === 0 ? 0 : this.#prop.barPercentage;
       if (this.#sizes[start.idx] > (this.#minSizes[start.idx] + bar)) {
         start.pane.removeAttribute(COLLAPSED);
       } else if (!start.pane.hasAttribute(COLLAPSED) || initial) {
@@ -891,13 +924,9 @@ export default class IdsSplitter extends Base {
     const useEndSize = typeof max !== 'undefined' ? max : endSize;
 
     const extra: any = {};
-    if (this.align === 'start') {
-      extra.min = start.idx === 0 ? 0 : barPercentage;
-      extra.max = barPercentage;
-    } else {
-      extra.min = ((start.idx === 0) && (this.#minSizes[0] > barPercentage)) ? 0 : barPercentage;
-      extra.max = end.idx === this.#pairs.length ? 0 : barPercentage;
-    }
+    extra.min = start.idx === 0 ? 0 : barPercentage;
+    extra.max = barPercentage;
+
     let newDiff = diff * (useRTL ? -1 : 1);
     if (isMoving) {
       if (useRTL && (newDiff < 0 && newDiff < ((startSize + start.minSize) + pad))) {
@@ -1084,21 +1113,22 @@ export default class IdsSplitter extends Base {
       const sb = pair.splitBar;
       const namespace = `splitter${i}`;
 
-      this.offEvent(`ids-dragstart.${namespace}`, sb);
-      this.onEvent(`ids-dragstart.${namespace}`, sb, () => {
+      this.offEvent(`dragstart.${namespace}`, sb);
+      this.onEvent(`dragstart.${namespace}`, sb, () => {
         if (!this.disabled) this.#moveStart(pair);
       });
 
-      this.offEvent(`ids-drag.${namespace}`, sb);
-      this.onEvent(`ids-drag.${namespace}`, sb, (e: CustomEvent) => {
+      this.offEvent(`drag.${namespace}`, sb);
+      this.onEvent(`drag.${namespace}`, sb, (e: CustomEvent) => {
+        this.#moveDragHandle(e.detail);
         if (!this.disabled && !this.resizeOnDragEnd && this.#moving.isMoving) {
           const diff = this.#toPercentage(e.detail[this.#prop.delta]);
           this.#updateSize({ ...pair, diff });
         }
       });
 
-      this.offEvent(`ids-dragend.${namespace}`, sb);
-      this.onEvent(`ids-dragend.${namespace}`, sb, (e: CustomEvent) => {
+      this.offEvent(`dragend.${namespace}`, sb);
+      this.onEvent(`dragend.${namespace}`, sb, (e: CustomEvent) => {
         if (!this.disabled) {
           const diff = this.#toPercentage(e.detail[this.#prop.delta]);
           this.#moveEnd({ ...pair, diff });
@@ -1137,10 +1167,24 @@ export default class IdsSplitter extends Base {
     // Set observer for resize
     this.#resizeObserver.disconnect();
     if (this.container) this.#resizeObserver.observe(this.container);
+
+    // Set events to move handle
+    this.onEvent('mouseenter.splitter', this.container, (e: MouseEvent) => {
+      this.#moveDragHandle(e);
+    });
+    this.onEvent('mousemove.splitter', this.container, (e: MouseEvent) => {
+      this.#moveDragHandle(e);
+    });
+    this.onEvent('themechanged.splitter', document, () => {
+      this.#resizeObserver.disconnect();
+      requestAnimationTimeout(() => {
+        if (this.container) this.#resizeObserver.observe(this.container);
+      }, 350);
+    });
     return this;
   }
 
-  /** Handle Languages Changes */
+  /** Handle Languages Changes - for switching between RTL to LTR */
   onLanguageChange = () => {
     this.#resize();
   };
@@ -1160,9 +1204,9 @@ export default class IdsSplitter extends Base {
       const namespace = `splitter${i}`;
       start.pane.removeAttribute('style');
       end.pane.removeAttribute('style');
-      this.offEvent(`ids-dragstart.${namespace}`, splitBar);
-      this.offEvent(`ids-drag.${namespace}`, splitBar);
-      this.offEvent(`ids-dragend.${namespace}`, splitBar);
+      this.offEvent(`dragstart.${namespace}`, splitBar);
+      this.offEvent(`drag.${namespace}`, splitBar);
+      this.offEvent(`dragend.${namespace}`, splitBar);
       this.offEvent(`click.${namespace}`, splitBar);
       this.offEvent(`keydown.${namespace}`, splitBar);
       splitBar?.remove?.();
@@ -1186,28 +1230,6 @@ export default class IdsSplitter extends Base {
    * @returns {boolean} True if, orientation is horizontal
    */
   get isHorizontal(): boolean { return this.#prop.orientation === 'horizontal'; }
-
-  /**
-   * Set the split bar align direction start/end
-   * @param {string} value of the align start, end
-   */
-  set align(value: string) {
-    if (value !== this.state.align) {
-      const prefixed = (v: string) => `align-${v}`;
-      this.container?.classList.remove(...ALIGN.map((v) => prefixed(v)));
-      if (ALIGN.indexOf(value) > -1) {
-        this.setAttribute(attributes.ALIGN, value);
-        this.state.align = value;
-      } else {
-        this.removeAttribute(attributes.ALIGN);
-        this.state.align = SPLITTER_DEFAULTS.align;
-      }
-      this.container?.classList.add(prefixed(this.state.align));
-      this.#init();
-    }
-  }
-
-  get align(): string { return this.state.align; }
 
   /**
    * Set the splitter axis direction x: horizontal or y: vertical

@@ -170,12 +170,29 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     let dragger: HTMLElement;
     let startIndex = 0;
     let dragInitiated = false;
+    let dragParent: HTMLElement | null;
+
+    this.offEvent('mousedown.reorder', this);
+    this.onEvent('mousedown.reorder', this, (e: MouseEvent) => {
+      const nodeName = (e.target as HTMLElement).nodeName;
+
+      if (nodeName === 'IDS-INPUT') {
+        dragParent = (e.target as HTMLElement).closest('.ids-data-grid-header-cell');
+        dragParent?.setAttribute('draggable', 'false');
+      }
+    });
+
+    this.offEvent('mouseup.reorder', this);
+    this.onEvent('mouseup.reorder', this, () => {
+      dragParent?.setAttribute('draggable', 'true');
+    });
 
     // Style the Dragger
     this.offEvent('dragstart.reorder', this);
     this.onEvent('dragstart.reorder', this, (e: DragEvent) => {
-      if (this.dataGrid.isResizing) return;
       const target = (e.target as any);
+      const nodeName = (e.target as HTMLElement).nodeName;
+      if (this.dataGrid.isResizing || !target || nodeName === 'IDS-INPUT') return;
       dragInitiated = true;
       target.classList.add('active-drag-column');
       dragger = target.cloneNode(true);

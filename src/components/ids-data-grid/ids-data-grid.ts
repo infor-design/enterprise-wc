@@ -119,10 +119,10 @@ export default class IdsDataGrid extends Base {
   }
 
   /* Returns all the row elements in an array */
-  get rows() {
+  get rows(): IdsDataGridRow[] {
     // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
     if (!this.container) return [];
-    return [...this.container.querySelectorAll<HTMLElement>('.ids-data-grid-body ids-data-grid-row')];
+    return [...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row')];
   }
 
   /* Returns the outside wrapper element */
@@ -462,12 +462,26 @@ export default class IdsDataGrid extends Base {
   #lastSelectedRow: number | null = null;
 
   /**
+   * Keep reference to last shifted row
+   * @private
+   */
+  #lastShiftedRow: number | null = null;
+
+  /**
    * Reset flag for last selected row
    * @private
    * @returns {void}
    */
   #resetLastSelectedRow(): void {
     this.#lastSelectedRow = null;
+  }
+
+  /**
+   * Reset reference to last shifted row
+   * @private
+   */
+  #resetLastShiftedRow(): void {
+    this.#lastShiftedRow = null;
   }
 
   /**
@@ -525,6 +539,8 @@ export default class IdsDataGrid extends Base {
       if (row.disabled) return;
 
       const rowNum = row.rowIndex;
+
+      if (!e.shiftKey) this.#resetLastShiftedRow();
 
       const isHyperlink = e.target?.nodeName === 'IDS-HYPERLINK' || e.target?.nodeName === 'A';
       const isButton = e.target?.nodeName === 'IDS-BUTTON';
@@ -664,8 +680,10 @@ export default class IdsDataGrid extends Base {
       const inFilter = findInPath(eventPath(e), '.ids-data-grid-header-cell-filter-wrapper');
       const key = e.key;
 
+      if (!e.shiftKey) this.#resetLastShiftedRow();
       if (inFilter && (key === 'ArrowRight' || key === 'ArrowLeft')) return;
       if (!this.activeCell?.node) return;
+
       const cellNode = this.activeCell.node;
       const cellNumber = Number(this.activeCell?.cell);
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
@@ -687,6 +705,24 @@ export default class IdsDataGrid extends Base {
       const activateCellNumber = cellNumber + cellDiff;
       const activateRowIndex = rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex;
       this.setActiveCell(activateCellNumber, activateRowIndex);
+
+      // Handle row selection
+      if ((this.rowSelection === 'mixed' || this.rowSelection === 'multiple') && movingVertical && e.shiftKey) {
+        const previousActiveRow = Number(cellNode.parentElement.getAttribute('row-index'));
+        this.#lastShiftedRow ??= previousActiveRow;
+        const shiftSelectFrom = Math.min(activateRowIndex, this.#lastShiftedRow);
+        const shiftSelectTo = Math.max(activateRowIndex, this.#lastShiftedRow);
+
+        if (Number.isNaN(shiftSelectFrom) || Number.isNaN(shiftSelectTo)) return;
+
+        if (previousActiveRow < shiftSelectFrom || previousActiveRow > shiftSelectTo) {
+          this.deSelectRow(previousActiveRow);
+        }
+
+        for (let i = shiftSelectFrom; i <= shiftSelectTo; i++) {
+          this.selectRow(i);
+        }
+      }
 
       if (this.rowSelection === 'mixed' && this.rowNavigation) {
         (cellNode.parentElement as IdsDataGridRow).toggleRowActivation();
@@ -1515,12 +1551,12 @@ export default class IdsDataGrid extends Base {
     const firstRow: any = rows[0];
     const lastRow: any = rows[rows.length - 1];
     const firstRowIndex = firstRow.rowIndex;
-    const lastRowIndex = lastRow.rowIndex;
+    let lastRowIndex = lastRow.rowIndex;
 
     const isAboveFirstRow = rowIndex < firstRowIndex;
     const isBelowLastRow = rowIndex > lastRowIndex;
     const isInRange = !isAboveFirstRow && !isBelowLastRow;
-    const reachedTheBottom = lastRowIndex >= maxRowIndex;
+    let reachedTheBottom = lastRowIndex >= maxRowIndex;
 
     let bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
     bufferRowIndex = Math.max(bufferRowIndex, 0);
@@ -1565,11 +1601,15 @@ export default class IdsDataGrid extends Base {
     const bodyTranslateY = bufferRowIndex * virtualRowHeight;
     const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
 
+    // refetch rows because lastRowIndex could have been updated after row recycling
+    lastRowIndex = this.rows.at(-1)?.rowIndex;
+    reachedTheBottom = lastRowIndex >= maxRowIndex;
+
     if (!reachedTheBottom) {
-      body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+      body.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
     }
 
-    body?.style.setProperty('padding-bottom', `${Math.max(bodyPaddingBottom, 0)}px`);
+    body.style.setProperty('padding-bottom', `${Math.max(bodyPaddingBottom, 0)}px`);
 
     if (doScroll) {
       container!.scrollTop = rowIndex * virtualRowHeight;
@@ -1607,13 +1647,13 @@ export default class IdsDataGrid extends Base {
     if (!rowCount || !rows.length) return;
     const data = this.data;
 
-    const bottomRow: any = rows[rows.length - 1];
+    const bottomRow = rows[rows.length - 1];
     const bottomRowIndex = bottomRow.rowIndex;
     const staleRows = rows.slice(0, rowCount);
-    const rowsToMove: any[] = [];
+    const rowsToMove: IdsDataGridRow[] = [];
 
     // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-    staleRows.every((row: any, idx) => {
+    staleRows.every((row: IdsDataGridRow, idx) => {
       const nextIndex = bottomRowIndex + (idx + 1);
       if (nextIndex >= data.length) return false;
       row.rowIndex = nextIndex;
@@ -1637,10 +1677,10 @@ export default class IdsDataGrid extends Base {
     const rows = this.rows;
     if (!rowCount || !rows.length) return;
 
-    const topRow: any = rows[0];
+    const topRow = rows[0];
     const topRowIndex = topRow.rowIndex;
     const staleRows = rows.slice((-1 * rowCount));
-    const rowsToMove: any[] = [];
+    const rowsToMove: IdsDataGridRow[] = [];
 
     // NOTE: Using Array.every as an alternaive to using a for-loop with a break
     staleRows.every((row: any, idx) => {
@@ -1860,11 +1900,13 @@ export default class IdsDataGrid extends Base {
       }
 
       // Update the child element
-      const parentRow = this.#findParentRow(this.datasource.originalData, this.data[row].parentElement);
-      parentRow.children[this.data[row].ariaPosinset - 1] = {
-        ...parentRow.children[this.data[row].ariaPosinset - 1],
-        ...data
-      };
+      const parentRow = this.#findParentRow(this.datasource.originalData, this.data[row].parentElement ?? '');
+      if (parentRow) {
+        parentRow.children[this.data[row].ariaPosinset - 1] = {
+          ...parentRow.children[this.data[row].ariaPosinset - 1],
+          ...data
+        };
+      }
       return;
     }
     // Non tree - update original data
@@ -2004,7 +2046,7 @@ export default class IdsDataGrid extends Base {
       return;
     }
 
-    if (!row) return;
+    if (!row || row.selected) return;
 
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
       const checkbox = row?.querySelector('.is-selection-checkbox .ids-data-grid-checkbox');

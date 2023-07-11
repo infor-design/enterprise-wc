@@ -136,6 +136,7 @@ export const MARGIN_SIZES: Array<IdsGridMargins> = [
 
 export const PADDING_SIZES: Array<IdsGridPadding | any> = [
   undefined,
+  'xxs',
   'xs',
   'sm',
   'md',

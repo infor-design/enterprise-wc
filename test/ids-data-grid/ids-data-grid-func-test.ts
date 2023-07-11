@@ -1719,6 +1719,22 @@ describe('IdsDataGrid Component', () => {
       expect(rowElem.getAttribute('aria-rowindex')).toEqual('2');
     });
 
+    it('can handle keyboard mixed row selection with shift key', () => {
+      dataGrid.rowSelection = 'mixed';
+      expect(dataGrid.activeCell.row).toEqual(0);
+      expect(dataGrid.activeCell.cell).toEqual(0);
+
+      const event = new KeyboardEvent('keydown', { key: 'ArrowDown', shiftKey: true });
+      dataGrid.rowNavigation = true;
+      dataGrid.dispatchEvent(event);
+
+      const previousRow = dataGrid.rowByIndex(0);
+      const nextRow = dataGrid.rowByIndex(1);
+
+      expect(previousRow.selected).toBeTruthy();
+      expect(nextRow.selected).toBeTruthy();
+    });
+
     it('can set the rowNavigation setting', () => {
       dataGrid.rowNavigation = true;
       expect(dataGrid.getAttribute('row-navigation')).toEqual('');

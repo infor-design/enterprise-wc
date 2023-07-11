@@ -168,7 +168,7 @@
   --ids-data-grid-list-header-color-border: var(--ids-color-neutral-80);
   --ids-data-grid-list-header-color-background: var(--ids-color-neutral-80);
   --ids-data-grid-list-header-color-text: var(--ids-color-neutral-30);
-  --ids-data-grid-list-header-color-icon-unsorted: var(--ids-color-neutral-60);
+  --ids-data-grid-list-header-color-icon-unsorted: var(--ids-color-neutral-40);
   --ids-data-grid-list-header-color-icon-sorted: var(--ids-color-neutral-20);
   --ids-data-grid-list-header-checkbox-color-background: var(--ids-color-neutral-40);
 
@@ -335,7 +335,7 @@
 
   // Popup
   --ids-popup-color-background: var(--ids-color-neutral-70);
-  --ids-popup-color-border: var(--ids-color-neutral-60);
+  --ids-popup-color-border: var(--ids-color-neutral-50);
   --ids-popup-shadow: 0 2px 5px rgb(239 239 240 / 0.2);
 
   // Popup Menu
@@ -430,7 +430,10 @@
   --ids-slider-track-progress-color-background-readonly: var(--ids-color-neutral-40);
 
   // Splitter
-  --ids-splitter-bar-color-background-hover: var(--ids-color-neutral-70);
+  --ids-splitter-bar-color-border: var(--ids-color-neutral-70);
+  --ids-splitter-bar-color-border-hover: var(--ids-color-neutral-70);
+  --ids-splitter-bar-color-border-dragging: var(--ids-color-azure-30);
+  --ids-splitter-handle-color-background-hover: var(--ids-color-azure-60);
 
   // Step Chart
   --ids-step-chart-color-background-default: var(--ids-color-neutral-70);
@@ -534,12 +537,12 @@
   --ids-trigger-field-icon-color: var(--ids-color-neutral-30);
 
   // Tree Node
-  --ids-tree-node-color-text-disabled: var(--ids-color-neutral-60);
+  --ids-tree-node-color-text-disabled: var(--ids-color-neutral-50);
   --ids-tree-node-color-border-focus: var(--ids-color-azure-60);
   --ids-tree-node-color-text-hover: var(--ids-color-neutral-00);
   --ids-tree-node-color-background-selected: var(--ids-color-neutral-60);
   --ids-tree-node-color-text-selected: var(--ids-color-neutral-00);
-  --ids-tree-node-color-text-default: var(--ids-color-neutral-40);
+  --ids-tree-node-color-text-default: var(--ids-color-neutral-30);
 
   // Treemap
   --ids-tree-treemap-color-border: var(--ids-color-neutral-90);

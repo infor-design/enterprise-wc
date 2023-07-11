@@ -8,13 +8,18 @@
 - `[Button]` Fixed a bug on static width buttons. ([#1334](https://github.com/infor-design/enterprise-wc/issues/1334))
 - `[Button]` Updated slate colors from the design team. ([#7624](https://github.com/infor-design/enterprise/issues/7624))
 - `[Colors]` Added new slate color palette with lower range colors. Some elements are updated. ([#7624](https://github.com/infor-design/enterprise/issues/7624))
-- `[DataGrid]` Fixed scrollend event firing. ([#1305](https://github.com/infor-design/enterprise-wc/issues/1305))
+- `[DataGrid]` Fixed `scrollend` event firing. ([#1305](https://github.com/infor-design/enterprise-wc/issues/1305))
 - `[DataGrid]` Add ability to refresh row/cell after updating dataset. ([#1303](https://github.com/infor-design/enterprise-wc/issues/1303))
 - `[DataGrid]` Fixed keeping virtual scroll selected/deselected states. ([#1329](https://github.com/infor-design/enterprise-wc/issues/1329))
+- `[DataGrid]` Fixed virtual scroll showing blank when scrolling fast. ([#1341](https://github.com/infor-design/enterprise-wc/issues/1341))
 - `[DataGrid]` Fixed `scrollend` event firing. ([#1305](https://github.com/infor-design/enterprise-wc/issues/1305))
 - `[DataGrid]` Prevent header filter activating editor cell. ([#1320](https://github.com/infor-design/enterprise-wc/issues/1320))
+- `[DataGrid]` Add ability to multi select with shift key. ([#1330](https://github.com/infor-design/enterprise-wc/issues/1330))
+- `[DataGrid]` Fix tree not selecting or collapsing all children in AngularJS. ([#1284](https://github.com/infor-design/enterprise-wc/issues/1284))
+- `[DataGrid]` Fix tree collapse/expand state while sorting. ([#1284](https://github.com/infor-design/enterprise-wc/issues/1284))
 - `[Tooltip]` Changed the tooltip heights to match. ([#7509](https://github.com/infor-design/enterprise/issues/7509))
 - `[Themes]` Added theme switcher to side-by-side examples and ability to switch 4.x themes in the `ids-theme-switcher `component. ([#939](https://github.com/infor-design/enterprise-wc/issues/939))
+- `[DataGrid]` Fixed a bug in the filter header where text selection in the inputs would cause accidental dragging. ([#1321](https://github.com/infor-design/enterprise-wc/issues/1321))
 
 ## 1.0.0-beta.12
 
@@ -49,9 +54,11 @@
 - `[DataGrid]` Fixed an error where dragging something onto the data grid header filter would show the arrows as if a column was dragged and allow dropping text and arrow keys to work. ([#1242](https://github.com/infor-design/enterprise-wc/issues/1242))
 - `[DatePicker]` Improved accessibility (A11Y) calendar was not properly accessible through screen reader. ([#1031](https://github.com/infor-design/enterprise-wc/issues/1031))
 - `[DateUtils]` Fixed a `weekNumber()` bug that returned 0 value for all weeks. ([#1243](https://github.com/infor-design/enterprise-wc/issues/1243))
+- `[Draggable]` Removed the `ids-` from the event names. ([#1328](https://github.com/infor-design/enterprise-wc/issues/1328))
 - `[Icons]` Added new icons. ([#7510](https://github.com/infor-design/enterprise/issues/7510)
 - `[Locale]` Added new translations. ([#7512](https://github.com/infor-design/enterprise/issues/7512)
 - `[Themes]` Added theme support and css variables for all components. These can be used for customizing components and creating themes. See ([CUSTOMIZING.md](../doc/CUSTOMIZING.md)) for details. Note that with the `<ids-theme-switcher>` its now better to use the full theme name `<ids-theme-switcher theme="default-light">`. ([#1118](https://github.com/infor-design/enterprise-wc/issues/1118))
+- `[Splitter]` Added new designs and minor fixes. ([#1328](https://github.com/infor-design/enterprise-wc/issues/1328))
 - `[SwapList]` Refactored to use new icons. ([#7511](https://github.com/infor-design/enterprise/issues/7511)
 
 ## 1.0.0-beta.9

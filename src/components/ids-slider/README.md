@@ -36,7 +36,7 @@ Displays a range of selectable values(s) between a minimum and maximum, which ca
 
 ## Events
 
-- `ids-drag` - passed up from Slider's thumbs in ShadowRoot, which are controlled by [IdsDraggable](../ids-draggable/README.md).  Listening to this event can enable special changes on the dragging of slider handles
+- `drag` - passed up from Slider's thumbs in ShadowRoot, which are controlled by [IdsDraggable](../ids-draggable/README.md).  Listening to this event can enable special changes on the dragging of slider handles
 
 ## Accessibility
 
