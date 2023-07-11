@@ -9,6 +9,7 @@ import {
 import IdsDataSource from '../../core/ids-data-source';
 import '../ids-virtual-scroll/ids-virtual-scroll';
 import '../ids-checkbox/ids-checkbox';
+import './ids-list-view-item';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
@@ -148,10 +149,7 @@ export default class IdsListView extends Base {
   }
 
   #extractTemplateLiteralsFromHTML(string: string) {
-    const arr = string.split('${');
-    arr.shift();
-    const tokens = arr.map((x) => x.split('}')[0]);
-    return tokens;
+    return Array.from(string?.matchAll(/\${(.*)}/g), ([, token]) => token);
   }
 
   /**
@@ -493,6 +491,14 @@ export default class IdsListView extends Base {
     return nextLi;
   }
 
+  #childSlot(): HTMLSlotElement | undefined {
+    return this.container?.querySelector<HTMLSlotElement>('slot:not([name])') ?? undefined;
+  }
+
+  #childElements(): Element[] {
+    return this.#childSlot()?.assignedElements() ?? [];
+  }
+
   /**
    * Get template function for list item.
    * @returns {Function} The list item template function.
@@ -515,7 +521,13 @@ export default class IdsListView extends Base {
       return this.itemTemplate(item);
     };
 
+    const kids = this.#childElements();
     const func = (item: any, index: number) => {
+      if (item?.setAttribute) {
+        item?.setAttribute('slot', `slot-child-${index}`);
+        item.rowIndex = index;
+      }
+
       const disabled = item.disabled ? ' disabled' : '';
       const tabindex = `tabindex="${typeof index !== 'undefined' && !index ? '0' : '-1'}"`;
       const activated = item.itemActivated ? ' activated' : '';
@@ -524,6 +536,7 @@ export default class IdsListView extends Base {
         selected = ' selected aria-selected="true"';
         if (this.selectable === 'mixed') selected += ' hide-selected-color';
       }
+
       return `
         ${this.sortable ? `<ids-swappable-item
             role="listitem"
@@ -532,15 +545,16 @@ export default class IdsListView extends Base {
             index="${index}"
             id="id_item_${index + 1}"
             aria-posinset="${index + 1}"
-            aria-setsize="${this.data.length}"
+            aria-setsize="${this.data.length ? this.data.length : kids.length}"
             ${disabled}
           >` : ''}
           <div
             part="list-item"
             role="option"
             index="${index}"
+            class="${this.sortable ? 'sortable' : ''}"
             aria-posinset="${index + 1}"
-            aria-setsize="${this.#size}"
+            aria-setsize="${this.data.length ? this.#size : kids.length}"
             ${tabindex}${activated}${selected}${disabled}
           >
             ${itemTemplate(item, index)}
@@ -558,12 +572,14 @@ export default class IdsListView extends Base {
    */
   staticScrollTemplate(): string {
     const selectable = this.selectable ? ` ${this.selectableClass()}` : '';
+    const listItems = this.data?.length ? this.data : this.#childElements();
     return `
       <div class="ids-list-view${selectable}">
         <div class="ids-list-view-body" role="listbox" aria-label="${this.label}">
           ${this.sortable ? `<ids-swappable selection=${this.selectable}>` : ''}
-            ${this.data?.length > 0 ? this.data.map(this.listItemTemplateFunc()).join('') : ''}
+            ${listItems?.length > 0 ? listItems.map(this.listItemTemplateFunc()).join('') : ''}
           ${this.sortable ? `</ids-swappable>` : ''}
+          <slot></slot>
         </div>
       </div>
     `;
@@ -607,7 +623,10 @@ export default class IdsListView extends Base {
    */
   itemTemplate(item: any): string {
     const itm = this.searchHighlight?.(item) || item;
-    return injectTemplate(this.defaultTemplate, itm);
+
+    return item?.innerHTML
+      ? `<slot name="${item?.getAttribute?.('slot')}"></slot>`
+      : injectTemplate(this.defaultTemplate, itm);
   }
 
   /**
