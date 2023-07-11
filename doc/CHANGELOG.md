@@ -1,5 +1,12 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.14
+
+### 1.0.0-beta.14 Fixes
+
+- `[Datagrid]` Fixed a bug where the parent may scroll into view when using scrollRowIntoView. ([#1371](https://github.com/infor-design/enterprise-wc/issues/1371))
+- `[Datagrid]` Removed the internal second parameter from the scrollRowIntoView so it cant be used. ([#1367](https://github.com/infor-design/enterprise-wc/issues/1367))
+
 ## 1.0.0-beta.13
 
 ### 1.0.0-beta.13 Fixes
