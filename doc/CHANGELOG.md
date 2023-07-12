@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.14
+
+### 1.0.0-beta.14 Fixes
+
+- `[Button]` Fixed mismatch on secondary and primary button (internal) height. ([#1376](https://github.com/infor-design/enterprise/issues/1376))
+
 ## 1.0.0-beta.13
 
 ### 1.0.0-beta.13 Fixes
