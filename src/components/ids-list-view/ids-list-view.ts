@@ -121,6 +121,9 @@ export default class IdsListView extends Base {
     'beforedeselected'
   ];
 
+  /**
+   * Invoked each time the custom element is appended into a document-connected element.
+   */
   connectedCallback() {
     super.connectedCallback();
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
