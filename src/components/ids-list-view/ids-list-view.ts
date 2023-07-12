@@ -332,8 +332,7 @@ export default class IdsListView extends Base {
     const childSlot = this.#childSlot();
     this.offEvent('slotchange.listview', childSlot);
     this.onEvent('slotchange.listview', childSlot, () => {
-      const kids = this.#childElements();
-      if (String(kids[0]?.tagName).toLowerCase() === 'ids-list-view-item') {
+      if (this.#childElements()?.length) {
         this.redraw();
       }
     });
@@ -501,13 +500,29 @@ export default class IdsListView extends Base {
     return nextLi;
   }
 
+  /**
+   * Get the default <slot> within <ids-list-view>
+   * @returns {HTMLSlotElement} The default slot
+   */
   #childSlot(): HTMLSlotElement | undefined {
     return this.container?.querySelector<HTMLSlotElement>('slot:not([name])') ?? undefined;
   }
 
+  /**
+   * Check if the element is a valid is <ids-list-view-item>
+   * @param {any} element - an HTML element
+   * @returns {boolean} True if element is a valid <ds-list-view-item>
+   */
+  #childValidListViewItem(element: any): boolean {
+    return String(element?.tagName).toLowerCase() === 'ids-list-view-item';
+  }
+
+  /**
+   * Get all valid <ids-list-view-item> child elements inside this <ids-list-view>
+   * @returns {Element[]} All ids-list-view-item child elements
+   */
   #childElements(): Element[] {
-    return (this.#childSlot()?.assignedElements() ?? [])
-      .filter((e) => String(e.tagName).toLowerCase() === 'ids-list-view-item');
+    return (this.#childSlot()?.assignedElements() ?? []).filter(this.#childValidListViewItem);
   }
 
   /**
@@ -633,7 +648,7 @@ export default class IdsListView extends Base {
    * @returns {string} The html for this item
    */
   itemTemplate(item: any): string {
-    return String(item?.tagName).toLowerCase() === 'ids-list-view-item'
+    return this.#childValidListViewItem(item)
       ? `<slot name="${item?.getAttribute?.('slot')}"></slot>`
       : injectTemplate(this.defaultTemplate, this.searchHighlight?.(item) ?? item);
   }
