@@ -7,21 +7,21 @@ import {
 } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsDataSource from '../../core/ids-data-source';
-import '../ids-virtual-scroll/ids-virtual-scroll';
-import '../ids-checkbox/ids-checkbox';
-import './ids-list-view-item';
+import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
-import IdsElement from '../../core/ids-element';
-import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
 import IdsListViewSearchMixin from './ids-list-view-search-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
 
+import '../ids-checkbox/ids-checkbox';
+import '../ids-search-field/ids-search-field';
 import '../ids-swappable/ids-swappable';
 import '../ids-swappable/ids-swappable-item';
-import '../ids-search-field/ids-search-field';
-
+import '../ids-virtual-scroll/ids-virtual-scroll';
+import './ids-list-view-item';
 import styles from './ids-list-view.scss';
+
 import type IdsSwappableItem from '../ids-swappable/ids-swappable-item';
 import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 import type IdsText from '../ids-text/ids-text';
@@ -129,6 +129,16 @@ export default class IdsListView extends Base {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
     this.#attachEventListeners();
+  }
+
+  /**
+   * Invoked each time the custom element is removed from a document-connected element.
+   */
+  disconnectedCallback() {
+    if (this.parentElement) {
+      // only redraw on disconnect if list-view is still in DOM
+      this.redrawLazy();
+    }
   }
 
   /**
@@ -336,7 +346,7 @@ export default class IdsListView extends Base {
     this.offEvent('slotchange.listview', childSlot);
     this.onEvent('slotchange.listview', childSlot, () => {
       if (this.#childElements()?.length) {
-        this.redraw();
+        this.redrawLazy();
       }
     });
 
@@ -525,7 +535,7 @@ export default class IdsListView extends Base {
    * @returns {Element[]} All ids-list-view-item child elements
    */
   #childElements(): Element[] {
-    return (this.#childSlot()?.assignedElements() ?? []).filter(this.#childValidListViewItem);
+    return [...this.querySelectorAll('ids-list-view-item')];
   }
 
   /**
@@ -797,11 +807,24 @@ export default class IdsListView extends Base {
     }
   }
 
+  /** Used in IdsListView.redrawLazy() */
+  #redrawLazyRAF = 0;
+
+  /**
+   * Calls IdsListView.redraw() asynchronously
+   */
+  redrawLazy() {
+    cancelAnimationFrame(this.#redrawLazyRAF);
+    this.#redrawLazyRAF = requestAnimationFrame(() => this.redraw());
+  }
+
   /**
    * Rerender the list by re applying the template
    */
   redraw() {
-    if (!this.data || !this.loaded) {
+    if (this.#childElements().length) {
+      this.container?.querySelectorAll('[index]').forEach((e) => e.remove());
+    } else if (!this.data || !this.loaded) {
       if (!this.data?.length) this.getAllLi()?.forEach((li: HTMLElement) => li?.remove());
       return;
     }
