@@ -274,6 +274,8 @@ The following settings are available on editors.
 `editorSettings.mask` Will pass mask settings to the input (if supported).
 `editorSettings.maskOptions` Will pass maskOptions settings to the input (if supported).
 `editorSettings.options` Dataset used for dropdown editor's list box options.
+`editorSettings.maxlength` Sets the input editor's `maxlength` property to the max characters you can type
+`editorSettings.uppercase` Sets the input editor's to all uppercase
 
 When the use clicks in the cell or activates editing with the keyboard with the Enter key and types. The following events will fire.
 
@@ -378,7 +380,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`href` | {string|Function} | Used to create the href for hyperlink formatters. This can be a string or a function that can work dynamically. It can also replace `{{value}}` with the current value. |
 |`text` | {string} | Used to create the txt value for hyperlink formatters if a hard coded link text is needed. |
 |`disabled` | {boolean|Function} | Sets the cell contents to disabled, can also use a callback to determine this dynamically. Only checkboxes, radios, buttons and link columns can be disabled at this time. Selection columns require disabled rows in order to not be clickable/selectable. |
-|`uppercase` | {boolean} | Allows you to set the text as uppercase. |
+|`uppercase` | {boolean} | Transforms all the text in the cell contents to uppercase. See also filterOptions and editorOptions |
 
 ## Formatters
 
@@ -538,7 +540,7 @@ All the filter settings can be passed thru columns data.
 |`filterType` | Function | Data grid built-in filter method, see the dedicated section below. |
 |`filterConditions` | Array | List of items to be use as operators in menu-button or options in dropdown. |
 |`filterFunction` | Function | User defined filter method, it must return a boolean. |
-|`filterOptions` | Object | Setting for components are in use, for example: `label, placeholder, disabled`. |
+|`filterOptions` | Object | Passes settings in for the filter component example: `label, placeholder, disabled, uppercase, maxlength`. |
 |`isChecked` | Function | User defined filter method, it must return a boolean. This method use along built-in `checkbox` only, when filter data value is not boolean type. |
 
 ### Built-in Filter Methods

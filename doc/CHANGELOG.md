@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.14
+
+### 1.0.0-beta.14 Fixes
+
+- `[DataGrid]` Added `uppercase` and `maxlength` settings to editors and filters (text only). ([#1309](https://github.com/infor-design/enterprise-wc/issues/1309))
+
 ## 1.0.0-beta.13
 
 ### 1.0.0-beta.13 Fixes

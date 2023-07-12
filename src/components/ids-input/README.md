@@ -143,13 +143,15 @@ setData();
 - `size` {string} set the input size, it will set `md` as defaults.
 - `search-field` when autocomplete is enabled can be set to a string of the field to be searched in the dataset.
 - `revealable-text` {boolean} sets whether the show/hide button is available for password fields must be paired with type='password'
-- `readonly` {boolean} set readonly state.
-- `text-align` {string} set text-align to input, it will set `left` as defaults.
-- `type` {string} set the input type, it will set `text` as defaults.
-- `validate` {string} set the input validation rules, use `space` to add multiple validation rules.
+- `readonly` {boolean} sets the input's readonly state.
+- `text-align` {string} sets the text alignment (default is `left`).
+- `type` {string} set the input type, (default is `text`)
+- `validate` {string} sets the input validation rules, use `space` to add multiple validation rules.
 - `format` {string} if the validation rules include date/time, use the setting to set custom date/time format
 - `validationEvents` {string} set the input validation events, use `space` to add multiple validation rules, it will set `blur` as defaults.
-- `value` {string} set the input value.
+- `value` {string} sets the input value.
+- `maxlength` {number}  sets the input's `maxlength` property to the max characters you can type
+- `uppercase` {boolean} sets the input editor's to all uppercase
 
 ## Keyboard Guidelines
 
