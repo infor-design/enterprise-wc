@@ -1495,8 +1495,17 @@ export default class IdsDataGrid extends Base {
    * @param {number} rowIndex row index
    */
   #scrollTo(rowIndex: number): void {
+    const oldScrollTop = (this.parentElement) ? this.parentElement.scrollTop : 0;
+    this.rowByIndex(rowIndex)?.scrollIntoView?.();
     const headerHeight = this.header.clientHeight;
-    this.container!.scrollTop = (this.rowByIndex(rowIndex)?.offsetTop || 0) - headerHeight;
+    const scrollHeight = this.container!.scrollHeight;
+    const containerHeight = this.container!.clientHeight;
+    const scrollTop = this.container!.scrollTop;
+    const isScrollBottom = (scrollTop + containerHeight) >= scrollHeight;
+
+    // offset for sticky header height
+    if (!isScrollBottom) this.container!.scrollTop -= headerHeight;
+    if (this.parentElement) this.parentElement.scrollTop = oldScrollTop;
   }
 
   /**
