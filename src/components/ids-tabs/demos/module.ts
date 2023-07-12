@@ -7,11 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const tabContentContainer: any = document.querySelector('div.ids-tabs-content');
   let newTabCount = 0;
 
-  const appMenuTab: any = document.querySelector('ids-tab[value="app-menu"]');
-  appMenuTab.onAction = () => {
-    console.info('Toggle App Menu');
-  };
-
   const addTab: any = document.querySelector('ids-tab[value="add"]');
   addTab.onAction = () => {
     addTab.insertAdjacentHTML('beforebegin', `<ids-tab color-variant="module" value="new-tab-${newTabCount}" dismissible>New Tab ${newTabCount}</ids-tab>`);

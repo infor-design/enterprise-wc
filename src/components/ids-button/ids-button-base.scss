@@ -280,12 +280,12 @@
     }
   }
 
-    // These appear in app menu
-    &.color-variant-app-menu {
-      &:hover {
-        background-color: rgba(255 255 255 / 0.15);
-      }
+  // These appear in app menu
+  &.color-variant-app-menu {
+    &:hover {
+      background-color: rgba(255 255 255 / 0.15);
     }
+  }
 
 
   // These appear in places with dark background like app menu and masthead, generally default/tertiary buttons

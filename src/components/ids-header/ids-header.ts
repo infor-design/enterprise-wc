@@ -4,15 +4,18 @@ import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsElement from '../../core/ids-element';
 
 import '../ids-input/ids-input';
 
 import styles from './ids-header.scss';
 
-const Base = IdsKeyboardMixin(
-  IdsEventsMixin(
-    IdsElement
+const Base = IdsColorVariantMixin(
+  IdsKeyboardMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
   )
 );
 
@@ -62,6 +65,8 @@ export default class IdsHeader extends Base {
    */
   #refreshVariants() {
     const elementNames = ['ids-button', 'ids-breadcrumb', 'ids-search-field', 'ids-text', 'ids-theme-switcher'];
+
+    if (this.colorVariant === 'module') return;
 
     for (const element of elementNames) {
       const idsElements = [...this.querySelectorAll<any>(element)];

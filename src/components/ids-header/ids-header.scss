@@ -8,6 +8,12 @@
   width: 100%;
 }
 
+.ids-header.color-variant-module {
+  background-color: var(--ids-header-module-color-background);
+  border-bottom: 1px solid var(--ids-header-module-color-border-bottom);
+  color: var(--ids-header-module-color-text);
+}
+
 ::slotted(ids-toolbar),
 .ids-toolbar {
   padding: var(--ids-header-padding);

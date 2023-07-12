@@ -63,7 +63,7 @@ $ids-tab-vertical-height: 42px;
 // None
 :host(ids-tab[color-variant='module']:not(:last-child)),
 .ids-tabs-container.color-variant-module .ids-tab:not(:last-child) {
-  border-right: 1px solid var(--ids-tab-module-color-border-right);
+  border-inline-end: 1px solid var(--ids-tab-module-color-border-right);
 }
 
 // Spacing rules for Module Tabs
@@ -81,10 +81,6 @@ $ids-tab-vertical-height: 42px;
 }
 
 // "More Tabs" tab flex rules
-
-:host(ids-tab-more) {
-  margin-block-end: auto;
-}
 
 ::slotted(ids-icon) {
   color: currentColor;
@@ -251,6 +247,9 @@ $ids-tab-vertical-height: 42px;
   // Structural rules for Module Tabs color variant
 
   &.color-variant-module {
+    outline: none;
+    border-bottom-width: 1px;
+
     // Scoped to the first child text element to avoid conflicts with menus
     > ids-text,
     > .ids-text {
@@ -278,6 +277,14 @@ $ids-tab-vertical-height: 42px;
       > ids-trigger-button {
         flex-grow: 0;
         flex-shrink: 1;
+      }
+
+      &:hover {
+        ::slotted(ids-trigger-button),
+        > .ids-trigger-button,
+        > ids-trigger-button {
+          visibility: visible;
+        }
       }
     }
 
