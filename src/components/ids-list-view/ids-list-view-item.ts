@@ -13,7 +13,7 @@ const Base = IdsEventsMixin(
 );
 
 /**
- * IDS List View Component
+ * IDS List View Item Component
  * @type {IdsListViewItem}
  * @inherits IdsElement
  */
