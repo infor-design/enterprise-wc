@@ -506,7 +506,8 @@ export default class IdsListView extends Base {
   }
 
   #childElements(): Element[] {
-    return this.#childSlot()?.assignedElements() ?? [];
+    return (this.#childSlot()?.assignedElements() ?? [])
+      .filter((e) => String(e.tagName).toLowerCase() === 'ids-list-view-item');
   }
 
   /**
@@ -632,7 +633,7 @@ export default class IdsListView extends Base {
    * @returns {string} The html for this item
    */
   itemTemplate(item: any): string {
-    return item?.innerHTML
+    return String(item?.tagName).toLowerCase() === 'ids-list-view-item'
       ? `<slot name="${item?.getAttribute?.('slot')}"></slot>`
       : injectTemplate(this.defaultTemplate, this.searchHighlight?.(item) ?? item);
   }
