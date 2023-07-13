@@ -17,6 +17,7 @@
 - `[DataGrid]` Add ability to multi select with shift key. ([#1330](https://github.com/infor-design/enterprise-wc/issues/1330))
 - `[DataGrid]` Fix tree not selecting or collapsing all children in AngularJS. ([#1284](https://github.com/infor-design/enterprise-wc/issues/1284))
 - `[DataGrid]` Fix tree collapse/expand state while sorting. ([#1284](https://github.com/infor-design/enterprise-wc/issues/1284))
+- `[Tabs]` Add alabaster changes to module tabs and header. ([#1339](https://github.com/infor-design/enterprise/issues/1339))
 - `[Tooltip]` Changed the tooltip heights to match. ([#7509](https://github.com/infor-design/enterprise/issues/7509))
 - `[Themes]` Added theme switcher to side-by-side examples and ability to switch 4.x themes in the `ids-theme-switcher `component. ([#939](https://github.com/infor-design/enterprise-wc/issues/939))
 - `[DataGrid]` Fixed a bug in the filter header where text selection in the inputs would cause accidental dragging. ([#1321](https://github.com/infor-design/enterprise-wc/issues/1321))
