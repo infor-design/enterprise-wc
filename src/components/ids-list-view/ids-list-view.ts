@@ -822,7 +822,7 @@ export default class IdsListView extends Base {
    * Rerender the list by re applying the template
    */
   redraw() {
-    if (this.#childElements().length) {
+    if (!this.data?.length && this.#childElements().length) {
       this.container?.querySelectorAll('[index]').forEach((e) => e.remove());
     } else if (!this.data || !this.loaded) {
       if (!this.data?.length) this.getAllLi()?.forEach((li: HTMLElement) => li?.remove());

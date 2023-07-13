@@ -60,6 +60,7 @@ export default class IdsListViewItem extends Base {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeAttribute?.('slot');
+    // this.parentListItemWrapper?.remove?.(); // TODO: ideal but, causes infinite loop in tests...
     (this.parentListView as any)?.disconnectedCallback?.();
   }
 

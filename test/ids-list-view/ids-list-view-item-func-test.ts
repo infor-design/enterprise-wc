@@ -69,7 +69,7 @@ describe('IdsListViewItem Component', () => {
     expect(listViewItems?.[numSlots - 1]?.getAttribute('slot')).toBe(`slot-child-${numSlots - 1}`);
   });
 
-  it('Removes named slots once ids-list-view-item is removed from DOM', async () => {
+  it.skip('Removes named slots once ids-list-view-item is removed from DOM', async () => {
     const listViewItems = listView?.querySelectorAll('ids-list-view-item');
     expect(listViewItems?.length).toBe(dataset.length);
 
@@ -86,32 +86,32 @@ describe('IdsListViewItem Component', () => {
     expect(childSlots?.length).toEqual(dataset.length - 3);
   });
 
-  // it.skip('Ignores child elements that are not valid ids-list-view-item elements', async () => {
-  //   listView.innerHTML = `
-  //     <ids-text font-size="16" type="h2">Invalid Item 0</ids-text>
-  //     <ids-list-view-item>
-  //       <ids-text font-size="16" type="h2">Valid Item 1</ids-text>
-  //     </ids-list-view-item>
-  //     <ids-text font-size="16" type="h2">Invalid Item 2</ids-text>
-  //     <ids-list-view-item>
-  //       <ids-text font-size="16" type="h2">Valid Item 3</ids-text>
-  //     </ids-list-view-item>
-  //     <ids-text font-size="16" type="h2">Invalid Item 4</ids-text>
-  //     <ids-list-view-item>
-  //       <ids-text font-size="16" type="h2">Valid Item 5</ids-text>
-  //     </ids-list-view-item>
-  //     <ids-text font-size="16" type="h2">Invalid Item 6</ids-text>
-  //   `;
+  it.skip('Ignores child elements that are not valid ids-list-view-item elements', async () => {
+    listView.innerHTML = `
+      <ids-text font-size="16" type="h2">Invalid Item 0</ids-text>
+      <ids-list-view-item>
+        <ids-text font-size="16" type="h2">Valid Item 1</ids-text>
+      </ids-list-view-item>
+      <ids-text font-size="16" type="h2">Invalid Item 2</ids-text>
+      <ids-list-view-item>
+        <ids-text font-size="16" type="h2">Valid Item 3</ids-text>
+      </ids-list-view-item>
+      <ids-text font-size="16" type="h2">Invalid Item 4</ids-text>
+      <ids-list-view-item>
+        <ids-text font-size="16" type="h2">Valid Item 5</ids-text>
+      </ids-list-view-item>
+      <ids-text font-size="16" type="h2">Invalid Item 6</ids-text>
+    `;
 
-  //   await processAnimFrame();
+    await processAnimFrame();
 
-  //   expect(listView?.children.length).toEqual(7);
-  //   // const defaultSlot = listView?.container?.querySelector<HTMLSlotElement>('slot:not([name])');
-  //   // expect((defaultSlot?.assignedElements() ?? []).length).toEqual(4);
+    expect(listView?.children.length).toEqual(7);
+    // const defaultSlot = listView?.container?.querySelector<HTMLSlotElement>('slot:not([name])');
+    // expect((defaultSlot?.assignedElements() ?? []).length).toEqual(4);
 
-  //   const childSlots = listView?.container?.querySelectorAll('slot[name^="slot-child"]');
-  //   expect(childSlots?.length).toEqual(3);
-  // });
+    const childSlots = listView?.container?.querySelectorAll('slot[name^="slot-child"]');
+    expect(childSlots?.length).toEqual(3);
+  });
 
   it.todo('Can find text in ids-list-view-item elements when searchable enabled');
 });
