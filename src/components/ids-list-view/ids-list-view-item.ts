@@ -58,10 +58,12 @@ export default class IdsListViewItem extends Base {
    * Invoked each time the custom element is removed from a document-connected element.
    */
   disconnectedCallback() {
-    super.disconnectedCallback();
-    this.removeAttribute?.('slot');
-    // this.parentListItemWrapper?.remove?.(); // TODO: ideal but, causes infinite loop in tests...
-    (this.parentListView as any)?.disconnectedCallback?.();
+    if (document.body.contains(this.parentListView)) {
+      super.disconnectedCallback();
+      this.removeAttribute?.('slot');
+      this.parentListItemWrapper?.remove?.();
+      // (this.parentListView as any)?.disconnectedCallback?.();
+    }
   }
 
   /**

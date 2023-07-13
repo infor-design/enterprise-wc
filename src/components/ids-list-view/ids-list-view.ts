@@ -135,7 +135,7 @@ export default class IdsListView extends Base {
    * Invoked each time the custom element is removed from a document-connected element.
    */
   disconnectedCallback() {
-    if (this.parentElement) {
+    if (document.body.contains(this)) {
       // only redraw on disconnect if list-view is still in DOM
       this.redrawLazy();
     }

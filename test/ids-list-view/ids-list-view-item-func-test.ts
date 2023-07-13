@@ -69,17 +69,16 @@ describe('IdsListViewItem Component', () => {
     expect(listViewItems?.[numSlots - 1]?.getAttribute('slot')).toBe(`slot-child-${numSlots - 1}`);
   });
 
-  it.skip('Removes named slots once ids-list-view-item is removed from DOM', async () => {
+  it('Removes named slots once ids-list-view-item is removed from DOM', async () => {
     const listViewItems = listView?.querySelectorAll('ids-list-view-item');
     expect(listViewItems?.length).toBe(dataset.length);
 
     let childSlots = listView?.container?.querySelectorAll('slot[name^="slot-child"]');
     expect(childSlots?.length).toEqual(dataset.length);
 
-    const [item1, item2, item3] = listViewItems;
-    item1.remove();
-    item2.remove();
-    item3.remove();
+    listViewItems[0].remove();
+    listViewItems[1].remove();
+    listViewItems[2].remove();
     await processAnimFrame();
 
     childSlots = listView?.container?.querySelectorAll('slot[name^="slot-child"]');
