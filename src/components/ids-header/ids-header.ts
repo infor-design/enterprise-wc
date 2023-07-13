@@ -29,6 +29,8 @@ const Base = IdsColorVariantMixin(
 @customElement('ids-header')
 @scss(styles)
 export default class IdsHeader extends Base {
+  colorVariants: string[] = ['module'];
+
   constructor() {
     super();
   }

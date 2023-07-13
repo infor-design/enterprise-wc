@@ -54,14 +54,13 @@ const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class ext
     const safeValue = val ? stripHTML(val) : '';
     const currentValue = this.colorVariant;
 
-    if (!safeValue || currentValue === safeValue) return;
-
     if (this.colorVariants.includes(safeValue)) {
       this.setAttribute(attributes.COLOR_VARIANT, `${safeValue}`);
     } else {
       this.removeAttribute(attributes.COLOR_VARIANT);
     }
 
+    if (!safeValue || currentValue === safeValue) return;
     this.#refreshColorVariant(currentValue, safeValue);
   }
 

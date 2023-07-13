@@ -23,6 +23,9 @@
   - link: eyebrow.html
     type: Example
     description: Showing a header with eyebrow settings
+  - link: module.html
+    type: Example
+    description: Showing a header in module color variant
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a header with stand alone css
