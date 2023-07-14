@@ -260,6 +260,7 @@ export const attributes = {
   MAX_ROW_HEIGHT: 'max-row-height',
   MAX_TRANSFORM_X: 'max-transform-x',
   MAX_TRANSFORM_Y: 'max-transform-y',
+  MAX_WIDTH: 'max-width',
   MENU: 'menu',
   MENU_ID: 'menu-id',
   MESSAGE: 'message',

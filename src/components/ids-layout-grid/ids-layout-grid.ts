@@ -11,6 +11,7 @@ import {
   GAP_TYPES,
   FLOW_TYPES,
   MARGIN_SIZES,
+  MAX_WIDTH_SIZES,
   PADDING_SIZES,
   prefix
 } from './ids-layout-grid-common';
@@ -347,7 +348,7 @@ export default class IdsLayoutGrid extends IdsElement {
 
   /**
    * Set the margin attribute
-   * @param {string | null} value The value of the margin [null, 'sm', 'md', 'lg', 'xl']
+   * @param {string | null} value The value of the margin [null, 'sm', 'md', 'lg', 'xl', 'auto']
    */
   set margin(value: string | null) {
     if (!value || MARGIN_SIZES.indexOf(value as any) <= 0) {
@@ -380,6 +381,23 @@ export default class IdsLayoutGrid extends IdsElement {
    * @returns {string | null} The number value that represents the margin of the grid
    */
   get marginY(): string | null { return this.getAttribute(attributes.MARGIN_Y); }
+
+  set maxWidth(value: string | null) {
+    if (!value || MAX_WIDTH_SIZES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.MAX_WIDTH);
+
+      // If custom value is set use custom property
+      if (value?.endsWith('px')) {
+        this.style.setProperty('--max-width', value);
+        this.setAttribute(attributes.MAX_WIDTH, value);
+      }
+    } else {
+      this.setAttribute(attributes.MAX_WIDTH, value);
+      this.style.removeProperty('--max-width');
+    }
+  }
+
+  get maxWidth(): string | null { return this.getAttribute(attributes.MAX_WIDTH); }
 
   /**
    * Set the padding attribute
