@@ -382,6 +382,10 @@ export default class IdsLayoutGrid extends IdsElement {
    */
   get marginY(): string | null { return this.getAttribute(attributes.MARGIN_Y); }
 
+  /**
+   * Set the maxWidth attribute
+   * @param {string | null} value The value of the max-width [null, 'xs', 'sm', 'md', 'lg', 'xl', 'xxl', '###px']
+   */
   set maxWidth(value: string | null) {
     if (!value || MAX_WIDTH_SIZES.indexOf(value as any) <= 0) {
       this.removeAttribute(attributes.MAX_WIDTH);
@@ -397,6 +401,10 @@ export default class IdsLayoutGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the maxWidth attribute
+   * @returns {string | null} The value that represents the maxWidth of the grid
+   */
   get maxWidth(): string | null { return this.getAttribute(attributes.MAX_WIDTH); }
 
   /**
