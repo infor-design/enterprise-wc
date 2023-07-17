@@ -67,7 +67,7 @@ export default class IdsTab extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate', 'module'];
+  colorVariants = ['alternate', 'module', 'header'];
 
   /**
    * @returns {Array<string>} Drawer vetoable events

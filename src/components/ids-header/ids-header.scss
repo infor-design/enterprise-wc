@@ -1,17 +1,12 @@
 /* Ids Header Component */
 .ids-header {
   background-color: var(--ids-header-color-background);
+  border-bottom: 1px solid var(--ids-header-color-border-bottom);
   color: var(--ids-header-color-text);
   display: flex;
   flex-direction: column;
   transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
   width: 100%;
-}
-
-.ids-header.color-variant-module {
-  background-color: var(--ids-header-module-color-background);
-  border-bottom: 1px solid var(--ids-header-module-color-border-bottom);
-  color: var(--ids-header-module-color-text);
 }
 
 ::slotted(ids-toolbar),

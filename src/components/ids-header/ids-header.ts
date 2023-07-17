@@ -29,7 +29,7 @@ const Base = IdsColorVariantMixin(
 @customElement('ids-header')
 @scss(styles)
 export default class IdsHeader extends Base {
-  colorVariants: string[] = ['module'];
+  colorVariants: string[] = ['alternate'];
 
   constructor() {
     super();
@@ -68,7 +68,7 @@ export default class IdsHeader extends Base {
   #refreshVariants() {
     const elementNames = ['ids-button', 'ids-breadcrumb', 'ids-search-field', 'ids-text', 'ids-theme-switcher'];
 
-    if (this.colorVariant === 'module') return;
+    if (this.colorVariant !== 'alternate') return;
 
     for (const element of elementNames) {
       const idsElements = [...this.querySelectorAll<any>(element)];

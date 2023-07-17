@@ -627,16 +627,12 @@
   --ids-hierarchy-item-selected-leaf-shadow: 0 0 0 5px rgba(54 138 192 / 0.3);
 
   // Headers
-  --ids-header-color-background: var(--ids-color-primary);
-  --ids-header-color-text: var(--ids-color-text-on-primary);
+  --ids-header-color-border-bottom: var(--ids-color-slate-30);
+  --ids-header-color-background: var(--ids-color-slate-00);
+  --ids-header-color-text: var(--ids-color-text-default);
   --ids-header-padding: 8px;
   --ids-header-gradient-opacity-none: rgb(0 114 237 / 1);
   --ids-header-gradient-opacity-full: rgb(0 114 237 / 0);
-
-  // Header (Module Variant)
-  --ids-header-module-color-background: var(--ids-color-slate-00);
-  --ids-header-module-color-border-bottom: var(--ids-color-slate-50);
-  --ids-header-module-color-text: var(--ids-color-neutral-100);
 
   // Hyperlinks
   --ids-hyperlink-border-radius: var(--ids-border-radius-02);
@@ -1122,18 +1118,28 @@
 
   // Tab
   --ids-tab-content-color-text: var(--ids-color-text);
-  --ids-tab-color-text-default: var(--ids-color-text-subtle);
-  --ids-tab-divider-color-background: var(--ids-color-neutral-30);
-  --ids-tab-color-background-hover: var(--ids-color-azure-10);
-  --ids-tab-color-text-hover: var(--ids-color-primary);
-  --ids-tab-color-border-focus: var(--ids-color-primary);
-  --ids-tab-color-border-bottom: var(--ids-color-neutral-30);
-  --ids-tab-color-background-focus: var(--ids-tab-color-background-hover);
-  --ids-tab-color-text-disabled: var(--ids-color-neutral-30);
-  --ids-tab-color-text-selected: var(--ids-color-primary);
-  --ids-tab-vertical-color-background-selected: var(--ids-color-primary);
-  --ids-tab-vertical-color-text-selected: var(--ids-color-neutral-00);
+  --ids-tab-color-text-default: var(--ids-color-text-default);
+  --ids-tab-divider-color-background: var(--ids-color-slate-30);
+  --ids-tab-color-background-hover: var(--ids-color-slate-20);
+  --ids-tab-color-text-hover: var(--ids-slate-80);
+  --ids-tab-color-border-focus: var(--ids-color-slate-80);
+  --ids-tab-color-border-bottom: var(--ids-color-slate-30);
+  --ids-tab-color-text-disabled: var(--ids-color-slate-30);
+  --ids-tab-color-text-selected: var(--ids-color-slate-100);
+
+  // Tab (Header Variant)
+  --ids-tab-header-color-background-hover: var(--ids-color-slate-20);
+
+  // Tab (Vertical Orientation)
+  --ids-tab-vertical-color-background-default: var(--ids-color-slate-20);
+  --ids-tab-vertical-color-text-default: var(--ids-color-slate-90);
+  --ids-tab-vertical-color-background-hover: var(--ids-color-slate-30);
+  --ids-tab-vertical-color-text-hover: var(--ids-color-neutral-70);
+  --ids-tab-vertical-color-background-selected: var(--ids-color-slate-00);
   --ids-tab-vertical-color-border-selected: var(--ids-color-neutral-00);
+  --ids-tab-vertical-color-text-selected: var(--ids-color-slate-100);
+  --ids-tab-vertical-color-background-disabled: var(--ids-color-slate-40);
+  --ids-tab-vertical-color-text-disabled: var(--ids-color-slate-50);
 
   // Tab (Alternate Variant)
   --ids-tab-alternate-color-text-default: rgba(255 255 255 / 0.7);
