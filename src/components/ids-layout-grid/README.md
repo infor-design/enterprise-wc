@@ -180,6 +180,9 @@ An Ids Layout Grid with a custom number of columns or rows. The example above sh
 
 Above is an example of a contained and centered grid. The max-width attribute is set to "lg", which represents a predefined breakpoint value for the maximum width of the grid. This controls how wide the grid can become. The margin attribute is set to "auto" to horizontally center the entire grid on the page by applying equal left and right margins.
 
+*Note*:
+The available sizes for maxWidth are based on the current predefined breakpoint sizes. These breakpoint sizes provide convenient options for setting the maximum width of the grid, ensuring responsiveness and compatibility with different screen sizes. However, the maxWidth attribute also allows users to specify a custom width if needed, giving them flexibility in defining the maximum width according to their specific requirements. While custom widths can be used, it is generally recommended to utilize the predefined breakpoint sizes whenever possible for consistency and responsiveness across different devices and viewports.
+
 ---
 
 Examples of grid with responsive col-spans
