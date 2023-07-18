@@ -105,12 +105,37 @@ describe('IdsListViewItem Component', () => {
     await processAnimFrame();
 
     expect(listView?.children.length).toEqual(7);
-    // const defaultSlot = listView?.container?.querySelector<HTMLSlotElement>('slot:not([name])');
-    // expect((defaultSlot?.assignedElements() ?? []).length).toEqual(4);
+    const defaultSlot = listView?.container?.querySelector<HTMLSlotElement>('slot:not([name])');
+    expect((defaultSlot?.assignedElements() ?? []).length).toEqual(4);
 
     const childSlots = listView?.container?.querySelectorAll('slot[name^="slot-child"]');
     expect(childSlots?.length).toEqual(3);
   });
 
-  it.todo('Can find text in ids-list-view-item elements when searchable enabled');
+  it.skip('Can find text in ids-list-view-item elements when searchable enabled', async () => {
+    expect(listView.searchable).toBeFalsy();
+
+    listView.searchable = true;
+    expect(listView.searchable).toBeTruthy();
+    expect(listView.searchField).toBeTruthy();
+
+    expect(listView.searchField?.value).toBe('');
+
+    const listViewItems = listView?.querySelectorAll('ids-list-view-item');
+    expect(listViewItems?.length).toBe(dataset.length);
+
+    let childSlots = listView?.container?.querySelectorAll('slot[name^="slot-child"]');
+    expect(childSlots?.length).toEqual(dataset.length);
+
+    const numBeefProducts = dataset.filter((item) => item.productName.includes('Beef'));
+    expect(numBeefProducts.length > 0).toBe(true);
+    expect(numBeefProducts.length).toBe(3);
+
+    (listView.searchField as any).value = 'Beef';
+
+    await processAnimFrame();
+
+    childSlots = listView?.container?.querySelectorAll('slot[name^="slot-child"]');
+    expect(childSlots?.length).toEqual(numBeefProducts.length);
+  });
 });
