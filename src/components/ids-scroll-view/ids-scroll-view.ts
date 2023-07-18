@@ -295,18 +295,20 @@ export default class IdsScrollView extends Base {
    * @returns {void}
    */
   #renderCircleButtons(): void {
+    let controlButtons = '';
     this.querySelectorAll('[slot]').forEach((item, i) => {
       const cssClass = ` class="circle-button${i === 0 ? ' selected' : ''}"`;
       const ariaSelected = i === 0 ? ' aria-selected="true"' : '';
       const label = item.getAttribute('label') || item.getAttribute('alt') || '';
       const tooltip = this.showTooltip ? `tooltip="${label}"` : '';
 
-      this.controls?.insertAdjacentHTML('beforeend', `
-        <ids-button data-slide-number="${i}" part="button" exportparts="button: scroll-view-button" role="tab"${cssClass}${ariaSelected}${tooltip}>
-          <ids-icon icon="filter-not-selected"></ids-icon>
-          <span class="audible">${label}</span>
-        </ids-button>`);
+      controlButtons += `<ids-button data-slide-number="${i}" part="button" exportparts="button: scroll-view-button" role="tab"${cssClass}${ariaSelected}${tooltip}>
+        <ids-icon icon="filter-not-selected"></ids-icon>
+        <span class="audible">${label}</span>
+      </ids-button>`;
     });
+
+    if (this.controls) this.controls.innerHTML = controlButtons;
   }
 
   /**
@@ -365,6 +367,10 @@ export default class IdsScrollView extends Base {
         e.stopPropagation();
       }
     });
+
+    const itemSlot = this.container?.querySelector(`slot[name="scroll-view-item"]`);
+    this.offEvent('click.scrollview', itemSlot);
+    this.onEvent('slotchange', itemSlot, () => this.#renderCircleButtons());
 
     // Handle scroll-end, after snap scrolling event is complete
     // https://stackoverflow.com/a/66029649
