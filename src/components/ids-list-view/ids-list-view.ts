@@ -61,6 +61,8 @@ export interface IdsListViewItemInfo {
   data: any;
 }
 
+const SEARCH_FILTER_CLASS = 'search-mismatch';
+
 // Default settings
 const LIST_VIEW_DEFAULTS = {
   hideCheckboxes: false, // Only apply to selectable multiple
@@ -129,6 +131,8 @@ export default class IdsListView extends Base {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
     this.#attachEventListeners();
+    // this.#attachSearchableTextCallback();
+    this.#attachSearchFilterCallback();
   }
 
   /**
@@ -383,6 +387,34 @@ export default class IdsListView extends Base {
     }
   }
 
+  // #attachSearchableTextCallback() {
+  //   const searchableTextCallback = this.searchableTextCallback;
+  //   if (this.#childElements()?.length && !this.data.length) {
+  //     this.searchableTextCallback = (item: any) => (String(item?.innerText ?? '').toLowerCase());
+  //   } else {
+  //     this.searchableTextCallback = searchableTextCallback;
+  //   }
+  // }
+
+  #attachSearchFilterCallback() {
+    if (this.#childElements()?.length) {
+      this.searchFilterCallback = (term: string) => {
+        this.#childElements()?.forEach((item: any) => {
+          const needle = String(term).toLowerCase();
+          const haystack = String(item?.innerText ?? '').toLowerCase();
+          if (haystack.includes(needle)) {
+            item.classList.remove(SEARCH_FILTER_CLASS);
+          } else {
+            item.classList.add(SEARCH_FILTER_CLASS);
+            item.setAttribute('slot', SEARCH_FILTER_CLASS);
+          }
+        });
+
+        return () => false;
+      };
+    }
+  }
+
   /**
    * Set the selection for given item
    * @private
@@ -532,10 +564,13 @@ export default class IdsListView extends Base {
 
   /**
    * Get all valid <ids-list-view-item> child elements inside this <ids-list-view>
-   * @returns {Element[]} All ids-list-view-item child elements
+   * @param {boolean} filtered - if true, show only items that match search filter
+   * @returns {Element[]} All <ids-list-view-item> child elements
    */
-  #childElements(): Element[] {
-    return [...this.querySelectorAll('ids-list-view-item')];
+  #childElements(filtered = false): Element[] {
+    return filtered
+      ? [...this.querySelectorAll(`ids-list-view-item:not(.${SEARCH_FILTER_CLASS})`)]
+      : [...this.querySelectorAll(`ids-list-view-item`)];
   }
 
   /**
@@ -560,7 +595,7 @@ export default class IdsListView extends Base {
       return this.itemTemplate(item);
     };
 
-    const kids = this.#childElements();
+    const kids = this.#childElements(true);
     const func = (item: any, index: number) => {
       if (item?.setAttribute) {
         item?.setAttribute('slot', `slot-child-${index}`);
@@ -611,7 +646,7 @@ export default class IdsListView extends Base {
    */
   staticScrollTemplate(): string {
     const selectable = this.selectable ? ` ${this.selectableClass()}` : '';
-    const listItems = this.data?.length ? this.data : this.#childElements();
+    const listItems = this.data?.length ? this.data : this.#childElements(true);
     return `
       <div class="ids-list-view${selectable}">
         <div class="ids-list-view-body" role="listbox" aria-label="${this.label}">
