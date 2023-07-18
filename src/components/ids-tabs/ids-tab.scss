@@ -134,16 +134,8 @@ $ids-tab-vertical-height: 42px;
   }
 
   // Focus state
-  &:focus-within,
-  &:focus-visible,
-  &:focus {
+  &:focus-visible:not(.hide-focus) {
     border-color: var(--ids-tab-color-border-focus);
-  }
-
-  // Focus state (hide-focus)
-  &:not(.hide-focus):focus-visible,
-  &:not(.hide-focus):focus,
-  &:not(.hide-focus):focus-within {
     border-style: solid;
     outline: none;
   }
