@@ -131,7 +131,6 @@ export default class IdsListView extends Base {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
     this.#attachEventListeners();
-    // this.#attachSearchableTextCallback();
     this.#attachSearchFilterCallback();
   }
 
@@ -387,22 +386,13 @@ export default class IdsListView extends Base {
     }
   }
 
-  // #attachSearchableTextCallback() {
-  //   const searchableTextCallback = this.searchableTextCallback;
-  //   if (this.#childElements()?.length && !this.data.length) {
-  //     this.searchableTextCallback = (item: any) => (String(item?.innerText ?? '').toLowerCase());
-  //   } else {
-  //     this.searchableTextCallback = searchableTextCallback;
-  //   }
-  // }
-
   #attachSearchFilterCallback() {
     if (this.#childElements()?.length) {
       this.searchFilterCallback = (term: string) => {
         this.#childElements()?.forEach((item: any) => {
           const needle = String(term).toLowerCase();
           const haystack = String(item?.innerText ?? '').toLowerCase();
-          if (haystack.includes(needle)) {
+          if (!term || haystack.includes(needle)) {
             item.classList.remove(SEARCH_FILTER_CLASS);
           } else {
             item.classList.add(SEARCH_FILTER_CLASS);
@@ -413,6 +403,19 @@ export default class IdsListView extends Base {
         return () => false;
       };
     }
+  }
+
+  resetSearch() {
+    const kids = this.#childElements();
+    if (kids.length) {
+      this.datasource.filtered = true;
+      kids.forEach((item) => {
+        item.classList.remove(SEARCH_FILTER_CLASS);
+        item.removeAttribute('slot');
+      });
+    }
+
+    super.resetSearch();
   }
 
   /**
