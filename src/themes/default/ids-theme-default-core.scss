@@ -634,6 +634,10 @@
   --ids-header-gradient-opacity-none: rgb(0 114 237 / 1);
   --ids-header-gradient-opacity-full: rgb(0 114 237 / 0);
 
+  // Header (Alternate Variant)
+  --ids-header-alternate-color-background: var(--ids-color-primary);
+  --ids-header-alternate-color-text: var(--ids-color-slate-00);
+
   // Hyperlinks
   --ids-hyperlink-border-radius: var(--ids-border-radius-02);
   --ids-hyperlink-cursor: var(--ids-cursor-pointer);
