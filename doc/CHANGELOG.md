@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.14
+
+### 1.0.0-beta.14 Fixes
+
+- `[DataGrid]` Adds guards to Datagrid's `this.header` value because it is being referenced in some places before it is loaded in DOM. ([#1250](https://github.com/infor-design/enterprise-wc/issues/1250))
+
 ## 1.0.0-beta.13
 
 ### 1.0.0-beta.13 Fixes
