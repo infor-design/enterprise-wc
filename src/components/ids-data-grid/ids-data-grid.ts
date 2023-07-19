@@ -332,7 +332,7 @@ export default class IdsDataGrid extends Base {
     this.#setColumnWidths();
 
     this.#applyAutoFit();
-    this.header.setHeaderCheckbox();
+    this.header?.setHeaderCheckbox();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#attachScrollEvents();
@@ -379,10 +379,10 @@ export default class IdsDataGrid extends Base {
 
           const headerHeight = this.header?.getBoundingClientRect?.().height ?? 0;
           this.container.scrollTop = scrollTopPixels - headerHeight;
-          this.scrollRowIntoView(rowStart);
+          this.#scrollRowIntoView(rowStart);
           requestAnimationTimeout(() => {
             this.#attachVirtualScrollEvent();
-            this.scrollRowIntoView(this.rowStart);
+            this.#scrollRowIntoView(this.rowStart);
           }, 150);
           handleReady();
         }
@@ -501,7 +501,7 @@ export default class IdsDataGrid extends Base {
       else this.selectRow(i);
     }
     this.#getSelection()?.removeAllRanges?.();
-    this.header.setHeaderCheckbox();
+    this.header?.setHeaderCheckbox();
 
     this.triggerEvent('selectionchanged', this, {
       detail: { elem: this, selectedRows: this.selectedRows }
@@ -665,7 +665,7 @@ export default class IdsDataGrid extends Base {
     resetEmptyMessageElements.apply(this);
     this.redraw();
     this.triggerEvent('columnmoved', this, { detail: { elem: this, fromIndex: correctFromIndex, toIndex: correctToIndex } });
-    if (this.sortColumn) this.header.setSortState(this.sortColumn.id, this.sortColumn.ascending);
+    if (this.sortColumn) this.header?.setSortState(this.sortColumn.id, this.sortColumn.ascending);
     this.saveSettings?.();
   }
 
@@ -1012,7 +1012,7 @@ export default class IdsDataGrid extends Base {
     this.sortColumn = { id, ascending };
     this.datasource.sort(sortField || '', ascending);
     this.redrawBody();
-    this.header.setSortState(id, ascending);
+    this.header?.setSortState(id, ascending);
     this.triggerEvent('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
     this.saveSettings?.();
   }
@@ -1023,7 +1023,7 @@ export default class IdsDataGrid extends Base {
    * @param {boolean} ascending Sort ascending (lowest first) or descending (lowest last)
    */
   setSortState(id: string, ascending = true) {
-    this.header.setSortState(id, ascending);
+    this.header?.setSortState(id, ascending);
   }
 
   /**
@@ -1298,7 +1298,9 @@ export default class IdsDataGrid extends Base {
    * @param {Array} value The array to use
    */
   set headerMenuData(value) {
-    this.header.state.headerMenuData = value;
+    if (this?.header?.state) {
+      this.header.state.headerMenuData = value;
+    }
     if (!this.isDynamicContextmenu) {
       const headerMenu: any = getContextmenuElem.apply(this, [true]);
       if (headerMenu) headerMenu.data = value;
@@ -1307,7 +1309,7 @@ export default class IdsDataGrid extends Base {
     this.isDynamicContextmenu = false;
   }
 
-  get headerMenuData() { return this.header.state.headerMenuData; }
+  get headerMenuData() { return this?.header?.state?.headerMenuData; }
 
   /**
    * Set menu id
@@ -1419,7 +1421,7 @@ export default class IdsDataGrid extends Base {
 
   #updateContainerMaxHeight() {
     const virtualScrollSettings = this.virtualScrollSettings;
-    const headerHeight = this.header.clientHeight;
+    const headerHeight = this.header?.clientHeight ?? 0;
     const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
     this.#containerMaxHeight = this.treeGrid
       ? (this.data.filter((row) => !row.rowHidden).length * virtualRowHeight) + headerHeight
@@ -1447,7 +1449,7 @@ export default class IdsDataGrid extends Base {
       if (rowIndex === debounceRowIndex) return;
       debounceRowIndex = rowIndex;
 
-      this.scrollRowIntoView(rowIndex, false);
+      this.#scrollRowIntoView(rowIndex, false);
     }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
   }
 
@@ -1496,7 +1498,7 @@ export default class IdsDataGrid extends Base {
    */
   #scrollTo(rowIndex: number): void {
     this.rowByIndex(rowIndex)?.scrollIntoView?.();
-    const headerHeight = this.header.clientHeight;
+    const headerHeight = this.header?.clientHeight;
     const scrollHeight = this.container!.scrollHeight;
     const containerHeight = this.container!.clientHeight;
     const scrollTop = this.container!.scrollTop;
@@ -1507,27 +1509,19 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * We always want to set doScroll=true when scrollRowIntoView() is called manually in code...
-   * ...so when the "public" uses it they would simply do scrollRowIntoView(x).
-   *
-   * However, this method is also used in the "onscroll" event-handler...
-   * ...within that "onscroll" event-handler, we want doScroll=false,
-   * ...and let the browser handle moving/panning the window without interference.
-   * @param {number} rowIndex - which row to scroll into view.
-   * @param {boolean} doScroll - set to "true" to have the browser perform the scroll action
-   * @see IdsDataGrid.#attachVirtualScrollEvent()
-   * @see https://medium.com/@moshe_31114/building-our-recycle-list-solution-in-react-17a21a9605a0
-   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-i-11ib
-   * @see https://dev.to/adamklein/build-your-own-virtual-scroll-part-ii-3j86
-   * @see https://fluffy.es/solve-duplicated-cells
-   * @see https://vaadin.com/docs/latest/components/grid#columns
-   * @see https://www.htmlelements.com/demos/grid/datagrid-bind-to-json
-   * @see https://dev.to/gopal1996/understanding-reflow-and-repaint-in-the-browser-1jbg
-   * @see https://medium.com/teads-engineering/the-most-accurate-way-to-schedule-a-function-in-a-web-browser-eadcd164da12
-   * @see https://javascript.info/bubbling-and-capturing#capturing
-   * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+   * Scroll a given row into view
+   * @param {number} rowIndex which row to scroll into view.
    */
-  scrollRowIntoView(rowIndex: number, doScroll = true) {
+  scrollRowIntoView(rowIndex: number) {
+    this.#scrollRowIntoView(rowIndex);
+  }
+
+  /**
+   * Scroll a given row into view
+   * @param {number} rowIndex which row to scroll into view.
+   * @param {boolean} doScroll set to "true" to have the browser perform the scroll action
+   */
+  #scrollRowIntoView(rowIndex: number, doScroll = true) {
     if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
 
     const data = this.data;
@@ -2077,7 +2071,7 @@ export default class IdsDataGrid extends Base {
     }
 
     if (this.groupSelectsChildren) row?.toggleChildRowSelection(true);
-    this.header.setHeaderCheckbox();
+    this.header?.setHeaderCheckbox();
   }
 
   /**
@@ -2126,7 +2120,7 @@ export default class IdsDataGrid extends Base {
 
     row.updateCells(index);
     if (this.groupSelectsChildren) row.toggleChildRowSelection(false);
-    this.header.setHeaderCheckbox();
+    this.header?.setHeaderCheckbox();
   }
 
   /**
@@ -2197,7 +2191,7 @@ export default class IdsDataGrid extends Base {
         selectedRows: this.selectedRows
       }
     });
-    this.header.setHeaderCheckbox();
+    this.header?.setHeaderCheckbox();
   }
 
   /**
@@ -2219,7 +2213,7 @@ export default class IdsDataGrid extends Base {
         }
       });
     }
-    this.header.setHeaderCheckbox();
+    this.header?.setHeaderCheckbox();
   }
 
   /**
@@ -2313,7 +2307,7 @@ export default class IdsDataGrid extends Base {
 
     let rowNode = this.rowByIndex(rowIndex);
     if (!rowNode && this.virtualScroll) {
-      this.scrollRowIntoView(rowIndex);
+      this.#scrollRowIntoView(rowIndex);
       rowNode = this.rowByIndex(rowIndex);
     }
 
@@ -2353,7 +2347,7 @@ export default class IdsDataGrid extends Base {
     } else {
       this.removeAttribute(attributes.FILTERABLE);
     }
-    if (isApply) this.header.setFilterRow();
+    if (isApply) this.header?.setFilterRow();
   }
 
   get filterable() {
