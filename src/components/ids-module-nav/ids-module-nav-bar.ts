@@ -9,6 +9,9 @@ import '../ids-button/ids-button';
 import '../ids-icon/ids-icon';
 import '../ids-separator/ids-separator';
 import '../ids-toolbar/ids-toolbar';
+
+import { attributes } from '../../core/ids-attributes';
+import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import styles from './ids-module-nav-bar.scss';
@@ -70,7 +73,8 @@ export default class IdsModuleNavBar extends Base {
    */
   static get attributes() {
     return [
-      ...super.attributes
+      ...super.attributes,
+      attributes.PINNED
     ];
   }
 
@@ -90,11 +94,11 @@ export default class IdsModuleNavBar extends Base {
         <div class="ids-module-nav-search-wrapper">
           <slot name="search"></slot>
         </div>
-        <ids-separator color-variant="module-nav"></ids-separator>
+        <ids-separator class="ids-module-nav-separator" color-variant="module-nav"></ids-separator>
         <div class="ids-module-nav-main">
           <slot></slot>
         </div>
-        <ids-separator color-variant="module-nav"></ids-separator>
+        <ids-separator class="ids-module-nav-separator" color-variant="module-nav"></ids-separator>
         <div class="ids-module-nav-footer">
           <slot name="footer"></slot>
         </div>
@@ -151,6 +155,14 @@ export default class IdsModuleNavBar extends Base {
    * @property {boolean} isFiltered true if the inner navigation accordion is currently being filtered
    */
   isFiltered = false;
+
+  set pinned(val: boolean) {
+    setBooleanAttr(attributes.PINNED, this, val);
+  }
+
+  get pinned(): boolean {
+    return this.hasAttribute(attributes.PINNED);
+  }
 
   #refreshVariants() {
     const accordions = [...this.querySelectorAll<IdsAccordion>('ids-accordion')];

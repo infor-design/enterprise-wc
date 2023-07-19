@@ -7,6 +7,7 @@ import '../../ids-accordion/ids-accordion';
 import '../../ids-accordion/ids-accordion-section';
 import '../../ids-accordion/ids-accordion-header';
 import '../../ids-accordion/ids-accordion-panel';
+import '../../ids-checkbox/ids-checkbox';
 import '../../ids-dropdown/ids-dropdown';
 import '../../ids-header/ids-header';
 import '../../ids-icon/ids-icon';
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const moduleNavDrawer: any = document.querySelector('ids-module-nav-bar');
   const appMenuTriggerBtn: any = document.querySelector('#module-nav-trigger');
   const displayModeDropdown: any = document.querySelector('#dd-display-mode-setting');
+  const pinSectionsCheck: any = document.querySelector('#pin-sections');
 
   moduleNavDrawer.target = appMenuTriggerBtn;
 
@@ -46,6 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
   displayModeDropdown.addEventListener('change', (e: CustomEvent) => {
     const selectedValue = e.detail.value;
     updateDisplayMode(selectedValue);
+  });
+
+  pinSectionsCheck.addEventListener('change', (e: CustomEvent) => {
+    moduleNavDrawer.pinned = e.detail.checked;
   });
 
   // =============================

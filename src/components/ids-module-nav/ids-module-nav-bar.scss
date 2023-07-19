@@ -4,8 +4,16 @@
 :host {
   @include border-box();
 
-  display: block;
+  display: flex;
+  flex-direction: column;
+  flex-basis: max-content;
   transition: none;
+}
+
+:host([pinned]) {
+  ::slotted(ids-separator) {
+    visibility: hidden;
+  }
 }
 
 // Module Nav Bar Component
@@ -84,6 +92,10 @@
   &.display-mode-collapsed {
     border-inline-end: 1px solid var(--ids-module-nav-border-color);
 
+    .ids-module-nav-separator {
+      display: none;
+    }
+
     .ids-module-nav-search-wrapper {
       display: none;
     }
@@ -150,11 +162,27 @@
       padding-block-end: 24px;
     }
   }
+
+  // =====================================================
+  // Pinned Setting
+
+  &.pinned {
+    .ids-module-nav-main {
+      flex-grow: 1;
+    }
+
+    &.display-mode-expanded {
+      .ids-module-nav-main + .ids-module-nav-separator {
+        display: block;
+      }
+    }
+  }
 }
 
 .ids-module-nav-bar-main {
   @include border-box();
 
+  align-items: stretch;
   display: flex;
   flex-direction: column;
   background-color: var(--ids-module-nav-bg-color);

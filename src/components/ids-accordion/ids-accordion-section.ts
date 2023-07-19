@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsElement from '../../core/ids-element';
@@ -9,17 +10,6 @@ import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color
 import styles from './ids-accordion-section.scss';
 
 const Base = IdsColorVariantMixin(IdsElement);
-
-const setBooleanAttr = (name: string, el: IdsElement, value: boolean | string) => {
-  const isTruthy = stringToBool(value);
-  if (isTruthy) {
-    el.setAttribute(name, `${isTruthy}`);
-    el.container?.classList.add(name);
-  } else {
-    el.removeAttribute(name);
-    el.container?.classList.remove(name);
-  }
-};
 
 /**
  * IDS Accordion Section Component

@@ -3,6 +3,10 @@
   display: block;
 }
 
+:host([hidden]) {
+  visibility: hidden;
+}
+
 :host([vertical]) {
   justify-self: center;
   align-self: center;

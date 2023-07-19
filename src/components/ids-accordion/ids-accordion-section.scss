@@ -4,10 +4,13 @@
   display: block;
 }
 
+:host([grow]) {
+  flex-grow: 1;
+}
+
 :host([pinned]) {
   overflow-y: auto;
   overflow-x: hidden;
-  flex-grow: 1;
 }
 
 .ids-accordion-section {

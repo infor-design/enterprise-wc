@@ -24,7 +24,7 @@
         <!-- Main Content (Accordion Navigation) -->
         <ids-accordion>
           <!-- Main Section -->
-          <ids-accordion-section grow>
+          <ids-accordion-section slot="" grow>
             <ids-accordion-panel>
               <ids-module-nav-item slot="header" icon="user">
                 <ids-text font-size="16">Configuration and Personalization</ids-text>
@@ -146,10 +146,10 @@
               </ids-accordion-panel>
             </ids-accordion-panel>
           </ids-accordion-section>
+        </ids-accordion>
 
-          <ids-separator color-variant="module-nav"></ids-separator>
-
-          <!-- Pinned Footer Section -->
+        <!-- Pinned Footer Section -->
+        <ids-accordion slot="footer">
           <ids-accordion-section pinned>
             <ids-accordion-panel>
               <ids-module-nav-item slot="header" icon="document">
@@ -203,6 +203,9 @@
               <ids-list-box-option id="dd-display-mode-expanded" value="expanded">Expanded</ids-list-box-option>
             </ids-list-box>
           </ids-dropdown>
+        </ids-layout-grid>
+        <ids-layout-grid auto-fit="true" padding-x="md">
+          <ids-checkbox id="pin-sections" label="Pin Sections"></ids-checkbox>
         </ids-layout-grid>
 
       </ids-module-nav-content>
