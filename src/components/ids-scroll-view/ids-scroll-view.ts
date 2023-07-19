@@ -73,8 +73,7 @@ export default class IdsScrollView extends Base {
       <div class="ids-scroll-view" part="scroll-view" role="complementary" tabindex="-1">
         <slot name="scroll-view-item"></slot>
       </div>
-      <div class="${controlsClass}" part="controls" role="tablist">
-      </div>
+      <div class="${controlsClass}" part="controls" role="tablist"></div>
     </div>`;
   }
 
@@ -295,20 +294,20 @@ export default class IdsScrollView extends Base {
    * @returns {void}
    */
   #renderCircleButtons(): void {
-    let controlButtons = '';
+    if (this.controls) this.controls.innerHTML = '';
+
     this.querySelectorAll('[slot]').forEach((item, i) => {
       const cssClass = ` class="circle-button${i === 0 ? ' selected' : ''}"`;
       const ariaSelected = i === 0 ? ' aria-selected="true"' : '';
       const label = item.getAttribute('label') || item.getAttribute('alt') || '';
       const tooltip = this.showTooltip ? `tooltip="${label}"` : '';
 
-      controlButtons += `<ids-button data-slide-number="${i}" part="button" exportparts="button: scroll-view-button" role="tab"${cssClass}${ariaSelected}${tooltip}>
-        <ids-icon icon="filter-not-selected"></ids-icon>
-        <span class="audible">${label}</span>
-      </ids-button>`;
+      this.controls?.insertAdjacentHTML('beforeend', `
+        <ids-button data-slide-number="${i}" part="button" exportparts="button: scroll-view-button" role="tab"${cssClass}${ariaSelected}${tooltip}>
+          <ids-icon icon="filter-not-selected"></ids-icon>
+          <span class="audible">${label}</span>
+        </ids-button>`);
     });
-
-    if (this.controls) this.controls.innerHTML = controlButtons;
   }
 
   /**
