@@ -1,5 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
-import { isValidTextDisplay } from './ids-accordion-common';
+import { isValidTextDisplay } from './ids-module-nav-common';
 
 import type { IdsConstructor } from '../../core/ids-element';
 

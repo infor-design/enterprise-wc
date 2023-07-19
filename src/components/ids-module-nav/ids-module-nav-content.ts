@@ -8,6 +8,8 @@ import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 
 import styles from './ids-module-nav-content.scss';
 
+import type IdsModuleNav from './ids-module-nav';
+
 const Base = IdsModuleNavDisplayModeMixin(
   IdsElement
 );

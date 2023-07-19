@@ -7,7 +7,6 @@ import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
-import IdsAccordionTextDisplayMixin from './ids-accordion-text-display-mixin';
 
 import './ids-accordion-header';
 import './ids-accordion-panel';
@@ -17,13 +16,11 @@ import type IdsAccordionSection from './ids-accordion-section';
 import type IdsAccordionHeader from './ids-accordion-header';
 import type IdsAccordionPanel from './ids-accordion-panel';
 
-const Base = IdsAccordionTextDisplayMixin(
-  IdsColorVariantMixin(
-    IdsKeyboardMixin(
-      IdsLocaleMixin(
-        IdsEventsMixin(
-          IdsElement
-        )
+const Base = IdsColorVariantMixin(
+  IdsKeyboardMixin(
+    IdsLocaleMixin(
+      IdsEventsMixin(
+        IdsElement
       )
     )
   )
@@ -195,16 +192,6 @@ export default class IdsAccordion extends Base {
 
     this.panels.forEach((panel) => {
       panel.disabled = disabled;
-    });
-  }
-
-  /**
-   * Inherited from IdsAccordionTextDisplayMixin
-   * @param {string} val text display type
-   */
-  onTextDisplayChange(val: string) {
-    this.headers.forEach((header) => {
-      header.textDisplay = val;
     });
   }
 

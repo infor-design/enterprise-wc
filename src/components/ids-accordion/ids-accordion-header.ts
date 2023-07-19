@@ -10,7 +10,6 @@ import IdsElement from '../../core/ids-element';
 import styles from './ids-accordion-header.scss';
 import type IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
-import IdsAccordionTextDisplayMixin from './ids-accordion-text-display-mixin';
 
 // Expander Types
 const EXPANDER_TYPES = ['caret', 'plus-minus'];
@@ -22,11 +21,9 @@ const DEFAULT_ICON_OFF = 'caret-down';
 const ICON_MINUS = 'plusminus-folder-closed';
 const ICON_PLUS = 'plusminus-folder-open';
 
-const Base = IdsAccordionTextDisplayMixin(
-  IdsColorVariantMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
+const Base = IdsColorVariantMixin(
+  IdsEventsMixin(
+    IdsElement
   )
 );
 
@@ -65,8 +62,7 @@ export default class IdsAccordionHeader extends Base {
       attributes.EXPANDER_TYPE,
       attributes.HIDDEN_BY_FILTER,
       attributes.ICON,
-      attributes.SELECTED,
-      attributes.TEXT_DISPLAY
+      attributes.SELECTED
     ];
   }
 
@@ -392,12 +388,5 @@ export default class IdsAccordionHeader extends Base {
       this.removeAttribute(attributes.DISABLED);
       this.container?.classList.remove(attributes.DISABLED);
     }
-  }
-
-  onTextDisplayChange(val: string) {
-    console.info(`text display change from header: "${this.textContent?.trim() || ''}"`, val);
-    if (this.textNode) this.textNode.audible = val !== 'default';
-
-    // @TODO toggle tooltip
   }
 }

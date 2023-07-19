@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
+import IdsModuleNavTextDisplayMixin from './ids-module-nav-text-display-mixin';
 import IdsDrawer from '../ids-drawer/ids-drawer';
 
 import '../ids-accordion/ids-accordion';
@@ -12,6 +13,7 @@ import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import styles from './ids-module-nav-bar.scss';
 
+import type IdsModuleNav from './ids-module-nav';
 import type IdsAccordion from '../ids-accordion/ids-accordion';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
@@ -21,8 +23,10 @@ import type IdsModuleNavItem from './ids-module-nav-item';
 const CONTAINER_OPEN_CLASS = 'module-nav-is-open';
 
 const Base = IdsModuleNavDisplayModeMixin(
-  IdsKeyboardMixin(
-    IdsDrawer
+  IdsModuleNavTextDisplayMixin(
+    IdsKeyboardMixin(
+      IdsDrawer
+    )
   )
 );
 
@@ -257,6 +261,17 @@ export default class IdsModuleNavBar extends Base {
         if (item.textNode) item.displayMode = this.displayMode;
       });
     }
+  }
+
+  /**
+   * Inherited from IdsAccordionTextDisplayMixin
+   * @param {string} val text display type
+   */
+  onTextDisplayChange(val: string) {
+    if (!this.accordion) return;
+    this.accordion.headers.forEach((header: any) => {
+      header.textDisplay = val;
+    });
   }
 
   /**

@@ -1,12 +1,15 @@
 import { customElement, scss } from '../../core/ids-decorators';
 
 import IdsAccordionHeader from '../ids-accordion/ids-accordion-header';
+import IdsAccordionTextDisplayMixin from './ids-module-nav-text-display-mixin';
 import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 
 import styles from './ids-module-nav-item.scss';
 
 const Base = IdsModuleNavDisplayModeMixin(
-  IdsAccordionHeader
+  IdsAccordionTextDisplayMixin(
+    IdsAccordionHeader
+  )
 );
 
 /**
@@ -73,5 +76,12 @@ export default class IdsModuleNavItem extends Base {
 
   #refreshTextNode() {
     if (this.textNode) this.textNode.audible = this.displayMode !== 'expanded';
+  }
+
+  onTextDisplayChange(val: string) {
+    console.info(`text display change from header: "${this.textContent?.trim() || ''}"`, val);
+    if (this.textNode) this.textNode.audible = val !== 'default';
+
+    // @TODO toggle tooltip
   }
 }
