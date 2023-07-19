@@ -332,7 +332,7 @@ export default class IdsDataGrid extends Base {
     this.#setColumnWidths();
 
     this.#applyAutoFit();
-    this.header.setHeaderCheckbox();
+    this.header?.setHeaderCheckbox();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#attachScrollEvents();
@@ -501,7 +501,7 @@ export default class IdsDataGrid extends Base {
       else this.selectRow(i);
     }
     this.#getSelection()?.removeAllRanges?.();
-    this.header.setHeaderCheckbox();
+    this.header?.setHeaderCheckbox();
 
     this.triggerEvent('selectionchanged', this, {
       detail: { elem: this, selectedRows: this.selectedRows }
@@ -665,7 +665,7 @@ export default class IdsDataGrid extends Base {
     resetEmptyMessageElements.apply(this);
     this.redraw();
     this.triggerEvent('columnmoved', this, { detail: { elem: this, fromIndex: correctFromIndex, toIndex: correctToIndex } });
-    if (this.sortColumn) this.header.setSortState(this.sortColumn.id, this.sortColumn.ascending);
+    if (this.sortColumn) this.header?.setSortState(this.sortColumn.id, this.sortColumn.ascending);
     this.saveSettings?.();
   }
 
@@ -1012,7 +1012,7 @@ export default class IdsDataGrid extends Base {
     this.sortColumn = { id, ascending };
     this.datasource.sort(sortField || '', ascending);
     this.redrawBody();
-    this.header.setSortState(id, ascending);
+    this.header?.setSortState(id, ascending);
     this.triggerEvent('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
     this.saveSettings?.();
   }
@@ -1023,7 +1023,7 @@ export default class IdsDataGrid extends Base {
    * @param {boolean} ascending Sort ascending (lowest first) or descending (lowest last)
    */
   setSortState(id: string, ascending = true) {
-    this.header.setSortState(id, ascending);
+    this.header?.setSortState(id, ascending);
   }
 
   /**
@@ -1298,7 +1298,9 @@ export default class IdsDataGrid extends Base {
    * @param {Array} value The array to use
    */
   set headerMenuData(value) {
-    this.header.state.headerMenuData = value;
+    if (this?.header?.state) {
+      this.header.state.headerMenuData = value;
+    }
     if (!this.isDynamicContextmenu) {
       const headerMenu: any = getContextmenuElem.apply(this, [true]);
       if (headerMenu) headerMenu.data = value;
@@ -1307,7 +1309,7 @@ export default class IdsDataGrid extends Base {
     this.isDynamicContextmenu = false;
   }
 
-  get headerMenuData() { return this.header.state.headerMenuData; }
+  get headerMenuData() { return this?.header?.state?.headerMenuData; }
 
   /**
    * Set menu id
@@ -1419,7 +1421,7 @@ export default class IdsDataGrid extends Base {
 
   #updateContainerMaxHeight() {
     const virtualScrollSettings = this.virtualScrollSettings;
-    const headerHeight = this.header.clientHeight;
+    const headerHeight = this.header?.clientHeight ?? 0;
     const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
     this.#containerMaxHeight = this.treeGrid
       ? (this.data.filter((row) => !row.rowHidden).length * virtualRowHeight) + headerHeight
@@ -1496,7 +1498,7 @@ export default class IdsDataGrid extends Base {
    */
   #scrollTo(rowIndex: number): void {
     this.rowByIndex(rowIndex)?.scrollIntoView?.();
-    const headerHeight = this.header.clientHeight;
+    const headerHeight = this.header?.clientHeight;
     const scrollHeight = this.container!.scrollHeight;
     const containerHeight = this.container!.clientHeight;
     const scrollTop = this.container!.scrollTop;
@@ -2069,7 +2071,7 @@ export default class IdsDataGrid extends Base {
     }
 
     if (this.groupSelectsChildren) row?.toggleChildRowSelection(true);
-    this.header.setHeaderCheckbox();
+    this.header?.setHeaderCheckbox();
   }
 
   /**
@@ -2118,7 +2120,7 @@ export default class IdsDataGrid extends Base {
 
     row.updateCells(index);
     if (this.groupSelectsChildren) row.toggleChildRowSelection(false);
-    this.header.setHeaderCheckbox();
+    this.header?.setHeaderCheckbox();
   }
 
   /**
@@ -2189,7 +2191,7 @@ export default class IdsDataGrid extends Base {
         selectedRows: this.selectedRows
       }
     });
-    this.header.setHeaderCheckbox();
+    this.header?.setHeaderCheckbox();
   }
 
   /**
@@ -2211,7 +2213,7 @@ export default class IdsDataGrid extends Base {
         }
       });
     }
-    this.header.setHeaderCheckbox();
+    this.header?.setHeaderCheckbox();
   }
 
   /**
@@ -2345,7 +2347,7 @@ export default class IdsDataGrid extends Base {
     } else {
       this.removeAttribute(attributes.FILTERABLE);
     }
-    if (isApply) this.header.setFilterRow();
+    if (isApply) this.header?.setFilterRow();
   }
 
   get filterable() {

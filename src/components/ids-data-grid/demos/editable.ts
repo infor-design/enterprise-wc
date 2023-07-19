@@ -41,7 +41,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
       editorSettings: {
         autoselect: true,
         dirtyTracker: true,
-        validate: 'required'
+        validate: 'required',
       }
     },
     readonly(row: number) {
@@ -58,12 +58,20 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     resizable: true,
     reorderable: true,
     formatter: dataGrid.formatters.text,
+    filterType: dataGrid.filters.text,
+    filterOptions: {
+      maxlength: 2,
+      uppercase: true
+    },
+    uppercase: true,
     editor: {
       type: 'input',
       editorSettings: {
         autoselect: true,
         dirtyTracker: true,
-        mask: [/[a-zA-Z]/, /[a-zA-Z]/, /[a-zA-Z]/, /[a-zA-Z]/]
+        // mask: [/[a-zA-Z]/, /[a-zA-Z]/, /[a-zA-Z]/, /[a-zA-Z]/],
+        maxlength: 2,
+        uppercase: true
       }
     },
   });
