@@ -185,14 +185,19 @@
   // Pinned Setting
 
   &:not(.pinned) {
+    overflow: auto;
+
     .ids-module-nav-footer {
       flex-grow: 1;
     }
   }
 
   &.pinned {
+    overflow: hidden;
+
     .ids-module-nav-main {
       flex-grow: 1;
+      overflow: auto;
     }
 
     &.display-mode-expanded {
