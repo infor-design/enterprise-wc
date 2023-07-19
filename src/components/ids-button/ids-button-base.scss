@@ -182,7 +182,10 @@
   &.btn-primary {
     background-color: var(--ids-button-primary-color-background-default);
     border-color: var(--ids-button-primary-color-border-default);
+    border: 1px solid var(--ids-button-primary-color-border-default);
     color: var(--ids-button-primary-color-text-default);
+    padding-bottom: calc(var(--ids-space-40) - 1px);
+    padding-top: calc(var(--ids-space-40) - 1px);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
