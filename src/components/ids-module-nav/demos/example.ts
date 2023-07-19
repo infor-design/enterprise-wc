@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const updateDisplayMode = (val: IdsModuleNavDisplayMode) => {
     menuState = val === 'collapsed' ? 'expanded' : 'collapsed';
     moduleNav.displayMode = val;
+    if (displayModeDropdown.value !== val) displayModeDropdown.value = val;
     console.info('Module Nav Display Mode Updated:', val || 'hidden');
   };
 
