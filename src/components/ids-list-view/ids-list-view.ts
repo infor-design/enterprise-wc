@@ -201,8 +201,8 @@ export default class IdsListView extends Base {
    */
   #itemInfo(el: any): IdsListViewItemInfo | null {
     const item = el?.getAttribute('role') === 'option'
-      ? el : el?.closest('[role="option"]');
-    const index = stringToNumber(item?.getAttribute('index'));
+      ? el : el?.closest('[role="option"], ids-list-view-item');
+    const index = stringToNumber(item?.getAttribute('index') ?? item?.getAttribute('row-index'));
     return Number.isNaN(index) ? null : { item, index, data: this.data[index] };
   }
 
@@ -345,14 +345,6 @@ export default class IdsListView extends Base {
   }
 
   #attachEventListeners() {
-    const childSlot = this.#childSlot();
-    this.offEvent('slotchange.listview', childSlot);
-    this.onEvent('slotchange.listview', childSlot, () => {
-      if (this.#childElements()?.length) {
-        this.redrawLazy();
-      }
-    });
-
     // Fire click
     this.offEvent('click.listview', this.container);
     this.onEvent('click.listview', this.container, (e: any) => {
@@ -549,14 +541,6 @@ export default class IdsListView extends Base {
       return !nextLi?.hasAttribute('disabled');
     });
     return nextLi;
-  }
-
-  /**
-   * Get the default <slot> within <ids-list-view>
-   * @returns {HTMLSlotElement} The default slot
-   */
-  #childSlot(): HTMLSlotElement | undefined {
-    return this.container?.querySelector<HTMLSlotElement>('slot:not([name])') ?? undefined;
   }
 
   /**
@@ -911,8 +895,8 @@ export default class IdsListView extends Base {
           this.virtualScrollContainer.data = this.data;
         }
       }
-      this.#attachEventListeners();
     }
+    this.#attachEventListeners();
 
     // Set searchable
     this.setSearchable?.();
@@ -979,7 +963,11 @@ export default class IdsListView extends Base {
    * Get the list of all data from dataset
    * @returns {Array} value The array to use
    */
-  get ds(): Array<any> { return this.datasource?.allData || this.data; }
+  get ds(): Array<any> {
+    if (this.datasource?.allData?.length) return this.datasource?.allData;
+    if (this.data?.length) return this.data;
+    return this.#childElements();
+  }
 
   /**
    * Handle Setting changes of the value has changed by calling the getter
@@ -1291,7 +1279,9 @@ export default class IdsListView extends Base {
     }
     item?.setAttribute('activated', '');
     this.#activatedIndex = dataIndex;
-    this.data[index].itemActivated = true;
+    if (this.data[index]) {
+      this.data[index].itemActivated = true;
+    }
     this.#triggerEvent('itemactivated', { ...args() });
 
     this.focusLi(item, true);
@@ -1433,7 +1423,10 @@ export default class IdsListView extends Base {
       this.#setCheckbox(item, false);
       return false;
     }
-    this.data[index].itemSelected = true;
+
+    if (this.data[index]) {
+      this.data[index].itemSelected = true;
+    }
 
     if (cb) cb.checked = true;
     item?.setAttribute('selected', '');
@@ -1470,7 +1463,10 @@ export default class IdsListView extends Base {
       this.#setCheckbox(item, true);
       return false;
     }
-    delete this.data[index].itemSelected;
+
+    if (this.data[index]) {
+      delete this.data[index].itemSelected;
+    }
 
     if (cb) cb.checked = false;
     item?.removeAttribute('selected');

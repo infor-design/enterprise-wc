@@ -52,6 +52,9 @@ export default class IdsListViewItem extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#parentListView = this.parentElement;
+    if (this.rowIndex < 0) {
+      (this.#parentListView as any)?.redrawLazy?.();
+    }
   }
 
   /**
@@ -61,7 +64,6 @@ export default class IdsListViewItem extends Base {
     if (document.body.contains(this.parentListView)) {
       super.disconnectedCallback();
       this.removeAttribute?.('slot');
-      // this.parentListItemWrapper?.remove?.();
       (this.parentListView as any)?.disconnectedCallback?.();
     }
   }
@@ -102,9 +104,15 @@ export default class IdsListViewItem extends Base {
 
   /**
    * Get the row index. This index can be used to lazy-load data from IdsListView.data.
-   * @returns {number} this list-view-item's index in parent IdsListView
+   * @returns {number} this list-view-item's row-index in parent IdsListView
    */
   get rowIndex(): number { return Number(this.getAttribute(attributes.ROW_INDEX) ?? -1); }
+
+  /**
+   * Wrapper function that adds interface to match dataset interface.
+   * @returns {number} this list-view-item's row-index in parent IdsListView
+   */
+  get index(): number { return this.rowIndex; }
 
   /**
    * Wrapper function that adds interface to match dataset interface.

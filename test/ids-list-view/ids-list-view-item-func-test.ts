@@ -86,6 +86,10 @@ describe('IdsListViewItem Component', () => {
   });
 
   it('Ignores child elements that are not valid ids-list-view-item elements', async () => {
+    listView.innerHTML = ``;
+
+    await processAnimFrame();
+
     listView.innerHTML = `
       <ids-text font-size="16" type="h2">Invalid Item 0</ids-text>
       <ids-list-view-item>
