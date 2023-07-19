@@ -1,0 +1,15 @@
+
+@import './ids-module-nav-item';
+
+:host {
+  @include border-box();
+}
+
+.ids-module-nav-settings {
+  &.color-variant-module-nav {
+    &.display-mode-collapsed,
+    &.display-mode-expanded {
+      margin-block-start: 0;
+    }
+  }
+}

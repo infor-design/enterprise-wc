@@ -2,6 +2,7 @@ import '../ids-module-nav';
 import '../ids-module-nav-bar';
 import '../ids-module-nav-content';
 import '../ids-module-nav-item';
+import '../ids-module-nav-settings';
 
 import '../../ids-accordion/ids-accordion';
 import '../../ids-accordion/ids-accordion-section';

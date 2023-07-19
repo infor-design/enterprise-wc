@@ -158,6 +158,10 @@
       }
     }
 
+    .ids-module-nav-settings-wrapper {
+      padding-inline-start: 0;
+    }
+
     .ids-module-nav-settings {
       padding-block-end: 24px;
     }
@@ -180,6 +184,12 @@
   // =====================================================
   // Pinned Setting
 
+  &:not(.pinned) {
+    .ids-module-nav-footer {
+      flex-grow: 1;
+    }
+  }
+
   &.pinned {
     .ids-module-nav-main {
       flex-grow: 1;
@@ -189,6 +199,10 @@
       .ids-module-nav-main + .ids-module-nav-separator {
         display: block;
       }
+    }
+
+    .ids-module-nav-footer {
+      flex-grow: 0;
     }
   }
 }

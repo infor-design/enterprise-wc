@@ -58,6 +58,7 @@ import './ids-module-nav/ids-module-nav';
 import './ids-module-nav/ids-module-nav-bar';
 import './ids-module-nav/ids-module-nav-content';
 import './ids-module-nav/ids-module-nav-item';
+import './ids-module-nav/ids-module-nav-settings';
 import './ids-multiselect/ids-multiselect';
 import './ids-notification-banner/ids-notification-banner';
 import './ids-pager/ids-pager';

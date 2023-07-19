@@ -22,6 +22,7 @@ import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
 import type IdsModuleNavContent from './ids-module-nav-content';
 import type IdsModuleNavItem from './ids-module-nav-item';
+import type IdsModuleNavSettings from './ids-module-nav-settings';
 
 const CONTAINER_OPEN_CLASS = 'module-nav-is-open';
 
@@ -161,6 +162,14 @@ export default class IdsModuleNavBar extends Base {
 
   /**
    * @readonly
+   * @returns {IdsModuleNavSettings} reference to an optionally-slotted IdsModuleNavSettings element
+   */
+  get settingsEl(): IdsModuleNavSettings | null {
+    return this.querySelector('ids-module-nav-settings');
+  }
+
+  /**
+   * @readonly
    * @property {boolean} isFiltered true if the inner navigation accordion is currently being filtered
    */
   isFiltered = false;
@@ -187,6 +196,9 @@ export default class IdsModuleNavBar extends Base {
     accordions.forEach((acc) => {
       acc.colorVariant = 'module-nav';
     });
+
+    const settingsEl = this.settingsEl;
+    if (settingsEl) settingsEl.colorVariant = 'module-nav';
 
     const btns = [...this.querySelectorAll<IdsButton>('ids-button')];
     btns.forEach((btn) => {
@@ -296,6 +308,7 @@ export default class IdsModuleNavBar extends Base {
         if (item.textNode) item.displayMode = this.displayMode;
       });
     }
+    if (this.settingsEl) this.settingsEl.displayMode = this.displayMode;
   }
 
   /**
@@ -307,6 +320,7 @@ export default class IdsModuleNavBar extends Base {
     this.accordion.headers.forEach((header: any) => {
       header.textDisplay = val;
     });
+    if (this.settingsEl) this.settingsEl.textDisplay = val;
   }
 
   /**
