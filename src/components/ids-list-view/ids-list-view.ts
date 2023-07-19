@@ -371,7 +371,7 @@ export default class IdsListView extends Base {
     if (this.sortable) {
       this.#addSortableStyles();
     } else {
-      // Set selection/activation by ckick
+      // Set selection/activation by click
       this.offEvent('click.listview-selection', this.container);
       this.onEvent('click.listview-selection', this.container, (e: any) => this.#handleOnClick(e));
 
@@ -391,7 +391,7 @@ export default class IdsListView extends Base {
       this.searchFilterCallback = (term: string) => {
         this.#childElements()?.forEach((item: any) => {
           // NOTE: using textContent because innerText was causing jest to fail
-          // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
+          // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent#differences_from_innertext
           const haystack = String(item?.textContent ?? '').toLowerCase();
           const needle = String(term).toLowerCase();
           if (!term || haystack.includes(needle)) {
@@ -407,6 +407,7 @@ export default class IdsListView extends Base {
     }
   }
 
+  /** @see IdsListViewSearchMixin.resetSearch() */
   resetSearch() {
     const kids = this.#childElements();
     if (kids.length) {
