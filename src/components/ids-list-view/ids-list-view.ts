@@ -390,8 +390,10 @@ export default class IdsListView extends Base {
     if (this.#childElements()?.length) {
       this.searchFilterCallback = (term: string) => {
         this.#childElements()?.forEach((item: any) => {
+          // NOTE: using textContent because innerText was causing jest to fail
+          // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
+          const haystack = String(item?.textContent ?? '').toLowerCase();
           const needle = String(term).toLowerCase();
-          const haystack = String(item?.innerText ?? '').toLowerCase();
           if (!term || haystack.includes(needle)) {
             item.classList.remove(SEARCH_FILTER_CLASS);
           } else {
@@ -860,11 +862,11 @@ export default class IdsListView extends Base {
    * Rerender the list by re applying the template
    */
   redraw() {
-    if (!this.data?.length && this.#childElements().length) {
-      this.container?.querySelectorAll('[index]').forEach((e) => e.remove());
-    } else if (!this.data || !this.loaded) {
-      if (!this.data?.length) this.getAllLi()?.forEach((li: HTMLElement) => li?.remove());
-      return;
+    if (!this.data || !this.loaded) {
+      if (!this.#childElements().length) {
+        if (!this.data?.length) this.getAllLi()?.forEach((li: HTMLElement) => li?.remove());
+        return;
+      }
     }
 
     // Set list size

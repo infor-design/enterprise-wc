@@ -61,8 +61,8 @@ export default class IdsListViewItem extends Base {
     if (document.body.contains(this.parentListView)) {
       super.disconnectedCallback();
       this.removeAttribute?.('slot');
-      this.parentListItemWrapper?.remove?.();
-      // (this.parentListView as any)?.disconnectedCallback?.();
+      // this.parentListItemWrapper?.remove?.();
+      (this.parentListView as any)?.disconnectedCallback?.();
     }
   }
 

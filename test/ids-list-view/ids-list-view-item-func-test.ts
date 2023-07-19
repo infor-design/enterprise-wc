@@ -85,7 +85,7 @@ describe('IdsListViewItem Component', () => {
     expect(childSlots?.length).toEqual(dataset.length - 3);
   });
 
-  it.skip('Ignores child elements that are not valid ids-list-view-item elements', async () => {
+  it('Ignores child elements that are not valid ids-list-view-item elements', async () => {
     listView.innerHTML = `
       <ids-text font-size="16" type="h2">Invalid Item 0</ids-text>
       <ids-list-view-item>
@@ -112,7 +112,7 @@ describe('IdsListViewItem Component', () => {
     expect(childSlots?.length).toEqual(3);
   });
 
-  it.skip('Can find text in ids-list-view-item elements when searchable enabled', async () => {
+  it('Can find text in ids-list-view-item elements when searchable enabled', async () => {
     expect(listView.searchable).toBeFalsy();
 
     listView.searchable = true;
