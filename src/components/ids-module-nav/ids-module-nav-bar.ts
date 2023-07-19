@@ -74,6 +74,7 @@ export default class IdsModuleNavBar extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.FILTERABLE,
       attributes.PINNED
     ];
   }
@@ -152,9 +153,26 @@ export default class IdsModuleNavBar extends Base {
 
   /**
    * @readonly
+   * @returns {IdsSearchField} reference to an optionally-slotted IdsSearchField element
+   */
+  get searchFieldEl(): IdsSearchField | null {
+    return this.querySelector('ids-search-field');
+  }
+
+  /**
+   * @readonly
    * @property {boolean} isFiltered true if the inner navigation accordion is currently being filtered
    */
   isFiltered = false;
+
+  set filterable(val: boolean) {
+    setBooleanAttr(attributes.FILTERABLE, this, val);
+    if (!val) this.clearFilterAccordion();
+  }
+
+  get filterable(): boolean {
+    return this.hasAttribute(attributes.FILTERABLE);
+  }
 
   set pinned(val: boolean) {
     setBooleanAttr(attributes.PINNED, this, val);
@@ -197,6 +215,11 @@ export default class IdsModuleNavBar extends Base {
       const canExpand = this.displayMode === 'expanded';
       console.info('beforeexpand cancelled?', canExpand);
       return e.detail.response(canExpand);
+    });
+
+    //
+    this.onEvent('cleared.search', this.searchFieldEl, () => {
+      this.accordion?.collapseAll();
     });
   }
 

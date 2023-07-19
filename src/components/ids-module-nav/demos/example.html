@@ -204,10 +204,12 @@
             </ids-list-box>
           </ids-dropdown>
         </ids-layout-grid>
-        <ids-layout-grid auto-fit="true" padding-x="md">
-          <ids-checkbox id="pin-sections" label="Pin Sections"></ids-checkbox>
+        <ids-layout-grid cols="4" gap="md" padding-x="md">
+          <ids-layout-grid-cell>
+            <ids-checkbox id="is-filterable" label="Enable Filtering" checked></ids-checkbox>
+            <ids-checkbox id="pin-sections" label="Pin Sections"></ids-checkbox>
+          </ids-layout-grid-cell>
         </ids-layout-grid>
-
       </ids-module-nav-content>
     </ids-module-nav>
   </ids-container>

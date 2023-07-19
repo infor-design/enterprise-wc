@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const moduleNavDrawer: any = document.querySelector('ids-module-nav-bar');
   const appMenuTriggerBtn: any = document.querySelector('#module-nav-trigger');
   const displayModeDropdown: any = document.querySelector('#dd-display-mode-setting');
+  const filterableCheck: any = document.querySelector('#is-filterable');
   const pinSectionsCheck: any = document.querySelector('#pin-sections');
 
   moduleNavDrawer.target = appMenuTriggerBtn;
@@ -50,6 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDisplayMode(selectedValue);
   });
 
+  filterableCheck.addEventListener('change', (e: CustomEvent) => {
+    moduleNavDrawer.filterable = e.detail.checked;
+  });
+
   pinSectionsCheck.addEventListener('change', (e: CustomEvent) => {
     moduleNavDrawer.pinned = e.detail.checked;
   });
@@ -58,4 +63,5 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set initial
 
   moduleNav.displayMode = menuState;
+  moduleNavDrawer.filterable = true;
 });

@@ -164,6 +164,20 @@
   }
 
   // =====================================================
+  // Filterable Setting
+
+  &:not(.filterable) {
+    .ids-module-nav-search-wrapper {
+      display: none;
+      pointer-events: none;
+
+      + .ids-module-nav-separator {
+        display: none;
+      }
+    }
+  }
+
+  // =====================================================
   // Pinned Setting
 
   &.pinned {
