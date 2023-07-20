@@ -266,6 +266,9 @@
   --ids-hierarchy-item-leaf-inside-shadow: 0 0 8px rgb(0 0 0 / 0.7);
   --ids-hierarchy-item-selected-leaf-shadow: 0 0 0 5px rgba(141 201 230 / 0.3);
 
+  // Homepage
+  --ids-homepage-color-background-default: var(--ids-color-neutral-100);
+
   // Hyperlinks
   --ids-hyperlink-color-text-default: var(--ids-color-primary-40);
   --ids-hyperlink-color-text-hover: var(--ids-color-primary-60);
@@ -274,6 +277,18 @@
   // Icons
   --ids-icon-color-default: var(--ids-color-neutral-20);
   --ids-icon-color-default-disabled: var(--ids-color-text-disabled);
+  --ids-icon-status-color-ruby-color-background: transparent;
+  --ids-icon-status-color-amber-color-background: transparent;
+  --ids-icon-status-color-emerald-color-background: transparent;
+  --ids-icon-status-color-azure-color-background: transparent;
+  --ids-icon-status-color-turquoise-color-background: transparent;
+  --ids-icon-status-color-amethyst-color-background: transparent;
+  --ids-icon-status-color-slate-color-background: transparent;
+  --ids-icon-status-color-error-color-background: transparent;
+  --ids-icon-status-color-warning-color-background: transparent;
+  --ids-icon-status-color-success-color-background: transparent;
+  --ids-icon-status-color-alert-color-background: transparent;
+  --ids-icon-status-color-info-color-background: transparent;
 
   // Input Styles
   --ids-input-color-background-default: transparent;

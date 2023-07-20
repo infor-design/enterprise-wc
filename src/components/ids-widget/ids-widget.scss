@@ -1,0 +1,67 @@
+/* Ids Widget Component */
+.ids-widget {
+  background-color: var(--ids-widget-color-background);
+  border: 1px solid var(--ids-widget-color-border);
+  border-radius: var(--ids-widget-border-radius);
+  box-shadow: var(--ids-widget-shadow);
+  margin-block-end: var(--ids-widget-margin-bottom);
+  height: var(--ids-widget-height);
+
+  .ids-widget-content {
+    height: var(--ids-widget-content-height);
+    overflow: auto;
+    width: 100%;
+
+    &.overflow-hidden {
+      overflow: hidden;
+    }
+  }
+
+  .hidden {
+    display: none;
+  }
+}
+
+:host {
+  .flex-content,
+  ::slotted(.flex-content) {
+    display: flex;
+    align-items: center;
+    padding: 15px 16px;
+    gap: 16px;
+  }
+}
+
+// Style the title
+.ids-widget-body {
+  width: 100%;
+}
+
+.ids-widget-header {
+  color: var(--ids-widget-header-title-color);
+  padding: var(--ids-widget-header-padding);
+}
+
+.ids-widget-footer {
+  background-color: var(--ids-widget-color-background);
+  padding: 6px 0 0;
+  display: none;
+  bottom: 0;
+  border-top: 1px solid var(--ids-widget-divider-color-border);
+  width: 100%;
+
+  &.no-padding {
+    padding: 0;
+  }
+}
+
+::slotted([slot='widget-header']),
+::slotted([slot='widget-footer']) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+::slotted([slot='widget-footer']) {
+  justify-content: center;
+}

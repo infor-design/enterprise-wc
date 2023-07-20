@@ -75,6 +75,7 @@
   --ids-font-weight-normal: 400;
   --ids-font-weight-semibold: 600;
   --ids-font-weight-bold: 700;
+  --ids-font-size-default: var(--ids-font-size-40);
 
   // Font Sizes
   --ids-font-size-10: 10px;
@@ -260,6 +261,15 @@
   --ids-block-grid-checkbox-top-size: 20px;
   --ids-block-grid-checkbox-right-size: 20px;
 
+  // Box
+  --ids-box-color-background: var(--ids-card-color-background);
+  --ids-box-color-border: var(--ids-card-color-border);
+  --ids-box-border-radius: var(--ids-card-border-radius);
+  --ids-box-shadow: var(--ids-card-shadow);
+  --ids-box-font-family: var(--ids-font-family-default);
+  --ids-box-font-size: var( --ids-font-size-default);
+  --ids-box-color-text-default: var(--ids-card-color-text-default);
+
   // Button (Primary)
   --ids-button-primary-color-border-default: var(--ids-color-primary);
   --ids-button-primary-color-background-default: var(--ids-color-primary);
@@ -354,9 +364,9 @@
   --ids-card-content-height: 310px;
   --ids-card-header-padding: 12px 16px;
   --ids-card-color-background: var(--ids-color-neutral-00);
-  --ids-card-color-border: var(--ids-color-neutral-30);
+  --ids-card-color-border: transparent;
   --ids-card-divider-color-border: var(--ids-color-neutral-20);
-  --ids-card-shadow: rgba(0 0 0 / 0.1) 0 0 8px;
+  --ids-card-shadow: 0 0 4px rgba(0 0 0 / 0.15);
   --ids-card-color-background-selected: var(--ids-color-primary-10);
   --ids-card-color-border-selected: var(--ids-color-primary);
   --ids-card-color-text-default: var(--ids-color-text-label);
@@ -613,6 +623,9 @@
   // Expandable Area
   --ids-expandable-area-border-bottom: 1px solid var(--ids-color-neutral-30);
 
+  // Homepage
+  --ids-homepage-color-background-default: var(--ids-color-neutral-10);
+
   // Hierarchy
   --ids-hierarchy-legend-color-background-default: var(--ids-color-neutral-20);
   --ids-hierarchy-item-leaf-color-border: var(--ids-color-neutral-30);
@@ -648,6 +661,32 @@
   --ids-icon-color-default-disabled: var(--ids-color-text-disabled);
   --ids-icon-empty-color: var(--ids-color-primary);
   --ids-icon-empty-new-color: var(--ids-color-neutral-60);
+  --ids-icon-status-color-padding: 5px;
+  --ids-icon-status-color-border-radius: var(--ids-border-radius-circle);
+  --ids-icon-status-color-ruby-color-text: var(--ids-color-ruby-60);
+  --ids-icon-status-color-ruby-color-background: var(--ids-color-ruby-10);
+  --ids-icon-status-color-amber-color-text: var(--ids-color-amber-60);
+  --ids-icon-status-color-amber-color-background: var(--ids-color-amber-10);
+  --ids-icon-status-color-emerald-color-text: var(--ids-color-emerald-60);
+  --ids-icon-status-color-emerald-color-background: var(--ids-color-emerald-10);
+  --ids-icon-status-color-azure-color-text: var(--ids-color-azure-60);
+  --ids-icon-status-color-azure-color-background: var(--ids-color-azure-10);
+  --ids-icon-status-color-turquoise-color-text: var(--ids-color-turquoise-60);
+  --ids-icon-status-color-turquoise-color-background: var(--ids-color-turquoise-10);
+  --ids-icon-status-color-amethyst-color-text: var(--ids-color-amethyst-60);
+  --ids-icon-status-color-amethyst-color-background: var(--ids-color-amethyst-10);
+  --ids-icon-status-color-slate-color-text: var(--ids-color-slate-60);
+  --ids-icon-status-color-slate-color-background: var(--ids-color-slate-10);
+  --ids-icon-status-color-error-color-text: var(--ids-color-error-default);
+  --ids-icon-status-color-error-color-background: var(--ids-color-error-10);
+  --ids-icon-status-color-warning-color-text: var(--ids-color-warning-default);
+  --ids-icon-status-color-warning-color-background: var(--ids-color-warning-10);
+  --ids-icon-status-color-success-color-text: var(--ids-color-success-default);
+  --ids-icon-status-color-success-color-background: var(--ids-color-success-10);
+  --ids-icon-status-color-alert-color-text: var(--ids-color-alert-default);
+  --ids-icon-status-color-alert-color-background: var(--ids-color-alert-10);
+  --ids-icon-status-color-info-color-text: var(--ids-color-info-default);
+  --ids-icon-status-color-info-color-background: var(--ids-color-info-10);
 
   // Image
   --ids-image-color-border-focus: var(--ids-color-border-focus);
@@ -1041,6 +1080,15 @@
   --ids-splitter-handle-color-background-hover: var(--ids-color-azure-60);
 
   // Step Chart
+  --ids-stats-height: 136px;
+  --ids-stats-width: 155px;
+  --ids-stats-padding-inline: 16px 12px;
+  --ids-stats-padding-block: 8px;
+  --ids-stats-positive-color-text: var(--ids-color-emerald-70);
+  --ids-stats-negative-color-text: var(--ids-color-error-default);
+  --ids-stats-color-text: var(--ids-color-text-label);
+
+  // Step Chart
   --ids-step-chart-margin: var(--ids-space-60);
   --ids-step-chart-inner-margin: var(--ids-space-30);
   --ids-step-chart-height: 14px;
@@ -1301,6 +1349,18 @@
   --ids-week-view-color-text: var(--ids-color-text);
   --ids-week-view-time-marker-color: var(--ids-color-primary);
   --ids-week-view-today-color: var(--ids-color-primary);
+
+  // Widget
+  --ids-widget-color-background: var(--ids-card-color-background);
+  --ids-widget-color-border: var(--ids-card-color-border);
+  --ids-widget-border-radius: var(--ids-card-border-radius);
+  --ids-widget-shadow: var(--ids-card-shadow);
+  --ids-widget-margin-bottom: var(--ids-card-margin-bottom);
+  --ids-widget-height: var(--ids-card-height);
+  --ids-widget-content-height: 310px;
+  --ids-widget-header-padding: 12px 16px;
+  --ids-widget-divider-color-border: var(--ids-card-divider-color-border);
+  --ids-widget-header-title-color: var(--ids-color-slate-100);
 
   // Wizard
   --ids-wizard-step-width: 14px;

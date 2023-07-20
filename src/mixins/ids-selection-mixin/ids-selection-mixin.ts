@@ -2,7 +2,6 @@ import { attributes } from '../../core/ids-attributes';
 import { IdsBaseConstructor } from '../../core/ids-element';
 
 /**
-/**
  * A mixin that adds selection functionality to components
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object

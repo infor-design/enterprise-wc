@@ -11,6 +11,9 @@
   - link: custom-icon.html
     type: Example
     description: Shows custom icons defined by user
+  - link: status-color.html
+    type: Example
+    description: Example of embellishment icons / alerts
   - link: notification-badge.html
     type: Example
     description: Example of notifications badges on icons

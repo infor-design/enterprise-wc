@@ -2,7 +2,7 @@
 
 ## Description
 
-Homepages hold combinations of widgets that are tailored to the needs of a user’s workflow. The Home Page component will set the layout to display the cards in specific order according to available space in it's container. It take care everything as laid out in the best order and use of space that is possible. To keep the responsive behavior it will readjust each card size and position on the event of resize.
+Homepages hold combinations of widgets that are tailored to the needs of a user’s workflow. The Home Page component will set the layout to display the widgets in specific order according to available space in it's container. It take care everything as laid out in the best order and use of space that is possible. To keep the responsive behavior it will readjust each widget size and position on the event of resize.
 
 ## Use Cases
 
@@ -11,7 +11,7 @@ Homepages hold combinations of widgets that are tailored to the needs of a user�
 
 ## Terminology
 
-- **Card**: The container to keep the content.
+- **Widget**: The container to keep the content.
 
 ## Features (With Code Examples)
 
@@ -19,113 +19,113 @@ A normal home page used as a web component.
 
 ```html
 <ids-home-page>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 1x1</ids-text>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 1x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
+    <div slot="widget-content"></div>
+  </ids-widget>
 </ids-home-page>
 ```
 
-A Card with three columns.
+A Widget with three columns.
 
 ```html
 <ids-home-page>
-  <ids-card slot="card" colspan="3">
-    <div slot="card-header">
-      <ids-text>Card 3x1</ids-text>
+  <ids-widget slot="widget" colspan="3">
+    <div slot="widget-header">
+      <ids-text>Widget 3x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
+    <div slot="widget-content"></div>
+  </ids-widget>
 </ids-home-page>
 ```
 
-A Card with double height.
+A Widget with double height.
 
 ```html
 <ids-home-page>
-  <ids-card slot="card" rowspan="2">
-    <div slot="card-header">
-      <ids-text>Card 1x2</ids-text>
+  <ids-widget slot="widget" rowspan="2">
+    <div slot="widget-header">
+      <ids-text>Widget 1x2</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
+    <div slot="widget-content"></div>
+  </ids-widget>
 </ids-home-page>
 ```
 
-No animation with cards while changing/resizing.
+No animation with widgets while changing/resizing.
 
 ```html
 <ids-home-page animated="false">
-  <ids-card slot="card" colspan="3">
-    <div slot="card-header">
-      <ids-text>Card 3x1</ids-text>
+  <ids-widget slot="widget" colspan="3">
+    <div slot="widget-header">
+      <ids-text>Widget 3x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card" colspan="2">
-    <div slot="card-header">
-      <ids-text>Card 2x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget" colspan="2">
+    <div slot="widget-header">
+      <ids-text>Widget 2x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 1x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 1x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
+    <div slot="widget-content"></div>
+  </ids-widget>
 </ids-home-page>
 ```
 
-The home page with custom cards height.
+The home page with custom widgets height.
 
 ```html
-<ids-home-page cardHeight="260">
-  <ids-card slot="card" colspan="3">
-    <div slot="card-header">
-      <ids-text>Card 3x1</ids-text>
+<ids-home-page widgetHeight="260">
+  <ids-widget slot="widget" colspan="3">
+    <div slot="widget-header">
+      <ids-text>Widget 3x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card" colspan="2">
-    <div slot="card-header">
-      <ids-text>Card 2x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget" colspan="2">
+    <div slot="widget-header">
+      <ids-text>Widget 2x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 1x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 1x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
+    <div slot="widget-content"></div>
+  </ids-widget>
 </ids-home-page>
 ```
 
-The home page with custom cards width.
+The home page with custom widgets width.
 
 ```html
-<ids-home-page cardWidth="260">
-  <ids-card slot="card" colspan="3">
-    <div slot="card-header">
-      <ids-text>Card 3x1</ids-text>
+<ids-home-page widgetWidth="260">
+  <ids-widget slot="widget" colspan="3">
+    <div slot="widget-header">
+      <ids-text>Widget 3x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card" colspan="2">
-    <div slot="card-header">
-      <ids-text>Card 2x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget" colspan="2">
+    <div slot="widget-header">
+      <ids-text>Widget 2x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 1x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 1x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
+    <div slot="widget-content"></div>
+  </ids-widget>
 </ids-home-page>
 ```
 
@@ -133,141 +133,141 @@ The home page max columns.
 
 ```html
 <ids-home-page cols="4">
-  <ids-card slot="card" colspan="4">
-    <div slot="card-header">
-      <ids-text>Card 4x1</ids-text>
+  <ids-widget slot="widget" colspan="4">
+    <div slot="widget-header">
+      <ids-text>Widget 4x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card" colspan="2">
-    <div slot="card-header">
-      <ids-text>Card 2x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget" colspan="2">
+    <div slot="widget-header">
+      <ids-text>Widget 2x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 1x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 1x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 1x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 1x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
+    <div slot="widget-content"></div>
+  </ids-widget>
 </ids-home-page>
 ```
 
-The card gap for single span, apply same for both horizontal and vertical sides.
+The widget gap for single span, apply same for both horizontal and vertical sides.
 
 ```html
 <ids-home-page gap="50">
-  <ids-card slot="card" colspan="3">
-    <div slot="card-header">
-      <ids-text>Card 4x1</ids-text>
+  <ids-widget slot="widget" colspan="3">
+    <div slot="widget-header">
+      <ids-text>Widget 4x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 2x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 2x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 1x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 1x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 1x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 1x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
+    <div slot="widget-content"></div>
+  </ids-widget>
 </ids-home-page>
 ```
 
-The card horizontal gap for single span.
+The widget horizontal gap for single span.
 
 ```html
 <ids-home-page gap-x="50">
-  <ids-card slot="card" colspan="3">
-    <div slot="card-header">
-      <ids-text>Card 4x1</ids-text>
+  <ids-widget slot="widget" colspan="3">
+    <div slot="widget-header">
+      <ids-text>Widget 4x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 2x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 2x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 1x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 1x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 1x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 1x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
+    <div slot="widget-content"></div>
+  </ids-widget>
 </ids-home-page>
 ```
 
-The card vertical gap for single span.
+The widget vertical gap for single span.
 
 ```html
 <ids-home-page gap-y="50">
-  <ids-card slot="card" colspan="3">
-    <div slot="card-header">
-      <ids-text>Card 4x1</ids-text>
+  <ids-widget slot="widget" colspan="3">
+    <div slot="widget-header">
+      <ids-text>Widget 4x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 2x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 2x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 1x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 1x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
-  <ids-card slot="card">
-    <div slot="card-header">
-      <ids-text>Card 1x1</ids-text>
+    <div slot="widget-content"></div>
+  </ids-widget>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-text>Widget 1x1</ids-text>
     </div>
-    <div slot="card-content"></div>
-  </ids-card>
+    <div slot="widget-content"></div>
+  </ids-widget>
 </ids-home-page>
 ```
 
 ## Settings for HomePage
 
-- `animated` {boolean} Set to animated or not the home page cards on resize
-- `cardHeight` {number} Set card height for single span
-- `cardWidth` {number} Set card width for single span
+- `animated` {boolean} Set to animated or not the home page widgets on resize
+- `widgetHeight` {number} Set widget height for single span
+- `widgetWidth` {number} Set widget width for single span
 - `cols` {number} Set the number of columns to display
-- `gap` {number} Set card gap for single span, apply same for both horizontal and vertical sides
-- `gapX` {number} Set card horizontal gap for single span
-- `gapY` {number} Set card vertical gap for single span
+- `gap` {number} Set widget gap for single span, apply same for both horizontal and vertical sides
+- `gapX` {number} Set widget horizontal gap for single span
+- `gapY` {number} Set widget vertical gap for single span
 
 
-## Settings for cards
+## Settings for widgets
 
-- `colspan` {number} Set the horizontal span size (`card-width * colspan`)
-- `rowspan` {number} Set the vertical span size (`card-height * rowspan`)
+- `colspan` {number} Set the horizontal span size (`widget-width * colspan`)
+- `rowspan` {number} Set the vertical span size (`widget-height * rowspan`)
 
 ## Events
 
@@ -280,15 +280,15 @@ The card vertical gap for single span.
 ## Themeable Parts
 
 - `home-page` allows you to further style the home-page element
-- `cards` allows you to further style the cards container element
+- `widgets` allows you to further style the widgets container element
 
 ## States and Variations (With Code Examples)
 
-- Animated cards on change or resize
-- Custom card height/width
+- Animated widgets on change or resize
+- Custom widget height/width
 - Number of max columns to display
 - Horizontal and vertical span size
-- Card gap for single span both horizontal and vertical sides
+- Widget gap for single span both horizontal and vertical sides
 
 ## Keyboard Guidelines
 
@@ -318,4 +318,4 @@ The card vertical gap for single span.
 
 ## Regional Considerations
 
-The cards will flip to the alternate side in Right To Left mode.
+The widgets will flip to the alternate side in Right To Left mode.

@@ -51,7 +51,9 @@ export default class IdsContainer extends Base {
     if (document.readyState === 'complete') {
       this.removeAttribute('hidden');
     }
+
     this.container?.style.setProperty('padding', `${this.padding}px`);
+    if (this.backgroundColor) this.container?.style.setProperty('background-color', `var(${this.backgroundColor})`);
   }
 
   disconnectedCallback() {
@@ -66,6 +68,8 @@ export default class IdsContainer extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.BACKGROUND_COLOR,
+      attributes.BADGE_COLOR,
       attributes.LANGUAGE,
       attributes.LOCALE,
       attributes.PADDING,
@@ -129,7 +133,7 @@ export default class IdsContainer extends Base {
   }
 
   /**
-   * If set to true body element will get reset
+   * If set to true body element will get a "css reset"
    * @param {boolean|string} value true of false
    */
   set reset(value: boolean | string) {
@@ -142,4 +146,18 @@ export default class IdsContainer extends Base {
   }
 
   get reset(): boolean | string { return this.getAttribute(attributes.RESET) || 'true'; }
+
+  /**
+   * Pass in a css variable name to set the background color
+   * @param {string} value css variable to use
+   */
+  set backgroundColor(value: string) {
+    if (value) {
+      this.container?.style.setProperty('background-color', `var(${value})`);
+      return;
+    }
+    this.container?.style.setProperty('background-color', '');
+  }
+
+  get backgroundColor(): string { return this.getAttribute(attributes.BACKGROUND_COLOR) || 'true'; }
 }

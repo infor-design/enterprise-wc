@@ -57,6 +57,7 @@ export default class IdsIcon extends Base {
       attributes.HEIGHT,
       attributes.ICON,
       attributes.SIZE,
+      attributes.STATUS_COLOR,
       attributes.VERTICAL,
       attributes.VIEWBOX,
       attributes.WIDTH
@@ -388,6 +389,23 @@ export default class IdsIcon extends Base {
       this.removeAttribute(attributes.SIZE);
     }
     this.#adjustViewbox();
+  }
+
+  /**
+   * Color that can be used for embellishment or to indicate status or bring attention
+   * @param {string} value Any pallete color reference
+   */
+  set statusColor(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.STATUS_COLOR, value);
+      this.container?.classList.add(`status-color-${value}`);
+    } else {
+      this.removeAttribute(attributes.STATUS_COLOR);
+    }
+  }
+
+  get statusColor(): string {
+    return this.getAttribute(attributes.STATUS_COLOR) || '';
   }
 
   /**

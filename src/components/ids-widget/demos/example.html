@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+    <ids-container role="main" padding="8" hidden>
+      <ids-theme-switcher mode="light"></ids-theme-switcher>
+      <ids-layout-grid auto-fit="true" padding="md">
+        <ids-text font-size="12" type="h1">Widget (Layout)</ids-text>
+      </ids-layout-grid>
+      <ids-layout-grid cols="2" gap="md" padding-x="md">
+        <ids-widget>
+        </ids-widget>
+      </ids-layout-grid>
+    </ids-container>
+</body>
+</html>

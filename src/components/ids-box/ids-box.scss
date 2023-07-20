@@ -1,0 +1,28 @@
+/* Ids Box Component */
+@use '../../themes/mixins/ids-core-mixins' as mixins;
+
+.ids-box {
+  @include mixins.antialiased();
+
+  // Colors/Borders
+  background-color: var(--ids-box-color-background);
+  border: 1px solid var(--ids-box-color-border);
+  border-radius: var(--ids-box-border-radius);
+  box-shadow: var(--ids-box-shadow);
+
+  // Fonts
+  font-family: var(--ids-font-family-default);
+  font-size: var(--ids-box-font-size);
+  color: var(--ids-box-color-text-default);
+
+  // Layout
+  display: inline-flex;
+  contain: content;
+
+  &.borderless {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+}
