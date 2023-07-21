@@ -1,15 +1,48 @@
 
+@import '../ids-button/ids-button-base.scss';
 @import './ids-module-nav-item';
 
 :host {
   @include border-box();
 }
 
+::slotted(ids-menu-button) {
+  display: block;
+}
+
+::slotted(ids-text) {
+  @include single-line-ellipsis-text();
+}
+
 .ids-module-nav-settings {
+  align-self: center;
+
+  .ids-text {
+    @include single-line-ellipsis-text();
+  }
+
   &.color-variant-module-nav {
     &.display-mode-collapsed,
     &.display-mode-expanded {
       margin-block-start: 0;
+      margin-block-end: var(--ids-module-nav-accordion-gutter-size);
+      margin-inline: var(--ids-module-nav-accordion-gutter-size);
+    }
+
+    &.display-mode-collapsed {
+      ::slotted(ids-menu-button) {
+        height: var(--ids-module-nav-item-collapsed-size);
+        width: var(--ids-module-nav-item-collapsed-size);
+        margin: var(--ids-module-nav-item-collapsed-general-spacing-size) auto;
+      }
+    }
+
+    &.display-mode-expanded {
+      text-align: start;
+
+      ::slotted(ids-menu-button) {
+        justify-content: start;
+      }
     }
   }
 }

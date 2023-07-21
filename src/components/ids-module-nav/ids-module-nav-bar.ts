@@ -208,16 +208,20 @@ export default class IdsModuleNavBar extends Base {
 
   #attachEventHandlers() {
     this.#detachEventHandlers();
-    this.onEvent('show.module-nav-show', this, () => {
-      if (this.parent) {
-        this.parent?.classList.add(CONTAINER_OPEN_CLASS);
-        if (!this.displayMode) this.displayMode = 'collapsed';
+    this.onEvent('show.module-nav-show', this, (e) => {
+      if (e.target.tagName === 'IDS-MODULE-NAV-BAR') {
+        if (this.parent) {
+          this.parent?.classList.add(CONTAINER_OPEN_CLASS);
+          if (!this.displayMode) this.displayMode = 'collapsed';
+        }
       }
     });
-    this.onEvent('hide.module-nav-hide', this, () => {
-      if (this.parent) {
-        this.parent?.classList.remove(CONTAINER_OPEN_CLASS);
-        if (this.displayMode) this.displayMode = false;
+    this.onEvent('hide.module-nav-hide', this, (e) => {
+      if (e.target.tagName === 'IDS-MODULE-NAV-BAR') {
+        if (this.parent) {
+          this.parent?.classList.remove(CONTAINER_OPEN_CLASS);
+          if (this.displayMode) this.displayMode = false;
+        }
       }
     });
 
