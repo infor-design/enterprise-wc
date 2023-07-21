@@ -1,18 +1,22 @@
+li {
+  display: block;
+}
+
 .ids-list-view-item {
   display: flex;
+  flex-direction: row;
   align-items: center;
+}
 
-  border: none;
-  margin: 0;
-  padding: 0;
-  padding: var(--ids-list-view-item-padding);
-  outline: none;
-
+li,
+.ids-list-view-item {
   background-color: var(--ids-list-view-item-color-background-default);
   border: var(--ids-list-view-item-border);
   border-top-color: var(--ids-list-view-item-color-border-top);
   contain: content;
   list-style-type: none;
+  margin: 0;
+  outline: none;
   padding: var(--ids-list-view-item-padding);
 }
 
@@ -28,6 +32,7 @@
   background-color: transparent;
 }
 
+li,
 :host {
   outline: none;
 
@@ -36,13 +41,16 @@
   }
 }
 
+li:focus,
 :host(:focus) {
+  &,
   .ids-list-view-item {
     border-color: var(--ids-list-view-item-color-border-focus);
     box-shadow: var(--ids-list-view-item-shadow-focus);
     outline: var(--ids-list-view-item-outline-focus);
   }
 
+  + li,
   + ids-list-view-item {
     .ids-list-view-item {
       border-top-color: transparent;
@@ -50,7 +58,10 @@
   }
 }
 
+li.disabled,
+li[disabled],
 :host([disabled]) {
+  &,
   .ids-list-view-item {
     color: var(--ids-list-view-item-color-text-disabled);
     cursor: var(--ids-cursor-default);
@@ -73,7 +84,10 @@
   }
 }
 
+li.disabled:focus,
+li[disabled]:focus,
 :host([disabled]:focus) {
+  &,
   .ids-list-view-item {
     border-color: var(--ids-list-view-item-color-border-disabled-focus);
     border-top-color: var(--ids-list-view-item-top-color-border-disabled-focus);
@@ -81,16 +95,27 @@
   }
 }
 
+li:hover:not(.disabled),
+li[active]:not(.disabled),
+li[selected]:not(.disabled),
+li:hover:not([disabled]),
+li[active]:not([disabled]),
+li[selected]:not([disabled]),
 :host(:hover:not([disabled])),
 :host([active]:not([disabled])),
 :host([selected]:not([disabled])) {
+  &,
   .ids-list-view-item {
     background-color: var(--ids-list-view-color-background-selected);
   }
 }
 
+
+li.sortable,
+li[sortable],
 :host[sortable],
 :host-context(ids-swappable-item) {
+  &,
   .ids-list-view-item {
     background-color: transparent;
     border: none;

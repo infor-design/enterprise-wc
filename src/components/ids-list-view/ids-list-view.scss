@@ -1,3 +1,5 @@
+@import './ids-list-view-item.scss';
+
 :host([selectable]) {
   .ids-list-view .ids-list-view-body {
     div[part='list-item'],
