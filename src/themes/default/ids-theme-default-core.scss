@@ -311,6 +311,12 @@
   --ids-button-formatter-color-text-hover: var(--ids-color-text-inverse);
   --ids-button-formatter-color-text-default: var(--ids-input-color-background-readonly);
 
+  // Button (Module)
+  --ids-button-module-border-radius: 10px;
+  --ids-button-module-color-background-hover: rgba(0 0 0 / 0.1);
+  --ids-button-module-color-text-default: var(--ids-color-slate-90);
+  --ids-button-module-color-text-hover: var(--ids-color-slate-100);
+
   // Breadcrumb
   --ids-breadcrumb-color-text-default: var(--ids-color-text-subtle);
   --ids-breadcrumb-color-text-disabled: var(--ids-color-text-disabled);
@@ -1125,7 +1131,7 @@
   --ids-tab-color-text-default: var(--ids-color-text-default);
   --ids-tab-divider-color-background: var(--ids-color-slate-30);
   --ids-tab-color-background-hover: var(--ids-color-slate-20);
-  --ids-tab-color-text-hover: var(--ids-slate-80);
+  --ids-tab-color-text-hover: var(--ids-color-slate-80);
   --ids-tab-color-border-focus: var(--ids-color-slate-80);
   --ids-tab-color-border-bottom: var(--ids-color-slate-30);
   --ids-tab-color-text-disabled: var(--ids-color-slate-30);
@@ -1136,13 +1142,13 @@
 
   // Tab (Vertical Orientation)
   --ids-tab-vertical-color-background-default: var(--ids-color-slate-20);
-  --ids-tab-vertical-color-text-default: var(--ids-color-slate-90);
+  --ids-tab-vertical-color-text-default: var(--ids-color-text-default);
   --ids-tab-vertical-color-background-hover: var(--ids-color-slate-30);
-  --ids-tab-vertical-color-text-hover: var(--ids-color-neutral-70);
+  --ids-tab-vertical-color-text-hover: var(--ids-color-neutral-80);
   --ids-tab-vertical-color-background-selected: var(--ids-color-slate-00);
   --ids-tab-vertical-color-border-selected: var(--ids-color-neutral-00);
   --ids-tab-vertical-color-text-selected: var(--ids-color-slate-100);
-  --ids-tab-vertical-color-background-disabled: var(--ids-color-slate-40);
+  --ids-tab-vertical-color-background-disabled: var(--ids-color-slate-20);
   --ids-tab-vertical-color-text-disabled: var(--ids-color-slate-50);
 
   // Tab (Alternate Variant)
@@ -1157,12 +1163,12 @@
   // Tab (Module Variant)
   --ids-tab-module-color-background-default: var(--ids-color-slate-20);
   --ids-tab-module-color-border-right: var(--ids-color-slate-50);
-  --ids-tab-module-color-text-default: var(--ids-color-slate-90);
+  --ids-tab-module-color-text-default: var(--ids-color-text-default);
   --ids-tab-module-color-background-hover: var(--ids-color-slate-30);
-  --ids-tab-module-color-text-hover: var(--ids-color-neutral-70);
+  --ids-tab-module-color-text-hover: var(--ids-color-slate-80);
   --ids-tab-module-color-background-selected: var(--ids-color-slate-00);
   --ids-tab-module-color-text-selected: var(--ids-color-slate-100);
-  --ids-tab-module-color-background-disabled: var(--ids-color-slate-40);
+  --ids-tab-module-color-background-disabled: var(--ids-color-slate-20);
   --ids-tab-module-color-text-disabled: var(--ids-color-slate-50);
 
   // Tag

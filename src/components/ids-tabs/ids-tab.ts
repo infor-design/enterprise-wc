@@ -119,7 +119,7 @@ export default class IdsTab extends Base {
    * @returns {string} draws the dismissible button
    */
   #templateDismissible(): string {
-    const colorVariant = this.colorVariant ? `color-variant="${this.#getDismissibleVariant()}"` : '';
+    const colorVariant = `color-variant="${this.#getDismissibleVariant()}"`;
     const inheritColor = this.colorVariant === 'module' ? '' : 'inherit-color';
 
     return `<ids-trigger-button slot="close" label="Close" ${colorVariant} ${inheritColor}>
@@ -128,7 +128,7 @@ export default class IdsTab extends Base {
   }
 
   #getDismissibleVariant() {
-    return this.colorVariant === 'module' ? '' : this.colorVariant;
+    return this.colorVariant === 'alternate' ? 'alternate' : 'module';
   }
 
   connectedCallback() {

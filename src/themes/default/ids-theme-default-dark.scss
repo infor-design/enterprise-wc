@@ -137,6 +137,11 @@
   --ids-button-formatter-color-border: var(--ids-color-neutral-70);
   --ids-button-formatter-color-text-hover: var(--ids-color-neutral-100);
 
+  // Button (Module)
+  --ids-button-module-color-background-hover: rgba(0 0 0 / 0.3);
+  --ids-button-module-color-text-default: var(--ids-color-slate-10);
+  --ids-button-module-color-text-hover: var(--ids-color-slate-00);
+
   // Calendar
   --ids-calendar-toolbar-color-background: var(--ids-color-neutral-80);
   --ids-calendar-toolbar-color-border: var(--ids-color-neutral-70);
@@ -501,7 +506,7 @@
   --ids-tab-module-color-text-hover: var(--ids-color-slate-00);
   --ids-tab-module-color-background-selected: var(--ids-color-slate-70);
   --ids-tab-module-color-text-selected: var(--ids-color-slate-00);
-  --ids-tab-module-color-background-disabled: var(--ids-color-slate-50);
+  --ids-tab-module-color-background-disabled: var(--ids-color-slate-60);
   --ids-tab-module-color-text-disabled: var(--ids-color-slate-40);
 
   // Tag

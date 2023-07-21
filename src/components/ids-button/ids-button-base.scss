@@ -343,6 +343,21 @@
       padding-inline: var(--ids-space-30);
     }
   }
+
+  // Used in Tab Module Variant
+  &.color-variant-module {
+    color: var(--ids-button-module-color-text-default);
+    
+
+    &:not(.square) {
+      border-radius: var(--ids-button-module-border-radius);
+    }
+
+    &:hover {
+      background-color: var(--ids-button-module-color-background-hover);
+      color: var(--ids-button-module-color-text-hover);
+    }
+  }
 }
 
 /**
