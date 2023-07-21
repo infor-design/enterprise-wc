@@ -34,63 +34,63 @@
 
     div[part='list-item'],
     li {
-      background-color: var(--ids-list-view-item-color-background-default);
-      border: var(--ids-list-view-item-border);
-      border-top-color: var(--ids-list-view-item-color-border-top);
-      contain: content;
-      list-style-type: none;
-      padding: var(--ids-list-view-item-padding);
+      // background-color: var(--ids-list-view-item-color-background-default);
+      // border: var(--ids-list-view-item-border);
+      // border-top-color: var(--ids-list-view-item-color-border-top);
+      // contain: content;
+      // list-style-type: none;
+      // // padding: var(--ids-list-view-item-padding);
 
-      &:first-child {
-        margin-block-start: var(--ids-space-20);
-      }
+      // &:first-child {
+      //   margin-block-start: var(--ids-space-20);
+      // }
 
-      &:focus {
-        border-color: var(--ids-list-view-item-color-border-focus);
-        box-shadow: var(--ids-list-view-item-shadow-focus);
-        outline: var(--ids-list-view-item-outline-focus);
+      // &:focus {
+      //   border-color: var(--ids-list-view-item-color-border-focus);
+      //   box-shadow: var(--ids-list-view-item-shadow-focus);
+      //   outline: var(--ids-list-view-item-outline-focus);
 
-        + div[part='list-item'] {
-          border-top-color: transparent;
-        }
-      }
+      //   + div[part='list-item'] {
+      //     border-top-color: transparent;
+      //   }
+      // }
 
-      &.sortable {
-        background-color: transparent;
-        border: none;
-        cursor: inherit;
+      // &.sortable {
+      //   background-color: transparent;
+      //   border: none;
+      //   cursor: inherit;
 
-        &:first-child {
-          margin-block-start: var(--ids-space-none);
-        }
-      }
+      //   &:first-child {
+      //     margin-block-start: var(--ids-space-none);
+      //   }
+      // }
 
-      &[disabled] {
-        color: var(--ids-list-view-item-color-text-disabled);
-        cursor: var(--ids-cursor-default);
-        pointer-events: none;
-        user-select: none;
+      // &[disabled] {
+      //   color: var(--ids-list-view-item-color-text-disabled);
+      //   cursor: var(--ids-cursor-default);
+      //   pointer-events: none;
+      //   user-select: none;
 
-        &:focus {
-          border-color: var(--ids-list-view-item-color-border-disabled-focus);
-          border-top-color: var(--ids-list-view-item-top-color-border-disabled-focus);
-          box-shadow: var(--ids-list-view-item-shadow-disabled-focus);
-        }
+      //   &:focus {
+      //     border-color: var(--ids-list-view-item-color-border-disabled-focus);
+      //     border-top-color: var(--ids-list-view-item-top-color-border-disabled-focus);
+      //     box-shadow: var(--ids-list-view-item-shadow-disabled-focus);
+      //   }
 
-        ids-badge::part(badge) {
-          background-color: var(--ids-list-view-item-color-background-disabled);
-          border-color: var(--ids-list-view-item-color-border-disabled);
-          color: var(--ids-list-view-item-badge-color-text-disabled);
-        }
+      //   ids-badge::part(badge) {
+      //     background-color: var(--ids-list-view-item-color-background-disabled);
+      //     border-color: var(--ids-list-view-item-color-border-disabled);
+      //     color: var(--ids-list-view-item-badge-color-text-disabled);
+      //   }
 
-        ids-hyperlink::part(link) {
-          color: var(--ids-list-view-item-color-text-link-disabled);
-        }
+      //   ids-hyperlink::part(link) {
+      //     color: var(--ids-list-view-item-color-text-link-disabled);
+      //   }
 
-        ids-image {
-          opacity: var(--ids-list-view-item-opacity-disabled);
-        }
-      }
+      //   ids-image {
+      //     opacity: var(--ids-list-view-item-opacity-disabled);
+      //   }
+      // }
     }
   }
 
@@ -116,25 +116,25 @@
     }
   }
 
-  &.selectable-multiple,
-  &.selectable-mixed {
-    .list-item-area {
-      display: flex;
-      align-items: center;
+  // &.selectable-multiple,
+  // &.selectable-mixed {
+  //   .list-item-area {
+  //     display: flex;
+  //     align-items: center;
 
-      .list-item-checkbox {
-        padding-inline-end: var(--ids-space-70);
-        flex-grow: 0;
-        flex-shrink: 0;
-        max-height: var(--ids-space-60);
-        max-width: var(--ids-space-60);
-      }
+  //     .list-item-checkbox {
+  //       padding-inline-end: var(--ids-space-70);
+  //       flex-grow: 0;
+  //       flex-shrink: 0;
+  //       max-height: var(--ids-space-60);
+  //       max-width: var(--ids-space-60);
+  //     }
 
-      .list-item-checkbox[disabled]::part(checkmark) {
-        background-color: transparent;
-      }
-    }
-  }
+  //     .list-item-checkbox[disabled]::part(checkmark) {
+  //       background-color: transparent;
+  //     }
+  //   }
+  // }
 }
 
 ids-swappable-item {

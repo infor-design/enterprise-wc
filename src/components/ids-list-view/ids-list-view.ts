@@ -364,8 +364,8 @@ export default class IdsListView extends Base {
       this.#addSortableStyles();
     } else {
       // Set selection/activation by click
-      this.offEvent('click.listview-selection', this.container);
-      this.onEvent('click.listview-selection', this.container, (e: any) => this.#handleOnClick(e));
+      // this.offEvent('click.listview-selection', this.container);
+      // this.onEvent('click.listview-selection', this.container, (e: any) => this.#handleOnClick(e));
 
       this.offEvent('keydown.listview-selection', this.container);
       this.onEvent('keydown.listview-selection', this.container, (e: any) => this.#handleOnKeydown(e));
@@ -568,29 +568,10 @@ export default class IdsListView extends Base {
    * @returns {Function} The list item template function.
    */
   listItemTemplateFunc(): any {
-    const itemTemplate = (item: any, index: number) => {
-      if (this.selectable === 'multiple' || this.selectable === 'mixed') {
-        const checked = item.itemSelected ? ' checked' : '';
-        const disabled = item.disabled ? ' disabled' : '';
-        let checkbox = `<ids-checkbox class="list-item-checkbox" label="cb-item-${index}" label-state="hidden"${checked}${disabled}></ids-checkbox>`;
-        if (this.selectable === 'multiple' && this.hideCheckboxes) checkbox = '';
-        return `
-          <div class="list-item-area">
-            ${checkbox}
-            <div class="list-item-content">
-              ${this.itemTemplate(item)}
-            </div>
-          </div>`;
-      }
-      return this.itemTemplate(item);
-    };
-
     const kids = this.#childElements(true);
     const func = (item: any, index: number) => {
-      if (item?.setAttribute) {
-        item?.setAttribute('slot', `slot-child-${index}`);
-        item.rowIndex = index;
-      }
+      item?.setAttribute?.('slot', `slot-child-${index}`);
+      item.rowIndex = index;
 
       const disabled = item.disabled ? ' disabled' : '';
       const tabindex = `tabindex="${typeof index !== 'undefined' && !index ? '0' : '-1'}"`;
@@ -621,7 +602,7 @@ export default class IdsListView extends Base {
             aria-setsize="${this.data.length ? this.#size : kids.length}"
             ${tabindex}${activated}${selected}${disabled}
           >
-            ${itemTemplate(item, index)}
+            ${this.itemTemplate(item)}
           </div>
         ${this.sortable ? `</ids-swappable-item>` : ''}
       `;
@@ -686,9 +667,19 @@ export default class IdsListView extends Base {
    * @returns {string} The html for this item
    */
   itemTemplate(item: any): string {
-    return this.#childValidListViewItem(item)
-      ? `<slot name="${item?.getAttribute?.('slot')}"></slot>`
-      : injectTemplate(this.defaultTemplate, this.searchHighlight?.(item) ?? item);
+    if (this.#childValidListViewItem(item)) {
+      return `<slot name="${item?.getAttribute?.('slot')}"></slot>`;
+    }
+
+    return `
+      <ids-list-view-item
+        row-index="${item.rowIndex ?? 0}"
+        ${item.disabled ? 'disabled' : ''}
+        ${item.itemActivated ? 'active' : ''}
+      >
+        ${injectTemplate(this.defaultTemplate, this.searchHighlight?.(item) ?? item)}
+      </ids-list-view-item>
+    `;
   }
 
   /**

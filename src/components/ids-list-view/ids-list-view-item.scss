@@ -1,7 +1,103 @@
+.ids-list-view-item {
+  display: flex;
+  align-items: center;
+
+  border: none;
+  margin: 0;
+  padding: 0;
+  padding: var(--ids-list-view-item-padding);
+  outline: none;
+
+  background-color: var(--ids-list-view-item-color-background-default);
+  border: var(--ids-list-view-item-border);
+  border-top-color: var(--ids-list-view-item-color-border-top);
+  contain: content;
+  list-style-type: none;
+  padding: var(--ids-list-view-item-padding);
+}
+
+.list-item-checkbox {
+  padding-inline-end: var(--ids-space-70);
+  flex-grow: 0;
+  flex-shrink: 0;
+  max-height: var(--ids-space-60);
+  max-width: var(--ids-space-60);
+}
+
+.list-item-checkbox[disabled]::part(checkmark) {
+  background-color: transparent;
+}
+
 :host {
+  outline: none;
+
+  &:first-child {
+    margin-block-start: var(--ids-space-20);
+  }
+}
+
+:host(:focus) {
   .ids-list-view-item {
+    border-color: var(--ids-list-view-item-color-border-focus);
+    box-shadow: var(--ids-list-view-item-shadow-focus);
+    outline: var(--ids-list-view-item-outline-focus);
+  }
+
+  + ids-list-view-item {
+    .ids-list-view-item {
+      border-top-color: transparent;
+    }
+  }
+}
+
+:host([disabled]) {
+  .ids-list-view-item {
+    color: var(--ids-list-view-item-color-text-disabled);
+    cursor: var(--ids-cursor-default);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  ids-badge::part(badge) {
+    background-color: var(--ids-list-view-item-color-background-disabled);
+    border-color: var(--ids-list-view-item-color-border-disabled);
+    color: var(--ids-list-view-item-badge-color-text-disabled);
+  }
+
+  ids-hyperlink::part(link) {
+    color: var(--ids-list-view-item-color-text-link-disabled);
+  }
+
+  ids-image {
+    opacity: var(--ids-list-view-item-opacity-disabled);
+  }
+}
+
+:host([disabled]:focus) {
+  .ids-list-view-item {
+    border-color: var(--ids-list-view-item-color-border-disabled-focus);
+    border-top-color: var(--ids-list-view-item-top-color-border-disabled-focus);
+    box-shadow: var(--ids-list-view-item-shadow-disabled-focus);
+  }
+}
+
+:host(:hover:not([disabled])),
+:host([active]:not([disabled])),
+:host([selected]:not([disabled])) {
+  .ids-list-view-item {
+    background-color: var(--ids-list-view-color-background-selected);
+  }
+}
+
+:host[sortable],
+:host-context(ids-swappable-item) {
+  .ids-list-view-item {
+    background-color: transparent;
     border: none;
-    margin: 0;
-    padding: 0;
+    cursor: inherit;
+  }
+
+  &:first-child {
+    margin-block-start: var(--ids-space-none);
   }
 }
