@@ -1069,6 +1069,8 @@ export default class IdsDataGridFilters {
     const placeholder = opt.placeholder ? ` placeholder="${opt.placeholder}"` : '';
     const disabled = opt.disabled ? ' disabled' : '';
     const readonly = opt.readonly ? ' readonly' : '';
+    const maxlength = opt.maxlength ? ` maxlength="${opt.maxlength}"` : '';
+    const uppercase = opt.uppercase ? ` uppercase` : '';
 
     let value = this.#conditions.filter((c: any) => c.columnId === column.id)[0]?.value ?? null;
     this.#initial[column.id] = this.#initial[column.id] || {};
@@ -1087,7 +1089,7 @@ export default class IdsDataGridFilters {
       text-align="${column.align === 'right' ? 'end' : 'start'}"
       no-margins
       compact
-      ${placeholder}${disabled}${readonly}${value}>
+      ${placeholder}${disabled}${readonly}${maxlength}${uppercase}${value}>
     </ids-input>`;
   }
 

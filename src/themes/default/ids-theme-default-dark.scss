@@ -180,12 +180,13 @@
   // Data Grid (Header)
   --ids-data-grid-header-color-border: var(--ids-color-neutral-80);
   --ids-data-grid-header-color-background-default: var(--ids-color-neutral-20);
+  --ids-data-grid-header-hover-background-color: var(--ids-color-neutral-30);
   --ids-data-grid-header-checkbox-color-border: var(--ids-color-neutral-100);
   --ids-data-grid-header-checkbox-color-background: transparent;
   --ids-data-grid-header-color-icon: var(--ids-color-neutral-100);
   --ids-data-grid-header-color-background-placeholder-dragging: var(--ids-color-neutral-10);
   --ids-data-grid-header-color-text: var(--ids-color-neutral-100);
-  --ids-data-grid-header-color-icon-unsorted: var(--ids-color-neutral-40);
+  --ids-data-grid-header-color-icon-unsorted: var(--ids-color-neutral-50);
   --ids-data-grid-header-color-icon-sorted: var(--ids-color-neutral-100);
   --ids-data-grid-header-expander-color: var(--ids-color-neutral-70);
   --ids-data-grid-header-expander-active-color:  var(--ids-color-neutral-100);
