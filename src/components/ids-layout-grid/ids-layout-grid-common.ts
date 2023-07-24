@@ -23,6 +23,7 @@ export const GRID_ATTRIBUTES: string[] = [
   attributes.MIN_COL_WIDTH,
   attributes.MAX_ROW_HEIGHT,
   attributes.MIN_ROW_HEIGHT,
+  attributes.MAX_WIDTH,
   attributes.PADDING,
   attributes.PADDING_X,
   attributes.PADDING_Y,
@@ -87,8 +88,9 @@ export type IdsGapType = undefined | 'none' | 'sm' | 'md' | 'lg' | 'xl';
 export type IdsJustifyType = undefined | 'space-around' | 'space-between' | 'center' | 'end' | 'space-evenly' | 'start';
 export type IdsFlowType = undefined | 'row' | 'column' | 'dense' | 'row-dense' | 'column-dense';
 export type IdsGridAlignItems = 'start' | 'end' | 'center' | 'stretch';
-export type IdsGridMargins = undefined | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type IdsGridMargins = undefined | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto';
 export type IdsGridPadding = undefined | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type IdsMaxWidth = undefined | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | string;
 
 export const GAP_TYPES: Array<IdsGapType> = [
   undefined,
@@ -131,7 +133,8 @@ export const MARGIN_SIZES: Array<IdsGridMargins> = [
   'sm',
   'md',
   'lg',
-  'xl'
+  'xl',
+  'auto'
 ];
 
 export const PADDING_SIZES: Array<IdsGridPadding | any> = [
@@ -142,4 +145,14 @@ export const PADDING_SIZES: Array<IdsGridPadding | any> = [
   'md',
   'lg',
   'xl'
+];
+
+export const MAX_WIDTH_SIZES: Array<IdsMaxWidth | any> = [
+  undefined,
+  'xs',
+  'sm',
+  'md',
+  'lg',
+  'xl',
+  'xxl'
 ];

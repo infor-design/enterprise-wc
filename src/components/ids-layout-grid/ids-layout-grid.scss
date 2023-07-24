@@ -36,6 +36,7 @@ $min-col-width: var(--min-col-width);
 $max-col-width: var(--max-col-width);
 $min-row-height: var(--min-row-height);
 $max-row-height: var(--max-row-height);
+$max-width: var(--max-width);
 
 :host(.#{$prefix}),
 .#{$prefix} {
@@ -95,6 +96,11 @@ $max-row-height: var(--max-row-height);
   margin: $grid-margin-xl;
 }
 
+:host([margin='auto']),
+.#{$prefix}.#{$prefix}-margin-auto {
+  margin: auto;
+}
+
 :host([margin-y='xs']),
 .#{$prefix}.#{$prefix}-margin-y-xs {
   margin-block: $grid-margin-xs;
@@ -118,6 +124,40 @@ $max-row-height: var(--max-row-height);
 :host([margin-y='xl']),
 .#{$prefix}.#{$prefix}-margin-y-xl {
   margin-block: $grid-margin-xl;
+}
+
+:host([max-width='xs']),
+.#{$prefix}.#{$prefix}-max-width-xs {
+  max-width: $breakpoint-xs;
+}
+
+:host([max-width='sm']),
+.#{$prefix}.#{$prefix}-max-width-sm {
+  max-width: $breakpoint-sm;
+}
+
+:host([max-width='md']),
+.#{$prefix}.#{$prefix}-max-width-md {
+  max-width: $breakpoint-md;
+}
+
+:host([max-width='lg']),
+.#{$prefix}.#{$prefix}-max-width-lg {
+  max-width: $breakpoint-lg;
+}
+
+:host([max-width='xl']),
+.#{$prefix}.#{$prefix}-max-width-xl {
+  max-width: $breakpoint-xl;
+}
+
+:host([max-width='xxl']),
+.#{$prefix}.#{$prefix}-max-width-xxl {
+  max-width: $breakpoint-xxl;
+}
+
+:host([max-width$='px']) {
+  max-width: var(--max-width);
 }
 
 :host([padding='xs']),

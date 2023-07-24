@@ -73,8 +73,7 @@ export default class IdsScrollView extends Base {
       <div class="ids-scroll-view" part="scroll-view" role="complementary" tabindex="-1">
         <slot name="scroll-view-item"></slot>
       </div>
-      <div class="${controlsClass}" part="controls" role="tablist">
-      </div>
+      <div class="${controlsClass}" part="controls" role="tablist"></div>
     </div>`;
   }
 
@@ -295,6 +294,8 @@ export default class IdsScrollView extends Base {
    * @returns {void}
    */
   #renderCircleButtons(): void {
+    if (this.controls) this.controls.innerHTML = '';
+
     this.querySelectorAll('[slot]').forEach((item, i) => {
       const cssClass = ` class="circle-button${i === 0 ? ' selected' : ''}"`;
       const ariaSelected = i === 0 ? ' aria-selected="true"' : '';
@@ -365,6 +366,10 @@ export default class IdsScrollView extends Base {
         e.stopPropagation();
       }
     });
+
+    const itemSlot = this.container?.querySelector(`slot[name="scroll-view-item"]`);
+    this.offEvent('click.scrollview', itemSlot);
+    this.onEvent('slotchange', itemSlot, () => this.#renderCircleButtons());
 
     // Handle scroll-end, after snap scrolling event is complete
     // https://stackoverflow.com/a/66029649
