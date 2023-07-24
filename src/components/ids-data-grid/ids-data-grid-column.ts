@@ -168,6 +168,10 @@ export interface IdsDataGridColumn {
     autoupdate?: boolean;
     /** If the filter type is "contents" lets you set a blank string to a text value (matched by ID) */
     notFilteredItem?: { value: string, label: string }
+    /** For filter type input, sets the text to all upper case when typed */
+    uppercase?: boolean;
+    /** For filter type input, sets the text max lenght when typed */
+    maxlength?: number;
   };
   /** Lets you make a dynamic filter function */
   filterFunction?: any;

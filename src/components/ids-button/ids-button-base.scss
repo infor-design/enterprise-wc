@@ -182,7 +182,10 @@
   &.btn-primary {
     background-color: var(--ids-button-primary-color-background-default);
     border-color: var(--ids-button-primary-color-border-default);
+    border: 1px solid var(--ids-button-primary-color-border-default);
     color: var(--ids-button-primary-color-text-default);
+    padding-bottom: calc(var(--ids-space-40) - 1px);
+    padding-top: calc(var(--ids-space-40) - 1px);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -280,12 +283,12 @@
     }
   }
 
-    // These appear in app menu
-    &.color-variant-app-menu {
-      &:hover {
-        background-color: rgba(255 255 255 / 0.15);
-      }
+  // These appear in app menu
+  &.color-variant-app-menu {
+    &:hover {
+      background-color: rgba(255 255 255 / 0.15);
     }
+  }
 
 
   // These appear in places with dark background like app menu and masthead, generally default/tertiary buttons
@@ -341,6 +344,21 @@
     &.ids-menu-button.compact {
       padding: var(--ids-space-30);
       padding-inline: var(--ids-space-30);
+    }
+  }
+
+  // Used in Tab Module Variant
+  &.color-variant-module {
+    color: var(--ids-button-module-color-text-default);
+    
+
+    &:not(.square) {
+      border-radius: var(--ids-button-module-border-radius);
+    }
+
+    &:hover {
+      background-color: var(--ids-button-module-color-background-hover);
+      color: var(--ids-button-module-color-text-hover);
     }
   }
 }

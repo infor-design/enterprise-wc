@@ -115,7 +115,7 @@ export default class IdsButton extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate', 'alternate-formatter'];
+  colorVariants = ['alternate', 'alternate-formatter', 'module'];
 
   /**
    * Figure out the classes

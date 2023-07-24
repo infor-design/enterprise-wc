@@ -709,6 +709,10 @@ $input-size-full: 100%;
   }
 }
 
+.is-uppercase {
+  text-transform: uppercase;
+}
+
 .highlight {
   font-weight: var(--ids-font-weight-bold);
 }

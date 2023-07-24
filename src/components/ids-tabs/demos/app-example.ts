@@ -1,8 +1,14 @@
 import '../../ids-icon/ids-icon';
 import '../../ids-header/ids-header';
 import '../../ids-toolbar/ids-toolbar';
+import '../../ids-masthead/ids-masthead';
+import '../../ids-app-menu/ids-app-menu';
+import avatarPlaceholder from '../../../assets/images/avatar-placeholder.jpg';
 
 document.addEventListener('DOMContentLoaded', () => {
+  const avatarImg: any = window.document.getElementById('avatar');
+  avatarImg.src = avatarPlaceholder;
+
   const tabList: any = document.querySelector('ids-tabs');
   const tabContentContainer: any = document.querySelector('div.ids-tabs-content');
   let newTabCount = 0;
@@ -32,4 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     newTabCount = 0;
   };
+
+  const appMenuDrawer: any = document.querySelector('#app-menu');
+  const appMenuTriggerBtn: any = document.querySelector('ids-tab[value="app-menu"]');
+  appMenuDrawer.target = appMenuTriggerBtn;
+  appMenuDrawer.addEventListener('selected', (e: CustomEvent) => {
+    console.info(`Header "${(e.target as any).textContent.trim()}" was selected.`);
+  });
 });

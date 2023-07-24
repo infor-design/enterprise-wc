@@ -389,10 +389,11 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
       </span>
     `;
 
+    const sortIconSize = dataGrid.rowHeight === 'xxs' ? 'size="small"' : '';
     const sortIndicatorTemplate = `
       <span class="sort-indicator">
-        <ids-icon icon="dropdown"></ids-icon>
-        <ids-icon icon="dropdown"></ids-icon>
+        <ids-icon icon="dropdown" ${sortIconSize}></ids-icon>
+        <ids-icon icon="dropdown" ${sortIconSize}></ids-icon>
       </span>
     `;
 

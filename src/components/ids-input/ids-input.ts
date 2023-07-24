@@ -149,6 +149,7 @@ export default class IdsInput extends Base {
       attributes.FORMAT,
       attributes.ID,
       attributes.LABEL_WRAP,
+      attributes.MAXLENGTH,
       attributes.NO_MARGINS,
       attributes.PADDING,
       attributes.PASSWORD_VISIBLE,
@@ -161,6 +162,7 @@ export default class IdsInput extends Base {
       attributes.TEXT_ALIGN,
       attributes.TEXT_ELLIPSIS,
       attributes.TYPE,
+      attributes.UPPERCASE,
       attributes.VALUE,
     ];
   }
@@ -939,6 +941,42 @@ export default class IdsInput extends Base {
   }
 
   /**
+   * Sets the max width when typing
+   * @param {number | string} n The max length to use
+   */
+  set maxlength(n: number | string) {
+    if (n) {
+      this.setAttribute(attributes.MAXLENGTH, '');
+      this.input?.setAttribute(attributes.MAXLENGTH, n.toString());
+      return;
+    }
+    this.removeAttribute(attributes.MAXLENGTH);
+    this.input?.removeAttribute(attributes.MAXLENGTH);
+  }
+
+  get maxlength(): number {
+    return Number(this.getAttribute(attributes.MAXLENGTH));
+  }
+
+  /**
+   * Sets the text to all upper case
+   * @param {number | string} n If true use upper case
+   */
+  set uppercase(n: boolean | string) {
+    if (stringToBool(n)) {
+      this.setAttribute(attributes.UPPERCASE, '');
+      this.input?.classList.add('is-uppercase');
+      return;
+    }
+    this.removeAttribute(attributes.UPPERCASE);
+    this.input?.classList.remove('is-uppercase');
+  }
+
+  get uppercase(): boolean {
+    return stringToBool(this.getAttribute(attributes.UPPERCASE));
+  }
+
+  /**
    * Sets the no margins attribute
    * @param {boolean | string} n true or false or as a string
    */
@@ -977,6 +1015,14 @@ export default class IdsInput extends Base {
   }
 
   /**
+   * format attribute
+   * @returns {string|null} return date format
+   */
+  get format(): string | null {
+    return this.getAttribute(attributes.FORMAT);
+  }
+
+  /**
    * Overrides the standard "blur" behavior to instead tell the inner HTMLInput element to blur.
    */
   blur(): void {
@@ -988,25 +1034,5 @@ export default class IdsInput extends Base {
    */
   focus(): void {
     this.input?.focus();
-  }
-
-  /**
-   * Set a format to be used in the validation
-   * @param {string|null} val date, time format
-   */
-  set format(val: string | null) {
-    if (val) {
-      this.setAttribute(attributes.FORMAT, val);
-    } else {
-      this.removeAttribute(attributes.FORMAT);
-    }
-  }
-
-  /**
-   * format attribute
-   * @returns {string|null} return date format
-   */
-  get format(): string | null {
-    return this.getAttribute(attributes.FORMAT);
   }
 }
