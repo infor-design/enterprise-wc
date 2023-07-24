@@ -4,7 +4,6 @@ import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 import IdsModuleNavTextDisplayMixin from './ids-module-nav-text-display-mixin';
 
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
-import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import type IdsText from '../ids-text/ids-text';
 
 import styles from './ids-module-nav-settings.scss';
@@ -47,16 +46,6 @@ export default class IdsModuleNavSettings extends Base {
   }
 
   /**
-   * Inner template contents
-   * @returns {string} The template
-   */
-  template(): string {
-    return `<div class="ids-module-nav-settings">
-      <slot></slot>
-    </div>`;
-  }
-
-  /**
    * @returns {string[]} containing prototype classes
    */
   get protoClasses() {
@@ -72,6 +61,29 @@ export default class IdsModuleNavSettings extends Base {
   }
 
   /**
+   * @returns {void}
+   */
+  configureMenu() {
+    super.configureMenu();
+    if (!this.menuEl || !this.menuEl.popup || !this.displayMode) {
+      return;
+    }
+
+    this.menuEl.popup.arrow = 'none';
+    this.menuEl.popup.x = 8;
+    this.menuEl.popup.y = 12;
+
+    if (this.displayMode === 'collapsed') {
+      this.menuEl.popup.align = 'right, top';
+      this.menuEl.popup.width = '';
+    }
+    if (this.displayMode === 'expanded') {
+      this.menuEl.popup.align = 'top, left';
+      this.menuEl.popup.width = `${(this.clientWidth - 16)}px`;
+    }
+  }
+
+  /**
    * @param {string | undefined | null} variantName name of the new colorVariant
    */
   onColorVariantRefresh(variantName: string | undefined | null) {
@@ -80,6 +92,7 @@ export default class IdsModuleNavSettings extends Base {
 
   onDisplayModeChange() {
     this.#refreshTextNode();
+    this.configureMenu();
   }
 
   #refreshTextNode() {

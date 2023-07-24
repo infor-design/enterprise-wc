@@ -2,12 +2,12 @@
 @import '../ids-button/ids-button.scss';
 @import './ids-module-nav-item';
 
-@mixin ids-module-nav-button-colors() {
-
-}
-
 :host {
   @include border-box();
+}
+
+:host button {
+  max-width: calc(100% - (var(--ids-module-nav-accordion-gutter-size) * 2))
 }
 
 ::slotted(ids-menu-button) {
@@ -71,8 +71,6 @@
   }
 
   &.color-variant-module-nav {
-    @include ids-module-nav-button-colors();
-
     &.display-mode-collapsed,
     &.display-mode-expanded {
       margin-block-start: 0;
@@ -81,10 +79,20 @@
     }
 
     &.display-mode-collapsed {
+      height: var(--ids-module-nav-item-collapsed-size);
+      width: var(--ids-module-nav-item-collapsed-size);
+      justify-content: center;
+      margin: var(--ids-module-nav-item-collapsed-general-spacing-size) auto;
+      padding-inline: 0;
+
       ::slotted(ids-menu-button) {
         height: var(--ids-module-nav-item-collapsed-size);
         width: var(--ids-module-nav-item-collapsed-size);
         margin: var(--ids-module-nav-item-collapsed-general-spacing-size) auto;
+      }
+
+      ::slotted(ids-icon) {
+        margin-inline-end: 0;
       }
     }
 
@@ -93,6 +101,8 @@
 
       ::slotted(ids-menu-button) {
         justify-content: start;
+        height: auto;
+        width: auto;
       }
     }
   }
