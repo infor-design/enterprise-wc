@@ -213,15 +213,19 @@ export default class IdsListViewItem extends Base {
     }
 
     let showCheckbox = false;
-    if (this.parentListView) {
-      const parentListView = this.parentListView as any;
-      const selectable = parentListView.selectable;
+
+    const parentListView = this.parentListView as any;
+    if (parentListView) {
+      // NOTE: using getAttribute() because parentListView.selectable is not availabe on page load
+      const selectable = parentListView?.getAttribute?.(attributes.SELECTABLE);
+
       // const isMixed = selectable === 'mixed';
       const isMultiple = selectable === 'multiple';
       const isSingle = selectable === 'single';
       const hideCheckbox = isMultiple && parentListView.hideCheckboxes;
       showCheckbox = selectable && (!isSingle && !hideCheckbox);
     }
+
     return showCheckbox;
   }
 
