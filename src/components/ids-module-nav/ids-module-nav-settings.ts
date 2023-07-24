@@ -1,12 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 
-import IdsElement from '../../core/ids-element';
-import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
-import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 import IdsModuleNavTextDisplayMixin from './ids-module-nav-text-display-mixin';
 
-import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
+import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import type IdsText from '../ids-text/ids-text';
 
@@ -14,11 +11,7 @@ import styles from './ids-module-nav-settings.scss';
 
 const Base = IdsModuleNavTextDisplayMixin(
   IdsModuleNavDisplayModeMixin(
-    IdsColorVariantMixin(
-      IdsEventsMixin(
-        IdsElement
-      )
-    )
+    IdsMenuButton
   )
 );
 
@@ -64,19 +57,10 @@ export default class IdsModuleNavSettings extends Base {
   }
 
   /**
-   * @readonly
-   * @returns {HTMLElement} the inner menu button
+   * @returns {string[]} containing prototype classes
    */
-  get button(): IdsMenuButton | undefined | null {
-    return this.querySelector<IdsMenuButton>('ids-menu-button');
-  }
-
-  /**
-   * @readonly
-   * @returns {HTMLElement} the inner popup menu
-   */
-  get menu(): IdsPopupMenu | null {
-    return this.querySelector<IdsPopupMenu>('ids-popup-menu') || null;
+  get protoClasses() {
+    return ['ids-module-nav-settings'];
   }
 
   /**
@@ -91,8 +75,7 @@ export default class IdsModuleNavSettings extends Base {
    * @param {string | undefined | null} variantName name of the new colorVariant
    */
   onColorVariantRefresh(variantName: string | undefined | null) {
-    if (this.button) this.button.colorVariant = variantName;
-    if (this.menu) this.menu.colorVariant = variantName;
+    if (this.menuEl) this.menuEl.colorVariant = variantName;
   }
 
   onDisplayModeChange() {

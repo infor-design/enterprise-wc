@@ -153,7 +153,6 @@ button {
 .ids-icon-button,
 .ids-menu-button {
   @include ids-standard-button-shadows();
-  @include ids-module-nav-button-colors();
 }
 
 // Specific Modifications for Modal Buttons

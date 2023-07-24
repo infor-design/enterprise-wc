@@ -169,34 +169,39 @@
           </ids-accordion-section>
         </ids-accordion>
 
-        <ids-module-nav-settings slot="settings">
-          <ids-menu-button
-            role="button"
-            icon="settings"
-            id="module-nav-settings-btn"
-            menu="module-nav-settings-menu"
-            content-align="start"
-            no-padding
-            no-margins>
-            <ids-text>Settings</ids-text>
-          </ids-menu-button>
-          <ids-popup-menu id="module-nav-settings-menu" target="#module-nav-settings-btn">
-            <ids-menu-group>
-              <ids-menu-item value="1">Item One</ids-menu-item>
-              <ids-menu-item value="2">Item Two</ids-menu-item>
-              <ids-menu-item value="3">Item Three</ids-menu-item>
-              <ids-menu-item>More Items
-                <ids-popup-menu>
-                  <ids-menu-group>
-                    <ids-menu-item value="4">Item Four</ids-menu-item>
-                    <ids-menu-item value="4">Item Five</ids-menu-item>
-                    <ids-menu-item value="4">Item Six</ids-menu-item>
-                  </ids-menu-group>
-                </ids-popup-menu>
-              </ids-menu-item>
-            </ids-menu-group>
-          </ids-popup-menu>
+        <ids-module-nav-settings
+          slot="settings"
+          role="button"
+          icon="settings"
+          id="module-nav-settings-btn"
+          menu="module-nav-settings-menu"
+          color-variant="module-nav"
+          content-align="start"
+          no-margins
+          no-ripple>
+          <ids-text>Settings</ids-text>
         </ids-module-nav-settings>
+        <ids-popup-menu
+          id="module-nav-settings-menu"
+          target="#module-nav-settings-btn"
+          trigger-type="click"
+          slot="settings">
+          <ids-menu-group>
+            <ids-menu-item value="1">Item One</ids-menu-item>
+            <ids-menu-item value="2">Item Two</ids-menu-item>
+            <ids-menu-item value="3">Item Three</ids-menu-item>
+            <ids-menu-item>More Items
+              <ids-popup-menu>
+                <ids-menu-group>
+                  <ids-menu-item value="4">Item Four</ids-menu-item>
+                  <ids-menu-item value="4">Item Five</ids-menu-item>
+                  <ids-menu-item value="4">Item Six</ids-menu-item>
+                </ids-menu-group>
+              </ids-popup-menu>
+            </ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+
       </ids-module-nav-bar>
 
       <ids-module-nav-content offset-content>
