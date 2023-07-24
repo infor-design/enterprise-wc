@@ -477,6 +477,7 @@ export const attributes = {
   TYPE: 'type',
   TYPEAHEAD: 'typeahead',
   UNIQUE_ID: 'unique-id',
+  UPPERCASE: 'uppercase',
   URL: 'url',
   USE_CURRENT_TIME: 'use-current-time',
   USE_DEFAULT_COPYRIGHT: 'use-default-copyright',
