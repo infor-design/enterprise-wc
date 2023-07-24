@@ -21,11 +21,6 @@ type Constraints = IdsConstructor<ColorVariantHandler>;
 const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class extends superclass {
   constructor(...args: any[]) {
     super(...args);
-
-    if (!this.state) {
-      this.state = {};
-    }
-    this.state.colorVariant = null;
   }
 
   connectedCallback() {
@@ -48,31 +43,25 @@ const IdsColorVariantMixin = <T extends Constraints>(superclass: T) => class ext
   /**
    * @returns {string|null} the name of the color variant currently applied
    */
-  get colorVariant() {
-    return this.state?.colorVariant;
+  get colorVariant(): string | null {
+    return this.getAttribute(attributes.COLOR_VARIANT);
   }
 
   /**
    * @param {string | null} val the name of the color variant to be applied
    */
   set colorVariant(val: string | null) {
-    let safeValue: any = null;
-    if (typeof val === 'string') {
-      safeValue = stripHTML(val);
+    const safeValue = val ? stripHTML(val) : '';
+    const currentValue = this.colorVariant;
+
+    if (this.colorVariants.includes(safeValue)) {
+      this.setAttribute(attributes.COLOR_VARIANT, `${safeValue}`);
+    } else {
+      this.removeAttribute(attributes.COLOR_VARIANT);
     }
 
-    const currentValue = this.state.colorVariant;
-    if (safeValue && currentValue !== safeValue) {
-      if (this.colorVariants.includes(safeValue)) {
-        this.setAttribute(attributes.COLOR_VARIANT, `${safeValue}`);
-      } else {
-        this.removeAttribute(attributes.COLOR_VARIANT);
-        safeValue = null;
-      }
-
-      this.state.colorVariant = safeValue;
-      this.#refreshColorVariant(currentValue, safeValue);
-    }
+    if (!safeValue || currentValue === safeValue) return;
+    this.#refreshColorVariant(currentValue, safeValue);
   }
 
   /**

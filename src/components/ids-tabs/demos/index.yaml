@@ -5,6 +5,9 @@
  category: Navigation and Interaction
  keywords: tab, tabs, sections
  examples:
+  - link: app-example.html
+    type: Main Example
+    description: Shows module tabs with masthead and app menu
   - link: example.html
     type: Main Example
     description: Shows a basic ids-tabs example

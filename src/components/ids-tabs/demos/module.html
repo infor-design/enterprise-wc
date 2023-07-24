@@ -12,14 +12,10 @@
   <ids-container role="main" padding="0" hidden>
     <ids-tabs-context>
       <ids-tabs color-variant="module" value="contracts">
-        <ids-tab value="app-menu" actionable>
-          <ids-icon icon="menu"></ids-icon>
-          <ids-text type="span" audible>Toggle Application Menu</ids-text>
-        </ids-tab>
-        <ids-tab value="contracts">Contracts</ids-tab>
-        <ids-tab value="opportunities">Opportunities</ids-tab>
-        <ids-tab value="attachments" disabled>Attachments</ids-tab>
-        <ids-tab value="notes">Notes</ids-tab>
+        <ids-tab dismissible value="contracts">Contracts</ids-tab>
+        <ids-tab dismissible value="opportunities">Opportunities</ids-tab>
+        <ids-tab dismissible value="attachments" disabled>Attachments</ids-tab>
+        <ids-tab dismissible value="notes">Notes</ids-tab>
         <ids-tab slot="fixed" value="add" actionable>
           <ids-icon icon="add"></ids-icon>
           <ids-text type="span" audible>Add New Tab</ids-text>
@@ -35,12 +31,12 @@
         <ids-toolbar>
           <ids-toolbar-section>
             <ids-toolbar-section type="title">
-              <ids-text font-size="20" color-variant="alternate" type="h1">Module Tabs</ids-text>
-              <ids-text font-size="14" color-variant="alternate">Top-Level Tabs</ids-text>
+              <ids-text font-size="20" type="h1">Module Tabs</ids-text>
+              <ids-text font-size="14">Top-Level Tabs</ids-text>
             </ids-toolbar-section>
           </ids-toolbar-section>
           <ids-toolbar-section type="buttonset" align="end">
-            <ids-theme-switcher mode="light" color-variant="alternate"></ids-theme-switcher>
+            <ids-theme-switcher mode="light"></ids-theme-switcher>
           </ids-toolbar-section>
         </ids-toolbar>
       </ids-header>

@@ -16,11 +16,6 @@ const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class exte
   constructor(...args: any[]) {
     super(...args);
 
-    if (!this.state) {
-      this.state = {};
-    }
-    this.state.orientation = null;
-
     // Overrides the IdsElement `render` method to also include an update
     // to color variant styling after it runs, keeping the visual state in-sync.
     this.render = () => {
@@ -32,7 +27,7 @@ const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class exte
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.orientation = this.getAttribute(attributes.ORIENTATION);
+    this.#refreshOrientation('horizontal', this.orientation);
   }
 
   static get attributes() {
@@ -48,31 +43,27 @@ const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class exte
   orientations = ['horizontal', 'vertical'];
 
   /**
-   * @returns {string|null} the name of the orientation currently applied
+   * @returns {string} the name of the orientation currently applied
    */
-  get orientation() {
-    return this.state?.orientation;
+  get orientation(): string {
+    return this.getAttribute(attributes.ORIENTATION) ?? 'horizontal';
   }
 
   /**
    * @param {string|null} val the name of the orientation to be applied
    */
-  set orientation(val) {
-    let safeValue: any = null;
-    if (typeof val === 'string') {
-      safeValue = stripTags(val, '');
-    }
+  set orientation(val: string | null) {
+    val ??= 'horizontal';
+    const safeValue = String(stripTags(val, ''));
+    const currentValue = this.orientation;
 
-    const currentValue = this.state.orientation;
     if (currentValue !== safeValue) {
       if (this.orientations.includes(safeValue)) {
         this.setAttribute(attributes.ORIENTATION, `${safeValue}`);
       } else {
         this.removeAttribute(attributes.ORIENTATION);
-        safeValue = null;
       }
 
-      this.state.orientation = safeValue;
       this.#refreshOrientation(currentValue, safeValue);
     }
   }
