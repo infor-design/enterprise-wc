@@ -6,7 +6,6 @@ exports[`IdsScrollView Component renders correctly 1`] = `
         <slot name="scroll-view-item"></slot>
       </div>
       <div class="ids-scroll-view-controls" part="controls" role="tablist">
-      
         <ids-button data-slide-number="0" part="button" exportparts="button: scroll-view-button" role="tab" class="circle-button selected" aria-selected="true">
           <ids-icon icon="filter-not-selected"></ids-icon>
           <span class="audible">Slide 1, Sony Camera, Front</span>
