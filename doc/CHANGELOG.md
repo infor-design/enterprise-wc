@@ -8,6 +8,9 @@
 - `[Datagrid]` Removed the internal second parameter from the scrollRowIntoView so it cant be used. ([#1367](https://github.com/infor-design/enterprise-wc/issues/1367))
 - `[DataGrid]` Added `uppercase` and `maxlength` settings to editors and filters (text only). ([#1309](https://github.com/infor-design/enterprise-wc/issues/1309))
 - `[DataGrid]` Adds guards to Datagrid's `this.header` value because it is being referenced in some places before it is loaded in DOM. ([#1250](https://github.com/infor-design/enterprise-wc/issues/1250))
+- `[DataGrid]` Adjusted header cell height for xxs row size. ([#1369](https://github.com/infor-design/enterprise-wc/issues/1369))
+- `[Tabs]` Add alabaster changes to module tabs and header. ([#1339](https://github.com/infor-design/enterprise/issues/1339))
+- `[ScrollView]` Fix scroll view to observe slot changes. ([#1372](https://github.com/infor-design/enterprise/issues/1372))
 
 ## 1.0.0-beta.13
 
@@ -66,6 +69,7 @@
 - `[Draggable]` Removed the `ids-` from the event names. ([#1328](https://github.com/infor-design/enterprise-wc/issues/1328))
 - `[Icons]` Added new icons. ([#7510](https://github.com/infor-design/enterprise/issues/7510)
 - `[Locale]` Added new translations. ([#7512](https://github.com/infor-design/enterprise/issues/7512)
+- `[LayoutGrid]` Added support for max-width and centering. ([1308](https://github.com/infor-design/enterprise-wc/issues/1308))
 - `[Themes]` Added theme support and css variables for all components. These can be used for customizing components and creating themes. See ([CUSTOMIZING.md](../doc/CUSTOMIZING.md)) for details. Note that with the `<ids-theme-switcher>` its now better to use the full theme name `<ids-theme-switcher theme="default-light">`. ([#1118](https://github.com/infor-design/enterprise-wc/issues/1118))
 - `[Splitter]` Added new designs and minor fixes. ([#1328](https://github.com/infor-design/enterprise-wc/issues/1328))
 - `[SwapList]` Refactored to use new icons. ([#7511](https://github.com/infor-design/enterprise/issues/7511)

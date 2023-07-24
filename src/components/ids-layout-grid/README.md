@@ -37,6 +37,7 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 - **Gap**: Specifies the size of the gap between cells in a grid. If not assigned defaults to `md`.
 - **Margin**: Specifies the amount of space between a grid and its outer border.
 - **MarginY**: Specifies the amount of vertical space between a grid and its outer border.
+- **MaxWidth**: Specifies the maximum width of a grid and its outer border. Allows for setting the max-width attribute with predefined values (see Breakpoints) or custom values that end with 'px', providing flexibility for styling and dynamic updates.
 - **Padding**: Specifies the amount of space between a grid content and its inner border.
 - **PaddingX**: Specifies the amount of horizontal space between a grid content and its inner border.
 - **PaddingY**: Specifies the amount of vertical space between a grid and its inner border.
@@ -149,7 +150,38 @@ For AutoFit layout the grid cells in this example have a min/max value of 100px 
 </ids-layout-grid>
 ```
 
-An Ids Layout Grid with a custom number of columns or rows. The example below shows a 4 column grid where the first cell spans 3 columns and the 3rd cell spans 2 rows.
+An Ids Layout Grid with a custom number of columns or rows. The example above shows a 4 column grid where the first cell spans 3 columns and the 3rd cell spans 2 rows.
+
+---
+
+```html
+<ids-layout-grid
+    id="eight-column-grid"
+    cols="8"
+    padding-x="md"
+    justify-content="center"
+    max-width="lg"
+    margin="auto"
+>
+    <ids-layout-grid-cell col-span="1" fill height="176px">
+        <ids-text font-size="12">1 Col</ids-text>
+    </ids-layout-grid-cell>
+    <ids-layout-grid-cell col-span="1" fill height="176px">
+        <ids-text font-size="12">1 Col</ids-text>
+    </ids-layout-grid-cell>
+    <ids-layout-grid-cell col-span="1" fill height="176px">
+        <ids-text font-size="12">1 Col</ids-text>
+    </ids-layout-grid-cell>
+    <ids-layout-grid-cell col-span="1" fill height="176px">
+        <ids-text font-size="12">1 Col</ids-text>
+    </ids-layout-grid-cell>
+</ids-layout-grid>
+```
+
+Above is an example of a contained and centered grid. The max-width attribute is set to "lg", which represents a predefined breakpoint value for the maximum width of the grid. This controls how wide the grid can become. The margin attribute is set to "auto" to horizontally center the entire grid on the page by applying equal left and right margins.
+
+*Note*:
+The available sizes for maxWidth are based on the current predefined breakpoint sizes. These breakpoint sizes provide convenient options for setting the maximum width of the grid, ensuring responsiveness and compatibility with different screen sizes. However, the maxWidth attribute also allows users to specify a custom width if needed, giving them flexibility in defining the maximum width according to their specific requirements. While custom widths can be used, it is generally recommended to utilize the predefined breakpoint sizes whenever possible for consistency and responsiveness across different devices and viewports.
 
 ---
 

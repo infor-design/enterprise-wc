@@ -407,7 +407,12 @@ th.ids-data-grid-header-cell {
 
     .sort-indicator {
       margin-inline-start: 0;
-      margin-block-start: -3px;
+      margin-block-start: -5px;
+      height: 22px;
+
+      > ids-icon:first-child {
+        top: 3px;
+      }
     }
 
     .align-right .sort-indicator {
