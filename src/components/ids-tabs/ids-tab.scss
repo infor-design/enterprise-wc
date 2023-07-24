@@ -21,11 +21,13 @@ $ids-tab-vertical-height: 42px;
 // without shadowDOM scope so need .selection-underline div
 // as workaround
 @mixin ids-tabs-selected-underline() {
+  border-bottom: 1px solid;
+
   &::after,
   & .selection-underline {
     position: absolute;
     bottom: 0;
-    height: 3px;
+    height: 1px;
     left: -1px;
     width: calc(100% + 2px);
     z-index: 1;
@@ -38,8 +40,15 @@ $ids-tab-vertical-height: 42px;
   display: block;
 }
 
-// Spacing rules for Horizontal Tab Lists
+:host([count]) {
+  ::slotted(ids-trigger-button) {
+    padding-inline-start: 8px;
+  }
+}
 
+// =================================================
+// Default Variant
+// =================================================
 :host(ids-tab:not([orientation='vertical']):not([color-variant='module']):first-child),
 :host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):first-child),
 .ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:first-child {
@@ -58,103 +67,63 @@ $ids-tab-vertical-height: 42px;
   margin-inline-end: 8px;
 }
 
-// Border/Themes for Module Tabs
-
-// None
-:host(ids-tab[color-variant='module']:not(:last-child)),
-.ids-tabs-container.color-variant-module .ids-tab:not(:last-child) {
-  border-right: 1px solid var(--ids-tab-module-color-border-right);
-}
-
-// Spacing rules for Module Tabs
-
-:host(ids-tab[color-variant='module']:not([orientation='vertical']):not([actionable])),
-:host(ids-tab-more[color-variant='module']:not([orientation='vertical']):not([actionable])),
-.ids-tab-container.color-variant-module:not(.orientation-vertical):not(.actionable) [class*='ids-tab'] {
-  flex-grow: 1;
-}
-
 :host(ids-tab:focus-visible),
 :host(ids-tab-more:focus-visible),
 .ids-tab-container [class*='ids-tab']:focus-visible {
   outline: none;
 }
 
-// "More Tabs" tab flex rules
-
-:host(ids-tab-more) {
-  margin-block-end: auto;
-}
-
-::slotted(ids-icon) {
-  color: currentColor;
-  pointer-events: none;
-}
-
-::slotted(ids-trigger-button) {
-  color: currentColor;
-  height: fit-content;
-  place-self: center;
-}
-
-:host([count]) {
-  ::slotted(ids-trigger-button) {
-    padding-inline-start: 8px;
-  }
-}
-
-// =================================================
-// Main Container Styles
-
 .ids-tab {
-  padding-inline: 4px;
-  border: 1px solid;
-  box-sizing: border-box;
-  position: relative;
   display: flex;
-  list-style: none outside none;
-  border-color: transparent;
+  position: relative;
+  color: var(--ids-tab-color-text-default);
+  border: 1px solid transparent;
+  box-sizing: border-box;
   height: 100%;
+  padding-inline: 4px;
+  padding-block: 8px;  
+  list-style: none outside none;
   user-select: none;
+  cursor: pointer;
 
-  &:not(.hide-focus):focus-visible,
-  &:not(.hide-focus):focus,
-  &:not(.hide-focus):focus-within {
-    box-shadow: 0 0 3px 2px rgba(54 138 192 / 0.3);
-    border-style: solid;
-    outline: none;
+  // Hover state
+  &:hover {
+    color: var(--ids-tab-color-text-hover);
+    background-color: var(--ids-tab-color-background-hover);
+    
+    &::after,
+    & .selection-underline {
+      background-color: var(--ids-tab-color-text-hover);
+    }
   }
 
-  &:not(.selected) {
-    cursor: pointer;
+  // Disabled
+  &.disabled {
+    cursor: default;
+    color: var(--ids-tab-color-text-disabled);
+    pointer-events: none;
   }
 
+  // Selected state
   &.selected {
+    color: var(--ids-tab-color-text-selected);
     cursor: default;
 
     &.ids-text {
       font-weight: 700;
     }
+
+    &::after {
+      background-color: var(--ids-tab-color-text-selected);
+    }
   }
 
-  // =================================================
-  // Trigger Button Slot
-
-  .ids-tab-trigger-container {
-    display: flex;
-    place-content: center;
-  }
-
-  // =================================================
   // Actionable
-
   &.actionable {
     cursor: pointer;
   }
 
-  // =================================================
   // Counts
-
   &.count {
     padding-inline: 12px;
 
@@ -164,33 +133,36 @@ $ids-tab-vertical-height: 42px;
     }
   }
 
-  // =================================================
-  // Disabled
-
-  &.disabled {
-    cursor: default;
-    pointer-events: none;
+  // Focus state
+  &:focus-visible:not(.hide-focus) {
+    border-color: var(--ids-tab-color-border-focus);
+    border-style: solid;
+    outline: none;
   }
 
-  // =================================================
-  // Orientation-specific layouts
+  // Trigger Button Slot
+  .ids-tab-trigger-container {
+    display: flex;
+    place-content: center;
+  }
 
-  &:not(.orientation-vertical) {
-    padding-bottom: 8px;
-    border-bottom-width: 0;
-
+  // Orientation-horizontal
+  &.orientation-horizontal {
     &:not(.count) {
       padding-top: 8px;
     }
 
     // Round borders on regular horizontal tabs
     &:not(.color-variant-module) {
-      border-radius: var(--ids-border-radius-01);
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
+      // Show the underline on hover
+      &.selected,
+      &:hover {
+        @include ids-tabs-selected-underline();
 
-      // Show the underline
-      @include ids-tabs-selected-underline();
+        &::after {
+          background-color: var(--ids-tab-color-text-selected);
+        }
+      }
 
       // Hide the underline on disabled
       &.disabled {
@@ -198,26 +170,6 @@ $ids-tab-vertical-height: 42px;
         & .selection-underline {
           display: none;
         }
-      }
-    }
-
-    &.color-variant-module {
-      justify-content: center;
-    }
-  }
-
-  &.orientation-vertical {
-    padding-inline: 24px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    flex-direction: column;
-    width: 100%;
-    height: $ids-tab-vertical-height;
-
-    &.selected {
-      &:not(.hide-focus):focus {
-        @include ids-tabs-focus-border();
       }
     }
   }
@@ -248,184 +200,197 @@ $ids-tab-vertical-height: 42px;
   }
 
   // =================================================
-  // Structural rules for Module Tabs color variant
-
-  &.color-variant-module {
-    // Scoped to the first child text element to avoid conflicts with menus
-    > ids-text,
-    > .ids-text {
-      text-align: center;
-    }
-
-    &:not(.actionable) {
-      min-width: $ids-tab-min-width;
-    }
-
-    &.actionable {
-      min-width: $ids-tab-actionable-min-width;
-    }
-
-    &.dismissible {
-      justify-content: space-around;
-
-      > ids-text,
-      > .ids-text {
-        flex-grow: 1;
-      }
-
-      ::slotted(ids-trigger-button),
-      > .ids-trigger-button,
-      > ids-trigger-button {
-        flex-grow: 0;
-        flex-shrink: 1;
-      }
-    }
-
-    &:not(.hide-focus):focus-visible,
-    &:not(.hide-focus):focus,
-    &:not(.hide-focus):focus-within {
-      &:not(.disabled) {
-        @include ids-tabs-focus-border();
-      }
-    }
-  }
-
-  // =================================================
   // Tabs combined with IdsSwappable create "swappable" tabs
-
   &.swappable {
     padding-inline-start: 8px;
   }
+}
 
-  // =================================================
-  // Light Mode / Default Color Variant
 
-  &:not([class*='color-variant-']) {
-    color: var(--ids-tab-color-text-default);
+// =================================================
+// Vertical Variant
+// =================================================
+.ids-tab.orientation-vertical {
+  padding-inline: 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: $ids-tab-vertical-height;
+  background-color: var(--ids-tab-vertical-color-background-default);
+  color: var(--ids-tab-vertical-color-text-default);
 
-    &:hover {
-      color: var(--ids-tab-color-text-hover);
-      background-color: var(--ids-tab-color-background-hover);
-    }
-
-    &.selected {
-      color: var(--ids-tab-color-text-selected);
-    }
-
-    &:focus-within,
-    &:focus-visible,
-    &:focus {
-      border-color: var(--ids-tab-color-border-focus);
-      background-color: var(--ids-tab-color-background-focus);
-    }
-
-    &.disabled {
-      color: var(--ids-tab-color-text-disabled);
-    }
-
-    // Horizontal Tab Styles
-    &:not(.orientation-vertical) {
-      &:hover {
-        &::after,
-        & .selection-underline {
-          background-color: var(--ids-tab-color-text-hover);
-        }
-      }
-
-      &.selected {
-        &::after,
-        & .selection-underline {
-          background-color: var(--ids-tab-color-text-selected);
-        }
-      }
-    }
-
-    // Vertical Tab Styles
-    &.orientation-vertical {
-      &.selected {
-        border-style: none;
-        background-color: var(--ids-tab-vertical-color-background-selected);
-        color: var(--ids-tab-vertical-color-text-selected);
-
-        &:not(.hide-focus):focus {
-          border-style: none;
-
-          &::before {
-            border-color: var(--ids-tab-vertical-color-border-selected);
-          }
-        }
-      }
-    }
+  // vertical hover state
+  &:hover {
+    background-color: var(--ids-tab-vertical-color-background-hover);
+    color: var(--ids-tab-vertical-color-text-hover);
   }
 
-  // =================================================
-  // Light Mode / Alternate Color Variant
-
-  &.color-variant-alternate {
-    color: var(--ids-tab-alternate-color-text-default);
-
-    &:hover {
-      color: var(--ids-tab-alternate-color-text-hover);
-
-      &::after {
-        background-color: var(--ids-tab-alternate-color-background-hover);
-      }
-    }
-
-    &:not(.hide-focus):focus-visible,
-    &:not(.hide-focus):focus,
-    &:not(.hide-focus):focus-within {
-      border-color: var(--ids-tab-alternate-color-border-focus);
-    }
-
-    &.selected {
-      color: var(--ids-tab-alternate-color-text-selected);
-    }
-
-    &.disabled {
-      color: var(--ids-tab-alternate-color-text-disabled);
-
-      &.selected {
-        color: var(--ids-tab-alternate-color-text-disabled);
-      }
-    }
-
-    // Horizontal Tab Styles
-    &:not(.orientation-vertical) {
-      &.selected {
-        &::after,
-        & .selection-underline {
-          background-color: var(--ids-tab-alternate-horizontal-color-background);
-        }
-      }
-    }
+  // vertical disabled state
+  &.disabled {
+    background-color: var(--ids-tab-vertical-color-background-disabled);
+    color: var(--ids-tab-vertical-color-text-disabled);
   }
 
-  // =================================================
-  // Light Mode / Module Tabs Color Variant
+  // vertical selected state
+  &.selected {
+    border-style: none;
+    background-color: var(--ids-tab-vertical-color-background-selected);
+    color: var(--ids-tab-vertical-color-text-selected);
 
-  /* stylelint-disable-next-line no-duplicate-selectors */
-  &.color-variant-module {
-    background-color: var(--ids-tab-module-color-background-default);
-    color: var(--ids-tab-module-color-text-default);
+    &:not(.hide-focus):focus {
+      @include ids-tabs-focus-border();
 
-    &:hover {
-      color: var(--ids-tab-module-color-text-hover);
-      background-color: var(--ids-tab-module-color-background-hover);
-      border-color: transparent;
-    }
+      border-style: none;
 
-    &.selected {
-      background-color: var(--ids-tab-module-color-background-selected);
-      color: var(--ids-tab-module-color-text-selected);
-    }
-
-    &.disabled {
-      background-color: var(--ids-tab-module-color-background-disabled);
-      color: var(--ids-tab-module-color-text-disabled);
+      &::before {
+        border-color: var(--ids-tab-vertical-color-border-selected);
+      }
     }
   }
 }
+
+
+// =================================================
+// Module Color Variant
+// =================================================
+:host(ids-tab[color-variant='module']:not(:last-child)),
+.ids-tabs-container.color-variant-module .ids-tab:not(:last-child) {
+  border-inline-end: 1px solid var(--ids-tab-module-color-border-right);
+}
+
+:host(ids-tab[color-variant='module']:not([orientation='vertical']):not([actionable])),
+:host(ids-tab-more[color-variant='module']:not([orientation='vertical']):not([actionable])),
+.ids-tab-container.color-variant-module:not(.orientation-vertical):not(.actionable) [class*='ids-tab'] {
+  flex-grow: 1;
+}
+
+.ids-tab.color-variant-module {
+  outline: none;
+  border-bottom-width: 1px;
+  background-color: var(--ids-tab-module-color-background-default);
+  color: var(--ids-tab-module-color-text-default);
+  justify-content: center;
+  border-color: transparent;
+
+  // Module - Hover state
+  &:hover {
+    color: var(--ids-tab-module-color-text-hover);
+    background-color: var(--ids-tab-module-color-background-hover);
+  }
+
+  // Module - Selected state
+  &.selected {
+    background-color: var(--ids-tab-module-color-background-selected);
+    color: var(--ids-tab-module-color-text-selected);
+  }
+
+  // Module - Focus state
+  &:focus-visible {
+    border-color: var(--ids-tab-color-border-focus);
+  }
+
+  // Module - Disabled state
+  &.disabled {
+    background-color: var(--ids-tab-module-color-background-disabled);
+    color: var(--ids-tab-module-color-text-disabled);
+  }
+
+  // Scoped to the first child text element to avoid conflicts with menus
+  > ids-text,
+  > .ids-text {
+    text-align: center;
+  }
+
+  &:not(.actionable) {
+    min-width: $ids-tab-min-width;
+  }
+
+  &.actionable {
+    min-width: $ids-tab-actionable-min-width;
+  }
+
+  &.dismissible {
+    justify-content: space-around;
+
+    > ids-text,
+    > .ids-text {
+      flex-grow: 1;
+    }
+
+    ::slotted(ids-trigger-button),
+    > .ids-trigger-button,
+    > ids-trigger-button {
+      flex-grow: 0;
+      flex-shrink: 1;
+      visibility: hidden;
+    }
+
+    &:hover {
+      ::slotted(ids-trigger-button),
+      > .ids-trigger-button,
+      > ids-trigger-button {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+
+// =================================================
+// Alternate Color Variant
+// =================================================
+.ids-tab.color-variant-alternate {
+  color: var(--ids-tab-alternate-color-text-default);
+
+
+  // Alternate - Hover state
+  &:hover {
+    color: var(--ids-tab-alternate-color-text-hover);
+
+    &::after {
+      background-color: var(--ids-tab-alternate-color-background-hover);
+    }
+  }
+
+  // Alternate - Selected state
+  &.selected {
+    color: var(--ids-tab-alternate-color-text-selected);
+
+    &::after,
+    & .selection-underline {
+      background-color: var(--ids-tab-alternate-horizontal-color-background);
+    }
+  }
+
+  // Alterante - Disabled state
+  &.disabled {
+    color: var(--ids-tab-alternate-color-text-disabled);
+
+    &.selected {
+      color: var(--ids-tab-alternate-color-text-disabled);
+    }
+  }
+
+  // Alternate - Focus state
+  &:not(.hide-focus):focus-visible,
+  &:not(.hide-focus):focus,
+  &:not(.hide-focus):focus-within {
+    border-color: var(--ids-tab-alternate-color-border-focus);
+  }
+}
+
+
+// =================================================
+// Header Color Variant
+// =================================================
+.ids-tab.color-variant-header {
+  &:hover {
+    background-color: var(--ids-tab-header-color-background-hover);
+  }
+}
+
 
 // "More" Tab's text content and icons are centered
 .tab-more-text {
@@ -447,4 +412,16 @@ ids-popup-menu,
 .ids-popup-menu {
   position: absolute;
   width: 100%;
+}
+
+// "More Tabs" tab flex rules
+::slotted(ids-icon) {
+  color: currentColor;
+  pointer-events: none;
+}
+
+::slotted(ids-trigger-button) {
+  color: currentColor;
+  height: fit-content;
+  place-self: center;
 }
