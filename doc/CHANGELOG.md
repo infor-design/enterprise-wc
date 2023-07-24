@@ -67,6 +67,7 @@
 - `[Draggable]` Removed the `ids-` from the event names. ([#1328](https://github.com/infor-design/enterprise-wc/issues/1328))
 - `[Icons]` Added new icons. ([#7510](https://github.com/infor-design/enterprise/issues/7510)
 - `[Locale]` Added new translations. ([#7512](https://github.com/infor-design/enterprise/issues/7512)
+- `[LayoutGrid]` Added support for max-width and centering. ([1308](https://github.com/infor-design/enterprise-wc/issues/1308))
 - `[Themes]` Added theme support and css variables for all components. These can be used for customizing components and creating themes. See ([CUSTOMIZING.md](../doc/CUSTOMIZING.md)) for details. Note that with the `<ids-theme-switcher>` its now better to use the full theme name `<ids-theme-switcher theme="default-light">`. ([#1118](https://github.com/infor-design/enterprise-wc/issues/1118))
 - `[Splitter]` Added new designs and minor fixes. ([#1328](https://github.com/infor-design/enterprise-wc/issues/1328))
 - `[SwapList]` Refactored to use new icons. ([#7511](https://github.com/infor-design/enterprise/issues/7511)
