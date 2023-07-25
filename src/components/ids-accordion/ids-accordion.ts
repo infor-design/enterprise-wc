@@ -41,6 +41,8 @@ const Base = IdsColorVariantMixin(
 export default class IdsAccordion extends Base {
   header: IdsAccordionHeader | null = null;
 
+  previouslySelected: IdsAccordionHeader | null | undefined = null;
+
   constructor() {
     super();
   }
@@ -163,6 +165,7 @@ export default class IdsAccordion extends Base {
 
     if (toAllow) {
       this.setAttribute(attributes.ALLOW_ONE_PANE, `${toAllow}`);
+      this.collapseAll(this.previouslySelected?.panel);
     } else {
       this.removeAttribute(attributes.ALLOW_ONE_PANE);
     }
@@ -291,7 +294,9 @@ export default class IdsAccordion extends Base {
   #handleEvents() {
     // Responds to `selected` events triggered by children
     this.onEvent('selected', this, (e: CustomEvent) => {
-      this.#deselectOtherHeaders((e.target as HTMLElement));
+      const el = e.detail.elem as IdsAccordionHeader;
+      this.previouslySelected = el;
+      this.#deselectOtherHeaders(el);
     });
   }
 
@@ -456,12 +461,16 @@ export default class IdsAccordion extends Base {
 
   /**
    * Collapses all child accordion panels at once
+   * @param {IdsAccordionPanel | null | undefined} [excluded] if provided,
+   *   excludes this accordion header from being collapsed
    * @returns {void}
    */
-  collapseAll() {
+  collapseAll(excluded: IdsAccordionPanel | null | undefined) {
     if (this.panels.length) {
       this.panels.forEach((panel) => {
-        panel.expanded = false;
+        if (!excluded || panel !== excluded) {
+          panel.expanded = false;
+        }
       });
     }
   }

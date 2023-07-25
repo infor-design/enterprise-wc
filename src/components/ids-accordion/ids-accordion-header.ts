@@ -246,7 +246,12 @@ export default class IdsAccordionHeader extends Base {
       this.#refreshSelected(isValueTruthy);
 
       if (isValueTruthy) {
-        this.triggerEvent('selected', this, { bubbles: true });
+        this.triggerEvent('selected', this, {
+          bubbles: true,
+          detail: {
+            elem: this,
+          }
+        });
       }
     }
   }
