@@ -465,7 +465,7 @@ export default class IdsAccordion extends Base {
    *   excludes this accordion header from being collapsed
    * @returns {void}
    */
-  collapseAll(excluded: IdsAccordionPanel | null | undefined) {
+  collapseAll(excluded?: IdsAccordionPanel | null) {
     if (this.panels.length) {
       this.panels.forEach((panel) => {
         if (!excluded || panel !== excluded) {

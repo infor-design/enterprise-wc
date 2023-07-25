@@ -114,7 +114,7 @@ export default class IdsModuleNavSettings extends Base {
   /**
    * @param {string | undefined | null} variantName name of the new colorVariant
    */
-  onColorVariantRefresh(variantName: string | undefined | null) {
+  onColorVariantRefresh(variantName?: string | undefined | null): void {
     if (this.menuEl) this.menuEl.colorVariant = variantName;
   }
 
