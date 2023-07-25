@@ -58,6 +58,7 @@ import './components/ids-module-nav/ids-module-nav-bar';
 import './components/ids-module-nav/ids-module-nav-content';
 import './components/ids-module-nav/ids-module-nav-item';
 import './components/ids-module-nav/ids-module-nav-settings';
+import './components/ids-module-nav/ids-module-nav-switcher';
 import './components/ids-month-view/ids-month-view';
 import './components/ids-multiselect/ids-multiselect';
 import './components/ids-notification-banner/ids-notification-banner';

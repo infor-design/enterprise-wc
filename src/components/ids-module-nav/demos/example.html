@@ -9,7 +9,44 @@
     <ids-module-nav id="module-nav">
       <ids-module-nav-bar>
         <ids-module-nav-switcher
-          slot="role-switcher"></ids-module-nav-switcher>
+          slot="role-switcher">
+          <ids-button>
+            <ids-icon id="#module-switcher-icon" icon="database"></ids-icon>
+            <ids-text audible>Standard Module</ids-text>
+          </ids-button>
+          <ids-dropdown>
+            <ids-list-box>
+              <ids-list-box-option value="admin-console" id="admin-console">
+                <ids-icon icon="database"></ids-icon>
+                <span>Admin Console</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="job-console" id="job-console">
+                <ids-icon icon="database"></ids-icon>
+                <span>Job Console</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="landing-page-designer" id="landing-page-designer">
+                <ids-icon icon="database"></ids-icon>
+                <span>Landing Page Designer</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="process-server-adminisrator" id="process-server-adminisrator">
+                <ids-icon icon="database"></ids-icon>
+                <span>Process Server Adminisrator</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="proxy-management" id="proxy-management">
+                <ids-icon icon="database"></ids-icon>
+                <span>Proxy Management</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="security-system-management" id="security-system-management">
+                <ids-icon icon="database"></ids-icon>
+                <span>Security System Management</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="user-management" id="user-management">
+                <ids-icon icon="database"></ids-icon>
+                <span>User Management</span>
+              </ids-list-box-option>
+            </ids-list-box>
+          </ids-dropdown>
+        </ids-module-nav-switcher>
 
         <ids-search-field
           id="search"

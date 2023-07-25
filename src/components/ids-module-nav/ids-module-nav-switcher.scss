@@ -1,0 +1,53 @@
+@import '../../themes/mixins/ids-core-mixins.scss';
+@import '../../core/ids-base';
+
+:host {
+  @include border-box;
+}
+
+::slotted(ids-button) {
+  display: block;
+  height: var(--ids-module-nav-switcher-button-size);
+  width: var(--ids-module-nav-switcher-button-size);
+}
+
+ids-button::part(button) {
+  height: var(--ids-module-nav-switcher-button-size);
+  width: var(--ids-module-nav-switcher-button-size);
+}
+
+::slotted(ids-dropdown) {
+  width: var(--ids-module-nav-switcher-dropdown-width);
+}
+
+.ids-module-nav-switcher {
+  display: flex;
+  flex-direction: row;
+
+  min-height: var(--ids-module-nav-switcher-button-size);
+  margin: var(--ids-module-nav-switcher-button-gutter-size);
+
+  &.display-mode-collapsed {
+    ::slotted(ids-dropdown) {
+      display: none;
+    }
+
+    ::slotted(ids-button) {
+      height: var(--ids-module-nav-switcher-button-size);
+      width: var(--ids-module-nav-switcher-button-size);
+    }
+
+    .ids-dropdown {
+      display: none;
+    }
+
+    .ids-button {
+      height: var(--ids-module-nav-switcher-button-size);
+      width: var(--ids-module-nav-switcher-button-size);
+    }
+  }
+
+  &.display-mode-expanded {
+
+  }
+}
