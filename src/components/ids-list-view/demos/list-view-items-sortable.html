@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">List View</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="2" gap="xl" padding-x="md">
+      <ids-layout-grid-cell col-span="1">
+        <div class="parent-container">
+            <ids-list-view item-height="76" sortable selectable="single">
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">First Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 1</ids-text>
+                <ids-text font-size="12" type="span">Comments: One</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item active>
+                <ids-text font-size="16" type="h2">Second Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 2</ids-text>
+                <ids-text font-size="12" type="span">Comments: Two</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item disabled>
+                <ids-text font-size="16" type="h2">Third Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 3</ids-text>
+                <ids-text font-size="12" type="span">Comments: Three</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item selected>
+                <ids-text font-size="16" type="h2">Fourth Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 4</ids-text>
+                <ids-text font-size="12" type="span">Comments: Four</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Fifth Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 5</ids-text>
+                <ids-text font-size="12" type="span">Comments: Five</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Sixth Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 6</ids-text>
+                <ids-text font-size="12" type="span">Comments: Six</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Seventh Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 7</ids-text>
+                <ids-text font-size="12" type="span">Comments: Seven</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Eighth Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 8</ids-text>
+                <ids-text font-size="12" type="span">Comments: Eight</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Ninth Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 9</ids-text>
+                <ids-text font-size="12" type="span">Comments: Nine</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Tenth Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 10</ids-text>
+                <ids-text font-size="12" type="span">Comments: Ten</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Eleventh Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 11</ids-text>
+                <ids-text font-size="12" type="span">Comments: Eleven</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Twelfth Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 12</ids-text>
+                <ids-text font-size="12" type="span">Comments: Twelve</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Thirteenth Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 13</ids-text>
+                <ids-text font-size="12" type="span">Comments: Thirteen</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Fourteenth Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 14</ids-text>
+                <ids-text font-size="12" type="span">Comments: Fourteen</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Fifteenth Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 15</ids-text>
+                <ids-text font-size="12" type="span">Comments: Fifteen</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Sixteenth Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 16</ids-text>
+                <ids-text font-size="12" type="span">Comments: Sixteen</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Seventeenth Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 17</ids-text>
+                <ids-text font-size="12" type="span">Comments: Seventeen</ids-text>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Eighteenth Column</ids-text>
+                <ids-text font-size="12" type="span">ID: 18</ids-text>
+                <ids-text font-size="12" type="span">Comments: Eighteen</ids-text>
+              </ids-list-view-item>
+            </ids-list-view>
+        </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

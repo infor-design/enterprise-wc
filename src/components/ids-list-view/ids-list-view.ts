@@ -7,20 +7,21 @@ import {
 } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsDataSource from '../../core/ids-data-source';
-import '../ids-virtual-scroll/ids-virtual-scroll';
-import '../ids-checkbox/ids-checkbox';
+import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
-import IdsElement from '../../core/ids-element';
-import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
 import IdsListViewSearchMixin from './ids-list-view-search-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
 
+import '../ids-checkbox/ids-checkbox';
+import '../ids-search-field/ids-search-field';
 import '../ids-swappable/ids-swappable';
 import '../ids-swappable/ids-swappable-item';
-import '../ids-search-field/ids-search-field';
-
+import '../ids-virtual-scroll/ids-virtual-scroll';
+import './ids-list-view-item';
 import styles from './ids-list-view.scss';
+
 import type IdsSwappableItem from '../ids-swappable/ids-swappable-item';
 import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 import type IdsText from '../ids-text/ids-text';
@@ -59,6 +60,8 @@ export interface IdsListViewItemInfo {
   /** The data node in current dataset */
   data: any;
 }
+
+const SEARCH_FILTER_CLASS = 'search-mismatch';
 
 // Default settings
 const LIST_VIEW_DEFAULTS = {
@@ -120,11 +123,25 @@ export default class IdsListView extends Base {
     'beforedeselected'
   ];
 
+  /**
+   * Invoked each time the custom element is appended into a document-connected element.
+   */
   connectedCallback() {
     super.connectedCallback();
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
     this.#attachEventListeners();
+    this.#attachSearchFilterCallback();
+  }
+
+  /**
+   * Invoked each time the custom element is removed from a document-connected element.
+   */
+  disconnectedCallback() {
+    if (document.body.contains(this)) {
+      // only redraw on disconnect if list-view is still in DOM
+      this.redrawLazy();
+    }
   }
 
   /**
@@ -148,10 +165,7 @@ export default class IdsListView extends Base {
   }
 
   #extractTemplateLiteralsFromHTML(string: string) {
-    const arr = string.split('${');
-    arr.shift();
-    const tokens = arr.map((x) => x.split('}')[0]);
-    return tokens;
+    return Array.from(string?.matchAll(/\${(.*)}/g), ([, token]) => token);
   }
 
   /**
@@ -331,6 +345,14 @@ export default class IdsListView extends Base {
   }
 
   #attachEventListeners() {
+    const childSlot = this.#childSlot();
+    this.offEvent('slotchange.listview', childSlot);
+    this.onEvent('slotchange.listview', childSlot, () => {
+      if (this.#childElements()?.length) {
+        this.redrawLazy();
+      }
+    });
+
     // Fire click
     this.offEvent('click.listview', this.container);
     this.onEvent('click.listview', this.container, (e: any) => {
@@ -362,6 +384,40 @@ export default class IdsListView extends Base {
       this.offEvent('aftervirtualscroll.listview', this.virtualScrollContainer);
       this.onEvent('aftervirtualscroll.listview', this.virtualScrollContainer, (e: CustomEvent) => this.#handleOnAfterVirtualScroll(e));
     }
+  }
+
+  #attachSearchFilterCallback() {
+    if (this.#childElements()?.length) {
+      this.searchFilterCallback = (term: string) => {
+        this.#childElements()?.forEach((item: any) => {
+          // NOTE: using textContent because innerText was causing jest to fail
+          // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
+          const haystack = String(item?.textContent ?? '').toLowerCase();
+          const needle = String(term).toLowerCase();
+          if (!term || haystack.includes(needle)) {
+            item.classList.remove(SEARCH_FILTER_CLASS);
+          } else {
+            item.classList.add(SEARCH_FILTER_CLASS);
+            item.setAttribute('slot', SEARCH_FILTER_CLASS);
+          }
+        });
+
+        return () => false;
+      };
+    }
+  }
+
+  resetSearch() {
+    const kids = this.#childElements();
+    if (kids.length) {
+      this.datasource.filtered = true;
+      kids.forEach((item) => {
+        item.classList.remove(SEARCH_FILTER_CLASS);
+        item.removeAttribute('slot');
+      });
+    }
+
+    super.resetSearch();
   }
 
   /**
@@ -495,6 +551,34 @@ export default class IdsListView extends Base {
   }
 
   /**
+   * Get the default <slot> within <ids-list-view>
+   * @returns {HTMLSlotElement} The default slot
+   */
+  #childSlot(): HTMLSlotElement | undefined {
+    return this.container?.querySelector<HTMLSlotElement>('slot:not([name])') ?? undefined;
+  }
+
+  /**
+   * Check if the element is a valid is <ids-list-view-item>
+   * @param {any} element - an HTML element
+   * @returns {boolean} True if element is a valid <ds-list-view-item>
+   */
+  #childValidListViewItem(element: any): boolean {
+    return String(element?.tagName).toLowerCase() === 'ids-list-view-item';
+  }
+
+  /**
+   * Get all valid <ids-list-view-item> child elements inside this <ids-list-view>
+   * @param {boolean} filtered - if true, show only items that match search filter
+   * @returns {Element[]} All <ids-list-view-item> child elements
+   */
+  #childElements(filtered = false): Element[] {
+    return filtered
+      ? [...this.querySelectorAll(`ids-list-view-item:not(.${SEARCH_FILTER_CLASS})`)]
+      : [...this.querySelectorAll(`ids-list-view-item`)];
+  }
+
+  /**
    * Get template function for list item.
    * @returns {Function} The list item template function.
    */
@@ -516,7 +600,13 @@ export default class IdsListView extends Base {
       return this.itemTemplate(item);
     };
 
+    const kids = this.#childElements(true);
     const func = (item: any, index: number) => {
+      if (item?.setAttribute) {
+        item?.setAttribute('slot', `slot-child-${index}`);
+        item.rowIndex = index;
+      }
+
       const disabled = item.disabled ? ' disabled' : '';
       const tabindex = `tabindex="${typeof index !== 'undefined' && !index ? '0' : '-1'}"`;
       const activated = item.itemActivated ? ' activated' : '';
@@ -525,6 +615,7 @@ export default class IdsListView extends Base {
         selected = ' selected aria-selected="true"';
         if (this.selectable === 'mixed') selected += ' hide-selected-color';
       }
+
       return `
         ${this.sortable ? `<ids-swappable-item
             role="listitem"
@@ -533,15 +624,16 @@ export default class IdsListView extends Base {
             index="${index}"
             id="id_item_${index + 1}"
             aria-posinset="${index + 1}"
-            aria-setsize="${this.data.length}"
+            aria-setsize="${this.data.length ? this.data.length : kids.length}"
             ${disabled}
           >` : ''}
           <div
             part="list-item"
             role="option"
             index="${index}"
+            class="${this.sortable ? 'sortable' : ''}"
             aria-posinset="${index + 1}"
-            aria-setsize="${this.#size}"
+            aria-setsize="${this.data.length ? this.#size : kids.length}"
             ${tabindex}${activated}${selected}${disabled}
           >
             ${itemTemplate(item, index)}
@@ -559,12 +651,14 @@ export default class IdsListView extends Base {
    */
   staticScrollTemplate(): string {
     const selectable = this.selectable ? ` ${this.selectableClass()}` : '';
+    const listItems = this.data?.length ? this.data : this.#childElements(true);
     return `
       <div class="ids-list-view${selectable}">
         <div class="ids-list-view-body" role="listbox" aria-label="${this.label}">
           ${this.sortable ? `<ids-swappable selection=${this.selectable}>` : ''}
-            ${this.data?.length > 0 ? this.data.map(this.listItemTemplateFunc()).join('') : ''}
+            ${listItems?.length > 0 ? listItems.map(this.listItemTemplateFunc()).join('') : ''}
           ${this.sortable ? `</ids-swappable>` : ''}
+          <slot></slot>
         </div>
       </div>
     `;
@@ -607,8 +701,9 @@ export default class IdsListView extends Base {
    * @returns {string} The html for this item
    */
   itemTemplate(item: any): string {
-    const itm = this.searchHighlight?.(item) || item;
-    return injectTemplate(this.defaultTemplate, itm);
+    return this.#childValidListViewItem(item)
+      ? `<slot name="${item?.getAttribute?.('slot')}"></slot>`
+      : injectTemplate(this.defaultTemplate, this.searchHighlight?.(item) ?? item);
   }
 
   /**
@@ -752,13 +847,26 @@ export default class IdsListView extends Base {
     }
   }
 
+  /** Used in IdsListView.redrawLazy() */
+  #redrawLazyRAF = 0;
+
+  /**
+   * Calls IdsListView.redraw() asynchronously
+   */
+  redrawLazy() {
+    cancelAnimationFrame(this.#redrawLazyRAF);
+    this.#redrawLazyRAF = requestAnimationFrame(() => this.redraw());
+  }
+
   /**
    * Rerender the list by re applying the template
    */
   redraw() {
     if (!this.data || !this.loaded) {
-      if (!this.data?.length) this.getAllLi()?.forEach((li: HTMLElement) => li?.remove());
-      return;
+      if (!this.#childElements().length) {
+        if (!this.data?.length) this.getAllLi()?.forEach((li: HTMLElement) => li?.remove());
+        return;
+      }
     }
 
     // Set list size
