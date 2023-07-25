@@ -62,9 +62,7 @@
 
   &.display-mode-collapsed,
   &.display-mode-expanded {
-    .ids-module-nav-bar-main {
-      z-index: var(--ids-module-nav-z-index);
-    }
+    z-index: var(--ids-module-nav-z-index);
 
     &:not(.show-detail) {
       .ids-module-nav-bar-detail {

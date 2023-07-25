@@ -833,7 +833,7 @@
   --ids-module-nav-border-color: var(--ids-color-slate-30);
   --ids-module-nav-common-border-radius: 8px;
   --ids-module-nav-collapsed-size: 56px;
-  --ids-mdoule-nav-gutter-size: 4px;
+  --ids-module-nav-gutter-size: 4px;
   --ids-module-nav-expanded-size: 320px;
   --ids-module-nav-text-color: var(--ids-color-slate-60);
   --ids-module-nav-z-index: 1;
@@ -841,6 +841,9 @@
   // Module Nav (Detail)
   --ids-module-nav-detail-background-color: var(--ids-color-slate-20);
   --ids-module-nav-detail-size: 300px;
+
+  // Module Nav Accordion
+  --ids-module-nav-accordion-gutter-size: 8px;
 
   // Module Nav Accordion Separators
   --ids-module-nav-separator-color: var(--ids-color-slate-20);
@@ -864,7 +867,8 @@
   --ids-module-nav-item-display-icon-collapsed-margin: 10px;
   --ids-module-nav-item-collapsed-general-spacing-size: 16px;
   --ids-module-nav-item-collapsed-first-last-spacing-size: 8px;
-  --ids-module-nav-item-text-color: var(--ids-color-slate-80);
+  --ids-module-nav-item-expanded-icon-text-spacing-size: 24px;
+  --ids-module-nav-item-text-color: var(--ids-color-slate-100);
   --ids-module-nav-item-hover-bg-color: var(--ids-color-slate-20);
   --ids-module-nav-item-hover-text-color: var(--ids-color-slate-100);
   --ids-module-nav-item-selected-bg-color: var(--ids-color-azure-10);
@@ -896,9 +900,11 @@
   // Module Nav Settings Menu (Accordion Header + Popupmenu)
   --ids-module-nav-settings-menu-box-shadow: 0 0 8px 1px rgba(0 0 0 / 0.08);
   --ids-module-nav-settings-menu-item-height: 40px;
-  --ids-module-nav-settings-menu-item-text-color: var(--ids-color-slate-70);
+  --ids-module-nav-settings-menu-item-text-color: var(--ids-color-slate-80);
+  --ids-module-nav-settings-menu-item-icon-color: var(--ids-color-slate-70);
+  --ids-module-nav-settings-menu-min-width: 300px;
   --ids-module-nav-settings-menu-separator-color: var(--ids-color-slate-10);
-  --ids-module-nav-accordion-gutter-size: 8px;
+  --ids-module-nav-settings-menu-gutter-size: 8px;
   --ids-module-nav-footer-gutter-size: 24px;
 
   // Month View

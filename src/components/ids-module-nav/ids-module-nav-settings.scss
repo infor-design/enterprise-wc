@@ -10,6 +10,10 @@
   max-width: calc(100% - (var(--ids-module-nav-accordion-gutter-size) * 2))
 }
 
+::slotted(ids-icon) {
+  margin-inline-end: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
+}
+
 ::slotted(ids-menu-button) {
   display: block;
 }
@@ -34,10 +38,7 @@
   border-width: 1px;
   color: var(--ids-module-nav-item-text-color);
 
-  /*
-  gap: 7px; //temp
-  padding-inline: var(--ids-module-nav-item-margin-inline);
-  */
+  padding-block: var(--ids-module-nav-item-margin-inline);
 
   &:not(.no-padding) {
     padding-inline: var(--ids-module-nav-item-margin-inline);

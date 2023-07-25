@@ -77,8 +77,12 @@
   // Display Mode: Expanded
 
   &.display-mode-expanded {
-    padding: 8px;
-    margin: 8px;
+    padding: var(--ids-module-nav-item-margin-inline);
+    margin: var(--ids-module-nav-item-margin-inline);
+
+    .ids-accordion-display-icon {
+      margin-inline-end: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
+    }
   }
 }
 

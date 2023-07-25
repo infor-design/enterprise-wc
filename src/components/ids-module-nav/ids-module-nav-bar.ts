@@ -280,7 +280,7 @@ export default class IdsModuleNavBar extends Base {
     const accordion = this.accordion;
     if (accordion) {
       accordion.colorVariant = 'module-nav';
-      accordion.textDisplay = this.#getTargetTextDisplay();
+      // accordion.textDisplay = this.#getTargetTextDisplay();
     }
   }
 
@@ -305,13 +305,14 @@ export default class IdsModuleNavBar extends Base {
   onDisplayModeChange(currentValue: string | false, newValue: string | false): void {
     this.visible = (newValue !== false);
     if (this.content) this.content.displayMode = this.displayMode;
+
     if (this.accordion) {
-      this.accordion.textDisplay = this.#getTargetTextDisplay();
       if (newValue !== 'expanded') this.accordion.collapseAll();
       this.items?.forEach((item) => {
         if (item.textNode) item.displayMode = this.displayMode;
       });
     }
+
     if (this.settingsEl) this.settingsEl.displayMode = this.displayMode;
   }
 

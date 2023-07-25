@@ -72,18 +72,28 @@ export default class IdsModuleNavSettings extends Base {
     }
 
     this.setPopupmenuType();
+
     this.menuEl.popup.arrow = 'none';
     this.menuEl.popup.x = 8;
     this.menuEl.popup.y = 12;
 
     if (this.displayMode === 'collapsed') {
       this.menuEl.popup.align = 'right, bottom';
-      this.menuEl.popup.width = '';
     }
     if (this.displayMode === 'expanded') {
       this.menuEl.popup.align = 'top, left';
-      this.menuEl.popup.width = `${(this.clientWidth - 16)}px`;
     }
+  }
+
+  /**
+   * Override the built-in menu resize
+   * @returns {void}
+   */
+  resizeMenu() {
+    if (!this.menuEl || !this.menuEl.popup) {
+      return;
+    }
+    this.menuEl.popup.width = `calc(var(--ids-module-nav-settings-menu-min-width)`;
   }
 
   setPopupmenuType() {

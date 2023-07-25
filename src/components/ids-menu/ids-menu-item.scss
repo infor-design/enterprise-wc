@@ -353,6 +353,7 @@
 
     .ids-menu-item-text {
       color: var(--ids-module-nav-settings-menu-item-text-color);
+      padding-inline-start: var(--ids-module-nav-accordion-gutter-size);
     }
   }
 }
