@@ -18,3 +18,9 @@
   align-items: stretch;
 }
 
+// Sub-components
+//================================================== //
+
+ids-menu-item::part(menu-item) {
+  color: var(--ids-module-nav-settings-menu-item-text-color);
+}

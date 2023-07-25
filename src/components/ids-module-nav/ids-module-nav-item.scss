@@ -58,7 +58,7 @@
     margin: var(--ids-module-nav-item-collapsed-general-spacing-size) auto;
 
     .ids-accordion-display-icon {
-      margin-inline: 6px;
+      margin-inline: var(--ids-module-nav-item-display-icon-collapsed-margin);
       padding: 0;
       justify-self: center;
       align-self: center;

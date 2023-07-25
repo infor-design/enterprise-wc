@@ -4,9 +4,11 @@ import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 import IdsModuleNavTextDisplayMixin from './ids-module-nav-text-display-mixin';
 
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
+import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import type IdsText from '../ids-text/ids-text';
 
 import styles from './ids-module-nav-settings.scss';
+import IdsMenuItem from '../ids-menu/ids-menu-item';
 
 const Base = IdsModuleNavTextDisplayMixin(
   IdsModuleNavDisplayModeMixin(
@@ -69,18 +71,34 @@ export default class IdsModuleNavSettings extends Base {
       return;
     }
 
+    this.setPopupmenuType();
     this.menuEl.popup.arrow = 'none';
     this.menuEl.popup.x = 8;
     this.menuEl.popup.y = 12;
 
     if (this.displayMode === 'collapsed') {
-      this.menuEl.popup.align = 'right, top';
+      this.menuEl.popup.align = 'right, bottom';
       this.menuEl.popup.width = '';
     }
     if (this.displayMode === 'expanded') {
       this.menuEl.popup.align = 'top, left';
       this.menuEl.popup.width = `${(this.clientWidth - 16)}px`;
     }
+  }
+
+  setPopupmenuType() {
+    const menus = [this.menuEl].concat([...this.menuEl.querySelectorAll('ids-popup-menu')]);
+    menus.forEach((menu: IdsPopupMenu) => {
+      if (menu.popup) {
+        menu.popup.type = 'module-nav';
+      }
+      if (menu.items) {
+        menu.items.forEach((menuItemEl: IdsMenuItem) => {
+          menuItemEl.inheritColor = true;
+          menuItemEl.colorVariant = 'module-nav';
+        });
+      }
+    });
   }
 
   /**
