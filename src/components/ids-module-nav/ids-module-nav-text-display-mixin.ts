@@ -9,7 +9,7 @@ export interface TextDisplayHandler {
 
 type Constraints = IdsConstructor<TextDisplayHandler>;
 
-const IdsAccordionTextDisplayMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+const IdsModuleNavTextDisplayMixin = <T extends Constraints>(superclass: T) => class extends superclass {
   constructor(...args: any[]) {
     super(...args);
   }
@@ -73,4 +73,4 @@ const IdsAccordionTextDisplayMixin = <T extends Constraints>(superclass: T) => c
   }
 };
 
-export default IdsAccordionTextDisplayMixin;
+export default IdsModuleNavTextDisplayMixin;

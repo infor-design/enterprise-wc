@@ -16,13 +16,21 @@ ids-button::part(button) {
   width: var(--ids-module-nav-switcher-button-size);
 }
 
+:host([display-mode="collapsed"]) {
+  ::slotted(ids-dropdown) {
+    display: none;
+  }
+}
+
 ::slotted(ids-dropdown) {
+  margin-inline-start: var(--ids-module-nav-switcher-button-gutter-size);
   width: var(--ids-module-nav-switcher-dropdown-width);
 }
 
 .ids-module-nav-switcher {
   display: flex;
   flex-direction: row;
+  position: relative;
 
   min-height: var(--ids-module-nav-switcher-button-size);
   margin: var(--ids-module-nav-switcher-button-gutter-size);
@@ -35,6 +43,7 @@ ids-button::part(button) {
     ::slotted(ids-button) {
       height: var(--ids-module-nav-switcher-button-size);
       width: var(--ids-module-nav-switcher-button-size);
+      padding-inline: 4px;
     }
 
     .ids-dropdown {

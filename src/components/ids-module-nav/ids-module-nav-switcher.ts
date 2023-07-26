@@ -8,6 +8,7 @@ import styles from './ids-module-nav-switcher.scss';
 
 import type IdsButton from '../ids-button/ids-button';
 import type IdsDropdown from '../ids-dropdown/ids-dropdown';
+import type IdsDropdownList from '../ids-dropdown/ids-dropdown-list';
 import type IdsIcon from '../ids-icon/ids-icon';
 
 const Base = IdsModuleNavTextDisplayMixin(
@@ -78,10 +79,15 @@ export default class IdsModuleNavSwitcher extends Base {
     return this.querySelector<IdsDropdown>('ids-dropdown');
   }
 
+  get roleDropdownListEl() {
+    return this.querySelector<IdsDropdownList>('ids-dropdown-list');
+  }
+
   configureComponents() {
     if (this.moduleButtonEl) {
       this.moduleButtonEl.colorVariant = 'module-nav';
     }
+
     if (this.roleDropdownEl) {
       this.roleDropdownEl.colorVariant = 'module-nav';
       this.roleDropdownEl.label = 'Role Selector';

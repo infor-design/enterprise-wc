@@ -1,14 +1,17 @@
 import { customElement, scss } from '../../core/ids-decorators';
 
 import IdsAccordionHeader from '../ids-accordion/ids-accordion-header';
-import IdsAccordionTextDisplayMixin from './ids-module-nav-text-display-mixin';
+import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
+import IdsModuleNavTextDisplayMixin from './ids-module-nav-text-display-mixin';
 import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 
 import styles from './ids-module-nav-item.scss';
 
 const Base = IdsModuleNavDisplayModeMixin(
-  IdsAccordionTextDisplayMixin(
-    IdsAccordionHeader
+  IdsModuleNavTextDisplayMixin(
+    IdsHideFocusMixin(
+      IdsAccordionHeader
+    )
   )
 );
 

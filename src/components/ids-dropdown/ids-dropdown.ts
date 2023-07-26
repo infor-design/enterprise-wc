@@ -455,7 +455,7 @@ export default class IdsDropdown extends Base {
     let dropdownIcon = this.input?.querySelector<IdsIcon>('ids-icon[slot="trigger-start"]');
     if (!dropdownIcon && !option) return;
 
-    if (!this.hasIcons) {
+    if (!this.hasIcons || !this.showListItemIcon) {
       if (dropdownIcon) {
         dropdownIcon.remove();
       }

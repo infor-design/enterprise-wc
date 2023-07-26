@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { IdsConstructor } from '../../core/ids-element';
+import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { IdsDropdownCommonAttributes } from './ids-dropdown-common';
 
@@ -8,6 +9,7 @@ export interface DropdownAttributeMixinInterface {
   onAllowBlankChange?(newValue: boolean): void;
   onClearableTextChange?(newValue: string | null): void;
   onSizeChange?(newValue: string): void;
+  onShowListItemIcon?(newValue: boolean): void;
 }
 
 type Constraints = IdsConstructor<DropdownAttributeMixinInterface>;
@@ -114,6 +116,17 @@ const IdsDropdownAttributeMixin = <T extends Constraints>(superclass: T) => clas
   }
 
   get size(): string { return this.getAttribute(attributes.SIZE) ?? 'md'; }
+
+  /**
+   * Set the element's ability to display an optional icon in front of the text
+   * @param {boolean} value The value
+   */
+  set showListItemIcon(value: boolean) {
+    setBooleanAttr(attributes.SHOW_LIST_ITEM_ICON, this, value);
+    if (typeof this.onShowListItemIcon === 'function') this.onShowListItemIcon(value);
+  }
+
+  get showListItemIcon(): string { return this.getAttribute(attributes.SHOW_LIST_ITEM_ICON) ?? 'md'; }
 };
 
 export default IdsDropdownAttributeMixin;

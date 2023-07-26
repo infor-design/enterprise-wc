@@ -55,6 +55,7 @@ import './components/ids-message/ids-message';
 import './components/ids-modal/ids-modal';
 import './components/ids-module-nav/ids-module-nav';
 import './components/ids-module-nav/ids-module-nav-bar';
+import './components/ids-module-nav/ids-module-nav-button';
 import './components/ids-module-nav/ids-module-nav-content';
 import './components/ids-module-nav/ids-module-nav-item';
 import './components/ids-module-nav/ids-module-nav-settings';

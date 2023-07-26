@@ -16,13 +16,13 @@ import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import styles from './ids-module-nav-bar.scss';
 
-import type IdsModuleNav from './ids-module-nav';
 import type IdsAccordion from '../ids-accordion/ids-accordion';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
 import type IdsModuleNavContent from './ids-module-nav-content';
 import type IdsModuleNavItem from './ids-module-nav-item';
 import type IdsModuleNavSettings from './ids-module-nav-settings';
+import type IdsModuleNavSwitcher from './ids-module-nav-switcher';
 
 const CONTAINER_OPEN_CLASS = 'module-nav-is-open';
 
@@ -170,6 +170,14 @@ export default class IdsModuleNavBar extends Base {
 
   /**
    * @readonly
+   * @returns {IdsModuleNavSwitcher} reference to an optionally-slotted IdsModuleNavSwitcher element
+   */
+  get switcherEl(): IdsModuleNavSwitcher | null {
+    return this.querySelector('ids-module-nav-switcher');
+  }
+
+  /**
+   * @readonly
    * @property {boolean} isFiltered true if the inner navigation accordion is currently being filtered
    */
   isFiltered = false;
@@ -306,6 +314,8 @@ export default class IdsModuleNavBar extends Base {
     this.visible = (newValue !== false);
     if (this.content) this.content.displayMode = this.displayMode;
 
+    if (this.switcherEl) this.switcherEl.displayMode = this.displayMode;
+
     if (this.accordion) {
       if (newValue !== 'expanded') this.accordion.collapseAll();
       this.items?.forEach((item) => {
@@ -317,7 +327,7 @@ export default class IdsModuleNavBar extends Base {
   }
 
   /**
-   * Inherited from IdsAccordionTextDisplayMixin
+   * Inherited from IdsModuleNavTextDisplayMixin
    * @param {string} val text display type
    */
   onTextDisplayChange(val: string) {
