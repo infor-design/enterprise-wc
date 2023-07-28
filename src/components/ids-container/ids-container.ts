@@ -53,7 +53,9 @@ export default class IdsContainer extends Base {
     }
 
     this.container?.style.setProperty('padding', `${this.padding}px`);
-    if (this.backgroundColor) this.container?.style.setProperty('background-color', `var(${this.backgroundColor})`);
+    if (this.backgroundColor) {
+      this.backgroundColor = this.getAttribute('background-color') || '';
+    }
   }
 
   disconnectedCallback() {

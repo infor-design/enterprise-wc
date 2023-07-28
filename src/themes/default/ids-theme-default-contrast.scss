@@ -63,6 +63,8 @@
   --ids-shadow-10: 0 0 3px 1px rgb(0 114 237 / 0.3);
   --ids-shadow-20: 0 0 3px 2px rgb(0 114 237 / 0.30);
   --ids-shadow-30: 0 0 4px 3px rgb(0 114 237 / 0.3);
+  --ids-scroll-shadow: 0 -1px 3px -1px rgba(0  0  0 / 0.30);
+  --ids-scroll-color-border-top: 1px solid rgba(215 215 216 / 1);
 
   /// --- Component Tokens ---- ///
   // Accordion
@@ -125,7 +127,7 @@
 
   // Card
   --ids-card-color-background: var(--ids-color-neutral-00);
-  --ids-card-color-border: var(--ids-color-neutral-60);
+  --ids-card-color-border: var(--ids-color-neutral-20);
   --ids-card-divider-color-border: var(--ids-color-neutral-30);
   --ids-card-shadow: 0 0 8px rgba(0 0 0 / 0.1);
 
@@ -457,6 +459,12 @@
   --ids-week-view-color-border: var(--ids-color-neutral-30);
   --ids-week-view-header-color-background: var(--ids-color-neutral-00);
   --ids-week-view-row-odd-color-border: var(--ids-color-neutral-20);
+
+  // Widget
+  --ids-widget-header-title-color: var(--ids-color-slate-110);
+  --ids-widget-color-border-hover: var(--ids-color-slate-40);
+  --ids-widget-color-shadow-hover: 0 2px 4px 1px rgba(0 0 0 / 0.15);
+  --ids-widget-search-field-color-background: var(--ids-color-slate-20);
 
   // Wizard
   --ids-wizard-step-color-default: var(--ids-color-primary);

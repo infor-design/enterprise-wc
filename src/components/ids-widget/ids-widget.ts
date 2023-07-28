@@ -1,21 +1,18 @@
+/* eslint-disable no-self-assign */
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsSelectionMixin from '../../mixins/ids-selection-mixin/ids-selection-mixin';
+import IdsScrollEffectMixin from '../../mixins/ids-scroll-effect-mixin/ids-scroll-effect-mixin';
 import IdsBox from '../ids-box/ids-box';
-import IdsRippleMixin from '../../mixins/ids-ripple-mixin/ids-ripple-mixin';
 
-import '../ids-hyperlink/ids-hyperlink';
-import '../ids-checkbox/ids-checkbox';
+import '../ids-toolbar/ids-toolbar';
 import styles from './ids-widget.scss';
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 
-const Base = IdsRippleMixin(
+const Base = IdsScrollEffectMixin(
   IdsEventsMixin(
-    IdsSelectionMixin(
-      IdsBox
-    )
+    IdsBox
   )
 );
 
@@ -24,8 +21,7 @@ const Base = IdsRippleMixin(
  * @type {IdsWidget}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsSelectionMixin
- * @mixes IdsRippleMixin
+ * @mixes IdsScrollEffectMixin
  * @part widget - the widget element
  * @part header - the header element
  * @part content - the widget content element
@@ -40,6 +36,21 @@ export default class IdsWidget extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#setHeight();
+    this.#attachEventHandlers();
+
+    // Setup Scroll Effect
+    this.scrollArea = this.container?.querySelector<HTMLElement>('.ids-widget-content');
+    this.attachScrollEvents();
+
+    // Add classes for height adjustments
+    if (this.querySelector('ids-search-field')?.parentElement?.getAttribute('slot') === 'widget-search') {
+      this.scrollArea?.classList.add('has-search');
+    }
+
+    if (this.querySelector('ids-text[subtitle]')) {
+      this.scrollArea?.classList.add('has-subtitle');
+      this.container?.querySelector<HTMLElement>('.ids-widget-header')?.classList.add('has-subtitle');
+    }
   }
 
   /**
@@ -52,8 +63,33 @@ export default class IdsWidget extends Base {
       attributes.BORDERLESS,
       attributes.HEIGHT,
       attributes.NO_HEADER,
-      attributes.OVERFLOW
+      attributes.OVERFLOW,
+      attributes.PADDING_X,
+      attributes.PADDING_Y
     ];
+  }
+
+  /**
+   * Handle events
+   * @private
+   * @returns {void}
+   */
+  #attachEventHandlers() {
+    this.offEvent('mouseover.widget');
+    this.onEvent('mouseover.widget', this, () => {
+      this.querySelectorAll<HTMLButtonElement>('[system-button][hidden]').forEach((elem) => {
+        elem.hidden = false;
+        elem.setAttribute('ref-hidden', 'true');
+      });
+    });
+
+    this.offEvent('mouseleave.widget');
+    this.onEvent('mouseleave.widget', this, () => {
+      this.querySelectorAll<HTMLButtonElement>('[system-button][ref-hidden]').forEach((elem) => {
+        elem.hidden = true;
+        elem.removeAttribute('ref-hidden');
+      });
+    });
   }
 
   /**
@@ -62,16 +98,16 @@ export default class IdsWidget extends Base {
    */
   widgetTemplate() {
     const html = `
-      <div class="ids-widget ids-box" part="widget">
+      <div class="ids-widget" part="widget">
         <div class="ids-widget-body">
           <div class="ids-widget-header" part="header">
             <slot name="widget-header"></slot>
           </div>
-          <div class="ids-widget-content ${this.selection === 'multiple' ? 'has-checkbox' : ''} ${this.overflow === 'hidden' ? 'overflow-hidden' : ''}" part="content">
-            <slot name="widget-content"></slot>
+          <div class="ids-widget-search" part="search">
+            <slot name="widget-search"></slot>
           </div>
-          <div class="ids-widget-checkbox ${this.selection === 'multiple' ? '' : 'hidden'}">
-            <ids-checkbox></ids-checkbox>
+          <div class="ids-widget-content ${this.overflow === 'hidden' ? 'overflow-hidden' : ''}" part="content">
+            <slot name="widget-content"></slot>
           </div>
           <div class="ids-widget-footer" part="footer">
             <slot name="widget-footer"></slot>
@@ -118,7 +154,7 @@ export default class IdsWidget extends Base {
   }
 
   /**
-   * Set the widget to borderless
+   * Set the widget to have no borders and background color
    * @param {boolean|null} value If widget should be borderless or not
    */
   set borderless(value) {
@@ -176,7 +212,7 @@ export default class IdsWidget extends Base {
   }
 
   /**
-   * Set to true to hide the header space
+   * Set to true to hide the header and reclaim the space
    * @returns {string} target for ids-hyperlink
    */
   get noHeader() { return this.getAttribute(attributes.NO_HEADER); }
@@ -188,4 +224,44 @@ export default class IdsWidget extends Base {
       this.removeAttribute(attributes.NO_HEADER);
     }
   }
+
+  /**
+   * Set the x axis padding on the widget contents (in pixels)
+   * @param {string | null} value The value of the paddingX attribute
+   */
+  set paddingX(value: string | null) {
+    if (!value) {
+      this.removeAttribute(attributes.PADDING_X);
+      this.container?.querySelector<HTMLElement>('.ids-widget-content')?.style.removeProperty('padding-block');
+    } else {
+      this.setAttribute(attributes.PADDING_X, value);
+      this.container?.querySelector<HTMLElement>('.ids-widget-content')?.style.setProperty('padding-block', `${value}px`);
+    }
+  }
+
+  /**
+   * Get the x axis padding
+   * @returns {string | null} The number value that represents the paddingX of the widget contents
+   */
+  get paddingX(): string | null { return this.getAttribute(attributes.PADDING_X); }
+
+  /**
+   * Set the y axis padding on the widget contents (in pixels)
+   * @param {string | null} value The value of the paddingY attribute
+   */
+  set paddingY(value: string | null) {
+    if (!value) {
+      this.removeAttribute(attributes.PADDING_Y);
+      this.container?.querySelector<HTMLElement>('.ids-widget-content')?.style.removeProperty('padding-inline');
+    } else {
+      this.setAttribute(attributes.PADDING_Y, value);
+      this.container?.querySelector<HTMLElement>('.ids-widget-content')?.style.setProperty('padding-inline', `${value}px`);
+    }
+  }
+
+  /**
+   * Get the x axis padding
+   * @returns {string | null} The number value that represents the paddingY of the widget contents
+   */
+  get paddingY(): string | null { return this.getAttribute(attributes.PADDING_Y); }
 }

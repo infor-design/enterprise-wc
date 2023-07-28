@@ -50,7 +50,7 @@ export default class IdsBadge extends Base {
   }
 
   /**
-   * Return the badge shape between normal and round
+   * Return the badge shape between normal (default) and round
    * @returns {string} The path data
    */
   get shape(): string {
@@ -58,7 +58,7 @@ export default class IdsBadge extends Base {
   }
 
   /**
-   * Set the shape of the badge
+   * Set the badge shape between normal (default) and round
    * @param {string} value The Badge Shape
    */
   set shape(value: string | null) {

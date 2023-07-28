@@ -2,7 +2,7 @@
 
 :root {
   // Primary Color
-  --ids-color-primary: var(--ids-color-neutral-60);
+  --ids-color-primary: var(--ids-color-neutral-90);
   --ids-color-text-on-primary: var(--ids-color-neutral-10);
 
   // Body Colors
@@ -36,6 +36,8 @@
   --ids-shadow-10: 0 0 3px 1px rgb(85 163 243 / 0.3);
   --ids-shadow-20: 0 0 3px 2px rgb(85 163 243 / 0.3);
   --ids-shadow-30: 0 0 4px 3px rgb(85 163 243 / 0.3);
+  --ids-scroll-shadow: 0 -1px 3px -1px rgba(82 82 87 / 0.30);
+  --ids-scroll-color-border-top: 1px solid rgba(82 82 87 / 1);
 
   // Focus
   --ids-color-border-focus: var(--ids-color-primary-50);
@@ -104,9 +106,9 @@
   --ids-button-primary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary-40), 0 0 4px 3px var(--ids-color-primary-40);
   --ids-button-primary-color-background-hover: var(--ids-color-primary-30);
   --ids-button-primary-color-border-hover: var(--ids-color-primary-30);
-  --ids-button-primary-color-background-disabled: var(--ids-color-neutral-90);
-  --ids-button-primary-color-border-disabled: var(--ids-color-neutral-90);
-  --ids-button-primary-color-text-disabled: var(--ids-color-neutral-40);
+  --ids-button-primary-color-background-disabled: var(--ids-color-neutral-60);
+  --ids-button-primary-color-border-disabled: var(--ids-color-neutral-60);
+  --ids-button-primary-color-text-disabled: var(--ids-color-neutral-100);
   --ids-button-primary-color-background-pressed: var(--ids-color-primary-80);
 
   // Button (Secondary)
@@ -118,8 +120,8 @@
   --ids-button-secondary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary-50), 0 0 4px 3px var(--ids-color-primary-50);
   --ids-button-secondary-color-background-hover: var(--ids-color-neutral-90);
   --ids-button-secondary-color-background-disabled: var(--ids-color-neutral-90);
-  --ids-button-secondary-color-border-disabled: var(--ids-color-neutral-40);
-  --ids-button-secondary-color-text-disabled: var(--ids-color-neutral-40);
+  --ids-button-secondary-color-border-disabled: var(--ids-color-neutral-60);
+  --ids-button-secondary-color-text-disabled: var(--ids-color-neutral-60);
   --ids-button-secondary-color-background-pressed: var(--ids-color-primary-40);
 
   // Button (Tertiary)
@@ -127,8 +129,8 @@
   --ids-button-tertiary-color-text-default: var(--ids-color-neutral-20);
   --ids-button-tertiary-color-border-focus: var(--ids-color-border-focus);
   --ids-button-tertiary-color-text-hover: var(--ids-color-text-on-primary);
-  --ids-button-tertiary-color-background-hover: var(--ids-color-neutral-90);
-  --ids-button-tertiary-color-text-disabled: var(--ids-color-neutral-40);
+  --ids-button-tertiary-color-background-hover: var(--ids-color-neutral-70);
+  --ids-button-tertiary-color-text-disabled: var(--ids-color-neutral-60);
   --ids-button-tertiary-color-background-pressed: var(--ids-color-primary-40);
   --ids-button-destructive-color-background-hover: var(--ids-color-neutral-90);
 
@@ -141,6 +143,9 @@
   --ids-button-module-color-background-hover: rgba(0 0 0 / 0.3);
   --ids-button-module-color-text-default: var(--ids-color-slate-10);
   --ids-button-module-color-text-hover: var(--ids-color-slate-00);
+
+  // Button (Module)
+  --ids-button-system-color-text-hover: var(--ids-color-slate-00);
 
   // Calendar
   --ids-calendar-toolbar-color-background: var(--ids-color-neutral-80);
@@ -262,8 +267,8 @@
   --ids-empty-message-color-icon-fill: transparent;
 
   // Headers
-  --ids-header-color-border-bottom: var(--ids-color-slate-50);
-  --ids-header-color-background: var(--ids-color-slate-70);
+  --ids-header-color-border-bottom: var(--ids-color-slate-80);
+  --ids-header-color-background: var(--ids-color-slate-90);
   --ids-header-gradient-opacity-none: rgb(0 114 237 / 1);
   --ids-header-gradient-opacity-full: rgb(0 114 237 / 0);
 
@@ -603,6 +608,12 @@
   // Week View
   --ids-week-view-color-border: var(--ids-color-neutral-70);
   --ids-week-view-row-odd-color-border: var(--ids-color-neutral-80);
+
+  // Widget
+  --ids-widget-header-title-color: var(--ids-color-slate-10);
+  --ids-widget-color-border-hover: var(--ids-color-slate-60);
+  --ids-widget-color-shadow-hover: 0 2px 4px 1px rgba(0 0 0 / 0.15);
+  --ids-widget-search-field-color-background: var(--ids-color-slate-80);
 
   // Wizard
   --ids-wizard-step-color-default: var(--ids-color-primary-40);

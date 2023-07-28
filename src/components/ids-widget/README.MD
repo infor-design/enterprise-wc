@@ -1,74 +1,68 @@
-# Ids Tag Component
+# Ids Widget Component
 
 ## Description
 
-Tags are UI embellishments that are used to label, categorize and organize keywords surrounding
-some contextual element such as a form.
+Widgets are specialized cards that are use primarily in the home page layout. They have a series of featured that are useful to widget developers. And features that allow the end user to interact with the widget and its content.
 
 ## Use Cases
 
-- Use when the content on your page is mapped into multiple categories and does not only fit into one hierarchical category.
-- Use when you want users to contribute data to your website and let them organize their content themselves.
+- Use when you want to display content in widget in a home page layout
+- Use when you want to display content in a card-like format with a header, body and footer
 
 ## Dos and Don'ts
 
-- Overcrowd your content with tags, so people can see the items clearly.
-- Don't use too many tags in order to use them clearly to capture what its tagging.
+- Overcrowd your content with widgets full of information, so people can see the items clearly
+- Try to succinctly capture the information by role
 
 ## Terminology
 
-- **Tag**: A UI embellishments for classification
-- **Clickable/Dismissible**: Tag can be closed and removed with an X button
-- **Classification**:  How tags are labelled with colors and text
-- **Disabled**: Tag can be disabled so it cannot be followed or clicked.
+- **Widget**: Element of a graphical user interface that displays information or provides a specific way for a user to interact with
+- **System Button**: A button provided by the portal thats not a part of the widget contents. For example the actions button.
 
 ## Features (With Code Examples)
 
-A normal tag used as a web component.
+A simple bordered widget.
 
 ```html
-<ids-tag>Normal Tag</ids-tag>
+<ids-home-page>
+  <ids-widget slot="widget">
+    <div slot="widget-header">
+      <ids-toolbar>
+        <ids-toolbar-section type="title" favor>
+          <ids-text font-size="20">Bordered</ids-text>
+        </ids-toolbar-section>
+        <ids-toolbar-section type="buttonset" align="end">
+          <ids-menu-button menu="icon-actions" id="actions-button" system-button>
+            <ids-icon icon="vertical-ellipsis"></ids-icon>
+            <span class="audible">Actions</span>
+          </ids-menu-button>
+          <ids-popup-menu id="icon-actions" target="#actions-button">
+            <ids-menu-group>
+              <ids-menu-item>Action one</ids-menu-item>
+              <ids-menu-item>Action two</ids-menu-item>
+            </ids-menu-group>
+          </ids-popup-menu>
+        </ids-toolbar-section>
+      </ids-toolbar>
+    </div>
+    <div slot="widget-content"></div>
+  </ids-widget>
+</ids-home-page>
 ```
 
-A normal tag used using just the css. This is limited to normal tags only.
-
-```html
-<span class="ids-tag">Normal Tag</span>
-```
-
-A colored tag is done by adding the `color` attribute and one of the following: secondary, error, success, caution or a hex color beginning with a # character.
-
-```html
-<ids-tag color="secondary">Secondary Tag</ids-tag>
-<ids-tag color="error">Error Tag</ids-tag>
-<ids-tag color="success">Success Tag</ids-tag>
-<ids-tag color="caution">Warning Tag</ids-tag>
-<ids-tag color="#EDE3FC">Custom Tag Color</ids-tag>
-```
+To use system buttons in your widget, add the system-button attribute on the button element. The rule is that if there is just one system button it should be hidden. But if there is other actions it should not be hidden. In that case remove the system-button attribute.
 
 ## Class Hierarchy
 
-- IdsTag
+- IdsWidget
     - IdsElement
+    - IdsBox
 - Mixins
   IdsEventsMixin
-  IdsKeyboardMixin
 
 ## Settings (Attributes)
 
-- `clickable` {boolean} Turns on the functionality to make the tag clickable like a link
-- `dismissible` {boolean} Turns on the functionality to add an (x) button to clear remove the tag
-- `color` {string} Sets the color to a internal color such as `azure` or may be a hex starting with a `#`
-
-## Events
-
-- `beforetagremove` Fire before the tag is removed allowing to veto the action. Detail contains the element `elem` and the callback for vetoing
-- `tagremove` Fires at the time the tag is removed. Detail contains the element `elem`
-- `aftertagremove` Fires after the tag is removed from the DOM. Detail contains the element `elem`
-
-## Methods
-
-- `dismiss` Removes the tag from the page.
+- `system-button` {boolean} Makes any button a system button that is hidden unless hovering the widget
 
 ## Themeable Parts
 
@@ -79,16 +73,15 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 ## States and Variations
 
 - Color
-- Linkable
-- Badge
 - Disabled
-- Closable
+- Hover
+- Size
 
 ## Keyboard Guidelines
 
-- <kbd>Tab/Shift+Tab</kbd>: If the tab is focusable this will focus or unfocus the tag.
+- <kbd>Tab/Shift+Tab</kbd>: Will tab between the cards, once in the cards you can use arrow across the toolbar and addition tabs depending on the tab stop
 - <kbd>Backspace / Alt+Del</kbd>: If the tag is dismissible then this will remove the tag.
-- <kbd>Enter</kbd>: If the tag is clickable then this will follow the tag link.
+- <kbd>Enter</kbd>: If widget item is clickable then this will follow activate the click.
 
 ## Responsive Guidelines
 
@@ -96,22 +89,12 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 
 ## Converting from Previous Versions (Breaking Changes)
 
-**3.x to 4.x**
-
-- Tag was implemented in v4.0.0
-- Tag can be invoked with `$('#my-element').tag()`.
-
 **4.x to 5.x**
 
-- Tags are now custom elements `<ids-tag color="error>Text</ids-tag>`
-- If using events events are now plain JS events. `beforetagremove`, `tagremove`, `aftertagremove`
-- If using properties/settings these are now attributes: `dismissible`, `color`
+- Widgets are now custom elements `<ids-widget></ids-widget>`
+- If using properties/settings these are now attributes: `height`, `overflow`
 - Can now be imported as a single JS file and used with encapsulated styles
-
-## Designs
-
-[Design Specs 4.5](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)
-[Design Specs 4.6](https://www.figma.com/file/ok0LLOT9PP1J0kBkPMaZ5c/IDS_Component_File_v4.6-(Draft))
+- Widgets replace cards but have only the features needed for widgets. See `ids-card` for some features.
 
 ## Accessibility Guidelines
 

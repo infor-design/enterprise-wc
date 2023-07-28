@@ -180,7 +180,7 @@ export default class IdsText extends Base {
   }
 
   /**
-   * Set the type of element it is (h1-h6, span (default))
+   * Set the type of HTML element is (h1-h6, p, span (default))
    * @param {string | null} value  The type of element
    */
   set type(value: string | null) {

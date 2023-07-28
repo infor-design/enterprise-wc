@@ -94,6 +94,10 @@
   // Text Transforms
   --ids-font-uppercase: uppercase;
 
+  // Scroll Effect Styles
+  --ids-scroll-shadow: 0 -1px 3px -1px rgba(0  0  0 / 0.25);
+  --ids-scroll-color-border-top: 1px solid rgba(215 215 216 / 1);
+
   // Spacing (For padding or margins)
   --ids-space-none: 0;
   --ids-space-10: 1px;
@@ -326,6 +330,9 @@
   --ids-button-module-color-background-hover: rgba(0 0 0 / 0.1);
   --ids-button-module-color-text-default: var(--ids-color-slate-90);
   --ids-button-module-color-text-hover: var(--ids-color-slate-100);
+
+  // Button (Module)
+  --ids-button-system-color-text-hover: var(--ids-color-slate-110);
 
   // Breadcrumb
   --ids-breadcrumb-color-text-default: var(--ids-color-text-subtle);
@@ -789,6 +796,7 @@
   --ids-list-builder-item-placeholder-opacity: 0.6;
 
   // List View
+  --ids-list-view-height: 100%;
   --ids-list-view-color-border-focus: var(--ids-color-azure-40);
   --ids-list-view-item-color-background-default: var(--ids-color-neutral-00);
   --ids-list-view-item-border: 1px solid transparent;
@@ -1015,14 +1023,22 @@
   --ids-scroll-view-color-icon-default: var(--ids-color-neutral-70);
   --ids-scroll-view-color-icon-selected: var(--ids-color-primary);
 
+  // Search Field
+  --ids-search-field-color-background-default: var(--ids-input-color-background-default);
+  --ids-search-field-color-border-default: var(--ids-input-color-border-default);
+  --ids-search-field-color-border-focus: var(--ids-input-color-border-focus);
+  --ids-search-field-color-border-hover: var(--ids-input-color-border-hover);
+  --ids-search-field-button-color-text-hover: var(--ids-button-tertiary-color-text-hover);
+  --ids-search-field-icon-margin: 8px;
+  --ids-search-field-margin: 0;
+  --ids-search-field-border-radius: 4px;
+
   // Search Field in App Menu
-  --ids-search-field-app-menu-shadow-focus:none;
+  --ids-search-field-app-menu-shadow-focus: none;
   --ids-search-field-app-menu-color-text: var(--ids-color-neutral-20);
   --ids-search-field-app-menu-color-background: #000;
   --ids-search-field-app-menu-color-icon-default: var(--ids-color-neutral-40);
   --ids-search-field-app-menu-color-icon-hover: var(--ids-color-neutral-90);
-  --ids-search-field-icon-margin: 8px;
-  --ids-search-field-border-radius: var(--ids-border-radius-02);
   --ids-search-field-header-color-background: var(--ids-color-text-on-primary);
   --ids-search-field-header-color-text: var(--ids-color-text);
   --ids-search-field-header-color-icon-default: var(--ids-color-neutral-80);
@@ -1378,10 +1394,19 @@
   --ids-widget-shadow: var(--ids-card-shadow);
   --ids-widget-margin-bottom: var(--ids-card-margin-bottom);
   --ids-widget-height: var(--ids-card-height);
-  --ids-widget-content-height: 310px;
-  --ids-widget-header-padding: 12px 16px;
+  --ids-widget-content-height: 312px;
+  --ids-widget-search-height: 46px;
+  --ids-widget-search-content-height: 266px;
+  --ids-widget-header-padding-inline: 8px; // toolbar has 8px
+  --ids-widget-header-height: 48px;
+  --ids-widget-header-subtitle-height: 60px;
+  --ids-widget-search-subtitle-content-height: 301px;
   --ids-widget-divider-color-border: var(--ids-card-divider-color-border);
   --ids-widget-header-title-color: var(--ids-color-slate-100);
+  --ids-widget-color-border-hover: var(--ids-color-slate-30);
+  --ids-widget-color-shadow-hover: 0 2px 4px 1px rgba(0 0 0 / 0.15);
+  --ids-widget-search-field-color-background: var(--ids-color-slate-10);
+  --ids-widget-search-field-border-radius: 4px;
 
   // Wizard
   --ids-wizard-step-width: 14px;
