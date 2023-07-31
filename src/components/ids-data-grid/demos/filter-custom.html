@@ -29,8 +29,17 @@
           row-height="md"
           pagination="client-side"
           page-number="1"
-          page-size="10"
-        >
+          page-size="10">
+
+          <!-- Header Contextmenu -->
+          <ids-popup-menu trigger-type="custom" slot="header-contextmenu">
+            <ids-menu-group>
+              <ids-menu-item value="header-split">Split</ids-menu-item>
+              <ids-menu-item value="header-sort">Sort</ids-menu-item>
+              <ids-menu-item value="header-hide">Hide</ids-menu-item>
+            </ids-menu-group>
+          </ids-popup-menu>
+
           <div slot="filter-productId" column-id="productId">
             <ids-menu-button id="btn-filter-product-id" icon="filter-greater-equals" menu="menu-filter-product-id" dropdown-icon>
               <span class="audible">Greater Than Or Equals</span>
