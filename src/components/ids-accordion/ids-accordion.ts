@@ -15,6 +15,7 @@ import styles from './ids-accordion.scss';
 import type IdsAccordionSection from './ids-accordion-section';
 import type IdsAccordionHeader from './ids-accordion-header';
 import type IdsAccordionPanel from './ids-accordion-panel';
+import type IdsModuleNavItem from '../ids-module-nav/ids-module-nav-item';
 
 const Base = IdsColorVariantMixin(
   IdsKeyboardMixin(
@@ -39,7 +40,7 @@ const Base = IdsColorVariantMixin(
 @customElement('ids-accordion')
 @scss(styles)
 export default class IdsAccordion extends Base {
-  header: IdsAccordionHeader | null = null;
+  header: IdsAccordionHeader | IdsModuleNavItem | null = null;
 
   previouslySelected: IdsAccordionHeader | null | undefined = null;
 
@@ -216,6 +217,10 @@ export default class IdsAccordion extends Base {
     doDisplayIconType = true,
     doRTL = true
   ) {
+    const addDepthClass = (el: HTMLElement, thisDepth: number) => {
+      if (el) el.classList.add(`depth-${thisDepth}`);
+    };
+
     // If dealing with Accordion Sections,
     // loop this method through an array of sections instead
     const hasSection = element.querySelector(':scope > ids-accordion-section');
@@ -233,6 +238,7 @@ export default class IdsAccordion extends Base {
     if (depth > 0) {
       // Assign Nested Padding CSS Classes
       element.nested = subLevelDepth;
+      addDepthClass(element.container, depth);
 
       // Assign Color Variant
       if (doColorVariant && this.colorVariant) {
@@ -245,6 +251,8 @@ export default class IdsAccordion extends Base {
       }
 
       if (this.header) {
+        if (this.header) addDepthClass(this.header.containerEl, depth);
+
         // Pass language/locale down to child components
         // TODO - do we need this?
         // this.header.language = this.language?.name;

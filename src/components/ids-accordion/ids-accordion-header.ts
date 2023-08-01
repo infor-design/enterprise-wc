@@ -101,6 +101,13 @@ export default class IdsAccordionHeader extends Base {
   }
 
   /**
+   * @returns {HTMLElement | null} Live reference to the container element
+   */
+  get containerEl(): HTMLElement | null {
+    return this.shadowRoot?.querySelector(`.${this.name}`) || null;
+  }
+
+  /**
    * @readonly
    * @returns {IdsText | null} this Accordion Header's text node
    */

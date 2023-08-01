@@ -95,6 +95,7 @@ export default class IdsModuleNavSwitcher extends Base {
 
   configureComponents() {
     const COLOR_VARIANT_NAME = 'module-nav';
+    const POPUP_X_OFFSET = 48;
 
     if (this.moduleButtonEl) {
       this.moduleButtonEl.colorVariant = COLOR_VARIANT_NAME;
@@ -139,9 +140,10 @@ export default class IdsModuleNavSwitcher extends Base {
         popup.type = 'module-nav';
         popup.align = 'bottom, left';
         popup.arrow = 'none';
+        popup.style.left = `-${POPUP_X_OFFSET}px`;
 
         popup.onPlace = (popupRect: DOMRect) => {
-          popupRect.x -= 48;
+          popupRect.x -= POPUP_X_OFFSET;
           popupRect.y += 8;
           return popupRect;
         };

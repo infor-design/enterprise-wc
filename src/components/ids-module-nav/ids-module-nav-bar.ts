@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import { toggleScrollbar } from './ids-module-nav-common';
 import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 import IdsModuleNavTextDisplayMixin from './ids-module-nav-text-display-mixin';
 import IdsDrawer from '../ids-drawer/ids-drawer';
@@ -17,6 +18,7 @@ import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import styles from './ids-module-nav-bar.scss';
 
 import type IdsAccordion from '../ids-accordion/ids-accordion';
+import type IdsAccordionSection from '../ids-accordion/ids-accordion-section';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
 import type IdsModuleNavContent from './ids-module-nav-content';
@@ -44,6 +46,8 @@ const Base = IdsModuleNavDisplayModeMixin(
 export default class IdsModuleNavBar extends Base {
   globalKeydownListener?: (e: KeyboardEvent) => void;
 
+  ro?: ResizeObserver;
+
   constructor() {
     super();
   }
@@ -57,8 +61,9 @@ export default class IdsModuleNavBar extends Base {
 
     this.#connectSearchField();
     this.#connectAccordion();
-
     this.#refreshVariants();
+    this.setResize();
+    this.setScrollable();
     this.#attachEventHandlers();
   }
 
@@ -193,6 +198,8 @@ export default class IdsModuleNavBar extends Base {
 
   set pinned(val: boolean) {
     setBooleanAttr(attributes.PINNED, this, val);
+    this.setScrollable();
+    this.setResize();
   }
 
   get pinned(): boolean {
@@ -325,6 +332,9 @@ export default class IdsModuleNavBar extends Base {
     }
 
     if (this.settingsEl) this.settingsEl.displayMode = this.displayMode;
+
+    this.setScrollable();
+    this.setResize();
   }
 
   /**
@@ -446,5 +456,65 @@ export default class IdsModuleNavBar extends Base {
   removeOpenEvents() {
     super.removeOpenEvents();
     if (this.globalKeydownListener) document.removeEventListener('keydown', this.globalKeydownListener);
+  }
+
+  private setResize() {
+    if (typeof ResizeObserver === 'undefined') return;
+
+    this.ro?.disconnect();
+
+    if (!this.ro) {
+      this.ro = new ResizeObserver(() => {
+        this.setScrollable();
+      });
+    }
+
+    if (!this.pinned) {
+      this.ro.observe(this);
+    } else if (this.accordion) {
+      this.ro.observe(this.accordion);
+    }
+  }
+
+  /**
+   * Detects if the main accordion element is scrolled (not "optionally-pinned" mode)
+   * Toggles a class on/off based on ability to scroll.
+   * @returns {void}
+   */
+  private setScrollable() {
+    if (!this.pinned) {
+      this.setAccordionScrollable(false);
+      this.setBarScrollable();
+    } else {
+      this.setBarScrollable(false);
+      this.setAccordionScrollable();
+    }
+  }
+
+  /**
+   * @private
+   * @param {boolean|undefined} [doToggle] if defined, dictates which direction to force toggle (false for off, true for on)
+   */
+  private setBarScrollable(doToggle?: boolean) {
+    const el = this.container;
+    if (el) toggleScrollbar(el, doToggle);
+  }
+
+  /**
+   * @private
+   * @param {boolean|undefined} [doToggle] if defined, dictates which direction to force toggle (false for off, true for on)
+   */
+  private setAccordionScrollable(doToggle?: boolean) {
+    if (!this.accordion) return;
+
+    let sectionHasScrollbar = false;
+
+    const container = this.accordion.container;
+    if (container) {
+      const didToggle = toggleScrollbar(container, doToggle);
+      if (didToggle) sectionHasScrollbar = true;
+    }
+
+    this.container?.classList[sectionHasScrollbar ? 'add' : 'remove']('has-section-scrollbars');
   }
 }
