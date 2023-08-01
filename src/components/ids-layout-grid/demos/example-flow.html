@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <%= htmlWebpackPlugin.options.font %>
+  </head>
+  <body>
+    <ids-container role="main" padding="8" hidden>
+      <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+      <ids-layout-grid auto-fit="true" padding="md">
+        <ids-layout-grid-cell>
+          <ids-text font-size="12" type="h1">8 Flow Row</ids-text>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+      
+      <ids-layout-grid
+        id="eight-column-grid-flow-row"
+        cols="8"
+        rows="2"
+        padding-x="md"
+        justify-content="center"
+        flow="row"
+      >
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col A</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col B</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col C</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col D</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col E</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col F</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col G</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col H</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col I</ids-text>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+
+      <ids-layout-grid auto-fit="true" padding="md">
+        <ids-layout-grid-cell>
+          <ids-text font-size="12" type="h1">8 Flow Column</ids-text>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+
+      <ids-layout-grid
+        id="eight-column-grid-flow-column"
+        cols="8"
+        rows="2"
+        padding-x="md"
+        justify-content="center"
+        flow="column"
+      >
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col A</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col B</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col C</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col D</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col E</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col F</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col G</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col H</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col I</ids-text>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+      
+      <ids-layout-grid auto-fit="true" padding="md">
+        <ids-layout-grid-cell>
+          <ids-text font-size="12" type="h1">8 Responsive Row and Column Flow (resize window)</ids-text>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+
+      <ids-layout-grid
+        id="eight-column-grid-flow-responsive"
+        cols="8"
+        rows="2"
+        padding-x="md"
+        justify-content="center"
+        flow-sm="column"
+        flow-md="row"
+        flow-lg="column"
+        flow-xxl="row"
+      >
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col A</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col B</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col C</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col D</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col E</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col F</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col G</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col H</ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell col-span="1" fill height="176px">
+          <ids-text font-size="12">Col I</ids-text>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+    </ids-container>
+  </body>
+</html>
