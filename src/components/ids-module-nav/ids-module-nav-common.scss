@@ -1,0 +1,9 @@
+/** Generates a Module Nav IdsPopup style */
+@mixin ids-module-nav-popup-style {
+  background-color: var(--ids-module-nav-input-bg-color);
+  border: var(--ids-module-nav-input-border-width) solid var(--ids-module-nav-input-border-color);
+  border-radius: var(--ids-module-nav-common-border-radius);
+  box-shadow: var(--ids-module-nav-settings-menu-box-shadow);
+  color: var(--ids-module-nav-settings-menu-item-text-color);
+  padding-block: var(--ids-module-nav-gutter-size);
+}

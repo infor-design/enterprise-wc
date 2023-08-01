@@ -241,7 +241,8 @@ export default class IdsModuleNavBar extends Base {
       return e.detail.response(canExpand);
     });
 
-    //
+    // Listen to search field for `cleared` events,
+    // which cause the accordion to reset
     this.onEvent('cleared.search', this.searchFieldEl, () => {
       this.accordion?.collapseAll();
     });

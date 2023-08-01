@@ -197,5 +197,14 @@
     .fieldset {
       display: contents;
     }
+
+    .field-container {
+      background-color: var(--ids-module-nav-item-hover-bg-color);
+      color: var(--ids-module-nav-item-hover-text-color);
+    }
+
+    .ids-input-field {
+      padding-inline-start: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
+    }
   }
 }

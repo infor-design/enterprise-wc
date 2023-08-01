@@ -1,5 +1,4 @@
 import { attributes } from '../../core/ids-attributes';
-import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 import { IdsConstructor } from '../../core/ids-element';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';

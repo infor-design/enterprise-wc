@@ -16,31 +16,34 @@
           </ids-module-nav-button>
           <ids-dropdown
             id="module-nav-role-dropdown"
+            dropdown-icon="expand-all"
+            color-variant="module-nav"
             label="Select Role"
-            value="admin-console">
+            value="admin-console"
+            show-list-item-icon="false">
             <ids-list-box>
               <ids-list-box-option value="admin-console" id="admin-console">
                 <ids-icon icon="database"></ids-icon>
                 <span>Admin Console</span>
               </ids-list-box-option>
               <ids-list-box-option value="job-console" id="job-console">
-                <ids-icon icon="database"></ids-icon>
+                <ids-icon icon="mail"></ids-icon>
                 <span>Job Console</span>
               </ids-list-box-option>
               <ids-list-box-option value="landing-page-designer" id="landing-page-designer">
-                <ids-icon icon="database"></ids-icon>
+                <ids-icon icon="settings"></ids-icon>
                 <span>Landing Page Designer</span>
               </ids-list-box-option>
               <ids-list-box-option value="process-server-adminisrator" id="process-server-adminisrator">
                 <ids-icon icon="database"></ids-icon>
-                <span>Process Server Adminisrator</span>
+                <span>Process Server Administrator</span>
               </ids-list-box-option>
               <ids-list-box-option value="proxy-management" id="proxy-management">
-                <ids-icon icon="database"></ids-icon>
+                <ids-icon icon="mail"></ids-icon>
                 <span>Proxy Management</span>
               </ids-list-box-option>
               <ids-list-box-option value="security-system-management" id="security-system-management">
-                <ids-icon icon="database"></ids-icon>
+                <ids-icon icon="settings"></ids-icon>
                 <span>Security System Management</span>
               </ids-list-box-option>
               <ids-list-box-option value="user-management" id="user-management">
@@ -58,6 +61,7 @@
           label="Module Nav Search"
           label-state="collapsed"
           no-margins
+          placeholder="Search"
           size="full"
           slot="search"></ids-search-field>
 

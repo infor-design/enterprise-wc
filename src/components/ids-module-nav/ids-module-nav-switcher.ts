@@ -1,19 +1,23 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsElement from '../../core/ids-element';
+import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 import IdsModuleNavTextDisplayMixin from './ids-module-nav-text-display-mixin';
 
 import styles from './ids-module-nav-switcher.scss';
 
-import type IdsButton from '../ids-button/ids-button';
+import type IdsModuleNavButton from './ids-module-nav-button';
 import type IdsDropdown from '../ids-dropdown/ids-dropdown';
-import type IdsDropdownList from '../ids-dropdown/ids-dropdown-list';
+import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsIcon from '../ids-icon/ids-icon';
 
 const Base = IdsModuleNavTextDisplayMixin(
   IdsModuleNavDisplayModeMixin(
-    IdsElement
+    IdsEventsMixin(
+      IdsElement
+    )
   )
 );
 
@@ -31,7 +35,13 @@ export default class IdsModuleNavSwitcher extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.configureComponents();
+    this.#attachEventHandlers();
+
+    // Delay setup of Popup-related configuration in order to affect style
+    // @TODO make this async/await when possible
+    requestAnimationTimeout(() => {
+      this.configureComponents();
+    }, 2);
   }
 
   disconnectedCallback() {
@@ -57,10 +67,10 @@ export default class IdsModuleNavSwitcher extends Base {
 
   /**
    * @readonly
-   * @returns {IdsButton} slotted Module Button element
+   * @returns {IdsModuleNavButton} slotted Module Button element
    */
   get moduleButtonEl() {
-    return this.querySelector<IdsButton>('ids-button');
+    return this.querySelector<IdsModuleNavButton>('ids-module-nav-button');
   }
 
   /**
@@ -80,18 +90,80 @@ export default class IdsModuleNavSwitcher extends Base {
   }
 
   get roleDropdownListEl() {
-    return this.querySelector<IdsDropdownList>('ids-dropdown-list');
+    return this.roleDropdownEl?.dropdownList;
   }
 
   configureComponents() {
+    const COLOR_VARIANT_NAME = 'module-nav';
+
     if (this.moduleButtonEl) {
-      this.moduleButtonEl.colorVariant = 'module-nav';
+      this.moduleButtonEl.colorVariant = COLOR_VARIANT_NAME;
     }
 
     if (this.roleDropdownEl) {
-      this.roleDropdownEl.colorVariant = 'module-nav';
+      this.roleDropdownEl.colorVariant = COLOR_VARIANT_NAME;
+      this.roleDropdownEl.dropdownIcon = 'expand-all';
       this.roleDropdownEl.label = 'Role Selector';
       this.roleDropdownEl.labelState = 'collapsed';
+      this.roleDropdownEl.showListItemIcon = false;
+      this.roleDropdownEl.size = 'full';
+
+      this.roleDropdownEl.onColorVariantRefresh = () => {
+        const dropdownEl = this.roleDropdownEl;
+        if (!dropdownEl) return;
+
+        // Always hide the icon for Module Switcher Dropdown trigger elements
+        if (dropdownEl) {
+          dropdownEl.showListItemIcon = false;
+        }
+
+        if (dropdownEl.input) dropdownEl.input.colorVariant = COLOR_VARIANT_NAME;
+        if (dropdownEl.dropdownList) {
+          dropdownEl.dropdownList.colorVariant = COLOR_VARIANT_NAME;
+          if (dropdownEl.dropdownList.popup) {
+            dropdownEl.dropdownList.popup.type = COLOR_VARIANT_NAME;
+          }
+        }
+      };
+
+      const opts = [...this.roleDropdownEl.querySelectorAll<IdsListBoxOption>('ids-list-box-option')];
+      opts.forEach((opt) => opt.classList.add('module-nav'));
     }
+
+    if (this.roleDropdownListEl) {
+      this.roleDropdownListEl.showListItemIcon = true;
+
+      // Always reposition this popup correctly
+      const popup = this.roleDropdownListEl?.popup;
+      if (popup) {
+        popup.type = 'module-nav';
+        popup.align = 'bottom, left';
+        popup.arrow = 'none';
+
+        popup.onPlace = (popupRect: DOMRect) => {
+          popupRect.x -= 48;
+          popupRect.y += 8;
+          return popupRect;
+        };
+      }
+    }
+  }
+
+  #attachEventHandlers() {
+    // Whenever IdsDropdown opens, reconfigure some styles
+    this.onEvent('open', this.roleDropdownEl, () => {
+      this.configureComponents();
+    });
+
+    this.onEvent('selected', this.roleDropdownEl, (e: CustomEvent) => {
+      const selectedOption = (e.detail.selectedElem as IdsListBoxOption | null);
+      const icon = selectedOption?.querySelector<IdsIcon>('ids-icon');
+      const moduleButtonIconEl = this.moduleButtonIconEl;
+      if (moduleButtonIconEl && icon) moduleButtonIconEl.icon = icon.icon;
+    });
+  }
+
+  onDisplayModeChange(): void {
+    this.configureComponents();
   }
 }

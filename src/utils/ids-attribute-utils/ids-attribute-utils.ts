@@ -1,3 +1,4 @@
+import IdsElement from '../../core/ids-element';
 import { stringToBool } from '../ids-string-utils/ids-string-utils';
 
 export const setBooleanAttr = (name: string, el: IdsElement, value: boolean | string) => {

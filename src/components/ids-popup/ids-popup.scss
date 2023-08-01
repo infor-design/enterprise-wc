@@ -1,5 +1,6 @@
 /* Ids Popup Component */
 @use '../../themes/mixins/ids-core-mixins' as mixins;
+@use '../../components/ids-module-nav/ids-module-nav-common' as moduleNav;
 
 :host {
   display: block;

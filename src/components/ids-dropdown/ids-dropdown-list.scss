@@ -1,5 +1,5 @@
 /* Ids Dropdown Component */
-@import '../../themes/mixins/ids-validation-mixin';
+@use '../../themes/mixins/ids-validation-mixin';
 
 // Dropdown menu width
 :host ids-popup {
