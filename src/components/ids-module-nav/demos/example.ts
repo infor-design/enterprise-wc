@@ -48,7 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Setup events
 
   moduleNavDrawer.addEventListener('selected', (e: CustomEvent) => {
-    console.info(`Module Nav Item "${(e.target as any).textContent.trim()}" was selected.`);
+    const target = (e.target as HTMLElement);
+    if (target.tagName === 'IDS-DROPDOWN') {
+      console.info(`Role "${(e.detail.selectedElem as any).textContent.trim()}" was selected.`);
+    }
+    if (target.tagName === 'IDS-MODULE-NAV-ITEM') {
+      console.info(`Module Nav Item "${(e.target as any).textContent.trim()}" was selected.`);
+    }
   });
 
   appMenuTriggerBtn.addEventListener('click', () => {

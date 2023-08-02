@@ -246,7 +246,6 @@ export default class IdsModuleNavBar extends Base {
     // and stop them while in Module Nav Collapsed Mode
     this.onEvent('beforeexpand.accordion', this, (e) => {
       const canExpand = this.displayMode === 'expanded';
-      console.info('beforeexpand cancelled?', canExpand);
       return e.detail.response(canExpand);
     });
 

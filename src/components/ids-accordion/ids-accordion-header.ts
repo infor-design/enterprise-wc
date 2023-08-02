@@ -11,7 +11,6 @@ import styles from './ids-accordion-header.scss';
 import IdsText from '../ids-text/ids-text';
 
 import type IdsIcon from '../ids-icon/ids-icon';
-import type IdsAccordionPanel from './ids-accordion-panel';
 
 // Expander Types
 const EXPANDER_TYPES = ['caret', 'plus-minus'];

@@ -73,6 +73,7 @@
 }
 
 :host(.module-nav) {
+  color: var(--ids-module-nav-settings-menu-item-text-color);
   min-height: var(--ids-module-nav-item-height);
 }
 

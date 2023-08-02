@@ -65,7 +65,6 @@ const IdsHideFocusMixin = <T extends Constraints>(superclass: T) => class extend
       if (!this.#isClick && !this.#isFocused) {
         this.#addIsFocusedCssClass();
         this.#removeHideFocusCssClass();
-        console.info('hide focus remove');
         this.triggerEvent('hidefocusremove', this, e);
       }
       this.#isClick = false;
@@ -76,7 +75,6 @@ const IdsHideFocusMixin = <T extends Constraints>(superclass: T) => class extend
       this.#removeIsFocusedCssClass();
       this.#isFocused = false;
       this.triggerEvent('hidefocusadd', this, e);
-      console.info('hide focus add');
     });
     this.onEvent('mousedown.hide-focus', this, (e) => {
       this.#isClick = true;
