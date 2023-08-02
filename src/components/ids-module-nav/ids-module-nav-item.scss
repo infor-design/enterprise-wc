@@ -121,4 +121,13 @@
   .ids-accordion-expander-icon {
     width: var(--ids-module-nav-item-dropdown-icon-size);
   }
+
+  // ================================================
+  // Nested Alignment Rules
+
+  &.depth-2 {
+    &.parent-has-icon {
+      padding-inline-start: 51px;
+    }
+  }
 }
