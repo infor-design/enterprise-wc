@@ -40,6 +40,8 @@ const Base = IdsColorVariantMixin(
 @customElement('ids-accordion-header')
 @scss(styles)
 export default class IdsAccordionHeader extends Base {
+  depth = 0;
+
   constructor() {
     super();
   }
@@ -47,6 +49,7 @@ export default class IdsAccordionHeader extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#refreshIconDisplay(this.icon);
+    this.refreshDepth();
   }
 
   /**
@@ -400,5 +403,22 @@ export default class IdsAccordionHeader extends Base {
       this.removeAttribute(attributes.DISABLED);
       this.container?.classList.remove(attributes.DISABLED);
     }
+  }
+
+  refreshDepth() {
+    if (!this.container) return;
+
+    let depth = 0;
+    let currentEl: HTMLElement = this;
+
+    while (currentEl.parentElement && currentEl.parentElement.tagName === 'IDS-ACCORDION-PANEL') {
+      depth += 1;
+      currentEl = currentEl.parentElement;
+    }
+
+    if (this.depth) this.container.classList.remove(`depth-${this.depth}`);
+
+    this.depth = depth;
+    if (depth > 0) this.container.classList.add(`depth-${depth}`);
   }
 }

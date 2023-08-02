@@ -251,8 +251,6 @@ export default class IdsAccordion extends Base {
       }
 
       if (this.header) {
-        if (this.header) addDepthClass(this.header.containerEl, depth);
-
         // Pass language/locale down to child components
         // TODO - do we need this?
         // this.header.language = this.language?.name;
