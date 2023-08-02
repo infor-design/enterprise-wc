@@ -1,123 +1,72 @@
-# Ids Tag Component
+# Ids Box Component
 
 ## Description
 
-Tags are UI embellishments that are used to label, categorize and organize keywords surrounding
-some contextual element such as a form.
+Boxes are small UI that are a base layer to cards and widgets that. They can be used as a lightweight container on their own for visual information. If your looking for most specific card features you might expect. Do checkout the card component as its much more useful. If your looking for home page "cards" look at the widget component.
 
 ## Use Cases
 
-- Use when the content on your page is mapped into multiple categories and does not only fit into one hierarchical category.
-- Use when you want users to contribute data to your website and let them organize their content themselves.
+- Use when you want to show visual information in a box with border or without and center the content
 
 ## Dos and Don'ts
 
-- Overcrowd your content with tags, so people can see the items clearly.
-- Don't use too many tags in order to use them clearly to capture what its tagging.
+- Overcrowd your content with boxes, so people can see the items clearly.
 
 ## Terminology
 
-- **Tag**: A UI embellishments for classification
-- **Clickable/Dismissible**: Tag can be closed and removed with an X button
-- **Classification**:  How tags are labelled with colors and text
-- **Disabled**: Tag can be disabled so it cannot be followed or clicked.
+- **Box**: A configurable box with a border or not that centers contents
+- **Card**: An additional layer to boxes that adds functionality like states and selection
+- **Widget**: An additional layer to cards that adds functionality for home pages / portal
 
 ## Features (With Code Examples)
 
-A normal tag used as a web component.
+A box tag used as a web component with 16x padding by default.
 
 ```html
-<ids-tag>Normal Tag</ids-tag>
+<ids-box>
+  Bordered
+</ids-box>
 ```
 
-A normal tag used using just the css. This is limited to normal tags only.
+A square box with padding and unrounded corners
 
 ```html
-<span class="ids-tag">Normal Tag</span>
-```
-
-A colored tag is done by adding the `color` attribute and one of the following: secondary, error, success, caution or a hex color beginning with a # character.
-
-```html
-<ids-tag color="secondary">Secondary Tag</ids-tag>
-<ids-tag color="error">Error Tag</ids-tag>
-<ids-tag color="success">Success Tag</ids-tag>
-<ids-tag color="caution">Warning Tag</ids-tag>
-<ids-tag color="#EDE3FC">Custom Tag Color</ids-tag>
+<ids-box square padding-x="32" padding-y="32" border-radius="0">
+  Squared
+</ids-box>
 ```
 
 ## Class Hierarchy
 
-- IdsTag
+- IdsBox
     - IdsElement
-- Mixins
-  IdsEventsMixin
-  IdsKeyboardMixin
 
 ## Settings (Attributes)
 
-- `clickable` {boolean} Turns on the functionality to make the tag clickable like a link
-- `dismissible` {boolean} Turns on the functionality to add an (x) button to clear remove the tag
-- `color` {string} Sets the color to a internal color such as `azure` or may be a hex starting with a `#`
-
-## Events
-
-- `beforetagremove` Fire before the tag is removed allowing to veto the action. Detail contains the element `elem` and the callback for vetoing
-- `tagremove` Fires at the time the tag is removed. Detail contains the element `elem`
-- `aftertagremove` Fires after the tag is removed from the DOM. Detail contains the element `elem`
-
-## Methods
-
-- `dismiss` Removes the tag from the page.
+- `backgroundColor` {string} Set the background color (as a css variable)
+- `borderless` {boolean} Turns off the borders
+- `borderRadius` {number} Sets the border radius to something non-default
+- `shadowed` {number} Turn off the border but leave the shadow (for home pages)
+- `width` {string} Sets a width in pixels or percent
+- `height` {string} Sets a height in pixels or percent
+- `paddingX` {string} Set the x axis padding on the box contents (in pixels)
+- `paddingY` {string} Set the y axis padding on the box contents (in pixels)
 
 ## Themeable Parts
 
-- `checkbox` allows you to further style the checkbox input element
-- `slider` allows you to further style the sliding part of the switch
-- `label` allows you to further style the label text
+- `box` allows you to further style the box element
 
 ## States and Variations
 
 - Color
-- Linkable
-- Badge
-- Disabled
-- Closable
-
-## Keyboard Guidelines
-
-- <kbd>Tab/Shift+Tab</kbd>: If the tab is focusable this will focus or unfocus the tag.
-- <kbd>Backspace / Alt+Del</kbd>: If the tag is dismissible then this will remove the tag.
-- <kbd>Enter</kbd>: If the tag is clickable then this will follow the tag link.
+- Size
 
 ## Responsive Guidelines
 
-- Flows with padding and margin within the width and height of the parent container. Possibly scrolling as needed based on parent dimensions.
+- Flows with padding and margin within the width and height of the parent container.
 
 ## Converting from Previous Versions (Breaking Changes)
 
-**3.x to 4.x**
-
-- Tag was implemented in v4.0.0
-- Tag can be invoked with `$('#my-element').tag()`.
-
 **4.x to 5.x**
 
-- Tags are now custom elements `<ids-tag color="error>Text</ids-tag>`
-- If using events events are now plain JS events. `beforetagremove`, `tagremove`, `aftertagremove`
-- If using properties/settings these are now attributes: `dismissible`, `color`
-- Can now be imported as a single JS file and used with encapsulated styles
-
-## Designs
-
-[Design Specs 4.5](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)
-[Design Specs 4.6](https://www.figma.com/file/ok0LLOT9PP1J0kBkPMaZ5c/IDS_Component_File_v4.6-(Draft))
-
-## Accessibility Guidelines
-
-- 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.
-- 1.4.3 Contrast (Minimum) - The visual presentation of text and images of text has a contrast ratio of at least 4.5:1.   Ensure the color tags pass contrast.
-
-## Regional Considerations
-
-Labels should be localized in the current language. The close and link icons will flip to the alternate side in Right To Left mode. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai).
+- New component that is the base layer to cards in the previous context

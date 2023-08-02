@@ -12,9 +12,11 @@
   padding-block: var(--ids-stats-padding-block);
   padding-inline: var(--ids-stats-padding-inline);
   width: var(--ids-stats-width);
+  transition: var(--ids-motion-duration) var(--ids-motion-ease);
 
   .trend-label {
     font-weight: var(--ids-font-weight-semibold);
+    font-size: var(--ids-stats-trend-label-font-size);
     margin-top: -5px;
 
     &.is-positive {
@@ -28,5 +30,17 @@
     svg {
       padding-inline-start: 6px;
     }
+  }
+
+  .kpi-label {
+    color: var(--ids-stats-kpi-label-color);
+  }
+
+  ids-layout-flex {
+    width: 100%;
+  }
+
+  &.colspan {
+    --ids-stats-width: var(--ids-stats-width-double);
   }
 }

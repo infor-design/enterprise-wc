@@ -4,7 +4,9 @@ import { attributes } from '../../core/ids-attributes';
 
 import '../ids-box/ids-box';
 import '../ids-layout-flex/ids-layout-flex';
+import type IdsBox from '../ids-box/ids-box';
 import IdsElement from '../../core/ids-element';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import styles from './ids-stats.scss';
 
 /**
@@ -15,7 +17,7 @@ import styles from './ids-stats.scss';
  */
 @customElement('ids-stats')
 @scss(styles)
-export default class IdsStats extends IdsElement {
+export default class IdsStats extends IdsEventsMixin(IdsElement) {
   constructor() {
     super();
   }
@@ -25,6 +27,15 @@ export default class IdsStats extends IdsElement {
    */
   connectedCallback() {
     super.connectedCallback();
+    this.#attachEventHandlers();
+  }
+
+  /**
+   * Setup the Event Handling
+   * @private
+   */
+  #attachEventHandlers(): void {
+    this.onEvent('click.stats', this, () => this.toggleSelection());
   }
 
   /**
@@ -34,11 +45,14 @@ export default class IdsStats extends IdsElement {
   static get attributes(): Array<string> {
     return [
       ...super.attributes,
-      attributes.TREND_LABEL,
+      attributes.ACTIONABLE,
+      attributes.COL_SPAN,
       attributes.ICON,
-      attributes.STATUS_COLOR,
       attributes.KPI,
       attributes.MAIN_LABEL,
+      attributes.TREND_LABEL,
+      attributes.SELECTED,
+      attributes.STATUS_COLOR,
       attributes.SUBTITLE
     ];
   }
@@ -50,32 +64,86 @@ export default class IdsStats extends IdsElement {
   template(): string {
     const isPositive = (this.trendLabel || '').indexOf('+') > -1;
     const isNegative = (this.trendLabel || '').indexOf('-') > -1;
-    return `<ids-box><div class="ids-stats" part="stats">
-      <ids-layout-flex direction="column">
-        <ids-layout-flex justify-content="space-between" align-items="center">
+    const isBorderless = !!this.closest('ids-widget')?.hasAttribute('borderless');
+
+    return `<ids-box padding-x="0" padding-y="0"${isBorderless ? ` shadowed` : `borderless`}>
+      <div class="ids-stats" part="stats">
+        <ids-layout-flex direction="column">
+          <ids-layout-flex justify-content="space-between" align-items="center">
+            <ids-layout-flex-item>
+              <div class="trend-label${isPositive ? ' is-positive' : ''}${isNegative ? ' is-negative' : ''}">${this.trendLabel}${isPositive ? this.trendingUpIcon : ''}</div>
+            </ids-layout-flex-item>
+            <ids-layout-flex-item>
+              <div class="main-icon"><ids-icon icon="${this.icon}" status-color=${this.statusColor}></ids-icon></div>
+            </ids-layout-flex-item>
+          </ids-layout-flex>
           <ids-layout-flex-item>
-            <div class="trend-label${isPositive ? ' is-positive' : ''}${isNegative ? ' is-negative' : ''}">${this.trendLabel}${isPositive ? this.trendingUpIcon : ''}</div>
+            <ids-text font-size="40" class="kpi-label" font-weight="semi-bold" overflow="ellipsis">${this.kpi}</ids-text>
           </ids-layout-flex-item>
           <ids-layout-flex-item>
-            <div class="main-icon"><ids-icon icon="${this.icon}" status-color=${this.statusColor}></ids-icon></div>
+            <ids-text font-size="14" class="main-label" font-weight="semi-bold" overflow="ellipsis">${this.mainLabel}</ids-text>
+          </ids-layout-flex-item>
+          <ids-layout-flex-item>
+            <ids-text font-size="12" class="subtitle" overflow="ellipsis">${this.subtitle}</ids-text>
           </ids-layout-flex-item>
         </ids-layout-flex>
-        <ids-layout-flex-item>
-          <ids-text font-size="40" class="kpi" color="slate-100" font-weight="semi-bold" overflow="ellipsis">${this.kpi}</ids-text>
-        </ids-layout-flex-item>
-        <ids-layout-flex-item>
-          <ids-text font-size="14" class="main-label" font-weight="semi-bold" overflow="ellipsis">${this.mainLabel}</ids-text>
-        </ids-layout-flex-item>
-        <ids-layout-flex-item>
-          <ids-text font-size="12" class="subtitle" overflow="ellipsis">${this.subtitle}</ids-text>
-        </ids-layout-flex-item>
-      </ids-layout-flex>
-    </div></<ids-box>`;
+      </div>
+    </ids-box>`;
   }
 
   trendingUpIcon = `<svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M1.4 12L0 10.6L7.4 3.15L11.4 7.15L16.6 2H14V0H20V6H18V3.4L11.4 10L7.4 6L1.4 12Z" fill="#2AC371"/>
   </svg>`;
+
+  /**
+   * Toggle the current selection state
+   */
+  toggleSelection() {
+    if (!this.actionable) return;
+    this.selected = !stringToBool(this.selected);
+  }
+
+  /**
+   * Set the selected state on the stat, any other states will be toggled
+   * @param {boolean} value true if this stat should appear "selected"
+   */
+  set selected(value: boolean) {
+    const currentValue = stringToBool(this.selected);
+    const isValueTruthy = stringToBool(value);
+
+    if (currentValue !== isValueTruthy) {
+      this.closest('ids-widget')?.querySelectorAll('ids-stats').forEach((elem) => {
+        if (!elem.isSameNode(this)) (elem as IdsStats).selected = false;
+      });
+      if (isValueTruthy) {
+        this.setAttribute(attributes.SELECTED, `${value}`);
+        (this.container?.parentElement as IdsBox).selected = true;
+      } else {
+        this.removeAttribute(attributes.SELECTED);
+        (this.container?.parentElement as IdsBox).selected = false;
+      }
+    }
+  }
+
+  get selected() { return stringToBool(this.getAttribute(attributes.SELECTED)); }
+
+  /**
+   * If actionable one stat can be toggled trigging an event
+   * @param {boolean} value set to true for actionable
+   */
+  set actionable(value: boolean) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.ACTIONABLE, value.toString());
+      (this.container?.parentElement as IdsBox).actionable = true;
+    } else {
+      this.removeAttribute(attributes.ACTIONABLE);
+      (this.container?.parentElement as IdsBox).actionable = false;
+    }
+  }
+
+  get actionable(): boolean {
+    return stringToBool(this.getAttribute(attributes.ACTIONABLE));
+  }
 
   /**
    * Used to showcase price or amount trending up or down (Optional).
@@ -184,5 +252,27 @@ export default class IdsStats extends IdsElement {
 
   get subtitle(): string {
     return this.getAttribute(attributes.SUBTITLE) || '';
+  }
+
+  /**
+   * Set the col-span attribute
+   * @param {string | null} value If 2 will span 2 columns, nothing else is valid
+   */
+  set colSpan(value: string | null) {
+    if (value !== null) {
+      this.setAttribute(attributes.COL_SPAN, value);
+      this.container?.classList.add('colspan');
+    } else {
+      this.removeAttribute(attributes.COL_SPAN);
+      this.container?.classList.remove('colspan');
+    }
+  }
+
+  /**
+   * Get col-span attribute
+   * @returns {string | null} The number value for the columns to span in the grid
+   */
+  get colSpan(): string | null {
+    return this.getAttribute(attributes.COL_SPAN);
   }
 }

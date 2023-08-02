@@ -23,6 +23,10 @@
     }
   }
 
+  &.shadowed {
+    border: 1px solid transparent;
+  }
+
   &-checkbox {
     position: absolute;
     display: flex;
@@ -46,6 +50,50 @@
 
   .hidden {
     display: none;
+  }
+}
+
+// Header Area
+.ids-card-header {
+  align-items: center;
+  color: var(--ids-card-header-title-color);
+  display: flex;
+  padding-inline-start: var(--ids-card-header-padding-inline-start);
+  padding-inline-end: var(--ids-card-header-padding-inline-start);
+  height: var(--ids-card-header-height);
+}
+
+::slotted([slot='card-header']) {
+  position: relative;
+  width: 100%;
+}
+
+:host([no-header]) {
+  .ids-card-header {
+    display: none;
+  }
+}
+
+// Footer Area
+.ids-card-footer {
+  padding: 6px 0 0;
+  display: none;
+  bottom: 0;
+  border-top: 1px solid var(--ids-card-divider-color-border);
+  width: 100%;
+
+  &.no-padding {
+    padding: 0;
+  }
+}
+
+.has-footer {
+  .ids-card-content {
+    height: 260px;
+  }
+
+  .ids-card-footer {
+    display: block;
   }
 }
 
@@ -126,7 +174,7 @@
   }
 }
 
-// Handle the themes for Actionable
+// Handle Actionable
 :host([actionable]) .ids-card {
   contain: unset;
   height: auto;

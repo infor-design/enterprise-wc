@@ -23,12 +23,6 @@
   - link: single-selection.html
     type: Example
     description: Showing cards with single selection
-  - link: multiple-selection.html
-    type: Example
-    description: Showing cards with multiple selection
-  - link: toolbar.html
-    type: Example
-    description: Showing cards with secondary toolbar
   - link: info.html
     type: Example
     description: Showing cards with various info

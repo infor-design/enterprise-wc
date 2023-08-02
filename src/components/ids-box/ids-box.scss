@@ -9,6 +9,9 @@
   border: 1px solid var(--ids-box-color-border);
   border-radius: var(--ids-box-border-radius);
   box-shadow: var(--ids-box-shadow);
+  padding: var(--ids-box-padding);
+  box-sizing: border-box;
+  outline: var(--ids-box-outline);
 
   // Fonts
   font-family: var(--ids-font-family-default);
@@ -23,6 +26,28 @@
     background-color: transparent;
     border: none;
     box-shadow: none;
-    border-radius: 0;
   }
+
+  &.shadowed {
+    border: var(--ids-box-shadowed-color-border);
+  }
+
+  &.is-actionable {
+    cursor: var(--ids-cursor-pointer);
+
+    &:hover:not(.is-selected) {
+      outline: var(--ids-box-outline-hover);
+    }
+  }
+
+  &.is-selected {
+    outline: var(--ids-box-outline-selected);
+  }
+}
+
+::slotted(*) {
+  align-self: center;
+  color: var(--ids-box-color-text-default);
+  display: flex;
+  margin: 0 auto;
 }

@@ -51,6 +51,9 @@ export default class IdsWidget extends Base {
       this.scrollArea?.classList.add('has-subtitle');
       this.container?.querySelector<HTMLElement>('.ids-widget-header')?.classList.add('has-subtitle');
     }
+
+    const footer = this.querySelector('[slot="widget-footer"]');
+    this.container?.classList[footer ? 'add' : 'remove']('has-footer');
   }
 
   /**
@@ -187,7 +190,7 @@ export default class IdsWidget extends Base {
    * Set a specific height and center the widget
    * @returns {string} href for ids-hyperlink
    */
-  get height() { return this.getAttribute(attributes.HEIGHT); }
+  get height() { return this.getAttribute(attributes.HEIGHT) || ''; }
 
   /**
    * Set a height and center the widget

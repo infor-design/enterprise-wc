@@ -25,7 +25,7 @@
   --ids-color-text-warning: var(--ids-color-warning-50);
 
   // Animations
-  --ids-motion-duration: 200ms;
+  --ids-motion-duration: 250ms;
   --ids-motion-ease: cubic-bezier(0.17, 0.04, 0.03, 0.94);
   --ids-motion-linear: cubic-bezier(0.4, 0, 0.6, 1);
 
@@ -267,12 +267,17 @@
 
   // Box
   --ids-box-color-background: var(--ids-card-color-background);
-  --ids-box-color-border: var(--ids-card-color-border);
+  --ids-box-color-border: var(--ids-color-neutral-30);
+  --ids-box-shadowed-color-border: transparent;
   --ids-box-border-radius: var(--ids-card-border-radius);
   --ids-box-shadow: var(--ids-card-shadow);
   --ids-box-font-family: var(--ids-font-family-default);
   --ids-box-font-size: var( --ids-font-size-default);
   --ids-box-color-text-default: var(--ids-card-color-text-default);
+  --ids-box-padding: 16px;
+  --ids-box-outline: 1px solid transparent;
+  --ids-box-outline-selected: 2px solid var(--ids-color-primary-60);
+  --ids-box-outline-hover: 1px solid var(--ids-color-neutral-30);
 
   // Button (Primary)
   --ids-button-primary-color-border-default: var(--ids-color-primary);
@@ -328,11 +333,11 @@
   // Button (Module)
   --ids-button-module-border-radius: 10px;
   --ids-button-module-color-background-hover: rgba(0 0 0 / 0.1);
-  --ids-button-module-color-text-default: var(--ids-color-slate-90);
-  --ids-button-module-color-text-hover: var(--ids-color-slate-100);
+  --ids-button-module-color-text-default: var(--ids-color-neutral-90);
+  --ids-button-module-color-text-hover: var(--ids-color-neutral-100);
 
   // Button (Module)
-  --ids-button-system-color-text-hover: var(--ids-color-slate-110);
+  --ids-button-system-color-text-hover: var(--ids-color-neutral-110);
 
   // Breadcrumb
   --ids-breadcrumb-color-text-default: var(--ids-color-text-subtle);
@@ -370,14 +375,17 @@
   --ids-calendar-event-color-text: var(--ids-color-neutral-100);
 
   // Card
+  --ids-card-header-title-color: var(--ids-color-neutral-100);
   --ids-card-toolbar-padding: var(--ids-space-60);
   --ids-card-border-radius: var(--ids-border-radius-03);
   --ids-card-margin-bottom: var(--ids-space-60);
   --ids-card-height: 360px;
   --ids-card-content-height: 310px;
-  --ids-card-header-padding: 12px 16px;
+  --ids-card-header-padding-inline-start: 16px;
+  --ids-card-header-padding-inline-end: 12px;
+  --ids-card-header-height: 48px;
   --ids-card-color-background: var(--ids-color-neutral-00);
-  --ids-card-color-border: transparent;
+  --ids-card-color-border: var(--ids-color-neutral-30);
   --ids-card-divider-color-border: var(--ids-color-neutral-20);
   --ids-card-shadow: 0 0 4px rgba(0 0 0 / 0.15);
   --ids-card-color-background-selected: var(--ids-color-primary-10);
@@ -653,8 +661,8 @@
   --ids-hierarchy-item-selected-leaf-shadow: 0 0 0 5px rgba(54 138 192 / 0.3);
 
   // Headers
-  --ids-header-color-border-bottom: var(--ids-color-slate-30);
-  --ids-header-color-background: var(--ids-color-slate-00);
+  --ids-header-color-border-bottom: var(--ids-color-neutral-30);
+  --ids-header-color-background: var(--ids-color-neutral-00);
   --ids-header-color-text: var(--ids-color-text-default);
   --ids-header-padding: 8px;
   --ids-header-gradient-opacity-none: rgb(0 114 237 / 1);
@@ -662,7 +670,7 @@
 
   // Header (Alternate Variant)
   --ids-header-alternate-color-background: var(--ids-color-primary);
-  --ids-header-alternate-color-text: var(--ids-color-slate-00);
+  --ids-header-alternate-color-text: var(--ids-color-neutral-00);
 
   // Hyperlinks
   --ids-hyperlink-border-radius: var(--ids-border-radius-02);
@@ -693,8 +701,8 @@
   --ids-icon-status-color-turquoise-color-background: var(--ids-color-turquoise-10);
   --ids-icon-status-color-amethyst-color-text: var(--ids-color-amethyst-60);
   --ids-icon-status-color-amethyst-color-background: var(--ids-color-amethyst-10);
-  --ids-icon-status-color-slate-color-text: var(--ids-color-slate-60);
-  --ids-icon-status-color-slate-color-background: var(--ids-color-slate-10);
+  --ids-icon-status-color-neutral-color-text: var(--ids-color-neutral-60);
+  --ids-icon-status-color-neutral-color-background: var(--ids-color-neutral-10);
   --ids-icon-status-color-error-color-text: var(--ids-color-error-default);
   --ids-icon-status-color-error-color-background: var(--ids-color-error-10);
   --ids-icon-status-color-warning-color-text: var(--ids-color-warning-default);
@@ -774,7 +782,7 @@
   --ids-input-color-text-success-disabled: var(--ids-color-success-30);
 
   // Layout Grid
-  --ids-layout-grid-color-background: var(--ids-color-neutral-10);
+  --ids-layout-grid-color-background: var(--ids-color-neutral-20);
   --ids-layout-grid-color-text: var(--ids-color-text);
 
   // List Builder
@@ -1106,14 +1114,17 @@
   --ids-splitter-handle-width: 6px;
   --ids-splitter-handle-color-background-hover: var(--ids-color-azure-60);
 
-  // Step Chart
+  // Stats
   --ids-stats-height: 136px;
   --ids-stats-width: 155px;
+  --ids-stats-width-double: 323px;
   --ids-stats-padding-inline: 16px 12px;
   --ids-stats-padding-block: 8px;
   --ids-stats-positive-color-text: var(--ids-color-emerald-70);
   --ids-stats-negative-color-text: var(--ids-color-error-default);
   --ids-stats-color-text: var(--ids-color-text-label);
+  --ids-stats-trend-label-font-size: var(--ids-font-size-30);
+  --ids-stats-kpi-label-color: var(--ids-color-neutral-100);
 
   // Step Chart
   --ids-step-chart-margin: var(--ids-space-60);
@@ -1193,27 +1204,27 @@
   // Tab
   --ids-tab-content-color-text: var(--ids-color-text);
   --ids-tab-color-text-default: var(--ids-color-text-default);
-  --ids-tab-divider-color-background: var(--ids-color-slate-30);
-  --ids-tab-color-background-hover: var(--ids-color-slate-20);
-  --ids-tab-color-text-hover: var(--ids-color-slate-80);
-  --ids-tab-color-border-focus: var(--ids-color-slate-80);
-  --ids-tab-color-border-bottom: var(--ids-color-slate-30);
-  --ids-tab-color-text-disabled: var(--ids-color-slate-30);
-  --ids-tab-color-text-selected: var(--ids-color-slate-100);
+  --ids-tab-divider-color-background: var(--ids-color-neutral-30);
+  --ids-tab-color-background-hover: var(--ids-color-neutral-20);
+  --ids-tab-color-text-hover: var(--ids-color-neutral-80);
+  --ids-tab-color-border-focus: var(--ids-color-neutral-80);
+  --ids-tab-color-border-bottom: var(--ids-color-neutral-30);
+  --ids-tab-color-text-disabled: var(--ids-color-neutral-30);
+  --ids-tab-color-text-selected: var(--ids-color-neutral-100);
 
   // Tab (Header Variant)
-  --ids-tab-header-color-background-hover: var(--ids-color-slate-20);
+  --ids-tab-header-color-background-hover: var(--ids-color-neutral-20);
 
   // Tab (Vertical Orientation)
-  --ids-tab-vertical-color-background-default: var(--ids-color-slate-20);
+  --ids-tab-vertical-color-background-default: var(--ids-color-neutral-20);
   --ids-tab-vertical-color-text-default: var(--ids-color-text-default);
-  --ids-tab-vertical-color-background-hover: var(--ids-color-slate-30);
+  --ids-tab-vertical-color-background-hover: var(--ids-color-neutral-30);
   --ids-tab-vertical-color-text-hover: var(--ids-color-neutral-80);
-  --ids-tab-vertical-color-background-selected: var(--ids-color-slate-00);
+  --ids-tab-vertical-color-background-selected: var(--ids-color-neutral-00);
   --ids-tab-vertical-color-border-selected: var(--ids-color-neutral-00);
-  --ids-tab-vertical-color-text-selected: var(--ids-color-slate-100);
-  --ids-tab-vertical-color-background-disabled: var(--ids-color-slate-20);
-  --ids-tab-vertical-color-text-disabled: var(--ids-color-slate-50);
+  --ids-tab-vertical-color-text-selected: var(--ids-color-neutral-100);
+  --ids-tab-vertical-color-background-disabled: var(--ids-color-neutral-20);
+  --ids-tab-vertical-color-text-disabled: var(--ids-color-neutral-50);
 
   // Tab (Alternate Variant)
   --ids-tab-alternate-color-text-default: rgba(255 255 255 / 0.7);
@@ -1225,15 +1236,15 @@
   --ids-tab-alternate-horizontal-color-background: var(--ids-color-neutral-00);
 
   // Tab (Module Variant)
-  --ids-tab-module-color-background-default: var(--ids-color-slate-20);
-  --ids-tab-module-color-border-right: var(--ids-color-slate-50);
+  --ids-tab-module-color-background-default: var(--ids-color-neutral-20);
+  --ids-tab-module-color-border-right: var(--ids-color-neutral-50);
   --ids-tab-module-color-text-default: var(--ids-color-text-default);
-  --ids-tab-module-color-background-hover: var(--ids-color-slate-30);
-  --ids-tab-module-color-text-hover: var(--ids-color-slate-80);
-  --ids-tab-module-color-background-selected: var(--ids-color-slate-00);
-  --ids-tab-module-color-text-selected: var(--ids-color-slate-100);
-  --ids-tab-module-color-background-disabled: var(--ids-color-slate-20);
-  --ids-tab-module-color-text-disabled: var(--ids-color-slate-50);
+  --ids-tab-module-color-background-hover: var(--ids-color-neutral-30);
+  --ids-tab-module-color-text-hover: var(--ids-color-neutral-80);
+  --ids-tab-module-color-background-selected: var(--ids-color-neutral-00);
+  --ids-tab-module-color-text-selected: var(--ids-color-neutral-100);
+  --ids-tab-module-color-background-disabled: var(--ids-color-neutral-20);
+  --ids-tab-module-color-text-disabled: var(--ids-color-neutral-50);
 
   // Tag
   --ids-tag-color-background-default: var(--ids-input-color-background-readonly);
@@ -1389,7 +1400,7 @@
 
   // Widget
   --ids-widget-color-background: var(--ids-card-color-background);
-  --ids-widget-color-border: var(--ids-card-color-border);
+  --ids-widget-color-border: var(--ids-box-shadowed-color-border);
   --ids-widget-border-radius: var(--ids-card-border-radius);
   --ids-widget-shadow: var(--ids-card-shadow);
   --ids-widget-margin-bottom: var(--ids-card-margin-bottom);
@@ -1402,10 +1413,10 @@
   --ids-widget-header-subtitle-height: 60px;
   --ids-widget-search-subtitle-content-height: 301px;
   --ids-widget-divider-color-border: var(--ids-card-divider-color-border);
-  --ids-widget-header-title-color: var(--ids-color-slate-100);
-  --ids-widget-color-border-hover: var(--ids-color-slate-30);
+  --ids-widget-header-title-color: var(--ids-color-neutral-100);
+  --ids-widget-color-border-hover: var(--ids-color-neutral-30);
   --ids-widget-color-shadow-hover: 0 2px 4px 1px rgba(0 0 0 / 0.15);
-  --ids-widget-search-field-color-background: var(--ids-color-slate-10);
+  --ids-widget-search-field-color-background: var(--ids-color-neutral-10);
   --ids-widget-search-field-border-radius: 4px;
 
   // Wizard

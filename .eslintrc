@@ -154,7 +154,9 @@
       "no-bitwise": 0,
       // Allows non-null assertions using the ! postfix operator.
       "no-non-null-assertion": "off",
-      "@typescript-eslint/no-non-null-assertion": ["off"]
+      "@typescript-eslint/no-non-null-assertion": ["off"],
+      // used in some componnets to re set the property
+      "no-self-assign": "off"
     }
   }]
 }
