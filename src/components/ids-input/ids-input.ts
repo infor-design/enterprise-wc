@@ -188,6 +188,10 @@ export default class IdsInput extends Base {
     }
 
     this.#setReadonlyBackground();
+
+    if (this.getAttribute('maxlength')) {
+      this.maxlength = this.getAttribute('maxlength');
+    }
   }
 
   /**
@@ -942,11 +946,11 @@ export default class IdsInput extends Base {
 
   /**
    * Sets the max width when typing
-   * @param {number | string} n The max length to use
+   * @param {number | string | null} n The max length to use
    */
-  set maxlength(n: number | string) {
+  set maxlength(n: number | string | null) {
     if (n) {
-      this.setAttribute(attributes.MAXLENGTH, '');
+      this.setAttribute(attributes.MAXLENGTH, n.toString());
       this.input?.setAttribute(attributes.MAXLENGTH, n.toString());
       return;
     }
