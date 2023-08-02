@@ -17,6 +17,12 @@ import type IdsAccordionHeader from './ids-accordion-header';
 import type IdsAccordionPanel from './ids-accordion-panel';
 import type IdsModuleNavItem from '../ids-module-nav/ids-module-nav-item';
 
+type IdsAccordionPart = IdsAccordion |
+IdsAccordionPanel |
+IdsAccordionHeader |
+IdsAccordionSection |
+IdsModuleNavItem;
+
 const Base = IdsColorVariantMixin(
   IdsKeyboardMixin(
     IdsLocaleMixin(
@@ -210,7 +216,7 @@ export default class IdsAccordion extends Base {
    * @param {boolean} doRTL if true, modifies RTL styles
    */
   #assignDepthDependentStyles(
-    element: any = this,
+    element: IdsAccordionPart = this,
     depth = 0,
     doColorVariant = true,
     doExpanderType = true,
@@ -225,20 +231,22 @@ export default class IdsAccordion extends Base {
     // loop this method through an array of sections instead
     const hasSection = element.querySelector(':scope > ids-accordion-section');
     if (hasSection) {
-      [...element.querySelectorAll(':scope > ids-accordion-section')].forEach((section) => {
+      [...element.querySelectorAll<IdsAccordionSection>(':scope > ids-accordion-section')].forEach((section: IdsAccordionSection) => {
         this.#assignDepthDependentStyles(section, depth, doColorVariant, doExpanderType, doDisplayIconType, doRTL);
       });
       return;
     }
 
-    this.header = element.querySelector(':scope > ids-accordion-header, :scope > ids-module-nav-item');
+    this.header = element.querySelector<IdsAccordionHeader | IdsModuleNavItem>(':scope > ids-accordion-header, :scope > ids-module-nav-item');
     const hasChildPanels = element.children.length > 1 || false;
     const subLevelDepth = depth > 1;
 
     if (depth > 0) {
       // Assign Nested Padding CSS Classes
-      element.nested = subLevelDepth;
-      addDepthClass(element.container, depth);
+      if (element.tagName === 'IDS-ACCORDION-PANEL') {
+        (element as IdsAccordionPanel).nested = subLevelDepth;
+      }
+      if (element.container) addDepthClass(element.container, depth);
 
       // Assign Color Variant
       if (doColorVariant && this.colorVariant) {
@@ -267,7 +275,7 @@ export default class IdsAccordion extends Base {
         // adjacent to panes containing an icon in their header)
         if (doDisplayIconType) {
           const displayIconType = this.header.icon;
-          if (typeof displayIconType === 'string' && displayIconType.length && !element.contentAlignment) {
+          if (typeof displayIconType === 'string' && displayIconType.length && !(element as IdsAccordionPanel).contentAlignment) {
             this.#markAdjacentPanesForIcons(element, true);
           }
         }
@@ -284,7 +292,7 @@ export default class IdsAccordion extends Base {
         continue;
       }
       this.#assignDepthDependentStyles(
-        childEl,
+        (childEl as IdsAccordionPanel),
         depth + 1,
         doColorVariant,
         doExpanderType,

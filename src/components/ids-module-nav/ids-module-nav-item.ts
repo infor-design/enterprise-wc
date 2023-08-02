@@ -46,7 +46,9 @@ export default class IdsModuleNavItem extends Base {
    * @returns {Array} The attributes in an array
    */
   static get attributes(): Array<any> {
-    return [...super.attributes];
+    return [
+      ...super.attributes
+    ];
   }
 
   /**
@@ -71,6 +73,13 @@ export default class IdsModuleNavItem extends Base {
         ${this.templateExpanderIcon()}
       </div>
     `;
+  }
+
+  /**
+   * @returns {HTMLElement | null} Live reference to the container element
+   */
+  get containerEl(): HTMLElement | null {
+    return this.shadowRoot?.querySelector(`.${this.name}`) || null;
   }
 
   onDisplayModeChange() {

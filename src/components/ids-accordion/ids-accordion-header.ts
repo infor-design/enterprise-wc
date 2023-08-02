@@ -104,10 +104,14 @@ export default class IdsAccordionHeader extends Base {
   }
 
   /**
-   * @returns {HTMLElement | null} Live reference to the container element
+   * @returns {boolean} true if this header component's panel is nested
    */
-  get containerEl(): HTMLElement | null {
-    return this.shadowRoot?.querySelector(`.${this.name}`) || null;
+  get parentHasIcon() {
+    const parent = this.panel.parentElement;
+    if (parent.tagName === 'IDS-ACCORDION-PANEL') {
+      if (parent.header && parent.header.icon) return true;
+    }
+    return false;
   }
 
   /**
@@ -231,6 +235,9 @@ export default class IdsAccordionHeader extends Base {
     } else {
       this.container?.classList.remove('has-icon');
     }
+
+    const hasParentIcon = this.parentHasIcon;
+    this.container?.classList[hasParentIcon ? 'add' : 'remove']('parent-has-icon');
   }
 
   /**
