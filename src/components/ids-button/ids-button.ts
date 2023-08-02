@@ -230,10 +230,10 @@ export default class IdsButton extends Base {
    */
   set contentAlign(val: IdsButtonContentAlignment | null) {
     if (!val || BUTTON_CONTENT_ALIGNMENTS.indexOf(val) <= 0) {
-      this.removeAttribute(attributes.CONTENT_ALIGNMENT);
+      this.removeAttribute(attributes.CONTENT_ALIGN);
       this.state.contentAlign = BUTTON_CONTENT_ALIGNMENTS[0];
     } else {
-      this.setAttribute(attributes.CONTENT_ALIGNMENT, val);
+      this.setAttribute(attributes.CONTENT_ALIGN, val);
       if (this.state.contentAlign !== val) this.state.contentAlign = val;
     }
     this.setContentAlignClass(val);
