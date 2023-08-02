@@ -23,24 +23,18 @@ import '../../ids-toolbar/ids-toolbar-section';
 
 import type { IdsModuleNavDisplayMode } from '../ids-module-nav-common';
 
-let menuState: IdsModuleNavDisplayMode = 'collapsed';
+let menuState: IdsModuleNavDisplayMode = 'expanded';
 
 document.addEventListener('DOMContentLoaded', () => {
   const moduleNav: any = document.querySelector('ids-module-nav');
   const moduleNavDrawer: any = document.querySelector('ids-module-nav-bar');
-  const moduleNavAccordion: any = document.querySelector('ids-accordion');
   const appMenuTriggerBtn: any = document.querySelector('#module-nav-trigger');
-  const displayModeDropdown: any = document.querySelector('#dd-display-mode-setting');
-  const accordionOnePaneCheck: any = document.querySelector('#one-accordion-pane');
-  const filterableCheck: any = document.querySelector('#is-filterable');
-  const pinSectionsCheck: any = document.querySelector('#pin-sections');
 
   moduleNavDrawer.target = appMenuTriggerBtn;
 
   const updateDisplayMode = (val: IdsModuleNavDisplayMode) => {
     menuState = val === 'collapsed' ? 'expanded' : 'collapsed';
     moduleNav.displayMode = val;
-    if (displayModeDropdown.value !== val) displayModeDropdown.value = val;
     console.info('Module Nav Display Mode Updated:', val || 'hidden');
   };
 
@@ -53,23 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   appMenuTriggerBtn.addEventListener('click', () => {
     updateDisplayMode(menuState);
-  });
-
-  accordionOnePaneCheck.addEventListener('change', (e: CustomEvent) => {
-    moduleNavAccordion.allowOnePane = e.detail.checked;
-  });
-
-  displayModeDropdown.addEventListener('change', (e: CustomEvent) => {
-    const selectedValue = e.detail.value;
-    updateDisplayMode(selectedValue);
-  });
-
-  filterableCheck.addEventListener('change', (e: CustomEvent) => {
-    moduleNavDrawer.filterable = e.detail.checked;
-  });
-
-  pinSectionsCheck.addEventListener('change', (e: CustomEvent) => {
-    moduleNavDrawer.pinned = e.detail.checked;
   });
 
   // =============================

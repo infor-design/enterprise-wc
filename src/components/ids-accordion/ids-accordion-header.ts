@@ -8,8 +8,10 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-accordion-header.scss';
-import type IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
+
+import type IdsIcon from '../ids-icon/ids-icon';
+import type IdsAccordionPanel from './ids-accordion-panel';
 
 // Expander Types
 const EXPANDER_TYPES = ['caret', 'plus-minus'];
@@ -107,10 +109,17 @@ export default class IdsAccordionHeader extends Base {
    * @returns {boolean} true if this header component's panel is nested
    */
   get parentHasIcon() {
-    const parent = this.panel.parentElement;
-    if (parent.tagName === 'IDS-ACCORDION-PANEL') {
-      if (parent.header && parent.header.icon) return true;
+    let panel = this.panel;
+    let parent = panel.parentElement;
+
+    while (parent && parent.tagName === 'IDS-ACCORDION-PANEL') {
+      if (parent.header && (parent.header.icon || parent.container.classList.contains('parent-has-icon'))) {
+        return true;
+      }
+      panel = parent;
+      parent = panel.parentElement;
     }
+
     return false;
   }
 

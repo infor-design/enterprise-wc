@@ -46,7 +46,7 @@
 
   &.nested {
     .ids-accordion-pane-content {
-      padding-inline-start: 16px;
+      padding-inline-start: 0;
       padding-inline-end: 0;
     }
   }
@@ -116,7 +116,6 @@
   }
 
   &.color-variant-sub-module-nav {
-    @include accordion-pane-standard-size();
     @include accordion-panel-sub-module-nav-rules();
   }
 

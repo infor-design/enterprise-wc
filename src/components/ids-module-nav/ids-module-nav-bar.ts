@@ -18,7 +18,6 @@ import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import styles from './ids-module-nav-bar.scss';
 
 import type IdsAccordion from '../ids-accordion/ids-accordion';
-import type IdsAccordionSection from '../ids-accordion/ids-accordion-section';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
 import type IdsModuleNavContent from './ids-module-nav-content';
@@ -44,12 +43,15 @@ const Base = IdsModuleNavDisplayModeMixin(
 @customElement('ids-module-nav-bar')
 @scss(styles)
 export default class IdsModuleNavBar extends Base {
+  accordionPaneSetting: boolean;
+
   globalKeydownListener?: (e: KeyboardEvent) => void;
 
   ro?: ResizeObserver;
 
   constructor() {
     super();
+    this.accordionPaneSetting = false;
   }
 
   connectedCallback() {
@@ -285,10 +287,6 @@ export default class IdsModuleNavBar extends Base {
     }
   }
 
-  #getTargetTextDisplay() {
-    return this.displayMode !== 'expanded' ? 'tooltip' : 'default';
-  }
-
   /**
    * Attaches a slotted IdsAccordion component to the Module Nav
    */
@@ -296,7 +294,7 @@ export default class IdsModuleNavBar extends Base {
     const accordion = this.accordion;
     if (accordion) {
       accordion.colorVariant = 'module-nav';
-      // accordion.textDisplay = this.#getTargetTextDisplay();
+      this.accordionPaneSetting = accordion.allowOnePane;
     }
   }
 
@@ -366,6 +364,8 @@ export default class IdsModuleNavBar extends Base {
 
     // Always remove previous highlight before applying a new one
     this.clearFilterAccordion();
+    this.accordionPaneSetting = !!this.accordion.allowOnePane;
+    this.accordion.allowOnePane = false;
 
     // Check each accordion panel for a match.
     // Accordion panels are shown/hidden as needed
@@ -420,6 +420,7 @@ export default class IdsModuleNavBar extends Base {
     // NOTE: Clear text highlighter here (See #494)
     this.#clearChildFilter();
     this.isFiltered = false;
+    if (this.accordion) this.accordion.allowOnePane = this.accordionPaneSetting;
   }
 
   /**

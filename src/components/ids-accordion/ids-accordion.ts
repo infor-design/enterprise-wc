@@ -129,10 +129,10 @@ export default class IdsAccordion extends Base {
 
   /**
    * @readonly
-   * @returns {Array<IdsAccordionHeader>} all accordion headers in a flattened array
+   * @returns {Array<IdsAccordionHeader | IdsModuleNavItem>} all accordion headers in a flattened array
    */
   get headers(): Array<IdsAccordionHeader> {
-    return [...this.querySelectorAll<IdsAccordionHeader>('ids-accordion-header, ids-module-nav-item')];
+    return [...this.querySelectorAll<IdsAccordionHeader | IdsModuleNavItem>('ids-accordion-header, ids-module-nav-item')];
   }
 
   /**

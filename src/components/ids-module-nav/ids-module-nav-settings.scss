@@ -10,6 +10,7 @@
 }
 
 ::slotted(ids-icon) {
+  margin-inline-start: 0;
   margin-inline-end: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
 }
 

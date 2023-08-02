@@ -8,3 +8,9 @@
   - link: example.html
     type: Main Example
     description: Shows a basic Module Nav component setup
+  - link: nesting-no-icons.html
+    type: Example
+    description: Shows Module Nav accordion with no icons, nested
+  - link: nesting-with-icons.html
+    type: Example
+    description: Shows Module Nav accordion with icons, nested
