@@ -172,6 +172,11 @@ Using the text status.
 - `label` {boolean} Sets the css of the text to the according theme
 - `text-align` {string} Sets the text alignments `start`, `end`, `center`, `justify`
 - `status` {string} Sets the text status `base`, `error`, `info`, `success`, `warning`
+- `status` {string} Sets the text status `base`, `error`, `info`, `success`, `warning`
+- `max-width` {number} Sets the max width of the text before ellipsis is shown, used for the `overflow` and `tooltip` options
+- `overflow` {string} If set to `ellipsis` the text overflow style will be set to overflow. Can be used with the `tooltip` option.
+- `line-clamp` {number} Sets the number of visual lines before cutting off the text. Useful but not limited to the `overflow` and `tooltip` options
+- `tooltip` {boolean} Can be set to true, if the text is cut off to ellipsis a tooltip will show the contents
 
 ## Themeable Parts
 

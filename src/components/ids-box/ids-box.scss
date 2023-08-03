@@ -4,7 +4,7 @@
 .ids-box {
   @include mixins.antialiased();
 
-  // Colors/Borders
+  // Colors/Borders/Size
   background-color: var(--ids-box-color-background);
   border: 1px solid var(--ids-box-color-border);
   border-radius: var(--ids-box-border-radius);
@@ -12,6 +12,8 @@
   padding: var(--ids-box-padding);
   box-sizing: border-box;
   outline: var(--ids-box-outline);
+  height: var(--ids-box-height);
+  width: var(--ids-box-width);
 
   // Fonts
   font-family: var(--ids-font-family-default);
@@ -21,6 +23,7 @@
   // Layout
   display: inline-flex;
   contain: content;
+  transition: var(--ids-motion-duration) var(--ids-motion-ease);
 
   &.borderless {
     background-color: transparent;

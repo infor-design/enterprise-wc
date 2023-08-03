@@ -74,6 +74,12 @@
   }
 }
 
+:host([shadowed]) {
+  .ids-card {
+    border: 1px solid var(--ids-box-shadowed-color-border);
+  }
+}
+
 // Footer Area
 .ids-card-footer {
   padding: 6px 0 0;
@@ -178,6 +184,16 @@
 :host([actionable]) .ids-card {
   contain: unset;
   height: auto;
+  transition: var(--ids-motion-duration) var(--ids-motion-ease);
+
+  &:hover {
+    border: 1px solid var(--ids-card-color-border-hover);
+  }
+
+  &:not(.hide-focus):focus-within {
+    border: 1px solid var(--ids-card-color-border-focus);
+    box-shadow: var(--ids-shadow-30);
+  }
 
   ::slotted([slot='card-content']) {
     pointer-events: none;
@@ -193,11 +209,13 @@
   ids-hyperlink::part(link),
   ids-button::part(button) {
     align-items: center;
+    border: 1px solid transparent;
+    background-color: transparent;
     height: 50px;
 
-    &:focus {
-      border: 1px solid var(--ids-card-color-border);
-      box-shadow: var(--ids-shadow-30);
+    &:hover {
+      background-color: transparent;
+      color: var(--ids-button-tertiary-color-text-default);
     }
   }
 }

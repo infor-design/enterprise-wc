@@ -45,6 +45,14 @@
     white-space: nowrap;
   }
 
+  &.has-line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
+  }
+
   &.bold {
     font-weight: var(--ids-font-weight-bold);
   }

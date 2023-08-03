@@ -241,6 +241,7 @@ export const attributes = {
   LAZY_LOAD: 'lazy-load',
   LEGEND_PLACEMENT: 'legend-placement',
   LINEAR: 'linear',
+  LINE_CLAMP: 'line-clamp',
   LINK: 'link',
   LINK_TEXT: 'link-text',
   LIST: 'list',

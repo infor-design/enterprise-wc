@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsSelectionMixin from '../../mixins/ids-selection-mixin/ids-selection-mixin';
 import IdsBox from '../ids-box/ids-box';
@@ -12,10 +13,12 @@ import styles from './ids-card.scss';
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
-const Base = IdsRippleMixin(
-  IdsEventsMixin(
-    IdsSelectionMixin(
-      IdsBox
+const Base = IdsHideFocusMixin(
+  IdsRippleMixin(
+    IdsEventsMixin(
+      IdsSelectionMixin(
+        IdsBox
+      )
     )
   )
 );
@@ -26,6 +29,7 @@ const Base = IdsRippleMixin(
  * @inherits IdsBox
  * @mixes IdsEventsMixin
  * @mixes IdsSelectionMixin
+ * @mixes IdsHideFocusMixin
  * @mixes IdsRippleMixin
  * @part card - the card element
  * @part header - the header element

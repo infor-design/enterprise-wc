@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+    <ids-container role="main" padding="8" hidden>
+      <ids-theme-switcher mode="light"></ids-theme-switcher>
+      <ids-layout-grid auto-fit="true" padding="md">
+        <ids-text font-size="12" type="h1">Widget (Links)</ids-text>
+      </ids-layout-grid>
+
+      <ids-home-page>
+        <ids-widget slot="widget" borderless padding-x="8">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">4x4</ids-text>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-layout-grid cols="2" padding-x="sm" gap="sm">
+              <ids-layout-grid-cell>
+                <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" color="unset">
+                  <ids-box shadowed>
+                    <ids-layout-flex direction="column" justify-content="center">
+                      <ids-layout-flex-item>
+                        <ids-icon icon="stacked"></ids-icon>
+                      </ids-layout-flex-item>
+                      <ids-layout-flex-item>
+                        <ids-text font-size="16" font-weight="semi-bold">Purchase Order Intake Workbench</ids-text>
+                      </ids-layout-flex-item>
+                    </ids-layout-flex>
+                  </ids-box>
+                </ids-hyperlink>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" color="unset">
+                  <ids-box shadowed>
+                    <ids-layout-flex direction="column" justify-content="center">
+                      <ids-layout-flex-item>
+                        <ids-icon icon="push-cart"></ids-icon>
+                      </ids-layout-flex-item>
+                      <ids-layout-flex-item>
+                        <ids-text font-size="16" font-weight="semi-bold">Purchase Orders Fulfillment</ids-text>
+                      </ids-layout-flex-item>
+                    </ids-layout-flex>
+                  </ids-box>
+                </ids-hyperlink>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" color="unset">
+                  <ids-box shadowed>
+                    <ids-layout-flex direction="column" justify-content="center">
+                      <ids-layout-flex-item>
+                        <ids-icon icon="load"></ids-icon>
+                      </ids-layout-flex-item>
+                      <ids-layout-flex-item>
+                        <ids-text font-size="16" font-weight="semi-bold">Req. Conversion Workbench</ids-text>
+                      </ids-layout-flex-item>
+                    </ids-layout-flex>
+                  </ids-box>
+                </ids-hyperlink>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" color="unset">
+                  <ids-box shadowed>
+                    <ids-layout-flex direction="column" justify-content="center">
+                      <ids-layout-flex-item>
+                        <ids-icon icon="award"></ids-icon>
+                      </ids-layout-flex-item>
+                      <ids-layout-flex-item>
+                        <ids-text font-size="16" font-weight="semi-bold">Quotation Request</ids-text>
+                      </ids-layout-flex-item>
+                    </ids-layout-flex>
+                  </ids-box>
+                </ids-hyperlink>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget" borderless padding-x="8">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Stack</ids-text>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-layout-grid cols="2" padding-x="sm" gap="sm">
+              <ids-layout-grid-cell col-span="2">
+                <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" color="unset" col-span="2">
+                  <ids-box shadowed>
+                    <ids-layout-flex direction="column" justify-content="center">
+                      <ids-layout-flex-item>
+                        <ids-icon icon="load"></ids-icon>
+                      </ids-layout-flex-item>
+                      <ids-layout-flex-item>
+                        <ids-text font-size="16" font-weight="semi-bold">Req. Conversion Workbench</ids-text>
+                      </ids-layout-flex-item>
+                    </ids-layout-flex>
+                  </ids-box>
+                </ids-hyperlink>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell col-span="2">
+                <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" color="unset" col-span="2">
+                  <ids-box shadowed>
+                    <ids-layout-flex direction="column" justify-content="center">
+                      <ids-layout-flex-item>
+                        <ids-icon icon="award"></ids-icon>
+                      </ids-layout-flex-item>
+                      <ids-layout-flex-item>
+                        <ids-text font-size="16" font-weight="semi-bold">Quotation Request</ids-text>
+                      </ids-layout-flex-item>
+                    </ids-layout-flex>
+                  </ids-box>
+                </ids-hyperlink>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget" borderless padding-x="8">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Overflow</ids-text>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-layout-grid cols="2" padding-x="sm" gap="sm">
+              <ids-layout-grid-cell>
+                <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" color="unset">
+                  <ids-box shadowed>
+                    <ids-layout-flex direction="column" justify-content="center">
+                      <ids-layout-flex-item>
+                        <ids-icon icon="stacked"></ids-icon>
+                      </ids-layout-flex-item>
+                      <ids-layout-flex-item>
+                        <ids-text font-size="16" font-weight="semi-bold" overflow="ellipsis" tooltip="true" line-clamp="2" max-width="120">
+                          Veni, veni. Ne me mori facias. Veni, veni, venias
+                        </ids-text>
+                      </ids-layout-flex-item>
+                    </ids-layout-flex>
+                  </ids-box>
+                </ids-hyperlink>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" color="unset">
+                  <ids-box shadowed>
+                    <ids-layout-flex direction="column" justify-content="center">
+                      <ids-layout-flex-item>
+                        <ids-icon icon="push-cart"></ids-icon>
+                      </ids-layout-flex-item>
+                      <ids-layout-flex-item>
+                        <ids-text font-size="16" font-weight="semi-bold" overflow="ellipsis" tooltip="true" line-clamp="2" max-width="120">
+                          Veni, veni, venias, gloriosa. Ne me mori facias generosa
+                        </ids-text>
+                      </ids-layout-flex-item>
+                    </ids-layout-flex>
+                  </ids-box>
+                </ids-hyperlink>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell col-span="2">
+                <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" color="unset" col-span="2">
+                  <ids-box shadowed>
+                    <ids-layout-flex direction="column" justify-content="center">
+                      <ids-layout-flex-item>
+                        <ids-icon icon="award"></ids-icon>
+                      </ids-layout-flex-item>
+                      <ids-layout-flex-item>
+                        <ids-text font-size="16" font-weight="semi-bold" overflow="ellipsis" tooltip="true" line-clamp="2" max-width="120">
+                          Lorem ipsum dolor sit amet. Estuans interius. Ira vehementi. Estuans interius. Ira vehementi
+                        </ids-text>
+                      </ids-layout-flex-item>
+                    </ids-layout-flex>
+                  </ids-box>
+                </ids-hyperlink>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget" borderless padding-x="8">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Link List</ids-text>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-layout-grid cols="1" padding-x="sm">
+              <ids-layout-grid-cell>
+                <ids-link-list>
+                  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none">Categories</ids-hyperlink>
+                  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" disabled>Organization Configuration</ids-hyperlink>
+                  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none">Types</ids-hyperlink>
+                  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none">Organization Configuration</ids-hyperlink>
+                  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none">Appraisal Email Templates</ids-hyperlink>
+                </ids-link-list>
+              </ids-layout-grid-cell>
+            </ids-layout-grid-cell>
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget" borderless padding-x="8">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Link List with Icons</ids-text>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-layout-grid cols="1" padding-x="sm">
+              <ids-layout-grid-cell>
+                <ids-link-list>
+                  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none"><ids-icon icon="new-document"></ids-icon>Categories</ids-hyperlink>
+                  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" disabled><ids-icon icon="user-profile"></ids-icon>Organization Configuration</ids-hyperlink>
+                  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none"><ids-icon icon="calendar"></ids-icon>Types</ids-hyperlink>
+                  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none"><ids-icon icon="user-profile"></ids-icon>Organization Configuration</ids-hyperlink>
+                  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none"><ids-icon icon="user-folder-open"></ids-icon>Appraisal Email Templates</ids-hyperlink>
+                </ids-link-list>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+          </div>
+        </ids-widget>
+      </ids-home-page>
+
+    </ids-container>
+</body>
+</html>

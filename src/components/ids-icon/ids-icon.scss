@@ -7,6 +7,18 @@
   position: relative;
 }
 
+svg:not([height]) {
+  height: var(--ids-icon-height-default);
+}
+
+svg:not([width]) {
+  width: var(--ids-icon-width-default);
+}
+
+svg {
+  color: var(--ids-icon-color-default);
+}
+
 :host([hidden]) {
   display: none;
 }

@@ -37,6 +37,7 @@ A Disabled appearing hyperlink element.
 - `allow-empty-href` {boolean} Allows underline and styling of the link when href attribute is empty. Defaults to true.
 - `mode` {string} Set the theme mode
 - `version` {string} Set the theme version
+- `col-span` {number} Can be used for box links to double the width
 
 ## Themeable Parts
 

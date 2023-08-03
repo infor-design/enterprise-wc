@@ -78,19 +78,14 @@ export default class IdsIcon extends Base {
    * @returns {string} The template
    */
   template(): string {
-    let height = '';
-    let width = '';
     let viewBox = '';
-
-    height = this.height;
-    width = this.width;
 
     if (this.viewbox) {
       viewBox = this.viewbox;
     } else {
       viewBox = '0 0 18 18';
     }
-    let template = `<svg part="svg" xmlns="http://www.w3.org/2000/svg"${this.isMirrored(this.icon) ? ` class="mirrored"` : ''} stroke="currentColor" fill="none" height="${height}" width="${width}" viewBox="${viewBox}" aria-hidden="true">
+    let template = `<svg part="svg" xmlns="http://www.w3.org/2000/svg"${this.isMirrored(this.icon) ? ` class="mirrored"` : ''} stroke="currentColor" fill="none" viewBox="${viewBox}" aria-hidden="true">
       ${this.iconData()}
     </svg>`;
     if (this.badgePosition && this.badgeColor) {

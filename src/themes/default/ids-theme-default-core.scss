@@ -119,6 +119,12 @@
   --ids-size-60: 56px;
   --ids-size-70: 66px;
 
+  // Link List
+  --ids-link-list-title-color-text-default: var(--ids-color-neutral-100);
+  --ids-link-list-top-margin: -6px;
+  --ids-link-list-item-margin: 12px;
+  --ids-link-list-title-bottom-margin: 20px;
+
   // Line Height
   --ids-line-height-none: 0;
   --ids-line-height-default: normal;
@@ -271,6 +277,7 @@
   --ids-box-shadowed-color-border: transparent;
   --ids-box-border-radius: var(--ids-card-border-radius);
   --ids-box-shadow: var(--ids-card-shadow);
+  --ids-box-shadow-focus: 0 0 4px rgba(0 102 212 / 0.15);
   --ids-box-font-family: var(--ids-font-family-default);
   --ids-box-font-size: var( --ids-font-size-default);
   --ids-box-color-text-default: var(--ids-card-color-text-default);
@@ -278,6 +285,8 @@
   --ids-box-outline: 1px solid transparent;
   --ids-box-outline-selected: 2px solid var(--ids-color-primary-60);
   --ids-box-outline-hover: 1px solid var(--ids-color-neutral-30);
+  --ids-box-height: auto;
+  --ids-box-width: auto;
 
   // Button (Primary)
   --ids-button-primary-color-border-default: var(--ids-color-primary);
@@ -386,10 +395,12 @@
   --ids-card-header-height: 48px;
   --ids-card-color-background: var(--ids-color-neutral-00);
   --ids-card-color-border: var(--ids-color-neutral-30);
+  --ids-card-color-border-hover: var(--ids-hyperlink-box-color-border-default);
   --ids-card-divider-color-border: var(--ids-color-neutral-20);
   --ids-card-shadow: 0 0 4px rgba(0 0 0 / 0.15);
   --ids-card-color-background-selected: var(--ids-color-primary-10);
   --ids-card-color-border-selected: var(--ids-color-primary);
+  --ids-card-color-border-focus: var(--ids-input-color-border-focus);
   --ids-card-color-text-default: var(--ids-color-text-label);
   --ids-card-color-text-hover: var(--ids-color-text-data);
 
@@ -680,10 +691,18 @@
   --ids-hyperlink-color-text-default: var(--ids-color-primary);
   --ids-hyperlink-color-text-hover: var(--ids-color-primary-70);
   --ids-hyperlink-color-text-disabled: var(--ids-color-neutral-40);
+  --ids-hyperlink-box-icon-color-text-default: var(--ids-color-amethyst-70);
+  --ids-hyperlink-box-color-text-default: var(--ids-color-neutral-70);
+  --ids-hyperlink-box-color-border-default: var(--ids-color-neutral-70);
+  --ids-hyperlink-box-height: 136px;
+  --ids-hyperlink-box-width: 155px;
+  --ids-hyperlink-box-width-double: 323px;
 
   // Icons
   --ids-icon-font-name: 'name-here'; // Future
-  --ids-icon-color-default: var(--ids-color-neutral-80);
+  --ids-icon-height-default: 18px;
+  --ids-icon-width-default: 18px;
+  --ids-icon-color-default: currentColor;
   --ids-icon-color-default-disabled: var(--ids-color-text-disabled);
   --ids-icon-empty-color: var(--ids-color-primary);
   --ids-icon-empty-new-color: var(--ids-color-neutral-60);

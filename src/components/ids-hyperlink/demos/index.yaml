@@ -8,6 +8,12 @@
   - link: example.html
     type: Main Example
     description: Shows all hyperlinks and states
+  - link: box.html
+    type: Example
+    description: Shows a hyperlink in a fixed size box
+  - link: link-list.html
+    type: Example
+    description: Show a list of links
   - link: multi-line.html
     type: Example
     description: Shows a multi line hyperlink

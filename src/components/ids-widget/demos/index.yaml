@@ -8,3 +8,6 @@
   - link: example.html
     type: Main Example
     description: Shows all ids-widget combinations
+  - link: links.html
+    type: Example
+    description: Shows ways of showing links
