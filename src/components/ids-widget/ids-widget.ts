@@ -24,6 +24,7 @@ const Base = IdsScrollEffectMixin(
  * @mixes IdsScrollEffectMixin
  * @part widget - the widget element
  * @part header - the header element
+ * @part search - the search header area element
  * @part content - the widget content element
  */
 @customElement('ids-widget')
@@ -157,7 +158,7 @@ export default class IdsWidget extends Base {
   }
 
   /**
-   * Set the widget to have no borders and background color
+   * Set the widget to have no borders and no background color
    * @param {boolean|null} value If widget should be borderless or not
    */
   set borderless(value) {
@@ -216,7 +217,7 @@ export default class IdsWidget extends Base {
 
   /**
    * Set to true to hide the header and reclaim the space
-   * @returns {string} target for ids-hyperlink
+   * @returns {boolean} target for ids-hyperlink
    */
   get noHeader() { return this.getAttribute(attributes.NO_HEADER); }
 

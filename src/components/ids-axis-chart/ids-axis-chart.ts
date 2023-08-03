@@ -232,7 +232,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       </slot>
       <slot name="empty-message">
         <ids-empty-message icon="empty-no-data" hidden>
-          <ids-text type="h2" font-size="20" label="true" slot="label">${this.localeAPI?.translate('NoData') || 'No Data Available'}</ids-text>
+          <ids-text type="h2" font-size="20" label="true" slot="label">${this.localeAPI?.translate('NoData') || 'No data available'}</ids-text>
         </ids-empty-message>
       </slot>
       <slot name="tooltip">

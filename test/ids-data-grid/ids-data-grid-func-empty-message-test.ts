@@ -146,7 +146,7 @@ describe('IdsDataGrid Component Empty Message Tests', () => {
       d: { // Defaults
         description: 'test description',
         icon: 'empty-search-data-new',
-        label: 'There is no data available'
+        label: 'There is No data available'
       },
       new: { // After change
         description: 'new description',

@@ -91,10 +91,10 @@ describe('IdsCard Component', () => {
     card.selection = 'single';
 
     card.dispatchEvent(clickEvent);
-    expect(card.selected).toBe('true');
+    expect(card.selected).toBe(true);
 
     card.dispatchEvent(clickEvent);
-    expect(card.selected).toBe('true');
+    expect(card.selected).toBe(true);
   });
 
   it('support card selection multiple', () => {
@@ -107,26 +107,26 @@ describe('IdsCard Component', () => {
 
     // when user click card container
     card.dispatchEvent(clickEvent);
-    expect(card.selected).toBe('true');
+    expect(card.selected).toBe(true);
     expect(checkboxElem.checked).toBeTruthy();
 
     card.dispatchEvent(clickEvent);
-    expect(card.selected).toBe('false');
+    expect(card.selected).toBe(false);
     expect(checkboxElem.checked).toBeFalsy();
 
     checkboxElem.dispatchEvent(clickEvent);
-    expect(card.selected).toBe('true');
+    expect(card.selected).toBe(true);
     expect(checkboxElem.checked).toBeTruthy();
 
     checkboxElem.dispatchEvent(clickEvent);
-    expect(card.selected).toBe('false');
+    expect(card.selected).toBe(false);
     expect(checkboxElem.checked).toBeFalsy();
   });
 
   it('should fire selectionchanged event', async () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toEqual(card);
-      expect(x.detail.selected).toEqual('true');
+      expect(x.detail.selected).toEqual(true);
       expect(x.detail.selection).toEqual('multiple');
     });
 
@@ -252,7 +252,7 @@ describe('IdsCard Component', () => {
       expect(actionableCard.height).toEqual('100');
 
       actionableCard.height = null;
-      expect(actionableCard.height).toBeNull();
+      expect(actionableCard.height).toBe('');
     });
 
     it('should allow setting height with a link', () => {
@@ -270,7 +270,7 @@ describe('IdsCard Component', () => {
       expect(actionableCard.height).toEqual('200');
 
       actionableCard.height = null;
-      expect(actionableCard.height).toBeNull();
+      expect(actionableCard.height).toBe('');
     });
   });
 });

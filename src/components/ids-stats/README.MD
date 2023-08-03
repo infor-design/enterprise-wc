@@ -2,7 +2,7 @@
 
 ## Description
 
-Stats are UI embellishments that are used in widgets to display statistical information on widgets primarily. The consist of a rigid layout with a trend value, a KPI, a main label and a sub label. The stats can also be selectable.
+Stats are UI embellishments that are used in widgets to display statistical information on widgets primarily. The consist of several elements in a layout with a trend value, a KPI, a main label and a sub label. The stats can also be selectable/clickable.
 
 ## Use Cases
 

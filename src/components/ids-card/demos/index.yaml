@@ -1,9 +1,9 @@
 ---
  component: Card
  link: ids-card
- description: Card Layout (outside homepages)
+ description: Card layouts
  category: Layouts
- keywords: Card, Cards, Widget, Widgets
+ keywords: Card, cards, widget, widgets
  examples:
   - link: example.html
     type: Main Example

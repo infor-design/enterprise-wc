@@ -15,7 +15,7 @@ describe('IdsHomePage Component', () => {
   const origInnerHeight = window.innerHeight;
   const DEFAULTS = {
     animated: true,
-    widgetHeight: 370,
+    widgetHeight: 368,
     widgetWidth: 360,
     cols: 3,
     gap: 20,

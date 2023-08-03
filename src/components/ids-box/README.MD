@@ -2,7 +2,7 @@
 
 ## Description
 
-Boxes are small UI that are a base layer to cards and widgets that. They can be used as a lightweight container on their own for visual information. If your looking for most specific card features you might expect. Do checkout the card component as its much more useful. If your looking for home page "cards" look at the widget component.
+Boxes are small UI that are a base layer to cards and widgets that. They can be used as a lightweight container on their own for visual information. If your looking for most specific card features you might expect. Do checkout the card component as it is much more useful. If your looking for home page "cards" look at the widget component.
 
 ## Use Cases
 
@@ -43,6 +43,7 @@ A square box with padding and unrounded corners
 
 ## Settings (Attributes)
 
+- `actionable` {boolean} Adds actionable states (when used in cards)
 - `backgroundColor` {string} Set the background color (as a css variable)
 - `borderless` {boolean} Turns off the borders
 - `borderRadius` {number} Sets the border radius to something non-default

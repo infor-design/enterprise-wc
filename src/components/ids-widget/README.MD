@@ -55,37 +55,46 @@ To use system buttons in your widget, add the system-button attribute on the but
 ## Class Hierarchy
 
 - IdsWidget
-    - IdsElement
     - IdsBox
+      - IdsElement
 - Mixins
   IdsEventsMixin
+  IdsScrollEffectMixin
 
 ## Settings (Attributes)
 
 - `system-button` {boolean} Makes any button a system button that is hidden unless hovering the widget
+- `borderless` {boolean} Set the widget to have no borders and no background color
+- `height` {boolean} Set a specific height and center the widget
+- `noHeader` {boolean} Set to true to hide the header and reclaim the space
+- `overflow` {string} Set how the container overflows, can be hidden or auto (default
+- `paddingX` {string} Set the x axis padding on the widget contents (in pixels)
+- `paddingY` {string} Set the y axis padding on the widget contents (in pixels)
 
 ## Themeable Parts
 
-- `checkbox` allows you to further style the checkbox input element
-- `slider` allows you to further style the sliding part of the switch
-- `label` allows you to further style the label text
+- `widget` allows you to further style the whole widget input element
+- `header` allows you to further style the widget header element
+- `search` allows you to further style the widget search element in the header
+- `content` allows you to further style the widget content area
 
 ## States and Variations
 
 - Color
 - Disabled
 - Hover
+- Focus
 - Size
+- System Actions
 
 ## Keyboard Guidelines
 
-- <kbd>Tab/Shift+Tab</kbd>: Will tab between the cards, once in the cards you can use arrow across the toolbar and addition tabs depending on the tab stop
-- <kbd>Backspace / Alt+Del</kbd>: If the tag is dismissible then this will remove the tag.
+- <kbd>Tab/Shift+Tab</kbd>: Will tab you into the widget and then into the content area.
 - <kbd>Enter</kbd>: If widget item is clickable then this will follow activate the click.
 
 ## Responsive Guidelines
 
-- Flows with padding and margin within the width and height of the parent container. Possibly scrolling as needed based on parent dimensions.
+- Is entirely controlled by the home page component. Will follow its rules for sizing.
 
 ## Converting from Previous Versions (Breaking Changes)
 
@@ -103,4 +112,4 @@ To use system buttons in your widget, add the system-button attribute on the but
 
 ## Regional Considerations
 
-Labels should be localized in the current language. The close and link icons will flip to the alternate side in Right To Left mode. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai).
+Labels should be localized in the current language. The close and actions or other buttons will flip to the alternate side in Right To Left mode. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai).

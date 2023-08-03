@@ -71,7 +71,6 @@ export default class IdsContainer extends Base {
     return [
       ...super.attributes,
       attributes.BACKGROUND_COLOR,
-      attributes.BADGE_COLOR,
       attributes.LANGUAGE,
       attributes.LOCALE,
       attributes.PADDING,
