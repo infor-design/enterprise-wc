@@ -314,7 +314,7 @@ describe('IdsAccordion Component', () => {
     header.icon = null;
 
     expect(header.getAttribute('icon')).toBe(null);
-    expect(icon.icon).toBe(null);
+    expect(icon.icon).toBe('');
   });
 
   it('toggle expander icon for header', async () => {
