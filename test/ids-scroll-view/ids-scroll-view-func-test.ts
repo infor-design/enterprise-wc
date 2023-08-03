@@ -4,6 +4,7 @@
 import { attributes } from '../../src/core/ids-attributes';
 import IdsScrollView from '../../src/components/ids-scroll-view/ids-scroll-view';
 import IntersectionObserver from '../helpers/intersection-observer-mock';
+import wait from '../helpers/wait';
 
 describe('IdsScrollView Component', () => {
   let scrollView: any;
@@ -118,6 +119,15 @@ describe('IdsScrollView Component', () => {
     const link = scrollView.controls.querySelector('[data-slide-number="0"]');
     expect(link.classList.contains('selected')).toBeTruthy();
     expect(link.getAttribute('aria-selected')).toEqual('true');
+  });
+
+  it('should rerender controls based on slotchange events', async () => {
+    document.body.innerHTML = '';
+    const elem = new IdsScrollView();
+    document.body.appendChild(elem);
+    elem.innerHTML = html;
+    await wait(1000);
+    expect(elem.controls?.querySelectorAll('ids-button.circle-button').length).toEqual(6);
   });
 
   it('moved on ArrowLeft/ArrowRight', () => {

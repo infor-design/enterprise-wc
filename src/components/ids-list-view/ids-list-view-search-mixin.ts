@@ -67,7 +67,7 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
   }
 
   /**
-   * Get searchf ield element
+   * Get search field element
    * @returns {HTMLDivElement|null|undefined} The search field element
    */
   get searchField(): IdsSearchField | null | undefined {
@@ -214,7 +214,7 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
     const isSearchfield = !!getSlotted();
     this.container?.classList[isSearchfield ? 'add' : 'remove']('has-searchfield');
     this.searchContainer?.classList[isSearchfield ? 'add' : 'remove']('has-searchfield');
-    this.#attacheSearchField();
+    this.#attachSearchField();
   }
 
   /**
@@ -222,7 +222,7 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
    * @private
    * @returns {void}
    */
-  #attacheSearchField(): void {
+  #attachSearchField(): void {
     const searchField = this.searchField;
     if (searchField) {
       searchField.onSearch = (term: string) => this.#handleSearch(term);
@@ -411,8 +411,8 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
     if (!regex) return item;
 
     let term = this.#term;
+    let text = this.#searchableContent(item);
     let cloneItem = deepClone(item);
-    let text = this.#searchableContent(cloneItem);
 
     // Set case sensitive
     if (!this.searchTermCaseSensitive) {

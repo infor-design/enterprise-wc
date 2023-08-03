@@ -36,6 +36,7 @@ $min-col-width: var(--min-col-width);
 $max-col-width: var(--max-col-width);
 $min-row-height: var(--min-row-height);
 $max-row-height: var(--max-row-height);
+$max-width: var(--max-width);
 
 :host(.#{$prefix}),
 .#{$prefix} {
@@ -95,6 +96,11 @@ $max-row-height: var(--max-row-height);
   margin: $grid-margin-xl;
 }
 
+:host([margin='auto']),
+.#{$prefix}.#{$prefix}-margin-auto {
+  margin: auto;
+}
+
 :host([margin-y='xs']),
 .#{$prefix}.#{$prefix}-margin-y-xs {
   margin-block: $grid-margin-xs;
@@ -118,6 +124,40 @@ $max-row-height: var(--max-row-height);
 :host([margin-y='xl']),
 .#{$prefix}.#{$prefix}-margin-y-xl {
   margin-block: $grid-margin-xl;
+}
+
+:host([max-width='xs']),
+.#{$prefix}.#{$prefix}-max-width-xs {
+  max-width: $breakpoint-xs;
+}
+
+:host([max-width='sm']),
+.#{$prefix}.#{$prefix}-max-width-sm {
+  max-width: $breakpoint-sm;
+}
+
+:host([max-width='md']),
+.#{$prefix}.#{$prefix}-max-width-md {
+  max-width: $breakpoint-md;
+}
+
+:host([max-width='lg']),
+.#{$prefix}.#{$prefix}-max-width-lg {
+  max-width: $breakpoint-lg;
+}
+
+:host([max-width='xl']),
+.#{$prefix}.#{$prefix}-max-width-xl {
+  max-width: $breakpoint-xl;
+}
+
+:host([max-width='xxl']),
+.#{$prefix}.#{$prefix}-max-width-xxl {
+  max-width: $breakpoint-xxl;
+}
+
+:host([max-width$='px']) {
+  max-width: var(--max-width);
 }
 
 :host([padding='xs']),
@@ -262,6 +302,168 @@ $max-row-height: var(--max-row-height);
 :host([flow='column-dense']),
 .#{$prefix}-flow-col-dense {
   grid-auto-flow: column dense;
+}
+
+@media (min-width: $breakpoint-xs) {
+  :host([flow-xs="row"]),
+  .#{$prefix}-flow-row {
+    grid-auto-flow: row;
+  }
+
+  :host([flow-xs="column"]),
+  .#{$prefix}-flow-col {
+    grid-auto-flow: column;
+  }
+
+  :host([flow-xs="dense"]),
+  .#{$prefix}-flow-dense {
+    grid-auto-flow: dense;
+  }
+
+  :host([flow-xs="row-dense"]),
+  .#{$prefix}-flow-row-dense {
+    grid-auto-flow: row dense;
+  }
+
+  :host([flow-xs="column-dense"]),
+  .#{$prefix}-flow-col-dense {
+    grid-auto-flow: column dense;
+  }
+}
+
+@media (min-width: $breakpoint-sm) {
+  :host([flow-sm="row"]),
+  .#{$prefix}-flow-row {
+    grid-auto-flow: row;
+  }
+
+  :host([flow-sm="column"]),
+  .#{$prefix}-flow-col {
+    grid-auto-flow: column;
+  }
+
+  :host([flow-sm="dense"]),
+  .#{$prefix}-flow-dense {
+    grid-auto-flow: dense;
+  }
+
+  :host([flow-sm="row-dense"]),
+  .#{$prefix}-flow-row-dense {
+    grid-auto-flow: row dense;
+  }
+
+  :host([flow-sm="column-dense"]),
+  .#{$prefix}-flow-col-dense {
+    grid-auto-flow: column dense;
+  }
+}
+
+@media (min-width: $breakpoint-md) {
+  :host([flow-md="row"]),
+  .#{$prefix}-flow-row {
+    grid-auto-flow: row;
+  }
+
+  :host([flow-md="column"]),
+  .#{$prefix}-flow-col {
+    grid-auto-flow: column;
+  }
+
+  :host([flow-md="dense"]),
+  .#{$prefix}-flow-dense {
+    grid-auto-flow: dense;
+  }
+
+  :host([flow-md="row-dense"]),
+  .#{$prefix}-flow-row-dense {
+    grid-auto-flow: row dense;
+  }
+
+  :host([flow-md="column-dense"]),
+  .#{$prefix}-flow-col-dense {
+    grid-auto-flow: column dense;
+  }
+}
+
+@media (min-width: $breakpoint-lg) {
+  :host([flow-lg="row"]),
+  .#{$prefix}-flow-row {
+    grid-auto-flow: row;
+  }
+
+  :host([flow-lg="column"]),
+  .#{$prefix}-flow-col {
+    grid-auto-flow: column;
+  }
+
+  :host([flow-lg="dense"]),
+  .#{$prefix}-flow-dense {
+    grid-auto-flow: dense;
+  }
+
+  :host([flow-lg="row-dense"]),
+  .#{$prefix}-flow-row-dense {
+    grid-auto-flow: row dense;
+  }
+
+  :host([flow-lg="column-dense"]),
+  .#{$prefix}-flow-col-dense {
+    grid-auto-flow: column dense;
+  }
+}
+
+@media (min-width: $breakpoint-xl) {
+  :host([flow-xl="row"]),
+  .#{$prefix}-flow-row {
+    grid-auto-flow: row;
+  }
+
+  :host([flow-xl="column"]),
+  .#{$prefix}-flow-col {
+    grid-auto-flow: column;
+  }
+
+  :host([flow-xl="dense"]),
+  .#{$prefix}-flow-dense {
+    grid-auto-flow: dense;
+  }
+
+  :host([flow-xl="row-dense"]),
+  .#{$prefix}-flow-row-dense {
+    grid-auto-flow: row dense;
+  }
+
+  :host([flow-xl="column-dense"]),
+  .#{$prefix}-flow-col-dense {
+    grid-auto-flow: column dense;
+  }
+}
+
+@media (min-width: $breakpoint-xxl) {
+  :host([flow-xxl="row"]),
+  .#{$prefix}-flow-row {
+    grid-auto-flow: row;
+  }
+
+  :host([flow-xxl="column"]),
+  .#{$prefix}-flow-col {
+    grid-auto-flow: column;
+  }
+
+  :host([flow-xxl="dense"]),
+  .#{$prefix}-flow-dense {
+    grid-auto-flow: dense;
+  }
+
+  :host([flow-xxl="row-dense"]),
+  .#{$prefix}-flow-row-dense {
+    grid-auto-flow: row dense;
+  }
+
+  :host([flow-xxl="column-dense"]),
+  .#{$prefix}-flow-col-dense {
+    grid-auto-flow: column dense;
+  }
 }
 
 /* TODO - Add settings for grid-auto-rows */

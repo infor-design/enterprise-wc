@@ -778,7 +778,7 @@ describe('IdsDropdown Component', () => {
   });
 
   it('should set values thru template', () => {
-    expect(dropdown.colorVariant).toEqual(undefined);
+    expect(dropdown.colorVariant).toEqual(null);
     expect(dropdown.labelState).toEqual(null);
     expect(dropdown.compact).toEqual(false);
     expect(dropdown.noMargins).toEqual(false);

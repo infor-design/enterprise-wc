@@ -67,7 +67,7 @@ export default class IdsTab extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate', 'module'];
+  colorVariants = ['alternate', 'module', 'header'];
 
   /**
    * @returns {Array<string>} Drawer vetoable events
@@ -119,17 +119,16 @@ export default class IdsTab extends Base {
    * @returns {string} draws the dismissible button
    */
   #templateDismissible(): string {
-    let colorVariant = '';
-    if (this.colorVariant) {
-      colorVariant = ` color-variant="${this.#getDismissibleVariant()}"`;
-    }
-    return `<ids-trigger-button slot="close" label="Close"${colorVariant} inherit-color>
+    const colorVariant = `color-variant="${this.#getDismissibleVariant()}"`;
+    const inheritColor = this.colorVariant === 'module' ? '' : 'inherit-color';
+
+    return `<ids-trigger-button slot="close" label="Close" ${colorVariant} ${inheritColor}>
       <ids-icon icon="close" size="xsmall"></ids-icon>
     </ids-trigger-button>`;
   }
 
   #getDismissibleVariant() {
-    return this.colorVariant === 'module' ? 'alternate' : this.colorVariant;
+    return this.colorVariant === 'alternate' ? 'alternate' : 'module';
   }
 
   connectedCallback() {

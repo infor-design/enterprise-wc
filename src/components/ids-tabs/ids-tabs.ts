@@ -110,7 +110,7 @@ export default class IdsTabs extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate', 'module'];
+  colorVariants = ['alternate', 'module', 'header'];
 
   /**
    * @property {string} value stores a tab's value (used for syncing tab state with displayed content)
@@ -208,10 +208,6 @@ export default class IdsTabs extends Base {
       }
 
       currentElement = currentElement.host || currentElement.parentNode;
-    }
-
-    if (isHeaderDescendent) {
-      this.colorVariant = 'alternate';
     }
   }
 

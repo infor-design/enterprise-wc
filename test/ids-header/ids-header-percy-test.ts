@@ -5,7 +5,7 @@ describe('Ids Header Percy Tests', () => {
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await page.waitForSelector('#header-search[color-variant="alternate"]'); // Wait for Search Field to change variants/types
+    await page.waitForSelector('#header-search'); // Wait for Search Field to change variants/types
     await pageSnapshot(page, 'ids-header-new-light');
   });
 
