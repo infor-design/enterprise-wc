@@ -315,4 +315,31 @@ describe('IdsLayoutGrid Component', () => {
     ALIGN_ITEMS.forEach((val) => check(val, val));
     check('test', defaultVal);
   });
+
+  describe('should correctly set the flow attribute', () => {
+    it('setting valid flow-xs value', () => {
+      gridElem.flowXs = 'row';
+      expect(gridElem.getAttribute('flow-xs')).toBe('row');
+    });
+    it('setting valid flow-sm value', () => {
+      gridElem.flowSm = 'column';
+      expect(gridElem.getAttribute('flow-sm')).toBe('column');
+    });
+    it('setting valid flow-md value', () => {
+      gridElem.flowMd = 'row';
+      expect(gridElem.getAttribute('flow-md')).toBe('row');
+    });
+    it('setting valid flow-lg value', () => {
+      gridElem.flowLg = 'row';
+      expect(gridElem.getAttribute('flow-lg')).toBe('row');
+    });
+    it('setting valid flow-xl value', () => {
+      gridElem.flowXl = 'row';
+      expect(gridElem.getAttribute('flow-xl')).toBe('row');
+    });
+    it('setting valid flow-xxl value', () => {
+      gridElem.flowXxl = 'row';
+      expect(gridElem.getAttribute('flow-xxl')).toBe('row');
+    });
+  });
 });

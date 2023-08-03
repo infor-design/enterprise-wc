@@ -29,3 +29,6 @@
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a layout grid that works with css only
+  - link: example-flow.html
+    type: Flow Example
+    description: Showing an example with different grid flows.

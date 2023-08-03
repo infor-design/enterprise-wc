@@ -500,6 +500,126 @@ export default class IdsLayoutGrid extends IdsElement {
   }
 
   /**
+   * Set the flow-xs attribute of the grid
+   * @param { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  set flowXs(value: string | null) {
+    if (!value || FLOW_TYPES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.FLOW_XS);
+    } else {
+      this.setAttribute(attributes.FLOW_XS, value);
+    }
+  }
+
+  /**
+   * Get the flow-xs attribute
+   * @returns { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  get flowXs(): string | null {
+    return this.getAttribute(attributes.FLOW_XS);
+  }
+
+  /**
+   * Set the flow-sm attribute of the grid
+   * @param { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  set flowSm(value: string | null) {
+    if (!value || FLOW_TYPES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.FLOW_SM);
+    } else {
+      this.setAttribute(attributes.FLOW_SM, value);
+    }
+  }
+
+  /**
+   * Get the flow-sm attribute
+   * @returns { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  get flowSm(): string | null {
+    return this.getAttribute(attributes.FLOW_SM);
+  }
+
+  /**
+   * Set the flow-md attribute of the grid
+   * @param { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  set flowMd(value: string | null) {
+    if (!value || FLOW_TYPES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.FLOW_MD);
+    } else {
+      this.setAttribute(attributes.FLOW_MD, value);
+    }
+  }
+
+  /**
+   * Get the flow-md attribute
+   * @returns { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  get flowMd(): string | null {
+    return this.getAttribute(attributes.FLOW_SM);
+  }
+
+  /**
+   * Set the flow-lg attribute of the grid
+   * @param { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  set flowLg(value: string | null) {
+    if (!value || FLOW_TYPES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.FLOW_LG);
+    } else {
+      this.setAttribute(attributes.FLOW_LG, value);
+    }
+  }
+
+  /**
+   * Get the flow-lg attribute
+   * @returns { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  get flowLg(): string | null {
+    return this.getAttribute(attributes.FLOW_LG);
+  }
+
+  /**
+   * Set the flow-xl attribute of the grid
+   * @param { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  set flowXl(value: string | null) {
+    if (!value || FLOW_TYPES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.FLOW_XL);
+    } else {
+      this.setAttribute(attributes.FLOW_XL, value);
+    }
+  }
+
+  /**
+   * Get the flow-xl attribute
+   * @returns { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  get flowXl(): string | null {
+    return this.getAttribute(attributes.FLOW_XL);
+  }
+
+  /**
+   * Set the flow-xxl attribute of the grid
+   * @param { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  set flowXxl(value: string | null) {
+    if (!value || FLOW_TYPES.indexOf(value as any) <= 0) {
+      this.removeAttribute(attributes.FLOW_XXL);
+    } else {
+      this.setAttribute(attributes.FLOW_XXL, value);
+    }
+  }
+
+  /**
+   * Get the flow-xxl attribute
+   * @returns { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
+   */
+  get flowXxl(): string | null {
+    return this.getAttribute(attributes.FLOW_XXL);
+  }
+
+  /**
    * Set the row attribute
    * @param { string | null } value The amount of rows in the grid
    */
