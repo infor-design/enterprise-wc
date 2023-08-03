@@ -151,3 +151,4 @@ IdsPopupMenu accepts `max-height` and `width` properties, which it passes direct
 - <kbd>Left/right arrow</kbd> traverses nested Popup Menus.  If the currently-highlighted menu item contains a Submenu, pressing the right arrow will open that Submenu.  If the left arrow is pressed while a nested menu item is focused, its Submenu will be closed and focus will be returned to the parent menu item.
 - <kbd>Enter/Return</kbd> Perform selection/deselection where available.  On items that contain submenus, this will not select/deselect and will instead trigger the submenu.
 - <kbd>Shift+F10</kbd> can be used to trigger document-level Popup Menus that are bound to the `contextmenu` event.
+- <kbd>Fn + F12</kbd> is the default macOS context menu keyboard shortcut. To use it, you need to enable "Alternate pointer actions" by going to the Apple menu > System Preferences/Settings > Accessibility > Pointer Control > Alternate pointer actions.
