@@ -20,7 +20,14 @@
     "publishDate": "2021-04-23T18:25:43.511Z",
     "price": "12.99",
     "location": "United States",
-    "color": "#165eab"
+    "color": "#165eab",
+    "children":{
+      "prop1": "row1_childprop1",
+      "prop2": "row1_childprop2",
+      "prop3": {
+        "info": "row1_childprop3_info"
+      }
+    }
   },
   {
     "book": 102,
