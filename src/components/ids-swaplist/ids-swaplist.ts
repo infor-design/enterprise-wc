@@ -58,7 +58,8 @@ export default class IdsSwapList extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
-    this.render();
+    this.renderLists();
+    this.attachEventHandlers();
   }
 
   /**
@@ -79,7 +80,7 @@ export default class IdsSwapList extends Base {
   set data(value: any | null) {
     if (this.datasource) {
       this.datasource.data = value || [];
-      this.render();
+      this.renderLists();
     }
   }
 
@@ -129,7 +130,7 @@ export default class IdsSwapList extends Base {
 
   /**
    * Gets swaplist item data by id
-   * @param {number} id list item id
+   * @param {number}id list item id
    * @returns {IdsSwaplistDataItem} swaplist item data
    */
   #getListItemById(id: number): IdsSwaplistDataItem {
@@ -301,11 +302,13 @@ export default class IdsSwapList extends Base {
     this.listen('Enter', this.container, (e: any) => this.#handleItemSwap(e));
   }
 
-  render() {
-    super.render(true);
-    this.attachEventHandlers();
-
-    return this;
+  /**
+   * Renders lists from datasource
+   */
+  renderLists() {
+    if (this.container) {
+      this.container.innerHTML = this.listTemplate();
+    }
   }
 
   /**
@@ -313,6 +316,6 @@ export default class IdsSwapList extends Base {
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-swaplist">${this.listTemplate()}</div>`;
+    return `<div class="ids-swaplist"></div>`;
   }
 }
