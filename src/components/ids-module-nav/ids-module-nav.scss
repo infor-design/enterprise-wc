@@ -1,8 +1,8 @@
-@import '../../themes/mixins/ids-core-mixins.scss';
+@import '../../themes/mixins/ids-core-mixins';
 @import '../../core/ids-base';
 
 // Module Nav Component
-//================================================== //
+// ================================================== //
 
 :host {
   display: contents;
@@ -19,7 +19,7 @@
 }
 
 // Sub-components
-//================================================== //
+// ================================================== //
 
 ids-menu-item::part(menu-item) {
   color: var(--ids-module-nav-settings-menu-item-text-color);

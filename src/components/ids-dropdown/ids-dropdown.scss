@@ -136,7 +136,6 @@ ids-trigger-field[readonly-background]:not([disabled])::part(input) {
     border-radius: var(--ids-module-nav-common-border-radius);
     border: var(--ids-module-nav-input-border-width) solid var(--ids-module-nav-input-border-color);
     color: inherit;
-
     overflow: hidden;
   }
 

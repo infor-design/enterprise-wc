@@ -1,4 +1,4 @@
-@import '../../themes/mixins/ids-core-mixins.scss';
+@import '../../themes/mixins/ids-core-mixins';
 @import '../../core/ids-base';
 
 :host {
@@ -31,7 +31,6 @@ ids-button::part(button) {
   display: flex;
   flex-direction: row;
   position: relative;
-
   min-height: var(--ids-module-nav-switcher-button-size);
   margin: var(--ids-module-nav-switcher-button-gutter-size);
 
@@ -54,9 +53,5 @@ ids-button::part(button) {
       height: var(--ids-module-nav-switcher-button-size);
       width: var(--ids-module-nav-switcher-button-size);
     }
-  }
-
-  &.display-mode-expanded {
-
   }
 }

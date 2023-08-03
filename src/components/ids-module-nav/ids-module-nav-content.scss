@@ -1,8 +1,8 @@
-@import '../../themes/mixins/ids-core-mixins.scss';
+@import '../../themes/mixins/ids-core-mixins';
 @import '../../core/ids-base';
 
 // Module Nav Content Component
-//================================================== //
+// ================================================== //
 
 .ids-module-nav-content {
   @include border-box();
@@ -10,7 +10,6 @@
   display: block;
   height: 100%;
   width: 100%;
-
   transition: margin var(--ids-motion-duration) var(--ids-motion-ease),
     transform var(--ids-motion-duration) var(--ids-motion-ease),
     width var(--ids-motion-duration) var(--ids-motion-ease);
@@ -59,7 +58,7 @@
 }
 
 // Host element sizes/positioning
-//================================================== //
+// ================================================== //
 
 :host {
   display: contents;

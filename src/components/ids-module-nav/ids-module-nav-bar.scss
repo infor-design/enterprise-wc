@@ -1,4 +1,4 @@
-@import '../../themes/mixins/ids-core-mixins.scss';
+@import '../../themes/mixins/ids-core-mixins';
 @import '../ids-drawer/ids-drawer';
 
 :host {
@@ -17,7 +17,7 @@
 }
 
 // Module Nav Bar Component
-//================================================== //
+// ================================================== //
 
 .ids-module-nav-bar {
   @include border-box();
@@ -67,8 +67,6 @@
     &:not(.show-detail) {
       .ids-module-nav-bar-detail {
         display: none;
-        // pointer-events: none;
-        // width: 0;
       }
     }
 

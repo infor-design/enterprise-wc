@@ -1,5 +1,5 @@
 
-@import '../ids-button/ids-button.scss';
+@import '../ids-button/ids-button';
 @import './ids-module-nav-item';
 
 :host {
@@ -17,16 +17,13 @@
 @mixin ids-module-nav-button-styles() {
   display: flex;
   align-self: center;
-
   background-color: transparent;
   border-color: transparent;
   border-radius: var(--ids-module-nav-common-border-radius);
   border-style: solid;
   border-width: 1px;
   color: var(--ids-module-nav-item-text-color);
-
   padding-block: var(--ids-module-nav-item-margin-inline);
-
   height: var(--ids-module-nav-switcher-button-size);
   width: var(--ids-module-nav-switcher-button-size);
 
