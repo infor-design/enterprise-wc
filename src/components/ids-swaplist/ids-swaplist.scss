@@ -6,6 +6,13 @@
 
 .swap-buttons {
   margin-inline-start: auto;
+
+  ids-button[dir="rtl"] {
+    &.right-arrow,
+    &.left-arrow {
+      transform: rotate(180deg);
+    }
+  }
 }
 
 ids-swappable-item {
