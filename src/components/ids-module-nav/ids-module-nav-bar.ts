@@ -20,6 +20,7 @@ import styles from './ids-module-nav-bar.scss';
 import type IdsAccordion from '../ids-accordion/ids-accordion';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
+import type IdsModuleNav from './ids-module-nav';
 import type IdsModuleNavContent from './ids-module-nav-content';
 import type IdsModuleNavItem from './ids-module-nav-item';
 import type IdsModuleNavSettings from './ids-module-nav-settings';
@@ -125,9 +126,9 @@ export default class IdsModuleNavBar extends Base {
    * @readonly
    * @returns {IdsModuleNav | undefined} reference to the Module Nav parent element
    */
-  get parent() {
+  get parent(): IdsModuleNav | undefined {
     const parentEl = getClosest(this, 'ids-module-nav');
-    if (parentEl) return parentEl;
+    if (parentEl) return (parentEl as IdsModuleNav);
     return undefined;
   }
 

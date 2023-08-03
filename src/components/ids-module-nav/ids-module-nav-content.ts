@@ -45,9 +45,9 @@ export default class IdsModuleNavContent extends Base {
    * @readonly
    * @returns {IdsModuleNav | undefined} reference to the Module Nav parent element
    */
-  get parent() {
+  get parent(): IdsModuleNav | undefined {
     const parentEl = getClosest(this, 'ids-module-nav');
-    if (parentEl) return parentEl;
+    if (parentEl) return (parentEl as IdsModuleNav);
     return undefined;
   }
 

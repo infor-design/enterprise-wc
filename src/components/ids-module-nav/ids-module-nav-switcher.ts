@@ -83,7 +83,7 @@ export default class IdsModuleNavSwitcher extends Base {
 
   /**
    * @readonly
-   * @returns {IdsButton} slotted Module Button element
+   * @returns {IdsDropdown} slotted Module Button element
    */
   get roleDropdownEl() {
     return this.querySelector<IdsDropdown>('ids-dropdown');
