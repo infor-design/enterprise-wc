@@ -8,6 +8,7 @@
 - `[Datagrid]` Removed the internal second parameter from the scrollRowIntoView so it cant be used. ([#1367](https://github.com/infor-design/enterprise-wc/issues/1367))
 - `[DataGrid]` Added `uppercase` and `maxlength` settings to editors and filters (text only). ([#1309](https://github.com/infor-design/enterprise-wc/issues/1309))
 - `[DataGrid]` Adds guards to Datagrid's `this.header` value because it is being referenced in some places before it is loaded in DOM. ([#1250](https://github.com/infor-design/enterprise-wc/issues/1250))
+- `[Swaplist]` Refactor swaplist component to connect datasource to UI. ([#1313](https://github.com/infor-design/enterprise-wc/issues/1313))
 
 ## 1.0.0-beta.13
 
