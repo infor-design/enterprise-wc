@@ -330,14 +330,18 @@
   // Inherits a text color from a containing element
 
   &:not(.inherit-color) {
-    color: var(--ids-menu-item-color-text-default);
+    &:not(.disabled) {
+      color: var(--ids-menu-item-color-text-default);
+    }
   }
 
   &.inherit-color {
-    color: inherit;
-
-    a {
+    &:not(.disabled) {
       color: inherit;
+
+      a {
+        color: inherit;
+      }
     }
   }
 
