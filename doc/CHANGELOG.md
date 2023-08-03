@@ -11,6 +11,7 @@
 - `[DataGrid]` Adjusted header cell height for xxs row size. ([#1369](https://github.com/infor-design/enterprise-wc/issues/1369))
 - `[DataGrid]` Adjusted header cell height for `xxs` row size. ([#1369](https://github.com/infor-design/enterprise-wc/issues/1369))
 - `[DataGrid]` Fixed an issue with the newer `maxlength` setting as it was not working in safari. ([#1403](https://github.com/infor-design/enterprise-wc/issues/1403))
+- `[DataGrid]` Fixed tooltip callback/async-callback does not show tooltip for the header. ([#1311](https://github.com/infor-design/enterprise-wc/issues/1311))
 - `[LayoutGrid]` Added breakpoint sizes for the flow attribute in the grid-layout. ([#1405](https://github.com/infor-design/enterprise-wc/issues/1405))
 - `[ListView]` Added support for `ids-list-view-item` child component. ([#1042](https://github.com/infor-design/enterprise-wc/issues/1042))
 - `[Multiselect]` Fixed margin-top on tags. ([#1349](https://github.com/infor-design/enterprise-wc/issues/1349))
