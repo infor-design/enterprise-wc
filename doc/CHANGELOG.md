@@ -10,6 +10,7 @@
 - `[DataGrid]` Adds guards to Datagrid's `this.header` value because it is being referenced in some places before it is loaded in DOM. ([#1250](https://github.com/infor-design/enterprise-wc/issues/1250))
 - `[DataGrid]` Adjusted header cell height for xxs row size. ([#1369](https://github.com/infor-design/enterprise-wc/issues/1369))
 - `[DataGrid]` Adjusted header cell height for `xxs` row size. ([#1369](https://github.com/infor-design/enterprise-wc/issues/1369))
+- `[DataGrid]` Fixed child-level data props when using `expandable-row-template` option. ([#1266](https://github.com/infor-design/enterprise-wc/issues/1266))
 - `[DataGrid]` Fixed an issue with the newer `maxlength` setting as it was not working in safari. ([#1403](https://github.com/infor-design/enterprise-wc/issues/1403))
 - `[LayoutGrid]` Added breakpoint sizes for the flow attribute in the grid-layout. ([#1405](https://github.com/infor-design/enterprise-wc/issues/1405))
 - `[ListView]` Added support for `ids-list-view-item` child component. ([#1042](https://github.com/infor-design/enterprise-wc/issues/1042))
