@@ -102,6 +102,14 @@ Here is a code example for multi select
 ```
 
 ```js
+  dataGrid.addEventListener('beforerowselected', (e: Event) => {
+    console.info(`Before Row Selected`, (<CustomEvent>e).detail);
+    if (Number((e as any).detail.data.book) === 104) {
+      console.error('Row 104 randomly cant be selected');
+      (<CustomEvent>e).detail.response(false);
+    }
+  });
+
   dataGrid.addEventListener('rowselected', (e) => {
     console.info(`Row Selected`, e.detail);
   });
@@ -470,7 +478,9 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `sorted` Fires when the sort column is changed.
 - `selectionchanged` Fires any time the selection changes.
 - `activationchanged` Fires any time the active row changes.
+- `beforerowselected` Fires before each row is selected. You can veto the selection by returning false in the event response for example `e.detail.response(false);`
 - `rowselected` Fires for each row that is selected.
+- `beforerowdeselected` Fires before each row is deselected. You can veto the deselection by returning false in the event response for example `e.detail.response(false);`
 - `rowdeselected` Fires for each row that is deselected.
 - `rowactivated` Fires for each row that is activated.
 - `rowdeactivated` Fires for each row that is deactivated.
