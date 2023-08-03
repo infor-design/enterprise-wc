@@ -23,13 +23,15 @@ if (dataGrid) {
       name: 'Description',
       field: 'description',
       sortable: true,
-      formatter: dataGrid.formatters.expander
+      formatter: dataGrid.formatters.expander,
+      showHeaderExpander: true,
     });
     columns.push({
       id: 'ledger',
       name: 'Ledger',
       field: 'ledger',
-      formatter: dataGrid.formatters.text
+      formatter: dataGrid.formatters.text,
+      showHeaderExpander: true,
     });
     columns.push({
       id: 'publishDate',

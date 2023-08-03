@@ -402,7 +402,9 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     const resizerTemplate = `<span class="resizer"></span>`;
     const reorderTemplate = `<div class="reorderer"><ids-icon icon="drag" size="medium"></ids-icon></div>`;
 
-    const expander = /^(expander|tree)$/g.test(column.formatter?.name || '') ? expanderTemplate : '';
+    const showGlobalExpander = ['expander', 'tree'].includes(column.formatter?.name ?? '');
+    const showHeaderExpander = column?.showHeaderExpander || showGlobalExpander;
+    const expander = showHeaderExpander ? expanderTemplate : '';
 
     const selectionCheckbox = column.id !== 'selectionRadio' && column.id === 'selectionCheckbox';
     const colName = escapeHTML(column.name);
@@ -416,6 +418,7 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     cssClasses += selectionCheckbox ? ' has-selectioncheckbox vertical-align-center' : '';
     cssClasses += column.headerIcon ? ' has-headericon' : '';
     cssClasses += column.reorderable ? ' is-reorderable' : '';
+    cssClasses += column?.showHeaderExpander ? ' column-header-expander' : '';
 
     // Content row cell template
     const headerContentWrapperTemplate = `<span class="${cssClasses}">
