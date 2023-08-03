@@ -127,6 +127,11 @@ export default class IdsSwapList extends Base {
     this.#syncDatasource();
   }
 
+  /**
+   * Gets swaplist item data by id
+   * @param {number} id list item id
+   * @returns {IdsSwaplistDataItem} swaplist item data
+   */
   #getListItemById(id: number): IdsSwaplistDataItem {
     return this.datasource.data
       .map((list) => list.items)
@@ -250,6 +255,10 @@ export default class IdsSwapList extends Base {
     }
   }
 
+  /**
+   * Syncs UI list items with datasource
+   * @private
+   */
   #syncDatasource() {
     const listCards = [...this.container!.querySelectorAll('ids-card.list-card')];
     const listItems = listCards.map((listCard) => {
