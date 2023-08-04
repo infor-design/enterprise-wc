@@ -206,9 +206,9 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
     }
 
     if (isHeaderIcon) isCustomTooltip = !!data?.headerIconTooltip;
-    else isCustomTooltip = !!data?.headerTooltip;
+    else isCustomTooltip = !!(data?.headerTooltip ?? data?.tooltip);
 
-    if (isCustomTooltip || isHeaderIcon || (titleEl?.offsetWidth < titleEl?.scrollWidth)) {
+    if (isCustomTooltip || (isHeaderIcon || (titleEl?.offsetWidth < titleEl?.scrollWidth))) {
       const iconText = isHeaderIcon ? iconEl.getAttribute('data-headericontooltip') : null;
 
       // The arguments to pass along callback
