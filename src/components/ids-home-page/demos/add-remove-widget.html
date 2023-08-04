@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Home Page - Add/Remove Widget</ids-text>
+        <br />
+        <ids-button id="btn-home-page-toggle-widget" appearance="secondary">
+          <span>Add Widget</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-home-page id="home-page-toggle-widget">
+      <ids-widget id="hp-widget-1" slot="widget" colspan="3">
+        <div slot="widget-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget 3x1 (Dom Order 1) - A</ids-text>
+        </div>
+        <div slot="widget-content"></div>
+      </ids-widget>
+      <ids-widget id="hp-widget-2" slot="widget">
+        <div slot="widget-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget 1x1 (Dom Order 2) - B</ids-text>
+        </div>
+        <div slot="widget-content"></div>
+      </ids-widget>
+      <ids-widget id="hp-widget-3" slot="widget">
+        <div slot="widget-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget 1x1 (Dom Order 3) - C</ids-text>
+        </div>
+        <div slot="widget-content"></div>
+      </ids-widget>
+    </ids-home-page>
+  </ids-container>
+</body>
+</html>

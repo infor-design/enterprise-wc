@@ -47,6 +47,7 @@ export default class IdsHyperlink extends Base {
       ...super.attributes,
       attributes.ALLOW_EMPTY_HREF,
       attributes.COLOR,
+      attributes.COL_SPAN,
       attributes.DISABLED,
       attributes.FONT_SIZE,
       attributes.FONT_WEIGHT,
@@ -245,5 +246,27 @@ export default class IdsHyperlink extends Base {
     }
 
     return true;
+  }
+
+  /**
+   * Set the col-span attribute
+   * @param {string | null} value If 2 will span 2 columns, nothing else is valid
+   */
+  set colSpan(value: string | null) {
+    if (value !== null) {
+      this.setAttribute(attributes.COL_SPAN, value);
+      this.container?.classList.add('colspan');
+    } else {
+      this.removeAttribute(attributes.COL_SPAN);
+      this.container?.classList.remove('colspan');
+    }
+  }
+
+  /**
+   * Get col-span attribute
+   * @returns {string | null} The number value for the columns to span in the grid
+   */
+  get colSpan(): string | null {
+    return this.getAttribute(attributes.COL_SPAN);
   }
 }

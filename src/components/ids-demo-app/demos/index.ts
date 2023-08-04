@@ -9,6 +9,7 @@ import axisChartYaml from '../../ids-axis-chart/demos/index.yaml';
 import badgeYaml from '../../ids-badge/demos/index.yaml';
 import barChartYaml from '../../ids-bar-chart/demos/index.yaml';
 import blockGridYaml from '../../ids-block-grid/demos/index.yaml';
+import boxYaml from '../../ids-box/demos/index.yaml';
 import breadcrumbYaml from '../../ids-breadcrumb/demos/index.yaml';
 import buttonYaml from '../../ids-button/demos/index.yaml';
 import calendarYaml from '../../ids-calendar/demos/index.yaml';
@@ -73,6 +74,7 @@ import skipLinkYaml from '../../ids-skip-link/demos/index.yaml';
 import sliderYaml from '../../ids-slider/demos/index.yaml';
 import spinboxYaml from '../../ids-spinbox/demos/index.yaml';
 import splitterYaml from '../../ids-splitter/demos/index.yaml';
+import statsYaml from '../../ids-stats/demos/index.yaml';
 import stepChartYaml from '../../ids-step-chart/demos/index.yaml';
 import swappableYaml from '../../ids-swappable/demos/index.yaml';
 import swaplistYaml from '../../ids-swaplist/demos/index.yaml';
@@ -95,6 +97,7 @@ import uploadAdvancedYaml from '../../ids-upload-advanced/demos/index.yaml';
 import uploadYaml from '../../ids-upload/demos/index.yaml';
 import virtualScrollYaml from '../../ids-virtual-scroll/demos/index.yaml';
 import weekViewYaml from '../../ids-week-view/demos/index.yaml';
+import widgetYaml from '../../ids-widget/demos/index.yaml';
 import wizardYaml from '../../ids-wizard/demos/index.yaml';
 
 const categories: Array<any> = [
@@ -124,6 +127,7 @@ addYaml(appMenuYaml);
 addYaml(badgeYaml);
 addYaml(barChartYaml);
 addYaml(blockGridYaml);
+addYaml(boxYaml);
 addYaml(breadcrumbYaml);
 addYaml(buttonYaml);
 addYaml(calendarYaml);
@@ -188,6 +192,7 @@ addYaml(skipLinkYaml);
 addYaml(sliderYaml);
 addYaml(splitterYaml);
 addYaml(spinboxYaml);
+addYaml(statsYaml);
 addYaml(stepChartYaml);
 addYaml(swappableYaml);
 addYaml(swaplistYaml);
@@ -210,6 +215,7 @@ addYaml(uploadYaml);
 addYaml(uploadAdvancedYaml);
 addYaml(virtualScrollYaml);
 addYaml(wizardYaml);
+addYaml(widgetYaml);
 addYaml(weekViewYaml);
 
 let html = '';
@@ -217,9 +223,9 @@ categories.forEach((category: any) => {
   html += `<ids-text type="h1" font-size="24">${category.name}</ids-text>
   <ids-layout-grid auto-fit="true" justify-content="start" padding-y="md"><ids-layout-grid-cell><ids-block-grid align="center">`;
   category.components.forEach((component: any) => {
-    html += `<ids-block-grid-item><ids-card actionable="true" height="100" href="/${component.link}" target="_self"><div slot="card-content">
-    <ids-text type="h2" font-size="16" font-weight="semi-bold" color="slate-100">${component.component}</ids-text>
-    <ids-text type="h2" font-size="16" color="slate-60">${component.description}</ids-text>
+    html += `<ids-block-grid-item><ids-card actionable="true" shadowed height="100" href="/${component.link}" target="_self"><div slot="card-content">
+    <ids-text type="h2" font-size="16" font-weight="semi-bold" color="text-default">${component.component}</ids-text>
+    <ids-text type="h2" font-size="16" color="text-subtle">${component.description}</ids-text>
     </div></ids-card></ids-block-grid-item>
     `;
   });

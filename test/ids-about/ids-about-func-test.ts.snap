@@ -10,8 +10,8 @@ exports[`IdsAbout Component (using properties) should render 1`] = `
         <span>Browser :  jsdom (20.0.0)</span><br>
         <span>Locale : en-US</span><br>
         <span>Language : en</span><br>
-        <span>Browser Language : en-US</span><br>
-        <span>IDS Version : 1.0.0-beta.13</span>
+        <span>Browser language : en-US</span><br>
+        <span>IDS version : 1.0.0-beta.13</span>
       </ids-text><ids-text slot="copyright" type="p">Copyright © 2022 Infor. All rights reserved. The word and design marks set forth herein are trademarks and/or registered trademarks of Infor and/or its affiliates and subsidiaries. All other trademarks listed herein are the property of their respective owners <ids-hyperlink target="_blank" href="https://www.infor.com" role="link">www.infor.com</ids-hyperlink>.</ids-text></ids-about>"
 `;
 
@@ -25,8 +25,8 @@ exports[`IdsAbout Component (using properties) should render 2`] = `
         <span>Browser :  jsdom (20.0.0)</span><br>
         <span>Locale : en-US</span><br>
         <span>Language : en</span><br>
-        <span>Browser Language : en-US</span><br>
-        <span>IDS Version : 1.0.0-beta.13</span>
+        <span>Browser language : en-US</span><br>
+        <span>IDS version : 1.0.0-beta.13</span>
       </ids-text><ids-text slot="copyright" type="p">Copyright © 2022 Infor. All rights reserved. The word and design marks set forth herein are trademarks and/or registered trademarks of Infor and/or its affiliates and subsidiaries. All other trademarks listed herein are the property of their respective owners <ids-hyperlink target="_blank" href="https://www.infor.com" role="link">www.infor.com</ids-hyperlink>.</ids-text></ids-about>"
 `;
 
@@ -40,7 +40,7 @@ exports[`IdsAbout Component (using properties) should render 3`] = `
         <span>Browser :  jsdom (20.0.0)</span><br>
         <span>Locale : en-US</span><br>
         <span>Language : en</span><br>
-        <span>Browser Language : en-US</span><br>
-        <span>IDS Version : 1.0.0-beta.13</span>
+        <span>Browser language : en-US</span><br>
+        <span>IDS version : 1.0.0-beta.13</span>
       </ids-text><ids-text slot="copyright" type="p">Copyright © 2022 Infor. All rights reserved. The word and design marks set forth herein are trademarks and/or registered trademarks of Infor and/or its affiliates and subsidiaries. All other trademarks listed herein are the property of their respective owners <ids-hyperlink target="_blank" href="https://www.infor.com" role="link">www.infor.com</ids-hyperlink>.</ids-text></ids-about>"
 `;

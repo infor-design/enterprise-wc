@@ -23,6 +23,10 @@
     }
   }
 
+  &.shadowed {
+    border: 1px solid transparent;
+  }
+
   &-checkbox {
     position: absolute;
     display: flex;
@@ -46,6 +50,56 @@
 
   .hidden {
     display: none;
+  }
+}
+
+// Header Area
+.ids-card-header {
+  align-items: center;
+  color: var(--ids-card-header-title-color);
+  display: flex;
+  padding-inline-start: var(--ids-card-header-padding-inline-start);
+  padding-inline-end: var(--ids-card-header-padding-inline-start);
+  height: var(--ids-card-header-height);
+}
+
+::slotted([slot='card-header']) {
+  position: relative;
+  width: 100%;
+}
+
+:host([no-header]) {
+  .ids-card-header {
+    display: none;
+  }
+}
+
+:host([shadowed]) {
+  .ids-card {
+    border: 1px solid var(--ids-box-shadowed-color-border);
+  }
+}
+
+// Footer Area
+.ids-card-footer {
+  padding: 6px 0 0;
+  display: none;
+  bottom: 0;
+  border-top: 1px solid var(--ids-card-divider-color-border);
+  width: 100%;
+
+  &.no-padding {
+    padding: 0;
+  }
+}
+
+.has-footer {
+  .ids-card-content {
+    height: 260px;
+  }
+
+  .ids-card-footer {
+    display: block;
   }
 }
 
@@ -84,12 +138,6 @@
     ids-hyperlink::part(link) {
       height: auto;
     }
-  }
-}
-
-:host([no-header]) {
-  .ids-card-header {
-    padding: 0;
   }
 }
 
@@ -132,10 +180,20 @@
   }
 }
 
-// Handle the themes for Actionable
+// Handle Actionable
 :host([actionable]) .ids-card {
   contain: unset;
   height: auto;
+  transition: var(--ids-motion-duration) var(--ids-motion-ease);
+
+  &:hover {
+    border: 1px solid var(--ids-card-color-border-hover);
+  }
+
+  &:not(.hide-focus):focus-within {
+    border: 1px solid var(--ids-card-color-border-focus);
+    box-shadow: var(--ids-shadow-30);
+  }
 
   ::slotted([slot='card-content']) {
     pointer-events: none;
@@ -151,11 +209,13 @@
   ids-hyperlink::part(link),
   ids-button::part(button) {
     align-items: center;
+    border: 1px solid transparent;
+    background-color: transparent;
     height: 50px;
 
-    &:focus {
-      border: 1px solid var(--ids-card-color-border);
-      box-shadow: var(--ids-shadow-30);
+    &:hover {
+      background-color: transparent;
+      color: var(--ids-button-tertiary-color-text-default);
     }
   }
 }
@@ -163,44 +223,6 @@
 // Style the title
 .ids-card-body {
   width: 100%;
-}
-
-.ids-card-header {
-  padding: var(--ids-card-header-padding);
-}
-
-.ids-card-footer {
-  background-color: var(--ids-card-color-background);
-  padding: 6px 0 0;
-  display: none;
-  bottom: 0;
-  border-top: 1px solid var(--ids-card-divider-color-border);
-  width: 100%;
-
-  &.no-padding {
-    padding: 0;
-  }
-}
-
-.has-footer {
-  .ids-card-content {
-    height: 260px;
-  }
-
-  .ids-card-footer {
-    display: block;
-  }
-}
-
-::slotted([slot='card-header']),
-::slotted([slot='card-footer']) {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-::slotted([slot='card-footer']) {
-  justify-content: center;
 }
 
 ::slotted([slot='card-content'].fixed-height) {

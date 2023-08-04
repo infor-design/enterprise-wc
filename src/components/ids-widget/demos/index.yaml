@@ -1,0 +1,13 @@
+---
+ component: Widget
+ link: ids-widget
+ description: Widget container in home pages
+ category: Layouts
+ keywords: box, layout, widget
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows all ids-widget combinations
+  - link: links.html
+    type: Example
+    description: Shows ways of showing links

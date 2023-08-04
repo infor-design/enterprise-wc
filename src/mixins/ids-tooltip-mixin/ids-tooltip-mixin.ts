@@ -1,7 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor } from '../../core/ids-element';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { getClosest, checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
 import '../../components/ids-tooltip/ids-tooltip';
 import type IdsTooltip from '../../components/ids-tooltip/ids-tooltip';
@@ -69,8 +69,8 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
    */
   showTooltip() {
     // For ellipsis tooltip check if overflowing and only show if it is
-    if (this.nodeName === 'IDS-TEXT' && this.tooltip === 'true' && this.container && !(this.container.scrollWidth > this.container.clientWidth)) {
-      return;
+    if (this.nodeName === 'IDS-TEXT' && this.tooltip === 'true' && this.container) {
+      if (!checkOverflow(this.container)) return;
     }
 
     // Append an IDS Tooltip and show it

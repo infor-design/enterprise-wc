@@ -1,16 +1,16 @@
 ---
  component: Home Page
  link: ids-home-page
- description: Home Page / Card Layout
+ description: Home Page / Widget Layout
  category: Layouts
- keywords: Home Page, Card, Cards
+ keywords: Home Page, Widget, Widgets
  examples:
   - link: example.html
     type: Main Example
-    description: Shows home page layout with cards
-  - link: add-remove-card.html
+    description: Shows home page layout with widgets
+  - link: add-remove-widget.html
     type: Example
-    description: Shows adding and removing home page cards
+    description: Shows adding and removing home page widgets
   - link: columns-4.html
     type: Example
     description: Shows a four column home page
@@ -94,40 +94,25 @@
     description: Shows test scenario R
   - link: small-columns-4.html
     type: Test
-    description: Shows test with smaller cards and 4 columns
+    description: Shows test with smaller widgets and 4 columns
   - link: small-columns-5.html
     type: Test
-    description: Shows test with smaller cards and 5 columns
+    description: Shows test with smaller widgets and 5 columns
   - link: small-columns-5.html
     type: Test
-    description: Shows test with smaller cards and 5 columns
+    description: Shows test with smaller widgets and 5 columns
   - link: small-scenario-a.html
     type: Test
-    description: Shows test with smaller cards
+    description: Shows test with smaller widgets
   - link: small-scenario-b.html
     type: Test
-    description: Shows test with smaller cards
+    description: Shows test with smaller widgets
   - link: small-scenario-c.html
     type: Test
-    description: Shows test with smaller cards
+    description: Shows test with smaller widgets
   - link: small-scenario-d.html
     type: Test
-    description: Shows test with smaller cards
-
-
-
-
-
-
-
-
-
-
-
-
+    description: Shows test with smaller widgets
   - link: events.html
     type: Test
     description: Shows the events firing
-  - link: side-by-side.html
-    type: Side-by-Side Example
-    description: Showing the wc home page with 4.x home page

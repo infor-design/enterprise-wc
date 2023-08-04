@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+    <ids-container role="main" padding="8" hidden>
+      <ids-theme-switcher mode="light"></ids-theme-switcher>
+      <ids-layout-grid auto-fit="true" padding="md">
+        <ids-text font-size="12" type="h1">Widget (Layout)</ids-text>
+      </ids-layout-grid>
+
+      <ids-home-page>
+        <ids-widget slot="widget">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Bordered</ids-text>
+              </ids-toolbar-section>
+              <ids-toolbar-section type="buttonset" align="end">
+                <ids-menu-button menu="icon-actions-1" id="actions-button-1" system-button hidden>
+                  <ids-icon icon="vertical-ellipsis"></ids-icon>
+                  <span class="audible">Actions</span>
+                </ids-menu-button>
+                <ids-popup-menu id="icon-actions-1" target="#actions-button-1">
+                  <ids-menu-group>
+                    <ids-menu-item>Action one</ids-menu-item>
+                    <ids-menu-item>Action two</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content"></div>
+        </ids-widget>
+
+        <ids-widget slot="widget">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Bordered with Actions</ids-text>
+              </ids-toolbar-section>
+              <ids-toolbar-section type="buttonset" align="end">
+                <ids-button>
+                  <ids-icon icon="add"></ids-icon>
+                  <span class="audible">Add</span>
+                </ids-button>
+                <ids-menu-button menu="icon-actions-2" id="actions-button-2" system-button>
+                  <ids-icon icon="vertical-ellipsis"></ids-icon>
+                  <span class="audible">Actions</span>
+                </ids-menu-button>
+                <ids-popup-menu id="icon-actions-2" target="#actions-button-2">
+                  <ids-menu-group>
+                    <ids-menu-item>Action one</ids-menu-item>
+                    <ids-menu-item>Action two</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content"></div>
+        </ids-widget>
+
+        <ids-widget slot="widget" padding-y="16" padding-x="16">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Bordered with Padding</ids-text>
+              </ids-toolbar-section>
+              <ids-toolbar-section type="buttonset" align="end">
+                <ids-button>
+                  <ids-icon icon="search"></ids-icon>
+                  <span class="audible">Action</span>
+                </ids-button>
+                <ids-menu-button menu="icon-actions-3" id="actions-button-3" system-button>
+                  <ids-icon icon="vertical-ellipsis"></ids-icon>
+                  <span class="audible">Actions</span>
+                </ids-menu-button>
+                <ids-popup-menu id="icon-actions-3" target="#actions-button-3">
+                  <ids-menu-group>
+                    <ids-menu-item>Action one</ids-menu-item>
+                    <ids-menu-item>Action two</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-text type="p">Introducing our new line of sustainable and eco-friendly products! We're committed to reducing our environmental impact and creating products that are better for the planet. Our new line features materials such as organic cotton, recycled plastic, and bamboo, all of which are renewable and biodegradable.</ids-text>
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget" borderless padding-y="16" padding-x="16">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Borderless</ids-text>
+              </ids-toolbar-section>
+              <ids-toolbar-section type="buttonset" align="end">
+                <ids-menu-button menu="icon-actions-4" id="actions-button-4" system-button hidden>
+                  <ids-icon icon="vertical-ellipsis"></ids-icon>
+                  <span class="audible">Actions</span>
+                </ids-menu-button>
+                <ids-popup-menu id="icon-actions-4" target="#actions-button-4">
+                  <ids-menu-group>
+                    <ids-menu-item>Action one</ids-menu-item>
+                    <ids-menu-item>Action two</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-text type="p">Introducing our new line of sustainable and eco-friendly products! We're committed to reducing our environmental impact and creating products that are better for the planet. Our new line features materials such as organic cotton, recycled plastic, and bamboo, all of which are renewable and biodegradable.</ids-text>
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget" borderless padding-y="16" padding-x="16">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Borderless with Actions</ids-text>
+              </ids-toolbar-section>
+              <ids-toolbar-section type="buttonset" align="end">
+                <ids-button>
+                  <ids-icon icon="map-pin"></ids-icon>
+                  <span class="audible">Action</span>
+                </ids-button>
+                <ids-menu-button menu="icon-actions-5" id="actions-button-5" system-button>
+                  <ids-icon icon="vertical-ellipsis"></ids-icon>
+                  <span class="audible">Actions</span>
+                </ids-menu-button>
+                <ids-popup-menu id="icon-actions-5" target="#actions-button-5">
+                  <ids-menu-group>
+                    <ids-menu-item>Action one</ids-menu-item>
+                    <ids-menu-item>Action two</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-text type="p">Introducing our new line of sustainable and eco-friendly products! We're committed to reducing our environmental impact and creating products that are better for the planet. Our new line features materials such as organic cotton, recycled plastic, and bamboo, all of which are renewable and biodegradable.</ids-text>
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget" overflow="hidden">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Search</ids-text>
+              </ids-toolbar-section>
+              <ids-toolbar-section type="buttonset" align="end">
+                <ids-menu-button menu="icon-actions-6" id="actions-button-6" system-button hidden>
+                  <ids-icon icon="vertical-ellipsis"></ids-icon>
+                  <span class="audible">Actions</span>
+                </ids-menu-button>
+                <ids-popup-menu id="icon-actions-6" target="#actions-button-6">
+                  <ids-menu-group>
+                    <ids-menu-item>Action one</ids-menu-item>
+                    <ids-menu-item>Action two</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-list-view id="lv-search" searchable height="275">
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">First Post</ids-text>
+                <ids-text font-size="12">ID: 1</ids-text>
+                <ids-hidden value="1" condition="false">
+                  <ids-text font-size="12">Comments: 1</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Second Post</ids-text>
+                <ids-text font-size="12">ID: 2</ids-text>
+                <ids-hidden value="2" condition="false">
+                  <ids-text font-size="12">Comments: 2</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Third Post</ids-text>
+                <ids-text font-size="12">ID: 3</ids-text>
+                <ids-hidden value="3" condition="false">
+                  <ids-text font-size="12">Comments: 3</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Fourth Post</ids-text>
+                <ids-text font-size="12">ID: 4</ids-text>
+                <ids-hidden value="4" condition="false">
+                  <ids-text font-size="12">Comments: 4</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Fifth Post</ids-text>
+                <ids-text font-size="12">ID: 5</ids-text>
+                <ids-hidden value="5" condition="false">
+                  <ids-text font-size="12">Comments: 5</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Sixth Post</ids-text>
+                <ids-text font-size="12">ID: 6</ids-text>
+                <ids-hidden value="6" condition="false">
+                  <ids-text font-size="12">Comments: 6</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Seventh Post</ids-text>
+                <ids-text font-size="12">ID: 7</ids-text>
+                <ids-hidden value="7" condition="false">
+                  <ids-text font-size="12">Comments: 7</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Eighth Post</ids-text>
+                <ids-text font-size="12">ID: 8</ids-text>
+                <ids-hidden value="8" condition="false">
+                  <ids-text font-size="12">Comments: 8</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Ninth Post</ids-text>
+                <ids-text font-size="12">ID: 9</ids-text>
+                <ids-hidden value="9" condition="false">
+                  <ids-text font-size="12">Comments: 9</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Tenth Post</ids-text>
+                <ids-text font-size="12">ID: 10</ids-text>
+                <ids-hidden value="10" condition="false">
+                  <ids-text font-size="12">Comments: 10</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Eleventh Post</ids-text>
+                <ids-text font-size="12">ID: 11</ids-text>
+                <ids-hidden value="11" condition="false">
+                  <ids-text font-size="12">Comments: 11</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Twelfth Post</ids-text>
+                <ids-text font-size="12">ID: 12</ids-text>
+                <ids-hidden value="12" condition="false">
+                  <ids-text font-size="12">Comments: 12</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Thirtheenth Post</ids-text>
+                <ids-text font-size="12">ID: 13</ids-text>
+                <ids-hidden value="13" condition="false">
+                  <ids-text font-size="12">Comments: 13</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Fourteenth Post</ids-text>
+                <ids-text font-size="12">ID: 14</ids-text>
+                <ids-hidden value="14" condition="false">
+                  <ids-text font-size="12">Comments: 14</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Fifteenth Post</ids-text>
+                <ids-text font-size="12">ID: 15</ids-text>
+                <ids-hidden value="15" condition="false">
+                  <ids-text font-size="12">Comments: 15</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Sixteenth Post</ids-text>
+                <ids-text font-size="12">ID: 16</ids-text>
+                <ids-hidden value="16" condition="false">
+                  <ids-text font-size="12">Comments: 16</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Seventeenth Post</ids-text>
+                <ids-text font-size="12">ID: 17</ids-text>
+                <ids-hidden value="17" condition="false">
+                  <ids-text font-size="12">Comments: 17</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Eighteenth Post</ids-text>
+                <ids-text font-size="12">ID: 18</ids-text>
+                <ids-hidden value="18" condition="false">
+                  <ids-text font-size="12">Comments: 18</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Nineteenth Post</ids-text>
+                <ids-text font-size="12">ID: 19</ids-text>
+                <ids-hidden value="19" condition="false">
+                  <ids-text font-size="12">Comments: 19</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Twentieth Post</ids-text>
+                <ids-text font-size="12">ID: 20</ids-text>
+                <ids-hidden value="20" condition="false">
+                  <ids-text font-size="12">Comments: 20</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+            </ids-list-view>
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Search</ids-text>
+              </ids-toolbar-section>
+              <ids-toolbar-section type="buttonset" align="end">
+                <ids-menu-button menu="icon-actions-7" id="actions-button-7" system-button hidden>
+                  <ids-icon icon="vertical-ellipsis"></ids-icon>
+                  <span class="audible">Actions</span>
+                </ids-menu-button>
+                <ids-popup-menu id="icon-actions-7" target="#actions-button-7">
+                  <ids-menu-group>
+                    <ids-menu-item>Action one</ids-menu-item>
+                    <ids-menu-item>Action two</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-search">
+            <ids-search-field placeholder="Type to search" label-state="collapsed" size="full"></ids-search-field>
+          </div>
+          <div slot="widget-content">
+            <div id="fake-content"></div>
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Title</ids-text>
+                <ids-text font-size="14" subtitle label="true">Subtitle</ids-text>
+              </ids-toolbar-section>
+              <ids-toolbar-section type="buttonset" align="end">
+                <ids-menu-button menu="icon-actions-8" id="actions-button-8" system-button hidden>
+                  <ids-icon icon="vertical-ellipsis"></ids-icon>
+                  <span class="audible">Actions</span>
+                </ids-menu-button>
+                <ids-popup-menu id="icon-actions-8" target="#actions-button-8">
+                  <ids-menu-group>
+                    <ids-menu-item>Action one</ids-menu-item>
+                    <ids-menu-item>Action two</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Badge<ids-badge color="info" shape="round">5</ids-badge></ids-text>
+
+              </ids-toolbar-section>
+              <ids-toolbar-section type="buttonset" align="end">
+                <ids-menu-button menu="icon-actions-9" id="actions-button-9" system-button hidden>
+                  <ids-icon icon="vertical-ellipsis"></ids-icon>
+                  <span class="audible">Actions</span>
+                </ids-menu-button>
+                <ids-popup-menu id="icon-actions-9" target="#actions-button-9">
+                  <ids-menu-group>
+                    <ids-menu-item>Action one</ids-menu-item>
+                    <ids-menu-item>Action two</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget" overflow="hidden">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Footer</ids-text>
+              </ids-toolbar-section>
+              <ids-toolbar-section type="buttonset" align="end">
+                <ids-menu-button menu="icon-actions-10" id="actions-button-10" system-button hidden>
+                  <ids-icon icon="vertical-ellipsis"></ids-icon>
+                  <span class="audible">Actions</span>
+                </ids-menu-button>
+                <ids-popup-menu id="icon-actions-10" target="#actions-button-10">
+                  <ids-menu-group>
+                    <ids-menu-item>Action one</ids-menu-item>
+                    <ids-menu-item>Action two</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-list-view id="lv-search2" height="275">
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">First Post</ids-text>
+                <ids-text font-size="12">ID: 1</ids-text>
+                <ids-hidden value="1" condition="false">
+                  <ids-text font-size="12">Comments: 1</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Second Post</ids-text>
+                <ids-text font-size="12">ID: 2</ids-text>
+                <ids-hidden value="2" condition="false">
+                  <ids-text font-size="12">Comments: 2</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Third Post</ids-text>
+                <ids-text font-size="12">ID: 3</ids-text>
+                <ids-hidden value="3" condition="false">
+                  <ids-text font-size="12">Comments: 3</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Fourth Post</ids-text>
+                <ids-text font-size="12">ID: 4</ids-text>
+                <ids-hidden value="4" condition="false">
+                  <ids-text font-size="12">Comments: 4</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Fifth Post</ids-text>
+                <ids-text font-size="12">ID: 5</ids-text>
+                <ids-hidden value="5" condition="false">
+                  <ids-text font-size="12">Comments: 5</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Sixth Post</ids-text>
+                <ids-text font-size="12">ID: 6</ids-text>
+                <ids-hidden value="6" condition="false">
+                  <ids-text font-size="12">Comments: 6</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Seventh Post</ids-text>
+                <ids-text font-size="12">ID: 7</ids-text>
+                <ids-hidden value="7" condition="false">
+                  <ids-text font-size="12">Comments: 7</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Eighth Post</ids-text>
+                <ids-text font-size="12">ID: 8</ids-text>
+                <ids-hidden value="8" condition="false">
+                  <ids-text font-size="12">Comments: 8</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Ninth Post</ids-text>
+                <ids-text font-size="12">ID: 9</ids-text>
+                <ids-hidden value="9" condition="false">
+                  <ids-text font-size="12">Comments: 9</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Tenth Post</ids-text>
+                <ids-text font-size="12">ID: 10</ids-text>
+                <ids-hidden value="10" condition="false">
+                  <ids-text font-size="12">Comments: 10</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Eleventh Post</ids-text>
+                <ids-text font-size="12">ID: 11</ids-text>
+                <ids-hidden value="11" condition="false">
+                  <ids-text font-size="12">Comments: 11</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Twelfth Post</ids-text>
+                <ids-text font-size="12">ID: 12</ids-text>
+                <ids-hidden value="12" condition="false">
+                  <ids-text font-size="12">Comments: 12</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Thirtheenth Post</ids-text>
+                <ids-text font-size="12">ID: 13</ids-text>
+                <ids-hidden value="13" condition="false">
+                  <ids-text font-size="12">Comments: 13</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Fourteenth Post</ids-text>
+                <ids-text font-size="12">ID: 14</ids-text>
+                <ids-hidden value="14" condition="false">
+                  <ids-text font-size="12">Comments: 14</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Fifteenth Post</ids-text>
+                <ids-text font-size="12">ID: 15</ids-text>
+                <ids-hidden value="15" condition="false">
+                  <ids-text font-size="12">Comments: 15</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Sixteenth Post</ids-text>
+                <ids-text font-size="12">ID: 16</ids-text>
+                <ids-hidden value="16" condition="false">
+                  <ids-text font-size="12">Comments: 16</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Seventeenth Post</ids-text>
+                <ids-text font-size="12">ID: 17</ids-text>
+                <ids-hidden value="17" condition="false">
+                  <ids-text font-size="12">Comments: 17</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Eighteenth Post</ids-text>
+                <ids-text font-size="12">ID: 18</ids-text>
+                <ids-hidden value="18" condition="false">
+                  <ids-text font-size="12">Comments: 18</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Nineteenth Post</ids-text>
+                <ids-text font-size="12">ID: 19</ids-text>
+                <ids-hidden value="19" condition="false">
+                  <ids-text font-size="12">Comments: 19</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+              <ids-list-view-item>
+                <ids-text font-size="16" type="h2">Twentieth Post</ids-text>
+                <ids-text font-size="12">ID: 20</ids-text>
+                <ids-hidden value="20" condition="false">
+                  <ids-text font-size="12">Comments: 20</ids-text>
+                </ids-hidden>
+              </ids-list-view-item>
+            </ids-list-view>
+          </div>
+          <div slot="widget-footer">
+            <ids-layout-flex gap="8" justify-content="center">
+              <ids-layout-flex-item>
+                <ids-button>Load more</ids-button>
+              </ids-layout-flex-item>
+            </ids-layout-flex>
+          </div>
+        </ids-widget>
+      </ids-home-page>
+
+    </ids-container>
+</body>
+</html>
