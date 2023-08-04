@@ -1242,7 +1242,7 @@ Set empty message thru slot (markup).
 <ids-data-grid id="data-grid-em-thru-slot" label="Books">
   <ids-empty-message hidden icon="empty-search-data-new" slot="empty-message">
     <ids-text type="h2" font-size="20" label="true" slot="label">No Data</ids-text>
-    <ids-text hidden label="true" slot="description">There is no data available.</ids-text>
+    <ids-text hidden label="true" slot="description">There is No data available.</ids-text>
   </ids-empty-message>
 </ids-data-grid>
 ```
@@ -1255,7 +1255,7 @@ Set empty message thru settings (markup).
   label="Books"
   empty-message-icon="empty-error-loading-new"
   empty-message-label="No Data"
-  empty-message-description="There is no data available."
+  empty-message-description="There is No data available."
 ></ids-data-grid>
 ```
 
@@ -1270,7 +1270,7 @@ Set empty message thru settings (javascript).
 const dataGrid = document.querySelector('#data-grid-em-thru-settings-js');
 dataGrid.emptyMessageIcon = 'empty-error-loading-new';
 dataGrid.emptyMessageLabel = 'No Data';
-dataGrid.emptyMessageDescription = 'There is no data available.';
+dataGrid.emptyMessageDescription = 'There is No data available.';
 ```
 
 ## Row Height

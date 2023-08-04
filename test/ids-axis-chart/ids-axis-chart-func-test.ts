@@ -222,7 +222,7 @@ describe('IdsAxisChart Component', () => {
 
   it('changes empty message text when changing locale', async () => {
     axisChart.data = [];
-    expect(axisChart.emptyMessage.querySelector('ids-text').textContent).toEqual('No Data Available');
+    expect(axisChart.emptyMessage.querySelector('ids-text').textContent).toEqual('No data available');
     container.locale = 'de-DE';
     await processAnimFrame();
     expect(axisChart.emptyMessage.querySelector('ids-text').textContent).toEqual('Keine Daten verfügbar');

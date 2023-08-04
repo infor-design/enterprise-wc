@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Ids Icon (Status color)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md" min-col-width="100px">
+      <ids-layout-grid-cell>
+        <ids-icon icon="rocket" status-color="azure"></ids-icon>
+        <ids-icon icon="money" status-color="azure"></ids-icon>
+        <ids-icon icon="info" status-color="azure"></ids-icon>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-icon icon="success" status-color="success"></ids-icon>
+        <ids-icon icon="error" status-color="error"></ids-icon>
+        <ids-icon icon="alert" status-color="warning"></ids-icon>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+  </ids-container>
+</body>
+</html>

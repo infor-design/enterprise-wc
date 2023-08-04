@@ -1,0 +1,56 @@
+/* Ids Box Component */
+@use '../../themes/mixins/ids-core-mixins' as mixins;
+
+.ids-box {
+  @include mixins.antialiased();
+
+  // Colors/Borders/Size
+  background-color: var(--ids-box-color-background);
+  border: 1px solid var(--ids-box-color-border);
+  border-radius: var(--ids-box-border-radius);
+  box-shadow: var(--ids-box-shadow);
+  padding: var(--ids-box-padding);
+  box-sizing: border-box;
+  outline: var(--ids-box-outline);
+  height: var(--ids-box-height);
+  width: var(--ids-box-width);
+
+  // Fonts
+  font-family: var(--ids-font-family-default);
+  font-size: var(--ids-box-font-size);
+  color: var(--ids-box-color-text-default);
+
+  // Layout
+  display: inline-flex;
+  contain: content;
+  transition: var(--ids-motion-duration) var(--ids-motion-ease);
+
+  &.borderless {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  &.shadowed {
+    border: var(--ids-box-shadowed-color-border);
+  }
+
+  &.is-actionable {
+    cursor: var(--ids-cursor-pointer);
+
+    &:hover:not(.is-selected) {
+      outline: var(--ids-box-outline-hover);
+    }
+  }
+
+  &.is-selected {
+    outline: var(--ids-box-outline-selected);
+  }
+}
+
+::slotted(*) {
+  align-self: center;
+  color: var(--ids-box-color-text-default);
+  display: flex;
+  margin: 0 auto;
+}

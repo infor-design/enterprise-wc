@@ -57,6 +57,7 @@ export default class IdsIcon extends Base {
       attributes.HEIGHT,
       attributes.ICON,
       attributes.SIZE,
+      attributes.STATUS_COLOR,
       attributes.VERTICAL,
       attributes.VIEWBOX,
       attributes.WIDTH
@@ -77,19 +78,14 @@ export default class IdsIcon extends Base {
    * @returns {string} The template
    */
   template(): string {
-    let height = '';
-    let width = '';
     let viewBox = '';
-
-    height = this.height;
-    width = this.width;
 
     if (this.viewbox) {
       viewBox = this.viewbox;
     } else {
       viewBox = '0 0 18 18';
     }
-    let template = `<svg part="svg" xmlns="http://www.w3.org/2000/svg"${this.isMirrored(this.icon) ? ` class="mirrored"` : ''} stroke="currentColor" fill="none" height="${height}" width="${width}" viewBox="${viewBox}" aria-hidden="true">
+    let template = `<svg part="svg" xmlns="http://www.w3.org/2000/svg"${this.isMirrored(this.icon) ? ` class="mirrored"` : ''} stroke="currentColor" fill="none" viewBox="${viewBox}" aria-hidden="true">
       ${this.iconData()}
     </svg>`;
     if (this.badgePosition && this.badgeColor) {
@@ -388,6 +384,23 @@ export default class IdsIcon extends Base {
       this.removeAttribute(attributes.SIZE);
     }
     this.#adjustViewbox();
+  }
+
+  /**
+   * Color that can be used for embellishment or to indicate status or bring attention
+   * @param {string} value Any pallete color reference
+   */
+  set statusColor(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.STATUS_COLOR, value);
+      this.container?.classList.add(`status-color-${value}`);
+    } else {
+      this.removeAttribute(attributes.STATUS_COLOR);
+    }
+  }
+
+  get statusColor(): string {
+    return this.getAttribute(attributes.STATUS_COLOR) || '';
   }
 
   /**

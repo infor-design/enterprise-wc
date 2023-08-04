@@ -30,7 +30,7 @@ function emptyMessageDefaults(this: IdsDataGrid) {
   return {
     description: this.localeAPI?.translate('NoDataFilter') || 'No data available, make a new filter selection to see more results.',
     icon: 'empty-no-data-new',
-    label: this.localeAPI?.translate('NoData') || 'No Data Available'
+    label: this.localeAPI?.translate('NoData') || 'No data available'
   };
 }
 

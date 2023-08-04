@@ -26,7 +26,17 @@ const Base = IdsKeyboardMixin(
   )
 );
 
-const DEFAULT_COUNT = 2;
+export interface IdsSwaplistData {
+  id: number;
+  name: string;
+  items: IdsSwaplistDataItem[];
+}
+
+export interface IdsSwaplistDataItem {
+  id: number;
+  value: string;
+  text: string;
+}
 
 /**
  * IDS SwapList Component
@@ -48,6 +58,7 @@ export default class IdsSwapList extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
+    this.renderLists();
     this.attachEventHandlers();
   }
 
@@ -69,7 +80,7 @@ export default class IdsSwapList extends Base {
   set data(value: any | null) {
     if (this.datasource) {
       this.datasource.data = value || [];
-      this.render();
+      this.renderLists();
     }
   }
 
@@ -87,10 +98,13 @@ export default class IdsSwapList extends Base {
     const nextList = nextCard.querySelector('ids-swappable');
     const selectedItems = currentCard.querySelectorAll('ids-swappable-item[selected]');
 
+    // swap list items in UI
     selectedItems.forEach((x: any) => {
       nextList.appendChild(x);
       x.removeAttribute(attributes.SELECTED);
     });
+
+    this.#syncDatasource();
   }
 
   /**
@@ -105,10 +119,25 @@ export default class IdsSwapList extends Base {
     const prevList = prevCard.querySelector('ids-swappable');
     const selectedItems = currentCard.querySelectorAll('ids-swappable-item[selected]');
 
+    // swap list items in UI
     selectedItems.forEach((x: any) => {
       prevList.appendChild(x);
       x.removeAttribute(attributes.SELECTED);
     });
+
+    this.#syncDatasource();
+  }
+
+  /**
+   * Gets swaplist item data by id
+   * @param {number}id list item id
+   * @returns {IdsSwaplistDataItem} swaplist item data
+   */
+  #getListItemById(id: number): IdsSwaplistDataItem {
+    return this.datasource.data
+      .map((list) => list.items)
+      .flat()
+      .find((item) => id === item.id);
   }
 
   /**
@@ -119,28 +148,6 @@ export default class IdsSwapList extends Base {
    */
   get selectedItems(): any {
     return this.container?.querySelectorAll('ids-swappable-item[selected]');
-  }
-
-  /**
-   * Set the count of lists
-   * @param {any} value number of lists
-   * @memberof IdsSwapList
-   */
-  set count(value: any) {
-    const val = parseInt(value);
-    if (!Number.isNaN(val)) this.setAttribute(attributes.COUNT, String(val));
-    else this.setAttribute(attributes.COUNT, String(DEFAULT_COUNT));
-  }
-
-  /**
-   * Get the count of lists
-   * @returns {number} number of lists
-   * @readonly
-   * @memberof IdsSwapList
-   */
-  get count(): number {
-    const val = this.getAttribute(attributes.COUNT);
-    return val ? parseInt(val) : DEFAULT_COUNT;
   }
 
   /**
@@ -163,14 +170,17 @@ export default class IdsSwapList extends Base {
         <ids-icon icon="swap-list-right"></ids-icon>
       </ids-button>
     `;
+
+    const count = this.data.length;
     let html = ``;
-    if (i > 0 && i < this.count - 1) {
+
+    if (i > 0 && i < count - 1) {
       // render left and right arrow button
       html = leftArrow + rightArrow;
     } else if (i === 0) {
       // render the right arrow button
       html = rightArrow;
-    } else if (i === this.count - 1) {
+    } else if (i === count - 1) {
       // render the left arrow button
       html = leftArrow;
     }
@@ -190,11 +200,13 @@ export default class IdsSwapList extends Base {
 
   /**
    * Return an item's html injecting any values from the dataset as needed.
-   * @param {any} item The item to generate
+   * @param {IdsSwaplistDataItem} item The item to generate
    * @returns {string} The html for this item
    */
-  itemTemplate(item: any): any {
-    return injectTemplate(this.defaultTemplate, item);
+  itemTemplate(item: IdsSwaplistDataItem): string {
+    return `<ids-swappable-item data-value="${item.value}" data-id="${item.id}">
+      ${injectTemplate(this.defaultTemplate, item)}
+    </ids-swappable-item>`;
   }
 
   /**
@@ -203,26 +215,30 @@ export default class IdsSwapList extends Base {
    * @memberof IdsSwapList
    */
   listTemplate(): string {
-    const arr = Array(this.count).fill(0);
+    const arr = Array(this.data.length).fill(0);
     const arrLen = arr.length;
+    const data = this.data;
 
-    const html = arr.map((v, i) => `
-      <ids-card class="${arrLen === i + 1 ? `card card-${i} card-last` : `card card-${i}`}">
+    return data.map((list: IdsSwaplistData, i: number) => {
+      const listTemplate = `<ids-card 
+        class="list-card ${arrLen === i + 1 ? `card card-${i} card-last` : `card card-${i}`}"
+        data-id="${list.id}"
+        data-name="${list.name}">
         <div slot="card-header">
-          <ids-text font-size="20">List #${i}</ids-text>
+          <ids-text font-size="20">${list.name}</ids-text>
           <div class="swap-buttons">
             ${this.buttonTemplate(i)}
           </div>
         </div>
         <div slot="card-content">
           <ids-swappable selection="multiple">
-            ${this.data.length > 0 ? this.data?.map(this.itemTemplateFunc()).join('') : ''}
+            ${list.items.length > 0 ? list.items?.map(this.itemTemplateFunc()).join('') : ''}
           </ids-swappable>
         </div>
-      </ids-card>
-    `.trim()).join('');
+      </ids-card>`;
 
-    return html;
+      return listTemplate;
+    }).join('');
   }
 
   /**
@@ -241,6 +257,32 @@ export default class IdsSwapList extends Base {
   }
 
   /**
+   * Syncs UI list items with datasource
+   * @private
+   */
+  #syncDatasource() {
+    const listCards = [...this.container!.querySelectorAll('ids-card.list-card')];
+    const listItems = listCards.map((listCard) => {
+      const items = [...listCard.querySelectorAll('ids-swappable-item')]
+        .map((item: any) => Number(item.getAttribute('data-id')))
+        .map((itemId: any) => this.#getListItemById(itemId));
+      return items;
+    });
+
+    this.data.forEach((list: IdsSwaplistData, idx: number) => {
+      list!.items = listItems[idx];
+    });
+
+    this.#triggerUpdate();
+  }
+
+  #triggerUpdate() {
+    this.triggerEvent('updated', this, {
+      detail: { data: this.data }
+    });
+  }
+
+  /**
    * Attach event handlers
    * @memberof IdsSwapList
    */
@@ -251,17 +293,22 @@ export default class IdsSwapList extends Base {
     this.offEvent('touchend', this.container, (e: any) => this.#handleItemSwap(e));
     this.onEvent('touchend', this.container, (e: any) => this.#handleItemSwap(e));
 
+    this.offEvent('drop', this.container);
+    this.onEvent('drop', this.container, () => {
+      this.#syncDatasource();
+    });
+
+    this.unlisten('Enter');
     this.listen('Enter', this.container, (e: any) => this.#handleItemSwap(e));
   }
 
-  render() {
-    super.render(true);
-
-    if (this.data?.length > 0) {
-      this.attachEventHandlers();
+  /**
+   * Renders lists from datasource
+   */
+  renderLists() {
+    if (this.container) {
+      this.container.innerHTML = this.listTemplate();
     }
-
-    return this;
   }
 
   /**
@@ -269,10 +316,6 @@ export default class IdsSwapList extends Base {
    * @returns {string} The template
    */
   template() {
-    return `
-      <div class="ids-swaplist">
-        ${this.listTemplate()}
-      </div>
-    `;
+    return `<div class="ids-swaplist"></div>`;
   }
 }

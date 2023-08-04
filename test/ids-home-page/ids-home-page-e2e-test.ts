@@ -26,12 +26,12 @@ describe('Ids Home Page e2e Tests', () => {
     const numberOfObjects = await countObjects(page);
     await page.evaluate(() => {
       document.body.insertAdjacentHTML('beforeend', `<ids-home-page id="test">
-      <ids-card slot="card" colspan="3">
-        <div slot="card-header">
-          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card 3x1 (Dom Order 1) - A</ids-text>
+      <ids-widget slot="widget" colspan="3">
+        <div slot="widget-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget 3x1 (Dom Order 1) - A</ids-text>
         </div>
-        <div slot="card-content"></div>
-      </ids-card></ids-home-page>`);
+        <div slot="widget-content"></div>
+      </ids-widget></ids-home-page>`);
       document.querySelector('#test')?.remove();
     });
     expect(await countObjects(page)).toEqual(numberOfObjects);
