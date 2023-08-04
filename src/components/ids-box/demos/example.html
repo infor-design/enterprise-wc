@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+    <ids-container role="main" padding="8" hidden>
+      <ids-theme-switcher mode="light"></ids-theme-switcher>
+      <ids-layout-grid auto-fit="true" padding="md">
+        <ids-text font-size="12" type="h1">Box (Layout)</ids-text>
+      </ids-layout-grid>
+      <ids-layout-grid cols="6" gap="md" padding-x="md">
+        <ids-layout-grid-cell>
+          <ids-checkbox-group>
+          <ids-box>
+            Bordered
+          </ids-box>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell>
+          <ids-box shadowed>
+            Shadowed
+          </ids-box>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell>
+          <ids-box square padding-x="16" padding-y="16" border-radius="0">
+            Squared
+          </ids-box>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell>
+          <ids-box padding-x="16" padding-y="16" >
+            Padded
+          </ids-box>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell>
+          <ids-box background-color="--ids-color-azure-10">
+            <ids-text color="azure-100">Colored</ids-text>
+          </ids-box>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell>
+          <ids-box height="54" width="100%">
+            <span>Width / Height</span>
+          </ids-box>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+    </ids-container>
+</body>
+</html>

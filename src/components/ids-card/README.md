@@ -2,7 +2,7 @@
 
 ## Description
 
-A card is a UI design pattern that groups related information in a flexible-size container visually resembling a playing card. Cards are also known as widgets when used in a home page tile layout. The card's actions in the toolbar should depend on what is inside the card.
+A card is a UI design pattern that groups related information in a flexible-size container visually resembling a playing card. Cards are also known as widgets when used in a home page tile layout. See the widget component for widget functionality. The card is a simpler version used to organize content and add a few features like links, selection ect.
 
 ## Use Cases
 
@@ -78,12 +78,27 @@ A card with footer element and vertical no-padding.
   </div>
 </ids-card>
 ```
+## Class Hierarchy
+
+- IdsCard
+  - IdsBox
+    - IdsElement
+- Mixins
+  IdsHideFocusMixin
+  IdsRippleMixin
+  IdsEventsMixin
+  IdsSelectionMixin
 
 ## Settings and Attributes
 
 - `autoHeight` {boolean} Makes the card the same height as its inner content
-- `actionable` {boolean} It will make the card act as a button
+- `actionable` {boolean} It will make the card act as a button (can also act as a link)
+- `autoFit` {boolean} Makes the card the same dimensions as the parent element
 - `height` {number} It will make the card have a fixed height (used primarily on actionable cards)
+- `href` {number} Sets the href attribute for actionable cards that are hyperlinks
+- `noHeader` {boolean} Hides the header area
+
+NOTE: See also `ids-box` settings as some of these will also work on cards.
 
 ## States and Variations (With Code Examples)
 

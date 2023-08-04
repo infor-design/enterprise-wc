@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Box style link</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" color="unset">
+          <ids-box shadowed>
+            <ids-layout-flex direction="column" justify-content="center">
+              <ids-layout-flex-item>
+                <ids-icon icon="stacked"></ids-icon>
+              </ids-layout-flex-item>
+              <ids-layout-flex-item>
+                <ids-text font-size="16" font-weight="semi-bold">Purchase Order Intake Workbench</ids-text>
+              </ids-layout-flex-item>
+            </ids-layout-flex>
+          </ids-box>
+        </ids-hyperlink>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

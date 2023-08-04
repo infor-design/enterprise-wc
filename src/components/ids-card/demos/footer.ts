@@ -3,6 +3,7 @@ import '../ids-card';
 import '../../ids-text/ids-text';
 import '../../ids-button/ids-button';
 import '../../ids-list-view/ids-list-view';
+import '../../ids-layout-flex/ids-layout-flex';
 import eventsJSON from '../../../assets/data/events.json';
 
 // Example for populating the List View

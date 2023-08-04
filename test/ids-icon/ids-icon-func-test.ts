@@ -72,8 +72,7 @@ describe('IdsIcon Component', () => {
   });
 
   it('defaults to normal size', () => {
-    expect(elem.template()).toContain('height="18"');
-    expect(elem.template()).toContain('width="18"');
+    expect(elem.template()).toContain('0 0 18 18');
   });
 
   it('renders vertical setting then removes it', () => {
