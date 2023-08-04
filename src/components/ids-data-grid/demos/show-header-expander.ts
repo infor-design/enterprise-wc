@@ -30,8 +30,7 @@ if (dataGrid) {
       id: 'ledger',
       name: 'Ledger',
       field: 'ledger',
-      formatter: dataGrid.formatters.text,
-      showHeaderExpander: true,
+      formatter: dataGrid.formatters.text
     });
     columns.push({
       id: 'publishDate',
@@ -62,7 +61,8 @@ if (dataGrid) {
       id: 'active',
       name: 'Active',
       field: 'active',
-      formatter: dataGrid.formatters.checkbox
+      formatter: dataGrid.formatters.checkbox,
+      showHeaderExpander: true,
     });
 
     dataGrid.columns = columns;
