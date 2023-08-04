@@ -2,9 +2,17 @@
 
 ## 1.0.0-beta.14
 
+### 1.0.0-beta.14 Features (Breaking Changes)
+
+- `[Box]` Added new Box component. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
+- `[Cards/Widget/Box]` Separated the card component into a box, widget and card component, features moved around in each. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
+- `[Stats]` Added new Stats component. ([#1326](https://github.com/infor-design/enterprise/issues/1326))
+- `[Widget]` Added new Widget component. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
+
 ### 1.0.0-beta.14 Fixes
 
 - `[Button]` Fixed mismatch on secondary and primary button (internal) height. ([#1376](https://github.com/infor-design/enterprise/issues/1376))
+- `[Card]` Fixed bug with placement of card footer. ([#1240](https://github.com/infor-design/enterprise-wc/issues/1240))
 - `[Datagrid]` Removed the internal second parameter from the scrollRowIntoView so it cant be used. ([#1367](https://github.com/infor-design/enterprise-wc/issues/1367))
 - `[DataGrid]` Added `uppercase` and `maxlength` settings to editors and filters (text only). ([#1309](https://github.com/infor-design/enterprise-wc/issues/1309))
 - `[DataGrid]` Adds guards to Datagrid's `this.header` value because it is being referenced in some places before it is loaded in DOM. ([#1250](https://github.com/infor-design/enterprise-wc/issues/1250))
@@ -12,6 +20,7 @@
 - `[DataGrid]` Add contexct menu shortcut for header and filters. ([#1340](https://github.com/infor-design/enterprise-wc/issues/1340))
 - `[DataGrid]` Fixed child-level data props when using `expandable-row-template` option. ([#1266](https://github.com/infor-design/enterprise-wc/issues/1266))
 - `[DataGrid]` Fixed an issue with the newer `maxlength` setting as it was not working in safari. ([#1403](https://github.com/infor-design/enterprise-wc/issues/1403))
+- `[General]` Fixed issue with camel casing for HTML intellisense. ([#1385](https://github.com/infor-design/enterprise-wc/issues/1385))
 - `[LayoutGrid]` Added breakpoint sizes for the flow attribute in the grid-layout. ([#1405](https://github.com/infor-design/enterprise-wc/issues/1405))
 - `[ListView]` Added support for `ids-list-view-item` child component. ([#1042](https://github.com/infor-design/enterprise-wc/issues/1042))
 - `[Multiselect]` Fixed margin-top on tags. ([#1349](https://github.com/infor-design/enterprise-wc/issues/1349))

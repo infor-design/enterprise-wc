@@ -1,13 +1,14 @@
-/* Ids Home page Component */
+/* Ids Home Page Component */
 .ids-home-page {
   position: relative;
+  background-color: var(--ids-homepage-color-background-default);
 
-  .cards {
+  .widgets {
     position: absolute;
     left: 50%;
   }
 
-  ::slotted(ids-card) {
+  ::slotted(ids-widget) {
     position: absolute;
   }
 }

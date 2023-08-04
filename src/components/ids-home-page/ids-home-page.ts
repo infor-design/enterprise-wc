@@ -3,12 +3,13 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
 import { HOME_PAGE_DEFAULTS, EVENTS } from './ids-home-page-attributes';
 
-import '../ids-card/ids-card';
+import '../ids-widget/ids-widget';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-home-page.scss';
+import IdsContainer from '../ids-container/ids-container';
 
 const Base = IdsLocaleMixin(
   IdsEventsMixin(
@@ -41,7 +42,7 @@ export interface IdsHomePageAavailable {
  * @mixes IdsEventsMixin
  * @mixes IdsLocaleMixin
  * @part home-page - The home-page element
- * @part cards - The cards element
+ * @part widgets - The widgets element
  */
 @customElement('ids-home-page')
 @scss(styles)
@@ -56,6 +57,7 @@ export default class IdsHomePage extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#init();
+    (this.closest('ids-container') as IdsContainer)?.container?.style.setProperty('background-color', 'var(--ids-homepage-color-background-default)');
   }
 
   /**
@@ -66,12 +68,12 @@ export default class IdsHomePage extends Base {
     return [
       ...super.attributes,
       attributes.ANIMATED,
-      attributes.CARD_HEIGHT,
-      attributes.CARD_WIDTH,
       attributes.COLS,
       attributes.GAP,
       attributes.GAP_X,
-      attributes.GAP_Y
+      attributes.GAP_Y,
+      attributes.WIDGET_HEIGHT,
+      attributes.WIDGET_WIDTH,
     ];
   }
 
@@ -82,8 +84,8 @@ export default class IdsHomePage extends Base {
   template(): string {
     return `
       <div class="ids-home-page" part="home-page">
-        <div class="cards" part="cards">
-          <slot name="card"></slot>
+        <div class="widgets" part="widgets">
+          <slot name="widget"></slot>
         </div>
       </div>`;
   }
@@ -98,16 +100,16 @@ export default class IdsHomePage extends Base {
   }
 
   /**
-   * List of blocks to manage cards width/height and position.
+   * List of blocks to manage widgets width/height and position.
    * @private
    */
   #blocks: Array<any> = [];
 
   /**
-   * List of cards attached to home page.
+   * List of widgets attached to home page.
    * @private
    */
-  #cards: Node[] = [];
+  #widgets: Node[] = [];
 
   /**
    * Number of current columns.
@@ -152,27 +154,27 @@ export default class IdsHomePage extends Base {
    */
   #init(): void {
     this.#setGap();
-    this.#initCards();
+    this.#initWidgets();
     this.#resize();
     this.#attachEventHandlers();
   }
 
   /**
-   * Initialize attached cards.
+   * Initialize attached widgets.
    * @private
    * @returns {object} This API object for chaining
    */
-  #initCards(): object {
-    this.#cards = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="card"]')?.assignedNodes() ?? [];
+  #initWidgets(): object {
+    this.#widgets = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="widget"]')?.assignedNodes() ?? [];
 
-    this.#cards.forEach((card: any) => {
-      const colspan = this.#getNumberVal('colspan', card);
-      const rowspan = this.#getNumberVal('rowspan', card);
+    this.#widgets.forEach((widget: any) => {
+      const colspan = this.#getNumberVal('colspan', widget);
+      const rowspan = this.#getNumberVal('rowspan', widget);
       const w = colspan > 0 ? colspan : 1;
       const h = rowspan > 0 ? rowspan : 1;
-      card.style.width = `${(this.cardWidth * w) + (this.#gapX * (w - 1))}px`;
-      card.style.height = `${(this.cardHeight * h) + (this.#gapY * (h - 1))}px`;
-      card.autoFit = true; // set to fit 100% width/height
+      widget.style.width = `${(this.widgetWidth * w) + (this.#gapX * (w - 1))}px`;
+      widget.style.height = `${(this.widgetHeight * h) + (this.#gapY * (h - 1))}px`;
+      widget.autoFit = true; // set to fit 100% width/height
     });
 
     return this;
@@ -203,7 +205,7 @@ export default class IdsHomePage extends Base {
   }
 
   /**
-   * Set the gap between each card,
+   * Set the gap between each widget,
    * will look into three values gap, gap-x, gap-y to sync into gapX and gapY
    * will not use the gap value if used gap along with gap-x or/and gap-y
    * for example if user add gap="10", gap-x="15" then will use the gap-x value,
@@ -245,7 +247,7 @@ export default class IdsHomePage extends Base {
   }
 
   /**
-   * Refresh the gap to set gap and cards
+   * Refresh the gap to set gap and widgets
    * @private
    * @returns {void}
    */
@@ -255,19 +257,19 @@ export default class IdsHomePage extends Base {
   }
 
   /**
-   * Setup each block sizes, based on card width and height provided from markup
+   * Setup each block sizes, based on widget width and height provided from markup
    * @private
    * @returns {void}
    */
   #setBlocks(): void {
     this.#blocks = [];
 
-    this.#cards.forEach((card: any) => {
-      const colspan = this.#getNumberVal('colspan', card);
-      const rowspan = this.#getNumberVal('rowspan', card);
+    this.#widgets.forEach((widget: any) => {
+      const colspan = this.#getNumberVal('colspan', widget);
+      const rowspan = this.#getNumberVal('rowspan', widget);
       const w = colspan > 0 ? colspan : 1;
       const h = rowspan > 0 ? rowspan : 1;
-      this.#blocks.push({ w, h, elem: card });
+      this.#blocks.push({ w, h, elem: widget });
     });
 
     // Max sized columns brings to top
@@ -430,7 +432,7 @@ export default class IdsHomePage extends Base {
   }
 
   /**
-   * Resize and adjust width/height for cards
+   * Resize and adjust width/height for widgets
    * @private
    * @param {boolean} animated False will disable animation during refresh
    * @returns {object} This API object for chaining
@@ -438,16 +440,16 @@ export default class IdsHomePage extends Base {
   #resize(animated = this.animated) {
     window.requestAnimationFrame(() => {
       this.#columns = 0;
-      const cardWidth = this.cardWidth;
+      const widgetWidth = this.widgetWidth;
       const gapX = this.#gapX;
       // Sizes of "breakpoints" is  320, 660, 1000, 1340, 1680 (for 320)
       // or 360, 740, 1120, 1500, 1880 or (for 360)
-      const bpXl3 = (cardWidth * 6) + (gapX * 5);
-      const bpXl2 = (cardWidth * 5) + (gapX * 4);
-      const bpXl = (cardWidth * 4) + (gapX * 3);
-      const bpDesktop = (cardWidth * 3) + (gapX * 2);
-      const bpTablet = (cardWidth * 2) + gapX;
-      const bpPhone = cardWidth;
+      const bpXl3 = (widgetWidth * 6) + (gapX * 5);
+      const bpXl2 = (widgetWidth * 5) + (gapX * 4);
+      const bpXl = (widgetWidth * 4) + (gapX * 3);
+      const bpDesktop = (widgetWidth * 3) + (gapX * 2);
+      const bpTablet = (widgetWidth * 2) + gapX;
+      const bpPhone = widgetWidth;
 
       let bp = bpXl3; // 2260 = ((360 * 6) + (20 * 5))
       const elemWidth = this.container?.offsetWidth ?? NaN;
@@ -490,8 +492,8 @@ export default class IdsHomePage extends Base {
       // Calculated columns
       this.#columns = columns;
 
-      const cardsEl = this.shadowRoot?.querySelector<HTMLElement>('.cards');
-      cardsEl?.style.setProperty('margin-left', `-${(bp / 2)}px`);
+      const widgetsEl = this.shadowRoot?.querySelector<HTMLElement>('.widgets');
+      widgetsEl?.style.setProperty('margin-left', `-${(bp / 2)}px`);
 
       this.#setBlocks(); // setup blocks
       this.#initRowsAndCols(); // setup columns
@@ -504,7 +506,7 @@ export default class IdsHomePage extends Base {
       for (let i = 0, l = this.#blocks.length; i < l; i++) {
         const block = this.#blocks[i];
         const setWidth = (span: number) => {
-          block.elem.style.width = `${(this.cardWidth * span) + (this.#gapX * (span - 1))}px`;
+          block.elem.style.width = `${(this.widgetWidth * span) + (this.#gapX * (span - 1))}px`;
         };
         let colspan = this.#getNumberVal('colspan', block.elem);
         colspan = colspan > 0 ? colspan : 1;
@@ -520,9 +522,9 @@ export default class IdsHomePage extends Base {
         const available: IdsHomePageAavailable = this.#getAvailability(block);
 
         // Set positions
-        const box = this.cardWidth + this.#gapX;
+        const box = this.widgetWidth + this.#gapX;
         const totalWidth = box * this.#columns;
-        const top = (this.cardHeight + this.#gapY) * available.row;
+        const top = (this.widgetHeight + this.#gapY) * available.row;
         const left = this.localeAPI?.isRTL()
           ? totalWidth - ((box * block.w) + (box * available.col))
           : box * available.col;
@@ -539,7 +541,7 @@ export default class IdsHomePage extends Base {
       }
 
       // Set container height
-      this.#containerHeight = (this.cardHeight + this.#gapY) * rowsCounter;
+      this.#containerHeight = (this.widgetHeight + this.#gapY) * rowsCounter;
       this.container?.style.setProperty('height', `${this.#containerHeight}px`);
 
       // Fires after the page is resized and layout is set
@@ -555,7 +557,7 @@ export default class IdsHomePage extends Base {
    * @returns {object} This API object for chaining
    */
   #attachEventHandlers(): object {
-    const slot = this.shadowRoot?.querySelector(`slot[name="card"]`);
+    const slot = this.shadowRoot?.querySelector(`slot[name="widget"]`);
     this.offEvent('slotchange', slot);
     this.onEvent('slotchange', slot, () => {
       this.#init();
@@ -641,8 +643,8 @@ export default class IdsHomePage extends Base {
   }
 
   /**
-   * Set to animated or not the home page cards on resize.
-   * @param {boolean|string} value If true, allows animate the home page cards.
+   * Set to animated or not the home page widgets on resize.
+   * @param {boolean|string} value If true, allows animate the home page widgets.
    */
   set animated(value: boolean | string | null) {
     if (this.#isBool(value)) {
@@ -655,32 +657,32 @@ export default class IdsHomePage extends Base {
   get animated() { return this.#getBoolVal(attributes.ANIMATED); }
 
   /**
-   * Set card height for single span
+   * Set widget height for single span
    * @param {number|string} value The height
    */
-  set cardHeight(value: number | string | null) {
+  set widgetHeight(value: number | string | null) {
     if (value) {
-      this.setAttribute(attributes.CARD_HEIGHT, String(value));
+      this.setAttribute(attributes.WIDGET_HEIGHT, String(value));
     } else {
-      this.removeAttribute(attributes.CARD_HEIGHT);
+      this.removeAttribute(attributes.WIDGET_HEIGHT);
     }
   }
 
-  get cardHeight(): number { return this.#getNumberVal(attributes.CARD_HEIGHT); }
+  get widgetHeight(): number { return this.#getNumberVal(attributes.WIDGET_HEIGHT); }
 
   /**
-   * Set card width for single span
+   * Set widget width for single span
    * @param {number|string} value The width
    */
-  set cardWidth(value: number | string | null) {
+  set widgetWidth(value: number | string | null) {
     if (value) {
-      this.setAttribute(attributes.CARD_WIDTH, String(value));
+      this.setAttribute(attributes.WIDGET_WIDTH, String(value));
     } else {
-      this.removeAttribute(attributes.CARD_WIDTH);
+      this.removeAttribute(attributes.WIDGET_WIDTH);
     }
   }
 
-  get cardWidth(): number { return this.#getNumberVal(attributes.CARD_WIDTH); }
+  get widgetWidth(): number { return this.#getNumberVal(attributes.WIDGET_WIDTH); }
 
   /**
    * Set number of columns to display
@@ -697,7 +699,7 @@ export default class IdsHomePage extends Base {
   get cols() { return this.#getNumberVal(attributes.COLS); }
 
   /**
-   * Set card gap for single span, apply same for both horizontal and vertical sides
+   * Set widget gap for single span, apply same for both horizontal and vertical sides
    * @param {number|string} value The row gap
    */
   set gap(value: number | string | null) {
@@ -712,7 +714,7 @@ export default class IdsHomePage extends Base {
   get gap() { return this.getAttribute(attributes.GAP); }
 
   /**
-   * Set card horizontal gap for single span
+   * Set widget horizontal gap for single span
    * @param {number|string} value The gap-x
    */
   set gapX(value: number | string | null) {
@@ -727,7 +729,7 @@ export default class IdsHomePage extends Base {
   get gapX() { return this.getAttribute(attributes.GAP_X); }
 
   /**
-   * Set card vertical gap for single span
+   * Set widget vertical gap for single span
    * @param {number|string} value The gap-y
    */
   set gapY(value: number | string | null) {

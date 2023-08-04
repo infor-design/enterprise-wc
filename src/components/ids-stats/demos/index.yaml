@@ -1,0 +1,10 @@
+---
+ component: Stats
+ link: ids-stats
+ description: Show KPI's and trends
+ category: Charts and Visualizations
+ keywords: stats, counts, visualization
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows all ids-stats combinations

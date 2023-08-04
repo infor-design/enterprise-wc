@@ -37,6 +37,7 @@ A normal container with a set padding.
 - `scrollable` {boolean} Turns on the overflow to allow for scroll
 - `padding` {number} Sets the padding in px around the container (defaults to 0 / none)
 - `color-variant` {string} can be set to "alternate" to display contrasting color for text/icons via the [IdsColorVariantMixin](../../src/mixins/ids-color-variant/README.md)
+- `background-color` {boolean} can be set to "true" to display a background color (different based on theme)
 
 ## States and Variations (With Code Examples)
 

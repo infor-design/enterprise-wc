@@ -4,6 +4,15 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
+/**
+ * Convert a string into kebab case
+ * @param {string} str The value to be converted
+ * @returns {string} The return string
+ */
+function kebabCase(str) {
+  return str?.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase();
+}
+
 const extractFromModules = (array) => array.map((value) => {
   const declarations = value.declarations[0] || [];
   const readmeFile = path.join(path.dirname(value.path), 'README.md');
@@ -14,7 +23,7 @@ const extractFromModules = (array) => array.map((value) => {
     attributes: declarations?.members?.reduce((result, option) => {
       if (option.kind === 'field' && option.name !== 'attributes') {
         return result.concat({
-          name: option.name,
+          name: kebabCase(option.name),
           description: option.description,
           values: []
         });
