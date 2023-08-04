@@ -3,6 +3,7 @@ import IdsElement from '../../core/ids-element';
 import type IdsDropdown from '../ids-dropdown/ids-dropdown';
 import type IdsInput from '../ids-input/ids-input';
 import type IdsDataGrid from './ids-data-grid';
+import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 import { IdsDataGridEditor } from './ids-data-grid-editors';
 
@@ -231,8 +232,12 @@ export default class IdsDataGridCell extends IdsElement {
       (<IdsInput>input)?.checkValidation();
     }
 
-    if (editorType === 'dropdown' || editorType === 'timepicker' || editorType === 'datepicker') {
+    if (editorType === 'dropdown' || editorType === 'datepicker') {
       (<IdsDropdown>input)?.input?.checkValidation();
+    }
+
+    if (editorType === 'timepicker') {
+      (<IdsTriggerField>input)?.checkValidation();
     }
 
     const isDirty = column.editor?.editorSettings?.dirtyTracker && (input?.isDirty || input?.input.isDirty);

@@ -469,6 +469,15 @@ $input-size-full: 100%;
       font-size: var(--ids-font-size-40);
     }
 
+    slot[name="trigger-start"],
+    slot[name="trigger-end"] {
+      display: flex;
+    }
+
+    slot[name="trigger-end"] {
+      padding-inline-end: 6px;
+    }
+
     .icon-dirty {
       display: none;
     }

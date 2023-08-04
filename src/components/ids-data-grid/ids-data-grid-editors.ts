@@ -7,7 +7,9 @@ import '../ids-date-picker/ids-date-picker';
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsDatePicker from '../ids-date-picker/ids-date-picker';
 import type IdsTimePicker from '../ids-time-picker/ids-time-picker';
+import type IdsTimePickerPopup from '../ids-time-picker/ids-time-picker-popup';
 import type IdsDataGridCell from './ids-data-grid-cell';
+import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 
@@ -355,15 +357,18 @@ export class DatePickerEditor implements IdsDataGridEditor {
 export class TimePickerEditor implements IdsDataGridEditor {
   type = 'timepicker';
 
-  input?: IdsTimePicker;
+  input?: IdsTriggerField;
+
+  popup?: IdsTimePickerPopup;
 
   clickEvent?: MouseEvent;
 
   #originalDate?: Date;
 
   init(cell?: IdsDataGridCell | undefined) {
-    this.input = this.#buildTimePicker(cell!);
-    const autoOpen = (<HTMLElement> this.clickEvent?.target)?.classList?.contains('editor-cell-icon');
+    this.input = this.#buildTimePickerTriggerField(cell!);
+    this.popup = this.#buildTimePickerPopup(cell!);
+    const autoOpen = (<HTMLElement> this.clickEvent?.target)?.tagName === 'IDS-TRIGGER-BUTTON';
 
     // parse date string
     const dateString = cell!.originalValue as string ?? '';
@@ -376,16 +381,27 @@ export class TimePickerEditor implements IdsDataGridEditor {
     // insert time picker and focus
     cell!.innerHTML = '';
     cell!.appendChild(this.input);
-    this.input.input!.autoselect = true;
+    cell!.appendChild(this.popup);
+
+    this.input.autoselect = true;
     this.input.input?.focus();
 
-    if (autoOpen) this.input.open();
+    if (this.popup) {
+      this.popup.attachment = '.ids-data-grid-wrapper';
+      this.popup.slot = 'menu-container';
+      this.popup.appendToTargetParent();
+
+      this.popup.onOutsideClick = () => { this.popup?.hide(); };
+      this.popup.popupOpenEventsTarget = document.body;
+      this.popup.refreshTriggerEvents();
+      // if (autoOpen) this.popup.show();
+    }
 
     this.#attachEventListeners();
   }
 
-  #buildTimePicker(cell: IdsDataGridCell): IdsTimePicker {
-    const component = <IdsTimePicker>document.createElement('ids-time-picker');
+  #buildTimePickerTriggerField(cell: IdsDataGridCell): IdsTriggerField {
+    const component = <IdsTriggerField>document.createElement('ids-trigger-field');
 
     // apply user settings
     applySettings(component, cell?.column.editor?.editorSettings);
@@ -398,7 +414,31 @@ export class TimePickerEditor implements IdsDataGridEditor {
     component.size = 'full';
     component.mask = true;
 
+    component.insertAdjacentHTML(
+      'beforeend',
+      `<ids-trigger-button slot="trigger-end" icon="clock"></ids-trigger-button>`
+    );
+
     return component;
+  }
+
+  #buildTimePickerPopup(cell: IdsDataGridCell): IdsTimePickerPopup {
+    const popup = <IdsTimePickerPopup>document.createElement('ids-time-picker-popup');
+
+    // apply user settings
+    applySettings(popup, cell?.column.editor?.editorSettings);
+
+    // apply popup required settings
+    popup.id = `${cell.column.field}-time-picker-popup`;
+    popup.target = `#${cell.column.field}-time-picker-popup`;
+    popup.triggerType = 'immediate';
+    // format
+    // minuteInterval
+    // secondInterval
+    // autoSelect
+    // autoUpdate
+
+    return popup;
   }
 
   #stopPropagation(evt: FocusEvent | CustomEvent) {
@@ -419,7 +459,8 @@ export class TimePickerEditor implements IdsDataGridEditor {
     const date = isValidDate(this.#originalDate) ? new Date(this.#originalDate as Date) : new Date();
 
     if (inputValue) {
-      date.setHours(this.input!.hours24, this.input!.minutes, this.input!.seconds);
+      date.setHours(this.popup!.hours24, this.popup!.minutes, this.popup!.seconds);
+      // @TODO: make this set input field value??
     }
 
     return {
@@ -431,6 +472,10 @@ export class TimePickerEditor implements IdsDataGridEditor {
   destroy() {
     this.input?.offEvent('focusout');
     this.input?.detachAllListeners();
+    this.input?.remove();
+
+    this.popup?.remove();
+
     this.#originalDate = undefined;
   }
 
