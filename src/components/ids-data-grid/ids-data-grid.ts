@@ -2110,7 +2110,7 @@ export default class IdsDataGrid extends Base {
       canDeselect = !!veto;
     };
 
-    this.triggerEvent('rowdeselected', this, {
+    this.triggerEvent('beforerowdeselected', this, {
       detail: {
         elem: this, row, data: this.data[index], response
       }
