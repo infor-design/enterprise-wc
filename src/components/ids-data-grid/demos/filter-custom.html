@@ -29,13 +29,22 @@
           row-height="md"
           pagination="client-side"
           page-number="1"
-          page-size="10"
-        >
+          page-size="10">
+
+          <!-- Header Contextmenu -->
+          <ids-popup-menu trigger-type="custom" slot="header-contextmenu">
+            <ids-menu-group>
+              <ids-menu-item value="header-split">Split</ids-menu-item>
+              <ids-menu-item value="header-sort">Sort</ids-menu-item>
+              <ids-menu-item value="header-hide">Hide</ids-menu-item>
+            </ids-menu-group>
+          </ids-popup-menu>
+
           <div slot="filter-productId" column-id="productId">
             <ids-menu-button id="btn-filter-product-id" icon="filter-greater-equals" menu="menu-filter-product-id" dropdown-icon>
               <span class="audible">Greater Than Or Equals</span>
             </ids-menu-button>
-            <ids-popup-menu id="menu-filter-product-id" target="#btn-filter-product-id">
+            <ids-popup-menu id="menu-filter-product-id" target="#btn-filter-product-id" color-variant="alternate-formatter">
               <ids-menu-group select="single">
                 <ids-menu-item value="equals" icon="filter-equals">Equals</ids-menu-item>
                 <ids-menu-item value="greater-than" icon="filter-greater-than">Greater Than</ids-menu-item>
@@ -45,11 +54,11 @@
                 <ids-menu-item value="start-with" icon="filter-start-with">Starts With</ids-menu-item>
               </ids-menu-group>
             </ids-popup-menu>
-            <ids-input id="input-filter-product-id" type="text" size="full" placeholder="Slotted product-id" label="Slotted product-id input">
+            <ids-input id="input-filter-product-id" type="text" size="full" placeholder="Slotted product-id" label="Slotted product-id input" color-variant="alternate-formatter">
             </ids-input>
           </div>
           <div slot="filter-color" column-id="color">
-            <ids-menu-button id="btn-filter-color" icon="filter-contains" menu="menu-filter-color" dropdown-icon>
+            <ids-menu-button id="btn-filter-color" icon="filter-contains" menu="menu-filter-color" dropdown-icon color-variant="alternate-formatter">
               <span class="audible">Contains</span>
             </ids-menu-button>
             <ids-popup-menu id="menu-filter-color" target="#btn-filter-color">
@@ -59,7 +68,7 @@
                 <ids-menu-item value="equals" icon="filter-equals">Equals</ids-menu-item>
               </ids-menu-group>
             </ids-popup-menu>
-            <ids-input id="input-filter-color" type="text" size="full" placeholder="Slotted color" label="Slotted color input">
+            <ids-input id="input-filter-color" type="text" size="full" placeholder="Slotted color" label="Slotted color input" color-variant="alternate-formatter">
             </ids-input>
           </div>
         </ids-data-grid>
