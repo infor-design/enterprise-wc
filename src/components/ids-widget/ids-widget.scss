@@ -7,6 +7,7 @@
   margin-block-end: var(--ids-widget-margin-bottom);
   height: var(--ids-widget-height);
   transition: box-shadow var(--ids-motion-duration) var(--ids-motion-linear);
+  overflow: hidden;
 
   .ids-widget-content {
     box-sizing: border-box;
