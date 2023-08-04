@@ -66,6 +66,10 @@ ids-card {
     height: var(--ids-swaplist-card-content-height-min);
   }
 
+  [slot="card-content"] {
+    height: 100%;
+  }
+
   &.card {
     &::part(card) {
       border-radius: var(--ids-swaplist-card-border-radius);
