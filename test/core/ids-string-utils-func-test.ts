@@ -45,6 +45,16 @@ describe('IdsStringUtils Tests', () => {
     const template = 'Test String <b>${field}</b>'; //eslint-disable-line
 
     expect(injectTemplate(template, obj)).toEqual('Test String <b>test-value</b>');
+
+    const obj2: any = { field: { depth1: 'test-value-depth-1' } };
+    const template2 = 'Test String <b>${field.depth1}</b>'; //eslint-disable-line
+
+    expect(injectTemplate(template2, obj2)).toEqual('Test String <b>test-value-depth-1</b>');
+
+    const obj3: any = { field: { depth1: { depth2: 'test-value-depth-2' } } };
+    const template3 = 'Test String <b>${field.depth1.depth2}</b>'; //eslint-disable-line
+
+    expect(injectTemplate(template3, obj3)).toEqual('Test String <b>test-value-depth-2</b>');
   });
 
   it('can test if a character is printable', () => {
