@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Available",
+    "items": [
+      {
+        "id": 1,
+        "text": "Option A",
+        "value": "option_a"
+      },
+      {
+        "id": 2,
+        "text": "Option B",
+        "value": "option_b"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Selected",
+    "items": [
+      {
+        "id": 3,
+        "text": "Option C",
+        "value": "option_c"
+      },
+      {
+        "id": 4,
+        "text": "Option D",
+        "value": "option_d"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Additional",
+    "items": [
+      {
+        "id": 5,
+        "text": "Option E",
+        "value": "option_e"
+      },
+      {
+        "id": 6,
+        "text": "Option F",
+        "value": "option_f"
+      }
+    ]
+  }
+]

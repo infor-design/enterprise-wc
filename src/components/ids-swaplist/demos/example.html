@@ -7,23 +7,18 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
+
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">SwapList</ids-text>
     </ids-layout-grid>
 
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
-
-        <div id="status"></div>
-
-        <ids-swaplist id="swaplist-1" count="3">
+        <ids-swaplist id="swaplist-1">
           <template>
-            <ids-swappable-item>
-              <ids-text>${city}</ids-text>
-            </ids-swappable-item>
+            <ids-text>${text}</ids-text>
           </template>
         </ids-swaplist>
-
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

@@ -18,6 +18,7 @@
 - `[Radio]` Fix asterisk position on horizontal radio group with validation=required. ([#1363](https://github.com/infor-design/enterprise/issues/1363))
 - `[Tabs]` Add alabaster changes to module tabs and header. ([#1339](https://github.com/infor-design/enterprise/issues/1339))
 - `[ScrollView]` Fix scroll view to observe slot changes. ([#1372](https://github.com/infor-design/enterprise/issues/1372))
+- `[Swaplist]` Refactor swaplist component to connect datasource to UI. ([#1313](https://github.com/infor-design/enterprise-wc/issues/1313))
 
 ## 1.0.0-beta.13
 
