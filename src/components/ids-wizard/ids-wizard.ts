@@ -2,9 +2,8 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
-
 import '../ids-text/ids-text';
-
+import './ids-wizard-step';
 import styles from './ids-wizard.scss';
 
 /**
@@ -19,6 +18,12 @@ import styles from './ids-wizard.scss';
 @customElement('ids-wizard')
 @scss(styles)
 export default class IdsWizard extends IdsEventsMixin(IdsElement) {
+  private markerTemplate = `
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="12" />
+    </svg>
+  `;
+
   constructor() {
     super();
   }
@@ -105,6 +110,41 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
     );
   }
 
+  onStepClick() {
+    const stepIndex = Math.max(0, Number(this.stepNumber) - 1);
+    const stepElems = [...this.container!.querySelectorAll('.step')];
+
+    for (let i = 0; i < stepElems.length; i++) {
+      const step = stepElems[i];
+      const isCurrentStep = stepIndex === i;
+      const isVisitedStep = i <= stepIndex;
+      const markerElem = step.querySelector('.step-marker');
+      let markerTemplate = this.markerTemplate;
+      markerTemplate += isCurrentStep ? this.markerTemplate : '';
+
+      // if step is currentl selected
+      if (isCurrentStep) {
+        step.classList.add('current');
+      } else {
+        step.classList.remove('current');
+      }
+
+      // if step is visited
+      if (isVisitedStep) {
+        step.classList.add('visited');
+        step.previousElementSibling?.classList.add('visited');
+      } else {
+        step.classList.remove('visited');
+        step.previousElementSibling?.classList.remove('visited');
+      }
+
+      // update market markup
+      if (markerElem) {
+        markerElem.innerHTML = markerTemplate;
+      }
+    }
+  }
+
   /**
    * Create the Template for the contents
    * @returns {string} the template to render
@@ -129,7 +169,7 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
 
       const pathSegmentHtml = (i >= this.children.length - 1) ? '' : (
         `<div
-        class="path-segment${stepIndex <= i ? '' : ' visited'}
+        class="path-segment${stepIndex <= i ? '' : ' visited'}"
         part="path-segment"
       ></div>`
       );
@@ -157,13 +197,8 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
         tabindex="${isClickable ? '0' : '-1'}"'
       >
         <div class="step-marker">
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="12" />
-          </svg>
-          ${!isCurrentStep ? '' : (
-          `<svg viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="12" />
-            </svg>`)}
+          ${this.markerTemplate}
+          ${!isCurrentStep ? '' : this.markerTemplate}
         </div>
         ${stepLabelHtml}
       </a>
@@ -251,16 +286,14 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
       if (!this.isStepClickable(stepNumber)) {
         continue;
       }
-      const stepEl = this.shadowRoot?.querySelector(
-        `.step[step-number="${stepNumber}"]`
-      );
 
-      const onClickStep = () => {
-        this.stepNumber = `${stepNumber}`;
-      };
+      const stepEl = this.shadowRoot?.querySelector(`.step[step-number="${stepNumber}"]`);
 
       this.offEvent(`click.step.${stepNumber}`, this);
-      this.onEvent(`click.step.${stepNumber}`, stepEl, onClickStep);
+      this.onEvent(`click.step.${stepNumber}`, stepEl, () => {
+        this.stepNumber = `${stepNumber}`;
+        this.onStepClick();
+      });
     }
 
     // set up observer for resize which prevents overlapping labels
