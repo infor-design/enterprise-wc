@@ -38,7 +38,7 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     // In buttonset areas, automatically add padding between buttons
     ::slotted(ids-button:not(:first-child)),
     ::slotted(ids-menu-button:not(:first-child)) {
-      padding-inline-start: 4px;
+      margin-inline-start: 0;
     }
 
     ::slotted(ids-separator[vertical]) {

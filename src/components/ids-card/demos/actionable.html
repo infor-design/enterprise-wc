@@ -7,23 +7,23 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto-fit="true">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-layout-grid-cell>
-        <ids-text font-size="12" type="h1">Cards</ids-text>
+        <ids-text font-size="12" type="h1">Cards (Actionable)</ids-text>
       </ids-layout-grid-cell>
     </ids-layout-grid>
-    <ids-layout-grid cols="2" gap="md">
+    <ids-layout-grid cols="2" gap="md" padding-x="md">
       <ids-layout-grid-cell>
         <ids-card actionable="true">
           <div slot="card-content">
-            <ids-text font-size="16" type="p">Actionable Button Card</ids-text>
+            <ids-text font-size="16" type="p" font-weight="semi-bold">Actionable Button Card</ids-text>
           </div>
         </ids-card>
       </ids-layout-grid-cell>
       <ids-layout-grid-cell>
         <ids-card actionable="true" href="https://www.example.com" target="_self">
           <div slot="card-content">
-            <ids-text font-size="16" type="p">Actionable Link Card</ids-text>
+            <ids-text font-size="16" type="p" font-weight="semi-bold">Actionable Link Card</ids-text>
           </div>
         </ids-card>
       </ids-layout-grid-cell>

@@ -110,10 +110,7 @@ describe('IdsBlockgridItem Component', () => {
     blockgridItemEl.selection = 'single';
 
     blockgridItemEl.dispatchEvent(clickEvent);
-    expect(blockgridItemEl.selected).toBe('true');
-
-    blockgridItemEl.dispatchEvent(clickEvent);
-    expect(blockgridItemEl.selected).toBe('false');
+    expect(blockgridItemEl.selected).toBe(true);
   });
 
   it('supports block grid multiple selection', () => {
@@ -151,7 +148,7 @@ describe('IdsBlockgridItem Component', () => {
 
     blockgridItemEl2.dispatchEvent(spaceEvent);
     expect(blockgridItemEl.selected).not.toBe('true');
-    expect(blockgridItemEl2.selected).toBe('true');
+    expect(blockgridItemEl2.selected).toBe(true);
   });
 
   it('support block grid selection mixed 1', async () => {
@@ -174,13 +171,13 @@ describe('IdsBlockgridItem Component', () => {
 
     const clickEvent = new MouseEvent('click', { bubbles: true });
     checkboxEl2?.dispatchEvent(clickEvent);
-    expect(blockgridItemEl2.selected).toBe('true');
+    expect(blockgridItemEl2.selected).toBe(true);
   });
 
   it('should fire selectionchanged event', async () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toEqual(blockgridItemEl);
-      expect(x.detail.selected).toEqual('true');
+      expect(x.detail.selected).toEqual(true);
       expect(x.detail.selection).toEqual('multiple');
     });
 

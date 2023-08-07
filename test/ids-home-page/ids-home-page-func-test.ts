@@ -15,8 +15,8 @@ describe('IdsHomePage Component', () => {
   const origInnerHeight = window.innerHeight;
   const DEFAULTS = {
     animated: true,
-    cardHeight: 370,
-    cardWidth: 360,
+    widgetHeight: 368,
+    widgetWidth: 360,
     cols: 3,
     gap: 20,
     gapX: 20,
@@ -69,29 +69,29 @@ describe('IdsHomePage Component', () => {
     expect(homePage.animated).toEqual(DEFAULTS.animated);
   });
 
-  it('should set custom card height', () => {
-    expect(homePage.getAttribute('card-height')).toEqual(null);
-    expect(homePage.cardHeight).toEqual(DEFAULTS.cardHeight);
-    homePage.cardHeight = '260';
-    expect(homePage.getAttribute('card-height')).toEqual('260');
-    expect(homePage.cardHeight).toEqual(260);
-    homePage.cardHeight = null;
-    expect(homePage.getAttribute('card-height')).toEqual(null);
-    expect(homePage.cardHeight).toEqual(DEFAULTS.cardHeight);
-    homePage.cardHeight = 'test';
-    expect(homePage.getAttribute('card-height')).toEqual('test');
-    expect(homePage.cardHeight).toEqual(DEFAULTS.cardHeight);
+  it('should set custom widget height', () => {
+    expect(homePage.getAttribute('widget-height')).toEqual(null);
+    expect(homePage.widgetHeight).toEqual(DEFAULTS.widgetHeight);
+    homePage.widgetHeight = '260';
+    expect(homePage.getAttribute('widget-height')).toEqual('260');
+    expect(homePage.widgetHeight).toEqual(260);
+    homePage.widgetHeight = null;
+    expect(homePage.getAttribute('widget-height')).toEqual(null);
+    expect(homePage.widgetHeight).toEqual(DEFAULTS.widgetHeight);
+    homePage.widgetHeight = 'test';
+    expect(homePage.getAttribute('widget-height')).toEqual('test');
+    expect(homePage.widgetHeight).toEqual(DEFAULTS.widgetHeight);
   });
 
-  it('should set custom card width', () => {
-    expect(homePage.getAttribute('card-width')).toEqual(null);
-    expect(homePage.cardWidth).toEqual(DEFAULTS.cardWidth);
-    homePage.cardWidth = '260';
-    expect(homePage.getAttribute('card-width')).toEqual('260');
-    expect(homePage.cardWidth).toEqual(260);
-    homePage.cardWidth = null;
-    expect(homePage.getAttribute('card-width')).toEqual(null);
-    expect(homePage.cardWidth).toEqual(DEFAULTS.cardWidth);
+  it('should set custom widget width', () => {
+    expect(homePage.getAttribute('widget-width')).toEqual(null);
+    expect(homePage.widgetWidth).toEqual(DEFAULTS.widgetWidth);
+    homePage.widgetWidth = '260';
+    expect(homePage.getAttribute('widget-width')).toEqual('260');
+    expect(homePage.widgetWidth).toEqual(260);
+    homePage.widgetWidth = null;
+    expect(homePage.getAttribute('widget-width')).toEqual(null);
+    expect(homePage.widgetWidth).toEqual(DEFAULTS.widgetWidth);
   });
 
   it('should set max columns', () => {
@@ -105,7 +105,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.cols).toEqual(DEFAULTS.cols);
   });
 
-  it('should set card gap for single span', () => {
+  it('should set widget gap for single span', () => {
     expect(homePage.getAttribute('gap')).toEqual(null);
     expect(homePage.gap).toEqual(null);
     homePage.gap = '50';
@@ -116,7 +116,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.gap).toEqual(null);
   });
 
-  it('should set card gap-x for single span', () => {
+  it('should set widget gap-x for single span', () => {
     expect(homePage.getAttribute('gap-x')).toEqual(null);
     expect(homePage.gapX).toEqual(null);
     homePage.gapX = '50';
@@ -127,7 +127,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.gapX).toEqual(null);
   });
 
-  it('should set card gap-y for single span', () => {
+  it('should set widget gap-y for single span', () => {
     expect(homePage.getAttribute('gap-y')).toEqual(null);
     expect(homePage.gapY).toEqual(null);
     homePage.gapY = '50';
@@ -207,42 +207,42 @@ describe('IdsHomePage Component', () => {
     expect(homePage.getAttribute('dir')).toEqual('rtl');
   });
 
-  it('should append card', async () => {
+  it('should append widget', async () => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1400, writable: true });
     Object.defineProperty(homePage.container, 'offsetWidth', { configurable: true, value: 1250, writable: true });
-    const id = 'test-card';
+    const id = 'test-widget';
     expect(homePage.querySelectorAll(`#${id}`).length).toEqual(0);
     let template = document.createElement('template');
     template.innerHTML = `
-      <ids-card slot="card" id="${id}" colspan="4" rowspan="2"></ids-card>`;
-    let card = template.content.cloneNode(true);
+      <ids-widget slot="widget" id="${id}" colspan="4" rowspan="2"></ids-widget>`;
+    let widget = template.content.cloneNode(true);
     homePage.cols = '4';
-    homePage.appendChild(card);
+    homePage.appendChild(widget);
     await wait(100);
     template = document.createElement('template');
     template.innerHTML = `
-      <ids-card slot="card"></ids-card>`;
-    card = template.content.cloneNode(true);
-    homePage.appendChild(card);
+      <ids-widget slot="widget"></ids-widget>`;
+    widget = template.content.cloneNode(true);
+    homePage.appendChild(widget);
     await wait(100);
     expect(homePage.querySelectorAll(`#${id}`).length).toEqual(1);
   });
 
-  it('should append card in RTL', async () => {
+  it('should append widget in RTL', async () => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1400, writable: true });
     Object.defineProperty(homePage.container, 'offsetWidth', { configurable: true, value: 1250, writable: true });
     const event = new CustomEvent('languagechange', {
       detail: { language: { name: 'ar' } }
     });
     container.dispatchEvent(event);
-    const id = 'test-card';
+    const id = 'test-widget';
     expect(homePage.querySelectorAll(`#${id}`).length).toEqual(0);
     const template = document.createElement('template');
     template.innerHTML = `
-      <ids-card slot="card" id="${id}" colspan="4" rowspan="2"></ids-card>`;
-    const card = template.content.cloneNode(true);
+      <ids-widget slot="widget" id="${id}" colspan="4" rowspan="2"></ids-widget>`;
+    const widget = template.content.cloneNode(true);
     homePage.cols = '4';
-    homePage.appendChild(card);
+    homePage.appendChild(widget);
     await wait(100);
     expect(homePage.querySelectorAll(`#${id}`).length).toEqual(1);
   });
@@ -250,17 +250,17 @@ describe('IdsHomePage Component', () => {
   it('should adjust column width', async () => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 800, writable: true });
     Object.defineProperty(homePage.container, 'offsetWidth', { configurable: true, value: 750, writable: true });
-    const id = 'test-card';
+    const id = 'test-widget';
     expect(homePage.querySelectorAll(`#${id}`).length).toEqual(0);
     const template = document.createElement('template');
     template.innerHTML = `
-      <ids-card slot="card" id="${id}"></ids-card>
-      <ids-card slot="card" colspan="4"></ids-card>
-      <ids-card slot="card" rowspan="2"></ids-card>
-      <ids-card slot="card"></ids-card>`;
-    const card = template.content.cloneNode(true);
+      <ids-widget slot="widget" id="${id}"></ids-widget>
+      <ids-widget slot="widget" colspan="4"></ids-widget>
+      <ids-widget slot="widget" rowspan="2"></ids-widget>
+      <ids-widget slot="widget"></ids-widget>`;
+    const widget = template.content.cloneNode(true);
     homePage.cols = '4';
-    homePage.appendChild(card);
+    homePage.appendChild(widget);
     await wait(100);
     expect(homePage.querySelectorAll(`#${id}`).length).toEqual(1);
   });
@@ -268,22 +268,22 @@ describe('IdsHomePage Component', () => {
   it('should adjust extra columns', async () => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 2200, writable: true });
     Object.defineProperty(homePage.container, 'offsetWidth', { configurable: true, value: 2150, writable: true });
-    const id = 'test-card';
+    const id = 'test-widget';
     expect(homePage.querySelectorAll(`#${id}`).length).toEqual(0);
     const template = document.createElement('template');
     template.innerHTML = `
-      <ids-card slot="card" id="${id}"></ids-card>
-      <ids-card slot="card" colspan="6"></ids-card>
-      <ids-card slot="card" rowspan="2"></ids-card>
-      <ids-card slot="card"></ids-card>
-      <ids-card slot="card"></ids-card>
-      <ids-card slot="card" colspan="5"></ids-card>
-      <ids-card slot="card" colspan="3" rowspan="2"></ids-card>
-      <ids-card slot="card" colspan="3"></ids-card>`;
-    const card = template.content.cloneNode(true);
+      <ids-widget slot="widget" id="${id}"></ids-widget>
+      <ids-widget slot="widget" colspan="6"></ids-widget>
+      <ids-widget slot="widget" rowspan="2"></ids-widget>
+      <ids-widget slot="widget"></ids-widget>
+      <ids-widget slot="widget"></ids-widget>
+      <ids-widget slot="widget" colspan="5"></ids-widget>
+      <ids-widget slot="widget" colspan="3" rowspan="2"></ids-widget>
+      <ids-widget slot="widget" colspan="3"></ids-widget>`;
+    const widget = template.content.cloneNode(true);
     homePage.animated = 'false';
     homePage.cols = '6';
-    homePage.appendChild(card);
+    homePage.appendChild(widget);
     await wait(100);
     expect(homePage.querySelectorAll(`#${id}`).length).toEqual(1);
   });

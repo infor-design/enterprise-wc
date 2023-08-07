@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+    <ids-container role="main" padding="8" hidden>
+      <ids-theme-switcher mode="light"></ids-theme-switcher>
+      <ids-layout-grid auto-fit="true" padding="md">
+        <ids-text font-size="12" type="h1">Stats (Layout)</ids-text>
+      </ids-layout-grid>
+      <ids-home-page>
+        <ids-widget slot="widget" borderless padding-x="8">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Actionable Stats</ids-text>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-layout-grid cols="2" padding-x="sm" gap="sm">
+              <ids-layout-grid-cell>
+                <ids-stats
+                  actionable
+                  trend-label="+28.62"
+                  icon="rocket"
+                  status-color="success"
+                  kpi="12"
+                  main-label="Main title"
+                  subtitle="Sub title goes here">
+                </ids-stats>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-stats
+                  actionable
+                  trend-label=""
+                  icon="alert"
+                  status-color="warning"
+                  kpi="$405k"
+                  main-label="Revenue"
+                  subtitle="Q4 2024">
+                </ids-stats>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-stats
+                  actionable
+                  trend-label=""
+                  icon="info"
+                  status-color="info"
+                  kpi="12,827"
+                  main-label="On Time">
+                </ids-stats>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-stats
+                  actionable
+                  trend-label="-54.01%"
+                  icon="error"
+                  status-color="error"
+                  kpi="12"
+                  main-label="All stats"
+                  subtitle="Sub title goes here">
+                </ids-stats>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget" borderless padding-x="8">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Non Actionable Stats</ids-text>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-layout-grid cols="2" padding-x="sm" gap="sm">
+              <ids-layout-grid-cell col-span="2">
+                <ids-stats
+                  trend-label="+28.612"
+                  icon="confirm"
+                  status-color="success"
+                  kpi="24.57%"
+                  main-label="Total revenue"
+                  subtitle="Q4 2023"
+                  col-span="2">
+                </ids-stats>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-stats
+                  icon="alert"
+                  status-color="warning"
+                  kpi="$405k"
+                  main-label="Expenses"
+                  subtitle="Q4 2024">
+                </ids-stats>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-stats
+                  icon="info"
+                  status-color="info"
+                  kpi="524"
+                  main-label="On time">
+                </ids-stats>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget" borderless padding-x="0">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Interesting Stats</ids-text>
+                <ids-text font-size="14" subtitle label="true">June 2023</ids-text>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-layout-grid cols="2" padding-x="sm" gap="sm">
+              <ids-layout-grid-cell>
+                <ids-stats
+                  actionable
+                  trend-label="+38.62"
+                  icon="success"
+                  status-color="success"
+                  kpi="11"
+                  main-label="Main title"
+                  subtitle="Sub title goes here">
+                </ids-stats>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-stats
+                  actionable
+                  icon="alert"
+                  status-color="amber"
+                  kpi="$401k"
+                  main-label="Revenue"
+                  subtitle="Q4 2023">
+                </ids-stats>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-stats
+                  actionable
+                  icon="info"
+                  status-color="info"
+                  kpi="1,827"
+                  main-label="On time">
+                </ids-stats>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-stats
+                  actionable
+                  trend-label="-52.01%"
+                  icon="error"
+                  status-color="error"
+                  kpi="12"
+                  main-label="All stats"
+                  subtitle="Sub title goes here">
+                </ids-stats>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+          </div>
+        </ids-widget>
+
+        <ids-widget slot="widget" padding-x="8">
+          <div slot="widget-header">
+            <ids-toolbar>
+              <ids-toolbar-section type="title" favor>
+                <ids-text font-size="20">Stats on a Card</ids-text>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content">
+            <ids-layout-grid cols="2" padding-x="sm" gap="sm">
+              <ids-layout-grid-cell>
+                <ids-stats
+                  actionable
+                  trend-label="+32.62%"
+                  icon="success"
+                  status-color="success"
+                  kpi="11"
+                  main-label="Main title"
+                  subtitle="Sub title goes here">
+                </ids-stats>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-stats
+                  actionable
+                  icon="alert"
+                  status-color="warning"
+                  kpi="$201K"
+                  main-label="Revenue"
+                  subtitle="Q3 2023">
+                </ids-stats>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-stats
+                  actionable
+                  icon="info"
+                  status-color="info"
+                  kpi="3,827"
+                  main-label="Normal">
+                </ids-stats>
+              </ids-layout-grid-cell>
+              <ids-layout-grid-cell>
+                <ids-stats
+                  actionable
+                  trend-label="-22.01%"
+                  icon="error"
+                  status-color="error"
+                  kpi="120"
+                  main-label="All stats"
+                  subtitle="Sub title goes here">
+                </ids-stats>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+          </div>
+        </ids-widget>
+
+      </ids-home-page>
+    </ids-container>
+</body>
+</html>

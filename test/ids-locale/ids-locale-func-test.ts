@@ -576,10 +576,10 @@ describe('IdsLocale API', () => {
     it('should show undefined keys with [] around them', async () => {
       await locale.setLanguage('en-US');
 
-      expect(locale.translate('TestLocaleDefaults')).toEqual('Test Locale Defaults');
+      expect(locale.translate('TestLocaleDefaults')).toEqual('Test locale defaults');
       await locale.setLanguage('de-DE');
 
-      expect(locale.translate('TestLocaleDefaults')).toEqual('Test Locale Defaults');
+      expect(locale.translate('TestLocaleDefaults')).toEqual('Test locale defaults');
       await locale.setLanguage('ar-EG');
 
       expect(locale.translate('XYZ')).toEqual('[XYZ]');
@@ -642,7 +642,7 @@ describe('IdsLocale API', () => {
       await locale.setLocale('en-US');
       locale.language.messages.CustomValue = { id: 'CustomValue', value: 'Added Custom Value' };
 
-      expect(locale.translate('CollapseAppTray')).toEqual('Collapse App Tray');
+      expect(locale.translate('CollapseAppTray')).toEqual('Collapse app tray');
       expect(locale.translate('CustomValue')).toEqual('Added Custom Value');
     });
 

@@ -1,0 +1,21 @@
+/* Ids Link List Component */
+.ids-link-list {
+  list-style: none;
+  margin-top: var(--ids-link-list-top-margin);
+}
+
+::slotted(*) {
+  display: list-item;
+  margin-bottom: var(--ids-link-list-item-margin);
+  font-weight:  var(--ids-font-weight-semi-bold);
+}
+
+ids-text {
+  color: var(--ids-link-list-title-color-text-default);
+  margin-bottom: var(--ids-link-list-title-bottom-margin);
+  display: block;
+
+  &:empty {
+    margin-bottom: 0;
+  }
+}

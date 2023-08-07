@@ -45,6 +45,14 @@
     white-space: nowrap;
   }
 
+  &.has-line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
+  }
+
   &.bold {
     font-weight: var(--ids-font-weight-bold);
   }
@@ -248,4 +256,12 @@
   position: relative;
   line-height: 1;
   height: unset;
+}
+
+// Line badges up inline
+::slotted(ids-badge) {
+  position: relative;
+  margin-inline-start: 8px;
+  top: 1px;
+  vertical-align: top;
 }

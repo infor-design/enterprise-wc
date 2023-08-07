@@ -1,0 +1,10 @@
+---
+ component: Box
+ link: ids-box
+ description: Basic layout box for contents
+ category: Layouts
+ keywords: box, layout, card, widget
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows all ids-box combinations
