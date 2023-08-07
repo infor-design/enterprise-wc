@@ -110,7 +110,10 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
     );
   }
 
-  onStepClick() {
+  /**
+   * Updates steps UI on click
+   */
+  #onStepClick() {
     const stepIndex = Math.max(0, Number(this.stepNumber) - 1);
     const stepElems = [...this.container!.querySelectorAll('.step')];
 
@@ -292,7 +295,7 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
       this.offEvent(`click.step.${stepNumber}`, this);
       this.onEvent(`click.step.${stepNumber}`, stepEl, () => {
         this.stepNumber = `${stepNumber}`;
-        this.onStepClick();
+        this.#onStepClick();
       });
     }
 
