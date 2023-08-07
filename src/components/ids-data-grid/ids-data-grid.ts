@@ -564,7 +564,7 @@ export default class IdsDataGrid extends Base {
 
       // Handle multiple or mixed selection
       const handleMultipleOrMixedSelection = () => {
-        if ((this.rowSelection === 'multiple') || (this.rowSelection === 'mixed')) {
+        if (['multiple', 'mixed'].includes(String(this.rowSelection))) {
           if (e.shiftKey && this.#lastSelectedRow !== null) this.#toggleSelectionInBetween(rowNum);
           else row.toggleSelection();
           this.#lastSelectedRow = rowNum;

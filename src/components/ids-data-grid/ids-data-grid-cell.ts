@@ -147,10 +147,10 @@ export default class IdsDataGridCell extends IdsElement {
     if (column.editor.inline) this.classList.add('is-inline');
     this.isEditing = true;
 
-    // Save on Click Out Event
-    this.editor.input?.onEvent('focusout', this.editor.input, () => {
-      this.endCellEdit();
-    });
+    // // Save on Click Out Event
+    // this.editor.input?.onEvent('focusout', this.editor.input, () => {
+    //   this.endCellEdit();
+    // });
 
     this.dataGrid?.triggerEvent('celledit', this.dataGrid, {
       detail: {
@@ -159,6 +159,7 @@ export default class IdsDataGridCell extends IdsElement {
     });
 
     this.dataGrid.activeCellEditor = this;
+    // this.dataGrid.setActiveCell(this.columnIndex, this.rowIndex);
   }
 
   /** End Cell Edit */
@@ -369,5 +370,18 @@ export default class IdsDataGridCell extends IdsElement {
   refreshCell() {
     this.clearCache();
     this.renderCell();
+  }
+
+  get columnIndex() {
+    return Number(this.getAttribute('aria-colindex')) - 1;
+  }
+
+  get rowIndex() {
+    // return Number(this.parentElement?.getAttribute('data-index'));
+    return Number(this.parentElement?.getAttribute('row-index'));
+  }
+
+  focus() {
+    this.editor?.input?.focus?.();
   }
 }

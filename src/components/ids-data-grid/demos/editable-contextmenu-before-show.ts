@@ -33,18 +33,6 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     }],
   };
 
-  const newMenuData = {
-    id: 'grid-new-menu',
-    contents: [{
-      id: 'actions-group',
-      items: [
-        { id: 'actions-new1', value: 'actions-new-1', text: 'Some New menu item 1' },
-        { id: 'actions-new2', value: 'actions-new-2', text: 'Some New menu item 2' },
-        { id: 'actions-new3', value: 'actions-new-3', text: 'Some New menu item 3' }
-      ]
-    }],
-  };
-
   // Set up columns
   const columns: IdsDataGridColumn[] = [];
   columns.push({
@@ -71,12 +59,6 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
         validate: 'required',
       }
     },
-    readonly(row: number) {
-      return row % 2 === 0;
-    },
-    // disabled(row: number) {
-    //   return row % 2 === 0;
-    // },
   });
   columns.push({
     id: 'ledger',
@@ -239,9 +221,6 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
 
   dataGrid.columns = columns;
   const setData = async () => {
-    // const res = await fetch(url);
-    // const data = await res.json();
-
     const res = await fetch(url);
     const menuRes = await fetch(menuUrl);
 
@@ -255,12 +234,20 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     dataGrid.addEventListener('beforemenushow', (e: any) => {
       console.info('Before contextmenu show', e.detail);
       const thisData = e.detail?.data;
-      if (thisData?.type === dataGrid.contextmenuTypes.BODY_CELL) {
-        console.log('thisData?.type', thisData?.type);
-        const rowIndex = thisData.rowIndex ?? 0;
-        const newData = ((rowIndex % 2) === 0) ? newMenuData : menuData;
-        dataGrid.menuData = newData;
+      const isBodyCell = thisData?.type === dataGrid.contextmenuTypes.BODY_CELL;
+      const cell = e.detail?.data?.target;
+      if (cell && isBodyCell) {
+        console.log('thisData?.type', thisData?.type, cell);
+        // cell.startCellEdit(e);
+        // cell.startCellEdit(e, false);
+        // cell.startCellEdit(undefined, false);
       }
+
+      // if (thisData?.type === dataGrid.contextmenuTypes.BODY_CELL) {
+      //   // const rowIndex = thisData.rowIndex ?? 0;
+      //   // const newData = ((rowIndex % 2) === 0) ? newMenuData : menuData;
+      //   // dataGrid.menuData = newData;
+      // }
     });
 
     dataGrid.addEventListener('menushow', (e: any) => {
@@ -269,6 +256,10 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
 
     dataGrid.addEventListener('menuselected', (e: any) => {
       console.info('contextmenu item selected', e.detail);
+      // dataGrid.activeCell?.focus?.();
+      console.log('dataGrid.activeCell', dataGrid.activeCell);
+      // dataGrid.activeCellEditor?.focus?.();
+      console.log('dataGrid.activeCellEditor', dataGrid.activeCellEditor);
 
       // simulate a column change after menuselection
       dataGrid.columns = [...columns];
