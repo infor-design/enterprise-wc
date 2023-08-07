@@ -5,6 +5,13 @@ import IdsElement from '../../core/ids-element';
 import '../ids-text/ids-text';
 import './ids-wizard-step';
 import styles from './ids-wizard.scss';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+
+const Base = IdsKeyboardMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Wizard Component
@@ -17,7 +24,7 @@ import styles from './ids-wizard.scss';
  */
 @customElement('ids-wizard')
 @scss(styles)
-export default class IdsWizard extends IdsEventsMixin(IdsElement) {
+export default class IdsWizard extends Base {
   private markerTemplate = `
     <svg viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="12" />
@@ -111,9 +118,9 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
   }
 
   /**
-   * Updates steps UI on click
+   * Select step and update UI
    */
-  #onStepClick() {
+  #selectStep() {
     const stepIndex = Math.max(0, Number(this.stepNumber) - 1);
     const stepElems = [...this.container!.querySelectorAll('.step')];
 
@@ -276,16 +283,29 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
     this.rendered();
   }
 
+  #onStepClick(stepElem: HTMLElement | null | undefined) {
+    if (!stepElem) return;
+
+    const stepNumber = Number(stepElem?.getAttribute('step-number') ?? NaN);
+
+    if (!Number.isNaN(stepNumber) && this.isStepClickable(stepNumber)) {
+      this.stepNumber = stepNumber;
+      this.#selectStep();
+    }
+  }
+
   #attachEventHandlers() {
     this.offEvent('click.step', this.container);
     this.onEvent('click.step', this.container, (evt: MouseEvent) => {
-      const stepElem = (evt.target as HTMLElement).closest('.step');
-      const stepNumber = Number(stepElem?.getAttribute('step-number') ?? NaN);
+      const stepElem = (evt.target as HTMLElement).closest<HTMLElement>('.step');
+      this.#onStepClick(stepElem);
+    });
 
-      if (!Number.isNaN(stepNumber) && this.isStepClickable(stepNumber)) {
-        this.stepNumber = stepNumber;
-        this.#onStepClick();
-      }
+    this.unlisten('Enter');
+    this.listen('Enter', this.container, () => {
+      const focusedElem = this.shadowRoot?.activeElement;
+      const stepElem = focusedElem?.closest<HTMLElement>('.step');
+      this.#onStepClick(stepElem);
     });
   }
 
