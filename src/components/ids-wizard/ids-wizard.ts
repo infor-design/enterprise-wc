@@ -106,7 +106,7 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
 
     return (
       (!this.clickable && (stepEl.getAttribute(attributes.CLICKABLE) !== 'false'))
-    || stepEl.getAttribute(attributes.CLICKABLE) !== 'false'
+      || stepEl.getAttribute(attributes.CLICKABLE) !== 'false'
     );
   }
 
@@ -265,6 +265,7 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
   connectedCallback() {
     super.connectedCallback();
     this.stepObserver.disconnect();
+    this.#attachEventHandlers();
 
     // set up observer for monitoring if a child element changed
     this.stepObserver.observe(<any> this, {
@@ -273,6 +274,19 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
       subtree: true
     });
     this.rendered();
+  }
+
+  #attachEventHandlers() {
+    this.offEvent('click.step', this.container);
+    this.onEvent('click.step', this.container, (evt: MouseEvent) => {
+      const stepElem = (evt.target as HTMLElement).closest('.step');
+      const stepNumber = Number(stepElem?.getAttribute('step-number') ?? NaN);
+
+      if (!Number.isNaN(stepNumber) && this.isStepClickable(stepNumber)) {
+        this.stepNumber = stepNumber;
+        this.#onStepClick();
+      }
+    });
   }
 
   /**
@@ -286,21 +300,6 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
 
     // stop observing changes before updating DOM
     this.resizeObserver.disconnect();
-
-    // query through all steps and add click callbacks
-    for (let stepNumber = 1; stepNumber <= this.children.length; stepNumber++) {
-      if (!this.isStepClickable(stepNumber)) {
-        continue;
-      }
-
-      const stepEl = this.shadowRoot?.querySelector(`.step[step-number="${stepNumber}"]`);
-
-      this.offEvent(`click.step.${stepNumber}`, this);
-      this.onEvent(`click.step.${stepNumber}`, stepEl, () => {
-        this.stepNumber = `${stepNumber}`;
-        this.#onStepClick();
-      });
-    }
 
     // set up observer for resize which prevents overlapping labels
     if (this.container) this.resizeObserver.observe(this.container);
