@@ -122,14 +122,17 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
       const isCurrentStep = stepIndex === i;
       const isVisitedStep = i <= stepIndex;
       const markerElem = step.querySelector('.step-marker');
+      const labelElem = step.querySelector('.step-label');
       let markerTemplate = this.markerTemplate;
       markerTemplate += isCurrentStep ? this.markerTemplate : '';
 
-      // if step is currentl selected
+      // if step is current selected
       if (isCurrentStep) {
         step.classList.add('current');
+        labelElem?.querySelector('ids-text')?.setAttribute(attributes.FONT_WEIGHT, 'bold');
       } else {
         step.classList.remove('current');
+        labelElem?.querySelector('ids-text')?.setAttribute(attributes.FONT_WEIGHT, 'normal');
       }
 
       // if step is visited
@@ -141,7 +144,7 @@ export default class IdsWizard extends IdsEventsMixin(IdsElement) {
         step.previousElementSibling?.classList.remove('visited');
       }
 
-      // update market markup
+      // update marker markup
       if (markerElem) {
         markerElem.innerHTML = markerTemplate;
       }
