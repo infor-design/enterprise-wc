@@ -1,7 +1,7 @@
 import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
-import productsJSON from '../../../assets/data/products.json';
+import productsJSON from '../../../assets/data/m3-items.json';
 import css from '../../../assets/css/ids-data-grid/custom-css.css';
 
 const cssLink = `<link href="${css}" rel="stylesheet">`;
@@ -82,9 +82,433 @@ columns.push({
   sortable: true
 });
 
-dataGrid.columns = columns;
+dataGrid.columns = [
+	{
+		"id": "MMITNO",
+		"field": "MMITNO",
+		"name": "Item number",
+		"width": 136,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "left",
+		"align": "left",
+		// "colId": "C1",
+		"customLabel": "Item number    ",
+		// "currentLabel": "",
+		"defaultLabel": "Item number",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MMITTY",
+		"field": "MMITTY",
+		"name": "Itp",
+		"width": 66,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "left",
+		"align": "left",
+		// "colId": "C2",
+		// "currentLabel": "",
+		"defaultLabel": "Itp",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MMECMA",
+		"field": "MMECMA",
+		"name": "ECO",
+		"width": 68,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"editor": {
+			"type": "checkbox",
+			"editorSettings": {
+				"dirtyTracker": true
+			}
+		},
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "right",
+		"align": "center",
+		// "colId": "C3",
+		// "currentLabel": "",
+		"defaultLabel": "ECO",
+		"isCustomColumn": false
+	},
+	{
+		"id": "ASCK",
+		"field": "ASCK",
+		"name": "Chk",
+		"width": 66,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "right",
+		"align": "right",
+		// "colId": "C4",
+		// "currentLabel": "",
+		"defaultLabel": "Chk",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MMSTAT",
+		"field": "MMSTAT",
+		"name": "Sts",
+		"width": 146,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "left",
+		"align": "left",
+		// "colId": "C5",
+		// "currentLabel": "",
+		"defaultLabel": "Sts",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MMITCL",
+		"field": "MMITCL",
+		"name": "P grp",
+		"width": 87,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "left",
+		"align": "left",
+		// "colId": "C6",
+		// "currentLabel": "",
+		"defaultLabel": "P grp",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MMITGR",
+		"field": "MMITGR",
+		"name": "Itmgr",
+		"width": 77,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "left",
+		"align": "left",
+		// "colId": "C7",
+		"customLabel": "Itmgr   ",
+		// "currentLabel": "",
+		"defaultLabel": "Itmgr",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MBAVAL",
+		"field": "MBAVAL",
+		"name": "Alohb",
+		"width": 80,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "right",
+		"align": "right",
+		// "colId": "C8",
+		// "currentLabel": "",
+		"defaultLabel": "Alohb",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MMUNMS",
+		"field": "MMUNMS",
+		"name": "U/M",
+		"width": 68,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "left",
+		"align": "left",
+		// "colId": "C9",
+		// "currentLabel": "",
+		"defaultLabel": "U/M",
+		"isCustomColumn": false
+	},
+	{
+		"id": "BUAR",
+		"field": "BUAR",
+		"name": "Business area",
+		"width": 148,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "left",
+		"align": "left",
+		// "colId": "C10",
+		// "currentLabel": "",
+		"defaultLabel": "Business area",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MMPUPR",
+		"field": "MMPUPR",
+		"name": "P prc",
+		"width": 94,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"editor": {
+			"type": "input",
+			"inline": true,
+			"editorSettings": {
+				"autoselect": true,
+				"dirtyTracker": true,
+				"mask": "number",
+				"maskOptions": {
+					"allowDecimal": true,
+					"decimalLimit": 2
+				}
+			}
+		},
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "right",
+		"align": "right",
+		// "colId": "C11",
+		// "currentLabel": "",
+		"defaultLabel": "P prc",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MBSLDY",
+		"field": "MBSLDY",
+		"name": "Sh lf",
+		"width": 70,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "right",
+		"align": "right",
+		// "colId": "C12",
+		// "currentLabel": "",
+		"defaultLabel": "Sh lf",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MMSAPR",
+		"field": "MMSAPR",
+		"name": "S prc",
+		"width": 94,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"editor": {
+			"type": "input",
+			"inline": true,
+			"editorSettings": {
+				"autoselect": true,
+				"dirtyTracker": true,
+				"mask": "number",
+				"maskOptions": {
+					"allowDecimal": true,
+					"decimalLimit": 6
+				}
+			}
+		},
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "right",
+		"align": "right",
+		// "colId": "C13",
+		// "currentLabel": "",
+		"defaultLabel": "S prc",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MMSUNO",
+		"field": "MMSUNO",
+		"name": "Suppl",
+		"width": 80,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "left",
+		"align": "left",
+		// "colId": "C14",
+		// "currentLabel": "",
+		"defaultLabel": "Suppl",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MMRESP",
+		"field": "MMRESP",
+		"name": "Resp",
+		"width": 105,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "left",
+		"align": "left",
+		// "colId": "C15",
+		// "currentLabel": "",
+		"defaultLabel": "Resp",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MMATMO",
+		"field": "MMATMO",
+		"name": "Mod",
+		"width": 70,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "left",
+		"align": "left",
+		// "colId": "C16",
+		// "currentLabel": "",
+		"defaultLabel": "Mod",
+		"isCustomColumn": false
+	},
+	{
+		"id": "MMACHK",
+		"field": "MMACHK",
+		"name": "Chk",
+		"width": 66,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"editor": {
+			"type": "checkbox",
+			"editorSettings": {
+				"dirtyTracker": true
+			}
+		},
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "right",
+		"align": "center",
+		// "colId": "C17",
+		// "currentLabel": "",
+		"defaultLabel": "Chk",
+		"isCustomColumn": false
+	},
+	{
+		"id": "EXRE",
+		"field": "EXRE",
+		"name": "External reference",
+		"width": 161,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "left",
+		"align": "left",
+		// "colId": "C18",
+		// "currentLabel": "",
+		"defaultLabel": "External reference",
+		"isCustomColumn": false
+	},
+	{
+		"id": "FUDS",
+		"field": "FUDS",
+		"name": "Description",
+		"width": 453,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "left",
+		"align": "left",
+		// "colId": "C19",
+		// "currentLabel": "",
+		"defaultLabel": "Description",
+		"isCustomColumn": false
+	},
+	{
+		"id": "ITCL",
+		"field": "ITCL",
+		"name": "Product group",
+		"width": 145,
+		"resizable": true,
+		"maxWidth": 2804,
+		"filterConditions": [],
+		"sortable": false,
+		"reorderable": false,
+		"headerTooltipCssPart": "h5tooltip",
+		"headerAlign": "left",
+		"align": "left",
+		// "colId": "C20",
+		// "currentLabel": "",
+		"defaultLabel": "Product group",
+		"isCustomColumn": false
+	},
+	{
+		"id": "h5SpacerColumn",
+		"name": "",
+		"field": "",
+		"reorderable": false,
+		"sortable": false,
+		"resizable": true
+	}
+] as IdsDataGridColumn[];
 
-const MAX_RESULTS_COUNT = 300;
+for (const col of dataGrid.columns) {
+  col.formatter = (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
+    const value = `${rowData[columnData.field] || ''}`;
+    const random = Math.random() * 10;
+    (random % 5)
+    return !value ? '' : `<span class="text-ellipsis">${value}&nbsp;<ids-icon part="custom-cell-icon" icon="edit"></ids-icon></span>`;
+  }
+  if (col.editor) {
+    col.readonly =(rowData: Record<string, unknown>, columnData: Record<string, any>): boolean => {
+
+      const random = Math.floor(Math.random() * 100);
+      return (random % 5) === 1;
+    }
+  }
+}
+const MAX_RESULTS_COUNT = 1386;
 let data: any = null;
 const fetchData = async (startIndex = 0) => {
   if (data === null) {
@@ -96,22 +520,23 @@ const fetchData = async (startIndex = 0) => {
   if (startIndex > MAX_RESULTS_COUNT) return [];
 
   const numRowsNeeded = Math.max((MAX_RESULTS_COUNT - startIndex), 0);
-  const dataSet = data.splice(0, Math.min(numRowsNeeded, 156));
+  const dataSet = data.splice(0, Math.min(numRowsNeeded, startIndex=== 0 ? 66: 33));
   return dataSet;
 };
 
 const setData = async () => {
-  dataGrid.rowStart = 120;
+  // dataGrid.rowStart = 120;
   dataGrid.data = await fetchData();
 };
 
 dataGrid.addEventListener('afterrendered', async () => {
-  dataGrid.selectRow(120);
+  // dataGrid.selectRow(120);
 });
 
 setData();
 
 dataGrid.addEventListener('scrollend', async (e: Event) => {
+  console.log('scroll >>>');
   const endIndex = (<CustomEvent>e).detail?.value || 0;
 
   const moreData = await fetchData(endIndex + 1);
