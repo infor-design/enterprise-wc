@@ -122,7 +122,10 @@ export default class IdsDataGrid extends Base {
   get rows(): IdsDataGridRow[] {
     // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
     if (!this.container) return [];
-    return [...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row')];
+    return [
+      ...this.querySelectorAll<IdsDataGridRow>('ids-data-grid-row'),
+      ...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row'),
+    ];
   }
 
   /* Returns the outside wrapper element */
@@ -1201,6 +1204,7 @@ export default class IdsDataGrid extends Base {
     const { MAX_ROWS_IN_DOM } = this.virtualScrollSettings;
 
     const rowsNeeded = Math.min(data.length, MAX_ROWS_IN_DOM) - rows.length;
+    const missingSlots: any[] = [];
     const missingRows: any[] = [];
 
     const lastRow: any = rows[rows.length - 1];
@@ -1208,12 +1212,17 @@ export default class IdsDataGrid extends Base {
 
     while (missingRows.length < rowsNeeded) {
       const rowIndex = lastRowIndex + missingRows.length + 1;
+      const slotName = `data-grid-row-slot-${rowIndex}`;
+      const rowSlot = `<slot name="${slotName}"></slot>`;
       const clonedRow = IdsDataGridRow.template(data[rowIndex], rowIndex, rowIndex + 1, this);
+      missingSlots.push(rowSlot);
       missingRows.push(clonedRow);
     }
 
     if (missingRows.length && this.body) {
-      this.body.innerHTML += missingRows.join('');
+      // this.body.innerHTML += (missingSlots.join('') + missingRows.join(''));
+      this.body.innerHTML += missingSlots.join('');
+      this.innerHTML += missingRows.join('');
     }
   }
 

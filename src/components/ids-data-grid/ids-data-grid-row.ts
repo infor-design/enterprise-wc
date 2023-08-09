@@ -31,12 +31,18 @@ export default class IdsDataGridRow extends IdsElement {
     super.connectedCallback();
   }
 
+  #parentGrid: IdsDataGrid = undefined;
+
   /**
    * Reference to the data grid parent
    * @returns {IdsDataGrid} the data grid parent
    */
   get dataGrid() {
-    if (!this.rootNode) this.rootNode = (this.getRootNode() as any);
+    // return this.parentElement as IdsDataGrid;
+    if (this.closest('ids-data-grid')) {
+      return this.closest('ids-data-grid');
+    }
+    if (!this.rootNode) this.rootNode = this.closest('ids-data-grid') ?? (this.getRootNode() as any);
     return (this.rootNode.host) as IdsDataGrid;
   }
 
@@ -372,8 +378,10 @@ export default class IdsDataGridRow extends IdsElement {
     // so no need to run multiple times when rendering columns to check row disabled state
     if (row && canRowDisabled) row.idstempcanrowdisabled = canRowDisabled;
 
+    const slotName = `data-grid-row-slot-${index}`;
     return `
       <ids-data-grid-row
+        slot="${slotName}"
         row-index="${index}"
         role="row"
         part="row"

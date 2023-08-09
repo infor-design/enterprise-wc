@@ -1,4 +1,6 @@
 /* Ids Data Grid Component - Rows */
+// ::slotted(.ids-data-grid-row),
+::slotted(ids-data-grid-row),
 .ids-data-grid-row {
   display: grid;
   grid-template-columns: var(--ids-data-grid-column-widths); // Filled in dynamically
@@ -121,11 +123,15 @@
 }
 
 // Row Alternate Row Setting Feature
-.ids-data-grid.alt-row-shading ids-data-grid-row:nth-child(even) {
-  background-color: var(--ids-data-grid-row-alternating-color-background);
+.ids-data-grid.alt-row-shading {
+  ::slotted(ids-data-grid-row:nth-child(even)),
+  ids-data-grid-row:nth-child(even) {
+    background-color: var(--ids-data-grid-row-alternating-color-background);
+  }
 }
 
 // Expandable Row
+::slotted(.ids-data-grid-expandable-row),
 .ids-data-grid-expandable-row {
   border-bottom: 1px solid var(--ids-data-grid-cell-color-border);
   grid-column: 1 / -1;
@@ -139,13 +145,17 @@ tr.ids-data-grid-row {
 }
 
 // Row Navigation Styles
-.ids-data-grid.row-navigation .ids-data-grid-row {
-  &:focus-within {
-    box-shadow: var(--ids-data-grid-row-shadow-focus);
-  }
-
-  .ids-data-grid-cell:focus {
-    box-shadow: none;
-    outline: none;
+.ids-data-grid.row-navigation  {
+  // ::slotted(.ids-data-grid-row),
+  ::slotted(ids-data-grid-row),
+  .ids-data-grid-row {
+    &:focus-within {
+      box-shadow: var(--ids-data-grid-row-shadow-focus);
+    }
+  
+    .ids-data-grid-cell:focus {
+      box-shadow: none;
+      outline: none;
+    }
   }
 }
