@@ -439,8 +439,10 @@ export default class IdsDataGrid extends Base {
     this.resetCache();
 
     let innerHTML = '';
-    const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.MAX_ROWS_IN_DOM) : this.data;
-    for (let index = 0; index < data.length; index++) {
+    // const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.MAX_ROWS_IN_DOM) : this.data;
+    const data = this.data;
+    const maxRows = this.virtualScroll ? this.virtualScrollSettings.MAX_ROWS_IN_DOM : data.length;
+    for (let index = 0; index < maxRows; index++) {
       innerHTML += IdsDataGridRow.template(data[index], index, index + 1, this);
     }
     return innerHTML;
@@ -1171,9 +1173,8 @@ export default class IdsDataGrid extends Base {
    * @param {Array} value The array to use
    */
   appendData(value: Array<Record<string, any>>) {
-    if (this.virtualScroll) {
-      this.datasource.data = this.data.concat(value);
-      this.#appendMissingRows();
+    if (this.virtualScroll && value?.length) {
+      this.#appendMissingData(value);
     } else {
       this.data = this.data.concat(value);
     }
@@ -1181,30 +1182,31 @@ export default class IdsDataGrid extends Base {
     this.#updateContainerMaxHeight();
   }
 
-  /* Append missing rows for virtual-scrolling */
-  #appendMissingRows() {
+  /* Append missing data for virtual-scrolling */
+  #appendMissingData(newData: Array<Record<string, any>>) {
     if (!this.virtualScroll) return;
+
+    const nextRowIndex = this.data.length;
+    this.datasource.data = this.data.concat(newData);
 
     const data = this.data;
     const rows = this.rows;
     if (!data.length || !rows.length) return;
 
     const { MAX_ROWS_IN_DOM } = this.virtualScrollSettings;
+    if (nextRowIndex < MAX_ROWS_IN_DOM) {
+      this.resetCache();
 
-    const rowsNeeded = Math.min(data.length, MAX_ROWS_IN_DOM) - rows.length;
-    const missingRows: any[] = [];
-
-    const lastRow: any = rows[rows.length - 1];
-    const lastRowIndex = lastRow?.rowIndex || 0;
-
-    while (missingRows.length < rowsNeeded) {
-      const rowIndex = lastRowIndex + missingRows.length + 1;
-      const clonedRow = IdsDataGridRow.template(data[rowIndex], rowIndex, rowIndex + 1, this);
-      missingRows.push(clonedRow);
-    }
-
-    if (missingRows.length && this.body) {
-      this.body.innerHTML += missingRows.join('');
+      rows.slice(nextRowIndex).map((row, incrementer) => {
+        const dataIndex = nextRowIndex + incrementer;
+        if (data[dataIndex]) {
+          if (row.rowIndex === dataIndex) {
+            row.renderRow(dataIndex);
+          } else {
+            row.rowIndex = dataIndex;
+          }
+        }
+      });
     }
   }
 

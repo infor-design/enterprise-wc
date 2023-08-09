@@ -521,6 +521,7 @@ const fetchData = async (startIndex = 0) => {
 
   const numRowsNeeded = Math.max((MAX_RESULTS_COUNT - startIndex), 0);
   const dataSet = data.splice(0, Math.min(numRowsNeeded, startIndex=== 0 ? 66: 33));
+	console.log('numRowsNeeded', numRowsNeeded);
   return dataSet;
 };
 
@@ -536,8 +537,8 @@ dataGrid.addEventListener('afterrendered', async () => {
 setData();
 
 dataGrid.addEventListener('scrollend', async (e: Event) => {
-  console.log('scroll >>>');
   const endIndex = (<CustomEvent>e).detail?.value || 0;
+  console.log('scroll >>>', endIndex);
 
   const moreData = await fetchData(endIndex + 1);
   if (moreData.length) dataGrid.appendData(moreData);
