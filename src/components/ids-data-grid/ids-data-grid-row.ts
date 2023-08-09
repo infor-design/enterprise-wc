@@ -339,6 +339,8 @@ export default class IdsDataGridRow extends IdsElement {
    * @returns {string} The html string for the row
    */
   static template(row: Record<string, unknown>, index: number, ariaRowIndex: number, dataGrid: IdsDataGrid): string {
+    if (!row) return '';
+
     let rowClasses = `${row?.rowSelected ? ' selected' : ''}`;
     rowClasses += `${row?.rowSelected && dataGrid?.rowSelection === 'mixed' ? ' mixed' : ''}`;
     rowClasses += `${row?.rowActivated ? ' activated' : ''}`;
@@ -360,7 +362,7 @@ export default class IdsDataGridRow extends IdsElement {
     // Set disabled state thru key found in the dataset
     const isRowDisabled = (): boolean => {
       const isTrue = (v: any) => (typeof v !== 'undefined' && v !== null && ((typeof v === 'boolean' && v === true) || (typeof v === 'string' && v.toLowerCase() === 'true')));
-      const disabled = row.disabled;
+      const disabled = row?.disabled;
       return isTrue(typeof disabled === 'function' ? disabled(index, row) : disabled);
     };
     const canRowDisabled = isRowDisabled();

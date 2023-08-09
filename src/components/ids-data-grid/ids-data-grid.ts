@@ -135,6 +135,7 @@ export default class IdsDataGrid extends Base {
 
     super.connectedCallback();
     this.redrawBody();
+    this.#appendVirtualScrollRows();
     setContextmenu.apply(this);
     this.#attachScrollEvents();
   }
@@ -328,7 +329,10 @@ export default class IdsDataGrid extends Base {
 
     const header = IdsDataGridHeader.template(this);
     const body = this.bodyTemplate();
-    if (this.container) this.container.innerHTML = header + body;
+    if (this.container) {
+      this.container.innerHTML = header + body;
+      this.#appendVirtualScrollRows();
+    }
     this.#setColumnWidths();
 
     this.#applyAutoFit();
@@ -439,10 +443,14 @@ export default class IdsDataGrid extends Base {
     this.resetCache();
 
     let innerHTML = '';
-    const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.MAX_ROWS_IN_DOM) : this.data;
-    for (let index = 0; index < data.length; index++) {
-      innerHTML += IdsDataGridRow.template(data[index], index, index + 1, this);
+    if (!this.virtualScroll) {
+      const data = this.data;
+      // const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.MAX_ROWS_IN_DOM) : this.data;
+      for (let index = 0; index < data.length; index++) {
+        innerHTML += IdsDataGridRow.template(data[index], index, index + 1, this);
+      }
     }
+
     return innerHTML;
   }
 
@@ -1173,7 +1181,7 @@ export default class IdsDataGrid extends Base {
   appendData(value: Array<Record<string, any>>) {
     if (this.virtualScroll) {
       this.datasource.data = this.data.concat(value);
-      this.#appendMissingRows();
+      this.#appendVirtualScrollRows();
     } else {
       this.data = this.data.concat(value);
     }
@@ -1182,12 +1190,13 @@ export default class IdsDataGrid extends Base {
   }
 
   /* Append missing rows for virtual-scrolling */
-  #appendMissingRows() {
+  #appendVirtualScrollRows() {
     if (!this.virtualScroll) return;
 
     const data = this.data;
     const rows = this.rows;
-    if (!data.length || !rows.length) return;
+    if (!data.length) return;
+    // if (!data.length || !rows.length) return;
 
     const { MAX_ROWS_IN_DOM } = this.virtualScrollSettings;
 
@@ -1195,7 +1204,7 @@ export default class IdsDataGrid extends Base {
     const missingRows: any[] = [];
 
     const lastRow: any = rows[rows.length - 1];
-    const lastRowIndex = lastRow?.rowIndex || 0;
+    const lastRowIndex = lastRow?.rowIndex || -1;
 
     while (missingRows.length < rowsNeeded) {
       const rowIndex = lastRowIndex + missingRows.length + 1;
@@ -1610,6 +1619,7 @@ export default class IdsDataGrid extends Base {
 
   /* Recycle the rows during scrolling */
   #recycleAllRows(topRowIndex: number) {
+    console.log('calling recycleAllRows');
     const data = this.data;
     const rows = this.rows;
     if (!data.length || !rows.length) return;
@@ -1635,6 +1645,7 @@ export default class IdsDataGrid extends Base {
 
   /* Recycle the rows during scrolling from the top */
   #recycleTopRowsDown(rowCount: number) {
+    console.log('calling recycleTopRowsDown');
     const rows = this.rows;
     if (!rowCount || !rows.length) return;
     const data = this.data;
@@ -1660,12 +1671,14 @@ export default class IdsDataGrid extends Base {
     this.requestAnimationFrame(() => {
       // NOTE: body.append is faster than body.innerHTML
       // NOTE: body.append is faster than multiple calls to appendChild()
+      console.log('calling recycleTopRowsDown', rowsToMove.length);
       this.body?.append(...rowsToMove);
     });
   }
 
   /* Recycle the rows during scrolling from the bottom */
   #recycleBottomRowsUp(rowCount: number) {
+    console.log('calling recycleBottomRowsUp');
     const rows = this.rows;
     if (!rowCount || !rows.length) return;
 
@@ -1686,6 +1699,7 @@ export default class IdsDataGrid extends Base {
 
     this.requestAnimationFrame(() => {
       // NOTE: body.prepend() seems to be faster than body.innerHTML
+      console.log('calling recycleTopRowsDown', rowsToMove.length);
       this.body?.prepend(...rowsToMove.reverse());
     });
   }
