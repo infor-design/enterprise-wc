@@ -40,7 +40,7 @@ export default class IdsDataGridRow extends IdsElement {
   get dataGrid() {
     // return this.parentElement as IdsDataGrid;
     if (this.closest('ids-data-grid')) {
-      return this.closest('ids-data-grid');
+      return this.closest('ids-data-grid') as IdsDataGrid;
     }
     if (!this.rootNode) this.rootNode = this.closest('ids-data-grid') ?? (this.getRootNode() as any);
     return (this.rootNode.host) as IdsDataGrid;
