@@ -5,11 +5,11 @@ import IdsSwapList from '../../src/components/ids-swaplist/ids-swaplist';
 import '../../src/components/ids-swappable/ids-swappable-item';
 import '../../src/components/ids-list-view/ids-list-view';
 import IdsSwappable from '../../src/components/ids-swappable/ids-swappable';
-import dataset from '../../src/assets/data/periods.json';
+import dataset from '../../src/assets/data/swaplist-data.json';
 
 const HTMLSnippets = {
   SWAPLIST_COMPONENT: (
-    `<ids-swaplist id="swaplist-1" count="3"></ids-swaplist>`
+    `<ids-swaplist id="swaplist-1"></ids-swaplist>`
   ),
 };
 
@@ -34,7 +34,7 @@ describe('IdsSwapList Component', () => {
 
     idsSwappable = new IdsSwappable();
     idsSwapList = new IdsSwapList();
-    idsSwapList.innerHTML = '<template><ids-swappable-item><ids-text>${city}</ids-text></ids-swappable-item>'; //eslint-disable-line
+    idsSwapList.innerHTML = '<ids-text>${city}</ids-text>'; //eslint-disable-line
 
     document.body.appendChild(idsSwapList);
     idsSwapList.data = dataset;
@@ -49,7 +49,7 @@ describe('IdsSwapList Component', () => {
 
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-swaplist').length).toEqual(1);
-    idsSwapList.innerHTML = '<template><ids-swappable-item><ids-text>${city}</ids-text></ids-swappable-item>'; //eslint-disable-line
+    idsSwapList.innerHTML = '<template><ids-text>${city}</ids-text></template>'; //eslint-disable-line
     idsSwapList.data = dataset;
 
     idsSwapList.remove();
@@ -65,15 +65,6 @@ describe('IdsSwapList Component', () => {
     idsSwapList.template();
     idsSwapList.data = dataset;
     expect(idsSwapList.outerHTML).toMatchSnapshot();
-  });
-
-  it('can set the count', async () => {
-    expect(idsSwapList.count).toBe(2);
-    expect(idsSwapList.getAttribute('count')).toBe(null);
-
-    idsSwapList.count = 3;
-    expect(idsSwapList.count).toBe(3);
-    expect(idsSwapList.getAttribute('count')).toBe('3');
   });
 
   it('can swap item to next/previous list on click event', async () => {

@@ -1,0 +1,46 @@
+/* Ids Stats Component */
+@use '../../themes/mixins/ids-core-mixins' as mixins;
+
+.ids-stats {
+  @include mixins.antialiased();
+
+  box-sizing: border-box;
+  color: var(--ids-stats-color-text);
+  height: var(--ids-stats-height);
+  max-height: var(--ids-stats-height);
+  max-width: var(--ids-stats-width);
+  padding-block: var(--ids-stats-padding-block);
+  padding-inline: var(--ids-stats-padding-inline);
+  width: var(--ids-stats-width);
+  transition: var(--ids-motion-duration) var(--ids-motion-ease);
+
+  .trend-label {
+    font-weight: var(--ids-font-weight-semibold);
+    font-size: var(--ids-stats-trend-label-font-size);
+    margin-top: -5px;
+
+    &.is-positive {
+      color: var(--ids-stats-positive-color-text);
+    }
+
+    &.is-negative {
+      color: var(--ids-stats-negative-color-text);
+    }
+
+    svg {
+      padding-inline-start: 6px;
+    }
+  }
+
+  .kpi-label {
+    color: var(--ids-stats-kpi-label-color);
+  }
+
+  ids-layout-flex {
+    width: 100%;
+  }
+
+  &.colspan {
+    --ids-stats-width: var(--ids-stats-width-double);
+  }
+}

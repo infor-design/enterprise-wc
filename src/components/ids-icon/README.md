@@ -47,6 +47,17 @@ The most common implementation of custom sizing is for empty-message icons, whic
 <ids-icon icon="empty-generic" custom-height="80" custom-width="80" custom-viewbox="0 0 80 80"></ids-icon>
 ```
 
+Icons can also have a color that can be used for embellishment or to indicate status or bring attention to data. These should not be confused with `ids-alert` icons which are used in error messages / validation messages and for alert/errors.
+
+```html
+<ids-icon icon="rocket" status-color="azure"></ids-icon>
+<ids-icon icon="money" status-color="azure"></ids-icon>
+<ids-icon icon="info" status-color="azure"></ids-icon>
+<ids-icon icon="success" status-color="success"></ids-icon>
+<ids-icon icon="error" status-color="error"></ids-icon>
+<ids-icon icon="alert" status-color="warning"></ids-icon>
+```
+
 Icons also have offer notification badge options in 4 possible positions
 
 ```html
@@ -55,10 +66,10 @@ Icons also have offer notification badge options in 4 possible positions
 <ids-icon icon="notes" badge-position="bottom-left"></ids-icon>
 <ids-icon icon="notes" badge-position="bottom-right"></ids-icon>
 ```
+
 These badges can also be displayed in 5 possible colors
 
 ```html
-
 <ids-icon icon="notes" badge-position="top-left" badge-color="base"></ids-icon>
 <ids-icon icon="notes" badge-position="top-left" badge-color="info"></ids-icon>
 <ids-icon icon="notes" badge-position="top-left"></ids-icon badge-color="warning">
@@ -99,6 +110,7 @@ One the files are imported they can be used like a normal ids-icon
 - Alert
 - Badge-Position
 - Badge-Color
+- Status-Color
 - Height
 - Viewbox
 - Width

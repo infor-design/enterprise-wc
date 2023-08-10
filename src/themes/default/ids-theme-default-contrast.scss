@@ -63,6 +63,8 @@
   --ids-shadow-10: 0 0 3px 1px rgb(0 114 237 / 0.3);
   --ids-shadow-20: 0 0 3px 2px rgb(0 114 237 / 0.30);
   --ids-shadow-30: 0 0 4px 3px rgb(0 114 237 / 0.3);
+  --ids-scroll-shadow: 0 -1px 3px -1px rgba(0  0  0 / 0.30);
+  --ids-scroll-color-border-top: 1px solid rgba(215 215 216 / 1);
 
   /// --- Component Tokens ---- ///
   // Accordion
@@ -124,10 +126,18 @@
   --ids-calendar-event-color-border-focus: var(--ids-color-azure-100);
 
   // Card
+  --ids-card-header-title-color: var(--ids-color-neutral-110);
   --ids-card-color-background: var(--ids-color-neutral-00);
-  --ids-card-color-border: var(--ids-color-neutral-60);
+  --ids-card-color-border: var(--ids-color-neutral-80);
   --ids-card-divider-color-border: var(--ids-color-neutral-30);
   --ids-card-shadow: 0 0 8px rgba(0 0 0 / 0.1);
+
+  // Box
+  --ids-box-color-background: var(--ids-card-color-background);
+  --ids-box-color-border: var(--ids-color-neutral-40);
+  --ids-box-shadow: var(--ids-card-shadow);
+  --ids-box-outline-selected: 2px solid var(--ids-color-primary-70);
+  --ids-box-outline-hover: 1px solid var(--ids-color-neutral-80);
 
   // Button (Primary)
   --ids-button-primary-color-border-default: var(--ids-color-primary);
@@ -205,8 +215,8 @@
   --ids-data-grid-header-color-icon-unsorted: var(--ids-color-neutral-40);
   --ids-data-grid-header-color-icon-sorted: var(--ids-color-neutral-00);
 
-    // Data Grid (Filter)
-    --ids-data-grid-filter-input-color-background-readonly: var(--ids-color-neutral-50);
+  // Data Grid (Filter)
+  --ids-data-grid-filter-input-color-background-readonly: var(--ids-color-neutral-50);
 
   // Data Grid (Rows)
   --ids-data-grid-row-color-background-selected: rgba(85 163 243 / 0.2);
@@ -265,6 +275,9 @@
 
   // Icons
   --ids-icon-color-default: var(--ids-color-neutral-100);
+
+  // Link List
+  --ids-link-list-title-color-text-default: var(--ids-color-neutral-110);
 
   // Layout Grid
   --ids-layout-grid-color-background: var(--ids-color-neutral-00);
@@ -370,6 +383,12 @@
   --ids-splitter-bar-color-border-dragging: var(--ids-color-azure-40);
   --ids-splitter-handle-color-background-hover: var(--ids-color-azure-70);
 
+  // Stats
+  --ids-stats-positive-color-text: var(--ids-color-emerald-80);
+  --ids-stats-negative-color-text: var(--ids-color-error-default);
+  --ids-stats-color-text: var(--ids-color-text-label);
+  --ids-stats-kpi-label-color: var(--ids-color-neutral-110);
+
   // Step Chart
   --ids-step-chart-color-background-default: var(--ids-color-neutral-30);
   --ids-step-chart-color-background-complete: var(--ids-color-primary);
@@ -399,8 +418,8 @@
   --ids-tab-focus-hide-border-color: var(--ids-color-primary);
 
   // Tab (Module Variant)
-  --ids-tab-module-color-background-default: var(--ids-color-slate-20);
-  --ids-tab-module-color-background-selected: var(--ids-color-slate-00);
+  --ids-tab-module-color-background-default: var(--ids-color-neutral-20);
+  --ids-tab-module-color-background-selected: var(--ids-color-neutral-00);
 
   // Tag
   --ids-tag-color-background-default: var(--ids-input-color-background-readonly);
@@ -457,6 +476,12 @@
   --ids-week-view-color-border: var(--ids-color-neutral-30);
   --ids-week-view-header-color-background: var(--ids-color-neutral-00);
   --ids-week-view-row-odd-color-border: var(--ids-color-neutral-20);
+
+  // Widget
+  --ids-widget-header-title-color: var(--ids-color-neutral-110);
+  --ids-widget-color-border-hover: var(--ids-color-neutral-40);
+  --ids-widget-color-shadow-hover: 0 2px 4px 1px rgba(0 0 0 / 0.15);
+  --ids-widget-search-field-color-background: var(--ids-color-neutral-20);
 
   // Wizard
   --ids-wizard-step-color-default: var(--ids-color-primary);

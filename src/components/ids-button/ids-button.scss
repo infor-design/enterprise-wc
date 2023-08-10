@@ -39,6 +39,17 @@
   display: none;
 }
 
+:host([system-button]) {
+  button:hover {
+    background-color: transparent;
+    color: var(--ids-button-system-color-text-hover);
+  }
+
+  .ripple-effect {
+    display: none;
+  }
+}
+
 :host([hidden]) {
   display: none;
 }

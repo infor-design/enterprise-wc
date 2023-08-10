@@ -86,6 +86,8 @@ export default class IdsText extends Base {
       attributes.FONT_SIZE,
       attributes.FONT_WEIGHT,
       attributes.LABEL,
+      attributes.LINE_CLAMP,
+      attributes.MAX_WIDTH,
       attributes.OVERFLOW,
       attributes.STATUS,
       attributes.TEXT_ALIGN,
@@ -180,7 +182,7 @@ export default class IdsText extends Base {
   }
 
   /**
-   * Set the type of element it is (h1-h6, span (default))
+   * Set the type of HTML element is (h1-h6, p, span (default))
    * @param {string | null} value  The type of element
    */
   set type(value: string | null) {
@@ -318,6 +320,40 @@ export default class IdsText extends Base {
   }
 
   get data(): boolean { return stringToBool(this.getAttribute(attributes.DATA)); }
+
+  /**
+   * Set the maxWidth of the text (used for ellipsis)
+   * @param {string | null} value The value of the max-width
+   */
+  set maxWidth(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.MAX_WIDTH, value);
+      this.container?.style.setProperty('max-width', `${value}px`);
+    } else {
+      this.removeAttribute(attributes.MAX_WIDTH);
+      this.container?.style.removeProperty('max-width');
+    }
+  }
+
+  get maxWidth(): string | null { return this.getAttribute(attributes.MAX_WIDTH); }
+
+  /**
+   * Truncates text at a specific number of lines.
+   * @param {string | null} value The number of lines
+   */
+  set lineClamp(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.LINE_CLAMP, value);
+      this.container?.style.setProperty('-webkit-line-clamp', value);
+      this.container?.classList.add('has-line-clamp');
+    } else {
+      this.removeAttribute(attributes.LINE_CLAMP);
+      this.container?.style.removeProperty('-webkit-line-clamp');
+      this.container?.classList.remove('has-line-clamp');
+    }
+  }
+
+  get lineClamp(): string | null { return this.getAttribute(attributes.LINE_CLAMP); }
 
   /**
    * Set how content overflows; can specify 'ellipsis', or undefined or 'none'

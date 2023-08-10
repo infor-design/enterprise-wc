@@ -244,7 +244,7 @@ describe('IdsText Component', () => {
     document.body.appendChild(container);
 
     await container.setLanguage('en');
-    expect(text.textContent).toEqual('Browser Language');
+    expect(text.textContent).toEqual('Browser language');
     await container.setLanguage('fi');
     await processAnimFrame();
     expect(text.textContent).toEqual('Selaimen kieli');

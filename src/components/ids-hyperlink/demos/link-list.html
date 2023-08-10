@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Link List</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="3" padding-x="md">
+
+      <ids-layout-grid-cell>
+        <ids-link-list title="Link List">
+          <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none">Categories</ids-hyperlink>
+          <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" disabled>Organization Configuration</ids-hyperlink>
+          <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none">Types</ids-hyperlink>
+          <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none">Organization Configuration</ids-hyperlink>
+          <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none">Appraisal Email Templates</ids-hyperlink>
+        </ids-link-list>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-link-list title="Link List with Icons">
+          <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none"><ids-icon icon="new-document"></ids-icon>Categories</ids-hyperlink>
+          <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" disabled><ids-icon icon="user-profile"></ids-icon>Organization Configuration</ids-hyperlink>
+          <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none"><ids-icon icon="calendar"></ids-icon>Types</ids-hyperlink>
+          <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none"><ids-icon icon="user-profile"></ids-icon>Organization Configuration</ids-hyperlink>
+          <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none"><ids-icon icon="user-folder-open"></ids-icon>Appraisal Email Templates</ids-hyperlink>
+        </ids-link-list>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -269,7 +269,7 @@ describe('IdsPieChart Component', () => {
     await processAnimFrame();
     pieChart.data = [];
     await processAnimFrame();
-    expect(pieChart.emptyMessage.querySelector('ids-text').textContent).toBe('No Data Available');
+    expect(pieChart.emptyMessage.querySelector('ids-text').textContent).toBe('No data available');
     await container.setLocale('de-DE');
     expect(pieChart.emptyMessage.querySelector('ids-text').textContent).toBe('Keine Daten verfügbar');
   });

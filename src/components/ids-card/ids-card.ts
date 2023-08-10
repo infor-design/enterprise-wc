@@ -1,9 +1,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsSelectionMixin from '../../mixins/ids-selection-mixin/ids-selection-mixin';
-import IdsElement from '../../core/ids-element';
+import IdsBox from '../ids-box/ids-box';
 import IdsRippleMixin from '../../mixins/ids-ripple-mixin/ids-ripple-mixin';
 
 import '../ids-hyperlink/ids-hyperlink';
@@ -12,10 +13,12 @@ import styles from './ids-card.scss';
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
-const Base = IdsRippleMixin(
-  IdsEventsMixin(
-    IdsSelectionMixin(
-      IdsElement
+const Base = IdsHideFocusMixin(
+  IdsRippleMixin(
+    IdsEventsMixin(
+      IdsSelectionMixin(
+        IdsBox
+      )
     )
   )
 );
@@ -23,9 +26,10 @@ const Base = IdsRippleMixin(
 /**
  * IDS Card Component
  * @type {IdsCard}
- * @inherits IdsElement
+ * @inherits IdsBox
  * @mixes IdsEventsMixin
  * @mixes IdsSelectionMixin
+ * @mixes IdsHideFocusMixin
  * @mixes IdsRippleMixin
  * @part card - the card element
  * @part header - the header element
@@ -42,7 +46,6 @@ export default class IdsCard extends Base {
     super.connectedCallback();
     this.#setFooterClass();
     this.#handleEvents();
-    this.#setHeight();
   }
 
   /**
@@ -55,7 +58,6 @@ export default class IdsCard extends Base {
       attributes.ACTIONABLE,
       attributes.AUTO_FIT,
       attributes.AUTO_HEIGHT,
-      attributes.BORDERLESS,
       attributes.HEIGHT,
       attributes.HREF,
       attributes.NO_HEADER,
@@ -214,8 +216,8 @@ export default class IdsCard extends Base {
    * @param {object} e Actual event
    */
   #handleMultipleSelectionChange(e: Event) {
-    this.container?.querySelector('ids-checkbox')?.setAttribute(attributes.CHECKED, String(this.selected !== 'true'));
-    this.setAttribute(attributes.SELECTED, String(this.selected !== 'true'));
+    this.container?.querySelector('ids-checkbox')?.setAttribute(attributes.CHECKED, String(this.selected !== true));
+    this.setAttribute(attributes.SELECTED, String(this.selected !== true));
 
     this.triggerEvent('selectionchanged', this, {
       detail: {
@@ -287,20 +289,6 @@ export default class IdsCard extends Base {
   get autoHeight() { return this.getAttribute(attributes.AUTO_HEIGHT); }
 
   /**
-   * Set the card to borderless
-   * @param {boolean|null} value If card should be borderless or not
-   */
-  set borderless(value) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.BORDERLESS, '');
-    } else {
-      this.removeAttribute(attributes.BORDERLESS);
-    }
-  }
-
-  get borderless() { return this.hasAttribute(attributes.BORDERLESS); }
-
-  /**
    * Set the card to be actionable button.
    * @param {boolean | null} value The card can act as a button.
    */
@@ -356,34 +344,6 @@ export default class IdsCard extends Base {
         this.redraw();
       }
     }
-  }
-
-  /**
-   * Set a specific height and center the card
-   * @returns {string} href for ids-hyperlink
-   */
-  get height() { return this.getAttribute(attributes.HEIGHT); }
-
-  /**
-   * Set a height and center the card
-   * @param {number} height height in pixels
-   */
-  set height(height) {
-    if (height) {
-      this.setAttribute(attributes.HEIGHT, height);
-    } else {
-      this.removeAttribute(attributes.HEIGHT);
-    }
-
-    this.#setHeight();
-  }
-
-  #setHeight() {
-    const linkEl = this.container?.querySelector<IdsHyperlink>('ids-hyperlink')?.container;
-
-    this.container?.style?.setProperty('height', this.height ? `${this.height}px` : '');
-    linkEl?.style?.setProperty('height', this.height ? `${this.height}px` : '');
-    this.querySelector('[slot]')?.classList.toggle('fixed-height', !!this.height);
   }
 
   /**

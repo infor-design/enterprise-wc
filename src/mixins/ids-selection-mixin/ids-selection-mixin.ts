@@ -1,7 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { IdsBaseConstructor } from '../../core/ids-element';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-/**
 /**
  * A mixin that adds selection functionality to components
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
@@ -29,7 +29,7 @@ const IdsSelectionMixin = <T extends IdsBaseConstructor>(superclass: T) => class
    * Set the selection to a particular string
    * @param {string} value The selection value
    */
-  set selection(value) {
+  set selection(value: string) {
     this.setAttribute(attributes.SELECTION, String(value));
 
     if (value === 'multiple' || value === 'single' || value === 'mixed') {
@@ -39,13 +39,13 @@ const IdsSelectionMixin = <T extends IdsBaseConstructor>(superclass: T) => class
     }
   }
 
-  get selection() { return this.getAttribute(attributes.SELECTION); }
+  get selection(): string { return this.getAttribute(attributes.SELECTION) || ''; }
 
   /**
    * Set the selected to a boolean value
-   * @param {boolean} value The selected value
+   * @param {string | boolean} value The selected value
    */
-  set selected(value) {
+  set selected(value: string | boolean) {
     this.setAttribute(attributes.SELECTED, String(value));
 
     if (this.selection === 'multiple' || this.selection === 'single' || this.selection === 'mixed') {
@@ -53,7 +53,7 @@ const IdsSelectionMixin = <T extends IdsBaseConstructor>(superclass: T) => class
     }
   }
 
-  get selected() { return this.getAttribute(attributes.SELECTED); }
+  get selected() { return stringToBool(this.getAttribute(attributes.SELECTED)); }
 
   /**
    * Set the preselected to a boolean value

@@ -43,6 +43,7 @@ import './ids-input/ids-input';
 import './ids-layout-flex/ids-layout-flex';
 import './ids-layout-grid/ids-layout-grid';
 import './ids-line-chart/ids-line-chart';
+import './ids-hyperlink/ids-link-list';
 import './ids-list-box/ids-list-box';
 import './ids-list-builder/ids-list-builder';
 import './ids-list-view/ids-list-view';

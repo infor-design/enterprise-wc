@@ -25,7 +25,7 @@
   --ids-color-text-warning: var(--ids-color-warning-50);
 
   // Animations
-  --ids-motion-duration: 200ms;
+  --ids-motion-duration: 250ms;
   --ids-motion-ease: cubic-bezier(0.17, 0.04, 0.03, 0.94);
   --ids-motion-linear: cubic-bezier(0.4, 0, 0.6, 1);
 
@@ -75,6 +75,7 @@
   --ids-font-weight-normal: 400;
   --ids-font-weight-semibold: 600;
   --ids-font-weight-bold: 700;
+  --ids-font-size-default: var(--ids-font-size-40);
 
   // Font Sizes
   --ids-font-size-10: 10px;
@@ -92,6 +93,10 @@
 
   // Text Transforms
   --ids-font-uppercase: uppercase;
+
+  // Scroll Effect Styles
+  --ids-scroll-shadow: 0 -1px 3px -1px rgba(0  0  0 / 0.25);
+  --ids-scroll-color-border-top: 1px solid rgba(215 215 216 / 1);
 
   // Spacing (For padding or margins)
   --ids-space-none: 0;
@@ -113,6 +118,12 @@
   --ids-size-50: 48px;
   --ids-size-60: 56px;
   --ids-size-70: 66px;
+
+  // Link List
+  --ids-link-list-title-color-text-default: var(--ids-color-neutral-100);
+  --ids-link-list-top-margin: -3px;
+  --ids-link-list-item-margin: 12px;
+  --ids-link-list-title-bottom-margin: 20px;
 
   // Line Height
   --ids-line-height-none: 0;
@@ -260,6 +271,23 @@
   --ids-block-grid-checkbox-top-size: 20px;
   --ids-block-grid-checkbox-right-size: 20px;
 
+  // Box
+  --ids-box-color-background: var(--ids-card-color-background);
+  --ids-box-color-border: var(--ids-color-neutral-30);
+  --ids-box-shadowed-color-border: transparent;
+  --ids-box-border-radius: var(--ids-card-border-radius);
+  --ids-box-shadow: var(--ids-card-shadow);
+  --ids-box-shadow-focus: 0 0 4px rgba(0 102 212 / 0.15);
+  --ids-box-font-family: var(--ids-font-family-default);
+  --ids-box-font-size: var( --ids-font-size-default);
+  --ids-box-color-text-default: var(--ids-card-color-text-default);
+  --ids-box-padding: 16px;
+  --ids-box-outline: 1px solid transparent;
+  --ids-box-outline-selected: 2px solid var(--ids-color-primary-60);
+  --ids-box-outline-hover: 1px solid var(--ids-color-neutral-30);
+  --ids-box-height: auto;
+  --ids-box-width: auto;
+
   // Button (Primary)
   --ids-button-primary-color-border-default: var(--ids-color-primary);
   --ids-button-primary-color-background-default: var(--ids-color-primary);
@@ -314,8 +342,11 @@
   // Button (Module)
   --ids-button-module-border-radius: 10px;
   --ids-button-module-color-background-hover: rgba(0 0 0 / 0.1);
-  --ids-button-module-color-text-default: var(--ids-color-slate-90);
-  --ids-button-module-color-text-hover: var(--ids-color-slate-100);
+  --ids-button-module-color-text-default: var(--ids-color-neutral-90);
+  --ids-button-module-color-text-hover: var(--ids-color-neutral-100);
+
+  // Button (Module)
+  --ids-button-system-color-text-hover: var(--ids-color-neutral-110);
 
   // Breadcrumb
   --ids-breadcrumb-color-text-default: var(--ids-color-text-subtle);
@@ -353,18 +384,23 @@
   --ids-calendar-event-color-text: var(--ids-color-neutral-100);
 
   // Card
+  --ids-card-header-title-color: var(--ids-color-neutral-100);
   --ids-card-toolbar-padding: var(--ids-space-60);
   --ids-card-border-radius: var(--ids-border-radius-03);
   --ids-card-margin-bottom: var(--ids-space-60);
   --ids-card-height: 360px;
   --ids-card-content-height: 310px;
-  --ids-card-header-padding: 12px 16px;
+  --ids-card-header-padding-inline-start: 16px;
+  --ids-card-header-padding-inline-end: 12px;
+  --ids-card-header-height: 48px;
   --ids-card-color-background: var(--ids-color-neutral-00);
   --ids-card-color-border: var(--ids-color-neutral-30);
+  --ids-card-color-border-hover: var(--ids-hyperlink-box-color-border-default);
   --ids-card-divider-color-border: var(--ids-color-neutral-20);
-  --ids-card-shadow: rgba(0 0 0 / 0.1) 0 0 8px;
+  --ids-card-shadow: 0 0 4px rgba(0 0 0 / 0.15);
   --ids-card-color-background-selected: var(--ids-color-primary-10);
   --ids-card-color-border-selected: var(--ids-color-primary);
+  --ids-card-color-border-focus: var(--ids-input-color-border-focus);
   --ids-card-color-text-default: var(--ids-color-text-label);
   --ids-card-color-text-hover: var(--ids-color-text-data);
 
@@ -619,6 +655,9 @@
   // Expandable Area
   --ids-expandable-area-border-bottom: 1px solid var(--ids-color-neutral-30);
 
+  // Homepage
+  --ids-homepage-color-background-default: var(--ids-color-neutral-10);
+
   // Hierarchy
   --ids-hierarchy-legend-color-background-default: var(--ids-color-neutral-20);
   --ids-hierarchy-item-leaf-color-border: var(--ids-color-neutral-30);
@@ -633,8 +672,8 @@
   --ids-hierarchy-item-selected-leaf-shadow: 0 0 0 5px rgba(54 138 192 / 0.3);
 
   // Headers
-  --ids-header-color-border-bottom: var(--ids-color-slate-30);
-  --ids-header-color-background: var(--ids-color-slate-00);
+  --ids-header-color-border-bottom: var(--ids-color-neutral-30);
+  --ids-header-color-background: var(--ids-color-neutral-00);
   --ids-header-color-text: var(--ids-color-text-default);
   --ids-header-padding: 8px;
   --ids-header-gradient-opacity-none: rgb(0 114 237 / 1);
@@ -642,7 +681,7 @@
 
   // Header (Alternate Variant)
   --ids-header-alternate-color-background: var(--ids-color-primary);
-  --ids-header-alternate-color-text: var(--ids-color-slate-00);
+  --ids-header-alternate-color-text: var(--ids-color-neutral-00);
 
   // Hyperlinks
   --ids-hyperlink-border-radius: var(--ids-border-radius-02);
@@ -652,13 +691,47 @@
   --ids-hyperlink-color-text-default: var(--ids-color-primary);
   --ids-hyperlink-color-text-hover: var(--ids-color-primary-70);
   --ids-hyperlink-color-text-disabled: var(--ids-color-neutral-40);
+  --ids-hyperlink-box-icon-color-text-default: var(--ids-color-amethyst-70);
+  --ids-hyperlink-box-color-text-default: var(--ids-color-neutral-70);
+  --ids-hyperlink-box-color-border-default: var(--ids-color-neutral-70);
+  --ids-hyperlink-box-height: 136px;
+  --ids-hyperlink-box-width: 155px;
+  --ids-hyperlink-box-width-double: 323px;
 
   // Icons
   --ids-icon-font-name: 'name-here'; // Future
-  --ids-icon-color-default: var(--ids-color-neutral-80);
+  --ids-icon-height-default: 18px;
+  --ids-icon-width-default: 18px;
+  --ids-icon-color-default: currentColor;
   --ids-icon-color-default-disabled: var(--ids-color-text-disabled);
   --ids-icon-empty-color: var(--ids-color-primary);
   --ids-icon-empty-new-color: var(--ids-color-neutral-60);
+  --ids-icon-status-color-padding: 5px;
+  --ids-icon-status-color-border-radius: var(--ids-border-radius-circle);
+  --ids-icon-status-color-ruby-color-text: var(--ids-color-ruby-60);
+  --ids-icon-status-color-ruby-color-background: var(--ids-color-ruby-10);
+  --ids-icon-status-color-amber-color-text: var(--ids-color-amber-60);
+  --ids-icon-status-color-amber-color-background: var(--ids-color-amber-10);
+  --ids-icon-status-color-emerald-color-text: var(--ids-color-emerald-60);
+  --ids-icon-status-color-emerald-color-background: var(--ids-color-emerald-10);
+  --ids-icon-status-color-azure-color-text: var(--ids-color-azure-60);
+  --ids-icon-status-color-azure-color-background: var(--ids-color-azure-10);
+  --ids-icon-status-color-turquoise-color-text: var(--ids-color-turquoise-60);
+  --ids-icon-status-color-turquoise-color-background: var(--ids-color-turquoise-10);
+  --ids-icon-status-color-amethyst-color-text: var(--ids-color-amethyst-60);
+  --ids-icon-status-color-amethyst-color-background: var(--ids-color-amethyst-10);
+  --ids-icon-status-color-neutral-color-text: var(--ids-color-neutral-60);
+  --ids-icon-status-color-neutral-color-background: var(--ids-color-neutral-10);
+  --ids-icon-status-color-error-color-text: var(--ids-color-error-default);
+  --ids-icon-status-color-error-color-background: var(--ids-color-error-10);
+  --ids-icon-status-color-warning-color-text: var(--ids-color-warning-default);
+  --ids-icon-status-color-warning-color-background: var(--ids-color-warning-10);
+  --ids-icon-status-color-success-color-text: var(--ids-color-success-default);
+  --ids-icon-status-color-success-color-background: var(--ids-color-success-10);
+  --ids-icon-status-color-alert-color-text: var(--ids-color-alert-default);
+  --ids-icon-status-color-alert-color-background: var(--ids-color-alert-10);
+  --ids-icon-status-color-info-color-text: var(--ids-color-info-default);
+  --ids-icon-status-color-info-color-background: var(--ids-color-info-10);
 
   // Image
   --ids-image-color-border-focus: var(--ids-color-border-focus);
@@ -728,7 +801,7 @@
   --ids-input-color-text-success-disabled: var(--ids-color-success-30);
 
   // Layout Grid
-  --ids-layout-grid-color-background: var(--ids-color-neutral-10);
+  --ids-layout-grid-color-background: var(--ids-color-neutral-20);
   --ids-layout-grid-color-text: var(--ids-color-text);
 
   // List Builder
@@ -750,6 +823,7 @@
   --ids-list-builder-item-placeholder-opacity: 0.6;
 
   // List View
+  --ids-list-view-height: 100%;
   --ids-list-view-color-border-focus: var(--ids-color-azure-40);
   --ids-list-view-item-color-background-default: var(--ids-color-neutral-00);
   --ids-list-view-item-border: 1px solid transparent;
@@ -1054,14 +1128,22 @@
   --ids-scroll-view-color-icon-default: var(--ids-color-neutral-70);
   --ids-scroll-view-color-icon-selected: var(--ids-color-primary);
 
+  // Search Field
+  --ids-search-field-color-background-default: var(--ids-input-color-background-default);
+  --ids-search-field-color-border-default: var(--ids-input-color-border-default);
+  --ids-search-field-color-border-focus: var(--ids-input-color-border-focus);
+  --ids-search-field-color-border-hover: var(--ids-input-color-border-hover);
+  --ids-search-field-button-color-text-hover: var(--ids-button-tertiary-color-text-hover);
+  --ids-search-field-icon-margin: 8px;
+  --ids-search-field-margin: 0;
+  --ids-search-field-border-radius: 4px;
+
   // Search Field in App Menu
-  --ids-search-field-app-menu-shadow-focus:none;
+  --ids-search-field-app-menu-shadow-focus: none;
   --ids-search-field-app-menu-color-text: var(--ids-color-neutral-20);
   --ids-search-field-app-menu-color-background: #000;
   --ids-search-field-app-menu-color-icon-default: var(--ids-color-neutral-40);
   --ids-search-field-app-menu-color-icon-hover: var(--ids-color-neutral-90);
-  --ids-search-field-icon-margin: 8px;
-  --ids-search-field-border-radius: var(--ids-border-radius-02);
   --ids-search-field-header-color-background: var(--ids-color-text-on-primary);
   --ids-search-field-header-color-text: var(--ids-color-text);
   --ids-search-field-header-color-icon-default: var(--ids-color-neutral-80);
@@ -1128,6 +1210,18 @@
   --ids-splitter-handle-height: 32px;
   --ids-splitter-handle-width: 6px;
   --ids-splitter-handle-color-background-hover: var(--ids-color-azure-60);
+
+  // Stats
+  --ids-stats-height: 136px;
+  --ids-stats-width: 155px;
+  --ids-stats-width-double: 323px;
+  --ids-stats-padding-inline: 16px 12px;
+  --ids-stats-padding-block: 8px;
+  --ids-stats-positive-color-text: var(--ids-color-emerald-70);
+  --ids-stats-negative-color-text: var(--ids-color-error-default);
+  --ids-stats-color-text: var(--ids-color-text-label);
+  --ids-stats-trend-label-font-size: var(--ids-font-size-30);
+  --ids-stats-kpi-label-color: var(--ids-color-neutral-100);
 
   // Step Chart
   --ids-step-chart-margin: var(--ids-space-60);
@@ -1207,27 +1301,27 @@
   // Tab
   --ids-tab-content-color-text: var(--ids-color-text);
   --ids-tab-color-text-default: var(--ids-color-text-default);
-  --ids-tab-divider-color-background: var(--ids-color-slate-30);
-  --ids-tab-color-background-hover: var(--ids-color-slate-20);
-  --ids-tab-color-text-hover: var(--ids-color-slate-80);
-  --ids-tab-color-border-focus: var(--ids-color-slate-80);
-  --ids-tab-color-border-bottom: var(--ids-color-slate-30);
-  --ids-tab-color-text-disabled: var(--ids-color-slate-30);
-  --ids-tab-color-text-selected: var(--ids-color-slate-100);
+  --ids-tab-divider-color-background: var(--ids-color-neutral-30);
+  --ids-tab-color-background-hover: var(--ids-color-neutral-20);
+  --ids-tab-color-text-hover: var(--ids-color-neutral-80);
+  --ids-tab-color-border-focus: var(--ids-color-neutral-80);
+  --ids-tab-color-border-bottom: var(--ids-color-neutral-30);
+  --ids-tab-color-text-disabled: var(--ids-color-neutral-30);
+  --ids-tab-color-text-selected: var(--ids-color-neutral-100);
 
   // Tab (Header Variant)
-  --ids-tab-header-color-background-hover: var(--ids-color-slate-20);
+  --ids-tab-header-color-background-hover: var(--ids-color-neutral-20);
 
   // Tab (Vertical Orientation)
-  --ids-tab-vertical-color-background-default: var(--ids-color-slate-20);
+  --ids-tab-vertical-color-background-default: var(--ids-color-neutral-20);
   --ids-tab-vertical-color-text-default: var(--ids-color-text-default);
-  --ids-tab-vertical-color-background-hover: var(--ids-color-slate-30);
+  --ids-tab-vertical-color-background-hover: var(--ids-color-neutral-30);
   --ids-tab-vertical-color-text-hover: var(--ids-color-neutral-80);
-  --ids-tab-vertical-color-background-selected: var(--ids-color-slate-00);
+  --ids-tab-vertical-color-background-selected: var(--ids-color-neutral-00);
   --ids-tab-vertical-color-border-selected: var(--ids-color-neutral-00);
-  --ids-tab-vertical-color-text-selected: var(--ids-color-slate-100);
-  --ids-tab-vertical-color-background-disabled: var(--ids-color-slate-20);
-  --ids-tab-vertical-color-text-disabled: var(--ids-color-slate-50);
+  --ids-tab-vertical-color-text-selected: var(--ids-color-neutral-100);
+  --ids-tab-vertical-color-background-disabled: var(--ids-color-neutral-20);
+  --ids-tab-vertical-color-text-disabled: var(--ids-color-neutral-50);
 
   // Tab (Alternate Variant)
   --ids-tab-alternate-color-text-default: rgba(255 255 255 / 0.7);
@@ -1239,15 +1333,15 @@
   --ids-tab-alternate-horizontal-color-background: var(--ids-color-neutral-00);
 
   // Tab (Module Variant)
-  --ids-tab-module-color-background-default: var(--ids-color-slate-20);
-  --ids-tab-module-color-border-right: var(--ids-color-slate-50);
+  --ids-tab-module-color-background-default: var(--ids-color-neutral-20);
+  --ids-tab-module-color-border-right: var(--ids-color-neutral-50);
   --ids-tab-module-color-text-default: var(--ids-color-text-default);
-  --ids-tab-module-color-background-hover: var(--ids-color-slate-30);
-  --ids-tab-module-color-text-hover: var(--ids-color-slate-80);
-  --ids-tab-module-color-background-selected: var(--ids-color-slate-00);
-  --ids-tab-module-color-text-selected: var(--ids-color-slate-100);
-  --ids-tab-module-color-background-disabled: var(--ids-color-slate-20);
-  --ids-tab-module-color-text-disabled: var(--ids-color-slate-50);
+  --ids-tab-module-color-background-hover: var(--ids-color-neutral-30);
+  --ids-tab-module-color-text-hover: var(--ids-color-neutral-80);
+  --ids-tab-module-color-background-selected: var(--ids-color-neutral-00);
+  --ids-tab-module-color-text-selected: var(--ids-color-neutral-100);
+  --ids-tab-module-color-background-disabled: var(--ids-color-neutral-20);
+  --ids-tab-module-color-text-disabled: var(--ids-color-neutral-50);
 
   // Tag
   --ids-tag-color-background-default: var(--ids-input-color-background-readonly);
@@ -1400,6 +1494,27 @@
   --ids-week-view-color-text: var(--ids-color-text);
   --ids-week-view-time-marker-color: var(--ids-color-primary);
   --ids-week-view-today-color: var(--ids-color-primary);
+
+  // Widget
+  --ids-widget-color-background: var(--ids-card-color-background);
+  --ids-widget-color-border: var(--ids-box-shadowed-color-border);
+  --ids-widget-border-radius: var(--ids-card-border-radius);
+  --ids-widget-shadow: var(--ids-card-shadow);
+  --ids-widget-margin-bottom: var(--ids-card-margin-bottom);
+  --ids-widget-height: var(--ids-card-height);
+  --ids-widget-content-height: 312px;
+  --ids-widget-search-height: 46px;
+  --ids-widget-search-content-height: 266px;
+  --ids-widget-header-padding-inline: 8px; // toolbar has 8px
+  --ids-widget-header-height: 48px;
+  --ids-widget-header-subtitle-height: 60px;
+  --ids-widget-search-subtitle-content-height: 301px;
+  --ids-widget-divider-color-border: var(--ids-card-divider-color-border);
+  --ids-widget-header-title-color: var(--ids-color-neutral-100);
+  --ids-widget-color-border-hover: var(--ids-color-neutral-30);
+  --ids-widget-color-shadow-hover: 0 2px 4px 1px rgba(0 0 0 / 0.15);
+  --ids-widget-search-field-color-background: var(--ids-color-neutral-10);
+  --ids-widget-search-field-border-radius: 4px;
 
   // Wizard
   --ids-wizard-step-width: 14px;

@@ -56,7 +56,7 @@
     transition: border var(--ids-motion-duration) var(--ids-motion-ease);
     border: 0;
     border-inline: 0;
-    border-inline-end: 1px solid var(--ids-input-color-border-default);
+    border-inline-end: 1px solid var(--ids-search-field-color-border-default);
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -95,10 +95,10 @@
 :host(:focus-within),
 :host(:focus-visible) {
   ids-menu-button {
-    border-color: var(--ids-input-color-border-focus);
+    border-color: var(--ids-search-field-color-border-focus);
 
     &::part(button) {
-      color: var(--ids-button-tertiary-color-text-hover);
+      color: var(--ids-search-field-button-color-text-hover);
     }
   }
 }
@@ -106,11 +106,18 @@
 :host(:active),
 :host(:hover) {
   ids-menu-button {
-    border-color: var(--ids-input-color-border-hover);
+    border-color: var(--ids-search-field-color-border-hover);
   }
 }
 
 .ids-search-field {
+  .field-container {
+    background-color: var(--ids-search-field-color-background-default);
+    border-color: var(--ids-search-field-color-border-default);
+    border-radius: var(--ids-search-field-border-radius);
+    margin: var(--ids-search-field-margin);
+  }
+
   ids-icon.search-icon {
     margin-inline-start: var(--ids-search-field-icon-margin);
   }
@@ -118,6 +125,7 @@
   .fieldset {
     display: inline-flex;
     flex-direction: row;
+    width: 100%;
   }
 
   #category-action-button::part(button) {
@@ -161,7 +169,7 @@
     }
 
     .ids-input-field {
-      color: var(--ids-search-field-app-menu-color-text);
+       color: var(--ids-search-field-app-menu-color-text);
     }
 
     .btn-clear {

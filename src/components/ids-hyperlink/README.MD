@@ -28,6 +28,34 @@ A Disabled appearing hyperlink element.
   <ids-hyperlink href="http://www.example.com" disabled="true" target="_blank">Disabled Link</ids-hyperlink>
 ```
 
+Can also create a link as a box, which is useful within widgets. The markup looks like as follows..
+
+```html
+<ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" color="unset">
+  <ids-box shadowed>
+    <ids-layout-flex direction="column" justify-content="center">
+      <ids-layout-flex-item>
+        <ids-icon icon="stacked"></ids-icon>
+      </ids-layout-flex-item>
+      <ids-layout-flex-item>
+        <ids-text font-size="16" font-weight="semi-bold">Purchase Order Intake Workbench</ids-text>
+      </ids-layout-flex-item>
+    </ids-layout-flex>
+  </ids-box>
+</ids-hyperlink>
+```
+
+If needed you can construct a list of links called a link list. The title is optional. If used in a widget leave the title off and use the widget title.
+
+```html
+<ids-link-list title="Link List">
+  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none">Categories</ids-hyperlink>
+  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" disabled>Organization Configuration</ids-hyperlink>
+  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none">Types</ids-hyperlink>
+  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none">Organization Configuration</ids-hyperlink>
+  <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none">Appraisal Email Templates</ids-hyperlink>
+</ids-link-list>
+```
 
 ## Settings and Attributes
 
@@ -37,6 +65,7 @@ A Disabled appearing hyperlink element.
 - `allow-empty-href` {boolean} Allows underline and styling of the link when href attribute is empty. Defaults to true.
 - `mode` {string} Set the theme mode
 - `version` {string} Set the theme version
+- `col-span` {number} Can be used for box links to double the width
 
 ## Themeable Parts
 

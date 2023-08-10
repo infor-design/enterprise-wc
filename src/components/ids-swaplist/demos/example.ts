@@ -1,10 +1,14 @@
-import periodsJSON from '../../../assets/data/periods.json';
+import swaplistData from '../../../assets/data/swaplist-data.json';
 
 // Example for populating the List View
 const swaplist: any = document.querySelector('#swaplist-1');
-const url: any = periodsJSON;
+const url: any = swaplistData;
 
-// Do an ajax request and apply the data to the list
+// Listen for swaplist updates
+swaplist?.addEventListener('updated', (e: any) => {
+  console.info('Swaplist Updated', e.detail.data);
+});
+
 const setData = async () => {
   const res = await fetch(url);
   const data = await res.json();

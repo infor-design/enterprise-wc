@@ -13,6 +13,7 @@ import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin
 import IdsListViewSearchMixin from './ids-list-view-search-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
+import IdsScrollEffectMixin from '../../mixins/ids-scroll-effect-mixin/ids-scroll-effect-mixin';
 
 import '../ids-checkbox/ids-checkbox';
 import '../ids-search-field/ids-search-field';
@@ -28,10 +29,12 @@ import type IdsText from '../ids-text/ids-text';
 
 const Base = IdsLocaleMixin(
   IdsPagerMixin(
-    IdsListViewSearchMixin(
-      IdsKeyboardMixin(
-        IdsEventsMixin(
-          IdsElement
+    IdsScrollEffectMixin(
+      IdsListViewSearchMixin(
+        IdsKeyboardMixin(
+          IdsEventsMixin(
+            IdsElement
+          )
         )
       )
     )
@@ -79,6 +82,10 @@ const LIST_VIEW_DEFAULTS = {
  * IDS List View Component
  * @type {IdsListView}
  * @inherits IdsElement
+ * @mixes IdsLocaleMixin
+ * @mixes IdsPagerMixin
+ * @mixes IdsScrollEffectMixin
+ * @mixes IdsListViewSearchMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsEventsMixin
  * @part list-item - the li list element
@@ -892,8 +899,6 @@ export default class IdsListView extends Base {
 
     this.container = this.shadowRoot?.querySelector('.ids-list-view');
 
-    // super.rerender?.(true);
-
     // Setup virtual scrolling
     if (this.data?.length > 0) {
       if (this.virtualScroll) {
@@ -926,6 +931,10 @@ export default class IdsListView extends Base {
     if (dir) {
       this.container?.setAttribute('dir', dir);
     }
+
+    // Setup Scroll Effect
+    this.scrollArea = this.shadowRoot?.querySelector('.ids-list-view');
+    this.attachScrollEvents();
   }
 
   get virtualScrollContainer(): IdsVirtualScroll | undefined | null {

@@ -19,7 +19,7 @@
 }
 
 .ids-list-view {
-  height: 100%;
+  height: var(--ids-list-view-height);
   overflow: auto;
   scroll-behavior: smooth;
   position: relative;
@@ -98,7 +98,7 @@
     div[part='list-item'],
     li {
       &:first-child {
-        margin-block-start: var(--ids-space-none);
+        margin-block-start: 8px;
       }
     }
   }
@@ -135,6 +135,11 @@
       }
     }
   }
+
+  &.is-scrolling {
+    box-shadow: var(--ids-scroll-shadow);
+    border-top: var(--ids-scroll-color-border-top);
+  }
 }
 
 ids-swappable-item {
@@ -144,4 +149,8 @@ ids-swappable-item {
 
 ids-swappable-item[over] {
   border: 1px dashed var(--ids-color-neutral-80);
+}
+
+.ids-list-view-search {
+  margin-bottom: 8px;
 }
