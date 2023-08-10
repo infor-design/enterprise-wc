@@ -1224,8 +1224,10 @@ export default class IdsDataGrid extends Base {
         const dataIndex = nextRowIndex + incrementer;
         if (data[dataIndex]) {
           if (row.rowIndex === dataIndex) {
+            console.log('#appendMissingData -> renderRow()');
             row.renderRow(dataIndex);
           } else {
+            console.log('#appendMissingData -> update rowIndex');
             row.rowIndex = dataIndex;
           }
         }
@@ -1683,14 +1685,15 @@ export default class IdsDataGrid extends Base {
     const { MAX_ROWS_IN_DOM } = this.virtualScrollSettings;
 
     // Using Array.every as an alternaive to using a for-loop with a break
-    this.rows.every((row: any, idx) => {
-      const nextRowIndex = topRowIndex + idx;
+    this.rows.every((row: any, incrementer) => {
+      const nextRowIndex = topRowIndex + incrementer;
       if (nextRowIndex > veryLastIndex) {
-        const moveTheRestToTop = MAX_ROWS_IN_DOM - idx;
+        const moveTheRestToTop = MAX_ROWS_IN_DOM - incrementer;
         this.#recycleBottomRowsUp(moveTheRestToTop);
         return false;
       }
       row.rowIndex = nextRowIndex;
+      row.slot = this.rowSlotName(nextRowIndex);
       return true;
     });
   }
@@ -1705,27 +1708,33 @@ export default class IdsDataGrid extends Base {
     const bottomRow = rows[rows.length - 1];
     const bottomRowIndex = bottomRow.rowIndex;
     const staleRows = rows.slice(0, rowCount);
+    const freshRows = rows.slice((-1 * (rowCount + 1)));
     const rowsToMove: IdsDataGridRow[] = [];
 
+    freshRows.every((row: any, incrementer) => {
+      row.slot = this.rowSlotName(incrementer);
+    });
+
     // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-    staleRows.every((row: IdsDataGridRow, idx) => {
-      const nextIndex = bottomRowIndex + (idx + 1);
+    staleRows.every((row: IdsDataGridRow, incrementer) => {
+      const nextIndex = bottomRowIndex + (incrementer + 1);
       if (nextIndex >= data.length) return false;
       row.rowIndex = nextIndex;
+      row.slot = this.rowSlotName(rowCount + incrementer);
       return rowsToMove.push(row);
     });
 
-    if (!rowsToMove.length) return;
+    // if (!rowsToMove.length) return;
 
-    // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
-    if (rowsToMove.length >= this.virtualScrollSettings.MAX_ROWS_IN_DOM) return;
+    // // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
+    // if (rowsToMove.length >= this.virtualScrollSettings.MAX_ROWS_IN_DOM) return;
 
-    this.requestAnimationFrame(() => {
-      // NOTE: body.append is faster than body.innerHTML
-      // NOTE: body.append is faster than multiple calls to appendChild()
-      console.log('calling recycleTopRowsDown', rowsToMove.length);
-      this.body?.append(...rowsToMove);
-    });
+    // this.requestAnimationFrame(() => {
+    //   // NOTE: body.append is faster than body.innerHTML
+    //   // NOTE: body.append is faster than multiple calls to appendChild()
+    //   console.log('calling recycleTopRowsDown', rowsToMove.length);
+    //   this.body?.append(...rowsToMove);
+    // });
   }
 
   /* Recycle the rows during scrolling from the bottom */
@@ -1737,23 +1746,29 @@ export default class IdsDataGrid extends Base {
     const topRow = rows[0];
     const topRowIndex = topRow.rowIndex;
     const staleRows = rows.slice((-1 * rowCount));
+    const freshRows = rows.slice(0, (1 + rowCount));
     const rowsToMove: IdsDataGridRow[] = [];
 
+    freshRows.every((row: any, incrementer) => {
+      row.slot = this.rowSlotName(rowCount + incrementer);
+    });
+
     // NOTE: Using Array.every as an alternaive to using a for-loop with a break
-    staleRows.every((row: any, idx) => {
-      const prevIndex = topRowIndex - (idx + 1);
+    staleRows.every((row: any, incrementer) => {
+      const prevIndex = topRowIndex - (incrementer + 1);
       if (prevIndex < 0) return false;
       row.rowIndex = prevIndex;
+      row.slot = this.rowSlotName(incrementer);
       return rowsToMove.push(row);
     });
 
-    if (!rowsToMove.length) return;
+    // if (!rowsToMove.length) return;
 
-    this.requestAnimationFrame(() => {
-      // NOTE: body.prepend() seems to be faster than body.innerHTML
-      console.log('calling recycleTopRowsDown', rowsToMove.length);
-      this.body?.prepend(...rowsToMove.reverse());
-    });
+    // // this.requestAnimationFrame(() => {
+    // //   // NOTE: body.prepend() seems to be faster than body.innerHTML
+    // //   console.log('calling recycleTopRowsDown', rowsToMove.length);
+    // //   this.body?.prepend(...rowsToMove.reverse());
+    // // });
   }
 
   /**
