@@ -110,7 +110,7 @@ export default class IdsDataGridRow extends IdsElement {
   renderRow(row: number) {
     const cacheHash = this.dataGrid.cacheHash;
     const rowIndex = Number(row);
-    const selectState = this.dataGrid.data[row].rowSelected ? 'select' : 'deselect';
+    const selectState = this.dataGrid.data[row]?.rowSelected ? 'select' : 'deselect';
     const cacheKey = `${cacheHash}:${rowIndex}:${selectState}`;
 
     // This is current cache strategy via memoization.
@@ -345,7 +345,7 @@ export default class IdsDataGridRow extends IdsElement {
    * @returns {string} The html string for the row
    */
   static template(row: Record<string, unknown>, index: number, ariaRowIndex: number, dataGrid: IdsDataGrid): string {
-    if (!row) return '';
+    // if (!row) return '';
 
     let rowClasses = `${row?.rowSelected ? ' selected' : ''}`;
     rowClasses += `${row?.rowSelected && dataGrid?.rowSelection === 'mixed' ? ' mixed' : ''}`;
@@ -363,7 +363,7 @@ export default class IdsDataGridRow extends IdsElement {
       ariaRowIndex += (Number(dataGrid?.pageNumber) - 1) * Number(dataGrid?.pageSize);
     }
 
-    const isHidden = row?.rowHidden ? ' hidden' : '';
+    const isHidden = !row || row?.rowHidden ? ' hidden' : '';
 
     // Set disabled state thru key found in the dataset
     const isRowDisabled = (): boolean => {
@@ -378,10 +378,9 @@ export default class IdsDataGridRow extends IdsElement {
     // so no need to run multiple times when rendering columns to check row disabled state
     if (row && canRowDisabled) row.idstempcanrowdisabled = canRowDisabled;
 
-    const slotName = `data-grid-row-slot-${index}`;
     return `
       <ids-data-grid-row
-        slot="${slotName}"
+        slot="${dataGrid.rowSlotName(index)}"
         row-index="${index}"
         role="row"
         part="row"
@@ -415,12 +414,12 @@ export default class IdsDataGridRow extends IdsElement {
     };
 
     const isDirtyCell = (currentRow: Record<string, unknown>, column: IdsDataGridColumn, cell: number): boolean => {
-      if (!currentRow.dirtyCells) return false;
+      if (!currentRow?.dirtyCells) return false;
       return (currentRow.dirtyCells as any).findIndex((item: any) => item.cell === cell) !== -1;
     };
 
     const isInvalidCell = (currentRow: Record<string, unknown>, column: IdsDataGridColumn, cell: number): boolean => {
-      if (!currentRow.invalidCells) return false;
+      if (!currentRow?.invalidCells) return false;
       return (currentRow.invalidCells as any).findIndex((item: any) => item.cell === cell) !== -1;
     };
 

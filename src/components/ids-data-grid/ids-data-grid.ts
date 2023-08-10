@@ -437,6 +437,10 @@ export default class IdsDataGrid extends Base {
     IdsDataGridCell.cellCache = {};
   }
 
+  rowSlotName(rowIndex: number) {
+    return `data-grid-row-slot-${rowIndex}`;
+  }
+
   /**
    * Body inner template markup
    * @private
@@ -445,16 +449,24 @@ export default class IdsDataGrid extends Base {
   bodyInnerTemplate() {
     this.resetCache();
 
-    let innerHTML = '';
-    if (!this.virtualScroll) {
-      const data = this.data;
-      // const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.MAX_ROWS_IN_DOM) : this.data;
-      for (let index = 0; index < data.length; index++) {
-        innerHTML += IdsDataGridRow.template(data[index], index, index + 1, this);
+    const data = this.data;
+    // const data = this.virtualScroll ? this.data.slice(0, this.virtualScrollSettings.MAX_ROWS_IN_DOM) : this.data;
+    const virtualScroll = this.virtualScroll;
+    const maxRows = virtualScroll ? this.virtualScrollSettings.MAX_ROWS_IN_DOM : this.data.length;
+
+    let slotHTML = '';
+    let rowHTML = '';
+
+    // for (let index = 0; index < data.length; index++) {
+    for (let index = 0; index < maxRows; index++) {
+      if (virtualScroll) {
+        slotHTML += `<slot name="${this.rowSlotName(index)}"></slot>`;
       }
+      rowHTML += IdsDataGridRow.template(data[index], index, index + 1, this);
     }
 
-    return innerHTML;
+    this.innerHTML = rowHTML;
+    return slotHTML;
   }
 
   /**
@@ -1183,8 +1195,9 @@ export default class IdsDataGrid extends Base {
    */
   appendData(value: Array<Record<string, any>>) {
     if (this.virtualScroll) {
-      this.datasource.data = this.data.concat(value);
-      this.#appendVirtualScrollRows();
+      // this.datasource.data = this.data.concat(value);
+      // this.#appendVirtualScrollRows();
+      this.#appendMissingData(value);
     } else {
       this.data = this.data.concat(value);
     }
@@ -1192,8 +1205,38 @@ export default class IdsDataGrid extends Base {
     this.#updateContainerMaxHeight();
   }
 
+  #appendMissingData(newData: Array<Record<string, any>>) {
+    if (!newData?.length) return;
+
+    const nextRowIndex = this.data.length;
+    this.datasource.data = this.data.concat(newData);
+
+    const data = this.data;
+    const rows = this.rows;
+    if (!data.length || !rows.length) return;
+
+    const { MAX_ROWS_IN_DOM } = this.virtualScrollSettings;
+
+    if (nextRowIndex < MAX_ROWS_IN_DOM) {
+      this.resetCache();
+
+      rows.slice(nextRowIndex).map((row, incrementer) => {
+        const dataIndex = nextRowIndex + incrementer;
+        if (data[dataIndex]) {
+          if (row.rowIndex === dataIndex) {
+            row.renderRow(dataIndex);
+          } else {
+            row.rowIndex = dataIndex;
+          }
+        }
+      });
+    }
+  }
+
   /* Append missing rows for virtual-scrolling */
   #appendVirtualScrollRows() {
+    return;
+
     if (!this.virtualScroll) return;
 
     const data = this.data;

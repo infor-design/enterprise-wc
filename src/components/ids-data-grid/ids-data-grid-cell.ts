@@ -324,7 +324,7 @@ export default class IdsDataGridCell extends IdsElement {
    */
   static template(row: Record<string, unknown>, column: IdsDataGridColumn, rowIndex: number, dataGrid: IdsDataGrid): string {
     const cacheHash = dataGrid.cacheHash;
-    const selected = row.rowSelected ? 'select' : 'deselect';
+    const selected = row?.rowSelected ? 'select' : 'deselect';
     const cacheKey = `${cacheHash}:${column.id}:${rowIndex}:${selected}`;
 
     // NOTE: This is how we could disable cache until a proper cache-busting strategy is in place
@@ -340,8 +340,8 @@ export default class IdsDataGridCell extends IdsElement {
       if (!dataGridFormatters[column?.formatter?.name || 'text'] && column?.formatter) template = column?.formatter(row, column, rowIndex, dataGrid);
       else template = dataGridFormatters[column?.formatter?.name || 'text'](row, column, rowIndex, dataGrid);
 
-      if (row.invalidCells) {
-        const message = (row.invalidCells as any).find((info: any) => info.cell === dataGrid.columnIdxById(column.id));
+      if (row?.invalidCells) {
+        const message = (row?.invalidCells as any).find((info: any) => info.cell === dataGrid.columnIdxById(column.id));
         if (message) template += `<ids-alert icon="error" tooltip="${message?.validationMessages[0]?.message}"></ids-alert>`;
       }
       IdsDataGridCell.cellCache[cacheKey] = template;
