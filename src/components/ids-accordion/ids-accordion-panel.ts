@@ -70,7 +70,7 @@ export default class IdsAccordionPanel extends Base {
     'sub-module-nav'
   ];
 
-  vetoableEventTypes = ['beforeexpand', 'beforecollapse'];
+  vetoableEventTypes = ['beforeexpanded', 'beforecollapsed'];
 
   /**
    * Create a unique title for each accordion pane
@@ -191,11 +191,11 @@ export default class IdsAccordionPanel extends Base {
     const currentValue = this.expanded;
 
     if (isValueTruthy) {
-      const canExpand = this.triggerVetoableEvent('beforeexpand', this);
+      const canExpand = this.triggerVetoableEvent('beforeexpanded', this);
       if (!canExpand) return;
       this.setAttribute(attributes.EXPANDED, `${value}`);
     } else {
-      const canCollapse = this.triggerVetoableEvent('beforecollapse', this);
+      const canCollapse = this.triggerVetoableEvent('beforecollapsed', this);
       if (!canCollapse) return;
       this.removeAttribute(attributes.EXPANDED);
     }

@@ -245,7 +245,7 @@ export default class IdsModuleNavBar extends Base {
 
     // Listen for accordion panes attempting to expand
     // and stop them while in Module Nav Collapsed Mode
-    this.onEvent('beforeexpand.accordion', this, (e) => {
+    this.onEvent('beforeexpanded.accordion', this, (e) => {
       const canExpand = this.displayMode === 'expanded';
       return e.detail.response(canExpand);
     });
@@ -260,7 +260,7 @@ export default class IdsModuleNavBar extends Base {
   #detachEventHandlers() {
     this.offEvent('show.module-nav-show');
     this.offEvent('hide.module-nav-hide');
-    this.offEvent('beforeexpand.accordion');
+    this.offEvent('beforeexpanded.accordion');
   }
 
   #clearContainer() {
