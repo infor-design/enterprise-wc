@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   moduleNavDrawer.target = appMenuTriggerBtn;
 
   const updateDisplayMode = (val: IdsModuleNavDisplayMode) => {
-    menuState = val === 'collapsed' ? 'expanded' : 'collapsed';
+    menuState = val;
     moduleNav.displayMode = val;
     if (displayModeDropdown.value !== val) displayModeDropdown.value = val;
     console.info('Module Nav Display Mode Updated:', val || 'hidden');
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   appMenuTriggerBtn.addEventListener('click', () => {
-    updateDisplayMode(menuState);
+    updateDisplayMode(menuState === 'expanded' ? 'collapsed' : 'expanded');
   });
 
   accordionOnePaneCheck.addEventListener('change', (e: CustomEvent) => {
