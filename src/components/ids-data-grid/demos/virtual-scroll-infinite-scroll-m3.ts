@@ -536,9 +536,9 @@ dataGrid.addEventListener('afterrendered', async () => {
 setData();
 
 dataGrid.addEventListener('scrollend', async (e: Event) => {
-  console.log('scroll >>>');
   const endIndex = (<CustomEvent>e).detail?.value || 0;
 
   const moreData = await fetchData(endIndex + 1);
+	console.log('scroll >>>', moreData.length);
   if (moreData.length) dataGrid.appendData(moreData);
 });
