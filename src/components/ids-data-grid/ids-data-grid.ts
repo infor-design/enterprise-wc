@@ -2042,6 +2042,21 @@ export default class IdsDataGrid extends Base {
 
     if (!row || row.selected) return;
 
+    let canSelect = true;
+    const response = (veto: any) => {
+      canSelect = !!veto;
+    };
+
+    this.triggerEvent('beforerowselected', this, {
+      detail: {
+        elem: this, row, data: this.data[index], response
+      }
+    });
+
+    if (!canSelect) {
+      return;
+    }
+
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
       const checkbox = row?.querySelector('.is-selection-checkbox .ids-data-grid-checkbox');
       checkbox?.classList.add('checked');
@@ -2089,6 +2104,21 @@ export default class IdsDataGrid extends Base {
     }
 
     if (!row) return;
+
+    let canDeselect = true;
+    const response = (veto: any) => {
+      canDeselect = !!veto;
+    };
+
+    this.triggerEvent('beforerowdeselected', this, {
+      detail: {
+        elem: this, row, data: this.data[index], response
+      }
+    });
+
+    if (!canDeselect) {
+      return;
+    }
 
     if (this.rowSelection === 'mixed') {
       row.classList.remove('mixed');

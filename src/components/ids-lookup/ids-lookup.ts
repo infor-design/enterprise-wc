@@ -616,8 +616,16 @@ export default class IdsLookup extends Base {
     }) as EventListener);
 
     // Propagate a few events to the parent
+    this.dataGrid?.addEventListener('beforerowselected', ((e: CustomEvent) => {
+      this.triggerEvent('beforerowselected', this, { detail: e.detail });
+    }) as EventListener);
+
     this.dataGrid?.addEventListener('rowselected', ((e: CustomEvent) => {
       this.triggerEvent('rowselected', this, { detail: e.detail });
+    }) as EventListener);
+
+    this.dataGrid?.addEventListener('beforerowdeselected', ((e: CustomEvent) => {
+      this.triggerEvent('beforerowdeselected', this, { detail: e.detail });
     }) as EventListener);
 
     this.dataGrid?.addEventListener('rowdeselected', ((e: CustomEvent) => {

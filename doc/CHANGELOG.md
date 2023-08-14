@@ -2,10 +2,11 @@
 
 ## 1.0.0-beta.14
 
-### 1.0.0-beta.14 Features (Breaking Changes)
+### 1.0.0-beta.14 Features
 
 - `[Box]` Added new Box component. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
 - `[Cards/Widget/Box]` Separated the card component into a box, widget and card component, features moved around in each. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
+- `[DataGrid]` Added a `beforerowselected` and `beforeredeselected` event that can be vetoed to both lookup and datagrid. ([#1304](https://github.com/infor-design/enterprise-wc/issues/1304))
 - `[DataGrid]` Fix scrollend event triggering in different zoom levels. ([#1396](https://github.com/infor-design/enterprise/issues/1396))
 - `[Stats]` Added new Stats component. ([#1326](https://github.com/infor-design/enterprise/issues/1326))
 - `[Widget]` Added new Widget component. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
