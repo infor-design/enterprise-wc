@@ -2,12 +2,13 @@
 
 ## 1.0.0-beta.14
 
-### 1.0.0-beta.14 Features (Breaking Changes)
+### 1.0.0-beta.14 Features
 
 - `[Accordion]` Add `IdsAccordionSection` component with flexbox properties, used primarily by Module Nav. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
 - `[Box]` Added new Box component. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
 - `[Button]` Add `contentAlign` property for setting text/icon alignment. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
 - `[Cards/Widget/Box]` Separated the card component into a box, widget and card component, features moved around in each. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
+- `[DataGrid]` Fix scrollend event triggering in different zoom levels. ([#1396](https://github.com/infor-design/enterprise/issues/1396))
 - `[DropDown/DropDownList]` Add `showListItemIcon` setting for Module Nav component. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
 - `[Input]` Adds `module-nav` color variant. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
 - `[ModuleNav]` Implements IdsModuleNav component with basic Role Switcher, Settings component. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
@@ -26,6 +27,7 @@
 - `[DataGrid]` Add contexct menu shortcut for header and filters. ([#1340](https://github.com/infor-design/enterprise-wc/issues/1340))
 - `[DataGrid]` Fixed child-level data props when using `expandable-row-template` option. ([#1266](https://github.com/infor-design/enterprise-wc/issues/1266))
 - `[DataGrid]` Fixed an issue with the newer `maxlength` setting as it was not working in safari. ([#1403](https://github.com/infor-design/enterprise-wc/issues/1403))
+- `[DataGrid]` Added `column.showHeaderExpander` setting to `IdsDataGridColumn`. ([#1360](https://github.com/infor-design/enterprise-wc/issues/1360))
 - `[DataGrid]` Fixed tooltip callback/async-callback does not show tooltip for the header. ([#1311](https://github.com/infor-design/enterprise-wc/issues/1311))
 - `[General]` Fixed issue with camel casing for HTML intellisense. ([#1385](https://github.com/infor-design/enterprise-wc/issues/1385))
 - `[LayoutGrid]` Added breakpoint sizes for the flow attribute in the grid-layout. ([#1405](https://github.com/infor-design/enterprise-wc/issues/1405))

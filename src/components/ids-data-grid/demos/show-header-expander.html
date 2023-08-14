@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Data Grid (Show Header Expander)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell col-span="12" col-span-sm="6" col-span-lg="4">
+        <ids-button id="btn-expand-all" appearance="secondary">
+          <span>Expand All</span>
+        </ids-button>
+        <ids-button id="btn-collapse-all" appearance="secondary">
+          <span>Collapse All</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-data-grid
+          id="data-grid-expandable-row"
+          expandable-row="true"
+          expandable-row-template="expandable-row-tmpl"
+          label="Books">
+            <template id="expandable-row-tmpl">
+              <ids-layout-grid auto-fit="true" padding-x="md">
+                <ids-text font-size="16" type="span">${convention}</ids-text>
+              </ids-layout-grid>
+              <ids-layout-grid auto-fit="true" padding-x="md">
+                <ids-text font-size="14" type="span">${price} USD</ids-text>
+              </ids-layout-grid>
+              <ids-layout-grid auto-fit="true" padding-x="md">
+                <ids-text font-size="14" type="span">Lorem Ipsum is simply sample text of the printing and typesetting industry. Lorem Ipsum has been the industry standard sample text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only...</ids-text>
+                <ids-text font-size="14" type="span">${children.prop1}</ids-text>
+                <ids-text font-size="14" type="span">${children.prop3.info}</ids-text>
+              </ids-layout-grid>
+            </template>
+        </ids-data-grid>
+        </template>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
