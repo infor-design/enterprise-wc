@@ -258,8 +258,10 @@ export default class IdsDataGrid extends Base {
   toggleAll(opt: boolean | string = false) {
     const rows: any[] = [];
     opt = String(stringToBool(opt));
-    const iconEl: any = this.container?.querySelector('.header-expander');
-    if (iconEl) iconEl.icon = `plusminus-folder-${opt === 'true' ? 'closed' : 'open'}`;
+    const icons = this.container?.querySelectorAll('.header-expander');
+    icons?.forEach((iconEl: any) => {
+      if (iconEl) iconEl.icon = `plusminus-folder-${opt === 'true' ? 'closed' : 'open'}`;
+    });
 
     this.rows
       .filter((r: any) => r?.getAttribute('aria-expanded') === opt)
@@ -1391,14 +1393,12 @@ export default class IdsDataGrid extends Base {
     this.offEvent('scroll.data-grid', this.container);
     this.onEvent('scroll.data-grid', this.container, () => {
       const scrollTop = this.container!.scrollTop;
-      const containerHeight = this.container!.clientHeight;
       const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
       const rowIndex = Math.floor(scrollTop / virtualRowHeight);
       const rows = this.rows;
-      const maxHeight = this.#containerMaxHeight;
 
       const reachedTheTop = rowIndex <= 0;
-      const reachedTheBottom = (scrollTop + containerHeight) >= maxHeight;
+      const reachedTheBottom = this.container!.offsetHeight + this.container!.scrollTop >= this.container!.scrollHeight;
 
       if (reachedTheTop) {
         const firstRow: any = rows[0];
