@@ -64,7 +64,8 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
 
       // Expander collapse/expand all expandable or tree rows
       if (e.target?.classList?.contains('header-expander')) {
-        if (!this.dataGrid?.showHeaderExpander) return;
+        const isColumnHeaderExpander = e.target?.closest('.column-header-expander');
+        if (!isColumnHeaderExpander && !this.dataGrid?.showHeaderExpander) return;
 
         if (this.isHeaderExpanderCollapsed) this.dataGrid.expandAll();
         else this.dataGrid.collapseAll();
@@ -287,7 +288,6 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
    * Set header expander state
    */
   setIsHeaderExpanderCollapsed() {
-    if (!this.dataGrid?.showHeaderExpander) return;
     const all = this.dataGrid?.rows?.filter((r: any) => r?.hasAttribute('aria-expanded')) || [];
     const collapsedRows = all.filter((r: any) => r?.getAttribute('aria-expanded') === 'false');
     if (all.length && all.length === collapsedRows.length) this.isHeaderExpanderCollapsed = true;
@@ -402,7 +402,9 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     const resizerTemplate = `<span class="resizer"></span>`;
     const reorderTemplate = `<div class="reorderer"><ids-icon icon="drag" size="medium"></ids-icon></div>`;
 
-    const expander = /^(expander|tree)$/g.test(column.formatter?.name || '') ? expanderTemplate : '';
+    const showFormatterExpander = ['expander', 'tree'].includes(column.formatter?.name ?? '');
+    const showHeaderExpander = column?.showHeaderExpander || showFormatterExpander;
+    const expander = showHeaderExpander ? expanderTemplate : '';
 
     const selectionCheckbox = column.id !== 'selectionRadio' && column.id === 'selectionCheckbox';
     const colName = escapeHTML(column.name);
@@ -416,6 +418,7 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     cssClasses += selectionCheckbox ? ' has-selectioncheckbox vertical-align-center' : '';
     cssClasses += column.headerIcon ? ' has-headericon' : '';
     cssClasses += column.reorderable ? ' is-reorderable' : '';
+    cssClasses += column?.showHeaderExpander ? ' column-header-expander' : '';
 
     // Content row cell template
     const headerContentWrapperTemplate = `<span class="${cssClasses}">
