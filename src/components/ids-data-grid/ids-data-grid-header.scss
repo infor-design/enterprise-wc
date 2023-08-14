@@ -227,7 +227,8 @@
   }
 }
 
-:host([show-header-expander]) .header-expander {
+:host([show-header-expander]) .header-expander,
+.column-header-expander .header-expander {
   display: unset;
 }
 
