@@ -6,6 +6,7 @@
 
 - `[Box]` Added new Box component. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
 - `[Cards/Widget/Box]` Separated the card component into a box, widget and card component, features moved around in each. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
+- `[DataGrid]` Fixes scroll jumping in virtual/infinite scroll. ([#1390](https://github.com/infor-design/enterprise-wc/issues/1390))
 - `[Stats]` Added new Stats component. ([#1326](https://github.com/infor-design/enterprise/issues/1326))
 - `[Widget]` Added new Widget component. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
 
