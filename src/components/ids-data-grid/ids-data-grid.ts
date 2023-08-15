@@ -1379,7 +1379,7 @@ export default class IdsDataGrid extends Base {
     };
   }
 
-  virtualScrollMaxRowsInDOM = 300;
+  virtualScrollMaxRowsInDOM = 150;
 
   /* Attach Events for global scrolling */
   #attachScrollEvents() {
@@ -1421,9 +1421,19 @@ export default class IdsDataGrid extends Base {
     this.offEvent('scroll.data-grid.virtual-scroll', this.container);
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
-      const rowIndex = Math.floor(this.container!.scrollTop / virtualRowHeight);
-      this.#scrollRowIntoView(rowIndex, false);
-    }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
+      this.#handleVirtualScroll(virtualRowHeight);
+    }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
+
+    this.offEvent('scrollend.data-grid.virtual-scroll', this.container);
+    this.onEvent('scrollend.data-grid.virtual-scroll', this.container, (evt) => {
+      evt.stopImmediatePropagation();
+      this.#handleVirtualScroll(virtualRowHeight);
+    });
+  }
+
+  #handleVirtualScroll(rowHeight: number) {
+    const rowIndex = Math.floor(this.container!.scrollTop / rowHeight);
+    this.#scrollRowIntoView(rowIndex, false);
   }
 
   #customScrollEventCache: { [key: string]: number } = {};
