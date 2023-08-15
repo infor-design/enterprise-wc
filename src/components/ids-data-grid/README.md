@@ -102,6 +102,14 @@ Here is a code example for multi select
 ```
 
 ```js
+  dataGrid.addEventListener('beforerowselected', (e: Event) => {
+    console.info(`Before Row Selected`, (<CustomEvent>e).detail);
+    if (Number((e as any).detail.data.book) === 104) {
+      console.error('Row 104 randomly cant be selected');
+      (<CustomEvent>e).detail.response(false);
+    }
+  });
+
   dataGrid.addEventListener('rowselected', (e) => {
     console.info(`Row Selected`, e.detail);
   });
@@ -346,6 +354,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`id` | {string} | The unique id of the column. Each column in the grid should have some unique id.|
 |`name` | {string} | The text to show on the header.|
 |`field` | {string} | The name of the field (column) in the data array attached to the grid for example `description`. This can also be nested in an object for example `children.name`. |
+|`showHeaderExpander` | {boolean} | If true, an expand/collapse icon will appear on the column's header.|
 |`sortable` | {boolean} | If false, the column cannot be sorted. When completed a `sorted` event will fire.|
 |`resizable` | {boolean} | If false the column will not be resizable, thus is a fixed size and can never be changed by the user by dragging the left and right edge.  When completed a `columnresized` event will fire. See the `columns-resizable` example for a working example. |
 |`reorderable` | {boolean} | If true the column can be dragged into another position with adjacent columns. When completed a `columnmoved` event will fire. See the `columns-reorderable` example for a working example. This currently does not work with grouped columns. |
@@ -470,7 +479,9 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `sorted` Fires when the sort column is changed.
 - `selectionchanged` Fires any time the selection changes.
 - `activationchanged` Fires any time the active row changes.
+- `beforerowselected` Fires before each row is selected. You can veto the selection by returning false in the event response for example `e.detail.response(false);`
 - `rowselected` Fires for each row that is selected.
+- `beforerowdeselected` Fires before each row is deselected. You can veto the deselection by returning false in the event response for example `e.detail.response(false);`
 - `rowdeselected` Fires for each row that is deselected.
 - `rowactivated` Fires for each row that is activated.
 - `rowdeactivated` Fires for each row that is deactivated.

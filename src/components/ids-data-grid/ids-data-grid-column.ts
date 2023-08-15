@@ -104,6 +104,8 @@ export interface IdsDataGridColumn {
   max?: number;
   /** Mininum value of a range */
   min?: number;
+  /** Adds expand/collapse icon to a column */
+  showHeaderExpander?: boolean;
   /** Allow column sorting */
   sortable?: boolean;
   /** Allow column resizing */

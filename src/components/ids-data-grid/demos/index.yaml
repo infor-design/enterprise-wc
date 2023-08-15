@@ -185,6 +185,9 @@
   - link: tree-grid-expand-collapse.html
     type: Example
     description: Shows a tree with expand and collapse rows
+  - link: show-header-expander.html
+    type: Example
+    description: Shows a datagrid with an expand/collapse icon in columns
   - link: virtual-scroll.html
     type: Example
     description: Shows a basic data grid with virtual scrolling

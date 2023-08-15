@@ -258,8 +258,10 @@ export default class IdsDataGrid extends Base {
   toggleAll(opt: boolean | string = false) {
     const rows: any[] = [];
     opt = String(stringToBool(opt));
-    const iconEl: any = this.container?.querySelector('.header-expander');
-    if (iconEl) iconEl.icon = `plusminus-folder-${opt === 'true' ? 'closed' : 'open'}`;
+    const icons = this.container?.querySelectorAll('.header-expander');
+    icons?.forEach((iconEl: any) => {
+      if (iconEl) iconEl.icon = `plusminus-folder-${opt === 'true' ? 'closed' : 'open'}`;
+    });
 
     this.rows
       .filter((r: any) => r?.getAttribute('aria-expanded') === opt)
@@ -370,7 +372,7 @@ export default class IdsDataGrid extends Base {
     } else {
       requestAnimationTimeout(() => {
         if (this.container) {
-          let scrollTopPixels = rowStart * (this.virtualScrollSettings.ROW_HEIGHT + 1);
+          let scrollTopPixels = rowStart * (this.virtualScrollSettings.ROW_HEIGHT);
           if (!this.virtualScrollSettings.ENABLED) {
             const containerTopPosition = this.container.getBoundingClientRect().top;
             scrollTopPixels = this.rowByIndex(rowStart)?.getBoundingClientRect?.()?.y ?? scrollTopPixels;
@@ -574,7 +576,6 @@ export default class IdsDataGrid extends Base {
       // Handle Expand/Collapse Clicking
       if (isClickable && isExpandButton) {
         row.toggleExpandCollapse();
-        this.#updateContainerMaxHeight();
         return;
       }
 
@@ -1177,8 +1178,6 @@ export default class IdsDataGrid extends Base {
     } else {
       this.data = this.data.concat(value);
     }
-
-    this.#updateContainerMaxHeight();
   }
 
   /* Append missing rows for virtual-scrolling */
@@ -1222,8 +1221,6 @@ export default class IdsDataGrid extends Base {
     } else {
       this.datasource.data = [];
     }
-
-    this.#updateContainerMaxHeight();
   }
 
   get data(): Array<Record<string, any>> { return this?.datasource?.data; }
@@ -1382,7 +1379,7 @@ export default class IdsDataGrid extends Base {
     };
   }
 
-  virtualScrollMaxRowsInDOM = 300;
+  virtualScrollMaxRowsInDOM = 150;
 
   /* Attach Events for global scrolling */
   #attachScrollEvents() {
@@ -1391,14 +1388,12 @@ export default class IdsDataGrid extends Base {
     this.offEvent('scroll.data-grid', this.container);
     this.onEvent('scroll.data-grid', this.container, () => {
       const scrollTop = this.container!.scrollTop;
-      const containerHeight = this.container!.clientHeight;
-      const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
+      const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT;
       const rowIndex = Math.floor(scrollTop / virtualRowHeight);
       const rows = this.rows;
-      const maxHeight = this.#containerMaxHeight;
 
       const reachedTheTop = rowIndex <= 0;
-      const reachedTheBottom = (scrollTop + containerHeight) >= maxHeight;
+      const reachedTheBottom = this.container!.offsetHeight + this.container!.scrollTop >= this.container!.scrollHeight;
 
       if (reachedTheTop) {
         const firstRow: any = rows[0];
@@ -1416,41 +1411,29 @@ export default class IdsDataGrid extends Base {
     this.#attachVirtualScrollEvent();
   }
 
-  /** Virtual Container Height */
-  #containerMaxHeight = 0;
-
-  #updateContainerMaxHeight() {
-    const virtualScrollSettings = this.virtualScrollSettings;
-    const headerHeight = this.header?.clientHeight ?? 0;
-    const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
-    this.#containerMaxHeight = this.treeGrid
-      ? (this.data.filter((row) => !row.rowHidden).length * virtualRowHeight) + headerHeight
-      : virtualRowHeight * this.data.length;
-  }
-
   /* Attach Events for virtual scrolling */
   #attachVirtualScrollEvent() {
     if (!this.virtualScroll) return;
 
     const virtualScrollSettings = this.virtualScrollSettings;
-    const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
-    const maxHeight = this.#containerMaxHeight;
-    const maxPaddingBottom = maxHeight - virtualScrollSettings.BODY_HEIGHT;
+    const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT;
 
-    this.body?.style.setProperty('padding-bottom', `${Math.max(maxPaddingBottom, 0)}px`);
-
-    let debounceRowIndex = 0;
     this.offEvent('scroll.data-grid.virtual-scroll', this.container);
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
+      this.#handleVirtualScroll(virtualRowHeight);
+    }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
 
-      const rowIndex = Math.floor(this.container!.scrollTop / virtualRowHeight);
+    this.offEvent('scrollend.data-grid.virtual-scroll', this.container);
+    this.onEvent('scrollend.data-grid.virtual-scroll', this.container, (evt) => {
+      evt.stopImmediatePropagation();
+      this.#handleVirtualScroll(virtualRowHeight);
+    });
+  }
 
-      if (rowIndex === debounceRowIndex) return;
-      debounceRowIndex = rowIndex;
-
-      this.#scrollRowIntoView(rowIndex, false);
-    }, { capture: true, passive: true }); // @see https://javascript.info/bubbling-and-capturing#capturing
+  #handleVirtualScroll(rowHeight: number) {
+    const rowIndex = Math.floor(this.container!.scrollTop / rowHeight);
+    this.#scrollRowIntoView(rowIndex, false);
   }
 
   #customScrollEventCache: { [key: string]: number } = {};
@@ -1523,7 +1506,6 @@ export default class IdsDataGrid extends Base {
    */
   #scrollRowIntoView(rowIndex: number, doScroll = true) {
     if (this.#rafReference) cancelAnimationFrame(this.#rafReference);
-
     const data = this.data;
     const rows = this.rows;
     if (!data.length || !rows.length) return;
@@ -1545,13 +1527,12 @@ export default class IdsDataGrid extends Base {
     const firstRow: any = rows[0];
     const lastRow: any = rows[rows.length - 1];
     const firstRowIndex = firstRow.rowIndex;
-    let lastRowIndex = lastRow.rowIndex;
+    const lastRowIndex = lastRow.rowIndex;
 
     const isAboveFirstRow = rowIndex < firstRowIndex;
     const isBelowLastRow = rowIndex > lastRowIndex;
     const isInRange = !isAboveFirstRow && !isBelowLastRow;
-    let reachedTheBottom = lastRowIndex >= maxRowIndex;
-
+    const reachedTheBottom = lastRowIndex >= maxRowIndex;
     let bufferRowIndex = rowIndex - virtualScrollSettings.BUFFER_ROWS;
     bufferRowIndex = Math.max(bufferRowIndex, 0);
     bufferRowIndex = Math.min(bufferRowIndex, maxRowIndex);
@@ -1589,15 +1570,12 @@ export default class IdsDataGrid extends Base {
     }
 
     // NOTE: repaint of padding is more performant than margin
-    const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT + 1;
-    const maxHeight = this.#containerMaxHeight;
+    const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT;
+    const maxHeight = this.data.length * virtualRowHeight;
     const maxPaddingBottom = maxHeight - virtualScrollSettings.BODY_HEIGHT;
-    const bodyTranslateY = bufferRowIndex * virtualRowHeight;
+    const firstRowInDom = this.rows[0].rowIndex;
+    const bodyTranslateY = firstRowInDom * virtualRowHeight;
     const bodyPaddingBottom = maxPaddingBottom - bodyTranslateY;
-
-    // refetch rows because lastRowIndex could have been updated after row recycling
-    lastRowIndex = this.rows.at(-1)?.rowIndex;
-    reachedTheBottom = lastRowIndex >= maxRowIndex;
 
     if (!reachedTheBottom) {
       body.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
@@ -1659,11 +1637,9 @@ export default class IdsDataGrid extends Base {
     // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
     if (rowsToMove.length >= this.virtualScrollSettings.MAX_ROWS_IN_DOM) return;
 
-    this.requestAnimationFrame(() => {
-      // NOTE: body.append is faster than body.innerHTML
-      // NOTE: body.append is faster than multiple calls to appendChild()
-      this.body?.append(...rowsToMove);
-    });
+    // NOTE: body.append is faster than body.innerHTML
+    // NOTE: body.append is faster than multiple calls to appendChild()
+    this.body?.append(...rowsToMove);
   }
 
   /* Recycle the rows during scrolling from the bottom */
@@ -1686,10 +1662,8 @@ export default class IdsDataGrid extends Base {
 
     if (!rowsToMove.length) return;
 
-    this.requestAnimationFrame(() => {
-      // NOTE: body.prepend() seems to be faster than body.innerHTML
-      this.body?.prepend(...rowsToMove.reverse());
-    });
+    // NOTE: body.prepend() seems to be faster than body.innerHTML
+    this.body?.prepend(...rowsToMove.reverse());
   }
 
   /**
@@ -1722,7 +1696,6 @@ export default class IdsDataGrid extends Base {
       this.shadowRoot?.querySelector('.ids-data-grid')?.setAttribute('data-row-height', 'lg');
     }
     this.saveSettings?.();
-    this.#updateContainerMaxHeight();
   }
 
   get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'lg'; }
@@ -2006,7 +1979,6 @@ export default class IdsDataGrid extends Base {
     this.datasource.data = this.datasource.originalData;
     this.redrawBody();
     this.#updateRowCount();
-    this.#updateContainerMaxHeight();
   }
 
   /**
@@ -2041,6 +2013,21 @@ export default class IdsDataGrid extends Base {
     }
 
     if (!row || row.selected) return;
+
+    let canSelect = true;
+    const response = (veto: any) => {
+      canSelect = !!veto;
+    };
+
+    this.triggerEvent('beforerowselected', this, {
+      detail: {
+        elem: this, row, data: this.data[index], response
+      }
+    });
+
+    if (!canSelect) {
+      return;
+    }
 
     if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
       const checkbox = row?.querySelector('.is-selection-checkbox .ids-data-grid-checkbox');
@@ -2089,6 +2076,21 @@ export default class IdsDataGrid extends Base {
     }
 
     if (!row) return;
+
+    let canDeselect = true;
+    const response = (veto: any) => {
+      canDeselect = !!veto;
+    };
+
+    this.triggerEvent('beforerowdeselected', this, {
+      detail: {
+        elem: this, row, data: this.data[index], response
+      }
+    });
+
+    if (!canDeselect) {
+      return;
+    }
 
     if (this.rowSelection === 'mixed') {
       row.classList.remove('mixed');
@@ -2238,7 +2240,7 @@ export default class IdsDataGrid extends Base {
       lg: 50
     };
 
-    return rowHeights[this.rowHeight];
+    return rowHeights[this.rowHeight] + 1;
   }
 
   /**
