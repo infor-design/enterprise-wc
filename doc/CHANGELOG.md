@@ -9,6 +9,7 @@
 - `[DataGrid]` Fixes scroll jumping in virtual/infinite scroll. ([#1390](https://github.com/infor-design/enterprise-wc/issues/1390))
 - `[DataGrid]` Fix scrollend event triggering in different zoom levels. ([#1396](https://github.com/infor-design/enterprise-wc/issues/1396))
 - `[DataGrid]` Added a `beforerowselected` and `beforeredeselected` event that can be vetoed to both lookup and datagrid. ([#1304](https://github.com/infor-design/enterprise-wc/issues/1304))
+- `[DataGrid]` Added example that shows context-menu with option to activate cell edit-mode on right-click. ([#1319](https://github.com/infor-design/enterprise-wc/issues/1319))
 - `[Stats]` Added new Stats component. ([#1326](https://github.com/infor-design/enterprise/issues/1326))
 - `[Widget]` Added new Widget component. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
 
