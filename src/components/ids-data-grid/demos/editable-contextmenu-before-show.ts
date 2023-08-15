@@ -4,7 +4,6 @@ import type IdsMenuItem from '../../ids-menu/ids-menu-item';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import booksJSON from '../../../assets/data/books.json';
-import menuContentsJSON from '../../../assets/data/menu-contents.json';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-editable')!;
@@ -16,23 +15,6 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
 });
 
 (async function init() {
-  // Do an ajax request
-  const url: any = booksJSON;
-  const menuUrl: any = menuContentsJSON;
-
-  // Header contextmenu data
-  const headerMenuData = {
-    id: 'grid-header-menu',
-    contents: [{
-      id: 'actions-group',
-      items: [
-        { id: 'actions-split', value: 'actions-split', text: 'Split' },
-        { id: 'actions-sort', value: 'actions-sort', text: 'Sort' },
-        { id: 'actions-hide', value: 'actions-hide', text: 'Hide' }
-      ]
-    }],
-  };
-
   // Set up columns
   const columns: IdsDataGridColumn[] = [];
   columns.push({
@@ -220,34 +202,56 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   });
 
   dataGrid.columns = columns;
+
   const setData = async () => {
+    // Do an ajax request
+    const url: any = booksJSON;
     const res = await fetch(url);
-    const menuRes = await fetch(menuUrl);
-
     const data = await res.json();
-    const menuData = await menuRes.json();
-
     dataGrid.data = data;
-    dataGrid.menuData = menuData;
-    dataGrid.headerMenuData = headerMenuData;
+
+    // Header contextmenu data
+    dataGrid.headerMenuData = {
+      id: 'grid-header-menu',
+      contents: [{
+        id: 'actions-group',
+        items: [
+          { id: 'actions-split', value: 'actions-split', text: 'Split' },
+          { id: 'actions-sort', value: 'actions-sort', text: 'Sort' },
+          { id: 'actions-hide', value: 'actions-hide', text: 'Hide' }
+        ]
+      }],
+    };
+
+    const ACTIONS = {
+      EDIT: { id: 'edit-cell', value: 'edit-cell', text: 'Edit' },
+      CUT: { id: 'edit-cut', value: 'edit-cut', text: 'Cut' },
+      COPY: { id: 'edit-copy', value: 'edit-copy', text: 'Copy' },
+      PASTE: { id: 'edit-paste', value: 'edit-paste', text: 'Paste' },
+    };
+
+    const DEFAULT_ACTIONS = [ACTIONS.CUT, ACTIONS.COPY, ACTIONS.PASTE];
+
+    dataGrid.menuData = {
+      id: 'popup-menu',
+      contents: [{ id: 'edit-actions-group', select: 'none', items: DEFAULT_ACTIONS }],
+    };
 
     dataGrid.addEventListener('beforemenushow', (e: any) => {
       console.info('Before contextmenu show', e.detail);
-      const thisData = e.detail?.data;
-      const isBodyCell = thisData?.type === dataGrid.contextmenuTypes.BODY_CELL;
-      const cell = e.detail?.data?.target;
-      if (cell && isBodyCell) {
-        console.log('thisData?.type', thisData?.type, cell);
-        // cell.startCellEdit(e);
-        // cell.startCellEdit(e, false);
-        // cell.startCellEdit(undefined, false);
+
+      const eventData = e.detail?.data;
+
+      let items = [...DEFAULT_ACTIONS];
+
+      if (dataGrid.contextmenuTypes.BODY_CELL === eventData?.type) {
+        items = [ACTIONS.EDIT, ...DEFAULT_ACTIONS];
       }
 
-      // if (thisData?.type === dataGrid.contextmenuTypes.BODY_CELL) {
-      //   // const rowIndex = thisData.rowIndex ?? 0;
-      //   // const newData = ((rowIndex % 2) === 0) ? newMenuData : menuData;
-      //   // dataGrid.menuData = newData;
-      // }
+      dataGrid.menuData = {
+        id: 'popup-menu',
+        contents: [{ id: 'edit-actions-group', select: 'none', items }],
+      };
     });
 
     dataGrid.addEventListener('menushow', (e: any) => {
@@ -256,13 +260,37 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
 
     dataGrid.addEventListener('menuselected', (e: any) => {
       console.info('contextmenu item selected', e.detail);
-      // dataGrid.activeCell?.focus?.();
-      console.log('dataGrid.activeCell', dataGrid.activeCell);
-      // dataGrid.activeCellEditor?.focus?.();
-      console.log('dataGrid.activeCellEditor', dataGrid.activeCellEditor);
 
-      // simulate a column change after menuselection
-      dataGrid.columns = [...columns];
+      const { menuSelectedEvent, rowIndex, columnIndex } = e.detail?.data ?? {};
+
+      const targetCell = dataGrid.cellByIndex?.(rowIndex, columnIndex);
+      if (!targetCell) return;
+
+      const targetCellText = targetCell?.textContent ?? '';
+
+      switch (menuSelectedEvent?.target?.id) {
+        case 'edit-cell':
+          targetCell?.startCellEdit?.();
+          break;
+        case 'edit-copy':
+          window.navigator.clipboard.writeText(targetCellText);
+          break;
+        case 'edit-cut':
+          window.navigator.clipboard
+            .writeText(targetCellText)
+            .then(() => {
+              targetCell.updateData('');
+            });
+          break;
+        case 'edit-paste':
+          window.navigator.clipboard
+            .readText()
+            .then((cliptext) => {
+              targetCell.updateData(cliptext);
+            });
+          break;
+        default: break;
+      }
     });
   };
 

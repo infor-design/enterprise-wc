@@ -30,11 +30,55 @@ export default class IdsDataGridCell extends IdsElement {
   }
 
   /**
+   * Update this cell's dataset and refresh
+   * @param {string} value the new data for the cell
+   * @param {boolean} refresh if true, rerender the cell
+   */
+  updateData(value: string, refresh = true) {
+    const rowIndex = this.rowIndex;
+    const record = this.dataGrid?.data[rowIndex];
+    const columnIndex = this.columnIndex;
+
+    // a cell exists in a row of a visible-columns
+    const visibleColumns = this.dataGrid?.visibleColumns;
+
+    const column = visibleColumns[columnIndex];
+    if (!column?.field) return;
+
+    const updatedRecord = {
+      ...record,
+      [column.field]: value,
+    };
+
+    if (refresh) {
+      this.dataGrid?.updateDatasetAndRefresh?.(this.rowIndex, updatedRecord, false);
+    } else {
+      this.dataGrid?.updateDataset?.(this.rowIndex, updatedRecord, false);
+    }
+  }
+
+  /**
    * Get the column definition
    * @returns {IdsDataGridColumn} the current cells column
    */
   get column() {
-    return this.dataGrid?.columns[Number(this.getAttribute('aria-colindex')) - 1];
+    return this.dataGrid?.columns[this.columnIndex];
+  }
+
+  /**
+   * Gets the column # in which this cell exists
+   * @returns {number} the column-index
+   */
+  get columnIndex(): number {
+    return Number(this.getAttribute?.('aria-colindex') ?? 0) - 1;
+  }
+
+  /**
+   * Gets the row-index # in which this cell exists
+   * @returns {number} the row-index
+   */
+  get rowIndex(): number {
+    return Number(this.parentElement?.getAttribute?.('row-index') ?? -1);
   }
 
   /**
@@ -42,7 +86,7 @@ export default class IdsDataGridCell extends IdsElement {
    * @returns {number} table row index
    */
   get row(): number {
-    return Number(this.parentElement?.getAttribute('data-index'));
+    return this.rowIndex;
   }
 
   /**
@@ -147,10 +191,10 @@ export default class IdsDataGridCell extends IdsElement {
     if (column.editor.inline) this.classList.add('is-inline');
     this.isEditing = true;
 
-    // // Save on Click Out Event
-    // this.editor.input?.onEvent('focusout', this.editor.input, () => {
-    //   this.endCellEdit();
-    // });
+    // Save on Click Out Event
+    this.editor.input?.onEvent('focusout', this.editor.input, () => {
+      this.endCellEdit();
+    });
 
     this.dataGrid?.triggerEvent('celledit', this.dataGrid, {
       detail: {
@@ -159,7 +203,6 @@ export default class IdsDataGridCell extends IdsElement {
     });
 
     this.dataGrid.activeCellEditor = this;
-    // this.dataGrid.setActiveCell(this.columnIndex, this.rowIndex);
   }
 
   /** End Cell Edit */
@@ -370,18 +413,5 @@ export default class IdsDataGridCell extends IdsElement {
   refreshCell() {
     this.clearCache();
     this.renderCell();
-  }
-
-  get columnIndex() {
-    return Number(this.getAttribute('aria-colindex')) - 1;
-  }
-
-  get rowIndex() {
-    // return Number(this.parentElement?.getAttribute('data-index'));
-    return Number(this.parentElement?.getAttribute('row-index'));
-  }
-
-  focus() {
-    this.editor?.input?.focus?.();
   }
 }

@@ -6,6 +6,10 @@
             "select": "none",
             "items": [
                 {
+                    "id": "edit-cell",
+                    "text": "Edit"
+                },
+                {
                     "id": "edit-cut",
                     "text": "Cut"
                 },
