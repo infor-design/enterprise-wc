@@ -2,11 +2,11 @@
 
 ## Description
 
-The IDS Badge Compoment consists of a small circle containing alphanumeric or icon that appears to another object. Badges are used to display alphanumeric values. A User can easily skim object-related values.
+The IDS Badge Component consists of a small circle containing alphanumeric or icon that appears to another object. Badges are used to display alphanumeric values. A User can easily skim object-related values. Note that the tags and badges look the same but should not be used interchangeably. A badge is used mainly for alphanumeric values i.e. numbers currency ect. and cannot take an icon or random text. For text embellishments use a tag. For icons use an icon or status icon or alert icon.
 
 ## Use Cases
 
-- Badges can be use to give a non-critical status update on a piece of information or action to your application.
+- Badges can be use to give a non-critical information update on a piece of alphanumeric information in your application.
 - Badges can be used to provide users with information about an object that is worthy of attention.
 
 ## Terminology
