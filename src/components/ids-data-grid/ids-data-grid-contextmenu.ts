@@ -72,7 +72,7 @@ function showContextmenu(this: IdsDataGrid, e: MouseEvent): boolean {
   const { menu: menuEl, target, callbackArgs } = this.contextmenuInfo;
   let isShow = false;
   if (menuEl && target && callbackArgs) {
-    const args = { ...callbackArgs, menuEl, target };
+    const args = { ...callbackArgs, menuEl };
     const isHeaderMenu = callbackArgs.type === 'header';
 
     // Trigger before menu show event
