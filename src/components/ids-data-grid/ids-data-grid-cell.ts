@@ -94,8 +94,7 @@ export default class IdsDataGridCell extends IdsElement {
    * @returns {any} the data value of this cell
    */
   get value(): any {
-    // NOTE: a cell exists in a row of a visible-columns
-    const column = this.dataGrid?.visibleColumns?.[this.columnIndex];
+    const column = this.dataGrid?.columns?.[this.columnIndex];
     const record = this.dataGrid?.data?.[this.rowIndex];
 
     return record?.[(column?.field ?? -1)] ?? this.textContent ?? '';
@@ -178,7 +177,7 @@ export default class IdsDataGridCell extends IdsElement {
       return;
     }
 
-    this.originalValue = this.textContent;
+    this.originalValue = this.value;
     this.editor = columnEditor.editor;
     this.editor.clickEvent = clickEvent;
 
@@ -186,10 +185,6 @@ export default class IdsDataGridCell extends IdsElement {
     // Override original value if dropdown
     if (editorType === 'dropdown') {
       this.originalValue = this.querySelector('[data-value]')?.getAttribute('data-value');
-    } else if (editorType === 'timepicker' || editorType === 'datepicker') {
-      const rowData = this.dataGrid.data[this.dataGrid.activeCell.row];
-      const rowVal = rowData[this.column.field!];
-      this.originalValue = rowVal;
     }
 
     this.classList.add('is-editing');
