@@ -71,7 +71,7 @@
 // between buttons inside the Modal Footer
 
 ::slotted([slot='buttons']:not(:first-of-type)) {
-  border-left: 1px solid var(--ids-modal-footer-color-border);
+  border-inline-start: 1px solid var(--ids-modal-footer-color-border);
 }
 
 .ids-modal-button:not(.ids-modal-icon-button):not(:first-of-type) {
