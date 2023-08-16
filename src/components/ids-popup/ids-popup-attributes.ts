@@ -29,7 +29,17 @@ const ARROW_TYPES = ['none', 'bottom', 'top', 'left', 'right'];
 const POSITION_STYLES = ['fixed', 'absolute', 'viewport'];
 
 // Types of Popups
-const TYPES = ['none', 'menu', 'menu-alt', 'modal', 'tooltip', 'tooltip-alt', 'custom', 'dropdown'];
+const TYPES = [
+  'none',
+  'menu',
+  'menu-alt',
+  'modal',
+  'tooltip',
+  'tooltip-alt',
+  'custom',
+  'dropdown',
+  'module-nav'
+];
 
 // Properties exposed with getters/setters
 // safeSet/RemoveAttribute also use these so we pull them out

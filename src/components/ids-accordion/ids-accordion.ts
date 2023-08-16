@@ -12,8 +12,16 @@ import './ids-accordion-header';
 import './ids-accordion-panel';
 import styles from './ids-accordion.scss';
 
+import type IdsAccordionSection from './ids-accordion-section';
 import type IdsAccordionHeader from './ids-accordion-header';
 import type IdsAccordionPanel from './ids-accordion-panel';
+import type IdsModuleNavItem from '../ids-module-nav/ids-module-nav-item';
+
+type IdsAccordionPart = IdsAccordion |
+IdsAccordionPanel |
+IdsAccordionHeader |
+IdsAccordionSection |
+IdsModuleNavItem;
 
 const Base = IdsColorVariantMixin(
   IdsKeyboardMixin(
@@ -38,7 +46,9 @@ const Base = IdsColorVariantMixin(
 @customElement('ids-accordion')
 @scss(styles)
 export default class IdsAccordion extends Base {
-  header: IdsAccordionHeader | null = null;
+  header: IdsAccordionHeader | IdsModuleNavItem | null = null;
+
+  previouslySelected: IdsAccordionHeader | null | undefined = null;
 
   constructor() {
     super();
@@ -49,7 +59,7 @@ export default class IdsAccordion extends Base {
     this.#handleEvents();
     this.#handleKeys();
 
-    this.#assignDepthDependentStyles();
+    this.#assignDepthDependentStyles(this, 0, true, true, true, true);
     this.#contentObserver?.observe((this as any), {
       childList: true
     });
@@ -77,7 +87,7 @@ export default class IdsAccordion extends Base {
   /**
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['app-menu'];
+  colorVariants = ['app-menu', 'module-nav'];
 
   /**
    * When the accordion's color variant is set, push this change through to the child elements
@@ -111,10 +121,18 @@ export default class IdsAccordion extends Base {
 
   /**
    * @readonly
-   * @returns {Array<IdsAccordionHeader>} all accordion headers in a flattened array
+   * @returns {Array<IdsAccordionSection>} all accordion sections in a flattened array
+   */
+  get sections(): Array<IdsAccordionSection> {
+    return [...this.querySelectorAll<IdsAccordionSection>('ids-accordion-section')];
+  }
+
+  /**
+   * @readonly
+   * @returns {Array<IdsAccordionHeader | IdsModuleNavItem>} all accordion headers in a flattened array
    */
   get headers(): Array<IdsAccordionHeader> {
-    return [...this.querySelectorAll<IdsAccordionHeader>('ids-accordion-header')];
+    return [...this.querySelectorAll<IdsAccordionHeader | IdsModuleNavItem>('ids-accordion-header, ids-module-nav-item')];
   }
 
   /**
@@ -154,6 +172,7 @@ export default class IdsAccordion extends Base {
 
     if (toAllow) {
       this.setAttribute(attributes.ALLOW_ONE_PANE, `${toAllow}`);
+      this.collapseAll(this.previouslySelected?.panel);
     } else {
       this.removeAttribute(attributes.ALLOW_ONE_PANE);
     }
@@ -197,19 +216,37 @@ export default class IdsAccordion extends Base {
    * @param {boolean} doRTL if true, modifies RTL styles
    */
   #assignDepthDependentStyles(
-    element: any = this,
+    element: IdsAccordionPart = this,
     depth = 0,
     doColorVariant = true,
     doExpanderType = true,
     doDisplayIconType = true,
     doRTL = true
   ) {
-    this.header = element.querySelector(':scope > ids-accordion-header');
+    const addDepthClass = (el: HTMLElement, thisDepth: number) => {
+      if (el) el.classList.add(`depth-${thisDepth}`);
+    };
+
+    // If dealing with Accordion Sections,
+    // loop this method through an array of sections instead
+    const hasSection = element.querySelector(':scope > ids-accordion-section');
+    if (hasSection) {
+      [...element.querySelectorAll<IdsAccordionSection>(':scope > ids-accordion-section')].forEach((section: IdsAccordionSection) => {
+        this.#assignDepthDependentStyles(section, depth, doColorVariant, doExpanderType, doDisplayIconType, doRTL);
+      });
+      return;
+    }
+
+    this.header = element.querySelector<IdsAccordionHeader | IdsModuleNavItem>(':scope > ids-accordion-header, :scope > ids-module-nav-item');
+    const hasChildPanels = element.children.length > 1 || false;
     const subLevelDepth = depth > 1;
 
     if (depth > 0) {
       // Assign Nested Padding CSS Classes
-      element.nested = subLevelDepth;
+      if (element.tagName === 'IDS-ACCORDION-PANEL') {
+        (element as IdsAccordionPanel).nested = subLevelDepth;
+      }
+      if (element.container) addDepthClass(element.container, depth);
 
       // Assign Color Variant
       if (doColorVariant && this.colorVariant) {
@@ -228,7 +265,7 @@ export default class IdsAccordion extends Base {
 
         // Assign Expander Type
         // (Use Plus/Minus-style expander on any nested panels)
-        if (doExpanderType) {
+        if (hasChildPanels && doExpanderType) {
           const expanderType = subLevelDepth ? 'plus-minus' : 'caret';
           this.header.expanderType = expanderType;
         }
@@ -238,7 +275,7 @@ export default class IdsAccordion extends Base {
         // adjacent to panes containing an icon in their header)
         if (doDisplayIconType) {
           const displayIconType = this.header.icon;
-          if (typeof displayIconType === 'string' && displayIconType.length && !element.contentAlignment) {
+          if (typeof displayIconType === 'string' && displayIconType.length && !(element as IdsAccordionPanel).contentAlignment) {
             this.#markAdjacentPanesForIcons(element, true);
           }
         }
@@ -255,7 +292,7 @@ export default class IdsAccordion extends Base {
         continue;
       }
       this.#assignDepthDependentStyles(
-        childEl,
+        (childEl as IdsAccordionPanel),
         depth + 1,
         doColorVariant,
         doExpanderType,
@@ -271,7 +308,9 @@ export default class IdsAccordion extends Base {
   #handleEvents() {
     // Responds to `selected` events triggered by children
     this.onEvent('selected', this, (e: CustomEvent) => {
-      this.#deselectOtherHeaders((e.target as HTMLElement));
+      const el = e.detail.elem as IdsAccordionHeader;
+      this.previouslySelected = el;
+      this.#deselectOtherHeaders(el);
     });
   }
 
@@ -290,7 +329,7 @@ export default class IdsAccordion extends Base {
    */
   #deselectOtherHeaders(target: HTMLElement) {
     this.headers.forEach((header: any) => {
-      if (header.selected && !target.isEqualNode(header)) {
+      if (header.selected && target !== header) {
         header.selected = false;
       }
     });
@@ -395,7 +434,7 @@ export default class IdsAccordion extends Base {
 
     // If the previous element is a header, no more panels are present.
     // Navigation should be pushed one panel level up;
-    if (prev?.tagName === 'IDS-ACCORDION-HEADER') {
+    if (prev && ['IDS-ACCORDION-HEADER', 'IDS-MODULE-NAV-ITEM'].includes(prev.tagName)) {
       prev = prev.parentElement as IdsAccordionPanel;
     }
 
@@ -432,5 +471,21 @@ export default class IdsAccordion extends Base {
         node.contentAlignment = status ? 'has-icon' : null;
       }
     });
+  }
+
+  /**
+   * Collapses all child accordion panels at once
+   * @param {IdsAccordionPanel | null | undefined} [excluded] if provided,
+   *   excludes this accordion header from being collapsed
+   * @returns {void}
+   */
+  collapseAll(excluded?: IdsAccordionPanel | null) {
+    if (this.panels.length) {
+      this.panels.forEach((panel) => {
+        if (!excluded || panel !== excluded) {
+          panel.expanded = false;
+        }
+      });
+    }
   }
 }

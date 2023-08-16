@@ -14,8 +14,11 @@ import type IdsTriggerButton from './ids-trigger-button';
  * IDS Trigger Field Component
  * @type {IdsTriggerField}
  * @inherits IdsInput
- * @part field - the field container
- * @part content - the content with trigger buttons and input element
+ * @part container
+ * @part content-area - the content with trigger buttons and input element
+ * @part field-container - element that wraps input field, trigger buttons, and inline errors (used for styling)
+ * @part input - internal HTMLInputElement
+ * @part popup - internal IdsPopup used for optional Autocomplete feature
  */
 @customElement('ids-trigger-field')
 @scss(styles)

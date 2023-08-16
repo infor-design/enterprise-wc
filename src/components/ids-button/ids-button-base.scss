@@ -98,6 +98,14 @@
     }
   }
 
+  &.content-align-start {
+    justify-content: start;
+  }
+
+  &.content-align-end {
+    justify-content: end;
+  }
+
   &.no-margins {
     margin-inline: var(--ids-space-none);
   }
@@ -490,3 +498,4 @@
     }
   }
 }
+

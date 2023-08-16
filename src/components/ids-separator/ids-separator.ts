@@ -44,7 +44,7 @@ export default class IdsSeparator extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants: Array<string> = ['alternate-formatter'];
+  colorVariants: Array<string> = ['alternate-formatter', 'module-nav'];
 
   /**
    * @returns {string} The components template

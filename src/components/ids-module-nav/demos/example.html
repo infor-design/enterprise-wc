@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="0" hidden>
+    <ids-module-nav id="module-nav">
+      <ids-module-nav-bar>
+        <ids-module-nav-switcher
+          slot="role-switcher">
+          <ids-module-nav-button>
+            <ids-icon id="module-switcher-icon" icon="database"></ids-icon>
+            <ids-text audible>Standard Module</ids-text>
+          </ids-module-nav-button>
+          <ids-dropdown
+            id="module-nav-role-dropdown"
+            dropdown-icon="expand-all"
+            color-variant="module-nav"
+            label="Select Role"
+            value="admin-console"
+            show-list-item-icon="false">
+            <ids-list-box>
+              <ids-list-box-option value="admin-console" id="admin-console">
+                <ids-icon icon="database"></ids-icon>
+                <span>Admin Console</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="job-console" id="job-console">
+                <ids-icon icon="mail"></ids-icon>
+                <span>Job Console</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="landing-page-designer" id="landing-page-designer">
+                <ids-icon icon="settings"></ids-icon>
+                <span>Landing Page Designer</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="process-server-adminisrator" id="process-server-adminisrator">
+                <ids-icon icon="database"></ids-icon>
+                <span>Process Server Administrator</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="proxy-management" id="proxy-management">
+                <ids-icon icon="mail"></ids-icon>
+                <span>Proxy Management</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="security-system-management" id="security-system-management">
+                <ids-icon icon="settings"></ids-icon>
+                <span>Security System Management</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="user-management" id="user-management">
+                <ids-icon icon="database"></ids-icon>
+                <span>User Management</span>
+              </ids-list-box-option>
+            </ids-list-box>
+          </ids-dropdown>
+        </ids-module-nav-switcher>
+
+        <ids-search-field
+          id="search"
+          clearable
+          color-variant="module-nav"
+          label="Module Nav Search"
+          label-state="collapsed"
+          no-margins
+          placeholder="Search"
+          size="full"
+          slot="search"></ids-search-field>
+
+        <!-- Main Content (Accordion Navigation) -->
+        <ids-accordion>
+          <!-- Main Section -->
+          <ids-accordion-section slot="" grow>
+            <ids-accordion-panel>
+              <ids-module-nav-item id="item-user" slot="header" icon="user">
+                <ids-text font-size="16">Configuration and Personalization</ids-text>
+              </ids-module-nav-item>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+            <ids-accordion-panel>
+              <ids-module-nav-item id="item-database" slot="header" icon="database">
+                <ids-text font-size="16">Database</ids-text>
+              </ids-module-nav-item>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+            <ids-accordion-panel>
+              <ids-module-nav-item id="item-data-translation" slot="header" icon="translate">
+                <ids-text font-size="16">Data Translation</ids-text>
+              </ids-module-nav-item>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+            <ids-accordion-panel>
+              <ids-module-nav-item id="item-security" slot="header" icon="security-on">
+                <ids-text font-size="16">Security</ids-text>
+              </ids-module-nav-item>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+            <ids-accordion-panel>
+              <ids-module-nav-item id="item-analytics" slot="header" icon="line-bar-chart">
+                <ids-text font-size="16">Analytics</ids-text>
+              </ids-module-nav-item>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+            <ids-accordion-panel>
+              <ids-module-nav-item id="item-audit-monitoring" slot="header" icon="import-spreadsheet">
+                <ids-text font-size="16">Audit and Monitoring</ids-text>
+              </ids-module-nav-item>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content">
+                <ids-module-nav-item slot="header">
+                  <ids-text font-size="14">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+          </ids-accordion-section>
+        </ids-accordion>
+
+        <!-- Pinned Footer Section -->
+        <ids-accordion slot="footer">
+          <ids-accordion-section pinned>
+            <ids-accordion-panel>
+              <ids-module-nav-item id="item-document" slot="header" icon="document">
+                <ids-text font-size="16">Documents</ids-text>
+              </ids-module-nav-item>
+            </ids-accordion-panel>
+            <ids-accordion-panel>
+              <ids-module-nav-item id="item-reports" slot="header" icon="report">
+                <ids-text font-size="16">Reports</ids-text>
+              </ids-module-nav-item>
+            </ids-accordion-panel>
+            <ids-accordion-panel>
+              <ids-module-nav-item id="item-notification" slot="header" icon="notification">
+                <ids-text font-size="16">Notification</ids-text>
+              </ids-module-nav-item>
+            </ids-accordion-panel>
+          </ids-accordion-section>
+        </ids-accordion>
+
+        <ids-module-nav-settings
+          slot="settings"
+          role="button"
+          icon="settings"
+          id="module-nav-settings-btn"
+          menu="module-nav-settings-menu"
+          color-variant="module-nav"
+          content-align="start"
+          no-margins
+          no-ripple>
+          <ids-text>Settings</ids-text>
+        </ids-module-nav-settings>
+        <ids-popup-menu
+          id="module-nav-settings-menu"
+          target="#module-nav-settings-btn"
+          trigger-type="click"
+          slot="settings">
+          <ids-menu-group>
+            <ids-menu-item icon="observation-precautions" value="jobs">Jobs</ids-menu-item>
+            <ids-menu-item icon="report" value="reports">Reports</ids-menu-item>
+            <ids-menu-item icon="isolation" value="actions">Actions</ids-menu-item>
+            <ids-menu-item icon="edit" value="personalization">Personalization</ids-menu-item>
+            <ids-separator></ids-separator>
+            <ids-menu-item value="create-report">Create Report</ids-menu-item>
+            <ids-menu-item value="proxy">Proxy</ids-menu-item>
+            <ids-menu-item value="set-as-of-date">Set "As Of Date"</ids-menu-item>
+            <ids-menu-item value="user-context">User Context</ids-menu-item>
+            <ids-separator></ids-separator>
+            <ids-menu-item icon="settings" value="settings">Settings</ids-menu-item>
+            <ids-menu-item icon="info" value="about">About</ids-menu-item>
+            <ids-menu-item icon="help" value="help">Help</ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+
+      </ids-module-nav-bar>
+
+      <ids-module-nav-content offset-content>
+        <!-- Page Header -->
+        <ids-header>
+          <ids-toolbar>
+            <ids-toolbar-section type="button">
+              <ids-button id="module-nav-trigger" icon="menu">
+                <span class="audible">Open Module Nav</span>
+              </ids-button>
+            </ids-toolbar-section>
+            <ids-toolbar-section type="title">
+              <ids-text font-size="20" type="h1">Module Nav Example</ids-text>
+            </ids-toolbar-section>
+            <ids-toolbar-section align="end" type="button">
+              <ids-theme-switcher mode="light"></ids-theme-switcher>
+            </ids-toolbar-section>
+          </ids-toolbar>
+        </ids-header>
+
+        <!-- Page Body -->
+        <ids-layout-grid auto-fit="true" padding="md">
+          <ids-text font-size="12" type="h1">IDS Module Nav</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto-fit="true" padding-x="md">
+          <ids-dropdown id="dd-display-mode-setting" label="Display Mode" value="collapsed" dirty-tracker="true">
+            <ids-list-box>
+              <ids-list-box-option id="dd-display-mode-false" value="">Hidden (false)</ids-list-box-option>
+              <ids-list-box-option id="dd-display-mode-collapsed" value="collapsed">Collapsed</ids-list-box-option>
+              <ids-list-box-option id="dd-display-mode-expanded" value="expanded">Expanded</ids-list-box-option>
+            </ids-list-box>
+          </ids-dropdown>
+        </ids-layout-grid>
+        <ids-layout-grid cols="4" gap="md" padding-x="md">
+          <ids-layout-grid-cell>
+            <ids-checkbox id="one-accordion-pane" label="Expand one IdsAccordionPanel at a time"></ids-checkbox>
+            <ids-checkbox id="is-filterable" label="Enable Filtering" checked></ids-checkbox>
+            <ids-checkbox id="pin-sections" label="Pin Sections"></ids-checkbox>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+      </ids-module-nav-content>
+    </ids-module-nav>
+  </ids-container>
+</body>
+</html>

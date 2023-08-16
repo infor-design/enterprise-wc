@@ -1,0 +1,26 @@
+@import '../../themes/mixins/ids-core-mixins';
+@import '../../core/ids-base';
+
+// Module Nav Component
+// ================================================== //
+
+:host {
+  display: contents;
+}
+
+.ids-module-nav {
+  @include border-box();
+
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  overflow: hidden;
+  align-items: stretch;
+}
+
+// Sub-components
+// ================================================== //
+
+ids-menu-item::part(menu-item) {
+  color: var(--ids-module-nav-settings-menu-item-text-color);
+}

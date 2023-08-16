@@ -153,7 +153,9 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 
 - `selected` Fire at the time the ids-accordion-panel element is selected, used for App-Menu,
 Detail contains the element `elem`
+- `beforeexpand` Fires before the `expand` property is set, and can be used to cancel the expand behavior if needed.
 - `expanded` Fires at the time the ids-accordion-panel is expanded. Detail contains the element `elem`
+- `beforecollapse` Fires before the `expand` property is set, and can be used to cancel the expand behavior if needed.
 - `collapsed` Fires at the time the ids-accordion-panel is collapsed. Detail contains the element `elem`
 
 ## Methods

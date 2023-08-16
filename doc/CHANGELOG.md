@@ -1,14 +1,26 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.15
+
+### 1.0.0-beta.15 Features
+
+- `[ModuleNav]` Added IdsModuleNav component with basic Role Switcher, Settings component. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
+
 ## 1.0.0-beta.14
 
 ### 1.0.0-beta.14 Features
 
+- `[Accordion]` Add `IdsAccordionSection` component with flexbox properties, used primarily by Module Nav. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
 - `[Box]` Added new Box component. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
+- `[Button]` Add `contentAlign` property for setting text/icon alignment. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
 - `[Cards/Widget/Box]` Separated the card component into a box, widget and card component, features moved around in each. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
+- `[DataGrid]` Fix scrollend event triggering in different zoom levels. ([#1396](https://github.com/infor-design/enterprise/issues/1396))
 - `[DataGrid]` Fixes scroll jumping in virtual/infinite scroll. ([#1390](https://github.com/infor-design/enterprise-wc/issues/1390))
 - `[DataGrid]` Fix scrollend event triggering in different zoom levels. ([#1396](https://github.com/infor-design/enterprise-wc/issues/1396))
 - `[DataGrid]` Added a `beforerowselected` and `beforeredeselected` event that can be vetoed to both lookup and datagrid. ([#1304](https://github.com/infor-design/enterprise-wc/issues/1304))
+- `[DropDown/DropDownList]` Add `showListItemIcon` setting for Module Nav component. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
+- `[Input]` Adds `module-nav` color variant. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
+- `[Popup]` Adds `module-nav` type. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
 - `[Stats]` Added new Stats component. ([#1326](https://github.com/infor-design/enterprise/issues/1326))
 - `[Widget]` Added new Widget component. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
 
