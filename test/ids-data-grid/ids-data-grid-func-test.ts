@@ -513,19 +513,19 @@ describe('IdsDataGrid Component', () => {
 
     it('has the right row height for each rowHeight value', () => {
       dataGrid.virtualScroll = true;
-      expect(dataGrid.rowPixelHeight).toEqual(50);
+      expect(dataGrid.rowPixelHeight).toEqual(51);
 
       dataGrid.rowHeight = 'md';
-      expect(dataGrid.rowPixelHeight).toEqual(40);
+      expect(dataGrid.rowPixelHeight).toEqual(41);
 
       dataGrid.rowHeight = 'sm';
-      expect(dataGrid.rowPixelHeight).toEqual(35);
+      expect(dataGrid.rowPixelHeight).toEqual(36);
 
       dataGrid.rowHeight = 'xs';
-      expect(dataGrid.rowPixelHeight).toEqual(30);
+      expect(dataGrid.rowPixelHeight).toEqual(31);
 
       dataGrid.redrawBody();
-      expect(dataGrid.rowPixelHeight).toEqual(30);
+      expect(dataGrid.rowPixelHeight).toEqual(31);
     });
 
     it.skip('contains virtualScrollSettings', () => {
@@ -1561,23 +1561,23 @@ describe('IdsDataGrid Component', () => {
       dataGrid.rowHeight = 'xs';
 
       await processAnimFrame();
-      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(30);
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(31);
 
       dataGrid.rowHeight = 'sm';
-      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(35);
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(36);
 
       dataGrid.rowHeight = 'md';
-      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(40);
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(41);
 
       dataGrid.rowHeight = null;
-      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(50);
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(51);
 
       dataGrid.rowHeight = 'lg';
-      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(50);
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(51);
 
       dataGrid.virtualScroll = false;
       dataGrid.rowHeight = 'sm';
-      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(35);
+      expect(dataGrid.virtualScrollSettings.ROW_HEIGHT).toEqual(36);
       expect(dataGrid.getAttribute('row-height')).toEqual('sm');
     });
   });
