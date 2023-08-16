@@ -80,6 +80,9 @@
   margin: 0;
 }
 
+// ================================================
+// General styles
+
 :host {
   display: block;
 
@@ -130,7 +133,7 @@
   }
 
   // In-page Accordions
-  &:not(.color-variant-app-menu):not(.color-variant-sub-app-menu) {
+  &:not([class*="color-variant-"]) {
     @include accordion-header-standard-colors();
 
     padding: 12px 16px;

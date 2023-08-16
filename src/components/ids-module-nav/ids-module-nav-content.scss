@@ -1,0 +1,68 @@
+@import '../../themes/mixins/ids-core-mixins';
+@import '../../core/ids-base';
+
+// Module Nav Content Component
+// ================================================== //
+
+.ids-module-nav-content {
+  @include border-box();
+
+  display: block;
+  height: 100%;
+  width: 100%;
+  transition: margin var(--ids-motion-duration) var(--ids-motion-ease),
+    transform var(--ids-motion-duration) var(--ids-motion-ease),
+    width var(--ids-motion-duration) var(--ids-motion-ease);
+
+  // =====================================================
+  // Display Mode: Collapsed
+
+  &.display-mode-collapsed {
+    &:not(.show-detail) {
+      margin-inline-start: var(--ids-module-nav-collapsed-size);
+      width: calc(100% - var(--ids-module-nav-collapsed-size));
+    }
+
+    &.show-detail {
+      margin-inline-start: calc((var(--ids-module-nav-submenu-size) + var(--ids-module-nav-collapsed-size)));
+      width: calc(100% - (var(--ids-module-nav-submenu-size) + var(--ids-module-nav-collapsed-size)));
+    }
+  }
+
+  // =====================================================
+  // Display Mode: Expanded
+
+  &.display-mode-expanded {
+    // use `.offset-content` to make the content area
+    // stay out from underneath the Module Nav bar
+    &:not(.offset-content) {
+      margin-inline-start: var(--ids-module-nav-collapsed-size);
+      width: calc(100% - var(--ids-module-nav-collapsed-size));
+    }
+
+    &.offset-content {
+      margin-inline-start: var(--ids-module-nav-expanded-size);
+      width: calc(100% - var(--ids-module-nav-expanded-size));
+    }
+
+    &.show-detail {
+      margin-inline-start: calc(var(--ids-module-nav-submenu-size) + var(--ids-module-nav-collapsed-size));
+      width: calc(100% - (var(--ids-module-nav-submenu-size) + var(--ids-module-nav-collapsed-size)));
+
+      &.offset-content {
+        margin-inline-start: calc(var(--ids-module-nav-submenu-size) + var(--ids-module-nav-expanded-size) + var(--ids-module-nav-collapsed-size));
+        width: calc(100% - (var(--ids-module-nav-submenu-size) + var(--ids-module-nav-expanded-size) + var(--ids-module-nav-collapsed-size)));
+      }
+    }
+  }
+}
+
+// Host element sizes/positioning
+// ================================================== //
+
+:host {
+  display: contents;
+  transition: margin var(--ids-motion-duration) var(--ids-motion-ease),
+    transform var(--ids-motion-duration) var(--ids-motion-ease),
+    width var(--ids-motion-duration) var(--ids-motion-ease);
+}

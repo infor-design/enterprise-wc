@@ -3,3 +3,18 @@
 :host {
   display: block;
 }
+
+// ============================================
+// Color Variant: Module Nav
+
+:host([color-variant="module-nav"]) {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.color-variant-module-nav {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

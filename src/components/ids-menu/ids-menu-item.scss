@@ -42,7 +42,6 @@
 
 .ids-menu-item {
   align-items: center;
-  color: var(--ids-menu-item-color-text-default);
   cursor: pointer;
   font-family: var(--ids-font-family-default);
   list-style: none;
@@ -324,6 +323,41 @@
   &.has-icon.has-multi-checkmark.has-submenu {
     a {
       grid-template-columns: 30px 30px calc(100% - 85px) 25px;
+    }
+  }
+
+  // ================================================
+  // Inherits a text color from a containing element
+
+  &:not(.inherit-color) {
+    &:not(.disabled) {
+      color: var(--ids-menu-item-color-text-default);
+    }
+  }
+
+  &.inherit-color {
+    &:not(.disabled) {
+      color: inherit;
+
+      a {
+        color: inherit;
+      }
+    }
+  }
+
+  // ================================================
+  // Color Variant: Module Nav
+
+  &.color-variant-module-nav {
+    color: var(--ids-module-nav-settings-menu-item-text-color);
+
+    a {
+      padding-block: 10px;
+    }
+
+    .ids-menu-item-text {
+      color: var(--ids-module-nav-settings-menu-item-text-color);
+      padding-inline-start: var(--ids-module-nav-accordion-gutter-size);
     }
   }
 }

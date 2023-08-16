@@ -1,0 +1,152 @@
+@import '../../themes/mixins/ids-core-mixins';
+@import '../ids-accordion/ids-accordion-header';
+
+:host {
+  @include border-box();
+}
+
+// ================================================
+// Styles specific to Module Nav Accordions
+
+@mixin accordion-header-module-nav-colors() {
+  border-color: transparent;
+  border-radius: var(--ids-module-nav-common-border-radius);
+  border-style: solid;
+  border-width: 1px;
+  color: var(--ids-module-nav-item-text-color);
+
+  &:hover {
+    background-color: var(--ids-module-nav-item-hover-bg-color);
+    color: var(--ids-module-nav-item-hover-text-color);
+  }
+
+  &:active {
+    background-color: var(--ids-module-nav-item-selected-bg-color);
+    color: var(--ids-module-nav-item-selected-text-color);
+  }
+
+  &:focus:not(.hide-focus) {
+    border-color: var(--ids-module-nav-item-selected-text-color);
+  }
+
+  &.selected {
+    background-color: var(--ids-module-nav-item-selected-bg-color);
+    color: var(--ids-module-nav-item-selected-text-color);
+  }
+
+  &[disabled] {
+    // @TODO disabled colors
+    color: var(--ids-module-nav-item-text-color);
+  }
+
+  .filter {
+    // @TODO filter colors? (need designs)
+    color: var(--ids-module-nav-item-text-color);
+  }
+
+  &.hidden-by-filter.child-filter-match {
+    // @TODO filter colors? (need designs)
+    color: var(--ids-module-nav-item-text-color);
+  }
+
+  // ================================================
+  // Display Mode: Collapsed
+
+  &.display-mode-collapsed {
+    height: var(--ids-module-nav-item-collapsed-size);
+    width: var(--ids-module-nav-item-collapsed-size);
+    margin: var(--ids-module-nav-item-collapsed-general-spacing-size) auto;
+
+    .ids-accordion-display-icon {
+      margin-inline: var(--ids-module-nav-item-display-icon-collapsed-margin);
+      padding: 0;
+      justify-self: center;
+      align-self: center;
+    }
+
+    .ids-accordion-expander-icon {
+      display: none;
+    }
+
+    &::slotted(ids-text) {
+      @include audible;
+    }
+  }
+
+  // ================================================
+  // Display Mode: Expanded
+
+  &.display-mode-expanded {
+    padding: var(--ids-module-nav-item-margin-inline);
+    margin: var(--ids-module-nav-item-margin-inline);
+
+    .ids-accordion-display-icon {
+      margin-inline-end: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
+    }
+  }
+}
+
+@mixin single-line-ellipsis-text() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// ================================================
+// Module Nav Item Component
+
+.ids-module-nav-item {
+  @include border-box();
+
+  transition: margin var(--ids-motion-duration) var(ids-motion-ease),
+    height var(--ids-motion-duration) var(ids-motion-ease),
+    width var(--ids-motion-duration) var(ids-motion-ease);
+
+  &.color-variant-module-nav {
+    @include accordion-header-module-nav-colors();
+  }
+
+  &.color-variant-sub-module-nav {
+    @include accordion-header-module-nav-colors();
+  }
+
+  ::slotted(ids-text) {
+    @include single-line-ellipsis-text();
+  }
+
+  .ids-text {
+    @include single-line-ellipsis-text();
+  }
+
+  .ids-accordion-expander-icon {
+    width: var(--ids-module-nav-item-dropdown-icon-size);
+  }
+
+  // ================================================
+  // Nested Alignment Rules
+
+  // @TODO improve nesting
+  &.depth-2,
+  &.depth-3,
+  &.depth-4,
+  &.depth-5,
+  &.depth-6 {
+    padding-inline-start: 16px;
+
+    &.expander-type-plus-minus {
+      padding-inline-start: 0;
+    }
+
+    &:not(.parent-has-icon) {
+      padding-inline-start: 24px;
+    }
+
+    &:not([class*='expander-type-']) {
+      padding-inline-start: 32px;
+    }
+
+    &.parent-has-icon {
+      padding-inline-start: 51px;
+    }
+  }
+}

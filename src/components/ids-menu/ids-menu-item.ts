@@ -5,6 +5,7 @@ import {
 } from './ids-menu-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
@@ -19,9 +20,11 @@ import type IdsMenu from './ids-menu';
 import type IdsMenuGroup from './ids-menu-group';
 import type IdsIcon from '../ids-icon/ids-icon';
 
-const Base = IdsLocaleMixin(
-  IdsEventsMixin(
-    IdsElement
+const Base = IdsColorVariantMixin(
+  IdsLocaleMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
   )
 );
 
@@ -141,6 +144,7 @@ export default class IdsMenuItem extends Base {
       attributes.HIDDEN,
       attributes.HIGHLIGHTED,
       attributes.ICON,
+      attributes.INHERIT_COLOR,
       attributes.SELECTED,
       attributes.SHORTCUT_KEYS,
       attributes.SUBMENU,
@@ -164,6 +168,8 @@ export default class IdsMenuItem extends Base {
     this.attachEventHandlers();
     this.shouldUpdate = true;
   }
+
+  colorVariants = ['module-nav'];
 
   /**
    * @returns {Array<string>} Menu Item vetoable events
@@ -403,6 +409,26 @@ export default class IdsMenuItem extends Base {
    */
   decorateForIcon(doShow?: boolean) {
     this.container?.classList[doShow ? 'add' : 'remove']('has-icon');
+  }
+
+  /**
+   * @param {boolean} val true if this trigger button should inherit a parent component's text color for use internally
+   */
+  set inheritColor(val: boolean | string) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.INHERIT_COLOR, '');
+      this.container?.classList.add('inherit-color');
+    } else {
+      this.removeAttribute(attributes.INHERIT_COLOR);
+      this.container?.classList.remove('inherit-color');
+    }
+  }
+
+  /**
+   * @returns {boolean} true if this trigger button inherits a parent component's text color for use internally
+   */
+  get inheritColor(): boolean {
+    return this.hasAttribute(attributes.INHERIT_COLOR);
   }
 
   /**

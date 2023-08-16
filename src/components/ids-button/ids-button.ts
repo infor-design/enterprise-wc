@@ -14,6 +14,7 @@ import IdsElement from '../../core/ids-element';
 
 import {
   BUTTON_APPEARANCE,
+  BUTTON_CONTENT_ALIGNMENTS,
   BUTTON_DEFAULTS,
   BUTTON_TYPES,
   BUTTON_ATTRIBUTES,
@@ -21,6 +22,7 @@ import {
   baseProtoClasses
 } from './ids-button-common';
 import type {
+  IdsButtonContentAlignment,
   IdsButtonIconAlignment,
   IdsButtonAppearance,
   IdsButtonType
@@ -99,6 +101,7 @@ export default class IdsButton extends Base {
 
     const isIconButton = this.button?.classList.contains('ids-icon-button');
     this.setupRipple(this.button as HTMLButtonElement, isIconButton ? 35 : 50);
+    if (this.hasAttribute(attributes.CONTENT_ALIGN)) this.setContentAlignClass(this.getAttribute(attributes.CONTENT_ALIGN));
     this.setIconAlignment();
     this.refreshProtoClasses();
   }
@@ -115,7 +118,7 @@ export default class IdsButton extends Base {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate', 'alternate-formatter', 'module'];
+  colorVariants = ['alternate', 'alternate-formatter', 'module', 'module-nav'];
 
   /**
    * Figure out the classes
@@ -219,6 +222,50 @@ export default class IdsButton extends Base {
    */
   get button(): HTMLButtonElement | null {
     return this.shadowRoot?.querySelector('button') || null;
+  }
+
+  /**
+   * Set the button content alignment between 'default (center)', 'start', or 'end'
+   * @param {IdsButtonContentAlignment | null} val a valid button content alignment strategy
+   */
+  set contentAlign(val: IdsButtonContentAlignment | null) {
+    if (!val || BUTTON_CONTENT_ALIGNMENTS.indexOf(val) <= 0) {
+      this.removeAttribute(attributes.CONTENT_ALIGN);
+      this.state.contentAlign = BUTTON_CONTENT_ALIGNMENTS[0];
+    } else {
+      this.setAttribute(attributes.CONTENT_ALIGN, val);
+      if (this.state.contentAlign !== val) this.state.contentAlign = val;
+    }
+    this.setContentAlignClass(val);
+  }
+
+  /**
+   * @returns {IdsButtonContentAlignment} the currently set content alignment
+   */
+  get contentAlign(): IdsButtonContentAlignment {
+    return this.state.appearance;
+  }
+
+  /**
+   * Sets the correct content alignment class on the ShadowRoot button.
+   * @private
+   * @param {string | null} val desired content alignment class
+   */
+  setContentAlignClass(val: string | null) {
+    if (this.button) {
+      BUTTON_CONTENT_ALIGNMENTS.forEach((app) => {
+        const appClassName = `content-align-${app}`;
+        if (val === app) {
+          if (app !== 'default' && !this.button?.classList.contains(appClassName)) {
+            this.button?.classList.add(appClassName);
+          }
+          return;
+        }
+        if (this.button?.classList.contains(appClassName)) {
+          this.button?.classList.remove(appClassName);
+        }
+      });
+    }
   }
 
   /**

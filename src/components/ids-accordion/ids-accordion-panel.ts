@@ -63,7 +63,14 @@ export default class IdsAccordionPanel extends Base {
   /**
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants: any = ['app-menu', 'sub-app-menu'];
+  colorVariants = [
+    'app-menu',
+    'sub-app-menu',
+    'module-nav',
+    'sub-module-nav'
+  ];
+
+  vetoableEventTypes = ['beforeexpanded', 'beforecollapsed'];
 
   /**
    * Create a unique title for each accordion pane
@@ -112,7 +119,10 @@ export default class IdsAccordionPanel extends Base {
    * @param {*} thisAlignment the alignment rule to set
    */
   #refreshContentAlignment(thisAlignment = null) {
-    if (this.container) applyContentAlignmentClass(this.container?.classList, thisAlignment);
+    if (this.container) {
+      applyContentAlignmentClass(this.container?.classList, thisAlignment);
+      this.container.classList[this.hasParentPanel ? 'add' : 'remove']('is-child-panel');
+    }
   }
 
   /**
@@ -181,8 +191,12 @@ export default class IdsAccordionPanel extends Base {
     const currentValue = this.expanded;
 
     if (isValueTruthy) {
+      const canExpand = this.triggerVetoableEvent('beforeexpanded', this);
+      if (!canExpand) return;
       this.setAttribute(attributes.EXPANDED, `${value}`);
     } else {
+      const canCollapse = this.triggerVetoableEvent('beforecollapsed', this);
+      if (!canCollapse) return;
       this.removeAttribute(attributes.EXPANDED);
     }
 

@@ -1,0 +1,268 @@
+@import '../../themes/mixins/ids-core-mixins';
+@import '../ids-drawer/ids-drawer';
+
+:host {
+  @include border-box();
+
+  display: flex;
+  flex-direction: column;
+  flex-basis: max-content;
+  transition: none;
+}
+
+:host([pinned]) {
+  ::slotted(ids-separator) {
+    visibility: hidden;
+  }
+}
+
+// Module Nav Bar Component
+// ================================================== //
+
+.ids-module-nav-bar {
+  @include border-box();
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: stretch;
+
+  // =====================================================
+  // Display Mode: Hidden
+
+  &:not(.display-mode-collapsed):not(.display-mode-expanded) {
+    pointer-events: none;
+    z-index: 0;
+
+    .ids-module-nav-bar-main {
+      width: 0;
+    }
+
+    .ids-module-nav-bar-detail {
+      width: 0;
+    }
+
+    .ids-module-nav-footer {
+      display: none;
+    }
+
+    .ids-module-nav-search-wrapper {
+      display: none;
+    }
+  }
+
+  &:not(.display-mode-expanded) {
+    .accordion-header .ids-text {
+      @include audible();
+    }
+  }
+
+  // =====================================================
+  // Display Mode: Collapsed/Expanded
+
+  &.display-mode-collapsed,
+  &.display-mode-expanded {
+    z-index: var(--ids-module-nav-z-index);
+
+    &:not(.show-detail) {
+      .ids-module-nav-bar-detail {
+        display: none;
+      }
+    }
+
+    &.show-detail {
+      .ids-module-nav-bar-main {
+        border-inline-end: 1px solid var(--ids-module-nav-border-color);
+      }
+
+      .ids-module-nav-bar-detail {
+        width: var(--ids-module-nav-submenu-size);
+        z-index: var(--ids-module-nav-z-index);
+      }
+    }
+  }
+
+  // =====================================================
+  // Display Mode: Collapsed
+
+  &.display-mode-collapsed {
+    border-inline-end: 1px solid var(--ids-module-nav-border-color);
+
+    .ids-module-nav-separator {
+      display: none;
+    }
+
+    .ids-module-nav-search-wrapper {
+      display: none;
+    }
+
+    .ids-module-nav-bar-main {
+      width: var(--ids-module-nav-collapsed-size);
+    }
+
+    .ids-module-nav-item {
+      justify-content: center;
+      margin-inline: var(--ids-module-nav-item-margin-inline);
+      padding-block: var(--ids-module-nav-item-padding-size);
+
+      > .icon {
+        margin-block: auto;
+        margin-inline: 0;
+      }
+
+      // Can't use `audible` here, need to retain line height
+      span {
+        clip: rect(0, 0, 0, 0);
+        width: 1px;
+        overflow: hidden;
+      }
+    }
+
+    .ids-module-nav-settings {
+      padding-block-end: 28px;
+    }
+  }
+
+  // =====================================================
+  // Display Mode: Expanded
+
+  &.display-mode-expanded {
+    border-right: 1px solid var(--ids-module-nav-border-color);
+
+    .ids-module-nav-search-wrapper {
+      padding-block-end: var(--ids-module-nav-accordion-gutter-size);
+      padding-inline: var(--ids-module-nav-accordion-gutter-size);
+    }
+
+    .ids-module-nav-bar-main {
+      width: var(--ids-module-nav-expanded-size);
+    }
+
+    .ids-module-nav-item {
+      margin-inline: var(--ids-module-nav-item-margin-inline);
+      padding: var(--ids-module-nav-item-padding-size);
+      padding-inline-start: var(--ids-module-nav-item-margin-inline);
+
+      > .icon {
+        margin-inline-end: var(--ids-module-nav-item-icon-end-spacing);
+      }
+    }
+
+    &.show-detail {
+      .ids-module-nav-bar-detail {
+        width: var(--ids-module-nav-submenu-size);
+      }
+    }
+
+    .ids-module-nav-settings-wrapper {
+      padding-inline-start: 0;
+    }
+
+    .ids-module-nav-settings {
+      padding-block-end: 24px;
+    }
+  }
+
+  // =====================================================
+  // Filterable Setting
+
+  &:not(.filterable) {
+    .ids-module-nav-search-wrapper {
+      display: none;
+      pointer-events: none;
+
+      + .ids-module-nav-separator {
+        display: none;
+      }
+    }
+  }
+
+  // =====================================================
+  // Pinned Setting
+
+  &:not(.pinned) {
+    overflow: auto;
+
+    .ids-module-nav-footer {
+      flex-grow: 1;
+    }
+  }
+
+  &.pinned {
+    overflow: hidden;
+
+    .ids-module-nav-main {
+      flex-grow: 1;
+      overflow: auto;
+    }
+
+    &.display-mode-expanded {
+      .ids-module-nav-main + .ids-module-nav-separator {
+        display: block;
+      }
+    }
+
+    .ids-module-nav-footer {
+      flex-grow: 0;
+    }
+  }
+}
+
+.ids-module-nav-bar-main {
+  @include border-box();
+
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--ids-module-nav-bg-color);
+  color: var(--ids-module-nav-text-color);
+  height: 100%;
+  transition: margin var(--ids-motion-duration) var(--ids-motion-ease),
+    transform var(--ids-motion-duration) var(--ids-motion-ease),
+    width var(--ids-motion-duration) var(--ids-motion-ease);
+}
+
+.ids-module-nav-bar-detail {
+  @include border-box();
+
+  background-color: var(--ids-module-nav-detail-bg-color);
+  border-inline-end: 1px solid var(--ids-module-nav-border-color);
+  height: 100%;
+}
+
+.ids-module-nav-branding,
+.ids-module-nav-footer,
+.ids-module-nav-header,
+.ids-module-nav-search,
+.ids-module-nav-user {
+  flex-grow: 0;
+}
+
+.ids-module-nav-content {
+  overflow: auto;
+  flex-grow: 1;
+}
+
+.ids-module-nav-user {
+  padding: var(--ids-spacing-4xl);
+}
+
+.ids-module-nav-search {
+  padding: var(--ids-spacing-lg);
+}
+
+// Add some padding and sizing on Avatar Icons
+::slotted(ids-icon[slot='avatar']) {
+  padding: var(--ids-spacing-lg);
+}
+
+::slotted(img[slot='avatar']) {
+  border-radius: var(--ids-border-radius-round);
+  height: 40px;
+  width: 40px;
+}
+
+::slotted(ids-toolbar) {
+  padding-inline: var(--ids-spacing-lg);
+  margin-block-end: var(--ids-spacing-lg);
+}

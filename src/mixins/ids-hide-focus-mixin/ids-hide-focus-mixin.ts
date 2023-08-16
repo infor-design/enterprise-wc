@@ -36,15 +36,21 @@ const IdsHideFocusMixin = <T extends Constraints>(superclass: T) => class extend
   connectedCallback() {
     super.connectedCallback?.();
 
+    // Apply default focus state classes
     if (this.hideFocus) {
       this.#attachHideFocusEvents();
-      this.#addCssClass();
+      this.#addHideFocusCssClass();
+    }
+    if (document.activeElement === this) {
+      this.#addIsFocusedCssClass();
     }
   }
 
   disconnectedCallback() {
     super.disconnectedCallback?.();
     this.#removeHideFocusEvents();
+    this.#removeHideFocusCssClass();
+    this.#removeIsFocusedCssClass();
   }
 
   /**
@@ -57,20 +63,23 @@ const IdsHideFocusMixin = <T extends Constraints>(superclass: T) => class extend
 
     this.onEvent('focusin.hide-focus', this, (e) => {
       if (!this.#isClick && !this.#isFocused) {
-        this.#removeCssClass();
+        this.#addIsFocusedCssClass();
+        this.#removeHideFocusCssClass();
         this.triggerEvent('hidefocusremove', this, e);
       }
       this.#isClick = false;
       this.#isFocused = true;
     });
     this.onEvent('focusout.hide-focus', this, (e) => {
-      this.#addCssClass();
+      this.#addHideFocusCssClass();
+      this.#removeIsFocusedCssClass();
       this.#isFocused = false;
       this.triggerEvent('hidefocusadd', this, e);
     });
     this.onEvent('mousedown.hide-focus', this, (e) => {
       this.#isClick = true;
-      this.#addCssClass();
+      this.#addIsFocusedCssClass();
+      this.#addHideFocusCssClass();
       this.triggerEvent('hidefocusadd', this, e);
     });
   }
@@ -81,12 +90,20 @@ const IdsHideFocusMixin = <T extends Constraints>(superclass: T) => class extend
     this.offEvent('mousedown.hide-focus');
   }
 
-  #addCssClass() {
+  #addHideFocusCssClass() {
     this.container?.classList.add('hide-focus');
   }
 
-  #removeCssClass() {
+  #addIsFocusedCssClass() {
+    this.container?.classList.add('is-focused');
+  }
+
+  #removeHideFocusCssClass() {
     this.container?.classList.remove('hide-focus');
+  }
+
+  #removeIsFocusedCssClass() {
+    this.container?.classList.remove('is-focused');
   }
 
   /**
@@ -98,10 +115,10 @@ const IdsHideFocusMixin = <T extends Constraints>(superclass: T) => class extend
     this.setAttribute(attributes.HIDE_FOCUS, String(boolVal));
 
     if (boolVal) {
-      this.#addCssClass();
+      this.#addHideFocusCssClass();
       this.#attachHideFocusEvents();
     } else {
-      this.#removeCssClass();
+      this.#removeHideFocusCssClass();
       this.#removeHideFocusEvents();
     }
   }

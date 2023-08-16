@@ -1,0 +1,16 @@
+---
+ component: Module Nav
+ link: ids-module-nav
+ description: Top-level Module Navigation
+ category: Navigation and Interaction
+ keywords: module-nav, app, nav, sections
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows a basic Module Nav component setup
+  - link: nesting-no-icons.html
+    type: Example
+    description: Shows Module Nav accordion with no icons, nested
+  - link: nesting-with-icons.html
+    type: Example
+    description: Shows Module Nav accordion with icons, nested

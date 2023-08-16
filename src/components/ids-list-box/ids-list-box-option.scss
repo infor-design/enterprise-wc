@@ -71,3 +71,18 @@
   border-top: 1px solid var(--ids-dropdown-group-color-border);
   margin-top: var(--ids-dropdown-group-padding);
 }
+
+:host(.module-nav) {
+  color: var(--ids-module-nav-settings-menu-item-text-color);
+  min-height: var(--ids-module-nav-item-height);
+}
+
+:host(.module-nav) ::slotted(ids-icon) {
+  margin-inline-end: 20px;
+  margin-block-end: 1px;
+}
+
+:host(.module-nav.is-selected) {
+  background-color: var(--ids-module-nav-item-hover-bg-color);
+  color: var(--ids-module-nav-item-hover-text-color);
+}
