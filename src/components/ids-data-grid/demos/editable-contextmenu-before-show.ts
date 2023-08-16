@@ -266,7 +266,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
       const targetCell = dataGrid.cellByIndex?.(rowIndex, columnIndex);
       if (!targetCell) return;
 
-      const targetCellText = targetCell.value;
+      const targetCellText = String(targetCell.value);
 
       switch (menuSelectedEvent?.target?.id) {
         case 'edit-cell':
