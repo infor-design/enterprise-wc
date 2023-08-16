@@ -98,11 +98,7 @@ export default class IdsDataGridCell extends IdsElement {
     const column = this.dataGrid?.visibleColumns?.[this.columnIndex];
     const record = this.dataGrid?.data?.[this.rowIndex];
 
-    if (record && record[column?.field]) {
-      return record[column.field];
-    }
-
-    return this.textContent ?? '';
+    return record?.[(column?.field ?? -1)] ?? this.textContent ?? '';
   }
 
   /**
