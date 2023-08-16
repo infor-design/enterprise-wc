@@ -33,7 +33,11 @@ import type IdsIcon from '../ids-icon/ids-icon';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { IdsDropdownOption, IdsDropdownOptions } from './ids-dropdown-common';
+import {
+  IdsDropdownColorVariants,
+  IdsDropdownOption,
+  IdsDropdownOptions
+} from './ids-dropdown-common';
 
 const Base = IdsDropdownAttributeMixin(
   IdsDirtyTrackerMixin(
@@ -149,7 +153,7 @@ export default class IdsDropdown extends Base {
    * List of available color variants for this component
    * @returns {Array<string>}
    */
-  colorVariants: Array<string> = ['alternate-formatter', 'borderless', 'in-cell'];
+  colorVariants: Array<string> = IdsDropdownColorVariants;
 
   /**
    * Push color variant to the container element
@@ -157,6 +161,12 @@ export default class IdsDropdown extends Base {
    */
   onColorVariantRefresh(): void {
     if (this.input) this.input.colorVariant = this.colorVariant;
+    if (this.dropdownList) {
+      this.dropdownList.colorVariant = this.colorVariant;
+      if (this.dropdownList.popup) {
+        this.dropdownList.popup.type = this.colorVariant !== null ? this.colorVariant : 'dropdown';
+      }
+    }
   }
 
   onLabelChange(): void {
@@ -208,7 +218,7 @@ export default class IdsDropdown extends Base {
     this.hasIcons = this.querySelector('ids-list-box-option ids-icon') !== null;
 
     return `
-    <div class="ids-dropdown">
+    <div class="ids-dropdown" part="container">
       <ids-trigger-field
         id="triggerField-${this.id ? this.id : ''}"
         ${!this.typeahead && !this.disabled ? ' readonly="true"' : ''}
@@ -447,34 +457,45 @@ export default class IdsDropdown extends Base {
   }
 
   /**
+   * @readonly
+   * @returns {IdsIcon | null} currently-displayed IdsIcon in the trigger field, if applicable
+   */
+  get dropdownIconEl() {
+    if (!this.input) return null;
+    return this.input.querySelector<IdsIcon>('ids-icon[slot="trigger-start"]');
+  }
+
+  /**
    * Set the icon to be visible (if used)
    * @private
    * @param {HTMLElement} option the option to select
    */
   selectIcon(option: HTMLElement | undefined | null) {
-    let dropdownIcon = this.input?.querySelector<IdsIcon>('ids-icon[slot="trigger-start"]');
+    const dropdownIcon = this.dropdownIconEl;
     if (!dropdownIcon && !option) return;
 
-    if (!this.hasIcons) {
-      if (dropdownIcon) {
-        dropdownIcon.remove();
-      }
+    if (!this.hasIcons && !this.showListItemIcon) {
+      if (dropdownIcon) dropdownIcon.remove();
       return;
     }
+
     const icon: any = option?.querySelector('ids-icon');
+    if (!icon) return;
 
     if (!dropdownIcon) {
-      const dropdownIconContainer = document.createElement('span');
-      dropdownIconContainer.slot = 'trigger-start';
-      dropdownIconContainer.classList.add('icon-container');
-      dropdownIcon = document.createElement('ids-icon') as IdsIcon;
-      dropdownIcon.icon = icon?.icon;
-      dropdownIcon.setAttribute('slot', 'trigger-start');
-      dropdownIconContainer.append(dropdownIcon);
-      this.input?.appendChild(dropdownIconContainer);
+      if (this.showListItemIcon) this.generateIcon(icon.icon);
     } else {
       dropdownIcon.icon = icon?.icon;
     }
+  }
+
+  /**
+   * Creates and appends the IdsIcon for the dropdown list's trigger button
+   * @param {string} val name of the IdsIcon to use
+   */
+  private generateIcon(val: string) {
+    if (!this.input) return;
+    this.input.insertAdjacentHTML('beforeend', `<ids-icon slot="trigger-start" class="trigger-icon" icon="${val}"></ids-icon>`);
   }
 
   /**
@@ -583,6 +604,8 @@ export default class IdsDropdown extends Base {
     this.container?.classList.add('is-open');
 
     this.attachOpenEvents();
+
+    this.triggerOpenEvent();
   }
 
   /**
@@ -641,10 +664,12 @@ export default class IdsDropdown extends Base {
       if (this.input) this.input.value = initialValue || '';
       this.loadDataSet(this.#optionsData);
       (window.getSelection() as Selection).removeAllRanges();
-      this.#triggerIconChange('dropdown');
+      this.#triggerIconChange(this.dropdownIcon || 'dropdown');
     }
 
     this.container?.classList.remove('is-open');
+
+    this.triggerCloseEvent(noFocus);
   }
 
   /**
@@ -757,6 +782,7 @@ export default class IdsDropdown extends Base {
         e.stopPropagation();
         this.value = e.detail.value;
         if (this.dropdownList?.popup?.visible) this.close();
+        this.triggerSelectedEvent(e);
       });
     }
 
@@ -956,7 +982,7 @@ export default class IdsDropdown extends Base {
     this.#triggerIconChange('search');
 
     // Remove selected input icon when start typing
-    this.input?.querySelector('.icon-container')?.remove();
+    this.input?.querySelector('.trigger-icon')?.remove();
   }
 
   /**
@@ -1305,4 +1331,58 @@ export default class IdsDropdown extends Base {
    * @returns {boolean} showLoadingIndicator param converted to boolean from attribute value. Defaults to false
    */
   get showLoadingIndicator() { return stringToBool(this.getAttribute(attributes.SHOW_LOADING_INDICATOR)); }
+
+  /**
+   * Triggers a `selected` event that propagates to the target element (usually an IdsDropdown)
+   * @param {CustomEvent} [e] optional event handler to pass arguments
+   * @returns {void}
+   */
+  private triggerSelectedEvent(e?: CustomEvent): void {
+    let args: any;
+    if (e) args = e;
+    else {
+      args = {
+        bubbles: true,
+        detail: {
+          elem: this,
+          label: this.selected?.textContent,
+          value: this.value,
+        }
+      };
+    }
+    this.dispatchEvent(new CustomEvent('selected', args));
+  }
+
+  private triggerOpenEvent() {
+    this.triggerEvent('open', this, {
+      bubbles: true,
+      detail: {
+        elem: this
+      }
+    });
+  }
+
+  private triggerCloseEvent(doCancel?: boolean) {
+    this.triggerEvent('close', this, {
+      bubbles: true,
+      detail: {
+        elem: this,
+        operation: doCancel ? 'cancel' : 'default'
+      }
+    });
+  }
+
+  onDropdownIconChange(val: string | null) {
+    if (typeof val === 'string' && val.length) {
+      this.#triggerIconChange(this.dropdownIcon || 'dropdown');
+      if (this.dropdownList) this.dropdownList.dropdownIcon = this.dropdownIcon;
+    }
+  }
+
+  onShowListItemIcon(val: boolean) {
+    if (!val) this.dropdownIconEl?.remove();
+    else {
+      // make it work
+    }
+  }
 }

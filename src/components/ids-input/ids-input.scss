@@ -546,93 +546,138 @@ $input-size-full: 100%;
       margin-inline: 1px;
     }
   }
-}
 
-.caps-lock-indicator {
-  padding-inline-start: 8px;
-  padding-inline-end: 8px;
-}
+  // Module Nav color variant
+  // (used in IdsDropdown/IdsSearchField located inside IdsModuleNav)
+  &.color-variant-module-nav {
+    margin-block-end: 0;
+    transform: background-color var(--ids-motion-duration) var(--ids-motion-ease),
+      border-color var(--ids-motion-duration) var(--ids-motion-ease),
+      color var(--ids-motion-duration) var(--ids-motion-ease);
 
-// =======================================================
-// Color Styles
-/* stylelint-disable-next-line no-duplicate-selectors */
-.ids-input {
-  /* stylelint-disable-next-line no-duplicate-selectors */
-  .field-container {
-    background-color: var(--ids-input-color-background-default);
-    border-color: var(--ids-input-color-border-default);
-    color: var(--ids-input-color-text);
-  }
-
-  &.readonly {
-    .field-container,
-    &.hover .field-container,
-    &.focus-within .field-container {
-      border-color: var(--ids-input-color-border-readonly);
-      color: var(--ids-input-color-text-readonly);
-
-      &.error,
-      &.error:hover {
-        border-color: var(--ids-color-error-default);
-        color: var(--ids-color-error-default);
-      }
+    .field-container {
+      border-radius: var(--ids-module-nav-common-border-radius);
+      border: var(--ids-module-nav-input-border-width) solid transparent;
     }
 
-    &:not(.readonly-background):not(.bg-transparent) {
-      .field-container,
-      &.hover .field-container,
-      &.focus-within .field-container {
-        background-color: var(--ids-input-color-background-readonly);
-      }
-    }
-  }
-
-  &.disabled {
-    .field-container,
-    &:hover .field-container,
-    &:focus-within .field-container {
-      border-color: var(--ids-input-color-border-disabled);
-      color: var(--ids-input-color-text-disabled);
-
-      // Safari input text color
-      -webkit-text-fill-color: var(--ids-input-color-text-disabled);
-    }
-  }
-
-  &.bg-transparent {
-    .field-container,
-    &.readonly .field-container,
-    &.disabled .field-container {
+    input {
       background-color: transparent;
+      color: inherit;
+
+      &::placeholder {
+        color: var(--ids-module-nav-search-input-placeholder-text-color);
+      }
+
+      &:active {
+        color: var(--ids-module-nav-search-input-text-color);
+      }
+    }
+
+    &:not([class*="field-height-"]) {
+      height: var(--ids-module-nav-search-wrapper-height);
+
+      input {
+        height: var(--ids-module-nav-search-input-height);
+      }
+    }
+
+    &:hover:not(.readonly):not(.disabled) {
+      .field-container {
+        background-color: var(--ids-module-nav-item-hover-bg-color);
+      }
     }
 
     &:focus-within {
       .field-container {
-        background-color: transparent;
+        background-color: var(--ids-module-nav-input-bg-color);
+        border-color: var(--ids-module-nav-item-selected-text-color);
       }
     }
   }
 
-  &:hover:not(.readonly):not(.disabled):not(.color-variant-borderless),
-  &:hover.readonly.readonly-background:not(.color-variant-alternate-formatter) {
+  // =======================================================
+  // Color Styles
+
+
+  &:not([class*='color-variant-']) {
+    /* stylelint-disable-next-line no-duplicate-selectors */
     .field-container {
-      border-color: var(--ids-input-color-border-hover);
+      background-color: var(--ids-input-color-background-default);
+      border-color: var(--ids-input-color-border-default);
+      color: var(--ids-input-color-text);
+    }
+
+    &.readonly {
+      .field-container,
+      &.hover .field-container,
+      &.focus-within .field-container {
+        border-color: var(--ids-input-color-border-readonly);
+        color: var(--ids-input-color-text-readonly);
+
+        &.error,
+        &.error:hover {
+          border-color: var(--ids-color-error-default);
+          color: var(--ids-color-error-default);
+        }
+      }
+
+      &:not(.readonly-background):not(.bg-transparent) {
+        .field-container,
+        &.hover .field-container,
+        &.focus-within .field-container {
+          background-color: var(--ids-input-color-background-readonly);
+        }
+      }
+    }
+
+    &.disabled {
+      .field-container,
+      &:hover .field-container,
+      &:focus-within .field-container {
+        border-color: var(--ids-input-color-border-disabled);
+        color: var(--ids-input-color-text-disabled);
+
+        // Safari input text color
+        -webkit-text-fill-color: var(--ids-input-color-text-disabled);
+      }
+    }
+
+    &.bg-transparent {
+      .field-container,
+      &.readonly .field-container,
+      &.disabled .field-container {
+        background-color: transparent;
+      }
+
+      &:focus-within {
+        .field-container {
+          background-color: transparent;
+        }
+      }
+    }
+
+    &:hover:not(.readonly):not(.disabled),
+    &:hover.readonly.readonly-background {
+      .field-container {
+        border-color: var(--ids-input-color-border-hover);
+      }
+
+      // Include error styles
+      @include ids-input-message-styles();
+    }
+
+    &:hover:not(.disabled).readonly.readonly-background.color-variant-alternate-formatter {
+      .field-container {
+        border-color: var(--ids-data-grid-filter-input-color-background-hover);
+      }
     }
 
     // Include error styles
     @include ids-input-message-styles();
   }
 
-  &:hover:not(.disabled).readonly.readonly-background.color-variant-alternate-formatter {
-    .field-container {
-      border-color: var(--ids-data-grid-filter-input-color-background-hover);
-    }
-  }
-
-  // Include error styles
-  @include ids-input-message-styles();
-
   // Alternate Color Variant (used in IdsHeader - Search)
+  /* stylelint-disable-next-line no-duplicate-selectors */
   &.color-variant-alternate {
     .field-container {
       border-color: transparent;
@@ -656,8 +701,7 @@ $input-size-full: 100%;
     }
 
     &:hover.readonly.readonly-background,
-    &:hover:not(.readonly):not(.disabled):not(.color-variant-borderless),
-    &.ids-input:hover:not(.readonly):not(.disabled):not(.color-variant-borderless):hover {
+    &:hover:not(.readonly):not(.disabled) {
       .field-container {
         border-color: var(--ids-data-grid-filter-input-color-background-hover);
       }
@@ -674,10 +718,12 @@ $input-size-full: 100%;
       }
     }
 
-    &.disabled .field-container,
-    &.disabled:hover .field-container {
-      border-color: var(--ids-data-grid-filter-input-color-border-disabled);
-      color: var(--ids-data-grid-filter-input-color-text-disabled);
+    &.disabled
+    &.disabled:hover {
+      .field-container {
+        border-color: var(--ids-data-grid-filter-input-color-border-disabled);
+        color: var(--ids-data-grid-filter-input-color-text-disabled);
+      }
     }
 
     &.readonly:not(.readonly-background):not(.bg-transparent) .field-container {
@@ -707,6 +753,64 @@ $input-size-full: 100%;
       border: 0;
     }
   }
+
+  // Module Nav
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  &.color-variant-module-nav {
+    color: var(--ids-module-nav-search-input-text-color);
+
+    /* stylelint-disable-next-line no-duplicate-selectors */
+    .field-container {
+      background-color: transparent;
+      border-color: transparent;
+      color: inherit;
+    }
+
+    .ids-input-field {
+      background-color: transparent;
+      color: inherit;
+
+      &::placeholder {
+        color: var(--ids-module-nav-search-input-placeholder-text-color);
+      }
+
+      &:active {
+        color: var(--ids-module-nav-search-input-text-color);
+      }
+    }
+
+    &:focus-within,
+    &.readonly:focus-within
+    &.is-active {
+      .field-container {
+        background-color: var(--ids-module-nav-input-bg-color);
+        box-shadow: none;
+      }
+
+      .ids-input-field::placeholder {
+        color: var(--ids-module-nav-search-input-focused-placeholder-text-color);
+      }
+
+      .ids-input-field {
+        color: var(--ids-module-nav-input-text-color);
+      }
+    }
+
+    &:hover {
+      .ids-input-field::placeholder {
+        color: var(--ids-module-nav-search-input-placeholder-text-color);
+      }
+
+      .ids-input-field {
+        color: var(--ids-module-nav-input-text-color);
+      }
+    }
+  }
+}
+
+.caps-lock-indicator {
+  padding-inline-start: 8px;
+  padding-inline-end: 8px;
 }
 
 .is-uppercase {

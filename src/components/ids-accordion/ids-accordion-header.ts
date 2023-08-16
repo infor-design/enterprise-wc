@@ -8,8 +8,9 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-accordion-header.scss';
-import type IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
+
+import type IdsIcon from '../ids-icon/ids-icon';
 
 // Expander Types
 const EXPANDER_TYPES = ['caret', 'plus-minus'];
@@ -33,12 +34,15 @@ const Base = IdsColorVariantMixin(
  * @inherits IdsElement
  * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
- * @part header - the accordion header root element
- * @part icon - the accordion header icon element
+ * @part expander - this accoridon header's expander button element
+ * @part header - the accordion header's root element
+ * @part icon - the accordion header's icon element
  */
 @customElement('ids-accordion-header')
 @scss(styles)
 export default class IdsAccordionHeader extends Base {
+  depth = 0;
+
   constructor() {
     super();
   }
@@ -46,6 +50,7 @@ export default class IdsAccordionHeader extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#refreshIconDisplay(this.icon);
+    this.refreshDepth();
   }
 
   /**
@@ -68,7 +73,12 @@ export default class IdsAccordionHeader extends Base {
   /**
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['app-menu', 'sub-app-menu'];
+  colorVariants = [
+    'app-menu',
+    'sub-app-menu',
+    'module-nav',
+    'sub-module-nav'
+  ];
 
   /**
    * Inner template contents
@@ -92,6 +102,32 @@ export default class IdsAccordionHeader extends Base {
     return `
       <ids-icon class="ids-accordion-expander-icon" icon=${DEFAULT_ICON_OFF} part="expander-icon"></ids-icon>
     `;
+  }
+
+  /**
+   * @returns {boolean} true if this header component's panel is nested
+   */
+  get parentHasIcon() {
+    let panel = this.panel;
+    let parent = panel.parentElement;
+
+    while (parent && parent.tagName === 'IDS-ACCORDION-PANEL') {
+      if (parent.header && (parent.header.icon || parent.container.classList.contains('parent-has-icon'))) {
+        return true;
+      }
+      panel = parent;
+      parent = panel.parentElement;
+    }
+
+    return false;
+  }
+
+  /**
+   * @readonly
+   * @returns {IdsText | null} this Accordion Header's text node
+   */
+  get textNode(): IdsText | null {
+    return this.querySelector<IdsText>('ids-text, span');
   }
 
   /**
@@ -198,12 +234,18 @@ export default class IdsAccordionHeader extends Base {
    * @param {string} val the icon definition to apply
    */
   #refreshIconDisplay(val: string | any[] | null) {
-    const iconDef = typeof val === 'string' && val.length ? val : null;
+    const iconDef = typeof val === 'string' && val.length ? val : '';
     const iconElem = this.container?.querySelector<IdsIcon>('.ids-accordion-display-icon');
 
     if (iconElem) {
       iconElem.icon = iconDef;
+      this.container?.classList[iconDef.length ? 'add' : 'remove']('has-icon');
+    } else {
+      this.container?.classList.remove('has-icon');
     }
+
+    const hasParentIcon = this.parentHasIcon;
+    this.container?.classList[hasParentIcon ? 'add' : 'remove']('parent-has-icon');
   }
 
   /**
@@ -229,7 +271,12 @@ export default class IdsAccordionHeader extends Base {
       this.#refreshSelected(isValueTruthy);
 
       if (isValueTruthy) {
-        this.triggerEvent('selected', this, { bubbles: true });
+        this.triggerEvent('selected', this, {
+          bubbles: true,
+          detail: {
+            elem: this,
+          }
+        });
       }
     }
   }
@@ -241,7 +288,7 @@ export default class IdsAccordionHeader extends Base {
   #refreshSelected(isSelected: any) {
     this.container?.classList[isSelected ? 'add' : 'remove']('selected');
 
-    const textNode = this.querySelector<IdsText>('ids-text, span');
+    const textNode = this.textNode;
     if (textNode && this.colorVariant === 'app-menu') {
       textNode.fontWeight = isSelected ? 'bold' : null;
     }
@@ -371,5 +418,22 @@ export default class IdsAccordionHeader extends Base {
       this.removeAttribute(attributes.DISABLED);
       this.container?.classList.remove(attributes.DISABLED);
     }
+  }
+
+  refreshDepth() {
+    if (!this.container) return;
+
+    let depth = 0;
+    let currentEl: HTMLElement = this;
+
+    while (currentEl.parentElement && currentEl.parentElement.tagName === 'IDS-ACCORDION-PANEL') {
+      depth += 1;
+      currentEl = currentEl.parentElement;
+    }
+
+    if (this.depth) this.container.classList.remove(`depth-${this.depth}`);
+
+    this.depth = depth;
+    if (depth > 0) this.container.classList.add(`depth-${depth}`);
   }
 }

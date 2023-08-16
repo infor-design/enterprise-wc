@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { IdsConstructor } from '../../core/ids-element';
+import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { IdsDropdownCommonAttributes } from './ids-dropdown-common';
 
@@ -7,7 +8,9 @@ export interface DropdownAttributeMixinInterface {
   // as instance functions
   onAllowBlankChange?(newValue: boolean): void;
   onClearableTextChange?(newValue: string | null): void;
+  onDropdownIconChange?(newValue: string | null): void;
   onSizeChange?(newValue: string): void;
+  onShowListItemIcon?(newValue: boolean): void;
 }
 
 type Constraints = IdsConstructor<DropdownAttributeMixinInterface>;
@@ -36,6 +39,12 @@ const IdsDropdownAttributeMixin = <T extends Constraints>(superclass: T) => clas
 
   connectedCallback() {
     super.connectedCallback?.();
+
+    // Detect icon setting
+    const dropdownIcon = this.dropdownIcon;
+    if (dropdownIcon && typeof this.onDropdownIconChange === 'function') {
+      this.onDropdownIconChange(dropdownIcon);
+    }
   }
 
   disconnectedCallback(): void {
@@ -98,6 +107,26 @@ const IdsDropdownAttributeMixin = <T extends Constraints>(superclass: T) => clas
   get clearableText() { return this.getAttribute(attributes.CLEARABLE_TEXT); }
 
   /**
+   * @param {string | null} val dropdown icon string
+   */
+  set dropdownIcon(val: string | null) {
+    const isValid = typeof val === 'string' && val.length;
+    if (isValid) {
+      this.setAttribute(attributes.DROPDOWN_ICON, `${val}`);
+    } else {
+      this.removeAttribute(attributes.DROPDOWN_ICON);
+    }
+    if (typeof this.onDropdownIconChange === 'function') this.onDropdownIconChange(val);
+  }
+
+  /**
+   * @returns {string | null} dropdown icon string
+   */
+  get dropdownIcon() {
+    return this.getAttribute(attributes.DROPDOWN_ICON);
+  }
+
+  /**
    * Set the dropdown size
    * @param {string} value The value
    */
@@ -114,6 +143,19 @@ const IdsDropdownAttributeMixin = <T extends Constraints>(superclass: T) => clas
   }
 
   get size(): string { return this.getAttribute(attributes.SIZE) ?? 'md'; }
+
+  /**
+   * Set the element's ability to display an optional icon in front of the text
+   * @param {boolean} value The value
+   */
+  set showListItemIcon(value: boolean) {
+    setBooleanAttr(attributes.SHOW_LIST_ITEM_ICON, this, value);
+    if (typeof this.onShowListItemIcon === 'function') this.onShowListItemIcon(value);
+  }
+
+  get showListItemIcon(): boolean {
+    return this.hasAttribute(attributes.SHOW_LIST_ITEM_ICON);
+  }
 };
 
 export default IdsDropdownAttributeMixin;

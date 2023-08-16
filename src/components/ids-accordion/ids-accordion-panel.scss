@@ -2,6 +2,7 @@
 
 // ============================================
 // Top-level App Menu Accordion Panel Styles
+
 @mixin accordion-panel-app-menu-colors() {
   margin-bottom: 4px;
   background-color: var(--ids-app-menu-accordion-panel-color-background);
@@ -17,12 +18,43 @@
 
 // ============================================
 // Sub-level App Menu Accordion Panel Styles
+
 @mixin accordion-panel-sub-menu-colors() {
   margin: 0;
 }
 
 // ============================================
+// Module Nav App Menu Accordion Panel Styles
+
+@mixin accordion-panel-module-nav-rules() {
+  .ids-accordion-pane-content {
+    padding-inline: 0;
+  }
+
+  &.nested {
+    .ids-accordion-pane-content {
+      padding-inline-start: 16px;
+      padding-inline-end: 0;
+    }
+  }
+}
+
+@mixin accordion-panel-sub-module-nav-rules() {
+  .ids-accordion-pane-content {
+    padding-inline: 0;
+  }
+
+  &.nested {
+    .ids-accordion-pane-content {
+      padding-inline-start: 0;
+      padding-inline-end: 0;
+    }
+  }
+}
+
+// ============================================
 // Controls the size of nested accordions
+
 @mixin accordion-pane-standard-size() {
   .ids-accordion-pane-content {
     padding-inline: 8px;
@@ -47,6 +79,16 @@
   }
 }
 
+// ============================================
+// Controls the size of in-page accordion content area
+
+@mixin accordion-pane-in-page-standard-size() {
+  .ids-accordion-pane-content {
+    padding-block: 8px;
+    padding-inline: 18px;
+  }
+}
+
 :host {
   display: block;
 }
@@ -54,8 +96,8 @@
 .ids-accordion-panel {
   // ============================================
   // Color Variant Rules
-  &:not(.color-variant-app-menu):not(.color-variant-sub-app-menu) {
-    @include accordion-pane-standard-size();
+  &:not([class*="color-variant-"]) {
+    @include accordion-pane-in-page-standard-size();
   }
 
   &.color-variant-app-menu {
@@ -66,6 +108,15 @@
   &.color-variant-sub-app-menu {
     @include accordion-panel-sub-menu-colors();
     @include accordion-pane-nested-size();
+  }
+
+  &.color-variant-module-nav {
+    @include accordion-pane-standard-size();
+    @include accordion-panel-module-nav-rules();
+  }
+
+  &.color-variant-sub-module-nav {
+    @include accordion-panel-sub-module-nav-rules();
   }
 
   // ============================================

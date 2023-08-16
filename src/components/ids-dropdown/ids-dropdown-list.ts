@@ -1,23 +1,27 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
-import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsPickerPopup from '../ids-picker-popup/ids-picker-popup';
+import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
+import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsDropdownAttributeMixin from './ids-dropdown-attributes-mixin';
+import { IdsDropdownColorVariants } from './ids-dropdown-common';
 
-import styles from './ids-dropdown-list.scss';
 import type IdsListBox from '../ids-list-box/ids-list-box';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import styles from './ids-dropdown-list.scss';
 
 const Base = IdsDropdownAttributeMixin(
-  IdsLocaleMixin(
-    IdsFieldHeightMixin(
-      IdsKeyboardMixin(
-        IdsPickerPopup
+  IdsColorVariantMixin(
+    IdsLocaleMixin(
+      IdsFieldHeightMixin(
+        IdsKeyboardMixin(
+          IdsPickerPopup
+        )
       )
     )
   )
@@ -51,6 +55,12 @@ export default class IdsDropdownList extends Base {
     ];
   }
 
+  /**
+   * List of available color variants for this component
+   * @returns {Array<string>}
+   */
+  colorVariants: Array<string> = IdsDropdownColorVariants;
+
   template() {
     return `<ids-popup class="ids-dropdown-list" type="menu" part="dropdown-list" y="-1">
       <slot slot="content"></slot>
@@ -62,6 +72,7 @@ export default class IdsDropdownList extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
+    this.configureListBox();
     this.configurePopup();
     this.attachEventHandlers();
   }
@@ -76,6 +87,7 @@ export default class IdsDropdownList extends Base {
   }
 
   onShow() {
+    this.configureListBox();
     this.configurePopup();
     this.setAriaOnMenuOpen();
     if (this.value) this.selectOption(this.value);
@@ -192,6 +204,7 @@ export default class IdsDropdownList extends Base {
         detail: {
           elem: this,
           label: this.selected?.textContent,
+          selectedElem: this.selected,
           value: this.value,
         }
       };
@@ -222,25 +235,7 @@ export default class IdsDropdownList extends Base {
     });
   }
 
-  private configurePopup() {
-    this.listBox = this.querySelector<IdsListBox>('ids-list-box');
-
-    // If no list box element is present as a direct descendant,
-    // assume usage inside IdsDropdown and search for slotted ListBox
-    if (!this.listBox) {
-      if (this.children[0]?.tagName === 'SLOT') {
-        this.listBox = (this.children[0] as HTMLSlotElement).assignedElements()?.[0] as IdsListBox;
-      }
-    }
-
-    // IdsListBox has styles that are dependent on field height/compact settings,
-    // but doesn't implement IdsFieldHeightMixin, so these are passed here.
-    if (this.listBox) {
-      if (this.compact && !this.listBox?.hasAttribute(attributes.COMPACT)) {
-        this.listBox.setAttribute(attributes.COMPACT, 'true');
-      }
-    }
-
+  configurePopup() {
     // External dropdown lists configured for "full" size need extra help
     // determining what size matches their target element.
     if (this.size === 'full' && this.target && !this.parentElement?.classList.contains('ids-dropdown')) {
@@ -266,6 +261,26 @@ export default class IdsDropdownList extends Base {
     }
   }
 
+  configureListBox() {
+    this.listBox = this.querySelector<IdsListBox>('ids-list-box');
+
+    // If no list box element is present as a direct descendant,
+    // assume usage inside IdsDropdown and search for slotted ListBox
+    if (!this.listBox) {
+      if (this.children[0]?.tagName === 'SLOT') {
+        this.listBox = (this.children[0] as HTMLSlotElement).assignedElements()?.[0] as IdsListBox;
+      }
+    }
+
+    // IdsListBox has styles that are dependent on field height/compact settings,
+    // but doesn't implement IdsFieldHeightMixin, so these are passed here.
+    if (this.listBox) {
+      if (this.compact && !this.listBox?.hasAttribute(attributes.COMPACT)) {
+        this.listBox.setAttribute(attributes.COMPACT, 'true');
+      }
+    }
+  }
+
   /**
    * Add internal aria attributes while open
    * @private
@@ -284,11 +299,10 @@ export default class IdsDropdownList extends Base {
   }
 
   /**
-   * Add internal aria attributes while closed
-   * @private
+   * Adds internal aria attributes while closed
    * @returns {void}
    */
-  private setAriaOnMenuClose() {
+  setAriaOnMenuClose() {
     this.setAttribute('aria-expanded', 'false');
     this.listBox?.removeAttribute('tabindex');
 
@@ -436,6 +450,12 @@ export default class IdsDropdownList extends Base {
 
   onClearableTextChange() {
     if (this.allowBlank) this.insertBlank();
+  }
+
+  onColorVariantRefresh(val: string | null) {
+    if (this.popup && val?.length) {
+      this.popup.type = val;
+    }
   }
 
   /**

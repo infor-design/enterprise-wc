@@ -1,5 +1,5 @@
 /* Ids Dropdown Component */
-@import '../../themes/mixins/ids-validation-mixin';
+@use '../../themes/mixins/ids-validation-mixin';
 
 :host {
   display: block;
@@ -36,7 +36,7 @@ ids-trigger-field[readonly-background]:not([disabled])::part(input) {
 }
 
 // Icon Placement
-.icon-container {
+.trigger-icon {
   color: var(--ids-dropdown-color-icon);
   margin: 0 0 0 var(--ids-dropdown-space-text);
   position: relative;
@@ -49,7 +49,7 @@ ids-trigger-field[readonly-background]:not([disabled])::part(input) {
   }
 }
 
-:host([dir='rtl']) .icon-container {
+:host([dir='rtl']) .trigger-icon {
   margin: 0 var(--ids-dropdown-space-text) 0 0;
 }
 
@@ -114,6 +114,63 @@ ids-trigger-field[readonly-background]:not([disabled])::part(input) {
 .ids-dropdown.color-variant-in-cell {
   ids-trigger-field::part(container) {
     margin: 1px 0;
+  }
+}
+
+// Module Nav Color Variant
+.ids-dropdown.color-variant-module-nav {
+  color: var(--ids-module-nav-search-input-text-color);
+  display: block;
+  margin-block-end: 0;
+
+  ::slotted(ids-list-box) {
+    color: var(--ids-module-nav-search-input-text-color);
+  }
+
+  ::slotted(ids-list-box-option) {
+    color: inherit;
+  }
+
+  ids-trigger-field::part(field-container) {
+    background-color: var(--ids-module-nav-input-bg-color);
+    border-radius: var(--ids-module-nav-common-border-radius);
+    border: var(--ids-module-nav-input-border-width) solid var(--ids-module-nav-input-border-color);
+    color: inherit;
+    overflow: hidden;
+  }
+
+  ids-trigger-field::part(input) {
+    background-color: transparent;
+    color: inherit;
+  }
+
+  ids-trigger-field::part(trigger-button) {
+    background-color: transparent;
+  }
+
+  ids-trigger-field::part(input::placeholder) {
+    color: var(--ids-module-nav-search-input-placeholder-text-color);
+  }
+
+  ids-trigger-field::part(input:active) {
+    color: var(--ids-module-nav-search-input-text-color);
+  }
+
+  ids-dropdown-list::part(dropdown-list) {
+    max-width: var(--ids-module-nav-expanded-size);
+    width: calc(var(--ids-module-nav-switcher-dropdown-width) + var(--ids-module-nav-switcher-button-gutter-size) + var(--ids-module-nav-switcher-button-size));
+  }
+
+  ids-list-box-option {
+    min-height: var(--ids-module-nav-item-height);
+  }
+
+  .fieldset {
+    display: contents;
+  }
+
+  .ids-input-field {
+    padding-inline-start: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
   }
 }
 

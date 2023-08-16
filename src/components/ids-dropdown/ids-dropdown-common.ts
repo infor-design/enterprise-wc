@@ -17,6 +17,7 @@ export const IdsDropdownCommonAttributes = [
   attributes.ALLOW_BLANK,
   attributes.CLEARABLE,
   attributes.CLEARABLE_TEXT,
+  attributes.DROPDOWN_ICON,
   attributes.DISABLED,
   attributes.GROUP,
   attributes.GROUP_LABEL,
@@ -25,7 +26,16 @@ export const IdsDropdownCommonAttributes = [
   attributes.PLACEHOLDER,
   attributes.READONLY,
   attributes.SHOW_LOADING_INDICATOR,
+  attributes.SHOW_LIST_ITEM_ICON,
   attributes.SIZE,
   attributes.TYPEAHEAD,
   attributes.VALUE
+];
+
+// List of available color variants for this component
+export const IdsDropdownColorVariants: string[] = [
+  'alternate-formatter',
+  'borderless',
+  'in-cell',
+  'module-nav'
 ];

@@ -18,7 +18,7 @@ const DEFAULT_PLACEHOLDER = 'Type to search';
 /**
  * IDS Search Field Component
  * @type {IdsSearchField}
- * @inherits IdsElement
+ * @inherits IdsTriggerField
  */
 @customElement('ids-search-field')
 @scss(styles)
@@ -33,7 +33,7 @@ export default class IdsSearchField extends IdsTriggerField {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate', 'app-menu', 'card'];
+  colorVariants = ['alternate', 'app-menu', 'card', 'module-nav'];
 
   /**
    * Inherited from `IdsColorVariantMixin`. If the Color Variant on Search Fields are changed,
