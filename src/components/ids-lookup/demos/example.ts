@@ -73,6 +73,10 @@ const autocomplete: Element | any = autocompleteLookup?.shadowRoot?.querySelecto
       console.info(`Row Selected`, e.detail);
     });
 
+    lookup.addEventListener('beforerowdeselected', (e: CustomEvent) => {
+      console.info(`Before Row DeSelected`, e.detail);
+    });
+
     lookup.addEventListener('rowdeselected', (e: CustomEvent) => {
       console.info(`Row DeSelected`, e.detail);
     });

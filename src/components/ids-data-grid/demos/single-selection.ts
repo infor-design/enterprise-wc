@@ -133,6 +133,14 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-single-select')
   setData();
 
   // Event Handlers
+  dataGrid.addEventListener('beforerowselected', (e: Event) => {
+    console.info(`Before Row Selected`, (<CustomEvent>e).detail);
+    if (Number((e as any).detail.data.book) === 104) {
+      console.error('Row 104 randomly cant be selected');
+      (<CustomEvent>e).detail.response(false);
+    }
+  });
+
   dataGrid.addEventListener('rowselected', (e: Event) => {
     console.info(`Row Selected`, (<CustomEvent>e).detail);
   });
