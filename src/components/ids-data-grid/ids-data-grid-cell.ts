@@ -90,6 +90,22 @@ export default class IdsDataGridCell extends IdsElement {
   }
 
   /**
+   * Get data value of this cell
+   * @returns {any} the data value of this cell
+   */
+  get value(): any {
+    // NOTE: a cell exists in a row of a visible-columns
+    const column = this.dataGrid?.visibleColumns?.[this.columnIndex];
+    const record = this.dataGrid?.data?.[this.rowIndex];
+
+    if (record && record[column?.field]) {
+      return record[column.field];
+    }
+
+    return this.textContent ?? '';
+  }
+
+  /**
    * Rerender a cell - may be used later
    */
   renderCell() {
