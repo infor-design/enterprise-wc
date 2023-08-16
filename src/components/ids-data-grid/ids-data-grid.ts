@@ -2680,9 +2680,9 @@ export default class IdsDataGrid extends Base {
    * Find a specific IdsDataGridCell element using row-index and column-index.
    * @param {number} rowIndex the zero-based row index
    * @param {number} columnIndex the zero-based column index
-   * @returns {HTMLElement} Row HTMLElement
+   * @returns {IdsDataGridCell} html element for cell
    */
-  cellByIndex(rowIndex: number, columnIndex: number): IdsDataGridCell | undefined | null {
-    return this.rowByIndex(rowIndex)?.cellByIndex?.(columnIndex);
+  cellByIndex(rowIndex: number, columnIndex: number): IdsDataGridCell | null {
+    return this.rowByIndex(rowIndex)?.cellByIndex?.(columnIndex) ?? null;
   }
 }

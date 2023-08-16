@@ -472,18 +472,18 @@ export default class IdsDataGridRow extends IdsElement {
   /**
    * Get the cell HTMLElement
    * @param {number} columnIndex the zero-based column index
-   * @returns {HTMLElement} Row HTMLElement
+   * @returns {IdsDataGridCell} html element for cell
    */
-  cellByIndex(columnIndex: number): IdsDataGridCell | undefined | null {
+  cellByIndex(columnIndex: number): IdsDataGridCell | null {
     columnIndex = Math.max(columnIndex, 0);
     if (columnIndex === 0) {
-      return this.querySelector<IdsDataGridCell>('ids-data-grid-cell');
+      return this.querySelector<IdsDataGridCell>('ids-data-grid-cell') ?? null;
     }
 
     const cells = this.querySelectorAll<IdsDataGridCell>('ids-data-grid-cell');
     const maxColumnIndex = cells.length - 1;
     columnIndex = Math.min(columnIndex, maxColumnIndex);
 
-    return cells[columnIndex];
+    return cells[columnIndex] ?? null;
   }
 }
