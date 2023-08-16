@@ -271,7 +271,11 @@ export class DatePickerEditor implements IdsDataGridEditor {
   #update(cell: IdsDataGridCell, dateString: string) {
     const inputDate = cell?.dataGrid.localeAPI.parseDate(dateString) as Date;
 
-    if (!isValidDate(inputDate)) return;
+    if (!dateString || !isValidDate(inputDate)) {
+      this.#displayValue = dateString;
+      this.#value = undefined;
+      return;
+    }
 
     // update orignial date value to retain hours, minutes, seconds
     if (this.#value instanceof Date) {
@@ -296,7 +300,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
   }
 
   save(cell?: IdsDataGridCell) {
-    this.#update(cell!, this.input?.input.value);
+    this.#update(cell!, cell?.value);
 
     return {
       value: this.#value?.toISOString() ?? '',
