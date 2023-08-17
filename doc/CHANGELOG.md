@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.15 Features
 
+- `[Message]` Fix modal button separator. ([#1414](https://github.com/infor-design/enterprise-wc/issues/1414))
 - `[ModuleNav]` Added IdsModuleNav component with basic Role Switcher, Settings component. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
 
 ## 1.0.0-beta.14
