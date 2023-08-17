@@ -43,5 +43,9 @@
 
   &.type-formatter {
     background-color: var(--ids-toolbar-formatter-color-background);
+    border-bottom: 1px solid var(--ids-toolbar-formatter-color-border-bottom);
+
+    --ids-separator-color-background: var(--ids-separator-alternate-color-background);
+    --ids-separator-margin: var(--ids-separator-alternate-margin);
   }
 }

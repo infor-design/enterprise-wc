@@ -241,6 +241,9 @@ export default class IdsElement extends HTMLElement {
       const href = themeLink.getAttribute('href');
       const filename = href?.replace(/^.*[\\/]/, '') || '';
       themeLink.setAttribute('href', href?.replace(filename, `ids-theme-${theme}.css`) || '');
+      setTimeout(() => {
+        document.querySelector('ids-container')?.removeAttribute('hidden');
+      }, 150);
       return;
     }
 

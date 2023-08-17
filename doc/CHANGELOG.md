@@ -4,7 +4,10 @@
 
 ### 1.0.0-beta.15 Features
 
+- `[Editor]` Added new toolbar styles in all themes. ([#7606](https://github.com/infor-design/enterprise-wc/issues/7606))
+- `[Editor]` Fixed issue where buttons are disabled in source view. ([#1195](https://github.com/infor-design/enterprise-wc/issues/1195))
 - `[ModuleNav]` Added IdsModuleNav component with basic Role Switcher, Settings component. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
+- `[Toolbar]` Added tooltip to the more button on toolbars. ([#1318](https://github.com/infor-design/enterprise-wc/issues/1318))
 
 ## 1.0.0-beta.14
 

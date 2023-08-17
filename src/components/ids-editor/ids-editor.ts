@@ -561,6 +561,7 @@ export default class IdsEditor extends Base {
     elems.editor.classList.add(CLASSES.hidden);
     elems.toolbar.disabled = true;
     elems.btnEditor.disabled = false;
+    elems.toolbar.querySelector('#more-actions').disabled = false;
     elems.textarea.focus();
     return this;
   }
@@ -884,6 +885,7 @@ export default class IdsEditor extends Base {
     this.#unActiveToolbarButtons();
     if (isEditor) {
       Object.entries(this.#actions).forEach(([k, v]) => {
+        if (k.substring(0, 5) === 'align') return;
         if (k === 'forecolor' && parents.font?.node?.hasAttribute('color')) {
           setActive(elems.forecolorBtn);
         }

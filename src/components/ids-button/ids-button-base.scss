@@ -307,12 +307,13 @@
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      border-color: var(--ids-button-formatter-color-border);
+      border-color: var(--ids-button-formatter-color-border-focus);
       opacity: 1;
     }
 
     &:hover {
-      color: var(--ids-button-alternate-color-text-default-hover);
+      background-color: var(--ids-button-formatter-color-background-hover);
+      color: var(--ids-button-formatter-color-text-hover);
       opacity: 1;
     }
 
@@ -329,7 +330,9 @@
   // Used on Editor and List Builder "darker" toolbars
   &.color-variant-alternate-formatter {
     color: var(--ids-button-formatter-color-text-default);
-    opacity: 1;
+    margin-top: 2px;
+    height: var(--ids-button-formatter-size);
+    min-width:  var(--ids-button-formatter-size);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -337,16 +340,20 @@
     }
 
     &[disabled] {
-      opacity: 1;
+      color: var(--ids-button-formatter-color-text-disabled);
     }
 
     &:hover {
-      background-color: transparent;
+      background-color: var(--ids-button-formatter-color-background-hover);
       color: var(--ids-button-formatter-color-text-hover);
     }
 
     .ripple-effect {
       background-color: var(--ids-color-primary-light);
+    }
+
+    &.is-active {
+      color: var(--ids-button-formatter-color-active);
     }
 
     &.ids-menu-button.compact {
@@ -358,7 +365,7 @@
   // Used in Tab Module Variant
   &.color-variant-module {
     color: var(--ids-button-module-color-text-default);
-    
+
 
     &:not(.square) {
       border-radius: var(--ids-button-module-border-radius);
