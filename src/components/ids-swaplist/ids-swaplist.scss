@@ -7,6 +7,10 @@
 .swap-buttons {
   margin-inline-start: auto;
 
+  ids-button {
+    margin-inline-end: -6px;
+  }
+
   ids-button[dir="rtl"] {
     &.right-arrow,
     &.left-arrow {
