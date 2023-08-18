@@ -50,6 +50,8 @@ export default class IdsDataGridCell extends IdsElement {
       [column.field]: value,
     };
 
+    this.editor?.change?.(value);
+
     if (refresh) {
       this.dataGrid?.updateDatasetAndRefresh?.(this.rowIndex, updatedRecord, false);
     } else {
@@ -94,6 +96,10 @@ export default class IdsDataGridCell extends IdsElement {
    * @returns {any} the data value of this cell
    */
   get value(): any {
+    if (this.editor) {
+      return this.editor?.value?.();
+    }
+
     const column = this.dataGrid?.columns?.[this.columnIndex];
     const record = this.dataGrid?.data?.[this.rowIndex];
 
