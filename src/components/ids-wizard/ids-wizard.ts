@@ -75,7 +75,7 @@ export default class IdsWizard extends Base {
       for (let i = 0; i < stepRects.length; i++) {
         const { width } = stepRects[i];
 
-        labelEls[i].style.maxWidth = `${width}px`;
+        labelEls[i].style.maxWidth = `${width + 8}px`;
       }
     });
   }
