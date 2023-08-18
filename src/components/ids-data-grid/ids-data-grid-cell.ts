@@ -96,7 +96,8 @@ export default class IdsDataGridCell extends IdsElement {
    * @returns {any} the data value of this cell
    */
   get value(): any {
-    if (this.editor) {
+    // NOTE: the editor is a singleton, so we must ensure the input is still in this cell's DOM.
+    if (this.editor && this.contains(this.editor?.input ?? null)) {
       return this.editor?.value?.();
     }
 
