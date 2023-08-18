@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.15 Features
 
+- `[Message]` Fix modal button separator. ([#1414](https://github.com/infor-design/enterprise-wc/issues/1414))
 - `[ModuleNav]` Added IdsModuleNav component with basic Role Switcher, Settings component. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
 
 ### 1.0.0-beta.15 Fixes
@@ -49,6 +50,7 @@
 - `[Tabs]` Add alabaster changes to module tabs and header. ([#1339](https://github.com/infor-design/enterprise/issues/1339))
 - `[ScrollView]` Fix scroll view to observe slot changes. ([#1372](https://github.com/infor-design/enterprise/issues/1372))
 - `[Swaplist]` Refactor swaplist component to connect datasource to UI. ([#1313](https://github.com/infor-design/enterprise-wc/issues/1313))
+- `[Wizard]` Fix wizard step click. ([#1221](https://github.com/infor-design/enterprise/issues/1221))
 
 ## 1.0.0-beta.13
 
