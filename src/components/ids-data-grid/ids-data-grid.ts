@@ -1173,7 +1173,8 @@ export default class IdsDataGrid extends Base {
    */
   appendData(value: Array<Record<string, any>>) {
     if (this.virtualScroll) {
-      this.datasource.data = this.data.concat(value);
+      // NOTE: using currentData skips pagination-logic; it's ok in context of infinite-scroll
+      this.datasource.data = this.datasource.currentData.concat(value);
       this.#appendMissingRows();
     } else {
       this.data = this.data.concat(value);
