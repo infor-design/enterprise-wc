@@ -1173,8 +1173,8 @@ export default class IdsDataGrid extends Base {
    */
   appendData(value: Array<Record<string, any>>) {
     if (this.virtualScroll) {
-      // NOTE: using currentData skips pagination-logic; it's ok in context of infinite-scroll
-      this.datasource.data = this.datasource.currentData.concat(value);
+      // NOTE: using originalData skips pagination-logic; it's ok in context of infinite-scroll
+      this.datasource.data = this.datasource.originalData.concat(value);
       this.#appendMissingRows();
     } else {
       this.data = this.data.concat(value);
@@ -1401,8 +1401,7 @@ export default class IdsDataGrid extends Base {
         this.#triggerCustomScrollEvent(firstRow.rowIndex, 'start');
       }
       if (reachedTheBottom) {
-        const lastRow: any = rows[rows.length - 1];
-        this.#triggerCustomScrollEvent(lastRow.rowIndex, 'end');
+        this.#triggerCustomScrollEvent(this.datasource.originalData.length, 'end');
       }
       if (!reachedTheTop && !reachedTheBottom) {
         this.#triggerCustomScrollEvent(0);

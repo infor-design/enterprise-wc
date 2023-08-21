@@ -104,7 +104,7 @@ dataGrid.addEventListener('scrollend', (e: Event) => {
     currentId++;
     const newData = {
       id: currentId,
-      name: `Crawler-${currentId.toString()}`,
+      name: `Crawler-${currentId}`,
       location: 'St. Louis',
       capacity: 44,
       available: '2022-05-08T01:57:17Z',
