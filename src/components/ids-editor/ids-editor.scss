@@ -68,17 +68,17 @@ $editor-container-height: 285px;
     &:focus-within {
       border-color: var(--ids-editor-color-border-focus);
       outline: var(--ids-editor-outline-focus);
-      box-shadow: var(--ids-editor-focus-border-shadow);
+      box-shadow: var(--ids-editor-shadow-border-focus);
     }
 
-    &:hover,
-    &:active {
+    &:hover:not(:focus-within),
+    &:active:not(:focus-within) {
       border-color: var(--ids-editor-color-border-hover);
     }
 
     &.error,
-    &.error:hover,
-    &.error:active {
+    &.error:hover:not(:focus-within),
+    &.error:active:not(:focus-within) {
       border-color: var(--ids-editor-color-border-error);
       color: var(--ids-editor-color-text-error);
 

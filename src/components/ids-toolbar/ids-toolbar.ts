@@ -186,6 +186,7 @@ export default class IdsToolbar extends Base {
   }
 
   /**
+   * Set all buttons to disabled on the toolbar
    * @param {boolean | string} val sets the disabled state of the entire toolbar
    */
   set disabled(val: boolean | string) {
@@ -202,7 +203,7 @@ export default class IdsToolbar extends Base {
     // Set disabled state on all relevant subcomponents
     const setDisabledState = (elem: any) => {
       if (elem.id === 'more-actions') {
-        const trueElem = getClosest(elem, 'ids-toolbar-more-actions'); // elem.parentElement.parentNode.host
+        const trueElem = getClosest(elem, 'ids-toolbar-more-actions');
         trueElem.disabled = trueVal;
       } else {
         elem.disabled = trueVal;

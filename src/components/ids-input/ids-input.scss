@@ -325,6 +325,10 @@ $input-size-full: 100%;
       text-align: start;
     }
 
+    &::placeholder {
+      color: var(--ids-input-color-text-placeholder);
+    }
+
     &.center {
       text-align: center;
     }

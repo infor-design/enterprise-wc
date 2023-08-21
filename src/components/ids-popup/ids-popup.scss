@@ -486,7 +486,6 @@
     @include mixins.antialiased();
 
     background-color: var(--ids-dropdown-color-background-default);
-    border: 1px solid var(--ids-dropdown-color-border);
     box-shadow: var(--ids-dropdown-shadow-default);
     border-radius: var(--ids-dropdown-border-radius);
     outline: none;
@@ -497,6 +496,10 @@
       border-bottom-color: var(--ids-dropdown-attached-color-border);
       border-top-color: var(--ids-dropdown-color-border);
       box-shadow: var(--ids-dropdown-shadow-opened-up);
+    }
+
+    &.open {
+      border: 1px solid var(--ids-dropdown-color-border);
     }
   }
 
