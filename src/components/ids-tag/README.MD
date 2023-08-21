@@ -7,6 +7,8 @@ some contextual element such as a form.
 
 ## Use Cases
 
+ Note that the tags and badges look the same but should not be used interchangeably. A badge is used mainly for alphanumeric values i.e. numbers currency ect. and should not cannot take an icon or text. For text information you can use use a tag. For icons use an icon or status icon or alert icon.
+
 - Use when the content on your page is mapped into multiple categories and does not only fit into one hierarchical category.
 - Use when you want users to contribute data to your website and let them organize their content themselves.
 

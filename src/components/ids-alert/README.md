@@ -2,11 +2,13 @@
 
 ## Description
 
-The IDS Alert component used to communicate as part of a display message that gives users attention, affects an application, feature or a page. This component consists of different types such as `error`, `warning`, `success`, and `info` that represents its color.
+IDS Alert icons are special icons that indicate a status/error situation. They can are often used as one part of an error/alert/info message with accompanying text. Alerts help get users attention of something affecting an application, feature or a page. This component consists of different types such as `error`, `warning`, `success`, and `info` that represents the icon color for each status.
 
 ## Use Cases
 
-Typically, these alerts are mostly effective to gain attention of the status of your application. Try to use text along with the alert so that users that cant understand the color difference get the important alert information.
+Typically, these alerts are use to get attention of the status of your application. Use text along with the alert so that users that cant understand the color difference get the important alert information.
+
+Alerts should be used for error messages and warnings not as embellishments. For a softer status, something like an embellishment see icons component status colors. Note that the badges should not be used in place of alerts or status icons and do not support icons.
 
 ## Terminology
 
