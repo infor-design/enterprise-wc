@@ -27,6 +27,14 @@ export default class IdsDataGridRow extends IdsElement {
     ];
   }
 
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    if (oldValue === newValue) return;
+
+    if (name === attributes.ROW_INDEX) {
+      this.renderRow(Number(newValue));
+    }
+  }
+
   connectedCallback(): void {
     super.connectedCallback();
   }
@@ -84,18 +92,14 @@ export default class IdsDataGridRow extends IdsElement {
     }
   }
 
+  /**
+   * Gets the row index # of this row.
+   * @returns {number} the row-index
+   */
   get rowIndex(): number { return Number(this.getAttribute(attributes.ROW_INDEX) ?? -1); }
 
   /** Implements row cache */
   static rowCache: { [key: string]: string } = {};
-
-  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    if (oldValue === newValue) return;
-
-    if (name === attributes.ROW_INDEX) {
-      this.renderRow(Number(newValue));
-    }
-  }
 
   /**
    * Render the row again from the cache or template.
@@ -463,5 +467,23 @@ export default class IdsDataGridRow extends IdsElement {
     if (row?.idstempcanrowdisabled) delete row.idstempcanrowdisabled;
 
     return `${cellsHtml}${expandableRowHtml}`;
+  }
+
+  /**
+   * Get the cell HTMLElement
+   * @param {number} columnIndex the zero-based column index
+   * @returns {IdsDataGridCell} html element for cell
+   */
+  cellByIndex(columnIndex: number): IdsDataGridCell | null {
+    columnIndex = Math.max(columnIndex, 0);
+    if (columnIndex === 0) {
+      return this.querySelector<IdsDataGridCell>('ids-data-grid-cell') ?? null;
+    }
+
+    const cells = this.querySelectorAll<IdsDataGridCell>('ids-data-grid-cell');
+    const maxColumnIndex = cells.length - 1;
+    columnIndex = Math.min(columnIndex, maxColumnIndex);
+
+    return cells[columnIndex] ?? null;
   }
 }

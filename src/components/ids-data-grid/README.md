@@ -537,6 +537,10 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `refreshCell` IdsDataGridCell method to refresh cell element.
 - `updateDataset(row: number, data: Record<string, unknonw>, isClear?: boolean)` Updates datasource for row.
 - `updateDatasetAndRefresh(row: number, data: Record<string, unknonw>, isClear?: boolean)` Updates datasource for row and refreshes row/cells UI.
+- `updateData(value: string, refresh = true)` IdsDataGridCell method to update datasource on a specific cell.
+- `rowByIndex(rowIndex: number)` method to retrieve a specific row datagrid.
+- `cellByIndex(rowIndex: number, columnIndex: number)` method to retrieve a specific cell from datagrid.
+- `cellByIndex(columnIndex: number)` IdsDataGridRow method to retrieve a specific cell from row.
 
 ## Filters
 

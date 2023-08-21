@@ -30,11 +30,57 @@ export default class IdsDataGridCell extends IdsElement {
   }
 
   /**
+   * Update this cell's dataset and refresh
+   * @param {string} value the new data for the cell
+   * @param {boolean} refresh if true, rerender the cell
+   */
+  updateData(value: string, refresh = true) {
+    const rowIndex = this.rowIndex;
+    const record = this.dataGrid?.data[rowIndex];
+    const columnIndex = this.columnIndex;
+
+    // a cell exists in a row of a visible-columns
+    const visibleColumns = this.dataGrid?.visibleColumns;
+
+    const column = visibleColumns[columnIndex];
+    if (!column?.field) return;
+
+    const updatedRecord = {
+      ...record,
+      [column.field]: value,
+    };
+
+    this.editor?.change?.(value);
+
+    if (refresh) {
+      this.dataGrid?.updateDatasetAndRefresh?.(this.rowIndex, updatedRecord, false);
+    } else {
+      this.dataGrid?.updateDataset?.(this.rowIndex, updatedRecord, false);
+    }
+  }
+
+  /**
    * Get the column definition
    * @returns {IdsDataGridColumn} the current cells column
    */
   get column() {
-    return this.dataGrid?.columns[Number(this.getAttribute('aria-colindex')) - 1];
+    return this.dataGrid?.columns[this.columnIndex];
+  }
+
+  /**
+   * Gets the column # in which this cell exists
+   * @returns {number} the column-index
+   */
+  get columnIndex(): number {
+    return Number(this.getAttribute?.('aria-colindex') ?? 0) - 1;
+  }
+
+  /**
+   * Gets the row-index # in which this cell exists
+   * @returns {number} the row-index
+   */
+  get rowIndex(): number {
+    return Number(this.parentElement?.getAttribute?.('row-index') ?? -1);
   }
 
   /**
@@ -42,7 +88,23 @@ export default class IdsDataGridCell extends IdsElement {
    * @returns {number} table row index
    */
   get row(): number {
-    return Number(this.parentElement?.getAttribute('data-index'));
+    return this.rowIndex;
+  }
+
+  /**
+   * Get data value of this cell
+   * @returns {any} the data value of this cell
+   */
+  get value(): any {
+    // NOTE: the editor is a singleton, so we must ensure the input is still in this cell's DOM.
+    if (this.editor && this.contains(this.editor?.input ?? null)) {
+      return this.editor?.value?.();
+    }
+
+    const column = this.dataGrid?.columns?.[this.columnIndex];
+    const record = this.dataGrid?.data?.[this.rowIndex];
+
+    return record?.[(column?.field ?? -1)] ?? this.textContent ?? '';
   }
 
   /**
@@ -122,7 +184,7 @@ export default class IdsDataGridCell extends IdsElement {
       return;
     }
 
-    this.originalValue = this.textContent;
+    this.originalValue = this.value;
     this.editor = columnEditor.editor;
     this.editor.clickEvent = clickEvent;
 
@@ -130,10 +192,6 @@ export default class IdsDataGridCell extends IdsElement {
     // Override original value if dropdown
     if (editorType === 'dropdown') {
       this.originalValue = this.querySelector('[data-value]')?.getAttribute('data-value');
-    } else if (editorType === 'timepicker' || editorType === 'datepicker') {
-      const rowData = this.dataGrid.data[this.dataGrid.activeCell.row];
-      const rowVal = rowData[this.column.field!];
-      this.originalValue = rowVal;
     }
 
     this.classList.add('is-editing');

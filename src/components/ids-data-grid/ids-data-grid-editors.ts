@@ -39,7 +39,11 @@ export interface IdsDataGridEditor {
   /** The function that tears down all aspects of the editor */
   destroy: (cell?: IdsDataGridCell) => void;
   /** MouseEvent if click was used to edit */
-  clickEvent?: MouseEvent
+  clickEvent?: MouseEvent;
+  /** The function that returns the input-element's value */
+  value: () => boolean | number | string;
+  /** The function that changes the input-element's value */
+  change: (newValue: boolean | number | string) => void;
 }
 
 const applySettings = (elem: any, settings?: Record<string, any> | undefined) => {
@@ -89,6 +93,14 @@ export class InputEditor implements IdsDataGridEditor {
   destroy() {
     this.input = undefined;
   }
+
+  value() {
+    return this.input?.value ?? '';
+  }
+
+  change(newValue: boolean | number | string) {
+    if (this.input) this.input.value = String(newValue);
+  }
 }
 
 export class CheckboxEditor implements IdsDataGridEditor {
@@ -134,6 +146,14 @@ export class CheckboxEditor implements IdsDataGridEditor {
   destroy() {
     this.input?.offEvent('keydown');
     this.input = undefined;
+  }
+
+  value() {
+    return !!this.input?.checked;
+  }
+
+  change(newValue: boolean | number | string) {
+    if (this.input) this.input.checked = Boolean(newValue);
   }
 }
 
@@ -215,6 +235,14 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input?.offEvent('focusout', this.input, this.#stopPropagationCb);
     this.#value = undefined;
   }
+
+  value() {
+    return this.input?.value ?? '';
+  }
+
+  change(newValue: boolean | number | string) {
+    if (this.input) this.input.value = String(newValue);
+  }
 }
 
 export class DatePickerEditor implements IdsDataGridEditor {
@@ -271,7 +299,11 @@ export class DatePickerEditor implements IdsDataGridEditor {
   #update(cell: IdsDataGridCell, dateString: string) {
     const inputDate = cell?.dataGrid.localeAPI.parseDate(dateString) as Date;
 
-    if (!isValidDate(inputDate)) return;
+    if (!dateString || !isValidDate(inputDate)) {
+      this.#displayValue = dateString;
+      this.#value = undefined;
+      return;
+    }
 
     // update orignial date value to retain hours, minutes, seconds
     if (this.#value instanceof Date) {
@@ -296,7 +328,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
   }
 
   save(cell?: IdsDataGridCell) {
-    this.#update(cell!, this.input?.input.value);
+    this.#update(cell!, cell?.value);
 
     return {
       value: this.#value?.toISOString() ?? '',
@@ -309,6 +341,14 @@ export class DatePickerEditor implements IdsDataGridEditor {
     this.input?.offEvent('outsideclick.datepicker');
     this.#value = undefined;
     this.#displayValue = '';
+  }
+
+  value() {
+    return this.input?.input?.value ?? '';
+  }
+
+  change(newValue: boolean | number | string) {
+    if (this.input?.input) this.input.input.value = String(newValue);
   }
 }
 
@@ -392,6 +432,14 @@ export class TimePickerEditor implements IdsDataGridEditor {
     this.input?.offEvent('focusout');
     this.input?.detachAllListeners();
     this.#originalDate = undefined;
+  }
+
+  value() {
+    return this.input?.value ?? '';
+  }
+
+  change(newValue: boolean | number | string) {
+    if (this.input) this.input.value = String(newValue);
   }
 }
 

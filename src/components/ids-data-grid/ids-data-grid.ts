@@ -566,7 +566,7 @@ export default class IdsDataGrid extends Base {
 
       // Handle multiple or mixed selection
       const handleMultipleOrMixedSelection = () => {
-        if ((this.rowSelection === 'multiple') || (this.rowSelection === 'mixed')) {
+        if (['multiple', 'mixed'].includes(String(this.rowSelection))) {
           if (e.shiftKey && this.#lastSelectedRow !== null) this.#toggleSelectionInBetween(rowNum);
           else row.toggleSelection();
           this.#lastSelectedRow = rowNum;
@@ -2674,5 +2674,15 @@ export default class IdsDataGrid extends Base {
     }
 
     return type;
+  }
+
+  /**
+   * Find a specific IdsDataGridCell element using row-index and column-index.
+   * @param {number} rowIndex the zero-based row index
+   * @param {number} columnIndex the zero-based column index
+   * @returns {IdsDataGridCell} html element for cell
+   */
+  cellByIndex(rowIndex: number, columnIndex: number): IdsDataGridCell | null {
+    return this.rowByIndex(rowIndex)?.cellByIndex?.(columnIndex) ?? null;
   }
 }
