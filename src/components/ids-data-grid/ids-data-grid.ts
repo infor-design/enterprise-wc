@@ -1401,7 +1401,8 @@ export default class IdsDataGrid extends Base {
         this.#triggerCustomScrollEvent(firstRow.rowIndex, 'start');
       }
       if (reachedTheBottom) {
-        this.#triggerCustomScrollEvent(this.datasource.originalData.length, 'end');
+        const lastRowIndex = this.datasource.originalData.length - 1;
+        this.#triggerCustomScrollEvent(lastRowIndex, 'end');
       }
       if (!reachedTheTop && !reachedTheBottom) {
         this.#triggerCustomScrollEvent(0);
