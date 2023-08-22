@@ -44,12 +44,6 @@ A shape badge is done by adding a `shape` attribute and one of the following: no
 <ids-badge color="alert" shape="round">10</ids-badge>
 ```
 
-A badge with an icon can be configure by adding the `<ids-icon></ids-icon>` component inside of the badge.
-
-```html
-<ids-badge color="alert" shape="round"><ids-icon icon="pending" size="normal"></ids-icon></ids-badge>
-```
-
 Audible span can de configure by adding `<ids-text audible="true"></ids-text>` inside of the badge.
 
 ```html

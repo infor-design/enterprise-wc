@@ -15,10 +15,13 @@
   color: var(--ids-tag-color-text-default);
 
   // Layout
+  box-sizing: border-box;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-inline-end: var(--ids-space-30);
   padding-inline:  var(--ids-space-40);
-  padding-bottom:  var(--ids-space-20);
+  height: var(--ids-tag-height);
   contain: content;
 
   // Secondary has a darker border
