@@ -56,6 +56,10 @@ export default class IdsDataGridRow extends IdsElement {
     return this.getBoundingClientRect();
   }
 
+  get expandIcon() {
+    return this.querySelector('.ids-data-grid-tree-container ids-button ids-icon');
+  }
+
   /**
    * Set the row disabled state.
    * @param {number} value the value
@@ -124,45 +128,49 @@ export default class IdsDataGridRow extends IdsElement {
   /** Set row attributes and classes */
   #setAttributes() {
     const row = this.rowIndex;
+    const rowData = this.dataGrid.data[row];
     this.setAttribute('data-index', String(row));
     this.setAttribute('aria-rowindex', String(row + 1));
 
     // Handle Selection
-    if (this.dataGrid.data[row]?.rowSelected) {
-      this.selected = this.dataGrid.data[row].rowSelected;
+    if (rowData?.rowSelected) {
+      this.selected = rowData.rowSelected;
     }
-    if (!this.dataGrid.data[row]?.rowSelected && this.classList.contains('selected')) {
-      this.selected = this.dataGrid.data[row].rowSelected;
+    if (!rowData?.rowSelected && this.classList.contains('selected')) {
+      this.selected = rowData.rowSelected;
     }
 
     // Handle Tree
     if (this.dataGrid?.treeGrid) {
-      this.setAttribute('aria-setsize', this.dataGrid.data[row]?.ariaSetSize);
-      this.setAttribute('aria-level', this.dataGrid.data[row]?.ariaLevel);
-      this.setAttribute('aria-posinset', this.dataGrid.data[row]?.ariaPosinset);
+      this.setAttribute('aria-setsize', rowData?.ariaSetSize);
+      this.setAttribute('aria-level', rowData?.ariaLevel);
+      this.setAttribute('aria-posinset', rowData?.ariaPosinset);
 
-      if (this.dataGrid.data[row]?.children) {
-        this.setAttribute('aria-expanded', this.dataGrid.data[row]?.rowExpanded === false ? 'false' : 'true');
+      if (rowData?.children) {
+        this.setAttribute('aria-expanded', rowData?.rowExpanded === false ? 'false' : 'true');
       }
     }
 
     // Handle Expanded
-    if (this.dataGrid.data[row]?.rowExpanded) {
+    if (rowData?.rowExpanded) {
       this.setAttribute('aria-expanded', 'true');
+      this.expandIcon?.setAttribute?.('icon', 'plusminus-folder-open');
     }
-    if (!this.dataGrid.data[row]?.rowExpanded && this.getAttribute('aria-expanded') === 'false') {
+    if (!rowData?.rowExpanded && this.getAttribute('aria-expanded') === 'false') {
       this.setAttribute('aria-expanded', 'false');
+      this.expandIcon?.setAttribute?.('icon', 'plusminus-folder-closed');
     }
-    if (!this.dataGrid.data[row]?.rowExpanded && this.dataGrid.expandableRow) {
+    if (!rowData?.rowExpanded && this.dataGrid.expandableRow) {
       this.setAttribute('aria-expanded', 'false');
+      this.expandIcon?.setAttribute?.('icon', 'plusminus-folder-closed');
     }
 
     // Handle Hidden
-    if (this.dataGrid.data[row]?.rowHidden) {
+    if (rowData?.rowHidden) {
       this.hidden = true;
       this.classList.add('hidden');
     }
-    if (!this.dataGrid.data[row]?.rowHidden && this.classList.contains('hidden')) {
+    if (!rowData?.rowHidden && this.classList.contains('hidden')) {
       this.hidden = false;
       this.classList.remove('hidden');
     }
@@ -202,14 +210,14 @@ export default class IdsDataGridRow extends IdsElement {
 
       this.setAttribute('aria-expanded', String(!isExpanded));
       this.dataGrid?.updateDataset(this.rowIndex, { rowExpanded: !isExpanded });
-      this.querySelector('.ids-data-grid-tree-container ids-button ids-icon')?.setAttribute('icon', !isExpanded ? 'plusminus-folder-open' : 'plusminus-folder-closed');
+      this.expandIcon?.setAttribute('icon', !isExpanded ? 'plusminus-folder-open' : 'plusminus-folder-closed');
     }
 
     // Handle Expand/Collapse for a tree
     if (this.dataGrid?.treeGrid) {
       this.setAttribute('aria-expanded', String(!isExpanded));
       this.dataGrid?.updateDataset(this.rowIndex, { rowExpanded: !isExpanded });
-      this.querySelector('.ids-data-grid-tree-container ids-button ids-icon')!.setAttribute('icon', !isExpanded ? 'plusminus-folder-open' : 'plusminus-folder-closed');
+      this.expandIcon!.setAttribute('icon', !isExpanded ? 'plusminus-folder-open' : 'plusminus-folder-closed');
       const level = this.getAttribute('aria-level');
       let isParentCollapsed = false;
 
