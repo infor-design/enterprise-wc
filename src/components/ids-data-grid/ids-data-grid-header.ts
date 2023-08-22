@@ -113,6 +113,7 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     let columnElem: HTMLElement;
 
     const mouseMoveHandler = (e: MouseEvent) => {
+      e.preventDefault();
       // Determine how far the mouse has been moved
       const dx = e.clientX - x;
       // Update the width of column to ${w + dx}px
