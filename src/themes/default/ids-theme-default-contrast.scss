@@ -25,6 +25,7 @@
   --ids-input-color-background-default: var(--ids-color-neutral-00);
   --ids-input-color-border-default: var(--ids-color-neutral-40);
   --ids-input-color-text: var(--ids-color-neutral-100);
+  --ids-input-color-text-placeholder: var(--ids-color-neutral-60);
   --ids-input-label-color-text-default: var(--ids-color-text-label);
   --ids-input-color-border-readonly: var(--ids-color-neutral-40);
   --ids-input-color-text-readonly: var(--ids-color-neutral-100);
@@ -177,9 +178,11 @@
   --ids-button-destructive-color-background-hover: var(--ids-color-error-10);
 
   // Button (Formatter)
-  --ids-button-formatter-color-text-default: var(--ids-color-neutral-10);
-  --ids-button-formatter-color-border: var(--ids-color-neutral-00);
-  --ids-button-formatter-color-text-hover: var(--ids-color-neutral-00);
+  --ids-button-formatter-color-text-hover: var(--ids-color-neutral-100);
+  --ids-button-formatter-color-text-disabled: var(--ids-color-neutral-60);
+  --ids-button-formatter-color-background-hover: var(--ids-color-neutral-30);
+  --ids-button-formatter-color-active: var(--ids-color-primary-90);
+  --ids-button-formatter-color-text-default: var(--ids-color-neutral-100);
 
   // Charts
   --ids-chart-legend-color-text: var(--ids-color-text);
@@ -274,7 +277,7 @@
   --ids-hyperlink-color-text-disabled: var(--ids-color-neutral-50);
 
   // Icons
-  --ids-icon-color-default: var(--ids-color-neutral-100);
+  --ids-icon-color-default: currentColor;
 
   // Link List
   --ids-link-list-title-color-text-default: var(--ids-color-neutral-110);
@@ -350,7 +353,7 @@
 
   // Separator
   --ids-separator-color-background: var(--ids-color-neutral-100);
-  --ids-separator-alternate-color-background: var(--ids-color-neutral-00);
+  --ids-separator-alternate-color-background: var(--ids-color-neutral-40);
 
   // Scroll View
   --ids-scroll-view-color-icon-default: var(--ids-color-neutral-60);
@@ -444,8 +447,9 @@
   // Toast
   --ids-toast-progress-color-background: var(--ids-progress-bar-fill-color-background);
 
-  // Toolbar
-  --ids-toolbar-formatter-color-background: var(--ids-color-neutral-70);
+  // Toolbar (Formatter)
+  --ids-toolbar-formatter-color-background: var(--ids-color-neutral-20);
+  --ids-toolbar-formatter-color-border-bottom: var(--ids-color-neutral-40);
 
   // Trigger Field
   --ids-trigger-field-icon-color: var(--ids-color-neutral-80);

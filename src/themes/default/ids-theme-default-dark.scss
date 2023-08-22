@@ -142,9 +142,12 @@
   --ids-button-destructive-color-background-hover: var(--ids-color-neutral-90);
 
   // Button (Formatter)
-  --ids-button-formatter-color-text-default: var(--ids-color-neutral-80);
   --ids-button-formatter-color-border: var(--ids-color-neutral-70);
-  --ids-button-formatter-color-text-hover: var(--ids-color-neutral-100);
+  --ids-button-formatter-color-text-hover: var(--ids-color-neutral-10);
+  --ids-button-formatter-color-text-disabled: var(--ids-color-neutral-40);
+  --ids-button-formatter-color-background-hover: var(--ids-color-neutral-80);
+  --ids-button-formatter-color-active: var(--ids-color-primary-40);
+  --ids-button-formatter-color-text-default: var(--ids-color-neutral-10);
 
   // Button (Module)
   --ids-button-module-color-background-hover: rgba(0 0 0 / 0.3);
@@ -299,7 +302,6 @@
   --ids-hyperlink-box-color-border-default: var(--ids-color-neutral-70);
 
   // Icons
-  --ids-icon-color-default: var(--ids-color-neutral-20);
   --ids-icon-color-default-disabled: var(--ids-color-text-disabled);
   --ids-icon-status-color-ruby-color-background: transparent;
   --ids-icon-status-color-amber-color-background: transparent;
@@ -318,6 +320,7 @@
   --ids-input-color-background-default: transparent;
   --ids-input-color-border-default: var(--ids-color-neutral-40);
   --ids-input-color-text: var(--ids-color-text-data);
+  --ids-input-color-text-placeholder: var(--ids-color-neutral-60);
   --ids-input-label-color-text-default: var(--ids-color-text-label);
   --ids-input-color-border-readonly: var(--ids-color-neutral-40);
   --ids-input-color-text-readonly: var(--ids-color-text-data);
@@ -376,9 +379,9 @@
   --ids-menu-check-color-default: var(--ids-color-azure-60);
 
   // Popup
-  --ids-popup-color-background: var(--ids-color-neutral-70);
-  --ids-popup-color-border: var(--ids-color-neutral-50);
-  --ids-popup-shadow: 0 2px 5px rgb(239 239 240 / 0.2);
+  --ids-popup-color-background: var(--ids-color-neutral-90);
+  --ids-popup-color-border: var(--ids-color-neutral-60);
+  --ids-popup-shadow: 0 2px 5px var(--ids-color-neutral-80);
 
   // Popup Menu
   --ids-popup-menu-color-text-default: var(--ids-color-neutral-00);
@@ -448,7 +451,7 @@
 
   // Separator
   --ids-separator-color-background: var(--ids-color-neutral-50);
-  --ids-separator-alternate-color-background: var(--ids-color-neutral-70);
+  --ids-separator-alternate-color-background: var(--ids-color-neutral-30);
 
   // Slider
   --ids-slider-tick-color-background-default: var(--ids-color-azure-60);
@@ -593,8 +596,9 @@
   --ids-tooltip-color-text: var(--ids-color-neutral-100);
   --ids-tooltip-shadow: 0 2px 5px rgb(239 239 240 / 0.4);
 
-  // Toolbar
-  --ids-toolbar-formatter-color-background: var(--ids-color-neutral-20);
+  // Toolbar (Formatter)
+  --ids-toolbar-formatter-color-background: var(--ids-color-neutral-70);
+  --ids-toolbar-formatter-color-border-bottom: var(--ids-color-neutral-50);
 
   // Trigger Field
   --ids-trigger-field-icon-color: var(--ids-color-neutral-30);

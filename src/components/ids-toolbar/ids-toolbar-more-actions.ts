@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
 import { removeNewLines, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -20,8 +21,10 @@ const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
 const TOOLBAR_TYPES = ['formatter'];
 
 const Base = IdsColorVariantMixin(
-  IdsEventsMixin(
-    IdsElement
+  IdsLocaleMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
   )
 );
 
@@ -85,7 +88,7 @@ export default class IdsToolbarMoreActions extends Base {
     const disabled = this.disabled ? ' disabled' : '';
     const icon = this.getAttribute('icon') || 'more';
 
-    this.insertAdjacentHTML('afterbegin', `<ids-menu-button id="${menuButtonId}" menu="${menuId}"${disabled}>
+    this.insertAdjacentHTML('afterbegin', `<ids-menu-button tooltip="${this.localeAPI.translate('More')}" id="${menuButtonId}" menu="${menuId}"${disabled}>
         <ids-icon icon="${icon}"></ids-icon>
         <span class="audible">More Actions Button</span>
       </ids-menu-button>

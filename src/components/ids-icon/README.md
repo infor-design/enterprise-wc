@@ -47,7 +47,7 @@ The most common implementation of custom sizing is for empty-message icons, whic
 <ids-icon icon="empty-generic" custom-height="80" custom-width="80" custom-viewbox="0 0 80 80"></ids-icon>
 ```
 
-Icons can also have a color that can be used for embellishment or to indicate status or bring attention to data. These should not be confused with `ids-alert` icons which are used in error messages / validation messages and for alert/errors.
+Icons can also have a color that can be used for embellishment or to indicate status or bring attention to data. These should not be confused with `ids-alert` icons which are used in error messages / validation messages and for alert/errors. These should be used for softer embellishment and do not replace alert icons where these are shown in examples (i.e. validation messages).
 
 ```html
 <ids-icon icon="rocket" status-color="azure"></ids-icon>

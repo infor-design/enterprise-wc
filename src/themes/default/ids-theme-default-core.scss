@@ -334,10 +334,14 @@
   --ids-button-alternate-color-background-pressed: var(--ids-color-text-on-primary);
 
   // Button (Formatter)
-  --ids-button-formatter-color-border: var(--ids-color-neutral-00);
+  --ids-button-formatter-color-border-focus: var(--ids-color-border-focus);
   --ids-button-formatter-opacity-disabled: 0.4;
-  --ids-button-formatter-color-text-hover: var(--ids-color-text-inverse);
-  --ids-button-formatter-color-text-default: var(--ids-input-color-background-readonly);
+  --ids-button-formatter-color-text-hover: var(--ids-color-neutral-100);
+  --ids-button-formatter-color-text-disabled: var(--ids-color-neutral-50);
+  --ids-button-formatter-color-background-hover: var(--ids-color-neutral-20);
+  --ids-button-formatter-color-active: var(--ids-color-primary-70);
+  --ids-button-formatter-color-text-default: var(--ids-color-neutral-100);
+  --ids-button-formatter-size: 32px;
 
   // Button (Module)
   --ids-button-module-border-radius: 10px;
@@ -629,7 +633,7 @@
   --ids-editor-source-line-padding-block-start: var(--ids-space-60);
   --ids-editor-source-line-padding-inline: var(--ids-space-50);
   --ids-editor-source-font-line-height: var(--ids-line-height-30);
-  --ids-editor-source-line-font-weight: var(--ids-font-weight-bold);
+  --ids-editor-source-line-font-weight: var(--ids-font-weight-semi-bold);
   --ids-editor-source-color-background-default: var(--ids-color-neutral-10);
   --ids-editor-source-line-color-text: var(--ids-color-neutral-50);
   --ids-editor-textarea-color-background: transparent;
@@ -766,6 +770,7 @@
   --ids-input-color-background-default: var(--ids-color-neutral-00);
   --ids-input-color-border-default: var(--ids-color-neutral-40);
   --ids-input-color-text: var(--ids-color-text-data);
+  --ids-input-color-text-placeholder: var(--ids-color-neutral-50);
   --ids-input-label-color-text-default: var(--ids-color-text-label);
   --ids-input-color-border-readonly: var(--ids-color-neutral-40);
   --ids-input-color-text-readonly: var(--ids-color-text-data);
@@ -1153,10 +1158,11 @@
 
   // Separator
   --ids-separator-color-background: var(--ids-color-neutral-40);
-  --ids-separator-alternate-color-background: var(--ids-color-neutral-40);
   --ids-separator-height: 24px;
   --ids-separator-width: 1px;
   --ids-separator-margin: 4px;
+  --ids-separator-alternate-color-background: var(--ids-color-neutral-30);
+  --ids-separator-alternate-margin: 8px;
 
   // Skip link
   --ids-skip-link-color-background: var(--ids-popup-color-background);
@@ -1410,8 +1416,9 @@
   --ids-toast-color-text: var(--ids-color-neutral-100);
   --ids-toast-progress-color-background: var(--ids-progress-bar-fill-color-background);
 
-  // Toolbar
-  --ids-toolbar-formatter-color-background: var(--ids-color-neutral-80);
+  // Toolbar (Formatter)
+  --ids-toolbar-formatter-color-background: var(--ids-color-neutral-10);
+  --ids-toolbar-formatter-color-border-bottom: var(--ids-color-neutral-30);
 
   // Tooltip
   --ids-tooltip-color-background: var(--ids-color-neutral-80);

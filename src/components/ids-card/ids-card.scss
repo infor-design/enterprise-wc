@@ -64,6 +64,8 @@
 }
 
 ::slotted([slot='card-header']) {
+  display: flex;
+  align-items: center;
   position: relative;
   width: 100%;
 }
