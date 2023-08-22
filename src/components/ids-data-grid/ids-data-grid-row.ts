@@ -201,14 +201,14 @@ export default class IdsDataGridRow extends IdsElement {
       else childRow.setAttribute('hidden', '');
 
       this.setAttribute('aria-expanded', String(!isExpanded));
-      this.dataGrid?.updateDataset(Number(this.getAttribute('data-index')), { rowExpanded: !isExpanded });
+      this.dataGrid?.updateDataset(this.rowIndex, { rowExpanded: !isExpanded });
       this.querySelector('.ids-data-grid-tree-container ids-button ids-icon')?.setAttribute('icon', !isExpanded ? 'plusminus-folder-open' : 'plusminus-folder-closed');
     }
 
     // Handle Expand/Collapse for a tree
     if (this.dataGrid?.treeGrid) {
       this.setAttribute('aria-expanded', String(!isExpanded));
-      this.dataGrid?.updateDataset(Number(this.getAttribute('data-index')), { rowExpanded: !isExpanded });
+      this.dataGrid?.updateDataset(this.rowIndex, { rowExpanded: !isExpanded });
       this.querySelector('.ids-data-grid-tree-container ids-button ids-icon')!.setAttribute('icon', !isExpanded ? 'plusminus-folder-open' : 'plusminus-folder-closed');
       const level = this.getAttribute('aria-level');
       let isParentCollapsed = false;
@@ -218,7 +218,7 @@ export default class IdsDataGridRow extends IdsElement {
         if (nodeLevel > Number(level) && !isParentCollapsed) {
           if (isExpanded) childRow.setAttribute('hidden', '');
           else childRow.removeAttribute('hidden');
-          this.dataGrid?.updateDataset(Number(childRow.getAttribute('data-index')), { rowHidden: isExpanded });
+          this.dataGrid?.updateDataset(Number(childRow.getAttribute('row-index')), { rowHidden: isExpanded });
         }
         if (childRow.getAttribute('aria-expanded')) isParentCollapsed = childRow.getAttribute('aria-expanded') === 'false';
       });
@@ -226,7 +226,7 @@ export default class IdsDataGridRow extends IdsElement {
 
     // Emit an Event
     if (!noTrigger) {
-      const visibleRowIndex = Number(this.getAttribute('data-index'));
+      const visibleRowIndex = this.rowIndex;
       this.dataGrid?.triggerEvent(`row${isExpanded ? 'collapsed' : 'expanded'}`, this.dataGrid, {
         bubbles: true,
         detail: {
