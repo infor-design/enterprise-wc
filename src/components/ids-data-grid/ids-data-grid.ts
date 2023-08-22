@@ -328,6 +328,8 @@ export default class IdsDataGrid extends Base {
       return;
     }
 
+    this.#removeAttachedMenus();
+
     const header = IdsDataGridHeader.template(this);
     const body = this.bodyTemplate();
     if (this.container) this.container.innerHTML = header + body;
@@ -2685,5 +2687,16 @@ export default class IdsDataGrid extends Base {
    */
   cellByIndex(rowIndex: number, columnIndex: number): IdsDataGridCell | null {
     return this.rowByIndex(rowIndex)?.cellByIndex?.(columnIndex) ?? null;
+  }
+
+  /**
+   * Removes filter row menus that have been moved from filter row headers into the data grid wrapper
+   * @private
+   */
+  #removeAttachedMenus() {
+    const attachedMenus = this.wrapper?.querySelectorAll<IdsPopupMenu>('ids-popup-menu');
+    if (attachedMenus?.length) {
+      [...attachedMenus].forEach((el: IdsPopupMenu) => el.remove());
+    }
   }
 }
