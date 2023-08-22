@@ -745,8 +745,8 @@ export default class IdsDataGridFilters {
       const timePicker = node?.querySelector('ids-time-picker');
       const btn = node?.querySelector('ids-menu-button');
       const menu = node?.querySelector('ids-popup-menu');
-      const triggerBtn = node?.querySelector('ids-trigger-button');
-      const triggerField = node?.querySelector('ids-trigger-field');
+      let triggerBtn = node?.querySelector('ids-trigger-button');
+      let triggerField = node?.querySelector('ids-trigger-field');
       const datePickerPopup = node?.querySelector('ids-date-picker-popup');
       const timePickerPopup = node?.querySelector('ids-time-picker-popup');
       let menuAttachment = '.ids-data-grid-wrapper';
@@ -783,9 +783,19 @@ export default class IdsDataGridFilters {
 
       // Connect Popup Menus
       if (menu) {
+        if (slot) {
+          triggerField = slot.assignedElements()[0].querySelector('ids-input');
+          triggerBtn = slot.assignedElements()[0].querySelector('ids-menu-button');
+          menu.setAttribute(attributes.TARGET, `#${triggerBtn.getAttribute('id')}`);
+          menu.setAttribute(attributes.TRIGGER_ELEM, `#${triggerBtn.getAttribute('id')}`);
+        } else {
+          menu.setAttribute(attributes.ATTACHMENT, menuAttachment);
+        }
         menu.setAttribute(attributes.TRIGGER_TYPE, 'click');
-        menu.setAttribute(attributes.ATTACHMENT, menuAttachment);
-        menu.onOutsideClick = () => { menu.hide(); };
+        menu.onOutsideClick = () => {
+          menu.hide();
+        };
+        menu.removeTriggerEvents();
 
         // Move/Rebind menu (order of these statements matters)
         menu.appendToTargetParent();
