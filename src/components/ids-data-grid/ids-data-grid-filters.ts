@@ -1,5 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
-import { hasClass } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { hasClass, getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 import IdsDataGridCell from './ids-data-grid-cell';
@@ -800,7 +800,9 @@ export default class IdsDataGridFilters {
         // Move/Rebind menu (order of these statements matters)
         menu.appendToTargetParent();
         menu.popupOpenEventsTarget = document.body;
-        menu.refreshTriggerEvents();
+        menu.keyboardEventTarget = this.root;
+        menu.attachEventHandlers();
+        menu.attachKeyboardListeners();
       }
 
       btn?.setAttribute('data-filter-conditions-button', '');
@@ -886,6 +888,54 @@ export default class IdsDataGridFilters {
    * @returns {void}
    */
   attachFilterEventHandlers() {
+    this.root.offEvent(`show.${this.#id()}`, this.root.wrapper);
+    this.root.onEvent(`show.${this.#id()}`, this.root.wrapper, (e: any) => {
+      const elem = e.target;
+      if (!elem) return;
+
+      // Only apply this event to handlers that exist on internal (not slotted) filter menus
+      const containerNode = getClosestContainerNode(elem);
+      if (containerNode === document) return;
+
+      this.root.openMenu = elem;
+
+      // Popup Menus
+      if (/ids-popup-menu/gi.test(elem.nodeName)) {
+        this.root.onEvent(`keydown.${this.#id()}`, elem, (f: any) => {
+          const key = f.key;
+          if (key === 'ArrowUp') {
+            elem.navigate(-1, true);
+          }
+          if (key === 'ArrowDown') {
+            elem.navigate(1, true);
+          }
+          if (['Enter', 'SpaceBar', ' '].includes(key)) {
+            elem.selectItem(elem.lastNavigated);
+            elem.hideAndFocus(true);
+          }
+          if (key === 'Escape') {
+            elem.hideAndFocus(true);
+          }
+        });
+      }
+    });
+
+    this.root.offEvent(`hide.${this.#id()}`, this.root.wrapper);
+    this.root.onEvent(`hide.${this.#id()}`, this.root.wrapper, (e: any) => {
+      const elem = e.target;
+      if (!elem) return;
+
+      // Only apply this event to handlers that exist on internal (not slotted) filter menus
+      const containerNode = getClosestContainerNode(elem);
+      if (containerNode === document) return;
+
+      if (this.root.openMenu) this.root.openMenu = null;
+
+      if (/ids-popup-menu/gi.test(elem.nodeName)) {
+        this.root.offEvent(`keydown.${this.#id()}`, elem);
+      }
+    });
+
     // Captures selected contents from menu/dropdown list items.
     this.root.offEvent(`selected.${this.#id()}`, this.root.wrapper);
     this.root.onEvent(`selected.${this.#id()}`, this.root.wrapper, (e: any) => {
