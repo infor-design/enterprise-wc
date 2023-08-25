@@ -888,6 +888,25 @@ export default class IdsDataGridFilters {
    * @returns {void}
    */
   attachFilterEventHandlers() {
+    this.root.onEvent(`keydown.${this.#id()}`, this.root.wrapper, (e: any) => {
+      const elem = e.target;
+      if (!elem) return;
+
+      // Only apply this event to handlers that exist on internal (not slotted) filter menus
+      const containerNode = getClosestContainerNode(elem);
+      if (containerNode === document) return;
+
+      const key = e.key;
+      if (key === 'ArrowDown') {
+        if (/ids-trigger-field/gi.test(elem.nodeName)) {
+          elem.querySelector('ids-trigger-button').click();
+        }
+        if (/ids-dropdown/gi.test(elem.nodeName)) {
+          elem.click();
+        }
+      }
+    });
+
     this.root.offEvent(`show.${this.#id()}`, this.root.wrapper);
     this.root.onEvent(`show.${this.#id()}`, this.root.wrapper, (e: any) => {
       const elem = e.target;
@@ -918,6 +937,29 @@ export default class IdsDataGridFilters {
           }
         });
       }
+
+      // Dropdown Lists
+      if (/ids-dropdown-list/gi.test(elem.nodeName)) {
+        this.root.onEvent(`keydown.${this.#id()}`, elem, (f: any) => {
+          const key = f.key;
+          if (key === 'ArrowUp') {
+            console.info('dropdown arrow up');
+            elem.navigate(-1);
+          }
+          if (key === 'ArrowDown') {
+            console.info('dropdown arrow down');
+            elem.navigate(1);
+          }
+          if (['Enter', 'SpaceBar', ' '].includes(key)) {
+            console.info(`dropdown select with "${key}"`);
+            elem.select();
+          }
+          if (key === 'Escape') {
+            console.info('dropdown cancel with escape');
+            elem.triggerCloseEvent(true);
+          }
+        });
+      }
     });
 
     this.root.offEvent(`hide.${this.#id()}`, this.root.wrapper);
@@ -931,8 +973,14 @@ export default class IdsDataGridFilters {
 
       if (this.root.openMenu) this.root.openMenu = null;
 
-      if (/ids-popup-menu/gi.test(elem.nodeName)) {
+      // Popup Menus/Dropdown Lists
+      if (/ids-popup-menu|ids-dropdown-list/gi.test(elem.nodeName)) {
         this.root.offEvent(`keydown.${this.#id()}`, elem);
+      }
+
+      // Anything extending IdsPickerPopup
+      if (/ids-time-picker-popup|ids-date-picker-popup/gi.test(elem.nodeName)) {
+        elem.target?.focus();
       }
     });
 
