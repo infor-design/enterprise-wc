@@ -182,6 +182,9 @@
   - link: tree-grid-virtual-scroll.html
     type: Example
     description: Shows a tree with virtual scrolling
+  - link: tree-grid-virtual-scroll-infinite-scroll.html
+    type: Example
+    description: Shows a tree with virtual and infinite scrolling
   - link: tree-grid-expand-collapse.html
     type: Example
     description: Shows a tree with expand and collapse rows
