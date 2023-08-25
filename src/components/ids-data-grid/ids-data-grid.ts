@@ -749,7 +749,7 @@ export default class IdsDataGrid extends Base {
       if (!this.activeCell?.node) return;
 
       const row = this.rowByIndex(this.activeCell.row)!;
-      if (row.disabled) return;
+      if (!row || row.disabled) return;
 
       const button = this.activeCell.node.querySelector('ids-button');
       if (button) {
@@ -776,7 +776,7 @@ export default class IdsDataGrid extends Base {
       if (!this.activeCell?.node || findInPath(eventPath(e), '.ids-data-grid-header-cell')) return;
 
       const row = this.rowByIndex(this.activeCell.row)!;
-      if (row.disabled) return;
+      if (!row || row.disabled) return;
 
       const cellNode = this.activeCell.node;
       const hyperlink = cellNode.querySelector('ids-hyperlink');
