@@ -14,6 +14,9 @@
 
 ### 1.0.0-beta.15 Fixes
 
+- `[DataGrid]` Fixed duplicate filter menus ([#1258](https://github.com/infor-design/enterprise-wc/issues/1258))
+- `[DataGrid]` Fixed missing/incorrect event handling in some cases with built-in filter menus/pickers. ([#1291](https://github.com/infor-design/enterprise-wc/issues/1291))
+- `[DataGrid]` Fixed incorrect placement of slotted filter menus/pickers. ([#1297](https://github.com/infor-design/enterprise-wc/issues/1297))
 - `[DataGrid]` Added example that shows context-menu with option to activate cell edit-mode on right-click. ([#1319](https://github.com/infor-design/enterprise-wc/issues/1319))
 
 ## 1.0.0-beta.14
