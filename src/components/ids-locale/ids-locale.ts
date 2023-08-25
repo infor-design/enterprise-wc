@@ -1,19 +1,32 @@
 import { isValidDate, gregorianToUmalqura } from '../../utils/ids-date-utils/ids-date-utils';
-import { locale as localeEn } from './data/en-US';
-import { messages as messagesEn } from './data/en-messages';
 import IdsLocaleData from './ids-locale-data';
+import { locale as localeEn } from './data/en-US';
+import { querySelectorAllShadowRoot } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { messages as messagesEn } from './data/en-messages';
 
-/**
- * A mixin that adds locale functionality to components
- * @param {any} superclass Accepts a superclass and creates a new subclass from it
- * @returns {any} The extended object
- */
+declare global {
+  interface Window {
+    Ids: {
+      locale?: IdsLocale
+    }
+  }
+}
+
 class IdsLocale {
+  public static getInstance(): IdsLocale {
+    if (!window.Ids) {
+      window.Ids = {};
+    }
+
+    if (!window.Ids.locale) {
+      window.Ids.locale = new IdsLocale();
+    }
+
+    return window.Ids.locale;
+  }
+
   // State object
   state?: any;
-
-  // Holds a single instance of Intl
-  dateFormatter?: Intl.DateTimeFormat;
 
   constructor() {
     IdsLocaleData.loadedLocales.set('en-US', localeEn);
@@ -25,8 +38,7 @@ class IdsLocale {
         localeName: 'en-US',
       },
       language: 'en',
-      localeName: 'en-US',
-      localeOptions: {}
+      localeName: 'en-US'
     };
     this.setDefaults();
   }
@@ -43,7 +55,61 @@ class IdsLocale {
     this.state.defaultLocale.messages = this.language.messages;
     this.state.defaultLocale.language = defaultLang;
     this.state.defaultLocale.localeName = defaultLocale;
-    this.state.defaultLocale.localeOptions = IdsLocaleData.loadedLocales.get(defaultLocale);
+  }
+
+  // Holds a single instance of Intl
+  dateFormatter?: Intl.DateTimeFormat;
+
+  // Locale name (code)
+  name = 'en-US';
+
+  /**
+   * Set the language for a component
+   * @param {string} value The language string value
+   */
+  set language(value: string | any) {
+    const lang = this.#correctLanguage(value);
+    if (value && lang !== this.state.language) {
+      this.setLanguage(lang);
+    }
+  }
+
+  /**
+   * Get the language data
+   * @returns {object} The language data
+   */
+  get language(): any {
+    return {
+      name: this.state.language,
+      messages: IdsLocaleData.loadedLanguages.get(this.state.language) || {}
+    };
+  }
+
+  /**
+   * Maps a language value to a more correct one
+   * @private
+   * @param {string} value the starting language string
+   * @returns {string} the updated language string
+   */
+  #correctLanguage(value: string) {
+    let lang = value?.replace('-messages', '');
+    // Locales that dont have a default if a two digit locale
+    const translated = new Set(['fr-CA', 'fr-FR', 'pt-BR', 'pt-PT', 'zh-CN', 'zh-Hans', 'zh-Hant', 'zh-TW']);
+    if (translated.has(lang)) {
+      return lang;
+    }
+
+    // Use two digit for others
+    lang = lang.substring(0, 2);
+
+    // Map incorrect java locale to correct locale
+    if (lang === 'in') {
+      lang = 'id';
+    }
+    if (lang === 'iw') {
+      lang = 'he';
+    }
+    return lang;
   }
 
   /**
@@ -62,6 +128,116 @@ class IdsLocale {
   }
 
   /**
+   * Maps a locale value to a more correct one
+   * @private
+   * @param {string} value the starting locale string
+   * @returns {string} the updated locale string
+   */
+  #correctLocale(value: string) {
+    let locale = value;
+    // Map incorrect java locale to correct locale
+    if (locale === 'in-ID') {
+      locale = 'id-ID';
+    }
+    if (locale?.substr(0, 2) === 'iw') {
+      locale = 'he-IL';
+    }
+    return locale;
+  }
+
+  /** Holds the last set locale to prevent up processing */
+  previousLocale = 'en-US';
+
+  /**
+   * Set the locale for a component and wait for it to finish (async)
+   * @param {string} value The locale string value
+   */
+  async setLocale(value: string) {
+    if (!value || this.previousLocale === value) {
+      return;
+    }
+
+    const locale = this.#correctLocale(value);
+    if (this.name !== locale) {
+      this.name = locale;
+      this.state.localeName = locale;
+      this.setLanguage(locale);
+    }
+
+    if (!IdsLocaleData.loadedLocales.get(this.name)) {
+      await this.loadLocaleScript(locale);
+    }
+
+    this.#notifyElementsLocale();
+    this.previousLocale = value;
+  }
+
+  /**
+   * Notify every component of locale changes
+   */
+  #notifyElementsLocale() {
+    querySelectorAllShadowRoot('*').forEach((elem: any) => {
+      if (this.previousLocale !== this.name && elem.nodeName.substring(0, 4) === 'IDS-' && elem.localeAPI) {
+        elem.setAttribute('locale', this.name);
+        if (typeof elem.onLocaleChange === 'function') {
+          elem.onLocaleChange(this);
+        }
+        if (elem.triggerEvent) {
+          elem.triggerEvent('localechange', elem, { detail: { elem, language: this.language, locale: this.state?.locale } });
+        }
+      }
+    });
+  }
+
+  /**
+   * Notify every component of language changes
+   */
+  #notifyElementsLanguage() {
+    querySelectorAllShadowRoot('*').forEach((elem: any) => {
+      if (this.previousLanguage !== this.language.name && elem.nodeName.substring(0, 4) === 'IDS-' && elem.localeAPI) {
+        elem.setAttribute('language', this.language.name);
+        if (typeof elem.onLanguageChange === 'function') {
+          elem.onLanguageChange(this);
+        }
+        if (elem.triggerEvent) {
+          elem.triggerEvent('languagechange', elem, { detail: { elem, language: this.language, locale: this.state?.locale } });
+        }
+        this.updateDirectionAttribute(elem, this.language.name);
+      }
+    });
+  }
+
+  /**
+   * Load a locale file
+   * @private
+   * @param {string} value The script file name
+   * @returns {Promise} A promise that will resolve when complete
+   */
+  loadLocaleScript(value: string) {
+    const promise = import(/* webpackIgnore: true */`../locale-data/${value}.js`);
+    promise.then((module) => {
+      // do something with the locale data
+      IdsLocaleData.loadedLocales.set(value, module.locale);
+    });
+    return promise;
+  }
+
+  /**
+   * Sets the lang (language) tag on an element
+   * @param {string} value The value to check
+   */
+  setDocumentLangAttribute(value: string) {
+    const htmlElem = document?.querySelector('html');
+    if (value && htmlElem && htmlElem.getAttribute('lang') !== value) {
+      htmlElem.setAttribute('lang', value);
+      return;
+    }
+    if (!value && htmlElem) {
+      document?.querySelector('html')?.removeAttribute('lang');
+    }
+  }
+
+  /**
    * Sets the dir (direction) tag on an element
    * @param {HTMLElement} elem The element to set it on.
    * @param {string} value The value to check
@@ -74,45 +250,8 @@ class IdsLocale {
     elem.removeAttribute('dir');
   }
 
-  /**
-   * Sets the lang (langauge) tag on an element
-   * @param {HTMLElement} elem The element to set it on.
-   * @param {string} value The value to check
-   */
-  setDocumentLangAttribute(elem: HTMLElement, value: string) {
-    if (value) {
-      document?.querySelector('html')?.setAttribute('lang', value);
-      return;
-    }
-    document?.querySelector('html')?.removeAttribute('lang');
-  }
-
-  /** Reset the language attribute to clean up */
-  removeLangAttribute() {
-    document?.querySelector('html')?.removeAttribute('lang');
-  }
-
-  /**
-   * Set the language for a component
-   * @param {string} value The language string value
-   */
-  set language(value: string | any) {
-    const lang = this.correctLanguage(value);
-    if (value && lang !== this.state.language) {
-      this.setLanguage(lang);
-    }
-  }
-
-  /**
-   * Get the language data
-   * @returns {object} The language data
-   */
-  get language(): any {
-    return {
-      name: this.state.language,
-      messages: IdsLocaleData.loadedLanguages.get(this.state.language) || {}
-    };
-  }
+  /** Holds the last set language */
+  previousLanguage = 'en';
 
   /**
    * Set the language for a component and wait for it to finish (async)
@@ -123,11 +262,14 @@ class IdsLocale {
     if (this.state.language !== lang) {
       this.state.language = lang;
     }
+    if (this.previousLanguage === value) return;
 
-    if (this.state.language === lang && IdsLocaleData.loadedLanguages.get(this.state.language)) {
-      return;
+    if (this.state.language === lang && !IdsLocaleData.loadedLanguages.get(this.state.language)) {
+      await this.loadLanguageScript(lang);
     }
-    await this.loadLanguageScript(lang);
+    this.setDocumentLangAttribute(lang);
+    this.#notifyElementsLanguage();
+    this.previousLanguage = value;
   }
 
   /**
@@ -211,21 +353,6 @@ class IdsLocale {
   }
 
   /**
-   * Load a locale file
-   * @private
-   * @param {string} value The script file name
-   * @returns {Promise} A promise that will resolve when complete
-   */
-  loadLocaleScript(value: string) {
-    const promise = import(/* webpackIgnore: true */`../locale-data/${value}.js`);
-    promise.then((module) => {
-      // do something with the locale data
-      IdsLocaleData.loadedLocales.set(value, module.locale);
-    });
-    return promise;
-  }
-
-  /**
    * Set the locale for a component
    * @param {string} value The locale string value
    */
@@ -245,45 +372,6 @@ class IdsLocale {
       name: this.state.localeName,
       options: IdsLocaleData.loadedLocales.get(this.state.localeName) || {}
     };
-  }
-
-  /**
-   * Set the locale for a component and wait for it to finish (async)
-   * @param {string} value The locale string value
-   */
-  async setLocale(value: string | null | undefined) {
-    if (!value) {
-      return;
-    }
-
-    const locale = this.#correctLocale(value);
-    if (this.state.localeName !== locale) {
-      this.state.localeName = locale;
-      this.setLanguage(locale);
-    }
-
-    if (this.state.localeName === locale && IdsLocaleData.loadedLocales.get(this.state.localeName)) {
-      return;
-    }
-    await this.loadLocaleScript(locale);
-  }
-
-  /**
-   * Maps a locale value to a more correct one
-   * @private
-   * @param {string} value the starting locale string
-   * @returns {string} the updated locale string
-   */
-  #correctLocale(value: string) {
-    let locale = value;
-    // Map incorrect java locale to correct locale
-    if (locale === 'in-ID') {
-      locale = 'id-ID';
-    }
-    if (locale?.substr(0, 2) === 'iw') {
-      locale = 'he-IL';
-    }
-    return locale;
   }
 
   /**

@@ -202,7 +202,7 @@ describe('IdsHomePage Component', () => {
   });
 
   it.skip('should trigger resized event in RTL', async () => {
-    await container.setLanguage('ar');
+    await container.localeAPI.setLanguage('ar');
     await processAnimFrame();
     expect(homePage.getAttribute('dir')).toEqual('rtl');
   });

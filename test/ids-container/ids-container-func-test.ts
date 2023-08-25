@@ -35,7 +35,7 @@ describe('IdsContainer Component', () => {
   });
 
   it('can set language via async func', async () => {
-    await container.setLanguage('ar');
+    await container.localeAPI.setLanguage('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');
   });
 
@@ -45,7 +45,7 @@ describe('IdsContainer Component', () => {
   });
 
   it('can set locale via async func', async () => {
-    await container.setLocale('ar-SA');
+    await container.localeAPI.setLocale('ar-SA');
     expect(container.locale).toEqual('ar-SA');
     expect(container.getAttribute('dir')).toEqual('rtl');
   });
@@ -75,11 +75,11 @@ describe('IdsContainer Component', () => {
   });
 
   it('supports setting language', async () => {
-    await container.setLanguage('ar');
+    await container.localeAPI.setLanguage('ar');
     expect(container.getAttribute('language')).toEqual('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');
 
-    await container.setLanguage('de');
+    await container.localeAPI.setLanguage('de');
     expect(container.getAttribute('language')).toEqual('de');
     expect(container.getAttribute('dir')).toEqual(null);
   });

@@ -444,7 +444,7 @@ describe('IdsToast Component', () => {
   });
 
   it('should update with container language change', async () => {
-    await container.setLanguage('ar');
+    await container.localeAPI.setLanguage('ar');
     expect(toast.getAttribute('dir')).toEqual('rtl');
   });
 

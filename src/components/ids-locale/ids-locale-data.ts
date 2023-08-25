@@ -1,5 +1,5 @@
 /** Static Holder of locale information */
-abstract class IdsLocaleData {
+class IdsLocaleData {
   static loadedLocales = new Map();
 
   // The lang files that have been loaded up

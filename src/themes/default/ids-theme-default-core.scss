@@ -862,11 +862,12 @@
   // Masthead
   --ids-masthead-color-background: var(--ids-color-neutral-100); // black -> slate-100
   --ids-masthead-color-text: var(--ids-color-neutral-30);
-  --ids-masthead-padding-inline: var(--ids-space-60);
-  --ids-masthead-height-min: 40px;
-  --ids-masthead-logo-padding-icon-inline: var(--ids-space-40);
-  --ids-masthead-logo-top-space-icon: var(--ids-space-10);
+  --ids-masthead-padding-inline: var(--ids-space-40);
+  --ids-masthead-height: 40px;
+  --ids-masthead-logo-padding-icon-inline: var(--ids-space-20);
+  --ids-masthead-logo-top-space-icon: 2.5px;
   --ids-masthead-title-margin-inline: var(--ids-space-40);
+  --ids-masthead-color-hover: var(--ids-color-neutral-00);
 
   // Menu
   --ids-menu-header-font-weight: var(--ids-font-weight-semibold);

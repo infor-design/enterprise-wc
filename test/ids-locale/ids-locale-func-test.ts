@@ -218,7 +218,7 @@ describe('IdsLocale API', () => {
     IdsLocaleData.loadedLocales.set('zh-Hans', zhHansLocale);
     IdsLocaleData.loadedLocales.set('zh-Hant', zhHantLocale);
     IdsLocaleData.loadedLocales.set('zh-TW', zhTWLocale);
-    locale.langauge = 'en';
+    locale.language = 'en';
   });
 
   afterEach(async () => {
@@ -422,7 +422,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate).toBeTruthy();
     });
 
-    it('can set langauge with a setter', async () => {
+    it('can set language with a setter', async () => {
       locale.language = 'no';
 
       expect(locale.language.name).toEqual('no');

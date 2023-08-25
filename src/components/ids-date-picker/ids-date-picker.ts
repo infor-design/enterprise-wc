@@ -402,7 +402,6 @@ class IdsDatePicker extends Base {
     this.#triggerField.locale = this.locale;
     this.#triggerField.language = this.language.name;
     this.#triggerField.format = this.format;
-    this.setDirection();
     this.#applyMask();
 
     // Locale change first day of week only if it's not set as attribute

@@ -161,7 +161,7 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
 
     return `
       <ids-menu-button id="view-picker-btn" menu="view-picker" value="${view}" dropdown-icon display-selected-text>
-        <span><ids-text translate-text="true">${value}</ids-text></span>
+        <span><ids-text translate-text="true" font-weight="semi-bold">${value}</ids-text></span>
       </ids-menu-button>
       <ids-popup-menu id="view-picker" trigger-type="click" target="#view-picker-btn">
         <ids-menu-group select="single">

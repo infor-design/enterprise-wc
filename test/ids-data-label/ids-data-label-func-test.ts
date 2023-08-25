@@ -21,7 +21,7 @@ describe('IdsDataLabel Component', () => {
     dataLabel.label = 'Address';
     container.appendChild(dataLabel);
     document.body.appendChild(container);
-    await container.setLanguage('en');
+    await container.localeAPI.setLanguage('en');
   });
 
   afterEach(async () => {
@@ -67,7 +67,7 @@ describe('IdsDataLabel Component', () => {
   });
 
   it('renders for french', async () => {
-    await container.setLanguage('fr');
+    await container.localeAPI.setLanguage('fr');
     dataLabel.label = 'Shipping To';
     dataLabel.labelPosition = 'left';
     await processAnimFrame();

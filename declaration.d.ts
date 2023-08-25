@@ -20,6 +20,7 @@ declare const page: any;
 declare const browser: any;
 declare module 'mutationobserver-shim';
 declare const AxePuppeteer: any;
+declare const Ids: { locale?: any };
 
 // For Components
 declare module 'Ids*';

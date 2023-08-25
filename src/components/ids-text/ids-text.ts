@@ -462,7 +462,6 @@ export default class IdsText extends Base {
       return;
     }
 
-    await this.localeAPI.setLanguage(this.localeAPI.language.name);
     this.textContent = this.localeAPI.translate(translationKey);
   }
 }

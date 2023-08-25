@@ -137,7 +137,7 @@ describe('IdsSwitch Component', () => {
   });
 
   it('can change language from the container', async () => {
-    await container.setLanguage('de');
+    await container.localeAPI.setLanguage('de');
     expect(el.getAttribute('language')).toEqual('de');
   });
 

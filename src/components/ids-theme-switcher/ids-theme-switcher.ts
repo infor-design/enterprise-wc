@@ -60,24 +60,15 @@ export default class IdsThemeSwitcher extends Base {
         this.mode = val;
       }
       if (val?.indexOf('-') > -1) {
-        if (this.locale) this.localeAPI.setLocale(val);
-        (document.querySelector('ids-container') as any).setLocale(val);
+        Ids.locale.setLocale(val);
       }
     });
   }
 
   // Respond to changing locale
   onLocaleChange = () => {
-    if (this.popup?.popup) {
-      this.popup.popup.locale = this.locale;
-      this.popup.popup.language = this.language.name;
-    }
-    if (this.menuButton) {
-      this.menuButton.locale = this.locale;
-      this.menuButton.language = this.language.name;
-    }
     this.shadowRoot?.querySelectorAll('[translate-text]').forEach((textElem: Element) => {
-      (textElem as IdsText).language = this.language.name;
+      (textElem as IdsText).localeAPI.language = this.localeAPI.language.name;
     });
   };
 

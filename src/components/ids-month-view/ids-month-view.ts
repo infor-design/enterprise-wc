@@ -200,12 +200,10 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
   }
 
   onLanguageChange = () => {
-    this.setDirection();
     this.#renderMonth();
   };
 
   onLocaleChange = () => {
-    this.setDirection();
     this.#renderMonth();
   };
 
