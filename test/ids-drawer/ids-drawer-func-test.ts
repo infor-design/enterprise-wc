@@ -10,6 +10,7 @@ import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavi
 import waitForTimeout from '../helpers/wait-for-timeout';
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsDrawer Component', () => {
   let elem: any;
@@ -145,7 +146,7 @@ describe('IdsDrawer Component', () => {
     container.appendChild(elem2);
     IdsLocaleData.loadedLanguages.set('ar', arMessages);
 
-    await container.setLanguage('ar');
+    await IdsGlobal.getLocale().setLanguage('ar');
     waitForTimeout(() => expect(elem.getAttribute('dir')).toBe('rtl'));
   });
 

@@ -109,6 +109,7 @@ import { locale as zhCNLocale } from '../../src/components/ids-locale/data/zh-CN
 import { locale as zhHansLocale } from '../../src/components/ids-locale/data/zh-Hans';
 import { locale as zhHantLocale } from '../../src/components/ids-locale/data/zh-Hant';
 import { locale as zhTWLocale } from '../../src/components/ids-locale/data/zh-TW';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsLocale API', () => {
   let locale: any;
@@ -1342,18 +1343,18 @@ describe('IdsLocale API', () => {
       IdsLocaleData.loadedLanguages.set('ar', arMessages);
       document.body.appendChild(container);
 
-      await container.setLanguage('de');
+      await IdsGlobal.getLocale().setLanguage('de');
       let html = window.document.getElementsByTagName('html')[0];
       expect(html.getAttribute('lang')).toEqual('de');
       expect(container.getAttribute('language')).toEqual('de');
 
-      await container.setLanguage('ar');
+      await IdsGlobal.getLocale().setLanguage('ar');
       html = window.document.getElementsByTagName('html')[0];
       expect(html.getAttribute('lang')).toEqual('ar');
       expect(container.getAttribute('language')).toEqual('ar');
       expect(container.getAttribute('dir')).toEqual('rtl');
 
-      await container.setLanguage('de');
+      await IdsGlobal.getLocale().setLanguage('de');
       html = window.document.getElementsByTagName('html')[0];
       expect(html.getAttribute('lang')).toEqual('de');
       expect(container.getAttribute('language')).toEqual('de');

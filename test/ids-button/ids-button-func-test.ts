@@ -9,6 +9,7 @@ import '../../src/components/ids-icon/ids-icon';
 import type IdsIcon from '../../src/components/ids-icon/ids-icon';
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsButton Component', () => {
   let btn: IdsButton;
@@ -104,7 +105,7 @@ describe('IdsButton Component', () => {
     document.body.appendChild(container);
     expect(btn.container?.classList.contains('rtl')).toBeFalsy();
     IdsLocaleData.loadedLanguages.set('ar', arMessages);
-    await container.setLanguage('ar');
+    await IdsGlobal.getLocale().setLanguage('ar');
     await processAnimFrame();
     expect(btn.localeAPI.isRTL()).toEqual(true);
   });

@@ -6,6 +6,7 @@ import IdsRadioGroup from '../../src/components/ids-radio/ids-radio-group';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 jest.useFakeTimers();
 
@@ -392,7 +393,7 @@ describe('IdsRadioGroup Component', () => {
   });
 
   it('can change language from the container', async () => {
-    await container.setLanguage('de');
+    await IdsGlobal.getLocale().setLanguage('de');
     expect(rg.getAttribute('language')).toEqual('de');
   });
 });

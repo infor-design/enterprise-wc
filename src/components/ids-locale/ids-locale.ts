@@ -4,27 +4,7 @@ import { locale as localeEn } from './data/en-US';
 import { querySelectorAllShadowRoot } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { messages as messagesEn } from './data/en-messages';
 
-declare global {
-  interface Window {
-    Ids: {
-      locale?: IdsLocale
-    }
-  }
-}
-
 class IdsLocale {
-  public static getInstance(): IdsLocale {
-    if (!window.Ids) {
-      window.Ids = {};
-    }
-
-    if (!window.Ids.locale) {
-      window.Ids.locale = new IdsLocale();
-    }
-
-    return window.Ids.locale;
-  }
-
   // State object
   state?: any;
 
@@ -213,13 +193,10 @@ class IdsLocale {
    * @param {string} value The script file name
    * @returns {Promise} A promise that will resolve when complete
    */
-  loadLocaleScript(value: string) {
-    const promise = import(/* webpackIgnore: true */`../locale-data/${value}.js`);
-    promise.then((module) => {
-      // do something with the locale data
+  async loadLocaleScript(value: string) {
+    await import(/* webpackIgnore: true */`../locale-data/${value}.js`).then((module) => {
       IdsLocaleData.loadedLocales.set(value, module.locale);
     });
-    return promise;
   }
 
   /**

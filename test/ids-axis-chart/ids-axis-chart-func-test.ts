@@ -16,6 +16,7 @@ import { messages as deMessages } from '../../src/components/ids-locale/data/de-
 import { messages as frFRMessages } from '../../src/components/ids-locale/data/fr-FR-messages';
 import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
 import { locale as frFRLocale } from '../../src/components/ids-locale/data/fr-FR';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsAxisChart Component', () => {
   let axisChart: any;
@@ -366,7 +367,7 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('should adjust RTL', async () => {
-    await container.setLanguage('ar');
+    await IdsGlobal.getLocale().setLanguage('ar');
     await processAnimFrame();
 
     expect(axisChart.localeAPI.isRTL()).toBe(true);
@@ -380,7 +381,7 @@ describe('IdsAxisChart Component', () => {
     axisChart.axisLabelTop = 'Top axis label';
     axisChart.axisLabelMargin = 20;
     expect(axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length).toEqual(4);
-    await container.setLanguage('ar');
+    await IdsGlobal.getLocale().setLanguage('ar');
     await processAnimFrame();
     expect(axisChart.localeAPI.isRTL()).toBe(true);
 
@@ -404,7 +405,7 @@ describe('IdsAxisChart Component', () => {
     expect(xLabels[0].getAttribute('transform-origin')).toEqual(null);
     expect(xLabels[0].getAttribute('transform-origin')).toEqual(null);
 
-    await container.setLanguage('ar');
+    await IdsGlobal.getLocale().setLanguage('ar');
     axisChart.alignXLabels = 'middle';
     axisChart.redraw();
     await processAnimFrame();
@@ -437,10 +438,10 @@ describe('IdsAxisChart Component', () => {
     expect(yLabels[0].getAttribute('transform')).toContain('rotate(-60');
     expect(yLabels[5].getAttribute('transform')).toContain('rotate(-60');
 
-    expect(yLabels[0].getAttribute('transform-origin')).toEqual(null);
-    expect(yLabels[0].getAttribute('transform-origin')).toEqual(null);
+    expect(yLabels[0].getAttribute('transform-origin')).toEqual('4px 57px');
+    expect(yLabels[0].getAttribute('transform-origin')).toEqual('4px 57px');
 
-    await container.setLanguage('ar');
+    await IdsGlobal.getLocale().setLanguage('ar');
     axisChart.alignXLabels = 'middle';
     axisChart.redraw();
     await processAnimFrame();

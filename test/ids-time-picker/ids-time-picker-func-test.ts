@@ -14,6 +14,7 @@ import { hoursTo12 } from '../../src/utils/ids-date-utils/ids-date-utils';
 import { messages as esMessages } from '../../src/components/ids-locale/data/es-messages';
 import { locale as es419Locale } from '../../src/components/ids-locale/data/es-419';
 import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsTimePicker Component', () => {
   let timepicker: any;
@@ -28,7 +29,7 @@ describe('IdsTimePicker Component', () => {
 
     IdsLocaleData.loadedLanguages.set('es', esMessages);
     IdsLocaleData.loadedLocales.set('es-419', es419Locale);
-    container.setLocale('en-US');
+    IdsGlobal.getLocale().setLocale('en-US');
   });
 
   afterEach(async () => {
@@ -135,7 +136,7 @@ describe('IdsTimePicker Component', () => {
 
     expect(timepicker.getAttribute(attributes.FORMAT)).toBeNull();
     expect(timepicker.format).toEqual(timepicker.localeAPI.calendar().timeFormat);
-    await timepicker.setLocale('es-419');
+    await IdsGlobal.getLocale().setLocale('es-419');
 
     expect(timepicker.format).toEqual('HH:mm');
   });

@@ -1,3 +1,4 @@
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 import checkForAxeViolations from '../helpers/check-for-axe-violations';
 import countObjects from '../helpers/count-objects';
 
@@ -134,7 +135,6 @@ describe('Ids Month View e2e Tests', () => {
 
   it.skip('should support changing locale', async () => {
     await page.evaluate((el: any) => {
-      const container: any = document.querySelector('ids-container');
       const component: any = document.querySelector(el);
 
       component.month = 11;
@@ -142,8 +142,8 @@ describe('Ids Month View e2e Tests', () => {
       component.day = 22;
       component.firstDayOfWeek = 0;
 
-      container.setLocale('ar-SA');
-      container.setLanguage('ar');
+      IdsGlobal.getLocale().setLocale('ar-SA');
+      IdsGlobal.getLocale().setLanguage('ar');
     }, name);
 
     // Wait till calendars load
@@ -193,10 +193,8 @@ describe('Ids Month View e2e Tests', () => {
     expect(+numberOfDays).toEqual(1);
 
     await page.evaluate(() => {
-      const container: any = document.querySelector('ids-container');
-
-      container.setLocale('en-US');
-      container.setLanguage('en');
+      IdsGlobal.getLocale().setLocale('en-US');
+      IdsGlobal.getLocale().setLanguage('en');
     });
 
     // Wait till calendars load

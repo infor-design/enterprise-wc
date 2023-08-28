@@ -18,6 +18,7 @@ import '../../src/components/ids-editor/ids-editor-formatters';
 import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 document.execCommand = jest.fn();
 document.queryCommandSupported = jest.fn();
@@ -33,7 +34,7 @@ describe('IdsEditor Component', () => {
     container.appendChild(elem);
     document.body.appendChild(container);
     editor = container.querySelector('ids-editor');
-    await container.setLanguage('en');
+    await IdsGlobal.getLocale().setLanguage('en');
     IdsLocaleData.loadedLanguages.set('ar', arMessages);
   });
 
@@ -563,7 +564,7 @@ describe('IdsEditor Component', () => {
   });
 
   it('should handle dirty tracking', async () => {
-    container.setLanguage('ar');
+    IdsGlobal.getLocale().setLanguage('ar');
     await processAnimFrame();
     editor.dirtyTracker = true;
     await processAnimFrame();

@@ -2,6 +2,7 @@ import IdsLocale from '../../components/ids-locale/ids-locale';
 import { attributes } from '../../core/ids-attributes';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor } from '../../core/ids-element';
+import IdsGlobal from '../../components/ids-global/ids-global';
 
 export interface LocaleMixinInterface {
   localeAPI: IdsLocale;
@@ -15,7 +16,7 @@ export interface LocaleHandler {
 type Constraints = IdsConstructor<EventsMixinInterface & LocaleHandler>;
 
 const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends superclass implements LocaleMixinInterface {
-  localeAPI = IdsLocale.getInstance();
+  localeAPI = IdsGlobal.getLocale();
 
   constructor(...args: any[]) {
     super(...args);

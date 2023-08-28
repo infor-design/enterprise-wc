@@ -66,17 +66,22 @@ You can use a setting on ids-text to translate text. This example will take the 
 
 It is possible to add your own strings to an existing locale's language. To do this just set the locale or language to the desired language and then when the locale is loaded call `extendTranslations` with a new set of strings. A string is an object with minimum an id and value of the string.
 
+Import the global object and get the singleton locale instance.
+
 ```js
-const container = document.querySelector('ids-container');
-await container.setLocale('it-lT');
+import IdsGlobal from 'mode_modules/ids-enterprise-wc/components/ids-global/ids-global';
+```
+
+```js
+const locale = await IdsGlobal.getLocale().setLocale('it-lT');
 const myStrings = {
     Thanks: { id: 'Thanks', value: 'Grazie', comment: '' },
     YourWelcome: { id: 'YourWelcome', value: 'Prego', comment: '' }
 };
 
-container.localeAPI.extendTranslations(localeAPI.currentLanguage.name, myStrings);
-container.localeAPI.translate('Thanks');      // Returns Grazie
-container.localeAPI.translate('YourWelcome'); // Returns Prego
+locale.extendTranslations(localeAPI.currentLanguage.name, myStrings);
+locale.translate('Thanks');      // Returns Grazie
+locale.translate('YourWelcome'); // Returns Prego
 ```
 
 ### Translation API

@@ -11,6 +11,7 @@ import '../helpers/resize-observer-mock';
 import processAnimFrame from '../helpers/process-anim-frame';
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsPieChart Component', () => {
   let pieChart: any;
@@ -270,7 +271,7 @@ describe('IdsPieChart Component', () => {
     pieChart.data = [];
     await processAnimFrame();
     expect(pieChart.emptyMessage.querySelector('ids-text').textContent).toBe('No data available');
-    await container.setLocale('de-DE');
+    await IdsGlobal.getLocale().setLocale('de-DE');
     expect(pieChart.emptyMessage.querySelector('ids-text').textContent).toBe('Keine Daten verfügbar');
   });
 

@@ -5,6 +5,7 @@ import processAnimFrame from '../helpers/process-anim-frame';
 import '../helpers/resize-observer-mock';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsSplitter from '../../src/components/ids-splitter/ids-splitter';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsSplitter Component', () => {
   let container: any;
@@ -37,7 +38,7 @@ describe('IdsSplitter Component', () => {
     container.appendChild(elem);
     document.body.appendChild(container);
     splitter = container.querySelector('ids-splitter');
-    await container.setLanguage('en');
+    await IdsGlobal.getLocale().setLanguage('en');
   });
 
   afterEach(async () => {

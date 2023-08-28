@@ -6,13 +6,14 @@ import '../helpers/resize-observer-mock';
 import { attributes } from '../../src/core/ids-attributes';
 import IdsTimePickerPopup from '../../src/components/ids-time-picker/ids-time-picker-popup';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsTimePickerPopup Component', () => {
   let timepickerPopup: any;
 
   beforeEach(async () => {
     const container: any = new IdsContainer();
-    container.setLocale('en-US');
+    IdsGlobal.getLocale().setLocale('en-US');
     document.body.appendChild(container);
     const element: any = new IdsTimePickerPopup();
     document.body.appendChild(element);

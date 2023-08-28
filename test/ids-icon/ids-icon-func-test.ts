@@ -8,6 +8,7 @@ import { messages as arMessages } from '../../src/components/ids-locale/data/ar-
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 import customIconJSON from '../../src/components/ids-icon/demos/custom-icon-data.json';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsIcon Component', () => {
   let elem: IdsIcon;
@@ -96,7 +97,7 @@ describe('IdsIcon Component', () => {
 
     await processAnimFrame();
     await container.localeAPI.setLanguage('ar');
-    Ids.locale.setLanguage('ar');
+    IdsGlobal.getLocale().setLanguage('ar');
     await processAnimFrame();
     expect(icon.isMirrored('previous-page')).toBeTruthy();
     expect(icon.template()).toContain('class="mirrored"');

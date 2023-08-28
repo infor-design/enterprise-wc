@@ -1,5 +1,6 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('Ids Date Picker e2e Tests', () => {
   const url = 'http://localhost:4444/ids-date-picker/example.html';
@@ -272,11 +273,10 @@ describe('Ids Date Picker e2e Tests', () => {
   it.skip('should change date on keyboard events', async () => {
     // Reset
     await page.evaluate(() => {
-      const container = (document as any).querySelector('ids-container');
       const component = (document.querySelector as any)('#e2e-datepicker-value');
 
-      container.setLocale('en-US');
-      container.setLanguage('en');
+      IdsGlobal.getLocale().setLocale('en-US');
+      IdsGlobal.getLocale().setLanguage('en');
 
       component.value = '3/4/2016';
     });
@@ -795,8 +795,8 @@ describe('Ids Date Picker e2e Tests', () => {
       const container: any = document.querySelector('ids-container');
 
       if (container) {
-        await container.setLocale('es-ES');
-        await container.setLanguage('en');
+        await IdsGlobal.getLocale().setLocale('es-ES');
+        await IdsGlobal.getLocale().setLanguage('en');
       }
 
       if (component) {

@@ -4,6 +4,7 @@ import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
+import IdsGlobal from '../ids-global/ids-global';
 
 import type IdsText from '../ids-text/ids-text';
 import '../ids-menu-button/ids-menu-button';
@@ -60,7 +61,7 @@ export default class IdsThemeSwitcher extends Base {
         this.mode = val;
       }
       if (val?.indexOf('-') > -1) {
-        Ids.locale.setLocale(val);
+        IdsGlobal.getLocale().setLocale(val);
       }
     });
   }
