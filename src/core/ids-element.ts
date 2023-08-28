@@ -1,7 +1,18 @@
+import { IdsDeferred } from '../utils/ids-deferred-utils/ids-deferred-utils';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
 
 export type IdsBaseConstructor = new (...args: any[]) => IdsElement;
 export type IdsConstructor<T> = new (...args: any[]) => T & IdsElement;
+
+declare global {
+  interface Window {
+    Ids: {
+      themeLoaded?: IdsDeferred;
+    }
+  }
+}
+
+window.Ids ??= {};
 
 /**
  * IDS Base Element
@@ -234,6 +245,8 @@ export default class IdsElement extends HTMLElement {
     if (this.lastTheme === theme) return;
     this.lastTheme = theme;
 
+    window.Ids.themeLoaded = window.Ids.themeLoaded || new IdsDeferred();
+
     // Handle setting theme via links
     document.querySelector('ids-container')?.setAttribute('hidden', '');
     const themeLink = document.querySelector('link[href*="ids-theme"]');
@@ -243,7 +256,8 @@ export default class IdsElement extends HTMLElement {
       themeLink.setAttribute('href', href?.replace(filename, `ids-theme-${theme}.css`) || '');
       setTimeout(() => {
         document.querySelector('ids-container')?.removeAttribute('hidden');
-      }, 150);
+        window.Ids.themeLoaded?.resolve();
+      }, 160);
       return;
     }
 
@@ -265,10 +279,10 @@ export default class IdsElement extends HTMLElement {
       else head.insertAdjacentHTML('beforeend', style);
     }
     this.loadLegacyTheme(theme);
-    document.querySelector('ids-container')?.setAttribute('animated', '');
     setTimeout(() => {
       document.querySelector('ids-container')?.removeAttribute('hidden');
-    }, 150);
+      window.Ids.themeLoaded?.resolve();
+    }, 160);
   }
 
   /**

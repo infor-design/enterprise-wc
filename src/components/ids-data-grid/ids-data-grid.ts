@@ -2,7 +2,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, IdsDirection } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { exportToCSV, exportToXLSX } from '../../utils/ids-excel-exporter/ids-excel-exporter';
 import { eventPath, findInPath } from '../../utils/ids-event-path-utils/ids-event-path-utils';
@@ -44,6 +43,7 @@ import IdsDataGridSaveSettingsMixin from './ids-data-grid-save-settings-mixin';
 import IdsDataGridTooltipMixin from './ids-data-grid-tooltip-mixin';
 import IdsDataGridCell from './ids-data-grid-cell';
 import { ExcelColumn } from '../../utils/ids-excel-exporter/ids-worksheet-templates';
+import { IdsDeferred } from '../../utils/ids-deferred-utils/ids-deferred-utils';
 
 const Base = IdsPagerMixin(
   IdsDataGridSaveSettingsMixin(
@@ -98,6 +98,8 @@ export default class IdsDataGrid extends Base {
    * Types for contextmenu.
    */
   contextmenuTypes = { ...containerTypes };
+
+  initialDataLoaded = new IdsDeferred();
 
   constructor() {
     super();
@@ -369,26 +371,6 @@ export default class IdsDataGrid extends Base {
         this.setActiveCell(0, 0, true);
         handleReady();
       });
-    } else {
-      requestAnimationTimeout(() => {
-        if (this.container) {
-          let scrollTopPixels = rowStart * (this.virtualScrollSettings.ROW_HEIGHT);
-          if (!this.virtualScrollSettings.ENABLED) {
-            const containerTopPosition = this.container.getBoundingClientRect().top;
-            scrollTopPixels = this.rowByIndex(rowStart)?.getBoundingClientRect?.()?.y ?? scrollTopPixels;
-            scrollTopPixels -= containerTopPosition;
-          }
-
-          const headerHeight = this.header?.getBoundingClientRect?.().height ?? 0;
-          this.container.scrollTop = scrollTopPixels - headerHeight;
-          this.#scrollRowIntoView(rowStart);
-          requestAnimationTimeout(() => {
-            this.#attachVirtualScrollEvent();
-            this.#scrollRowIntoView(this.rowStart);
-          }, 150);
-          handleReady();
-        }
-      }, 150);
     }
   }
 
@@ -1219,6 +1201,7 @@ export default class IdsDataGrid extends Base {
       this.datasource.data = value;
       this.initialized = true;
       this.redraw();
+      this.initialDataLoaded.resolve();
     } else {
       this.datasource.data = [];
     }
@@ -1707,6 +1690,13 @@ export default class IdsDataGrid extends Base {
    */
   set rowStart(rowIndex: number) {
     this.setAttribute(attributes.ROW_START, String(rowIndex || 0));
+
+    Promise.all([
+      window.Ids.themeLoaded?.promise,
+      this.initialDataLoaded.promise
+    ]).then(() => {
+      this.#scrollRowIntoView(this.rowStart);
+    });
   }
 
   /**
