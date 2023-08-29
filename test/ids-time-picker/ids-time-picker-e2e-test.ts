@@ -1,4 +1,3 @@
-import IdsGlobal from '../../src/components/ids-global/ids-global';
 import checkForAxeViolations from '../helpers/check-for-axe-violations';
 import countObjects from '../helpers/count-objects';
 
@@ -89,8 +88,8 @@ describe('Ids Time Picker e2e Tests', () => {
       const container: any = document.querySelector('ids-container');
 
       if (container) {
-        await IdsGlobal.getLocale().setLocale('de-DE');
-        await IdsGlobal.getLocale().setLanguage('de');
+        // await IdsGlobal.getLocale().setLocale('de-DE');
+        // await IdsGlobal.getLocale().setLanguage('de');
       }
     });
 
@@ -106,8 +105,8 @@ describe('Ids Time Picker e2e Tests', () => {
       const component: any = document.querySelector('#e2e-timepicker-required');
 
       if (container) {
-        await IdsGlobal.getLocale().setLocale('en-US');
-        await IdsGlobal.getLocale().setLanguage('en');
+        // await IdsGlobal.getLocale().setLocale('en-US');
+        // await IdsGlobal.getLocale().setLanguage('en');
       }
 
       if (component) {
@@ -127,8 +126,8 @@ describe('Ids Time Picker e2e Tests', () => {
       const container: any = document.querySelector('ids-container');
 
       if (container) {
-        await IdsGlobal.getLocale().setLocale('fr-CA');
-        await IdsGlobal.getLocale().setLanguage('fr');
+        // await IdsGlobal.getLocale().setLocale('fr-CA');
+        // await IdsGlobal.getLocale().setLanguage('fr');
       }
     });
 

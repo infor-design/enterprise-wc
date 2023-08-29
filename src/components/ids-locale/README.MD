@@ -88,6 +88,26 @@ locale.translate('YourWelcome'); // Returns Prego
 
 - `translate` {string, options} returns {string} Takes a string as a key and returns the translated value in the strings if found. If not found it returns the value in either the english locale or in [SquareBrackets] if not found. Options can be used to find a string in another language for example `{ language: 'de' }` not that you need to load the language first with setLanguage or setLocale or english is returned.
 
+### Fonts for Locales
+
+Our default font is Source Sans Pro but for some languages you may need a different font to correctly show the language.
+The default font can be included through google api.
+
+```html
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&amp;display=swap" rel="stylesheet">
+```
+
+We have selected the following fonts. But in order to use them you may also need to include the font for that locale in your page as needed.
+
+- `ar` Uses [Mada](https://fonts.google.com/specimen/Mada?query=Mada)
+- `he` Uses [Assistant](https://fonts.google.com/specimen/Assistant?query=Assistant)
+- `hi` Uses [Noto Sans](https://fonts.google.com/noto/specimen/Noto+Sans?query=Noto+Sans)
+- `ja` Uses [Noto Sans Japanese](https://fonts.google.com/noto/specimen/Noto+Sans+JP?query=Noto+Sans&noto.query=oto+Sans+JP)
+- `ko` Uses [Noto Sans Korean](https://fonts.google.com/noto/specimen/Noto+Sans+KR?query=Noto+Sans&noto.query=Noto+Sans+KR)
+- `th` Uses [Noto Sans Thai](https://fonts.google.com/noto/specimen/Noto+Sans+Thai?query=Noto&subset=thai&noto.script=Thai)
+- `zh-Hans` Uses [Noto Sans SC](https://fonts.google.com/noto/specimen/Noto+Sans+SC?query=Noto+Sans+SC)
+- `zh-Hant` Uses [Noto Sans TC](https://fonts.google.com/noto/specimen/Noto+Sans+TC?query=Noto+Sans+SC&noto.query=Noto+Sans+TC)
+
 #### Converting from Previous Versions (Translation)
 
 If coming from 4.x versions we made some changes:

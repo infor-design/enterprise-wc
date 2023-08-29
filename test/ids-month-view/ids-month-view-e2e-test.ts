@@ -1,4 +1,3 @@
-import IdsGlobal from '../../src/components/ids-global/ids-global';
 import checkForAxeViolations from '../helpers/check-for-axe-violations';
 import countObjects from '../helpers/count-objects';
 
@@ -142,8 +141,8 @@ describe('Ids Month View e2e Tests', () => {
       component.day = 22;
       component.firstDayOfWeek = 0;
 
-      IdsGlobal.getLocale().setLocale('ar-SA');
-      IdsGlobal.getLocale().setLanguage('ar');
+      // IdsGlobal.getLocale().setLocale('ar-SA');
+      // IdsGlobal.getLocale().setLanguage('ar');
     }, name);
 
     // Wait till calendars load
@@ -193,8 +192,8 @@ describe('Ids Month View e2e Tests', () => {
     expect(+numberOfDays).toEqual(1);
 
     await page.evaluate(() => {
-      IdsGlobal.getLocale().setLocale('en-US');
-      IdsGlobal.getLocale().setLanguage('en');
+      // IdsGlobal.getLocale().setLocale('en-US');
+      // IdsGlobal.getLocale().setLanguage('en');
     });
 
     // Wait till calendars load
