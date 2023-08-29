@@ -193,14 +193,28 @@ export default class IdsPopupMenu extends Base {
   attachKeyboardListeners(): void {
     super.attachKeyboardListeners();
 
+    const handleArrowHide = () => {
+      if (this.parentMenu) {
+        this.hideAndFocus(true);
+      }
+    };
+
+    const handleArrowShow = (e: any) => {
+      const thisItem = e.target.closest('ids-menu-item');
+      if (thisItem.hasSubmenu) {
+        thisItem.showSubmenu();
+      }
+    };
+
     // Arrow Right on an item containing a submenu causes that submenu to open
     this.unlisten('ArrowRight');
     this.listen(['ArrowRight'], this, (e: any) => {
       e.stopPropagation();
       e.preventDefault();
-      const thisItem = e.target.closest('ids-menu-item');
-      if (thisItem.hasSubmenu) {
-        thisItem.showSubmenu();
+      if (this.localeAPI.isRTL()) {
+        handleArrowHide();
+      } else {
+        handleArrowShow(e);
       }
     });
 
@@ -211,8 +225,10 @@ export default class IdsPopupMenu extends Base {
     this.listen(['ArrowLeft'], this, (e: any) => {
       e.stopPropagation();
       e.preventDefault();
-      if (this.parentMenu) {
-        this.hideAndFocus(true);
+      if (this.localeAPI.isRTL()) {
+        handleArrowShow(e);
+      } else {
+        handleArrowHide();
       }
     });
 
@@ -303,6 +319,8 @@ export default class IdsPopupMenu extends Base {
     if (!this.triggerVetoableEvent('beforeshow')) {
       return;
     }
+
+    this.align = this.localeAPI.isRTL() ? 'left, top' : this.align;
 
     this.refreshIconAlignment();
 
