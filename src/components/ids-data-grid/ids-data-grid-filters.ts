@@ -1,5 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
-import { hasClass } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { hasClass, getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 import IdsDataGridCell from './ids-data-grid-cell';
@@ -745,8 +745,8 @@ export default class IdsDataGridFilters {
       const timePicker = node?.querySelector('ids-time-picker');
       const btn = node?.querySelector('ids-menu-button');
       const menu = node?.querySelector('ids-popup-menu');
-      const triggerBtn = node?.querySelector('ids-trigger-button');
-      const triggerField = node?.querySelector('ids-trigger-field');
+      let triggerBtn = node?.querySelector('ids-trigger-button');
+      let triggerField = node?.querySelector('ids-trigger-field');
       const datePickerPopup = node?.querySelector('ids-date-picker-popup');
       const timePickerPopup = node?.querySelector('ids-time-picker-popup');
       let menuAttachment = '.ids-data-grid-wrapper';
@@ -783,14 +783,26 @@ export default class IdsDataGridFilters {
 
       // Connect Popup Menus
       if (menu) {
+        if (slot) {
+          triggerField = slot.assignedElements()[0].querySelector('ids-input');
+          triggerBtn = slot.assignedElements()[0].querySelector('ids-menu-button');
+          menu.setAttribute(attributes.TARGET, `#${triggerBtn.getAttribute('id')}`);
+          menu.setAttribute(attributes.TRIGGER_ELEM, `#${triggerBtn.getAttribute('id')}`);
+        } else {
+          menu.setAttribute(attributes.ATTACHMENT, menuAttachment);
+        }
         menu.setAttribute(attributes.TRIGGER_TYPE, 'click');
-        menu.setAttribute(attributes.ATTACHMENT, menuAttachment);
-        menu.onOutsideClick = () => { menu.hide(); };
+        menu.onOutsideClick = () => {
+          menu.hide();
+        };
+        menu.removeTriggerEvents();
 
         // Move/Rebind menu (order of these statements matters)
         menu.appendToTargetParent();
         menu.popupOpenEventsTarget = document.body;
-        menu.refreshTriggerEvents();
+        menu.keyboardEventTarget = this.root;
+        menu.attachEventHandlers();
+        menu.attachKeyboardListeners();
       }
 
       btn?.setAttribute('data-filter-conditions-button', '');
@@ -876,6 +888,102 @@ export default class IdsDataGridFilters {
    * @returns {void}
    */
   attachFilterEventHandlers() {
+    this.root.onEvent(`keydown.${this.#id()}`, this.root.wrapper, (e: any) => {
+      const elem = e.target;
+      if (!elem) return;
+
+      // Only apply this event to handlers that exist on internal (not slotted) filter menus
+      const containerNode = getClosestContainerNode(elem);
+      if (containerNode === document) return;
+
+      const key = e.key;
+      if (key === 'ArrowDown') {
+        if (/ids-trigger-field/gi.test(elem.nodeName)) {
+          elem.querySelector('ids-trigger-button').click();
+        }
+        if (/ids-dropdown/gi.test(elem.nodeName)) {
+          elem.click();
+        }
+      }
+    });
+
+    this.root.offEvent(`show.${this.#id()}`, this.root.wrapper);
+    this.root.onEvent(`show.${this.#id()}`, this.root.wrapper, (e: any) => {
+      const elem = e.target;
+      if (!elem) return;
+
+      // Only apply this event to handlers that exist on internal (not slotted) filter menus
+      const containerNode = getClosestContainerNode(elem);
+      if (containerNode === document) return;
+
+      this.root.openMenu = elem;
+
+      // Popup Menus
+      if (/ids-popup-menu/gi.test(elem.nodeName)) {
+        this.root.onEvent(`keydown.${this.#id()}`, elem, (f: any) => {
+          const key = f.key;
+          if (key === 'ArrowUp') {
+            elem.navigate(-1, true);
+          }
+          if (key === 'ArrowDown') {
+            elem.navigate(1, true);
+          }
+          if (['Enter', 'SpaceBar', ' '].includes(key)) {
+            elem.selectItem(elem.lastNavigated);
+            elem.hideAndFocus(true);
+          }
+          if (key === 'Escape') {
+            elem.hideAndFocus(true);
+          }
+        });
+      }
+
+      // Dropdown Lists
+      if (/ids-dropdown-list/gi.test(elem.nodeName)) {
+        this.root.onEvent(`keydown.${this.#id()}`, elem, (f: any) => {
+          const key = f.key;
+          if (key === 'ArrowUp') {
+            console.info('dropdown arrow up');
+            elem.navigate(-1);
+          }
+          if (key === 'ArrowDown') {
+            console.info('dropdown arrow down');
+            elem.navigate(1);
+          }
+          if (['Enter', 'SpaceBar', ' '].includes(key)) {
+            console.info(`dropdown select with "${key}"`);
+            elem.select();
+          }
+          if (key === 'Escape') {
+            console.info('dropdown cancel with escape');
+            elem.triggerCloseEvent(true);
+          }
+        });
+      }
+    });
+
+    this.root.offEvent(`hide.${this.#id()}`, this.root.wrapper);
+    this.root.onEvent(`hide.${this.#id()}`, this.root.wrapper, (e: any) => {
+      const elem = e.target;
+      if (!elem) return;
+
+      // Only apply this event to handlers that exist on internal (not slotted) filter menus
+      const containerNode = getClosestContainerNode(elem);
+      if (containerNode === document) return;
+
+      if (this.root.openMenu) this.root.openMenu = null;
+
+      // Popup Menus/Dropdown Lists
+      if (/ids-popup-menu|ids-dropdown-list/gi.test(elem.nodeName)) {
+        this.root.offEvent(`keydown.${this.#id()}`, elem);
+      }
+
+      // Anything extending IdsPickerPopup
+      if (/ids-time-picker-popup|ids-date-picker-popup/gi.test(elem.nodeName)) {
+        elem.target?.focus();
+      }
+    });
+
     // Captures selected contents from menu/dropdown list items.
     this.root.offEvent(`selected.${this.#id()}`, this.root.wrapper);
     this.root.onEvent(`selected.${this.#id()}`, this.root.wrapper, (e: any) => {

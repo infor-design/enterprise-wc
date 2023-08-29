@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { getElementAtMouseLocation, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
 import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
@@ -39,6 +40,8 @@ const Base = IdsPopupOpenEventsMixin(
 export default class IdsPopupMenu extends Base {
   /** Component's first child element (in IdsPopupMenu, this is always an IdsPopup component) */
   container?: IdsPopup | null = null;
+
+  recentlyHidden = false;
 
   constructor() {
     super();
@@ -192,10 +195,11 @@ export default class IdsPopupMenu extends Base {
    */
   attachKeyboardListeners(): void {
     super.attachKeyboardListeners();
+    const target = this.keyboardEventTarget || this;
 
     // Arrow Right on an item containing a submenu causes that submenu to open
     this.unlisten('ArrowRight');
-    this.listen(['ArrowRight'], this, (e: any) => {
+    this.listen(['ArrowRight'], target, (e: any) => {
       e.stopPropagation();
       e.preventDefault();
       const thisItem = e.target.closest('ids-menu-item');
@@ -208,7 +212,7 @@ export default class IdsPopupMenu extends Base {
     // on a parent menu item to occur.
     // NOTE: This will never occur on a top-level Popupmenu.
     this.unlisten('ArrowLeft');
-    this.listen(['ArrowLeft'], this, (e: any) => {
+    this.listen(['ArrowLeft'], target, (e: any) => {
       e.stopPropagation();
       e.preventDefault();
       if (this.parentMenu) {
@@ -220,7 +224,7 @@ export default class IdsPopupMenu extends Base {
     // (NOTE: This only applies to top-level Popupmenus)
     this.unlisten('Escape');
     if (!this.parentMenu) {
-      this.listen(['Escape'], this, (e: any) => {
+      this.listen(['Escape'], target, (e: any) => {
         if (this.hidden) return;
         e.preventDefault();
         e.stopPropagation();
@@ -280,6 +284,7 @@ export default class IdsPopupMenu extends Base {
     this.hideSubmenus();
     this.removeOpenEvents();
     this.#removeMutationObservers();
+    this.startHiddenTimer();
   }
 
   /**
@@ -458,8 +463,9 @@ export default class IdsPopupMenu extends Base {
       return true;
     }
 
-    if (this.hidden) {
+    if (this.hidden && !this.recentlyHidden) {
       this.showIfAble();
+      this.setInitialFocus();
     }
     return true;
   }
@@ -568,5 +574,23 @@ export default class IdsPopupMenu extends Base {
         this.popup.onPlace = onPlace;
       }
     }
+  }
+
+  /**
+   * Focuses the correct element
+   */
+  focus() {
+    if (this.hidden) return;
+    this.focusTarget?.focus();
+  }
+
+  /**
+   * Runs a private internal timer that controls whether or not
+   * some internal event-handling is allowed on the popup menu.
+   */
+  private async startHiddenTimer() {
+    this.recentlyHidden = true;
+    await cssTransitionTimeout(10);
+    this.recentlyHidden = false;
   }
 }

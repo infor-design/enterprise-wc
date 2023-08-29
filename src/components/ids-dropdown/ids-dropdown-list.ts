@@ -172,10 +172,7 @@ export default class IdsDropdownList extends Base {
           this.triggerOpenEvent();
           return;
         }
-
-        const value = this.selected?.getAttribute(attributes.VALUE) || '';
-        this.value = value;
-        this.triggerSelectedEvent();
+        this.select();
       });
     }
   }
@@ -497,5 +494,44 @@ export default class IdsDropdownList extends Base {
   onSizeChange(value: string) {
     if (value) this.listBox?.setAttribute(attributes.SIZE, value);
     else this.listBox?.removeAttribute(attributes.SIZE);
+  }
+
+  /**
+   * Uses a currently-highlighted list item to "navigate" a specified number
+   * of steps to another list item, highlighting it.
+   * @param {number} [amt] positive/negative/0 value
+   * @returns {Element | null} the item that will be highlighted
+   */
+  navigate(amt = 0) {
+    const selected = this.selected;
+    const next = selected?.nextElementSibling;
+    const prev = selected?.previousElementSibling;
+    let currentItem: Element | null = null;
+
+    if (amt > 0 && next) {
+      if (next.hasAttribute(attributes.GROUP_LABEL) && !next.nextElementSibling) return currentItem;
+      currentItem = next.hasAttribute(attributes.GROUP_LABEL) ? next.nextElementSibling : next;
+    }
+
+    if (amt < 0 && prev) {
+      if (prev.hasAttribute(attributes.GROUP_LABEL) && !prev.previousElementSibling) return currentItem;
+      currentItem = prev.hasAttribute(attributes.GROUP_LABEL) ? prev.previousElementSibling : prev;
+    }
+
+    if (currentItem) {
+      this.deselectOption(selected);
+      this.selectOption(currentItem as IdsListBoxOption);
+    }
+
+    return currentItem;
+  }
+
+  /**
+   * Performs a "selection" on the list and notifies the Dropdown component
+   */
+  select() {
+    const value = this.selected?.getAttribute(attributes.VALUE) || '';
+    this.value = value;
+    this.triggerSelectedEvent();
   }
 }
