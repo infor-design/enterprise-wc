@@ -3,6 +3,7 @@ import IdsLocaleData from './ids-locale-data';
 import { locale as localeEn } from './data/en-US';
 import { querySelectorAllShadowRoot } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { messages as messagesEn } from './data/en-messages';
+import type { IdsLocaleNumberOptions } from './ids-locale-number-options';
 
 class IdsLocale {
   // State object
@@ -357,7 +358,7 @@ class IdsLocale {
    * @param {object} [options] the objects to use for formatting
    * @returns {string} the formatted number
    */
-  formatNumber(value: any, options?: any): string {
+  formatNumber(value: any, options?: IdsLocaleNumberOptions): string {
     // Set some options to map it closer to our old defaults
     let opts = options;
     let val = value;
@@ -389,7 +390,7 @@ class IdsLocale {
       && value.length >= 18
       && value.indexOf('.') === -1
       && value.indexOf(',') === -1) {
-      return BigInt(value).toLocaleString(usedLocale, opts);
+      return BigInt(value).toLocaleString(usedLocale, opts as any);
     }
 
     // Handle Big Int (decimals)
