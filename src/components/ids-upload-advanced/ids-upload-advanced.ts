@@ -233,7 +233,7 @@ export default class IdsUploadAdvanced extends Base {
         id,
         file,
         elem: this,
-        error: this.getErrorValue(e.detail.error),
+        error: e.detail.error,
         loaded: e.detail.loaded,
         loadedFormatted: e.detail.loadedFormatted,
         nativeEvent: e.detail.nativeEvent,
@@ -419,21 +419,6 @@ export default class IdsUploadAdvanced extends Base {
       rootEl?.classList.remove(attributes.DISABLED);
       link?.removeAttribute(attributes.DISABLED);
     }
-  }
-
-  /**
-   * Get error value
-   * @private
-   * @param {string} error The error
-   * @returns {string} The error value
-   */
-  getErrorValue(error: string): string {
-    const isInSlot = Object.values(shared.ERRORS).indexOf(error) > -1;
-    if (isInSlot) {
-      return error === shared.ERRORS.errorMaxFiles
-        ? this.errorMaxFilesVal : shared.slotVal(this.shadowRoot, error);
-    }
-    return error || '';
   }
 
   /**

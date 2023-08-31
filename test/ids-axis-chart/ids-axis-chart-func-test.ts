@@ -21,10 +21,12 @@ import IdsGlobal from '../../src/components/ids-global/ids-global';
 describe('IdsAxisChart Component', () => {
   let axisChart: any;
   let container: any;
+  let locale: any;
 
   beforeEach(async () => {
     container = new IdsContainer();
     axisChart = new IdsAxisChart();
+    locale = IdsGlobal.getLocale();
 
     container.appendChild(axisChart);
     IdsLocaleData.loadedLanguages.set('ar', arMessages);
@@ -224,7 +226,7 @@ describe('IdsAxisChart Component', () => {
   it('changes empty message text when changing locale', async () => {
     axisChart.data = [];
     expect(axisChart.emptyMessage.querySelector('ids-text').textContent).toEqual('No data available');
-    container.locale = 'de-DE';
+    locale.setLocale('de-DE');
     await processAnimFrame();
     expect(axisChart.emptyMessage.querySelector('ids-text').textContent).toEqual('Keine Daten verfügbar');
   });
@@ -235,17 +237,17 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('renders when changing format/locale', async () => {
-    container.locale = 'fr-FR';
+    locale.setLocale('fr-FR');
     await processAnimFrame();
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8 k');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('0');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8 k');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent).toEqual('1 k');
-    container.locale = 'en-US';
+    locale.setLocale('en-US');
   });
 
   it('renders decimal and groups when changing format/locale', async () => {
-    container.locale = 'fr-FR';
+    locale.setLocale('fr-FR');
     axisChart.yAxisFormatter = {
       style: 'currency',
       currency: 'EUR'
@@ -255,11 +257,11 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('0,00 €');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8 000,00 €');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent).toEqual('1 000,00 €');
-    container.locale = 'en-US';
+    locale.setLocale('en-US');
   });
 
   it('can set the y axis formatter to Intl.NumberFormat', async () => {
-    container.locale = 'en-US';
+    locale.setLocale('en-US');
     axisChart.yAxisFormatter = {
       maximumFractionDigits: 0
     };
@@ -367,7 +369,7 @@ describe('IdsAxisChart Component', () => {
   });
 
   it('should adjust RTL', async () => {
-    await IdsGlobal.getLocale().setLanguage('ar');
+    await locale.setLanguage('ar');
     await processAnimFrame();
 
     expect(axisChart.localeAPI.isRTL()).toBe(true);
@@ -381,7 +383,7 @@ describe('IdsAxisChart Component', () => {
     axisChart.axisLabelTop = 'Top axis label';
     axisChart.axisLabelMargin = 20;
     expect(axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length).toEqual(4);
-    await IdsGlobal.getLocale().setLanguage('ar');
+    await locale.setLanguage('ar');
     await processAnimFrame();
     expect(axisChart.localeAPI.isRTL()).toBe(true);
 
@@ -405,7 +407,7 @@ describe('IdsAxisChart Component', () => {
     expect(xLabels[0].getAttribute('transform-origin')).toEqual(null);
     expect(xLabels[0].getAttribute('transform-origin')).toEqual(null);
 
-    await IdsGlobal.getLocale().setLanguage('ar');
+    await locale.setLanguage('ar');
     axisChart.alignXLabels = 'middle';
     axisChart.redraw();
     await processAnimFrame();
@@ -441,7 +443,7 @@ describe('IdsAxisChart Component', () => {
     expect(yLabels[0].getAttribute('transform-origin')).toEqual('4px 57px');
     expect(yLabels[0].getAttribute('transform-origin')).toEqual('4px 57px');
 
-    await IdsGlobal.getLocale().setLanguage('ar');
+    await locale.setLanguage('ar');
     axisChart.alignXLabels = 'middle';
     axisChart.redraw();
     await processAnimFrame();
