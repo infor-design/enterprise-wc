@@ -13,7 +13,7 @@ const locale = {
     dateFormat: {
       separator: '.', // Infered
       timeSeparator: ':',
-      short: 'dd.MM.yyyy', // use four digit year
+      short: 'dd.MM.yyyy.', // use four digit year
       medium: 'MMM yyyy',
       long: 'd. MMMM yyyy',
       full: 'EEEE, y. gada d. MMMM',
