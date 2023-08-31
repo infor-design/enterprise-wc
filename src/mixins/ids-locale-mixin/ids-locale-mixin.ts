@@ -16,10 +16,12 @@ export interface LocaleHandler {
 type Constraints = IdsConstructor<EventsMixinInterface & LocaleHandler>;
 
 const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends superclass implements LocaleMixinInterface {
-  localeAPI = IdsGlobal.getLocale();
-
   constructor(...args: any[]) {
     super(...args);
+  }
+
+  get localeAPI() {
+    return IdsGlobal.getLocale();
   }
 
   connectedCallback() {

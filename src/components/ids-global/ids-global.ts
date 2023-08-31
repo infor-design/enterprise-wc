@@ -18,7 +18,6 @@ class IdsGlobal {
     if (!window.IdsGlobal.locale) {
       window.IdsGlobal.locale = new IdsLocale();
     }
-
     return window.IdsGlobal.locale;
   }
 }
