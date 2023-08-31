@@ -44,7 +44,7 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
    */
   set locale(value: string) {
     if (value && value !== this.localeAPI.name && typeof value === 'string') {
-      this.localeAPI.setLocale(value);
+      this.localeAPI.setLocale(value, false);
     }
   }
 

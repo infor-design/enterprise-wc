@@ -31,7 +31,7 @@ class IdsLocale {
     const defaultLang = 'en';
     const defaultLocale = 'en-US';
     await this.setLanguage(defaultLang);
-    await this.setLocale('en-US');
+    await this.setLocale('en-US', false);
 
     this.state.defaultLocale.messages = this.language.messages;
     this.state.defaultLocale.language = defaultLang;
@@ -132,8 +132,9 @@ class IdsLocale {
   /**
    * Set the locale for a component and wait for it to finish (async)
    * @param {string} value The locale string value
+   * @param {boolean} notify Do not notify children if false
    */
-  async setLocale(value: string) {
+  async setLocale(value: string, notify = true) {
     if (!value || this.previousLocale === value) {
       return;
     }
@@ -142,14 +143,14 @@ class IdsLocale {
     if (this.name !== locale) {
       this.name = locale;
       this.state.localeName = locale;
-      this.setLanguage(locale);
+      await this.setLanguage(locale);
     }
 
     if (!IdsLocaleData.loadedLocales.get(this.name)) {
       await this.loadLocaleScript(locale);
     }
 
-    this.#notifyElementsLocale();
+    if (notify) this.#notifyElementsLocale();
     this.previousLocale = value;
   }
 
@@ -337,7 +338,7 @@ class IdsLocale {
   set locale(value: string) {
     const locale = this.#correctLocale(value);
     if (value && locale !== this.state.localeName) {
-      this.setLocale(locale);
+      this.setLocale(locale, false);
     }
   }
 

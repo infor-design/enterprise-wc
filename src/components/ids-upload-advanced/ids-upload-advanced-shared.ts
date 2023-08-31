@@ -17,24 +17,23 @@ const IdsUploadAdvancedShared = {
     showBrowseLink: true, // Browse files to upload
 
     // Text strings
-    textBtnCancel: 'Cancel uploading this file',
-    textBtnCancelAll: 'Cancel',
-    textBtnCloseError: 'Close this error',
-    textBtnRemove: 'Remove this file from UI list',
-    textBtnStart: 'Start uploading this file',
-    textBtnStartAll: 'Start',
-    textDroparea: 'Drag and Drop Files to Upload',
-    textDropareaWithBrowse: 'Drag and Drop or {browseLink} to Upload',
-    textDropareaWithBrowseLink: 'Select Files',
-    textProgressLabel: '{file-name} uploaded {loaded} out of {size} ({percent}%)',
+    textBtnCancel: '',
+    textBtnCancelAll: '',
+    textBtnDismissError: '',
+    textBtnRemove: '',
+    textBtnStartUpload: '',
+    textDroparea: '',
+    textDropareaWithBrowse: '',
+    textDropareaWithBrowseLink: '',
+    textProgressLabel: '',
 
     // Error strings
-    errorMaxFiles: '<em>Error</em>: Cannot upload more than the maximum number of files ({maxFiles}).',
-    errorMaxFilesInProcess: '<em>Error</em>: Exceeded maximum files allowed limit',
-    errorAcceptFileType: '<em>Error</em>: File type is not allowed',
-    errorMaxFileSize: '<em>Error</em>: Exceeded file size limit',
-    errorUrl: '<em>Error</em>: Url not found!',
-    errorXhrHeaders: '<em>Error</em>: XHR Headers must be a valid JSON string contains array of name/value objects.',
+    errorMaxFiles: '',
+    errorMaxFilesInProcess: '',
+    errorAcceptFileType: '',
+    errorMaxFileSize: '',
+    errorUrl: '',
+    errorXhrHeaders: '',
 
     // Extra headers to use with XMLHttpRequest (JSON)
     xhrHeaders: ''

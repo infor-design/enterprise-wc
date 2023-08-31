@@ -108,21 +108,21 @@ export default class IdsUploadAdvanced extends Base {
     const multiple = Number(this.maxFilesInProcess) > 1 ? ' multiple' : '';
     const hiddenArea = `
       <div class="hidden">
-        <slot name="text-btn-cancel">${d.textBtnCancel}</slot>
-        <slot name="text-btn-cancel-all">${d.textBtnCancelAll}</slot>
-        <slot name="text-btn-close-error">${d.textBtnCloseError}</slot>
-        <slot name="text-btn-remove">${d.textBtnRemove}</slot>
-        <slot name="text-btn-start-all">${d.textBtnStartAll}</slot>
-        <slot name="text-droparea">${d.textDroparea}</slot>
-        <slot name="text-droparea-with-browse">${d.textDropareaWithBrowse}</slot>
-        <slot name="text-droparea-with-browse-link">${d.textDropareaWithBrowseLink}</slot>
-        <slot name="text-progress-label">${d.textProgressLabel}</slot>
-        <slot name="error-accept-file-type">${d.errorAcceptFileType}</slot>
-        <slot name="error-max-files">${d.errorMaxFiles}</slot>
-        <slot name="error-max-files-in-process">${d.errorMaxFilesInProcess}</slot>
-        <slot name="error-max-file-size">${d.errorMaxFileSize}</slot>
-        <slot name="error-url">${d.errorUrl}</slot>
-        <slot name="error-xhr-headers">${d.errorXhrHeaders}</slot>
+        <slot name="text-btn-cancel">${d.textBtnCancel || this.localeAPI.translate('UploadCancel')}</slot>
+        <slot name="text-btn-cancel-all">${d.textBtnCancelAll || this.localeAPI.translate('UploadCancelAll')}</slot>
+        <slot name="text-btn-close-error">${d.textBtnDismissError || this.localeAPI.translate('UploadDismissError')}</slot>
+        <slot name="text-btn-remove">${d.textBtnRemove || this.localeAPI.translate('UploadRemoveFile')}</slot>
+        <slot name="text-btn-start-all">${d.textBtnStartUpload || this.localeAPI.translate('UploadStart')}</slot>
+        <slot name="text-droparea">${d.textDroparea || this.localeAPI.translate('UploadDropArea')}</slot>
+        <slot name="text-droparea-with-browse">${d.textDropareaWithBrowse || this.localeAPI.translate('TextDropAreaWithBrowseLink')}</slot>
+        <slot name="text-droparea-with-browse-link">${d.textDropareaWithBrowseLink || this.localeAPI.translate('UploadLink')}</slot>
+        <slot name="text-progress-label">${d.textProgressLabel || this.localeAPI.translate('UploadProgressLabel')}</slot>
+        <slot name="error-accept-file-type">${d.errorAcceptFileType || this.localeAPI.translate('UploadErrorAcceptedFileType')}</slot>
+        <slot name="error-max-files">${d.errorMaxFiles || this.localeAPI.translate('UploadErrorMaxFiles')}</slot>
+        <slot name="error-max-files-in-process">${d.errorMaxFilesInProcess || this.localeAPI.translate('UploadErrorMaxFilesInProgress')}</slot>
+        <slot name="error-max-file-size">${d.errorMaxFileSize || this.localeAPI.translate('UploadErrorMaxFileSize')}</slot>
+        <slot name="error-url">${d.errorUrl || this.localeAPI.translate('UploadErrorUrl')}</slot>
+        <slot name="error-xhr-headers">${d.errorXhrHeaders || this.localeAPI.translate('UploadErrorXHRHeaders')}</slot>
         <slot name="xhr-headers">${d.xhrHeaders}</slot>
       </div>`;
 
@@ -252,9 +252,9 @@ export default class IdsUploadAdvanced extends Base {
    * @returns {string} The html output
    */
   getDropareaLabel(hasBrowse?: boolean | null): string {
-    const text = shared.slotVal(this.shadowRoot, 'text-droparea');
-    const textHasBrowse = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse');
-    const link = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse-link');
+    const text = shared.slotVal(this.shadowRoot, 'text-droparea') || this.localeAPI.translate('UploadDropArea');
+    const textHasBrowse = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse') || this.localeAPI.translate('TextDropAreaWithBrowseLink');
+    const link = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse-link') || this.localeAPI.translate('UploadLink');
 
     let browseLabelHtml = '';
     if (!stringToBool(hasBrowse)) {
@@ -453,7 +453,7 @@ export default class IdsUploadAdvanced extends Base {
   }
 
   /**
-   * Check for all type of validation requird before upload
+   * Check for all type of validation required before upload
    * @private
    * @param {any} file The file to check
    * @returns {object} The result of validation isValid: true|false, error: msg if false
@@ -792,6 +792,10 @@ export default class IdsUploadAdvanced extends Base {
     this.handleDropareaDropEvent();
     this.handleDocumentDragDropEvents();
     this.handleToolbarEvents();
+
+    this.onLocaleChange = () => {
+      this.setDropareaLabel();
+    };
   }
 
   /**
