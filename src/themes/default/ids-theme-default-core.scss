@@ -34,7 +34,8 @@
   --ids-border-radius-01: 2px;
   --ids-border-radius-02: 4px;
   --ids-border-radius-03: 8px;
-  --ids-border-radius-04: 16px;
+  --ids-border-radius-04: 12px;
+  --ids-border-radius-05: 16px;
   --ids-border-radius-circle: 50%;
 
   // Cursors
@@ -172,7 +173,7 @@
   --ids-action-panel-content-background-color: var(--ids-color-neutral-00);
 
   // Action Sheet
-  --ids-action-sheet-border-radius: var(--ids-border-radius-04);
+  --ids-action-sheet-border-radius: var(--ids-border-radius-05);
   --ids-action-sheet-padding: var(--ids-space-40);
   --ids-action-sheet-shadow: 0 0 8px rgb(0 0 0 / 0.2);
   --ids-action-sheet-color-background: var(--ids-color-neutral-00);

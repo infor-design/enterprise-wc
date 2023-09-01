@@ -6,17 +6,19 @@ import { messages as arMessages } from '../../src/components/ids-locale/data/ar-
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
 import { locale as arSALocale } from '../../src/components/ids-locale/data/ar-SA';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsContainer Component', () => {
   let container: IdsContainer;
+  let locale;
 
   beforeEach(() => {
     container = new IdsContainer();
-    IdsLocaleData.loadedLanguages.set('ar', arMessages);
-    IdsLocaleData.loadedLanguages.set('de', deMessages);
-    IdsLocaleData.loadedLocales.set('de-DE', deDELocale);
-    IdsLocaleData.loadedLocales.set('ar-SA', arSALocale);
+    locale = IdsGlobal.getLocale();
+    locale.loadedLanguages.set('ar', arMessages);
+    locale.loadedLanguages.set('de', deMessages);
+    locale.loadedLocales.set('de-DE', deDELocale);
+    locale.loadedLocales.set('ar-SA', arSALocale);
 
     document.body.appendChild(container);
   });

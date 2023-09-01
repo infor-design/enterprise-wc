@@ -10,7 +10,6 @@ import dataset from '../../src/assets/data/books.json';
 import productsDataset from '../../src/assets/data/products.json';
 import datasetTree from '../../src/assets/data/tree-buildings.json';
 import processAnimFrame from '../helpers/process-anim-frame';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 import createFromTemplate from '../helpers/create-from-template';
@@ -235,11 +234,11 @@ describe('IdsDataGrid Component', () => {
       return { cssRules: [], replaceSync: () => '', insertRule: () => '' };
     };
     (window.StyleSheet as any).insertRule = () => '';
+    IdsGlobal.getLocale().loadedLanguages.set('ar', arMessages);
+    IdsGlobal.getLocale().loadedLanguages.set('de', deMessages);
+    IdsGlobal.getLocale().loadedLocales.set('de-DE', deDELocale);
 
     container = new IdsContainer();
-    IdsLocaleData.loadedLanguages.set('ar', arMessages);
-    IdsLocaleData.loadedLanguages.set('de', deMessages);
-    IdsLocaleData.loadedLocales.set('de-DE', deDELocale);
 
     dataGrid = new IdsDataGrid();
     container.appendChild(dataGrid);

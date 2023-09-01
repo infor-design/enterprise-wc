@@ -3,7 +3,6 @@
  */
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsText from '../../src/components/ids-text/ids-text';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 import { messages as fiMessages } from '../../src/components/ids-locale/data/fi-messages';
 import processAnimFrame from '../helpers/process-anim-frame';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
@@ -237,7 +236,7 @@ describe('IdsText Component', () => {
 
   it.skip('can translate text', async () => {
     const container: any = new IdsContainer();
-    IdsLocaleData.loadedLanguages.set('fi', fiMessages);
+    IdsGlobal.getLocale().loadedLanguages.set('fi', fiMessages);
     const text: any = new IdsText();
     text.textContent = 'BrowserLanguage';
     text.translateText = true;

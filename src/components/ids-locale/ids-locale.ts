@@ -33,7 +33,7 @@ class IdsLocale {
   async setDefaults() {
     const defaultLang = 'en';
     const defaultLocale = 'en-US';
-    await this.setLanguage(defaultLang);
+    await this.setLanguage(defaultLang, false);
     await this.setLocale('en-US', false);
 
     this.state.defaultLocale.messages = this.language.messages;
@@ -54,7 +54,7 @@ class IdsLocale {
   set language(value: string | any) {
     const lang = this.#correctLanguage(value);
     if (value && lang !== this.state.language) {
-      this.setLanguage(lang);
+      this.setLanguage(lang, false);
     }
   }
 
@@ -146,14 +146,20 @@ class IdsLocale {
     if (this.name !== locale) {
       this.name = locale;
       this.state.localeName = locale;
-      await this.setLanguage(locale);
+      if (!this.loadedLocales.get(this.name)) {
+        await this.loadLocaleScript(locale);
+      }
+      await this.setLanguage(locale, false);
+      const lang = this.correctLanguage(value);
+      if (!this.loadedLanguages.get(lang)) {
+        await this.loadLanguageScript(lang);
+      }
     }
 
-    if (!this.loadedLocales.get(this.name)) {
-      await this.loadLocaleScript(locale);
+    if (notify) {
+      this.#notifyElementsLocale();
+      this.#notifyElementsLanguage();
     }
-
-    if (notify) this.#notifyElementsLocale();
     this.previousLocale = value;
   }
 
@@ -199,9 +205,11 @@ class IdsLocale {
    * @returns {Promise} A promise that will resolve when complete
    */
   async loadLocaleScript(value: string) {
-    await import(/* webpackIgnore: true */`../locale-data/${value}.js`).then((module) => {
+    const promise = import(/* webpackIgnore: true */`../locale-data/${value}.js`);
+    promise.then((module) => {
       this.loadedLocales.set(value, module.locale);
     });
+    return promise;
   }
 
   /**
@@ -238,8 +246,9 @@ class IdsLocale {
   /**
    * Set the language for a component and wait for it to finish (async)
    * @param {string} value The language string value
+   * @param {boolean} notify notify about the language
    */
-  async setLanguage(value: string) {
+  async setLanguage(value: string, notify = true) {
     const lang = this.correctLanguage(value);
     if (this.state.language !== lang) {
       this.state.language = lang;
@@ -250,7 +259,7 @@ class IdsLocale {
       await this.loadLanguageScript(lang);
     }
     this.setDocumentLangAttribute(lang);
-    this.#notifyElementsLanguage();
+    if (notify) this.#notifyElementsLanguage();
     this.previousLanguage = value;
   }
 

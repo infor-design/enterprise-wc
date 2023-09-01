@@ -4,7 +4,6 @@
 import IdsRadio from '../../src/components/ids-radio/ids-radio';
 import IdsRadioGroup from '../../src/components/ids-radio/ids-radio-group';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
@@ -16,7 +15,7 @@ describe('IdsRadioGroup Component', () => {
 
   beforeEach(async () => {
     container = new IdsContainer();
-    IdsLocaleData.loadedLanguages.set('de', deMessages);
+    IdsGlobal.getLocale().loadedLanguages.set('de', deMessages);
 
     const rb1 = new IdsRadio();
     const rb2 = new IdsRadio();

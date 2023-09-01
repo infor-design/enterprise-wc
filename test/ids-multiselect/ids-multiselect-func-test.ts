@@ -5,7 +5,6 @@ import '../helpers/resize-observer-mock';
 import waitForTimeout from '../helpers/wait-for-timeout';
 import wait from '../helpers/wait';
 import processAnimFrame from '../helpers/process-anim-frame';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 import IdsMultiselect from '../../src/components/ids-multiselect/ids-multiselect';
 import '../../src/components/ids-dropdown/ids-dropdown';
@@ -310,7 +309,7 @@ describe('IdsMultiselect Component', () => {
   });
 
   it('can changing language from the container', async () => {
-    IdsLocaleData.loadedLanguages.set('de', deMessages);
+    IdsGlobal.getLocale().loadedLanguages.set('de', deMessages);
     await IdsGlobal.getLocale().setLanguage('de');
     await processAnimFrame();
     expect(multiselect.getAttribute('aria-description')).toEqual('Drücken Sie zum Auswählen die Nach-unten-Taste');
