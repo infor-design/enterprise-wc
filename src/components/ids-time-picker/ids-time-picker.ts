@@ -518,11 +518,7 @@ export default class IdsTimePicker extends Base {
    * Set the input-field's timestring value
    */
   #setTimeOnField(): void {
-    const value = this.#getTimeOnField();
-
-    if (this.input) {
-      this.input.value = value;
-    }
+    this.value = this.#getTimeOnField();
   }
 
   /**

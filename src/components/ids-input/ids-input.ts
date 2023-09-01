@@ -619,6 +619,49 @@ export default class IdsInput extends Base {
         }
       });
     });
+
+    this.onEvent('input.native', this.input, (e: any) => {
+      this.triggeredByChange = true;
+      this.value = this.input?.value ?? '';
+      this.triggerInputEvent(e);
+    });
+
+    this.onEvent('change.native', this.input, (e: any) => {
+      this.triggeredByChange = true;
+      this.value = this.input?.value ?? '';
+      this.triggerInputEvent(e);
+    });
+  }
+
+  /**
+   * React to attributes changing on the web-component
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
+   */
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+    if (oldValue === newValue) return;
+
+    if (name === attributes.VALUE) {
+      this.triggerInputEvent();
+    }
+  }
+
+  triggerInputEvent(nativeEvent?: Event | CustomEvent, element?: Element) {
+    const target = element ?? (this.getRootNode() as ShadowRoot)?.host ?? this;
+
+    const value = this.value;
+    target.setAttribute?.(attributes.VALUE, value);
+
+    this.triggerEvent(`input.${this.name ?? 'ids-input'}`, target, {
+      bubbles: true,
+      detail: {
+        elem: target,
+        value,
+        nativeEvent,
+      }
+    });
   }
 
   /**
@@ -919,7 +962,7 @@ export default class IdsInput extends Base {
   }
 
   get value(): string {
-    return this.input?.value || '';
+    return this.input?.value ?? '';
   }
 
   /**
