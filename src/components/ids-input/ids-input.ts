@@ -649,11 +649,15 @@ export default class IdsInput extends Base {
   }
 
   triggerInputEvent(nativeEvent?: Event | CustomEvent, element?: Element) {
-    const target = element ?? (this.getRootNode() as ShadowRoot)?.host ?? this;
+    element = element ?? (this.getRootNode() as ShadowRoot)?.host;
 
     const value = this.value;
-    target.setAttribute?.(attributes.VALUE, value);
+    // element?.setAttribute?.(attributes.VALUE, value);
+    if (element) {
+      (element as HTMLInputElement).value = value;
+    }
 
+    const target = element ?? this;
     this.triggerEvent(`input.${this.name ?? 'ids-input'}`, target, {
       bubbles: true,
       detail: {

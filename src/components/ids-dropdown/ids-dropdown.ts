@@ -302,6 +302,12 @@ export default class IdsDropdown extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
+    const labels = this.labels;
+    const label = String(value);
+    if (labels.includes(label)) {
+      value = this.values[labels.indexOf(label)];
+    }
+
     let selector = `ids-list-box-option[value="${value}"]`;
     if (value === ' ' || !value) selector = `ids-list-box-option:not([value])`;
     const elem = this.dropdownList?.listBox?.querySelector<IdsListBoxOption>(selector);
@@ -314,6 +320,8 @@ export default class IdsDropdown extends Base {
     if (this.input) this.input.value = elem.textContent?.trim();
     this.state.selectedIndex = [...((elem?.parentElement as any)?.children || [])].indexOf(elem);
 
+    this.setAttribute(attributes.VALUE, String(value));
+
     // Send the change event
     if (this.value === value) {
       this.triggerEvent('change', this, {
@@ -324,11 +332,18 @@ export default class IdsDropdown extends Base {
         }
       });
     }
-    this.setAttribute(attributes.VALUE, String(value));
   }
 
   get value(): string | null {
     return this.getAttribute(attributes.VALUE);
+  }
+
+  get values(): string[] {
+    return this.options.map((item) => item.value ?? '');
+  }
+
+  get labels(): string[] {
+    return this.options.map((item) => item.textContent ?? '');
   }
 
   /**
