@@ -1186,6 +1186,8 @@ export default class IdsDataGrid extends Base {
    * @param {Array} value The array to use
    */
   appendData(value: Array<Record<string, any>>) {
+    if (!value?.length) return;
+
     if (this.virtualScroll) {
       // NOTE: using originalData skips pagination-logic; it's ok in context of infinite-scroll
       this.datasource.data = this.datasource.originalData.concat(value);
@@ -1203,7 +1205,7 @@ export default class IdsDataGrid extends Base {
     const rows = this.rows;
     if (!data.length || !rows.length) return;
 
-    const { MAX_ROWS_IN_DOM } = this.virtualScrollSettings;
+    const { MAX_ROWS_IN_DOM, ROW_HEIGHT } = this.virtualScrollSettings;
 
     const rowsNeeded = Math.min(data.length, MAX_ROWS_IN_DOM) - rows.length;
     const missingRows: any[] = [];
@@ -1219,6 +1221,10 @@ export default class IdsDataGrid extends Base {
 
     if (missingRows.length && this.body) {
       this.body.innerHTML += missingRows.join('');
+    }
+
+    if (rowsNeeded === 0 || data.length - 1 > lastRowIndex) {
+      this.#handleVirtualScroll(ROW_HEIGHT);
     }
   }
 
@@ -2247,6 +2253,14 @@ export default class IdsDataGrid extends Base {
    * @returns {number} The pixel height
    */
   get rowPixelHeight(): number {
+    // Attempt to get height from getBoundingClient() calculations
+    // This accounts for different screen scaling
+    const domHeight = this.body?.querySelector('ids-data-grid-row')?.getBoundingClientRect().height;
+
+    if (domHeight) {
+      return domHeight;
+    }
+
     const rowHeights: any = {
       xxs: 25,
       xs: 30,
