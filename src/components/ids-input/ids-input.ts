@@ -652,7 +652,6 @@ export default class IdsInput extends Base {
     element = element ?? (this.getRootNode() as ShadowRoot)?.host;
 
     const value = this.value;
-    // element?.setAttribute?.(attributes.VALUE, value);
     if (element) {
       (element as HTMLInputElement).value = value;
     }

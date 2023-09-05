@@ -334,14 +334,26 @@ export default class IdsDropdown extends Base {
     }
   }
 
+  /**
+   * Get the current value of the dropdown
+   * @returns {string | null} value
+   */
   get value(): string | null {
     return this.getAttribute(attributes.VALUE);
   }
 
+  /**
+   * Get all available values of the dropdown
+   * @returns {string[]} value
+   */
   get values(): string[] {
     return this.options.map((item) => item.value ?? '');
   }
 
+  /**
+   * Get all availabe labels of the dropdown
+   * @returns {string[]} value
+   */
   get labels(): string[] {
     return this.options.map((item) => item.textContent ?? '');
   }

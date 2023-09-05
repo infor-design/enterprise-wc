@@ -400,8 +400,17 @@ export default class IdsTextarea extends Base {
   handleTextareaChangeEvent(): void {
     const events = ['change', 'input', 'propertychange'];
     events.forEach((evt) => {
-      this.onEvent(evt, this.input, () => {
+      this.onEvent(evt, this.input, (e: Event) => {
         this.value = this.input?.value || '';
+
+        this.triggerEvent('input.ids-textarea', this, {
+          bubbles: true,
+          detail: {
+            elem: this,
+            value: this.value,
+            nativeEvent: e,
+          }
+        });
       });
     });
   }
@@ -423,7 +432,7 @@ export default class IdsTextarea extends Base {
            * @param {object} elem Actual event
            * @param {string} value The updated element value
            */
-          this.triggerEvent(e.type, this, {
+          this.triggerEvent(`${e.type}.ids-textarea`, this, {
             detail: { elem: this, nativeEvent: e, value: this.value }
           });
         });
