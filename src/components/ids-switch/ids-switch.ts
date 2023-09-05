@@ -84,13 +84,14 @@ export default class IdsSwitch extends Base {
   template(): string {
     const disabled = stringToBool(this.disabled) ? ' disabled' : '';
     const checked = stringToBool(this.checked) ? ' checked' : '';
+    const value = checked ? ` value="${this.value}"` : '';
     const rootClass = ` class="ids-switch${disabled}"`;
     const checkboxClass = ` class="checkbox"`;
 
     return `
       <div${rootClass}>
         <label>
-          <input type="checkbox"${checkboxClass}${disabled}${checked} part="checkbox">
+          <input type="checkbox" part="checkbox" ${checkboxClass}${disabled}${checked}${value}>
           <span class="slider${checked}" part="slider"></span>
           <ids-text class="label-text" part="label">${this.label}</ids-text>
         </label>
@@ -113,8 +114,17 @@ export default class IdsSwitch extends Base {
           this.offEvent(eventName, this.input);
         }
       } else {
-        this.onEvent(eventName, this.input, () => {
+        this.onEvent(eventName, this.input, (e: Event) => {
           this.checked = !!this.input?.checked;
+
+          this.triggerEvent('input.ids-switch', this, {
+            bubbles: true,
+            detail: {
+              elem: this,
+              value: this.checked,
+              nativeEvent: e,
+            }
+          });
         });
       }
     }
@@ -245,9 +255,19 @@ export default class IdsSwitch extends Base {
       this.removeAttribute(attributes.VALUE);
     }
     this.input?.setAttribute(attributes.VALUE, (val || ''));
+    this.checked = !!val;
   }
 
-  get value(): string | null { return this.getAttribute(attributes.VALUE); }
+  /**
+   * Gets the checkbox `value` attribute
+   * @returns {string | null} the value property
+   *
+   * If a checkbox is unchecked when its form is submitted,
+   * neither the name nor the value is submitted to the server.
+   * If the value attribute is omitted, the default value for the checkbox is `on`.
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
+   */
+  get value(): string | null { return this.checked ? (this.getAttribute(attributes.VALUE) ?? 'on') : null; }
 
   /**
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
