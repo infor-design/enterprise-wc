@@ -46,16 +46,19 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
   connectedCallback() {
     super.connectedCallback?.();
 
-    this.formInput?.addEventListener?.('input', (e: Event) => {
-      this.#internals.setFormValue(this.value);
-      this.triggerEvent(`input.${this.name ?? 'ids-form-input-mixin'}`, this, {
-        bubbles: true,
-        detail: {
-          elem: this,
-          value: this.value,
-          nativeEvent: e,
-        }
-      });
+    this.onEvent('change.native', this.formInput, (e: Event) => this.#handleInputEvent(e));
+    this.onEvent('input.native', this.formInput, (e: Event) => this.#handleInputEvent(e));
+  }
+
+  #handleInputEvent(e: Event) {
+    this.#internals.setFormValue(this.value);
+    this.triggerEvent(`input.${this.name ?? 'ids-form-input-mixin'}`, this, {
+      bubbles: true,
+      detail: {
+        elem: this,
+        value: this.value,
+        nativeEvent: e,
+      }
     });
   }
 
@@ -74,7 +77,6 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
   get type() { return this.localName; }
 
   get value() { return this.formInput?.getAttribute?.(attributes.VALUE) ?? ''; }
-  // get value() { return this.formInput?.value ?? ''; }
 
   set value(value: string) { this.formInput?.setAttribute?.(attributes.VALUE, value); }
 
