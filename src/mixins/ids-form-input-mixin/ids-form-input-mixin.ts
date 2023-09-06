@@ -72,8 +72,6 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
   get form() { return this.#internals.form; }
 
-  get name() { return this.getAttribute(attributes.NAME); }
-
   get type() { return this.localName; }
 
   get value() { return this.formInput?.getAttribute?.(attributes.VALUE) ?? ''; }
