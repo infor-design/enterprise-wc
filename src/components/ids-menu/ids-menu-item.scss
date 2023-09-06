@@ -421,15 +421,10 @@
 }
 
 // RTL Fixes
-.ids-menu-item[dir='rtl'] {
+.ids-menu-item[dir='rtl'],
+.ids-menu-item.rtl {
   a .ids-menu-item-submenu-icon {
     grid-column-start: 3;
-    margin-left: 0;
-    margin-right: 18px;
     transform: rotateZ(90deg);
-  }
-
-  &.has-submenu a {
-    padding-right: 8px;
   }
 }
