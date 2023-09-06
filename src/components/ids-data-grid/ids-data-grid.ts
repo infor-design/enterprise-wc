@@ -2253,14 +2253,6 @@ export default class IdsDataGrid extends Base {
    * @returns {number} The pixel height
    */
   get rowPixelHeight(): number {
-    // Attempt to get height from getBoundingClient() calculations
-    // This accounts for different screen scaling
-    const domHeight = this.body?.querySelector('ids-data-grid-row')?.getBoundingClientRect().height;
-
-    if (domHeight) {
-      return domHeight;
-    }
-
     const rowHeights: any = {
       xxs: 25,
       xs: 30,
