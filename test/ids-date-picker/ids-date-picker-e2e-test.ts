@@ -272,12 +272,7 @@ describe('Ids Date Picker e2e Tests', () => {
   it.skip('should change date on keyboard events', async () => {
     // Reset
     await page.evaluate(() => {
-      const container = (document as any).querySelector('ids-container');
       const component = (document.querySelector as any)('#e2e-datepicker-value');
-
-      container.setLocale('en-US');
-      container.setLanguage('en');
-
       component.value = '3/4/2016';
     });
 
@@ -787,32 +782,6 @@ describe('Ids Date Picker e2e Tests', () => {
     const value = await page.$eval('#e2e-datepicker-value', (el: any) => el?.value);
 
     expect(value).toEqual('2018-03-22');
-  });
-
-  it.skip('should handle different locale and language', async () => {
-    await page.evaluate(async () => {
-      const component: any = document.querySelector('#e2e-datepicker-value');
-      const container: any = document.querySelector('ids-container');
-
-      if (container) {
-        await container.setLocale('es-ES');
-        await container.setLanguage('en');
-      }
-
-      if (component) {
-        component.format = 'M/d/yyyy';
-        component.value = '3/4/2016';
-        component.open();
-      }
-    });
-
-    const picklistMonth = await page.$eval('#e2e-datepicker-value', (el: any) => el?.container.querySelector('ids-month-view')?.container.querySelector('ids-date-picker')?.value);
-    const weekDays = await page.$eval('#e2e-datepicker-value', (el: any) => Array.from(
-      el?.container.querySelector('ids-month-view')?.container.querySelectorAll('.weekday-text')
-    ).map((item: any) => item?.textContent));
-
-    expect(picklistMonth).toEqual('March 2016');
-    expect(weekDays).toEqual(['S', 'M', 'T', 'W', 'T', 'F', 'S']);
   });
 
   it.skip('should not have memory leaks', async () => {

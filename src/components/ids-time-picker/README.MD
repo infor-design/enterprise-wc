@@ -26,7 +26,7 @@ The Timepicker Component provides a click/touch user interface for setting a tim
 - `autoupdate` {boolean} Automatically updates the time string value and hides the "Set Time" button.
 - `colorVariant` {string} set the current color variant.
 - `compact` {boolean} sets the component to be compact mode.
-- `dirty-tracker` {boolean} sets the dirty tracking feature on to indicate a changed field. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
+- `dirtyTracker` {boolean} sets the dirty tracking feature on to indicate a changed field. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} Disables the timepicker
 - `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
 - `readonly` {boolean} Makes the timepicker readonly
@@ -34,19 +34,19 @@ The Timepicker Component provides a click/touch user interface for setting a tim
 - `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
 - `placeholder` {string} Set the timepicker's placeholder
 - `noMargins` {boolean} sets whether or not no-margins around the component.
-- `size` {'sm' | 'md' | 'lg' | 'full' | string} Sets the size of the input-field's width
+- `size` `{'sm' | 'md' | 'lg' | 'full' | string}` Sets the size of the input-field's width
 - `embeddable` {boolean} Set whether or not to show only hours/minutes/seconds dropdowns without input
-- `minute-interval` {number} Set minutes dropdown options interval. Default is 5
-- `second-interval` {number} Set seconds dropdown options interval. Default is 5
+- `minuteInterval` {number} Set minutes dropdown options interval. Default is 5
+- `secondInterval` {number} Set seconds dropdown options interval. Default is 5
 - `hours` {number} Set initial value for hours dropdown in the popup or retrieve the dropdown value
 - `minutes` {number} Set initial value for minutes dropdown in the popup or retrieve the dropdown value
 - `seconds` {number} Set initial value for seconds dropdown in the popup or retrieve the dropdown value
 - `period` {number} Set initial value for period dropdown in the popup or retrieve the dropdown value
 - `validate` {'required'|'time'|string} - Input validation rules
-- `validation-events` {string} - Input validation events, `change blur` as default
-- `start-hour` {number} - Set the start of limit hours. Default is 0
-- `end-hour` {number} - Set the end of limit hours. Default is 24
-- `use-current-time` {true|false} - Set whether or not to show current time in the dropdowns
+- `validationEvents` {string} - Input validation events, `change blur` as default
+- `startHour` {number} - Set the start of limit hours. Default is 0
+- `endHour` {number} - Set the end of limit hours. Default is 24
+- `useCurrentTime` {true|false} - Set whether or not to show current time in the dropdowns
 
 ## Events
 - Event listeners for input (trigger field) `blur`, `change`, `focus`, `select`, `keydown`, `keypress`, `keyup`, `click`, `dbclick`, `beforetriggerclicked`, `triggerclicked` events can be added to `input` component property:
@@ -111,7 +111,7 @@ An `autoselect` timepicker and an `autoupdate` timepicker.
 <ids-time-picker label="Autoupdate Time Picker" value="10:30 AM" autoupdate></ids-time-picker>
 ```
 
-It's also possible to configure the timepicker with a custom time format. This allows the timepicker to be configured in 24-hour/Miliary time and/or with a seconds picker for more accurate time.
+It's also possible to configure the timepicker with a custom time format. This allows the timepicker to be configured in 24-hour/Military time and/or with a seconds picker for more accurate time.
 
 ```html
 <ids-time-picker

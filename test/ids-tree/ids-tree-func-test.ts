@@ -5,7 +5,7 @@ import IdsTree from '../../src/components/ids-tree/ids-tree';
 import IdsTreeShared from '../../src/components/ids-tree/ids-tree-shared';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 const processAnimFrame = () => new Promise((resolve) => {
   window.requestAnimationFrame(() => {
@@ -24,8 +24,8 @@ describe('IdsTree Component', () => {
     container.appendChild(elem);
     document.body.appendChild(container);
     tree = container.querySelector('ids-tree');
-    await container.setLanguage('en');
-    IdsLocaleData.loadedLanguages.set('ar', arMessages);
+    await IdsGlobal.getLocale().setLanguage('en');
+    IdsGlobal.getLocale().loadedLanguages.set('ar', arMessages);
 
     dataset = [{
       id: 'home',
@@ -787,7 +787,7 @@ describe('IdsTree Component', () => {
 
   it('should moves focus on keydown RTL', async () => {
     tree.data = dataset;
-    await container.setLanguage('ar');
+    await IdsGlobal.getLocale().setLanguage('ar');
 
     expect(tree.getAttribute('dir')).toEqual('rtl');
 
@@ -829,7 +829,7 @@ describe('IdsTree Component', () => {
 
   it('should update with container language change', async () => {
     tree.data = dataset;
-    await container.setLanguage('ar');
+    await IdsGlobal.getLocale().setLanguage('ar');
     expect(tree.getAttribute('dir')).toEqual('rtl');
   });
 

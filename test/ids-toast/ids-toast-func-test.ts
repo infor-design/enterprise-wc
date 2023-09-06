@@ -11,7 +11,7 @@ import {
   EVENTS
 } from '../../src/components/ids-toast/ids-toast-shared';
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsToast Component', () => {
   const origInnerWidth = window.innerWidth;
@@ -22,7 +22,7 @@ describe('IdsToast Component', () => {
 
   beforeEach(async () => {
     container = new IdsContainer();
-    IdsLocaleData.loadedLanguages.set('ar', arMessages);
+    IdsGlobal.getLocale().loadedLanguages.set('ar', arMessages);
 
     toast = new IdsToast();
     container.appendChild(toast);
@@ -444,7 +444,7 @@ describe('IdsToast Component', () => {
   });
 
   it('should update with container language change', async () => {
-    await container.setLanguage('ar');
+    await container.localeAPI.setLanguage('ar');
     expect(toast.getAttribute('dir')).toEqual('rtl');
   });
 

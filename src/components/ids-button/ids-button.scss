@@ -138,6 +138,10 @@ button {
     border-radius: var(--ids-border-radius-03);
   }
 
+  &.square {
+    border-radius: 0;
+  }
+
   .ids-icon {
     display: block;
     padding-inline-start: var(--ids-space-none);

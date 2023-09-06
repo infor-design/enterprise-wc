@@ -1,9 +1,10 @@
+import IdsGlobal from '../../ids-global/ids-global';
 import '../ids-date-picker';
 
 (async function init() {
-  const container: any = document.querySelector('ids-container');
-  // Set Locale and wait for it to load
-  await container?.setLocale('en-US');
+// Set Locale and wait for it to load
+  const locale = IdsGlobal.getLocale();
+  await locale?.setLocale('en-US');
   const rangePickerSettings: any = document.querySelector('#e2e-datepicker-settings-value');
   const rangePickerForward: any = document.querySelector('#e2e-datepicker-forward');
   const rangePickerBackward: any = document.querySelector('#e2e-datepicker-backward');

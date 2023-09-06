@@ -80,19 +80,19 @@ export default class IdsUploadAdvancedFile extends Base {
     const disabled = toBool(this.disabled) ? ' disabled' : '';
     const hiddenArea = `
       <div class="hidden">
-        <slot name="text-btn-cancel">${d.textBtnCancel}</slot>
-        <slot name="text-btn-close-error">${d.textBtnCloseError}</slot>
-        <slot name="text-btn-remove">${d.textBtnRemove}</slot>
-        <slot name="text-btn-start">${d.textBtnStart}</slot>
-        <slot name="text-droparea">${d.textDroparea}</slot>
-        <slot name="text-droparea-with-browse">${d.textDropareaWithBrowse}</slot>
-        <slot name="text-droparea-with-browse-link">${d.textDropareaWithBrowseLink}</slot>
-        <slot name="text-progress-label">${d.textProgressLabel}</slot>
-        <slot name="error-accept-file-type">${d.errorAcceptFileType}</slot>
-        <slot name="error-max-files">${d.errorMaxFiles}</slot>
-        <slot name="error-max-files-in-process">${d.errorMaxFilesInProcess}</slot>
-        <slot name="error-max-file-size">${d.errorMaxFileSize}</slot>
-        <slot name="error-url">${d.errorUrl}</slot>
+        <slot name="text-btn-cancel">${d.textBtnCancel || this.localeAPI.translate('UploadCancel')}</slot>
+        <slot name="text-btn-close-error">${d.textBtnDismissError || this.localeAPI.translate('UploadDismissError')}</slot>
+        <slot name="text-btn-remove">${d.textBtnRemove || this.localeAPI.translate('UploadRemoveFile')}</slot>
+        <slot name="text-btn-start">${d.textBtnStartUpload || this.localeAPI.translate('UploadStart')}</slot>
+        <slot name="text-droparea">${d.textDroparea || this.localeAPI.translate('UploadDropArea')}</slot>
+        <slot name="text-droparea-with-browse">${d.textDropareaWithBrowse || this.localeAPI.translate('TextDropAreaWithBrowseLink')}</slot>
+        <slot name="text-droparea-with-browse-link">${d.textDropareaWithBrowseLink || this.localeAPI.translate('UploadLink')}</slot>
+        <slot name="text-progress-label">${d.textProgressLabel || this.localeAPI.translate('UploadProgressLabel')}</slot>
+        <slot name="error-accept-file-type">${d.errorAcceptFileType || this.localeAPI.translate('UploadErrorAcceptedFileType')}</slot>
+        <slot name="error-max-files">${d.errorMaxFiles || this.localeAPI.translate('UploadErrorMaxFiles')}</slot>
+        <slot name="error-max-files-in-process">${d.errorMaxFilesInProcess || this.localeAPI.translate('UploadErrorMaxFilesInProgress')}</slot>
+        <slot name="error-max-file-size">${d.errorMaxFileSize || this.localeAPI.translate('UploadErrorMaxFileSize')}</slot>
+        <slot name="error-url">${d.errorUrl || this.localeAPI.translate('UploadErrorUrl')}</slot>
       </div>`;
 
     return `

@@ -106,7 +106,7 @@ ids-time-picker {
   margin-right: -7px;
 
   &::part(button) {
-    padding: 2px 4px;
+    padding: 10px 8px;
     margin: 3px;
   }
 }
@@ -125,4 +125,8 @@ ids-time-picker {
     width: 44px;
     height: 44px;
   }
+}
+
+.btn-next {
+  margin: 3px 3px 3px -5px;
 }

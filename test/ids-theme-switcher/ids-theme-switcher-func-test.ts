@@ -9,8 +9,8 @@ import '../../src/components/ids-container/ids-container';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsThemeSwitcher from '../../src/components/ids-theme-switcher/ids-theme-switcher';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsThemeSwitcher Component', () => {
   let container: any;
@@ -18,7 +18,7 @@ describe('IdsThemeSwitcher Component', () => {
 
   beforeEach(async () => {
     container = new IdsContainer();
-    IdsLocaleData.loadedLanguages.set('ar', arMessages);
+    IdsGlobal.getLocale().loadedLanguages.set('ar', arMessages);
 
     switcher = new IdsThemeSwitcher();
     container.appendChild(switcher);
@@ -79,7 +79,7 @@ describe('IdsThemeSwitcher Component', () => {
   });
 
   it('can change language', async () => {
-    await container.setLanguage('ar');
+    await IdsGlobal.getLocale().setLanguage('ar');
     setTimeout(() => {
       expect(switcher.getAttribute('dir')).toEqual('rtl');
     });

@@ -4,7 +4,6 @@
 /* eslint-disable no-irregular-whitespace */
 import IdsLocale from '../../src/components/ids-locale/ids-locale';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 import { messages as afMessages } from '../../src/components/ids-locale/data/af-messages';
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
@@ -109,120 +108,122 @@ import { locale as zhCNLocale } from '../../src/components/ids-locale/data/zh-CN
 import { locale as zhHansLocale } from '../../src/components/ids-locale/data/zh-Hans';
 import { locale as zhHantLocale } from '../../src/components/ids-locale/data/zh-Hant';
 import { locale as zhTWLocale } from '../../src/components/ids-locale/data/zh-TW';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsLocale API', () => {
   let locale: any;
 
   beforeEach(async () => {
-    locale = new IdsLocale();
-    IdsLocaleData.loadedLanguages.set('ar', arMessages);
-    IdsLocaleData.loadedLanguages.set('bg', bgMessages);
-    IdsLocaleData.loadedLanguages.set('af', afMessages);
-    IdsLocaleData.loadedLanguages.set('cs', csMessages);
-    IdsLocaleData.loadedLanguages.set('da', daMessages);
-    IdsLocaleData.loadedLanguages.set('de', deMessages);
-    IdsLocaleData.loadedLanguages.set('el', elMessages);
-    IdsLocaleData.loadedLanguages.set('es', esMessages);
-    IdsLocaleData.loadedLanguages.set('et', etMessages);
-    IdsLocaleData.loadedLanguages.set('fi', fiMessages);
-    IdsLocaleData.loadedLanguages.set('fr-CA', frCAMessages);
-    IdsLocaleData.loadedLanguages.set('fr-FR', frFRMessages);
-    IdsLocaleData.loadedLanguages.set('fr', frMessages);
-    IdsLocaleData.loadedLanguages.set('he', heMessages);
-    IdsLocaleData.loadedLanguages.set('hi', hiMessages);
-    IdsLocaleData.loadedLanguages.set('hr', hrMessages);
-    IdsLocaleData.loadedLanguages.set('hu', huMessages);
-    IdsLocaleData.loadedLanguages.set('id', idMessages);
-    IdsLocaleData.loadedLanguages.set('it', itMessages);
-    IdsLocaleData.loadedLanguages.set('ja', jaMessages);
-    IdsLocaleData.loadedLanguages.set('ko', koMessages);
-    IdsLocaleData.loadedLanguages.set('lt', ltMessages);
-    IdsLocaleData.loadedLanguages.set('lv', lvMessages);
-    IdsLocaleData.loadedLanguages.set('ms', msMessages);
-    IdsLocaleData.loadedLanguages.set('nb', nbMessages);
-    IdsLocaleData.loadedLanguages.set('nl', nlMessages);
-    IdsLocaleData.loadedLanguages.set('nn', nnMessages);
-    IdsLocaleData.loadedLanguages.set('no', noMessages);
-    IdsLocaleData.loadedLanguages.set('pl', plMessages);
-    IdsLocaleData.loadedLanguages.set('pt-BR', ptBRMessages);
-    IdsLocaleData.loadedLanguages.set('pt-PT', ptPTMessages);
-    IdsLocaleData.loadedLanguages.set('pt', ptMessages);
-    IdsLocaleData.loadedLanguages.set('ro', roMessages);
-    IdsLocaleData.loadedLanguages.set('ru', ruMessages);
-    IdsLocaleData.loadedLanguages.set('sk', skMessages);
-    IdsLocaleData.loadedLanguages.set('sl', slMessages);
-    IdsLocaleData.loadedLanguages.set('sv', svMessages);
-    IdsLocaleData.loadedLanguages.set('th', thMessages);
-    IdsLocaleData.loadedLanguages.set('tl', tlMessages);
-    IdsLocaleData.loadedLanguages.set('tr', trMessages);
-    IdsLocaleData.loadedLanguages.set('uk', ukMessages);
-    IdsLocaleData.loadedLanguages.set('vi', viMessages);
-    IdsLocaleData.loadedLanguages.set('zh-CN', zhCNMessages);
-    IdsLocaleData.loadedLanguages.set('zh-Hans', zhHansMessages);
-    IdsLocaleData.loadedLanguages.set('zh-Hant', zhHantMessages);
-    IdsLocaleData.loadedLanguages.set('zh-TW', zhTWMessages);
-    IdsLocaleData.loadedLanguages.set('zh', zhMessages);
+    locale = IdsGlobal.getLocale();
+    locale.loadedLanguages.set('ar', arMessages);
+    locale.loadedLanguages.set('bg', bgMessages);
+    locale.loadedLanguages.set('af', afMessages);
+    locale.loadedLanguages.set('cs', csMessages);
+    locale.loadedLanguages.set('da', daMessages);
+    locale.loadedLanguages.set('de', deMessages);
+    locale.loadedLanguages.set('el', elMessages);
+    locale.loadedLanguages.set('es', esMessages);
+    locale.loadedLanguages.set('et', etMessages);
+    locale.loadedLanguages.set('fi', fiMessages);
+    locale.loadedLanguages.set('fr-CA', frCAMessages);
+    locale.loadedLanguages.set('fr-FR', frFRMessages);
+    locale.loadedLanguages.set('fr', frMessages);
+    locale.loadedLanguages.set('he', heMessages);
+    locale.loadedLanguages.set('hi', hiMessages);
+    locale.loadedLanguages.set('hr', hrMessages);
+    locale.loadedLanguages.set('hu', huMessages);
+    locale.loadedLanguages.set('id', idMessages);
+    locale.loadedLanguages.set('it', itMessages);
+    locale.loadedLanguages.set('ja', jaMessages);
+    locale.loadedLanguages.set('ko', koMessages);
+    locale.loadedLanguages.set('lt', ltMessages);
+    locale.loadedLanguages.set('lv', lvMessages);
+    locale.loadedLanguages.set('ms', msMessages);
+    locale.loadedLanguages.set('nb', nbMessages);
+    locale.loadedLanguages.set('nl', nlMessages);
+    locale.loadedLanguages.set('nn', nnMessages);
+    locale.loadedLanguages.set('no', noMessages);
+    locale.loadedLanguages.set('pl', plMessages);
+    locale.loadedLanguages.set('pt-BR', ptBRMessages);
+    locale.loadedLanguages.set('pt-PT', ptPTMessages);
+    locale.loadedLanguages.set('pt', ptMessages);
+    locale.loadedLanguages.set('ro', roMessages);
+    locale.loadedLanguages.set('ru', ruMessages);
+    locale.loadedLanguages.set('sk', skMessages);
+    locale.loadedLanguages.set('sl', slMessages);
+    locale.loadedLanguages.set('sv', svMessages);
+    locale.loadedLanguages.set('th', thMessages);
+    locale.loadedLanguages.set('tl', tlMessages);
+    locale.loadedLanguages.set('tr', trMessages);
+    locale.loadedLanguages.set('uk', ukMessages);
+    locale.loadedLanguages.set('vi', viMessages);
+    locale.loadedLanguages.set('zh-CN', zhCNMessages);
+    locale.loadedLanguages.set('zh-Hans', zhHansMessages);
+    locale.loadedLanguages.set('zh-Hant', zhHantMessages);
+    locale.loadedLanguages.set('zh-TW', zhTWMessages);
+    locale.loadedLanguages.set('zh', zhMessages);
 
-    IdsLocaleData.loadedLocales.set('af-ZA', afZALocale);
-    IdsLocaleData.loadedLocales.set('ar-EG', arEGLocale);
-    IdsLocaleData.loadedLocales.set('ar-SA', arSALocale);
-    IdsLocaleData.loadedLocales.set('bg-BG', bgBGLocale);
-    IdsLocaleData.loadedLocales.set('cs-CZ', csCZLocale);
-    IdsLocaleData.loadedLocales.set('da-DK', daDKLocale);
-    IdsLocaleData.loadedLocales.set('de-DE', deDELocale);
-    IdsLocaleData.loadedLocales.set('el-GR', elGRLocale);
-    IdsLocaleData.loadedLocales.set('en-AU', enAULocale);
-    IdsLocaleData.loadedLocales.set('en-GB', enGBLocale);
-    IdsLocaleData.loadedLocales.set('en-IN', enINLocale);
-    IdsLocaleData.loadedLocales.set('en-NZ', enNZLocale);
-    IdsLocaleData.loadedLocales.set('en-ZA', enZALocale);
-    IdsLocaleData.loadedLocales.set('es-419', es419Locale);
-    IdsLocaleData.loadedLocales.set('es-AR', esARLocale);
-    IdsLocaleData.loadedLocales.set('es-ES', esESLocale);
-    IdsLocaleData.loadedLocales.set('es-MX', esMXLocale);
-    IdsLocaleData.loadedLocales.set('es-US', esUSLocale);
-    IdsLocaleData.loadedLocales.set('et-EE', etEELocale);
-    IdsLocaleData.loadedLocales.set('fi-FI', fiFILocale);
-    IdsLocaleData.loadedLocales.set('fr-CA', frCALocale);
-    IdsLocaleData.loadedLocales.set('fr-FR', frFRLocale);
-    IdsLocaleData.loadedLocales.set('he-IL', heILLocale);
-    IdsLocaleData.loadedLocales.set('hi-IN', hiINLocale);
-    IdsLocaleData.loadedLocales.set('hr-HR', hrHRLocale);
-    IdsLocaleData.loadedLocales.set('hu-HU', huHULocale);
-    IdsLocaleData.loadedLocales.set('id-ID', idIDLocale);
-    IdsLocaleData.loadedLocales.set('it-IT', itITLocale);
-    IdsLocaleData.loadedLocales.set('ja-JP', jaJPLocale);
-    IdsLocaleData.loadedLocales.set('ko-KR', koKRLocale);
-    IdsLocaleData.loadedLocales.set('lt-LT', ltLTLocale);
-    IdsLocaleData.loadedLocales.set('lv-LV', lvLVLocale);
-    IdsLocaleData.loadedLocales.set('ms-bn', msnbLocale);
-    IdsLocaleData.loadedLocales.set('ms-my', msmyLocale);
-    IdsLocaleData.loadedLocales.set('nb-NO', nbNOLocale);
-    IdsLocaleData.loadedLocales.set('nl-NL', nlNLLocale);
-    IdsLocaleData.loadedLocales.set('nn-NO', nnNOLocale);
-    IdsLocaleData.loadedLocales.set('no-NO', noNOLocale);
-    IdsLocaleData.loadedLocales.set('pl-PL', plPLLocale);
-    IdsLocaleData.loadedLocales.set('pt-BR', ptBRLocale);
-    IdsLocaleData.loadedLocales.set('pt-PT', ptPRLocale);
-    IdsLocaleData.loadedLocales.set('ro-RO', roROLocale);
-    IdsLocaleData.loadedLocales.set('ru-RU', ruRULocale);
-    IdsLocaleData.loadedLocales.set('sk-SK', skSKLocale);
-    IdsLocaleData.loadedLocales.set('sl-SI', slSILocale);
-    IdsLocaleData.loadedLocales.set('sv-SE', svSELocale);
-    IdsLocaleData.loadedLocales.set('th-TH', thTHLocale);
-    IdsLocaleData.loadedLocales.set('tl-PH', tlPHLocale);
-    IdsLocaleData.loadedLocales.set('tr-TR', trTRLocale);
-    IdsLocaleData.loadedLocales.set('uk-UA', ukUALocale);
-    IdsLocaleData.loadedLocales.set('vi-VN', viVNLocale);
-    IdsLocaleData.loadedLocales.set('zh-CN', zhCNLocale);
-    IdsLocaleData.loadedLocales.set('zh-Hans', zhHansLocale);
-    IdsLocaleData.loadedLocales.set('zh-Hant', zhHantLocale);
-    IdsLocaleData.loadedLocales.set('zh-TW', zhTWLocale);
-    locale.langauge = 'en';
+    locale.loadedLocales.set('af-ZA', afZALocale);
+    locale.loadedLocales.set('ar-EG', arEGLocale);
+    locale.loadedLocales.set('ar-SA', arSALocale);
+    locale.loadedLocales.set('bg-BG', bgBGLocale);
+    locale.loadedLocales.set('cs-CZ', csCZLocale);
+    locale.loadedLocales.set('da-DK', daDKLocale);
+    locale.loadedLocales.set('de-DE', deDELocale);
+    locale.loadedLocales.set('el-GR', elGRLocale);
+    locale.loadedLocales.set('en-AU', enAULocale);
+    locale.loadedLocales.set('en-GB', enGBLocale);
+    locale.loadedLocales.set('en-IN', enINLocale);
+    locale.loadedLocales.set('en-NZ', enNZLocale);
+    locale.loadedLocales.set('en-ZA', enZALocale);
+    locale.loadedLocales.set('es-419', es419Locale);
+    locale.loadedLocales.set('es-AR', esARLocale);
+    locale.loadedLocales.set('es-ES', esESLocale);
+    locale.loadedLocales.set('es-MX', esMXLocale);
+    locale.loadedLocales.set('es-US', esUSLocale);
+    locale.loadedLocales.set('et-EE', etEELocale);
+    locale.loadedLocales.set('fi-FI', fiFILocale);
+    locale.loadedLocales.set('fr-CA', frCALocale);
+    locale.loadedLocales.set('fr-FR', frFRLocale);
+    locale.loadedLocales.set('he-IL', heILLocale);
+    locale.loadedLocales.set('hi-IN', hiINLocale);
+    locale.loadedLocales.set('hr-HR', hrHRLocale);
+    locale.loadedLocales.set('hu-HU', huHULocale);
+    locale.loadedLocales.set('id-ID', idIDLocale);
+    locale.loadedLocales.set('it-IT', itITLocale);
+    locale.loadedLocales.set('ja-JP', jaJPLocale);
+    locale.loadedLocales.set('ko-KR', koKRLocale);
+    locale.loadedLocales.set('lt-LT', ltLTLocale);
+    locale.loadedLocales.set('lv-LV', lvLVLocale);
+    locale.loadedLocales.set('ms-bn', msnbLocale);
+    locale.loadedLocales.set('ms-my', msmyLocale);
+    locale.loadedLocales.set('nb-NO', nbNOLocale);
+    locale.loadedLocales.set('nl-NL', nlNLLocale);
+    locale.loadedLocales.set('nn-NO', nnNOLocale);
+    locale.loadedLocales.set('no-NO', noNOLocale);
+    locale.loadedLocales.set('pl-PL', plPLLocale);
+    locale.loadedLocales.set('pt-BR', ptBRLocale);
+    locale.loadedLocales.set('pt-PT', ptPRLocale);
+    locale.loadedLocales.set('ro-RO', roROLocale);
+    locale.loadedLocales.set('ru-RU', ruRULocale);
+    locale.loadedLocales.set('sk-SK', skSKLocale);
+    locale.loadedLocales.set('sl-SI', slSILocale);
+    locale.loadedLocales.set('sv-SE', svSELocale);
+    locale.loadedLocales.set('th-TH', thTHLocale);
+    locale.loadedLocales.set('tl-PH', tlPHLocale);
+    locale.loadedLocales.set('tr-TR', trTRLocale);
+    locale.loadedLocales.set('uk-UA', ukUALocale);
+    locale.loadedLocales.set('vi-VN', viVNLocale);
+    locale.loadedLocales.set('zh-CN', zhCNLocale);
+    locale.loadedLocales.set('zh-Hans', zhHansLocale);
+    locale.loadedLocales.set('zh-Hant', zhHantLocale);
+    locale.loadedLocales.set('zh-TW', zhTWLocale);
+    locale.language = 'en';
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
+    await locale.setLocale('en-US');
   });
 
   describe('General Setup', () => {
@@ -247,8 +248,8 @@ describe('IdsLocale API', () => {
     it('handles setting the locale with the setter', () => {
       locale = new IdsLocale();
 
-      IdsLocaleData.loadedLanguages.set('de', deMessages);
-      IdsLocaleData.loadedLocales.set('de-DE', deDELocale);
+      locale.loadedLanguages.set('de', deMessages);
+      locale.loadedLocales.set('de-DE', deDELocale);
 
       locale.locale = 'de-DE';
       expect(locale.locale.name).toEqual('de-DE');
@@ -257,6 +258,7 @@ describe('IdsLocale API', () => {
     });
 
     it('handles null/undefined locale in setLocale', async () => {
+      await locale.setLocale('en-US');
       await locale.setLocale(null);
       expect(locale.locale.name).toEqual('en-US');
       await locale.setLocale(undefined);
@@ -422,7 +424,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate).toBeTruthy();
     });
 
-    it('can set langauge with a setter', async () => {
+    it('can set language with a setter', async () => {
       locale.language = 'no';
 
       expect(locale.language.name).toEqual('no');
@@ -927,12 +929,12 @@ describe('IdsLocale API', () => {
     });
 
     it('should format big decimal numbers', async () => {
-      locale.setLocale('en-US');
+      await locale.setLocale('en-US');
       expect(locale.formatNumber(123.54, { maximumFractionDigits: 15, minimumFractionDigits: 15 })).toEqual('123.540000000000000');
       expect(locale.formatNumber(123.54, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123.54000000000000000000');
       expect(locale.formatNumber(123, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123.00000000000000000000');
 
-      locale.setLocale('de-DE');
+      await locale.setLocale('de-DE');
       expect(locale.formatNumber(123.54, { maximumFractionDigits: 15, minimumFractionDigits: 15 })).toEqual('123,540000000000000');
       expect(locale.formatNumber(123.54, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123,54000000000000000000');
       expect(locale.formatNumber(123, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123,00000000000000000000');
@@ -1338,22 +1340,22 @@ describe('IdsLocale API', () => {
   describe('Right To Left', () => {
     it('should set the html lang and dir attribute', async () => {
       const container: any = new IdsContainer();
-      IdsLocaleData.loadedLanguages.set('de', deMessages);
-      IdsLocaleData.loadedLanguages.set('ar', arMessages);
+      locale.loadedLanguages.set('de', deMessages);
+      locale.loadedLanguages.set('ar', arMessages);
       document.body.appendChild(container);
 
-      await container.setLanguage('de');
+      await IdsGlobal.getLocale().setLanguage('de');
       let html = window.document.getElementsByTagName('html')[0];
       expect(html.getAttribute('lang')).toEqual('de');
       expect(container.getAttribute('language')).toEqual('de');
 
-      await container.setLanguage('ar');
+      await IdsGlobal.getLocale().setLanguage('ar');
       html = window.document.getElementsByTagName('html')[0];
       expect(html.getAttribute('lang')).toEqual('ar');
       expect(container.getAttribute('language')).toEqual('ar');
       expect(container.getAttribute('dir')).toEqual('rtl');
 
-      await container.setLanguage('de');
+      await IdsGlobal.getLocale().setLanguage('de');
       html = window.document.getElementsByTagName('html')[0];
       expect(html.getAttribute('lang')).toEqual('de');
       expect(container.getAttribute('language')).toEqual('de');
@@ -1483,6 +1485,7 @@ describe('IdsLocale API', () => {
     });
 
     it('should format millis', async () => {
+      await locale.setLocale('en-US');
       const opts: any = {
         year: 'numeric',
         month: 'numeric',
