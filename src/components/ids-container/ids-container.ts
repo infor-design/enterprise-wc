@@ -59,7 +59,6 @@ export default class IdsContainer extends Base {
   }
 
   disconnectedCallback() {
-    this.localeAPI.removeLangAttribute();
     super.disconnectedCallback();
   }
 
@@ -71,8 +70,6 @@ export default class IdsContainer extends Base {
     return [
       ...super.attributes,
       attributes.BACKGROUND_COLOR,
-      attributes.LANGUAGE,
-      attributes.LOCALE,
       attributes.PADDING,
       attributes.RESET,
       attributes.SCROLLABLE

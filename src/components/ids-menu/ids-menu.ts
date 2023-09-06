@@ -44,6 +44,8 @@ const Base = IdsKeyboardMixin(
 export default class IdsMenu extends Base {
   datasource = new IdsDataSource();
 
+  keyboardEventTarget: HTMLElement | null = null;
+
   lastHovered?: any;
 
   lastNavigated?: any;
@@ -138,9 +140,11 @@ export default class IdsMenu extends Base {
    * @returns {void}
    */
   attachKeyboardListeners() {
+    const target = this.keyboardEventTarget || this;
+
     // Arrow Up navigates focus backward
     this.unlisten('ArrowUp');
-    this.listen(['ArrowUp'], this, (e: any) => {
+    this.listen(['ArrowUp'], target, (e: any) => {
       e.preventDefault();
       e.stopPropagation();
       this.navigate(-1, true);
@@ -148,7 +152,7 @@ export default class IdsMenu extends Base {
 
     // Arrow Down navigates focus forward
     this.unlisten('ArrowDown');
-    this.listen(['ArrowDown'], this, (e: any) => {
+    this.listen(['ArrowDown'], target, (e: any) => {
       e.preventDefault();
       e.stopPropagation();
       this.navigate(1, true);
@@ -158,7 +162,7 @@ export default class IdsMenu extends Base {
     this.unlisten('Enter');
     this.unlisten('Spacebar');
     this.unlisten(' ');
-    this.listen(['Enter', 'Spacebar', ' '], this, (e: any) => {
+    this.listen(['Enter', 'Spacebar', ' '], target, (e: any) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.selectItem(thisItem);
       this.lastNavigated = thisItem;
@@ -758,5 +762,12 @@ export default class IdsMenu extends Base {
     [...this.items, ...this.headers].forEach((item: IdsMenuItem | IdsMenuHeader) => {
       if (typeof item.decorateForIcon === 'function') item.decorateForIcon(this.hasIcons);
     });
+  }
+
+  /**
+   * Focuses the correct element
+   */
+  focus() {
+    this.focusTarget?.focus();
   }
 }

@@ -6,17 +6,19 @@ import { messages as arMessages } from '../../src/components/ids-locale/data/ar-
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
 import { locale as arSALocale } from '../../src/components/ids-locale/data/ar-SA';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsContainer Component', () => {
   let container: IdsContainer;
+  let locale;
 
   beforeEach(() => {
     container = new IdsContainer();
-    IdsLocaleData.loadedLanguages.set('ar', arMessages);
-    IdsLocaleData.loadedLanguages.set('de', deMessages);
-    IdsLocaleData.loadedLocales.set('de-DE', deDELocale);
-    IdsLocaleData.loadedLocales.set('ar-SA', arSALocale);
+    locale = IdsGlobal.getLocale();
+    locale.loadedLanguages.set('ar', arMessages);
+    locale.loadedLanguages.set('de', deMessages);
+    locale.loadedLocales.set('de-DE', deDELocale);
+    locale.loadedLocales.set('ar-SA', arSALocale);
 
     document.body.appendChild(container);
   });
@@ -35,7 +37,7 @@ describe('IdsContainer Component', () => {
   });
 
   it('can set language via async func', async () => {
-    await container.setLanguage('ar');
+    await container.localeAPI.setLanguage('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');
   });
 
@@ -45,7 +47,7 @@ describe('IdsContainer Component', () => {
   });
 
   it('can set locale via async func', async () => {
-    await container.setLocale('ar-SA');
+    await container.localeAPI.setLocale('ar-SA');
     expect(container.locale).toEqual('ar-SA');
     expect(container.getAttribute('dir')).toEqual('rtl');
   });
@@ -75,11 +77,11 @@ describe('IdsContainer Component', () => {
   });
 
   it('supports setting language', async () => {
-    await container.setLanguage('ar');
+    await container.localeAPI.setLanguage('ar');
     expect(container.getAttribute('language')).toEqual('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');
 
-    await container.setLanguage('de');
+    await container.localeAPI.setLanguage('de');
     expect(container.getAttribute('language')).toEqual('de');
     expect(container.getAttribute('dir')).toEqual(null);
   });

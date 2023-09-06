@@ -4,6 +4,7 @@ import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
+import IdsGlobal from '../ids-global/ids-global';
 
 import type IdsText from '../ids-text/ids-text';
 import '../ids-menu-button/ids-menu-button';
@@ -60,24 +61,15 @@ export default class IdsThemeSwitcher extends Base {
         this.mode = val;
       }
       if (val?.indexOf('-') > -1) {
-        if (this.locale) this.localeAPI.setLocale(val);
-        (document.querySelector('ids-container') as any).setLocale(val);
+        IdsGlobal.getLocale().setLocale(val);
       }
     });
   }
 
   // Respond to changing locale
   onLocaleChange = () => {
-    if (this.popup?.popup) {
-      this.popup.popup.locale = this.locale;
-      this.popup.popup.language = this.language.name;
-    }
-    if (this.menuButton) {
-      this.menuButton.locale = this.locale;
-      this.menuButton.language = this.language.name;
-    }
     this.shadowRoot?.querySelectorAll('[translate-text]').forEach((textElem: Element) => {
-      (textElem as IdsText).language = this.language.name;
+      (textElem as IdsText).localeAPI.language = this.localeAPI.language.name;
     });
   };
 

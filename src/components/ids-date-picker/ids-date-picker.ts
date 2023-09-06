@@ -394,29 +394,22 @@ class IdsDatePicker extends Base {
 
   // Respond to changing locale
   onLocaleChange = () => {
-    if (this.#picker) {
-      this.#picker.format = this.format;
-      this.#picker.locale = this.locale;
-      this.#picker.language = this.language.name;
-    }
-    this.#triggerField.locale = this.locale;
-    this.#triggerField.language = this.language.name;
-    this.#triggerField.format = this.format;
-    this.setDirection();
-    this.#applyMask();
+    requestAnimationFrame(() => {
+      if (this.#picker) {
+        this.#picker.format = this.format;
+      }
+      this.#triggerField.format = this.format;
+      this.#applyMask();
 
-    // Locale change first day of week only if it's not set as attribute
-    if (this.firstDayOfWeek === null) {
-      this.firstDayOfWeek = this.localeAPI?.calendar().firstDayofWeek || 0;
-    }
+      // Locale change first day of week only if it's not set as attribute
+      if (this.firstDayOfWeek === null) {
+        this.firstDayOfWeek = this.localeAPI?.calendar().firstDayofWeek || 0;
+      }
+    });
   };
 
   // Respond to changing language
   onLanguageChange = () => {
-    this.#triggerField.language = this.language.name;
-    if (this.#picker) {
-      (this.#picker as any).language = this.language.name;
-    }
     this.#setAvailableDateValidation();
   };
 

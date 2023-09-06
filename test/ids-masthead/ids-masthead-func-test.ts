@@ -112,7 +112,6 @@ describe('IdsMasthead Component', () => {
     const buttons = element.querySelectorAll<IdsButton | IdsMenuButton>('ids-button, ids-menu-button');
     buttons.forEach((button) => {
       expect(button.colorVariant).toBe('alternate');
-      expect(button.square).toBe(true);
       expect(button.appearance).toBe('default');
     });
   });

@@ -1,8 +1,13 @@
 /* Ids Data Grid Component - Filter */
 .ids-data-grid {
+  --ids-button-formatter-color-text-default: var(--ids-data-grid-filter-icon-color);
+  --ids-button-formatter-color-background-hover: var(--ids-data-grid-filter-icon-background-hover);
+  --ids-button-formatter-color-text-hover: var(--ids-data-grid-filter-icon-color-hover);
+
   ::slotted([slot^='filter-']) {
     align-items: center;
     display: flex;
+    position: relative;
   }
 
   .ids-data-grid-header-cell-content.vertical-align-center {

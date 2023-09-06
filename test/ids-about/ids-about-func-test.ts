@@ -6,7 +6,6 @@ import '../helpers/match-media-mock';
 import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsAbout from '../../src/components/ids-about/ids-about';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 
 // Supporing components
 import '../../src/components/ids-container/ids-container';
@@ -17,6 +16,7 @@ import '../../src/components/ids-hyperlink/ids-hyperlink';
 import { messages as esMessages } from '../../src/components/ids-locale/data/es-messages';
 import { messages as jaMessages } from '../../src/components/ids-locale/data/ja-messages';
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 const name = 'ids-about';
 const id = 'test-about-component';
@@ -28,15 +28,17 @@ const useDefaultCopyright = true;
 
 describe('IdsAbout Component (using properties)', () => {
   let component: IdsAbout;
+  let locale;
 
   beforeEach(async () => {
     const container: any = document.createElement('ids-container');
+    locale = IdsGlobal.getLocale();
     document.body.appendChild(container);
 
-    IdsLocaleData.loadedLanguages.set('ar', arMessages);
-    IdsLocaleData.loadedLanguages.set('es', esMessages);
-    IdsLocaleData.loadedLanguages.set('ja', jaMessages);
-    await container.setLanguage('en');
+    locale.loadedLanguages.set('ar', arMessages);
+    locale.loadedLanguages.set('es', esMessages);
+    locale.loadedLanguages.set('ja', jaMessages);
+    await IdsGlobal.getLocale().setLanguage('en');
 
     component = new IdsAbout();
     component.id = id;
@@ -282,7 +284,7 @@ describe('IdsAbout Component locale', () => {
   beforeEach(async () => {
     container = document.createElement('ids-container');
     document.body.appendChild(container);
-    await container.setLanguage('en');
+    await IdsGlobal.getLocale().setLanguage('en');
 
     component = new IdsAbout();
     component.id = id;
@@ -301,10 +303,10 @@ describe('IdsAbout Component locale', () => {
   });
 
   it('can change language from the container', async () => {
-    await container.setLanguage('ar');
+    await IdsGlobal.getLocale().setLanguage('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');
 
-    await container.setLanguage('es');
+    await IdsGlobal.getLocale().setLanguage('es');
     await processAnimFrame();
 
     // if copyright translates
@@ -319,7 +321,7 @@ describe('IdsAbout Component locale', () => {
 
     expect(deviceSpecsText).toContain(esMessages.Platform.value);
 
-    await container.setLanguage('ja');
+    await IdsGlobal.getLocale().setLanguage('ja');
     await processAnimFrame();
 
     // if copyright translates

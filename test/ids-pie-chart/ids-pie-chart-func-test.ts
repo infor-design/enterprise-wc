@@ -4,13 +4,12 @@
 import IdsPieChart from '../../src/components/ids-pie-chart/ids-pie-chart';
 import dataset from '../../src/assets/data/items-single.json';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
-
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import '../helpers/resize-observer-mock';
 import processAnimFrame from '../helpers/process-anim-frame';
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsPieChart Component', () => {
   let pieChart: any;
@@ -18,8 +17,8 @@ describe('IdsPieChart Component', () => {
 
   beforeEach(async () => {
     container = new IdsContainer();
-    IdsLocaleData.loadedLanguages.set('de', deMessages);
-    IdsLocaleData.loadedLocales.set('de-DE', deDELocale);
+    IdsGlobal.getLocale().loadedLanguages.set('de', deMessages);
+    IdsGlobal.getLocale().loadedLocales.set('de-DE', deDELocale);
 
     pieChart = new IdsPieChart();
     document.body.appendChild(container);
@@ -270,7 +269,7 @@ describe('IdsPieChart Component', () => {
     pieChart.data = [];
     await processAnimFrame();
     expect(pieChart.emptyMessage.querySelector('ids-text').textContent).toBe('No data available');
-    await container.setLocale('de-DE');
+    await IdsGlobal.getLocale().setLocale('de-DE');
     expect(pieChart.emptyMessage.querySelector('ids-text').textContent).toBe('Keine Daten verfügbar');
   });
 

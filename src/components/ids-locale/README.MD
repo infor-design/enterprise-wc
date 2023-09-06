@@ -66,22 +66,47 @@ You can use a setting on ids-text to translate text. This example will take the 
 
 It is possible to add your own strings to an existing locale's language. To do this just set the locale or language to the desired language and then when the locale is loaded call `extendTranslations` with a new set of strings. A string is an object with minimum an id and value of the string.
 
+Import the global object and get the singleton locale instance.
+
 ```js
-const container = document.querySelector('ids-container');
-await container.setLocale('it-lT');
+import IdsGlobal from 'mode_modules/ids-enterprise-wc/components/ids-global/ids-global';
+```
+
+```js
+const locale = await IdsGlobal.getLocale().setLocale('it-lT');
 const myStrings = {
     Thanks: { id: 'Thanks', value: 'Grazie', comment: '' },
     YourWelcome: { id: 'YourWelcome', value: 'Prego', comment: '' }
 };
 
-container.localeAPI.extendTranslations(localeAPI.currentLanguage.name, myStrings);
-container.localeAPI.translate('Thanks');      // Returns Grazie
-container.localeAPI.translate('YourWelcome'); // Returns Prego
+locale.extendTranslations(localeAPI.currentLanguage.name, myStrings);
+locale.translate('Thanks');      // Returns Grazie
+locale.translate('YourWelcome'); // Returns Prego
 ```
 
 ### Translation API
 
 - `translate` {string, options} returns {string} Takes a string as a key and returns the translated value in the strings if found. If not found it returns the value in either the english locale or in [SquareBrackets] if not found. Options can be used to find a string in another language for example `{ language: 'de' }` not that you need to load the language first with setLanguage or setLocale or english is returned.
+
+### Fonts for Locales
+
+Our default font is Source Sans Pro but for some languages you may need a different font to correctly show the language.
+The default font can be included through google api.
+
+```html
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&amp;display=swap" rel="stylesheet">
+```
+
+We have selected the following fonts. But in order to use them you may also need to include the font for that locale in your page as needed.
+
+- `ar` Uses [Mada](https://fonts.google.com/specimen/Mada?query=Mada)
+- `he` Uses [Assistant](https://fonts.google.com/specimen/Assistant?query=Assistant)
+- `hi` Uses [Noto Sans](https://fonts.google.com/noto/specimen/Noto+Sans?query=Noto+Sans)
+- `ja` Uses [Noto Sans Japanese](https://fonts.google.com/noto/specimen/Noto+Sans+JP?query=Noto+Sans&noto.query=oto+Sans+JP)
+- `ko` Uses [Noto Sans Korean](https://fonts.google.com/noto/specimen/Noto+Sans+KR?query=Noto+Sans&noto.query=Noto+Sans+KR)
+- `th` Uses [Noto Sans Thai](https://fonts.google.com/noto/specimen/Noto+Sans+Thai?query=Noto&subset=thai&noto.script=Thai)
+- `zh-Hans` Uses [Noto Sans SC](https://fonts.google.com/noto/specimen/Noto+Sans+SC?query=Noto+Sans+SC)
+- `zh-Hant` Uses [Noto Sans TC](https://fonts.google.com/noto/specimen/Noto+Sans+TC?query=Noto+Sans+SC&noto.query=Noto+Sans+TC)
 
 #### Converting from Previous Versions (Translation)
 

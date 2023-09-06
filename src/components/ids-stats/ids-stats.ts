@@ -7,6 +7,8 @@ import '../ids-layout-flex/ids-layout-flex';
 import type IdsBox from '../ids-box/ids-box';
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+
 import styles from './ids-stats.scss';
 
 /**
@@ -17,7 +19,7 @@ import styles from './ids-stats.scss';
  */
 @customElement('ids-stats')
 @scss(styles)
-export default class IdsStats extends IdsEventsMixin(IdsElement) {
+export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement)) {
   constructor() {
     super();
   }
@@ -36,6 +38,15 @@ export default class IdsStats extends IdsEventsMixin(IdsElement) {
    */
   #attachEventHandlers(): void {
     this.onEvent('click.stats', this, () => this.toggleSelection());
+    this.onLocaleChange = () => {
+      this.#applyKpiFormat();
+      this.#applyTrendFormat();
+    };
+
+    this.onLanguageChange = () => {
+      this.#applyKpiFormat();
+      this.#applyTrendFormat();
+    };
   }
 
   /**
@@ -62,8 +73,8 @@ export default class IdsStats extends IdsEventsMixin(IdsElement) {
    * @returns {string} The template
    */
   template(): string {
-    const isPositive = (this.trendLabel || '').indexOf('+') > -1;
     const isNegative = (this.trendLabel || '').indexOf('-') > -1;
+    const isPositive = !isNegative && this.trendLabel !== '';
     const isBorderless = !!this.closest('ids-widget')?.hasAttribute('borderless');
 
     return `<ids-box padding-x="0" padding-y="0"${isBorderless ? ` shadowed` : `borderless`}>
@@ -71,20 +82,20 @@ export default class IdsStats extends IdsEventsMixin(IdsElement) {
         <ids-layout-flex direction="column">
           <ids-layout-flex justify-content="space-between" align-items="center">
             <ids-layout-flex-item>
-              <div class="trend-label${isPositive ? ' is-positive' : ''}${isNegative ? ' is-negative' : ''}">${this.trendLabel}${isPositive ? this.trendingUpIcon : ''}</div>
+              <div class="trend-label${isPositive ? ' is-positive' : ''}${isNegative ? ' is-negative' : ''}"></div>
             </ids-layout-flex-item>
             <ids-layout-flex-item>
               <div class="main-icon"><ids-icon icon="${this.icon}" status-color=${this.statusColor}></ids-icon></div>
             </ids-layout-flex-item>
           </ids-layout-flex>
           <ids-layout-flex-item>
-            <ids-text font-size="40" class="kpi-label" font-weight="semi-bold" overflow="ellipsis">${this.kpi}</ids-text>
+            <ids-text font-size="40" class="kpi-label" font-weight="semi-bold" overflow="ellipsis" tooltip="true">${this.kpi}</ids-text>
           </ids-layout-flex-item>
           <ids-layout-flex-item>
-            <ids-text font-size="14" class="main-label" font-weight="semi-bold" overflow="ellipsis">${this.mainLabel}</ids-text>
+            <ids-text font-size="14" class="main-label" font-weight="semi-bold" overflow="ellipsis"  tooltip="true">${this.mainLabel}</ids-text>
           </ids-layout-flex-item>
           <ids-layout-flex-item>
-            <ids-text font-size="12" class="subtitle" overflow="ellipsis">${this.subtitle}</ids-text>
+            <ids-text font-size="12" class="subtitle" overflow="ellipsis" tooltip="true">${this.subtitle}</ids-text>
           </ids-layout-flex-item>
         </ids-layout-flex>
       </div>
@@ -151,10 +162,10 @@ export default class IdsStats extends IdsEventsMixin(IdsElement) {
    */
   set trendLabel(value: string) {
     const elem = this.container?.querySelector('.trend-label');
-    if (stringToBool(value) && elem) {
+    if (value) {
       this.setAttribute(attributes.TREND_LABEL, value);
-      elem.textContent = value;
-    } else if (elem) {
+      this.#applyTrendFormat();
+    } else if (!value && elem) {
       elem.setAttribute('hidden', 'true');
     }
   }
@@ -205,11 +216,10 @@ export default class IdsStats extends IdsEventsMixin(IdsElement) {
    * @param {string} value Numbers or percentages or dollar amount
    */
   set kpi(value: string | null) {
-    const elem = this.container?.querySelector('.kpi');
-    if (value && elem) {
+    if (value) {
       this.setAttribute(attributes.KPI, value);
-      elem.textContent = value;
-    } else if (elem) {
+      this.#applyKpiFormat();
+    } else {
       this.removeAttribute(attributes.KPI);
     }
   }
@@ -274,5 +284,75 @@ export default class IdsStats extends IdsEventsMixin(IdsElement) {
    */
   get colSpan(): string | null {
     return this.getAttribute(attributes.COL_SPAN);
+  }
+
+  formats: {
+    kpi?: Intl.NumberFormatOptions | undefined,
+    trend?: Intl.NumberFormatOptions | undefined
+  } = {
+      kpi: undefined,
+      trend: { signDisplay: 'exceptZero' }
+    };
+
+  /**
+   * Set the locale format for the kpi
+   * @param {Intl.NumberFormatOptions | undefined} value If 2 will span 2 columns, nothing else is valid
+   */
+  set kpiFormat(value: Intl.NumberFormatOptions | undefined) {
+    if (value !== null) {
+      this.formats.kpi = value;
+    } else {
+      this.formats.kpi = undefined;
+    }
+    this.#applyKpiFormat();
+  }
+
+  /**
+   * Get col-span attribute
+   * @returns {Intl.NumberFormatOptions | undefined} The number value for the columns to span in the grid
+   */
+  get kpiFormat(): Intl.NumberFormatOptions | undefined {
+    return this.formats.kpi;
+  }
+
+  /**
+   * Apply the format on the field
+   */
+  #applyKpiFormat() {
+    const elem = this.container?.querySelector('.kpi-label');
+    if (elem) elem.textContent = new Intl.NumberFormat(this.locale || 'en', this.kpiFormat).format(Number(this.kpi));
+  }
+
+  /**
+   * Set the locale format for the kpi
+   * @param {Intl.NumberFormatOptions | undefined} value If 2 will span 2 columns, nothing else is valid
+   */
+  set trendFormat(value: Intl.NumberFormatOptions | undefined) {
+    if (value !== null) {
+      this.formats.trend = value;
+    } else {
+      this.formats.trend = undefined;
+    }
+    this.#applyTrendFormat();
+  }
+
+  /**
+   * Get col-span attribute
+   * @returns {Intl.NumberFormatOptions | undefined} The number value for the columns to span in the grid
+   */
+  get trendFormat(): Intl.NumberFormatOptions | undefined {
+    return this.formats.trend;
+  }
+
+  /**
+   * Apply the format on the field
+   */
+  #applyTrendFormat() {
+    const formatted = new Intl.NumberFormat(this.locale || 'en', this.trendFormat).format(Number(this.trendLabel));
+    const isNegative = (formatted || '').indexOf('-') > -1;
+    const isPositive = !isNegative && formatted !== '';
+    const trendIcon = `${isPositive ? this.trendingUpIcon : ''}`;
+    const elem = this.container?.querySelector('.trend-label');
+    if (elem && formatted !== '0') elem.innerHTML = `${formatted}${trendIcon}`;
   }
 }
